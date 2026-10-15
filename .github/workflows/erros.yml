@@ -1,0 +1,30 @@
+name: Avisos de erro
+# Copia os avisos de "Achei um erro" (sem o nome de quem mandou) para erros-abertos.json,
+# que as rodadas automáticas leem. Usa só a chave publicável, que já é pública no app.
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: erros
+  cancel-in-progress: false
+jobs:
+  copiar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Buscar avisos
+        run: |
+          curl -sf -X POST "https://kkzcljusiotoklldaupg.supabase.co/rest/v1/rpc/erros_abertos" \
+            -H "apikey: sb_publishable_s1mSA4gcb2qs6kVRZYQZ-g_BsvwvdIA" \
+            -H "Content-Type: application/json" -d '{}' -o novo.json
+          python3 -c "import json;d=json.load(open('novo.json'));json.dump(d,open('erros-abertos.json','w'),ensure_ascii=False,indent=1)"
+          rm novo.json
+      - name: Gravar se mudou
+        run: |
+          git config user.name "prumo-robo"
+          git config user.email "prumo-robo@users.noreply.github.com"
+          git add erros-abertos.json
+          git diff --cached --quiet || (git commit -m "Avisos de erro atualizados" && git pull --rebase && git push)
