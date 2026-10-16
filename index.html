@@ -821,6 +821,15 @@ textarea.field{font-family:var(--f-ui);font-size:16px;line-height:1.45}
 .reac{height:32px;padding:0 11px;border-radius:16px;background:var(--chip);font-size:13px;font-weight:600;color:var(--ink-2)}
 .reac:active{transform:scale(.96)}
 .reac-ok{font-size:12.5px;color:var(--muted)}
+.pbusca{display:flex;gap:8px;margin:10px 0 4px}.pbusca .field{flex:1;margin:0}.pbusca .btn{width:auto;flex:none;padding:0 14px}
+.chk{display:flex;align-items:center;gap:8px;font-size:14.5px}
+.adml{list-style:none;margin:6px 0 10px;padding:0;display:flex;flex-direction:column}
+.adml li{display:flex;flex-direction:column;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
+.adml li>div:first-child{display:flex;flex-direction:column;gap:2px;min-width:0}
+.adml li span{font-size:13px;color:var(--muted);overflow-wrap:anywhere}.adml li span.q{color:var(--ink-2);font-size:14px}
+.adml li.feito{opacity:.6}.admb{display:flex;gap:6px;flex-wrap:wrap}
+.adml .tag{align-self:flex-start}.tag{font-style:normal;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;border-radius:6px;background:var(--chip);color:var(--muted)}.tag.bad{color:#b42318}
+#admq{margin:4px 0}
 .nconv{margin-left:auto;width:auto!important;min-height:36px;padding:0 14px;font-size:14px}
 .vertodos{display:block;margin:4px 0 6px;font-weight:700}
 #pq{margin:10px 0 4px}
@@ -1175,7 +1184,7 @@ const ICON={
 };
 const COLORS=["#24406b","#8a5a17","#24533c","#7a2b37","#46337a","#5b6b7f"];
 function corDe(uid){let h=0;for(const c of String(uid))h=(h*31+c.charCodeAt(0))>>>0;return COLORS[h%COLORS.length]}
-const nomeDe=uid=>S.membros[uid]?.nome||(uid===S.uid||uid==="eu"?"Você":"Alguém");
+const nomeDe=uid=>S.membros[uid]?.nome||S.achados?.[uid]||(uid===S.uid||uid==="eu"?"Você":"Alguém");
 const avatar=uid=>`<span class="av" style="background:${corDe(uid)}">${esc((nomeDe(uid)[0]||"?").toUpperCase())}</span>`;
 const avatares=us=>`<span class="avs">${us.slice(0,3).map(avatar).join("")}</span>`;
 const nomeFonte=k=>FEED?.fontes?.[k]||k;
@@ -1319,7 +1328,7 @@ function votosDe(pid){const o={};Object.entries(S.soc.votos||{}).forEach(([u,m])
 function meuVoto(pid){const m=S.uid?(S.soc.votos||{})[S.uid]:null;return m?m[pid]:undefined}
 function atividadeAmigos(pid){const {likes,cm}=socialOf(pid);return amigosL().map(u=>({u,ac:[likes.includes(u)?"gostou":"",cm.some(c=>c.uid===u)?"comentou":""].filter(Boolean)})).filter(x=>x.ac.length)}
 const CPEND={};
-function montarCmts(docs){const by={};docs.forEach(([uid,dd])=>Object.entries((dd&&dd.itens)||{}).forEach(([cid,c])=>{const k=uid+"\u0001"+cid,p=CPEND[k];if(p){if(Date.now()-p.t>30000||JSON.stringify(c??null)===JSON.stringify(p.v??null))delete CPEND[k]}if(c&&c.texto&&!(p&&p.v===null))(by[c.pid]=by[c.pid]||[]).push({...c,id:cid,uid})}));
+function montarCmts(docs){const by={};docs.forEach(([uid,dd])=>Object.entries((dd&&dd.itens)||{}).forEach(([cid,c])=>{const k=uid+"\u0001"+cid,p=CPEND[k];if(p){if(Date.now()-p.t>30000||(p.v?!!c:!c))delete CPEND[k]}if(c&&c.texto&&!(p&&p.v===null))(by[c.pid]=by[c.pid]||[]).push({...c,id:cid,uid})}));
   Object.entries(CPEND).forEach(([k,p])=>{if(Date.now()-p.t>90000){delete CPEND[k];return}if(!p.v)return;const [uid,cid]=k.split("\u0001");const l=(by[p.v.pid]=by[p.v.pid]||[]);if(!l.some(c=>c.id===cid))l.push({...p.v,id:cid,uid})});return by}
 function updateSocial(pid){
   const sa=$("#s-acts");if(sa&&sa.dataset.pid===pid)sa.innerHTML=storyActs(pid);
@@ -1467,7 +1476,7 @@ async function toggleLike(pid){uso("curtir");vibrar(8);
   try{await gravarMapa("curtidas/"+S.uid,"itens",pid,val)}catch(e){desfazPend("curtidas",pid);updateSocial(pid);refiltrar();toast("Não deu para marcar agora. Tente de novo.")}
 }
 function openComments(pid){uso("comentarios");
-  const draw=()=>{const {cm}=socialOf(pid);return cm.length?`<ul class="clist">${cm.map(c=>`<li>${avatar(c.uid)}<div><span><b>${esc(nomeDe(c.uid))}</b> ${esc(c.texto)}</span><i>${esc(quando(c.at))}<button type="button" class="c-a" data-resp="${esc(nomeDe(c.uid))}">Responder</button>${c.uid===S.uid?`<button type="button" class="c-a" data-apagar="${esc(c.id)}">Apagar</button>`:""}</i></div></li>`).join("")}</ul>`:`<div class="empty" style="padding:18px 0"><b>Nenhum comentário ainda</b>Escreva o primeiro.</div>`};
+  const draw=()=>{const {cm}=socialOf(pid);return cm.length?`<ul class="clist">${cm.map(c=>`<li>${avatar(c.uid)}<div><span><b>${esc(nomeDe(c.uid))}</b> ${esc(c.texto)}</span><i>${esc(quando(c.at))}<button type="button" class="c-a" data-resp="${esc(nomeDe(c.uid))}">Responder</button>${c.uid===S.uid?`<button type="button" class="c-a" data-apagar="${esc(c.id)}">Apagar</button>`:`<button type="button" class="c-a" data-denc="${esc(c.id)}" data-du="${esc(c.uid)}" data-dp="${esc(pid)}">Denunciar</button>`}</i></div></li>`).join("")}</ul>`:`<div class="empty" style="padding:18px 0"><b>Nenhum comentário ainda</b>Escreva o primeiro.</div>`};
   const n=socialOf(pid).cm.length;
   sheet(n?`Comentários (${n})`:"Comentários",`<div id="cbox">${draw()}</div>`,`<form id="cform" class="cform">${S.uid?avatar(S.uid):""}<input class="field" id="ctext" maxlength="600" autocomplete="off" enterkeyhint="send" placeholder="Escreva um comentário…" aria-label="Comentário"><button class="sendc" type="submit" aria-label="Publicar" disabled><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></form>`,{focus:!n});
   const box=()=>$("#cbox"),toEnd=()=>{const b=$(".sheet .sh-b");if(b)b.scrollTop=b.scrollHeight};toEnd();
@@ -1592,7 +1601,7 @@ function renderMsgs(){
     v.dataset.thr=THREAD;v.dataset.am=String(amigo);RESP=null;
     v.innerHTML=`<div class="gut"><div class="view-h">${am.length>1||!amigo?`<button type="button" data-back aria-label="Voltar" style="margin-left:-8px;width:40px;height:44px;display:flex;align-items:center;justify-content:center">${ICON.back}</button>`:""}${avatar(THREAD)}<h1 style="font-size:19px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(nomeDe(THREAD))}</h1>${amigo?`<button type="button" class="icbtn" data-thmenu aria-label="Opções da conversa">${ICON.dots}</button>`:""}</div>
       <div class="thread">${thrHTML}</div></div>
-      <div class="composer gut">${amigo?`<form id="mform"><input class="field" id="mtext" maxlength="1000" autocomplete="off" placeholder="Mensagem…" aria-label="Mensagem"><button class="send" type="submit">Enviar</button></form>`:`<p class="hint" style="margin:0;padding:8px 0;max-width:560px;margin-inline:auto">Vocês não são amigos no Prumo agora. Para conversar de novo, peça amizade no Perfil.</p>`}</div>`;
+      <div class="composer gut">${amigo?`<form id="mform"><input class="field" id="mtext" maxlength="1000" autocomplete="off" placeholder="Mensagem…" aria-label="Mensagem"><button class="send" type="submit">Enviar</button></form>`:`<p class="hint" style="margin:0;padding:8px 0;max-width:560px;margin-inline:auto">${S.membros[THREAD]?.excluido?"Esta conta foi excluída. A conversa fica aqui só para leitura.":"Vocês não são amigos no Prumo agora. Para conversar de novo, peça amizade no Perfil."}</p>`}</div>`;
     if(amigo)
     $("#mform").addEventListener("submit",async e=>{e.preventDefault();const t=$("#mtext").value.trim();if(!t)return;$("#mtext").value="";
       const at=Date.now(),para=THREAD,rp=RESP;RESP=null;const extra=rp?{pid:rp.pid,snap:rp.snap,resp:true}:{};S.msgsOut.push({id:"tmp"+at,de:S.uid,para,at,texto:t,lida:false,...extra});renderMsgs();$("#respbar")?.remove();
@@ -1631,8 +1640,9 @@ function renderMe(){
   v.innerHTML=`<div class="gut">${ok?`<div class="me-head">${avatar(u)}<div><b>${esc(nomeDe(u))}</b><span>${na?na+" "+(na===1?"amigo":"amigos"):"Nenhum amigo ainda"}</span></div></div>
     <div class="stats"><button type="button" data-minha="gostei"><b>${likes}</b><span>gostei</span></button><button type="button" data-minha="cmt"><b>${cms}</b><span>${cms===1?"comentário":"comentários"}</span></button><button type="button" data-minha="env"><b>${env}</b><span>${env===1?"enviada":"enviadas"}</span></button></div>`:`<div class="view-h"><h1>Perfil</h1></div>`}
     <div style="display:flex;flex-direction:column;gap:12px;padding-bottom:24px">
-    ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para gostar, comentar, guardar e conversar com os seus amigos.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta</button></div></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
+    ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para gostar, comentar, guardar e conversar com os seus amigos.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta</button></div></div>`:S.suspenso?`<div class="card"><b>Conta suspensa</b><p>Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-sair>Sair</button></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
     <div class="card menu"><button type="button" data-ajustes><span>Ajustes do app</span><i>›</i></button><button type="button" data-historico><span>Histórico de leitura</span><em>${Object.keys(HIST).length}</em><i>›</i></button><button type="button" data-rodadas><span>Atualizações do Prumo</span><em class="${estadoRadar().ok?"":"bad"}">${esc(estadoRadar().ok?(FEED?"edição das "+hhmm(FEED.atualizado_em):""):"atrasado")}</em><i>›</i></button></div>
+    ${S.membro&&S.membros[u]?.papel==="admin"?`<div class="card menu"><button type="button" data-admin><span>Administração</span><i>›</i></button></div>`:""}
     ${relatorioHTML()}
     ${er.length?`<div class="card"><b>Erros que eu apontei</b><ul class="secpref">${er.map(e=>`<li style="flex-direction:column;align-items:flex-start;gap:2px"><b style="font-size:14.5px">${esc(e.titulo||"")}</b><span class="hint">“${esc(e.texto)}” · ${stE(e)}${e.resposta?" · "+esc(e.resposta):""}</span></li>`).join("")}</ul></div>`:""}
     ${u?contaCardHTML():`<div class="card menu"><button type="button" data-privacidade><span>Política de privacidade</span><i>›</i></button></div>`}
@@ -1646,7 +1656,7 @@ function amigosCardHTML(){const am=amigosL(),pin=S.pedidosIn.filter(x=>S.membros
     ${pin.length?`<span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul>${am.length?`<span class="amg-t">Seus amigos</span>`:""}`:""}
     ${am.length?`<ul class="amgl">${am.slice(0,5).map(linhaAmigo).join("")}</ul>${am.length>5?`<button type="button" class="link vertodos" data-veramigos>Ver todos os ${am.length} amigos</button>`:""}`:`<p class="hint">Amigos veem o que você gosta, vota e comenta, e podem conversar com você.</p>`}
     <div class="lbtns"><button type="button" class="btn ghost" data-addamigos>Adicionar amigos</button><button type="button" class="btn ghost" data-convidar>Convidar alguém</button></div></div>`}
-function contaCardHTML(){return `<div class="card menu"><b class="cm-h">Conta</b><div class="cm-email"><span>E-mail</span><b>${esc(S.email||"")}</b></div>${S.membro?`<button type="button" data-a="nome"><span>Mudar meu nome</span><i>›</i></button>`:""}<button type="button" data-privacidade><span>Política de privacidade</span><i>›</i></button><button type="button" data-sair><span>Sair</span><i>›</i></button><button type="button" class="perigo" data-excluir><span>Excluir minha conta</span><i>›</i></button></div>`}
+function contaCardHTML(){return `<div class="card menu"><b class="cm-h">Conta</b><div class="cm-email"><span>E-mail</span><b>${esc(S.email||"")}</b></div>${S.membro?`<button type="button" data-a="nome"><span>Mudar meu nome</span><i>›</i></button>`:""}${S.membro?`<button type="button" data-bloqueados><span>Pessoas bloqueadas</span><i>›</i></button>`:""}<button type="button" data-privacidade><span>Política de privacidade</span><i>›</i></button><button type="button" data-sair><span>Sair</span><i>›</i></button><button type="button" class="perigo" data-excluir><span>Excluir minha conta</span><i>›</i></button></div>`}
 let RRT=0;function refiltrar(){if(FILTRO[0]!=="_"||VIEW!=="feed")return;clearTimeout(RRT);RRT=setTimeout(()=>{const y=scrollY;renderPosts();window.scrollTo(0,y)},400)}
 function rerenderAll(){refiltrar();if(FEED)renderChgBox();if(FEED)(FEED.pautas||[]).forEach(p=>updateSocial(p.id));if(VIEW==="msgs")renderMsgs();if(VIEW==="saved")renderSaved();if(VIEW==="play")renderPlay();if(VIEW==="me")renderMe();updateBadge();S._reAmg&&S._reAmg()}
 function go(v,fromPop){
@@ -2138,7 +2148,10 @@ function criarDB(sb, uid, opts) {
   const snapCol = docs => ({ docs: docs.map(([id, d]) => snapDoc(id, d)), size: docs.length, empty: !docs.length, metadata: { fromCache: false } });
 
   const linhaMsg = r => [r.id, pick(r, MSG_CAMPOS)];
-  const linhaPessoa = r => [r.uid, { nome: r.nome, at: Date.parse(r.criado_em) || 0, convidado_por: r.convidado_por || null }];
+  let COLS_M = "uid,nome,criado_em,convidado_por,papel,suspenso_em,excluido_em";
+  // banco ainda sem as colunas novas (SQL da leva 3 não rodado): volta às colunas antigas
+  const membrosSel = async (q) => { const r = await q(COLS_M); if (r && r.error && /column|does not exist|42703/i.test((r.error.message || "") + r.error.code) && COLS_M.includes("papel")) { COLS_M = "uid,nome,criado_em,convidado_por"; return q(COLS_M) } return r };
+  const linhaPessoa = r => [r.uid, { nome: r.nome, at: Date.parse(r.criado_em) || 0, convidado_por: r.convidado_por || null, papel: r.papel || "membro", suspenso: !!r.suspenso_em, excluido: !!r.excluido_em }];
   const linhaAmizade = r => [r.de + "_" + r.para, { de: r.de, para: r.para, status: r.status, criado_em: r.criado_em }];
 
   /* marca de tempo do servidor: o que já vimos de public.docs */
@@ -2147,7 +2160,7 @@ function criarDB(sb, uid, opts) {
 
   async function lerDoc(path) {
     const i = path.indexOf("/"), c = path.slice(0, i), id = path.slice(i + 1);
-    if (c === "pessoas") { const rows = chk(await sb.from("membros").select("uid,nome,criado_em,convidado_por").eq("uid", id)); return rows && rows[0] ? linhaPessoa(rows[0])[1] : null }
+    if (c === "pessoas") { const rows = chk(await membrosSel(cs => sb.from("membros").select(cs).eq("uid", id))); return rows && rows[0] ? linhaPessoa(rows[0])[1] : null }
     if (c === "mensagens") { const rows = chk(await sb.from("mensagens").select("*").eq("id", id)); return rows && rows[0] ? linhaMsg(rows[0])[1] : null }
     if (c === "erros") { const rows = chk(await sb.from("erros").select("*").eq("id", id)); return rows && rows[0] ? rows[0] : null }
     const rows = chk(await sb.from("docs").select("path,col,data,atualizado_em").eq("path", path));
@@ -2156,7 +2169,8 @@ function criarDB(sb, uid, opts) {
   }
   async function lerCol(c, filtros) {
     let q;
-    if (c === "pessoas") q = sb.from("membros").select("uid,nome,criado_em,convidado_por");
+    if (c === "pessoas") { let rows = chk(await membrosSel(cs => { let qq = sb.from("membros").select(cs); (filtros || []).forEach(([f, v]) => { qq = qq.eq(f, v) }); return qq })) || []; return rows.map(linhaPessoa).sort((x, y) => x[0] < y[0] ? -1 : 1) }
+    if (c === "pessoas") q = null;
     else if (c === "mensagens") q = sb.from("mensagens").select("*");
     else if (c === "erros") q = sb.from("erros").select("*");
     else if (c === "amizades") q = sb.from("amizades").select("*");
@@ -2336,7 +2350,7 @@ function criarDB(sb, uid, opts) {
           if (id !== uid) throw erro({ code: "42501" });
           const nome = String(data && data.nome || "").slice(0, 40);
           chk(await sb.from("membros").update({ nome }).eq("uid", uid));
-          esperaEco(uid, async () => { const rows = chk(await sb.from("membros").select("uid,nome,criado_em,convidado_por").eq("uid", uid)) || []; if (rows[0]) avisaLinha("membros", rows[0]) });
+          esperaEco(uid, async () => { const rows = chk(await sb.from("membros").select(COLS_M).eq("uid", uid)) || []; if (rows[0]) avisaLinha("membros", rows[0]) });
           return;
         }
         if (TAB[c]) throw erro({ message: "set não suportado em " + c });
@@ -2405,7 +2419,7 @@ function sbCliente(){if(SB)return SB;const url=/^https:\/\/\S+$/.test(SB_URL)?SB
 function pararSocial(){try{S.db&&S.db.fechar()}catch(e){}Object.keys(UNS).forEach(k=>delete UNS[k]);
   clearTimeout(prefTimer);clearTimeout(leituraTimer);leituraFila={};clearTimeout(histTimer);clearTimeout(usoTimer);HIST_SUJO=false;USO_SUJO=false;
   [PEND,CPEND,FILA].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));clearTimeout(PODA_T);PODA_T=0;S._reCmt=null;S._reAmg=null;THREAD=null;QUIZ_LOCAL=null;
-  Object.assign(S,{db:null,user:null,uid:null,email:"",membro:false,membros:{},amigos:new Set(),amigosOk:false,pedidosIn:[],pedidosOut:[],raw:{curtidas:{},votos:{},juntos:{},listas:{}},soc:{curtidas:{},votos:{},juntos:{}},msgsIn:[],msgsOut:[],salvos:{},leituras:{},cmts:{},_cmtDocs:[],quizDocs:{},quiz:{},quizDias:{},juntos:{},listas:{},lista:{},erros:[]});
+  Object.assign(S,{suspenso:false,adm:null,comuns:{},achados:{},bloq:[],db:null,user:null,uid:null,email:"",membro:false,membros:{},amigos:new Set(),amigosOk:false,pedidosIn:[],pedidosOut:[],raw:{curtidas:{},votos:{},juntos:{},listas:{}},soc:{curtidas:{},votos:{},juntos:{}},msgsIn:[],msgsOut:[],salvos:{},leituras:{},cmts:{},_cmtDocs:[],quizDocs:{},quiz:{},quizDias:{},juntos:{},listas:{},lista:{},erros:[]});
   renderSaved._ok=false;if(FEED)derivaQuiz()}
 async function trocarSessao(user,forcar){
   const uid=user&&user.id||null;if(uid===SESS_UID&&!forcar)return;
@@ -2415,6 +2429,8 @@ async function trocarSessao(user,forcar){
   let membro=null;try{const g=await S.db.doc("pessoas/"+uid).get();membro=g.exists;if(g.exists)S.membros[uid]=g.data()}catch(e){}
   if(tok!==SESS_TOK)return;INIT_FIM=true;
   if(membro===false){S.membro=false;rerenderAll();if(!CRIANDO)abrirFaltaConvite();return}
+  if(S.membros[uid]?.suspenso||S.membros[uid]?.excluido){S.membro=false;S.suspenso=true;rerenderAll();sheet("Conta suspensa",`<p style="margin:0;font-size:15px;line-height:1.5">Sua conta no Prumo está suspensa. Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-close>Entendi</button>`);return}
+  S.suspenso=false;
   S.membro=true;trocarSessao._conv=1;
   let dono=null;try{dono=localStorage.getItem("prumo-dono")}catch(e){}
   if(dono&&dono!==uid)limparLocalConta();   /* sobras de outra conta neste aparelho: não vão para esta */
@@ -2437,7 +2453,7 @@ function iniciarSocial(uid,donoNovo){
   const soc=()=>{refiltrar();if(FEED)(FEED.pautas||[]).forEach(p=>updateSocial(p.id));S._reCmt&&S._reCmt();if(VIEW==="me")renderMe();if(VIEW==="play")renderPlay();updatePlayBadge()};
   (async()=>{try{const g=await db.doc(`data/users/${uid}/prefs`).get();if(!vale())return;if(g.exists){const d=clone(g.data());if(!donoNovo&&(d.mod||0)<(PREF.mod||0)){salvarPrefs();throw 0}const loc=PREF.conhecidas||{};Object.assign(PREF,d);normPrefs();PREF.conhecidas={...(d.conhecidas||{}),...loc};PREF.ajuste=Object.assign({sec:{},tag:{}},d.ajuste||{});lsSet("radar-prefs",PREF);aplicarFonte();if(FEED){calcularNovidades();renderFeed()}}else salvarPrefs()}catch(e){}})();
   db.collection("pessoas").onSnapshot(q=>{if(!vale())return;S.membros={};q.docs.forEach(d=>{if(d.exists)S.membros[d.id]=d.data()});rerenderAll()},()=>{});
-  db.collection("amizades").onSnapshot(q=>{if(!vale())return;const am=new Set(),pin=[],pout=[];q.docs.forEach(d=>{const x=d.data();if(!x)return;const o=x.de===uid?x.para:x.de;if(x.status==="aceita")am.add(o);else if(x.para===uid)pin.push(x.de);else pout.push(x.para)});
+  db.collection("amizades").onSnapshot(q=>{if(!vale())return;const am=new Set(),pin=[],pout=[];q.docs.forEach(d=>{const x=d.data();if(!x)return;const o=x.de===uid?x.para:x.de;if(x.status==="aceita")am.add(o);else if(x.para===uid){if(x.status==="pendente")pin.push(x.de)}else pout.push(x.para)});
     S.amigos=am;S.pedidosIn=pin;S.pedidosOut=pout;S.amigosOk=true;derivaQuiz();if(FEED&&FILTRO[0]==="_"&&!am.size)renderFeed();rerenderAll()},()=>{});
   ["curtidas","votos"].forEach(col=>db.collection(col).onSnapshot(q=>{if(!vale())return;const r={};q.docs.forEach(d=>{if(d.exists)r[d.id]=(d.data()||{}).itens||{}});S.raw[col]=r;recalcSoc(col);soc();podarDepois()},()=>{}));
   db.collection("comentarios").onSnapshot(q=>{if(!vale())return;S._cmtDocs=q.docs.filter(d=>d.exists).map(d=>[d.id,d.data()]);S.cmts=montarCmts(S._cmtDocs);soc();podarDepois()},()=>{});
@@ -2447,7 +2463,7 @@ function iniciarSocial(uid,donoNovo){
   db.doc(`data/users/${uid}/salvos`).onSnapshot(d=>{if(!vale())return;const it=d.exists?(d.data().itens||{}):{};S.salvos={};let nulos=0;Object.entries(it).forEach(([k,v])=>{if(v)S.salvos[k]=clone(v);else nulos++});rerenderAll();if(nulos>25&&!S._compactou){S._compactou=1;const p=`data/users/${uid}/salvos`;emFila(p,()=>db.doc(p).set({itens:clone(S.salvos)})).catch(()=>{})}},()=>{});
   db.collection("erros").where("uid","==",uid).onSnapshot(q=>{if(!vale())return;S.erros=mk(q).sort((a,b)=>b.at-a.at);if(VIEW==="me")renderMe()},()=>{});
   (async()=>{try{const gh=await db.doc(`data/users/${uid}/historico`).get();if(!vale())return;if(gh.exists){HIST={...(gh.data().itens||{}),...HIST};lsSet("radar-hist",HIST)}}catch(e){}})();
-  carregarErrosResp();
+  carregarErrosResp();db.rpc("meus_bloqueios").then(r=>{if(vale())S.bloq=(r||[]).map(x=>x.uid)}).catch(()=>{});
   const espera=()=>{if(!vale())return;if(!FEED){setTimeout(espera,500);return}subEdicao()};espera();
 }
 async function initSocial(){
@@ -2621,7 +2637,7 @@ function abrirLogin(aba,cod){aba=aba==="criar"?"criar":"entrar";const cria=aba==
     <label>Senha<input class="field" id="lsenha" type="password" autocomplete="${cria?"new-password":"current-password"}"${cria?' placeholder="Mínimo de 6 caracteres"':""}></label>
     <p class="erro-t" id="lerro" role="alert" hidden></p>
     <button class="btn" type="submit">${cria?"Criar conta":"Entrar"}</button>
-    ${cria?"":`<button type="button" class="link" data-esqueci>Esqueci a senha</button><p class="hint" id="lesq" style="margin:0" hidden>Peça para quem te convidou redefinir a sua senha.</p>`}</form>`);
+    ${cria?"":`<button type="button" class="link" data-esqueci>Esqueci a senha</button><p class="hint" id="lesq" style="margin:0" hidden>Fale com o Pedro: ele redefine a sua senha.</p>`}</form>`);
   $("#lform").addEventListener("submit",e=>{e.preventDefault();if(cria)criarConta();else entrarConta()})}
 async function entrarConta(){const em=$("#lemail").value.trim(),pw=$("#lsenha").value,b=$("#lform [type=submit]");
   if(!em||!pw)return mostraErro("#lerro","Preencha o e-mail e a senha.");
@@ -2656,9 +2672,10 @@ function limparLocalConta(){CHAVES_CONTA.forEach(k=>{try{localStorage.removeItem
   Object.keys(PREF).forEach(k=>delete PREF[k]);Object.assign(PREF,{ordem:[],ocultas:[],ajuste:{sec:{},tag:{}},fonte:1,conhecidas:{}});normPrefs();
   SEEN.clear();LIDAS.clear();HIST={};USO={};ABA_G="minhas";FILTRO="tudo";VISITA0=null;NOVAS=new Set();ATUALIZADAS=new Set();NOVID=[];QUIZ_LOCAL=null;RESP=null;THREAD=null;
   aplicarFonte();if(FEED){calcularNovidades();renderFeed();renderChgBox()}rerenderAll()}
-function listaPessoasSheet(tit,intro,ids,linha,vazio){
+function listaPessoasSheet(tit,intro,ids,linha,vazio,servidor){
   const draw=q=>{const n=norm(q||"").trim(),todos=ids(),l=todos.filter(u=>!n||norm(nomeDe(u)).includes(n));return l.length?`<ul class="amgl">${l.map(linha).join("")}</ul>`:`<div class="empty" style="padding:14px 0"><b>${n?"Ninguém com esse nome":vazio}</b></div>`};
-  sheet(tit,`${intro||""}${ids().length>5?`<input class="field" id="pq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar pelo nome" aria-label="Buscar pelo nome">`:""}<div id="pbox">${draw("")}</div>`);
+  sheet(tit,`${intro||""}${servidor?`<form id="pform" class="pbusca"><input class="field" id="pq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Nome da pessoa" aria-label="Nome da pessoa"><button type="submit" class="btn ghost" id="pbusca">Procurar</button></form>`:ids().length>5?`<input class="field" id="pq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar pelo nome" aria-label="Buscar pelo nome">`:""}<div id="pbox">${draw("")}</div>`);
+  $("#pform")?.addEventListener("submit",e=>{e.preventDefault();procurarNome($("#pq").value)});
   const i=$("#pq");if(i)i.addEventListener("input",()=>{const b=$("#pbox");if(b)b.innerHTML=draw(i.value)});
   return ()=>{const b=$("#pbox");if(!b)return false;b.innerHTML=draw($("#pq")?.value||"");return true}}
 const linhaAmigo=x=>`<li><button type="button" class="amg-r" data-conversa="${esc(x)}">${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b><span>Conversar</span></span><i aria-hidden="true">›</i></button></li>`;
@@ -2667,36 +2684,82 @@ function abrirNovaConversa(){if(precisaConta())return;listaPessoasSheet("Nova co
 async function cancelarPedido(u){if(precisaConta())return;S.pedidosOut=S.pedidosOut.filter(x=>x!==u);rerenderAll();S._reAmg&&S._reAmg();
   try{await S.db.rpc("desfazer_amizade",{p_uid:u});toast("Pedido cancelado.")}catch(e){toast("Não deu para cancelar agora.");S.db&&S.db.recarregar()}}
 function abrirAddAmigos(){if(precisaConta())return;
-  const ids=()=>Object.keys(S.membros).filter(u=>u!==S.uid&&!S.amigos.has(u)).sort((a,b)=>(S.pedidosIn.includes(b)-S.pedidosIn.includes(a))||(S.pedidosOut.includes(b)-S.pedidosOut.includes(a))||nomeDe(a).localeCompare(nomeDe(b),"pt-BR"));
-  const linha=u=>{const env=S.pedidosOut.includes(u),rec=S.pedidosIn.includes(u),cp=S.membros[u]?.convidado_por;
-    return `<li>${avatar(u)}<span class="amg-n"><b>${esc(nomeDe(u))}</b>${rec?`<span>quer ser seu amigo</span>`:cp&&S.membros[cp]?`<span>${cp===S.uid?"você convidou":"convidado por "+esc(nomeDe(cp))}</span>`:""}</span>${rec?`<button type="button" class="btn amg-b" data-aceitar="${esc(u)}">Aceitar</button>`:env?`<button type="button" class="btn ghost amg-b" data-cancelar="${esc(u)}">Cancelar pedido</button>`:`<button type="button" class="btn amg-b" data-pedir="${esc(u)}">Pedir amizade</button>`}</li>`};
-  const re=listaPessoasSheet("Adicionar amigos",`<p class="hint" style="margin:0">Pessoas que já estão no Prumo. Quando a pessoa aceitar, vocês passam a ver a atividade um do outro. Para trazer alguém novo, use “Convidar alguém”.</p>`,ids,linha,"Todo mundo já é seu amigo");
-  S._reAmg=()=>{if(!re())S._reAmg=null}}
-async function pedirAmizade(u,btn){if(precisaConta())return;if(btn){btn.disabled=true;btn.textContent="Pedido enviado";btn.classList.add("ghost")}
+  const vivo=u=>{const m=S.membros[u];return !m||!(m.excluido||m.suspenso)};
+  const ids=()=>[...new Set([...Object.keys(S.membros),...Object.keys(S.achados||{})])].filter(u=>u!==S.uid&&!S.amigos.has(u)&&vivo(u)&&!(S.bloq||[]).includes(u)).sort((a,b)=>(S.pedidosIn.includes(b)-S.pedidosIn.includes(a))||(S.pedidosOut.includes(b)-S.pedidosOut.includes(a))||((S.comuns[b]||0)-(S.comuns[a]||0))||nomeDe(a).localeCompare(nomeDe(b),"pt-BR"));
+  const linha=u=>{const env=S.pedidosOut.includes(u),rec=S.pedidosIn.includes(u),cp=S.membros[u]?.convidado_por,nc=S.comuns[u]||0;
+    return `<li>${avatar(u)}<span class="amg-n"><b>${esc(nomeDe(u))}</b>${rec?`<span>quer ser seu amigo</span>`:cp===S.uid?`<span>você convidou</span>`:nc?`<span>${nc} ${nc===1?"amigo":"amigos"} em comum</span>`:""}</span>${rec?`<button type="button" class="btn amg-b" data-aceitar="${esc(u)}">Aceitar</button>`:env?`<button type="button" class="btn ghost amg-b" data-cancelar="${esc(u)}">Cancelar pedido</button>`:`<button type="button" class="btn amg-b" data-pedir="${esc(u)}">Pedir amizade</button>`}</li>`};
+  const re=listaPessoasSheet("Adicionar amigos",`<p class="hint" style="margin:0">Aqui aparecem amigos dos seus amigos. Para achar outra pessoa do Prumo, digite o nome completo dela e toque em “Procurar”. Para trazer alguém novo, use “Convidar alguém”.</p>`,ids,linha,"Nenhuma sugestão por enquanto",true);
+  S._reAmg=()=>{if(!re())S._reAmg=null};
+  S.db.rpc("amigos_em_comum").then(r=>{S.comuns={};(r||[]).forEach(x=>S.comuns[x.uid]=x.comuns);S._reAmg&&S._reAmg()}).catch(()=>{})}
+async function procurarNome(n){n=String(n||"").trim();if(n.length<2||!S.db)return;const b=$("#pbusca");if(b){b.disabled=true;b.textContent="Procurando…"}
+  try{const r=await S.db.rpc("buscar_membro",{p_nome:n});const x=(r||[])[0];
+    if(x&&x.uid!==S.uid){S.achados[x.uid]=x.nome;S._reAmg&&S._reAmg()}else{const bx=$("#pbox");if(bx)bx.insertAdjacentHTML("afterbegin",`<p class="hint" style="margin:6px 0">Ninguém no Prumo com o nome exato “${esc(n)}”.</p>`)}}
+  catch(e){toast("Não deu para procurar agora.")}
+  const b2=$("#pbusca");if(b2){b2.disabled=false;b2.textContent="Procurar"}}
+async function pedirAmizade(u,btn){if(precisaConta())return;if(btn){btn.disabled=true;btn.textContent="Enviando…";btn.classList.add("ghost")}
   try{const r=await S.db.rpc("pedir_amizade",{p_uid:u});if(r==="aceita"){S.amigos.add(u);toast("Agora você e "+nomeDe(u)+" são amigos.")}else{if(!S.pedidosOut.includes(u))S.pedidosOut.push(u);toast("Pedido enviado para "+nomeDe(u)+".")}rerenderAll()}
-  catch(e){if(btn){btn.disabled=false;btn.textContent="Pedir amizade";btn.classList.remove("ghost")}toast("Não deu para pedir agora.")}}
+  catch(e){if(btn){btn.disabled=false;btn.textContent="Pedir amizade";btn.classList.remove("ghost")}const m=String(e&&(e.message+" "+e.code));toast(/demais|54000/.test(m)?"Você já tem muitos pedidos esperando resposta.":/invalido|22023/.test(m)?"Não dá para pedir amizade a essa pessoa.":"Não deu para pedir agora.")}}
 async function responderAmizade(u,aceitar){if(precisaConta())return;S.pedidosIn=S.pedidosIn.filter(x=>x!==u);if(aceitar)S.amigos.add(u);rerenderAll();
   try{await S.db.rpc("responder_amizade",{p_uid:u,p_aceitar:!!aceitar});toast(aceitar?"Agora você e "+nomeDe(u)+" são amigos.":"Pedido recusado.")}catch(e){toast("Não deu para responder agora.");S.db&&S.db.recarregar()}}
-function abrirThMenu(u){if(!S.amigos.has(u))return;sheet("Conversa com "+nomeDe(u),`<div class="opt"><button type="button" data-desfazer="${esc(u)}">Desfazer amizade<span>vocês deixam de se ver</span></button></div>`)}
+function abrirThMenu(u){if(!S.amigos.has(u))return;sheet("Conversa com "+nomeDe(u),`<div class="opt"><button type="button" data-desfazer="${esc(u)}">Desfazer amizade<span>vocês deixam de se ver</span></button><button type="button" data-bloquear="${esc(u)}">Bloquear ${esc(nomeDe(u))}<span>não pode mais te achar nem pedir amizade</span></button><button type="button" data-denp="${esc(u)}">Denunciar ${esc(nomeDe(u))}<span>o Pedro recebe e analisa</span></button></div>`)}
+function abrirDenuncia(tipo,alvo,ref,pid){if(precisaConta())return;
+  sheet("Denunciar",`<p style="margin:0;font-size:15px;line-height:1.5">${tipo==="comentario"?"O comentário":"A conta de "+esc(nomeDe(alvo))} vai para o Pedro, que analisa. ${esc(nomeDe(alvo))} não fica sabendo quem denunciou.</p><textarea id="dmot" class="field" rows="3" maxlength="500" placeholder="O que aconteceu? (opcional)"></textarea><p class="erro-t" id="derro" role="alert" hidden></p><button type="button" class="btn" id="dok">Enviar denúncia</button>${S.amigos.has(alvo)||tipo==="pessoa"?`<label class="chk"><input type="checkbox" id="dblq"> Também bloquear ${esc(nomeDe(alvo))}</label>`:""}`);
+  $("#dok").addEventListener("click",async e=>{const b=e.currentTarget;b.disabled=true;
+    try{await S.db.rpc("denunciar",{p_tipo:tipo,p_alvo:alvo,p_ref:ref||null,p_pid:pid||null,p_motivo:$("#dmot").value.trim()||null});const blq=$("#dblq")?.checked;closeLayer();toast("Denúncia enviada. Obrigado.");if(blq)bloquear(alvo,true)}
+    catch(err){b.disabled=false;mostraErro("#derro",/demais|54000/.test(String(err&&(err.message+" "+err.code)))?"Você já mandou muitas denúncias hoje.":"Não deu para enviar agora.")}})}
+function confirmarBloqueio(u){sheet("Bloquear "+nomeDe(u)+"?",`<p style="margin:0;font-size:15px;line-height:1.5">A amizade é desfeita, ${esc(nomeDe(u))} deixa de te achar no Prumo e não pode mais pedir amizade nem mandar mensagem. Dá para desbloquear depois no Perfil.</p><button type="button" class="btn perigo" data-bloquearok="${esc(u)}">Bloquear</button><button type="button" class="btn ghost" data-close>Cancelar</button>`)}
+async function bloquear(u,sem){if(!sem)closeLayer();try{await S.db.rpc("bloquear",{p_uid:u});S.amigos.delete(u);if(!S.bloq.includes(u))S.bloq.push(u);if(THREAD===u){THREAD=null;if(TST>0){TST--;voltarH(1)}}rerenderAll();toast(nomeDe(u)+" foi bloqueado.")}catch(e){toast("Não deu para bloquear agora.")}}
+/* ---------- administração (só o administrador vê; o banco confere) ---------- */
+const fmtD=t=>t?new Date(t).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",timeZone:"America/Sao_Paulo"}):"";
+function abrirAdmin(aba){S._admAba=aba||S._admAba||"pessoas";S.adm=S.adm||{};
+  sheet("Administração",`<div class="segs" role="tablist">${[["pessoas","Pessoas"],["convites","Convites"],["denuncias","Denúncias"],["erros","Erros"]].map(([k,l])=>`<button type="button" role="tab" data-admaba="${k}" aria-selected="${S._admAba===k}">${l}</button>`).join("")}</div><div id="admbox"><p class="hint">Carregando…</p></div>`);
+  onClose=()=>{S._admAba=null};adminCarregar()}
+async function adminCarregar(){const k=S._admAba;if(!k||!S.db)return;const rpc={pessoas:"admin_membros",convites:"admin_convites",denuncias:"admin_denuncias",erros:"admin_erros"}[k];
+  try{S.adm[k]=await S.db.rpc(rpc)||[];if(k==="erros")carregarErrosResp()}catch(e){const b=$("#admbox");if(b)b.innerHTML=`<p class="erro-t">Não deu para carregar agora.</p>`;return}adminDesenhar()}
+function adminDesenhar(){const b=$("#admbox"),k=S._admAba;if(!b||!k)return;const L=S.adm[k]||[];const nm=u=>u?esc(S.membros[u]?.nome||"?"):"—";let h="";
+  if(k==="pessoas"){const q=norm($("#admq")?.value||"");const l=L.filter(m=>!q||norm(m.nome+" "+(m.email||"")).includes(q));
+    h=`<input class="field" id="admq" type="search" placeholder="Buscar nome ou e-mail" value="${esc($("#admq")?.value||"")}"><p class="hint">${L.filter(m=>!m.excluido_em).length} pessoas no Prumo. Para redefinir a senha de alguém, use o e-mail no painel do Supabase (Authentication › Users).</p><ul class="adml">${l.map(m=>`<li><div><b>${esc(m.nome)}</b>${m.papel==="admin"?` <em class="tag">admin</em>`:""}${m.suspenso_em?` <em class="tag bad">suspensa</em>`:""}${m.excluido_em?` <em class="tag">excluída</em>`:""}<span>${esc(m.email||"")}</span><span>entrou ${fmtD(m.criado_em)}${m.convidado_por?" · convite de "+nm(m.convidado_por):""} · ${m.amigos} ${m.amigos===1?"amigo":"amigos"} · convites ${m.convites_usados}/${m.papel==="admin"?"∞":m.cota_convites}</span></div>${m.excluido_em||m.papel==="admin"?"":`<div class="admb"><button type="button" class="btn ghost amg-b" data-admcota="${esc(m.uid)}">+1 convite</button><button type="button" class="btn ghost amg-b ${m.suspenso_em?"":"perigo"}" data-admsusp="${esc(m.uid)}" data-on="${m.suspenso_em?0:1}">${m.suspenso_em?"Reativar":"Suspender"}</button></div>`}</li>`).join("")}</ul>`}
+  if(k==="convites"){const ag=Date.now(),ab=L.filter(c=>!c.usado_em&&Date.parse(c.expira_em)>ag),us=L.filter(c=>c.usado_em).slice(0,30);
+    h=`<b class="cm-h">Em aberto (${ab.length})</b>${ab.length?`<ul class="adml">${ab.map(c=>`<li><div><b class="cvcod" style="font-size:15px">${esc(c.codigo)}</b><span>de ${nm(c.criado_por)} · vale até ${fmtD(c.expira_em)}</span></div><div class="admb"><button type="button" class="btn ghost amg-b" data-revogar="${esc(c.codigo)}">Cancelar</button></div></li>`).join("")}</ul>`:`<p class="hint">Nenhum.</p>`}
+      <b class="cm-h">Usados</b>${us.length?`<ul class="adml">${us.map(c=>`<li><div><b>${nm(c.usado_por)}</b><span>convite de ${nm(c.criado_por)} · ${fmtD(c.usado_em)}</span></div></li>`).join("")}</ul>`:`<p class="hint">Nenhum.</p>`}`}
+  if(k==="denuncias")h=L.length?`<ul class="adml">${L.map(d=>`<li class="${d.status==="aberta"?"":"feito"}"><div><b>${d.tipo==="comentario"?"Comentário":d.tipo==="mensagem"?"Mensagem":"Pessoa"} de ${nm(d.alvo)}</b>${d.status!=="aberta"?` <em class="tag">${esc(d.status)}</em>`:""}${d.texto?`<span class="q">“${esc(d.texto)}”</span>`:""}<span>denunciado por ${nm(d.de)} · ${fmtD(d.criado_em)}${d.motivo?" · "+esc(d.motivo):""}</span></div>${d.status==="aberta"?`<div class="admb">${d.tipo==="comentario"?`<button type="button" class="btn ghost amg-b perigo" data-admapag="${esc(d.alvo)}" data-cid="${esc(d.ref)}" data-id="${esc(d.id)}">Apagar comentário</button>`:""}${d.alvo?`<button type="button" class="btn ghost amg-b perigo" data-admsusp="${esc(d.alvo)}" data-on="1">Suspender</button>`:""}<button type="button" class="btn ghost amg-b" data-admden="${esc(d.id)}" data-st="resolvida">Resolvida</button><button type="button" class="btn ghost amg-b" data-admden="${esc(d.id)}" data-st="descartada">Descartar</button></div>`:""}</li>`).join("")}</ul>`:`<div class="empty" style="padding:14px 0"><b>Nenhuma denúncia</b></div>`;
+  if(k==="erros")h=L.length?`<ul class="adml">${L.map(e=>{const r=S.errosResp?.[e.id]||{};const st=r.status||e.status;return `<li><div><b>${esc(e.titulo||e.pid||"")}</b><span class="q">“${esc(e.texto)}”</span><span>${nm(e.uid)} · ${fmtD(e.at)} · ${esc(st==="corrigido"?"corrigido":st==="mantido"?"conferido, sem erro":st==="em_analise"?"em análise":"aguardando a rodada")}${r.resposta?" · "+esc(r.resposta):""}</span></div></li>`}).join("")}</ul>`:`<div class="empty" style="padding:14px 0"><b>Nenhum aviso de erro</b></div>`;
+  b.innerHTML=h;const q=$("#admq");if(q&&!q._w){q._w=1;q.addEventListener("input",()=>{const p=q.selectionStart;adminDesenhar();const n=$("#admq");if(n){n.focus();try{n.setSelectionRange(p,p)}catch(e){}}})}}
+async function adminAcao(rpc,args,ok){try{await S.db.rpc(rpc,args);if(ok)toast(ok);adminCarregar()}catch(e){toast("Não deu agora: "+(e&&e.message||"erro"))}}
+async function abrirBloqueados(){if(precisaConta())return;let r=[];try{r=(await S.db.rpc("meus_bloqueios"))||[]}catch(e){toast("Não deu para abrir agora.");return}
+  r.forEach(x=>{if(!S.membros[x.uid])S.achados[x.uid]=x.nome});const l=r.map(x=>x.uid);S.bloq=l.slice();
+  sheet("Pessoas bloqueadas",l.length?`<ul class="amgl">${l.map(u=>`<li>${avatar(u)}<span class="amg-n"><b>${esc(nomeDe(u))}</b></span><button type="button" class="btn ghost amg-b" data-desbloq="${esc(u)}">Desbloquear</button></li>`).join("")}</ul>`:`<div class="empty" style="padding:14px 0"><b>Ninguém bloqueado</b></div>`)}
+async function desbloquear(u,b){if(b)b.disabled=true;try{await S.db.rpc("desbloquear",{p_uid:u});S.bloq=S.bloq.filter(x=>x!==u);toast(nomeDe(u)+" foi desbloqueado.");abrirBloqueados()}catch(e){if(b)b.disabled=false;toast("Não deu para desbloquear agora.")}}
 function confirmarDesfazer(u){sheet("Desfazer amizade?",`<p style="margin:0;font-size:15px;line-height:1.5">Você e ${esc(nomeDe(u))} deixam de ver as curtidas, os votos e os comentários um do outro, e não dá mais para trocar mensagens. A conversa antiga continua aqui. Dá para pedir amizade de novo depois.</p><button type="button" class="btn perigo" data-desfazerok="${esc(u)}">Desfazer amizade</button><button type="button" class="btn ghost" data-close>Cancelar</button>`)}
 async function desfazerAmizade(u){closeLayer();try{await S.db.rpc("desfazer_amizade",{p_uid:u});S.amigos.delete(u);if(THREAD===u){THREAD=null;if(TST>0){TST--;voltarH(1)}}rerenderAll();toast("Amizade desfeita.")}catch(e){toast("Não deu para desfazer agora.")}}
 function abrirConvite(){if(precisaConta())return;
-  sheet("Convidar alguém",`<p style="margin:0;font-size:15px;line-height:1.5">Gere um link e mande para a pessoa. Ela cria a conta por ele e vocês já entram como amigos.</p><p class="hint" style="margin:0">Cada convite vale para uma pessoa.</p><div id="cvbox" style="display:flex;flex-direction:column;gap:8px"><button type="button" class="btn" data-gerarconvite>Gerar convite</button></div>`)}
+  sheet("Convidar alguém",`<p style="margin:0;font-size:15px;line-height:1.5">Gere um link e mande para a pessoa. Ela cria a conta por ele e vocês já entram como amigos.</p><p class="hint" style="margin:0">Cada convite vale para uma pessoa, por 7 dias.</p><div id="cvcota" class="hint"></div><div id="cvbox" style="display:flex;flex-direction:column;gap:8px"><button type="button" class="btn" data-gerarconvite>Gerar convite</button></div><div id="cvmeus"></div>`);
+  carregarMeusConvites()}
+async function carregarMeusConvites(){if(!S.db)return;let r=null;try{r=await S.db.rpc("meus_convites")}catch(e){return}if(!r)return;S._cv=r;
+  const cota=$("#cvcota");const resta=r.admin?null:Math.max(0,(r.cota||0)-(r.usados||0)-(r.abertos||[]).length);
+  if(cota)cota.innerHTML=r.admin?"Você é o administrador: convites sem limite.":resta?`Você ainda pode convidar <b>${resta}</b> ${resta===1?"pessoa":"pessoas"}.`:`<b>Seus convites acabaram.</b> Peça mais ao Pedro.`;
+  if(!r.admin&&!resta&&!S._cvlink){const bx=$("#cvbox");if(bx)bx.innerHTML=""}
+  const mm=$("#cvmeus");if(mm)mm.innerHTML=(r.abertos||[]).length?`<b class="cm-h" style="display:block;margin:6px 0 2px">Convites ainda não usados</b><ul class="amgl">${r.abertos.map(c=>`<li><span class="amg-n"><b class="cvcod" style="font-size:15px">${esc(c.codigo)}</b><span>vale até ${esc(new Date(c.expira_em).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",timeZone:"America/Sao_Paulo"}))}</span></span><button type="button" class="btn ghost amg-b" data-cvlink="${esc(c.codigo)}">Link</button><button type="button" class="btn ghost amg-b" data-revogar="${esc(c.codigo)}">Cancelar</button></li>`).join("")}</ul>`:""}
+async function revogarConvite(c,b){if(b)b.disabled=true;try{await S.db.rpc("revogar_convite",{p_codigo:c});toast("Convite cancelado.");carregarMeusConvites();if(S._admAba)adminCarregar()}catch(e){if(b)b.disabled=false;toast("Não deu para cancelar agora.")}}
+function linkConvite(c){const link=location.origin+location.pathname+"?convite="+encodeURIComponent(c);S._cvlink=link;const bx=$("#cvbox");if(bx)bx.innerHTML=`<div class="cvlink"><span class="hint">Código do convite</span><b class="cvcod">${esc(c)}</b><input class="field" id="cvurl" readonly value="${esc(link)}" aria-label="Link do convite"></div><button type="button" class="btn" data-cvshare>Enviar o link</button><button type="button" class="btn ghost" data-cvcopy>Copiar o link</button>`}
 async function gerarConvite(){const bx=$("#cvbox");if(bx)bx.innerHTML=`<p class="hint" style="margin:0">Gerando o convite…</p>`;
   try{const c=await S.db.rpc("criar_convite");const link=location.origin+location.pathname+"?convite="+encodeURIComponent(c);S._cvlink=link;
     if($("#cvbox"))$("#cvbox").innerHTML=`<div class="cvlink"><span class="hint">Código do convite</span><b class="cvcod">${esc(c)}</b><input class="field" id="cvurl" readonly value="${esc(link)}" aria-label="Link do convite"></div><button type="button" class="btn" data-cvshare>Enviar o link</button><button type="button" class="btn ghost" data-cvcopy>Copiar o link</button>`}
-  catch(e){if($("#cvbox"))$("#cvbox").innerHTML=`<p class="erro-t">${/demais|54000/.test(String(e&&(e.message+" "+e.code)))?"Você já tem muitos convites sem uso. Espere alguém usar um deles.":"Não deu para gerar o convite agora."}</p><button type="button" class="btn" data-gerarconvite>Tentar de novo</button>`}}
+  catch(e){const m=String(e&&(e.message+" "+e.code));if($("#cvbox"))$("#cvbox").innerHTML=/sem convites|54001/.test(m)?`<p class="erro-t">Seus convites acabaram. Peça mais ao Pedro.</p>`:`<p class="erro-t">${/demais|54000/.test(m)?"Você já tem muitos convites sem uso. Espere alguém usar um deles.":"Não deu para gerar o convite agora."}</p><button type="button" class="btn" data-gerarconvite>Tentar de novo</button>`;return}
+  carregarMeusConvites()}
 async function copiarConvite(){const l=S._cvlink;if(!l)return;try{await navigator.clipboard.writeText(l);toast("Link copiado.")}catch(e){const i=$("#cvurl");if(i){i.focus();i.select()}toast("Selecione e copie o link.")}}
 async function enviarConvite(){const l=S._cvlink;if(!l)return;try{if(navigator.share){await navigator.share({title:"Prumo News",text:"Entre no Prumo News com o meu convite:",url:l});return}}catch(e){if(e&&e.name==="AbortError")return}copiarConvite()}
 function abrirPrivacidade(){sheet("Política de privacidade",`<div class="priv" style="display:flex;flex-direction:column;gap:8px">
   <h4>O que o Prumo guarda</h4><p>Seu nome e e-mail; suas curtidas, votos, comentários e leituras; o quiz; as mensagens; as guardadas e as notas; o histórico de leitura; as preferências do app; e os avisos de erro que você manda.</p>
-  <h4>Quem vê</h4><p>Seus amigos veem suas curtidas, votos e comentários. Mensagens, só quem mandou e quem recebeu. Guardadas, notas, leituras, quiz, histórico e preferências, só você. Quem está no Prumo vê o seu nome.</p>
+  <h4>Quem vê</h4><p>Seus amigos veem suas curtidas, votos e comentários. Mensagens, só quem mandou e quem recebeu. Guardadas, notas, leituras, quiz, histórico e preferências, só você. Seu nome aparece para os seus amigos e para os amigos deles; outras pessoas só te acham digitando o seu nome completo.</p>
+  <h4>Administração</h4><p>O Pedro administra o Prumo: ele vê a lista de pessoas (nome, e-mail, quem convidou quem), os avisos de erro e as denúncias, e pode apagar um comentário denunciado ou suspender uma conta. Ele não vê as suas mensagens, a não ser uma que você mesmo denunciar.</p>
+  <h4>Bloquear e denunciar</h4><p>Quem você bloqueia deixa de te achar e não pode pedir amizade nem mandar mensagem. Quem é denunciado não fica sabendo quem denunciou.</p>
   <p>O texto dos avisos de erro (sem o nome de quem mandou) é lido pela rodada automática que confere as notícias.</p>
   <h4>Onde fica</h4><p>No Supabase, com servidores em São Paulo.</p>
   <h4>O que o Prumo não faz</h4><p>Não tem anúncios e não vende nem repassa dados.</p>
   <h4>Apagar</h4><p>Excluir a conta apaga tudo o que é seu, na hora e sem volta.</p>
   <p class="hint">Dúvidas: fale com o Pedro.</p></div>`)}
-function abrirExcluir(){if(!S.uid)return;sheet("Excluir minha conta",`<p style="margin:0;font-size:15px;line-height:1.5">Isso apaga a sua conta e tudo o que é seu no Prumo: curtidas, votos, comentários, leituras, quiz, mensagens enviadas e recebidas, listas com amigos, guardadas, notas, histórico e preferências.</p><p style="margin:0;font-size:15px"><b>Não tem volta.</b></p><p class="erro-t" id="exerro" role="alert" hidden></p><button type="button" class="btn perigo" data-excluirok>Excluir para sempre</button><button type="button" class="btn ghost" data-close>Cancelar</button>`)}
+function abrirExcluir(){if(!S.uid)return;sheet("Excluir minha conta",`<p style="margin:0;font-size:15px;line-height:1.5">Isso apaga a sua conta e tudo o que é seu no Prumo: login, curtidas, votos, comentários, quiz, guardadas, notas, histórico e preferências. As mensagens que você trocou continuam com a outra pessoa, com o seu nome trocado por “Conta excluída”.</p><p style="margin:0;font-size:15px"><b>Não tem volta.</b></p><p class="erro-t" id="exerro" role="alert" hidden></p><button type="button" class="btn perigo" data-excluirok>Excluir para sempre</button><button type="button" class="btn ghost" data-close>Cancelar</button>`)}
 async function excluirConta(b){if(!S.db)return;if(b)b.disabled=true;
   try{await S.db.rpc("excluir_conta")}catch(e){if(b)b.disabled=false;mostraErro("#exerro","Não deu para excluir agora. Tente de novo.");return}
   try{S.db&&S.db.fechar()}catch(e){}try{await sbCliente()?.auth.signOut({scope:"local"})}catch(e){}
@@ -2712,6 +2775,20 @@ function cliqueConta(t){
   if(t.closest("[data-esqueci]")){const p=$("#lesq");if(p)p.hidden=false;return true}
   if(t.closest("[data-sair]")){sair();return true}
   if(t.closest("[data-privacidade]")){abrirPrivacidade();return true}
+  if(t.closest("[data-bloqueados]")){abrirBloqueados();return true}
+  const db_=t.closest("[data-desbloq]");if(db_){desbloquear(db_.dataset.desbloq,db_);return true}
+  const bq=t.closest("[data-bloquear]");if(bq){confirmarBloqueio(bq.dataset.bloquear);return true}
+  const bqo=t.closest("[data-bloquearok]");if(bqo){bloquear(bqo.dataset.bloquearok);return true}
+  const dp=t.closest("[data-denp]");if(dp){abrirDenuncia("pessoa",dp.dataset.denp);return true}
+  const dc=t.closest("[data-denc]");if(dc){abrirDenuncia("comentario",dc.dataset.du,dc.dataset.denc,dc.dataset.dp);return true}
+  const rv=t.closest("[data-revogar]");if(rv){revogarConvite(rv.dataset.revogar,rv);return true}
+  const cl=t.closest("[data-cvlink]");if(cl){linkConvite(cl.dataset.cvlink);return true}
+  if(t.closest("[data-admin]")){abrirAdmin();return true}
+  const aa=t.closest("[data-admaba]");if(aa){S._admAba=aa.dataset.admaba;document.querySelectorAll("[data-admaba]").forEach(x=>x.setAttribute("aria-selected",String(x===aa)));const b=$("#admbox");if(b)b.innerHTML=`<p class="hint">Carregando…</p>`;adminCarregar();return true}
+  const ac_=t.closest("[data-admcota]");if(ac_){adminAcao("admin_cota",{p_uid:ac_.dataset.admcota,p_delta:1},"+1 convite para "+nomeDe(ac_.dataset.admcota));return true}
+  const as_=t.closest("[data-admsusp]");if(as_){const on=as_.dataset.on==="1";if(on&&!as_.classList.contains("conf")){as_.classList.add("conf");as_.textContent="Toque de novo";return true}adminAcao("admin_suspender",{p_uid:as_.dataset.admsusp,p_suspender:on},on?"Conta suspensa.":"Conta reativada.");return true}
+  const ap_=t.closest("[data-admapag]");if(ap_){if(!ap_.classList.contains("conf")){ap_.classList.add("conf");ap_.textContent="Toque de novo";return true}(async()=>{try{await S.db.rpc("admin_apagar_comentario",{p_uid:ap_.dataset.admapag,p_cid:ap_.dataset.cid});await S.db.rpc("admin_resolver_denuncia",{p_id:ap_.dataset.id,p_status:"resolvida"});toast("Comentário apagado.");adminCarregar()}catch(e){toast("Não deu agora.")}})();return true}
+  const ad_=t.closest("[data-admden]");if(ad_){adminAcao("admin_resolver_denuncia",{p_id:ad_.dataset.admden,p_status:ad_.dataset.st});return true}
   if(t.closest("[data-excluir]")){abrirExcluir();return true}
   const xo=t.closest("[data-excluirok]");if(xo){excluirConta(xo);return true}
   if(t.closest("[data-addamigos]")){abrirAddAmigos();return true}
