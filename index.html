@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#f3f4f6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
 <style>
 /* Layout: feed de leitura em uma coluna, sempre em papel claro. Topo com uma bolinha por seção; cada post tem uma capa 5:4 com a manchete sobre a ilustração e, embaixo, o texto em abas (Resumo · Ângulos · Veículos). Tipografia: Literata no texto corrido, Atkinson Hyperlegible Next na interface e nas manchetes, Atkinson Hyperlegible Mono nos dados */
 :root{
@@ -923,7 +923,7 @@ html:root .btn.perigo{background:var(--hot);color:var(--card)}
 <div id="layer"></div>
 <div id="layer2"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script id="sbjs" async src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script>
 const $=s=>document.querySelector(s);
 var JUMPS=[],FST=0,PUSHQ=0,HST=0,VST=0,TST=0,IGN=0,NOVO=null,BACKN=0,BACKT=0,VIRA_T=0,FEED_Y=0;
@@ -1211,7 +1211,7 @@ function aplicarFonte(){document.documentElement.style.setProperty("--fz",String
 function aplicarTema(){const t=PREF.tema||"auto",r=document.documentElement;if(t==="auto")r.removeAttribute("data-aparencia");else r.setAttribute("data-aparencia",t);r.removeAttribute("data-tema");const esc2=t==="escuro"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",esc2?"#0f1522":"#f3f4f6")}
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",aplicarTema)}catch(e){}
 let prefTimer=null;
-function salvarPrefs(){PREF.mod=Date.now();lsSet("radar-prefs",PREF);clearTimeout(prefTimer);if(!S.db||!S.uid||!S.membro)return;prefTimer=setTimeout(async()=>{try{const ref=S.db.doc(`data/users/${S.uid}/prefs`);const g=await ref.get();const body=JSON.parse(JSON.stringify(PREF));if(!g.exists)await ref.set(body);else await ref.set(body)}catch(e){}},800)}
+function salvarPrefs(){PREF.mod=Date.now();lsSet("radar-prefs",PREF);clearTimeout(prefTimer);if(!S.db||!S.uid||!S.membro)return;prefTimer=setTimeout(async()=>{try{await S.db.doc(`data/users/${S.uid}/prefs`).set(JSON.parse(JSON.stringify(PREF)))}catch(e){}},1500)}
 
 /* ---------- novidades desde a última visita ---------- */
 function calcularNovidades(){
@@ -1313,7 +1313,7 @@ function meuVoto(pid){const m=S.uid?(S.soc.votos||{})[S.uid]:null;return m?m[pid
 function atividadeAmigos(pid){const {likes,cm}=socialOf(pid),le=leram(pid);return amigosL().map(u=>({u,ac:[le.includes(u)?"leu":"",likes.includes(u)?"gostou":"",cm.some(c=>c.uid===u)?"comentou":""].filter(Boolean)})).filter(x=>x.ac.length)}
 const CPEND={};
 function montarCmts(docs){const by={};docs.forEach(([uid,dd])=>Object.entries((dd&&dd.itens)||{}).forEach(([cid,c])=>{const k=uid+"\u0001"+cid,p=CPEND[k];if(p){if(Date.now()-p.t>30000||JSON.stringify(c??null)===JSON.stringify(p.v??null))delete CPEND[k]}if(c&&c.texto&&!(p&&p.v===null))(by[c.pid]=by[c.pid]||[]).push({...c,id:cid,uid})}));
-  Object.entries(CPEND).forEach(([k,p])=>{if(!p.v)return;const [uid,cid]=k.split("\u0001");const l=(by[p.v.pid]=by[p.v.pid]||[]);if(!l.some(c=>c.id===cid))l.push({...p.v,id:cid,uid})});return by}
+  Object.entries(CPEND).forEach(([k,p])=>{if(Date.now()-p.t>90000){delete CPEND[k];return}if(!p.v)return;const [uid,cid]=k.split("\u0001");const l=(by[p.v.pid]=by[p.v.pid]||[]);if(!l.some(c=>c.id===cid))l.push({...p.v,id:cid,uid})});return by}
 function updateSocial(pid){
   const sa=$("#s-acts");if(sa&&sa.dataset.pid===pid)sa.innerHTML=storyActs(pid);
   const el=document.getElementById("p-"+pid);if(!el)return;
@@ -1441,6 +1441,7 @@ function storyGo(d){
 /* ---------- ações ---------- */
 const PEND={};
 function pend(col,k,v){PEND[col+"\u0001"+k]={col,k,v,t:Date.now()}}
+function desfazPend(col,k){delete PEND[col+"\u0001"+k];if(col.startsWith("lista:"))montarListas();else recalcSoc(col)}
 function comPend(col,itens){const out={...(itens||{})};for(const [key,p] of Object.entries(PEND)){if(p.col!==col)continue;const cur=out[p.k];
     const same=p.v==null?cur==null:(col==="votos"?JSON.stringify(cur)===JSON.stringify(p.v):cur!=null);
     if(same||Date.now()-p.t>30000){delete PEND[key];continue}if(p.v==null)delete out[p.k];else out[p.k]=p.v}return out}
@@ -1456,7 +1457,7 @@ async function toggleLike(pid){uso("curtir");vibrar(8);
   if(precisaConta())return;const on=!socialOf(pid).likes.includes(S.uid);const sn=snapById(pid);
   const val=on?{at:Date.now(),snap:sn?{id:pid,titulo:sn.titulo||"",secao:sn.secao||""}:{id:pid}}:null;
   pend("curtidas",pid,val);recalcSoc("curtidas");updateSocial(pid);refiltrar();
-  try{await gravarMapa("curtidas/"+S.uid,"itens",pid,val)}catch(e){toast("Não deu para marcar agora. Tente de novo.")}
+  try{await gravarMapa("curtidas/"+S.uid,"itens",pid,val)}catch(e){desfazPend("curtidas",pid);updateSocial(pid);refiltrar();toast("Não deu para marcar agora. Tente de novo.")}
 }
 function openComments(pid){uso("comentarios");
   const draw=()=>{const {cm}=socialOf(pid);return cm.length?`<ul class="clist">${cm.map(c=>`<li>${avatar(c.uid)}<div><span><b>${esc(nomeDe(c.uid))}</b> ${esc(c.texto)}</span><i>${esc(quando(c.at))}<button type="button" class="c-a" data-resp="${esc(nomeDe(c.uid))}">Responder</button>${c.uid===S.uid?`<button type="button" class="c-a" data-apagar="${esc(c.id)}">Apagar</button>`:""}</i></div></li>`).join("")}</ul>`:`<div class="empty" style="padding:18px 0"><b>Nenhum comentário ainda</b>Escreva o primeiro.</div>`};
@@ -1469,12 +1470,12 @@ function openComments(pid){uso("comentarios");
     const ap=e.target.closest("[data-apagar]");if(ap){if(!ap.classList.contains("conf")){ap.classList.add("conf");ap.textContent="Toque de novo para apagar";return}
       const cid=ap.dataset.apagar;CPEND[S.uid+"\u0001"+cid]={v:null,t:Date.now()};S.cmts=montarCmts(S._cmtDocs);
       S._reCmt&&S._reCmt(true);updateSocial(pid);
-      try{await gravarMapa("comentarios/"+S.uid,"itens",cid,null)}catch(err){toast("Não deu para apagar agora.")}}});
+      try{await gravarMapa("comentarios/"+S.uid,"itens",cid,null)}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);toast("Não deu para apagar agora.")}}});
   $("#cform").addEventListener("submit",async e=>{e.preventDefault();const t=inp.value.trim();if(!t||precisaConta())return;inp.value="";btn.disabled=true;inp.focus();
     const cid=Date.now().toString(36)+Math.random().toString(36).slice(2,6),c={uid:S.uid,texto:t,at:Date.now()};
     const sn=snapById(pid);const v={pid,texto:t,at:c.at,snap:sn?{id:pid,titulo:sn.titulo||"",secao:sn.secao||""}:{id:pid}};
     CPEND[S.uid+"\u0001"+cid]={v,t:Date.now()};S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);toEnd();updateSocial(pid);
-    try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v)}catch(err){toast("O comentário não foi salvo. Tente de novo.")}});
+    try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v)}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);const i=$("#ctext");if(i&&!i.value){i.value=t;const b=$("#cform .sendc");if(b)b.disabled=false}toast("O comentário não foi salvo. O texto voltou para a caixa.")}});
 }
 function shareCard(s,attrs=""){return `<button type="button" class="share paper" data-sec="${esc(s?.secao||"politica")}" ${attrs}>${svgOf(s?.imagem)}<div><span>${esc(secNome(s?.secao||"politica"))} · ${esc(s?.tag)}</span><b>${esc(s?.titulo)}</b></div></button>`}
 function openSend(pid,pre){uso("enviar");
@@ -1486,8 +1487,8 @@ function openSend(pid,pre){uso("enviar");
   sheet(um?"Enviar para "+nomeDe(others[0]):"Enviar",`${um?"":`<div class="pick" id="pick">${others.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="${u===sel}">${avatar(u)}${esc(nomeDe(u))}</button>`).join("")}</div>`}${shareCard(snap,'style="width:100%;pointer-events:none" tabindex="-1"')}<button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`,
     `<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)" aria-label="Mensagem"><button class="send" id="sbtn" type="submit" ${sel?"":"disabled"}>Enviar</button></form>`);
   $("#pick")?.addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;sel=b.dataset.pick;document.querySelectorAll("[data-pick]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));$("#sbtn").disabled=false});
-  $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel)return;const t=$("#stext").value.trim();closeLayer();
-    try{await S.db.collection("mensagens").add({de:S.uid,para:sel,at:Date.now(),texto:t,pid,snap,lida:false});toast(`Enviado para ${nomeDe(sel)}`)}catch(err){toast(err?.code==="permission_denied"?"Só dá para mandar para amigos.":"Não deu para enviar agora. Tente de novo.")}});
+  $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel)return;const t=$("#stext").value.trim(),bt=$("#sbtn");if(bt.disabled&&bt.dataset.env)return;bt.disabled=true;bt.dataset.env="1";bt.textContent="Enviando…";
+    try{await S.db.collection("mensagens").add({de:S.uid,para:sel,at:Date.now(),texto:t,pid,snap,lida:false});if($("#sform"))closeLayer();toast(`Enviado para ${nomeDe(sel)}`)}catch(err){const b=$("#sbtn");if(b){b.disabled=false;delete b.dataset.env;b.textContent="Enviar"}toast(err?.code==="permission_denied"?"Só dá para mandar para amigos.":"Não deu para enviar agora. Tente de novo.")}});
 }
 function snapLeve(pid){const s=snapById(pid);if(!s)return {id:pid};return {id:s.id||pid,secao:s.secao||"",tag:s.tag||"",titulo:s.titulo||"",texto:String(s.texto||"").slice(0,320),imagem:s.imagem||null,links:arrL(s.links).slice(0,1)}}
 async function toggleSave(pid){uso("guardar");
@@ -1561,6 +1562,7 @@ function ouvir(){
 }
 
 /* ---------- conversas ---------- */
+function marcarLidasThread(th){if(document.hidden||!S.db)return;const nl=th.filter(m=>m.para===S.uid&&!m.lida);if(!nl.length)return;nl.forEach(m=>m.lida=true);const de=nl[0].de;S.db.marcarLidas(de).catch(()=>{nl.forEach(m=>m.lida=false);updateBadge()})}
 const REAC=[["concordo","Concordo"],["surpreso","Surpreso"],["discordo","Discordo"]];
 function allMsgs(){const m=new Map();[...S.msgsIn,...S.msgsOut].forEach(x=>m.set(x.id,x));return [...m.values()].sort((a,b)=>a.at-b.at)}
 function updateBadge(){const n=S.msgsIn.filter(m=>!m.lida).length,b=$("#badge");b.hidden=!n;b.textContent=n>9?"9+":n;const mb=$("#mbadge");if(mb){const p=S.pedidosIn.length;mb.hidden=!p;mb.setAttribute("aria-label",p?(p===1?"1 pedido de amizade":p+" pedidos de amizade"):"")}}
@@ -1572,7 +1574,7 @@ function renderMsgs(){
     const th=msgs.filter(m=>(m.de===THREAD&&m.para===S.uid)||(m.de===S.uid&&m.para===THREAD));
     let diaAnt="";const thrHTML=th.length?th.map(m=>{const dd=dataSP(m.at),sep=dd!==diaAnt?(diaAnt=dd,`<div class="dia">${esc(dd===dataSP()?"Hoje":dd===somaDias(dataSP(),-1)?"Ontem":new Date(m.at).toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"2-digit",timeZone:"America/Sao_Paulo"}))}</div>`):"";return sep+`<div class="msg ${m.de===S.uid?"mine":""}">${m.pid&&m.resp?`<button type="button" class="quote" data-open="${esc(m.pid)}">↪ ${esc(m.snap?.titulo||"notícia")}</button>`:m.pid?shareCard(m.snap,`data-open="${esc(m.pid)}"`).replace('class="share paper"','class="share paper mini"'):""}${m.texto?`<div class="bub">${esc(m.texto)}</div>`:""}<span class="mrow"><span class="mt">${esc(quando(m.at))}</span>${m.pid&&!m.resp?`<button type="button" class="c-a rspm" data-resp-msg="${esc(m.id)}">Responder</button>`:""}</span></div>`}).join(""):`<div class="empty"><b>Comece a conversa</b>Envie uma notícia pelo botão Enviar de qualquer post, ou escreva abaixo.</div>`;
     const ja=v.dataset.thr===THREAD&&v.dataset.am===String(amigo)&&v.querySelector(".thread");
-    if(ja){const perto=document.documentElement.scrollHeight-scrollY-innerHeight<160,n0=v.querySelectorAll(".thread .msg").length;v.querySelector(".thread").innerHTML=thrHTML;th.filter(m=>m.para===S.uid&&!m.lida&&!document.hidden).forEach(m=>{m.lida=true;S.db.doc("mensagens/"+m.id).update({lida:true}).catch(()=>{})});updateBadge();if(perto||th.length>n0&&th[th.length-1]?.de===S.uid)window.scrollTo(0,document.body.scrollHeight);return}
+    if(ja){const perto=document.documentElement.scrollHeight-scrollY-innerHeight<160,n0=v.querySelectorAll(".thread .msg").length;v.querySelector(".thread").innerHTML=thrHTML;marcarLidasThread(th);updateBadge();if(perto||th.length>n0&&th[th.length-1]?.de===S.uid)window.scrollTo(0,document.body.scrollHeight);return}
     v.dataset.thr=THREAD;v.dataset.am=String(amigo);RESP=null;
     v.innerHTML=`<div class="gut"><div class="view-h">${am.length>1||!amigo?`<button type="button" data-back aria-label="Voltar" style="margin-left:-8px;width:40px;height:44px;display:flex;align-items:center;justify-content:center">${ICON.back}</button>`:""}${avatar(THREAD)}<h1 style="font-size:19px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(nomeDe(THREAD))}</h1>${amigo?`<button type="button" class="icbtn" data-thmenu aria-label="Opções da conversa">${ICON.dots}</button>`:""}</div>
       <div class="thread">${thrHTML}</div></div>
@@ -1581,11 +1583,11 @@ function renderMsgs(){
     $("#mform").addEventListener("submit",async e=>{e.preventDefault();const t=$("#mtext").value.trim();if(!t)return;$("#mtext").value="";
       const at=Date.now(),para=THREAD,rp=RESP;RESP=null;const extra=rp?{pid:rp.pid,snap:rp.snap,resp:true}:{};S.msgsOut.push({id:"tmp"+at,de:S.uid,para,at,texto:t,lida:false,...extra});renderMsgs();$("#respbar")?.remove();
       try{await S.db.collection("mensagens").add({de:S.uid,para,at,texto:t,lida:false,...extra})}catch(err){S.msgsOut=S.msgsOut.filter(m=>m.id!=="tmp"+at);renderMsgs();const i=$("#mtext");if(i&&!i.value)i.value=t;if(rp&&!RESP){const mm=allMsgs().find(x=>x.pid===rp.pid&&!x.resp);if(mm)responderMsg(mm.id);else RESP=rp}toast(err?.code==="permission_denied"?"Só dá para mandar mensagem para amigos.":"A mensagem não foi enviada. O texto voltou para a caixa.")}});
-    th.filter(m=>m.para===S.uid&&!m.lida&&!document.hidden).forEach(m=>{m.lida=true;S.db.doc("mensagens/"+m.id).update({lida:true}).catch(()=>{})});updateBadge();
+    marcarLidasThread(th);updateBadge();
     window.scrollTo(0,document.body.scrollHeight);return;
   }
   const ult=u=>{const l=msgs.filter(m=>m.de===u||m.para===u);return l.length?l[l.length-1].at:0};
-  const others=[...am].sort((a,b)=>ult(b)-ult(a));if(others.length===1){THREAD=others[0];return renderMsgs()}v.dataset.thr="";
+  const others=[...new Set([...am,...msgs.map(m=>m.de===S.uid?m.para:m.de)])].filter(u=>u&&u!==S.uid).sort((a,b)=>ult(b)-ult(a));if(others.length===1&&am.includes(others[0])){THREAD=others[0];return renderMsgs()}v.dataset.thr="";
   v.innerHTML=`<div class="gut"><div class="view-h"><h1>Conversas</h1></div>${others.length?`<ul class="people">${others.map(u=>{const th=msgs.filter(m=>m.de===u||m.para===u),last=th[th.length-1],un=th.filter(m=>m.para===S.uid&&!m.lida).length;
       return `<li><button type="button" data-thread="${esc(u)}">${avatar(u)}<span class="pt"><b>${esc(nomeDe(u))}</b><span class="${un?"unread":""}">${last?esc((last.de===S.uid?"Você: ":"")+(last.texto||("enviou: "+(last.snap?.titulo||"uma notícia"))))+" · "+esc(quando(last.at)):"Toque para conversar"}</span></span>${un?`<span class="dot" aria-label="${un} não lidas"></span>`:""}</button></li>`}).join("")}</ul>`
       :`<div class="empty"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para conversar.<button type="button" class="btn ghost" data-vgo="me" style="margin-top:10px">Ir ao Perfil</button></div>`}</div>`;
@@ -1598,9 +1600,11 @@ function itensLista(){const out=[];Object.entries(S.listas||{}).forEach(([u,m])=
 function renderSaved(){
   const v=$("#v-saved"),nossa=itensLista(),tem=temAmigos()||nossa.length>0;if(!tem&&ABA_G==="nossa")ABA_G="minhas";if(tem&&!renderSaved._ok){const nm=Object.values(S.salvos).filter(Boolean).length,nn=nossa.length;if(ABA_G==="minhas"&&!nm&&nn)ABA_G="nossa";else if(ABA_G==="nossa"&&!nn&&nm)ABA_G="minhas"}if(S.amigosOk)renderSaved._ok=true;
   const items=Object.entries(S.salvos).filter(([,x])=>x).sort((a,b)=>b[1].at-a[1].at);
-  const abas=tem?`<div class="segs" role="tablist"><button type="button" role="tab" data-abag="minhas" aria-selected="${ABA_G==="minhas"}">Minhas (${items.length})</button><button type="button" role="tab" data-abag="nossa" aria-selected="${ABA_G==="nossa"}">Com amigos (${nossa.length})</button></div>`:"";
+  const abas=tem?`<div class="segs" role="tablist"><button type="button" role="tab" data-abag="minhas" aria-selected="${ABA_G==="minhas"}">Minhas (${items.length})</button><button type="button" role="tab" data-abag="nossa" aria-selected="${ABA_G==="nossa"}">Com amigos (${new Set(nossa.map(x=>x.pid)).size})</button></div>`:"";
   let corpo;
-  if(ABA_G==="nossa")corpo=nossa.length?`<ul class="svl">${nossa.map(x=>{const s=x.snap||snapById(x.pid)||{};return linhaSalva(x.pid,s,`${esc(secNome(s.secao||"politica"))} · com ${esc(nomeDe(x.com))}${esc(x.uid===S.uid?" · você pôs ":", que pôs ")}${esc(quando(x.at))}`)}).join("")}</ul>`:`<div class="empty"><b>Nenhuma lista com amigos ainda</b>No ⋯ de um post, toque em “Pôr numa lista com…” para guardar algo para ler junto com um amigo.</div>`;
+  const porPid=[];{const vis=new Map();nossa.forEach(x=>{let g=vis.get(x.pid);if(!g){g={...x,coms:[]};vis.set(x.pid,g);porPid.push(g)}if(!g.coms.includes(x.com))g.coms.push(x.com)})}
+  const comQuem=cs=>{const n=cs.map(nomeDe);return n.length<=2?n.join(" e "):n.slice(0,2).join(", ")+" e mais "+(n.length-2)};
+  if(ABA_G==="nossa")corpo=nossa.length?`<ul class="svl">${porPid.map(x=>{const s=x.snap||snapById(x.pid)||{};return linhaSalva(x.pid,s,x.coms.length>1?`${esc(secNome(s.secao||"politica"))} · com ${esc(comQuem(x.coms))}`:`${esc(secNome(s.secao||"politica"))} · com ${esc(nomeDe(x.com))}${esc(x.uid===S.uid?" · você pôs ":", que pôs ")}${esc(quando(x.at))}`)}).join("")}</ul>`:`<div class="empty"><b>Nenhuma lista com amigos ainda</b>No ⋯ de um post, toque em “Pôr numa lista com…” para guardar algo para ler junto com um amigo.</div>`;
   else corpo=items.length?`<ul class="svl">${items.map(([pid,x])=>{const s=x.snap||snapById(pid)||{};return linhaSalva(pid,s,`${esc(secNome(s.secao||"politica"))} · guardada ${esc(quando(x.at))}`,x.nota?`<span class="nt">Nota: ${esc(x.nota)}</span>`:"")}).join("")}</ul>`:`<div class="empty"><b>Nada guardado ainda</b>Toque no alfinete de um post para guardar a notícia aqui.<button type="button" class="btn ghost" data-vgo="feed" style="margin-top:10px">Ver as notícias de hoje</button></div>`;
   v.innerHTML=`<div class="gut"><div class="view-h"><h1>Guardadas</h1></div>${abas}${corpo}</div>`;
 }
@@ -1671,8 +1675,6 @@ document.addEventListener("click",e=>{
   const rsp=t.closest("[data-resp-msg]");if(rsp){responderMsg(rsp.dataset.respMsg);return}
   if(t.closest("[data-resp-x]")){RESP=null;$("#respbar")?.remove();return}
   const nc=t.closest("[data-nachat]");if(nc){abrirConversa(nc.dataset.nachat);return}
-  const ct=t.closest("[data-cutucar]");if(ct){cutucar(ct.dataset.cutucar);return}
-  const aj3=t.closest("[data-juntos]");if(aj3){marcarJuntos(aj3.dataset.juntos);return}
   const tm2=t.closest("[data-tema-ui]");if(tm2){PREF.tema=tm2.dataset.temaUi;aplicarTema();salvarPrefs();refreshAjustes();return}
   const bv=t.closest("[data-breve]");if(bv){abrirBreve(+bv.dataset.breve);return}
   if(t.closest("[data-rodadas]")){abrirRodadas();return}
@@ -1777,14 +1779,14 @@ function enqueteHTML(p){
   const votos=votosDe(p.id);const meu=S.uid?votos[S.uid]:undefined;const vals=Object.entries(votos);
   const votou=meu!==undefined&&meu!==null;const faltam=votou?amigosL().filter(u=>votos[u]==null):[];
   return `<div class="poll"><b>${esc(e.pergunta)}</b>${e.opcoes.map((o,i)=>{const quem=vals.filter(([,v])=>v===i).map(([u])=>u).sort((a,b)=>(b===S.uid)-(a===S.uid));
-    return `<button type="button" class="${votou&&meu===i?"mine":""}" data-voto="${i}" aria-pressed="${votou&&meu===i}"><span>${esc(o)}</span>${votou&&quem.length?`<em>${esc(quemVotou(quem))}</em>`:""}</button>`}).join("")}${votou?(faltam.length?`<span class="hint">${esc(faltam.length===1?nomeDe(faltam[0])+" ainda não votou.":faltam.length+" amigos ainda não votaram.")}</span><button type="button" class="cutucar" data-cutucar="${esc(p.id)}">${esc(faltam.length===1?"Cutucar "+nomeDe(faltam[0]):"Cutucar quem falta")}</button>`:""):`<span class="hint">${esc(dicaVoto(vals))}</span>`}</div>`;
+    return `<button type="button" class="${votou&&meu===i?"mine":""}" data-voto="${i}" aria-pressed="${votou&&meu===i}"><span>${esc(o)}</span>${votou&&quem.length?`<em>${esc(quemVotou(quem))}</em>`:""}</button>`}).join("")}${votou?(faltam.length?`<span class="hint">${esc(faltam.length===1?nomeDe(faltam[0])+" ainda não votou.":faltam.length+" amigos ainda não votaram.")}</span>`:""):`<span class="hint">${esc(dicaVoto(vals))}</span>`}</div>`;
 }
 function quemVotou(us){const n=us.map(u=>u===S.uid?"você":nomeDe(u));if(n.length>3)return n.slice(0,2).join(", ")+" e mais "+(n.length-2);return n.length<2?n[0]:n.slice(0,-1).join(", ")+" e "+n[n.length-1]}
 function dicaVoto(vals){if(!S.uid||!S.membro)return "Entre para votar e ver o que seus amigos acham.";const am=amigosL(),ja=vals.map(([u])=>u).filter(u=>u!==S.uid);if(ja.length===1)return nomeDe(ja[0])+" já votou. Vote para ver.";if(ja.length>1)return ja.length+" amigos já votaram. Vote para ver.";if(am.length===1)return "Vote e veja depois o que "+nomeDe(am[0])+" acha.";if(am.length>1)return "Vote e veja depois o que seus amigos acham.";return "Toque numa opção para votar."}
 async function votar(pid,i){uso("enquete");vibrar(8);
   if(precisaConta())return;const atual=meuVoto(pid);const val=atual===i?null:i;
   pend("votos",pid,val);recalcSoc("votos");setTimeout(updatePlayBadge,0);if(val===null)toast("Voto retirado.");updateSocial(pid);if(VIEW==="play")renderPlay();
-  try{await gravarMapa("votos/"+S.uid,"itens",pid,val)}catch(e){toast("Não deu para votar agora.")}
+  try{await gravarMapa("votos/"+S.uid,"itens",pid,val)}catch(e){desfazPend("votos",pid);updateSocial(pid);updatePlayBadge();if(VIEW==="play")renderPlay();toast("Não deu para votar agora.")}
 }
 /* ---------- topo: semana, mudanças, agenda, quiz ---------- */
 function topoHTML(){
@@ -1818,9 +1820,7 @@ function agEstado(a){if(a._d!==hojeSP())return "";const h=String(a.hora||""),m=h
 function agItem(a,comDia){const pid=agPid(a),hr=agHoraTxt(a);const dia=comDia?new Date(a._d+"T12:00:00Z").toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"2-digit",timeZone:"UTC"}).replace(".","").replace(",",""):"";
   const est=comDia?"":agEstado(a);
   const inner=`<span class="hr">${est==="agora"?`<span class="live"><i></i>Agora</span>`:est==="aguarda"?`<span class="live aw">Aguardando</span>`:""}${esc(comDia?dia:(hr||"Hoje"))}${comDia&&hr?`<br>${esc(hr)}`:""}</span><span class="tx">${esc(a.texto)}</span>${pid?`<span class="chev" aria-hidden="true">›</span>`:""}`;
-  const jk=juntosKey(a),jj=Object.entries((S.juntos||{})[jk]||{}).filter(([u,v])=>v&&ehVisivel(u)).map(([u])=>u),eu=jj.includes(S.uid),ou=jj.filter(u=>u!==S.uid);
-  const jtxt=eu?(ou.length===1?"✓ Você e "+nomeDe(ou[0]):ou.length>1?"✓ Você e mais "+ou.length:"Você topou"):ou.length===1?nomeDe(ou[0])+" topou":ou.length>1?nomeDe(ou[0])+" e mais "+(ou.length-1)+" toparam":"Junto?";
-  const jbtn=S.uid&&S.membro&&temAmigos()&&!comDia&&est!=="passou"&&/ x |jogo|partida|semifinal|final|classico|debate|entrevista|sabatina|show|filme|serie|transmiss/.test(" "+norm(a.texto)+" ")?`<button type="button" class="jnt ${eu?"on":""}" data-juntos="${esc(jk)}" aria-pressed="${eu}">${ICON.dupla}${esc(jtxt)}</button>`:"";
+  const jbtn="";
   return `<li class="${est}${jbtn?" temj":""}">${pid?`<button type="button" class="agi" data-goto="${esc(pid)}">${inner}</button>`:`<div class="agi">${inner}</div>`}${jbtn}</li>`}
 function agendaHTML(){
   const ag=FEED.agenda||[];if(!ag.length)return "";const hoje=hojeSP(),H=[],P=[];
@@ -1957,12 +1957,13 @@ function abrirNota(pid){uso("nota");
     try{await gravarMapa(`data/users/${S.uid}/salvos`,"itens",pid,val)}catch(e){toast("Não deu para salvar a nota.")}});
 }
 let HIST=lsObj("radar-hist");
-let histTimer=null;
+let histTimer=null,HIST_SUJO=false;
+async function enviarHist(){clearTimeout(histTimer);if(!HIST_SUJO||!S.db||!S.uid||!S.membro)return;HIST_SUJO=false;try{await S.db.doc(`data/users/${S.uid}/historico`).set({itens:HIST})}catch(e){HIST_SUJO=true}}
 function registrarHistorico(pid){
   const p=pautaById(pid);if(!p)return;HIST[pid]={t:new Date().toISOString(),titulo:p.neutro?.titulo||"",secao:secOf(p),tag:p.tag||"",tema:temaDe(p),imagem:p.imagem||null,link:(p.links||[])[0]||null};
   const ks=Object.keys(HIST);if(ks.length>200)ks.sort((a,b)=>HIST[a].t.localeCompare(HIST[b].t)).slice(0,ks.length-200).forEach(k=>delete HIST[k]);
-  lsSet("radar-hist",HIST);clearTimeout(histTimer);if(!S.db||!S.uid||!S.membro)return;
-  histTimer=setTimeout(async()=>{try{await S.db.doc(`data/users/${S.uid}/historico`).set({itens:HIST})}catch(e){}},2000);
+  lsSet("radar-hist",HIST);HIST_SUJO=true;clearTimeout(histTimer);if(!S.db||!S.uid||!S.membro)return;
+  histTimer=setTimeout(enviarHist,30000);
 }
 function abrirHistorico(){uso("historico");
   const it=Object.entries(HIST).sort((a,b)=>b[1].t.localeCompare(a[1].t));
@@ -2038,7 +2039,10 @@ let AUTO={};
 
 /* ---------- uso dos recursos (para decidir o que manter) ---------- */
 let USO=lsObj("radar-uso"),usoTimer=null;
-function uso(k){USO[k]=(USO[k]||0)+1;lsSet("radar-uso",USO);clearTimeout(usoTimer);if(!S.db||!S.uid||!S.membro)return;usoTimer=setTimeout(async()=>{try{await S.db.doc(`data/users/${S.uid}/uso`).set({contagem:USO,at:Date.now()})}catch(e){}},3000)}
+let USO_SUJO=false;
+function uso(k){USO[k]=(USO[k]||0)+1;lsSet("radar-uso",USO);USO_SUJO=true}
+async function enviarUso(){if(!USO_SUJO||!S.db||!S.uid||!S.membro)return;USO_SUJO=false;try{await S.db.doc(`data/users/${S.uid}/uso`).set({contagem:USO,at:Date.now()})}catch(e){USO_SUJO=true}}
+document.addEventListener("visibilitychange",()=>{if(document.hidden){enviarUso();if(typeof enviarHist==="function")enviarHist()}});
 
 let LOTE={lista:[],pos:0};
 const moreIO=("IntersectionObserver" in window)?new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))carregarMais()},{rootMargin:"600px"}):null;
@@ -2058,10 +2062,10 @@ function subEdicao(){derivaQuiz();renderChgBox();updatePlayBadge();if(VIEW==="pl
 /* rodadas.json e erros-respostas.json: arquivos do site, publicados pelas rodadas */
 let RODT=0,ERRT=0;
 async function carregarRodadas(forcar){if(!forcar&&Date.now()-RODT<60000)return;RODT=Date.now();
-  try{const r=await fetch("rodadas.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)return;const j=await r.json();const nv=j&&typeof j==="object"&&j.dia===hojeSP()&&j.itens&&typeof j.itens==="object"?j:{};
+  try{const r=await fetch("rodadas.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();const nv=j&&typeof j==="object"&&j.dia===hojeSP()&&j.itens&&typeof j.itens==="object"?j:{};
     if(JSON.stringify(nv)!==JSON.stringify(S.rodadas)){S.rodadas=nv;if(VIEW==="me")renderMe();if($("#rodbox"))abrirRodadas(true)}}catch(e){}}
 async function carregarErrosResp(){if(Date.now()-ERRT<30000)return;ERRT=Date.now();
-  try{const r=await fetch("erros-respostas.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)return;const j=await r.json();if(!j||typeof j!=="object"||Array.isArray(j))return;
+  try{const r=await fetch("erros-respostas.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();if(!j||typeof j!=="object"||Array.isArray(j))return;
     if(JSON.stringify(j)!==JSON.stringify(S.errosResp)){S.errosResp=j;if(VIEW==="me")renderMe()}}catch(e){}}
 /* ---------- carga ---------- */
 function sanear(f){if(!f||typeof f!=="object")return null;const arr=x=>Array.isArray(x)?x.filter(y=>y&&typeof y==="object"):[];
@@ -2073,7 +2077,7 @@ async function loadFeed(){
   const cached=lsGet("radar-feed",null);
   if(!cached)document.body.classList.add("semfeed");
   if(cached&&sanear(cached)){FEED=cached;document.body.classList.remove("semfeed");calcularNovidades();renderFeed()}
-  try{const r=await fetch("feed.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const f=await r.json();
+  try{const r=await fetch("feed.json",{cache:"no-cache"});if(!r.ok)throw 0;const f=await r.json();
     const eraOff=OFFLINE;OFFLINE=false;
     if(!cached||JSON.stringify(f)!==JSON.stringify(cached))prepararFeed(f);else if(eraOff)renderPosts();else setTimeout(registrarConhecidas,4000);lsSet("radar-feed",f)}
   catch(e){OFFLINE=true;if(!cached)$("#posts").innerHTML=`<div class="empty"><b>Não consegui carregar as notícias</b>Verifique a conexão. O Prumo tenta de novo sozinho quando você voltar ao app.<button type="button" class="btn" data-retry style="margin-top:12px">Tentar de novo</button></div>`;else renderPosts()}
@@ -2083,9 +2087,19 @@ async function loadFeed(){
    db.doc(path)            -> get(), set(data), update(patch), delete(), onSnapshot(next, err)
    db.collection(nome)     -> get(), add(data), where(campo,"==",valor), onSnapshot(next, err)
    db.rpc(nome, args)      -> chama uma função do banco (entrar, criar_convite, pedir_amizade…)
+   db.marcarLidas(de)      -> marca como lidas, de uma vez, as mensagens recebidas de alguém
    Coleções especiais: "pessoas" (tabela membros), "mensagens", "erros", "amizades".
    As demais são documentos JSON em public.docs (caminho "colecao/id"). update() mescla no
    servidor (null apaga a chave) e cria o documento se ele não existir.
+
+   Economia (v2, pensando em ~100 pessoas):
+   - Cada escuta guarda a sua cópia. Um evento do tempo real já traz a linha (e o Supabase só
+     entrega a quem pode ler), então a escuta aplica a linha sem consultar o banco de novo.
+   - Gravação própria não recarrega nada: o eco do tempo real atualiza; se o eco não vier em
+     alguns segundos, relê só aquele documento.
+   - Releitura periódica é incremental (só o que mudou desde a última marca de tempo).
+   - Releitura completa só ao abrir, quando muda uma amizade, ao voltar depois de muito tempo
+     fora e de hora em hora com o app aberto (pega o que foi apagado, que o tempo real não manda).
 */
 function criarDB(sb, uid, opts) {
   opts = opts || {};
@@ -2094,21 +2108,32 @@ function criarDB(sb, uid, opts) {
   const TAB = { pessoas: "membros", mensagens: "mensagens", erros: "erros", amizades: "amizades" };
   const MSG_CAMPOS = ["de", "para", "at", "texto", "pid", "snap", "resp", "tipo", "lida"];
   const ERRO_CAMPOS = ["pid", "titulo", "texto", "edicao", "at"];
+  const MSG_MAX = opts.msgMax || 300;                     // mensagens mais recentes por escuta
+  const POLL = opts.poll || 5 * 60000;                    // releitura incremental com o app aberto
+  const CHEIO_MAX = opts.cheio || 60 * 60000;             // releitura completa com o app aberto
+  const FORA_LONGO = opts.foraLongo || 15 * 60000;        // fora do app por mais que isso: releitura completa
+  const ECO = opts.eco || 4000;                           // espera pelo eco da própria gravação
   const pick = (o, ks) => { const r = {}; ks.forEach(k => { if (o && o[k] !== undefined) r[k] = o[k] }); return r };
   const erro = (e) => { const x = new Error((e && e.message) || "erro"); x.code = (e && (e.code === "42501" || /row-level security|permission/i.test(e.message || ""))) ? "permission_denied" : (e && e.code) || "unavailable"; return x };
   const chk = r => { if (r && r.error) throw erro(r.error); return r ? r.data : null };
   const snapDoc = (id, data) => ({ id, exists: data != null, data: () => data == null ? undefined : clone(data) });
   const snapCol = docs => ({ docs: docs.map(([id, d]) => snapDoc(id, d)), size: docs.length, empty: !docs.length, metadata: { fromCache: false } });
 
-  const linhaMsg = r => { const d = pick(r, MSG_CAMPOS); return [r.id, d] };
+  const linhaMsg = r => [r.id, pick(r, MSG_CAMPOS)];
   const linhaPessoa = r => [r.uid, { nome: r.nome, at: Date.parse(r.criado_em) || 0, convidado_por: r.convidado_por || null }];
+  const linhaAmizade = r => [r.de + "_" + r.para, { de: r.de, para: r.para, status: r.status, criado_em: r.criado_em }];
+
+  /* marca de tempo do servidor: o que já vimos de public.docs */
+  let marca = 0;
+  const viu = r => { const t = r && Date.parse(r.atualizado_em); if (t && t > marca) marca = t };
 
   async function lerDoc(path) {
     const i = path.indexOf("/"), c = path.slice(0, i), id = path.slice(i + 1);
     if (c === "pessoas") { const rows = chk(await sb.from("membros").select("uid,nome,criado_em,convidado_por").eq("uid", id)); return rows && rows[0] ? linhaPessoa(rows[0])[1] : null }
     if (c === "mensagens") { const rows = chk(await sb.from("mensagens").select("*").eq("id", id)); return rows && rows[0] ? linhaMsg(rows[0])[1] : null }
     if (c === "erros") { const rows = chk(await sb.from("erros").select("*").eq("id", id)); return rows && rows[0] ? rows[0] : null }
-    const rows = chk(await sb.from("docs").select("data").eq("path", path));
+    const rows = chk(await sb.from("docs").select("path,col,data,atualizado_em").eq("path", path));
+    if (rows && rows[0]) viu(rows[0]);
     return rows && rows[0] ? rows[0].data : null;
   }
   async function lerCol(c, filtros) {
@@ -2117,66 +2142,170 @@ function criarDB(sb, uid, opts) {
     else if (c === "mensagens") q = sb.from("mensagens").select("*");
     else if (c === "erros") q = sb.from("erros").select("*");
     else if (c === "amizades") q = sb.from("amizades").select("*");
-    else q = sb.from("docs").select("path,data").eq("col", c);
+    else q = sb.from("docs").select("path,data,atualizado_em").eq("col", c);
     (filtros || []).forEach(([f, v]) => { q = q.eq(f, v) });
+    if (c === "mensagens") q = q.order("at", { ascending: false }).limit(MSG_MAX);
+    if (c === "erros") q = q.order("at", { ascending: false }).limit(50);
     const rows = chk(await q) || [];
-    if (c === "pessoas") return rows.map(linhaPessoa);
+    const ord = a => a.sort((x, y) => x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0);
+    if (c === "pessoas") return ord(rows.map(linhaPessoa));
     if (c === "mensagens") return rows.map(linhaMsg);
     if (c === "erros") return rows.map(r => [r.id, r]);
-    if (c === "amizades") return rows.map(r => [r.de + "_" + r.para, { de: r.de, para: r.para, status: r.status, criado_em: r.criado_em }]);
-    return rows.map(r => [r.path.slice(c.length + 1), r.data]);
+    if (c === "amizades") return ord(rows.map(linhaAmizade));
+    rows.forEach(viu);
+    return ord(rows.map(r => [r.path.slice(c.length + 1), r.data]));
+  }
+
+  /* ---------- escutas ----------
+     Cada escuta tem: cheio() (lê tudo de novo), aplica(tabela, linha) -> true se resolveu sozinha. */
+  const filtroOk = (filtros, row) => (filtros || []).every(([f, v]) => row && row[f] === v);
+  function aplicarLinha(l, tabela, row) {
+    if (l.tipo === "doc") {
+      if (tabela !== "docs" || !row || row.path !== l.path) return true;
+      if (!("data" in row)) return false;                       // linha grande demais veio sem os dados
+      viu(row); l.poe(row.apagado ? null : row.data); return true;
+    }
+    const c = l.c;
+    if (tabela === "amizades") return c === "amizades" ? false : true;   // tratado em mudouAmizade
+    if (c === "pessoas") { if (tabela !== "membros") return true; if (!row || !row.uid) return false; const [id, d] = linhaPessoa(row); l.poeItem(id, row.apagado ? null : d); return true }
+    if (c === "mensagens") {
+      if (tabela !== "mensagens") return true; if (!row || !row.id) return false;
+      if (!filtroOk(l.filtros, row)) return true;
+      const [id, d] = linhaMsg(row); l.poeItem(id, row.apagado ? null : d); return true;
+    }
+    if (TAB[c]) return true;
+    if (tabela !== "docs") return true;
+    if (!row || !row.path) return false;
+    if (row.col !== c && !row.path.startsWith(c + "/")) return true;
+    if (!("data" in row)) return false;
+    viu(row); l.poeItem(row.path.slice(c.length + 1), row.apagado ? null : row.data); return true;
+  }
+  function avisaLinha(tabela, row) {
+    LIS.forEach(l => { if (!aplicarLinha(l, tabela, row)) l.agenda() });
+  }
+
+  function escuta(l, ler, monta, next, err) {
+    let parado = false, t = 0, rodando = false, denovo = false, primeira = true, ultLeitura = null, ultDoc = null, sujo = false;
+    l.estado = l.tipo === "doc" ? undefined : new Map();
+    const entrega = () => {
+      if (parado) return;
+      const v = l.tipo === "doc" ? l.estado : [...l.estado.entries()];
+      try { next(monta(v)) } catch (e) { console.error(e) }
+    };
+    let entT = 0; const entregaLogo = () => { clearTimeout(entT); entT = setTimeout(entrega, 40) };
+    l.poe = (d) => { const k = JSON.stringify(d == null ? null : d); if (k === ultDoc) return; ultDoc = k; l.estado = d == null ? null : d; entregaLogo() };
+    l.poeItem = (id, d) => {
+      const ant = l.estado.get(id);
+      if (d == null) { if (!l.estado.has(id)) return; l.estado.delete(id) }
+      else { if (ant !== undefined && JSON.stringify(ant) === JSON.stringify(d)) return; l.estado.set(id, d) }
+      if (l.c === "mensagens" && l.estado.size > MSG_MAX + 50) {   // mantém só as mais recentes
+        const ord = [...l.estado.entries()].sort((a, b) => (b[1].at || 0) - (a[1].at || 0)); l.estado = new Map(ord.slice(0, MSG_MAX));
+      }
+      sujo = true; entregaLogo();
+    };
+    const roda = async () => {
+      if (parado) return; if (rodando) { denovo = true; return } rodando = true;
+      try {
+        const v = await ler();
+        if (!parado) {
+          const k = JSON.stringify(v == null ? null : v);
+          if (l.tipo === "doc") { if (k !== ultDoc || primeira) { ultDoc = k; l.estado = v == null ? null : v; entrega() } }
+          else {
+            const mudou = k !== ultLeitura;
+            if (mudou || sujo || primeira) { l.estado = new Map(v); sujo = false; entrega(); if (mudou && !primeira && l.c === "amizades") mudouAmizade() }
+            ultLeitura = k;
+          }
+          primeira = false;
+        }
+      }
+      catch (e) { if (!parado && err) try { err(erro(e)) } catch (_) { } }
+      rodando = false; if (denovo) { denovo = false; roda() }
+    };
+    l.agenda = () => { clearTimeout(t); t = setTimeout(roda, 150) };
+    l.parar = () => { parado = true; clearTimeout(t); clearTimeout(entT) };
+    LIS.add(l); roda();
+    return () => { l.parar(); LIS.delete(l) };
+  }
+
+  /* ---------- releituras ---------- */
+  let ultCheio = Date.now(), ultDelta = 0, deltaRodando = false;
+  function cheioTodos() { ultCheio = Date.now(); LIS.forEach(l => l.agenda()) }
+  let amzT = 0;
+  function mudouAmizade() { clearTimeout(amzT); amzT = setTimeout(() => LIS.forEach(l => { if (!(l.tipo === "col" && l.c === "amizades")) l.agenda() }), 300) }
+  function checaAmizade() { const a = [...LIS].filter(l => l.tipo === "col" && l.c === "amizades"); if (a.length) a.forEach(l => l.agenda()); else mudouAmizade() }
+  async function delta() {
+    if (deltaRodando || fechado) return; deltaRodando = true; ultDelta = Date.now();
+    try {
+      const temDocs = [...LIS].some(l => l.tipo === "doc" || !TAB[l.c]);
+      if (temDocs) {
+        const desde = new Date((marca || Date.now() - 10 * 60000) - 5000).toISOString();
+        const cols = [...new Set([...LIS].map(l => l.tipo === "doc" ? l.c : l.c).filter(c => !TAB[c]))];
+        const rows = chk(await sb.from("docs").select("path,col,data,atualizado_em").in("col", cols).gt("atualizado_em", desde).limit(500)) || [];
+        if (rows.length >= 500) cheioTodos(); else rows.forEach(r => avisaLinha("docs", r));
+      }
+      // amizades: tabela pequena; se mudou, a escuta dela dispara a releitura do resto
+      checaAmizade();
+      // mensagens novas (só as recentes; as marcações de lida chegam pelo tempo real)
+      if ([...LIS].some(l => l.c === "mensagens")) {
+        const rows = chk(await sb.from("mensagens").select("*").gt("at", Date.now() - 6 * 3600000).order("at", { ascending: false }).limit(100)) || [];
+        rows.forEach(r => avisaLinha("mensagens", r));
+      }
+    } catch (e) { }
+    deltaRodando = false;
+  }
+  function atualizar(motivo) {
+    if (fechado) return;
+    if (Date.now() - ultCheio > CHEIO_MAX) return cheioTodos();
+    if (Date.now() - ultDelta < 15000 && motivo !== "forcar") return;
+    delta();
   }
 
   /* ---------- tempo real ---------- */
-  let canal = null, tent = 0, reT = 0, caiu = false, fechado = false;
-  function casa(l, tabela, path) {
-    if (tabela === "amizades") return true; // amizade nova muda o que cada um pode ver
-    if (l.c === "pessoas") return tabela === "membros";
-    if (l.c === "mensagens") return tabela === "mensagens";
-    if (l.c === "amizades") return false;
-    if (tabela !== "docs") return false;
-    if (!path) return true;
-    return l.path ? l.path === path : path.startsWith(l.c + "/");
-  }
-  function avisa(tabela, path) { LIS.forEach(l => { if (casa(l, tabela, path)) l.agenda() }) }
+  let canal = null, tent = 0, reT = 0, caiu = false, fechado = false, ligado = false;
+  const ecos = {};   // caminho -> hora do último evento recebido
   function liga() {
     if (!sb.channel || fechado) return;
     try { if (canal) sb.removeChannel(canal) } catch (e) { }
     const ch = sb.channel("prumo-" + Math.random().toString(36).slice(2, 8));
     ["docs", "mensagens", "membros", "amizades"].forEach(t => ch.on("postgres_changes", { event: "*", schema: "public", table: t }, p => {
-      const path = (p && ((p.new && p.new.path) || (p.old && p.old.path))) || null; avisa(t, path)
+      if (fechado) return;
+      if (t === "amizades") return checaAmizade();
+      const row = p && (p.new && Object.keys(p.new).length ? p.new : null);
+      if (row) { const k = row.path || row.id || row.uid; if (k) ecos[k] = Date.now() }
+      avisaLinha(t, row);
     }));
     canal = ch;
     ch.subscribe(st => {
       if (ch !== canal) return;
-      if (st === "SUBSCRIBED") { tent = 0; if (caiu) { caiu = false; LIS.forEach(l => l.agenda()) } }
+      if (st === "SUBSCRIBED") { ligado = true; tent = 0; if (caiu) { caiu = false; atualizar("religou") } }
       else if (st === "CHANNEL_ERROR" || st === "TIMED_OUT" || st === "CLOSED") {
-        caiu = true; clearTimeout(reT); reT = setTimeout(liga, Math.min(60000, 2000 * 2 ** Math.min(tent++, 5)));
+        ligado = false; caiu = true; clearTimeout(reT); reT = setTimeout(liga, Math.min(60000, 2000 * 2 ** Math.min(tent++, 5)));
       }
     });
   }
   liga();
-  let ultTudo = 0;
-  function recarregaTudo(min) { if (Date.now() - ultTudo < (min || 0)) return; ultTudo = Date.now(); LIS.forEach(l => l.agenda()) }
-  const aoVoltar = () => { if (!document.hidden) recarregaTudo(15000) };
+  let saiuEm = 0;
+  const aoVoltar = () => {
+    if (document.hidden) { saiuEm = Date.now(); return }
+    const fora = saiuEm ? Date.now() - saiuEm : 0; saiuEm = 0;
+    if (fora > FORA_LONGO) cheioTodos(); else if (fora > 20000) atualizar();
+  };
   if (typeof document !== "undefined") document.addEventListener("visibilitychange", aoVoltar);
-  const poll = setInterval(() => { if (typeof document === "undefined" || !document.hidden) recarregaTudo(60000) }, opts.poll || 90000);
+  const poll = setInterval(() => { if (typeof document === "undefined" || !document.hidden) atualizar() }, POLL);
 
-  // ler() devolve os dados crus (sem funções), para a comparação pegar mudança de conteúdo;
-  // monta() transforma em snapshot só na entrega.
-  function ouvir(l, ler, monta, next, err) {
-    let parado = false, t = 0, ult = null, rodando = false, denovo = false;
-    const roda = async () => {
-      if (parado) return; if (rodando) { denovo = true; return } rodando = true;
-      try { const v = await ler(); const k = JSON.stringify(v === undefined ? null : v); if (!parado && k !== ult) { ult = k; try { next(monta(v)) } catch (e) { console.error(e) } } }
-      catch (e) { if (!parado && err) try { err(erro(e)) } catch (_) { } }
-      rodando = false; if (denovo) { denovo = false; roda() }
-    };
-    l.agenda = () => { clearTimeout(t); t = setTimeout(roda, 120) };
-    l.parar = () => { parado = true; clearTimeout(t) };
-    LIS.add(l); roda();
-    return () => { parado = true; clearTimeout(t); LIS.delete(l) };
+  /* depois de gravar: espera o eco; se não vier, relê só aquilo */
+  function esperaEco(chave, reler) {
+    const t0 = Date.now();
+    setTimeout(async () => {
+      if (fechado || (ecos[chave] || 0) >= t0) return;
+      try { await reler() } catch (e) { }
+    }, ligado ? ECO : 300);
   }
+  const relerDoc = path => async () => {
+    const rows = chk(await sb.from("docs").select("path,col,data,atualizado_em").eq("path", path)) || [];
+    if (rows[0]) avisaLinha("docs", rows[0]); else avisaLinha("docs", { path, col: path.split("/")[0], data: null, apagado: true });
+  };
+  const relerMsg = id => async () => { const rows = chk(await sb.from("mensagens").select("*").eq("id", id)) || []; if (rows[0]) avisaLinha("mensagens", rows[0]) };
 
   /* ---------- referências ---------- */
   function doc(path) {
@@ -2185,22 +2314,31 @@ function criarDB(sb, uid, opts) {
       id, path,
       async get() { return snapDoc(id, await lerDoc(path)) },
       async set(data) {
-        if (c === "pessoas") { if (id !== uid) throw erro({ code: "42501" }); chk(await sb.from("membros").update({ nome: String(data && data.nome || "").slice(0, 40) }).eq("uid", uid)); avisa("membros"); return }
+        if (c === "pessoas") {
+          if (id !== uid) throw erro({ code: "42501" });
+          const nome = String(data && data.nome || "").slice(0, 40);
+          chk(await sb.from("membros").update({ nome }).eq("uid", uid));
+          esperaEco(uid, async () => { const rows = chk(await sb.from("membros").select("uid,nome,criado_em,convidado_por").eq("uid", uid)) || []; if (rows[0]) avisaLinha("membros", rows[0]) });
+          return;
+        }
         if (TAB[c]) throw erro({ message: "set não suportado em " + c });
-        chk(await sb.rpc("doc_gravar", { p_path: path, p_data: clone(data) || {} })); avisa("docs", path);
+        const corpo = clone(data) || {};
+        chk(await sb.rpc("doc_gravar", { p_path: path, p_data: corpo }));
+        avisaLinha("docs", { path, col: c, data: corpo });   // já sabemos como ficou
       },
       async update(patch) {
-        if (c === "mensagens") { chk(await sb.from("mensagens").update(pick(patch, ["lida"])).eq("id", id)); avisa("mensagens"); return }
+        if (c === "mensagens") { const p = pick(patch, ["lida"]); chk(await sb.from("mensagens").update(p).eq("id", id)); LIS.forEach(l => { if (l.c === "mensagens" && l.estado && l.estado.has(id)) l.poeItem(id, { ...l.estado.get(id), ...p }) }); return }
         if (c === "pessoas") return this.set(patch);
         if (TAB[c]) throw erro({ message: "update não suportado em " + c });
-        chk(await sb.rpc("doc_mesclar", { p_path: path, p_patch: clone(patch) || {} })); avisa("docs", path);
+        chk(await sb.rpc("doc_mesclar", { p_path: path, p_patch: clone(patch) || {} }));
+        esperaEco(path, relerDoc(path));
       },
       async delete() {
-        if (c === "mensagens") { chk(await sb.from("mensagens").delete().eq("id", id)); avisa("mensagens"); return }
+        if (c === "mensagens") { chk(await sb.from("mensagens").delete().eq("id", id)); avisaLinha("mensagens", { id, de: uid, apagado: true }); return }
         if (TAB[c]) throw erro({ message: "delete não suportado em " + c });
-        chk(await sb.from("docs").delete().eq("path", path)); avisa("docs", path);
+        chk(await sb.from("docs").delete().eq("path", path)); avisaLinha("docs", { path, col: c, data: null, apagado: true });
       },
-      onSnapshot(next, err) { return ouvir({ c, path }, () => lerDoc(path), d => snapDoc(id, d), next, err) }
+      onSnapshot(next, err) { const l = { tipo: "doc", c, path }; return escuta(l, () => lerDoc(path), d => snapDoc(id, d), next, err) }
     };
   }
   function col(c, filtros) {
@@ -2210,20 +2348,33 @@ function criarDB(sb, uid, opts) {
       doc(id) { return doc(c + "/" + id) },
       async get() { return snapCol(await lerCol(c, filtros)) },
       async add(data) {
-        if (c === "mensagens") { const r = chk(await sb.from("mensagens").insert(pick(data, MSG_CAMPOS)).select("id")); avisa("mensagens"); return { id: r && r[0] && r[0].id } }
-        if (c === "erros") { const r = chk(await sb.from("erros").insert(pick(data, ERRO_CAMPOS)).select("id")); return { id: r && r[0] && r[0].id } }
+        if (c === "mensagens") {
+          const corpo = pick(data, MSG_CAMPOS);
+          const r = chk(await sb.from("mensagens").insert(corpo).select("id")); const nid = r && r[0] && r[0].id;
+          if (nid) { avisaLinha("mensagens", { id: nid, ...corpo }); esperaEco(nid, relerMsg(nid)) }
+          return { id: nid };
+        }
+        if (c === "erros") {
+          const r = chk(await sb.from("erros").insert(pick(data, ERRO_CAMPOS)).select("id"));
+          LIS.forEach(l => { if (l.c === "erros") l.agenda() });
+          return { id: r && r[0] && r[0].id };
+        }
         throw erro({ message: "add não suportado em " + c });
       },
-      onSnapshot(next, err) { return ouvir({ c, path: null }, () => lerCol(c, filtros), snapCol, next, err) }
+      onSnapshot(next, err) { const l = { tipo: "col", c, filtros }; return escuta(l, () => lerCol(c, filtros), snapCol, next, err) }
     };
   }
-  async function rpc(nome, args) { const r = chk(await sb.rpc(nome, args || {})); if (/amizade|entrar/.test(nome)) avisa("amizades"); return r }
+  async function rpc(nome, args) { const r = chk(await sb.rpc(nome, args || {})); if (/amizade|entrar/.test(nome)) checaAmizade(); return r }
+  async function marcarLidas(de) {
+    chk(await sb.from("mensagens").update({ lida: true }).eq("para", uid).eq("de", de).eq("lida", false));
+    LIS.forEach(l => { if (l.c === "mensagens" && l.estado) [...l.estado.entries()].forEach(([id, m]) => { if (m.para === uid && m.de === de && !m.lida) l.poeItem(id, { ...m, lida: true }) }) });
+  }
   function fechar() {
-    fechado = true; clearInterval(poll); clearTimeout(reT); LIS.forEach(l => l.parar && l.parar()); LIS.clear();
+    fechado = true; clearInterval(poll); clearTimeout(reT); clearTimeout(amzT); LIS.forEach(l => l.parar && l.parar()); LIS.clear();
     if (typeof document !== "undefined") document.removeEventListener("visibilitychange", aoVoltar);
     const c = canal; canal = null; try { if (c) sb.removeChannel(c) } catch (e) { }
   }
-  return { doc, collection: col, rpc, fechar, recarregar: () => recarregaTudo(0) };
+  return { doc, collection: col, rpc, marcarLidas, fechar, recarregar: () => cheioTodos(), atualizar: () => atualizar("forcar") };
 }
 
 const SB_URL="https://kkzcljusiotoklldaupg.supabase.co",SB_KEY="sb_publishable_s1mSA4gcb2qs6kVRZYQZ-g_BsvwvdIA";
@@ -2234,8 +2385,8 @@ function sbCliente(){if(SB)return SB;const url=/^https:\/\/\S+$/.test(SB_URL)?SB
   if(!url||!key||typeof criarDB!=="function"||!window.supabase||typeof supabase.createClient!=="function")return null;
   try{SB=supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:"prumo-auth"}})}catch(e){SB=null}return SB}
 function pararSocial(){try{S.db&&S.db.fechar()}catch(e){}Object.keys(UNS).forEach(k=>delete UNS[k]);
-  clearTimeout(prefTimer);clearTimeout(leituraTimer);leituraFila={};clearTimeout(histTimer);clearTimeout(usoTimer);
-  [PEND,CPEND,FILA].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));S._reCmt=null;S._reAmg=null;THREAD=null;QUIZ_LOCAL=null;
+  clearTimeout(prefTimer);clearTimeout(leituraTimer);leituraFila={};clearTimeout(histTimer);clearTimeout(usoTimer);HIST_SUJO=false;USO_SUJO=false;
+  [PEND,CPEND,FILA].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));clearTimeout(PODA_T);PODA_T=0;S._reCmt=null;S._reAmg=null;THREAD=null;QUIZ_LOCAL=null;
   Object.assign(S,{db:null,user:null,uid:null,email:"",membro:false,membros:{},amigos:new Set(),amigosOk:false,pedidosIn:[],pedidosOut:[],raw:{curtidas:{},votos:{},juntos:{},listas:{}},soc:{curtidas:{},votos:{},juntos:{}},msgsIn:[],msgsOut:[],salvos:{},leituras:{},cmts:{},_cmtDocs:[],quizDocs:{},quiz:{},quizDias:{},juntos:{},listas:{},lista:{},erros:[]});
   renderSaved._ok=false;if(FEED)derivaQuiz()}
 async function trocarSessao(user,forcar){
@@ -2252,6 +2403,17 @@ async function trocarSessao(user,forcar){
   const donoNovo=dono!==uid;try{localStorage.setItem("prumo-dono",uid)}catch(e){}
   iniciarSocial(uid,donoNovo);rerenderAll();
 }
+/* poda: uma vez por sessão, apaga do banco o que já não aparece em lugar nenhum */
+let PODA_T=0;
+function podarDepois(){if(S._podou||PODA_T)return;PODA_T=setTimeout(podar,20000)}
+async function podar(){PODA_T=0;if(!S.db||!S.uid||!S.membro||S._podou)return;S._podou=1;const agora=Date.now(),dia=864e5;
+  const velhos=(m,dias,quando)=>Object.entries(m||{}).filter(([,v])=>{const t=quando(v);return t&&agora-t>dias*dia}).map(([k])=>k);
+  const tempo=v=>typeof v==="number"?v:(v&&typeof v==="object"&&+v.at)||0;
+  const tarefas=[["curtidas",velhos((S.raw.curtidas||{})[S.uid],45,tempo)],["leituras",velhos((S.leituras||{})[S.uid],10,tempo)]];
+  const meusC=(S._cmtDocs.find(([u])=>u===S.uid)||[])[1];tarefas.push(["comentarios",velhos(meusC&&meusC.itens,60,tempo)]);
+  const vt=(S.raw.votos||{})[S.uid]||{};if(Object.keys(vt).length>150&&FEED){const vivos=new Set((FEED.pautas||[]).map(p=>p.id));tarefas.push(["votos",Object.keys(vt).filter(k=>!vivos.has(k))])}
+  for(const [col,ks] of tarefas){if(!ks.length)continue;const patch={};ks.slice(0,400).forEach(k=>patch[k]=null);try{await gravarMapa(col+"/"+S.uid,"itens",null,null,patch)}catch(e){}}
+  try{if(S.db)await S.db.doc("juntos/"+S.uid).delete()}catch(e){}}
 function iniciarSocial(uid,donoNovo){
   const db=S.db,vale=()=>S.db===db;const mk=q=>q.docs.filter(d=>d.exists).map(d=>({id:d.id,...d.data()}));
   const soc=()=>{refiltrar();if(FEED)(FEED.pautas||[]).forEach(p=>updateSocial(p.id));S._reCmt&&S._reCmt();if(VIEW==="me")renderMe();if(VIEW==="play")renderPlay();updatePlayBadge()};
@@ -2259,9 +2421,9 @@ function iniciarSocial(uid,donoNovo){
   db.collection("pessoas").onSnapshot(q=>{if(!vale())return;S.membros={};q.docs.forEach(d=>{if(d.exists)S.membros[d.id]=d.data()});rerenderAll()},()=>{});
   db.collection("amizades").onSnapshot(q=>{if(!vale())return;const am=new Set(),pin=[],pout=[];q.docs.forEach(d=>{const x=d.data();if(!x)return;const o=x.de===uid?x.para:x.de;if(x.status==="aceita")am.add(o);else if(x.para===uid)pin.push(x.de);else pout.push(x.para)});
     S.amigos=am;S.pedidosIn=pin;S.pedidosOut=pout;S.amigosOk=true;derivaQuiz();if(FEED&&FILTRO[0]==="_"&&!am.size)renderFeed();rerenderAll()},()=>{});
-  ["curtidas","votos","juntos"].forEach(col=>db.collection(col).onSnapshot(q=>{if(!vale())return;const r={};q.docs.forEach(d=>{if(d.exists)r[d.id]=(d.data()||{}).itens||{}});S.raw[col]=r;recalcSoc(col);if(col==="juntos"){derivaJuntos();renderChgBox()}else soc()},()=>{}));
-  db.collection("leituras").onSnapshot(q=>{if(!vale())return;const r={};q.docs.forEach(d=>{if(d.exists)r[d.id]=(d.data()||{}).itens||{}});S.leituras=r;soc()},()=>{});
-  db.collection("comentarios").onSnapshot(q=>{if(!vale())return;S._cmtDocs=q.docs.filter(d=>d.exists).map(d=>[d.id,d.data()]);S.cmts=montarCmts(S._cmtDocs);soc()},()=>{});
+  ["curtidas","votos"].forEach(col=>db.collection(col).onSnapshot(q=>{if(!vale())return;const r={};q.docs.forEach(d=>{if(d.exists)r[d.id]=(d.data()||{}).itens||{}});S.raw[col]=r;recalcSoc(col);soc();podarDepois()},()=>{}));
+  db.collection("leituras").onSnapshot(q=>{if(!vale())return;const r={};q.docs.forEach(d=>{if(d.exists)r[d.id]=(d.data()||{}).itens||{}});S.leituras=r;soc();podarDepois()},()=>{});
+  db.collection("comentarios").onSnapshot(q=>{if(!vale())return;S._cmtDocs=q.docs.filter(d=>d.exists).map(d=>[d.id,d.data()]);S.cmts=montarCmts(S._cmtDocs);soc();podarDepois()},()=>{});
   db.collection("quiz").onSnapshot(q=>{if(!vale())return;S.quizDocs={};q.docs.forEach(d=>{if(d.exists)S.quizDocs[d.id]=d.data()||{}});derivaQuiz();renderChgBox();updatePlayBadge();if(VIEW==="play")renderPlay()},()=>{});
   db.collection("lista").onSnapshot(q=>{if(!vale())return;const r={};q.docs.forEach(d=>{if(!d.exists)return;const [a,b]=d.id.split("_");r[a===uid?b:a]=(d.data()||{}).itens||{}});S.raw.listas=r;montarListas();if(VIEW==="saved")renderSaved()},()=>{});
   db.collection("mensagens").where("para","==",uid).onSnapshot(q=>{if(!vale())return;S.msgsIn=mk(q);updateBadge();if(VIEW==="msgs")renderMsgs();atualizarChatPosts()},()=>{});
@@ -2274,18 +2436,22 @@ function iniciarSocial(uid,donoNovo){
 }
 async function initSocial(){
   try{if(sessionStorage.getItem("prumo-excluida")){sessionStorage.removeItem("prumo-excluida");toast("Sua conta foi excluída.")}}catch(e){}
+  if(!window.supabase){const el=document.getElementById("sbjs");if(el)await new Promise(r=>{el.addEventListener("load",r);el.addEventListener("error",r);setTimeout(r,20000)})}
   const sb=sbCliente();if(!sb){SESS_UID=null;INIT_FIM=true;avisoConta();if(CONVITE_URL)abrirLogin("criar",CONVITE_URL);return}
   try{sb.auth.onAuthStateChange((ev,sess)=>{const u=sess&&sess.user||null;setTimeout(()=>trocarSessao(u),0)})}catch(e){}
   let s=null;try{s=(await sb.auth.getSession()).data.session}catch(e){}
   await trocarSessao(s&&s.user||null);
 }
 loadFeed();setTimeout(initSocial,0);
+if("serviceWorker" in navigator&&location.protocol==="https:")addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})});
 /* ================= v12: revisão geral ================= */
 const vibrar=(ms=10)=>{try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}};
 /* 1. atualização com o app aberto */
 function diffFeed(f){if(!FEED)return 0;const cur=new Map((FEED.pautas||[]).map(p=>[p.id,versaoP(p)]));return (f.pautas||[]).filter(p=>cur.get(p.id)!==versaoP(p)).length}
+let CHK_T=0;
 async function checarFeed(forcar){
-  try{const r=await fetch("feed.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const f=await r.json();if(OFFLINE){OFFLINE=false;$(".late.offl")?.remove();if(FEED&&JSON.stringify(f)===JSON.stringify(FEED)){if(forcar)toast("Conexão de volta.");return}}
+  if(!forcar&&Date.now()-CHK_T<60000)return;CHK_T=Date.now();
+  try{const r=await fetch("feed.json",{cache:"no-cache"});if(!r.ok)throw 0;const f=await r.json();if(OFFLINE){OFFLINE=false;$(".late.offl")?.remove();if(FEED&&JSON.stringify(f)===JSON.stringify(FEED)){if(forcar)toast("Conexão de volta.");return}}
     if(FEED&&JSON.stringify(f)===JSON.stringify(FEED)){if(forcar)toast("Nada novo desde as "+hhmm(FEED.atualizado_em));return}
     lsSet("radar-feed",f);
     const quieto=VIEW==="feed"&&scrollY<60&&!$("#layer").innerHTML;
@@ -2383,10 +2549,6 @@ let RESP=null;
 function responderMsg(mid){const m=allMsgs().find(x=>x.id===mid);if(!m)return;RESP={pid:m.pid,snap:m.snap?{id:m.pid,titulo:m.snap.titulo||"",secao:m.snap.secao||""}:{id:m.pid}};$("#respbar")?.remove();const f=$("#mform");if(!f)return;f.insertAdjacentHTML("beforebegin",`<div id="respbar" class="respbar"><span>Respondendo a: <b>${esc(m.snap?.titulo||"notícia")}</b></span><button type="button" data-resp-x aria-label="Cancelar resposta">✕</button></div>`);$("#mtext")?.focus()}
 function abrirConversa(uid){THREAD=uid;if(VIEW!=="msgs")go("msgs");else renderMsgs();if(amigosL().length>1&&pushH())TST++}
 
-async function cutucar(pid){const p=pautaById(pid);if(!p||precisaConta())return;const votos=votosDe(pid);const alvo=amigosL().filter(u=>votos[u]==null);if(!alvo.length)return;vibrar(8);
-  const ult=lsObj("prumo-cutuc");Object.keys(ult).forEach(k=>{if(Date.now()-ult[k]>7*864e5)delete ult[k]});if(ult[pid]&&Date.now()-ult[pid]<3600e3){toast("Você já cutucou nessa enquete há pouco.");return}ult[pid]=Date.now();lsSet("prumo-cutuc",ult);
-  let ok=0;for(const u of alvo){try{await S.db.collection("mensagens").add({de:S.uid,para:u,at:Date.now(),texto:"Vota nessa enquete: "+(p.enquete?.pergunta||""),pid,snap:snapLeve(pid),lida:false,tipo:"cutucada"});ok++}catch(e){}}
-  if(ok)toast("Cutucada enviada para "+(alvo.length===1?nomeDe(alvo[0]):ok+" amigos"));else{delete ult[pid];lsSet("prumo-cutuc",ult);toast("Não deu para cutucar agora.")}}
 function listaPath(u){return "lista/"+[S.uid,u].sort().join("_")}
 async function alternarLista(pid,com){if(precisaConta())return;if(!com){const am=amigosL();if(am.length===1)com=am[0];else{abrirEscolhaLista(pid);return}}
   const on=!(S.listas[com]||{})[pid];const sn=snapById(pid);const val=on?{uid:S.uid,at:Date.now(),snap:sn?{id:pid,titulo:sn.titulo||"",secao:sn.secao||"",imagem:sn.imagem||null}:{id:pid}}:null;
@@ -2403,10 +2565,6 @@ function sequenciasHTML(){const Q=S.quizDias||{};const ids=Object.keys(Q).filter
   const sem=u=>{let a=0,t=0;for(let i=0;i<7;i++){const x=Q[u][somaDias(dataSP(),-i)];if(x){a+=+x.acertos||0;t+=+x.total||0}}return t?`${a}/${t} na semana`:""};
   return `<div class="streak">${ids.map(u=>{const n=sequencia(Q[u]||{});return `<span>${avatar(u)}<b>${esc(u===S.uid?"Você":nomeDe(u))}</b>${n?` · ${n} ${n===1?"dia":"dias"} seguidos`:""}${sem(u)?` · ${sem(u)}`:""}</span>`}).join("")}</div>`}
 function juntosKey(a){return safeId((a._d||"")+"-"+norm(a.texto).replace(/[^a-z0-9]+/g,"-").slice(0,60))}
-async function marcarJuntos(k){if(precisaConta())return;vibrar(8);const cur=((S.juntos||{})[k]||{})[S.uid];const val=cur?null:Date.now();
-  pend("juntos",k,val);recalcSoc("juntos");derivaJuntos();renderChgBox();
-  const ou=Object.entries((S.juntos||{})[k]||{}).filter(([u,v])=>v&&u!==S.uid&&ehVisivel(u)).map(([u])=>u);if(val&&ou.length)toast(ou.length===1?"Combinado: você e "+nomeDe(ou[0])+" vão ver.":"Combinado: você e mais "+ou.length+" vão ver.");
-  try{await gravarMapa("juntos/"+S.uid,"itens",k,val)}catch(e){toast("Não deu para marcar agora.")}}
 /* 25. sugestões de busca */
 function sugestoes(){if(!FEED)return [];return [...new Set([...Object.keys(FEED.explicadores||{}),...ordenadas(FEED.pautas||[]).map(p=>p.tag).filter(Boolean)])].slice(0,10)}
 /* 26. fim do feed */
@@ -2469,7 +2627,7 @@ function abrirFaltaConvite(o){o=o||{};if(!S.uid)return abrirLogin();
     <p class="erro-t" id="ferro" role="alert"${o.erro?"":" hidden"}>${esc(o.erro||"")}</p><button class="btn" type="submit">Entrar no Prumo</button><button type="button" class="link" data-sair>Sair desta conta</button></form>`);
   $("#fform").addEventListener("submit",async e=>{e.preventDefault();const cod=$("#fcod").value.trim().toUpperCase(),nome=$("#fnome").value.trim(),b=e.target.querySelector("[type=submit]");if(!nome)return mostraErro("#ferro","Escreva seu nome.");
     b.disabled=true;try{await usarConvite(cod,nome);closeLayer();toast("Pronto, você está no Prumo.")}catch(err){b.disabled=false;mostraErro("#ferro",erroAuth(err))}})}
-async function sair(){closeLayer();const sb=sbCliente();await trocarSessao(null);try{await sb?.auth.signOut()}catch(e){}limparLocalConta();toast("Você saiu.")}
+async function sair(){closeLayer();const sb=sbCliente();await trocarSessao(null);try{await sb?.auth.signOut({scope:"local"})}catch(e){}limparLocalConta();toast("Você saiu.")}
 /* o que é pessoal e fica no aparelho: some ao sair e quando outra conta entra neste aparelho.
    Fica: radar-feed (edição pública em cache) e a sessão do Supabase (o signOut cuida). */
 const CHAVES_CONTA=["radar-prefs","radar-vistos","radar-lidas2","radar-hist","radar-uso","prumo-abag","prumo-cutuc","prumo-dono"];
@@ -2502,7 +2660,7 @@ async function copiarConvite(){const l=S._cvlink;if(!l)return;try{await navigato
 async function enviarConvite(){const l=S._cvlink;if(!l)return;try{if(navigator.share){await navigator.share({title:"Prumo News",text:"Entre no Prumo News com o meu convite:",url:l});return}}catch(e){if(e&&e.name==="AbortError")return}copiarConvite()}
 function abrirPrivacidade(){sheet("Política de privacidade",`<div class="priv" style="display:flex;flex-direction:column;gap:8px">
   <h4>O que o Prumo guarda</h4><p>Seu nome e e-mail; suas curtidas, votos, comentários e leituras; o quiz; as mensagens; as guardadas e as notas; o histórico de leitura; as preferências do app; e os avisos de erro que você manda.</p>
-  <h4>Quem vê</h4><p>Seus amigos veem suas curtidas, votos, comentários, leituras, quiz e o “Junto?” da agenda. Mensagens, só quem mandou e quem recebeu. Uma lista com um amigo, só vocês dois. Guardadas, notas, histórico e preferências, só você. Quem está no Prumo vê o seu nome.</p>
+  <h4>Quem vê</h4><p>Seus amigos veem suas curtidas, votos, comentários, leituras e quiz. Mensagens, só quem mandou e quem recebeu. Uma lista com um amigo, só vocês dois. Guardadas, notas, histórico e preferências, só você. Quem está no Prumo vê o seu nome.</p>
   <p>O texto dos avisos de erro (sem o nome de quem mandou) é lido pela rodada automática que confere as notícias.</p>
   <h4>Onde fica</h4><p>No Supabase, com servidores em São Paulo.</p>
   <h4>O que o Prumo não faz</h4><p>Não tem anúncios e não vende nem repassa dados.</p>
