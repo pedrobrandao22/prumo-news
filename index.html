@@ -961,6 +961,59 @@ html.sem-vidro .nav::before{display:none}
 html.sem-vidro .scrim{-webkit-backdrop-filter:none;backdrop-filter:none}
 @media (prefers-reduced-transparency:reduce){.nav,.sheet,.top.rolou,.composer,.ptr{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--card)!important}.nav::before{display:none}}
 @media (prefers-reduced-motion:reduce){.nav,.nav-in,.top,.sheet,.scrim,.app>section.entra,.nav .ico,.nav .lbl{animation:none!important;transition:none!important}}
+
+/* ================= Etapa 2: coberturas ================= */
+.ph-sub{font-weight:500;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:42vw}
+.cst{display:inline-flex;align-items:center;gap:5px;font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:5px;padding:2px 6px;flex:none}
+.cst.vivo{background:#d93025;color:#fff}
+.cst.vivo i{width:6px;height:6px;border-radius:50%;background:#fff;animation:cstp 1.4s ease-in-out infinite}
+@keyframes cstp{0%,100%{opacity:1}50%{opacity:.25}}
+.cst.enc{background:var(--chip);color:var(--muted)}
+.cobbar{display:flex;align-items:center;gap:8px;width:100%;margin:10px 0 2px;padding:10px 12px;border-radius:12px;background:var(--chip);text-align:left;font-size:13.5px;color:var(--ink-2,var(--ink));min-height:44px}
+.cobbar b{font-weight:700;color:var(--ink)}
+.cobbar .cb-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cobbar .chev{color:var(--muted)}
+.txs.pt{min-height:0!important;max-height:none!important;gap:10px}
+.txs.pt .pt-k{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.txs.pt h3{margin:0;font-family:var(--f-display);font-weight:700;letter-spacing:-.01em;font-size:calc(20px*var(--fz));line-height:1.22;color:var(--ink)}
+.txs.pt .lead{margin:0}
+.pc{display:flex;flex-direction:column;gap:12px;padding-bottom:12px}
+.pc-k{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--muted)}
+.pc-k .secdot{width:8px;height:8px;border-radius:50%;flex:none}
+.pc h2{margin:0;font-family:var(--f-display);font-weight:700;letter-spacing:-.015em;font-size:24px;line-height:1.18;color:var(--ink)}
+.pc-m{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.pc-a{display:flex;gap:8px;flex-wrap:wrap}
+.pc-a .btn{flex:1;min-width:130px}
+.pc h4{margin:8px 0 0;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;color:var(--accent)}
+.pc .lead,.pc .note{margin:0}
+.etp{list-style:none;margin:2px 0 0;padding:0;display:flex;gap:4px}
+.etp li{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;font-size:11.5px;line-height:1.25;color:var(--muted)}
+.etp li::before{content:"";height:5px;border-radius:3px;background:var(--line)}
+.etp li.ok::before{background:var(--accent)}
+.etp li.at{color:var(--ink);font-weight:700}
+.etp li.at::before{background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.faq details{border-bottom:1px solid var(--line);padding:2px 0}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px;padding:11px 0;font-weight:700;font-size:15px;color:var(--ink)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-weight:400;color:var(--muted);font-size:18px;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:0 0 12px;font-size:15px;line-height:1.55;color:var(--ink-2,var(--ink))}
+.pct{list-style:none;margin:4px 0 0;padding:0 0 0 14px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.pct li{position:relative;display:flex;flex-direction:column;gap:3px;font-size:14.5px;line-height:1.45;color:var(--ink)}
+.pct li::before{content:"";position:absolute;left:-20px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--card);border:2px solid var(--muted)}
+.pct li.tt::before{border-color:var(--accent);background:var(--accent)}
+.pct li.fx::before{border-color:#b26b00}
+.pct small{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.pct li.tt b{font-family:var(--f-display);font-size:16px;line-height:1.25}
+.pc .cobx2{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;padding:12px;border-radius:12px;background:var(--chip);font-size:14px;font-weight:600;color:var(--ink);text-align:left}
+.segs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:4px 0 10px}
+.segs::-webkit-scrollbar{display:none}
+.segs-h{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;color:var(--muted);padding-top:8px}
+.segc{flex:0 0 auto;max-width:230px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:9px 12px;border-radius:12px;background:var(--chip);text-align:left}
+.segc b{font-size:13.5px;line-height:1.25;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal}
+.segc span{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)}
+.segc span i{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.sres .dorm span::before{content:"⏸ "}
 </style>
 </head>
 <body>
@@ -1275,7 +1328,7 @@ const dataSP=iso=>{const t=new Date(iso||Date.now());return (isNaN(t)?new Date()
 const leitId=()=>"d"+dataSP(FEED?.atualizado_em);
 function quizId(){const q=JSON.stringify((FEED?.quiz||[]).map(x=>x.pergunta||""));let h=0;for(let i=0;i<q.length;i++)h=(h*31+q.charCodeAt(i))|0;return "d"+dataSP(FEED?.atualizado_em)+"-"+(h>>>0).toString(36)}
 const tms=x=>{const t=Date.parse(x||"");return isNaN(t)?0:t};
-const ultimaAtualizacao=p=>[...(p.atualizacoes||[]),...(p.correcoes||[])].map(u=>u&&u.hora).filter(Boolean).sort((a,b)=>tms(a)-tms(b)).pop()||"";
+const ultimaAtualizacao=p=>[...(p.atualizacoes||[]),...(p.correcoes||[]),...(Array.isArray(p.titulos)?p.titulos.slice(1):[])].map(u=>u&&u.hora).filter(Boolean).sort((a,b)=>tms(a)-tms(b)).pop()||"";
 
 function quando(iso){const d=new Date(iso);if(isNaN(d))return "";const m=(Date.now()-d.getTime())/6e4;if(m<1)return "agora";if(m<60)return "há "+Math.floor(m)+" min";if(m<1440)return "há "+Math.floor(m/60)+" h";if(m<10080)return "há "+Math.floor(m/1440)+" d";return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}
 const diaHora=iso=>{const d=new Date(iso);if(isNaN(d))return "";const hj=dataSP(),dd=dataSP(iso);const dia=dd===hj?"hoje":d.toLocaleDateString("pt-BR",{weekday:"long",timeZone:"America/Sao_Paulo"});return dia+" às "+hhmm(iso)};
@@ -1368,13 +1421,14 @@ function slides(p){
 function coberturaTxt(p){const n=(p.fontes||[]).length,r=(p.fontes||[]).filter(k=>REGUA().includes(k)).length;return `${n} ${n===1?"veículo noticiou":"veículos noticiaram"}${r&&r<n?` · ${r} dos ${REGUA().length} principais`:""}`}
 function postSeguro(p){try{return postHTML(p)}catch(e){return ""}}
 function postHTML(p){
-  const sec=secOf(p),ss=slides(p),nv=NOVAS.has(p.id)&&!LIDAS.has(p.id),at=ATUALIZADAS.has(p.id);
+  const sec=secOf(p),ss=p.tipo==="pontual"?cobPontualSlides(p):slides(p),nv=NOVAS.has(p.id)&&!LIDAS.has(p.id),at=ATUALIZADAS.has(p.id);
   return `<article class="post" id="p-${esc(p.id)}" data-pid="${esc(p.id)}">
-    <div class="ph gut"><div class="ph-t"><button type="button" class="ph-sec" data-secfiltro="${esc(sec)}"><span class="secdot" style="background:${secCor(sec)}"></span><b>${esc(secNome(sec))}</b></button><span><time data-when="${esc(ultimaAtualizacao(p)||p.hora||"")}">${esc(quando(ultimaAtualizacao(p)||p.hora))}</time>${seguido(p)?" · seguindo":""}</span><em class="lida-t"${lidaAtual(p)?"":" hidden"}>✓ lida</em><span data-otr></span></div>${nv?`<span class="badge-new">Novo</span>`:at?`<span class="badge-new upd2">Atualizado</span>`:""}<button type="button" class="more-btn" data-a="menu" aria-label="Mais opções">${ICON.dots}</button></div>
+    <div class="ph gut"><div class="ph-t"><button type="button" class="ph-sec" data-secfiltro="${esc(sec)}"><span class="secdot" style="background:${secCor(sec)}"></span><b>${esc(secNome(sec))}</b>${p.subtema?`<span class="ph-sub">· ${esc(p.subtema)}</span>`:""}</button><span><time data-when="${esc(ultimaAtualizacao(p)||p.hora||"")}">${esc(quando(ultimaAtualizacao(p)||p.hora))}</time>${seguido(p)?" · seguindo":""}</span><em class="lida-t"${lidaAtual(p)?"":" hidden"}>✓ lida</em><span data-otr></span></div>${cobStatus(p)}${nv?`<span class="badge-new">Novo</span>`:at?`<span class="badge-new upd2">Atualizado</span>`:""}<button type="button" class="more-btn" data-a="menu" aria-label="Mais opções">${ICON.dots}</button></div>
     <div class="car"><div class="track">${ss.join("")}</div></div>
     <div class="gut">
       ${ss.length>1?`<div class="prog">${ss.map((_,i)=>`<i class="${i?"":"on"}" aria-hidden="true"></i>`).join("")}<span class="pg">1/${ss.length}</span></div>`:""}
       ${p.checagem?.status==="divergencia"||(p.fontes||[]).length<=1?`<button type="button" class="cobert" data-a="cob">${p.checagem?selo(p,false):""}<span class="vc">${(p.fontes||[]).length<=1?"Só um veículo noticiou até agora":coberturaTxt(p)}</span><span class="chev" aria-hidden="true">›</span></button>`:""}
+      ${cobBarra(p)}
       <div class="acts"><button type="button" class="act" data-a="like" aria-label="Gostei">${ICON.like}<span>Gostei</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-a="send" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span><button type="button" class="act" data-a="save" aria-label="Guardar">${ICON.save}</button></div>
       <div class="likes" data-likes></div>
       <div class="pollbox" data-poll></div>
@@ -1444,6 +1498,7 @@ function renderPosts(){
   if(FILTRO!=="tudo"){h+=`<div class="sech gut"><i style="background:${FILTRO[0]==="_"?"var(--bronze)":secCor(FILTRO)}"></i><h4>${esc(nomeFiltro(FILTRO))}</h4><button type="button" class="vertudo" data-filtro="tudo">Ver tudo ✕</button><span>${lista.length} ${lista.length===1?"notícia":"notícias"}${FILTRO==="politica"&&FEED.contagem?" · "+esc(FEED.contagem):""}</span></div>`}
   NOVID=lista.filter(p=>(NOVAS.has(p.id)&&!LIDAS.has(p.id))||ATUALIZADAS.has(p.id)).map(p=>p.id);
   if(novas)h+=`<button type="button" class="newbar gut" data-novidades><span class="nb-d"></span>${novas} ${novas===1?"novidade":"novidades"} desde a sua última visita${VISITA0&&hhmm(VISITA0)?` (${esc(diaHora(VISITA0))})`:""}<span class="chev" aria-hidden="true">›</span></button>`;
+  h+=cobSegStrip();
   LOTE={lista,pos:Math.min(6,lista.length)};h=avisoAtraso()+h+lista.slice(0,LOTE.pos).map(postSeguro).join("")+(LOTE.pos<lista.length?`<div id="mais" class="empty" style="padding:24px">Carregando mais notícias…</div>`:"");
   $("#posts").innerHTML=lista.length?h:`${h}<div class="empty"><b>${FILTRO[0]==="_"?"Nada por aqui ainda":"Nenhuma notícia nesta seção agora"}</b>${FILTRO[0]==="_"?"Quando isso mudar, as notícias aparecem aqui.":""}<button type="button" class="btn ghost" data-filtro="tudo" style="margin-top:10px">Ver todas as notícias</button></div>`;
   lista.slice(0,LOTE.pos).forEach(p=>updateSocial(p.id));wireTracks($("#posts"));observarMais();
@@ -1625,9 +1680,10 @@ function abrirBusca(q0){uso("busca");
     const terms=q.split(/\s+/);const hit=t=>terms.every(w=>norm(t).includes(w));
     const res=[];(FEED.pautas||[]).forEach(p=>{const t=[p.neutro?.titulo,p.neutro?.texto,p.tag,p.tema,p.contexto].join(" ");if(hit(t)){const tt=norm(p.neutro?.titulo||"");const fora=terms.find(w=>w.length>1&&!tt.includes(w));let tr="";if(fora){const src=[p.neutro?.texto,p.contexto].join(" "),i=norm(src).indexOf(fora);if(i>=0){const a=Math.max(0,src.lastIndexOf(" ",Math.max(0,i-50))+1);tr=(a>0?"…":"")+src.slice(a,Math.min(src.length,i+90))+"…"}}res.push({k:"p",id:p.id,t:p.neutro?.titulo,tr,m:secNome(secOf(p))+" · esta edição"})}});
     (FEED.breves||[]).forEach(b=>{if(hit(b.titulo))res.push({k:"b",url:b.url,t:b.titulo,m:secNome(b.secao||"politica")+" · "+nomeFonte(b.fonte)})});
+    (Array.isArray(FEED.dormentes)?FEED.dormentes:[]).forEach(d=>{if(d&&d.id&&!pautaById(d.id)&&hit([d.titulo,d.resumo,d.tema,d.tag,d.subtema].join(" ")))res.push({k:"d",id:d.id,t:d.titulo,m:secNome(d.secao||"politica")+" · cobertura anterior · "+cobSP(d.ultima)})});
     Object.entries(S.salvos).forEach(([pid,x])=>{if(!pautaById(pid)&&x?.snap&&hit([x.snap.titulo,x.snap.texto].join(" ")))res.push({k:"s",id:pid,t:x.snap.titulo,m:"Guardada"})});
     const mk=t=>{t=String(t??"");const n=norm(t);const rs=[];terms.forEach(w=>{if(w.length<2)return;const i=n.indexOf(w);if(i>=0)rs.push([i,i+w.length])});rs.sort((a,b)=>a[0]-b[0]);const mg=[];rs.forEach(r=>{const l=mg[mg.length-1];if(l&&r[0]<=l[1])l[1]=Math.max(l[1],r[1]);else mg.push([...r])});let h="",p=0;mg.forEach(([a,b])=>{h+=esc(t.slice(p,a))+"<mark>"+esc(t.slice(a,b))+"</mark>";p=b});return h+esc(t.slice(p))};
-    out.innerHTML=res.length?res.slice(0,30).map(r=>r.k==="b"?`<li><a href="${escU(r.url)}" target="_blank" rel="noopener" style="display:flex;flex-direction:column;gap:2px;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none"><b>${mk(r.t)}</b><span>${esc(r.m)}</span></a></li>`:`<li><button type="button" data-busca="${esc(r.id)}"><b>${mk(r.t)}</b>${r.tr?`<em class="trecho">${mk(r.tr)}</em>`:""}<span>${esc(r.m)}</span></button></li>`).join(""):`<li class="hint" style="padding:8px 0">Nada encontrado para “${esc($("#btext").value)}”.</li>`};
+    out.innerHTML=res.length?res.slice(0,30).map(r=>r.k==="b"?`<li><a href="${escU(r.url)}" target="_blank" rel="noopener" style="display:flex;flex-direction:column;gap:2px;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none"><b>${mk(r.t)}</b><span>${esc(r.m)}</span></a></li>`:`<li${r.k==="d"?' class="dorm"':""}><button type="button" ${r.k==="d"?"data-dorm":"data-busca"}="${esc(r.id)}"><b>${mk(r.t)}</b>${r.tr?`<em class="trecho">${mk(r.tr)}</em>`:""}<span>${esc(r.m)}</span></button></li>`).join(""):`<li class="hint" style="padding:8px 0">Nada encontrado para “${esc($("#btext").value)}”.</li>`};
   $("#btext").addEventListener("input",run);$("#sres").addEventListener("click",e=>{const b=e.target.closest("[data-sug]");if(b){$("#btext").value=b.dataset.sug;run()}});if(q0)$("#btext").value=q0;run();
 }
 
@@ -2162,7 +2218,8 @@ async function carregarErrosResp(){if(Date.now()-ERRT<30000)return;ERRT=Date.now
     if(JSON.stringify(j)!==JSON.stringify(S.errosResp)){S.errosResp=j;if(VIEW==="me")renderMe()}}catch(e){}}
 /* ---------- carga ---------- */
 function sanear(f){if(!f||typeof f!=="object")return null;const arr=x=>Array.isArray(x)?x.filter(y=>y&&typeof y==="object"):[];
-  f.pautas=arr(f.pautas).filter(p=>p.id!=null).map(p=>{p.id=String(p.id);["atualizacoes","correcoes","links","enquadramentos","visuais"].forEach(k=>p[k]=arr(p[k]));if(!Array.isArray(p.fontes))p.fontes=[];if(!p.neutro||typeof p.neutro!=="object")p.neutro={titulo:"",texto:""};if(p.enquete&&!Array.isArray(p.enquete.opcoes))p.enquete=null;return p});
+  f.pautas=arr(f.pautas).filter(p=>p.id!=null).map(p=>{p.id=String(p.id);["atualizacoes","correcoes","links","enquadramentos","visuais"].forEach(k=>p[k]=arr(p[k]));if(!Array.isArray(p.fontes))p.fontes=[];if(!p.neutro||typeof p.neutro!=="object")p.neutro={titulo:"",texto:""};if(p.enquete&&!Array.isArray(p.enquete.opcoes))p.enquete=null;if(!Array.isArray(p.titulos))delete p.titulos;else p.titulos=arr(p.titulos);if(p.faq!=null)p.faq=arr(p.faq);if(p.etapa&&(typeof p.etapa!=="object"||!Array.isArray(p.etapa.passos)))delete p.etapa;["subtema","por_que","status","tipo"].forEach(k=>{if(p[k]!=null&&typeof p[k]!=="string")delete p[k]});return p});
+  if(!Array.isArray(f.dormentes))f.dormentes=[];else f.dormentes=arr(f.dormentes).filter(d=>d.id&&d.titulo).map(d=>{d.id=String(d.id);return d});
   ["agenda","breves","quiz","pesquisas_2t"].forEach(k=>f[k]=arr(f[k]));if(!Array.isArray(f.secoes))f.secoes=[];return f}
 function prepararFeed(f){f=sanear(f)||f;FEED=f;document.body.classList.remove("semfeed");calcularNovidades();renderFeed();setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}
 async function loadFeed(){
@@ -2908,6 +2965,64 @@ function cliqueConta(t){
   addEventListener("touchend",()=>{if(p0==null)return;const ok=pd>96;p0=null;if(!ok){solta();return}
     trava=true;ind.classList.add("gira");vibrar(8);Promise.resolve(checarFeed(true)).catch(()=>{}).then(()=>setTimeout(()=>{ind.classList.remove("gira");solta();trava=false},350))});
 })();
+
+/* ================= Etapa 2: coberturas ================= */
+const cobSP=(iso,o)=>{const d=new Date(iso);return isNaN(d)?"":d.toLocaleDateString("pt-BR",Object.assign({timeZone:"America/Sao_Paulo"},o||{day:"2-digit",month:"2-digit"}))};
+const cobDH=iso=>{const d=cobSP(iso),h=hhmm(iso);return d?d+(h?" · "+h:""):""};
+function cobStatus(p,grande){const st=p&&p.status;if(st==="ao_vivo")return `<span class="cst vivo"><i></i>Ao vivo</span>`;if(st==="encerrada")return `<span class="cst enc">${grande?"Cobertura encerrada":"Encerrada"}</span>`;return ""}
+function cobEh(p){return p&&p.tipo!=="pontual"}
+function cobTemPagina(p){if(!cobEh(p))return false;const t=(p.titulos||[]).length,ini=tms(p.inicio);return t>1||!!(p.etapa&&(p.etapa.passos||[]).length)||!!(p.faq||[]).length||p.status==="ao_vivo"||p.status==="encerrada"||(ini&&Date.now()-ini>20*3600e3)}
+function cobEtapaAtual(p){const e=p.etapa;if(!e||!Array.isArray(e.passos)||!e.passos.length)return "";const i=Math.max(0,Math.min(e.passos.length-1,e.atual|0));return e.passos[i]}
+function cobBarra(p){if(!cobTemPagina(p))return "";const pt=[];const ini=p.inicio&&dataSP(p.inicio)!==dataSP()?cobSP(p.inicio):"";if(ini)pt.push("desde "+ini);const et=cobEtapaAtual(p);if(et)pt.push("etapa: "+et);const nt=(p.titulos||[]).length;if(nt>1)pt.push(nt+" manchetes");if((p.faq||[]).length)pt.push("Entenda");
+  return `<button type="button" class="cobbar" data-cobpag="${esc(p.id)}"><span class="cb-t"><b>Cobertura</b>${pt.length?" · "+esc(pt.join(" · ")):" completa"}</span><span class="chev" aria-hidden="true">›</span></button>`}
+function cobPontualSlides(p){const n=p.neutro||{},l=(p.links||[])[0];
+  return [`<div class="sl txs pt aberto"><span class="pt-k">${esc(p.tag||secNome(secOf(p)))}</span><h3>${esc(n.titulo)}</h3><p class="lead">${marcarTermos(n.texto||"")}</p>${p.por_que?`<p class="note"><b>Por que importa.</b> ${marcarTermos(p.por_que)}</p>`:""}${(p.correcoes||[]).map(c=>`<div class="upd fix"><b>Correção · ${esc(hhmm(c.hora))}</b>${esc(c.texto)}</div>`).join("")}${l?`<button type="button" class="link" data-a="links">Ler em ${esc(nomeFonte(l.fonte))}${(p.links||[]).length>1?` e mais ${p.links.length-1}`:""} ›</button>`:""}</div>`]}
+function cobLinha(p){const it=[];const tt=p.titulos||[];
+  tt.forEach((t,i)=>it.push({h:t.hora,c:"tt",k:i?"Manchete mudou":"Começo da cobertura",x:t.titulo,b:1}));
+  if(!tt.length&&p.inicio)it.push({h:p.inicio,c:"tt",k:"Começo da cobertura",x:(p.neutro||{}).titulo,b:1});
+  (p.atualizacoes||[]).forEach(u=>{if(!/^Correção: /.test(u.texto||""))it.push({h:u.hora,c:"",k:"Atualização",x:u.texto})});
+  (p.correcoes||[]).forEach(u=>it.push({h:u.hora,c:"fx",k:"Correção",x:u.texto}));
+  it.sort((a,b)=>tms(b.h)-tms(a.h));
+  return it.length?`<ol class="pct">${it.map(i=>`<li class="${i.c}"><small>${esc(i.k)} · ${esc(cobDH(i.h))}</small>${i.b?`<b>${esc(i.x)}</b>`:`<span>${esc(i.x)}</span>`}</li>`).join("")}</ol>`:""}
+function cobEtapas(p){const e=p.etapa;if(!e||!Array.isArray(e.passos)||e.passos.length<2)return "";const a=Math.max(0,Math.min(e.passos.length-1,e.atual|0));
+  return `<ol class="etp" aria-label="Etapas">${e.passos.map((x,i)=>`<li class="${i<a?"ok":i===a?"ok at":""}"${i===a?' aria-current="step"':""}>${esc(x)}</li>`).join("")}</ol>`}
+function abrirPagCob(pid){uso("pag_cobertura");const p=pautaById(pid);if(!p){abrirDormente(pid);return}
+  const sec=secOf(p),n=p.neutro||{},tema=temaDe(p),seg=seguido(p),ult=ultimaAtualizacao(p)||p.hora,fs=p.fontes||[];
+  const ex=(FEED.explicadores||{})[tema];
+  sheet(p.tag||"Cobertura",`<div class="pc" data-pc="${esc(pid)}">
+    <div class="pc-k"><span class="secdot" style="background:${secCor(sec)}"></span>${esc(secNome(sec))}${p.subtema?" · "+esc(p.subtema):""}</div>
+    <h2>${esc(n.titulo)}</h2>
+    <div class="pc-m">${cobStatus(p,true)}<span>${p.inicio?"Acompanhando desde "+esc(cobSP(p.inicio))+" · ":""}atualizada ${esc(quando(ult))}</span></div>
+    ${cobEtapas(p)}
+    <div class="pc-a">${tema?`<button type="button" class="btn${seg?" ghost":""}" data-cobseg="${esc(pid)}" aria-pressed="${seg}">${seg?"Seguindo ✓":"Seguir esta cobertura"}</button>`:""}<button type="button" class="btn ghost" data-cobler="${esc(pid)}">Ler a notícia</button></div>
+    <h4>Resumo</h4><p class="lead">${marcarTermos(n.texto||"")}</p>
+    ${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}
+    ${(p.faq||[]).length?`<h4>Entenda</h4><div class="faq">${p.faq.filter(q=>q&&q.p).map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(q.r||"")}</p></details>`).join("")}</div>`:""}
+    ${ex?`<button type="button" class="explain" data-explica="${esc(tema)}">Entenda: ${esc(tema)}</button>`:""}
+    ${cobLinha(p)?`<h4>Linha do tempo</h4>${cobLinha(p)}`:""}
+    ${fs.length?`<button type="button" class="cobx2" data-cobfontes="${esc(pid)}"><span>${esc(coberturaTxt(p))}</span><span class="chev" aria-hidden="true">›</span></button>`:""}
+    ${seg?`<p class="hint" style="margin:0">Você segue “${esc(tema)}”: ela sobe no feed e aparece em “Do que você segue”.</p>`:`<p class="hint" style="margin:0">Ao seguir, esta cobertura sobe no seu feed e aparece em “Do que você segue”, no topo.</p>`}
+  </div>`)}
+function abrirDormente(id){const d=(FEED.dormentes||[]).find(x=>x.id===id);if(!d){toast("Esta cobertura não está mais disponível.");return}uso("dormente");
+  const tk=norm(d.tema||d.tag||""),seg=!!(PREF.seguindo||{})[tk];const tt=Array.isArray(d.titulos)?d.titulos:[];
+  sheet("Cobertura anterior",`<div class="pc"><div class="pc-k"><span class="secdot" style="background:${secCor(d.secao||"politica")}"></span>${esc(secNome(d.secao||"politica"))}${d.subtema?" · "+esc(d.subtema):""}</div>
+    <h2>${esc(d.titulo)}</h2><div class="pc-m"><span class="cst enc">Fora da edição</span><span>${d.inicio?esc(cobSP(d.inicio))+" a ":""}${esc(cobSP(d.ultima))}</span></div>
+    ${d.resumo?`<p class="lead">${esc(d.resumo)}</p>`:""}
+    ${tt.length>1?`<h4>Manchetes</h4><ol class="pct">${tt.slice().reverse().map((t,i)=>`<li class="tt"><small>${esc(cobDH(t.hora))}</small><b>${esc(t.titulo)}</b></li>`).join("")}</ol>`:""}
+    ${tk?`<div class="pc-a"><button type="button" class="btn${seg?" ghost":""}" data-dormseg="${esc(id)}">${seg?"Seguindo ✓":"Seguir: avisar se voltar"}</button></div>`:""}
+    <p class="hint" style="margin:0">Esta cobertura saiu da edição. Se o assunto voltar, ela reaparece no feed com o histórico.</p></div>`)}
+function cobSegue(tema,on){const k=norm(tema);const m=PREF.seguindo||(PREF.seguindo={});if(on)m[k]=tema;else delete m[k];if(on&&PREF.silenciados)delete PREF.silenciados[k];salvarPrefs();uso(on?"seguir_cob":"deixar_cob")}
+function cobSegStrip(){if(FILTRO!=="tudo")return "";const ps=(FEED.pautas||[]).filter(p=>seguido(p)&&!silenciado(p)&&!(PREF.ocultas||[]).includes(secOf(p)));if(!ps.length)return "";
+  ps.sort((a,b)=>tms(ultimaAtualizacao(b)||b.hora)-tms(ultimaAtualizacao(a)||a.hora));
+  return `<div class="gut"><span class="segs-h">Do que você segue</span><div class="segs">${ps.slice(0,12).map(p=>{const nv=(NOVAS.has(p.id)&&!LIDAS.has(p.id))||ATUALIZADAS.has(p.id);return `<button type="button" class="segc" data-cobpag="${esc(p.id)}"><b>${esc((p.neutro||{}).titulo)}</b><span>${nv?"<i></i>":""}${p.status==="ao_vivo"?"Ao vivo · ":""}${esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button>`}).join("")}</div></div>`}
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
+  const cp=t.closest("[data-cobpag]");if(cp){e.stopPropagation();abrirPagCob(cp.dataset.cobpag);return}
+  const cs=t.closest("[data-cobseg]");if(cs){const p=pautaById(cs.dataset.cobseg);if(!p)return;const on=!seguido(p);cobSegue(temaDe(p),on);toast(on?"Seguindo "+temaDe(p):"Deixou de seguir");abrirPagCob(p.id);renderPosts();return}
+  const ds=t.closest("[data-dormseg]");if(ds){const d=(FEED.dormentes||[]).find(x=>x.id===ds.dataset.dormseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);toast(on?"Vamos destacar se voltar":"Deixou de seguir");abrirDormente(d.id);return}
+  const cl=t.closest("[data-cobler]");if(cl){const id=cl.dataset.cobler;closeLayer();setTimeout(()=>openSnap(id),30);return}
+  const cf=t.closest("[data-cobfontes]");if(cf){abrirCobertura(cf.dataset.cobfontes);return}
+  const dm=t.closest("[data-dorm]");if(dm){abrirDormente(dm.dataset.dorm);return}
+},true);
 </script>
 </body>
 </html>
