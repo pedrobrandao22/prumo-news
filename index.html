@@ -1080,6 +1080,50 @@ html.sem-vidro .scrim{-webkit-backdrop-filter:none;backdrop-filter:none}
 .vback{display:inline-flex;align-items:center;gap:2px;color:var(--accent);font-weight:700;font-size:14.5px;margin-left:-6px;min-height:40px;padding-right:6px}
 /* admin: capa */
 .adm-capa .pin{background:var(--bronze-soft);color:var(--bronze-ink);border-radius:10px;padding:10px 12px;font-size:14px}
+
+/* ================= Etapa 4: páginas das seções ================= */
+.sech{flex-wrap:wrap!important;row-gap:2px}
+.sech>span{flex-basis:100%;order:3;white-space:normal!important}
+.vertudo{white-space:nowrap}
+.sh4{display:flex;flex-direction:column;gap:14px;padding-block:6px 14px}
+.sh4-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.sh4-chips::-webkit-scrollbar{display:none}
+.sh4-chips button{flex:none;height:34px;padding:0 12px;border-radius:17px;background:var(--chip);font-size:13.5px;font-weight:700;color:var(--ink-2);white-space:nowrap}
+.sh4-chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.sh4-chips button em{font-style:normal;font-weight:600;opacity:.6;margin-left:4px}
+.sh4-b{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.sh4-b>h5{margin:0;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;justify-content:space-between;gap:8px}
+.sh4-tr{display:flex;flex-direction:column;gap:8px;text-align:left;width:100%;padding:8px 0;border-top:1px solid var(--line)}
+.sh4-tr:first-of-type{border-top:0;padding-top:2px}
+.sh4-tr b{font-size:15px;line-height:1.3;color:var(--ink)}
+.sh4-tr .etp li{font-size:10.5px}
+.sh4-cal{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.sh4-cal li{display:flex;gap:12px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line);font-size:14.5px;line-height:1.35}
+.sh4-cal li:first-child{border-top:0}
+.sh4-cal time{flex:none;min-width:70px;font-family:var(--f-ui);font-size:12.5px;font-weight:800;color:var(--accent)}
+.sh4-cal em{font-style:normal;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-left:6px}
+.sh4-ind{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.sh4-ind div{background:var(--soft);border-radius:10px;padding:9px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.sh4-ind span{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.sh4-ind b{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums}
+.sh4-ind em{font-style:normal;font-size:12px;font-weight:700}
+.sh4-ind em.sobe{color:#1f7a4d}.sh4-ind em.desce{color:var(--hot)}.sh4-ind em.estavel{color:var(--muted)}
+.sh4-ind svg{width:100%;height:28px;display:block;margin-top:2px}
+.sh4-ind small{font-size:11px;color:var(--muted)}
+.sh4-srv{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.sh4-srv li{font-size:14.5px;line-height:1.4}
+.sh4-srv a{color:var(--accent);font-weight:700}
+.sh4-cf{display:flex;flex-wrap:wrap;gap:8px}
+.sh4-cf button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--soft);border-radius:12px;padding:9px 12px;max-width:100%}
+.sh4-cf button b{font-size:14.5px;color:var(--ink)}
+.sh4-cf button span{font-size:12px;color:var(--muted)}
+.pc-ess{background:#fdecea;border-left:4px solid #d93025;border-radius:0 12px 12px 0;padding:10px 12px}
+.pc-ess h4{margin:0 0 4px!important;color:#b3261e!important}
+.pc-ess ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:15px;line-height:1.4}
+.pc-br{background:var(--accent-soft);border-radius:12px;padding:10px 12px;font-size:15px;line-height:1.5}
+.pc-br b{display:block;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+:root[data-aparencia="escuro"] .pc-ess{background:#3a1d1a}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .pc-ess{background:#3a1d1a}}
 </style>
 </head>
 <body>
@@ -1386,7 +1430,7 @@ const pautaById=id=>(FEED?.pautas||[]).find(p=>p.id===id);
 function listaFeed(){if(!FEED)return [];
   if(FILTRO==="_leu")FILTRO="tudo";
   if(FILTRO==="_gostou")return ordenadas(visiveis().filter(p=>socialOf(p.id).likes.some(u=>u!==S.uid)));
-  return FILTRO==="tudo"?ordenadas(visiveis()):pautasDa(FILTRO)}
+  return FILTRO==="tudo"?ordenadas(visiveis()):pautasDa(FILTRO).filter(secFiltroOk)}
 function nomeFiltro(f){if(f==="_leu")return "Lidas por amigos";if(f==="_gostou")return "Amigos gostaram";if(f==="tudo")return "Tudo";return secNome(f)}
 const pautasDa=sec=>ordenadas((FEED?.pautas||[]).filter(p=>secOf(p)===sec&&!silenciado(p)));
 const versaoP=p=>{const u=(p.atualizacoes||[]).map(x=>String(x.hora||"")).sort().pop();return u||String(p.hora||"")};
@@ -1479,7 +1523,7 @@ function slides(p){
   const info=(p.imagem?.etiqueta||"").toLowerCase()==="infográfico"||["pesquisa","indicador","dinheiro","plenario"].includes(p.imagem?.modelo);
   out.push(`<div class="sl"><div class="cover paper${info?" info":""}" data-sec="${esc(sec)}">${info?svgOf(p.imagem):coverSvg(p.imagem)}<div class="cv"><span class="kickrow"><button type="button" class="kick kickb" data-tagx>${esc(p.tag||secNome(sec))}</button><span class="klab">${esc((p.imagem?.etiqueta||"Ilustração").toLowerCase())}</span></span><h2 class="${(n.titulo||"").length>72?"long":""}">${esc(n.titulo)}</h2></div></div></div>`);
   const ups=(p.atualizacoes||[]).slice().sort((a,b)=>String(b.hora).localeCompare(String(a.hora)));
-  out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">O que aconteceu</span>${ups.length?ups.slice(0,2).map(u=>`<div class="upd"><b>Atualizado às ${esc(hhmm(u.hora))}</b>${esc(u.texto)}</div>`).join(""):""}${(p.correcoes||[]).map(c=>`<div class="upd fix"><b>Correção · ${esc(hhmm(c.hora))}</b>${esc(c.texto)}</div>`).join("")}<p class="lead">${marcarTermos(n.texto||"")}</p>${p.contexto?`<p class="note"><b>Contexto.</b> ${marcarTermos(p.contexto)}</p>`:""}${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${(FEED.explicadores||{})[temaDe(p)]?`<button type="button" class="explain" data-explica="${esc(temaDe(p))}">Entenda: ${esc(temaDe(p))}</button>`:""}</div>`);
+  out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">O que aconteceu</span>${ups.length?ups.slice(0,2).map(u=>`<div class="upd"><b>Atualizado às ${esc(hhmm(u.hora))}</b>${esc(u.texto)}</div>`).join(""):""}${(p.correcoes||[]).map(c=>`<div class="upd fix"><b>Correção · ${esc(hhmm(c.hora))}</b>${esc(c.texto)}</div>`).join("")}<p class="lead">${marcarTermos(n.texto||"")}</p>${p.contexto?`<p class="note"><b>Contexto.</b> ${marcarTermos(p.contexto)}</p>`:""}${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}${(FEED.explicadores||{})[temaDe(p)]?`<button type="button" class="explain" data-explica="${esc(temaDe(p))}">Entenda: ${esc(temaDe(p))}</button>`:""}</div>`);
   if(p.direita||p.esquerda)out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">A mesma notícia, dois ângulos</span>${p.direita?`<div class="ang r"><span class="lbl">Viés de direita</span><b>${esc(p.direita.titulo)}</b><span class="x">${esc(p.direita.texto)}</span></div>`:""}${p.esquerda?`<div class="ang l"><span class="lbl">Viés de esquerda</span><b>${esc(p.esquerda.titulo)}</b><span class="x">${esc(p.esquerda.texto)}</span></div>`:""}${p.o_que_muda?`<p class="note"><b>O que muda.</b> ${esc(p.o_que_muda)}</p>`:""}<p class="hint">Versões escritas pelo Prumo com os mesmos fatos, mudando só a ênfase e as palavras.</p></div>`);
   const vis=(p.visuais||[]).map(v=>({...v,secao:sec})).find(v=>visualHTML(v));
   if(vis)out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button>${visualHTML(vis)}</div>`);
@@ -1563,7 +1607,7 @@ function renderPosts(){
   let lista=listaFeed();
   const novas=lista.filter(p=>NOVAS.has(p.id)&&!LIDAS.has(p.id)).length+lista.filter(p=>ATUALIZADAS.has(p.id)).length;
   let h="";
-  if(FILTRO!=="tudo"){h+=`<div class="sech gut"><i style="background:${FILTRO[0]==="_"?"var(--bronze)":secCor(FILTRO)}"></i><h4>${esc(nomeFiltro(FILTRO))}</h4><button type="button" class="vertudo" data-filtro="tudo">Ver tudo ✕</button><span>${lista.length} ${lista.length===1?"notícia":"notícias"}${FILTRO==="politica"&&FEED.contagem?" · "+esc(FEED.contagem):""}</span></div>`}
+  if(FILTRO!=="tudo"){h+=`<div class="sech gut"><i style="background:${FILTRO[0]==="_"?"var(--bronze)":secCor(FILTRO)}"></i><h4>${esc(nomeFiltro(FILTRO))}</h4><button type="button" class="vertudo" data-filtro="tudo">Ver tudo ✕</button><span>${lista.length} ${lista.length===1?"notícia":"notícias"}${FILTRO==="politica"&&FEED.contagem?" · "+esc(FEED.contagem):""}</span></div>`;h+=secHub(FILTRO)}
   NOVID=lista.filter(p=>(NOVAS.has(p.id)&&!LIDAS.has(p.id))||ATUALIZADAS.has(p.id)).map(p=>p.id);
   if(novas)h+=`<button type="button" class="newbar gut" data-novidades><span class="nb-d"></span>${novas} ${novas===1?"novidade":"novidades"} desde a sua última visita${VISITA0&&hhmm(VISITA0)?` (${esc(diaHora(VISITA0))})`:""}<span class="chev" aria-hidden="true">›</span></button>`;
   h+=cobSegStrip();
@@ -2287,7 +2331,8 @@ async function carregarErrosResp(){if(Date.now()-ERRT<30000)return;ERRT=Date.now
     if(JSON.stringify(j)!==JSON.stringify(S.errosResp)){S.errosResp=j;if(VIEW==="me")renderMe()}}catch(e){}}
 /* ---------- carga ---------- */
 function sanear(f){if(!f||typeof f!=="object")return null;const arr=x=>Array.isArray(x)?x.filter(y=>y&&typeof y==="object"):[];
-  f.pautas=arr(f.pautas).filter(p=>p.id!=null).map(p=>{p.id=String(p.id);["atualizacoes","correcoes","links","enquadramentos","visuais"].forEach(k=>p[k]=arr(p[k]));if(!Array.isArray(p.fontes))p.fontes=[];if(!p.neutro||typeof p.neutro!=="object")p.neutro={titulo:"",texto:""};if(p.enquete&&!Array.isArray(p.enquete.opcoes))p.enquete=null;if(!Array.isArray(p.titulos))delete p.titulos;else p.titulos=arr(p.titulos);if(p.faq!=null)p.faq=arr(p.faq);if(p.etapa&&(typeof p.etapa!=="object"||!Array.isArray(p.etapa.passos)))delete p.etapa;["subtema","por_que","status","tipo"].forEach(k=>{if(p[k]!=null&&typeof p[k]!=="string")delete p[k]});return p});
+  f.pautas=arr(f.pautas).filter(p=>p.id!=null).map(p=>{p.id=String(p.id);["atualizacoes","correcoes","links","enquadramentos","visuais"].forEach(k=>p[k]=arr(p[k]));if(!Array.isArray(p.fontes))p.fontes=[];if(!p.neutro||typeof p.neutro!=="object")p.neutro={titulo:"",texto:""};if(p.enquete&&!Array.isArray(p.enquete.opcoes))p.enquete=null;if(!Array.isArray(p.titulos))delete p.titulos;else p.titulos=arr(p.titulos);if(p.faq!=null)p.faq=arr(p.faq);if(p.etapa&&(typeof p.etapa!=="object"||!Array.isArray(p.etapa.passos)))delete p.etapa;["subtema","por_que","status","tipo","e_o_brasil"].forEach(k=>{if(p[k]!=null&&typeof p[k]!=="string")delete p[k]});if(p.servicos!=null)p.servicos=arr(p.servicos);if(p.essencial!=null&&!Array.isArray(p.essencial))delete p.essencial;return p});
+  if(f.calendario!=null)f.calendario=arr(f.calendario);
   if(!Array.isArray(f.dormentes))f.dormentes=[];else f.dormentes=arr(f.dormentes).filter(d=>d.id&&d.titulo).map(d=>{d.id=String(d.id);return d});
   ["agenda","breves","quiz","pesquisas_2t"].forEach(k=>f[k]=arr(f[k]));if(!Array.isArray(f.secoes))f.secoes=[];return f}
 function prepararFeed(f){f=sanear(f)||f;FEED=f;document.body.classList.remove("semfeed");calcularNovidades();renderFeed();setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}
@@ -3037,8 +3082,8 @@ function cliqueConta(t){
 })();
 
 /* ================= Etapa 2: coberturas ================= */
-const cobSP=(iso,o)=>{const d=new Date(iso);return isNaN(d)?"":d.toLocaleDateString("pt-BR",Object.assign({timeZone:"America/Sao_Paulo"},o||{day:"2-digit",month:"2-digit"}))};
-const cobDH=iso=>{const d=cobSP(iso),h=hhmm(iso);return d?d+(h?" · "+h:""):""};
+function cobSP(iso,o){const d=new Date(iso);return isNaN(d)?"":d.toLocaleDateString("pt-BR",Object.assign({timeZone:"America/Sao_Paulo"},o||{day:"2-digit",month:"2-digit"}))};
+function cobDH(iso){const d=cobSP(iso),h=hhmm(iso);return d?d+(h?" · "+h:""):""}
 function cobStatus(p,grande){const st=p&&p.status;if(st==="ao_vivo")return `<span class="cst vivo"><i></i>Ao vivo</span>`;if(st==="encerrada")return `<span class="cst enc">${grande?"Cobertura encerrada":"Encerrada"}</span>`;return ""}
 function cobEh(p){return p&&p.tipo!=="pontual"}
 function cobTemPagina(p){if(!cobEh(p))return false;const t=(p.titulos||[]).length,ini=tms(p.inicio);return t>1||!!(p.etapa&&(p.etapa.passos||[]).length)||!!(p.faq||[]).length||p.status==="ao_vivo"||p.status==="encerrada"||(ini&&Date.now()-ini>20*3600e3)}
@@ -3066,7 +3111,7 @@ function abrirPagCob(pid){uso("pag_cobertura");const p=pautaById(pid);if(!p){abr
     ${cobEtapas(p)}
     <div class="pc-a">${tema?`<button type="button" class="btn${seg?" ghost":""}" data-cobseg="${esc(pid)}" aria-pressed="${seg}">${seg?"Seguindo ✓":"Seguir esta cobertura"}</button>`:""}<button type="button" class="btn ghost" data-cobler="${esc(pid)}">Ler a notícia</button></div>
     <h4>Resumo</h4><p class="lead">${marcarTermos(n.texto||"")}</p>
-    ${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}
+    ${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}
     ${(p.faq||[]).length?`<h4>Entenda</h4><div class="faq">${p.faq.filter(q=>q&&q.p).map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(q.r||"")}</p></details>`).join("")}</div>`:""}
     ${ex?`<button type="button" class="explain" data-explica="${esc(tema)}">Entenda: ${esc(tema)}</button>`:""}
     ${cobLinha(p)?`<h4>Linha do tempo</h4>${cobLinha(p)}`:""}
@@ -3107,8 +3152,8 @@ function capaEscolha(){const ps=(FEED?.pautas||[]).filter(p=>!(PREF.ocultas||[])
   let dest=(Array.isArray(c.destaques)?c.destaques:[]).map(by).filter(p=>p&&p!==man);
   if(dest.length<3){const n={};[man,...dest].forEach(p=>n[secOf(p)]=(n[secOf(p)]||0)+1);for(const p of ord){if(dest.length>=4)break;if(p===man||dest.includes(p)||(n[secOf(p)]||0)>=2)continue;dest.push(p);n[secOf(p)]=(n[secOf(p)]||0)+1}}
   return {ps,ord,man,dest:dest.slice(0,5),fixa:!!fx,linha:!fx&&c.manchete===man.id?c.linha_fina:""}}
-const capaFrase=(t,n)=>{t=String(t||"").trim();if(t.length<=n)return t;const fr=t.split(/(?<=[.!?])\s+/);let o="";for(const f of fr){if((o+" "+f).trim().length>n)break;o=(o+" "+f).trim()}return o||t.slice(0,n).replace(/\s+\S*$/,"")+"…"};
-const capaChapeu=p=>p.subtema||p.tag||secNome(secOf(p));
+function capaFrase(t,n){t=String(t||"").trim();if(t.length<=n)return t;const fr=t.split(/(?<=[.!?])\s+/);let o="";for(const f of fr){if((o+" "+f).trim().length>n)break;o=(o+" "+f).trim()}return o||t.slice(0,n).replace(/\s+\S*$/,"")+"…"}
+function capaChapeu(p){return p.subtema||p.tag||secNome(secOf(p))}
 function capaArte(p,cls){return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`}
 function capaIndicadores(){const it=((FEED?.indicadores||{}).itens||[]).filter(x=>x&&x.nome&&x.valor);if(!it.length)return "";
   const seta={sobe:"▲",desce:"▼",estavel:"▬"};
@@ -3175,6 +3220,51 @@ function capaAdminHTML(){if(!FEED)return `<p class="hint">As notícias ainda nã
     <label class="hint" style="display:flex;align-items:center;gap:8px">Fixar por <select id="admhoras" class="field" style="width:auto;flex:none"><option value="3">3 horas</option><option value="6">6 horas</option><option value="12" selected>12 horas</option><option value="24">24 horas</option></select></label>
     <ul class="adml">${ord.slice(0,15).map(p=>`<li><div><b>${esc(p.neutro?.titulo)}</b><span>${esc(secNome(secOf(p)))} · prioridade ${esc(p.prioridade??"-")}${fx&&fx.pid===p.id?" · fixada":man===p&&!fixa?" · manchete agora":""}</span></div><div class="admb"><button type="button" class="btn ghost amg-b" data-fixar="${esc(p.id)}">Fixar</button></div></li>`).join("")}</ul>
     <p class="hint" style="margin:0">A manchete fixada vale para todos e some sozinha no prazo, ou quando a notícia sai da edição.</p></div>`}
+
+/* ================= Etapa 4: páginas das seções ================= */
+var SECF={sec:"",sub:"",uf:""};
+function UFSM(){return window._UFS||(window._UFS={AC:"Acre",AL:"Alagoas",AP:"Amapá",AM:"Amazonas",BA:"Bahia",CE:"Ceará",DF:"Distrito Federal",ES:"Espírito Santo",GO:"Goiás",MA:"Maranhão",MT:"Mato Grosso",MS:"Mato Grosso do Sul",MG:"Minas Gerais",PA:"Pará",PB:"Paraíba",PR:"Paraná",PE:"Pernambuco",PI:"Piauí",RJ:"Rio de Janeiro",RN:"Rio Grande do Norte",RS:"Rio Grande do Sul",RO:"Rondônia",RR:"Roraima",SC:"Santa Catarina",SP:"São Paulo",SE:"Sergipe",TO:"Tocantins"})}
+function ufsDe(p){return (Array.isArray(p.uf)?p.uf:p.uf?[p.uf]:[]).filter(u=>UFSM()[u])}
+function secFiltroOk(p){if(!SECF||SECF.sec!==FILTRO)return true;if(SECF.sub&&(p.subtema||"Outros")!==SECF.sub)return false;if(SECF.uf&&!ufsDe(p).includes(SECF.uf))return false;return true}
+function dataCurta(d){try{return new Date(d+"T12:00:00Z").toLocaleDateString("pt-BR",{day:"2-digit",month:"short",timeZone:"UTC"}).replace(".","")}catch(e){return d}}
+function calendarioDe(sec,n){const hj=hojeSP();return (Array.isArray(FEED?.calendario)?FEED.calendario:[]).filter(c=>c&&c.secao===sec&&c.data&&((c.ate||c.data)>=hj)).sort((a,b)=>String(a.data).localeCompare(String(b.data))).slice(0,n||8)}
+function calHTML(l){return `<ul class="sh4-cal">${l.map(c=>`<li><time>${esc(c.ate&&c.ate!==c.data?dataCurta(c.data)+"–"+dataCurta(c.ate):dataCurta(c.data))}</time><span>${esc(c.texto)}${c.tipo?`<em>${esc(c.tipo)}</em>`:""}</span></li>`).join("")}</ul>`}
+function sparkSVG(ser){const v=(ser||[]).map(Number).filter(n=>!isNaN(n));if(v.length<3)return "";const mn=Math.min(...v),mx=Math.max(...v),r=(mx-mn)||1;const pts=v.map((x,i)=>`${(i*100/(v.length-1)).toFixed(1)},${(26-(x-mn)*22/r).toFixed(1)}`).join(" ");return `<svg viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`}
+function indPainel(){const it=((FEED?.indicadores||{}).itens||[]).filter(x=>x&&x.nome&&x.valor);if(!it.length)return "";const seta={sobe:"▲",desce:"▼",estavel:"▬"};
+  return `<div class="sh4-b"><h5>Indicadores</h5><div class="sh4-ind">${it.map(x=>`<div><span>${esc(x.nome)}</span><b>${esc(x.valor)}</b>${x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:""}${sparkSVG(x.serie)}${x.data?`<small>${esc(dataCurta(x.data))}</small>`:""}</div>`).join("")}</div></div>`}
+function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==sec)SECF={sec,sub:"",uf:""};
+  const todas=pautasDa(sec);if(!todas.length)return "";const ordem=((FEED.taxonomia||{})[sec]||[]);
+  const cont={};todas.forEach(p=>{const k=p.subtema||"Outros";cont[k]=(cont[k]||0)+1});const ks=Object.keys(cont).sort((a,b)=>{const ia=ordem.indexOf(a),ib=ordem.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)});
+  let h=`<div class="sh4 gut">`;
+  if(ks.length>1||SECF.sub)h+=`<div class="sh4-chips" role="group" aria-label="Subtemas"><button type="button" data-secsub="" aria-pressed="${!SECF.sub}">Tudo<em>${todas.length}</em></button>${ks.map(k=>`<button type="button" data-secsub="${esc(k)}" aria-pressed="${SECF.sub===k}">${esc(k)}<em>${cont[k]}</em></button>`).join("")}</div>`;
+  if(sec==="brasil"){const uc={};todas.forEach(p=>ufsDe(p).forEach(u=>uc[u]=(uc[u]||0)+1));const us=Object.keys(uc).sort((a,b)=>uc[b]-uc[a]||a.localeCompare(b));
+    if(us.length)h+=`<div class="sh4-chips" role="group" aria-label="Estados"><button type="button" data-secuf="" aria-pressed="${!SECF.uf}">Todo o Brasil</button>${us.map(u=>`<button type="button" data-secuf="${esc(u)}" aria-pressed="${SECF.uf===u}" title="${esc(UFSM()[u])}">${esc(u)}<em>${uc[u]}</em></button>`).join("")}</div>`}
+  if(SECF.sub||SECF.uf)return h+`</div>`;
+  const cob=todas.filter(p=>cobTemPagina(p)).slice(0,8);
+  if(cob.length)h+=`<div><span class="segs-h" style="padding-top:0">Coberturas ativas</span><div class="segs">${cob.map(p=>{const et=cobEtapaAtual(p);return `<button type="button" class="segc" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${p.status==="ao_vivo"?"Ao vivo":p.status==="encerrada"?"Encerrada":et?esc(et):esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button>`}).join("")}</div></div>`;
+  if(sec==="politica"||sec==="educacao"){const tr=todas.filter(p=>p.etapa&&Array.isArray(p.etapa.passos)&&p.etapa.passos.length>1);
+    if(tr.length)h+=`<div class="sh4-b"><h5>${sec==="politica"?"Em tramitação":"Leis e normas em andamento"}</h5>${tr.map(p=>`<button type="button" class="sh4-tr" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b>${cobEtapas(p)}</button>`).join("")}</div>`}
+  if(sec==="economia")h+=indPainel();
+  {const cal=calendarioDe(sec,8);if(cal.length)h+=`<div class="sh4-b"><h5>${sec==="economia"?"Calendário econômico":sec==="educacao"?"Provas e inscrições":sec==="politica"?"Calendário":"Datas"}</h5>${calHTML(cal)}</div>`}
+  if(sec==="politica"){const hj=hojeSP(),ag=(FEED.agenda||[]).map(a=>({...a,_d:agData(a,hj)})).filter(a=>a.secao==="politica"&&a._d>=hj).sort((x,y)=>x._d.localeCompare(y._d)||agMin(x)-agMin(y)).slice(0,6);
+    if(ag.length)h+=`<div class="sh4-b"><h5>Agenda da semana</h5><ul class="sh4-cal">${ag.map(a=>`<li><time>${a._d===hj?"Hoje":esc(dataCurta(a._d))}${agHoraTxt(a)?" "+esc(agHoraTxt(a)):""}</time><span>${esc(a.texto)}</span></li>`).join("")}</ul></div>`}
+  if(sec==="brasil"){const sv=todas.filter(p=>Array.isArray(p.servicos)&&p.servicos.length);
+    if(sv.length)h+=`<div class="sh4-b"><h5>Serviços e como ajudar</h5>${sv.map(p=>`<b style="font-size:14.5px">${esc(temaDe(p)||p.neutro?.titulo)}</b>${srvHTML(p)}`).join("")}</div>`}
+  if(sec==="mundo"){const cf=todas.filter(p=>cobEh(p)&&(cobTemPagina(p)||p.e_o_brasil||(FEED.explicadores||{})[temaDe(p)]));
+    if(cf.length)h+=`<div class="sh4-b"><h5>Conflitos e crises</h5><div class="sh4-cf">${cf.map(p=>`<button type="button" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${esc(p.subtema||"")}${(FEED.explicadores||{})[temaDe(p)]?" · Entenda":""}${p.e_o_brasil?" · E o Brasil?":""}</span></button>`).join("")}</div></div>`}
+  return h+`</div>`}
+function srvHTML(p){return `<ul class="sh4-srv">${(p.servicos||[]).filter(x=>x&&x.texto).slice(0,6).map(x=>`<li>${esc(x.texto)}${x.url?` · <a href="${escU(x.url)}" target="_blank" rel="noopener">abrir ›</a>`:""}</li>`).join("")}</ul>`}
+/* página da cobertura: O essencial (ao vivo), E o Brasil?, Serviços */
+(function(){const ant=abrirPagCob;abrirPagCob=function(pid){ant(pid);const p=pautaById(pid);const box=document.querySelector(".sheet .pc[data-pc]");if(!p||!box)return;
+  const ess=(Array.isArray(p.essencial)?p.essencial:[]).filter(Boolean).slice(0,3);const meta=box.querySelector(".pc-m"),et=box.querySelector(".etp");
+  if(ess.length&&p.status==="ao_vivo")(et||meta).insertAdjacentHTML("afterend",`<div class="pc-ess"><h4>O essencial</h4><ul>${ess.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`);
+  const res=[...box.querySelectorAll("h4")].find(x=>x.textContent==="Resumo");const lead=res&&res.nextElementSibling;
+  let extra="";if(Array.isArray(p.servicos)&&p.servicos.length)extra+=`<h4>Serviços e como ajudar</h4>${srvHTML(p)}`;
+  if(extra&&lead)lead.insertAdjacentHTML("afterend",extra)}})();
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
+  const sb=t.closest("[data-secsub]");if(sb){e.stopPropagation();SECF={sec:FILTRO,sub:sb.dataset.secsub,uf:SECF.sec===FILTRO?SECF.uf:""};renderPosts();uso("secsub");return}
+  const su=t.closest("[data-secuf]");if(su){e.stopPropagation();SECF={sec:FILTRO,sub:SECF.sec===FILTRO?SECF.sub:"",uf:su.dataset.secuf};renderPosts();uso("secuf");return}
+},true);
 </script>
 </body>
 </html>
