@@ -1124,6 +1124,45 @@ html.sem-vidro .scrim{-webkit-backdrop-filter:none;backdrop-filter:none}
 .pc-br b{display:block;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
 :root[data-aparencia="escuro"] .pc-ess{background:#3a1d1a}
 @media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .pc-ess{background:#3a1d1a}}
+
+/* ================= Etapa 5: esportes ================= */
+.esp{display:flex;flex-direction:column;gap:14px;padding-bottom:14px}
+.esp-mt{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.esp-mt .hd{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.esp-mt .hd b{font-size:17px}
+.esp-mt .hd span{font-size:13px;font-weight:700;color:var(--muted)}
+.esp-mt .tr{font-size:13px;font-weight:700;color:var(--accent)}
+.esp-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;background:var(--accent-soft);color:var(--accent);border-radius:14px;padding:12px 14px;font-weight:700}
+.jg{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.jg li{border-top:1px solid var(--line)}
+.jg li:first-child{border-top:0}
+.jg button,.jg .r{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;width:100%;padding:9px 0;text-align:left;font-size:14.5px}
+.jg .a{text-align:right;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jg .b{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jg .m{min-width:64px;text-align:center;font-variant-numeric:tabular-nums;font-weight:800;font-size:15px;border-radius:8px;padding:3px 8px;background:var(--soft)}
+.jg .m.h{font-weight:700;font-size:13px;color:var(--accent)}
+.jg .m.v{background:#d93025;color:#fff}
+.jg .info{grid-column:1/-1;text-align:center;font-size:11.5px;color:var(--muted);margin-top:-4px}
+.jg .w{color:var(--ink)}.jg .l{color:var(--muted);font-weight:600}
+.esp-sub{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:6px 0 0}
+.tab{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.tab th{font-size:11px;color:var(--muted);font-weight:700;text-align:right;padding:4px 4px;text-transform:uppercase}
+.tab th:nth-child(2){text-align:left}
+.tab td{padding:7px 4px;border-top:1px solid var(--line);text-align:right}
+.tab td:nth-child(2){text-align:left;font-weight:700;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tab td:first-child{color:var(--muted);width:26px}
+.tab tr.meu td{background:var(--bronze-soft)}
+.tab td button{font:inherit;font-weight:700;text-align:left}
+.vde{display:flex;gap:4px}
+.vde i{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11.5px;font-weight:800;color:#fff}
+.vde .V{background:#1f7a4d}.vde .E{background:#8a939c}.vde .D{background:var(--hot)}
+.chv{display:flex;flex-direction:column;gap:6px}
+.chv .cf{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-top:6px}
+.chv .cj{background:var(--soft);border-radius:10px;padding:8px 10px;font-size:14px;display:flex;flex-direction:column;gap:2px}
+.chv .cj span{font-size:12.5px;color:var(--muted)}
+.tpick{display:flex;flex-wrap:wrap;gap:8px}
+.tpick button{height:38px;padding:0 14px;border-radius:19px;background:var(--chip);font-weight:700;font-size:14px}
+.tpick button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 </style>
 </head>
 <body>
@@ -2333,6 +2372,7 @@ async function carregarErrosResp(){if(Date.now()-ERRT<30000)return;ERRT=Date.now
 function sanear(f){if(!f||typeof f!=="object")return null;const arr=x=>Array.isArray(x)?x.filter(y=>y&&typeof y==="object"):[];
   f.pautas=arr(f.pautas).filter(p=>p.id!=null).map(p=>{p.id=String(p.id);["atualizacoes","correcoes","links","enquadramentos","visuais"].forEach(k=>p[k]=arr(p[k]));if(!Array.isArray(p.fontes))p.fontes=[];if(!p.neutro||typeof p.neutro!=="object")p.neutro={titulo:"",texto:""};if(p.enquete&&!Array.isArray(p.enquete.opcoes))p.enquete=null;if(!Array.isArray(p.titulos))delete p.titulos;else p.titulos=arr(p.titulos);if(p.faq!=null)p.faq=arr(p.faq);if(p.etapa&&(typeof p.etapa!=="object"||!Array.isArray(p.etapa.passos)))delete p.etapa;["subtema","por_que","status","tipo","e_o_brasil"].forEach(k=>{if(p[k]!=null&&typeof p[k]!=="string")delete p[k]});if(p.servicos!=null)p.servicos=arr(p.servicos);if(p.essencial!=null&&!Array.isArray(p.essencial))delete p.essencial;return p});
   if(f.calendario!=null)f.calendario=arr(f.calendario);
+  if(f.esportes!=null&&(typeof f.esportes!=="object"||Array.isArray(f.esportes)))delete f.esportes;else if(f.esportes){f.esportes.competicoes=arr(f.esportes.competicoes);f.esportes.jogos=arr(f.esportes.jogos)}
   if(!Array.isArray(f.dormentes))f.dormentes=[];else f.dormentes=arr(f.dormentes).filter(d=>d.id&&d.titulo).map(d=>{d.id=String(d.id);return d});
   ["agenda","breves","quiz","pesquisas_2t"].forEach(k=>f[k]=arr(f[k]));if(!Array.isArray(f.secoes))f.secoes=[];return f}
 function prepararFeed(f){f=sanear(f)||f;FEED=f;document.body.classList.remove("semfeed");calcularNovidades();renderFeed();setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}
@@ -3265,6 +3305,85 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const sb=t.closest("[data-secsub]");if(sb){e.stopPropagation();SECF={sec:FILTRO,sub:sb.dataset.secsub,uf:SECF.sec===FILTRO?SECF.uf:""};renderPosts();uso("secsub");return}
   const su=t.closest("[data-secuf]");if(su){e.stopPropagation();SECF={sec:FILTRO,sub:SECF.sec===FILTRO?SECF.sub:"",uf:su.dataset.secuf};renderPosts();uso("secuf");return}
 },true);
+
+/* ================= Etapa 5: esportes ================= */
+function espD(){const e=FEED&&FEED.esportes;return e&&typeof e==="object"?e:{}}
+function espComps(){return (Array.isArray(espD().competicoes)?espD().competicoes:[]).filter(c=>c&&c.id&&c.nome)}
+function espJogos(){return (Array.isArray(espD().jogos)?espD().jogos:[]).filter(j=>j&&j.a&&j.b&&j.data)}
+function espComp(id){return espComps().find(c=>c.id===id)}
+function espTimes(){const s=new Set();espJogos().forEach(j=>{s.add(j.a);s.add(j.b)});espComps().forEach(c=>(c.tabela||[]).forEach(t=>t&&t.time&&s.add(t.time)));return [...s].sort((a,b)=>a.localeCompare(b,"pt-BR"))}
+function espEh(t,n){return norm(t)===norm(n)}
+function espJogoHTML(j,opts){opts=opts||{};const enc=j.estado==="encerrado",viv=j.estado==="ao_vivo",pl=(enc||viv)&&j.ga!=null&&j.gb!=null;
+  const mt=PREF.meuTime,cls=x=>enc&&pl?((x==="a"?j.ga>j.gb:j.gb>j.ga)?"w":(j.ga===j.gb?"":"l")):"";
+  const meio=pl?`<span class="m${viv?" v":""}">${esc(j.ga)} × ${esc(j.gb)}</span>`:`<span class="m h">${esc(j.hora||"a definir")}</span>`;
+  const comp=espComp(j.comp);const info=[opts.dia?dataCurta(j.data):"",opts.comp&&comp?comp.nome:"",j.fase||"",viv?`ao vivo${j.atualizado?" · atualizado às "+hhmm(j.atualizado):""}`:"",!pl&&j.local?j.local:"",!pl&&j.tv?j.tv:""].filter(Boolean).join(" · ");
+  const inner=`<span class="a ${cls("a")}">${esc(j.a)}</span>${meio}<span class="b ${cls("b")}">${esc(j.b)}</span>${info?`<span class="info">${esc(info)}</span>`:""}`;
+  return `<li>${j.pid&&pautaById(j.pid)?`<button type="button" data-goto="${esc(j.pid)}">${inner}</button>`:`<div class="r">${inner}</div>`}</li>`}
+function espLinha(time){for(const c of espComps()){const t=(c.tabela||[]).find(x=>x&&espEh(x.time,time));if(t)return {c,t}}return null}
+function espVDE(time){return espJogos().filter(j=>j.estado==="encerrado"&&j.ga!=null&&(espEh(j.a,time)||espEh(j.b,time))).sort((x,y)=>String(y.data).localeCompare(String(x.data))).slice(0,5).reverse().map(j=>{const g=espEh(j.a,time)?[j.ga,j.gb]:[j.gb,j.ga];return g[0]>g[1]?"V":g[0]<g[1]?"D":"E"})}
+function espProx(time){const hj=hojeSP();return espJogos().filter(j=>j.estado!=="encerrado"&&j.data>=hj&&(espEh(j.a,time)||espEh(j.b,time))).sort((x,y)=>(x.data+(x.hora||"")).localeCompare(y.data+(y.hora||"")))[0]}
+function espUlt(time){return espJogos().filter(j=>j.estado==="encerrado"&&(espEh(j.a,time)||espEh(j.b,time))).sort((x,y)=>String(y.data).localeCompare(String(x.data)))[0]}
+function espNoticias(time){const n=norm(time);return (FEED?.pautas||[]).filter(p=>secOf(p)==="esportes"&&((Array.isArray(p.times)&&p.times.some(t=>espEh(t,time)))||norm([p.neutro?.titulo,p.tag,p.tema].join(" ")).includes(n)))}
+function tabelaHTML(c,max){const tb=(c.tabela||[]).filter(x=>x&&x.time);if(!tb.length)return "";const mt=PREF.meuTime;
+  return `<table class="tab"><thead><tr><th>#</th><th>Time</th><th>Pts</th><th>J</th><th>V</th><th>SG</th></tr></thead><tbody>${tb.slice(0,max||99).map(t=>`<tr class="${mt&&espEh(t.time,mt)?"meu":""}"><td>${esc(t.pos)}</td><td><button type="button" data-time="${esc(t.time)}">${esc(t.time)}</button></td><td><b>${esc(t.pts)}</b></td><td>${esc(t.j??"")}</td><td>${esc(t.v??"")}</td><td>${esc(t.sg??"")}</td></tr>`).join("")}</tbody></table>${c.tabela_ate?`<p class="hint" style="margin:4px 0 0">Classificação ${esc(c.tabela_ate)}.</p>`:""}`}
+function chaveHTML(c){const ch=(Array.isArray(c.chave)?c.chave:[]).filter(f=>f&&f.fase);if(!ch.length)return "";
+  return `<div class="chv">${ch.map(f=>`<span class="cf">${esc(f.fase)}</span>${(f.confrontos||[]).map(x=>`<div class="cj"><b>${esc(x.a)} × ${esc(x.b)}</b><span>${[x.ida?"ida "+x.ida:"",x.volta?"volta "+x.volta:"",x.agregado?"agregado "+x.agregado:"",x.classificado?"classificado: "+x.classificado:""].filter(Boolean).join(" · ")||"a jogar"}</span></div>`).join("")}`).join("")}</div>`}
+function meuTimeHTML(){const mt=PREF.meuTime;if(!mt){const ts=espTimes();return ts.length?`<button type="button" class="esp-cta" data-escolhertime><span>Escolha o seu time para ver próximo jogo, resultados e notícias</span><span aria-hidden="true">›</span></button>`:""}
+  const ln=espLinha(mt),px=espProx(mt),ul=espUlt(mt),vde=espVDE(mt),nt=espNoticias(mt).slice(0,3);
+  return `<div class="esp-mt"><div class="hd"><button type="button" data-time="${esc(mt)}" style="text-align:left"><b>${esc(mt)} ›</b></button><span>${ln?`${esc(ln.t.pos)}º · ${esc(ln.t.pts)} pts`:""}</span></div>
+    ${vde.length?`<div class="vde" aria-label="Últimos resultados">${vde.map(r=>`<i class="${r}">${r}</i>`).join("")}</div>`:""}
+    ${px?`<span class="esp-sub">${px.estado==="ao_vivo"?"Jogando agora":"Próximo jogo"}</span><ul class="jg">${espJogoHTML(px,{dia:1,comp:1})}</ul>`:""}
+    ${ul?`<span class="esp-sub">Último resultado</span><ul class="jg">${espJogoHTML(ul,{dia:1,comp:1})}</ul>`:""}
+    ${nt.length?`<span class="esp-sub">Notícias</span>${nt.map(p=>`<button type="button" class="bv-it" data-goto="${esc(p.id)}"><span>${esc(p.neutro?.titulo)}</span><span class="chev" aria-hidden="true">›</span></button>`).join("")}`:""}
+    ${!ln&&!px&&!ul&&!nt.length?`<p class="hint" style="margin:0">Sem jogos ou notícias do ${esc(mt)} nesta edição.</p>`:""}
+    <button type="button" class="tr" data-escolhertime style="align-self:flex-start">Trocar de time</button></div>`}
+function esportesHub(sub){const comps=espComps(),js=espJogos(),hj=hojeSP();
+  const compSub=sub?comps.find(c=>(c.subtema||c.nome)===sub||c.nome===sub):null;
+  if(sub&&!compSub)return "";
+  let h=`<div class="esp gut">`;
+  if(!sub)h+=meuTimeHTML();
+  const filtra=j=>!compSub||j.comp===compSub.id;
+  const hoje=js.filter(j=>j.data===hj&&filtra(j)).sort((x,y)=>(x.estado==="ao_vivo"?-1:0)-(y.estado==="ao_vivo"?-1:0)||String(x.hora).localeCompare(String(y.hora)));
+  if(hoje.length){const por={};hoje.forEach(j=>(por[j.comp]=por[j.comp]||[]).push(j));
+    h+=`<div class="sh4-b"><h5>Jogos de hoje</h5>${Object.entries(por).map(([k,l])=>`${!compSub?`<span class="esp-sub">${esc(espComp(k)?.nome||k)}</span>`:""}<ul class="jg">${l.map(j=>espJogoHTML(j)).join("")}</ul>`).join("")}</div>`}
+  const prox=js.filter(j=>j.data>hj&&j.estado!=="encerrado"&&filtra(j)).sort((x,y)=>(x.data+(x.hora||"")).localeCompare(y.data+(y.hora||""))).slice(0,compSub?10:6);
+  if(prox.length)h+=`<div class="sh4-b"><h5>Próximos jogos</h5><ul class="jg">${prox.map(j=>espJogoHTML(j,{dia:1,comp:!compSub})).join("")}</ul></div>`;
+  const res=js.filter(j=>j.estado==="encerrado"&&j.data<hj&&filtra(j)).sort((x,y)=>String(y.data).localeCompare(String(x.data))).slice(0,compSub?10:4);
+  if(res.length&&compSub)h+=`<div class="sh4-b"><h5>Resultados</h5><ul class="jg">${res.map(j=>espJogoHTML(j,{dia:1})).join("")}</ul></div>`;
+  const dest=compSub||comps.find(c=>c.destaque&&((c.tabela||[]).length||(c.chave||[]).length))||comps.find(c=>(c.tabela||[]).length);
+  if(dest){const tb=tabelaHTML(dest,compSub?99:6),ch=chaveHTML(dest);if(tb||ch)h+=`<div class="sh4-b"><h5>${esc(dest.nome)}${dest.fase?" · "+esc(dest.fase):""}${!compSub?`<button type="button" data-comp="${esc(dest.id)}" style="font-family:var(--f-ui);text-transform:none;letter-spacing:0;color:var(--accent)">Ver ${tb?"tabela":"chave"} ›</button>`:""}</h5>${ch&&!tb?ch:tb}${compSub&&ch&&tb?ch:""}</div>`}
+  if(!compSub&&comps.length>1)h+=`<div class="sh4-b"><h5>Campeonatos</h5><div class="sh4-cf">${comps.map(c=>`<button type="button" data-comp="${esc(c.id)}"><b>${esc(c.nome)}</b><span>${esc(c.fase||"")}</span></button>`).join("")}</div></div>`;
+  return h+`</div>`}
+function abrirComp(id){const c=espComp(id);if(!c)return;uso("campeonato");const hj=hojeSP();const js=espJogos().filter(j=>j.comp===id);
+  const abas=[["jogos","Jogos"],[(c.tabela||[]).length?"tabela":"chave",(c.tabela||[]).length?"Tabela":"Chave"],["noticias","Notícias"]].filter(([k])=>k!=="chave"||(c.chave||[]).length);
+  const draw=k=>{let b="";
+    if(k==="jogos"){const fut=js.filter(j=>j.estado!=="encerrado").sort((x,y)=>(x.data+(x.hora||"")).localeCompare(y.data+(y.hora||""))),pas=js.filter(j=>j.estado==="encerrado").sort((x,y)=>String(y.data).localeCompare(String(x.data)));
+      b=(fut.length?`<span class="esp-sub">Próximos</span><ul class="jg">${fut.map(j=>espJogoHTML(j,{dia:1})).join("")}</ul>`:"")+(pas.length?`<span class="esp-sub">Resultados</span><ul class="jg">${pas.map(j=>espJogoHTML(j,{dia:1})).join("")}</ul>`:"")||`<p class="hint">Sem jogos na edição.</p>`}
+    if(k==="tabela")b=tabelaHTML(c)+(chaveHTML(c)?`<span class="esp-sub">Mata-mata</span>${chaveHTML(c)}`:"");
+    if(k==="chave")b=chaveHTML(c);
+    if(k==="noticias"){const ps=(FEED.pautas||[]).filter(p=>secOf(p)==="esportes"&&(p.subtema===(c.subtema||c.nome)||p.subtema===c.nome));b=ps.length?ps.map(p=>`<button type="button" class="bv-it" data-goto="${esc(p.id)}"><span>${esc(p.neutro?.titulo)}</span><span class="chev" aria-hidden="true">›</span></button>`).join(""):`<p class="hint">Sem notícias deste campeonato nesta edição.</p>`}
+    const box=$("#compbox");if(box)box.innerHTML=b;document.querySelectorAll("[data-compaba]").forEach(x=>x.setAttribute("aria-selected",String(x.dataset.compaba===k)))};
+  sheet(c.nome,`${c.fase?`<p class="hint" style="margin:0">${esc(c.fase)}</p>`:""}<div class="segs" role="tablist">${abas.map(([k,l])=>`<button type="button" role="tab" data-compaba="${k}">${l}</button>`).join("")}</div><div id="compbox"></div>`);
+  $(".sheet .segs").addEventListener("click",e=>{const b=e.target.closest("[data-compaba]");if(b)draw(b.dataset.compaba)});draw(js.length?"jogos":abas[1][0])}
+function abrirTime(t){uso("time");const ln=espLinha(t),px=espProx(t),vde=espVDE(t),nt=espNoticias(t),mt=PREF.meuTime&&espEh(PREF.meuTime,t);
+  const js=espJogos().filter(j=>espEh(j.a,t)||espEh(j.b,t)).sort((x,y)=>String(y.data).localeCompare(String(x.data)));
+  sheet(t,`${ln?`<p style="margin:0;font-size:15px"><b>${esc(ln.t.pos)}º</b> no ${esc(ln.c.nome)} · ${esc(ln.t.pts)} pts${ln.t.j!=null?" em "+esc(ln.t.j)+" jogos":""}</p>`:""}
+    ${vde.length?`<div class="vde" aria-label="Últimos resultados">${vde.map(r=>`<i class="${r}">${r}</i>`).join("")}</div>`:""}
+    ${px?`<span class="esp-sub">${px.estado==="ao_vivo"?"Jogando agora":"Próximo jogo"}</span><ul class="jg">${espJogoHTML(px,{dia:1,comp:1})}</ul>`:""}
+    ${js.filter(j=>j.estado==="encerrado").length?`<span class="esp-sub">Últimos jogos</span><ul class="jg">${js.filter(j=>j.estado==="encerrado").slice(0,5).map(j=>espJogoHTML(j,{dia:1,comp:1})).join("")}</ul>`:""}
+    <span class="esp-sub">Notícias</span>${nt.length?nt.map(p=>`<button type="button" class="bv-it" data-goto="${esc(p.id)}"><span>${esc(p.neutro?.titulo)}</span><span class="chev" aria-hidden="true">›</span></button>`).join(""):`<p class="hint" style="margin:0">Sem notícias do ${esc(t)} nesta edição.</p>`}
+    <button type="button" class="btn${mt?" ghost":""}" data-meutime="${esc(t)}">${mt?"É o seu time ✓":"Este é o meu time"}</button>`)}
+function abrirEscolhaTime(){const ts=espTimes();
+  sheet("Meu time",ts.length?`<p class="hint" style="margin:0">Fica salvo na sua conta e vale em todos os aparelhos.</p><div class="tpick">${ts.map(t=>`<button type="button" data-meutime="${esc(t)}" aria-pressed="${!!(PREF.meuTime&&espEh(PREF.meuTime,t))}">${esc(t)}</button>`).join("")}</div>${PREF.meuTime?`<button type="button" class="link" data-meutime="">Não acompanhar nenhum time</button>`:""}`:`<p class="hint">A lista de times aparece quando a rodada publicar jogos e tabela.</p>`)}
+(function(){const ant=secHub;secHub=function(sec){let h=ant(sec);if(sec==="esportes"&&FILTRO==="esportes"){const x=esportesHub(SECF&&SECF.sec==="esportes"?SECF.sub:"");if(x)h+=x}return h}})();
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
+  const c=t.closest("[data-comp]");if(c){e.stopPropagation();abrirComp(c.dataset.comp);return}
+  const tm=t.closest("[data-time]");if(tm){e.stopPropagation();abrirTime(tm.dataset.time);return}
+  if(t.closest("[data-escolhertime]")){e.stopPropagation();abrirEscolhaTime();return}
+  const mt=t.closest("[data-meutime]");if(mt){e.stopPropagation();const v=mt.dataset.meutime;if(v)PREF.meuTime=v;else delete PREF.meuTime;salvarPrefs();uso("meu_time");closeLayer();toast(v?"Meu time: "+v:"Você não acompanha nenhum time");if(FEED)renderPosts();return}
+},true);
+/* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
+if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
 </body>
 </html>
