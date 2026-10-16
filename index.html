@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Prumo News</title>
 <meta name="description" content="Os fatos no centro. Os ângulos ao lado.">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -817,6 +817,14 @@ textarea.field{font-family:var(--f-ui);font-size:16px;line-height:1.45}
 .snapacts{display:flex;flex-wrap:wrap;gap:4px 18px}
 .thread{min-height:calc(100vh - 230px);justify-content:flex-end}
 .mrow{display:flex;align-items:center;gap:10px}
+.reacs{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.reac{height:32px;padding:0 11px;border-radius:16px;background:var(--chip);font-size:13px;font-weight:600;color:var(--ink-2)}
+.reac:active{transform:scale(.96)}
+.reac-ok{font-size:12.5px;color:var(--muted)}
+.nconv{margin-left:auto;width:auto!important;min-height:36px;padding:0 14px;font-size:14px}
+.vertodos{display:block;margin:4px 0 6px;font-weight:700}
+#pq{margin:10px 0 4px}
+.bv{display:flex;flex-direction:column;gap:14px}.bv b{font-size:15.5px}.bv p{margin:4px 0 0;font-size:14.5px;line-height:1.45;color:var(--ink-2)}
 .msg.mine .mrow{justify-content:flex-end}
 .mrow .rspm{padding:4px 2px;min-height:28px;margin:0}
 .dia{align-self:center;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:capitalize;padding:6px 0 2px}
@@ -1183,7 +1191,7 @@ const prio=p=>(typeof p.prioridade==="number"?p.prioridade:(p.fontes||[]).length
 const ordenadas=list=>[...list].sort((a,b)=>prio(b)-prio(a)||String(b.hora).localeCompare(String(a.hora)));
 const pautaById=id=>(FEED?.pautas||[]).find(p=>p.id===id);
 function listaFeed(){if(!FEED)return [];
-  if(FILTRO==="_leu")return ordenadas(visiveis().filter(p=>leram(p.id).some(u=>u!==S.uid)));
+  if(FILTRO==="_leu")FILTRO="tudo";
   if(FILTRO==="_gostou")return ordenadas(visiveis().filter(p=>socialOf(p.id).likes.some(u=>u!==S.uid)));
   return FILTRO==="tudo"?ordenadas(visiveis()):pautasDa(FILTRO)}
 function nomeFiltro(f){if(f==="_leu")return "Lidas por amigos";if(f==="_gostou")return "Amigos gostaram";if(f==="tudo")return "Tudo";return secNome(f)}
@@ -1232,7 +1240,6 @@ function marcarLida(pid){
   const pp=pautaById(pid);if(!pid||(pp&&lidaAtual(pp)))return;LIDAS.set(pid,new Date().toISOString());const o=Object.fromEntries([...LIDAS].slice(-500));lsSet("radar-lidas2",o);registrarHistorico(pid);
   const el=document.getElementById("p-"+pid);if(el){el.querySelector(".badge-new")?.remove();el.querySelector(".lida-t")?.removeAttribute("hidden")}
   atualizarEmDia();
-  if(S.db&&S.uid&&S.membro){leituraFila[pid]=Date.now();clearTimeout(leituraTimer);leituraTimer=setTimeout(enviarLeituras,1500)}
 }
 async function enviarLeituras(){
   const fila=leituraFila;leituraFila={};if(!Object.keys(fila).length||!S.db||!S.uid||!S.membro)return;
@@ -1310,7 +1317,7 @@ function todosComentarios(){const out=[];Object.values(S.cmts).forEach(l=>l.forE
 function snapSocial(id){for(const m of Object.values(S.soc.curtidas||{})){const x=m&&m[id];if(x&&x.snap&&x.snap.titulo)return x.snap}return null}
 function votosDe(pid){const o={};Object.entries(S.soc.votos||{}).forEach(([u,m])=>{if(ehVisivel(u)&&m&&m[pid]!=null)o[u]=m[pid]});return o}
 function meuVoto(pid){const m=S.uid?(S.soc.votos||{})[S.uid]:null;return m?m[pid]:undefined}
-function atividadeAmigos(pid){const {likes,cm}=socialOf(pid),le=leram(pid);return amigosL().map(u=>({u,ac:[le.includes(u)?"leu":"",likes.includes(u)?"gostou":"",cm.some(c=>c.uid===u)?"comentou":""].filter(Boolean)})).filter(x=>x.ac.length)}
+function atividadeAmigos(pid){const {likes,cm}=socialOf(pid);return amigosL().map(u=>({u,ac:[likes.includes(u)?"gostou":"",cm.some(c=>c.uid===u)?"comentou":""].filter(Boolean)})).filter(x=>x.ac.length)}
 const CPEND={};
 function montarCmts(docs){const by={};docs.forEach(([uid,dd])=>Object.entries((dd&&dd.itens)||{}).forEach(([cid,c])=>{const k=uid+"\u0001"+cid,p=CPEND[k];if(p){if(Date.now()-p.t>30000||JSON.stringify(c??null)===JSON.stringify(p.v??null))delete CPEND[k]}if(c&&c.texto&&!(p&&p.v===null))(by[c.pid]=by[c.pid]||[]).push({...c,id:cid,uid})}));
   Object.entries(CPEND).forEach(([k,p])=>{if(Date.now()-p.t>90000){delete CPEND[k];return}if(!p.v)return;const [uid,cid]=k.split("\u0001");const l=(by[p.v.pid]=by[p.v.pid]||[]);if(!l.some(c=>c.id===cid))l.push({...p.v,id:cid,uid})});return by}
@@ -1330,7 +1337,7 @@ function updateSocial(pid){
   {const lk=el.querySelector("[data-likes]");lk.innerHTML=lt;if(lt){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}else{delete lk.dataset.a;lk.removeAttribute("role");lk.removeAttribute("tabindex")}}
   const pp=pautaById(pid);if(pp){const pl=el.querySelector("[data-poll]");if(pl){const eh=enqueteHTML(pp);pl.innerHTML=eh?`<span class="pb-l">Enquete</span>${eh}`:""}}
   {const ot=el.querySelector("[data-otr]");if(ot){const at=atividadeAmigos(pid);
-    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("gostou")||ac.includes("leu")?`data-filtro="${ac.includes("gostou")?"_gostou":"_leu"}"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
+    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("gostou")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
     else if(at.length>1)ot.innerHTML=`<span class="otr" role="button" tabindex="0" data-otrs="${esc(pid)}" aria-label="${esc(at.length+" amigos nesta notícia")}">${avatares(at.map(x=>x.u))}${at.length} amigos</span>`;
     else ot.innerHTML=""}}
   {const nc=el.querySelector("[data-nchat]");if(nc){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto);const u=ms[ms.length-1];nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}}
@@ -1484,8 +1491,9 @@ function openSend(pid,pre){uso("enviar");
   if(!others.length){sheet("Enviar",`<div class="empty" style="padding:18px 0"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para mandar notícias para eles.</div><button type="button" class="btn ghost" data-vgo="me">Ir ao Perfil</button><button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`);return}
   let sel=pre&&others.includes(pre)?pre:(others.length===1?others[0]:null);const snap=snapById(pid);
   const um=others.length===1;
-  sheet(um?"Enviar para "+nomeDe(others[0]):"Enviar",`${um?"":`<div class="pick" id="pick">${others.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="${u===sel}">${avatar(u)}${esc(nomeDe(u))}</button>`).join("")}</div>`}${shareCard(snap,'style="width:100%;pointer-events:none" tabindex="-1"')}<button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`,
+  sheet(um?"Enviar para "+nomeDe(others[0]):"Enviar",`${um?"":`${others.length>6?`<input class="field" id="pkq" type="search" autocomplete="off" placeholder="Buscar amigo" aria-label="Buscar amigo" style="margin-bottom:10px">`:""}<div class="pick" id="pick">${others.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="${u===sel}">${avatar(u)}${esc(nomeDe(u))}</button>`).join("")}</div>`}${shareCard(snap,'style="width:100%;pointer-events:none" tabindex="-1"')}<button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`,
     `<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)" aria-label="Mensagem"><button class="send" id="sbtn" type="submit" ${sel?"":"disabled"}>Enviar</button></form>`);
+  $("#pkq")?.addEventListener("input",e=>{const n=norm(e.target.value).trim();document.querySelectorAll("#pick [data-pick]").forEach(b=>b.hidden=!!n&&!norm(b.textContent).includes(n))});
   $("#pick")?.addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;sel=b.dataset.pick;document.querySelectorAll("[data-pick]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));$("#sbtn").disabled=false});
   $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel)return;const t=$("#stext").value.trim(),bt=$("#sbtn");if(bt.disabled&&bt.dataset.env)return;bt.disabled=true;bt.dataset.env="1";bt.textContent="Enviando…";
     try{await S.db.collection("mensagens").add({de:S.uid,para:sel,at:Date.now(),texto:t,pid,snap,lida:false});if($("#sform"))closeLayer();toast(`Enviado para ${nomeDe(sel)}`)}catch(err){const b=$("#sbtn");if(b){b.disabled=false;delete b.dataset.env;b.textContent="Enviar"}toast(err?.code==="permission_denied"?"Só dá para mandar para amigos.":"Não deu para enviar agora. Tente de novo.")}});
@@ -1514,7 +1522,6 @@ function openMenu(pid){uso("menu_post");
   sheet("Opções",`<div class="opt">
     ${tema?`<button type="button" data-tema="${esc(tema)}" data-acao="seguindo">${(PREF.seguindo||{})[tk]?"Deixar de seguir":"Seguir"} “${esc(tema)}”<span>${(PREF.seguindo||{})[tk]?"seguindo":"sobe no feed"}</span></button><button type="button" data-tema="${esc(tema)}" data-acao="silenciados">Silenciar “${esc(tema)}”<span>some do feed</span></button>`:""}
     ${as<0?`<button type="button" data-aj="reset" data-k="${esc(sec)}" data-t="${esc(tk)}">Voltar ao normal em ${esc(secNome(sec))}<span>menos ativo</span></button>`:`<button type="button" data-aj="sec" data-k="${esc(sec)}" data-d="-1">Menos notícias de ${esc(secNome(sec))}</button>`}
-    ${am.length===1?`<button type="button" data-lista="${esc(pid)}" data-com="${esc(am[0])}">${naLista(am[0])?"Tirar da lista com ":"Pôr numa lista com "}${esc(nomeDe(am[0]))}<span>para ler junto</span></button>`:am.length>1?`<button type="button" data-listapick="${esc(pid)}">Pôr numa lista com…<span>escolha um amigo</span></button>`:""}
     <button type="button" data-nota="${esc(pid)}">Guardar com uma nota</button>
     <button type="button" data-compart="${esc(pid)}">Compartilhar fora do Prumo<span>WhatsApp, e-mail…</span></button>
     <button type="button" data-a2="links" data-pid="${esc(pid)}">Abrir as matérias originais</button>
@@ -1563,7 +1570,14 @@ function ouvir(){
 
 /* ---------- conversas ---------- */
 function marcarLidasThread(th){if(document.hidden||!S.db)return;const nl=th.filter(m=>m.para===S.uid&&!m.lida);if(!nl.length)return;nl.forEach(m=>m.lida=true);const de=nl[0].de;S.db.marcarLidas(de).catch(()=>{nl.forEach(m=>m.lida=false);updateBadge()})}
-const REAC=[["concordo","Concordo"],["surpreso","Surpreso"],["discordo","Discordo"]];
+const REAC=[["concordo","👍","Concordo"],["surpreso","😮","Surpreso"],["discordo","👎","Discordo"]];
+function minhaReacao(m){return allMsgs().find(x=>x.de===S.uid&&x.para===m.de&&x.tipo==="reacao"&&x.pid===m.pid&&x.at>=m.at)}
+function reacHTML(m){const r=minhaReacao(m);if(r)return `<span class="reac-ok">Você reagiu: ${esc(r.texto)}</span>`;
+  return `<span class="reacs" role="group" aria-label="Reagir">${REAC.map(([k,e,l])=>`<button type="button" class="reac" data-reac="${esc(m.id)}" data-k="${k}">${e} ${l}</button>`).join("")}</span>`}
+async function reagir(mid,k){const m=allMsgs().find(x=>x.id===mid),r=REAC.find(x=>x[0]===k);if(!m||!r||!S.db)return;if(!S.amigos.has(m.de)){toast("Só dá para reagir com amigos.");return}vibrar(8);
+  const at=Date.now(),texto=r[1]+" "+r[2];const ext={pid:m.pid,snap:{id:m.pid,titulo:m.snap?.titulo||"",secao:m.snap?.secao||""},resp:true,tipo:"reacao"};
+  S.msgsOut.push({id:"tmp"+at,de:S.uid,para:m.de,at,texto,lida:false,...ext});renderMsgs();
+  try{await S.db.collection("mensagens").add({de:S.uid,para:m.de,at,texto,lida:false,...ext})}catch(e){S.msgsOut=S.msgsOut.filter(x=>x.id!=="tmp"+at);renderMsgs();toast("Não deu para reagir agora.")}}
 function allMsgs(){const m=new Map();[...S.msgsIn,...S.msgsOut].forEach(x=>m.set(x.id,x));return [...m.values()].sort((a,b)=>a.at-b.at)}
 function updateBadge(){const n=S.msgsIn.filter(m=>!m.lida).length,b=$("#badge");b.hidden=!n;b.textContent=n>9?"9+":n;const mb=$("#mbadge");if(mb){const p=S.pedidosIn.length;mb.hidden=!p;mb.setAttribute("aria-label",p?(p===1?"1 pedido de amizade":p+" pedidos de amizade"):"")}}
 function renderMsgs(){
@@ -1572,7 +1586,7 @@ function renderMsgs(){
   const msgs=allMsgs(),am=amigosL();
   if(THREAD){const amigo=S.amigos.has(THREAD);
     const th=msgs.filter(m=>(m.de===THREAD&&m.para===S.uid)||(m.de===S.uid&&m.para===THREAD));
-    let diaAnt="";const thrHTML=th.length?th.map(m=>{const dd=dataSP(m.at),sep=dd!==diaAnt?(diaAnt=dd,`<div class="dia">${esc(dd===dataSP()?"Hoje":dd===somaDias(dataSP(),-1)?"Ontem":new Date(m.at).toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"2-digit",timeZone:"America/Sao_Paulo"}))}</div>`):"";return sep+`<div class="msg ${m.de===S.uid?"mine":""}">${m.pid&&m.resp?`<button type="button" class="quote" data-open="${esc(m.pid)}">↪ ${esc(m.snap?.titulo||"notícia")}</button>`:m.pid?shareCard(m.snap,`data-open="${esc(m.pid)}"`).replace('class="share paper"','class="share paper mini"'):""}${m.texto?`<div class="bub">${esc(m.texto)}</div>`:""}<span class="mrow"><span class="mt">${esc(quando(m.at))}</span>${m.pid&&!m.resp?`<button type="button" class="c-a rspm" data-resp-msg="${esc(m.id)}">Responder</button>`:""}</span></div>`}).join(""):`<div class="empty"><b>Comece a conversa</b>Envie uma notícia pelo botão Enviar de qualquer post, ou escreva abaixo.</div>`;
+    let diaAnt="";const thrHTML=th.length?th.map(m=>{const dd=dataSP(m.at),sep=dd!==diaAnt?(diaAnt=dd,`<div class="dia">${esc(dd===dataSP()?"Hoje":dd===somaDias(dataSP(),-1)?"Ontem":new Date(m.at).toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"2-digit",timeZone:"America/Sao_Paulo"}))}</div>`):"";return sep+`<div class="msg ${m.de===S.uid?"mine":""}">${m.pid&&m.resp?`<button type="button" class="quote" data-open="${esc(m.pid)}">↪ ${esc(m.snap?.titulo||"notícia")}</button>`:m.pid?shareCard(m.snap,`data-open="${esc(m.pid)}"`).replace('class="share paper"','class="share paper mini"'):""}${m.texto?`<div class="bub">${esc(m.texto)}</div>`:""}<span class="mrow"><span class="mt">${esc(quando(m.at))}</span>${m.pid&&!m.resp?`<button type="button" class="c-a rspm" data-resp-msg="${esc(m.id)}">Responder</button>`:""}</span>${m.pid&&!m.resp&&m.de!==S.uid&&amigo?reacHTML(m):""}</div>`}).join(""):`<div class="empty"><b>Comece a conversa</b>Envie uma notícia pelo botão Enviar de qualquer post, ou escreva abaixo.</div>`;
     const ja=v.dataset.thr===THREAD&&v.dataset.am===String(amigo)&&v.querySelector(".thread");
     if(ja){const perto=document.documentElement.scrollHeight-scrollY-innerHeight<160,n0=v.querySelectorAll(".thread .msg").length;v.querySelector(".thread").innerHTML=thrHTML;marcarLidasThread(th);updateBadge();if(perto||th.length>n0&&th[th.length-1]?.de===S.uid)window.scrollTo(0,document.body.scrollHeight);return}
     v.dataset.thr=THREAD;v.dataset.am=String(amigo);RESP=null;
@@ -1587,10 +1601,10 @@ function renderMsgs(){
     window.scrollTo(0,document.body.scrollHeight);return;
   }
   const ult=u=>{const l=msgs.filter(m=>m.de===u||m.para===u);return l.length?l[l.length-1].at:0};
-  const others=[...new Set([...am,...msgs.map(m=>m.de===S.uid?m.para:m.de)])].filter(u=>u&&u!==S.uid).sort((a,b)=>ult(b)-ult(a));if(others.length===1&&am.includes(others[0])){THREAD=others[0];return renderMsgs()}v.dataset.thr="";
-  v.innerHTML=`<div class="gut"><div class="view-h"><h1>Conversas</h1></div>${others.length?`<ul class="people">${others.map(u=>{const th=msgs.filter(m=>m.de===u||m.para===u),last=th[th.length-1],un=th.filter(m=>m.para===S.uid&&!m.lida).length;
+  const others=[...new Set(msgs.map(m=>m.de===S.uid?m.para:m.de))].filter(u=>u&&u!==S.uid).sort((a,b)=>ult(b)-ult(a));if(am.length===1&&others.every(u=>u===am[0])){THREAD=am[0];return renderMsgs()}v.dataset.thr="";
+  v.innerHTML=`<div class="gut"><div class="view-h"><h1>Conversas</h1>${am.length&&others.length?`<button type="button" class="btn ghost nconv" data-novaconv>Nova conversa</button>`:""}</div>${others.length?`<ul class="people">${others.map(u=>{const th=msgs.filter(m=>m.de===u||m.para===u),last=th[th.length-1],un=th.filter(m=>m.para===S.uid&&!m.lida).length;
       return `<li><button type="button" data-thread="${esc(u)}">${avatar(u)}<span class="pt"><b>${esc(nomeDe(u))}</b><span class="${un?"unread":""}">${last?esc((last.de===S.uid?"Você: ":"")+(last.texto||("enviou: "+(last.snap?.titulo||"uma notícia"))))+" · "+esc(quando(last.at)):"Toque para conversar"}</span></span>${un?`<span class="dot" aria-label="${un} não lidas"></span>`:""}</button></li>`}).join("")}</ul>`
-      :`<div class="empty"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para conversar.<button type="button" class="btn ghost" data-vgo="me" style="margin-top:10px">Ir ao Perfil</button></div>`}</div>`;
+      :am.length?`<div class="empty"><b>Nenhuma conversa ainda</b>Mande uma notícia pelo botão Enviar de um post, ou comece uma conversa com um amigo.<button type="button" class="btn" data-novaconv style="margin-top:10px">Nova conversa</button></div>`:`<div class="empty"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para conversar.<button type="button" class="btn ghost" data-vgo="me" style="margin-top:10px">Ir ao Perfil</button></div>`}</div>`;
 }
 
 /* ---------- guardadas e perfil ---------- */
@@ -1598,7 +1612,7 @@ let ABA_G=lsGet("prumo-abag","minhas");
 function linhaSalva(pid,s,sub,extra=""){return `<li><button type="button" class="svr" data-open="${esc(pid)}"><span class="svt paper" data-sec="${esc(s.secao||"politica")}">${svgOf(s.imagem)}</span><span class="svx"><b>${esc(s.titulo||"Notícia")}</b><span>${sub}</span>${extra}</span></button></li>`}
 function itensLista(){const out=[];Object.entries(S.listas||{}).forEach(([u,m])=>Object.entries(m||{}).forEach(([pid,x])=>{if(x&&typeof x==="object")out.push({...x,pid,com:u,uid:x.uid===S.uid?S.uid:u})}));return out.sort((a,b)=>(b.at||0)-(a.at||0))}
 function renderSaved(){
-  const v=$("#v-saved"),nossa=itensLista(),tem=temAmigos()||nossa.length>0;if(!tem&&ABA_G==="nossa")ABA_G="minhas";if(tem&&!renderSaved._ok){const nm=Object.values(S.salvos).filter(Boolean).length,nn=nossa.length;if(ABA_G==="minhas"&&!nm&&nn)ABA_G="nossa";else if(ABA_G==="nossa"&&!nn&&nm)ABA_G="minhas"}if(S.amigosOk)renderSaved._ok=true;
+  const v=$("#v-saved"),nossa=[],tem=false;if(!tem&&ABA_G==="nossa")ABA_G="minhas";if(tem&&!renderSaved._ok){const nm=Object.values(S.salvos).filter(Boolean).length,nn=nossa.length;if(ABA_G==="minhas"&&!nm&&nn)ABA_G="nossa";else if(ABA_G==="nossa"&&!nn&&nm)ABA_G="minhas"}if(S.amigosOk)renderSaved._ok=true;
   const items=Object.entries(S.salvos).filter(([,x])=>x).sort((a,b)=>b[1].at-a[1].at);
   const abas=tem?`<div class="segs" role="tablist"><button type="button" role="tab" data-abag="minhas" aria-selected="${ABA_G==="minhas"}">Minhas (${items.length})</button><button type="button" role="tab" data-abag="nossa" aria-selected="${ABA_G==="nossa"}">Com amigos (${new Set(nossa.map(x=>x.pid)).size})</button></div>`:"";
   let corpo;
@@ -1630,7 +1644,7 @@ function renderMe(){
 function amigosCardHTML(){const am=amigosL(),pin=S.pedidosIn.filter(x=>S.membros[x]).sort((a,b)=>nomeDe(a).localeCompare(nomeDe(b),"pt-BR"));
   return `<div class="card amg"><b>Amigos</b>
     ${pin.length?`<span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul>${am.length?`<span class="amg-t">Seus amigos</span>`:""}`:""}
-    ${am.length?`<ul class="amgl">${am.map(x=>`<li><button type="button" class="amg-r" data-conversa="${esc(x)}">${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b><span>Conversar</span></span><i aria-hidden="true">›</i></button></li>`).join("")}</ul>`:`<p class="hint">Amigos veem o que você gosta, vota e comenta, e podem conversar com você.</p>`}
+    ${am.length?`<ul class="amgl">${am.slice(0,5).map(linhaAmigo).join("")}</ul>${am.length>5?`<button type="button" class="link vertodos" data-veramigos>Ver todos os ${am.length} amigos</button>`:""}`:`<p class="hint">Amigos veem o que você gosta, vota e comenta, e podem conversar com você.</p>`}
     <div class="lbtns"><button type="button" class="btn ghost" data-addamigos>Adicionar amigos</button><button type="button" class="btn ghost" data-convidar>Convidar alguém</button></div></div>`}
 function contaCardHTML(){return `<div class="card menu"><b class="cm-h">Conta</b><div class="cm-email"><span>E-mail</span><b>${esc(S.email||"")}</b></div>${S.membro?`<button type="button" data-a="nome"><span>Mudar meu nome</span><i>›</i></button>`:""}<button type="button" data-privacidade><span>Política de privacidade</span><i>›</i></button><button type="button" data-sair><span>Sair</span><i>›</i></button><button type="button" class="perigo" data-excluir><span>Excluir minha conta</span><i>›</i></button></div>`}
 let RRT=0;function refiltrar(){if(FILTRO[0]!=="_"||VIEW!=="feed")return;clearTimeout(RRT);RRT=setTimeout(()=>{const y=scrollY;renderPosts();window.scrollTo(0,y)},400)}
@@ -1673,6 +1687,10 @@ document.addEventListener("click",e=>{
   const cp=t.closest("[data-compart]");if(cp){const id=cp.dataset.compart;if(cp.closest(".sheet"))closeLayer();compartilhar(id);return}
   const ag2=t.closest("[data-abag]");if(ag2){ABA_G=ag2.dataset.abag;lsSet("prumo-abag",ABA_G);renderSaved();return}
   const rsp=t.closest("[data-resp-msg]");if(rsp){responderMsg(rsp.dataset.respMsg);return}
+  const rc=t.closest("[data-reac]");if(rc){reagir(rc.dataset.reac,rc.dataset.k);return}
+  if(t.closest("[data-novaconv]")){abrirNovaConversa();return}
+  if(t.closest("[data-veramigos]")){abrirTodosAmigos();return}
+  const cnp=t.closest("[data-cancelar]");if(cnp){cnp.disabled=true;cancelarPedido(cnp.dataset.cancelar);return}
   if(t.closest("[data-resp-x]")){RESP=null;$("#respbar")?.remove();return}
   const nc=t.closest("[data-nachat]");if(nc){abrirConversa(nc.dataset.nachat);return}
   const tm2=t.closest("[data-tema-ui]");if(tm2){PREF.tema=tm2.dataset.temaUi;aplicarTema();salvarPrefs();refreshAjustes();return}
@@ -2409,11 +2427,11 @@ function podarDepois(){if(S._podou||PODA_T)return;PODA_T=setTimeout(podar,20000)
 async function podar(){PODA_T=0;if(!S.db||!S.uid||!S.membro||S._podou)return;S._podou=1;const agora=Date.now(),dia=864e5;
   const velhos=(m,dias,quando)=>Object.entries(m||{}).filter(([,v])=>{const t=quando(v);return t&&agora-t>dias*dia}).map(([k])=>k);
   const tempo=v=>typeof v==="number"?v:(v&&typeof v==="object"&&+v.at)||0;
-  const tarefas=[["curtidas",velhos((S.raw.curtidas||{})[S.uid],45,tempo)],["leituras",velhos((S.leituras||{})[S.uid],10,tempo)]];
+  const tarefas=[["curtidas",velhos((S.raw.curtidas||{})[S.uid],45,tempo)],["leituras",[]]];
   const meusC=(S._cmtDocs.find(([u])=>u===S.uid)||[])[1];tarefas.push(["comentarios",velhos(meusC&&meusC.itens,60,tempo)]);
   const vt=(S.raw.votos||{})[S.uid]||{};if(Object.keys(vt).length>150&&FEED){const vivos=new Set((FEED.pautas||[]).map(p=>p.id));tarefas.push(["votos",Object.keys(vt).filter(k=>!vivos.has(k))])}
   for(const [col,ks] of tarefas){if(!ks.length)continue;const patch={};ks.slice(0,400).forEach(k=>patch[k]=null);try{await gravarMapa(col+"/"+S.uid,"itens",null,null,patch)}catch(e){}}
-  try{if(S.db)await S.db.doc("juntos/"+S.uid).delete()}catch(e){}}
+  for(const p of ["juntos/"+S.uid,"leituras/"+S.uid]){try{if(S.db)await S.db.doc(p).delete()}catch(e){}}}
 function iniciarSocial(uid,donoNovo){
   const db=S.db,vale=()=>S.db===db;const mk=q=>q.docs.filter(d=>d.exists).map(d=>({id:d.id,...d.data()}));
   const soc=()=>{refiltrar();if(FEED)(FEED.pautas||[]).forEach(p=>updateSocial(p.id));S._reCmt&&S._reCmt();if(VIEW==="me")renderMe();if(VIEW==="play")renderPlay();updatePlayBadge()};
@@ -2422,17 +2440,15 @@ function iniciarSocial(uid,donoNovo){
   db.collection("amizades").onSnapshot(q=>{if(!vale())return;const am=new Set(),pin=[],pout=[];q.docs.forEach(d=>{const x=d.data();if(!x)return;const o=x.de===uid?x.para:x.de;if(x.status==="aceita")am.add(o);else if(x.para===uid)pin.push(x.de);else pout.push(x.para)});
     S.amigos=am;S.pedidosIn=pin;S.pedidosOut=pout;S.amigosOk=true;derivaQuiz();if(FEED&&FILTRO[0]==="_"&&!am.size)renderFeed();rerenderAll()},()=>{});
   ["curtidas","votos"].forEach(col=>db.collection(col).onSnapshot(q=>{if(!vale())return;const r={};q.docs.forEach(d=>{if(d.exists)r[d.id]=(d.data()||{}).itens||{}});S.raw[col]=r;recalcSoc(col);soc();podarDepois()},()=>{}));
-  db.collection("leituras").onSnapshot(q=>{if(!vale())return;const r={};q.docs.forEach(d=>{if(d.exists)r[d.id]=(d.data()||{}).itens||{}});S.leituras=r;soc();podarDepois()},()=>{});
   db.collection("comentarios").onSnapshot(q=>{if(!vale())return;S._cmtDocs=q.docs.filter(d=>d.exists).map(d=>[d.id,d.data()]);S.cmts=montarCmts(S._cmtDocs);soc();podarDepois()},()=>{});
-  db.collection("quiz").onSnapshot(q=>{if(!vale())return;S.quizDocs={};q.docs.forEach(d=>{if(d.exists)S.quizDocs[d.id]=d.data()||{}});derivaQuiz();renderChgBox();updatePlayBadge();if(VIEW==="play")renderPlay()},()=>{});
-  db.collection("lista").onSnapshot(q=>{if(!vale())return;const r={};q.docs.forEach(d=>{if(!d.exists)return;const [a,b]=d.id.split("_");r[a===uid?b:a]=(d.data()||{}).itens||{}});S.raw.listas=r;montarListas();if(VIEW==="saved")renderSaved()},()=>{});
+  db.doc("quiz/"+uid).onSnapshot(d=>{if(!vale())return;S.quizDocs=d.exists?{[uid]:d.data()||{}}:{};derivaQuiz();renderChgBox();updatePlayBadge();if(VIEW==="play")renderPlay()},()=>{});
   db.collection("mensagens").where("para","==",uid).onSnapshot(q=>{if(!vale())return;S.msgsIn=mk(q);updateBadge();if(VIEW==="msgs")renderMsgs();atualizarChatPosts()},()=>{});
   db.collection("mensagens").where("de","==",uid).onSnapshot(q=>{if(!vale())return;S.msgsOut=mk(q);if(VIEW==="msgs")renderMsgs();if(VIEW==="me")renderMe();atualizarChatPosts()},()=>{});
   db.doc(`data/users/${uid}/salvos`).onSnapshot(d=>{if(!vale())return;const it=d.exists?(d.data().itens||{}):{};S.salvos={};let nulos=0;Object.entries(it).forEach(([k,v])=>{if(v)S.salvos[k]=clone(v);else nulos++});rerenderAll();if(nulos>25&&!S._compactou){S._compactou=1;const p=`data/users/${uid}/salvos`;emFila(p,()=>db.doc(p).set({itens:clone(S.salvos)})).catch(()=>{})}},()=>{});
   db.collection("erros").where("uid","==",uid).onSnapshot(q=>{if(!vale())return;S.erros=mk(q).sort((a,b)=>b.at-a.at);if(VIEW==="me")renderMe()},()=>{});
   (async()=>{try{const gh=await db.doc(`data/users/${uid}/historico`).get();if(!vale())return;if(gh.exists){HIST={...(gh.data().itens||{}),...HIST};lsSet("radar-hist",HIST)}}catch(e){}})();
   carregarErrosResp();
-  const espera=()=>{if(!vale())return;if(!FEED){setTimeout(espera,500);return}subEdicao();if(LIDAS.size){(FEED.pautas||[]).forEach(p=>{if(LIDAS.has(p.id))leituraFila[p.id]=Date.now()});enviarLeituras()}};espera();
+  const espera=()=>{if(!vale())return;if(!FEED){setTimeout(espera,500);return}subEdicao()};espera();
 }
 async function initSocial(){
   try{if(sessionStorage.getItem("prumo-excluida")){sessionStorage.removeItem("prumo-excluida");toast("Sua conta foi excluída.")}}catch(e){}
@@ -2470,7 +2486,7 @@ setInterval(()=>{if(document.hidden||!FEED)return;document.querySelectorAll("tim
 function hPush(){try{history.pushState({prumo:Date.now()},"");return true}catch(e){return false}}
 window.addEventListener("popstate",()=>{if(IGN>0){IGN--;if(!IGN)while(PUSHQ>0){PUSHQ--;hPush()}return}
   if(HST>0){HST--;closeLayer(true);return}
-  if(TST>0){TST--;THREAD=null;renderMsgs();return}
+  if(TST>0){TST--;THREAD=null;if(THREAD_DE){const d=THREAD_DE;THREAD_DE=null;if(d==="feed"&&VST>0){VST--;voltarH(1)}go(d,true);return}renderMsgs();return}
   if(JUMPS.length){voltarDoSalto();return}
   if(FST>0){FST--;FILTRO="tudo";ssSet("radar-filtro",FILTRO);renderSecs();renderPosts();return}
   if(VST>0){VST--;go("feed",true);return}});
@@ -2540,14 +2556,15 @@ function storyAuto(p){clearTimeout(ST.timer);if(!PREF.storyAuto)return;const w=(
 function storyRetoma(){if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2")?.innerHTML)return;const r=ST.resto||4000;ST.fim=Date.now()+r;ST.timer=setTimeout(()=>storyGo(1),r);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"}
 /* ---------- v14 ---------- */
 function abrirFiltro(){uso("filtro_sheet");const opc=[{id:"tudo",nome:"Tudo",n:visiveis().length},...SECS().filter(s=>pautasDa(s.id).length).map(s=>({id:s.id,nome:s.nome,n:pautasDa(s.id).length,cor:secCor(s.id)}))];
-  if(temAmigos()){const sv=FILTRO;FILTRO="_leu";const a=listaFeed().length;FILTRO="_gostou";const b=listaFeed().length;FILTRO=sv;opc.push({id:"_leu",nome:"Lidas por amigos",n:a,cor:"var(--bronze)"},{id:"_gostou",nome:"Amigos gostaram",n:b,cor:"var(--bronze)"})}
+  if(temAmigos()){const sv=FILTRO;FILTRO="_gostou";const b=listaFeed().length;FILTRO=sv;opc.push({id:"_gostou",nome:"Amigos gostaram",n:b,cor:"var(--bronze)"})}
   sheet("Filtrar o feed",`<div class="opt fopt">${opc.map(x=>`<button type="button" data-filtro="${esc(x.id)}" aria-pressed="${FILTRO===x.id}">${x.cor?`<i style="background:${x.cor}"></i>`:""}<b>${esc(x.nome)}</b><span>${x.n} ${x.n===1?"notícia":"notícias"}${FILTRO===x.id?" · atual":""}</span></button>`).join("")}</div>`)}
 function abrirNovidades(){const l=NOVID.map(pautaById).filter(Boolean);
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="ult">${l.map(p=>`<li><button type="button" data-goto="${esc(p.id)}"><span class="u-t"><b style="color:${secCor(secOf(p))}">${NOVAS.has(p.id)?"Nova":"Atualizada"}</b> · ${esc(secNome(secOf(p)))}</span><span class="u-x">${esc(p.neutro?.titulo||"")}</span>${lidaAtual(p)?`<span class="u-t">✓ lida</span>`:""}</button></li>`).join("")}</ul>`)}
 function atualizarChatPosts(){if(!FEED)return;const ps=new Set(allMsgs().filter(m=>m.pid).map(m=>m.pid));ps.forEach(pid=>{if(document.getElementById("p-"+pid))updateSocial(pid)})}
 let RESP=null;
 function responderMsg(mid){const m=allMsgs().find(x=>x.id===mid);if(!m)return;RESP={pid:m.pid,snap:m.snap?{id:m.pid,titulo:m.snap.titulo||"",secao:m.snap.secao||""}:{id:m.pid}};$("#respbar")?.remove();const f=$("#mform");if(!f)return;f.insertAdjacentHTML("beforebegin",`<div id="respbar" class="respbar"><span>Respondendo a: <b>${esc(m.snap?.titulo||"notícia")}</b></span><button type="button" data-resp-x aria-label="Cancelar resposta">✕</button></div>`);$("#mtext")?.focus()}
-function abrirConversa(uid){THREAD=uid;if(VIEW!=="msgs")go("msgs");else renderMsgs();if(amigosL().length>1&&pushH())TST++}
+var THREAD_DE=null;
+function abrirConversa(uid){const de=VIEW;THREAD=uid;if(VIEW!=="msgs")go("msgs");else renderMsgs();if((amigosL().length>1||de!=="msgs")&&pushH()){TST++;THREAD_DE=de!=="msgs"?de:null}}
 
 function listaPath(u){return "lista/"+[S.uid,u].sort().join("_")}
 async function alternarLista(pid,com){if(precisaConta())return;if(!com){const am=amigosL();if(am.length===1)com=am[0];else{abrirEscolhaLista(pid);return}}
@@ -2618,15 +2635,19 @@ async function criarConta(){const cod=$("#lcod").value.trim().toUpperCase(),nome
     if(!r.data.session){const r2=await sb.auth.signInWithPassword({email:em,password:pw});if(r2.error){CRIANDO=false;b.disabled=false;return mostraErro("#lerro","A conta foi criada, mas o e-mail precisa ser confirmado antes. Fale com o Pedro.")}user=r2.data.user}
     await trocarSessao(user);
     try{await usarConvite(cod,nome,user)}catch(e){CRIANDO=false;abrirFaltaConvite({codigo:cod,nome,erro:erroAuth(e)});return}
-    CRIANDO=false;closeLayer();toast("Bem-vindo ao Prumo, "+nome+".")}
+    CRIANDO=false;closeLayer();boasVindas(nome)}
   catch(e){CRIANDO=false;b.disabled=false;mostraErro("#lerro",erroAuth(e))}}
+function boasVindas(nome){setTimeout(()=>{sheet("Bem-vindo ao Prumo, "+nome,`<div class="bv">
+  <div><b>📰 As notícias do dia, num lugar só</b><p>A cada hora o Prumo lê vários veículos, junta o que fala do mesmo fato e escreve um resumo próprio, com os ângulos de cada lado.</p></div>
+  <div><b>👥 Seus amigos</b><p>Quem te convidou já é seu amigo. Amigos veem o que você curte, vota e comenta. Mensagens ficam só entre vocês dois. Para achar mais gente, vá ao Perfil › Adicionar amigos.</p></div>
+  <div><b>📲 Use como app</b><p>No celular, adicione o Prumo à tela de início. O passo a passo está no fim do Perfil.</p></div></div>`,`<button type="button" class="btn" data-close>Começar a ler</button>`)},280)}
 async function usarConvite(cod,nome,user){const sb=sbCliente();const u=user||S.user;const r=await sb.rpc("entrar",{p_codigo:cod||null,p_nome:nome});if(r.error)throw r.error;await trocarSessao(u,true);return r.data}
 function abrirFaltaConvite(o){o=o||{};if(!S.uid)return abrirLogin();
   sheet("Falta só o convite",`<p class="hint" style="margin:0;font-size:14.5px">Você entrou como <b>${esc(S.email)}</b>, mas ainda não faz parte do Prumo. Use o código do convite que você recebeu.</p>
     <form id="fform" class="lform" novalidate><label>Código do convite<input class="field" id="fcod" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" value="${esc(o.codigo||CONVITE_URL||"")}"></label><label>Seu nome<input class="field" id="fnome" maxlength="40" autocomplete="given-name" value="${esc(o.nome||"")}"></label>
     <p class="erro-t" id="ferro" role="alert"${o.erro?"":" hidden"}>${esc(o.erro||"")}</p><button class="btn" type="submit">Entrar no Prumo</button><button type="button" class="link" data-sair>Sair desta conta</button></form>`);
   $("#fform").addEventListener("submit",async e=>{e.preventDefault();const cod=$("#fcod").value.trim().toUpperCase(),nome=$("#fnome").value.trim(),b=e.target.querySelector("[type=submit]");if(!nome)return mostraErro("#ferro","Escreva seu nome.");
-    b.disabled=true;try{await usarConvite(cod,nome);closeLayer();toast("Pronto, você está no Prumo.")}catch(err){b.disabled=false;mostraErro("#ferro",erroAuth(err))}})}
+    b.disabled=true;try{await usarConvite(cod,nome);closeLayer();boasVindas(nome)}catch(err){b.disabled=false;mostraErro("#ferro",erroAuth(err))}})}
 async function sair(){closeLayer();const sb=sbCliente();await trocarSessao(null);try{await sb?.auth.signOut({scope:"local"})}catch(e){}limparLocalConta();toast("Você saiu.")}
 /* o que é pessoal e fica no aparelho: some ao sair e quando outra conta entra neste aparelho.
    Fica: radar-feed (edição pública em cache) e a sessão do Supabase (o signOut cuida). */
@@ -2635,20 +2656,29 @@ function limparLocalConta(){CHAVES_CONTA.forEach(k=>{try{localStorage.removeItem
   Object.keys(PREF).forEach(k=>delete PREF[k]);Object.assign(PREF,{ordem:[],ocultas:[],ajuste:{sec:{},tag:{}},fonte:1,conhecidas:{}});normPrefs();
   SEEN.clear();LIDAS.clear();HIST={};USO={};ABA_G="minhas";FILTRO="tudo";VISITA0=null;NOVAS=new Set();ATUALIZADAS=new Set();NOVID=[];QUIZ_LOCAL=null;RESP=null;THREAD=null;
   aplicarFonte();if(FEED){calcularNovidades();renderFeed();renderChgBox()}rerenderAll()}
+function listaPessoasSheet(tit,intro,ids,linha,vazio){
+  const draw=q=>{const n=norm(q||"").trim(),todos=ids(),l=todos.filter(u=>!n||norm(nomeDe(u)).includes(n));return l.length?`<ul class="amgl">${l.map(linha).join("")}</ul>`:`<div class="empty" style="padding:14px 0"><b>${n?"Ninguém com esse nome":vazio}</b></div>`};
+  sheet(tit,`${intro||""}${ids().length>5?`<input class="field" id="pq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar pelo nome" aria-label="Buscar pelo nome">`:""}<div id="pbox">${draw("")}</div>`);
+  const i=$("#pq");if(i)i.addEventListener("input",()=>{const b=$("#pbox");if(b)b.innerHTML=draw(i.value)});
+  return ()=>{const b=$("#pbox");if(!b)return false;b.innerHTML=draw($("#pq")?.value||"");return true}}
+const linhaAmigo=x=>`<li><button type="button" class="amg-r" data-conversa="${esc(x)}">${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b><span>Conversar</span></span><i aria-hidden="true">›</i></button></li>`;
+function abrirTodosAmigos(){listaPessoasSheet(`Seus amigos (${amigosL().length})`,"",amigosL,linhaAmigo,"Nenhum amigo ainda")}
+function abrirNovaConversa(){if(precisaConta())return;listaPessoasSheet("Nova conversa","",amigosL,linhaAmigo,"Nenhum amigo ainda")}
+async function cancelarPedido(u){if(precisaConta())return;S.pedidosOut=S.pedidosOut.filter(x=>x!==u);rerenderAll();S._reAmg&&S._reAmg();
+  try{await S.db.rpc("desfazer_amizade",{p_uid:u});toast("Pedido cancelado.")}catch(e){toast("Não deu para cancelar agora.");S.db&&S.db.recarregar()}}
 function abrirAddAmigos(){if(precisaConta())return;
-  const draw=()=>{const ms=Object.keys(S.membros).filter(u=>u!==S.uid&&!S.amigos.has(u)).sort((a,b)=>nomeDe(a).localeCompare(nomeDe(b),"pt-BR"));
-    return ms.length?`<ul class="amgl">${ms.map(u=>{const env=S.pedidosOut.includes(u),rec=S.pedidosIn.includes(u),cp=S.membros[u]?.convidado_por;
-      return `<li>${avatar(u)}<span class="amg-n"><b>${esc(nomeDe(u))}</b>${cp&&S.membros[cp]?`<span>${cp===S.uid?"você convidou":"convidado por "+esc(nomeDe(cp))}</span>`:""}</span>${rec?`<button type="button" class="btn amg-b" data-aceitar="${esc(u)}">Aceitar</button>`:env?`<button type="button" class="btn ghost amg-b" disabled>Pedido enviado</button>`:`<button type="button" class="btn amg-b" data-pedir="${esc(u)}">Pedir amizade</button>`}</li>`}).join("")}</ul>`
-      :`<div class="empty" style="padding:18px 0"><b>Todo mundo já é seu amigo</b>Para trazer alguém novo, use “Convidar alguém”.</div>`};
-  sheet("Adicionar amigos",`<p class="hint" style="margin:0">Pessoas que já estão no Prumo. Quando a pessoa aceitar, vocês passam a ver a atividade um do outro.</p><div id="amgbox">${draw()}</div>`);
-  S._reAmg=()=>{const b=$("#amgbox");if(b)b.innerHTML=draw();else S._reAmg=null}}
+  const ids=()=>Object.keys(S.membros).filter(u=>u!==S.uid&&!S.amigos.has(u)).sort((a,b)=>(S.pedidosIn.includes(b)-S.pedidosIn.includes(a))||(S.pedidosOut.includes(b)-S.pedidosOut.includes(a))||nomeDe(a).localeCompare(nomeDe(b),"pt-BR"));
+  const linha=u=>{const env=S.pedidosOut.includes(u),rec=S.pedidosIn.includes(u),cp=S.membros[u]?.convidado_por;
+    return `<li>${avatar(u)}<span class="amg-n"><b>${esc(nomeDe(u))}</b>${rec?`<span>quer ser seu amigo</span>`:cp&&S.membros[cp]?`<span>${cp===S.uid?"você convidou":"convidado por "+esc(nomeDe(cp))}</span>`:""}</span>${rec?`<button type="button" class="btn amg-b" data-aceitar="${esc(u)}">Aceitar</button>`:env?`<button type="button" class="btn ghost amg-b" data-cancelar="${esc(u)}">Cancelar pedido</button>`:`<button type="button" class="btn amg-b" data-pedir="${esc(u)}">Pedir amizade</button>`}</li>`};
+  const re=listaPessoasSheet("Adicionar amigos",`<p class="hint" style="margin:0">Pessoas que já estão no Prumo. Quando a pessoa aceitar, vocês passam a ver a atividade um do outro. Para trazer alguém novo, use “Convidar alguém”.</p>`,ids,linha,"Todo mundo já é seu amigo");
+  S._reAmg=()=>{if(!re())S._reAmg=null}}
 async function pedirAmizade(u,btn){if(precisaConta())return;if(btn){btn.disabled=true;btn.textContent="Pedido enviado";btn.classList.add("ghost")}
   try{const r=await S.db.rpc("pedir_amizade",{p_uid:u});if(r==="aceita"){S.amigos.add(u);toast("Agora você e "+nomeDe(u)+" são amigos.")}else{if(!S.pedidosOut.includes(u))S.pedidosOut.push(u);toast("Pedido enviado para "+nomeDe(u)+".")}rerenderAll()}
   catch(e){if(btn){btn.disabled=false;btn.textContent="Pedir amizade";btn.classList.remove("ghost")}toast("Não deu para pedir agora.")}}
 async function responderAmizade(u,aceitar){if(precisaConta())return;S.pedidosIn=S.pedidosIn.filter(x=>x!==u);if(aceitar)S.amigos.add(u);rerenderAll();
   try{await S.db.rpc("responder_amizade",{p_uid:u,p_aceitar:!!aceitar});toast(aceitar?"Agora você e "+nomeDe(u)+" são amigos.":"Pedido recusado.")}catch(e){toast("Não deu para responder agora.");S.db&&S.db.recarregar()}}
 function abrirThMenu(u){if(!S.amigos.has(u))return;sheet("Conversa com "+nomeDe(u),`<div class="opt"><button type="button" data-desfazer="${esc(u)}">Desfazer amizade<span>vocês deixam de se ver</span></button></div>`)}
-function confirmarDesfazer(u){sheet("Desfazer amizade?",`<p style="margin:0;font-size:15px;line-height:1.5">Você e ${esc(nomeDe(u))} deixam de ver as curtidas, os votos, os comentários e as leituras um do outro, e não dá mais para trocar mensagens. A conversa antiga continua aqui. Dá para pedir amizade de novo depois.</p><button type="button" class="btn perigo" data-desfazerok="${esc(u)}">Desfazer amizade</button><button type="button" class="btn ghost" data-close>Cancelar</button>`)}
+function confirmarDesfazer(u){sheet("Desfazer amizade?",`<p style="margin:0;font-size:15px;line-height:1.5">Você e ${esc(nomeDe(u))} deixam de ver as curtidas, os votos e os comentários um do outro, e não dá mais para trocar mensagens. A conversa antiga continua aqui. Dá para pedir amizade de novo depois.</p><button type="button" class="btn perigo" data-desfazerok="${esc(u)}">Desfazer amizade</button><button type="button" class="btn ghost" data-close>Cancelar</button>`)}
 async function desfazerAmizade(u){closeLayer();try{await S.db.rpc("desfazer_amizade",{p_uid:u});S.amigos.delete(u);if(THREAD===u){THREAD=null;if(TST>0){TST--;voltarH(1)}}rerenderAll();toast("Amizade desfeita.")}catch(e){toast("Não deu para desfazer agora.")}}
 function abrirConvite(){if(precisaConta())return;
   sheet("Convidar alguém",`<p style="margin:0;font-size:15px;line-height:1.5">Gere um link e mande para a pessoa. Ela cria a conta por ele e vocês já entram como amigos.</p><p class="hint" style="margin:0">Cada convite vale para uma pessoa.</p><div id="cvbox" style="display:flex;flex-direction:column;gap:8px"><button type="button" class="btn" data-gerarconvite>Gerar convite</button></div>`)}
@@ -2660,7 +2690,7 @@ async function copiarConvite(){const l=S._cvlink;if(!l)return;try{await navigato
 async function enviarConvite(){const l=S._cvlink;if(!l)return;try{if(navigator.share){await navigator.share({title:"Prumo News",text:"Entre no Prumo News com o meu convite:",url:l});return}}catch(e){if(e&&e.name==="AbortError")return}copiarConvite()}
 function abrirPrivacidade(){sheet("Política de privacidade",`<div class="priv" style="display:flex;flex-direction:column;gap:8px">
   <h4>O que o Prumo guarda</h4><p>Seu nome e e-mail; suas curtidas, votos, comentários e leituras; o quiz; as mensagens; as guardadas e as notas; o histórico de leitura; as preferências do app; e os avisos de erro que você manda.</p>
-  <h4>Quem vê</h4><p>Seus amigos veem suas curtidas, votos, comentários, leituras e quiz. Mensagens, só quem mandou e quem recebeu. Uma lista com um amigo, só vocês dois. Guardadas, notas, histórico e preferências, só você. Quem está no Prumo vê o seu nome.</p>
+  <h4>Quem vê</h4><p>Seus amigos veem suas curtidas, votos e comentários. Mensagens, só quem mandou e quem recebeu. Guardadas, notas, leituras, quiz, histórico e preferências, só você. Quem está no Prumo vê o seu nome.</p>
   <p>O texto dos avisos de erro (sem o nome de quem mandou) é lido pela rodada automática que confere as notícias.</p>
   <h4>Onde fica</h4><p>No Supabase, com servidores em São Paulo.</p>
   <h4>O que o Prumo não faz</h4><p>Não tem anúncios e não vende nem repassa dados.</p>
