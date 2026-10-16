@@ -898,6 +898,69 @@ html:root .btn.perigo{background:var(--hot);color:var(--card)}
 .avisoconta .av-entrar{background:var(--bronze-ink);color:var(--bronze-soft);border-radius:9px;padding:7px 12px}
 .view-h .icbtn{margin-left:auto}
 .opt button span.av{color:#fff;font-size:13px;width:32px;height:32px;flex:none}
+
+/* ================= Etapa 1: visual (vidro, barra flutuante, transições) ================= */
+:root{--glass:rgb(255 255 255 / .6);--glass-edge:rgb(255 255 255 / .7);--glass-line:rgb(20 33 58 / .08);--glass-shadow:0 10px 30px rgb(20 33 58 / .16),0 1px 3px rgb(20 33 58 / .08);--glass-blur:blur(22px) saturate(1.8)}
+html,body{overscroll-behavior-y:none}
+/* barra inferior: pílula flutuante de vidro */
+.nav{left:50%!important;right:auto!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;width:calc(100% - 24px);max-width:520px;transform:translateX(-50%);border-radius:30px;border:1px solid var(--glass-line)!important;border-top:1px solid var(--glass-line)!important;padding:0!important;background:var(--glass)!important;-webkit-backdrop-filter:var(--glass-blur)!important;backdrop-filter:var(--glass-blur)!important;box-shadow:var(--glass-shadow),inset 0 1px 0 var(--glass-edge);transition:transform .38s cubic-bezier(.2,1.25,.4,1),width .38s cubic-bezier(.2,1.1,.4,1);view-transition-name:barra}
+.nav::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(120% 140% at 20% -40%,rgb(255 255 255 / .55),transparent 55%)}
+.nav-in{height:60px!important;padding:6px 8px!important;gap:4px!important;transition:height .3s cubic-bezier(.2,1.1,.4,1)}
+.nav button{border-radius:24px!important;font-size:11px!important;gap:2px!important;transition:background .2s,color .2s,transform .15s}
+.nav button .ico{width:25px!important;height:25px!important;transition:transform .3s cubic-bezier(.2,1.25,.4,1)}
+.nav button .lbl{display:block;line-height:1.1;transition:opacity .2s,max-height .3s;max-height:16px;overflow:hidden}
+.nav button[aria-current="page"]{background:rgb(20 33 58 / .08)!important}
+.nav button:active .ico{transform:scale(.88)}
+.nav.mini{width:min(300px,calc(100% - 96px));transform:translateX(-50%) translateY(4px)}
+.nav.mini .nav-in{height:48px!important}
+.nav.mini .lbl{opacity:0;max-height:0}
+.nav.mini .ico{transform:scale(.92)}
+.app{padding-bottom:calc(60px + 26px + env(safe-area-inset-bottom,0px))!important}
+.composer{bottom:calc(60px + 18px + env(safe-area-inset-bottom,0px))!important;border-radius:20px;left:12px!important;right:12px!important;border:1px solid var(--glass-line)!important;background:var(--glass)!important;-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow)}
+.toast{bottom:calc(60px + 28px + env(safe-area-inset-bottom,0px))!important}
+.abar{bottom:calc(60px + 22px + env(safe-area-inset-bottom,0px))!important}
+/* topo: some ao descer, volta ao subir, vidro depois de rolar */
+.top{transition:transform .3s cubic-bezier(.2,1,.3,1),background .2s;will-change:transform}
+.top.rolou{background:rgb(243 244 246 / .72)!important;-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur)}
+.top.esconde{transform:translateY(calc(-100% - env(safe-area-inset-top,0px)))}
+/* janelas que sobem: vidro */
+.scrim{background:rgb(10 16 28 / .32)!important;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);animation:scrimIn .22s ease}
+.sheet{background:color-mix(in srgb,var(--card) 86%,transparent)!important;-webkit-backdrop-filter:blur(28px) saturate(1.6);backdrop-filter:blur(28px) saturate(1.6);border-radius:24px 24px 0 0!important;box-shadow:0 -8px 30px rgb(20 33 58 / .14),inset 0 1px 0 var(--glass-edge);animation:sheetIn .38s cubic-bezier(.2,1.15,.4,1)}
+@keyframes sheetIn{from{transform:translateY(100%)}to{transform:none}}
+@keyframes scrimIn{from{opacity:0}to{opacity:1}}
+/* troca de aba: entra suave */
+.app>section.entra{animation:vEntra .22s cubic-bezier(.2,.9,.3,1)}
+@keyframes vEntra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* story que cresce do círculo da seção */
+::view-transition-group(abre){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,1,.3,1)}
+::view-transition-old(abre),::view-transition-new(abre){height:100%;object-fit:cover;overflow:hidden}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.2s}
+/* puxar para atualizar */
+.ptr{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:30;width:40px;height:40px;margin-left:0;transform:translate(-50%,-60px);opacity:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow);pointer-events:none}
+.ptr svg{width:22px;height:22px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ptr.gira{opacity:1!important;transform:translate(-50%,30px)!important;transition:transform .25s}
+.ptr.gira svg{animation:ptrGira .8s linear infinite}
+@keyframes ptrGira{to{transform:rotate(360deg)}}
+/* ordem do feed */
+.fmodo{margin-bottom:12px}
+/* modo escuro: preto, como o Instagram */
+:root[data-aparencia="escuro"]{--bg:#000;--card:#121417;--glass:rgb(28 30 36 / .62);--glass-edge:rgb(255 255 255 / .1);--glass-line:rgb(255 255 255 / .08);--glass-shadow:0 10px 30px rgb(0 0 0 / .5)}
+:root[data-aparencia="escuro"] .nav{background:var(--glass)!important}
+:root[data-aparencia="escuro"] .nav::before{background:radial-gradient(120% 140% at 20% -40%,rgb(255 255 255 / .12),transparent 55%)}
+:root[data-aparencia="escuro"] .nav button[aria-current="page"]{background:rgb(255 255 255 / .1)!important}
+:root[data-aparencia="escuro"] .top.rolou{background:rgb(0 0 0 / .66)!important}
+@media (prefers-color-scheme:dark){
+:root:not([data-aparencia="claro"]){--bg:#000;--card:#121417;--glass:rgb(28 30 36 / .62);--glass-edge:rgb(255 255 255 / .1);--glass-line:rgb(255 255 255 / .08);--glass-shadow:0 10px 30px rgb(0 0 0 / .5)}
+:root:not([data-aparencia="claro"]) .nav{background:var(--glass)!important}
+:root:not([data-aparencia="claro"]) .nav::before{background:radial-gradient(120% 140% at 20% -40%,rgb(255 255 255 / .12),transparent 55%)}
+:root:not([data-aparencia="claro"]) .nav button[aria-current="page"]{background:rgb(255 255 255 / .1)!important}
+:root:not([data-aparencia="claro"]) .top.rolou{background:rgb(0 0 0 / .66)!important}}
+/* reduzir transparência (ajuste do app, e o pedido do sistema onde o navegador informa) */
+html.sem-vidro .nav,html.sem-vidro .sheet,html.sem-vidro .top.rolou,html.sem-vidro .composer,html.sem-vidro .ptr{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--card)!important}
+html.sem-vidro .nav::before{display:none}
+html.sem-vidro .scrim{-webkit-backdrop-filter:none;backdrop-filter:none}
+@media (prefers-reduced-transparency:reduce){.nav,.sheet,.top.rolou,.composer,.ptr{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--card)!important}.nav::before{display:none}}
+@media (prefers-reduced-motion:reduce){.nav,.nav-in,.top,.sheet,.scrim,.app>section.entra,.nav .ico,.nav .lbl{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -1197,7 +1260,7 @@ const REGUA=()=>FEED?.regua||Object.keys(FEED?.fontes||{}).slice(0,10);
 const temaDe=p=>p.tema||p.tag||"";
 const visiveis=()=>(FEED?.pautas||[]).filter(p=>!(PREF.ocultas||[]).includes(secOf(p))&&!silenciado(p));
 const prio=p=>(typeof p.prioridade==="number"?p.prioridade:(p.fontes||[]).length*8)+6*(PREF.ajuste?.sec?.[secOf(p)]||0)+5*(PREF.ajuste?.tag?.[norm(temaDe(p))]||0)+(ATUALIZADAS.has(p.id)?4:0)+(seguido(p)?25:0)-(lidaAtual(p)?70:0)+4*(AUTO[secOf(p)]||0);
-const ordenadas=list=>[...list].sort((a,b)=>prio(b)-prio(a)||String(b.hora).localeCompare(String(a.hora)));
+const ordenadas=list=>PREF.feedModo==="recentes"?[...list].sort((a,b)=>versaoP(b).localeCompare(versaoP(a))):[...list].sort((a,b)=>prio(b)-prio(a)||String(b.hora).localeCompare(String(a.hora)));
 const pautaById=id=>(FEED?.pautas||[]).find(p=>p.id===id);
 function listaFeed(){if(!FEED)return [];
   if(FILTRO==="_leu")FILTRO="tudo";
@@ -1225,7 +1288,7 @@ const snapById=id=>{const p=pautaById(id);if(p)return snapOf(p);const h=(typeof 
 
 /* ---------- preferências ---------- */
 function aplicarFonte(){document.documentElement.style.setProperty("--fz",String(PREF.fonte||1));document.documentElement.classList.toggle("fzg",(PREF.fonte||1)>=1.2);aplicarTema()}
-function aplicarTema(){const t=PREF.tema||"auto",r=document.documentElement;if(t==="auto")r.removeAttribute("data-aparencia");else r.setAttribute("data-aparencia",t);r.removeAttribute("data-tema");const esc2=t==="escuro"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",esc2?"#0f1522":"#f3f4f6")}
+function aplicarTema(){const t=PREF.tema||"auto",r=document.documentElement;if(t==="auto")r.removeAttribute("data-aparencia");else r.setAttribute("data-aparencia",t);r.removeAttribute("data-tema");const esc2=t==="escuro"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",esc2?"#000000":"#f3f4f6")}
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",aplicarTema)}catch(e){}
 let prefTimer=null;
 function salvarPrefs(){PREF.mod=Date.now();lsSet("radar-prefs",PREF);clearTimeout(prefTimer);if(!S.db||!S.uid||!S.membro)return;prefTimer=setTimeout(async()=>{try{await S.db.doc(`data/users/${S.uid}/prefs`).set(JSON.parse(JSON.stringify(PREF)))}catch(e){}},1500)}
@@ -1704,6 +1767,8 @@ document.addEventListener("click",e=>{
   if(t.closest("[data-resp-x]")){RESP=null;$("#respbar")?.remove();return}
   const nc=t.closest("[data-nachat]");if(nc){abrirConversa(nc.dataset.nachat);return}
   const tm2=t.closest("[data-tema-ui]");if(tm2){PREF.tema=tm2.dataset.temaUi;aplicarTema();salvarPrefs();refreshAjustes();return}
+  const fm=t.closest("[data-fmodo]");if(fm){PREF.feedModo=fm.dataset.fmodo==="recentes"?"recentes":"voce";salvarPrefs();document.querySelectorAll("[data-fmodo]").forEach(x=>x.setAttribute("aria-selected",String(x===fm)));renderPosts();window.scrollTo(0,0);toast(PREF.feedModo==="recentes"?"Feed em ordem de atualização":"Feed por importância");return}
+  const sv=t.closest("[data-semvidro]");if(sv){PREF.semVidro=!PREF.semVidro;salvarPrefs();window.aplicarVidro&&aplicarVidro();refreshAjustes();return}
   const bv=t.closest("[data-breve]");if(bv){abrirBreve(+bv.dataset.breve);return}
   if(t.closest("[data-rodadas]")){abrirRodadas();return}
   if(t.closest("[data-cinco]")){if(FEED)abrir5min();return}
@@ -1725,7 +1790,7 @@ document.addEventListener("click",e=>{
   if(t.closest("[data-historico]")){abrirHistorico();return}
   if(t.closest("[data-ajustes]")){abrirAjustes();return}
   if(t.closest("[data-auto]")){PREF.autoOff=!PREF.autoOff;salvarPrefs();refreshAjustes();if(FEED)renderPosts();return}
-  const ss=t.closest("[data-sec-story]");if(ss){openSecStory(ss.dataset.secStory);return}
+  const ss=t.closest("[data-sec-story]");if(ss){const sec=ss.dataset.secStory;(window.comTransicao||((o,f)=>f()))(ss.querySelector("svg.ring")||ss,()=>openSecStory(sec),".story-in");return}
   const fl=t.closest("[data-filtro]");if(fl){uso("filtro");const ant=FILTRO;if(fl.closest(".sheet"))closeLayer();FILTRO=fl.dataset.filtro;ssSet("radar-filtro",FILTRO);if(FILTRO==="tudo"&&FST>0){voltarH(FST);FST=0}else if(ant==="tudo"&&FILTRO!=="tudo"&&pushH())FST++;if(fl.closest(".sheet"))closeLayer();renderSecs();renderPosts();window.scrollTo({top:0});return}
   if(t.closest("[data-abrirfiltro]")){abrirFiltro();return}
   if(t.closest("[data-novidades]")){abrirNovidades();return}
@@ -2025,7 +2090,7 @@ function ajustesHTML(){
   const A=PREF.audio||{rate:1};const auto=autoPesos();
   const autoTxt=Object.entries(auto).filter(([,v])=>Math.abs(v)>=1).sort((a,b)=>b[1]-a[1]);
   const T=PREF.tema||"auto";
-  return `<div class="card"><b>Aparência</b><div class="segs">${[["auto","Automático"],["claro","Claro"],["escuro","Escuro"]].map(([k,l])=>`<button type="button" data-tema-ui="${k}" aria-selected="${T===k}">${l}</button>`).join("")}</div><p class="hint">No automático, o Prumo segue o modo do celular.</p></div>
+  return `<div class="card"><b>Aparência</b><div class="segs">${[["auto","Automático"],["claro","Claro"],["escuro","Escuro"]].map(([k,l])=>`<button type="button" data-tema-ui="${k}" aria-selected="${T===k}">${l}</button>`).join("")}</div><p class="hint">No automático, o Prumo segue o modo do celular.</p><label class="chk" style="margin-top:8px"><input type="checkbox" data-semvidro ${PREF.semVidro?"checked":""}> Reduzir transparência</label></div>
     <div class="card"><b>Tamanho da letra</b><div class="fzrow"><button type="button" data-fz="-1" aria-label="Diminuir letra">A−</button><span style="font-size:calc(17px*${PREF.fonte||1})">Texto de exemplo</span><button type="button" data-fz="1" aria-label="Aumentar letra">A+</button></div></div>
     <div class="card"><b>Minhas seções</b><p class="hint">Segure os pontinhos e arraste para mudar a ordem.</p><ul class="secpref">${ord.map((s,i)=>{const off=(PREF.ocultas||[]).includes(s.id);return `<li><span class="hdl" data-hdl="${esc(s.id)}" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></span><i style="background:${secCor(s.id)}"></i><b class="${off?"off":""}">${esc(s.nome)}</b><button type="button" data-hide="${esc(s.id)}" aria-pressed="${off}" style="width:auto;padding:0 10px;font-size:13px">${off?"Mostrar":"Esconder"}</button></li>`}).join("")}</ul></div>
     <div class="card"><b>O Prumo aprende com a sua leitura</b>${PREF.autoOff?`<p class="hint">Desligado. O feed segue só a importância das notícias e os seus ajustes.</p>`:autoTxt.length?`<p class="hint">Pelo que você leu nas últimas duas semanas, o feed dá ${autoTxt.map(([s,v])=>`${v>0?"mais":"menos"} destaque a ${esc(secNome(s))}`).join(", ")}.</p>`:`<p class="hint">Ainda aprendendo. Depois de umas 15 notícias lidas, o feed passa a dar mais destaque às seções que você mais lê.</p>`}<button type="button" class="btn ghost" data-auto>${PREF.autoOff?"Ligar":"Desligar"} o aprendizado</button></div>
@@ -2573,7 +2638,8 @@ function storyRetoma(){if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#la
 /* ---------- v14 ---------- */
 function abrirFiltro(){uso("filtro_sheet");const opc=[{id:"tudo",nome:"Tudo",n:visiveis().length},...SECS().filter(s=>pautasDa(s.id).length).map(s=>({id:s.id,nome:s.nome,n:pautasDa(s.id).length,cor:secCor(s.id)}))];
   if(temAmigos()){const sv=FILTRO;FILTRO="_gostou";const b=listaFeed().length;FILTRO=sv;opc.push({id:"_gostou",nome:"Amigos gostaram",n:b,cor:"var(--bronze)"})}
-  sheet("Filtrar o feed",`<div class="opt fopt">${opc.map(x=>`<button type="button" data-filtro="${esc(x.id)}" aria-pressed="${FILTRO===x.id}">${x.cor?`<i style="background:${x.cor}"></i>`:""}<b>${esc(x.nome)}</b><span>${x.n} ${x.n===1?"notícia":"notícias"}${FILTRO===x.id?" · atual":""}</span></button>`).join("")}</div>`)}
+  const M=PREF.feedModo==="recentes"?"recentes":"voce";
+  sheet("Filtrar o feed",`<div class="segs fmodo" role="tablist" aria-label="Ordem do feed"><button type="button" role="tab" data-fmodo="voce" aria-selected="${M==="voce"}">Para você</button><button type="button" role="tab" data-fmodo="recentes" aria-selected="${M==="recentes"}">Mais recentes</button></div><div class="opt fopt">${opc.map(x=>`<button type="button" data-filtro="${esc(x.id)}" aria-pressed="${FILTRO===x.id}">${x.cor?`<i style="background:${x.cor}"></i>`:""}<b>${esc(x.nome)}</b><span>${x.n} ${x.n===1?"notícia":"notícias"}${FILTRO===x.id?" · atual":""}</span></button>`).join("")}</div>`)}
 function abrirNovidades(){const l=NOVID.map(pautaById).filter(Boolean);
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="ult">${l.map(p=>`<li><button type="button" data-goto="${esc(p.id)}"><span class="u-t"><b style="color:${secCor(secOf(p))}">${NOVAS.has(p.id)?"Nova":"Atualizada"}</b> · ${esc(secNome(secOf(p)))}</span><span class="u-x">${esc(p.neutro?.titulo||"")}</span>${lidaAtual(p)?`<span class="u-t">✓ lida</span>`:""}</button></li>`).join("")}</ul>`)}
 function atualizarChatPosts(){if(!FEED)return;const ps=new Set(allMsgs().filter(m=>m.pid).map(m=>m.pid));ps.forEach(pid=>{if(document.getElementById("p-"+pid))updateSocial(pid)})}
@@ -2805,6 +2871,43 @@ function cliqueConta(t){
   const dk=t.closest("[data-desfazerok]");if(dk){desfazerAmizade(dk.dataset.desfazerok);return true}
   const ot=t.closest("[data-otrs]");if(ot){abrirAmigosPost(ot.dataset.otrs);return true}
   return false}
+
+/* ================= Etapa 1: visual ================= */
+(function(){
+  const nav=$(".nav"),topo=$("header.top");if(!nav||!topo)return;
+  /* rótulos da barra em <span>, para encolher só o texto */
+  nav.querySelectorAll("button").forEach(b=>[...b.childNodes].forEach(n=>{if(n.nodeType===3&&n.textContent.trim()){const sp=document.createElement("span");sp.className="lbl";sp.textContent=n.textContent.trim();n.replaceWith(sp)}}));
+  /* reduzir transparência */
+  const vidro=()=>document.documentElement.classList.toggle("sem-vidro",!!PREF.semVidro);vidro();window.aplicarVidro=vidro;
+  /* barra que encolhe e topo que some ao descer; voltam ao subir */
+  let yAnt=scrollY,raf=0;
+  const abertaJanela=()=>!!document.querySelector("#layer .scrim,#layer .story");
+  const rola=()=>{raf=0;const y=Math.max(0,scrollY),dy=y-yAnt;if(Math.abs(dy)<8&&y>4)return;yAnt=y;
+    const desce=dy>0&&y>160&&!abertaJanela();
+    nav.classList.toggle("mini",desce);topo.classList.toggle("esconde",desce&&VIEW==="feed");topo.classList.toggle("rolou",y>6)};
+  addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(rola)},{passive:true});
+  nav.addEventListener("pointerdown",()=>nav.classList.remove("mini"));
+  /* troca de aba: some o "encolhido" e a nova tela entra suave */
+  const goAnt=go;
+  go=function(v,fromPop){const mudou=v!==VIEW;goAnt(v,fromPop);nav.classList.remove("mini");topo.classList.remove("esconde");
+    if(mudou&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const sec=document.getElementById("v-"+v);if(sec){sec.classList.remove("entra");void sec.offsetWidth;sec.classList.add("entra")}}};
+  /* abrir com transição: o elemento tocado "cresce" até virar a tela nova */
+  window.comTransicao=(origem,abre,alvo)=>{
+    if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches||!origem){abre();return}
+    try{origem.style.viewTransitionName="abre";
+      const vt=document.startViewTransition(()=>{origem.style.viewTransitionName="";abre();const a=document.querySelector(alvo);if(a)a.style.viewTransitionName="abre"});
+      vt.finished.catch(()=>{}).then(()=>{const a=document.querySelector(alvo);if(a)a.style.viewTransitionName=""})}
+    catch(e){origem.style.viewTransitionName="";abre()}};
+  /* puxar para atualizar (no app instalado não existe o do navegador) */
+  const ind=document.createElement("div");ind.className="ptr";ind.setAttribute("aria-hidden","true");ind.innerHTML='<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v4h-4"/></svg>';document.body.appendChild(ind);
+  let p0=null,px=0,pd=0,trava=false;
+  const solta=()=>{ind.style.opacity="";ind.style.transform=""};
+  addEventListener("touchstart",e=>{p0=null;if(trava||VIEW!=="feed"||scrollY>2||abertaJanela()||e.touches.length>1||e.target.closest(".track,.secs,.tk-vp,input,textarea"))return;p0=e.touches[0].clientY;px=e.touches[0].clientX;pd=0},{passive:true});
+  addEventListener("touchmove",e=>{if(p0==null)return;const t=e.touches[0],dy=t.clientY-p0,dx=Math.abs(t.clientX-px);if(scrollY>2||dx>dy){p0=null;solta();return}pd=Math.max(0,dy);
+    const k=Math.min(1,pd/96);ind.style.opacity=String(k);ind.style.transform=`translate(-50%,${Math.min(30,pd*.45-60)}px) rotate(${Math.round(pd*2.4)}deg)`},{passive:true});
+  addEventListener("touchend",()=>{if(p0==null)return;const ok=pd>96;p0=null;if(!ok){solta();return}
+    trava=true;ind.classList.add("gira");vibrar(8);Promise.resolve(checarFeed(true)).catch(()=>{}).then(()=>setTimeout(()=>{ind.classList.remove("gira");solta();trava=false},350))});
+})();
 </script>
 </body>
 </html>
