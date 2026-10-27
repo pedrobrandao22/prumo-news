@@ -51,15 +51,18 @@ def sgs(cod, n=None, dias=None):
 
 
 def yahoo(simbolo):
-    d = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=1mo&interval=1d")
-    r = d["chart"]["result"][0]
-    meta = r["meta"]
-    fech = [c for c in (r["indicators"]["quote"][0].get("close") or []) if c is not None]
-    preco = meta.get("regularMarketPrice")
-    ant = meta.get("chartPreviousClose") if len(fech) < 2 else fech[-2]
-    t = meta.get("regularMarketTime")
+    """(preço atual, fechamento do pregão anterior, data, fechamentos do último mês)."""
+    d1 = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=1d&interval=5m")["chart"]["result"][0]["meta"]
+    preco = float(d1["regularMarketPrice"])
+    ant = float(d1.get("chartPreviousClose") or d1.get("previousClose"))
+    t = d1.get("regularMarketTime")
     data = datetime.fromtimestamp(t, SP).date().isoformat() if t else datetime.now(SP).date().isoformat()
-    return float(preco), float(ant), data, [round(float(c), 4) for c in fech[-22:]]
+    try:
+        r = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=1mo&interval=1d")["chart"]["result"][0]
+        serie = [round(float(c), 4) for c in (r["indicators"]["quote"][0].get("close") or []) if c is not None][-22:]
+    except Exception:
+        serie = []
+    return preco, ant, data, serie
 
 
 def dolar():
