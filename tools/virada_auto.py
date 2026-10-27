@@ -174,9 +174,14 @@ def main(argv):
     cmd = [sys.executable, "-I", os.path.join(AQUI, "validar.py"), v2, "--prev", entrada, "--virada", "--json"] + (["--agora", agora] if agora else [])
     r = subprocess.run(cmd, capture_output=True, text=True)
     erros = [l[6:] for l in r.stdout.splitlines() if l.startswith("ERRO: ")]
+    # erros que já estavam no feed antes da virada (checados com a mesma data) não são culpa dela: não bloqueiam
+    cmd0 = [sys.executable, "-I", os.path.join(AQUI, "validar.py"), entrada, "--virada", "--json"] + (["--agora", agora] if agora else [])
+    r0 = subprocess.run(cmd0, capture_output=True, text=True)
+    antes = {l[6:] for l in r0.stdout.splitlines() if l.startswith("ERRO: ")}
     so_relativo = [e for e in erros if "envelhece" in e]
-    outros = [e for e in erros if "envelhece" not in e]
-    linhas += [f"trechos reescritos: {trocas} · enquetes retiradas: {enq} · erros: {len(erros)} ({len(so_relativo)} de dia relativo)"]
+    herdados = [e for e in erros if "envelhece" not in e and e in antes]
+    outros = [e for e in erros if "envelhece" not in e and e not in antes]
+    linhas += [f"trechos reescritos: {trocas} · enquetes retiradas: {enq} · erros: {len(erros)} ({len(so_relativo)} de dia relativo, {len(herdados)} que já estavam no feed)"]
     linhas += ["ERRO: " + e for e in erros]
     texto = "\n".join(linhas)
     print(texto)
@@ -187,8 +192,8 @@ def main(argv):
     with open(saida, "w", encoding="utf-8") as fh: fh.write(json.dumps(F, ensure_ascii=False, separators=(",", ":")))
     resumo = {"tipo": "virada", "status": "ok", "publicou": True, "pautas": len(F.get("pautas") or []),
               "mudancas": len((F.get("mudancas") or {}).get("itens") or []), "trechos_reescritos": trocas,
-              "enquetes_retiradas": enq, "checagem": f"{len(erros)} erros de dia relativo" if erros else "0 erros",
-              "nota": "Virada automática (GitHub, sem IA)." + (f" {len(so_relativo)} trechos ficaram para a rodada da manhã." if so_relativo else "")}
+              "enquetes_retiradas": enq, "checagem": f"{len(erros)} erros para a rodada da manhã" if erros else "0 erros",
+              "nota": "Virada automática (GitHub, sem IA)." + (f" {len(so_relativo) + len(herdados)} pontos ficaram para a rodada da manhã." if so_relativo or herdados else "")}
     print("REG " + json.dumps(resumo, ensure_ascii=False))
     return 0
 
