@@ -619,7 +619,7 @@ def checar(f, ant=None, virada=False, agora=None):
                 try: ok = date(y, mm, dn).weekday() == wd
                 except ValueError: ok = False
             else:
-                span = range(-10, 131) if loc.startswith("calendario") else range(-10, 21)
+                span = range(-30, 131) if loc.startswith("calendario") else range(-30, 21)
                 cands = [hoje + timedelta(days=k) for k in span if (hoje + timedelta(days=k)).day == dn]
                 ok = not cands or any(c.weekday() == wd for c in cands)
             if not ok: E(f"{loc}: '{m[0]}' não confere com o calendário")
