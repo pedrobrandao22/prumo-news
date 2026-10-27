@@ -1,0 +1,31 @@
+name: Manchetes novas
+# A cada hora (6h35 às 23h35 de Brasília): lê os feeds RSS dos veículos (só título, link e hora) e grava
+# novidades.json, que diz à rodada rápida do Claude se vale a pena rodar. Sem IA e sem chave.
+on:
+  schedule:
+    - cron: "35 9-23,0-2 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [tools/manchetes.py, .github/workflows/manchetes.yml]
+permissions:
+  contents: write
+concurrency:
+  group: prumo-escrita
+  cancel-in-progress: false
+jobs:
+  manchetes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ler os veículos
+        run: python3 -I tools/manchetes.py feed.json novidades.json
+      - name: Gravar
+        run: |
+          git config user.name "prumo-robo"
+          git config user.email "prumo-robo@users.noreply.github.com"
+          git add novidades.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Manchetes $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
+          for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 10; done; exit 1

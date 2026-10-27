@@ -3223,7 +3223,7 @@ function capaEscolha(){const ps=(FEED?.pautas||[]).filter(p=>!(PREF.ocultas||[])
 function capaFrase(t,n){t=String(t||"").trim();if(t.length<=n)return t;const fr=t.replace(/([.!?])\s+/g,"$1\u0001").split("\u0001");let o="";for(const f of fr){if((o+" "+f).trim().length>n)break;o=(o+" "+f).trim()}return o||t.slice(0,n).replace(/\s+\S*$/,"")+"…"}
 function capaChapeu(p){return p.subtema||p.tag||secNome(secOf(p))}
 function capaArte(p,cls){return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`}
-function capaIndicadores(){const it=((FEED?.indicadores||{}).itens||[]).filter(x=>x&&x.nome&&x.valor);if(!it.length)return "";
+function capaIndicadores(){const it=indItens().filter(x=>x&&x.nome&&x.valor);if(!it.length)return "";
   const seta={sobe:"▲",desce:"▼",estavel:"▬"};
   return `<div class="cp-ind" aria-label="Indicadores">${it.slice(0,4).map(x=>`<div><span>${esc(x.nome)}</span><b>${esc(x.valor)}</b>${x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:""}</div>`).join("")}</div>`}
 function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
@@ -3300,7 +3300,7 @@ function calendarioDe(sec,n){const hj=hojeSP();return (Array.isArray(FEED?.calen
 function calPeriodo(c){const a=dataCurta(c.data);if(!c.ate||c.ate===c.data)return a;const b=dataCurta(c.ate),ma=a.split(" de "),mb=b.split(" de ");return ma.length===2&&mb.length===2&&ma[1]===mb[1]?ma[0]+" a "+b:a+" a "+b}
 function calHTML(l){return `<ul class="sh4-cal">${l.map(c=>`<li><time>${esc(calPeriodo(c))}</time><span>${esc(c.texto)}${c.tipo?`<em>${esc(c.tipo)}</em>`:""}</span></li>`).join("")}</ul>`}
 function sparkSVG(ser){const v=(Array.isArray(ser)?ser:[]).map(Number).filter(n=>!isNaN(n));if(v.length<3)return "";const mn=Math.min(...v),mx=Math.max(...v),r=(mx-mn)||1;const pts=v.map((x,i)=>`${(i*100/(v.length-1)).toFixed(1)},${(26-(x-mn)*22/r).toFixed(1)}`).join(" ");return `<svg viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`}
-function indPainel(){const it=((FEED?.indicadores||{}).itens||[]).filter(x=>x&&x.nome&&x.valor);if(!it.length)return "";const seta={sobe:"▲",desce:"▼",estavel:"▬"};
+function indPainel(){const it=indItens().filter(x=>x&&x.nome&&x.valor);if(!it.length)return "";const seta={sobe:"▲",desce:"▼",estavel:"▬"};
   return `<div class="sh4-b"><h5>Indicadores</h5><div class="sh4-ind">${it.map(x=>`<div><span>${esc(x.nome)}</span><b>${esc(x.valor)}</b>${x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:""}${sparkSVG(x.serie)}${x.data?`<small>${esc(dataCurta(x.data))}</small>`:""}</div>`).join("")}</div></div>`}
 function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==sec)SECF={sec,sub:"",uf:""};
   const todas=pautasDa(sec);if(!todas.length)return "";const ordem=((FEED.taxonomia||{})[sec]||[]);
@@ -3456,6 +3456,22 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const ps=t.closest("[data-pvsalvar]");if(ps){e.stopPropagation();const id=ps.dataset.pvsalvar;toggleSave(id).then(()=>{});setTimeout(()=>{if($(".pv"))abrirPrevia(id)},60);return}
   const pp=t.closest("[data-pvpasta]");if(pp){e.stopPropagation();const id=pp.dataset.pid;moverPasta(id,pp.dataset.pvpasta);setTimeout(()=>abrirPrevia(id),40);return}
 },true);
+
+/* ================= Etapa 8: indicadores automáticos (indicadores.json, gravado pelo GitHub) ================= */
+var IND_AUTO=null;try{IND_AUTO=JSON.parse(localStorage.getItem("prumo-ind")||"null")}catch(e){}
+var IND_ORD=["dolar","ibovespa","selic","ipca12m","desemprego"];
+function indItens(){const base=((FEED&&FEED.indicadores&&Array.isArray(FEED.indicadores.itens))?FEED.indicadores.itens:[]).filter(x=>x&&typeof x==="object");
+  const auto=(IND_AUTO&&Array.isArray(IND_AUTO.itens))?IND_AUTO.itens.filter(x=>x&&typeof x==="object"&&x.id&&x.valor):[];
+  if(!auto.length)return base;const m=new Map(base.map(x=>[x.id,x]));
+  auto.forEach(x=>{const a=m.get(x.id);m.set(x.id,Object.assign({},x,{serie:Array.isArray(x.serie)?x.serie:(a&&a.serie)}))});
+  return [...m.values()].sort((a,b)=>{const i=IND_ORD.indexOf(a.id),j=IND_ORD.indexOf(b.id);return (i<0?99:i)-(j<0?99:j)})}
+var IND_T=0;
+async function carregarIndAuto(){if(Date.now()-IND_T<60000)return;IND_T=Date.now();
+  try{const r=await fetch("indicadores.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();if(!j||!Array.isArray(j.itens))return;
+    const mudou=JSON.stringify(j)!==JSON.stringify(IND_AUTO);IND_AUTO=j;try{localStorage.setItem("prumo-ind",JSON.stringify(j))}catch(e){}
+    if(mudou&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&FILTRO==="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
+(function(){const ant=checarFeed;checarFeed=function(x){carregarIndAuto();return ant.apply(this,arguments)}})();
+carregarIndAuto();
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

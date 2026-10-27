@@ -1,0 +1,42 @@
+name: Virada da meia-noite
+# 0h05 de Brasília: recalcula a edição, tira o que venceu e troca "hoje", "amanhã", "nesta quarta"
+# pelo dia com a data. Sem IA (antes era uma rodada do Claude).
+on:
+  schedule:
+    - cron: "5 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: prumo-escrita
+  cancel-in-progress: false
+jobs:
+  virada:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Virar o feed
+        run: |
+          python3 -I tools/virada_auto.py feed.json --relatorio virada.txt | tee saida.txt
+          grep '^REG ' saida.txt | sed 's/^REG //' > reg.json
+      - name: Registrar a rodada
+        run: |
+          python3 - <<'PY'
+          import json, datetime
+          reg = json.load(open("reg.json", encoding="utf-8"))
+          ag = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=-3)))
+          try: r = json.load(open("rodadas.json", encoding="utf-8"))
+          except Exception: r = {}
+          if r.get("dia") != ag.date().isoformat(): r = {"dia": ag.date().isoformat(), "itens": {}}
+          r.setdefault("itens", {})[ag.strftime("%Hh%M")] = reg
+          json.dump(r, open("rodadas.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+          PY
+      - name: Gravar
+        run: |
+          git config user.name "prumo-robo"
+          git config user.email "prumo-robo@users.noreply.github.com"
+          git add feed.json rodadas.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Virada $(TZ=America/Sao_Paulo date +'%d/%m')"
+          for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 10; done; exit 1
