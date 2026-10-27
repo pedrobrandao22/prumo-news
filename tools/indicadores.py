@@ -35,8 +35,14 @@ def direcao(a, b, tol=1e-9):
     return "sobe" if b > a + tol else "desce" if b < a - tol else "estavel"
 
 
-def sgs(cod, n):
-    d = get_json(f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{cod}/dados/ultimos/{n}?formato=json")
+def sgs(cod, n=None, dias=None):
+    """n: últimos n valores (a API aceita no máximo 20); dias: janela de datas (para séries diárias longas)."""
+    if dias:
+        ini = (datetime.now(SP) - timedelta(days=dias)).strftime("%d/%m/%Y")
+        url = f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{cod}/dados?formato=json&dataInicial={ini}"
+    else:
+        url = f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{cod}/dados/ultimos/{min(n, 20)}?formato=json"
+    d = get_json(url)
     out = []
     for x in d:
         dd, mm, aa = x["data"].split("/")
@@ -63,7 +69,7 @@ def dolar():
                 "dir": direcao(round(a, 3), round(p, 3)), "data": data, "serie": serie, "fonte": "cotação comercial"}
     except Exception as e:
         print("dólar (Yahoo) falhou:", repr(e)[:120])
-    s = sgs(1, 22)
+    s = sgs(1, 20)
     (d0, a), (d1, p) = s[-2], s[-1]
     return {"id": "dolar", "nome": "Dólar", "valor": "R$ " + br(p, 2), "variacao": pct((p / a - 1) * 100),
             "dir": direcao(a, p), "data": d1, "serie": [v for _, v in s], "fonte": "PTAX/Banco Central"}
@@ -85,7 +91,7 @@ def mudanca(serie):
 
 
 def selic():
-    s = sgs(432, 400)
+    s = sgs(432, dias=600)
     desde, ant = mudanca(s)
     return {"id": "selic", "nome": "Selic", "valor": br(s[-1][1], 2) + "%", "dir": direcao(ant, s[-1][1]),
             "data": desde, "fonte": "Copom/Banco Central"}
