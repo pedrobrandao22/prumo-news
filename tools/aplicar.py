@@ -348,6 +348,8 @@ def mecanicos(F, agora, podar, virada, dia_anterior):
     F["atualizado_em"] = iso(agora)
     F["edicao"] = V.edicao_de(agora)
     F["contagem"] = V.contagem_de(hoje)
+    if isinstance(F.get("secoes"), list):
+        F["secoes"] = sorted([x for x in F["secoes"] if isinstance(x, dict)], key=lambda x: V.SECOES.index(x.get("id")) if x.get("id") in V.SECOES else 99)
     ids = {p.get("id") for p in F.get("pautas") or []}
     m = F.setdefault("mudancas", {"titulo": "", "itens": []})
     m["itens"] = [it for it in m.get("itens") or [] if it.get("pid") in ids][:8]

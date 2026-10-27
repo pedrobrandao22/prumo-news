@@ -22,9 +22,9 @@ from urllib.parse import urlparse
 
 SP = timezone(timedelta(hours=-3))
 TURNO2 = date(2026, 10, 25)
-SECOES = ["politica", "economia", "brasil", "mundo", "educacao", "esportes"]
+SECOES = ["politica", "economia", "brasil", "mundo", "esportes", "educacao"]
 REGUA = ["cnn", "p360", "met", "jp", "ab", "gp", "cc", "cb", "sbt", "em"]
-FAIXA = {"politica": (7, 9), "economia": (3, 5), "brasil": (3, 5), "mundo": (3, 5), "educacao": (3, 5), "esportes": (3, 5)}
+FAIXA = {"politica": (8, 10), "economia": (6, 8), "brasil": (4, 5), "mundo": (3, 5), "esportes": (3, 4), "educacao": (2, 3)}
 DS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
 MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
 DIAS = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]
@@ -130,6 +130,7 @@ def campos_texto(f):
         n = p.get("neutro") or {}
         yield f"[{pid}] neutro.titulo", "estrito", n.get("titulo", "")
         yield f"[{pid}] neutro.texto", "texto", n.get("texto", "")
+        if isinstance(p.get("subtitulo"), str): yield f"[{pid}] subtitulo", "estrito", p.get("subtitulo")
         for lado in ("direita", "esquerda"):
             v = p.get(lado) or {}
             if v:
@@ -314,6 +315,13 @@ def checar(f, ant=None, virada=False, agora=None):
         # imagem
         im = p.get("imagem") or {}
         if im or p.get("tipo") != "pontual": checar_imagem(pid, im, p)
+        # subtítulo (linha fina da Capa)
+        st = p.get("subtitulo")
+        if st is not None:
+            if not isinstance(st, str) or not st.strip(): E(f"[{pid}] subtitulo deve ser texto (ou não existir)")
+            elif len(st) > 200: E(f"[{pid}] subtitulo com {len(st)} caracteres (até 160)")
+            elif len(st) > 160: A(f"[{pid}] subtitulo com {len(st)} caracteres (ideal até 160)")
+            elif norm(st) == norm(tit): A(f"[{pid}] subtitulo repete o título")
         # versões com viés
         for lado in ("direita", "esquerda"):
             v = p.get(lado)
@@ -385,6 +393,12 @@ def checar(f, ant=None, virada=False, agora=None):
     if nen > 6: A(f"{nen} enquetes (manual: 3 a 5 nas pautas de maior interesse)")
     top = [p.get("secao") for p in sorted(ps, key=lambda p: -(p.get("prioridade") or 0))[:3]]
     if len(top) == 3 and len(set(top)) == 1: A(f"as 3 primeiras pautas são da mesma seção ({top[0]})")
+    sem_sub = [p.get("id") for p in sorted(ps, key=lambda p: -(p.get("prioridade") or 0))[:8] if not p.get("subtitulo")]
+    if sem_sub: A(f"pautas do topo sem subtitulo (a Capa usa a 1ª frase do texto): {sem_sub}")
+    for sx in ("politica", "economia"):
+        da = [p for p in ps if p.get("secao") == sx and p.get("tipo") != "pontual"]
+        com = sum(1 for p in da if p.get("direita") and p.get("esquerda"))
+        if da and com * 2 < len(da): A(f"{sx}: só {com} de {len(da)} pautas com leitura de direita e esquerda (meta: metade ou mais, quando houver leitura política real)")
     for u, s in seen_links.items():
         if len(s) > 1: A(f"mesmo link em {sorted(s)}")
     # títulos repetidos

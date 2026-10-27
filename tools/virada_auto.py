@@ -107,6 +107,7 @@ def campos(F):
         n = p.get("neutro") or {}
         yield n, "titulo", "estrito"
         yield n, "texto", "principal"
+        if isinstance(p.get("subtitulo"), str): yield p, "subtitulo", "estrito"
         for lado in ("direita", "esquerda"):
             v = p.get(lado)
             if isinstance(v, dict):
