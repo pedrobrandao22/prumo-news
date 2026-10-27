@@ -5,8 +5,9 @@
 
 Lê os feeds RSS públicos dos veículos (só título, link e hora: nada do texto das matérias), junta as
 manchetes que falam do mesmo assunto e compara com o feed do Prumo:
-- "novos": assuntos que ainda não estão no feed (relevante = 2 ou mais veículos);
+- "novos": assuntos que ainda não estão no feed (relevante = 3 ou mais veículos diferentes);
 - "em_pautas": manchetes posteriores à última atualização de uma pauta que já está no feed.
+"acionar" = há assunto novo relevante ou pauta com novidade em 3 ou mais veículos.
 A rodada rápida do Claude lê novidades.json; se "acionar" for false, ela encerra sem gastar quase nada.
 """
 import email.utils, json, re, sys, unicodedata, urllib.request
@@ -164,14 +165,14 @@ def main(argv):
             continue
         breve = any(len(g["tk"] & b) >= 3 for b in breves)
         novos.append({"assunto": lista[0]["titulo"], "secao": sec, "n_fontes": len(fontes), "fontes": fontes,
-                      "ja_e_breve": breve, "relevante": len(fontes) >= 2 and not breve, "manchetes": lista})
+                      "ja_e_breve": breve, "relevante": len(fontes) >= 3 and not breve, "manchetes": lista})
     novos.sort(key=lambda g: (-g["relevante"], -g["n_fontes"], g["assunto"]))
     relevantes = sum(1 for g in novos if g["relevante"])
-    pautas_2 = sum(1 for e in em_pautas.values() if e["n_fontes"] >= 2)
+    pautas_2 = sum(1 for e in em_pautas.values() if e["n_fontes"] >= 3)
     out = {"gerado": agora.isoformat(timespec="minutes"), "desde": desde.isoformat(timespec="minutes"),
            "feed_atualizado_em": feed.get("atualizado_em"),
            "resumo": {"manchetes": len(itens), "assuntos_novos_relevantes": relevantes, "assuntos_novos": len(novos),
-                      "pautas_com_novidade": len(em_pautas), "pautas_com_novidade_2_fontes": pautas_2},
+                      "pautas_com_novidade": len(em_pautas), "pautas_com_novidade_3_fontes": pautas_2},
            "acionar": relevantes > 0 or pautas_2 > 0,
            "novos": novos[:30], "em_pautas": em_pautas, "fontes": status}
     with open(argv[1], "w", encoding="utf-8") as fh:
