@@ -2339,13 +2339,13 @@ const hojeSP=()=>new Date().toLocaleDateString("en-CA",{timeZone:"America/Sao_Pa
 function atrasoMin(){if(!FEED?.atualizado_em)return null;return Math.round((Date.now()-new Date(FEED.atualizado_em).getTime())/6e4)}
 function horaSP(){return +new Date().toLocaleString("en-US",{hour:"numeric",hour12:false,timeZone:"America/Sao_Paulo"})}
 function estadoRadar(){const a=atrasoMin();if(a==null)return {ok:true,txt:""};const h=horaSP();const ativo=h>=8&&h<=23;
-  if(ativo&&a>150)return {ok:false,txt:`Sem atualização há ${Math.floor(a/60)} h ${a%60} min. Uma rodada pode ter falhado.`};
+  if(ativo&&a>150&&rodadaRecenteMin()>300)return {ok:false,txt:`Sem atualização há ${Math.floor(a/60)} h ${a%60} min. Uma rodada pode ter falhado.`};
   return {ok:true,txt:`Atualizado ${quando(FEED.atualizado_em)}.`}}
 function saudeHTML(){
   const e=estadoRadar();const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));
   const ok=it.filter(([,x])=>x.status==="ok").length,fal=it.filter(([,x])=>x.status&&x.status!=="ok"&&x.status!=="sem_mudancas").length,sem=it.filter(([,x])=>x.status==="sem_mudancas").length;
   return `<div class="card health"><b>Saúde do Prumo</b><button type="button" class="st ${e.ok?"ok":"bad"}" data-rodadas><i></i>${esc(e.txt||"Sem informação ainda.")}<span class="chev">›</span></button>
-    ${it.length?`<p class="hint">Hoje: ${esc(ok)} ${ok===1?"rodada publicada":"rodadas publicadas"}${sem?`, ${sem} sem novidade`:""}${fal?`, <b style="color:var(--hot)">${fal} com problema</b>`:""}.</p><ul class="secpref">${it.slice(0,8).map(([h,x])=>`<li style="flex-direction:column;align-items:flex-start;gap:1px"><b style="font-size:14px">${esc(h)} · ${x.tipo==="completa"?"Rodada completa":"Rodada rápida"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"problema"}</b><span class="hint">${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}</span></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas aparece aqui a partir da próxima atualização.</p>`}</div>`;
+    ${it.length?`<p class="hint">Hoje: ${esc(ok)} ${ok===1?"rodada publicada":"rodadas publicadas"}${sem?`, ${sem} sem novidade`:""}${fal?`, <b style="color:var(--hot)">${fal} com problema</b>`:""}.</p><ul class="secpref">${it.slice(0,8).map(([h,x])=>`<li style="flex-direction:column;align-items:flex-start;gap:1px"><b style="font-size:14px">${esc(h)} · ${x.tipo==="completa"?"Rodada completa":x.tipo==="virada"?"Virada da meia-noite":"Rodada rápida"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"problema"}</b><span class="hint">${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}</span></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas aparece aqui a partir da próxima atualização.</p>`}</div>`;
 }
 var OFFLINE=false;
 function avisoAtraso(){if(OFFLINE&&FEED)return `<div class="late gut offl"><span>Sem conexão. Mostrando a edição das ${esc(hhmm(FEED.atualizado_em))}.</span><button type="button" data-retry>Tentar de novo</button></div>`;const e=estadoRadar();return e.ok?"":`<div class="late gut">${esc(e.txt)}</div>`}
@@ -2387,7 +2387,7 @@ function subEdicao(){derivaQuiz();renderChgBox();updatePlayBadge();if(VIEW==="pl
 let RODT=0,ERRT=0;
 async function carregarRodadas(forcar){if(!forcar&&Date.now()-RODT<60000)return;RODT=Date.now();
   try{const r=await fetch("rodadas.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();const nv=j&&typeof j==="object"&&j.dia===hojeSP()&&j.itens&&typeof j.itens==="object"?j:{};
-    if(JSON.stringify(nv)!==JSON.stringify(S.rodadas)){S.rodadas=nv;if(VIEW==="me")renderMe();if($("#rodbox"))abrirRodadas(true)}}catch(e){}}
+    if(JSON.stringify(nv)!==JSON.stringify(S.rodadas)){S.rodadas=nv;if(VIEW==="me")renderMe();if(VIEW==="feed"&&document.querySelector("#posts .late:not(.offl)")){try{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}catch(e){}}if($("#rodbox"))abrirRodadas(true)}}catch(e){}}
 async function carregarErrosResp(){if(Date.now()-ERRT<30000)return;ERRT=Date.now();
   try{const r=await fetch("erros-respostas.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();if(!j||typeof j!=="object"||Array.isArray(j))return;
     if(JSON.stringify(j)!==JSON.stringify(S.errosResp)){S.errosResp=j;if(VIEW==="me")renderMe()}}catch(e){}}
@@ -2864,7 +2864,7 @@ function abrirBreve(i){const b=(window.BREVES||[])[i];if(!b)return;const rel=agP
 /* 23. rodadas */
 function proximaRodadaTxt(){const m=minAgoraSP(),cand=[];for(let h=7;h<=23;h++)if(h!==17)cand.push([h*60+48,"rápida"]);cand.push([6*60+52,"completa"],[17*60+52,"completa"]);cand.sort((a,b)=>a[0]-b[0]);const nx=cand.find(c=>c[0]>m);const f=c=>`${Math.floor(c[0]/60)}h${String(c[0]%60).padStart(2,"0")}`;return nx?`Próxima atualização ${nx[1]} por volta das ${f(nx)}.`:`Próxima atualização amanhã por volta das 6h52.`}
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
-  sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} As rodadas rápidas saem de hora em hora; as completas, às 6h52 e às 17h52.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Rodada completa":"Rodada rápida"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"problema"}</b><span class="hint">${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
+  sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} As rodadas rápidas saem de hora em hora; as completas, às 6h52 e às 17h52.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Rodada completa":x.tipo==="virada"?"Virada da meia-noite":"Rodada rápida"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"problema"}</b><span class="hint">${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
 /* 24. story passando sozinho */
 function storyAuto(p){clearTimeout(ST.timer);if(!PREF.storyAuto)return;const w=((p.neutro?.titulo||"")+" "+(p.neutro?.texto||"")).split(/\s+/).length;const dur=Math.max(7000,Math.min(24000,w/3.2*1000));
@@ -3465,6 +3465,8 @@ function indItens(){const base=((FEED&&FEED.indicadores&&Array.isArray(FEED.indi
   if(!auto.length)return base;const m=new Map(base.map(x=>[x.id,x]));
   auto.forEach(x=>{const a=m.get(x.id);m.set(x.id,Object.assign({},x,{serie:Array.isArray(x.serie)?x.serie:(a&&a.serie)}))});
   return [...m.values()].sort((a,b)=>{const i=IND_ORD.indexOf(a.id),j=IND_ORD.indexOf(b.id);return (i<0?99:i)-(j<0?99:j)})}
+function rodadaRecenteMin(){try{const r=(typeof S!=="undefined"&&S)?S.rodadas:null;if(!r||!r.itens||r.dia!==hojeSP())return 1e9;
+  const ag=minAgoraSP();let melhor=1e9;Object.keys(r.itens).forEach(k=>{const m=/^(\d{1,2})h(\d{2})$/.exec(k);if(m){const d=ag-(+m[1]*60+ +m[2]);if(d>=0&&d<melhor)melhor=d}});return melhor}catch(e){return 1e9}}
 var IND_T=0;
 async function carregarIndAuto(){if(Date.now()-IND_T<60000)return;IND_T=Date.now();
   try{const r=await fetch("indicadores.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();if(!j||!Array.isArray(j.itens))return;
