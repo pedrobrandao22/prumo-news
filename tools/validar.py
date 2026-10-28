@@ -455,7 +455,7 @@ def checar(f, ant=None, virada=False, agora=None):
             try:
                 dd = date.fromisoformat(str(x.get("data", "")))
                 if dd > hoje: E(f"indicador {i_} com data futura")
-                elif i_ in ("dolar", "ibovespa") and (hoje - dd).days > 4: A(f"indicador {i_} de {dd.strftime('%d/%m')}: atualize")
+                pass  # dólar e Ibovespa são automáticos (indicadores.json): o do feed é só reserva
             except ValueError: E(f"indicador {i_} sem data AAAA-MM-DD")
             se = x.get("serie")
             if se is not None and (not isinstance(se, list) or not 3 <= len(se) <= 12 or not all(isinstance(n, (int, float)) for n in se)):
