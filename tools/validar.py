@@ -50,7 +50,9 @@ LIM = {
     "campo": {"a": 15, "b": 15, "rotulo": 44},
 }
 SO_ILUSTRACAO = {"debate", "remocao", "tribunal", "investigacao", "rua", "escola", "seguranca", "generica", "globo"}
-VISUAIS = {"linha_do_tempo", "numeros", "imagem", "pesquisas"}
+VISUAIS = {"linha_do_tempo", "numeros", "imagem", "pesquisas", "grafico"}
+# chamadas vazias (manual seção 2, ESTILO): o título diz o fato, não manda o leitor "entender"
+RUIDO = re.compile(r"(^|[:—–]\s*)(entenda|saiba|veja|confira|descubra)\b|\b(entenda|saiba|confira|descubra)\b|\bveja (como|o que|quem|quando|onde|por que)\b|\b(fique por dentro|tudo sobre|o que se sabe)\b", re.I)
 
 # Coberturas (etapa 2): subtemas fixos por seção, estado da cobertura e formato.
 TAXONOMIA = {
@@ -160,7 +162,7 @@ def campos_texto(f):
             if v.get("titulo"): yield f"[{pid}] visuais.{vi}.titulo", "texto", v.get("titulo", "")
             for ii, it in enumerate(v.get("itens") or []):
                 for k in ("quando", "texto", "rotulo"):
-                    if it.get(k): yield f"[{pid}] visuais.{vi}.itens.{ii}.{k}", "texto", it[k]
+                    if isinstance(it, dict) and isinstance(it.get(k), str) and it.get(k): yield f"[{pid}] visuais.{vi}.itens.{ii}.{k}", "texto", it[k]
         d = (p.get("imagem") or {}).get("dados") or {}
         for k, v in d.items():
             if isinstance(v, str): yield f"[{pid}] imagem.dados.{k}", "texto", v
@@ -300,6 +302,20 @@ def checar(f, ant=None, virada=False, agora=None):
         checar_cobertura(p, pid, ref)
         if len(tit) > 90: E(f"[{pid}] título com {len(tit)} caracteres (máx. 90; ideal ≤ 75)")
         elif len(tit) > 75: A(f"[{pid}] título com {len(tit)} caracteres (ideal ≤ 60)")
+        # estilo: título diz o fato (manual seção 2, ESTILO)
+        for lado in ("neutro", "direita", "esquerda"):
+            v = p.get(lado) if isinstance(p.get(lado), dict) else None
+            tt = (v or {}).get("titulo") or ""
+            if not isinstance(tt, str) or not tt: continue
+            m = RUIDO.search(tt)
+            if m: E(f"[{pid}] {lado}.titulo com chamada vazia ('{m.group(0).strip(' :—–')}'): diga o fato no título")
+            if tt.rstrip().endswith("?"): A(f"[{pid}] {lado}.titulo em forma de pergunta: diga o fato")
+            if "!" in tt: A(f"[{pid}] {lado}.titulo com exclamação: atraia pela informação, não pelo tom")
+            if re.search(r"\bpode(m)?\b", tt, re.I): A(f"[{pid}] {lado}.titulo com 'pode': prefira o fato ou o próximo passo concreto")
+            for x in (v.get("pontos") if isinstance(v.get("pontos"), list) else []):
+                if isinstance(x, str) and RUIDO.search(x): E(f"[{pid}] {lado}.pontos com chamada vazia ('{RUIDO.search(x).group(0).strip(' :—–')}')")
+        sb = p.get("subtitulo")
+        if isinstance(sb, str) and RUIDO.search(sb): E(f"[{pid}] subtitulo com chamada vazia ('{RUIDO.search(sb).group(0).strip(' :—–')}')")
         # formato "em 30 segundos": 3 pontos curtos por versão
         for lado in ("neutro", "direita", "esquerda"):
             v = p.get(lado) if isinstance(p.get(lado), dict) else None
@@ -392,7 +408,8 @@ def checar(f, ant=None, virada=False, agora=None):
             if not c.get("texto"): E(f"[{pid}] checagem sem texto")
         # visuais
         vis = p.get("visuais") or []
-        if len(vis) > 1: A(f"[{pid}] mais de 1 visual")
+        if len(vis) > 2: A(f"[{pid}] mais de 2 visuais (no máx. 1 gráfico + 1 outro)")
+        if sum(1 for v in vis if isinstance(v, dict) and v.get("tipo") == "grafico") > 1: E(f"[{pid}] mais de 1 gráfico")
         for v in vis:
             tp = v.get("tipo")
             if tp not in VISUAIS: E(f"[{pid}] visual de tipo inválido: {tp}"); continue
@@ -402,6 +419,23 @@ def checar(f, ant=None, virada=False, agora=None):
                 for it in its:
                     if len(str(it.get("valor", ""))) > 9: E(f"[{pid}] numeros.valor '{it.get('valor')}' com {len(str(it.get('valor')))} caracteres (máx. 9: mova a unidade para o rótulo)")
                     if not re.search(r"\d", str(it.get("valor", ""))): A(f"[{pid}] numeros.valor sem número: '{it.get('valor')}'")
+            if tp == "grafico":
+                forma = v.get("forma")
+                if forma not in ("barras", "colunas", "linha"): E(f"[{pid}] grafico.forma deve ser barras, colunas ou linha")
+                tg = v.get("titulo")
+                if not isinstance(tg, str) or not tg.strip(): E(f"[{pid}] grafico sem titulo")
+                elif len(tg) > 70: A(f"[{pid}] grafico.titulo com {len(tg)} caracteres (até 70)")
+                if not isinstance(v.get("fonte"), str) or not v.get("fonte").strip(): E(f"[{pid}] grafico sem fonte (de onde vêm os números)")
+                un = v.get("unidade")
+                if un is not None and (not isinstance(un, str) or len(un) > 12): E(f"[{pid}] grafico.unidade deve ser texto curto (%, R$ bi, votos…)")
+                if v.get("casas") is not None and v.get("casas") not in (0, 1, 2): E(f"[{pid}] grafico.casas deve ser 0, 1 ou 2")
+                lo, hi, rmax = {"barras": (2, 12, 28), "colunas": (2, 14, 10), "linha": (3, 24, 12)}.get(forma, (2, 12, 28))
+                if not lo <= len(its) <= hi: E(f"[{pid}] grafico {forma} com {len(its)} itens ({lo} a {hi})")
+                for it in its:
+                    if not isinstance(it, dict) or not isinstance(it.get("rotulo"), str) or not it.get("rotulo").strip(): E(f"[{pid}] grafico com item sem rotulo"); continue
+                    vl = it.get("valor")
+                    if isinstance(vl, bool) or not isinstance(vl, (int, float)): E(f"[{pid}] grafico.valor '{vl}' deve ser número puro (a unidade vai em 'unidade')")
+                    if len(it["rotulo"]) > rmax: A(f"[{pid}] grafico.rotulo '{it['rotulo']}' longo (até {rmax} em {forma})")
             if tp == "linha_do_tempo" and not 3 <= len(its) <= 6: A(f"[{pid}] linha_do_tempo com {len(its)} itens (3 a 6)")
             if tp == "imagem": checar_imagem(pid + " visual", v.get("imagem") or {}, p)
             if tp == "pesquisas" and not f.get("pesquisas_2t"): E(f"[{pid}] visual pesquisas sem pesquisas_2t")

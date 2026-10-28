@@ -1364,6 +1364,96 @@ button.ind-t{cursor:pointer}button.ind-t:active{transform:scale(.97)}
 .gr-outros .ind-t em{font-style:normal;font-size:11.5px;font-weight:700}
 .gr-outros .ind-t em.desce{color:var(--hot)}.gr-outros .ind-t em.estavel{color:var(--muted)}.gr-outros .ind-t em.sobe{color:#1f7a4d}
 .gr-fonte{margin:0;font-size:12px;color:var(--muted)}
+
+/* ================= Etapa 14 ================= */
+/* post do Feed: ações a um toque, como no Instagram */
+.post .acts{position:relative;gap:2px;padding:6px 0 0;margin-left:-8px}
+.post .act{background:transparent;height:44px;min-width:44px;padding:0 8px;gap:5px;justify-content:center;color:var(--ink);border-radius:12px}
+.post .act>span{display:none}
+.post .act .ico{width:26px;height:26px}
+.post .act .cnt{font-size:14px;font-weight:700;color:var(--ink)}
+.post .act.on{background:transparent;color:var(--bronze-ink)}
+.post .act.saved{background:transparent!important;color:var(--ink)!important}
+.post .act.saved .ico path,.post .act.saved .ico{fill:currentColor}
+.post .act:active{transform:scale(.9)}
+.post .acts .sp{flex:1}
+.post .acts .pdots{position:absolute;left:50%;top:50%;transform:translate(-50%,-30%);display:flex;gap:5px;padding:0;pointer-events:none}
+.post .pdots i{flex:none;width:6px;height:6px;border-radius:50%;background:var(--line)}
+.post .pdots i.on{background:var(--line)}
+.post .pdots i.on:not(:has(+ i.on)){background:var(--accent)}
+.post .pdots .pg{display:none}
+.post .likes{padding-top:2px}
+.post .cobbar{background:transparent;padding:6px 0;margin:2px 0 0;min-height:36px;font-size:13px;color:var(--muted)}
+.post .cobbar b{color:var(--ink-2);font-weight:700}
+.post .pollbox{margin-top:10px;padding:10px 12px}
+/* fotos de ponta a ponta na manchete da Capa */
+@media (max-width:599px){.cpi-man .art.foto{margin-left:calc(50% - 50vw);margin-right:0;border-radius:0;aspect-ratio:4/3;width:100vw;max-width:none;flex:none;align-self:flex-start}.cpi-man .art.foto img{border-radius:0}}
+/* novidades desde a última visita */
+.cp-nov{display:flex;align-items:center;gap:10px;width:100%;margin:12px 0 4px;padding:11px 14px;border-radius:14px;background:var(--accent-soft);color:var(--ink);text-align:left;font-size:14.5px;line-height:1.3;min-height:48px}
+.cp-nov b{font-weight:800}
+.cp-nov-t{flex:1;min-width:0}
+.cp-nov-t span{color:var(--muted);font-size:13px}
+.cp-nov .nb-d{flex:none;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+.cp-nov .chev{color:var(--muted);font-size:20px;line-height:1}
+.cp-nv{display:inline-block;font-style:normal;font:800 10px/1 var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:4px;padding:3px 5px 2px;margin-right:7px;vertical-align:1px}
+.cp-nv.up{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+/* matéria: próxima, gráficos, linha do tempo */
+.mat-prox{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:2px 12px;align-items:center;width:100%;text-align:left;padding:14px 16px;margin:6px 0 2px;border-radius:14px;background:var(--ink);color:var(--bg)}
+.mat-prox span{grid-column:1;font:800 11px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.mat-prox b{grid-column:1;font:700 17px/1.25 var(--f-display);letter-spacing:-.01em}
+.mat-prox i{grid-column:2;grid-row:1/3;font-style:normal;font-size:30px;line-height:1}
+.mat-prox:active{transform:scale(.99)}
+.mat-dica{display:block;text-align:center;font-size:12px;color:var(--muted);margin-bottom:10px}
+.mat.mat-in .mat-c{animation:matprox .24s ease}
+@keyframes matprox{from{transform:translateX(28px);opacity:.3}}
+@media (prefers-reduced-motion:reduce){.mat.mat-in .mat-c{animation:none}}
+.mat-vis{margin:18px 0;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.mat-vis .lbl{display:block;margin-bottom:8px}
+.mat-tl{margin:18px 0}
+.mat-tl>b{display:block;font:800 11.5px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.mat-tl ol{list-style:none;margin:0;padding:0 0 0 18px;position:relative}
+.mat-tl ol::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--line);border-radius:1px}
+.mat-tl li{position:relative;padding:0 0 14px;display:flex;flex-direction:column;gap:2px}
+.mat-tl li::before{content:"";position:absolute;left:-17px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--card);box-shadow:inset 0 0 0 2px var(--muted)}
+.mat-tl li.ult::before{background:var(--accent);box-shadow:0 0 0 3px var(--card)}
+.mat-tl time{font:800 12px var(--f-ui);color:var(--muted);font-variant-numeric:tabular-nums}
+.mat-tl li.ult time{color:var(--accent)}
+.mat-tl span{font-size:15px;line-height:1.4;color:var(--ink)}
+.gn{display:flex;flex-direction:column;gap:8px}
+.gn-b{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.gn-b li{display:flex;flex-direction:column;gap:4px}
+.gn-r{font-size:13.5px;line-height:1.25;color:var(--ink-2)}
+.gn-t{display:flex;align-items:center;gap:8px}
+.gn-t i{display:block;height:14px;border-radius:0 4px 4px 0;background:color-mix(in srgb,var(--accent) 55%,var(--card));min-width:3px}
+.gn-b li.on .gn-t i{background:var(--accent)}
+.gn-b li.neg .gn-t i{background:transparent;box-shadow:inset 0 0 0 1.5px var(--accent)}
+.gn-t b{font:800 13.5px var(--f-ui);color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+.gn-svg{display:block;width:100%;height:auto;overflow:visible}
+.gn-c{fill:color-mix(in srgb,var(--accent) 55%,var(--card))}
+.gn-c.on{fill:var(--accent)}
+.gn-c.neg{fill:transparent;stroke:var(--accent);stroke-width:1.5}
+.gn-v{font:800 11px var(--f-ui);fill:var(--ink)}
+.gn-u{font-style:normal;color:var(--muted);font-weight:600}
+.gn-nota{margin:0;font-size:13px;color:var(--ink-2)}
+.sl .gn{padding-top:2px}
+/* respiro e números */
+.cp .cpi{scroll-margin-top:16px}
+.cp-ind b,.gr-v,.mat-tl time,.cpx-up time{font-feature-settings:"tnum" 1}
+/* tela larga: Capa em 2 colunas, matéria com texto maior */
+@media (min-width:1024px){
+  .app.largo{max-width:1120px}
+  .cp.cp2{display:grid;grid-template-columns:minmax(0,1fr) 340px;column-gap:48px;align-items:start;padding-inline:32px}
+  .cp.cp2>.cp-top{grid-column:1/-1}
+  .cp-side{display:flex;flex-direction:column;gap:6px;padding-top:12px}
+  .cp-side .cp-ind{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cp-main .cpi-man .art.foto{margin-inline:0;width:100%;border-radius:14px;aspect-ratio:16/9}
+  .cp-main .cpi-man .art.foto img{border-radius:14px}
+  .cp-main .cp-dest{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+  .mat-c{max-width:720px}
+  .mat-tx h1{font-size:40px}
+  .mat-p p{font-size:19px;line-height:1.6}
+}
+@media (min-width:700px) and (max-width:1023px){.app{max-width:680px}.nav-in,.composer form,.respbar{max-width:680px}}
 </style>
 </head>
 <body>
@@ -1707,7 +1797,7 @@ function calcularNovidades(){
 }
 function registrarConhecidas(){
   const k=PREF.conhecidas||(PREF.conhecidas={});const agora=new Date().toISOString();PREF.visitaAtual=agora;
-  const prim=!Object.keys(k).length;(FEED.pautas||[]).forEach(p=>{if(!prim&&!lidaAtual(p)&&!SEEN.has(seenKey(p))&&!(k[p.id]&&!ATUALIZADAS.has(p.id)))return;const u=ultimaAtualizacao(p)||p.hora||agora;k[p.id]=tms(u)>tms(k[p.id])?u:k[p.id]});
+  const prim=!Object.keys(k).length;(FEED.pautas||[]).forEach(p=>{if(!prim&&!lidaAtual(p)&&!SEEN.has(seenKey(p))&&!CPV.has(p.id)&&!(k[p.id]&&!ATUALIZADAS.has(p.id)))return;const u=ultimaAtualizacao(p)||p.hora||agora;k[p.id]=tms(u)>tms(k[p.id])?u:k[p.id]});
   const ids=Object.keys(k);if(ids.length>400)ids.sort((a,b)=>tms(k[a])-tms(k[b])).slice(0,ids.length-400).forEach(i=>delete k[i]);
   salvarPrefs();
 }
@@ -1753,6 +1843,7 @@ function selo(p,big){
 }
 function visualHTML(v){
   if(!v)return "";
+  if(v.tipo==="grafico")return graficoNoticia(v);
   if(v.tipo==="linha_do_tempo")return `<span class="lbl">${esc(v.titulo||"Linha do tempo")}</span><ol class="tl">${(v.itens||[]).slice(0,7).map(i=>`<li><b>${esc(i.quando)}</b><span>${esc(i.texto)}</span></li>`).join("")}</ol>`;
   if(v.tipo==="numeros")return `<span class="lbl">${esc(v.titulo||"Em números")}</span><div class="nums">${(v.itens||[]).slice(0,6).map(i=>`<div class="num"><b>${esc(i.valor)}</b><span>${esc(i.rotulo)}</span></div>`).join("")}</div>${v.fonte?`<p class="hint">Fonte: ${esc(v.fonte)}</p>`:""}`;
   if(v.tipo==="pesquisas")return graficoPesquisas();
@@ -1763,11 +1854,11 @@ function slides(p){
   const n=p.neutro||{},sec=secOf(p),out=[];
   const info=(p.imagem?.etiqueta||"").toLowerCase()==="infográfico"||["pesquisa","indicador","dinheiro","plenario"].includes(p.imagem?.modelo);
   const fo=fotoDe(p);
-  out.push(`<div class="sl"><div class="cover paper${fo?" fcv":info?" info":""}" data-sec="${esc(sec)}">${fo?`${coverSvg(p.imagem)}<img class="fcv-i" src="${escU(fo.url)}" alt="${esc(fo.alt||"")}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="var c=this.parentNode;if(c)c.classList.remove('fcv');this.remove()">${fo.credito?`<small class="fcv-c">${esc(fo.credito)}</small>`:""}`:info?svgOf(p.imagem):coverSvg(p.imagem)}<div class="cv"><span class="kickrow"><button type="button" class="kick kickb" data-tagx>${esc(p.tag||secNome(sec))}</button>${fo?"":`<span class="klab">${esc((p.imagem?.etiqueta||"Ilustração").toLowerCase())}</span>`}</span><h2 class="${(n.titulo||"").length>72?"long":""}">${esc(n.titulo)}</h2></div></div></div>`);
+  out.push(`<div class="sl"><div class="cover paper${fo?" fcv":info?" info":""}" data-sec="${esc(sec)}">${fo?`${coverSvg(p.imagem)}${fotoImg(fo,"fcv-i",1)}${fo.credito?`<small class="fcv-c">${esc(fo.credito)}</small>`:""}`:info?svgOf(p.imagem):coverSvg(p.imagem)}<div class="cv"><span class="kickrow"><button type="button" class="kick kickb" data-tagx>${esc(p.tag||secNome(sec))}</button>${fo?"":`<span class="klab">${esc((p.imagem?.etiqueta||"Ilustração").toLowerCase())}</span>`}</span><h2 class="${(n.titulo||"").length>72?"long":""}">${esc(n.titulo)}</h2></div></div></div>`);
   const ups=(p.atualizacoes||[]).slice().sort((a,b)=>String(b.hora).localeCompare(String(a.hora)));
   out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">O que aconteceu</span>${ups.length?ups.slice(0,2).map(u=>`<div class="upd"><b>Atualizado às ${esc(hhmm(u.hora))}</b>${esc(u.texto)}</div>`).join(""):""}${(p.correcoes||[]).map(c=>`<div class="upd fix"><b>Correção · ${esc(hhmm(c.hora))}</b>${esc(c.texto)}</div>`).join("")}<p class="lead">${marcarTermos(n.texto||"")}</p>${p.contexto?`<p class="note"><b>Contexto.</b> ${marcarTermos(p.contexto)}</p>`:""}${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}${(FEED.explicadores||{})[temaDe(p)]?`<button type="button" class="explain" data-explica="${esc(temaDe(p))}">Entenda: ${esc(temaDe(p))}</button>`:""}</div>`);
   if(p.direita||p.esquerda)out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">A mesma notícia, dois ângulos</span>${p.direita?`<div class="ang r"><span class="lbl">Viés de direita</span><b>${esc(p.direita.titulo)}</b><span class="x">${esc(p.direita.texto)}</span></div>`:""}${p.esquerda?`<div class="ang l"><span class="lbl">Viés de esquerda</span><b>${esc(p.esquerda.titulo)}</b><span class="x">${esc(p.esquerda.texto)}</span></div>`:""}${p.o_que_muda?`<p class="note"><b>O que muda.</b> ${esc(p.o_que_muda)}</p>`:""}<p class="hint">Versões escritas pelo Prumo com os mesmos fatos, mudando só a ênfase e as palavras.</p></div>`);
-  const vis=(p.visuais||[]).map(v=>({...v,secao:sec})).find(v=>visualHTML(v));
+  const vis=(p.visuais||[]).map(v=>({...v,secao:sec})).sort((a,b)=>(b.tipo==="grafico")-(a.tipo==="grafico")).find(v=>visualHTML(v));
   if(vis)out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button>${visualHTML(vis)}</div>`);
   if((p.enquadramentos||[]).length||(p.links||[]).length||p.checagem)out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">Os veículos</span><div class="cobx" data-a="cob" role="button" tabindex="0">${selo(p,true)}${espectroHTML(p)}<span class="cob-mais">${esc(coberturaTxt(p))} ›</span></div>${(p.enquadramentos||[]).length?`<ul class="enq">${p.enquadramentos.map(e=>`<li><b>${esc(nomeFonte(e.fonte))}</b>${esc(e.descricao)}</li>`).join("")}</ul>`:""}${(p.links||[]).length?`<button type="button" class="link" data-a="links">Ler as matérias originais (${p.links.length} ${p.links.length===1?"link":"links"})</button>`:""}</div>`);
   return out.slice(0,5);
@@ -1780,11 +1871,9 @@ function postHTML(p){
     <div class="ph gut"><div class="ph-t"><button type="button" class="ph-sec" data-secfiltro="${esc(sec)}"><span class="secdot" style="background:${secCor(sec)}"></span><b>${esc(secNome(sec))}</b>${p.subtema?`<span class="ph-sub">· ${esc(p.subtema)}</span>`:""}</button><span><time data-when="${esc(ultimaAtualizacao(p)||p.hora||"")}">${esc(quando(ultimaAtualizacao(p)||p.hora))}</time>${seguido(p)?" · seguindo":""}</span><em class="lida-t"${lidaAtual(p)?"":" hidden"}>✓ lida</em><span data-otr></span></div>${cobStatus(p)}${nv?`<span class="badge-new">Novo</span>`:at?`<span class="badge-new upd2">Atualizado</span>`:""}<button type="button" class="more-btn" data-a="menu" aria-label="Mais opções">${ICON.dots}</button></div>
     <div class="car"><div class="track">${ss.join("")}</div></div>
     <div class="gut">
-      ${ss.length>1?`<div class="prog">${ss.map((_,i)=>`<i class="${i?"":"on"}" aria-hidden="true"></i>`).join("")}<span class="pg">1/${ss.length}</span></div>`:""}
-      ${p.checagem?.status==="divergencia"||(p.fontes||[]).length<=1?`<button type="button" class="cobert" data-a="cob">${p.checagem?selo(p,false):""}<span class="vc">${(p.fontes||[]).length<=1?"Só um veículo noticiou até agora":coberturaTxt(p)}</span><span class="chev" aria-hidden="true">›</span></button>`:""}
-      ${cobBarra(p)}
-      <div class="acts"><button type="button" class="act" data-a="like" aria-label="Gostei">${ICON.like}<span>Gostei</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-a="send" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span><button type="button" class="act" data-a="save" aria-label="Guardar">${ICON.save}</button></div>
+      <div class="acts"><button type="button" class="act" data-a="like" aria-label="Gostei">${ICON.like}<span>Gostei</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-a="send" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span>${ss.length>1?`<div class="prog pdots" aria-hidden="true">${ss.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${ss.length}</span></div>`:""}<button type="button" class="act" data-a="save" aria-label="Guardar">${ICON.save}</button></div>
       <div class="likes" data-likes></div>
+      ${cobBarra(p)}
       <div class="pollbox" data-poll></div>
       <div data-together></div><div data-nchat></div>
       <div class="cmt-area"><div class="cmts" data-cmts></div><button type="button" class="addc" data-a="cmt">Adicione um comentário…</button></div>
@@ -3406,9 +3495,12 @@ function capaEscolha(){const ps=(FEED?.pautas||[]).filter(p=>!(PREF.ocultas||[])
 function capaFrase(t,n){t=String(t||"").trim();if(t.length<=n)return t;const fr=t.replace(/([.!?])\s+/g,"$1\u0001").split("\u0001");let o="";for(const f of fr){if((o+" "+f).trim().length>n)break;o=(o+" "+f).trim()}return o||t.slice(0,n).replace(/\s+\S*$/,"")+"…"}
 function capaChapeu(p){return p.subtema||p.tag||secNome(secOf(p))}
 var FOTO_OK=/^https:\/\/([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)\//i;
+function fotoSrc(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([a-z]+)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png|webp))$/i);return m?`https://upload.wikimedia.org/wikipedia/${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/960px-${m[4]}`:u}
+function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.setAttribute("src",o);return}if(feed){const c=img.parentNode;if(c)c.classList.remove("fcv")}img.remove()}
+function fotoImg(f,cls,feed){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;return f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url)?f:null}
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
-  return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span><img src="${escU(f.url)}" alt="${esc(f.alt||"")}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">${cred&&f.credito?`<small class="cred">${esc(f.credito)}</small>`:""}</span>`}
+  return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f)}${cred&&f.credito?`<small class="cred">${esc(f.credito)}</small>`:""}</span>`}
 function indTile(x){const seta={sobe:"▲",desce:"▼",estavel:"▬"};const em=x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:"";
   const sp=grSpark(x),miolo=`<span>${esc(x.nome)}</span><b>${esc(x.valor)}</b>${em}${sp}`;
   return x.id?`<button type="button" class="ind-t" data-indg="${esc(x.id)}" aria-label="${esc(x.nome)}: ${esc(x.valor)}. Ver gráfico">${miolo}</button>`:`<div class="ind-t">${miolo}</div>`}
@@ -3425,7 +3517,7 @@ var CP_MAIS=null;
 function capaSub(p,L,extra){const v=versao(p,L);if(v.tem)return capaFrase(v.texto,170);return extra||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro?.texto,170)}
 function lenteHTML(mini){const L=lente();return `<div class="lente${mini?" mini":""}" role="tablist" aria-label="Leitura das notícias">${[["neutro","Neutra"],["direita","Direita"],["esquerda","Esquerda"]].map(([k,n])=>`<button type="button" role="tab" data-lente="${k}" aria-selected="${L===k}">${n}</button>`).join("")}</div>`}
 function cpItem(p,o){const L=lente(),v=versao(p,L),ab=CP_AB===p.id,lc=lidaAtual(p)?" lida":"";
-  const k=`<span class="cp-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</span>`;
+  const k=`<span class="cp-k" style="color:${secCor(secOf(p))}">${cpNovo(p)}${esc(capaChapeu(p))}${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</span>`;
   const marca=v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:"";
   const sub=o.sub?`<span class="cp-sub">${esc(capaSub(p,L,o.linha))}</span>`:"";
   const arte=o.arte?capaArte(p,o.tam==="man"?"art":"cp-th",o.tam==="man"):"";
@@ -3464,15 +3556,18 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
   h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
   h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${esc(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${esc(v.texto)}</p></div>`;
+  h+=matVisuais(p);
   if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
   if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
   const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
   if(es.length)h+=`<div class="cpx-bl"><b>O essencial</b><ul>${es.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
   if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${esc(p.contexto)}</p>`;
   if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${esc(p.proximo)}</p>`;
+  h+=matTempo(p);
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().reverse();
   if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(hhmm(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
-  h+=`<div class="mat-pe">${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button>${f&&f.credito?`<span class="cpx-fontes">${esc(f.credito)}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
+  const nx=matProx(p.id);
+  h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button>${f&&f.credito?`<span class="cpx-fontes">${esc(f.credito)}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
   if(vazio&&pushH())HST++}
 (function(){const ant=closeLayer;closeLayer=function(fp){const eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);ant.apply(this,arguments);
@@ -3484,7 +3579,7 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
   const vivo=ps.filter(p=>p.status==="ao_vivo");
   let h=`<div class="gut cp"><header class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed">${esc(capaEdicao())}${FEED.contagem?" · "+esc(FEED.contagem):""}</span></header>`;
-  h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
+  h+=capaNovBar();h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
   h+=dia1min(ps);
   if(man){const u=ultimaAtualizacao(man)||man.hora;
     const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>Atualizado às ${esc(hhmm(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
@@ -3538,6 +3633,9 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
     if(abrir){const el=document.getElementById("cpi-"+pid);if(el){const r=el.getBoundingClientRect();if(r.top<60||r.top>innerHeight*0.6)window.scrollTo({top:scrollY+r.top-70,behavior:"smooth"})}}return}
   const igr=t.closest("[data-indg]");if(igr){e.stopPropagation();abrirGrafico(igr.dataset.indg);return}
   const gpr=t.closest("[data-grper]");if(gpr){e.stopPropagation();abrirGrafico(GR.id,+gpr.dataset.grper);return}
+  const mpx=t.closest("[data-matprox]");if(mpx){e.stopPropagation();matIr(mpx.dataset.matprox);return}
+  const cnv=t.closest("[data-cpnov]");if(cnv){e.stopPropagation();abrirNovCapa();return}
+  const cni=t.closest("[data-cpnovir]");if(cni){e.stopPropagation();const pid=cni.dataset.cpnovir;closeLayer();setTimeout(()=>abrirMateria(pid),60);return}
   const cmt=t.closest("[data-cpmat]");if(cmt){e.stopPropagation();abrirMateria(cmt.dataset.cpmat);return}
   const msv=t.closest("[data-matsalvar]");if(msv){e.stopPropagation();const pid=msv.dataset.matsalvar;toggleSave(pid);setTimeout(()=>{if(document.querySelector("#layer .mat"))abrirMateria(pid,true)},80);return}
   const cm=t.closest("[data-cpmais]");if(cm){e.stopPropagation();const pid=cm.dataset.cpmais;CP_MAIS=CP_MAIS===pid?null:pid;const y=scrollY;renderCapa();window.scrollTo(0,y);if(CP_MAIS)uso("capa_mais");return}
@@ -3802,6 +3900,76 @@ function abrirGrafico(id,per){const it=indItens().filter(x=>x&&x.nome&&x.valor),
   h+=`<p class="gr-fonte">Fonte: ${esc(x.fonte||"—")}${x.data?` · dado de ${esc(grData(x.data,true))}`:""}</p></div>`;
   const aberto=document.querySelector(".gr"),cx=aberto&&aberto.closest(".sh-b"),y=cx?cx.scrollTop:0;
   sheet(x.nome,h);grLigar();if(aberto&&per!==undefined){const b=document.querySelector(".gr")?.closest(".sh-b");if(b)b.scrollTop=y}uso("grafico")}
+
+/* ---------- Etapa 14 ---------- */
+/* gráfico dentro da notícia: visual {tipo:"grafico", forma:"barras"|"colunas"|"linha", titulo, unidade?, casas?, fonte, nota?, itens:[{rotulo, valor, destaque?}]} */
+function gnNum(v,u,c){const n=grNum(v,c);u=typeof u==="string"?u.trim():"";if(!u)return n;if(u==="%")return n+"%";if(/^R\$/.test(u)){const r=u.slice(2).trim();return "R$ "+n+(r?" "+r:"")}if(/^US\$/.test(u)){const r=u.slice(3).trim();return "US$ "+n+(r?" "+r:"")}return n+" "+u}
+function graficoNoticia(v){const its=(Array.isArray(v.itens)?v.itens:[]).filter(i=>i&&typeof i.rotulo==="string"&&isFinite(Number(i.valor))).map(i=>({r:i.rotulo,v:Number(i.valor),on:!!i.destaque}));if(its.length<2)return "";
+  const u=v.unidade||"",c=Number.isInteger(v.casas)?Math.max(0,Math.min(2,v.casas)):(its.every(i=>Number.isInteger(i.v))?0:1);const forma=["barras","colunas","linha"].includes(v.forma)?v.forma:"barras";
+  const un=u&&u!=="%"&&forma!=="barras"?` <em class="gn-u">em ${esc(u)}</em>`:"";const cab=`<span class="lbl">${esc(v.titulo||"Em gráfico")}${un}</span>`,pe=`${v.nota?`<p class="gn-nota">${esc(v.nota)}</p>`:""}${v.fonte?`<p class="hint">Fonte: ${esc(v.fonte)}</p>`:""}`;
+  if(forma==="barras"){const mx=Math.max(...its.map(i=>Math.abs(i.v)))||1;const neg=its.some(i=>i.v<0);
+    return `<div class="gn">${cab}<ul class="gn-b">${its.slice(0,12).map(i=>`<li class="${i.on?"on":""}${i.v<0?" neg":""}"><span class="gn-r">${esc(i.r)}</span><span class="gn-t"><i style="width:${Math.max(1.5,Math.abs(i.v)*100/mx).toFixed(1)}%"></i><b>${esc(gnNum(i.v,u,c))}</b></span></li>`).join("")}</ul>${neg?`<p class="hint">Barras claras: valores negativos.</p>`:""}${pe}</div>`}
+  const W=320,H=forma==="linha"?170:180,pl=8,pr=8,pt=24,pb=24,cw=W-pl-pr,ch=H-pt-pb;const vs=its.map(i=>i.v);let mn=Math.min(0,...vs),mx=Math.max(0,...vs);
+  if(forma==="linha"){mn=Math.min(...vs);mx=Math.max(...vs);const pd=(mx-mn||Math.abs(mx)||1)*.15;mn-=pd;mx+=pd}if(mx-mn<1e-9)mx=mn+1;
+  const Y=x=>pt+(mx-x)*ch/(mx-mn);let h=`<svg class="gn-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(v.titulo||"Gráfico")}">`;
+  if(forma==="colunas"){const n=Math.min(its.length,14),bw=Math.min(28,cw/n*.62),z=Y(0);
+    h+=`<line x1="${pl}" x2="${W-pr}" y1="${z.toFixed(1)}" y2="${z.toFixed(1)}" class="gr-base"/>`;
+    its.slice(0,14).forEach((i,k)=>{const cx=pl+cw*(k+.5)/n,y=Y(i.v),top=Math.min(y,z),hh=Math.max(1.5,Math.abs(z-y));
+      h+=`<path d="${gnCol(cx-bw/2,top,bw,hh,i.v>=0)}" class="gn-c${i.on?" on":""}${i.v<0?" neg":""}"/><text x="${cx.toFixed(1)}" y="${(i.v>=0?top-6:top+hh+13).toFixed(1)}" text-anchor="middle" class="gn-v">${esc(gnNum(i.v,u==="%"?"%":"",c))}</text><text x="${cx.toFixed(1)}" y="${H-6}" text-anchor="middle" class="gr-xl">${esc(i.r.slice(0,10))}</text>`});
+}
+  else{const X=k=>pl+(its.length<2?cw:k*cw/(its.length-1));const pts=its.map((i,k)=>X(k).toFixed(1)+","+Y(i.v).toFixed(1));const g="gng"+(++GR.n);const base=(pt+ch).toFixed(1);
+    h+=`<defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--accent);stop-opacity:.2"/><stop offset="1" style="stop-color:var(--accent);stop-opacity:0"/></linearGradient></defs><line x1="${pl}" x2="${W-pr}" y1="${base}" y2="${base}" class="gr-base"/><path d="M${X(0).toFixed(1)},${base} L${pts.join(" L")} L${X(its.length-1).toFixed(1)},${base} Z" style="fill:url(#${g})"/><polyline points="${pts.join(" ")}" class="gr-ln"/>`;
+    const mark=new Set([0,its.length-1]);let imx=0,imn=0;its.forEach((i,k)=>{if(i.v>its[imx].v)imx=k;if(i.v<its[imn].v)imn=k});mark.add(imx);mark.add(imn);its.forEach((i,k)=>{if(i.on)mark.add(k)});
+    [...mark].forEach(k=>{const x=X(k),y=Y(its[k].v),anc=k===0?"start":k===its.length-1?"end":"middle";h+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" class="gr-dot"/><text x="${x.toFixed(1)}" y="${(y-9).toFixed(1)}" text-anchor="${anc}" class="gn-v" dy="${k===imn&&k!==imx&&k!==0&&k!==its.length-1?24:0}">${esc(gnNum(its[k].v,u==="%"?"%":"",c))}</text>`});
+    const xs=[0,Math.round((its.length-1)/2),its.length-1].filter((k,i,a)=>a.indexOf(k)===i);xs.forEach((k,i)=>h+=`<text x="${X(k).toFixed(1)}" y="${H-6}" text-anchor="${k===0?"start":k===its.length-1?"end":"middle"}" class="gr-xl">${esc(its[k].r.slice(0,12))}</text>`);
+}
+  return `<div class="gn">${cab}${h}</svg>${pe}</div>`}
+function gnCol(x,y,w,h,cima){const r=Math.min(4,w/2,h);return cima?`M${x.toFixed(1)},${(y+h).toFixed(1)} V${(y+r).toFixed(1)} Q${x.toFixed(1)},${y.toFixed(1)} ${(x+r).toFixed(1)},${y.toFixed(1)} H${(x+w-r).toFixed(1)} Q${(x+w).toFixed(1)},${y.toFixed(1)} ${(x+w).toFixed(1)},${(y+r).toFixed(1)} V${(y+h).toFixed(1)} Z`:`M${x.toFixed(1)},${y.toFixed(1)} V${(y+h-r).toFixed(1)} Q${x.toFixed(1)},${(y+h).toFixed(1)} ${(x+r).toFixed(1)},${(y+h).toFixed(1)} H${(x+w-r).toFixed(1)} Q${(x+w).toFixed(1)},${(y+h).toFixed(1)} ${(x+w).toFixed(1)},${(y+h-r).toFixed(1)} V${y.toFixed(1)} Z`}
+function matVisuais(p){return (Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&["grafico","numeros","pesquisas"].includes(v.tipo)).map(v=>{let x="";try{x=visualHTML({...v,secao:secOf(p)})}catch(e){}return x?`<div class="mat-vis">${x}</div>`:""}).join("")}
+function matTempo(p){const vt=(Array.isArray(p.visuais)?p.visuais:[]).find(v=>v&&v.tipo==="linha_do_tempo"&&Array.isArray(v.itens)&&v.itens.length>=2);let its=[],tit="Como a história andou";
+  if(vt){tit=vt.titulo||tit;its=vt.itens.filter(i=>i&&i.texto).map(i=>({q:String(i.quando||""),t:String(i.texto)}))}
+  else{const ts=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo&&x.hora);if(ts.length>=3&&tms(ts[ts.length-1].hora)-tms(ts[0].hora)>36*3600e3)its=ts.map(x=>({q:dataCurta(String(x.hora).slice(0,10)),t:x.titulo}))}
+  if(its.length<2)return "";return `<div class="mat-tl"><b>${esc(tit)}</b><ol>${its.slice(-7).map((i,k,a)=>`<li${k===a.length-1?' class="ult"':""}><time>${esc(i.q)}</time><span>${esc(i.t)}</span></li>`).join("")}</ol></div>`}
+/* próxima matéria, na ordem da Capa (pula as já lidas quando dá) */
+var MAT_ORIG=null;
+function capaOrdemIds(){const ids=[...document.querySelectorAll("#v-capa .cpi[id^='cpi-']")].map(e=>e.id.slice(4));if(ids.length)return [...new Set(ids)];try{return capaEscolha().ord.map(p=>p.id)}catch(e){return []}}
+function matProx(pid){const ids=capaOrdemIds(),i=ids.indexOf(pid);const rest=ids.slice(i+1).concat(i>=0?ids.slice(0,i):[]).map(pautaById).filter(Boolean);return rest.find(p=>!lidaAtual(p))||(i>=0?pautaById(ids[i+1]):null)||null}
+function matIr(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;abrirMateria(pid);const m=document.querySelector("#layer .mat");if(m){m.scrollTop=0;m.classList.remove("mat-in");void m.offsetWidth;m.classList.add("mat-in")}}
+(function(){const ant=closeLayer;closeLayer=function(){const pid=MAT_PID,orig=MAT_ORIG,eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);const r=ant.apply(this,arguments);
+  if(eraMat){MAT_ORIG=null;if(orig&&pid&&pid!==orig&&VIEW==="capa"){const f=()=>{const el=document.getElementById("cpi-"+pid);if(el)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-innerHeight*.28)};f();requestAnimationFrame(f);setTimeout(f,150)}}return r}})();
+(function(){let x0=null,y0=0,t0=0;
+  document.addEventListener("touchstart",e=>{const m=e.target&&e.target.closest&&e.target.closest("#layer .mat");if(!m||e.touches.length>1||e.target.closest(".gr-box,.gn,input,textarea")){x0=null;return}x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now()},{passive:true});
+  document.addEventListener("touchend",e=>{if(x0==null)return;const t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;x0=null;if(Date.now()-t0>800)return;
+    if(dx<-70&&Math.abs(dy)<Math.abs(dx)*.5){const b=document.querySelector("#layer .mat [data-matprox]"),l2=$("#layer2");if(b&&!(l2&&l2.innerHTML))matIr(b.dataset.matprox)}},{passive:true})})();
+/* desde a sua última visita, na Capa */
+var CPV=new Set(),CPV_OBS=null,SAIU_EM=0;
+function capaNovas(){if(!FEED)return [];return (FEED.pautas||[]).filter(p=>(NOVAS.has(p.id)||ATUALIZADAS.has(p.id))&&!lidaAtual(p))}
+function cpNovo(p){if(lidaAtual(p))return "";if(NOVAS.has(p.id))return `<em class="cp-nv">Novo</em>`;if(ATUALIZADAS.has(p.id))return `<em class="cp-nv up">Atualizado</em>`;return ""}
+function capaNovBar(){const l=capaNovas();if(!l.length)return "";const n=l.length;
+  return `<button type="button" class="cp-nov" data-cpnov><span class="nb-d"></span><span class="cp-nov-t"><b>${n} ${n===1?"novidade":"novidades"}</b> desde a sua última visita${VISITA0&&hhmm(VISITA0)?` <span>(${esc(diaHora(VISITA0))})</span>`:""}</span><span class="chev" aria-hidden="true">›</span></button>`}
+function abrirNovCapa(){const l=capaNovas();const L=lente();
+  sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="ult">${l.map(p=>`<li><button type="button" data-cpnovir="${esc(p.id)}"><span class="u-t"><b style="color:${secCor(secOf(p))}">${NOVAS.has(p.id)?"Nova":"Atualizada"}</b> · ${esc(secNome(secOf(p)))}</span><span class="u-x">${esc(versao(p,L).titulo||"")}</span></button></li>`).join("")}</ul>`)}
+function capaObservar(){if(!("IntersectionObserver" in window))return;if(CPV_OBS)CPV_OBS.disconnect();const tm=new Map();
+  CPV_OBS=new IntersectionObserver(es=>es.forEach(en=>{const id=en.target.id.slice(4);if(en.isIntersecting){tm.set(id,setTimeout(()=>CPV.add(id),1200))}else{clearTimeout(tm.get(id));tm.delete(id)}}),{threshold:.6});
+  document.querySelectorAll("#v-capa .cpi[id^='cpi-']").forEach(el=>CPV_OBS.observe(el))}
+document.addEventListener("visibilitychange",()=>{if(!FEED)return;if(document.hidden){SAIU_EM=Date.now();try{registrarConhecidas()}catch(e){}}
+  else if(SAIU_EM&&Date.now()-SAIU_EM>15*60e3){SAIU_EM=0;VISITA0=PREF.visitaAtual||VISITA0;try{calcularNovidades();if(!$("#layer").innerHTML){if(VIEW==="capa")renderCapa();else if(VIEW==="feed")renderFeed()}}catch(e){}}});
+/* Capa em 2 colunas em tela larga */
+var LARGO_MQ=window.matchMedia?matchMedia("(min-width:1024px)"):null;
+function appLargo(){const a=$(".app");if(a)a.classList.toggle("largo",!!(LARGO_MQ&&LARGO_MQ.matches&&VIEW==="capa"))}
+function capaLargo(){appLargo();const cp=document.querySelector("#v-capa .cp");if(!cp||!LARGO_MQ||!LARGO_MQ.matches)return;
+  const main=document.createElement("div"),side=document.createElement("aside");main.className="cp-main";side.className="cp-side";
+  const LADO=new Set(["Para acompanhar","Últimas","Agenda"]);let mover=false;
+  [...cp.children].forEach(el=>{if(el.classList.contains("cp-top"))return;
+    if(el.classList.contains("cp-h")){const t=(el.querySelector("h3")||{}).textContent||"";mover=LADO.has(t.trim())}
+    else if(!(el.matches("ul.cp-l")&&mover))mover=false;
+    const lado=mover||el.classList.contains("cp-1m")||el.classList.contains("cp-ind")||el.classList.contains("cp-int");
+    (lado?side:main).appendChild(el)});
+  const fim=main.querySelector(".cp-fim");if(fim)main.appendChild(fim);
+  cp.appendChild(main);cp.appendChild(side);cp.classList.add("cp2")}
+(function(){const ant=renderCapa;renderCapa=function(){const r=ant.apply(this,arguments);try{capaLargo();capaObservar()}catch(e){}return r}})();
+(function(){const ant=go;go=function(){const r=ant.apply(this,arguments);try{appLargo()}catch(e){}return r}})();
+if(LARGO_MQ){const f=()=>{try{if(FEED)renderCapa();appLargo()}catch(e){}};if(LARGO_MQ.addEventListener)LARGO_MQ.addEventListener("change",f);else if(LARGO_MQ.addListener)LARGO_MQ.addListener(f)}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
