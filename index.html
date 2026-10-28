@@ -1256,6 +1256,28 @@ html.sem-vidro .scrim{-webkit-backdrop-filter:none;backdrop-filter:none}
 .cpx-pe{display:flex;justify-content:space-between;align-items:center}
 .cpx-fontes{font-size:12px;font-weight:600;color:var(--muted);opacity:.8;padding:6px 0;min-height:32px}
 .cpx-pe .cpx-fecha{align-self:auto}
+
+/* ================= Etapa 11: leitura num botão discreto ================= */
+.lp{position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:calc(var(--nav-h) + var(--nav-pad) + 20px + env(safe-area-inset-bottom,0px));z-index:21;display:flex;align-items:center;gap:6px;height:34px;padding:0 12px 0 10px;border-radius:999px;background:rgb(255 255 255 / .82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgb(20 33 58 / .12);box-shadow:0 4px 14px rgb(20 33 58 / .14);font:700 12.5px var(--f-ui);color:var(--ink-2);-webkit-tap-highlight-color:transparent}
+.lp svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lp i,.lpm i,.cpx-ver i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
+.lp.direita,.lpm i.direita{color:var(--right)}.lp.esquerda{color:var(--left)}
+.lp.direita i,i.direita{background:var(--right)}.lp.esquerda i,i.esquerda{background:var(--left)}
+.lpm{position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:calc(var(--nav-h) + var(--nav-pad) + 62px + env(safe-area-inset-bottom,0px));z-index:45;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgb(20 33 58 / .22);padding:6px;width:236px;display:flex;flex-direction:column;animation:cpxin .15s ease}
+.lpm>b{font:800 11px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:8px 10px 4px}
+.lpm button{display:flex;align-items:center;gap:10px;text-align:left;padding:10px;border-radius:10px;color:var(--ink);min-height:48px}
+.lpm button>span{flex:1;display:flex;flex-direction:column}
+.lpm button b{font:600 14.5px var(--f-ui)}
+.lpm button span span{font-size:12px;color:var(--muted)}
+.lpm button[aria-checked="true"]{background:var(--soft)}
+.lpm em{font-style:normal;font-weight:800;color:var(--accent)}
+.lpm i{width:9px;height:9px}
+.cp-lado{display:inline-block;width:7px;height:7px;padding:0;margin:0 7px 0 0;border-radius:50%;vertical-align:.22em}
+.cp-lado.direita{background:var(--right)}.cp-lado.esquerda{background:var(--left)}
+.cpx-ver{margin:0;display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
+.cpx-ver button{font-size:12.5px;font-weight:700;color:var(--accent);padding:4px 0}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .lp{background:rgb(30 38 52 / .85);border-color:rgb(255 255 255 / .12)}}
+:root[data-aparencia="escuro"] .lp{background:rgb(30 38 52 / .85);border-color:rgb(255 255 255 / .12)}
 </style>
 </head>
 <body>
@@ -3312,13 +3334,13 @@ function capaSub(p,L,extra){const v=versao(p,L);if(v.tem)return capaFrase(v.text
 function lenteHTML(mini){const L=lente();return `<div class="lente${mini?" mini":""}" role="tablist" aria-label="Leitura das notícias">${[["neutro","Neutra"],["direita","Direita"],["esquerda","Esquerda"]].map(([k,n])=>`<button type="button" role="tab" data-lente="${k}" aria-selected="${L===k}">${n}</button>`).join("")}</div>`}
 function cpItem(p,o){const L=lente(),v=versao(p,L),ab=CP_AB===p.id,lc=lidaAtual(p)?" lida":"";
   const k=`<span class="cp-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</span>`;
-  const marca=v.tem?`<em class="cp-lado ${v.lado}">${v.lado==="direita"?"Direita":"Esquerda"}</em>`:"";
+  const marca=v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:"";
   const sub=o.sub?`<span class="cp-sub">${esc(capaSub(p,L,o.linha))}</span>`:"";
   const arte=o.arte?capaArte(p,o.tam==="man"?"art":"cp-th"):"";
   return `<article class="cpi cpi-${o.tam}${lc}${ab?" aberto":""}" id="cpi-${esc(p.id)}"><button type="button" class="cpi-b" data-cpx="${esc(p.id)}" aria-expanded="${ab}">${o.tam==="man"?arte:""}<span class="tx">${o.tam==="rel"?"":k}<b class="cp-t">${marca}${esc(v.titulo)}</b>${sub}${o.meta||""}</span>${o.tam!=="man"?arte:""}</button>${ab?cpAberta(p):""}</article>`}
-function cpAberta(p){const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);let h=`<div class="cpx">${lenteHTML(true)}`;
-  if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-nota">Esta notícia não tem leitura própria da ${L}: os veículos contam o fato do mesmo jeito. Mostrando a versão neutra.</p>`;
-  else if(v.tem)h+=`<p class="cpx-nota ${v.lado}">Como os veículos mais à ${v.lado} contam o fato. Os números e nomes são os mesmos da versão neutra.</p>`;
+function cpAberta(p){const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);let h=`<div class="cpx">`;
+  if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
+  else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
   const pts=pontosDe(p,L);
   h+=`<div class="cpx-30"><b>Em 30 segundos</b><ul>${pts.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
   const mais=CP_MAIS===p.id;
@@ -3341,14 +3363,26 @@ function dia1min(ps){const rd=FEED.resumo_dia&&Array.isArray(FEED.resumo_dia.ite
   if(!it.length){const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;it=[...ps].sort((a,b)=>pr(b)-pr(a)).slice(0,5).map(p=>({pid:p.id,texto:p.neutro?.titulo||""}))}
   if(!it.length)return "";
   return `<section class="cp-1m" aria-label="O dia em 1 minuto"><h3>O dia em 1 minuto</h3><ol>${it.map(x=>`<li>${x.pid?`<button type="button" data-cp1m="${esc(x.pid)}">${esc(x.texto)}</button>`:`<span>${esc(x.texto)}</span>`}</li>`).join("")}</ol></section>`}
+function lenteBotao(){let b=document.getElementById("lp");
+  if(!b){b=document.createElement("button");b.type="button";b.id="lp";b.className="lp";b.setAttribute("aria-haspopup","menu");b.dataset.lpabre="1";document.body.appendChild(b)}
+  const L=lente(),N={neutro:"Neutra",direita:"Direita",esquerda:"Esquerda"};
+  b.className="lp "+L;b.hidden=VIEW!=="capa"||!FEED;b.setAttribute("aria-label","Leitura das notícias: "+N[L]);
+  b.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 7h14M7 7l-3 6a3 3 0 0 0 6 0zM17 7l-3 6a3 3 0 0 0 6 0z"/></svg>${L==="neutro"?"":"<i></i>"}${N[L]}`;
+  if(b.hidden)lenteMenu(false)}
+function lenteMenu(abrir){let m=document.getElementById("lpm");if(!abrir){if(m)m.remove();return}
+  if(m){m.remove();return}const L=lente();m=document.createElement("div");m.id="lpm";m.className="lpm";m.setAttribute("role","menu");
+  m.innerHTML=`<b>Como ler as notícias</b>${[["neutro","Neutra","Só os fatos"],["direita","Direita","Como a direita conta"],["esquerda","Esquerda","Como a esquerda conta"]].map(([k,n,d])=>`<button type="button" role="menuitemradio" aria-checked="${L===k}" data-lente="${k}"><i class="${k}"></i><span><b>${n}</b><span>${d}</span></span>${L===k?'<em aria-hidden="true">✓</em>':""}</button>`).join("")}`;
+  document.body.appendChild(m);uso("lente_menu")}
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
+  if(t.closest("[data-lpabre]")){e.stopPropagation();lenteMenu(true);return}
+  if(document.getElementById("lpm")&&!t.closest("#lpm"))lenteMenu(false)},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")lenteMenu(false)});
 function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   if(!FEED){v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span></div><div class="cp-sk"><i style="height:220px"></i><i style="height:22px;width:80%"></i><i style="height:16px;width:60%"></i></div></div>`;return}
   const {ps,ord,man,dest,fixa,linha}=capaEscolha();const L=lente();
   const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
   const vivo=ps.filter(p=>p.status==="ao_vivo");
   let h=`<div class="gut cp"><header class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed">${esc(capaEdicao())}${FEED.contagem?" · "+esc(FEED.contagem):""}</span></header>`;
-  const comLado=L==="neutro"?0:ps.filter(p=>versao(p,L).tem).length;
-  h+=`<div class="cp-lente">${lenteHTML()}<span class="cp-lh">${L==="neutro"?"Manchetes e resumos neutros, só com os fatos. Toque numa manchete para ler ali mesmo.":`Títulos e resumos como os veículos mais à ${L} contam (${comLado} de ${ps.length} notícias têm essa leitura; as outras aparecem neutras).`}</span></div>`;
   h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
   h+=dia1min(ps);
   if(man){const u=ultimaAtualizacao(man)||man.hora;
@@ -3371,7 +3405,7 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   if(qz||pend)h+=`<button type="button" class="cp-int" data-vgo="play"><span><b>${qz?"Quiz do dia":"Enquetes"}</b><span>${[qz?`${FEED.quiz.length} perguntas sobre esta edição`:"",pend?`${pend} ${pend===1?"enquete espera":"enquetes esperam"} o seu voto`:""].filter(Boolean).join(" · ")}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
   const falta=ps.filter(p=>!lidaAtual(p)).length;
   h+=`<div class="cp-fim">${falta?`<b>Faltam ${falta} ${falta===1?"notícia":"notícias"} para ficar em dia</b><button type="button" class="btn ghost" data-vgo="feed" style="margin-top:6px">Abrir o feed</button>`:`<b>Você está em dia</b><span>Leu tudo desta edição. A próxima atualização aparece aqui.</span>`}<span>Atualizado ${esc(diaHora(FEED.atualizado_em))}.</span></div></div>`;
-  v.innerHTML=h}
+  v.innerHTML=h;lenteBotao()}
 /* aba Buscar */
 function buscaRes(q){const terms=norm(q).split(/\s+/).filter(Boolean);const hit=t=>terms.every(w=>norm(t).includes(w));const res=[];
   (FEED?.pautas||[]).forEach(p=>{if(hit([p.neutro?.titulo,p.neutro?.texto,p.tag,p.tema,p.subtema,p.contexto,p.por_que].join(" ")))res.push(`<li><button type="button" data-busca="${esc(p.id)}"><b>${esc(p.neutro?.titulo)}</b><span>${esc(secNome(secOf(p)))}${p.subtema?" · "+esc(p.subtema):""} · esta edição</span></button></li>`)});
@@ -3392,7 +3426,7 @@ function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")
   const inp=$("#bvq"),run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
 /* menu, aba inicial e eventos */
 (function(){const goAnt=go;
-  go=function(v,fromPop){goAnt(v,fromPop);if(v==="capa"){renderCapa();uso("capa")}if(v==="busca"){renderBuscaView();uso("aba_busca");if(!fromPop){const q=$("#bvq");if(q&&!q.value)try{q.focus({preventScroll:true})}catch(e){}}}if(!fromPop&&(v==="feed"||v==="capa"))try{localStorage.setItem("prumo-aba",v);localStorage.setItem("prumo-aba-dia",hojeSP())}catch(e){}};
+  go=function(v,fromPop){goAnt(v,fromPop);if(typeof lenteBotao==="function")lenteBotao();if(v==="capa"){renderCapa();uso("capa")}if(v==="busca"){renderBuscaView();uso("aba_busca");if(!fromPop){const q=$("#bvq");if(q&&!q.value)try{q.focus({preventScroll:true})}catch(e){}}}if(!fromPop&&(v==="feed"||v==="capa"))try{localStorage.setItem("prumo-aba",v);localStorage.setItem("prumo-aba-dia",hojeSP())}catch(e){}};
   let teste=false;try{teste=localStorage.getItem("prumo-teste-capa")==="1"}catch(e){}
   if(!navigator.webdriver||teste){RAIZ="capa";go("capa",true)}
   setInterval(()=>{if(!document.hidden&&VIEW==="capa")carregarCapaFixa()},300000);
@@ -3404,7 +3438,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const cm=t.closest("[data-cpmais]");if(cm){e.stopPropagation();const pid=cm.dataset.cpmais;CP_MAIS=CP_MAIS===pid?null:pid;const y=scrollY;renderCapa();window.scrollTo(0,y);if(CP_MAIS)uso("capa_mais");return}
   const c1=t.closest("[data-cp1m]");if(c1){e.stopPropagation();const pid=c1.dataset.cp1m;CP_AB=pid;CP_MAIS=null;try{marcarLida(pid)}catch(_){}uso("capa_1min");renderCapa();
     const el=document.getElementById("cpi-"+pid);if(el){const f=()=>window.scrollTo(0,scrollY+el.getBoundingClientRect().top-70);f();requestAnimationFrame(f)}else openSnap(pid);return}
-  const le=t.closest("[data-lente]");if(le){e.stopPropagation();const k=le.dataset.lente;if(lente()!==k){PREF.lente=k;salvarPrefs();uso("lente_"+k)}
+  const le=t.closest("[data-lente]");if(le){e.stopPropagation();lenteMenu(false);const k=le.dataset.lente;if(lente()!==k){PREF.lente=k;salvarPrefs();uso("lente_"+k)}
     if(VIEW==="capa"){const el=CP_AB&&document.getElementById("cpi-"+CP_AB);const r0=el?el.getBoundingClientRect().top:null;const y=scrollY;renderCapa();
       const el2=CP_AB&&document.getElementById("cpi-"+CP_AB);if(el2&&r0!=null)window.scrollTo(0,scrollY+el2.getBoundingClientRect().top-r0);else window.scrollTo(0,y)}return}
   const cf=t.closest("[data-cpfontes]");if(cf){e.stopPropagation();abrirCobertura(cf.dataset.cpfontes);return}
