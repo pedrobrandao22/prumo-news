@@ -131,6 +131,10 @@ def campos_texto(f):
         yield f"[{pid}] neutro.titulo", "estrito", n.get("titulo", "")
         yield f"[{pid}] neutro.texto", "texto", n.get("texto", "")
         if isinstance(p.get("subtitulo"), str): yield f"[{pid}] subtitulo", "estrito", p.get("subtitulo")
+        for lado in ("neutro", "direita", "esquerda"):
+            v = p.get(lado) if isinstance(p.get(lado), dict) else {}
+            for i, x in enumerate(v.get("pontos") if isinstance(v.get("pontos"), list) else []):
+                if isinstance(x, str): yield f"[{pid}] {lado}.pontos.{i}", "estrito", x
         for lado in ("direita", "esquerda"):
             v = p.get(lado) or {}
             if v:
@@ -160,6 +164,9 @@ def campos_texto(f):
         for k, v in d.items():
             if isinstance(v, str): yield f"[{pid}] imagem.dados.{k}", "texto", v
     for i, b in enumerate(f.get("breves") or []): yield f"breves.{i}.titulo", "estrito", b.get("titulo", "")
+    rd = f.get("resumo_dia") if isinstance(f.get("resumo_dia"), dict) else {}
+    for i, it in enumerate(rd.get("itens") if isinstance(rd.get("itens"), list) else []):
+        if isinstance(it, dict): yield f"resumo_dia.itens.{i}.texto", "estrito", it.get("texto", "")
     for i, a in enumerate(f.get("agenda") or []): yield f"agenda.{i}.texto", "estrito", a.get("texto", "")
     for i, c in enumerate(f.get("calendario") or []): yield f"calendario.{i}.texto", "estrito", c.get("texto", "")
     for i, it in enumerate((f.get("mudancas") or {}).get("itens") or []): yield f"mudancas.itens.{i}.texto", "estrito", it.get("texto", "")
@@ -291,7 +298,17 @@ def checar(f, ant=None, virada=False, agora=None):
         if not tit or not n.get("texto"): E(f"[{pid}] neutro sem titulo ou texto")
         checar_cobertura(p, pid, ref)
         if len(tit) > 90: E(f"[{pid}] título com {len(tit)} caracteres (máx. 90; ideal ≤ 75)")
-        elif len(tit) > 75: A(f"[{pid}] título com {len(tit)} caracteres (ideal ≤ 75)")
+        elif len(tit) > 75: A(f"[{pid}] título com {len(tit)} caracteres (ideal ≤ 60)")
+        # formato "em 30 segundos": 3 pontos curtos por versão
+        for lado in ("neutro", "direita", "esquerda"):
+            v = p.get(lado) if isinstance(p.get(lado), dict) else None
+            if not v or v.get("pontos") is None: continue
+            pt = v.get("pontos")
+            if not isinstance(pt, list) or not all(isinstance(x, str) and x.strip() for x in pt): E(f"[{pid}] {lado}.pontos deve ser lista de frases"); continue
+            if not 2 <= len(pt) <= 4: A(f"[{pid}] {lado}.pontos com {len(pt)} itens (3 é o ideal)")
+            for x in pt:
+                if len(x) > 160: E(f"[{pid}] {lado}.pontos com frase de {len(x)} caracteres (até 120)")
+                elif len(x) > 120: A(f"[{pid}] {lado}.pontos com frase de {len(x)} caracteres (ideal até 120)")
         pr = p.get("prioridade")
         if not isinstance(pr, int) or not 0 <= pr <= 100: E(f"[{pid}] prioridade ausente ou fora de 0–100")
         # horas
@@ -332,14 +349,14 @@ def checar(f, ant=None, virada=False, agora=None):
             elif not (("direita" in om and "esquerda" in om) or re.search(r"versoes|as duas|ambas|os dois lados", om)):
                 A(f"[{pid}] o_que_muda não compara as duas versões (cite direita e esquerda)")
             if p.get("secao") == "esportes": A(f"[{pid}] esporte com versão de viés")
-        base = " ".join([n.get("texto", ""), tit, p.get("contexto") or "", p.get("proximo") or "",
+        base = " ".join([n.get("texto", ""), tit, " ".join(x for x in (n.get("pontos") or []) if isinstance(x, str)), p.get("contexto") or "", p.get("proximo") or "",
                          json.dumps(p.get("visuais"), ensure_ascii=False), json.dumps(p.get("checagem"), ensure_ascii=False),
                          json.dumps(p.get("atualizacoes"), ensure_ascii=False), json.dumps(im.get("dados"), ensure_ascii=False)])
         bn, bnorm = nums(base), norm(base)
         for lado in ("direita", "esquerda"):
             v = p.get(lado) or {}
             if not v: continue
-            vt = v.get("titulo", "") + ". " + v.get("texto", "")
+            vt = v.get("titulo", "") + ". " + v.get("texto", "") + ". " + ". ".join(x for x in (v.get("pontos") or []) if isinstance(x, str))
             extra = nums(vt) - bn
             if extra: E(f"[{pid}] números na versão {lado} que não aparecem no neutro, contexto, atualizações nem checagem: {sorted(extra)}. Confirme na matéria e cite no contexto ou na checagem, ou tire da versão.")
             novos = [nm for nm in nomes(vt) if norm(nm) not in bnorm and norm(nm) not in veic and nm not in INSTITUCIONAIS]
@@ -394,6 +411,18 @@ def checar(f, ant=None, virada=False, agora=None):
     top = [p.get("secao") for p in sorted(ps, key=lambda p: -(p.get("prioridade") or 0))[:3]]
     if len(top) == 3 and len(set(top)) == 1: A(f"as 3 primeiras pautas são da mesma seção ({top[0]})")
     sem_sub = [p.get("id") for p in sorted(ps, key=lambda p: -(p.get("prioridade") or 0))[:8] if not p.get("subtitulo")]
+    sem_pt = [p.get("id") for p in ps if not ((p.get("neutro") or {}).get("pontos"))]
+    if sem_pt: A(f"pautas sem neutro.pontos (formato em 30 segundos; a Capa usa as frases do texto): {sem_pt[:12]}")
+    rd = f.get("resumo_dia")
+    if rd is None: A("sem resumo_dia (O dia em 1 minuto): a completa escreve 4 a 6 itens")
+    elif not isinstance(rd, dict) or not isinstance(rd.get("itens"), list): E("resumo_dia deve ser {itens: [{pid, texto}]}")
+    else:
+        its = rd["itens"]
+        if not 4 <= len(its) <= 6: A(f"resumo_dia com {len(its)} itens (4 a 6)")
+        for it in its:
+            if not isinstance(it, dict) or not it.get("texto"): E("resumo_dia: item sem texto"); continue
+            if len(it["texto"]) > 110: A(f"resumo_dia: item com {len(it['texto'])} caracteres (até 90)")
+            if it.get("pid") and it["pid"] not in P: E(f"resumo_dia aponta para pauta inexistente: {it['pid']}")
     if sem_sub: A(f"pautas do topo sem subtitulo (a Capa usa a 1ª frase do texto): {sem_sub}")
     for sx in ("politica", "economia"):
         da = [p for p in ps if p.get("secao") == sx and p.get("tipo") != "pontual"]

@@ -1238,6 +1238,24 @@ html.sem-vidro .scrim{-webkit-backdrop-filter:none;backdrop-filter:none}
 .cp .cpi b::after{content:none}
 .cp .cpi.lida:not(.aberto) .cp-t::after{content:" ✓";font-family:var(--f-ui);font-size:12px;color:var(--muted)}
 .cpx-fecha{align-self:center;font-size:13px;font-weight:700;color:var(--muted);padding:6px 14px;min-height:36px}
+
+/* ================= Etapa 10: em 30 segundos, o dia em 1 minuto ================= */
+.cp-1m{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px 6px;margin:0 0 16px}
+.cp-1m h3{margin:0 0 4px;font-family:var(--f-ui);font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--bronze-ink)}
+.cp-1m ol{list-style:none;margin:0;padding:0;counter-reset:um}
+.cp-1m li{counter-increment:um;display:flex;gap:10px;align-items:baseline;border-top:1px solid var(--line)}
+.cp-1m li:first-child{border-top:0}
+.cp-1m li::before{content:counter(um);font-family:var(--f-display);font-weight:700;font-size:17px;color:var(--bronze);min-width:12px}
+.cp-1m li>button,.cp-1m li>span{flex:1;text-align:left;padding:9px 0;font-size:calc(15px*var(--fz));line-height:1.35;font-weight:600;color:var(--ink)}
+.cpx-30{background:var(--soft);border-radius:12px;padding:11px 14px}
+.cpx-30>b{display:block;font-family:var(--f-ui);font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--bronze-ink);margin-bottom:6px}
+.cpx-30 ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.cpx-30 li{position:relative;padding-left:16px;font-family:var(--f-body);font-size:calc(16.5px*var(--fz));line-height:1.45;color:var(--ink)}
+.cpx-30 li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:2px;background:var(--bronze)}
+.cpx-mais{align-self:flex-start;font-size:14px;font-weight:800;color:var(--accent);padding:4px 0;min-height:36px}
+.cpx-pe{display:flex;justify-content:space-between;align-items:center}
+.cpx-fontes{font-size:12px;font-weight:600;color:var(--muted);opacity:.8;padding:6px 0;min-height:32px}
+.cpx-pe .cpx-fecha{align-self:auto}
 </style>
 </head>
 <body>
@@ -3286,6 +3304,10 @@ var CP_AB=null;
 function lente(){return PREF.lente==="direita"||PREF.lente==="esquerda"?PREF.lente:"neutro"}
 function versao(p,L){L=L||lente();const n=p.neutro||{};const v=L!=="neutro"&&p[L]&&typeof p[L]==="object"&&p[L].titulo?p[L]:null;
   return {titulo:String((v||n).titulo||""),texto:String((v||n).texto||""),lado:v?L:"neutro",tem:!!v}}
+function frases(t){return String(t||"").replace(/([.!?])\s+(?=[A-ZÁÉÍÓÚÂÊÔÃÕÇ"“0-9])/g,"$1\u0001").split("\u0001").map(x=>x.trim()).filter(Boolean)}
+function pontosDe(p,L){L=L||lente();const n=p.neutro||{};const v=L!=="neutro"&&p[L]&&typeof p[L]==="object"&&p[L].titulo?p[L]:null;const o=v||n;
+  const pt=Array.isArray(o.pontos)?o.pontos.filter(x=>typeof x==="string"&&x.trim()):[];return pt.length?pt.slice(0,4):frases(o.texto).slice(0,3)}
+var CP_MAIS=null;
 function capaSub(p,L,extra){const v=versao(p,L);if(v.tem)return capaFrase(v.texto,170);return extra||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro?.texto,170)}
 function lenteHTML(mini){const L=lente();return `<div class="lente${mini?" mini":""}" role="tablist" aria-label="Leitura das notícias">${[["neutro","Neutra"],["direita","Direita"],["esquerda","Esquerda"]].map(([k,n])=>`<button type="button" role="tab" data-lente="${k}" aria-selected="${L===k}">${n}</button>`).join("")}</div>`}
 function cpItem(p,o){const L=lente(),v=versao(p,L),ab=CP_AB===p.id,lc=lidaAtual(p)?" lida":"";
@@ -3297,6 +3319,11 @@ function cpItem(p,o){const L=lente(),v=versao(p,L),ab=CP_AB===p.id,lc=lidaAtual(
 function cpAberta(p){const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);let h=`<div class="cpx">${lenteHTML(true)}`;
   if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-nota">Esta notícia não tem leitura própria da ${L}: os veículos contam o fato do mesmo jeito. Mostrando a versão neutra.</p>`;
   else if(v.tem)h+=`<p class="cpx-nota ${v.lado}">Como os veículos mais à ${v.lado} contam o fato. Os números e nomes são os mesmos da versão neutra.</p>`;
+  const pts=pontosDe(p,L);
+  h+=`<div class="cpx-30"><b>Em 30 segundos</b><ul>${pts.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  const mais=CP_MAIS===p.id;
+  h+=`<button type="button" class="cpx-mais" data-cpmais="${id}" aria-expanded="${mais}">${mais?"Ler menos ▴":"Ler mais ▾"}</button>`;
+  if(!mais)return h+`<div class="cpx-ac"><button type="button" class="btn" data-capair="${id}">Abrir no feed</button><button type="button" class="btn ghost" data-cpsalvar="${id}">${(S.salvos||{})[p.id]?"Guardada ✓":"Guardar"}</button></div><div class="cpx-pe"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button><button type="button" class="cpx-fecha" data-cpx="${id}">Fechar ▴</button></div></div>`;
   h+=`<p class="cpx-tx">${esc(v.texto)}</p>`;
   if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
   if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
@@ -3306,9 +3333,14 @@ function cpAberta(p){const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);l
   if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${esc(p.proximo)}</p>`;
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(u=>u&&u.texto).slice(-2).reverse();
   if(ups.length)h+=`<ul class="cpx-up">${ups.map(u=>`<li><time>${esc(hhmm(u.hora))}</time>${esc(u.texto)}</li>`).join("")}</ul>`;
-  const nf=(p.fontes||[]).length,sv=!!(S.salvos||{})[p.id];
-  h+=`<div class="cpx-ac"><button type="button" class="btn" data-capair="${id}">Ler a notícia completa</button>${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar</button>`:""}${nf?`<button type="button" class="btn ghost" data-cpfontes="${id}">${nf} ${nf===1?"veículo":"veículos"}</button>`:""}<button type="button" class="btn ghost" data-cpsalvar="${id}">${sv?"Guardada ✓":"Guardar"}</button></div>`;
-  return h+`<button type="button" class="cpx-fecha" data-cpx="${id}">Fechar ▴</button></div>`}
+  const sv=!!(S.salvos||{})[p.id];
+  h+=`<div class="cpx-ac"><button type="button" class="btn" data-capair="${id}">Abrir no feed</button>${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar</button>`:""}<button type="button" class="btn ghost" data-cpsalvar="${id}">${sv?"Guardada ✓":"Guardar"}</button></div>`;
+  return h+`<div class="cpx-pe"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button><button type="button" class="cpx-fecha" data-cpx="${id}">Fechar ▴</button></div></div>`}
+function dia1min(ps){const rd=FEED.resumo_dia&&Array.isArray(FEED.resumo_dia.itens)?FEED.resumo_dia.itens.filter(x=>x&&typeof x.texto==="string"&&x.texto.trim()):[];
+  const ok=x=>!x.pid||ps.some(p=>p.id===x.pid);let it=rd.filter(ok).slice(0,6);
+  if(!it.length){const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;it=[...ps].sort((a,b)=>pr(b)-pr(a)).slice(0,5).map(p=>({pid:p.id,texto:p.neutro?.titulo||""}))}
+  if(!it.length)return "";
+  return `<section class="cp-1m" aria-label="O dia em 1 minuto"><h3>O dia em 1 minuto</h3><ol>${it.map(x=>`<li>${x.pid?`<button type="button" data-cp1m="${esc(x.pid)}">${esc(x.texto)}</button>`:`<span>${esc(x.texto)}</span>`}</li>`).join("")}</ol></section>`}
 function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   if(!FEED){v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span></div><div class="cp-sk"><i style="height:220px"></i><i style="height:22px;width:80%"></i><i style="height:16px;width:60%"></i></div></div>`;return}
   const {ps,ord,man,dest,fixa,linha}=capaEscolha();const L=lente();
@@ -3318,8 +3350,9 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   const comLado=L==="neutro"?0:ps.filter(p=>versao(p,L).tem).length;
   h+=`<div class="cp-lente">${lenteHTML()}<span class="cp-lh">${L==="neutro"?"Manchetes e resumos neutros, só com os fatos. Toque numa manchete para ler ali mesmo.":`Títulos e resumos como os veículos mais à ${L} contam (${comLado} de ${ps.length} notícias têm essa leitura; as outras aparecem neutras).`}</span></div>`;
   h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
-  if(man){const u=ultimaAtualizacao(man)||man.hora,nf=(man.fontes||[]).length;
-    const meta=`<span class="cp-meta">${cobStatus(man)}${nf?`<span>${nf} ${nf===1?"veículo":"veículos"}</span>`:""}${u?`<span>Atualizado às ${esc(hhmm(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
+  h+=dia1min(ps);
+  if(man){const u=ultimaAtualizacao(man)||man.hora;
+    const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>Atualizado às ${esc(hhmm(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
     h+=cpItem(man,{tam:"man",sub:true,arte:true,linha:L==="neutro"?linha:"",meta});
     const tm=temaDe(man);const rel=ps.filter(p=>p!==man&&!usados.has(p.id)&&((tm&&temaDe(p)===tm)||(man.subtema&&p.subtema===man.subtema&&secOf(p)===secOf(man)))).slice(0,2);
     if(rel.length){rel.forEach(p=>usados.add(p.id));h+=`<div class="cp-rel"><span>Relacionadas</span>${rel.map(p=>cpItem(p,{tam:"rel"})).join("")}</div>`}}
@@ -3365,9 +3398,12 @@ function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")
   setInterval(()=>{if(!document.hidden&&VIEW==="capa")carregarCapaFixa()},300000);
 })();
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
-  const cx=t.closest("[data-cpx]");if(cx){e.stopPropagation();const pid=cx.dataset.cpx;const abrir=CP_AB!==pid;CP_AB=abrir?pid:null;
+  const cx=t.closest("[data-cpx]");if(cx){e.stopPropagation();const pid=cx.dataset.cpx;const abrir=CP_AB!==pid;CP_AB=abrir?pid:null;CP_MAIS=null;
     if(abrir){try{marcarLida(pid)}catch(_){}uso("capa_abre")}const y=scrollY;renderCapa();window.scrollTo(0,y);
     if(abrir){const el=document.getElementById("cpi-"+pid);if(el){const r=el.getBoundingClientRect();if(r.top<60||r.top>innerHeight*0.6)window.scrollTo({top:scrollY+r.top-70,behavior:"smooth"})}}return}
+  const cm=t.closest("[data-cpmais]");if(cm){e.stopPropagation();const pid=cm.dataset.cpmais;CP_MAIS=CP_MAIS===pid?null:pid;const y=scrollY;renderCapa();window.scrollTo(0,y);if(CP_MAIS)uso("capa_mais");return}
+  const c1=t.closest("[data-cp1m]");if(c1){e.stopPropagation();const pid=c1.dataset.cp1m;CP_AB=pid;CP_MAIS=null;try{marcarLida(pid)}catch(_){}uso("capa_1min");renderCapa();
+    const el=document.getElementById("cpi-"+pid);if(el){const f=()=>window.scrollTo(0,scrollY+el.getBoundingClientRect().top-70);f();requestAnimationFrame(f)}else openSnap(pid);return}
   const le=t.closest("[data-lente]");if(le){e.stopPropagation();const k=le.dataset.lente;if(lente()!==k){PREF.lente=k;salvarPrefs();uso("lente_"+k)}
     if(VIEW==="capa"){const el=CP_AB&&document.getElementById("cpi-"+CP_AB);const r0=el?el.getBoundingClientRect().top:null;const y=scrollY;renderCapa();
       const el2=CP_AB&&document.getElementById("cpi-"+CP_AB);if(el2&&r0!=null)window.scrollTo(0,scrollY+el2.getBoundingClientRect().top-r0);else window.scrollTo(0,y)}return}

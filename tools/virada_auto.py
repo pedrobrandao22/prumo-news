@@ -108,12 +108,19 @@ def campos(F):
         yield n, "titulo", "estrito"
         yield n, "texto", "principal"
         if isinstance(p.get("subtitulo"), str): yield p, "subtitulo", "estrito"
+        for lado in ("neutro", "direita", "esquerda"):
+            v = p.get(lado) if isinstance(p.get(lado), dict) else {}
+            pt = v.get("pontos") if isinstance(v.get("pontos"), list) else []
+            for i in range(len(pt)): yield pt, i, "estrito"
         for lado in ("direita", "esquerda"):
             v = p.get(lado)
             if isinstance(v, dict):
                 yield v, "titulo", "estrito"; yield v, "texto", "principal"
         for k in ("contexto", "proximo"): yield p, k, "principal"
     for b in F.get("breves") or []: yield b, "titulo", "estrito"
+    rd = F.get("resumo_dia") if isinstance(F.get("resumo_dia"), dict) else {}
+    for it in rd.get("itens") if isinstance(rd.get("itens"), list) else []:
+        if isinstance(it, dict): yield it, "texto", "estrito"
     for a in F.get("agenda") or []: yield a, "texto", "estrito"
     for c in F.get("calendario") or []: yield c, "texto", "estrito"
     for it in (F.get("mudancas") or {}).get("itens") or []: yield it, "texto", "estrito"

@@ -353,6 +353,9 @@ def mecanicos(F, agora, podar, virada, dia_anterior):
     ids = {p.get("id") for p in F.get("pautas") or []}
     m = F.setdefault("mudancas", {"titulo": "", "itens": []})
     m["itens"] = [it for it in m.get("itens") or [] if it.get("pid") in ids][:8]
+    rd = F.get("resumo_dia")
+    if isinstance(rd, dict) and isinstance(rd.get("itens"), list):
+        rd["itens"] = [it for it in rd["itens"] if isinstance(it, dict) and (not it.get("pid") or it.get("pid") in ids)]
     m["titulo"] = titulo_mudancas(m.get("titulo"), agora, virada, dia_anterior)
     rel = []
     ag = F.get("agenda") or []
