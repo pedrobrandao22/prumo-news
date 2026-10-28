@@ -100,7 +100,10 @@ def mudanca(serie):
 
 
 def selic():
-    s = sgs(432, dias=760)
+    try:
+        s = sgs(432, dias=760)
+    except Exception as e:
+        print("selic (760 dias) falhou:", repr(e)[:160]); s = sgs(432, dias=600)
     desde, ant = mudanca(s)
     mes = {}
     for d, v in s: mes[d[:7]] = v  # valor no fim de cada mês (o do mês atual é o de hoje)
@@ -129,7 +132,7 @@ def main(argv):
     if os.path.exists(caminho):
         try: antigo = {x["id"]: x for x in json.load(open(caminho, encoding="utf-8")).get("itens", [])}
         except Exception: antigo = {}
-    novos, log = {}, []
+    novos, log, falhas = {}, [], {}
     tarefas = [("dolar", dolar), ("ibovespa", ibovespa), ("selic", selic),
                ("ipca12m", lambda: mensal(13522, "ipca12m", "IPCA 12m", "IBGE", antigo.get("ipca12m"))),
                ("desemprego", lambda: mensal(24369, "desemprego", "Desemprego", "IBGE/PNAD", antigo.get("desemprego")))]
@@ -137,7 +140,7 @@ def main(argv):
         try:
             novos[id_] = fn(); log.append(f"{id_}: {novos[id_]['valor']} ({novos[id_]['data']})")
         except Exception as e:
-            log.append(f"{id_}: FALHOU {repr(e)[:120]}")
+            log.append(f"{id_}: FALHOU {repr(e)[:120]}"); falhas[id_] = repr(e)[:160]
             if id_ in antigo: novos[id_] = antigo[id_]
     print("\n".join(log))
     if not novos: print("nenhum indicador: nada gravado"); return 1
@@ -145,6 +148,7 @@ def main(argv):
     if [{k: v for k, v in x.items()} for x in itens] == list(antigo.values()) and len(antigo) == len(itens):
         print("sem mudança"); return 0
     out = {"atualizado": datetime.now(SP).isoformat(timespec="minutes"), "itens": itens}
+    if falhas: out["falhas"] = falhas
     with open(caminho, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, separators=(",", ":"))
     print("gravado", caminho)
