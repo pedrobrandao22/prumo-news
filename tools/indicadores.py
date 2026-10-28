@@ -104,6 +104,8 @@ def selic():
         s = sgs(432, dias=760)
     except Exception as e:
         print("selic (760 dias) falhou:", repr(e)[:160]); s = sgs(432, dias=600)
+    hoje = datetime.now(SP).date().isoformat()
+    s = [x for x in s if x[0] <= hoje]  # a série do BC já traz dias à frente (a meta vale até a próxima reunião)
     desde, ant = mudanca(s)
     mes = {}
     for d, v in s: mes[d[:7]] = v  # valor no fim de cada mês (o do mês atual é o de hoje)
