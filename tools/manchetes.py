@@ -37,7 +37,11 @@ FONTES = [
     ("folha", "Folha Esporte", "https://feeds.folha.uol.com.br/esporte/rss091.xml", "esportes"),
     ("im", "InfoMoney", "https://www.infomoney.com.br/feed/", "economia"),
     ("bbc", "BBC News Brasil", "https://feeds.bbci.co.uk/portuguese/rss.xml", None),
+    ("agsenado", "Agência Senado", "https://www12.senado.leg.br/noticias/feed/todasnoticias/rss", "politica"),
+    ("agcamara", "Agência Câmara", "https://www.camara.leg.br/noticias/rss/ultimas-noticias", "politica"),
 ]
+# veículos cujas fotos têm licença livre (com crédito): podem ilustrar o Prumo
+LIVRES = {"ab": "Agência Brasil", "agsenado": "Agência Senado", "agcamara": "Agência Câmara"}
 
 STOP = set("""a o as os um uma uns umas de da do das dos dar em na no nas nos num numa por pela pelo pelas pelos para pra
 com sem sob sobre entre ate apos e ou mas que se sua seu suas seus ao aos à às é ser foi sao são está esta estao diz dizem
@@ -83,7 +87,18 @@ def ler(url):
         for k in ("pubDate", "published", "updated", "date"):
             if f.get(k) is not None and f[k].text: h = quando(f[k].text); break
         tit = re.sub(r"\s+", " ", tit).strip()
-        if tit and link.startswith("http"): out.append({"titulo": tit[:180], "url": link, "hora": h})
+        img, cred = "", ""
+        for c in it.iter():
+            nm = c.tag.split("}")[-1]
+            if nm == "enclosure" and str(c.get("type", "")).startswith("image") and c.get("url"): img = img or c.get("url")
+            elif nm in ("content", "thumbnail") and c.get("url") and (c.get("medium") in (None, "image") or nm == "thumbnail"): img = img or c.get("url")
+            elif nm == "credit" and (c.text or "").strip(): cred = cred or c.text.strip()
+        if not img:
+            for k in ("encoded", "description", "summary"):
+                if f.get(k) is not None and f[k].text:
+                    m = re.search(r'<img[^>]+src="(https://[^"]+)"', f[k].text)
+                    if m: img = m.group(1); break
+        if tit and link.startswith("http"): out.append({"titulo": tit[:180], "url": link, "hora": h, "img": img, "cred": cred[:80]})
     return out
 
 
@@ -106,10 +121,16 @@ def main(argv):
     except Exception: ref = agora - timedelta(hours=horas)
     desde = max(ref, agora - timedelta(hours=horas)) - timedelta(minutes=10)
 
-    status, itens, vistos = {}, [], set()
+    status, itens, vistos, fotos = {}, [], set(), []
     for chave, nome, url, sec in FONTES:
         try:
             lst = ler(url)
+            if chave in LIVRES:
+                for x in lst:
+                    if x.get("img", "").startswith("https://"):
+                        fotos.append({"veiculo": LIVRES[chave], "titulo": x["titulo"], "materia": x["url"], "img": x["img"],
+                                      "credito": (f"Foto: {x['cred']}/{LIVRES[chave]}" if x.get("cred") else f"Foto: {LIVRES[chave]}"),
+                                      "hora": x["hora"].strftime("%d/%m %Hh%M") if x["hora"] else "", "tk": tokens(x["titulo"])})
             novos = [x for x in lst if x["hora"] and x["hora"] >= desde]
             status[nome] = f"ok: {len(lst)} itens, {len(novos)} desde {desde.strftime('%d/%m %Hh%M')}"
             for x in novos:
@@ -167,6 +188,13 @@ def main(argv):
         novos.append({"assunto": lista[0]["titulo"], "secao": sec, "n_fontes": len(fontes), "fontes": fontes,
                       "ja_e_breve": breve, "relevante": len(fontes) >= 3 and not breve, "manchetes": lista})
     novos.sort(key=lambda g: (-g["relevante"], -g["n_fontes"], g["assunto"]))
+    # fotos livres: sugere a pauta do mesmo assunto
+    vistas, fl = set(), []
+    for x in fotos:
+        if x["img"] in vistas: continue
+        vistas.add(x["img"]); pp = pauta_de(x.pop("tk"))
+        x["pid_sugerido"] = pp[0] if pp else None
+        fl.append(x)
     relevantes = sum(1 for g in novos if g["relevante"])
     pautas_2 = sum(1 for e in em_pautas.values() if e["n_fontes"] >= 3)
     out = {"gerado": agora.isoformat(timespec="minutes"), "desde": desde.isoformat(timespec="minutes"),
@@ -174,10 +202,10 @@ def main(argv):
            "resumo": {"manchetes": len(itens), "assuntos_novos_relevantes": relevantes, "assuntos_novos": len(novos),
                       "pautas_com_novidade": len(em_pautas), "pautas_com_novidade_3_fontes": pautas_2},
            "acionar": relevantes > 0 or pautas_2 > 0,
-           "novos": novos[:30], "em_pautas": em_pautas, "fontes": status}
+           "novos": novos[:30], "em_pautas": em_pautas, "fotos_livres": fl[:40], "fontes": status}
     with open(argv[1], "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
-    print(json.dumps(out["resumo"], ensure_ascii=False), "acionar =", out["acionar"])
+    print(json.dumps(out["resumo"], ensure_ascii=False), "acionar =", out["acionar"], f"· fotos livres: {len(fl)} ({sum(1 for x in fl if x['pid_sugerido'])} com pauta)")
     for k, v in status.items(): print(f"  {k}: {v}")
     return 0
 
