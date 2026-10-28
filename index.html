@@ -1278,6 +1278,37 @@ html.sem-vidro .scrim{-webkit-backdrop-filter:none;backdrop-filter:none}
 .cpx-ver button{font-size:12.5px;font-weight:700;color:var(--accent);padding:4px 0}
 @media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .lp{background:rgb(30 38 52 / .85);border-color:rgb(255 255 255 / .12)}}
 :root[data-aparencia="escuro"] .lp{background:rgb(30 38 52 / .85);border-color:rgb(255 255 255 / .12)}
+
+/* ================= Etapa 12: matéria completa, fotos ================= */
+.cpx-30{display:block;width:100%;text-align:left;-webkit-tap-highlight-color:transparent}
+button.cpx-30:active{transform:scale(.99)}
+.cpx-ir{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font:800 14px var(--f-ui);color:var(--accent)}
+.cpx-ir i{font-style:normal;font-size:20px;line-height:1}
+.mat{position:fixed;inset:0;z-index:48;background:var(--bg);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;animation:matin .2s ease}
+@keyframes matin{from{transform:translateY(16px);opacity:.4}}
+@media (prefers-reduced-motion:reduce){.mat{animation:none}}
+.mat-top{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;height:calc(52px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) max(10px,env(safe-area-inset-right,0px)) 0 max(6px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.mat-v{font:800 15px var(--f-ui);color:var(--accent);padding:10px 8px;min-height:44px}
+.mat-k{flex:1;min-width:0;text-align:center;font:800 11.5px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mat-g{font:700 13.5px var(--f-ui);color:var(--ink-2);background:var(--chip);border-radius:9px;padding:8px 12px;min-height:36px}
+.mat-g[aria-pressed="true"]{background:var(--bronze-soft);color:var(--bronze-ink)}
+.mat-c{max-width:640px;margin:0 auto;padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
+.mat-arte .art{display:block;width:100%;aspect-ratio:16/9;overflow:hidden;position:relative}
+.mat-arte .art svg{display:block;width:100%;height:100%}
+.mat-tx{display:flex;flex-direction:column;gap:14px;padding-top:16px}
+.mat-tx h1{margin:0;font-family:var(--f-display);font-weight:700;font-size:calc(28px*min(var(--fz),1.15));line-height:1.12;letter-spacing:-.02em;color:var(--ink);text-wrap:balance}
+.mat-sub{margin:0;font-family:var(--f-body);font-size:calc(18px*var(--fz));line-height:1.45;color:var(--ink-2)}
+.mat-meta{margin:0;display:flex;flex-wrap:wrap;gap:6px 10px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.mat-30{background:var(--soft);border-radius:12px;padding:12px 14px}
+.mat-p p{margin:0 0 12px;font-family:var(--f-body);font-size:calc(17.5px*var(--fz));line-height:1.65;color:var(--ink)}
+.mat-pe{display:flex;flex-direction:column;gap:12px;margin-top:6px;padding-top:14px;border-top:1px solid var(--line)}
+.mat-rod{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px}
+.foto{position:relative;overflow:hidden}
+.foto .ill,.foto .ill svg{display:block;width:100%;height:100%}
+.foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:var(--chip)}
+.foto .cred{position:absolute;right:6px;bottom:6px;max-width:80%;font:600 10px var(--f-ui);color:#fff;background:rgb(0 0 0 / .45);border-radius:5px;padding:2px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cpi-man .art.foto{aspect-ratio:16/10}
+.cp-th.foto{aspect-ratio:5/3}
 </style>
 </head>
 <body>
@@ -1786,7 +1817,7 @@ function renderFeed(){
 /* ---------- camadas ---------- */
 let onClose=null;
 function sheet(title,body,foot="",opt={}){
-  const L=$(".story")?$("#layer2"):$("#layer");const vazio=!L.innerHTML;if(L.id==="layer2"&&ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now());const fb=$("#layer .bars b");if(fb)fb.style.animationPlayState="paused"}
+  const L=$(".story")||$("#layer .mat")?$("#layer2"):$("#layer");const vazio=!L.innerHTML;if(L.id==="layer2"&&ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now());const fb=$("#layer .bars b");if(fb)fb.style.animationPlayState="paused"}
   L.innerHTML=`<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="grab"></div><div class="sh-h">${esc(title)}<button type="button" data-close>Fechar</button></div><div class="sh-b gut">${body}</div>${foot?`<div class="sh-f gut">${foot}</div>`:""}</div></div>`;
   const f=L.querySelector("input");if(f&&(opt.focus||matchMedia("(pointer:fine)").matches))f.focus();
   if(vazio&&pushH())HST++;wireSheetDrag(L.querySelector(".sheet"));
@@ -3318,7 +3349,10 @@ function capaEscolha(){const ps=(FEED?.pautas||[]).filter(p=>!(PREF.ocultas||[])
   return {ps,ord,man,dest:dest.slice(0,5),fixa:!!fx,linha:!fx&&c.manchete===man.id?c.linha_fina:""}}
 function capaFrase(t,n){t=String(t||"").trim();if(t.length<=n)return t;const fr=t.replace(/([.!?])\s+/g,"$1\u0001").split("\u0001");let o="";for(const f of fr){if((o+" "+f).trim().length>n)break;o=(o+" "+f).trim()}return o||t.slice(0,n).replace(/\s+\S*$/,"")+"…"}
 function capaChapeu(p){return p.subtema||p.tag||secNome(secOf(p))}
-function capaArte(p,cls){return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`}
+var FOTO_OK=/^https:\/\/([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)\//i;
+function fotoDe(p){const f=p&&p.foto;return f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url)?f:null}
+function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
+  return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span><img src="${escU(f.url)}" alt="${esc(f.alt||"")}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">${cred&&f.credito?`<small class="cred">${esc(f.credito)}</small>`:""}</span>`}
 function capaIndicadores(){const it=indItens().filter(x=>x&&x.nome&&x.valor);if(!it.length)return "";
   const seta={sobe:"▲",desce:"▼",estavel:"▬"};
   return `<div class="cp-ind" aria-label="Indicadores">${it.slice(0,4).map(x=>`<div><span>${esc(x.nome)}</span><b>${esc(x.valor)}</b>${x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:""}</div>`).join("")}</div>`}
@@ -3336,28 +3370,10 @@ function cpItem(p,o){const L=lente(),v=versao(p,L),ab=CP_AB===p.id,lc=lidaAtual(
   const k=`<span class="cp-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</span>`;
   const marca=v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:"";
   const sub=o.sub?`<span class="cp-sub">${esc(capaSub(p,L,o.linha))}</span>`:"";
-  const arte=o.arte?capaArte(p,o.tam==="man"?"art":"cp-th"):"";
+  const arte=o.arte?capaArte(p,o.tam==="man"?"art":"cp-th",o.tam==="man"):"";
   return `<article class="cpi cpi-${o.tam}${lc}${ab?" aberto":""}" id="cpi-${esc(p.id)}"><button type="button" class="cpi-b" data-cpx="${esc(p.id)}" aria-expanded="${ab}">${o.tam==="man"?arte:""}<span class="tx">${o.tam==="rel"?"":k}<b class="cp-t">${marca}${esc(v.titulo)}</b>${sub}${o.meta||""}</span>${o.tam!=="man"?arte:""}</button>${ab?cpAberta(p):""}</article>`}
-function cpAberta(p){const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);let h=`<div class="cpx">`;
-  if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
-  else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
-  const pts=pontosDe(p,L);
-  h+=`<div class="cpx-30"><b>Em 30 segundos</b><ul>${pts.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
-  const mais=CP_MAIS===p.id;
-  h+=`<button type="button" class="cpx-mais" data-cpmais="${id}" aria-expanded="${mais}">${mais?"Ler menos ▴":"Ler mais ▾"}</button>`;
-  if(!mais)return h+`<div class="cpx-ac"><button type="button" class="btn" data-capair="${id}">Abrir no feed</button><button type="button" class="btn ghost" data-cpsalvar="${id}">${(S.salvos||{})[p.id]?"Guardada ✓":"Guardar"}</button></div><div class="cpx-pe"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button><button type="button" class="cpx-fecha" data-cpx="${id}">Fechar ▴</button></div></div>`;
-  h+=`<p class="cpx-tx">${esc(v.texto)}</p>`;
-  if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
-  if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
-  const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
-  if(es.length)h+=`<div class="cpx-bl"><b>O essencial</b><ul>${es.slice(0,4).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
-  if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${esc(p.contexto)}</p>`;
-  if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${esc(p.proximo)}</p>`;
-  const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(u=>u&&u.texto).slice(-2).reverse();
-  if(ups.length)h+=`<ul class="cpx-up">${ups.map(u=>`<li><time>${esc(hhmm(u.hora))}</time>${esc(u.texto)}</li>`).join("")}</ul>`;
-  const sv=!!(S.salvos||{})[p.id];
-  h+=`<div class="cpx-ac"><button type="button" class="btn" data-capair="${id}">Abrir no feed</button>${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar</button>`:""}<button type="button" class="btn ghost" data-cpsalvar="${id}">${sv?"Guardada ✓":"Guardar"}</button></div>`;
-  return h+`<div class="cpx-pe"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button><button type="button" class="cpx-fecha" data-cpx="${id}">Fechar ▴</button></div></div>`}
+function cpAberta(p){const L=lente(),id=esc(p.id);const pts=pontosDe(p,L);
+  return `<div class="cpx"><button type="button" class="cpx-30" data-cpmat="${id}" aria-label="Ler a matéria completa"><b>Em 30 segundos</b><ul>${pts.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><span class="cpx-ir">Ler a matéria completa <i aria-hidden="true">›</i></span></button></div>`}
 function dia1min(ps){const rd=FEED.resumo_dia&&Array.isArray(FEED.resumo_dia.itens)?FEED.resumo_dia.itens.filter(x=>x&&typeof x.texto==="string"&&x.texto.trim()):[];
   const ok=x=>!x.pid||ps.some(p=>p.id===x.pid);let it=rd.filter(ok).slice(0,6);
   if(!it.length){const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;it=[...ps].sort((a,b)=>pr(b)-pr(a)).slice(0,5).map(p=>({pid:p.id,texto:p.neutro?.titulo||""}))}
@@ -3377,6 +3393,33 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   if(t.closest("[data-lpabre]")){e.stopPropagation();lenteMenu(true);return}
   if(document.getElementById("lpm")&&!t.closest("#lpm"))lenteMenu(false)},true);
 document.addEventListener("keydown",e=>{if(e.key==="Escape")lenteMenu(false)});
+var MAT_PID=null;
+function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);
+  const Ly=$("#layer");const vazio=!Ly.innerHTML;MAT_PID=pid;if(!manter){uso("materia");try{marcarLida(pid)}catch(e){}}
+  const u=ultimaAtualizacao(p)||p.hora,sv=!!(S.salvos||{})[p.id],f=fotoDe(p);
+  let h=`<div class="mat" role="dialog" aria-modal="true" aria-label="${esc(v.titulo)}"><div class="mat-top"><button type="button" class="mat-v" data-close aria-label="Voltar para a Capa">‹ Capa</button><span class="mat-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}</span><button type="button" class="mat-g" data-matsalvar="${id}" aria-pressed="${sv}">${sv?"Guardada":"Guardar"}</button></div><article class="mat-c">`;
+  h+=`<div class="mat-arte">${capaArte(p,"art",true)}</div>`;
+  h+=`<div class="gut mat-tx"><h1>${v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:""}${esc(v.titulo)}</h1>`;
+  const sub=capaSub(p,L,"");if(sub&&sub!==v.titulo)h+=`<p class="mat-sub">${esc(sub)}</p>`;
+  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>Atualizado ${esc(quando(u))}</span>`:""}</p>`;
+  if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
+  else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
+  h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${esc(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${esc(v.texto)}</p></div>`;
+  if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
+  if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
+  const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
+  if(es.length)h+=`<div class="cpx-bl"><b>O essencial</b><ul>${es.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${esc(p.contexto)}</p>`;
+  if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${esc(p.proximo)}</p>`;
+  const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().reverse();
+  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(hhmm(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
+  h+=`<div class="mat-pe">${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button>${f&&f.credito?`<span class="cpx-fontes">${esc(f.credito)}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
+  Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
+  if(vazio&&pushH())HST++}
+(function(){const ant=closeLayer;closeLayer=function(fp){const eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);ant.apply(this,arguments);
+  if(eraMat&&MAT_PID){const pid=MAT_PID;MAT_PID=null;if(VIEW==="capa"){const el0=document.getElementById("cpi-"+pid);const r0=el0?el0.getBoundingClientRect().top:null;CP_AB=null;renderCapa();
+    const el=document.getElementById("cpi-"+pid);if(el&&r0!=null)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-r0)}}}})();
 function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   if(!FEED){v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span></div><div class="cp-sk"><i style="height:220px"></i><i style="height:22px;width:80%"></i><i style="height:16px;width:60%"></i></div></div>`;return}
   const {ps,ord,man,dest,fixa,linha}=capaEscolha();const L=lente();
@@ -3435,15 +3478,18 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const cx=t.closest("[data-cpx]");if(cx){e.stopPropagation();const pid=cx.dataset.cpx;const abrir=CP_AB!==pid;CP_AB=abrir?pid:null;CP_MAIS=null;
     if(abrir){try{marcarLida(pid)}catch(_){}uso("capa_abre")}const y=scrollY;renderCapa();window.scrollTo(0,y);
     if(abrir){const el=document.getElementById("cpi-"+pid);if(el){const r=el.getBoundingClientRect();if(r.top<60||r.top>innerHeight*0.6)window.scrollTo({top:scrollY+r.top-70,behavior:"smooth"})}}return}
+  const cmt=t.closest("[data-cpmat]");if(cmt){e.stopPropagation();abrirMateria(cmt.dataset.cpmat);return}
+  const msv=t.closest("[data-matsalvar]");if(msv){e.stopPropagation();const pid=msv.dataset.matsalvar;toggleSave(pid);setTimeout(()=>{if(document.querySelector("#layer .mat"))abrirMateria(pid,true)},80);return}
   const cm=t.closest("[data-cpmais]");if(cm){e.stopPropagation();const pid=cm.dataset.cpmais;CP_MAIS=CP_MAIS===pid?null:pid;const y=scrollY;renderCapa();window.scrollTo(0,y);if(CP_MAIS)uso("capa_mais");return}
   const c1=t.closest("[data-cp1m]");if(c1){e.stopPropagation();const pid=c1.dataset.cp1m;CP_AB=pid;CP_MAIS=null;try{marcarLida(pid)}catch(_){}uso("capa_1min");renderCapa();
     const el=document.getElementById("cpi-"+pid);if(el){const f=()=>window.scrollTo(0,scrollY+el.getBoundingClientRect().top-70);f();requestAnimationFrame(f)}else openSnap(pid);return}
   const le=t.closest("[data-lente]");if(le){e.stopPropagation();lenteMenu(false);const k=le.dataset.lente;if(lente()!==k){PREF.lente=k;salvarPrefs();uso("lente_"+k)}
+    if(document.querySelector("#layer .mat")&&MAT_PID){const m=document.querySelector("#layer .mat"),y=m.scrollTop;abrirMateria(MAT_PID,true);const m2=document.querySelector("#layer .mat");if(m2)m2.scrollTop=y}
     if(VIEW==="capa"){const el=CP_AB&&document.getElementById("cpi-"+CP_AB);const r0=el?el.getBoundingClientRect().top:null;const y=scrollY;renderCapa();
       const el2=CP_AB&&document.getElementById("cpi-"+CP_AB);if(el2&&r0!=null)window.scrollTo(0,scrollY+el2.getBoundingClientRect().top-r0);else window.scrollTo(0,y)}return}
   const cf=t.closest("[data-cpfontes]");if(cf){e.stopPropagation();abrirCobertura(cf.dataset.cpfontes);return}
   const cs2=t.closest("[data-cpsalvar]");if(cs2){e.stopPropagation();toggleSave(cs2.dataset.cpsalvar);setTimeout(()=>{if(VIEW==="capa"){const y=scrollY;renderCapa();window.scrollTo(0,y)}},60);return}
-  const ci=t.closest("[data-capair]");if(ci){e.stopPropagation();openSnap(ci.dataset.capair);return}
+  const ci=t.closest("[data-capair]");if(ci){e.stopPropagation();const pid=ci.dataset.capair;if(document.querySelector("#layer .mat")){MAT_PID=null;closeLayer();setTimeout(()=>openSnap(pid),60)}else openSnap(pid);return}
   const cs=t.closest("[data-capasec]");if(cs){e.stopPropagation();const sec=cs.dataset.capasec;go("feed");if(FILTRO==="tudo"&&pushH())FST++;FILTRO=sec;ssSet("radar-filtro",FILTRO);renderSecs();renderPosts();window.scrollTo(0,0);return}
   const bb=t.closest("#b-busca");if(bb){e.stopPropagation();go("busca");setTimeout(()=>$("#bvq")?.focus(),60);return}
   const fx=t.closest("[data-fixar]");if(fx){e.stopPropagation();const h=+($("#admhoras")?.value||12);fx.disabled=true;S.db.rpc("admin_fixar_manchete",{p_pid:fx.dataset.fixar,p_horas:h}).then(()=>{toast("Manchete fixada por "+h+" h");return carregarCapaFixa(true)}).catch(err=>toast("Não deu agora: "+(err&&err.message||"erro"))).then(()=>{adminDesenhar();if(VIEW==="capa")renderCapa()});return}
