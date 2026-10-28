@@ -51,37 +51,43 @@ def sgs(cod, n=None, dias=None):
 
 
 def yahoo(simbolo):
-    """(preço atual, fechamento do pregão anterior, data, fechamentos do último mês)."""
+    """(preço atual, fechamento do pregão anterior, data, fechamentos dos últimos 3 meses, datas deles)."""
     d1 = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=1d&interval=5m")["chart"]["result"][0]["meta"]
     preco = float(d1["regularMarketPrice"])
     ant = float(d1.get("chartPreviousClose") or d1.get("previousClose"))
     t = d1.get("regularMarketTime")
     data = datetime.fromtimestamp(t, SP).date().isoformat() if t else datetime.now(SP).date().isoformat()
     try:
-        r = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=1mo&interval=1d")["chart"]["result"][0]
-        serie = [round(float(c), 4) for c in (r["indicators"]["quote"][0].get("close") or []) if c is not None][-22:]
+        r = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=3mo&interval=1d")["chart"]["result"][0]
+        pares = [(datetime.fromtimestamp(t, SP).date().isoformat(), round(float(c), 4))
+                 for t, c in zip(r.get("timestamp") or [], r["indicators"]["quote"][0].get("close") or []) if c is not None]
+        dia = {}
+        for d, c in pares: dia[d] = c  # um ponto por dia (o último)
+        if data not in dia or abs(dia[data] - preco) > 1e-9: dia[data] = round(preco, 4)
+        ds = sorted(dia)[-66:]
+        serie, rotulos = [dia[d] for d in ds], ds
     except Exception:
-        serie = []
-    return preco, ant, data, serie
+        serie, rotulos = [], []
+    return preco, ant, data, serie, rotulos
 
 
 def dolar():
     try:
-        p, a, data, serie = yahoo("BRL%3DX")
+        p, a, data, serie, rot = yahoo("BRL%3DX")
         return {"id": "dolar", "nome": "Dólar", "valor": "R$ " + br(p, 2), "variacao": pct((p / a - 1) * 100),
-                "dir": direcao(round(a, 3), round(p, 3)), "data": data, "serie": serie, "fonte": "cotação comercial"}
+                "dir": direcao(round(a, 3), round(p, 3)), "data": data, "serie": serie, "rotulos": rot, "fonte": "cotação comercial"}
     except Exception as e:
         print("dólar (Yahoo) falhou:", repr(e)[:120])
     s = sgs(1, 20)
     (d0, a), (d1, p) = s[-2], s[-1]
     return {"id": "dolar", "nome": "Dólar", "valor": "R$ " + br(p, 2), "variacao": pct((p / a - 1) * 100),
-            "dir": direcao(a, p), "data": d1, "serie": [v for _, v in s], "fonte": "PTAX/Banco Central"}
+            "dir": direcao(a, p), "data": d1, "serie": [v for _, v in s], "rotulos": [d for d, _ in s], "fonte": "PTAX/Banco Central"}
 
 
 def ibovespa():
-    p, a, data, serie = yahoo("%5EBVSP")
+    p, a, data, serie, rot = yahoo("%5EBVSP")
     return {"id": "ibovespa", "nome": "Ibovespa", "valor": br(p, 0), "variacao": pct((p / a - 1) * 100),
-            "dir": direcao(round(a), round(p)), "data": data, "serie": [round(x) for x in serie], "fonte": "B3"}
+            "dir": direcao(round(a), round(p)), "data": data, "serie": [round(x) for x in serie], "rotulos": rot, "fonte": "B3"}
 
 
 def mudanca(serie):
@@ -94,17 +100,20 @@ def mudanca(serie):
 
 
 def selic():
-    s = sgs(432, dias=600)
+    s = sgs(432, dias=760)
     desde, ant = mudanca(s)
+    mes = {}
+    for d, v in s: mes[d[:7]] = v  # valor no fim de cada mês (o do mês atual é o de hoje)
+    ms = sorted(mes)[-24:]
     return {"id": "selic", "nome": "Selic", "valor": br(s[-1][1], 2) + "%", "dir": direcao(ant, s[-1][1]),
-            "data": desde, "fonte": "Copom/Banco Central"}
+            "data": desde, "serie": [mes[m] for m in ms], "rotulos": ms, "fonte": "Copom/Banco Central"}
 
 
 def mensal(cod, id_, nome, fonte, velho):
     s = sgs(cod, 13)
     v, a = s[-1][1], s[-2][1]
     item = {"id": id_, "nome": nome, "valor": br(v, 2 if id_ == "ipca12m" else 1) + "%", "dir": direcao(a, v),
-            "ref": s[-1][0][:7], "serie": [x for _, x in s], "fonte": fonte}
+            "ref": s[-1][0][:7], "serie": [x for _, x in s], "rotulos": [d[:7] for d, _ in s], "fonte": fonte}
     # data = quando o número novo apareceu (perto da divulgação); mantém a anterior se não mudou
     if velho and velho.get("ref") == item["ref"] and velho.get("data"):
         item["data"] = velho["data"]
