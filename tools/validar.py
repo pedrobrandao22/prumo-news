@@ -27,6 +27,7 @@ REGUA = ["cnn", "p360", "met", "jp", "ab", "gp", "cc", "cb", "sbt", "em"]
 FAIXA = {"politica": (8, 10), "economia": (6, 8), "brasil": (4, 5), "mundo": (3, 5), "esportes": (3, 4), "educacao": (2, 3)}
 DS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
 MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
+FOTO_OK = re.compile(r"^https://([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)/", re.I)
 DIAS = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]
 TIT_MUD = ("O que mudou desde a manhã", "O que mudou desde ontem à noite", "O que mudou desde a noite")
 
@@ -332,6 +333,14 @@ def checar(f, ant=None, virada=False, agora=None):
         # imagem
         im = p.get("imagem") or {}
         if im or p.get("tipo") != "pontual": checar_imagem(pid, im, p)
+        # foto real (fontes de licença livre)
+        ft = p.get("foto")
+        if ft is not None:
+            if not isinstance(ft, dict) or not isinstance(ft.get("url"), str): E(f"[{pid}] foto deve ser {{url, credito, alt}}")
+            elif not FOTO_OK.match(ft["url"]): E(f"[{pid}] foto de fonte não permitida: {ft['url'][:80]} (só Agência Brasil, Senado, Câmara, gov.br, STF/TSE, Wikimedia Commons, Flickr oficial, Unsplash, Pexels)")
+            else:
+                if not ft.get("credito"): E(f"[{pid}] foto sem credito (ex.: \"Foto: Marcelo Camargo/Agência Brasil\")")
+                if not ft.get("alt"): A(f"[{pid}] foto sem alt (o que a foto mostra)")
         # subtítulo (linha fina da Capa)
         st = p.get("subtitulo")
         if st is not None:

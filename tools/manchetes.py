@@ -127,7 +127,8 @@ def main(argv):
             lst = ler(url)
             if chave in LIVRES:
                 for x in lst:
-                    if x.get("img", "").startswith("https://"):
+                    im = x.get("img", "")
+                    if im.startswith("https://") and "logo" not in im.lower() and "jsdelivr" not in im and re.search(r"\.(jpe?g|png|webp)(\?|$)", im, re.I):
                         fotos.append({"veiculo": LIVRES[chave], "titulo": x["titulo"], "materia": x["url"], "img": x["img"],
                                       "credito": (f"Foto: {x['cred']}/{LIVRES[chave]}" if x.get("cred") else f"Foto: {LIVRES[chave]}"),
                                       "hora": x["hora"].strftime("%d/%m %Hh%M") if x["hora"] else "", "tk": tokens(x["titulo"])})
