@@ -16,7 +16,7 @@ UA = {"User-Agent": "PrumoNews/1.0 (https://prumonews.com.br; robo de fotos de a
 SP = timezone(timedelta(hours=-3))
 LIVRE = re.compile(r"^(cc[ -]by(-sa)?( [\d.]+)?( [a-z-]+)?|cc0|public domain|pd\b|domínio público)", re.I)
 PROIBIDO = re.compile(r"\b(nc|nd)\b", re.I)
-FORA = re.compile(r"(hospital de campanha|trofeu|map|mapa|planta|plano geral|desenho|drawing|diagram|logo|coat of arms|brasao|bandeira de|flag of|selo|stamp|cracha|cranio|crane|sketch|plan of|acervo|caricatura|cartoon|grafico|chart|1[89]\d\d)")
+FORA = re.compile(r"(hospital de campanha|trofeu|map|mapa|planta|plano geral|desenho|drawing|diagram|logo|coat of arms|brasao|bandeira de|flag of|selo|stamp|cracha|cranio|crane|sketch|plan of|acervo|caricatura|cartoon|grafico|chart|show de|show of|concert|cpmi|comissao parlamentar|display|placa|sign\b|1[89]\d\d)")
 
 # pessoas: nome → palavras que, no título da notícia, indicam essa pessoa (a 1ª citada no título ganha)
 PESSOAS = {
@@ -124,7 +124,7 @@ ASSUNTOS = {
     "Ormuz e petróleo": (["Ormuz", "petróleo", "Petróleo", "petroleiro", "Opep"], "oil tanker ship", ["tanker", "oil tanker"], None),
     "Petrobras": (["Petrobras"], "Petrobras plataforma de petróleo", ["petrobras", "plataforma"], None),
     "ONU": (["ONU", "Nações Unidas", "COP"], "United Nations headquarters New York", ["united nations"], None),
-    "trens": (["trem", "trens", "Trem", "Trens", "ferrovia", "ferroviário", "metrô", "Metrô"], "passenger train station platform", ["train", "trem", "railway", "estação"], None),
+    "trens": (["trem", "trens", "Trem", "Trens", "ferrovia", "ferroviário", "metrô", "Metrô"], "trem de passageiros ferrovia", ["trem", "passenger train", "railway"], None),
     "aviação": (["avião", "aviões", "Avião", "voo", "voos", "aeroporto", "Aeroporto", "aérea", "aéreo"], "Aeroporto de Guarulhos avião", ["aeroporto", "airport", "aircraft", "airbus", "boeing"], None),
     "barragem": (["barragem", "Barragem", "represa", "açude"], "barragem Brasil", ["barragem", "dam"], None),
     "incêndio": (["incêndio", "Incêndio", "queimada", "queimadas", "fogo"], "incêndio florestal Brasil", ["incêndio", "incendio", "queimada", "wildfire"], None),
