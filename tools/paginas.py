@@ -29,9 +29,16 @@ def hash_str(s):
     return abs(h)
 
 
+def _borda(ch):
+    """Igual ao JS [^\\p{L}\\d]: letra (qualquer alfabeto) ou dígito 0-9 não é borda."""
+    return not (ch.isalpha() or "0" <= ch <= "9")
+
+
 def pos_palavra(t, k):
-    m = re.search(r"(^|[^\w]|_)" + re.escape(k) + r"(?=$|[^\w]|_)", t)
-    return m.start() + len(m.group(1)) if m else -1
+    for m in re.finditer(re.escape(k), t):
+        i, j = m.start(), m.end()
+        if (i == 0 or _borda(t[i - 1])) and (j == len(t) or _borda(t[j])): return i
+    return -1
 
 
 def fa_nome(u):

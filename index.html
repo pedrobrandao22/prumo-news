@@ -1650,6 +1650,9 @@ small.cred-longo{white-space:normal!important;max-width:calc(100% - 16px)!import
 .pes-h{margin:14px 0 2px;font:800 12px var(--f-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 .mat-fim{margin:4px 0 16px;padding:12px 14px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
 .mat-fim b{display:block;font:800 12px var(--f-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--bronze-ink);margin-bottom:4px}.mat-fim p{margin:0;font-size:calc(16px*var(--fz,1));line-height:1.5}
+
+:root[data-aparencia="escuro"] .mud-k{color:#0f1522}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .mud-k{color:#0f1522}:root:not([data-aparencia="claro"]) .mat-corr,:root:not([data-aparencia="claro"]) .mat-fix b{color:#f59e0b}}
 </style>
 </head>
 <body>
@@ -3594,7 +3597,7 @@ function cliqueConta(t){
   /* barra que encolhe e topo que some ao descer; voltam ao subir */
   let yAnt=scrollY,raf=0;
   const abertaJanela=()=>!!document.querySelector("#layer .scrim,#layer .story");
-  const rola=()=>{raf=0;const y=Math.max(0,scrollY),dy=y-yAnt;if(Math.abs(dy)<8&&y>4)return;yAnt=y;
+  const rola=()=>{raf=0;if(Date.now()-(window.PULA_SCROLL||0)<300){yAnt=Math.max(0,scrollY);return}const y=Math.max(0,scrollY),dy=y-yAnt;if(Math.abs(dy)<8&&y>4)return;yAnt=y;
     const desce=dy>0&&y>160&&!abertaJanela();
     nav.classList.toggle("mini",desce);topo.classList.toggle("esconde",desce&&VIEW==="feed");topo.classList.toggle("rolou",y>6)};
   addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(rola)},{passive:true});
@@ -3700,7 +3703,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="3a27fed962bb";
+const APP_VERSAO="c7ef4626a721";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -3857,7 +3860,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const iok=t.closest("[data-instok]");if(iok){e.stopPropagation();instalar();return}
   const inao=t.closest("[data-instnao]");if(inao){e.stopPropagation();lsSet("prumo-inst",{ate:Date.now()+14*864e5});const c=$("#v-capa .cp-inst");if(c)c.remove();uso("instalar_nao");return}
   const mri=t.closest("[data-matir]");if(mri){e.stopPropagation();matIr(mri.dataset.matir);return}
-  const agi=t.closest(".cp-agora .ag-i");if(agi){e.stopPropagation();const x=agoraItens()[+agi.dataset.agi];if(x&&x.pid&&pautaById(x.pid))abrirMateria(x.pid);else abrirAgora();return}
+  const agi=t.closest(".cp-agora .ag-i");if(agi){e.stopPropagation();const ap=agi.dataset.agpid;if(ap&&pautaById(ap))abrirMateria(ap);else abrirAgora();return}
   const mdi=t.closest("[data-mudouir]");if(mdi){e.stopPropagation();const pid=mdi.dataset.mudouir;closeLayer();setTimeout(()=>{if(VIEW!=="capa"&&VIEW!=="feed")go("capa");abrirMateria(pid)},60);return}
   const mpx=t.closest("[data-matprox]");if(mpx){e.stopPropagation();matIr(mpx.dataset.matprox);return}
   const cnv=t.closest("[data-cpnov]");if(cnv){e.stopPropagation();abrirNovCapa();return}
@@ -4257,7 +4260,7 @@ function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse
     out.push({t:tt||temaDe(p)||versao(p,lente()).titulo,h,pid,peso:8+n})});
   return out.sort((a,b)=>b.peso-a.peso||b.h-a.h).slice(0,4)}
 function agoraHTML(){const l=agoraItens();if(!l.length)return "";
-  const um=l.map((x,i)=>`<span class="ag-i" data-agi="${i}"><time>${esc(quando(new Date(x.h).toISOString()).replace("há ",""))}</time>${esc(x.t)}</span><i class="ag-sep" aria-hidden="true"></i>`).join("");
+  const um=l.map((x,i)=>`<span class="ag-i" data-agi="${i}" data-agpid="${esc(x.pid||"")}"><time>${esc(quando(new Date(x.h).toISOString()).replace("há ",""))}</time>${esc(x.t)}</span><i class="ag-sep" aria-hidden="true"></i>`).join("");
   const n=l.reduce((a,x)=>a+x.t.length+12,0);
   return `<div class="cp-agora" role="region" aria-label="Agora: ${esc(l.map(x=>x.t).join("; "))}"><button type="button" class="ag-lbl" data-agora><i></i>Agora</button><div class="ag-vp"><div class="ag-run" style="animation-duration:${Math.max(18,Math.round(n*.17))}s">${um}${um}</div></div></div>`}
 function atualizarAgora(){if(VIEW!=="capa")return;const old=$("#v-capa .cp-agora"),nh=agoraHTML(),cp=$("#v-capa .cp");
@@ -4343,8 +4346,8 @@ function abrirMudou(){if(!FEED)return;const m=FEED.mudancas||{},it=(Array.isArra
     return `<li>${p?`<button type="button" data-mudouir="${esc(x.pid)}">${k}<span class="mud-t">${esc(versao(p,L).titulo)}</span><span class="mud-x">${esc(x.texto)}</span></button>`:`<div>${k}<span class="mud-x">${esc(x.texto)}</span></div>`}</li>`}).join("")||`<li><div><span class="mud-x">Sem mudanças listadas nesta edição.</span></div></li>`}</ul>`);uso("o_que_mudou")}
 /* janelas por cima: a página de baixo fica parada */
 var TRAVA_Y=null;
-function travarFundo(){if(TRAVA_Y!==null)return;TRAVA_Y=scrollY;const b=document.body;b.style.position="fixed";b.style.top=(-TRAVA_Y)+"px";b.style.left="0";b.style.right="0";b.style.width="100%";document.documentElement.classList.add("travado")}
-function destravarFundo(){if(TRAVA_Y===null)return;const y=TRAVA_Y;TRAVA_Y=null;const b=document.body;b.style.position="";b.style.top="";b.style.left="";b.style.right="";b.style.width="";document.documentElement.classList.remove("travado");window.scrollTo(0,y)}
+function travarFundo(){if(TRAVA_Y!==null)return;window.PULA_SCROLL=Date.now();TRAVA_Y=scrollY;const b=document.body;b.style.position="fixed";b.style.top=(-TRAVA_Y)+"px";b.style.left="0";b.style.right="0";b.style.width="100%";document.documentElement.classList.add("travado")}
+function destravarFundo(){if(TRAVA_Y===null)return;const y=TRAVA_Y;window.PULA_SCROLL=Date.now();TRAVA_Y=null;const b=document.body;b.style.position="";b.style.top="";b.style.left="";b.style.right="";b.style.width="";document.documentElement.classList.remove("travado");window.scrollTo(0,y)}
 function temJanela(){const a=$("#layer"),b=$("#layer2");return !!((a&&a.innerHTML)||(b&&b.innerHTML))}
 (function(){const ob=new MutationObserver(()=>{if(temJanela())travarFundo();else destravarFundo()});["#layer","#layer2"].forEach(sel=>{const el=$(sel);if(el)ob.observe(el,{childList:true})})})();
 (function(){const ant=closeLayer;closeLayer=function(){const l2=$("#layer2"),l1=$("#layer");const fica=!!(l2&&l2.innerHTML&&l1&&l1.innerHTML);if(!fica)destravarFundo();return ant.apply(this,arguments)}})();
@@ -4359,7 +4362,7 @@ carregarFotosArq();
 /* ---------- Etapa 28 ---------- */
 /* fotos de arquivo sem repetir na edição: a de maior prioridade escolhe primeiro */
 var FA_MAP=null,FA_MAPK="";
-function faNome(u){try{u=String(u||"").split("?")[0];const m=u.match(/\/thumb\/[0-9a-f]\/[0-9a-f]{2}\/([^/]+)\//i);return decodeURIComponent(m?m[1]:u.split("/").pop()).toLowerCase()}catch(e){return String(u)}}
+function faNome(u){try{u=String(u||"").split("?")[0];const m=u.match(/\/thumb\/[0-9a-f]\/[0-9a-f]{2}\/([^/]+)\//i);return decodeURIComponent(m?m[1]:u.split("/").pop()).toLowerCase()}catch(e){return String(u).split("?")[0].split("/").pop().toLowerCase()}}
 function faPessoa(tit,A){let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
 function faListas(p,A){const L=[],T=A.temas||{},sec=secOf(p),tit=String((p.neutro||{}).titulo||"");
   const pe=p.foto_arquivo==="tema"?null:faPessoa(tit,A);if(pe&&Array.isArray(pe.fotos)&&pe.fotos.length)L.push(pe.fotos);
@@ -4423,7 +4426,7 @@ function abrirNovCapa(){const l=capaNovas();const L=lente();const pr=p=>typeof p
    senão, quando a pessoa voltar ao app depois de alguns minutos */
 var VERSAO_NOVA=null,MEXEU=0,SAIU_V=0;
 ["pointerdown","keydown","wheel","touchstart"].forEach(ev=>addEventListener(ev,()=>{MEXEU=1},{capture:true,passive:true}));
-function tentarRecarregar(voltou){if(!VERSAO_NOVA)return;if(voltou||(!MEXEU&&scrollY<40&&!temJanela())){try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}}
+function tentarRecarregar(voltou){if(!VERSAO_NOVA)return;if(voltou&&temJanela()){window.RECARGA_PEND=1;return}if(voltou||(!MEXEU&&scrollY<40&&!temJanela())){try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}}
 async function checarVersao(){try{if(!/^[0-9a-f]{12}$/.test(APP_VERSAO))return;if(navigator.webdriver&&localStorage.getItem("prumo-teste-versao")!=="1")return;
   const r=await fetch("versao.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();const v=d&&d.v;
   if(typeof v!=="string"||!/^[0-9a-f]{12}$/.test(v)||v===APP_VERSAO)return;
@@ -4440,7 +4443,9 @@ function faAssunto(tit,A,sec){let best=null,pos=1e9,len=0;Object.values(A.assunt
 /* foto própria que não carregou: usa uma de arquivo da mesma notícia */
 function fotoReserva(img){const A=FOTOS_ARQ;if(!A||!FEED)return null;const src=img.getAttribute("src")||"",nm=faNome(src);
   const p=(FEED.pautas||[]).find(q=>q.foto&&typeof q.foto.url==="string"&&(faNome(q.foto.url)===nm||fotoSrc(q.foto.url)===src));if(!p)return null;
-  const L=faListas(p,A),h=hashStr(p.id);for(const l of L){for(let j=0;j<l.length;j++){const f=l[(h+j)%l.length];if(faValida(f)&&faNome(f.url)!==nm)return {url:f.url,credito:f.credito||"Foto de arquivo: Wikimedia Commons",alt:f.alt||"Foto de arquivo"}}}return null}
+  const L=faListas(p,A),h=hashStr(p.id),us=new Set((FEED.pautas||[]).map(q=>{const f=q!==p&&fotoDe(q);return f?faNome(f.url):""}));
+  for(const l of L){for(let j=0;j<l.length;j++){const f=l[(h+j)%l.length];if(faValida(f)&&faNome(f.url)!==nm&&!us.has(faNome(f.url)))return {url:f.url,credito:f.credito||"Foto de arquivo: Wikimedia Commons",alt:f.alt||"Foto de arquivo"}}}
+  for(const l of L){for(let j=0;j<l.length;j++){const f=l[(h+j)%l.length];if(faValida(f)&&faNome(f.url)!==nm)return {url:f.url,credito:f.credito||"Foto de arquivo: Wikimedia Commons",alt:f.alt||"Foto de arquivo"}}}return null}
 
 /* ---------- Etapa 30 ---------- */
 function fotoMini(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([a-z]+)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png|webp))$/i);return m?`https://upload.wikimedia.org/wikipedia/${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/250px-${m[4]}`:u}
@@ -4448,7 +4453,7 @@ function faceFoto(p){const f=p&&fotoDe(p);if(!f)return "";return `<img class="fa
 /* fotos de arquivo chegaram depois do Feed montado (1ª visita): refaz os círculos */
 if(!FOTOS_ARQ)(function w(n){if(FOTOS_ARQ&&FEED){try{if(document.querySelector("#secs .sb"))renderSecs()}catch(e){}return}if(n<60)setTimeout(()=>w(n+1),250)})(0);
 /* botão de leitura: só o ícone enquanto rola para baixo */
-(function(){let y0=scrollY,t=null;addEventListener("scroll",()=>{const b=document.getElementById("lp");if(!b)return;const y=scrollY;
+(function(){let y0=scrollY,t=null;addEventListener("scroll",()=>{const b=document.getElementById("lp");if(!b)return;const y=scrollY;if(Date.now()-(window.PULA_SCROLL||0)<300){y0=y;return}
   if(y>y0+6&&y>120)b.classList.add("lp-mini");else if(y<y0-6)b.classList.remove("lp-mini");y0=y;clearTimeout(t);t=setTimeout(()=>{const c=document.getElementById("lp");if(c)c.classList.remove("lp-mini")},1400)},{passive:true})})();
 
 /* ---------- Etapa 31 ---------- */
@@ -4463,15 +4468,17 @@ function cartaoResumo(){const its=(FEED&&FEED.resumo_dia&&Array.isArray(FEED.res
   g.textAlign="center";g.fillStyle="#5b6472";g.font=`700 30px ${SAN}`;g.fillText(capaEdicao().toUpperCase(),W/2,200);
   g.fillStyle="#0f1522";g.fillRect(96,222,W-192,4);
   g.textAlign="left";g.fillStyle="#9a6a1f";g.font=`800 32px ${SAN}`;g.fillText(resumoTitulo().toUpperCase(),100,320);
-  let fs=44,lin;for(;fs>=30;fs-=2){g.font=`600 ${fs}px ${SAN}`;lin=its.map(x=>quebraLinhas(g,x.texto,W-300));const tot=lin.reduce((a,l)=>a+l.length,0)*fs*1.28+its.length*fs*0.9;if(tot<H-560)break}
+  let fs=44,lin;const corta=(l,n)=>l.length>n?[...l.slice(0,n-1),l[n-1].replace(/\s*\S*$/,"")+"…"]:l;for(;fs>=30;fs-=2){g.font=`600 ${fs}px ${SAN}`;lin=its.map(x=>corta(quebraLinhas(g,x.texto,W-300),3));const tot=lin.reduce((a,l)=>a+l.length,0)*fs*1.28+its.length*fs*0.9;if(tot<H-560)break}if(fs<30){fs=30;g.font=`600 30px ${SAN}`;for(const mx of [3,2,1]){lin=its.map(x=>corta(quebraLinhas(g,x.texto,W-300),mx));if(lin.reduce((a,l)=>a+l.length,0)*fs*1.28+its.length*fs*0.9<H-560)break}}
   let y=400;its.forEach((x,i)=>{g.fillStyle="#b07a2a";g.font=`700 ${fs+6}px ${SER}`;g.fillText(String(i+1),100,y);g.fillStyle="#0f1522";g.font=`600 ${fs}px ${SAN}`;
     lin[i].forEach((l,j)=>{g.fillText(l,170,y+j*fs*1.28)});y+=lin[i].length*fs*1.28+fs*0.9;if(i<its.length-1){g.fillStyle="#e5e7eb";g.fillRect(170,y-fs*0.95,W-270,2)}});
   g.textAlign="center";g.fillStyle="#0f1522";g.font=`800 36px ${SAN}`;g.fillText("prumonews.com.br",W/2,H-60);
   return c}
-async function mandarResumo(){uso("capa_1min_mandar");const c=cartaoResumo();if(!c){toast("Sem resumo nesta edição.");return}
-  const blob=await new Promise(r=>c.toBlob(r,"image/png"));if(!blob)return;const file=new File([blob],"prumo-1-minuto.png",{type:"image/png"});
+var RES_ARQ=null,RES_P=null;
+function prepararResumo(){if(RES_P)return RES_P;const c=cartaoResumo();if(!c)return Promise.resolve(null);RES_P=new Promise(r=>c.toBlob(b=>{RES_ARQ=b?new File([b],"prumo-1-minuto.png",{type:"image/png"}):null;r(RES_ARQ)},"image/png"));return RES_P}
+document.addEventListener("pointerdown",e=>{if(e.target&&e.target.closest&&e.target.closest("[data-1mshare]"))prepararResumo()},true);
+async function mandarResumo(){uso("capa_1min_mandar");const file=RES_ARQ||await prepararResumo();RES_P=null;RES_ARQ=null;if(!file){toast("Sem resumo nesta edição.");return}const blob=file;
   const texto=`${resumoTitulo()} · Prumo News\nhttps://prumonews.com.br`;
-  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text:texto});return}}catch(e){if(e&&e.name==="AbortError")return}
+  try{if(navigator.canShare&&navigator.canShare({files:[file],text:texto})){await navigator.share({files:[file],text:texto});return}}catch(e){if(e&&e.name==="AbortError")return}
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="prumo-1-minuto.png";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);toast("Imagem salva: é só mandar no WhatsApp.")}
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-1mshare]");if(!b)return;e.stopPropagation();e.preventDefault();mandarResumo()},true);
 
@@ -4487,6 +4494,9 @@ function abrirPessoa(k){const d=FEED.pessoas?.[k],A=pessoaArq(k),f=A&&Array.isAr
 /* coberturas encerradas: como terminou, no topo da matéria */
 function matDesfecho(p){if(p.status!=="encerrada")return "";const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto);const u=ups.length?ups.reduce((a,b)=>tms(b.hora)>tms(a.hora)?b:a):null;
   const t=typeof p.desfecho==="string"&&p.desfecho.trim()?p.desfecho.trim():u?u.texto:"";if(!t)return "";return `<div class="mat-fim"><b>Como terminou</b><p>${esc(t)}</p></div>`}
+
+/* ---------- Etapa 32 ---------- */
+{const _cl32=closeLayer;closeLayer=function(){const r=_cl32.apply(this,arguments);if(window.RECARGA_PEND&&VERSAO_NOVA)setTimeout(()=>{if(!temJanela()){try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}},400);return r}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

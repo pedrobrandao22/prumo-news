@@ -284,7 +284,8 @@ def pendencias(f, agora):
 # números do mercado no texto × indicadores.json (dólar e Ibovespa, gravados pelo robô de cotações)
 IND_CTX = {"dolar": re.compile(r"d[óo]lar", re.I), "ibovespa": re.compile(r"ibovespa|\bbolsa\b|\bB3\b", re.I)}
 IND_VAL = {"dolar": re.compile(r"R\$\s?(\d{1,2},\d{2,4})(?!\d)"), "ibovespa": re.compile(r"(\d{2,3}(?:\.\d{3})|\d{2,3}(?:,\d)?\s?mil)\s*pontos", re.I)}
-IND_PCT = re.compile(r"(\d{1,2}(?:,\d{1,2})?)\s?%\s*(na semana|no dia|em uma semana|em sete dias)", re.I)
+IND_PCT = re.compile(r"(\d{1,2}(?:,\d{1,2})?)\s?%\s*(na semana|no dia(?!\s+\d)|em uma semana|em sete dias)", re.I)
+BOLSA_OUTRA = re.compile(r"bolsa\s+(fam[íi]lia|de nova york|dos eua|de t[óo]quio|de londres|de xangai|de valores de (nova york|londres|t[óo]quio))|bolsas? (americanas?|europeias?|asi[áa]ticas?)|bolsa[- ](atleta|escola|verde|de estudos)", re.I)
 VARIACAO_ANTES = re.compile(r"(perde|perdeu|ganha|ganhou|cai|caiu|sobe|subiu|recua|recuou|avança|avançou|alta|queda|salto|tombo|mais|menos|variação)( de| cerca de| quase)?\s*$", re.I)
 def fmt_ind(k, v): return f"R$ {v:.2f}".replace(".", ",") if k == "dolar" else f"{v:,.0f}".replace(",", ".")
 OUTRA_MOEDA = re.compile(r"\beuro|\bpeso|\byuan|\biene|\blibra", re.I)
@@ -338,7 +339,8 @@ def checar_mercado(f, IND, ref):
     for onde, estrito, t in campos():
         for fr in re.split(r"(?<=[.!?;])\s+(?=[A-ZÁÉÍÓÚÂÊÔÃÕÇ0-9])", str(t)):
             if OUTRA_MOEDA.search(fr): continue
-            ctx = sorted((m.start(), k) for k in ok for m in IND_CTX[k].finditer(fr))
+            outra_bolsa = [m.span() for m in BOLSA_OUTRA.finditer(fr)]
+            ctx = sorted((m.start(), k) for k in ok for m in IND_CTX[k].finditer(fr) if not (k == "ibovespa" and any(a <= m.start() < b for a, b in outra_bolsa)))
             if not ctx: continue
             def dono(pos):
                 d = [k for s0, k in ctx if s0 <= pos]
@@ -347,6 +349,8 @@ def checar_mercado(f, IND, ref):
             for k in ok:
                 for m in IND_VAL[k].finditer(fr):
                     if dono(m.start()) != k: continue
+                    perto = [s0 for s0, kk in ctx if kk == k and s0 <= m.start()]
+                    if k == "dolar" and (not perto or m.start() - perto[-1] > 30 or "R$" in fr[perto[-1]:m.start()]): continue  # outro R$ da frase (gasolina etc.)
                     if VARIACAO_ANTES.search(fr[max(0, m.start() - 30):m.start()]): continue  # "perde 37 mil pontos" é variação, não nível
                     try: v = num_br(m.group(1))
                     except ValueError: continue
@@ -355,6 +359,8 @@ def checar_mercado(f, IND, ref):
             for m in IND_PCT.finditer(fr):
                 k = dono(m.start())
                 if not k: continue
+                antes = [s0 for s0, kk in ctx if kk == k and s0 <= m.start()]
+                if not antes or m.start() - antes[-1] > 90: continue
                 c = float(m.group(1).replace(",", "."))
                 if "dia" in m.group(2).lower():
                     real = ok[k]["dia"]
