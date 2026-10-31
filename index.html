@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Prumo News</title>
 <meta name="description" content="Os fatos no centro. Os ângulos ao lado.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prumo News">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Prumo News">
+<meta property="og:description" content="As notícias que importam, curtas, sem viés e sempre atualizadas. Os fatos no centro, os ângulos ao lado.">
+<meta property="og:url" content="https://prumonews.com.br/">
+<meta property="og:image" content="https://prumonews.com.br/og-padrao.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Prumo">
@@ -1523,6 +1533,25 @@ html,body{margin:0}
 .uso-t li{font-size:14px;line-height:1.35}
 .uso-t li span{display:inline}
 .uso-t li b{float:right;margin-left:8px;font-weight:800}
+
+/* ================= Etapa 17 ================= */
+.foto img,.cover .fcv-i{opacity:0;transition:opacity .35s ease}
+.foto img.ok,.cover .fcv-i.ok{opacity:1}
+@media (prefers-reduced-motion:reduce){.foto img,.cover .fcv-i{transition:none}}
+.mat-top{position:sticky}
+.mat-prog{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent);transform-origin:0 50%;transform:scaleX(0);pointer-events:none}
+.mat-tx h1:focus{outline:none}
+.mat-rel{margin:22px 0 6px}
+.mat-rel>b{display:block;font:800 11.5px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.mat-rel ul{list-style:none;margin:0;padding:0}
+.mat-rel li+li{border-top:1px solid var(--line)}
+.mat-rel button{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:10px 0}
+.mat-rel .mr-th{flex:none;width:72px;height:54px;border-radius:8px;overflow:hidden;display:block}
+.mat-rel .mr-th svg{width:100%;height:100%;display:block}
+.mat-rel .mr-th.foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mat-rel span:not(.mr-th):not(.ill){display:flex;flex-direction:column;gap:2px;min-width:0}
+.mat-rel em{font:800 10.5px var(--f-ui);font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+.mat-rel button b{font:700 16px/1.25 var(--f-display);color:var(--ink);letter-spacing:-.005em}
 </style>
 </head>
 <body>
@@ -3570,10 +3599,10 @@ function capaChapeu(p){return p.subtema||p.tag||secNome(secOf(p))}
 var FOTO_OK=/^https:\/\/([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)\//i;
 function fotoSrc(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([a-z]+)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png|webp))$/i);return m?`https://upload.wikimedia.org/wikipedia/${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/960px-${m[4]}`:u}
 function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.loading="eager";img.setAttribute("src",o);return}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
-function fotoImg(f,cls,feed){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="fotoErro(this${feed?",1":""})">`}
+function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;return f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url)?f:null}
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
-  return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f)}${cred&&f.credito?`<small class="cred">${esc(f.credito)}</small>`:""}</span>`}
+  return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f,"",0,!!cred)}${cred&&f.credito?`<small class="cred">${esc(f.credito)}</small>`:""}</span>`}
 function indTile(x){const seta={sobe:"▲",desce:"▼",estavel:"▬"};const em=x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:"";
   const sp=grSpark(x),miolo=`<span>${esc(x.nome)}</span><b>${esc(x.valor)}</b>${em}${sp}`;
   return x.id?`<button type="button" class="ind-t" data-indg="${esc(x.id)}" aria-label="${esc(x.nome)}: ${esc(x.valor)}. Ver gráfico">${miolo}</button>`:`<div class="ind-t">${miolo}</div>`}
@@ -3624,7 +3653,7 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   h+=`<div class="mat-arte">${capaArte(p,"art",true)}</div>`;
   h+=`<div class="gut mat-tx"><h1>${v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:""}${esc(v.titulo)}</h1>`;
   const sub=capaSub(p,L,"");if(sub&&sub!==v.titulo)h+=`<p class="mat-sub">${esc(sub)}</p>`;
-  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>Atualizado ${esc(quando(u))}</span>`:""}</p>`;
+  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>Atualizado ${esc(quando(u))}</span>`:""}<span>${minLeitura(p,v)} min de leitura</span></p>`;
   if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
   else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
   h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
@@ -3639,7 +3668,7 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   h+=matTempo(p);
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().reverse();
   if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(hhmm(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
-  const nx=matProx(p.id);
+  const nx=matProx(p.id);h+=matRel(p,nx);
   h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button>${f&&f.credito?`<span class="cpx-fontes">${esc(f.credito)}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
   if(vazio&&pushH())HST++}
@@ -3709,6 +3738,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const msh=t.closest("[data-matshare]");if(msh){e.stopPropagation();compartilhar(msh.dataset.matshare);return}
   const agb=t.closest("[data-agora]");if(agb){e.stopPropagation();abrirAgora();return}
   const agp=t.closest("[data-agpid]");if(agp){e.stopPropagation();const pid=agp.dataset.agpid;closeLayer();setTimeout(()=>abrirMateria(pid),60);return}
+  const mri=t.closest("[data-matir]");if(mri){e.stopPropagation();matIr(mri.dataset.matir);return}
   const mpx=t.closest("[data-matprox]");if(mpx){e.stopPropagation();matIr(mpx.dataset.matprox);return}
   const cnv=t.closest("[data-cpnov]");if(cnv){e.stopPropagation();abrirNovCapa();return}
   const cni=t.closest("[data-cpnovir]");if(cni){e.stopPropagation();const pid=cni.dataset.cpnovir;closeLayer();setTimeout(()=>abrirMateria(pid),60);return}
@@ -4132,6 +4162,17 @@ function usoDesenhar(){const b=$("#admbox");if(!b||S._admAba!=="uso")return;cons
   const tp=Array.isArray(d.top)?d.top:[];if(tp.length)h+=`<b class="cm-h">Mais lidas</b><ol class="uso-t">${tp.map(x=>{const p=pautaById(x.pid);return `<li><span>${esc(p?(p.neutro||{}).titulo:x.pid)}</span><b>${x.n}</b></li>`}).join("")}</ol>`;
   const org=Array.isArray(d.origem)?d.origem:[];if(org.length)h+=`<p class="hint">Como abrem: ${org.map(x=>`${x.origem==="app"?"app instalado":x.origem==="site"?"navegador":x.origem==="link"?"link compartilhado":esc(x.origem||"?")} ${x.n}`).join(" · ")}. Compartilhamentos no período: ${d.compartilhamentos||0}.</p>`;
   h+=`<p class="hint">Contagem anônima: o Prumo não guarda quem leu, só um número aleatório por aparelho.</p>`;b.innerHTML=h}
+
+/* ---------- Etapa 17 ---------- */
+function minLeitura(p,v){const t=[v&&v.texto,p.contexto,p.proximo,...(pontosDe(p,lente())||[]),...(Array.isArray(p.essencial)?p.essencial:[]),...(Array.isArray(p.atualizacoes)?p.atualizacoes.map(x=>x&&x.texto):[])].filter(x=>typeof x==="string").join(" ");
+  return Math.max(1,Math.round(t.split(/\s+/).filter(Boolean).length/200))}
+function matRel(p,nx){if(!FEED)return "";const tm=temaDe(p),sec=secOf(p),L=lente();
+  const l=(FEED.pautas||[]).filter(q=>q&&q.id!==p.id&&(!nx||q.id!==nx.id)).map(q=>{let s=0;if(tm&&temaDe(q)===tm)s+=4;if(p.subtema&&q.subtema===p.subtema&&secOf(q)===sec)s+=2;if(secOf(q)===sec)s+=1;return [q,s+(q.prioridade||0)/1000]}).filter(x=>x[1]>=2).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);
+  if(!l.length)return "";
+  return `<div class="mat-rel"><b>Relacionadas</b><ul>${l.map(q=>`<li><button type="button" data-matir="${esc(q.id)}">${capaArte(q,"mr-th")}<span><em style="color:${secCor(secOf(q))}">${esc(capaChapeu(q))}</em><b>${esc(versao(q,L).titulo)}</b></span></button></li>`).join("")}</ul></div>`}
+function matProgresso(){const m=$("#layer .mat");if(!m||m._prog)return;m._prog=1;const top=m.querySelector(".mat-top");if(!top)return;const b=document.createElement("i");b.className="mat-prog";b.setAttribute("aria-hidden","true");top.appendChild(b);
+  let raf=0;const f=()=>{raf=0;const max=m.scrollHeight-m.clientHeight;b.style.transform=`scaleX(${max>0?Math.min(1,m.scrollTop/max).toFixed(3):0})`};m.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(f)},{passive:true});f()}
+(function(){const ant=abrirMateria;abrirMateria=function(pid,manter){const vazio=!$("#layer").innerHTML;const r=ant.apply(this,arguments);try{matProgresso();if(!manter){const h=$("#layer .mat h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}catch(e){}return r}})();
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
