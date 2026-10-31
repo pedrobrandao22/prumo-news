@@ -168,7 +168,7 @@ def limpa(htm):
     return re.sub(r"\s+", " ", t)[:70]
 
 
-def busca(consulta, chaves, n=4, exige_todos=False):
+def busca(consulta, chaves, n=4, exige_todos=False, evitar=()):
     """Fotos livres do Commons cujo nome do arquivo contém as palavras-chave."""
     try:
         d = api({"action": "query", "generator": "search", "gsrsearch": f"{consulta} filetype:bitmap", "gsrnamespace": "6", "gsrlimit": "25",
@@ -194,7 +194,10 @@ def busca(consulta, chaves, n=4, exige_todos=False):
         url = (ii.get("url") or "").split("?")[0]
         if not url.startswith("https://upload.wikimedia.org/"): continue
         t2 = tit.replace("_", " ")
-        nota = (3 if re.search(r"cropped|retrato|portrait|oficial|official", t2) else 0) - (2 if exige_todos and re.search(r" e | and | com | with |, ", t2) else 0)
+        if any(norm(o) in t2 for o in evitar): nota_outro = -3
+        else: nota_outro = 0
+        if exige_todos and re.search(r"\b(pec|sessao|reuniao|cerimonia|encontro|audiencia|plenario|congresso nacional|descerramento|entrega|visita|lancamento|meeting|summit)\b", t2): nota_outro -= 2
+        nota = nota_outro + (3 if re.search(r"cropped|retrato|portrait|oficial|official", t2) else 0) - (2 if exige_todos and re.search(r" e | and | com | with |, ", t2) else 0)
         out.append({"url": url, "credito": f"Foto de arquivo: {autor}/Wikimedia Commons ({lic})", "pagina": (ii.get("descriptionurl") or "").split("?")[0], "_n": nota})
     out.sort(key=lambda x: -x["_n"])
     if sum(1 for x in out if x["_n"] >= 0) >= 2: out = [x for x in out if x["_n"] >= 0]  # foto de grupo só se não houver retrato sozinho
@@ -219,9 +222,10 @@ def main(argv):
             pessoas[nome] = [nome]
     out_p, out_t, out_a = {}, {}, {}
     for nome, chaves in pessoas.items():
-        fotos = busca(f'intitle:"{nome}"', [nome], n=3, exige_todos=True)
+        outros = [o for o in pessoas if o != nome and o.split()[-1] not in nome]
+        fotos = busca(f'intitle:"{nome}"', [nome], n=3, exige_todos=True, evitar=outros)
         if not fotos and len(nome.split()) > 2:  # ex.: Luiz Inácio Lula da Silva → "Lula"
-            fotos = busca(f'intitle:"{chaves[0]}"', [chaves[0]], n=3, exige_todos=True)
+            fotos = busca(f'intitle:"{chaves[0]}"', [chaves[0]], n=3, exige_todos=True, evitar=outros)
         if not fotos: fotos = ((velho.get("pessoas") or {}).get(nome) or {}).get("fotos") or []
         if fotos:
             out_p[nome] = {"chaves": chaves, "fotos": [dict(f, alt=f"Foto de arquivo: {nome}") for f in fotos]}
