@@ -196,7 +196,7 @@ def busca(consulta, chaves, n=4, exige_todos=False, evitar=()):
         t2 = tit.replace("_", " ")
         if any(norm(o) in t2 for o in evitar): nota_outro = -3
         else: nota_outro = 0
-        if exige_todos and re.search(r"\b(pec|sessao|reuniao|cerimonia|encontro|audiencia|plenario|congresso nacional|descerramento|entrega|visita|lancamento|meeting|summit|welcomes|hosts|bilateral|visits|greets|recebe|cumprimenta)\b", t2): nota_outro -= 2
+        if exige_todos and re.search(r"\b(pec|sessao|reuniao|cerimonia|encontro|audiencia|plenario|congresso nacional|descerramento|entrega|visita|lancamento|meeting|summit|welcomes|hosts|bilateral|visits|greets|recebe|cumprimenta|coletiva|entrevista|plenaria)\b", t2): nota_outro -= 5
         nota = nota_outro + (3 if re.search(r"cropped|retrato|portrait|oficial|official", t2) else 0) - (2 if exige_todos and re.search(r" e | and | com | with |, ", t2) else 0)
         out.append({"url": url, "credito": f"Foto de arquivo: {autor}/Wikimedia Commons ({lic})", "pagina": (ii.get("descriptionurl") or "").split("?")[0], "_n": nota})
     out.sort(key=lambda x: -x["_n"])
