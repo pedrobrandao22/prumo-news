@@ -16,7 +16,7 @@ UA = {"User-Agent": "PrumoNews/1.0 (https://prumonews.com.br; robo de fotos de a
 SP = timezone(timedelta(hours=-3))
 LIVRE = re.compile(r"^(cc[ -]by(-sa)?( [\d.]+)?( [a-z-]+)?|cc0|public domain|pd\b|domínio público)", re.I)
 PROIBIDO = re.compile(r"\b(nc|nd)\b", re.I)
-FORA = re.compile(r"(hospital de campanha|trofeu|map|mapa|planta|plano geral|desenho|drawing|diagram|logo|coat of arms|brasao|bandeira de|flag of|selo|stamp|cracha|cranio|crane|sketch|plan of|acervo|caricatura|cartoon|grafico|chart|show de|show of|concert|cpmi|comissao parlamentar|display|placa|sign\b|1[89]\d\d)")
+FORA = re.compile(r"(hospital de campanha|trofeu|map|mapa|planta|plano geral|desenho|drawing|diagram|logo|coat of arms|brasao|bandeira de|flag of|selo|stamp|cracha|cranio|crane|sketch|plan of|acervo|caricatura|cartoon|grafico|chart|show de|show of|concert|protest|protesto|manifestac|cpmi|comissao parlamentar|display|placa|sign\b|1[89]\d\d)")
 
 # pessoas: nome → palavras que, no título da notícia, indicam essa pessoa (a 1ª citada no título ganha)
 PESSOAS = {
@@ -128,7 +128,7 @@ ASSUNTOS = {
     "aviação": (["avião", "aviões", "Avião", "voo", "voos", "aeroporto", "Aeroporto", "aérea", "aéreo"], "Aeroporto de Guarulhos avião", ["aeroporto", "airport", "aircraft", "airbus", "boeing"], None),
     "barragem": (["barragem", "Barragem", "represa", "açude"], "barragem Brasil", ["barragem", "dam"], None),
     "incêndio": (["incêndio", "Incêndio", "queimada", "queimadas", "fogo"], "incêndio florestal Brasil", ["incêndio", "incendio", "queimada", "wildfire"], None),
-    "aves": (["aves", "aviária", "Newcastle", "frango", "frangos", "granja"], "granja de frangos aviário", ["frango", "chicken", "aviário", "poultry", "granja"], None),
+    "aves": (["aves", "aviária", "Newcastle", "frango", "frangos", "granja"], "chickens poultry farm", ["chicken", "frango", "galinha", "poultry", "avicultura", "aviário"], None),
     "café e agro": (["café", "Café", "safra", "agro", "agronegócio"], "colheita de café Brasil", ["café", "coffee"], None),
     "combustíveis": (["gasolina", "Gasolina", "diesel", "combustível", "combustíveis", "etanol"], "posto de combustível bomba de gasolina", ["posto", "gas station", "fuel"], None),
     "energia": (["conta de luz", "energia elétrica", "Aneel", "apagão", "hidrelétrica"], "linhas de transmissão energia", ["transmissão", "transmission", "power line", "hidrelétrica"], None),
@@ -197,6 +197,7 @@ def busca(consulta, chaves, n=4, exige_todos=False):
         nota = (3 if re.search(r"cropped|retrato|portrait|oficial|official", t2) else 0) - (2 if exige_todos and re.search(r" e | and | com | with |, ", t2) else 0)
         out.append({"url": url, "credito": f"Foto de arquivo: {autor}/Wikimedia Commons ({lic})", "pagina": (ii.get("descriptionurl") or "").split("?")[0], "_n": nota})
     out.sort(key=lambda x: -x["_n"])
+    if sum(1 for x in out if x["_n"] >= 0) >= 2: out = [x for x in out if x["_n"] >= 0]  # foto de grupo só se não houver retrato sozinho
     out = [{k: v for k, v in x.items() if k != "_n"} for x in out[:n]]
     time.sleep(0.4)
     return out
