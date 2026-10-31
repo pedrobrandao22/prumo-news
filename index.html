@@ -1454,6 +1454,37 @@ button.ind-t{cursor:pointer}button.ind-t:active{transform:scale(.97)}
   .mat-p p{font-size:19px;line-height:1.6}
 }
 @media (min-width:700px) and (max-width:1023px){.app{max-width:680px}.nav-in,.composer form,.respbar{max-width:680px}}
+
+/* ================= Etapa 15 ================= */
+html,body{margin:0}
+/* Capa começa direto na manchete */
+.cp-direto{padding-top:env(safe-area-inset-top,0px)}
+.cp-direto>.cpi-man:first-child .art:not(.foto),.cp-direto>:first-child:not(.cpi-man){margin-top:14px}
+.cp-direto .cp-1m{margin-top:6px}
+/* lida: igual às outras, só um ✓ bem discreto no chapéu */
+.cp .lida,.cp .cpi.lida,.cp .cpi.lida:not(.aberto)>.cpi-b{opacity:1}
+.cp .lida b::after,.cp .cpi.lida:not(.aberto) .cp-t::after{content:none}
+.cp .cpi.lida .cp-k::after{content:"✓";margin-left:6px;font:700 10px var(--f-ui);color:var(--muted);opacity:.5;letter-spacing:0}
+/* matéria: entra e sai pela lateral */
+.mat{animation:none;touch-action:pan-y;box-shadow:-10px 0 28px rgb(10 16 28 / .14);will-change:transform}
+.mat.mat-entra{animation:matEntra .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes matEntra{from{transform:translateX(100%)}}
+.mat.mat-in .mat-c{animation:none}
+.saida{position:fixed;inset:0;z-index:60;pointer-events:none}
+.saida.sai-esq{z-index:47}
+.saida .mat{animation:none}
+.saida.sai-mat .mat{animation:matSai .28s cubic-bezier(.4,0,.6,1) forwards}
+@keyframes matSai{to{transform:translateX(100%)}}
+.saida.sai-esq .mat{box-shadow:none;animation:matEsq .34s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes matEsq{to{transform:translateX(-30%);filter:brightness(.8)}}
+.saida.sai-sheet .scrim{animation:scrimSai .26s ease forwards}
+.saida.sai-sheet .sheet{animation:sheetSai .26s cubic-bezier(.4,0,1,1) forwards}
+@keyframes scrimSai{to{opacity:0}}
+@keyframes sheetSai{to{transform:translateY(100%)}}
+/* troca de aba: só esmaece */
+.app>section.entra{animation:vEsmaece .16s ease-out}
+@keyframes vEsmaece{from{opacity:.0}}
+@media (prefers-reduced-motion:reduce){.mat.mat-entra,.saida .mat,.saida .sheet,.saida .scrim,.app>section.entra{animation:none!important}}
 </style>
 </head>
 <body>
@@ -3496,7 +3527,7 @@ function capaFrase(t,n){t=String(t||"").trim();if(t.length<=n)return t;const fr=
 function capaChapeu(p){return p.subtema||p.tag||secNome(secOf(p))}
 var FOTO_OK=/^https:\/\/([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)\//i;
 function fotoSrc(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([a-z]+)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png|webp))$/i);return m?`https://upload.wikimedia.org/wikipedia/${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/960px-${m[4]}`:u}
-function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.setAttribute("src",o);return}if(feed){const c=img.parentNode;if(c)c.classList.remove("fcv")}img.remove()}
+function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.loading="eager";img.setAttribute("src",o);return}if(feed){const c=img.parentNode;if(c)c.classList.remove("fcv")}img.remove()}
 function fotoImg(f,cls,feed){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;return f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url)?f:null}
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
@@ -3578,15 +3609,15 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   const {ps,ord,man,dest,fixa,linha}=capaEscolha();const L=lente();
   const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
   const vivo=ps.filter(p=>p.status==="ao_vivo");
-  let h=`<div class="gut cp"><header class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed">${esc(capaEdicao())}${FEED.contagem?" · "+esc(FEED.contagem):""}</span></header>`;
-  h+=capaNovBar();h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
-  h+=dia1min(ps);
+  let h=`<div class="gut cp cp-direto">`;
+  h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
   if(man){const u=ultimaAtualizacao(man)||man.hora;
     const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>Atualizado às ${esc(hhmm(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
     h+=cpItem(man,{tam:"man",sub:true,arte:true,linha:L==="neutro"?linha:"",meta});
     const tm=temaDe(man);const rel=ps.filter(p=>p!==man&&!usados.has(p.id)&&((tm&&temaDe(p)===tm)||(man.subtema&&p.subtema===man.subtema&&secOf(p)===secOf(man)))).slice(0,2);
     if(rel.length){rel.forEach(p=>usados.add(p.id));h+=`<div class="cp-rel"><span>Relacionadas</span>${rel.map(p=>cpItem(p,{tam:"rel"})).join("")}</div>`}}
   if(dest.length)h+=`<div class="cp-dest">${dest.map((p,i)=>cpItem(p,{tam:i<2?"d1":"d2",sub:true,arte:i>=2})).join("")}</div>`;
+  h+=dia1min(ps);
   h+=capaIndicadores();
   const NSEC={politica:5,economia:5};
   SECS().forEach(s=>{const l=ord.filter(p=>secOf(p)===s.id&&!usados.has(p.id)).slice(0,NSEC[s.id]||3);if(!l.length)return;
@@ -3937,10 +3968,17 @@ function matProx(pid){const ids=capaOrdemIds(),i=ids.indexOf(pid);const rest=ids
 function matIr(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;abrirMateria(pid);const m=document.querySelector("#layer .mat");if(m){m.scrollTop=0;m.classList.remove("mat-in");void m.offsetWidth;m.classList.add("mat-in")}}
 (function(){const ant=closeLayer;closeLayer=function(){const pid=MAT_PID,orig=MAT_ORIG,eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);const r=ant.apply(this,arguments);
   if(eraMat){MAT_ORIG=null;if(orig&&pid&&pid!==orig&&VIEW==="capa"){const f=()=>{const el=document.getElementById("cpi-"+pid);if(el)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-innerHeight*.28)};f();requestAnimationFrame(f);setTimeout(f,150)}}return r}})();
-(function(){let x0=null,y0=0,t0=0;
-  document.addEventListener("touchstart",e=>{const m=e.target&&e.target.closest&&e.target.closest("#layer .mat");if(!m||e.touches.length>1||e.target.closest(".gr-box,.gn,input,textarea")){x0=null;return}x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now()},{passive:true});
-  document.addEventListener("touchend",e=>{if(x0==null)return;const t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;x0=null;if(Date.now()-t0>800)return;
-    if(dx<-70&&Math.abs(dy)<Math.abs(dx)*.5){const b=document.querySelector("#layer .mat [data-matprox]"),l2=$("#layer2");if(b&&!(l2&&l2.innerHTML))matIr(b.dataset.matprox)}},{passive:true})})();
+(function(){let x0=null,y0=0,t0=0,eixo=null,m=null,dx=0;
+  document.addEventListener("touchstart",e=>{const mm=e.target&&e.target.closest&&e.target.closest("#layer .mat"),l2=$("#layer2");if(!mm||e.touches.length>1||(l2&&l2.innerHTML)||e.target.closest(".gr-box,.gn,input,textarea")){x0=null;return}m=mm;x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now();eixo=null;dx=0},{passive:true});
+  document.addEventListener("touchmove",e=>{if(x0==null||!m)return;const t=e.touches[0],ddx=t.clientX-x0,ddy=t.clientY-y0;
+    if(!eixo){if(Math.abs(ddx)<10&&Math.abs(ddy)<10)return;eixo=Math.abs(ddx)>Math.abs(ddy)*1.2?"x":"y";if(eixo==="x")m.style.transition="none"}
+    if(eixo!=="x")return;dx=ddx;const prox=!!m.querySelector("[data-matprox]");m.style.transform=`translateX(${(dx>0?dx:dx*(prox?.35:.12)).toFixed(1)}px)`},{passive:true});
+  document.addEventListener("touchend",()=>{if(x0==null||!m)return;const mm=m,rap=Date.now()-t0<300;x0=null;m=null;
+    if(eixo!=="x"){mm.style.transform="";return}
+    if(dx>Math.min(110,innerWidth*.28)||(rap&&dx>50)){if(ANIM_OK()){mm.style.transition="transform .2s cubic-bezier(.3,.7,.4,1)";mm.style.transform="translateX(100%)";MAT_ARRASTO=true;setTimeout(()=>history.back(),190)}else{mm.style.transform="";history.back()}return}
+    if(dx<-70||(rap&&dx<-40)){const b=mm.querySelector("[data-matprox]");mm.style.transition="";mm.style.transform="";if(b){matIr(b.dataset.matprox);return}}
+    mm.style.transition="transform .22s cubic-bezier(.2,.8,.2,1)";mm.style.transform="";setTimeout(()=>{mm.style.transition=""},240)},{passive:true});
+  document.addEventListener("touchcancel",()=>{if(m){m.style.transition="transform .2s";m.style.transform=""}x0=null;m=null},{passive:true})})();
 /* desde a sua última visita, na Capa */
 var CPV=new Set(),CPV_OBS=null,SAIU_EM=0;
 function capaNovas(){if(!FEED)return [];return (FEED.pautas||[]).filter(p=>(NOVAS.has(p.id)||ATUALIZADAS.has(p.id))&&!lidaAtual(p))}
@@ -3970,6 +4008,20 @@ function capaLargo(){appLargo();const cp=document.querySelector("#v-capa .cp");i
 (function(){const ant=renderCapa;renderCapa=function(){const r=ant.apply(this,arguments);try{capaLargo();capaObservar()}catch(e){}return r}})();
 (function(){const ant=go;go=function(){const r=ant.apply(this,arguments);try{appLargo()}catch(e){}return r}})();
 if(LARGO_MQ){const f=()=>{try{if(FEED)renderCapa();appLargo()}catch(e){}};if(LARGO_MQ.addEventListener)LARGO_MQ.addEventListener("change",f);else if(LARGO_MQ.addListener)LARGO_MQ.addListener(f)}
+
+/* ---------- Etapa 15: transições ---------- */
+var MAT_ARRASTO=false;
+function ANIM_OK(){try{if(REDUZ.matches)return false;if(navigator.webdriver&&localStorage.getItem("prumo-teste-anim")!=="1")return false}catch(e){}return true}
+function saidaClone(node,cls,ms){if(!node)return;const w=document.createElement("div");w.className="saida "+cls;w.setAttribute("aria-hidden","true");w.inert=true;
+  const c=node.cloneNode(true);c.querySelectorAll("[id]").forEach(x=>x.removeAttribute("id"));c.removeAttribute("id");w.appendChild(c);document.body.appendChild(w);
+  if(node.scrollTop)c.scrollTop=node.scrollTop;const b=node.querySelector(".sh-b"),cb=c.querySelector(".sh-b");if(b&&cb&&b.scrollTop)cb.scrollTop=b.scrollTop;
+  setTimeout(()=>w.remove(),ms||320)}
+(function(){const ant=closeLayer;closeLayer=function(){try{if(ANIM_OK()&&!MAT_ARRASTO){const l2=$("#layer2"),L=l2&&l2.innerHTML?l2:$("#layer"),n=L&&L.firstElementChild;
+    if(n&&n.classList.contains("mat")){n.style.transform="";saidaClone(n,"sai-mat",300)}else if(n&&n.classList.contains("scrim"))saidaClone(n,"sai-sheet",280)}}catch(e){}
+  MAT_ARRASTO=false;return ant.apply(this,arguments)}})();
+(function(){const ant=abrirMateria;abrirMateria=function(pid,manter){const vazio=!$("#layer").innerHTML;const r=ant.apply(this,arguments);const m=$("#layer .mat");if(m&&vazio&&ANIM_OK())m.classList.add("mat-entra");return r}})();
+matIr=function(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;const old=$("#layer .mat");if(old&&ANIM_OK()){old.style.transform="";saidaClone(old,"sai-esq",360)}
+  abrirMateria(pid);const m=$("#layer .mat");if(m){m.scrollTop=0;m.style.transform="";if(ANIM_OK()){m.classList.remove("mat-entra");void m.offsetWidth;m.classList.add("mat-entra")}}};
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

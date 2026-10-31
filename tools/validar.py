@@ -89,6 +89,24 @@ PEND_FRACA = re.compile(r"^(ainda não|até o momento|até a última atualizaç�
 PRINCIPAL = re.compile(r"(neutro\.texto|direita\.texto|esquerda\.texto|\] contexto|\] proximo|explicadores\.[^.]+\.texto)$")
 
 erros, avisos = [], []
+# nomes de veículos (para não citar fonte a cada frase); órgãos oficiais e palavras comuns ficam de fora
+VEIC_FORA = {"TSE", "TCU", "STF", "STJ", "PF", "IBGE", "Banco Central", "Placar", "Massa", "Terra", "Observador", "Agora com Você", "Netfla", "Mix Vale", "Notícias do Planalto", "Globe TV", "Cada Minuto", "Titres Presse"}
+VEIC_EXTRA = ["g1", "Folha de S.Paulo", "Estadão", "O Globo", "Valor Econômico", "UOL", "Reuters", "Bloomberg", "Agência Câmara"]
+VEIC_RE = None
+def preparar_veiculos(f):
+    global VEIC_RE
+    ns = set(VEIC_EXTRA)
+    for k, v in (f.get("fontes") or {}).items():
+        for n in (k, v):
+            if isinstance(n, str) and len(n) >= 3 and n not in VEIC_FORA and not n.islower(): ns.add(n)
+    ns = sorted(ns, key=len, reverse=True)
+    VEIC_RE = re.compile(r"(?<![\w])(" + "|".join(re.escape(n) for n in ns) + r")(?![\w])") if ns else None
+def veiculos_em(t):
+    if not isinstance(t, str) or not t or VEIC_RE is None: return []
+    out = []
+    for m in VEIC_RE.finditer(t):
+        if m.group(1) not in out: out.append(m.group(1))
+    return out
 def E(m): erros.append(m)
 def A(m): avisos.append(m)
 def norm(s): return unicodedata.normalize("NFD", str(s or "")).encode("ascii", "ignore").decode().lower()
@@ -263,6 +281,7 @@ def pendencias(f, agora):
 
 # ---------- checagem ----------
 def checar(f, ant=None, virada=False, agora=None):
+    preparar_veiculos(f)
     ps = f.get("pautas") or []
     P = {p.get("id"): p for p in ps}
     ids = [p.get("id") for p in ps]
@@ -314,6 +333,20 @@ def checar(f, ant=None, virada=False, agora=None):
             if re.search(r"\bpode(m)?\b", tt, re.I): A(f"[{pid}] {lado}.titulo com 'pode': prefira o fato ou o próximo passo concreto")
             for x in (v.get("pontos") if isinstance(v.get("pontos"), list) else []):
                 if isinstance(x, str) and RUIDO.search(x): E(f"[{pid}] {lado}.pontos com chamada vazia ('{RUIDO.search(x).group(0).strip(' :—–')}')")
+        # manchete atrás da notícia: atualização mais nova que o último título
+        ups_h = [str(u.get("hora") or "") for u in (p.get("atualizacoes") or []) if isinstance(u, dict)]
+        tit_h = str(((p.get("titulos") or [{}])[-1] or {}).get("hora") or p.get("inicio") or "")
+        if ups_h and tit_h and max(ups_h) > tit_h and ISO.match(max(ups_h)) and ISO.match(tit_h):
+            A(f"[{pid}] atualização das {max(ups_h)[11:16]} é mais nova que a manchete: reescreva o título com o fato mais novo ou mais importante (se for só detalhe, deixe)")
+        # veículos citados demais: o Prumo afirma o fato conferido
+        for campo, txt in [("subtitulo", p.get("subtitulo"))] + [(f"{lado}.titulo", (p.get(lado) or {}).get("titulo") if isinstance(p.get(lado), dict) else None) for lado in ("neutro", "direita", "esquerda")] + [(f"{lado}.pontos", " | ".join(x for x in ((p.get(lado) or {}).get("pontos") or []) if isinstance(x, str)) if isinstance(p.get(lado), dict) else None) for lado in ("neutro", "direita", "esquerda")]:
+            vs = veiculos_em(txt)
+            if vs: E(f"[{pid}] {campo} cita veículo ({', '.join(vs)}): título, subtítulo e pontos dizem só o fato")
+        vs = veiculos_em((p.get("neutro") or {}).get("texto"))
+        if len(vs) >= 2: A(f"[{pid}] neutro.texto cita {len(vs)} veículos ({', '.join(vs)}): afirme o fato conferido; veículo só para dado exclusivo ou divergência (na checagem)")
+        for u in p.get("atualizacoes") or []:
+            vs = veiculos_em((u or {}).get("texto") if isinstance(u, dict) else None)
+            if vs: A(f"[{pid}] atualização das {str(u.get('hora'))[11:16]} cita veículo ({', '.join(vs)}): diga só o fato novo"); break
         sb = p.get("subtitulo")
         if isinstance(sb, str) and RUIDO.search(sb): E(f"[{pid}] subtitulo com chamada vazia ('{RUIDO.search(sb).group(0).strip(' :—–')}')")
         # formato "em 30 segundos": 3 pontos curtos por versão
@@ -457,6 +490,11 @@ def checar(f, ant=None, virada=False, agora=None):
     sem_pt = [p.get("id") for p in ps if not ((p.get("neutro") or {}).get("pontos"))]
     if sem_pt: A(f"pautas sem neutro.pontos (formato em 30 segundos; a Capa usa as frases do texto): {sem_pt[:12]}")
     rd = f.get("resumo_dia")
+    for it in (rd.get("itens") if isinstance(rd, dict) and isinstance(rd.get("itens"), list) else []):
+        vs = veiculos_em(it.get("texto") if isinstance(it, dict) else None)
+        if vs: E(f"resumo_dia cita veículo ({', '.join(vs)}): diga só o fato")
+    lf = (f.get("capa") or {}).get("linha_fina") if isinstance(f.get("capa"), dict) else None
+    if veiculos_em(lf): A(f"capa.linha_fina cita veículo ({', '.join(veiculos_em(lf))}): diga só o fato")
     if rd is None: A("sem resumo_dia (O dia em 1 minuto): a completa escreve 4 a 6 itens")
     elif not isinstance(rd, dict) or not isinstance(rd.get("itens"), list): E("resumo_dia deve ser {itens: [{pid, texto}]}")
     else:

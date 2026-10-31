@@ -13,7 +13,9 @@ título que muda entra em "titulos"; "inicio" fica gravado; ao_vivo sem novidade
 
 patch.json: lista de operações (ou {"ops": [...]}). Operações:
   {"op":"set","pid":ID,"path":"neutro.texto","value":...}        caminho com pontos; índices numéricos valem (visuais.0.titulo)
-  {"op":"update_add","pid":ID,"hora":ISO|"21h48","texto":...,"mudanca":"texto opcional"}
+  {"op":"update_add","pid":ID,"hora":ISO|"21h48","texto":...,"titulo":"manchete nova","subtitulo":"opcional","mudanca":"texto opcional"}
+      titulo é obrigatório: a manchete passa a dizer o fato mais novo ou mais importante. Só numa atualização
+      de detalhe, que não muda a notícia, use "manter_titulo": true no lugar de "titulo".
   {"op":"add_pauta","pauta":{...},"mudanca":"texto opcional"}
   {"op":"remove_pauta","pid":ID}
   {"op":"agenda_set","itens":[...]} · {"op":"agenda_add","item":{data,hora,texto,secao,pid}}
@@ -128,7 +130,13 @@ class Feed:
             if ks and ks[0] == "enquete" and p.get("enquete"): raise Recusa(f"[{p['id']}] enquete existente não pode ser editada (os votos são gravados pelo índice da opção); use remove_enquete")
             set_path(p, op.get("path"), op.get("value"))
         elif k == "update_add":
+            tit = op.get("titulo")
+            if not (isinstance(tit, str) and tit.strip()) and op.get("manter_titulo") is not True:
+                raise Recusa(f"[{op.get('pid')}] update_add sem 'titulo': quando a notícia ganha fato novo, a manchete passa a dizer o fato mais novo ou mais importante (use \"manter_titulo\": true só em atualização de detalhe)")
             self.update(op.get("pid"), op.get("hora"), op.get("texto"))
+            p = self.pauta(op.get("pid"))
+            if isinstance(tit, str) and tit.strip(): p.setdefault("neutro", {})["titulo"] = tit.strip()
+            if isinstance(op.get("subtitulo"), str) and op["subtitulo"].strip(): p["subtitulo"] = op["subtitulo"].strip()
             if op.get("mudanca"): self.mudanca(op["pid"], "atualizada", op["mudanca"])
         elif k == "add_pauta":
             p = copy.deepcopy(op.get("pauta") or {})
