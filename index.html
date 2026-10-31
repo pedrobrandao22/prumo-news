@@ -4180,7 +4180,7 @@ function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.repl
   if(s.length>78){const c=s.slice(0,78);const i=Math.max(c.lastIndexOf(", "),c.lastIndexOf("; "),c.lastIndexOf(": "));s=(i>34?c.slice(0,i):c.replace(/\s+\S*$/,""))+"…"}return s}
 function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>4*3600e3)return [];const ag=Date.now(),out=[],vistos=new Set();
   const hMax=ms=>{const hs=(Array.isArray(ms)?ms:[]).map(m=>agHoraMs(m&&m.hora)).filter(Boolean);return hs.length?Math.max(...hs):0};
-  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=assuntoCurto(n.assunto);if(!t||vistos.has(t))return;vistos.add(t);
+  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=[n.assunto,...(Array.isArray(n.manchetes)?n.manchetes.map(m=>m&&m.titulo):[])].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t))return;vistos.add(t);
     out.push({t,h,peso:(n.relevante?10:0)+(n.n_fontes||0)+(["politica","economia"].includes(n.secao)?3:0)})});
   const ep=d.em_pautas&&typeof d.em_pautas==="object"&&!Array.isArray(d.em_pautas)?d.em_pautas:{};
   Object.entries(ep).forEach(([pid,x])=>{const p=pautaById(pid);if(!p||!x)return;const n=x.n_fontes||(Array.isArray(x.fontes)?x.fontes.length:0);if(n<3)return;const h=hMax(x.manchetes);if(!h||ag-h>3*3600e3)return;
