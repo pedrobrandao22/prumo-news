@@ -1571,6 +1571,16 @@ html,body{margin:0}
 .zoom-x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 8px);right:max(12px,env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;background:rgb(255 255 255 / .14);color:#fff;font-size:18px;z-index:1}
 .zoom-cr{margin:0;padding:10px 16px calc(env(safe-area-inset-bottom,0px) + 14px);color:rgb(255 255 255 / .75);font:600 12.5px var(--f-ui);text-align:center}
 @media (prefers-reduced-motion:reduce){.zoom,.zoom-c img,.mat-aap{animation:none}}
+
+/* ================= Etapa 19 ================= */
+.cp-inst{display:flex;flex-direction:column;gap:10px;margin:4px 0 18px;padding:14px;border-radius:14px;background:var(--accent-soft);color:var(--ink)}
+.ci-t{display:flex;flex-direction:column;gap:3px}
+.ci-t>b{font:800 15px var(--f-ui)}
+.ci-t span{font-size:14px;line-height:1.45;color:var(--ink-2)}
+.ci-sh{display:inline-flex;vertical-align:-4px}.ci-sh .ico{width:18px;height:18px}
+.ci-b{display:flex;gap:10px;align-items:center}
+.ci-b .btn{min-height:40px;padding:0 18px}
+.ci-n{font:700 13.5px var(--f-ui);color:var(--muted);padding:8px 6px;min-height:40px}
 </style>
 </head>
 <body>
@@ -2454,7 +2464,7 @@ function marcarTermos(txt){
   txt=String(txt??"");const lista=[...Object.keys(FEED?.pessoas||{}).map(k=>["p",k]),...Object.keys(FEED?.glossario||{}).map(k=>["g",k])].filter(([,k])=>k).sort((a,b)=>b[1].length-a[1].length);
   if(!lista.length)return esc(txt);const tipo=new Map();lista.forEach(([t,k])=>{if(!tipo.has(k))tipo.set(k,t)});
   const re=new RegExp(`(^|[^\\p{L}\\d])(${[...tipo.keys()].map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")})(?=$|[^\\p{L}\\d])`,"gu");
-  const usados=new Set();let out="",last=0,m;
+  const usados=window.MT_USADOS||new Set();let out="",last=0,m;
   while((m=re.exec(txt))){const k=m[2],ini=m.index+m[1].length;if(usados.has(k))continue;usados.add(k);const t=tipo.get(k);
     out+=esc(txt.slice(last,ini))+`<button type="button" class="gl ${t==="p"?"gp":""}" data-gl="${t}" data-k="${esc(k)}">${esc(k)}</button>`;last=ini+k.length}
   return out+esc(txt.slice(last));
@@ -3707,7 +3717,7 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
     const tm=temaDe(man);const rel=ps.filter(p=>p!==man&&!usados.has(p.id)&&((tm&&temaDe(p)===tm)||(man.subtema&&p.subtema===man.subtema&&secOf(p)===secOf(man)))).slice(0,2);
     if(rel.length){rel.forEach(p=>usados.add(p.id));h+=`<div class="cp-rel"><span>Relacionadas</span>${rel.map(p=>cpItem(p,{tam:"rel"})).join("")}</div>`}}
   if(dest.length)h+=`<div class="cp-dest">${dest.map((p,i)=>cpItem(p,{tam:i<2?"d1":"d2",sub:true,arte:i>=2})).join("")}</div>`;
-  h+=dia1min(ps);
+  h+=dia1min(ps);h+=instHTML();
   h+=capaIndicadores();
   const NSEC={politica:5,economia:5};
   SECS().forEach(s=>{const l=ord.filter(p=>secOf(p)===s.id&&!usados.has(p.id)).slice(0,NSEC[s.id]||3);if(!l.length)return;
@@ -3760,6 +3770,8 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const maa=t.closest("[data-mataa]");if(maa){e.stopPropagation();matLetra();return}
   const mfz=t.closest("[data-matfz]");if(mfz){e.stopPropagation();let i=FZ.indexOf(PREF.fonte||1);if(i<0)i=1;i=Math.max(0,Math.min(FZ.length-1,i+(+mfz.dataset.matfz)));PREF.fonte=FZ[i];aplicarFonte();salvarPrefs();uso("letra_materia");matLetraAtualiza();return}
   const mzo=t.closest("#layer .mat-arte .foto");if(mzo&&!t.closest(".cred")){e.stopPropagation();matZoom(mzo);return}
+  const iok=t.closest("[data-instok]");if(iok){e.stopPropagation();instalar();return}
+  const inao=t.closest("[data-instnao]");if(inao){e.stopPropagation();lsSet("prumo-inst",{ate:Date.now()+14*864e5});const c=$("#v-capa .cp-inst");if(c)c.remove();uso("instalar_nao");return}
   const mri=t.closest("[data-matir]");if(mri){e.stopPropagation();matIr(mri.dataset.matir);return}
   const mpx=t.closest("[data-matprox]");if(mpx){e.stopPropagation();matIr(mpx.dataset.matprox);return}
   const cnv=t.closest("[data-cpnov]");if(cnv){e.stopPropagation();abrirNovCapa();return}
@@ -4207,6 +4219,19 @@ document.addEventListener("click",e=>{const ab=$("#layer .mat-aap");if(ab&&!e.ta
 function matZoom(el){const img=el.querySelector("img");if(!img||!img.classList.contains("ok"))return;const L=$("#layer2");if(!L)return;const vazio=!L.innerHTML;const cr=el.querySelector(".cred");
   L.innerHTML=`<div class="zoom" role="dialog" aria-modal="true" aria-label="Foto"><button type="button" class="zoom-x" data-close aria-label="Fechar">✕</button><div class="zoom-c" data-close><img src="${escU(img.currentSrc||img.src)}" alt="${esc(img.alt||"")}"></div>${cr?`<p class="zoom-cr">${esc(cr.textContent)}</p>`:""}</div>`;
   if(vazio&&pushH())HST++;uso("foto_zoom")}
+
+/* ---------- Etapa 19 ---------- */
+(function(){const ant=abrirMateria;abrirMateria=function(){window.MT_USADOS=new Set();try{return ant.apply(this,arguments)}finally{window.MT_USADOS=null}}})();
+var INST_EV=null;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();INST_EV=e});
+addEventListener("appinstalled",()=>{lsSet("prumo-inst",{ok:1});const c=$("#v-capa .cp-inst");if(c)c.remove();uso("instalou")});
+(function(){try{const d=lsGet("prumo-dias",[]),h=hojeSP();const l=Array.isArray(d)?d.filter(x=>typeof x==="string"):[];if(!l.includes(h)){l.push(h);lsSet("prumo-dias",l.slice(-30))}}catch(e){}})();
+function instTipo(){try{if(matchMedia("(display-mode: standalone)").matches||navigator.standalone)return null}catch(e){}
+  const st=lsGet("prumo-inst",{})||{};if(st.ok||(st.ate&&Date.now()<st.ate))return null;const d=lsGet("prumo-dias",[]);if(!Array.isArray(d)||d.length<2)return null;
+  if(INST_EV)return "android";const ua=navigator.userAgent||"";if(/iPhone|iPad|iPod/.test(ua)&&/Safari/.test(ua)&&!/CriOS|FxiOS|EdgiOS|GSA/.test(ua))return "ios";return null}
+function instHTML(){const k=instTipo();if(!k)return "";
+  return `<div class="cp-inst"><div class="ci-t"><b>Tenha o Prumo na tela do celular</b><span>${k==="ios"?`Toque em <i class="ci-sh" aria-label="Compartilhar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg></i> <b>Compartilhar</b> e depois em <b>“Adicionar à Tela de Início”</b>.`:"Abre na hora, como um app, e não ocupa espaço."}</span></div><div class="ci-b">${k==="android"?`<button type="button" class="btn" data-instok>Instalar</button>`:""}<button type="button" class="ci-n" data-instnao>Agora não</button></div></div>`}
+async function instalar(){const ev=INST_EV;if(!ev)return;uso("instalar");try{ev.prompt();const r=await ev.userChoice;if(r&&r.outcome==="accepted"){lsSet("prumo-inst",{ok:1});const c=$("#v-capa .cp-inst");if(c)c.remove()}}catch(e){}INST_EV=null}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
