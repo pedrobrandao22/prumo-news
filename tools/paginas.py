@@ -12,7 +12,7 @@ import html, json, os, re, sys
 BASE = "https://prumonews.com.br"
 FOTO_OK = re.compile(r"^https://([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)/", re.I)
 WIKI = re.compile(r"^https://upload\.wikimedia\.org/wikipedia/([a-z]+)/([0-9a-f])/([0-9a-f]{2})/([^/?#]+\.(?:jpe?g|png|webp))$", re.I)
-PID = re.compile(r"^[\w-]{1,80}$")
+PID = re.compile(r"^[A-Za-z0-9_-]{1,80}$")
 
 
 def foto_leve(u):

@@ -3206,7 +3206,7 @@ async function checarFeed(forcar){
     else{NOVO=f;mostrarPilula(Math.max(1,diffFeed(f)))}
   }catch(e){if(forcar)toast("Sem conexão agora. Tente de novo.")}
 }
-document.addEventListener("click",e=>{if(e.target.closest("[data-retry]")){e.stopPropagation();if(FEED)checarFeed(true);else{$("#posts").innerHTML=`<p class="empty">Carregando as notícias de hoje…</p>`;loadFeed()}}},true);
+document.addEventListener("click",e=>{const cof=e.target.closest("#v-capa .cp-off [data-retry]");if(cof){cof.disabled=true;cof.textContent="Carregando…";setTimeout(()=>{if(!FEED&&document.contains(cof)){cof.disabled=false;cof.textContent="Tentar de novo";toast("Ainda sem conexão. Tente daqui a pouco.")}},9000)}if(e.target.closest("[data-retry]")){e.stopPropagation();if(FEED)checarFeed(true);else{$("#posts").innerHTML=`<p class="empty">Carregando as notícias de hoje…</p>`;loadFeed()}}},true);
 function aplicarNovo(f){NOVO=null;$("#pilula")?.remove();prepararFeed(f)}
 function mostrarPilula(n){let b=$("#pilula");if(!b){b=document.createElement("button");b.id="pilula";b.type="button";b.className="pilula";document.body.appendChild(b)}b.textContent=`${n} ${n===1?"novidade":"novidades"} · toque para ver`;b.hidden=VIEW!=="feed"&&VIEW!=="capa"}
 document.addEventListener("visibilitychange",()=>{document.querySelectorAll(".track").forEach(t=>clearTimeout(t._t));if(!document.hidden){if(VIEW==="msgs"&&THREAD)renderMsgs();carregarRodadas();tkStart();if(FEED)checarFeed(false);else loadFeed()}});
@@ -4095,7 +4095,7 @@ function matIr(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;abri
     if(eixo!=="x")return;dx=ddx;const prox=!!m.querySelector("[data-matprox]");m.style.transform=`translateX(${(dx>0?dx:dx*(prox?.35:.12)).toFixed(1)}px)`},{passive:true});
   document.addEventListener("touchend",()=>{if(x0==null||!m)return;const mm=m,rap=Date.now()-t0<300;x0=null;m=null;
     if(eixo!=="x"){mm.style.transform="";return}
-    if(dx>Math.min(110,innerWidth*.28)||(rap&&dx>50)){if(ANIM_OK()){mm.style.transition="transform .2s cubic-bezier(.3,.7,.4,1)";mm.style.transform="translateX(100%)";MAT_ARRASTO=true;setTimeout(()=>history.back(),190)}else{mm.style.transform="";history.back()}return}
+    if(dx>Math.min(110,innerWidth*.28)||(rap&&dx>50)){if(ANIM_OK()){mm.style.transition="transform .2s cubic-bezier(.3,.7,.4,1)";mm.style.transform="translateX(100%)";MAT_ARRASTO=true;setTimeout(()=>{if($("#layer .mat")&&HST>0)history.back();else MAT_ARRASTO=false},190)}else{mm.style.transform="";history.back()}return}
     if(dx<-70||(rap&&dx<-40)){const b=mm.querySelector("[data-matprox]");mm.style.transition="";mm.style.transform="";if(b){matIr(b.dataset.matprox);return}}
     mm.style.transition="transform .22s cubic-bezier(.2,.8,.2,1)";mm.style.transform="";setTimeout(()=>{mm.style.transition=""},240)},{passive:true});
   document.addEventListener("touchcancel",()=>{if(m){m.style.transition="transform .2s";m.style.transform=""}x0=null;m=null},{passive:true})})();
@@ -4147,13 +4147,14 @@ matIr=function(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;cons
 /* abrir só o que aparece: o Feed é desenhado quando for usado (ou num momento ocioso) */
 var FEED_ADIADO=!!window.__feedAdiado,RF_REAL=renderFeed;
 if(FEED_ADIADO){const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}
-renderFeed=function(){if(VIEW!=="feed"&&FEED&&document.querySelector("#v-capa .cpi")){FEED_ADIADO=true;if(!renderFeed._t){const f=()=>{renderFeed._t=0;if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};renderFeed._t=window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}return}FEED_ADIADO=false;return RF_REAL.apply(this,arguments)};
+renderFeed=function(){if(VIEW!=="feed"&&FEED&&document.querySelector("#v-capa .cpi")){if(VIEW==="capa"){try{renderCapa()}catch(e){}}FEED_ADIADO=true;if(!renderFeed._t){const f=()=>{renderFeed._t=0;if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};renderFeed._t=window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}return}FEED_ADIADO=false;return RF_REAL.apply(this,arguments)};
 (function(){const ant=go;go=function(v){if(v==="feed"&&FEED_ADIADO){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}return ant.apply(this,arguments)}})();
 /* eventos de uso, anônimos (sem conta, sem nome): aparelho = número aleatório guardado no aparelho */
 var EV_FILA=[],EV_OFF=false,EV_SESS=(function(){try{let s=localStorage.getItem("prumo-aparelho");if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("prumo-aparelho",s)}return s}catch(e){return "sem-"+Math.random().toString(36).slice(2)}})();
 function evento(tipo,pid,secao){if(EV_OFF||navigator.webdriver&&!window.__evTeste)return;EV_FILA.push({p_sessao:EV_SESS,p_tipo:tipo,p_pid:pid||null,p_secao:secao||null,p_origem:(matchMedia("(display-mode: standalone)").matches||navigator.standalone)?"app":"site"});clearTimeout(evento._t);evento._t=setTimeout(enviarEventos,1500)}
-async function enviarEventos(){if(EV_OFF||!EV_FILA.length)return;if(!S.db){evento._t=setTimeout(enviarEventos,4000);return}const l=EV_FILA.splice(0,20);
-  for(const a of l){try{await S.db.rpc("registrar_evento",a)}catch(e){const m=String(e&&(e.message||e.code)||"");if(/registrar_evento|PGRST202|42883|function/i.test(m)){EV_OFF=true;EV_FILA=[];return}}}if(EV_FILA.length)evento._t=setTimeout(enviarEventos,1000)}
+var EV_TENT=0;async function enviarEventos(){if(EV_OFF||!EV_FILA.length)return;let c=null;try{c=typeof sbCliente==="function"?sbCliente():null}catch(e){}
+  if(!c||typeof c.rpc!=="function"){if(++EV_TENT<15)evento._t=setTimeout(enviarEventos,4000);return}const l=EV_FILA.splice(0,20);
+  for(const a of l){try{const r=await c.rpc("registrar_evento",a);if(r&&r.error)throw r.error}catch(e){const m=String(e&&(e.message||e.code)||"");if(/registrar_evento|PGRST202|42883|function/i.test(m)){EV_OFF=true;EV_FILA=[];return}}}if(EV_FILA.length)evento._t=setTimeout(enviarEventos,1000)}
 var EV_ABRIU=0;function eventoAbrir(){if(Date.now()-EV_ABRIU<15*60e3)return;EV_ABRIU=Date.now();evento(LINK_PID?"link":"abrir",LINK_PID||null)}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)eventoAbrir();else if(EV_FILA.length)enviarEventos()});
 /* link de matéria: /m/<id>.html ou #m=<id> abre a matéria */

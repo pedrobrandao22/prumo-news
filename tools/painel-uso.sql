@@ -23,6 +23,8 @@ begin
   if p_sessao is null or length(p_sessao) not between 6 and 64 then return; end if;
   -- limite por aparelho: 300 eventos por dia
   if (select count(*) from eventos where sessao = p_sessao and criado_em > now() - interval '1 day') >= 300 then return; end if;
+  -- teto geral: 20 mil eventos por dia (protege contra abuso com números de aparelho inventados)
+  if (select count(*) from eventos where criado_em > now() - interval '1 day') >= 20000 then return; end if;
   insert into eventos (sessao, tipo, pid, secao, origem)
   values (p_sessao, p_tipo, left(p_pid, 80), left(p_secao, 20), left(p_origem, 12));
   -- guarda 180 dias
@@ -61,4 +63,5 @@ begin
   return r;
 end $$;
 revoke all on function public.admin_painel(int) from public;
+revoke all on function public.admin_painel(int) from anon;
 grant execute on function public.admin_painel(int) to authenticated;
