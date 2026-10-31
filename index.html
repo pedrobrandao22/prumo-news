@@ -1587,6 +1587,10 @@ html,body{margin:0}
 .cp-off b{font:800 18px var(--f-ui);color:var(--ink)}
 .cp-off span{font-size:15px;line-height:1.45;color:var(--ink-2)}
 .cp-off .btn{margin-top:6px}
+
+/* ================= Etapa 21: proposta Feed limpo ================= */
+html.feed-limpo #ticker{display:none!important}
+html.feed-limpo #v-feed .chg.ag{display:none!important}
 </style>
 </head>
 <body>
@@ -4244,6 +4248,11 @@ async function instalar(){const ev=INST_EV;if(!ev)return;uso("instalar");try{ev.
 (function(){const ant=renderCapa;renderCapa=function(){const r=ant.apply(this,arguments);try{if(!FEED&&OFFLINE){const v=$("#v-capa");if(v&&!v.querySelector(".cp-off"))v.innerHTML=`<div class="gut cp cp-direto"><div class="cp-off"><b>Sem conexão agora</b><span>Não consegui baixar as notícias. Assim que a internet voltar, o Prumo atualiza sozinho.</span><button type="button" class="btn" data-retry>Tentar de novo</button></div></div>`}}catch(e){}return r}})();
 (function(){const ant=loadFeed;loadFeed=async function(){const r=await ant.apply(this,arguments);try{if(!FEED&&OFFLINE&&VIEW==="capa")renderCapa()}catch(e){}return r}})();
 (function(){let n=0;const t=setInterval(()=>{n++;if(FEED||n>60){clearInterval(t);return}if(OFFLINE&&VIEW==="capa"&&!document.querySelector("#v-capa .cp-off"))renderCapa()},1000)})();
+
+/* ---------- Etapa 21: proposta "Feed limpo" (liga com ?feedlimpo=1) ---------- */
+(function(){try{const q=new URLSearchParams(location.search).get("feedlimpo");if(q==="1")localStorage.setItem("prumo-feed-limpo","1");else if(q==="0")localStorage.removeItem("prumo-feed-limpo");
+  if(q!==null)history.replaceState(history.state,"",location.pathname+location.hash);
+  document.documentElement.classList.toggle("feed-limpo",localStorage.getItem("prumo-feed-limpo")==="1")}catch(e){}})();
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
