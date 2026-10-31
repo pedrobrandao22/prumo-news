@@ -171,7 +171,7 @@ def limpa(htm):
 def busca(consulta, chaves, n=4, exige_todos=False, evitar=()):
     """Fotos livres do Commons cujo nome do arquivo contém as palavras-chave."""
     try:
-        d = api({"action": "query", "generator": "search", "gsrsearch": f"{consulta} filetype:bitmap", "gsrnamespace": "6", "gsrlimit": "25",
+        d = api({"action": "query", "generator": "search", "gsrsearch": f"{consulta} filetype:bitmap", "gsrnamespace": "6", "gsrlimit": "40",
                  "prop": "imageinfo", "iiprop": "url|size|mime|extmetadata", "iiextmetadatafilter": "Artist|LicenseShortName|Credit"})
     except Exception as e:
         print("  busca falhou:", consulta, repr(e)[:100]); return []
@@ -196,11 +196,11 @@ def busca(consulta, chaves, n=4, exige_todos=False, evitar=()):
         t2 = tit.replace("_", " ")
         if any(norm(o) in t2 for o in evitar): nota_outro = -3
         else: nota_outro = 0
-        if exige_todos and re.search(r"\b(pec|sessao|reuniao|cerimonia|encontro|audiencia|plenario|congresso nacional|descerramento|entrega|visita|lancamento|meeting|summit)\b", t2): nota_outro -= 2
+        if exige_todos and re.search(r"\b(pec|sessao|reuniao|cerimonia|encontro|audiencia|plenario|congresso nacional|descerramento|entrega|visita|lancamento|meeting|summit|welcomes|hosts|bilateral|visits|greets|recebe|cumprimenta)\b", t2): nota_outro -= 2
         nota = nota_outro + (3 if re.search(r"cropped|retrato|portrait|oficial|official", t2) else 0) - (2 if exige_todos and re.search(r" e | and | com | with |, ", t2) else 0)
         out.append({"url": url, "credito": f"Foto de arquivo: {autor}/Wikimedia Commons ({lic})", "pagina": (ii.get("descriptionurl") or "").split("?")[0], "_n": nota})
     out.sort(key=lambda x: -x["_n"])
-    if sum(1 for x in out if x["_n"] >= 0) >= 2: out = [x for x in out if x["_n"] >= 0]  # foto de grupo só se não houver retrato sozinho
+    if any(x["_n"] >= 0 for x in out): out = [x for x in out if x["_n"] >= 0]  # foto de grupo só se não houver retrato sozinho
     out = [{k: v for k, v in x.items() if k != "_n"} for x in out[:n]]
     time.sleep(0.4)
     return out
