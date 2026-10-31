@@ -3683,10 +3683,11 @@ function capaFrase(t,n){t=String(t||"").trim();if(t.length<=n)return t;const fr=
 function capaChapeu(p){return p.subtema||p.tag||secNome(secOf(p))}
 var FOTO_OK=/^https:\/\/([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)\//i;
 function fotoSrc(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([a-z]+)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png|webp))$/i);return m?`https://upload.wikimedia.org/wikipedia/${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/960px-${m[4]}`:u}
-function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.loading="eager";img.setAttribute("src",o);return}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
+function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.loading="eager";img.setAttribute("src",o);return}
+  if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="57e60661b724";
+const APP_VERSAO="db8c6ab12152";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -4237,7 +4238,9 @@ function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse
     out.push({t,h,peso:(n.relevante?10:0)+(n.n_fontes||0)+(["politica","economia"].includes(n.secao)?3:0)})});
   const ep=d.em_pautas&&typeof d.em_pautas==="object"&&!Array.isArray(d.em_pautas)?d.em_pautas:{};
   Object.entries(ep).forEach(([pid,x])=>{const p=pautaById(pid);if(!p||!x)return;const n=x.n_fontes||(Array.isArray(x.fontes)?x.fontes.length:0);if(n<3)return;const h=hMax(x.manchetes);if(!h||ag-h>3*3600e3)return;
-    out.push({t:temaDe(p)||versao(p,lente()).titulo,h,pid,peso:8+n})});
+    const ms=(Array.isArray(x.manchetes)?x.manchetes:[]).filter(m=>m&&m.titulo).sort((a,b)=>agHoraMs(b.hora)-agHoraMs(a.hora));
+    const tt=ms.map(m=>assuntoCurto(m.titulo)).find(t=>t&&t.replace("…","").length>=24);
+    out.push({t:tt||temaDe(p)||versao(p,lente()).titulo,h,pid,peso:8+n})});
   return out.sort((a,b)=>b.peso-a.peso||b.h-a.h).slice(0,4)}
 function agoraHTML(){const l=agoraItens();if(!l.length)return "";
   const um=l.map((x,i)=>`<span class="ag-i" data-agi="${i}"><time>${esc(quando(new Date(x.h).toISOString()).replace("há ",""))}</time>${esc(x.t)}</span><i class="ag-sep" aria-hidden="true"></i>`).join("");
@@ -4346,6 +4349,7 @@ function faNome(u){try{u=String(u||"").split("?")[0];const m=u.match(/\/thumb\/[
 function faPessoa(tit,A){let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
 function faListas(p,A){const L=[],T=A.temas||{},sec=secOf(p),tit=String((p.neutro||{}).titulo||"");
   const pe=p.foto_arquivo==="tema"?null:faPessoa(tit,A);if(pe&&Array.isArray(pe.fotos)&&pe.fotos.length)L.push(pe.fotos);
+  const as=faAssunto(tit,A,sec);if(as&&Array.isArray(as.fotos)&&as.fotos.length)L.push(as.fotos);
   const t=T[sec+"/"+(p.subtema||"")];if(Array.isArray(t)&&t.length)L.push(t);
   const d=T[(A.padrao||{})[sec]];if(Array.isArray(d)&&d.length&&d!==t)L.push(d);return L}
 function faValida(f){return f&&typeof f.url==="string"&&FOTO_OK.test(f.url)}
@@ -4415,6 +4419,14 @@ async function checarVersao(){try{if(!/^[0-9a-f]{12}$/.test(APP_VERSAO))return;i
   VERSAO_NOVA=v;tentarRecarregar(false)}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(document.hidden){SAIU_V=Date.now();return}if(VERSAO_NOVA&&SAIU_V&&Date.now()-SAIU_V>3*60e3)tentarRecarregar(true)});
 setTimeout(checarVersao,1200);
+
+/* ---------- Etapa 29 ---------- */
+function faAssunto(tit,A,sec){let best=null,pos=1e9,len=0;Object.values(A.assuntos||{}).forEach(x=>{if(!x||!Array.isArray(x.chaves))return;if(Array.isArray(x.secoes)&&!x.secoes.includes(sec))return;
+  x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
+/* foto própria que não carregou: usa uma de arquivo da mesma notícia */
+function fotoReserva(img){const A=FOTOS_ARQ;if(!A||!FEED)return null;const src=img.getAttribute("src")||"",nm=faNome(src);
+  const p=(FEED.pautas||[]).find(q=>q.foto&&typeof q.foto.url==="string"&&(faNome(q.foto.url)===nm||fotoSrc(q.foto.url)===src));if(!p)return null;
+  const L=faListas(p,A),h=hashStr(p.id);for(const l of L){for(let j=0;j<l.length;j++){const f=l[(h+j)%l.length];if(faValida(f)&&faNome(f.url)!==nm)return {url:f.url,credito:f.credito||"Foto de arquivo: Wikimedia Commons",alt:f.alt||"Foto de arquivo"}}}return null}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

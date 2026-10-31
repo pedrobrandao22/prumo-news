@@ -103,6 +103,51 @@ TEMAS = {
     "esportes/Clubes": [("Estádio do Maracanã", ["maracanã", "maracana"])],
     "esportes/Outros esportes": [("Ginásio do Ibirapuera arena", ["ginásio do ibirapuera", "ginasio do ibirapuera"])],
 }
+# assuntos citados no título (lugar, clube, objeto): nome → (palavras no título [maiúsculas contam], busca no Commons,
+# palavras no nome do arquivo, seções onde vale [None = todas]). Vêm depois das pessoas e antes do tema da seção.
+ASSUNTOS = {
+    "Irã": (["Irã", "iraniano", "iraniana", "Teerã"], "Tehran skyline Milad Tower", ["tehran", "teheran"], None),
+    "Israel": (["Israel", "israelense", "Tel Aviv"], "Tel Aviv skyline", ["tel aviv"], None),
+    "Gaza": (["Gaza"], "Gaza City", ["gaza"], None),
+    "Ucrânia": (["Ucrânia", "ucraniano", "ucraniana", "Kiev", "Kyiv", "Oleshky"], "Kyiv Maidan Nezalezhnosti", ["kyiv", "kiev"], None),
+    "Rússia": (["Rússia", "russo", "russa", "Moscou", "Kremlin"], "Moscow Kremlin", ["kremlin", "moscow"], None),
+    "China": (["China", "chinês", "chinesa", "Pequim"], "Beijing skyline CBD", ["beijing"], None),
+    "Venezuela": (["Venezuela", "venezuelano", "Caracas"], "Caracas panorama", ["caracas"], None),
+    "Argentina": (["Argentina", "argentino", "Buenos Aires"], "Buenos Aires Obelisco", ["obelisco", "buenos aires"], None),
+    "França": (["França", "francês", "francesa", "Paris", "Lecornu", "CGT"], "Paris Eiffel Tower view", ["paris"], None),
+    "Espanha": (["Espanha", "espanhol", "espanhola", "Madri"], "Madrid Gran Via", ["madrid"], None),
+    "Alemanha": (["Alemanha", "alemão", "alemã", "Berlim"], "Berlin Reichstag", ["reichstag", "berlin"], None),
+    "Reino Unido": (["Reino Unido", "britânico", "britânica", "Londres"], "London Westminster Palace", ["westminster", "london"], None),
+    "Japão": (["Japão", "japonês", "japonesa", "Tóquio"], "Tokyo Shibuya crossing", ["tokyo", "shibuya"], None),
+    "Índia": (["Índia", "indiano", "indiana", "Nova Délhi"], "New Delhi India Gate", ["delhi", "india gate"], None),
+    "Catar": (["Catar", "Doha"], "Doha skyline Qatar", ["doha"], None),
+    "Ormuz e petróleo": (["Ormuz", "petróleo", "Petróleo", "petroleiro", "Opep"], "oil tanker ship", ["tanker", "oil tanker"], None),
+    "Petrobras": (["Petrobras"], "Petrobras plataforma de petróleo", ["petrobras", "plataforma"], None),
+    "ONU": (["ONU", "Nações Unidas", "COP"], "United Nations headquarters New York", ["united nations"], None),
+    "trens": (["trem", "trens", "Trem", "Trens", "ferrovia", "ferroviário", "metrô", "Metrô"], "passenger train station platform", ["train", "trem", "railway", "estação"], None),
+    "aviação": (["avião", "aviões", "Avião", "voo", "voos", "aeroporto", "Aeroporto", "aérea", "aéreo"], "Aeroporto de Guarulhos avião", ["aeroporto", "airport", "aircraft", "airbus", "boeing"], None),
+    "barragem": (["barragem", "Barragem", "represa", "açude"], "barragem Brasil", ["barragem", "dam"], None),
+    "incêndio": (["incêndio", "Incêndio", "queimada", "queimadas", "fogo"], "incêndio florestal Brasil", ["incêndio", "incendio", "queimada", "wildfire"], None),
+    "aves": (["aves", "aviária", "Newcastle", "frango", "frangos", "granja"], "granja de frangos aviário", ["frango", "chicken", "aviário", "poultry", "granja"], None),
+    "café e agro": (["café", "Café", "safra", "agro", "agronegócio"], "colheita de café Brasil", ["café", "coffee"], None),
+    "combustíveis": (["gasolina", "Gasolina", "diesel", "combustível", "combustíveis", "etanol"], "posto de combustível bomba de gasolina", ["posto", "gas station", "fuel"], None),
+    "energia": (["conta de luz", "energia elétrica", "Aneel", "apagão", "hidrelétrica"], "linhas de transmissão energia", ["transmissão", "transmission", "power line", "hidrelétrica"], None),
+    "INSS e aposentadoria": (["INSS", "aposentadoria", "aposentados", "Previdência"], "agência INSS", ["inss"], None),
+    "Receita e impostos": (["Receita Federal", "imposto de renda", "Imposto de Renda"], "Receita Federal do Brasil prédio", ["receita federal"], None),
+    "indígenas": (["indígena", "indígenas", "Indígenas", "aldeia", "Funai"], "povos indígenas Brasil Acampamento Terra Livre", ["indígena", "indigena", "indigenous", "terra livre"], None),
+    "vacinação e saúde": (["vacina", "vacinas", "vacinação", "mpox", "dengue", "gripe", "surto"], "vacinação Brasil posto de saúde", ["vacina", "vaccin"], None),
+    "Corinthians": (["Corinthians", "Timão"], "Neo Química Arena", ["neo química", "neo quimica", "arena corinthians"], ["esportes"]),
+    "Palmeiras": (["Palmeiras", "Verdão"], "Allianz Parque", ["allianz parque"], ["esportes"]),
+    "Flamengo": (["Flamengo", "Fla-Flu"], "Maracanã Flamengo torcida", ["maracanã", "maracana"], ["esportes"]),
+    "Vasco": (["Vasco"], "Estádio São Januário", ["são januário", "sao januario"], ["esportes"]),
+    "Botafogo": (["Botafogo"], "Estádio Nilton Santos", ["nilton santos", "engenhão", "engenhao"], ["esportes"]),
+    "Grêmio": (["Grêmio"], "Arena do Grêmio", ["arena do grêmio", "arena do gremio"], ["esportes"]),
+    "Internacional": (["Internacional", "Inter"], "Estádio Beira-Rio", ["beira-rio", "beira rio"], ["esportes"]),
+    "Atlético-MG": (["Atlético-MG", "Galo", "Arena MRV"], "Arena MRV", ["arena mrv"], ["esportes"]),
+    "Cruzeiro": (["Cruzeiro"], "Mineirão estádio", ["mineirão", "mineirao"], ["esportes"]),
+    "Bahia": (["Bahia"], "Arena Fonte Nova", ["fonte nova"], ["esportes"]),
+    "Fórmula 1": (["Fórmula 1", "F1", "GP de", "Interlagos"], "Autódromo de Interlagos", ["interlagos"], ["esportes"]),
+}
 PADRAO = {"politica": "politica/Congresso", "economia": "economia/Mercados", "brasil": "brasil/Sociedade", "mundo": "mundo/Europa",
           "educacao": "educacao/Políticas", "esportes": "esportes/Brasileirão"}
 
@@ -171,7 +216,7 @@ def main(argv):
     for nome in (F.get("pessoas") or {}):
         if isinstance(nome, str) and len(nome.split()) >= 2 and nome not in pessoas and not any(nome in v for v in pessoas.values()):
             pessoas[nome] = [nome]
-    out_p, out_t = {}, {}
+    out_p, out_t, out_a = {}, {}, {}
     for nome, chaves in pessoas.items():
         fotos = busca(f'intitle:"{nome}"', [nome], n=3, exige_todos=True)
         if not fotos and len(nome.split()) > 2:  # ex.: Luiz Inácio Lula da Silva → "Lula"
@@ -188,10 +233,17 @@ def main(argv):
         if not fotos: fotos = [f for f in ((velho.get("temas") or {}).get(k) or []) if not FORA.search(norm(f.get("url", "")).replace("_", " "))]
         if fotos: out_t[k] = [dict(f, alt=f"Foto de arquivo: {qs[0][0]}") for f in fotos[:4]]
         print(f"{k}: {len(fotos)}")
+    for nome, (chaves, q, ch, secs) in ASSUNTOS.items():
+        fotos = busca(q, ch, n=3)
+        if not fotos: fotos = ((velho.get("assuntos") or {}).get(nome) or {}).get("fotos") or []
+        if fotos:
+            out_a[nome] = {"chaves": chaves, "fotos": [dict(f, alt=f"Foto de arquivo: {q}") for f in fotos]}
+            if secs: out_a[nome]["secoes"] = secs
+        print(f"assunto {nome}: {len(fotos)}")
     if not out_p and not out_t: print("nada encontrado: arquivo anterior mantido"); return 1
-    res = {"gerado": datetime.now(SP).isoformat(timespec="minutes"), "padrao": PADRAO, "pessoas": out_p, "temas": out_t}
+    res = {"gerado": datetime.now(SP).isoformat(timespec="minutes"), "padrao": PADRAO, "pessoas": out_p, "assuntos": out_a, "temas": out_t}
     with open(saida, "w", encoding="utf-8") as fh: json.dump(res, fh, ensure_ascii=False, separators=(",", ":"))
-    print("gravado:", len(out_p), "pessoas,", len(out_t), "assuntos")
+    print("gravado:", len(out_p), "pessoas,", len(out_a), "assuntos,", len(out_t), "temas")
     return 0
 
 

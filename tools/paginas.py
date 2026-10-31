@@ -55,10 +55,24 @@ def fa_pessoa(tit, A):
     return best
 
 
+def fa_assunto(tit, A, sec):
+    best, pos, ln = None, 10**9, 0
+    for x in (A.get("assuntos") or {}).values():
+        if not isinstance(x, dict) or not isinstance(x.get("chaves"), list): continue
+        if isinstance(x.get("secoes"), list) and sec not in x["secoes"]: continue
+        for k in x["chaves"]:
+            if not isinstance(k, str) or not k: continue
+            i = pos_palavra(tit, k)
+            if i >= 0 and (i < pos or (i == pos and len(k) > ln)): best, pos, ln = x, i, len(k)
+    return best
+
+
 def fa_listas(p, A):
     L, T, sec = [], A.get("temas") or {}, p.get("secao") or "politica"
     pe = None if p.get("foto_arquivo") == "tema" else fa_pessoa(str((p.get("neutro") or {}).get("titulo") or ""), A)
     if pe and isinstance(pe.get("fotos"), list) and pe["fotos"]: L.append(pe["fotos"])
+    asn = fa_assunto(str((p.get("neutro") or {}).get("titulo") or ""), A, sec)
+    if asn and isinstance(asn.get("fotos"), list) and asn["fotos"]: L.append(asn["fotos"])
     t = T.get(f"{sec}/{p.get('subtema') or ''}")
     if isinstance(t, list) and t: L.append(t)
     d = T.get((A.get("padrao") or {}).get(sec))
