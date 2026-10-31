@@ -16,7 +16,7 @@ UA = {"User-Agent": "PrumoNews/1.0 (https://prumonews.com.br; robo de fotos de a
 SP = timezone(timedelta(hours=-3))
 LIVRE = re.compile(r"^(cc[ -]by(-sa)?( [\d.]+)?( [a-z-]+)?|cc0|public domain|pd\b|domínio público)", re.I)
 PROIBIDO = re.compile(r"\b(nc|nd)\b", re.I)
-FORA = re.compile(r"(map|mapa|planta|plano geral|desenho|drawing|diagram|logo|coat of arms|brasao|bandeira de|flag of|selo|stamp|cracha|cranio|crane|sketch|plan of|acervo|caricatura|cartoon|grafico|chart|1[89]\d\d)")
+FORA = re.compile(r"(hospital de campanha|trofeu|map|mapa|planta|plano geral|desenho|drawing|diagram|logo|coat of arms|brasao|bandeira de|flag of|selo|stamp|cracha|cranio|crane|sketch|plan of|acervo|caricatura|cartoon|grafico|chart|1[89]\d\d)")
 
 # pessoas: nome → palavras que, no título da notícia, indicam essa pessoa (a 1ª citada no título ganha)
 PESSOAS = {
@@ -84,11 +84,11 @@ TEMAS = {
     "brasil/Infraestrutura e transporte": [("rodovia BR-116", ["br-116", "br-101", "rodovia"]), ("metrô de São Paulo trem", ["metrô de são paulo", "metro de sao paulo", "metrô"])],
     "brasil/Sociedade": [("Avenida Paulista pedestres", ["paulista"]), ("Copacabana calçadão", ["copacabana"])],
     "mundo/América Latina": [("Casa Rosada Buenos Aires", ["casa rosada"])],
-    "mundo/EUA": [("White House north facade photo", ["white house"]), ("United States Capitol building", ["capitol"])],
+    "mundo/EUA": [("White House north facade photo", ["the white house", "white house washington", "white house in washington"]), ("United States Capitol building", ["capitol"])],
     "mundo/Europa": [("European Parliament Strasbourg", ["european parliament", "parlement"])],
     "mundo/Oriente Médio": [("Jerusalem Old City panorama", ["jerusalem"]), ("Knesset building", ["knesset"])],
     "mundo/Ásia": [("Tiananmen Square", ["tiananmen"])],
-    "mundo/África": [("African Union headquarters", ["african union"])],
+    "mundo/África": [("African Union headquarters Addis Ababa", ["african union headquarters", "african union hall", "african union conference"])],
     "educacao/Educação básica": [("sala de aula escola estadual alunos", ["sala de aula", "escola estadual", "escola municipal", "alunos"])],
     "educacao/Ensino superior": [("campus universidade federal Brasil", ["campus", "reitoria", "universidade federal"])],
     "educacao/Enem e vestibulares": [("Enem candidatos prova", ["enem"]), ("vestibular candidatos", ["vestibular"])],
@@ -101,10 +101,10 @@ TEMAS = {
     "esportes/Sul-Americana": [("Copa Sudamericana", ["sudamericana", "sul-americana"])],
     "esportes/Seleção": [("Brazil national football team 2022", ["brazil national football team", "seleção brasileira", "selecao brasileira"])],
     "esportes/Clubes": [("Estádio do Maracanã", ["maracanã", "maracana"])],
-    "esportes/Outros esportes": [("Ginásio do Ibirapuera", ["ibirapuera"])],
+    "esportes/Outros esportes": [("Ginásio do Ibirapuera arena", ["ginásio do ibirapuera", "ginasio do ibirapuera"])],
 }
 PADRAO = {"politica": "politica/Congresso", "economia": "economia/Mercados", "brasil": "brasil/Sociedade", "mundo": "mundo/Europa",
-          "educacao": "educacao/Educação básica", "esportes": "esportes/Brasileirão"}
+          "educacao": "educacao/Políticas", "esportes": "esportes/Brasileirão"}
 
 
 def norm(s):
