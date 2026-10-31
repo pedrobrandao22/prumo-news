@@ -1591,6 +1591,10 @@ html,body{margin:0}
 /* ================= Etapa 21: proposta Feed limpo ================= */
 html.feed-limpo #ticker{display:none!important}
 html.feed-limpo #v-feed .chg.ag{display:none!important}
+
+/* ================= Etapa 23 ================= */
+.pv .art.foto{display:block;aspect-ratio:16/10;border-radius:12px;overflow:hidden}
+.pv-a{flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -3954,8 +3958,8 @@ async function moverPasta(pid,nome){const x=S.salvos[pid];if(!x||!S.uid)return;n
 /* prévia ao segurar o dedo */
 function abrirPrevia(pid){const p=pautaById(pid),s=p?snapOf(p):snapById(pid);if(!s){openSnap(pid);return}uso("previa");vibrar(12);
   const sv=S.salvos[pid],logado=!!(S.uid&&S.membro),ps=Object.keys(pastasSalvas()).sort((a,b)=>a.localeCompare(b,"pt-BR"));if(!ps.includes("Ler depois"))ps.unshift("Ler depois");
-  sheet("Prévia",`<div class="pv"><div class="art paper" data-sec="${esc(s.secao||"politica")}">${svgOf(s.imagem)}</div><span class="cp-k" style="color:${secCor(s.secao||"politica")}">${esc(p?capaChapeu(p):(s.tag||secNome(s.secao||"politica")))}</span><h3>${esc(s.titulo)}</h3><p>${esc(capaFrase(s.texto,260))}</p>
-    <div class="pv-a"><button type="button" class="btn" data-pvabrir="${esc(pid)}">Abrir</button>${logado?`<button type="button" class="btn ghost" data-pvsalvar="${esc(pid)}">${sv?"Guardada ✓":"Guardar"}</button>`:""}${p&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${esc(pid)}">Cobertura</button>`:""}</div>
+  sheet("Prévia",`<div class="pv">${p&&fotoDe(p)?capaArte(p,"art",true):`<div class="art paper" data-sec="${esc(s.secao||"politica")}">${svgOf(s.imagem)}</div>`}<span class="cp-k" style="color:${secCor(s.secao||"politica")}">${esc(p?capaChapeu(p):(s.tag||secNome(s.secao||"politica")))}</span><h3>${esc(s.titulo)}</h3><p>${esc(capaFrase(s.texto,260))}</p>
+    <div class="pv-a"><button type="button" class="btn" data-pvabrir="${esc(pid)}">Abrir</button>${logado?`<button type="button" class="btn ghost" data-pvsalvar="${esc(pid)}">${sv?"Guardada ✓":"Guardar"}</button>`:""}${p&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${esc(pid)}">Cobertura</button>`:""}${p?`<button type="button" class="btn ghost" data-pvshare="${esc(pid)}">Compartilhar</button>`:""}</div>
     ${logado&&sv?`<div class="pv-p"><b>Pasta</b><div class="sh4-chips">${ps.map(k=>`<button type="button" data-pvpasta="${esc(k)}" data-pid="${esc(pid)}" aria-pressed="${sv.pasta===k}">${esc(k)}</button>`).join("")}${sv.pasta?`<button type="button" data-pvpasta="" data-pid="${esc(pid)}">Tirar da pasta</button>`:""}</div><form id="pvnova"><input class="field" id="pvnome" maxlength="30" placeholder="Nova pasta" aria-label="Nova pasta"><button class="btn ghost" type="submit">Criar</button></form></div>`:""}</div>`);
   const f=$("#pvnova");if(f)f.addEventListener("submit",e=>{e.preventDefault();const n=$("#pvnome").value.trim();if(n){moverPasta(pid,n);abrirPrevia(pid)}})}
 (function(){const SEL=".cpi-b[data-cpx],[data-capair],[data-busca],[data-goto],.svr[data-open],.segc[data-cobpag],.bv-it[data-cobpag]";let tm=0,el=null,x0=0,y0=0,preso=0,engole=0;
@@ -3972,7 +3976,8 @@ function abrirPrevia(pid){const p=pautaById(pid),s=p?snapOf(p):snapById(pid);if(
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const ug=t.closest("[data-urg]");if(ug){e.stopPropagation();abrirUrgente((FEED?.breves||[]).findIndex(b=>b&&b.url===ug.dataset.urg));return}
   const pa=t.closest("[data-pasta]");if(pa){e.stopPropagation();PASTA_G=pa.dataset.pasta;renderSaved();return}
-  const pv=t.closest("[data-pvabrir]");if(pv){e.stopPropagation();const id=pv.dataset.pvabrir;closeLayer();setTimeout(()=>openSnap(id),30);return}
+  const pvs=t.closest("[data-pvshare]");if(pvs){e.stopPropagation();compartilhar(pvs.dataset.pvshare);return}
+  const pv=t.closest("[data-pvabrir]");if(pv){e.stopPropagation();const id=pv.dataset.pvabrir;closeLayer();setTimeout(()=>{if(VIEW==="capa"&&pautaById(id))abrirMateria(id);else openSnap(id)},30);return}
   const ps=t.closest("[data-pvsalvar]");if(ps){e.stopPropagation();const id=ps.dataset.pvsalvar;toggleSave(id).then(()=>{});setTimeout(()=>{if($(".pv"))abrirPrevia(id)},60);return}
   const pp=t.closest("[data-pvpasta]");if(pp){e.stopPropagation();const id=pp.dataset.pid;moverPasta(id,pp.dataset.pvpasta);setTimeout(()=>abrirPrevia(id),40);return}
 },true);
