@@ -1,0 +1,31 @@
+name: Páginas de compartilhamento
+# Quando o feed muda: grava m/<id>.html (prévia do link no WhatsApp: título, resumo e foto) para cada pauta.
+# Sem IA e sem chave. De hora em hora também, para pegar mudanças feitas pela virada automática.
+on:
+  push:
+    branches: [main]
+    paths: [feed.json, tools/paginas.py, .github/workflows/paginas.yml]
+  schedule:
+    - cron: "50 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: prumo-escrita
+  cancel-in-progress: false
+jobs:
+  paginas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gerar páginas
+        run: python3 -I tools/paginas.py feed.json m
+      - name: Gravar
+        run: |
+          git config user.name "prumo-robo"
+          git config user.email "prumo-robo@users.noreply.github.com"
+          git add m
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Páginas de compartilhamento $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
+          for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 10; done; exit 1

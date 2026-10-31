@@ -1485,6 +1485,44 @@ html,body{margin:0}
 .app>section.entra{animation:vEsmaece .16s ease-out}
 @keyframes vEsmaece{from{opacity:.0}}
 @media (prefers-reduced-motion:reduce){.mat.mat-entra,.saida .mat,.saida .sheet,.saida .scrim,.app>section.entra{animation:none!important}}
+
+/* ================= Etapa 16 ================= */
+.mat-sh{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;color:var(--ink-2)}
+.mat-sh .ico{width:22px;height:22px}
+.cp-agora{display:flex;align-items:center;gap:10px;width:100%;min-height:42px;margin:10px 0 8px;padding:8px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line);text-align:left;font-size:14px;color:var(--ink);overflow:hidden}
+.cp-agora>b{flex:none;display:flex;align-items:center;gap:6px;font:800 11px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--hot)}
+.cp-agora>b i{width:7px;height:7px;border-radius:50%;background:var(--hot);animation:cstp 1.6s ease-in-out infinite}
+.cp-agora .ag-r{flex:1;min-width:0;position:relative;height:20px}
+.cp-agora .ag-i{position:absolute;inset:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;line-height:20px;opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease}
+.cp-agora .ag-i.on{opacity:1;transform:none}
+.cp-agora>em{flex:none;font:600 12px var(--f-ui);font-style:normal;color:var(--muted)}
+.cp-direto>.cp-agora:first-child{margin-top:calc(env(safe-area-inset-top,0px) + 10px)}
+.cp-agora.ag-entra{animation:agEntra .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes agEntra{from{max-height:0;opacity:0;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;min-height:0}to{max-height:60px}}
+@media (prefers-reduced-motion:reduce){.cp-agora .ag-i{transition:none}.cp-agora>b i{animation:none}}
+.ag-l{list-style:none;margin:8px 0 0;padding:0}
+.ag-l li>*{display:flex;flex-direction:column;gap:2px;width:100%;text-align:left;padding:11px 0;border-bottom:1px solid var(--line)}
+.ag-l span{font-size:15.5px;line-height:1.35;color:var(--ink);font-weight:600}
+.ag-l em{font-style:normal;font-size:12.5px;color:var(--muted)}
+.ag-l button em{color:var(--accent);font-weight:700}
+.uso-per{margin-bottom:10px}
+.uso-k{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.uso-k div{background:var(--soft);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column}
+.uso-k span{font:700 11px var(--f-ui);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.uso-k b{font:800 26px/1.1 var(--f-ui);color:var(--ink)}
+.uso-k em{font-style:normal;font-size:12px;color:var(--muted)}
+.uso-b{list-style:none;margin:6px 0 14px;padding:0;display:flex;flex-direction:column;gap:5px}
+.uso-b li{display:grid;grid-template-columns:96px 1fr 44px;align-items:center;gap:8px;font-size:13px}
+.uso-b span{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uso-b i{display:block;height:12px;border-radius:0 4px 4px 0;background:var(--accent);min-width:2px}
+.uso-b b{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}
+.uso-h{display:flex;align-items:flex-end;gap:2px;height:64px;margin-top:8px}
+.uso-h i{flex:1;background:var(--accent);border-radius:3px 3px 0 0;opacity:.85}
+.uso-hx{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin:4px 0 14px}
+.uso-t{margin:6px 0 14px;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.uso-t li{font-size:14px;line-height:1.35}
+.uso-t li span{display:inline}
+.uso-t li b{float:right;margin-left:8px;font-weight:800}
 </style>
 </head>
 <body>
@@ -1529,7 +1567,7 @@ html,body{margin:0}
 <div id="layer"></div>
 <div id="layer2"></div>
 
-<script id="sbjs" async src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script>window.SBJS_URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";window.SBJS_PRONTO=new Promise(function(ok){window.__sbjsOk=ok});function carregarSbjs(){if(window.__sbjsIni)return;window.__sbjsIni=1;var s=document.createElement("script");s.id="sbjs";s.async=true;s.src=window.SBJS_URL;s.onload=s.onerror=function(){window.__sbjsOk()};document.head.appendChild(s)}document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(function(){setTimeout(carregarSbjs,0)})});setTimeout(carregarSbjs,2500);</script>
 <script>
 const $=s=>document.querySelector(s);
 var RAIZ="feed",JUMPS=[],FST=0,PUSHQ=0,HST=0,VST=0,TST=0,IGN=0,NOVO=null,BACKN=0,BACKT=0,VIRA_T=0,FEED_Y=0;
@@ -1798,7 +1836,8 @@ const pautasDa=sec=>ordenadas((FEED?.pautas||[]).filter(p=>secOf(p)===sec&&!sile
 const versaoP=p=>{const u=(p.atualizacoes||[]).map(x=>String(x.hora||"")).sort().pop();return u||String(p.hora||"")};
 const seenKey=p=>p.id+"|"+versaoP(p);
 const edId=()=>safeId(FEED?.atualizado_em||"x");
-const dataSP=iso=>{const t=new Date(iso||Date.now());return (isNaN(t)?new Date():t).toLocaleDateString("en-CA",{timeZone:"America/Sao_Paulo"})};
+const _FDSP=new Intl.DateTimeFormat("en-CA",{timeZone:"America/Sao_Paulo"}),_FHSP=new Intl.DateTimeFormat("pt-BR",{hour:"2-digit",minute:"2-digit",timeZone:"America/Sao_Paulo"});
+const dataSP=iso=>{const t=new Date(iso||Date.now());return _FDSP.format(isNaN(t)?new Date():t)};
 const leitId=()=>"d"+dataSP(FEED?.atualizado_em);
 function quizId(){const q=JSON.stringify((FEED?.quiz||[]).map(x=>x.pergunta||""));let h=0;for(let i=0;i<q.length;i++)h=(h*31+q.charCodeAt(i))|0;return "d"+dataSP(FEED?.atualizado_em)+"-"+(h>>>0).toString(36)}
 const tms=x=>{const t=Date.parse(x||"");return isNaN(t)?0:t};
@@ -1806,7 +1845,7 @@ const ultimaAtualizacao=p=>[...(p.atualizacoes||[]),...(p.correcoes||[]),...(Arr
 
 function quando(iso){const d=new Date(iso);if(isNaN(d))return "";const m=(Date.now()-d.getTime())/6e4;if(m<1)return "agora";if(m<60)return "há "+Math.floor(m)+" min";if(m<1440)return "há "+Math.floor(m/60)+" h";if(m<10080)return "há "+Math.floor(m/1440)+" d";return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}
 const diaHora=iso=>{const d=new Date(iso);if(isNaN(d))return "";const hj=dataSP(),dd=dataSP(iso);const dia=dd===hj?"hoje":d.toLocaleDateString("pt-BR",{weekday:"long",timeZone:"America/Sao_Paulo"});return dia+" às "+hhmm(iso)};
-const hhmm=iso=>{const d=new Date(iso);return isNaN(d)?"":d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",timeZone:"America/Sao_Paulo"}).replace(":","h")};
+const hhmm=iso=>{const d=new Date(iso);return isNaN(d)?"":_FHSP.format(d).replace(":","h")};
 function toast(t,acao,fn){document.querySelectorAll(".toast").forEach(x=>x.remove());const el=document.createElement("div");el.className="toast";el.setAttribute("role","status");const sp=document.createElement("span");sp.textContent=t;el.appendChild(sp);if(acao&&fn){const b=document.createElement("button");b.type="button";b.className="toast-a";b.textContent=acao;b.addEventListener("click",ev=>{ev.stopPropagation();el.remove();fn()});el.appendChild(b)}document.body.appendChild(el);setTimeout(()=>el.remove(),acao?4200:2600)}
 function precisaConta(){if(!S.db||!S.uid){abrirLogin();return true}if(!S.membro){abrirFaltaConvite();return true}return false}
 function snapOf(p){return {id:p.id,secao:secOf(p),tag:p.tag||"",titulo:p.neutro?.titulo||"",texto:p.neutro?.texto||"",imagem:p.imagem||null,fontes:p.fontes||[],links:(p.links||[]).slice(0,6),hora:p.hora||""}}
@@ -2440,7 +2479,7 @@ function agPid(a){if(a.pid&&pautaById(a.pid))return a.pid;
   const ws=[...new Set(norm(a.texto).split(/[^a-z0-9]+/).filter(w=>w.length>=4&&!STOP.has(w)))];if(!ws.length)return null;
   let best=null,bs=0;(FEED.pautas||[]).forEach(p=>{const t=norm([p.neutro?.titulo,p.tag,p.tema,(p.neutro?.texto||"").slice(0,240)].join(" "));const sc=ws.filter(w=>t.includes(w)).length;if(sc>bs){bs=sc;best=p.id}});
   return bs>=2?best:null}
-function minAgoraSP(){const p=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":");return (+p[0])*60+(+p[1])}
+var _FHM24=null;function minAgoraSP(){_FHM24=_FHM24||new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"});const p=_FHM24.format(new Date()).split(":");return (+p[0])*60+(+p[1])}
 function agDur(a){const t=" "+norm(a.texto)+" ";if(/ x |jogo|partida|semifinal|final|rodada|classico/.test(t))return 125;if(/sessao|plenario|votac|vota |julgamento|julga|analisa|cpi|comissao|audiencia/.test(t))return 300;if(/debate|entrevista|sabatina/.test(t))return 150;return 120}
 function agEstado(a){if(a._d!==hojeSP())return "";const h=String(a.hora||""),m=h.match(/(\d{1,2})\s*(?:h|:)\s*(\d{2})?/i);if(!m)return "";const ini=(+m[1])*60+(+(m[2]||0)),now=minAgoraSP();if(now<ini)return "";if(now<ini+agDur(a))return "agora";return /pendente|aguard|sem resultado|em andamento|sem placar|ainda n[aã]o/i.test(a.texto||"")?"aguarda":"passou"}
 function agItem(a,comDia){const pid=agPid(a),hr=agHoraTxt(a);const dia=comDia?new Date(a._d+"T12:00:00Z").toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"2-digit",timeZone:"UTC"}).replace(".","").replace(",",""):"";
@@ -2637,9 +2676,9 @@ function refreshAjustes(){const b=$("#ajbox");if(b)b.innerHTML=ajustesHTML();if(
 
 /* ---------- saúde das rodadas ---------- */
 if(window.visualViewport){const vv=visualViewport,kb=()=>{const off=Math.max(0,window.innerHeight-vv.height-vv.offsetTop);document.documentElement.style.setProperty("--kb",off+"px")};vv.addEventListener("resize",kb);vv.addEventListener("scroll",kb)}
-const hojeSP=()=>new Date().toLocaleDateString("en-CA",{timeZone:"America/Sao_Paulo"});
+const hojeSP=()=>_FDSP.format(new Date());
 function atrasoMin(){if(!FEED?.atualizado_em)return null;return Math.round((Date.now()-new Date(FEED.atualizado_em).getTime())/6e4)}
-function horaSP(){return +new Date().toLocaleString("en-US",{hour:"numeric",hour12:false,timeZone:"America/Sao_Paulo"})}
+var _FH24=null;function horaSP(){_FH24=_FH24||new Intl.DateTimeFormat("en-US",{hour:"numeric",hour12:false,timeZone:"America/Sao_Paulo"});return +_FH24.format(new Date())}
 function estadoRadar(){const a=atrasoMin();if(a==null)return {ok:true,txt:""};const h=horaSP();const ativo=h>=8&&h<=23;
   if(ativo&&a>150&&rodadaRecenteMin()>300)return {ok:false,txt:`Sem atualização há ${Math.floor(a/60)} h ${a%60} min. Uma rodada pode ter falhado.`};
   return {ok:true,txt:`Atualizado ${quando(FEED.atualizado_em)}.`}}
@@ -2705,12 +2744,14 @@ function sanear(f){if(!f||typeof f!=="object")return null;const arr=x=>Array.isA
   if(f.esportes!=null&&(typeof f.esportes!=="object"||Array.isArray(f.esportes)))delete f.esportes;else if(f.esportes){f.esportes.competicoes=arr(f.esportes.competicoes).map(c=>{c.tabela=arr(c.tabela);c.chave=arr(c.chave).map(x=>{x.confrontos=arr(x.confrontos);return x});return c});f.esportes.jogos=arr(f.esportes.jogos)}
   if(!Array.isArray(f.dormentes))f.dormentes=[];else f.dormentes=arr(f.dormentes).filter(d=>d.id&&d.titulo).map(d=>{d.id=String(d.id);if(d.titulos!=null)d.titulos=arr(d.titulos);return d});
   ["agenda","breves","quiz","pesquisas_2t"].forEach(k=>f[k]=arr(f[k]));if(!Array.isArray(f.secoes))f.secoes=[];return f}
+function abreNaCapa(){try{return !navigator.webdriver||localStorage.getItem("prumo-teste-capa")==="1"}catch(e){return !navigator.webdriver}}
+function renderFeedInicial(){if(abreNaCapa()){window.__feedAdiado=true;return}renderFeed()}
 function prepararFeed(f){f=sanear(f)||f;FEED=f;document.body.classList.remove("semfeed");calcularNovidades();renderFeed();setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}
 async function loadFeed(){
   aplicarFonte();
   const cached=lsGet("radar-feed",null);
   if(!cached)document.body.classList.add("semfeed");
-  if(cached&&sanear(cached)){FEED=cached;document.body.classList.remove("semfeed");calcularNovidades();renderFeed()}
+  if(cached&&sanear(cached)){FEED=cached;document.body.classList.remove("semfeed");calcularNovidades();renderFeedInicial()}
   try{const r=await fetch("feed.json",{cache:"no-cache"});if(!r.ok)throw 0;const f=await r.json();
     const eraOff=OFFLINE;OFFLINE=false;
     if(!cached||JSON.stringify(f)!==JSON.stringify(cached))prepararFeed(f);else if(eraOff)renderPosts();else setTimeout(registrarConhecidas,4000);lsSet("radar-feed",f)}
@@ -3074,7 +3115,7 @@ function iniciarSocial(uid,donoNovo){
 }
 async function initSocial(){
   try{if(sessionStorage.getItem("prumo-excluida")){sessionStorage.removeItem("prumo-excluida");toast("Sua conta foi excluída.")}}catch(e){}
-  if(!window.supabase){const el=document.getElementById("sbjs");if(el)await new Promise(r=>{el.addEventListener("load",r);el.addEventListener("error",r);setTimeout(r,20000)})}
+  if(!window.supabase){carregarSbjs();await Promise.race([window.SBJS_PRONTO,new Promise(r=>setTimeout(r,20000))])}
   const sb=sbCliente();if(!sb){SESS_UID=null;INIT_FIM=true;avisoConta();if(CONVITE_URL)abrirLogin("criar",CONVITE_URL);return}
   try{sb.auth.onAuthStateChange((ev,sess)=>{const u=sess&&sess.user||null;setTimeout(()=>trocarSessao(u),0)})}catch(e){}
   let s=null;try{s=(await sb.auth.getSession()).data.session}catch(e){}
@@ -3197,9 +3238,10 @@ async function alternarLista(pid,com){if(precisaConta())return;if(!com){const am
   pend("lista:"+com,pid,val);montarListas();if(VIEW==="saved")renderSaved();
   toast(on?"Na lista com "+nomeDe(com):"Saiu da lista com "+nomeDe(com),on?"Desfazer":"",on?()=>alternarLista(pid,com):null);
   try{await gravarMapa(listaPath(com),"itens",pid,val)}catch(e){delete PEND["lista:"+com+"\u0001"+pid];montarListas();if(VIEW==="saved")renderSaved();toast(S.amigos.has(com)?"Não deu para mudar a lista agora.":"Só dá para mudar a lista de um amigo.")}}
-async function compartilhar(pid){uso("compartilhar");const s=snapById(pid);if(!s)return;const l=arrL(s.links)[0];const txt=`${s.titulo}\n\n${String(s.texto||"").slice(0,280)}${String(s.texto||"").length>280?"…":""}${l?`\n\nLeia em ${nomeFonte(l.fonte)}: ${l.url}`:""}\n\nvia Prumo News`;
-  try{if(navigator.share){await navigator.share({title:s.titulo,text:txt});return}}catch(e){if(e&&e.name==="AbortError")return}
-  try{await navigator.clipboard.writeText(txt);toast("Texto copiado. É só colar onde quiser.")}catch(e){sheet("Compartilhar",`<p class="hint" style="margin:0">Copie o texto abaixo:</p><textarea class="field" rows="8" readonly style="font-family:var(--f-body)">${esc(txt)}</textarea>`)}}
+function linkMateria(pid){const o=/^https?:\/\/(localhost|127\.)/.test(location.origin)?location.origin:"https://prumonews.com.br";return `${o}/m/${encodeURIComponent(pid)}.html`}
+async function compartilhar(pid){uso("compartilhar");evento("compartilhar",pid);const p=pautaById(pid),s=snapById(pid);const tit=(p?(p.neutro||{}).titulo:s&&s.titulo)||"Prumo News";const url=linkMateria(pid);
+  try{if(navigator.share){await navigator.share({title:tit,text:tit,url});return}}catch(e){if(e&&e.name==="AbortError")return}
+  const txt=`${tit}\n${url}`;try{await navigator.clipboard.writeText(txt);toast("Link copiado. É só colar no WhatsApp.")}catch(e){sheet("Compartilhar",`<p class="hint" style="margin:0">Copie e cole onde quiser:</p><textarea class="field" rows="3" readonly style="font-family:var(--f-ui)">${esc(txt)}</textarea>`)}}
 function sequencia(dias){let n=0;let d=dataSP(FEED?.atualizado_em);if(!dias[d])d=somaDias(d,-1);while(dias[d]){n++;d=somaDias(d,-1)}return n}
 function extraQuiz(u){const d=(S.quizDias||{})[u];if(!d)return "";const n=sequencia(d);let a=0,t=0;for(let i=0;i<7;i++){const x=d[somaDias(dataSP(),-i)];if(x){a+=+x.acertos||0;t+=+x.total||0}}return `${n>1?` · ${n} dias seguidos`:""}${t?` · ${a}/${t} na semana`:""}`}
 function sequenciasHTML(){const Q=S.quizDias||{};const ids=Object.keys(Q).filter(u=>ehVisivel(u));if(!ids.length)return "";
@@ -3320,11 +3362,11 @@ async function bloquear(u,sem){if(!sem)closeLayer();try{await S.db.rpc("bloquear
 /* ---------- administração (só o administrador vê; o banco confere) ---------- */
 const fmtD=t=>t?new Date(t).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",timeZone:"America/Sao_Paulo"}):"";
 function abrirAdmin(aba){S._admAba=aba||S._admAba||"pessoas";S.adm=S.adm||{};
-  sheet("Administração",`<div class="segs" role="tablist">${[["pessoas","Pessoas"],["convites","Convites"],["capa","Capa"],["denuncias","Denúncias"],["erros","Erros"]].map(([k,l])=>`<button type="button" role="tab" data-admaba="${k}" aria-selected="${S._admAba===k}">${l}</button>`).join("")}</div><div id="admbox"><p class="hint">Carregando…</p></div>`);
+  sheet("Administração",`<div class="segs" role="tablist">${[["uso","Uso"],["pessoas","Pessoas"],["convites","Convites"],["capa","Capa"],["denuncias","Denúncias"],["erros","Erros"]].map(([k,l])=>`<button type="button" role="tab" data-admaba="${k}" aria-selected="${S._admAba===k}">${l}</button>`).join("")}</div><div id="admbox"><p class="hint">Carregando…</p></div>`);
   onClose=()=>{S._admAba=null};adminCarregar()}
-async function adminCarregar(){const k=S._admAba;if(!k||!S.db)return;if(k==="capa"){await carregarCapaFixa(true);adminDesenhar();return}const rpc={pessoas:"admin_membros",convites:"admin_convites",denuncias:"admin_denuncias",erros:"admin_erros"}[k];
+async function adminCarregar(){const k=S._admAba;if(!k||!S.db)return;if(k==="capa"){await carregarCapaFixa(true);adminDesenhar();return}if(k==="uso"){await usoCarregar();return}const rpc={pessoas:"admin_membros",convites:"admin_convites",denuncias:"admin_denuncias",erros:"admin_erros"}[k];
   try{S.adm[k]=await S.db.rpc(rpc)||[];if(k==="erros")carregarErrosResp()}catch(e){const b=$("#admbox");if(b)b.innerHTML=`<p class="erro-t">Não deu para carregar agora.</p>`;return}adminDesenhar()}
-function adminDesenhar(){const b=$("#admbox"),k=S._admAba;if(!b||!k)return;const L=S.adm[k]||[];const nm=u=>u?esc(S.membros[u]?.nome||"?"):"—";let h="";
+function adminDesenhar(){const b=$("#admbox"),k=S._admAba;if(!b||!k)return;if(k==="uso"){usoDesenhar();return}const L=S.adm[k]||[];const nm=u=>u?esc(S.membros[u]?.nome||"?"):"—";let h="";
   if(k==="pessoas"){const q=norm($("#admq")?.value||"");const l=L.filter(m=>!q||norm(m.nome+" "+(m.email||"")).includes(q));
     h=`<input class="field" id="admq" type="search" placeholder="Buscar nome ou e-mail" value="${esc($("#admq")?.value||"")}"><p class="hint">${L.filter(m=>!m.excluido_em).length} pessoas no Prumo. Para redefinir a senha de alguém, use o e-mail no painel do Supabase (Authentication › Users).</p><ul class="adml">${l.map(m=>`<li><div><b>${esc(m.nome)}</b>${m.papel==="admin"?` <em class="tag">admin</em>`:""}${m.suspenso_em?` <em class="tag bad">suspensa</em>`:""}${m.excluido_em?` <em class="tag">excluída</em>`:""}<span>${esc(m.email||"")}</span><span>entrou ${fmtD(m.criado_em)}${m.convidado_por?" · convite de "+nm(m.convidado_por):""} · ${m.amigos} ${m.amigos===1?"amigo":"amigos"} · convites ${m.convites_usados}/${m.papel==="admin"?"∞":m.cota_convites}</span></div>${m.excluido_em||m.papel==="admin"?"":`<div class="admb"><button type="button" class="btn ghost amg-b" data-admcota="${esc(m.uid)}">+1 convite</button><button type="button" class="btn ghost amg-b ${m.suspenso_em?"":"perigo"}" data-admsusp="${esc(m.uid)}" data-on="${m.suspenso_em?0:1}">${m.suspenso_em?"Reativar":"Suspender"}</button></div>`}</li>`).join("")}</ul>`}
   if(k==="convites"){const ag=Date.now(),ab=L.filter(c=>!c.usado_em&&Date.parse(c.expira_em)>ag),us=L.filter(c=>c.usado_em).slice(0,30);
@@ -3527,7 +3569,7 @@ function capaFrase(t,n){t=String(t||"").trim();if(t.length<=n)return t;const fr=
 function capaChapeu(p){return p.subtema||p.tag||secNome(secOf(p))}
 var FOTO_OK=/^https:\/\/([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)\//i;
 function fotoSrc(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([a-z]+)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png|webp))$/i);return m?`https://upload.wikimedia.org/wikipedia/${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/960px-${m[4]}`:u}
-function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.loading="eager";img.setAttribute("src",o);return}if(feed){const c=img.parentNode;if(c)c.classList.remove("fcv")}img.remove()}
+function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.loading="eager";img.setAttribute("src",o);return}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;return f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url)?f:null}
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
@@ -3576,9 +3618,9 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 document.addEventListener("keydown",e=>{if(e.key==="Escape")lenteMenu(false)});
 var MAT_PID=null;
 function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);
-  const Ly=$("#layer");const vazio=!Ly.innerHTML;MAT_PID=pid;if(!manter){uso("materia");try{marcarLida(pid)}catch(e){}}
+  const Ly=$("#layer");const vazio=!Ly.innerHTML;MAT_PID=pid;if(!manter){uso("materia");evento("materia",pid,secOf(p));try{marcarLida(pid)}catch(e){}}
   const u=ultimaAtualizacao(p)||p.hora,sv=!!(S.salvos||{})[p.id],f=fotoDe(p);
-  let h=`<div class="mat" role="dialog" aria-modal="true" aria-label="${esc(v.titulo)}"><div class="mat-top"><button type="button" class="mat-v" data-close aria-label="Voltar para a Capa">‹ Capa</button><span class="mat-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}</span><button type="button" class="mat-g" data-matsalvar="${id}" aria-pressed="${sv}">${sv?"Guardada":"Guardar"}</button></div><article class="mat-c">`;
+  let h=`<div class="mat" role="dialog" aria-modal="true" aria-label="${esc(v.titulo)}"><div class="mat-top"><button type="button" class="mat-v" data-close aria-label="Voltar para a Capa">‹ Capa</button><span class="mat-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}</span><button type="button" class="mat-sh" data-matshare="${id}" aria-label="Compartilhar">${ICON.send}</button><button type="button" class="mat-g" data-matsalvar="${id}" aria-pressed="${sv}">${sv?"Guardada":"Guardar"}</button></div><article class="mat-c">`;
   h+=`<div class="mat-arte">${capaArte(p,"art",true)}</div>`;
   h+=`<div class="gut mat-tx"><h1>${v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:""}${esc(v.titulo)}</h1>`;
   const sub=capaSub(p,L,"");if(sub&&sub!==v.titulo)h+=`<p class="mat-sub">${esc(sub)}</p>`;
@@ -3586,14 +3628,14 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
   else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
   h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
-  h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${esc(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${esc(v.texto)}</p></div>`;
+  h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${marcarTermos(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${marcarTermos(v.texto)}</p></div>`;
   h+=matVisuais(p);
   if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
   if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
   const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
   if(es.length)h+=`<div class="cpx-bl"><b>O essencial</b><ul>${es.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
-  if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${esc(p.contexto)}</p>`;
-  if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${esc(p.proximo)}</p>`;
+  if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${marcarTermos(p.contexto)}</p>`;
+  if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${marcarTermos(p.proximo)}</p>`;
   h+=matTempo(p);
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().reverse();
   if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(hhmm(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
@@ -3610,7 +3652,7 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
   const vivo=ps.filter(p=>p.status==="ao_vivo");
   let h=`<div class="gut cp cp-direto">`;
-  h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
+  h+=agoraHTML();h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
   if(man){const u=ultimaAtualizacao(man)||man.hora;
     const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>Atualizado às ${esc(hhmm(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
     h+=cpItem(man,{tam:"man",sub:true,arte:true,linha:L==="neutro"?linha:"",meta});
@@ -3664,6 +3706,9 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
     if(abrir){const el=document.getElementById("cpi-"+pid);if(el){const r=el.getBoundingClientRect();if(r.top<60||r.top>innerHeight*0.6)window.scrollTo({top:scrollY+r.top-70,behavior:"smooth"})}}return}
   const igr=t.closest("[data-indg]");if(igr){e.stopPropagation();abrirGrafico(igr.dataset.indg);return}
   const gpr=t.closest("[data-grper]");if(gpr){e.stopPropagation();abrirGrafico(GR.id,+gpr.dataset.grper);return}
+  const msh=t.closest("[data-matshare]");if(msh){e.stopPropagation();compartilhar(msh.dataset.matshare);return}
+  const agb=t.closest("[data-agora]");if(agb){e.stopPropagation();abrirAgora();return}
+  const agp=t.closest("[data-agpid]");if(agp){e.stopPropagation();const pid=agp.dataset.agpid;closeLayer();setTimeout(()=>abrirMateria(pid),60);return}
   const mpx=t.closest("[data-matprox]");if(mpx){e.stopPropagation();matIr(mpx.dataset.matprox);return}
   const cnv=t.closest("[data-cpnov]");if(cnv){e.stopPropagation();abrirNovCapa();return}
   const cni=t.closest("[data-cpnovir]");if(cni){e.stopPropagation();const pid=cni.dataset.cpnovir;closeLayer();setTimeout(()=>abrirMateria(pid),60);return}
@@ -4022,6 +4067,71 @@ function saidaClone(node,cls,ms){if(!node)return;const w=document.createElement(
 (function(){const ant=abrirMateria;abrirMateria=function(pid,manter){const vazio=!$("#layer").innerHTML;const r=ant.apply(this,arguments);const m=$("#layer .mat");if(m&&vazio&&ANIM_OK())m.classList.add("mat-entra");return r}})();
 matIr=function(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;const old=$("#layer .mat");if(old&&ANIM_OK()){old.style.transform="";saidaClone(old,"sai-esq",360)}
   abrirMateria(pid);const m=$("#layer .mat");if(m){m.scrollTop=0;m.style.transform="";if(ANIM_OK()){m.classList.remove("mat-entra");void m.offsetWidth;m.classList.add("mat-entra")}}};
+
+/* ---------- Etapa 16 ---------- */
+/* abrir só o que aparece: o Feed é desenhado quando for usado (ou num momento ocioso) */
+var FEED_ADIADO=!!window.__feedAdiado,RF_REAL=renderFeed;
+if(FEED_ADIADO){const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}
+renderFeed=function(){if(VIEW!=="feed"&&FEED&&document.querySelector("#v-capa .cpi")){FEED_ADIADO=true;if(!renderFeed._t){const f=()=>{renderFeed._t=0;if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};renderFeed._t=window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}return}FEED_ADIADO=false;return RF_REAL.apply(this,arguments)};
+(function(){const ant=go;go=function(v){if(v==="feed"&&FEED_ADIADO){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}return ant.apply(this,arguments)}})();
+/* eventos de uso, anônimos (sem conta, sem nome): aparelho = número aleatório guardado no aparelho */
+var EV_FILA=[],EV_OFF=false,EV_SESS=(function(){try{let s=localStorage.getItem("prumo-aparelho");if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("prumo-aparelho",s)}return s}catch(e){return "sem-"+Math.random().toString(36).slice(2)}})();
+function evento(tipo,pid,secao){if(EV_OFF||navigator.webdriver&&!window.__evTeste)return;EV_FILA.push({p_sessao:EV_SESS,p_tipo:tipo,p_pid:pid||null,p_secao:secao||null,p_origem:(matchMedia("(display-mode: standalone)").matches||navigator.standalone)?"app":"site"});clearTimeout(evento._t);evento._t=setTimeout(enviarEventos,1500)}
+async function enviarEventos(){if(EV_OFF||!EV_FILA.length)return;if(!S.db){evento._t=setTimeout(enviarEventos,4000);return}const l=EV_FILA.splice(0,20);
+  for(const a of l){try{await S.db.rpc("registrar_evento",a)}catch(e){const m=String(e&&(e.message||e.code)||"");if(/registrar_evento|PGRST202|42883|function/i.test(m)){EV_OFF=true;EV_FILA=[];return}}}if(EV_FILA.length)evento._t=setTimeout(enviarEventos,1000)}
+var EV_ABRIU=0;function eventoAbrir(){if(Date.now()-EV_ABRIU<15*60e3)return;EV_ABRIU=Date.now();evento(LINK_PID?"link":"abrir",LINK_PID||null)}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)eventoAbrir();else if(EV_FILA.length)enviarEventos()});
+/* link de matéria: /m/<id>.html ou #m=<id> abre a matéria */
+var LINK_PID=(function(){let pid=null;const h=location.hash.match(/^#m=([\w-]{1,80})$/);if(h)pid=h[1];else{const m=location.pathname.match(/\/m\/([\w-]{1,80})\.html$/);if(m)pid=m[1]}
+  if(pid){try{history.replaceState(history.state,"",location.pathname.replace(/\/m\/[\w-]+\.html$/,"/")+location.search)}catch(e){}}return pid})(),LINK_T0=Date.now();
+eventoAbrir();
+function linkTentar(){if(!LINK_PID||!FEED)return;const pid=LINK_PID;if(pautaById(pid)){LINK_PID=null;setTimeout(()=>{if(VIEW!=="capa")go("capa");if(!$("#layer").innerHTML)abrirMateria(pid)},60);return}
+  if(Date.now()-LINK_T0>8000){LINK_PID=null;setTimeout(()=>toast("Essa notícia já saiu da edição. Veja as de agora."),300)}}
+/* faixa Agora: assuntos do momento (novidades.json, de hora em hora pelo GitHub) */
+var NOVID_AG=null,AG_ROT=0;
+async function carregarAgora(){try{const r=await fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"});if(!r.ok)return;const d=await r.json();if(d&&typeof d==="object"){NOVID_AG=d;atualizarAgora()}}catch(e){}}
+function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!m)return 0;const agora=new Date();let ano=agora.getFullYear();let t=Date.parse(`${ano}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);if(t>Date.now()+864e5)t=Date.parse(`${ano-1}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);return t||0}
+function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
+  if(s.length>78){const c=s.slice(0,78);const i=Math.max(c.lastIndexOf(", "),c.lastIndexOf("; "),c.lastIndexOf(": "));s=(i>34?c.slice(0,i):c.replace(/\s+\S*$/,""))+"…"}return s}
+function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>4*3600e3)return [];const ag=Date.now(),out=[],vistos=new Set();
+  const hMax=ms=>{const hs=(Array.isArray(ms)?ms:[]).map(m=>agHoraMs(m&&m.hora)).filter(Boolean);return hs.length?Math.max(...hs):0};
+  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=assuntoCurto(n.assunto);if(!t||vistos.has(t))return;vistos.add(t);
+    out.push({t,h,peso:(n.relevante?10:0)+(n.n_fontes||0)+(["politica","economia"].includes(n.secao)?3:0)})});
+  const ep=d.em_pautas&&typeof d.em_pautas==="object"&&!Array.isArray(d.em_pautas)?d.em_pautas:{};
+  Object.entries(ep).forEach(([pid,x])=>{const p=pautaById(pid);if(!p||!x)return;const n=x.n_fontes||(Array.isArray(x.fontes)?x.fontes.length:0);if(n<3)return;const h=hMax(x.manchetes);if(!h||ag-h>3*3600e3)return;
+    out.push({t:temaDe(p)||versao(p,lente()).titulo,h,pid,peso:8+n})});
+  return out.sort((a,b)=>b.peso-a.peso||b.h-a.h).slice(0,4)}
+function agoraHTML(){const l=agoraItens();if(!l.length)return "";
+  return `<button type="button" class="cp-agora" data-agora aria-label="Agora: ${esc(l.map(x=>x.t).join("; "))}"><b><i></i>Agora</b><span class="ag-r">${l.map((x,i)=>`<span class="ag-i${i?"":" on"}" data-h="${x.h}">${esc(x.t)}</span>`).join("")}</span><em>${esc(quando(new Date(l[0].h).toISOString()))}</em></button>`}
+function atualizarAgora(){if(VIEW!=="capa")return;const old=$("#v-capa .cp-agora"),nh=agoraHTML(),cp=$("#v-capa .cp");
+  if(old){if(nh){const w=document.createElement("div");w.innerHTML=nh;old.replaceWith(w.firstElementChild)}else{const h=old.offsetHeight;old.remove();if(scrollY>=40)window.scrollBy(0,-h)}return}
+  if(!nh||!cp)return;const w=document.createElement("div");w.innerHTML=nh;const el=w.firstElementChild;cp.insertBefore(el,cp.firstChild);
+  const cs=getComputedStyle(el),alt=el.offsetHeight+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom);
+  if(scrollY>=40||$("#layer").innerHTML)window.scrollBy(0,alt);else if(ANIM_OK())el.classList.add("ag-entra")}
+setInterval(()=>{if(document.hidden||VIEW!=="capa")return;const b=$("#v-capa .cp-agora");if(!b)return;const it=[...b.querySelectorAll(".ag-i")];if(it.length<2)return;AG_ROT=(it.findIndex(x=>x.classList.contains("on"))+1)%it.length;it.forEach((x,i)=>x.classList.toggle("on",i===AG_ROT));const em=b.querySelector("em");if(em)em.textContent=quando(new Date(+it[AG_ROT].dataset.h).toISOString())},5000);
+function abrirAgora(){const l=agoraItens();
+  sheet("Agora",`<p class="hint" style="margin:0">Assuntos que acabaram de aparecer nos noticiários. O Prumo confere e traz na próxima atualização.</p><ul class="ag-l">${l.map(x=>`<li>${x.pid?`<button type="button" data-agpid="${esc(x.pid)}"><span>${esc(x.t)}</span><em>${esc(quando(new Date(x.h).toISOString()))} · ler ›</em></button>`:`<div><span>${esc(x.t)}</span><em>${esc(quando(new Date(x.h).toISOString()))}</em></div>`}</li>`).join("")}</ul>`)}
+carregarAgora();setInterval(()=>{if(!document.hidden)carregarAgora()},10*6e4);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)carregarAgora()});
+(function(){const ant=renderCapa;renderCapa=function(){const r=ant.apply(this,arguments);try{linkTentar()}catch(e){}return r}})();
+/* painel de uso (Administração › Uso) */
+var USO_DIAS=14;
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-usodias]");if(b){USO_DIAS=+b.dataset.usodias||14;S.adm.uso=null;usoDesenhar();usoCarregar()}});
+async function usoCarregar(){const b=$("#admbox");try{S.adm.uso=await S.db.rpc("admin_painel",{p_dias:USO_DIAS})}catch(e){S.adm.uso={erro:String(e&&(e.message||e.code)||"")}}usoDesenhar()}
+function usoBarras(l,rot,val,fmt){const mx=Math.max(1,...l.map(val));return `<ul class="uso-b">${l.map(x=>`<li><span>${esc(rot(x))}</span><i style="width:${(val(x)*100/mx).toFixed(1)}%"></i><b>${esc(fmt?fmt(val(x)):String(val(x)))}</b></li>`).join("")}</ul>`}
+function usoDesenhar(){const b=$("#admbox");if(!b||S._admAba!=="uso")return;const d=S.adm.uso;
+  if(!d){b.innerHTML=`<p class="hint">Carregando…</p>`;return}
+  if(d.erro){b.innerHTML=/admin_painel|PGRST202|42883|function/i.test(d.erro)?`<p class="hint">O painel ainda não está ligado no banco. Rode uma vez o arquivo <b>tools/painel-uso.sql</b> do repositório no Supabase (SQL Editor › New query › colar › Run). Depois disso os números começam a aparecer.</p>`:`<p class="erro-t">Não deu para carregar agora.</p>`;return}
+  const dias=Array.isArray(d.dias)?d.dias:[],hj=hojeSP(),dh=dias.find(x=>x.dia===hj)||{aparelhos:0,aberturas:0,materias:0};const u7=dias.filter(x=>x.dia>=somaDias(hj,-6));
+  const s7=k=>u7.reduce((a,x)=>a+(+x[k]||0),0);const media=u7.length?Math.round(s7("aparelhos")/7*10)/10:0;
+  let h=`<div class="segs uso-per" role="tablist">${[7,14,30].map(n=>`<button type="button" data-usodias="${n}" aria-selected="${USO_DIAS===n}">${n} dias</button>`).join("")}</div>`;
+  h+=`<div class="uso-k"><div><span>Hoje</span><b>${dh.aparelhos}</b><em>${dh.aparelhos===1?"aparelho":"aparelhos"}</em></div><div><span>Aberturas hoje</span><b>${dh.aberturas}</b><em>${dh.materias} matérias lidas</em></div><div><span>Média 7 dias</span><b>${String(media).replace(".",",")}</b><em>aparelhos por dia</em></div><div><span>No período</span><b>${d.total_aparelhos||0}</b><em>aparelhos diferentes</em></div></div>`;
+  h+=`<b class="cm-h">Por dia · aparelhos</b>${dias.length?usoBarras(dias.slice().reverse(),x=>dataCurta(x.dia),x=>+x.aparelhos||0):`<p class="hint">Sem dados ainda.</p>`}`;
+  const hs=Array.isArray(d.horas)?d.horas:[];if(hs.length){const mx=Math.max(1,...hs.map(x=>+x.n||0));h+=`<b class="cm-h">Horário das aberturas</b><div class="uso-h">${Array.from({length:24},(_,i)=>{const x=hs.find(y=>+y.hora===i);const n=x?+x.n:0;return `<i title="${i}h: ${n}" style="height:${(4+n*56/mx).toFixed(0)}px"></i>`}).join("")}</div><div class="uso-hx"><span>0h</span><span>6h</span><span>12h</span><span>18h</span><span>23h</span></div>`}
+  const sc=Array.isArray(d.secoes)?d.secoes:[];if(sc.length)h+=`<b class="cm-h">Matérias lidas por seção</b>${usoBarras(sc,x=>secNome(x.secao||"politica"),x=>+x.n||0)}`;
+  const tp=Array.isArray(d.top)?d.top:[];if(tp.length)h+=`<b class="cm-h">Mais lidas</b><ol class="uso-t">${tp.map(x=>{const p=pautaById(x.pid);return `<li><span>${esc(p?(p.neutro||{}).titulo:x.pid)}</span><b>${x.n}</b></li>`}).join("")}</ol>`;
+  const org=Array.isArray(d.origem)?d.origem:[];if(org.length)h+=`<p class="hint">Como abrem: ${org.map(x=>`${x.origem==="app"?"app instalado":x.origem==="site"?"navegador":x.origem==="link"?"link compartilhado":esc(x.origem||"?")} ${x.n}`).join(" · ")}. Compartilhamentos no período: ${d.compartilhamentos||0}.</p>`;
+  h+=`<p class="hint">Contagem anônima: o Prumo não guarda quem leu, só um número aleatório por aparelho.</p>`;b.innerHTML=h}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

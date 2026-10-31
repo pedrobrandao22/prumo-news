@@ -1,5 +1,6 @@
 /* Prumo News — service worker: abre o app sem internet (com a última edição guardada no aparelho).
-   A página vem sempre da rede quando há conexão (atualizações chegam na hora); sem rede, usa a cópia.
+   A página abre com a cópia guardada (na hora) e a cópia é atualizada por trás: a versão nova do app vale
+   a partir da abertura seguinte. As notícias (feed.json) vêm sempre da rede, pelo próprio app.
    Feed, banco e fontes não passam por aqui. */
 const CACHE = "prumo-v1";
 const BASE = ["./", "manifest.json", "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png"];
@@ -18,17 +19,19 @@ self.addEventListener("fetch", e => {
   const r = e.request;
   if (r.method !== "GET") return;
   const u = new URL(r.url);
-  // a página: rede primeiro (com prazo), cópia se não houver rede
-  if (r.mode === "navigate" && u.origin === location.origin) {
+  // a página (só a raiz do app): abre na hora com a cópia guardada e atualiza a cópia por trás;
+  // a versão nova do app vale a partir da próxima abertura. Sem cópia, vem da rede.
+  if (r.mode === "navigate" && u.origin === location.origin && /^\/(index\.html)?$/.test(u.pathname)) {
     e.respondWith((async () => {
-      try {
-        const resp = await comPrazo(fetch(r), 6000);
-        if (resp && resp.ok) { const c = await caches.open(CACHE); c.put("./", resp.clone()) }
+      const c = await caches.open(CACHE);
+      const hit = await c.match("./");
+      const rede = fetch(r).then(async resp => {
+        if (resp && resp.ok && resp.type === "basic" && !resp.redirected) await c.put("./", resp.clone());
         return resp;
-      } catch (err) {
-        const c = await caches.open(CACHE);
-        return (await c.match("./")) || Response.error();
-      }
+      });
+      if (hit) { e.waitUntil(rede.catch(() => { })); return hit; }
+      try { return await comPrazo(rede, 8000); }
+      catch (err) { return (await c.match("./")) || Response.error(); }
     })());
     return;
   }
