@@ -769,6 +769,11 @@ def checar(f, ant=None, virada=False, agora=None):
         if sumiram: E(f"pautas que saíram sem ir para dormentes: {sumiram} (rode o aplicar.py com --prev anterior.json)")
         lim_d = (ref - timedelta(days=DIAS_DORMENTE)).isoformat()[:16] if ref else ""
         perd = [d.get("id") for d in ant.get("dormentes") or [] if isinstance(d, dict) and d.get("id") not in ids and d.get("id") not in dor_ids and str(d.get("ultima", ""))[:16] >= lim_d]
+        # o aplicar.py guarda no máximo MAX_DORMENTES (as mais recentes): com a lista cheia, sair a mais antiga é esperado
+        dor_f = [d for d in f.get("dormentes") or [] if isinstance(d, dict)]
+        if len(dor_f) >= MAX_DORMENTES:
+            corte = min(str(d.get("ultima", ""))[:16] for d in dor_f)
+            perd = [pid for pid in perd if str(next((d.get("ultima", "") for d in ant.get("dormentes") or [] if isinstance(d, dict) and d.get("id") == pid), ""))[:16] > corte]
         if perd: E(f"dormentes perdidas em relação ao feed anterior: {perd} (rode o aplicar.py com --prev anterior.json)")
         for d in ant.get("dormentes") or []:
             if d.get("id") not in ant_t: ant_t[d.get("id")] = norm(d.get("titulo"))
