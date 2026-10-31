@@ -1581,6 +1581,12 @@ html,body{margin:0}
 .ci-b{display:flex;gap:10px;align-items:center}
 .ci-b .btn{min-height:40px;padding:0 18px}
 .ci-n{font:700 13.5px var(--f-ui);color:var(--muted);padding:8px 6px;min-height:40px}
+
+/* ================= Etapa 20 ================= */
+.cp-off{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin:calc(env(safe-area-inset-top,0px) + 40px) 0 0;padding:20px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.cp-off b{font:800 18px var(--f-ui);color:var(--ink)}
+.cp-off span{font-size:15px;line-height:1.45;color:var(--ink-2)}
+.cp-off .btn{margin-top:6px}
 </style>
 </head>
 <body>
@@ -3787,6 +3793,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
       const el2=CP_AB&&document.getElementById("cpi-"+CP_AB);if(el2&&r0!=null)window.scrollTo(0,scrollY+el2.getBoundingClientRect().top-r0);else window.scrollTo(0,y)}return}
   const cf=t.closest("[data-cpfontes]");if(cf){e.stopPropagation();abrirCobertura(cf.dataset.cpfontes);return}
   const cs2=t.closest("[data-cpsalvar]");if(cs2){e.stopPropagation();toggleSave(cs2.dataset.cpsalvar);setTimeout(()=>{if(VIEW==="capa"){const y=scrollY;renderCapa();window.scrollTo(0,y)}},60);return}
+  const cil=t.closest("#v-capa .cp-l [data-capair]");if(cil&&!document.querySelector("#layer .mat")){e.stopPropagation();const pid=cil.dataset.capair;if(pautaById(pid)){abrirMateria(pid);return}openSnap(pid);return}
   const ci=t.closest("[data-capair]");if(ci){e.stopPropagation();const pid=ci.dataset.capair;if(document.querySelector("#layer .mat")){MAT_PID=null;closeLayer();setTimeout(()=>openSnap(pid),60)}else openSnap(pid);return}
   const cs=t.closest("[data-capasec]");if(cs){e.stopPropagation();const sec=cs.dataset.capasec;go("feed");if(FILTRO==="tudo"&&pushH())FST++;FILTRO=sec;ssSet("radar-filtro",FILTRO);renderSecs();renderPosts();window.scrollTo(0,0);return}
   const bb=t.closest("#b-busca");if(bb){e.stopPropagation();go("busca");setTimeout(()=>$("#bvq")?.focus(),60);return}
@@ -4232,6 +4239,11 @@ function instTipo(){try{if(matchMedia("(display-mode: standalone)").matches||nav
 function instHTML(){const k=instTipo();if(!k)return "";
   return `<div class="cp-inst"><div class="ci-t"><b>Tenha o Prumo na tela do celular</b><span>${k==="ios"?`Toque em <i class="ci-sh" aria-label="Compartilhar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg></i> <b>Compartilhar</b> e depois em <b>“Adicionar à Tela de Início”</b>.`:"Abre na hora, como um app, e não ocupa espaço."}</span></div><div class="ci-b">${k==="android"?`<button type="button" class="btn" data-instok>Instalar</button>`:""}<button type="button" class="ci-n" data-instnao>Agora não</button></div></div>`}
 async function instalar(){const ev=INST_EV;if(!ev)return;uso("instalar");try{ev.prompt();const r=await ev.userChoice;if(r&&r.outcome==="accepted"){lsSet("prumo-inst",{ok:1});const c=$("#v-capa .cp-inst");if(c)c.remove()}}catch(e){}INST_EV=null}
+
+/* ---------- Etapa 20 ---------- */
+(function(){const ant=renderCapa;renderCapa=function(){const r=ant.apply(this,arguments);try{if(!FEED&&OFFLINE){const v=$("#v-capa");if(v&&!v.querySelector(".cp-off"))v.innerHTML=`<div class="gut cp cp-direto"><div class="cp-off"><b>Sem conexão agora</b><span>Não consegui baixar as notícias. Assim que a internet voltar, o Prumo atualiza sozinho.</span><button type="button" class="btn" data-retry>Tentar de novo</button></div></div>`}}catch(e){}return r}})();
+(function(){const ant=loadFeed;loadFeed=async function(){const r=await ant.apply(this,arguments);try{if(!FEED&&OFFLINE&&VIEW==="capa")renderCapa()}catch(e){}return r}})();
+(function(){let n=0;const t=setInterval(()=>{n++;if(FEED||n>60){clearInterval(t);return}if(OFFLINE&&VIEW==="capa"&&!document.querySelector("#v-capa .cp-off"))renderCapa()},1000)})();
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
