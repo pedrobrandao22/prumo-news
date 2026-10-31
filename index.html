@@ -1595,6 +1595,10 @@ html.feed-limpo #v-feed .chg.ag{display:none!important}
 /* ================= Etapa 23 ================= */
 .pv .art.foto{display:block;aspect-ratio:16/10;border-radius:12px;overflow:hidden}
 .pv-a{flex-wrap:wrap}
+
+/* ================= Etapa 24 ================= */
+.pc .pc-foto{display:block;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:10px}
+.cobx2.cobx2-d{font-size:13px;color:var(--muted);background:transparent;padding-left:0;padding-right:0}
 </style>
 </head>
 <body>
@@ -3589,7 +3593,7 @@ function cobEtapas(p){const e=p.etapa;if(!e||!Array.isArray(e.passos)||e.passos.
 function abrirPagCob(pid){uso("pag_cobertura");const p=pautaById(pid);if(!p){abrirDormente(pid);return}
   const sec=secOf(p),n=p.neutro||{},tema=temaDe(p),seg=seguido(p),ult=ultimaAtualizacao(p)||p.hora,fs=p.fontes||[];
   const ex=(FEED.explicadores||{})[tema];
-  sheet(p.tag||"Cobertura",`<div class="pc" data-pc="${esc(pid)}">
+  sheet(p.tag||"Cobertura",`<div class="pc" data-pc="${esc(pid)}">${fotoDe(p)?capaArte(p,"art pc-foto",true):""}
     <div class="pc-k"><span class="secdot" style="background:${secCor(sec)}"></span>${esc(secNome(sec))}${p.subtema?" · "+esc(p.subtema):""}</div>
     <h2>${esc(n.titulo)}</h2>
     <div class="pc-m">${cobStatus(p,true)}<span>${p.inicio?"Acompanhando desde "+esc(cobSP(p.inicio))+" · ":""}atualizada ${esc(quando(ult))}</span></div>
@@ -3600,7 +3604,7 @@ function abrirPagCob(pid){uso("pag_cobertura");const p=pautaById(pid);if(!p){abr
     ${(p.faq||[]).length?`<h4>Entenda</h4><div class="faq">${p.faq.filter(q=>q&&q.p).map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(q.r||"")}</p></details>`).join("")}</div>`:""}
     ${ex?`<button type="button" class="explain" data-explica="${esc(tema)}">Entenda: ${esc(tema)}</button>`:""}
     ${cobLinha(p)?`<h4>Linha do tempo</h4>${cobLinha(p)}`:""}
-    ${fs.length?`<button type="button" class="cobx2" data-cobfontes="${esc(pid)}"><span>${esc(coberturaTxt(p))}</span><span class="chev" aria-hidden="true">›</span></button>`:""}
+    ${fs.length?`<button type="button" class="cobx2 cobx2-d" data-cobfontes="${esc(pid)}"><span>Fontes</span><span class="chev" aria-hidden="true">›</span></button>`:""}
     ${seg?`<p class="hint" style="margin:0">Você segue “${esc(tema)}”: ela sobe no feed e aparece em “Do que você segue”.</p>`:`<p class="hint" style="margin:0">Ao seguir, esta cobertura sobe no seu feed e aparece em “Do que você segue”, no topo.</p>`}
   </div>`)}
 function abrirDormente(id){const d=(FEED.dormentes||[]).find(x=>x.id===id);if(!d){toast("Esta cobertura não está mais disponível.");return}uso("dormente");
@@ -3619,7 +3623,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const cp=t.closest("[data-cobpag]");if(cp){e.stopPropagation();abrirPagCob(cp.dataset.cobpag);return}
   const cs=t.closest("[data-cobseg]");if(cs){const p=pautaById(cs.dataset.cobseg);if(!p)return;const on=!seguido(p);cobSegue(temaDe(p),on);toast(on?"Seguindo "+temaDe(p):"Deixou de seguir");abrirPagCob(p.id);{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}return}
   const ds=t.closest("[data-dormseg]");if(ds){const d=(FEED.dormentes||[]).find(x=>x.id===ds.dataset.dormseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);toast(on?"Vamos destacar se voltar":"Deixou de seguir");abrirDormente(d.id);return}
-  const cl=t.closest("[data-cobler]");if(cl){const id=cl.dataset.cobler;closeLayer();setTimeout(()=>openSnap(id),30);return}
+  const cl=t.closest("[data-cobler]");if(cl){const id=cl.dataset.cobler;const mat=!!document.querySelector("#layer .mat");closeLayer();setTimeout(()=>{if(VIEW==="capa"&&pautaById(id)){if(!mat||!document.querySelector("#layer .mat"))abrirMateria(id)}else openSnap(id)},60);return}
   const cf=t.closest("[data-cobfontes]");if(cf){abrirCobertura(cf.dataset.cobfontes);return}
   const dm=t.closest("[data-dorm]");if(dm){abrirDormente(dm.dataset.dorm);return}
 },true);
