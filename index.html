@@ -1461,7 +1461,7 @@ button.ind-t{cursor:pointer}button.ind-t:active{transform:scale(.97)}
   .cp-main .cp-dest{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
   .mat-c{max-width:720px}
   .mat-tx h1{font-size:40px}
-  .mat-p p{font-size:19px;line-height:1.6}
+  .mat-p p{font-size:calc(19px*var(--fz));line-height:1.6}
 }
 @media (min-width:700px) and (max-width:1023px){.app{max-width:680px}.nav-in,.composer form,.respbar{max-width:680px}}
 
@@ -1552,6 +1552,25 @@ html,body{margin:0}
 .mat-rel span:not(.mr-th):not(.ill){display:flex;flex-direction:column;gap:2px;min-width:0}
 .mat-rel em{font:800 10.5px var(--f-ui);font-style:normal;letter-spacing:.06em;text-transform:uppercase}
 .mat-rel button b{font:700 16px/1.25 var(--f-display);color:var(--ink);letter-spacing:-.005em}
+
+/* ================= Etapa 18 ================= */
+.mat-aa{display:flex;align-items:center;justify-content:center;min-width:40px;height:40px;border-radius:10px;font:800 15px var(--f-display);color:var(--ink-2);letter-spacing:-.02em}
+.mat-aa[aria-expanded="true"]{background:var(--chip);color:var(--ink)}
+.mat-aap{position:absolute;right:max(10px,env(safe-area-inset-right,0px));top:calc(100% + 6px);display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:14px;background:var(--card);border:1px solid var(--line);box-shadow:0 8px 24px rgb(10 16 28 / .16);animation:cpxin .16s ease}
+.mat-aap button{width:44px;height:40px;border-radius:10px;font-family:var(--f-display);font-weight:700;color:var(--ink);background:var(--soft)}
+.mat-aap button[data-matfz="-1"]{font-size:14px}.mat-aap button[data-matfz="1"]{font-size:21px}
+.mat-aap button:disabled{opacity:.35}
+.aa-p{display:flex;gap:4px;align-items:center}
+.aa-p i{width:6px;height:6px;border-radius:50%;background:var(--line)}
+.aa-p i.on{background:var(--accent)}
+.mat-arte .foto{cursor:zoom-in}
+.zoom{position:fixed;inset:0;z-index:70;background:#000;display:flex;flex-direction:column;animation:scrimIn .2s ease}
+.zoom-c{flex:1;display:flex;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 52px) 0 12px;touch-action:pinch-zoom;overflow:auto}
+.zoom-c img{max-width:100%;max-height:100%;object-fit:contain;display:block;animation:zoomIn .24s cubic-bezier(.2,.8,.2,1)}
+@keyframes zoomIn{from{transform:scale(.92);opacity:.4}}
+.zoom-x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 8px);right:max(12px,env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;background:rgb(255 255 255 / .14);color:#fff;font-size:18px;z-index:1}
+.zoom-cr{margin:0;padding:10px 16px calc(env(safe-area-inset-bottom,0px) + 14px);color:rgb(255 255 255 / .75);font:600 12.5px var(--f-ui);text-align:center}
+@media (prefers-reduced-motion:reduce){.zoom,.zoom-c img,.mat-aap{animation:none}}
 </style>
 </head>
 <body>
@@ -3649,7 +3668,7 @@ var MAT_PID=null;
 function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);
   const Ly=$("#layer");const vazio=!Ly.innerHTML;MAT_PID=pid;if(!manter){uso("materia");evento("materia",pid,secOf(p));try{marcarLida(pid)}catch(e){}}
   const u=ultimaAtualizacao(p)||p.hora,sv=!!(S.salvos||{})[p.id],f=fotoDe(p);
-  let h=`<div class="mat" role="dialog" aria-modal="true" aria-label="${esc(v.titulo)}"><div class="mat-top"><button type="button" class="mat-v" data-close aria-label="Voltar para a Capa">‹ Capa</button><span class="mat-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}</span><button type="button" class="mat-sh" data-matshare="${id}" aria-label="Compartilhar">${ICON.send}</button><button type="button" class="mat-g" data-matsalvar="${id}" aria-pressed="${sv}">${sv?"Guardada":"Guardar"}</button></div><article class="mat-c">`;
+  let h=`<div class="mat" role="dialog" aria-modal="true" aria-label="${esc(v.titulo)}"><div class="mat-top"><button type="button" class="mat-v" data-close aria-label="Voltar para a Capa">‹ Capa</button><span class="mat-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}</span><button type="button" class="mat-aa" data-mataa aria-label="Tamanho da letra" aria-expanded="false">Aa</button><button type="button" class="mat-sh" data-matshare="${id}" aria-label="Compartilhar">${ICON.send}</button><button type="button" class="mat-g" data-matsalvar="${id}" aria-pressed="${sv}">${sv?"Guardada":"Guardar"}</button></div><article class="mat-c">`;
   h+=`<div class="mat-arte">${capaArte(p,"art",true)}</div>`;
   h+=`<div class="gut mat-tx"><h1>${v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:""}${esc(v.titulo)}</h1>`;
   const sub=capaSub(p,L,"");if(sub&&sub!==v.titulo)h+=`<p class="mat-sub">${esc(sub)}</p>`;
@@ -3738,6 +3757,9 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const msh=t.closest("[data-matshare]");if(msh){e.stopPropagation();compartilhar(msh.dataset.matshare);return}
   const agb=t.closest("[data-agora]");if(agb){e.stopPropagation();abrirAgora();return}
   const agp=t.closest("[data-agpid]");if(agp){e.stopPropagation();const pid=agp.dataset.agpid;closeLayer();setTimeout(()=>abrirMateria(pid),60);return}
+  const maa=t.closest("[data-mataa]");if(maa){e.stopPropagation();matLetra();return}
+  const mfz=t.closest("[data-matfz]");if(mfz){e.stopPropagation();let i=FZ.indexOf(PREF.fonte||1);if(i<0)i=1;i=Math.max(0,Math.min(FZ.length-1,i+(+mfz.dataset.matfz)));PREF.fonte=FZ[i];aplicarFonte();salvarPrefs();uso("letra_materia");matLetraAtualiza();return}
+  const mzo=t.closest("#layer .mat-arte .foto");if(mzo&&!t.closest(".cred")){e.stopPropagation();matZoom(mzo);return}
   const mri=t.closest("[data-matir]");if(mri){e.stopPropagation();matIr(mri.dataset.matir);return}
   const mpx=t.closest("[data-matprox]");if(mpx){e.stopPropagation();matIr(mpx.dataset.matprox);return}
   const cnv=t.closest("[data-cpnov]");if(cnv){e.stopPropagation();abrirNovCapa();return}
@@ -4173,6 +4195,18 @@ function matRel(p,nx){if(!FEED)return "";const tm=temaDe(p),sec=secOf(p),L=lente
 function matProgresso(){const m=$("#layer .mat");if(!m||m._prog)return;m._prog=1;const top=m.querySelector(".mat-top");if(!top)return;const b=document.createElement("i");b.className="mat-prog";b.setAttribute("aria-hidden","true");top.appendChild(b);
   let raf=0;const f=()=>{raf=0;const max=m.scrollHeight-m.clientHeight;b.style.transform=`scaleX(${max>0?Math.min(1,m.scrollTop/max).toFixed(3):0})`};m.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(f)},{passive:true});f()}
 (function(){const ant=abrirMateria;abrirMateria=function(pid,manter){const vazio=!$("#layer").innerHTML;const r=ant.apply(this,arguments);try{matProgresso();if(!manter){const h=$("#layer .mat h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}catch(e){}return r}})();
+
+/* ---------- Etapa 18 ---------- */
+function matLetraAtualiza(){const b=$("#layer .mat-aap");if(!b)return;const i=FZ.indexOf(PREF.fonte||1);b.querySelector("[data-matfz='-1']").disabled=i<=0;b.querySelector("[data-matfz='1']").disabled=i>=FZ.length-1;
+  b.querySelectorAll(".aa-p i").forEach((x,k)=>x.classList.toggle("on",k<=Math.max(0,i)))}
+function matLetra(){const top=$("#layer .mat-top"),bt=$("#layer [data-mataa]");if(!top||!bt)return;const ab=$("#layer .mat-aap");if(ab){ab.remove();bt.setAttribute("aria-expanded","false");return}
+  const d=document.createElement("div");d.className="mat-aap";d.setAttribute("role","group");d.setAttribute("aria-label","Tamanho da letra");
+  d.innerHTML=`<button type="button" data-matfz="-1" aria-label="Letra menor">A</button><span class="aa-p" aria-hidden="true">${FZ.map(()=>"<i></i>").join("")}</span><button type="button" data-matfz="1" aria-label="Letra maior">A</button>`;
+  top.appendChild(d);bt.setAttribute("aria-expanded","true");matLetraAtualiza()}
+document.addEventListener("click",e=>{const ab=$("#layer .mat-aap");if(ab&&!e.target.closest(".mat-aap,[data-mataa]")){ab.remove();const bt=$("#layer [data-mataa]");if(bt)bt.setAttribute("aria-expanded","false")}},true);
+function matZoom(el){const img=el.querySelector("img");if(!img||!img.classList.contains("ok"))return;const L=$("#layer2");if(!L)return;const vazio=!L.innerHTML;const cr=el.querySelector(".cred");
+  L.innerHTML=`<div class="zoom" role="dialog" aria-modal="true" aria-label="Foto"><button type="button" class="zoom-x" data-close aria-label="Fechar">✕</button><div class="zoom-c" data-close><img src="${escU(img.currentSrc||img.src)}" alt="${esc(img.alt||"")}"></div>${cr?`<p class="zoom-cr">${esc(cr.textContent)}</p>`:""}</div>`;
+  if(vazio&&pushH())HST++;uso("foto_zoom")}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
