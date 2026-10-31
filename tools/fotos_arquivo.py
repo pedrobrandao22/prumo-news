@@ -16,6 +16,7 @@ UA = {"User-Agent": "PrumoNews/1.0 (https://prumonews.com.br; robo de fotos de a
 SP = timezone(timedelta(hours=-3))
 LIVRE = re.compile(r"^(cc[ -]by(-sa)?( [\d.]+)?( [a-z-]+)?|cc0|public domain|pd\b|domínio público)", re.I)
 PROIBIDO = re.compile(r"\b(nc|nd)\b", re.I)
+FORA = re.compile(r"(map|mapa|planta|plano geral|desenho|drawing|diagram|logo|coat of arms|brasao|bandeira de|flag of|selo|stamp|cracha|cranio|crane|sketch|plan of|acervo|caricatura|cartoon|grafico|chart|1[89]\d\d)")
 
 # pessoas: nome → palavras que, no título da notícia, indicam essa pessoa (a 1ª citada no título ganha)
 PESSOAS = {
@@ -71,34 +72,34 @@ TEMAS = {
     "politica/Estados": [("Palácio dos Bandeirantes", ["bandeirantes"]), ("Palácio Guanabara", ["guanabara"])],
     "economia/Juros e inflação": [("Banco Central do Brasil", ["banco central"]), ("supermercado Brasil", ["supermercado"])],
     "economia/Contas públicas": [("Ministério da Fazenda Brasília", ["fazenda"]), ("Esplanada dos Ministérios", ["esplanada"])],
-    "economia/Mercados": [("B3 bolsa de valores São Paulo", ["b3", "bolsa", "bovespa"]), ("cédulas de real", ["real", "cédula", "cedula"])],
-    "economia/Atividade econômica": [("Porto de Santos", ["porto de santos"]), ("colheita soja Brasil", ["soja", "colheita"])],
+    "economia/Mercados": [("Bolsa de Valores de São Paulo", ["bolsa de valores", "bovespa", "bm&f"]), ("B3 Brasil Bolsa Balcão", ["bolsa"])],
+    "economia/Atividade econômica": [("Porto de Santos navio contêiner", ["porto de santos", "port of santos"]), ("colheita soja Brasil", ["soja", "colheita"])],
     "economia/Empresas": [("Avenida Paulista", ["paulista"])],
-    "economia/Trabalho e renda": [("carteira de trabalho", ["carteira de trabalho"]), ("trabalhadores construção civil Brasil", ["trabalhador", "obra", "construção"])],
-    "economia/Seu dinheiro": [("cédulas de real", ["real", "cédula", "cedula"])],
+    "economia/Trabalho e renda": [("carteira de trabalho", ["carteira de trabalho"]), ("operários obra construção civil Brasil", ["operário", "operarios", "construção civil", "construcao civil"])],
+    "economia/Seu dinheiro": [("cédulas de reais Banco Central", ["cédulas de real", "cedulas de real", "notas de real", "reais", "brazilian real"])],
     "brasil/Segurança": [("viatura Polícia Militar", ["polícia militar", "viatura", "policia militar"])],
     "brasil/Justiça e polícia": [("Polícia Federal sede Brasília", ["polícia federal", "policia federal"])],
-    "brasil/Saúde": [("hospital SUS Brasil", ["hospital", "sus"])],
+    "brasil/Saúde": [("Unidade Básica de Saúde", ["unidade básica", "unidade basica", "ubs"]), ("UPA pronto atendimento", ["upa", "pronto atendimento"])],
     "brasil/Meio ambiente e clima": [("enchente Brasil", ["enchente", "inundação", "chuva"]), ("floresta amazônica", ["amazônia", "amazonia", "amazon"])],
-    "brasil/Infraestrutura e transporte": [("rodovia Brasil", ["rodovia", "br-"]), ("metrô de São Paulo", ["metrô", "metro"])],
-    "brasil/Sociedade": [("São Paulo centro rua", ["são paulo", "sao paulo"])],
+    "brasil/Infraestrutura e transporte": [("rodovia BR-116", ["br-116", "br-101", "rodovia"]), ("metrô de São Paulo trem", ["metrô de são paulo", "metro de sao paulo", "metrô"])],
+    "brasil/Sociedade": [("Avenida Paulista pedestres", ["paulista"]), ("Copacabana calçadão", ["copacabana"])],
     "mundo/América Latina": [("Casa Rosada Buenos Aires", ["casa rosada"])],
-    "mundo/EUA": [("White House Washington", ["white house"]), ("United States Capitol", ["capitol"])],
+    "mundo/EUA": [("White House north facade photo", ["white house"]), ("United States Capitol building", ["capitol"])],
     "mundo/Europa": [("European Parliament Strasbourg", ["european parliament", "parlement"])],
-    "mundo/Oriente Médio": [("Jerusalem Old City", ["jerusalem"])],
+    "mundo/Oriente Médio": [("Jerusalem Old City panorama", ["jerusalem"]), ("Knesset building", ["knesset"])],
     "mundo/Ásia": [("Tiananmen Square", ["tiananmen"])],
     "mundo/África": [("African Union headquarters", ["african union"])],
-    "educacao/Educação básica": [("sala de aula escola pública Brasil", ["sala de aula", "escola"])],
-    "educacao/Ensino superior": [("Universidade de São Paulo", ["universidade de são paulo", "usp"])],
-    "educacao/Enem e vestibulares": [("estudantes prova Enem", ["enem", "vestibular", "prova"])],
+    "educacao/Educação básica": [("sala de aula escola estadual alunos", ["sala de aula", "escola estadual", "escola municipal", "alunos"])],
+    "educacao/Ensino superior": [("campus universidade federal Brasil", ["campus", "reitoria", "universidade federal"])],
+    "educacao/Enem e vestibulares": [("Enem candidatos prova", ["enem"]), ("vestibular candidatos", ["vestibular"])],
     "educacao/Políticas": [("Ministério da Educação Brasília", ["educação", "mec"])],
-    "educacao/Avaliações": [("sala de aula escola pública Brasil", ["sala de aula", "escola"])],
+    "educacao/Avaliações": [("sala de aula escola estadual alunos", ["sala de aula", "escola estadual", "escola municipal", "alunos"])],
     "esportes/Brasileirão": [("Estádio do Maracanã", ["maracanã", "maracana"]), ("Allianz Parque", ["allianz parque"])],
     "esportes/Série B": [("estádio de futebol Brasil torcida", ["estádio", "estadio"])],
     "esportes/Copa do Brasil": [("Estádio do Maracanã", ["maracanã", "maracana"])],
-    "esportes/Libertadores": [("Copa Libertadores", ["libertadores"])],
+    "esportes/Libertadores": [("taça Copa Libertadores troféu", ["libertadores"])],
     "esportes/Sul-Americana": [("Copa Sudamericana", ["sudamericana", "sul-americana"])],
-    "esportes/Seleção": [("Seleção Brasileira de Futebol", ["seleção brasileira", "brazil national football team", "selecao"])],
+    "esportes/Seleção": [("Brazil national football team 2022", ["brazil national football team", "seleção brasileira", "selecao brasileira"])],
     "esportes/Clubes": [("Estádio do Maracanã", ["maracanã", "maracana"])],
     "esportes/Outros esportes": [("Ginásio do Ibirapuera", ["ibirapuera"])],
 }
@@ -138,16 +139,20 @@ def busca(consulta, chaves, n=4, exige_todos=False):
         if exige_todos:
             if not all(all(w in tit for w in k.split()) for k in ks[:1]): continue
         elif not any(k in tit for k in ks): continue
-        if ii.get("mime") not in ("image/jpeg", "image/png", "image/webp"): continue
+        if FORA.search(tit.replace("_", " ")): continue
+        if ii.get("mime") not in ("image/jpeg", "image/webp"): continue
         if (ii.get("width") or 0) < 700 or (ii.get("height") or 0) < 400: continue
         md = ii.get("extmetadata") or {}
         lic = limpa((md.get("LicenseShortName") or {}).get("value"))
         if not lic or not LIVRE.search(lic) or PROIBIDO.search(lic): continue
         autor = limpa((md.get("Artist") or {}).get("value")) or "autor desconhecido"
-        url = ii.get("url") or ""
+        url = (ii.get("url") or "").split("?")[0]
         if not url.startswith("https://upload.wikimedia.org/"): continue
-        out.append({"url": url, "credito": f"Foto de arquivo: {autor}/Wikimedia Commons ({lic})", "pagina": ii.get("descriptionurl", "")})
-        if len(out) >= n: break
+        t2 = tit.replace("_", " ")
+        nota = (3 if re.search(r"cropped|retrato|portrait|oficial|official", t2) else 0) - (2 if exige_todos and re.search(r" e | and | com | with |, ", t2) else 0)
+        out.append({"url": url, "credito": f"Foto de arquivo: {autor}/Wikimedia Commons ({lic})", "pagina": (ii.get("descriptionurl") or "").split("?")[0], "_n": nota})
+    out.sort(key=lambda x: -x["_n"])
+    out = [{k: v for k, v in x.items() if k != "_n"} for x in out[:n]]
     time.sleep(0.4)
     return out
 
@@ -180,7 +185,7 @@ def main(argv):
         for q, ch in qs:
             fotos += [f for f in busca(q, ch, n=3) if f["url"] not in {x["url"] for x in fotos}]
             if len(fotos) >= 4: break
-        if not fotos: fotos = (velho.get("temas") or {}).get(k) or []
+        if not fotos: fotos = [f for f in ((velho.get("temas") or {}).get(k) or []) if not FORA.search(norm(f.get("url", "")).replace("_", " "))]
         if fotos: out_t[k] = [dict(f, alt=f"Foto de arquivo: {qs[0][0]}") for f in fotos[:4]]
         print(f"{k}: {len(fotos)}")
     if not out_p and not out_t: print("nada encontrado: arquivo anterior mantido"); return 1
