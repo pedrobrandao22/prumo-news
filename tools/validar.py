@@ -877,6 +877,10 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
         if am.get("titulo") == mud.get("titulo") and len(mi) < 8:
             perdidos = [it.get("pid") for it in am.get("itens") or [] if it.get("pid") in ids and it.get("pid") not in mp]
             if perdidos: A(f"mudancas perdeu itens do feed anterior (devem acumular desde a última rodada completa): {perdidos}")
+    for p in ps:
+        if p.get("status") == "encerrada" and not str(p.get("desfecho") or "").strip():
+            A(f"[{p.get('id')}] cobertura encerrada sem desfecho: escreva \"desfecho\" (1 frase: como terminou), que o app mostra no topo da matéria")
+        elif p.get("desfecho") and len(str(p["desfecho"])) > 200: A(f"[{p.get('id')}] desfecho com {len(str(p['desfecho']))} caracteres (até 200)")
     try: checar_mercado(f, IND, ref)
     except Exception as e: A(f"conferência dos números de mercado falhou: {e!r}")
     return ref, agora
