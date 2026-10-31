@@ -20,18 +20,51 @@ def foto_leve(u):
     return f"https://upload.wikimedia.org/wikipedia/{m[1]}/thumb/{m[2]}/{m[3]}/{m[4]}/960px-{m[4]}" if m else u
 
 
+def hash_str(s):
+    """Igual ao hashStr do app: escolhe a mesma foto de arquivo para a mesma pauta."""
+    h = 0
+    for c in str(s):
+        h = (h * 31 + ord(c[0] if ord(c) < 0x10000 else chr(0xD800 + ((ord(c) - 0x10000) >> 10)))) & 0xFFFFFFFF
+    if h >= 0x80000000: h -= 0x100000000
+    return abs(h)
+
+
+def pos_palavra(t, k):
+    m = re.search(r"(^|[^\w]|_)" + re.escape(k) + r"(?=$|[^\w]|_)", t)
+    return m.start() + len(m.group(1)) if m else -1
+
+
+def foto_arquivo(p, A):
+    """Mesma regra do app: pessoa citada primeiro no título; senão, o tema da pauta."""
+    if not isinstance(A, dict): return None
+    tit = str((p.get("neutro") or {}).get("titulo") or "")
+    best, pos, ln = None, 10**9, 0
+    for x in (A.get("pessoas") or {}).values():
+        for k in (x.get("chaves") if isinstance(x, dict) and isinstance(x.get("chaves"), list) else []):
+            i = pos_palavra(tit, str(k))
+            if i >= 0 and (i < pos or (i == pos and len(k) > ln)): best, pos, ln = x, i, len(k)
+    l = best.get("fotos") if best else None
+    if not l:
+        T, sec = A.get("temas") or {}, p.get("secao") or "politica"
+        l = T.get(f"{sec}/{p.get('subtema') or ''}") or T.get((A.get("padrao") or {}).get(sec)) or None
+    if not l: return None
+    f = l[hash_str(p["id"]) % len(l)]
+    if not isinstance(f, dict) or not isinstance(f.get("url"), str) or not FOTO_OK.match(f["url"]): return None
+    return {"url": f["url"], "credito": f.get("credito") or "Foto de arquivo: Wikimedia Commons"}
+
+
 def primeira_frase(t):
     t = re.sub(r"\s+", " ", str(t or "")).strip()
     m = re.match(r"(.+?[.!?])(\s|$)", t)
     return (m.group(1) if m else t)[:220]
 
 
-def pagina(p):
+def pagina(p, A=None):
     pid = p["id"]
     n = p.get("neutro") or {}
     tit = str(n.get("titulo") or "Prumo News").strip()
     desc = str(p.get("subtitulo") or "").strip() or primeira_frase(n.get("texto"))
-    f = p.get("foto") if isinstance(p.get("foto"), dict) else {}
+    f = p.get("foto") if isinstance(p.get("foto"), dict) and FOTO_OK.match(str(p["foto"].get("url") or "")) else (foto_arquivo(p, A) or {})
     img, w, h = BASE + "/og-padrao.png", "1200", "630"
     if isinstance(f.get("url"), str) and FOTO_OK.match(f["url"]):
         img, w, h = foto_leve(f["url"]), "", ""
@@ -70,12 +103,15 @@ def main(argv):
     feed, pasta = argv[0], argv[1]
     F = json.load(open(feed, encoding="utf-8"))
     os.makedirs(pasta, exist_ok=True)
+    arq = argv[2] if len(argv) > 2 else os.path.join(os.path.dirname(os.path.abspath(feed)), "fotos-arquivo.json")
+    try: A = json.load(open(arq, encoding="utf-8"))
+    except (OSError, ValueError): A = None
     novas = mudou = 0
     for p in F.get("pautas") or []:
         pid = p.get("id") if isinstance(p, dict) else None
         if not isinstance(pid, str) or not PID.match(pid): continue
         cam = os.path.join(pasta, pid + ".html")
-        txt = pagina(p)
+        txt = pagina(p, A)
         velho = open(cam, encoding="utf-8").read() if os.path.exists(cam) else None
         if velho == txt: continue
         with open(cam, "w", encoding="utf-8") as fh: fh.write(txt)

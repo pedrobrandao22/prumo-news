@@ -1599,6 +1599,35 @@ html.feed-limpo #v-feed .chg.ag{display:none!important}
 /* ================= Etapa 24 ================= */
 .pc .pc-foto{display:block;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:10px}
 .cobx2.cobx2-d{font-size:13px;color:var(--muted);background:transparent;padding-left:0;padding-right:0}
+
+/* ================= Etapa 26 ================= */
+/* foto: sem ilustração por baixo nem efeito de entrada (não pisca) */
+.foto .ill{visibility:hidden}
+.foto img,.cover .fcv-i{opacity:1!important;transition:none!important}
+.foto{background:var(--chip)}
+.cover.fcv>svg{visibility:hidden}
+/* Agora: letreiro */
+.cp-agora{display:flex;align-items:stretch;gap:0;padding:0;min-height:40px;overflow:hidden}
+.cp-agora .ag-lbl{flex:none;display:flex;align-items:center;gap:6px;padding:0 10px 0 12px;font:800 11px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--hot);border-right:1px solid var(--line)}
+.cp-agora .ag-lbl i{width:7px;height:7px;border-radius:50%;background:var(--hot);animation:cstp 1.6s ease-in-out infinite}
+.cp-agora .ag-vp{flex:1;min-width:0;overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(to right,transparent,#000 12px,#000 calc(100% - 12px),transparent);mask-image:linear-gradient(to right,transparent,#000 12px,#000 calc(100% - 12px),transparent)}
+.cp-agora .ag-run{display:inline-flex;align-items:center;height:100%;white-space:nowrap;animation:tk linear infinite;will-change:transform}
+.cp-agora .ag-vp:active .ag-run{animation-play-state:paused}
+.cp-agora .ag-i{position:static;opacity:1;transform:none;display:inline-flex;align-items:baseline;gap:7px;padding:0 14px;font-size:14px;font-weight:600;line-height:40px;color:var(--ink);cursor:pointer;transition:none}
+.cp-agora .ag-i time{font:700 11.5px var(--f-ui);color:var(--hot)}
+.cp-agora .ag-sep{flex:none;width:5px;height:5px;background:var(--hot);opacity:.6;transform:rotate(45deg)}
+@media (prefers-reduced-motion:reduce){.cp-agora .ag-run{animation:none}.cp-agora .ag-vp{overflow-x:auto}}
+/* O que mudou */
+.mud-l{list-style:none;margin:8px 0 0;padding:0}
+.mud-l li>*{display:flex;flex-direction:column;gap:3px;width:100%;text-align:left;padding:11px 0;border-bottom:1px solid var(--line)}
+.mud-k{align-self:flex-start;font:800 10px/1 var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:4px;padding:3px 5px 2px}
+.mud-k.atualizada{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.mud-t{font:700 16px/1.3 var(--f-display);color:var(--ink)}
+.mud-x{font-size:14px;line-height:1.4;color:var(--ink-2)}
+/* segurar o dedo não seleciona */
+.cpi-b,.post .cover,.post .sl,.pv,.cp-1m,.cp-agora,.mat-rel,.cp-l,.svr,[data-capair],[data-busca]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+img{-webkit-touch-callout:none;-webkit-user-drag:none}
+.sheet .sh-b,.mat{overscroll-behavior:contain}
 </style>
 </head>
 <body>
@@ -2395,7 +2424,7 @@ document.addEventListener("click",e=>{
   const gl=t.closest("[data-gl]");if(gl){abrirTermo(gl.dataset.gl,gl.dataset.k);return}
   const ex=t.closest("[data-explica]");if(ex){abrirExplicador(ex.dataset.explica);return}
   const vt=t.closest("[data-voto]");if(vt){const pid=vt.closest("[data-pid]")?.dataset.pid;if(pid)votar(pid,+vt.dataset.voto);return}
-  if(t.closest("#pilula")){if(NOVO){aplicarNovo(NOVO);window.scrollTo({top:0,behavior:"smooth"});vibrar()}return}
+  if(t.closest("#pilula")){if(NOVO){aplicarNovo(NOVO);window.scrollTo({top:0});vibrar();setTimeout(abrirMudou,80)}return}
   const sf=t.closest("[data-secfiltro]");if(sf){if(FILTRO==="tudo"&&pushH())FST++;FILTRO=sf.dataset.secfiltro;ssSet("radar-filtro",FILTRO);renderSecs();renderPosts();window.scrollTo({top:0,behavior:"smooth"});toast("Mostrando só "+secNome(FILTRO)+". Toque em Ver tudo para voltar.");return}
   const tg=t.closest("[data-tagx]");if(tg){const p=pautaById(tg.closest("[data-pid]")?.dataset.pid);if(p){if((FEED.explicadores||{})[temaDe(p)])abrirExplicador(temaDe(p));else abrirBusca(p.tag||temaDe(p))}return}
   const lm=t.closest("[data-lermais]");if(lm){const sl=lm.closest(".txs");sl.classList.add("aberto");sl.classList.remove("ovf");const tr=sl.closest(".track");if(tr)fitTrack(tr);uso("ler_mais");return}
@@ -3647,7 +3676,19 @@ var FOTO_OK=/^https:\/\/([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr
 function fotoSrc(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([a-z]+)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png|webp))$/i);return m?`https://upload.wikimedia.org/wikipedia/${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/960px-${m[4]}`:u}
 function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.loading="eager";img.setAttribute("src",o);return}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
-function fotoDe(p){const f=p&&p.foto;return f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url)?f:null}
+function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
+var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
+function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
+function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
+function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit=String((p.neutro||{}).titulo||""),ck=p.id+"|"+tit+"|"+(A.gerado||"");if(ck in FA_CACHE)return FA_CACHE[ck];
+  let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});
+  let l=best&&Array.isArray(best.fotos)?best.fotos:null;const T=A.temas||{};
+  if(!l||!l.length){const sec=secOf(p);l=T[sec+"/"+(p.subtema||"")]||T[(A.padrao||{})[sec]]||null}
+  let r=null;if(l&&l.length){const f=l[hashStr(p.id)%l.length];if(f&&typeof f.url==="string"&&FOTO_OK.test(f.url))r={url:f.url,credito:f.credito||"Foto de arquivo: Wikimedia Commons",alt:f.alt||"Foto de arquivo",arquivo:1}}
+  return FA_CACHE[ck]=r}
+async function carregarFotosArq(){try{const r=await fetch("fotos-arquivo.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();if(!d||typeof d!=="object"||!d.temas)return;
+  const mud=!FOTOS_ARQ||FOTOS_ARQ.gerado!==d.gerado;FOTOS_ARQ=d;FA_CACHE={};try{localStorage.setItem("prumo-fotos-arq",JSON.stringify(d))}catch(e){}
+  if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}}catch(e){}}
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
   return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f,"",0,!!cred)}${cred&&f.credito?`<small class="cred">${esc(f.credito)}</small>`:""}</span>`}
 function indTile(x){const seta={sobe:"▲",desce:"▼",estavel:"▬"};const em=x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:"";
@@ -3727,7 +3768,7 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   const {ps,ord,man,dest,fixa,linha}=capaEscolha();const L=lente();
   const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
   const vivo=ps.filter(p=>p.status==="ao_vivo");
-  let h=`<div class="gut cp cp-direto">`;
+  let h=`<div class="gut cp"><header class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed">${esc(capaEdicao())}${FEED.contagem?" · "+esc(FEED.contagem):""}</span></header>`;
   h+=agoraHTML();h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
   if(man){const u=ultimaAtualizacao(man)||man.hora;
     const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>Atualizado às ${esc(hhmm(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
@@ -3791,13 +3832,15 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const iok=t.closest("[data-instok]");if(iok){e.stopPropagation();instalar();return}
   const inao=t.closest("[data-instnao]");if(inao){e.stopPropagation();lsSet("prumo-inst",{ate:Date.now()+14*864e5});const c=$("#v-capa .cp-inst");if(c)c.remove();uso("instalar_nao");return}
   const mri=t.closest("[data-matir]");if(mri){e.stopPropagation();matIr(mri.dataset.matir);return}
+  const agi=t.closest(".cp-agora .ag-i");if(agi){e.stopPropagation();const x=agoraItens()[+agi.dataset.agi];if(x&&x.pid&&pautaById(x.pid))abrirMateria(x.pid);else abrirAgora();return}
+  const mdi=t.closest("[data-mudouir]");if(mdi){e.stopPropagation();const pid=mdi.dataset.mudouir;closeLayer();setTimeout(()=>{if(VIEW!=="capa"&&VIEW!=="feed")go("capa");abrirMateria(pid)},60);return}
   const mpx=t.closest("[data-matprox]");if(mpx){e.stopPropagation();matIr(mpx.dataset.matprox);return}
   const cnv=t.closest("[data-cpnov]");if(cnv){e.stopPropagation();abrirNovCapa();return}
   const cni=t.closest("[data-cpnovir]");if(cni){e.stopPropagation();const pid=cni.dataset.cpnovir;closeLayer();setTimeout(()=>abrirMateria(pid),60);return}
   const cmt=t.closest("[data-cpmat]");if(cmt){e.stopPropagation();abrirMateria(cmt.dataset.cpmat);return}
   const msv=t.closest("[data-matsalvar]");if(msv){e.stopPropagation();const pid=msv.dataset.matsalvar;toggleSave(pid);setTimeout(()=>{if(document.querySelector("#layer .mat"))abrirMateria(pid,true)},80);return}
   const cm=t.closest("[data-cpmais]");if(cm){e.stopPropagation();const pid=cm.dataset.cpmais;CP_MAIS=CP_MAIS===pid?null:pid;const y=scrollY;renderCapa();window.scrollTo(0,y);if(CP_MAIS)uso("capa_mais");return}
-  const c1=t.closest("[data-cp1m]");if(c1){e.stopPropagation();const pid=c1.dataset.cp1m;CP_AB=pid;CP_MAIS=null;try{marcarLida(pid)}catch(_){}uso("capa_1min");renderCapa();
+  const c1=t.closest("[data-cp1m]");if(c1){e.stopPropagation();const pid=c1.dataset.cp1m;if(pautaById(pid)){uso("capa_1min");abrirMateria(pid);return}CP_AB=pid;CP_MAIS=null;try{marcarLida(pid)}catch(_){}uso("capa_1min");renderCapa();
     const el=document.getElementById("cpi-"+pid);if(el){const f=()=>window.scrollTo(0,scrollY+el.getBoundingClientRect().top-70);f();requestAnimationFrame(f)}else openSnap(pid);return}
   const le=t.closest("[data-lente]");if(le){e.stopPropagation();lenteMenu(false);const k=le.dataset.lente;if(lente()!==k){PREF.lente=k;salvarPrefs();uso("lente_"+k)}
     if(document.querySelector("#layer .mat")&&MAT_PID){const m=document.querySelector("#layer .mat"),y=m.scrollTop;abrirMateria(MAT_PID,true);const m2=document.querySelector("#layer .mat");if(m2)m2.scrollTop=y}
@@ -4177,7 +4220,7 @@ var NOVID_AG=null,AG_ROT=0;
 async function carregarAgora(){try{const r=await fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"});if(!r.ok)return;const d=await r.json();if(d&&typeof d==="object"){NOVID_AG=d;atualizarAgora()}}catch(e){}}
 function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!m)return 0;const agora=new Date();let ano=agora.getFullYear();let t=Date.parse(`${ano}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);if(t>Date.now()+864e5)t=Date.parse(`${ano-1}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);return t||0}
 function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
-  if(s.length>78){const c=s.slice(0,78);const i=Math.max(c.lastIndexOf(", "),c.lastIndexOf("; "),c.lastIndexOf(": "));s=(i>34?c.slice(0,i):c.replace(/\s+\S*$/,""))+"…"}return s}
+  if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}
 function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>4*3600e3)return [];const ag=Date.now(),out=[],vistos=new Set();
   const hMax=ms=>{const hs=(Array.isArray(ms)?ms:[]).map(m=>agHoraMs(m&&m.hora)).filter(Boolean);return hs.length?Math.max(...hs):0};
   (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=[n.assunto,...(Array.isArray(n.manchetes)?n.manchetes.map(m=>m&&m.titulo):[])].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t))return;vistos.add(t);
@@ -4187,13 +4230,15 @@ function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse
     out.push({t:temaDe(p)||versao(p,lente()).titulo,h,pid,peso:8+n})});
   return out.sort((a,b)=>b.peso-a.peso||b.h-a.h).slice(0,4)}
 function agoraHTML(){const l=agoraItens();if(!l.length)return "";
-  return `<button type="button" class="cp-agora" data-agora aria-label="Agora: ${esc(l.map(x=>x.t).join("; "))}"><b><i></i>Agora</b><span class="ag-r">${l.map((x,i)=>`<span class="ag-i${i?"":" on"}" data-h="${x.h}">${esc(x.t)}</span>`).join("")}</span><em>${esc(quando(new Date(l[0].h).toISOString()))}</em></button>`}
+  const um=l.map((x,i)=>`<span class="ag-i" data-agi="${i}"><time>${esc(quando(new Date(x.h).toISOString()).replace("há ",""))}</time>${esc(x.t)}</span><i class="ag-sep" aria-hidden="true"></i>`).join("");
+  const n=l.reduce((a,x)=>a+x.t.length+12,0);
+  return `<div class="cp-agora" role="region" aria-label="Agora: ${esc(l.map(x=>x.t).join("; "))}"><button type="button" class="ag-lbl" data-agora><i></i>Agora</button><div class="ag-vp"><div class="ag-run" style="animation-duration:${Math.max(18,Math.round(n*.17))}s">${um}${um}</div></div></div>`}
 function atualizarAgora(){if(VIEW!=="capa")return;const old=$("#v-capa .cp-agora"),nh=agoraHTML(),cp=$("#v-capa .cp");
   if(old){if(nh){const w=document.createElement("div");w.innerHTML=nh;old.replaceWith(w.firstElementChild)}else{const h=old.offsetHeight;old.remove();if(scrollY>=40)window.scrollBy(0,-h)}return}
-  if(!nh||!cp)return;const w=document.createElement("div");w.innerHTML=nh;const el=w.firstElementChild;cp.insertBefore(el,cp.firstChild);
+  if(!nh||!cp)return;const w=document.createElement("div");w.innerHTML=nh;const el=w.firstElementChild;const tp=cp.querySelector(":scope>.cp-top");cp.insertBefore(el,tp?tp.nextSibling:cp.firstChild);
   const cs=getComputedStyle(el),alt=el.offsetHeight+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom);
   if(scrollY>=40||$("#layer").innerHTML)window.scrollBy(0,alt);else if(ANIM_OK())el.classList.add("ag-entra")}
-setInterval(()=>{if(document.hidden||VIEW!=="capa")return;const b=$("#v-capa .cp-agora");if(!b)return;const it=[...b.querySelectorAll(".ag-i")];if(it.length<2)return;AG_ROT=(it.findIndex(x=>x.classList.contains("on"))+1)%it.length;it.forEach((x,i)=>x.classList.toggle("on",i===AG_ROT));const em=b.querySelector("em");if(em)em.textContent=quando(new Date(+it[AG_ROT].dataset.h).toISOString())},5000);
+setInterval(()=>{if(1)return;const b=null;if(!b)return;const it=[];if(it.length<2)return;AG_ROT=(it.findIndex(x=>x.classList.contains("on"))+1)%it.length;it.forEach((x,i)=>x.classList.toggle("on",i===AG_ROT));const em=b.querySelector("em");if(em)em.textContent=quando(new Date(+it[AG_ROT].dataset.h).toISOString())},5000);
 function abrirAgora(){const l=agoraItens();
   sheet("Agora",`<p class="hint" style="margin:0">Assuntos que acabaram de aparecer nos noticiários. O Prumo confere e traz na próxima atualização.</p><ul class="ag-l">${l.map(x=>`<li>${x.pid?`<button type="button" data-agpid="${esc(x.pid)}"><span>${esc(x.t)}</span><em>${esc(quando(new Date(x.h).toISOString()))} · ler ›</em></button>`:`<div><span>${esc(x.t)}</span><em>${esc(quando(new Date(x.h).toISOString()))}</em></div>`}</li>`).join("")}</ul>`)}
 carregarAgora();setInterval(()=>{if(!document.hidden)carregarAgora()},10*6e4);
@@ -4263,6 +4308,26 @@ async function instalar(){const ev=INST_EV;if(!ev)return;uso("instalar");try{ev.
 (function(){try{const q=new URLSearchParams(location.search).get("feedlimpo");if(q==="1")localStorage.setItem("prumo-feed-limpo","1");else if(q==="0")localStorage.removeItem("prumo-feed-limpo");
   if(q!==null)history.replaceState(history.state,"",location.pathname+location.hash);
   document.documentElement.classList.toggle("feed-limpo",localStorage.getItem("prumo-feed-limpo")==="1")}catch(e){}})();
+
+/* ---------- Etapa 26 ---------- */
+function abrirMudou(){if(!FEED)return;const m=FEED.mudancas||{},it=(Array.isArray(m.itens)?m.itens:[]).filter(x=>x&&x.texto);const L=lente();
+  const nome={nova:"Nova",atualizada:"Atualizada",virou:"Virou",encerrada:"Encerrada",corrigida:"Correção"};
+  sheet("O que mudou",`<p class="hint" style="margin:0">Edição das ${esc(hhmm(FEED.atualizado_em))}${m.titulo?" · "+esc(m.titulo):""}</p><ul class="mud-l">${it.map(x=>{const p=x.pid&&pautaById(x.pid);const k=`<b class="mud-k ${esc(x.tipo||"")}">${esc(nome[x.tipo]||"Novidade")}</b>`;
+    return `<li>${p?`<button type="button" data-mudouir="${esc(x.pid)}">${k}<span class="mud-t">${esc(versao(p,L).titulo)}</span><span class="mud-x">${esc(x.texto)}</span></button>`:`<div>${k}<span class="mud-x">${esc(x.texto)}</span></div>`}</li>`}).join("")||`<li><div><span class="mud-x">Sem mudanças listadas nesta edição.</span></div></li>`}</ul>`);uso("o_que_mudou")}
+/* janelas por cima: a página de baixo fica parada */
+var TRAVA_Y=null;
+function travarFundo(){if(TRAVA_Y!==null)return;TRAVA_Y=scrollY;const b=document.body;b.style.position="fixed";b.style.top=(-TRAVA_Y)+"px";b.style.left="0";b.style.right="0";b.style.width="100%";document.documentElement.classList.add("travado")}
+function destravarFundo(){if(TRAVA_Y===null)return;const y=TRAVA_Y;TRAVA_Y=null;const b=document.body;b.style.position="";b.style.top="";b.style.left="";b.style.right="";b.style.width="";document.documentElement.classList.remove("travado");window.scrollTo(0,y)}
+function temJanela(){const a=$("#layer"),b=$("#layer2");return !!((a&&a.innerHTML)||(b&&b.innerHTML))}
+(function(){const ob=new MutationObserver(()=>{if(temJanela())travarFundo();else destravarFundo()});["#layer","#layer2"].forEach(sel=>{const el=$(sel);if(el)ob.observe(el,{childList:true})})})();
+(function(){const ant=closeLayer;closeLayer=function(){const l2=$("#layer2"),l1=$("#layer");const fica=!!(l2&&l2.innerHTML&&l1&&l1.innerHTML);if(!fica)destravarFundo();return ant.apply(this,arguments)}})();
+/* segurar o dedo: nada de seleção nem menu do sistema */
+document.addEventListener("contextmenu",e=>{if(e.target.closest&&e.target.closest(".cpi-b,.post .cover,.post .sl,.pv,[data-capair],[data-cp1m],.cp-agora,.mat-rel"))e.preventDefault()});
+(function(){const ant=abrirPrevia;abrirPrevia=function(){const r=ant.apply(this,arguments);try{const s=getSelection();if(s)s.removeAllRanges()}catch(e){}return r}})();
+document.addEventListener("pointerup",()=>{try{const s=getSelection();if(s&&!s.isCollapsed&&$("#layer .pv"))s.removeAllRanges()}catch(e){}},true);
+
+/* ---------- Etapa 27 ---------- */
+carregarFotosArq();
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

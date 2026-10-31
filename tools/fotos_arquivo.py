@@ -38,7 +38,7 @@ PESSOAS = {
     "Ciro Nogueira": ["Ciro Nogueira"],
     "Edson Fachin": ["Fachin"],
     "Gilmar Mendes": ["Gilmar"],
-    "Flávio Dino": ["Dino"],
+    "Flávio Dino": ["Flávio Dino", "Dino"],
     "André Mendonça": ["Mendonça"],
     "Kassio Nunes Marques": ["Nunes Marques"],
     "Cármen Lúcia": ["Cármen Lúcia"],
