@@ -5,6 +5,7 @@ Uso:
   python3 validar.py feed.json [anterior.json]            (forma antiga, continua valendo)
   python3 validar.py feed.json --prev anterior.json [--json] [--virada] [--agora 2026-10-14T21:48:00-03:00]
 
+  --ind X     indicadores.json (padrão: ao lado do feed, ou /tmp/prumo-site/indicadores.json): confere dólar e Ibovespa citados
   --prev X    feed anterior (o que estava no ar antes da sua rodada): enquetes, pesquisas, mudanças
   --json      imprime na ÚLTIMA linha um resumo {"erros":N,"avisos":N,"pendencias":[...]}
   --virada    modo da rodada da meia-noite: palavras de dia relativo viram ERRO
@@ -15,7 +16,7 @@ PENDÊNCIAS são coisas que já deveriam ter desfecho (evento da agenda que come
 "ainda não"/"até as 19h"): resolva-as primeiro na rodada rápida.
 Só usa a biblioteca padrão do Python.
 """
-import json, re, sys, difflib, unicodedata
+import json, os, re, sys, difflib, unicodedata
 from collections import Counter
 from datetime import datetime, date, timedelta, timezone
 from urllib.parse import urlparse
@@ -280,7 +281,93 @@ def pendencias(f, agora):
     return out
 
 # ---------- checagem ----------
-def checar(f, ant=None, virada=False, agora=None):
+# números do mercado no texto × indicadores.json (dólar e Ibovespa, gravados pelo robô de cotações)
+IND_CTX = {"dolar": re.compile(r"d[óo]lar", re.I), "ibovespa": re.compile(r"ibovespa|\bbolsa\b|\bB3\b", re.I)}
+IND_VAL = {"dolar": re.compile(r"R\$\s?(\d{1,2},\d{2,4})(?!\d)"), "ibovespa": re.compile(r"(\d{2,3}(?:\.\d{3})|\d{2,3}(?:,\d)?\s?mil)\s*pontos", re.I)}
+IND_PCT = re.compile(r"(\d{1,2}(?:,\d{1,2})?)\s?%\s*(na semana|no dia|em uma semana|em sete dias)", re.I)
+VARIACAO_ANTES = re.compile(r"(perde|perdeu|ganha|ganhou|cai|caiu|sobe|subiu|recua|recuou|avança|avançou|alta|queda|salto|tombo|mais|menos|variação)( de| cerca de| quase)?\s*$", re.I)
+def fmt_ind(k, v): return f"R$ {v:.2f}".replace(".", ",") if k == "dolar" else f"{v:,.0f}".replace(",", ".")
+OUTRA_MOEDA = re.compile(r"\beuro|\bpeso|\byuan|\biene|\blibra", re.I)
+
+def ler_indicadores(caminho):
+    for c in [caminho, "indicadores.json", "/tmp/prumo-site/indicadores.json"]:
+        if not c: continue
+        try:
+            d = json.load(open(c, encoding="utf-8"))
+            return {x.get("id"): x for x in d.get("itens") or [] if isinstance(x, dict)}
+        except Exception: continue
+    return None
+
+def num_br(t):
+    t = t.strip().lower()
+    if "mil" in t: return float(re.sub(r"\s*mil", "", t).replace(",", ".")) * 1000
+    return float(t.replace(".", "").replace(",", "."))
+
+def checar_mercado(f, IND, ref):
+    """Erro em título, subtítulo, pontos, resumo e capa; aviso no texto. Só dólar e Ibovespa (os que têm série diária)."""
+    if not IND: return
+    ok = {}
+    for k in ("dolar", "ibovespa"):
+        x = IND.get(k) or {}
+        se = [v for v in x.get("serie") or [] if isinstance(v, (int, float)) and v > 0]
+        try: dd = date.fromisoformat(str(x.get("data", "")))
+        except ValueError: continue
+        if len(se) < 6 or (ref.date() - dd).days > 4: continue
+        try: var = float(str(x.get("variacao", "")).replace("%", "").replace(",", ".").replace("+", ""))
+        except ValueError: var = None
+        ult = se[-10:]
+        ok[k] = {"lo": min(ult) * 0.97, "hi": max(ult) * 1.03, "sem": abs(se[-1] / se[-6] - 1) * 100, "dia": abs(var) if var is not None else None, "nome": x.get("nome") or k}
+    if not ok: return
+    def campos():
+        cp = f.get("capa") or {}
+        if cp.get("linha_fina"): yield "capa.linha_fina", True, cp["linha_fina"]
+        for i, it in enumerate((f.get("resumo_dia") or {}).get("itens") or []):
+            if isinstance(it, dict): yield "resumo_dia", True, it.get("texto") or ""
+        for p in f.get("pautas") or []:
+            if p.get("secao") not in ("economia", None) and not any(IND_CTX[k].search(json.dumps(p.get("neutro") or {}, ensure_ascii=False)) for k in ok): continue
+            pid = p.get("id")
+            for lado in ("neutro", "direita", "esquerda"):
+                v = p.get(lado) or {}
+                if not isinstance(v, dict): continue
+                yield f"[{pid}] {lado}.titulo", True, v.get("titulo") or ""
+                for t in v.get("pontos") or []: yield f"[{pid}] {lado}.pontos", True, t if isinstance(t, str) else ""
+                yield f"[{pid}] {lado}.texto", False, v.get("texto") or ""
+            yield f"[{pid}] subtitulo", True, p.get("subtitulo") or ""
+            for u in p.get("atualizacoes") or []:
+                if isinstance(u, dict): yield f"[{pid}] atualizacoes", False, u.get("texto") or ""
+    for onde, estrito, t in campos():
+        for fr in re.split(r"(?<=[.!?;])\s+(?=[A-ZÁÉÍÓÚÂÊÔÃÕÇ0-9])", str(t)):
+            if OUTRA_MOEDA.search(fr): continue
+            ctx = sorted((m.start(), k) for k in ok for m in IND_CTX[k].finditer(fr))
+            if not ctx: continue
+            def dono(pos):
+                d = [k for s0, k in ctx if s0 <= pos]
+                return d[-1] if d else None
+            problemas = []
+            for k in ok:
+                for m in IND_VAL[k].finditer(fr):
+                    if dono(m.start()) != k: continue
+                    if VARIACAO_ANTES.search(fr[max(0, m.start() - 30):m.start()]): continue  # "perde 37 mil pontos" é variação, não nível
+                    try: v = num_br(m.group(1))
+                    except ValueError: continue
+                    if not ok[k]["lo"] <= v <= ok[k]["hi"]:
+                        problemas.append(f"{ok[k]['nome']} {m.group(0).strip()} fora da faixa dos últimos 10 pregões ({fmt_ind(k, ok[k]['lo'] / 0.97)} a {fmt_ind(k, ok[k]['hi'] / 1.03)})")
+            for m in IND_PCT.finditer(fr):
+                k = dono(m.start())
+                if not k: continue
+                c = float(m.group(1).replace(",", "."))
+                if "dia" in m.group(2).lower():
+                    real = ok[k]["dia"]
+                    if real is None or abs(c - real) <= max(0.5, 0.2 * real): continue
+                else:
+                    real = ok[k]["sem"]
+                    if abs(c - real) <= max(1.5, 0.2 * real): continue
+                problemas.append(f"{ok[k]['nome']}: \"{m.group(0)}\", mas a variação foi de {real:.2f}% ({m.group(2)})")
+            for pr_ in problemas:
+                (E if estrito else A)(f"{onde}: número de mercado não bate com os indicadores — {pr_}. Confira na fonte.")
+
+
+def checar(f, ant=None, virada=False, agora=None, IND=None):
     preparar_veiculos(f)
     ps = f.get("pautas") or []
     P = {p.get("id"): p for p in ps}
@@ -790,6 +877,8 @@ def checar(f, ant=None, virada=False, agora=None):
         if am.get("titulo") == mud.get("titulo") and len(mi) < 8:
             perdidos = [it.get("pid") for it in am.get("itens") or [] if it.get("pid") in ids and it.get("pid") not in mp]
             if perdidos: A(f"mudancas perdeu itens do feed anterior (devem acumular desde a última rodada completa): {perdidos}")
+    try: checar_mercado(f, IND, ref)
+    except Exception as e: A(f"conferência dos números de mercado falhou: {e!r}")
     return ref, agora
 
 def checar_cobertura(p, pid, ref):
@@ -924,12 +1013,13 @@ def checar_imagem(pid, im, p):
         A(f"[{pid}] celular.contador '{d.get('contador')}' não aparece no texto")
 
 def main(argv):
-    args, prev, as_json, virada, agora = [], None, False, False, None
+    args, prev, as_json, virada, agora, indf = [], None, False, False, None, None
     i = 0
     while i < len(argv):
         a = argv[i]
         if a == "--prev": prev = argv[i + 1]; i += 2; continue
         if a == "--agora": agora = datetime.fromisoformat(argv[i + 1]); i += 2; continue
+        if a == "--ind": indf = argv[i + 1]; i += 2; continue
         if a == "--json": as_json = True
         elif a == "--virada": virada = True
         elif a in ("-h", "--help"): print(__doc__); return 0
@@ -948,7 +1038,8 @@ def main(argv):
         try: ant = json.load(open(prev, encoding="utf-8"))
         except Exception: A("não consegui ler o feed anterior")
     if agora is not None and agora.tzinfo is None: agora = agora.replace(tzinfo=SP)
-    try: ref, ag = checar(f, ant, virada, agora)
+    IND = ler_indicadores(indf or os.path.join(os.path.dirname(os.path.abspath(args[0])), "indicadores.json"))
+    try: ref, ag = checar(f, ant, virada, agora, IND)
     except Exception as e:
         E(f"validar.py falhou ao checar (algum campo com tipo errado?): {e!r}"); ag = agora or datetime.now(SP)
     try: pend = pendencias(f, ag)

@@ -1628,6 +1628,15 @@ html.feed-limpo #v-feed .chg.ag{display:none!important}
 .cpi-b,.post .cover,.post .sl,.pv,.cp-1m,.cp-agora,.mat-rel,.cp-l,.svr,[data-capair],[data-busca]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 img{-webkit-touch-callout:none;-webkit-user-drag:none}
 .sheet .sh-b,.mat{overscroll-behavior:contain}
+
+.cp-corr{color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0}
+.mat-corr{border:0;background:none;padding:0;font:inherit;color:#b45309;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.mat-fix{margin:18px 0;padding:12px 14px;border-left:3px solid #d97706;background:var(--card);border-radius:0 10px 10px 0;font-size:calc(14.5px*var(--fz,1));line-height:1.5}
+.mat-fix b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#b45309;margin-bottom:4px}
+.mat-fix p{margin:4px 0}.mat-fix span{color:var(--muted);font-weight:600}
+[data-credfull]{cursor:pointer;pointer-events:auto}
+small.cred-longo{white-space:normal!important;max-width:calc(100% - 16px)!important}
+:root[data-aparencia="escuro"] .mat-corr,:root[data-aparencia="escuro"] .mat-fix b{color:#f59e0b}
 </style>
 </head>
 <body>
@@ -2029,7 +2038,7 @@ function slides(p){
   const n=p.neutro||{},sec=secOf(p),out=[];
   const info=(p.imagem?.etiqueta||"").toLowerCase()==="infográfico"||["pesquisa","indicador","dinheiro","plenario"].includes(p.imagem?.modelo);
   const fo=fotoDe(p);
-  out.push(`<div class="sl"><div class="cover paper${fo?" fcv":info?" info":""}" data-sec="${esc(sec)}">${fo?`${coverSvg(p.imagem)}${fotoImg(fo,"fcv-i",1)}${fo.credito?`<small class="fcv-c">${esc(fo.credito)}</small>`:""}`:info?svgOf(p.imagem):coverSvg(p.imagem)}<div class="cv"><span class="kickrow"><button type="button" class="kick kickb" data-tagx>${esc(p.tag||secNome(sec))}</button>${fo?"":`<span class="klab">${esc((p.imagem?.etiqueta||"Ilustração").toLowerCase())}</span>`}</span><h2 class="${(n.titulo||"").length>72?"long":""}">${esc(n.titulo)}</h2></div></div></div>`);
+  out.push(`<div class="sl"><div class="cover paper${fo?" fcv":info?" info":""}" data-sec="${esc(sec)}">${fo?`${coverSvg(p.imagem)}${fotoImg(fo,"fcv-i",1)}${fo.credito?credHTML(fo.credito,"fcv-c"):""}`:info?svgOf(p.imagem):coverSvg(p.imagem)}<div class="cv"><span class="kickrow"><button type="button" class="kick kickb" data-tagx>${esc(p.tag||secNome(sec))}</button>${fo?"":`<span class="klab">${esc((p.imagem?.etiqueta||"Ilustração").toLowerCase())}</span>`}</span><h2 class="${(n.titulo||"").length>72?"long":""}">${esc(n.titulo)}</h2></div></div></div>`);
   const ups=(p.atualizacoes||[]).slice().sort((a,b)=>String(b.hora).localeCompare(String(a.hora)));
   out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">O que aconteceu</span>${ups.length?ups.slice(0,2).map(u=>`<div class="upd"><b>Atualizado às ${esc(hhmm(u.hora))}</b>${esc(u.texto)}</div>`).join(""):""}${(p.correcoes||[]).map(c=>`<div class="upd fix"><b>Correção · ${esc(hhmm(c.hora))}</b>${esc(c.texto)}</div>`).join("")}<p class="lead">${marcarTermos(n.texto||"")}</p>${p.contexto?`<p class="note"><b>Contexto.</b> ${marcarTermos(p.contexto)}</p>`:""}${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}${(FEED.explicadores||{})[temaDe(p)]?`<button type="button" class="explain" data-explica="${esc(temaDe(p))}">Entenda: ${esc(temaDe(p))}</button>`:""}</div>`);
   if(p.direita||p.esquerda)out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">A mesma notícia, dois ângulos</span>${p.direita?`<div class="ang r"><span class="lbl">Viés de direita</span><b>${esc(p.direita.titulo)}</b><span class="x">${esc(p.direita.texto)}</span></div>`:""}${p.esquerda?`<div class="ang l"><span class="lbl">Viés de esquerda</span><b>${esc(p.esquerda.titulo)}</b><span class="x">${esc(p.esquerda.texto)}</span></div>`:""}${p.o_que_muda?`<p class="note"><b>O que muda.</b> ${esc(p.o_que_muda)}</p>`:""}<p class="hint">Versões escritas pelo Prumo com os mesmos fatos, mudando só a ênfase e as palavras.</p></div>`);
@@ -3677,6 +3686,7 @@ function fotoSrc(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wik
 function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.loading="eager";img.setAttribute("src",o);return}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
+const APP_VERSAO="57e60661b724";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -3690,7 +3700,7 @@ async function carregarFotosArq(){try{const r=await fetch("fotos-arquivo.json",{
   const mud=!FOTOS_ARQ||FOTOS_ARQ.gerado!==d.gerado;FOTOS_ARQ=d;FA_CACHE={};try{localStorage.setItem("prumo-fotos-arq",JSON.stringify(d))}catch(e){}
   if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}}catch(e){}}
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
-  return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f,"",0,!!cred)}${cred&&f.credito?`<small class="cred">${esc(f.credito)}</small>`:""}</span>`}
+  return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f,"",0,!!cred)}${cred&&f.credito?credHTML(f.credito,"cred"):""}</span>`}
 function indTile(x){const seta={sobe:"▲",desce:"▼",estavel:"▬"};const em=x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:"";
   const sp=grSpark(x),miolo=`<span>${esc(x.nome)}</span><b>${esc(x.valor)}</b>${em}${sp}`;
   return x.id?`<button type="button" class="ind-t" data-indg="${esc(x.id)}" aria-label="${esc(x.nome)}: ${esc(x.valor)}. Ver gráfico">${miolo}</button>`:`<div class="ind-t">${miolo}</div>`}
@@ -3707,7 +3717,7 @@ var CP_MAIS=null;
 function capaSub(p,L,extra){const v=versao(p,L);if(v.tem)return capaFrase(v.texto,170);return extra||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro?.texto,170)}
 function lenteHTML(mini){const L=lente();return `<div class="lente${mini?" mini":""}" role="tablist" aria-label="Leitura das notícias">${[["neutro","Neutra"],["direita","Direita"],["esquerda","Esquerda"]].map(([k,n])=>`<button type="button" role="tab" data-lente="${k}" aria-selected="${L===k}">${n}</button>`).join("")}</div>`}
 function cpItem(p,o){const L=lente(),v=versao(p,L),ab=CP_AB===p.id,lc=lidaAtual(p)?" lida":"";
-  const k=`<span class="cp-k" style="color:${secCor(secOf(p))}">${cpNovo(p)}${esc(capaChapeu(p))}${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</span>`;
+  const k=`<span class="cp-k" style="color:${secCor(secOf(p))}">${cpNovo(p)}${esc(capaChapeu(p))}${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}${corRecente(p)?`<span class="cp-corr"> · corrigida</span>`:""}</span>`;
   const marca=v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:"";
   const sub=o.sub?`<span class="cp-sub">${esc(capaSub(p,L,o.linha))}</span>`:"";
   const arte=o.arte?capaArte(p,o.tam==="man"?"art":"cp-th",o.tam==="man"):"";
@@ -3718,7 +3728,7 @@ function dia1min(ps){const rd=FEED.resumo_dia&&Array.isArray(FEED.resumo_dia.ite
   const ok=x=>!x.pid||ps.some(p=>p.id===x.pid);let it=rd.filter(ok).slice(0,6);
   if(!it.length){const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;it=[...ps].sort((a,b)=>pr(b)-pr(a)).slice(0,5).map(p=>({pid:p.id,texto:p.neutro?.titulo||""}))}
   if(!it.length)return "";
-  return `<section class="cp-1m" aria-label="O dia em 1 minuto"><h3>O dia em 1 minuto</h3><ol>${it.map(x=>`<li>${x.pid?`<button type="button" data-cp1m="${esc(x.pid)}">${esc(x.texto)}</button>`:`<span>${esc(x.texto)}</span>`}</li>`).join("")}</ol></section>`}
+  const rt=resumoTitulo();return `<section class="cp-1m" aria-label="${esc(rt)}"><h3>${esc(rt)}</h3><ol>${it.map(x=>`<li>${x.pid?`<button type="button" data-cp1m="${esc(x.pid)}">${esc(x.texto)}</button>`:`<span>${esc(x.texto)}</span>`}</li>`).join("")}</ol></section>`}
 function lenteBotao(){let b=document.getElementById("lp");
   if(!b){b=document.createElement("button");b.type="button";b.id="lp";b.className="lp";b.setAttribute("aria-haspopup","menu");b.dataset.lpabre="1";document.body.appendChild(b)}
   const L=lente(),N={neutro:"Neutra",direita:"Direita",esquerda:"Esquerda"};
@@ -3741,12 +3751,12 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   h+=`<div class="mat-arte">${capaArte(p,"art",true)}</div>`;
   h+=`<div class="gut mat-tx"><h1>${v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:""}${esc(v.titulo)}</h1>`;
   const sub=capaSub(p,L,"");if(sub&&sub!==v.titulo)h+=`<p class="mat-sub">${esc(sub)}</p>`;
-  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>Atualizado ${esc(quando(u))}</span>`:""}<span>${minLeitura(p,v)} min de leitura</span></p>`;
+  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>Atualizado ${esc(quando(u))}</span>`:""}<span>${minLeitura(p,v)} min de leitura</span>${matCorSelo(p)}</p>`;
   if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
   else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
   h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
   h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${marcarTermos(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${marcarTermos(v.texto)}</p></div>`;
-  h+=matVisuais(p);
+  h+=matCorBloco(p);h+=matVisuais(p);
   if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
   if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
   const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
@@ -3757,7 +3767,7 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().reverse();
   if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(hhmm(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
   const nx=matProx(p.id);h+=matRel(p,nx);
-  h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button>${f&&f.credito?`<span class="cpx-fontes">${esc(f.credito)}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
+  h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
   if(vazio&&pushH())HST++}
 (function(){const ant=closeLayer;closeLayer=function(fp){const eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);ant.apply(this,arguments);
@@ -3769,7 +3779,7 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
   const vivo=ps.filter(p=>p.status==="ao_vivo");
   let h=`<div class="gut cp"><header class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed">${esc(capaEdicao())}${FEED.contagem?" · "+esc(FEED.contagem):""}</span></header>`;
-  h+=agoraHTML();h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
+  h+=agoraHTML();h+=capaNovBar();h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
   if(man){const u=ultimaAtualizacao(man)||man.hora;
     const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>Atualizado às ${esc(hhmm(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
     h+=cpItem(man,{tam:"man",sub:true,arte:true,linha:L==="neutro"?linha:"",meta});
@@ -3785,8 +3795,8 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   if(acomp.length)h+=`<div class="cp-h"><h3>Para acompanhar</h3></div><ul class="cp-l">${acomp.map(p=>{const et=cobEtapaAtual(p);return `<li><button type="button" data-cobpag="${esc(p.id)}"><span class="s">${esc(quando(ultimaAtualizacao(p)||p.hora))}</span><b>${esc(temaDe(p)||versao(p,L).titulo)}${et?" · "+esc(et):p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</b></button></li>`}).join("")}</ul>`;
   const ult=tickerItens(8);
   if(ult.length)h+=`<div class="cp-h"><h3>Últimas</h3></div><ul class="cp-l">${ult.map(i=>{const p=pautaById(i.pid);return `<li><button type="button" data-capair="${esc(i.pid)}"><span class="s">${i.hora?esc(hhmm(i.hora))+" · ":""}${esc(p?temaDe(p)||secNome(i.sec):secNome(i.sec))}</span><b>${esc(i.txt)}</b></button></li>`}).join("")}</ul>`;
-  const hj=hojeSP(),am=somaDias(hj,1),ag=(FEED.agenda||[]).map(a=>({...a,_d:agData(a,hj)})).filter(a=>a._d===hj||a._d===am).sort((x,y)=>x._d.localeCompare(y._d)||agMin(x)-agMin(y));
-  if(ag.length)h+=`<div class="cp-h"><h3>Agenda</h3></div><ul class="cp-l">${ag.map(a=>{const pid=agPid(a);return `<li><button type="button" ${pid?`data-capair="${esc(pid)}"`:"disabled"}><span class="s">${a._d===hj?"Hoje":"Amanhã"}${agHoraTxt(a)?" · "+esc(agHoraTxt(a)):""}</span><b>${esc(a.texto)}</b></button></li>`}).join("")}</ul>`;
+  const hj=hojeSP(),am=somaDias(hj,1),ag=(FEED.agenda||[]).map(a=>({...a,_d:agData(a,hj)})).filter(a=>a._d===hj||a._d===am||(fimDeSemana()&&a._d>am&&a._d<=somaDias(hj,7))).sort((x,y)=>x._d.localeCompare(y._d)||agMin(x)-agMin(y)).slice(0,fimDeSemana()?8:99);
+  if(ag.length)h+=`<div class="cp-h"><h3>${fimDeSemana()?"Agenda da semana":"Agenda"}</h3></div><ul class="cp-l">${ag.map(a=>{const pid=agPid(a);return `<li><button type="button" ${pid?`data-capair="${esc(pid)}"`:"disabled"}><span class="s">${agDiaTxt(a._d,hj,am)}${agHoraTxt(a)?" · "+esc(agHoraTxt(a)):""}</span><b>${esc(a.texto)}</b></button></li>`}).join("")}</ul>`;
   const enq=ps.filter(p=>p.enquete&&(p.enquete.opcoes||[]).length);const pend=S.uid&&S.membro?enq.filter(p=>meuVoto(p.id)==null).length:0;const qz=(FEED.quiz||[]).length&&!(S.quiz||{})[S.uid||"eu"];
   if(qz||pend)h+=`<button type="button" class="cp-int" data-vgo="play"><span><b>${qz?"Quiz do dia":"Enquetes"}</b><span>${[qz?`${FEED.quiz.length} perguntas sobre esta edição`:"",pend?`${pend} ${pend===1?"enquete espera":"enquetes esperam"} o seu voto`:""].filter(Boolean).join(" · ")}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
   const falta=ps.filter(p=>!lidaAtual(p)).length;
@@ -4328,6 +4338,83 @@ document.addEventListener("pointerup",()=>{try{const s=getSelection();if(s&&!s.i
 
 /* ---------- Etapa 27 ---------- */
 carregarFotosArq();
+
+/* ---------- Etapa 28 ---------- */
+/* fotos de arquivo sem repetir na edição: a de maior prioridade escolhe primeiro */
+var FA_MAP=null,FA_MAPK="";
+function faNome(u){try{u=String(u||"").split("?")[0];const m=u.match(/\/thumb\/[0-9a-f]\/[0-9a-f]{2}\/([^/]+)\//i);return decodeURIComponent(m?m[1]:u.split("/").pop()).toLowerCase()}catch(e){return String(u)}}
+function faPessoa(tit,A){let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
+function faListas(p,A){const L=[],T=A.temas||{},sec=secOf(p),tit=String((p.neutro||{}).titulo||"");
+  const pe=p.foto_arquivo==="tema"?null:faPessoa(tit,A);if(pe&&Array.isArray(pe.fotos)&&pe.fotos.length)L.push(pe.fotos);
+  const t=T[sec+"/"+(p.subtema||"")];if(Array.isArray(t)&&t.length)L.push(t);
+  const d=T[(A.padrao||{})[sec]];if(Array.isArray(d)&&d.length&&d!==t)L.push(d);return L}
+function faValida(f){return f&&typeof f.url==="string"&&FOTO_OK.test(f.url)}
+function faMapa(){const A=FOTOS_ARQ;if(!A||!FEED||!Array.isArray(FEED.pautas))return null;
+  const k=(A.gerado||"")+"|"+(FEED.atualizado_em||"")+"|"+FEED.pautas.map(p=>p.id+":"+(p.prioridade||0)+":"+((p.neutro||{}).titulo||"")).join(",");
+  if(FA_MAP&&FA_MAPK===k)return FA_MAP;
+  const usados=new Set(),M={},pr=p=>typeof p.prioridade==="number"?p.prioridade:0;
+  const ord=FEED.pautas.map((p,i)=>[p,i]).sort((a,b)=>pr(b[0])-pr(a[0])||a[1]-b[1]).map(x=>x[0]),dup=new Set();
+  ord.forEach(p=>{const f=p&&p.foto;if(f&&faValida(f)){const n=faNome(f.url);if(usados.has(n))dup.add(p.id);else usados.add(n)}});
+  ord.forEach(p=>{if(!p||!p.id||(p.foto&&faValida(p.foto)&&!dup.has(p.id)))return;
+    const L=faListas(p,A),h=hashStr(p.id);let esc=null;
+    for(const l of L){for(let j=0;j<l.length;j++){const f=l[(h+j)%l.length];if(faValida(f)&&!usados.has(faNome(f.url))){esc=f;break}}if(esc)break}
+    if(!esc&&L.length){const f=L[0][h%L[0].length];if(faValida(f))esc=f}
+    if(!esc&&dup.has(p.id))return;
+    if(esc){usados.add(faNome(esc.url));M[p.id]={url:esc.url,credito:esc.credito||"Foto de arquivo: Wikimedia Commons",alt:esc.alt||"Foto de arquivo",arquivo:1}}});
+  FA_MAP=M;FA_MAPK=k;return M}
+const _fotoDe27=fotoDe;
+fotoDe=function(p){const f=p&&p.foto;if(f&&typeof f==="object"&&faValida(f)){const M=faMapa();if(M&&p.id&&M[p.id]&&FEED.pautas.some(q=>q===p))return M[p.id];return f}return fotoArquivo(p)};
+const _fotoArquivo27=fotoArquivo;
+fotoArquivo=function(p){if(!p||!p.id)return null;const M=faMapa();
+  if(M&&FEED.pautas.some(q=>q===p||q.id===p.id&&((q.neutro||{}).titulo===(p.neutro||{}).titulo)))return M[p.id]||null;
+  if(p.foto_arquivo==="tema")return _fotoArquivo27({...p,neutro:{...(p.neutro||{}),titulo:""}});
+  return _fotoArquivo27(p)};
+
+/* crédito curto; um toque mostra o crédito completo (autor, acervo e licença) */
+function creditoCurto(c){c=String(c||"").trim();const arq=/^foto de arquivo/i.test(c);
+  let t=c.replace(/^foto( de arquivo)?\s*:\s*/i,"").replace(/\s*\([^()]*\)\s*$/,"").replace(/\s*(via|\/)\s*Wikimedia Commons\s*$/i,"").replace(/\s*\/\s*Commons\s*$/i,"").trim();
+  if(!t)t="Wikimedia Commons";if(t.length>34)t=t.slice(0,33).replace(/[\s/,.;-]+$/,"")+"…";
+  return (arq?"Arquivo · ":"Foto: ")+t}
+function credHTML(c,cls){return `<small class="${cls}" data-credfull="${esc(c)}" data-credcurto="${esc(creditoCurto(c))}" title="${esc(c)}">${esc(creditoCurto(c))}</small>`}
+window.addEventListener("click",e=>{const el=e.target&&e.target.closest&&e.target.closest("[data-credfull]");if(!el)return;e.stopPropagation();e.preventDefault();
+  const longo=el.classList.toggle("cred-longo");el.textContent=longo?el.dataset.credfull:el.dataset.credcurto},true);
+
+/* correções visíveis */
+function corUltima(p){const c=(p&&p.correcoes||[]).filter(x=>x&&x.texto);if(!c.length)return null;return c.reduce((a,b)=>tms(b.hora)>tms(a.hora)?b:a)}
+function corRecente(p){const c=corUltima(p);return !!(c&&c.hora&&Date.now()-tms(c.hora)<48*3600e3)}
+function matCorSelo(p){const c=corUltima(p);if(!c)return "";return `<button type="button" class="mat-corr" data-matcorr>${c.hora?"Corrigida "+esc(diaHora(c.hora)):"Corrigida"}</button>`}
+function matCorBloco(p){const c=(p.correcoes||[]).filter(x=>x&&x.texto);if(!c.length)return "";
+  return `<div class="mat-fix" id="mat-fix"><b>${c.length>1?"Correções":"Correção"}</b>${c.map(x=>`<p>${x.hora?`<span>${esc(diaHora(x.hora))}</span> `:""}${esc(x.texto)}</p>`).join("")}</div>`}
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-matcorr]");if(!b)return;e.stopPropagation();const el=document.getElementById("mat-fix");if(el)el.scrollIntoView({behavior:"smooth",block:"center"})});
+
+/* resumo com título próprio (fechamento da noite, semana no fim de semana) */
+function resumoTitulo(){const t=FEED&&FEED.resumo_dia&&FEED.resumo_dia.titulo;return typeof t==="string"&&t.trim().length>=3&&t.trim().length<=40?t.trim():"O dia em 1 minuto"}
+/* agenda da semana no fim de semana */
+function fimDeSemana(){const d=new Date(hojeSP()+"T12:00:00Z").getUTCDay();return d===0||d===6}
+function agDiaTxt(d,hj,am){if(d===hj)return "Hoje";if(d===am)return "Amanhã";const x=new Date(d+"T12:00:00Z");return ["dom","seg","ter","qua","qui","sex","sáb"][x.getUTCDay()]+" ("+x.getUTCDate()+")"}
+
+/* "desde a sua última visita": novas e atualizadas, com a última atualização de cada uma */
+function capaNovBar(){const l=capaNovas();if(!l.length)return "";const nv=l.filter(p=>NOVAS.has(p.id)).length,up=l.length-nv;
+  const t=[nv?`${nv} ${nv===1?"nova":"novas"}`:"",up?`${up} ${up===1?"atualizada":"atualizadas"}`:""].filter(Boolean).join(" · ");
+  return `<button type="button" class="cp-nov" data-cpnov><span class="nb-d"></span><span class="cp-nov-t"><b>${t}</b> desde a sua última visita${VISITA0&&hhmm(VISITA0)?` <span>(${esc(diaHora(VISITA0))})</span>`:""}</span><span class="chev" aria-hidden="true">›</span></button>`}
+function abrirNovCapa(){const l=capaNovas();const L=lente();const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;l.sort((a,b)=>(NOVAS.has(b.id)-NOVAS.has(a.id))||pr(b)-pr(a));
+  sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="mud-l">${l.map(p=>{const nv=NOVAS.has(p.id);const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto&&(!VISITA0||tms(u.hora)>tms(VISITA0)));const u=ups.length?ups.reduce((a,b)=>tms(b.hora)>tms(a.hora)?b:a):null;
+    return `<li><button type="button" data-cpnovir="${esc(p.id)}"><b class="mud-k ${nv?"nova":"atualizada"}">${nv?"Nova":"Atualizada"}</b><span class="mud-t">${esc(versao(p,L).titulo||"")}</span>${u?`<span class="mud-x">${u.hora?esc(hhmm(u.hora))+" · ":""}${esc(u.texto)}</span>`:""}</button></li>`}).join("")}</ul>`);uso("capa_desde")}
+
+/* versão nova do app já na primeira abertura: se ninguém mexeu ainda, recarrega na hora;
+   senão, quando a pessoa voltar ao app depois de alguns minutos */
+var VERSAO_NOVA=null,MEXEU=0,SAIU_V=0;
+["pointerdown","keydown","wheel","touchstart"].forEach(ev=>addEventListener(ev,()=>{MEXEU=1},{capture:true,passive:true}));
+function tentarRecarregar(voltou){if(!VERSAO_NOVA)return;if(voltou||(!MEXEU&&scrollY<40&&!temJanela())){try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}}
+async function checarVersao(){try{if(!/^[0-9a-f]{12}$/.test(APP_VERSAO))return;if(navigator.webdriver&&localStorage.getItem("prumo-teste-versao")!=="1")return;
+  const r=await fetch("versao.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();const v=d&&d.v;
+  if(typeof v!=="string"||!/^[0-9a-f]{12}$/.test(v)||v===APP_VERSAO)return;
+  try{if(sessionStorage.getItem("prumo-recarregou")===v)return}catch(e){}
+  if("caches" in window){const resp=await fetch("./",{cache:"no-cache"});if(!resp.ok)return;const txt=await resp.clone().text();if(txt.indexOf('"'+v+'"')<0)return;
+    try{const c=await caches.open("prumo-v1");await c.put("./",resp)}catch(e){}}
+  VERSAO_NOVA=v;tentarRecarregar(false)}catch(e){}}
+document.addEventListener("visibilitychange",()=>{if(document.hidden){SAIU_V=Date.now();return}if(VERSAO_NOVA&&SAIU_V&&Date.now()-SAIU_V>3*60e3)tentarRecarregar(true)});
+setTimeout(checarVersao,1200);
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

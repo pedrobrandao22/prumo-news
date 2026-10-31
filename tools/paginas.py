@@ -34,23 +34,64 @@ def pos_palavra(t, k):
     return m.start() + len(m.group(1)) if m else -1
 
 
-def foto_arquivo(p, A):
-    """Mesma regra do app: pessoa citada primeiro no título; senão, o tema da pauta."""
-    if not isinstance(A, dict): return None
-    tit = str((p.get("neutro") or {}).get("titulo") or "")
+def fa_nome(u):
+    u = str(u or "").split("?")[0]
+    m = re.search(r"/thumb/[0-9a-f]/[0-9a-f]{2}/([^/]+)/", u, re.I)
+    from urllib.parse import unquote
+    return unquote(m.group(1) if m else u.rsplit("/", 1)[-1]).lower()
+
+
+def fa_valida(f):
+    return isinstance(f, dict) and isinstance(f.get("url"), str) and bool(FOTO_OK.match(f["url"]))
+
+
+def fa_pessoa(tit, A):
     best, pos, ln = None, 10**9, 0
     for x in (A.get("pessoas") or {}).values():
         for k in (x.get("chaves") if isinstance(x, dict) and isinstance(x.get("chaves"), list) else []):
-            i = pos_palavra(tit, str(k))
+            if not isinstance(k, str) or not k: continue
+            i = pos_palavra(tit, k)
             if i >= 0 and (i < pos or (i == pos and len(k) > ln)): best, pos, ln = x, i, len(k)
-    l = best.get("fotos") if best else None
-    if not l:
-        T, sec = A.get("temas") or {}, p.get("secao") or "politica"
-        l = T.get(f"{sec}/{p.get('subtema') or ''}") or T.get((A.get("padrao") or {}).get(sec)) or None
-    if not l: return None
-    f = l[hash_str(p["id"]) % len(l)]
-    if not isinstance(f, dict) or not isinstance(f.get("url"), str) or not FOTO_OK.match(f["url"]): return None
-    return {"url": f["url"], "credito": f.get("credito") or "Foto de arquivo: Wikimedia Commons"}
+    return best
+
+
+def fa_listas(p, A):
+    L, T, sec = [], A.get("temas") or {}, p.get("secao") or "politica"
+    pe = None if p.get("foto_arquivo") == "tema" else fa_pessoa(str((p.get("neutro") or {}).get("titulo") or ""), A)
+    if pe and isinstance(pe.get("fotos"), list) and pe["fotos"]: L.append(pe["fotos"])
+    t = T.get(f"{sec}/{p.get('subtema') or ''}")
+    if isinstance(t, list) and t: L.append(t)
+    d = T.get((A.get("padrao") or {}).get(sec))
+    if isinstance(d, list) and d and d is not t: L.append(d)
+    return L
+
+
+def mapa_fotos(pautas, A):
+    """Mesma regra do app (faMapa): pessoa citada primeiro no título, senão o tema; sem repetir foto na edição,
+    e a pauta de maior prioridade escolhe primeiro."""
+    if not isinstance(A, dict): return {}
+    usados, M, dup = set(), {}, set()
+    pr = lambda p: p.get("prioridade") if isinstance(p.get("prioridade"), (int, float)) and not isinstance(p.get("prioridade"), bool) else 0
+    ordem = [p for _, p in sorted(enumerate(pautas), key=lambda x: (-pr(x[1]), x[0]))]
+    for p in ordem:  # foto própria repetida em outra pauta (de maior prioridade) dá lugar a uma de arquivo
+        if fa_valida(p.get("foto")):
+            n = fa_nome(p["foto"]["url"])
+            if n in usados: dup.add(p.get("id"))
+            else: usados.add(n)
+    for p in ordem:
+        if not p.get("id") or (fa_valida(p.get("foto")) and p.get("id") not in dup): continue
+        L, h, esc = fa_listas(p, A), hash_str(p["id"]), None
+        for l in L:
+            for j in range(len(l)):
+                f = l[(h + j) % len(l)]
+                if fa_valida(f) and fa_nome(f["url"]) not in usados: esc = f; break
+            if esc: break
+        if not esc and L and fa_valida(L[0][h % len(L[0])]): esc = L[0][h % len(L[0])]
+        if not esc and p["id"] in dup: continue
+        if esc:
+            usados.add(fa_nome(esc["url"]))
+            M[p["id"]] = {"url": esc["url"], "credito": esc.get("credito") or "Foto de arquivo: Wikimedia Commons"}
+    return M
 
 
 def primeira_frase(t):
@@ -59,12 +100,12 @@ def primeira_frase(t):
     return (m.group(1) if m else t)[:220]
 
 
-def pagina(p, A=None):
+def pagina(p, FA=None):
     pid = p["id"]
     n = p.get("neutro") or {}
     tit = str(n.get("titulo") or "Prumo News").strip()
     desc = str(p.get("subtitulo") or "").strip() or primeira_frase(n.get("texto"))
-    f = p.get("foto") if isinstance(p.get("foto"), dict) and FOTO_OK.match(str(p["foto"].get("url") or "")) else (foto_arquivo(p, A) or {})
+    f = (FA or {}).get(p["id"]) or (p["foto"] if fa_valida(p.get("foto")) else {})
     img, w, h = BASE + "/og-padrao.png", "1200", "630"
     if isinstance(f.get("url"), str) and FOTO_OK.match(f["url"]):
         img, w, h = foto_leve(f["url"]), "", ""
@@ -106,12 +147,14 @@ def main(argv):
     arq = argv[2] if len(argv) > 2 else os.path.join(os.path.dirname(os.path.abspath(feed)), "fotos-arquivo.json")
     try: A = json.load(open(arq, encoding="utf-8"))
     except (OSError, ValueError): A = None
+    pautas = [p for p in F.get("pautas") or [] if isinstance(p, dict)]
+    FA = mapa_fotos(pautas, A)
     novas = mudou = 0
     for p in F.get("pautas") or []:
         pid = p.get("id") if isinstance(p, dict) else None
         if not isinstance(pid, str) or not PID.match(pid): continue
         cam = os.path.join(pasta, pid + ".html")
-        txt = pagina(p, A)
+        txt = pagina(p, FA)
         velho = open(cam, encoding="utf-8").read() if os.path.exists(cam) else None
         if velho == txt: continue
         with open(cam, "w", encoding="utf-8") as fh: fh.write(txt)
