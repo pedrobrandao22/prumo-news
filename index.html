@@ -2106,6 +2106,15 @@ button:active:not(:disabled):not(.tap),[role=button]:active{transform:none}
 @keyframes sgPop{0%{transform:scale(1)}35%{transform:scale(1.35)}100%{transform:scale(1)}}
 .story.sg .sg-f2{transition:transform .18s ease-out}
 @media (prefers-reduced-motion:reduce){.story.sg .sg-a.pop .ico{animation:none}}
+
+/* ================= Etapa 48 ================= */
+.story.sg .sg-a{position:relative;transform:none!important}
+.story.sg .sg-a .ico{transform:none!important;animation:none!important}
+.story.sg .sg-a .ico .dotc{transition:fill .15s ease,stroke .15s ease}
+.story.sg .sg-a.anel::after{content:"";position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:2px solid #f2c27b;opacity:0;animation:sgAnel .5s ease-out;pointer-events:none}
+.story.sg .sg-acts .sg-a[data-a="like"]{min-width:52px}
+@keyframes sgAnel{0%{opacity:.9;transform:scale(.6)}100%{opacity:0;transform:scale(1.6)}}
+@media (prefers-reduced-motion:reduce){.story.sg .sg-a.anel::after{animation:none}}
 </style>
 </head>
 <body>
@@ -4159,7 +4168,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="33511efaf464";
+const APP_VERSAO="d8b2b6182639";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -5330,7 +5339,7 @@ var IG_VOLTA=null,IG_XMAT=0;
 document.addEventListener("click",e=>{if(e.target&&e.target.closest&&e.target.closest("#layer .mat [data-close],#layer .mat .mat-x,#layer .mat [data-voltar]"))IG_XMAT=Date.now()},true);
 {const _cl45=closeLayer;closeLayer=function(fromPop){const tinhaMat=!!$("#layer .mat")&&!($("#layer2")?.innerHTML),eraStory=!!$("#layer .story")&&!($("#layer2")?.innerHTML);
   const r=_cl45.apply(this,arguments);
-  if(tinhaMat&&IG_VOLTA&&!$("#layer").innerHTML){const v=IG_VOLTA;IG_VOLTA=null;if(fromPop===true||Date.now()-IG_XMAT<1500){ST=v;try{drawStory()}catch(e){}}}
+  if(tinhaMat&&IG_VOLTA&&!$("#layer").innerHTML){const v=IG_VOLTA;IG_VOLTA=null;if(fromPop===true||Date.now()-IG_XMAT<1500){ST=v;IG_MATPUSH=false;const _ph=pushH;pushH=()=>false;try{drawStory()}catch(e){}finally{pushH=_ph}}}
   else if(eraStory&&!$("#layer .story")){C5=null}
   return r}}
 {const _go45=go;go=function(){IG_VOLTA=null;return _go45.apply(this,arguments)}}
@@ -5511,10 +5520,31 @@ function igFundoTira(){document.getElementById("sg-fundo")?.remove()}
 /* matéria aberta pelo story e trocada por outra (deslizar para a esquerda): o botão continua "‹ Story" */
 {const _am47=abrirMateria;abrirMateria=function(){const r=_am47.apply(this,arguments);if(IG_VOLTA&&document.getElementById("sg-fundo")){const b=$("#layer .mat-v");if(b){b.textContent="‹ Story";b.setAttribute("aria-label","Voltar para o story")}}return r}}
 /* Gostei: ícone dourado e pulso */
-window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest('#layer .story [data-a="like"]');if(!b||!S.uid)return;setTimeout(()=>{const n=$('#layer .story [data-a="like"]');if(n&&n.classList.contains("on")){n.classList.remove("pop");void n.offsetWidth;n.classList.add("pop")}},30)},true);
+
 /* teclado do celular: o rodapé sobe junto */
 (function(){const vv=window.visualViewport;if(!vv)return;const aj=()=>{const f=$("#layer .story .sg-f2");if(!f)return;if(!IG_DIG){f.style.transform="";return}const k=Math.max(0,innerHeight-vv.height-vv.offsetTop);f.style.transform=k>40?`translateY(${-k}px)`:""};
   vv.addEventListener("resize",aj);vv.addEventListener("scroll",aj);document.addEventListener("focusin",()=>setTimeout(aj,50));document.addEventListener("focusout",()=>setTimeout(aj,200))})();
+
+/* ---------- Etapa 48 ---------- */
+var IG_MATPUSH=false;
+{const _lm48=igLerMateria;igLerMateria=function(pid){if($("#layer .story")&&!IG_MATPUSH){if(pushH()){HST++;IG_MATPUSH=true}}return _lm48.apply(this,arguments)}}
+{const _cl48=closeLayer;closeLayer=function(fromPop){const tinhaMat=!!$("#layer .mat")&&!($("#layer2")?.innerHTML);const r=_cl48.apply(this,arguments);
+  if(tinhaMat&&IG_MATPUSH&&!$("#layer .story")&&!$("#layer .mat")){IG_MATPUSH=false;if(HST>0){HST--;voltarH(1)}}return r}}
+/* Gostei no story: atualiza no lugar */
+function igLikeNoLugar(pid){const sa=$("#layer #s-acts");if(!sa||sa.dataset.pid!==pid)return false;const b=sa.querySelector('[data-a="like"]');if(!b)return false;
+  const {likes}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));const era=b.classList.contains("on");b.classList.toggle("on",mine);b.setAttribute("aria-pressed",String(mine));
+  let sp=b.querySelector("span");if(likes.length){if(!sp){sp=document.createElement("span");b.appendChild(sp)}sp.textContent=likes.length}else if(sp)sp.remove();
+  if(mine&&!era){b.classList.remove("anel");void b.offsetWidth;b.classList.add("anel")}return true}
+{const _us48=updateSocial;updateSocial=function(pid){const sa=$("#layer #s-acts");let tirou=false;if(sa&&sa.dataset.pid===pid&&sa.querySelector('[data-a="like"]')){sa.dataset.pid="";tirou=true}
+  let r;try{r=_us48.apply(this,arguments)}finally{if(tirou){sa.dataset.pid=pid;igLikeNoLugar(pid)}}return r}}
+/* desempenho: a fileira de círculos fica escondida atrás do story; redesenha uma vez só, ao fechar */
+var RS_PEND=false;
+{const _rs48=renderSecs;renderSecs=function(){if($("#layer .story")){RS_PEND=true;return}RS_PEND=false;return _rs48.apply(this,arguments)}}
+{const _cl48b=closeLayer;closeLayer=function(){const sec=ST&&ST.sec;const r=_cl48b.apply(this,arguments);if(RS_PEND&&!$("#layer .story")){try{renderSecs();const box=$("#secs");if(box&&sec&&VIEW==="feed"){const sel=sec==="_5min"?"[data-5min]":sec==="_ult"?"[data-ultimas]":sec==="_ag"?"[data-igagenda]":String(sec).indexOf("_h:")===0?`[data-dest="${CSS.escape(sec.slice(3))}"]`:`[data-sec-story="${CSS.escape(sec)}"]`;const b=box.querySelector(sel);
+    if(b){const want=Math.max(0,b.getBoundingClientRect().left-box.getBoundingClientRect().left+box.scrollLeft-(box.clientWidth-b.offsetWidth)/2);if(Math.abs(box.scrollLeft-want)>8)box.scrollTo({left:want,behavior:REDUZ.matches?"auto":"smooth"})}}}catch(e){}}return r}}
+{const _de48=destaques;let ck="",cv=[];destaques=function(){const k=FEED?(FEED.atualizado_em+"|"+(FEED.pautas||[]).length+"|"+(PREF.ocultas||[]).join()):"";if(k&&k===ck)return cv;cv=_de48.apply(this,arguments);ck=k;return cv}}
+/* rolagem infinita: se a marca de "carregar mais" já passou da tela (feed redesenhado lá embaixo), carrega na hora */
+{const _om48=observarMais;observarMais=function(){const r=_om48.apply(this,arguments);requestAnimationFrame(()=>{const m=$("#mais");if(m&&m.getBoundingClientRect().top<innerHeight+600)carregarMais()});return r}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
