@@ -1742,6 +1742,20 @@ button:active:not(:disabled):not(.tap),[role=button]:active{transform:none}
 .cp-nov .chev{font-size:16px}
 .cp-nov:active{transform:none}
 .cp2>.cp-agora,.cp2>.cp-nov,.cp2>.urg,.cp2>.cp-vivo{grid-column:1/-1}
+
+/* ---- Etapa 38: puxar para atualizar com o prumo ---- */
+.ptr2{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 4px);z-index:5;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;transform:translate3d(-50%,-46px,0);transform-origin:50% 0;pointer-events:none;will-change:transform,opacity}
+.ptr2-p{display:block;width:18px;height:32px;transform-origin:50% 0}
+.ptr2-p svg{display:block;width:100%;height:100%;fill:var(--muted);transition:fill .18s ease}
+.ptr2.pronto .ptr2-p svg,.ptr2.balanca .ptr2-p svg,.ptr2.feito .ptr2-p svg{fill:var(--bronze)}
+.ptr2-t{font:600 11.5px var(--f-ui);letter-spacing:.02em;color:var(--muted);white-space:nowrap;min-height:14px}
+.ptr2.balanca .ptr2-p{animation:prumoBal .9s cubic-bezier(.45,0,.55,1) infinite alternate}
+.ptr2.feito .ptr2-p{animation:prumoPara .45s cubic-bezier(.2,.9,.3,1) forwards}
+@keyframes prumoBal{from{transform:rotate(-12deg)}to{transform:rotate(12deg)}}
+@keyframes prumoPara{from{transform:rotate(6deg)}to{transform:rotate(0)}}
+.app.ptr-volta,.ptr2.ptr-volta{transition:transform .4s cubic-bezier(.2,.9,.3,1),opacity .3s ease}
+.app{will-change:auto}
+@media (prefers-reduced-motion:reduce){.ptr2.balanca .ptr2-p{animation:none}}
 </style>
 </head>
 <body>
@@ -3400,7 +3414,7 @@ document.addEventListener("touchend",e=>{const c=e.target.closest(".cover");if(!
 function duploGostei(c){const pid=c.closest("[data-pid]")?.dataset.pid;if(!pid)return;if(!S.uid){precisaConta();return}
   if(!socialOf(pid).likes.includes(S.uid))toggleLike(pid);const s=document.createElement("span");s.className="pop";s.innerHTML=ICON.like;c.appendChild(s);setTimeout(()=>s.remove(),950);vibrar(15)}
 /* 15. puxar para atualizar */
-(()=>{let y0=null,x0=0,dy=0;const ind=document.createElement("div");ind.id="ptr";ind.setAttribute("aria-hidden","true");ind.innerHTML='<svg viewBox="0 0 64 112"><rect x="14" y="0" width="36" height="7" rx="1.5"/><rect x="29.5" y="6" width="5" height="46"/><path d="M18 60H46L52 74L32 112L12 74Z"/></svg>';document.body.appendChild(ind);
+(()=>{if(1)return;let y0=null,x0=0,dy=0;const ind=document.createElement("div");ind.id="ptr";ind.setAttribute("aria-hidden","true");ind.innerHTML='<svg viewBox="0 0 64 112"><rect x="14" y="0" width="36" height="7" rx="1.5"/><rect x="29.5" y="6" width="5" height="46"/><path d="M18 60H46L52 74L32 112L12 74Z"/></svg>';document.body.appendChild(ind);
   document.addEventListener("touchstart",e=>{if(VIEW!=="feed"||scrollY>0||$("#layer").innerHTML||e.target.closest(".tk-vp")){y0=null;return}y0=e.touches[0].clientY;x0=e.touches[0].clientX;dy=0},{passive:true});
   document.addEventListener("touchmove",e=>{if(y0==null)return;dy=e.touches[0].clientY-y0;if(dy<25&&Math.abs(e.touches[0].clientX-x0)>Math.abs(dy)+6){y0=null;ind.style.opacity=0;ind.style.transform="";return}if(dy<=0||scrollY>0){ind.style.opacity=0;return}const dd=Math.min(dy,130);ind.style.opacity=Math.min(1,dd/75);ind.style.transform=`translate(-50%,${dd*.5}px) rotate(${(dd-65)*.4}deg)`},{passive:true});
   document.addEventListener("touchend",()=>{if(y0==null)return;y0=null;if(dy>80&&scrollY<=0){ind.classList.add("spin");vibrar(8);checarFeed(true).finally(()=>{ind.classList.remove("spin");ind.style.opacity=0;ind.style.transform=""})}else{ind.style.opacity=0;ind.style.transform=""}},{passive:true});})();
@@ -3707,7 +3721,7 @@ function cliqueConta(t){
   const ind=document.createElement("div");ind.className="ptr";ind.setAttribute("aria-hidden","true");ind.innerHTML='<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v4h-4"/></svg>';document.body.appendChild(ind);
   let p0=null,px=0,pd=0,trava=false;
   const solta=()=>{ind.style.opacity="";ind.style.transform=""};
-  addEventListener("touchstart",e=>{p0=null;if(trava||(VIEW!=="feed"&&VIEW!=="capa")||scrollY>2||abertaJanela()||e.touches.length>1||e.target.closest(".track,.secs,.tk-vp,input,textarea"))return;p0=e.touches[0].clientY;px=e.touches[0].clientX;pd=0},{passive:true});
+  addEventListener("touchstart",e=>{p0=null;if(window.PTR_NOVO||trava||(VIEW!=="feed"&&VIEW!=="capa")||scrollY>2||abertaJanela()||e.touches.length>1||e.target.closest(".track,.secs,.tk-vp,input,textarea"))return;p0=e.touches[0].clientY;px=e.touches[0].clientX;pd=0},{passive:true});
   addEventListener("touchmove",e=>{if(p0==null)return;const t=e.touches[0],dy=t.clientY-p0,dx=Math.abs(t.clientX-px);if(scrollY>2||dx>dy){p0=null;solta();return}pd=Math.max(0,dy);
     const k=Math.min(1,pd/96);ind.style.opacity=String(k);ind.style.transform=`translate(-50%,${Math.min(30,pd*.45-60)}px) rotate(${Math.round(pd*2.4)}deg)`},{passive:true});
   addEventListener("touchend",()=>{if(p0==null)return;const ok=pd>96;p0=null;if(!ok){solta();return}
@@ -3793,7 +3807,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="f52167c3a560";
+const APP_VERSAO="dbda15d3900d";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -4528,7 +4542,7 @@ async function checarVersao(){try{if(!/^[0-9a-f]{12}$/.test(APP_VERSAO))return;i
   if("caches" in window){const resp=await fetch("./",{cache:"no-cache"});if(!resp.ok)return;const txt=await resp.clone().text();if(txt.indexOf('"'+v+'"')<0)return;
     try{const c=await caches.open("prumo-v1");await c.put("./",resp)}catch(e){}}
   VERSAO_NOVA=v;tentarRecarregar(false)}catch(e){}}
-document.addEventListener("visibilitychange",()=>{if(document.hidden){SAIU_V=Date.now();return}if(VERSAO_NOVA&&SAIU_V&&Date.now()-SAIU_V>3*60e3)tentarRecarregar(true)});
+document.addEventListener("visibilitychange",()=>{if(document.hidden){SAIU_V=Date.now();return}if(VERSAO_NOVA&&SAIU_V&&Date.now()-SAIU_V>30e3)tentarRecarregar(true);else if(!VERSAO_NOVA&&SAIU_V&&Date.now()-SAIU_V>30e3&&Date.now()-(window.VER_CHK||0)>120e3){window.VER_CHK=Date.now();checarVersao().then(()=>{if(VERSAO_NOVA)tentarRecarregar(true)})}});
 setTimeout(checarVersao,1200);
 
 /* ---------- Etapa 29 ---------- */
@@ -4611,6 +4625,36 @@ function ancoraCapa(){if(CP_AB){const a=document.getElementById("cpi-"+CP_AB);if
 /* rola só o necessário para o quadro aberto caber na tela, sem tirar o título do cartão de vista */
 function mostrarInteiro(el){const r=el.getBoundingClientRect(),nav=document.querySelector(".nav"),baixo=innerHeight-((nav&&nav.offsetHeight)||0)-24;
   let dy=0;if(r.bottom>baixo)dy=Math.min(r.bottom-baixo,r.top-70);if(r.top<64)dy=r.top-70;if(Math.abs(dy)>4){window.PULA_SCROLL=Date.now()+400;window.scrollTo({top:scrollY+dy,behavior:"smooth"})}}
+
+/* ---------- Etapa 38: puxar para atualizar com o prumo ---------- */
+window.PTR_NOVO=1;
+(()=>{const app=document.querySelector(".app");if(!app)return;
+  const ind=document.createElement("div");ind.className="ptr2";ind.setAttribute("aria-hidden","true");
+  ind.innerHTML='<span class="ptr2-p"><svg viewBox="0 0 64 112"><rect x="14" y="0" width="36" height="7" rx="1.5"/><rect x="29.5" y="6" width="5" height="46"/><path d="M18 60H46L52 74L32 112L12 74Z"/></svg></span><span class="ptr2-t"></span>';document.body.appendChild(ind);
+  const txt=ind.querySelector(".ptr2-t");let y0=null,x0=0,r=0,pronto=false,ocupado=false,raf=0,ult=null;
+  const LIM=76,SEG=70;
+  const pinta=()=>{raf=0;if(!ult)return;const {r,dx}=ult;app.style.transform=`translate3d(0,${r}px,0)`;ind.style.opacity=String(Math.min(1,r/38));
+    ind.style.transform=`translate3d(-50%,${Math.min(r,LIM+20)-52}px,0) rotate(${Math.max(-10,Math.min(10,dx*.06))}deg)`};
+  const volta=()=>{app.classList.add("ptr-volta");ind.classList.add("ptr-volta");app.style.transform="";ind.style.opacity="0";ind.style.transform="";
+    setTimeout(()=>{app.classList.remove("ptr-volta");ind.classList.remove("ptr-volta","pronto","balanca","feito");txt.textContent=""},420)};
+  const pode=e=>!ocupado&&(VIEW==="feed"||VIEW==="capa")&&scrollY<=1&&!temJanela()&&e.touches.length===1&&!e.target.closest(".track,.secs,#secs,.tk-vp,.ag-vp,.segs,input,textarea,.gr-box");
+  addEventListener("touchstart",e=>{y0=null;if(!pode(e))return;y0=e.touches[0].clientY;x0=e.touches[0].clientX;r=0;pronto=false},{passive:true});
+  addEventListener("touchmove",e=>{if(y0==null)return;const t=e.touches[0],dy=t.clientY-y0,dx=t.clientX-x0;
+    if(r===0&&(dy<=0||Math.abs(dx)>Math.abs(dy))){if(Math.abs(dx)>10||dy<-6)y0=null;return}
+    if(scrollY>1){y0=null;volta();return}
+    r=Math.max(0,140*(1-Math.exp(-Math.max(0,dy)/260)));const p=r>=LIM;
+    if(p!==pronto){pronto=p;ind.classList.toggle("pronto",p);txt.textContent=p?"Solte para atualizar":"";if(p)try{vibrar(6)}catch(_){}}
+    ult={r,dx};if(!raf)raf=requestAnimationFrame(pinta)},{passive:true});
+  const solta=async()=>{if(y0==null)return;y0=null;cancelAnimationFrame(raf);raf=0;if(!pronto){volta();return}
+    ocupado=true;app.classList.add("ptr-volta");ind.classList.add("ptr-volta","balanca");app.style.transform=`translate3d(0,${SEG}px,0)`;ind.style.opacity="1";ind.style.transform=`translate3d(-50%,${SEG-52}px,0)`;txt.textContent="Atualizando…";
+    setTimeout(()=>{app.classList.remove("ptr-volta");ind.classList.remove("ptr-volta")},420);
+    const t0=Date.now();let novaVer=false;
+    try{await Promise.all([Promise.resolve(checarFeed(true)).catch(()=>{}),Promise.resolve(typeof checarVersao==="function"?checarVersao():0).catch(()=>{})]);novaVer=!!VERSAO_NOVA}catch(_){}
+    await new Promise(z=>setTimeout(z,Math.max(0,900-(Date.now()-t0))));
+    if(novaVer){txt.textContent="Nova versão…";try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(_){}location.reload();return}
+    ind.classList.remove("balanca");ind.classList.add("feito");txt.textContent="Em dia";await new Promise(z=>setTimeout(z,450));volta();setTimeout(()=>{ocupado=false},430)};
+  addEventListener("touchend",solta,{passive:true});addEventListener("touchcancel",solta,{passive:true});
+})();
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
