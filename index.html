@@ -4539,7 +4539,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="100264224b17";
+const APP_VERSAO="b2f6a12526d2";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 var PP_RE=new Map();function posPalavra(t,k){try{let re=PP_RE.get(k);if(!re){re=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u");PP_RE.set(k,re)}if(String(t).indexOf(k)<0&&String(t).toLowerCase().indexOf(String(k).toLowerCase())<0)return -1;const m=re.exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -6343,7 +6343,9 @@ function edStory(el){const st=ED.st,foto=st.bg.tipo==="foto";
   $("#ce-file").addEventListener("change",async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;try{const r=await edCarrega(f,2048);st.bg={tipo:"foto",...r,z:1,ox:0,oy:0};edDesenha()}catch(err){toast("Não deu para abrir essa foto.")}})}
 function edEncaixa(){const cv=$("#ce-cv"),pl=$("#layer .ce-palco");if(!cv||!pl)return;const r=pl.getBoundingClientRect();const w=Math.min(r.width,r.height*9/16);cv.style.width=w+"px";cv.style.height=(w*16/9)+"px";cv.style.setProperty("--bw",w+"px");
   const d=$("#ce-draw");if(d){const k=Math.min(2,devicePixelRatio||1);d.width=Math.round(w*k);d.height=Math.round(w*16/9*k)}edBgPos()}
-function edBgPos(){const i=$("#ce-bgi"),b=ED&&ED.st.bg;if(!i||!b||b.tipo!=="foto")return;const cv=$("#ce-cv");if(cv&&b.img)edLimita(b,cv);i.style.transform=`translate(${b.ox*100}%,${b.oy*100}%) scale(${b.z})`}
+function edBgPos(){const i=$("#ce-bgi"),b=ED&&ED.st.bg;if(!i||!b||b.tipo!=="foto")return;const cv=$("#ce-cv");if(cv&&b.img)edLimita(b,cv);edPosImg(i,b,cv)}
+function edPosImg(i,f,box){if(!box||!f.img)return;const W=box.clientWidth,H=box.clientHeight,iw=f.img.naturalWidth,ih=f.img.naturalHeight,k=Math.max(W/iw,H/ih)*(f.z||1),w=iw*k,h=ih*k;
+  i.style.cssText=`position:absolute;inset:auto;max-width:none;object-fit:fill;transform:none;width:${w}px;height:${h}px;left:${(W-w)/2+(f.ox||0)*W}px;top:${(H-h)/2+(f.oy||0)*H}px`}
 function edElHTML(e,vivo){const tr=`left:${e.x*100}%;top:${e.y*100}%;transform:translate(-50%,-50%) rotate(${e.r||0}deg) scale(${e.s||1})`;let c="";
   if(e.t==="texto")c=`<div class="ce-t f-${e.f} al-${e.al||"c"}${e.fd?" fd"+e.fd:""}" style="--cor:${e.cor}"><span>${esc(e.tx).replace(/\n/g,"<br>")}</span></div>`;
   else if(e.t==="emoji")c=`<div class="ce-emo">${esc(e.tx)}</div>`;
@@ -6462,7 +6464,7 @@ function edPost(el){const P=ED.po,f=P.fotos[P.cur];
         <p class="cr-quem">Seus amigos no Prumo vão ver. Use @ para marcar alguém na legenda.</p></div>`;
     const ta=$("#ce-leg");ta.addEventListener("input",()=>{P.texto=ta.value;if(typeof menSugere==="function")menSugere(ta)});$("#ce-local").addEventListener("input",e=>{P.local=e.target.value});
     if(tem){const c=$("#ce-dthumb"),x=P.fotos[0];edRenderFoto(x,c,P.ar,false)}}}
-function edPvPos(){const i=$("#ce-pvi"),f=ED&&ED.po.fotos[ED.po.cur];if(!i||!f)return;i.style.transform=`translate(${f.ox*100}%,${f.oy*100}%) scale(${f.z})`}
+function edPvPos(){const i=$("#ce-pvi"),f=ED&&ED.po.fotos[ED.po.cur];if(!i||!f)return;edPosImg(i,f,$("#ce-pv"))}
 function edLimita(f,box){const r=box.getBoundingClientRect(),W=r.width||1,H=r.height||1,iw=f.img.naturalWidth,ih=f.img.naturalHeight,k=Math.max(W/iw,H/ih)*f.z;const lx=Math.max(0,(iw*k-W)/2/W),ly=Math.max(0,(ih*k-H)/2/H);f.ox=Math.max(-lx,Math.min(lx,f.ox));f.oy=Math.max(-ly,Math.min(ly,f.oy))}
 function edGestosPv(){const pv=$("#ce-pv");if(!pv)return;const pts=new Map();let G=null;const xy=e=>{const r=pv.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height,cx:e.clientX,cy:e.clientY}};
   const dist=()=>{const p=[...pts.values()];return p.length<2?0:Math.hypot(p[1].cx-p[0].cx,p[1].cy-p[0].cy)};
