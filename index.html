@@ -1685,6 +1685,46 @@ body{font-kerning:normal;text-rendering:optimizeLegibility;-webkit-font-smoothin
 .cp-meta,.mat-meta,.cp-l .s,.cp-ed,.ind-t b,.ind-t em,time{font-variant-numeric:tabular-nums}
 @media (min-width:900px){.cpi-man .cp-t{font-size:calc(36px*min(var(--fz),1.15));line-height:1.08}.mat-30 li,.cpx-30 li{max-width:66ch}}
 @media (max-width:899px){.mat-p p{font-size:calc(18px*var(--fz))}.mat-tx h1{font-size:calc(29px*min(var(--fz),1.15));line-height:1.12}}
+
+/* ---- Etapa 35: escala de texto maior (celular) ---- */
+@media (max-width:899px){
+.cp-t{font-size:calc(20.5px*min(var(--fz),1.15));line-height:1.18}
+.cpi-man .cp-t{font-size:calc(32px*min(var(--fz),1.15));line-height:1.08}
+.cpi-d1 .cp-t{font-size:calc(23.5px*min(var(--fz),1.15));line-height:1.14}
+.cpi-um .cp-t{font-size:calc(21px*min(var(--fz),1.15));line-height:1.16}
+.cpi-li .cp-t{font-size:calc(19px*min(var(--fz),1.15));line-height:1.22}
+.cpi-rel .cp-t{font-size:calc(18px*min(var(--fz),1.15));line-height:1.24}
+.cp-l b{font-size:calc(18.5px*var(--fz));line-height:1.24}
+.cp-sub{font-size:calc(16.5px*var(--fz));line-height:1.45}
+.cpi-man .cp-sub{font-size:calc(18.5px*var(--fz));line-height:1.45}
+.cp-k,.mat-k{font-size:12.5px}
+.cp-ed{font-size:12px}
+.cp-meta,.mat-meta,.cp-l .s{font-size:13.5px}
+.cp-h h3{font-size:23px}
+.cp-1m h3 span,.cpx-30>b,.mat-30>b,.cpx-c b,.cpx-neutro b,.cpx-bl b,.pes-h{font-size:12.5px}
+.cp-1m li>button,.cp-1m li>span{font-size:calc(18px*var(--fz));line-height:1.34}
+.cp-1m li::before{font-size:19px}
+.ind-t span{font-size:12.5px}
+.mat-tx h1{font-size:calc(32px*min(var(--fz),1.15));line-height:1.1}
+.mat-sub{font-size:calc(19.5px*var(--fz));line-height:1.42}
+.mat-p p{font-size:calc(19.5px*var(--fz));line-height:1.58}
+.cpx-30 li,.mat-30 li{font-size:calc(18px*var(--fz));line-height:1.42}
+.cpx-c{font-size:calc(18px*var(--fz));line-height:1.52}
+.upd{font-size:calc(16px*var(--fz))}.upd b{font-size:13px}
+.mat-rel button b{font-size:calc(18.5px*var(--fz))}
+.mud-t{font-size:17.5px}.mud-x{font-size:15.5px}
+.cover h2{font-size:calc(clamp(23px,6.8vw,29px)*min(var(--fz),1.1))}
+.cover h2.long{font-size:calc(clamp(20px,5.7vw,24px)*min(var(--fz),1.1))}
+.lead,.txs p.lead{font-size:calc(18.5px*var(--fz))}
+.txs h3,.ang b{font-size:calc(18.5px*var(--fz))}
+.mat-pe,.mat-pe a,.mat-pe button{font-size:14px}
+}
+@media (min-width:900px){
+.mat-p p{font-size:calc(20px*var(--fz))}
+.cpi-li .cp-t,.cp-l b{font-size:calc(18.5px*var(--fz))}
+.cp-sub{font-size:calc(16.5px*var(--fz))}
+.cp-1m li>button,.cp-1m li>span{font-size:calc(17px*var(--fz))}
+}
 </style>
 </head>
 <body>
@@ -3736,7 +3776,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="ff4ad5868968";
+const APP_VERSAO="d64f583cf8e6";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
