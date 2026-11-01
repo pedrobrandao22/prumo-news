@@ -1731,6 +1731,17 @@ body{font-kerning:normal;text-rendering:optimizeLegibility;-webkit-font-smoothin
 button:active:not(:disabled):not(.tap),[role=button]:active{transform:none}
 .cpi-b:active:not(:disabled),button.cpx-30:active,.segc:active,.cp-l button:active,.mud-l button:active,.cp-1m li button:active,.mat-prox:active,.cp-int:active,button.ind-t:active{opacity:1!important;transform:none!important}
 .cpi-b{transition:none}
+
+/* ---- Etapa 37: topo da Capa com ritmo igual (12px) e aviso de novidades discreto ---- */
+.cp-top{margin-bottom:12px}
+.cp>.cp-agora{margin:0 0 12px}
+.cp>.cp-nov{margin:0 0 12px}
+.cp-nov{min-height:0;padding:2px 0;background:none;border-radius:0;gap:7px;font:500 13.5px/1.3 var(--f-ui);color:var(--muted)}
+.cp-nov b{font-weight:700;color:var(--ink)}
+.cp-nov .nb-d{width:7px;height:7px;box-shadow:none}
+.cp-nov .chev{font-size:16px}
+.cp-nov:active{transform:none}
+.cp2>.cp-agora,.cp2>.cp-nov,.cp2>.urg,.cp2>.cp-vivo{grid-column:1/-1}
 </style>
 </head>
 <body>
@@ -3782,7 +3793,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="b10dd92c4447";
+const APP_VERSAO="f52167c3a560";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -4498,7 +4509,9 @@ function agDiaTxt(d,hj,am){if(d===hj)return "Hoje";if(d===am)return "Amanhã";co
 /* "desde a sua última visita": novas e atualizadas, com a última atualização de cada uma */
 function capaNovBar(){const l=capaNovas();if(!l.length)return "";const nv=l.filter(p=>NOVAS.has(p.id)).length,up=l.length-nv;
   const t=[nv?`${nv} ${nv===1?"nova":"novas"}`:"",up?`${up} ${up===1?"atualizada":"atualizadas"}`:""].filter(Boolean).join(" · ");
-  return `<button type="button" class="cp-nov" data-cpnov><span class="nb-d"></span><span class="cp-nov-t"><b>${t}</b> desde a sua última visita${VISITA0&&hhmm(VISITA0)?` <span>(${esc(diaHora(VISITA0))})</span>`:""}</span><span class="chev" aria-hidden="true">›</span></button>`}
+  return `<button type="button" class="cp-nov" data-cpnov aria-label="${esc(t)} desde a sua última visita"><span class="nb-d"></span><span class="cp-nov-t"><b>${t}</b>${VISITA0&&hhmm(VISITA0)?` desde ${esc(desdeCurto(VISITA0))}`:" desde a última visita"}</span><span class="chev" aria-hidden="true">›</span></button>`}
+function desdeCurto(iso){const d=new Date(iso);if(isNaN(d))return "";const hj=dataSP(),dd=dataSP(iso),h=hhmm(iso);if(dd===hj)return "as "+h;
+  const ont=somaDias(hj,-1);if(dd===ont)return "ontem, "+h;return d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"America/Sao_Paulo"}).replace(".","")+", "+h}
 function abrirNovCapa(){const l=capaNovas();const L=lente();const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;l.sort((a,b)=>(NOVAS.has(b.id)-NOVAS.has(a.id))||pr(b)-pr(a));
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="mud-l">${l.map(p=>{const nv=NOVAS.has(p.id);const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto&&(!VISITA0||tms(u.hora)>tms(VISITA0)));const u=ups.length?ups.reduce((a,b)=>tms(b.hora)>tms(a.hora)?b:a):null;
     return `<li><button type="button" data-cpnovir="${esc(p.id)}"><b class="mud-k ${nv?"nova":"atualizada"}">${nv?"Nova":"Atualizada"}</b><span class="mud-t">${esc(versao(p,L).titulo||"")}</span>${u?`<span class="mud-x">${u.hora?esc(hhmm(u.hora))+" · ":""}${esc(u.texto)}</span>`:""}</button></li>`}).join("")}</ul>`);uso("capa_desde")}
