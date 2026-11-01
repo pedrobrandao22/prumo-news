@@ -1725,6 +1725,12 @@ body{font-kerning:normal;text-rendering:optimizeLegibility;-webkit-font-smoothin
 .cp-sub{font-size:calc(16.5px*var(--fz))}
 .cp-1m li>button,.cp-1m li>span{font-size:calc(17px*var(--fz))}
 }
+
+/* ---- Etapa 36: tocar não "pisca": sem efeito de toque nos textos e cartões (nem ao rolar com o dedo) ---- */
+*{-webkit-tap-highlight-color:transparent}
+button:active:not(:disabled):not(.tap),[role=button]:active{transform:none}
+.cpi-b:active:not(:disabled),button.cpx-30:active,.segc:active,.cp-l button:active,.mud-l button:active,.cp-1m li button:active,.mat-prox:active,.cp-int:active,button.ind-t:active{opacity:1!important;transform:none!important}
+.cpi-b{transition:none}
 </style>
 </head>
 <body>
@@ -3776,7 +3782,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="d64f583cf8e6";
+const APP_VERSAO="b10dd92c4447";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -3919,9 +3925,10 @@ function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")
   setInterval(()=>{if(!document.hidden&&VIEW==="capa")carregarCapaFixa()},300000);
 })();
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
-  const cx=t.closest("[data-cpx]");if(cx){e.stopPropagation();const pid=cx.dataset.cpx;const ab0=CP_AB,abrir=CP_AB!==pid;CP_AB=abrir?pid:null;CP_MAIS=null;
+  const cx=t.closest("[data-cpx]");if(cx){e.stopPropagation();const pid=cx.dataset.cpx;const ab0=CP_AB,abrir=CP_AB!==pid;CP_AB=abrir?pid:null;CP_MAIS=null;const elT=document.getElementById("cpi-"+pid),topo0=elT?elT.getBoundingClientRect().top:null;
     if(abrir){try{marcarLida(pid)}catch(_){}uso("capa_abre")}if(!cpAlternar(ab0,CP_AB)){const y=scrollY;renderCapa();window.scrollTo(0,y)}
-    if(abrir){const el=document.getElementById("cpi-"+pid);if(el){const r=el.getBoundingClientRect();if(r.top<60||r.top>innerHeight*0.6)window.scrollTo({top:scrollY+r.top-70,behavior:"smooth"})}}return}
+    {const el=document.getElementById("cpi-"+pid);if(el&&topo0!=null){const d=el.getBoundingClientRect().top-topo0;if(Math.abs(d)>1){window.PULA_SCROLL=Date.now();window.scrollTo(0,scrollY+d)}}
+     if(abrir&&el)requestAnimationFrame(()=>mostrarInteiro(el))}return}
   const igr=t.closest("[data-indg]");if(igr){e.stopPropagation();abrirGrafico(igr.dataset.indg);return}
   const gpr=t.closest("[data-grper]");if(gpr){e.stopPropagation();abrirGrafico(GR.id,+gpr.dataset.grper);return}
   const msh=t.closest("[data-matshare]");if(msh){e.stopPropagation();compartilhar(msh.dataset.matshare);return}
@@ -3933,7 +3940,8 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const iok=t.closest("[data-instok]");if(iok){e.stopPropagation();instalar();return}
   const inao=t.closest("[data-instnao]");if(inao){e.stopPropagation();lsSet("prumo-inst",{ate:Date.now()+14*864e5});const c=$("#v-capa .cp-inst");if(c)c.remove();uso("instalar_nao");return}
   const mri=t.closest("[data-matir]");if(mri){e.stopPropagation();matIr(mri.dataset.matir);return}
-  const agi=t.closest(".cp-agora .ag-i");if(agi){e.stopPropagation();const ap=agi.dataset.agpid;if(ap&&pautaById(ap))abrirMateria(ap);else abrirAgora();return}
+  const agi=t.closest(".cp-agora .ag-i");if(agi){e.stopPropagation();const ap=agi.dataset.agstrip;if(ap&&pautaById(ap))abrirMateria(ap);else abrirAgora();return}
+  if(t.closest(".cp-agora")){e.stopPropagation();abrirAgora();return}
   const mdi=t.closest("[data-mudouir]");if(mdi){e.stopPropagation();const pid=mdi.dataset.mudouir;closeLayer();setTimeout(()=>{if(VIEW!=="capa"&&VIEW!=="feed")go("capa");abrirMateria(pid)},60);return}
   const mpx=t.closest("[data-matprox]");if(mpx){e.stopPropagation();matIr(mpx.dataset.matprox);return}
   const cnv=t.closest("[data-cpnov]");if(cnv){e.stopPropagation();abrirNovCapa();return}
@@ -3945,8 +3953,8 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
     const el=document.getElementById("cpi-"+pid);if(el){const f=()=>window.scrollTo(0,scrollY+el.getBoundingClientRect().top-70);f();requestAnimationFrame(f)}else openSnap(pid);return}
   const le=t.closest("[data-lente]");if(le){e.stopPropagation();lenteMenu(false);const k=le.dataset.lente;if(lente()!==k){PREF.lente=k;salvarPrefs();uso("lente_"+k)}
     if(document.querySelector("#layer .mat")&&MAT_PID){const m=document.querySelector("#layer .mat"),y=m.scrollTop;abrirMateria(MAT_PID,true);const m2=document.querySelector("#layer .mat");if(m2)m2.scrollTop=y}
-    if(VIEW==="capa"){const el=CP_AB&&document.getElementById("cpi-"+CP_AB);const r0=el?el.getBoundingClientRect().top:null;const y=scrollY;renderCapa();
-      const el2=CP_AB&&document.getElementById("cpi-"+CP_AB);if(el2&&r0!=null)window.scrollTo(0,scrollY+el2.getBoundingClientRect().top-r0);else window.scrollTo(0,y)}return}
+    if(VIEW==="capa"){const an=ancoraCapa(),y=scrollY;renderCapa();window.PULA_SCROLL=Date.now();
+      const el2=an&&document.getElementById(an.id);if(el2)window.scrollTo(0,scrollY+el2.getBoundingClientRect().top-an.top);else window.scrollTo(0,y)}return}
   const cf=t.closest("[data-cpfontes]");if(cf){e.stopPropagation();abrirCobertura(cf.dataset.cpfontes);return}
   const cs2=t.closest("[data-cpsalvar]");if(cs2){e.stopPropagation();toggleSave(cs2.dataset.cpsalvar);setTimeout(()=>{if(VIEW==="capa"){const y=scrollY;renderCapa();window.scrollTo(0,y)}},60);return}
   const cil=t.closest("#v-capa .cp-l [data-capair]");if(cil&&!document.querySelector("#layer .mat")){e.stopPropagation();const pid=cil.dataset.capair;if(pautaById(pid)){abrirMateria(pid);return}openSnap(pid);return}
@@ -4333,7 +4341,7 @@ function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse
     out.push({t:tt||temaDe(p)||versao(p,lente()).titulo,h,pid,peso:8+n})});
   return out.sort((a,b)=>b.peso-a.peso||b.h-a.h).slice(0,4)}
 function agoraHTML(){const l=agoraItens();if(!l.length)return "";
-  const um=l.map((x,i)=>`<span class="ag-i" data-agi="${i}" data-agpid="${esc(x.pid||"")}"><time>${esc(quando(new Date(x.h).toISOString()).replace("há ",""))}</time>${esc(x.t)}</span><i class="ag-sep" aria-hidden="true"></i>`).join("");
+  const um=l.map((x,i)=>`<span class="ag-i" data-agi="${i}" data-agstrip="${esc(x.pid||"")}"><time>${esc(quando(new Date(x.h).toISOString()).replace("há ",""))}</time>${esc(x.t)}</span><i class="ag-sep" aria-hidden="true"></i>`).join("");
   const n=l.reduce((a,x)=>a+x.t.length+12,0);
   return `<div class="cp-agora" role="region" aria-label="Agora: ${esc(l.map(x=>x.t).join("; "))}"><button type="button" class="ag-lbl" data-agora><i></i>Agora</button><div class="ag-vp"><div class="ag-run" style="animation-duration:${Math.max(18,Math.round(n*.17))}s">${um}${um}</div></div></div>`}
 function atualizarAgora(){if(VIEW!=="capa")return;const old=$("#v-capa .cp-agora"),nh=agoraHTML(),cp=$("#v-capa .cp");
@@ -4582,6 +4590,14 @@ var CAPA_SIG="";
 function capaSig(){try{return [FEED&&FEED.atualizado_em,FEED&&FEED.pautas&&FEED.pautas.length,lente(),CP_AB,NOVAS.size,ATUALIZADAS.size,LIDAS.size,(PREF.ocultas||[]).join(),FOTOS_ARQ&&FOTOS_ARQ.gerado,typeof NOVID_AG!=="undefined"&&NOVID_AG&&NOVID_AG.gerado,Math.floor(Date.now()/300000),S.uid||"",S.membro?1:0,innerWidth>=900,typeof CAPA_FIXA!=="undefined"?JSON.stringify(CAPA_FIXA):"",JSON.stringify(PREF,(k,v)=>k==="conhecidas"||k==="visitaAtual"||k==="mod"?undefined:v)].join("|")}catch(e){return String(Math.random())}}
 {const _rc=renderCapa;renderCapa=function(){const r=_rc.apply(this,arguments);CAPA_SIG=capaSig();return r}}
 function capaSeMudou(){const v=$("#v-capa");if(!v||!v.querySelector(".cpi")||capaSig()!==CAPA_SIG)renderCapa();else{try{lenteBotao()}catch(e){}}}
+
+/* ---------- Etapa 36 ---------- */
+/* o cartão que a pessoa está vendo (o primeiro que aparece abaixo do topo) */
+function ancoraCapa(){if(CP_AB){const a=document.getElementById("cpi-"+CP_AB);if(a){const r=a.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)return {id:a.id,top:r.top}}}
+  const L=document.querySelectorAll("#v-capa .cpi[id]");for(const el of L){const r=el.getBoundingClientRect();if(r.bottom>70)return {id:el.id,top:r.top}}return null}
+/* rola só o necessário para o quadro aberto caber na tela, sem tirar o título do cartão de vista */
+function mostrarInteiro(el){const r=el.getBoundingClientRect(),nav=document.querySelector(".nav"),baixo=innerHeight-((nav&&nav.offsetHeight)||0)-24;
+  let dy=0;if(r.bottom>baixo)dy=Math.min(r.bottom-baixo,r.top-70);if(r.top<64)dy=r.top-70;if(Math.abs(dy)>4){window.PULA_SCROLL=Date.now()+400;window.scrollTo({top:scrollY+dy,behavior:"smooth"})}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
