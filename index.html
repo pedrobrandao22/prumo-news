@@ -2115,6 +2115,14 @@ button:active:not(:disabled):not(.tap),[role=button]:active{transform:none}
 .story.sg .sg-acts .sg-a[data-a="like"]{min-width:52px}
 @keyframes sgAnel{0%{opacity:.9;transform:scale(.6)}100%{opacity:0;transform:scale(1.6)}}
 @media (prefers-reduced-motion:reduce){.story.sg .sg-a.anel::after{animation:none}}
+
+/* ================= Etapa 49: topo limpo ================= */
+.top{border-bottom-color:transparent;transition:transform .3s cubic-bezier(.2,1,.3,1),background .2s,border-color .2s}
+html.rolou .top{border-bottom-color:var(--line)}
+#v-feed .secs.ig{padding:10px 16px 14px;border-bottom:0}
+#posts{padding-top:0}
+#posts .post{border-top:0;padding-bottom:22px}
+#v-feed .avisoconta{border-bottom:0;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -4168,7 +4176,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="d8b2b6182639";
+const APP_VERSAO="90bd262370aa";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -5545,6 +5553,11 @@ var RS_PEND=false;
 {const _de48=destaques;let ck="",cv=[];destaques=function(){const k=FEED?(FEED.atualizado_em+"|"+(FEED.pautas||[]).length+"|"+(PREF.ocultas||[]).join()):"";if(k&&k===ck)return cv;cv=_de48.apply(this,arguments);ck=k;return cv}}
 /* rolagem infinita: se a marca de "carregar mais" já passou da tela (feed redesenhado lá embaixo), carrega na hora */
 {const _om48=observarMais;observarMais=function(){const r=_om48.apply(this,arguments);requestAnimationFrame(()=>{const m=$("#mais");if(m&&m.getBoundingClientRect().top<innerHeight+600)carregarMais()});return r}}
+
+/* ---------- Etapa 49: linha do cabeçalho só depois de rolar ---------- */
+/* pontinhos do carrossel: no máximo 5 visíveis desde o início (antes só depois de deslizar) */
+{const _ft49=fitTrack;fitTrack=function(t){const r=_ft49.apply(this,arguments);try{if(t&&t.closest&&t.closest(".post"))pgDots(t)}catch(e){}return r}}
+(function(){let on=null;const f=()=>{const v=scrollY>4;if(v!==on){on=v;document.documentElement.classList.toggle("rolou",v)}};addEventListener("scroll",f,{passive:true});f()})();
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
