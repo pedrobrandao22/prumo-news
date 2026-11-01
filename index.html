@@ -1756,6 +1756,105 @@ button:active:not(:disabled):not(.tap),[role=button]:active{transform:none}
 .app.ptr-volta,.ptr2.ptr-volta{transition:transform .4s cubic-bezier(.2,.9,.3,1),opacity .3s ease}
 .app{will-change:auto}
 @media (prefers-reduced-motion:reduce){.ptr2.balanca .ptr2-p{animation:none}}
+
+/* ================= Etapa 39: Feed remodelado ================= */
+/* topo enxuto: marca à esquerda, só filtro e busca à direita */
+.top-in{height:52px}
+.top-in #ed,.top-in #b-audio,.top-in #b-5min{display:none!important}
+.top .brand .word{font-size:26px}
+/* faixa Últimas no mesmo estilo da faixa Agora da Capa */
+.ticker{height:40px!important;margin:2px 0 10px!important;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px}
+.tk-lbl{background:none;color:var(--hot);padding:0 10px 0 12px;border-right:1px solid var(--line);font:700 11px/1 var(--f-ui);letter-spacing:.08em}
+.tk-lbl .tk-sep{background:var(--hot)!important;width:7px;height:7px;border-radius:50%}
+.tk-l2{color:var(--muted);opacity:1;font-weight:600}
+.tk-i{color:var(--ink);line-height:38px!important;font-size:14.5px!important}
+.tk-i b{color:var(--muted);font-weight:700;font-size:10.5px}
+.tk-i time{color:var(--hot);font-weight:600}
+#ticker .tk-sep:not(.tk-lbl .tk-sep){background:var(--line)}
+/* aviso de conta discreto */
+.avisoconta{background:none;color:var(--muted);font-size:13.5px;padding-block:2px 6px;border-bottom:0}
+.avisoconta .av-entrar{background:none;color:var(--accent);border:1px solid var(--line);padding:5px 12px;border-radius:999px;font-weight:700}
+.avisoconta .av-x{color:var(--muted)}
+/* círculos: "Em 5 min" primeiro */
+.secs{gap:14px;padding-block:6px 12px}
+.sb b{font-weight:600;font-size:12.5px;color:var(--ink)}
+.sb-5 .wrap{display:flex;align-items:center;justify-content:center}
+.sb5-c{width:58px;height:58px;border-radius:50%;background:var(--ink);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2.5px var(--bg),0 0 0 4.5px var(--bronze)}
+.sb5-c b{font:700 22px/1 var(--f-display);color:#fff}.sb5-c small{font:700 10px/1 var(--f-ui);letter-spacing:.06em;text-transform:uppercase;opacity:.85;margin-top:2px}
+/* post: sem faixas de fundo; separação leve */
+#posts .post{background:transparent;border-block:0;border-top:1px solid var(--line);padding-bottom:18px;contain-intrinsic-size:auto 820px}
+#posts .post.lendo{box-shadow:none}
+.ph{padding-block:10px 8px}
+.ph-sec{gap:10px;min-height:40px;text-align:left}
+.ph-av{position:relative;flex:none;width:36px;height:36px;border-radius:50%;background:var(--c,var(--accent));display:flex;align-items:center;justify-content:center}
+.ph-av i{font:600 17px/1 var(--f-display);font-style:normal;color:#fff}
+.ph-av-novo{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--bronze)}
+.ph-nm{display:flex;flex-direction:column;gap:1px;min-width:0}
+.ph-nm b{font:700 14.5px/1.2 var(--f-ui);color:var(--ink)}
+.ph-nm .ph-sub{font:500 12.5px/1.2 var(--f-ui);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph .badge-new{background:none;border:1px solid currentColor;color:var(--bronze-ink);font:700 10px/1 var(--f-ui);padding:3px 5px;border-radius:4px}
+.ph .badge-new.upd2{color:var(--accent);background:none}
+.ph .lida-t{display:none}
+/* mídia 4:5 */
+.track .cover{aspect-ratio:auto;height:var(--slh,487px)}
+.cover .cv{padding:72px 18px 18px;gap:8px}
+.cover h2{font-weight:600}
+.fcv .cv{background:linear-gradient(to bottom,rgb(0 0 0 / 0),rgb(0 0 0 / .62) 55%)}
+/* slides de texto com a tipografia da matéria */
+.txs{padding:20px 18px;gap:12px;background:var(--bg);border-bottom:0}
+.txs .lbl,.ang .lbl{font:700 12px var(--f-ui);letter-spacing:.07em;color:var(--muted)}
+.txs .lead,.txs p.lead{font-family:var(--f-body);font-size:calc(18px*var(--fz));line-height:1.55}
+.upd{background:none;border-left:2px solid var(--bronze);border-radius:0;padding:2px 0 2px 12px;font-family:var(--f-body);font-size:calc(17px*var(--fz));line-height:1.45}
+.upd b{font:700 12px var(--f-ui);letter-spacing:.02em;color:var(--bronze-ink);margin-bottom:2px}
+.upd.fix{background:none;border-left-color:var(--hot)}
+.ang{background:none!important;border-radius:0;border-left:3px solid var(--line);padding:2px 0 2px 12px;gap:4px}
+.ang.r{border-left-color:var(--right)}.ang.l,.ang.e{border-left-color:var(--left)}
+.ang b{font-family:var(--f-display);font-weight:600;font-size:calc(19px*var(--fz));line-height:1.22}
+.note{font-size:calc(17px*var(--fz))}
+.track .txs.ovf:not(.aberto) .lermais{background:linear-gradient(rgb(0 0 0 / 0),var(--bg) 62%);color:var(--accent);font:700 14px var(--f-ui)}
+/* ações no estilo Instagram: ícones soltos, pontinhos no meio */
+.post .acts{margin-left:-10px;padding-top:4px}
+.post .act{height:46px;min-width:46px;padding:0 9px}
+.post .act .ico{width:27px;height:27px}
+.post .acts .pdots{position:absolute;left:50%;top:50%;transform:translate(-50%,-30%);padding:0;gap:5px}
+.pdots i{width:6px;height:6px;flex:none;border-radius:50%;background:var(--line);transition:background .2s ease,transform .2s ease}
+.pdots i.on{background:var(--accent);transform:scale(1.15)}
+.pdots .pg{display:none}
+.post .act.pulsa .ico{animation:curtePula .38s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes curtePula{0%{transform:scale(1)}35%{transform:scale(1.28)}65%{transform:scale(.92)}100%{transform:scale(1)}}
+.likes{font:600 14px var(--f-ui);padding-top:2px}
+/* legenda = subtítulo + "Ler a matéria" (igual à Capa) */
+.pt-cap{display:block;width:100%;text-align:left;padding:6px 0 0}
+.pt-cap-t{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-family:var(--f-body);font-size:calc(17px*var(--fz));line-height:1.45;color:var(--ink)}
+.pt-cap-m{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font:700 14px var(--f-ui);color:var(--accent)}
+.pt-cap:active{opacity:1}
+/* cobertura: linha discreta */
+.cobbar{background:none;padding:8px 0 0;margin:4px 0 0;min-height:0;font:500 13.5px var(--f-ui);color:var(--muted);border-radius:0}
+.cobbar b{color:var(--ink)}
+/* enquete compacta */
+.pollbox{margin-top:14px;padding:14px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.pollbox .pb-l{font:700 11.5px var(--f-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.pollbox .poll{gap:7px;padding-top:4px}
+.poll>b{font-family:var(--f-display);font-weight:600;font-size:calc(18px*var(--fz));line-height:1.25;margin-bottom:4px}
+.poll button{min-height:42px;padding:9px 13px;border-radius:10px;font:600 15px var(--f-ui);background:var(--bg)}
+.poll .hint{font-size:13px;color:var(--muted)}
+/* comentários e hora no pé */
+.cmts{padding-top:8px}.cmt{font-family:var(--f-ui);font-size:calc(14.5px*var(--fz))}
+.addc{padding:6px 0 0;min-height:36px;font-size:14px}
+.pt-hora{display:block;padding-top:4px;font:600 11.5px var(--f-ui);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+/* agenda do dia (linha compacta) no mesmo cartão da faixa Últimas */
+#chg .chg.agmin{background:none;border:0;padding-block:0 12px}
+#chg .chg.agmin .agh{width:100%;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left}
+#chg .agk{font:700 12px var(--f-ui);letter-spacing:.04em;text-transform:uppercase;color:var(--hot)}
+#chg .agx{font:500 calc(14.5px*var(--fz)) var(--f-ui);color:var(--ink);letter-spacing:0}
+#chg .agc{font:600 13px var(--f-ui);color:var(--muted)}
+:root[data-aparencia="escuro"] .tk-lbl{background:none!important;color:#ff8f80!important;opacity:1!important}:root[data-aparencia="escuro"] .tk-l1{color:#ff8f80!important}
+:root[data-aparencia="escuro"] .tk-l2{color:#9aa6b8!important}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .tk-lbl{background:none!important;color:#ff8f80!important;opacity:1!important}:root:not([data-aparencia="claro"]) .tk-l1{color:#ff8f80!important}:root:not([data-aparencia="claro"]) .tk-l2{color:#9aa6b8!important}}
+/* curtir com dois toques: o prumo "pula" com mola */
+@keyframes pop{0%{transform:scale(.2);opacity:0}18%{transform:scale(1.12);opacity:1}30%{transform:scale(.96)}40%{transform:scale(1)}78%{transform:scale(1);opacity:1}100%{transform:scale(.6) translateY(-24px);opacity:0}}
+:root[data-aparencia="escuro"] .sb5-c{background:#e5e9f0;color:#0f1522}:root[data-aparencia="escuro"] .sb5-c b{color:#0f1522}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .sb5-c{background:#e5e9f0;color:#0f1522}:root:not([data-aparencia="claro"]) .sb5-c b{color:#0f1522}}
 </style>
 </head>
 <body>
@@ -2171,15 +2270,17 @@ function postSeguro(p){try{return postHTML(p)}catch(e){return ""}}
 function postHTML(p){
   const sec=secOf(p),ss=p.tipo==="pontual"?cobPontualSlides(p):slides(p),nv=NOVAS.has(p.id)&&!LIDAS.has(p.id),at=ATUALIZADAS.has(p.id);
   return `<article class="post" id="p-${esc(p.id)}" data-pid="${esc(p.id)}">
-    <div class="ph gut"><div class="ph-t"><button type="button" class="ph-sec" data-secfiltro="${esc(sec)}"><span class="secdot" style="background:${secCor(sec)}"></span><b>${esc(secNome(sec))}</b>${p.subtema?`<span class="ph-sub">· ${esc(p.subtema)}</span>`:""}</button><span><time data-when="${esc(ultimaAtualizacao(p)||p.hora||"")}">${esc(quando(ultimaAtualizacao(p)||p.hora))}</time>${seguido(p)?" · seguindo":""}</span><em class="lida-t"${lidaAtual(p)?"":" hidden"}>✓ lida</em><span data-otr></span></div>${cobStatus(p)}${nv?`<span class="badge-new">Novo</span>`:at?`<span class="badge-new upd2">Atualizado</span>`:""}<button type="button" class="more-btn" data-a="menu" aria-label="Mais opções">${ICON.dots}</button></div>
+    <div class="ph gut"><div class="ph-t"><button type="button" class="ph-sec" data-secfiltro="${esc(sec)}"><span class="ph-av${nv||at?" ph-av-novo":""}" style="--c:${secCor(sec)}"><i>${esc(secNome(sec).slice(0,1))}</i></span><span class="ph-nm"><b>${esc(secNome(sec))}</b><span class="ph-sub">${esc(p.subtema||"")}${seguido(p)?" · seguindo":""}</span></span></button><em class="lida-t"${lidaAtual(p)?"":" hidden"}>✓ lida</em><span data-otr></span></div>${cobStatus(p)}${nv?`<span class="badge-new">Novo</span>`:at?`<span class="badge-new upd2">Atualizado</span>`:""}<button type="button" class="more-btn" data-a="menu" aria-label="Mais opções">${ICON.dots}</button></div>
     <div class="car"><div class="track">${ss.join("")}</div></div>
     <div class="gut">
       <div class="acts"><button type="button" class="act" data-a="like" aria-label="Gostei">${ICON.like}<span>Gostei</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-a="send" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span>${ss.length>1?`<div class="prog pdots" aria-hidden="true">${ss.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${ss.length}</span></div>`:""}<button type="button" class="act" data-a="save" aria-label="Guardar">${ICON.save}</button></div>
       <div class="likes" data-likes></div>
+      ${legendaPost(p)}
       ${cobBarra(p)}
       <div class="pollbox" data-poll></div>
       <div data-together></div><div data-nchat></div>
       <div class="cmt-area"><div class="cmts" data-cmts></div><button type="button" class="addc" data-a="cmt">Adicione um comentário…</button></div>
+      <time class="pt-hora" data-when="${esc(ultimaAtualizacao(p)||p.hora||"")}">${esc(quando(ultimaAtualizacao(p)||p.hora))}</time>
     </div>
   </article>`;
 }
@@ -2217,7 +2318,7 @@ function updateSocial(pid){
   el.querySelector("[data-cmts]").innerHTML=(cm.length>2?`<button type="button" class="link" data-a="cmt">Ver os ${cm.length} comentários</button>`:"")+cm.slice(-2).map(c=>`<div class="cmt" data-a="cmt" role="button" tabindex="0"><b>${esc(nomeDe(c.uid))}</b>${esc(c.texto)}</div>`).join("");
 }
 var FIT_IO=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)fitTrack(e.target)}),{rootMargin:"900px 0px"}):null;
-function fitTrack(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",Math.max(300,Math.round(w*0.8))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
+function fitTrack(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",Math.max(300,Math.round(Math.min(w*1.25,innerHeight*0.7)))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
 function wireTracks(root){
   root.querySelectorAll(".track").forEach((t,ix)=>{
     if(ix<3||!FIT_IO)fitTrack(t);else FIT_IO.observe(t);let tm=null;t.closest(".post")?.addEventListener("contentvisibilityautostatechange",ev=>{if(!ev.skipped)fitTrack(t)});
@@ -3807,7 +3908,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="dbda15d3900d";
+const APP_VERSAO="94584caca301";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -4655,6 +4756,16 @@ window.PTR_NOVO=1;
     ind.classList.remove("balanca");ind.classList.add("feito");txt.textContent="Em dia";await new Promise(z=>setTimeout(z,450));volta();setTimeout(()=>{ocupado=false},430)};
   addEventListener("touchend",solta,{passive:true});addEventListener("touchcancel",solta,{passive:true});
 })();
+
+/* ---------- Etapa 39: Feed ---------- */
+function legendaPost(p){const L=lente(),sub=capaSub(p,L,"")||(pontosDe(p,L)||[])[0]||"";if(!sub)return "";
+  return `<button type="button" class="pt-cap" data-capmat="${esc(p.id)}"><span class="pt-cap-t">${esc(sub)}</span><span class="pt-cap-m">Ler a matéria <i aria-hidden="true">›</i></span></button>`}
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-capmat]");if(!b)return;e.stopPropagation();uso("feed_legenda");abrirMateria(b.dataset.capmat)},true);
+/* "5 min" vira o primeiro círculo do topo do Feed */
+{const _rs=renderSecs;renderSecs=function(){const r=_rs.apply(this,arguments);const box=$("#secs");if(box&&$("#b-5min")&&!box.querySelector(".sb-5")){box.insertAdjacentHTML("afterbegin",`<button type="button" class="sb sb-5" data-5min aria-label="O dia em 5 minutos"><span class="wrap"><span class="sb5-c"><b>5</b><small>min</small></span></span><b>Em 5 min</b></button>`)}return r}}
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-5min]");if(!b)return;e.stopPropagation();const o=$("#b-5min");if(o)o.click()},true);
+/* curtir: o botão "pula" ao marcar */
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest('.post .act[data-a="like"]');if(!b)return;setTimeout(()=>{if(b.getAttribute("aria-pressed")==="true"||b.classList.contains("on")){b.classList.remove("pulsa");void b.offsetWidth;b.classList.add("pulsa")}},30)});
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
