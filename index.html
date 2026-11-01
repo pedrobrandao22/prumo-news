@@ -21,8 +21,14 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#f3f4f6">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
+<link rel="preload" href="fontes/newsreader.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fontes/public-sans.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Newsreader";font-style:normal;font-weight:200 800;font-display:swap;src:url(fontes/newsreader.woff2) format("woff2-variations"),url(fontes/newsreader.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Newsreader";font-style:italic;font-weight:200 800;font-display:swap;src:url(fontes/newsreader-italico.woff2) format("woff2-variations"),url(fontes/newsreader-italico.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Public Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(fontes/public-sans.woff2) format("woff2-variations"),url(fontes/public-sans.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Public Sans";font-style:italic;font-weight:100 900;font-display:swap;src:url(fontes/public-sans-italico.woff2) format("woff2-variations"),url(fontes/public-sans-italico.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+</style>
 <style>
 /* Layout: feed de leitura em uma coluna, sempre em papel claro. Topo com uma bolinha por seção; cada post tem uma capa 5:4 com a manchete sobre a ilustração e, embaixo, o texto em abas (Resumo · Ângulos · Veículos). Tipografia: Literata no texto corrido, Atkinson Hyperlegible Next na interface e nas manchetes, Atkinson Hyperlegible Mono nos dados */
 :root{
@@ -1659,6 +1665,26 @@ html{touch-action:manipulation}
 .sh4-mais summary{list-style:none;cursor:pointer;padding:10px 0 2px;font:700 13px var(--f-ui);color:var(--accent-ink,var(--ink))}.sh4-mais summary::-webkit-details-marker{display:none}.sh4-mais summary::after{content:" ›"}.sh4-mais[open] summary{display:none}
 .cpi-b{transition:opacity .12s ease}.cpi-b:active:not(:disabled){transform:none;opacity:.7}
 .segc:active,.cp-l button:active,.mud-l button:active,.cp-1m li button:active{transform:none;opacity:.7}
+
+/* ---- Tipografia (etapa 34): títulos sempre em Newsreader (serifa, peso 600), interface em Public Sans;
+   entrelinha 1.55–1.6 no texto corrido, 1.1–1.25 nos títulos; rótulos em caixa-alta pequenos e espaçados ---- */
+body{font-kerning:normal;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-synthesis-weight:none}
+.cover h2,.sech h4,.view-h h1,.s-body h2,.txs h3,.chg h4,.view-sub h2,.pc h2,.cp-man h2,.cp-dest b,.cp-h h3,.pv h3,.cp-t,.mat-tx h1,.mat-prox b,.mat-rel button b,.pes-n,.mud-t{font-weight:600}
+.cpi-man .cp-t,.mat-tx h1{letter-spacing:-.018em}
+.cpi-li .cp-t,.cpi-rel .cp-t,.cp-l b{font-family:var(--f-display);font-weight:600;letter-spacing:-.003em;text-wrap:pretty}
+.cpi-li .cp-t{font-size:calc(17.5px*min(var(--fz),1.15));line-height:1.24}
+.cpi-rel .cp-t{font-size:calc(16.5px*min(var(--fz),1.15));line-height:1.26}
+.cp-l b{font-size:calc(17px*var(--fz));line-height:1.26}
+.cp-1m li>button,.cp-1m li>span{font-family:var(--f-body);font-weight:500;font-size:calc(16.5px*var(--fz));line-height:1.36}
+.cp-1m li::before{font-weight:600;font-variant-numeric:lining-nums}
+.cp-k,.mat-k,.cpx-30>b,.mat-30>b,.cp-1m h3 span,.cpx-neutro b,.cpx-c b,.cpx-bl b,.pes-h,.mat-fim b,.mat-fix b{font-weight:700;letter-spacing:.07em}
+.cp-ed{font-size:11px;font-weight:600;letter-spacing:.07em;text-wrap:balance}
+.cp-sub,.mat-sub,.cpx-c,.mat-30 li,.cpx-30 li{text-wrap:pretty}
+.mat-p p{line-height:1.6;text-wrap:pretty;margin-bottom:.85em}
+.cpx-c{font-size:calc(16.5px*var(--fz));line-height:1.55}
+.cp-meta,.mat-meta,.cp-l .s,.cp-ed,.ind-t b,.ind-t em,time{font-variant-numeric:tabular-nums}
+@media (min-width:900px){.cpi-man .cp-t{font-size:calc(36px*min(var(--fz),1.15));line-height:1.08}.mat-30 li,.cpx-30 li{max-width:66ch}}
+@media (max-width:899px){.mat-p p{font-size:calc(18px*var(--fz))}.mat-tx h1{font-size:calc(29px*min(var(--fz),1.15));line-height:1.12}}
 </style>
 </head>
 <body>
@@ -3710,7 +3736,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="870dfd367385";
+const APP_VERSAO="ff4ad5868968";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -4458,7 +4484,7 @@ function fotoReserva(img){const A=FOTOS_ARQ;if(!A||!FEED)return null;const src=i
 function fotoMini(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([a-z]+)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png|webp))$/i);return m?`https://upload.wikimedia.org/wikipedia/${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/250px-${m[4]}`:u}
 function faceFoto(p){const f=p&&fotoDe(p);if(!f)return "";return `<img class="face-i" src="${escU(fotoMini(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`}
 /* fotos de arquivo chegaram depois do Feed montado (1ª visita): refaz os círculos */
-if(!FOTOS_ARQ)(function w(n){if(FOTOS_ARQ&&FEED){try{if(document.querySelector("#secs .sb"))renderSecs()}catch(e){}return}if(n<60)setTimeout(()=>w(n+1),250)})(0);
+if(!FOTOS_ARQ)(function w(n){if(FOTOS_ARQ&&FEED){try{if(document.querySelector("#secs .sb"))renderSecs();if(document.querySelector("#posts .post")&&(VIEW!=="feed"||scrollY<60)&&!temJanela())renderPosts(true)}catch(e){}return}if(n<60)setTimeout(()=>w(n+1),250)})(0);
 /* botão de leitura: só o ícone enquanto rola para baixo */
 (function(){let y0=scrollY,t=null;addEventListener("scroll",()=>{const b=document.getElementById("lp");if(!b)return;const y=scrollY;if(Date.now()-(window.PULA_SCROLL||0)<300){y0=y;return}
   if(y>y0+6&&y>120)b.classList.add("lp-mini");else if(y<y0-6)b.classList.remove("lp-mini");y0=y;clearTimeout(t);t=setTimeout(()=>{const c=document.getElementById("lp");if(c&&scrollY<400)c.classList.remove("lp-mini")},1400)},{passive:true})})();

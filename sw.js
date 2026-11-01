@@ -36,7 +36,7 @@ self.addEventListener("fetch", e => {
     return;
   }
   // biblioteca do Supabase (endereço com versão fixa) e ícones: cópia primeiro
-  const fixo = r.url.startsWith(SBJS) || (u.origin === location.origin && /\/(manifest\.json|icon-[\w-]+\.png)$/.test(u.pathname));
+  const fixo = r.url.startsWith(SBJS) || (u.origin === location.origin && /\/(manifest\.json|icon-[\w-]+\.png|fontes\/[\w-]+\.woff2)$/.test(u.pathname));
   if (fixo) {
     e.respondWith((async () => {
       const c = await caches.open(CACHE);
