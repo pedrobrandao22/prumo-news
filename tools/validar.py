@@ -162,6 +162,8 @@ def campos_texto(f):
             if v:
                 yield f"[{pid}] {lado}.titulo", "estrito", v.get("titulo", "")
                 yield f"[{pid}] {lado}.texto", "texto", v.get("texto", "")
+        for i, x in enumerate(p.get("social") if isinstance(p.get("social"), list) else []):
+            if isinstance(x, str): yield f"[{pid}] social.{i}", "estrito", x
         for i, x in enumerate(p.get("essencial") or []): yield f"[{pid}] essencial.{i}", "texto", str(x)
         for k in ("o_que_muda", "contexto", "proximo", "por_que", "e_o_brasil"):
             yield f"[{pid}] {k}", "texto", p.get(k) or ""
@@ -884,6 +886,15 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
             perdidos = [it.get("pid") for it in am.get("itens") or [] if it.get("pid") in ids and it.get("pid") not in mp]
             if perdidos: A(f"mudancas perdeu itens do feed anterior (devem acumular desde a última rodada completa): {perdidos}")
     for p in ps:
+        so = p.get("social")
+        if so is not None:
+            if not isinstance(so, list) or not all(isinstance(x, str) for x in so): E(f"[{p.get('id')}] social deve ser uma lista de frases")
+            else:
+                if not 3 <= len(so) <= 6: A(f"[{p.get('id')}] social com {len(so)} frases (3 a 6)")
+                for i, x in enumerate(so):
+                    if len(x) > 140: E(f"[{p.get('id')}] social.{i} com {len(x)} caracteres (até 140: é um slide)")
+                    vs = veiculos_em(x)
+                    if vs: E(f"[{p.get('id')}] social.{i} cita veículo ({', '.join(vs)}): diga só o fato")
         if p.get("status") == "encerrada" and not str(p.get("desfecho") or "").strip():
             A(f"[{p.get('id')}] cobertura encerrada sem desfecho: escreva \"desfecho\" (1 frase: como terminou), que o app mostra no topo da matéria")
         elif p.get("desfecho") and len(str(p["desfecho"])) > 200: A(f"[{p.get('id')}] desfecho com {len(str(p['desfecho']))} caracteres (até 200)")

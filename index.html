@@ -1863,6 +1863,54 @@ button:active:not(:disabled):not(.tap),[role=button]:active{transform:none}
 .post .track{transition:none}
 .pdots.muitos i{display:none}.pdots.muitos i.dv{display:block}.pdots.muitos i.dpq{transform:scale(.6)}.pdots.muitos i.dpq.on:not(:has(+ i.on)){transform:scale(.8)}
 .txs .lbl em{font-style:normal;font-weight:600;color:var(--muted);letter-spacing:.02em;text-transform:none}
+
+/* ================= Etapa 41: carrossel social ================= */
+.post .track .ss{position:relative;height:var(--slh,487px);overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:calc(14px*var(--ssk,1));padding:28px 26px 34px;background:var(--card)}
+.ss .ss-k{font:700 12px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--c,var(--accent))}
+.ss .ss-t{margin:0;font-family:var(--f-display);font-weight:500;font-size:calc(25px*var(--ssk,1)*var(--fz,1));line-height:1.25;letter-spacing:-.01em;color:var(--ink);text-wrap:pretty}
+.ss-fato.com-n .ss-t{font-size:calc(22px*var(--ssk,1)*var(--fz,1));line-height:1.3;color:var(--ink-2)}
+.ss .ss-n{font:600 calc(64px*var(--ssk,1))/1 var(--f-display);letter-spacing:-.03em;color:var(--c,var(--accent));font-variant-numeric:lining-nums}
+.ss .ss-i{position:absolute;right:20px;bottom:16px;font:600 12px var(--f-ui);color:var(--muted)}
+.ss-fato{background:linear-gradient(160deg,color-mix(in srgb,var(--c) 9%,var(--card)),var(--card) 60%)}
+.ss-fato::before{content:"";position:absolute;left:26px;top:28px;width:28px;height:3px;border-radius:2px;background:var(--c)}
+.ss-fato .ss-k{margin-top:14px}
+.ss-abre .ss-h{margin:0;font:600 calc(32px*var(--ssk,1))/1.12 var(--f-display);color:var(--ink)}
+/* foto intermediária */
+.post .track .ss-foto{padding:0;justify-content:flex-end;background:#111}
+.ss-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ss-foto .ss-fl{position:relative;padding:90px 22px 24px;background:linear-gradient(rgb(0 0 0 / 0),rgb(0 0 0 / .72) 45%);color:#fff;display:flex;flex-direction:column;gap:4px}
+.ss-foto .ss-fl .ss-k{color:#f2c27b}.ss-foto .ss-fl b{font:600 calc(26px*var(--ssk,1))/1.15 var(--f-display)}.ss-foto .ss-fl p{margin:0;font:400 calc(17px*var(--ssk,1))/1.4 var(--f-body);opacity:.92}
+.ss-foto .fcv-c{top:10px;bottom:auto}
+.ss-foto.sem-foto img{display:none}.ss-foto.sem-foto{background:var(--ink)}
+/* os dois lados */
+.ss-lados{gap:calc(18px*var(--ssk,1))}
+.ss-lado{border-left:4px solid var(--line);padding:4px 0 4px 14px;display:flex;flex-direction:column;gap:5px}
+.ss-lado.r{border-left-color:var(--right)}.ss-lado.l{border-left-color:var(--left)}
+.ss-lado em{font:700 12px var(--f-ui);font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+.ss-lado.r em{color:var(--right)}.ss-lado.l em{color:var(--left)}
+.ss-lado b{font:600 calc(22px*var(--ssk,1)*var(--fz,1))/1.24 var(--f-display);color:var(--ink)}
+.ss-lados .ss-k{color:var(--muted)}
+/* E agora? (com foto do assunto ao fundo, quando houver) */
+.ss-prox .ss-pb{display:flex;flex-direction:column;gap:12px}
+.post .track .ss-prox.com-foto{padding:0;justify-content:flex-end}
+.ss-prox.com-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ss-prox.com-foto .ss-pb{position:relative;padding:110px 24px 30px;background:linear-gradient(rgb(0 0 0 / 0),rgb(0 0 0 / .78) 42%)}
+.ss-prox.com-foto .ss-k{color:#f2c27b}.ss-prox.com-foto .ss-t{color:#fff}
+.ss-prox.com-foto .ss-t .gl{color:#fff;border-color:rgb(255 255 255 / .5)}
+/* enquete dentro do carrossel */
+.post .track .ss-enq{justify-content:center;padding:22px}
+.ss-enq .pollbox{margin:0;border:0;background:none;padding:0}
+.ss-enq .pollbox .pb-l{display:block;margin-bottom:6px;color:var(--bronze-ink)}
+.ss-enq .poll>b{font-size:calc(23px*var(--ssk,1)*var(--fz,1));line-height:1.22;margin-bottom:10px}
+.ss-enq .poll button{min-height:50px;font-size:16px;border-radius:12px;background:var(--bg)}
+/* página final */
+.ss-fim{background:var(--ink)!important}
+.ss-fim .ss-k{color:#f2c27b}.ss-fim .ss-t{color:#fff;font-size:calc(22px*var(--ssk,1)*var(--fz,1))}
+.ss-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:13px 20px;border-radius:999px;background:#fff;color:var(--ink);font:700 15px var(--f-ui)}
+.ss-fim .ss-f{font:600 12.5px var(--f-ui);color:rgb(255 255 255 / .7)}
+.post .track .ss-vis{display:flex;flex-direction:column;justify-content:center;background:var(--card);padding:22px 20px}
+:root[data-aparencia="escuro"] .ss-fim{background:#1b2333!important}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .ss-fim{background:#1b2333!important}}
 </style>
 </head>
 <body>
@@ -2276,7 +2324,7 @@ function slides(p){
 function coberturaTxt(p){const n=(p.fontes||[]).length,r=(p.fontes||[]).filter(k=>REGUA().includes(k)).length;return `${n} ${n===1?"veículo noticiou":"veículos noticiaram"}${r&&r<n?` · ${r} dos ${REGUA().length} principais`:""}`}
 function postSeguro(p){try{return postHTML(p)}catch(e){return ""}}
 function postHTML(p){
-  const sec=secOf(p),ss=p.tipo==="pontual"?cobPontualSlides(p):slides(p),nv=NOVAS.has(p.id)&&!LIDAS.has(p.id),at=ATUALIZADAS.has(p.id);
+  const sec=secOf(p),ss=slidesSociais(p),nv=NOVAS.has(p.id)&&!LIDAS.has(p.id),at=ATUALIZADAS.has(p.id);
   return `<article class="post" id="p-${esc(p.id)}" data-pid="${esc(p.id)}">
     <div class="ph gut"><div class="ph-t"><button type="button" class="ph-sec" data-secfiltro="${esc(sec)}"><span class="ph-av${nv||at?" ph-av-novo":""}" style="--c:${secCor(sec)}"><i>${esc(secNome(sec).slice(0,1))}</i></span><span class="ph-nm"><b>${esc(secNome(sec))}</b><span class="ph-sub">${esc(p.subtema||"")}${seguido(p)?" · seguindo":""}</span></span></button><em class="lida-t"${lidaAtual(p)?"":" hidden"}>✓ lida</em><span data-otr></span></div>${cobStatus(p)}${nv?`<span class="badge-new">Novo</span>`:at?`<span class="badge-new upd2">Atualizado</span>`:""}<button type="button" class="more-btn" data-a="menu" aria-label="Mais opções">${ICON.dots}</button></div>
     <div class="car"><div class="track">${ss.join("")}</div></div>
@@ -3916,7 +3964,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="16820cc7715b";
+const APP_VERSAO="134ad4966fa3";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -4817,6 +4865,41 @@ function pgDots(t){const post=t.closest(".post");const d=post&&post.querySelecto
   const i=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));let a=Math.max(0,Math.min(i-2,k-5));ds.forEach((x,j)=>{const v=j>=a&&j<a+5;x.classList.toggle("dv",v);x.classList.toggle("dpq",v&&((j===a&&a>0)||(j===a+4&&a+5<k)))})}
 document.addEventListener("scroll",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("track")&&t.closest(".post"))requestAnimationFrame(()=>pgDots(t))},true);
 {const _ft=fitTrack;fitTrack=function(t){const r=_ft.apply(this,arguments);if(t&&t.closest&&t.closest(".post")){if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(()=>paginarTrack(t));else paginarTrack(t)}return r}}
+
+/* ---------- Etapa 41: carrossel social ---------- */
+var SS_NUM=/(R\$\s?\d[\d.,]*(?:\s?(?:mil|mi|milhão|milhões|bi|bilhão|bilhões|tri))?|US\$\s?\d[\d.,]*(?:\s?(?:mil|mi|bi|milhões|bilhões))?|\d[\d.,]*\s?%|\d{1,3}(?:\.\d{3})+(?:,\d+)?(?:\s?(?:pontos|votos|mil))?|\d[\d,]*\s?(?:mil|milhões|bilhões|votos|pontos|anos|dias|vezes|cadeiras|mortos|feridos|deputados|senadores)\b)/i;
+function ssNumero(t){const m=SS_NUM.exec(t||"");if(!m||m.index>70)return null;return m[1].trim().replace(/[.,;:]+$/,"")}
+function ssFrasesSociais(p,L){const so=L==="neutro"&&Array.isArray(p.social)?p.social.map(x=>typeof x==="string"?x:(x&&x.texto)||"").filter(x=>x.trim()):[];
+  return (so.length>=2?so:pontosDe(p,L)).slice(0,5)}
+function ssPessoa(p,usadas){const A=FOTOS_ARQ;if(!A)return null;const n=p.neutro||{},t=[n.titulo,p.subtitulo,(n.pontos||[])[0]].join(" ");
+  const a=faPessoa(t,A);if(!a||!Array.isArray(a.fotos))return null;const nome=Object.keys(A.pessoas||{}).find(k=>A.pessoas[k]===a)||"";
+  const f=a.fotos.filter(faValida).find(x=>!usadas.has(faNome(x.url)));if(!f||!nome)return null;usadas.add(faNome(f.url));
+  return {nome,desc:(FEED.pessoas||{})[nome]||"",f}}
+function ssFotoAssunto(p,usadas){const A=FOTOS_ARQ;if(!A)return null;try{for(const l of faListas(p,A))for(const f of l)if(faValida(f)&&!usadas.has(faNome(f.url))){usadas.add(faNome(f.url));return f}}catch(e){}return null}
+function slidesSociais(p){try{
+  const L=lente(),v=versao(p,L),sec=secOf(p),cor=secCor(sec),out=[],usadas=new Set();
+  const base=slides(p);const capa=base[0]&&/class="cover/.test(base[0])?base[0]:null;
+  const fc=fotoDe(p);if(fc)usadas.add(faNome(fc.url));
+  if(capa)out.push(capa);else out.push(`<div class="sl ss ss-abre" style="--c:${cor}"><span class="ss-k">${esc(capaChapeu(p))}</span><h3 class="ss-h">${esc(v.titulo)}</h3></div>`);
+  const fr=ssFrasesSociais(p,L);
+  const pessoa=ssPessoa(p,usadas);
+  fr.forEach((t0,i)=>{const num=ssNumero(t0);let t=t0;
+    if(num&&t0.indexOf(num)===0){let r=t0.slice(num.length).replace(/^\s+/,"");if(r[0]===":"){r=r.slice(1).trim();r=r.charAt(0).toUpperCase()+r.slice(1)}if(r.length>8)t=r}
+    out.push(`<div class="sl ss ss-fato${num?" com-n":""}" style="--c:${cor}"><span class="ss-k">${i===0?"O essencial":"E mais"}</span>${num?`<b class="ss-n">${esc(num)}</b>`:""}<p class="ss-t">${marcarTermos(t)}</p><span class="ss-i">${i+1}/${fr.length}</span></div>`);
+    if(i===0&&pessoa)out.push(`<div class="sl ss ss-foto"><img src="${escU(fotoSrc(pessoa.f.url))}" alt="${esc(pessoa.nome)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.sl').classList.add('sem-foto')"><div class="ss-fl"><span class="ss-k">Quem é</span><b>${esc(pessoa.nome)}</b>${pessoa.desc?`<p>${esc(pessoa.desc)}</p>`:""}</div>${credHTML(pessoa.f.credito||"Foto de arquivo: Wikimedia Commons","fcv-c")}</div>`)});
+  const vis=(p.visuais||[]).map(x=>({...x,secao:sec}));
+  const gr=vis.find(x=>x.tipo==="grafico"&&visualHTML(x)),tl=vis.find(x=>x.tipo==="linha_do_tempo"&&visualHTML(x)),nu=vis.find(x=>x.tipo==="numeros"&&visualHTML(x));
+  [gr,nu].filter(Boolean).forEach(x=>out.push(`<div class="sl txs ss-vis">${visualHTML(x)}</div>`));
+  if(p.direita&&p.esquerda&&p.direita.titulo&&p.esquerda.titulo)out.push(`<div class="sl ss ss-lados"><span class="ss-k">Como cada lado conta</span><div class="ss-lado r"><em>Direita</em><b>${esc(p.direita.titulo)}</b></div><div class="ss-lado l"><em>Esquerda</em><b>${esc(p.esquerda.titulo)}</b></div></div>`);
+  if(tl)out.push(`<div class="sl txs ss-vis">${visualHTML({...tl,itens:(tl.itens||[]).slice(-5)})}</div>`);
+  const prox=p.proximo||p.por_que;if(prox){const fa=ssFotoAssunto(p,usadas);
+    out.push(`<div class="sl ss ss-prox${fa?" com-foto":""}" style="--c:${cor}">${fa?`<img src="${escU(fotoSrc(fa.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.sl').classList.remove('com-foto');this.remove()">`:""}<div class="ss-pb"><span class="ss-k">${p.proximo?"E agora?":"Por que importa"}</span><p class="ss-t">${marcarTermos(prox)}</p></div></div>`)}
+  if(p.enquete&&(p.enquete.opcoes||[]).length)out.push(`<div class="sl ss ss-enq"><div class="pollbox" data-poll></div></div>`);
+  out.push(`<div class="sl ss ss-fim" style="--c:${cor}"><span class="ss-k">Quer o quadro completo?</span><p class="ss-t">${esc(capaSub(p,L,"")||v.titulo)}</p><button type="button" class="ss-cta" data-capmat="${esc(p.id)}">Ler a matéria completa <i aria-hidden="true">›</i></button><span class="ss-f">${esc(coberturaTxt(p))}</span></div>`);
+  return out.slice(0,10)}catch(e){return p.tipo==="pontual"?cobPontualSlides(p):slides(p)}}
+/* páginas desenhadas: se a letra não couber, diminui um pouco (sem quebrar a página) */
+function ssCaber(t){t.querySelectorAll(".ss").forEach(sl=>{let k=1;sl.style.setProperty("--ssk","1");for(let n=0;n<8&&sl.scrollHeight>sl.clientHeight+1;n++){k-=.07;sl.style.setProperty("--ssk",k.toFixed(2))}})}
+{const _ft41=fitTrack;fitTrack=function(t){const r=_ft41.apply(this,arguments);if(t&&t.closest&&t.closest(".post")){const go=()=>ssCaber(t);if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(go);else go()}return r}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
