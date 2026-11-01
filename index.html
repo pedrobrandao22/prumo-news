@@ -2123,6 +2123,13 @@ html.rolou .top{border-bottom-color:var(--line)}
 #posts{padding-top:0}
 #posts .post{border-top:0;padding-bottom:22px}
 #v-feed .avisoconta{border-bottom:0;margin-bottom:6px}
+
+/* ================= Etapa 51 ================= */
+.etp{gap:6px}
+.etp li{overflow-wrap:anywhere;-webkit-hyphens:auto;hyphens:auto}
+#lp{transition:opacity .2s ease,transform .25s cubic-bezier(.2,.8,.2,1)}
+html.lp-some #lp{opacity:0;transform:translateY(14px) scale(.9);pointer-events:none}
+.ind-t .ind-d{display:block;font:600 10.5px var(--f-ui);color:var(--muted);margin-top:2px;letter-spacing:0}
 </style>
 </head>
 <body>
@@ -2526,7 +2533,7 @@ function slides(p){
   const fo=fotoDe(p);
   out.push(`<div class="sl"><div class="cover paper${fo?" fcv":info?" info":""}" data-sec="${esc(sec)}">${fo?`${coverSvg(p.imagem)}${fotoImg(fo,"fcv-i",1)}${fo.credito?credHTML(fo.credito,"fcv-c"):""}`:info?svgOf(p.imagem):coverSvg(p.imagem)}<div class="cv"><span class="kickrow"><button type="button" class="kick kickb" data-tagx>${esc(p.tag||secNome(sec))}</button>${fo?"":`<span class="klab">${esc((p.imagem?.etiqueta||"Ilustração").toLowerCase())}</span>`}</span><h2 class="${(n.titulo||"").length>72?"long":""}">${esc(n.titulo)}</h2></div></div></div>`);
   const ups=(p.atualizacoes||[]).slice().sort((a,b)=>String(b.hora).localeCompare(String(a.hora)));
-  out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">O que aconteceu</span>${ups.length?ups.slice(0,2).map(u=>`<div class="upd"><b>Atualizado às ${esc(hhmm(u.hora))}</b>${esc(u.texto)}</div>`).join(""):""}${(p.correcoes||[]).map(c=>`<div class="upd fix"><b>Correção · ${esc(hhmm(c.hora))}</b>${esc(c.texto)}</div>`).join("")}<p class="lead">${marcarTermos(n.texto||"")}</p>${p.contexto?`<p class="note"><b>Contexto.</b> ${marcarTermos(p.contexto)}</p>`:""}${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}${(FEED.explicadores||{})[temaDe(p)]?`<button type="button" class="explain" data-explica="${esc(temaDe(p))}">Entenda: ${esc(temaDe(p))}</button>`:""}</div>`);
+  out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">O que aconteceu</span>${ups.length?ups.slice(0,2).map(u=>`<div class="upd"><b>${esc(atualizadoTxt(u.hora))}</b>${esc(u.texto)}</div>`).join(""):""}${(p.correcoes||[]).map(c=>`<div class="upd fix"><b>Correção · ${esc(hhmm(c.hora))}</b>${esc(c.texto)}</div>`).join("")}<p class="lead">${marcarTermos(n.texto||"")}</p>${p.contexto?`<p class="note"><b>Contexto.</b> ${marcarTermos(p.contexto)}</p>`:""}${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}${(FEED.explicadores||{})[temaDe(p)]?`<button type="button" class="explain" data-explica="${esc(temaDe(p))}">Entenda: ${esc(temaDe(p))}</button>`:""}</div>`);
   if(p.direita||p.esquerda)out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button><span class="lbl">A mesma notícia, dois ângulos</span>${p.direita?`<div class="ang r"><span class="lbl">Viés de direita</span><b>${esc(p.direita.titulo)}</b><span class="x">${esc(p.direita.texto)}</span></div>`:""}${p.esquerda?`<div class="ang l"><span class="lbl">Viés de esquerda</span><b>${esc(p.esquerda.titulo)}</b><span class="x">${esc(p.esquerda.texto)}</span></div>`:""}${p.o_que_muda?`<p class="note"><b>O que muda.</b> ${esc(p.o_que_muda)}</p>`:""}<p class="hint">Versões escritas pelo Prumo com os mesmos fatos, mudando só a ênfase e as palavras.</p></div>`);
   const vis=(p.visuais||[]).map(v=>({...v,secao:sec})).sort((a,b)=>(b.tipo==="grafico")-(a.tipo==="grafico")).find(v=>visualHTML(v));
   if(vis)out.push(`<div class="sl txs"><button type="button" class="lermais" data-lermais>Continuar lendo</button>${visualHTML(vis)}</div>`);
@@ -2622,7 +2629,7 @@ function renderPosts(manter){
   const br=FILTRO[0]==="_"?[]:(FEED.breves||[]).filter(b=>(FILTRO==="tudo"&&!(PREF.ocultas||[]).includes(b.secao||"politica"))||(b.secao||"politica")===FILTRO);
   const at=new Date(FEED.atualizado_em);
   $("#extra").innerHTML=`<div class="done gut" id="emdia"></div>${br.length?`<div class="sec gut"><h4>Outras notícias</h4><ul class="brv">${(window.BREVES=br,br).map((b,bi)=>`<li><button type="button" class="brv-b" data-breve="${bi}">${b.urgente&&tms(b.hora)&&Date.now()-tms(b.hora)<3*3600e3?`<em class="ug">Urgente</em>`:""}${esc(b.titulo)}</button><span>${esc(secNome(b.secao||"politica"))} · ${esc(nomeFonte(b.fonte))}</span></li>`).join("")}</ul></div>`:""}
-  <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}.</b> O Prumo é atualizado de hora em hora, das 7h às 23h, com rodada completa às 6h52 e às 17h52.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As imagens são desenhos genéricos, nunca fotos nem pessoas reais.</p>${FEED.nota?`<p>${esc(FEED.nota)}</p>`:""}</div>`;
+  <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}.</b> A edição completa sai às 6h52 e é atualizada às 10h48, 13h48, 17h48 e 21h48; manchetes e indicadores são conferidos de hora em hora.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As fotos vêm de acervos de uso livre, sempre com crédito (Agência Brasil, Senado, Câmara e Wikimedia Commons); quando não há foto, o Prumo usa um desenho.</p></div>`;
   atualizarEmDia();
 }
 function renderFeed(){
@@ -3811,7 +3818,7 @@ function abrirBreve(i){const b=(window.BREVES||[])[i];if(!b)return;const rel=agP
 /* 23. rodadas */
 function proximaRodadaTxt(){const m=minAgoraSP(),cand=[];for(let h=7;h<=23;h++)if(h!==17)cand.push([h*60+48,"rápida"]);cand.push([6*60+52,"completa"],[17*60+52,"completa"]);cand.sort((a,b)=>a[0]-b[0]);const nx=cand.find(c=>c[0]>m);const f=c=>`${Math.floor(c[0]/60)}h${String(c[0]%60).padStart(2,"0")}`;return nx?`Próxima atualização ${nx[1]} por volta das ${f(nx)}.`:`Próxima atualização amanhã por volta das 6h52.`}
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
-  sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} As rodadas rápidas saem de hora em hora; as completas, às 6h52 e às 17h52.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Rodada completa":x.tipo==="virada"?"Virada da meia-noite":"Rodada rápida"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"problema"}</b><span class="hint">${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
+  sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, às 10h48, 13h48, 17h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Rodada completa":x.tipo==="virada"?"Virada da meia-noite":"Rodada rápida"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"problema"}</b><span class="hint">${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
 /* 24. story passando sozinho */
 function storyAuto(p){clearTimeout(ST.timer);if(!PREF.storyAuto)return;const w=((p.neutro?.titulo||"")+" "+(p.neutro?.texto||"")).split(/\s+/).length;const dur=Math.max(7000,Math.min(24000,w/3.2*1000));
@@ -4176,10 +4183,10 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="90bd262370aa";
+const APP_VERSAO="01a6e1a3fdd1";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
-function posPalavra(t,k){try{const m=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u").exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
+var PP_RE=new Map();function posPalavra(t,k){try{let re=PP_RE.get(k);if(!re){re=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u");PP_RE.set(k,re)}if(String(t).indexOf(k)<0&&String(t).toLowerCase().indexOf(String(k).toLowerCase())<0)return -1;const m=re.exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
 function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit=String((p.neutro||{}).titulo||""),ck=p.id+"|"+tit+"|"+(A.gerado||"");if(ck in FA_CACHE)return FA_CACHE[ck];
   let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});
   let l=best&&Array.isArray(best.fotos)?best.fotos:null;const T=A.temas||{};
@@ -4255,8 +4262,8 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${marcarTermos(p.contexto)}</p>`;
   if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${marcarTermos(p.proximo)}</p>`;
   h+=matTempo(p);
-  const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().reverse();
-  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(hhmm(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
+  const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().sort((a,b)=>tms(b.hora)-tms(a.hora));
+  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
   const nx=matProx(p.id);h+=matRel(p,nx);
   h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
@@ -4272,7 +4279,7 @@ function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
   let h=`<div class="gut cp"><header class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed">${esc(capaEdicao())}${FEED.contagem?" · "+esc(FEED.contagem):""}</span></header>`;
   h+=agoraHTML();h+=capaNovBar();h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
   if(man){const u=ultimaAtualizacao(man)||man.hora;
-    const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>Atualizado às ${esc(hhmm(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
+    const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>${esc(atualizadoTxt(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
     h+=cpItem(man,{tam:"man",sub:true,arte:true,linha:L==="neutro"?linha:"",meta});
     const tm=temaDe(man);const rel=ps.filter(p=>p!==man&&!usados.has(p.id)&&((tm&&temaDe(p)===tm)||(man.subtema&&p.subtema===man.subtema&&secOf(p)===secOf(man)))).slice(0,2);
     if(rel.length){rel.forEach(p=>usados.add(p.id));h+=`<div class="cp-rel"><span>Relacionadas</span>${rel.map(p=>cpItem(p,{tam:"rel"})).join("")}</div>`}}
@@ -4983,7 +4990,7 @@ function cpAlternar(antigo,novo){try{if(VIEW!=="capa")return false;
   CAPA_SIG=capaSig();return true}catch(e){return false}}
 /* assinatura do que a Capa mostra: se não mudou, trocar de aba não remonta */
 var CAPA_SIG="";
-function capaSig(){try{return [FEED&&FEED.atualizado_em,FEED&&FEED.pautas&&FEED.pautas.length,lente(),CP_AB,NOVAS.size,ATUALIZADAS.size,LIDAS.size,(PREF.ocultas||[]).join(),FOTOS_ARQ&&FOTOS_ARQ.gerado,typeof NOVID_AG!=="undefined"&&NOVID_AG&&NOVID_AG.gerado,Math.floor(Date.now()/300000),S.uid||"",S.membro?1:0,innerWidth>=900,typeof CAPA_FIXA!=="undefined"?JSON.stringify(CAPA_FIXA):"",JSON.stringify(PREF,(k,v)=>k==="conhecidas"||k==="visitaAtual"||k==="mod"?undefined:v)].join("|")}catch(e){return String(Math.random())}}
+function capaSig(){try{return [FEED&&FEED.atualizado_em,FEED&&FEED.pautas&&FEED.pautas.length,lente(),CP_AB,NOVAS.size,ATUALIZADAS.size,LIDAS.size,(PREF.ocultas||[]).join(),FOTOS_ARQ&&FOTOS_ARQ.gerado,typeof NOVID_AG!=="undefined"&&NOVID_AG&&NOVID_AG.gerado,Math.floor(Date.now()/300000),S.uid||"",S.membro?1:0,innerWidth>=900,typeof CAPA_FIXA!=="undefined"?JSON.stringify(CAPA_FIXA):"",capaPrefSig()].join("|")}catch(e){return String(Math.random())}}
 {const _rc=renderCapa;renderCapa=function(){const r=_rc.apply(this,arguments);CAPA_SIG=capaSig();return r}}
 function capaSeMudou(){const v=$("#v-capa");if(!v||!v.querySelector(".cpi")||capaSig()!==CAPA_SIG)renderCapa();else{try{lenteBotao()}catch(e){}}}
 
@@ -5558,6 +5565,24 @@ var RS_PEND=false;
 /* pontinhos do carrossel: no máximo 5 visíveis desde o início (antes só depois de deslizar) */
 {const _ft49=fitTrack;fitTrack=function(t){const r=_ft49.apply(this,arguments);try{if(t&&t.closest&&t.closest(".post"))pgDots(t)}catch(e){}return r}}
 (function(){let on=null;const f=()=>{const v=scrollY>4;if(v!==on){on=v;document.documentElement.classList.toggle("rolou",v)}};addEventListener("scroll",f,{passive:true});f()})();
+
+/* ---------- Etapa 50 ---------- */
+var CPS_K=null,CPS_V="";function capaPrefSig(){const k=PREF&&PREF.mod;if(k&&k===CPS_K)return CPS_V;CPS_V=JSON.stringify(PREF,(kk,v)=>kk==="conhecidas"||kk==="visitaAtual"||kk==="mod"?undefined:v);CPS_K=k;return CPS_V}
+
+/* ---------- Etapa 51: revisão geral ---------- */
+function horaDia(iso){const d=new Date(iso);if(isNaN(d))return "";const dia=dataSP(iso),hoje=hojeSP();if(dia===hoje)return hhmm(iso);
+  if(dia===somaDias(hoje,-1))return "ontem, "+hhmm(iso);const w=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"America/Sao_Paulo"}).replace(".","");return `${w} (${+dia.slice(8,10)}), ${hhmm(iso)}`}
+function atualizadoTxt(iso){const t=horaDia(iso);if(!t)return "Atualizado";return dataSP(iso)===hojeSP()?"Atualizado às "+t:"Atualizado "+t.replace(/, /,", às ")}
+/* voltar da matéria: diz de onde veio */
+var VOLTA_NOME={capa:"Capa",feed:"Feed",busca:"Busca",saved:"Guardadas",me:"Perfil",msgs:"Conversas",play:"Interagir"};
+{const _am51=abrirMateria;abrirMateria=function(){const r=_am51.apply(this,arguments);try{if(!document.getElementById("sg-fundo")){const b=$("#layer .mat-v"),n=VOLTA_NOME[VIEW]||"";if(b&&n){b.textContent="‹ "+n;b.setAttribute("aria-label","Voltar para "+(VIEW==="busca"?"a Busca":VIEW==="saved"?"Guardadas":VIEW==="me"?"o Perfil":VIEW==="msgs"?"Conversas":VIEW==="feed"?"o Feed":"a Capa"))}}}catch(e){}return r}}
+/* matéria aberta pelo story: a próxima é a próxima notícia do story */
+{const _mp51=matProx;matProx=function(pid){if(IG_VOLTA&&document.getElementById("sg-fundo")&&Array.isArray(IG_VOLTA.ids)){const ids=IG_VOLTA.ids.filter(x=>!/#v$/.test(x)&&!/^(ag|h\d)/.test(x));const i=ids.indexOf(pid);const nx=i>=0?ids[i+1]:null;return nx?pautaById(nx):null}return _mp51.apply(this,arguments)}}
+{const _mi51=matIr;matIr=function(pid){if(IG_VOLTA&&Array.isArray(IG_VOLTA.ids)){const k=IG_VOLTA.ids.indexOf(pid);if(k>=0)IG_VOLTA.i=k}return _mi51.apply(this,arguments)}}
+/* botão das versões: some ao rolar para baixo, volta ao rolar para cima */
+(function(){let y0=scrollY,oc=false;addEventListener("scroll",()=>{const y=scrollY,dy=y-y0;if(Math.abs(dy)<6)return;const novo=dy>0&&y>120;if(novo!==oc){oc=novo;document.documentElement.classList.toggle("lp-some",oc)}y0=y},{passive:true})})();
+/* indicadores: dia do dado quando não é de hoje */
+{const _it51=indTile;indTile=function(x){let h=_it51.apply(this,arguments);try{const d=x&&x.data&&/^\d{4}-\d{2}-\d{2}/.test(x.data)?x.data.slice(0,10):"";if(d&&d!==hojeSP()){const w=new Date(d+"T12:00:00Z").toLocaleDateString("pt-BR",{weekday:"short",timeZone:"UTC"}).replace(".","");h=h.replace(/<\/(button|div)>$/,`<small class="ind-d">${esc(w)} (${+d.slice(8,10)})</small></$1>`)}}catch(e){}return h}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
