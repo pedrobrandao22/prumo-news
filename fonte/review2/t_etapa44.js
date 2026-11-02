@@ -1,0 +1,32 @@
+// Etapa 44: Agenda em story, círculos fixos com anel cinza, cubo e fechar animado, sem faixa de novidades
+const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs');
+(async () => {
+  const S0 = __dirname + '/../site/';
+  const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8')); f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
+  fs.writeFileSync(S0 + 'feed.json', JSON.stringify(f)); fs.copyFileSync(require('../t_util').REPO + '/fotos-arquivo.json', S0 + 'fotos-arquivo.json');
+  const jpg = fs.readFileSync(__dirname + '/etapa13/foto.jpg');
+  const srv = U.servir('site', 8844); await sleep(700); const br = await U.navegador();
+  const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  await ctx.route('https://upload.wikimedia.org/**', r => r.fulfill({ body: jpg, contentType: 'image/jpeg' }));
+  await ctx.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1'));
+  const p = U.erros(await ctx.newPage(), 'a'); await p.goto('http://localhost:8844/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi') && FOTOS_ARQ, null, 10000); await sleep(500);
+  await p.evaluate(() => go('feed')); await sleep(900);
+  const ordem0 = await p.evaluate(() => [...document.querySelectorAll('#secs .sb')].map(b => b.dataset.secStory || (b.matches('[data-5min]') ? '5' : b.matches('[data-igagenda]') ? 'ag' : 'ult')));
+  ok(ordem0[0] === '5' && ordem0[1] === 'ag' && ordem0[2] === 'ult', 'fileira: Em 5 min, Agenda, Últimas ' + ordem0.join(','));
+  ok(await p.evaluate(() => !document.querySelector('#posts .newbar') || getComputedStyle(document.querySelector('#posts .newbar')).display === 'none'), 'sem faixa de novidades no Feed');
+  await p.evaluate(() => document.querySelector('#secs [data-igagenda]').click()); await sleep(900);
+  const a = await p.evaluate(() => ({ st: !!document.querySelector('#layer .story.sg-ag'), n: ST.itens.length, li: document.querySelectorAll('#layer .sga-l li').length, cabe: (() => { const b = document.querySelector('#layer .sga-body'); return b.scrollHeight <= b.clientHeight + 2 })() }));
+  ok(a.st && a.n >= 1 && a.li >= 1 && a.cabe, 'Agenda abre em story, um dia por tela, e cabe ' + JSON.stringify(a));
+  await p.evaluate(() => { igSet('politica', 0); drawStory(); const n = ST.ids.length; for (let i = 0; i < n; i++) { ST.i = i; drawStory() } }); await sleep(300);
+  await p.evaluate(() => storySec(1)); await sleep(150);
+  ok(await p.evaluate(() => document.querySelectorAll('#layer .story .story-in').length === 2), 'trocar de seção: as duas faces giram juntas (cubo)');
+  await sleep(600);
+  await p.evaluate(() => document.querySelector('#layer .story [data-close]').click()); await sleep(80);
+  ok(await p.evaluate(() => !!document.querySelector('#layer .story')), 'fechar tem animação (não some de uma vez)');
+  await sleep(500);
+  const r = await p.evaluate(() => { const ordem = [...document.querySelectorAll('#secs .sb')].map(b => b.dataset.secStory || '-'); const pol = document.querySelector('#secs [data-sec-story="politica"] .ig-r'); return { fechou: !document.querySelector('#layer .story'), visto: pol.classList.contains('visto'), bg: getComputedStyle(pol).backgroundColor, ordem } });
+  ok(r.fechou && r.visto && r.bg !== 'rgba(0, 0, 0, 0)', 'Política vista: anel cinza visível ' + JSON.stringify(r));
+  ok(JSON.stringify(r.ordem.filter(x => x !== '-')) === JSON.stringify(ordem0.filter(x => !['5', 'ag', 'ult'].includes(x))), 'círculos não mudam de lugar depois de vistos');
+  ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'sem erros ' + p._erros.join('|'));
+  const R = U.resumo(); console.log(`\nRESUMO t_etapa44: ${R.OKS} ok, ${R.FALHAS} falhas`); await br.close(); srv.kill(); try { fs.unlinkSync(S0 + 'fotos-arquivo.json') } catch (e) { } process.exit(R.FALHAS ? 1 : 0);
+})().catch(e => { console.error(e); process.exit(2) });

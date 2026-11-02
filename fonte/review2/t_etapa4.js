@@ -1,0 +1,57 @@
+// Etapa 4: páginas das seções
+const U = require('../t_util');
+const { ok, sleep, esperar } = U;
+const fs = require('fs');
+(async () => {
+  const f = JSON.parse(fs.readFileSync(__dirname + '/feed-etapa2.json', 'utf8'));
+  const iso = ms => new Date(ms - 3 * 3600e3).toISOString().slice(0, 16) + ':00-03:00';
+  const dia = n => new Date(Date.now() - 3 * 3600e3 + n * 864e5).toISOString().slice(0, 10);
+  f.atualizado_em = iso(Date.now() - 5 * 60e3);
+  const P = Object.fromEntries(f.pautas.map(p => [p.id, p]));
+  P['pec-seguranca-ccj'].etapa = { passos: ['Câmara', 'CCJ do Senado', 'Plenário do Senado', 'Promulgação'], atual: 1 };
+  P['alerta-chuvas-sp'].uf = ['SP']; P['alerta-chuvas-sp'].servicos = [{ texto: 'Defesa Civil: ligue 199', url: 'https://www.defesacivil.sp.gov.br' }, { texto: 'Doações: postos nas subprefeituras' }];
+  P['queimadas-amazonas'].uf = ['AM']; P['pf-operacao-unha-e-carne-rj'].uf = ['RJ']; P['pm-sp-jovem-27-tiros'].uf = ['SP'];
+  P['trump-diesel-russo-tregua-energetica'].e_o_brasil = 'O Brasil compra diesel russo; uma trégua energética pode baratear o combustível.';
+  P['estudiantes-flamengo-semi-libertadores'].status = 'ao_vivo'; P['estudiantes-flamengo-semi-libertadores'].essencial = ['Jogo empatado em 0 a 0', 'Volta no Maracanã', 'Quem vencer vai à final'];
+  f.calendario = [{ data: dia(5), texto: 'Copom decide a Selic', secao: 'economia', tipo: 'juros' }, { data: dia(-3), texto: 'passado', secao: 'economia' }, { data: dia(10), texto: 'IPCA de outubro', secao: 'economia' }, { data: dia(23), texto: 'Enem: 1º dia de provas', secao: 'educacao', tipo: 'prova' }, { data: dia(-1), ate: dia(2), texto: 'Inscrições do Sisu', secao: 'educacao', tipo: 'inscrição' }];
+  f.indicadores = { itens: [{ id: 'dolar', nome: 'Dólar', valor: 'R$ 5,09', variacao: '+1,17%', dir: 'sobe', data: dia(0), serie: [4.98, 5.01, 5.03, 5.02, 5.09] }, { id: 'desemprego', nome: 'Desemprego', valor: '5,6%', dir: 'desce', data: dia(-14) }] };
+  fs.writeFileSync(__dirname + '/../site/feed.json', JSON.stringify(f));
+  const srv = U.servir('site', 8779); await sleep(800);
+  const br = await U.navegador(); const D = __dirname + '/etapa4/';
+  for (const dark of [false, true]) {
+    const n = dark ? 'e' : 'c';
+    const p = U.erros(await br.newPage({ viewport: { width: 390, height: 844 }, colorScheme: dark ? 'dark' : 'light' }), n);
+    await p.goto('http://localhost:8779/index.html'); await esperar(p, () => document.querySelectorAll('.post').length > 2, null, 10000); await sleep(500);
+    const sec = async s => { await p.evaluate(x => { FILTRO = x; renderPosts(); window.scrollTo(0, 0) }, s); await sleep(400) };
+    await sec('politica');
+    ok(await p.evaluate(() => document.querySelectorAll('[data-secsub]').length >= 3 && /Em tramitação/.test(document.querySelector('.sh4').textContent) && !!document.querySelector('.sh4 .etp li.at')), n + ': Política: subtemas e Em tramitação com etapa');
+    await p.screenshot({ path: D + n + '1-politica.png' });
+    await p.evaluate(() => document.querySelector('[data-secsub="Congresso"]').click()); await sleep(300);
+    ok(await p.evaluate(() => listaFeed().every(x => x.subtema === 'Congresso') && listaFeed().length >= 1 && document.querySelectorAll('#posts .post').length === listaFeed().length), n + ': filtro por subtema');
+    await sec('economia');
+    ok(await p.evaluate(() => /Indicadores/.test(document.querySelector('.sh4').textContent) && !!document.querySelector('.sh4-ind svg') && /Copom/.test(document.querySelector('.sh4').textContent) && !/passado/.test(document.querySelector('.sh4').textContent)), n + ': Economia: painel com gráfico e calendário (sem data passada)');
+    await p.screenshot({ path: D + n + '2-economia.png' });
+    await sec('brasil');
+    ok(await p.evaluate(() => !!document.querySelector('[data-secuf="SP"]') && /Serviços e como ajudar/.test(document.querySelector('.sh4').textContent)), n + ': Brasil: estados e serviços');
+    await p.screenshot({ path: D + n + '3-brasil.png' });
+    await p.evaluate(() => document.querySelector('[data-secuf="SP"]').click()); await sleep(300);
+    ok(await p.evaluate(() => listaFeed().length === 2 && listaFeed().every(x => (x.uf || []).includes('SP'))), n + ': filtro por estado');
+    await sec('mundo');
+    ok(await p.evaluate(() => /Conflitos e crises/.test(document.querySelector('.sh4').textContent) && /E o Brasil/.test(document.querySelector('.sh4').textContent)), n + ': Mundo: conflitos e E o Brasil');
+    await p.screenshot({ path: D + n + '4-mundo.png' });
+    await sec('educacao');
+    ok(await p.evaluate(() => /Provas e inscrições/.test(document.querySelector('.sh4').textContent) && /Sisu/.test(document.querySelector('.sh4').textContent) && /Enem/.test(document.querySelector('.sh4').textContent)), n + ': Educação: calendário de provas');
+    await p.screenshot({ path: D + n + '5-educacao.png' });
+    await p.evaluate(() => abrirPagCob('estudiantes-flamengo-semi-libertadores')); await sleep(400);
+    ok(await p.evaluate(() => /O essencial/.test(document.querySelector('.sheet').textContent) && document.querySelectorAll('.pc-ess li').length === 3), n + ': cobertura ao vivo com O essencial');
+    await p.screenshot({ path: D + n + '6-essencial.png' });
+    await p.evaluate(() => abrirPagCob('alerta-chuvas-sp')); await sleep(300);
+    ok(await p.evaluate(() => /Serviços e como ajudar/.test(document.querySelector('.sheet').textContent) && /199/.test(document.querySelector('.sheet').textContent)), n + ': cobertura com serviços');
+    await p.evaluate(() => closeLayer()); await sec('tudo');
+    ok(await p.evaluate(() => !document.querySelector('.sh4') && listaFeed().length === FEED.pautas.length), n + ': "Tudo" sem hub e sem filtro');
+    ok(!p._erros.length, n + ': sem erros de JS ' + p._erros.join('|'));
+    await p.close();
+  }
+  const res = U.resumo(); console.log(`\nRESUMO t_etapa4: ${res.OKS} ok, ${res.FALHAS} falhas`);
+  await br.close(); srv.kill(); process.exit(res.FALHAS ? 1 : 0);
+})().catch(e => { console.error(e); process.exit(2) });

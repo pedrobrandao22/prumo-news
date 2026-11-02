@@ -1,0 +1,31 @@
+// Etapa 48: matéria do story com passo próprio no histórico; fileira não redesenha atrás do story; rolagem infinita
+const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs');
+(async () => {
+  const S0 = __dirname + '/../site/';
+  const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8')); f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
+  fs.writeFileSync(S0 + 'feed.json', JSON.stringify(f)); fs.copyFileSync(require('../t_util').REPO + '/fotos-arquivo.json', S0 + 'fotos-arquivo.json');
+  const srv = U.servir('site', 8848); await sleep(700); const br = await U.navegador();
+  const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  await ctx.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1'));
+  const p = U.erros(await ctx.newPage(), 'a');
+  await p.goto('http://localhost:8848/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi') && FOTOS_ARQ, null, 10000); await sleep(500);
+  await p.evaluate(() => go('feed')); await sleep(800); const base = await p.evaluate(() => JSON.stringify(history.state));
+  await p.evaluate(() => openSecStory('politica')); await sleep(600);
+  await p.evaluate(() => document.querySelector('#layer [data-stmat]').click()); await sleep(700);
+  ok(await p.evaluate(() => HST === 2), 'matéria aberta pelo story tem passo próprio no histórico (voltar do iPhone mostra o story)');
+  await p.evaluate(() => history.back()); await sleep(800);
+  ok(await p.evaluate(() => !!document.querySelector('#layer .story') && HST === 1), 'voltar: fecha a matéria e mostra o story');
+  await p.evaluate(() => history.back()); await sleep(800);
+  ok(await p.evaluate(b => !document.querySelector('#layer').innerHTML && HST === 0 && JSON.stringify(history.state) === b, base), 'voltar de novo: fecha o story, sem passo sobrando');
+  await p.evaluate(() => openSecStory('politica')); await sleep(500);
+  const antes = await p.evaluate(() => document.querySelector('#secs').innerHTML.length);
+  await p.evaluate(() => { window.__n = 0; const o = new MutationObserver(() => __n++); o.observe(document.querySelector('#secs'), { childList: true }); for (let i = 0; i < 3; i++) storyGo(1) }); await sleep(300);
+  ok(await p.evaluate(() => __n === 0), 'enquanto o story está aberto, a fileira não é redesenhada');
+  await p.evaluate(() => closeLayer()); await sleep(500);
+  ok(await p.evaluate(() => __n > 0 && document.querySelector('#secs [data-sec-story="politica"] .ig-r')), 'ao fechar, a fileira é atualizada');
+  await p.evaluate(() => { scrollTo(0, 99999); PREF.lente = 'direita'; renderFeed() }); await sleep(900);
+  ok(await p.evaluate(() => document.querySelectorAll('#posts .post').length > 6), 'feed redesenhado lá embaixo carrega o resto sem travar');
+  await p.evaluate(() => { PREF.lente = 'neutro' });
+  ok(!p._erros.filter(e => !/ERR_|404|net::|cancelable=false/.test(e)).length, 'sem erros ' + p._erros.join('|'));
+  const R = U.resumo(); console.log(`\nRESUMO t_etapa48: ${R.OKS} ok, ${R.FALHAS} falhas`); await br.close(); srv.kill(); try { fs.unlinkSync(S0 + 'fotos-arquivo.json') } catch (e) { } process.exit(R.FALHAS ? 1 : 0);
+})().catch(e => { console.error(e); process.exit(2) });

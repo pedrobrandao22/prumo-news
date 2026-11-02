@@ -1,0 +1,66 @@
+// Etapa 2: coberturas (subtema, AO VIVO, barra da cobertura, página, pontual, Seguir + faixa, dormentes na busca)
+const U = require('../t_util');
+const { ok, sleep, esperar } = U;
+const fs = require('fs');
+(async () => {
+  const f = JSON.parse(fs.readFileSync(__dirname + '/feed-etapa2.json', 'utf8'));
+  const iso = ms => new Date(ms - 3 * 3600e3).toISOString().slice(0, 16) + ':00-03:00';
+  f.atualizado_em = iso(Date.now() - 5 * 60e3);
+  const P = Object.fromEntries(f.pautas.map(p => [p.id, p]));
+  P['estudiantes-flamengo-semi-libertadores'].status = 'ao_vivo';
+  P['x-pontual'].hora = iso(Date.now() - 30 * 60e3);
+  P['x-pontual'].prioridade = 99;
+  P['pec-6x1-senado'].prioridade = 98;
+  fs.writeFileSync(__dirname + '/../site/feed.json', JSON.stringify(f));
+  const srv = U.servir('site', 8777); await sleep(800);
+  const br = await U.navegador();
+  const D = __dirname + '/etapa2/';
+  for (const dark of [false, true]) {
+    const n = dark ? 'e' : 'c';
+    const p = U.erros(await br.newPage({ viewport: { width: 390, height: 844 }, colorScheme: dark ? 'dark' : 'light' }), n);
+    await p.goto('http://localhost:8777/index.html'); await esperar(p, () => document.querySelectorAll('.post').length > 2, null, 10000); await sleep(800);
+    ok(await p.evaluate(() => /Congresso/.test(document.querySelector('#p-pec-6x1-senado .ph-sec').textContent)), n + ': subtema no cabeçalho do card');
+    ok(await p.evaluate(() => !!document.querySelector('#p-pec-6x1-senado .cst.enc') && !!document.querySelector('#p-pec-6x1-senado [data-cobpag]')), n + ': selo Encerrada e barra da cobertura');
+    ok(await p.evaluate(() => /2 manchetes/.test(document.querySelector('#p-pec-6x1-senado .cobbar').textContent) && /Promulgação/.test(document.querySelector('#p-pec-6x1-senado .cobbar').textContent)), n + ': barra diz etapa e nº de manchetes');
+    ok(await p.evaluate(() => { const e = document.querySelector('#p-x-pontual'); return e && e.querySelectorAll('.track > .sl').length <= 6 && /Por que importa/.test(e.textContent) && !e.querySelector('.cobbar') }), n + ': pontual em formato curto');
+    await p.evaluate(() => document.querySelector('#p-x-pontual').scrollIntoView()); await sleep(300);
+    await p.screenshot({ path: D + n + '1-pontual.png' });
+    await p.evaluate(() => document.querySelector('#p-pec-6x1-senado').scrollIntoView()); await sleep(300);
+    await p.screenshot({ path: D + n + '2-card-cobertura.png' });
+    await p.evaluate(() => { const e = document.querySelector('#p-estudiantes-flamengo-semi-libertadores'); garantirPost && garantirPost('estudiantes-flamengo-semi-libertadores') });
+    await sleep(300);
+    ok(await p.evaluate(() => !!document.querySelector('#p-estudiantes-flamengo-semi-libertadores .cst.vivo')), n + ': selo AO VIVO');
+    await p.evaluate(() => document.querySelector('#p-pec-6x1-senado .cobbar').click()); await sleep(600);
+    ok(await p.evaluate(() => { const s = document.querySelector('.sheet .pc'); return s && s.querySelectorAll('.etp li').length === 4 && s.querySelector('.etp li.at') && s.querySelectorAll('.faq details').length === 2 && s.querySelectorAll('.pct li.tt').length === 2 }), n + ': página com etapas, Entenda e manchetes na linha do tempo');
+    await p.screenshot({ path: D + n + '3-pagina.png' });
+    await p.evaluate(() => document.querySelector('.sheet .faq summary').click()); await sleep(200);
+    await p.evaluate(() => document.querySelector('.sheet .sh-b').scrollTo(0, 600)); await sleep(300);
+    await p.screenshot({ path: D + n + '4-pagina-baixo.png' });
+    await p.evaluate(() => document.querySelector('[data-cobseg]').click()); await sleep(500);
+    ok(await p.evaluate(() => /Seguindo/.test(document.querySelector('[data-cobseg]').textContent) && seguido(pautaById('pec-6x1-senado'))), n + ': Seguir');
+    await p.evaluate(() => closeLayer()); await sleep(300); await p.evaluate(() => window.scrollTo(0, 0)); await sleep(400);
+    ok(await p.evaluate(() => !!document.querySelector('.segs [data-cobpag="pec-6x1-senado"]')), n + ': faixa "Do que você segue"');
+    await p.screenshot({ path: D + n + '5-faixa.png' });
+    await p.evaluate(() => abrirBusca('paquistao')); await sleep(400);
+    ok(await p.evaluate(() => !!document.querySelector('#sres [data-dorm="paquistao-escola-desabamento"]')), n + ': cobertura anterior na busca');
+    await p.screenshot({ path: D + n + '6-busca.png' });
+    await p.evaluate(() => document.querySelector('#sres [data-dorm]').click()); await sleep(400);
+    ok(await p.evaluate(() => /Cobertura anterior/.test(document.querySelector('.sheet').textContent) && /Peshawar/.test(document.querySelector('.sheet').textContent)), n + ': página da cobertura anterior');
+    await p.screenshot({ path: D + n + '7-dormente.png' });
+    await p.evaluate(() => closeLayer()); await sleep(200);
+    await p.evaluate(() => document.querySelector('.segs [data-cobpag]').click()); await sleep(400);
+    await p.evaluate(() => document.querySelector('[data-cobler]').click()); await sleep(900);
+    ok(await p.evaluate(() => !document.querySelector('#layer').innerHTML && Math.abs(document.querySelector('#p-pec-6x1-senado').getBoundingClientRect().top) < 200), n + ': "Ler a notícia" leva ao card');
+    ok(!p._erros.length, n + ': sem erros de JS ' + p._erros.join('|'));
+    await p.close();
+  }
+  // feed velho (sem campos novos) continua funcionando
+  U.feedFresco('site');
+  const p = U.erros(await br.newPage({ viewport: { width: 390, height: 844 } }), 'velho');
+  await p.goto('http://localhost:8777/index.html'); await esperar(p, () => document.querySelectorAll('.post').length > 2, null, 10000); await sleep(500);
+  ok(await p.evaluate(() => !document.querySelector('.cst') && document.querySelectorAll('.post').length > 2), 'feed antigo: abre normal');
+  await p.evaluate(() => abrirBusca('senado')); await sleep(300);
+  ok(!p._erros.length, 'feed antigo: sem erros ' + p._erros.join('|'));
+  const res = U.resumo(); console.log(`\nRESUMO t_etapa2: ${res.OKS} ok, ${res.FALHAS} falhas`);
+  await br.close(); srv.kill(); process.exit(res.FALHAS ? 1 : 0);
+})().catch(e => { console.error(e); process.exit(2) });

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Prumo News</title>
+<meta name="description" content="Os fatos no centro. Os ângulos ao lado.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prumo News">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Prumo News">
+<meta property="og:description" content="As notícias que importam, curtas, sem viés e sempre atualizadas. Os fatos no centro, os ângulos ao lado.">
+<meta property="og:url" content="https://prumonews.com.br/">
+<meta property="og:image" content="https://prumonews.com.br/og-padrao.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Prumo">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f3f4f6">
+<link rel="preload" href="fontes/newsreader.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fontes/public-sans.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+<!--@inclui css/01-fontes.css-->
+</style>
+<style>
+<!--@inclui css/02-base.css-->
+</style>
+<style>
+<!--@inclui css/03-tamanho-texto.css-->
+</style>
+<style>
+<!--@inclui css/04-botoes-e-camadas.css-->
+</style>
+<style>
+<!--@inclui css/05-saude-das-rodadas.css-->
+</style>
+<style>
+<!--@inclui css/06-faixa-de-ultimas.css-->
+</style>
+<style>
+<!--@inclui css/07-comentarios.css-->
+</style>
+<style>
+<!--@inclui css/08-faixa-v2.css-->
+</style>
+<style>
+<!--@inclui css/09-v12.css-->
+</style>
+<style>
+<!--@inclui css/10-telas.css-->
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top gut">
+    <div class="top-in">
+      <div class="brand" aria-label="Prumo News · voltar ao topo" role="button" tabindex="0" data-topo><svg viewBox="0 0 64 112" aria-hidden="true"><rect x="14" y="0" width="36" height="7" rx="1.5" fill="var(--ink)"/><rect x="29.5" y="6" width="5" height="46" fill="var(--ink)"/><rect x="25" y="50" width="14" height="8" rx="1" fill="var(--ink)"/><path d="M18 60H46L52 74L32 112L12 74Z" fill="var(--bronze)"/></svg><span class="word">prumo<small>NEWS</small></span></div>
+      <span class="ed" id="ed"></span>
+      <span class="sp"></span>
+      <button type="button" class="fivebtn" id="b-5min">5 min</button>
+      <button type="button" class="icbtn" id="b-audio" aria-pressed="false" aria-label="Ouvir o resumo do dia"><svg class="ico" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a7.5 7.5 0 0 1 0 11"/></svg></button>
+      <button type="button" class="icbtn" id="b-filtro" data-abrirfiltro aria-label="Filtrar o feed" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg></button>
+      <button type="button" class="icbtn" id="b-busca" aria-label="Buscar notícias"><svg class="ico" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg></button>
+    </div>
+    <div class="ticker" id="ticker" hidden aria-label="Últimas notícias"><button type="button" class="tk-lbl" data-ultimas aria-label="Ver todas as últimas notícias"><span class="tk-l1"><span class="tk-sep" style="background:var(--ink)"></span>Últimas</span><span class="tk-l2" id="tkhora"></span></button><div class="tk-vp"><div class="tk-run" id="tkrun"></div></div></div>
+  </header>
+
+  <section id="v-feed">
+    <div class="secs gut" id="secs" aria-label="Seções do dia"></div>
+    <div class="filters gut" id="filters" role="group" aria-label="Filtrar o feed"></div>
+    <div id="chg"></div>
+    <div id="posts"><div class="skel gut"><i class="sk1"></i><i class="sk2"></i><i class="sk3"></i><i class="sk3 c"></i></div></div>
+    <div id="extra"></div>
+  </section>
+  <section id="v-capa" hidden></section>
+  <section id="v-msgs" hidden></section>
+  <section id="v-busca" hidden></section>
+  <section id="v-saved" hidden></section>
+  <section id="v-play" hidden></section>
+  <section id="v-me" hidden></section>
+</div>
+
+<nav class="nav" aria-label="Áreas do app">
+  <div class="nav-in">
+    <button type="button" id="t-capa" data-v="capa"><span class="badge pdot" id="pbadge" hidden></span><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M7 8.5h10M7 12h4.5M7 15.5h4.5"/><path d="M14 12h3v3.5h-3z"/></svg>Capa</button>
+    <button type="button" id="t-feed" data-v="feed" aria-current="page"><svg class="ico" viewBox="0 0 24 24"><path d="M7 3h10"/><path d="M12 3v8"/><path d="M8.5 12.5h7l1.5 3-5 6-5-6z"/></svg>Feed</button>
+    <button type="button" id="t-msgs" data-v="msgs"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="13" height="10" rx="2.5"/><path d="M7 14v3l3-3"/><path d="M19 9h0.5a1.5 1.5 0 0 1 1.5 1.5V17a1.5 1.5 0 0 1-1.5 1.5H18v2.5l-3-2.5h-3"/></svg>Conversas<span class="badge" id="badge" hidden></span></button>
+    <button type="button" id="t-busca" data-v="busca"><svg class="ico" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>Buscar</button>
+    <button type="button" id="t-me" data-v="me"><span class="badge pdot" id="mbadge" hidden></span><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="10" r="3"/><path d="M7 18c1-2.5 3-3.5 5-3.5s4 1 5 3.5"/></svg>Perfil</button>
+  </div>
+</nav>
+<div id="layer"></div>
+<div id="layer2"></div>
+
+<script>window.SBJS_URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";window.SBJS_PRONTO=new Promise(function(ok){window.__sbjsOk=ok});function carregarSbjs(){if(window.__sbjsIni)return;window.__sbjsIni=1;var s=document.createElement("script");s.id="sbjs";s.async=true;s.src=window.SBJS_URL;s.onload=s.onerror=function(){window.__sbjsOk()};document.head.appendChild(s)}document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(function(){setTimeout(carregarSbjs,0)})});setTimeout(carregarSbjs,2500);</script>
+<script>
+<!--@inclui js/000-inicio.js-->
+<!--@inclui js/001-estado.js-->
+<!--@inclui js/002-preferencias.js-->
+<!--@inclui js/003-novidades-desde-a-ultima-visita.js-->
+<!--@inclui js/004-leitura-para-em-dia-e-lemos-juntos.js-->
+<!--@inclui js/005-secoes-stories-e-filtros.js-->
+<!--@inclui js/006-posts.js-->
+<!--@inclui js/007-camadas.js-->
+<!--@inclui js/008-acoes.js-->
+<!--@inclui js/009-busca.js-->
+<!--@inclui js/010-audio.js-->
+<!--@inclui js/011-conversas.js-->
+<!--@inclui js/012-guardadas-e-perfil.js-->
+<!--@inclui js/013-eventos.js-->
+<!--@inclui js/014-glossario-e-quem-e-quem-dentro-do-texto.js-->
+<!--@inclui js/015-pesquisas-acumuladas.js-->
+<!--@inclui js/016-enquete.js-->
+<!--@inclui js/017-topo-semana-mudancas-agenda-quiz.js-->
+<!--@inclui js/018-agenda.js-->
+<!--@inclui js/019-faixa-de-ultimas.js-->
+<!--@inclui js/020-aba-interagir.js-->
+<!--@inclui js/021-modo-5-minutos.js-->
+<!--@inclui js/022-audio-com-voz-velocidade-e-secao.js-->
+<!--@inclui js/023-notas-historico-erros-relatorio.js-->
+<!--@inclui js/024-saude-das-rodadas.js-->
+<!--@inclui js/025-aprendizado-pela-leitura.js-->
+<!--@inclui js/026-uso-dos-recursos-para-decidir-o-que-manter.js-->
+<!--@inclui js/027-assinaturas-que-dependem-da-edicao-e-do-dia.js-->
+<!--@inclui js/028-carga.js-->
+<!--@inclui js/029-conta-supabase.js-->
+<!--@inclui js/030-v14.js-->
+<!--@inclui js/031-administracao-so-o-administrador-ve-o-banco-conf.js-->
+<!--@inclui js/032-etapa-13-graficos-dos-indicadores.js-->
+<!--@inclui js/033-etapa-14.js-->
+<!--@inclui js/034-etapa-15-transicoes.js-->
+<!--@inclui js/035-etapa-16.js-->
+<!--@inclui js/036-etapa-17.js-->
+<!--@inclui js/037-etapa-18.js-->
+<!--@inclui js/038-etapa-19.js-->
+<!--@inclui js/039-etapa-20.js-->
+<!--@inclui js/040-etapa-21-proposta-feed-limpo-liga-com-feedlimpo.js-->
+<!--@inclui js/041-etapa-26.js-->
+<!--@inclui js/042-etapa-27.js-->
+<!--@inclui js/043-etapa-28.js-->
+<!--@inclui js/044-etapa-29.js-->
+<!--@inclui js/045-etapa-30.js-->
+<!--@inclui js/046-etapa-31.js-->
+<!--@inclui js/047-etapa-32.js-->
+<!--@inclui js/048-etapa-33.js-->
+<!--@inclui js/049-etapa-36.js-->
+<!--@inclui js/050-etapa-38-puxar-para-atualizar-com-o-prumo.js-->
+<!--@inclui js/051-etapa-39-feed.js-->
+<!--@inclui js/052-etapa-40-paginas-de-altura-fixa-no-feed.js-->
+<!--@inclui js/053-etapa-41-carrossel-social.js-->
+<!--@inclui js/054-etapa-42-topo-do-feed-e-stories-no-estilo-instag.js-->
+<!--@inclui js/055-etapa-43-em-5-min-e-ultimas-como-stories.js-->
+<!--@inclui js/056-etapa-44-agenda-em-story-animacoes-e-topo-sem-fa.js-->
+<!--@inclui js/057-etapa-45-revisao-dos-stories.js-->
+<!--@inclui js/058-etapa-46-comentar-pelo-story-telas-de-grafico-de.js-->
+<!--@inclui js/059-etapa-47-ajustes-dos-stories.js-->
+<!--@inclui js/060-etapa-48.js-->
+<!--@inclui js/061-etapa-49-linha-do-cabecalho-so-depois-de-rolar.js-->
+<!--@inclui js/062-etapa-50.js-->
+<!--@inclui js/063-etapa-51-revisao-geral.js-->
+<!--@inclui js/064-etapa-52-deslizar-entre-capa-e-feed.js-->
+<!--@inclui js/065-etapa-53-conversas.js-->
+<!--@inclui js/066-enviar-varios-amigos-de-uma-vez.js-->
+<!--@inclui js/067-no-comentario-sugere-amigos-e-manda-a-noticia-po.js-->
+<!--@inclui js/068-etapa-54-publicacoes-dos-membros.js-->
+<!--@inclui js/069-etapa-55.js-->
+<!--@inclui js/070-etapa-56.js-->
+<!--@inclui js/071-etapa-57-criacao-no-estilo-instagram.js-->
+<!--@inclui js/072-etapa-58.js-->
+<!--@inclui js/073-etapa-59.js-->
+<!--@inclui js/074-etapa-60-story-completo.js-->
+<!--@inclui js/075-etapa-61-figurinhas.js-->
+<!--@inclui js/076-etapa-62-post-completo.js-->
+<!--@inclui js/077-etapa-63-video-stories-e-reels.js-->
+<!--@inclui js/078-etapa-64.js-->
+<!--@inclui js/079-etapa-65-dados-de-outros-membros-sempre-normaliz.js-->
+<!--@inclui js/080-etapa-66.js-->
+<!--@inclui js/081-etapa-67.js-->
+<!--@inclui js/082-etapa-68-reacoes-das-publicacoes-protegidas.js-->
+<!--@inclui js/083-etapa-69-grade-de-perfil.js-->
+<!--@inclui js/084-etapa-70-arquivo-destaques-editar-e-fixar.js-->
+<!--@inclui js/085-etapa-71-atividade-coberturas-seguidas-debate-na.js-->
+<!--@inclui js/086-etapa-72-post-no-story-sua-semana-reacoes-de-sto.js-->
+<!--@inclui js/087-etapa-73-espaco-usado-e-limpeza.js-->
+<!--@inclui js/088-etapa-74-correcoes-da-revisao.js-->
+<!--@inclui js/089-etapa-75-pagina-do-assunto.js-->
+<!--@inclui js/090-etapa-76-primeira-abertura-guiada.js-->
+<!--@inclui js/999-fim-redesenho-depois-dos-complementos.js-->
+</script>
+</body>
+</html>

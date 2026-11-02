@@ -1,0 +1,33 @@
+// Etapa 75: página do assunto (subtema) com o que está no ar, a linha do tempo dos últimos dias e as histórias anteriores
+const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs');
+const SH = __dirname + '/../review3/var/';
+(async () => {
+  const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8'));
+  f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 10 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
+  fs.writeFileSync(__dirname + '/../site/feed.json', JSON.stringify(f));
+  const cont = {}; f.pautas.forEach(p => { if (p.subtema) cont[p.subtema] = (cont[p.subtema] || 0) + 1 }); (f.dormentes || []).forEach(d => { if (d.subtema) cont[d.subtema] = (cont[d.subtema] || 0) + 1 });
+  const sub = Object.entries(cont).filter(([s]) => f.pautas.some(p => p.subtema === s)).sort((a, b) => b[1] - a[1])[0][0];
+  const pid = f.pautas.find(p => p.subtema === sub).id; const tot = cont[sub];
+  const srv = U.servir('site', 8783); await sleep(700); const br = await U.navegador();
+  const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
+  await ctx.route('https://upload.wikimedia.org/**', r => r.fulfill({ body: fs.readFileSync(__dirname + '/etapa13/foto.jpg'), contentType: 'image/jpeg' }));
+  const p = U.erros(await ctx.newPage(), 'a'); await p.goto('http://localhost:8783/index.html'); await esperar(p, () => FEED && FEED.pautas.length, null, 10000); await sleep(800);
+  await p.evaluate(id => abrirPagCob(id), pid); await sleep(500);
+  ok(await p.evaluate(([s, n]) => { const b = document.querySelector('.sheet [data-assunto]'); return b && b.dataset.assunto === s && new RegExp(n + ' histórias').test(b.textContent) }, [sub, tot]), `página da cobertura tem "Tudo sobre ${sub}" (${tot} histórias)`);
+  await p.evaluate(() => document.querySelector('.sheet [data-assunto]').click()); await sleep(800);
+  const r = await p.evaluate(() => { const el = document.querySelector('#layer .pfv-as'); return el && { agora: el.querySelectorAll('[data-ascob]').length, tl: el.querySelectorAll('.as-tl li:not(.as-d)').length, dias: el.querySelectorAll('.as-tl .as-d').length, antes: el.querySelectorAll('.as-l [data-asdorm]').length, larg: document.documentElement.scrollWidth } });
+  ok(r && r.agora >= 1 && r.tl >= tot && r.dias >= 1 && r.antes === tot - f.pautas.filter(x => x.subtema === sub).length, 'página do assunto: agora, linha do tempo por dia e dos últimos dias', r);
+  ok(r.larg <= 390, 'sem rolagem horizontal');
+  ok(await p.evaluate(() => { const ts = [...document.querySelectorAll('#layer .as-tl li:not(.as-d) i')].length; return ts > 0 }), 'linha do tempo com horário');
+  await p.screenshot({ path: SH + 'd75-assunto.png' });
+  await p.evaluate(() => document.querySelector('#layer .as-l [data-ascob]').click()); await sleep(600);
+  ok(await p.evaluate(() => !!document.querySelector('#layer2 .sheet .pc') && !!document.querySelector('#layer .pfv-as')), 'tocar abre a cobertura por cima da página do assunto');
+  await p.evaluate(() => closeLayer()); await sleep(400);
+  ok(await p.evaluate(() => !!document.querySelector('#layer .pfv-as') && !document.querySelector('#layer2 .sheet')), 'fechar volta para a página do assunto');
+  const dorm = await p.evaluate(() => { const b = document.querySelector('#layer .as-l [data-asdorm]'); if (!b) return null; b.click(); return b.dataset.asdorm }); await sleep(600);
+  if (dorm) ok(await p.evaluate(() => !!document.querySelector('#layer2 .sheet')), 'história dos últimos dias abre');
+  await p.evaluate(() => { closeLayer(); history.back() }); await sleep(600);
+  ok(await p.evaluate(() => !document.querySelector('#layer .pfv-as')), 'voltar fecha a página do assunto');
+  ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'sem erros ' + p._erros.join('|'));
+  const R = U.resumo(); console.log(`\nRESUMO t_etapa75: ${R.OKS} ok, ${R.FALHAS} falhas`);
+  await br.close(); srv.kill(); process.exit(R.FALHAS ? 1 : 0) })().catch(e => { console.error(e); process.exit(2) });

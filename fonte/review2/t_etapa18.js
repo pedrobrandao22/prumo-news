@@ -1,0 +1,36 @@
+// Etapa 18: Aa na matéria; foto em tela cheia
+const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs');
+(async () => {
+  const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8'));
+  f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
+  f.pautas.forEach((p, i) => { p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/F' + i + '.jpg', credito: 'Foto: X/Agência Senado', alt: 't' } });
+  fs.writeFileSync(__dirname + '/../site/feed.json', JSON.stringify(f));
+  const jpg = fs.readFileSync(__dirname + '/etapa13/foto.jpg');
+  const srv = U.servir('site', 8802); await sleep(700); const br = await U.navegador(); const D = __dirname + '/etapa18/'; fs.mkdirSync(D, { recursive: true });
+  const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
+  await ctx.route('https://upload.wikimedia.org/**', r => r.fulfill({ body: jpg, contentType: 'image/jpeg' }));
+  await ctx.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1'));
+  const p = U.erros(await ctx.newPage(), 'c'); await p.goto('http://localhost:8802/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi'), null, 10000); await sleep(800);
+  await p.evaluate(() => abrirMateria(FEED.capa.manchete)); await sleep(600);
+  const fs0 = await p.evaluate(() => parseFloat(getComputedStyle(document.querySelector('#layer .mat-p p')).fontSize));
+  await p.evaluate(() => document.querySelector('#layer [data-mataa]').click()); await sleep(200);
+  ok(await p.evaluate(() => !!document.querySelector('#layer .mat-aap')), 'Aa abre o controle de letra');
+  await p.screenshot({ path: D + 'aa.png' });
+  await p.evaluate(() => document.querySelector('#layer [data-matfz="1"]').click()); await sleep(150);
+  const fs1 = await p.evaluate(() => parseFloat(getComputedStyle(document.querySelector('#layer .mat-p p')).fontSize));
+  ok(fs1 > fs0 && await p.evaluate(() => PREF.fonte > 1 && !!document.querySelector('#layer .mat-aap')), 'A+ aumenta a letra na hora e o controle continua aberto', [fs0, fs1]);
+  await p.evaluate(() => document.querySelector('#layer [data-matfz="-1"]').click()); await sleep(100);
+  ok(await p.evaluate(() => (PREF.fonte || 1) === 1), 'A− volta');
+  await p.evaluate(() => document.querySelector('#layer .mat-tx h1').click()); await sleep(100);
+  ok(await p.evaluate(() => !document.querySelector('#layer .mat-aap')), 'tocar fora fecha o controle');
+  await p.evaluate(() => document.querySelector('#layer .mat-arte .foto img').click()); await sleep(900);
+  ok(await p.evaluate(() => !!document.querySelector('#layer2 .zoom img') && /Agência Senado/.test(document.querySelector('#layer2 .zoom').textContent)), 'tocar na foto abre em tela cheia com crédito');
+  await p.screenshot({ path: D + 'zoom.png' });
+  await p.evaluate(() => history.back()); await sleep(400);
+  ok(await p.evaluate(() => !document.querySelector('#layer2 .zoom') && !!document.querySelector('#layer .mat')), 'Voltar fecha a foto e fica na matéria');
+  await p.evaluate(() => document.querySelector('#layer .mat-arte .foto img').click()); await sleep(300);
+  await p.evaluate(() => document.querySelector('#layer2 .zoom-c').click()); await sleep(400);
+  ok(await p.evaluate(() => !document.querySelector('#layer2 .zoom') && !!document.querySelector('#layer .mat') && HST === 1), 'tocar na foto ampliada fecha');
+  ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'sem erros ' + p._erros.join('|'));
+  const r = U.resumo(); console.log(`\nRESUMO t_etapa18: ${r.OKS} ok, ${r.FALHAS} falhas`); await br.close(); srv.kill(); process.exit(r.FALHAS ? 1 : 0);
+})().catch(e => { console.error(e); process.exit(2) });

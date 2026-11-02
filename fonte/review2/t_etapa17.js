@@ -1,0 +1,33 @@
+// Etapa 17: matéria com barra de leitura, min de leitura, relacionadas; fotos suaves; prévia do site
+const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs');
+(async () => {
+  const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8'));
+  f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
+  f.pautas.forEach((p, i) => { p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/F' + i + '.jpg', credito: 'Foto: X/Agência Senado', alt: 't' } });
+  fs.writeFileSync(__dirname + '/../site/feed.json', JSON.stringify(f));
+  const jpg = fs.readFileSync(__dirname + '/etapa13/foto.jpg');
+  const srv = U.servir('site', 8801); await sleep(700); const br = await U.navegador();
+  const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
+  await ctx.route('https://upload.wikimedia.org/**', r => r.fulfill({ body: jpg, contentType: 'image/jpeg' }));
+  await ctx.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1'));
+  const p = U.erros(await ctx.newPage(), 'c'); await p.goto('http://localhost:8801/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi'), null, 10000); await sleep(1200);
+  ok(await p.evaluate(() => { const i = document.querySelector('#v-capa .cpi-man img'); return i && i.getAttribute('loading') === 'eager' && i.getAttribute('fetchpriority') === 'high' && i.classList.contains('ok') && getComputedStyle(i).opacity === '1' }), 'foto da manchete: carrega primeiro e aparece');
+  ok(await p.evaluate(() => { const m = document.querySelector('meta[property="og:image"]'); return m && /og-padrao\.png$/.test(m.content) }), 'prévia do site (og:image)');
+  const mid = await p.evaluate(() => { const ok = FEED.pautas.find(q => q.subtema && FEED.pautas.filter(z => z.secao === q.secao && z.subtema === q.subtema).length >= 4); return (ok || FEED.pautas[0]).id });
+  await p.evaluate(id => abrirMateria(id), mid); await sleep(500);
+  ok(await p.evaluate(() => /\d+ min de leitura/.test(document.querySelector('#layer .mat-meta').textContent)), 'min de leitura');
+  ok(await p.evaluate(() => document.activeElement === document.querySelector('#layer .mat h1')), 'foco vai para o título');
+  const pr0 = await p.evaluate(() => document.querySelector('#layer .mat-prog').style.transform);
+  await p.evaluate(() => { const m = document.querySelector('#layer .mat'); m.scrollTop = (m.scrollHeight - m.clientHeight) / 2 }); await sleep(200);
+  const pr1 = await p.evaluate(() => document.querySelector('#layer .mat-prog').style.transform);
+  ok(/scaleX\(0(\.000)?\)/.test(pr0) && /scaleX\(0\.[4-6]/.test(pr1), 'barra de leitura acompanha a rolagem', [pr0, pr1]);
+  const rel = await p.evaluate(() => [...document.querySelectorAll('#layer .mat-rel [data-matir]')].map(b => b.dataset.matir));
+  const prox = await p.evaluate(() => document.querySelector('#layer [data-matprox]')?.dataset.matprox);
+  ok(rel.length >= 1 && rel.length <= 3 && !rel.includes(prox), 'Relacionadas (até 3, sem repetir a próxima)', { rel, prox });
+  await p.evaluate(() => document.querySelector('#layer .mat-rel [data-matir]').click()); await sleep(500);
+  ok(await p.evaluate(a => MAT_PID === a && HST === 1, rel[0]), 'relacionada abre no lugar, sem passo extra no Voltar');
+  await p.evaluate(() => history.back()); await sleep(500);
+  ok(await p.evaluate(() => !document.querySelector('#layer .mat') && VIEW === 'capa'), 'voltar à Capa');
+  ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'sem erros ' + p._erros.join('|'));
+  const r = U.resumo(); console.log(`\nRESUMO t_etapa17: ${r.OKS} ok, ${r.FALHAS} falhas`); await br.close(); srv.kill(); process.exit(r.FALHAS ? 1 : 0);
+})().catch(e => { console.error(e); process.exit(2) });

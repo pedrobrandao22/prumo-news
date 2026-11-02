@@ -1,0 +1,44 @@
+const U = require('../t_util');
+const { ok, sleep, esperar } = U;
+(async () => {
+  const srv = U.servir('site', 8776); await sleep(800);
+  const H = await require('../harness').criar();
+  const a = await H.criarConta('a@x', '123456'), b2 = await H.criarConta('b@x', '123456');
+  await H.sql(`insert into public.membros(uid,nome,papel) values ($1,'Pedro','admin'),($2,'Ana','membro')`, [a, b2]);
+  await H.sql(`insert into public.amizades(de,para,status) values ($1,$2,'aceita')`, [a, b2]);
+  const br = await U.navegador();
+  const D = __dirname + '/etapa1/';
+  for (const dark of [false, true]) {
+    const p = U.erros(await H.pagina(br, { dark, sessao: { user: { id: a, email: 'a@x' } } }), dark ? 'escuro' : 'claro');
+    await p.goto('http://localhost:8776/index.html'); await esperar(p, () => document.querySelectorAll('.post').length > 2 && S.amigosOk, null, 10000); await sleep(1200);
+    const n = dark ? 'e' : 'c';
+    await p.screenshot({ path: D + n + '1-topo.png' });
+    await p.mouse.wheel(0, 900); await sleep(200); await p.evaluate(() => window.scrollBy(0, 400)); await sleep(700);
+    ok(await p.evaluate(() => $('.nav').classList.contains('mini') && $('header.top').classList.contains('esconde')), n + ': ao descer, barra encolhe e topo some');
+    await p.screenshot({ path: D + n + '2-rolando.png' });
+    await p.evaluate(() => window.scrollBy(0, -200)); await sleep(700);
+    ok(await p.evaluate(() => !$('.nav').classList.contains('mini') && !$('header.top').classList.contains('esconde') && $('header.top').classList.contains('rolou')), n + ': ao subir, voltam (topo com vidro)');
+    await p.screenshot({ path: D + n + '3-subindo.png' });
+    await p.evaluate(() => window.scrollTo(0, 0)); await sleep(300);
+    await p.click('#b-filtro'); await sleep(600);
+    ok(await p.evaluate(() => !!document.querySelector('[data-fmodo="recentes"]')), n + ': filtro tem "Para você / Mais recentes"');
+    await p.screenshot({ path: D + n + '4-filtro.png' });
+    await p.click('[data-fmodo="recentes"]'); await sleep(400);
+    ok(await p.evaluate(() => { const ps = [...document.querySelectorAll('#posts .post')].slice(0, 5).map(e => versaoP(pautaById(e.dataset.pid))); return ps.every((v, i) => !i || ps[i - 1] >= v) }), n + ': "Mais recentes" ordena por atualização');
+    await p.evaluate(() => closeLayer()); await sleep(300);
+    await p.evaluate(() => document.querySelector('[data-sec-story]').click()); await sleep(900);
+    ok(await p.evaluate(() => !!document.querySelector('#layer .story')), n + ': story abre pelo círculo');
+    await p.screenshot({ path: D + n + '5-story.png' });
+    await p.evaluate(() => closeLayer()); await sleep(300);
+    await p.click('#t-msgs'); await sleep(500); await p.screenshot({ path: D + n + '6-conversas.png' });
+    await p.click('#t-me'); await sleep(400); await p.evaluate(() => abrirAjustes()); await sleep(500);
+    ok(await p.evaluate(() => !!document.querySelector('[data-semvidro]')), n + ': ajuste "Reduzir transparência"');
+    await p.click('[data-semvidro]'); await sleep(300);
+    ok(await p.evaluate(() => document.documentElement.classList.contains('sem-vidro')), n + ': reduzir transparência liga');
+    await p.click('[data-semvidro]'); await sleep(200);
+    ok(!p._erros.length, n + ': sem erros de JS ' + p._erros.join('|'));
+    await p.close();
+  }
+  console.log(JSON.stringify(U.resumo().FALHAS));
+  await br.close(); srv.kill(); process.exit(0);
+})();

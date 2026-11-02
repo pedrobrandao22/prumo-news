@@ -1,0 +1,37 @@
+// Etapa 45: revisão dos stories
+const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs');
+(async () => {
+  const S0 = __dirname + '/../site/';
+  const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8')); f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
+  fs.writeFileSync(S0 + 'feed.json', JSON.stringify(f)); fs.copyFileSync(require('../t_util').REPO + '/fotos-arquivo.json', S0 + 'fotos-arquivo.json');
+  const srv = U.servir('site', 8845); await sleep(700); const br = await U.navegador();
+  const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  await ctx.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1'));
+  const p = U.erros(await ctx.newPage(), 'a'); const cdp = await ctx.newCDPSession(p);
+  const touch = async (type, pts) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: pts.map(([x, y]) => ({ x, y })) });
+  await p.goto('http://localhost:8845/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi') && FOTOS_ARQ, null, 10000); await sleep(500);
+  await p.evaluate(() => go('feed')); await sleep(800);
+  await p.evaluate(() => openSecStory('politica')); await sleep(600);
+  await touch('touchStart', [[250, 300]]); await sleep(400); const seg = await p.evaluate(() => document.querySelector('#layer .story').classList.contains('segurando')); await sleep(600); await touch('touchEnd', []); await sleep(300);
+  ok(seg && await p.evaluate(() => ST.i === 0 && !!ST.timer), 'segurar pausa e esconde a interface; soltar não avança');
+  await p.touchscreen.tap(330, 300); await sleep(300);
+  ok(await p.evaluate(() => ST.i === 1), 'toque rápido à direita avança');
+  await p.evaluate(() => { ST.i = stPs().length - 1; drawStory() }); await sleep(200);
+  await p.touchscreen.tap(330, 300); await sleep(40); await p.touchscreen.tap(330, 300); await sleep(700);
+  ok(await p.evaluate(() => ST.sec === storyOrdem()[storyOrdem().indexOf('politica') + 1] && ST.i === 0), 'toque durante o giro em cubo é ignorado');
+  await p.evaluate(() => { Object.defineProperty(document, 'hidden', { configurable: true, get: () => true }); document.dispatchEvent(new Event('visibilitychange')) }); await sleep(200);
+  const bg = await p.evaluate(() => !ST.timer); await p.evaluate(() => { Object.defineProperty(document, 'hidden', { configurable: true, get: () => false }); document.dispatchEvent(new Event('visibilitychange')) }); await sleep(200);
+  ok(bg && await p.evaluate(() => !!ST.timer), 'app em segundo plano pausa; ao voltar, continua');
+  await p.evaluate(() => closeLayer()); await sleep(300);
+  await p.evaluate(() => igAbrir('_5min')); await sleep(500); const l1 = await p.evaluate(() => ST.ids.join());
+  await p.evaluate(() => { for (let i = 0; i < 5; i++) { ST.i = i; drawStory() } igSet('_ag', 0); drawStory(); storyGo(-1) }); await sleep(700);
+  ok(await p.evaluate(l1 => ST.sec === '_5min' && ST.ids.join() === l1, l1), '"Em 5 min" mantém as mesmas notícias ao voltar');
+  await p.evaluate(() => document.querySelector('#layer [data-stmat]').click()); await sleep(700);
+  const pid = await p.evaluate(() => MAT_PID);
+  await p.evaluate(() => history.back()); await sleep(900);
+  ok(await p.evaluate(pid => !!document.querySelector('#layer .story') && stPs()[ST.i].id.replace(/#v$/, '') === pid, pid), 'fechar a matéria aberta pelo story volta ao mesmo story');
+  await p.evaluate(() => history.back()); await sleep(700);
+  ok(await p.evaluate(() => !document.querySelector('#layer').innerHTML && HST === 0), 'voltar de novo fecha o story');
+  ok(await p.evaluate(() => getComputedStyle(document.querySelector('#secs')).userSelect !== undefined) && !p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'sem erros ' + p._erros.join('|'));
+  const R = U.resumo(); console.log(`\nRESUMO t_etapa45: ${R.OKS} ok, ${R.FALHAS} falhas`); await br.close(); srv.kill(); try { fs.unlinkSync(S0 + 'fotos-arquivo.json') } catch (e) { } process.exit(R.FALHAS ? 1 : 0);
+})().catch(e => { console.error(e); process.exit(2) });

@@ -1,0 +1,22 @@
+/* faixa de últimas (ticker) */
+.ticker{display:flex;align-items:stretch;height:34px;background:var(--ink);color:#f3f4f6;margin-left:calc(-1*max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1*max(16px,env(safe-area-inset-right,0px)));overflow:hidden}
+.tk-lbl{flex:none;display:flex;align-items:center;gap:6px;padding:0 10px 0 max(16px,env(safe-area-inset-left,0px));background:var(--bronze);color:var(--ink);font:800 10.5px/1 var(--f-ui);letter-spacing:.1em;text-transform:uppercase}
+.tk-vp{flex:1;min-width:0;overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(to right,transparent,#000 14px,#000 calc(100% - 14px),transparent);mask-image:linear-gradient(to right,transparent,#000 14px,#000 calc(100% - 14px),transparent)}
+.tk-run{display:inline-flex;align-items:center;height:100%;white-space:nowrap;will-change:transform}
+.tk-vp{touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}.tk-vp.drag{cursor:grabbing}
+@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tk-i{display:inline-flex;align-items:baseline;gap:7px;padding:0 14px;font-size:14px;line-height:34px;color:#f3f4f6;font-family:var(--f-ui)}
+.tk-i b{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#e0a458}
+.tk-i time{font-size:12px;color:#aab4c3}
+.tk-sep{flex:none;width:6px;height:6px;background:var(--bronze);transform:rotate(45deg)}
+
+/* aba Interagir */
+.nav-in{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+.view-sub{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-top:8px}
+.view-sub h2{margin:0;font-family:var(--f-display);font-weight:700;font-size:19px}
+.pl-h{display:flex;flex-direction:column;gap:3px;text-align:left;font-family:var(--f-display);font-weight:700;font-size:17px;line-height:1.25}
+.pl .poll{margin:0}
+.tm{display:flex;flex-wrap:wrap;gap:8px}
+.chipb{height:34px;padding:0 12px;border-radius:9px;background:var(--chip);font-size:14px;font-weight:600;color:var(--ink-2)}
+.duo{display:flex;align-items:center;gap:12px}
+.duo .n{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1;color:var(--bronze-ink)}
