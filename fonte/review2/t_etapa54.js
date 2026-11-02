@@ -44,7 +44,7 @@ async function criar(p, { url, nome, email }) {
   // modo Criar: fundo colorido e texto
   await clk(A, '[data-edcriar]'); await sleep(400); await A.fill('#ce-txa', 'Bom domingo!'); await clk(A, '[data-edtxf="neon"]'); await clk(A, '[data-edtxcor="#ff66c4"]'); await clk(A, '[data-edtxok]'); await sleep(200);
   // enquete
-  await clk(A, '.ce-top [data-edfig]'); await sleep(200); await clk(A, '.ce-fig [data-edfig="enq"]'); await sleep(200); await A.fill('#ce-eq', 'Vai ler hoje?'); await clk(A, '[data-edenqok]'); await sleep(200);
+  await clk(A, '.ce-top [data-edfig]'); await sleep(200); await clk(A, '.ce-fig [data-edfig="enq"]'); await sleep(200); await A.fill('#ce-eq', 'Vai ler hoje?'); await clk(A, '[data-edfok]'); await sleep(200);
   // menção + emoji
   await clk(A, '.ce-top [data-edfig]'); await sleep(200); await clk(A, '.ce-fig [data-edfig="men"]'); await sleep(200); await clk(A, '[data-edmensel]'); await sleep(200);
   await clk(A, '.ce-top [data-edfig]'); await sleep(200); await clk(A, '[data-edemo="☕"]'); await sleep(200);
@@ -54,7 +54,7 @@ async function criar(p, { url, nome, email }) {
   await clk(A, '[data-edcnok]'); await sleep(200);
   // arrastar o texto
   { const r = await ev(A, () => { const e = [...document.querySelectorAll('#ce-els .ce-el')].find(x => x.querySelector('.ce-t')).getBoundingClientRect(); return { x: e.x + e.width / 2, y: e.y + e.height / 2 } }); await A.mouse.move(r.x, r.y); await A.mouse.down(); await A.mouse.move(r.x, r.y - 60, { steps: 5 }); await A.mouse.up() }
-  ok(await ev(A, () => { const t = ED.st.els.find(e => e.t === 'texto'); return ED.st.els.length === 4 && t.y < .4 && ED.st.tracos.length === 1 }), 'story com texto, enquete, menção, emoji e desenho; texto arrastado');
+ok(await ev(A, () => { const t = ED.st.els.find(e => e.t === 'texto'); return ED.st.els.length === 4 && t.y < .4 && ED.st.tracos.length === 1 }), 'story com texto, enquete, menção, emoji e desenho; texto arrastado');
   await A.screenshot({ path: __dirname + '/../review3/var/ce-story.png' });
   await clk(A, "[data-edpubst='amigos']"); await sleep(2000);
   ok(await ev(A, () => { const x = pubStoriesDe(S.uid)[0]; return x && x.estilo.v === 2 && x.fotos.length === 1 && x.estilo.itens.length === 2 }), 'story publicado como imagem com enquete e menção tocáveis');

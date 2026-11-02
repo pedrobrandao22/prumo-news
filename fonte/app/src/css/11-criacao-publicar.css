@@ -1,0 +1,75 @@
+/* ---------- Criação: publicar sem travar, movimento e tela mais limpa ---------- */
+/* faixa "Publicando…" no topo do Feed */
+.pq{display:flex;flex-direction:column;gap:8px;padding-block:2px 10px}
+.pq[hidden]{display:none}
+.pq-row{position:relative;display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 10px 10px;border-radius:12px;background:var(--card);border:1px solid var(--line);overflow:hidden;color:var(--ink)}
+.pq-th{flex:none;width:36px;height:46px;border-radius:6px;background:#222 center/cover no-repeat;display:flex;align-items:center;justify-content:center;position:relative;font:800 13px var(--f-ui);color:#fff}
+.pq-rl{position:absolute;font-size:12px;font-style:normal;color:#fff;text-shadow:0 1px 3px rgb(0 0 0 / .6)}
+.pq-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pq-tx b{font:700 14.5px var(--f-ui)}
+.pq-tx small{font:500 12.5px var(--f-ui);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pq-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:color-mix(in srgb,var(--muted) 22%,transparent)}
+.pq-bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:0 2px 2px 0}
+html.ce-anim .pq-bar i{transition:width .3s linear}
+.pq-row.ok .pq-bar i{width:100%!important}
+.pq-ok{font-style:normal;flex:none;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font:800 14px var(--f-ui)}
+.pq-row.erro{border-color:color-mix(in srgb,var(--hot) 45%,var(--line))}
+.pq-row.erro .pq-th::after{content:"!";position:absolute;right:-6px;top:-6px;width:18px;height:18px;border-radius:50%;background:var(--hot);color:#fff;font:800 12px/18px var(--f-ui);text-align:center;box-shadow:0 0 0 2px var(--card)}
+.pq-row.erro .pq-th{width:40px;height:50px;overflow:visible}
+.pq-bs{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.pq-b{height:32px;padding:0 14px;border-radius:999px;font:700 13.5px var(--f-ui);color:var(--ink);background:var(--chip,color-mix(in srgb,var(--muted) 15%,transparent))}
+.pq-b.on{background:var(--ink);color:var(--bg)}
+/* anel de progresso no "Seu story" */
+#secs .ig-r.pq-on{background:conic-gradient(var(--accent) calc(var(--pq,0)*1%),color-mix(in srgb,var(--muted) 30%,transparent) 0);padding:3px}
+#secs .ig-r.pq-erro{background:var(--hot);padding:3px}
+#secs .ig-r.pq-erro::after{content:"!";position:absolute;left:-2px;bottom:-2px;width:22px;height:22px;border-radius:50%;background:var(--hot);color:#fff;font:800 13px/22px var(--f-ui);text-align:center;box-shadow:0 0 0 2px var(--bg)}
+
+/* toasts no topo enquanto o editor está aberto (não cobrem os botões de baixo) */
+body:has(#layer > .ce) .toast{top:calc(env(safe-area-inset-top,0px) + 62px);bottom:auto!important}
+
+/* teclado do iPhone não cobre as fontes e cores do texto */
+.ce-tx{padding-bottom:var(--kb,0px)}
+
+/* tela mais limpa: sem o seletor de modo, as barras descem */
+.ce.ce-story.t-edit .ce-palco{bottom:calc(env(safe-area-inset-bottom,0px) + 64px)}
+.ce.ce-story.t-edit .ce-bot{bottom:calc(env(safe-area-inset-bottom,0px) + 10px)}
+.ce.ce-story.t-edit .ce-sts{bottom:calc(env(safe-area-inset-bottom,0px) + 72px)}
+/* arrastando: somem as barras, fica a lixeira */
+html.ce-anim .ce>:is(.ce-top,.ce-bot,.ce-sts,.ce-modos,.ce-rail){transition:opacity .16s ease}
+.ce[data-arr]>.ce-top,.ce[data-arr]>.ce-bot,.ce[data-arr]>.ce-sts,.ce[data-arr]>.ce-modos,.ce[data-arr]>.ce-rail{opacity:0;pointer-events:none}
+html.ce-anim .ce-el.ce-arr{transition:opacity .15s ease,scale .15s ease}
+.ce-el.ce-nolixo{opacity:.55;scale:.55}
+html.ce-anim .ce-lixo{transition:transform .15s ease,background-color .15s ease,border-color .15s ease}
+
+/* texto: rótulo rápido ao trocar alinhamento/fundo */
+.ce-txlbl{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 66px);transform:translateX(-50%);padding:6px 12px;border-radius:999px;background:rgb(0 0 0 / .55);color:#fff;font:700 13px var(--f-ui);opacity:0;pointer-events:none;transition:opacity .15s;z-index:3;white-space:nowrap}
+.ce-txlbl.on{opacity:1}
+.ce-tx [data-edtxal] .ico{width:24px;height:24px;stroke:#fff;stroke-width:2.2;stroke-linecap:round;fill:none}
+
+/* ===== movimento (só com animações ligadas) ===== */
+@keyframes ceEntra{from{transform:translateY(7%);opacity:0}to{transform:none;opacity:1}}
+@keyframes ceSai{to{transform:translateY(8%);opacity:0}}
+@keyframes cePop{0%{scale:.35;opacity:0}60%{scale:1.08;opacity:1}100%{scale:1}}
+@keyframes ceFade{from{opacity:0}to{opacity:1}}
+@keyframes ceSobe{from{transform:translateY(100%)}to{transform:none}}
+@keyframes ceLixoIn{from{opacity:0;scale:.6}to{opacity:1;scale:1}}
+@keyframes ceTop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes pqIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.ce.ce-sai{pointer-events:none;z-index:49}
+html.ce-anim .ce[data-anim="entra"]{animation:ceEntra .24s cubic-bezier(.2,.8,.2,1) both}
+html.ce-anim .ce.ce-sai{animation:ceSai .22s ease-in forwards}
+html:not(.ce-anim) .ce.ce-sai{display:none}
+html.ce-anim .ce-el.ce-pop{animation:cePop .26s cubic-bezier(.2,.9,.3,1.2) both}
+html.ce-anim .ce-fig,html.ce-anim .ce-sel{animation:ceFade .18s ease both}
+html.ce-anim .ce-figp,html.ce-anim .ce-selp{animation:ceSobe .24s cubic-bezier(.2,.8,.2,1) both}
+html.ce-anim .ce-tx,html.ce-anim .ce-cn,html.ce-anim .ce-tagov{animation:ceFade .16s ease both}
+html.ce-anim .ce-tx>.ce-top,html.ce-anim .ce-cn>.ce-top{animation:ceTop .2s ease both}
+html.ce-anim .ce-lixo:not([hidden]){animation:ceLixoIn .16s ease both}
+html.ce-anim .pq-row.novo{animation:pqIn .22s ease both}
+html.ce-anim #secs .ig-r.pq-on{transition:background .3s}
+/* toque com resposta */
+html.ce-anim .ce :is(.ce-b,.ce-pub,.ce-chip,.ce-ok,.ce-av,.ce-gal,.ce-modos button,.ce-figs button,.ce-emos button,.ce-cores button,.ce-rail button,.ce-row,.ce-stb,.ce-flts button,.ce-gi,.ce-shut,.btn),html.ce-anim .pq-b{transition:scale .12s ease,opacity .12s ease}
+html.ce-anim .ce :is(.ce-b,.ce-pub,.ce-chip,.ce-ok,.ce-av,.ce-gal,.ce-modos button,.ce-figs button,.ce-emos button,.ce-cores button,.ce-rail button,.ce-stb,.ce-flts button,.ce-gi,.btn):active:not(:disabled),html.ce-anim .pq-b:active{scale:.92}
+html.ce-anim .ce .ce-row:active{opacity:.6}
+html.ce-anim .ce .ce-shut:active{scale:.94}
+@media (prefers-reduced-motion:reduce){.ce.ce-sai{display:none}}
