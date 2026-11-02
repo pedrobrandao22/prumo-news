@@ -11,6 +11,7 @@ function tickerItens(lim=10){
     out.push({pid:p.id,tag:secNome(secOf(p)),txt:recente?u.texto:(p.neutro?.titulo||""),hora:recente?u.hora:p.hora,sec:secOf(p)})};
   porPrio.filter(p=>{const h=new Date(p.hora).getTime();return h&&ref-h<dia}).forEach(add);
   porPrio.filter(p=>{const h=Math.max(tms(p.hora),tms(ultimaAtualizacao(p)));return h&&ref-h<2*dia}).forEach(add);
+  if(out.length<3)porPrio.forEach(add);   /* edição velha: mostra mesmo assim (com o dia na hora) */
   return out.slice(0,lim).sort((a,b)=>tms(b.hora)-tms(a.hora));
 }
 function abrirUltimas(){uso("ultimas");const it=tickerItens(15);const at=new Date(FEED.atualizado_em);
