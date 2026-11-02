@@ -44,15 +44,15 @@ async function criar(p, { url, nome, email }) {
   await ev(B, () => closeLayer()); await sleep(300);
   // Sua semana (Pedro)
   await ev(A, () => { window.SEM_SEMPRE = true; FEED.pautas.slice(0, 5).forEach(p => registrarHistorico(p.id)); go('feed'); renderSecs() }); await sleep(500);
-  ok(await ev(A, () => !!document.querySelector('#secs [data-semana]') && /5/.test(document.querySelector('#secs [data-semana]').textContent)), 'círculo "Sua semana" na fileira');
-  await ev(A, () => { PREF.storyAuto = false }); await clk(A, '#secs [data-semana]'); await sleep(900);
+  ok(await ev(A, () => !document.querySelector('#secs [data-semana]')), 'sem bolinha "Sua semana" na fileira (fica em Perfil › Conta)');
+  await ev(A, () => { PREF.storyAuto = false; semAbrir() }); await sleep(900);
   ok(await ev(A, () => !!document.querySelector('#layer .sg-sem') && /5\s*notícias lidas/.test(document.querySelector('#layer .sg-sem').textContent)), 'story abre: 5 notícias lidas');
   await A.screenshot({ path: SH + 'd72-semana1.png' });
   const n = await ev(A, () => ST.itens.length);
   for (let i = 1; i < n; i++) { await ev(A, () => storyGo(1)); await sleep(500); if (i === 1) await A.screenshot({ path: SH + 'd72-semana2.png' }) }
   ok(await ev(A, () => /Na semana que vem/.test(document.querySelector('#layer .sg-sem').textContent)), 'último quadro: "Na semana que vem"');
   await ev(A, () => storyGo(1)); await sleep(600);
-  ok(await ev(A, () => !document.querySelector('#layer .story') && document.querySelector('#secs [data-semana] .ig-r').classList.contains('visto')), 'fecha no fim e o círculo fica como visto');
+  ok(await ev(A, () => !document.querySelector('#layer .story')), 'fecha no fim');
   ok(await ev(A, () => { go('me'); PF_ABA = 'conta'; renderMe(); return !!document.querySelector('#v-me [data-semana]') }), 'Perfil > Conta tem "Sua semana no Prumo"');
   ok(!A._erros.length && !B._erros.length, 'sem erros ' + A._erros.concat(B._erros).join('|'));
   const R = U.resumo(); console.log(`\nRESUMO t_etapa72: ${R.OKS} ok, ${R.FALHAS} falhas`);

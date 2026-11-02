@@ -17,10 +17,10 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
     const secs = document.querySelector('#secs'), post = document.querySelector('#posts .post');
     return { ticker: vis(document.querySelector('#ticker')), chg: vis(document.querySelector('#chg')), cinco: !!secs.querySelector('[data-5min]'), ult: !!secs.querySelector('[data-ultimas]'), ag: !!secs.querySelector('[data-igagenda]'), nums: secs.querySelectorAll('.ncount').length, gap: Math.round(post.getBoundingClientRect().top - (document.querySelector('#avisoconta') || secs).getBoundingClientRect().bottom), secsTop: Math.round(secs.getBoundingClientRect().top) } });
   ok(!t.ticker && !t.chg, 'Feed sem faixa Últimas, agenda e barra de novidades no topo ' + JSON.stringify(t));
-  ok(t.cinco && t.ult && t.ag && t.nums === 0, 'círculos: Em 5 min, Últimas, seções e Agenda, sem números ' + JSON.stringify(t));
+  ok(t.cinco && t.ult && !t.ag && t.nums === 0, 'círculos: Em 5 min, Últimas e seções (Agenda dentro do Em 5 min), sem números ' + JSON.stringify(t));
   ok(t.gap <= 20 && t.secsTop < 90, 'posts começam logo abaixo dos stories ' + JSON.stringify(t));
-  await p.evaluate(() => document.querySelector('[data-igagenda]').click()); await sleep(500);
-  ok(await p.evaluate(() => /Evento de teste no Senado/.test(document.querySelector('#layer .story.sg-ag')?.textContent || '') && document.querySelector('#secs .sb:nth-child(2)')?.matches('[data-igagenda]')), 'círculo Agenda (logo depois do Em 5 min) abre a agenda em story');
+  await p.evaluate(() => igAbrir('_ag')); await sleep(500);
+  ok(await p.evaluate(() => /Evento de teste no Senado/.test(document.querySelector('#layer .story.sg-ag')?.textContent || '') && document.querySelector('#layer .sg-who b')?.textContent === 'Em 5 min' && document.querySelector('#secs .sb:nth-child(2)')?.matches('[data-ultimas]')), 'Agenda aparece como parte do Em 5 min; segunda bolinha é Últimas');
   await p.evaluate(() => closeLayer()); await sleep(300);
   await p.evaluate(id => { const ps = pautasDa('politica'); ST = { sec: 'politica', ids: ps.map(p => p.id), i: ps.findIndex(p => p.id === id), ordem: secsStory().map(s => s.id) }; drawStory() }, ps.id); await sleep(700);
   const s = await p.evaluate(() => { const st = document.querySelector('#layer .story.sg'); const b = st.querySelector('.sg-body').getBoundingClientRect(); return { foto: st.classList.contains('com-foto'), h2: st.querySelector('h2').textContent, n: st.querySelector('.sg-n')?.textContent, li: [...st.querySelectorAll('.sg-l li')].map(x => x.textContent), ler: !!st.querySelector('[data-stmat]'), topo: b.top, fundo: b.bottom, alt: innerHeight } });

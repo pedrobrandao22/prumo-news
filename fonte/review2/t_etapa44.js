@@ -12,9 +12,9 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const p = U.erros(await ctx.newPage(), 'a'); await p.goto('http://localhost:8844/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi') && FOTOS_ARQ, null, 10000); await sleep(500);
   await p.evaluate(() => go('feed')); await sleep(900);
   const ordem0 = await p.evaluate(() => [...document.querySelectorAll('#secs .sb')].map(b => b.dataset.secStory || (b.matches('[data-5min]') ? '5' : b.matches('[data-igagenda]') ? 'ag' : 'ult')));
-  ok(ordem0[0] === '5' && ordem0[1] === 'ag' && ordem0[2] === 'ult', 'fileira: Em 5 min, Agenda, Últimas ' + ordem0.join(','));
+  ok(ordem0[0] === '5' && ordem0[1] === 'ult' && !ordem0.includes('ag'), 'fileira: Em 5 min, Últimas (sem bolinha da Agenda) ' + ordem0.join(','));
   ok(await p.evaluate(() => !document.querySelector('#posts .newbar') || getComputedStyle(document.querySelector('#posts .newbar')).display === 'none'), 'sem faixa de novidades no Feed');
-  await p.evaluate(() => document.querySelector('#secs [data-igagenda]').click()); await sleep(900);
+  await p.evaluate(() => igAbrir('_ag')); await sleep(900);
   const a = await p.evaluate(() => ({ st: !!document.querySelector('#layer .story.sg-ag'), n: ST.itens.length, li: document.querySelectorAll('#layer .sga-l li').length, cabe: (() => { const b = document.querySelector('#layer .sga-body'); return b.scrollHeight <= b.clientHeight + 2 })() }));
   ok(a.st && a.n >= 1 && a.li >= 1 && a.cabe, 'Agenda abre em story, um dia por tela, e cabe ' + JSON.stringify(a));
   await p.evaluate(() => { igSet('politica', 0); drawStory(); const n = ST.ids.length; for (let i = 0; i < n; i++) { ST.i = i; drawStory() } }); await sleep(300);
