@@ -1,7 +1,7 @@
 /* Prumo News — service worker: abre o app sem internet (com a última edição guardada no aparelho).
-   A página abre com a cópia guardada (na hora) e a cópia é atualizada por trás: a versão nova do app vale
-   a partir da abertura seguinte. As notícias (feed.json) vêm sempre da rede, pelo próprio app.
-   Feed, banco e fontes não passam por aqui. */
+   Com internet, a página vem sempre da rede (a versão mais nova do app já na primeira abertura) e a cópia guardada é renovada;
+   se a rede não responder em 4 segundos, ou sem internet, abre a cópia guardada.
+   As notícias (feed.json) vêm sempre da rede, pelo próprio app. Feed, banco e fontes não passam por aqui. */
 const CACHE = "prumo-v1";
 const BASE = ["./", "manifest.json", "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png"];
 const SBJS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@";
@@ -19,19 +19,22 @@ self.addEventListener("fetch", e => {
   const r = e.request;
   if (r.method !== "GET") return;
   const u = new URL(r.url);
-  // a página (só a raiz do app): abre na hora com a cópia guardada e atualiza a cópia por trás;
-  // a versão nova do app vale a partir da próxima abertura. Sem cópia, vem da rede.
+  // a página (só a raiz do app): rede primeiro (versão mais nova); cópia guardada só se a rede falhar ou demorar
   if (r.mode === "navigate" && u.origin === location.origin && /^\/(index\.html)?$/.test(u.pathname)) {
     e.respondWith((async () => {
       const c = await caches.open(CACHE);
-      const hit = await c.match("./");
-      const rede = fetch(r).then(async resp => {
+      const rede = fetch(r.url, { cache: "no-cache", credentials: "same-origin" }).then(async resp => {
         if (resp && resp.ok && resp.type === "basic" && !resp.redirected) await c.put("./", resp.clone());
         return resp;
       });
-      if (hit) { e.waitUntil(rede.catch(() => { })); return hit; }
-      try { return await comPrazo(rede, 8000); }
-      catch (err) { return (await c.match("./")) || Response.error(); }
+      try {
+        const resp = await comPrazo(rede, (await c.match("./")) ? 4000 : 12000);
+        if (resp && resp.ok) return resp;
+        return (await c.match("./")) || resp;
+      } catch (err) {
+        e.waitUntil(rede.catch(() => { }));
+        return (await c.match("./")) || Response.error();
+      }
     })());
     return;
   }
