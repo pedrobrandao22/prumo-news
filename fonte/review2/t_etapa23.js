@@ -14,7 +14,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   await p.evaluate(id => abrirPrevia(id), pid); await sleep(600);
   ok(await p.evaluate(() => !!document.querySelector('#layer .pv .art.foto img') && !!document.querySelector('#layer [data-pvshare]')), 'prévia com foto e botão Compartilhar');
   await p.screenshot({ path: D + 'previa.png' });
-  await p.evaluate(() => { window.__c = null; navigator.share = d => { window.__c = d; return Promise.resolve() }; document.querySelector('#layer [data-pvshare]').click() }); await sleep(200);
+  await p.evaluate(() => { window.__c = null; navigator.share = d => { window.__c = d; return Promise.resolve() }; document.querySelector('#layer [data-pvshare]').click() }); await sleep(200); await p.evaluate(() => document.querySelector('.sheet [data-envmais]').click()); await sleep(200);
   ok(await p.evaluate(id => window.__c && window.__c.url.endsWith('/m/' + id + '.html'), pid), 'Compartilhar da prévia manda o link da matéria');
   await p.evaluate(() => document.querySelector('#layer [data-pvabrir]').click()); await sleep(600);
   ok(await p.evaluate(id => MAT_PID === id && !!document.querySelector('#layer .mat') && VIEW === 'capa', pid), 'Abrir pela Capa abre a matéria');

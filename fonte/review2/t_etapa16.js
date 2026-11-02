@@ -36,7 +36,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   await p.evaluate(() => history.back()); await sleep(300);
   // compartilhar: link da matéria
   await p.evaluate(() => { window.__comp = null; navigator.share = d => { window.__comp = d; return Promise.resolve() } });
-  await p.evaluate(() => document.querySelector('#layer .mat [data-matshare]').click()); await sleep(200);
+  await p.evaluate(() => document.querySelector('#layer .mat [data-matshare]').click()); await sleep(200); await p.evaluate(() => document.querySelector('.sheet [data-envmais]').click()); await sleep(200);
   const comp = await p.evaluate(() => window.__comp);
   ok(comp && comp.url === BASE + 'm/' + encodeURIComponent(comp.url.split('/m/')[1].replace('.html', '')) + '.html' && comp.url.endsWith('/m/' + P.id + '.html') && !/Leia em/.test(comp.text || ''), 'Compartilhar manda o link da matéria (sem "Leia em")', comp);
   await p.evaluate(() => history.back()); await sleep(400);

@@ -23,7 +23,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(cart, 'cartão do resumo (1080×1350) é gerado');
   await p.evaluate(() => { const c = cartaoResumo(); const i = document.createElement('img'); i.id = 'cartao'; i.src = c.toDataURL(); i.style = 'position:fixed;top:0;left:0;width:390px;z-index:999'; document.body.appendChild(i) }); await sleep(300);
   await p.screenshot({ path: D + 'cartao.png' }); await p.evaluate(() => document.getElementById('cartao').remove());
-  const dl = p.waitForEvent('download', { timeout: 5000 }).catch(() => null); await p.evaluate(() => document.querySelector('[data-1mshare]').click()); const d = await dl;
+  const dl = p.waitForEvent('download', { timeout: 5000 }).catch(() => null); await p.evaluate(() => document.querySelector('[data-1mshare]').click()); await sleep(200); await p.evaluate(() => document.querySelector('.sheet [data-envimg]').click()); const d = await dl;
   ok(d && /prumo-1-minuto\.png/.test(d.suggestedFilename()), 'botão "Mandar" do resumo: compartilha ou baixa a imagem');
   // página da pessoa
   const nome = await p.evaluate(() => Object.keys(FEED.pessoas).find(k => pessoaArq(k) && pautasDaPessoa(k).length >= 2));
