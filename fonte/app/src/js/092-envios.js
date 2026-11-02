@@ -7,12 +7,14 @@ async function envCopiar(txt){try{await navigator.clipboard.writeText(txt);toast
 /* o painel de envio: WhatsApp, outros apps, copiar e (quando houver) a imagem */
 function abrirEnvioFora(o){const texto=o.texto,url=o.url||"";uso("enviar_fora");
   const temShare=!!navigator.share;ENV_ATUAL=o;
-  sheet(o.titulo||"Mandar",`<div class="env"><div class="env-bolha">${envPrevia(texto)}</div>
+  /* aberto pela prévia da Capa: o painel vem por cima e a prévia continua lá */
+  const pv=$("#layer .pv");if(pv)pv.classList.add("pv-sob");
+  try{sheet(o.titulo||"Mandar",`<div class="env"><div class="env-bolha">${envPrevia(texto)}</div>
     <div class="env-bts"><a class="env-b env-wa" href="https://wa.me/?text=${encodeURIComponent(texto)}" target="_blank" rel="noopener" data-envwa>${ENV_WA}<span>WhatsApp</span></a>
     ${temShare?`<button type="button" class="env-b" data-envmais><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg><span>Outros apps</span></button>`:""}
     <button type="button" class="env-b" data-envcopia><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Copiar texto</span></button>
     ${o.imagem?`<button type="button" class="env-b" data-envimg><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-9 8"/></svg><span>Como imagem</span></button>`:""}</div>
-    ${url?`<p class="hint env-h">O link abre a notícia no Prumo, com título e foto na prévia da conversa.</p>`:""}</div>`)}
+    ${url?`<p class="hint env-h">O link abre a notícia no Prumo, com título e foto na prévia da conversa.</p>`:""}</div>`)}finally{if(pv)pv.classList.remove("pv-sob")}}
 var ENV_ATUAL=null;
 document.addEventListener("click",async e=>{const t=e.target;if(!t||!t.closest)return;const o=ENV_ATUAL;
   if(t.closest("[data-envwa]")){uso("enviar_whatsapp");setTimeout(()=>{if($(".sheet .env"))closeLayer()},400);return}
