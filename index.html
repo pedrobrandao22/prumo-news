@@ -2725,6 +2725,43 @@ body:has(#layer .ce) .men-box button{color:#fff}
 .ce-sw input{appearance:none;-webkit-appearance:none;width:46px;height:28px;border-radius:999px;background:#3a3d45;position:relative;flex:none;transition:background .2s}
 .ce-sw input::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s}
 .ce-sw input:checked{background:#3a86ff}.ce-sw input:checked::after{transform:translateX(18px)}
+
+/* ================= Etapa 69: perfil ================= */
+.pf-me{padding-top:6px}
+.pf-cab{display:flex;align-items:center;gap:22px;padding:6px 0 10px}
+.pf-av{position:relative;flex:none;width:88px;height:88px;border-radius:50%;padding:3px;background:transparent}
+.pf-av.ring{background:conic-gradient(from 200deg,var(--bronze),var(--accent) 45%,var(--accent) 70%,var(--bronze))}
+.pf-av.ring.visto{background:color-mix(in srgb,var(--muted) 55%,transparent)}
+.pf-avi{display:block;width:100%;height:100%;border-radius:50%;background:var(--bg);padding:3px;box-sizing:border-box}
+.pf-avi .av{width:100%;height:100%;font-size:34px}
+.pf-mais{position:absolute;right:0;bottom:2px;width:26px;height:26px;border-radius:50%;background:#3a86ff;color:#fff;border:3px solid var(--bg);font:800 17px/20px var(--f-ui);font-style:normal;text-align:center}
+.pf-num{flex:1;display:flex;justify-content:space-around;gap:8px}
+.pf-num span{display:flex;flex-direction:column;align-items:center;font:500 13px var(--f-ui);color:var(--muted);text-align:center}
+.pf-num b{font:800 19px var(--f-ui);color:var(--ink)}
+.pf-nome{display:block;font:800 16px var(--f-ui);margin:2px 0 10px}
+.pf-bts{display:flex;gap:8px;margin-bottom:14px}.pf-bts .btn{flex:1;height:38px;font-size:14px}
+.pf-abas{display:flex;border-top:1px solid var(--line);margin:0 calc(-1*var(--gut,16px))}
+.pf-abas button{flex:1;height:46px;display:flex;align-items:center;justify-content:center;color:var(--muted);border-bottom:2px solid transparent}
+.pf-abas button[aria-selected="true"]{color:var(--ink);border-color:var(--ink)}
+.pf-abas .ico{width:24px;height:24px}
+.pf-grade{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:0 calc(-1*var(--gut,16px));padding-bottom:20px}
+.pf-t{position:relative;aspect-ratio:4/5;padding:0;border-radius:0;overflow:hidden;background:var(--soft)}
+.pf-t img{width:100%;height:100%;object-fit:cover;display:block}
+.pf-ic{position:absolute;top:6px;right:6px;color:#fff;font-style:normal;font-size:15px;text-shadow:0 1px 4px rgb(0 0 0 / .6)}
+.pf-tx{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;color:#fff;font:700 12px/1.35 var(--f-ui);text-align:center;overflow:hidden;white-space:pre-wrap;overflow-wrap:anywhere}
+.pf-nt{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:10px;background:linear-gradient(160deg,var(--soft),var(--card));text-align:left}
+.pf-nt small{font:800 9.5px var(--f-ui);letter-spacing:.05em;text-transform:uppercase}.pf-nt b{font:600 12.5px/1.25 var(--f-display);color:var(--ink);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.pf-vz{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 20px 50px;text-align:center}
+.pf-vz b{font:800 18px var(--f-ui)}.pf-vz span{color:var(--muted);font:500 14px var(--f-ui)}.pf-vz .btn{margin-top:6px}
+.pf-ped{margin:12px 0}
+.pf-conta{display:flex;flex-direction:column;gap:12px;padding-top:12px}
+.pfv{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+.pfv-h{display:flex;align-items:center;gap:6px;height:52px;padding:0 8px;border-bottom:1px solid var(--line);flex:none}
+.pfv-h b{font:800 16px var(--f-ui);display:flex;flex-direction:column;line-height:1.15}.pfv-h b small{font:500 12px var(--f-ui);color:var(--muted)}
+.pfv-sc{flex:1;overflow-y:auto;padding:0 var(--gut,16px) calc(env(safe-area-inset-bottom,0px) + 30px);-webkit-overflow-scrolling:touch}
+.pfv-posts{padding-left:0;padding-right:0}
+.upost .up-au{cursor:pointer}
+.upost .up-au .av,.pfv .av,.story .us-av .av{color:#fff}
 </style>
 </head>
 <body>
@@ -3237,7 +3274,7 @@ function renderFeed(){
 /* ---------- camadas ---------- */
 let onClose=null;
 function sheet(title,body,foot="",opt={}){
-  const L=$(".story")||$("#layer .mat")||$("#layer .cria")||$("#layer .ce")?$("#layer2"):$("#layer");const vazio=!L.innerHTML;if(L.id==="layer2"&&ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now());const fb=$("#layer .bars b");if(fb)fb.style.animationPlayState="paused"}
+  const L=$(".story")||$("#layer .mat")||$("#layer .cria")||$("#layer .ce")||$("#layer .pfv")?$("#layer2"):$("#layer");const vazio=!L.innerHTML;if(L.id==="layer2"&&ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now());const fb=$("#layer .bars b");if(fb)fb.style.animationPlayState="paused"}
   L.innerHTML=`<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="grab"></div><div class="sh-h">${esc(title)}<button type="button" data-close>Fechar</button></div><div class="sh-b gut">${body}</div>${foot?`<div class="sh-f gut">${foot}</div>`:""}</div></div>`;
   const f=L.querySelector("input");if(f&&(opt.focus||matchMedia("(pointer:fine)").matches))f.focus();
   if(vazio&&pushH())HST++;wireSheetDrag(L.querySelector(".sheet"));
@@ -4779,7 +4816,7 @@ function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getA
   if(!img.dataset.arq){try{const alt=fotoReserva(img);if(alt){img.dataset.arq="1";img.loading="eager";img.alt=alt.alt||"";const c=img.parentNode&&img.parentNode.querySelector("[data-credfull]");if(c){c.dataset.credfull=alt.credito;c.dataset.credcurto=creditoCurto(alt.credito);c.textContent=creditoCurto(alt.credito);c.title=alt.credito}img.setAttribute("src",fotoSrc(alt.url));return}}catch(e){}}const c=img.parentNode;if(c){if(feed)c.classList.remove("fcv");else{c.classList.remove("foto");const cr=c.querySelector(".cred");if(cr)cr.remove()}}img.remove()}
 function fotoImg(f,cls,feed,cedo){const src=fotoSrc(f.url);return `<img${cls?` class="${cls}"`:""} src="${escU(src)}"${src!==f.url?` data-orig="${escU(f.url)}"`:""} alt="${esc(f.alt||"")}" ${cedo?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer" onload="this.classList.add('ok')" onerror="fotoErro(this${feed?",1":""})">`}
 function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="string"&&FOTO_OK.test(f.url))return f;return fotoArquivo(p)}
-const APP_VERSAO="403c34402d70";
+const APP_VERSAO="5c275338bb17";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 var PP_RE=new Map();function posPalavra(t,k){try{let re=PP_RE.get(k);if(!re){re=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u");PP_RE.set(k,re)}if(String(t).indexOf(k)<0&&String(t).toLowerCase().indexOf(String(k).toLowerCase())<0)return -1;const m=re.exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
@@ -7551,7 +7588,7 @@ mencionados=function(t){const n=norm(t||"");const am=amigosL().map(u=>[u,norm(no
   am.forEach(([u,nm])=>{const r=re(nm);if(r.test(resto)){out.push(u);resto=resto.replace(r," ")}});
   const pri={};am.forEach(([u,nm])=>{const p=nm.split(/\s+/)[0];(pri[p]=pri[p]||[]).push(u)});Object.entries(pri).forEach(([p,us])=>{if(us.length===1&&!out.includes(us[0])&&re(p).test(resto)){out.push(us[0]);resto=resto.replace(re(p)," ")}});return out};
 /* curtir com dois toques nos posts dos amigos */
-(function(){let ult=0,alvo=null;document.addEventListener("pointerup",e=>{const sl=e.target.closest&&e.target.closest("#posts .upost .up-sl");if(!sl||e.target.closest("button,a,.up-ntc"))return;const now=Date.now();
+(function(){let ult=0,alvo=null;document.addEventListener("pointerup",e=>{const sl=e.target.closest&&e.target.closest("#posts .upost .up-sl,#layer .pfv .upost .up-sl");if(!sl||e.target.closest("button,a,.up-ntc"))return;const now=Date.now();
   if(alvo===sl&&now-ult<320){ult=0;alvo=null;const a=sl.closest(".upost"),pid=a.dataset.pid;if(!socialOf(pid).likes.includes(S.uid))toggleLike(pid);const h=document.createElement("span");h.className="up-heart";h.textContent="♥";sl.appendChild(h);setTimeout(()=>h.remove(),900);return}ult=now;alvo=sl},true)})();
 /* abrir um post de amigo que está mais abaixo (ou antigo) */
 {const _pi67=pubIrPara;pubIrPara=function(id){const r=_pi67.apply(this,arguments);setTimeout(()=>{{const el=document.getElementById("p-u:"+id);if(el){const r=el.getBoundingClientRect();if(r.top<-40||r.top>innerHeight*.6){if(typeof irPara==="function")irPara(el);else el.scrollIntoView({block:"start"})}return}}const x=pubDe(id);if(!x||x.tipo==="story")return;if(typeof garantirPost==="function"&&garantirPost("u:"+id)){const el=document.getElementById("p-u:"+id);if(el){if(typeof irPara==="function")irPara(el);else el.scrollIntoView({block:"start"})}}else toast("Essa publicação é antiga e já não aparece no Feed.")},260);return r}}
@@ -7573,6 +7610,103 @@ document.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const L=$("#laye
 {const _ep67=edPost;edPost=function(){try{const P=ED.po;(P.tags||[]).forEach(t=>{const i=P.fotos.indexOf(edTagF(t));if(i>=0)t.i=i})}catch(e){}return _ep67.apply(this,arguments)}}
 /* post só de texto muito longo: "Ler tudo" */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".upost [data-uptudo]");if(!b)return;e.stopPropagation();e.preventDefault();const x=pubDe(b.dataset.uptudo);if(!x)return;sheet(nomeDe(x.autor),`<p class="up-tudo">${dmMarcaPub(x.texto)}</p>`)},true);
+
+/* ---------- Etapa 68: reações das publicações protegidas ---------- */
+var _gm68base;var PS={on:null,lk:{},cm:{},vt:{},cid:{},t:0,uid:null,migrou:false};
+const psPub=k=>{const m=/^us?:([0-9a-f-]{36})/i.exec(String(k||""));return m?m[1]:null};
+async function psCarregar(){if(!SB||!S.uid||!S.membro)return;try{const r=await SB.from("pub_reacoes").select("pub,uid,tipo,chave,valor,at").limit(5000);if(r.error){PS.on=false;return}
+  const lk={},cm={},vt={},cid={};(r.data||[]).forEach(x=>{if(x.tipo==="curtida")(lk[x.pub]=lk[x.pub]||new Set()).add(x.uid);
+    else if(x.tipo==="comentario"){const v=x.valor||{};(cm[x.pub]=cm[x.pub]||[]).push({id:x.chave,uid:x.uid,pid:"u:"+x.pub,texto:typeof v.texto==="string"?v.texto.slice(0,2000):"",at:+x.at||0,_ps:1});cid[x.chave]=x.pub}
+    else if(x.tipo==="voto"){(vt[x.chave]=vt[x.chave]||{})[x.uid]=x.valor&&x.valor.v!==undefined?x.valor.v:x.valor}});
+  Object.assign(PS,{on:true,lk,cm,vt,cid,uid:S.uid,t:Date.now()});psMigra();psRedesenha()}catch(e){PS.on=false}}
+function psRedesenha(){try{document.querySelectorAll("#posts .upost[data-pid]").forEach(a=>updateSocial(a.dataset.pid));S._reCmt&&S._reCmt();const b=$("#layer .us2-its"),x=ST&&ST.itens&&ST.itens[ST.i];if(b&&x&&x.estilo)b.innerHTML=usItensHTML(x)}catch(e){}}
+function psOuvir(){try{if(!SB.channel||psOuvir.ok)return;psOuvir.ok=1;const ch=SB.channel("reac-"+Math.random().toString(36).slice(2,7));ch.on("postgres_changes",{event:"*",schema:"public",table:"pub_reacoes"},p=>{if(p&&p.table&&p.table!=="pub_reacoes")return;clearTimeout(psOuvir.t);psOuvir.t=setTimeout(psCarregar,500)});ch.subscribe()}catch(e){}}
+{const _pc68=pubCarregar;pubCarregar=async function(){const r=await _pc68.apply(this,arguments);if(PUB.on&&PS.on!==false){psOuvir();if(PS.uid!==S.uid||Date.now()-PS.t>8000)await psCarregar()}return r}}
+/* leitura: junta o que está na tabela */
+{const _so68=socialOf;socialOf=function(pid){const r=_so68.apply(this,arguments);if(!PS.on||String(pid).indexOf("u:")!==0)return r;const id=pid.slice(2);
+  const likes=[...new Set([...(r.likes||[]),...[...(PS.lk[id]||[])].filter(u=>ehVisivel(u))])];const ids=new Set((PS.cm[id]||[]).map(c=>c.id));
+  const cm=(r.cm||[]).filter(c=>!ids.has(c.id)).concat((PS.cm[id]||[]).filter(c=>ehVisivel(c.uid)&&!(CPEND[c.uid+"\u0001"+c.id]&&CPEND[c.uid+"\u0001"+c.id].v===null))).sort((a,b)=>a.at-b.at);return {likes,cm}}}
+{const _vd68=votosDe;votosDe=function(k){const r=_vd68.apply(this,arguments);if(!PS.on||!psPub(k))return r;const o={...r};Object.entries(PS.vt[k]||{}).forEach(([u,v])=>{if(ehVisivel(u))o[u]=v});return o}}
+{const _mv68=meuVoto;meuVoto=function(k){if(PS.on&&psPub(k)&&PS.vt[k]&&PS.vt[k][S.uid]!==undefined)return PS.vt[k][S.uid];return _mv68.apply(this,arguments)}}
+/* escrita: vai para a tabela */
+{const _gm68=gravarMapa;_gm68base=_gm68;gravarMapa=function(path,campo,k,val,corpo){const m=/^(curtidas|comentarios|votos)\/(.+)$/.exec(path||"");if(!m||corpo||!PS.on||m[2]!==S.uid)return _gm68.apply(this,arguments);
+  const col=m[1];
+  if(col==="curtidas"&&String(k).indexOf("u:")===0)return psCurtir(String(k).slice(2),val!=null);
+  if(col==="votos"&&/^us:/.test(String(k)))return psVotar(String(k),val);
+  if(col==="comentarios"){if(val&&String(val.pid||"").indexOf("u:")===0)return psComentar(String(k),String(val.pid).slice(2),val);if(val==null&&PS.cid[k])return psApagarCm(String(k))}
+  return _gm68.apply(this,arguments)}}
+const psErro=r=>{if(r&&r.error){const e=new Error(r.error.message||"erro");e.code=r.error.code;throw e}};
+async function psCurtir(id,on){const s=PS.lk[id]=PS.lk[id]||new Set();if(on){s.add(S.uid);const r=await SB.from("pub_reacoes").insert({pub:id,uid:S.uid,tipo:"curtida",chave:"",valor:{}});if(r.error&&String(r.error.code)!=="23505"){s.delete(S.uid);psErro(r)}}
+  else{s.delete(S.uid);const r=await SB.from("pub_reacoes").delete().eq("pub",id).eq("uid",S.uid).eq("tipo","curtida");if(r&&r.error){s.add(S.uid);psErro(r)}}}
+async function psVotar(k,val){const id=psPub(k);if(!id)return;const o=PS.vt[k]=PS.vt[k]||{},ant=o[S.uid];
+  if(val==null)delete o[S.uid];else o[S.uid]=val;try{const d=await SB.from("pub_reacoes").delete().eq("pub",id).eq("uid",S.uid).eq("tipo","voto").eq("chave",k);psErro(d);
+    if(val!=null){const r=await SB.from("pub_reacoes").insert({pub:id,uid:S.uid,tipo:"voto",chave:k,valor:{v:val}});psErro(r)}}catch(e){if(ant===undefined)delete o[S.uid];else o[S.uid]=ant;throw e}}
+async function psComentar(cid,id,v){const c={id:cid,uid:S.uid,pid:"u:"+id,texto:String(v.texto||"").slice(0,2000),at:Date.now(),_ps:1};(PS.cm[id]=PS.cm[id]||[]).push(c);PS.cid[cid]=id;
+  const r=await SB.from("pub_reacoes").insert({pub:id,uid:S.uid,tipo:"comentario",chave:cid,valor:{texto:c.texto}});if(r.error){PS.cm[id]=PS.cm[id].filter(x=>x!==c);delete PS.cid[cid];if(/row-level|policy|42501/i.test(JSON.stringify(r.error)))setTimeout(()=>toast("Os comentários deste post estão desativados."),50);psErro(r)}}
+async function psApagarCm(cid){const id=PS.cid[cid];const l=PS.cm[id]||[],c=l.find(x=>x.id===cid);PS.cm[id]=l.filter(x=>x.id!==cid);
+  const r=await SB.from("pub_reacoes").delete().eq("pub",id).eq("uid",(c&&c.uid)||S.uid).eq("tipo","comentario").eq("chave",cid);if(r&&r.error){if(c)PS.cm[id].push(c);psErro(r)}}
+/* o que já estava nos documentos antigos passa para a tabela (uma vez) */
+async function psMigra(){if(PS.migrou||!PS.on||!S.uid)return;PS.migrou=true;try{const meu=k=>(S.raw[k]||{})[S.uid]||{};
+  for(const [pid,v] of Object.entries(meu("curtidas"))){if(String(pid).indexOf("u:")!==0||!v)continue;const id=pid.slice(2);if(!pubDe(id))continue;try{await psCurtir(id,true);await _gm68base("curtidas/"+S.uid,"itens",pid,null)}catch(e){}}
+  for(const [k,v] of Object.entries(meu("votos"))){if(!/^us:/.test(k)||v==null)continue;if(!pubDe(psPub(k)))continue;try{await psVotar(k,v);await _gm68base("votos/"+S.uid,"itens",k,null)}catch(e){}}
+  const cs=(S._cmtDocs||[]).find(([u])=>u===S.uid);const itens=cs&&cs[1]&&cs[1].itens||{};for(const [cid,v] of Object.entries(itens)){if(!v||String(v.pid||"").indexOf("u:")!==0)continue;const id=String(v.pid).slice(2);if(!pubDe(id))continue;try{await psComentar(cid,id,v);await _gm68base("comentarios/"+S.uid,"itens",cid,null)}catch(e){}}}catch(e){}}
+
+/* ---------- Etapa 69: grade de perfil ---------- */
+var PFV=null,PF_ABA=(()=>{try{const a=localStorage.getItem("prumo-pf-aba");return ["posts","reels","marc","conta"].includes(a)?a:"posts"}catch(e){return "posts"}})(),PF_TROCA=[],PF_T={};
+const PF_ABAS=[["posts","Publicações",'<svg class="ico" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9.3 4v16M14.7 4v16M4 9.3h16M4 14.7h16"/></svg>'],["reels","Reels",'<svg class="ico" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/></svg>'],["marc","Marcado",'<svg class="ico" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="12" cy="10.5" r="2.6"/><path d="M7.5 17.5c1-2.3 2.6-3.3 4.5-3.3s3.5 1 4.5 3.3"/></svg>'],["conta","Conta",'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4L18 18M6 18l1.6-1.6M16.4 7.6L18 6"/></svg>']];
+function pfLista(u,aba){const vs=pubVisiveis().filter(x=>x.tipo==="post");let l;
+  if(aba==="marc")l=vs.filter(x=>x.autor!==u&&((x.estilo&&(x.estilo.tags||[]).some(t=>t.u===u))||(x.estilo&&(x.estilo.marcados||[]).includes(u))));
+  else l=vs.filter(x=>x.autor===u&&(aba!=="reels"||(x.estilo&&x.estilo.reel)));return l.sort((a,b)=>b.at-a.at)}
+async function pfCarregar(u){if(!SB||!S.uid||!S.membro||PUB.on===false)return;if(Date.now()-(PF_T[u]||0)<45000)return;PF_T[u]=Date.now();
+  try{const r=await SB.from("publicacoes").select("*").eq("autor",u).eq("tipo","post").order("at",{ascending:false}).limit(90);if(r.error)return;const ids=new Set(PUB.itens.map(x=>x.id));
+    (r.data||[]).forEach(x=>{x.fotos=Array.isArray(x.fotos)?x.fotos:[];try{pubLimpa(x)}catch(e){}if(!ids.has(x.id))PUB.itens.push(x)});await pubAssinar()}catch(e){}}
+function pfCab(u){const eu=u===S.uid,st=pubStoriesDe(u),n=pfLista(u,"posts").length,na=amigosL().length,cm=!eu&&S.comuns?S.comuns[u]:null,vist=st.length&&st.every(x=>PUB_VISTOS.has(x.id));
+  return `<div class="pf-cab"><button type="button" class="pf-av${st.length?(vist?" ring visto":" ring"):""}" ${st.length?`data-pfstory="${esc(u)}"`:eu?`data-criarde="story"`:""} aria-label="${st.length?"Ver o story":"Foto de "+esc(nomeDe(u))}"><span class="pf-avi">${avatar(u)}</span>${eu&&!st.length?`<i class="pf-mais" aria-hidden="true">+</i>`:""}</button>
+    <div class="pf-num"><span><b>${n}</b>${n===1?"publicação":"publicações"}</span>${eu?`<span><b>${na}</b>${na===1?"amigo":"amigos"}</span>`:cm!=null?`<span><b>${cm}</b>${cm===1?"amigo em comum":"amigos em comum"}</span>`:""}</div></div>
+    <b class="pf-nome">${esc(nomeDe(u))}</b>${eu?`<div class="pf-bts"><button type="button" class="btn ghost" data-criarde="post">Nova publicação</button><button type="button" class="btn ghost" data-convidar>Convidar amigo</button></div>`:S.amigos.has(u)?`<div class="pf-bts"><button type="button" class="btn" data-pfmsg="${esc(u)}">Mensagem</button></div>`:""}`}
+function pfAbas(u,aba){return `<div class="pf-abas" role="tablist">${PF_ABAS.filter(a=>a[0]!=="conta"||u===S.uid).map(([k,n,ic])=>`<button type="button" role="tab" data-pfaba="${k}" aria-selected="${aba===k}" aria-label="${n}">${ic}</button>`).join("")}</div>`}
+function pfTiles(l,aba,u){if(!l.length){const eu=u===S.uid;const msg=aba==="reels"?(eu?"Seus reels aparecem aqui.":"Nenhum reel ainda."):aba==="marc"?(eu?"Quando marcarem você numa foto, ela aparece aqui.":"Ninguém marcou "+esc(String(nomeDe(u)).split(" ")[0])+" ainda."):(eu?"Compartilhe sua primeira publicação.":"Nenhuma publicação ainda.");
+    return `<div class="pf-vz"><b>${aba==="reels"?"Reels":aba==="marc"?"Fotos com você":"Publicações"}</b><span>${msg}</span>${eu&&aba!=="marc"?`<button type="button" class="btn" data-criarde="${aba==="reels"?"post":"post"}"${aba==="reels"?" data-pfreel":""}>${aba==="reels"?"Criar reel":"Nova publicação"}</button>`:""}</div>`}
+  return `<div class="pf-grade">${l.map((x,i)=>{const es=x.estilo||{},f=x.fotos[0],uu=f&&pubUrl(f),nt=x.pid&&pautaById(x.pid);const ic=es.reel?"▶":(x.fotos.length+(x.pid&&x.fotos.length?1:0))>1?"⧉":"";
+    const inner=uu?`<img src="${pubSrc(uu)}" alt="${esc((es.alt&&es.alt[0])||x.texto||"Publicação")}" loading="lazy" decoding="async">`:x.pid?`<span class="pf-nt"><small style="color:${secCor(nt?secOf(nt):"politica")}">${esc(nt?secNome(secOf(nt)):"Notícia")}</small><b>${esc(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}</b></span>`:`<span class="pf-tx" style="background:${pubFundo(String(x.id).charCodeAt(0))}">${esc(String(x.texto||"").slice(0,110))}</span>`;
+    return `<button type="button" class="pf-t" data-pfi="${i}" aria-label="${esc(es.reel?"Reel":"Publicação")} de ${esc(quando(x.at))}">${inner}${ic?`<i class="pf-ic">${ic}</i>`:""}</button>`}).join("")}</div>`}
+/* troca de ids para a lista do perfil (o Feed e a lista podem ter o mesmo post) */
+function pfIdsTroca(l){pfIdsVolta();l.forEach(x=>{document.querySelectorAll(`#posts [id="p-u:${x.id}"]`).forEach(el=>{el.id="p-u:"+x.id+"~f";PF_TROCA.push(el)})})}
+function pfIdsVolta(){const t=PF_TROCA;PF_TROCA=[];t.forEach(el=>{if(el.isConnected){el.id=el.id.replace(/~f$/,"");try{updateSocial(el.dataset.pid)}catch(e){}}})}
+/* perfil de amigo (camada) */
+function abrirPerfil(u){if(!u||!S.uid)return;if(u===S.uid){if($("#layer").innerHTML)closeLayer();setTimeout(()=>{go("me");PF_ABA="posts";renderMe();scrollTo(0,0)},60);return}
+  if($("#layer").innerHTML)closeLayer();PFV={u,aba:"posts",modo:"grade"};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Perfil de ${esc(nomeDe(u))}"></div>`;if(pushH())HST++;uso("perfil");
+  pfvDesenha();pfCarregar(u).then(()=>{if(PFV&&PFV.u===u&&PFV.modo==="grade")pfvDesenha()})}
+function pfvDesenha(){const el=$("#layer .pfv");if(!el||!PFV)return;if(PFV.modo==="posts")return pfvPosts(el);
+  el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>${esc(nomeDe(PFV.u))}</b><span class="sp"></span></div><div class="pfv-sc">${pfCab(PFV.u)}${pfAbas(PFV.u,PFV.aba)}${pfTiles(pfLista(PFV.u,PFV.aba),PFV.aba,PFV.u)}</div>`}
+function pfvPosts(el){const l=PFV.lista||[];el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>${PFV.aba==="reels"?"Reels":PFV.aba==="marc"?"Marcações":"Publicações"}<small>${esc(nomeDe(PFV.u))}</small></b><span class="sp"></span></div><div class="pfv-sc pfv-posts">${l.map(x=>{try{return pubPostHTML(x)}catch(e){return ""}}).join("")}</div>`;
+  pfIdsTroca(l);const sc=el.querySelector(".pfv-sc");try{wireTracks(sc)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}});const a=l[PFV.i];const alvo=a&&el.querySelector(`[id="p-u:${a.id}"]`);if(alvo){sc.scrollTop=alvo.offsetTop-sc.offsetTop;requestAnimationFrame(()=>{sc.scrollTop=alvo.offsetTop-sc.offsetTop})}}
+function pfAbrePosts(u,aba,i){const lista=pfLista(u,aba);if(!lista[i])return;if(PFV&&$("#layer .pfv")&&PFV.modo==="grade"){PFV={...PFV,modo:"posts",aba,lista,i,daGrade:true};if(pushH())HST++;pfvDesenha();return}
+  if($("#layer").innerHTML)closeLayer();PFV={u,aba,modo:"posts",lista,i,daGrade:false};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicações"></div>`;if(pushH())HST++;pfvDesenha()}
+{const _cl69=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&PFV&&PFV.modo==="posts"&&PFV.daGrade&&$("#layer .pfv")&&!($("#layer2")?.innerHTML)){pfIdsVolta();PFV={...PFV,modo:"grade",lista:null};pfvDesenha();return}
+  const r=_cl69.apply(this,arguments);if(!$("#layer .pfv")){if(PFV){pfIdsVolta();PFV=null}}return r}}
+/* aba Perfil no estilo Instagram */
+{const _rm69=renderMe;renderMe=function(){const r=_rm69.apply(this,arguments);try{if(!(S.uid&&S.db&&S.membro)||PUB.on===false)return r;const v=$("#v-me"),gut=v&&v.querySelector(".gut"),head=gut&&gut.querySelector(".me-head");if(!head)return r;
+    const resto=document.createElement("div");resto.className="pf-conta";[...gut.children].forEach(c=>{if(c!==head)resto.appendChild(c)});
+    gut.innerHTML=`<div class="pf-me">${pfCab(S.uid)}${pfAbas(S.uid,PF_ABA)}<div class="pf-corpo"></div></div>`;const corpo=gut.querySelector(".pf-corpo");
+    if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);corpo.innerHTML=(pin.length?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}return r}}
+{const _go69=go;go=function(v){const r=_go69.apply(this,arguments);if(v==="me"&&S.uid&&S.membro)pfCarregar(S.uid).then(()=>{if(VIEW==="me")renderMe()});return r}}
+/* toques */
+document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
+  if(b=t.closest("[data-pfaba]")){pare();const k=b.dataset.pfaba;if(t.closest("#layer .pfv")){PFV.aba=k;pfvDesenha()}else{PF_ABA=k;try{localStorage.setItem("prumo-pf-aba",k)}catch(_){}renderMe()}return}
+  if(b=t.closest("[data-pfi]")){pare();const i=+b.dataset.pfi;if(t.closest("#layer .pfv"))pfAbrePosts(PFV.u,PFV.aba,i);else pfAbrePosts(S.uid,PF_ABA,i);return}
+  if(t.closest("[data-pfvolta]")){pare();history.back();return}
+  if(b=t.closest("[data-pfstory]")){pare();const u=b.dataset.pfstory;if($("#layer").innerHTML)closeLayer();setTimeout(()=>igAbrirUser(u),80);return}
+  if(b=t.closest("[data-pfmsg]")){pare();const u=b.dataset.pfmsg;closeLayer();setTimeout(()=>abrirConversa(u),80);return}
+  if(t.closest("[data-pfreel]")){/* abre direto no modo Reels */setTimeout(()=>{if(ED){ED.modo="reel";edDesenha()}},120)}
+  /* entradas para o perfil */
+  if(b=t.closest(".upost .up-au")){const a=b.closest(".upost"),x=a&&pubDe(String(a.dataset.pid||"").slice(2));if(x){pare();abrirPerfil(x.autor)}return}
+  if(b=t.closest("#layer .story.sg-user .sg-who b,#layer .story.sg-user .us-av")){const x=ST&&ST.itens&&ST.itens[ST.i];if(x&&x.autor){pare();abrirPerfil(x.autor)}return}
+  if(b=t.closest(".dm-th-h .dm-who")){if(THREAD){pare();abrirPerfil(THREAD)}return}
+  if(b=t.closest(".amg-r .av")){const r=b.closest(".amg-r");const u=r&&r.dataset.conversa;if(u){pare();abrirPerfil(u)}return}},true);
+/* reels tocando na lista do perfil */
+setInterval(()=>{const vs=document.querySelectorAll("#layer .pfv .up-vid");if(!vs.length)return;const H=innerHeight;vs.forEach(v=>{const r=v.getBoundingClientRect();const vis=r.height>0&&r.top<H*.75&&r.bottom>H*.25&&!($("#layer2")?.innerHTML);
+  if(vis){if(!v.src&&v.dataset.vsrc){v.src=v.dataset.vsrc;if(+v.dataset.ini)v.currentTime=+v.dataset.ini}if(v.paused)v.play().catch(()=>{})}else if(!v.paused)v.pause()})},500);
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
