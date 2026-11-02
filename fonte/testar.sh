@@ -4,7 +4,8 @@
 cd "$(dirname "$0")"
 REPO="${PRUMO_REPO:-$(cd .. && pwd)}"
 python3 build.py https://teste.supabase.co sb_publishable_teste123 >/dev/null || exit 1
-rm -f site/indicadores.json site/novidades.json; cp "$REPO/fotos-arquivo.json" site/fotos-arquivo.json 2>/dev/null
+rm -f site/indicadores.json site/novidades.json site/fotos-arquivo.json
+python3 build.py --saida site-semconfig >/dev/null  # versão sem login (t_leitura)
 LISTA="${*:-t_social t_leitura t_leva1 t_leva2 t_leva3 review2/t_etapa1 review2/t_etapa2 review2/t_etapa3 review2/t_etapa4 review2/t_etapa5 review2/t_cache review2/t_etapa6 review2/t_etapa7 review2/t_etapa8 review2/t_etapa9 review2/t_etapa10 review2/t_etapa12 review2/t_etapa13 review2/t_etapa14 review2/t_etapa15 review2/t_etapa16 review2/t_etapa17 review2/t_etapa18 review2/t_etapa19 review2/t_etapa20 review2/t_etapa22 review2/t_etapa23 review2/t_etapa26 review2/t_etapa27 review2/t_etapa28 review2/t_etapa29 review2/t_etapa31 review2/t_etapa32 review2/t_etapa33 review2/t_etapa36 review2/t_etapa38 review2/t_etapa39 review2/t_etapa40 review2/t_etapa41 review2/t_etapa42 review2/t_etapa43 review2/t_etapa44 review2/t_etapa45 review2/t_etapa46 review2/t_etapa47 review2/t_etapa48 review2/t_etapa52 review2/t_etapa53 review2/t_etapa54 review2/t_etapa60 review2/t_etapa61 review2/t_etapa62 review2/t_etapa63 review2/t_etapa65 review2/t_etapa67 review2/t_etapa68 review2/t_etapa69 review2/t_etapa70 review2/t_etapa71 review2/t_etapa72 review2/t_etapa73 review2/t_etapa75 review2/t_etapa76 review2/t_sqlv6 review2/t_sqlv5 review2/t_semv5 review2/t_sqlvelho review2/t_sw review2/t_sw2}"
 for t in $LISTA; do
   python3 build.py https://teste.supabase.co sb_publishable_teste123 >/dev/null

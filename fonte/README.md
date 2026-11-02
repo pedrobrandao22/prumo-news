@@ -14,12 +14,13 @@ O site publicado (o `index.html` da raiz do repositório) é **gerado** a partir
 | `build.py` | Monta o site: junta a fonte (`montar.py`), põe a URL e a chave **publicável** do Supabase, compacta (`minificar.js`) e grava a pasta de saída. |
 | `harness.js`, `t_util.js`, `t_*.js`, `review2/` | Testes automáticos: um navegador de verdade (Playwright) contra um banco Postgres em memória (PGlite) com o mesmo SQL do Supabase. |
 | `prumo-supabase.sql` | O banco inteiro como está hoje (usado pelos testes). |
+| `prumo-supabase.antes-*.sql`, `prumo-supabase-uso.sql`, `publicacoes-v5/v6.sql` (na raiz) | Versões antigas e partes do banco que alguns testes usam para conferir que o app novo funciona com banco antigo. |
 | `sql/publicacoes-v2.sql` … `v6.sql` | As atualizações do banco, na ordem, para rodar no Supabase (SQL Editor › New query › colar › Run). Todas podem ser rodadas de novo sem problema. |
 
 ## Fazer uma mudança
 
 1. Edite o arquivo em `app/src/` (ou crie um novo em `app/src/js/` e inclua-o em `pagina.html`, antes do `999-fim-…`).
-2. Teste: `npm install` (uma vez) e `bash testar.sh` (todos, ~25 min) ou `bash testar.sh review2/t_etapa75` (um só).
+2. Teste: `bash testar.sh` (todos, ~25 min) ou `bash testar.sh review2/t_etapa75` (um só). Na primeira vez numa máquina nova: `npm install`, `npm install --no-save playwright` e `npx playwright install chromium` (Python 3 e Node 18+ também são necessários).
 3. Monte o site de verdade, com a chave **publicável** (nunca a secreta nem a service_role):
    `python3 build.py https://kkzcljusiotoklldaupg.supabase.co <chave publicável> --saida site-real`
 4. Copie `site-real/index.html` e `site-real/versao.json` para a raiz do repositório e faça o commit. O GitHub Pages publica em poucos minutos, e os celulares pegam a versão nova sozinhos.

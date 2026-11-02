@@ -31,6 +31,14 @@ async function criar(p, { url, nome, email }, fecha = true) {
   ok(await ev(B, () => !!document.querySelector('#layer .tour')), 'Perfil › Conta › Como usar o Prumo reabre o guia');
   await clk(B, '[data-tourfim]'); await sleep(400);
   ok(await ev(B, () => !document.querySelector('#layer .tour')), '"Pular" fecha');
+  for (const [w, h] of [[768, 1024], [1280, 800], [844, 390]]) {
+    const cx = await b.newContext({ viewport: { width: w, height: h } }); const q = await cx.newPage(); await q.goto(BASE); await esperar(q, () => typeof abrirTour === 'function' && FEED, null, 10000);
+    await q.evaluate(() => abrirTour('Ana')); await sleep(300);
+    for (let i = 0; i < 3; i++) { await q.evaluate(() => document.querySelector('[data-tourprox]').click()); await sleep(700) }
+    const r = await q.evaluate(() => ({ txt: document.querySelector('[data-tourprox]').textContent, dot: [...document.querySelectorAll('.tr-dots i')].findIndex(x => x.classList.contains('on')), cabe: [...document.querySelectorAll('.tr-t')].every(t => t.scrollHeight <= t.clientHeight + 1 || getComputedStyle(t).overflowY === 'auto') }));
+    await q.evaluate(() => document.querySelector('[data-tourprox]').click()); await sleep(500);
+    ok(/Começar a ler/.test(r.txt) && r.dot === 3 && r.cabe && await q.evaluate(() => !document.querySelector('#layer .tour')), `guia em ${w}x${h}: chega ao fim e fecha`, r);
+    await cx.close() }
   ok(!A._erros.length && !B._erros.length, 'sem erros ' + A._erros.concat(B._erros).join('|'));
   const R = U.resumo(); console.log(`\nRESUMO t_etapa76: ${R.OKS} ok, ${R.FALHAS} falhas`);
   await b.close(); srv.kill(); process.exit(R.FALHAS ? 1 : 0) })().catch(e => { console.error(e); process.exit(2) });

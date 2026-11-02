@@ -4,7 +4,8 @@ const { spawn, execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const AQUI = __dirname;
-const EXE = '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell';
+const EXE_PADRAO = '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell';  // o Chromium desta máquina; em outra, use PRUMO_CHROMIUM ou o do próprio Playwright
+const EXE = process.env.PRUMO_CHROMIUM || (fs.existsSync(EXE_PADRAO) ? EXE_PADRAO : undefined);
 const SHOTS = path.join(AQUI, 'shots');
 fs.mkdirSync(SHOTS, { recursive: true });
 
