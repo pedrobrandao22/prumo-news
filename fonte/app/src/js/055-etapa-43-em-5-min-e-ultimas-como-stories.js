@@ -38,7 +38,7 @@ drawStory=function(anim){
   let num=null;
   const linHTML=lin.map((t0,k)=>{let t=t0;if(k===0&&!it){const n=ssNumero(t0);if(n&&t0.indexOf(n)===0){let r=t0.slice(n.length).replace(/^\s*:?\s*/,"");if(r.length>8){num=n;t=r.charAt(0).toUpperCase()+r.slice(1)}}}return `<li>${esc(t)}</li>`}).join("");
   const hr=it?it.hora:(ultimaAtualizacao(p)||p.hora);
-  const sub=vsec==="_5min"?`${ps.slice(0,ST.i+1).filter(x=>!x.__vis).length} de ${ps.filter(x=>!x.__vis).length}`:it?(hr&&hhmm(hr)?"às "+hhmm(hr):""):(hr?quando(hr):"");
+  const sub=vsec==="_5min"?`${ps.slice(0,ST.i+1).filter(x=>!x.__vis).length} de ${ps.filter(x=>!x.__vis).length}`:it?(hr&&hhmm(hr)?(dataSP(hr)===hojeSP()?"às "+hhmm(hr):horaDia(hr)):""):(hr?quando(hr):"");
   const kick=it?(it.tag==="Nova"||it.tag==="Atualizada"?`${it.tag} · ${secNome(psec)}`:secNome(psec)):vsec==="_5min"?`${secNome(psec)} · ${capaChapeu(p)}`:capaChapeu(p);
   const av=vsec==="_5min"?`<span class="ph-av sg-av sg-av5"><i>5</i></span>`:vsec==="_ult"?`<span class="ph-av sg-av sg-avu"><b></b></span>`:`<span class="ph-av sg-av" style="--c:${cor}"><i>${esc(secNome(vsec).charAt(0))}</i></span>`;
   ST.palavras=(tit+" "+lin.join(" ")).split(/\s+/).length;

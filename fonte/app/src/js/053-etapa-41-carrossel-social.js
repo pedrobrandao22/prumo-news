@@ -1,6 +1,8 @@
 /* ---------- Etapa 41: carrossel social ---------- */
 var SS_NUM=/(R\$\s?\d[\d.,]*(?:\s?(?:mil|mi|milhão|milhões|bi|bilhão|bilhões|tri))?|US\$\s?\d[\d.,]*(?:\s?(?:mil|mi|bi|milhões|bilhões))?|\d[\d.,]*\s?%|\d{1,3}(?:\.\d{3})+(?:,\d+)?(?:\s?(?:pontos|votos|mil))?|\d[\d,]*\s?(?:mil|milhões|bilhões|votos|pontos|anos|dias|vezes|cadeiras|mortos|feridos|deputados|senadores)\b)/i;
-function ssNumero(t){const m=SS_NUM.exec(t||"");if(!m||m.index>70)return null;return m[1].trim().replace(/[.,;:]+$/,"")}
+function ssNumero(t){const m=SS_NUM.exec(t||"");if(!m||m.index>70)return null;const resto=String(t).slice(m.index+m[0].length);
+  /* faixa ou número composto ("30% a 34%", "17 anos, 1 mês", "1.700 a 2.000"): não separa, senão o destaque engana */
+  if(/^\s*(?:[,–—-]|(?:a|até|e|ou)\s+(?:R\$\s?|US\$\s?)?\d)/i.test(resto))return null;return m[1].trim().replace(/[.,;:]+$/,"")}
 function ssFrasesSociais(p,L){const so=L==="neutro"&&Array.isArray(p.social)?p.social.map(x=>typeof x==="string"?x:(x&&x.texto)||"").filter(x=>x.trim()):[];
   return (so.length>=2?so:pontosDe(p,L)).slice(0,5)}
 function ssPessoa(p,usadas){const A=FOTOS_ARQ;if(!A)return null;const n=p.neutro||{},t=[n.titulo,p.subtitulo,(n.pontos||[])[0]].join(" ");

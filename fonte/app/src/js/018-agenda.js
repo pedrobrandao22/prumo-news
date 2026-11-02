@@ -55,9 +55,9 @@ function abrirQuiz(){uso("quiz");QUIZ_ON=true;
   };
   draw();
 }
-let QUIZ_LOCAL=null;
+let QUIZ_LOCAL=(()=>{try{return JSON.parse(localStorage.getItem("prumo-quiz-local")||"null")}catch(e){return null}})();
 async function salvarQuiz(ac,resp){
-  const val={acertos:ac,respostas:resp,total:resp.length,at:Date.now()},qid=quizId();QUIZ_LOCAL={qid,val};
+  const val={acertos:ac,respostas:resp,total:resp.length,at:Date.now()},qid=quizId();QUIZ_LOCAL={qid,val};try{localStorage.setItem("prumo-quiz-local",JSON.stringify(QUIZ_LOCAL))}catch(e){}
   S.quiz={...(S.quiz||{}),[S.uid||"eu"]:val};renderChgBox();
   if(!S.db||!S.uid||!S.membro)return;
   const doc=(S.quizDocs||{})[S.uid]||{},patch={ed:{[qid]:val}};

@@ -32,7 +32,7 @@ pubEditar=async function(id,txt){const x=pubDe(id);if(!x||x.autor!==S.uid)return
   if(!r||r.error||!Array.isArray(r.data)||!r.data.length){toast("Não deu para salvar agora.");return}
   x.texto=txt;x.editado=Date.now();toast("Legenda atualizada");
   const el=document.getElementById("p-u:"+id);if(el){try{el.outerHTML=pubPostHTML(x);const n=document.getElementById("p-u:"+id);if(n){wireTracks(n);updateSocial("u:"+id)}}catch(e){}}
-  const novos=men(txt).filter(u=>!antes.includes(u));if(novos.length){const snap={titulo:"Post de "+nomeDe(S.uid)+": "+String(txt).slice(0,90),upub:id};
+  let novos=men(txt).filter(u=>!antes.includes(u));try{const pv=typeof pubPodeVer==="function"?pubPodeVer(x):null;if(pv)novos=novos.filter(u=>pv.has(u))}catch(e){}if(novos.length){const snap={titulo:"Post de "+nomeDe(S.uid)+": "+String(txt).slice(0,90),upub:id};
     Promise.all(novos.map(u=>dmEnviar(u,{texto:String(txt).slice(0,1000),pid:"u:"+id,snap,tipo:"mencao"},true))).catch(()=>{})}};
 /* "Sua semana": a semana começa na sexta, para o círculo visto na sexta continuar visto no fim de semana */
 semChave=function(){const sp=new Date(_FDSP.format(new Date())+"T12:00:00Z");const dw=sp.getUTCDay();sp.setUTCDate(sp.getUTCDate()-((dw+2)%7));return sp.toISOString().slice(0,10)};

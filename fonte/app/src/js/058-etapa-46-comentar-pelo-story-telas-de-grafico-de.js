@@ -10,7 +10,7 @@ openSecStory=function(sec){uso("story");ST={sec,ordem:secsStory().map(s=>s.id)};
 function igNum(v,c){return Number(v).toLocaleString("pt-BR",{minimumFractionDigits:c,maximumFractionDigits:c})}
 function igVisHTML(v){const t=`<span class="sgv-t">${esc(v.titulo||"")}</span>`;
   if(v.tipo==="grafico"){const it=v.itens.slice(0,8),c=typeof v.casas==="number"?v.casas:(it.some(i=>i.valor%1)?1:0),u=v.unidade||"",mx=Math.max(...it.map(i=>Math.abs(i.valor)))||1;
-    const fmt=x=>u==="%"?igNum(x,c)+"%":u==="R$"?"R$ "+igNum(x,c):igNum(x,c)+(u?" "+u:"");
+    const fmt=x=>{if(u==="%")return igNum(x,c)+"%";const mo=/^(R\$|US\$|€|£)\s*(.*)$/.exec(u);if(mo)return mo[1]+" "+igNum(x,c)+(mo[2]?" "+mo[2]:"");return igNum(x,c)+(u?" "+u:"")};
     if(v.forma==="colunas"||v.forma==="linha"){const mn=Math.min(...it.map(i=>i.valor)),base=mn>0&&mn>mx*.6?mn*.96:0;
       return t+`<div class="sgv-col">${it.map((i,k)=>`<div class="${i.destaque?"d":""}" style="--h:${Math.max(4,(i.valor-base)/(mx-base)*100).toFixed(1)}%;--k:${k}"><b>${esc(fmt(i.valor))}</b><i></i><span>${esc(i.rotulo)}</span></div>`).join("")}</div>`+(v.fonte?`<small class="sgv-f">Fonte: ${esc(v.fonte)}</small>`:"")}
     return t+`<div class="sgv-bar">${it.map((i,k)=>`<div class="${i.destaque?"d":""}" style="--w:${Math.max(3,Math.abs(i.valor)/mx*100).toFixed(1)}%;--k:${k}"><span>${esc(i.rotulo)}</span><p><i></i><b>${esc(fmt(i.valor))}</b></p></div>`).join("")}</div>`+(v.nota?`<small class="sgv-f">${esc(v.nota)}</small>`:"")+(v.fonte?`<small class="sgv-f">Fonte: ${esc(v.fonte)}</small>`:"")}

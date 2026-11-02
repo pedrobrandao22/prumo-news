@@ -14,7 +14,7 @@ function agDataLonga(d){return new Date(d+"T12:00:00Z").toLocaleDateString("pt-B
 storyOrdem=function(){const base=(ST&&ST.ordem&&ST.ordem.length?ST.ordem:secsStory().map(s=>s.id)).filter(id=>pautasDa(id).length);
   const v=[];if(cincoLista().length)v.push("_5min");if(agPaginas().length)v.push("_ag");try{if(tickerItens(15).length)v.push("_ult")}catch(e){}return v.concat(base)};
 function agEvHTML(a){const pid=agPid(a),hr=agHoraTxt(a),est=a._d===hojeSP()?agEstado(a):"";
-  const inner=`<span class="sga-h">${est==="agora"?`<em class="sga-live"><i></i>Agora</em>`:hr?esc(hr):`<em class="sga-dia">Dia todo</em>`}</span><span class="sga-t">${esc(a.texto)}</span>${pid?`<span class="sga-c" aria-hidden="true">›</span>`:""}`;
+  const inner=`<span class="sga-h">${est==="agora"?`<em class="sga-live"><i></i>Agora</em>`:hr?esc(hr):`<em class="sga-dia">Sem horário</em>`}</span><span class="sga-t">${esc(a.texto)}</span>${pid?`<span class="sga-c" aria-hidden="true">›</span>`:""}`;
   return `<li class="${est}">${pid?`<button type="button" data-stmat="${esc(pid)}">${inner}</button>`:`<div>${inner}</div>`}</li>`}
 function igDrawAgenda(){const pg=ST.itens[ST.i];if(!pg)return closeLayer();const vazioS=!$("#layer").innerHTML;
   AG_VISTOS.add(pg.chave);try{localStorage.setItem("prumo-ag-vistos",JSON.stringify([...AG_VISTOS].slice(-60)))}catch(e){}

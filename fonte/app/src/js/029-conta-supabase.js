@@ -17,7 +17,7 @@ async function trocarSessao(user,forcar){
   const tok=++SESS_TOK;SESS_UID=uid;pararSocial();
   if(!uid){INIT_FIM=true;rerenderAll();if(FEED&&FILTRO[0]==="_")renderFeed();avisoConta();if(CONVITE_URL&&!trocarSessao._conv){trocarSessao._conv=1;abrirLogin("criar",CONVITE_URL)}return}
   S.uid=uid;S.user={id:uid,email:user.email||""};S.email=user.email||"";S.db=criarDB(SB,uid);$("#avisoconta")?.remove();
-  let membro=null;try{const g=await S.db.doc("pessoas/"+uid).get();membro=g.exists;if(g.exists)S.membros[uid]=g.data()}catch(e){}
+  let membro=null;try{const g=await Promise.race([S.db.doc("pessoas/"+uid).get(),new Promise((_,no)=>setTimeout(()=>no(new Error("prazo")),8000))]);membro=g.exists;if(g.exists)S.membros[uid]=g.data()}catch(e){}
   if(tok!==SESS_TOK)return;INIT_FIM=true;
   if(membro===false){S.membro=false;rerenderAll();if(!CRIANDO)abrirFaltaConvite();return}
   if(S.membros[uid]?.suspenso||S.membros[uid]?.excluido){S.membro=false;S.suspenso=true;rerenderAll();sheet("Conta suspensa",`<p style="margin:0;font-size:15px;line-height:1.5">Sua conta no Prumo está suspensa. Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-close>Entendi</button>`);return}

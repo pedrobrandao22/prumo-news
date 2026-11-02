@@ -24,13 +24,15 @@ async function carregarAgora(){try{const r=await fetch("novidades.json?t="+Math.
 function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!m)return 0;const agora=new Date();let ano=agora.getFullYear();let t=Date.parse(`${ano}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);if(t>Date.now()+864e5)t=Date.parse(`${ano-1}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);return t||0}
 function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
   if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}
+/* vídeos, programas e edições de telejornal não são notícia para o "Agora" */
+const AG_LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d/i;
 function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>4*3600e3)return [];const ag=Date.now(),out=[],vistos=new Set();
   const hMax=ms=>{const hs=(Array.isArray(ms)?ms:[]).map(m=>agHoraMs(m&&m.hora)).filter(Boolean);return hs.length?Math.max(...hs):0};
-  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=[n.assunto,...(Array.isArray(n.manchetes)?n.manchetes.map(m=>m&&m.titulo):[])].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t))return;vistos.add(t);
+  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=[n.assunto,...(Array.isArray(n.manchetes)?n.manchetes.map(m=>m&&m.titulo):[])].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t)||AG_LIXO.test(t)||AG_LIXO.test(String(n.assunto)))return;vistos.add(t);
     out.push({t,h,peso:(n.relevante?10:0)+(n.n_fontes||0)+(["politica","economia"].includes(n.secao)?3:0)})});
   const ep=d.em_pautas&&typeof d.em_pautas==="object"&&!Array.isArray(d.em_pautas)?d.em_pautas:{};
   Object.entries(ep).forEach(([pid,x])=>{const p=pautaById(pid);if(!p||!x)return;const n=x.n_fontes||(Array.isArray(x.fontes)?x.fontes.length:0);if(n<3)return;const h=hMax(x.manchetes);if(!h||ag-h>3*3600e3)return;
-    const ms=(Array.isArray(x.manchetes)?x.manchetes:[]).filter(m=>m&&m.titulo).sort((a,b)=>agHoraMs(b.hora)-agHoraMs(a.hora));
+    const ms=(Array.isArray(x.manchetes)?x.manchetes:[]).filter(m=>m&&m.titulo&&!AG_LIXO.test(m.titulo)).sort((a,b)=>agHoraMs(b.hora)-agHoraMs(a.hora));
     const tt=ms.map(m=>assuntoCurto(m.titulo)).find(t=>t&&t.replace("…","").length>=24);
     out.push({t:tt||temaDe(p)||versao(p,lente()).titulo,h,pid,peso:8+n})});
   return out.sort((a,b)=>b.peso-a.peso||b.h-a.h).slice(0,4)}

@@ -28,7 +28,7 @@ async function vidFinal(vd,o){const mime=vidMime();const fim0=Math.min(o.fim,vd.
     const blob=new Blob(parts,{type:mime.split(";")[0]});if(blob.size<15000)throw new Error("vazio");return {blob,mime:mime.split(";")[0],ini:0,fim:fim0-o.ini}}
   catch(e){try{ms&&ms.getTracks().forEach(t=>t.stop())}catch(_){}return orig()}}
 async function vidSobe(blob,mime){const p=`${S.uid}/${(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2))}.${vidExt(mime)}`;
-  const r=await SB.storage.from("videos").upload(p,blob,{contentType:mime,upsert:false});if(r.error){const m=String(r.error.message||r.error.error||r.error);if(/bucket/i.test(m)&&/not.?found/i.test(m))throw new Error("SEM_VIDEOS");throw r.error}return p}
+  const ct=/^video\/(mp4|webm|quicktime)$/.test(mime)?mime:"video/mp4";const r=await SB.storage.from("videos").upload(p,blob,{contentType:ct,upsert:false});if(r.error){const m=String(r.error.message||r.error.error||r.error);if(/bucket/i.test(m)&&/not.?found/i.test(m))throw new Error("SEM_VIDEOS");throw r.error}return p}
 async function pubSobePng(blob){const p=`${S.uid}/${(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2))}.png`;const r=await SB.storage.from("fotos").upload(p,blob,{contentType:"image/png",upsert:false});if(r.error)throw r.error;return p}
 /* gravar com a câmera */
 function camGravaIni(max,pronto){if(!CAM.s)return false;const mime=vidMime();if(!mime){toast("Este navegador não grava vídeo. Escolha um da galeria.");return false}
@@ -103,7 +103,7 @@ async function rlPublica(){if(!ED||ED.env)return;const R=ED.rl;if(!R||!R.vd)retu
     const capa=edCapa45(await vidQuadro(R.vd,Math.min(R.fim,Math.max(R.ini,R.capa||R.ini)),1080,1920,R));fotos.push(await pubSobe(await edJpeg(capa)));
     const marc=(R.marcados||[]).slice(0,20),at=Date.now();const row={autor:S.uid,tipo:"post",at,texto:String(R.texto||"").trim().slice(0,2200),fotos,pid:null,snap:null,estilo:{v:2,reel:true,video:vp,dur:+Math.max(1,r.fim-r.ini).toFixed(2),mudo:!!R.mudo,arv:.8,ar:"4:5",marcados:marc,local:String(R.local||"").trim().slice(0,60)}};
     if(r.orig){row.estilo.ini=+r.ini.toFixed(2);row.estilo.fim=+r.fim.toFixed(2)}
-    const q=await SB.from("publicacoes").insert(row).select("id");if(q.error)throw q.error;const id=q.data&&q.data[0]&&q.data[0].id;PUB.itens.unshift({...row,id});PUB.urls[vp]={u:R.vd.url,exp:Date.now()+3600e3};
+    const q=await SB.from("publicacoes").insert(row).select("id");if(q.error)throw q.error;const id=q.data&&q.data[0]&&q.data[0].id;PUB.itens.unshift({...row,id});PUB.urls[vp]={u:(typeof r!=="undefined"&&r&&r.blob)?URL.createObjectURL(r.blob):R.vd.url,exp:Date.now()+3600e3};
     const txt=row.texto,aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast("Reel publicado");vibrar(10);
     if(id&&txt)pubAvisarMencoes(id,txt,"post");const mm=marc.filter(u=>S.amigos.has(u)&&!(typeof mencionados==="function"&&mencionados(txt).includes(u)));if(id&&mm.length)Promise.all(mm.map(u=>dmEnviar(u,{texto:"",pid:"u:"+id,snap:{titulo:"Reel de "+nomeDe(S.uid),upub:id},tipo:"mencao"},true)));pubRedesenha();setTimeout(pubCarregar,1500)}
   catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(vp)try{await SB.storage.from("videos").remove([vp])}catch(_){}if(ED===ed0){ED.env=false;edDesenha()}

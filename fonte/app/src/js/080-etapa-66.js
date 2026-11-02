@@ -5,10 +5,10 @@ function edStOcupado(st){return edStTem(st)&&!(st.bg.tipo==="grad"&&!st.tracos.l
 {const _vp66=edVidPronto;edVidPronto=async function(blob,modo,lote){if(!lote)return _vp66.apply(this,arguments);const d=edDesenha;edDesenha=function(){};try{await _vp66.call(this,blob,modo)}finally{edDesenha=d}}}
 /* 1 e 2. antes de publicar: cabe no limite do servidor? animações sobram → viram texto fixo */
 function edCabe(st){let it=edItens(st);const tam=()=>JSON.stringify({v:2,itens:it}).length;const ani=st.els.filter(e=>e.t==="texto"&&e.an);let mudou=false;
-  while((it.length>=10&&st.els.filter(e=>!edAssa(e)||e.t==="men").length>10||tam()>1300)&&ani.length){ani.pop().an="";mudou=true;it=edItens(st)}
-  if(st.els.filter(e=>!edAssa(e)||e.t==="men").length>10||tam()>1300)return "demais";return mudou?"ok-mudou":"ok"}
+  while((it.length>=10&&st.els.filter(e=>!edAssa(e)||e.t==="men").length>10||tam()>6000)&&ani.length){ani.pop().an="";mudou=true;it=edItens(st)}
+  if(st.els.filter(e=>!edAssa(e)||e.t==="men").length>10||tam()>6000)return "demais";return mudou?"ok-mudou":"ok"}
 {const _ps66=edPublicaStory;edPublicaStory=async function(pub){if(!ED||ED.env)return _ps66.apply(this,arguments);if(ED.st.tx)edTextoOk();let aviso=false;
-  for(let i=0;i<ED.sts.length;i++){const r=edCabe(ED.sts[i]);if(r==="demais"){ED.si=i;ED.st=ED.sts[i];edDesenha();toast("Este story tem figurinhas demais. Tire algumas (até 10 tocáveis).");return}if(r==="ok-mudou")aviso=true}
+  for(let i=0;i<ED.sts.length;i++){const r=edCabe(ED.sts[i]);if(r==="demais"){ED.si=i;ED.st=ED.sts[i];edDesenha();toast(ED.st.els.filter(e=>!edAssa(e)||e.t==="men").length>10?"Este story tem figurinhas demais. Tire algumas (até 10 tocáveis).":"Este story ficou grande demais para salvar. Tire uma figurinha ou encurte os textos.");return}if(r==="ok-mudou")aviso=true}
   if(aviso)toast("Algumas animações de texto viraram texto fixo para caber no story.");return _ps66.apply(this,arguments)}}
 /* 4. ordem dos amigos congelada enquanto você assiste */
 {const _so66=storyOrdem;storyOrdem=function(){const L=_so66.apply(this,arguments);if(!ST||String(ST.sec||"").indexOf("_h:")===0)return L;if(!ST._uord)ST._uord=L.filter(x=>String(x).indexOf("_u:")===0);

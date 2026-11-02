@@ -166,8 +166,14 @@ function criarDB(sb, uid, opts) {
       checaAmizade();
       // mensagens novas (só as recentes; as marcações de lida chegam pelo tempo real)
       if ([...LIS].some(l => l.c === "mensagens")) {
+        const t0 = Date.now();
         const rows = chk(await sb.from("mensagens").select("*").gt("at", Date.now() - 6 * 3600000).order("at", { ascending: false }).limit(100)) || [];
         rows.forEach(r => avisaLinha("mensagens", r));
+        // apagadas (mensagem ou reação trocada): o tempo real não manda exclusões; se alguma recente sumiu do servidor, relê a lista
+        const ids = new Set(rows.map(r => String(r.id))), desde = rows.length >= 100 ? Math.min(...rows.map(r => +r.at || 0)) : Date.now() - 6 * 3600000, ate = t0 - 3000;
+        [...LIS].filter(l => l.c === "mensagens" && l.estado instanceof Map).forEach(l => {
+          for (const [id, d] of l.estado) { const at = +(d && d.at) || 0; if (at >= desde && at < ate && !ids.has(String(id))) { l.agenda(); break } }
+        });
       }
     } catch (e) { }
     deltaRodando = false;

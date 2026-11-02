@@ -10,16 +10,16 @@ function tickerItens(lim=10){
   const add=p=>{if(vis.has(p.id)||out.length>=lim)return;vis.add(p.id);const u=ultimaUpd(p);const recente=u&&ref-new Date(u.hora).getTime()<dia;
     out.push({pid:p.id,tag:secNome(secOf(p)),txt:recente?u.texto:(p.neutro?.titulo||""),hora:recente?u.hora:p.hora,sec:secOf(p)})};
   porPrio.filter(p=>{const h=new Date(p.hora).getTime();return h&&ref-h<dia}).forEach(add);
-  porPrio.forEach(add);
+  porPrio.filter(p=>{const h=Math.max(tms(p.hora),tms(ultimaAtualizacao(p)));return h&&ref-h<2*dia}).forEach(add);
   return out.slice(0,lim).sort((a,b)=>tms(b.hora)-tms(a.hora));
 }
 function abrirUltimas(){uso("ultimas");const it=tickerItens(15);const at=new Date(FEED.atualizado_em);
-  sheet("Últimas notícias",`<p class="hint" style="margin:0">Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}. O Prumo confere os veículos de hora em hora. ${proximaRodadaTxt()}</p><ul class="ult">${it.map(i=>`<li><button type="button" data-goto="${esc(i.pid)}"><span class="u-t"><b style="color:${secCor(i.sec)}">${esc(i.tag)}</b>${i.hora?` · ${esc(hhmm(i.hora))}`:""}</span><span class="u-x">${esc(i.txt)}</span></button></li>`).join("")}</ul>`)}
+  sheet("Últimas notícias",`<p class="hint" style="margin:0">Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}. O Prumo confere os veículos de hora em hora. ${proximaRodadaTxt()}</p><ul class="ult">${it.map(i=>`<li><button type="button" data-goto="${esc(i.pid)}"><span class="u-t"><b style="color:${secCor(i.sec)}">${esc(i.tag)}</b>${i.hora?` · ${esc(horaDia(i.hora))}`:""}</span><span class="u-x">${esc(i.txt)}</span></button></li>`).join("")}</ul>`)}
 function renderTicker(){
   const tk=$("#ticker"),run=$("#tkrun");if(!tk||!run)return;const it=tickerItens();
   if(!it.length){tk.hidden=true;return}tk.hidden=false;
   const at=new Date(FEED.atualizado_em);const th=$("#tkhora");if(th)th.textContent=isNaN(at)?"":"às "+at.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",timeZone:"America/Sao_Paulo"}).replace(":","h");
-  const one=it.map(i=>`<button type="button" class="tk-i" data-tk="${esc(i.pid)}" tabindex="-1"><b>${esc(i.tag)}</b>${i.hora?`<time>${esc(hhmm(i.hora))}</time>`:""}<span>${esc(i.txt)}</span></button><i class="tk-sep" aria-hidden="true"></i>`).join("");
+  const one=it.map(i=>`<button type="button" class="tk-i" data-tk="${esc(i.pid)}" tabindex="-1"><b>${esc(i.tag)}</b>${i.hora?`<time>${esc(horaDia(i.hora))}</time>`:""}<span>${esc(i.txt)}</span></button><i class="tk-sep" aria-hidden="true"></i>`).join("");
   run.innerHTML=one+one.replace(/tabindex="-1"/g,'tabindex="-1" aria-hidden="true"');run.querySelectorAll('.tk-i:not([aria-hidden])').forEach(b=>b.tabIndex=0);
   requestAnimationFrame(()=>{TK.w=run.scrollWidth/2;if(!TK.raf)TK.raf=requestAnimationFrame(tkLoop)});
   wireTicker();
