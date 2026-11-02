@@ -1,0 +1,79 @@
+/* ================= Ver stories (rodada 2) ================= */
+/* bandeja: um só degradê para stories não vistos de pessoas; verde = Melhores amigos; cinza = visto */
+#secs [data-ustory] .ig-r:not(.visto):not(.ma):not(.pq-on):not(.pq-erro),
+#secs [data-meustory] .ig-r:not(.visto):not(.sem):not(.ma):not(.pq-on):not(.pq-erro){background:linear-gradient(45deg,#feda75 0%,#fa7e1e 28%,#d62976 58%,#962fbf 82%,#4f5bd5 100%);padding:2.5px}
+#secs .ig-r.ma:not(.visto){background:#25b84c;padding:2.5px}
+/* anel girando enquanto o story carrega */
+#secs .ig-r.vs98-carrega{background:transparent!important;padding:2.5px}
+#secs .ig-r.vs98-carrega::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5,transparent 78%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2.5px));animation:vs98gira .7s linear infinite}
+@keyframes vs98gira{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){#secs .ig-r.vs98-carrega::before{animation:none;background:conic-gradient(#d62976,#962fbf,#4f5bd5,#feda75,#d62976)}}
+/* "+" do Seu story: fora do fluxo, no canto de baixo do anel; o toque no anel abre o story */
+#secs i.up-mais[data-criarde]{position:absolute;left:49px;top:49px;right:auto;bottom:auto;width:23px;height:23px;margin:0;font:700 17px/19px var(--f-ui);z-index:2;box-sizing:border-box}
+#secs i.up-mais[data-criarde]::after{inset:-5px -7px -7px -5px;border-radius:50%}
+/* segurar: só pausa e esconde a interface (sem encolher) */
+.story.sg.segurando{transform:none!important}
+.story.sg.segurando .us-f,.story.sg.segurando .vs98-reac{opacity:0}
+/* cabeçalho: nome e hora numa linha; selo verde pequeno */
+.story.sg .sg-who{align-items:center;flex-wrap:nowrap;overflow:hidden}
+.story.sg .sg-who b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}
+.story.sg .sg-who>span{white-space:nowrap;flex:none;display:inline-flex;align-items:center;gap:6px}
+.story.sg .us-ma{display:inline-flex;align-items:center;gap:3px;margin:0;padding:0 7px;height:18px;font:800 10.5px/18px var(--f-ui);letter-spacing:.01em;border-radius:999px}
+.story.sg .us-ma.vs98-so{width:18px;padding:0;justify-content:center;font-size:11px}
+.story.sg .s-hb [data-sauto]{display:none}
+.story.sg .s-hb .vs98-mn svg{fill:#fff;stroke:#fff;width:24px;height:24px}
+.story.sg .s-hb .vs98-mn svg circle{r:1.6px}
+/* rodapé do story de amigo: resposta, ♥ e enviar */
+.story.sg .us-f{gap:4px}
+.story.sg .us-f .sg-a{width:44px;height:44px;flex:none;display:inline-flex;align-items:center;justify-content:center}
+.story.sg .us-f .vs98-env .ico{stroke:#fff;width:24px;height:24px}
+.story.sg.digitando .us-f{z-index:30}
+.story.sg.digitando .us-f .sg-a{display:none}
+.story.sg.digitando .us-rp{background:rgb(0 0 0 / .35);border-color:#fff}
+.vs98-dim{position:absolute;inset:0;z-index:20;background:rgb(0 0 0 / .62);opacity:0;pointer-events:none;transition:opacity .2s ease}
+.story.sg.digitando .vs98-dim{opacity:1;pointer-events:auto}
+.vs98-reac{position:absolute;left:0;right:0;bottom:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px;padding:0 22px 26px;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s ease,transform .2s ease,visibility 0s .2s}
+.story.sg.digitando .vs98-reac{opacity:1;visibility:visible;transform:none;transition:opacity .2s ease,transform .22s cubic-bezier(.2,1.2,.4,1)}
+.vs98-reac button{height:58px;font-size:38px;line-height:1;display:flex;align-items:center;justify-content:center;border-radius:16px;touch-action:manipulation;transition:transform .12s}
+.vs98-reac button:active{transform:scale(.86)}
+.vs98-reac button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.vs98-voa{position:absolute;inset:0;z-index:40;pointer-events:none;overflow:hidden}
+.vs98-voa i{position:absolute;left:var(--x);bottom:-60px;font-size:calc(46px*var(--s));font-style:normal;animation:vs98sobe 1.3s cubic-bezier(.2,.7,.3,1) var(--d) both}
+@keyframes vs98sobe{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:1}100%{transform:translateY(-78vh) scale(1.1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.vs98-voa{display:none}.vs98-reac,.vs98-dim{transition:none}}
+/* rodapé do seu story: Atividade + Destacar, Enviar, Mais */
+.story.sg .us-f.vs98-own{gap:2px;padding:8px 8px calc(10px + env(safe-area-inset-bottom,0px)) 14px;background:linear-gradient(rgb(0 0 0 / 0),rgb(0 0 0 / .35))}
+.vs98-at{display:inline-flex;align-items:center;gap:10px;height:52px;min-width:0;color:#fff;text-align:left;padding:0 6px 0 0}
+.vs98-avs{order:-1;display:inline-flex;flex:none;font-style:normal}
+.vs98-avs:empty{display:none}
+.vs98-avs .av{width:30px;height:30px;font-size:13px;border-radius:50%;box-shadow:0 0 0 2px #1a1a1a;flex:none}
+.vs98-avs .av+.av{margin-left:-10px}
+.vs98-lb{display:flex;flex-direction:column;min-width:0;line-height:1.2;white-space:nowrap}
+.vs98-lb b{font:700 14px var(--f-ui);color:#fff}
+.vs98-lb small{font:500 12px var(--f-ui);color:rgb(255 255 255 / .78);overflow:hidden;text-overflow:ellipsis}
+.vs98-ic{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:62px;height:54px;flex:none;color:#fff;border-radius:12px}
+.vs98-ic .ico{width:25px;height:25px;stroke:#fff}
+.vs98-ic small{font:600 11px var(--f-ui);white-space:nowrap;color:#fff}
+.vs98-ic[data-vs98menu] .ico circle{fill:#fff}
+.vs98-ic:active,.vs98-at:active{opacity:.6}
+/* Atividade (lista de quem viu) */
+.vs98-res{display:flex;gap:18px;align-items:center;padding:2px 2px 12px;border-bottom:1px solid var(--line);margin-bottom:4px;font:500 14px var(--f-ui);color:var(--ink-2)}
+.vs98-res span{display:inline-flex;align-items:center;gap:6px}
+.vs98-res b{color:var(--ink);font-weight:800}
+.vs98-res .ico{width:20px;height:20px;stroke:var(--ink-2)}
+.vs98-res svg:not(.ico),.vs98-cor svg{width:18px;height:18px;fill:#ff3040}
+.vs98-vl{list-style:none;margin:0;padding:0}
+.vs98-v{display:flex;align-items:center;gap:12px;min-height:60px;padding:6px 0}
+.vs98-va{position:relative;flex:none}
+.vs98-va .av{width:44px;height:44px;font-size:17px}
+.vs98-em{position:absolute;right:-6px;bottom:-4px;font-style:normal;font-size:18px;line-height:1;filter:drop-shadow(0 1px 1px rgb(0 0 0 / .25))}
+.vs98-vn{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.vs98-vn b{font:700 15px var(--f-ui);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vs98-vn>span{font:500 12.5px var(--f-ui);color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+.vs98-ch{font-style:normal;font-weight:700;color:var(--ink-2);background:var(--chip);border-radius:999px;padding:2px 8px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vs98-cor{flex:none;display:inline-flex;font-style:normal}
+.vs98-dm{flex:none;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:var(--ink)}
+.vs98-dm .ico{width:23px;height:23px;stroke:var(--ink)}
+.vs98-dm:active{background:var(--chip)}
+.vs98-vz{display:flex;flex-direction:column;gap:6px;padding:18px 0;text-align:center}
+.vs98-vz span{color:var(--muted);font-size:14px}
