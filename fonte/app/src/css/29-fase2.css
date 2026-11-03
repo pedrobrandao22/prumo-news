@@ -1,0 +1,101 @@
+/* ---------- 113: fase 2 do visual novo (teste). Tudo só vale com html.fs2 (a chave ligada) ---------- */
+
+/* ===== 1. Fio: a parte 1 é o texto do post; as outras abrem embaixo dela, ligadas por um fio fino ===== */
+html.fs2 .fs2-n1{font:700 12px var(--f-ui);color:var(--muted);letter-spacing:.02em;white-space:nowrap;font-style:normal}
+html.fs2 .fs2-fio{margin:8px var(--gut,16px) 2px;position:relative}
+html.fs2 .upost .gut>.fs2-fio{margin-inline:0}
+html.fs2 .fs2-fio-l{list-style:none;margin:2px 0 8px;padding:0 0 0 16px;border-left:1px solid var(--line)}
+html.fs2 .fs2-fio-l[hidden]{display:none}
+html.fs2 .fs2-fio-l li{position:relative;padding:10px 0 6px}
+html.fs2 .fs2-fio-l li+li{border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+html.fs2 .fs2-fio-l li::before{content:"";position:absolute;left:-20px;top:16px;width:7px;height:7px;border-radius:50%;background:var(--bg);border:1px solid var(--muted)}
+html.fs2 .fs2-n{display:block;margin-bottom:3px;font:800 10.5px/1.2 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--bronze-ink)}
+html.fs2 .fs2-fio-tx{margin:0;font:400 calc(18px*var(--fz,1))/1.45 var(--f-display);color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+html:not(.vn-ca).fs2 .fs2-fio-tx{font:400 calc(16px*var(--fz,1))/1.5 var(--f-body)}
+html.fs2 .fs2-fio-bar{display:flex;align-items:center;gap:10px;min-height:44px;padding-left:16px;border-left:1px solid var(--line);position:relative}
+html.fs2 .fs2-fio.on .fs2-fio-bar{border-left-color:transparent}
+html.fs2 .fs2-fio-bar::before{content:"";position:absolute;left:-4px;top:50%;width:7px;height:7px;margin-top:-4px;border-radius:50%;background:var(--bronze)}
+html.fs2 .fs2-fio-k{font:800 10.5px/1.2 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+html.fs2 .fs2-fio-b{min-height:44px;padding:0 4px;border:0;background:none;font:700 14px var(--f-ui);color:var(--bronze-ink);cursor:pointer;white-space:nowrap}
+html.fs2 .fs2-fio-b::after{content:" ›"}
+html.fs2 .fs2-fio.on .fs2-fio-b::after{content:""}
+html.fs2 .fs2-fio-b:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+html.vn-ca.fs2 .post.vn-cp.fs2-temfio>.vn-txt{margin-bottom:0}
+
+/* criar: as partes embaixo do texto, ligadas por um fio */
+html.fs2 .fs2-ed{display:flex;flex-direction:column;gap:8px;margin:8px 0 4px}
+html.fs2 .fs2-ed.tem{margin-left:6px;padding-left:12px;border-left:1px solid var(--line)}
+html.fs2 .fs2-ed-p{position:relative;display:flex;flex-direction:column;gap:3px}
+html.fs2 .fs2-ed-n{font:800 10.5px/1.2 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--bronze-ink)}
+html.fs2 .fs2-ed-n1{display:block;margin:4px 0 2px}
+html.fs2 .fs2-ed-tx{width:100%;box-sizing:border-box;min-height:76px;padding:10px 38px 10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card,var(--bg));color:var(--ink);font:400 16px/1.45 var(--f-body);resize:vertical}
+html.fs2 .fs2-ed-tx:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+html.fs2 .fs2-ed-x{position:absolute;right:2px;top:16px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:var(--muted);cursor:pointer}
+html.fs2 .fs2-ed-x .ico{width:16px;height:16px}
+html.fs2 .fs2-ed-add{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border:1px dashed var(--line);border-radius:999px;background:none;color:var(--ink);font:700 13.5px var(--f-ui);cursor:pointer}
+html.fs2 .fs2-ed-add .ico{width:16px;height:16px}
+html.fs2 .fs2-ed-d{margin:0;font:500 12.5px/1.4 var(--f-ui);color:var(--muted)}
+html.fs2 .fs2-ed-sh{margin-top:10px}
+
+/* ===== 2. Capítulos na matéria: índice que gruda embaixo do topo ===== */
+html.fs2 .fs2-cap{position:sticky;top:calc(52px + env(safe-area-inset-top,0px));z-index:1;display:flex;align-items:center;gap:6px;
+  margin:14px calc(-1*max(16px,env(safe-area-inset-right,0px))) 14px calc(-1*max(16px,env(safe-area-inset-left,0px)));
+  padding:0 0 0 max(16px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--bg) 97%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--line)}
+html.fs2 .fs2-cap-k{flex:none;font:800 10.5px/1.15 var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);width:58px}
+html.fs2 .fs2-cap-l{flex:1;min-width:0;display:flex;gap:2px;margin:0;padding:0 max(16px,env(safe-area-inset-right,0px)) 0 0;list-style:none;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}
+html.fs2 .fs2-cap-l::-webkit-scrollbar{display:none}
+html.fs2 .fs2-cap-l{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 18px),transparent);mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 18px),transparent)}
+html.fs2 .fs2-cap-l li{flex:none}
+html.fs2 .fs2-cap-b{position:relative;display:inline-flex;align-items:center;gap:5px;height:44px;padding:0 9px;border:0;background:none;color:var(--muted);font:600 13.5px var(--f-ui);white-space:nowrap;cursor:pointer}
+html.fs2 .fs2-cap-b i{font:700 11px var(--f-ui);font-style:normal;font-variant-numeric:tabular-nums;color:var(--muted);opacity:.8}
+html.fs2 .fs2-cap-b[aria-current="true"]{color:var(--ink);font-weight:800}
+html.fs2 .fs2-cap-b[aria-current="true"] i{color:var(--bronze-ink);opacity:1}
+html.fs2 .fs2-cap-b[aria-current="true"]::after{content:"";position:absolute;left:9px;right:9px;bottom:-1px;height:3px;background:var(--ink)}
+html.fs2 .fs2-cap-b:focus-visible{outline:2px solid var(--accent);outline-offset:-3px;border-radius:4px}
+html.fs2 .fs2-alvo{scroll-margin-top:110px}
+html.fs2 .fs2-alvo:focus{outline:none}
+html.fs2 .fs2-faq{margin:18px 0}
+html.fs2 .fs2-faq>b{display:block;margin-bottom:6px;font:800 11.5px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+html.fs2 .fs2-faq details{border-top:1px solid var(--line)}
+html.fs2 .fs2-faq details:last-child{border-bottom:1px solid var(--line)}
+html.fs2 .fs2-faq summary{display:flex;align-items:flex-start;gap:8px;min-height:44px;padding:11px 0;cursor:pointer;list-style:none;font:600 calc(16px*var(--fz,1))/1.35 var(--f-display);color:var(--ink)}
+html.fs2 .fs2-faq summary::-webkit-details-marker{display:none}
+html.fs2 .fs2-faq summary::after{content:"+";margin-left:auto;flex:none;font:400 20px/1 var(--f-ui);color:var(--muted)}
+html.fs2 .fs2-faq details[open] summary::after{content:"–"}
+html.fs2 .fs2-faq details p{margin:0 0 12px;font:400 calc(15.5px*var(--fz,1))/1.5 var(--f-body);color:var(--ink-2,var(--ink))}
+
+/* ===== 3. Prateleiras no Feed ===== */
+html.fs2 .fs2-sh{padding:12px 0 16px;border-top:1px solid var(--line)}
+html.fs2 .fs2-sh-h{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+html.fs2 .fs2-sh-h h3{flex:1;min-width:0;margin:0;font:800 12px/1.2 var(--f-ui);letter-spacing:.1em;text-transform:uppercase;color:var(--fs2-c,var(--accent));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.fs2 .fs2-sh-v{flex:none;min-height:40px;padding:0 2px;border:0;background:none;font:700 13px var(--f-ui);color:var(--muted);cursor:pointer}
+html.fs2 .fs2-sh-l{display:flex;gap:12px;margin:0;padding:0 max(16px,env(safe-area-inset-right,0px)) 2px max(16px,env(safe-area-inset-left,0px));list-style:none;
+  overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:max(16px,env(safe-area-inset-left,0px));overscroll-behavior-x:contain;scrollbar-width:none}
+html.fs2 .fs2-sh-l::-webkit-scrollbar{display:none}
+html.fs2 .fs2-sh-l li{flex:0 0 auto;width:min(58vw,224px);scroll-snap-align:start}
+html.fs2 .fs2-mc{display:flex;flex-direction:column;gap:4px;width:100%;padding:0;border:0;background:none;text-align:left;color:var(--ink);cursor:pointer}
+html.fs2 .fs2-mc-a{position:relative;display:block;width:100%;aspect-ratio:16/10;overflow:hidden;border-top:2px solid var(--ink);background:var(--ill-bg,var(--soft))}
+html.fs2 .fs2-mc-a .fs2-mc-art{position:absolute;inset:0;display:block}
+html.fs2 .fs2-mc-a svg,html.fs2 .fs2-mc-a img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+html.fs2 .fs2-mc small{margin-top:4px;font:800 10.5px/1.2 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.fs2 .fs2-mc b{font:600 calc(15.5px*var(--fz,1))/1.25 var(--f-display);letter-spacing:-.004em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html.fs2 .fs2-mc:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* ===== 4. Contexto do Prumo ===== */
+html.fs2 .fs2-ctx{margin:10px var(--gut,16px) 2px;padding:10px 12px 4px;border:1px solid var(--line);border-left:3px solid var(--fs2-c,var(--accent));border-radius:4px;background:var(--soft)}
+html.fs2 .fs2-ctx-k{display:flex;align-items:center;gap:5px;margin:0;font:800 10.5px/1.2 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2,var(--ink))}
+html.fs2 .fs2-ctx-k .ico{width:15px;height:15px;flex:none;stroke-width:2}
+html.fs2 .fs2-ctx-k i{font-style:normal;font-weight:700;color:var(--muted);white-space:nowrap}
+html.fs2 .fs2-ctx-t{margin:5px 0 0;font:400 calc(15px*var(--fz,1))/1.42 var(--f-body);color:var(--ink);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+html.fs2 .fs2-ctx-b{min-height:40px;padding:0;border:0;background:none;font:700 13.5px var(--f-ui);color:var(--ink);cursor:pointer}
+html.fs2 .fs2-ctx-b:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+/* dentro do criador (fundo preto, texto branco): as partes seguem o mesmo jeito da legenda */
+html.fs2 .ce .fs2-ed.tem{border-left-color:#3a3e47}
+html.fs2 .ce .fs2-ed-tx{background:#121419;border-color:#2b2f37;color:#fff;font-family:var(--f-ui)}
+html.fs2 .ce .fs2-ed-tx::placeholder{color:#7d8088}
+html.fs2 .ce .fs2-ed-tx:focus{outline-color:#8fb3ff}
+html.fs2 .ce .fs2-ed-x{color:#9a9ea8}
+html.fs2 .ce .fs2-ed-add{color:#fff;border-color:#4a4f5a}
+html.fs2 .ce .fs2-ed-d{color:#9a9ea8}
+html.fs2 .ce .fs2-ed-n{color:#e0a85a}
