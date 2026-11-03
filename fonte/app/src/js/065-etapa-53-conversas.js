@@ -28,11 +28,11 @@ function dmThreadHTML(u){const all=allMsgs().filter(dmPar(u)),reac={},ms=[];
     if(m.tipo==="curtiu_story"){h+=`<div class="dm-ev">${eu?"Você curtiu o story de "+esc(nomeDe(m.para)):"❤️ "+esc(nomeDe(m.de))+" curtiu seu story"}${m.snap&&m.snap.story&&m.snap.story.t?` · “${esc(m.snap.story.t)}”`:""}</div>`;ant=m;return}
     if(m.tipo==="resp_story"){const st=(m.snap&&m.snap.story)||{};corpo+=`<div class="dm-q"><small>${eu?"Você respondeu ao story de "+esc(nomeDe(m.para)):"Respondeu ao seu story"}</small><span>${esc(st.t||(st.foto?"📷 Foto":"Story"))}</span></div>`}
     if(m.tipo==="reacao"){h+=`<div class="dm-ev">${eu?"Você reagiu":esc(nomeDe(m.de))+" reagiu"} ${esc(m.texto||"")} a uma notícia</div>`;ant=m;return}
-    if(m.tipo==="mencao")corpo+=`<span class="dm-lb">${eu?"Você mencionou "+esc(nomeDe(m.para)):"Mencionou você"} num comentário</span>`;
+    if(m.tipo==="mencao")corpo+=`<span class="dm-lb">${eu?"Você mencionou "+esc(nomeDe(m.para)):"Mencionou você"} ${m.snap&&m.snap.story===true?"no story":"num comentário"}</span>`;
     if(m.tipo==="resposta"&&m.snap&&m.snap.q){const q=m.snap.q;corpo+=`<div class="dm-q"><small>${eu?(q.de===S.uid?"Você respondeu a si mesmo":"Você respondeu a "+esc(nomeDe(q.de))):(q.de===S.uid?"Respondeu a você":"Respondeu a si mesmo")}</small><span>${esc(q.t||"")}</span></div>`}
     else if(m.pid&&m.resp&&m.tipo!=="mencao")corpo+=`<button type="button" class="dm-q" data-open="${esc(m.pid)}"><small>Sobre a notícia</small><span>${esc(m.snap?.titulo||"notícia")}</span></button>`;
     else if(m.pid)corpo+=dmCard(m);
-    if(m.texto&&!(m.tipo==="mencao"&&m.snap&&m.snap.upub&&typeof pubDe==="function"&&(pubDe(m.snap.upub)||{}).texto===m.texto))corpo+=`<div class="bub${dmSoEmoji(m.texto)?" bub-emo":""}">${dmLinka(m.tipo==="mencao"?dmMarca(m.texto):esc(m.texto))}</div>`;
+    if(m.texto&&!(m.tipo==="mencao"&&m.snap&&m.snap.upub&&(m.snap.story===true&&m.texto==="Mencionou você no story"||typeof pubDe==="function"&&(pubDe(m.snap.upub)||{}).texto===m.texto)))corpo+=`<div class="bub${dmSoEmoji(m.texto)?" bub-emo":""}">${dmLinka(m.tipo==="mencao"?dmMarca(m.texto):esc(m.texto))}</div>`;
     const rs=reac[m.id]||[];const pill=rs.length?`<button type="button" class="dm-rx" data-dmacoes="${esc(m.id)}" aria-label="Reações">${[...new Set(rs.map(r=>String(r.texto||"").slice(0,8)))].map(esc).join("")}${rs.length>1?`<i>${rs.length}</i>`:""}</button>`:"";
     h+=`<div class="msg dm-m ${eu?"mine":"theirs"}${pri?" pri":""}${ult?" ult":""}${rs.length?" crx":""}" data-mid="${esc(m.id)}">${!eu?`<span class="dm-av">${ult?avatar(m.de):""}</span>`:""}<div class="dm-c">${corpo}${pill}</div></div>`;
     if(m===ultMinha)h+=`<div class="dm-st">${m.lida?"Visto":String(m.id).startsWith("tmp")?"Enviando…":"Enviada"}</div>`;

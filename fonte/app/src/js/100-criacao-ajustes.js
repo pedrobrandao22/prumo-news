@@ -94,7 +94,7 @@ function ca100StHTML(m,inf){const eu=m.de===S.uid,lk=m._ca100lk,perg=m.snap&&m.s
     const k=`data-mid="${esc(m.id)}"`,i=h.indexOf(k);if(i<0)return;const nx=h.indexOf("data-mid=",i+k.length),a=h.indexOf('<div class="dm-q">',i);if(a<0||(nx>=0&&a>nx))return;const z=h.indexOf("</div>",a);if(z<0)return;
     let blk=ca100StHTML(m,inf);
     /* a resposta da pergunta (075) também desenha um cartão de notícia vazio: some */
-    let fim=z+6;if(h.startsWith('<button type="button" class="dm-card"',fim)){const zz=h.indexOf("</button>",fim);if(zz>0&&(nx<0||zz<nx))fim=zz+9}
+    let fim=z+6;if(h.startsWith('<button type="button" class="dm-card',fim)){const zz=h.indexOf("</button>",fim);if(zz>0&&(nx<0||zz<nx))fim=zz+9}
     h=h.slice(0,a)+`<div class="ca100-sq${m.de===S.uid?" eu":""}">${blk}</div>`+h.slice(fim)})}catch(e){}
   return h}}
 async function ca100Assina(){const v=$("#v-msgs");if(!v)return;const ims=[...v.querySelectorAll("img[data-ca100p]:not([src])")];if(!ims.length||typeof pubAssinaLista!=="function")return;
