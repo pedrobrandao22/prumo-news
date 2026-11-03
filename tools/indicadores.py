@@ -64,6 +64,24 @@ def sgs(cod, n=None, dias=None):
     return out
 
 
+def dia_yahoo(t, meta=None):
+    """Dia (AAAA-MM-DD) de uma barra diária do Yahoo, no fuso da bolsa que a publica.
+    As barras do câmbio (BRL=X) vêm à meia-noite de Londres: no fuso de São Paulo elas caíam no dia anterior
+    (sexta virava quinta, segunda virava domingo). Sem o fuso no meta, usa o deslocamento (gmtoffset) e, por fim, São Paulo."""
+    meta = meta or {}
+    tz = meta.get("exchangeTimezoneName")
+    if isinstance(tz, str) and tz:
+        try:
+            from zoneinfo import ZoneInfo
+            return datetime.fromtimestamp(t, ZoneInfo(tz)).date().isoformat()
+        except Exception:
+            pass
+    off = meta.get("gmtoffset")
+    if isinstance(off, (int, float)) and not isinstance(off, bool) and abs(off) <= 14 * 3600:
+        return datetime.fromtimestamp(t + off, timezone.utc).date().isoformat()
+    return datetime.fromtimestamp(t, SP).date().isoformat()
+
+
 def yahoo(simbolo):
     """(preço atual, fechamento do pregão anterior, data, fechamentos dos últimos 3 meses, datas deles)."""
     d1 = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=1d&interval=5m")["chart"]["result"][0]["meta"]
@@ -73,7 +91,7 @@ def yahoo(simbolo):
     data = datetime.fromtimestamp(t, SP).date().isoformat() if t else datetime.now(SP).date().isoformat()
     try:
         r = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=3mo&interval=1d")["chart"]["result"][0]
-        pares = [(datetime.fromtimestamp(t, SP).date().isoformat(), round(float(c), 4))
+        pares = [(dia_yahoo(t, r.get("meta")), round(float(c), 4))
                  for t, c in zip(r.get("timestamp") or [], r["indicators"]["quote"][0].get("close") or []) if c is not None]
         dia = {}
         for d, c in pares: dia[d] = c  # um ponto por dia (o último)
@@ -175,7 +193,7 @@ def buscar_serie(sid, cfg, velho):
         r = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{cfg['yahoo']}?range={rng}&interval=1d")["chart"]["result"][0]
         dia = {}
         for t, c in zip(r.get("timestamp") or [], r["indicators"]["quote"][0].get("close") or []):
-            if c is not None: dia[datetime.fromtimestamp(t, SP).date().isoformat()] = round(float(c), 2)
+            if c is not None: dia[dia_yahoo(t, r.get("meta"))] = round(float(c), 2)
         return sorted(dia.items())
     if cfg.get("diaria"):
         # histórico inicial em janelas de até 2 anos: um pedido de ~10 anos da série diária 432 falhou nas 3 primeiras

@@ -90,5 +90,33 @@ class TesteSeries(unittest.TestCase):
         s.assertTrue(os.path.exists(ind))
 
 
+class TesteDiaYahoo(unittest.TestCase):
+    """Barras diárias do câmbio vêm à meia-noite de Londres: o dia não pode cair no anterior (sexta virava quinta)."""
+    def test_dia_no_fuso_da_bolsa(s):
+        # sexta 30/10/2026 00:00 em Londres (GMT) = quinta 29/10 21:00 em São Paulo
+        t = 1793318400
+        s.assertEqual(IN.dia_yahoo(t, {"exchangeTimezoneName": "Europe/London", "gmtoffset": 0}), "2026-10-30")
+        s.assertEqual(IN.dia_yahoo(t, {"gmtoffset": 0}), "2026-10-30")
+        # quinta 01/10/2026 00:00 em Londres (BST, +1) = 30/09 23:00 UTC
+        s.assertEqual(IN.dia_yahoo(1790809200, {"exchangeTimezoneName": "Europe/London", "gmtoffset": 0}), "2026-10-01")
+        # Ibovespa (fuso de São Paulo): mesmo dia de antes; sem meta: São Paulo (como era)
+        s.assertEqual(IN.dia_yahoo(1790895600, {"exchangeTimezoneName": "America/Sao_Paulo", "gmtoffset": -10800}), "2026-10-01")
+        s.assertEqual(IN.dia_yahoo(1790895600), "2026-10-01")
+        s.assertEqual(IN.dia_yahoo(t), "2026-10-29")
+        s.assertEqual(IN.dia_yahoo(t, {"exchangeTimezoneName": "Fuso/Invalido", "gmtoffset": 0}), "2026-10-30")
+
+    def test_dolar_sem_fim_de_semana(s):
+        sexta, seg = 1793318400, 1793318400 + 3 * 86400   # 30/10 e 02/11, meia-noite em Londres
+        meta = {"exchangeTimezoneName": "Europe/London", "gmtoffset": 0}
+        def gj(url, tempo=20):
+            if "range=1d" in url: return {"chart": {"result": [{"meta": {"regularMarketPrice": 5.50, "chartPreviousClose": 5.44, "regularMarketTime": seg + 20 * 3600}}]}}
+            return {"chart": {"result": [{"meta": meta, "timestamp": [sexta, seg], "indicators": {"quote": [{"close": [5.44, 5.49]}]}}]}}
+        g0 = IN.get_json; IN.get_json = gj
+        try: d = IN.dolar()
+        finally: IN.get_json = g0
+        s.assertEqual(d["rotulos"], ["2026-10-30", "2026-11-02"])
+        s.assertEqual(d["serie"], [5.44, 5.5])     # o preço de agora fica no dia certo, sem repetir o valor num domingo
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)
