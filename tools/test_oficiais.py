@@ -201,6 +201,76 @@ def t_formato_ok_para_aplicar():
         assert p["atualizacoes"][-1]["texto"] == x["texto"]
 
 
+def t_placar_pronto():
+    """Cada votação de mérito do plenário traz o placar pronto para o gráfico placar_votacao do app."""
+    out, _ = rodar()
+    ev = {e["id"]: e for e in out["eventos"]}
+    p1 = ev["senado-vot-7001"]["placar"]
+    assert p1["forma"] == "placar_votacao" and p1["casa"] == "senado" and p1["modo"] == "nominal"
+    assert (p1["sim"], p1["nao"], p1["abst"], p1["total"]) == (62, 9, 1, 72)
+    assert p1["minimo"] == 49 and "3/5" in p1["regra"] and p1["turno"] == "1º" and p1["resultado"] == "aprovado"
+    assert p1["proposicao"] == "PEC 18/2025" and p1["fonte"] == "Senado Federal" and p1["url"].endswith("/171234")
+    assert p1["itens"] == [{"rotulo": "Sim", "valor": 62}, {"rotulo": "Não", "valor": 9}, {"rotulo": "Abstenção", "valor": 1}]
+    assert p1["hora_exata"] is False  # o fixture só tem a abertura da sessão
+    assert ev["senado-vot-7002"]["placar"]["turno"] == "2º" and len(ev["senado-vot-7002"]["placar"]["itens"]) == 2  # abstenção 0 sai
+    c = ev["camara-vot-2401234-56"]["placar"]
+    assert (c["sim"], c["nao"], c["abst"], c["total"], c["minimo"]) == (300, 120, 2, 422, 257) and c["hora_exata"] is True
+    assert c["quando"] == "2026-11-04T18:52-03:00" and c["cadeiras"] == 513
+    s = ev["camara-vot-2407777-2"]["placar"]  # sem "Sim: …; não: …" na Câmara = votação simbólica
+    assert s["modo"] == "simbolica" and s["sim"] is None and s["itens"] == [] and s["resultado"] == "aprovado" and s["minimo"] is None
+    assert "maioria simples" in s["regra"]
+    for e in out["eventos"]:
+        if e.get("tipo") == "votacao" and e.get("classe") != "materia": assert "placar" not in e
+    json.dumps(out, ensure_ascii=False)  # serializável
+
+
+def t_placar_robusto():
+    P = O.placar_de
+    q = O.data_hora("2026-11-03T19:42")
+    assert P("senado", None, "PEC 1/2026", {}, None, q, True, "u") is None                    # sem resultado nem votos: nada
+    x = P("senado", True, "PEC 1/2026", {"sim": 70, "nao": 20}, None, q, True, "u")           # 90 > 81: número impossível
+    assert x["modo"] == "sem_placar" and x["sim"] is None and x["itens"] == [] and x["resultado"] == "aprovado"
+    x = P("senado", False, "PL 5/2026", {"sim": 20, "nao": 30, "abst": None, "total": 999}, "2º", q, True, "u")
+    assert x["resultado"] == "rejeitado" and x["total"] == 50 and x["minimo"] is None and x["turno"] == "2º"
+    x = P("camara", True, "PEC 9/2025", {"sim": 352, "nao": 134, "abst": 2, "total": 489}, "1º", q, True, "u")
+    assert x["minimo"] == 308 and x["total"] == 489 and "PEC 9/2025 no plenário da Câmara · 1º turno" == x["titulo"]
+    assert P("stf", True, "X", {"sim": 6, "nao": 5}, None, q, True, "u") is None
+    assert P("senado", True, None, {"sim": "62", "nao": 9}, None, q, True, "u")["modo"] == "sem_placar"  # texto em vez de número
+    assert O.contagem("Rejeitado. Sim: 10; Não: 300; Abstenções: 4; Total: 314")["abst"] == 4
+    assert O.contagem("Aprovado o projeto.") == {"sim": None, "nao": None, "abst": None, "total": None}
+
+
+def t_placar_hora_exata_senado():
+    """Se a API do Senado trouxer a hora da própria votação, o placar usa essa hora (e não a da abertura da sessão)."""
+    with tempfile.TemporaryDirectory() as d:
+        for n in os.listdir(FX): open(os.path.join(d, n), "w", encoding="utf-8").write(open(os.path.join(FX, n), encoding="utf-8").read())
+        sv = json.load(open(os.path.join(FX, "senado_votacoes.json"), encoding="utf-8"))
+        sv[0]["dataHoraInicioVotacao"] = "2026-11-03T19:42:10"
+        sv[1]["totalVotosSim"] = None; sv[1]["totalVotosNao"] = None  # 2º turno sem os votos na API
+        json.dump(sv, open(os.path.join(d, "senado_votacoes.json"), "w", encoding="utf-8"))
+        out, _ = rodar(fx=d)
+        ev = {e["id"]: e for e in out["eventos"]}
+        p = ev["senado-vot-7001"]["placar"]
+        assert p["hora_exata"] is True and p["quando"] == "2026-11-03T19:42-03:00" == ev["senado-vot-7001"]["quando"]
+        p2 = ev["senado-vot-7002"]["placar"]
+        assert p2["modo"] == "sem_placar" and p2["resultado"] == "aprovado" and p2["itens"] == []
+
+
+def t_placar_fica_7_dias():
+    """Votação ligada a uma pauta fica 7 dias (o app mostra o placar na matéria); o resto sai em 3 dias."""
+    out1, _ = rodar()
+    depois = datetime.fromisoformat("2026-11-08T20:40-03:00")  # 5 dias depois
+    with tempfile.TemporaryDirectory() as vazio:
+        open(os.path.join(vazio, "camara_votacoes.json"), "w").write('{"dados": []}')
+        out2, _ = rodar(anterior=out1, agora=depois, fx=vazio)
+    ids = {e["id"] for e in out2["eventos"]}
+    assert {"senado-vot-7001", "senado-vot-7002"} <= ids and "camara-vot-2407777-2" not in ids and "copom-2026-11-04" not in ids, ids
+    assert out2["para_pautas"] == {} and out2["novos"] == []
+    with tempfile.TemporaryDirectory() as nada:  # 8 dias depois, sem rede: o placar sai
+        out3, _ = rodar(anterior=out1, agora=datetime.fromisoformat("2026-11-11T20:40-03:00"), fx=nada)
+    assert not any(e["id"].startswith("senado-vot-") for e in out3["eventos"])
+
+
 TESTES = [v for k, v in sorted(globals().items()) if k.startswith("t_")]
 if __name__ == "__main__":
     falhas = 0

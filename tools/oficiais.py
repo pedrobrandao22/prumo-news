@@ -14,7 +14,8 @@ STF: sem API aberta estável para a pauta do plenário (o portal é só HTML); f
 
 Grava oficiais.json:
 - eventos: fatos oficiais (votação, Selic, IPCA, desemprego, Focus) com texto PRONTO de modelo fixo (número na
-  frente, sem opinião), número, fonte, URL, primeiro_visto, pid (pauta do feed a que se liga) e acionar;
+  frente, sem opinião), número, fonte, URL, primeiro_visto, pid (pauta do feed a que se liga) e acionar; a votação de
+  mérito do plenário traz também "placar", pronto para o gráfico placar_votacao do app (ver placar_de);
 - para_pautas: {pid: [atualização oficial pronta]} — só fatos ainda não registrados na pauta;
 - agenda_oficial: o que está na pauta do plenário da Câmara e do Senado hoje e as divulgações do IBGE da semana;
 - estado (para detectar mudança entre execuções) e fontes (ok/falhou de cada fonte).
@@ -34,6 +35,7 @@ IBGE_CAL = "https://servicodados.ibge.gov.br/api/v3/calendario/"
 SIDRA = "https://apisidra.ibge.gov.br/values"
 PLENARIO_CAMARA = 180  # id do órgão Plenário na API da Câmara
 RETER_H = 72           # eventos ficam no arquivo por 3 dias
+RETER_VOT_H = 168      # votação ligada a uma pauta: 7 dias (o app mostra o placar oficial na matéria)
 PRAZO_S = 420          # tempo máximo de rede por execução (o job tem 10 min)
 MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro",
          "novembro", "dezembro"]
@@ -163,6 +165,53 @@ def placar(desc):
     return (int(s.group(1)), int(nao.group(1))) if s and nao else (None, None)
 
 
+def contagem(desc):
+    """{'sim', 'nao', 'abst', 'total'} lidos da descrição da Câmara ("Sim: 300; não: 120; abstenção: 2; total: 422.")."""
+    n = norm(desc)
+    def um(pad):
+        m = re.search(pad + r"\s*[:=]?\s*(\d+)", n)
+        return int(m.group(1)) if m else None
+    sim, nao = placar(desc)
+    return {"sim": sim, "nao": nao, "abst": um(r"\babstenc(?:ao|oes)") if sim is not None else None,
+            "total": um(r"\btotal") if sim is not None else None}
+
+
+CADEIRAS = {"camara": 513, "senado": 81}
+NOME_CASA = {"camara": "Câmara", "senado": "Senado"}
+FONTE_CASA = {"camara": "Câmara dos Deputados", "senado": "Senado Federal"}
+# quórum de aprovação fixado pela Constituição (por turno): PEC 3/5 dos membros; PLP maioria absoluta. O resto é
+# maioria simples dos presentes (não há um número fixo de votos para desenhar).
+QUORUM = {("PEC", "camara"): (308, "3/5 dos deputados (308 votos)"), ("PEC", "senado"): (49, "3/5 dos senadores (49 votos)"),
+          ("PLP", "camara"): (257, "maioria absoluta (257 votos)"), ("PLP", "senado"): (41, "maioria absoluta (41 votos)")}
+
+
+def placar_de(casa, ok, ident, cont, turno, quando, hora_exata, url, desc=""):
+    """Placar pronto para o app (gráfico placar_votacao), só com números oficiais. Sem contagem (votação simbólica, ou
+    a fonte não trouxe os votos): só o resultado, com modo "simbolica" ou "sem_placar"."""
+    tot = CADEIRAS.get(casa)
+    if not tot: return None
+    sim, nao, abst = (cont or {}).get("sim"), (cont or {}).get("nao"), (cont or {}).get("abst")
+    validos = all(isinstance(x, int) and x >= 0 for x in (sim, nao)) and (abst is None or (isinstance(abst, int) and abst >= 0))
+    if validos and sim + nao + (abst or 0) > tot: validos = False  # número impossível: não desenha
+    if not validos:
+        sim = nao = abst = None
+        if ok is None: return None
+    sigla = (ident or "").split(" ")[0]
+    minimo, regra = QUORUM.get((sigla, casa), (None, "maioria simples dos presentes"))
+    itens = []
+    if sim is not None:
+        itens = [{"rotulo": "Sim", "valor": sim}, {"rotulo": "Não", "valor": nao}]
+        if abst: itens.append({"rotulo": "Abstenção", "valor": abst})
+    total = (cont or {}).get("total") if sim is not None else None
+    if sim is not None and not (isinstance(total, int) and sim + nao + (abst or 0) <= total <= tot): total = sim + nao + (abst or 0)
+    modo = "nominal" if sim is not None else ("simbolica" if casa == "camara" or "simbolic" in norm(desc) else "sem_placar")
+    tit = f"{ident or 'Votação'} no {'Senado' if casa == 'senado' else 'plenário da Câmara'}" + (f" · {turno} turno" if turno else "")
+    return {"forma": "placar_votacao", "casa": casa, "titulo": tit, "proposicao": ident, "turno": turno, "modo": modo,
+            "sim": sim, "nao": nao, "abst": abst, "total": total, "cadeiras": tot, "minimo": minimo, "regra": regra,
+            "resultado": "aprovado" if ok is True else "rejeitado" if ok is False else None,
+            "quando": iso(quando), "hora_exata": bool(hora_exata), "fonte": FONTE_CASA[casa], "url": url, "itens": itens}
+
+
 def resultado_de(valor, desc=""):
     """True aprovado, False rejeitado, None não dá para afirmar."""
     if valor in (1, True, "1"): return True
@@ -227,7 +276,8 @@ def camara_votacoes(ctx):
         vid = str(kv(v, "id") or "")
         quando = data_hora(kv(v, "dataHoraRegistro", "data"))
         ok = resultado_de(kv(v, "aprovacao"), desc)
-        sim, nao = placar(desc)
+        cont = contagem(desc)
+        sim, nao = cont["sim"], cont["nao"]
         ids = idents(desc) | idents(kv(v, "proposicaoObjeto"))
         ementa, prop_id = "", None
         if vid and detalhes < 12:
@@ -246,9 +296,13 @@ def camara_votacoes(ctx):
         if not fato or not quando: continue
         url = (f"https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao={prop_id}" if prop_id and str(prop_id).isdigit()
                else f"{CAM}/votacoes/{urllib.parse.quote(vid)}")
-        evs.append({"id": f"camara-vot-{vid}", "fonte": "Câmara dos Deputados", "tipo": "votacao", "casa": "camara",
-                    "classe": cls, "quando": iso(quando), "fato": fato, "numero": f"{sim} a {nao}" if sim is not None else None,
-                    "aprovado": ok, "proposicoes": sorted(ids), "ementa": ementa[:300], "url": url})
+        ev = {"id": f"camara-vot-{vid}", "fonte": "Câmara dos Deputados", "tipo": "votacao", "casa": "camara",
+              "classe": cls, "quando": iso(quando), "fato": fato, "numero": f"{sim} a {nao}" if sim is not None else None,
+              "aprovado": ok, "proposicoes": sorted(ids), "ementa": ementa[:300], "url": url}
+        if cls == "materia":
+            pl = placar_de("camara", ok, principal, cont, turno_de(desc), quando, bool(re.search(r"T\d\d:\d\d", str(kv(v, "dataHoraRegistro") or ""))), url, desc)
+            if pl: ev["placar"] = pl
+        evs.append(ev)
     return {"eventos": evs, "nota": f"{len(evs)} votações de mérito/urgência, {outras} de destaque ou requerimento"}
 
 
@@ -305,17 +359,25 @@ def senado_votacoes(ctx):
         ids = ({i} if i else set()) | idents(kv(r, "identificacao", "descricaoIdentificacaoMateria")) | idents(desc)
         principal = i or (sorted(ids)[0] if ids else None)
         sim, nao = inteiro(kv(r, "totalVotosSim")), inteiro(kv(r, "totalVotosNao"))
-        if sim is None: sim, nao = placar(desc)
+        cont = {"sim": sim, "nao": nao, "abst": inteiro(kv(r, "totalVotosAbstencao")) if sim is not None else None, "total": None}
+        if sim is None: cont = contagem(desc); sim, nao = cont["sim"], cont["nao"]
         ok = resultado_de(kv(r, "resultadoVotacao", "resultado"), desc)
-        quando = data_hora(f"{str(kv(r, 'dataSessao') or '')[:10]} {str(kv(r, 'horaInicio') or '')[:5]}".strip()) or data_hora(kv(r, "dataSessao"))
+        # hora da própria votação, quando a API trouxer; senão a da abertura da sessão (o app então mostra só o dia)
+        exata = data_hora(kv(r, "dataHoraInicioVotacao", "dataHoraVotacao", "dataHoraFimVotacao", "dataHoraInicio")) \
+            if re.search(r"\d\d:\d\d", str(kv(r, "dataHoraInicioVotacao", "dataHoraVotacao", "dataHoraFimVotacao", "dataHoraInicio") or "")) else None
+        quando = exata or data_hora(f"{str(kv(r, 'dataSessao') or '')[:10]} {str(kv(r, 'horaInicio') or '')[:5]}".strip()) or data_hora(kv(r, "dataSessao"))
         fato = fato_votacao("O Senado", ok, principal, sim, nao, turno_de(desc), cls)
         if not fato or not quando: continue
         cod = kv(r, "codigoMateria")
         sid = kv(r, "codigoSessaoVotacao", "codigoVotacao", "codigoSessao") or f"{principal}-{iso(quando)}"
-        evs.append({"id": f"senado-vot-{sid}", "fonte": "Senado Federal", "tipo": "votacao", "casa": "senado",
-                    "classe": cls, "quando": iso(quando), "fato": fato, "numero": f"{sim} a {nao}" if sim is not None else None,
-                    "aprovado": ok, "proposicoes": sorted(ids), "ementa": str(kv(r, "ementa", "ementaMateria") or "")[:300],
-                    "url": f"https://www25.senado.leg.br/web/atividade/materias/-/materia/{cod}" if cod else "https://www12.senado.leg.br/hoje"})
+        ev = {"id": f"senado-vot-{sid}", "fonte": "Senado Federal", "tipo": "votacao", "casa": "senado",
+              "classe": cls, "quando": iso(quando), "fato": fato, "numero": f"{sim} a {nao}" if sim is not None else None,
+              "aprovado": ok, "proposicoes": sorted(ids), "ementa": str(kv(r, "ementa", "ementaMateria") or "")[:300],
+              "url": f"https://www25.senado.leg.br/web/atividade/materias/-/materia/{cod}" if cod else "https://www12.senado.leg.br/hoje"}
+        if cls == "materia":
+            pl = placar_de("senado", ok, principal, cont, turno_de(desc), quando, exata is not None, ev["url"], desc)
+            if pl: ev["placar"] = pl
+        evs.append(ev)
     return {"eventos": evs, "nota": f"{len(evs)} votações nominais (via {via})"}
 
 
@@ -661,11 +723,14 @@ def executar(feed, anterior, ctx):
     idx = indice(feed)
     por_pid = {p["pid"]: p for p in idx}
     lista = []
+    corte_vot = ctx.agora - timedelta(hours=RETER_VOT_H)
     for e in eventos.values():
         q = data_hora(e.get("quando"))
-        if not q or q < corte or q > ctx.agora + timedelta(days=4): continue
-        e["primeiro_visto"] = (eventos_ant.get(e["id"]) or {}).get("primeiro_visto") or iso(ctx.agora)
+        if not q or q < corte_vot or q > ctx.agora + timedelta(days=4): continue
         pid, conf = ligar(e, idx)
+        # depois de 3 dias só fica a votação com placar ligada a uma pauta (o placar continua na matéria)
+        if q < corte and not (e.get("tipo") == "votacao" and e.get("placar") and pid): continue
+        e["primeiro_visto"] = (eventos_ant.get(e["id"]) or {}).get("primeiro_visto") or iso(ctx.agora)
         e["pid"], e["confianca"] = pid, conf
         e["ja_no_feed"] = ja_no_feed(e, por_pid.get(pid))
         e["acionar"] = deve_acionar(e)
