@@ -209,7 +209,7 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
 
   // ===== 10. ?fase2=0 desliga
   await recarrega(A, BASE + '?fase2=0'); await feed(A, true); await sleep(500); m = await marcas(A);
-  ok(!m.on && !m.cls && !m.sh && !m.fio && !m.ctx && await ev(A, () => localStorage.getItem('prumo-fase2') === null && location.search === ''), '?fase2=0 desliga e tira o parâmetro', JSON.stringify(m));
+  ok(!m.on && !m.cls && !m.sh && !m.fio && !m.ctx && await ev(A, () => localStorage.getItem('prumo-fase2') === '0' && location.search === ''), '?fase2=0 desliga e tira o parâmetro', JSON.stringify(m));
 
   const errs = [A, B, E].flatMap(p => p._erros);
   ok(!errs.length, 'sem erros no console', JSON.stringify(errs.slice(0, 5)));
