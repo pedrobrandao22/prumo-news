@@ -73,6 +73,10 @@ class TesteCatalogo(unittest.TestCase):
         v = dict(exemplos()["linha"], serie="petroleo")
         s.assertTrue(any("não existe em series/index.json" in m for m in checa(v)[0]))
         s.assertEqual(checa(v, series=None)[0], [])  # sem series/index.json ao lado: não acusa
+        # série do robô que ainda não foi gravada (selic faltou na manhã de 03/11): aviso, não bloqueia a rodada
+        v = dict(exemplos()["linha"], serie="selic")
+        e, a = checa(v, series=["dolar", "ibovespa"])
+        s.assertEqual(e, []); s.assertTrue(any("ainda não está em series/index.json" in m for m in a))
         v = dict(exemplos()["linha"], periodo="dois anos")
         s.assertTrue(any("periodo" in m for m in checa(v)[0]))
         v = dict(exemplos()["ranking"], serie="selic")
@@ -111,6 +115,26 @@ class TesteAplicar(unittest.TestCase):
         r = subprocess.run([sys.executable, os.path.join(AQUI, "aplicar.py"), sa, pa, "-o", os.path.join(d, "n3.json")], capture_output=True, text=True)
         p = next(x for x in json.load(open(os.path.join(d, "n3.json"), encoding="utf-8"))["pautas"] if x["id"] == pid)
         s.assertFalse(any(v["tipo"] == "grafico" for v in p["visuais"]))
+
+
+class TesteMercado(unittest.TestCase):
+    """Números de mercado contra indicadores.json (validar.checar_mercado). Caso real de 03/11: a semana encerrada na
+    sexta (30) teve Ibovespa -18%; na terça (3) a semana móvel de 5 pregões dava -6% e o título virava ERRO falso."""
+    IND = {"ibovespa": {"id": "ibovespa", "nome": "Ibovespa", "data": "2026-11-03", "variacao": "-1,53%",
+                        "serie": [204120, 205083, 176608, 175710, 171006, 169186, 167922, 165359]}}
+
+    def checa(s, titulo):
+        from datetime import datetime
+        V.erros.clear(); V.avisos.clear()
+        f = {"pautas": [{"id": "b", "secao": "economia", "neutro": {"titulo": titulo, "texto": ""}}]}
+        V.checar_mercado(f, s.IND, datetime.fromisoformat("2026-11-03T18:00-03:00"))
+        return list(V.erros)
+
+    def test_semana(s):
+        s.assertEqual(s.checa("Ibovespa caiu 18% na semana depois da eleição"), [])   # semana até sexta (30)
+        s.assertEqual(s.checa("Ibovespa cai 6% na semana"), [])                       # semana móvel até hoje
+        s.assertTrue(s.checa("Ibovespa cai 30% na semana"))                           # nenhuma semana recente
+        s.assertTrue(s.checa("Ibovespa sobe 5% no dia"))                              # dia: só os últimos pregões
 
 
 if __name__ == "__main__":

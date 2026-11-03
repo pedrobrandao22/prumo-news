@@ -20,7 +20,7 @@ Grava oficiais.json:
 - estado (para detectar mudança entre execuções) e fontes (ok/falhou de cada fonte).
 Falha de rede nunca quebra: a fonte que falhou mantém os eventos anteriores; se nada mudou, não grava.
 """
-import json, os, re, sys, time, unicodedata, urllib.parse, urllib.request
+import json, os, re, sys, time, unicodedata, urllib.error, urllib.parse, urllib.request
 from datetime import date, datetime, timedelta, timezone
 
 SP = timezone(timedelta(hours=-3))
@@ -34,7 +34,7 @@ IBGE_CAL = "https://servicodados.ibge.gov.br/api/v3/calendario/"
 SIDRA = "https://apisidra.ibge.gov.br/values"
 PLENARIO_CAMARA = 180  # id do órgão Plenário na API da Câmara
 RETER_H = 72           # eventos ficam no arquivo por 3 dias
-PRAZO_S = 300          # tempo máximo de rede por execução
+PRAZO_S = 420          # tempo máximo de rede por execução (o job tem 10 min)
 MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro",
          "novembro", "dezembro"]
 
@@ -195,13 +195,21 @@ class Ctx:
         self.agora, self.fx, self.t0 = agora, fixtures, time.time()
         self.hoje = agora.date()
 
-    def get(self, chave, url, accept="application/json"):
+    def get(self, chave, url, accept="application/json", tempo=15, tentativas=3):
+        """Com rede: até 3 tentativas (espera 2 s e 6 s) em tempo esgotado, erro de conexão, 429 ou 5xx; 4xx não repete."""
         if self.fx:
             with open(os.path.join(self.fx, chave + ".json"), encoding="utf-8") as fh: return json.load(fh)
-        if time.time() - self.t0 > PRAZO_S: raise TimeoutError("prazo da execução esgotado")
-        req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": accept})
-        with urllib.request.urlopen(req, timeout=15) as r:
-            return json.loads(r.read().decode("utf-8-sig"))
+        for n in range(tentativas):
+            if time.time() - self.t0 > PRAZO_S: raise TimeoutError("prazo da execução esgotado")
+            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": accept})
+            try:
+                with urllib.request.urlopen(req, timeout=tempo) as r:
+                    return json.loads(r.read().decode("utf-8-sig"))
+            except urllib.error.HTTPError as e:
+                if e.code != 429 and e.code < 500 or n == tentativas - 1: raise
+            except (urllib.error.URLError, TimeoutError, ConnectionError):
+                if n == tentativas - 1: raise
+            time.sleep(2 + 4 * n)
 
 
 # ---------- Câmara ----------
@@ -348,8 +356,12 @@ def sgs(ctx, cod, n=None, dias=None):
     return out
 
 
-def bcb_copom(ctx):
-    """Selic: comunicado do Copom (mantém/reduz/eleva) e, de reserva, a mudança na série 432 (meta)."""
+def bcb_copom(ctx, est_ant=None):
+    """Selic: comunicado do Copom (mantém/reduz/eleva) e, de reserva, a série 432 (meta), sem chave:
+    - mudança de valor (reduziu/elevou);
+    - MANTEVE: a série traz a meta até a data da próxima reunião; quando a última data salta (de uma reunião que
+      acabou de acontecer para a seguinte, semanas à frente) sem mudar o valor, o Copom manteve a taxa."""
+    est_ant = est_ant or {}
     evs, notas = [], []
     try:
         for d in andar(ctx.get("bcb_copom", COPOM)):
@@ -369,6 +381,19 @@ def bcb_copom(ctx):
     except Exception as e:
         notas.append(f"comunicado falhou ({repr(e)[:60]})")
     s = sgs(ctx, 432, dias=60)  # a série já traz os dias à frente: a meta nova aparece logo depois da decisão
+    ate_ant = data_hora(est_ant.get("selic_ate"))
+    ate_ant = ate_ant.date() if ate_ant else None
+    if s and ate_ant:
+        ate, atual = s[-1][0], s[-1][1]
+        val_ant = next((v for d, v in reversed(s) if d <= ate_ant), None)
+        if (ate - ate_ant).days >= 14 and ctx.hoje - timedelta(days=5) <= ate_ant <= ctx.hoje + timedelta(days=1) \
+                and val_ant is not None and abs(val_ant - atual) < 1e-9 and not evs:
+            taxa = br(atual, 2)
+            q = datetime(ate_ant.year, ate_ant.month, ate_ant.day, 18, 30, tzinfo=SP)
+            evs.append({"id": f"copom-{ate_ant.isoformat()}", "fonte": "Banco Central", "tipo": "selic",
+                        "quando": iso(min(q, ctx.agora)), "fato": f"O Copom manteve a Selic em {taxa}% ao ano.",
+                        "numero": f"{taxa}%", "url": "https://www.bcb.gov.br/controleinflacao/historicotaxasjuros"})
+            notas.append(f"manteve (série 432 estendida de {ate_ant:%d/%m} para {ate:%d/%m})")
     if s:
         atual, desde, ant = s[-1][1], s[0][0], None
         for i in range(len(s) - 2, -1, -1):
@@ -382,7 +407,8 @@ def bcb_copom(ctx):
                             "quando": iso(datetime(desde.year, desde.month, desde.day, tzinfo=SP)),
                             "fato": f"O Copom {verbo} a Selic de {br(ant, 2)}% para {taxa}% ao ano; a nova taxa vale a partir de {desde:%d/%m}.",
                             "numero": f"{taxa}%", "url": "https://www.bcb.gov.br/controleinflacao/historicotaxasjuros"})
-    return {"eventos": evs, "nota": "; ".join(notas), "estado": {"selic_meta": s[-1][1] if s else None}}
+    return {"eventos": evs, "nota": "; ".join(notas),
+            "estado": {"selic_meta": s[-1][1] if s else None, "selic_ate": s[-1][0].isoformat() if s else None}}
 
 
 def focus(ctx):
@@ -402,8 +428,11 @@ def focus(ctx):
     if not serie.get("IPCA"): return {"eventos": [], "nota": "sem dados"}
     ult = max(serie["IPCA"])
     est = {"focus_data": ult.isoformat()}
-    if ctx.agora.weekday() != 0 or ctx.agora.hour < 9:  # o boletim sai às segundas, 8h25
-        return {"eventos": [], "nota": f"última data {ult:%d/%m} (evento só às segundas)", "estado": est}
+    # o boletim sai às segundas, 8h25, com os dados até a sexta; com feriado na segunda, sai na terça. O id leva a
+    # data da sexta: se a terça repetir a mesma sexta, é o mesmo evento (não aciona de novo).
+    sexta_recente = ult.weekday() == 4 and 0 < (ctx.hoje - ult).days <= 4
+    if ctx.agora.weekday() not in (0, 1) or not sexta_recente or ctx.agora.hour < 9:
+        return {"eventos": [], "nota": f"última data {ult:%d/%m} (evento na segunda, ou na terça se segunda for feriado)", "estado": est}
     partes = []
     for ind, nome in (("IPCA", "do IPCA"), ("Selic", "da Selic no fim")):
         s = serie.get(ind) or {}
@@ -413,7 +442,7 @@ def focus(ctx):
         if ants: txt += f" (eram {br(s[max(ants)], 2)}% uma semana antes)"
         partes.append(txt)
     fato = "Boletim Focus (Banco Central): " + " e ".join(partes) + "."
-    ev = {"id": f"focus-{ctx.hoje.isoformat()}", "fonte": "Banco Central", "tipo": "focus",
+    ev = {"id": f"focus-{ult.isoformat()}", "fonte": "Banco Central", "tipo": "focus",
           "quando": iso(datetime(ctx.hoje.year, ctx.hoje.month, ctx.hoje.day, 8, 25, tzinfo=SP)), "fato": fato,
           "numero": f"{br(serie['IPCA'][ult], 2)}%", "url": "https://www.bcb.gov.br/publicacoes/focus"}
     return {"eventos": [ev], "nota": f"boletim com dados de {ult:%d/%m}", "estado": est}
@@ -424,10 +453,17 @@ INTERESSE_IBGE = re.compile(r"IPCA|INPC|PNAD|Produto Interno|PIB|Contas Nacionai
                             r"Pesquisa Mensal de (Com[ée]rcio|Servi[çc]os)|Desocupa", re.I)
 
 
-def ibge_calendario(ctx):
+def ibge_calendario(ctx, est_ant=None, agenda_ant=None):
+    """Divulgações do IBGE em 7 dias. A API é lenta (deu tempo esgotado em 15 s o dia todo em 03/11): espera até 40 s,
+    e, depois de um sucesso, reaproveita o resultado o resto do dia (estado ibge_cal_dia/ibge_hoje)."""
+    est_ant = est_ant or {}
+    if est_ant.get("ibge_cal_dia") == ctx.hoje.isoformat():
+        agenda = [a for a in agenda_ant or [] if isinstance(a, dict) and a.get("casa") == "ibge" and str(a.get("data")) >= ctx.hoje.isoformat()]
+        return {"agenda": agenda, "nota": f"{len(agenda)} divulgações (consulta de hoje, reaproveitada)", "hoje": est_ant.get("ibge_hoje") or [],
+                "cache": True}
     de, ate = ctx.hoje, ctx.hoje + timedelta(days=7)
     url = f"{IBGE_CAL}?de={de:%m-%d-%Y}&ate={ate:%m-%d-%Y}&qtd=100"
-    dados = ctx.get("ibge_calendario", url)
+    dados = ctx.get("ibge_calendario", url, tempo=40, tentativas=2)
     itens = kv(dados, "items", "itens") if isinstance(dados, dict) else dados
     agenda, hoje = [], set()
     for it in itens or []:
@@ -441,7 +477,8 @@ def ibge_calendario(ctx):
             n = norm(tit)
             if "ipca" in n and "15" not in n: hoje.add("ipca")
             if "pnad" in n or "desocupa" in n: hoje.add("pnad")
-    return {"agenda": agenda, "nota": f"{len(agenda)} divulgações de interesse em 7 dias", "hoje": sorted(hoje)}
+    return {"agenda": agenda, "nota": f"{len(agenda)} divulgações de interesse em 7 dias", "hoje": sorted(hoje),
+            "estado": {"ibge_cal_dia": ctx.hoje.isoformat(), "ibge_hoje": sorted(hoje)}}
 
 
 def sidra(ctx, chave, caminho):
@@ -594,8 +631,8 @@ def executar(feed, anterior, ctx):
             for e in r.get("eventos") or []: eventos[e["id"]] = e
             agenda.extend(r.get("agenda") or [])
             estado.update({k: v for k, v in (r.get("estado") or {}).items() if v is not None})
-            fontes[nome] = "ok: " + str(r.get("nota") or "")
-            ok_algo = True
+            if r.get("cache"): fontes[nome] = "cache: " + str(r.get("nota") or "")  # sem rede: não conta como resposta
+            else: fontes[nome] = "ok: " + str(r.get("nota") or ""); ok_algo = True
             return r
         except Exception as e:
             fontes[nome] = "falhou: " + repr(e)[:120]; falhou_algo = True
@@ -606,9 +643,9 @@ def executar(feed, anterior, ctx):
     rodar("Câmara: pauta do plenário", lambda: camara_pauta(ctx))
     rodar("Senado: votações do plenário", lambda: senado_votacoes(ctx))
     rodar("Senado: agenda do plenário", lambda: senado_agenda(ctx))
-    rodar("Banco Central: Copom/Selic", lambda: bcb_copom(ctx))
+    rodar("Banco Central: Copom/Selic", lambda: bcb_copom(ctx, est_ant))
     rodar("Banco Central: Focus", lambda: focus(ctx))
-    cal = rodar("IBGE: calendário", lambda: ibge_calendario(ctx))
+    cal = rodar("IBGE: calendário", lambda: ibge_calendario(ctx, est_ant, anterior.get("agenda_oficial")))
     hoje_ibge = set(cal.get("hoje") or [])
     rodar("IBGE: IPCA", lambda: ipca(ctx, est_ant, hoje_ibge))
     rodar("IBGE: desemprego (PNAD)", lambda: pnad(ctx, est_ant, hoje_ibge))

@@ -112,6 +112,25 @@ def t_ja_visto_por_rodada_nao_repete():
     assert out4["acionar"] is False
 
 
+def t_pauta_atualizada_depois_de_vista_aciona_de_novo():
+    """Caso real de 03/11: a PEC foi vista com 5 veículos (13h26), a rodada das 14h48 atualizou a pauta e às 16h28
+    vieram 3 veículos novos; a memória (5 + 2) não pode barrar relatos posteriores à atualização."""
+    vista = {"gerado": "2026-11-03T13:26-03:00", "avaliados": [
+        {"tipo": "pauta", "pid": "pec-seguranca-ccj", "n_fontes": 5, "em": "2026-11-03T13:26-03:00"}]}
+    rodadas = {"dia": "2026-11-03", "itens": {"14h48": {"tipo": "rapida", "status": "ok"}}}
+    novos = [mk("Marinho apoia PEC da Segurança, mas insiste em reduzir a maioridade", "p360", "15:40"),
+             mk("PEC da Segurança: Marinho insiste na maioridade penal no Senado", "cnn", "15:55"),
+             mk("Senado: Marinho apoia a PEC da Segurança com emenda da maioridade", "agsenado", "16:10", "politica")]
+    agora = datetime.fromisoformat("2026-11-03T16:28-03:00")
+    out = rodar(novos, agora=agora, anterior=vista, rodadas=rodadas)  # pauta ainda parada desde 06:52: memória vale
+    assert out["acionar"] is False, out["acionar_motivo"]
+    feed = copy.deepcopy(FEED)
+    next(p for p in feed["pautas"] if p["id"] == "pec-seguranca-ccj")["atualizacoes"].append(
+        {"hora": "2026-11-03T14:48:00-03:00", "texto": "x"})
+    out = rodar(novos, feed, agora=agora, anterior=vista, rodadas=rodadas)
+    assert out["acionar"] is True and out["acionar_itens"][0]["pid"] == "pec-seguranca-ccj", out["acionar_motivo"]
+
+
 def t_dado_oficial_aciona():
     of = {"eventos": [{"id": "copom-2026-11-03", "fonte": "Banco Central", "tipo": "selic", "acionar": True,
                        "ja_no_feed": False, "pid": "copom-novembro-selic", "primeiro_visto": "2026-11-03T12:25-03:00",

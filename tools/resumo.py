@@ -54,7 +54,7 @@ def main(argv):
     idade = int((agora - ref).total_seconds() // 60)
     tam = len(json.dumps(f, ensure_ascii=False, separators=(",", ":")).encode())
     print(f"PRUMO · {f.get('edicao')} · {f.get('contagem') or '(sem contagem)'} · atualizado_em {f.get('atualizado_em')} "
-          f"(há {idade} min{' → passou de 100 min: publique mesmo sem novidade' if idade > 100 else ''})")
+          f"(há {idade} min)")
     print(f"tamanho {tam // 1024} KB · {len(ps)} pautas · {len(f.get('breves') or [])} breves · nota: {corta(f.get('nota'), 90)}")
     print()
     print("PAUTAS (id | seção/subtema | prio | hora | título | nº fontes | sinais)")

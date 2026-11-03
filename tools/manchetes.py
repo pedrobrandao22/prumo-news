@@ -136,7 +136,7 @@ N_PRINCIPAIS = 8    # as 8 pautas de maior prioridade
 REGRA = ("acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, "
          "Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos "
          "de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se "
-         "ganharem 2+ veículos")
+         "ganharem 2+ veículos ou se a pauta for atualizada depois")
 
 LIXO = re.compile(
     r"horoscopo|\bsignos?\b|\btaro\b|\bbbb\b|big brother|\ba fazenda \d|\bpeo(es|a)\b|\breality|\bnovela|\bfamosos|celebridade|"
@@ -341,7 +341,12 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
         for a in avaliados:
             if a.get("tipo") != c["tipo"]: continue
             if c["tipo"] == "oficial" and a.get("id") == c.get("id"): return True
-            if c["tipo"] == "pauta" and a.get("pid") == c.get("pid") and c["n_fontes"] < (a.get("n_fontes") or 0) + 2: return True
+            if c["tipo"] == "pauta" and a.get("pid") == c.get("pid"):
+                # a pauta foi atualizada depois dessa avaliação: os relatos contados agora são outros (posteriores
+                # à atualização), então a memória antiga não vale (antes, 5 veículos às 13h barravam 3 novos às 16h)
+                ult, em = ult_p.get(c.get("pid")), iso(a.get("em"))
+                if ult and em and ult > em: continue
+                if c["n_fontes"] < (a.get("n_fontes") or 0) + 2: return True
             if c["tipo"] == "novo" and parecido(set(c["chave"]), set(a.get("chave") or [])) and c["n_fontes"] < (a.get("n_fontes") or 0) + 2: return True
         return False
 

@@ -91,7 +91,8 @@ def t_falha_de_rede():
         out, ok = rodar(anterior=out1, agora=datetime.fromisoformat("2026-11-04T20:40-03:00"), fx=vazio)
         assert ok is False                     # nada respondeu: main() não grava
         assert {e["id"] for e in out["eventos"]} == {e["id"] for e in out1["eventos"]}  # mantém os anteriores
-        assert all(v.startswith(("falhou", "pulado")) for v in out["fontes"].values())
+        assert all(v.startswith(("falhou", "pulado", "cache")) for v in out["fontes"].values())
+        assert out["fontes"]["IBGE: calendário"].startswith("cache")  # consulta de hoje reaproveitada, sem rede
         # main() com tudo falhando não toca no arquivo
         cam = os.path.join(vazio, "oficiais.json")
         json.dump(out1, open(cam, "w", encoding="utf-8"))
@@ -118,6 +119,47 @@ def t_focus_segunda():
     assert f[0]["fato"] == ("Boletim Focus (Banco Central): mediana do IPCA de 2026 em 4,52% (eram 4,55% uma semana antes) "
                             "e mediana da Selic no fim de 2026 em 13,75% (eram 13,75% uma semana antes).")
     assert f[0]["acionar"] is False  # sem pauta do Focus, não aciona
+
+
+def t_copom_manteve_pela_serie():
+    """Sem o comunicado (a API do site do BC deu 400 em 03/11): a série 432 ia até o dia da reunião (04/11) e passa a
+    ir até a reunião seguinte (09/12) com o mesmo valor => o Copom manteve."""
+    with tempfile.TemporaryDirectory() as d:
+        for n in os.listdir(FX):
+            if n not in ("bcb_copom.json", "sgs_432.json"): open(os.path.join(d, n), "w", encoding="utf-8").write(open(os.path.join(FX, n), encoding="utf-8").read())
+        dias = [datetime(2026, 10, 5).toordinal() + i for i in range(66)]  # 05/10 a 09/12
+        serie = [{"data": datetime.fromordinal(o).strftime("%d/%m/%Y"), "valor": "13.75"} for o in dias]
+        json.dump(serie, open(os.path.join(d, "sgs_432.json"), "w", encoding="utf-8"))
+        est = {"ipca_ref": "202608", "pnad_ref": "202609", "selic_ate": "2026-11-04"}
+        out, _ = rodar(anterior={"estado": est}, fx=d)
+        s = [e for e in out["eventos"] if e["tipo"] == "selic"]
+        assert len(s) == 1 and s[0]["id"] == "copom-2026-11-04" and s[0]["fato"] == "O Copom manteve a Selic em 13,75% ao ano.", s
+        assert s[0]["pid"] == "copom-novembro-selic" and s[0]["acionar"] and out["estado"]["selic_ate"] == "2026-12-09"
+        # a série andando um dia por vez (ou já longe da reunião) não inventa decisão
+        for ate_ant in ("2026-12-08", "2026-10-20"):
+            out, _ = rodar(anterior={"estado": dict(est, selic_ate=ate_ant)}, fx=d)
+            assert not [e for e in out["eventos"] if e["tipo"] == "selic"], ate_ant
+        # sem estado anterior (1ª execução): nada
+        out, _ = rodar(fx=d)
+        assert not [e for e in out["eventos"] if e["tipo"] == "selic"]
+
+
+def t_focus_terca_depois_de_feriado():
+    """03/11/2026: segunda (2) foi Finados e o Focus saiu na terça, com dados até a sexta (30/10)."""
+    with tempfile.TemporaryDirectory() as d:
+        for n in os.listdir(FX): open(os.path.join(d, n), "w", encoding="utf-8").write(open(os.path.join(FX, n), encoding="utf-8").read())
+        fx = json.load(open(os.path.join(FX, "focus.json"), encoding="utf-8"))
+        fx["value"] = [x for x in fx["value"] if x["Data"] <= "2026-10-30"] + [dict(x, Data="2026-10-23") for x in fx["value"] if x["Data"] == "2026-10-30"]
+        json.dump(fx, open(os.path.join(d, "focus.json"), "w", encoding="utf-8"))
+        ter = datetime.fromisoformat("2026-11-03T11:25-03:00")
+        out, _ = rodar(agora=ter, fx=d)
+        f = [e for e in out["eventos"] if e["tipo"] == "focus"]
+        assert len(f) == 1 and f[0]["id"] == "focus-2026-10-30", f
+        out2, _ = rodar(anterior=out, agora=datetime.fromisoformat("2026-11-03T12:25-03:00"), fx=d)
+        assert "focus-2026-10-30" not in out2["novos"]  # mesma sexta: não é novo de novo
+        qua = datetime.fromisoformat("2026-11-04T11:25-03:00")
+        out3, _ = rodar(agora=qua, fx=d)
+        assert not [e for e in out3["eventos"] if e["tipo"] == "focus"]
 
 
 def t_selic_pela_serie():

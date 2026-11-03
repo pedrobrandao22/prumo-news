@@ -1,17 +1,21 @@
 name: Páginas de compartilhamento
-# Quando o feed muda: grava m/<id>.html (prévia do link no WhatsApp: título, resumo e foto) para cada pauta.
-# Sem IA e sem chave. De hora em hora também, para pegar mudanças feitas pela virada automática.
+# Quando o feed muda (push das rodadas): grava m/<id>.html (prévia do link no WhatsApp: título, resumo e foto) para
+# cada pauta. Sem IA e sem chave. A virada e o robô de fotos já refazem as páginas no próprio job (commit de robô não
+# dispara este workflow); o horário (a cada 6 h) é só rede de segurança.
 on:
   push:
     branches: [main]
     paths: [feed.json, fotos-arquivo.json, tools/paginas.py, .github/workflows/paginas.yml]
   schedule:
-    - cron: "50 * * * *"
+    - cron: "50 */6 * * *"
   workflow_dispatch:
 permissions:
   contents: write
 concurrency:
-  group: prumo-escrita
+  # um grupo por robô: o GitHub CANCELA a execução pendente quando outra entra no mesmo grupo, e com um grupo só
+  # para todos uma execução podia ser descartada (cada robô grava arquivos diferentes; o push tenta de novo).
+  # páginas, fotos e virada gravam m/: ficam no mesmo grupo para não brigar pelo mesmo arquivo.
+  group: prumo-m
   cancel-in-progress: false
 jobs:
   paginas:
@@ -28,4 +32,4 @@ jobs:
           git add m
           git diff --cached --quiet && exit 0
           git commit -q -m "Páginas de compartilhamento $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
-          for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 10; done; exit 1
+          for i in 1 2 3 4; do git pull -q --rebase && git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i * 10)); done; exit 1

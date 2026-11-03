@@ -14,17 +14,26 @@ desemprego, dolar, ibovespa) e PASTA/index.json, para os gráficos do app ("seri
 números. Formato: {id, nome, unidade, casas, fonte, freq "mensal"|"diaria", atualizado, pontos [["AAAA-MM(-DD)", valor]]}.
 A cada hora só busca o trecho recente e junta com o que já está no arquivo; só regrava quando muda.
 """
-import json, os, sys, urllib.request
+import json, os, sys, time, urllib.error, urllib.request
 from datetime import datetime, timedelta, timezone
 
 SP = timezone(timedelta(hours=-3))
 UA = {"User-Agent": "Mozilla/5.0 (prumo-news; +https://prumonews.com.br)", "Accept": "application/json"}
 
 
-def get_json(url, tempo=20):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=tempo) as r:
-        return json.loads(r.read().decode("utf-8"))
+def get_json(url, tempo=20, tentativas=3):
+    """Até 3 tentativas (espera 2 s e 6 s) em tempo esgotado, erro de conexão, 429 ou 5xx (o BC deu 502 várias vezes
+    em 03/11); 4xx não repete."""
+    for n in range(tentativas):
+        req = urllib.request.Request(url, headers=UA)
+        try:
+            with urllib.request.urlopen(req, timeout=tempo) as r:
+                return json.loads(r.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            if e.code != 429 and e.code < 500 or n == tentativas - 1: raise
+        except (urllib.error.URLError, TimeoutError, ConnectionError):
+            if n == tentativas - 1: raise
+        time.sleep(2 + 4 * n)
 
 
 def br(x, casas):
@@ -169,9 +178,15 @@ def buscar_serie(sid, cfg, velho):
             if c is not None: dia[datetime.fromtimestamp(t, SP).date().isoformat()] = round(float(c), 2)
         return sorted(dia.items())
     if cfg.get("diaria"):
+        # histórico inicial em janelas de até 2 anos: um pedido de ~10 anos da série diária 432 falhou nas 3 primeiras
+        # execuções de 03/11 (series/selic.json só apareceu às 14h58); o SGS limita séries diárias a 10 anos por pedido
         dias = 120 if ult else (3600 if sid == "selic" else 1830)
-        ini = (hoje - timedelta(days=dias)).strftime("%d/%m/%Y")
-        pts = [p for p in sgs_janela(cfg["sgs"], ini, hoje.strftime("%d/%m/%Y")) if p[0] <= hoje.isoformat()]
+        pts, fim = [], hoje
+        while (hoje - fim).days < dias:
+            ini = max(hoje - timedelta(days=dias), fim - timedelta(days=730))
+            pts = sgs_janela(cfg["sgs"], ini.strftime("%d/%m/%Y"), fim.strftime("%d/%m/%Y")) + pts
+            fim = ini - timedelta(days=1)
+        pts = [p for p in pts if p[0] <= hoje.isoformat()]
     else:
         ini = (hoje - timedelta(days=500)).strftime("%d/%m/%Y") if ult else INICIO_MENSAL
         pts = sgs_janela(cfg["sgs"], ini)

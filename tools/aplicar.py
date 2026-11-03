@@ -4,7 +4,7 @@
 Uso:
   python3 aplicar.py feed.json patch.json -o novo.json [--agora 2026-10-14T21:48:00-03:00] [--podar]
   python3 aplicar.py feed.json -o novo.json --virada          (rodada da meia-noite; patch opcional)
-  python3 aplicar.py feed.json -o novo.json                   (sem patch: só recalcula, ex.: regra dos 100 min)
+  python3 aplicar.py feed.json -o novo.json                   (sem patch: só recalcula)
   python3 aplicar.py rascunho.json -o feed.json --podar --prev anterior.json   (rodada completa)
 
 --prev X: feed que estava no ar (OBRIGATÓRIO na completa, que monta o feed do zero). Sem ele, a base é o próprio feed de entrada.
@@ -26,7 +26,7 @@ patch.json: lista de operações (ou {"ops": [...]}). Operações:
   {"op":"correcao_add","pid":ID,"hora":...,"texto":...}           correcoes + atualizacoes + mudancas
   {"op":"enquete_add","pid":ID,"enquete":{pergunta,opcoes}}      só em pauta sem enquete
   {"op":"remove_enquete","pid":ID}
-  {"op":"grafico_set","pid":ID,"grafico":{forma,titulo,fonte,...}}  põe/troca o gráfico da pauta (catálogo do manual 2); null tira
+  {"op":"grafico_set","pid":ID,"grafico":{forma,titulo,fonte,...}}  põe/troca o gráfico da pauta (catálogo do manual 2g); null tira
   {"op":"glossario_add","termo":...,"texto":...} · {"op":"pessoa_add","nome":...,"texto":...}
   {"op":"pesquisa_add","data":...,"instituto":...,"flavio":N,"lula":N}
   {"op":"jogo_set","id":ID_DO_JOGO,"campos":{"estado":"ao_vivo","ga":1,"gb":0}}  placar/estado de um jogo pelo id

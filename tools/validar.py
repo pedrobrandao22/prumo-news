@@ -319,7 +319,12 @@ def checar_mercado(f, IND, ref):
         try: var = float(str(x.get("variacao", "")).replace("%", "").replace(",", ".").replace("+", ""))
         except ValueError: var = None
         ult = se[-10:]
-        ok[k] = {"lo": min(ult) * 0.97, "hi": max(ult) * 1.03, "sem": abs(se[-1] / se[-6] - 1) * 100, "dia": abs(var) if var is not None else None, "nome": x.get("nome") or k}
+        # semana vale para qualquer um dos últimos 6 pregões (dia, para os 3 últimos): "caiu 18% na semana" sobre a semana encerrada na
+        # sexta (30) é verdade na terça (3), quando a semana "móvel" de 5 pregões dá 6% (ERRO falso em 03/11)
+        sems = [abs(se[i] / se[i - 5] - 1) * 100 for i in range(max(5, len(se) - 6), len(se))]
+        dias = [abs(se[i] / se[i - 1] - 1) * 100 for i in range(max(1, len(se) - 3), len(se))] + ([abs(var)] if var is not None else [])
+        ok[k] = {"lo": min(ult) * 0.97, "hi": max(ult) * 1.03, "sem": sems[-1], "sems": sems, "dia": abs(var) if var is not None else None,
+                 "dias": dias, "nome": x.get("nome") or k}
     if not ok: return
     def campos():
         cp = f.get("capa") or {}
@@ -366,10 +371,10 @@ def checar_mercado(f, IND, ref):
                 c = float(m.group(1).replace(",", "."))
                 if "dia" in m.group(2).lower():
                     real = ok[k]["dia"]
-                    if real is None or abs(c - real) <= max(0.5, 0.2 * real): continue
+                    if real is None or any(abs(c - r) <= max(0.5, 0.2 * r) for r in ok[k]["dias"]): continue
                 else:
                     real = ok[k]["sem"]
-                    if abs(c - real) <= max(1.5, 0.2 * real): continue
+                    if any(abs(c - r) <= max(1.5, 0.2 * r) for r in ok[k]["sems"]): continue
                 problemas.append(f"{ok[k]['nome']}: \"{m.group(0)}\", mas a variação foi de {real:.2f}% ({m.group(2)})")
             for pr_ in problemas:
                 (E if estrito else A)(f"{onde}: número de mercado não bate com os indicadores — {pr_}. Confira na fonte.")
@@ -1014,6 +1019,7 @@ UFS = {"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "
 CASAS_VOTO = {"camara": 513, "senado": 81, "stf": 11}
 PERIODOS = re.compile(r"^(\d{1,3})(d|m|a)$|^tudo$")
 SERIES_IDX = None  # ids de series/index.json (ao lado do feed), quando existir
+SERIES_ROBO = {"selic", "ipca12m", "ipca_mes", "desemprego", "dolar", "ibovespa"}  # as que tools/indicadores.py grava
 
 
 def ler_series(pasta):
@@ -1058,7 +1064,12 @@ def checar_grafico(pid, v):
 
     def checa_serie():
         if not isinstance(serie, str) or not re.match(r"^[a-z0-9_]{2,30}$", serie): E(f"[{pid}] grafico.serie deve ser o id de uma série (selic, ipca12m, dolar…)"); return
-        if SERIES_IDX is not None and serie not in SERIES_IDX: E(f"[{pid}] grafico.serie '{serie}' não existe em series/index.json ({', '.join(sorted(SERIES_IDX))})")
+        if SERIES_IDX is not None and serie not in SERIES_IDX:
+            # série do robô (tools/indicadores.py) que ainda não foi gravada (ex.: selic.json faltou na manhã de 03/11):
+            # o app esconde o gráfico até ela aparecer, então não bloqueia a rodada
+            if serie in SERIES_ROBO: A(f"[{pid}] grafico.serie '{serie}' ainda não está em series/index.json: o app esconde o gráfico até o robô gravá-la")
+            else: E(f"[{pid}] grafico.serie '{serie}' não existe em series/index.json ({', '.join(sorted(SERIES_IDX | SERIES_ROBO))})")
+        elif SERIES_IDX is None and serie not in SERIES_ROBO: A(f"[{pid}] grafico.serie '{serie}' não é uma das séries do robô ({', '.join(sorted(SERIES_ROBO))})")
         per = v.get("periodo")
         if per is not None and not (isinstance(per, str) and PERIODOS.match(per)): E(f"[{pid}] grafico.periodo '{per}' inválido (ex.: 30d, 12m, 5a, tudo)")
         for k in ("desde", "ate"):
