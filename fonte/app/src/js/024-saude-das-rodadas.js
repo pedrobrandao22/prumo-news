@@ -4,7 +4,7 @@ const hojeSP=()=>_FDSP.format(new Date());
 function atrasoMin(){if(!FEED?.atualizado_em)return null;return Math.round((Date.now()-new Date(FEED.atualizado_em).getTime())/6e4)}
 var _FH24=null;function horaSP(){_FH24=_FH24||new Intl.DateTimeFormat("en-US",{hour:"numeric",hour12:false,timeZone:"America/Sao_Paulo"});return +_FH24.format(new Date())}
 function estadoRadar(){const a=atrasoMin();if(a==null)return {ok:true,txt:""};const h=horaSP();const ativo=h>=8&&h<=23;
-  if(ativo&&a>150&&rodadaRecenteMin()>300)return {ok:false,txt:`Sem atualização há ${Math.floor(a/60)} h ${a%60} min. Uma rodada pode ter falhado.`};
+  if(ativo&&a>150&&rodadaRecenteMin()>300)return {ok:false,txt:`Sem atualização há ${Math.floor(a/60)} h${a%60?` ${a%60} min`:""}. Uma rodada pode ter falhado.`};
   return {ok:true,txt:`Atualizado ${quando(FEED.atualizado_em)}.`}}
 function saudeHTML(){
   const e=estadoRadar();const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));

@@ -14,7 +14,7 @@ function abrirEnvioFora(o){const texto=o.texto,url=o.url||"";uso("enviar_fora");
     ${temShare?`<button type="button" class="env-b" data-envmais><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg><span>Outros apps</span></button>`:""}
     <button type="button" class="env-b" data-envcopia><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Copiar texto</span></button>
     ${o.imagem?`<button type="button" class="env-b" data-envimg><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-9 8"/></svg><span>Como imagem</span></button>`:""}</div>
-    ${url?`<p class="hint env-h">O link abre a notícia no Prumo, com título e foto na prévia da conversa.</p>`:""}</div>`)}finally{if(pv)pv.classList.remove("pv-sob")}}
+    ${url?`<p class="hint env-h">${esc(o.dica||"O link abre a notícia no Prumo, com título e foto na prévia da conversa.")}</p>`:""}</div>`)}finally{if(pv)pv.classList.remove("pv-sob")}}
 var ENV_ATUAL=null;
 document.addEventListener("click",async e=>{const t=e.target;if(!t||!t.closest)return;const o=ENV_ATUAL;
   if(t.closest("[data-envwa]")){uso("enviar_whatsapp");setTimeout(()=>{if($(".sheet .env"))closeLayer()},400);return}
@@ -32,7 +32,7 @@ mandarResumo=async function(){uso("capa_1min_mandar");const its=(FEED&&FEED.resu
   if(!its.length){toast("Sem resumo nesta edição.");return}
   const url="https://prumonews.com.br";
   const texto=`*${resumoTitulo()}* · Prumo News\n_${envLimpa(capaEdicao())}_\n\n${its.map((x,i)=>`${i+1}. ${envLimpa(x.texto)}`).join("\n")}\n\nTodas as notícias, sem viés: ${url}`;
-  abrirEnvioFora({titulo:resumoTitulo(),texto,url,imagem:async()=>{const file=await prepararResumo();RES_P=null;RES_ARQ=null;if(!file)return;
+  abrirEnvioFora({titulo:resumoTitulo(),texto,url,dica:"O link abre o Prumo com todas as notícias do dia.",imagem:async()=>{const file=await prepararResumo();RES_P=null;RES_ARQ=null;if(!file)return;
     try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file]});closeLayer();return}}catch(e){if(e&&e.name==="AbortError")return}
     const a=document.createElement("a");a.href=URL.createObjectURL(file);a.download="prumo-1-minuto.png";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);toast("Imagem salva no aparelho.")}})};
 /* convite: mesmo painel, com o texto do convite */

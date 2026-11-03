@@ -23,7 +23,7 @@ function abrirTour(nome){const ts=tourTelas(nome);if($("#layer").innerHTML)close
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   if(t.closest("[data-tourfim]")){e.stopPropagation();closeLayer();return}
   if(t.closest("[data-tourprox]")){e.stopPropagation();const tr=$("#layer .tr-trilho");if(!tr)return;const n=tr.children.length,i=Math.round(tr.scrollLeft/Math.max(1,tr.clientWidth));
-    if(i>=n-1){closeLayer();return}tr.scrollTo({left:(i+1)*tr.clientWidth,behavior:ANIM_OK()?"smooth":"auto"});return}
+    if(i>=n-1){closeLayer();if(VIEW!=="capa"&&VIEW!=="feed")go(RAIZ);return}tr.scrollTo({left:(i+1)*tr.clientWidth,behavior:ANIM_OK()?"smooth":"auto"});return}
   if(t.closest("[data-tourver]")){e.stopPropagation();abrirTour();return}},true);
 /* quem acabou de entrar vê o guia no lugar do texto de boas-vindas */
 {const _bv76=boasVindas;boasVindas=function(nome){let teste=false;try{teste=navigator.webdriver&&localStorage.getItem("prumo-teste-tour")!=="1"}catch(e){}if(teste)return _bv76.apply(this,arguments);setTimeout(()=>abrirTour(String(nome||"").split(" ")[0]),280)}}

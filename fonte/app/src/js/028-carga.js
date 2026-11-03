@@ -23,5 +23,5 @@ async function loadFeed(){
   try{const r=await feedPedido();if(!r.ok)throw 0;const f=await r.json();
     const eraOff=OFFLINE;OFFLINE=false;
     if(!cached||feedTxt(f)!==JSON.stringify(cached)){prepararFeed(f);lsSet("radar-feed",f)}else{if(eraOff)renderPosts();else setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}}
-  catch(e){OFFLINE=true;if(!cached)$("#posts").innerHTML=`<div class="empty"><b>Não consegui carregar as notícias</b>Verifique a conexão. O Prumo tenta de novo sozinho quando você voltar ao app.<button type="button" class="btn" data-retry style="margin-top:12px">Tentar de novo</button></div>`;else renderPosts()}
+  catch(e){OFFLINE=true;if(!cached)$("#posts").innerHTML=`<div class="empty"><b>Não consegui carregar as notícias</b>Verifique a conexão. O Prumo tenta de novo sozinho quando você voltar ao app.<button type="button" class="btn" data-retry style="margin-top:12px">Tentar de novo</button></div>`;else{renderPosts();if(VIEW==="capa")renderCapa()}}
 }

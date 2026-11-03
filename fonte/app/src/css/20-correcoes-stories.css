@@ -1,0 +1,15 @@
+/* ---------- 20: correções dos stories (QA 02/11) ---------- */
+/* enquete no story publicado: o <span> de dentro do botão não ganha a "pílula" de novo (ficava o dobro da altura e cobria o texto) */
+.us-enq .ce-eo>button span{background:none;padding:0;border-radius:0;color:inherit;overflow:visible}
+/* contagem no editor: reserva o espaço do "Lembrar" que os amigos veem (senão no story publicado ela cresce e cobre o que está em cima) */
+#ce-els .fg-cont::after{content:"🔔 Lembrar";align-self:center;padding:calc(var(--bw,360px)*.018) calc(var(--bw,360px)*.04);border-radius:999px;background:#fff;color:#8338ec;font:800 calc(var(--bw,360px)*.034) var(--f-ui);opacity:.55}
+/* responder um story com o teclado aberto (iPhone: a tela não encolhe): a barra e as reações sobem junto com o teclado */
+.story.sg.digitando .us-f{bottom:var(--kb,0px)}
+/* tela estreita (360px): o botão da galeria no editor do story não é espremido pelos botões de publicar */
+.ce-bot .ce-gal{flex:none}
+.ce-bot .ce-pub{min-width:0}.ce-bot .ce-pub span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Arquivo / Novo destaque: cartãozinho com a figurinha viva (notícia, post, enquete…) na miniatura */
+.ar104{position:absolute;left:8%;right:8%;top:58%;width:auto!important;height:auto!important;padding:0;border:solid #fff;border-width:6px 7px;border-radius:8px;background:#fff;color:#111;font:700 10.5px/1.25 var(--f-ui);text-align:center;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;box-shadow:0 2px 8px rgb(0 0 0 / .25);pointer-events:none}
+/* quiz no seu story: quantas pessoas responderam (a enquete já mostrava "1 voto") */
+.fg-quiz .fg-qn{display:block;font:700 calc(var(--bw,360px)*.03) var(--f-ui);color:#666;text-align:center}
+.fg-quiz[class*="fgc-"] .fg-qn{color:rgb(255 255 255 / .85)}

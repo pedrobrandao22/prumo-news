@@ -1,0 +1,34 @@
+/* ---------- Correções de Conversas (QA 02/11) ---------- */
+/* lista: o espaço antes do "· agora" não some */
+.dm-lista .pt .dm-t{white-space:pre}
+/* teclado aberto (iPhone): a caixa de mensagem sobe junto com o teclado e a conversa ganha espaço embaixo */
+body.dm-conv .composer.dm-comp{bottom:var(--kb,0px)!important}
+body.dm-conv .app{padding-bottom:calc(76px + var(--kb,0px) + env(safe-area-inset-bottom,0px))!important}
+body.dm-conv:has(#respbar) .app{padding-bottom:calc(136px + var(--kb,0px) + env(safe-area-inset-bottom,0px))!important}
+/* enviar para vários: o amigo escolhido ganha um ✓ (antes o círculo marcado parecia vazio) */
+.dm-pick button[aria-pressed="true"] .dm-ck{box-shadow:none;border-color:var(--card);border-width:2px}
+.dm-pick button[aria-pressed="true"] .dm-ck::after{content:"";position:absolute;left:5px;top:2px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+/* quem reagiu */
+.dm104-rl{list-style:none;margin:0;padding:0}
+.dm104-rl li+li{border-top:1px solid var(--line)}
+.dm104-rl button{display:flex;align-items:center;gap:12px;width:100%;padding:10px 2px;text-align:left;color:var(--ink)}
+.dm104-rl button:disabled{opacity:1;cursor:default}
+.dm104-rl .av{width:36px;height:36px;font-size:15px;flex:none}
+.dm104-rn{flex:1;min-width:0;display:flex;flex-direction:column}
+.dm104-rn b{font:600 15px var(--f-ui)}
+.dm104-rn small{font:500 12.5px var(--f-ui);color:var(--muted)}
+.dm104-re{font-size:24px;line-height:1}
+/* conta excluída: avatar neutro */
+.av.dm104-exc{background:var(--soft)!important;box-shadow:inset 0 0 0 1px var(--line)}
+/* modo escuro: o azul das suas mensagens é claro, então o texto (e o ícone de enviar) fica escuro para ser legível */
+:root[data-aparencia="escuro"] .dm-m.mine .bub:not(.bub-emo),:root[data-aparencia="escuro"] .dm-m.mine .dm-at{color:#0f1522}
+:root[data-aparencia="escuro"] .dm-send .ico{stroke:#0f1522}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .dm-m.mine .bub:not(.bub-emo),:root:not([data-aparencia="claro"]) .dm-m.mine .dm-at{color:#0f1522}
+  :root:not([data-aparencia="claro"]) .dm-send .ico{stroke:#0f1522}}
+.dm-comp .hint .dm104-am{display:block;margin:10px auto 2px;min-height:40px;padding-inline:18px}
+body.dm-conv:has(.dm104-am) .app{padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))!important}
+.dm-m.crx+.dm-st{margin-top:8px}
+.dm-m .dm-q{cursor:pointer}
+.dm-m.dm104-luz .dm-c{animation:dm104Luz 1.5s ease}
+@keyframes dm104Luz{0%,40%{filter:brightness(.82)}100%{filter:none}}
+@media (prefers-reduced-motion:reduce){.dm-m.dm104-luz .dm-c{animation:none;outline:2px solid var(--accent);outline-offset:2px;border-radius:20px}}

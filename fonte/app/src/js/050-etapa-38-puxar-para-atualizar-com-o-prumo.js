@@ -24,7 +24,7 @@ window.PTR_NOVO=1;
     try{await Promise.all([Promise.resolve(checarFeed(true)).catch(()=>{}),Promise.resolve(typeof checarVersao==="function"?checarVersao():0).catch(()=>{})]);novaVer=!!VERSAO_NOVA}catch(_){}
     await new Promise(z=>setTimeout(z,Math.max(0,900-(Date.now()-t0))));
     if(novaVer){txt.textContent="Nova versão…";try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(_){}location.reload();return}
-    ind.classList.remove("balanca");ind.classList.add("feito");txt.textContent="Em dia";await new Promise(z=>setTimeout(z,450));volta();setTimeout(()=>{ocupado=false},430)};
+    ind.classList.remove("balanca");ind.classList.add("feito");txt.textContent=(window.CHK_FALHOU||0)>=t0?"Sem conexão":"Em dia";await new Promise(z=>setTimeout(z,450));volta();setTimeout(()=>{ocupado=false},430)};
   addEventListener("touchend",solta,{passive:true});addEventListener("touchcancel",solta,{passive:true});
 })();
 

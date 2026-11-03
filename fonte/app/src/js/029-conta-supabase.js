@@ -74,13 +74,13 @@ function diffFeed(f){if(!FEED)return 0;const cur=new Map((FEED.pautas||[]).map(p
 let CHK_T=0;
 async function checarFeed(forcar){
   if(!forcar&&Date.now()-CHK_T<60000)return;CHK_T=Date.now();
-  try{const r=await fetch("feed.json",{cache:"no-cache"});if(!r.ok)throw 0;const f=await r.json();const igual=!!FEED&&feedTxt(f)===JSON.stringify(FEED);if(OFFLINE){OFFLINE=false;$(".late.offl")?.remove();if(igual){if(forcar)toast("Conexão de volta.");return}}
+  try{const r=await fetch("feed.json",{cache:"no-cache"});if(!r.ok)throw 0;const f=await r.json();const igual=!!FEED&&feedTxt(f)===JSON.stringify(FEED);if(OFFLINE){OFFLINE=false;document.querySelectorAll(".late.offl").forEach(x=>x.remove());if(igual){if(forcar)toast("Conexão de volta.");return}}
     if(igual){if(forcar)toast("Nada novo desde as "+hhmm(FEED.atualizado_em));return}
     lsSet("radar-feed",f);
     const quieto=(VIEW==="feed"||VIEW==="capa")&&scrollY<60&&!$("#layer").innerHTML;
     if(forcar||quieto){aplicarNovo(f);if(forcar)toast("Atualizado: edição das "+hhmm(f.atualizado_em))}
     else{NOVO=f;mostrarPilula(Math.max(1,diffFeed(f)))}
-  }catch(e){if(forcar)toast("Sem conexão agora. Tente de novo.")}
+  }catch(e){window.CHK_FALHOU=Date.now();if(forcar)toast("Sem conexão agora. Tente de novo.")}
 }
 document.addEventListener("click",e=>{const cof=e.target.closest("#v-capa .cp-off [data-retry]");if(cof){cof.disabled=true;cof.textContent="Carregando…";setTimeout(()=>{if(!FEED&&document.contains(cof)){cof.disabled=false;cof.textContent="Tentar de novo";toast("Ainda sem conexão. Tente daqui a pouco.")}},9000)}if(e.target.closest("[data-retry]")){e.stopPropagation();if(FEED)checarFeed(true);else{$("#posts").innerHTML=`<p class="empty">Carregando as notícias de hoje…</p>`;loadFeed()}}},true);
 function aplicarNovo(f){NOVO=null;$("#pilula")?.remove();prepararFeed(f)}

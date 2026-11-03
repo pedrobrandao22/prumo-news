@@ -1,0 +1,23 @@
+/* ---------- 20: correções da leitura (QA de 02/11) ---------- */
+/* letra grande: o título da notícia na Capa cresce junto e não fica menor que o subtítulo */
+@media (max-width:899px){
+.cp-t{font-size:calc(20.5px*min(var(--fz),1.3))}
+.cpi-d1 .cp-t{font-size:calc(23.5px*min(var(--fz),1.3))}
+.cpi-um .cp-t{font-size:calc(21px*min(var(--fz),1.3))}
+.cpi-li .cp-t{font-size:calc(19px*min(var(--fz),1.3))}
+.cpi-rel .cp-t{font-size:calc(18px*min(var(--fz),1.3))}
+.cpi-man .cp-t{font-size:calc(32px*min(var(--fz),1.2))}
+.cpi-d2 .cp-t{font-size:calc(18.5px*min(var(--fz),1.3))}
+}
+/* aviso de edição atrasada / sem conexão no topo da Capa */
+#v-capa .late{margin:10px 0 2px;border-radius:12px;padding:10px 12px;border-inline:1px solid #f3cfca}
+:root[data-aparencia="escuro"] #v-capa .late{border-color:#5a2a24}
+/* rodapé da matéria: "Fontes" e "Ver no feed" na mesma linha; o crédito da foto embaixo */
+.mat-rod span.cpx-fontes{order:3;flex-basis:100%;font-size:12.5px}
+/* prévia: "Guardada ✓" numa linha só */
+.pv-a .btn{white-space:nowrap}
+/* aviso vermelho no modo escuro automático (seguindo o celular) */
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .late{background:#3a1d1a;color:#f3b4ab;border-color:#5a2a24}:root:not([data-aparencia="claro"]) .late.offl button{color:#f3b4ab}}
+/* linha do tempo: o que ainda vai acontecer fica tracejado */
+.mat-tl li.fut::before{background:var(--card);box-shadow:none;border:2px dashed var(--muted);box-sizing:border-box}
+.mat-tl li.fut span{color:var(--ink-2)}

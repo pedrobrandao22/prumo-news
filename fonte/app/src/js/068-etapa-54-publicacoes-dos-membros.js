@@ -9,7 +9,7 @@ function pubVisiveis(){const now=Date.now();return PUB.itens.filter(x=>x&&(x.aut
 async function pubCarregar(){if(typeof SB==="undefined"||!SB||!S.uid||!S.membro)return;if(PUB.carregando)return;PUB.carregando=true;
   try{const r=await SB.from("publicacoes").select("*").order("at",{ascending:false}).limit(300);
     if(r.error){if(/publicacoes|does not exist|42P01|schema cache|relation/i.test((r.error.message||"")+(r.error.code||"")))PUB.on=false;return}
-    PUB.on=true;PUB.uid=S.uid;const novos=(r.data||[]).map(x=>({...x,fotos:Array.isArray(x.fotos)?x.fotos:[]}));const sig=novos.map(x=>x.id+":"+x.at).join(",")+"|"+[...S.amigos].sort().join(",");const mudou=sig!==PUB.sig;PUB.sig=sig;novos.forEach(x=>{try{pubLimpa(x)}catch(e){}});PUB.itens=novos;await pubAssinar();pubLimparMeus();if(mudou)pubRedesenha()}
+    PUB.on=true;PUB.uid=S.uid;const novos=(r.data||[]).map(x=>({...x,fotos:Array.isArray(x.fotos)?x.fotos:[]}));const sig=novos.map(x=>x.id+":"+x.at+":"+(x.editado||"")+":"+(x.fixado||"")+":"+JSON.stringify(x.estilo||"").length).join(",")+"|"+[...S.amigos].sort().join(",");const mudou=sig!==PUB.sig;PUB.sig=sig;novos.forEach(x=>{try{pubLimpa(x)}catch(e){}});PUB.itens=novos;await pubAssinar();pubLimparMeus();if(mudou)pubRedesenha()}
   catch(e){}finally{PUB.carregando=false;PUB.carregou=true}}
 async function pubAssinar(){const now=Date.now(),falta=[];pubVisiveis().forEach(x=>x.fotos.forEach(p=>{const c=PUB.urls[p];if(!c||c.exp<now+600e3)falta.push(p)}));if(!falta.length)return;
   try{const r=await SB.storage.from("fotos").createSignedUrls(falta,6*3600);(r.data||[]).forEach(d=>{if(d&&d.signedUrl)PUB.urls[d.path]={u:d.signedUrl,exp:now+6*3600e3}})}catch(e){}}

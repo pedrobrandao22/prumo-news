@@ -32,7 +32,7 @@ function dmThreadHTML(u){const all=allMsgs().filter(dmPar(u)),reac={},ms=[];
     if(m.tipo==="resposta"&&m.snap&&m.snap.q){const q=m.snap.q;corpo+=`<div class="dm-q"><small>${eu?(q.de===S.uid?"Você respondeu a si mesmo":"Você respondeu a "+esc(nomeDe(q.de))):(q.de===S.uid?"Respondeu a você":"Respondeu a si mesmo")}</small><span>${esc(q.t||"")}</span></div>`}
     else if(m.pid&&m.resp&&m.tipo!=="mencao")corpo+=`<button type="button" class="dm-q" data-open="${esc(m.pid)}"><small>Sobre a notícia</small><span>${esc(m.snap?.titulo||"notícia")}</span></button>`;
     else if(m.pid)corpo+=dmCard(m);
-    if(m.texto)corpo+=`<div class="bub${dmSoEmoji(m.texto)?" bub-emo":""}">${dmLinka(m.tipo==="mencao"?dmMarca(m.texto):esc(m.texto))}</div>`;
+    if(m.texto&&!(m.tipo==="mencao"&&m.snap&&m.snap.upub&&typeof pubDe==="function"&&(pubDe(m.snap.upub)||{}).texto===m.texto))corpo+=`<div class="bub${dmSoEmoji(m.texto)?" bub-emo":""}">${dmLinka(m.tipo==="mencao"?dmMarca(m.texto):esc(m.texto))}</div>`;
     const rs=reac[m.id]||[];const pill=rs.length?`<button type="button" class="dm-rx" data-dmacoes="${esc(m.id)}" aria-label="Reações">${[...new Set(rs.map(r=>String(r.texto||"").slice(0,8)))].map(esc).join("")}${rs.length>1?`<i>${rs.length}</i>`:""}</button>`:"";
     h+=`<div class="msg dm-m ${eu?"mine":"theirs"}${pri?" pri":""}${ult?" ult":""}${rs.length?" crx":""}" data-mid="${esc(m.id)}">${!eu?`<span class="dm-av">${ult?avatar(m.de):""}</span>`:""}<div class="dm-c">${corpo}${pill}</div></div>`;
     if(m===ultMinha)h+=`<div class="dm-st">${m.lida?"Visto":String(m.id).startsWith("tmp")?"Enviando…":"Enviada"}</div>`;
