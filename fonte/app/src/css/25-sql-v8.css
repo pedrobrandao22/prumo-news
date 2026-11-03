@@ -1,0 +1,27 @@
+/* ---------- 25: SQL v8 — foto de perfil, posts arquivados, curtir comentário ---------- */
+/* foto do perfil no lugar das iniciais (o tamanho continua o de cada lugar) */
+.av.av8{overflow:hidden;padding:0}
+.av.av8 img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
+/* folha "Foto do perfil": prévia e recorte quadrado */
+.fp8{display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 0 4px}
+.fp8-prev .av{width:112px;height:112px;font-size:44px}
+.fp8 .hint{margin:0;text-align:center}
+.fp8-cx{position:relative;width:240px;height:240px;border-radius:50%;overflow:hidden;background:var(--chip);touch-action:none;cursor:grab;box-shadow:0 0 0 1px var(--line)}
+.fp8-cx:active{cursor:grabbing}
+.fp8-cx img{position:absolute;left:0;top:0;max-width:none;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.fp8-z{display:flex;align-items:center;gap:10px;width:240px;font:500 13px var(--f-ui);color:var(--muted)}
+.fp8-z input{flex:1;accent-color:var(--accent)}
+/* com três botões no perfil, o texto encolhe um pouco para caber */
+.pf-bts:has([data-fp8]) .btn{font-size:13px;padding-left:6px;padding-right:6px;white-space:nowrap}
+/* posts arquivados */
+.arq8-dica{margin:0;padding:12px 16px 10px;color:var(--muted);font:500 13px/1.4 var(--f-ui)}
+.arq8-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:4px;padding-bottom:8px}
+.arq8-bar span{font:600 12px var(--f-mono);letter-spacing:.02em;color:var(--muted);text-transform:uppercase}
+.arq8-bar .btn{height:32px;font-size:13px;padding:0 12px;flex:none}
+/* curtir comentário: o mesmo sinal do "Gostei", pequeno, à direita do comentário */
+.clist li .cc8{margin-left:auto;align-self:flex-start;flex:none;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:32px;min-height:36px;padding:4px 2px 0;border:0;background:none;color:var(--muted);cursor:pointer}
+.clist li .cc8 .ico{width:18px;height:18px}
+.clist li .cc8 em{font:600 11px/1 var(--f-ui);font-style:normal;min-height:11px}
+.clist li .cc8.on{color:var(--bronze-ink)}
+.clist li .cc8.on .ico .dotc{fill:var(--bronze);stroke:var(--bronze-ink)}
+.clist li .cc8:active .ico{transform:scale(.88)}

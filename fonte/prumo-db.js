@@ -35,10 +35,11 @@ function criarDB(sb, uid, opts) {
   const snapCol = docs => ({ docs: docs.map(([id, d]) => snapDoc(id, d)), size: docs.length, empty: !docs.length, metadata: { fromCache: false } });
 
   const linhaMsg = r => [r.id, pick(r, MSG_CAMPOS)];
-  let COLS_M = "uid,nome,criado_em,convidado_por,papel,suspenso_em,excluido_em";
-  // banco ainda sem as colunas novas (SQL da leva 3 não rodado): volta às colunas antigas
-  const membrosSel = async (q) => { const r = await q(COLS_M); if (r && r.error && /column|does not exist|42703/i.test((r.error.message || "") + r.error.code) && COLS_M.includes("papel")) { COLS_M = "uid,nome,criado_em,convidado_por"; return q(COLS_M) } return r };
-  const linhaPessoa = r => [r.uid, { nome: r.nome, at: Date.parse(r.criado_em) || 0, convidado_por: r.convidado_por || null, papel: r.papel || "membro", suspenso: !!r.suspenso_em, excluido: !!r.excluido_em }];
+  let COLS_M = "uid,nome,criado_em,convidado_por,papel,suspenso_em,excluido_em,foto";
+  // banco ainda sem as colunas novas: sem a foto (SQL v8 não rodado) e, sem a leva 3, só as colunas antigas
+  const semColuna = r => r && r.error && /column|does not exist|42703/i.test((r.error.message || "") + r.error.code);
+  const membrosSel = async (q) => { let r = await q(COLS_M); if (semColuna(r) && COLS_M.includes(",foto")) { COLS_M = COLS_M.replace(",foto", ""); r = await q(COLS_M) } if (semColuna(r) && COLS_M.includes("papel")) { COLS_M = "uid,nome,criado_em,convidado_por"; return q(COLS_M) } return r };
+  const linhaPessoa = r => [r.uid, { nome: r.nome, at: Date.parse(r.criado_em) || 0, convidado_por: r.convidado_por || null, papel: r.papel || "membro", suspenso: !!r.suspenso_em, excluido: !!r.excluido_em, foto: typeof r.foto === "string" && r.foto ? r.foto : null }];
   const linhaAmizade = r => [r.de + "_" + r.para, { de: r.de, para: r.para, status: r.status, criado_em: r.criado_em }];
 
   /* marca de tempo do servidor: o que já vimos de public.docs */

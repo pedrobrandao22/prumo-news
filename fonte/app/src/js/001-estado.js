@@ -29,7 +29,7 @@ const ICON={
 const COLORS=["#24406b","#8a5a17","#24533c","#7a2b37","#46337a","#5b6b7f"];
 function corDe(uid){let h=0;for(const c of String(uid))h=(h*31+c.charCodeAt(0))>>>0;return COLORS[h%COLORS.length]}
 const nomeDe=uid=>S.membros[uid]?.nome||S.achados?.[uid]||(uid===S.uid||uid==="eu"?"Você":"Alguém");
-const avatar=uid=>`<span class="av" style="background:${corDe(uid)}">${esc((nomeDe(uid)[0]||"?").toUpperCase())}</span>`;
+const avatar=uid=>(typeof av8==="function"&&av8(uid))||`<span class="av" style="background:${corDe(uid)}">${esc((nomeDe(uid)[0]||"?").toUpperCase())}</span>`;  // av8: foto do perfil (js/109)
 const avatares=us=>`<span class="avs">${us.slice(0,3).map(avatar).join("")}</span>`;
 const nomeFonte=k=>FEED?.fontes?.[k]||k;
 const ALLSECS=()=>FEED?.secoes?.length?FEED.secoes:[{id:"politica",nome:"Política"}];
