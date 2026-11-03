@@ -10,6 +10,8 @@ function sanear(f){if(!f||typeof f!=="object")return null;const arr=x=>Array.isA
   if(f.esportes!=null&&(typeof f.esportes!=="object"||Array.isArray(f.esportes)))delete f.esportes;else if(f.esportes){f.esportes.competicoes=arr(f.esportes.competicoes).map(c=>{c.tabela=arr(c.tabela);c.chave=arr(c.chave).map(x=>{x.confrontos=arr(x.confrontos);return x});return c});f.esportes.jogos=arr(f.esportes.jogos)}
   if(!Array.isArray(f.dormentes))f.dormentes=[];else f.dormentes=arr(f.dormentes).filter(d=>d.id&&d.titulo).map(d=>{d.id=String(d.id);if(d.titulos!=null)d.titulos=arr(d.titulos);return d});
   ["agenda","breves","quiz","pesquisas_2t"].forEach(k=>f[k]=arr(f[k]));if(!Array.isArray(f.secoes))f.secoes=[];return f}
+/* a edição como o app a guarda (depois de sanear), para comparar a que chegou com a que já está na tela */
+function feedTxt(f){try{return JSON.stringify(sanear(JSON.parse(JSON.stringify(f)))||f)}catch(e){return ""}}
 function abreNaCapa(){try{return !navigator.webdriver||localStorage.getItem("prumo-teste-capa")==="1"}catch(e){return !navigator.webdriver}}
 function renderFeedInicial(){if(abreNaCapa()){window.__feedAdiado=true;return}renderFeed()}
 function prepararFeed(f){f=sanear(f)||f;FEED=f;document.body.classList.remove("semfeed");calcularNovidades();renderFeed();setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}
@@ -18,8 +20,8 @@ async function loadFeed(){
   const cached=lsGet("radar-feed",null);
   if(!cached)document.body.classList.add("semfeed");
   if(cached&&sanear(cached)){FEED=cached;document.body.classList.remove("semfeed");calcularNovidades();renderFeedInicial()}
-  try{const r=await fetch("feed.json",{cache:"no-cache"});if(!r.ok)throw 0;const f=await r.json();
+  try{const r=await feedPedido();if(!r.ok)throw 0;const f=await r.json();
     const eraOff=OFFLINE;OFFLINE=false;
-    if(!cached||JSON.stringify(f)!==JSON.stringify(cached))prepararFeed(f);else if(eraOff)renderPosts();else setTimeout(registrarConhecidas,4000);lsSet("radar-feed",f)}
+    if(!cached||feedTxt(f)!==JSON.stringify(cached)){prepararFeed(f);lsSet("radar-feed",f)}else{if(eraOff)renderPosts();else setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}}
   catch(e){OFFLINE=true;if(!cached)$("#posts").innerHTML=`<div class="empty"><b>Não consegui carregar as notícias</b>Verifique a conexão. O Prumo tenta de novo sozinho quando você voltar ao app.<button type="button" class="btn" data-retry style="margin-top:12px">Tentar de novo</button></div>`;else renderPosts()}
 }
