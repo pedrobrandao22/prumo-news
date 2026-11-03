@@ -4644,6 +4644,35 @@ html.vn-ca .post.vn-cp.cn102-post>.ph .ph-nm>.ph-sub:has(>.cn102-lb:first-child)
 /* ---------- 116: revisão C da leitura ---------- */
 /* C04 "antes e depois": em 360 px o "%" caía sozinho na linha de baixo ("15,00 / %"); quebra só em espaço e a letra encolhe um pouco */
 .acv-ad-c b{font-size:clamp(19px,6vw,30px);overflow-wrap:normal;word-break:normal}
+/* ---------- 117: Relato no cartão A — quem postou primeiro (nome e, embaixo, quando e onde), depois o texto, depois a(s) foto(s) ---------- */
+html.vn-ca .post.ac117-rel>.ph{padding-block:12px 6px}
+html.vn-ca .post.ac117-rel>.ph .up-au{gap:10px;align-items:center}
+html.vn-ca .post.ac117-rel>.ph .up-au .av{width:36px;height:36px;font-size:15px}
+html.vn-ca .post.ac117-rel>.ph .ph-nm{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+html.vn-ca .post.ac117-rel>.ph .ph-nm>b{flex:0 1 auto;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 15px/1.25 var(--f-ui);color:var(--ink)}
+html.vn-ca .post.ac117-rel>.ph .ph-nm>.ac117-meta{display:flex;flex-wrap:wrap;align-items:center;column-gap:9px;row-gap:1px;flex:0 1 auto;min-width:0;max-width:100%;
+  white-space:normal;overflow:visible;font:500 12.5px/1.35 var(--f-ui);color:var(--muted)}
+html.vn-ca .post.vn-cp.ac117-rel>.ph .ph-nm>.ph-sub.ac117-meta::before{content:none}
+html.vn-ca .post.ac117-rel .ac117-meta>span{display:inline-flex;align-items:center;min-width:0}
+/* o alfinete separa a hora do lugar (sem "·", que sobraria no começo da linha quando o lugar longo desce) */
+html.vn-ca .post.ac117-rel .ac117-meta>span+span::before{content:"·";margin-right:6px}
+html.vn-ca .post.ac117-rel .ac117-meta>.ac117-loc::before{content:none}
+html.vn-ca .post.ac117-rel .ac117-loc .ico{width:13px;height:13px;flex:none;margin-right:3px;stroke-width:2}
+html.vn-ca .post.ac117-rel .ac117-loc>span{overflow-wrap:anywhere}
+/* o texto */
+html.vn-ca .post.ac117-rel>.ac117-tx{margin:2px var(--gut,16px) 12px}
+html.vn-ca .post.ac117-rel .ac117-tx>.cn102-lb{margin:0 0 7px;letter-spacing:.05em}
+html.vn-ca .post.ac117-rel .ac117-tit{margin:0 0 6px;font:700 calc(19px*var(--fz,1))/1.28 var(--f-display);letter-spacing:-.005em;color:var(--ink);text-wrap:pretty;overflow-wrap:anywhere}
+html.vn-ca .post.ac117-rel .ac117-tx>.ac117-corpo{margin:0 0 8px;padding:0;font:400 calc(16px*var(--fz,1))/1.5 var(--f-body);color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+html.vn-ca .post.ac117-rel .ac117-tx>.ac117-corpo::before{content:none}
+html.vn-ca .post.ac117-rel .ac117-tx>.ac117-corpo.up-curta{-webkit-line-clamp:6}
+html.vn-ca .post.ac117-rel .ac117-nchk{margin:0;font:500 12.5px/1.35 var(--f-ui);color:var(--muted)}
+html.vn-ca .post.ac117-rel .ac117-tx>.cn102-fonte{display:inline-block;margin-top:6px}
+/* a mídia: cantos arredondados, sem fios (como a foto de amigo), com respiro antes das ações */
+html.vn-ca .post.ac117-rel>.car{margin:0 var(--gut,16px) 4px;border:0;border-radius:12px;overflow:hidden}
+html.vn-ca .post.ac117-rel>.fs2-ctx{margin-top:10px}
+/* fc107: sem a coluna recuada do post só de texto */
+html.vn-ca .upost.ac117-rel.fc107-semcar .ac117-corpo{margin-left:0}
 </style>
 </head>
 <body>
@@ -5620,7 +5649,16 @@ function saudeHTML(){
     ${it.length?`<p class="hint">Hoje: ${esc(ok)} ${ok===1?"rodada publicada":"rodadas publicadas"}${sem?`, ${sem} sem novidade`:""}${fal?`, <b style="color:var(--hot)">${fal} com problema</b>`:""}.</p><ul class="secpref">${it.slice(0,8).map(([h,x])=>`<li style="flex-direction:column;align-items:flex-start;gap:1px"><b style="font-size:14px">${esc(h)} · ${x.tipo==="completa"?"Rodada completa":x.tipo==="virada"?"Virada da meia-noite":"Rodada rápida"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"problema"}</b><span class="hint">${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}</span></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas aparece aqui a partir da próxima atualização.</p>`}</div>`;
 }
 var OFFLINE=false;
-function avisoAtraso(){if(OFFLINE&&FEED)return `<div class="late gut offl"><span>Sem conexão. Mostrando a edição ${dataSP(FEED.atualizado_em)===hojeSP()?"das "+esc(hhmm(FEED.atualizado_em)):"de "+esc(horaDia(FEED.atualizado_em))}.</span><button type="button" data-retry>Tentar de novo</button></div>`;const e=estadoRadar();return e.ok?"":`<div class="late gut">${esc(e.txt)}</div>`}
+/* o aviso de atraso só sai depois que a edição da rede (ou a falta dela) e o rodadas.json já chegaram: antes disso o app ainda não sabe
+   se está atrasado (a cópia guardada pode ser velha e o rodadas.json ainda não veio), e o aviso piscava por um instante na abertura.
+   "Sem conexão" não depende disso: só aparece quando o pedido da edição falhou de verdade. */
+var AVISO_FEED_OK=false,AVISO_ROD_OK=false;
+function avisoAtraso(){if(OFFLINE&&FEED)return `<div class="late gut offl"><span>Sem conexão. Mostrando a edição ${dataSP(FEED.atualizado_em)===hojeSP()?"das "+esc(hhmm(FEED.atualizado_em)):"de "+esc(horaDia(FEED.atualizado_em))}.</span><button type="button" data-retry>Tentar de novo</button></div>`;if(!AVISO_FEED_OK||!AVISO_ROD_OK)return "";const e=estadoRadar();return e.ok?"":`<div class="late gut">${esc(e.txt)}</div>`}
+/* quando os dois chegam: se o atraso é de verdade, o aviso entra uma vez (Capa e Feed já desenhados), sem redesenhar a tela */
+function avisoAtrasoDepois(){try{if(!FEED||!AVISO_FEED_OK||!AVISO_ROD_OK)return;const h=avisoAtraso();if(!h)return;
+  const top=document.querySelector("#v-capa .cp-top");if(top&&!document.querySelector("#v-capa .late")){top.insertAdjacentHTML("afterend",h);const l=document.querySelector("#v-capa .late");if(l)l.classList.remove("gut")}
+  const ps=document.getElementById("posts");if(ps&&ps.querySelector(".post")&&!ps.querySelector(".late")){const y=scrollY;ps.insertAdjacentHTML("afterbegin",h);
+    const l=ps.querySelector(":scope>.late");if(VIEW==="feed"&&y>0&&l)window.scrollTo(0,y+l.offsetHeight)}}catch(e){}}
 
 /* ---------- aprendizado pela leitura ---------- */
 function autoPesos(){
@@ -5659,7 +5697,8 @@ function subEdicao(){derivaQuiz();renderChgBox();updatePlayBadge();if(VIEW==="pl
 let RODT=0,ERRT=0;
 async function carregarRodadas(forcar){if(!forcar&&Date.now()-RODT<60000)return;RODT=Date.now();
   try{const r=await fetch("rodadas.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();const nv=j&&typeof j==="object"&&j.dia===hojeSP()&&j.itens&&typeof j.itens==="object"?j:{};
-    if(JSON.stringify(nv)!==JSON.stringify(S.rodadas)){S.rodadas=nv;if(VIEW==="me")renderMe();if(VIEW==="feed"&&document.querySelector("#posts .late:not(.offl)")){try{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}catch(e){}}if($("#rodbox"))abrirRodadas(true)}}catch(e){}}
+    if(JSON.stringify(nv)!==JSON.stringify(S.rodadas)){S.rodadas=nv;if(VIEW==="me")renderMe();if(VIEW==="feed"&&document.querySelector("#posts .late:not(.offl)")){try{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}catch(e){}}if($("#rodbox"))abrirRodadas(true)}}catch(e){}
+  finally{AVISO_ROD_OK=true;avisoAtrasoDepois()}}
 async function carregarErrosResp(){if(Date.now()-ERRT<30000)return;ERRT=Date.now();
   try{const r=await fetch("erros-respostas.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();if(!j||typeof j!=="object"||Array.isArray(j))return;
     if(JSON.stringify(j)!==JSON.stringify(S.errosResp)){S.errosResp=j;if(VIEW==="me")renderMe()}}catch(e){}}
@@ -5689,6 +5728,7 @@ async function loadFeed(){
     const eraOff=OFFLINE;OFFLINE=false;
     if(!cached||feedTxt(f)!==JSON.stringify(cached)){prepararFeed(f);lsSet("radar-feed",f)}else{if(eraOff)renderPosts();else setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}}
   catch(e){OFFLINE=true;if(!cached)$("#posts").innerHTML=`<div class="empty"><b>Não consegui carregar as notícias</b>Verifique a conexão. O Prumo tenta de novo sozinho quando você voltar ao app.<button type="button" class="btn" data-retry style="margin-top:12px">Tentar de novo</button></div>`;else{renderPosts();if(VIEW==="capa")renderCapa()}}
+  AVISO_FEED_OK=true;avisoAtrasoDepois()
 }
 /* ---------- conta: Supabase ---------- */
 %%PRUMO_DB%%
@@ -12923,6 +12963,45 @@ function rc116Data(q,hoje){const s=String(q||"");const m=s.match(/(?:^|[^\d])(\d
   /* o ponto atual é o último que já aconteceu */
   lis.forEach(li=>li.classList.remove("ult"));const pas=lis.filter(li=>!li.classList.contains("fut"));(pas.length?pas[pas.length-1]:null)?.classList.add("ult");
   return tp.innerHTML}catch(e){return h}}}
+/* ---------- 117: ajustes da Capa e do Relato (03/11) ----------
+   1. Aviso de atraso da Capa: não pisca mais na abertura. A correção está na origem (024, 027 e 028): o aviso só é desenhado depois que a
+      edição da rede e o rodadas.json chegaram (AVISO_FEED_OK / AVISO_ROD_OK), e entra uma vez só, se o atraso for de verdade (avisoAtrasoDepois).
+   2. Relato no cartão A (Jornal): primeiro quem postou (bolinha com a foto ou a inicial e o nome; à direita ou embaixo, quando e onde),
+      depois o que a pessoa contou (título e texto), depois a foto ou o carrossel de fotos com os pontinhos. O Contexto do Prumo fica depois
+      da mídia e antes das ações, como já estava. Vale no Feed, no perfil e na publicação aberta numa camada (todos usam pubPostHTML).
+      Os outros posts de amigo (opinião, análise, foto comum) continuam como nota assinada (o texto primeiro). */
+var AC117_REL=true;  /* chave só para as capturas de "antes" nos testes */
+const AC117_PIN='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>';
+function ac117Rel(h,x){if(!AC117_REL||typeof h!=="string"||!h||!x||x.tipo!=="post"||VN112_CT!=="a")return h;
+  const cn=typeof cn102De==="function"?cn102De(x):null;if(!cn||cn.k!=="rel")return h;
+  const a=vn112Tp(h);if(!a||!a.classList.contains("cn102-rel")||a.classList.contains("vn-rp"))return h;
+  const ph=a.querySelector(":scope>.ph"),nm=ph&&ph.querySelector(".ph-nm");if(!ph||!nm)return h;
+  a.classList.add("ac117-rel");const es=x.estilo||{};
+  /* cabeçalho: nome; ao lado (ou embaixo, se não couber) quando e onde */
+  const sub=nm.querySelector(".ph-sub"),lb=sub&&sub.querySelector(".cn102-lb");
+  const ed=!!x.editado||!!(sub&&/·\s*editado\s*$/.test(sub.textContent));
+  const qd=cn.q?cn102Quando(cn.q):(typeof quando==="function"?quando(x.at):"");
+  const meta=document.createElement("span");meta.className="ph-sub ac117-meta";
+  meta.innerHTML=`${qd?`<span class="ac117-qd"${cn.q&&typeof quando==="function"?` title="Publicado ${esc(quando(x.at))}"`:""}>${esc(qd)}</span>`:""}${es.local?`<span class="ac117-loc">${AC117_PIN}<span>${esc(es.local)}</span></span>`:""}${ed?`<span class="ac117-ed">editado</span>`:""}`;
+  if(sub)sub.replaceWith(meta);else nm.appendChild(meta);
+  /* o texto: selo "Relato", título, o que a pessoa contou, o aviso de relato pessoal e a fonte */
+  const car=a.querySelector(":scope>.car"),cd=car&&car.querySelector(".cn102-cd");
+  let corpo=a.querySelector(":scope>.vn-txt")||a.querySelector(":scope>.up-leg")||a.querySelector(":scope>.gut>.up-leg");
+  const ex=cd&&cd.querySelector(".cn102-ex");
+  if(!corpo&&ex){corpo=ex;corpo.classList.add("up-leg")}
+  const tx=document.createElement("div");tx.className="ac117-tx";
+  tx.innerHTML=`${lb?lb.outerHTML:`<span class="cn102-lb cn102-lb-rel">Relato</span>`}<h3 class="ac117-tit">${esc(cn.tit||"Relato")}</h3>`;
+  if(corpo){corpo.classList.remove("vn-txt","cn102-ex");corpo.classList.add("ac117-corpo");tx.appendChild(corpo)}
+  tx.insertAdjacentHTML("beforeend",`<p class="ac117-nchk">Relato pessoal, não checado pela redação do Prumo</p>`);
+  a.querySelectorAll(".cn102-fonte").forEach(f=>tx.appendChild(f));
+  a.querySelectorAll(":scope>.gut>.cn102-lt,:scope>.gut>.cn102-lm").forEach(e=>e.remove());
+  /* sem foto: o cartão colorido sai (o texto já está em cima); com foto: a mídia vem depois do texto */
+  if(car&&cd&&!car.querySelector(".up-img,.up-sem")){car.remove();a.classList.add("ac117-sf")}
+  const gh=a.querySelector(":scope>.fc107-gh");if(gh)gh.after(ph);else a.prepend(ph);
+  ph.after(tx);const m=a.querySelector(":scope>.car");if(m)tx.after(m);
+  return a.outerHTML}
+if(VISUAL_NOVO&&VN112_CT==="a"){document.documentElement.classList.add("ac117");
+  const _pp117=pubPostHTML;pubPostHTML=function(x){const h=_pp117.apply(this,arguments);try{return ac117Rel(h,x)}catch(e){return h}}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
