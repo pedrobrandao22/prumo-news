@@ -45,7 +45,9 @@ setInterval(()=>{if(!document.hidden&&st108Vencidos())pubRedesenha()},20e3);
 
 /* 6. Atividade: voto na pergunta de um post aparece como voto (não "respondeu ao seu post") */
 {const _ai108=atItens;atItens=function(){const l=_ai108.apply(this,arguments);try{(l||[]).forEach(x=>{if(!x||typeof x.k!=="string"||x.k.indexOf("voto:")!==0)return;const pb=AT.pubs[x.pub],cn=pb&&pb.tipo==="post"&&pb.estilo&&pb.estilo.cn;
-  if(cn&&cn.k==="enq"&&typeof x.txt==="string")x.txt=x.txt.replace(/ responderam ao seu post$/," votaram na sua pergunta").replace(/ respondeu ao seu post$/," votou na sua pergunta")})}catch(e){}return l}}
+  if(cn&&cn.k==="enq"&&typeof x.txt==="string")x.txt=x.txt.replace(/ responderam ao (?:seu post|sua pergunta)( “[^”]*”)?$/," votaram na sua pergunta$1").replace(/ respondeu ao (?:seu post|sua pergunta)( “[^”]*”)?$/," votou na sua pergunta$1")});
+  /* concordância: "ao sua análise" → "à sua análise" (nomes do 107) */
+  (l||[]).forEach(x=>{if(x&&typeof x.txt==="string")x.txt=x.txt.replace(/ ao sua /g," à sua ")})}catch(e){}return l}}
 
 /* 7. Feed comprido: ao rolar, os posts que chegam ajustam a altura aos poucos (um pedaço por quadro), sem travar a rolagem.
       Antes cada lote de 6 posts media e redesenhava tudo de uma vez (até ~280 ms parado num celular médio). */

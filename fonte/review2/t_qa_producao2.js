@@ -53,7 +53,7 @@ const recarrega = async p => { await p.reload(); await esperar(p, () => S.membro
   await clk(A, '[data-edpubpo]'); await esperar(A, () => !ED && !PQ.atual, null, 20000); await sleep(800);
   const idQ = await ev(A, () => PUB.itens.find(x => x.tipo === 'post' && x.autor === S.uid).id);
   await esperar(B, id => !!document.querySelector(`[id="p-u:${id}"] [data-cn102voto="0"]`), idQ, 8000); await clk(B, `[id="p-u:${idQ}"] [data-cn102voto="0"]`); await sleep(1200);
-  ok(await esperar(A, () => atItens().some(x => /Bia Souza<\/b> votou na sua pergunta$/.test(x.txt)), null, 8000), 'Atividade: "Bia Souza votou na sua pergunta"', await ev(A, () => atItens().map(x => x.txt).join('|')));
+  ok(await esperar(A, () => atItens().some(x => /Bia Souza<\/b> votou na sua pergunta( “[^”]*”)?$/.test(x.txt)), null, 8000), 'Atividade: "Bia Souza votou na sua pergunta"', await ev(A, () => atItens().map(x => x.txt).join('|')));
 
   // ===== 3. administrador: "Denunciar" no perfil do amigo
   await ev(A, u => abrirPerfil(u), uB); await sleep(1200); await ev(A, () => document.querySelector('#layer .pfv-h [data-fd104pm]').click()); await sleep(400);
