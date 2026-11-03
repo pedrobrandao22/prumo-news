@@ -23,7 +23,7 @@ O site publicado (o `index.html` da raiz do repositório) é **gerado** a partir
 2. Teste: `bash testar.sh` (todos, ~25 min) ou `bash testar.sh review2/t_etapa75` (um só). Na primeira vez numa máquina nova: `npm install`, `npm install --no-save playwright` e `npx playwright install chromium` (Python 3 e Node 18+ também são necessários).
 3. Monte o site de verdade, com a chave **publicável** (nunca a secreta nem a service_role):
    `python3 build.py https://kkzcljusiotoklldaupg.supabase.co <chave publicável> --saida site-real`
-4. Copie `site-real/index.html` e `site-real/versao.json` para a raiz do repositório e faça o commit. O GitHub Pages publica em poucos minutos, e os celulares pegam a versão nova sozinhos.
+4. Copie `site-real/index.html`, `site-real/versao.json` e `site-real/sw.js` para a raiz do repositório e faça o commit. O GitHub Pages publica em poucos minutos, e os celulares pegam a versão nova sozinhos.
 
 `python3 montar.py` grava `app/prumo-template.html` (o arquivo único, para conferir), e `python3 montar.py --conferir` diz se ele está igual ao que a fonte monta.
 
