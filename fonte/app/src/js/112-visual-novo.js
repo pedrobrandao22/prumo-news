@@ -2,15 +2,15 @@
    Tudo atrás de uma chave, DESLIGADA por padrão (VISUAL_PADRAO). Liga por aparelho:
    - abrir o site com ?visual=novo (ou ?visual=atual para voltar), ou
    - Perfil › Conta › "Visual novo (teste)" (aparece para quem já ligou alguma vez neste aparelho e para os administradores).
-   Com a chave ligada: topo com cartões verticais (no lugar das bolinhas), barra de chips (Tudo · Amigos · Política · Economia · Seguindo),
-   post e notícia no ritmo do X (avatar na coluna da esquerda, texto antes da imagem, ações com números), Repostar e Repostar com comentário,
-   perfil no estilo do X (faixa, avatar sobreposto, "no Prumo desde", abas Posts · Respostas · Mídia em lista) e os nomes "Giro" (stories)
-   e "Coleções" (destaques). Desligada, nada disso é instalado (só a leitura dos reposts, ver abaixo).
+   Com a chave ligada: topo com cartões verticais (no lugar das bolinhas), o mesmo cartão de notícia e de post de hoje com o botão Repostar
+   (e Repostar com comentário), perfil no estilo do X (faixa, avatar sobreposto, "no Prumo desde", abas Posts · Respostas · Mídia em lista)
+   e os nomes "Giro" (stories) e "Coleções" (destaques). Desligada, nada disso é instalado (só a leitura dos reposts, ver abaixo).
+   Em teste, com a chave ligada: três direções para o cartão (A Jornal, B Fio, C Cartão), ver a parte 5.
    Repost sem SQL novo: é um post comum com estilo.rp={k:"pauta"|"pub",id}. Quem lê só vê a publicação citada se ela estiver visível para si
    (a regra do banco decide) e for "amigos"; senão aparece "Publicação indisponível". Esta leitura (cartão citado, aviso na Atividade e a
    miniatura no perfil) funciona com a chave ligada ou não, para quem estiver no visual atual não ver um post vazio.
    Nos testes automáticos fica tudo como antes, a não ser com localStorage "prumo-teste-visual"="1". */
-const VISUAL_PADRAO="atual";
+const VISUAL_PADRAO="novo";
 const VN112_ATIVO=(()=>{try{return !navigator.webdriver||localStorage.getItem("prumo-teste-visual")==="1"}catch(e){return !navigator.webdriver}})();
 const VISUAL_NOVO=(()=>{if(!VN112_ATIVO)return false;try{
   const q=new URLSearchParams(location.search),v=q.get("visual");
@@ -120,44 +120,69 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
     b.classList.add("vn-tb");b.classList.toggle("vn-visto",!!visto)});
   vn112Nomes(box)}
 
-/* ===== 5. chips do Feed (Tudo · Amigos · Política · Economia · Seguindo) ===== */
-var VN112_CHIP=(()=>{try{return sessionStorage.getItem("prumo-vn-chip")||"tudo"}catch(e){return "tudo"}})(),VN112_CHIP0=true;
-const VN112_CHIPS=[["tudo","Tudo"],["amigos","Amigos"],["politica","Política"],["economia","Economia"],["seguindo","Seguindo"]];
-function vn112ChipAtual(){if(FILTRO==="tudo")return ["amigos","seguindo"].includes(VN112_CHIP)?VN112_CHIP:"tudo";return FILTRO==="politica"||FILTRO==="economia"?FILTRO:""}
-function vn112ChipsHTML(){const at=vn112ChipAtual(),eu=!!(S.uid&&S.membro);
-  return VN112_CHIPS.filter(([k])=>(k!=="amigos"||eu)&&(!(k==="politica"||k==="economia")||pautasDa(k).length)).map(([k,n])=>`<button type="button" class="vn-chip" data-vnchip="${k}" aria-pressed="${at===k}">${n}</button>`).join("")}
-function vn112Chips(){const v=$("#v-feed");if(!v)return;let bar=$("#vn-chips");
-  if(!bar){bar=document.createElement("div");bar.id="vn-chips";bar.className="vn-chips";bar.setAttribute("role","group");bar.setAttribute("aria-label","Filtrar o Feed");const s=$("#secs");if(s)s.after(bar);else v.prepend(bar)}
-  const h=vn112ChipsHTML();if(bar.innerHTML!==h)bar.innerHTML=h;v.classList.toggle("vn-ch-amigos",vn112ChipAtual()==="amigos");v.classList.toggle("vn-ch-seguindo",vn112ChipAtual()==="seguindo");
-  try{document.documentElement.style.setProperty("--vn-top",(($("header.top")||{}).offsetHeight||52)+"px")}catch(e){}}
-function vn112Filtra(out){if(FILTRO!=="tudo"||!Array.isArray(out))return out;const c=VN112_CHIP;if(c!=="amigos"&&c!=="seguindo")return out;
-  const solto=p=>p&&p.__fc107?{id:p.id,__pub:p.__pub}:p;
-  if(c==="amigos")return out.filter(p=>p&&p.__pub).map(solto);
-  return out.filter(p=>{if(!p)return false;if(p.__pub){const q=p.__pub.pid&&pautaById(p.__pub.pid);return !!(q&&seguido(q))}return seguido(p)}).map(p=>p.__fc107&&!seguido(pautaById(p.__pub.pid)||{})?solto(p):p)}
-function vn112ChipVai(k){if(k==="politica"||k==="economia"){FILTRO=k;VN112_CHIP=k}else{FILTRO="tudo";VN112_CHIP=k}try{sessionStorage.setItem("prumo-vn-chip",k)}catch(e){}uso("vn_chip_"+k);
-  renderPosts();try{renderFilters&&renderFilters()}catch(e){}const bar=$("#vn-chips");if(bar){const y=bar.getBoundingClientRect().top+scrollY-(parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--vn-top"))||52);if(scrollY>y)scrollTo(0,Math.max(0,y))}
-  const b=$(`#vn-chips [data-vnchip="${k}"]`);if(b){try{b.scrollIntoView({block:"nearest",inline:"nearest"})}catch(e){}}}
-
-/* ===== 6. post e notícia no ritmo do X ===== */
-function vn112BtRp(k,id){return `<button type="button" class="act vn-rpb" data-vnrp="${esc(k+":"+id)}" aria-label="Repostar">${VN112_IC.rp}<span>Repostar</span><em class="cnt" data-n="vnrp"></em></button>`}
-function vn112NRp(k,id){let n=0,eu=false;pubVisiveis().forEach(x=>{const r=vn112Rp(x);if(r&&r.k===k&&r.id===id){n++;if(x.autor===S.uid)eu=true}});return {n,eu}}
+/* ===== 5. cartões de notícia e de post =====
+   Padrão: o cartão de hoje, igual ao visual atual, só com o botão Repostar (à direita, ao lado de Guardar: a esquerda fica com
+   gostei · comentar · enviar e o meio com os pontinhos do carrossel) e a linha "Bia repostou" embaixo de "Bia gostou".
+   Em teste, para escolher (só com o visual novo ligado): localStorage "prumo-cartao" = "a" (Jornal), "b" (Fio) ou "c" (Cartão),
+   ou ?cartao=a|b|c|atual no endereço (guarda e some do endereço, como o ?visual). */
+const VN112_CT=(()=>{if(!VN112_ATIVO)return "";try{const q=new URLSearchParams(location.search),v=q.get("cartao");
+  if(v!=null){if(v==="a"||v==="b"||v==="c")localStorage.setItem("prumo-cartao",v);else localStorage.removeItem("prumo-cartao");q.delete("cartao");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
+  const g=localStorage.getItem("prumo-cartao");return VISUAL_NOVO&&(g==="a"||g==="b"||g==="c")?g:""}catch(e){return ""}})();
+const VN112_ROT={like:"Gostei",cmt:"Comentar",send:"Enviar",save:"Guardar"};
+function vn112BtRp(k,id){return `<button type="button" class="act vn-rpb" data-vnrp="${esc(k+":"+id)}" aria-label="Repostar" aria-pressed="false">${VN112_IC.rp}<span>Repostar</span><em class="cnt" data-n="vnrp"></em></button>`}
+function vn112NRp(k,id){let n=0,eu=false;const us=[];pubVisiveis().forEach(x=>{const r=vn112Rp(x);if(r&&r.k===k&&r.id===id){n++;if(x.autor===S.uid)eu=true;if(!us.includes(x.autor))us.push(x.autor)}});return {n,eu,us}}
 function vn112MeuRp(k,id){return pubVisiveis().find(x=>{const r=vn112Rp(x);return x.autor===S.uid&&r&&r.k===k&&r.id===id&&!String(x.texto||"").trim()})||null}
-function vn112XPub(h,x){const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a||!x)return h;a.classList.add("vn-x");
-  const leg=a.querySelector(":scope>.gut>.up-leg"),car=a.querySelector(":scope>.car");
-  if(leg){const nb=leg.querySelector(":scope>b:first-child");if(nb){const t=nb.nextSibling;nb.remove();if(t&&t.nodeType===3)t.textContent=t.textContent.replace(/^\s+/,"")}leg.classList.add("vn-txt");if(car)car.before(leg);else a.querySelector(":scope>.ph")?.after(leg)}
-  const tr=car&&car.querySelector(".track");if(tr&&tr.children.length===1&&tr.firstElementChild.classList.contains("up-tx")){const p=tr.firstElementChild.querySelector("p");car.outerHTML=`<p class="up-leg vn-txt vn-so">${p?p.innerHTML:""}</p>`}
-  vn112Dots(a);const cm=a.querySelector('.acts [data-a="cmt"]');if(cm&&!a.querySelector("[data-vnrp]")&&!a.classList.contains("sem-com")){const r=vn112Rp(x);const alvo=r&&!String(x.texto||"").trim()?r:{k:"pub",id:x.id};cm.insertAdjacentHTML("afterend",vn112BtRp(alvo.k,alvo.id))}
-  return a.outerHTML}
-function vn112XNt(h,p){const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a)return h;a.classList.add("vn-x","vn-xn");
-  const car=a.querySelector(":scope>.car"),cap=a.querySelector(".pt-cap"),hr=a.querySelector(".pt-hora"),sub=a.querySelector(".ph-sub");
-  if(sub&&hr&&hr.textContent.trim())sub.insertAdjacentHTML("beforeend",`<span class="vn-hr">${sub.textContent.trim()?" · ":""}${esc(hr.textContent.trim())}</span>`);
-  const tit=versao(p,lente()).titulo;if(car&&tit){car.insertAdjacentHTML("beforebegin",`<h3 class="vn-tit"><button type="button" data-capmat="${esc(p.id)}">${esc(tit)}</button></h3>`);if(cap)car.before(cap)}
-  vn112Dots(a);const cm=a.querySelector('.acts [data-a="cmt"]');if(cm)cm.insertAdjacentHTML("afterend",vn112BtRp("pauta",p.id));return a.outerHTML}
-/* os pontinhos do carrossel vão para cima da mídia (a fileira de ações fica só com as ações) */
+/* o botão entra antes de Guardar (no post de amigo, Guardar já fica encostado à direita) */
+function vn112PoeRp(a,k,id){if(!a||a.querySelector("[data-vnrp]"))return;const acts=a.querySelector(".acts");if(!acts)return;const sv=acts.querySelector('[data-a="save"]');
+  if(sv)sv.insertAdjacentHTML("beforebegin",vn112BtRp(k,id));else acts.insertAdjacentHTML("beforeend",vn112BtRp(k,id))}
+function vn112Tp(h){const tp=document.createElement("template");tp.innerHTML=String(h).trim();return tp.content.firstElementChild}
+/* os pontinhos do carrossel vão para cima da mídia (nas direções em teste a fileira de ações fica só com as ações) */
 function vn112Dots(a){const pr=a.querySelector(".acts>.prog"),car=a.querySelector(":scope>.car");if(pr&&car){pr.classList.add("vn-dots");car.appendChild(pr)}}
-function vn112Social(pid){const el=document.getElementById("p-"+pid);if(!el||!el.classList.contains("vn-x"))return;try{const {likes,cm}=socialOf(pid);
-  const l=el.querySelector('.acts [data-n="like"]'),c=el.querySelector('.acts [data-n="cmt"]');if(l)l.textContent=likes.length||"";if(c)c.textContent=cm.length||"";
-  const b=el.querySelector(".acts [data-vnrp]");if(b){const [k,...r]=b.dataset.vnrp.split(":"),{n,eu}=vn112NRp(k,r.join(":"));const e=b.querySelector("em");if(e)e.textContent=n||"";b.classList.toggle("on",eu);b.setAttribute("aria-pressed",String(eu))}}catch(e){}}
+/* rótulos visíveis nas ações (a direção A mostra as ações como texto) */
+function vn112Rotulos(a){a.querySelectorAll(".acts>.act").forEach(b=>{if(b.querySelector(":scope>span"))return;const k=b.dataset.a||(b.hasAttribute("data-usend")?"send":"");if(VN112_ROT[k])b.insertAdjacentHTML("beforeend",`<span>${VN112_ROT[k]}</span>`)})}
+/* C: avatar ao lado do texto, numa linha (como o canal no YouTube) */
+function vn112LinhaC(a,av,itens){const ph=a.querySelector(":scope>.ph");const row=document.createElement("div");row.className="vn-cc-row";
+  row.innerHTML=`${av}<div class="vn-cc-tx"></div>`;const tx=row.querySelector(".vn-cc-tx");itens.forEach(e=>{if(e)tx.appendChild(e)});if(ph)tx.appendChild(ph);
+  const mb=ph&&ph.querySelector(".more-btn");if(mb)row.appendChild(mb);return row}
+function vn112CtNt(h,p){const a=vn112Tp(h);if(!a)return h;const ct=VN112_CT;a.classList.add("vn-c","vn-cn","vn-c"+ct);a.style.setProperty("--vn-sec",secCor(secOf(p)));
+  const ph=a.querySelector(":scope>.ph"),car=a.querySelector(":scope>.car"),cap=a.querySelector(".pt-cap"),hr=a.querySelector(".pt-hora"),sub=ph&&ph.querySelector(".ph-sub");
+  const sec=secOf(p),tit=versao(p,lente()).titulo,hora=hr?hr.textContent.trim():"";
+  if(sub&&hora)sub.insertAdjacentHTML("beforeend",`<span class="vn-hr">${sub.textContent.trim()?" · ":""}${esc(hora)}</span>`);
+  const h3=vn112Tp(`<h3 class="vn-tit"><button type="button" data-capmat="${esc(p.id)}">${esc(tit)}</button></h3>`);
+  vn112Dots(a);if(ct==="a")vn112Rotulos(a);
+  if(ct==="c"){if(car){const kk=(car.querySelector(".track>.sl:first-child .kick")||{}).textContent;car.insertAdjacentHTML("beforeend",`<span class="vn-cc-chip" aria-hidden="true">${esc(String(kk||p.subtema||secNome(sec)).trim())}</span>`);a.prepend(car)}
+    sub?.insertAdjacentHTML("beforeend",`<span class="vn-cc-n" data-vncn></span>`);
+    const row=vn112LinhaC(a,`<span class="vn-cc-av vn-cc-sec" style="--c:${secCor(sec)}" aria-hidden="true">${esc(secNome(sec).slice(0,1))}</span>`,[h3]);(car||a.firstElementChild).after(row);if(!car)a.prepend(row)}
+  else if(car){car.before(h3);if(cap)car.before(cap)}
+  return a.outerHTML}
+function vn112CtPub(h,x){const a=vn112Tp(h);if(!a||!x)return h;const ct=VN112_CT;a.classList.add("vn-c","vn-cp","vn-c"+ct);
+  const ph=a.querySelector(":scope>.ph"),car=a.querySelector(":scope>.car");let leg=a.querySelector(":scope>.gut>.up-leg");
+  if(leg){const nb=leg.querySelector(":scope>b:first-child");if(nb){const t=nb.nextSibling;nb.remove();if(t&&t.nodeType===3)t.textContent=t.textContent.replace(/^\s+/,"")}leg.classList.add("vn-txt")}
+  /* post só de texto: o texto sai do cartão colorido e vira texto corrido */
+  const tr=car&&car.querySelector(".track");if(tr&&tr.children.length===1&&tr.firstElementChild.classList.contains("up-tx")){const p=tr.firstElementChild.querySelector("p"),n=String(x.texto||"").length;
+    const l=vn112Tp(`<p class="up-leg vn-txt vn-so${n>280||/\n.*\n.*\n/.test(x.texto||"")?" up-curta":""}"${n>280?' data-upmais role="button" tabindex="0"':""}>${p?p.innerHTML:""}</p>`);if(leg)leg.remove();leg=l;car.remove()}
+  const rpw=a.querySelector(":scope>.vn-rpw"),midia=a.querySelector(":scope>.car");
+  vn112Dots(a);if(ct==="a")vn112Rotulos(a);
+  const rtx=rpw&&rpw.querySelector(":scope>.vn-rptx");
+  if(ct==="a"){/* nota: o texto primeiro, a assinatura embaixo, depois a mídia (ou a publicação citada) */
+    if(rtx)ph.before(rtx);if(leg)ph.before(leg)}
+  else if(ct==="b"){if(leg)ph.after(leg);if(rpw&&leg)leg.after(rpw)}
+  else if(ct==="c"){const avo=ph&&ph.querySelector(".up-au .av");const av=avo?`<span class="up-au vn-cc-av" aria-hidden="true">${avo.outerHTML}</span>`:"";
+    if(midia)a.querySelector(":scope>.fc107-gh")?a.querySelector(":scope>.fc107-gh").after(midia):a.prepend(midia);
+    const row=vn112LinhaC(a,av,[leg||rtx]);if(midia)midia.after(row);else{const g=a.querySelector(":scope>.fc107-gh");if(g)g.after(row);else a.prepend(row)}
+    if(rpw)row.after(rpw)}
+  return a.outerHTML}
+/* contagens: o repost sempre ("Bia repostou", como "Bia gostou"); nas direções B e C também os números ao lado dos ícones */
+function vn112Social(pid){const el=document.getElementById("p-"+pid);if(!el)return;try{const ct=el.classList.contains("vn-c")?VN112_CT:"";
+  if(ct==="b"||ct==="c"){const {likes,cm}=socialOf(pid);const l=el.querySelector('.acts [data-n="like"]'),c=el.querySelector('.acts [data-n="cmt"]');if(l)l.textContent=likes.length||"";if(c)c.textContent=cm.length||"";
+    const cn=el.querySelector("[data-vncn]");if(cn)cn.textContent=cm.length?` · ${cm.length} ${cm.length===1?"comentário":"comentários"}`:""}
+  const b=el.querySelector(".acts [data-vnrp]");if(!b)return;const [k,...r]=b.dataset.vnrp.split(":"),id=r.join(":"),{n,eu,us}=vn112NRp(k,id);
+  const e=b.querySelector("em");if(e)e.textContent=ct==="b"||ct==="c"?(n||""):"";b.classList.toggle("on",eu);b.setAttribute("aria-pressed",String(eu));
+  /* a linha só no próprio original (num repost simples, o cabeçalho já diz "repostou") */
+  if(!(k==="pauta"?id===pid:"u:"+id===pid))return;const ot=us.filter(u=>u!==S.uid),n1=ot[0]?`<b>${esc(nomeDe(ot[0]))}</b>`:"";let t="";
+  if(n){if(eu&&!ot.length)t="<b>Você</b> repostou";else if(eu)t=`<b>Você</b> e ${ot.length===1?n1:"mais "+ot.length} repostaram`;else if(ot.length===1)t=`${n1} repostou`;else t=`${n1} e mais ${ot.length-1} repostaram`}
+  let q=el.querySelector("[data-vnrpq]");if(!q){const lk=el.querySelector("[data-likes]");if(!lk)return;lk.insertAdjacentHTML("afterend",`<div class="likes vn-rpq" data-vnrpq></div>`);q=el.querySelector("[data-vnrpq]")}
+  const hh=t?`${VN112_IC.rp}<span>${t}</span>`:"";if(q.innerHTML!==hh)q.innerHTML=hh}catch(e){}}
 
 /* ===== 7. repostar ===== */
 function vn112Alvo(k,id){if(k==="pub"){let x=pubDe(id)||vn112Pub(id);if(!x)return null;const r=vn112Rp(x);if(r&&!String(x.texto||"").trim()){k=r.k;id=r.id;x=k==="pub"?vn112Pub(id):null;if(k==="pub"&&!x)return null}
@@ -175,7 +200,6 @@ function vn112Compor(k,id){if(k==="pauta"&&typeof cn102Comeca==="function"){clos
   const ref=esc(k+":"+id);closeLayer();setTimeout(()=>{sheet("Repostar com comentário",`<label class="vn-rpl" for="vn-rpt">Seu comentário</label><textarea class="field vn-rpt" id="vn-rpt" rows="4" maxlength="2000" placeholder="O que você acrescenta?"></textarea><div class="vn-rpprev">${vn112Quote({k,id})}</div>`,`<button type="button" class="btn" data-vnrppub="${ref}">Publicar</button>`);
     setTimeout(()=>{try{$("#vn-rpt")?.focus({preventScroll:true})}catch(e){}},80)},60)}
 document.addEventListener("click",async e=>{if(!VISUAL_NOVO)return;const t=e.target;if(!t||!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()};
-  if(b=t.closest("[data-vnchip]")){pare();vn112ChipVai(b.dataset.vnchip);return}
   if(b=t.closest("[data-vnrp]")){pare();const [k,...r]=b.dataset.vnrp.split(":");vn112Menu(k,r.join(":"));return}
   if(b=t.closest("[data-vnrpja]")){pare();if(b.disabled)return;b.disabled=true;const [k,...r]=b.dataset.vnrpja.split(":");const ok=await vn112Publica(k,r.join(":"),"");if(ok){closeLayer();toast("Repostado")}else b.disabled=false;return}
   if(b=t.closest("[data-vnrpdes]")){pare();if(b.disabled)return;b.disabled=true;const ok=await pubApagar(b.dataset.vnrpdes,true);closeLayer();if(ok){toast("Repost desfeito");await pubCarregar()}return}
@@ -227,20 +251,17 @@ function vn112Pf(root,u,ab){if(!root||!u)return;const eu=u===S.uid,cab=root.quer
 if(VISUAL_NOVO){
   document.documentElement.classList.add("vn");
   /* topo */
-  {const _rs112=renderSecs;renderSecs=function(){const r=_rs112.apply(this,arguments);try{vn112Tiles();vn112Chips()}catch(e){console.error(e)}return r}}
-  /* Feed: chips */
-  {const _pm112=pubMistura;pubMistura=function(lista){const out=_pm112.apply(this,arguments);try{return vn112Filtra(out)}catch(e){return out}}}
-  {const _rp112=renderPosts;renderPosts=function(){if(VN112_CHIP0){VN112_CHIP0=false;if((VN112_CHIP==="politica"||VN112_CHIP==="economia")&&FILTRO==="tudo"&&pautasDa(VN112_CHIP).length)FILTRO=VN112_CHIP}
-    if(FILTRO!=="tudo"&&FILTRO!==VN112_CHIP)VN112_CHIP=FILTRO==="politica"||FILTRO==="economia"?FILTRO:"tudo";
-    const r=_rp112.apply(this,arguments);try{vn112Chips();const c=vn112ChipAtual();if((c==="amigos"||c==="seguindo")&&!$("#posts .post")){const e=$("#posts .empty");if(e)e.innerHTML=c==="amigos"?`<b>Nada dos seus amigos ainda</b>Quando eles publicarem ou repostarem, aparece aqui.<button type="button" class="btn ghost" data-vnchip="tudo" style="margin-top:10px">Ver tudo</button>`:`<b>Nada do que você segue nesta edição</b>Na página de uma cobertura, toque em “Seguir cobertura”.<button type="button" class="btn ghost" data-vnchip="tudo" style="margin-top:10px">Ver tudo</button>`}}catch(e){}return r}}
-  addEventListener("resize",()=>{try{document.documentElement.style.setProperty("--vn-top",(($("header.top")||{}).offsetHeight||52)+"px")}catch(e){}});
+  {const _rs112=renderSecs;renderSecs=function(){const r=_rs112.apply(this,arguments);try{vn112Tiles()}catch(e){console.error(e)}return r}}
   /* post e notícia */
-  {const _pp112x=pubPostHTML;pubPostHTML=function(x){const h=_pp112x.apply(this,arguments);try{return typeof h==="string"&&h&&x&&x.tipo==="post"?vn112XPub(h,x):h}catch(e){return h}}}
-  {const _ps112=postSeguro;postSeguro=function(p){let h=_ps112.apply(this,arguments);try{if(typeof h==="string"&&h&&p&&!p.__pub&&pautaById(p.id))return vn112XNt(h,p);
+  if(VN112_CT)document.documentElement.classList.add("vn-c"+VN112_CT);
+  {const _pp112x=pubPostHTML;pubPostHTML=function(x){let h=_pp112x.apply(this,arguments);try{if(typeof h!=="string"||!h||!x||x.tipo!=="post")return h;
+    const a=vn112Tp(h);if(a){const r=vn112Rp(x);const alvo=r&&!String(x.texto||"").trim()?r:{k:"pub",id:x.id};vn112PoeRp(a,alvo.k,alvo.id);h=a.outerHTML}
+    return VN112_CT?vn112CtPub(h,x):h}catch(e){return h}}}
+  {const _ps112=postSeguro;postSeguro=function(p){let h=_ps112.apply(this,arguments);try{if(typeof h==="string"&&h&&p&&!p.__pub&&pautaById(p.id)){const a=vn112Tp(h);if(a){vn112PoeRp(a,"pauta",p.id);h=a.outerHTML}return VN112_CT?vn112CtNt(h,p):h}
     /* 107 escreve o título do comentário único entre aspas duplas (sai "${esc(...)}" na tela); aqui sai o nome */
     if(typeof h==="string"&&p&&p.__fc107&&p.__pub&&h.indexOf("${esc(fc107Prim(x.autor))}")>=0)h=h.replace("${esc(fc107Prim(x.autor))}",esc(fc107Prim(p.__pub.autor)))}catch(e){}return h}}
-  /* notícia: o cartão de mídia fica mais baixo (a manchete já está em cima) */
-  {const _ft112=fitTrack;fitTrack=function(t){const r=_ft112.apply(this,arguments);try{if(t&&t.closest&&t.closest(".vn-xn")){const w=t.clientWidth;if(w){t.style.setProperty("--slh",Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6)))+"px");try{if(typeof ssCaber==="function")ssCaber(t)}catch(e){}const s=t.children[r|0];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}}catch(e){}return r}}
+  /* direções em teste: mídia mais baixa (A e B: a manchete já está em cima; C: 16:9, como no YouTube) */
+  {const _ft112=fitTrack;fitTrack=function(t){const r=_ft112.apply(this,arguments);try{const c=VN112_CT&&t&&t.closest&&t.closest(".vn-c");if(c&&(VN112_CT==="c"||c.classList.contains("vn-cn"))){const w=t.clientWidth;if(w){t.style.setProperty("--slh",(VN112_CT==="c"?Math.max(200,Math.round(w*9/16)):Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6))))+"px");try{if(typeof ssCaber==="function")ssCaber(t)}catch(e){}const s=t.children[r|0];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}}catch(e){}return r}}
   {const _us112=updateSocial;updateSocial=function(pid){const r=_us112.apply(this,arguments);vn112Social(pid);return r}}
   /* perfil */
   {const _rm112=renderMe;renderMe=function(){if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;

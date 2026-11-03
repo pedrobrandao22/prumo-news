@@ -1,12 +1,13 @@
 // Visual novo (112), atrás da chave: liga por ?visual=novo, por localStorage e pela linha em Perfil › Conta; com a chave desligada nada aparece.
-// Ligado: cartões verticais no topo, chips do Feed, post e notícia no ritmo do X, Repostar / Repostar com comentário (com a regra de privacidade),
-// perfil no estilo do X, nomes "Giro" e "Coleções". Roda com as flags de produção (foco, sem Reels, Capa, animações) e "prumo-teste-visual".
+// Ligado: cartões verticais no topo (com respiro entre eles), sem barra de chips, notícia e post iguais aos de hoje com o botão Repostar,
+// Repostar / Repostar com comentário (com a regra de privacidade), perfil no estilo do X, nomes "Giro" e "Coleções".
+// Em teste: as três direções do cartão (?cartao=a|b|c, localStorage "prumo-cartao"). Roda com as flags de produção (foco, sem Reels, Capa, animações) e "prumo-teste-visual".
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const PORTA = 8948, BASE = `http://localhost:${PORTA}/index.html`;
 const SH = __dirname + '/../qa/s2/vn-'; require('fs').mkdirSync(__dirname + '/../qa/s2', { recursive: true });
 const clk = (p, sel) => p.$eval(sel, e => { e.scrollIntoView({ block: 'center', inline: 'center' }); e.click() });
 const ev = (p, fn, a) => p.evaluate(fn, a);
-async function flags(P) { await P.addInitScript(() => { try { for (const k of ['foco', 'semreels', 'capa', 'anim', 'visual']) localStorage.setItem('prumo-teste-' + k, '1') } catch (e) { } }) }
+async function flags(P) { await P.addInitScript(() => { try { for (const k of ['foco', 'semreels', 'capa', 'anim', 'visual']) localStorage.setItem('prumo-teste-' + k, '1'); if (localStorage.getItem('prumo-visual') === null) localStorage.setItem('prumo-visual', 'atual') } catch (e) { } }) }
 async function criar(p, { url, nome, email }) {
   await p.goto(url || BASE); await esperar(p, () => !!document.querySelector('[data-entrar],#lnome'), null, 10000); await sleep(600);
   if (!(await p.$('#lnome:visible'))) { await ev(p, () => document.querySelector('[data-entrar]').click()); await sleep(400); if (await p.$('[data-laba="criar"]')) await ev(p, () => document.querySelector('[data-laba="criar"]').click()); await sleep(300) }
@@ -17,7 +18,10 @@ const ins = (P, rows) => ev(P, async rows => { const ids = []; for (const r of r
 const feed = P => ev(P, async () => { if (document.querySelector('#layer').innerHTML) closeLayer(); await pubCarregar(); FILTRO = 'tudo'; go('feed'); renderPosts(); for (let i = 0; i < 6; i++) try { carregarMais(true) } catch (e) { } scrollTo(0, 0) });
 const recarrega = async P => { await P.reload(); await esperar(P, () => typeof S !== 'undefined' && S.membro && PUB.on === true, null, 12000); await sleep(1200); await ev(P, () => { if (document.querySelector('#layer').innerHTML) closeLayer() }) };
 // o que só existe com o visual novo
-const marcas = P => ev(P, () => ({ vn: document.documentElement.classList.contains('vn'), chips: !!document.querySelector('#vn-chips .vn-chip'), tiles: document.querySelectorAll('#secs .vn-tl').length, rp: document.querySelectorAll('#posts [data-vnrp]').length, x: document.querySelectorAll('#posts .vn-x').length, tit: document.querySelectorAll('#posts .vn-tit').length }));
+const marcas = P => ev(P, () => ({ vn: document.documentElement.classList.contains('vn'), chips: !!document.querySelector('#vn-chips, .vn-chip'), tiles: document.querySelectorAll('#secs .vn-tl').length, rp: document.querySelectorAll('#posts [data-vnrp]').length, x: document.querySelectorAll('#posts .vn-c, #posts .vn-x').length, tit: document.querySelectorAll('#posts .vn-tit').length }));
+// "assinatura" de um cartão: as tags e classes em ordem, sem o que é do repost (para comparar o cartão de hoje com e sem a chave)
+const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); if (!e) return null; const c = e.cloneNode(true); c.querySelectorAll('[data-vnrp],[data-vnrpq]').forEach(x => x.remove());
+  return [c, ...c.querySelectorAll('*')].map(x => x.tagName + '.' + [...x.classList].filter(k => !/^(on|saved|visto|vn-cap-.*)$/.test(k)).sort().join('.')).join(' ') }, id);
 (async () => {
   U.feedFresco('site'); const srv = U.servir('site', PORTA); await sleep(800);
   const H = await require('../harness').criar(); const b = await U.navegador();
@@ -29,20 +33,22 @@ const marcas = P => ev(P, () => ({ vn: document.documentElement.classList.contai
   const uidA = await ev(A, () => S.uid), uidB = await ev(B, () => S.uid);
   const now = Date.now();
   const [pPedro] = await ins(A, [{ tipo: 'post', at: now - 30 * 60e3, texto: 'Fila no posto desde cedo. Organização boa, mas faltam senhas.', fotos: [], estilo: { v: 2 } }]);
-  await ins(B, [{ tipo: 'post', at: now - 25 * 60e3, texto: 'Juros altos por mais tempo\n\nCom a Selic alta, o crédito fica caro.', fotos: [], estilo: { v: 2, cn: { v: 1, k: 'ana', tit: 'Juros altos por mais tempo' } } },
+  const [pBia] = await ins(B, [{ tipo: 'post', at: now - 25 * 60e3, texto: 'Juros altos por mais tempo\n\nCom a Selic alta, o crédito fica caro.', fotos: [], estilo: { v: 2, cn: { v: 1, k: 'ana', tit: 'Juros altos por mais tempo' } } },
     { tipo: 'story', at: now - 10 * 60e3, expira: now + 20 * 3600e3, texto: 'Fila enorme', fotos: [], estilo: { v: 2, fundo: 3, itens: [{ t: 'texto', tx: 'Fila enorme', x: .5, y: .5, s: 1, r: 0, f: 'forte', cor: '#ffffff' }] } }]);
 
   // ===== 1. chave desligada por padrão: nada do visual novo
   await feed(A); await sleep(600);
   let m = await marcas(A);
-  ok(!(await ev(A, () => VISUAL_NOVO)) && !m.vn && !m.chips && !m.tiles && !m.rp && !m.x && !m.tit, 'padrão: visual atual (VISUAL_PADRAO="atual"), sem cartões, chips, repost nem layout do X', JSON.stringify(m));
-  ok(await ev(A, () => VISUAL_PADRAO === 'atual' && localStorage.getItem('prumo-visual') === null), 'nenhuma escolha guardada no aparelho');
+  ok(!(await ev(A, () => VISUAL_NOVO)) && !m.vn && !m.chips && !m.tiles && !m.rp && !m.x && !m.tit, 'escolhido "atual": sem cartões, chips, repost nem layout do X', JSON.stringify(m));
+  ok(await ev(A, () => VISUAL_PADRAO === 'novo' && localStorage.getItem('prumo-visual') === 'atual'), 'padrão agora é o visual novo; quem escolheu "atual" fica no atual');
+  const idNt = await ev(A, () => document.querySelector('#posts > .post:not(.upost)').id), idPp = 'p-u:' + pPedro;
+  const sigOff = { nt: await assina(A, idNt), pp: await assina(A, idPp), bia: await assina(A, 'p-u:' + pBia) };
   await ev(A, () => { go('me'); renderMe() }); await sleep(500);
   ok(await ev(A, () => !document.querySelector('.vn-pf') && !!document.querySelector('#v-me .pf-grade, #v-me .pf-vz')), 'desligado: perfil continua em grade (sem o cabeçalho do X)');
   await ev(A, () => { PF_ABA = 'conta'; renderMe() }); await sleep(300);
   const rowA = await ev(A, () => { const b = document.querySelector('[data-vntroca]'); return b && { t: b.textContent.trim(), ch: b.getAttribute('aria-checked'), role: b.getAttribute('role') } });
   ok(rowA && rowA.t === 'Visual novo (teste)' && rowA.ch === 'false' && rowA.role === 'switch', 'Perfil › Conta: o administrador vê "Visual novo (teste)" desligado (role=switch)', JSON.stringify(rowA));
-  await ev(B, () => { go('me'); PF_ABA = 'conta'; renderMe() }); await sleep(300);
+  await ev(B, () => { localStorage.removeItem('prumo-visual'); go('me'); PF_ABA = 'conta'; renderMe() }); await sleep(300);
   ok(await ev(B, () => !document.querySelector('[data-vntroca]')), 'quem não é administrador e nunca ligou não vê a linha');
 
   // ===== 2. ligar pela URL (?visual=novo): guarda a escolha e limpa o endereço
@@ -65,31 +71,31 @@ const marcas = P => ev(P, () => ({ vn: document.documentElement.classList.contai
   ok(tl.length >= 4 && tl.every(x => x.t && Math.abs(x.ar - 4 / 3) < .06), 'topo: cada bolinha virou um cartão vertical 3:4', JSON.stringify(tl.map(x => x.k + ':' + x.ar.toFixed(2))));
   ok(tl.find(x => x.k === 'sec' && x.tx.length > 20) && tl.find(x => x.k === 'u' && x.av) && tl.find(x => x.k === '5' && /5 minutos/.test(x.tx)), 'cartões com manchete sobre a arte; o do amigo tem o avatar no canto', JSON.stringify(tl.slice(0, 5)));
   ok(tl.find(x => x.k === 'eu' && /Seu giro/.test(x.tx) && x.lbl === 'Criar giro') && tl.find(x => x.k === 'u' && /^Giro de Bia/.test(x.lbl)), 'nomes: "Seu giro", "Criar giro", "Giro de Bia…" (stories viram Giro)', JSON.stringify(tl.filter(x => x.k === 'eu' || x.k === 'u')));
+  const esp = await ev(A, () => { const r = [...document.querySelectorAll('#secs > .sb.ig-s .vn-tl')].map(t => t.getBoundingClientRect()); const box = document.querySelector('#secs'); return { gaps: r.slice(1, 4).map((q, i) => Math.round(q.left - r[i].right)), x0: Math.round(r[0].left - box.getBoundingClientRect().left + box.scrollLeft), snap: getComputedStyle(box).scrollSnapType, gut: getComputedStyle(document.querySelector('#posts .ph')).paddingLeft } });
+  ok(esp.gaps.length >= 3 && esp.gaps.every(g => g >= 8) && esp.x0 === parseInt(esp.gut) && /x/.test(esp.snap), 'Giro: respiro entre os cartões (≥ 8px), o primeiro alinhado ao recuo de 16px do Feed, rolagem com encaixe', JSON.stringify(esp));
   const visto = await ev(A, () => { const s = [...document.querySelectorAll('#secs [data-sec-story]')]; return s.map(b => b.classList.contains('vn-visto')) });
   ok(visto.some(v => !v), 'cartões não vistos têm a borda de destaque', JSON.stringify(visto));
   await clk(A, '#secs [data-sec-story]'); ok(await esperar(A, () => !!document.querySelector('#layer .story'), null, 4000), 'tocar no cartão abre o mesmo visualizador de stories');
   await ev(A, () => closeLayer()); await sleep(400);
 
-  // ===== 5. chips
-  const ch = await ev(A, () => ({ l: [...document.querySelectorAll('#vn-chips .vn-chip')].map(b => b.textContent + ':' + b.getAttribute('aria-pressed')), pos: getComputedStyle(document.querySelector('#vn-chips')).position, depois: document.querySelector('#vn-chips').previousElementSibling?.id }));
-  ok(ch.l.join() === 'Tudo:true,Amigos:false,Política:false,Economia:false,Seguindo:false' && ch.pos === 'sticky', 'chips: Tudo · Amigos · Política · Economia · Seguindo, fixos ao rolar', JSON.stringify(ch));
-  await clk(A, '[data-vnchip="amigos"]'); await sleep(500);
-  const am = await ev(A, () => ({ n: document.querySelectorAll('#posts > .post').length, up: document.querySelectorAll('#posts > .post.upost').length, ss: sessionStorage.getItem('prumo-vn-chip'), pr: document.querySelector('[data-vnchip="amigos"]').getAttribute('aria-pressed') }));
-  ok(am.n > 0 && am.n === am.up && am.ss === 'amigos' && am.pr === 'true', 'Amigos: só publicações dos amigos (e as suas); a escolha fica guardada na sessão', JSON.stringify(am));
-  await clk(A, '[data-vnchip="politica"]'); await sleep(500);
-  ok(await ev(A, () => FILTRO === 'politica' && [...document.querySelectorAll('#posts > .post:not(.upost)')].every(e => pautaById(e.dataset.pid) && secOf(pautaById(e.dataset.pid)) === 'politica') && getComputedStyle(document.querySelector('#posts .sech')).display === 'none'), 'Política: só notícias de política (o cabeçalho antigo do filtro some)');
-  await clk(A, '[data-vnchip="seguindo"]'); await sleep(500);
-  ok(await ev(A, () => FILTRO === 'tudo' && [...document.querySelectorAll('#posts > .post:not(.upost)')].every(e => seguido(pautaById(e.dataset.pid))) && !!document.querySelector('#posts .empty, #posts .post')), 'Seguindo: só coberturas seguidas (ou o aviso de vazio)');
-  await clk(A, '[data-vnchip="tudo"]'); await sleep(400);
+  // ===== 5. sem barra de chips: o filtro de cima do Feed continua como hoje (com o aviso "Política · Ver tudo")
+  ok(await ev(A, () => !document.querySelector('#vn-chips, .vn-chip')), 'não há barra de chips (Tudo · Amigos · Política…)');
+  await ev(A, () => { FILTRO = 'politica'; renderPosts() }); await sleep(400);
+  const fl = await ev(A, () => { const h = document.querySelector('#posts .sech'); return h && { d: getComputedStyle(h).display, t: h.textContent.replace(/\s+/g, ' ').trim() } });
+  ok(fl && fl.d !== 'none' && /Política/.test(fl.t), 'filtrar por Política mostra o aviso do filtro como antes', JSON.stringify(fl));
+  await ev(A, () => { FILTRO = 'tudo'; renderPosts() }); await sleep(300);
   await A.screenshot({ path: SH + 'feed-topo.png' });
 
-  // ===== 6. post e notícia no ritmo do X
+  // ===== 6. notícia e post iguais aos de hoje, só com o Repostar
   await feed(A); await sleep(500);
-  const xp = await ev(A, id => { const e = document.getElementById('p-u:' + id); if (!e) return null; const kids = [...e.children].map(c => c.className.split(' ')[0] || c.tagName); const ac = [...e.querySelectorAll('.acts > .act')].filter(b => getComputedStyle(b).display !== 'none').sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left).map(b => b.dataset.a || (b.dataset.vnrp ? 'rp' : b.dataset.usend ? 'send' : '?')); const av = e.querySelector('.ph .av').getBoundingClientRect(), tx = e.querySelector('.up-leg').getBoundingClientRect(); return { kids, ac, col: tx.left - av.left, x: e.classList.contains('vn-x') } }, pPedro);
-  ok(xp && xp.x && xp.ac.join() === 'cmt,rp,like,save,send' && xp.col > 40, 'post no estilo do X: texto alinhado à coluna do nome, ações comentar · repostar · gostei · salvar · enviar', JSON.stringify(xp));
-  const nt = await ev(A, () => { const e = document.querySelector('#posts > .post.vn-xn'); if (!e) return null; const k = [...e.children].map(c => c.tagName === 'H3' ? 'tit' : c.className.split(' ')[0]); return { k, sub: e.querySelector('.ph-sub').textContent, tit: e.querySelector('.vn-tit').textContent, h2: getComputedStyle(e.querySelector('.track>.sl:first-child h2') || document.body).display, rp: !!e.querySelector('[data-vnrp^="pauta:"]') } });
-  ok(nt && nt.k.indexOf('tit') < nt.k.indexOf('car') && nt.k.indexOf('pt-cap') < nt.k.indexOf('car') && nt.rp && nt.tit.length > 10, 'notícia: linha da fonte, manchete e resumo antes da arte, e botão Repostar', JSON.stringify(nt));
-  await ev(A, id => { const e = document.getElementById('p-u:' + id); scrollTo(0, e.getBoundingClientRect().top + scrollY - 120) }, pPedro); await sleep(300); await A.screenshot({ path: SH + 'post-x.png' });
+  const sigOn = { nt: await assina(A, idNt), pp: await assina(A, idPp), bia: await assina(A, 'p-u:' + pBia) };
+  ok(sigOn.nt && sigOn.nt === sigOff.nt && sigOn.pp && sigOn.pp === sigOff.pp && sigOn.bia && sigOn.bia === sigOff.bia, 'com a chave ligada (sem cartão em teste), notícia, post próprio e post da amiga têm a mesma marcação de hoje (fora o Repostar)', JSON.stringify([sigOn.nt === sigOff.nt, sigOn.pp === sigOff.pp, (sigOn.pp || '').slice(0, 200), (sigOff.pp || '').slice(0, 200)]));
+  const ord = id => ev(A, id => { const e = document.getElementById(id); return [...e.querySelectorAll('.acts > .act')].filter(b => getComputedStyle(b).display !== 'none').sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left).map(b => b.dataset.a || (b.dataset.vnrp ? 'rp' : b.dataset.usend ? 'send' : '?')).join() }, id);
+  const o1 = await ord(idPp), o2 = await ord(idNt);
+  ok(o1 === 'like,cmt,send,rp,save' && o2 === 'like,cmt,send,rp,save', 'Repostar fica à direita, ao lado de Guardar (gostei · comentar · enviar … repostar · guardar), no post e na notícia', o1 + ' | ' + o2);
+  const sobre = await ev(A, id => { const e = document.getElementById(id), d = e.querySelector('.pdots'), r = e.querySelector('[data-vnrp]'); if (!d) return 'sem pontinhos'; const a = d.getBoundingClientRect(), b = r.getBoundingClientRect(); return a.right <= b.left ? 'ok' : JSON.stringify([a.right, b.left]) }, idNt);
+  ok(sobre === 'ok' || sobre === 'sem pontinhos', 'o botão não encosta nos pontinhos do carrossel', sobre);
+  await ev(A, id => { const e = document.getElementById(id); scrollTo(0, e.getBoundingClientRect().top + scrollY - 120) }, idPp); await sleep(300); await A.screenshot({ path: SH + 'post-hoje.png' });
 
   // ===== 7. Repostar e Repostar com comentário (Bia → post do Pedro)
   await feed(B); await sleep(600);
@@ -109,8 +115,8 @@ const marcas = P => ev(P, () => ({ vn: document.documentElement.classList.contai
   await feed(A); await sleep(800);
   const va = await ev(A, () => { const l = [...document.querySelectorAll('#posts .upost.vn-rp')]; return l.map(e => ({ so: e.classList.contains('vn-rp-so'), q: e.querySelector('.vn-q')?.textContent.replace(/\s+/g, ' ').trim().slice(0, 90), tx: e.querySelector('.vn-rptx')?.textContent || '', sub: e.querySelector('.ph-sub')?.textContent || '' })) });
   ok(va.length === 2 && va.every(x => /Fila no posto/.test(x.q)) && va.some(x => x.so && /repostou/.test(x.sub)) && va.some(x => /bairro/.test(x.tx)), 'Pedro vê no Feed o repost ("repostou") e a citação com o comentário da Bia, os dois com o post dele dentro', JSON.stringify(va));
-  const cnt = await ev(A, id => document.querySelector(`[id="p-u:${id}"] [data-n="vnrp"]`)?.textContent, pPedro);
-  ok(cnt === '2', 'o post do Pedro mostra 2 reposts ao lado do botão', cnt);
+  const cnt = await ev(A, id => { const e = document.querySelector(`[id="p-u:${id}"]`); return { q: e.querySelector('[data-vnrpq]')?.textContent || '', ab: e.querySelector('[data-vnrpq]')?.previousElementSibling?.hasAttribute('data-likes') } }, pPedro);
+  ok(/^Bia Souza repostou$/.test(cnt.q) && cnt.ab, 'o post do Pedro mostra "Bia Souza repostou" logo abaixo da linha de quem gostou', JSON.stringify(cnt));
   const at = await ev(A, () => atItens().filter(x => x.acao === 'vnrp').map(x => x.txt.replace(/<[^>]+>/g, '')));
   ok(at.length === 2 && at.every(t => /^Bia Souza repostou sua publicação/.test(t)), 'Atividade do Pedro: "Bia Souza repostou sua publicação" (as duas)', JSON.stringify(at));
   await ev(A, () => abrirAtividade()); await sleep(600);
@@ -121,8 +127,8 @@ const marcas = P => ev(P, () => ({ vn: document.documentElement.classList.contai
   await clk(A, '#posts .upost.vn-rp .vn-q[data-vnqpub]'); ok(await esperar(A, id => !!document.querySelector(`#layer .pfv [id="p-u:${id}"]`), pPedro, 4000), 'tocar no cartão citado abre a publicação original');
   await ev(A, () => closeLayer()); await sleep(300);
   // Pedro reposta uma notícia
-  const pid = await ev(A, () => document.querySelector('#posts > .post.vn-xn').dataset.pid);
-  await clk(A, `#posts > .post.vn-xn[data-pid="${pid}"] [data-vnrp]`); await esperar(A, () => !!document.querySelector('#layer [data-vnrpja]'), null, 3000); await clk(A, '#layer [data-vnrpja]');
+  const pid = await ev(A, () => document.querySelector('#posts > .post:not(.upost) [data-vnrp^="pauta:"]').closest('.post').dataset.pid);
+  await clk(A, `#posts > .post[data-pid="${pid}"] [data-vnrp]`); await esperar(A, () => !!document.querySelector('#layer [data-vnrpja]'), null, 3000); await clk(A, '#layer [data-vnrpja]');
   ok(await esperar(A, p => pubVisiveis().some(x => x.autor === S.uid && x.estilo.rp && x.estilo.rp.k === 'pauta' && x.estilo.rp.id === p && x.snap && x.snap.titulo), pid, 8000), 'repostar notícia: estilo.rp={k:"pauta"} com o título guardado (snap)');
 
   // ===== 8. privacidade: Carla é amiga só da Bia
@@ -167,14 +173,37 @@ const marcas = P => ev(P, () => ({ vn: document.documentElement.classList.contai
   ok(await ev(A, () => [...document.querySelectorAll('#layer [data-edmodo]')].map(e => e.textContent.trim().toUpperCase()).includes('GIRO')), 'na criação, o modo "Story" aparece como "Giro"');
   await ev(A, () => { ED = null; closeLayer._ok = true; closeLayer(); closeLayer._ok = false; go('feed') }); await sleep(300);
 
+  // ===== 9c. as três direções do cartão (em teste), pela URL e pelo aparelho
+  await A.goto(BASE + '?cartao=b'); await esperar(A, () => typeof S !== 'undefined' && S.membro && PUB.on === true, null, 12000); await sleep(1200);
+  const cu = await ev(A, () => ({ ct: VN112_CT, ls: localStorage.getItem('prumo-cartao'), q: location.search, h: document.documentElement.classList.contains('vn-cb') }));
+  ok(cu.ct === 'b' && cu.ls === 'b' && cu.q === '' && cu.h, '?cartao=b liga a direção B, guarda no aparelho e some do endereço', JSON.stringify(cu));
+  for (const ct of ['a', 'b', 'c']) {
+    await ev(A, c => localStorage.setItem('prumo-cartao', c), ct); await recarrega(A); await feed(A); await sleep(900);
+    const r = await ev(A, () => { const nt = document.querySelector('#posts > .post.vn-cn'), q = document.querySelector('#posts .upost.vn-rp:not(.vn-rp-so)'), j = document.querySelector('#posts .fc107-junto');
+      return { html: [...document.documentElement.classList].filter(k => /^vn-c/.test(k)), nt: !!(nt && nt.querySelector('.vn-tit button[data-capmat]') && nt.querySelector('.acts [data-vnrp^="pauta:"]') && nt.querySelector('[data-a="like"]') && nt.querySelector('[data-cmts]')), pp: document.querySelectorAll('#posts .upost.vn-cp').length, q: !!(q && q.classList.contains('vn-cp') && q.querySelector('.vn-q[data-vnqpub]') && /bairro/.test(q.textContent)), j: !j || j.classList.contains('vn-cp'), w: document.documentElement.scrollWidth } });
+    ok(r.html.join() === 'vn-c' + ct && r.nt && r.pp >= 3 && r.q && r.j && r.w <= 390, `cartão ${ct.toUpperCase()}: notícia (manchete, Repostar), posts, citação com o original e o que os amigos acham, sem passar da tela`, JSON.stringify(r));
+    await clk(A, '#posts .upost.vn-rp .vn-q[data-vnqpub]'); ok(await esperar(A, id => !!document.querySelector(`#layer .pfv [id="p-u:${id}"]`), pPedro, 4000), `cartão ${ct.toUpperCase()}: tocar na citação abre o original`); await ev(A, () => closeLayer()); await sleep(300);
+    await clk(A, `[id="p-u:${pPedro}"] [data-vnrp]`); ok(await esperar(A, () => !!document.querySelector('#layer [data-vnrpcom]'), null, 3000), `cartão ${ct.toUpperCase()}: o botão Repostar abre a folha`); await ev(A, () => closeLayer()); await sleep(300);
+    for (const w of [360, 430]) { await A.setViewportSize({ width: w, height: 800 }); await sleep(250); ok(await ev(A, w => document.documentElement.scrollWidth <= w, w), `cartão ${ct.toUpperCase()} em ${w}px sem rolagem para o lado`) }
+    await A.setViewportSize({ width: 390, height: 844 }); await sleep(200);
+    await ev(A, () => { const e = document.querySelector('#posts .upost.vn-rp:not(.vn-rp-so)'); scrollTo(0, e.getBoundingClientRect().top + scrollY - 120) }); await sleep(300); await A.screenshot({ path: SH + 'cartao-' + ct + '.png' });
+  }
+  await A.goto(BASE + '?cartao=atual'); await esperar(A, () => typeof S !== 'undefined' && S.membro && PUB.on === true, null, 12000); await sleep(1200);
+  ok(await ev(A, () => VN112_CT === '' && localStorage.getItem('prumo-cartao') === null && !document.querySelector('#posts .vn-c') && ![...document.documentElement.classList].some(k => /^vn-c/.test(k))), '?cartao=atual volta ao cartão de hoje');
+  await ev(A, () => { if (document.querySelector('#layer').innerHTML) closeLayer() });
+
   // ===== 10. modo escuro
   const D = U.erros(await H.pagina(b, { dark: true }), 'D'); await flags(D);
   await D.addInitScript(() => { try { localStorage.setItem('prumo-visual', 'novo') } catch (e) { } });
   await D.goto(BASE); await sleep(1500);
   await ev(D, () => { if (document.querySelector('#layer').innerHTML) closeLayer(); go('feed') }); await sleep(800);
-  const dk = await ev(D, () => { const lum = c => { const m = c.match(/[\d.]+/g).map(Number); return (0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]) / 255 }; const ch = document.querySelector('#vn-chips .vn-chip[aria-pressed=true]'), ch2 = document.querySelector('#vn-chips .vn-chip[aria-pressed=false]'), bar = document.querySelector('#vn-chips'), t = document.querySelector('#secs .vn-tl-tx b');
-    return { vn: VISUAL_NOVO, bar: lum(getComputedStyle(bar).backgroundColor), ch1: [lum(getComputedStyle(ch).backgroundColor), lum(getComputedStyle(ch).color)], ch2: [lum(getComputedStyle(ch2).backgroundColor), lum(getComputedStyle(ch2).color)], tile: t ? lum(getComputedStyle(t).color) : -1 } });
-  ok(dk.vn && dk.bar < .2 && Math.abs(dk.ch1[0] - dk.ch1[1]) > .5 && Math.abs(dk.ch2[0] - dk.ch2[1]) > .4 && dk.tile > .9, 'modo escuro: barra de chips escura, chips com contraste e texto dos cartões branco', JSON.stringify(dk));
+  const dk = await ev(D, () => { const lum = c => { const m = c.match(/[\d.]+/g).map(Number); return (0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]) / 255 }; const t = document.querySelector('#secs .vn-tl-tx b');
+    return { vn: VISUAL_NOVO, bg: lum(getComputedStyle(document.body).backgroundColor), tile: t ? lum(getComputedStyle(t).color) : -1, chips: !!document.querySelector('.vn-chip') } });
+  ok(dk.vn && dk.bg < .2 && dk.tile > .9 && !dk.chips, 'modo escuro: fundo escuro e texto dos cartões do Giro branco', JSON.stringify(dk));
+  for (const ct of ['a', 'b', 'c']) { await ev(D, c => localStorage.setItem('prumo-cartao', c), ct); await D.reload(); await sleep(1500); await ev(D, () => { if (document.querySelector('#layer').innerHTML) closeLayer(); go('feed') }); await sleep(600);
+    const k = await ev(D, () => { const lum = c => { const m = c.match(/[\d.]+/g).map(Number); return (0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]) / 255 }; const b = document.querySelector('#posts .vn-cn .vn-tit button'); return b ? lum(getComputedStyle(b).color) : -1 });
+    ok(k > .7, `modo escuro, cartão ${ct.toUpperCase()}: manchete clara no fundo escuro`, String(k)) }
+  await ev(D, () => localStorage.removeItem('prumo-cartao'));
   await D.screenshot({ path: SH + 'escuro.png' });
 
   // ===== 11. desligar pela Conta: tudo volta (o repost segue legível no visual atual)
