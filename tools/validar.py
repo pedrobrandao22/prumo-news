@@ -548,23 +548,7 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
                 for it in its:
                     if len(str(it.get("valor", ""))) > 9: E(f"[{pid}] numeros.valor '{it.get('valor')}' com {len(str(it.get('valor')))} caracteres (máx. 9: mova a unidade para o rótulo)")
                     if not re.search(r"\d", str(it.get("valor", ""))): A(f"[{pid}] numeros.valor sem número: '{it.get('valor')}'")
-            if tp == "grafico":
-                forma = v.get("forma")
-                if forma not in ("barras", "colunas", "linha"): E(f"[{pid}] grafico.forma deve ser barras, colunas ou linha")
-                tg = v.get("titulo")
-                if not isinstance(tg, str) or not tg.strip(): E(f"[{pid}] grafico sem titulo")
-                elif len(tg) > 70: A(f"[{pid}] grafico.titulo com {len(tg)} caracteres (até 70)")
-                if not isinstance(v.get("fonte"), str) or not v.get("fonte").strip(): E(f"[{pid}] grafico sem fonte (de onde vêm os números)")
-                un = v.get("unidade")
-                if un is not None and (not isinstance(un, str) or len(un) > 12): E(f"[{pid}] grafico.unidade deve ser texto curto (%, R$ bi, votos…)")
-                if v.get("casas") is not None and v.get("casas") not in (0, 1, 2): E(f"[{pid}] grafico.casas deve ser 0, 1 ou 2")
-                lo, hi, rmax = {"barras": (2, 12, 28), "colunas": (2, 14, 10), "linha": (3, 24, 12)}.get(forma, (2, 12, 28))
-                if not lo <= len(its) <= hi: E(f"[{pid}] grafico {forma} com {len(its)} itens ({lo} a {hi})")
-                for it in its:
-                    if not isinstance(it, dict) or not isinstance(it.get("rotulo"), str) or not it.get("rotulo").strip(): E(f"[{pid}] grafico com item sem rotulo"); continue
-                    vl = it.get("valor")
-                    if isinstance(vl, bool) or not isinstance(vl, (int, float)): E(f"[{pid}] grafico.valor '{vl}' deve ser número puro (a unidade vai em 'unidade')")
-                    if len(it["rotulo"]) > rmax: A(f"[{pid}] grafico.rotulo '{it['rotulo']}' longo (até {rmax} em {forma})")
+            if tp == "grafico": checar_grafico(pid, v)
             if tp == "linha_do_tempo" and not 3 <= len(its) <= 6: A(f"[{pid}] linha_do_tempo com {len(its)} itens (3 a 6)")
             if tp == "imagem": checar_imagem(pid + " visual", v.get("imagem") or {}, p)
             if tp == "pesquisas" and not f.get("pesquisas_2t"): E(f"[{pid}] visual pesquisas sem pesquisas_2t")
@@ -1022,6 +1006,131 @@ def nomes(t):
             if re.match(r"^[A-ZÁÉÍÓÚÂÊÔÃÕÇ]", w) and len(w) >= 3: out.append(w)
     return out
 
+# ---------- gráficos (catálogo de modelos; manual 2, "visuais") ----------
+FORMAS = ("barras", "colunas", "linha", "area", "barras_empilhadas", "rosca", "placar_votacao", "mapa_uf", "antes_depois",
+          "faixa_meta", "ranking", "pesquisa", "contagem")
+UFS = {"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS",
+       "RO", "RR", "SC", "SP", "SE", "TO"}
+CASAS_VOTO = {"camara": 513, "senado": 81, "stf": 11}
+PERIODOS = re.compile(r"^(\d{1,3})(d|m|a)$|^tudo$")
+SERIES_IDX = None  # ids de series/index.json (ao lado do feed), quando existir
+
+
+def ler_series(pasta):
+    try:
+        with open(os.path.join(pasta, "series", "index.json"), encoding="utf-8") as fh:
+            return {x["id"] for x in json.load(fh).get("series") or [] if isinstance(x, dict) and x.get("id")}
+    except Exception:
+        return None
+
+
+def _num(x):
+    return isinstance(x, (int, float)) and not isinstance(x, bool)
+
+
+def checar_grafico(pid, v):
+    """Valida um visual {tipo:"grafico"} de qualquer forma do catálogo: números puros, unidade curta e fonte."""
+    forma = v.get("forma")
+    its = v.get("itens") or []
+    if forma not in FORMAS: E(f"[{pid}] grafico.forma deve ser uma de: {', '.join(FORMAS)}"); return
+    tg = v.get("titulo")
+    if not isinstance(tg, str) or not tg.strip(): E(f"[{pid}] grafico sem titulo")
+    elif len(tg) > 70: A(f"[{pid}] grafico.titulo com {len(tg)} caracteres (até 70)")
+    serie = v.get("serie")
+    if serie is not None and forma not in ("linha", "area", "faixa_meta"): E(f"[{pid}] grafico.serie só vale nas formas linha, area e faixa_meta")
+    if not (isinstance(v.get("fonte"), str) and v.get("fonte").strip()) and not serie:
+        E(f"[{pid}] grafico sem fonte (de onde vêm os números)")
+    un = v.get("unidade")
+    if un is not None and (not isinstance(un, str) or len(un) > 12): E(f"[{pid}] grafico.unidade deve ser texto curto (%, R$ bi, votos…)")
+    if v.get("casas") is not None and v.get("casas") not in (0, 1, 2): E(f"[{pid}] grafico.casas deve ser 0, 1 ou 2")
+    if v.get("nota") is not None and (not isinstance(v.get("nota"), str) or len(v.get("nota")) > 160): A(f"[{pid}] grafico.nota até 160 caracteres")
+    if not isinstance(its, list): E(f"[{pid}] grafico.itens deve ser lista"); return
+
+    def itens_simples(lo, hi, rmax, nome=forma, minimo=None, maximo=None):
+        if not lo <= len(its) <= hi: E(f"[{pid}] grafico {nome} com {len(its)} itens ({lo} a {hi})")
+        for it in its:
+            if not isinstance(it, dict) or not isinstance(it.get("rotulo"), str) or not it.get("rotulo").strip(): E(f"[{pid}] grafico com item sem rotulo"); continue
+            vl = it.get("valor")
+            if not _num(vl): E(f"[{pid}] grafico.valor '{vl}' deve ser número puro (a unidade vai em 'unidade')"); continue
+            if minimo is not None and vl < minimo: E(f"[{pid}] grafico {nome}: valor {vl} abaixo de {minimo}")
+            if maximo is not None and vl > maximo: E(f"[{pid}] grafico {nome}: valor {vl} acima de {maximo}")
+            if len(it["rotulo"]) > rmax: A(f"[{pid}] grafico.rotulo '{it['rotulo']}' longo (até {rmax} em {nome})")
+
+    def checa_serie():
+        if not isinstance(serie, str) or not re.match(r"^[a-z0-9_]{2,30}$", serie): E(f"[{pid}] grafico.serie deve ser o id de uma série (selic, ipca12m, dolar…)"); return
+        if SERIES_IDX is not None and serie not in SERIES_IDX: E(f"[{pid}] grafico.serie '{serie}' não existe em series/index.json ({', '.join(sorted(SERIES_IDX))})")
+        per = v.get("periodo")
+        if per is not None and not (isinstance(per, str) and PERIODOS.match(per)): E(f"[{pid}] grafico.periodo '{per}' inválido (ex.: 30d, 12m, 5a, tudo)")
+        for k in ("desde", "ate"):
+            if v.get(k) is not None and not re.match(r"^\d{4}-\d{2}(-\d{2})?$", str(v.get(k))): E(f"[{pid}] grafico.{k} deve ser AAAA-MM ou AAAA-MM-DD")
+        if its: A(f"[{pid}] grafico com serie e itens: o app usa a série e ignora os itens")
+
+    if forma in ("barras", "colunas"):
+        itens_simples(*{"barras": (2, 12, 28), "colunas": (2, 14, 10)}[forma])
+    elif forma in ("linha", "area"):
+        if serie is not None: checa_serie()
+        else: itens_simples(3, 24, 12)
+    elif forma == "ranking":
+        itens_simples(3, 10, 28)
+        if v.get("ordem") not in (None, "desc", "asc"): E(f"[{pid}] ranking.ordem deve ser desc ou asc")
+    elif forma == "rosca":
+        itens_simples(2, 6, 24, minimo=0)
+        if its and sum(it.get("valor") or 0 for it in its if isinstance(it, dict) and _num(it.get("valor"))) <= 0: E(f"[{pid}] rosca com soma zero")
+        if v.get("centro") is not None and len(str(v.get("centro"))) > 12: A(f"[{pid}] rosca.centro até 12 caracteres")
+    elif forma == "antes_depois":
+        itens_simples(2, 2, 18)
+    elif forma == "mapa_uf":
+        itens_simples(3, 27, 2)
+        ufs = [it.get("rotulo") for it in its if isinstance(it, dict)]
+        for u in ufs:
+            if u not in UFS: E(f"[{pid}] mapa_uf: '{u}' não é sigla de UF (SP, RJ, DF…)")
+        if len(set(ufs)) != len(ufs): E(f"[{pid}] mapa_uf com UF repetida")
+    elif forma == "barras_empilhadas":
+        sr = v.get("series")
+        if not isinstance(sr, list) or not 2 <= len(sr) <= 4 or not all(isinstance(x, str) and x.strip() and len(x) <= 18 for x in sr):
+            E(f"[{pid}] barras_empilhadas.series: 2 a 4 nomes de até 18 caracteres"); sr = sr if isinstance(sr, list) else []
+        if not 2 <= len(its) <= 8: E(f"[{pid}] grafico barras_empilhadas com {len(its)} itens (2 a 8)")
+        for it in its:
+            if not isinstance(it, dict) or not isinstance(it.get("rotulo"), str) or not it.get("rotulo").strip(): E(f"[{pid}] grafico com item sem rotulo"); continue
+            vs = it.get("valores")
+            if not isinstance(vs, list) or len(vs) != len(sr) or not all(_num(x) and x >= 0 for x in vs): E(f"[{pid}] barras_empilhadas: '{it['rotulo']}' precisa de valores (números ≥ 0), um para cada série")
+            if len(it["rotulo"]) > 24: A(f"[{pid}] grafico.rotulo '{it['rotulo']}' longo (até 24 em barras_empilhadas)")
+        if v.get("modo") not in (None, "valor", "percentual"): E(f"[{pid}] barras_empilhadas.modo deve ser valor ou percentual")
+    elif forma == "placar_votacao":
+        casa = v.get("casa")
+        if casa not in CASAS_VOTO: E(f"[{pid}] placar_votacao.casa deve ser camara (513), senado (81) ou stf (11)"); return
+        itens_simples(2, 4, 14, minimo=0)
+        tot = CASAS_VOTO[casa]
+        if any(isinstance(it, dict) and _num(it.get("valor")) and int(it["valor"]) != it["valor"] for it in its): E(f"[{pid}] placar_votacao: votos são números inteiros")
+        sm = sum(it.get("valor") for it in its if isinstance(it, dict) and _num(it.get("valor")))
+        if sm > tot: E(f"[{pid}] placar_votacao: {sm} votos é mais que as {tot} cadeiras de {casa}")
+        mn = v.get("minimo")
+        if mn is not None and (not isinstance(mn, int) or isinstance(mn, bool) or not 0 < mn <= tot): E(f"[{pid}] placar_votacao.minimo deve ser inteiro de 1 a {tot}")
+        if v.get("resultado") not in (None, "", "aprovado", "rejeitado"): E(f"[{pid}] placar_votacao.resultado: aprovado, rejeitado ou vazio")
+    elif forma == "faixa_meta":
+        if serie is not None: checa_serie()
+        else: itens_simples(3, 24, 10)
+        m = v.get("meta")
+        if not isinstance(m, dict) or not all(_num(m.get(k)) for k in ("centro", "min", "max")): E(f"[{pid}] faixa_meta.meta precisa de centro, min e max (números)")
+        elif not m["min"] <= m["centro"] <= m["max"]: E(f"[{pid}] faixa_meta.meta: min ≤ centro ≤ max")
+    elif forma == "pesquisa":
+        itens_simples(2, 8, 20, minimo=0, maximo=100)
+        mg = v.get("margem")
+        if not _num(mg) or not 0 < mg <= 10: E(f"[{pid}] pesquisa.margem (pontos percentuais, ex.: 2) é obrigatória")
+        if not isinstance(v.get("instituto"), str) or not v.get("instituto").strip(): E(f"[{pid}] pesquisa sem instituto")
+        try: date.fromisoformat(str(v.get("data")))
+        except ValueError: E(f"[{pid}] pesquisa.data deve ser AAAA-MM-DD (fim do campo)")
+    elif forma == "contagem":
+        try: d = date.fromisoformat(str(v.get("data")))
+        except ValueError: E(f"[{pid}] contagem.data deve ser AAAA-MM-DD"); d = None
+        if not isinstance(v.get("rotulo"), str) or not v.get("rotulo").strip() or len(v.get("rotulo")) > 60: E(f"[{pid}] contagem.rotulo (até 60 caracteres, ex.: \"para a reunião do Copom\") é obrigatório")
+        if d and d < datetime.now(SP).date(): A(f"[{pid}] contagem com data passada ({d.isoformat()}): troque o visual")
+        for it in its[:6]:
+            if not isinstance(it, dict) or not re.match(r"^\d{4}-\d{2}-\d{2}$", str(it.get("data"))) or not isinstance(it.get("texto"), str): E(f"[{pid}] contagem.itens: [{{data AAAA-MM-DD, texto}}]")
+        if len(its) > 4: A(f"[{pid}] contagem com mais de 4 marcos (o app mostra 4)")
+
+
+
 def checar_imagem(pid, im, p):
     mo = im.get("modelo")
     if mo not in MODELOS: E(f"[{pid}] modelo de imagem inválido: {mo}"); return
@@ -1090,6 +1199,8 @@ def main(argv):
         except Exception: A("não consegui ler o feed anterior")
     if agora is not None and agora.tzinfo is None: agora = agora.replace(tzinfo=SP)
     IND = ler_indicadores(indf or os.path.join(os.path.dirname(os.path.abspath(args[0])), "indicadores.json"))
+    global SERIES_IDX
+    SERIES_IDX = ler_series(os.path.dirname(os.path.abspath(args[0])))
     try: ref, ag = checar(f, ant, virada, agora, IND)
     except Exception as e:
         E(f"validar.py falhou ao checar (algum campo com tipo errado?): {e!r}"); ag = agora or datetime.now(SP)

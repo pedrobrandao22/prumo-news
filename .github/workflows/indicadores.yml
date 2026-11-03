@@ -1,6 +1,7 @@
 name: Indicadores
 # Dias úteis, de hora em hora (8h20 às 19h20 de Brasília): dólar, Ibovespa, Selic, IPCA 12 meses e desemprego
 # de fontes públicas (Banco Central, IBGE, cotações), gravados em indicadores.json. O app junta com o feed.
+# Também guarda o histórico de cada um em series/*.json (gráficos do app com "serie": "selic", sem digitar números).
 on:
   schedule:
     - cron: "20 11-22 * * 1-5"
@@ -20,12 +21,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Buscar os números
-        run: python3 -I tools/indicadores.py indicadores.json
+        run: python3 -I tools/indicadores.py indicadores.json --series series
       - name: Gravar
         run: |
           git config user.name "prumo-robo"
           git config user.email "prumo-robo@users.noreply.github.com"
           git add indicadores.json
+          if [ -d series ]; then git add series; fi
           git diff --cached --quiet && exit 0
           git commit -q -m "Indicadores $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
           for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 10; done; exit 1

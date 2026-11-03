@@ -75,15 +75,22 @@ def fa_assunto(tit, A, sec):
 
 
 def fa_listas(p, A):
+    """Igual ao faListas do app (110-acervo.js): pessoa no título (senão no subtítulo) > assunto no título (senão na
+    tag/tema/subtítulo) > subtema > padrão da seção. "foto_arquivo": "tema" tira o retrato."""
     L, T, sec = [], A.get("temas") or {}, p.get("secao") or "politica"
-    pe = None if p.get("foto_arquivo") == "tema" else fa_pessoa(str((p.get("neutro") or {}).get("titulo") or ""), A)
-    if pe and isinstance(pe.get("fotos"), list) and pe["fotos"]: L.append(pe["fotos"])
-    asn = fa_assunto(str((p.get("neutro") or {}).get("titulo") or ""), A, sec)
-    if asn and isinstance(asn.get("fotos"), list) and asn["fotos"]: L.append(asn["fotos"])
-    t = T.get(f"{sec}/{p.get('subtema') or ''}")
-    if isinstance(t, list) and t: L.append(t)
-    d = T.get((A.get("padrao") or {}).get(sec))
-    if isinstance(d, list) and d and d is not t: L.append(d)
+    tit = str((p.get("neutro") or {}).get("titulo") or "")
+    sub = p.get("subtitulo") if isinstance(p.get("subtitulo"), str) else ""
+    extra = " · ".join(x for x in (p.get("tag"), p.get("tema")) if isinstance(x, str) and x)
+
+    def pega(l):
+        if isinstance(l, list) and l and not any(l is x for x in L): L.append(l)
+    if p.get("foto_arquivo") != "tema":
+        pe = fa_pessoa(tit, A) or (fa_pessoa(sub, A) if sub else None)
+        if pe and isinstance(pe.get("fotos"), list): pega(pe["fotos"])
+    asn = fa_assunto(tit, A, sec) or (fa_assunto(extra, A, sec) if extra else None) or (fa_assunto(sub, A, sec) if sub else None)
+    if asn and isinstance(asn.get("fotos"), list): pega(asn["fotos"])
+    pega(T.get(f"{sec}/{p.get('subtema') or ''}"))
+    pega(T.get((A.get("padrao") or {}).get(sec)))
     return L
 
 

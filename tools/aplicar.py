@@ -26,6 +26,7 @@ patch.json: lista de operações (ou {"ops": [...]}). Operações:
   {"op":"correcao_add","pid":ID,"hora":...,"texto":...}           correcoes + atualizacoes + mudancas
   {"op":"enquete_add","pid":ID,"enquete":{pergunta,opcoes}}      só em pauta sem enquete
   {"op":"remove_enquete","pid":ID}
+  {"op":"grafico_set","pid":ID,"grafico":{forma,titulo,fonte,...}}  põe/troca o gráfico da pauta (catálogo do manual 2); null tira
   {"op":"glossario_add","termo":...,"texto":...} · {"op":"pessoa_add","nome":...,"texto":...}
   {"op":"pesquisa_add","data":...,"instituto":...,"flavio":N,"lula":N}
   {"op":"jogo_set","id":ID_DO_JOGO,"campos":{"estado":"ao_vivo","ga":1,"gb":0}}  placar/estado de um jogo pelo id
@@ -219,6 +220,13 @@ class Feed:
             p["enquete"] = {"pergunta": e["pergunta"], "opcoes": list(e["opcoes"])}
         elif k == "remove_enquete":
             p = self.pauta(op.get("pid")); p["enquete"] = None
+        elif k == "grafico_set":
+            p = self.pauta(op.get("pid")); g = op.get("grafico")
+            vs = [v for v in (p.get("visuais") or []) if not (isinstance(v, dict) and v.get("tipo") == "grafico")]
+            if g is not None:
+                if not isinstance(g, dict) or g.get("forma") not in V.FORMAS: raise Recusa(f"grafico_set: forma deve ser uma de {', '.join(V.FORMAS)}")
+                vs = [dict(g, tipo="grafico")] + vs
+            p["visuais"] = vs
         elif k == "glossario_add":
             if not op.get("termo") or not op.get("texto"): raise Recusa("glossario_add precisa de termo e texto")
             F.setdefault("glossario", {})[op["termo"]] = op["texto"]

@@ -1,6 +1,7 @@
 name: Fotos de arquivo
-# Uma vez por dia (e quando o script muda): busca no Wikimedia Commons fotos livres de pessoas e assuntos
-# das notícias e grava fotos-arquivo.json. O app usa quando a pauta não tem foto própria. Sem IA e sem chave.
+# Uma vez por dia (e quando o script muda): monta o acervo de fotos livres (Wikimedia Commons com licença CC/PD
+# conferida por arquivo; retratos oficiais da Câmara e do Senado, de uso livre com crédito) e grava fotos-arquivo.json
+# e as fotos leves em acervo/ (WebP até 640 px, ~60 KB), em lotes de até 120 por rodada. Sem IA e sem chave.
 on:
   schedule:
     - cron: "17 8 * * *"
@@ -16,11 +17,18 @@ concurrency:
 jobs:
   fotos:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Pillow (reduz as fotos para WebP; sem ele o robô guarda só JPEG pequeno)
+        run: |
+          python3 -m pip install -q --only-binary=:all: "pillow==11.1.0" || true
       - name: Buscar fotos
-        run: python3 -I tools/fotos_arquivo.py feed.json fotos-arquivo.json
+        # domingo: tira do acervo as fotos que ninguém usa mais (pessoas fora do noticiário há mais de 120 dias)
+        run: python3 -I tools/fotos_arquivo.py feed.json fotos-arquivo.json --pasta acervo --limite 120 --max-mb 90 $( [ "$(date +%u)" = 7 ] && echo --podar )
       - name: Páginas de compartilhamento com as fotos novas
         # commits do robô não disparam o workflow das páginas: atualiza aqui mesmo
         run: python3 -I tools/paginas.py feed.json m fotos-arquivo.json
@@ -29,6 +37,7 @@ jobs:
           git config user.name "prumo-robo"
           git config user.email "prumo-robo@users.noreply.github.com"
           git add fotos-arquivo.json m
+          if [ -d acervo ]; then git add acervo; fi
           git diff --cached --quiet && exit 0
           git commit -q -m "Fotos de arquivo $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
           for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 10; done; exit 1

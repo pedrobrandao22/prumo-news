@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """Indicadores econômicos do Prumo News, sem IA (roda no GitHub a cada hora em dia útil).
 
-  python3 tools/indicadores.py indicadores.json
+  python3 tools/indicadores.py indicadores.json [--series series]
 
 Fontes públicas, sem chave:
 - Dólar e Ibovespa: cotação do dia (Yahoo Finance; se falhar, o dólar usa a PTAX do Banco Central).
 - Selic (meta), IPCA em 12 meses e desemprego (PNAD Contínua): séries do Banco Central (SGS).
 Grava {"atualizado", "itens": [{id, nome, valor, variacao, dir, data, serie, fonte}]}. O app junta com os
 indicadores do feed. Se uma fonte falhar, o indicador anterior do arquivo continua valendo.
+
+Com --series PASTA, guarda também o HISTÓRICO de cada indicador em PASTA/<id>.json (selic, ipca12m, ipca_mes,
+desemprego, dolar, ibovespa) e PASTA/index.json, para os gráficos do app ("serie": "selic"): as rodadas não digitam
+números. Formato: {id, nome, unidade, casas, fonte, freq "mensal"|"diaria", atualizado, pontos [["AAAA-MM(-DD)", valor]]}.
+A cada hora só busca o trecho recente e junta com o que já está no arquivo; só regrava quando muda.
 """
 import json, os, sys, urllib.request
 from datetime import datetime, timedelta, timezone
@@ -127,8 +132,102 @@ def mensal(cod, id_, nome, fonte, velho):
     return item
 
 
+# ---------- séries históricas (gráficos do app) ----------
+SERIES = {
+    "selic": {"nome": "Selic (meta)", "unidade": "%", "casas": 2, "fonte": "Banco Central (Copom)", "freq": "mensal", "sgs": 432, "diaria": True},
+    "ipca12m": {"nome": "IPCA em 12 meses", "unidade": "%", "casas": 2, "fonte": "IBGE (via Banco Central)", "freq": "mensal", "sgs": 13522},
+    "ipca_mes": {"nome": "IPCA no mês", "unidade": "%", "casas": 2, "fonte": "IBGE (via Banco Central)", "freq": "mensal", "sgs": 433},
+    "desemprego": {"nome": "Desemprego (PNAD Contínua)", "unidade": "%", "casas": 1, "fonte": "IBGE/PNAD Contínua (via Banco Central)", "freq": "mensal", "sgs": 24369},
+    "dolar": {"nome": "Dólar (PTAX, venda)", "unidade": "R$", "casas": 2, "fonte": "Banco Central (PTAX)", "freq": "diaria", "sgs": 1, "diaria": True},
+    "ibovespa": {"nome": "Ibovespa (fechamento)", "unidade": "pontos", "casas": 0, "fonte": "B3", "freq": "diaria", "yahoo": "%5EBVSP"},
+}
+INICIO_MENSAL = "01/01/2012"
+
+
+def sgs_janela(cod, ini, fim=None):
+    """Série do SGS entre duas datas dd/mm/aaaa (séries diárias: no máximo 10 anos por pedido)."""
+    url = f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{cod}/dados?formato=json&dataInicial={ini}"
+    if fim: url += f"&dataFinal={fim}"
+    out = []
+    for x in get_json(url, 30):
+        try:
+            dd, mm, aa = str(x["data"]).split("/")
+            out.append((f"{aa}-{mm}-{dd}", float(str(x["valor"]).replace(",", "."))))
+        except (KeyError, ValueError, TypeError): continue
+    return out
+
+
+def buscar_serie(sid, cfg, velho):
+    """Pontos novos da série (só o trecho recente se já há histórico)."""
+    hoje = datetime.now(SP).date()
+    ult = velho[-1][0] if velho else None
+    if cfg.get("yahoo"):
+        rng = "3mo" if ult else "5y"
+        r = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{cfg['yahoo']}?range={rng}&interval=1d")["chart"]["result"][0]
+        dia = {}
+        for t, c in zip(r.get("timestamp") or [], r["indicators"]["quote"][0].get("close") or []):
+            if c is not None: dia[datetime.fromtimestamp(t, SP).date().isoformat()] = round(float(c), 2)
+        return sorted(dia.items())
+    if cfg.get("diaria"):
+        dias = 120 if ult else (3600 if sid == "selic" else 1830)
+        ini = (hoje - timedelta(days=dias)).strftime("%d/%m/%Y")
+        pts = [p for p in sgs_janela(cfg["sgs"], ini, hoje.strftime("%d/%m/%Y")) if p[0] <= hoje.isoformat()]
+    else:
+        ini = (hoje - timedelta(days=500)).strftime("%d/%m/%Y") if ult else INICIO_MENSAL
+        pts = sgs_janela(cfg["sgs"], ini)
+    if cfg["freq"] == "mensal":  # valor de cada mês (série diária: o do último dia do mês; o mês corrente, o de hoje)
+        mes = {}
+        for d, v in pts: mes[d[:7]] = v
+        return sorted(mes.items())
+    return pts
+
+
+def juntar_pontos(velhos, novos):
+    m = {d: v for d, v in velhos}
+    for d, v in novos: m[d] = v
+    return [[d, m[d]] for d in sorted(m)]
+
+
+def atualizar_series(pasta):
+    """Grava PASTA/<id>.json e PASTA/index.json. Falha de uma série não apaga o histórico dela."""
+    os.makedirs(pasta, exist_ok=True)
+    idx, log, mudou = [], [], False
+    for sid, cfg in SERIES.items():
+        arq = os.path.join(pasta, sid + ".json")
+        velho = {}
+        try: velho = json.load(open(arq, encoding="utf-8"))
+        except Exception: velho = {}
+        vp = [p for p in (velho.get("pontos") or []) if isinstance(p, list) and len(p) == 2]
+        try:
+            novos = buscar_serie(sid, cfg, vp)
+            pts = juntar_pontos(vp, novos)
+            log.append(f"série {sid}: {len(pts)} pontos (+{len(pts) - len(vp)})")
+        except Exception as e:
+            log.append(f"série {sid}: FALHOU {repr(e)[:100]}"); pts = vp
+        if not pts: continue
+        meta = {k: cfg[k] for k in ("nome", "unidade", "casas", "fonte", "freq")}
+        doc = dict({"id": sid}, **meta, atualizado=velho.get("atualizado") or "", pontos=pts)
+        if pts != vp or any(velho.get(k) != v for k, v in meta.items()):
+            doc["atualizado"] = datetime.now(SP).isoformat(timespec="minutes"); mudou = True
+            with open(arq, "w", encoding="utf-8") as fh: json.dump(doc, fh, ensure_ascii=False, separators=(",", ":"))
+        idx.append({"id": sid, "nome": cfg["nome"], "unidade": cfg["unidade"], "freq": cfg["freq"], "fonte": cfg["fonte"],
+                    "de": pts[0][0], "ate": pts[-1][0], "n": len(pts), "atualizado": doc["atualizado"]})
+    print("\n".join(log))
+    ia = os.path.join(pasta, "index.json")
+    try: vi = json.load(open(ia, encoding="utf-8")).get("series")
+    except Exception: vi = None
+    if idx and (mudou or vi != idx):
+        with open(ia, "w", encoding="utf-8") as fh: json.dump({"series": idx}, fh, ensure_ascii=False, separators=(",", ":"))
+    return len(idx)
+
+
 def main(argv):
     if not argv: print(__doc__); return 2
+    if "--series" in argv:
+        i = argv.index("--series"); pasta = argv[i + 1] if i + 1 < len(argv) else "series"; argv = argv[:i] + argv[i + 2:]
+        try: atualizar_series(pasta)
+        except Exception as e: print("séries falharam:", repr(e)[:160])
+        if not argv: return 0
     caminho = argv[0]
     antigo = {}
     if os.path.exists(caminho):
