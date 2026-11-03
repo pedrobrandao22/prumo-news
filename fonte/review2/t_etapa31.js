@@ -6,7 +6,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
   const pe = f.pautas.find(p => p.tipo !== 'pontual' && (p.atualizacoes || []).length); pe.status = 'encerrada'; pe.desfecho = 'Terminou assim: resultado de teste com 51 votos.';
   fs.writeFileSync(S0 + 'feed.json', JSON.stringify(f));
-  fs.copyFileSync(require('../t_util').REPO + '/fotos-arquivo.json', S0 + 'fotos-arquivo.json');
+  fs.copyFileSync(require('../t_util').REPO + '/fotos-arquivo.json', S0 + 'fotos-arquivo.json'); try { fs.rmSync(S0 + 'acervo', { recursive: true, force: true }); if (fs.existsSync(require('../t_util').REPO + '/acervo')) fs.symlinkSync(require('../t_util').REPO + '/acervo', S0 + 'acervo') } catch (e) { }
   const jpg = fs.readFileSync(__dirname + '/etapa13/foto.jpg');
   const srv = U.servir('site', 8831); await sleep(700); const br = await U.navegador(); const D = __dirname + '/etapa31/'; fs.mkdirSync(D, { recursive: true });
   const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, acceptDownloads: true });
@@ -42,5 +42,5 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(await p.evaluate(() => { const fs = [...document.querySelectorAll('#secs [data-sec-story] .ig-f')]; return fs.length && fs.every(f => f.querySelector('img')) }), 'círculos das seções no Feed com foto real');
   await p.screenshot({ path: D + 'feed.png' });
   ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'sem erros ' + p._erros.join('|'));
-  const r = U.resumo(); console.log(`\nRESUMO t_etapa31: ${r.OKS} ok, ${r.FALHAS} falhas`); await br.close(); srv.kill(); try { fs.unlinkSync(S0 + 'fotos-arquivo.json') } catch (e) { } process.exit(r.FALHAS ? 1 : 0);
+  const r = U.resumo(); console.log(`\nRESUMO t_etapa31: ${r.OKS} ok, ${r.FALHAS} falhas`); await br.close(); srv.kill(); try { fs.unlinkSync(S0 + 'fotos-arquivo.json') } catch (e) { } try { fs.unlinkSync(S0 + 'acervo') } catch (e) { } process.exit(r.FALHAS ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(2) });
