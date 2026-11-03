@@ -37,7 +37,7 @@ function fc107Junto(h,p){const tp=document.createElement("template");tp.innerHTM
   a.classList.add("fc107-junto");if(p.__fc107.k===0)a.classList.add("fc107-j1");if(p.__fc107.k===p.__fc107.n-1)a.classList.add("fc107-jl");
   if(!(x.fotos||[]).length){a.classList.add("fc107-semcar");const sub=a.querySelector(".ph-sub");if(sub&&!sub.querySelector(".fc107-c"))sub.insertAdjacentHTML("afterbegin",`<span class="fc107-c">comentou · </span>`);
     const leg=a.querySelector(".up-leg"),g=leg&&leg.parentElement,ac=g&&g.querySelector(":scope>.acts");if(leg&&ac){const nb=leg.querySelector(":scope>b:first-child");if(nb){const t=nb.nextSibling;nb.remove();if(t&&t.nodeType===3)t.textContent=t.textContent.replace(/^\s+/,"")}g.insertBefore(leg,ac)}}
-  if(p.__fc107.k===0)a.insertAdjacentHTML("afterbegin",`<p class="fc107-gh">${p.__fc107.n>1?"O que seus amigos acham":x.autor===S.uid?"Seu comentário":"O que ${esc(fc107Prim(x.autor))} acha"}</p>`);
+  if(p.__fc107.k===0)a.insertAdjacentHTML("afterbegin",`<p class="fc107-gh">${p.__fc107.n>1?"O que seus amigos acham":x.autor===S.uid?"Seu comentário":`O que ${esc(fc107Prim(x.autor))} acha`}</p>`);
   return a.outerHTML}
 function fc107NoPost(h,pid){if(fc107Agrupa()&&!/^_/.test(FILTRO))return h;const ln=fc107Linha(pid);if(!ln)return h;
   const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a)return h;const ref=a.querySelector(".cmt-area")||a.querySelector("[data-likes]");if(!ref)return h;
