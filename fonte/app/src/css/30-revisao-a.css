@@ -1,0 +1,12 @@
+/* ---------- 30: revisão A (social e conversas) — ver js/114 ---------- */
+/* A02 Melhores amigos (Perfil › Conta) */
+.ra114-man{margin:2px 0 8px;font:600 13px var(--f-ui);color:var(--muted)}
+.ra114-ma{max-height:min(56vh,460px);overflow-y:auto}
+/* A05 telas estreitas: os três botões do próprio perfil cabem sem cortar "Editar foto" */
+@media (max-width:389px){
+  html.vn .vn-pf>.pf-bts{gap:6px}
+  html.vn .vn-pf>.pf-bts .btn{flex:1 1 auto;min-width:0;padding:0 8px;font-size:12.5px}
+}
+/* A06 Foto do perfil: os dois botões dividem a largura, alinhados */
+.sh-f:has([data-fp8esc]){display:flex;gap:8px;align-items:stretch}
+.sh-f:has([data-fp8esc]) .btn{flex:1 1 0;min-width:0;margin:0;white-space:normal;line-height:1.2}
