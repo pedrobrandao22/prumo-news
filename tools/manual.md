@@ -177,6 +177,7 @@ rodadas.json no repositório: {"dia":"AAAA-MM-DD","itens":{"HHhMM":REG}} (dia de
 1. Imediatamente antes: `git -C /tmp/prumo-site fetch -q origin main` e compare `git show origin/main:feed.json` com o feed em que você começou (atualizado_em). Se mudou, alguém publicou no meio: `git reset -q --hard origin/main` e reaplique o SEU patch.json nesse feed novo (aplicar.py com --prev), rode o validar.py de novo e use o resultado. Na completa, copie para o seu feed as correcoes e atualizacoes do feed novo com hora posterior ao início da rodada (por id) e refaça a validação.
 2. Valide o JSON (python json.load), copie o resultado para /tmp/prumo-site/feed.json, atualize rodadas.json (7) e erros-respostas.json (4) e faça: `cd /tmp/prumo-site && git add feed.json rodadas.json erros-respostas.json && git -c user.name="prumo-robo" -c user.email="prumo-robo@users.noreply.github.com" commit -q -m "<Completa dd/mm hh | Rápida dd/mm hh>" && git pull -q --rebase && git push -q`.
 3. Se o pull --rebase der conflito no feed.json: `git rebase --abort` e volte ao passo 1 (máx. 3 vezes). Nunca force push. Nunca altere index.html, sw.js, tools/ nem .github/. Se não conseguir, registre "falhou".
+   feed-leve.json e feed-det/ (a Capa abre por eles) são refeitos sozinhos pelo robô "Feed leve" a cada push do feed.json: não edite nem inclua no commit.
 4. Não publique mais na página antiga do Claude (artifact): ela ficou congelada em 22/10.
 
 ## 9. Virada da meia-noite (automática)

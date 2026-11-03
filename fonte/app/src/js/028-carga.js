@@ -17,12 +17,14 @@ function renderFeedInicial(){if(abreNaCapa()){window.__feedAdiado=true;return}re
 function prepararFeed(f){f=sanear(f)||f;FEED=f;document.body.classList.remove("semfeed");calcularNovidades();renderFeed();setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}
 async function loadFeed(){
   aplicarFonte();
-  const cached=lsGet("radar-feed",null);
+  const cached=lsGet("radar-feed",null);fl119Conhecida(cached);
   if(!cached)document.body.classList.add("semfeed");
   if(cached&&sanear(cached)){FEED=cached;document.body.classList.remove("semfeed");calcularNovidades();renderFeedInicial()}
-  try{const r=await feedPedido();if(!r.ok)throw 0;const f=await r.json();
+  try{const x=await fl119Obter(cached,!cached&&abreNaCapa());  // feed-leve.json + detalhe, ou o feed.json (119-feed-leve.js)
     const eraOff=OFFLINE;OFFLINE=false;
-    if(!cached||feedTxt(f)!==JSON.stringify(cached)){prepararFeed(f);lsSet("radar-feed",f)}else{if(eraOff)renderPosts();else setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}}
+    if(x.leve){fl119Pintar(x);AVISO_FEED_OK=true;avisoAtrasoDepois();return}  // primeira visita pelo leve: o aviso de atraso também vale
+    const f=x.f;
+    if(!cached||!fl119Igual(cached,x)){prepararFeed(f);fl119Guardar(f)}else{if(eraOff)renderPosts();else setTimeout(registrarConhecidas,4000);subEdicao();carregarRodadas()}}
   catch(e){OFFLINE=true;if(!cached)$("#posts").innerHTML=`<div class="empty"><b>Não consegui carregar as notícias</b>Verifique a conexão. O Prumo tenta de novo sozinho quando você voltar ao app.<button type="button" class="btn" data-retry style="margin-top:12px">Tentar de novo</button></div>`;else{renderPosts();if(VIEW==="capa")renderCapa()}}
   AVISO_FEED_OK=true;avisoAtrasoDepois()
 }

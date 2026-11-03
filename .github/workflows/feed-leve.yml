@@ -1,0 +1,40 @@
+name: Feed leve
+# Quando o feed muda (push das rodadas) e de hora em hora (rede de segurança): divide o feed.json em feed-leve.json
+# (a Capa abre só com ele) + feed-det/<versão>.json (texto, links, gráficos…), com tools/feed_leve.py. Sem IA e sem chave.
+# O feed.json continua sendo a única fonte: as rodadas não mudam nada. Se nada mudou, não há commit.
+# A virada (commit de robô não dispara workflow) faz o mesmo no próprio job. Se este robô parar, o app continua
+# certo: o leve antigo aponta para o detalhe antigo (mesma versão) e, quando o aparelho já tem uma edição mais nova
+# que o leve, o app volta ao feed.json.
+on:
+  push:
+    branches: [main]
+    paths: [feed.json, tools/feed_leve.py, .github/workflows/feed-leve.yml]
+  schedule:
+    - cron: "40 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  # um grupo por robô (ver os outros workflows): a execução pendente mais nova fica e refaz a partir do feed mais novo
+  group: prumo-leve
+  cancel-in-progress: false
+jobs:
+  leve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dividir e gravar
+        # sempre a partir do feed.json mais novo do main: se alguém publicou no meio, refaz e tenta de novo
+        run: |
+          git config user.name "prumo-robo"
+          git config user.email "prumo-robo@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 -I tools/feed_leve.py feed.json || exit 1
+            git add -A feed-leve.json feed-det
+            git diff --cached --quiet && exit 0
+            git commit -q -m "Feed leve $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
+            git push -q && exit 0
+            sleep $((i * 10))
+          done; exit 1
