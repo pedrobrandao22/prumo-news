@@ -107,6 +107,8 @@ def main(argv):
     if pq:
         ult = max(x.get("data", "") for x in pq)
         print(f"PESQUISAS_2T: {len(pq)} · últimas ({ult}): " + "; ".join(f"{x.get('instituto')} {x.get('flavio')}×{x.get('lula')}" for x in pq if x.get("data") == ult))
+    hts = Counter(h for x in list(ps) + list(f.get("dormentes") or []) for h in (x.get("hashtags") or []) if isinstance(h, str))
+    print("HASHTAGS em uso (reuse a mesma grafia na cobertura que continua): " + (", ".join(f"{h} ({n})" for h, n in hts.most_common(30)) or "nenhuma (manual 2f)"))
     print("EXPLICADORES: " + ", ".join(f"{k} ({e.get('atualizado', '')})" for k, e in (f.get("explicadores") or {}).items()))
     print("ENQUETES (não editar; para retirar: remove_enquete): " + ", ".join(p["id"] for p in ps if p.get("enquete")))
     print(f"GLOSSÁRIO {len(f.get('glossario') or {})} termos · PESSOAS {len(f.get('pessoas') or {})} · FONTES {len(f.get('fontes') or {})} · QUIZ {len(f.get('quiz') or [])}")

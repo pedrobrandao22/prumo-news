@@ -414,6 +414,7 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
         tit = n.get("titulo", "")
         if not tit or not n.get("texto"): E(f"[{pid}] neutro sem titulo ou texto")
         checar_cobertura(p, pid, ref)
+        checar_hashtags(p, pid, ant)
         if len(tit) > 90: E(f"[{pid}] título com {len(tit)} caracteres (máx. 90; ideal ≤ 75)")
         elif len(tit) > 75: A(f"[{pid}] título com {len(tit)} caracteres (ideal ≤ 60)")
         # estilo: título diz o fato (manual seção 2, ESTILO)
@@ -898,9 +899,38 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
         if p.get("status") == "encerrada" and not str(p.get("desfecho") or "").strip():
             A(f"[{p.get('id')}] cobertura encerrada sem desfecho: escreva \"desfecho\" (1 frase: como terminou), que o app mostra no topo da matéria")
         elif p.get("desfecho") and len(str(p["desfecho"])) > 200: A(f"[{p.get('id')}] desfecho com {len(str(p['desfecho']))} caracteres (até 200)")
+    grafias = {}
+    for x in list(ps) + list(f.get("dormentes") or []):
+        for h in (x.get("hashtags") if isinstance(x, dict) and isinstance(x.get("hashtags"), list) else []):
+            if isinstance(h, str) and HASHTAG.match(h): grafias.setdefault(chave_hashtag(h), set()).add(h)
+    for k, g in grafias.items():
+        if len(g) > 1: A(f"a mesma hashtag com grafias diferentes ({', '.join(sorted(g))}): use uma só em todas as pautas")
     try: checar_mercado(f, IND, ref)
     except Exception as e: A(f"conferência dos números de mercado falhou: {e!r}")
     return ref, agora
+
+# Hashtags das pautas (manual 2f): "#" + 2 a 30 letras ou números (acento vale), em CamelCase, sem espaço, hífen nem pontuação.
+HASHTAG = re.compile(r"^#[0-9A-Za-zÀ-ÖØ-öø-ÿ]{2,30}$")
+HASHTAG_OPINIAO = re.compile(r"^(fora|mito$|lulalivre|lulaladrao|elenao|elesim|bolsominion|petralha|esquerdopata|mamata)|golpis|ladrao|fascis|comunis|genocid|traidor|vergonha|lixo|chocante|absurd|escandal", re.I)
+def chave_hashtag(t): return re.sub(r"[^0-9a-z]", "", norm(t))
+def checar_hashtags(p, pid, ant):
+    hs = p.get("hashtags")
+    if hs is None: return
+    if not isinstance(hs, list) or not all(isinstance(x, str) for x in hs): E(f"[{pid}] hashtags deve ser lista de textos (ex.: [\"#Copom\", \"#Selic\"])"); return
+    if not hs: A(f"[{pid}] hashtags vazia: tire o campo ou ponha 2 a 4"); return
+    if len(hs) > 4: E(f"[{pid}] {len(hs)} hashtags (máx. 4; ideal 2 a 4)")
+    elif len(hs) < 2: A(f"[{pid}] só 1 hashtag (ideal 2 a 4)")
+    ks = []
+    for x in hs:
+        if not HASHTAG.match(x) or not re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", x):
+            E(f"[{pid}] hashtag inválida '{x}': # + 2 a 30 letras ou números, sem espaço, hífen nem pontuação (ex.: #PECdaSegurança)"); continue
+        if HASHTAG_OPINIAO.search(chave_hashtag(x)): A(f"[{pid}] hashtag '{x}' parece opinativa ou partidária: use o nome neutro do assunto")
+        ks.append(chave_hashtag(x))
+    dup = sorted({k for k in ks if ks.count(k) > 1})
+    if dup: E(f"[{pid}] hashtags repetidas (maiúscula/acento não diferenciam): {', '.join(dup)}")
+    ap = ant_pauta(ant, pid) if ant else None
+    old = [chave_hashtag(x) for x in (ap.get("hashtags") or []) if isinstance(x, str)] if ap and isinstance(ap.get("hashtags"), list) else []
+    if old and ks and not set(old) & set(ks): A(f"[{pid}] a cobertura trocou todas as hashtags (antes: {', '.join(ap['hashtags'])}): mantenha a principal, porque há leitores seguindo")
 
 def checar_cobertura(p, pid, ref):
     sec = p.get("secao")

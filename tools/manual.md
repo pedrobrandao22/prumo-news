@@ -30,7 +30,7 @@ Campos marcados com (auto) são calculados pelo aplicar.py: não escreva à mão
 - taxonomia (auto): os subtemas fixos de cada seção (ver 2b). dormentes (auto): coberturas que saíram do feed nos últimos 30 dias (máx. 40), com id, título, resumo e datas; servem para REUSAR o id quando o assunto volta e aparecem na busca do app. Não escreva à mão.
 
 ## 2. Pauta
-{id, secao, subtema, tipo, status, tag, tema, hora, prioridade, fontes, imagem, neutro, subtitulo, direita, esquerda, o_que_muda, contexto, proximo, atualizacoes, correcoes, visuais, checagem, enquete, enquadramentos, links}
+{id, secao, subtema, tipo, status, tag, tema, hora, prioridade, fontes, imagem, neutro, subtitulo, direita, esquerda, o_que_muda, contexto, proximo, atualizacoes, correcoes, visuais, checagem, enquete, enquadramentos, links, hashtags}
 - id: slug estável; fato que continua REUSA id e tema (também os ids em dormentes: veja o resumo.py). Nunca renomeie um id. tag curta (Senado, Juros, Brasileirão); tema estável ("Caso Master").
 - subtema (obrigatório): um da lista fixa da seção (2b). tipo "cobertura" (padrão) ou "pontual". status "ativa" (padrão), "ao_vivo" ou "encerrada". Campos opcionais de cobertura: etapa, faq. Pontual: por_que. Automáticos (não escreva): inicio, titulos, ao_vivo_desde.
 - hora: ISO -03:00 da matéria mais recente sobre o fato (o update_add sobe a hora se a atualização for mais nova). Nunca no futuro.
@@ -96,6 +96,14 @@ Futebol em 4 campeonatos: Brasileirão (Série A), Série B, Copa do Brasil e Li
 - Só dados conferidos: placar final em 2 veículos; jogos e horários da tabela da CBF/Conmebol republicada pelos veículos ("" se não confirmado); tabela de classificação de um veículo esportivo depois da rodada. Nunca invente, nunca estime. Placar ao vivo: só o que a fonte mostrava na hora da rodada, com atualizado.
 - Rodada COMPLETA: atualiza campeonatos, tabela (depois de rodada concluída) e jogos dos próximos 7 dias. Rodada RÁPIDA da noite (18h–23h): atualiza os jogos do dia (ao_vivo com placar e atualizado; encerrado com placar final) e registra o resultado na pauta quando houver.
 - Pautas de esportes: times [nomes] com os clubes da notícia (o app monta a página do time e o "Meu time" com isso).
+
+## 2f. Hashtags (novo, 03/11)
+O app transforma #palavra em link nos posts, stories e comentários dos membros e abre a página da hashtag (notícias do Prumo + posts e comentários dos amigos). Leitores podem SEGUIR uma hashtag: o que tiver a hashtag sobe no Feed dele.
+- hashtags (opcional, recomendado em toda cobertura de Política e Economia): ["#Copom", "#Selic"], 2 a 4 por pauta. Formato: # + 2 a 30 letras ou números, em CamelCase, ACENTO VALE (#Previdência, #PECdaSegurança, #ReformaTributária); sem espaço, hífen, "_" nem pontuação. O app ignora maiúscula e acento ao comparar (#Previdência = #previdencia).
+- Escolha: 1ª = o assunto específico (#PECdaSegurança, #CasoMaster, #Copom); 2ª a 4ª = instituição ou tema amplo que o leitor seguiria (#Senado, #STF, #Juros, #Inflação, #Eleições2026). Use o nome que as pessoas usam, curto.
+- REUSE: cobertura que continua mantém as mesmas hashtags e a MESMA grafia de um dia para o outro (o resumo.py lista "HASHTAGS em uso"; o aplicar.py copia as da edição anterior quando a pauta vem sem o campo e as guarda em dormentes). Assunto novo ligado a um antigo usa a hashtag que já existe. Nunca troque todas as hashtags de uma cobertura (há leitores seguindo).
+- NEUTRAS: nada de hashtag de campanha, slogan, apelido, torcida ou opinião (#ForaX, #EleNão, #Mito, #Golpista, #Vergonha…). Nome de pessoa só quando ela é o assunto (#CasoMaster, não #LulaLadrão). O validar.py dá ERRO em formato inválido, mais de 4 ou repetidas, e AVISO em hashtag opinativa, grafias diferentes da mesma hashtag e cobertura que trocou todas.
+- Sem o campo, o app deriva hashtags de tag e tema (e subtema), então não é obrigatório; mas a escolha da rodada é melhor.
 
 ## 3. Regras de apuração
 - PENDÊNCIAS PRIMEIRO. O resumo.py e o validar.py listam evento da agenda que já começou e textos com "até as 19h", "não havia começado", "não constava", "ainda hoje", "esta noite". Cada pendência tem de sair do feed: com o desfecho (update_add + reescrever neutro + tirar da agenda) ou, se ainda não houver, com texto sem prazo vencido ("O resultado não havia sido divulgado até as 21h48" só vale na rodada das 21h48).

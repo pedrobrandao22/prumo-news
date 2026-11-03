@@ -302,6 +302,7 @@ def coberturas(F, base, agora, virada=False):
         p.setdefault("tipo", "cobertura"); p.setdefault("status", "ativa")
         for c in ("inicio", "titulos"):
             if not p.get(c) and bp.get(c): p[c] = copy.deepcopy(bp[c])
+        if "hashtags" not in p and isinstance(bp.get("hashtags"), list) and bp["hashtags"]: p["hashtags"] = list(bp["hashtags"])  # cobertura que continua mantém as hashtags
         if not p.get("inicio"):
             hs = [str(p.get("hora") or "")] + [str(u.get("hora") or "") for u in p.get("atualizacoes") or []]
             hs = [h for h in hs if V.ISO.match(h)]
@@ -332,6 +333,7 @@ def coberturas(F, base, agora, virada=False):
                     "resumo": resumo_curto((bp.get("neutro") or {}).get("texto")), "inicio": bp.get("inicio") or str(bp.get("hora") or ""),
                     "ultima": ultima_de(bp), "status": bp.get("status") or "ativa"}
         if bp.get("titulos"): dor[pid]["titulos"] = bp["titulos"]
+        if isinstance(bp.get("hashtags"), list) and bp["hashtags"]: dor[pid]["hashtags"] = list(bp["hashtags"])
         rel.append(f"[{pid}] saiu do feed: guardada em dormentes")
     limite = (agora - timedelta(days=V.DIAS_DORMENTE)).strftime("%Y-%m-%dT%H:%M")
     fica = [d for pid, d in dor.items() if pid not in ids and str(d.get("ultima", ""))[:16] >= limite]
