@@ -4275,35 +4275,57 @@ html.vn .upost.vn-rp>.vn-rpw>.vn-rptx{margin:0 0 10px;font:400 calc(17px*var(--f
 .post.vn-c .up-leg.vn-txt{white-space:pre-wrap;overflow-wrap:anywhere}
 .post.vn-c .cmt-area{border-top:0}
 
-/* --- A · Jornal: chapéu da editoria, manchete em serifa, linha fina; post de amigo como "nota"; ações em texto --- */
+/* --- A · Jornal (o padrão com a chave ligada): chapéu da editoria, manchete em serifa, linha fina; post de amigo como "nota";
+       ações em texto com ícone pequeno e número --- */
 html.vn-ca #posts>.post.vn-c:not(.fc107-junto){border-top:1px solid var(--line);padding-top:4px}
+html.vn-ca #posts>.post.vn-cn:not(.fc107-junto){padding-bottom:14px}
 html.vn-ca .post.vn-cn>.ph .ph-av{display:none}
-html.vn-ca .post.vn-cn>.ph .ph-sec{min-height:30px}
+html.vn-ca .post.vn-cn>.ph{padding-block:8px 2px}
+html.vn-ca .post.vn-cn>.ph .ph-sec{min-height:28px}
+html.vn-ca .post.vn-c>.ph .more-btn{margin-block:-8px}
 html.vn-ca .post.vn-cn .ph-nm{flex-direction:row;align-items:baseline;gap:7px;min-width:0}
 html.vn-ca .post.vn-cn .ph-nm>b{flex:none;font:800 11.5px/1.2 var(--f-ui);letter-spacing:.1em;text-transform:uppercase;color:var(--vn-sec,var(--accent))}
 html.vn-ca .post.vn-cn .ph-nm>.ph-sub{font:600 12px/1.2 var(--f-ui);color:var(--muted);max-width:none}
-html.vn-ca .post.vn-cn>.vn-tit{margin:0 var(--gut,16px) 8px}
-html.vn-ca .post.vn-cn>.vn-tit button{font:600 calc(25px*var(--fz,1))/1.16 var(--f-display);letter-spacing:-.012em}
-html.vn-ca .post.vn-cn>.pt-cap{display:block;width:auto;margin:0 var(--gut,16px) 14px;padding:0;text-align:left}
-html.vn-ca .post.vn-cn>.pt-cap .pt-cap-t{-webkit-line-clamp:2;font:400 calc(16.5px*var(--fz,1))/1.45 var(--f-body);color:var(--ink-2,var(--ink))}
+/* no Feed a manchete é menor que na Capa e na matéria (28px), para caber mais por rolagem */
+html.vn-ca .post.vn-cn>.vn-tit{margin:0 var(--gut,16px) 5px}
+html.vn-ca .post.vn-cn>.vn-tit button{font:600 calc(20.5px*var(--fz,1))/1.2 var(--f-display);letter-spacing:-.008em;text-wrap:pretty}
+html.vn-ca .post.vn-cn>.pt-cap{display:block;width:auto;margin:0 var(--gut,16px) 11px;padding:0;text-align:left}
+html.vn-ca .post.vn-cn>.pt-cap .pt-cap-t{-webkit-line-clamp:2;font:400 calc(15.5px*var(--fz,1))/1.42 var(--f-body);color:var(--ink-2,var(--ink))}
 html.vn-ca .post.vn-cn>.pt-cap .pt-cap-m{display:none}
 html.vn-ca .post.vn-c>.car{margin:0 var(--gut,16px);border-top:2px solid var(--ink);border-bottom:1px solid var(--line);padding-top:0}
-html.vn-ca .post.vn-c .acts{gap:0;margin-left:-8px;padding-top:6px}
+html.vn-ca .post.vn-cn .ht-nl{margin-top:0}
+html.vn-ca .post.vn-c .cmt-area{margin-top:4px;padding-top:0}
+/* ações: "◇ 3 · Comentar 2 · Repostar" com ícone pequeno; Enviar e Guardar em ícone à direita; toque de 44px de altura */
+html.vn-ca .post.vn-c .acts{gap:0;margin-left:-8px;padding-top:2px}
 html.vn-ca .post.vn-c .acts>.sp{display:none}
-html.vn-ca .post.vn-c .act{height:40px;min-width:0;padding:0 8px;gap:0;color:var(--ink-2,var(--ink))}
+html.vn-ca .post.vn-c .act{height:44px;min-width:40px;padding:0 8px;gap:5px;justify-content:center;color:var(--ink-2,var(--ink))}
 html.vn-ca .post.vn-c .act>span{display:inline!important;font:700 13px var(--f-ui);letter-spacing:.01em}
-html.vn-ca .post.vn-c .act[data-a="like"] .ico,html.vn-ca .post.vn-c .act[data-a="cmt"] .ico,html.vn-ca .post.vn-c .act.vn-rpb .ico{display:none}
+html.vn-ca .post.vn-c .act[data-a="like"]>span{display:none!important}
+html.vn-ca .post.vn-c .act .ico{width:22px;height:22px}
+html.vn-ca .post.vn-c .act[data-a="like"] .ico,html.vn-ca .post.vn-c .act[data-a="cmt"] .ico,html.vn-ca .post.vn-c .act.vn-rpb .ico{width:18px;height:18px;stroke-width:1.9}
+html.vn-ca .post.vn-c .act[data-a="like"] .ico{width:19px;height:19px}
+html.vn-ca .post.vn-c .act .cnt{display:inline;margin:0;min-width:0;font:700 13px var(--f-ui);color:inherit;font-variant-numeric:tabular-nums}
+html.vn-ca .post.vn-c .act .cnt:empty{display:none}
 html.vn-ca .post.vn-c .act[data-a="like"]{order:1}
 html.vn-ca .post.vn-c .act[data-a="cmt"]{order:2}
 html.vn-ca .post.vn-c .act.vn-rpb{order:3;margin-left:0}
-html.vn-ca .post.vn-c .act[data-a="like"]::after,html.vn-ca .post.vn-c .act[data-a="cmt"]::after{content:"·";margin-left:16px;color:var(--muted);font-weight:400}
+html.vn-ca .post.vn-c .act[data-a="like"]::after,html.vn-ca .post.vn-c .act[data-a="cmt"]::after{content:"·";margin-left:7px;color:var(--muted);font-weight:400}
 html.vn-ca .post.vn-c .act[data-a="send"],html.vn-ca .post.vn-c .act[data-usend]{order:5;margin-left:auto}
 html.vn-ca .post.vn-c .act[data-a="send"]>span,html.vn-ca .post.vn-c .act[data-usend]>span,html.vn-ca .post.vn-c .act[data-a="save"]>span{display:none!important}
-html.vn-ca .post.vn-c .act[data-a="save"]{order:6;margin-left:0}
-html.vn-ca .post.vn-c .act .ico{width:22px;height:22px}
+html.vn-ca .post.vn-c .act[data-a="save"]{order:6;margin-left:0;margin-right:-6px}
 html.vn-ca .post.vn-c .act.on{color:var(--bronze-ink)}
-html.vn-ca .post.vn-c .act .cnt{display:none}
 html.vn-ca .post.vn-c .likes{font-size:13.5px}
+/* se o número não cabe: Comentar e Repostar encolhem (sem passar da tela) e o 112 tira os pontinhos (.vn-aperta) */
+html.vn-ca .post.vn-c .act[data-a="cmt"],html.vn-ca .post.vn-c .act.vn-rpb{flex:0 1 auto;min-width:0}
+html.vn-ca .post.vn-c .act>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+html.vn-ca .post.vn-c .act>.ico,html.vn-ca .post.vn-c .act>.cnt,html.vn-ca .post.vn-c .act::after{flex:none}
+html.vn-ca .post.vn-c .acts.vn-aperta .act::after{display:none}
+html.vn-ca .post.vn-c .acts.vn-aperta .act{padding:0 5px}
+html.vn-ca .post.vn-c .acts.vn-aperta .act[data-a="like"],html.vn-ca .post.vn-c .acts.vn-aperta .act[data-a="cmt"]{margin-right:3px}
+/* celulares: menos respiro para caber com números de dois dígitos; no estreito (360px) sem os pontinhos entre as ações */
+@media (max-width:400px){html.vn-ca .post.vn-c .act{padding:0 6px;gap:4px}html.vn-ca .post.vn-c .act[data-a="like"]::after,html.vn-ca .post.vn-c .act[data-a="cmt"]::after{margin-left:4px}}
+@media (max-width:370px){html.vn-ca .post.vn-c .act{padding:0 5px;min-width:38px}html.vn-ca .post.vn-c .act>span,html.vn-ca .post.vn-c .act .cnt{font-size:12.5px}
+  html.vn-ca .post.vn-c .act[data-a="like"]::after,html.vn-ca .post.vn-c .act[data-a="cmt"]::after{display:none}html.vn-ca .post.vn-c .act[data-a="like"],html.vn-ca .post.vn-c .act[data-a="cmt"]{margin-right:4px}}
 /* nota de amigo: o texto primeiro, como citação; a assinatura pequena embaixo */
 html.vn-ca .post.vn-cp>.vn-txt,html.vn-ca .post.vn-cp>.vn-rptx{position:relative;margin:8px var(--gut,16px) 0;padding:0;font:400 calc(19px*var(--fz,1))/1.42 var(--f-display);color:var(--ink);letter-spacing:-.003em}
 html.vn-ca .post.vn-cp>.vn-txt::before,html.vn-ca .post.vn-cp>.vn-rptx::before{content:"“";display:block;height:20px;margin-bottom:2px;font:600 46px/1 var(--f-display);color:var(--bronze)}
@@ -4315,7 +4337,8 @@ html.vn-ca .post.vn-cp>.ph .ph-nm{flex-direction:row;align-items:baseline;gap:6p
 html.vn-ca .post.vn-cp>.ph .ph-nm>b{flex:none;font:700 13px/1.2 var(--f-ui)}
 html.vn-ca .post.vn-cp>.ph .ph-nm>.ph-sub{font:500 12.5px/1.2 var(--f-ui)}
 html.vn-ca .post.vn-cp>.ph .ph-nm>.ph-sub:not(:empty)::before{content:"·\00a0"}
-html.vn-ca .post.vn-cp>.car{margin:0 var(--gut,16px);border:1px solid var(--line)}
+/* a foto do amigo não é matéria: cantos arredondados e sem os fios do jornal */
+html.vn-ca .post.vn-cp>.car{margin:0 var(--gut,16px);border:0;border-radius:12px;overflow:hidden}
 html.vn-ca .post.vn-cp>.vn-rpw{margin:0 var(--gut,16px) 2px}
 html.vn-ca .vn-q{border-radius:4px;border-color:var(--line);border-top:2px solid var(--ink)}
 html.vn-ca .vn-q .vn-q-t,html.vn-ca .vn-qn .vn-q-tx b{font-family:var(--f-display)}
@@ -12168,7 +12191,8 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
    Com a chave ligada: topo com cartões verticais (no lugar das bolinhas), o mesmo cartão de notícia e de post de hoje com o botão Repostar
    (e Repostar com comentário), perfil no estilo do X (faixa, avatar sobreposto, "no Prumo desde", abas Posts · Respostas · Mídia em lista)
    e os nomes "Giro" (stories) e "Coleções" (destaques). Desligada, nada disso é instalado (só a leitura dos reposts, ver abaixo).
-   Em teste, com a chave ligada: três direções para o cartão (A Jornal, B Fio, C Cartão), ver a parte 5.
+   Cartão: com a chave ligada o padrão é a direção A (Jornal), escolhida pelo Pedro; ?cartao=atual volta ao cartão de hoje
+   (fica guardado no aparelho) e B (Fio) e C (Cartão) seguem disponíveis por enquanto, ver a parte 5.
    Repost sem SQL novo: é um post comum com estilo.rp={k:"pauta"|"pub",id}. Quem lê só vê a publicação citada se ela estiver visível para si
    (a regra do banco decide) e for "amigos"; senão aparece "Publicação indisponível". Esta leitura (cartão citado, aviso na Atividade e a
    miniatura no perfil) funciona com a chave ligada ou não, para quem estiver no visual atual não ver um post vazio.
@@ -12284,13 +12308,15 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
   vn112Nomes(box)}
 
 /* ===== 5. cartões de notícia e de post =====
-   Padrão: o cartão de hoje, igual ao visual atual, só com o botão Repostar (à direita, ao lado de Guardar: a esquerda fica com
-   gostei · comentar · enviar e o meio com os pontinhos do carrossel) e a linha "Bia repostou" embaixo de "Bia gostou".
-   Em teste, para escolher (só com o visual novo ligado): localStorage "prumo-cartao" = "a" (Jornal), "b" (Fio) ou "c" (Cartão),
-   ou ?cartao=a|b|c|atual no endereço (guarda e some do endereço, como o ?visual). */
+   Padrão (com o visual novo ligado): a direção A (Jornal) — chapéu da editoria e hora, manchete em serifa (menor no Feed que na
+   matéria), linha fina de duas linhas, arte entre fios; post de amigo como nota assinada, a foto do amigo com cantos arredondados
+   e sem fios; ações em texto com ícone pequeno e número ("◇ 3 · Comentar 2 · Repostar"), Enviar e Guardar em ícone à direita.
+   localStorage "prumo-cartao" = "atual" (o cartão de hoje, só com o botão Repostar ao lado de Guardar e a linha "Bia repostou"
+   embaixo de "Bia gostou"), "b" (Fio) ou "c" (Cartão); vazio = "a". Ou ?cartao=a|b|c|atual no endereço (guarda e some do
+   endereço, como o ?visual). */
 const VN112_CT=(()=>{if(!VN112_ATIVO)return "";try{const q=new URLSearchParams(location.search),v=q.get("cartao");
-  if(v!=null){if(v==="a"||v==="b"||v==="c")localStorage.setItem("prumo-cartao",v);else localStorage.removeItem("prumo-cartao");q.delete("cartao");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-cartao");return VISUAL_NOVO&&(g==="a"||g==="b"||g==="c")?g:""}catch(e){return ""}})();
+  if(v!=null){if(v==="a"||v==="b"||v==="c"||v==="atual")localStorage.setItem("prumo-cartao",v);else localStorage.removeItem("prumo-cartao");q.delete("cartao");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
+  const g=localStorage.getItem("prumo-cartao");if(!VISUAL_NOVO||g==="atual")return "";return g==="b"||g==="c"?g:"a"}catch(e){return VISUAL_NOVO?"a":""}})();
 const VN112_ROT={like:"Gostei",cmt:"Comentar",send:"Enviar",save:"Guardar"};
 function vn112BtRp(k,id){return `<button type="button" class="act vn-rpb" data-vnrp="${esc(k+":"+id)}" aria-label="Repostar" aria-pressed="false">${VN112_IC.rp}<span>Repostar</span><em class="cnt" data-n="vnrp"></em></button>`}
 function vn112NRp(k,id){let n=0,eu=false;const us=[];pubVisiveis().forEach(x=>{const r=vn112Rp(x);if(r&&r.k===k&&r.id===id){n++;if(x.autor===S.uid)eu=true;if(!us.includes(x.autor))us.push(x.autor)}});return {n,eu,us}}
@@ -12335,17 +12361,24 @@ function vn112CtPub(h,x){const a=vn112Tp(h);if(!a||!x)return h;const ct=VN112_CT
     const row=vn112LinhaC(a,av,[leg||rtx]);if(midia)midia.after(row);else{const g=a.querySelector(":scope>.fc107-gh");if(g)g.after(row);else a.prepend(row)}
     if(rpw)row.after(rpw)}
   return a.outerHTML}
-/* contagens: o repost sempre ("Bia repostou", como "Bia gostou"); nas direções B e C também os números ao lado dos ícones */
+/* contagens: o repost sempre ("Bia repostou", como "Bia gostou"); nas direções A, B e C também os números ao lado das ações */
 function vn112Social(pid){const el=document.getElementById("p-"+pid);if(!el)return;try{const ct=el.classList.contains("vn-c")?VN112_CT:"";
-  if(ct==="b"||ct==="c"){const {likes,cm}=socialOf(pid);const l=el.querySelector('.acts [data-n="like"]'),c=el.querySelector('.acts [data-n="cmt"]');if(l)l.textContent=likes.length||"";if(c)c.textContent=cm.length||"";
+  if(ct){const {likes,cm}=socialOf(pid);const l=el.querySelector('.acts [data-n="like"]'),c=el.querySelector('.acts [data-n="cmt"]');if(l)l.textContent=likes.length||"";if(c)c.textContent=cm.length||"";
     const cn=el.querySelector("[data-vncn]");if(cn)cn.textContent=cm.length?` · ${cm.length} ${cm.length===1?"comentário":"comentários"}`:""}
-  const b=el.querySelector(".acts [data-vnrp]");if(!b)return;const [k,...r]=b.dataset.vnrp.split(":"),id=r.join(":"),{n,eu,us}=vn112NRp(k,id);
-  const e=b.querySelector("em");if(e)e.textContent=ct==="b"||ct==="c"?(n||""):"";b.classList.toggle("on",eu);b.setAttribute("aria-pressed",String(eu));
+  const b=el.querySelector(".acts [data-vnrp]");if(!b){if(ct==="a")vn112Aperta(el);return}const [k,...r]=b.dataset.vnrp.split(":"),id=r.join(":"),{n,eu,us}=vn112NRp(k,id);
+  const e=b.querySelector("em");if(e)e.textContent=ct?(n||""):"";if(ct==="a")vn112Aperta(el);b.classList.toggle("on",eu);b.setAttribute("aria-pressed",String(eu));
   /* a linha só no próprio original (num repost simples, o cabeçalho já diz "repostou") */
   if(!(k==="pauta"?id===pid:"u:"+id===pid))return;const ot=us.filter(u=>u!==S.uid),n1=ot[0]?`<b>${esc(nomeDe(ot[0]))}</b>`:"";let t="";
   if(n){if(eu&&!ot.length)t="<b>Você</b> repostou";else if(eu)t=`<b>Você</b> e ${ot.length===1?n1:"mais "+ot.length} repostaram`;else if(ot.length===1)t=`${n1} repostou`;else t=`${n1} e mais ${ot.length-1} repostaram`}
   let q=el.querySelector("[data-vnrpq]");if(!q){const lk=el.querySelector("[data-likes]");if(!lk)return;lk.insertAdjacentHTML("afterend",`<div class="likes vn-rpq" data-vnrpq></div>`);q=el.querySelector("[data-vnrpq]")}
   const hh=t?`${VN112_IC.rp}<span>${t}</span>`:"";if(q.innerHTML!==hh)q.innerHTML=hh}catch(e){}}
+/* A: se os números não deixam as ações caberem na linha (rótulo cortado), tira os pontinhos e o respiro entre elas.
+   Só mede quando os números mudam (ou a largura da tela), para não forçar o layout a cada atualização */
+function vn112Aperta(el,forca){const a=el&&el.querySelector(".acts");if(!a||!a.isConnected)return;const k=[...a.querySelectorAll(".cnt")].map(c=>c.textContent).join(",");
+  if(!forca&&a.dataset.vnak===k)return;a.classList.remove("vn-aperta");const sp=[...a.querySelectorAll(":scope>.act>span")].filter(s=>s.offsetWidth);
+  if(!sp.length){delete a.dataset.vnak;return}a.dataset.vnak=k;if(sp.some(s=>s.scrollWidth>s.clientWidth+1))a.classList.add("vn-aperta")}
+var VN112_RZ=0;
+if(VN112_CT==="a")addEventListener("resize",()=>{clearTimeout(VN112_RZ);VN112_RZ=setTimeout(()=>{document.querySelectorAll(".post.vn-ca").forEach(e=>vn112Aperta(e,true))},200)});
 
 /* ===== 7. repostar ===== */
 function vn112Alvo(k,id){if(k==="pub"){let x=pubDe(id)||vn112Pub(id);if(!x)return null;const r=vn112Rp(x);if(r&&!String(x.texto||"").trim()){k=r.k;id=r.id;x=k==="pub"?vn112Pub(id):null;if(k==="pub"&&!x)return null}

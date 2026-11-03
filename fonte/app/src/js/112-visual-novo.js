@@ -5,7 +5,8 @@
    Com a chave ligada: topo com cartões verticais (no lugar das bolinhas), o mesmo cartão de notícia e de post de hoje com o botão Repostar
    (e Repostar com comentário), perfil no estilo do X (faixa, avatar sobreposto, "no Prumo desde", abas Posts · Respostas · Mídia em lista)
    e os nomes "Giro" (stories) e "Coleções" (destaques). Desligada, nada disso é instalado (só a leitura dos reposts, ver abaixo).
-   Em teste, com a chave ligada: três direções para o cartão (A Jornal, B Fio, C Cartão), ver a parte 5.
+   Cartão: com a chave ligada o padrão é a direção A (Jornal), escolhida pelo Pedro; ?cartao=atual volta ao cartão de hoje
+   (fica guardado no aparelho) e B (Fio) e C (Cartão) seguem disponíveis por enquanto, ver a parte 5.
    Repost sem SQL novo: é um post comum com estilo.rp={k:"pauta"|"pub",id}. Quem lê só vê a publicação citada se ela estiver visível para si
    (a regra do banco decide) e for "amigos"; senão aparece "Publicação indisponível". Esta leitura (cartão citado, aviso na Atividade e a
    miniatura no perfil) funciona com a chave ligada ou não, para quem estiver no visual atual não ver um post vazio.
@@ -121,13 +122,15 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
   vn112Nomes(box)}
 
 /* ===== 5. cartões de notícia e de post =====
-   Padrão: o cartão de hoje, igual ao visual atual, só com o botão Repostar (à direita, ao lado de Guardar: a esquerda fica com
-   gostei · comentar · enviar e o meio com os pontinhos do carrossel) e a linha "Bia repostou" embaixo de "Bia gostou".
-   Em teste, para escolher (só com o visual novo ligado): localStorage "prumo-cartao" = "a" (Jornal), "b" (Fio) ou "c" (Cartão),
-   ou ?cartao=a|b|c|atual no endereço (guarda e some do endereço, como o ?visual). */
+   Padrão (com o visual novo ligado): a direção A (Jornal) — chapéu da editoria e hora, manchete em serifa (menor no Feed que na
+   matéria), linha fina de duas linhas, arte entre fios; post de amigo como nota assinada, a foto do amigo com cantos arredondados
+   e sem fios; ações em texto com ícone pequeno e número ("◇ 3 · Comentar 2 · Repostar"), Enviar e Guardar em ícone à direita.
+   localStorage "prumo-cartao" = "atual" (o cartão de hoje, só com o botão Repostar ao lado de Guardar e a linha "Bia repostou"
+   embaixo de "Bia gostou"), "b" (Fio) ou "c" (Cartão); vazio = "a". Ou ?cartao=a|b|c|atual no endereço (guarda e some do
+   endereço, como o ?visual). */
 const VN112_CT=(()=>{if(!VN112_ATIVO)return "";try{const q=new URLSearchParams(location.search),v=q.get("cartao");
-  if(v!=null){if(v==="a"||v==="b"||v==="c")localStorage.setItem("prumo-cartao",v);else localStorage.removeItem("prumo-cartao");q.delete("cartao");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-cartao");return VISUAL_NOVO&&(g==="a"||g==="b"||g==="c")?g:""}catch(e){return ""}})();
+  if(v!=null){if(v==="a"||v==="b"||v==="c"||v==="atual")localStorage.setItem("prumo-cartao",v);else localStorage.removeItem("prumo-cartao");q.delete("cartao");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
+  const g=localStorage.getItem("prumo-cartao");if(!VISUAL_NOVO||g==="atual")return "";return g==="b"||g==="c"?g:"a"}catch(e){return VISUAL_NOVO?"a":""}})();
 const VN112_ROT={like:"Gostei",cmt:"Comentar",send:"Enviar",save:"Guardar"};
 function vn112BtRp(k,id){return `<button type="button" class="act vn-rpb" data-vnrp="${esc(k+":"+id)}" aria-label="Repostar" aria-pressed="false">${VN112_IC.rp}<span>Repostar</span><em class="cnt" data-n="vnrp"></em></button>`}
 function vn112NRp(k,id){let n=0,eu=false;const us=[];pubVisiveis().forEach(x=>{const r=vn112Rp(x);if(r&&r.k===k&&r.id===id){n++;if(x.autor===S.uid)eu=true;if(!us.includes(x.autor))us.push(x.autor)}});return {n,eu,us}}
@@ -172,17 +175,24 @@ function vn112CtPub(h,x){const a=vn112Tp(h);if(!a||!x)return h;const ct=VN112_CT
     const row=vn112LinhaC(a,av,[leg||rtx]);if(midia)midia.after(row);else{const g=a.querySelector(":scope>.fc107-gh");if(g)g.after(row);else a.prepend(row)}
     if(rpw)row.after(rpw)}
   return a.outerHTML}
-/* contagens: o repost sempre ("Bia repostou", como "Bia gostou"); nas direções B e C também os números ao lado dos ícones */
+/* contagens: o repost sempre ("Bia repostou", como "Bia gostou"); nas direções A, B e C também os números ao lado das ações */
 function vn112Social(pid){const el=document.getElementById("p-"+pid);if(!el)return;try{const ct=el.classList.contains("vn-c")?VN112_CT:"";
-  if(ct==="b"||ct==="c"){const {likes,cm}=socialOf(pid);const l=el.querySelector('.acts [data-n="like"]'),c=el.querySelector('.acts [data-n="cmt"]');if(l)l.textContent=likes.length||"";if(c)c.textContent=cm.length||"";
+  if(ct){const {likes,cm}=socialOf(pid);const l=el.querySelector('.acts [data-n="like"]'),c=el.querySelector('.acts [data-n="cmt"]');if(l)l.textContent=likes.length||"";if(c)c.textContent=cm.length||"";
     const cn=el.querySelector("[data-vncn]");if(cn)cn.textContent=cm.length?` · ${cm.length} ${cm.length===1?"comentário":"comentários"}`:""}
-  const b=el.querySelector(".acts [data-vnrp]");if(!b)return;const [k,...r]=b.dataset.vnrp.split(":"),id=r.join(":"),{n,eu,us}=vn112NRp(k,id);
-  const e=b.querySelector("em");if(e)e.textContent=ct==="b"||ct==="c"?(n||""):"";b.classList.toggle("on",eu);b.setAttribute("aria-pressed",String(eu));
+  const b=el.querySelector(".acts [data-vnrp]");if(!b){if(ct==="a")vn112Aperta(el);return}const [k,...r]=b.dataset.vnrp.split(":"),id=r.join(":"),{n,eu,us}=vn112NRp(k,id);
+  const e=b.querySelector("em");if(e)e.textContent=ct?(n||""):"";if(ct==="a")vn112Aperta(el);b.classList.toggle("on",eu);b.setAttribute("aria-pressed",String(eu));
   /* a linha só no próprio original (num repost simples, o cabeçalho já diz "repostou") */
   if(!(k==="pauta"?id===pid:"u:"+id===pid))return;const ot=us.filter(u=>u!==S.uid),n1=ot[0]?`<b>${esc(nomeDe(ot[0]))}</b>`:"";let t="";
   if(n){if(eu&&!ot.length)t="<b>Você</b> repostou";else if(eu)t=`<b>Você</b> e ${ot.length===1?n1:"mais "+ot.length} repostaram`;else if(ot.length===1)t=`${n1} repostou`;else t=`${n1} e mais ${ot.length-1} repostaram`}
   let q=el.querySelector("[data-vnrpq]");if(!q){const lk=el.querySelector("[data-likes]");if(!lk)return;lk.insertAdjacentHTML("afterend",`<div class="likes vn-rpq" data-vnrpq></div>`);q=el.querySelector("[data-vnrpq]")}
   const hh=t?`${VN112_IC.rp}<span>${t}</span>`:"";if(q.innerHTML!==hh)q.innerHTML=hh}catch(e){}}
+/* A: se os números não deixam as ações caberem na linha (rótulo cortado), tira os pontinhos e o respiro entre elas.
+   Só mede quando os números mudam (ou a largura da tela), para não forçar o layout a cada atualização */
+function vn112Aperta(el,forca){const a=el&&el.querySelector(".acts");if(!a||!a.isConnected)return;const k=[...a.querySelectorAll(".cnt")].map(c=>c.textContent).join(",");
+  if(!forca&&a.dataset.vnak===k)return;a.classList.remove("vn-aperta");const sp=[...a.querySelectorAll(":scope>.act>span")].filter(s=>s.offsetWidth);
+  if(!sp.length){delete a.dataset.vnak;return}a.dataset.vnak=k;if(sp.some(s=>s.scrollWidth>s.clientWidth+1))a.classList.add("vn-aperta")}
+var VN112_RZ=0;
+if(VN112_CT==="a")addEventListener("resize",()=>{clearTimeout(VN112_RZ);VN112_RZ=setTimeout(()=>{document.querySelectorAll(".post.vn-ca").forEach(e=>vn112Aperta(e,true))},200)});
 
 /* ===== 7. repostar ===== */
 function vn112Alvo(k,id){if(k==="pub"){let x=pubDe(id)||vn112Pub(id);if(!x)return null;const r=vn112Rp(x);if(r&&!String(x.texto||"").trim()){k=r.k;id=r.id;x=k==="pub"?vn112Pub(id):null;if(k==="pub"&&!x)return null}

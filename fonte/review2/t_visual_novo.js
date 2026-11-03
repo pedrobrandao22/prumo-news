@@ -1,7 +1,9 @@
 // Visual novo (112), atrás da chave: liga por ?visual=novo, por localStorage e pela linha em Perfil › Conta; com a chave desligada nada aparece.
 // Ligado: cartões verticais no topo (com respiro entre eles), sem barra de chips, notícia e post iguais aos de hoje com o botão Repostar,
 // Repostar / Repostar com comentário (com a regra de privacidade), perfil no estilo do X, nomes "Giro" e "Coleções".
-// Em teste: as três direções do cartão (?cartao=a|b|c, localStorage "prumo-cartao"). Roda com as flags de produção (foco, sem Reels, Capa, animações) e "prumo-teste-visual".
+// Cartão: A (Jornal) é o padrão com a chave ligada; ?cartao=atual volta ao cartão de hoje (guardado no aparelho), ?cartao=b|c seguem valendo.
+// A: ações em texto com ícone pequeno e número, toque ≥ 40px, manchete do Feed menor que a da matéria, foto de amigo arredondada e sem fios.
+// Roda com as flags de produção (foco, sem Reels, Capa, animações) e "prumo-teste-visual".
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const PORTA = 8948, BASE = `http://localhost:${PORTA}/index.html`;
 const SH = __dirname + '/../qa/s2/vn-'; require('fs').mkdirSync(__dirname + '/../qa/s2', { recursive: true });
@@ -64,6 +66,7 @@ const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); i
   await Promise.all([A.waitForNavigation({ timeout: 10000 }).catch(() => { }), clk(A, '[data-vntroca]')]);
   await esperar(A, () => typeof S !== 'undefined' && S.membro && PUB.on === true, null, 12000); await sleep(1500);
   ok(await ev(A, () => VISUAL_NOVO && localStorage.getItem('prumo-visual') === 'novo'), 'tocar na linha liga o visual novo (a página recarrega)');
+  ok(await ev(A, () => VN112_CT === 'a' && localStorage.getItem('prumo-cartao') === null && document.documentElement.classList.contains('vn-ca')), 'sem nada guardado em "prumo-cartao", o cartão padrão é o A (Jornal)');
 
   // ===== 4. topo: cartões verticais
   await ev(A, () => { if (document.querySelector('#layer').innerHTML) closeLayer(); PF_ABA = 'posts' }); await feed(A); await sleep(700);
@@ -86,10 +89,12 @@ const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); i
   await ev(A, () => { FILTRO = 'tudo'; renderPosts() }); await sleep(300);
   await A.screenshot({ path: SH + 'feed-topo.png' });
 
-  // ===== 6. notícia e post iguais aos de hoje, só com o Repostar
+  // ===== 6. ?cartao=atual: notícia e post iguais aos de hoje, só com o Repostar
+  await A.goto(BASE + '?cartao=atual'); await esperar(A, () => typeof S !== 'undefined' && S.membro && PUB.on === true, null, 12000); await sleep(1200);
+  ok(await ev(A, () => VN112_CT === '' && localStorage.getItem('prumo-cartao') === 'atual' && location.search === '' && !document.documentElement.classList.contains('vn-ca')), '?cartao=atual volta ao cartão de hoje e guarda "atual" no aparelho');
   await feed(A); await sleep(500);
   const sigOn = { nt: await assina(A, idNt), pp: await assina(A, idPp), bia: await assina(A, 'p-u:' + pBia) };
-  ok(sigOn.nt && sigOn.nt === sigOff.nt && sigOn.pp && sigOn.pp === sigOff.pp && sigOn.bia && sigOn.bia === sigOff.bia, 'com a chave ligada (sem cartão em teste), notícia, post próprio e post da amiga têm a mesma marcação de hoje (fora o Repostar)', JSON.stringify([sigOn.nt === sigOff.nt, sigOn.pp === sigOff.pp, (sigOn.pp || '').slice(0, 200), (sigOff.pp || '').slice(0, 200)]));
+  ok(sigOn.nt && sigOn.nt === sigOff.nt && sigOn.pp && sigOn.pp === sigOff.pp && sigOn.bia && sigOn.bia === sigOff.bia, 'com a chave ligada e ?cartao=atual, notícia, post próprio e post da amiga têm a mesma marcação de hoje (fora o Repostar)', JSON.stringify([sigOn.nt === sigOff.nt, sigOn.pp === sigOff.pp, (sigOn.pp || '').slice(0, 200), (sigOff.pp || '').slice(0, 200)]));
   const ord = id => ev(A, id => { const e = document.getElementById(id); return [...e.querySelectorAll('.acts > .act')].filter(b => getComputedStyle(b).display !== 'none').sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left).map(b => b.dataset.a || (b.dataset.vnrp ? 'rp' : b.dataset.usend ? 'send' : '?')).join() }, id);
   const o1 = await ord(idPp), o2 = await ord(idNt);
   ok(o1 === 'like,cmt,send,rp,save' && o2 === 'like,cmt,send,rp,save', 'Repostar fica à direita, ao lado de Guardar (gostei · comentar · enviar … repostar · guardar), no post e na notícia', o1 + ' | ' + o2);
@@ -188,8 +193,55 @@ const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); i
     await A.setViewportSize({ width: 390, height: 844 }); await sleep(200);
     await ev(A, () => { const e = document.querySelector('#posts .upost.vn-rp:not(.vn-rp-so)'); scrollTo(0, e.getBoundingClientRect().top + scrollY - 120) }); await sleep(300); await A.screenshot({ path: SH + 'cartao-' + ct + '.png' });
   }
+  // ===== 9d. A como padrão: ações com ícone e número, toque ≥ 40px, gostei/comentar/repostar/guardar, foto de amiga, manchete
+  await ev(B, async b64 => { const bin = atob(b64), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++)u[i] = bin.charCodeAt(i); const p = await pubSobe(new Blob([u], { type: 'image/jpeg' }));
+    await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', at: Date.now() - 2 * 60e3, texto: 'Fila para votar na escola do bairro às 8h.', fotos: [p], estilo: { v: 2 } }); await pubCarregar() }, require('fs').readFileSync(__dirname + '/etapa13/foto.jpg').toString('base64'));
+  await ev(A, () => localStorage.removeItem('prumo-cartao')); await recarrega(A); await feed(A); await sleep(900);
+  ok(await ev(A, () => VN112_CT === 'a' && document.documentElement.classList.contains('vn-ca') && !!document.querySelector('#posts > .post.vn-ca.vn-cn') && !document.querySelector('#posts .vn-cb, #posts .vn-cc')), 'sem "prumo-cartao" guardado, o Feed abre no cartão A');
+  const NT = '#posts > .post.vn-cn:not(.fc107-junto)';
+  const acA = await ev(A, sel => { const e = document.querySelector(sel); const vis = el => !!el && getComputedStyle(el).display !== 'none' && el.getBoundingClientRect().width > 0;
+    const bt = { like: e.querySelector('.acts [data-a="like"]'), cmt: e.querySelector('.acts [data-a="cmt"]'), rp: e.querySelector('.acts [data-vnrp]'), send: e.querySelector('.acts [data-a="send"]'), save: e.querySelector('.acts [data-a="save"]') };
+    const o = {}; for (const [k, b] of Object.entries(bt)) { const r = b.getBoundingClientRect(), ic = b.querySelector('.ico'); o[k] = { h: Math.round(r.height), w: Math.round(r.width), ic: vis(ic) ? Math.round(ic.getBoundingClientRect().width) : 0, tx: vis(b.querySelector(':scope>span')) ? b.querySelector(':scope>span').textContent : '', dentro: r.left >= 0 && r.right <= innerWidth } } return o }, NT);
+  ok(['like', 'cmt', 'rp'].every(k => acA[k].ic >= 16 && acA[k].ic <= 20) && acA.cmt.tx === 'Comentar' && acA.rp.tx === 'Repostar' && acA.send.ic >= 20 && acA.save.ic >= 20 && !acA.send.tx && !acA.save.tx, 'A: ícone pequeno ao lado de Gostei, Comentar e Repostar (em texto); Enviar e Guardar em ícone', JSON.stringify(acA));
+  ok(Object.values(acA).every(x => x.h >= 40 && x.w >= 36 && x.dentro), 'A: toda ação com área de toque ≥ 40px de altura e dentro da tela', JSON.stringify(acA));
+  // gostei: fica marcado e mostra o número
+  const pidNt = await ev(A, sel => document.querySelector(sel).dataset.pid, NT);
+  await clk(A, `#posts > .post[data-pid="${pidNt}"] .acts [data-a="like"]`);
+  ok(await esperar(A, p => { const b = document.querySelector(`#posts > .post[data-pid="${p}"] .acts [data-a="like"]`); return b && b.classList.contains('on') && b.getAttribute('aria-pressed') === 'true' && b.querySelector('.cnt').textContent === '1' && getComputedStyle(b.querySelector('.cnt')).display !== 'none' }, pidNt, 5000), 'A: tocar em Gostei marca (aceso) e mostra "1" ao lado do ícone');
+  // comentar: abre a folha; o número aparece depois de comentar
+  await clk(A, `#posts > .post[data-pid="${pidNt}"] .acts [data-a="cmt"]`); ok(await esperar(A, () => !!document.querySelector('#ctext'), null, 4000), 'A: Comentar abre os comentários');
+  await A.fill('#ctext', 'Comentário pelo cartão A'); await A.keyboard.press('Enter'); await sleep(1200); await ev(A, () => closeLayer()); await sleep(400);
+  ok(await esperar(A, p => document.querySelector(`#posts > .post[data-pid="${p}"] .acts [data-a="cmt"] .cnt`)?.textContent === '1', pidNt, 6000), 'A: depois de comentar, "Comentar 1"');
+  // repostar: o número de reposts do post do Pedro (a Bia repostou duas vezes) e a folha
+  ok(await ev(A, id => document.querySelector(`[id="p-u:${id}"] .acts [data-vnrp] .cnt`)?.textContent === '2', pPedro), 'A: "Repostar 2" no post do Pedro');
+  await clk(A, `#posts > .post[data-pid="${pidNt}"] .acts [data-vnrp]`); ok(await esperar(A, () => !!document.querySelector('#layer [data-vnrpcom]'), null, 3000), 'A: Repostar abre a folha'); await ev(A, () => closeLayer()); await sleep(300);
+  // guardar
+  await clk(A, `#posts > .post[data-pid="${pidNt}"] .acts [data-a="save"]`);
+  ok(await esperar(A, p => !!S.salvos[p] && document.querySelector(`#posts > .post[data-pid="${p}"] .acts [data-a="save"]`).getAttribute('aria-pressed') === 'true', pidNt, 4000), 'A: Guardar guarda a notícia');
+  await clk(A, `#posts > .post[data-pid="${pidNt}"] .acts [data-a="save"]`); await sleep(400); await ev(A, () => { if (document.querySelector('#layer').innerHTML) closeLayer() });
+  // foto de amiga: cantos arredondados, sem fios; a arte da notícia continua entre fios
+  const fo = await ev(A, sel => { const f = [...document.querySelectorAll('#posts .upost.vn-cp')].find(e => e.querySelector(':scope>.car .up-img')); const n = document.querySelector(sel + ' > .car'); if (!f) return null; const c = getComputedStyle(f.querySelector(':scope>.car')), cn = getComputedStyle(n);
+    return { r: parseFloat(c.borderTopLeftRadius), br: parseFloat(c.borderBottomRightRadius), b: [c.borderTopWidth, c.borderBottomWidth, c.borderLeftWidth, c.borderRightWidth].map(parseFloat), nota: getComputedStyle(f.querySelector('.vn-txt'), '::before').content, nt: [parseFloat(cn.borderTopWidth), parseFloat(cn.borderBottomWidth)] } }, NT);
+  ok(fo && fo.r >= 10 && fo.r <= 14 && fo.br >= 10 && fo.b.every(x => x === 0) && /“/.test(fo.nota) && fo.nt[0] >= 2 && fo.nt[1] >= 1, 'A: foto da amiga com cantos arredondados e sem fios (texto continua como nota assinada); a arte da notícia segue entre fios', JSON.stringify(fo));
+  // manchete do Feed menor que a da matéria; linha fina em até 2 linhas
+  const ma = await ev(A, sel => { const e = document.querySelector(sel), b = e.querySelector('.vn-tit button'), c = e.querySelector('.pt-cap-t'), lh = parseFloat(getComputedStyle(c).lineHeight); return { fs: parseFloat(getComputedStyle(b).fontSize), cap: c.getBoundingClientRect().height <= lh * 2 + 2, h: Math.round(e.getBoundingClientRect().height) } }, NT);
+  await clk(A, NT + ' .vn-tit button'); await esperar(A, () => !!document.querySelector('.mat-tx h1'), null, 5000); await sleep(400);
+  ma.mat = await ev(A, () => parseFloat(getComputedStyle(document.querySelector('.mat-tx h1')).fontSize)); await ev(A, () => closeLayer()); await sleep(400);
+  ok(ma.fs > 0 && ma.mat > 0 && ma.fs < ma.mat && ma.fs <= 22 && ma.cap, 'A: manchete do Feed menor que a da matéria; linha fina em até duas linhas', JSON.stringify(ma));
+  for (const w of [360, 390, 430]) { await A.setViewportSize({ width: w, height: 800 }); await feed(A); await sleep(400);
+    const r = await ev(A, sel => ({ sw: document.documentElement.scrollWidth, d: [...document.querySelectorAll('#posts .post.vn-c .acts > .act')].filter(b => getComputedStyle(b).display !== 'none' && b.getBoundingClientRect().height).every(b => b.getBoundingClientRect().right <= innerWidth + .5), x: [...document.querySelectorAll('#posts .post.vn-c .acts')].filter(a => [...a.children].some(b => b.getBoundingClientRect().right > innerWidth + .5)).slice(0, 3).map(a => [a.closest('.post').className, Math.round(a.getBoundingClientRect().left), Math.round(a.getBoundingClientRect().width), [...a.children].filter(b => getComputedStyle(b).display !== 'none').map(b => (b.dataset.a || b.className) + ':' + Math.round(b.getBoundingClientRect().width) + ':' + b.textContent.trim())]) }), NT);
+    ok(r.sw <= w && r.d, `A em ${w}px: sem rolagem para o lado e as ações cabem na linha`, JSON.stringify(r));
+    const r2 = await ev(A, () => { const l = [...document.querySelectorAll('#posts .post.vn-c .acts')]; l.forEach(a => { a.querySelectorAll('.act .cnt').forEach(c => { c.textContent = '88' }); vn112Aperta(a.closest('.post')) });
+      const corta = l.filter(a => [...a.querySelectorAll(':scope>.act>span')].some(s => s.offsetWidth && s.scrollWidth > s.clientWidth + 1)).length;
+      const ruim = l.filter(a => ![...a.children].filter(b => getComputedStyle(b).display !== 'none' && b.getBoundingClientRect().height).every(b => b.getBoundingClientRect().right <= innerWidth + .5));
+      return { n: ruim.length, corta, x: ruim.slice(0, 2).map(a => [a.closest('.post').className, Math.round(a.getBoundingClientRect().left), Math.round(a.getBoundingClientRect().width), [...a.children].filter(b => getComputedStyle(b).display !== 'none').map(b => (b.dataset.a || b.className) + ':' + Math.round(b.getBoundingClientRect().width))]) } });
+    ok(!r2.n && (w < 390 || !r2.corta), `A em ${w}px: as ações cabem mesmo com números de dois dígitos${w < 390 ? '' : ' (sem cortar os rótulos)'}`, JSON.stringify(r2)) }
+  await A.setViewportSize({ width: 390, height: 844 }); await sleep(200);
   await A.goto(BASE + '?cartao=atual'); await esperar(A, () => typeof S !== 'undefined' && S.membro && PUB.on === true, null, 12000); await sleep(1200);
-  ok(await ev(A, () => VN112_CT === '' && localStorage.getItem('prumo-cartao') === null && !document.querySelector('#posts .vn-c') && ![...document.documentElement.classList].some(k => /^vn-c/.test(k))), '?cartao=atual volta ao cartão de hoje');
+  await feed(A); await sleep(500);
+  ok(await ev(A, () => VN112_CT === '' && localStorage.getItem('prumo-cartao') === 'atual' && !document.querySelector('#posts .vn-c') && ![...document.documentElement.classList].some(k => /^vn-c/.test(k))), '?cartao=atual volta ao cartão de hoje (e fica guardado)');
+  const sigAt = { nt: await assina(A, idNt), pp: await assina(A, idPp) };
+  ok(sigAt.nt === sigOff.nt && sigAt.pp === sigOff.pp, '?cartao=atual: notícia e post com a mesma marcação de hoje (fora o Repostar)');
   await ev(A, () => { if (document.querySelector('#layer').innerHTML) closeLayer() });
 
   // ===== 10. modo escuro
@@ -203,7 +255,10 @@ const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); i
   for (const ct of ['a', 'b', 'c']) { await ev(D, c => localStorage.setItem('prumo-cartao', c), ct); await D.reload(); await sleep(1500); await ev(D, () => { if (document.querySelector('#layer').innerHTML) closeLayer(); go('feed') }); await sleep(600);
     const k = await ev(D, () => { const lum = c => { const m = c.match(/[\d.]+/g).map(Number); return (0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]) / 255 }; const b = document.querySelector('#posts .vn-cn .vn-tit button'); return b ? lum(getComputedStyle(b).color) : -1 });
     ok(k > .7, `modo escuro, cartão ${ct.toUpperCase()}: manchete clara no fundo escuro`, String(k)) }
-  await ev(D, () => localStorage.removeItem('prumo-cartao'));
+  await ev(D, () => localStorage.removeItem('prumo-cartao')); await D.reload(); await sleep(1500); await ev(D, () => { if (document.querySelector('#layer').innerHTML) closeLayer(); go('feed') }); await sleep(600);
+  const dka = await ev(D, () => { const lum = c => { const m = c.match(/[\d.]+/g).map(Number); return (0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]) / 255 }; const n = document.querySelector('#posts .vn-cn'); const c = n && n.querySelector('.acts [data-a="cmt"]');
+    return { ct: VN112_CT, tit: n ? lum(getComputedStyle(n.querySelector('.vn-tit button')).color) : -1, cmt: c ? lum(getComputedStyle(c).color) : -1, ico: c ? getComputedStyle(c.querySelector('.ico')).display : '' } });
+  ok(dka.ct === 'a' && dka.tit > .7 && dka.cmt > .6 && dka.ico !== 'none', 'modo escuro, cartão A padrão: manchete e ações claras, com ícone', JSON.stringify(dka));
   await D.screenshot({ path: SH + 'escuro.png' });
 
   // ===== 11. desligar pela Conta: tudo volta (o repost segue legível no visual atual)

@@ -1,5 +1,6 @@
 // Capturas para aprovação do visual novo (112): node review2/_vn_capturas.js [passadas...]  (grava qa/visual/<passada>-<cena>.png)
-// Passadas: antes (chave desligada), hoje (chave ligada, cartão de hoje), a, b, c (as três direções do cartão). Padrão: todas.
+// Passadas: antes (chave desligada), hoje (chave ligada, ?cartao=atual), a, b, c (as três direções do cartão) e final-a (nada guardado:
+// o padrão, que agora é o A). Padrão: antes, hoje, a, b, c.
 // Mesmo cenário em todas: 390×844, claro; uma cena por passada também no escuro.
 const { cenario, ev, sleep, esperar, ins, FOTO } = require('./_vn_cena');
 const fs = require('fs'); const OUT = __dirname + '/../qa/visual/'; fs.mkdirSync(OUT, { recursive: true });
@@ -26,9 +27,13 @@ const marca = A => ev(A, () => { const ps = [...document.querySelectorAll('#post
   await ins(B, [{ tipo: 'post', at: Date.now() - 8 * 60e3, texto: 'Alguém aqui já conseguiu simular quanto muda no salário com o fim da escala 6x1? Fiz a conta para a minha prima e não fecha.', fotos: [], estilo: { v: 2 } }]);
   const pPedro = await ev(A, () => pubVisiveis().find(x => x.autor === S.uid && /Fila no posto/.test(x.texto)).id);
   await ins(B, [{ tipo: 'post', at: Date.now() - 5 * 60e3, texto: 'Aqui no meu bairro também: fila desde as 6h, e faltou senha para metade das pessoas.', fotos: [], estilo: { v: 2, rp: { k: 'pub', id: pPedro } } }]);
+  // um pouco de movimento (gostei e comentários da Bia nas primeiras notícias e no post de foto dela), para os números aparecerem nas ações
+  await ev(B, async () => { const l = ordenadas(visiveis()).slice(0, 8).map(p => p.id); for (const [i, pid] of l.entries()) { try { toggleLike(pid) } catch (e) { } if (i % 2 === 0) try { await igComentar(pid, 'Vale acompanhar.') } catch (e) { } await new Promise(r => setTimeout(r, 150)) }
+    const f = pubVisiveis().find(x => x.autor === S.uid && x.fotos.length); if (f) try { toggleLike('u:' + f.id) } catch (e) { } });
+  await sleep(1500);
   await ev(A, async () => { await pubCarregar() });
   for (const ps of PASSADAS) {
-    const vis = ps === 'antes' ? 'atual' : 'novo', ct = ['a', 'b', 'c'].includes(ps) ? ps : '';
+    const vis = ps === 'antes' ? 'atual' : 'novo', ct = ['a', 'b', 'c'].includes(ps) ? ps : ps === 'hoje' ? 'atual' : '';
     await A.emulateMedia({ colorScheme: 'light' }); await liga(A, vis, ct);
     await feed(A); await sleep(700); await marca(A); await ev(A, () => scrollTo(0, 0)); await sleep(900);
     if (ps === 'antes' || ps === 'hoje') {

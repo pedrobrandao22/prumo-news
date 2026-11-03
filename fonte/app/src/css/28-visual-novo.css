@@ -98,35 +98,57 @@ html.vn .upost.vn-rp>.vn-rpw>.vn-rptx{margin:0 0 10px;font:400 calc(17px*var(--f
 .post.vn-c .up-leg.vn-txt{white-space:pre-wrap;overflow-wrap:anywhere}
 .post.vn-c .cmt-area{border-top:0}
 
-/* --- A · Jornal: chapéu da editoria, manchete em serifa, linha fina; post de amigo como "nota"; ações em texto --- */
+/* --- A · Jornal (o padrão com a chave ligada): chapéu da editoria, manchete em serifa, linha fina; post de amigo como "nota";
+       ações em texto com ícone pequeno e número --- */
 html.vn-ca #posts>.post.vn-c:not(.fc107-junto){border-top:1px solid var(--line);padding-top:4px}
+html.vn-ca #posts>.post.vn-cn:not(.fc107-junto){padding-bottom:14px}
 html.vn-ca .post.vn-cn>.ph .ph-av{display:none}
-html.vn-ca .post.vn-cn>.ph .ph-sec{min-height:30px}
+html.vn-ca .post.vn-cn>.ph{padding-block:8px 2px}
+html.vn-ca .post.vn-cn>.ph .ph-sec{min-height:28px}
+html.vn-ca .post.vn-c>.ph .more-btn{margin-block:-8px}
 html.vn-ca .post.vn-cn .ph-nm{flex-direction:row;align-items:baseline;gap:7px;min-width:0}
 html.vn-ca .post.vn-cn .ph-nm>b{flex:none;font:800 11.5px/1.2 var(--f-ui);letter-spacing:.1em;text-transform:uppercase;color:var(--vn-sec,var(--accent))}
 html.vn-ca .post.vn-cn .ph-nm>.ph-sub{font:600 12px/1.2 var(--f-ui);color:var(--muted);max-width:none}
-html.vn-ca .post.vn-cn>.vn-tit{margin:0 var(--gut,16px) 8px}
-html.vn-ca .post.vn-cn>.vn-tit button{font:600 calc(25px*var(--fz,1))/1.16 var(--f-display);letter-spacing:-.012em}
-html.vn-ca .post.vn-cn>.pt-cap{display:block;width:auto;margin:0 var(--gut,16px) 14px;padding:0;text-align:left}
-html.vn-ca .post.vn-cn>.pt-cap .pt-cap-t{-webkit-line-clamp:2;font:400 calc(16.5px*var(--fz,1))/1.45 var(--f-body);color:var(--ink-2,var(--ink))}
+/* no Feed a manchete é menor que na Capa e na matéria (28px), para caber mais por rolagem */
+html.vn-ca .post.vn-cn>.vn-tit{margin:0 var(--gut,16px) 5px}
+html.vn-ca .post.vn-cn>.vn-tit button{font:600 calc(20.5px*var(--fz,1))/1.2 var(--f-display);letter-spacing:-.008em;text-wrap:pretty}
+html.vn-ca .post.vn-cn>.pt-cap{display:block;width:auto;margin:0 var(--gut,16px) 11px;padding:0;text-align:left}
+html.vn-ca .post.vn-cn>.pt-cap .pt-cap-t{-webkit-line-clamp:2;font:400 calc(15.5px*var(--fz,1))/1.42 var(--f-body);color:var(--ink-2,var(--ink))}
 html.vn-ca .post.vn-cn>.pt-cap .pt-cap-m{display:none}
 html.vn-ca .post.vn-c>.car{margin:0 var(--gut,16px);border-top:2px solid var(--ink);border-bottom:1px solid var(--line);padding-top:0}
-html.vn-ca .post.vn-c .acts{gap:0;margin-left:-8px;padding-top:6px}
+html.vn-ca .post.vn-cn .ht-nl{margin-top:0}
+html.vn-ca .post.vn-c .cmt-area{margin-top:4px;padding-top:0}
+/* ações: "◇ 3 · Comentar 2 · Repostar" com ícone pequeno; Enviar e Guardar em ícone à direita; toque de 44px de altura */
+html.vn-ca .post.vn-c .acts{gap:0;margin-left:-8px;padding-top:2px}
 html.vn-ca .post.vn-c .acts>.sp{display:none}
-html.vn-ca .post.vn-c .act{height:40px;min-width:0;padding:0 8px;gap:0;color:var(--ink-2,var(--ink))}
+html.vn-ca .post.vn-c .act{height:44px;min-width:40px;padding:0 8px;gap:5px;justify-content:center;color:var(--ink-2,var(--ink))}
 html.vn-ca .post.vn-c .act>span{display:inline!important;font:700 13px var(--f-ui);letter-spacing:.01em}
-html.vn-ca .post.vn-c .act[data-a="like"] .ico,html.vn-ca .post.vn-c .act[data-a="cmt"] .ico,html.vn-ca .post.vn-c .act.vn-rpb .ico{display:none}
+html.vn-ca .post.vn-c .act[data-a="like"]>span{display:none!important}
+html.vn-ca .post.vn-c .act .ico{width:22px;height:22px}
+html.vn-ca .post.vn-c .act[data-a="like"] .ico,html.vn-ca .post.vn-c .act[data-a="cmt"] .ico,html.vn-ca .post.vn-c .act.vn-rpb .ico{width:18px;height:18px;stroke-width:1.9}
+html.vn-ca .post.vn-c .act[data-a="like"] .ico{width:19px;height:19px}
+html.vn-ca .post.vn-c .act .cnt{display:inline;margin:0;min-width:0;font:700 13px var(--f-ui);color:inherit;font-variant-numeric:tabular-nums}
+html.vn-ca .post.vn-c .act .cnt:empty{display:none}
 html.vn-ca .post.vn-c .act[data-a="like"]{order:1}
 html.vn-ca .post.vn-c .act[data-a="cmt"]{order:2}
 html.vn-ca .post.vn-c .act.vn-rpb{order:3;margin-left:0}
-html.vn-ca .post.vn-c .act[data-a="like"]::after,html.vn-ca .post.vn-c .act[data-a="cmt"]::after{content:"·";margin-left:16px;color:var(--muted);font-weight:400}
+html.vn-ca .post.vn-c .act[data-a="like"]::after,html.vn-ca .post.vn-c .act[data-a="cmt"]::after{content:"·";margin-left:7px;color:var(--muted);font-weight:400}
 html.vn-ca .post.vn-c .act[data-a="send"],html.vn-ca .post.vn-c .act[data-usend]{order:5;margin-left:auto}
 html.vn-ca .post.vn-c .act[data-a="send"]>span,html.vn-ca .post.vn-c .act[data-usend]>span,html.vn-ca .post.vn-c .act[data-a="save"]>span{display:none!important}
-html.vn-ca .post.vn-c .act[data-a="save"]{order:6;margin-left:0}
-html.vn-ca .post.vn-c .act .ico{width:22px;height:22px}
+html.vn-ca .post.vn-c .act[data-a="save"]{order:6;margin-left:0;margin-right:-6px}
 html.vn-ca .post.vn-c .act.on{color:var(--bronze-ink)}
-html.vn-ca .post.vn-c .act .cnt{display:none}
 html.vn-ca .post.vn-c .likes{font-size:13.5px}
+/* se o número não cabe: Comentar e Repostar encolhem (sem passar da tela) e o 112 tira os pontinhos (.vn-aperta) */
+html.vn-ca .post.vn-c .act[data-a="cmt"],html.vn-ca .post.vn-c .act.vn-rpb{flex:0 1 auto;min-width:0}
+html.vn-ca .post.vn-c .act>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+html.vn-ca .post.vn-c .act>.ico,html.vn-ca .post.vn-c .act>.cnt,html.vn-ca .post.vn-c .act::after{flex:none}
+html.vn-ca .post.vn-c .acts.vn-aperta .act::after{display:none}
+html.vn-ca .post.vn-c .acts.vn-aperta .act{padding:0 5px}
+html.vn-ca .post.vn-c .acts.vn-aperta .act[data-a="like"],html.vn-ca .post.vn-c .acts.vn-aperta .act[data-a="cmt"]{margin-right:3px}
+/* celulares: menos respiro para caber com números de dois dígitos; no estreito (360px) sem os pontinhos entre as ações */
+@media (max-width:400px){html.vn-ca .post.vn-c .act{padding:0 6px;gap:4px}html.vn-ca .post.vn-c .act[data-a="like"]::after,html.vn-ca .post.vn-c .act[data-a="cmt"]::after{margin-left:4px}}
+@media (max-width:370px){html.vn-ca .post.vn-c .act{padding:0 5px;min-width:38px}html.vn-ca .post.vn-c .act>span,html.vn-ca .post.vn-c .act .cnt{font-size:12.5px}
+  html.vn-ca .post.vn-c .act[data-a="like"]::after,html.vn-ca .post.vn-c .act[data-a="cmt"]::after{display:none}html.vn-ca .post.vn-c .act[data-a="like"],html.vn-ca .post.vn-c .act[data-a="cmt"]{margin-right:4px}}
 /* nota de amigo: o texto primeiro, como citação; a assinatura pequena embaixo */
 html.vn-ca .post.vn-cp>.vn-txt,html.vn-ca .post.vn-cp>.vn-rptx{position:relative;margin:8px var(--gut,16px) 0;padding:0;font:400 calc(19px*var(--fz,1))/1.42 var(--f-display);color:var(--ink);letter-spacing:-.003em}
 html.vn-ca .post.vn-cp>.vn-txt::before,html.vn-ca .post.vn-cp>.vn-rptx::before{content:"“";display:block;height:20px;margin-bottom:2px;font:600 46px/1 var(--f-display);color:var(--bronze)}
@@ -138,7 +160,8 @@ html.vn-ca .post.vn-cp>.ph .ph-nm{flex-direction:row;align-items:baseline;gap:6p
 html.vn-ca .post.vn-cp>.ph .ph-nm>b{flex:none;font:700 13px/1.2 var(--f-ui)}
 html.vn-ca .post.vn-cp>.ph .ph-nm>.ph-sub{font:500 12.5px/1.2 var(--f-ui)}
 html.vn-ca .post.vn-cp>.ph .ph-nm>.ph-sub:not(:empty)::before{content:"·\00a0"}
-html.vn-ca .post.vn-cp>.car{margin:0 var(--gut,16px);border:1px solid var(--line)}
+/* a foto do amigo não é matéria: cantos arredondados e sem os fios do jornal */
+html.vn-ca .post.vn-cp>.car{margin:0 var(--gut,16px);border:0;border-radius:12px;overflow:hidden}
 html.vn-ca .post.vn-cp>.vn-rpw{margin:0 var(--gut,16px) 2px}
 html.vn-ca .vn-q{border-radius:4px;border-color:var(--line);border-top:2px solid var(--ink)}
 html.vn-ca .vn-q .vn-q-t,html.vn-ca .vn-qn .vn-q-tx b{font-family:var(--f-display)}
