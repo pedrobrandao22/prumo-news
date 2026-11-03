@@ -1,0 +1,23 @@
+/* ---------- 106: correções do app como chega ao usuário (QA de produção 03/11) ---------- */
+/* figurinhas já postas no story: sem rosa, roxo e verde-água (a paleta do foco é de jornal) */
+html.foco .fg-perg>b{background:linear-gradient(90deg,#1d3a63,#14213a)}
+html.foco .fg-quiz:not([class*="fgc-"])>b{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#1d3a63;-webkit-text-fill-color:#1d3a63}
+html.foco .fg-cont{background:linear-gradient(160deg,#1d3a63,#0d1d36)}
+html.foco .fg-lem,html.foco #ce-els .fg-cont::after{color:#1d3a63}
+html.foco .fg-local,html.foco .ce-figs .fg-local{color:#1d3a63}
+html.foco .ce-men,html.foco .ce-figs .fg-men{color:#6e2633}
+html.foco .fgc-2{--fgb:linear-gradient(160deg,#1d3a63,#0d1d36)}
+html.foco .fgc-3{--fgb:linear-gradient(160deg,#6e2633,#33111a)}
+html.foco .fgc-4{--fgb:linear-gradient(160deg,#24533c,#0f2a1c)}
+html.foco .fe-cor{background:conic-gradient(#ffffff,#17181c,#1d3a63,#6e2633,#24533c,#ffffff)}
+/* guia da primeira abertura: bolinhas e avatares sem o arco-íris */
+html.foco .tr-feed span i{background:conic-gradient(#c9822b,#1d3a63,#c9822b)}
+html.foco .tr-ativ p i{background:#1d3a63}html.foco .tr-ativ p i.q{background:#c9822b}
+/* atalhos de contexto da foto: em 360px o primeiro ficava cortado na borda */
+.fc105-ctx{justify-content:safe center}
+/* matéria: "Publicar comentário" e "No story" quebram a linha em vez de sair da tela (360px, texto grande) */
+.fc105-mcb{display:flex;flex-wrap:wrap}.fc105-mcb .btn{flex:1 1 auto}
+/* folhas do editor (cartão de texto, figurinhas) sobem com o teclado */
+.ce-sel{padding-bottom:var(--kb,0px)}
+/* story em tela estreita: "Melhores amigos" e "Seu story" cabem inteiros (antes "Seu st…") */
+@media (max-width:380px){.ce-story .ce-bot{gap:6px;left:10px;right:10px}.ce-story .ce-pub{padding:0 11px 0 5px;gap:5px}.ce-story .ce-pub>i:last-child:not(.ma-ic){display:none}.ce-story .ce-pub span,.ce-story .ce-pub.ma span{font-size:13px}}

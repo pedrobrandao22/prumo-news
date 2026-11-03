@@ -19,9 +19,9 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
   if(b=t.closest("[data-dm104mais]")){e.stopImmediatePropagation();const mid=b.dataset.dm104mais;closeLayer();setTimeout(()=>dmAcoes(mid),60);return}},true);
 /* denunciar uma mensagem recebida (o banco já aceita o tipo "mensagem") */
 {const _a104=dmAcoes;dmAcoes=function(mid){const r=_a104.apply(this,arguments);try{const m=allMsgs().find(x=>x.id===mid);const o=$("#layer .sheet .opt")||$("#layer2 .sheet .opt");
-  if(m&&o&&m.de!==S.uid&&m.para===S.uid&&!String(m.id).startsWith("tmp")&&!o.querySelector("[data-dm104den]"))o.insertAdjacentHTML("beforeend",`<button type="button" data-dm104den="${esc(mid)}" class="perigo">Denunciar mensagem<span>o Pedro recebe e analisa</span></button>`)}catch(e){}return r}}
+  if(m&&o&&m.de!==S.uid&&m.para===S.uid&&!String(m.id).startsWith("tmp")&&!o.querySelector("[data-dm104den]"))o.insertAdjacentHTML("beforeend",`<button type="button" data-dm104den="${esc(mid)}" class="perigo">Denunciar mensagem<span>${S.membros[S.uid]?.papel==="admin"?"fica na sua lista da Administração":"o Pedro recebe e analisa"}</span></button>`)}catch(e){}return r}}
 window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-dm104den]");if(!b)return;e.stopImmediatePropagation();const m=allMsgs().find(x=>x.id===b.dataset.dm104den);closeLayer();if(!m)return;
-  setTimeout(()=>{abrirDenuncia("mensagem",m.de,m.id);try{const p=$("#layer .sheet p")||$("#layer2 .sheet p");if(p)p.textContent=`A mensagem de ${nomeDe(m.de)} vai para o Pedro, que analisa. ${nomeDe(m.de)} não fica sabendo quem denunciou.`}catch(_){}},60)},true);
+  setTimeout(()=>{abrirDenuncia("mensagem",m.de,m.id);try{const p=$("#layer .sheet p")||$("#layer2 .sheet p");if(p)p.textContent=`A mensagem de ${nomeDe(m.de)} ${denunciaDestino()}. ${nomeDe(m.de)} não fica sabendo quem denunciou.`}catch(_){}},60)},true);
 /* notícia ou post mandado na conversa: abre por cima da conversa (o voltar traz de volta), em vez de jogar para o Feed */
 function dm104AbrePub(x){if($("#layer").innerHTML)closeLayer();PFV={u:x.autor,aba:"posts",modo:"posts",lista:[x],i:0,daGrade:false};
   $("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicação"></div>`;if(pushH())HST++;pfvDesenha()}

@@ -58,7 +58,7 @@ function atDesenha(){const el=$("#layer .pfv-at");if(!el)return;const l=atItens(
     <div class="pfv-sc">${!l.length?`<div class="pf-vz"><b>Nada por aqui ainda</b><span>Curtidas e comentários nas suas publicações, menções, pedidos de amizade e novidades das coberturas que você segue aparecem aqui.</span></div>`:""}
     ${novas.length?`<h4 class="at-h">Novas</h4><ul class="at-l">${novas.map(x=>atLiHTML(x,l.indexOf(x))).join("")}</ul>`:""}
     ${velhas.length?`<h4 class="at-h">Últimos 30 dias</h4><ul class="at-l">${velhas.map(x=>atLiHTML(x,l.indexOf(x))).join("")}</ul>`:""}
-    <div class="at-seg"><h4 class="at-h">Coberturas que você segue</h4>${seg.length?`<p>${seg.map(t=>`<span class="at-chip">${esc(t)}</span>`).join("")}</p><span class="hint">Quando uma delas for atualizada, você vê aqui.</span>`:`<span class="hint">Nenhuma ainda. Na página de uma cobertura, toque em “Seguir esta cobertura” para ser avisado das atualizações.</span>`}</div></div>`}
+    <div class="at-seg"><h4 class="at-h">Coberturas que você segue</h4>${seg.length?`<p>${seg.map(t=>`<span class="at-chip">${esc(t)}</span>`).join("")}</p><span class="hint">Quando uma delas for atualizada, você vê aqui.</span>`:`<span class="hint">Nenhuma ainda. Na página de uma cobertura, toque em “Seguir cobertura” para ser avisado das atualizações.</span>`}</div></div>`}
 function atRedesenha(){if($("#layer .pfv-at"))atDesenha()}
 async function abrirAtividade(){if(precisaConta())return;if($("#layer").innerHTML)closeLayer();AT._visto0=atVisto();
   $("#layer").innerHTML=`<div class="pfv pfv-at" role="dialog" aria-modal="true" aria-label="Atividade"></div>`;if(pushH())HST++;atDesenha();atMarcaVisto();atDot();uso("atividade");

@@ -161,7 +161,7 @@ function abrirPagCob(pid){uso("pag_cobertura");const p=pautaById(pid);if(!p){abr
     <h2>${esc(n.titulo)}</h2>
     <div class="pc-m">${cobStatus(p,true)}<span>${p.inicio?"Acompanhando desde "+esc(cobSP(p.inicio))+" · ":""}atualizada ${esc(quando(ult))}</span></div>
     ${cobEtapas(p)}
-    <div class="pc-a">${tema?`<button type="button" class="btn${seg?" ghost":""}" data-cobseg="${esc(pid)}" aria-pressed="${seg}">${seg?"Seguindo ✓":"Seguir esta cobertura"}</button>`:""}<button type="button" class="btn ghost" data-cobler="${esc(pid)}">Ler a notícia</button></div>
+    <div class="pc-a">${tema?`<button type="button" class="btn${seg?" ghost":""}" data-cobseg="${esc(pid)}" aria-pressed="${seg}">${seg?"Seguindo ✓":"Seguir cobertura"}</button>`:""}<button type="button" class="btn ghost" data-cobler="${esc(pid)}">Ler a notícia</button></div>
     <h4>Resumo</h4><p class="lead">${marcarTermos(n.texto||"")}</p>
     ${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}
     ${(p.faq||[]).length?`<h4>Entenda</h4><div class="faq">${p.faq.filter(q=>q&&q.p).map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(q.r||"")}</p></details>`).join("")}</div>`:""}
@@ -277,7 +277,7 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   h+=`<div class="mat-arte">${capaArte(p,"art",true)}</div>`;
   h+=`<div class="gut mat-tx"><h1>${v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:""}${esc(v.titulo)}</h1>`;
   const sub=capaSub(p,L,"");if(sub&&sub!==v.titulo&&!(v.tem&&String(v.texto||"").indexOf(String(sub).replace(/…$/,""))===0))h+=`<p class="mat-sub">${esc(sub)}</p>`;
-  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>Atualizado ${esc(quando(u))}</span>`:""}<span>${minLeitura(p,v)} min de leitura</span>${matCorSelo(p)}</p>`;
+  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>${esc(atualizadoTxt(u))}</span>`:""}<span>${minLeitura(p,v)} min de leitura</span>${matCorSelo(p)}</p>`;
   if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
   else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
   h+=matDesfecho(p);
