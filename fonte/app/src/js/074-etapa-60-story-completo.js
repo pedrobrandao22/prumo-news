@@ -27,7 +27,7 @@ async function camLiga(){const v=$("#ce-video");if(!v)return;if(!navigator.media
     CAM.s=st;CAM.sf=CAM.f;CAM.erro=null;const vv=$("#ce-video");if(vv){vv.srcObject=st;vv.play().catch(()=>{})}const m=$("#cam-msg");if(m)m.hidden=true}
   catch(e){if(pedido===CAM.pedido)camErro(e&&e.name)}}
 function camErro(n){CAM.erro=n||"erro";const m=$("#cam-msg");if(!m)return;m.hidden=false;const bloq=n==="NotAllowedError"||n==="SecurityError";
-  m.innerHTML=`<b>${bloq?"Câmera bloqueada":"Câmera indisponível"}</b><span>${bloq?"Libere a câmera para o Prumo nos ajustes do navegador, ou use a galeria.":"Use uma foto da galeria ou o modo Criar."}</span><button type="button" class="ce-chip on" data-edgal>Abrir a galeria</button>`}
+  m.innerHTML=`<b>${bloq?"Câmera bloqueada":"Câmera indisponível"}</b><span>${bloq?"Libere a câmera para o Prumo nos ajustes do navegador, ou use a galeria.":`Use uma foto da galeria ou o modo ${typeof FOCO_LIGADO!=="undefined"&&FOCO_LIGADO?"Livre":"Criar"}.`}</span><button type="button" class="ce-chip on" data-edgal>Abrir a galeria</button>`}
 function camMonta(){const sl=$("#layer .cam-slot");if(!sl)return;if(!CAM.v){CAM.v=document.createElement("video");CAM.v.id="ce-video";CAM.v.muted=true;CAM.v.playsInline=true;CAM.v.autoplay=true;CAM.v.setAttribute("playsinline","");CAM.v.setAttribute("muted","")}
   CAM.v.classList.toggle("esp",CAM.f==="user");sl.appendChild(CAM.v);if(CAM.v.srcObject)CAM.v.play().catch(()=>{})}
 function camDesliga(){CAM.pedido=0;if(CAM.v){try{CAM.v.pause()}catch(e){}CAM.v.srcObject=null}if(CAM.s){CAM.s.getTracks().forEach(t=>{try{t.stop()}catch(e){}});CAM.s=null;CAM.sf=null}}

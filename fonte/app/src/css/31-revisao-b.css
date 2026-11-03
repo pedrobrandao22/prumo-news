@@ -1,0 +1,13 @@
+/* 115: revisão B (Feed, Giro e criação) */
+/* B01 Giro de amigo (e o seu): o avatar fica no alto do cartão; o título não sobe até ele (3 linhas; 2 em telas estreitas) */
+html.vn #secs .vn-tl-u .vn-tl-tx b,html.vn #secs .vn-tl-eu .vn-tl-tx b{-webkit-line-clamp:3}
+@media (max-width:380px){html.vn #secs .vn-tl-u .vn-tl-tx b,html.vn #secs .vn-tl-eu .vn-tl-tx b{-webkit-line-clamp:2}}
+/* B05 cartão A: no cabeçalho do post com selo (Pergunta, Análise, Relato) a hora não é cortada em 360px */
+html.vn-ca .post.vn-cp>.ph .ph-nm>.ph-sub{max-width:none;min-width:0}
+/* B06 com o cartão de texto aberto, a dica "Toque para escrever" não fica por cima da prévia */
+#layer .ce-cv:has(.ce-bg.fc105-pvbg) .ce-dica,#layer .ce:has(.fc105-cs) .ce-dica{display:none}
+html.vn-ca .post.vn-cp>.ph .ph-sub .cn102-lb{letter-spacing:.03em;padding:1px 6px;margin-right:5px}
+/*     se ainda não couber (nome longo, tela estreita), o selo e a hora descem para a linha de baixo em vez de cortar a hora */
+html.vn-ca .post.vn-cp.cn102-post>.ph .ph-nm{flex-wrap:wrap;row-gap:3px}
+html.vn-ca .post.vn-cp.cn102-post>.ph .ph-nm>.ph-sub{flex:0 0 auto;max-width:100%}
+html.vn-ca .post.vn-cp.cn102-post>.ph .ph-nm>.ph-sub:has(>.cn102-lb:first-child)::before{content:none}
