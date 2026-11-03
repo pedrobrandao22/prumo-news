@@ -1,0 +1,85 @@
+/* ---------- 107: foco em notícia, 2º passe ---------- */
+/* linha discreta "Bia e Carla comentaram" (Feed com filtro e Capa) */
+.fc107-amg{display:flex;align-items:center;gap:8px;width:100%;min-height:36px;padding:4px 0;background:none;border:0;color:var(--ink-2,#3b4250);font:600 13px/1.3 var(--f-ui);text-align:left;cursor:pointer}
+.fc107-amg .fc107-amt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fc107-amg>i{font-style:normal;color:var(--muted);font-size:16px}
+.fc107-avs{display:inline-flex;flex:none}
+.fc107-avs .av{width:22px;height:22px;font-size:10px;border:2px solid var(--bg,#f2f3f5);box-sizing:content-box}
+.fc107-avs .av+.av{margin-left:-8px}
+.fc107-amg.fc107-fd{margin:2px 0 4px;padding:6px 0;border-top:1px solid var(--line)}
+.cpi>.fc107-cpa{margin:-2px 0 6px;min-height:32px;color:var(--muted)}
+.cpi-man>.fc107-cpa{margin-top:-6px}
+/* Feed: comentário logo abaixo da notícia, compacto */
+.upost.fc107-junto{position:relative;margin-top:-6px;padding-top:2px}
+.upost.fc107-junto:not(.fc107-j1){margin-top:-14px}
+.upost.fc107-junto::before{content:"";position:absolute;left:calc(var(--gut,16px) + 17px);top:46px;bottom:12px;width:2px;border-radius:2px;background:var(--line)}
+.upost.fc107-junto.fc107-jl::before{display:none}
+.fc107-gh{margin:0;padding:6px var(--gut,16px) 2px;font:800 11px var(--f-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.upost.fc107-semcar .car{display:none}
+.upost.fc107-semcar .acts{padding-top:2px;margin-top:2px}
+.upost.fc107-semcar .up-leg{margin:-4px 0 0 46px;font-family:var(--f-body);font-size:calc(16.5px*var(--fz,1));line-height:1.5;color:var(--ink)}
+#posts .upost.fc107-semcar{padding-bottom:12px;contain-intrinsic-size:auto 220px}
+.upost.fc107-semcar .cmt-area{border-top:0;margin-top:2px;padding-top:2px}
+#posts .upost.fc107-auto{contain-intrinsic-size:auto 480px}
+.upost.fc107-semcar .acts,.upost.fc107-semcar [data-likes],.upost.fc107-semcar .cmt-area{margin-left:46px}
+.upost.fc107-semcar .ph-sub .fc107-c{color:var(--muted)}
+/* análise, relato e pergunta sem foto: do tamanho do texto (antes: cartão 4:5 com muito espaço vazio) */
+html.foco .upost.fc107-auto .track>.sl{height:auto}
+html.foco .upost.fc107-auto .cn102-cd{justify-content:flex-start;padding:22px 22px 24px 26px;gap:10px}
+html.foco .upost.fc107-auto .cn102-rel .cn102-cd{padding-top:22px}
+html.foco .upost.fc107-auto .cn102-nchk{margin-top:6px}
+html.foco .upost .cn102-ana .cn102-ass{display:none}
+/* barra de publicar com a manchete sugerida */
+.cn102-barb.fc107-barb{display:flex;flex-direction:column;justify-content:center;gap:1px;height:auto;min-height:44px;padding:5px 16px;border-radius:22px;color:var(--ink)}
+.fc107-barb small{font:600 11.5px/1.2 var(--f-ui);color:var(--muted)}
+.fc107-barb b{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 14.5px/1.3 var(--f-display)}
+.fc107-bmais{flex:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--card);color:var(--ink-2,#3b4250)}
+.fc107-bmais .cn102-i{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+/* folha "O que seus amigos acham" */
+.fc107-sn{display:flex;flex-direction:column;gap:3px;width:100%;padding:10px 12px;margin:0 0 6px;border-radius:12px;background:var(--soft);border:0;text-align:left;cursor:pointer}
+.fc107-sn small{font:800 10.5px var(--f-ui);letter-spacing:.06em;text-transform:uppercase}
+.fc107-sn b{font:600 16px/1.3 var(--f-display);color:var(--ink)}
+.fc107-tl{list-style:none;margin:0;padding:0}
+.fc107-tl li{padding:12px 0;border-bottom:1px solid var(--line)}
+.fc107-tl li:last-child{border-bottom:0}
+.fc107-tq{display:flex;align-items:center;gap:9px}
+.fc107-tq .av{width:30px;height:30px;font-size:13px;flex:none}
+.fc107-tq span{display:flex;flex-direction:column}
+.fc107-tq b{font:700 14px var(--f-ui);color:var(--ink)}
+.fc107-tq i{font:500 12px var(--f-ui);font-style:normal;color:var(--muted)}
+.fc107-tl p{margin:8px 0 4px 39px;font:400 15.5px/1.5 var(--f-body);color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.fc107-ir{margin-left:39px;padding:4px 0;background:none;border:0;font:700 13px var(--f-ui);color:var(--accent)}
+/* Perfil: contribuições que filtram a grade */
+.fc107-pk{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:10px 0 12px;margin:0 calc(-1*var(--gut,16px));padding-left:var(--gut,16px);padding-right:var(--gut,16px)}
+.fc107-pk::-webkit-scrollbar{display:none}
+.fc107-pk button{flex:none;height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-2,#3b4250);font:600 13px var(--f-ui);white-space:nowrap}
+.fc107-pk button b{margin-left:3px;font-weight:800;color:var(--muted)}
+.fc107-pk button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.fc107-pk button[aria-pressed="true"] b{color:inherit;opacity:.75}
+.pf-tx.fc107-pt{flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;text-align:left;background:var(--card);color:var(--ink);border-left:3px solid var(--line)}
+.pf-tx.fc107-pt small{font:800 9.5px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pf-tx.fc107-pt b{font:600 12.5px/1.25 var(--f-display);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;white-space:normal}
+.pf-tx.fc107-pt-ana{border-left-color:var(--accent)}.pf-tx.fc107-pt-ana small{color:var(--accent)}
+.pf-tx.fc107-pt-rel{border-left-color:var(--bronze)}.pf-tx.fc107-pt-rel small{color:var(--bronze-ink)}
+/* Atividade: o que é da mesma notícia fica junto */
+.at-l li.fc107-ath{display:block;padding:10px 0 2px}
+.fc107-ath button{display:flex;flex-direction:column;gap:2px;width:100%;padding:0;background:none;border:0;text-align:left;cursor:pointer}
+.fc107-ath small{font:800 10px var(--f-ui);letter-spacing:.06em;text-transform:uppercase}
+.fc107-ath b{font:600 14.5px/1.3 var(--f-display);color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.at-l li.fc107-atg{margin-left:4px;padding-left:12px;border-left:2px solid var(--line)}
+.at-th.fc107-atn{position:relative}
+.fc107-ata{position:absolute;inset:0;display:block}
+.fc107-ata>svg,.fc107-ata .ill>svg{display:block;width:100%;height:100%}
+.fc107-ata img{width:100%;height:100%;object-fit:cover}
+/* stories: selo discreto em quem publicou notícia ou cartão */
+.fc107-stn{position:absolute;right:0;bottom:0;width:22px;height:22px;border-radius:50%;background:var(--card);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;box-sizing:border-box;color:var(--ink)}
+.fc107-stn .cn102-i{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* cartão de texto do story: a prévia encolhe e fica inteira acima da folha */
+#ce-cv.fc107-mini{transition:transform .2s ease;border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgb(0 0 0 / .45)}
+@media (prefers-reduced-motion:reduce){#ce-cv.fc107-mini{transition:none}}
+html.foco .fc105-cs .fc105-csh small{display:none}
+html.foco .ce:has(#ce-cv.fc107-mini) .fc105-cs{background:none}
+/* arte das notícias no Feed: na proporção dela (sem cortar as laterais); o resto do cartão fica na cor da editoria */
+html.foco .post .sl>.cover.paper:not(.info):not(.fcv){display:flex;flex-direction:column}
+html.foco .post .sl>.cover.paper:not(.info):not(.fcv)>svg{position:relative;inset:auto;height:auto;aspect-ratio:400/264;flex:none}
+html.foco .post .sl>.cover.paper:not(.info):not(.fcv) .cv{position:relative;flex:1;padding:12px 18px 16px;background:var(--ill-bg)}
