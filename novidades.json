@@ -1,64 +1,217 @@
 {
- "gerado": "2026-11-03T17:23-03:00",
+ "gerado": "2026-11-03T18:16-03:00",
  "desde": "2026-11-03T14:40-03:00",
  "feed_atualizado_em": "2026-11-03T14:50:00-03:00",
  "resumo": {
-  "manchetes": 307,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 263,
-  "pautas_com_novidade": 3,
+  "manchetes": 362,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 290,
+  "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 2,
-  "pautas_com_relatos": 5,
-  "acionar_itens": 0,
+  "pautas_com_relatos": 8,
+  "acionar_itens": 2,
   "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (263 assuntos fora do feed, 5 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
- "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos",
+ "acionar": true,
+ "acionar_motivo": "pauta pec-seguranca-ccj: 4 veículos em 90 min depois da última atualização; assunto novo: 3 veículos em 90 min (economia)",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "pec-seguranca-ccj",
+   "titulo": "Flávio tenta votar PEC da Segurança direto dos EUA, mas enfrenta problemas",
+   "n_fontes": 4,
+   "motivo": "pauta pec-seguranca-ccj: 4 veículos em 90 min depois da última atualização"
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Brasil espera proposta dos EUA sobre tarifas até semana que vem, diz ministro",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "chave": [
+    "americanas",
+    "brasil",
+    "deve",
+    "duas",
+    "eleicoes",
+    "espera",
+    "eua",
+    "ministro",
+    "mudar",
+    "negociar",
+    "proposta",
+    "proxima",
+    "receber",
+    "relacao",
+    "semana",
+    "semanas",
+    "tarifaco",
+    "tarifas",
+    "vem"
+   ]
+  }
+ ],
+ "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois",
  "novos": [
   {
-   "assunto": "Corinthians demite treinadora após vice na Libertadores feminina",
+   "assunto": "Brasil espera proposta dos EUA sobre tarifas até semana que vem, diz ministro",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Brasil espera proposta dos EUA sobre tarifas até semana que vem, diz ministro",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/brasil-espera-proposta-dos-eua-sobre-tarifas-ate-semana-que-vem-diz-ministro.shtml",
+     "hora": "03/11 18h00"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Brasil espera mudar relação com EUA após eleições americanas",
+     "url": "https://www.cnnbrasil.com.br/internacional/brasil-espera-mudar-relacao-com-eua-apos-eleicoes-americanas/",
+     "hora": "03/11 17h37"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Brasil espera proposta dos EUA para negociar tarifaço em até duas semanas",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/brasil-espera-proposta-dos-eua-para-negociar-tarifaco-em-ate-duas-semanas/",
+     "hora": "03/11 17h25"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Tarifaço: Brasil deve receber proposta dos EUA entre esta semana e a próxima, diz ministro",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/03/tarifaco-brasil-deve-receber-proposta-dos-eua-entre-esta-semana-e-a-proxima-diz-ministro.ghtml",
+     "hora": "03/11 16h33"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Fórmula 1: Rafael Câmara estreia pela Haas na categoria no GP de São Paulo",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "folha",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Fórmula 1: Rafael Câmara estreia pela Haas na categoria no GP de São Paulo",
+     "url": "https://www.metropoles.com/esportes/formula-1-rafal-camara-estreia-pela-haas-na-categoria-no-gp-de-sao-paulo",
+     "hora": "03/11 17h52"
+    },
+    {
+     "veiculo": "Folha Esporte",
+     "titulo": "Rafael Câmara tem estreia na F1 antecipada e vai correr no GP São Paulo",
+     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/rafael-camara-tem-estreia-na-f1-antecipada-e-vai-correr-no-gp-sao-paulo.shtml",
+     "hora": "03/11 17h47"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Haas confirma brasileiro Rafael Câmara como piloto titular no GP Brasil de F1",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/03/haas-confirma-brasileiro-rafael-camara-como-piloto-titular-no-gp-brasil-de-f1.ghtml",
+     "hora": "03/11 17h30"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "À espera de Rafael Câmara: Haas é única equipe sem fotos dos pilotos no paddock de Interlagos",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/03/a-espera-de-rafael-camara-haas-e-unica-equipe-sem-fotos-dos-pilotos-no-paddock-de-interlagos.ghtml",
+     "hora": "03/11 15h55"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Barcelona x Aston Villa - Liga dos Campeões 2026/2027 - Ao vivo - globoesporte.com",
    "secao": "esportes",
    "n_fontes": 2,
    "fontes": [
     "cnn",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Barcelona x Aston Villa - Liga dos Campeões 2026/2027 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/liga-dos-campeoes/jogo/03-11-2026/barcelona-Astonvilla.ghtml",
+     "hora": "03/11 18h06"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Villarreal x Paris Saint-Germain - Liga dos Campeões 2026/2027 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/liga-dos-campeoes/jogo/03-11-2026/Villarreal-parissaintgermain.ghtml",
+     "hora": "03/11 18h05"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Atlético de Madrid x Bayern de Munique - Liga dos Campeões 2026/2027 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/liga-dos-campeoes/jogo/03-11-2026/atleticodemadri-bayerndemunique.ghtml",
+     "hora": "03/11 18h05"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Manchester United x Roma: escalações e onde assistir ao jogo da Champions",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/champions-league/man-united-x-roma-escalacoes-e-onde-assistir-ao-jogo-da-champions/",
+     "hora": "03/11 16h02"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "lixo": true
+  },
+  {
+   "assunto": "Clubes de futebol criticam fim das bets; governo ressalta danos",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ab",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Clubes de futebol criticam fim das bets; governo ressalta danos",
+     "url": "https://agenciabrasil.ebc.com.br/justica/noticia/2026-11/clubes-de-futebol-criticam-fim-das-bets-governo-ressalta-danos",
+     "hora": "03/11 17h22"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Clubes pedem volta das bets, enquanto Governo Federal defende validade de Medida Provisória",
+     "url": "https://ge.globo.com/df/noticia/2026/11/03/clubes-pedem-volta-das-bets-enquanto-governo-federal-defende-validade-de-medida-provisoria.ghtml",
+     "hora": "03/11 15h01"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Eduardo Braga será o relator-geral do projeto de lei do Orçamento 2027",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "agsenado",
     "folha"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Folha Esporte",
-     "titulo": "Corinthians demite treinadora após vice na Libertadores feminina",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/corinthians-demite-treinadora-apos-vice-na-libertadores-feminina.shtml",
-     "hora": "03/11 17h19"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Corinthians demite Emily Lima após vice na Libertadores Feminina",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/corinthians/corinthians-demite-emily-lima-apos-vice-campeonato-da-libertadores-feminina/",
-     "hora": "03/11 14h53"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Eduardo Braga será o relator do Orçamento de 2027",
-   "secao": "economia",
-   "n_fontes": 2,
-   "fontes": [
-    "folha",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Eduardo Braga será o relator do Orçamento de 2027",
-     "url": "https://www.poder360.com.br/poder-congresso/eduardo-braga-sera-o-relator-do-orcamento-de-2027/",
-     "hora": "03/11 16h07"
+     "veiculo": "Agência Senado",
+     "titulo": "Eduardo Braga será o relator-geral do projeto de lei do Orçamento 2027",
+     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/03/eduardo-braga-sera-o-relator-geral-do-projeto-de-lei-do-orcamento-2027",
+     "hora": "03/11 18h00"
     },
     {
      "veiculo": "Folha Mercado",
@@ -67,30 +220,107 @@
      "hora": "03/11 15h52"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 1
   },
   {
-   "assunto": "Governo anuncia minerais críticos como prioridade e reunião de conselho",
-   "secao": "politica",
+   "assunto": "Escalação do Corinthians: Seedorf muda defesa e faz mistério sobre Memphis contra o São Paulo",
+   "secao": "esportes",
    "n_fontes": 2,
    "fontes": [
     "cnn",
-    "p360"
+    "ge"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Poder360",
-     "titulo": "Governo anuncia minerais críticos como prioridade e reunião de conselho",
-     "url": "https://www.poder360.com.br/poder-governo/governo-anuncia-minerais-criticos-como-prioridade-e-reuniao-de-conselho/",
-     "hora": "03/11 15h57"
+     "veiculo": "ge",
+     "titulo": "Escalação do Corinthians: Seedorf muda defesa e faz mistério sobre Memphis contra o São Paulo",
+     "url": "https://ge.globo.com/futebol/times/corinthians/noticia/2026/11/03/escalacao-do-corinthians-seedorf-muda-defesa-e-faz-misterio-sobre-memphis-contra-o-sao-paulo.ghtml",
+     "hora": "03/11 17h37"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Ministro anuncia primeira reunião de novo conselho dos minerais críticos",
-     "url": "https://www.cnnbrasil.com.br/infra/ministro-anuncia-primeira-reuniao-de-novo-conselho-dos-minerais-criticos/",
-     "hora": "03/11 14h50"
+     "titulo": "Memphis e Yuri Alberto elogiam Seedorf no Corinthians: “Honra”",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/corinthians/memphis-e-yuri-alberto-elogiam-seedorf-no-corinthians-honra/",
+     "hora": "03/11 15h43"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Memphis titular? Seedorf faz mistério sobre escalação do Corinthians para o clássico",
+     "url": "https://ge.globo.com/futebol/times/corinthians/noticia/2026/11/03/memphis-titular-seedorf-faz-misterio-sobre-escalacao-do-corinthians-para-o-classico.ghtml",
+     "hora": "03/11 15h32"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Memphis vê mudança de atitude no Corinthians com Seedorf e elogia: \"Ele é peça importante\"",
+     "url": "https://ge.globo.com/futebol/times/corinthians/noticia/2026/11/03/memphis-ve-mudanca-de-atitude-no-corinthians-com-seedorf-e-elogia-ele-e-peca-importante.ghtml",
+     "hora": "03/11 15h22"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "lixo": true
+  },
+  {
+   "assunto": "ICE faz post ameaçando rastrear e prender quem \"votar ilegalmente\" nos EUA",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "ICE faz post ameaçando rastrear e prender quem \"votar ilegalmente\" nos EUA",
+     "url": "https://www.metropoles.com/mundo/ice-faz-post-ameacando-rastrear-e-prender-quem-votar-ilegalmente-nos-eua",
+     "hora": "03/11 17h51"
+    },
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "ICE faz post ameaçando imigrantes em dia de eleição: 'Nós vamos te rastrear'",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/03/ice-faz-post-ameacando-imigrantes-em-dia-de-eleicao-nos-vamos-te-rastrear.ghtml",
+     "hora": "03/11 15h43"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Marina Ruy Barbosa cai em pegadinha de influenciador e reage: “Golpe”",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Marina Ruy Barbosa cai em pegadinha de influenciador e reage: “Golpe”",
+     "url": "https://www.metropoles.com/celebridades/marina-ruy-barbosa-cai-em-pegadinha-de-influenciador-e-reage-golpe",
+     "hora": "03/11 18h01"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "André Janones defende Marina Ruy Barbosa após polêmica",
+     "url": "https://www.metropoles.com/colunas/fabia-oliveira/andre-janones-exalta-e-defende-marina-ruy-barbosa-apos-polemica",
+     "hora": "03/11 17h38"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "João Vicente fala sobre defesa a Marina Ruy Barbosa após indireta de Tabet",
+     "url": "https://www.metropoles.com/colunas/lucas-pasin/joao-vicente-fala-sobre-defesa-a-marina-ruy-barbosa-apos-indireta-de-tabet",
+     "hora": "03/11 17h30"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Conheça blogueiras que ficaram contra Marina Ruy Barbosa em polêmica",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/conheca-blogueiras-que-ficaram-contra-marina-ruy-barbosa-em-polemica/",
+     "hora": "03/11 17h10"
     }
    ],
    "n_fontes_90min": 2
@@ -123,105 +353,98 @@
    "lixo": true
   },
   {
-   "assunto": "Memphis e Yuri Alberto elogiam Seedorf no Corinthians: “Honra”",
-   "secao": "esportes",
+   "assunto": "Padilha defende no STF manter proibição das bets e cita riscos à saúde",
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
     "cnn",
-    "ge"
+    "folha"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Memphis e Yuri Alberto elogiam Seedorf no Corinthians: “Honra”",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/corinthians/memphis-e-yuri-alberto-elogiam-seedorf-no-corinthians-honra/",
-     "hora": "03/11 15h43"
+     "titulo": "Padilha defende no STF manter proibição das bets e cita riscos à saúde",
+     "url": "https://www.cnnbrasil.com.br/politica/padilha-defende-no-stf-manter-proibicao-das-bets-e-cita-riscos-a-saude/",
+     "hora": "03/11 17h20"
     },
     {
-     "veiculo": "ge",
-     "titulo": "Memphis titular? Seedorf faz mistério sobre escalação do Corinthians para o clássico",
-     "url": "https://ge.globo.com/futebol/times/corinthians/noticia/2026/11/03/memphis-titular-seedorf-faz-misterio-sobre-escalacao-do-corinthians-para-o-classico.ghtml",
-     "hora": "03/11 15h32"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Memphis vê mudança de atitude no Corinthians com Seedorf e elogia: \"Ele é peça importante\"",
-     "url": "https://ge.globo.com/futebol/times/corinthians/noticia/2026/11/03/memphis-ve-mudanca-de-atitude-no-corinthians-com-seedorf-e-elogia-ele-e-peca-importante.ghtml",
-     "hora": "03/11 15h22"
+     "veiculo": "Folha Mercado",
+     "titulo": "Entenda o que está em jogo no STF sobre a proibição das bets",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/entenda-o-que-esta-em-jogo-no-stf-sobre-a-proibicao-das-bets.shtml",
+     "hora": "03/11 17h03"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Memphis projeta melhora do Corinthians e fala sobre seca de gols",
-   "secao": "esportes",
+   "assunto": "Seedorf bate boca com jornalista e impede resposta de Depay em coletiva",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
     "cnn",
-    "ge"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Memphis projeta melhora do Corinthians e fala sobre seca de gols",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/corinthians/memphis-projeta-melhora-do-corinthians-e-fala-sobre-seca-de-gols/",
-     "hora": "03/11 15h25"
+     "veiculo": "Metrópoles",
+     "titulo": "Seedorf bate boca com jornalista e impede resposta de Depay em coletiva",
+     "url": "https://www.metropoles.com/esportes/seedorf-bate-boca-com-jornalista-e-impede-resposta-de-depay-em-coletiva",
+     "hora": "03/11 18h03"
     },
     {
-     "veiculo": "ge",
-     "titulo": "Memphis prevê melhora do Corinthians e se diz pronto para jogar: \"Tenho um plano bom\"",
-     "url": "https://ge.globo.com/futebol/times/corinthians/noticia/2026/11/03/memphis-preve-melhora-do-corinthians-e-se-diz-pronto-para-jogar-tenho-um-plano-bom.ghtml",
-     "hora": "03/11 14h58"
+     "veiculo": "CNN Brasil",
+     "titulo": "Seedorf discute com jornalista após impedir resposta de Memphis; veja",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/corinthians/seedorf-discute-com-jornalista-apos-impedir-resposta-de-memphis-veja/",
+     "hora": "03/11 16h20"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 1
   },
   {
-   "assunto": "Villarreal x Paris Saint-Germain - Liga dos Campeões 2026/2027 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 2,
+   "assunto": "\"Prática legítima\", diz ABIH sobre aumento no preço das hospedagens no DF",
+   "secao": null,
+   "n_fontes": 1,
    "fontes": [
-    "cnn",
-    "ge"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Villarreal x Paris Saint-Germain - Liga dos Campeões 2026/2027 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/liga-dos-campeoes/jogo/03-11-2026/Villarreal-parissaintgermain.ghtml",
-     "hora": "03/11 17h14"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético de Madrid x Bayern de Munique - Liga dos Campeões 2026/2027 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/liga-dos-campeoes/jogo/03-11-2026/atleticodemadri-bayerndemunique.ghtml",
-     "hora": "03/11 17h14"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Barcelona x Aston Villa - Liga dos Campeões 2026/2027 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/liga-dos-campeoes/jogo/03-11-2026/barcelona-Astonvilla.ghtml",
-     "hora": "03/11 17h13"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Manchester United x Roma: escalações e onde assistir ao jogo da Champions",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/champions-league/man-united-x-roma-escalacoes-e-onde-assistir-ao-jogo-da-champions/",
-     "hora": "03/11 16h02"
+     "veiculo": "Metrópoles",
+     "titulo": "\"Prática legítima\", diz ABIH sobre aumento no preço das hospedagens no DF",
+     "url": "https://www.metropoles.com/distrito-federal/pratica-legitima-diz-abih-sobre-aumento-no-preco-das-hospedagens-no-df",
+     "hora": "03/11 17h55"
     }
    ],
-   "n_fontes_90min": 1,
-   "lixo": true
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "\"Tá olhando o quê?\": homem que matou jovem após ser confrontado é preso",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "\"Tá olhando o quê?\": homem que matou jovem após ser confrontado é preso",
+     "url": "https://www.metropoles.com/distrito-federal/entorno/ta-olhando-o-que-homem-que-matou-jovem-apos-ser-confrontado-e-preso",
+     "hora": "03/11 18h04"
+    }
+   ],
+   "n_fontes_90min": 1
   },
   {
    "assunto": "'Eram a luz da vida dos pais': quem eram o casal e os filhos mortos em queda de jatinho na Flórida",
-   "secao": null,
+   "secao": "mundo",
    "n_fontes": 1,
    "fontes": [
     "g1"
@@ -230,7 +453,7 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Mundo",
      "titulo": "'Eram a luz da vida dos pais': quem eram o casal e os filhos mortos em queda de jatinho na Flórida",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/03/eram-a-luz-da-vida-dos-pais-quem-eram-o-casal-e-os-filhos-mortos-em-queda-de-jatinho-na-florida.ghtml",
      "hora": "03/11 15h10"
@@ -258,6 +481,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "'Mulher extraordinária': Quem era a médica assassinada em bar no interior do Acre",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Mulher extraordinária': Quem era a médica assassinada em bar no interior do Acre",
+     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/03/mulher-extraordinaria-quem-era-a-medica-assassinada-em-bar-no-interior-do-acre.ghtml",
+     "hora": "03/11 17h34"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "'The Elder Scrolls 6: Sentinel': Novo game da franquia de RPG ganha título oficial",
    "secao": null,
    "n_fontes": 1,
@@ -277,6 +519,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Abastecimento de água será interrompido em sete cidades da Bahia; saiba mais",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Abastecimento de água será interrompido em sete cidades da Bahia; saiba mais",
+     "url": "https://g1.globo.com/ba/feira-de-santana-regiao/noticia/2026/11/03/abastecimento-de-agua-sera-interrompido-em-cidades-da-bahia.ghtml",
+     "hora": "03/11 17h42"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Acidente de avião que matou 9 na Flórida deixou cratera em avenida; veja imagens",
    "secao": null,
    "n_fontes": 1,
@@ -291,6 +552,25 @@
      "titulo": "Acidente de avião que matou 9 na Flórida deixou cratera em avenida; veja imagens",
      "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/03/acidente-de-aviao-que-matou-9-na-florida-deixou-cratera-em-avenida-veja-imagens.ghtml",
      "hora": "03/11 16h58"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Acompanhe apuração dos 7 estados que concentram principais disputas pelo controle do Senado dos EUA",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Acompanhe apuração dos 7 estados que concentram principais disputas pelo controle do Senado dos EUA",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/acompanhe-apuracao-dos-7-estados-que-concentram-principais-disputas-pelo-controle-do-senado-dos-eua.shtml",
+     "hora": "03/11 17h55"
     }
    ],
    "n_fontes_90min": 1
@@ -334,20 +614,39 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Ala do PP contesta apoio à reeleição de Alcolumbre; cúpula reage",
+   "assunto": "Advogado de Vorcaro alega excesso de prazo e pede soltura ao STF",
    "secao": "politica",
    "n_fontes": 1,
    "fontes": [
-    "cnn"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ala do PP contesta apoio à reeleição de Alcolumbre; cúpula reage",
-     "url": "https://www.cnnbrasil.com.br/politica/ala-do-pp-contesta-apoio-a-reeleicao-de-alcolumbre-cupula-reage/",
-     "hora": "03/11 15h03"
+     "veiculo": "Metrópoles",
+     "titulo": "Advogado de Vorcaro alega excesso de prazo e pede soltura ao STF",
+     "url": "https://www.metropoles.com/colunas/manoela-alcantara/advogado-de-vorcaro-reitera-pedido-de-soltura-em-reuniao-com-juiz-de-fachin",
+     "hora": "03/11 17h44"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Aeroporto Serra da Capivara entra em programa que prevê gestão privada",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Aeroporto Serra da Capivara entra em programa que prevê gestão privada",
+     "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/03/aeroporto-serra-da-capivara.ghtml",
+     "hora": "03/11 18h06"
     }
    ],
    "n_fontes_90min": 1
@@ -363,7 +662,7 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Política",
      "titulo": "Alcolumbre escolhe aliado para relatoria do Orçamento em meio à articulação pela reeleição no Senado",
      "url": "https://g1.globo.com/politica/noticia/2026/11/03/alcolumbre-escolhe-aliado-para-relatoria-do-orcamento-em-meio-a-articulacao-pela-reeleicao-no-senado.ghtml",
      "hora": "03/11 15h11"
@@ -372,39 +671,20 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Alice Wegmann faz aniversário e ganha declaração do namorado: “Grande amor”",
-   "secao": null,
+   "assunto": "Altos anuncia técnico Marcinho Guerreiro para 2027",
+   "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
-    "cnn"
+    "ge"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alice Wegmann faz aniversário e ganha declaração do namorado: “Grande amor”",
-     "url": "https://www.cnnbrasil.com.br/pop/celebridades/alice-wegmann-faz-aniversario-e-ganha-declaracao-do-namorado-grande-amor/",
-     "hora": "03/11 14h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Ambulatório e equipe de saúde terceirizada: governança antes do contrato",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Ambulatório e equipe de saúde terceirizada: governança antes do contrato",
-     "url": "https://g1.globo.com/sp/campinas-regiao/especial-publicitario/corpmed-saude-no-trabalho-gestao-prevencao-e-futuro/noticia/2026/11/03/ambulatorio-e-equipe-de-saude-terceirizada-governanca-antes-do-contrato.ghtml",
-     "hora": "03/11 15h55"
+     "veiculo": "ge",
+     "titulo": "Altos anuncia técnico Marcinho Guerreiro para 2027",
+     "url": "https://ge.globo.com/pi/futebol/noticia/2026/11/03/altos-anuncia-tecnico-marcinho-guerreiro-para-2027.ghtml",
+     "hora": "03/11 18h05"
     }
    ],
    "n_fontes_90min": 1
@@ -429,26 +709,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Anitta comenta semelhança com Viviane Batidão: “Irmã, achei que era eu”",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Anitta comenta semelhança com Viviane Batidão: “Irmã, achei que era eu”",
-     "url": "https://www.cnnbrasil.com.br/pop/celebridades/anitta-comenta-semelhanca-com-viviane-batidao-irma-achei-que-era-eu/",
-     "hora": "03/11 15h26"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Antonio Tabet critica “nepobaby hipócrita” após post de João Vicente",
+   "assunto": "Anthony Vaccarello é homenageado no CFDA ao lado de musas da Saint Laurent",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -459,9 +720,9 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Antonio Tabet critica “nepobaby hipócrita” após post de João Vicente",
-     "url": "https://www.metropoles.com/celebridades/antonio-tabet-critica-nepobaby-hipocrita-apos-post-de-joao-vicente",
-     "hora": "03/11 16h42"
+     "titulo": "Anthony Vaccarello é homenageado no CFDA ao lado de musas da Saint Laurent",
+     "url": "https://www.metropoles.com/colunas/ilca-maria-estevao/anthony-vaccarello-e-homenageado-no-cfda-ao-lado-de-musas-da-saint-laurent",
+     "hora": "03/11 17h32"
     }
    ],
    "n_fontes_90min": 1
@@ -503,158 +764,6 @@
     }
    ],
    "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Após ganho de massa muscular, Ruivinha de Marte surpreende: \"Cadê ela?\"",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Após ganho de massa muscular, Ruivinha de Marte surpreende: \"Cadê ela?\"",
-     "url": "https://www.metropoles.com/colunas/fabia-oliveira/apos-ganho-de-massa-muscular-ruivinha-de-marte-surpreende-cade-ela",
-     "hora": "03/11 17h06"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Aqui é Corinthians",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Aqui é Corinthians",
-     "url": "https://ge.globo.com/futebol/times/corinthians/ao-vivo/aqui-e-corinthians.ghtml",
-     "hora": "03/11 15h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Aracaju inicia campanha de vacinação antirrábica com pontos fixos e drive-thru",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Aracaju inicia campanha de vacinação antirrábica com pontos fixos e drive-thru",
-     "url": "https://g1.globo.com/se/sergipe/noticia/2026/11/03/aracaju-inicia-campanha-de-vacinacao-antirrabica-com-pontos-fixos-e-drive-thru.ghtml",
-     "hora": "03/11 16h17"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Atacante de 30 anos do Tenerife morre após choque durante partida",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ab"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Atacante de 30 anos do Tenerife morre após choque durante partida",
-     "url": "https://agenciabrasil.ebc.com.br/esportes/noticia/2026-11/atacante-de-30-anos-do-tenerife-morre-apos-choque-durante-partida",
-     "hora": "03/11 16h31"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Atividades críticas: como definir aptidão sem exames automáticos",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Atividades críticas: como definir aptidão sem exames automáticos",
-     "url": "https://g1.globo.com/sp/campinas-regiao/especial-publicitario/corpmed-saude-no-trabalho-gestao-prevencao-e-futuro/noticia/2026/11/03/atividades-criticas-como-definir-aptidao-sem-exames-automaticos.ghtml",
-     "hora": "03/11 15h40"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Atlético-PI x Piripiri: assista ao vivo à final do Campeonato Piauiense Feminino 2026",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético-PI x Piripiri: assista ao vivo à final do Campeonato Piauiense Feminino 2026",
-     "url": "https://ge.globo.com/pi/futebol/futebol-feminino/ao-vivo/atletico-pi-x-piripiri-acompanhe-ao-vivo-a-decisao-do-campeonato-piauiense-feminino-2026.ghtml",
-     "hora": "03/11 16h46"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Aulão na Rede 2026: Como funciona a propagação de calor?",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Aulão na Rede 2026: Como funciona a propagação de calor?",
-     "url": "https://g1.globo.com/ac/acre/educacao/aulao-na-rede/noticia/2026/11/03/aulao-na-rede-2026-como-funciona-a-propagacao-de-calor.ghtml",
-     "hora": "03/11 16h47"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Aumento de R$ 1 no salário mínimo custará R$ 405 mi em 2027, diz Tesouro",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Aumento de R$ 1 no salário mínimo custará R$ 405 mi em 2027, diz Tesouro",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/aumento-de-r-1-no-salario-minimo-custara-r-405-mi-em-2027-diz-tesouro/",
-     "hora": "03/11 14h58"
-    }
-   ],
-   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
@@ -663,58 +772,82 @@
    "n_fontes": 3,
    "manchetes": [
     {
+     "veiculo": "Folha Mundo",
+     "titulo": "Eleição de meio de mandato nos EUA ocorre sob interferência eleitoral sem precedentes de Trump",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/eleicao-de-meio-de-mandato-nos-eua-ocorre-sob-interferencia-eleitoral-sem-precedentes-de-trump.shtml",
+     "hora": "03/11 18h02"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Veja mapas de apuração das eleições de meio de mandato nos EUA",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/veja-mapas-de-apuracao-das-eleicoes-de-meio-de-mandato-nos-eua.shtml",
+     "hora": "03/11 17h54"
+    },
+    {
      "veiculo": "BBC News Brasil",
      "titulo": "Quando sairão os resultados das eleições de meio de mandato nos EUA?",
      "url": "https://www.bbc.com/portuguese/articles/cwm26g6x0r72o?at_medium=RSS&at_campaign=rss",
      "hora": "03/11 17h11"
     },
     {
-     "veiculo": "g1 Mundo",
+     "veiculo": "g1",
      "titulo": "3 cenários possíveis para os resultados das eleições de meio de mandato nos EUA",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/03/3-cenarios-possiveis-resultados-eleicoes-de-meio-de-mandato-nos-eua.ghtml",
      "hora": "03/11 17h09"
     },
     {
-     "veiculo": "BBC News Brasil",
-     "titulo": "3 cenários possíveis para os resultados das eleições de meio de mandato nos EUA",
-     "url": "https://www.bbc.com/portuguese/articles/cwj346dy3kplo?at_medium=RSS&at_campaign=rss",
-     "hora": "03/11 16h57"
-    },
-    {
-     "veiculo": "Folha Mundo",
-     "titulo": "Governo Trump intensifica caça a eleitores estrangeiros nas eleições de meio de mandato",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/governo-trump-intensifica-caca-a-eleitores-estrangeiros-nas-eleicoes-de-meio-de-mandato.shtml",
-     "hora": "03/11 14h42"
+     "veiculo": "g1",
+     "titulo": "Eleições nos EUA: astronautas da Nasa votam do espaço",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/03/eleicoes-nos-eua-astronautas-da-nasa-votam-do-espaco.ghtml",
+     "hora": "03/11 17h32"
     }
    ]
   },
   "pec-seguranca-ccj": {
    "secao": "politica",
-   "n_fontes": 3,
+   "n_fontes": 4,
    "manchetes": [
     {
+     "veiculo": "Metrópoles",
+     "titulo": "Flávio tenta votar PEC da Segurança direto dos EUA, mas enfrenta problemas",
+     "url": "https://www.metropoles.com/colunas/igor-gadelha/flavio-tenta-votar-pec-da-seguranca-dos-eua-mas-enfrenta-problemas",
+     "hora": "03/11 18h01"
+    },
+    {
      "veiculo": "g1",
-     "titulo": "ASSISTA: Senado discute a PEC da Segurança Pública; votação pode ser hoje",
+     "titulo": "Nos EUA, Flávio Bolsonaro registra presença em sessão do Senado que discute a PEC da Segurança Pública",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/03/nos-eua-flavio-bolsonaro-registra-presenca-em-sessao-do-senado.ghtml",
+     "hora": "03/11 18h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Rogério Marinho diz que relator da PEC da Segurança quer “calar” o Senado",
+     "url": "https://www.metropoles.com/colunas/grande-angular/rogerio-marinho-diz-que-relator-da-pec-da-seguranca-quer-calar-o-senado",
+     "hora": "03/11 17h49"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "ASSISTA: Senado discute a PEC da Segurança Pública; texto pode ser votado ainda hoje",
      "url": "https://g1.globo.com/politica/ao-vivo/pec-seguranca-publica-senado.ghtml",
-     "hora": "03/11 17h08"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Ao vivo: Senado analisa PEC da Segurança Pública",
-     "url": "https://www.poder360.com.br/poder-congresso/ao-vivo-senado-analisa-pec-da-seguranca-publica/",
-     "hora": "03/11 16h00"
-    },
-    {
-     "veiculo": "Folha Poder",
-     "titulo": "Ministério da Segurança Pública pode ficar só para 2027",
-     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/ministerio-da-seguranca-publica-pode-ficar-so-para-2027.shtml",
-     "hora": "03/11 15h14"
+     "hora": "03/11 17h38"
     },
     {
      "veiculo": "Agência Senado",
      "titulo": "Zenaide: municípios precisam de recursos permanente para implementar PEC da Segurança",
      "url": "https://www12.senado.leg.br/noticias/materias/2026/11/03/zenaide-municipios-precisam-de-recursos-permanente-para-implementar-pec-da-seguranca",
      "hora": "03/11 16h50"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Relator apresenta parecer da PEC da Segurança sem redução da maioridade",
+     "url": "https://www.cnnbrasil.com.br/politica/relator-apresenta-parecer-da-pec-da-seguranca-sem-reducao-da-maioridade/",
+     "hora": "03/11 17h41"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Relator apresenta parecer da PEC da Segurança sem redução da maioridade",
+     "url": "https://www.metropoles.com/brasil/relatorio-pec-da-seguranca-maioridade",
+     "hora": "03/11 17h35"
     }
    ]
   },
@@ -726,37 +859,118 @@
      "veiculo": "ge",
      "titulo": "Flamengo x Operário-PR - Copa do Brasil Sub-20 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/pr/futebol/copa-do-brasil-sub-20/jogo/03-11-2026/flamengo-operario-pr.ghtml",
-     "hora": "03/11 17h14"
+     "hora": "03/11 18h06"
     },
     {
      "veiculo": "ge",
-     "titulo": "Brasil x Nigéria - Copa do Mundo Feminina Sub-17 2026 - globoesporte.com",
-     "url": "https://ge.globo.com/ms/futebol/futebol-feminino/jogo/04-11-2026/brasil-nigeria.ghtml",
-     "hora": "03/11 16h56"
+     "titulo": "Sul-Mato-Grossense Sub-17: Operário-MS e Pantanal vão à final e garantem vaga na Copa do Brasil",
+     "url": "https://ge.globo.com/ms/futebol/noticia/2026/11/03/sul-mato-grossense-sub-17-operario-ms-e-pantanal-vao-a-final-e-garantem-vaga-na-copa-do-brasil.ghtml",
+     "hora": "03/11 17h36"
     },
     {
      "veiculo": "ge",
-     "titulo": "Internacional x Bragantino - Copa do Brasil Feminina 2026 - globoesporte.com",
-     "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/04-11-2026/internacional-bragantino.ghtml",
-     "hora": "03/11 16h53"
+     "titulo": "Paysandu x Palmeiras - Copa do Brasil Sub-20 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/pa/futebol/copa-do-brasil-sub-20/jogo/05-11-2026/paysandu-palmeiras.ghtml",
+     "hora": "03/11 17h25"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "São Paulo x Ceará - Copa do Brasil Sub-20 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/futebol/copa-do-brasil-sub-20/jogo/05-11-2026/sao-paulo-ceara.ghtml",
+     "hora": "03/11 17h22"
+    }
+   ]
+  },
+  "juros-futuros-pos-eleicao": {
+   "secao": "economia",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Taxas dos DIs sobem com temores sobre rumos da economia no novo governo Lula",
+     "url": "https://www.infomoney.com.br/mercados/taxas-dos-dis-sobem-com-temores-sobre-rumos-da-economia-no-novo-governo-lula/",
+     "hora": "03/11 18h05"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Juros futuros sobem com temores sobre rumos da economia no governo Lula 4",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/juros-futuros-sobem-com-temores-sobre-rumos-da-economia-no-governo-lula-4/",
+     "hora": "03/11 17h06"
+    }
+   ]
+  },
+  "trump-diesel-russo-tregua-energetica": {
+   "secao": "mundo",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Itamaraty diz que ainda não recebeu confirmação oficial da morte de paraense na guerra da Ucrânia",
+     "url": "https://g1.globo.com/pa/para/noticia/2026/11/03/itamaraty-diz-que-ainda-nao-recebeu-confirmacao-oficial-da-morte-de-paraense-na-guerra-da-ucrania.ghtml",
+     "hora": "03/11 17h30"
+    }
+   ]
+  },
+  "copom-novembro-selic": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Mercado aposta em manutenção da Selic em 13,75% pós reunião do Copom",
+     "url": "https://www.poder360.com.br/poder-economia/mercado-aposta-em-manutencao-da-selic-em-1375-pos-reuniao-do-copom/",
+     "hora": "03/11 18h07"
     }
    ]
   }
  },
  "novos_relatos": {
   "pec-seguranca-ccj": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 6,
+   "n_fontes": 4,
    "fontes": [
-    "agsenado"
+    "agsenado",
+    "cnn",
+    "g1",
+    "met"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "03/11 16h50",
-   "ultima_iso": "2026-11-03T16:50-03:00",
+   "n_fontes_90min": 4,
+   "ultima": "03/11 18h01",
+   "ultima_iso": "2026-11-03T18:01-03:00",
    "pauta_atualizada_em": "2026-11-03T14:48-03:00",
-   "horas_sem_atualizar": 2.6,
+   "horas_sem_atualizar": 3.5,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Flávio tenta votar PEC da Segurança direto dos EUA, mas enfrenta problemas",
+     "url": "https://www.metropoles.com/colunas/igor-gadelha/flavio-tenta-votar-pec-da-seguranca-dos-eua-mas-enfrenta-problemas",
+     "hora": "03/11 18h01"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Nos EUA, Flávio Bolsonaro registra presença em sessão do Senado que discute a PEC da Segurança Pública",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/03/nos-eua-flavio-bolsonaro-registra-presenca-em-sessao-do-senado.ghtml",
+     "hora": "03/11 18h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Rogério Marinho diz que relator da PEC da Segurança quer “calar” o Senado",
+     "url": "https://www.metropoles.com/colunas/grande-angular/rogerio-marinho-diz-que-relator-da-pec-da-seguranca-quer-calar-o-senado",
+     "hora": "03/11 17h49"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Relator apresenta parecer da PEC da Segurança sem redução da maioridade",
+     "url": "https://www.cnnbrasil.com.br/politica/relator-apresenta-parecer-da-pec-da-seguranca-sem-reducao-da-maioridade/",
+     "hora": "03/11 17h41"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Relator apresenta parecer da PEC da Segurança sem redução da maioridade",
+     "url": "https://www.metropoles.com/brasil/relatorio-pec-da-seguranca-maioridade",
+     "hora": "03/11 17h35"
+    },
     {
      "veiculo": "Agência Senado",
      "titulo": "Zenaide: municípios precisam de recursos permanente para implementar PEC da Segurança",
@@ -765,20 +979,54 @@
     }
    ]
   },
-  "eua-eleicao-meio-de-mandato": {
-   "n": 5,
-   "n_fontes": 2,
+  "copom-novembro-selic": {
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "bbc",
-    "g1"
+    "p360"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "03/11 17h11",
-   "ultima_iso": "2026-11-03T17:11-03:00",
+   "n_fontes_90min": 1,
+   "ultima": "03/11 18h07",
+   "ultima_iso": "2026-11-03T18:07-03:00",
    "pauta_atualizada_em": "2026-11-03T06:52-03:00",
-   "horas_sem_atualizar": 10.5,
+   "horas_sem_atualizar": 11.4,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Mercado aposta em manutenção da Selic em 13,75% pós reunião do Copom",
+     "url": "https://www.poder360.com.br/poder-economia/mercado-aposta-em-manutencao-da-selic-em-1375-pos-reuniao-do-copom/",
+     "hora": "03/11 18h07"
+    }
+   ]
+  },
+  "eua-eleicao-meio-de-mandato": {
+   "n": 6,
+   "n_fontes": 3,
+   "fontes": [
+    "bbc",
+    "folha",
+    "g1"
+   ],
+   "n_fontes_90min": 3,
+   "ultima": "03/11 17h54",
+   "ultima_iso": "2026-11-03T17:54-03:00",
+   "pauta_atualizada_em": "2026-11-03T06:52-03:00",
+   "horas_sem_atualizar": 11.4,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Veja mapas de apuração das eleições de meio de mandato nos EUA",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/veja-mapas-de-apuracao-das-eleicoes-de-meio-de-mandato-nos-eua.shtml",
+     "hora": "03/11 17h54"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Eleições nos EUA: astronautas da Nasa votam do espaço",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/03/eleicoes-nos-eua-astronautas-da-nasa-votam-do-espaco.ghtml",
+     "hora": "03/11 17h32"
+    },
     {
      "veiculo": "BBC News Brasil",
      "titulo": "Quando sairão os resultados das eleições de meio de mandato nos EUA?",
@@ -786,7 +1034,7 @@
      "hora": "03/11 17h11"
     },
     {
-     "veiculo": "g1 Mundo",
+     "veiculo": "g1",
      "titulo": "3 cenários possíveis para os resultados das eleições de meio de mandato nos EUA",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/03/3-cenarios-possiveis-resultados-eleicoes-de-meio-de-mandato-nos-eua.ghtml",
      "hora": "03/11 17h09"
@@ -802,33 +1050,45 @@
      "titulo": "O que são as eleições de meio de mandato dos EUA e por que elas podem selar o futuro de Trump?",
      "url": "https://www.bbc.com/portuguese/articles/cwg7xpyd1jrgo?at_medium=RSS&at_campaign=rss",
      "hora": "03/11 13h20"
-    },
-    {
-     "veiculo": "g1 Mundo",
-     "titulo": "Eleições nos EUA: quando sai o resultado?",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/03/eleicoes-nos-eua-quando-sai-o-resultado.ghtml",
-     "hora": "03/11 11h59"
     }
    ]
   },
   "copa-do-brasil-semifinal-ida-palmeiras-vasco-gremio-atletico": {
-   "n": 3,
+   "n": 6,
    "n_fontes": 1,
    "fontes": [
     "ge"
    ],
    "n_fontes_90min": 1,
-   "ultima": "03/11 17h14",
-   "ultima_iso": "2026-11-03T17:14-03:00",
+   "ultima": "03/11 18h06",
+   "ultima_iso": "2026-11-03T18:06-03:00",
    "pauta_atualizada_em": "2026-11-03T06:52-03:00",
-   "horas_sem_atualizar": 10.5,
+   "horas_sem_atualizar": 11.4,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "ge",
      "titulo": "Flamengo x Operário-PR - Copa do Brasil Sub-20 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/pr/futebol/copa-do-brasil-sub-20/jogo/03-11-2026/flamengo-operario-pr.ghtml",
-     "hora": "03/11 17h14"
+     "hora": "03/11 18h06"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Sul-Mato-Grossense Sub-17: Operário-MS e Pantanal vão à final e garantem vaga na Copa do Brasil",
+     "url": "https://ge.globo.com/ms/futebol/noticia/2026/11/03/sul-mato-grossense-sub-17-operario-ms-e-pantanal-vao-a-final-e-garantem-vaga-na-copa-do-brasil.ghtml",
+     "hora": "03/11 17h36"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Paysandu x Palmeiras - Copa do Brasil Sub-20 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/pa/futebol/copa-do-brasil-sub-20/jogo/05-11-2026/paysandu-palmeiras.ghtml",
+     "hora": "03/11 17h25"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "São Paulo x Ceará - Copa do Brasil Sub-20 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/futebol/copa-do-brasil-sub-20/jogo/05-11-2026/sao-paulo-ceara.ghtml",
+     "hora": "03/11 17h22"
     },
     {
      "veiculo": "ge",
@@ -844,6 +1104,27 @@
     }
    ]
   },
+  "juros-futuros-pos-eleicao": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "03/11 17h06",
+   "ultima_iso": "2026-11-03T17:06-03:00",
+   "pauta_atualizada_em": "2026-10-31T06:53-03:00",
+   "horas_sem_atualizar": 83.4,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Juros futuros sobem com temores sobre rumos da economia no governo Lula 4",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/juros-futuros-sobem-com-temores-sobre-rumos-da-economia-no-governo-lula-4/",
+     "hora": "03/11 17h06"
+    }
+   ]
+  },
   "caso-master": {
    "n": 1,
    "n_fontes": 1,
@@ -854,7 +1135,7 @@
    "ultima": "03/11 12h58",
    "ultima_iso": "2026-11-03T12:58-03:00",
    "pauta_atualizada_em": "2026-10-31T06:53-03:00",
-   "horas_sem_atualizar": 82.5,
+   "horas_sem_atualizar": 83.4,
    "principal": false,
    "manchetes": [
     {
@@ -865,8 +1146,29 @@
     }
    ]
   },
+  "trump-diesel-russo-tregua-energetica": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "03/11 17h30",
+   "ultima_iso": "2026-11-03T17:30-03:00",
+   "pauta_atualizada_em": "2026-11-02T06:52-03:00",
+   "horas_sem_atualizar": 35.4,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Itamaraty diz que ainda não recebeu confirmação oficial da morte de paraense na guerra da Ucrânia",
+     "url": "https://g1.globo.com/pa/para/noticia/2026/11/03/itamaraty-diz-que-ainda-nao-recebeu-confirmacao-oficial-da-morte-de-paraense-na-guerra-da-ucrania.ghtml",
+     "hora": "03/11 17h30"
+    }
+   ]
+  },
   "estudiantes-flamengo-semi-libertadores": {
-   "n": 3,
+   "n": 2,
    "n_fontes": 1,
    "fontes": [
     "ge"
@@ -875,7 +1177,7 @@
    "ultima": "03/11 13h29",
    "ultima_iso": "2026-11-03T13:29-03:00",
    "pauta_atualizada_em": "2026-10-31T13:48-03:00",
-   "horas_sem_atualizar": 75.6,
+   "horas_sem_atualizar": 76.5,
    "principal": false,
    "manchetes": [
     {
@@ -889,24 +1191,45 @@
      "titulo": "Cruzeiro derrota Olimpia na semi, e Libertadores Feminina terá final brasileira",
      "url": "https://ge.globo.com/mg/triangulo-mineiro/futebol/futebol-feminino/libertadores-feminina/jogo/28-10-2026/cruzeiro-OLIMPIA-FEMININO.ghtml",
      "hora": "03/11 13h26"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Final da Libertadores terá nova venda de ingressos para torcida mista em Palmeiras x Estudiantes",
-     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/03/final-da-libertadores-tera-nova-venda-de-ingressos-para-torcida-mista-em-palmeiras-x-estudiantes.ghtml",
-     "hora": "03/11 12h51"
     }
    ]
   }
  },
  "fotos_livres": [
   {
-   "veiculo": "Agência Brasil",
-   "titulo": "Manifestantes ocupam praças em Portugal por direito à moradia",
-   "materia": "https://agenciabrasil.ebc.com.br/internacional/noticia/2026-11/manifestantes-ocupam-pracas-em-portugal-por-direito-moradia",
-   "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1707588&o=rss",
-   "credito": "Foto: Agência Brasil",
-   "hora": "03/11 14h02",
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão aprova regras mais duras para crimes contra o patrimônio praticados com violência",
+   "materia": "https://www.camara.leg.br/noticias/1315389-comissao-aprova-regras-mais-duras-para-crimes-contra-o-patrimonio-praticados-com-violencia",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261103161003249-768x474.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "03/11 17h59",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão aprova projeto que cria política de bibliotecas digitais sociais",
+   "materia": "https://www.camara.leg.br/noticias/1315218-comissao-aprova-projeto-que-cria-politica-de-bibliotecas-digitais-sociais",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260701153619945-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "03/11 17h37",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão Mista de Orçamento aprova crédito de R$ 115 milhões para atender venezuelanos em Roraima",
+   "materia": "https://www.camara.leg.br/noticias/1315391-comissao-mista-de-orcamento-aprova-credito-de-r-115-milhoes-para-atender-venezuelanos-em-roraima",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261103153159181-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "03/11 17h34",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Câmara aprova inclusão de ultrassonografias morfológicas no pré-natal do SUS",
+   "materia": "https://www.camara.leg.br/noticias/1315411-camara-aprova-inclusao-de-ultrassonografias-morfologicas-no-pre-natal-do-sus",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261103170924031-768x474.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "03/11 17h19",
    "pid_sugerido": null
   },
   {
@@ -1052,42 +1375,6 @@
    "credito": "Foto: Agência Câmara",
    "hora": "03/11 12h49",
    "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova projeto que prevê carteira de docente para professores aposentados",
-   "materia": "https://www.camara.leg.br/noticias/1315095-comissao-aprova-projeto-que-preve-carteira-de-docente-para-professores-aposentados",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20250903170356973-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "03/11 12h42",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova diretrizes para atender pacientes com condições pós-Covid no SUS",
-   "materia": "https://www.camara.leg.br/noticias/1315082-comissao-aprova-diretrizes-para-atender-pacientes-com-condicoes-pos-covid-no-sus",
-   "img": "https://www.camara.leg.br/midias/image/2026/10/img20261028154525216-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "03/11 12h15",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova isenção de taxa da carteira de habilitação para motoristas de veículos de emergência",
-   "materia": "https://www.camara.leg.br/noticias/1315104-comissao-aprova-isencao-de-taxa-da-carteira-de-habilitacao-para-motoristas-de-veiculos-de-emergencia",
-   "img": "https://www.camara.leg.br/midias/image/2026/06/img20260512172701707-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "03/11 11h37",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Proposta assegura exame periódico no SUS para pessoas com diabetes",
-   "materia": "https://www.camara.leg.br/noticias/1315076-proposta-assegura-exame-periodico-no-sus-para-pessoas-com-diabetes",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260527102823895-768x512.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "03/11 11h09",
-   "pid_sugerido": null
   }
  ],
  "avaliados": [
@@ -1142,27 +1429,27 @@
    "em": "2026-11-03T14:26-03:00"
   }
  ],
- "ultima_rodada": "2026-11-03T16:49-03:00",
+ "ultima_rodada": "2026-11-03T17:48-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
   "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 9 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 5 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 14 nas últimas 6 h",
-  "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 10 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 4 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 12 nas últimas 6 h",
+  "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 24 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 26 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 7 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 36 itens, 5 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 19 nas últimas 6 h"
+  "Agência Câmara": "ok: 20 itens, 20 nas últimas 6 h"
  }
 }
