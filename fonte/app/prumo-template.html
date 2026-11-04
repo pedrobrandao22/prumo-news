@@ -4723,6 +4723,203 @@ html.vn-ca .post .cn102-cd>.tb121-fonte{display:inline-block;margin:10px 0 0;fon
 /* TB03: o post de Pergunta ganhava, sem querer, o estilo da caixa de votação (.cn102-enq: flex, padding 24px 22px), por usar a mesma classe.
    Com 22 px a mais de cada lado, as ações não cabiam em 360 px ("Come…", "Repo… 1") e o texto ficava mais estreito que o dos outros posts. */
 .post.upost.cn102-enq{display:block;padding:0 0 14px;gap:normal;flex:none;justify-content:normal;min-width:auto}
+/* ---------- 123: colunas e seguir ---------- */
+/* coluna no Feed: o post é o teaser */
+.cs123-card{padding-block:2px 4px;cursor:pointer}
+.cs123-k{margin:0 0 4px;font:800 11.5px/1 var(--f-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--bronze-ink)}
+.cs123-t{margin:0;font-family:var(--f-display);font-weight:600;font-size:calc(22px*min(var(--fz,1),1.15));line-height:1.18;letter-spacing:-.015em;text-wrap:balance}
+.cs123-t button{all:unset;cursor:pointer;color:var(--ink)}
+.cs123-t button:focus-visible,.cs123-lb:focus-visible,.cs123-capa:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.cs123-l{margin:6px 0 0;font-family:var(--f-body);font-size:calc(16.5px*var(--fz,1));line-height:1.4;color:var(--ink-2)}
+.cs123-capa{display:block;width:100%;margin:12px 0 0;padding:0;border:0;border-radius:10px;overflow:hidden;background:var(--soft);aspect-ratio:16/9;cursor:pointer}
+.cs123-capa img{display:block;width:100%;height:100%;object-fit:cover}
+.cs123-capa .up-sem{display:grid;place-items:center;height:100%;color:var(--muted);font-size:13px}
+.cs123-x{margin:10px 0 0;font-family:var(--f-body);font-size:calc(15.5px*var(--fz,1));line-height:1.5;color:var(--ink);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.cs123-r{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 2px;padding-top:10px;border-top:1px solid var(--line)}
+.cs123-min{font:600 13px var(--f-ui);color:var(--muted)}
+.cs123-lb{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border:0;border-radius:999px;background:var(--ink);color:var(--card);font:700 14.5px var(--f-ui);cursor:pointer;white-space:nowrap}
+.cs123-lb i{font-style:normal;font-size:18px;line-height:1}
+.cs123-post .ph{padding-bottom:6px}
+.cs123-ps{color:var(--muted)}
+.pf-t .cs123-pfk{position:absolute;left:6px;bottom:6px;padding:2px 6px;border-radius:4px;background:rgb(20 33 58 / .82);color:#fff;font:800 10px/1.4 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;font-style:normal}
+.cs123-pft{display:flex;align-items:center;padding:10px;background:var(--card)!important;color:var(--ink)!important;text-align:left}
+.cs123-pft b{font:600 14px/1.2 var(--f-display);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+
+/* página de leitura (e prévia) */
+.cs123-ler{position:fixed;inset:0;z-index:48;display:flex;flex-direction:column;background:var(--bg);padding-top:env(safe-area-inset-top,0px)}
+.cs123-ler.cs123-prev{z-index:49}
+.cs123-top{position:relative;display:flex;align-items:center;gap:8px;height:52px;padding:0 8px;border-bottom:1px solid var(--line);background:var(--bg);flex:none}
+.cs123-v{display:inline-flex;align-items:center;gap:2px;min-height:40px;padding:0 10px 0 4px;border:0;background:none;color:var(--ink);font:700 15px var(--f-ui);cursor:pointer}
+.cs123-tk{flex:1;font:800 11.5px var(--f-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--bronze-ink);text-align:center;margin-right:40px}
+.cs123-prev .cs123-tk{margin-right:0}
+.cs123-tpub{min-height:36px;padding:0 14px}
+.cs123-pg{position:absolute;left:0;right:0;bottom:-1px;height:3px;background:transparent}
+.cs123-pg b{display:block;height:100%;width:0;background:var(--bronze);transition:width .08s linear}
+.cs123-sc{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.cs123-art{max-width:680px;margin:0 auto;padding:22px 20px calc(env(safe-area-inset-bottom,0px) + 44px)}
+.cs123-art h1{margin:2px 0 0;font-family:var(--f-display);font-weight:600;font-size:calc(30px*min(var(--fz,1),1.15));line-height:1.13;letter-spacing:-.02em;color:var(--ink);text-wrap:balance}
+.cs123-art .cs123-l{margin:10px 0 0;font-size:calc(19px*var(--fz,1));line-height:1.42}
+.cs123-by{margin:16px 0 0;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cs123-au{display:flex;align-items:center;gap:10px;padding:0;border:0;background:none;color:inherit;text-align:left;cursor:pointer}
+.cs123-au .av{width:40px;height:40px;flex:none}
+.cs123-au span{display:flex;flex-direction:column;line-height:1.25}
+.cs123-au b{font:800 15px var(--f-ui);color:var(--ink)}
+.cs123-au small{font:500 13px var(--f-ui);color:var(--muted)}
+.cs123-fig{margin:18px -20px 0;background:var(--soft)}
+.cs123-fig img{display:block;width:100%;max-height:70vh;object-fit:cover}
+.cs123-fig .up-sem{display:grid;place-items:center;height:160px;color:var(--muted)}
+.cs123-corpo{margin-top:20px}
+.cs123-corpo p{margin:0 0 16px;font-family:var(--f-body);font-size:calc(18px*var(--fz,1));line-height:1.68;color:var(--ink);overflow-wrap:anywhere}
+.cs123-corpo h2{margin:28px 0 10px;font-family:var(--f-display);font-weight:600;font-size:calc(22px*min(var(--fz,1),1.15));line-height:1.22;letter-spacing:-.01em;color:var(--ink)}
+.cs123-corpo blockquote{margin:22px 0;padding:2px 0 2px 16px;border-left:3px solid var(--bronze)}
+.cs123-corpo blockquote p{margin:0;font-style:italic;font-size:calc(20px*var(--fz,1));line-height:1.5;color:var(--ink-2)}
+.cs123-corpo strong{font-weight:700}
+.cs123-a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.cs123-dom{font:500 .78em var(--f-ui);color:var(--muted)}
+.cs123-ponto{display:inline-block;width:9px;height:9px;margin-left:4px;background:var(--bronze);vertical-align:baseline}
+.cs123-corpo p:last-of-type{display:inline}
+.cs123-corpo p:last-of-type+.cs123-ponto{margin-left:6px}
+.cs123-hts{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 0}
+.cs123-ht{min-height:32px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--accent);font:700 13.5px var(--f-ui);cursor:pointer}
+.cs123-aviso{margin:20px 0 0;font:500 13px/1.45 var(--f-ui);color:var(--muted)}
+.cs123-fim{margin:22px 0 0;padding:16px 0 0;border-top:2px solid var(--ink)}
+.cs123-fk{margin:0 0 6px;font:800 15px var(--f-ui);color:var(--ink)}
+.cs123-acts{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.cs123-acts .act{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:700 14px var(--f-ui);cursor:pointer}
+.cs123-acts .act .ico{width:19px;height:19px}
+.cs123-acts .act.on{border-color:var(--hot);color:var(--hot)}
+.cs123-acts .act.saved{border-color:var(--bronze);color:var(--bronze-ink)}
+.cs123-lk{margin:10px 0 0;font-size:14px;color:var(--ink-2)}
+.cs123-cms{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.cs123-cms li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.4}
+.cs123-cms .av{width:28px;height:28px;flex:none;font-size:12px}
+.cs123-fim .addc{margin-top:10px}
+
+/* editor */
+.cs123-ed{position:fixed;inset:0;z-index:48;display:flex;flex-direction:column;background:var(--card);padding-top:env(safe-area-inset-top,0px)}
+.cs123-edh{display:flex;align-items:center;gap:8px;height:52px;padding:0 8px;border-bottom:1px solid var(--line);flex:none}
+.cs123-edh b{flex:1;font:800 16px var(--f-ui);text-align:center}
+.cs123-pvb{min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink);font:700 14px var(--f-ui);cursor:pointer}
+.cs123-eds{flex:1;overflow-y:auto;padding:12px 16px 24px;-webkit-overflow-scrolling:touch}
+.cs123-rs{display:flex;flex-direction:column;gap:6px;margin:0 0 14px;padding:10px 12px;border-radius:10px;background:var(--soft)}
+.cs123-rs>b{font:800 12px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cs123-rc{display:flex;align-items:center;gap:6px}
+.cs123-rc>button:first-child{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-height:40px;padding:4px 0;border:0;background:none;color:var(--ink);text-align:left;cursor:pointer}
+.cs123-rc>button:first-child b{font:700 14.5px var(--f-ui)}
+.cs123-rc small{font:500 12px var(--f-ui);color:var(--muted)}
+.cs123-rx{width:36px;height:36px;border:0;background:none;color:var(--muted);cursor:pointer}
+.cs123-rx .ico{width:16px;height:16px}
+.cs123-capaed{margin:0 0 12px}
+.cs123-capab{display:flex;align-items:center;gap:10px;width:100%;min-height:64px;padding:10px 14px;border:1.5px dashed var(--line);border-radius:10px;background:none;color:var(--ink);text-align:left;cursor:pointer}
+.cs123-capab .ico{width:24px;height:24px;color:var(--muted)}
+.cs123-capab span{display:flex;flex-direction:column;font:700 15px var(--f-ui)}
+.cs123-capab small{font:500 12.5px var(--f-ui);color:var(--muted)}
+.cs123-capaed img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px}
+.cs123-capax{margin-top:6px;min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink);font:700 13.5px var(--f-ui);cursor:pointer}
+.cs123-f{display:block;position:relative;margin:0 0 8px}
+.cs123-f small{position:absolute;right:0;bottom:-2px;font:500 11.5px var(--f-ui);color:var(--muted)}
+.cs123-f textarea,.cs123-f input{display:block;width:100%;padding:6px 0 14px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);resize:none;outline:none}
+.cs123-f textarea:focus,.cs123-f input:focus{border-bottom-color:var(--accent)}
+.cs123-tit{font-family:var(--f-display);font-weight:600;font-size:24px;line-height:1.2}
+.cs123-lin{font-family:var(--f-body);font-size:17px;line-height:1.4;color:var(--ink-2)!important}
+.cs123-fl span{display:block;font:700 12.5px var(--f-ui);color:var(--muted)}
+.cs123-fl input{font:500 15px var(--f-ui);padding-bottom:8px}
+.cs123-bar{position:sticky;top:-12px;z-index:2;display:flex;gap:6px;margin:12px -16px 0;padding:8px 16px;background:var(--card);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.cs123-bar button{flex:none;min-height:36px;min-width:40px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:700 13.5px var(--f-ui);cursor:pointer}
+.cs123-corpoed{display:block;width:100%;min-height:46vh;margin:10px 0 0;padding:4px 0;border:0;background:none;color:var(--ink);font-family:var(--f-body);font-size:17.5px;line-height:1.62;resize:none;outline:none}
+.cs123-cont{margin:6px 0 0;font:600 12.5px var(--f-ui);color:var(--muted)}
+.cs123-cont.cs123-quase{color:var(--hot)}
+.cs123-dica{margin:4px 0 14px;font:500 12.5px/1.45 var(--f-ui);color:var(--muted)}
+.cs123-pub{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:14px 0 0}
+.cs123-pub span{width:100%;font:700 12.5px var(--f-ui);color:var(--muted)}
+.cs123-pub button{min-height:38px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink);font:700 14px var(--f-ui);cursor:pointer}
+.cs123-pub button[aria-checked="true"]{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.cs123-ed .cs123-aviso{margin-top:14px}
+.cs123-edf{display:flex;gap:8px;padding:10px 16px calc(env(safe-area-inset-bottom,0px) + 10px);border-top:1px solid var(--line);background:var(--card);flex:none}
+.cs123-edf .btn{flex:1;margin:0}
+.cs123-cardc .cn102-i{background:#3a2c17;color:#e6b673}
+.cs123-cardc{grid-column:1/-1;min-height:0;display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center}
+.cs123-cardc .cn102-i{grid-row:span 2;margin-bottom:0}
+.cs123-cardc b,.cs123-cardc small{grid-column:2}
+
+/* seguir */
+.cs123-num{display:inline-flex;flex-wrap:wrap;gap:4px 14px}
+.cs123-num button,.cs123-cfgb button{padding:0;border:0;background:none;color:var(--ink-2);font:500 14px var(--f-ui);cursor:pointer}
+.cs123-num b,.cs123-cfgb b{color:var(--ink);font-weight:800}
+.vn-pf-num .cs123-num{margin-left:2px}
+.cs123-numl{margin:4px 0 8px}
+.cs123-ab{display:flex;align-items:center;gap:6px;margin:6px 0 0;font:600 13px var(--f-ui);color:var(--muted)}
+.cs123-ab .ico{width:16px;height:16px}
+.cs123-sg{min-width:110px}
+.cs123-sg[aria-pressed="false"]{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.cs123-l .cs123-sg{min-width:96px;min-height:36px;padding:0 12px;margin:0;font-size:13.5px}
+.cs123-l li{display:flex;align-items:center;gap:8px}
+.cs123-l .cs123-lr{flex:1;min-width:0}
+.cs123-cfg{padding:14px 16px}
+.cs123-sw{display:flex;align-items:center;gap:14px;cursor:pointer}
+.cs123-sw span{flex:1;display:flex;flex-direction:column;gap:2px}
+.cs123-sw b{font:800 15.5px var(--f-ui)}
+.cs123-sw small{font:500 13px/1.4 var(--f-ui);color:var(--muted)}
+.cs123-sw input{appearance:none;-webkit-appearance:none;flex:none;width:46px;height:28px;margin:0;border-radius:999px;background:var(--chip);position:relative;cursor:pointer;transition:background .15s}
+.cs123-sw input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgb(0 0 0 / .25);transition:transform .15s}
+.cs123-sw input:checked{background:var(--accent)}
+.cs123-sw input:checked::after{transform:translateX(18px)}
+.cs123-sw input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cs123-cfgh{margin:10px 0 0}
+.cs123-cfgb{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line)}
+.cs123-cfgb button[data-cs123descobre]{margin-left:auto;color:var(--accent);font-weight:700}
+.cs123-bus{list-style:none;padding:4px 0 8px;border-bottom:1px solid var(--line)}
+.cs123-bh{display:block;margin:4px 0 2px;font:800 12px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+@media (min-width:700px){.cs123-art{padding-top:34px}.cs123-art h1{font-size:40px}.cs123-corpo p{font-size:calc(19px*var(--fz,1))}.cs123-fig{margin:22px 0 0;border-radius:10px;overflow:hidden}}
+.pf-bts:has(.cs123-sg) .btn:not(.cs123-sg):not(.ghost){background:none;color:var(--ink);border:1px solid var(--line)}
+/* ---------- 124: notificações (bolinhas, faixa da Atividade e página Notificações) ---------- */
+/* bolinha na aba Conta do Perfil */
+#v-me [data-pfaba="conta"]{position:relative}
+.nt124-dot{position:absolute;top:8px;left:calc(50% + 8px);width:9px;height:9px;border-radius:50%;background:#ff3040;border:2px solid var(--bg);pointer-events:none}
+/* número na linha "Atividade" do menu */
+.card.menu [data-nt124ativ] em.nt124-n{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#ff3040;color:#fff;font:700 12px/20px var(--f-ui);font-style:normal;text-align:center}
+
+/* Atividade: "Desde a sua última visita" */
+.nt124-desde{margin:14px 0 4px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.nt124-dh{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.nt124-dh b{font:700 14px var(--f-ui);color:var(--ink)}
+.nt124-dh span{font:500 12px var(--f-ui);color:var(--muted)}
+.nt124-chips{display:flex;flex-wrap:wrap;gap:6px}
+.nt124-chip{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:6px 11px;border-radius:999px;background:var(--soft);color:var(--ink);font:600 13px var(--f-ui);border:1px solid transparent}
+.nt124-chip i{font-style:normal;font-size:13px;line-height:1}
+.nt124-chip.on{background:var(--ink);color:var(--bg)}
+.nt124-nada{margin:14px 0 2px;font:500 13px var(--f-ui);color:var(--muted)}
+.pfv-at .at-l li[hidden],.pfv-at .at-l[hidden],.pfv-at .at-h[hidden]{display:none}
+
+/* página Notificações */
+.nt124-pg{display:flex;flex-direction:column;gap:12px;padding-top:14px}
+.nt124-pg .card>b{font:700 15px var(--f-ui)}
+.nt124-pg .hint{font:500 13px/1.4 var(--f-ui);color:var(--muted);margin:0}
+.nt124-ok{display:flex;align-items:center;gap:6px;font:600 14px var(--f-ui);color:var(--ink);margin:0}
+.nt124-ok i{font-style:normal;color:#1e8e4e;font-size:11px}
+.nt124-bts{display:flex;flex-wrap:wrap;gap:8px}
+.nt124-bts .btn{flex:1 1 140px}
+.nt124-cab{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.nt124-cols{display:flex;gap:6px;flex:none}
+.nt124-cols em{width:48px;text-align:center;font:600 11px var(--f-ui);font-style:normal;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.nt124-l{list-style:none;margin:0;padding:0}
+.nt124-li{display:flex;align-items:center;gap:6px;padding:9px 0;border-top:1px solid var(--line)}
+.nt124-ic .nt124-li{border-top:0;padding:0}
+.nt124-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.nt124-tx b{font:600 14px var(--f-ui);color:var(--ink)}
+.nt124-tx small{font:500 12px/1.35 var(--f-ui);color:var(--muted)}
+/* chave liga/desliga */
+.nt124-sw{position:relative;flex:none;width:48px;height:44px;padding:0;background:none;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.nt124-sw::before{content:"";width:40px;height:24px;border-radius:999px;background:var(--line);transition:background .15s}
+.nt124-sw i{position:absolute;left:7px;top:13px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgb(0 0 0 / .3);transition:transform .15s}
+.nt124-sw.on::before{background:var(--accent)}
+.nt124-sw.on i{transform:translateX(16px)}
+.nt124-sw:disabled{opacity:.45;cursor:default}
+.nt124-sw:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:10px}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .nt124-sw.on i{background:#0f1522}}
+:root[data-aparencia="escuro"] .nt124-sw.on i{background:#0f1522}
+@media (prefers-reduced-motion:reduce){.nt124-sw::before,.nt124-sw i{transition:none}}
+@media (max-width:370px){.nt124-cols em,.nt124-sw{width:44px}.nt124-tx small{font-size:11.5px}}
 </style>
 </head>
 <body>
@@ -13390,6 +13587,583 @@ if(typeof vn112Quote==="function"){const _q121=vn112Quote;vn112Quote=function(rp
       marca+=`<span class="vn-q-k tb121-cit">${VN112_IC.rp}${esc(quem)}</span>`}
     if(!marca)return h;const tp=document.createElement("template");tp.innerHTML=h;const au=tp.content.querySelector(".vn-q-au");if(!au)return h;
     au.insertAdjacentHTML("afterend",marca);return tp.innerHTML}catch(e){return h}}}
+/* ---------- 123: colunas e seguir ----------
+   1. Coluna: um post comum que é o "teaser" (título em serifa, linha fina, capa, uma ou duas frases e "Ler a coluna ›") e abre
+      a coluna inteira numa página de leitura no estilo da matéria. Curtidas, comentários e envios são os do post.
+      Dados: publicacoes.estilo.coluna = {v:1,tit (até 90),linha (até 160),min}; o texto vai na coluna publicacoes.corpo (até 40.000,
+      sql/publicacoes-v9.sql) ou, antes da v9, em estilo.coluna.corpo (até 6.000, para caber no limite de 8 KB do estilo).
+      O texto do post continua "título\n\nlinha fina\n\n#hashtags": quem tem a versão antiga do app vê isso como legenda.
+      Formatação do texto: cada linha é um parágrafo; "## " no começo vira intertítulo; "> " vira citação; **negrito**, *itálico*,
+      [texto](https://link) e links soltos (aparecem como texto, com o domínio ao lado). Nada de HTML.
+   2. Seguir (depende do sql/publicacoes-v9.sql; o teste é a tabela seguidores, como a v8 em js/109): Perfil › Conta › "Perfil aberto";
+      no perfil aberto de quem não é amigo, "Seguir"/"Seguindo" e os números; público "Seguidores e amigos" ao publicar; os posts para
+      seguidores de quem você segue entram no Feed; "X começou a seguir você" na Atividade; perfis abertos na Busca.
+      Nome e foto de quem você segue (ou te segue) e não é do seu círculo vêm das funções seg_lista/perfis_abertos (só nome e foto). */
+
+/* ===== 0. estado e detecção da v9 ===== */
+var V9={on:null,n:0};
+var CS123={uid:null,sigo:new Set(),segs:[],pess:{},aberto:false,perf:{},t:0,carregando:false,ed:null,ler:null,bus:{q:"",l:null}};
+const CS123_IC={col:'<path d="M5 4.5h10.5L19 8v11.5H5z"/><path d="M15.5 4.5V8H19"/><path d="M8 9.5h4M8 12.5h8M8 15.5h8"/>',
+  foto:'<rect x="3.5" y="5" width="17" height="14" rx="3.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4.5 17l4.5-4.5 4 4 2.5-2.5 4 3.5"/>',
+  seg:'<circle cx="10" cy="8.5" r="3.5"/><path d="M3.5 19.5c.8-3.3 3.4-5 6.5-5s5.7 1.7 6.5 5"/><path d="M18.5 8v6M15.5 11h6"/>'};
+const cs123Svg=d=>`<svg class="ico cs123-i" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+const cs123S=(v,n)=>typeof v==="string"?v.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,"").slice(0,n):"";
+const CS123_LIM_V9=40000,CS123_LIM_V8=6000;
+const cs123Lim=()=>V9.on?CS123_LIM_V9:CS123_LIM_V8;
+const cs123Num=n=>{try{return (+n).toLocaleString("pt-BR")}catch(e){return String(n)}};
+async function cs123Testa(){if(V9.on!==null||typeof SB==="undefined"||!SB||!S.uid||!S.membro)return V9.on;
+  try{const r=await SB.from("seguidores").select("seguido").limit(1);
+    if(!r.error)V9.on=true;else if(/does not exist|PGRST205|PGRST106|42P01|Could not find the table|schema cache/i.test(String(r.error.message||"")+" "+String(r.error.code||"")))V9.on=false}catch(e){}
+  if(V9.on)cs123Liga();return V9.on}
+setInterval(()=>{if(S.uid!==CS123.uid){CS123.uid=S.uid;CS123.sigo=new Set();CS123.segs=[];CS123.pess={};CS123.perf={};CS123.aberto=false;CS123.t=0}
+  if(V9.on===null&&S.uid&&S.membro&&V9.n<40){V9.n++;cs123Testa()}},2500);
+function cs123Liga(){try{cs123Ouvir();cs123Carregar()}catch(e){}}
+setInterval(()=>{if(V9.on&&S.uid&&S.membro&&!document.hidden&&Date.now()-CS123.t>90e3)cs123Carregar();try{cs123Nomes()}catch(e){}},5000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&V9.on&&S.uid&&S.membro)setTimeout(cs123Carregar,900)});
+function cs123Ouvir(){try{if(!SB.channel||cs123Ouvir.ok)return;cs123Ouvir.ok=1;const ch=SB.channel("seg-"+Math.random().toString(36).slice(2,7));
+  ch.on("postgres_changes",{event:"INSERT",schema:"public",table:"seguidores"},p=>{if(p&&p.table&&p.table!=="seguidores")return;clearTimeout(cs123Ouvir.t);cs123Ouvir.t=setTimeout(cs123Carregar,500)});ch.subscribe()}catch(e){}}
+function cs123Pess(x){if(!x||!x.uid)return;CS123.pess[x.uid]={nome:cs123S(x.nome,40)||"Membro",foto:typeof x.foto==="string"&&x.foto.indexOf(x.uid+"/")===0?x.foto:null,aberto:!!x.aberto}}
+/* nome de quem não é do seu círculo: entra em S.achados sem aparecer em "Adicionar amigos" (propriedade não enumerável) */
+function cs123Nomes(){if(!S.uid||!S.achados)return;Object.entries(CS123.pess).forEach(([u,p])=>{if(S.membros[u]||Object.prototype.hasOwnProperty.call(S.achados,u))return;
+  try{Object.defineProperty(S.achados,u,{value:p.nome,enumerable:false,configurable:true,writable:true})}catch(e){}})}
+{const _pn=procurarNome;procurarNome=async function(){const meus=Object.keys(CS123.pess).filter(u=>S.achados&&Object.prototype.hasOwnProperty.call(S.achados,u)&&!Object.prototype.propertyIsEnumerable.call(S.achados,u));
+  meus.forEach(u=>{try{delete S.achados[u]}catch(e){}});try{return await _pn.apply(this,arguments)}finally{cs123Nomes()}}}
+/* foto de quem só se conhece pelas listas de seguir */
+{const _av=av8;av8=function(uid){let r=_av.apply(this,arguments);if(r||!uid||S.membros[uid])return r;const p=CS123.pess[uid];if(!p||!p.foto)return r;
+  S.membros[uid]={nome:p.nome,foto:p.foto};try{r=_av.call(this,uid)}finally{delete S.membros[uid]}return r}}
+async function cs123Carregar(){if(!V9.on||!SB||!S.uid||!S.membro||CS123.carregando)return;CS123.carregando=true;const eu=S.uid;
+  try{const [c,a,b]=await Promise.all([SB.rpc("seg_contagem",{p_uid:eu}),SB.rpc("seg_lista",{p_uid:eu,p_tipo:"seguindo"}),SB.rpc("seg_lista",{p_uid:eu,p_tipo:"seguidores"})]);
+    if(S.uid!==eu)return;const antes=[...CS123.sigo].sort().join(),k0=JSON.stringify([CS123.aberto,CS123.segs.map(s=>s.uid)]);
+    if(c&&!c.error&&c.data&&c.data.ok){CS123.aberto=!!c.data.aberto;CS123.perf[eu]={...c.data,t:Date.now()}}
+    if(a&&!a.error){CS123.sigo=new Set((a.data||[]).map(x=>x.uid));(a.data||[]).forEach(cs123Pess)}
+    if(b&&!b.error){CS123.segs=(b.data||[]).map(x=>({uid:x.uid,at:+x.at||0}));(b.data||[]).forEach(cs123Pess)}
+    cs123Nomes();CS123.t=Date.now();
+    if(antes!==[...CS123.sigo].sort().join()){PUB.sig="";await pubCarregar()}
+    if(k0!==JSON.stringify([CS123.aberto,CS123.segs.map(s=>s.uid)])){if(VIEW==="me")renderMe();try{atDot();atRedesenha()}catch(e){}}}
+  catch(e){}finally{CS123.carregando=false}}
+async function cs123Perf(u,forca){if(!V9.on||!SB||!u)return null;const p=CS123.perf[u];if(p&&!forca&&Date.now()-p.t<60e3)return p;
+  try{const r=await SB.rpc("seg_contagem",{p_uid:u});if(r&&!r.error&&r.data){CS123.perf[u]={...r.data,t:Date.now()};if(r.data.ok&&u!==S.uid){if(r.data.sigo)CS123.sigo.add(u);else CS123.sigo.delete(u)}}}catch(e){}
+  return CS123.perf[u]||null}
+
+/* ===== 1. posts para seguidores: leitura ===== */
+{const _pl=pubLimpa;pubLimpa=function(x){const p=x&&x.publico;const r=_pl.apply(this,arguments);if(p==="seguidores"&&x)x.publico="seguidores";return r}}
+const cs123DeSeguido=x=>!!(x&&V9.on&&x.tipo!=="story"&&x.publico==="seguidores"&&!x.arquivado&&x.autor!==S.uid&&CS123.sigo.has(x.autor)&&!(S.bloq||[]).includes(x.autor));
+{const _pv=pubVisiveis;pubVisiveis=function(){const base=_pv.apply(this,arguments);if(!V9.on||!CS123.sigo.size)return base;const b=new Set(base);return PUB.itens.filter(x=>b.has(x)||cs123DeSeguido(x))}}
+/* Guardadas: post de quem você segue também */
+if(typeof vp99ListaSalvos==="function"){const _vl=vp99ListaSalvos;vp99ListaSalvos=function(){const l=_vl.apply(this,arguments);try{if(!V9.on||!CS123.sigo.size)return l;const sv=vp99Sv(),ja=new Set(l.map(x=>x.id));
+  const mais=Object.entries(sv).filter(([k,v])=>v&&vp99EhPost(k)).map(([k,v])=>({x:pubDe(k.slice(2)),at:+v.at||0})).filter(o=>o.x&&!ja.has(o.x.id)&&cs123DeSeguido(o.x)).map(o=>o.x);return l.concat(mais)}catch(e){return l}}}
+
+/* ===== 2. coluna: dados e texto ===== */
+function cs123Col(x){if(!x||x.tipo!=="post")return null;const es=x.estilo;if(!es||typeof es!=="object")return null;const c=es.coluna;if(!c||typeof c!=="object"||Array.isArray(c))return null;
+  const tit=cs123S(c.tit,90).trim();if(!tit)return null;const corpo=typeof x.corpo==="string"&&x.corpo?cs123S(x.corpo,CS123_LIM_V9):cs123S(c.corpo,CS123_LIM_V8);
+  return {tit,linha:cs123S(c.linha,160).trim(),corpo}}
+/* ênfase dentro de um trecho já sem links */
+function cs123Enf(t){return esc(t).replace(/\*\*([^*\n]+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^\p{L}\p{N}*])\*([^*\n]+?)\*(?![\p{L}\p{N}])/gu,"$1<em>$2</em>").replace(/(^|[^\p{L}\p{N}_])_([^_\n]+?)_(?![\p{L}\p{N}])/gu,"$1<em>$2</em>")}
+const cs123A=(u,tx)=>`<a class="cs123-a" href="${esc(u)}" target="_blank" rel="noopener noreferrer nofollow ugc">${tx}</a>`;
+function cs123Inline(raw){raw=String(raw||"");const re=/\[([^\]\n]{1,160})\]\(([^\s)]{4,500})\)|((?:https:\/\/|www\.)[^\s<>()]{2,500})/g;let i=0,m,o="";
+  while((m=re.exec(raw))){o+=cs123Enf(raw.slice(i,m.index));
+    if(m[1]){const u=edUrlOk(m[2]);o+=u?cs123A(u,cs123Enf(m[1]))+`<span class="cs123-dom"> (${esc(edDom(u))})</span>`:cs123Enf(m[0])}
+    else{const s=m[3].replace(/[.,;:!?…]+$/,""),u=edUrlOk(s);o+=u?cs123A(u,esc(edDom(u)))+esc(m[3].slice(s.length)):esc(m[3])}
+    i=m.index+m[0].length}
+  return o+cs123Enf(raw.slice(i))}
+function cs123Blocos(corpo){const bl=[];let cit=[];const fecha=()=>{if(cit.length){bl.push({t:"q",x:cit.join(" ")});cit=[]}};
+  String(corpo||"").replace(/\r/g,"").split("\n").forEach(l=>{const s=l.trim();if(!s){fecha();return}
+    if(/^#{2,3}\s+\S/.test(s)){fecha();bl.push({t:"h",x:s.replace(/^#{2,3}\s+/,"")});return}
+    if(/^>\s?/.test(s)){const q=s.replace(/^>\s?/,"").trim();if(q)cit.push(q);return}
+    fecha();bl.push({t:"p",x:s})});fecha();return bl}
+function cs123CorpoHTML(corpo){return cs123Blocos(corpo).map(b=>b.t==="h"?`<h2>${cs123Inline(b.x)}</h2>`:b.t==="q"?`<blockquote><p>${cs123Inline(b.x)}</p></blockquote>`:`<p>${cs123Inline(b.x)}</p>`).join("")}
+const cs123Plano=t=>String(t||"").replace(/\[([^\]\n]+)\]\([^)\s]+\)/g,"$1").replace(/\*\*|__/g,"").replace(/(^|[^\p{L}\p{N}])[*_]([^*_\n]+)[*_](?![\p{L}\p{N}])/gu,"$1$2");
+function cs123Teaser(corpo){const ps=cs123Blocos(corpo).filter(b=>b.t==="p").map(b=>cs123Plano(b.x).trim()).filter(Boolean);if(!ps.length)return "";
+  const fr=ps.slice(0,2).join(" ").split(/(?<=[.!?…])\s+/).filter(Boolean);let o=fr[0]||"";
+  if(o.length<120&&fr[1]&&(o+" "+fr[1]).length<=240)o+=" "+fr[1];
+  if(o.length>240)o=o.slice(0,236).replace(/\s+\S*$/,"")+"…";return o}
+function cs123Min(corpo){const n=cs123Plano(corpo).split(/\s+/).filter(Boolean).length;return Math.max(1,Math.round(n/200))}
+function cs123Tags(t){return typeof htExtrai==="function"?htExtrai(String(t||"").split(/[\s,]+/).filter(Boolean).map(w=>w.charAt(0)==="#"?w:"#"+w).join(" ")).map(o=>o.tag).slice(0,6):[]}
+function cs123Data(at){try{return new Date(+at).toLocaleDateString("pt-BR",{day:"numeric",month:"long",year:"numeric"})}catch(e){return ""}}
+
+/* ===== 3. coluna no Feed (o post é o teaser) ===== */
+function cs123CardHTML(x,c){const id=esc(x.id),f=x.fotos[0],u=f&&pubUrl(f),tz=cs123Teaser(c.corpo),min=cs123Min(c.corpo);
+  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">Coluna</p>
+    <h3 class="cs123-t"><button type="button" data-cs123ler="${id}">${esc(c.tit)}</button></h3>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
+    ${f?`<button type="button" class="cs123-capa" data-cs123ler="${id}" aria-label="Ler a coluna">${u?`<img src="${pubSrc(u)}" alt="${esc((x.estilo.alt||[])[0]||"")}" loading="lazy" decoding="async">`:`<span class="up-sem">Foto indisponível</span>`}</button>`:""}
+    ${tz?`<p class="cs123-x">${esc(tz)}</p>`:""}<div class="cs123-r"><span class="cs123-min">${min} min de leitura</span><button type="button" class="cs123-lb" data-cs123ler="${id}">Ler a coluna <i aria-hidden="true">›</i></button></div></div>`}
+{const _pp=pubPostHTML;pubPostHTML=function(x){const c=x&&cs123Col(x);let h;
+  if(!c)h=_pp.apply(this,arguments);
+  else{const y=Object.assign(Object.create(Object.getPrototypeOf(x)),x,{texto:"",fotos:[],pid:null});h=_pp.call(this,y);
+    try{const tp=document.createElement("template");tp.innerHTML=String(h||"").trim();const a=tp.content.firstElementChild;
+      if(a){a.classList.add("cs123-post");a.querySelectorAll(":scope>.car,:scope>.vn-rpw,.up-leg,.vn-cc-row .up-leg").forEach(e=>e.remove());
+        const ph=a.querySelector(":scope>.ph")||a.querySelector(".ph");if(ph)ph.insertAdjacentHTML("afterend",cs123CardHTML(x,c));else a.insertAdjacentHTML("afterbegin",cs123CardHTML(x,c));
+        const pg=a.querySelector(".vp99-pg,.pdots");if(pg)pg.remove();h=a.outerHTML}}catch(e){}}
+  try{if(h&&x&&x.publico==="seguidores")h=h.replace(/(<span class="ph-sub">[^<]*)/,`$1<span class="cs123-ps"> · seguidores</span>`)}catch(e){}
+  return h}}
+/* grade do perfil: a capa (ou o título) com o selo "Coluna" */
+{const _pt=pfTiles;pfTiles=function(l,aba,u){let h=_pt.apply(this,arguments);try{if(!(l||[]).some(x=>cs123Col(x))||typeof h!=="string")return h;const tp=document.createElement("template");tp.innerHTML=h;
+  tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],c=x&&cs123Col(x);if(!c)return;if(!x.fotos.length)b.innerHTML=`<span class="pf-tx cs123-pft"><b>${esc(c.tit)}</b></span>`;b.insertAdjacentHTML("beforeend",`<i class="cs123-pfk">Coluna</i>`)});
+  return tp.innerHTML}catch(e){return h}}}
+/* a coluna não tem "Editar legenda" (o texto do post é o título e a linha fina) */
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-umenu]");if(!b)return;const x=pubDe(b.dataset.umenu);if(!x||!cs123Col(x))return;
+  setTimeout(()=>{document.querySelectorAll(`.sheet [data-ueditar="${CSS.escape(x.id)}"]`).forEach(el=>el.remove())},0)},true);
+
+/* ===== 4. página de leitura ===== */
+function cs123FimHTML(x){const pid="u:"+x.id,{likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid)),sv=!!(S.salvos||{})[pid],ot=likes.filter(u=>u!==S.uid);
+  let lt="";if(mine&&!ot.length)lt="<b>Você</b> gostou";else if(mine)lt=`<b>Você</b> e ${ot.length===1?`<b>${esc(nomeDe(ot[0]))}</b>`:"mais "+ot.length} gostaram`;else if(ot.length===1)lt=`<b>${esc(nomeDe(ot[0]))}</b> gostou`;else if(ot.length)lt=`<b>${esc(nomeDe(ot[0]))}</b> e mais ${ot.length-1} gostaram`;
+  const sem=!!(x.estilo&&x.estilo.semCom),ult=cm.slice(-2);
+  return `<p class="cs123-fk">Gostou da coluna?</p><div class="acts cs123-acts"><button type="button" class="act${mine?" on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}<span>Gostei${likes.length?" · "+likes.length:""}</span></button>${sem?"":`<button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar${cm.length?" · "+cm.length:""}</span></button>`}<button type="button" class="act" data-usend="${esc(x.id)}" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><button type="button" class="act${sv?" saved":""}" data-a="save" aria-pressed="${sv}" aria-label="Guardar">${ICON.save}<span>${sv?"Guardada":"Guardar"}</span></button></div>
+    ${lt?`<p class="cs123-lk">${lt}</p>`:""}${ult.length?`<ul class="cs123-cms">${ult.map(c=>`<li>${avatar(c.uid)}<span><b>${esc(nomeDe(c.uid))}</b> ${esc(String(c.texto||"").slice(0,280))}</span></li>`).join("")}</ul>`:""}
+    ${sem?`<p class="hint">Os comentários estão desativados nesta coluna.</p>`:`<button type="button" class="addc" data-a="cmt">${cm.length>2?`Ver os ${cm.length} comentários`:"Adicione um comentário…"}</button>`}`}
+function cs123LerHTML(x,c,o){o=o||{};const f=x.fotos&&x.fotos[0],u=o.capa||(f&&pubUrl(f)),min=cs123Min(c.corpo),ult=String(x.texto||"").split("\n\n").pop(),tags=o.prev?cs123Tags(o.tags):/^#/.test(ult)&&String(x.texto||"").indexOf("\n\n")>0?cs123Tags(ult):[];
+  return `<div class="cs123-ler${o.prev?" cs123-prev":""}" role="dialog" aria-modal="true" aria-label="${esc("Coluna: "+c.tit)}">
+    <div class="cs123-top"><button type="button" class="cs123-v" ${o.prev?"data-cs123prevx":"data-cs123fecha"}>${ICON.back}<span>${o.prev?"Editar":"Voltar"}</span></button><span class="cs123-tk">${o.prev?"Prévia da coluna":"Coluna"}</span>${o.prev?`<button type="button" class="btn cs123-tpub" data-cs123pub>Publicar</button>`:`<button type="button" class="icbtn" data-usend="${esc(x.id)}" aria-label="Enviar a coluna">${ICON.send}</button>`}<i class="cs123-pg" aria-hidden="true"><b></b></i></div>
+    <div class="cs123-sc"><article class="cs123-art"><p class="cs123-k">Coluna</p><h1>${esc(c.tit)}</h1>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
+      <div class="cs123-by"><button type="button" class="cs123-au" ${o.prev?"":`data-cs123perfil="${esc(x.autor)}"`}>${avatar(x.autor)}<span><b>${esc(nomeDe(x.autor))}</b><small>${esc(cs123Data(x.at))} · ${min} min de leitura</small></span></button></div>
+      ${u?`<figure class="cs123-fig"><img src="${pubSrc(u)}" alt="${esc((x.estilo&&x.estilo.alt||[])[0]||"")}"></figure>`:f?`<figure class="cs123-fig"><span class="up-sem">Foto indisponível</span></figure>`:""}
+      <div class="cs123-corpo">${cs123CorpoHTML(c.corpo)||`<p class="hint">Escreva o texto da coluna para ver como fica.</p>`}<span class="cs123-ponto" aria-hidden="true"></span></div>
+      ${tags.length?`<div class="cs123-hts">${tags.map(t=>`<button type="button" class="cs123-ht" ${o.prev?"":`data-ht="${esc(t)}"`}>${esc(t)}</button>`).join("")}</div>`:""}
+      <p class="cs123-aviso">Coluna de ${esc(nomeDe(x.autor))}: a opinião é do autor, separada das notícias da edição do Prumo.</p>
+      ${o.prev?"":`<div class="cs123-fim" data-pid="${esc("u:"+x.id)}">${cs123FimHTML(x)}</div>`}</article></div></div>`}
+function cs123Progresso(root){const sc=root&&root.querySelector(".cs123-sc"),b=root&&root.querySelector(".cs123-pg b");if(!sc||!b)return;
+  const f=()=>{const m=sc.scrollHeight-sc.clientHeight;b.style.width=(m>0?Math.min(100,Math.max(0,sc.scrollTop/m*100)):100).toFixed(1)+"%"};sc.addEventListener("scroll",f,{passive:true});f()}
+function cs123Abrir(id){const x=pubDe(id)||pubVisiveis().find(y=>y.id===id),c=x&&cs123Col(x);if(!c){toast("Esta coluna não está disponível para você (ou já foi apagada).");return}uso("coluna_ler");
+  const L=$("#layer");let volta=null;
+  if($("#layer2")?.innerHTML)closeLayer();
+  if(L.innerHTML){if($("#layer .pfv")&&PFV){const sc=$("#layer .pfv-sc");volta={pfv:{...PFV},sc:sc?sc.scrollTop:0};try{pfIdsVolta()}catch(e){}PFV=null;L.innerHTML=""}else closeLayer()}
+  const vazio=!L.innerHTML;L.innerHTML=cs123LerHTML(x,c);CS123.ler={id,volta};const r=L.querySelector(".cs123-ler");cs123Progresso(r);
+  if((vazio||volta)&&pushH())HST++;try{if(typeof htLinka==="function")r.querySelectorAll(".cs123-corpo p").forEach(htLinka)}catch(e){}}
+function cs123FimAtualiza(){const L=CS123.ler,el=L&&document.querySelector("#layer .cs123-ler .cs123-fim");if(!el)return;const x=pubDe(L.id);if(x)el.innerHTML=cs123FimHTML(x)}
+{const _us=updateSocial;updateSocial=function(pid){const r=_us.apply(this,arguments);try{if(CS123.ler&&pid==="u:"+CS123.ler.id)cs123FimAtualiza()}catch(e){}return r}}
+/* folhas (comentários, enviar) abrem por cima da coluna e do editor, sem fechá-los */
+{const _sh=sheet;sheet=function(){const r0=document.querySelector("#layer > .cs123-ler, #layer > .cs123-ed");if(r0&&!$("#layer2")?.innerHTML){r0.classList.add("cria");try{return _sh.apply(this,arguments)}finally{r0.classList.remove("cria")}}return _sh.apply(this,arguments)}}
+/* voltar: da coluna para o perfil de onde ela foi aberta; da prévia para o editor */
+{const _cl=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML);
+  if(!l2&&$("#layer .cs123-prev")&&CS123.ed){$("#layer .cs123-prev").remove();if(fromPop===true){if(pushH())HST++;return}if(HST>0){HST--;voltarH(1)}return}
+  if(!l2&&$("#layer > .cs123-ed")&&CS123.ed){if(CS123.ed.env&&fromPop!==true){toast("Publicando…");return}cs123RascGuarda(true);CS123.ed=null}
+  const ler=!l2&&$("#layer > .cs123-ler")&&CS123.ler,volta=ler&&CS123.ler.volta;const r=_cl.apply(this,arguments);
+  if(ler){CS123.ler=null;if(volta&&!$("#layer").innerHTML){PFV=volta.pfv;$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Perfil de ${esc(nomeDe(PFV.u))}"></div>`;try{pfvDesenha();const sc=$("#layer .pfv-sc");if(sc)sc.scrollTop=volta.sc}catch(e){}}}
+  return r}}
+document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
+  if((b=t.closest("[data-cs123ler]"))&&!t.closest("a")){pare();cs123Abrir(b.dataset.cs123ler);return}
+  if(t.closest("[data-cs123fecha]")){pare();history.back();return}
+  if(b=t.closest("[data-cs123perfil]")){pare();const u=b.dataset.cs123perfil;if($("#layer2")?.innerHTML)closeLayer();abrirPerfil(u);return}},true);
+
+/* ===== 5. criar a coluna ===== */
+/* no "O que você quer publicar?" e nas abas do formulário */
+{const _ih=cn102InicioHTML;cn102InicioHTML=function(){let h=_ih.apply(this,arguments);try{const n=cs123RascLe().length;
+  h=h.replace(/(<div class="cn102-cards">[\s\S]*?)(<\/div>)/,(m,a,z)=>a+`<button type="button" class="cn102-card cs123-cardc" data-cs123ini>${CN102_SVG(CS123_IC.col)}<b>Escrever coluna</b><small>${n?`${n} ${n===1?"rascunho":"rascunhos"} guardado${n===1?"":"s"}`:"Texto longo com título, como um artigo"}</small></button>`+z)}catch(e){}return h}}
+{const _cd=cn102Det;cn102Det=function(el){const r=_cd.apply(this,arguments);try{const ks=el.querySelector(".cn102-ks");if(ks&&!ks.querySelector("[data-cs123ini]"))ks.insertAdjacentHTML("beforeend",`<button type="button" role="tab" data-cs123ini aria-selected="false">${CN102_SVG(CS123_IC.col)}Coluna</button>`)}catch(e){}return r}}
+window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-cs123ini]");if(!b)return;e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();
+  if(typeof ED!=="undefined"&&ED&&ED.env)return;const P=ED&&ED.po,pre=P&&P.cn?{tit:String(P.cn.tit||"").slice(0,90),corpo:String(P.cn.corpo||"")}:P?{corpo:String(P.texto||"")}:{};cs123Comeca(pre)},true);
+function cs123Comeca(pre){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_coluna");
+  if(typeof ED!=="undefined"&&ED){ED=null;closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}else if($("#layer").innerHTML)closeLayer();
+  cs123EdAbre(pre||{})}
+function cs123EdNovo(o){return {rid:"c"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),tit:"",linha:"",corpo:"",tags:"",pub:"amigos",capa:null,env:false,...o}}
+function cs123EdAbre(pre,rasc){const L=$("#layer");if(L.innerHTML)closeLayer();
+  CS123.ed=rasc?cs123EdNovo({...rasc,capa:rasc.capa?{url:rasc.capa,du:rasc.capa}:null}):cs123EdNovo({tit:cs123S(pre.tit,90),corpo:cs123S(pre.corpo,cs123Lim())});CS123.ed.deRasc=!!rasc;
+  L.innerHTML=`<div class="cs123-ed" role="dialog" aria-modal="true" aria-label="Nova coluna"></div>`;if(pushH())HST++;cs123EdDesenha();
+  setTimeout(()=>{const i=$(CS123.ed&&CS123.ed.tit?"#cs123-corpo":"#cs123-tit");if(i)try{i.focus({preventScroll:true})}catch(e){}},80)}
+function cs123PubOpc(){const E=CS123.ed;if(!V9.on||!CS123.aberto){if(E.pub==="seguidores")E.pub="amigos";return ""}
+  return `<div class="cs123-pub" role="radiogroup" aria-label="Quem pode ler"><span>Quem pode ler</span><button type="button" role="radio" data-cs123pubv="amigos" aria-checked="${E.pub!=="seguidores"}">Amigos</button><button type="button" role="radio" data-cs123pubv="seguidores" aria-checked="${E.pub==="seguidores"}">Seguidores e amigos</button></div>`}
+function cs123Conta(){const E=CS123.ed;if(!E)return;const lim=cs123Lim(),n=E.corpo.length,min=cs123Min(E.corpo);const el=$("#layer [data-cs123n=\"corpo\"]");
+  if(el){el.textContent=`${cs123Num(n)} de ${cs123Num(lim)} caracteres${n?" · "+min+" min de leitura":""}${!V9.on?" (por enquanto, o limite é 6.000)":""}`;el.classList.toggle("cs123-quase",n>lim*.95)}
+  ["tit","linha"].forEach(k=>{const s=$(`#layer [data-cs123n="${k}"]`);if(s)s.textContent=`${E[k].length}/${k==="tit"?90:160}`})}
+function cs123EdDesenha(){const el=$("#layer .cs123-ed"),E=CS123.ed;if(!el||!E)return;const rs=E.tit||E.corpo||E.deRasc?[]:cs123RascLe(),lim=cs123Lim();
+  el.innerHTML=`<div class="cs123-edh"><button type="button" class="icbtn" data-cs123edx aria-label="Fechar">${ICON.close}</button><b>Nova coluna</b><button type="button" class="cs123-pvb" data-cs123prev>Prévia</button></div>
+    <div class="cs123-eds">${rs.length?`<div class="cs123-rs"><b>Rascunhos</b>${rs.map(r=>`<span class="cs123-rc"><button type="button" data-cs123rabre="${esc(r.rid)}"><b>${esc(r.tit||"Sem título")}</b><small>${esc(quando(r.at))}</small></button><button type="button" class="cs123-rx" data-cs123rtira="${esc(r.rid)}" aria-label="Apagar o rascunho">${ICON.close}</button></span>`).join("")}</div>`:""}
+      <div class="cs123-capaed">${E.capa?`<img src="${pubSrc(E.capa.url)}" alt=""><button type="button" class="cs123-capax" data-cs123capax>Tirar a foto</button>`:`<button type="button" class="cs123-capab" data-cs123capa>${cs123Svg(CS123_IC.foto)}<span>Foto de capa<small>opcional</small></span></button>`}</div>
+      <label class="cs123-f"><textarea id="cs123-tit" class="cs123-tit" data-cs123f="tit" maxlength="90" rows="2" placeholder="Título da coluna" enterkeyhint="next">${esc(E.tit)}</textarea><small data-cs123n="tit"></small></label>
+      <label class="cs123-f"><textarea id="cs123-linha" class="cs123-lin" data-cs123f="linha" maxlength="160" rows="2" placeholder="Linha fina: uma frase que resume e chama para a leitura" enterkeyhint="next">${esc(E.linha)}</textarea><small data-cs123n="linha"></small></label>
+      <div class="cs123-bar" role="toolbar" aria-label="Formatação"><button type="button" data-cs123fmt="h">Intertítulo</button><button type="button" data-cs123fmt="q">Citação</button><button type="button" data-cs123fmt="b" aria-label="Negrito"><b>N</b></button><button type="button" data-cs123fmt="i" aria-label="Itálico"><i>I</i></button><button type="button" data-cs123fmt="a">Link</button></div>
+      <textarea id="cs123-corpo" class="cs123-corpoed" data-cs123f="corpo" maxlength="${lim}" placeholder="Escreva a coluna. Cada parágrafo numa linha." aria-label="Texto da coluna">${esc(E.corpo)}</textarea>
+      <p class="cs123-cont" data-cs123n="corpo"></p>
+      <p class="cs123-dica">“## ” no começo da linha vira intertítulo e “> ” vira citação. **negrito**, *itálico* e [texto](https://link) também valem.</p>
+      <label class="cs123-f cs123-fl"><span>Hashtags</span><input id="cs123-tags" data-cs123f="tags" maxlength="120" placeholder="#Economia #Previdência (opcional)" value="${esc(E.tags)}" autocomplete="off"></label>
+      ${cs123PubOpc()}
+      <p class="cs123-aviso">Aparece como “Coluna de ${esc(String(nomeDe(S.uid)).split(" ")[0])}”, separada das notícias da edição. ${E.pub==="seguidores"?"Quem segue você e seus amigos podem ler.":"Seus amigos no Prumo podem ler."} Discuta as ideias, com respeito às pessoas.</p></div>
+    <div class="cs123-edf"><button type="button" class="btn ghost" data-cs123rasc>Salvar rascunho</button><button type="button" class="btn" data-cs123pub ${E.env?"disabled":""}>${E.env?"Publicando…":"Publicar"}</button></div>`;
+  cs123Conta();el.querySelectorAll("textarea.cs123-tit,textarea.cs123-lin").forEach(cs123Cresce)}
+function cs123Cresce(t){if(!t)return;t.style.height="auto";t.style.height=Math.min(170,t.scrollHeight+2)+"px"}
+document.addEventListener("input",e=>{const t=e.target;if(!t||!t.dataset||!t.dataset.cs123f||!CS123.ed||!t.closest("#layer .cs123-ed"))return;const k=t.dataset.cs123f;
+  if((k==="tit"||k==="linha")&&/\n/.test(t.value))t.value=t.value.replace(/\n+/g," ");CS123.ed[k]=t.value;if(k!=="corpo")cs123Cresce(t);cs123Conta();clearTimeout(cs123EdDesenha.t);cs123EdDesenha.t=setTimeout(()=>cs123RascGuarda(false),700)},true);
+document.addEventListener("keydown",e=>{const t=e.target;if(e.key==="Enter"&&t&&(t.id==="cs123-tit"||t.id==="cs123-linha")){e.preventDefault();$(t.id==="cs123-tit"?"#cs123-linha":"#cs123-corpo")?.focus()}});
+/* formatação: põe a marcação no começo da linha ou em volta do trecho escolhido */
+function cs123Fmt(k){const ta=$("#cs123-corpo"),E=CS123.ed;if(!ta||!E)return;const v=ta.value,a=ta.selectionStart,z=ta.selectionEnd,sel=v.slice(a,z);let nv,ca,cz;
+  if(k==="h"||k==="q"){const ini=v.lastIndexOf("\n",a-1)+1,pre=k==="h"?"## ":"> ",lin=v.slice(ini),ja=lin.indexOf(pre)===0;nv=ja?v.slice(0,ini)+lin.slice(3-(k==="q"?1:0)):v.slice(0,ini)+pre+lin;const d=ja?-(pre.length):pre.length;ca=a+d;cz=z+d}
+  else if(k==="b"||k==="i"){const m=k==="b"?"**":"*",tx=sel||(k==="b"?"negrito":"itálico");nv=v.slice(0,a)+m+tx+m+v.slice(z);ca=a+m.length;cz=ca+tx.length}
+  else{const tx=sel||"texto do link",ins=`[${tx}](https://)`;nv=v.slice(0,a)+ins+v.slice(z);ca=a+tx.length+3;cz=ca+8}
+  if(nv.length>cs123Lim()){toast(`A coluna pode ter até ${cs123Num(cs123Lim())} caracteres.`);return}
+  ta.value=nv;E.corpo=nv;try{ta.focus();ta.setSelectionRange(ca,cz)}catch(e){}cs123Conta();cs123RascGuarda(false)}
+/* capa */
+function cs123Capa(){const ed=$("#layer .cs123-ed");if(!ed)return;$("#cs123-file")?.remove();const inp=document.createElement("input");inp.type="file";inp.accept="image/*";inp.id="cs123-file";inp.hidden=true;ed.appendChild(inp);
+  inp.addEventListener("change",async()=>{const f=inp.files&&inp.files[0];inp.remove();if(!f||!CS123.ed)return;const E=CS123.ed;
+    try{const b=await pubComprime(f,1600);if(CS123.ed!==E)return;E.capa={blob:b,url:URL.createObjectURL(b)};cs123EdDesenha();cs123RascGuarda(false)}catch(e){toast("Não deu para abrir essa foto.")}});
+  try{inp.click()}catch(e){}}
+/* rascunhos: ficam no aparelho (até 10), com a foto de capa se ela for pequena */
+const cs123RK=()=>"prumo-cs123-rasc:"+S.uid;
+function cs123RascLe(){try{const l=JSON.parse(localStorage.getItem(cs123RK())||"[]");return Array.isArray(l)?l.filter(r=>r&&r.rid).sort((a,b)=>(b.at||0)-(a.at||0)):[]}catch(e){return []}}
+function cs123RascGrava(l){try{localStorage.setItem(cs123RK(),JSON.stringify(l.slice(0,10)))}catch(e){try{localStorage.setItem(cs123RK(),JSON.stringify(l.slice(0,10).map(r=>({...r,capa:null}))))}catch(_){}}}
+function cs123RascGuarda(aviso){const E=CS123.ed;if(!E)return;const tem=!!(E.tit.trim()||E.linha.trim()||E.corpo.trim());let l=cs123RascLe().filter(r=>r.rid!==E.rid);
+  if(tem){l.unshift({rid:E.rid,tit:E.tit,linha:E.linha,corpo:E.corpo,tags:E.tags,pub:E.pub,capa:E.capa&&E.capa.du||null,at:Date.now()});
+    if(E.capa&&E.capa.blob&&!E.capa.du&&!E.capa.lendo&&E.capa.blob.size<260e3){E.capa.lendo=1;const fr=new FileReader();fr.onload=()=>{if(E.capa){E.capa.du=String(fr.result);if(CS123.ed===E)cs123RascGuarda(false);else{const m=cs123RascLe();const r=m.find(x=>x.rid===E.rid);if(r){r.capa=E.capa.du;cs123RascGrava(m)}}}};fr.readAsDataURL(E.capa.blob)}}
+  cs123RascGrava(l);if(aviso&&tem)setTimeout(()=>toast("Rascunho da coluna guardado"),60)}
+function cs123RascTira(rid){cs123RascGrava(cs123RascLe().filter(r=>r.rid!==rid))}
+/* prévia e publicação */
+function cs123Valida(E){if(!E.tit.trim())return "Dê um título à coluna.";const n=E.corpo.trim().length;if(n<40)return "Escreva o texto da coluna antes de publicar.";
+  if(E.corpo.length>cs123Lim())return V9.on?"A coluna pode ter até 40.000 caracteres. Encurte um pouco o texto.":"Por enquanto, a coluna pode ter até 6.000 caracteres. Encurte um pouco o texto.";return ""}
+function cs123Previa(){const E=CS123.ed;if(!E)return;if(!E.tit.trim()&&!E.corpo.trim()){toast("Escreva a coluna para ver a prévia.");return}
+  const x={id:"previa",autor:S.uid,at:Date.now(),fotos:[],estilo:{alt:[]},texto:""},c={tit:E.tit.trim()||"Sem título",linha:E.linha.trim(),corpo:E.corpo};
+  $("#layer .cs123-prev")?.remove();$("#layer").insertAdjacentHTML("beforeend",cs123LerHTML(x,c,{prev:true,capa:E.capa&&E.capa.url,tags:E.tags}));cs123Progresso($("#layer .cs123-prev"))}
+async function cs123Publicar(){const E=CS123.ed;if(!E||E.env||!SB)return;const er=cs123Valida(E);if(er){toast(er);return}
+  const tags=cs123Tags(E.tags),tit=E.tit.trim().slice(0,90),linha=E.linha.trim().slice(0,160),corpo=E.corpo.replace(/\r/g,"").trim();
+  const col={v:1,tit,linha,min:cs123Min(corpo)};if(!V9.on)col.corpo=corpo;const estilo={v:2,coluna:col};
+  if(!V9.on){let n=0;try{n=new TextEncoder().encode(JSON.stringify(estilo)).length}catch(e){n=JSON.stringify(estilo).length*2}if(n>7600){toast("Por enquanto, a coluna precisa ser um pouco menor (o limite é de cerca de 6.000 caracteres). Encurte o texto.");return}}
+  E.env=true;$("#layer .cs123-prev")?.remove();cs123EdDesenha();let foto=null;
+  try{if(E.capa){const b=E.capa.blob||await (await fetch(E.capa.url)).blob();foto=await pubSobe(b);PUB.urls[foto]={u:E.capa.url,exp:Date.now()+3600e3}}
+    const row={autor:S.uid,tipo:"post",texto:(tit+(linha?"\n\n"+linha:"")+(tags.length?"\n\n"+tags.join(" "):"")).slice(0,2200),fotos:foto?[foto]:[],estilo,publico:V9.on&&CS123.aberto&&E.pub==="seguidores"?"seguidores":"amigos"};
+    if(V9.on)row.corpo=corpo;
+    const r=await SB.from("publicacoes").insert(row).select("id");if(r.error)throw r.error;const id=r.data&&r.data[0]&&r.data[0].id;
+    if(id&&!pubDe(id)){const z={...row,id,at:Date.now()};try{pubLimpa(z)}catch(e){}PUB.itens.unshift(z)}
+    cs123RascTira(E.rid);CS123.ed=null;if($("#layer > .cs123-ed")){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}
+    toast("Coluna publicada");vibrar&&vibrar(10);uso("coluna_publicada");try{pubRedesenha()}catch(e){}setTimeout(()=>{try{pubCarregar()}catch(e){}},400)}
+  catch(e){if(foto)try{await SB.storage.from("fotos").remove([foto])}catch(_){}E.env=false;if(CS123.ed===E)cs123EdDesenha();const m=String((e&&(e.code||""))+" "+(e&&e.message||""));
+    toast(/estilo|corpo|tamanho|23514|22023|check/i.test(m)?"A coluna passou do limite de tamanho do servidor. Encurte o texto e tente de novo.":"Não deu para publicar agora. O texto continua aqui.")}}
+/* cliques do editor */
+window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||!CS123.ed||t.closest("#layer2"))return;if(!t.closest("#layer .cs123-ed,#layer .cs123-prev"))return;let b;
+  const pare=()=>{e.stopPropagation();e.preventDefault()};const E=CS123.ed;
+  if(t.closest("[data-cs123pub]")){pare();cs123Publicar();return}
+  if(E.env&&t.closest("button")){pare();return}
+  if(t.closest("[data-cs123edx]")){pare();history.back();return}
+  if(t.closest("[data-cs123prev]")){pare();cs123Previa();return}
+  if(t.closest("[data-cs123prevx]")){pare();$("#layer .cs123-prev")?.remove();return}
+  if(t.closest("[data-cs123rasc]")){pare();cs123RascGuarda(false);toast(E.tit.trim()||E.corpo.trim()?"Rascunho guardado neste aparelho":"Escreva algo antes de guardar.");return}
+  if(t.closest("[data-cs123capa]")){pare();cs123Capa();return}
+  if(t.closest("[data-cs123capax]")){pare();E.capa=null;cs123EdDesenha();cs123RascGuarda(false);return}
+  if(b=t.closest("[data-cs123fmt]")){pare();cs123Fmt(b.dataset.cs123fmt);return}
+  if(b=t.closest("[data-cs123pubv]")){pare();E.pub=b.dataset.cs123pubv==="seguidores"?"seguidores":"amigos";cs123EdDesenha();return}
+  if(b=t.closest("[data-cs123rabre]")){pare();const r=cs123RascLe().find(x=>x.rid===b.dataset.cs123rabre);if(!r)return;CS123.ed=cs123EdNovo({...r,capa:r.capa?{url:r.capa,du:r.capa}:null,deRasc:true});cs123EdDesenha();return}
+  if(b=t.closest("[data-cs123rtira]")){pare();cs123RascTira(b.dataset.cs123rtira);cs123EdDesenha();return}},true);
+
+/* ===== 6. seguir: perfil, números e listas ===== */
+const cs123Prim=u=>String(nomeDe(u)||"").split(" ")[0];
+function cs123SegBt(u){const sigo=CS123.sigo.has(u);return `<button type="button" class="btn${sigo?" ghost":""} cs123-sg" data-cs123seg="${esc(u)}" aria-pressed="${sigo}">${sigo?"Seguindo":"Seguir"}</button>`}
+/* o botão: no perfil aberto de quem não é amigo */
+{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(!V9.on||!u||u===S.uid||S.amigos.has(u)||(S.bloq||[]).includes(u))return h;const p=CS123.perf[u];
+  if(!p){cs123Perf(u).then(()=>{if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha()});return h}
+  if(!p.ok||!p.aberto)return h;const bt=cs123SegBt(u);
+  if(/<div class="pf-bts">/.test(h))h=h.replace(/<div class="pf-bts">/,`<div class="pf-bts">${bt}`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h}}
+/* os números (seguidores · seguindo), depois do perfil montado (no visual novo e no de hoje) */
+function cs123NumHTML(u,p){return `<span class="cs123-num"><button type="button" data-cs123lista="seguidores" data-u="${esc(u)}"><b>${cs123Num(p.seguidores||0)}</b> ${p.seguidores===1?"seguidor":"seguidores"}</button><button type="button" data-cs123lista="seguindo" data-u="${esc(u)}"><b>${cs123Num(p.seguindo||0)}</b> seguindo</button></span>`}
+function cs123PoeNum(root,u){if(!root||!V9.on||!u||root.querySelector(".cs123-num"))return;const p=CS123.perf[u];
+  if(!p){cs123Perf(u).then(()=>{if(u===S.uid){if(VIEW==="me")renderMe()}else if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha()});return}
+  if(!p.ok||(u!==S.uid&&!p.aberto)||(u===S.uid&&!p.aberto&&!p.seguidores&&!p.seguindo))return;
+  const vn=root.querySelector(".vn-pf-num");if(vn){vn.insertAdjacentHTML("beforeend",cs123NumHTML(u,p));return}
+  const nm=root.querySelector(".pf-nome");if(nm)nm.insertAdjacentHTML("afterend",`<p class="cs123-numl">${cs123NumHTML(u,p)}</p>`)}
+{const _pv=pfvDesenha;pfvDesenha=function(){const r=_pv.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){const sc=$("#layer .pfv .pfv-sc");cs123PoeNum(sc,PFV.u);
+  const p=CS123.perf[PFV.u];if(sc&&p&&p.ok&&p.aberto&&!S.amigos.has(PFV.u)&&!sc.querySelector(".cs123-ab")){const cab=sc.querySelector(".vn-pf-desde,.cs123-numl,.vn-pf-num");if(cab)cab.insertAdjacentHTML("afterend",`<p class="cs123-ab">${cs123Svg(CS123_IC.seg)}Perfil aberto${p.me_segue?" · segue você":""}</p>`)}}}catch(e){}return r}}
+{const _rm=renderMe;renderMe=function(){const r=_rm.apply(this,arguments);try{if(V9.on&&S.uid&&S.membro){const m=$("#v-me .pf-me");if(m&&PF_ABA!=="conta")cs123PoeNum(m,S.uid);if(PF_ABA==="conta")cs123Conta9()}}catch(e){}return r}}
+/* perfil aberto sem nada para mostrar: o que fazer, no lugar de "Perfil só para amigos" */
+{const _pt=pfTiles;pfTiles=function(l,aba,u){try{const p=u&&CS123.perf[u];if(V9.on&&u&&u!==S.uid&&!S.amigos.has(u)&&p&&p.ok&&p.aberto&&!(l||[]).length&&aba!=="marc")
+  return `<div class="pf-vz"><b>${CS123.sigo.has(u)?"Nada para seguidores ainda":"Perfil aberto"}</b><span>${CS123.sigo.has(u)?`Quando ${esc(cs123Prim(u))} publicar para seguidores, aparece aqui e no seu Feed.`:`Siga ${esc(cs123Prim(u))} para ver aqui e no seu Feed o que ${esc(cs123Prim(u))} publica para seguidores.`}</span></div>`}catch(e){}return _pt.apply(this,arguments)}}
+async function cs123Seguir(u,b){if(precisaConta()||!V9.on||!u)return;
+  if(CS123.sigo.has(u)){sheet("Seguindo "+nomeDe(u),`<div class="opt"><button type="button" data-cs123deixa="${esc(u)}">Deixar de seguir<span>o que ${esc(cs123Prim(u))} publica para seguidores sai do seu Feed</span></button></div>`);return}
+  if(b){b.disabled=true;b.textContent="Seguindo…"}
+  try{const r=await SB.rpc("seguir",{p_uid:u});if(r&&r.error)throw r.error;CS123.sigo.add(u);const p=CS123.perf[u];if(p&&r.data!=="ja"){p.sigo=true;p.seguidores=(p.seguidores||0)+1}
+    toast("Você está seguindo "+nomeDe(u));vibrar&&vibrar(8);uso("seguir");cs123Redesenha(u);PUB.sig="";PF_T[u]=0;await pubCarregar();await pfCarregar(u);cs123Redesenha(u);cs123Carregar()}
+  catch(e){const m=String((e&&(e.code||""))+" "+(e&&e.message||""));toast(/54000|demais/.test(m)?"Você seguiu muita gente hoje. Tente amanhã.":/42501|fechado/.test(m)?nomeDe(u)+" fechou o perfil.":"Não deu para seguir agora.");delete CS123.perf[u];cs123Redesenha(u)}}
+async function cs123Deixa(u){try{const r=await SB.rpc("deixar_de_seguir",{p_uid:u});if(r&&r.error)throw r.error;CS123.sigo.delete(u);const p=CS123.perf[u];if(p&&p.sigo){p.sigo=false;p.seguidores=Math.max(0,(p.seguidores||1)-1)}
+  toast("Você deixou de seguir "+nomeDe(u));PUB.itens=PUB.itens.filter(x=>!(x.autor===u&&x.publico==="seguidores"&&!S.amigos.has(u)));pubRedesenha();cs123Redesenha(u);cs123Carregar()}catch(e){toast("Não deu para deixar de seguir agora.")}}
+async function cs123Tira(u,b){if(b){b.disabled=true}try{const r=await SB.rpc("tirar_seguidor",{p_uid:u});if(r&&r.error)throw r.error;CS123.segs=CS123.segs.filter(s=>s.uid!==u);const p=CS123.perf[S.uid];if(p)p.seguidores=Math.max(0,(p.seguidores||1)-1);
+  const li=b&&b.closest("li");if(li)li.remove();toast(nomeDe(u)+" não segue mais você");if(VIEW==="me")renderMe()}catch(e){if(b)b.disabled=false;toast("Não deu para tirar agora.")}}
+function cs123Redesenha(u){try{if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha();if(VIEW==="me")renderMe();document.querySelectorAll(`[data-cs123seg="${CSS.escape(u)}"]`).forEach(b=>{if(!b.closest(".pf-bts"))b.outerHTML=cs123SegBt(u)})}catch(e){}}
+function cs123Linha(x,meu,tipo){const u=x.uid,eu=u===S.uid,am=S.amigos.has(u);
+  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${am?"amigo":x.aberto?"perfil aberto":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:!eu&&!am&&x.aberto?cs123SegBt(u):""}</li>`}
+async function cs123Lista(u,tipo){if(!V9.on||!u)return;const meu=u===S.uid,tit=tipo==="seguindo"?(meu?"Quem você segue":cs123Prim(u)+" segue"):(meu?"Seus seguidores":"Seguidores de "+cs123Prim(u));
+  sheet(tit,`<div id="cs123-lb"><p class="hint">Carregando…</p></div>`);
+  try{const r=await SB.rpc("seg_lista",{p_uid:u,p_tipo:tipo==="seguindo"?"seguindo":"seguidores"});if(r&&r.error)throw r.error;const l=(r.data||[]);l.forEach(cs123Pess);cs123Nomes();
+    const box=$("#cs123-lb");if(!box)return;const p=CS123.perf[u];const n=p&&(tipo==="seguindo"?p.seguindo:p.seguidores)||l.length;
+    box.innerHTML=l.length?`<ul class="amgl cs123-l">${l.map(x=>cs123Linha(x,meu,tipo)).join("")}</ul>${n>l.length?`<p class="hint">${n-l.length===1?"Mais 1 pessoa que você não vê no Prumo.":`Mais ${n-l.length} pessoas que você não vê no Prumo.`}</p>`:""}`
+      :`<div class="empty" style="padding:14px 0"><b>${tipo==="seguindo"?(meu?"Você ainda não segue ninguém":"Ninguém por aqui"):(meu?"Ninguém segue você ainda":"Ninguém que você vê")}</b>${meu&&tipo==="seguidores"&&!CS123.aberto?`Ligue “Perfil aberto” em Perfil › Conta para que outras pessoas possam seguir você.`:""}</div>`}
+  catch(e){const box=$("#cs123-lb");if(box)box.innerHTML=`<p class="erro-t">Não deu para carregar agora.</p>`}}
+/* descobrir perfis abertos (Perfil › Conta e Busca) */
+async function cs123Abertos(q){try{const r=await SB.rpc("perfis_abertos",{p_busca:String(q||"").trim().slice(0,40)});if(r&&r.error)return null;const l=r.data||[];
+  l.forEach(x=>{cs123Pess({...x,aberto:true});if(x.sigo)CS123.sigo.add(x.uid)});cs123Nomes();return l}catch(e){return null}}
+const cs123LinhaAb=x=>cs123Linha({...x,aberto:true},false,"");
+function cs123Descobre(){if(precisaConta()||!V9.on)return;sheet("Perfis abertos",`<p class="hint" style="margin:0 0 8px">Pessoas do Prumo que deixam qualquer membro seguir. Você vê o que elas publicam para seguidores.</p><input class="field" id="cs123-dq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar pelo nome" aria-label="Buscar pelo nome"><div id="cs123-db"><p class="hint">Carregando…</p></div>`);
+  const roda=async()=>{const q=($("#cs123-dq")||{}).value||"";const l=await cs123Abertos(q);const box=$("#cs123-db");if(!box||(($("#cs123-dq")||{}).value||"")!==q)return;
+    box.innerHTML=l==null?`<p class="erro-t">Não deu para carregar agora.</p>`:l.length?`<ul class="amgl cs123-l">${l.map(cs123LinhaAb).join("")}</ul>`:`<div class="empty" style="padding:14px 0"><b>${q.trim()?"Ninguém com esse nome":"Nenhum perfil aberto ainda"}</b></div>`};
+  $("#cs123-dq")?.addEventListener("input",()=>{clearTimeout(cs123Descobre.t);cs123Descobre.t=setTimeout(roda,300)});roda()}
+/* Busca: perfis abertos com o nome digitado, antes das notícias */
+document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="btext"||!V9.on||!S.uid||!S.membro)return;const q=t.value.trim();cs123BusPoe();clearTimeout(cs123BusPoe.t);
+  if(q.length<2)return;cs123BusPoe.t=setTimeout(async()=>{const l=await cs123Abertos(q);if(l&&($("#btext")||{}).value.trim()===q){CS123.bus={q,l};cs123BusPoe()}},300)});
+function cs123BusPoe(){const out=$("#sres"),q=(($("#btext")||{}).value||"").trim();if(!out)return;out.querySelector(".cs123-bus")?.remove();const B=CS123.bus;if(!B.l||B.q!==q||!B.l.length||q.length<2)return;
+  out.insertAdjacentHTML("afterbegin",`<li class="cs123-bus"><b class="cs123-bh">Perfis abertos</b><ul class="amgl cs123-l">${B.l.slice(0,5).map(cs123LinhaAb).join("")}</ul></li>`)}
+/* Perfil › Conta: "Perfil aberto" */
+function cs123Conta9(){const m=$("#v-me .pf-conta .card.menu")||$("#v-me .card.menu");if(!m||$("#v-me .cs123-cfg"))return;const on=CS123.aberto,p=CS123.perf[S.uid]||{};
+  m.insertAdjacentHTML("beforebegin",`<div class="card cs123-cfg"><label class="cs123-sw"><span><b>Perfil aberto</b><small>Quem não é seu amigo pode seguir e ver o que você publicar para seguidores.</small></span><input type="checkbox" role="switch" data-cs123aberto ${on?"checked":""} aria-label="Perfil aberto"></label>
+    ${on?`<p class="hint cs123-cfgh">Para chegar aos seguidores, escolha “Seguidores e amigos” ao publicar. O resto (stories, Melhores amigos, posts para amigos) continua só com os amigos.</p>`:""}
+    <div class="cs123-cfgb"><button type="button" data-cs123lista="seguidores" data-u="${esc(S.uid)}"><b>${cs123Num(p.seguidores||0)}</b> ${p.seguidores===1?"seguidor":"seguidores"}</button><button type="button" data-cs123lista="seguindo" data-u="${esc(S.uid)}"><b>${cs123Num(p.seguindo||0)}</b> seguindo</button><button type="button" data-cs123descobre>Descobrir perfis abertos <i aria-hidden="true">›</i></button></div></div>`)}
+async function cs123MudaAberto(on,inp){if(inp)inp.disabled=true;try{const r=await SB.rpc("mudar_perfil_aberto",{p_aberto:!!on});if(r&&r.error)throw r.error;CS123.aberto=!!on;const p=CS123.perf[S.uid];if(p)p.aberto=!!on;
+  toast(on?"Perfil aberto: quem não é seu amigo pode seguir você":"Perfil fechado: só os amigos veem o que você publica");if(VIEW==="me")renderMe()}catch(e){if(inp){inp.disabled=false;inp.checked=!on}toast("Não deu para mudar agora.")}}
+document.addEventListener("change",e=>{const t=e.target;if(t&&t.matches&&t.matches("[data-cs123aberto]"))cs123MudaAberto(t.checked,t)});
+document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
+  if(b=t.closest("[data-cs123seg]")){pare();cs123Seguir(b.dataset.cs123seg,b);return}
+  if(b=t.closest("[data-cs123deixa]")){pare();const u=b.dataset.cs123deixa;closeLayer();cs123Deixa(u);return}
+  if(b=t.closest("[data-cs123tira]")){pare();cs123Tira(b.dataset.cs123tira,b);return}
+  if(b=t.closest("[data-cs123lista]")){pare();cs123Lista(b.dataset.u,b.dataset.cs123lista);return}
+  if(t.closest("[data-cs123descobre]")){pare();cs123Descobre();return}},true);
+/* bloquear: some do seguir na hora (o banco já desfez) */
+{const _bl=typeof bloquear==="function"?bloquear:null;if(_bl)bloquear=async function(u){const r=await _bl.apply(this,arguments);try{CS123.sigo.delete(u);CS123.segs=CS123.segs.filter(s=>s.uid!==u);delete CS123.perf[u];setTimeout(cs123Carregar,400)}catch(e){}return r}}
+
+/* ===== 7. público "Seguidores e amigos" no post ===== */
+const cs123PodeSeg=()=>!!(V9.on&&CS123.aberto);
+{const _cp=cfpPublico;cfpPublico=function(){const r=_cp.apply(this,arguments);try{if(!cs123PodeSeg()||!ED||!ED.po)return r;const P=ED.po,box=$("#layer .ce-sel .cfp-pubs");if(!box||box.querySelector('[data-cfppubv="seguidores"]'))return r;
+  const am=box.querySelector('[data-cfppubv="amigos"]');if(am)am.insertAdjacentHTML("afterend",`<button type="button" data-cfppubv="seguidores" aria-pressed="false"><span>Seguidores e amigos</span><small>Quem segue você e seus amigos</small></button>`);
+  box.querySelectorAll("[data-cfppubv]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.cfppubv===(P.pub==="proximos"||P.pub==="seguidores"?P.pub:"amigos"))))}catch(e){}return r}}
+{const _cd=cfpDet;cfpDet=function(el){const P=ED&&ED.po;if(P&&P.pub==="seguidores"&&!cs123PodeSeg())P.pub="amigos";const r=_cd.apply(this,arguments);
+  try{if(P&&P.pub==="seguidores"){const em=el.querySelector("[data-cfppub] em");if(em)em.textContent="Seguidores e amigos";const q=el.querySelector(".cr-quem");if(q&&q.firstChild&&q.firstChild.nodeType===3)q.firstChild.textContent="Quem segue você e seus amigos vão ver. "}}catch(e){}return r}}
+{const _ep=edPublicaPost;edPublicaPost=async function(){const P=ED&&ED.po;if(!P||P.pub!=="seguidores"||!cs123PodeSeg()||!SB||ED.env)return _ep.apply(this,arguments);const _from=SB.from;
+  SB.from=function(t){const q=_from.apply(this,arguments);if(t==="publicacoes"&&q&&typeof q.insert==="function"&&!q._cs123){q._cs123=1;const ins=q.insert;q.insert=function(row){try{if(row&&row.tipo==="post")row.publico="seguidores"}catch(e){}return ins.apply(this,arguments)}}return q};
+  try{return await _ep.apply(this,arguments)}finally{SB.from=_from}}}
+
+/* ===== 8. Atividade: "Bia começou a seguir você" ===== */
+{const _ai=atItens;atItens=function(){const it=_ai.apply(this,arguments);if(!V9.on||!S.uid||!S.membro||!CS123.segs.length||!Array.isArray(it))return it;
+  try{const lim=Date.now()-30*864e5;CS123.segs.filter(s=>s.at>lim&&s.uid!==S.uid).forEach(s=>it.push({k:"sg:"+s.uid,at:s.at,us:[s.uid],ic:"+",txt:`<b>${esc(nomeDe(s.uid))}</b> começou a seguir você`,u:s.uid,acao:"perfil"}))}catch(e){}
+  return it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}}
+try{ESP_NOMES.seguidores="Quem segue quem"}catch(e){}
+/* ---------- 124: notificações — bolinhas no app, número no ícone e avisos no celular (Web Push) ----------
+   Três níveis, todos com liga/desliga em Perfil › Conta › Notificações:
+   1. No app (ligado por padrão): bolinhas e números na barra de baixo e no Perfil, e a faixa "Desde a sua última visita"
+      no alto da Atividade. O "visto" vale neste aparelho e também vai junto das preferências (os outros aparelhos sabem).
+   2. Número no ícone do app (Badging API), quando o Prumo está instalado na tela de início e o aparelho permite.
+   3. Avisos no celular (desligados por padrão; a pessoa escolhe tipo a tipo). Dependem do sql/publicacoes-v10.sql e da
+      função enviar-push (supabase/LEIA-ME-push.md). Sem a v10, a página mostra só os itens 1 e 2. Com a v10 e sem a chave
+      pública do VAPID gravada pelo administrador, aparece "Ainda não ativado pelo administrador".
+   Os avisos que chegam abrem o app em "./?nt=<ação>" (ou, com o app aberto, o service worker manda a ação para cá). */
+var NT124={v10:null,n10:0,chave:null,v9:null,segCols:null,seguidores:[],seguindo:new Set(),segT:0,filtro:"",ocupado:false,badgeN:null,pt:0,rota:null};
+const NT124_TIPOS=[
+  ["mensagens","Mensagens","Mensagens novas nas Conversas","✉"],
+  ["amizades","Pedidos de amizade","Pedidos novos e pedidos aceitos","+"],
+  ["comentarios","Comentários e respostas","Nas suas publicações e onde você comentou","💬"],
+  ["mencoes","Menções","Quando alguém marca você","@"],
+  ["curtidas","Curtidas","Nos seus posts, stories e comentários (agrupadas)","♥"],
+  ["reposts","Reposts","Quando repostam ou citam sua publicação","↻"],
+  ["seguidores","Novos seguidores","Quando alguém começa a seguir você","👤",1],
+  ["seguindo","Posts de quem você segue","Publicações novas de quem você segue","▤",1],
+  ["coberturas","Coberturas que você segue","Atualizações das notícias que você segue","📌"],
+  ["colunas","Colunas","Colunas novas de quem você segue","✎",1]];
+const NT124_PLURAL={mensagens:["mensagem","mensagens"],amizades:["pedido de amizade","pedidos de amizade"],comentarios:["comentário","comentários"],mencoes:["menção","menções"],
+  curtidas:["curtida","curtidas"],reposts:["repost","reposts"],seguidores:["seguidor novo","seguidores novos"],seguindo:["post de quem você segue","posts de quem você segue"],
+  coberturas:["cobertura atualizada","coberturas atualizadas"],colunas:["coluna nova","colunas novas"],outros:["novidade","novidades"]};
+function nt124Tipos(){return NT124_TIPOS.filter(t=>!t[4]||NT124.v9===true)}
+function nt124Pref(){const n=PREF.notif&&typeof PREF.notif==="object"?PREF.notif:{};return n}
+function nt124App(tipo){const a=nt124Pref().app;return !(a&&a[tipo]===false)}
+function nt124BadgeOn(){return nt124Pref().badge!==false}
+function nt124PrefMuda(f){PREF.notif={...nt124Pref()};f(PREF.notif);salvarPrefs()}
+
+/* ===== 1. categoria de cada item da Atividade ===== */
+function nt124Cat(x){const k=String(x&&x.k||""),a=x&&x.acao||"";
+  if(x.ped||/^(p|a):/.test(k))return "amizades";
+  if(a==="men"||/^m:/.test(k))return "mencoes";
+  if(/^s:/.test(k))return x.ic==="♥"?"curtidas":"comentarios";
+  if(a==="cmt"||/^(c|cn|fc107):/.test(k))return "comentarios";
+  if(a==="vnrp"||/^(vn112|sh):/.test(k))return "reposts";
+  if(a==="cob"||/^cob:/.test(k))return "coberturas";
+  if(/^nt124s:/.test(k))return "seguidores";
+  if(/^nt124c:/.test(k))return "colunas";
+  if(/^nt124p:/.test(k))return "seguindo";
+  if(/^(curtida|voto|cc8):/.test(k)||a==="cc8"||a==="pub")return "curtidas";
+  return "outros"}
+function nt124MsgsN(){try{const bl=S.bloq||[];return (S.msgsIn||[]).filter(m=>!m.lida&&!bl.includes(m.de)).length}catch(e){return 0}}
+/* o que é novo desde a última visita (e os pedidos de amizade ainda sem resposta), já com as escolhas "no app" */
+function nt124Contagem(){const out={por:{},ativ:0,msgs:0,total:0};if(!S.uid||!S.membro)return out;
+  let l=[];try{l=atItens()}catch(e){}const v=atVisto();
+  l.forEach(x=>{if(!(x.fixo||x.at>v))return;const c=nt124Cat(x);if(c!=="outros"&&!nt124App(c))return;out.por[c]=(out.por[c]||0)+1;out.ativ++});
+  out.msgs=nt124App("mensagens")?nt124MsgsN():0;out.total=out.ativ+out.msgs;return out}
+/* o ♥ do topo (atDot) também respeita as escolhas */
+{const _an124=atNovas;atNovas=function(){try{return nt124Contagem().ativ}catch(e){return _an124.apply(this,arguments)}}}
+/* visto: neste aparelho e nas preferências (os outros aparelhos da pessoa também sabem) */
+{const _av124=atVisto;atVisto=function(){const a=_av124.apply(this,arguments);const b=+(nt124Pref().visto||0);return Math.max(a,b>Date.now()+6e4?0:b)}}
+{const _am124=atMarcaVisto;atMarcaVisto=function(){const r=_am124.apply(this,arguments);try{if(S.uid&&S.membro)nt124PrefMuda(n=>{n.visto=Date.now()})}catch(e){}return r}}
+
+/* ===== bolinhas: barra de baixo, Perfil (aba Conta e linhas do menu) e número no ícone ===== */
+function nt124Pinta(){clearTimeout(NT124.pt);NT124.pt=setTimeout(nt124PintaJa,40)}
+function nt124PintaJa(){const c=nt124Contagem();
+  try{const b=$("#badge");if(b&&!nt124App("mensagens"))b.hidden=true}catch(e){}
+  let n=c.ativ;try{const ped=nt124App("amizades")?(S.pedidosIn||[]).filter(u=>S.membros[u]).length:0;n=Math.max(c.ativ,ped)}catch(e){}
+  try{const mb=$("#mbadge");if(mb){mb.hidden=!n;mb.setAttribute("aria-label",n?(n===1?"1 novidade no Perfil":n+" novidades no Perfil"):"")}}catch(e){}
+  try{const tab=$('#v-me [data-pfaba="conta"]');if(tab){const d=tab.querySelector(".nt124-dot");if(n&&!d){tab.insertAdjacentHTML("beforeend",`<i class="nt124-dot" aria-hidden="true"></i>`)}else if(!n&&d)d.remove()}
+    const r=$("#v-me [data-nt124ativ] em");if(r){r.textContent=n?String(n>99?"99+":n):"";r.className=n?"nt124-n":""}}catch(e){}
+  nt124PoeBadge(c.total)}
+function nt124Instalado(){try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){return false}}
+function nt124BadgeSuporte(){return typeof navigator.setAppBadge==="function"}
+function nt124PoeBadge(n){if(!nt124BadgeSuporte())return;const quer=nt124BadgeOn()&&nt124Instalado()&&S.uid&&S.membro?Math.min(99,n):0;
+  if(quer===NT124.badgeN)return;NT124.badgeN=quer;try{const p=quer?navigator.setAppBadge(quer):navigator.clearAppBadge();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
+{const _ub124=updateBadge;updateBadge=function(){const r=_ub124.apply(this,arguments);nt124Pinta();return r}}
+{const _ad124=atDot;atDot=function(){const r=_ad124.apply(this,arguments);nt124Pinta();return r}}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)nt124Pinta()});
+
+/* Perfil › Conta: "Atividade" (com o número) e "Notificações" */
+{const _rm124=renderMe;renderMe=function(){const r=_rm124.apply(this,arguments);try{if(S.uid&&S.membro){
+    const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-nt124ativ]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-nt124ativ><span>Atividade</span><em></em><i>›</i></button>`);
+    const cc=[...document.querySelectorAll("#v-me .pf-conta .card.menu")].find(x=>x.querySelector(".cm-h"))||m;
+    if(cc&&!cc.querySelector("[data-nt124abrir]")){const h=`<button type="button" data-nt124abrir><span>Notificações</span><i>›</i></button>`;const em=cc.querySelector(".cm-email");if(em)em.insertAdjacentHTML("afterend",h);else cc.insertAdjacentHTML("afterbegin",h)}}
+  nt124PintaJa()}catch(e){}return r}}
+
+/* ===== 2. Atividade: faixa "Desde a sua última visita" e filtro por tipo ===== */
+function nt124Rot(c,n){const p=NT124_PLURAL[c]||NT124_PLURAL.outros;return n+" "+(n===1?p[0]:p[1])}
+function nt124Ic(c){const t=NT124_TIPOS.find(x=>x[0]===c);return t?t[3]:"•"}
+{const _ad124b=atDesenha;atDesenha=function(){const r=_ad124b.apply(this,arguments);try{nt124Faixa()}catch(e){}return r}}
+function nt124Faixa(){const el=$("#layer .pfv-at");if(!el)return;const sc=el.querySelector(".pfv-sc");if(!sc)return;const l=AT._l||[],v=AT._visto0||0;
+  const por={};l.forEach(x=>{if(!(x.fixo||x.at>v))return;const c=nt124Cat(x);if(c!=="outros"&&!nt124App(c))return;por[c]=(por[c]||0)+1});
+  const ordem=NT124_TIPOS.map(t=>t[0]).concat("outros").filter(c=>por[c]);if(NT124.filtro&&!por[NT124.filtro])NT124.filtro="";
+  const nm=nt124App("mensagens")?nt124MsgsN():0;let h="";
+  if(ordem.length||nm)h=`<div class="nt124-desde" role="group" aria-label="Desde a sua última visita"><div class="nt124-dh"><b>Desde a sua última visita</b>${v?`<span>${esc(quando(v))}</span>`:""}</div>
+    <div class="nt124-chips">${nm?`<button type="button" class="nt124-chip nt124-msg" data-nt124msgs><i aria-hidden="true">✉</i>${esc(nt124Rot("mensagens",nm))} não ${nm===1?"lida":"lidas"}</button>`:""}${ordem.map(c=>`<button type="button" class="nt124-chip${NT124.filtro===c?" on":""}" data-nt124f="${c}" aria-pressed="${NT124.filtro===c}"><i aria-hidden="true">${esc(nt124Ic(c))}</i>${esc(nt124Rot(c,por[c]))}</button>`).join("")}</div></div>`;
+  else if(v&&l.length)h=`<p class="nt124-nada">Nada de novo desde a sua última visita (${esc(quando(v))}).</p>`;
+  sc.querySelector(".nt124-desde,.nt124-nada")?.remove();if(h)sc.insertAdjacentHTML("afterbegin",h);nt124Filtra()}
+function nt124Filtra(){const el=$("#layer .pfv-at");if(!el)return;const f=NT124.filtro,l=AT._l||[];
+  el.querySelectorAll(".at-l [data-ati]").forEach(b=>{const x=l[+b.dataset.ati],li=b.closest("li");if(li)li.hidden=!!(f&&x&&nt124Cat(x)!==f)});
+  el.querySelectorAll(".at-l").forEach(ul=>{const vis=[...ul.children].some(li=>!li.hidden);ul.hidden=!vis;const h=ul.previousElementSibling;if(h&&h.classList.contains("at-h"))h.hidden=!vis})}
+{const _aa124=abrirAtividade;abrirAtividade=function(){NT124.filtro="";const r=_aa124.apply(this,arguments);nt124Pinta();return r}}
+
+/* ===== itens novos da Atividade com o "Seguir" (sql v9): novos seguidores, posts e colunas de quem você segue ===== */
+const NT124_LED="prumo-nt124-vi";
+function nt124PrimeiraVez(chaves){let l={};try{l=JSON.parse(localStorage.getItem(NT124_LED+":"+S.uid)||"null")||null}catch(e){l=null}const base=!l;l=l||{};const ag=Date.now(),viv=new Set(chaves);
+  chaves.forEach(k=>{if(!(k in l))l[k]=base?0:ag});Object.keys(l).forEach(k=>{if(!viv.has(k))delete l[k]});try{localStorage.setItem(NT124_LED+":"+S.uid,JSON.stringify(l))}catch(e){}return l}
+const nt124Ts=r=>{for(const k of ["criado_em","created_at","at","em"]){const v=r&&r[k];if(v==null)continue;const t=typeof v==="number"?v:Date.parse(v);if(t)return t}return 0};
+function nt124RpMeu(x){const r=x&&x.estilo&&x.estilo.rp;if(!r||r.k!=="pub")return false;const o=pubDe(String(r.id||""));return !!(o&&o.autor===S.uid)}  /* repost do meu post já aparece como "repostou" */
+function nt124EhColuna(x){const e=x&&x.estilo||{};return x&&(x.tipo==="coluna"||e.coluna===true||e.coluna===1||e.tipo==="coluna"||e.kind==="coluna")}
+async function nt124CarregaSeg(){if(!SB||!S.uid||!S.membro||NT124.v9===false)return;NT124.segT=Date.now();
+  try{const r=await SB.from("seguidores").select("*").limit(1000);
+    if(r.error){if(/does not exist|PGRST205|PGRST106|42P01|Could not find the table|schema cache/i.test(String(r.error.message||"")+" "+String(r.error.code||"")))NT124.v9=false;return}
+    const rows=r.data||[],ks=rows[0]?Object.keys(rows[0]):[];const de=["seguidor","de","uid","quem"].find(k=>ks.includes(k)),para=["seguido","para","alvo","autor"].find(k=>ks.includes(k));
+    const ant=NT124.v9;NT124.v9=true;if(rows.length&&(!de||!para))return;NT124.segCols=[de,para];
+    NT124.seguidores=rows.filter(x=>x[para]===S.uid&&x[de]!==S.uid).map(x=>({u:x[de],at:nt124Ts(x)}));
+    NT124.seguindo=new Set(rows.filter(x=>x[de]===S.uid).map(x=>x[para]));
+    if(ant!==true&&$("#layer .pfv-nt124"))nt124Desenha();atRedesenha();nt124Pinta()}catch(e){}}
+{const _ai124=atItens;atItens=function(){let it=_ai124.apply(this,arguments);try{if(!NT124.v9||!S.uid||!S.membro||!Array.isArray(it))return it;const ag=Date.now(),novos=[];
+    const semHora=NT124.seguidores.filter(s=>!s.at).map(s=>"nt124s:"+s.u);const L=semHora.length?nt124PrimeiraVez(semHora):{};
+    NT124.seguidores.forEach(s=>{if(!S.membros[s.u]||(S.bloq||[]).includes(s.u))return;const at=s.at||L["nt124s:"+s.u]||0;if(!at)return;
+      novos.push({k:"nt124s:"+s.u,at,us:[s.u],ic:"👤",txt:`<b>${esc(nomeDe(s.u))}</b> começou a seguir você`,u:s.u,acao:"perfil"})});
+    if(NT124.seguindo.size)pubVisiveis().filter(x=>NT124.seguindo.has(x.autor)&&x.autor!==S.uid&&x.tipo!=="story"&&ag-x.at<30*864e5&&!nt124RpMeu(x)).sort((a,b)=>b.at-a.at).slice(0,12).forEach(x=>{const col=nt124EhColuna(x);
+      const tt=String((x.estilo&&x.estilo.titulo)||x.texto||"").trim();
+      novos.push({k:(col?"nt124c:":"nt124p:")+x.id,at:x.at,us:[x.autor],ic:col?"✎":"▤",txt:`<b>${esc(nomeDe(x.autor))}</b> ${col?"publicou uma coluna":"publicou"}${tt?`: “${esc(tt.length>80?tt.slice(0,79).trimEnd()+"…":tt)}”`:""}`,pub:x.id,acao:"nt124pub"})});
+    if(novos.length)it=it.concat(novos).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){}return it}}
+{const _aa124b=atAcao;atAcao=function(x){if(x&&x.acao==="nt124pub"){const id=x.pub;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>nt124AbrePub(id),320);return}return _aa124b.apply(this,arguments)}}
+{const _th124=atThumb;atThumb=function(x){if(x&&x.acao==="nt124pub"){const pb=pubDe(x.pub);if(!pb)return "";const old=AT.pubs[x.pub];AT.pubs[x.pub]=pb;const h=_th124.apply(this,arguments);if(!old)delete AT.pubs[x.pub];return h}return _th124.apply(this,arguments)}}
+function nt124AbrePub(id){try{if(typeof vn112AbrePub==="function"){vn112AbrePub(id);return}}catch(e){}try{pubIrPara(id)}catch(e){}}
+
+/* ===== detectar a v10 (e a chave pública) e a v9 ===== */
+async function nt124Testa(){if(NT124.v10!==null||typeof SB==="undefined"||!SB||!S.uid||!S.membro)return NT124.v10;
+  try{const r=await SB.rpc("push_chave_publica");
+    if(!r.error){NT124.v10=true;NT124.chave=typeof r.data==="string"&&r.data.trim()?r.data.trim():null}
+    else if(/does not exist|PGRST202|PGRST205|42883|Could not find the function|schema cache/i.test(String(r.error.message||"")+" "+String(r.error.code||"")))NT124.v10=false}catch(e){}
+  if(NT124.v10&&nt124Local().ativo)nt124Confere();if($("#layer .pfv-nt124"))nt124Desenha();return NT124.v10}
+setInterval(()=>{if(!S.uid||!S.membro)return;if(NT124.v10===null&&NT124.n10<40){NT124.n10++;nt124Testa()}
+  if(NT124.v9!==false&&Date.now()-NT124.segT>120e3&&!document.hidden)nt124CarregaSeg()},2500);
+
+/* ===== 3. avisos no celular ===== */
+function nt124LK(){return "prumo-nt124:"+(S.uid||"")}
+function nt124Local(){try{const o=JSON.parse(localStorage.getItem(nt124LK())||"null");return o&&typeof o==="object"?o:{}}catch(e){return {}}}
+function nt124LocalSalva(o){try{localStorage.setItem(nt124LK(),JSON.stringify({...nt124Local(),...o}))}catch(e){}}
+function nt124PushPrefs(){const p=nt124Local().prefs;const o={};NT124_TIPOS.forEach(t=>{o[t[0]]=!!(p&&p[t[0]]===true)});return o}
+function nt124Suporte(){return "serviceWorker" in navigator&&"PushManager" in window&&"Notification" in window}
+function nt124Ios(){try{return /iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1)}catch(e){return false}}
+function nt124Perm(){try{return "Notification" in window?Notification.permission:"default"}catch(e){return "default"}}
+function nt124Ativo(){return !!(nt124Local().ativo&&nt124Perm()==="granted"&&NT124.v10&&NT124.chave)}
+function nt124B64(s){const p="=".repeat((4-s.length%4)%4),b=atob((s+p).replace(/-/g,"+").replace(/_/g,"/"));const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+function nt124MesmaChave(sub,u8){try{const k=sub&&sub.options&&sub.options.applicationServerKey;if(!k)return true;const a=new Uint8Array(k);return a.length===u8.length&&a.every((x,i)=>x===u8[i])}catch(e){return true}}
+function nt124Prazo(p,ms){return Promise.race([p,new Promise((_,no)=>setTimeout(()=>no(new Error("prazo")),ms))])}
+async function nt124Reg(){const sw=navigator.serviceWorker;let r=await sw.getRegistration();if(!r)r=await sw.register("sw.js");await nt124Prazo(sw.ready,10000);return r}
+async function nt124Ativar(tipo){if(NT124.ocupado)return false;if(!NT124.chave){toast("Ainda não ativado pelo administrador.");return false}
+  if(!nt124Suporte()){toast("Este aparelho não recebe notificações do Prumo.");return false}
+  NT124.ocupado=true;nt124Desenha();let ok=false;
+  try{let perm=nt124Perm();if(perm!=="granted")perm=await Notification.requestPermission();
+    if(perm!=="granted"){toast(perm==="denied"?"As notificações estão bloqueadas para o Prumo neste aparelho.":"Tudo bem. Dá para ativar quando quiser.");return false}
+    const reg=await nt124Reg();const chave=nt124B64(NT124.chave);let sub=await reg.pushManager.getSubscription();
+    if(sub&&!nt124MesmaChave(sub,chave)){try{await sub.unsubscribe()}catch(e){}sub=null}
+    if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:chave});
+    const j=typeof sub.toJSON==="function"?sub.toJSON():sub;const prefs=nt124PushPrefs();if(tipo)prefs[tipo]=true;
+    const r=await SB.rpc("push_inscrever",{p_endpoint:j.endpoint,p_p256dh:j.keys.p256dh,p_auth:j.keys.auth,p_prefs:prefs,p_ua:String(navigator.userAgent||"").slice(0,200)});
+    if(r&&r.error)throw r.error;
+    nt124LocalSalva({ativo:true,endpoint:j.endpoint,prefs});ok=true;uso("notif_ativar");
+    toast(Object.values(prefs).some(Boolean)?"Notificações ativadas neste aparelho":"Ativadas. Agora escolha abaixo o que deve chegar.")}
+  catch(e){toast("Não deu para ativar agora. Tente de novo.")}
+  finally{NT124.ocupado=false;nt124Desenha()}return ok}
+async function nt124Desativar(){if(NT124.ocupado)return;NT124.ocupado=true;nt124Desenha();
+  try{let ep=nt124Local().endpoint,sub=null;try{const reg=await navigator.serviceWorker.getRegistration();sub=reg&&await reg.pushManager.getSubscription();if(sub)ep=sub.endpoint}catch(e){}
+    if(ep&&SB)await SB.from("push_inscricoes").delete().eq("endpoint",ep);if(sub)try{await sub.unsubscribe()}catch(e){}
+    nt124LocalSalva({ativo:false,endpoint:null});toast("Notificações desativadas neste aparelho")}
+  catch(e){toast("Não deu para desativar agora.")}finally{NT124.ocupado=false;nt124Desenha()}}
+async function nt124PushTroca(tipo){if(!nt124Ativo()){await nt124Ativar(tipo);return}
+  const L=nt124Local(),prefs=nt124PushPrefs();prefs[tipo]=!prefs[tipo];nt124LocalSalva({prefs});nt124Desenha();
+  try{const r=await SB.from("push_inscricoes").update({prefs}).eq("endpoint",L.endpoint);if(r&&r.error)throw r.error}
+  catch(e){prefs[tipo]=!prefs[tipo];nt124LocalSalva({prefs});nt124Desenha();toast("Não deu para salvar agora.")}}
+/* o aparelho continua inscrito no servidor? (troca de conta, aparelho apagado por expirar…) */
+async function nt124Confere(){const L=nt124Local();if(!L.ativo||!L.endpoint||!SB)return;
+  try{const r=await SB.from("push_inscricoes").select("endpoint,prefs").eq("endpoint",L.endpoint);if(r.error)return;
+    if(!(r.data||[]).length||nt124Perm()!=="granted")nt124LocalSalva({ativo:false});else nt124LocalSalva({prefs:{...nt124PushPrefs(),...(r.data[0].prefs||{})}});
+    if($("#layer .pfv-nt124"))nt124Desenha()}catch(e){}}
+async function nt124Teste(){try{const reg=await nt124Reg();await reg.showNotification("Prumo News",{body:"É assim que os avisos do Prumo chegam neste aparelho.",icon:"icon-192.png",tag:"prumo-teste",data:{url:"./?nt=atividade"}});toast("Aviso de teste enviado")}
+  catch(e){toast("Não deu para mostrar o aviso de teste.")}}
+
+/* ===== a página Notificações ===== */
+function nt124Sw(on,attrs,lab,dis){return `<button type="button" class="nt124-sw${on?" on":""}" role="switch" aria-checked="${!!on}" aria-label="${esc(lab)}" ${attrs}${dis?" disabled":""}><i></i></button>`}
+function nt124PushCard(){if(NT124.v10!==true)return {h:"",col:false};
+  const ios=nt124Ios(),inst=nt124Instalado();
+  if(!NT124.chave)return {h:`<div class="card nt124-cel"><b>Avisos no celular</b><p class="hint" data-nt124estado="admin">Ainda não ativado pelo administrador.</p></div>`,col:false};
+  if(!nt124Suporte())return {h:`<div class="card nt124-cel"><b>Avisos no celular</b><p class="hint" data-nt124estado="sem">${ios&&!inst?"No iPhone, os avisos só funcionam com o Prumo na Tela de Início (iOS 16.4 ou mais novo): no Safari, toque em Compartilhar › “Adicionar à Tela de Início” e abra o Prumo por lá.":"Este navegador não recebe avisos do Prumo."}</p></div>`,col:false};
+  if(nt124Perm()==="denied")return {h:`<div class="card nt124-cel"><b>Avisos no celular</b><p class="hint" data-nt124estado="bloq">Os avisos estão bloqueados para o Prumo neste aparelho. Para liberar, abra os ajustes do navegador (ou do celular), procure o Prumo e permita notificações.</p></div>`,col:false};
+  const at=nt124Ativo(),oc=NT124.ocupado;
+  return {col:true,h:`<div class="card nt124-cel"><b>Avisos no celular</b>${at?`<p class="nt124-ok" data-nt124estado="ativo"><i aria-hidden="true">●</i> Ativados neste aparelho</p><p class="hint">Escolha abaixo, na coluna “Celular”, o que deve chegar. Nada chega sem você ligar.</p>
+      <div class="nt124-bts"><button type="button" class="btn ghost" data-nt124teste${oc?" disabled":""}>Mostrar um aviso de teste</button><button type="button" class="btn ghost" data-nt124desativar${oc?" disabled":""}>Desativar neste aparelho</button></div>`
+    :`<p class="hint" data-nt124estado="inativo">Receba avisos mesmo com o Prumo fechado. O celular só pergunta se pode quando você tocar no botão.${ios?" No iPhone, precisa estar com o Prumo na Tela de Início (iOS 16.4 ou mais novo).":""}</p>
+      <button type="button" class="btn" data-nt124ativar${oc?" disabled":""}>${oc?"Ativando…":"Ativar notificações neste aparelho"}</button>`}</div>`}}
+function nt124Desenha(){const el=$("#layer .pfv-nt124");if(!el)return;const sc0=el.querySelector(".pfv-sc"),top=sc0?sc0.scrollTop:0;
+  const pc=nt124PushCard(),pp=nt124PushPrefs(),at=nt124Ativo(),bs=nt124BadgeSuporte();
+  const linhas=nt124Tipos().map(([k,lab,desc])=>`<li class="nt124-li" data-nt124tipo="${k}"><span class="nt124-tx"><b>${esc(lab)}</b><small>${esc(desc)}</small></span>
+      ${nt124Sw(nt124App(k),`data-nt124app="${k}"`,lab+" no app")}${pc.col?nt124Sw(at&&pp[k],`data-nt124push="${k}"`,lab+" no celular",NT124.ocupado):""}</li>`).join("");
+  el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>Notificações</b><span class="sp"></span></div>
+    <div class="pfv-sc nt124-pg">${pc.h}
+      <div class="card nt124-tab"><div class="nt124-cab"><b>O que avisar</b><span class="nt124-cols${pc.col?"":" um"}"><em>No app</em>${pc.col?"<em>Celular</em>":""}</span></div>
+        <p class="hint">“No app” são as bolinhas e os números na barra de baixo e no Perfil. Tudo continua aparecendo na Atividade.</p>
+        <ul class="nt124-l">${linhas}</ul></div>
+      <div class="card nt124-ic"><div class="nt124-li"><span class="nt124-tx"><b>Número no ícone do app</b><small>${bs?"Mostra quantas novidades há, com o Prumo instalado na tela de início.":"Este aparelho não mostra número no ícone do app."}</small></span>${nt124Sw(bs&&nt124BadgeOn(),"data-nt124badge","Número no ícone do app",!bs)}</div></div>
+    </div>`;
+  const sc=el.querySelector(".pfv-sc");if(sc)sc.scrollTop=top}
+function nt124Abrir(){if(precisaConta())return;if($("#layer").innerHTML)closeLayer();
+  $("#layer").innerHTML=`<div class="pfv pfv-nt124" role="dialog" aria-modal="true" aria-label="Notificações"></div>`;if(pushH())HST++;nt124Desenha();uso("notificacoes");
+  if(NT124.v10===null||(NT124.v10&&!NT124.chave)){NT124.v10=null;nt124Testa()}else if(NT124.v10&&nt124Local().ativo)nt124Confere();if(NT124.v9===null)nt124CarregaSeg()}
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
+  if(t.closest("[data-nt124abrir]")){pare();nt124Abrir();return}
+  if(t.closest("[data-nt124ativ]")){pare();abrirAtividade();return}
+  if(t.closest("#layer .pfv-at [data-nt124msgs]")){pare();closeLayer();setTimeout(()=>go("msgs"),320);return}
+  if(b=t.closest("#layer .pfv-at [data-nt124f]")){pare();const f=b.dataset.nt124f;NT124.filtro=NT124.filtro===f?"":f;nt124Faixa();return}
+  if(!t.closest("#layer .pfv-nt124"))return;
+  if(b=t.closest("[data-nt124app]")){pare();const k=b.dataset.nt124app,on=!nt124App(k);nt124PrefMuda(n=>{n.app={...(n.app||{}),[k]:on}});nt124Desenha();updateBadge();atDot();return}
+  if(b=t.closest("[data-nt124push]")){pare();if(!b.disabled)nt124PushTroca(b.dataset.nt124push);return}
+  if(b=t.closest("[data-nt124badge]")){pare();if(b.disabled)return;nt124PrefMuda(n=>{n.badge=!nt124BadgeOn()});nt124Desenha();nt124PintaJa();return}
+  if(t.closest("[data-nt124ativar]")){pare();nt124Ativar();return}
+  if(t.closest("[data-nt124desativar]")){pare();nt124Desativar();return}
+  if(t.closest("[data-nt124teste]")){pare();nt124Teste();return}},true);
+
+/* ===== abrir a tela certa ao tocar no aviso ===== */
+function nt124Pronto(){return !!(S.uid&&S.membro&&S.amigosOk&&typeof FEED!=="undefined"&&FEED)}
+function nt124Rota(nt){nt=String(nt||"");if(!/^[a-z]{3,12}(:[\w.\-]{1,120})?$/.test(nt))return;NT124.rota=nt;nt124RotaTenta(0)}
+function nt124RotaTenta(n){const nt=NT124.rota;if(!nt)return;if(!nt124Pronto()){if(n<40)setTimeout(()=>nt124RotaTenta(n+1),500);return}NT124.rota=null;
+  const i=nt.indexOf(":"),a=i<0?nt:nt.slice(0,i),v=i<0?"":nt.slice(i+1);
+  try{if($("#layer2")?.innerHTML||$("#layer").innerHTML)closeLayer()}catch(e){}
+  const pub=async id=>{if(!pubDe(id))try{await pubCarregar()}catch(e){}return pubDe(id)};
+  setTimeout(async()=>{try{
+    if(a==="conversa"&&v){abrirConversa(v);return}
+    if(a==="perfil"&&v){abrirPerfil(v);return}
+    if(a==="comentarios"&&v){if(await pub(v))openComments("u:"+v);else abrirAtividade();return}
+    if(a==="pub"&&v){await pub(v);nt124AbrePub(v);return}
+    if(a==="noticia"&&v){if(pautaById(v))openComments(v);else abrirAtividade();return}
+    if(a==="cobertura"&&v){abrirPagCob(v);return}
+    abrirAtividade()}catch(e){}},60)}
+(function(){try{const q=new URLSearchParams(location.search),nt=q.get("nt");if(!nt)return;q.delete("nt");const s=q.toString();
+    history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash);nt124Rota(nt)}catch(e){}})();
+if("serviceWorker" in navigator)navigator.serviceWorker.addEventListener("message",e=>{const d=e.data;if(!d||d.prumo!=="nt-abrir")return;
+  try{nt124Rota(new URL(String(d.url||""),location.href).searchParams.get("nt")||"atividade")}catch(err){}});
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

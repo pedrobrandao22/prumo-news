@@ -15,7 +15,8 @@ O site publicado (o `index.html` da raiz do repositório) é **gerado** a partir
 | `harness.js`, `t_util.js`, `t_*.js`, `review2/` | Testes automáticos: um navegador de verdade (Playwright) contra um banco Postgres em memória (PGlite) com o mesmo SQL do Supabase. |
 | `prumo-supabase.sql` | O banco inteiro como está hoje (usado pelos testes). |
 | `prumo-supabase.antes-*.sql`, `prumo-supabase-uso.sql`, `publicacoes-v5/v6.sql` (na raiz) | Versões antigas e partes do banco que alguns testes usam para conferir que o app novo funciona com banco antigo. |
-| `sql/publicacoes-v1.sql` … `v8.sql` | As atualizações do banco, na ordem, para rodar no Supabase (SQL Editor › New query › colar › Run). Cada uma só precisa rodar uma vez. Se alguma antiga for rodada de novo, rode a v8 depois: ela reafirma as regras finais de quem lê o quê. |
+| `supabase/` | A função `enviar-push` (avisos no celular, Web Push) e o passo a passo para ligar: `supabase/LEIA-ME-push.md`. |
+| `sql/publicacoes-v1.sql` … `v10.sql` | As atualizações do banco, na ordem, para rodar no Supabase (SQL Editor › New query › colar › Run). Cada uma só precisa rodar uma vez. Se alguma antiga for rodada de novo, rode a v9 depois: ela reafirma as regras finais de quem lê o quê (com os seguidores). |
 
 ## Fazer uma mudança
 
