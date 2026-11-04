@@ -111,24 +111,47 @@ function avisoDe(dados) {
   try { d = dados ? dados.json() : {} } catch (e) { try { d = { body: dados.text() } } catch (e2) { d = {} } }
   if (!d || typeof d !== "object") d = {};
   const url = typeof d.url === "string" && /^(\?nt=[\w:.\-]{1,120}|\.\/)$/.test(d.url) ? d.url : "./";
-  const op = { body: String(d.body || "").slice(0, 300), icon: "icon-192.png", data: { url }, timestamp: +d.at || Date.now() };
+  const op = { body: Array.from(String(d.body || "")).slice(0, 300).join(""), icon: "icon-192.png", data: { url }, timestamp: +d.at || Date.now() };
   if (d.tag) { op.tag = String(d.tag).slice(0, 64); op.renotify = true }
-  return { titulo: String(d.title || "Prumo News").slice(0, 100), op, badge: typeof d.badge === "number" ? d.badge : null };
+  return { titulo: Array.from(String(d.title || "Prumo News")).slice(0, 100).join(""), op, badge: typeof d.badge === "number" ? d.badge : null, tipo: typeof d.tipo === "string" ? d.tipo : "" };
+}
+/* número no ícone que chega com o aviso: o app guarda em "./__nt-badge" o que ele mostra (e se o número no ícone está ligado
+   e quais tipos estão desligados "No app"); com o app fechado, cada aviso soma 1. Sem isso (app antigo), vale o número do servidor. */
+async function numeroIcone(a) {
+  let c = null, cfg = null;
+  try { c = await caches.open(CACHE); const r = await c.match("./__nt-badge"); if (r) cfg = await r.json() } catch (e) { cfg = null }
+  if (!cfg || typeof cfg !== "object") return a.badge;
+  if (cfg.on === false) return null;
+  const off = Array.isArray(cfg.off) ? cfg.off : [];
+  if (a.tipo && off.includes(a.tipo)) return null;
+  let n = Math.min(99, Math.max(0, +cfg.n || 0) + 1);
+  if (a.tipo === "mensagens" && typeof a.badge === "number" && !off.includes("mensagens")) n = Math.min(99, Math.max(n, a.badge));
+  try { await c.put("./__nt-badge", new Response(JSON.stringify({ ...cfg, n, t: Date.now() }), { headers: { "Content-Type": "application/json" } })) } catch (e) { }
+  return n;
 }
 self.addEventListener("push", e => {
   const a = avisoDe(e.data);
   const tarefas = [self.registration.showNotification(a.titulo, a.op)];
-  if (a.badge !== null && self.navigator && typeof self.navigator.setAppBadge === "function")
-    tarefas.push((a.badge ? self.navigator.setAppBadge(a.badge) : self.navigator.clearAppBadge()).catch(() => { }));
+  if (self.navigator && typeof self.navigator.setAppBadge === "function")
+    tarefas.push(numeroIcone(a).catch(() => a.badge).then(n => { if (n === null || n === undefined) return; return n ? self.navigator.setAppBadge(n) : self.navigator.clearAppBadge() }).catch(() => { }));
+  // app aberto: ele refaz o número com o que sabe (o certo)
+  try { tarefas.push(self.clients.matchAll({ type: "window" }).then(cs => cs.forEach(cl => { try { cl.postMessage({ prumo: "nt-push", tipo: a.tipo }) } catch (err) { } })).catch(() => { })) } catch (e) { }
   e.waitUntil(Promise.all(tarefas));
 });
+/* a janela do app (a página principal, não as páginas de notícia em m/…), de preferência a que está na frente */
+function janelaDoApp(abertas) {
+  const base = self.registration.scope, raiz = new URL(base).pathname;
+  const doApp = (abertas || []).filter(c => { try { const u = new URL(c.url); return u.href.indexOf(base) === 0 && /^(index\.html)?$/.test(u.pathname.slice(raiz.length)) } catch (e) { return false } });
+  const peso = c => (c.focused ? 2 : 0) + (c.visibilityState === "visible" ? 1 : 0);
+  return doApp.sort((x, y) => peso(y) - peso(x))[0] || null;
+}
 self.addEventListener("notificationclick", e => {
   e.notification.close();
   const rel = (e.notification.data && e.notification.data.url) || "./";
   const url = new URL(rel, self.registration.scope).href;
   e.waitUntil((async () => {
     const abertas = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
-    const app = abertas.find(c => c.url.indexOf(self.registration.scope) === 0);
+    const app = janelaDoApp(abertas);
     if (app) { app.postMessage({ prumo: "nt-abrir", url }); try { return await app.focus() } catch (err) { return } }
     return self.clients.openWindow(url);
   })());
