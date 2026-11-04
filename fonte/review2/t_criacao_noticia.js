@@ -89,7 +89,7 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
   const pr = await publicaPost(A);
   ok(pr.estilo.cn.k === 'rel' && pr.estilo.cn.q === '2026-11-02T14:10' && pr.estilo.cn.fu === 'Defesa Civil do Rio' && pr.estilo.local === 'Botafogo, Rio' && pr.fotos.length === 2, 'relato publicado: fotos, local no estilo de sempre, quando e fonte no cn');
   await ev(A, () => scrollTo(0, 0)); await sleep(400);
-  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); return a && /Relato/.test(a.querySelector('.ph-sub').textContent) && /Árvore cai/.test(a.querySelector('.cn102-lt').textContent) && /Botafogo, Rio · /.test(a.querySelector('.cn102-lm').textContent) && /Fonte: Defesa Civil do Rio/.test(a.textContent) && a.querySelectorAll('.track .up-img').length === 2 && !/Árvore cai/.test(a.querySelector('.up-leg').textContent) }), 'Feed: rótulo Relato, título e "onde · quando" na legenda, fotos e fonte (sem repetir o título)');
+  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); return a && /De perto/.test(a.querySelector('.ph-sub').textContent) && /Árvore cai/.test(a.querySelector('.cn102-lt').textContent) && /Botafogo, Rio · /.test(a.querySelector('.cn102-lm').textContent) && /Fonte: Defesa Civil do Rio/.test(a.textContent) && a.querySelectorAll('.track .up-img').length === 2 && !/Árvore cai/.test(a.querySelector('.up-leg').textContent) }), 'Feed: rótulo De perto (antes Relato), título e "onde · quando" na legenda, fotos e fonte (sem repetir o título)');
   await shotEl(A, '#posts .upost.cn102-rel', 'feed-relato-com-foto');
   await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); a.scrollIntoView({ block: 'end' }) }); await sleep(300); await shot(A, 'feed-relato-legenda');
   // relato sem foto
@@ -98,7 +98,7 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
   await A.fill('#cn102-tit', 'Falta de luz no Centro desde as 9h'); await A.fill('#ce-local', 'Centro, Curitiba'); await A.fill('#ce-leg', 'Vários prédios da Rua XV sem energia. A Copel diz que equipes já trabalham no conserto.');
   const pr2 = await publicaPost(A);
   await ev(A, () => scrollTo(0, 0)); await sleep(400);
-  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); return a && a.querySelector('.cn102-rel .cn102-cd h3')?.textContent === 'Falta de luz no Centro desde as 9h' && /Relato de Pedro Brandão/.test(a.textContent) && /Centro, Curitiba/.test(a.querySelector('.cn102-meta').textContent) }), 'relato sem foto vira cartão com título, onde e quando');
+  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); return a && a.querySelector('.cn102-rel .cn102-cd h3')?.textContent === 'Falta de luz no Centro desde as 9h' && /De perto · Pedro Brandão/.test(a.textContent) && /Centro, Curitiba/.test(a.querySelector('.cn102-meta').textContent) }), 'relato sem foto vira cartão com título, onde e quando');
   await shotEl(A, '#posts .upost.cn102-rel', 'feed-relato-sem-foto');
 
 

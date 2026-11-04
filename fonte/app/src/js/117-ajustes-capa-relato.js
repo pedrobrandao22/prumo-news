@@ -19,15 +19,15 @@ function ac117Rel(h,x){if(!AC117_REL||typeof h!=="string"||!h||!x||x.tipo!=="pos
   const meta=document.createElement("span");meta.className="ph-sub ac117-meta";
   meta.innerHTML=`${qd?`<span class="ac117-qd"${cn.q&&typeof quando==="function"?` title="Publicado ${esc(quando(x.at))}"`:""}>${esc(qd)}</span>`:""}${es.local?`<span class="ac117-loc">${AC117_PIN}<span>${esc(es.local)}</span></span>`:""}${ed?`<span class="ac117-ed">editado</span>`:""}`;
   if(sub)sub.replaceWith(meta);else nm.appendChild(meta);
-  /* o texto: selo "Relato", título, o que a pessoa contou, o aviso de relato pessoal e a fonte */
+  /* o texto: selo "De perto", título, o que a pessoa contou e a fonte */
   const car=a.querySelector(":scope>.car"),cd=car&&car.querySelector(".cn102-cd");
   let corpo=a.querySelector(":scope>.vn-txt")||a.querySelector(":scope>.up-leg")||a.querySelector(":scope>.gut>.up-leg");
   const ex=cd&&cd.querySelector(".cn102-ex");
   if(!corpo&&ex){corpo=ex;corpo.classList.add("up-leg")}
   const tx=document.createElement("div");tx.className="ac117-tx";
-  tx.innerHTML=`${lb?lb.outerHTML:`<span class="cn102-lb cn102-lb-rel">Relato</span>`}<h3 class="ac117-tit">${esc(cn.tit||"Relato")}</h3>`;
+  tx.innerHTML=`${lb?lb.outerHTML:`<span class="cn102-lb cn102-lb-rel">De perto</span>`}<h3 class="ac117-tit">${esc(cn.tit||"De perto")}</h3>`;
   if(corpo){corpo.classList.remove("vn-txt","cn102-ex");corpo.classList.add("ac117-corpo");tx.appendChild(corpo)}
-  tx.insertAdjacentHTML("beforeend",`<p class="ac117-nchk">Relato pessoal, não checado pela redação do Prumo</p>`);
+  /* (a linha "Relato pessoal, não checado pela redação do Prumo" saiu em 122, decisão do Pedro) */
   a.querySelectorAll(".cn102-fonte").forEach(f=>tx.appendChild(f));
   a.querySelectorAll(":scope>.gut>.cn102-lt,:scope>.gut>.cn102-lm").forEach(e=>e.remove());
   /* sem foto: o cartão colorido sai (o texto já está em cima); com foto: a mídia vem depois do texto */

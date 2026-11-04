@@ -44,7 +44,7 @@ const IND = { atualizado: '2026-11-02T17:54-03:00', itens: [
 
   // ===== 3. cartão de texto
   await clk(A, '[data-fc105txt]'); await sleep(400);
-  ok(await ev(A, () => !!document.querySelector('#layer .fc105-cs') && [...document.querySelectorAll('[data-fc105k]')].map(b => b.textContent).join() === 'Opinião,Análise,Relato,Citação' && document.activeElement.id === 'fc105-tit'), 'Texto: folha do cartão (Opinião, Análise, Relato, Citação) com o título em foco');
+  ok(await ev(A, () => !!document.querySelector('#layer .fc105-cs') && [...document.querySelectorAll('[data-fc105k]')].map(b => b.textContent).join() === 'Opinião,Análise,De perto,Citação' && document.activeElement.id === 'fc105-tit'), 'Texto: folha do cartão (Opinião, Análise, Relato, Citação) com o título em foco');
   await A.keyboard.type('Reforma tributária: o que muda no seu bolso');
   await A.fill('#fc105-tx', 'A partir de 2027, cinco tributos viram dois. A cesta básica fica isenta e serviços de saúde e educação pagam 40% menos. O impacto real depende das alíquotas que o Senado ainda vai definir.');
   await A.fill('#fc105-fu', 'Agência Senado'); await sleep(400);
@@ -84,7 +84,7 @@ const IND = { atualizado: '2026-11-02T17:54-03:00', itens: [
   await ev(A, () => criarAbrir('story')); await esperar(A, () => !!document.querySelector('#layer [data-fc105txt]'), null, 6000); await sleep(300); await clk(A, '[data-fc105txt]'); await sleep(300);
   await clk(A, '[data-fc105k="rel"]'); await sleep(200); await clk(A, '[data-fc105tema="noite"]'); await sleep(150);
   await A.fill('#fc105-tit', 'Árvore cai e bloqueia a Rua Voluntários da Pátria'); await A.fill('#fc105-tx', 'Caiu por volta das 14h, depois da ventania. Bombeiros já estão no local e o trânsito foi desviado pela São Clemente.'); await A.fill('#fc105-onde', 'Botafogo, Rio'); await sleep(700);
-  ok(await ev(A, () => ED.tela === 'edit' && /url\("?data:image/.test(document.querySelector('#ce-cv .ce-bg').style.background) && /Relato de Pedro Brandão/.test(document.querySelector('.fc105-cr').textContent)), 'Relato: prévia ao vivo no próprio story e crédito "Relato de Pedro Brandão"');
+  ok(await ev(A, () => ED.tela === 'edit' && /url\("?data:image/.test(document.querySelector('#ce-cv .ce-bg').style.background) && /De perto · Pedro Brandão/.test(document.querySelector('.fc105-cr').textContent)), 'De perto: prévia ao vivo no próprio story e crédito "De perto · Pedro Brandão"');
   await shot(A, 'f07b-cartao-relato-folha');
   await clk(A, '[data-fc105csx]'); await sleep(400);
   ok(await ev(A, () => ED.tela === 'cam' && !!document.querySelector('#layer .ce-rail [data-fc105txt]') && !ED.st.bg.fc105), 'Cancelar volta para a câmera');

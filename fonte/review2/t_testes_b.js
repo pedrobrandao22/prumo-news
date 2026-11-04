@@ -104,19 +104,20 @@ let srv = null;
   /* ---------- TB05: fonte dentro do cartão da análise ---------- */
   await feed(A); await sleep(500);
   const f5 = await ev(A, id => { const a = document.getElementById('p-u:' + id); const f = a && a.querySelector('.cn102-fonte'); const acts = a && a.querySelector('.acts');
-    return f && { dentro: !!f.closest('.cn102-cd'), antes: !!(f.compareDocumentPosition(acts) & Node.DOCUMENT_POSITION_FOLLOWING), n: a.querySelectorAll('.cn102-fonte').length, tx: f.textContent } }, P.ana);
-  ok(f5 && f5.dentro && f5.antes && f5.n === 1 && /bcb\.gov\.br/.test(f5.tx), 'TB05: "Fonte: bcb.gov.br" dentro do cartão da análise, antes das ações', JSON.stringify(f5));
+    return f && { dentro: !!f.closest('.dc122-fo') && !a.querySelector('.cn102-cd'), antes: !!(f.compareDocumentPosition(acts) & Node.DOCUMENT_POSITION_FOLLOWING), n: a.querySelectorAll('.cn102-fonte').length, tx: f.textContent } }, P.ana);
+  ok(f5 && f5.dentro && f5.antes && f5.n === 1 && /bcb\.gov\.br/.test(f5.tx), 'TB05: "Fonte: bcb.gov.br" logo depois do texto da análise (122: sem o cartão colorido), antes das ações', JSON.stringify(f5));
   await mostra(A, P.ana, 'tb05-analise-fonte');
   ok(await ev(A, () => { const a = [...document.querySelectorAll('#posts .ac117-rel')]; return a.length >= 1 && a.every(r => !r.querySelector('.tb121-fonte')) }), 'TB05: o relato continua com a fonte no lugar dele (117)');
 
   /* ---------- TB09 / TB10: cartão citado ---------- */
-  const q9 = await ev(A, id => { const a = document.getElementById('p-u:' + id); return a && [...a.querySelectorAll('.vn-q .vn-q-k')].map(e => e.textContent) }, P.rFio);
+  const q9 = await ev(A, id => { const t = document.createElement('div'); t.innerHTML = vn112Quote({ k: 'pub', id }); return [...t.querySelectorAll('.vn-q-k')].map(e => e.textContent) }, P.fio);
+  ok(await ev(A, ([r, f]) => !document.getElementById('p-u:' + r) && document.querySelector(`[id="p-u:${f}"] .dc122-rpl`)?.textContent.trim() === 'Carla repostou', [P.rFio, P.fio]), 'TB09 (122): o repost sem comentário do fio vira a linha "Carla repostou" no próprio fio');
   ok(q9 && q9.includes('Fio · 3 partes'), 'TB09: repost de fio: "Fio · 3 partes" no cartão citado', JSON.stringify(q9));
   const q10 = await ev(A, id => { const a = document.getElementById('p-u:' + id); return a && [...a.querySelectorAll('.vn-q .vn-q-k')].map(e => e.textContent.trim()) }, P.qq);
   ok(q10 && q10.includes('citando Bia Souza'), 'TB10: citação de citação: "citando Bia Souza"', JSON.stringify(q10));
   const q10b = await ev(A, id => { const a = document.getElementById('p-u:' + id); return a && [...a.querySelectorAll('.vn-q .vn-q-k')].map(e => e.textContent.trim()) }, P.qRel);
-  ok(q10b && q10b.includes('Relato') && !q10b.some(t => /citando|Fio/.test(t)), 'TB10: citação simples do relato continua só com "Relato"', JSON.stringify(q10b));
-  await mostra(A, P.rFio, 'tb09-repost-fio'); await mostra(A, P.qq, 'tb10-citacao-de-citacao');
+  ok(q10b && q10b.includes('De perto') && !q10b.some(t => /citando|Fio/.test(t)), 'TB10: citação simples do De perto continua só com "De perto"', JSON.stringify(q10b));
+  await mostra(A, P.fio, 'tb09-repost-fio'); await mostra(A, P.qq, 'tb10-citacao-de-citacao');
   // a Dani (não é amiga da Bia) reposta o post do Pedro: o cartão não revela nada a mais
   await feed(D); await sleep(400);
   ok(await ev(D, id => { const a = document.getElementById('p-u:' + id); return !a || !/Bia|Carla/.test(a.textContent) }, P.rpEnq), 'privacidade: repost da Dani do post do Pedro não mostra amigos dela que ela não conhece');
@@ -127,8 +128,8 @@ let srv = null;
   ok(+(await H.sql(`select count(*) n from publicacoes where id=$1 and arquivado`, [P.ana]))[0].n === 1, 'TB07: análise arquivada');
   await feed(B); await sleep(600);
   const q7 = await ev(B, id => { const a = document.getElementById('p-u:' + id); return a ? (a.querySelector('.vn-q0') || {}).textContent || a.textContent : '' }, P.rpC);
-  ok(/Você arquivou esta publicação/.test(q7) && !/não está entre os seus amigos/.test(q7), 'TB07: no Feed da Bia, o repost da Carla diz "Você arquivou esta publicação"', q7);
-  await mostra(B, P.rpC, 'tb07-repost-arquivado-autora');
+  ok(q7 === '', 'TB07 (122): no Feed da Bia, o repost sem comentário da Carla do post que a Bia arquivou não aparece (só quem repostou vê)', q7);
+  ok(await ev(B, id => /Você arquivou esta publicação/.test(vn112Quote({ k: 'pub', id })), P.ana), 'TB07: numa citação, o cartão da Bia continua dizendo "Você arquivou esta publicação"');
   await ev(C, () => { VN112_Q.clear() }); await feed(C); await sleep(900);
   const q7c = await ev(C, id => { const a = document.getElementById('p-u:' + id); return a ? a.textContent : '' }, P.rpC);
   ok(/Publicação indisponível/.test(q7c) && !/Você arquivou/.test(q7c), 'TB07: a Carla continua vendo "Publicação indisponível"', q7c.slice(0, 200));

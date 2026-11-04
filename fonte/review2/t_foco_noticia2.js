@@ -88,8 +88,8 @@ const ins = (P, rows) => ev(P, async rows => { const ids = []; for (const r of r
   const uidB = await ev(B, () => S.uid);
   await ev(A, u => abrirPerfil(u), uidB); await esperar(A, () => !!document.querySelector('#layer .pfv .fc107-pk'), null, 5000); await sleep(400);
   const pk = await ev(A, () => [...document.querySelectorAll('#layer .fc107-pk button')].map(b => b.textContent.replace(/\s+/g, ' ').trim() + (b.getAttribute('aria-pressed') === 'true' ? '*' : '')));
-  ok(pk.join('|') === 'Tudo 3*|Notícias comentadas 1|Relatos 1|Análises 1', 'perfil: contribuições por tipo (Tudo, Notícias comentadas, Relatos, Análises)', pk.join('|'));
-  ok(await ev(A, () => { const t = [...document.querySelectorAll('#layer .pf-t .fc107-pt small')].map(s => s.textContent).sort().join(); return t === 'Análise,Relato' }), 'miniaturas de análise e relato mostram o tipo e o título');
+  ok(pk.join('|') === 'Tudo 3*|Notícias comentadas 1|De perto 1|Análises 1', 'perfil: contribuições por tipo (Tudo, Notícias comentadas, De perto, Análises)', pk.join('|'));
+  ok(await ev(A, () => { const t = [...document.querySelectorAll('#layer .pf-t .fc107-pt small')].map(s => s.textContent).sort().join(); return t === 'Análise,De perto' }), 'miniaturas de análise e De perto mostram o tipo e o título');
   await clk(A, '#layer [data-fc107pk="ana"]'); await sleep(400);
   ok(await ev(A, () => document.querySelectorAll('#layer .pf-t').length === 1 && document.querySelector('#layer [data-fc107pk="ana"]').getAttribute('aria-pressed') === 'true' && /Juros altos/.test(document.querySelector('#layer .pf-t').textContent)), 'tocar em "Análises" deixa só as análises na grade');
   await A.screenshot({ path: SH + 't-perfil.png' });

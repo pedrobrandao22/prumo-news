@@ -120,6 +120,7 @@ const fecha = p => ev(p, () => { let i = 0; while (($('#layer2')?.innerHTML || $
   const q7 = await ev(C, id => { garantirPost('u:' + id); const e = document.getElementById('p-u:' + id); e && e.scrollIntoView({ block: 'center' }); return e ? e.textContent : '' }, rp2);
   ok(/Publicação indisponível/.test(q7) && /apagada, arquivada ou/.test(q7), 'A07: repost de post arquivado: "apagada, arquivada ou…"', q7.slice(0, 200));
   await foto(C, 'a07-repost-arquivado');
+  await feed(B); ok(await ev(B, id => !garantirPost('u:' + id) && !document.getElementById('p-u:' + id), rp2), 'A07 (122): a Bia, amiga da Carla, não vê o repost sem comentário do post arquivado (só quem repostou vê)');
 
   /* ---------- A09: sugestão de @ pelo teclado ---------- */
   await feed(D); await ev(D, id => openComments('u:' + id), pPed).catch(() => { });

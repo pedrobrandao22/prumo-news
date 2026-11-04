@@ -21,9 +21,9 @@ const feed = P => ev(P, async () => { if (document.querySelector('#layer').inner
 const recarrega = async P => { await P.reload(); await esperar(P, () => typeof S !== 'undefined' && S.membro && PUB.on === true, null, 12000); await sleep(1200); await ev(P, () => { if (document.querySelector('#layer').innerHTML) closeLayer() }) };
 // o que só existe com o visual novo
 const marcas = P => ev(P, () => ({ vn: document.documentElement.classList.contains('vn'), chips: !!document.querySelector('#vn-chips, .vn-chip'), tiles: document.querySelectorAll('#secs .vn-tl').length, rp: document.querySelectorAll('#posts [data-vnrp]').length, x: document.querySelectorAll('#posts .vn-c, #posts .vn-x').length, tit: document.querySelectorAll('#posts .vn-tit').length }));
-// "assinatura" de um cartão: as tags e classes em ordem, sem o que é do repost (para comparar o cartão de hoje com e sem a chave)
-const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); if (!e) return null; const c = e.cloneNode(true); c.querySelectorAll('[data-vnrp],[data-vnrpq]').forEach(x => x.remove());
-  return [c, ...c.querySelectorAll('*')].map(x => x.tagName + '.' + [...x.classList].filter(k => !/^(on|saved|visto|vn-cap-.*)$/.test(k)).sort().join('.')).join(' ') }, id);
+// "assinatura" de um cartão: as tags e classes em ordem, sem o que é do repost (inclusive a linha "Bia repostou" do 122) (para comparar o cartão de hoje com e sem a chave)
+const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); if (!e) return null; const c = e.cloneNode(true); c.querySelectorAll('[data-vnrp],[data-vnrpq],.dc122-rpl').forEach(x => x.remove());
+  return [c, ...c.querySelectorAll('*')].map(x => x.tagName + '.' + [...x.classList].filter(k => !/^(on|saved|visto|vn-cap-.*|dc122-rpd)$/.test(k)).sort().join('.')).join(' ') }, id);
 (async () => {
   U.feedFresco('site'); const srv = U.servir('site', PORTA); await sleep(800);
   const H = await require('../harness').criar(); const b = await U.navegador();
@@ -119,9 +119,9 @@ const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); i
   // Pedro vê os dois e é avisado
   await feed(A); await sleep(800);
   const va = await ev(A, () => { const l = [...document.querySelectorAll('#posts .upost.vn-rp')]; return l.map(e => ({ so: e.classList.contains('vn-rp-so'), q: e.querySelector('.vn-q')?.textContent.replace(/\s+/g, ' ').trim().slice(0, 90), tx: e.querySelector('.vn-rptx')?.textContent || '', sub: e.querySelector('.ph-sub')?.textContent || '' })) });
-  ok(va.length === 2 && va.every(x => /Fila no posto/.test(x.q)) && va.some(x => x.so && /repostou/.test(x.sub)) && va.some(x => /bairro/.test(x.tx)), 'Pedro vê no Feed o repost ("repostou") e a citação com o comentário da Bia, os dois com o post dele dentro', JSON.stringify(va));
-  const cnt = await ev(A, id => { const e = document.querySelector(`[id="p-u:${id}"]`); return { q: e.querySelector('[data-vnrpq]')?.textContent || '', ab: e.querySelector('[data-vnrpq]')?.previousElementSibling?.hasAttribute('data-likes') } }, pPedro);
-  ok(/^Bia Souza repostou$/.test(cnt.q) && cnt.ab, 'o post do Pedro mostra "Bia Souza repostou" logo abaixo da linha de quem gostou', JSON.stringify(cnt));
+  ok(va.length === 1 && /Fila no posto/.test(va[0].q) && !va[0].so && /bairro/.test(va[0].tx), 'Pedro vê no Feed a citação com o comentário da Bia, com o post dele dentro (o repost sem comentário não vira item à parte: 122)', JSON.stringify(va));
+  const cnt = await ev(A, id => { const l = document.querySelectorAll(`#posts [id="p-u:${id}"]`), e = l[0]; return { n: l.length, l: e.querySelector(':scope>.dc122-rpl')?.textContent.trim() || '', q: e.querySelector('[data-vnrpq]')?.textContent || '', ab: e.querySelector('[data-vnrpq]')?.previousElementSibling?.hasAttribute('data-likes') } }, pPedro);
+  ok(cnt.n === 1 && cnt.l === 'Bia repostou' && /^Bia Souza repostou$/.test(cnt.q) && cnt.ab, 'o post do Pedro aparece uma vez, com "Bia repostou" em cima (122); a linha de baixo continua no lugar (escondida no Feed)', JSON.stringify(cnt));
   const at = await ev(A, () => atItens().filter(x => x.acao === 'vnrp').map(x => x.txt.replace(/<[^>]+>/g, '')));
   ok(at.length === 2 && at.every(t => /^Bia Souza repostou sua publicação/.test(t)), 'Atividade do Pedro: "Bia Souza repostou sua publicação" (as duas)', JSON.stringify(at));
   await ev(A, () => abrirAtividade()); await sleep(600);
@@ -143,10 +143,10 @@ const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); i
   ok(!amC.a && amC.b, 'Carla é amiga da Bia e não do Pedro', JSON.stringify(amC));
   await feed(C); await sleep(1500);
   const vc = await ev(C, () => { const l = [...document.querySelectorAll('#posts .upost.vn-rp')]; return { n: l.length, stub: l.map(e => e.querySelector('.vn-q0 b')?.textContent || ''), vaza: /Fila no posto/.test(document.body.innerText) || /Fila no posto/.test(document.querySelector('#posts').innerHTML) } });
-  ok(vc.n === 2 && vc.stub.every(s => s === 'Publicação indisponível') && !vc.vaza, 'Carla vê os posts da Bia, mas o post do Pedro aparece como "Publicação indisponível" (nada do texto dele vaza)', JSON.stringify(vc));
+  ok(vc.n === 1 && vc.stub.every(s => s === 'Publicação indisponível') && !vc.vaza, 'Carla vê a citação da Bia com "Publicação indisponível" no lugar do post do Pedro (nada do texto dele vaza); o repost sem comentário não aparece para ela (122)', JSON.stringify(vc));
   ok(await ev(C, () => /bairro/.test(document.querySelector('#posts').textContent)), 'o comentário da própria Bia continua visível para a Carla');
   await ev(C, () => { const e = document.querySelector('#posts .upost.vn-rp .vn-q0'); scrollTo(0, e.getBoundingClientRect().top + scrollY - 160) }); await sleep(300); await C.screenshot({ path: SH + 'indisponivel.png' });
-  const bloq = await ev(C, () => { const b = document.querySelector('#posts .upost.vn-rp-so [data-vnrp]'); b.click(); return new Promise(r => setTimeout(() => r({ sh: !!document.querySelector('#layer [data-vnrpja]'), t: document.querySelector('.toast')?.textContent || '' }), 400)) });
+  const bloq = await ev(C, id => { vn112Menu('pub', id); return new Promise(r => setTimeout(() => r({ sh: !!document.querySelector('#layer [data-vnrpja]'), t: document.querySelector('.toast')?.textContent || '' }), 400)) }, pPedro);
   ok(!bloq.sh && /não está disponível/.test(bloq.t), 'Carla não consegue repostar o que não pode ver', JSON.stringify(bloq));
 
   // ===== 9. perfil no estilo do X
@@ -222,7 +222,7 @@ const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); i
   // foto de amiga: cantos arredondados, sem fios; a arte da notícia continua entre fios
   const fo = await ev(A, sel => { const f = [...document.querySelectorAll('#posts .upost.vn-cp')].find(e => e.querySelector(':scope>.car .up-img')); const n = document.querySelector(sel + ' > .car'); if (!f) return null; const c = getComputedStyle(f.querySelector(':scope>.car')), cn = getComputedStyle(n);
     return { r: parseFloat(c.borderTopLeftRadius), br: parseFloat(c.borderBottomRightRadius), b: [c.borderTopWidth, c.borderBottomWidth, c.borderLeftWidth, c.borderRightWidth].map(parseFloat), nota: getComputedStyle(f.querySelector('.vn-txt'), '::before').content, nt: [parseFloat(cn.borderTopWidth), parseFloat(cn.borderBottomWidth)] } }, NT);
-  ok(fo && fo.r >= 10 && fo.r <= 14 && fo.br >= 10 && fo.b.every(x => x === 0) && /“/.test(fo.nota) && fo.nt[0] >= 2 && fo.nt[1] >= 1, 'A: foto da amiga com cantos arredondados e sem fios (texto continua como nota assinada); a arte da notícia segue entre fios', JSON.stringify(fo));
+  ok(fo && fo.r >= 10 && fo.r <= 14 && fo.br >= 10 && fo.b.every(x => x === 0) && fo.nota === 'none' && fo.nt[0] >= 2 && fo.nt[1] >= 1, 'A: foto da amiga com cantos arredondados e sem fios (nome primeiro e o texto corrido, sem a aspa: 122); a arte da notícia segue entre fios', JSON.stringify(fo));
   // manchete do Feed menor que a da matéria; linha fina em até 2 linhas
   const ma = await ev(A, sel => { const e = document.querySelector(sel), b = e.querySelector('.vn-tit button'), c = e.querySelector('.pt-cap-t'), lh = parseFloat(getComputedStyle(c).lineHeight); return { fs: parseFloat(getComputedStyle(b).fontSize), cap: c.getBoundingClientRect().height <= lh * 2 + 2, h: Math.round(e.getBoundingClientRect().height) } }, NT);
   await clk(A, NT + ' .vn-tit button'); await esperar(A, () => !!document.querySelector('.mat-tx h1'), null, 5000); await sleep(400);

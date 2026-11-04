@@ -155,7 +155,7 @@ async function parte2(br) {
   for (const [n, id, nf] of casos) {
     const e = await estr(A, `#posts [id="p-u:${id}"]`);
     ok(ordemOk(e), `relato ${n}: cabeçalho → texto → ${nf ? 'mídia → ' : ''}${e && e.ctx >= 0 ? 'Contexto → ' : ''}ações`, JSON.stringify(e));
-    ok(e && e.av && e.avW >= 34 && e.nome && e.lb && e.tit && e.nchk && e.dup === 0 && e.acts, `relato ${n}: bolinha (${e && e.avW}px) e nome em cima, selo Relato, título, aviso de relato pessoal, ações; sem a linha repetida embaixo`, JSON.stringify(e));
+    ok(e && e.av && e.avW >= 34 && e.nome && e.lb && e.tit && !e.nchk && e.dup === 0 && e.acts, `relato ${n}: bolinha (${e && e.avW}px) e nome em cima, selo De perto, título, ações; sem a linha repetida embaixo e sem "não checado" (122)`, JSON.stringify(e));
     if (nf) ok(e.sl === nf && e.raio === '12px' && e.fio === '0px', `relato ${n}: ${nf} foto(s), cantos de 12 px, sem fio de jornal`, JSON.stringify(e));
     else ok(e.sl === 0, `relato ${n}: sem o cartão colorido (o texto já está em cima)`, JSON.stringify(e));
   }
@@ -174,7 +174,7 @@ async function parte2(br) {
   ok(!!tag && eC.ctx > eC.car && eC.ctx < eC.gut, 'Contexto do Prumo (' + tag + '): depois da foto e antes das ações', JSON.stringify(eC));
   const eL = await estr(A, `#posts [id="p-u:${rL}"]`); ok(/Vargem Grande/.test(eL.meta) && eL.metaDentro && eL.vaza <= 0, 'local longo: quebra a linha sem passar da borda', JSON.stringify(eL));
   const eP = await estr(A, `#posts [id="p-u:${plain}"]`);
-  ok(eP && !eP.rel && eP.ph > 0, 'post comum de foto da amiga: continua como nota assinada (texto antes da assinatura)', JSON.stringify(eP));
+  ok(eP && !eP.rel && eP.ph === 0 && await ev(A, id => document.querySelector(`#posts [id="p-u:${id}"]`).classList.contains('dc122-hf'), plain), 'post comum de foto da amiga: agora também com o nome primeiro (122)', JSON.stringify(eP));
   ok(await ev(A, () => !document.querySelector('#posts .vn-txt.ac117-corpo') && document.querySelectorAll('#posts .ac117-rel').length === 6), 'só os 6 relatos mudaram');
 
   // ===== larguras e tema
