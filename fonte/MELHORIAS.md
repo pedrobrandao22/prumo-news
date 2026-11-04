@@ -9,6 +9,7 @@ Arquivo lido pela tarefa agendada "Prumo: melhoria contínua". Cada noite ela es
 - Notificações: dentro do app ligadas; push sempre opcional, desligado por padrão, cada tipo com liga/desliga.
 - Colunas: post normal com teaser + "Ler a coluna"; qualquer membro pode escrever; só dentro do Prumo.
 - Seguir: só perfis abertos; amizade continua mútua e é o padrão.
+- Lista de seguidores visível para os membros; fechar o perfil não apaga seguidores.
 - Fotos só de fontes livres com crédito; nunca imagem de IA de pessoa real; nunca reproduzir texto completo de veículos.
 - Fonte e quantidade de veículos: bem discretas.
 
@@ -23,7 +24,7 @@ Arquivo lido pela tarefa agendada "Prumo: melhoria contínua". Cada noite ela es
 ## Lista de pendências pequenas (pegar de cima para baixo; riscar ao fazer)
 - [x] ~~Coluna: permitir editar a coluna (hoje é apagar e publicar de novo).~~ (04/11; o texto longo depende de `sql/proposta-2026-11-04.sql`)
 - [ ] Coluna: Feed não deve baixar o corpo inteiro das colunas (buscar ao abrir).
-- [ ] Repost sem comentário de notícia: juntar à notícia como nos posts ("Bia repostou").
+- [x] ~~Repost sem comentário de notícia: juntar à notícia como nos posts ("Bia repostou").~~ (04/11, 129)
 - [ ] Atividade: repost e citação da mesma pessoa viram um item só; texto "repostou seu post De perto “…”".
 - [ ] Matéria com 2 visuais: capítulos mostrar os dois.
 - [ ] Gráfico de linha: rótulo do último valor encosta na linha em 360 px.
@@ -40,3 +41,4 @@ Arquivo lido pela tarefa agendada "Prumo: melhoria contínua". Cada noite ela es
 
 ## Diário
 - 2026-11-04: Agora dá para editar uma coluna já publicada: no menu "…" da sua coluna, "Editar a coluna" abre o editor preenchido e "Salvar" atualiza título, linha fina, hashtags e texto, sem perder curtidas e comentários (capa e público ficam como estão). Para mudar o texto longo das colunas novas, o Pedro precisa rodar `sql/proposta-2026-11-04.sql` no Supabase (libera a edição do texto só para o autor); até lá, o app salva o resto e avisa. Teste: review2/t_melhoria_20261104. Observações: (1) na Capa, a ilustração do Plenário (feita em 5:4) é cortada no cartão 4:5 e perde o rótulo "SENADO FEDERAL" à esquerda — vale olhar; (2) falhas que já existiam sem esta mudança: as fotos review2/ig3/*.jpg não estão no repositório (sem elas t_ig_fotos, t_criacao2, t_criacao_noticia, t_foco_noticia e t_qa_producao param; com fotos de teste geradas aqui passam, menos o "fundo sem faixa" do t_criacao2, que depende da foto) e t_ver_stories acusa um aviso de toque do Chromium; (3) robôs: validar.py aponta Internacional x Coritiba de data passada ainda agendado.
+- 2026-11-04 (129, decisões do Pedro): (1) fechar o perfil não apaga seguidores (confirmado, nada muda); (2) a lista de seguidores e de quem a pessoa segue fica visível para qualquer membro no perfil aberto e para os amigos no perfil fechado, sem quem bloqueou/foi bloqueado e sem contas suspensas ou excluídas (números aparecem também no perfil fechado de um amigo); (3) repost de notícia sem comentário se junta como nos posts: a notícia uma vez, com "Bia e Carla repostaram"; citação à parte; (4) a Atividade mostra repost e citação feitos por quem só segue você. (2) e (4) dependem de `sql/publicacoes-v11.sql` (rodar depois da v9 e da v10); sem ela o app fica como antes. Teste: review2/t_decisoes_0411.

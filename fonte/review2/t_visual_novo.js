@@ -268,7 +268,8 @@ const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); i
   await feed(A); await sleep(800); m = await marcas(A);
   ok(!(await ev(A, () => VISUAL_NOVO)) && await ev(A, () => localStorage.getItem('prumo-visual') === 'atual') && !m.vn && !m.chips && !m.tiles && !m.rp && !m.x && !m.tit, 'desligar pela Conta volta ao visual atual por completo', JSON.stringify(m));
   const old = await ev(A, () => [...document.querySelectorAll('#posts .upost.vn-rp')].map(e => ({ q: !!e.querySelector('.vn-q'), car: !!e.querySelector(':scope>.car') })));
-  ok(old.length >= 2 && old.every(x => x.q && !x.car), 'no visual atual, quem recebe um repost vê o cartão citado (e não um post vazio)', JSON.stringify(old));
+  ok(old.length >= 1 && old.every(x => x.q && !x.car), 'no visual atual, quem recebe um repost vê o cartão citado (e não um post vazio)', JSON.stringify(old));
+  ok(await ev(A, p => document.querySelectorAll(`#posts [id="p-${p}"]`).length === 1 && document.querySelector(`#posts [id="p-${p}"] .dc122-rpl`)?.textContent.trim() === 'Você repostou', pid), 'o repost da notícia sem comentário se junta à notícia: "Você repostou" (129)');
   await ev(A, () => { go('me'); PF_ABA = 'conta'; renderMe() }); await sleep(300);
   ok(await ev(A, () => document.querySelector('[data-vntroca]')?.getAttribute('aria-checked') === 'false'), 'a linha continua lá, agora desligada (dá para religar)');
 
