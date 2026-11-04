@@ -271,6 +271,39 @@ def t_placar_fica_7_dias():
     assert not any(e["id"].startswith("senado-vot-") for e in out3["eventos"])
 
 
+def t_texto_base_ressalvados_os_destaques():
+    # 03/11: o 1º turno da PEC 18/2025 (texto-base, "ressalvados os destaques") caía como destaque e sumia
+    assert O.classe("Votação em primeiro turno da Proposta de Emenda à Constituição nº 18, de 2025, ressalvados os destaques") == "materia"
+    assert O.classe("Aprovado o texto-base do PL 1/2026, sem prejuízo dos destaques") == "materia"
+    assert O.classe("Aprovada a Emenda Aglutinativa nº 1, ressalvados os destaques") == "destaque"
+    assert O.classe("Mantido o texto, ressalvados os destaques") == "destaque"
+    assert O.classe("Destaque para votação em separado da Emenda nº 5") == "destaque"
+
+
+def t_senado_conta_votos_um_a_um():
+    # serviço novo do Senado sem totalVotosSim: conta pela lista de votos; sem lista nem totais, fica sem_placar
+    with tempfile.TemporaryDirectory() as d:
+        for n in os.listdir(FX):
+            open(os.path.join(d, n), "w", encoding="utf-8").write(open(os.path.join(FX, n), encoding="utf-8").read())
+        sv = json.load(open(os.path.join(FX, "senado_votacoes.json"), encoding="utf-8"))
+        a, b = sv[0], sv[1]
+        for k in ("totalVotosSim", "totalVotosNao", "totalVotosAbstencao"): a.pop(k); b.pop(k)
+        a["descricaoVotacao"] = "Votação em primeiro turno da Proposta de Emenda à Constituição nº 18, de 2025, ressalvados os destaques"
+        a["votos"] = [{"siglaVotoParlamentar": "Sim"}] * 73 + [{"siglaVotoParlamentar": "Presidente (art. 51 RISF)"}, {"siglaVotoParlamentar": "AP"}]
+        json.dump(sv, open(os.path.join(d, "senado_votacoes.json"), "w", encoding="utf-8"))
+        out, _ = rodar(fx=d)
+    ev = {e["id"]: e for e in out["eventos"]}
+    p1, p2 = ev["senado-vot-7001"]["placar"], ev["senado-vot-7002"]["placar"]
+    assert p1["modo"] == "nominal" and (p1["sim"], p1["nao"], p1["abst"]) == (73, 0, 0) and p1["turno"] == "1º", p1
+    assert ev["senado-vot-7001"]["numero"] == "73 a 0"
+    assert p2["modo"] == "sem_placar" and p2["sim"] is None and p2["resultado"] == "aprovado", p2
+    nota = out["fontes"]["Senado: votações do plenário"]
+    assert "1 de destaque ou requerimento" in nota and "1 sem os votos na API" in nota, nota
+    assert O.votos_um_a_um({"votos": []}) is None and O.votos_um_a_um({}) is None
+    assert O.votos_um_a_um({"votos": {"voto": [{"siglaVoto": "Não"}, {"siglaVoto": "Abstenção"}]}}) == {"sim": 0, "nao": 1, "abst": 1, "total": None}
+    assert O.votos_um_a_um({"votos": [{"siglaVotoParlamentar": "AP"}]}) is None  # ninguém votou Sim/Não: sem placar
+
+
 TESTES = [v for k, v in sorted(globals().items()) if k.startswith("t_")]
 if __name__ == "__main__":
     falhas = 0

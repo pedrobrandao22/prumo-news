@@ -145,8 +145,14 @@ def com_artigo(ident):
     return ("a " if ident.split()[0] in FEMININO else "o ") + ident
 
 
+# texto-base votado com ressalva ("…em 1º turno, ressalvados os destaques"): é a votação da matéria, não do destaque
+# (em 03/11 o 1º turno da PEC 18/2025 no Senado, 73 a 0, não entrou em oficiais.json; só o 2º turno)
+RESSALVA = re.compile(r"\b(?:ressalvad[oa]s?|sem prejuizo|salvo)\s+(?:d?[oa]s?\s+)?(?:destaques?|emendas?|dvs)\b(?:\s+(?:apresentad|oferecid)\w*)?")
+
+
 def classe(desc):
-    n = re.sub(r"emenda (a|da) constituicao|emenda constitucional", "pec", norm(desc))[:120]
+    n = re.sub(r"emenda (a|da) constituicao|emenda constitucional", "pec", norm(desc))
+    n = RESSALVA.sub(" ", n)[:120]
     if "requerimento" in n: return "urgencia" if "urgencia" in n else "requerimento"
     if re.search(r"\b(emendas?|destaques?|dvs|mantido o texto|redacao final|subemenda)\b", n): return "destaque"
     return "materia"
@@ -337,6 +343,23 @@ def registros_votacao(obj):
             (kv(d, "totalVotosSim") is not None and kv(d, "sigla", "siglaMateria") is not None)]
 
 
+def votos_um_a_um(r):
+    """Placar contado da lista de votos de cada senador ("votos": [{"siglaVotoParlamentar": "Sim"}, …]), para quando a
+    API ainda não preencheu totalVotosSim/totalVotosNao. Só "Sim", "Não" e "Abstenção" contam; None se não há lista."""
+    lst = kv(r, "votos", "Votos")
+    if isinstance(lst, dict): lst = kv(lst, "voto", "Voto", "votoParlamentar", "VotoParlamentar")
+    if isinstance(lst, dict): lst = [lst]
+    if not isinstance(lst, list) or not lst: return None
+    c = {"sim": 0, "nao": 0, "abst": 0}
+    for d in lst:
+        v = norm(kv(d, "siglaVotoParlamentar", "siglaVoto", "SiglaVoto", "descricaoVotoParlamentar", "voto", "Voto") or "").strip()
+        if v == "sim": c["sim"] += 1
+        elif v in ("nao", "não"): c["nao"] += 1
+        elif v.startswith("abst"): c["abst"] += 1
+    if not c["sim"] + c["nao"]: return None
+    return {"sim": c["sim"], "nao": c["nao"], "abst": c["abst"], "total": None}
+
+
 def senado_votacoes(ctx):
     d0, d1 = ctx.hoje - timedelta(days=1), ctx.hoje
     regs, via = [], "votacao"
@@ -350,17 +373,18 @@ def senado_votacoes(ctx):
                 respondeu = True
             except Exception: pass
         if not respondeu: raise
-    evs = []
+    evs, outras, sem_numeros = [], 0, 0
     for r in regs:
         desc = str(kv(r, "descricaoVotacao") or "")
         cls = classe(desc)
-        if cls in ("destaque", "requerimento"): continue
+        if cls in ("destaque", "requerimento"): outras += 1; continue
         i = ident_de(kv(r, "sigla", "siglaMateria"), kv(r, "numero", "numeroMateria"), kv(r, "ano", "anoMateria"))
         ids = ({i} if i else set()) | idents(kv(r, "identificacao", "descricaoIdentificacaoMateria")) | idents(desc)
         principal = i or (sorted(ids)[0] if ids else None)
         sim, nao = inteiro(kv(r, "totalVotosSim")), inteiro(kv(r, "totalVotosNao"))
         cont = {"sim": sim, "nao": nao, "abst": inteiro(kv(r, "totalVotosAbstencao")) if sim is not None else None, "total": None}
-        if sim is None: cont = contagem(desc); sim, nao = cont["sim"], cont["nao"]
+        if sim is None: cont = votos_um_a_um(r) or contagem(desc); sim, nao = cont["sim"], cont["nao"]
+        if sim is None: sem_numeros += 1
         ok = resultado_de(kv(r, "resultadoVotacao", "resultado"), desc)
         # hora da própria votação, quando a API trouxer; senão a da abertura da sessão (o app então mostra só o dia)
         exata = data_hora(kv(r, "dataHoraInicioVotacao", "dataHoraVotacao", "dataHoraFimVotacao", "dataHoraInicio")) \
@@ -378,7 +402,9 @@ def senado_votacoes(ctx):
             pl = placar_de("senado", ok, principal, cont, turno_de(desc), quando, exata is not None, ev["url"], desc)
             if pl: ev["placar"] = pl
         evs.append(ev)
-    return {"eventos": evs, "nota": f"{len(evs)} votações nominais (via {via})"}
+    nota = f"{len(evs)} votações nominais (via {via}), {outras} de destaque ou requerimento"
+    if sem_numeros: nota += f", {sem_numeros} sem os votos na API"
+    return {"eventos": evs, "nota": nota}
 
 
 def senado_agenda(ctx):
