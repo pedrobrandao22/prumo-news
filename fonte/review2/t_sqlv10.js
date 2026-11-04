@@ -160,5 +160,79 @@ const U = require('../t_util'); const { ok } = U; const fs = require('fs'), path
   await como(a, `select public.excluir_conta()`);
   ok(+(await H.sql(`select count(*) n from push_inscricoes where uid=$1`, [a]))[0].n === 0 && +(await H.sql(`select count(*) n from push_fila where para=$1 or de=$1`, [a]))[0].n === 0, 'excluir a conta apaga os aparelhos e os avisos');
 
+  /* ---------- QA noite B: só avisa quem ainda vê; coluna da v9; autor suspenso; excluir conta sem fila ---------- */
+  {
+    const e = await H.criarConta('e@x', '1'), f2 = await H.criarConta('f@x', '1'), g = await H.criarConta('g@x', '1'), h = await H.criarConta('h@x', '1');
+    await H.sql(`alter table public.membros add column if not exists perfil_aberto boolean not null default false`);
+    await H.sql(`insert into public.membros(uid,nome,papel) values ($1,'Eva','membro'),($2,'Fabi','membro'),($3,'Gil','membro'),($4,'Hugo','membro')`, [e, f2, g, h]);
+    await H.sql(`insert into public.amizades(de,para,status) values ($1,$2,'aceita'),($1,$3,'aceita'),($2,$3,'aceita')`, [e, f2, g]);  // Eva–Fabi, Eva–Gil, Fabi–Gil
+    const tudo = { mensagens: true, mencoes: true, amizades: true, comentarios: true, curtidas: true, reposts: true, seguidores: true, seguindo: true, colunas: true };
+    for (const [u, n] of [[e, 'eva'], [f2, 'fabi'], [g, 'gil'], [h, 'hugo']]) await inscreve(u, ep(n + '1'), tudo);
+    await limpa();
+    const pe = (await como(e, `insert into publicacoes(autor,tipo,texto) values ($1,'post','Post da Eva') returning id`, [e]))[0].id;
+    await como(g, `insert into pub_reacoes(pub,uid,tipo,chave,valor) values ($1,$2,'comentario','g1','{"texto":"Oi do Gil"}')`, [pe, g]);
+    await como(f2, `insert into pub_reacoes(pub,uid,tipo,chave,valor) values ($1,$2,'comentario','f1','{"texto":"Oi da Fabi"}')`, [pe, f2]);
+    let fg = await fila(g);
+    ok(fg.length === 1 && fg[0].titulo === 'Fabi também comentou no post de Eva', 'NB10: "também comentou" chega a quem ainda vê o post (a conferência não depende de quem está logado)', fg);
+    await como(e, `insert into pub_reacoes(pub,uid,tipo,chave,valor) values ($1,$2,'comentario','e1','{"texto":"Obrigada"}')`, [pe, e]);
+    await como(e, `insert into pub_reacoes(pub,uid,tipo,chave) values ($1,$2,'curtida','')`, [pe, e]);
+    ok((await fila(e)).filter(x => /Eva/.test(x.titulo)).length === 0, 'ação em si mesmo (comentar e curtir o próprio post) não avisa');
+    // Gil deixa de ser amigo da Eva: não vê mais o post, não recebe "também comentou" nem a curtida no comentário dele
+    await H.sql(`delete from amizades where (de=$1 and para=$2) or (de=$2 and para=$1)`, [e, g]); await limpa();
+    await H.sql(`insert into pub_reacoes(pub,uid,tipo,chave,valor) values ($1,$2,'comentario','f2','{"texto":"Segredo"}')`, [pe, f2]);
+    await H.sql(`insert into com_curtidas(autor,cid,pub,uid) values ($1,'g1',$2,$3)`, [g, pe, f2]);
+    ok((await fila(g)).length === 0, 'NB10: quem deixou de ver o post não recebe "também comentou" nem curtida no próprio comentário', await fila(g));
+    await H.sql(`insert into amizades(de,para,status) values ($1,$2,'aceita')`, [e, g]); await limpa();
+    await H.sql(`insert into com_curtidas(autor,cid,pub,uid) values ($1,'g1',$2,$3) on conflict do nothing`, [g, pe, e]);
+    ok((await fila(g)).length === 1, 'curtida no comentário de quem vê o post: avisa');
+    // arquivado: ninguém além da autora vê
+    await H.sql(`update publicacoes set arquivado=true where id=$1`, [pe]); await limpa();
+    await H.sql(`insert into pub_reacoes(pub,uid,tipo,chave,valor) values ($1,$2,'comentario','f3','{"texto":"Depois de arquivar"}')`, [pe, f2]);
+    ok((await fila(g)).length === 0, 'post arquivado: quem comentou antes não recebe "também comentou"');
+    // bloqueio entre quem comenta e quem recebe
+    await H.sql(`update publicacoes set arquivado=false where id=$1`, [pe]); await H.sql(`insert into bloqueios(de,para) values ($1,$2)`, [g, f2]); await limpa();
+    await H.sql(`insert into pub_reacoes(pub,uid,tipo,chave,valor) values ($1,$2,'comentario','f4','{"texto":"Bloqueado"}')`, [pe, f2]);
+    ok((await fila(g)).length === 0 && (await fila(e)).length === 1, 'bloqueio: o Gil não é avisado do comentário da Fabi (a Eva é)');
+    await H.sql(`delete from bloqueios`);
+    // menção num post "só próximos": só avisa se a pessoa está nos próximos
+    await limpa();
+    const pp = (await como(e, `insert into publicacoes(autor,tipo,texto,publico) values ($1,'post','Só para próximos @Gil','proximos') returning id`, [e]))[0].id;
+    await como(e, `insert into mensagens(de,para,texto,tipo,pid) values ($1,$2,'Só para próximos @Gil','mencao',$3)`, [e, g, 'u:' + pp]);
+    ok((await fila(g)).length === 0, 'NB11: menção num post que a pessoa não vê (próximos) não vira aviso');
+    await H.sql(`insert into melhores_amigos(dono,amigo) values ($1,$2)`, [e, g]);
+    await como(e, `insert into mensagens(de,para,texto,tipo,pid) values ($1,$2,'Agora sim @Gil','mencao',$3)`, [e, g, 'u:' + pp]);
+    await como(e, `insert into mensagens(de,para,texto,tipo,pid) values ($1,$2,'Olha a notícia','mencao','pec-x')`, [e, g]);
+    fg = await fila(g); ok(fg.length === 2 && fg.every(x => x.tipo === 'mencoes'), 'menção: nos próximos e numa notícia, avisa', fg);
+    // seguidores: perfil aberto, coluna da v9 e autor suspenso
+    await limpa();
+    await H.sql(`insert into seguidores(de,para) values ($1,$2)`, [h, e]);   // o Hugo (não é amigo) segue a Eva
+    await H.sql(`delete from push_fila`);
+    await como(e, `insert into publicacoes(autor,tipo,texto,publico) values ($1,'post','Para seguidores','seguidores')`, [e]).catch(() => H.sql(`insert into publicacoes(autor,tipo,texto,publico) values ($1,'post','Para seguidores','amigos')`, [e]));
+    ok((await fila(h)).length === 0, 'perfil fechado: quem só segue não é avisado');
+    await H.sql(`update membros set perfil_aberto=true where uid=$1`, [e]);
+    await H.sql(`alter table publicacoes drop constraint if exists publicacoes_publico_chk`);
+    await H.sql(`insert into publicacoes(autor,tipo,texto,publico) values ($1,'post','Para seguidores','seguidores')`, [e]);
+    await H.sql(`insert into publicacoes(autor,tipo,texto,publico) values ($1,'post','Só amigos','amigos')`, [e]);
+    let fh = await fila(h);
+    ok(fh.length === 1 && fh[0].tipo === 'seguindo' && fh[0].corpo === 'Para seguidores', 'perfil aberto: quem só segue recebe o post "para seguidores" (o "só amigos" não)', fh);
+    await limpa();
+    await H.sql(`insert into publicacoes(autor,tipo,texto,publico,estilo) values ($1,'post','','seguidores','{"coluna":{"v":1,"tit":"O que muda em 2027","linha":"Uma análise"}}'::jsonb)`, [e]);
+    fh = await fila(h);
+    ok(fh.length === 1 && fh[0].tipo === 'colunas' && fh[0].titulo === 'Eva publicou uma coluna' && fh[0].corpo === 'O que muda em 2027', 'NB09: coluna da v9 (estilo.coluna objeto) avisa como "Colunas", com o título', fh);
+    await H.sql(`update push_inscricoes set prefs = prefs || '{"colunas":false}'::jsonb where uid=$1`, [h]); await limpa();
+    await H.sql(`insert into publicacoes(autor,tipo,texto,publico,estilo) values ($1,'post','','seguidores','{"coluna":{"v":1,"tit":"Outra","linha":""}}'::jsonb)`, [e]);
+    ok((await fila(h)).length === 0, 'colunas desligado no celular: coluna não entra na fila');
+    await H.sql(`update membros set suspenso_em=now() where uid=$1`, [e]); await limpa();
+    await H.sql(`insert into publicacoes(autor,tipo,texto,publico) values ($1,'post','Suspensa','seguidores')`, [e]);
+    ok((await fila(h)).length === 0 && (await fila(f2)).length === 0, 'autor suspenso: ninguém é avisado do post');
+    await H.sql(`update membros set suspenso_em=null where uid=$1`, [e]);
+    ok(!!(await erro(g, `select public.push_ve_pub($1,$2)`, [g, pe])) && !!(await erro(g, `select public.push_amigos($1,$2)`, [g, e])), 'funções internas novas: ninguém do app chama');
+    // excluir a conta continua funcionando mesmo com a fila quebrada
+    await H.sql(`alter table push_fila rename to push_fila_y`);
+    let exc = true; try { await como(h, `select public.excluir_conta()`) } catch (err) { exc = false }
+    await H.sql(`alter table push_fila_y rename to push_fila`);
+    ok(exc, 'NB12: excluir a conta não falha por causa dos avisos');
+  }
+
   const R = U.resumo(); console.log(`\nRESUMO t_sqlv10: ${R.OKS} ok, ${R.FALHAS} falhas`); process.exit(R.FALHAS ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(2) });

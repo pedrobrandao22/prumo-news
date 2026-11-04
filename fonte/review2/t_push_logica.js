@@ -29,6 +29,15 @@ const U = require('../t_util'); const { ok } = U; const path = require('path'); 
   g = L.agrupar([lin(9)], [{ para: 'A', tipo: 'mensagens', chave: 'conv:B', enviado_em: t(150) }], agora);
   ok(g.grupos.length === 1 && !g.agrupados.length, 'agrupar: depois de 2 min toca de novo');
 
+  /* QA noite B: cortar sem partir emoji/acento, tamanho do aviso, endereços de push conhecidos */
+  const bem = s => { for (let i = 0; i < s.length; i++) { const c = s.charCodeAt(i); if (c >= 0xd800 && c <= 0xdbff) { const d = s.charCodeAt(i + 1); if (!(d >= 0xdc00 && d <= 0xdfff)) return false; i++ } else if (c >= 0xdc00 && c <= 0xdfff) return false } return true };
+  const longo = L.montarPayload({ tipo: 'mensagens', chave: 'c', linhas: [lin(1, { titulo: '𝒜'.repeat(300), corpo: 'Olá 😀🇧🇷👍🏽 '.repeat(120) })] });
+  ok(bem(longo.title) && bem(longo.body) && Array.from(longo.body).length <= 180 && Array.from(longo.title).length <= 80 && /…$/.test(longo.body), 'NB13: texto longo com emoji é cortado sem partir caractere (UTF-16 válido)', [longo.title.length, longo.body.length]);
+  ok(new TextEncoder().encode(JSON.stringify(longo)).length <= L.PAYLOAD_MAX, 'NB13: aviso cabe no limite (≤ 3.000 bytes antes de cifrar)', new TextEncoder().encode(JSON.stringify(longo)).length);
+  ok(L.corta('ab👍🏽cd', 4) === 'ab👍…' && L.corta('ação', 10) === 'ação' && L.corta('  oi  ', 5) === 'oi' && L.corta('x‍👨', 2) === 'x…', 'cortar: por caractere, sem sobrar junção solta', [L.corta('ab👍🏽cd', 4), L.corta('x‍👨', 2)]);
+  ok(['https://fcm.googleapis.com/fcm/send/a', 'https://updates.push.services.mozilla.com/wpush/v2/a', 'https://web.push.apple.com/QAb', 'https://wns2-by3p.notify.windows.com/w/?token=a'].every(L.endpointOk)
+    && !['https://exemplo.com/x', 'http://fcm.googleapis.com/x', 'https://fcm.googleapis.com:8443/x', 'https://fcm.googleapis.com.mal.example/x', 'https://169.254.169.254/x', 'lixo'].some(L.endpointOk), 'NB14: só endereços dos serviços de push (Google, Mozilla, Apple, Windows)');
+
   /* coberturas */
   const feed = { pautas: [
     { id: 'pec', tema: 'PEC da Segurança', atualizacoes: [{ hora: '2026-11-04T08:30:00-03:00', texto: 'Votação adiada' }, { hora: '2026-11-04T06:00:00-03:00', texto: 'antiga' }] },

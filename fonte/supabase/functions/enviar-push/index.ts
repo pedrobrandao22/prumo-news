@@ -18,7 +18,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
 // Biblioteca de Web Push só com WebCrypto (aes128gcm + VAPID, RFC 8291/8292; aceita por Google, Mozilla e Apple), versão fixa
 import { buildPushPayload } from "npm:@block65/webcrypto-web-push@2.0.0";
-import { agrupar, avisoCobertura, coberturasNovas, enviarUm, montarPayload, querTipo, quemSegue, validarVapid } from "./logica.mjs";
+import { agrupar, avisoCobertura, coberturasNovas, endpointOk, enviarUm, montarPayload, querTipo, quemSegue, validarVapid } from "./logica.mjs";
 
 const SB = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "", {
   auth: { persistSession: false, autoRefreshToken: false },
@@ -55,10 +55,14 @@ Deno.serve(async (req) => {
 });
 
 async function processarFila(r: Resumo) {
-  // o que ficou "processando" por mais de 5 minutos (a função caiu no meio) volta para a fila
-  await SB.from("push_fila").update({ estado: "pendente" }).eq("estado", "processando").lt("criado_em", new Date(Date.now() - 5 * 60e3).toISOString());
+  // o que foi pego há mais de 5 minutos e ficou "processando" (a função caiu no meio) volta para a fila.
+  // Conta a hora em que foi PEGO (guardada em enviado_em enquanto processa), não a hora em que entrou na fila:
+  // assim uma chamada não devolve à fila o que outra chamada, ao mesmo tempo, acabou de pegar (aviso em dobro).
+  const cinco = new Date(Date.now() - 5 * 60e3).toISOString();
+  await SB.from("push_fila").update({ estado: "pendente", enviado_em: null }).eq("estado", "processando")
+    .or(`enviado_em.lt.${cinco},and(enviado_em.is.null,criado_em.lt.${cinco})`);
   // pega os pendentes de uma vez (outra chamada ao mesmo tempo não pega os mesmos)
-  const { data: linhas, error } = await SB.from("push_fila").update({ estado: "processando" })
+  const { data: linhas, error } = await SB.from("push_fila").update({ estado: "processando", enviado_em: new Date().toISOString() })
     .eq("estado", "pendente").gt("criado_em", new Date(Date.now() - 24 * 3600e3).toISOString()).select("*");
   if (error) throw error;
   if (!linhas || !linhas.length) return;
@@ -72,7 +76,8 @@ async function processarFila(r: Resumo) {
   ((insc ?? []) as Inscricao[]).forEach((i) => { const l = porPessoa.get(i.uid) ?? []; l.push(i); porPessoa.set(i.uid, l) });
   for (const g of grupos) {
     r.grupos++;
-    const alvos = (porPessoa.get(g.para) ?? []).filter((i) => querTipo(i.prefs, g.tipo));
+    // só aparelhos que querem este tipo e com endereço de um serviço de push conhecido (nada de pedido para servidor qualquer)
+    const alvos = (porPessoa.get(g.para) ?? []).filter((i) => querTipo(i.prefs, g.tipo) && endpointOk(i.endpoint));
     if (!alvos.length) { await marcar(g.ids, "sem_destino"); r.sem_destino += g.ids.length; continue }
     const { count } = await SB.from("mensagens").select("id", { count: "exact", head: true }).eq("para", g.para).eq("lida", false);
     const payload = JSON.stringify(montarPayload(g, typeof count === "number" ? count : null));
@@ -98,7 +103,7 @@ async function processarFila(r: Resumo) {
 }
 
 async function marcar(ids: number[], estado: string) {
-  for (let i = 0; i < ids.length; i += 200) await SB.from("push_fila").update({ estado }).in("id", ids.slice(i, i + 200));
+  for (let i = 0; i < ids.length; i += 200) await SB.from("push_fila").update({ estado, enviado_em: null }).in("id", ids.slice(i, i + 200));
 }
 
 // modo "coberturas": olha o feed.json do site e avisa quem segue as coberturas que mudaram desde a última olhada

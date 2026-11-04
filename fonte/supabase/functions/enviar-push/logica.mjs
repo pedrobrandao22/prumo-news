@@ -34,7 +34,18 @@ export function agrupar(linhas, recentes, agora = Date.now()) {
   return { grupos: [...grupos.values()], agrupados };
 }
 
-function corta(t, n) { t = String(t || "").trim(); return t.length <= n ? t : t.slice(0, n - 1).trimEnd() + "…" }
+/** corta em n caracteres de verdade (por ponto de código: nunca parte um emoji ou acento ao meio) */
+export function corta(t, n) {
+  const cs = Array.from(String(t || "").trim());
+  if (cs.length <= n) return cs.join("");
+  let s = cs.slice(0, Math.max(0, n - 1)).join("");
+  // não deixa sobrar um modificador solto (variação de emoji, junção ZWJ, tom de pele) no fim
+  s = s.replace(/[\u200d\ufe0f\u{1f3fb}-\u{1f3ff}]+$/u, "");
+  return s.trimEnd() + "…";
+}
+const bytes = s => new TextEncoder().encode(s).length;
+/** o aviso todo cabe com folga no limite do Web Push (4 KB depois de cifrado): texto em no máximo 3.000 bytes */
+export const PAYLOAD_MAX = 3000;
 
 /**
  * O que aparece no celular para um grupo. A etiqueta (tag) é a mesma para o mesmo grupo:
@@ -62,6 +73,9 @@ export function montarPayload(g, badge = null) {
     at: ms(ult.criado_em) || Date.now(),
   };
   if (typeof badge === "number" && badge >= 0) p.badge = Math.min(99, Math.floor(badge));
+  // muito emoji ou letra de 4 bytes: encurta o texto (e, se preciso, o título) até caber
+  for (let n = 170; bytes(JSON.stringify(p)) > PAYLOAD_MAX && n > 0; n -= 20) p.body = corta(body, n);
+  for (let n = 70; bytes(JSON.stringify(p)) > PAYLOAD_MAX && n > 0; n -= 10) p.title = corta(title, n);
   return p;
 }
 
@@ -77,6 +91,16 @@ export function validarVapid(publica, privada, contato) {
   if (b64uLen(privada) !== 32) return "VAPID_PRIVATE inválida: use a 'Private Key' do web-push (43 caracteres)";
   if (!/^(mailto:|https:\/\/)/.test(String(contato || ""))) return "VAPID_SUBJECT inválido: use mailto:seu-email@exemplo.com";
   return "";
+}
+
+/**
+ * O endereço do aparelho é de um serviço de push conhecido? (Chrome/Android/Edge/Samsung/Opera: Google; Firefox: Mozilla;
+ * Safari e iPhone: Apple; Windows: WNS). Outro endereço não recebe nada: a função não faz pedido para servidor qualquer.
+ */
+export const PUSH_HOSTS = [/^fcm\.googleapis\.com$/, /^android\.googleapis\.com$/, /^(updates|[\w-]+)\.push\.services\.mozilla\.com$/,
+  /^web\.push\.apple\.com$/, /^[\w-]+\.push\.apple\.com$/, /^[\w-]+\.notify\.windows\.com$/];
+export function endpointOk(ep) {
+  try { const u = new URL(String(ep || "")); return u.protocol === "https:" && !u.port && PUSH_HOSTS.some(r => r.test(u.hostname)) } catch (e) { return false }
 }
 
 /**

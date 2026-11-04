@@ -403,3 +403,176 @@ end $$;
 revoke all on function public.push_limpa_conta() from public, anon, authenticated;
 drop trigger if exists push_limpa_conta on public.membros;
 create trigger push_limpa_conta after update of excluido_em on public.membros for each row execute function public.push_limpa_conta();
+
+-- 8. Correções da revisão (QA noite B). Também rodam de novo sem problema.
+--    a) quem recebe só é avisado do que consegue ver: "também comentou" e curtida no seu comentário passam a conferir
+--       se você ainda vê a publicação (deixou de ser amigo, virou "próximos", foi arquivada, story vencido);
+--    b) menção num post/story que você não vê (ex.: só para próximos) não vira aviso;
+--    c) coluna da v9 (estilo.coluna é um objeto com o título em "tit") avisa como "Colunas", com o título;
+--    d) autor suspenso ou com conta excluída não gera aviso para quem segue;
+--    e) post novo: confere primeiro se o seguidor ligou o aviso (rápido) e só depois se ele vê o post;
+--    f) excluir a conta nunca falha por causa dos avisos.
+
+-- são amigos? (o sao_amigos do app só responde para quem está logado e é uma das duas pessoas; nos gatilhos quem
+-- está logado é quem fez a ação — quem comentou, quem curtiu —, então aqui a conferência é direta)
+create or replace function public.push_amigos(p_a uuid, p_b uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select p_a is not null and p_b is not null and exists (select 1 from public.amizades
+    where status = 'aceita' and ((de = p_a and para = p_b) or (de = p_b and para = p_a)))
+$$;
+
+-- a pessoa vê esta publicação agora? (as regras de leitura, mais arquivado e story vencido)
+create or replace function public.push_ve_pub(p_quem uuid, p_pub uuid) returns boolean
+language plpgsql stable security definer set search_path = public as $$
+declare j jsonb;
+begin
+  select to_jsonb(p) into j from public.publicacoes p where p.id = p_pub;
+  if j is null then return false; end if;
+  if (j->>'autor')::uuid = p_quem then return true; end if;
+  if coalesce(j->>'arquivado', 'false') = 'true' then return false; end if;
+  if j->>'tipo' = 'story' and coalesce((j->>'expira')::bigint, 0) <= (extract(epoch from now())*1000)::bigint then return false; end if;
+  return public.push_pode_ver(p_quem, (j->>'autor')::uuid, j->>'publico');
+end $$;
+
+create or replace function public.push_pode_ver(p_quem uuid, p_autor uuid, p_publico text) returns boolean
+language plpgsql stable security definer set search_path = public as $$
+declare pub text := coalesce(p_publico, 'amigos');
+begin
+  if p_quem is null or p_autor is null then return false; end if;
+  if p_quem = p_autor then return true; end if;
+  if exists (select 1 from public.membros m where m.uid = p_autor and (m.suspenso_em is not null or m.excluido_em is not null)) then return false; end if;
+  if exists (select 1 from public.bloqueios b where (b.de = p_quem and b.para = p_autor) or (b.de = p_autor and b.para = p_quem)) then return false; end if;
+  if public.push_amigos(p_quem, p_autor) and (pub in ('amigos', 'seguidores', 'todos', 'publico')
+       or exists (select 1 from public.melhores_amigos m where m.dono = p_autor and m.amigo = p_quem)) then return true; end if;
+  -- quem só segue (v9): vê o que é "para seguidores" enquanto o perfil do autor estiver aberto
+  if pub in ('seguidores', 'todos', 'publico') and exists (select 1 from public.push_seguidores_de(p_autor) s(u) where s.u = p_quem) then
+    begin
+      return exists (select 1 from public.membros m where m.uid = p_autor and coalesce((to_jsonb(m) ->> 'perfil_aberto')::boolean, false));
+    exception when others then return false;
+    end;
+  end if;
+  return false;
+end $$;
+
+create or replace function public.push_t_mensagens() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare n text; t text := coalesce(new.tipo, ''); up text;
+begin
+  begin
+    n := public.push_nome(new.de);
+    if t = 'mencao' then
+      -- menção num post/story do Prumo ("u:<id>"): só avisa quem consegue ver a publicação
+      up := case when coalesce(new.pid, '') like 'u:%' then substr(new.pid, 3) else null end;
+      if up is not null and (up !~* '^[0-9a-f-]{36}$' or not public.push_ve_pub(new.para, up::uuid)) then return null; end if;
+      perform public.push_enfileirar(new.para, 'mencoes', new.de, 'men:' || new.de, n || ' mencionou você',
+        case when coalesce(btrim(new.texto), '') = '' or new.texto = 'Mencionou você no story' then 'Toque para ver.' else new.texto end, '?nt=atividade');
+    elsif t = 'curtiu_story' then
+      perform public.push_enfileirar(new.para, 'curtidas', new.de, 'cst:' || new.de, n || ' curtiu seu story', '', '?nt=conversa:' || new.de);
+    else
+      perform public.push_enfileirar(new.para, 'mensagens', new.de, 'conv:' || new.de, n,
+        case when t = 'reacao_msg' then 'Reagiu à sua mensagem: ' || public.push_corta(new.texto, 40)
+             when coalesce(btrim(new.texto), '') <> '' then new.texto
+             when new.pid is not null then 'Enviou uma publicação'
+             else 'Enviou uma mensagem' end, '?nt=conversa:' || new.de);
+    end if;
+  exception when others then null;
+  end;
+  return null;
+end $$;
+
+create or replace function public.push_t_reacoes() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare p record; n text; oque text; o uuid;
+begin
+  begin
+    select id, autor, tipo, estilo into p from public.publicacoes where id = new.pub;
+    if not found then return null; end if;
+    n := public.push_nome(new.uid);
+    oque := case when p.tipo = 'story' then 'seu story' when coalesce(p.estilo->>'reel', '') in ('true', '1') then 'seu reel' else 'seu post' end;
+    if new.tipo = 'comentario' then
+      perform public.push_enfileirar(p.autor, 'comentarios', new.uid, 'cmt:' || new.pub, n || ' comentou no ' || oque,
+        coalesce(new.valor->>'texto', ''), '?nt=comentarios:' || new.pub);
+      for o in select distinct r.uid from public.pub_reacoes r
+                where r.pub = new.pub and r.tipo = 'comentario' and r.uid <> new.uid and r.uid <> p.autor limit 30 loop
+        if public.push_quer(o, 'comentarios') and public.push_ve_pub(o, new.pub) then
+          perform public.push_enfileirar(o, 'comentarios', new.uid, 'cmt:' || new.pub, n || ' também comentou no post de ' || public.push_nome(p.autor),
+            coalesce(new.valor->>'texto', ''), '?nt=comentarios:' || new.pub);
+        end if;
+      end loop;
+    elsif new.tipo = 'curtida' then
+      perform public.push_enfileirar(p.autor, 'curtidas', new.uid, 'curt:' || new.pub, n || ' curtiu ' || oque, '', '?nt=atividade');
+    end if;
+  exception when others then null;
+  end;
+  return null;
+end $$;
+
+create or replace function public.push_t_com_curtidas() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare tx text; pid text;
+begin
+  begin
+    if new.pub is not null then
+      -- quem escreveu o comentário ainda vê o post?
+      if not public.push_ve_pub(new.autor, new.pub) then return null; end if;
+      select valor->>'texto' into tx from public.pub_reacoes where pub = new.pub and uid = new.autor and tipo = 'comentario' and chave = new.cid;
+    else
+      select d.data->'itens'->new.cid->>'texto', d.data->'itens'->new.cid->>'pid' into tx, pid
+        from public.docs d where d.path = 'comentarios/' || new.autor::text;
+    end if;
+    perform public.push_enfileirar(new.autor, 'curtidas', new.uid, 'cc:' || new.cid, public.push_nome(new.uid) || ' curtiu seu comentário',
+      coalesce(tx, ''), case when new.pub is not null then '?nt=comentarios:' || new.pub when pid is not null then '?nt=noticia:' || pid else '?nt=atividade' end);
+  exception when others then null;
+  end;
+  return null;
+end $$;
+
+create or replace function public.push_t_publicacoes() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare j jsonb := to_jsonb(new); n text; orig uuid; oa uuid; f uuid; col boolean; tx text; tit text; tp text;
+begin
+  begin
+    if new.tipo = 'story' or coalesce(j->>'arquivado', 'false') = 'true' then return null; end if;
+    if exists (select 1 from public.membros m where m.uid = new.autor and (m.suspenso_em is not null or m.excluido_em is not null)) then return null; end if;
+    n := public.push_nome(new.autor);
+    tx := btrim(coalesce(new.texto, ''));
+    if new.estilo->'rp'->>'k' = 'pub' and (new.estilo->'rp'->>'id') ~* '^[0-9a-f-]{36}$' then
+      orig := (new.estilo->'rp'->>'id')::uuid;
+      select autor into oa from public.publicacoes where id = orig;
+      if oa is not null and oa <> new.autor and public.push_pode_ver(oa, new.autor, j->>'publico') then
+        perform public.push_enfileirar(oa, 'reposts', new.autor, 'rp:' || orig,
+          n || case when tx = '' then ' repostou sua publicação' else ' citou sua publicação' end, tx, '?nt=pub:' || new.id);
+      end if;
+    end if;
+    -- coluna: a da v9 tem estilo.coluna = {tit, linha, …}; as outras formas ficam valendo
+    col := new.tipo = 'coluna' or jsonb_typeof(new.estilo->'coluna') = 'object' or coalesce(new.estilo->>'coluna', '') in ('true', '1')
+           or new.estilo->>'tipo' = 'coluna' or new.estilo->>'kind' = 'coluna';
+    tit := coalesce(nullif(btrim(case when jsonb_typeof(new.estilo->'coluna') = 'object' then new.estilo->'coluna'->>'tit' end), ''),
+                    nullif(btrim(new.estilo->>'titulo'), ''), tx);
+    tp := case when col then 'colunas' else 'seguindo' end;
+    for f in select * from public.push_seguidores_de(new.autor) limit 300 loop
+      if f is distinct from oa and f <> new.autor and public.push_quer(f, tp) and public.push_pode_ver(f, new.autor, j->>'publico') then
+        perform public.push_enfileirar(f, tp, new.autor, 'seg:' || new.autor,
+          n || case when col then ' publicou uma coluna' else ' publicou' end, tit, '?nt=pub:' || new.id);
+      end if;
+    end loop;
+  exception when others then null;
+  end;
+  return null;
+end $$;
+
+create or replace function public.push_limpa_conta() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if new.excluido_em is not null and old.excluido_em is null then
+    begin
+      delete from public.push_inscricoes where uid = new.uid;
+      delete from public.push_fila where para = new.uid or de = new.uid;
+    exception when others then null;
+    end;
+  end if;
+  return null;
+end $$;
+
+revoke all on function public.push_amigos(uuid, uuid), public.push_ve_pub(uuid, uuid), public.push_pode_ver(uuid, uuid, text), public.push_t_mensagens(), public.push_t_reacoes(),
+  public.push_t_com_curtidas(), public.push_t_publicacoes(), public.push_limpa_conta() from public, anon, authenticated;
