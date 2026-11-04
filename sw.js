@@ -102,3 +102,34 @@ self.addEventListener("fetch", e => {
     })());
   }
 });
+
+/* Avisos no celular (Web Push; ver supabase/LEIA-ME-push.md). O servidor manda {title, body, tag, url, badge, at}.
+   A mesma etiqueta (tag) substitui o aviso anterior da mesma conversa/post em vez de empilhar.
+   Tocar no aviso: se o app já está aberto, ele vem para a frente e abre a tela certa; senão abre em ./?nt=<ação>. */
+function avisoDe(dados) {
+  let d = {};
+  try { d = dados ? dados.json() : {} } catch (e) { try { d = { body: dados.text() } } catch (e2) { d = {} } }
+  if (!d || typeof d !== "object") d = {};
+  const url = typeof d.url === "string" && /^(\?nt=[\w:.\-]{1,120}|\.\/)$/.test(d.url) ? d.url : "./";
+  const op = { body: String(d.body || "").slice(0, 300), icon: "icon-192.png", data: { url }, timestamp: +d.at || Date.now() };
+  if (d.tag) { op.tag = String(d.tag).slice(0, 64); op.renotify = true }
+  return { titulo: String(d.title || "Prumo News").slice(0, 100), op, badge: typeof d.badge === "number" ? d.badge : null };
+}
+self.addEventListener("push", e => {
+  const a = avisoDe(e.data);
+  const tarefas = [self.registration.showNotification(a.titulo, a.op)];
+  if (a.badge !== null && self.navigator && typeof self.navigator.setAppBadge === "function")
+    tarefas.push((a.badge ? self.navigator.setAppBadge(a.badge) : self.navigator.clearAppBadge()).catch(() => { }));
+  e.waitUntil(Promise.all(tarefas));
+});
+self.addEventListener("notificationclick", e => {
+  e.notification.close();
+  const rel = (e.notification.data && e.notification.data.url) || "./";
+  const url = new URL(rel, self.registration.scope).href;
+  e.waitUntil((async () => {
+    const abertas = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+    const app = abertas.find(c => c.url.indexOf(self.registration.scope) === 0);
+    if (app) { app.postMessage({ prumo: "nt-abrir", url }); try { return await app.focus() } catch (err) { return } }
+    return self.clients.openWindow(url);
+  })());
+});
