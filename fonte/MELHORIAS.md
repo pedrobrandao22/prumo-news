@@ -31,7 +31,11 @@ Arquivo lido pela tarefa agendada "Prumo: melhoria contínua". Cada noite ela es
 - [ ] Giro de amigo com cartão de texto: texto da miniatura embaralha com o título.
 - [ ] Sugestões de @ cobrem a linha "Marcar pessoas" no criador de post.
 - [ ] Desempenho: desenhar o Feed (~35 cartões) em pedaços menores com CPU 4×.
-- [ ] Primeira visita em 3G: fonte Newsreader disputa banda com o feed-leve (pré-carga depois da Capa).
+- [x] Primeira visita em 3G: fonte Newsreader disputa banda com o feed-leve (QA C tirou o preload das fontes, 04/11).
+- [ ] Atividade: ao começar a seguir alguém, posts antigos dele contam como novos (NB19).
+- [ ] Ícone: menção conta duas vezes (Conversas e Atividade) (NB20).
+- [ ] Feed: montar o cartão uma vez só (112/113/117 viram DOM e texto várias vezes) ou lotes de 3 posts (NC05).
+- [ ] Tamanho: carregar Administração (031) e criação de giro/câmera/figurinhas só quando usados (NC06).
 - [ ] Quem fecha o app antes do detalhe chegar não fica com a edição para ler offline.
 
 ## Diário
