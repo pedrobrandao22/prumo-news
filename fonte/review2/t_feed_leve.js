@@ -7,6 +7,7 @@
 const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs'); const path = require('path'); const cp = require('child_process');
 const DIR = path.join(__dirname, '..', 'fl119t'), BASE = 'http://localhost:8734/', BASE2 = 'http://localhost:8735/';
 const ev = (p, fn, a) => p.evaluate(fn, a);
+const JPG = fs.readFileSync(path.join(__dirname, 'etapa13', 'foto.jpg'));
 const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 function dividir() { return cp.execFileSync('python3', ['-I', path.join(U.REPO, 'tools', 'feed_leve.py'), path.join(DIR, 'feed.json')]).toString().trim() }
 function gravarFeed(f) { fs.writeFileSync(path.join(DIR, 'feed.json'), JSON.stringify(f)); console.log('  ' + dividir()); return JSON.parse(fs.readFileSync(path.join(DIR, 'feed-leve.json'), 'utf8'))._leve.v }
@@ -24,6 +25,8 @@ function gravarFeed(f) { fs.writeFileSync(path.join(DIR, 'feed.json'), JSON.stri
   for (const p of F.pautas) { for (const w of norm(p.neutro?.texto).split(/[^a-z]+/)) { if (w.length >= 8 && !raso.includes(w)) { palavra = w; dona = p.id; break } } if (palavra) break }
   async function abrir(o = {}) {
     const p = U.erros(await H.pagina(b), o.nome || 'P'); const ctx = p.context(); const reqs = [];
+    // fotos de fora (Agência Câmara, Wikimedia…) sempre carregam: sem internet, o onerror da foto mudava a Capa no meio da comparação
+    await ctx.route(u => !/^localhost$|^127\./.test(u.hostname) && /\.(jpe?g|png|webp|gif)$/i.test(u.pathname), r => r.fulfill({ body: JPG, contentType: 'image/jpeg' }));
     p.on('request', r => { const u = r.url(); if (/feed(-leve)?\.json|feed-det\//.test(u)) reqs.push(u.replace(/^https?:\/\/[^/]+\//, '').replace(/\?.*$/, '')) });
     if (o.capa !== false) await p.addInitScript(() => { try { localStorage.setItem('prumo-teste-capa', '1'); localStorage.setItem('prumo-teste-tour', '1'); localStorage.setItem('prumo-teste-semreels', '1') } catch (e) { } });
     let soltar = () => { }; if (o.prender) { const preso = new Promise(r => soltar = r); await ctx.route('**/feed-det/*.json', async r => { await preso; r.continue().catch(() => { }) }) }
@@ -40,7 +43,9 @@ function gravarFeed(f) { fs.writeFileSync(path.join(DIR, 'feed.json'), JSON.stri
   // 1. Capa só com o leve (detalhe preso), igual à Capa desenhada com o feed inteiro
   const A = await abrir({ nome: 'A', prender: true });
   ok(await capaOk(A.p), 'Capa aparece com o detalhe preso');
-  const capaLeve = await ev(A.p, () => document.querySelector('#v-capa').innerHTML);
+  // a foto que já carregou ganha a classe "ok" (onload); a Capa redesenhada agora ainda não: compara sem esse estado
+  const semCarga = h => h.replace(/ class="ok"/g, '').replace(/(class="[^"]+) ok"/g, '$1"');
+  const capaLeve = semCarga(await ev(A.p, () => document.querySelector('#v-capa').innerHTML));
   ok(await ev(A.p, () => !!FL119.parcial && FEED.pautas.every(p => !p.neutro.texto && !(p.links || []).length)), 'a Capa está só com o leve (sem texto nem links)');
   ok(!A.reqs.includes('feed.json') && A.reqs.includes('feed-leve.json'), 'só o feed-leve.json foi pedido (não o feed.json)', A.reqs);
   ok(await ev(A.p, () => document.querySelector('#posts .post') === null), 'o Feed ainda não foi desenhado (espera o detalhe)');
@@ -48,7 +53,7 @@ function gravarFeed(f) { fs.writeFileSync(path.join(DIR, 'feed.json'), JSON.stri
   ok(await completo(A.p), 'o detalhe chega e entra nas pautas');
   ok(A.reqs.filter(u => u.startsWith('feed-det/')).length === 1 && A.reqs.includes('feed-det/' + V1 + '.json') && !A.reqs.includes('feed.json'), 'detalhe pedido uma vez, da mesma versão', A.reqs);
   ok(await igualAoFeed(A.p), 'depois do detalhe, a edição na memória é igual ao feed.json');
-  const capaInteira = await ev(A.p, () => { renderCapa(); return document.querySelector('#v-capa').innerHTML });
+  const capaInteira = semCarga(await ev(A.p, () => { renderCapa(); return document.querySelector('#v-capa').innerHTML }));
   ok(capaLeve === capaInteira, 'Capa do leve = Capa do feed inteiro', (() => { let i = 0; while (i < capaLeve.length && capaLeve[i] === capaInteira[i]) i++; return [capaLeve.slice(i - 80, i + 120), capaInteira.slice(i - 80, i + 120)] })());
   ok(await ev(A.p, v => localStorage.getItem('prumo-fl-v') === v && JSON.parse(localStorage.getItem('radar-feed')).pautas.some(x => x.neutro.texto), V1), 'edição inteira guardada no aparelho, com a versão');
   ok(await esperar(A.p, () => document.querySelectorAll('#posts .post').length > 0, null, 8000), 'o Feed é desenhado depois (com tudo)');

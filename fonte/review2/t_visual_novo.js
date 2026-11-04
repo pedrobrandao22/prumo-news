@@ -123,9 +123,9 @@ const assina = (P, id) => ev(P, id => { const e = document.getElementById(id); i
   const cnt = await ev(A, id => { const l = document.querySelectorAll(`#posts [id="p-u:${id}"]`), e = l[0]; return { n: l.length, l: e.querySelector(':scope>.dc122-rpl')?.textContent.trim() || '', q: e.querySelector('[data-vnrpq]')?.textContent || '', ab: e.querySelector('[data-vnrpq]')?.previousElementSibling?.hasAttribute('data-likes') } }, pPedro);
   ok(cnt.n === 1 && cnt.l === 'Bia repostou' && /^Bia Souza repostou$/.test(cnt.q) && cnt.ab, 'o post do Pedro aparece uma vez, com "Bia repostou" em cima (122); a linha de baixo continua no lugar (escondida no Feed)', JSON.stringify(cnt));
   const at = await ev(A, () => atItens().filter(x => x.acao === 'vnrp').map(x => x.txt.replace(/<[^>]+>/g, '')));
-  ok(at.length === 2 && at.every(t => /^Bia Souza repostou sua publicação/.test(t)), 'Atividade do Pedro: "Bia Souza repostou sua publicação" (as duas)', JSON.stringify(at));
+  ok(at.length === 1 && /^Bia Souza repostou e comentou seu post: “Aqui no meu bairro/.test(at[0]), 'Atividade do Pedro: um item só, "Bia Souza repostou e comentou seu post: “…”" (130)', JSON.stringify(at));
   await ev(A, () => abrirAtividade()); await sleep(600);
-  ok(await ev(A, () => [...document.querySelectorAll('#layer .pfv-at .at-tx')].some(e => /Bia Souza repostou sua publicação/.test(e.textContent))), 'o aviso aparece na tela de Atividade');
+  ok(await ev(A, () => [...document.querySelectorAll('#layer .pfv-at .at-tx')].filter(e => /Bia Souza repostou e comentou seu post/.test(e.textContent)).length === 1), 'o aviso aparece (uma vez) na tela de Atividade');
   await A.screenshot({ path: SH + 'atividade.png' }); await ev(A, () => closeLayer()); await sleep(300);
   await ev(A, () => { const e = document.querySelector('#posts .upost.vn-rp:not(.vn-rp-so)'); scrollTo(0, e.getBoundingClientRect().top + scrollY - 120) }); await sleep(300); await A.screenshot({ path: SH + 'citacao.png' });
   // tocar no cartão citado abre a publicação

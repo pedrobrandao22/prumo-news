@@ -12,9 +12,10 @@ function agData(a,hoje){
 function agHoraTxt(a){const h=String(a.hora||"");const m=h.match(/(\d{1,2})\s*(?:h|:)\s*(\d{2})?/i);if(m)return m[1]+"h"+(m[2]&&m[2]!=="00"?m[2]:"");const n=norm(h);if(/manha/.test(n))return "Manhã";if(/tarde/.test(n))return "Tarde";if(/noite/.test(n))return "Noite";return ""}
 function agMin(a){const h=String(a.hora||""),m=h.match(/(\d{1,2})\s*(?:h|:)\s*(\d{2})?/i);if(m)return (+m[1])*60+(+(m[2]||0));const n=norm(h);if(/manha/.test(n))return 540;if(/tarde/.test(n))return 840;if(/noite/.test(n))return 1200;return 1500}
 const STOP=new Set("para pelo pela pelos pelas como mais sobre entre contra apos depois antes desde ainda sera serao vota votacao hoje amanha jogo partida rodada sessao com sem dos das nos nas que uma uns umas este esta isso".split(" "));
+/* sem o texto da matéria: ele só chega com o detalhe (feed leve) e a Capa mudava depois; e ligava eventos a notícias erradas */
 function agPid(a){if(a.pid&&pautaById(a.pid))return a.pid;
   const ws=[...new Set(norm(a.texto).split(/[^a-z0-9]+/).filter(w=>w.length>=4&&!STOP.has(w)))];if(!ws.length)return null;
-  let best=null,bs=0;(FEED.pautas||[]).forEach(p=>{const t=norm([p.neutro?.titulo,p.tag,p.tema,(p.neutro?.texto||"").slice(0,240)].join(" "));const sc=ws.filter(w=>t.includes(w)).length;if(sc>bs){bs=sc;best=p.id}});
+  let best=null,bs=0;(FEED.pautas||[]).forEach(p=>{const t=norm([p.neutro?.titulo,p.tag,p.tema,p.subtitulo].join(" "));const sc=ws.filter(w=>t.includes(w)).length;if(sc>bs){bs=sc;best=p.id}});
   return bs>=2?best:null}
 var _FHM24=null;function minAgoraSP(){_FHM24=_FHM24||new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"});const p=_FHM24.format(new Date()).split(":");return (+p[0])*60+(+p[1])}
 function agDur(a){const t=" "+norm(a.texto)+" ";if(/ x |jogo|partida|semifinal|final|rodada|classico/.test(t))return 125;if(/sessao|plenario|votac|vota |julgamento|julga|analisa|cpi|comissao|audiencia/.test(t))return 300;if(/debate|entrevista|sabatina/.test(t))return 150;return 120}

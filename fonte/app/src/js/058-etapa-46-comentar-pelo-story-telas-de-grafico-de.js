@@ -19,7 +19,7 @@ function igVisHTML(v){const t=`<span class="sgv-t">${esc(v.titulo||"")}</span>`;
   return ""}
 function igDrawVis(p){const ps=stPs();const vsec=ST.sec,base=pautaById(p.id.slice(0,-2))||p,v=igVisDe(base),cor=secCor(secOf(base)),vazioS=!$("#layer").innerHTML;
   const nomeTipo=v.tipo==="grafico"?"Em gráfico":v.tipo==="numeros"?"Em números":"Linha do tempo";
-  ST.palavras=12+JSON.stringify(v.itens).split(/\s+/).length/2;
+  ST.palavras=12+String(JSON.stringify(v.itens||v.titulo||"")).split(/\s+/).length/2;  /* gráfico do acervo (série, sem itens) não tem v.itens */
   const av=vsec==="_5min"?`<span class="ph-av sg-av sg-av5"><i>5</i></span>`:`<span class="ph-av sg-av" style="--c:${cor}"><i>${esc(secNome(secOf(base)).charAt(0))}</i></span>`;
   $("#layer").innerHTML=`<div class="story sg sg-vis" data-sec="${esc(secOf(base))}" style="--c:${cor}" role="dialog" aria-modal="true" aria-label="${esc(igNomeSt(vsec))}"><div class="story-in">
     <div class="sg-bg sgv-bg"></div>

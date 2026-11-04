@@ -30,7 +30,8 @@ function slidesSociais(p){try{
     out.push(`<div class="sl ss ss-prox${fa?" com-foto":""}" style="--c:${cor}">${fa?`<img src="${escU(fotoSrc(fa.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.sl').classList.remove('com-foto');this.remove()">`:""}<div class="ss-pb"><span class="ss-k">${p.proximo?"E agora?":"Por que importa"}</span><p class="ss-t">${marcarTermos(prox)}</p></div></div>`)}
   if(p.enquete&&(p.enquete.opcoes||[]).length)out.push(`<div class="sl ss ss-enq"><div class="pollbox" data-poll></div></div>`);
   out.push(`<div class="sl ss ss-fim" style="--c:${cor}"><span class="ss-k">Quer o quadro completo?</span><p class="ss-t">${esc(capaSub(p,L,"")||v.titulo)}</p><button type="button" class="ss-cta" data-capmat="${esc(p.id)}">Ler a matéria completa <i aria-hidden="true">›</i></button><span class="ss-f">${esc(coberturaTxt(p))}</span></div>`);
-  return out.slice(0,10)}catch(e){return p.tipo==="pontual"?cobPontualSlides(p):slides(p)}}
+  if(out.length>10){const nf=out[out.length-2].indexOf("ss-enq")>=0?2:1;return out.slice(0,10-nf).concat(out.slice(-nf))}  /* até 10 quadros; a enquete e o "Quer o quadro completo?" ficam no fim */
+  return out}catch(e){return p.tipo==="pontual"?cobPontualSlides(p):slides(p)}}
 /* páginas desenhadas: se a letra não couber, diminui um pouco (sem quebrar a página) */
 function ssCaber(t){t.querySelectorAll(".ss").forEach(sl=>{let k=1;sl.style.setProperty("--ssk","1");for(let n=0;n<8&&sl.scrollHeight>sl.clientHeight+1;n++){k-=.07;sl.style.setProperty("--ssk",k.toFixed(2))}})}
 {const _ft41=fitTrack;fitTrack=function(t){const r=_ft41.apply(this,arguments);if(t&&t.closest&&t.closest(".post")){const go=()=>ssCaber(t);if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(go);else go()}return r}}

@@ -25,7 +25,7 @@ Arquivo lido pela tarefa agendada "Prumo: melhoria contínua". Cada noite ela es
 - [x] ~~Coluna: permitir editar a coluna (hoje é apagar e publicar de novo).~~ (04/11; o texto longo depende de `sql/proposta-2026-11-04.sql`)
 - [ ] Coluna: Feed não deve baixar o corpo inteiro das colunas (buscar ao abrir).
 - [x] ~~Repost sem comentário de notícia: juntar à notícia como nos posts ("Bia repostou").~~ (04/11, 129)
-- [ ] Atividade: repost e citação da mesma pessoa viram um item só; texto "repostou seu post De perto “…”".
+- [x] ~~Atividade: repost e citação da mesma pessoa viram um item só; texto "repostou seu post De perto “…”".~~ (04/11, 130: "Bia repostou e comentou seu post De perto “…”")
 - [ ] Matéria com 2 visuais: capítulos mostrar os dois.
 - [ ] Gráfico de linha: rótulo do último valor encosta na linha em 360 px.
 - [ ] Capítulo "Linha do tempo" × seção "Como a história andou": alinhar o nome.

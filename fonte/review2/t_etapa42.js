@@ -9,7 +9,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const jpg = fs.readFileSync(__dirname + '/etapa13/foto.jpg');
   const srv = U.servir('site', 8842); await sleep(700); const br = await U.navegador();
   const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
-  await ctx.route('https://upload.wikimedia.org/**', r => r.fulfill({ body: jpg, contentType: 'image/jpeg' }));
+  await ctx.route(u => u.hostname !== 'localhost' && /\.(jpe?g|png|webp|gif)$/i.test(u.pathname), r => r.fulfill({ body: jpg, contentType: 'image/jpeg' }));  // qualquer foto de fora (Wikimedia, Agência Câmara, Senado…): o conteúdo do dia muda de fonte
   await ctx.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1'));
   const p = U.erros(await ctx.newPage(), 'a'); await p.goto('http://localhost:8842/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi') && FOTOS_ARQ, null, 10000); await sleep(500);
   await p.evaluate(() => go('feed')); await sleep(900);

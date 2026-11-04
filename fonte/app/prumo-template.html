@@ -5804,9 +5804,10 @@ function agData(a,hoje){
 function agHoraTxt(a){const h=String(a.hora||"");const m=h.match(/(\d{1,2})\s*(?:h|:)\s*(\d{2})?/i);if(m)return m[1]+"h"+(m[2]&&m[2]!=="00"?m[2]:"");const n=norm(h);if(/manha/.test(n))return "Manhã";if(/tarde/.test(n))return "Tarde";if(/noite/.test(n))return "Noite";return ""}
 function agMin(a){const h=String(a.hora||""),m=h.match(/(\d{1,2})\s*(?:h|:)\s*(\d{2})?/i);if(m)return (+m[1])*60+(+(m[2]||0));const n=norm(h);if(/manha/.test(n))return 540;if(/tarde/.test(n))return 840;if(/noite/.test(n))return 1200;return 1500}
 const STOP=new Set("para pelo pela pelos pelas como mais sobre entre contra apos depois antes desde ainda sera serao vota votacao hoje amanha jogo partida rodada sessao com sem dos das nos nas que uma uns umas este esta isso".split(" "));
+/* sem o texto da matéria: ele só chega com o detalhe (feed leve) e a Capa mudava depois; e ligava eventos a notícias erradas */
 function agPid(a){if(a.pid&&pautaById(a.pid))return a.pid;
   const ws=[...new Set(norm(a.texto).split(/[^a-z0-9]+/).filter(w=>w.length>=4&&!STOP.has(w)))];if(!ws.length)return null;
-  let best=null,bs=0;(FEED.pautas||[]).forEach(p=>{const t=norm([p.neutro?.titulo,p.tag,p.tema,(p.neutro?.texto||"").slice(0,240)].join(" "));const sc=ws.filter(w=>t.includes(w)).length;if(sc>bs){bs=sc;best=p.id}});
+  let best=null,bs=0;(FEED.pautas||[]).forEach(p=>{const t=norm([p.neutro?.titulo,p.tag,p.tema,p.subtitulo].join(" "));const sc=ws.filter(w=>t.includes(w)).length;if(sc>bs){bs=sc;best=p.id}});
   return bs>=2?best:null}
 var _FHM24=null;function minAgoraSP(){_FHM24=_FHM24||new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"});const p=_FHM24.format(new Date()).split(":");return (+p[0])*60+(+p[1])}
 function agDur(a){const t=" "+norm(a.texto)+" ";if(/ x |jogo|partida|semifinal|final|rodada|classico/.test(t))return 125;if(/sessao|plenario|votac|vota |julgamento|julga|analisa|cpi|comissao|audiencia/.test(t))return 300;if(/debate|entrevista|sabatina/.test(t))return 150;return 120}
@@ -7643,7 +7644,8 @@ function slidesSociais(p){try{
     out.push(`<div class="sl ss ss-prox${fa?" com-foto":""}" style="--c:${cor}">${fa?`<img src="${escU(fotoSrc(fa.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.sl').classList.remove('com-foto');this.remove()">`:""}<div class="ss-pb"><span class="ss-k">${p.proximo?"E agora?":"Por que importa"}</span><p class="ss-t">${marcarTermos(prox)}</p></div></div>`)}
   if(p.enquete&&(p.enquete.opcoes||[]).length)out.push(`<div class="sl ss ss-enq"><div class="pollbox" data-poll></div></div>`);
   out.push(`<div class="sl ss ss-fim" style="--c:${cor}"><span class="ss-k">Quer o quadro completo?</span><p class="ss-t">${esc(capaSub(p,L,"")||v.titulo)}</p><button type="button" class="ss-cta" data-capmat="${esc(p.id)}">Ler a matéria completa <i aria-hidden="true">›</i></button><span class="ss-f">${esc(coberturaTxt(p))}</span></div>`);
-  return out.slice(0,10)}catch(e){return p.tipo==="pontual"?cobPontualSlides(p):slides(p)}}
+  if(out.length>10){const nf=out[out.length-2].indexOf("ss-enq")>=0?2:1;return out.slice(0,10-nf).concat(out.slice(-nf))}  /* até 10 quadros; a enquete e o "Quer o quadro completo?" ficam no fim */
+  return out}catch(e){return p.tipo==="pontual"?cobPontualSlides(p):slides(p)}}
 /* páginas desenhadas: se a letra não couber, diminui um pouco (sem quebrar a página) */
 function ssCaber(t){t.querySelectorAll(".ss").forEach(sl=>{let k=1;sl.style.setProperty("--ssk","1");for(let n=0;n<8&&sl.scrollHeight>sl.clientHeight+1;n++){k-=.07;sl.style.setProperty("--ssk",k.toFixed(2))}})}
 {const _ft41=fitTrack;fitTrack=function(t){const r=_ft41.apply(this,arguments);if(t&&t.closest&&t.closest(".post")){const go=()=>ssCaber(t);if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(go);else go()}return r}}
@@ -7908,7 +7910,7 @@ function igVisHTML(v){const t=`<span class="sgv-t">${esc(v.titulo||"")}</span>`;
   return ""}
 function igDrawVis(p){const ps=stPs();const vsec=ST.sec,base=pautaById(p.id.slice(0,-2))||p,v=igVisDe(base),cor=secCor(secOf(base)),vazioS=!$("#layer").innerHTML;
   const nomeTipo=v.tipo==="grafico"?"Em gráfico":v.tipo==="numeros"?"Em números":"Linha do tempo";
-  ST.palavras=12+JSON.stringify(v.itens).split(/\s+/).length/2;
+  ST.palavras=12+String(JSON.stringify(v.itens||v.titulo||"")).split(/\s+/).length/2;  /* gráfico do acervo (série, sem itens) não tem v.itens */
   const av=vsec==="_5min"?`<span class="ph-av sg-av sg-av5"><i>5</i></span>`:`<span class="ph-av sg-av" style="--c:${cor}"><i>${esc(secNome(secOf(base)).charAt(0))}</i></span>`;
   $("#layer").innerHTML=`<div class="story sg sg-vis" data-sec="${esc(secOf(base))}" style="--c:${cor}" role="dialog" aria-modal="true" aria-label="${esc(igNomeSt(vsec))}"><div class="story-in">
     <div class="sg-bg sgv-bg"></div>
@@ -14707,6 +14709,35 @@ function dz129AtRp(){const out=[];if(!DZ129.v11||!DZ129.rps.length||!S.uid)retur
   const mais=n.filter(x=>!ja.has(x.k));if(!mais.length)return it;return it.concat(mais).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){return it}}}
 /* para o número e a bolinha: busca de vez em quando, como o resto da Atividade */
 setInterval(()=>{if(DZ129.v11!==false&&S.uid&&S.membro&&!document.hidden&&Date.now()-DZ129.rt>180e3)dz129AtCarrega()},5000);
+/* ---------- 130: Atividade — repost e citação da mesma pessoa viram um item só (decisão do Pedro, 04/11) ----------
+   Quando a MESMA pessoa repostou e também citou (repost com comentário) o MESMO post seu, a Atividade mostra um item só:
+   "Bia repostou e comentou seu post De perto “…”: “comentário”" (o tipo vem de atPubNome: seu post, sua coluna, seu post De perto…).
+   Tocar abre a citação (se você a vê; senão o seu post), como antes. A contagem e a bolinha contam 1.
+   Os itens vêm do 112 (reposts que o app já vê) e do 129 (função reposts_dos_meus_posts da v11); funciona com e sem a v11.
+   Nomes globais com o prefixo aj130. */
+/* "cit" (com comentário), "rp" (sem) ou "" (não dá para saber: fica como está) */
+function aj130Tipo(x){if(!x||x.acao!=="vnrp"||typeof x.k!=="string"||x.k.indexOf("vn112:")!==0)return "";const id=x.k.slice(6);
+  try{if(x.dz129&&typeof DZ129!=="undefined"){const r=(DZ129.rps||[]).find(y=>String(y.id)===id);if(r)return r.citacao?"cit":"rp"}}catch(e){}
+  try{const p=pubVisiveis().find(y=>y.id===id)||(typeof vn112Pub==="function"?vn112Pub(id):null);if(p)return String(p.texto||"").trim()?"cit":"rp"}catch(e){}
+  return ""}
+/* "seu post", "sua coluna “…”", "seu post De perto “…”" */
+function aj130Nome(pub){let o=null;try{o=pubDe(pub)||(AT.pubs&&AT.pubs[pub])||(typeof vn112Pub==="function"?vn112Pub(pub):null)}catch(e){}
+  try{const n=atPubNome(o);if(typeof n==="string"&&n)return n}catch(e){}return "sua publicação"}
+/* o trecho do comentário, como já aparece no item da citação (": “…”"), ou "" */
+function aj130Trecho(txt){const t=String(txt||""),m="sua publicação",i=t.indexOf(m);if(i<0)return "";const r=t.slice(i+m.length);return /^: “/.test(r)?r:""}
+function aj130Junta(it){if(!Array.isArray(it)||it.length<2)return it;const gr=new Map();
+  it.forEach((x,i)=>{const tp=aj130Tipo(x);if(!tp||!x.pub||!Array.isArray(x.us)||x.us.length!==1)return;const ch=x.us[0]+"|"+x.pub;
+    if(!gr.has(ch))gr.set(ch,{cit:[],rp:[]});gr.get(ch)[tp].push(i)});
+  const tira=new Set(),troca=new Map();
+  gr.forEach(g=>{if(!g.cit.length||!g.rp.length)return;
+    const ic=g.cit.slice().sort((a,b)=>(+it[b].at||0)-(+it[a].at||0))[0],c=it[ic];
+    const at=Math.max(+c.at||0,...g.rp.map(i=>+it[i].at||0));
+    const fim=String(c.txt).indexOf("</b>"),quem=fim>=0?String(c.txt).slice(0,fim+4):`<b>${esc(nomeDe(c.us[0]))}</b>`;
+    troca.set(ic,{...c,at,aj130:1,txt:`${quem} repostou e comentou ${aj130Nome(c.pub)}${aj130Trecho(c.txt)}`});
+    g.rp.forEach(i=>tira.add(i))});
+  if(!tira.size)return it;const out=[];it.forEach((x,i)=>{if(tira.has(i))return;out.push(troca.has(i)?troca.get(i):x)});
+  return out.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at)}
+{const _ai130=atItens;atItens=function(){const it=_ai130.apply(this,arguments);try{return aj130Junta(it)}catch(e){return it}}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
