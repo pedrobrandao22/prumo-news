@@ -1,0 +1,40 @@
+name: Testes do app
+# Roda a bateria completa do app (fonte/testar.sh: navegador de verdade + banco de teste PGlite) nos servidores do
+# GitHub, sem IA e sem gastar créditos do Claude. Roda quando o código do app muda e toda madrugada (o conteúdo do
+# feed muda todo dia e já pegou bugs reais). Não grava nada no repositório; se algo quebrar, a execução fica vermelha
+# e o GitHub avisa por e-mail. Testes que dependem do relógio (fonte/MELHORIAS.md) não reprovam a execução.
+on:
+  push:
+    branches: [main]
+    paths: ["fonte/**", ".github/workflows/testes.yml"]
+  schedule:
+    - cron: "20 5 * * *"   # 2h20 em Brasília
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: prumo-testes
+  cancel-in-progress: true
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar dependências e navegador
+        working-directory: fonte
+        run: |
+          npm ci --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund playwright@1.56.0
+          npx playwright install --with-deps chromium
+      - name: Bateria completa
+        working-directory: fonte
+        run: bash ci-testes.sh
+      - name: Resultado
+        if: always()
+        working-directory: fonte
+        run: |
+          [ -f ci-resultado.txt ] && { echo '```'; cat ci-resultado.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY" || true
