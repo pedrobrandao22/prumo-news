@@ -21,7 +21,7 @@ Arquivo lido pela tarefa agendada "Prumo: melhoria contínua". Cada noite ela es
 - Nunca force push. Publicar = `python3 build.py https://kkzcljusiotoklldaupg.supabase.co sb_publishable_s1mSA4gcb2qs6kVRZYQZ-g_BsvwvdIA --saida site-real` e copiar `index.html`, `versao.json`, `sw.js` para a raiz.
 
 ## Lista de pendências pequenas (pegar de cima para baixo; riscar ao fazer)
-- [ ] Coluna: permitir editar a coluna (hoje é apagar e publicar de novo).
+- [x] ~~Coluna: permitir editar a coluna (hoje é apagar e publicar de novo).~~ (04/11; o texto longo depende de `sql/proposta-2026-11-04.sql`)
 - [ ] Coluna: Feed não deve baixar o corpo inteiro das colunas (buscar ao abrir).
 - [ ] Repost sem comentário de notícia: juntar à notícia como nos posts ("Bia repostou").
 - [ ] Atividade: repost e citação da mesma pessoa viram um item só; texto "repostou seu post De perto “…”".
@@ -39,3 +39,4 @@ Arquivo lido pela tarefa agendada "Prumo: melhoria contínua". Cada noite ela es
 - [ ] Quem fecha o app antes do detalhe chegar não fica com a edição para ler offline.
 
 ## Diário
+- 2026-11-04: Agora dá para editar uma coluna já publicada: no menu "…" da sua coluna, "Editar a coluna" abre o editor preenchido e "Salvar" atualiza título, linha fina, hashtags e texto, sem perder curtidas e comentários (capa e público ficam como estão). Para mudar o texto longo das colunas novas, o Pedro precisa rodar `sql/proposta-2026-11-04.sql` no Supabase (libera a edição do texto só para o autor); até lá, o app salva o resto e avisa. Teste: review2/t_melhoria_20261104. Observações: (1) na Capa, a ilustração do Plenário (feita em 5:4) é cortada no cartão 4:5 e perde o rótulo "SENADO FEDERAL" à esquerda — vale olhar; (2) falhas que já existiam sem esta mudança: as fotos review2/ig3/*.jpg não estão no repositório (sem elas t_ig_fotos, t_criacao2, t_criacao_noticia, t_foco_noticia e t_qa_producao param; com fotos de teste geradas aqui passam, menos o "fundo sem faixa" do t_criacao2, que depende da foto) e t_ver_stories acusa um aviso de toque do Chromium; (3) robôs: validar.py aponta Internacional x Coritiba de data passada ainda agendado.
