@@ -221,7 +221,7 @@ language plpgsql security definer set search_path = public as $$
 declare p record; n text; oque text; o uuid;
 begin
   begin
-    select id, autor, tipo, estilo into p from public.publicacoes where id = new.pub;
+    select id, autor, tipo, estilo, publico into p from public.publicacoes where id = new.pub;
     if not found then return null; end if;
     n := public.push_nome(new.uid);
     oque := case when p.tipo = 'story' then 'seu story' when coalesce(p.estilo->>'reel', '') in ('true', '1') then 'seu reel' else 'seu post' end;
@@ -229,7 +229,18 @@ begin
       perform public.push_enfileirar(p.autor, 'comentarios', new.uid, 'cmt:' || new.pub, n || ' comentou no ' || oque,
         coalesce(new.valor->>'texto', ''), '?nt=comentarios:' || new.pub);
       for o in select distinct r.uid from public.pub_reacoes r
-                where r.pub = new.pub and r.tipo = 'comentario' and r.uid <> new.uid and r.uid <> p.autor limit 30 loop
+                where r.pub = new.pub and r.tipo = 'comentario' and r.uid <> new.uid and r.uid <> p.autor
+                  -- só quem conhece quem comentou (amigo, ou um segue o outro; o autor do post todos conhecem):
+                  -- quem só segue o autor não recebe o nome nem o texto de um amigo do autor que não conhece, e vice-versa
+                  and (new.uid = p.autor
+                       or exists (select 1 from public.amizades a where a.status = 'aceita' and ((a.de = r.uid and a.para = new.uid) or (a.de = new.uid and a.para = r.uid)))
+                       or exists (select 1 from public.push_seguidores_de(r.uid) s(u) where s.u = new.uid)
+                       or exists (select 1 from public.push_seguidores_de(new.uid) s(u) where s.u = r.uid))
+                  -- e quem recebe ainda vê o post (continua amigo do autor, ou segue o perfil aberto num post para seguidores)
+                  and (exists (select 1 from public.amizades a where a.status = 'aceita' and ((a.de = r.uid and a.para = p.autor) or (a.de = p.autor and a.para = r.uid)))
+                       or (p.publico = 'seguidores' and exists (select 1 from public.push_seguidores_de(p.autor) s(u) where s.u = r.uid)
+                           and coalesce((select (to_jsonb(m) ->> 'perfil_aberto')::boolean from public.membros m where m.uid = p.autor), false)))
+                limit 30 loop
         perform public.push_enfileirar(o, 'comentarios', new.uid, 'cmt:' || new.pub, n || ' também comentou no post de ' || public.push_nome(p.autor),
           coalesce(new.valor->>'texto', ''), '?nt=comentarios:' || new.pub);
       end loop;
@@ -493,7 +504,13 @@ begin
       perform public.push_enfileirar(p.autor, 'comentarios', new.uid, 'cmt:' || new.pub, n || ' comentou no ' || oque,
         coalesce(new.valor->>'texto', ''), '?nt=comentarios:' || new.pub);
       for o in select distinct r.uid from public.pub_reacoes r
-                where r.pub = new.pub and r.tipo = 'comentario' and r.uid <> new.uid and r.uid <> p.autor limit 30 loop
+                where r.pub = new.pub and r.tipo = 'comentario' and r.uid <> new.uid and r.uid <> p.autor
+                  -- só quem conhece quem comentou (o autor do post todos conhecem; senão amigo, ou um segue o outro)
+                  and (new.uid = p.autor
+                       or exists (select 1 from public.amizades a where a.status = 'aceita' and ((a.de = r.uid and a.para = new.uid) or (a.de = new.uid and a.para = r.uid)))
+                       or exists (select 1 from public.push_seguidores_de(r.uid) s(u) where s.u = new.uid)
+                       or exists (select 1 from public.push_seguidores_de(new.uid) s(u) where s.u = r.uid))
+                limit 30 loop
         if public.push_quer(o, 'comentarios') and public.push_ve_pub(o, new.pub) then
           perform public.push_enfileirar(o, 'comentarios', new.uid, 'cmt:' || new.pub, n || ' também comentou no post de ' || public.push_nome(p.autor),
             coalesce(new.valor->>'texto', ''), '?nt=comentarios:' || new.pub);
