@@ -1,20 +1,34 @@
 {
- "gerado": "2026-11-04T18:22-03:00",
+ "gerado": "2026-11-04T19:19-03:00",
  "desde": "2026-11-04T15:40-03:00",
  "feed_atualizado_em": "2026-11-04T15:50:00-03:00",
  "resumo": {
-  "manchetes": 316,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 266,
-  "pautas_com_novidade": 7,
+  "manchetes": 366,
+  "assuntos_novos_relevantes": 6,
+  "assuntos_novos": 292,
+  "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 1,
-  "pautas_com_relatos": 9,
-  "acionar_itens": 2,
-  "ja_avaliados": 2
+  "pautas_com_relatos": 6,
+  "acionar_itens": 5,
+  "ja_avaliados": 3
  },
  "acionar": true,
- "acionar_motivo": "pauta pec-seguranca-ccj: 3 veículos em 90 min depois da última atualização; assunto novo: 4 veículos em 90 min (politica)",
+ "acionar_motivo": "dado oficial (Banco Central): O Copom manteve a Selic em 13,75% ao ano.; pauta copom-novembro-selic: 4 veículos em 90 min depois da última atualização; pauta pec-seguranca-ccj: 3 veículos em 90 min depois da última atualização (+2)",
  "acionar_itens": [
+  {
+   "tipo": "oficial",
+   "id": "copom-2026-11-04",
+   "pid": "copom-novembro-selic",
+   "titulo": "O Copom manteve a Selic em 13,75% ao ano.",
+   "motivo": "dado oficial (Banco Central): O Copom manteve a Selic em 13,75% ao ano."
+  },
+  {
+   "tipo": "pauta",
+   "pid": "copom-novembro-selic",
+   "titulo": "Aceleração da inflação justifica Selic em 13,75%, diz Copom",
+   "n_fontes": 4,
+   "motivo": "pauta copom-novembro-selic: 4 veículos em 90 min depois da última atualização"
+  },
   {
    "tipo": "pauta",
    "pid": "pec-seguranca-ccj",
@@ -26,42 +40,105 @@
    "tipo": "novo",
    "titulo": "Alcolumbre deixa maioridade penal para a Câmara após acordo com Motta",
    "secao": "politica",
-   "n_fontes": 4,
-   "motivo": "assunto novo: 4 veículos em 90 min (politica)",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
    "chave": [
     "acordo",
     "aguardar",
     "alcolumbre",
     "camara",
+    "debater",
     "decide",
-    "decisao",
     "deixa",
-    "haja",
     "maioridade",
     "motta",
-    "nega",
-    "nesta",
-    "pauta",
     "pautar",
     "penal",
     "reducao",
-    "retira",
     "senado",
     "tema",
     "votar"
+   ]
+  },
+  {
+   "tipo": "novo",
+   "titulo": "BC mantém taxa Selic em 13,75% e agro teme limitar investimentos em 2027",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "chave": [
+    "agro",
+    "atratividade",
+    "conheca",
+    "copom",
+    "ficam",
+    "fixa",
+    "fixada",
+    "guia",
+    "inter",
+    "investimentos",
+    "juros",
+    "limitar",
+    "mantem",
+    "opcoes",
+    "pos",
+    "renda",
+    "selic",
+    "taxa",
+    "teme",
+    "variavel"
    ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois",
  "novos": [
   {
-   "assunto": "Alcolumbre deixa maioridade penal para a Câmara após acordo com Motta",
+   "assunto": "Líder do PL no Senado reclama de não votação da maioridade: Não tem mais acordo",
    "secao": "politica",
    "n_fontes": 4,
    "fontes": [
+    "agsenado",
+    "folha",
+    "g1",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Líder do PL no Senado reclama de não votação da maioridade: Não tem mais acordo",
+     "url": "https://www.infomoney.com.br/politica/lider-do-pl-no-senado-reclama-de-nao-votacao-da-maioridade-nao-tem-mais-acordo/",
+     "hora": "04/11 19h13"
+    },
+    {
+     "veiculo": "Agência Senado",
+     "titulo": "Redução da maioridade penal: Senado aguardará votação de PEC da Câmara",
+     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/04/reducao-da-maioridade-penal-senado-aguardara-votacao-de-pec-da-camara",
+     "hora": "04/11 19h03"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Alcolumbre segura votação de PEC da maioridade penal após disputa entre Câmara e Senado",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/alcolumbre-segura-votacao-de-pec-da-maioridade-penal-apos-disputa-entre-camara-e-senado.shtml",
+     "hora": "04/11 18h20"
+    },
+    {
+     "veiculo": "g1 Política",
+     "titulo": "Com Marinho na disputa à presidência do Senado, PL se divide sobre lançar nome para Câmara",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/04/com-marinho-na-disputa-a-presidencia-do-senado-pl-se-divide-sobre-lancar-nome-para-camara.ghtml",
+     "hora": "04/11 15h41"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Alcolumbre deixa maioridade penal para a Câmara após acordo com Motta",
+   "secao": "politica",
+   "n_fontes": 3,
+   "fontes": [
     "cnn",
     "g1",
-    "met",
     "p360"
    ],
    "ja_e_breve": false,
@@ -74,89 +151,149 @@
      "hora": "04/11 18h12"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Alcolumbre decide aguardar Câmara e retira redução da maioridade da pauta",
-     "url": "https://www.metropoles.com/brasil/alcolumbre-decide-aguardar-camara-e-retira-reducao-da-maioridade-da-pauta",
-     "hora": "04/11 17h41"
-    },
-    {
-     "veiculo": "g1",
+     "veiculo": "g1 Política",
      "titulo": "Alcolumbre decide aguardar Câmara votar redução da maioridade penal para pautar tema no Senado",
      "url": "https://g1.globo.com/politica/noticia/2026/11/04/alcolumbre-decide-aguardar-camara-votar-reducao-da-maioridade-penal-para-pautar-tema-no-senado.ghtml",
      "hora": "04/11 17h15"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Alcolumbre nega que haja decisão para votar maioridade nesta quarta",
-     "url": "https://www.cnnbrasil.com.br/politica/alcolumbre-nega-que-haja-decisao-para-votar-maioridade-nesta-quarta/",
-     "hora": "04/11 16h56"
+     "titulo": "Alcolumbre diz que vai aguardar Câmara para debater redução da maioridade",
+     "url": "https://www.cnnbrasil.com.br/politica/alcolumbre-diz-que-vai-aguardar-camara-para-debater-reducao-da-maioridade/",
+     "hora": "04/11 17h14"
     }
    ],
-   "n_fontes_90min": 4
+   "n_fontes_90min": 3
   },
   {
-   "assunto": "Alto Tietê cria mais de 900 empregos com carteira assinada em setembro, aponta Caged",
-   "secao": null,
-   "n_fontes": 2,
+   "assunto": "BC mantém taxa Selic em 13,75% e agro teme limitar investimentos em 2027",
+   "secao": "economia",
+   "n_fontes": 3,
    "fontes": [
-    "ab",
-    "g1"
+    "cnn",
+    "folha",
+    "met"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Alto Tietê cria mais de 900 empregos com carteira assinada em setembro, aponta Caged",
-     "url": "https://g1.globo.com/sp/mogi-das-cruzes-suzano/concursos-e-emprego/noticia/2026/11/04/alto-tiete-mais-de-900-empregos-com-carteira-assinada-em-setembro-aponta-caged.ghtml",
-     "hora": "04/11 17h33"
+     "veiculo": "CNN Brasil",
+     "titulo": "BC mantém taxa Selic em 13,75% e agro teme limitar investimentos em 2027",
+     "url": "https://www.cnnbrasil.com.br/agro/bc-mantem-taxa-selic-em-1375-e-agro-teme-limitar-investimentos-em-2027/",
+     "hora": "04/11 18h45"
     },
     {
-     "veiculo": "Agência Brasil",
-     "titulo": "Brasil cria 121,3 mil postos de trabalho em setembro, aponta Caged",
-     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/brasil-cria-1213-mil-postos-de-trabalho-em-setembro-aponta-caged",
-     "hora": "04/11 16h33"
+     "veiculo": "Metrópoles",
+     "titulo": "Copom mantém taxa Selic e juros ficam em 13,75% ao ano",
+     "url": "https://www.metropoles.com/brasil/copom-mantem-taxa-selic-e-juros-ficam-em-1375-ao-ano",
+     "hora": "04/11 18h38"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Selic em 13,75% mantém atratividade da renda fixa pós-fixada; veja como ficam os investimentos",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/selic-em-1375-mantem-atratividade-da-renda-fixa-pos-fixada-veja-como-ficam-os-investimentos.shtml",
+     "hora": "04/11 18h32"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Guia de investimentos do Inter: conheça as opções de renda fixa e variável",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/guia-de-investimentos-do-inter-conheca-as-opcoes-de-renda-fixa-e-variavel/",
+     "hora": "04/11 17h30"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Brasil segue com maior juro real do mundo, mesmo com manutenção da Selic em 13,75%",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "g1",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Brasil segue com maior juro real do mundo, mesmo com manutenção da Selic em 13,75%",
+     "url": "https://www.infomoney.com.br/economia/brasil-lidera-ranking-juros-reais-copom/",
+     "hora": "04/11 18h45"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Brasil mantém maior taxa de juros reais do mundo; veja ranking",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/brasil-mantem-maior-taxa-de-juros-reais-do-mundo-apos-manutencao-da-selic/",
+     "hora": "04/11 18h33"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Copom mantém taxa básica de juros da economia em 13,75% ao ano",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/04/copom-mantem-taxa-basica-de-juros-da-economia-em-1375percent-ao-ano.ghtml",
+     "hora": "04/11 18h31"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Haaland decide e Manchester City vence o Leipzig fora de casa na Champions",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Haaland decide e Manchester City vence o Leipzig fora de casa na Champions",
+     "url": "https://www.metropoles.com/esportes/haaland-decide-e-manchester-city-vence-o-leipzig-fora-de-casa-na-champions",
+     "hora": "04/11 19h11"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Arsenal vence Slavia Praga fora de casa e segue invicto na Champions League",
+     "url": "https://www.metropoles.com/esportes/arsenal-vence-slavia-praga-fora-de-casa-e-segue-invicto-na-champions-league",
+     "hora": "04/11 18h59"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Porto goleia o Napoli e conquista primeira vitória na Champions League",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/champions-league/porto-goleia-o-napoli-e-conquista-primeira-vitoria-na-champions-league/",
+     "hora": "04/11 18h54"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Fenerbahçe vira sobre o Liverpool e conquista a primeira vitória na Champions",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/liga-dos-campeoes/jogo/04-11-2026/fenerbahce-Liverpool.ghtml",
+     "hora": "04/11 17h22"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Com quatro desfalques, Flamengo divulga relacionados para encarar o Grêmio",
+   "assunto": "Ídolo do Atlético-MG, Réver é detido no RS por não pagar pensão alimentícia",
    "secao": "esportes",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "fontes": [
+    "g1",
     "ge",
     "met"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Com quatro desfalques, Flamengo divulga relacionados para encarar o Grêmio",
-     "url": "https://www.metropoles.com/esportes/com-quatro-desfalques-flamengo-divulga-relacionados-para-encarar-o-gremio",
-     "hora": "04/11 18h09"
+     "titulo": "Ídolo do Atlético-MG, Réver é detido no RS por não pagar pensão alimentícia",
+     "url": "https://www.metropoles.com/esportes/idolo-do-atletico-mg-rever-e-detido-no-rs-por-nao-pagar-pensao-alimenticia",
+     "hora": "04/11 18h52"
     },
-    {
-     "veiculo": "ge",
-     "titulo": "Flamengo divulga relacionados contra o Grêmio com voltas de Saúl e Valencia; veja lista",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/04/flamengo-divulga-relacionados-contra-o-gremio-com-voltas-de-saul-e-valencia-veja-lista.ghtml",
-     "hora": "04/11 16h02"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Empresário é preso por dívida de mais de R$ 1,2 milhão em pensão alimentícia",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
     {
      "veiculo": "g1",
      "titulo": "Empresário é preso por dívida de mais de R$ 1,2 milhão em pensão alimentícia",
@@ -171,61 +308,172 @@
     },
     {
      "veiculo": "g1",
-     "titulo": "Ex-zagueiro Réver é preso em Porto Alegre por não pagar pensão alimentícia",
+     "titulo": "Ex-zagueiro Réver é preso, paga R$ 150 mil de pensão alimentícia e é solto em Porto Alegre",
      "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/04/rever-preso-porto-alegre-pensao.ghtml",
      "hora": "04/11 17h49"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 3
   },
   {
-   "assunto": "Fenerbahçe vira sobre o Liverpool e conquista a primeira vitória na Champions",
-   "secao": "esportes",
+   "assunto": "Banco Central surpreende e mantém juros básicos em 13,75% ao ano",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "ab",
+    "cnn",
+    "folha"
+   ],
+   "ja_e_breve": true,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Banco Central surpreende e mantém juros básicos em 13,75% ao ano",
+     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/bc-surpreende-e-mantem-juros-basicos-em-1375-ao-ano",
+     "hora": "04/11 18h33"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "BC puxa freio e encerra ciclo após 5 cortes de juros; Selic fica em 13,75%",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/copom-novembro-2026/",
+     "hora": "04/11 18h31"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Banco Central mantém Selic em 13,75% ao ano e interrompe ciclo de cortes de juros após choque eleitoral",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/banco-central-mantem-selic-em-1375-ao-ano-e-interrompe-ciclo-de-cortes-de-juros-apos-choque-eleitoral.shtml",
+     "hora": "04/11 18h31"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "'Minha filha de 13 anos sofreu ofensas racistas, sexuais e religiosas após o resultado das eleições'",
+   "secao": "brasil",
    "n_fontes": 2,
    "fontes": [
-    "cnn",
-    "ge"
+    "bbc",
+    "folha"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Fenerbahçe vira sobre o Liverpool e conquista a primeira vitória na Champions",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/liga-dos-campeoes/jogo/04-11-2026/fenerbahce-Liverpool.ghtml",
-     "hora": "04/11 17h22"
+     "veiculo": "Folha Cotidiano",
+     "titulo": "'Minha filha de 13 anos sofreu ofensas racistas, sexuais e religiosas após o resultado das eleições'",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/minha-filha-de-13-anos-sofreu-ofensas-racistas-sexuais-e-religiosas-apos-o-resultado-das-eleicoes.shtml",
+     "hora": "04/11 18h59"
     },
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Fenerbahçe vence Liverpool em confronto inédito pela Champions League",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/champions-league/fenerbahce-vence-liverpool-em-confronto-inedito-pela-champions-league/",
-     "hora": "04/11 16h57"
+     "veiculo": "BBC News Brasil",
+     "titulo": "'Minha filha de 13 anos sofreu ofensas racistas, sexuais e religiosas após resultado das eleições'",
+     "url": "https://www.bbc.com/portuguese/articles/c6kg7ej7e73ko?at_medium=RSS&at_campaign=rss",
+     "hora": "04/11 17h52"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Flávio Dino é sorteado relator da ação da CNC que busca adiar fim da escala 6×1",
-   "secao": "politica",
+   "assunto": "BC destaca “aumento significativo” da incerteza no mercado; leia comunicado",
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
-    "folha",
+    "cnn",
     "im"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Flávio Dino é sorteado relator da ação da CNC que busca adiar fim da escala 6×1",
-     "url": "https://www.infomoney.com.br/politica/flavio-dino-e-sorteado-relator-da-acao-da-cnc-que-busca-adiar-fim-da-escala-6x1/",
-     "hora": "04/11 18h12"
+     "veiculo": "CNN Brasil",
+     "titulo": "BC destaca “aumento significativo” da incerteza no mercado; leia comunicado",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/bc-destaca-aumento-significativo-da-incerteza-no-mercado-leia-comunicado/",
+     "hora": "04/11 18h47"
     },
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Empresários do comércio vão ao STF para adiar fim da escala 6x1 para 2027",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/empresarios-do-comercio-vao-ao-stf-para-adiar-fim-da-escala-6x1-para-2027.shtml",
-     "hora": "04/11 16h17"
+     "veiculo": "InfoMoney",
+     "titulo": "BC mantém Selic em 13,75% ao ano e destaca “aumento significativo das incertezas”",
+     "url": "https://www.infomoney.com.br/economia/banco-central-copom-decisao-selic-04112026/",
+     "hora": "04/11 18h31"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Câmara proíbe uso de drones em presídios sob pena de até 5 anos de prisão",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "agcamara",
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Câmara proíbe uso de drones em presídios sob pena de até 5 anos de prisão",
+     "url": "https://www.cnnbrasil.com.br/politica/camara-proibe-uso-de-drones-em-presidios-sob-pena-de-ate-5-anos-de-prisao/",
+     "hora": "04/11 18h20"
+    },
+    {
+     "veiculo": "Agência Câmara",
+     "titulo": "Câmara aprova proposta que criminaliza sobrevoo não autorizado de drones perto de presídios",
+     "url": "https://www.camara.leg.br/noticias/1315957-camara-aprova-proposta-que-criminaliza-sobrevoo-nao-autorizado-de-drones-perto-de-presidios",
+     "hora": "04/11 16h58"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Damião propõe transformar Guarda de BH em Polícia Municipal; veja mudanças",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Damião propõe transformar Guarda de BH em Polícia Municipal; veja mudanças",
+     "url": "https://www.metropoles.com/minas-gerais/damiao-propoe-transformar-guarda-de-bh-em-policia-municipal-veja-mudancas",
+     "hora": "04/11 18h48"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Prefeitura de BH anuncia processo para transformar Guarda Civil Municipal em Polícia Municipal",
+     "url": "https://g1.globo.com/mg/minas-gerais/noticia/2026/11/04/prefeitura-de-bh-anuncia-processo-para-transformar-guarda-civil-municipal-em-policia-municipal.ghtml",
+     "hora": "04/11 18h14"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Deputados aprovam projeto que estabelece novas regras para taxas em cartórios do Paraná; há aumentos de até 163%",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "agcamara",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Deputados aprovam projeto que estabelece novas regras para taxas em cartórios do Paraná; há aumentos de até 163%",
+     "url": "https://g1.globo.com/pr/parana/economia/noticia/2026/11/04/deputados-aprovam-projeto-que-estabelece-novas-regras-para-cobrancas-de-taxas-em-cartorios-do-parana.ghtml",
+     "hora": "04/11 18h27"
+    },
+    {
+     "veiculo": "Agência Câmara",
+     "titulo": "Deputados aprovam urgência para projeto que cria nova modalidade para Fies",
+     "url": "https://www.camara.leg.br/noticias/1315954-deputados-aprovam-urgencia-para-projeto-que-cria-nova-modalidade-para-fies",
+     "hora": "04/11 16h49"
     }
    ],
    "n_fontes_90min": 1
@@ -258,33 +506,59 @@
    "lixo": true
   },
   {
-   "assunto": "Governo prevê decreto do fim da escala 6x1 para segunda-feira",
-   "secao": "politica",
+   "assunto": "Idaho escolhe rifle Winchester de 1873 como favorito a arma oficial",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "ab",
-    "cnn"
+    "cnn",
+    "p360"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Agência Brasil",
-     "titulo": "Governo prevê decreto do fim da escala 6x1 para segunda-feira",
-     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/governo-preve-decreto-do-fim-da-escala-6x1-para-segunda-feira",
-     "hora": "04/11 17h21"
+     "veiculo": "Poder360",
+     "titulo": "Idaho escolhe rifle Winchester de 1873 como favorito a arma oficial",
+     "url": "https://www.poder360.com.br/poder-internacional/idaho-escolhe-rifle-winchester-de-1873-como-favorito-a-arma-oficial/",
+     "hora": "04/11 19h18"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Governo planeja divulgar decreto do fim da escala 6×1 na próxima segunda",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/governo-planeja-divulgar-decreto-do-fim-da-escala-6x1-na-proxima-segunda/",
-     "hora": "04/11 16h14"
+     "titulo": "Midterms: Além de políticos, eleitores escolhem arma oficial de Idaho",
+     "url": "https://www.cnnbrasil.com.br/internacional/midterms-alem-de-politicos-eleitores-escolhem-arma-oficial-de-idaho/",
+     "hora": "04/11 18h29"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Guerras e “canetadas”: Como Trump deve agir após derrota nas Midterms",
+   "assunto": "K-drama: produção de séries coreanas corre risco de colapso, alerta setor",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "K-drama: produção de séries coreanas corre risco de colapso, alerta setor",
+     "url": "https://www.cnnbrasil.com.br/pop/streaming/k-drama-producao-de-series-coreanas-corre-risco-de-colapso-alerta-setor/",
+     "hora": "04/11 18h15"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Estamos preparados para um colapso no setor de IA?",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/martinwolf/2026/11/estamos-preparados-para-um-colapso-no-setor-de-ia.shtml",
+     "hora": "04/11 15h47"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Midterms: Trump e Vance admitem “culpa” da guerra no Irã em derrota",
    "secao": "mundo",
    "n_fontes": 2,
    "fontes": [
@@ -294,6 +568,12 @@
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Midterms: Trump e Vance admitem “culpa” da guerra no Irã em derrota",
+     "url": "https://www.cnnbrasil.com.br/internacional/midterms-trump-e-vance-admitem-culpa-da-guerra-no-ira-em-derrota/",
+     "hora": "04/11 18h09"
+    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Guerras e “canetadas”: Como Trump deve agir após derrota nas Midterms",
@@ -311,18 +591,38 @@
      "titulo": "Midterms: Revés de Trump pode afetar Irã, Israel e Ucrânia",
      "url": "https://www.cnnbrasil.com.br/internacional/midterms-reves-de-trump-pode-afetar-ira-israel-e-ucrania/",
      "hora": "04/11 17h31"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Neymar faz golaço de bicicleta em treino do Santos; veja a pintura",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Neymar faz golaço de bicicleta em treino do Santos; veja a pintura",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/santos/neymar-faz-golaco-de-bicicleta-em-treino-do-santos-veja-a-pintura/",
+     "hora": "04/11 18h56"
     },
     {
-     "veiculo": "Folha Mundo",
-     "titulo": "Vance se distancia de Trump, atribui derrota nas midterms à guerra no Irã e admite perda de eleitores",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/vance-se-distancia-de-trump-atribui-derrota-nas-midterms-a-guerra-no-ira-e-admite-perda-de-eleitores.shtml",
+     "veiculo": "ge",
+     "titulo": "Neymar faz gol de bicicleta em treino do Santos; veja o vídeo",
+     "url": "https://ge.globo.com/sp/santos-e-regiao/futebol/times/santos/noticia/2026/11/04/neymar-faz-gol-de-bicicleta-em-treino-do-santos-veja-o-video.ghtml",
      "hora": "04/11 15h56"
     }
    ],
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Paes aciona o TRE-RJ e pede a cassação da chapa de Douglas Ruas",
+   "assunto": "PRIO (PRIO3) tem lucro líquido de US$ 521 milhões no 3º tri, alta anual de 468%",
    "secao": "economia",
    "n_fontes": 2,
    "fontes": [
@@ -334,132 +634,202 @@
    "manchetes": [
     {
      "veiculo": "InfoMoney",
-     "titulo": "Paes aciona o TRE-RJ e pede a cassação da chapa de Douglas Ruas",
-     "url": "https://www.infomoney.com.br/politica/paes-aciona-o-tre-rj-pela-cassacao-da-chapa-de-douglas-ruas/",
-     "hora": "04/11 17h55"
+     "titulo": "PRIO (PRIO3) tem lucro líquido de US$ 521 milhões no 3º tri, alta anual de 468%",
+     "url": "https://www.infomoney.com.br/mercados/prio-prio3-resultados-terceiro-trimestre-2026/",
+     "hora": "04/11 19h15"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Totvs (TOTS3) encerra o 3º tri com lucro líquido ajustado de R$ 237 mi, alta de 8,8%",
+     "url": "https://www.infomoney.com.br/mercados/resultado-totvs-tots3-terceiro-trimestre-2026/",
+     "hora": "04/11 18h55"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Mercado Livre (MELI34) tem lucro líquido abaixo do esperado e registra US$ 448 mi",
+     "url": "https://www.infomoney.com.br/mercados/resultado-mercado-livre-meli34-terceiro-trimestre-2026/",
+     "hora": "04/11 18h49"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Eduardo Paes pede ao TRE-RJ cassação de chapa de Douglas Ruas",
-     "url": "https://www.cnnbrasil.com.br/eleicoes/eduardo-paes-pede-ao-tre-rj-cassacao-de-chapa-de-douglas-ruas/",
-     "hora": "04/11 16h28"
+     "titulo": "Mercado Livre tem lucro de US$ 448 milhões no 3° tri, alta de 6%",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/mercado-livre-tem-lucro-de-us-448-milhoes-no-3-tri-alta-de-6/",
+     "hora": "04/11 18h44"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Tornado: força do vento tomba caminhão e van em rodovia de Santa Catarina",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Tornado: força do vento tomba caminhão e van em rodovia de Santa Catarina",
-     "url": "https://www.metropoles.com/brasil/tornado-forca-do-vento-tomba-caminhao-e-van-em-rodovia-de-santa-catarina",
-     "hora": "04/11 18h03"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Tempestade e tornado causam estragos em Santa Catarina nesta quarta-feira",
-     "url": "https://www.cnnbrasil.com.br/nacional/sul/sc/tempestade-e-tornado-causam-estragos-em-santa-catarina-nesta-quarta-feira/",
-     "hora": "04/11 16h38"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Valverde faz golaço no fim e garante virada do Real Madrid sobre o AEK em Atenas",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Valverde faz golaço no fim e garante virada do Real Madrid sobre o AEK em Atenas",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/liga-dos-campeoes/jogo/04-11-2026/aek-realmadrid.ghtml",
-     "hora": "04/11 16h53"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Real Madrid evita vexame contra AEK com golaço de Valverde nos acréscimos",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/champions-league/real-madrid-evita-vexame-contra-aek-com-golaco-de-valverde-nos-acrescimos/",
-     "hora": "04/11 16h42"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Veja os destaques do esporte no Diário TV 1ª Edição desta quarta-feira, 4 de novembro",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Veja os destaques do esporte no Diário TV 1ª Edição desta quarta-feira, 4 de novembro",
-     "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/noticia/2026/11/04/veja-os-destaques-do-esporte-no-diario-tv-1a-edicao-desta-quarta-feira-4-de-novembro.ghtml",
-     "hora": "04/11 17h44"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "VÍDEOS: Jornal do Acre 1ª Edição desta quarta-feira, 4 de novembro de 2026",
-     "url": "https://g1.globo.com/ac/acre/playlist/videos-jornal-do-acre-1-edicao-desta-quarta-feira-4-de-novembro-de-2026.ghtml",
-     "hora": "04/11 16h48"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "lixo": true
-  },
-  {
-   "assunto": "“Onda azul”: o que a vitória democrata muda no Congresso dos EUA",
+   "assunto": "Selic fica em 13,75%: veja quanto rendem R$ 10 mil em CDB, Tesouro Selic e poupança",
    "secao": "economia",
    "n_fontes": 2,
    "fontes": [
     "cnn",
-    "met"
+    "im"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "“Onda azul”: o que a vitória democrata muda no Congresso dos EUA",
-     "url": "https://www.metropoles.com/mundo/onda-azul-o-que-a-vitoria-democrata-muda-no-congresso-dos-eua",
-     "hora": "04/11 17h44"
+     "veiculo": "InfoMoney",
+     "titulo": "Selic fica em 13,75%: veja quanto rendem R$ 10 mil em CDB, Tesouro Selic e poupança",
+     "url": "https://www.infomoney.com.br/onde-investir/selic-fica-em-1375-veja-quanto-rendem-r-10-mil-em-cdb-tesouro-selic-e-poupanca/",
+     "hora": "04/11 18h45"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Selic a 13,75%: Quanto rendem R$ 1 mil na poupança, CDB ou Tesouro Direto?",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/selic-a-1375-quanto-rendem-r-1-mil-na-poupanca-tesouro-direto-ou-cdb/",
+     "hora": "04/11 18h42"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "São Paulo x Corinthians: Onde assistir ao Brasileirão?",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "São Paulo x Corinthians: Onde assistir ao Brasileirão?",
+     "url": "https://www.infomoney.com.br/esportes/sao-paulo-corinthians-onde-assistir-brasileirao/",
+     "hora": "04/11 19h00"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Athletico-PR x Vasco: escalações e onde assistir ao jogo do Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/athletico-pr-x-vasco-escalacoes-e-onde-assistir-ao-jogo-do-brasileirao/",
+     "hora": "04/11 18h35"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Flamengo x Grêmio: escalações e onde assistir ao jogo do Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/flamengo-x-gremio-escalacoes-e-onde-assistir-ao-jogo-do-brasileirao-2/",
+     "hora": "04/11 18h33"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Tornado causa danos em aeroporto e suspende voos em Chapecó (SC)",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Tornado causa danos em aeroporto e suspende voos em Chapecó (SC)",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/tornado-causa-danos-em-aeroporto-e-suspende-voos-em-chapeco-sc.shtml",
+     "hora": "04/11 19h02"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Tornado deixa aeroporto de Chapecó destruído e atividades são suspensas",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/sc/tornado-deixa-aeroporto-de-chapeco-destruido-e-atividades-sao-suspensas/",
+     "hora": "04/11 18h02"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Vitória democrata nos EUA pode favorecer mercados emergentes, mas efeito depende de cenário fiscal",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "folha"
+   ],
+   "ja_e_breve": true,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Vitória democrata nos EUA pode favorecer mercados emergentes, mas efeito depende de cenário fiscal",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/vitoria-democrata-nos-eua-pode-favorecer-mercados-emergentes-mas-efeito-depende-de-cenario-fiscal.shtml",
+     "hora": "04/11 18h37"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Trump agrava custo de vida nos EUA e impulsiona vitória democrata",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/trump-agrava-custo-de-vida-nos-eua-e-impulsiona-vitoria-democrata.shtml",
+     "hora": "04/11 18h32"
     },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Juros futuros recuam após vitória democrata nos EUA e expectativa por Copom",
      "url": "https://www.cnnbrasil.com.br/economia/money/mercado/juros-futuros-recuam-apos-vitoria-democrata-nos-eua-e-expectativa-por-copom/",
      "hora": "04/11 17h09"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ouro sobe mais de 3% com queda do dólar após vitória democrata nos EUA",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ouro-sobe-mais-de-3-com-queda-do-dolar-apos-vitoria-democrata-nos-eua/",
-     "hora": "04/11 16h35"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "\"Empreendireita\": grupo bolsonarista ordena boicote a petistas no interior",
+   "assunto": "Vitória dos democratas no Congresso dos EUA vai colocar fim à Doutrina Donroe?",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Vitória dos democratas no Congresso dos EUA vai colocar fim à Doutrina Donroe?",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/04/vitoria-dos-democratas-no-congresso-dos-eua-pora-fim-a-doutrina-donroe.ghtml",
+     "hora": "04/11 19h00"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Suprema Corte dos EUA entra na mira após vitória dos democratas nas Midtems",
+     "url": "https://www.cnnbrasil.com.br/internacional/suprema-corte-dos-eua-entra-na-mira-apos-vitoria-dos-democratas-nas-midtems/",
+     "hora": "04/11 18h52"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Ônibus com trabalhadores rurais tomba na Fernão Dias, em Três Corações, e deixa 15 feridos",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Ônibus com trabalhadores rurais tomba na Fernão Dias, em Três Corações, e deixa 15 feridos",
+     "url": "https://g1.globo.com/mg/sul-de-minas/noticia/2026/11/04/onibus-tomba-e-causa-interdicao-total-da-rodovia-fernao-dias-em-tres-coracoes-mg.ghtml",
+     "hora": "04/11 18h36"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Porsche atinge carro, provoca capotamento e deixa três feridos em Florianópolis",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/porsche-atinge-carro-provoca-capotamento-e-deixa-tres-feridos-em-florianopolis.shtml",
+     "hora": "04/11 17h44"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "\"Vítima há anos\", diz Drauzio Varella sobre deepfakes alvos de operação",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -470,28 +840,28 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "\"Empreendireita\": grupo bolsonarista ordena boicote a petistas no interior",
-     "url": "https://www.metropoles.com/sao-paulo/empreendireita-grupo-bolsonarista-ordena-boicote-a-petistas-no-interior",
-     "hora": "04/11 18h10"
+     "titulo": "\"Vítima há anos\", diz Drauzio Varella sobre deepfakes alvos de operação",
+     "url": "https://www.metropoles.com/sao-paulo/vitima-ha-anos-diz-drauzio-varella-sobre-deepfakes-alvos-de-operacao",
+     "hora": "04/11 19h00"
     }
    ],
    "n_fontes_90min": 1
   },
   {
-   "assunto": "'Minha filha de 13 anos sofreu ofensas racistas, sexuais e religiosas após resultado das eleições'",
+   "assunto": "16ª Virada Sustentável reúne música, arte e oficinas gratuitas em SP; veja a programação",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "bbc"
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "BBC News Brasil",
-     "titulo": "'Minha filha de 13 anos sofreu ofensas racistas, sexuais e religiosas após resultado das eleições'",
-     "url": "https://www.bbc.com/portuguese/articles/c6kg7ej7e73ko?at_medium=RSS&at_campaign=rss",
-     "hora": "04/11 17h52"
+     "veiculo": "g1",
+     "titulo": "16ª Virada Sustentável reúne música, arte e oficinas gratuitas em SP; veja a programação",
+     "url": "https://g1.globo.com/guia/guia-sp/noticia/2026/11/04/16a-virada-sustentavel-reune-musica-arte-e-oficinas-gratuitas-em-sp-veja-a-programacao.ghtml",
+     "hora": "04/11 19h01"
     }
    ],
    "n_fontes_90min": 1
@@ -516,7 +886,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Acidente com ônibus escolar deixa cinco feridos na BR-060",
+   "assunto": "AO VIVO: Assista ao GR2",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -527,15 +897,16 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Acidente com ônibus escolar deixa cinco feridos na BR-060",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/04/acidente-com-onibus-escolar-deixa-cinco-feridos-na-br-060.ghtml",
-     "hora": "04/11 16h34"
+     "titulo": "AO VIVO: Assista ao GR2",
+     "url": "https://g1.globo.com/pe/petrolina-regiao/ao-vivo/ao-vivo-assista-ao-gr2.ghtml",
+     "hora": "04/11 18h25"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 0,
+   "lixo": true
   },
   {
-   "assunto": "Adolescente de 17 anos cai de moto e é atropelada por caminhão em Nanuque; VÍDEO",
+   "assunto": "AO VIVO: Assista ao JAC2 com Quésia Melo",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -546,205 +917,16 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Adolescente de 17 anos cai de moto e é atropelada por caminhão em Nanuque; VÍDEO",
-     "url": "https://g1.globo.com/mg/vales-mg/noticia/2026/11/04/adolescente-de-17-anos-cai-de-moto-e-e-atropelada-por-caminhao-em-nanuque-video.ghtml",
-     "hora": "04/11 17h58"
+     "titulo": "AO VIVO: Assista ao JAC2 com Quésia Melo",
+     "url": "https://g1.globo.com/ac/acre/ao-vivo/ao-vivo-assista-ao-jac2-com-quesia-melo.ghtml",
+     "hora": "04/11 18h42"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 0,
+   "lixo": true
   },
   {
-   "assunto": "Alcolumbre diz que vai aguardar Câmara para debater redução da maioridade",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alcolumbre diz que vai aguardar Câmara para debater redução da maioridade",
-     "url": "https://www.cnnbrasil.com.br/politica/alcolumbre-diz-que-vai-aguardar-camara-para-debater-reducao-da-maioridade/",
-     "hora": "04/11 17h14"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Amigos fazem pudim de quase 24 kg depois de partida de futebol no ES",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Amigos fazem pudim de quase 24 kg depois de partida de futebol no ES",
-     "url": "https://ge.globo.com/es/futebol/noticia/2026/11/04/amigos-fazem-pudim-de-quase-24-kg-depois-de-partida-de-futebol-no-es.ghtml",
-     "hora": "04/11 16h28"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Antonelli celebra estreia de Rafa Câmara e elogia brasileiros da F1: \"Em breve, disputaremos no topo\"",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Antonelli celebra estreia de Rafa Câmara e elogia brasileiros da F1: \"Em breve, disputaremos no topo\"",
-     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/04/antonelli-celebra-estreia-de-rafael-camara-no-gp-brasil-da-f1.ghtml",
-     "hora": "04/11 16h23"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Análise: Derrota republicana nas Midterms gera incertezas na América Latina",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Análise: Derrota republicana nas Midterms gera incertezas na América Latina",
-     "url": "https://www.cnnbrasil.com.br/internacional/analise-derrota-republicana-nas-midterms-gera-incertezas-na-america-latina/",
-     "hora": "04/11 18h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Apodi vence Russas e avança para semifinais da Copa Nordeste de Futsal",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Apodi vence Russas e avança para semifinais da Copa Nordeste de Futsal",
-     "url": "https://ge.globo.com/rn/noticia/2026/11/04/apodi-vence-russas-e-avanca-para-semifinais-da-copa-nordeste-de-futsal.ghtml",
-     "hora": "04/11 15h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Aquicultura em águas da União bate recorde com 179,6 mil toneladas",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "ab"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Aquicultura em águas da União bate recorde com 179,6 mil toneladas",
-     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/aquicultura-em-aguas-da-uniao-bate-recorde-com-1796-mil-toneladas",
-     "hora": "04/11 16h04"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Asa-delta: veja quais são as regras para voos duplos no Brasil",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Asa-delta: veja quais são as regras para voos duplos no Brasil",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/asa-delta-veja-quais-sao-as-regras-para-voos-duplos-no-brasil/",
-     "hora": "04/11 16h05"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Assédio eleitoral supera 7 mil denúncias, aponta ministério",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "ab"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Assédio eleitoral supera 7 mil denúncias, aponta ministério",
-     "url": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/assedio-eleitoral-supera-7-mil-denuncias-aponta-ministerio",
-     "hora": "04/11 17h33"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Ataque com drone ucraniano mata três na região russa de Belgorod",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ataque com drone ucraniano mata três na região russa de Belgorod",
-     "url": "https://www.cnnbrasil.com.br/internacional/ataque-com-drone-ucraniano-mata-tres-na-regiao-russa-de-belgorod/",
-     "hora": "04/11 16h41"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Ataque hacker atinge freezers do banco de sangue da França",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ataque hacker atinge freezers do banco de sangue da França",
-     "url": "https://www.cnnbrasil.com.br/economia/money/tecnologia/ataque-hacker-atinge-freezers-do-banco-de-sangue-da-franca/",
-     "hora": "04/11 16h07"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Aulão na Rede 2026: entenda os conceitos de matéria, substâncias e misturas para provas de química",
+   "assunto": "AO VIVO: assista à programação da NSC TV",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -755,66 +937,43 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Aulão na Rede 2026: entenda os conceitos de matéria, substâncias e misturas para provas de química",
-     "url": "https://g1.globo.com/rr/roraima/noticia/2026/11/04/aulao-na-rede-2026-entenda-os-conceitos-de-materia-substancias-e-misturas-para-provas-de-quimica.ghtml",
-     "hora": "04/11 17h15"
+     "titulo": "AO VIVO: assista à programação da NSC TV",
+     "url": "https://g1.globo.com/sc/santa-catarina/ao-vivo/assista-ao-vivo-aos-telejornais-da-nsc.ghtml",
+     "hora": "04/11 18h47"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 0,
+   "lixo": true
   }
  ],
  "em_pautas": {
-  "marinho-presidencia-senado": {
-   "secao": "politica",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "g1 Política",
-     "titulo": "Com Marinho na disputa à presidência do Senado, PL se divide sobre lançar nome para Câmara",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/04/com-marinho-na-disputa-a-presidencia-do-senado-pl-se-divide-sobre-lancar-nome-para-camara.ghtml",
-     "hora": "04/11 15h41"
-    }
-   ]
-  },
-  "enem-2026-reta-final-app-idioma": {
-   "secao": "educacao",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Enem 2026: MEC garante segurança da prova e mantém regras da redação",
-     "url": "https://www.cnnbrasil.com.br/educacao/enem-2026-mec-garante-seguranca-da-prova-e-mantem-regras-da-redacao/",
-     "hora": "04/11 16h14"
-    }
-   ]
-  },
   "copa-do-brasil-semifinal-ida-palmeiras-vasco-gremio-atletico": {
    "secao": "esportes",
    "n_fontes": 3,
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Nigéria domina Brasil, vence e faz final da Copa Feminina Sub-17 contra o Japão",
-     "url": "https://ge.globo.com/ms/futebol/futebol-feminino/jogo/04-11-2026/brasil-nigeria.ghtml",
-     "hora": "04/11 17h54"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Brasil perde para a Nigéria e cai na semi da Copa do Mundo Feminina Sub-17",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/selecao-brasileira/brasil-perde-para-a-nigeria-e-cai-na-semi-da-copa-do-mundo-feminina-sub-17/",
-     "hora": "04/11 17h48"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Brasil perde para a Nigéria na semifinal da Copa do Mundo Feminina Sub-17",
-     "url": "https://www.metropoles.com/esportes/brasil-perde-para-a-nigeria-na-semifinal-da-copa-do-mundo-feminina-sub-17",
-     "hora": "04/11 17h34"
+     "titulo": "Internacional x Bragantino - Copa do Brasil Feminina 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/04-11-2026/internacional-bragantino.ghtml",
+     "hora": "04/11 19h18"
     },
     {
      "veiculo": "ge",
-     "titulo": "Atlético-MG vence Santa Cruz e vai à semifinal da Copa do Brasil Sub-20",
-     "url": "https://ge.globo.com/mg/triangulo-mineiro/futebol/copa-do-brasil-sub-20/jogo/04-11-2026/atletico-mg-santa-cruz.ghtml",
-     "hora": "04/11 17h09"
+     "titulo": "Bragantino x Internacional - Copa do Brasil Feminina 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/sp/vale-do-paraiba-regiao/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/08-11-2026/bragantino-internacional.ghtml",
+     "hora": "04/11 18h55"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Flamengo x Bahia - Copa do Brasil Feminina 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/ba/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/07-11-2026/flamengo-feminino-bahia.ghtml",
+     "hora": "04/11 18h54"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Paysandu x Palmeiras: onde assistir ao jogo de volta das quartas da Copa do Brasil Sub-20",
+     "url": "https://ge.globo.com/pa/futebol/copa-do-brasil-sub-20/noticia/2026/11/04/paysandu-x-palmeiras-onde-assistir-ao-jogo-de-volta-das-quartas-da-copa-do-brasil-sub-20.ghtml",
+     "hora": "04/11 18h48"
     }
    ]
   },
@@ -823,7 +982,7 @@
    "n_fontes": 1,
    "manchetes": [
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Mundo",
      "titulo": "Eleições nos EUA: democratas conquistam maioria no Senado e na Câmara; SIGA",
      "url": "https://g1.globo.com/mundo/ao-vivo/eleicoes-nos-eua-2026-acompanhe-as-ultimas-noticias-sobre-as-midterms.ghtml",
      "hora": "04/11 17h10"
@@ -872,15 +1031,33 @@
     }
    ]
   },
-  "dolar-volta-acima-5": {
+  "copom-novembro-selic": {
    "secao": "economia",
-   "n_fontes": 1,
+   "n_fontes": 2,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Itaú (ITUB4) entrega novo tri sólido e reforça “favoritismo” do mercado; ação sobe 3%",
-     "url": "https://www.infomoney.com.br/mercados/itau-itub4-entrega-mais-um-trimestre-solido-e-reforca-favoritismo-do-mercado-desempenho-acoes/",
-     "hora": "04/11 18h17"
+     "veiculo": "Folha Mercado",
+     "titulo": "Brasil segue na liderança do ranking de juros reais após manutenção da Selic",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/brasil-segue-na-lideranca-do-ranking-de-juros-reais-apos-manutencao-da-selic.shtml",
+     "hora": "04/11 18h32"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Brasil amplia distância e segue com o maior juro real do mundo após Copom manter Selic; veja ranking",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/04/ranking-juro-real-novembro.ghtml",
+     "hora": "04/11 18h31"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Copom mantém Selic em 13,75% e confirma aposta do mercado",
+     "url": "https://www.poder360.com.br/poder-economia/copom-mantem-selic-em-1375-e-confirma-aposta-do-mercado/",
+     "hora": "04/11 18h32"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Aceleração da inflação justifica Selic em 13,75%, diz Copom",
+     "url": "https://www.poder360.com.br/poder-economia/aceleracao-da-inflacao-justifica-selic-em-1375-diz-copom/",
+     "hora": "04/11 18h55"
     }
    ]
   }
@@ -898,7 +1075,7 @@
    "ultima": "04/11 18h09",
    "ultima_iso": "2026-11-04T18:09-03:00",
    "pauta_atualizada_em": "2026-11-04T12:55-03:00",
-   "horas_sem_atualizar": 5.5,
+   "horas_sem_atualizar": 6.4,
    "principal": true,
    "manchetes": [
     {
@@ -922,44 +1099,56 @@
    ]
   },
   "copom-novembro-selic": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 6,
+   "n_fontes": 4,
    "fontes": [
-    "cnn"
+    "cnn",
+    "g1",
+    "met",
+    "p360"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "04/11 17h09",
-   "ultima_iso": "2026-11-04T17:09-03:00",
+   "n_fontes_90min": 4,
+   "ultima": "04/11 18h55",
+   "ultima_iso": "2026-11-04T18:55-03:00",
    "pauta_atualizada_em": "2026-11-04T06:52-03:00",
-   "horas_sem_atualizar": 11.5,
+   "horas_sem_atualizar": 12.5,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Aceleração da inflação justifica Selic em 13,75%, diz Copom",
+     "url": "https://www.poder360.com.br/poder-economia/aceleracao-da-inflacao-justifica-selic-em-1375-diz-copom/",
+     "hora": "04/11 18h55"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Copom mantém taxa Selic e juros ficam em 13,75% ao ano",
+     "url": "https://www.metropoles.com/brasil/copom-mantem-taxa-selic-e-juros-ficam-em-1375-ao-ano",
+     "hora": "04/11 18h38"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Copom mantém Selic em 13,75% e confirma aposta do mercado",
+     "url": "https://www.poder360.com.br/poder-economia/copom-mantem-selic-em-1375-e-confirma-aposta-do-mercado/",
+     "hora": "04/11 18h32"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Brasil amplia distância e segue com o maior juro real do mundo após Copom manter Selic; veja ranking",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/04/ranking-juro-real-novembro.ghtml",
+     "hora": "04/11 18h31"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Copom mantém taxa básica de juros da economia em 13,75% ao ano",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/04/copom-mantem-taxa-basica-de-juros-da-economia-em-1375percent-ao-ano.ghtml",
+     "hora": "04/11 18h31"
+    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Juros futuros recuam após vitória democrata nos EUA e expectativa por Copom",
      "url": "https://www.cnnbrasil.com.br/economia/money/mercado/juros-futuros-recuam-apos-vitoria-democrata-nos-eua-e-expectativa-por-copom/",
      "hora": "04/11 17h09"
-    }
-   ]
-  },
-  "dolar-volta-acima-5": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "04/11 18h17",
-   "ultima_iso": "2026-11-04T18:17-03:00",
-   "pauta_atualizada_em": "2026-11-04T12:55-03:00",
-   "horas_sem_atualizar": 5.5,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Itaú (ITUB4) entrega novo tri sólido e reforça “favoritismo” do mercado; ação sobe 3%",
-     "url": "https://www.infomoney.com.br/mercados/itau-itub4-entrega-mais-um-trimestre-solido-e-reforca-favoritismo-do-mercado-desempenho-acoes/",
-     "hora": "04/11 18h17"
     }
    ]
   },
@@ -974,7 +1163,7 @@
    "ultima": "04/11 17h52",
    "ultima_iso": "2026-11-04T17:52-03:00",
    "pauta_atualizada_em": "2026-11-04T06:52-03:00",
-   "horas_sem_atualizar": 11.5,
+   "horas_sem_atualizar": 12.5,
    "principal": true,
    "manchetes": [
     {
@@ -984,7 +1173,7 @@
      "hora": "04/11 17h52"
     },
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Mundo",
      "titulo": "Eleições nos EUA: democratas conquistam maioria no Senado e na Câmara; SIGA",
      "url": "https://g1.globo.com/mundo/ao-vivo/eleicoes-nos-eua-2026-acompanhe-as-ultimas-noticias-sobre-as-midterms.ghtml",
      "hora": "04/11 17h10"
@@ -1007,7 +1196,7 @@
    "ultima": "04/11 17h26",
    "ultima_iso": "2026-11-04T17:26-03:00",
    "pauta_atualizada_em": "2026-11-04T06:52-03:00",
-   "horas_sem_atualizar": 11.5,
+   "horas_sem_atualizar": 12.5,
    "principal": false,
    "manchetes": [
     {
@@ -1019,20 +1208,44 @@
    ]
   },
   "copa-do-brasil-semifinal-ida-palmeiras-vasco-gremio-atletico": {
-   "n": 5,
+   "n": 8,
    "n_fontes": 3,
    "fontes": [
+    "ab",
     "cnn",
-    "ge",
-    "met"
+    "ge"
    ],
    "n_fontes_90min": 3,
-   "ultima": "04/11 17h54",
-   "ultima_iso": "2026-11-04T17:54-03:00",
+   "ultima": "04/11 19h18",
+   "ultima_iso": "2026-11-04T19:18-03:00",
    "pauta_atualizada_em": "2026-11-03T06:52-03:00",
-   "horas_sem_atualizar": 35.5,
+   "horas_sem_atualizar": 36.5,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Internacional x Bragantino - Copa do Brasil Feminina 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/04-11-2026/internacional-bragantino.ghtml",
+     "hora": "04/11 19h18"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Bragantino x Internacional - Copa do Brasil Feminina 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/sp/vale-do-paraiba-regiao/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/08-11-2026/bragantino-internacional.ghtml",
+     "hora": "04/11 18h55"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Flamengo x Bahia - Copa do Brasil Feminina 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/ba/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/07-11-2026/flamengo-feminino-bahia.ghtml",
+     "hora": "04/11 18h54"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Brasil é dominado pela Nigéria e cai na Copa do Mundo Feminina Sub-17",
+     "url": "https://agenciabrasil.ebc.com.br/esportes/noticia/2026-11/brasil-e-dominado-pela-nigeria-e-cai-na-copa-do-mundo-feminina-sub-17",
+     "hora": "04/11 17h55"
+    },
     {
      "veiculo": "ge",
      "titulo": "Nigéria domina Brasil, vence e faz final da Copa Feminina Sub-17 contra o Japão",
@@ -1044,73 +1257,6 @@
      "titulo": "Brasil perde para a Nigéria e cai na semi da Copa do Mundo Feminina Sub-17",
      "url": "https://www.cnnbrasil.com.br/esportes/futebol/selecao-brasileira/brasil-perde-para-a-nigeria-e-cai-na-semi-da-copa-do-mundo-feminina-sub-17/",
      "hora": "04/11 17h48"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Brasil perde para a Nigéria na semifinal da Copa do Mundo Feminina Sub-17",
-     "url": "https://www.metropoles.com/esportes/brasil-perde-para-a-nigeria-na-semifinal-da-copa-do-mundo-feminina-sub-17",
-     "hora": "04/11 17h34"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético-MG vence Santa Cruz e vai à semifinal da Copa do Brasil Sub-20",
-     "url": "https://ge.globo.com/mg/triangulo-mineiro/futebol/copa-do-brasil-sub-20/jogo/04-11-2026/atletico-mg-santa-cruz.ghtml",
-     "hora": "04/11 17h09"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Após críticas na Copa do Brasil, Anderson Daronco será o árbitro em Avaí x São Bernardo, na Série B",
-     "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-b/noticia/2026/11/04/apos-criticas-na-copa-do-brasil-anderson-daronco-sera-o-arbitro-em-avai-x-sao-bernardo-na-serie-b.ghtml",
-     "hora": "04/11 15h26"
-    }
-   ]
-  },
-  "estudiantes-flamengo-semi-libertadores": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "04/11 14h09",
-   "ultima_iso": "2026-11-04T14:09-03:00",
-   "pauta_atualizada_em": "2026-10-31T13:48-03:00",
-   "horas_sem_atualizar": 100.6,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Coritiba pega dupla que briga por Libertadores e Flamengo e Palmeiras na reta final da Série A",
-     "url": "https://ge.globo.com/pr/futebol/times/coritiba/noticia/2026/11/04/coritiba-pega-dupla-que-briga-por-libertadores-e-flamengo-e-palmeiras-na-reta-final-da-serie-a.ghtml",
-     "hora": "04/11 14h09"
-    }
-   ]
-  },
-  "enem-2026-reta-final-app-idioma": {
-   "n": 2,
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "g1"
-   ],
-   "n_fontes_90min": 2,
-   "ultima": "04/11 16h39",
-   "ultima_iso": "2026-11-04T16:39-03:00",
-   "pauta_atualizada_em": "2026-10-28T06:52-03:00",
-   "horas_sem_atualizar": 179.5,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Aulão na Rede 2026: professor explica estatística para a prova de Matemática do Enem",
-     "url": "https://g1.globo.com/ro/rondonia/educacao/aulao-na-rede/noticia/2026/11/04/aulao-na-rede-2026-professor-explica-estatistica-para-a-prova-de-matematica-do-enem.ghtml",
-     "hora": "04/11 16h39"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Enem 2026: MEC garante segurança da prova e mantém regras da redação",
-     "url": "https://www.cnnbrasil.com.br/educacao/enem-2026-mec-garante-seguranca-da-prova-e-mantem-regras-da-redacao/",
-     "hora": "04/11 16h14"
     }
    ]
   },
@@ -1124,7 +1270,7 @@
    "ultima": "04/11 15h41",
    "ultima_iso": "2026-11-04T15:41-03:00",
    "pauta_atualizada_em": "2026-11-04T13:50-03:00",
-   "horas_sem_atualizar": 4.5,
+   "horas_sem_atualizar": 5.5,
    "principal": true,
    "manchetes": [
     {
@@ -1137,6 +1283,24 @@
   }
  },
  "fotos_livres": [
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Após sediar COP30, Brasil leva novas contribuições à COP31, na Turquia",
+   "materia": "https://www.camara.leg.br/noticias/1316069-apos-sediar-cop30-brasil-leva-novas-contribuicoes-a-cop31-na-turquia",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261104111309965-768x474.jpeg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "04/11 18h50",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Câmara aprova criação de programa para acompanhamento psicossocial de crianças e adolescentes",
+   "materia": "https://www.camara.leg.br/noticias/1316057-camara-aprova-criacao-de-programa-para-acompanhamento-psicossocial-de-criancas-e-adolescentes",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260707162106510-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "04/11 18h22",
+   "pid_sugerido": null
+  },
   {
    "veiculo": "Agência Câmara",
    "titulo": "Relator da PEC da Maioridade Penal deve apresentar parecer no final do mês",
@@ -1166,9 +1330,9 @@
   },
   {
    "veiculo": "Agência Câmara",
-   "titulo": "Câmara aprova criação do Dia Nacional da Consolidação da Independência do Brasil; acompanhe",
-   "materia": "https://www.camara.leg.br/noticias/1315988-camara-aprova-criacao-do-dia-nacional-da-consolidacao-da-independencia-do-brasil-acompanhe",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261104151023064-768x473.jpg",
+   "titulo": "Câmara aprova criação do Dia Nacional da Consolidação da Independência do Brasil",
+   "materia": "https://www.camara.leg.br/noticias/1315988-camara-aprova-criacao-do-dia-nacional-da-consolidacao-da-independencia-do-brasil",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261104120659167-768x473.jpg",
    "credito": "Foto: Agência Câmara",
    "hora": "04/11 17h50",
    "pid_sugerido": null
@@ -1180,6 +1344,24 @@
    "img": "https://www.camara.leg.br/midias/image/2026/11/img20260519145213309-768x473.jpg",
    "credito": "Foto: Agência Câmara",
    "hora": "04/11 17h46",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Câmara aprova regras para o uso de postes por empresas de energia e teles",
+   "materia": "https://www.camara.leg.br/noticias/1315992-camara-aprova-regras-para-o-uso-de-postes-por-empresas-de-energia-e-teles",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261104173358561-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "04/11 17h35",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Deputados analisam projeto sobre uso de postes por empresas de energia e teles; acompanhe",
+   "materia": "https://www.camara.leg.br/noticias/1315941-deputados-analisam-projeto-sobre-uso-de-postes-por-empresas-de-energia-e-teles-acompanhe",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261104151023064-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "04/11 16h58",
    "pid_sugerido": null
   },
   {
@@ -1261,24 +1443,6 @@
    "img": "https://www.camara.leg.br/midias/image/2026/11/img20210226100708369-768x512.jpg",
    "credito": "Foto: Agência Câmara",
    "hora": "04/11 14h22",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova projeto que garante educação de jovens e adultos em dois turnos",
-   "materia": "https://www.camara.leg.br/noticias/1315804-comissao-aprova-projeto-que-garante-educacao-de-jovens-e-adultos-em-dois-turnos",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20251008175411552-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "04/11 14h22",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão da Câmara aprova medidas especiais para proteger povos indígenas em situações de desastres",
-   "materia": "https://www.camara.leg.br/noticias/1315694-comissao-da-camara-aprova-medidas-especiais-para-proteger-povos-indigenas-em-situacoes-de-desastres",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260715142220693-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "04/11 14h11",
    "pid_sugerido": null
   }
  ],
@@ -1458,18 +1622,18 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 9 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 8 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 16 nas últimas 6 h",
-  "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
+  "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 11 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 22 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 12 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 10 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 23 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 12 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 11 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 5 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 40 itens, 5 nas últimas 6 h",
+  "BBC News Brasil": "ok: 37 itens, 4 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 20 nas últimas 6 h"
  }
