@@ -3,6 +3,7 @@
 
   python3 tools/feed_leve.py feed.json            (grava feed-leve.json e feed-det/<versão>.json ao lado do feed)
   python3 tools/feed_leve.py feed.json --saida DIR
+  python3 tools/feed_leve.py feed.json --conferir (só confere o que está publicado; não grava nada)
 
 O feed.json continua sendo a ÚNICA fonte: rodadas e robôs só escrevem nele. Este script (sem IA, determinístico)
 roda no GitHub depois de cada mudança do feed (workflow "Feed leve" e a virada) e gera:
@@ -14,6 +15,9 @@ roda no GitHub depois de cada mudança do feed (workflow "Feed leve" e a virada)
   o detalhe volta para o feed.json).
 Idempotente: se o feed não mudou, não grava nada (o robô não faz commit).
 Sai com 0 (gravou ou já estava em dia) ou 1 (feed.json ilegível: não mexe em nada; o app segue com o feed.json).
+--conferir (testes A, 03/11): diz se o feed-leve.json publicado está em dia com o feed.json (código 0), atrasado (código 3:
+o leve e o detalhe dele refazem uma edição mais velha; o app só vê a edição nova quando o robô rodar ou pelo rodadas.json)
+ou quebrado (código 1: detalhe ausente, versão trocada ou leve + detalhe que não refazem uma edição; o app cai no feed.json).
 """
 import hashlib, json, os, sys
 
@@ -133,14 +137,43 @@ def executar(feed, saida=None):
     return v, mudou, len(dados), len(tl.encode()), len(td.encode())
 
 
+def conferir(feed, saida=None):
+    """O que está publicado ao lado do feed. Devolve (estado, texto): "em_dia", "atrasado" ou "quebrado"."""
+    saida = saida or os.path.dirname(os.path.abspath(feed))
+    with open(feed, "rb") as fh: dados = fh.read()
+    F = json.loads(dados.decode("utf-8"))
+    tl = ler(os.path.join(saida, "feed-leve.json"))
+    if tl is None: return "quebrado", "sem feed-leve.json (o app usa o feed.json)"
+    try: leve = json.loads(tl)
+    except ValueError: return "quebrado", "feed-leve.json ilegível"
+    meta = leve.get("_leve") if isinstance(leve, dict) else None
+    if not isinstance(meta, dict) or not isinstance(meta.get("v"), str) or meta.get("det") != f"feed-det/{meta.get('v')}.json":
+        return "quebrado", "feed-leve.json sem o cabeçalho _leve certo"
+    if not tl.startswith(compacto({"_leve": meta})[:-1]): return "quebrado", "o cabeçalho _leve não está no começo do arquivo"
+    td = ler(os.path.join(saida, meta["det"]))
+    if td is None: return "quebrado", f"detalhe {meta['det']} ausente"
+    try: junto = juntar(leve, json.loads(td))
+    except (ValueError, KeyError, TypeError, AttributeError) as e: return "quebrado", f"leve + detalhe não se juntam ({e})"
+    if meta["v"] == versao(dados):
+        return ("em_dia", f"em dia: versão {meta['v']}") if junto == F else ("quebrado", "mesma versão, mas leve + detalhe ≠ feed.json")
+    if junto == F: return "em_dia", f"em dia (mesmo conteúdo, bytes diferentes): versão {meta['v']}"
+    a, b = str(junto.get("atualizado_em") or ""), str(F.get("atualizado_em") or "")
+    return "atrasado", f"atrasado: o leve é da edição {a or '?'}, o feed.json é da {b or '?'}"
+
+
 def main(argv):
-    args, saida = [], None
+    args, saida, conf = [], None, False
     i = 0
     while i < len(argv):
+        if argv[i] == "--conferir": conf = True; i += 1; continue
         if argv[i] == "--saida": saida = argv[i + 1]; i += 2; continue
         if argv[i] in ("-h", "--help"): print(__doc__); return 0
         args.append(argv[i]); i += 1
     if len(args) != 1: print(__doc__); return 2
+    if conf:
+        try: estado, txt = conferir(args[0], saida)
+        except (OSError, ValueError, UnicodeDecodeError) as e: print(f"ERRO: feed.json ilegível ({e})"); return 1
+        print(txt); return {"em_dia": 0, "atrasado": 3}.get(estado, 1)
     try:
         v, mudou, nf, nl, nd = executar(args[0], saida)
     except (OSError, ValueError, UnicodeDecodeError) as e:

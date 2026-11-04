@@ -4706,6 +4706,13 @@ html.vn-ca .upost.ac117-rel.fc107-semcar .ac117-corpo{margin-left:0}
 .po118-ir{margin-left:auto;padding-left:6px;color:var(--muted);font-size:17px;line-height:1;flex:none}
 .po118-ln:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:370px){.po118-ln{font-size:13px;gap:5px;padding:7px 9px}}
+/* ---------- 120: testes A ---------- */
+/* TA03: o detalhe da matéria não chegou */
+.ta120-det{margin:14px 0;padding:14px 16px;border-radius:12px;background:var(--chip);color:var(--ink)}
+.ta120-det p{margin:0 0 10px;font-size:calc(15px*var(--fz));line-height:1.45}
+.ta120-det .btn{font-size:14px;padding:9px 14px}
+/* TA06: tempo de leitura escondido (sem mudar a linha) até o texto chegar */
+.mat-meta .ta120-esp{visibility:hidden}
 </style>
 </head>
 <body>
@@ -4749,6 +4756,19 @@ html.vn-ca .upost.ac117-rel.fc107-semcar .ac117-corpo{margin-left:0}
 </nav>
 <div id="layer"></div>
 <div id="layer2"></div>
+<script>
+/* ---------- 120 (testes A, TA01): a casca da abertura já é a da Capa ----------
+   O index.html tem ~430 KB (gzip); numa rede lenta a página aparece bem antes de o código rodar. Antes, nesse intervalo, a casca
+   era a do Feed (cabeçalho do Feed, aba "Feed" marcada, esqueleto de post) e, quando o código rodava, tudo pulava para a Capa.
+   Este trecho roda logo depois da barra de baixo existir e já mostra o que o app vai mostrar: o esqueleto da Capa (o mesmo de
+   renderCapa sem edição) e a aba "Capa" marcada. Só quando o app abre na Capa (produção, ou testes com "prumo-teste-capa").
+   Sem nomes globais (tudo dentro da função). */
+(function(){try{if(navigator.webdriver&&localStorage.getItem("prumo-teste-capa")!=="1")return;
+  var c=document.getElementById("v-capa"),f=document.getElementById("v-feed"),t=document.querySelector("header.top");if(!c||!f||c.innerHTML)return;
+  f.hidden=true;if(t)t.hidden=true;c.hidden=false;
+  c.innerHTML='<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span></div><div class="cp-sk"><i style="height:220px"></i><i style="height:22px;width:80%"></i><i style="height:16px;width:60%"></i></div></div>';
+  var a=document.getElementById("t-feed"),b=document.getElementById("t-capa");if(a)a.removeAttribute("aria-current");if(b)b.setAttribute("aria-current","page")}catch(e){}})();
+</script>
 
 <script>window.SBJS_URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";window.SBJS_PRONTO=new Promise(function(ok){window.__sbjsOk=ok});function carregarSbjs(){if(window.__sbjsIni)return;window.__sbjsIni=1;var s=document.createElement("script");s.id="sbjs";s.async=true;s.src=window.SBJS_URL;s.onload=s.onerror=function(){window.__sbjsOk()};document.head.appendChild(s)}document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(function(){setTimeout(carregarSbjs,0)})});setTimeout(carregarSbjs,2500);</script>
 <script>
@@ -13191,7 +13211,7 @@ function po118Grafico(e){const c=PO118_CASA[e.casa],tit=(e.prop||"Votação")+" 
     let h="";try{h=graficoNoticia({tipo:"grafico",forma:"placar_votacao",casa:e.casa,titulo:tit,minimo:e.minimo||undefined,resultado:e.res||undefined,fonte:po118Credito(e),itens:its})}catch(_){h=""}
     if(h)return h}
   const res=e.res==="aprovado"?`<span class="acv-res ok">Aprovado</span>`:e.res==="rejeitado"?`<span class="acv-res no">Rejeitado</span>`:"";
-  const tx=e.modo==="simbolica"?"Votação simbólica: os votos não são registrados um a um no painel, por isso não há placar.":`O ${c.site} informou o resultado, mas ainda não divulgou os votos.`;
+  const tx=e.modo==="simbolica"?"Votação simbólica: os votos não são registrados um a um no painel, por isso não há placar.":`O ${c.site} registrou o resultado; o número de votos ainda não está nos dados abertos do ${c.site}.`;
   return `<div class="gn acv po118-simb"><span class="lbl">${esc(tit)}</span>${res}<p class="po118-simb-t">${esc(tx)}</p><p class="hint">Fonte: ${esc(po118Credito(e))}</p></div>`}
 function po118Pe(e){const c=PO118_CASA[e.casa];const r=e.regra?`Para aprovar: ${esc(e.regra)}.`:"";
   return `<p class="po118-pe">${r}${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">Ver no site do ${c.site} ›</a>`:""}</p>`}
@@ -13235,6 +13255,52 @@ document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.targ
 /* busca: junto com a conferência do feed (a cada 10 min, ao voltar ao app, ao puxar para atualizar) e logo depois da abertura */
 (function(){const ant=checarFeed;checarFeed=function(){po118Carrega();return ant.apply(this,arguments)}})();
 setTimeout(()=>po118Carrega(),700);
+/* ---------- 120: testes A (abertura e leitura em condições de produção, 03/11) ----------
+   Achados em fonte/qa/TESTES-A.md. Nomes com o prefixo ta120. A casca da abertura (TA01) fica em 120-testes-a-abertura.js.
+   TA02  matéria aberta antes do detalhe: quando o detalhe chega, a matéria é redesenhada e voltava ao topo. Agora fica onde a
+         pessoa estava lendo.
+   TA03  detalhe que não chega (rede caiu depois do leve): a matéria ficava com o esqueleto piscando para sempre. Agora diz que
+         falta a conexão, com "Tentar de novo"; a internet voltando, completa sozinha (como já fazia).
+   TA04  linha do placar oficial no Feed: quando o oficiais.json chegava com a pessoa na Capa (o normal), o Feed já desenhado
+         ficava sem a linha. Agora a linha entra ao abrir o Feed.
+   TA05  robô do leve atrasado ou parado: o aparelho com a versão do leve achava que estava em dia e não via a edição nova do
+         feed.json. O rodadas.json (que sai no mesmo commit do feed.json) diz quando a última rodada publicou; se foi bem depois
+         da edição na tela, o app confere uma vez no feed.json.
+   TA06  "1 min de leitura" antes do detalhe (contava só o que o leve tem): fica escondido até o texto chegar. */
+var TA120={k:"",feed:false};
+
+/* TA02 + TA05: depois que o detalhe entra (fl119Encaixar → fl119Depois) */
+{const _d120=fl119Depois;fl119Depois=function(){const m=document.querySelector("#layer .mat"),y=m?m.scrollTop:0,pid=typeof MAT_PID!=="undefined"?MAT_PID:null;
+  const r=_d120.apply(this,arguments);
+  try{const n=document.querySelector("#layer .mat");if(n&&y>0&&MAT_PID===pid){n.scrollTop=y;requestAnimationFrame(()=>{if(n.isConnected&&n.scrollTop<y-2)n.scrollTop=y})}}catch(e){}
+  setTimeout(ta120Atraso,0);return r}}
+
+/* TA03: o detalhe falhou → aviso no lugar do esqueleto */
+function ta120Falhou(){document.querySelectorAll("#layer .fl119-sk").forEach(s=>{s.outerHTML=`<div class="ta120-det" role="status"><p>Sem conexão: o resto da matéria aparece assim que a internet voltar.</p><button type="button" class="btn ta120-det-b" data-ta120det>Tentar de novo</button></div>`})}
+{const _c120=fl119Completar;fl119Completar=function(){const pr=_c120.apply(this,arguments);
+  if(FL119.parcial&&pr&&pr.then)pr.then(()=>{if(FL119.parcial)ta120Falhou()});return pr}}
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-ta120det]");if(!b)return;e.stopPropagation();
+  const box=b.closest(".ta120-det");if(box)box.outerHTML=`<div class="cp-sk fl119-sk" role="status" aria-label="Carregando o resto da matéria"><i style="height:14px;width:92%"></i><i style="height:14px;width:84%"></i><i style="height:14px;width:60%"></i></div>`;
+  fl119Completar()},true);
+
+/* TA06: tempo de leitura só com o texto */
+{const _am120=abrirMateria;abrirMateria=function(){const r=_am120.apply(this,arguments);
+  try{if(FL119.parcial)document.querySelectorAll("#layer .mat-meta span").forEach(s=>{if(/min de leitura/.test(s.textContent))s.classList.add("ta120-esp")})}catch(e){}return r}}
+
+/* TA04: a linha do placar oficial confere ao abrir o Feed */
+{const _go120=go;go=function(v){const r=_go120.apply(this,arguments);if(v==="feed"&&typeof po118NoFeed==="function")try{po118NoFeed()}catch(e){}return r}}
+
+/* TA05: a última rodada que publicou (rodadas.json, horário de São Paulo) */
+function ta120Rodada(){const r=S.rodadas;if(!r||typeof r!=="object"||!r.itens||typeof r.dia!=="string")return 0;let t=0;
+  for(const k of Object.keys(r.itens)){const v=r.itens[k];if(!v||v.publicou!==true)continue;const m=/^(\d{2})h(\d{2})$/.exec(k);if(!m)continue;
+    const x=Date.parse(`${r.dia}T${m[1]}:${m[2]}:00-03:00`);if(isFinite(x)&&x>t)t=x}
+  return t}
+function ta120Atraso(){try{if(!FEED||FL119.parcial||OFFLINE||TA120.feed)return;const v=FL119.v.get(FEED);if(!v)return;  // edição que não veio do leve: o caminho normal já confere
+  const tr=ta120Rodada(),ta=Date.parse(FEED.atualizado_em||"");if(!tr||!isFinite(ta)||tr<=ta+10*60000)return;
+  const k=v+"|"+tr;if(TA120.k===k)return;TA120.k=k;TA120.feed=true;CHK_T=0;
+  Promise.resolve(checarFeed(false)).catch(()=>{}).then(()=>{TA120.feed=false})}catch(e){TA120.feed=false}}
+{const _o120=fl119Obter;fl119Obter=async function(){if(TA120.feed){const r=await fetch("feed.json",{cache:"no-cache"});if(!r.ok)throw 0;return {f:await r.json()}}return _o120.apply(this,arguments)}}
+{const _cr120=carregarRodadas;carregarRodadas=async function(){const r=await _cr120.apply(this,arguments);ta120Atraso();return r}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

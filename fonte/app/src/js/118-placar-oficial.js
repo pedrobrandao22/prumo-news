@@ -68,7 +68,7 @@ function po118Grafico(e){const c=PO118_CASA[e.casa],tit=(e.prop||"Votação")+" 
     let h="";try{h=graficoNoticia({tipo:"grafico",forma:"placar_votacao",casa:e.casa,titulo:tit,minimo:e.minimo||undefined,resultado:e.res||undefined,fonte:po118Credito(e),itens:its})}catch(_){h=""}
     if(h)return h}
   const res=e.res==="aprovado"?`<span class="acv-res ok">Aprovado</span>`:e.res==="rejeitado"?`<span class="acv-res no">Rejeitado</span>`:"";
-  const tx=e.modo==="simbolica"?"Votação simbólica: os votos não são registrados um a um no painel, por isso não há placar.":`O ${c.site} informou o resultado, mas ainda não divulgou os votos.`;
+  const tx=e.modo==="simbolica"?"Votação simbólica: os votos não são registrados um a um no painel, por isso não há placar.":`O ${c.site} registrou o resultado; o número de votos ainda não está nos dados abertos do ${c.site}.`;
   return `<div class="gn acv po118-simb"><span class="lbl">${esc(tit)}</span>${res}<p class="po118-simb-t">${esc(tx)}</p><p class="hint">Fonte: ${esc(po118Credito(e))}</p></div>`}
 function po118Pe(e){const c=PO118_CASA[e.casa];const r=e.regra?`Para aprovar: ${esc(e.regra)}.`:"";
   return `<p class="po118-pe">${r}${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">Ver no site do ${c.site} ›</a>`:""}</p>`}

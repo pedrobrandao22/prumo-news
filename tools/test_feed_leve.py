@@ -120,6 +120,54 @@ def t_arquivos():
         shutil.rmtree(d)
 
 
+def t_conferir():
+    """--conferir (testes A): em dia, atrasado (robô do leve não rodou), detalhe ausente, detalhe de outra versão, leve sem cabeçalho."""
+    d = tempfile.mkdtemp()
+    try:
+        feed = os.path.join(d, "feed.json")
+        F = json.load(open(FEEDS[1], encoding="utf-8"))
+        F["atualizado_em"] = "2026-11-03T10:00:00-03:00"; open(feed, "wb").write(bytes_de(F))
+        assert FL.main([feed, "--conferir"]) == 1  # ainda sem leve
+        assert FL.main([feed]) == 0
+        assert FL.conferir(feed)[0] == "em_dia" and FL.main([feed, "--conferir"]) == 0
+        v1 = FL.versao(open(feed, "rb").read())
+        # o feed muda e o robô do leve não roda: atrasado (o leve velho ainda refaz a edição velha)
+        F2 = copy.deepcopy(F); F2["atualizado_em"] = "2026-11-03T11:00:00-03:00"; F2["pautas"][0]["neutro"]["titulo"] = "Nova"
+        open(feed, "wb").write(bytes_de(F2))
+        e, txt = FL.conferir(feed)
+        assert e == "atrasado" and "10:00" in txt and "11:00" in txt, (e, txt)
+        assert FL.main([feed, "--conferir"]) == 3
+        # o mesmo feed regravado com outra formatação: em dia (conteúdo igual)
+        open(feed, "w", encoding="utf-8").write(json.dumps(F, ensure_ascii=False, indent=1))
+        assert FL.conferir(feed)[0] == "em_dia"
+        # detalhe ausente
+        os.rename(os.path.join(d, "feed-det", v1 + ".json"), os.path.join(d, "x.json"))
+        assert FL.conferir(feed)[0] == "quebrado" and FL.main([feed, "--conferir"]) == 1
+        # detalhe de outra versão no lugar
+        det = json.load(open(os.path.join(d, "x.json"), encoding="utf-8")); det["v"] = "0" * 12
+        open(os.path.join(d, "feed-det", v1 + ".json"), "w").write(json.dumps(det))
+        assert FL.conferir(feed)[0] == "quebrado"
+        # leve sem o cabeçalho no começo
+        leve = json.load(open(os.path.join(d, "feed-leve.json"), encoding="utf-8")); meta = leve.pop("_leve"); leve["_leve"] = meta
+        open(os.path.join(d, "feed-leve.json"), "w").write(json.dumps(leve))
+        assert FL.conferir(feed)[0] == "quebrado"
+        # o --conferir não grava nada
+        antes = sorted(os.listdir(os.path.join(d, "feed-det"))); FL.main([feed, "--conferir"])
+        assert sorted(os.listdir(os.path.join(d, "feed-det"))) == antes
+    finally:
+        shutil.rmtree(d)
+
+
+def t_publicado():
+    """O que está publicado na raiz do repositório: leve + detalhe refazem o feed.json (ou uma edição anterior, se o robô
+    ainda não rodou — aviso, não falha); nunca um leve quebrado."""
+    feed = FEEDS[0]
+    if not os.path.exists(feed) or not os.path.exists(os.path.join(RAIZ, "feed-leve.json")): return
+    e, txt = FL.conferir(feed)
+    print("     publicado:", txt)
+    assert e in ("em_dia", "atrasado"), txt
+
+
 if __name__ == "__main__":
     n = 0
     for nome, fn in list(globals().items()):
