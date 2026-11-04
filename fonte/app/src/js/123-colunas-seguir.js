@@ -85,7 +85,7 @@ function cs123Blocos(corpo){const bl=[];let cit=[];const fecha=()=>{if(cit.lengt
 function cs123CorpoHTML(corpo){return cs123Blocos(corpo).map(b=>b.t==="h"?`<h2>${cs123Inline(b.x)}</h2>`:b.t==="q"?`<blockquote><p>${cs123Inline(b.x)}</p></blockquote>`:`<p>${cs123Inline(b.x)}</p>`).join("")}
 const cs123Plano=t=>String(t||"").replace(/\[([^\]\n]+)\]\([^)\s]+\)/g,"$1").replace(/\*\*|__/g,"").replace(/(^|[^\p{L}\p{N}])[*_]([^*_\n]+)[*_](?![\p{L}\p{N}])/gu,"$1$2");
 function cs123Teaser(corpo){const ps=cs123Blocos(corpo).filter(b=>b.t==="p").map(b=>cs123Plano(b.x).trim()).filter(Boolean);if(!ps.length)return "";
-  const fr=ps.slice(0,2).join(" ").split(/(?<=[.!?…])\s+/).filter(Boolean);let o=fr[0]||"";
+  const fr=(ps.slice(0,2).join(" ").match(/[^.!?…]+(?:[.!?…]+|$)/g)||[]).map(s=>s.trim()).filter(Boolean);let o=fr[0]||"";
   if(o.length<120&&fr[1]&&(o+" "+fr[1]).length<=240)o+=" "+fr[1];
   if(o.length>240)o=o.slice(0,236).replace(/\s+\S*$/,"")+"…";return o}
 function cs123Min(corpo){const n=cs123Plano(corpo).split(/\s+/).filter(Boolean).length;return Math.max(1,Math.round(n/200))}
