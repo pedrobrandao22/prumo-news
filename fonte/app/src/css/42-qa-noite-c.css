@@ -1,0 +1,41 @@
+/* ===== QA da noite C (127, 04/11) ===== */
+/* NC: iPhone com iOS 15–16.1 (Safari sem color-mix): fundos e barras que sumiam (topo da matéria transparente, folhas sem
+   fundo, barras dos gráficos e do acervo invisíveis, mapa preto). Só vale onde o navegador não entende color-mix. */
+@supports not (color:color-mix(in srgb,red 50%,blue)){
+  .sheet{background:var(--card)!important}
+  .mat-top{background:var(--bg)}
+  html.fs2 .fs2-cap{background:var(--bg)}
+  .gn-t i,.acv-rk li>i,.acv-ad-c i,.acv-pq-t i{background:var(--accent);opacity:.6}
+  .gn-c{fill:var(--accent);fill-opacity:.6}
+  svg rect[data-qc127o]{fill:var(--acv-mapa,var(--accent));fill-opacity:var(--qc127o,.5)}
+  .ss-fato{background:var(--card)}
+  .sgv-bg{background:radial-gradient(130% 90% at 10% 0%,#22314a 0%,#0d1626 62%,#070b14 100%)}
+  .sgd-bg{background:radial-gradient(120% 80% at 90% 0%,#253651 0%,#15233b 55%,#0b1322 100%)}
+  .ig-r.visto,.ig-r.dest,.pf-av.ring.visto{background:var(--muted)}
+  .deb-o i{background:rgba(127,127,127,.14)}
+  .deb-v.ig{background:rgba(58,134,255,.18)}
+  .acv-res.ok{background:rgba(47,107,79,.14)}
+  .acv-res.no{background:rgba(179,65,47,.14)}
+  .pq-bar{background:rgba(127,127,127,.22)}
+  .pq-row.erro{border-color:var(--hot)}
+  .pq-b{background:var(--chip,rgba(127,127,127,.15))}
+  #secs .ig-r.pq-on{background:conic-gradient(var(--accent) calc(var(--pq,0)*1%),rgba(127,127,127,.3) 0)}
+  html.vn .vn-pf-band{background:var(--vn-band)}
+  html.fs2 .fs2-fio-l li+li{border-top-color:var(--line)}
+  .tr-demo b{background:var(--ink);opacity:.75}
+  .tr-app i{background:var(--line)}
+}
+/* NC: Safari sem dvh (iOS < 15.4): alturas que dependiam só de dvh */
+@supports not (height:1dvh){
+  .thread.dm-thr{min-height:calc(100vh - 160px)}
+  .cr-tela{width:min(100%,calc((100vh - 210px) * 9 / 16))}
+  .ce-txm{--bw:min(100vw,calc((100vh - 60px)*9/16))}
+  .ce-pv{max-height:62vh}
+  .ce-fc{max-height:58vh}
+}
+/* NC: Safari sem :has() (iOS < 15.4): as classes abaixo são postas pelo js/127 só nesses aparelhos */
+body.qc127-respbar.dm-conv .app{padding-bottom:calc(136px + var(--kb,0px) + env(safe-area-inset-bottom,0px))!important}
+body.qc127-am.dm-conv .app{padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))!important}
+body.qc127-ce .toast,body.qc127-story .toast{top:calc(env(safe-area-inset-top,0px) + 62px);bottom:auto!important}
+.ce.qc127-cs #ce-bgi,.ce.qc127-cs #ce-els{visibility:hidden}
+#layer .ce.qc127-cs .ce-dica{display:none}

@@ -21,8 +21,8 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#f3f4f6">
-<link rel="preload" href="fontes/newsreader.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fontes/public-sans.woff2" as="font" type="font/woff2" crossorigin>
+<!-- sem preload das fontes (QA noite C, 04/11): em 3G lento os 160 KB das fontes disputavam a banda com a página e a primeira pintura
+     atrasava ~0,6 s; com font-display:swap elas chegam bem antes de a Capa ter conteúdo, e na volta ao app vêm do aparelho -->
 <script>
 <!--@inclui js/000-pre-carga.js-->
 </script>
@@ -92,6 +92,7 @@
 <!--@inclui css/39-notificacoes.css-->
 <!--@inclui css/40-qa-noite-a.css-->
 <!--@inclui css/41-qa-noite-b.css-->
+<!--@inclui css/42-qa-noite-c.css-->
 </style>
 </head>
 <body>
@@ -272,6 +273,7 @@
 <!--@inclui js/124-notificacoes.js-->
 <!--@inclui js/125-qa-noite-a.js-->
 <!--@inclui js/126-qa-noite-b.js-->
+<!--@inclui js/127-qa-noite-c.js-->
 <!--@inclui js/999-fim-redesenho-depois-dos-complementos.js-->
 </script>
 </body>

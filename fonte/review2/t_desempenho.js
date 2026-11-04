@@ -4,12 +4,13 @@
 // Uso: node review2/t_desempenho.js            (serve site/)
 //      PERF_PASTA=/caminho/site node review2/t_desempenho.js   (outra pasta, p.ex. a versão antiga para comparar)
 //      PERF_RODADAS=3 (padrão 2) · PERF_SEM_ORCAMENTO=1 só imprime
+//      PERF_RTT=400 PERF_KBPS=400 (3G lento) · PERF_PORTA=… (outra porta)
 const U = require('../t_util'); const { ok, sleep } = U;
 const http = require('http'), fs = require('fs'), path = require('path'), zlib = require('zlib'), crypto = require('crypto');
-const PORT = 8981;
+const PORT = +(process.env.PERF_PORTA || 8981);
 const PASTA = path.resolve(process.env.PERF_PASTA || path.join(__dirname, '..', 'site'));
 const RODADAS = +(process.env.PERF_RODADAS || 2);
-const RTT = 150, KBPS = 1600, CONEXAO = 2 * RTT;  // 4G "lento" do Lighthouse: 150 ms, 1,6 Mbit/s; conexão nova paga TCP+TLS
+const RTT = +(process.env.PERF_RTT || 150), KBPS = +(process.env.PERF_KBPS || 1600), CONEXAO = 2 * RTT;  // 4G "lento" do Lighthouse: 150 ms, 1,6 Mbit/s; conexão nova paga TCP+TLS
 const TIPOS = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript', '.json': 'application/json', '.css': 'text/css', '.png': 'image/png', '.woff2': 'font/woff2', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.webp': 'image/webp' };
 
 // banda única, dividida entre as respostas em andamento (como num celular de verdade)

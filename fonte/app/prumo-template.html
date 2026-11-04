@@ -21,8 +21,8 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#f3f4f6">
-<link rel="preload" href="fontes/newsreader.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fontes/public-sans.woff2" as="font" type="font/woff2" crossorigin>
+<!-- sem preload das fontes (QA noite C, 04/11): em 3G lento os 160 KB das fontes disputavam a banda com a página e a primeira pintura
+     atrasava ~0,6 s; com font-display:swap elas chegam bem antes de a Capa ter conteúdo, e na volta ao app vêm do aparelho -->
 <script>
 /* ---------- pré-carga (no <head>): a edição do dia começa a vir junto com a página ---------- */
 /* o pedido do feed-leve.json (a Capa, ~1/3 do feed) sai antes de a página inteira chegar e ser lida; loadFeed usa este
@@ -4986,6 +4986,47 @@ ul.amgl.cs123-l{margin:0;font:inherit;line-height:inherit;color:inherit}
 /* ---------- 126: QA noite B (notificações) ---------- */
 /* aviso de que sair da conta desliga os avisos deste aparelho */
 .nt124-cel .qb126-nota{margin:6px 0 10px;font-size:13px}
+/* ===== QA da noite C (127, 04/11) ===== */
+/* NC: iPhone com iOS 15–16.1 (Safari sem color-mix): fundos e barras que sumiam (topo da matéria transparente, folhas sem
+   fundo, barras dos gráficos e do acervo invisíveis, mapa preto). Só vale onde o navegador não entende color-mix. */
+@supports not (color:color-mix(in srgb,red 50%,blue)){
+  .sheet{background:var(--card)!important}
+  .mat-top{background:var(--bg)}
+  html.fs2 .fs2-cap{background:var(--bg)}
+  .gn-t i,.acv-rk li>i,.acv-ad-c i,.acv-pq-t i{background:var(--accent);opacity:.6}
+  .gn-c{fill:var(--accent);fill-opacity:.6}
+  svg rect[data-qc127o]{fill:var(--acv-mapa,var(--accent));fill-opacity:var(--qc127o,.5)}
+  .ss-fato{background:var(--card)}
+  .sgv-bg{background:radial-gradient(130% 90% at 10% 0%,#22314a 0%,#0d1626 62%,#070b14 100%)}
+  .sgd-bg{background:radial-gradient(120% 80% at 90% 0%,#253651 0%,#15233b 55%,#0b1322 100%)}
+  .ig-r.visto,.ig-r.dest,.pf-av.ring.visto{background:var(--muted)}
+  .deb-o i{background:rgba(127,127,127,.14)}
+  .deb-v.ig{background:rgba(58,134,255,.18)}
+  .acv-res.ok{background:rgba(47,107,79,.14)}
+  .acv-res.no{background:rgba(179,65,47,.14)}
+  .pq-bar{background:rgba(127,127,127,.22)}
+  .pq-row.erro{border-color:var(--hot)}
+  .pq-b{background:var(--chip,rgba(127,127,127,.15))}
+  #secs .ig-r.pq-on{background:conic-gradient(var(--accent) calc(var(--pq,0)*1%),rgba(127,127,127,.3) 0)}
+  html.vn .vn-pf-band{background:var(--vn-band)}
+  html.fs2 .fs2-fio-l li+li{border-top-color:var(--line)}
+  .tr-demo b{background:var(--ink);opacity:.75}
+  .tr-app i{background:var(--line)}
+}
+/* NC: Safari sem dvh (iOS < 15.4): alturas que dependiam só de dvh */
+@supports not (height:1dvh){
+  .thread.dm-thr{min-height:calc(100vh - 160px)}
+  .cr-tela{width:min(100%,calc((100vh - 210px) * 9 / 16))}
+  .ce-txm{--bw:min(100vw,calc((100vh - 60px)*9/16))}
+  .ce-pv{max-height:62vh}
+  .ce-fc{max-height:58vh}
+}
+/* NC: Safari sem :has() (iOS < 15.4): as classes abaixo são postas pelo js/127 só nesses aparelhos */
+body.qc127-respbar.dm-conv .app{padding-bottom:calc(136px + var(--kb,0px) + env(safe-area-inset-bottom,0px))!important}
+body.qc127-am.dm-conv .app{padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))!important}
+body.qc127-ce .toast,body.qc127-story .toast{top:calc(env(safe-area-inset-top,0px) + 62px);bottom:auto!important}
+.ce.qc127-cs #ce-bgi,.ce.qc127-cs #ce-els{visibility:hidden}
+#layer .ce.qc127-cs .ce-dica{display:none}
 </style>
 </head>
 <body>
@@ -12553,7 +12594,7 @@ const ACV_DESENHO={
     const vs=its.map(i=>i.v),mn=Math.min(...vs),mx=Math.max(...vs),T=36,G=3,P=T+G;
     const tom=x=>mx>mn?0.16+0.84*(x-mn)/(mx-mn):0.75;let h="";
     Object.entries(ACV_UF).forEach(([uf,[cc,rr]])=>{const i=m.get(uf),x=cc*P,y=rr*P,t=i?tom(i.v):0;
-      h+=`<g class="acv-uf${i?"":" sem"}${i&&i.on?" on":""}"><rect x="${x}" y="${y}" width="${T}" height="${T}" rx="5" ${i?`style="fill:color-mix(in srgb,var(--acv-mapa) ${(t*100).toFixed(0)}%,var(--card))"`:""}/><text x="${x+T/2}" y="${y+T/2+4}" text-anchor="middle" class="${t>.55?"cl":""}">${uf}</text><title>${uf}${i?": "+esc(gnNum(i.v,v.unidade,c)):": sem dado"}</title></g>`});
+      h+=`<g class="acv-uf${i?"":" sem"}${i&&i.on?" on":""}"><rect x="${x}" y="${y}" width="${T}" height="${T}" rx="5" ${i?`data-qc127o style="--qc127o:${(.12+t*.88).toFixed(2)};fill:color-mix(in srgb,var(--acv-mapa) ${(t*100).toFixed(0)}%,var(--card))"`:""}/><text x="${x+T/2}" y="${y+T/2+4}" text-anchor="middle" class="${t>.55?"cl":""}">${uf}</text><title>${uf}${i?": "+esc(gnNum(i.v,v.unidade,c)):": sem dado"}</title></g>`});
     const top=its.slice().sort((a,b)=>b.v-a.v),lado=top.slice(0,5).map((i,k)=>`<text x="244" y="${44+k*19}" class="acv-uf-l"><tspan class="b">${i.r}</tspan> ${esc(gnNum(i.v,v.unidade,c))}</text>`).join("");
     const gid="acvg"+(++ACV_N),esc2=x=>esc(gnNum(x,v.unidade,c));
     h+=`<text x="244" y="22" class="acv-uf-h">Maiores</text>${lado}<defs><linearGradient id="${gid}"><stop offset="0" style="stop-color:color-mix(in srgb,var(--acv-mapa) 16%,var(--card))"/><stop offset="1" style="stop-color:var(--acv-mapa)"/></linearGradient></defs><rect x="244" y="${44+5*19}" width="70" height="8" rx="4" fill="url(#${gid})"/><text x="244" y="${66+5*19}" class="acv-uf-s">${esc2(mn)}</text><text x="314" y="${66+5*19}" text-anchor="end" class="acv-uf-s">${esc2(mx)}</text>`;
@@ -14513,6 +14554,17 @@ function qb126BadgeCfg(n,saiu){const on=!saiu&&!!(S.uid&&S.membro&&nt124BadgeOn(
 {const _pb126=nt124PoeBadge;nt124PoeBadge=function(n){const r=_pb126.apply(this,arguments);try{qb126BadgeCfg(n)}catch(e){}return r}}
 if("serviceWorker" in navigator&&navigator.serviceWorker&&navigator.serviceWorker.addEventListener)navigator.serviceWorker.addEventListener("message",e=>{const d=e&&e.data;if(!d||d.prumo!=="nt-push")return;
   if(document.hidden)return;NT124.badgeN=null;QB126.cfgS="";nt124Pinta()});
+/* ===== QA da noite C (127, 04/11): regressão geral depois do dia cheio (100–124). Detalhes em qa/QA-NOITE-C.md ===== */
+/* NC: Safari sem :has() (iPhone com iOS 15.0–15.3): a conversa ficava com as últimas mensagens atrás da barra de
+   resposta, o aviso (toast) ia para baixo da criação/do giro e a criação de notícia mostrava o fundo por trás do cartão.
+   Só nesses aparelhos, um observador leve põe classes equivalentes (css/42). Nos outros, nada roda. */
+var QC127_HAS=(function(){try{return CSS.supports("selector(:has(*))")}catch(e){return false}})();
+function qc127HasSync(){const b=document.body;if(!b)return;const L=document.getElementById("layer");
+  b.classList.toggle("qc127-respbar",!!document.getElementById("respbar"));b.classList.toggle("qc127-am",!!document.querySelector(".dm104-am"));
+  b.classList.toggle("qc127-ce",!!(L&&L.querySelector(":scope>.ce")));b.classList.toggle("qc127-story",!!(L&&L.querySelector(".story")));
+  document.querySelectorAll("#layer .ce").forEach(c=>c.classList.toggle("qc127-cs",!!c.querySelector(".fc105-cs")))}
+if(!QC127_HAS){try{let qc127T=0;new MutationObserver(()=>{if(qc127T)return;qc127T=requestAnimationFrame(()=>{qc127T=0;qc127HasSync()})}).observe(document.body,{childList:true,subtree:true});qc127HasSync()}catch(e){}}
+
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
