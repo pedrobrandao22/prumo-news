@@ -14,8 +14,9 @@ plenario(d){
   s+=pts.map((p,i)=>{const x=p[0].toFixed(1),y=p[1].toFixed(1);return `<rect class="${i<on?"ia":"im"}" x="${(p[0]-4.5).toFixed(1)}" y="${(p[1]-3.5).toFixed(1)}" width="9" height="7" rx="2.5"/>`}).join("");
   s+=`<rect class="ii" x="160" y="196" width="80" height="10" rx="2"/><rect class="iy" x="194" y="190" width="12" height="6" rx="1"/>`;
   s+=T(200,168,40,on,"ii","middle",700)+T(200,186,11,`de ${total} votos`,"ii","middle",500);
-  s+=T(16,26,11,d.rotulo||"PLENÁRIO","ii","start",600);
-  if(d.legenda)s+=`<rect class="ia" x="16" y="219" width="10" height="7" rx="2"/>`+T(32,226,11,d.legenda,"ii","start",500);
+  /* rótulo e legenda centralizados: o cartão da Capa (4:5) corta as laterais da ilustração */
+  s+=T(200,26,11,d.rotulo||"PLENÁRIO","ii","middle",600);
+  if(d.legenda){const lw=Math.min(String(d.legenda).length*5.6,330);s+=`<rect class="ia" x="${(200-lw/2-8).toFixed(1)}" y="219" width="10" height="7" rx="2"/>`+T(208,226,11,d.legenda,"ii","middle",500)}
   return s},
 debate(d){
   let s=`<rect class="ii" x="0" y="0" width="400" height="240" opacity=".08"/>`;
