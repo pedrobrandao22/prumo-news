@@ -1,33 +1,38 @@
 {
- "gerado": "2026-11-05T08:28-03:00",
+ "gerado": "2026-11-05T09:27-03:00",
  "desde": "2026-11-05T06:52-03:00",
  "feed_atualizado_em": "2026-11-05T07:02:00-03:00",
  "resumo": {
-  "manchetes": 148,
-  "assuntos_novos_relevantes": 3,
-  "assuntos_novos": 121,
-  "pautas_com_novidade": 3,
+  "manchetes": 241,
+  "assuntos_novos_relevantes": 4,
+  "assuntos_novos": 200,
+  "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 4,
-  "acionar_itens": 2,
-  "ja_avaliados": 0
+  "pautas_com_relatos": 5,
+  "acionar_itens": 1,
+  "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 4 veículos em 90 min (economia); assunto novo: 3 veículos em 90 min (politica)",
+ "acionar_motivo": "assunto novo: 4 veículos em 90 min (mundo)",
  "acionar_itens": [
   {
    "tipo": "novo",
-   "titulo": "Voos são desviados na Europa por ameaça de bomba; o que se sabe",
-   "secao": "economia",
-   "n_fontes": 4,
-   "motivo": "assunto novo: 4 veículos em 90 min (economia)",
+   "titulo": "Voos na Europa fazem pouso de emergência após ameaças de bomba; o que se sabe",
+   "secao": "mundo",
+   "n_fontes": 6,
+   "motivo": "assunto novo: 4 veículos em 90 min (mundo)",
    "chave": [
+    "afeta",
+    "afetam",
+    "alertas",
+    "alvos",
     "ameaca",
     "ameacas",
-    "atinge",
+    "atingem",
+    "avioes",
     "bomba",
-    "desviados",
-    "desvios",
+    "comerciais",
+    "desviam",
     "emergencia",
     "encontrado",
     "europa",
@@ -35,54 +40,85 @@
     "fazem",
     "nenhum",
     "onda",
-    "passageiros",
+    "pousam",
+    "pouso",
     "pousos",
-    "provocam",
+    "pressas",
     "sabe",
-    "toda",
     "voos"
-   ]
-  },
-  {
-   "tipo": "novo",
-   "titulo": "Cinco anos após morte, web resgata declaração de Marília Mendonça à mãe",
-   "secao": "politica",
-   "n_fontes": 3,
-   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
-   "chave": [
-    "bastidores",
-    "cantora",
-    "cinco",
-    "declaracao",
-    "mae",
-    "marilia",
-    "mendonca",
-    "morte",
-    "relatos",
-    "relembre",
-    "resgata",
-    "show",
-    "sorocaba",
-    "ultimo",
-    "web"
    ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois",
  "novos": [
   {
-   "assunto": "Com Cristiano Ronaldo, Portugal venceu os únicos títulos de sua história",
-   "secao": "esportes",
-   "n_fontes": 4,
+   "assunto": "Voos na Europa fazem pouso de emergência após ameaças de bomba; o que se sabe",
+   "secao": "mundo",
+   "n_fontes": 6,
    "fontes": [
+    "bbc",
     "cnn",
     "folha",
-    "ge",
-    "met"
+    "g1",
+    "met",
+    "p360"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "Voos na Europa fazem pouso de emergência após ameaças de bomba; o que se sabe",
+     "url": "https://www.bbc.com/portuguese/articles/cm4g1vvlk83do?at_medium=RSS&at_campaign=rss",
+     "hora": "05/11 09h15"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Mais de 10 voos são alvos de ameaças de bomba na Europa",
+     "url": "https://www.poder360.com.br/poder-internacional/voos-europeus-alvos-de-ameacas-de-bomba/",
+     "hora": "05/11 09h10"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Alertas de bomba afetam 14 voos na Europa, e aviões desviam e pousam às pressas",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/alertas-de-bomba-afetam-14-voos-na-europa-e-avioes-desviam-e-pousam-as-pressas.shtml",
+     "hora": "05/11 09h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Ameaças de bomba atingem 12 voos comerciais na Europa",
+     "url": "https://www.metropoles.com/mundo/ameacas-de-bomba-atingem-12-voos-comerciais-na-europa",
+     "hora": "05/11 08h51"
+    }
+   ],
+   "n_fontes_90min": 4
+  },
+  {
+   "assunto": "Adeus da seleção de Portugal pode “atrasar” gol mil de Cristiano Ronaldo",
+   "secao": "esportes",
+   "n_fontes": 5,
+   "fontes": [
+    "cnn",
+    "folha",
+    "ge",
+    "met",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Adeus da seleção de Portugal pode “atrasar” gol mil de Cristiano Ronaldo",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/adeus-da-selecao-de-portugal-pode-atrasar-gol-mil-de-cristiano-ronaldo/",
+     "hora": "05/11 08h37"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Cristiano Ronaldo anuncia aposentadoria da seleção portuguesa",
+     "url": "https://www.poder360.com.br/poder-sportsmkt/cristiano-ronaldo-anuncia-aposentadoria-da-selecao-portuguesa/",
+     "hora": "05/11 08h30"
+    },
     {
      "veiculo": "Metrópoles",
      "titulo": "Com Cristiano Ronaldo, Portugal venceu os únicos títulos de sua história",
@@ -91,68 +127,56 @@
     },
     {
      "veiculo": "ge",
-     "titulo": "Entenda por que Cristiano Ronaldo decidiu se aposentar da seleção",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/noticia/2026/11/05/entenda-por-que-cristiano-ronaldo-decidiu-se-aposentar-da-selecao.ghtml",
-     "hora": "05/11 08h18"
-    },
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "Cristiano Ronaldo anuncia aposentadoria da seleção portuguesa",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/cristiano-ronaldo-anuncia-aposentadoria-da-selecao-portuguesa.shtml",
-     "hora": "05/11 08h03"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Cristiano Ronaldo anuncia aposentadoria da seleção portuguesa",
-     "url": "https://www.metropoles.com/esportes/cristiano-ronaldo-anuncia-aposentadoria-da-selecao-portuguesa",
-     "hora": "05/11 07h53"
+     "titulo": "Federação Portuguesa enaltece Cristiano Ronaldo e promete evento de despedida da seleção",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-portugues/noticia/2026/11/05/federacao-portuguesa-promete-evento-de-despedida-para-cristiando-ronaldo.ghtml",
+     "hora": "05/11 08h21"
     }
    ],
-   "n_fontes_90min": 4
+   "n_fontes_90min": 5
   },
   {
-   "assunto": "Voos são desviados na Europa por ameaça de bomba; o que se sabe",
+   "assunto": "‘Imposto do pecado’: o que é, quem vai pagar e como será a cobrança em 2027?",
    "secao": "economia",
    "n_fontes": 4,
    "fontes": [
-    "bbc",
-    "cnn",
     "g1",
-    "im"
+    "im",
+    "met",
+    "p360"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "BBC News Brasil",
-     "titulo": "Voos são desviados na Europa por ameaça de bomba; o que se sabe",
-     "url": "https://www.bbc.com/portuguese/articles/cm4g1vvlk83do?at_medium=RSS&at_campaign=rss",
-     "hora": "05/11 08h24"
-    },
-    {
      "veiculo": "InfoMoney",
-     "titulo": "Nova onda de ameaças de bomba atinge voos de passageiros na Europa",
-     "url": "https://www.infomoney.com.br/mundo/nova-onda-de-ameacas-de-bomba-atinge-voos-de-passageiros-na-europa/",
-     "hora": "05/11 08h18"
+     "titulo": "‘Imposto do pecado’: o que é, quem vai pagar e como será a cobrança em 2027?",
+     "url": "https://www.infomoney.com.br/politica/imposto-do-pecado-o-que-e-quem-vai-pagar-e-como-sera-a-cobranca-em-2027/",
+     "hora": "05/11 09h21"
     },
     {
-     "veiculo": "g1",
-     "titulo": "Voos na Europa fazem pousos de emergência por ameaça de bomba; nenhum explosivo foi encontrado",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/05/voos-na-europa-fazem-pouso-de-emergencia-por-ameaca-de-bomba.ghtml",
-     "hora": "05/11 07h02"
+     "veiculo": "g1 Política",
+     "titulo": "Ministro da Fazenda diz que prazo de cobrança do imposto federal sobre consumo não será adiado; CBS começa em 1º de janeiro",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/05/ministro-da-fazenda-diz-que-prazo-de-cobranca-do-imposto-federal-sobre-consumo-nao-sera-adiado-cbs-comeca-em-1o-de-janeiro.ghtml",
+     "hora": "05/11 09h16"
     },
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ameaças de bomba provocam desvios de voos em toda a Europa",
-     "url": "https://www.cnnbrasil.com.br/internacional/alerta-bomba-voos-europa-aeroportos/",
-     "hora": "05/11 07h01"
+     "veiculo": "Metrópoles",
+     "titulo": "\"Imposto do pecado\": veja nova sobretaxa para cerveja, cigarro e carros",
+     "url": "https://www.metropoles.com/brasil/imposto-do-pecado-veja-nova-sobretaxa-para-cerveja-cigarro-e-carros",
+     "hora": "05/11 09h05"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Imposto do pecado será de 4,2% sobre cerveja e 20% sobre cachaça",
+     "url": "https://www.poder360.com.br/poder-economia/imposto-do-pecado-sera-de-42-sobre-cerveja-e-20-sobre-cachaca/",
+     "hora": "05/11 08h54"
     }
    ],
    "n_fontes_90min": 4
   },
   {
-   "assunto": "Cinco anos após morte, web resgata declaração de Marília Mendonça à mãe",
-   "secao": "politica",
+   "assunto": "PCDF prende homem que vendia ilegalmente ayahuasca para todo o país",
+   "secao": null,
    "n_fontes": 3,
    "fontes": [
     "cnn",
@@ -164,9 +188,41 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Cinco anos após morte, web resgata declaração de Marília Mendonça à mãe",
-     "url": "https://www.metropoles.com/celebridades/cinco-anos-apos-morte-web-resgata-declaracao-de-marilia-mendonca-a-mae",
-     "hora": "05/11 07h45"
+     "titulo": "PCDF prende homem que vendia ilegalmente ayahuasca para todo o país",
+     "url": "https://www.metropoles.com/distrito-federal/pcdf-prende-homem-que-vendia-ilegalmente-ayahuasca-para-todo-o-pais",
+     "hora": "05/11 08h56"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Preso homem que vendia ayahuasca ilegalmente pelas redes sociais para seguidores do DF",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/05/preso-homem-que-vendia-ayahuasca-ilegalmente-pelas-redes-sociais-para-seguidores-do-df.ghtml",
+     "hora": "05/11 08h16"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Homem é preso em operação contra venda ilegal de ayahuasca pela internet",
+     "url": "https://www.cnnbrasil.com.br/nacional/centro-oeste/df/homem-e-preso-em-operacao-contra-venda-ilegal-de-ayahuasca-pela-internet/",
+     "hora": "05/11 07h24"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "De detalhes sobre Leo a Marília fazer história, Maiara emociona com carta nos cinco anos da morte da cantora",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "De detalhes sobre Leo a Marília fazer história, Maiara emociona com carta nos cinco anos da morte da cantora",
+     "url": "https://g1.globo.com/go/goias/noticia/2026/11/05/maiara-emociona-com-carta-a-marilia-mendonca-nos-cinco-anos-da-morte-da-cantora-leo-cada-vez-mais-parecido-com-voce.ghtml",
+     "hora": "05/11 09h03"
     },
     {
      "veiculo": "g1",
@@ -181,25 +237,50 @@
      "hora": "05/11 07h00"
     }
    ],
-   "n_fontes_90min": 3
+   "n_fontes_90min": 2
   },
   {
-   "assunto": "Mega-Sena: 5 apostas de MG faturam até R$ 52,7 mil na quina; veja cidades",
-   "secao": null,
-   "n_fontes": 3,
+   "assunto": "Democratas prometem conter Trump enquanto ele exibe salão de baile da Casa Branca",
+   "secao": "mundo",
+   "n_fontes": 2,
    "fontes": [
-    "ab",
     "g1",
-    "met"
+    "im"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Mega-Sena: 5 apostas de MG faturam até R$ 52,7 mil na quina; veja cidades",
-     "url": "https://www.metropoles.com/minas-gerais/mega-sena-5-apostas-de-mg-faturam-ate-r-527-mil-na-quina-veja-cidades",
-     "hora": "05/11 07h54"
+     "veiculo": "InfoMoney",
+     "titulo": "Democratas prometem conter Trump enquanto ele exibe salão de baile da Casa Branca",
+     "url": "https://www.infomoney.com.br/mundo/democratas-prometem-conter-trump-enquanto-ele-exibe-salao-de-baile-da-casa-branca/",
+     "hora": "05/11 09h23"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Melania Trump recebe representantes da Ucrânia e Rússia na Casa Branca em meio a negociações de paz",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/05/melania-trump-recebe-representantes-da-ucrania-e-russia-na-casa-branca-em-meio-a-negociacoes-de-paz.ghtml",
+     "hora": "05/11 07h56"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Mega-Sena 3081: 11 apostas do interior de PE acertam quadra, confira resultado",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "ab",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Mega-Sena 3081: 11 apostas do interior de PE acertam quadra, confira resultado",
+     "url": "https://g1.globo.com/pe/caruaru-regiao/noticia/2026/11/05/mega-sena-3081-11-apostas-do-interior-de-pe-acertam-quadra-confira-resultado.ghtml",
+     "hora": "05/11 08h50"
     },
     {
      "veiculo": "g1",
@@ -218,7 +299,33 @@
    "lixo": true
   },
   {
-   "assunto": "Oposição pede impeachment de presidente do Paraguai",
+   "assunto": "Operação em São Paulo mira rede que vendia remédios falsos contra câncer",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Operação em São Paulo mira rede que vendia remédios falsos contra câncer",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/equilibrioesaude/2026/11/operacao-em-sao-paulo-mira-rede-que-vendia-remedios-falsos-contra-cancer.shtml",
+     "hora": "05/11 08h40"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Veja empresas farmacêuticas suspensas em operação contra remédios falsos",
+     "url": "https://www.metropoles.com/sao-paulo/veja-empresas-farmaceuticas-suspensas-em-operacao-contra-remedios-falsos",
+     "hora": "05/11 08h32"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Petróleo opera abaixo de US$ 100 após revés de Trump elevar apostas no fim da guerra com Irã",
    "secao": "economia",
    "n_fontes": 2,
    "fontes": [
@@ -229,22 +336,68 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Oposição pede impeachment de presidente do Paraguai",
-     "url": "https://www.infomoney.com.br/mundo/oposicao-pede-impeachment-de-presidente-do-paraguai/",
-     "hora": "05/11 08h24"
+     "veiculo": "g1 Economia",
+     "titulo": "Petróleo opera abaixo de US$ 100 após revés de Trump elevar apostas no fim da guerra com Irã",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/05/petroleo-abaixo-de-us-100-apos-reves-de-trump-elevar-apostas-no-fim-da-guerra-com-ira.ghtml",
+     "hora": "05/11 09h22"
     },
     {
      "veiculo": "InfoMoney",
-     "titulo": "Crise bancária desencadeia pedido de impeachment contra presidente Peña no Paraguai",
-     "url": "https://www.infomoney.com.br/mundo/crise-bancaria-desencadeia-pedido-de-impeachment-contra-presidente-pena-no-paraguai/",
-     "hora": "05/11 08h22"
+     "titulo": "Ibovespa Futuro sobe com Selic mantida e expectativa de fim da guerra no Irã",
+     "url": "https://www.infomoney.com.br/mercados/ibovespa-futuro-sobe-com-selic-mantida-e-expectativa-de-fim-da-guerra-no-ira/",
+     "hora": "05/11 09h07"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Polícia faz operação contra bets ilegais no DF e em 5 Estados",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Polícia faz operação contra bets ilegais no DF e em 5 Estados",
+     "url": "https://www.poder360.com.br/poder-seguranca-publica/policia-faz-operacao-contra-bets-ilegais-no-df-e-em-5-estados/",
+     "hora": "05/11 08h51"
     },
     {
      "veiculo": "g1",
-     "titulo": "Crise bancária leva oposição a pedir impeachment do presidente do Paraguai",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/05/crise-bancaria-leva-oposicao-a-pedir-impeachment-do-presidente-do-paraguai.ghtml",
-     "hora": "05/11 07h43"
+     "titulo": "Operação no DF e em 5 estados mira bets que movimentaram milhões com empresas de fachada",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/05/operacao-no-df-e-5-estados-mira-bets-que-usam-empresas-de-fachada-para-movimentar-milhoes.ghtml",
+     "hora": "05/11 07h25"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Produção industrial no Brasil recua 0,8% em setembro e frustra projeção do mercado",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "im",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Produção industrial no Brasil recua 0,8% em setembro e frustra projeção do mercado",
+     "url": "https://www.infomoney.com.br/economia/producao-industrial-no-brasil-recua-08-em-setembro-e-frustra-projecao-do-mercado/",
+     "hora": "05/11 09h13"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Produção industrial recua 0,8% em setembro, diz IBGE",
+     "url": "https://www.poder360.com.br/poder-economia/producao-industrial-recua-08-em-setembro-diz-ibge/",
+     "hora": "05/11 09h08"
     }
    ],
    "n_fontes_90min": 2
@@ -307,6 +460,26 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "A Fazenda 18: enquete dispara e aponta peão favorito para deixar o reality",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "A Fazenda 18: enquete dispara e aponta peão favorito para deixar o reality",
+     "url": "https://www.metropoles.com/entretenimento/a-fazenda-18-enquete-dispara-e-aponta-peao-favorito-para-deixar-o-reality",
+     "hora": "05/11 09h10"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
    "assunto": "Adolescente é apreendido com mais de 3 kg de drogas em ônibus na BR-393, em Sapucaia",
    "secao": null,
    "n_fontes": 1,
@@ -321,6 +494,63 @@
      "titulo": "Adolescente é apreendido com mais de 3 kg de drogas em ônibus na BR-393, em Sapucaia",
      "url": "https://g1.globo.com/rj/sul-do-rio-costa-verde/noticia/2026/11/05/adolescente-e-apreendido-com-mais-de-3-kg-de-drogas-em-onibus-na-br-393-em-sapucaia.ghtml",
      "hora": "05/11 07h53"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Agentes da CET anunciam greve a partir das 22h desta quinta-feira (5)",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Agentes da CET anunciam greve a partir das 22h desta quinta-feira (5)",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/agentes-da-cet-anunciam-greve-a-partir-das-22h-desta-quinta-feira-22.shtml",
+     "hora": "05/11 08h55"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Agro deve crescer 3% em 2026, mas perder força em 2027, prevê G5 Partners",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Agro deve crescer 3% em 2026, mas perder força em 2027, prevê G5 Partners",
+     "url": "https://www.cnnbrasil.com.br/agro/agro-deve-crescer-3-em-2026-mas-perder-forca-em-2027-preve-g5-partners/",
+     "hora": "05/11 09h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Anvisa proíbe três produtos de limpeza vendidos sem registro",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Anvisa proíbe três produtos de limpeza vendidos sem registro",
+     "url": "https://www.metropoles.com/saude/anvisa-proibe-tres-produtos-de-limpeza-vendidos-sem-registro",
+     "hora": "05/11 08h45"
     }
    ],
    "n_fontes_90min": 1
@@ -345,6 +575,26 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Ao vivo: Fachin participa de encontro nacional do Poder Judiciário",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Ao vivo: Fachin participa de encontro nacional do Poder Judiciário",
+     "url": "https://www.poder360.com.br/poder-justica/ao-vivo-fachin-participa-de-encontro-nacional-do-poder-judiciario/",
+     "hora": "05/11 09h00"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
    "assunto": "Após governo Trump perder midterms, deputados dos EUA podem votar impeachment do chefe do Pentágono, diz TV",
    "secao": "politica",
    "n_fontes": 1,
@@ -355,7 +605,7 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1 Mundo",
+     "veiculo": "g1",
      "titulo": "Após governo Trump perder midterms, deputados dos EUA podem votar impeachment do chefe do Pentágono, diz TV",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/05/apos-derrota-midterms-governo-trump-deputados-podem-votar-impeachment-hegseth-diz-tv.ghtml",
      "hora": "05/11 08h15"
@@ -396,14 +646,20 @@
      "veiculo": "g1",
      "titulo": "Assista ao Bom Dia Amapá desta quinta (5)",
      "url": "https://g1.globo.com/ap/ao-vivo/assista-ao-bom-dia-amapa-desta-quinta-5.ghtml",
-     "hora": "05/11 07h00"
+     "hora": "05/11 08h30"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "VÍDEOS: Bom Dia Goiás desta quinta-feira dia 5 de novembro de 2026",
+     "url": "https://g1.globo.com/go/goias/edicao/2026/11/05/videos-bom-dia-goias-desta-quinta-feira-dia-5-de-novembro-de-2026.ghtml",
+     "hora": "05/11 08h20"
     }
    ],
    "n_fontes_90min": 0,
    "lixo": true
   },
   {
-   "assunto": "Assista ao Bom Dia Vanguarda ao vivo no g1",
+   "assunto": "Assista ao Bom Dia ES",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -414,13 +670,71 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Assista ao Bom Dia Vanguarda ao vivo no g1",
-     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/ao-vivo/assista-ao-bom-dia-vanguarda-ao-vivo-no-g1.ghtml",
-     "hora": "05/11 07h51"
+     "titulo": "Assista ao Bom Dia ES",
+     "url": "https://g1.globo.com/es/espirito-santo/ao-vivo/assista-bdes.ghtml",
+     "hora": "05/11 08h29"
     }
    ],
    "n_fontes_90min": 0,
    "lixo": true
+  },
+  {
+   "assunto": "Assista aos telejornais da TV Bahia",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista aos telejornais da TV Bahia",
+     "url": "https://g1.globo.com/ba/bahia/ao-vivo/assista-aos-telejornais-da-tv-bahia.ghtml",
+     "hora": "05/11 08h31"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Atletas Linnecker e Brenner promovem jogo beneficente em Paracambi neste domingo",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atletas Linnecker e Brenner promovem jogo beneficente em Paracambi neste domingo",
+     "url": "https://ge.globo.com/rj/sul-do-rio-costa-verde/noticia/2026/11/05/atletas-linnecker-e-brenner-promovem-jogo-beneficente-em-paracambi-neste-domingo.ghtml",
+     "hora": "05/11 09h04"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Até que horas se pode tomar café? Estudo define horário limite para proteger o coração e o sono",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Até que horas se pode tomar café? Estudo define horário limite para proteger o coração e o sono",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/ate-que-horas-se-pode-tomar-cafe-estudo-define-horario-limite-para-proteger-o-coracao-e-o-sono/",
+     "hora": "05/11 08h15"
+    }
+   ],
+   "n_fontes_90min": 1
   },
   {
    "assunto": "Aviso",
@@ -442,45 +756,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Ação de manejo no oeste de SP descobre novos grupos de mico-leão e ganha destaque internacional",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Ação de manejo no oeste de SP descobre novos grupos de mico-leão e ganha destaque internacional",
-     "url": "https://g1.globo.com/sp/presidente-prudente-e-regiao/noticia/2026/11/05/acao-de-manejo-no-oeste-de-sp-descobre-novos-grupos-de-mico-leao-e-ganha-destaque-internacional.ghtml",
-     "hora": "05/11 07h29"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Ações de empresas de tecnologia desabam na Ásia; Bolsas da China sobem",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Ações de empresas de tecnologia desabam na Ásia; Bolsas da China sobem",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://aovivo.folha.uol.com.br/mercado/2026/10/25/6568-dolar-empresas-e-bolsas-acompanhe-ao-vivo-o-mercado.shtml#post468022",
-     "hora": "05/11 07h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "BC do Japão debateu necessidade de novos aumentos nos juros, mostra ata",
+   "assunto": "Avião da Azul é atingido por tornado em aeroporto de SC: ‘Está chacoalhando muito’",
    "secao": "economia",
    "n_fontes": 1,
    "fontes": [
@@ -491,249 +767,9 @@
    "manchetes": [
     {
      "veiculo": "InfoMoney",
-     "titulo": "BC do Japão debateu necessidade de novos aumentos nos juros, mostra ata",
-     "url": "https://www.infomoney.com.br/economia/bc-do-japao-debateu-necessidade-de-novos-aumentos-nos-juros-mostra-ata/",
-     "hora": "05/11 08h19"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Bom Dia Cidade Piracicaba",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Bom Dia Cidade Piracicaba",
-     "url": "https://g1.globo.com/sp/piracicaba-regiao/ao-vivo/bom-dia-cidade-piracicaba-ao-vivo.ghtml",
-     "hora": "05/11 07h33"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Bom Dia Cidade",
-     "url": "https://g1.globo.com/sp/ribeirao-preto-franca/ao-vivo/bom-dia-cidade-ribeirao-preto.ghtml",
-     "hora": "05/11 07h26"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Assista ao Bom Dia Cidade Campinas",
-     "url": "https://g1.globo.com/sp/campinas-regiao/ao-vivo/assista-ao-bom-dia-cidade-campinas.ghtml",
-     "hora": "05/11 06h54"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Bunker: polícia quebra piso de quarto e encontra esconderijo para arma e drogas em Goiânia; vídeo",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Bunker: polícia quebra piso de quarto e encontra esconderijo para arma e drogas em Goiânia; vídeo",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/05/bunker-policia-quebra-piso-de-quarto-e-encontra-esconderijo-para-arma-e-drogas-em-goiania-video.ghtml",
-     "hora": "05/11 07h20"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Buscando universalização, Corsan ultrapassa R$ 300 milhões em investimentos",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Buscando universalização, Corsan ultrapassa R$ 300 milhões em investimentos",
-     "url": "https://www.cnnbrasil.com.br/infra/buscando-universalizacao-corsan-ultrapassa-r-300-milhoes-em-investimentos/",
-     "hora": "05/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "CRM-PB abre sindicância para investigar médico preso suspeito de abuso sexual contra pacientes",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "CRM-PB abre sindicância para investigar médico preso suspeito de abuso sexual contra pacientes",
-     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/05/crm-pb-abre-sindicancia-para-investigar-medico-preso-suspeito-de-abuso-sexual-contra-pacientes.ghtml",
-     "hora": "05/11 07h37"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Centrais sindicais defendem regulamentar fim da escala 6x1 por acordos, evitando decretos",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Centrais sindicais defendem regulamentar fim da escala 6x1 por acordos, evitando decretos",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/centrais-sindicais-defendem-regulamentar-fim-da-escala-6x1-por-acordos-evitando-decretos.shtml",
-     "hora": "05/11 08h04"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Chefe da Audi guarda relíquia de Ayrton Senna e elogia maturidade de Bortoleto na F1",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Chefe da Audi guarda relíquia de Ayrton Senna e elogia maturidade de Bortoleto na F1",
-     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/05/chefe-da-audi-guarda-reliquia-de-ayrton-senna-e-elogia-maturidade-de-bortoleto-na-f1.ghtml",
-     "hora": "05/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Cidades de SC amanhecem com ruas alagadas e moradores contabilizando prejuízos após chuva e tornados",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Cidades de SC amanhecem com ruas alagadas e moradores contabilizando prejuízos após chuva e tornados",
-     "url": "https://g1.globo.com/sc/santa-catarina/noticia/2026/11/05/cidades-sc-amanhecem-ruas-alagadas-prejuizos-chuva-tornados.ghtml",
-     "hora": "05/11 08h03"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Cinco anos sem Marília Mendonça: fãs de SP relembram choque da perda e psicóloga explica o luto por um ídolo",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Cinco anos sem Marília Mendonça: fãs de SP relembram choque da perda e psicóloga explica o luto por um ídolo",
-     "url": "https://g1.globo.com/sp/bauru-marilia/noticia/2026/11/05/cinco-anos-sem-marilia-mendonca-fas-de-sp-relembram-choque-da-perda-e-psicologa-explica-o-luto-por-um-idolo.ghtml",
-     "hora": "05/11 07h30"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Comissão que analisa MP sobre crédito para empresas atingidas por tarifaço analisa relatório nesta quinta",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "agcamara"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Câmara",
-     "titulo": "Comissão que analisa MP sobre crédito para empresas atingidas por tarifaço analisa relatório nesta quinta",
-     "url": "https://www.camara.leg.br/noticias/1316195-comissao-que-analisa-mp-sobre-credito-para-empresas-atingidas-por-tarifaco-analisa-relatorio-nesta-quinta",
-     "hora": "05/11 07h49"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Como Lescano mudou o patamar do meio-campo do Vasco e conquistou Pedro Emanuel",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Como Lescano mudou o patamar do meio-campo do Vasco e conquistou Pedro Emanuel",
-     "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/05/como-lescano-mudou-o-patamar-do-meio-campo-do-vasco-e-conquistou-pedro-emanuel.ghtml",
-     "hora": "05/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Corinthians tem desfalques para “final” contra Botafogo",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Corinthians tem desfalques para “final” contra Botafogo",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/corinthians/corinthians-tem-desfalques-para-final-contra-botafogo/",
-     "hora": "05/11 07h45"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Daniel Ávila, o Dudu de ‘A Viagem’, é investigado por violência doméstica contra ex-namorada",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Daniel Ávila, o Dudu de ‘A Viagem’, é investigado por violência doméstica contra ex-namorada",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/05/daniel-avila-o-dudu-de-a-viagem-e-investigado-por-violencia-domestica-contra-ex-namorada.ghtml",
-     "hora": "05/11 08h01"
+     "titulo": "Avião da Azul é atingido por tornado em aeroporto de SC: ‘Está chacoalhando muito’",
+     "url": "https://www.infomoney.com.br/brasil/aviao-da-azul-e-atingido-por-tornado-em-aeroporto-de-sc-esta-chacoalhando-muito/",
+     "hora": "05/11 09h21"
     }
    ],
    "n_fontes_90min": 1
@@ -758,56 +794,77 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "França tem novo dia de greve e protestos",
+     "titulo": "França tem novo dia de greve e protestos; Torre Eiffel é fechada",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/05/franca-tem-novo-dia-de-greve-e-protestos.ghtml",
      "hora": "05/11 07h53"
     }
    ]
   },
-  "imposto-seletivo-mp": {
+  "pec-seguranca-ccj": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Estados aprovam PEC da Segurança e pedem financiamento permanente ao Susp",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/estados-aprovam-pec-da-seguranca-e-pedem-financiamento-permanente-ao-susp.shtml",
+     "hora": "05/11 09h00"
+    }
+   ]
+  },
+  "copom-novembro-selic": {
    "secao": "economia",
    "n_fontes": 1,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Governo envia PEC que prorroga IPI sobre bens afetados pelo Imposto Seletivo",
-     "url": "https://www.infomoney.com.br/politica/governo-envia-pec-que-prorroga-ipi-sobre-bens-afetados-pelo-imposto-seletivo/",
-     "hora": "05/11 08h22"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Governo define alíquotas do Imposto Seletivo para 2027 em medida provisória",
-     "url": "https://www.infomoney.com.br/politica/governo-define-aliquotas-do-imposto-seletivo-para-2027-em-medida-provisoria/",
-     "hora": "05/11 08h18"
+     "veiculo": "g1",
+     "titulo": "Dólar tem volatilidade após Copom manter Selic inalterada e com dados dos EUA no foco",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/05/dolar-ibovespa.ghtml",
+     "hora": "05/11 09h00"
     }
    ]
   }
  },
  "novos_relatos": {
-  "imposto-seletivo-mp": {
-   "n": 2,
+  "pec-seguranca-ccj": {
+   "n": 1,
    "n_fontes": 1,
    "fontes": [
-    "im"
+    "folha"
    ],
    "n_fontes_90min": 1,
-   "ultima": "05/11 08h22",
-   "ultima_iso": "2026-11-05T08:22-03:00",
+   "ultima": "05/11 09h00",
+   "ultima_iso": "2026-11-05T09:00-03:00",
    "pauta_atualizada_em": "2026-11-05T06:52-03:00",
-   "horas_sem_atualizar": 1.6,
+   "horas_sem_atualizar": 2.6,
    "principal": true,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Governo envia PEC que prorroga IPI sobre bens afetados pelo Imposto Seletivo",
-     "url": "https://www.infomoney.com.br/politica/governo-envia-pec-que-prorroga-ipi-sobre-bens-afetados-pelo-imposto-seletivo/",
-     "hora": "05/11 08h22"
-    },
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Estados aprovam PEC da Segurança e pedem financiamento permanente ao Susp",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/estados-aprovam-pec-da-seguranca-e-pedem-financiamento-permanente-ao-susp.shtml",
+     "hora": "05/11 09h00"
+    }
+   ]
+  },
+  "copom-novembro-selic": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "05/11 09h00",
+   "ultima_iso": "2026-11-05T09:00-03:00",
+   "pauta_atualizada_em": "2026-11-05T06:52-03:00",
+   "horas_sem_atualizar": 2.6,
+   "principal": true,
+   "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Governo define alíquotas do Imposto Seletivo para 2027 em medida provisória",
-     "url": "https://www.infomoney.com.br/politica/governo-define-aliquotas-do-imposto-seletivo-para-2027-em-medida-provisoria/",
-     "hora": "05/11 08h18"
+     "veiculo": "g1",
+     "titulo": "Dólar tem volatilidade após Copom manter Selic inalterada e com dados dos EUA no foco",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/05/dolar-ibovespa.ghtml",
+     "hora": "05/11 09h00"
     }
    ]
   },
@@ -821,7 +878,7 @@
    "ultima": "05/11 07h28",
    "ultima_iso": "2026-11-05T07:28-03:00",
    "pauta_atualizada_em": "2026-11-04T06:52-03:00",
-   "horas_sem_atualizar": 25.6,
+   "horas_sem_atualizar": 26.6,
    "principal": false,
    "manchetes": [
     {
@@ -842,12 +899,12 @@
    "ultima": "05/11 07h53",
    "ultima_iso": "2026-11-05T07:53-03:00",
    "pauta_atualizada_em": "2026-11-05T06:52-03:00",
-   "horas_sem_atualizar": 1.6,
+   "horas_sem_atualizar": 2.6,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "França tem novo dia de greve e protestos",
+     "titulo": "França tem novo dia de greve e protestos; Torre Eiffel é fechada",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/05/franca-tem-novo-dia-de-greve-e-protestos.ghtml",
      "hora": "05/11 07h53"
     }
@@ -863,7 +920,7 @@
    "ultima": "05/11 04h00",
    "ultima_iso": "2026-11-05T04:00-03:00",
    "pauta_atualizada_em": "2026-11-03T06:52-03:00",
-   "horas_sem_atualizar": 49.6,
+   "horas_sem_atualizar": 50.6,
    "principal": false,
    "manchetes": [
     {
@@ -876,6 +933,15 @@
   }
  },
  "fotos_livres": [
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Câmara pode votar projetos sobre monitoramento de agressores e maus-tratos a animais",
+   "materia": "https://www.camara.leg.br/noticias/1316213-camara-pode-votar-projetos-sobre-monitoramento-de-agressores-e-maus-tratos-a-animais",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261104173422975-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "05/11 08h42",
+   "pid_sugerido": null
+  },
   {
    "veiculo": "Agência Câmara",
    "titulo": "Comissão que analisa MP sobre crédito para empresas atingidas por tarifaço analisa relatório nesta quinta",
@@ -1028,53 +1094,9 @@
    "credito": "Foto: Agência Câmara",
    "hora": "04/11 15h41",
    "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão de Constituição e Justiça aprova regras para ações contra drogas em escolas",
-   "materia": "https://www.camara.leg.br/noticias/1315793-comissao-de-constituicao-e-justica-aprova-regras-para-acoes-contra-drogas-em-escolas",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261103160954673-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "04/11 15h27",
-   "pid_sugerido": null
   }
  ],
  "avaliados": [
-  {
-   "tipo": "pauta",
-   "pid": "copom-novembro-selic",
-   "id": null,
-   "chave": null,
-   "n_fontes": 3,
-   "em": "2026-11-04T21:13-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "6x1",
-    "aciona",
-    "aponta",
-    "cargas",
-    "cni",
-    "comercio",
-    "entidades",
-    "escala",
-    "fim",
-    "industria",
-    "ministro",
-    "pec",
-    "recorrem",
-    "reune",
-    "riscos",
-    "stf",
-    "trabalho",
-    "transportadores"
-   ],
-   "n_fontes": 3,
-   "em": "2026-11-04T21:13-03:00"
-  },
   {
    "tipo": "oficial",
    "pid": "ansiedade-afastamentos-trabalho",
@@ -1122,24 +1144,24 @@
  "ultima_rodada": "2026-11-05T07:02-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 57 nas últimas 6 h",
-  "Agência Brasil": "ok: 10 itens, 4 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
+  "Agência Brasil": "ok: 10 itens, 7 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 11 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 7 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
-  "ge": "ok: 100 itens, 42 nas últimas 6 h",
+  "ge": "ok: 100 itens, 52 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 14 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 11 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 16 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 14 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 2 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 36 itens, 5 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 1 nas últimas 6 h"
+  "Agência Câmara": "ok: 20 itens, 2 nas últimas 6 h"
  }
 }
