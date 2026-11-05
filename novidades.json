@@ -1,58 +1,435 @@
 {
- "gerado": "2026-11-04T20:16-03:00",
+ "gerado": "2026-11-04T21:13-03:00",
  "desde": "2026-11-04T19:40-03:00",
  "feed_atualizado_em": "2026-11-04T19:50:00-03:00",
  "resumo": {
-  "manchetes": 62,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 52,
-  "pautas_com_novidade": 3,
+  "manchetes": 159,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 125,
+  "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 8,
-  "acionar_itens": 1,
+  "acionar_itens": 2,
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "pauta copom-novembro-selic: 3 veículos em 90 min depois da última atualização",
+ "acionar_motivo": "pauta copom-novembro-selic: 3 veículos em 90 min depois da última atualização; assunto novo: 3 veículos em 90 min (politica)",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "copom-novembro-selic",
-   "titulo": "Mercado vê Selic em 13,75% até 2027 após decisão do Copom",
+   "titulo": "Resumão diário do JN: Partido Democrata conquista maioria no Congresso e redefine poder político nos EUA; Banco Central mantém taxa de juros em 13,75% após cinco cortes seguidos",
    "n_fontes": 3,
    "motivo": "pauta copom-novembro-selic: 3 veículos em 90 min depois da última atualização"
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Ministro do Trabalho se reúne com transportadores de cargas após fim da escala 6x1",
+   "secao": "politica",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "chave": [
+    "6x1",
+    "aciona",
+    "aponta",
+    "cargas",
+    "cni",
+    "comercio",
+    "entidades",
+    "escala",
+    "fim",
+    "industria",
+    "ministro",
+    "pec",
+    "recorrem",
+    "reune",
+    "riscos",
+    "stf",
+    "trabalho",
+    "transportadores"
+   ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois",
  "novos": [
   {
-   "assunto": "Indústria diz que manutenção da Selic em 13,75% é injustificável",
+   "assunto": "Lesionado, Danilo, do Botafogo, é cortado da Seleção Brasileira",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Lesionado, Danilo, do Botafogo, é cortado da Seleção Brasileira",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/selecao-brasileira/lesionado-danilo-do-botafogo-e-cortado-da-selecao-brasileira/",
+     "hora": "04/11 20h46"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Danilo, do Botafogo, é desconvocado da Seleção Brasileira por lesão",
+     "url": "https://www.metropoles.com/esportes/danilo-do-botafogo-e-desconvocado-da-selecao-brasileira-por-lesao",
+     "hora": "04/11 20h36"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Lesionado, Danilo desfalca Botafogo e é cortado da Seleção",
+     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/04/com-lesao-na-coxa-danilo-desfalca-botafogo-contra-o-atletico-mg.ghtml",
+     "hora": "04/11 20h11"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Ministro do Trabalho se reúne com transportadores de cargas após fim da escala 6x1",
+   "secao": "politica",
+   "n_fontes": 3,
+   "fontes": [
+    "ab",
+    "folha",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Ministro do Trabalho se reúne com transportadores de cargas após fim da escala 6x1",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/ministro-do-trabalho-se-reune-com-transportadores-de-cargas-apos-fim-da-escala-6x1.shtml",
+     "hora": "04/11 21h01"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Entidades da indústria e do comércio recorrem ao STF contra fim da 6x1",
+     "url": "https://agenciabrasil.ebc.com.br/justica/noticia/2026-11/entidades-da-industria-e-do-comercio-recorrem-ao-stf-contra-fim-da-6x1",
+     "hora": "04/11 20h23"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "CNI aciona STF contra a PEC do fim da escala 6x1 e aponta riscos",
+     "url": "https://www.metropoles.com/brasil/cni-aciona-stf-contra-a-pec-do-fim-da-escala-6x1-e-aponta-riscos",
+     "hora": "04/11 20h16"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "C&A (CEAB3) tem lucro líquido de R$ 56,5 mi no 3º tri, queda anual de 23,3%",
    "secao": "economia",
    "n_fontes": 2,
    "fontes": [
-    "im",
-    "p360"
+    "cnn",
+    "im"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Poder360",
-     "titulo": "Indústria diz que manutenção da Selic em 13,75% é injustificável",
-     "url": "https://www.poder360.com.br/poder-economia/industria-diz-que-manutencao-da-selic-em-1375-e-injustificavel/",
-     "hora": "04/11 19h47"
+     "veiculo": "InfoMoney",
+     "titulo": "C&A (CEAB3) tem lucro líquido de R$ 56,5 mi no 3º tri, queda anual de 23,3%",
+     "url": "https://www.infomoney.com.br/mercados/ca-ceab3-resultados-terceiro-trimestre-2026/",
+     "hora": "04/11 20h52"
     },
     {
      "veiculo": "InfoMoney",
-     "titulo": "Trava para investimentos: entidades empresariais criticam manutenção da Selic",
-     "url": "https://www.infomoney.com.br/economia/trava-para-investimentos-entidades-empresariais-criticam-manutencao-da-selic/",
-     "hora": "04/11 19h40"
+     "titulo": "Axia Energia (AXIA3) tem lucro líquido de R$ 1,11 bi no 3º tri",
+     "url": "https://www.infomoney.com.br/mercados/axia-energia-axia3-tem-lucro-liquido-de-r-111-bi-no-3o-tri/",
+     "hora": "04/11 20h52"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Lucro da Axia, antiga Eletrobras, cai 19,1% para R$ 1,76 bi no terceiro tri",
+     "url": "https://www.cnnbrasil.com.br/infra/lucro-da-axia-antiga-eletrobras-cai-191-para-r-176-bi-no-terceiro-tri/",
+     "hora": "04/11 20h43"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Amazonas publica no BID a recisão do lateral-direito Kauan Firmo",
+   "assunto": "Mega-Sena 3081 sorteia R$ 46 milhões hoje (4/11). Veja resultado",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Mega-Sena 3081 sorteia R$ 46 milhões hoje (4/11). Veja resultado",
+     "url": "https://www.metropoles.com/brasil/mega-sena-3081-sorteia-r-46-milhoes-hoje-4-11-veja-resultado",
+     "hora": "04/11 21h07"
+    },
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "Mega-Sena, concurso 3081: confira os números sorteados",
+     "url": "https://g1.globo.com/loterias/mega-sena/noticia/2026/11/04/mega-sena-concurso-3081-confira-os-numeros-sorteados.ghtml",
+     "hora": "04/11 21h03"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Loteria Federal hoje: resultado do concurso 6115 e números sorteados",
+     "url": "https://g1.globo.com/loterias/loteria-federal/noticia/2026/11/04/loteria-federal-hoje-resultado-do-concurso-6115-e-numeros-sorteados.ghtml",
+     "hora": "04/11 20h36"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Nasce Zara, 1ª filha de Franciny Ehlke com bilionário Tony Maleh",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Nasce Zara, 1ª filha de Franciny Ehlke com bilionário Tony Maleh",
+     "url": "https://www.metropoles.com/celebridades/nasce-zara-1a-filha-de-franciny-ehlke-com-bilionario-tony-maleh",
+     "hora": "04/11 20h32"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Franciny Ehlke anuncia nascimento da 1ª filha: “Nossa família cresceu”",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/franciny-ehlke-anuncia-nascimento-da-1a-filha-nossa-familia-cresceu/",
+     "hora": "04/11 19h48"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Presidente da Câmara dos EUA deve deixar liderança após derrota republicana",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Presidente da Câmara dos EUA deve deixar liderança após derrota republicana",
+     "url": "https://www.cnnbrasil.com.br/internacional/presidente-da-camara-dos-eua-deve-deixar-lideranca-apos-derrota-republicana/",
+     "hora": "04/11 20h40"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Após derrota dos republicanos, presidente da Câmara dos EUA não quer mais o cargo",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/apos-derrota-dos-republicanos-presidente-da-camara-dos-eua-renunciara.shtml",
+     "hora": "04/11 20h37"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Resumão diário do JN: Partido Democrata conquista maioria no Congresso e redefine poder político nos EUA; Banco Central mantém taxa de juros em 13,75% após cinco cortes seguidos",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Resumão diário do JN: Partido Democrata conquista maioria no Congresso e redefine poder político nos EUA; Banco Central mantém taxa de juros em 13,75% após cinco cortes seguidos",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/04/resumao-diario-do-jn-partido-democrata-conquista-maioria-no-congresso-e-redefine-poder-politico-nos-eua-banco-central-mantem-taxa-de-juros-em-1375percent-apos-cinco-cortes-seguidos.ghtml",
+     "hora": "04/11 20h53"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Eleições nos EUA: como surgiu o Partido Republicano e qual é sua história?",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/eleicoes-nos-eua-como-surgiu-o-partido-republicano-e-qual-e-sua-historia/",
+     "hora": "04/11 20h20"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Eleições nos EUA: como surgiu o Partido Democrata e qual é sua história?",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/eleicoes-nos-eua-como-surgiu-o-partido-democrata-e-qual-e-sua-historia/",
+     "hora": "04/11 20h20"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Sucuri-amarela de 4,5 metros é capturada próximo a residência, em Caldas Novas",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Sucuri-amarela de 4,5 metros é capturada próximo a residência, em Caldas Novas",
+     "url": "https://g1.globo.com/go/goias/noticia/2026/11/04/sucuri-e-capturada-proximo-a-residencia-em-caldas-novas.ghtml",
+     "hora": "04/11 20h10"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Sucuri de 4,5 metros deu bote em animal doméstico antes de ser capturada",
+     "url": "https://www.metropoles.com/distrito-federal/entorno/sucuri-de-45-metros-deu-bote-em-animal-domestico-antes-de-ser-capturada",
+     "hora": "04/11 19h57"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Sucuri de 4,5 metros é capturada perto de residência em Caldas Novas (GO)",
+     "url": "https://www.metropoles.com/brasil/sucuri-de-45-metros-e-capturada-perto-de-residencia-em-caldas-novas-go",
+     "hora": "04/11 19h53"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Torcedores do Vasco reclamam de pênalti não marcado contra o Athletico-PR",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Torcedores do Vasco reclamam de pênalti não marcado contra o Athletico-PR",
+     "url": "https://www.metropoles.com/esportes/torcedores-do-vasco-reclamam-de-penalti-nao-marcado-contra-o-athletico-pr",
+     "hora": "04/11 21h02"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Athletico-PR x Vasco: PC Oliveira diz que houve pênalti não marcado de Mycael em Brenner",
+     "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/04/athletico-pr-x-vasco-pc-oliveira-diz-que-houve-penalti-de-mycael-em-brenner-veja.ghtml",
+     "hora": "04/11 20h11"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Viridis fecha acordo de venda de terras raras de projeto em MG com Solvay",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Viridis fecha acordo de venda de terras raras de projeto em MG com Solvay",
+     "url": "https://www.infomoney.com.br/business/viridis-fecha-acordo-de-venda-de-terras-raras-de-projeto-em-mg-com-solvay/",
+     "hora": "04/11 20h55"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Viridis: acordo de terras raras em MG prevê proteção contra queda de preços",
+     "url": "https://www.cnnbrasil.com.br/infra/viridis-acordo-de-terras-raras-em-mg-preve-protecao-contra-queda-de-precos/",
+     "hora": "04/11 20h00"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "\"O Nordeste é uma fábrica de pobreza\", diz deputado do PL após eleição",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "\"O Nordeste é uma fábrica de pobreza\", diz deputado do PL após eleição",
+     "url": "https://www.metropoles.com/distrito-federal/o-nordeste-e-uma-fabrica-de-pobreza-diz-deputado-do-pl-apos-eleicao",
+     "hora": "04/11 20h20"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "AO VIVO: assista à programação da NSC TV",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "AO VIVO: assista à programação da NSC TV",
+     "url": "https://g1.globo.com/sc/santa-catarina/ao-vivo/assista-ao-vivo-aos-telejornais-da-nsc.ghtml",
+     "hora": "04/11 20h26"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Alcolumbre diz lamentar eleição de quem se promove “ofendendo e agredindo”",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Alcolumbre diz lamentar eleição de quem se promove “ofendendo e agredindo”",
+     "url": "https://www.cnnbrasil.com.br/politica/alcolumbre-diz-lamentar-eleicao-de-quem-se-promove-ofendendo-e-agredindo/",
+     "hora": "04/11 20h44"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Aliados e rivais dos Estados Unidos pelo mundo reagem ao resultado da eleição americana; veja",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Aliados e rivais dos Estados Unidos pelo mundo reagem ao resultado da eleição americana; veja",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/04/aliados-e-rivais-dos-estados-unidos-pelo-mundo-reagem-ao-resultado-da-eleicao-americana-veja.ghtml",
+     "hora": "04/11 21h01"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Amazonas publica no BID a rescisão do lateral-direito Kauan Firmo",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
@@ -63,9 +440,47 @@
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Amazonas publica no BID a recisão do lateral-direito Kauan Firmo",
-     "url": "https://ge.globo.com/am/futebol/times/amazonas-fc/noticia/2026/11/04/amazonas-publica-no-bid-a-recisao-do-lateral-direito-kauan-firmo.ghtml",
-     "hora": "04/11 20h01"
+     "titulo": "Amazonas publica no BID a rescisão do lateral-direito Kauan Firmo",
+     "url": "https://ge.globo.com/am/futebol/times/amazonas-fc/noticia/2026/11/04/amazonas-publica-no-bid-a-rescisao-do-lateral-direito-kauan-firmo.ghtml",
+     "hora": "04/11 20h24"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Antonelli diz abrir mão de número de campeão da F1 para manter humildade",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Antonelli diz abrir mão de número de campeão da F1 para manter humildade",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/04/antonelli-diz-abrir-mao-de-numero-de-campeao-da-f1-para-manter-humildade.ghtml",
+     "hora": "04/11 21h05"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Após recusa de Tereza Cristina, Eduardo Gomes será relator da LDO",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Após recusa de Tereza Cristina, Eduardo Gomes será relator da LDO",
+     "url": "https://www.poder360.com.br/poder-congresso/apos-recusa-de-tereza-cristina-eduardo-gomes-sera-relator-da-ldo/",
+     "hora": "04/11 20h24"
     }
    ],
    "n_fontes_90min": 1
@@ -110,7 +525,7 @@
    "lixo": true
   },
   {
-   "assunto": "Athletico-PR x Vasco - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+   "assunto": "Audi revela pintura especial para o GP Brasil de F1; veja imagens",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
@@ -121,21 +536,9 @@
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Athletico-PR x Vasco - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/04-11-2026/atletico-pr-vasco.ghtml",
-     "hora": "04/11 20h10"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Flamengo x Grêmio - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/04-11-2026/flamengo-gremio.ghtml",
-     "hora": "04/11 20h09"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "São Paulo x Corinthians - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/04-11-2026/sao-paulo-corinthians.ghtml",
-     "hora": "04/11 20h08"
+     "titulo": "Audi revela pintura especial para o GP Brasil de F1; veja imagens",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/04/audi-revela-pintura-especial-para-o-gp-brasil-de-f1-veja-imagens.ghtml",
+     "hora": "04/11 20h25"
     }
    ],
    "n_fontes_90min": 1
@@ -155,6 +558,127 @@
      "titulo": "Audiências públicas vão debater área de proteção do rios Jaguari e Juquiá",
      "url": "https://www.metropoles.com/sao-paulo/audiencias-publicas-vao-debater-area-de-protecao-do-rios-jaguari-e-juquia",
      "hora": "04/11 19h45"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Aumento do consumo de energia de Itaipu pelo Paraguai deve pressionar preços no Brasil, diz Itaú BBA",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Aumento do consumo de energia de Itaipu pelo Paraguai deve pressionar preços no Brasil, diz Itaú BBA",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/aumento-do-consumo-de-energia-de-itaipu-pelo-paraguai-deve-pressionar-precos-no-brasil-diz-itau-bba.shtml",
+     "hora": "04/11 20h18"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "BC vê inflação mais elevada em todo horizonte até 2028",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "BC vê inflação mais elevada em todo horizonte até 2028",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/bc-ve-inflacao-mais-elevada-em-todo-horizonte-ate-2028/",
+     "hora": "04/11 20h22"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Belém recebe evento para definir metas de plano climático e tecnológico; saiba como participar",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Belém recebe evento para definir metas de plano climático e tecnológico; saiba como participar",
+     "url": "https://g1.globo.com/pa/para/noticia/2026/11/04/belem-recebe-oficina-para-construir-plano-de-acao-climatica-e-tecnologica-saiba-como-participar.ghtml",
+     "hora": "04/11 20h28"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Botafogo tem desfalque importante para duelo contra o Atlético-MG",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Botafogo tem desfalque importante para duelo contra o Atlético-MG",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/botafogo/botafogo-tem-desfalque-importante-para-duelo-contra-o-atletico-mg/",
+     "hora": "04/11 20h20"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Botafogo x Atlético-MG: escalações e onde assistir ao jogo do Brasileirão",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Botafogo x Atlético-MG: escalações e onde assistir ao jogo do Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/botafogo-x-atletico-mg-escalacoes-e-onde-assistir-ao-jogo-do-brasileirao-2/",
+     "hora": "04/11 20h34"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "São Paulo x Corinthians: escalações e onde assistir ao jogo do Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/sao-paulo-x-corinthians-escalacoes-e-onde-assistir-ao-jogo-do-brasileirao/",
+     "hora": "04/11 20h32"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "CBA (CBAV3) tem lucro recorde de R$ 616 milhões no 3º trimestre, alta de 366%",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "CBA (CBAV3) tem lucro recorde de R$ 616 milhões no 3º trimestre, alta de 366%",
+     "url": "https://www.infomoney.com.br/mercados/resultados-cba-cbav3-terceiro-trimestre-2026/",
+     "hora": "04/11 20h23"
     }
    ],
    "n_fontes_90min": 1
@@ -198,102 +722,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Como goleia por 9 a 1, Real Madrid vence nos acréscimos, e Liverpool perde na Champions",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "Como goleia por 9 a 1, Real Madrid vence nos acréscimos, e Liverpool perde na Champions",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/como-goleia-por-9-a-1-real-madrid-vence-nos-acrescimos-e-liverpool-perde-na-champions.shtml",
-     "hora": "04/11 20h05"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Copa Nordeste de Futsal 2026: Atlético-PI x São João do Jaguaribe se enfrentam pelas quartas; assista",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Copa Nordeste de Futsal 2026: Atlético-PI x São João do Jaguaribe se enfrentam pelas quartas; assista",
-     "url": "https://ge.globo.com/pi/futsal/ao-vivo/copa-nordeste-de-futsal-2026-atletico-pi-x-sao-joao-do-jaguaribe-se-enfrentam-pelas-quartas-assista.ghtml",
-     "hora": "04/11 20h01"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Davi vai analisar questões de Randolfe sobre situação de Flávio Bolsonaro",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "agsenado"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Senado",
-     "titulo": "Davi vai analisar questões de Randolfe sobre situação de Flávio Bolsonaro",
-     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/04/davi-vai-analisar-questoes-de-randolfe-sobre-situacao-de-flavio-bolsonaro",
-     "hora": "04/11 19h46"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Dexco tem prejuízo líquido de R$ 142 mi no 3T, afetada por desmobilização de fábricas",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Dexco tem prejuízo líquido de R$ 142 mi no 3T, afetada por desmobilização de fábricas",
-     "url": "https://www.infomoney.com.br/mercados/dexco-dxco3-resultados-terceiro-trimestre-2026/",
-     "hora": "04/11 19h55"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Douglas Ruas e Eduardo Paes movem ações na Justiça Eleitoral por atuação em disputa no RJ",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Poder",
-     "titulo": "Douglas Ruas e Eduardo Paes movem ações na Justiça Eleitoral por atuação em disputa no RJ",
-     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/douglas-ruas-e-eduardo-paes-movem-acoes-na-justica-eleitoral-por-atuacao-em-disputa-no-rj.shtml",
-     "hora": "04/11 19h54"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "El Niño muda padrão do tempo e deve trazer mais calor e temporais ao Vale do Paraíba, diz pesquisador do Cemaden",
+   "assunto": "Cetam prorroga inscrições para cursos gratuitos on-line até sexta-feira",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -304,313 +733,9 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "El Niño muda padrão do tempo e deve trazer mais calor e temporais ao Vale do Paraíba, diz pesquisador do Cemaden",
-     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/04/el-nino-muda-padrao-do-tempo-e-deve-trazer-mais-calor-e-temporais-ao-vale-do-paraiba-diz-pesquisador-do-cemaden.ghtml",
-     "hora": "04/11 20h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Eleição nos EUA com revés de Trump tem celebração de lulistas e crítica de Nikolas a Janja",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Poder",
-     "titulo": "Eleição nos EUA com revés de Trump tem celebração de lulistas e crítica de Nikolas a Janja",
-     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/eleicao-nos-eua-com-reves-de-trump-tem-celebracao-de-lulistas-e-critica-de-nikolas-a-janja.shtml",
-     "hora": "04/11 20h05"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Em gesto raro, William e Harry têm trégua e compartilham homenagem à mãe",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Em gesto raro, William e Harry têm trégua e compartilham homenagem à mãe",
-     "url": "https://www.metropoles.com/colunas/claudia-meireles/em-gesto-raro-william-e-harry-tem-tregua-e-compartilham-homenagem-a-mae",
-     "hora": "04/11 19h53"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Empresas de Musk perdem US$ 130 bilhões com vitória democrata no Texas",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Empresas de Musk perdem US$ 130 bilhões com vitória democrata no Texas",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/empresas-de-musk-perdem-us-130-bilhoes-com-vitoria-democrata-no-texas.shtml",
-     "hora": "04/11 19h55"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Entenda por que a educação financeira faz diferença para quem empreende",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Entenda por que a educação financeira faz diferença para quem empreende",
-     "url": "https://g1.globo.com/rj/norte-fluminense/especial-publicitario/sicoob-sul-sicoob-mais-que-uma-escolha-financeira/noticia/2026/11/04/entenda-por-que-a-educacao-financeira-faz-diferenca-para-quem-empreende.ghtml",
-     "hora": "04/11 19h40"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Festival do Feijão tem corrida de bajolas e shows no interior do Acre; confira",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Festival do Feijão tem corrida de bajolas e shows no interior do Acre; confira",
-     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/04/festival-do-feijao-tem-corrida-de-bajolas-e-shows-no-interior-do-acre-confira.ghtml",
-     "hora": "04/11 20h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Franciny Ehlke anuncia nascimento da 1ª filha: “Nossa família cresceu”",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Franciny Ehlke anuncia nascimento da 1ª filha: “Nossa família cresceu”",
-     "url": "https://www.cnnbrasil.com.br/pop/celebridades/franciny-ehlke-anuncia-nascimento-da-1a-filha-nossa-familia-cresceu/",
-     "hora": "04/11 19h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "GPA (PCAR3) registra prejuízo líquido de R$ 220 mi nas operações continuadas",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "GPA (PCAR3) registra prejuízo líquido de R$ 220 mi nas operações continuadas",
-     "url": "https://www.infomoney.com.br/mercados/resultados-gpa-pcar3-terceiro-trimestre-2026/",
-     "hora": "04/11 20h09"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "GPA amplia prejuízo no trimestre, mas avança com plano de eficiência",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "GPA amplia prejuízo no trimestre, mas avança com plano de eficiência",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/gpa-amplia-prejuizo-no-trimestre-mas-avanca-com-plano-de-eficiencia.shtml",
-     "hora": "04/11 20h01"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Homem é preso suspeito de aplicar golpes na venda de pacotes turísticos na PB; prejuízo ultrapassa R$ 100 mil",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Homem é preso suspeito de aplicar golpes na venda de pacotes turísticos na PB; prejuízo ultrapassa R$ 100 mil",
-     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/04/homem-e-preso-suspeito-de-aplicar-golpes-na-venda-de-pacotes-turisticos-na-paraiba.ghtml",
-     "hora": "04/11 19h57"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Incêndio atinge área de mata em Volta Redonda",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Incêndio atinge área de mata em Volta Redonda",
-     "url": "https://g1.globo.com/rj/sul-do-rio-costa-verde/noticia/2026/11/04/incendio-atinge-area-de-mata-em-volta-redonda.ghtml",
-     "hora": "04/11 20h02"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Inmet alerta para ciclone extratropical em três regiões do Brasil",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Inmet alerta para ciclone extratropical em três regiões do Brasil",
-     "url": "https://www.metropoles.com/brasil/inmet-alerta-para-ciclone-extratropical-em-tres-regioes-do-brasil",
-     "hora": "04/11 19h52"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Instituto Federal abre 40 vagas para curso gratuito de Informática em Santos; veja como participar",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Instituto Federal abre 40 vagas para curso gratuito de Informática em Santos; veja como participar",
-     "url": "https://g1.globo.com/sp/santos-regiao/noticia/2026/11/04/instituto-federal-abre-40-vagas-para-curso-gratuito-de-informatica-em-santos-veja-como-participar.ghtml",
-     "hora": "04/11 20h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Israel conclui auditoria eleitoral e descarta risco de fraude",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Israel conclui auditoria eleitoral e descarta risco de fraude",
-     "url": "https://www.metropoles.com/mundo/israel-conclui-auditoria-eleitoral-e-descarta-risco-de-fraude",
-     "hora": "04/11 19h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Jornada dos Pobres oferece acolhimento e comida em BH neste domingo (8/11)",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Jornada dos Pobres oferece acolhimento e comida em BH neste domingo (8/11)",
-     "url": "https://www.metropoles.com/minas-gerais/jornada-dos-pobres-oferece-acolhimento-e-comida-em-bh-neste-domingo-8-11",
-     "hora": "04/11 19h43"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Jovem tem prejuízo de R$ 2.250 após tentar contratar mulher para serviço de acompanhante",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Jovem tem prejuízo de R$ 2.250 após tentar contratar mulher para serviço de acompanhante",
-     "url": "https://g1.globo.com/sp/sao-jose-do-rio-preto-aracatuba/noticia/2026/11/04/jovem-tem-prejuizo-de-r-2250-apos-tentar-contratar-mulher-para-servico-de-acompanhante.ghtml",
-     "hora": "04/11 19h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Justiça condena homem a 24 anos de prisão por tentativa de feminicídio",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Justiça condena homem a 24 anos de prisão por tentativa de feminicídio",
-     "url": "https://www.metropoles.com/distrito-federal/justica-condena-homem-a-24-anos-de-prisao-por-tentativa-de-feminicidio",
-     "hora": "04/11 20h12"
+     "titulo": "Cetam prorroga inscrições para cursos gratuitos on-line até sexta-feira",
+     "url": "https://g1.globo.com/am/amazonas/utilidade-publica/noticia/2026/11/04/cetam-prorroga-inscricoes-para-cursos-gratuitos-on-line-ate-sexta-feira.ghtml",
+     "hora": "04/11 20h20"
     }
    ],
    "n_fontes_90min": 1
@@ -644,12 +769,18 @@
      "titulo": "Brasil segue com maior juro real do mundo após Copom manter Selic em 13,75%",
      "url": "https://www.metropoles.com/brasil/brasil-segue-com-maior-juro-real-do-mundo-apos-copom-manter-selic-em-1375",
      "hora": "04/11 20h00"
-    },
+    }
+   ]
+  },
+  "brasileirao-31-rodada-lideres": {
+   "secao": "esportes",
+   "n_fontes": 1,
+   "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Selic a 13,75%: Sem ajuste fiscal, mercado vê juros travando a economia até 2027",
-     "url": "https://www.infomoney.com.br/economia/copom-mantem-selic-13-75-risco-fiscal/",
-     "hora": "04/11 20h08"
+     "veiculo": "CNN Brasil",
+     "titulo": "Alan Patrick será julgado e pode desfalcar o Inter no fim do Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/internacional-futebol/alan-patrick-sera-julgado-e-pode-desfalcar-inter-no-fim-do-brasileirao/",
+     "hora": "04/11 20h07"
     }
    ]
   },
@@ -661,13 +792,13 @@
      "veiculo": "ge",
      "titulo": "Internacional x Bragantino - Copa do Brasil Feminina 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/04-11-2026/internacional-bragantino.ghtml",
-     "hora": "04/11 20h10"
+     "hora": "04/11 21h11"
     },
     {
      "veiculo": "ge",
      "titulo": "Cuiabá x União Rondonópolis - Copa FMF 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/mt/futebol/copa-fmf/jogo/04-11-2026/cuiaba-uniao-rondonopolis.ghtml",
-     "hora": "04/11 20h08"
+     "hora": "04/11 21h09"
     }
    ]
   }
@@ -683,7 +814,7 @@
    "ultima": "04/11 17h31",
    "ultima_iso": "2026-11-04T17:31-03:00",
    "pauta_atualizada_em": "2026-11-04T12:55-03:00",
-   "horas_sem_atualizar": 7.4,
+   "horas_sem_atualizar": 8.3,
    "principal": true,
    "manchetes": [
     {
@@ -704,7 +835,7 @@
    "ultima": "04/11 19h44",
    "ultima_iso": "2026-11-04T19:44-03:00",
    "pauta_atualizada_em": "2026-10-31T06:53-03:00",
-   "horas_sem_atualizar": 109.4,
+   "horas_sem_atualizar": 110.3,
    "principal": false,
    "manchetes": [
     {
@@ -719,28 +850,28 @@
    "n": 3,
    "n_fontes": 3,
    "fontes": [
-    "im",
+    "g1",
     "met",
     "p360"
    ],
    "n_fontes_90min": 3,
-   "ultima": "04/11 20h14",
-   "ultima_iso": "2026-11-04T20:14-03:00",
+   "ultima": "04/11 20h53",
+   "ultima_iso": "2026-11-04T20:53-03:00",
    "pauta_atualizada_em": "2026-11-04T19:50-03:00",
-   "horas_sem_atualizar": 0.4,
+   "horas_sem_atualizar": 1.4,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Resumão diário do JN: Partido Democrata conquista maioria no Congresso e redefine poder político nos EUA; Banco Central mantém taxa de juros em 13,75% após cinco cortes seguidos",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/04/resumao-diario-do-jn-partido-democrata-conquista-maioria-no-congresso-e-redefine-poder-politico-nos-eua-banco-central-mantem-taxa-de-juros-em-1375percent-apos-cinco-cortes-seguidos.ghtml",
+     "hora": "04/11 20h53"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Mercado vê Selic em 13,75% até 2027 após decisão do Copom",
      "url": "https://www.poder360.com.br/poder-economia/mercado-ve-selic-em-1375-ate-2027-apos-decisao-do-copom/",
      "hora": "04/11 20h14"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Selic a 13,75%: Sem ajuste fiscal, mercado vê juros travando a economia até 2027",
-     "url": "https://www.infomoney.com.br/economia/copom-mantem-selic-13-75-risco-fiscal/",
-     "hora": "04/11 20h08"
     },
     {
      "veiculo": "Metrópoles",
@@ -761,7 +892,7 @@
    "ultima": "04/11 17h52",
    "ultima_iso": "2026-11-04T17:52-03:00",
    "pauta_atualizada_em": "2026-11-04T06:52-03:00",
-   "horas_sem_atualizar": 13.4,
+   "horas_sem_atualizar": 14.4,
    "principal": true,
    "manchetes": [
     {
@@ -788,7 +919,7 @@
    "ultima": "04/11 19h25",
    "ultima_iso": "2026-11-04T19:25-03:00",
    "pauta_atualizada_em": "2026-11-03T06:52-03:00",
-   "horas_sem_atualizar": 37.4,
+   "horas_sem_atualizar": 38.4,
    "principal": false,
    "manchetes": [
     {
@@ -800,18 +931,25 @@
    ]
   },
   "brasileirao-31-rodada-lideres": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
+    "cnn",
     "ge"
    ],
    "n_fontes_90min": 1,
-   "ultima": "04/11 17h26",
-   "ultima_iso": "2026-11-04T17:26-03:00",
+   "ultima": "04/11 20h07",
+   "ultima_iso": "2026-11-04T20:07-03:00",
    "pauta_atualizada_em": "2026-11-04T06:52-03:00",
-   "horas_sem_atualizar": 13.4,
+   "horas_sem_atualizar": 14.4,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Alan Patrick será julgado e pode desfalcar o Inter no fim do Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/internacional-futebol/alan-patrick-sera-julgado-e-pode-desfalcar-inter-no-fim-do-brasileirao/",
+     "hora": "04/11 20h07"
+    },
     {
      "veiculo": "ge",
      "titulo": "Com pênalti nos acréscimos, Inter vence o Coritiba e deixa o Z-4",
@@ -821,24 +959,23 @@
    ]
   },
   "copa-do-brasil-semifinal-ida-palmeiras-vasco-gremio-atletico": {
-   "n": 7,
-   "n_fontes": 2,
+   "n": 6,
+   "n_fontes": 1,
    "fontes": [
-    "ab",
     "ge"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "04/11 20h10",
-   "ultima_iso": "2026-11-04T20:10-03:00",
+   "n_fontes_90min": 1,
+   "ultima": "04/11 21h11",
+   "ultima_iso": "2026-11-04T21:11-03:00",
    "pauta_atualizada_em": "2026-11-03T06:52-03:00",
-   "horas_sem_atualizar": 37.4,
+   "horas_sem_atualizar": 38.4,
    "principal": false,
    "manchetes": [
     {
      "veiculo": "ge",
      "titulo": "Internacional x Bragantino - Copa do Brasil Feminina 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/04-11-2026/internacional-bragantino.ghtml",
-     "hora": "04/11 20h10"
+     "hora": "04/11 21h11"
     },
     {
      "veiculo": "ge",
@@ -853,12 +990,6 @@
      "hora": "04/11 18h54"
     },
     {
-     "veiculo": "Agência Brasil",
-     "titulo": "Brasil é dominado pela Nigéria e cai na Copa do Mundo Feminina Sub-17",
-     "url": "https://agenciabrasil.ebc.com.br/esportes/noticia/2026-11/brasil-e-dominado-pela-nigeria-e-cai-na-copa-do-mundo-feminina-sub-17",
-     "hora": "04/11 17h55"
-    },
-    {
      "veiculo": "ge",
      "titulo": "Nigéria domina Brasil, vence e faz final da Copa Feminina Sub-17 contra o Japão",
      "url": "https://ge.globo.com/ms/futebol/futebol-feminino/jogo/04-11-2026/brasil-nigeria.ghtml",
@@ -869,6 +1000,12 @@
      "titulo": "Atlético-MG vence Santa Cruz e vai à semifinal da Copa do Brasil Sub-20",
      "url": "https://ge.globo.com/mg/triangulo-mineiro/futebol/copa-do-brasil-sub-20/jogo/04-11-2026/atletico-mg-santa-cruz.ghtml",
      "hora": "04/11 17h09"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Após críticas na Copa do Brasil, Anderson Daronco será o árbitro em Avaí x São Bernardo, na Série B",
+     "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-b/noticia/2026/11/04/apos-criticas-na-copa-do-brasil-anderson-daronco-sera-o-arbitro-em-avai-x-sao-bernardo-na-serie-b.ghtml",
+     "hora": "04/11 15h26"
     }
    ]
   },
@@ -882,7 +1019,7 @@
    "ultima": "04/11 15h41",
    "ultima_iso": "2026-11-04T15:41-03:00",
    "pauta_atualizada_em": "2026-11-04T13:50-03:00",
-   "horas_sem_atualizar": 6.4,
+   "horas_sem_atualizar": 7.4,
    "principal": true,
    "manchetes": [
     {
@@ -895,6 +1032,15 @@
   }
  },
  "fotos_livres": [
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Debatedores divergem sobre projeto de lei para ampliar concorrência no mercado de gás natural",
+   "materia": "https://www.camara.leg.br/noticias/1316160-debatedores-divergem-sobre-projeto-de-lei-para-ampliar-concorrencia-no-mercado-de-gas-natural",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261104143710930-768x473.jpeg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "04/11 20h26",
+   "pid_sugerido": null
+  },
   {
    "veiculo": "Agência Câmara",
    "titulo": "Instalada comissão que vai analisar linhas de crédito para empresas atingidas por tarifaço",
@@ -1046,15 +1192,6 @@
    "img": "https://www.camara.leg.br/midias/image/2026/11/img20261104113458964-768x474.jpg",
    "credito": "Foto: Agência Câmara",
    "hora": "04/11 14h54",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova projeto que amplia atuação de sindicatos em falências e protege créditos trabalhistas",
-   "materia": "https://www.camara.leg.br/noticias/1315734-comissao-aprova-projeto-que-amplia-atuacao-de-sindicatos-em-falencias-e-protege-creditos-trabalhistas",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260617114303878-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "04/11 14h29",
    "pid_sugerido": null
   }
  ],
@@ -1303,19 +1440,19 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 8 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 9 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 14 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 7 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 11 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 11 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 26 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 13 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 21 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 3 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 37 itens, 3 nas últimas 6 h",
+  "BBC News Brasil": "ok: 36 itens, 3 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 20 nas últimas 6 h"
+  "Agência Câmara": "ok: 20 itens, 19 nas últimas 6 h"
  }
 }
