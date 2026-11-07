@@ -46,37 +46,41 @@ const CORPO = [
   ok(await ev(B, () => !!document.querySelector('#layer [data-cs123ini]') && document.querySelectorAll('#layer [data-cn102ini]').length === 4), '"O que você quer publicar?": cartão "Escrever coluna" junto dos outros quatro');
   await semToast(B); await B.screenshot({ path: path.join(QA, 'col-0-o-que-publicar.png') });
   await clk(B, '#layer [data-cs123ini]'); await sleep(400);
-  ok(await esperar(B, () => !!document.querySelector('#layer > .cs123-ed #cs123-tit') && !ED), 'abre o editor da coluna (e fecha o criador de post)');
-  await B.fill('#cs123-tit', 'A reforma tributária é menos radical do que parece');
-  await B.fill('#cs123-linha', 'Cobrar o imposto no destino muda a guerra fiscal, mas a conta do consumidor depende da transição');
-  await B.fill('#cs123-corpo', CORPO); await B.fill('#cs123-tags', '#ReformaTributária economia');
-  ok(await ev(B, () => /min de leitura/.test(document.querySelector('[data-cs123n="corpo"]').textContent) && /de 40\.000/.test(document.querySelector('[data-cs123n="corpo"]').textContent)), 'editor: contador com o limite da v9 (40.000) e o tempo de leitura');
-  // formatação: intertítulo pelo botão
-  await ev(B, () => { const t = $('#cs123-corpo'); t.focus(); t.setSelectionRange(t.value.length, t.value.length) });
-  await clk(B, '[data-cs123fmt="b"]'); ok(await ev(B, () => /\*\*negrito\*\*$/.test($('#cs123-corpo').value)), 'editor: o botão N põe **negrito**');
-  await ev(B, () => { const t = $('#cs123-corpo'); t.value = t.value.replace(/\*\*negrito\*\*$/, ''); t.dispatchEvent(new Event('input', { bubbles: true })) });
+  /* editor novo (132): título, linha fina, texto em blocos; público, hashtags e publicar em "Antes de publicar" */
+  ok(await esperar(B, () => !!document.querySelector('#layer > .ed132 #ed132-tit') && !ED), 'abre o editor da coluna (e fecha o criador de post)');
+  await B.fill('#ed132-tit', 'A reforma tributária é menos radical do que parece');
+  await B.fill('#ed132-lin', 'Cobrar o imposto no destino muda a guerra fiscal, mas a conta do consumidor depende da transição');
+  await ev(B, c => { const cp = $('#ed132-corpo'); cp.innerHTML = ed132ParaEditor(ed132DeMarkdown(c)); cp.dispatchEvent(new Event('input', { bubbles: true })) }, CORPO); await sleep(300);
+  ok(await ev(B, () => /\d+ palavras · \d+ min de leitura/.test(document.querySelector('[data-ed132cont]').textContent)), 'editor: contador de palavras e o tempo de leitura');
+  // formatação: negrito pela barra
+  await ev(B, () => { const cp = $('#ed132-corpo'), p = cp.lastElementChild; cp.focus(); const r = document.createRange(); r.selectNodeContents(p); r.collapse(false); const s = getSelection(); s.removeAllRanges(); s.addRange(r) });
+  await clk0(B, '[data-ed132cmd="b"]'); await B.keyboard.type('negrito'); ok(await ev(B, () => /<strong>negrito<\/strong><\/p>$/.test(ed132Le().html)), 'editor: o botão N põe negrito');
+  await ev(B, () => { [...$('#ed132-corpo').querySelectorAll('strong,b')].filter(e => e.textContent === 'negrito').forEach(e => e.remove()); $('#ed132-corpo').dispatchEvent(new Event('input', { bubbles: true })) });
   // capa
   const png = await ev(B, () => { const c = document.createElement('canvas'); c.width = 1200; c.height = 700; const g = c.getContext('2d');
     const gr = g.createLinearGradient(0, 0, 1200, 700); gr.addColorStop(0, '#2c3e50'); gr.addColorStop(1, '#8a5a17'); g.fillStyle = gr; g.fillRect(0, 0, 1200, 700);
     g.fillStyle = 'rgba(255,255,255,.85)'; for (let i = 0; i < 9; i++) g.fillRect(120 + i * 110, 560 - i * 45, 70, 140 + i * 45); return c.toDataURL('image/png').split(',')[1] });
-  const [fc] = await Promise.all([B.waitForEvent('filechooser', { timeout: 5000 }).catch(() => null), clk(B, '[data-cs123capa]')]);
+  const [fc] = await Promise.all([B.waitForEvent('filechooser', { timeout: 5000 }).catch(() => null), clk0(B, '[data-ed132capa]')]);
   if (fc) await fc.setFiles({ name: 'capa.png', mimeType: 'image/png', buffer: Buffer.from(png, 'base64') });
-  ok(!!fc && await esperar(B, () => !!document.querySelector('.cs123-capaed img')), 'editor: foto de capa');
-  ok(await ev(B, () => !!document.querySelector('.cs123-pub [data-cs123pubv="seguidores"]')), 'editor: público "Seguidores e amigos" (perfil aberto)');
-  await clk(B, '[data-cs123pubv="seguidores"]'); await sleep(200);
-  ok(await ev(B, () => document.querySelector('[data-cs123pubv="seguidores"]').getAttribute('aria-checked') === 'true' && $('#cs123-tit').value.length > 10), 'editor: escolhe seguidores sem perder o texto');
-  await ev(B, () => $('#layer .cs123-eds').scrollTop = 0); await semToast(B); await B.screenshot({ path: path.join(QA, 'col-1-editor.png') });
-  await ev(B, () => { const s = $('#layer .cs123-eds'); s.scrollTop = s.scrollHeight }); await semToast(B); await B.screenshot({ path: path.join(QA, 'col-1b-editor-publico.png') });
+  ok(!!fc && await esperar(B, () => !!document.querySelector('#layer > .ed132 .ed132-cpi img'), null, 6000), 'editor: foto de capa');
+  await ev(B, () => $('#layer .ed132-sc').scrollTop = 0); await semToast(B); await B.screenshot({ path: path.join(QA, 'col-1-editor.png') });
   // rascunho
-  await sleep(900); ok(await ev(B, () => cs123RascLe().length === 1 && /menos radical/.test(cs123RascLe()[0].tit)), 'rascunho: guardado sozinho enquanto escreve');
-  // prévia
-  await clk(B, '[data-cs123prev]'); await sleep(300);
-  ok(await ev(B, () => !!document.querySelector('#layer .cs123-prev h1') && !!document.querySelector('#layer > .cs123-ed')), 'prévia: a página de leitura por cima do editor');
+  await sleep(2600); ok(await ev(B, () => cs123RascLe().length === 1 && /menos radical/.test(cs123RascLe()[0].tit)), 'rascunho: guardado sozinho enquanto escreve');
+  // ver como leitor
+  await clk0(B, '[data-ed132modo="ver"]'); await sleep(300);
+  ok(await ev(B, () => !!document.querySelector('#layer > .ed132 .ed132-ver .cs123-art h1') && !!document.querySelector('#layer > .ed132 .ed132-ver .cs123-fig img')), 'prévia: a página de leitura (com a capa) no editor');
   await semToast(B); await B.screenshot({ path: path.join(QA, 'col-2-previa.png') });
+  await clk0(B, '[data-ed132modo="ed"]'); await sleep(200);
+  // antes de publicar: público
+  await clk0(B, '#layer > .ed132 [data-ed132painel]'); await sleep(300);
+  ok(await ev(B, () => !!document.querySelector('#layer .ed132-pp [data-ed132pubv="seguidores"]')), 'editor: público "Seguidores e amigos" (perfil aberto)');
+  await clk0(B, '[data-ed132pubv="seguidores"]'); await sleep(200); await B.fill('#ed132-tags', '#ReformaTributária economia');
+  ok(await ev(B, () => document.querySelector('[data-ed132pubv="seguidores"]').getAttribute('aria-checked') === 'true' && $('#ed132-tit').value.length > 10), 'editor: escolhe seguidores sem perder o texto');
+  await ev(B, () => { const s = $('#layer .ed132-pps'); s.scrollTop = s.scrollHeight }); await semToast(B); await B.screenshot({ path: path.join(QA, 'col-1b-editor-publico.png') });
   await ev(B, () => history.back()); await sleep(500);
-  ok(await ev(B, () => !document.querySelector('#layer .cs123-prev') && !!document.querySelector('#layer > .cs123-ed #cs123-tit')), 'prévia: o voltar do celular volta ao editor');
-  await clk(B, '.cs123-edf [data-cs123pub]');
-  ok(await esperar(B, () => !CS123.ed && !$('#layer').innerHTML, null, 8000), 'publicar: fecha o editor');
+  ok(await ev(B, () => !document.querySelector('#layer .ed132-pp') && !!document.querySelector('#layer > .ed132 #ed132-tit')), 'o voltar do celular fecha "Antes de publicar" e volta ao editor');
+  await clk0(B, '#layer > .ed132 [data-ed132painel]'); await sleep(300); await clk0(B, '#layer .ed132-pp [data-ed132pub]');
+  ok(await esperar(B, () => !ED132.E && !$('#layer').innerHTML, null, 8000), 'publicar: fecha o editor');
   const row = (await H.sql(`select * from publicacoes where autor=$1 order by at desc limit 1`, [b]))[0];
   ok(row && row.estilo.coluna && row.estilo.coluna.tit === 'A reforma tributária é menos radical do que parece' && !row.estilo.coluna.corpo && /O ponto central/.test(row.corpo), 'publicar: título no estilo e o texto longo na coluna "corpo"', row && row.estilo);
   ok(row.publico === 'seguidores' && row.fotos.length === 1 && row.fotos[0].indexOf(b + '/') === 0, 'publicar: para seguidores, com a capa na pasta da Bia');

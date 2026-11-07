@@ -131,7 +131,7 @@ const U = require('../t_util'); const { ok } = U; const fs = require('fs'), path
 
   /* ---------- 8. estrutura ---------- */
   const pols = (await H.sql(`select policyname, permissive from pg_policies where tablename='publicacoes' and cmd='SELECT' order by 1`)).map(x => x.policyname + ':' + x.permissive);
-  ok(JSON.stringify(pols) === JSON.stringify(['pub_arquivado:RESTRICTIVE', 'pub_ler:PERMISSIVE']), 'regras: a do arquivado continua', pols);
+  ok(JSON.stringify(pols) === JSON.stringify(['pub_agendada:RESTRICTIVE', 'pub_arquivado:RESTRICTIVE', 'pub_ler:PERMISSIVE']), 'regras: a do arquivado continua (e a da coluna agendada, v12)', pols);
   ok((await H.sql(`select 1 from pg_publication_tables where pubname='supabase_realtime' and tablename='seguidores'`)).length === 1, 'tempo real: seguidores');
   const anon = await H.sql(`select p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname = any($1) and has_function_privilege('anon', p.oid, 'execute')`, [['seguir', 'deixar_de_seguir', 'tirar_seguidor', 'perfis_abertos', 'seg_contagem', 'seg_lista', 'mudar_perfil_aberto', 've_como_seguidor', 'foto_de_perfil_aberto']]);
   ok(anon.length === 0, 'funções novas fora do alcance do anon', anon);
