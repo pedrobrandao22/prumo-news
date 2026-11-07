@@ -48,6 +48,8 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   await sleep(1500);
 
   // ---------- 1. curtida de um amigo chega sem A reler o banco
+  // espera as cargas iniciais terminarem (em máquina lenta, como a do GitHub, ainda chegam depois de 1,5 s)
+  { let ant = '', quieto = 0; for (let i = 0; i < 60 && quieto < 3; i++) { await sleep(500); const ag = JSON.stringify(CONT); quieto = ag === ant ? quieto + 1 : 0; ant = ag } }
   zera();
   await clk(B, `#p-${P1} [data-a="like"]`);
   ok(await esperar(A, (p) => socialOf(p).likes.length >= 1, P1), 'A vê a curtida de Ana (tempo real)');

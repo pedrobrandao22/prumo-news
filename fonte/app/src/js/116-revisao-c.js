@@ -30,5 +30,5 @@ function rc116Data(q,hoje){const s=String(q||"");const m=s.match(/(?:^|[^\d])(\d
     if(!t.hasAttribute("datetime")){t.setAttribute("datetime",d.iso);mudou=true}});
   if(!mudou)return h;
   /* o ponto atual é o último que já aconteceu */
-  lis.forEach(li=>li.classList.remove("ult"));const pas=lis.filter(li=>!li.classList.contains("fut"));(pas.length?pas[pas.length-1]:null)?.classList.add("ult");
+  lis.forEach(li=>li.classList.remove("ult"));{let vf=false;lis.forEach(li=>{const tm=li.querySelector("time");if(li.classList.contains("fut"))vf=true;else if(vf&&tm&&!tm.getAttribute("datetime"))li.classList.add("fut")})}/* rótulo sem data ("Depois") depois de um ponto futuro também é futuro */const pas=lis.filter(li=>!li.classList.contains("fut"));(pas.length?pas[pas.length-1]:null)?.classList.add("ult");
   return tp.innerHTML}catch(e){return h}}}

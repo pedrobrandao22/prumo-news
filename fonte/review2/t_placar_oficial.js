@@ -43,7 +43,7 @@ let srv = null, srv2 = null;
       min: !!(b && b.querySelector('.acv-min')), res: b ? (b.querySelector('.acv-res') || {}).textContent || '' : '', sw: b ? [...b.querySelectorAll('[data-po118t]')].map(x => x.textContent + (x.getAttribute('aria-pressed') === 'true' ? '*' : '')) : [],
       placares: m ? m.querySelectorAll('.acv-placar_votacao').length : 0, cap: [...document.querySelectorAll('#layer .fs2-cap-b')].map(x => x.textContent.replace(/^\d+/, '')),
       larg: m ? m.scrollWidth - m.clientWidth : -1, link: b ? (b.querySelector('.po118-pe a') || {}).href || '' : '' } }, PID);
-  const feedLinha = p => p.evaluate(async pid => { if (document.querySelector('#layer').innerHTML) closeLayer(); FILTRO = 'tudo'; go('feed'); renderPosts(); scrollTo(0, 0); await new Promise(r => setTimeout(r, 300));
+  const feedLinha = p => p.evaluate(async pid => { if (document.querySelector('#layer').innerHTML) closeLayer(); try { LIDAS.delete(pid) } catch (e) { } /* a matéria acabou de ser lida no teste; lida desce no Feed (-70) e, num feed real cheio, sai do 1º lote */ FILTRO = 'tudo'; go('feed'); renderPosts(); scrollTo(0, 0); await new Promise(r => setTimeout(r, 300));
     for (let i = 0; i < 12 && !document.getElementById('p-' + pid); i++) { try { carregarMais(true) } catch (e) { } await new Promise(r => setTimeout(r, 60)) }
     const a = document.getElementById('p-' + pid), l = a && a.querySelector('.po118-ln');
     return { card: !!a, ca: !!(a && a.classList.contains('vn-ca')), tem: !!l, txt: l ? l.textContent.replace(/\s+/g, ' ').trim() : '', depoisTit: !!(l && l.previousElementSibling && l.previousElementSibling.classList.contains('vn-tit')),
