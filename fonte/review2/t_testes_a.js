@@ -76,7 +76,7 @@ function rodadas(itens) { fs.writeFileSync(path.join(DIR, 'rodadas.json'), JSON.
   const P = await abrir({ nome: 'P' });
   await capaOk(P.p); await completo(P.p); await esperar(P.p, () => typeof PO118 !== 'undefined' && PO118 && PO118.v.length === 2, null, 8000); await sleep(1500);
   await ev(P.p, () => go('feed')); await sleep(500);
-  const ln = await ev(P.p, id => { const a = document.getElementById('p-' + id); return a ? (a.querySelector('.po118-ln') || {}).textContent || '' : 'sem-post' }, PV);
+  const ln = await ev(P.p, async id => { /* num feed real cheio a notícia pode não estar no 1º lote do Feed */ for (let i = 0; i < 12 && !document.getElementById('p-' + id); i++) { try { carregarMais(true) } catch (e) { } await new Promise(r => setTimeout(r, 60)) } const a = document.getElementById('p-' + id); return a ? (a.querySelector('.po118-ln') || {}).textContent || '' : 'sem-post' }, PV);
   ok(/Senado aprovou/.test(ln) && /72 a 1/.test(ln), 'TA04: Feed aberto depois da Capa mostra a linha do placar oficial', ln);
   // TA07: placar sem números
   await ev(P.p, () => go('capa'));

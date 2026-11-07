@@ -17,5 +17,6 @@ for t in $LISTA; do
   dados_repo
   out=$(timeout 400 node $t.js 2>&1); n=$(echo "$out" | grep -c "^ok "); fl=$(echo "$out" | grep "^FAIL\|Error" | head -3 | tr '\n' ' ')
   echo "$t: $n ok $fl"
+  [ -n "$DETALHE" ] && [ -n "$fl" ] && echo "$out" | grep -v "^ok " | tail -25 | sed "s/^/    | /"
 done
 echo FIM

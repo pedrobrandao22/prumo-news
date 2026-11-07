@@ -9,7 +9,7 @@ reprova=""; avisos=""
 for t in $falhas; do
   if echo " $RELOGIO " | grep -q " $t "; then avisos="$avisos $t"; continue; fi
   echo "== de novo: $t"
-  out=$(bash testar.sh "$t" 2>&1 | grep -E "^$t: ")
+  full=$(DETALHE=1 bash testar.sh "$t" 2>&1); out=$(echo "$full" | grep -E "^$t: "); echo "$full" | grep "^    | "
   echo "$out"
   if echo "$out" | grep -qE "FAIL|Error"; then reprova="$reprova $t"; fi
 done
