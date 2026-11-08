@@ -1,0 +1,14 @@
+/* ---------- 139: teclado do celular em todo o app ---------- */
+/* TC02: com o teclado aberto, a tela/folha do campo ocupa só a área visível (o rodapé fica acima do teclado).
+   --kb vale 0 aqui dentro: o ajuste antigo pelo teclado (padding da .scrim, .ce-tx, .ce-sel) não soma de novo. */
+.tc139-vv{top:var(--tc-vt,0px)!important;bottom:auto!important;height:var(--tc-vh,100%)!important;min-height:0!important;max-height:none!important;--kb:0px}
+.scrim.tc139-vv{padding-bottom:0!important}
+/* a folha pode crescer até a altura visível (antes: 86% de uma área que já era pequena) */
+.scrim.tc139-vv>.sheet{max-height:calc(100% - 8px)!important}
+/* sem a folga da barra de início (safe-area) em cima do teclado */
+html.tc139-kb .tc139-vv,html.tc139-kb .tc139-vv>.sheet{padding-bottom:0!important}
+html.tc139-kb .tc139-vv .sh-f{padding-bottom:8px}
+/* TC04: a página de baixo não rola enquanto o teclado está aberto numa tela/folha */
+html.tc139-trava,html.tc139-trava body{overflow:hidden;overscroll-behavior:none}
+/* TC05: sem o zoom do iPhone ao tocar num campo */
+@media (pointer:coarse){.tc139-16{font-size:16px!important}}
