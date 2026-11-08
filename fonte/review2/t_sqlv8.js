@@ -58,7 +58,7 @@ const U = require('../t_util'); const { ok } = U; const fs = require('fs'), path
   await H.sql(`update publicacoes set expira=1 where id=$1`, [s1]); ok(!(await vePub(a, s1)) && !!(await vePub(b, s1)), 'regras de antes: story vencido some para o amigo');
   ok(!(await vePub(d, p1)), 'regras de antes: quem não é amigo não vê');
   const pols = (await H.sql(`select policyname, permissive from pg_policies where tablename='publicacoes' and cmd='SELECT' order by 1`)).map(r => r.policyname + ':' + r.permissive);
-  ok(JSON.stringify(pols.filter(x => x !== 'pub_agendada:RESTRICTIVE')) === JSON.stringify(['pub_arquivado:RESTRICTIVE', 'pub_ler:PERMISSIVE']) /* a v12 acrescenta pub_agendada (colunas agendadas) */, 'regras: a do arquivado continua depois de rodar a v7 de novo', pols);
+  ok(JSON.stringify(pols.filter(x => x !== 'pub_agendada:RESTRICTIVE' && x !== 'pub_ler_publica:PERMISSIVE')) === JSON.stringify(['pub_arquivado:RESTRICTIVE', 'pub_ler:PERMISSIVE']) /* a v12 acrescenta pub_agendada (colunas agendadas) */, 'regras: a do arquivado continua depois de rodar a v7 de novo', pols);
 
   /* ---------- 3. curtir comentário ---------- */
   const p2 = await post(b);

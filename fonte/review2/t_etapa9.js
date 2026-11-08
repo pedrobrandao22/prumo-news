@@ -17,7 +17,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
       ok(await p.evaluate(() => VIEW === 'capa' && RAIZ === 'capa'), 'abre na Capa');
       ok(await p.evaluate(() => [...document.querySelectorAll('.nav button')].map(b => b.textContent.trim()).slice(0, 2).join(',') === 'Capa,Feed'), 'menu: Capa, Feed');
       const ords = await p.evaluate(() => [...document.querySelectorAll('#v-capa .cp-h h3')].map(h => h.textContent.trim()).filter(t => ['Política', 'Economia', 'Brasil', 'Mundo', 'Esportes', 'Educação'].includes(t)).join(','));
-      ok(ords === 'Política,Economia,Brasil,Mundo,Esportes,Educação', 'ordem das seções na Capa', ords);
+      { const can = 'Política,Economia,Brasil,Mundo,Esportes,Educação'.split(','), tem = ords.split(','); /* seção sem notícia no dia não aparece: confere a ordem das que existem */ ok(tem.length >= 4 && tem.every(x => can.includes(x)) && tem.join() === can.filter(x => tem.includes(x)).join(), 'ordem das seções na Capa', ords); }
       ok(await p.evaluate(() => SECS().map(s => s.id).join(',') === 'politica,economia,brasil,mundo,esportes,educacao'), 'ordem das seções no app');
       ok(await p.evaluate(() => document.querySelectorAll('#v-capa .cp-sl').length >= 2 && document.querySelectorAll('#v-capa .cp-sl')[0].querySelectorAll('.cpi').length >= 3), 'Política com mais manchetes');
     }
