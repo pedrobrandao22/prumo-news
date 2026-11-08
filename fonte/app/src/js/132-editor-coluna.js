@@ -386,6 +386,8 @@ document.addEventListener("keydown",e=>{const t=e.target;if(!t||!ED132.E||!t.clo
     if(e.key==="Escape"){e.preventDefault();e.stopPropagation();ed132MenuFecha();return}}
   /* Enter numa linha vazia da citação sai da citação */
   if(e.key==="Enter"&&!e.shiftKey){const b=ed132Topo();if(b&&b.tagName==="BLOCKQUOTE"&&!(b.textContent||"").trim()){e.preventDefault();const p=document.createElement("p");p.innerHTML="<br>";b.replaceWith(p);ed132CaretFim(p);ed132Mudou();return}
+    /* Enter no fim de uma citação já escrita sai dela (como no Notion/Medium); Shift+Enter continua dentro */
+    if(b&&b.tagName==="BLOCKQUOTE"&&(b.textContent||"").trim()){const s0=getSelection();if(s0&&s0.rangeCount&&s0.isCollapsed){const r0=s0.getRangeAt(0),rf=document.createRange();rf.selectNodeContents(b);rf.setStart(r0.endContainer,r0.endOffset);if(!rf.toString().replace(/\u200b/g,"").trim()){e.preventDefault();const p=document.createElement("p");p.innerHTML="<br>";b.after(p);ed132CaretFim(p);ed132Mudou();return}}}
     if(b&&b.tagName==="BLOCKQUOTE"){const s=getSelection();let n=s&&s.anchorNode;while(n&&n.parentNode!==b)n=n.parentNode;
     if(n&&n.nodeType===1&&!(n.textContent||"").trim()&&(b.textContent||"").trim()){e.preventDefault();n.remove();const p=document.createElement("p");p.innerHTML="<br>";b.after(p);ed132CaretFim(p);ed132Mudou();return}}}
   if((e.ctrlKey||e.metaKey)&&!e.altKey){const k=e.key.toLowerCase();if(k==="b"||k==="i"||k==="k"){e.preventDefault();ed132Cmd(k==="k"?"a":k);return}}
