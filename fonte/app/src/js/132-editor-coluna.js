@@ -71,8 +71,9 @@ const ed132Vazio=h=>!String(h||"").replace(/<[^>]*>/g,"").replace(/&nbsp;| /g,"
 function ed132Inline(n,o){if(n.nodeType===3)return esc(String(n.nodeValue||"").replace(/[\s ]+/g," "));if(n.nodeType!==1)return "";const t=n.tagName;if(ED132_FORA.has(t))return "";if(t==="BR")return "<br>";
   let h="";n.childNodes.forEach(c=>{h+=ed132Inline(c,o)});if(ed132Vazio(h))return h;
   const st=String(n.getAttribute("style")||"").toLowerCase();let b=t==="STRONG"||t==="B",i=t==="EM"||t==="I";
-  if(b&&/font-weight\s*:\s*(normal|[1-4]00)/.test(st))b=false;if(i&&/font-style\s*:\s*normal/.test(st))i=false;
-  if(!b&&/font-weight\s*:\s*(bold|[6-9]00)/.test(st))b=true;if(!i&&/font-style\s*:\s*italic/.test(st))i=true;
+  /* só a propriedade CSS de verdade (o Word manda "mso-bidi-font-weight:normal" em todo negrito) */
+  if(b&&/(?:^|[;\s])font-weight\s*:\s*(normal|[1-4]00)/.test(st))b=false;if(i&&/(?:^|[;\s])font-style\s*:\s*normal/.test(st))i=false;
+  if(!b&&/(?:^|[;\s])font-weight\s*:\s*(bold|[6-9]00)/.test(st))b=true;if(!i&&/(?:^|[;\s])font-style\s*:\s*italic/.test(st))i=true;
   if(t==="A"){const u=edUrlOk(String(n.getAttribute("href")||"").slice(0,500));if(u)h=`<a href="${esc(u)}">${h}</a>`}
   if(i)h=`<em>${h}</em>`;if(b)h=`<strong>${h}</strong>`;return h}
 const ed132Apara=h=>String(h).replace(/^(?:\s|<br>)+/,"").replace(/(?:\s|<br>)+$/,"");

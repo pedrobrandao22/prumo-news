@@ -243,7 +243,7 @@ function ex133Fio(F){const P=ex133Partes(F.html,"tx");const un=[{s:F.tit,h:true}
   un.push({s:EX133_ASS(F.nome),fim:true});
   const monta=B=>{const posts=[];let cur="";const poe=(tx,sep)=>{if(!cur){cur=tx;return}if((cur+sep+tx).length<=B)cur+=sep+tx;else{posts.push(cur);cur=tx}};
     const pedaco=s=>{if(s.length<=B)return [s];const out=[];let c="";s.split(/\s+/).forEach(w=>{while(w.length>B){if(c){out.push(c);c=""}out.push(w.slice(0,B));w=w.slice(B)}if(!w)return;if(!c)c=w;else if((c+" "+w).length<=B)c+=" "+w;else{out.push(c);c=w}});if(c)out.push(c);return out};
-    un.forEach(u=>{if(u.h){if(cur)posts.push(cur);cur=u.s;return}const fr=u.l?u.s.split("\n"):u.fim?[u.s]:ex133Frases(u.s);const sj=u.l?"\n":" ";
+    un.forEach(u=>{if(u.h){if(cur)posts.push(cur);const q=pedaco(u.s);posts.push(...q.slice(0,-1));cur=q[q.length-1]||"";return}const fr=u.l?u.s.split("\n"):u.fim?[u.s]:ex133Frases(u.s);const sj=u.l?"\n":" ";
       fr.forEach((f,i)=>pedaco(f).forEach((q,j)=>poe(q,i===0&&j===0?"\n\n":sj)))});
     if(cur)posts.push(cur);return posts};
   let B=280-6,posts=monta(B);for(let k=0;k<3;k++){const lab=`${posts.length}/${posts.length} `.length;if(280-lab>=B)break;B=280-lab;posts=monta(B)}
