@@ -292,7 +292,8 @@ addEventListener("pagehide",()=>{if(ED132.E)try{ed132Guarda()}catch(e){}});
 
 /* ===== 7. teclado, seleção e comandos ===== */
 function ed132Kb(){const el=$("#layer > .ed132");if(!el)return;const v=window.visualViewport;const kb=v?Math.max(0,innerHeight-v.height-v.offsetTop):0;el.style.setProperty("--ed132-kb",Math.round(kb)+"px")}
-if(window.visualViewport){visualViewport.addEventListener("resize",ed132Kb);visualViewport.addEventListener("scroll",ed132Kb)}
+/* chama pelo nome: o 137/138 trocam ed132Kb pela versão que dimensiona o editor pela área visível */
+if(window.visualViewport){visualViewport.addEventListener("resize",()=>ed132Kb());visualViewport.addEventListener("scroll",()=>ed132Kb())}
 document.addEventListener("selectionchange",()=>{const cp=$("#ed132-corpo");if(!cp)return;const s=getSelection();if(s&&s.rangeCount&&cp.contains(s.anchorNode)){ED132.rg=s.getRangeAt(0).cloneRange();ed132BarEstado()}});
 function ed132BarEstado(){const b=$("#layer > .ed132 .ed132-bar");if(!b)return;const q=k=>{try{return document.queryCommandState(k)}catch(e){return false}},tp=ed132Topo()?.tagName||"";
   const st={b:q("bold"),i:q("italic"),h2:tp==="H2",h3:tp==="H3",q:tp==="BLOCKQUOTE",ul:tp==="UL",ol:tp==="OL"};

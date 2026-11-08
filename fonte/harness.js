@@ -166,7 +166,7 @@ async function criar(opts = {}) {
   }
 
   async function pagina(browser, o = {}) {
-    const ctx = await browser.newContext({ viewport: o.viewport || { width: 390, height: 844 }, hasTouch: true, deviceScaleFactor: 1, colorScheme: o.dark ? 'dark' : 'light' });
+    const ctx = await browser.newContext({ viewport: o.viewport || { width: 390, height: 844 }, hasTouch: true, deviceScaleFactor: 1, colorScheme: o.dark ? 'dark' : 'light', ...(o.ctx || {}) });  // o.ctx: opções extras do contexto (ex.: aparelho do Playwright)
     await ctx.route('**/supabase.js', r => r.fulfill({ status: 200, contentType: 'application/javascript', body: '/* fake */' }));
     await ctx.exposeFunction('__sb', tratar);
     await ctx.addInitScript(FAKE_PAGE);

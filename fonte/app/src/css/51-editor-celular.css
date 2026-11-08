@@ -1,0 +1,32 @@
+/* ---------- 138: editor de coluna no celular de verdade ---------- */
+/* MB01: a página por baixo não rola enquanto o editor está aberto */
+html.mb138-on,html.mb138-on body{overflow:hidden;overscroll-behavior:none}
+/* MB06: sem atraso nem zoom de duplo toque */
+.ed132{touch-action:manipulation}
+@media (max-width:759px){
+  /* MB01: a barra é a última faixa da área visível (não fica por cima do texto nem atrás do teclado) */
+  .ed132-bar{position:relative;left:auto;right:auto;bottom:auto;flex:none}
+  .ed132-sc{padding-bottom:0}
+  /* MB02: espaço extra no fim do texto para a última linha subir acima do teclado */
+  .ed132-in{padding-bottom:max(120px,40vh)}
+  .ed132.cr137-kb .ed132-bar{padding-bottom:6px}
+  /* MB03: menu Inserir como folha compacta logo acima da barra */
+  .ed132-menu{left:8px;right:8px;bottom:var(--mb138-mb,62px);max-width:none;max-height:var(--mb138-mh,46vh);padding:4px 6px 8px;border-radius:16px;overscroll-behavior:contain}
+  /* grade 5 × 2 com nomes curtos: as 9 opções em ~160 px, sem rolar */
+  .ed132-menu .mb138-g{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px}
+  .ed132-menu .mb138-g button{flex-direction:column;justify-content:center;gap:3px;min-height:58px;padding:4px 2px;text-align:center}
+  .ed132-menu .mb138-g .ed132-mi{width:30px;height:30px;border-radius:8px}
+  .ed132-menu .mb138-g .ed132-mi .ico{width:17px;height:17px}
+  .ed132-menu .mb138-g span:last-child>b,.ed132-menu .mb138-g small{display:none}
+  .ed132-menu .mb138-g .mb138-c{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 11.5px/1.2 var(--f-ui);font-style:normal;color:var(--ink)}
+}
+.mb138-c{display:none}
+.mb138-mh{position:sticky;top:-4px;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 -6px 2px;padding:2px 6px 0;background:var(--card)}
+.mb138-mh .ed132-mt{margin:6px 8px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mb138-mx{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:999px;color:var(--muted)}
+.mb138-mx .ico{width:18px;height:18px}
+.ed132-menu .mb138-mx{width:36px;min-height:36px;padding:0;justify-content:center}
+/* MB06: sem o zoom do iPhone ao tocar num campo (precisa de 16 px) */
+@media (pointer:coarse){
+  .ed132-ps textarea,.ed132-ps input:not([type="radio"]),.ed132-lab input{font-size:16px}
+}

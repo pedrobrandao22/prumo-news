@@ -128,17 +128,11 @@ window.addEventListener("beforeinput",e=>{if(!e.target||e.target.id!=="ed132-cor
 window.addEventListener("paste",e=>{if(e.target&&e.target.closest&&e.target.closest("#ed132-corpo"))cr137Marca()},true);
 document.addEventListener("paste",e=>{if(e.target&&e.target.closest&&e.target.closest("#ed132-corpo"))setTimeout(()=>{cr137Marca();cr137Caret()},0)});
 
-/* ===== CR07: teclado do celular ===== */
-function cr137Vv(){const el=document.querySelector("#layer > .ed132");if(!el)return;const v=window.visualViewport;if(!v)return;
-  const h=Math.round(v.height),top=Math.round(v.offsetTop);el.style.setProperty("--cr137-vh",h+"px");el.style.setProperty("--cr137-vt",top+"px");el.style.setProperty("--ed132-kb","0px");
-  el.classList.toggle("cr137-kb",innerHeight-h>120&&cr137Coarse())}
+/* ===== CR07: teclado do celular — refeito no 138 (js/138-editor-celular.js: mb138Vv dimensiona o editor pela área
+   visível e mb138Revela mantém a linha do cursor acima da barra). Os nomes ficam porque o resto do 137 os chama. ===== */
+function cr137Vv(){if(typeof mb138Vv==="function")mb138Vv()}
 ed132Kb=function(){cr137Vv()};
-if(window.visualViewport){visualViewport.addEventListener("resize",()=>{cr137Vv();setTimeout(cr137Caret,60)});visualViewport.addEventListener("scroll",cr137Vv)}
-/* a linha do cursor fica visível, acima da barra */
-function cr137Caret(){const el=document.querySelector("#layer > .ed132"),cp=cr137Cp();if(!el||!cp||ED132.E&&ED132.E.ver)return;const sc=el.querySelector(".ed132-sc"),bar=el.querySelector(".ed132-bar"),s=getSelection();
-  if(!sc||!s||!s.rangeCount||!cp.contains(s.anchorNode))return;let r;try{const rg=s.getRangeAt(0).cloneRange();rg.collapse(false);r=rg.getClientRects()[0];if(!r||!r.height){const b=ed132Topo();r=b&&b.getBoundingClientRect()}}catch(_){return}if(!r)return;
-  const sr=sc.getBoundingClientRect(),lim=Math.min(sr.bottom,bar&&!bar.hidden&&bar.offsetHeight?bar.getBoundingClientRect().top:sr.bottom)-14;
-  if(r.bottom>lim)sc.scrollTop+=r.bottom-lim+24;else if(r.top<sr.top+8)sc.scrollTop-=sr.top+8-r.top+24}
+function cr137Caret(){if(typeof mb138Revela==="function")mb138Revela()}
 document.addEventListener("selectionchange",()=>{clearTimeout(CR137.bt);CR137.bt=setTimeout(()=>{try{if(cr137Cp())cr137BarModo()}catch(e){}},30)});
 
 /* ===== CR06: tela limpa (uma linha de modo; contagem curta; capa discreta) ===== */
