@@ -25,7 +25,7 @@ function servidor() {
     setTimeout(() => {
       let f = decodeURIComponent(req.url.split('?')[0]); if (f.endsWith('/')) f += 'index.html';
       const arq = path.join(PASTA, f); if (!arq.startsWith(PASTA) || !fs.existsSync(arq) || fs.statSync(arq).isDirectory()) { res.writeHead(404); return res.end() }
-      let corpo = fs.readFileSync(arq); if (EXTRA && f === '/index.html') corpo = Buffer.from(corpo.toString().replace('</body>', EXTRA + '</body>')); const tipo = TIPOS[path.extname(arq)] || 'application/octet-stream';
+      let corpo = fs.readFileSync(arq); if (EXTRA && f === '/index.html') corpo = Buffer.from(((s, i) => s.slice(0, i) + EXTRA + s.slice(i))(corpo.toString(), corpo.toString().lastIndexOf('</body>'))); const tipo = TIPOS[path.extname(arq)] || 'application/octet-stream';
       const etag = '"' + crypto.createHash('md5').update(corpo).digest('hex').slice(0, 16) + '"';
       const h = { 'Content-Type': tipo, 'Cache-Control': 'max-age=600', 'ETag': etag };
       if (req.headers['if-none-match'] === etag) { res.writeHead(304, h); return res.end() }

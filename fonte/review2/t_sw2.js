@@ -8,7 +8,7 @@ const U = require('../t_util'); const fs = require('fs'); const arq = __dirname 
   await p.evaluate(async () => { await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready });
   await p.goto('http://localhost:8772/'); await U.sleep(1200);
   U.ok(await p.evaluate(() => !!navigator.serviceWorker.controller), 'service worker no controle');
-  const orig = fs.readFileSync(arq, 'utf8'); fs.writeFileSync(arq, orig.replace('</body>', '<i id="marca-nova"></i></body>'));
+  const orig = fs.readFileSync(arq, 'utf8'); fs.writeFileSync(arq, (orig.slice(0, orig.lastIndexOf('</body>')) + '<i id="marca-nova"></i>' + orig.slice(orig.lastIndexOf('</body>'))));
   try {
     await p.goto('http://localhost:8772/'); await U.sleep(800);
     U.ok(await p.evaluate(() => !!document.getElementById('marca-nova')), 'versão nova já na primeira abertura');
