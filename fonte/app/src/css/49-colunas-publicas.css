@@ -1,0 +1,35 @@
+/* ---------- 136: colunas, fase 4 — coluna pública com link e newsletter por e-mail ---------- */
+/* selo "Pública" (só a autora; toca e copia o link aberto) */
+.pb136-selo{display:inline-flex;align-items:center;gap:5px;flex:none;min-height:30px;padding:0 10px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--ink);font:700 12px var(--f-ui);white-space:nowrap}
+.pb136-selo::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.cs123-top:has(.pb136-selo) .cs123-tk{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+@media (max-width:420px){.cs123-top:has(.pb136-selo) .lt134-lb span,.cs123-top:has(.pb136-selo) .ex133-eb span{display:none}.cs123-top:has(.pb136-selo) .lt134-lb,.cs123-top:has(.pb136-selo) .ex133-eb{padding:0 9px}}
+/* opção "Todos (link público)" no editor */
+.cs123-pub{flex-wrap:wrap}
+.cs123-pub .pb136-op{white-space:nowrap}
+/* "Receber as colunas por e-mail" (página da coluna e perfil) */
+.pb136-nlp:empty{display:none}
+.pb136-nlp{margin:14px 0 0}
+.pb136-nlb{display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;max-width:100%;min-height:40px;padding:8px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:700 13.5px/1.25 var(--f-ui);text-align:left;overflow-wrap:anywhere}
+.pb136-nlb small{font:500 12px var(--f-ui);color:var(--muted)}
+.pb136-nlb.on{background:var(--chip)}
+.pb136-pf.on{background:var(--chip)}
+/* folha de assinatura */
+.pb136-st{margin:0 0 12px;font:500 15px/1.45 var(--f-ui);color:var(--ink)}
+.pb136-ok{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;font:500 14px/1.4 var(--f-ui);color:var(--ink);overflow-wrap:anywhere}
+.pb136-ok input{flex:none;width:20px;height:20px;margin:1px 0 0;accent-color:var(--accent)}
+.pb136-priv{margin:10px 0 0}
+.pb136-out{margin:12px 0 0;font:500 14px var(--f-ui);color:var(--ink)}
+.pb136-out summary{cursor:pointer;color:var(--muted);min-height:32px;display:flex;align-items:center}
+.pb136-of{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0}
+.pb136-of .field{flex:1 1 180px;min-width:0}
+.pb136-bts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.pb136-bts .btn{min-width:120px}
+/* Minhas colunas: newsletter */
+.pb136-hub{margin:22px 0 0;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.pb136-hub .ed132-hh{margin-top:0}
+.pb136-n{margin:4px 0 0;font:500 15px var(--f-ui);color:var(--ink)}
+.pb136-n b{font-size:20px}
+.pb136-hub .btn{margin-top:10px}
+.pb136-quem button[aria-checked="true"]{font-weight:700}
+.pb136-quem button[aria-checked="true"]::after{content:"✓";margin-left:auto;padding-left:10px;color:var(--accent)}

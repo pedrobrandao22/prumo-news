@@ -1,0 +1,35 @@
+name: Colunas públicas
+# Grava c/<slug>-<id>.html (a página aberta de cada coluna que a autora marcou "Todos (link público)"), c/index.html,
+# c/sitemap.xml e as cópias das fotos (c/f/). Remove o que deixou de ser público. Sem IA.
+# Usa só a chave PUBLICÁVEL, que já é pública no app: o banco (sql v14) só entrega colunas públicas já publicadas e só os
+# campos da página. Antes da v14 rodar no Supabase, o robô não faz nada.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  # grupo próprio: só este robô grava em c/ (o GitHub cancela a execução PENDENTE quando outra entra; a que roda termina)
+  group: prumo-colunas
+  cancel-in-progress: false
+jobs:
+  colunas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gerar páginas
+        run: |
+          python3 -I tools/colunas_publicas.py --saida c \
+            --url "https://kkzcljusiotoklldaupg.supabase.co" \
+            --chave "sb_publishable_s1mSA4gcb2qs6kVRZYQZ-g_BsvwvdIA"
+      - name: Gravar se mudou
+        run: |
+          [ -d c ] || exit 0
+          git config user.name "prumo-robo"
+          git config user.email "prumo-robo@users.noreply.github.com"
+          git add -A c
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Colunas públicas $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
+          for i in 1 2 3 4; do git pull -q --rebase && git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i * 10)); done; exit 1
