@@ -19,6 +19,8 @@ jobs:
   testes:
     runs-on: ubuntu-24.04   # o ubuntu-latest passou a ser o 26.04, que o Playwright 1.56 ainda não aceita
     timeout-minutes: 150
+    env:
+      TZ: America/Sao_Paulo   # mesmo fuso do app; perto da meia-noite UTC os testes de "hoje/ontem" erravam
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
