@@ -154,10 +154,11 @@ const APARELHO = () => {
 
   /* ===================== 2. a página Notificações ===================== */
   await ev(A, () => { go('me'); PF_ABA = 'conta'; renderMe() }); await sleep(300);
+  await esperar(A, () => typeof LT134 !== 'undefined' && LT134.v13 !== null, null, 10000);
   await clk(A, '#v-me [data-nt124abrir]'); await sleep(500);
   ok(await ev(A, () => !!document.querySelector('#layer .pfv-nt124 [data-nt124estado="admin"]') && /Ainda não ativado pelo administrador/.test(document.querySelector('#layer .pfv-nt124').textContent) && !document.querySelector('[data-nt124push]')), 'sem a chave pública: "Ainda não ativado pelo administrador" e sem a coluna Celular');
   const nomes = await ev(A, () => [...document.querySelectorAll('#layer .nt124-li[data-nt124tipo]')].map(x => x.dataset.nt124tipo));
-  ok(nomes.length === 10, 'página: os 10 tipos (com o Seguir)', nomes);
+  ok(nomes.length === 11 && nomes.includes('colunas_seguidas'), 'página: os 11 tipos (com o Seguir e, da v13, as séries assinadas)', nomes);
   ok(await ev(A, () => [...document.querySelectorAll('[data-nt124app]')].every(x => x.getAttribute('aria-checked') === 'true')), 'no app: tudo ligado por padrão');
   // número no ícone desligado
   const nb = await ev(A, () => window.__nt.badges.length);
@@ -175,7 +176,7 @@ const APARELHO = () => {
   const ec = crypto.createECDH('prime256v1'); ec.generateKeys(); const PUBK = ec.getPublicKey().toString('base64url');
   await H.sql(`insert into public.config_app(chave, valor) values ('push_vapid_publica', jsonb_build_object('chave', $1::text))`, [PUBK]);
   await ev(A, async () => { NT124.v10 = null; await nt124Testa() }); await sleep(300);
-  ok(await ev(A, () => !!document.querySelector('[data-nt124estado="inativo"]') && !!document.querySelector('[data-nt124ativar]') && document.querySelectorAll('[data-nt124push]').length === 10
+  ok(await ev(A, () => !!document.querySelector('[data-nt124estado="inativo"]') && !!document.querySelector('[data-nt124ativar]') && document.querySelectorAll('[data-nt124push]').length === 11
     && [...document.querySelectorAll('[data-nt124push]')].every(x => x.getAttribute('aria-checked') === 'false')), 'com a chave: botão "Ativar" e a coluna Celular toda desligada');
   ok(await ev(A, () => window.__nt.perm === 0), 'não pede permissão antes do toque');
   await foto(A, '3-notificacoes-antes-de-ativar');
