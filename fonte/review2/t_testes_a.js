@@ -9,13 +9,17 @@ const DIR = path.join(__dirname, '..', 'ta120t'), BASE = 'http://localhost:8736/
 const ev = (p, fn, a) => p.evaluate(fn, a);
 const spIso = ms => new Date(Date.now() + ms - 3 * 3600e3).toISOString().slice(0, 19) + '-03:00';
 function dividir() { return cp.execFileSync('python3', ['-I', path.join(U.REPO, 'tools', 'feed_leve.py'), path.join(DIR, 'feed.json')]).toString().trim() }
-function rodadas(itens) { fs.writeFileSync(path.join(DIR, 'rodadas.json'), JSON.stringify({ dia: spIso(0).slice(0, 10), itens })) }
+// Recebe [[horário ISO, item], ...]: o dia é o do último horário e só entram os desse dia (perto da meia-noite
+// um horário de ontem com o dia de hoje viraria uma rodada no futuro).
+function rodadas(lista) { const dia = lista.map(x => x[0]).sort().pop().slice(0, 10), itens = {};
+  for (const [iso, v] of lista) if (iso.slice(0, 10) === dia) itens[iso.slice(11, 13) + 'h' + iso.slice(14, 16)] = v;
+  fs.writeFileSync(path.join(DIR, 'rodadas.json'), JSON.stringify({ dia, itens })) }
 (async () => {
   fs.rmSync(DIR, { recursive: true, force: true }); fs.cpSync(path.join(__dirname, '..', 'site'), DIR, { recursive: true });
   let F; try { F = JSON.parse(fs.readFileSync(path.join(U.REPO, 'feed.json'), 'utf8')) } catch (e) { F = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'app', 'feed.json'), 'utf8')) }
   F.atualizado_em = spIso(-40 * 60000);
   fs.writeFileSync(path.join(DIR, 'feed.json'), JSON.stringify(F)); console.log('  ' + dividir());
-  const r0 = spIso(-45 * 60000); rodadas({ [r0.slice(11, 13) + 'h' + r0.slice(14, 16)]: { tipo: 'rapida', status: 'ok', publicou: true } });
+  const r0 = spIso(-45 * 60000); rodadas([[r0, { tipo: 'rapida', status: 'ok', publicou: true }]]);
   // placar oficial nominal ligado à pauta mais longa (confiança "numero")
   const alvo = [...F.pautas].sort((a, c) => String(c.neutro?.texto || '').length - String(a.neutro?.texto || '').length)[0];
   const PV = F.pautas[0].id;  // a primeira do Feed
@@ -94,7 +98,7 @@ function rodadas(itens) { fs.writeFileSync(path.join(DIR, 'rodadas.json'), JSON.
   ok(!R.reqs.includes('feed.json'), 'TA05: sem rodada nova, nada de feed.json', R.reqs);
   const F2 = JSON.parse(JSON.stringify(F)); F2.atualizado_em = spIso(-60000); F2.pautas[0].neutro.titulo = 'Edição da rodada nova sem leve';
   fs.writeFileSync(path.join(DIR, 'feed.json'), JSON.stringify(F2));
-  const r2 = spIso(-2 * 60000); rodadas({ [r0.slice(11, 13) + 'h' + r0.slice(14, 16)]: { publicou: true }, [r2.slice(11, 13) + 'h' + r2.slice(14, 16)]: { tipo: 'rapida', status: 'ok', publicou: true } });
+  const r2 = spIso(-2 * 60000); rodadas([[r0, { publicou: true }], [r2, { tipo: 'rapida', status: 'ok', publicou: true }]]);
   R.reqs.length = 0; await ev(R.p, () => { CHK_T = 0; return checarFeed(false) }); await sleep(600);
   ok(await ev(R.p, () => FEED.pautas[0].neutro.titulo !== 'Edição da rodada nova sem leve'), 'TA05: só pelo leve (velho), o app não vê a edição nova');
   await ev(R.p, () => carregarRodadas(true));

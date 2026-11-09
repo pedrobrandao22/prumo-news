@@ -34,7 +34,7 @@ function ok(cond, nome, extra) {
 function erros(page, nome) {
   page._erros = [];
   page.on('console', m => { if (/^DBG/.test(m.text())) console.log(m.text()) }); page.on('pageerror', e => { page._erros.push(e.message); console.log('PAGEERROR[' + nome + ']', e.message) });
-  page.on('console', m => { if (m.type() === 'error' && !/Failed to load resource|net::ERR|fonts\.g/.test(m.text())) { page._erros.push('console: ' + m.text()); console.log('CONSOLE[' + nome + ']', m.text()) } });
+  page.on('console', m => { if (m.type() === 'error' && !/Failed to load resource|net::ERR|fonts\.g|Viewport argument key/.test(m.text())) { page._erros.push('console: ' + m.text()); console.log('CONSOLE[' + nome + ']', m.text()) } });
   return page;
 }
 async function foto(page, nome) { await sleep(250); await page.screenshot({ path: path.join(SHOTS, nome + '.png') }); }

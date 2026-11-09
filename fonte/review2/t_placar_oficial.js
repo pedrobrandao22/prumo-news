@@ -48,7 +48,7 @@ let srv = null, srv2 = null;
     const a = document.getElementById('p-' + pid), l = a && a.querySelector('.po118-ln');
     return { card: !!a, ca: !!(a && a.classList.contains('vn-ca')), tem: !!l, txt: l ? l.textContent.replace(/\s+/g, ' ').trim() : '', depoisTit: !!(l && l.previousElementSibling && l.previousElementSibling.classList.contains('vn-tit')),
       larg: l ? l.scrollWidth <= l.clientWidth + 1 : null, cabe: l ? l.getBoundingClientRect().right <= innerWidth : null, outros: document.querySelectorAll('#posts .po118-ln').length } }, PID);
-  const credito = `Fonte: Senado Federal, ${hhmm(T1)}`;
+  const credito = `Fonte: Senado Federal, ${hhmm(T1)}`, temCredito = (txt, t) => new RegExp(`Fonte: Senado Federal, (\\d+/\\d+, )?${hhmm(t)}`).test(txt);  // perto da meia-noite o app põe a data (8/11, 23h36)
   const rolaAte = async p => { await p.evaluate(() => { const b = document.querySelector('#layer .po118'), mm = document.querySelector('#layer .mat'); mm.scrollTop += b.getBoundingClientRect().top - mm.getBoundingClientRect().top - 112 }); await sleep(350) };
 
   // ===== A: 1º turno 62 a 9, ligado por "palavras" e com a hashtag #PEC18 na pauta
@@ -57,7 +57,7 @@ let srv = null, srv2 = null;
   let m = await mat(p);
   ok(m.tem && m.svg && m.leg.some(x => /^Sim 62$/.test(x)) && m.leg.some(x => /^Não 9$/.test(x)) && m.leg.some(x => /^Abstenção 1$/.test(x)), 'A: a matéria mostra o Placar oficial com os números (Sim 62, Não 9, Abstenção 1)', m);
   ok(m.res === 'Aprovado' && m.min && /49 votos necessários/.test(m.txt), 'A: resultado da fonte (Aprovado) e a linha dos 49 votos da PEC', { res: m.res, txt: m.txt });
-  ok(m.txt.indexOf(credito) >= 0 && /PEC 18\/2025 no Senado · 1º turno/.test(m.txt), `A: crédito "${credito}" e título com a proposição e o turno`, m.txt);
+  ok(temCredito(m.txt, T1) && /PEC 18\/2025 no Senado · 1º turno/.test(m.txt), `A: crédito "${credito}" e título com a proposição e o turno`, m.txt);
   ok(/senado\.leg\.br/.test(m.link) && !m.sw.length && m.placares === 1, 'A: link para a página oficial, sem troca de turno (um só) e um placar só', m);
   ok(m.cap.includes('Placar oficial'), 'A: o capítulo da matéria (fase 2) se chama "Placar oficial"', m.cap);
   ok(m.larg <= 0, 'A: sem rolagem lateral na matéria', m.larg);
@@ -107,7 +107,7 @@ let srv = null, srv2 = null;
   feed(pauta({ hashtags: ['PEC18'], visuais: [vr] })); put(ofic([e1, e2]));
   ({ ctx, p } = await abre({ nome: 'D' })); m = await mat(p);
   ok(m.tem && JSON.stringify(m.sw) === JSON.stringify(['1º turno', '2º turno*']) && m.leg.some(x => x === 'Sim 60') && m.leg.some(x => x === 'Não 10'), 'D: 2º turno (60 a 10) aberto, troca "1º turno · 2º turno" (o placar da rodada era do 1º: o oficial aparece)', m);
-  ok(m.txt.indexOf(`Fonte: Senado Federal, ${hhmm(T2)}`) >= 0, 'D: crédito com a hora do 2º turno', m.txt);
+  ok(temCredito(m.txt, T2), 'D: crédito com a hora do 2º turno', m.txt);
   await rolaAte(p);
   await p.screenshot({ path: path.join(QA, 'materia-dois-turnos.png') });
   await p.click('#layer .po118 [data-po118t="0"]'); await sleep(250);
