@@ -1,6 +1,6 @@
 /* ---------- desempenho: abrir e trocar de tela mais rápido ---------- */
 /* 1. versão nova vinda do service worker: ele abre a cópia guardada na hora e avisa quando guardou uma página nova.
-      Recarrega sozinho se a pessoa ainda não mexeu; senão fica para a volta ao app (o mesmo caminho do versao.json).
+      Fica para a volta ao app ou para a próxima abertura (o mesmo caminho do versao.json; 141: não recarrega mais na hora).
       No máximo uma recarga automática dessas a cada 5 minutos (se a rede alternar entre cópias, não fica em ciclo). */
 (function(){if(!("serviceWorker" in navigator))return;
   navigator.serviceWorker.addEventListener("message",e=>{const d=e.data;if(!d||d.prumo!=="pagina-nova")return;const v=String(d.v||"sw");

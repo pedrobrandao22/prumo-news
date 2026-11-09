@@ -1,0 +1,17 @@
+/* 141: abertura estável. Esqueleto da Capa no formato da Capa pronta: linha da edição (texto invisível, mesma altura), foto da
+   manchete em 4:3 de ponta a ponta (como .cpi-man .art.foto), chapéu, título e linha fina. */
+.ab141-sk-ed{color:transparent!important;background:var(--chip);border-radius:6px;user-select:none}
+.cp-sk.ab141-sk>i:first-child{margin-top:0}
+.cp-sk.ab141-sk>i.ab141-sk-art{margin-left:calc(50% - 50vw);width:100vw;aspect-ratio:4/3;border-radius:0}
+.cp-sk.ab141-sk>i:nth-child(2){margin-top:16px}
+.cp-sk.ab141-sk>i:nth-child(n+3){margin:8px 0}
+@media (min-width:900px){.cp-sk.ab141-sk>i.ab141-sk-art{margin-left:0;width:100%;aspect-ratio:16/9;border-radius:14px}}
+/* até a Capa assentar, a barra de abas e os botões não animam (a pílula não desliza de "Feed" para "Capa" na abertura) */
+html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!important}
+/* 1ª visita, antes de o fotos-arquivo.json chegar: a arte da manchete já ocupa o lugar da foto (4:3, de ponta a ponta) */
+@media (max-width:899px){
+  html.ab141-sem-arq .cpi-man .art.paper:not(.foto){margin-left:calc(50% - 50vw);margin-right:0;width:100vw;max-width:none;aspect-ratio:4/3;border-radius:0;flex:none;align-self:flex-start}
+  html.ab141-sem-arq .cpi-man .art.paper:not(.foto) svg{width:100%;height:100%}
+}
+/* foto da Capa chegando: a ilustração fica por baixo até a foto carregar (antes: ilustração some, caixa cinza, foto aparece) */
+#v-capa .foto .ill{visibility:visible}

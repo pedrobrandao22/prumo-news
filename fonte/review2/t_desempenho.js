@@ -99,10 +99,10 @@ const med = a => { const s = [...a].sort((x, y) => x - y); return s[Math.floor((
     await rot(ctx2);
     ({ p, r } = await abrir(ctx2)); r.sw = await p.evaluate(() => !!navigator.serviceWorker.controller); r.postsNaCapa = await p.evaluate(() => VIEW === 'capa' ? document.querySelectorAll('#posts .post').length : -1); morno.push(r);
     acoes.push(await trocas(p));
-    if (i === RODADAS - 1) {  // versão nova publicada: abre a guardada na hora, depois recarrega sozinho com a nova (uma vez só)
+    if (i === RODADAS - 1) {  // versão nova publicada: abre a guardada na hora, sem recarregar a tela (141); a nova entra na abertura seguinte
       EXTRA = '<i id="marca-nova"></i>'; const q = await ctx2.newPage(); let navs = 0; q.on('framenavigated', fr => { if (fr === q.mainFrame()) navs++ });
-      await q.goto(`http://localhost:${PORT}/`, { timeout: 60000 }); const nova = await U.esperar(q, () => !!document.getElementById('marca-nova') && document.querySelectorAll('#v-capa .cpi').length > 0, null, 30000);
-      await sleep(4000); NOVA = { nova, navs, posts: await q.evaluate(() => document.querySelectorAll('#v-capa .cpi').length).catch(() => -1) };
+      await q.goto(`http://localhost:${PORT}/`, { timeout: 60000 }); await U.esperar(q, () => document.querySelectorAll('#v-capa .cpi').length > 0, null, 30000);
+      await sleep(8000); NOVA = { velha: await q.evaluate(() => !document.getElementById('marca-nova')).catch(() => false), navs, posts: await q.evaluate(() => document.querySelectorAll('#v-capa .cpi').length).catch(() => -1) };
       navs = 0; await q.goto(`http://localhost:${PORT}/`); await sleep(5000); NOVA.navs2 = navs; NOVA.nova2 = await q.evaluate(() => !!document.getElementById('marca-nova')).catch(() => false);
       EXTRA = ''; await q.close() }
     await ctx2.close(); fs.rmSync(dir, { recursive: true, force: true });
@@ -121,8 +121,8 @@ const med = a => { const s = [...a].sort((x, y) => x - y); return s[Math.floor((
     const rv = med(morno.map(x => x.resp));
     ok(rv < 400, 'volta ao app: a página vem da cópia guardada, sem esperar a rede (resposta em ' + rv + ' ms; a rede leva 450+)');
     ok(morno.every(x => x.postsNaCapa >= 0 && x.postsNaCapa <= 8), 'na Capa, o Feed escondido tem só o primeiro lote (' + morno.map(x => x.postsNaCapa) + ' posts)');
-    ok(NOVA && NOVA.nova && NOVA.navs === 2 && NOVA.posts > 0, 'versão nova: abre a guardada e recarrega sozinho com a nova ' + JSON.stringify(NOVA));
-    ok(NOVA && NOVA.nova2 && NOVA.navs2 === 1, 'versão nova: na abertura seguinte, sem recarregar de novo');
+    ok(NOVA && NOVA.velha && NOVA.navs === 1 && NOVA.posts > 0, 'versão nova: abre a guardada e não recarrega a tela sozinho (141) ' + JSON.stringify(NOVA));
+    ok(NOVA && NOVA.nova2 && NOVA.navs2 === 1, 'versão nova: entra na abertura seguinte, sem recarregar');
     ok(f < 9000, 'primeira abertura: Capa na tela em menos de 9 s (' + f + ' ms)');
     const trocaMax = Math.max(...['feed', 'msgs', 'busca', 'me', 'capa'].map(k => A[k + ' 2ª']));
     ok(trocaMax < 350, 'troca de aba (2ª vez) abaixo de 350 ms (' + trocaMax + ' ms)');

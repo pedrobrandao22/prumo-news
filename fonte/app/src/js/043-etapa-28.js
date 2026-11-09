@@ -63,11 +63,12 @@ function abrirNovCapa(){const l=capaNovas();const L=lente();const pr=p=>typeof p
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="mud-l">${l.map(p=>{const nv=NOVAS.has(p.id);const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto&&(!VISITA0||tms(u.hora)>tms(VISITA0)));const u=ups.length?ups.reduce((a,b)=>tms(b.hora)>tms(a.hora)?b:a):null;
     return `<li><button type="button" data-cpnovir="${esc(p.id)}"><b class="mud-k ${nv?"nova":"atualizada"}">${nv?"Nova":"Atualizada"}</b><span class="mud-t">${esc(versao(p,L).titulo||"")}</span>${u?`<span class="mud-x">${u.hora?esc(hhmm(u.hora))+" · ":""}${esc(u.texto)}</span>`:""}</button></li>`}).join("")}</ul>`);uso("capa_desde")}
 
-/* versão nova do app já na primeira abertura: se ninguém mexeu ainda, recarrega na hora;
-   senão, quando a pessoa voltar ao app depois de alguns minutos */
+/* versão nova do app: fica guardada (o service worker já guardou a página nova) e entra na próxima abertura, ou quando a pessoa
+   volta ao app depois de alguns minutos. 141: antes, se ninguém tinha mexido ainda, recarregava na hora — a Capa já desenhada
+   sumia e era desenhada de novo na frente da pessoa, uns segundos depois de abrir */
 var VERSAO_NOVA=null,MEXEU=0,SAIU_V=0;
 ["pointerdown","keydown","wheel","touchstart"].forEach(ev=>addEventListener(ev,()=>{MEXEU=1},{capture:true,passive:true}));
-function tentarRecarregar(voltou){if(!VERSAO_NOVA)return;if(voltou&&temJanela()){window.RECARGA_PEND=1;return}if(voltou||(!MEXEU&&scrollY<40&&!temJanela())){try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}}
+function tentarRecarregar(voltou){if(!VERSAO_NOVA||!voltou)return;if(temJanela()){window.RECARGA_PEND=1;return}try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}
 async function checarVersao(){try{if(!/^[0-9a-f]{12}$/.test(APP_VERSAO))return;if(navigator.webdriver&&localStorage.getItem("prumo-teste-versao")!=="1")return;
   const r=await fetch("versao.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();const v=d&&d.v;
   if(typeof v!=="string"||!/^[0-9a-f]{12}$/.test(v)||v===APP_VERSAO)return;

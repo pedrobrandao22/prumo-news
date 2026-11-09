@@ -111,10 +111,11 @@ function cliqueConta(t){
     nav.classList.toggle("mini",desce);topo.classList.toggle("esconde",desce&&VIEW==="feed");topo.classList.toggle("rolou",y>6)};
   addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(rola)},{passive:true});
   nav.addEventListener("pointerdown",()=>nav.classList.remove("mini"));
-  /* troca de aba: some o "encolhido" e a nova tela entra suave */
+  /* troca de aba: some o "encolhido" e a nova tela entra suave (141: só quando a pessoa troca de aba; na abertura do app a
+     Capa entrava com opacidade 0 enquanto o código ainda rodava, e o esqueleto sumia, a tela ficava vazia e a Capa reaparecia) */
   const goAnt=go;
   go=function(v,fromPop){const mudou=v!==VIEW;goAnt(v,fromPop);nav.classList.remove("mini");topo.classList.remove("esconde");
-    if(mudou&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const sec=document.getElementById("v-"+v);if(sec){try{sec.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}catch(e){}}}};
+    if(mudou&&document.readyState!=="loading"&&!document.documentElement.classList.contains("ab141-abrindo")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const sec=document.getElementById("v-"+v);if(sec){try{sec.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}catch(e){}}}};
   /* abrir com transição: o elemento tocado "cresce" até virar a tela nova */
   window.comTransicao=(origem,abre,alvo)=>{
     if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches||!origem){abre();return}
@@ -224,7 +225,8 @@ function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit
   return FA_CACHE[ck]=r}
 async function carregarFotosArq(){try{const r=await fetch("fotos-arquivo.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();if(!d||typeof d!=="object"||!d.temas)return;
   const mud=!FOTOS_ARQ||FOTOS_ARQ.gerado!==d.gerado;FOTOS_ARQ=d;FA_CACHE={};try{localStorage.setItem("prumo-fotos-arq",JSON.stringify(d))}catch(e){}
-  if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}}catch(e){}}
+  if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}}catch(e){}
+  document.documentElement.classList.remove("ab141-sem-arq")}  // 141: a manchete volta ao formato dela (ver 000-pre-carga.js)
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
   return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f,"",0,!!cred)}${cred&&f.credito?credHTML(f.credito,"cred"):""}</span>`}
 function indTile(x){const seta={sobe:"▲",desce:"▼",estavel:"▬"};const em=x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:"";
@@ -301,7 +303,7 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   if(eraMat&&MAT_PID){const pid=MAT_PID;MAT_PID=null;if(VIEW==="capa"){const el0=document.getElementById("cpi-"+pid);const r0=el0?el0.getBoundingClientRect().top:null;const ab0=CP_AB;CP_AB=null;if(!cpAlternar(ab0,null))renderCapa();
     const el=document.getElementById("cpi-"+pid);if(el&&r0!=null)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-r0)}}}})();
 function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
-  if(!FEED){v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span></div><div class="cp-sk"><i style="height:220px"></i><i style="height:22px;width:80%"></i><i style="height:16px;width:60%"></i></div></div>`;return}
+  if(!FEED){if(v.querySelector(".cp-sk.ab141-sk")&&!v.querySelector(".cpi"))return;v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed ab141-sk-ed" aria-hidden="true">Edição da noite · dom, 00 de nov</span></div><div class="cp-sk ab141-sk" role="status" aria-label="Carregando a Capa"><i class="ab141-sk-art"></i><i style="height:11px;width:34%"></i><i style="height:26px;width:94%"></i><i style="height:26px;width:88%"></i><i style="height:26px;width:52%"></i><i style="height:14px;width:97%"></i><i style="height:14px;width:91%"></i><i style="height:14px;width:62%"></i></div></div>`;return}
   const {ps,ord,man,dest,fixa,linha}=capaEscolha();const L=lente();
   const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
   const vivo=ps.filter(p=>p.status==="ao_vivo");

@@ -61,14 +61,14 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const ag = await p.evaluate(() => ({ fds: fimDeSemana(), t: [...document.querySelectorAll('#v-capa .cp-h h3')].map(h => h.textContent).find(t => /Agenda/.test(t)), tem: /Evento de teste da semana que vem/.test(document.querySelector('#v-capa').textContent), dia: agDiaTxt('2026-11-03', '2026-10-31', '2026-11-01') }));
   ok(ag.dia === 'ter (3)' && (ag.fds ? ag.t === 'Agenda da semana' && ag.tem : ag.t === 'Agenda' && !ag.tem), 'agenda: no fim de semana mostra a semana que vem ' + JSON.stringify(ag));
 
-  // versão nova: recarrega na hora se ninguém mexeu
+  // versão nova: não recarrega mais na hora (141, a Capa sumia e voltava na frente da pessoa); fica para a volta ao app
   const p2 = U.erros(await ctx.newPage(), 'b'); let navs = 0; p2.on('framenavigated', fr => { if (fr === p2.mainFrame()) navs++ });
   await p2.route('**/versao.json', r => r.fulfill({ body: '{"v":"abcdefabcdef"}', contentType: 'application/json' }));
   const html = fs.readFileSync(S0 + 'index.html', 'utf8') + '<!-- "abcdefabcdef" -->';
   await p2.route('http://localhost:8828/', r => r.fulfill({ body: html, contentType: 'text/html' }));
   await p2.addInitScript(() => localStorage.setItem('prumo-teste-versao', '1'));
   await p2.goto('http://localhost:8828/index.html'); await sleep(5000);
-  ok(navs === 2 && await p2.evaluate(() => sessionStorage.getItem('prumo-recarregou') === 'abcdefabcdef'), `versão nova: recarrega uma vez sozinho, sem ficar em ciclo (navegações: ${navs})`);
+  ok(navs === 1 && await p2.evaluate(() => VERSAO_NOVA === 'abcdefabcdef'), `versão nova: guardada para a volta ao app, sem recarregar na abertura (navegações: ${navs})`);
   const p3 = U.erros(await ctx.newPage(), 'c'); let nav3 = 0; p3.on('framenavigated', fr => { if (fr === p3.mainFrame()) nav3++ });
   await p3.route('**/versao.json', r => r.fulfill({ body: '{"v":"123456abcdef"}', contentType: 'application/json' }));
   await p3.route('http://localhost:8828/', r => r.fulfill({ body: html.replace('abcdefabcdef', '123456abcdef'), contentType: 'text/html' }));

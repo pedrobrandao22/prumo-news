@@ -29,12 +29,36 @@
    pedido (uma vez só, ver 119-feed-leve.js). Sem leve (ou leve com problema), loadFeed pede o feed.json inteiro, como antes. */
 var FEED_PRE=null,FL119_PRE=null;try{FL119_PRE=fetch("feed-leve.json",{cache:"no-cache"}).then(r=>r.ok?r.text():null,()=>null)}catch(e){}
 function feedPedido(){const p=FEED_PRE;FEED_PRE=null;if(!p)return fetch("feed.json",{cache:"no-cache"});return p.then(x=>{if(x.e)throw x.e;return x.r})}
+/* 141 (abertura estável): antes da primeira pintura.
+   - tema, tamanho da letra e "sem vidro" escolhidos pela pessoa já valem no esqueleto (antes, o esqueleto saía no tema do
+     sistema e a Capa trocava de claro para escuro, ou o contrário, quando o código rodava);
+   - "ab141-abrindo" desliga as transições da barra de abas até a Capa assentar (a pílula não desliza de "Feed" para "Capa");
+   - a faixa "Agora" (novidades.json, ~9 KB gzip) começa a vir junto com o feed-leve: chega antes de o código terminar de ler a
+     página, e a Capa já sai com a faixa (antes, ela chegava depois e empurrava a Capa já desenhada). carregarAgora usa este
+     pedido uma vez só;
+   - primeira visita (sem as fotos de arquivo no aparelho): "ab141-sem-arq" deixa a arte da manchete no formato da foto (4:3)
+     até o fotos-arquivo.json chegar, para a foto entrar no mesmo lugar sem empurrar a Capa (o arquivo, ~60 KB gzip, não vem
+     junto na pré-carga: na 1ª visita em 4G isso atrasava a Capa em ~0,5 s). carregarFotosArq tira a classe. */
+var ab141Pre={};
+(function(){try{var r=document.documentElement,P=null;r.classList.add("ab141-abrindo");
+  try{P=JSON.parse(localStorage.getItem("radar-prefs")||"null")}catch(e){}
+  if(P&&typeof P==="object"){var t=P.tema;if(t==="claro"||t==="escuro")r.setAttribute("data-aparencia",t);
+    var z=+P.fonte||1;if(z!==1)r.style.setProperty("--fz",String(z));if(z>=1.2)r.classList.add("fzg");if(P.semVidro)r.classList.add("sem-vidro");
+    var esc=t==="escuro"||(t!=="claro"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches),m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",esc?"#000000":"#f3f4f6")}
+  ab141Pre.novid=fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"}).then(function(x){return x.ok?x.json():null}).catch(function(){return null});
+  var fa=null;try{fa=localStorage.getItem("prumo-fotos-arq")}catch(e){}
+  if(!fa)r.classList.add("ab141-sem-arq")}catch(e){}})();
 </script>
 <style>
 @font-face{font-family:"Newsreader";font-style:normal;font-weight:200 800;font-display:swap;src:url(fontes/newsreader.woff2) format("woff2-variations"),url(fontes/newsreader.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Newsreader";font-style:italic;font-weight:200 800;font-display:swap;src:url(fontes/newsreader-italico.woff2) format("woff2-variations"),url(fontes/newsreader-italico.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Public Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(fontes/public-sans.woff2) format("woff2-variations"),url(fontes/public-sans.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Public Sans";font-style:italic;font-weight:100 900;font-display:swap;src:url(fontes/public-sans-italico.woff2) format("woff2-variations"),url(fontes/public-sans-italico.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+/* 141: letras de reserva com as mesmas medidas (largura média e altura da linha) da Newsreader e da Public Sans: enquanto as
+   fontes não chegam (1ª visita em rede lenta), o texto já ocupa o mesmo lugar e não pula quando elas entram (font-display:swap).
+   Medidas tiradas dos próprios arquivos (Times New Roman/Liberation Serif e Arial/Liberation Sans na mesma frase de teste). */
+@font-face{font-family:"Newsreader Reserva";src:local("Times New Roman"),local("TimesNewRomanPSMT"),local("Liberation Serif"),local("Tinos"),local("Noto Serif");size-adjust:100.3%;ascent-override:73.3%;descent-override:26.4%;line-gap-override:0%}
+@font-face{font-family:"Public Sans Reserva";src:local("Arial"),local("ArialMT"),local("Liberation Sans"),local("Arimo"),local("Roboto");size-adjust:102.1%;ascent-override:93.1%;descent-override:22%;line-gap-override:0%}
 </style>
 <style>
 /* Layout: feed de leitura em uma coluna, sempre em papel claro. Topo com uma bolinha por seção; cada post tem uma capa 5:4 com a manchete sobre a ilustração e, embaixo, o texto em abas (Resumo · Ângulos · Veículos). Tipografia: Literata no texto corrido, Atkinson Hyperlegible Next na interface e nas manchetes, Atkinson Hyperlegible Mono nos dados */
@@ -55,10 +79,10 @@ function feedPedido(){const p=FEED_PRE;FEED_PRE=null;if(!p)return fetch("feed.js
   --s-politica:#1d3a63; --s-economia:#24533c; --s-brasil:#6e4419; --s-mundo:#46337a; --s-educacao:#7a2b37; --s-esportes:#1e5a60;
   --ill-bg:#e3e8f0; --ill-ink:#14213a; --ill-a:#1d3a63; --ill-b:#c9822b; --ill-c:#ffffff; --ill-mute:#b7c0cc; --ill-deep:#cfd7e3;
   --shade:rgb(20 33 58 / .5);
-  --f-ui:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --f-display:"Newsreader",Georgia,"Times New Roman",serif;
-  --f-body:"Newsreader",Georgia,"Times New Roman",serif;
-  --f-mono:"Public Sans",system-ui,sans-serif;
+  --f-ui:"Public Sans","Public Sans Reserva",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-display:"Newsreader","Newsreader Reserva",Georgia,"Times New Roman",serif;
+  --f-body:"Newsreader","Newsreader Reserva",Georgia,"Times New Roman",serif;
+  --f-mono:"Public Sans","Public Sans Reserva",system-ui,sans-serif;
   --nav-h:62px; --nav-pad:8px;
 }
 .paper{--ill-ink:#14213a; --ill-b:#c9822b; --ill-c:#ffffff; --ill-mute:#b7c0cc; --ill-deep:#cfd7e3; --ill-bg:#e3e8f0; --ill-a:#1d3a63; color:#14213a}
@@ -5482,6 +5506,23 @@ html.tc139-kb .tc139-vv .sh-f{padding-bottom:8px}
 html.tc139-trava,html.tc139-trava body{overflow:hidden;overscroll-behavior:none}
 /* TC05: sem o zoom do iPhone ao tocar num campo */
 @media (pointer:coarse){.tc139-16{font-size:16px!important}}
+/* 141: abertura estável. Esqueleto da Capa no formato da Capa pronta: linha da edição (texto invisível, mesma altura), foto da
+   manchete em 4:3 de ponta a ponta (como .cpi-man .art.foto), chapéu, título e linha fina. */
+.ab141-sk-ed{color:transparent!important;background:var(--chip);border-radius:6px;user-select:none}
+.cp-sk.ab141-sk>i:first-child{margin-top:0}
+.cp-sk.ab141-sk>i.ab141-sk-art{margin-left:calc(50% - 50vw);width:100vw;aspect-ratio:4/3;border-radius:0}
+.cp-sk.ab141-sk>i:nth-child(2){margin-top:16px}
+.cp-sk.ab141-sk>i:nth-child(n+3){margin:8px 0}
+@media (min-width:900px){.cp-sk.ab141-sk>i.ab141-sk-art{margin-left:0;width:100%;aspect-ratio:16/9;border-radius:14px}}
+/* até a Capa assentar, a barra de abas e os botões não animam (a pílula não desliza de "Feed" para "Capa" na abertura) */
+html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!important}
+/* 1ª visita, antes de o fotos-arquivo.json chegar: a arte da manchete já ocupa o lugar da foto (4:3, de ponta a ponta) */
+@media (max-width:899px){
+  html.ab141-sem-arq .cpi-man .art.paper:not(.foto){margin-left:calc(50% - 50vw);margin-right:0;width:100vw;max-width:none;aspect-ratio:4/3;border-radius:0;flex:none;align-self:flex-start}
+  html.ab141-sem-arq .cpi-man .art.paper:not(.foto) svg{width:100%;height:100%}
+}
+/* foto da Capa chegando: a ilustração fica por baixo até a foto carregar (antes: ilustração some, caixa cinza, foto aparece) */
+#v-capa .foto .ill{visibility:visible}
 /* 142 · registro de erros e uso (Administração › App; Ajustes do app › Privacidade) */
 .tl142-segs{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .tl142-segs::-webkit-scrollbar{display:none}
@@ -5557,11 +5598,12 @@ html.tc139-trava,html.tc139-trava body{overflow:hidden;overscroll-behavior:none}
    era a do Feed (cabeçalho do Feed, aba "Feed" marcada, esqueleto de post) e, quando o código rodava, tudo pulava para a Capa.
    Este trecho roda logo depois da barra de baixo existir e já mostra o que o app vai mostrar: o esqueleto da Capa (o mesmo de
    renderCapa sem edição) e a aba "Capa" marcada. Só quando o app abre na Capa (produção, ou testes com "prumo-teste-capa").
-   Sem nomes globais (tudo dentro da função). */
+   Sem nomes globais (tudo dentro da função). 141: o esqueleto tem o formato da Capa pronta (linha da edição, foto da manchete,
+   chapéu, título em 3 linhas e linha fina), para a troca esqueleto → Capa não mexer em nada de lugar. */
 (function(){try{if(navigator.webdriver&&localStorage.getItem("prumo-teste-capa")!=="1")return;
   var c=document.getElementById("v-capa"),f=document.getElementById("v-feed"),t=document.querySelector("header.top");if(!c||!f||c.innerHTML)return;
   f.hidden=true;if(t)t.hidden=true;c.hidden=false;
-  c.innerHTML='<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span></div><div class="cp-sk"><i style="height:220px"></i><i style="height:22px;width:80%"></i><i style="height:16px;width:60%"></i></div></div>';
+  c.innerHTML='<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed ab141-sk-ed" aria-hidden="true">Edição da noite · dom, 00 de nov</span></div><div class="cp-sk ab141-sk" role="status" aria-label="Carregando a Capa"><i class="ab141-sk-art"></i><i style="height:11px;width:34%"></i><i style="height:26px;width:94%"></i><i style="height:26px;width:88%"></i><i style="height:26px;width:52%"></i><i style="height:14px;width:97%"></i><i style="height:14px;width:91%"></i><i style="height:14px;width:62%"></i></div></div>';
   var a=document.getElementById("t-feed"),b=document.getElementById("t-capa");if(a)a.removeAttribute("aria-current");if(b)b.setAttribute("aria-current","page")}catch(e){}})();
 </script>
 
@@ -7085,10 +7127,11 @@ function cliqueConta(t){
     nav.classList.toggle("mini",desce);topo.classList.toggle("esconde",desce&&VIEW==="feed");topo.classList.toggle("rolou",y>6)};
   addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(rola)},{passive:true});
   nav.addEventListener("pointerdown",()=>nav.classList.remove("mini"));
-  /* troca de aba: some o "encolhido" e a nova tela entra suave */
+  /* troca de aba: some o "encolhido" e a nova tela entra suave (141: só quando a pessoa troca de aba; na abertura do app a
+     Capa entrava com opacidade 0 enquanto o código ainda rodava, e o esqueleto sumia, a tela ficava vazia e a Capa reaparecia) */
   const goAnt=go;
   go=function(v,fromPop){const mudou=v!==VIEW;goAnt(v,fromPop);nav.classList.remove("mini");topo.classList.remove("esconde");
-    if(mudou&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const sec=document.getElementById("v-"+v);if(sec){try{sec.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}catch(e){}}}};
+    if(mudou&&document.readyState!=="loading"&&!document.documentElement.classList.contains("ab141-abrindo")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const sec=document.getElementById("v-"+v);if(sec){try{sec.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}catch(e){}}}};
   /* abrir com transição: o elemento tocado "cresce" até virar a tela nova */
   window.comTransicao=(origem,abre,alvo)=>{
     if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches||!origem){abre();return}
@@ -7198,7 +7241,8 @@ function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit
   return FA_CACHE[ck]=r}
 async function carregarFotosArq(){try{const r=await fetch("fotos-arquivo.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();if(!d||typeof d!=="object"||!d.temas)return;
   const mud=!FOTOS_ARQ||FOTOS_ARQ.gerado!==d.gerado;FOTOS_ARQ=d;FA_CACHE={};try{localStorage.setItem("prumo-fotos-arq",JSON.stringify(d))}catch(e){}
-  if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}}catch(e){}}
+  if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}}catch(e){}
+  document.documentElement.classList.remove("ab141-sem-arq")}  // 141: a manchete volta ao formato dela (ver 000-pre-carga.js)
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
   return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f,"",0,!!cred)}${cred&&f.credito?credHTML(f.credito,"cred"):""}</span>`}
 function indTile(x){const seta={sobe:"▲",desce:"▼",estavel:"▬"};const em=x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:"";
@@ -7275,7 +7319,7 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   if(eraMat&&MAT_PID){const pid=MAT_PID;MAT_PID=null;if(VIEW==="capa"){const el0=document.getElementById("cpi-"+pid);const r0=el0?el0.getBoundingClientRect().top:null;const ab0=CP_AB;CP_AB=null;if(!cpAlternar(ab0,null))renderCapa();
     const el=document.getElementById("cpi-"+pid);if(el&&r0!=null)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-r0)}}}})();
 function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
-  if(!FEED){v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span></div><div class="cp-sk"><i style="height:220px"></i><i style="height:22px;width:80%"></i><i style="height:16px;width:60%"></i></div></div>`;return}
+  if(!FEED){if(v.querySelector(".cp-sk.ab141-sk")&&!v.querySelector(".cpi"))return;v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed ab141-sk-ed" aria-hidden="true">Edição da noite · dom, 00 de nov</span></div><div class="cp-sk ab141-sk" role="status" aria-label="Carregando a Capa"><i class="ab141-sk-art"></i><i style="height:11px;width:34%"></i><i style="height:26px;width:94%"></i><i style="height:26px;width:88%"></i><i style="height:26px;width:52%"></i><i style="height:14px;width:97%"></i><i style="height:14px;width:91%"></i><i style="height:14px;width:62%"></i></div></div>`;return}
   const {ps,ord,man,dest,fixa,linha}=capaEscolha();const L=lente();
   const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
   const vivo=ps.filter(p=>p.status==="ao_vivo");
@@ -7729,8 +7773,12 @@ eventoAbrir();
 function linkTentar(){if(!LINK_PID||!FEED)return;const pid=LINK_PID;if(pautaById(pid)){LINK_PID=null;setTimeout(()=>{if(VIEW!=="capa")go("capa");if(!$("#layer").innerHTML)abrirMateria(pid)},60);return}
   if(Date.now()-LINK_T0>8000){LINK_PID=null;setTimeout(()=>toast("Essa notícia já saiu da edição. Veja as de agora."),300)}}
 /* faixa Agora: assuntos do momento (novidades.json, de hora em hora pelo GitHub) */
-var NOVID_AG=null,AG_ROT=0;
-async function carregarAgora(){try{const r=await fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"});if(!r.ok)return;const d=await r.json();if(d&&typeof d==="object"){NOVID_AG=d;atualizarAgora()}}catch(e){}}
+/* 141: a última faixa fica guardada no aparelho (a Capa da volta ao app já sai com ela, em vez de a faixa entrar depois e empurrar
+   a Capa) e o primeiro pedido é o da pré-carga do <head> */
+var NOVID_AG=(function(){try{const d=JSON.parse(localStorage.getItem("prumo-novid")||"null");return d&&typeof d==="object"?d:null}catch(e){return null}})(),AG_ROT=0;
+async function carregarAgora(){try{const pre=typeof ab141Pre!=="undefined"&&ab141Pre.novid;let d;if(pre){ab141Pre.novid=null;d=await pre}
+  if(!d){const r=await fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"});if(!r.ok)return;d=await r.json()}
+  if(d&&typeof d==="object"){NOVID_AG=d;try{localStorage.setItem("prumo-novid",JSON.stringify(d))}catch(e){}atualizarAgora()}}catch(e){}}
 function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!m)return 0;const agora=new Date();let ano=agora.getFullYear();let t=Date.parse(`${ano}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);if(t>Date.now()+864e5)t=Date.parse(`${ano-1}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);return t||0}
 function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
   if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}
@@ -7751,7 +7799,7 @@ function agoraHTML(){const l=agoraItens();if(!l.length)return "";
   const n=l.reduce((a,x)=>a+x.t.length+12,0);
   return `<div class="cp-agora" role="region" aria-label="Agora: ${esc(l.map(x=>x.t).join("; "))}"><button type="button" class="ag-lbl" data-agora><i></i>Agora</button><div class="ag-vp"><div class="ag-run" style="animation-duration:${Math.max(18,Math.round(n*.17))}s">${um}${um}</div></div></div>`}
 function atualizarAgora(){if(VIEW!=="capa")return;const old=$("#v-capa .cp-agora"),nh=agoraHTML(),cp=$("#v-capa .cp");
-  if(old){if(nh){const w=document.createElement("div");w.innerHTML=nh;old.replaceWith(w.firstElementChild)}else{const h=old.offsetHeight;old.remove();if(scrollY>=40)window.scrollBy(0,-h)}return}
+  if(old){if(nh&&old.outerHTML===nh)return;if(nh){const w=document.createElement("div");w.innerHTML=nh;old.replaceWith(w.firstElementChild)}else{const h=old.offsetHeight;old.remove();if(scrollY>=40)window.scrollBy(0,-h)}return}
   if(!nh||!cp)return;const w=document.createElement("div");w.innerHTML=nh;const el=w.firstElementChild;const tp=cp.querySelector(":scope>.cp-top");cp.insertBefore(el,tp?tp.nextSibling:cp.firstChild);
   const cs=getComputedStyle(el),alt=el.offsetHeight+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom);
   if(scrollY>=40||$("#layer").innerHTML)window.scrollBy(0,alt);else if(ANIM_OK())el.classList.add("ag-entra")}
@@ -7911,11 +7959,12 @@ function abrirNovCapa(){const l=capaNovas();const L=lente();const pr=p=>typeof p
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="mud-l">${l.map(p=>{const nv=NOVAS.has(p.id);const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto&&(!VISITA0||tms(u.hora)>tms(VISITA0)));const u=ups.length?ups.reduce((a,b)=>tms(b.hora)>tms(a.hora)?b:a):null;
     return `<li><button type="button" data-cpnovir="${esc(p.id)}"><b class="mud-k ${nv?"nova":"atualizada"}">${nv?"Nova":"Atualizada"}</b><span class="mud-t">${esc(versao(p,L).titulo||"")}</span>${u?`<span class="mud-x">${u.hora?esc(hhmm(u.hora))+" · ":""}${esc(u.texto)}</span>`:""}</button></li>`}).join("")}</ul>`);uso("capa_desde")}
 
-/* versão nova do app já na primeira abertura: se ninguém mexeu ainda, recarrega na hora;
-   senão, quando a pessoa voltar ao app depois de alguns minutos */
+/* versão nova do app: fica guardada (o service worker já guardou a página nova) e entra na próxima abertura, ou quando a pessoa
+   volta ao app depois de alguns minutos. 141: antes, se ninguém tinha mexido ainda, recarregava na hora — a Capa já desenhada
+   sumia e era desenhada de novo na frente da pessoa, uns segundos depois de abrir */
 var VERSAO_NOVA=null,MEXEU=0,SAIU_V=0;
 ["pointerdown","keydown","wheel","touchstart"].forEach(ev=>addEventListener(ev,()=>{MEXEU=1},{capture:true,passive:true}));
-function tentarRecarregar(voltou){if(!VERSAO_NOVA)return;if(voltou&&temJanela()){window.RECARGA_PEND=1;return}if(voltou||(!MEXEU&&scrollY<40&&!temJanela())){try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}}
+function tentarRecarregar(voltou){if(!VERSAO_NOVA||!voltou)return;if(temJanela()){window.RECARGA_PEND=1;return}try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}
 async function checarVersao(){try{if(!/^[0-9a-f]{12}$/.test(APP_VERSAO))return;if(navigator.webdriver&&localStorage.getItem("prumo-teste-versao")!=="1")return;
   const r=await fetch("versao.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();const v=d&&d.v;
   if(typeof v!=="string"||!/^[0-9a-f]{12}$/.test(v)||v===APP_VERSAO)return;
@@ -12080,7 +12129,7 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 cfpAbreGaleria=function(){};
 /* ---------- desempenho: abrir e trocar de tela mais rápido ---------- */
 /* 1. versão nova vinda do service worker: ele abre a cópia guardada na hora e avisa quando guardou uma página nova.
-      Recarrega sozinho se a pessoa ainda não mexeu; senão fica para a volta ao app (o mesmo caminho do versao.json).
+      Fica para a volta ao app ou para a próxima abertura (o mesmo caminho do versao.json; 141: não recarrega mais na hora).
       No máximo uma recarga automática dessas a cada 5 minutos (se a rede alternar entre cópias, não fica em ciclo). */
 (function(){if(!("serviceWorker" in navigator))return;
   navigator.serviceWorker.addEventListener("message",e=>{const d=e.data;if(!d||d.prumo!=="pagina-nova")return;const v=String(d.v||"sw");
@@ -17235,6 +17284,53 @@ function ft140Aplica(){const alvo=new Set();const ed=document.querySelector("#la
 function ft140Agenda(){FT140.rt.forEach(clearTimeout);requestAnimationFrame(ft140Aplica);FT140.rt=[150,400].map(ms=>setTimeout(ft140Aplica,ms))}
 if(window.visualViewport){visualViewport.addEventListener("resize",ft140Agenda);visualViewport.addEventListener("scroll",ft140Agenda)}
 addEventListener("focusin",ft140Agenda,true);addEventListener("focusout",ft140Agenda,true);addEventListener("resize",ft140Agenda);
+/* ---------- 141: abertura estável (a Capa não pisca ao abrir o app) ----------
+   O Pedro: "o app pisca muito quando abrimos ele". Na abertura, a Capa era trocada inteira (innerHTML do #v-capa) 3 a 5 vezes:
+   esqueleto de novo, o leve, o indicadores.json, o fotos-arquivo.json e o Feed adiado (RF_REAL). A cada troca as fotos eram
+   criadas de novo (voltavam a opacidade 0 e entravam com fade), a faixa "Agora" recomeçava e o que mudava de tamanho pulava.
+   Agora o primeiro desenho com conteúdo continua sendo a troca do esqueleto pela Capa; os seguintes viram atualização no lugar:
+   renderCapa monta a Capa nova como sempre (com todos os complementos), e ela é comparada com a que está na tela, nó a nó:
+   - o que não mudou desde o último desenho fica como está (inclusive o que mudou depois dele, como a foto já carregada);
+   - foto com o mesmo endereço do desenho anterior fica (não baixa nem esmaece de novo);
+   - atributos e textos que mudaram são trocados; blocos novos entram e os que saíram saem.
+   Também (031): renderCapa sem edição com o esqueleto já na tela não refaz o esqueleto; "ab141-abrindo" sai quando a Capa assenta. */
+var ab141Base=null,ab141Orig=new WeakMap();
+function ab141Chave(n){if(n.nodeType!==1)return "#"+n.nodeType;const g=a=>n.getAttribute(a)||"";
+  return n.tagName+"|"+(n.id||g("data-capmat")||g("data-cpmat")||g("data-cpx")||g("data-capair")||g("data-cobpag")||g("data-capasec")||g("data-agi"))+"|"+g("class").split(" ")[0]}
+function ab141Marca(raiz){if(!raiz||raiz.nodeType!==1)return;(raiz.tagName==="IMG"?[raiz]:raiz.querySelectorAll("img")).forEach(i=>{if(!ab141Orig.has(i))ab141Orig.set(i,i.getAttribute("src"))})}
+/* vivo: o nó da tela; base: o mesmo nó no desenho anterior (como saiu do renderCapa); novo: o do desenho de agora */
+function ab141Mescla(vivo,base,novo){
+  if(base&&base.isEqualNode(novo))return;
+  if(vivo.nodeType!==1){if(vivo.nodeValue!==novo.nodeValue)vivo.nodeValue=novo.nodeValue;return}
+  if(vivo.tagName==="IMG"){const o=ab141Orig.has(vivo)?ab141Orig.get(vivo):base?base.getAttribute("src"):vivo.getAttribute("src");
+    if(o===novo.getAttribute("src"))return;vivo.replaceWith(novo);ab141Marca(novo);return}
+  for(const a of [...novo.attributes]){if(vivo.getAttribute(a.name)===a.value)continue;if(base&&base.getAttribute(a.name)===a.value)continue;vivo.setAttribute(a.name,a.value)}
+  for(const a of [...vivo.attributes]){if(novo.hasAttribute(a.name)||(base&&!base.hasAttribute(a.name)))continue;vivo.removeAttribute(a.name)}
+  ab141Filhos(vivo,base,novo)}
+function ab141Filhos(vivo,base,novo){const fila=new Map();
+  if(base)for(let c=base.firstChild;c;c=c.nextSibling){const k=ab141Chave(c);if(!fila.has(k))fila.set(k,[]);fila.get(k).push(c)}
+  let i=vivo.firstChild,j=novo.firstChild;
+  while(j){const nj=j.nextSibling,k=ab141Chave(j);let m=i,n=0;while(m&&n<12&&ab141Chave(m)!==k){m=m.nextSibling;n++}
+    const b=(fila.get(k)||[]).shift()||null;
+    if(m&&ab141Chave(m)===k){while(i!==m){const x=i.nextSibling;vivo.removeChild(i);i=x}const nx=m.nextSibling;ab141Mescla(m,b,j);i=nx}
+    else{vivo.insertBefore(j,i);ab141Marca(j)}
+    j=nj}
+  while(i){const x=i.nextSibling;vivo.removeChild(i);i=x}}
+function ab141Raiz(v){const r=v&&v.childElementCount===1?v.firstElementChild:null;return r&&r.classList.contains("cp")&&r.querySelector(".cpi")?r:null}
+{const _rc141=renderCapa;renderCapa=function(){const v=document.getElementById("v-capa");if(!v)return _rc141.apply(this,arguments);
+  const vivo=ab141Raiz(v),r=_rc141.apply(this,arguments),novo=ab141Raiz(v);
+  if(!novo)return r;
+  if(vivo&&novo!==vivo&&ab141Chave(vivo)===ab141Chave(novo)){const base=ab141Base;ab141Base=novo.cloneNode(true);
+    try{ab141Mescla(vivo,base,novo);v.replaceChild(vivo,novo)}catch(e){ab141Base=novo.cloneNode(true);if(vivo.parentNode!==v&&novo.parentNode!==v)v.appendChild(novo)}
+    try{if(typeof capaObservar==="function")capaObservar()}catch(e){}}
+  else if(novo!==vivo){ab141Base=novo.cloneNode(true);ab141Marca(novo)}
+  return r}}
+/* a Capa que já estava desenhada (edição guardada no aparelho, antes destes complementos) vira a base da comparação */
+{const r=ab141Raiz(document.getElementById("v-capa"));if(r){ab141Base=r.cloneNode(true);ab141Marca(r)}}
+/* fim da abertura: as transições da barra de abas voltam quando a Capa já tem conteúdo (ou depois de 8 s, em último caso) */
+(function(){const fim=()=>{document.documentElement.classList.remove("ab141-abrindo")};let n=0;
+  const olha=()=>{if(document.querySelector("#v-capa .cpi,#posts .post")||VIEW!=="capa"||++n>80){requestAnimationFrame(()=>requestAnimationFrame(fim));return}setTimeout(olha,100)};
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",olha,{once:true});else olha()})();
 /* ===== 142 · Registro de erros e contagem de uso (anônimos, desligáveis) =====
    Para o administrador saber os erros reais que acontecem nos aparelhos e quais partes do app são usadas.
    - Erros: window "error", "unhandledrejection", erros do service worker (sw.js manda por mensagem) e chamadas ao Supabase

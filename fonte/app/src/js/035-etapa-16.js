@@ -19,8 +19,12 @@ eventoAbrir();
 function linkTentar(){if(!LINK_PID||!FEED)return;const pid=LINK_PID;if(pautaById(pid)){LINK_PID=null;setTimeout(()=>{if(VIEW!=="capa")go("capa");if(!$("#layer").innerHTML)abrirMateria(pid)},60);return}
   if(Date.now()-LINK_T0>8000){LINK_PID=null;setTimeout(()=>toast("Essa notícia já saiu da edição. Veja as de agora."),300)}}
 /* faixa Agora: assuntos do momento (novidades.json, de hora em hora pelo GitHub) */
-var NOVID_AG=null,AG_ROT=0;
-async function carregarAgora(){try{const r=await fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"});if(!r.ok)return;const d=await r.json();if(d&&typeof d==="object"){NOVID_AG=d;atualizarAgora()}}catch(e){}}
+/* 141: a última faixa fica guardada no aparelho (a Capa da volta ao app já sai com ela, em vez de a faixa entrar depois e empurrar
+   a Capa) e o primeiro pedido é o da pré-carga do <head> */
+var NOVID_AG=(function(){try{const d=JSON.parse(localStorage.getItem("prumo-novid")||"null");return d&&typeof d==="object"?d:null}catch(e){return null}})(),AG_ROT=0;
+async function carregarAgora(){try{const pre=typeof ab141Pre!=="undefined"&&ab141Pre.novid;let d;if(pre){ab141Pre.novid=null;d=await pre}
+  if(!d){const r=await fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"});if(!r.ok)return;d=await r.json()}
+  if(d&&typeof d==="object"){NOVID_AG=d;try{localStorage.setItem("prumo-novid",JSON.stringify(d))}catch(e){}atualizarAgora()}}catch(e){}}
 function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!m)return 0;const agora=new Date();let ano=agora.getFullYear();let t=Date.parse(`${ano}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);if(t>Date.now()+864e5)t=Date.parse(`${ano-1}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);return t||0}
 function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
   if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}
@@ -41,7 +45,7 @@ function agoraHTML(){const l=agoraItens();if(!l.length)return "";
   const n=l.reduce((a,x)=>a+x.t.length+12,0);
   return `<div class="cp-agora" role="region" aria-label="Agora: ${esc(l.map(x=>x.t).join("; "))}"><button type="button" class="ag-lbl" data-agora><i></i>Agora</button><div class="ag-vp"><div class="ag-run" style="animation-duration:${Math.max(18,Math.round(n*.17))}s">${um}${um}</div></div></div>`}
 function atualizarAgora(){if(VIEW!=="capa")return;const old=$("#v-capa .cp-agora"),nh=agoraHTML(),cp=$("#v-capa .cp");
-  if(old){if(nh){const w=document.createElement("div");w.innerHTML=nh;old.replaceWith(w.firstElementChild)}else{const h=old.offsetHeight;old.remove();if(scrollY>=40)window.scrollBy(0,-h)}return}
+  if(old){if(nh&&old.outerHTML===nh)return;if(nh){const w=document.createElement("div");w.innerHTML=nh;old.replaceWith(w.firstElementChild)}else{const h=old.offsetHeight;old.remove();if(scrollY>=40)window.scrollBy(0,-h)}return}
   if(!nh||!cp)return;const w=document.createElement("div");w.innerHTML=nh;const el=w.firstElementChild;const tp=cp.querySelector(":scope>.cp-top");cp.insertBefore(el,tp?tp.nextSibling:cp.firstChild);
   const cs=getComputedStyle(el),alt=el.offsetHeight+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom);
   if(scrollY>=40||$("#layer").innerHTML)window.scrollBy(0,alt);else if(ANIM_OK())el.classList.add("ag-entra")}
