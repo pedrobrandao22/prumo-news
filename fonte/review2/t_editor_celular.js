@@ -69,6 +69,7 @@ let srv = null, srv2 = null;
   await ev(I, () => __kb(.55, 0)); await sleep(450);
   let e = await est(I);
   ok(e.kb && e.elT === e.vt && e.elB === e.vb && e.barB <= e.vb && e.barT >= e.hdB && e.hdT >= e.vt, 'teclado aberto: o editor ocupa só a área visível e a barra é a última faixa dela (acima da barra ^ v ✓ e do teclado)', e);
+  await sleep(450); ok(await ev(I, () => /rgb/.test(getComputedStyle($('#layer > .ed132')).boxShadow) && /100vmax|\d{3,}px/.test(getComputedStyle($('#layer > .ed132')).boxShadow)), 'teclado aberto: o editor estende o próprio fundo para baixo do teclado translúcido do iPhone (sem a página aparecendo atrás)', await ev(I, () => getComputedStyle($('#layer > .ed132')).boxShadow));
   ok(await ev(I, () => parseFloat(getComputedStyle($('#layer > .ed132 .ed132-bar')).paddingBottom) <= 8), 'teclado aberto: a barra perde a folga do fim da tela (safe-area), que ficava sobrando em cima do teclado');
   /* 40 linhas: a linha digitada fica sempre à vista */
   let pior = null;

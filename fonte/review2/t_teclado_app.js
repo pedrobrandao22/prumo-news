@@ -116,6 +116,7 @@ let srv = null, srv2 = null;
     await sleep(350);
     const m = await ev(P, ([c, b]) => __tcMede(c, b), [T.campo, T.botao || null]);
     ok(m.foco && m.linha, `${n} · ${T.nome}: campo com o foco e a linha digitada à vista, acima do teclado e sem nada por cima`, m);
+    if (T.fundo !== false && !process.env.ANTES) ok(await ev(P, () => { const e = document.querySelector('.tc139-vv'); return !e || /rgb/.test(getComputedStyle(e).boxShadow) }), `${n} · ${T.nome}: a tela estende o fundo para baixo do teclado (nada da página aparece atrás)`);
     if (T.botao) ok(m.botao, `${n} · ${T.nome}: botão de enviar/publicar à vista acima do teclado`, m);
     ok(m.fs >= 16, `${n} · ${T.nome}: fonte do campo ≥ 16 px (o iPhone não dá zoom)`, m.fs);
     if (!T.pagina) ok(Math.abs(m.sy - y0) <= 2, `${n} · ${T.nome}: a página de baixo não rolou`, { y0, sy: m.sy });
