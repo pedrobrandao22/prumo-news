@@ -17565,6 +17565,13 @@ async function tl142AdmTique(){if(!tl142SouAdm()||TL142.v15!==true||typeof SB===
 {const _aa=atAcao;atAcao=function(x){if(x&&x.acao==="tl142"){if($("#layer").innerHTML)closeLayer();const id=x.tl142;setTimeout(()=>{TL142.adm.sub="erros";TL142.adm.abre=id;abrirAdmin("app")},320);return}return _aa.apply(this,arguments)}}
 {const _th=atThumb;atThumb=function(x){if(x&&x.acao==="tl142")return "";return _th.apply(this,arguments)}}
 TL142.custo=Date.now()-TL142.t0;
+/* Melhoria contínua 09/11/2026: o capítulo da linha do tempo no "Nesta matéria" leva o mesmo nome da seção
+   ("Como a história andou" ou o título próprio da linha do tempo), em vez do fixo "Linha do tempo". */
+function mc143NomeTl(){const m=$("#layer .mat");if(!m)return;const tl=m.querySelector(".mat-tl.fs2-alvo");if(!tl||!tl.id)return;
+  const bt=m.querySelector(`.fs2-cap-b[aria-controls="${tl.id}"]`);if(!bt)return;
+  const b=tl.querySelector(":scope > b"),nome=((b&&b.textContent)||"").replace(/\s+/g," ").trim();
+  const t=[...bt.childNodes].filter(n=>n.nodeType===3).pop();if(t&&nome.length>=3&&nome.length<=32)t.textContent=nome}
+if(typeof f113Caps==="function"){const _fc143=f113Caps;f113Caps=function(){const r=_fc143.apply(this,arguments);try{mc143NomeTl()}catch(e){}return r}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
