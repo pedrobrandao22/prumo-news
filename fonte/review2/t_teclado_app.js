@@ -59,9 +59,12 @@ let srv = null, srv2 = null;
   const ids = {}; for (const k of ['a', 'b']) ids[k] = await H.criarConta(k + '@x', '123456');
   await H.sql(`insert into public.membros(uid,nome,papel) values ($1,'Pedro Brandão','admin'),($2,'Bia Souza','membro')`, [ids.a, ids.b]);
   await H.sql(`insert into public.amizades(de,para,status) values ($1,$2,'aceita')`, [ids.a, ids.b]);
+  /* iPhone no WebKit (motor do Safari) quando existir nesta máquina (no GitHub existe); senão Chromium com o aparelho */
+  let brW = null; try { brW = await require('playwright').webkit.launch() } catch (e) { brW = null }
   const br = await U.navegador();
+  console.log('iPhone em: ' + (brW ? 'WebKit' : 'Chromium com o aparelho "iPhone 13" (WebKit não está instalado aqui)'));
   const abrir = async (k, o) => { const { viewport, deviceScaleFactor, isMobile, hasTouch, userAgent } = devices[o.dev];
-    const p = U.erros(await H.pagina(br, { sessao: { user: { id: ids[k], email: k + '@x' } }, viewport, ctx: { deviceScaleFactor: Math.min(2, deviceScaleFactor), isMobile, hasTouch, userAgent } }), o.n);
+    const p = U.erros(await H.pagina(o.dev === 'iPhone 13' && brW ? brW : br, { sessao: { user: { id: ids[k], email: k + '@x' } }, viewport, ctx: { deviceScaleFactor: Math.min(2, deviceScaleFactor), isMobile, hasTouch, userAgent } }), o.n);
     await p.addInitScript(() => { try { for (const x of ['foco', 'semreels', 'visual']) localStorage.setItem('prumo-teste-' + x, '1'); localStorage.setItem('prumo-fase2', '1') } catch (e) { } });
     if (o.vv) await p.addInitScript(FAKE_VV); await p.addInitScript(MEDE);
     await p.goto(o.base); await esperar(p, () => typeof S !== 'undefined' && S.membro && S.amigosOk && PUB.on === true && FEED && FEED.pautas, null, 20000); await sleep(500); await fecha(p); return p };
@@ -140,5 +143,5 @@ let srv = null, srv2 = null;
   for (const P of [I, A]) ok(!(P._erros || []).length, 'sem erros no console', P._erros);
   fs.writeFileSync(path.join(QA, PFX + 'medidas.json'), JSON.stringify(R, null, 1));
   const RS = U.resumo(); console.log(`\nRESUMO t_teclado_app: ${RS.OKS} ok, ${RS.FALHAS} falhas`);
-  await br.close(); srv.kill(); srv2.kill(); process.exit(RS.FALHAS ? 1 : 0);
+  await br.close(); if (brW) await brW.close(); srv.kill(); srv2.kill(); process.exit(RS.FALHAS ? 1 : 0);
 })().catch(e => { console.log('Error', e); try { srv && srv.kill(); srv2 && srv2.kill() } catch (_) { } process.exit(1) });
