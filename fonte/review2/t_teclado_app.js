@@ -110,7 +110,9 @@ let srv = null, srv2 = null;
     try { await T.abre(P) } catch (e) { ok(false, `${n} · ${T.nome}: abrir`, String(e).slice(0, 200)); return }
     await sleep(350);
     if (!(await ev(P, c => !!document.querySelector(c), T.campo))) { ok(false, `${n} · ${T.nome}: campo ${T.campo} na tela`); return }
-    const y0 = await ev(P, () => scrollY), cx0 = await caixa(P, T.campo);
+    const y0 = await ev(P, () => scrollY); let cx0 = await caixa(P, T.campo);
+    /* espera a folha terminar de subir (no WebKit a animação demora mais) antes de guardar a posição */
+    for (let i = 0; i < 12; i++) { await sleep(120); const c = await caixa(P, T.campo); if (c && cx0 && c.t === cx0.t && c.b === cx0.b) break; cx0 = c }
     /* foca como o dedo faz (o toque no iPhone foca e abre o teclado) */
     await ev(P, c => { const f = document.querySelector(c); f.focus(); try { if (f.setSelectionRange) f.setSelectionRange(f.value.length, f.value.length) } catch (e) { } }, T.campo);
     await kbOn(); await sleep(500);
