@@ -175,8 +175,10 @@ async function criar(opts = {}) {
     pages.add(page); page.on('close', () => pages.delete(page));
     return page;
   }
+  // a mesma fila das chamadas da página (para o teste mandar uma chamada "de fora", ex.: um fetch interceptado)
+  function naFila(uid, op) { return (fila = fila.then(() => exec(uid, op).catch(e => ({ error: { message: e.message, code: e.code } })))) }
   async function criarConta(email, senha) { const r = await exec(null, { kind: 'signup', email, password: senha }); return r.data.id }
   async function sql(q, p) { return (await db.query(q, p)).rows }
-  return { db, pagina, criarConta, sql, log, comoUsuario, exec, ST };
+  return { db, pagina, criarConta, sql, log, comoUsuario, exec, naFila, ST };
 }
 module.exports = { criar };

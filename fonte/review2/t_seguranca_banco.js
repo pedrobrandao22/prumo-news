@@ -5,7 +5,7 @@ const U = require('../t_util'); const { ok } = U; const fs = require('fs'), path
 (async () => {
   const raiz = path.join(__dirname, '..'), ler = f => fs.readFileSync(path.join(raiz, f), 'utf8');
   const SEG = ler('sql/seguranca-2026-11-09.sql'), ANTES = ler('sql/prumo-supabase.antes-seg.sql'), ATUAL = ler('prumo-supabase.sql');
-  ok(ATUAL.trimEnd().endsWith(SEG.trimEnd()) && ATUAL.trim() === (ANTES.trimEnd() + '\n\n' + SEG).trim(), 'o arquivo de correções está igual no fim do prumo-supabase.sql (e a cópia de antes é o resto)');
+  ok(ATUAL.trim().startsWith((ANTES.trimEnd() + '\n\n' + SEG).trim()) /* versões depois desta (v15…) vêm em seguida */, 'o arquivo de correções está igual no fim do prumo-supabase.sql (e a cópia de antes é o resto)');
 
   // Storage falso (o banco dos testes não tem) com as regras dos arquivos de produção (v1, v2, v6, v7, v8, v9; a da v14 já está no SQL)
   const fake = `create schema if not exists storage; create table if not exists storage.objects(id uuid primary key default gen_random_uuid(), bucket_id text, name text, owner uuid, metadata jsonb, created_at timestamptz default now());
@@ -177,7 +177,7 @@ const U = require('../t_util'); const { ok } = U; const fs = require('fs'), path
   }
 
   const A = await cenario(fa), D = await cenario(fd);
-  const ANON_OK = 'capa_fixa,coluna_publica,colunas_publicas,erros_abertos,foto_de_coluna_publica,newsletter_assinar,newsletter_cancelar,newsletter_confirmar';
+  const ANON_OK = 'capa_fixa,coluna_publica,colunas_publicas,erros_abertos,foto_de_coluna_publica,newsletter_assinar,newsletter_cancelar,newsletter_confirmar,tl142_ligado,tl142_registrar';
 
   /* ---------- deve continuar funcionando (depois) ---------- */
   ok(D.f_post && D.f_curtir && D.f_curtir_dup === '23505' && D.f_comentar && D.f_votar && D.f_msg && D.f_editar, 'continua: post, curtida (repetida dá 23505, como o app espera), comentário, voto, mensagem e editar', D);

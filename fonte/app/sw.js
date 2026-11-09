@@ -156,3 +156,9 @@ self.addEventListener("notificationclick", e => {
     return self.clients.openWindow(url);
   })());
 });
+/* 142: erro do próprio service worker vai para o app, que registra no registro anônimo de erros (se ligado e com a v15) */
+function tl142Avisa(m, l) {
+  try { self.clients.matchAll({ type: "window" }).then(cs => cs.forEach(c => { try { c.postMessage({ prumo: "tl142-erro", m: String(m || "erro").slice(0, 300), l: String(l || "sw.js").slice(0, 60) }) } catch (e) { } })).catch(() => { }) } catch (e) { }
+}
+self.addEventListener("error", e => tl142Avisa(e && e.message, "sw.js:" + ((e && e.lineno) || 0)));
+self.addEventListener("unhandledrejection", e => { const r = e && e.reason; tl142Avisa(r && (r.message || String(r)), "sw.js") });
