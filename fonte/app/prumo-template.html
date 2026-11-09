@@ -17241,7 +17241,9 @@ function tc139RevelaJa(){const f=tc139Ativo();if(!f||!TC139.kb||f.closest(TC139_
         if(d){const antes=e.scrollTop;e.scrollTop+=Math.round(d);const feito=e.scrollTop-antes;c={top:c.top-feito,bottom:c.bottom-feito}}}}
     if(e===tela)break;e=e.parentElement}}
 document.addEventListener("focusin",e=>{if(!tc139Campo(e.target))return;tc139F16(e.target);if(!TC139.kb){tc139Vv();return}tc139Marca();tc139Trava();tc139Revela();[120,360].forEach(ms=>setTimeout(tc139Revela,ms))});
-window.addEventListener("input",e=>{if(TC139.kb&&tc139Campo(e.target)&&e.target===document.activeElement)tc139Revela()});
+/* caixa de texto com rolagem própria: escrevendo no fim, a última linha fica à vista dentro da caixa (o Safari às vezes não rola) */
+window.addEventListener("input",e=>{const t=e.target;try{if(t&&t.tagName==="TEXTAREA"&&t.scrollHeight>t.clientHeight+2&&t.selectionEnd>=t.value.length)t.scrollTop=t.scrollHeight}catch(x){}
+  if(TC139.kb&&tc139Campo(t)&&t===document.activeElement)tc139Revela()});
 document.addEventListener("selectionchange",()=>{if(TC139.kb&&tc139Ativo())tc139Revela()});
 document.addEventListener("focusout",()=>setTimeout(()=>{if(!tc139Ativo()){tc139Marca();tc139Trava()}},0));
 /* a tela redesenhou (criação, folha nova): marca de novo */
