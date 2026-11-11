@@ -1,22 +1,438 @@
 {
- "gerado": "2026-11-11T18:00-03:00",
+ "gerado": "2026-11-11T19:29-03:00",
  "desde": "2026-11-11T17:39-03:00",
  "feed_atualizado_em": "2026-11-11T17:49:00-03:00",
  "resumo": {
-  "manchetes": 36,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 34,
-  "pautas_com_novidade": 2,
-  "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 8,
-  "acionar_itens": 0,
+  "manchetes": 201,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 174,
+  "pautas_com_novidade": 5,
+  "pautas_com_novidade_3_fontes": 1,
+  "pautas_com_relatos": 9,
+  "acionar_itens": 3,
   "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (34 assuntos fora do feed, 8 pautas com relatos)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "dado oficial (Senado Federal): O Senado aprovou o PLP 230/2025 por 68 votos a 0.; pauta ajuste-fiscal-lula-4: 5 veículos em 90 min depois da última atualização; assunto novo: 3 veículos em 90 min (politica)",
+ "acionar_itens": [
+  {
+   "tipo": "oficial",
+   "id": "senado-vot-7114",
+   "pid": null,
+   "titulo": "O Senado aprovou o PLP 230/2025 por 68 votos a 0.",
+   "motivo": "dado oficial (Senado Federal): O Senado aprovou o PLP 230/2025 por 68 votos a 0."
+  },
+  {
+   "tipo": "pauta",
+   "pid": "ajuste-fiscal-lula-4",
+   "titulo": "Ministro do Planejamento anuncia na CMO ajuste fiscal de R$ 60 bi em 2027",
+   "n_fontes": 5,
+   "motivo": "pauta ajuste-fiscal-lula-4: 5 veículos em 90 min depois da última atualização"
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Senado aprova MP que renegocia dívidas rurais e retira mudanças em regras propostas pela Câmara sobre cigarros eletrônicos",
+   "secao": "politica",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "chave": [
+    "agro",
+    "aprova",
+    "atender",
+    "camara",
+    "cigarros",
+    "concessoes",
+    "dividas",
+    "eletronicos",
+    "mudancas",
+    "permite",
+    "propostas",
+    "regras",
+    "renegocia",
+    "renegociacao",
+    "retira",
+    "rurais",
+    "senado"
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois",
  "novos": [
+  {
+   "assunto": "Papa chega ao Peru, última parada de tour e país onde se tornou latino-americano",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "fontes": [
+    "folha",
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Papa chega ao Peru, última parada de tour e país onde se tornou latino-americano",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/papa-chega-ao-peru-ultima-parada-de-tour-e-pais-onde-se-tornou-latino-americano.shtml",
+     "hora": "11/11 19h24"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Papa Leão XIV chega ao Peru, sua 'segunda pátria', na última etapa do tour pela América do Sul",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/11/papa-leao-xiv-chega-ao-peru-sua-segunda-patria.ghtml",
+     "hora": "11/11 19h04"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Papa Leão XIV visita penitenciária e abraça detentos na Argentina",
+     "url": "https://www.metropoles.com/mundo/papa-leao-xiv-visita-penitenciaria-e-abraca-detentos-na-argentina",
+     "hora": "11/11 18h58"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Senado aprova MP que renegocia dívidas rurais e retira mudanças em regras propostas pela Câmara sobre cigarros eletrônicos",
+   "secao": "politica",
+   "n_fontes": 3,
+   "fontes": [
+    "folha",
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Senado aprova MP que renegocia dívidas rurais e retira mudanças em regras propostas pela Câmara sobre cigarros eletrônicos",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/11/senado-aprova-mp-que-renegocia-dividas-rurais-e-retira-mudancas-em-regras-propostas-pela-camara-sobre-cigarros-eletronicos.ghtml",
+     "hora": "11/11 18h41"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Senado aprova renegociação de dívidas rurais após concessões para atender agro",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/agro/2026/11/senado-aprova-renegociacao-de-dividas-rurais-apos-concessoes-para-adender-agro.shtml",
+     "hora": "11/11 18h37"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Senado aprova MP que permite renegociação de dívidas rurais",
+     "url": "https://www.metropoles.com/brasil/senado-aprova-mp-que-permite-renegociacao-de-dividas-rurais",
+     "hora": "11/11 18h31"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Gilmar suspende ações sobre tabela SUS e trava precatórios em todo país",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "met",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Gilmar suspende ações sobre tabela SUS e trava precatórios em todo país",
+     "url": "https://www.poder360.com.br/poder-justica/gilmar-suspende-acoes-sobre-tabela-sus-e-trava-precatorios-em-todo-pais/",
+     "hora": "11/11 19h24"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Gilmar suspende ações sobre tabela SUS e trava precatórios em todo o país",
+     "url": "https://www.metropoles.com/colunas/manoela-alcantara/gilmar-suspende-acoes-sobre-tabela-sus-e-trava-precatorios-em-todo-o-pais",
+     "hora": "11/11 18h56"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Tarcísio anuncia Ricardo Salles e mais 5 secretários para 2027",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "met",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Tarcísio anuncia Ricardo Salles e mais 5 secretários para 2027",
+     "url": "https://www.poder360.com.br/poder-brasil/tarcisio-anuncia-ricardo-salles-e-mais-5-secretarios-para-2027/",
+     "hora": "11/11 19h06"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Com Salles, Tarcísio anuncia três novos secretários de governo; veja nomes",
+     "url": "https://www.metropoles.com/sao-paulo/com-salles-tarcisio-anuncia-tres-novos-secretarios-de-governo-veja-nomes",
+     "hora": "11/11 18h48"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Vice-prefeito de SP pede apuração de contratos da secretária de Esportes",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Vice-prefeito de SP pede apuração de contratos da secretária de Esportes",
+     "url": "https://www.poder360.com.br/poder-brasil/vice-prefeito-de-sp-pede-apuracao-de-contratos-da-secretaria-de-esportes/",
+     "hora": "11/11 18h59"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Suspeita de fraude em entidade e contratos de marmitas: vice-prefeito de SP apresentou outras quatro denúncias contra a própria gestão",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/11/fraude-em-entidade-e-contratos-de-marmitas-vice-prefeito-de-sp-apresentou-outras-quatro-denuncias-contra-a-propria-gestao.ghtml",
+     "hora": "11/11 18h30"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "'Não tem coração', diz, em enterro, viúva sobre motorista que matou frentista no Camorim",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Não tem coração', diz, em enterro, viúva sobre motorista que matou frentista no Camorim",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/11/enterro-frentista-assassinado-no-camorim-no-rio.ghtml",
+     "hora": "11/11 18h50"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "'Tribunal do crime': mulher é encontrada morta com marcas de tiros e suspeita de abuso sexual no Pará",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Tribunal do crime': mulher é encontrada morta com marcas de tiros e suspeita de abuso sexual no Pará",
+     "url": "https://g1.globo.com/pa/para/noticia/2026/11/11/tribunal-do-crime-mulher-e-encontrada-morta-com-marcas-de-tiros-e-suspeita-de-abuso-sexual-no-para.ghtml",
+     "hora": "11/11 19h05"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "A Fazenda 18: equipe de Serginho pede que público tire Tina do reality",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "A Fazenda 18: equipe de Serginho pede que público tire Tina do reality",
+     "url": "https://www.metropoles.com/colunas/fabia-oliveira/a-fazenda-18-equipe-de-serginho-pede-que-publico-tire-tina-do-reality",
+     "hora": "11/11 19h11"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "AO VIVO: Assista ao GR2",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "AO VIVO: Assista ao GR2",
+     "url": "https://g1.globo.com/pe/petrolina-regiao/ao-vivo/ao-vivo-assista-ao-gr2.ghtml",
+     "hora": "11/11 18h48"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "AO VIVO: Assista ao JAC2 com Quésia Melo",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "AO VIVO: Assista ao JAC2 com Quésia Melo",
+     "url": "https://g1.globo.com/ac/acre/ao-vivo/ao-vivo-assista-ao-jac2-com-quesia-melo.ghtml",
+     "hora": "11/11 19h02"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Abastecimento de água pode ser afetado em 10 bairros de Maceió; veja quais",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Abastecimento de água pode ser afetado em 10 bairros de Maceió; veja quais",
+     "url": "https://g1.globo.com/al/alagoas/noticia/2026/11/11/abastecimento-de-agua-pode-ser-afetado-em-10-bairros-de-maceio-veja-quais.ghtml",
+     "hora": "11/11 18h56"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Acusados de matar jovem desaparecida há 12 anos são absolvidos; corpo nunca foi encontrado",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Acusados de matar jovem desaparecida há 12 anos são absolvidos; corpo nunca foi encontrado",
+     "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/11/jovem-desaparecida-acusados-absolvidos.ghtml",
+     "hora": "11/11 18h01"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Agentes evitam saque de carga de chope após barris caírem de caminhão em Volta Redonda",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Agentes evitam saque de carga de chope após barris caírem de caminhão em Volta Redonda",
+     "url": "https://g1.globo.com/rj/sul-do-rio-costa-verde/noticia/2026/11/11/agentes-evitam-saque-de-carga-de-chope-apos-barris-cairem-de-caminhao-em-volta-redonda.ghtml",
+     "hora": "11/11 18h35"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Alcolumbre defende licitação de iPhones e diz que senadores podem recusar",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Alcolumbre defende licitação de iPhones e diz que senadores podem recusar",
+     "url": "https://www.metropoles.com/brasil/alcolumbre-defende-licitacao-de-iphones-e-diz-que-senadores-podem-recusar",
+     "hora": "11/11 19h03"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Alea amplia presença em Campinas e Sorocaba com meta de 1.000 casas anuais",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Alea amplia presença em Campinas e Sorocaba com meta de 1.000 casas anuais",
+     "url": "https://g1.globo.com/sp/campinas-regiao/especial-publicitario/alea/noticia/2026/11/11/alea-amplia-presenca-em-campinas-e-sorocaba-com-meta-de-1000-casas-anuais.ghtml",
+     "hora": "11/11 17h57"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Alfa Nano desenvolve potássio foliar para reduzir importações",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Alfa Nano desenvolve potássio foliar para reduzir importações",
+     "url": "https://www.poder360.com.br/poder-economia/alfa-nano-desenvolve-potassio-foliar-para-reduzir-importacoes/",
+     "hora": "11/11 19h26"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Altos confirma acerto com zagueiro Tallyson Gabriel, ex-Moto Club, para 2027",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Altos confirma acerto com zagueiro Tallyson Gabriel, ex-Moto Club, para 2027",
+     "url": "https://ge.globo.com/pi/futebol/noticia/2026/11/11/altos-confirma-acerto-com-zagueiro-tallyson-gabriel-ex-moto-club-para-2027.ghtml",
+     "hora": "11/11 18h52"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
   {
    "assunto": "Amazonense Audinho é convocado para amistosos da Seleção Brasileira Sub-16",
    "secao": "esportes",
@@ -35,6 +451,184 @@
     }
    ],
    "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Apartamento invadido por homem vestido de mulher em Brasília é de ex-secretário de Cultura do DF",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Apartamento invadido por homem vestido de mulher em Brasília é de ex-secretário de Cultura do DF",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/11/apartamento-invadido-por-homem-vestido-de-mulher-em-brasilia-e-de-ex-secretario-de-cultura-do-df.ghtml",
+     "hora": "11/11 19h13"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Argentina rejeita decisão do Irã de classificar forças como terroristas",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Argentina rejeita decisão do Irã de classificar forças como terroristas",
+     "url": "https://www.metropoles.com/mundo/argentina-rejeita-decisao-do-ira-de-classificar-forcas-como-terroristas",
+     "hora": "11/11 19h14"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Assista ao BATV",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao BATV",
+     "url": "https://g1.globo.com/ba/bahia/ao-vivo/assista-aos-telejornais-da-tv-bahia.ghtml",
+     "hora": "11/11 18h51"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Assista ao BATV da TV Subaé",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao BATV da TV Subaé",
+     "url": "https://g1.globo.com/ba/feira-de-santana-regiao/ao-vivo/assista-aos-telejornais-da-tv-subae.ghtml",
+     "hora": "11/11 18h38"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Assista ao Boa Noite Espírito Santo",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao Boa Noite Espírito Santo",
+     "url": "https://g1.globo.com/es/espirito-santo/ao-vivo/ao-vivo-assista-ao-boa-noite-espirito-santo.ghtml",
+     "hora": "11/11 19h01"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Assista ao JAP2 desta quarta (11)",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao JAP2 desta quarta (11)",
+     "url": "https://g1.globo.com/ap/ao-vivo/assista-ao-jap2-desta-terca-10.ghtml",
+     "hora": "11/11 19h07"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Assista ao JRO2 desta quarta-feira, 11",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao JRO2 desta quarta-feira, 11",
+     "url": "https://g1.globo.com/ro/rondonia/ao-vivo/assista-ao-jro2-desta-quarta-feira-11.ghtml",
+     "hora": "11/11 19h06"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Assista ao Jornal Vanguarda ao vivo no g1",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao Jornal Vanguarda ao vivo no g1",
+     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/ao-vivo/assista-ao-jornal-vanguarda-ao-vivo-no-g1.ghtml",
+     "hora": "11/11 18h56"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Assista aos telejornais da TV Liberal",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista aos telejornais da TV Liberal",
+     "url": "https://g1.globo.com/pa/para/ao-vivo/assista-aos-telejornais-da-tv-liberal.ghtml",
+     "hora": "11/11 19h06"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
   },
   {
    "assunto": "Atlético-PI embarca para Parnaíba, para jogo de ida das semifinais do Piauiense de Futsal",
@@ -75,571 +669,181 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Cacique Raoni está internado há 3 dias após infecção pulmonar em MT",
+   "assunto": "BB e banco alemão farão aporte de 100 milhões de euros em bioeconomia",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "g1"
+    "ab"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Cacique Raoni está internado há 3 dias após infecção pulmonar em MT",
-     "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/11/cacique-raoni-esta-internado-ha-3-dias-apos-infeccao-pulmonar-em-mt.ghtml",
-     "hora": "11/11 17h52"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Caminhão de entulhos tomba na BR-020, em Sobradinho, e deixa três feridos",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Caminhão de entulhos tomba na BR-020, em Sobradinho, e deixa três feridos",
-     "url": "https://www.metropoles.com/distrito-federal/caminhao-tomba-na-br-020-e-deixa-tres-feridos",
-     "hora": "11/11 17h49"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Casamento reúne famosos em Fernando de Noronha; Bruna Marquezine e Shawn Mendes chegam à ilha",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Casamento reúne famosos em Fernando de Noronha; Bruna Marquezine e Shawn Mendes chegam à ilha",
-     "url": "https://g1.globo.com/pe/pernambuco/blog/viver-noronha/post/2026/11/11/casamento-reune-famosos-em-fernando-de-noronha-bruna-marquezine-e-shawn-mendes-chegam-a-ilha.ghtml",
-     "hora": "11/11 17h47"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Caseiro é preso suspeito de simular assalto para furtar armas de fazenda em MT",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Caseiro é preso suspeito de simular assalto para furtar armas de fazenda em MT",
-     "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/11/caseiro-e-preso-suspeito-de-simular-assalto-para-furtar-armas-de-fazenda-em-mt.ghtml",
-     "hora": "11/11 17h47"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Comissão aprova criação de serviço telefônico para atender pessoas com transtornos mentais e familiares",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "agcamara"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Câmara",
-     "titulo": "Comissão aprova criação de serviço telefônico para atender pessoas com transtornos mentais e familiares",
-     "url": "https://www.camara.leg.br/noticias/1318489-comissao-aprova-criacao-de-servico-telefonico-para-atender-pessoas-com-transtornos-mentais-e-familiares",
-     "hora": "11/11 17h45"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Comissão técnica de Vojvoda também aceita voltar ao Fortaleza sem salário",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Comissão técnica de Vojvoda também aceita voltar ao Fortaleza sem salário",
-     "url": "https://ge.globo.com/ce/futebol/times/fortaleza/noticia/2026/11/11/comissao-tecnica-de-vojvoda-tambem-aceita-voltar-ao-fortaleza-sem-salario.ghtml",
-     "hora": "11/11 17h44"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Dourados x Naviraiense - Copa MS 2026 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Dourados x Naviraiense - Copa MS 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/ms/futebol/copa-ms/jogo/11-11-2026/dourados-naviraiense.ghtml",
-     "hora": "11/11 17h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Grêmio tem retornos do departamento médico no primeiro treino da Data Fifa",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Grêmio tem retornos do departamento médico no primeiro treino da Data Fifa",
-     "url": "https://ge.globo.com/rs/futebol/times/gremio/noticia/2026/11/11/gremio-tem-retornos-do-departamento-medico-no-primeiro-treino-da-data-fifa.ghtml",
-     "hora": "11/11 17h46"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "IPO da Anthropic atrai procura várias vezes maior que oferta de ações",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "IPO da Anthropic atrai procura várias vezes maior que oferta de ações",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/ipo-da-anthropic-atrai-procura-varias-vezes-maior-que-oferta-de-acoes.shtml",
-     "hora": "11/11 17h50"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Importar 90% do potássio é risco à soberania, diz especialista",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Importar 90% do potássio é risco à soberania, diz especialista",
-     "url": "https://www.poder360.com.br/poder-infra/importar-90-do-potassio-e-risco-a-soberania-diz-especialista/",
-     "hora": "11/11 17h49"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Matteus Amaral é alvo do TRE por irregularidades em prestação de contas",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Matteus Amaral é alvo do TRE por irregularidades em prestação de contas",
-     "url": "https://www.metropoles.com/celebridades/matteus-amaral-e-alvo-do-tre-apos-irregularidades-em-prestacao-de-contas",
-     "hora": "11/11 17h40"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Mortes: Entre pastéis e risadas, Sussu foi mãe para muitos e uma avó de contos de fadas",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Mortes: Entre pastéis e risadas, Sussu foi mãe para muitos e uma avó de contos de fadas",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/mortes-entre-pasteis-e-risadas-sussu-foi-mae-para-muitos-e-uma-avo-de-contos-de-fadas.shtml",
-     "hora": "11/11 17h39"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Motorista que viu bandido morrer atropelado será indenizado em R$ 100 mil",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Motorista que viu bandido morrer atropelado será indenizado em R$ 100 mil",
-     "url": "https://www.metropoles.com/brasil/motorista-que-viu-bandido-morrer-atropelado-sera-indenizado-em-r-100-mil",
-     "hora": "11/11 17h53"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Mãe e filho que esperavam van escolar escapam de carro desgovernado por centímetros, no Paraná: 'Foi a mão de Deus que segurou'; assista",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Mãe e filho que esperavam van escolar escapam de carro desgovernado por centímetros, no Paraná: 'Foi a mão de Deus que segurou'; assista",
-     "url": "https://g1.globo.com/pr/campos-gerais-sul/noticia/2026/11/11/video-mae-filho-escapam-carro-ipiranga-parana.ghtml",
-     "hora": "11/11 17h41"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "O que colocar na mochila de emergência e por que você deve ter uma — preventivamente",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "bbc"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "O que colocar na mochila de emergência e por que você deve ter uma — preventivamente",
-     "url": "https://www.bbc.com/portuguese/articles/cm62p37dgxzzo?at_medium=RSS&at_campaign=rss",
-     "hora": "11/11 17h53"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Operação prende três suspeitos de integrar grupo criminoso envolvido em homicídios e ataques a bancos na Bahia",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Operação prende três suspeitos de integrar grupo criminoso envolvido em homicídios e ataques a bancos na Bahia",
-     "url": "https://g1.globo.com/ba/feira-de-santana-regiao/noticia/2026/11/11/operacao-prende-suspeitos-de-integrar-grupo-criminoso-na-bahia.ghtml",
-     "hora": "11/11 17h40"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Parlamentares querem isentar 'imposto do pecado' para refrigerante zero, picape, lancha e vinho de consagração",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Poder",
-     "titulo": "Parlamentares querem isentar 'imposto do pecado' para refrigerante zero, picape, lancha e vinho de consagração",
-     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/parlamentares-querem-isentar-imposto-do-pecado-para-refrigerante-zero-picape-lancha-e-vinho-de-consagracao.shtml",
-     "hora": "11/11 18h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Petrolina x Chã Grande - Campeonato Pernambucano 2026/2027 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Petrolina x Chã Grande - Campeonato Pernambucano 2026/2027 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/pe/petrolina-regiao/futebol/campeonato-pernambucano/jogo/11-11-2026/petrolina-chagrande.ghtml",
-     "hora": "11/11 17h51"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Petróleo fecha em alta após Irã elevar tensões com ameaça de ataques à Europa",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Petróleo fecha em alta após Irã elevar tensões com ameaça de ataques à Europa",
-     "url": "https://www.infomoney.com.br/mercados/petroleo-abertura-fechamento-ira-eua-11112026/",
-     "hora": "11/11 17h47"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Placas sobre entrega de bebês para adoção se tornam obrigatórias em BH",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Placas sobre entrega de bebês para adoção se tornam obrigatórias em BH",
-     "url": "https://www.metropoles.com/minas-gerais/placas-sobre-entrega-de-bebes-para-adocao-se-tornam-obrigatorias-em-bh",
-     "hora": "11/11 17h43"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Policiais levaram cachaça para presos disfarçada de água sanitária, diz MP",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Policiais levaram cachaça para presos disfarçada de água sanitária, diz MP",
-     "url": "https://www.metropoles.com/colunas/alfredo-henrique/policiais-levaram-cachaca-para-presos-disfarcada-de-agua-sanitaria-diz-mp",
-     "hora": "11/11 17h50"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Projeto do Festival MADA leva música potiguar a seis escolas públicas de Natal",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Projeto do Festival MADA leva música potiguar a seis escolas públicas de Natal",
-     "url": "https://g1.globo.com/rn/rio-grande-do-norte/noticia/2026/11/11/projeto-do-festival-mada-leva-musica-potiguar-a-seis-escolas-publicas-de-natal.ghtml",
-     "hora": "11/11 17h43"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Roubo de celular termina com PM de braço quebrado e 21 policiais acionados",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Roubo de celular termina com PM de braço quebrado e 21 policiais acionados",
-     "url": "https://www.metropoles.com/sao-paulo/roubo-de-celular-termina-com-pm-de-braco-quebrado-e-21-policiais-acionados",
-     "hora": "11/11 17h51"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Selo que favorece a produção de café artesanal vai ao Plenário",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "agsenado"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Senado",
-     "titulo": "Selo que favorece a produção de café artesanal vai ao Plenário",
-     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/11/selo-que-favorece-a-producao-de-cafe-artesanal-vai-ao-plenario",
-     "hora": "11/11 17h50"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Senado aprova MP da renegociação de dívidas do agronegócio",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Senado aprova MP da renegociação de dívidas do agronegócio",
-     "url": "https://www.poder360.com.br/poder-congresso/senado-aprova-mp-da-renegociacao-de-dividas-do-agronegocio/",
-     "hora": "11/11 17h54"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Sobrinho de Ayrton Senna revela detalhes do encontro com Kimi Antonelli",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Sobrinho de Ayrton Senna revela detalhes do encontro com Kimi Antonelli",
-     "url": "https://www.metropoles.com/esportes/sobrinho-de-ayrton-senna-revela-detalhes-do-encontro-com-kimi-antonelli",
-     "hora": "11/11 17h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Suspeito de matar ex-sogra morre em confronto policial no interior de Sergipe",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Suspeito de matar ex-sogra morre em confronto policial no interior de Sergipe",
-     "url": "https://g1.globo.com/se/sergipe/noticia/2026/11/11/suspeito-de-matar-ex-sogra-morre-em-confronto-policial-no-interior-de-sergipe.ghtml",
-     "hora": "11/11 17h42"
+     "veiculo": "Agência Brasil",
+     "titulo": "BB e banco alemão farão aporte de 100 milhões de euros em bioeconomia",
+     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/bb-e-banco-alemao-farao-aporte-de-100-milhoes-de-euros-em-bioeconomia",
+     "hora": "11/11 18h21"
     }
    ],
    "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
-  "papa-leao-xiv-america-latina": {
-   "secao": "mundo",
-   "n_fontes": 1,
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 3,
    "manchetes": [
     {
-     "veiculo": "Poder360",
-     "titulo": "Papa Leão 14 abraça presos durante visita a penitenciária na Argentina",
-     "url": "https://www.poder360.com.br/poder-internacional/papa-leao-14-abraca-presos-durante-visita-a-penitenciaria-na-argentina/",
-     "hora": "11/11 17h43"
+     "veiculo": "Agência Senado",
+     "titulo": "Ministro do Planejamento anuncia na CMO ajuste fiscal de R$ 60 bi em 2027",
+     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/11/ministro-do-planejamento-anuncia-na-cmo-ajuste-fiscal-de-r-60-bi-em-2027",
+     "hora": "11/11 19h18"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Limite de supersalários, mudanças no piso da saúde; veja as medidas do governo para ajuste fiscal de até R$ 60 bilhões",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/11/limite-de-supersalarios-mudancas-no-piso-da-saude-veja-as-medidas-do-governo-para-ajuste-fiscal-de-ate-r-60-bilhoes.ghtml",
+     "hora": "11/11 19h03"
+    },
+    {
+     "veiculo": "Agência Câmara",
+     "titulo": "Ministro do Planejamento anuncia novas medidas de ajuste fiscal para 2027",
+     "url": "https://www.camara.leg.br/noticias/1318603-ministro-do-planejamento-anuncia-novas-medidas-de-ajuste-fiscal-para-2027",
+     "hora": "11/11 18h28"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Governo anuncia medidas de ajuste para economia de até R$ 60 bilhões",
+     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/governo-anuncia-medidas-de-ajuste-para-economia-de-ate-r-60-bilhoes",
+     "hora": "11/11 17h48"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Deputado do PT diz a ministro que ajuste fiscal não pode ser aprovado 'goela abaixo'",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/deputado-do-pt-diz-a-ministro-que-ajuste-fiscal-nao-pode-ser-goela-abaixo.shtml",
+     "hora": "11/11 18h14"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Alcolumbre definirá na quinta-feira se vota ou adia projeto de ajuste fiscal",
+     "url": "https://www.infomoney.com.br/politica/alcolumbre-definira-na-quinta-feira-se-vota-ou-adia-projeto-de-ajuste-fiscal/",
+     "hora": "11/11 19h17"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Projeto de ajuste fiscal autoriza tirar até R$ 10,5 bi de subvenção ao diesel da meta de 2026",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/projeto-de-ajuste-fiscal-autoriza-tirar-ate-r-105-bi-de-subvencao-ao-diesel-da-meta-de-2026.shtml",
+     "hora": "11/11 19h09"
     }
    ]
   },
-  "ajuste-fiscal-lula-4": {
+  "fachin-arquiva-fake-news": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Agência Senado",
+     "titulo": "Amin questiona remanejamento de delegados que atuaram no inquérito das fake news",
+     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/11/amin-questiona-remanejamento-de-delegados-que-atuaram-no-inquerito-das-fake-news",
+     "hora": "11/11 18h14"
+    }
+   ]
+  },
+  "imposto-seletivo-mp": {
    "secao": "economia",
    "n_fontes": 1,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Governo apresenta ao Senado projeto para ajuste fiscal em 2027",
-     "url": "https://www.infomoney.com.br/politica/governo-apresenta-ao-senado-projeto-para-ajuste-fiscal-em-2027/",
-     "hora": "11/11 17h54"
+     "veiculo": "Folha Mercado",
+     "titulo": "Empresa de cigarro critica emendas para baixar Imposto Seletivo aplicado ao setor",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/painelsa/2026/11/empresa-de-cigarro-critica-emendas-para-baixar-imposto-seletivo-aplicado-ao-setor.shtml",
+     "hora": "11/11 18h24"
+    }
+   ]
+  },
+  "copa-do-brasil-semifinal-ida-palmeiras-vasco-gremio-atletico": {
+   "secao": "esportes",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Haaland comenta em post sobre a Copa do Mundo Feminina no Brasil",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/noticia/2026/11/11/haaland-comenta-em-post-sobre-a-copa-do-mundo-feminina-no-brasil.ghtml",
+     "hora": "11/11 18h38"
+    }
+   ]
+  },
+  "maioridade-penal-pec": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Agência Câmara",
+     "titulo": "Relator aponta amadurecimento do debate sobre redução da maioridade penal e marca votação para dezembro",
+     "url": "https://www.camara.leg.br/noticias/1318624-relator-aponta-amadurecimento-do-debate-sobre-reducao-da-maioridade-penal-e-marca-votacao-para-dezembro",
+     "hora": "11/11 18h50"
     }
    ]
   }
  },
  "novos_relatos": {
   "ajuste-fiscal-lula-4": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 6,
+   "n_fontes": 5,
    "fontes": [
+    "agcamara",
+    "agsenado",
+    "folha",
+    "g1",
     "im"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "11/11 17h54",
-   "ultima_iso": "2026-11-11T17:54-03:00",
+   "n_fontes_90min": 5,
+   "ultima": "11/11 19h18",
+   "ultima_iso": "2026-11-11T19:18-03:00",
    "pauta_atualizada_em": "2026-11-11T17:48-03:00",
-   "horas_sem_atualizar": 0.2,
+   "horas_sem_atualizar": 1.7,
    "principal": true,
    "manchetes": [
     {
+     "veiculo": "Agência Senado",
+     "titulo": "Ministro do Planejamento anuncia na CMO ajuste fiscal de R$ 60 bi em 2027",
+     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/11/ministro-do-planejamento-anuncia-na-cmo-ajuste-fiscal-de-r-60-bi-em-2027",
+     "hora": "11/11 19h18"
+    },
+    {
      "veiculo": "InfoMoney",
-     "titulo": "Governo apresenta ao Senado projeto para ajuste fiscal em 2027",
-     "url": "https://www.infomoney.com.br/politica/governo-apresenta-ao-senado-projeto-para-ajuste-fiscal-em-2027/",
-     "hora": "11/11 17h54"
+     "titulo": "Alcolumbre definirá na quinta-feira se vota ou adia projeto de ajuste fiscal",
+     "url": "https://www.infomoney.com.br/politica/alcolumbre-definira-na-quinta-feira-se-vota-ou-adia-projeto-de-ajuste-fiscal/",
+     "hora": "11/11 19h17"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Projeto de ajuste fiscal autoriza tirar até R$ 10,5 bi de subvenção ao diesel da meta de 2026",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/projeto-de-ajuste-fiscal-autoriza-tirar-ate-r-105-bi-de-subvencao-ao-diesel-da-meta-de-2026.shtml",
+     "hora": "11/11 19h09"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Limite de supersalários, mudanças no piso da saúde; veja as medidas do governo para ajuste fiscal de até R$ 60 bilhões",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/11/limite-de-supersalarios-mudancas-no-piso-da-saude-veja-as-medidas-do-governo-para-ajuste-fiscal-de-ate-r-60-bilhoes.ghtml",
+     "hora": "11/11 19h03"
+    },
+    {
+     "veiculo": "Agência Câmara",
+     "titulo": "Ministro do Planejamento anuncia novas medidas de ajuste fiscal para 2027",
+     "url": "https://www.camara.leg.br/noticias/1318603-ministro-do-planejamento-anuncia-novas-medidas-de-ajuste-fiscal-para-2027",
+     "hora": "11/11 18h28"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Deputado do PT diz a ministro que ajuste fiscal não pode ser aprovado 'goela abaixo'",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/deputado-do-pt-diz-a-ministro-que-ajuste-fiscal-nao-pode-ser-goela-abaixo.shtml",
+     "hora": "11/11 18h14"
     }
    ]
   },
   "decreto-6x1-adiado": {
-   "n": 2,
+   "n": 1,
    "n_fontes": 1,
    "fontes": [
     "folha"
@@ -648,7 +852,7 @@
    "ultima": "11/11 15h03",
    "ultima_iso": "2026-11-11T15:03-03:00",
    "pauta_atualizada_em": "2026-11-10T19:48-03:00",
-   "horas_sem_atualizar": 22.2,
+   "horas_sem_atualizar": 23.7,
    "principal": true,
    "manchetes": [
     {
@@ -656,33 +860,27 @@
      "titulo": "Setores pressionam Alcolumbre por regras específicas para o fim da escala 6x1",
      "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/setores-pressionam-alcolumbre-por-regras-especificas-para-o-fim-da-escala-6x1.shtml",
      "hora": "11/11 15h03"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Gilmar Mendes defende negociação coletiva para viabilizar fim da escala 6x1",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/gilmar-mendes-defende-negociacao-coletiva-para-viabilizar-fim-da-escala-6x1.shtml",
-     "hora": "11/11 12h23"
     }
    ]
   },
-  "dolar-volta-acima-5": {
+  "maioridade-penal-pec": {
    "n": 1,
    "n_fontes": 1,
    "fontes": [
-    "im"
+    "agcamara"
    ],
    "n_fontes_90min": 1,
-   "ultima": "11/11 17h24",
-   "ultima_iso": "2026-11-11T17:24-03:00",
-   "pauta_atualizada_em": "2026-11-10T21:48-03:00",
-   "horas_sem_atualizar": 20.2,
-   "principal": true,
+   "ultima": "11/11 18h50",
+   "ultima_iso": "2026-11-11T18:50-03:00",
+   "pauta_atualizada_em": "2026-11-11T06:55-03:00",
+   "horas_sem_atualizar": 12.6,
+   "principal": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Criptos: bitcoin sobe e sustenta faixa de US$ 74 mil mesmo com mercado vulnerável",
-     "url": "https://www.infomoney.com.br/mercados/criptos-bitcoin-sobe-e-sustenta-faixa-de-us-74-mil-mesmo-com-mercado-vulneravel/",
-     "hora": "11/11 17h24"
+     "veiculo": "Agência Câmara",
+     "titulo": "Relator aponta amadurecimento do debate sobre redução da maioridade penal e marca votação para dezembro",
+     "url": "https://www.camara.leg.br/noticias/1318624-relator-aponta-amadurecimento-do-debate-sobre-reducao-da-maioridade-penal-e-marca-votacao-para-dezembro",
+     "hora": "11/11 18h50"
     }
    ]
   },
@@ -690,54 +888,62 @@
    "n": 1,
    "n_fontes": 1,
    "fontes": [
-    "folha"
+    "agsenado"
    ],
    "n_fontes_90min": 1,
-   "ultima": "11/11 12h41",
-   "ultima_iso": "2026-11-11T12:41-03:00",
+   "ultima": "11/11 18h14",
+   "ultima_iso": "2026-11-11T18:14-03:00",
    "pauta_atualizada_em": "2026-11-11T06:55-03:00",
-   "horas_sem_atualizar": 11.1,
+   "horas_sem_atualizar": 12.6,
    "principal": false,
    "manchetes": [
     {
-     "veiculo": "Folha Poder",
-     "titulo": "Moraes deve manter poder após inquérito das fake news com ações sobre crime organizado no RJ e Willer",
-     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/moraes-deve-manter-poder-apos-inquerito-das-fake-news-com-acoes-sobre-crime-organizado-no-rj-e-willer.shtml",
-     "hora": "11/11 12h41"
+     "veiculo": "Agência Senado",
+     "titulo": "Amin questiona remanejamento de delegados que atuaram no inquérito das fake news",
+     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/11/amin-questiona-remanejamento-de-delegados-que-atuaram-no-inquerito-das-fake-news",
+     "hora": "11/11 18h14"
     }
    ]
   },
   "papa-leao-xiv-america-latina": {
-   "n": 3,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "cnn",
-    "p360"
+    "met"
    ],
    "n_fontes_90min": 1,
-   "ultima": "11/11 17h43",
-   "ultima_iso": "2026-11-11T17:43-03:00",
+   "ultima": "11/11 18h58",
+   "ultima_iso": "2026-11-11T18:58-03:00",
    "pauta_atualizada_em": "2026-11-09T06:54-03:00",
-   "horas_sem_atualizar": 59.1,
+   "horas_sem_atualizar": 60.6,
    "principal": false,
    "manchetes": [
     {
-     "veiculo": "Poder360",
-     "titulo": "Papa Leão 14 abraça presos durante visita a penitenciária na Argentina",
-     "url": "https://www.poder360.com.br/poder-internacional/papa-leao-14-abraca-presos-durante-visita-a-penitenciaria-na-argentina/",
-     "hora": "11/11 17h43"
-    },
+     "veiculo": "Metrópoles",
+     "titulo": "Papa Leão XIV visita penitenciária e abraça detentos na Argentina",
+     "url": "https://www.metropoles.com/mundo/papa-leao-xiv-visita-penitenciaria-e-abraca-detentos-na-argentina",
+     "hora": "11/11 18h58"
+    }
+   ]
+  },
+  "copa-do-brasil-semifinal-ida-palmeiras-vasco-gremio-atletico": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "11/11 18h38",
+   "ultima_iso": "2026-11-11T18:38-03:00",
+   "pauta_atualizada_em": "2026-11-09T06:54-03:00",
+   "horas_sem_atualizar": 60.6,
+   "principal": false,
+   "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Treino da Argentina é atrasado por despedida do Papa Leão XIV; entenda",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/treino-da-argentina-e-atrasado-por-despedida-do-papa-leao-xiv-entenda/",
-     "hora": "11/11 16h07"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Milei se emociona e chora em despedida do papa Leão XIV da Argentina",
-     "url": "https://www.cnnbrasil.com.br/internacional/milei-se-emociona-e-chora-em-despedida-do-papa-leao-xiv-da-argentina/",
-     "hora": "11/11 14h55"
+     "veiculo": "ge",
+     "titulo": "Haaland comenta em post sobre a Copa do Mundo Feminina no Brasil",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/noticia/2026/11/11/haaland-comenta-em-post-sobre-a-copa-do-mundo-feminina-no-brasil.ghtml",
+     "hora": "11/11 18h38"
     }
    ]
   },
@@ -751,7 +957,7 @@
    "ultima": "11/11 17h31",
    "ultima_iso": "2026-11-11T17:31-03:00",
    "pauta_atualizada_em": "2026-11-05T17:48-03:00",
-   "horas_sem_atualizar": 144.2,
+   "horas_sem_atualizar": 145.7,
    "principal": false,
    "manchetes": [
     {
@@ -762,24 +968,24 @@
     }
    ]
   },
-  "brasileirao-31-rodada-lideres": {
+  "imposto-seletivo-mp": {
    "n": 1,
    "n_fontes": 1,
    "fontes": [
-    "ge"
+    "folha"
    ],
    "n_fontes_90min": 1,
-   "ultima": "11/11 12h12",
-   "ultima_iso": "2026-11-11T12:12-03:00",
-   "pauta_atualizada_em": "2026-11-11T06:55-03:00",
-   "horas_sem_atualizar": 11.1,
+   "ultima": "11/11 18h24",
+   "ultima_iso": "2026-11-11T18:24-03:00",
+   "pauta_atualizada_em": "2026-11-06T06:52-03:00",
+   "horas_sem_atualizar": 132.6,
    "principal": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Suspensão de Viveros abre brecha para Pedro, do Flamengo, assumir a artilharia do Brasileirão",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/11/suspensao-de-viveros-abre-brecha-para-pedro-do-flamengo-assumir-a-artilharia-do-brasileirao.ghtml",
-     "hora": "11/11 12h12"
+     "veiculo": "Folha Mercado",
+     "titulo": "Empresa de cigarro critica emendas para baixar Imposto Seletivo aplicado ao setor",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/painelsa/2026/11/empresa-de-cigarro-critica-emendas-para-baixar-imposto-seletivo-aplicado-ao-setor.shtml",
+     "hora": "11/11 18h24"
     }
    ]
   },
@@ -793,7 +999,7 @@
    "ultima": "11/11 14h22",
    "ultima_iso": "2026-11-11T14:22-03:00",
    "pauta_atualizada_em": "2026-11-06T20:21-03:00",
-   "horas_sem_atualizar": 117.7,
+   "horas_sem_atualizar": 119.1,
    "principal": false,
    "manchetes": [
     {
@@ -806,6 +1012,87 @@
   }
  },
  "fotos_livres": [
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Câmara aprova perda de herança para quem tentar interditar idosos de forma fraudulenta",
+   "materia": "https://www.camara.leg.br/noticias/1318722-camara-aprova-perda-de-heranca-para-quem-tentar-interditar-idosos-de-forma-fraudulenta",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261111160140615-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "11/11 19h24",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão de Orçamento aprova relatório preliminar da LDO de 2027",
+   "materia": "https://www.camara.leg.br/noticias/1318622-comissao-de-orcamento-aprova-relatorio-preliminar-da-ldo-de-2027",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/domingos-neto-cmo.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "11/11 19h00",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Câmara decide enviar ao Senado projeto que revoga lei sobre alienação parental; acompanhe",
+   "materia": "https://www.camara.leg.br/noticias/1318504-camara-decide-enviar-ao-senado-projeto-que-revoga-lei-sobre-alienacao-parental-acompanhe",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261110174730315-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "11/11 18h53",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Relator aponta amadurecimento do debate sobre redução da maioridade penal e marca votação para dezembro",
+   "materia": "https://www.camara.leg.br/noticias/1318624-relator-aponta-amadurecimento-do-debate-sobre-reducao-da-maioridade-penal-e-marca-votacao-para-dezembro",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261111172110993-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "11/11 18h50",
+   "pid_sugerido": "maioridade-penal-pec"
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Congresso Nacional realiza sessão nesta quinta-feira",
+   "materia": "https://www.camara.leg.br/noticias/1318646-congresso-nacional-realiza-sessao-nesta-quinta-feira",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20230523102312543-768x576.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "11/11 18h32",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Ministro do Planejamento anuncia novas medidas de ajuste fiscal para 2027",
+   "materia": "https://www.camara.leg.br/noticias/1318603-ministro-do-planejamento-anuncia-novas-medidas-de-ajuste-fiscal-para-2027",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261111153739529-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "11/11 18h28",
+   "pid_sugerido": "ajuste-fiscal-lula-4"
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão aprova obrigatoriedade de pelo menos um local por município para distribuição de absorventes",
+   "materia": "https://www.camara.leg.br/noticias/1318517-comissao-aprova-obrigatoriedade-de-pelo-menos-um-local-por-municipio-para-distribuicao-de-absorventes",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261110161214692-768x474.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "11/11 18h19",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão aprova criação do Cadastro Nacional de Protetores e Associações da Causa Animal",
+   "materia": "https://www.camara.leg.br/noticias/1318499-comissao-aprova-criacao-do-cadastro-nacional-de-protetores-e-associacoes-da-causa-animal",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20251014145020314-1-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "11/11 18h08",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Deputadas e movimentos sociais homenageiam Benedita da Silva e Paulo Paim em sessão solene na Câmara",
+   "materia": "https://www.camara.leg.br/noticias/1318549-deputadas-e-movimentos-sociais-homenageiam-benedita-da-silva-e-paulo-paim-em-sessao-solene-na-camara",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261111123054861-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "11/11 18h02",
+   "pid_sugerido": null
+  },
   {
    "veiculo": "Agência Câmara",
    "titulo": "Comissão aprova criação de serviço telefônico para atender pessoas com transtornos mentais e familiares",
@@ -903,87 +1190,6 @@
    "img": "https://www.camara.leg.br/midias/image/2026/10/img20260901150237150-768x473.jpeg",
    "credito": "Foto: Agência Câmara",
    "hora": "11/11 14h21",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova uso de recursos do BNDES para financiar energia renovável na agricultura familiar",
-   "materia": "https://www.camara.leg.br/noticias/1318363-comissao-aprova-uso-de-recursos-do-bndes-para-financiar-energia-renovavel-na-agricultura-familiar",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260414171205420-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "11/11 14h10",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova projeto que restringe prisão preventiva de agentes de segurança em serviço",
-   "materia": "https://www.camara.leg.br/noticias/1318335-comissao-aprova-projeto-que-restringe-prisao-preventiva-de-agentes-de-seguranca-em-servico",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20251104102148882-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "11/11 14h06",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova exigência de recursos de acessibilidade em totens de autoatendimento",
-   "materia": "https://www.camara.leg.br/noticias/1318323-comissao-aprova-exigencia-de-recursos-de-acessibilidade-em-totens-de-autoatendimento",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260303171620227-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "11/11 13h04",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Projeto fixa prazo para proibir produtos de limpeza e cosméticos com fosfatos",
-   "materia": "https://www.camara.leg.br/noticias/1312629-projeto-fixa-prazo-para-proibir-produtos-de-limpeza-e-cosmeticos-com-fosfatos",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260901174115507-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "11/11 12h03",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Projeto permite que pacientes com câncer usem lenço ou turbante em foto de documento",
-   "materia": "https://www.camara.leg.br/noticias/1314171-projeto-permite-que-pacientes-com-cancer-usem-lenco-ou-turbante-em-foto-de-documento",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260708164326157-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "11/11 11h20",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Relatório preliminar da LDO de 2027 fixa regras para o Anexo de Metas e Prioridades",
-   "materia": "https://www.camara.leg.br/noticias/1318295-relatorio-preliminar-da-ldo-de-2027-fixa-regras-para-o-anexo-de-metas-e-prioridades",
-   "img": "https://www.camara.leg.br/midias/image/2026/10/img20210817145204144-768x512.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "11/11 10h45",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Câmara pode votar regras mais rígidas para progressão de pena e punições por abusos contra idosos",
-   "materia": "https://www.camara.leg.br/noticias/1318256-camara-pode-votar-regras-mais-rigidas-para-progressao-de-pena-e-punicoes-por-abusos-contra-idosos",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261110174730315-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "11/11 10h29",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Motta destaca aprovação de medida provisória que permite renegociação de dívidas de produtores rurais",
-   "materia": "https://www.camara.leg.br/noticias/1318249-motta-destaca-aprovacao-de-medida-provisoria-que-permite-renegociacao-de-dividas-de-produtores-rurais",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261110185711010-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "11/11 09h03",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão de Saúde discute proposta que cria cartão de identificação único do usuário do SUS; participe",
-   "materia": "https://www.camara.leg.br/noticias/1316523-comissao-de-saude-discute-proposta-que-cria-cartao-de-identificacao-unico-do-usuario-do-sus-participe",
-   "img": "https://www.camara.leg.br/midias/image/2026/08/img20210813151159150-768x459.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "11/11 08h51",
    "pid_sugerido": null
   }
  ],
@@ -1127,24 +1333,24 @@
  "ultima_rodada": "2026-11-11T17:49-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
+  "CNN Brasil": "falhou: <HTTPError 403: 'Forbidden'>",
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 11 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 11 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 10 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 9 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 14 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 96 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 17 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 31 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 12 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 26 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 11 nas últimas 6 h",
-  "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 13 nas últimas 6 h",
+  "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 3 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 8 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 7 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 15 nas últimas 6 h"
+  "Agência Câmara": "ok: 20 itens, 20 nas últimas 6 h"
  }
 }
