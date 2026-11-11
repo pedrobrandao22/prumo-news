@@ -61,6 +61,21 @@ const MEDIR = `window.__mc1111Medir=function(raiz){return [...raiz.querySelector
     ok(r.desce.pos !== 'cima' && r.acv_linha.pos !== 'cima', `${L}px: linha descendo tira o rótulo de cima da linha`, [r.desce, r.acv_linha]);
     await ctx.close();
   }
+  // 1b) linha do tempo: "23/02" no meio de uma lista em ordem, com itens seguintes já passados, é deste ano (não do ano que vem)
+  { const ctx = await br.newContext({ viewport: { width: 390, height: 800 } }); await ctx.route(/^https?:\/\/(?!localhost)/, r => r.abort());
+    const p = U.erros(await ctx.newPage(), 'tl'); await p.clock.setFixedTime(new Date('2026-11-11T15:00:00Z')); await p.goto(`http://localhost:${PORTA}/index.html`);
+    await esperar(p, () => typeof matTempo === 'function' && typeof hojeSP === 'function', null, 15000);
+    ok(await p.evaluate(() => hojeSP()) === '2026-11-11', 'linha do tempo: relógio do teste em 11/11/2026');
+    const r = await p.evaluate(() => {
+      const li = qs => { const t = document.createElement('div'); t.innerHTML = matTempo({ visuais: [{ tipo: 'linha_do_tempo', itens: qs.map(q => ({ quando: q, texto: 'x' })) }] });
+        return [...t.querySelectorAll('.mat-tl li')].map(l => (l.className || '-') + '|' + l.querySelector('time').textContent + '|' + (l.querySelector('time').getAttribute('datetime') || '')) };
+      const v = { meio: li(['2019', '23/02', '09/2026', '27/10', '31/10']), fim: li(['27/10', '31/10', '10/02']), dez: li(['20/10', '15/12', '05/01']) };
+      return Object.assign(v, { hoje: hojeSP() }) });
+    ok(!r.meio.some(x => /fut/.test(x)) && /^-\|23 de fev\|2026-02-23$/.test(r.meio[1]) && /^ult\|/.test(r.meio[4]), 'linha do tempo: "23/02" antes de itens já passados é fevereiro deste ano, não próximo passo', r.meio);
+    ok(/^fut\|.*2027\|2027-02-10$/.test(r.fim[2]) && /^ult\|/.test(r.fim[1]), 'linha do tempo: "10/02" no fim da lista, em novembro, continua sendo o próximo passo (ano que vem)', r.fim);
+    ok(/^ult\|/.test(r.dez[0]) && /^fut\|/.test(r.dez[1]) && /^fut\|.*2027/.test(r.dez[2]), 'linha do tempo: futuro de dezembro seguido de janeiro continua no ano que vem', r.dez);
+    ok(!p._erros.length, 'linha do tempo: sem erro de JavaScript', p._erros);
+    await ctx.close(); }
   // 2) numa matéria de verdade, claro e escuro
   for (const escuro of [false, true]) {
     const n = escuro ? 'escuro' : 'claro';

@@ -17600,6 +17600,18 @@ const _mc1111GraficoNoticia=graficoNoticia;
 graficoNoticia=function(v){return mc1111Ajusta(_mc1111GraficoNoticia.apply(this,arguments))};
 /* o gráfico do acervo também é redesenhado sem passar por graficoNoticia (série que chega depois, editor de coluna) */
 if(typeof acvLinha==="function"){const _mc1111AcvLinha=acvLinha;acvLinha=function(){return mc1111Ajusta(_mc1111AcvLinha.apply(this,arguments))}}
+
+/* Linha do tempo: em novembro/dezembro, "23/02" sem ano era lido como fevereiro do ano que vem (próximo passo, tracejado),
+   mesmo quando os itens seguintes da lista já aconteceram (ex.: 2019 → 23/02 → 09/2026 → 27/10). A linha do tempo vem em ordem:
+   se algum item depois dele já passou, o "dd/mm" é deste ano. */
+function mc1111Tempo(p){const vs=Array.isArray(p&&p.visuais)?p.visuais:[];const k=vs.findIndex(v=>v&&v.tipo==="linha_do_tempo"&&Array.isArray(v.itens));if(k<0||typeof rc116Data!=="function")return p;
+  const hj=hojeSP(),hm=+hj.slice(5,7),ano=hj.slice(0,4);if(hm<11)return p;const its=vs[k].itens;let mudou=false;
+  const novos=its.map((it,i)=>{const q=it&&typeof it.quando==="string"?it.quando:"";const m=q.match(/^\s*(\d{1,2})º?\/(\d{1,2})\s*$/);if(!m||+m[2]>2)return it;
+    const d=rc116Data(q,hj);if(!d||d.iso<=hj)return it;
+    const depois=its.slice(i+1).some(o=>{const x=o&&typeof o.quando==="string"?rc116Data(o.quando,hj):null;return x&&x.iso<=hj});if(!depois)return it;
+    mudou=true;return Object.assign({},it,{quando:`${m[1]}/${m[2]}/${ano}`})});
+  if(!mudou)return p;const nv=vs.slice();nv[k]=Object.assign({},vs[k],{itens:novos});return Object.assign({},p,{visuais:nv})}
+{const _mc1111MatTempo=matTempo;matTempo=function(p){try{p=mc1111Tempo(p)}catch(e){}return _mc1111MatTempo.call(this,p)}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
