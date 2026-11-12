@@ -1,9 +1,42 @@
 {
- "gerado": "2026-11-12T00:14-03:00",
+ "gerado": "2026-11-12T09:19-03:00",
  "versao": 1,
- "novos": [],
- "para_pautas": {},
+ "novos": [
+  "ipca-202610"
+ ],
+ "para_pautas": {
+  "copom-novembro-selic": [
+   {
+    "evento": "ipca-202610",
+    "quando": "2026-11-12T09:00-03:00",
+    "texto": "O IPCA de outubro de 2026 ficou em 0,14%; em 12 meses, a inflação está em 4,63% (em setembro, 0,82%).",
+    "numero": "0,14%",
+    "fonte": "IBGE",
+    "url": "https://sidra.ibge.gov.br/tabela/1737",
+    "confianca": "tema",
+    "patch": {
+     "op": "update_add",
+     "pid": "copom-novembro-selic",
+     "texto": "O IPCA de outubro de 2026 ficou em 0,14%; em 12 meses, a inflação está em 4,63% (em setembro, 0,82%)."
+    }
+   }
+  ]
+ },
  "eventos": [
+  {
+   "id": "ipca-202610",
+   "fonte": "IBGE",
+   "tipo": "ipca",
+   "quando": "2026-11-12T09:00-03:00",
+   "fato": "O IPCA de outubro de 2026 ficou em 0,14%; em 12 meses, a inflação está em 4,63% (em setembro, 0,82%).",
+   "numero": "0,14%",
+   "url": "https://sidra.ibge.gov.br/tabela/1737",
+   "primeiro_visto": "2026-11-12T09:19-03:00",
+   "pid": "copom-novembro-selic",
+   "confianca": "tema",
+   "ja_no_feed": false,
+   "acionar": true
+  },
   {
    "id": "camara-vot-2270540-87",
    "fonte": "Câmara dos Deputados",
@@ -2213,49 +2246,6 @@
    "confianca": null,
    "ja_no_feed": false,
    "acionar": false
-  },
-  {
-   "id": "camara-vot-2272015-24",
-   "fonte": "Câmara dos Deputados",
-   "tipo": "votacao",
-   "casa": "camara",
-   "classe": "materia",
-   "quando": "2026-11-10T19:00-03:00",
-   "fato": "A Câmara aprovou o PL 479/2015.",
-   "numero": null,
-   "aprovado": true,
-   "proposicoes": [
-    "PL 479/2015",
-    "PL 716/2021"
-   ],
-   "ementa": "",
-   "url": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2272015-24",
-   "placar": {
-    "forma": "placar_votacao",
-    "casa": "camara",
-    "titulo": "PL 479/2015 no plenário da Câmara",
-    "proposicao": "PL 479/2015",
-    "turno": null,
-    "modo": "simbolica",
-    "sim": null,
-    "nao": null,
-    "abst": null,
-    "total": null,
-    "cadeiras": 513,
-    "minimo": null,
-    "regra": "maioria simples dos presentes",
-    "resultado": "aprovado",
-    "quando": "2026-11-10T19:00-03:00",
-    "hora_exata": true,
-    "fonte": "Câmara dos Deputados",
-    "url": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2272015-24",
-    "itens": []
-   },
-   "primeiro_visto": "2026-11-11T00:14-03:00",
-   "pid": null,
-   "confianca": null,
-   "ja_no_feed": false,
-   "acionar": false
   }
  ],
  "agenda_oficial": [
@@ -2627,7 +2617,7 @@
  "estado": {
   "selic_meta": 13.75,
   "focus_data": "2026-11-06",
-  "ipca_ref": "202609",
+  "ipca_ref": "202610",
   "pnad_ref": "202609",
   "selic_ate": "2026-12-09"
  },
@@ -2639,7 +2629,7 @@
   "Banco Central: Copom/Selic": "ok: comunicado falhou (<HTTPError 400: 'Bad Request'>); meta 13,75% desde 17/09",
   "Banco Central: Focus": "ok: última data 06/11 (evento na segunda, ou na terça se segunda for feriado)",
   "IBGE: calendário": "falhou: URLError(TimeoutError('timed out'))",
-  "IBGE: IPCA": "ok: ref 202609 via SIDRA",
+  "IBGE: IPCA": "ok: ref 202610 nova via SIDRA",
   "IBGE: desemprego (PNAD)": "ok: ref 202609 via SIDRA",
   "STF: pauta do plenário": "pulado: sem API aberta estável (portal só em HTML)"
  }
