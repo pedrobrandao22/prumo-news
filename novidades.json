@@ -1,67 +1,107 @@
 {
- "gerado": "2026-11-12T08:29-03:00",
+ "gerado": "2026-11-12T09:28-03:00",
  "desde": "2026-11-12T06:55-03:00",
  "feed_atualizado_em": "2026-11-12T07:05:00-03:00",
  "resumo": {
-  "manchetes": 141,
+  "manchetes": 239,
   "assuntos_novos_relevantes": 3,
-  "assuntos_novos": 116,
+  "assuntos_novos": 194,
   "pautas_com_novidade": 1,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 3,
-  "acionar_itens": 1,
+  "acionar_itens": 2,
   "ja_avaliados": 0
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 4 veículos em 90 min (brasil)",
+ "acionar_motivo": "dado oficial (IBGE): O IPCA de outubro de 2026 ficou em 0,14%; em 12 meses, a inflação está em 4,63% (em setembro, 0,82%).; assunto novo: 3 veículos em 90 min (economia)",
  "acionar_itens": [
   {
+   "tipo": "oficial",
+   "id": "ipca-202610",
+   "pid": "copom-novembro-selic",
+   "titulo": "O IPCA de outubro de 2026 ficou em 0,14%; em 12 meses, a inflação está em 4,63% (em setembro, 0,82%).",
+   "motivo": "dado oficial (IBGE): O IPCA de outubro de 2026 ficou em 0,14%; em 12 meses, a inflação está em 4,63% (em setembro, 0,82%)."
+  },
+  {
    "tipo": "novo",
-   "titulo": "Linha 8-diamante apresenta falha e passageiros caminham sobre os trilhos em Carapicuíba (SP)",
-   "secao": "brasil",
-   "n_fontes": 4,
-   "motivo": "assunto novo: 4 veículos em 90 min (brasil)",
+   "titulo": "Dólar abre a R$ 5,57 de olho em ajuste fiscal de até R$ 60 bilhões",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
    "chave": [
-    "andam",
-    "apresenta",
-    "apresentar",
-    "caminham",
-    "caos",
-    "carapicuiba",
-    "descem",
-    "diamante",
-    "durante",
-    "falha",
-    "grande",
-    "janelas",
-    "linha",
-    "morrer",
-    "mundo",
-    "pane",
-    "passageira",
-    "passageiros",
-    "quebram",
-    "todo",
-    "trem",
-    "trilhos"
+    "abre",
+    "ajuste",
+    "aproxima",
+    "bilhoes",
+    "brasil",
+    "dados",
+    "dolar",
+    "emprego",
+    "eua",
+    "fiscal",
+    "inflacao",
+    "ipca",
+    "novamente",
+    "olho",
+    "pacote",
+    "radar",
+    "sobe"
    ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois",
  "novos": [
   {
-   "assunto": "Linha 8-diamante apresenta falha e passageiros caminham sobre os trilhos em Carapicuíba (SP)",
-   "secao": "brasil",
-   "n_fontes": 4,
+   "assunto": "Dólar abre a R$ 5,57 de olho em ajuste fiscal de até R$ 60 bilhões",
+   "secao": "economia",
+   "n_fontes": 3,
    "fontes": [
-    "cnn",
-    "folha",
     "g1",
+    "im",
     "met"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Dólar abre a R$ 5,57 de olho em ajuste fiscal de até R$ 60 bilhões",
+     "url": "https://www.metropoles.com/brasil/dolar-nesta-quinta-12-11",
+     "hora": "12/11 09h20"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Dólar hoje sobe e se aproxima novamente de R$ 5,60 com pacote fiscal e IPCA no radar",
+     "url": "https://www.infomoney.com.br/mercados/dolar-hoje-abertura-fechamento-comercial-turismo-12112026/",
+     "hora": "12/11 09h15"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Dólar abre com inflação no Brasil, pacote fiscal e dados de emprego dos EUA no radar",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/12/dolar-ibovespa.ghtml",
+     "hora": "12/11 09h00"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "MP vai investigar nova falha na Linha 8-Diamante; passageiros quebraram janelas e caminharam pelos trilhos",
+   "secao": "brasil",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "MP vai investigar nova falha na Linha 8-Diamante; passageiros quebraram janelas e caminharam pelos trilhos",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/12/mp-vai-investigar-nova-falha-na-linha-8-diamante-passageiros-quebraram-janelas-e-caminharam-pelos-trilhos.ghtml",
+     "hora": "12/11 08h49"
+    },
     {
      "veiculo": "Folha Cotidiano",
      "titulo": "Linha 8-diamante apresenta falha e passageiros caminham sobre os trilhos em Carapicuíba (SP)",
@@ -79,66 +119,27 @@
      "titulo": "'Todo mundo sem ar, vai morrer todo mundo', diz passageira durante pane em trem da Linha 8-Diamante na Grande SP",
      "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/12/todo-mundo-sem-ar-vai-morrer-todo-mundo-diz-passageira-durante-pane-em-trem-da-linha-8-diamante-na-grande-sp.ghtml",
      "hora": "12/11 07h59"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Caos na Linha 8-Diamante: passageiros descem nos trilhos após falha em trem",
-     "url": "https://www.metropoles.com/sao-paulo/caos-na-linha-8-diamante-passageiros-descem-nos-trilhos-apos-falha-em-trem",
-     "hora": "12/11 07h57"
-    }
-   ],
-   "n_fontes_90min": 4
-  },
-  {
-   "assunto": "Grammy Latino 2026: veja os brasileiros que disputam a premiação",
-   "secao": null,
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Grammy Latino 2026: veja os brasileiros que disputam a premiação",
-     "url": "https://www.metropoles.com/entretenimento/grammy-latino-2026-veja-os-brasileiros-que-disputam-a-premiacao",
-     "hora": "12/11 08h11"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Grammy Latino 2026: que horas, como assistir e principais brasileiros indicados",
-     "url": "https://g1.globo.com/pop-arte/musica/noticia/2026/11/12/grammy-latino-2026-que-horas-como-assistir-e-principais-brasileiros-indicados.ghtml",
-     "hora": "12/11 07h51"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Grammy Latino 2026: saiba como assistir à premiação nesta quinta-feira (12)",
-     "url": "https://www.cnnbrasil.com.br/pop/musica/grammy-latino-2026-saiba-como-assistir-a-premiacao-nesta-quinta-feira-12/",
-     "hora": "12/11 07h00"
     }
    ],
    "n_fontes_90min": 3
   },
   {
-   "assunto": "Manchester United anuncia demissão de Michael Carrick",
+   "assunto": "Manchester United demite técnico Carrick, e Pochettino deve assumir o cargo",
    "secao": "esportes",
    "n_fontes": 3,
    "fontes": [
     "cnn",
-    "ge",
-    "met"
+    "folha",
+    "ge"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Manchester United anuncia demissão de Michael Carrick",
-     "url": "https://www.metropoles.com/esportes/manchester-united-anuncia-demissao-de-michael-carrick",
-     "hora": "12/11 07h49"
+     "veiculo": "Folha Esporte",
+     "titulo": "Manchester United demite técnico Carrick, e Pochettino deve assumir o cargo",
+     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/manchester-united-demite-tecnico-carrick-e-pochettino-deve-assumir-o-cargo.shtml",
+     "hora": "12/11 09h24"
     },
     {
      "veiculo": "CNN Brasil",
@@ -153,10 +154,10 @@
      "hora": "12/11 07h28"
     }
    ],
-   "n_fontes_90min": 3
+   "n_fontes_90min": 2
   },
   {
-   "assunto": "Além da \"espiã\": CEO da Nvidia teve caso com colega executiva, diz jornal",
+   "assunto": "Anvisa manda recolher lote de muçarela Italy contaminado com bactéria",
    "secao": null,
    "n_fontes": 2,
    "fontes": [
@@ -168,15 +169,15 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Além da \"espiã\": CEO da Nvidia teve caso com colega executiva, diz jornal",
-     "url": "https://www.metropoles.com/mundo/alem-da-espia-ceo-da-nvidia-teve-caso-com-colega-executiva-diz-jornal",
-     "hora": "12/11 08h08"
+     "titulo": "Anvisa manda recolher lote de muçarela Italy contaminado com bactéria",
+     "url": "https://www.metropoles.com/saude/anvisa-manda-recolher-lote-de-mucarela-italy-contaminado-com-bacteria",
+     "hora": "12/11 08h57"
     },
     {
      "veiculo": "g1",
-     "titulo": "Como suposto novo caso extraconjugal de CEO da Nvidia aumenta pressão para que ele saia do cargo",
-     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/12/como-suposto-novo-caso-extraconjugal-de-ceo-da-nvidia-aumenta-pressao-para-que-ele-saia-do-cargo.ghtml",
-     "hora": "12/11 07h43"
+     "titulo": "Anvisa suspende lote de muçarela fatiada Italy contaminado com bactéria",
+     "url": "https://g1.globo.com/saude/noticia/2026/11/12/anvisa-suspende-lote-de-mucarela-fatiada-italy-contaminado-com-bacteria.ghtml",
+     "hora": "12/11 08h16"
     }
    ],
    "n_fontes_90min": 2
@@ -208,7 +209,7 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Grupo criminoso falsificava documentos para estrangeiros em cartório do DF",
+   "assunto": "Carro capota e acidente interdita duas faixas do Eixão Sul",
    "secao": null,
    "n_fontes": 2,
    "fontes": [
@@ -220,15 +221,99 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Grupo criminoso falsificava documentos para estrangeiros em cartório do DF",
-     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/grupo-criminoso-falsificava-documentos-para-estrangeiros-em-cartorio-do-df",
-     "hora": "12/11 08h09"
+     "titulo": "Carro capota e acidente interdita duas faixas do Eixão Sul",
+     "url": "https://www.metropoles.com/distrito-federal/carro-capota-e-acidente-interdita-duas-faixas-do-eixao-sul",
+     "hora": "12/11 09h21"
     },
     {
      "veiculo": "g1",
-     "titulo": "Operação mira grupo que usava certidões falsas para obter documentos brasileiros para estrangeiros",
-     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/12/estrangeiros-certidoes-de-nascimento-falsas-documentos-brasileiro-df.ghtml",
-     "hora": "12/11 08h04"
+     "titulo": "Acidente entre três carretas e um carro interdita rodovia e deixa um ferido em Salto de Pirapora",
+     "url": "https://g1.globo.com/sp/sorocaba-jundiai/noticia/2026/11/12/acidente-carretas-carro-salto-de-pirapora.ghtml",
+     "hora": "12/11 08h37"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Acidente entre ambulância e carretas deixa dois mortos e três feridos na BR-153 no TO",
+     "url": "https://g1.globo.com/to/tocantins/noticia/2026/11/12/acidente-entre-ambulancia-e-carretas-deixa-dois-mortos-e-tres-feridos-na-br-153-no-to.ghtml",
+     "hora": "12/11 07h56"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Defesa Civil do Rio tem plano de contingência para enfrentar El Niño",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "ab",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Defesa Civil do Rio tem plano de contingência para enfrentar El Niño",
+     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/defesa-civil-do-rio-tem-plano-de-contingencia-para-enfrentar-el-nino",
+     "hora": "12/11 08h02"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Rio apresenta Plano Verão para enfrentamento do El Niño com monitoramento de encostas em parceria com a Nasa",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/12/rio-apresenta-plano-verao.ghtml",
+     "hora": "12/11 07h45"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Foto da Via Láctea sobre a Chapada dos Veadeiros ganha prêmio mundial; veja",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Foto da Via Láctea sobre a Chapada dos Veadeiros ganha prêmio mundial; veja",
+     "url": "https://www.metropoles.com/mundo/foto-da-via-lactea-sobre-a-chapada-dos-veadeiros-ganha-premio-mundial-veja",
+     "hora": "12/11 09h20"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Foto da Chapada dos Veadeiros sob a Via Láctea vence prêmio mundial",
+     "url": "https://g1.globo.com/go/goias/noticia/2026/11/12/foto-da-chapada-dos-veadeiros-vence-premio-mundial.ghtml",
+     "hora": "12/11 07h38"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Grammy Latino 2026: que horas, como assistir e principais brasileiros indicados",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Grammy Latino 2026: que horas, como assistir e principais brasileiros indicados",
+     "url": "https://g1.globo.com/pop-arte/musica/noticia/2026/11/12/grammy-latino-2026-que-horas-como-assistir-e-principais-brasileiros-indicados.ghtml",
+     "hora": "12/11 07h51"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Grammy Latino 2026: saiba como assistir à premiação nesta quinta-feira (12)",
+     "url": "https://www.cnnbrasil.com.br/pop/musica/grammy-latino-2026-saiba-como-assistir-a-premiacao-nesta-quinta-feira-12/",
+     "hora": "12/11 07h00"
     }
    ],
    "n_fontes_90min": 2
@@ -260,8 +345,8 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Operação GTA: polícia prende grupo suspeito de roubar carros de luxo em SP",
-   "secao": null,
+   "assunto": "IPCA: inflação de outubro sobe 0,14%, mas desacelera em relação a setembro",
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
     "g1",
@@ -272,41 +357,145 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Operação GTA: polícia prende grupo suspeito de roubar carros de luxo em SP",
-     "url": "https://www.metropoles.com/sao-paulo/operacao-gta-policia-prende-grupo-suspeito-de-roubar-carros-de-luxo-em-sp",
-     "hora": "12/11 08h05"
+     "titulo": "IPCA: inflação de outubro sobe 0,14%, mas desacelera em relação a setembro",
+     "url": "https://www.metropoles.com/brasil/ipca-inflacao-de-outubro-sobe-014-mas-desacelera",
+     "hora": "12/11 09h06"
     },
     {
      "veiculo": "g1",
-     "titulo": "Polícia de SP prende suspeito de participar em roubo de celular de Daniel Cady, ex-marido de Ivete Sangalo, e fazer R$ 200 mil em transferências bancárias",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/12/policia-de-sp-prende-suspeito-de-participar-em-roubo-de-celular-de-daniel-cady-ex-marido-de-ivete-sangalo-e-fazer-r-200-mil-em-transferencias-bancarias.ghtml",
-     "hora": "12/11 07h15"
+     "titulo": "IPCA: inflação desacelera para 0,14% em outubro, mas segue acima do teto da meta",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/12/ipca-inflacao-outubro-2026.ghtml",
+     "hora": "12/11 09h00"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Raízen reduz prejuízo para R$843,7 mi no 2° tri do ano-safra",
+   "assunto": "Inflação sobe 0,14% em outubro, aponta IBGE",
    "secao": "economia",
    "n_fontes": 2,
    "fontes": [
-    "folha",
-    "im"
+    "cnn",
+    "p360"
    ],
-   "ja_e_breve": true,
+   "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Raízen reduz prejuízo para R$843,7 mi no 2° tri do ano-safra",
-     "url": "https://www.infomoney.com.br/mercados/raizen-reduz-prejuizo-para-r8437-mi-no-2-tri-do-ano-safra/",
-     "hora": "12/11 08h21"
+     "veiculo": "CNN Brasil",
+     "titulo": "Inflação sobe 0,14% em outubro, aponta IBGE",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/inflacao-ipca-12-novembro-2026/",
+     "hora": "12/11 09h04"
     },
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Raízen reduz prejuízo e alavancagem no 3º tri, com ganhos na operação de distribuição",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/raizen-reduz-prejuizo-e-alavancagem-no-3o-tri-com-ganhos-na-operacao-de-distribuicao.shtml",
-     "hora": "12/11 07h12"
+     "veiculo": "Poder360",
+     "titulo": "Inflação sobe 0,14% em outubro; em 12 meses, vai a 4,63%",
+     "url": "https://www.poder360.com.br/poder-economia/inflacao-sobe-014-em-outubro-em-12-meses-vai-a-463/",
+     "hora": "12/11 09h02"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Morre mulher de 98 anos atropelada na calçada em Copacabana, no Rio",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Morre mulher de 98 anos atropelada na calçada em Copacabana, no Rio",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/morre-mulher-de-98-anos-atropelada-na-calcada-em-copacabana-no-rio.shtml",
+     "hora": "12/11 09h26"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Morre idosa atropelada por carro que invadiu loja em Copacabana; veja vídeo",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/morre-idosa-atropelada-por-carro-que-invadiu-loja-em-copacabana-veja-video/",
+     "hora": "12/11 07h59"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Mulher em trabalho de parto é colocada em audiência pelo Zoom para decidir sobre cesárea: 'A coisa mais absurda que já vi'",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "bbc",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Mulher em trabalho de parto é colocada em audiência pelo Zoom para decidir sobre cesárea: 'A coisa mais absurda que já vi'",
+     "url": "https://g1.globo.com/saude/noticia/2026/11/12/mulher-em-trabalho-de-parto-e-colocada-em-audiencia-pelo-zoom-para-decidir-sobre-cesarea-a-coisa-mais-absurda-que-ja-vi.ghtml",
+     "hora": "12/11 08h34"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "Mulher em trabalho de parto é colocada em audiência pelo Zoom para decidir sobre cesárea: 'A coisa mais absurda que já vi'",
+     "url": "https://www.bbc.com/portuguese/articles/c8qlq3pe62xpo?at_medium=RSS&at_campaign=rss",
+     "hora": "12/11 08h28"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Pousada Garoa: MP denuncia dono, ex-fiscal e homem apontado como autor de incêndio com 11 mortes em Porto Alegre",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Pousada Garoa: MP denuncia dono, ex-fiscal e homem apontado como autor de incêndio com 11 mortes em Porto Alegre",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/12/mp-denuncia-tres-incendio-pousada-garoa-rs.ghtml",
+     "hora": "12/11 08h25"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Três são denunciados por incêndio que matou 11 em pousada de Porto Alegre",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/rs/tres-sao-denunciados-por-incendio-que-matou-11-em-pousada-de-porto-alegre/",
+     "hora": "12/11 07h06"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Racing Bulls confirma Lawson e Lindblad para próxima temporada da Fórmula 1",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Racing Bulls confirma Lawson e Lindblad para próxima temporada da Fórmula 1",
+     "url": "https://www.cnnbrasil.com.br/esportes/automobilismo/racing-bulls-confirma-lawson-e-lindblad-para-proxima-temporada-da-formula-1/",
+     "hora": "12/11 08h56"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Racing Bulls renova com Liam Lawson e Arvid Lindblad para a F1 2027",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/12/racing-bulls-renova-com-liam-lawson-e-arvid-lindblad-para-a-f1-2027.ghtml",
+     "hora": "12/11 08h06"
     }
    ],
    "n_fontes_90min": 2
@@ -338,6 +527,58 @@
    "n_fontes_90min": 2
   },
   {
+   "assunto": "Regina Torné, a Glória de 'Chaves', morre aos 82 anos",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Regina Torné, a Glória de 'Chaves', morre aos 82 anos",
+     "url": "https://g1.globo.com/pop-arte/tv-e-series/noticia/2026/11/12/regina-tome-a-gloria-de-chaves-morre-aos-82-anos.ghtml",
+     "hora": "12/11 08h20"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Atriz de “Chaves” e “Rebelde”, Regina Torné morre aos 82 anos",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/atriz-de-chaves-e-rebelde-regina-torne-morre-aos-82-anos/",
+     "hora": "12/11 07h41"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Saiba quem pode ser o próximo CEO da Nvidia",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Saiba quem pode ser o próximo CEO da Nvidia",
+     "url": "https://www.poder360.com.br/poder-tech/saiba-quem-pode-ser-o-proximo-ceo-da-nvidia/",
+     "hora": "12/11 09h25"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Conselho da Nvidia se reúne e avalia exigir renúncia de CEO ou afastamento temporário; ações despencam",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/conselho-da-nvidia-se-reune-para-decidir-futuro-do-ceo-acoes-caem-mais-de-6.shtml",
+     "hora": "12/11 07h11"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Santander aumenta oferta para comprar participação restante em sua operação no Brasil",
    "secao": "economia",
    "n_fontes": 2,
@@ -365,7 +606,162 @@
    "lixo": true
   },
   {
-   "assunto": "'Vamos recorrer', diz governadora do DF sobre decisão da Justiça que reduz velocidade no Eixão",
+   "assunto": "Sarna humana atinge escolas e suspende aulas por 6 dias em Vespasiano (MG)",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Sarna humana atinge escolas e suspende aulas por 6 dias em Vespasiano (MG)",
+     "url": "https://www.metropoles.com/minas-gerais/sarna-humana-atinge-escolas-e-suspende-aulas-por-6-dias-em-vespasiano-mg",
+     "hora": "12/11 08h56"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Vespasiano suspende aulas em todas as escolas municipais por seis dias após casos de sarna",
+     "url": "https://g1.globo.com/mg/minas-gerais/bom-dia-minas/noticia/2026/11/12/vespasiano-suspende-aulas-em-todas-as-escolas-municipais-por-seis-dias-apos-casos-de-sarna.ghtml",
+     "hora": "12/11 07h31"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Senado aprova projeto que impede bloqueio de R$ 465 mi ao Fust",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "agsenado",
+    "p360"
+   ],
+   "ja_e_breve": true,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Senado aprova projeto que impede bloqueio de R$ 465 mi ao Fust",
+     "url": "https://www.poder360.com.br/poder-congresso/senado-aprova-projeto-que-impede-bloqueio-de-r-465-mi-ao-fust/",
+     "hora": "12/11 09h10"
+    },
+    {
+     "veiculo": "Agência Senado",
+     "titulo": "Áudio: Senado aprova regras para impedir limitação de recursos do Fust",
+     "url": "https://www12.senado.leg.br/noticias/audios/2026/11/senado-aprova-regras-para-impedir-limitacao-de-recursos-do-fust",
+     "hora": "12/11 09h03"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Sobe para cinco o número de mortos em desabamento em Nova York",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Sobe para cinco o número de mortos em desabamento em Nova York",
+     "url": "https://www.cnnbrasil.com.br/internacional/nova-morte-desabamento-predio-ny/",
+     "hora": "12/11 08h04"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Desabamento de prédio no Brooklyn: número de mortos sobe para 5; VÍDEO mostra resgate",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/12/video-mostra-resgate-de-vitima-de-desabamento-de-predio-no-brooklyn-em-nova-york.ghtml",
+     "hora": "12/11 07h57"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "São Bernardo x Athletic Club - Campeonato Brasileiro Série B 2026 - globoesporte.com",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "São Bernardo x Athletic Club - Campeonato Brasileiro Série B 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/mg/zona-da-mata-centro-oeste/futebol/brasileirao-serie-b/jogo/12-11-2026/sao-bernardo-athletic-club.ghtml",
+     "hora": "12/11 09h19"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Ponte Preta x Operário-PR - Campeonato Brasileiro Série B 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/sp/campinas-e-regiao/futebol/brasileirao-serie-b/jogo/12-11-2026/ponte-preta-operario-pr.ghtml",
+     "hora": "12/11 09h19"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ponte Preta x Operário-PR: horário e onde assistir ao jogo da Série B",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/ponte-preta-x-operario-pr-horario-e-onde-assistir-ao-jogo-da-serie-b-2/",
+     "hora": "12/11 09h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "“The Economist” pede saída de CEO da Nvidia após caso com suposta espiã",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "“The Economist” pede saída de CEO da Nvidia após caso com suposta espiã",
+     "url": "https://www.poder360.com.br/poder-internacional/the-economist-pede-saida-de-ceo-da-nvidia-apos-caso-com-suposta-espia/",
+     "hora": "12/11 09h12"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Como suposto novo caso extraconjugal de CEO da Nvidia aumenta pressão para que ele saia do cargo",
+     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/12/como-suposto-novo-caso-extraconjugal-de-ceo-da-nvidia-aumenta-pressao-para-que-ele-saia-do-cargo.ghtml",
+     "hora": "12/11 07h43"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "'Há uma guerra entre dois lados no Vaticano em que o abuso sexual se tornou uma arma', diz autor de livro sobre o papa",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "bbc"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "'Há uma guerra entre dois lados no Vaticano em que o abuso sexual se tornou uma arma', diz autor de livro sobre o papa",
+     "url": "https://www.bbc.com/portuguese/articles/cvkg5jklzxr5o?at_medium=RSS&at_campaign=rss",
+     "hora": "12/11 09h21"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "'Tomate não nasce na prateleira do supermercado': entenda por que o preço disparou quase 90% e quando pode cair",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -376,9 +772,9 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "'Vamos recorrer', diz governadora do DF sobre decisão da Justiça que reduz velocidade no Eixão",
-     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/12/vamos-recorrer-governadora-df-decisao-justica-velocidade-eixao.ghtml",
-     "hora": "12/11 07h11"
+     "titulo": "'Tomate não nasce na prateleira do supermercado': entenda por que o preço disparou quase 90% e quando pode cair",
+     "url": "https://g1.globo.com/economia/agronegocios/noticia/2026/11/12/por-que-o-preco-disparou-quase-e-quando-pode-cair.ghtml",
+     "hora": "12/11 09h04"
     }
    ],
    "n_fontes_90min": 1
@@ -422,319 +818,20 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "A semente do caos",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "A semente do caos",
-     "url": "https://www.metropoles.com/blog-do-noblat/a-semente-do-caos",
-     "hora": "12/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Acidente entre ambulância e carretas deixa dois mortos e três feridos na BR-153 no TO",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Acidente entre ambulância e carretas deixa dois mortos e três feridos na BR-153 no TO",
-     "url": "https://g1.globo.com/to/tocantins/noticia/2026/11/12/acidente-entre-ambulancia-e-carretas-deixa-dois-mortos-e-tres-feridos-na-br-153-no-to.ghtml",
-     "hora": "12/11 07h56"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Alerta de bomba paralisa estação de trem no norte da França",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alerta de bomba paralisa estação de trem no norte da França",
-     "url": "https://www.cnnbrasil.com.br/internacional/alerta-de-bomba-e-registrado-em-estacao-de-trem-no-norte-da-franca/",
-     "hora": "12/11 06h57"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Ana Castela chora ao celebrar indicação ao Grammy Latino e explica ausência",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Ana Castela chora ao celebrar indicação ao Grammy Latino e explica ausência",
-     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/12/ana-castela-chora-ao-celebrar-indicacao-ao-grammy-latino-e-explica-ausencia.ghtml",
-     "hora": "12/11 08h02"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Artista de Sorocaba leva mágica hospitalar a festival internacional: 'Conexão e sorriso'",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Artista de Sorocaba leva mágica hospitalar a festival internacional: 'Conexão e sorriso'",
-     "url": "https://g1.globo.com/sp/sorocaba-jundiai/noticia/2026/11/12/artista-de-sorocaba-leva-magica-hospitalar-a-festival-internacional-conexao-e-sorriso.ghtml",
-     "hora": "12/11 07h25"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Assista ao Bom Dia Amapá desta quinta (12)",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Assista ao Bom Dia Amapá desta quinta (12)",
-     "url": "https://g1.globo.com/ap/ao-vivo/assista-ao-jap2-desta-terca-10.ghtml",
-     "hora": "12/11 07h12"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Assista ao Bom Dia Cidade Campinas",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Assista ao Bom Dia Cidade Campinas",
-     "url": "https://g1.globo.com/sp/campinas-regiao/ao-vivo/assista-ao-bom-dia-cidade-campinas.ghtml",
-     "hora": "12/11 07h19"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Bom Dia Cidade",
-     "url": "https://g1.globo.com/sp/ribeirao-preto-franca/ao-vivo/bom-dia-cidade-ribeirao-preto.ghtml",
-     "hora": "12/11 07h14"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Bom Dia Cidade Piracicaba",
-     "url": "https://g1.globo.com/sp/piracicaba-regiao/ao-vivo/bom-dia-cidade-piracicaba-ao-vivo.ghtml",
-     "hora": "12/11 07h09"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Assista ao Bom Dia Vanguarda ao vivo no g1",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Assista ao Bom Dia Vanguarda ao vivo no g1",
-     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/ao-vivo/assista-ao-bom-dia-vanguarda-ao-vivo-no-g1.ghtml",
-     "hora": "12/11 07h50"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Atriz de “Chaves” e “Rebelde”, Regina Torné morre aos 82 anos",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Atriz de “Chaves” e “Rebelde”, Regina Torné morre aos 82 anos",
-     "url": "https://www.cnnbrasil.com.br/pop/celebridades/atriz-de-chaves-e-rebelde-regina-torne-morre-aos-82-anos/",
-     "hora": "12/11 07h41"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Banestes abre concurso com 645 vagas e salários de até R$ 6,3 mil no ES; veja como participar",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Banestes abre concurso com 645 vagas e salários de até R$ 6,3 mil no ES; veja como participar",
-     "url": "https://g1.globo.com/es/espirito-santo/noticia/2026/11/12/banestes-abre-concurso-com-645-vagas-e-salarios-de-ate-r-63-mil-no-es-veja-como-participar.ghtml",
-     "hora": "12/11 07h32"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Briga entre Stênio Garcia, filhas e ex-esposa pode ganhar acordo na Justiça",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Briga entre Stênio Garcia, filhas e ex-esposa pode ganhar acordo na Justiça",
-     "url": "https://www.metropoles.com/colunas/fabia-oliveira/briga-entre-stenio-garcia-filhas-e-ex-esposa-pode-ganhar-acordo-na-justica",
-     "hora": "12/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Buscas por vítimas continuam após colapso de prédio no Brooklyn",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Buscas por vítimas continuam após colapso de prédio no Brooklyn",
-     "url": "https://www.cnnbrasil.com.br/internacional/buscas-por-vitimas-continuam-apos-colapso-de-predio-no-brooklyn/",
-     "hora": "12/11 07h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "CLDF promulga emenda que permite nova reeleição da atual Mesa Diretora",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "CLDF promulga emenda que permite nova reeleição da atual Mesa Diretora",
-     "url": "https://www.metropoles.com/distrito-federal/cldf-promulga-emenda-que-permite-nova-reeleicao-da-atual-mesa-diretora",
-     "hora": "12/11 07h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "COP31: Filha de Chico Mendes cobra proteção a mulheres que defendem a Amazônia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "COP31: Filha de Chico Mendes cobra proteção a mulheres que defendem a Amazônia",
-     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/12/cop31-filha-de-chico-mendes-cobra-protecao-a-mulheres-que-defendem-a-amazonia.ghtml",
-     "hora": "12/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "COP31: chanceler da Noruega promete a Lula mais recursos para a Amazônia",
+   "assunto": "ANÁLISE: O impasse é na PF, mas a solução está no STF",
    "secao": "politica",
    "n_fontes": 1,
    "fontes": [
-    "met"
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "COP31: chanceler da Noruega promete a Lula mais recursos para a Amazônia",
-     "url": "https://www.metropoles.com/mundo/cop31-chanceler-da-noruega-promete-a-lula-mais-recursos-para-a-amazonia",
-     "hora": "12/11 07h41"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Certidão de óbito passa a registrar morte decorrente de ação policial, decide CNJ",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Certidão de óbito passa a registrar morte decorrente de ação policial, decide CNJ",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/certidao-de-obito-passa-a-registrar-morte-decorrente-de-acao-policial-decide-cnj.shtml",
-     "hora": "12/11 08h00"
+     "veiculo": "g1 Política",
+     "titulo": "ANÁLISE: O impasse é na PF, mas a solução está no STF",
+     "url": "https://g1.globo.com/politica/blog/andreia-sadi/post/2026/11/12/analise-pf-stf-caso-master.ghtml",
+     "hora": "12/11 09h22"
     }
    ],
    "n_fontes_90min": 1
@@ -746,10 +843,16 @@
    "n_fontes": 1,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Entenda o ajuste fiscal de Lula de até R$ 60 bi que o Senado pode votar hoje",
-     "url": "https://www.infomoney.com.br/politica/entenda-o-ajuste-fiscal-de-lula-de-ate-r-60-bi-que-o-senado-pode-votar-hoje/",
-     "hora": "12/11 08h15"
+     "veiculo": "Agência Senado",
+     "titulo": "Vídeo: Consultor de Orçamento do Senado explica o que muda com o projeto de ajuste fiscal do governo",
+     "url": "https://www12.senado.leg.br/noticias/videos/2026/11/consultor-de-orcamento-do-senado-explica-o-que-muda-com-o-projeto-de-ajuste-fiscal-do-governo",
+     "hora": "12/11 08h58"
+    },
+    {
+     "veiculo": "Agência Senado",
+     "titulo": "Vídeo: Davi anuncia que projeto do ajuste fiscal pode ser votado nesta quinta (12)",
+     "url": "https://www12.senado.leg.br/noticias/videos/2026/11/davi-anuncia-que-projeto-do-ajuste-fiscal-pode-ser-votado-nesta-quinta-12",
+     "hora": "12/11 08h39"
     }
    ]
   }
@@ -759,20 +862,20 @@
    "n": 1,
    "n_fontes": 1,
    "fontes": [
-    "im"
+    "met"
    ],
    "n_fontes_90min": 1,
-   "ultima": "12/11 08h15",
-   "ultima_iso": "2026-11-12T08:15-03:00",
+   "ultima": "12/11 09h20",
+   "ultima_iso": "2026-11-12T09:20-03:00",
    "pauta_atualizada_em": "2026-11-12T06:52-03:00",
-   "horas_sem_atualizar": 1.6,
+   "horas_sem_atualizar": 2.6,
    "principal": true,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Entenda o ajuste fiscal de Lula de até R$ 60 bi que o Senado pode votar hoje",
-     "url": "https://www.infomoney.com.br/politica/entenda-o-ajuste-fiscal-de-lula-de-ate-r-60-bi-que-o-senado-pode-votar-hoje/",
-     "hora": "12/11 08h15"
+     "veiculo": "Metrópoles",
+     "titulo": "Dólar abre a R$ 5,57 de olho em ajuste fiscal de até R$ 60 bilhões",
+     "url": "https://www.metropoles.com/brasil/dolar-nesta-quinta-12-11",
+     "hora": "12/11 09h20"
     }
    ]
   },
@@ -786,7 +889,7 @@
    "ultima": "12/11 04h00",
    "ultima_iso": "2026-11-12T04:00-03:00",
    "pauta_atualizada_em": "2026-11-11T15:48-03:00",
-   "horas_sem_atualizar": 16.7,
+   "horas_sem_atualizar": 17.7,
    "principal": true,
    "manchetes": [
     {
@@ -807,7 +910,7 @@
    "ultima": "12/11 04h00",
    "ultima_iso": "2026-11-12T04:00-03:00",
    "pauta_atualizada_em": "2026-11-09T06:54-03:00",
-   "horas_sem_atualizar": 73.6,
+   "horas_sem_atualizar": 74.6,
    "principal": false,
    "manchetes": [
     {
@@ -1001,104 +1104,28 @@
    "pid_sugerido": null
   }
  ],
- "avaliados": [
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "107",
-    "190",
-    "2154",
-    "352",
-    "697",
-    "agro",
-    "ajustado",
-    "amer3",
-    "americanas",
-    "anual",
-    "anuncia",
-    "apresentou",
-    "atrasos",
-    "azzas",
-    "banco",
-    "bilhao",
-    "bilhoes",
-    "brasil",
-    "cai",
-    "capital",
-    "ceifa",
-    "cogna",
-    "corte",
-    "cvc",
-    "cvcb3",
-    "dividendos",
-    "hapvida",
-    "liquido",
-    "lucro",
-    "milhoes",
-    "prejuizo",
-    "preservar",
-    "previsao",
-    "qualicorp",
-    "queda",
-    "recorrente",
-    "registra",
-    "reverte",
-    "soma",
-    "terceiro"
-   ],
-   "n_fontes": 5,
-   "em": "2026-11-11T21:22-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "animais",
-    "animal",
-    "aprova",
-    "caes",
-    "camara",
-    "crime",
-    "gatos",
-    "hediondo",
-    "hediondos",
-    "maus",
-    "morte",
-    "projeto",
-    "resulta",
-    "resultarem",
-    "resultem",
-    "torna",
-    "tratos"
-   ],
-   "n_fontes": 4,
-   "em": "2026-11-11T21:22-03:00"
-  }
- ],
+ "avaliados": [],
  "ultima_rodada": "2026-11-12T07:05-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 42 nas últimas 6 h",
-  "Agência Brasil": "ok: 10 itens, 3 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
+  "Agência Brasil": "ok: 10 itens, 4 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 0 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 7 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 43 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 13 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 7 nas últimas 6 h",
+  "ge": "ok: 100 itens, 52 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 15 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 11 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 3 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 4 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 10 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 1 nas últimas 6 h"
  }
 }
