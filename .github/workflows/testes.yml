@@ -14,7 +14,7 @@ permissions:
   contents: read
 concurrency:
   group: prumo-testes-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref == 'refs/heads/main' }}   # na branch de trabalho, a execução em andamento termina (a próxima espera)
 jobs:
   testes:
     runs-on: ubuntu-24.04   # o ubuntu-latest passou a ser o 26.04, que o Playwright 1.56 ainda não aceita

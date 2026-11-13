@@ -190,7 +190,7 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   ok(env2 === 'ENVIOU', 'depois da amizade, B manda para C', env2);
   ok(await esperar(C, () => S.msgsIn.some(m => m.texto === 'De novo amigos')), 'C recebe');
   await irPara(A, 'me');
-  ok(await esperar(A, () => /2\s*amigos/.test(document.querySelector('#v-me .pf-num')?.textContent || '')), 'Perfil de A: "2 amigos"');
+  ok(await esperar(A, () => /2\s*amigos/.test(document.querySelector('#v-me .vn-pf-num, #v-me .pf-num')?.textContent || '')), 'Perfil de A: "2 amigos"');
   await foto2(A, 'perfil-amigos');
   ok(await ev(A, () => /Conta/.test(document.querySelector('#v-me').textContent) && /a@x\.com/.test(document.querySelector('#v-me').textContent)), 'card Conta com e-mail');
 
