@@ -66,10 +66,11 @@ let srv = null;
   if (cap.length >= 2) { await ev(V, () => document.querySelectorAll('#layer .fs2-cap button')[1].click()); await sleep(900);
     ok(await ev(V, () => document.querySelector('#layer .mat').scrollTop > 100), 'tocar no 2º capítulo rola a matéria') }
   ok(V._erros.length === 0, 'sem erros na matéria', V._erros); await fecha(V);
-  const comPlacar = await ev(V, () => (typeof PO118 !== 'undefined' && PO118 && PO118.v || []).map(e => e.pid).filter(Boolean)[0] || null);
-  if (comPlacar) { await ev(V, id => abrirMateria(id), comPlacar); await sleep(900);
+  // prefere uma votação nominal (tem gráfico); simbólica ou sem placar mostra só o texto, por desenho
+  const comPlacar = await ev(V, () => { if (typeof po118Da !== 'function') return null; const l = (FEED && FEED.pautas || []).map(p => ({ p, v: po118Da(p) })).filter(x => x.v && x.v.length); const x = l.find(y => y.v[y.v.length - 1].modo === 'nominal') || l[0]; return x ? { pid: x.p.id, nominal: x.v[x.v.length - 1].modo === 'nominal' } : null });
+  if (comPlacar) { await ev(V, id => abrirMateria(id), comPlacar.pid); await sleep(900);
     const pl = await ev(V, () => { const m = document.querySelector('#layer .mat'); return { svg: !!m.querySelector('.po118 svg, [class*="po118"] svg'), txt: (m.querySelector('[class*="po118"]') || {}).textContent || '' } });
-    ok(pl.svg && /Sim|votos|a \d/.test(pl.txt), 'matéria com placar oficial desenha o placar', pl.txt.slice(0, 120));
+    ok(comPlacar.nominal ? (pl.svg && /Sim|votos|a \d/.test(pl.txt)) : /simbólica|registrou o resultado/.test(pl.txt), 'matéria com placar oficial desenha o placar', pl.txt.slice(0, 120));
     await foto(V, 'nc-placar-360'); await fecha(V) }
   else ok(true, 'sem placar oficial na edição de hoje (nada a conferir)');
   // Feed: rola tudo, prateleiras, nada vaza
