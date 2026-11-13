@@ -12923,9 +12923,12 @@ function htDaPauta(p){if(!p||typeof p!=="object")return [];if(HT_CACHE.has(p))re
   if(Array.isArray(p.hashtags)&&p.hashtags.length)p.hashtags.slice(0,6).forEach(add);
   else{add(htCamel(p.tag));add(htCamel(p.tema));if(l.length<2&&p.subtema&&!/^outros/i.test(p.subtema))add(htCamel(p.subtema))}
   const r=l.slice(0,4);HT_CACHE.set(p,r);return r}
-function htNotCasa(p,k){if(!p||!k)return 0;if(htDaPauta(p).some(t=>htChave(t)===k))return 3;if([p.tag,p.tema,p.subtema].some(x=>x&&htChave(x)===k))return 2;
-  if(k.length<4)return 0;const tt=norm([(p.neutro||{}).titulo||p.titulo,p.tag,p.tema].join(" "));if(tt.split(/[^\p{L}\p{N}]+/u).includes(k))return 1;
-  if(k.length>=7&&tt.replace(/[^\p{L}\p{N}]/gu,"").includes(k))return 1;return 0}
+/* as chaves de cada pauta são calculadas uma vez (antes: a cada post, para cada hashtag, para cada pauta da edição) */
+const HT_CASA=new WeakMap();
+function htCasaBase(p){let b=HT_CASA.get(p);if(b&&b.ht===htDaPauta(p))return b;const tt=norm([(p.neutro||{}).titulo||p.titulo,p.tag,p.tema].join(" "));
+  b={ht:htDaPauta(p),k3:new Set(htDaPauta(p).map(htChave)),k2:new Set([p.tag,p.tema,p.subtema].filter(Boolean).map(htChave)),pal:new Set(tt.split(/[^\p{L}\p{N}]+/u)),cola:tt.replace(/[^\p{L}\p{N}]/gu,"")};HT_CASA.set(p,b);return b}
+function htNotCasa(p,k){if(!p||!k)return 0;const b=htCasaBase(p);if(b.k3.has(k))return 3;if(b.k2.has(k))return 2;
+  if(k.length<4)return 0;if(b.pal.has(k))return 1;if(k.length>=7&&b.cola.includes(k))return 1;return 0}
 function htNoticias(k){return (FEED&&FEED.pautas||[]).map(p=>[p,htNotCasa(p,k)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]||(b[0].prioridade||0)-(a[0].prioridade||0)).map(x=>x[0])}
 function htDormentes(k){return (Array.isArray(FEED&&FEED.dormentes)?FEED.dormentes:[]).filter(d=>d&&d.id&&!pautaById(d.id)&&htNotCasa(d,k)>0).slice(0,8)}
 /* ---- posts, stories e comentários que eu posso ver ---- */
@@ -13186,7 +13189,8 @@ function vn112Tp(h){const tp=document.createElement("template");tp.innerHTML=Str
 function vn112Dots(a){const pr=a.querySelector(".acts>.prog"),car=a.querySelector(":scope>.car");if(pr&&car){pr.classList.add("vn-dots");car.appendChild(pr)}}
 /* rótulos visíveis nas ações (a direção A mostra as ações como texto) */
 function vn112Rotulos(a){a.querySelectorAll(".acts>.act").forEach(b=>{if(b.querySelector(":scope>span"))return;const k=b.dataset.a||(b.hasAttribute("data-usend")?"send":"");if(VN112_ROT[k])b.insertAdjacentHTML("beforeend",`<span>${VN112_ROT[k]}</span>`)})}
-function vn112CtNt(h,p){const a=vn112Tp(h);if(!a)return h;const ct=VN112_CT;a.classList.add("vn-c","vn-cn","vn-c"+ct);a.style.setProperty("--vn-sec",secCor(secOf(p)));
+/* aceita o HTML ou o elemento já lido (o postSeguro abaixo já leu o cartão para pôr o Repostar: uma leitura a menos por notícia) */
+function vn112CtNt(h,p){const a=typeof h==="string"?vn112Tp(h):h;if(!a)return h;const ct=VN112_CT;a.classList.add("vn-c","vn-cn","vn-c"+ct);a.style.setProperty("--vn-sec",secCor(secOf(p)));
   const ph=a.querySelector(":scope>.ph"),car=a.querySelector(":scope>.car"),cap=a.querySelector(".pt-cap"),hr=a.querySelector(".pt-hora"),sub=ph&&ph.querySelector(".ph-sub");
   const sec=secOf(p),tit=versao(p,lente()).titulo,hora=hr?hr.textContent.trim():"";
   if(sub&&hora)sub.insertAdjacentHTML("beforeend",`<span class="vn-hr">${sub.textContent.trim()?" · ":""}${esc(hora)}</span>`);
@@ -13298,7 +13302,7 @@ if(VISUAL_NOVO){
   {const _pp112x=pubPostHTML;pubPostHTML=function(x){let h=_pp112x.apply(this,arguments);try{if(typeof h!=="string"||!h||!x||x.tipo!=="post")return h;
     const a=vn112Tp(h);if(a){const r=vn112Rp(x);const alvo=r&&!String(x.texto||"").trim()?r:{k:"pub",id:x.id};vn112PoeRp(a,alvo.k,alvo.id);h=a.outerHTML}
     return VN112_CT?vn112CtPub(h,x):h}catch(e){return h}}}
-  {const _ps112=postSeguro;postSeguro=function(p){let h=_ps112.apply(this,arguments);try{if(typeof h==="string"&&h&&p&&!p.__pub&&pautaById(p.id)){const a=vn112Tp(h);if(a){vn112PoeRp(a,"pauta",p.id);h=a.outerHTML}return VN112_CT?vn112CtNt(h,p):h}
+  {const _ps112=postSeguro;postSeguro=function(p){let h=_ps112.apply(this,arguments);try{if(typeof h==="string"&&h&&p&&!p.__pub&&pautaById(p.id)){const a=vn112Tp(h);if(a){vn112PoeRp(a,"pauta",p.id);return VN112_CT?vn112CtNt(a,p):a.outerHTML}return VN112_CT?vn112CtNt(h,p):h}
     /* 107 escreve o título do comentário único entre aspas duplas (sai "${esc(...)}" na tela); aqui sai o nome */
     if(typeof h==="string"&&p&&p.__fc107&&p.__pub&&h.indexOf("${esc(fc107Prim(x.autor))}")>=0)h=h.replace("${esc(fc107Prim(x.autor))}",esc(fc107Prim(p.__pub.autor)))}catch(e){}return h}}
   /* direções em teste: mídia mais baixa (A e B: a manchete já está em cima; C: 16:9, como no YouTube) */

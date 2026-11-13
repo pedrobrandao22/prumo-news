@@ -20,9 +20,12 @@ function htDaPauta(p){if(!p||typeof p!=="object")return [];if(HT_CACHE.has(p))re
   if(Array.isArray(p.hashtags)&&p.hashtags.length)p.hashtags.slice(0,6).forEach(add);
   else{add(htCamel(p.tag));add(htCamel(p.tema));if(l.length<2&&p.subtema&&!/^outros/i.test(p.subtema))add(htCamel(p.subtema))}
   const r=l.slice(0,4);HT_CACHE.set(p,r);return r}
-function htNotCasa(p,k){if(!p||!k)return 0;if(htDaPauta(p).some(t=>htChave(t)===k))return 3;if([p.tag,p.tema,p.subtema].some(x=>x&&htChave(x)===k))return 2;
-  if(k.length<4)return 0;const tt=norm([(p.neutro||{}).titulo||p.titulo,p.tag,p.tema].join(" "));if(tt.split(/[^\p{L}\p{N}]+/u).includes(k))return 1;
-  if(k.length>=7&&tt.replace(/[^\p{L}\p{N}]/gu,"").includes(k))return 1;return 0}
+/* as chaves de cada pauta são calculadas uma vez (antes: a cada post, para cada hashtag, para cada pauta da edição) */
+const HT_CASA=new WeakMap();
+function htCasaBase(p){let b=HT_CASA.get(p);if(b&&b.ht===htDaPauta(p))return b;const tt=norm([(p.neutro||{}).titulo||p.titulo,p.tag,p.tema].join(" "));
+  b={ht:htDaPauta(p),k3:new Set(htDaPauta(p).map(htChave)),k2:new Set([p.tag,p.tema,p.subtema].filter(Boolean).map(htChave)),pal:new Set(tt.split(/[^\p{L}\p{N}]+/u)),cola:tt.replace(/[^\p{L}\p{N}]/gu,"")};HT_CASA.set(p,b);return b}
+function htNotCasa(p,k){if(!p||!k)return 0;const b=htCasaBase(p);if(b.k3.has(k))return 3;if(b.k2.has(k))return 2;
+  if(k.length<4)return 0;if(b.pal.has(k))return 1;if(k.length>=7&&b.cola.includes(k))return 1;return 0}
 function htNoticias(k){return (FEED&&FEED.pautas||[]).map(p=>[p,htNotCasa(p,k)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]||(b[0].prioridade||0)-(a[0].prioridade||0)).map(x=>x[0])}
 function htDormentes(k){return (Array.isArray(FEED&&FEED.dormentes)?FEED.dormentes:[]).filter(d=>d&&d.id&&!pautaById(d.id)&&htNotCasa(d,k)>0).slice(0,8)}
 /* ---- posts, stories e comentários que eu posso ver ---- */
