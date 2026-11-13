@@ -122,7 +122,8 @@ let srv = null;
   const f2 = JSON.parse(fs.readFileSync(U.REPO + '/feed.json', 'utf8')); f2.atualizado_em = iso(Date.now() - 5 * 60e3); fs.writeFileSync(S0 + 'feed.json', JSON.stringify(f2));
   ({ ctx, p } = await (async () => { const c = await br.newContext({ viewport: { width: 390, height: 844 } }); await c.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1')); const q = U.erros(await c.newPage(), 'velho'); await q.goto(BASE);
     await esperar(q, () => FEED && document.querySelector('#v-capa .cpi'), null, 12000); await sleep(800); return { ctx: c, p: q } })());
-  const sem = await p.evaluate(() => { const id = FEED.pautas.find(x => (x.visuais || []).some(v => v.tipo === 'grafico'))?.id; if (id) abrirMateria(id); return { id, g: !!document.querySelector('#layer .mat-vis .gn'), acv: !!document.querySelector('#layer .acv') } });
+  // pauta só com gráficos antigos (placar, linha, antes/depois… já são do acervo)
+  const sem = await p.evaluate(() => { const id = FEED.pautas.find(x => (x.visuais || []).some(v => v.tipo === 'grafico') && (x.visuais || []).every(v => v.tipo !== 'grafico' || !ACV_FORMAS.includes(v.forma)))?.id; if (id) abrirMateria(id); return { id, g: !!document.querySelector('#layer .mat-vis .gn'), acv: !!document.querySelector('#layer .acv') } });
   ok((!sem.id || sem.g) && !sem.acv && !p._erros.filter(e => !/ERR_|404|net::|Failed to load/.test(e)).length, 'feed publicado sem campos novos: tudo como antes, sem erros', sem);
   await ctx.close();
 

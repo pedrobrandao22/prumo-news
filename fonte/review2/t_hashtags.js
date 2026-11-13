@@ -28,6 +28,8 @@ function validarHashtags() {
   // aplicar.py: pauta sem o campo herda as hashtags da edição anterior e as dormentes guardam
   const base = JSON.parse(JSON.stringify(f)); base.pautas.forEach(p => delete p.hashtags); base.pautas[0].subtema = 'Congresso'; base.pautas[0].hashtags = ['#Escala6x1', '#Senado'];
   base.pautas[1].subtema = 'Eleições 2026'; base.pautas[1].hashtags = ['#Debates', '#Eleições2026'];
+  // a dormente só fica 30 dias: a pauta do arquivo de teste é de outubro, então ganha uma hora recente (antes o teste dependia da data)
+  base.pautas[1].hora = new Date(Date.now() - 3600e3).toISOString().slice(0, 19) + 'Z';
   const novo = JSON.parse(JSON.stringify(base)); novo.pautas.forEach(p => delete p.hashtags); novo.pautas.splice(1, 1);
   const bp = path.join(dir, 'base.json'), np = path.join(dir, 'novo.json'), op = path.join(dir, 'saida.json'); fs.writeFileSync(bp, JSON.stringify(base)); fs.writeFileSync(np, JSON.stringify(novo));
   try { execFileSync('python3', [path.join(TOOLS, 'aplicar.py'), np, '-o', op, '--prev', bp], { encoding: 'utf8' }) } catch (e) { console.log(String(e.stdout || e.message).slice(0, 400)) }
