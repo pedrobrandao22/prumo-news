@@ -1,4 +1,4 @@
-// Etapa 63: vídeo (story gravado segurando o botão, story da galeria com corte e texto, Reels no Feed)
+// Etapa 63: vídeo (story gravado segurando o botão, story da galeria com corte e texto, Reels já publicados tocando no Feed)
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8773/index.html'; const VID = __dirname + '/teste.webm';
 const clk = (p, sel) => p.$eval(sel, e => { e.scrollIntoView({ block: 'center' }); e.click() });
@@ -36,15 +36,8 @@ async function criar(p, { url, nome, email }) {
   await A.screenshot({ path: SH + 'v63-story-ed.png' });
   await clk(A, "[data-edpubst='amigos']"); await esperar(A, () => !ED, null, 30000); await sleep(800);
   ok(await ev(A, () => { const x = pubStoriesDe(S.uid)[0]; return x && x.estilo.video && x.estilo.dur > 3 && x.estilo.dur < 4.5 && x.estilo.ov === 1 && x.fotos.length === 2 }), 'story em vídeo publicado (3,5 s, com camada do texto)');
-  // 3) Reels
-  await clk(A, '#b-criar'); await sleep(300); await clk(A, '[data-edmodo="reel"]'); await sleep(500);
-  ok(await ev(A, () => !!document.querySelector('.ce.ce-reel [data-rlgrava]')), 'modo REELS abre a câmera de Reels');
-  await A.setInputFiles('#rl-file', VID); await esperar(A, () => ED && ED.rl && ED.rl.tela === 'vid', null, 8000); await sleep(500);
-  await clk(A, '[data-rlsom]'); await clk(A, '[data-rlcapa]'); await sleep(200); await ev(A, () => { const r = document.querySelector('[data-rlcapat]'); r.value = 3; r.dispatchEvent(new Event('input')) }); await clk(A, '[data-trok]'); await sleep(300);
-  ok(await ev(A, () => ED.rl.mudo && ED.rl.capa === 3), 'Reels: sem som e capa no segundo 3');
-  await A.screenshot({ path: SH + 'v63-reel.png' });
-  await clk(A, '[data-rlav]'); await sleep(400); await A.fill('#ce-leg', 'Meu primeiro reel'); await A.screenshot({ path: SH + 'v63-reel-det.png' });
-  await clk(A, '[data-rlpub]'); await esperar(A, () => !ED, null, 30000); await sleep(800);
+  // 3) Reel já publicado (a criação de Reels saiu em 13/11; os publicados continuam tocando no Feed): grava direto no banco
+  await ev(A, async () => { const st = pubStoriesDe(S.uid)[0]; const q = await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', texto: 'Meu primeiro reel', fotos: [st.fotos[0]], estilo: { v: 2, reel: 1, video: st.estilo.video, dur: st.estilo.dur, mudo: true } }).select('id'); if (q.error) throw q.error; await pubCarregar() });
   ok(await ev(A, () => { const x = PUB.itens.find(y => y.estilo && y.estilo.reel); return x && x.tipo === 'post' && x.estilo.video && x.estilo.mudo && x.fotos.length === 1 }), 'reel publicado');
   // B vê
   await ev(B, () => go('feed')); await sleep(300); await ev(B, () => pubCarregar()); await sleep(1800);

@@ -45,8 +45,7 @@ const fc105Svg=d=>`<svg class="cn102-i" viewBox="0 0 24 24" aria-hidden="true">$
 
 /* ===== 3. câmera do story: começa pela notícia ===== */
 function fc105Rail(el){const rail=el&&el.querySelector(".ce-rail");if(!rail||ED.modo!=="story")return;
-  rail.querySelectorAll("[data-edlayout],[data-rcboom],[data-rctimer]").forEach(b=>b.remove());
-  if(typeof RC!=="undefined"){RC.boom=false;RC.tm=0;try{rcRail()}catch(e){}}
+  rail.querySelectorAll("[data-edlayout]").forEach(b=>b.remove());
   const nt=rail.querySelector("[data-cn102stnt]"),cr=rail.querySelector("[data-edcriar]");
   if(cr){const s=cr.querySelector("span");if(s)s.textContent="Livre";cr.setAttribute("aria-label","Texto livre sobre um fundo")}
   if(!rail.querySelector("[data-fc105txt]"))rail.insertAdjacentHTML("afterbegin",`<button type="button" data-fc105txt>${fc105Svg(FC105_ICO.tx)}<span>Texto</span></button><button type="button" data-fc105ind>${fc105Svg(CN102_ICO.ind)}<span>Indicador</span></button>`);
