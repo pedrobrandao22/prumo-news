@@ -2,7 +2,7 @@
 /* Criar reel some (seletor POST/STORY/REELS e aba Reels do perfil). Reels já publicados continuam no Feed e no perfil.
    Para religar: REELS_LIGADO=true. Nos testes automáticos os Reels seguem ligados (o código continua testado),
    a não ser com localStorage "prumo-teste-semreels"="1". */
-const REELS_LIGADO=(()=>{try{return !!navigator.webdriver&&localStorage.getItem("prumo-teste-semreels")!=="1"}catch(e){return false}})();
+const REELS_LIGADO=false;
 if(!REELS_LIGADO){
   {const i=PF_ABAS.findIndex(a=>a[0]==="reels");if(i>=0)PF_ABAS.splice(i,1)}
   if(PF_ABA==="reels")PF_ABA="posts";

@@ -7,7 +7,7 @@
    "via Prumo" no cartão da notícia, convite para comentar a notícia no fim da matéria, pedido de fonte na análise.
    Stories antigos com figurinhas que saíram continuam aparecendo para quem vê (nada do visualizador foi tirado).
    Nos testes automáticos tudo continua como antes (o código antigo segue testado), a não ser com localStorage "prumo-teste-foco"="1". */
-const FOCO_LIGADO=(()=>{try{return !navigator.webdriver||localStorage.getItem("prumo-teste-foco")==="1"}catch(e){return true}})();
+const FOCO_LIGADO=true;
 
 /* ===== 1. listas: o que fica e o que sai ===== */
 const FC105_FUNDOS=[["noite","#1f2c45","#0c1322"],["politica","#1d3a63","#0d1d36"],["economia","#24533c","#0f2a1c"],["vinho","#6e2633","#33111a"],["grafite","#3b4048","#15171b"],["terra","#6e4419","#311e0a"]];

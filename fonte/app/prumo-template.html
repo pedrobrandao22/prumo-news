@@ -11339,7 +11339,7 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest||!ED||!$("#la
 /* Criar reel some (seletor POST/STORY/REELS e aba Reels do perfil). Reels já publicados continuam no Feed e no perfil.
    Para religar: REELS_LIGADO=true. Nos testes automáticos os Reels seguem ligados (o código continua testado),
    a não ser com localStorage "prumo-teste-semreels"="1". */
-const REELS_LIGADO=(()=>{try{return !!navigator.webdriver&&localStorage.getItem("prumo-teste-semreels")!=="1"}catch(e){return false}})();
+const REELS_LIGADO=false;
 if(!REELS_LIGADO){
   {const i=PF_ABAS.findIndex(a=>a[0]==="reels");if(i>=0)PF_ABAS.splice(i,1)}
   if(PF_ABA==="reels")PF_ABA="posts";
@@ -12361,7 +12361,7 @@ function ar104Marca(raiz,sel,achar){if(!raiz)return;raiz.querySelectorAll(sel).f
    "via Prumo" no cartão da notícia, convite para comentar a notícia no fim da matéria, pedido de fonte na análise.
    Stories antigos com figurinhas que saíram continuam aparecendo para quem vê (nada do visualizador foi tirado).
    Nos testes automáticos tudo continua como antes (o código antigo segue testado), a não ser com localStorage "prumo-teste-foco"="1". */
-const FOCO_LIGADO=(()=>{try{return !navigator.webdriver||localStorage.getItem("prumo-teste-foco")==="1"}catch(e){return true}})();
+const FOCO_LIGADO=true;
 
 /* ===== 1. listas: o que fica e o que sai ===== */
 const FC105_FUNDOS=[["noite","#1f2c45","#0c1322"],["politica","#1d3a63","#0d1d36"],["economia","#24533c","#0f2a1c"],["vinho","#6e2633","#33111a"],["grafite","#3b4048","#15171b"],["terra","#6e4419","#311e0a"]];
@@ -13379,11 +13379,8 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
    miniatura no perfil) funciona com a chave ligada ou não, para quem estiver no visual atual não ver um post vazio.
    Nos testes automáticos fica tudo como antes, a não ser com localStorage "prumo-teste-visual"="1". */
 const VISUAL_PADRAO="novo";
-const VN112_ATIVO=(()=>{try{return !navigator.webdriver||localStorage.getItem("prumo-teste-visual")==="1"}catch(e){return !navigator.webdriver}})();
-const VISUAL_NOVO=(()=>{if(!VN112_ATIVO)return false;try{
-  const q=new URLSearchParams(location.search),v=q.get("visual");
-  if(v==="novo"||v==="atual"){localStorage.setItem("prumo-visual",v);q.delete("visual");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-visual");return (g==="novo"||g==="atual"?g:VISUAL_PADRAO)==="novo"}catch(e){return VISUAL_PADRAO==="novo"}})();
+const VN112_ATIVO=true; /* 13/11: só existe o visual novo */
+const VISUAL_NOVO=true;
 
 /* ===== 1. repost: leitura (vale para todos) ===== */
 const VN112_IC={rp:'<svg class="ico" viewBox="0 0 24 24"><path d="M7 7h9.5a2.5 2.5 0 0 1 2.5 2.5V12"/><path d="M10 4L7 7l3 3"/><path d="M17 17H7.5A2.5 2.5 0 0 1 5 14.5V12"/><path d="M14 20l3-3-3-3"/></svg>'};
@@ -13497,9 +13494,7 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
    localStorage "prumo-cartao" = "atual" (o cartão de hoje, só com o botão Repostar ao lado de Guardar e a linha "Bia repostou"
    embaixo de "Bia gostou"), "b" (Fio) ou "c" (Cartão); vazio = "a". Ou ?cartao=a|b|c|atual no endereço (guarda e some do
    endereço, como o ?visual). */
-const VN112_CT=(()=>{if(!VN112_ATIVO)return "";try{const q=new URLSearchParams(location.search),v=q.get("cartao");
-  if(v!=null){if(v==="a"||v==="b"||v==="c"||v==="atual")localStorage.setItem("prumo-cartao",v);else localStorage.removeItem("prumo-cartao");q.delete("cartao");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-cartao");if(!VISUAL_NOVO||g==="atual")return "";return g==="b"||g==="c"?g:"a"}catch(e){return VISUAL_NOVO?"a":""}})();
+const VN112_CT="a"; /* cartão A (Jornal); B e C saíram em 13/11 */
 const VN112_ROT={like:"Gostei",cmt:"Comentar",send:"Enviar",save:"Guardar"};
 function vn112BtRp(k,id){return `<button type="button" class="act vn-rpb" data-vnrp="${esc(k+":"+id)}" aria-label="Repostar" aria-pressed="false">${VN112_IC.rp}<span>Repostar</span><em class="cnt" data-n="vnrp"></em></button>`}
 function vn112NRp(k,id){let n=0,eu=false;const us=[];pubVisiveis().forEach(x=>{const r=vn112Rp(x);if(r&&r.k===k&&r.id===id){n++;if(x.autor===S.uid)eu=true;if(!us.includes(x.autor))us.push(x.autor)}});return {n,eu,us}}
@@ -13669,10 +13664,7 @@ if(VISUAL_NOVO){
       notícias que estavam mais abaixo no Feed; elas saem da lista principal (sem repetir). No máximo 3 por carga do Feed.
    4. Contexto do Prumo (como as notas da comunidade do X): sob o post de um amigo que cita uma notícia (anexada, do tipo
       Notícia ou por hashtag da pauta), uma caixa com o resumo neutro da pauta e "Ler a matéria ›". Só campos neutros. */
-const VN_FASE2=(()=>{if(typeof VISUAL_NOVO==="undefined"||!VISUAL_NOVO)return false;try{
-  const q=new URLSearchParams(location.search),v=q.get("fase2");
-  if(v!=null){if(v==="1")localStorage.setItem("prumo-fase2","1");else if(v==="0")localStorage.setItem("prumo-fase2","0");q.delete("fase2");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-fase2");return g==="1"||(g!=="0"&&!navigator.webdriver)}catch(e){return !navigator.webdriver}})(); /* ligada para todos desde 03/11; ?fase2=0 desliga no aparelho; nos testes só com "1" */
+const VN_FASE2=true; /* fase 2 é o único caminho desde 13/11 */
 const F113_MAX=5;
 const F113_SVG={mais:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',x:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   info:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.4"/></svg>'};

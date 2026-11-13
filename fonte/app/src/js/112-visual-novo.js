@@ -12,11 +12,8 @@
    miniatura no perfil) funciona com a chave ligada ou não, para quem estiver no visual atual não ver um post vazio.
    Nos testes automáticos fica tudo como antes, a não ser com localStorage "prumo-teste-visual"="1". */
 const VISUAL_PADRAO="novo";
-const VN112_ATIVO=(()=>{try{return !navigator.webdriver||localStorage.getItem("prumo-teste-visual")==="1"}catch(e){return !navigator.webdriver}})();
-const VISUAL_NOVO=(()=>{if(!VN112_ATIVO)return false;try{
-  const q=new URLSearchParams(location.search),v=q.get("visual");
-  if(v==="novo"||v==="atual"){localStorage.setItem("prumo-visual",v);q.delete("visual");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-visual");return (g==="novo"||g==="atual"?g:VISUAL_PADRAO)==="novo"}catch(e){return VISUAL_PADRAO==="novo"}})();
+const VN112_ATIVO=true; /* 13/11: só existe o visual novo */
+const VISUAL_NOVO=true;
 
 /* ===== 1. repost: leitura (vale para todos) ===== */
 const VN112_IC={rp:'<svg class="ico" viewBox="0 0 24 24"><path d="M7 7h9.5a2.5 2.5 0 0 1 2.5 2.5V12"/><path d="M10 4L7 7l3 3"/><path d="M17 17H7.5A2.5 2.5 0 0 1 5 14.5V12"/><path d="M14 20l3-3-3-3"/></svg>'};
@@ -130,9 +127,7 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
    localStorage "prumo-cartao" = "atual" (o cartão de hoje, só com o botão Repostar ao lado de Guardar e a linha "Bia repostou"
    embaixo de "Bia gostou"), "b" (Fio) ou "c" (Cartão); vazio = "a". Ou ?cartao=a|b|c|atual no endereço (guarda e some do
    endereço, como o ?visual). */
-const VN112_CT=(()=>{if(!VN112_ATIVO)return "";try{const q=new URLSearchParams(location.search),v=q.get("cartao");
-  if(v!=null){if(v==="a"||v==="b"||v==="c"||v==="atual")localStorage.setItem("prumo-cartao",v);else localStorage.removeItem("prumo-cartao");q.delete("cartao");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-cartao");if(!VISUAL_NOVO||g==="atual")return "";return g==="b"||g==="c"?g:"a"}catch(e){return VISUAL_NOVO?"a":""}})();
+const VN112_CT="a"; /* cartão A (Jornal); B e C saíram em 13/11 */
 const VN112_ROT={like:"Gostei",cmt:"Comentar",send:"Enviar",save:"Guardar"};
 function vn112BtRp(k,id){return `<button type="button" class="act vn-rpb" data-vnrp="${esc(k+":"+id)}" aria-label="Repostar" aria-pressed="false">${VN112_IC.rp}<span>Repostar</span><em class="cnt" data-n="vnrp"></em></button>`}
 function vn112NRp(k,id){let n=0,eu=false;const us=[];pubVisiveis().forEach(x=>{const r=vn112Rp(x);if(r&&r.k===k&&r.id===id){n++;if(x.autor===S.uid)eu=true;if(!us.includes(x.autor))us.push(x.autor)}});return {n,eu,us}}
