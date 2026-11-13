@@ -14,7 +14,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const n = esc ? '[escuro] ' : '';
   ok(await p.evaluate(() => { const v = e => e && getComputedStyle(e).display !== 'none'; return !v(document.getElementById('b-audio')) && !v(document.getElementById('ed')) && v(document.getElementById('b-busca')) && document.querySelector('#secs .sb')?.matches('[data-5min]') }), n + 'topo enxuto: marca, filtro e busca; "Em 5 min" é o primeiro círculo');
   ok(await p.evaluate(() => { const po = document.querySelector('#posts .post'); return !!po.querySelector('.ph-av') && !!po.querySelector('.ph-nm b') && !!po.querySelector('.pt-cap') && !!po.querySelector('.pt-hora') }), n + 'post: avatar da seção, legenda e hora no pé');
-  ok(await p.evaluate(() => { const c = document.querySelector('#posts .post .cover'); const r = c.getBoundingClientRect(); return r.height > r.width * 1.1 }), n + 'mídia vertical (4:5)');
+  ok(await p.evaluate(() => { const c = document.querySelector('#posts .post .cover'); const r = c.getBoundingClientRect(); return r.height >= Math.min(r.width * .98, innerHeight * .6) - 2 && r.height <= r.width + 2 }), n + 'mídia do cartão A: quase quadrada (até 98% da largura, 60% da tela), a manchete fica em cima');
   if (!esc) {
     await p.evaluate(() => { window.__c5 = 0; document.getElementById('b-5min').addEventListener('click', () => window.__c5++, true) });
     await p.evaluate(() => document.querySelector('#secs [data-5min]').click()); await sleep(900);
