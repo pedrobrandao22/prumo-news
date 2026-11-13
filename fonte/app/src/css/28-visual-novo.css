@@ -1,4 +1,4 @@
-/* ---------- 112: visual novo (teste). Quase tudo só vale com html.vn (a chave ligada); as direções do cartão, com html.vn-ca / vn-cb / vn-cc ---------- */
+/* ---------- 112: visual novo (o único desde 13/11): html.vn e o cartão A (html.vn-ca) ---------- */
 
 /* ===== repost (vale para todos: quem está no visual atual também vê o cartão citado) ===== */
 .vn-rpw{margin:0 var(--gut,16px) 4px}
@@ -33,10 +33,6 @@
 .pf-tx.vn-pfrp b{font:600 12.5px/1.25 var(--f-display);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;white-space:normal}
 
 /* ===== chave em Perfil › Conta ===== */
-.vn-sw{position:relative;flex:none;width:42px;height:25px;border-radius:999px;background:var(--line);transition:background .15s;margin-left:auto}
-.vn-sw i{position:absolute;left:3px;top:3px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgb(0 0 0 / .25);transition:transform .15s}
-.vn-sw.on{background:var(--accent)}.vn-sw.on i{transform:translateX(17px)}
-@media (prefers-reduced-motion:reduce){.vn-sw,.vn-sw i{transition:none}}
 
 /* ===== topo: cartões verticais (3:4) no lugar das bolinhas =====
    Respiro: 12px entre os cartões e a borda colorida por DENTRO do cartão (antes ela ficava por fora e comia o espaço entre eles);
@@ -83,7 +79,7 @@ html.vn .post .act.vn-rpb .cnt:empty{display:none}
 html.vn .upost.vn-rp>.vn-rpw{margin:2px var(--gut,16px) 0}
 html.vn .upost.vn-rp>.vn-rpw>.vn-rptx{margin:0 0 10px;font:400 calc(17px*var(--fz,1))/1.5 var(--f-body)}
 
-/* ===== em teste: as três direções do cartão (só com html.vn-ca / vn-cb / vn-cc) ===== */
+/* ===== o cartão A (Jornal) ===== */
 .post.vn-cn .track>.sl:first-child .cover .cv h2{display:none}
 .post.vn-c .vn-tit{margin:0}
 .post.vn-c .vn-tit button{display:block;width:100%;padding:0;margin:0;border:0;background:none;text-align:left;color:var(--ink);cursor:pointer}
@@ -178,116 +174,13 @@ html.vn-ca .upost.vn-cp.fc107-semcar .cmt-area{margin-left:0}
 
 /* --- B · Fio: avatar na coluna, texto recuado, mídia na largura toda com cantos arredondados, números ao lado das ações,
        e os comentários dos amigos ligados por um fio embaixo da notícia --- */
-html.vn-cb .post.vn-c{--vn-col:64px}
-html.vn-cb #posts>.post.vn-c:not(.fc107-junto){border-top:1px solid var(--line);padding-bottom:6px}
-html.vn-cb .post.vn-c>.ph{padding-block:12px 2px;align-items:flex-start}
-html.vn-cb .post.vn-c>.ph .ph-av,html.vn-cb .post.vn-c>.ph .up-au .av{width:40px;height:40px;font-size:17px}
-html.vn-cb .post.vn-c>.ph .ph-sec,html.vn-cb .post.vn-c>.ph .up-au{gap:12px;align-items:flex-start}
-html.vn-cb .post.vn-c .ph-nm{flex-direction:row;align-items:baseline;gap:5px;flex-wrap:nowrap;min-width:0;padding-top:3px}
-html.vn-cb .post.vn-c .ph-nm>b{flex:none;max-width:48vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 15px/1.25 var(--f-ui)}
-html.vn-cb .post.vn-c .ph-nm>.ph-sub{flex:1;min-width:0;max-width:none;font:500 14px/1.25 var(--f-ui)}
-html.vn-cb .post.vn-c .ph-nm>.ph-sub:not(:empty)::before{content:"·\00a0"}
-html.vn-cb .post.vn-c>.ph .more-btn{margin-top:-6px}
-html.vn-cb .post.vn-c>.ph+*{margin-top:-20px}
-html.vn-cb .post.vn-c>.vn-tit,html.vn-cb .post.vn-c>.pt-cap,html.vn-cb .post.vn-c>.vn-txt,html.vn-cb .post.vn-c>.vn-rpw{margin-left:var(--vn-col);margin-right:var(--gut,16px)}
-html.vn-cb .post.vn-cn>.vn-tit button{font:600 calc(19.5px*var(--fz,1))/1.24 var(--f-display);letter-spacing:-.006em}
-html.vn-cb .post.vn-cn>.pt-cap{display:block;width:auto;margin-top:4px;margin-bottom:12px;padding:0;text-align:left}
-html.vn-cb .post.vn-cn>.pt-cap .pt-cap-t{-webkit-line-clamp:2;font:400 calc(15.5px*var(--fz,1))/1.45 var(--f-body);color:var(--muted)}
-html.vn-cb .post.vn-cn>.pt-cap .pt-cap-m{display:none}
-html.vn-cb .post.vn-c>.vn-txt{margin-bottom:12px;font:400 calc(16.5px*var(--fz,1))/1.5 var(--f-body);color:var(--ink)}
-html.vn-cb .post.vn-c>.vn-txt.vn-so{font-size:calc(17.5px*var(--fz,1))}
-html.vn-cb .post.vn-c>.vn-rpw{margin-bottom:6px}
-html.vn-cb .post.vn-c>.vn-rpw>.vn-rptx{font:400 calc(16.5px*var(--fz,1))/1.5 var(--f-body)}
-html.vn-cb .post.vn-c>.car{margin:0 var(--gut,16px);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card)}
-html.vn-cb .post.vn-c>.gut:not(.ph){padding-left:var(--vn-col)}
-html.vn-cb .post.vn-c .acts{gap:0;margin-left:-10px;padding-top:4px;justify-content:space-between;max-width:320px}
-html.vn-cb .post.vn-c .acts>.sp{display:none}
-html.vn-cb .post.vn-c .act{height:42px;min-width:0;padding:0 10px;gap:6px;color:var(--muted)}
-html.vn-cb .post.vn-c .act .ico{width:21px;height:21px}
-html.vn-cb .post.vn-c .act .cnt{font:600 13.5px var(--f-ui);color:inherit;min-width:1ch}
-html.vn-cb .post.vn-c .act[data-a="cmt"]{order:1}
-html.vn-cb .post.vn-c .act.vn-rpb{order:2;margin-left:0}
-html.vn-cb .post.vn-c .act[data-a="like"]{order:3}
-html.vn-cb .post.vn-c .act[data-a="send"],html.vn-cb .post.vn-c .act[data-usend]{order:4}
-html.vn-cb .post.vn-c .act[data-a="save"]{order:5;margin-left:0}
-html.vn-cb .post.vn-c .act.on,html.vn-cb .post.vn-c .act.on .cnt{color:var(--bronze-ink)}
-html.vn-cb .post.vn-c .act.saved{color:var(--ink)!important}
-html.vn-cb .post.vn-c .likes:not(.vn-rpq){display:none}
-html.vn-cb .post.vn-c .vn-rpq{font-size:13px}
-html.vn-cb .post.vn-c .addc{padding-left:0}
+
 /* o fio: sai da notícia e liga os comentários dos amigos */
-html.vn-cb #posts>.post.vn-cn:has(+.fc107-junto){position:relative}
-html.vn-cb #posts>.post.vn-cn:has(+.fc107-junto)::after{content:"";position:absolute;left:calc(var(--gut,16px) + 19px);bottom:0;height:64px;width:2px;border-radius:2px 2px 0 0;background:var(--line)}
-html.vn-cb #posts .post.vn-cp.fc107-junto{margin-top:-6px;padding-top:0}
-html.vn-cb #posts .post.vn-cp.fc107-junto::before{display:block;left:calc(var(--gut,16px) + 19px);top:0;bottom:0;width:2px;background:var(--line)}
-html.vn-cb #posts .post.vn-cp.fc107-junto.fc107-jl::before{bottom:auto;height:12px}
-html.vn-cb .post.vn-cp.fc107-junto>.fc107-gh{display:none}
-html.vn-cb .post.vn-cp.fc107-junto>.ph{position:relative;z-index:1}
-html.vn-cb .post.vn-cp.fc107-junto>.ph .up-au .av{box-shadow:0 0 0 3px var(--bg)}
-html.vn-cb .upost.vn-cp.fc107-semcar .acts,html.vn-cb .upost.vn-cp.fc107-semcar [data-likes],html.vn-cb .upost.vn-cp.fc107-semcar .cmt-area{margin-left:-10px}
-html.vn-cb .upost.vn-cp.fc107-semcar .cmt-area{margin-left:0}
-html.vn-cb .upost.vn-cp.fc107-semcar .up-leg{margin:0 var(--gut,16px) 4px var(--vn-col);font-family:var(--f-body)}
-html.vn-cb .vn-q{border-radius:16px}
 
 /* --- C · Cartão (YouTube): arte grande 16:9 com etiqueta por cima; avatar da editoria (ou da pessoa) ao lado da manchete;
        linha "Política · 14/10 · 3 comentários"; ações em pílulas --- */
-html.vn-cc #posts>.post.vn-c:not(.fc107-junto){padding-bottom:24px}
-html.vn-cc .post.vn-c>.car{margin:0}
-html.vn-cc .post.vn-c>.car>.prog.vn-dots{left:10px;transform:none}
-html.vn-cc .post.vn-cn .track>.sl:first-child .cover .cv{display:none}
-.vn-cc-chip{position:absolute;right:8px;bottom:9px;z-index:2;max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:3px 7px;border-radius:5px;background:rgb(8 10 14 / .8);color:#fff;font:700 12px/1.25 var(--f-ui);pointer-events:none}
-.vn-cc-row{display:flex;align-items:flex-start;gap:12px;padding:12px 4px 0 var(--gut,16px)}
-.vn-cc-av{flex:none;display:flex;width:36px;height:36px;border-radius:50%;overflow:hidden}
-.vn-cc-av .av{width:36px;height:36px;font-size:15px}
-.vn-cc-sec{align-items:center;justify-content:center;background:var(--c,var(--accent));color:#fff;font:600 17px/1 var(--f-display)}
-:root[data-aparencia="escuro"] .vn-cc-sec{color:var(--bg)}
-@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .vn-cc-sec{color:var(--bg)}}
-.vn-cc-tx{flex:1;min-width:0;padding-top:1px}
-.vn-cc-row>.more-btn{flex:none;width:40px;height:40px;margin:-6px 0 0;display:flex;align-items:center;justify-content:center;color:var(--muted);transform:rotate(90deg)}
-html.vn-cc .vn-cc-tx>.vn-tit button{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font:600 calc(16.5px*var(--fz,1))/1.32 var(--f-ui);letter-spacing:-.003em}
-html.vn-cc .vn-cc-tx>.ph{display:block;padding:3px 0 0}
-html.vn-cc .vn-cc-tx>.ph .ph-t{display:block}
-html.vn-cc .vn-cc-tx>.ph .ph-av,html.vn-cc .vn-cc-tx>.ph .up-au .av{display:none}
-html.vn-cc .vn-cc-tx>.ph .ph-sec{min-height:0;gap:0}
-html.vn-cc .vn-cc-tx>.ph .ph-nm{display:block;white-space:normal}
-html.vn-cc .vn-cc-tx>.ph .ph-nm>b{display:inline;font:500 13.5px/1.35 var(--f-ui);color:var(--muted)}
-html.vn-cc .vn-cc-tx>.ph .ph-nm>.ph-sub{display:inline;max-width:none;font:500 13.5px/1.35 var(--f-ui);color:var(--muted);white-space:normal}
-html.vn-cc .vn-cc-tx>.ph .ph-nm>.ph-sub:not(:empty)::before{content:" ·\00a0"}
-html.vn-cc .upost .vn-cc-tx>.ph .ph-nm>b{color:var(--ink);font-weight:700}
-html.vn-cc .vn-cc-tx>.up-leg{margin:0 0 2px;font:400 calc(16px*var(--fz,1))/1.48 var(--f-body);color:var(--ink)}
-html.vn-cc .vn-cc-tx>.up-leg.vn-so{font-size:calc(17px*var(--fz,1))}
-html.vn-cc .vn-cc-tx>.vn-rptx{margin:0 0 2px;font:400 calc(16px*var(--fz,1))/1.48 var(--f-body)}
-html.vn-cc .post.vn-cn>.gut>.pt-cap{display:none}
-html.vn-cc .post.vn-c>.vn-rpw{margin:10px var(--gut,16px) 0 calc(var(--gut,16px) + 48px)}
-html.vn-cc .post.vn-c>.gut:not(.ph){padding-left:calc(var(--gut,16px) + 48px)}
-html.vn-cc .post.vn-c .acts{gap:8px;margin-left:0;padding-top:10px;flex-wrap:wrap}
-html.vn-cc .post.vn-c .acts>.sp{display:none}
-html.vn-cc .post.vn-c .act{height:34px;min-width:0;padding:0 12px;gap:6px;border-radius:999px;background:var(--chip,var(--soft));color:var(--ink)}
-html.vn-cc .post.vn-c .act .ico{width:19px;height:19px}
-html.vn-cc .post.vn-c .act .cnt{font:700 13px var(--f-ui);color:inherit}
-html.vn-cc .post.vn-c .act[data-a="like"]{order:1}
-html.vn-cc .post.vn-c .act[data-a="cmt"]{order:2}
-html.vn-cc .post.vn-c .act.vn-rpb{order:3;margin-left:0}
-html.vn-cc .post.vn-c .act[data-a="send"],html.vn-cc .post.vn-c .act[data-usend]{order:4}
-html.vn-cc .post.vn-c .act[data-a="save"]{order:5;margin-left:0;margin-right:0}
-html.vn-cc .post.vn-c .act.on{background:var(--bronze-soft);color:var(--bronze-ink)}
-html.vn-cc .post.vn-c .act.saved{background:var(--ink)!important;color:var(--bg)!important}
-html.vn-cc .post.vn-c .likes{font-size:13px}
-html.vn-cc .post.vn-c .addc{padding-left:0}
+
 /* o que os amigos acham: um quadro de comentários logo abaixo da notícia */
-html.vn-cc #posts .post.vn-cp.fc107-junto{margin:-12px var(--gut,16px) 0;padding:0 0 10px;background:var(--soft);border-radius:0}
-html.vn-cc #posts .post.vn-cp.fc107-junto.fc107-j1{border-radius:14px 14px 0 0}
-html.vn-cc #posts .post.vn-cp.fc107-junto.fc107-jl{border-radius:0 0 14px 14px;margin-bottom:22px}
-html.vn-cc #posts .post.vn-cp.fc107-junto.fc107-j1.fc107-jl{border-radius:14px}
-html.vn-cc #posts .post.vn-cp.fc107-junto::before{display:none}
-html.vn-cc .post.vn-cp.fc107-junto>.fc107-gh{padding:12px 14px 0;color:var(--ink);letter-spacing:.04em}
-html.vn-cc .post.vn-cp.fc107-junto .vn-cc-row{padding:10px 2px 0 14px;gap:10px}
-html.vn-cc .post.vn-cp.fc107-junto .vn-cc-av,html.vn-cc .post.vn-cp.fc107-junto .vn-cc-av .av{width:28px;height:28px;font-size:12px}
-html.vn-cc .post.vn-cp.fc107-junto .vn-cc-tx>.up-leg{font-size:calc(15.5px*var(--fz,1))}
-html.vn-cc .post.vn-cp.fc107-junto>.gut:not(.ph){padding-left:52px;padding-right:12px}
-html.vn-cc .post.vn-cp.fc107-junto .act{height:30px;padding:0 10px;background:var(--card)}
-html.vn-cc .upost.vn-cp.fc107-semcar .acts,html.vn-cc .upost.vn-cp.fc107-semcar [data-likes],html.vn-cc .upost.vn-cp.fc107-semcar .cmt-area{margin-left:0}
-html.vn-cc .vn-q{border-radius:12px}
 
 /* ===== perfil no estilo do X ===== */
 html.vn .vn-pf{--vn-band:var(--accent);position:relative;margin:0 calc(-1*var(--gut,16px)) 2px;padding-bottom:12px}
@@ -337,4 +230,4 @@ html.vn .vn-mid{margin-top:2px}
 .vn-rpt{width:100%;box-sizing:border-box;resize:vertical;min-height:96px;font:400 16px/1.45 var(--f-body)}
 .vn-rpprev{margin-top:10px}
 
-@media (max-width:370px){html.vn-cb .post.vn-c{--vn-col:60px}html.vn .secs.ig.vn-tiles .sb.ig-s,html.vn #secs.vn-tiles .ig-r{width:84px}html.vn #secs.vn-tiles .ig-r{height:112px}}
+@media (max-width:370px){html.vn .secs.ig.vn-tiles .sb.ig-s,html.vn #secs.vn-tiles .ig-r{width:84px}html.vn #secs.vn-tiles .ig-r{height:112px}}
