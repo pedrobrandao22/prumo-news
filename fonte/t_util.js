@@ -11,8 +11,13 @@ fs.mkdirSync(SHOTS, { recursive: true });
 
 function servir(pasta, porta) {
   const p = spawn('python3', ['-m', 'http.server', String(porta)], { cwd: path.join(AQUI, pasta), stdio: 'ignore' });
-  return p;
+  SERVIDORES.push(p); return p;
 }
+// servidores filhos morrem junto com o teste (erro, process.exit ou o "timeout" do testar.sh): senão a porta fica presa e o teste seguinte que usa a mesma porta cai com EADDRINUSE
+const SERVIDORES = [];
+const matarServidores = () => { for (const s of SERVIDORES) { try { if (s.exitCode === null && !s.killed) s.kill() } catch (e) {} } };
+process.on('exit', matarServidores);
+for (const sinal of ['SIGTERM', 'SIGINT', 'SIGHUP']) process.once(sinal, () => { matarServidores(); process.exit(128 + ({ SIGTERM: 15, SIGINT: 2, SIGHUP: 1 })[sinal]) });
 // feed de teste com horário "agora" (para não aparecer o aviso de atraso nas capturas)
 function feedFresco(pasta) {
   const f = JSON.parse(fs.readFileSync(path.join(AQUI, 'app', 'feed.json'), 'utf8'));
