@@ -5549,6 +5549,8 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
 .tl142-sw:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:10px}
 @media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .tl142-sw.on i{background:#0f1522}}
 :root[data-aparencia="escuro"] .tl142-sw.on i{background:#0f1522}
+/* 145: sugestões de @ dentro do criador, no fluxo (não cobrem "Marcar pessoas") */
+.men-box.men-in145{position:static;z-index:auto;margin:6px 0 10px;box-shadow:none}
 </style>
 </head>
 <body>
@@ -13450,7 +13452,9 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
   box.querySelectorAll(":scope>.sb.ig-s").forEach(b=>{if(b.querySelector(".vn-tl"))return;const r=b.querySelector(".ig-r");if(!r)return;let art="",tit="",kick=(b.querySelector(":scope>b")||{}).textContent||"",visto=r.classList.contains("visto"),cls="";
     if(b.hasAttribute("data-meustory")){cls="vn-tl-eu";const st=pubStoriesDe(S.uid);const x=st[st.length-1];if(x){const f=x.fotos[0]&&pubUrl(x.fotos[0]);art=f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<i class="vn-tl-fd" style="background:${pubFundo(x.estilo&&x.estilo.fundo)}"></i>`}tit=st.length?"":"Conte o que viu"}
     else if(b.dataset.ustory){cls="vn-tl-u";const st=pubStoriesDe(b.dataset.ustory);const x=st.find(y=>!PUB_VISTOS.has(y.id))||st[st.length-1];visto=st.length&&st.every(y=>PUB_VISTOS.has(y.id));
-      if(x){const f=x.fotos[0]&&pubUrl(x.fotos[0]),nt=x.pid&&pautaById(x.pid);art=f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:nt?capaArte(nt,"vn-tl-art"):`<i class="vn-tl-fd" style="background:${pubFundo(x.estilo&&x.estilo.fundo)}"></i>`;tit=nt?versao(nt,lente()).titulo:vn112Curto(x.texto,60)}}
+      if(x){const f=x.fotos[0]&&pubUrl(x.fotos[0]),nt=x.pid&&pautaById(x.pid);art=f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:nt?capaArte(nt,"vn-tl-art"):`<i class="vn-tl-fd" style="background:${pubFundo(x.estilo&&x.estilo.fundo)}"></i>`;tit=nt?versao(nt,lente()).titulo:vn112Curto(x.texto,60);
+        /* cartão de texto (opinião, análise, relato, citação): a imagem já traz o texto; o título por cima embaralhava */
+        if(x.fotos&&x.fotos.length&&/^(Opinião de |Análise de |Relato de |Citação: )/.test(String(x.texto||"")))tit=""}}
     else if(b.hasAttribute("data-5min")){cls="vn-tl-5";const a=vn112Primeira("_5min");if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit="O dia em 5 minutos";visto=false}
     else if(b.hasAttribute("data-ultimas")){cls="vn-tl-ult";const a=vn112Primeira("_ult");tit=a?vn112Curto(a.t,70):"";visto=vn112Visto("_ult")}
     else if(b.dataset.dest){const p=pautaById(b.dataset.dest);if(p){art=capaArte(p,"vn-tl-art");tit=vn112Curto(versao(p,lente()).titulo,70);visto=SEEN.has(seenKey(p))}cls="vn-tl-dest"}
@@ -13695,7 +13699,9 @@ function f113Caps(){if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO=null}
     const ref=c.querySelector(".mat-tl")||vem||[...c.querySelectorAll(".mat-vis")].pop()||c.querySelector(".mat-p");if(ref)ref.insertAdjacentHTML("afterend",h)}}
   const caps=[];const add=(el,nome)=>{if(el&&!caps.some(x=>x.el===el))caps.push({el,nome})};
   add(c.querySelector(".mat-30")||c.querySelector(".mat-p"),"O que aconteceu");
-  const vis=c.querySelector(".mat-vis");if(vis){const t=(Array.isArray(p.visuais)?p.visuais:[]).find(v=>v&&F113_VIS[v.tipo]);add(vis,t?F113_VIS[t.tipo]:"Os números")}
+  /* um capítulo para cada bloco de visual (placar oficial, números, gráfico, pesquisas), na ordem em que aparecem */
+  {const vt=(Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&F113_VIS[v.tipo]);let k=0;
+    c.querySelectorAll(".mat-vis").forEach(el=>{if(el.classList.contains("po118"))add(el,"Placar oficial");else{const t=vt[k++];add(el,t?F113_VIS[t.tipo]:"Os números")}})}
   add(c.querySelector(".mat-tl"),"Linha do tempo");
   add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
   add(c.querySelector(".fs2-faq"),"Perguntas");
@@ -14785,12 +14791,14 @@ async function nt124CarregaSeg(){if(!SB||!S.uid||!S.membro||NT124.v9===false)ret
     const ant=NT124.v9;NT124.v9=true;if(rows.length&&(!de||!para))return;NT124.segCols=[de,para];
     NT124.seguidores=rows.filter(x=>x[para]===S.uid&&x[de]!==S.uid).map(x=>({u:x[de],at:nt124Ts(x)}));
     NT124.seguindo=new Set(rows.filter(x=>x[de]===S.uid).map(x=>x[para]));
+    /* desde quando sigo cada um: posts de antes de começar a seguir não contam como novidade (NB19) */
+    NT124.segDesde={};rows.filter(x=>x[de]===S.uid).forEach(x=>{NT124.segDesde[x[para]]=nt124Ts(x)||0});
     if(ant!==true&&$("#layer .pfv-nt124"))nt124Desenha();atRedesenha();nt124Pinta()}catch(e){}}
 {const _ai124=atItens;atItens=function(){let it=_ai124.apply(this,arguments);try{if(!NT124.v9||!S.uid||!S.membro||!Array.isArray(it))return it;const ag=Date.now(),novos=[];
     const semHora=NT124.seguidores.filter(s=>!s.at).map(s=>"nt124s:"+s.u);const L=semHora.length?nt124PrimeiraVez(semHora):{};
     NT124.seguidores.forEach(s=>{if(!S.membros[s.u]||(S.bloq||[]).includes(s.u))return;const at=s.at||L["nt124s:"+s.u]||0;if(!at)return;
       novos.push({k:"nt124s:"+s.u,at,us:[s.u],ic:"👤",txt:`<b>${esc(nomeDe(s.u))}</b> começou a seguir você`,u:s.u,acao:"perfil"})});
-    if(NT124.seguindo.size)pubVisiveis().filter(x=>NT124.seguindo.has(x.autor)&&x.autor!==S.uid&&x.tipo!=="story"&&ag-x.at<30*864e5&&!nt124RpMeu(x)).sort((a,b)=>b.at-a.at).slice(0,12).forEach(x=>{const col=nt124EhColuna(x);
+    if(NT124.seguindo.size)pubVisiveis().filter(x=>NT124.seguindo.has(x.autor)&&x.autor!==S.uid&&x.tipo!=="story"&&ag-x.at<30*864e5&&!(NT124.segDesde&&x.at<(NT124.segDesde[x.autor]||0))&&!nt124RpMeu(x)).sort((a,b)=>b.at-a.at).slice(0,12).forEach(x=>{const col=nt124EhColuna(x);
       const tt=String((x.estilo&&x.estilo.titulo)||x.texto||"").trim();
       novos.push({k:(col?"nt124c:":"nt124p:")+x.id,at:x.at,us:[x.autor],ic:col?"✎":"▤",txt:`<b>${esc(nomeDe(x.autor))}</b> ${col?"publicou uma coluna":"publicou"}${tt?`: “${esc(tt.length>80?tt.slice(0,79).trimEnd()+"…":tt)}”`:""}`,pub:x.id,acao:"nt124pub"})});
     if(novos.length)it=it.concat(novos).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){}return it}}
@@ -17612,6 +17620,11 @@ function mc1111Tempo(p){const vs=Array.isArray(p&&p.visuais)?p.visuais:[];const 
     mudou=true;return Object.assign({},it,{quando:`${m[1]}/${m[2]}/${ano}`})});
   if(!mudou)return p;const nv=vs.slice();nv[k]=Object.assign({},vs[k],{itens:novos});return Object.assign({},p,{visuais:nv})}
 {const _mc1111MatTempo=matTempo;matTempo=function(p){try{p=mc1111Tempo(p)}catch(e){}return _mc1111MatTempo.call(this,p)}}
+/* Pendências pequenas 12/11/2026 (145).
+   Sugestões de @ na legenda do criador (post, reel, fotos): a caixa flutuava por cima da linha "Marcar pessoas".
+   Agora ela entra logo abaixo da legenda, empurrando as linhas para baixo; nada fica coberto. */
+{const _ms145=menSugere;menSugere=function(i){const r=_ms145.apply(this,arguments);
+  try{if(MEN_BOX&&MEN_BOX.isConnected&&MEN_INP===i&&i.id==="ce-leg"){MEN_BOX.classList.add("men-in145");MEN_BOX.style.left=MEN_BOX.style.top=MEN_BOX.style.bottom=MEN_BOX.style.width="";if(i.nextElementSibling!==MEN_BOX)i.insertAdjacentElement("afterend",MEN_BOX)}}catch(e){}return r}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

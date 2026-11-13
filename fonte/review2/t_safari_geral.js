@@ -24,7 +24,7 @@ let srv = null;
   const col = (await como('b', `insert into public.publicacoes(autor,tipo,texto,fotos,estilo,publico,corpo) values ($1,'post',$2,'[]',$3,'amigos',$4) returning id`,
     [ids.b, 'O orçamento no corredor\n\nO que se ouve no Congresso', { v: 2, coluna: { v: 1, f: 'h', tit: 'O orçamento no corredor', linha: 'O que se ouve no Congresso', min: 2 } }, CORPO]))[0].id;
   const post = (await como('b', `insert into public.publicacoes(autor,tipo,texto,fotos,estilo,publico) values ($1,'post','Alguém mais achou o debate morno? #Debate','[]',$2,'amigos') returning id`, [ids.b, { v: 2 }]))[0].id;
-  await como('b', `insert into public.publicacoes(autor,tipo,texto,fotos,estilo,publico,expira) values ($1,'story','Texto do giro','[]',$2,'amigos',$3)`, [ids.b, { v: 2, fundo: 3 }, new Date(Date.now() + 20 * 3600e3).toISOString()]).catch(() => null);
+  await como('b', `insert into public.publicacoes(autor,tipo,texto,fotos,estilo,publico,expira) values ($1,'story','Texto do giro','[]',$2,'amigos',$3)`, [ids.b, { v: 2, fundo: 3 }, Date.now() + 20 * 3600e3]).catch(() => null);
   await como('b', `insert into public.mensagens(de,para,texto) values ($1,$2,'Oi Pedro, viu a matéria da PEC?')`, [ids.b, ids.a]);
 
   let brW = null; try { brW = await require('playwright').webkit.launch() } catch (e) { brW = null }

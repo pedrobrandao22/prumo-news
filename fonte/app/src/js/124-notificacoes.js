@@ -108,12 +108,14 @@ async function nt124CarregaSeg(){if(!SB||!S.uid||!S.membro||NT124.v9===false)ret
     const ant=NT124.v9;NT124.v9=true;if(rows.length&&(!de||!para))return;NT124.segCols=[de,para];
     NT124.seguidores=rows.filter(x=>x[para]===S.uid&&x[de]!==S.uid).map(x=>({u:x[de],at:nt124Ts(x)}));
     NT124.seguindo=new Set(rows.filter(x=>x[de]===S.uid).map(x=>x[para]));
+    /* desde quando sigo cada um: posts de antes de começar a seguir não contam como novidade (NB19) */
+    NT124.segDesde={};rows.filter(x=>x[de]===S.uid).forEach(x=>{NT124.segDesde[x[para]]=nt124Ts(x)||0});
     if(ant!==true&&$("#layer .pfv-nt124"))nt124Desenha();atRedesenha();nt124Pinta()}catch(e){}}
 {const _ai124=atItens;atItens=function(){let it=_ai124.apply(this,arguments);try{if(!NT124.v9||!S.uid||!S.membro||!Array.isArray(it))return it;const ag=Date.now(),novos=[];
     const semHora=NT124.seguidores.filter(s=>!s.at).map(s=>"nt124s:"+s.u);const L=semHora.length?nt124PrimeiraVez(semHora):{};
     NT124.seguidores.forEach(s=>{if(!S.membros[s.u]||(S.bloq||[]).includes(s.u))return;const at=s.at||L["nt124s:"+s.u]||0;if(!at)return;
       novos.push({k:"nt124s:"+s.u,at,us:[s.u],ic:"👤",txt:`<b>${esc(nomeDe(s.u))}</b> começou a seguir você`,u:s.u,acao:"perfil"})});
-    if(NT124.seguindo.size)pubVisiveis().filter(x=>NT124.seguindo.has(x.autor)&&x.autor!==S.uid&&x.tipo!=="story"&&ag-x.at<30*864e5&&!nt124RpMeu(x)).sort((a,b)=>b.at-a.at).slice(0,12).forEach(x=>{const col=nt124EhColuna(x);
+    if(NT124.seguindo.size)pubVisiveis().filter(x=>NT124.seguindo.has(x.autor)&&x.autor!==S.uid&&x.tipo!=="story"&&ag-x.at<30*864e5&&!(NT124.segDesde&&x.at<(NT124.segDesde[x.autor]||0))&&!nt124RpMeu(x)).sort((a,b)=>b.at-a.at).slice(0,12).forEach(x=>{const col=nt124EhColuna(x);
       const tt=String((x.estilo&&x.estilo.titulo)||x.texto||"").trim();
       novos.push({k:(col?"nt124c:":"nt124p:")+x.id,at:x.at,us:[x.autor],ic:col?"✎":"▤",txt:`<b>${esc(nomeDe(x.autor))}</b> ${col?"publicou uma coluna":"publicou"}${tt?`: “${esc(tt.length>80?tt.slice(0,79).trimEnd()+"…":tt)}”`:""}`,pub:x.id,acao:"nt124pub"})});
     if(novos.length)it=it.concat(novos).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){}return it}}

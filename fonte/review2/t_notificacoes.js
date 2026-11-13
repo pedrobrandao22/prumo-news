@@ -106,6 +106,9 @@ const APARELHO = () => {
   await ev(B, async ([u, cid]) => SB.from('com_curtidas').insert({ autor: u, cid, pub: null, uid: S.uid }), [a, cidA]);
   await H.sql(`insert into public.amizades(de,para,status) values ($1,$2,'pendente')`, [c, a]);
   await H.sql(`insert into public.seguidores(seguidor,seguido) values ($1,$2),($3,$4)`, [d, a, a, b]);  // Dani segue o Pedro; o Pedro segue a Bia
+  // NB19: post da Bia de 3 dias antes de o Pedro começar a segui-la não conta como novidade
+  await H.sql(`insert into public.publicacoes(autor,tipo,texto,fotos,estilo,publico,at) values ($1,'post','Post antigo de antes de seguir','[]','{"v":2}','amigos',$2)`, [b, Date.now() - 3 * 864e5]);
+  await H.sql(`update public.publicacoes set at=$2 where autor=$1 and texto='Post antigo de antes de seguir'`, [b, Date.now() - 3 * 864e5]);  // o banco grava a hora de agora; volta 3 dias
   await ev(B, async () => { await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', texto: 'Fim de tarde no Congresso', fotos: [], estilo: { v: 2 } }) });
   await ev(B, async () => { await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', texto: 'O que muda na jornada de trabalho', fotos: [], estilo: { v: 2, coluna: true, titulo: 'O que muda na jornada' } }) });
   await sleep(900);
@@ -118,6 +121,8 @@ const APARELHO = () => {
   const tem = ['comentarios', 'mencoes', 'curtidas', 'reposts', 'amizades', 'seguidores', 'seguindo', 'colunas', 'coberturas'];
   ok(tem.every(k => cont.por[k] > 0), 'contagem: um tipo para cada novidade', cont);
   ok(cont.por.curtidas === 2, 'contagem: curtidas do post e do comentário', cont.por);
+  ok(await ev(A, () => !atItens().some(x => /^nt124p:/.test(x.k) && /Post antigo de antes de seguir/.test(x.txt))), 'NB19: post de antes de começar a seguir não entra como novidade', await ev(A, () => ({ d: NT124.segDesde, p: pubVisiveis().filter(x => /Post antigo/.test(x.texto)).map(x => [x.autor, x.at]) })));
+  ok(await ev(A, () => atItens().some(x => /^nt124p:/.test(x.k) && /Fim de tarde no Congresso/.test(x.txt))), 'NB19: post de depois de seguir entra');
   const nmsg = await ev(A, () => nt124MsgsN());
   ok(nmsg >= 1 && cont.msgs === nmsg && cont.total === cont.ativ + nmsg, 'contagem: mensagens não lidas somadas', [cont, nmsg]);
 

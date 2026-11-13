@@ -68,7 +68,9 @@ function f113Caps(){if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO=null}
     const ref=c.querySelector(".mat-tl")||vem||[...c.querySelectorAll(".mat-vis")].pop()||c.querySelector(".mat-p");if(ref)ref.insertAdjacentHTML("afterend",h)}}
   const caps=[];const add=(el,nome)=>{if(el&&!caps.some(x=>x.el===el))caps.push({el,nome})};
   add(c.querySelector(".mat-30")||c.querySelector(".mat-p"),"O que aconteceu");
-  const vis=c.querySelector(".mat-vis");if(vis){const t=(Array.isArray(p.visuais)?p.visuais:[]).find(v=>v&&F113_VIS[v.tipo]);add(vis,t?F113_VIS[t.tipo]:"Os números")}
+  /* um capítulo para cada bloco de visual (placar oficial, números, gráfico, pesquisas), na ordem em que aparecem */
+  {const vt=(Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&F113_VIS[v.tipo]);let k=0;
+    c.querySelectorAll(".mat-vis").forEach(el=>{if(el.classList.contains("po118"))add(el,"Placar oficial");else{const t=vt[k++];add(el,t?F113_VIS[t.tipo]:"Os números")}})}
   add(c.querySelector(".mat-tl"),"Linha do tempo");
   add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
   add(c.querySelector(".fs2-faq"),"Perguntas");

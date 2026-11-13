@@ -122,8 +122,8 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
   ok(await ev(B, id => { const e = document.getElementById('p-u:' + id); return e && e.querySelector('.fs2-fio-k').textContent === 'Fio · 2 partes' }, pFio), 'Bia vê o fio editado (2 partes)');
 
   // ===== 5. Capítulos na matéria
-  const alvo = await ev(A, () => { const tem = p => ({ vis: (p.visuais || []).some(v => ['grafico', 'numeros', 'pesquisas'].includes(v.tipo)), tl: (p.visuais || []).some(v => v.tipo === 'linha_do_tempo' && (v.itens || []).length >= 2), vem: !!p.proximo, faq: (p.faq || []).some(q => q && q.p) });
-    const l = FEED.pautas.map(p => ({ id: p.id, t: tem(p) })); const n = x => Object.values(x.t).filter(Boolean).length; l.sort((a, b) => n(b) - n(a)); return { cheia: l[0], pouca: l.find(x => n(x) === 1) || l[l.length - 1] } });
+  const alvo = await ev(A, () => { const tem = p => ({ vis: (p.visuais || []).some(v => ['grafico', 'numeros', 'pesquisas'].includes(v.tipo)), tl: (p.visuais || []).some(v => v.tipo === 'linha_do_tempo' && (v.itens || []).length >= 2), vem: !!p.proximo, faq: (p.faq || []).some(q => q && q.p), po: (() => { try { return !!po118MatHTML(p) } catch (e) { return false } })() });
+    const l = FEED.pautas.map(p => ({ id: p.id, t: tem(p) })); const n = x => Object.values(x.t).filter(Boolean).length; l.sort((a, b) => n(b) - n(a)); return { cheia: l[0], pouca: l.find(x => n(x) === 1 && !x.t.po) || l.find(x => n(x) === 1) || l[l.length - 1] } });
   await ev(A, id => abrirMateria(id), alvo.cheia.id); await sleep(600);
   const cp = await ev(A, () => { const n = document.querySelector('#layer .fs2-cap'); return n && { rot: [...n.querySelectorAll('[data-f113cap]')].map(b => b.textContent.replace(/^\d+/, '')), cur: (n.querySelector('[aria-current="true"]') || {}).textContent, k: n.getAttribute('aria-label'), alvos: [...n.querySelectorAll('[data-f113cap]')].map(b => !!document.getElementById(b.getAttribute('aria-controls'))), sticky: getComputedStyle(n).position, h: n.getBoundingClientRect().height,
     tem: { vis: !!document.querySelector('#layer .mat-vis'), tl: !!document.querySelector('#layer .mat-tl'), vem: [...document.querySelectorAll('#layer .cpx-c b')].some(b => /^O que vem agora/.test(b.textContent)), faq: !!document.querySelector('#layer .fs2-faq') } } });
@@ -149,6 +149,12 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
   await ev(A, id => abrirMateria(id), alvo.pouca.id); await sleep(500);
   const cp2 = await ev(A, () => { const n = document.querySelector('#layer .fs2-cap'); return { n: n ? n.querySelectorAll('[data-f113cap]').length : 0, rot: n ? [...n.querySelectorAll('[data-f113cap]')].map(b => b.textContent.trim()) : [], vis: (pautaById(MAT_PID).visuais || []).map(v => v.tipo) } });
   ok(cp2.n === 2, 'matéria com uma seção além do texto: índice com 2 capítulos (sem inventar seção)', JSON.stringify({ cp2, t: alvo.pouca.t }));
+  // matéria com 2 ou mais visuais: um capítulo para cada um (pendência de 09/11)
+  await ev(A, () => closeLayer()); await sleep(300);
+  const dois = await ev(A, () => { const p = FEED.pautas.find(p => (p.visuais || []).filter(v => ['grafico', 'numeros', 'pesquisas'].includes(v.tipo)).length >= 2); return p ? p.id : null });
+  if (dois) { await ev(A, id => abrirMateria(id), dois); await sleep(500);
+    const cv = await ev(A, () => { const c = document.querySelector('#layer .mat-c'), n = c.querySelector('.fs2-cap'); return { vis: c.querySelectorAll('.mat-vis').length, alvos: [...c.querySelectorAll('.mat-vis')].filter(e => e.classList.contains('fs2-alvo')).length, rot: n ? [...n.querySelectorAll('[data-f113cap]')].map(b => b.textContent.trim()) : [] } });
+    ok(cv.vis >= 2 && cv.alvos === cv.vis, 'matéria com 2 visuais: cada visual vira um capítulo', cv) } else console.log('  (sem matéria com 2 visuais no feed de hoje)');
   await ev(A, () => closeLayer()); await sleep(300);
 
   // ===== 6. Prateleiras
