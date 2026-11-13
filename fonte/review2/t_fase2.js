@@ -147,7 +147,7 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
   ok(await ev(A, () => (document.querySelector('#layer .fs2-cap [aria-current="true"]') || {}).dataset?.f113cap === '0'), 'voltando ao topo, marca de novo o primeiro');
   await ev(A, () => closeLayer()); await sleep(300);
   await ev(A, id => abrirMateria(id), alvo.pouca.id); await sleep(500);
-  const cp2 = await ev(A, () => { const n = document.querySelector('#layer .fs2-cap'); return { n: n ? n.querySelectorAll('[data-f113cap]').length : 0 } });
+  const cp2 = await ev(A, () => { const n = document.querySelector('#layer .fs2-cap'); return { n: n ? n.querySelectorAll('[data-f113cap]').length : 0, rot: n ? [...n.querySelectorAll('[data-f113cap]')].map(b => b.textContent.trim()) : [], vis: (pautaById(MAT_PID).visuais || []).map(v => v.tipo) } });
   ok(cp2.n === 2, 'matéria com uma seção além do texto: índice com 2 capítulos (sem inventar seção)', JSON.stringify({ cp2, t: alvo.pouca.t }));
   await ev(A, () => closeLayer()); await sleep(300);
 
