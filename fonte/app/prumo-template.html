@@ -6572,11 +6572,12 @@ async function enviarUso(){if(!USO_SUJO||!S.db||!S.uid||!S.membro)return;USO_SUJ
 document.addEventListener("visibilitychange",()=>{if(document.hidden){enviarUso();if(typeof enviarHist==="function")enviarHist()}});
 
 let LOTE={lista:[],pos:0};
+var LOTE_PASSO=6; /* posts por vez ao rolar (o 148 baixa para 3 e emenda o próximo lote) */
 const moreIO=("IntersectionObserver" in window)?new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))carregarMais()},{rootMargin:"600px"}):null;
 function observarMais(){const m=$("#mais");if(!m)return;if(moreIO)moreIO.observe(m);else carregarMais()}
 function garantirPost(pid){if(document.getElementById("p-"+pid))return true;const idx=LOTE.lista.findIndex(p=>p.id===pid);if(idx<0)return false;let g=0;while(LOTE.pos<=idx&&$("#mais")&&g++<20)carregarMais(true);return !!document.getElementById("p-"+pid)}
 function carregarMais(sync){
-  const m=$("#mais");if(!m)return;const prox=LOTE.lista.slice(LOTE.pos,LOTE.pos+6);LOTE.pos+=prox.length;
+  const m=$("#mais");if(!m)return;const prox=LOTE.lista.slice(LOTE.pos,LOTE.pos+(sync?6:LOTE_PASSO));LOTE.pos+=prox.length;
   const tmp=document.createElement("div");tmp.innerHTML=prox.map(postSeguro).join("");const frag=[...tmp.children];
   frag.forEach(el=>m.before(el));prox.forEach(p=>updateSocial(p.id));frag.forEach(el=>wireTracks(el));
   if(LOTE.pos>=LOTE.lista.length){moreIO?.unobserve(m);m.remove();return}
@@ -6709,6 +6710,28 @@ document.addEventListener("click",e=>{if(!FL119.parcial)return;const t=e.target&
 /* buscar antes do detalhe: pede o detalhe (e a busca refaz sozinha quando ele chega) */
 document.addEventListener("input",e=>{if(FL119.parcial&&e.target&&(e.target.id==="bvq"||e.target.id==="btext"))fl119Completar()},true);
 addEventListener("online",()=>{if(FL119.parcial)fl119Completar()});
+/* ---------- 147: primeira visita que fecha o app antes do detalhe chegar (13/11) ----------
+   Na primeira visita, a Capa sai do feed-leve.json e o detalhe (feed-det/<v>.json) só era pedido depois do primeiro
+   desenho, quando o aparelho ficava ocioso; a edição só ia para o aparelho (radar-feed) com o detalhe junto. Quem fechava
+   o app nesse meio-tempo ficava sem nada para ler sem internet. Agora:
+   1. o detalhe começa a baixar junto com o desenho da Capa (só o download; juntar continua para o ocioso); se esse
+      download não responder em 8 s, o app pede de novo do jeito antigo;
+   2. o leve fica guardado no aparelho (prumo-fl-leve) até a edição inteira ser guardada;
+   3. ao sair do app (aba escondida) com o detalhe pendente, ele é completado;
+   4. abrindo sem internet e sem edição guardada, a Capa sai do leve guardado; o resto chega quando a conexão voltar.
+   Fica logo depois do 119 (antes do 029, que chama loadFeed na abertura). Nomes com o prefixo fl147. */
+const FL147_K="prumo-fl-leve",FL147={pre:null};
+{const _p=fl119Pintar;fl119Pintar=function(x){const L=x&&x.leve;
+  try{if(L&&L.det&&!FL147.pre)FL147.pre={det:L.det,d:fetch(L.det).then(r=>r.ok?r.json():null).catch(()=>null)}}catch(e){}
+  try{if(L&&L.txt)localStorage.setItem(FL147_K,L.txt)}catch(e){}
+  const r=_p.apply(this,arguments);if(FL147.off){FL147.off=false;try{OFFLINE=true}catch(e){}}return r}}
+{const _j=fl119Juntar;fl119Juntar=async function(L){const P=FL147.pre;
+  if(P&&L&&P.det===L.det){FL147.pre=null;try{const d=await Promise.race([P.d,new Promise(ok=>setTimeout(()=>ok(null),8000))]);if(d){const f=fl119Montar(JSON.parse(L.txt),d);FL119.v.set(f,L.v);return f}}catch(e){}}
+  return _j.apply(this,arguments)}}
+{const _g=fl119Guardar;fl119Guardar=function(f){const r=_g.apply(this,arguments);try{if(localStorage.getItem("radar-feed"))localStorage.removeItem(FL147_K)}catch(e){}return r}}
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"&&FL119.parcial)try{fl119Completar()}catch(e){}});
+{const _o=fl119Obter;fl119Obter=async function(atual){try{return await _o.apply(this,arguments)}catch(e){if(atual)throw e;let t=null;try{t=localStorage.getItem(FL147_K)}catch(_){}
+  const L=fl119Ler(t);if(!L)throw e;let j=null;try{j=JSON.parse(L.txt)}catch(_){}if(!j||typeof j!=="object"||!Array.isArray(j.pautas)||!j._leve||j._leve.v!==L.v)throw e;FL147.off=true;return {leve:L,j}}}}
 /* ---------- conta: Supabase ---------- */
 %%PRUMO_DB%%
 const SB_URL="%%SB_URL%%",SB_KEY="%%SB_KEY%%";
@@ -8818,10 +8841,12 @@ const pubSrc=u=>{const t=String(u||"");return /^https:\/\//i.test(t)||/^data:ima
 function pubFundo(i){const f=PUB_FUNDOS[(+i||0)%PUB_FUNDOS.length];return `linear-gradient(160deg,${f[0]},${f[1]})`}
 function pubDe(id){return PUB.itens.find(x=>x.id===id)}
 function pubVisiveis(){const now=Date.now();return PUB.itens.filter(x=>x&&(x.autor===S.uid||S.amigos.has(x.autor))&&(x.tipo==="post"||(x.expira||0)>now))}
+/* PUB_SEL: as colunas da lista do Feed; o 146 tira o texto longo das colunas (corpo) */
+var PUB_SEL="*";
 async function pubCarregar(){if(typeof SB==="undefined"||!SB||!S.uid||!S.membro)return;if(PUB.carregando)return;PUB.carregando=true;
-  try{const r=await SB.from("publicacoes").select("*").order("at",{ascending:false}).limit(300);
+  try{const sel=q=>SB.from("publicacoes").select(q).order("at",{ascending:false}).limit(300);let r=await sel(typeof PUB_SEL==="string"?PUB_SEL:"*");if(r.error&&PUB_SEL!=="*"&&/42703|column/i.test(String(r.error.code||"")+" "+String(r.error.message||""))){PUB_SEL="*";r=await sel("*")}
     if(r.error){if(/publicacoes|does not exist|42P01|schema cache|relation/i.test((r.error.message||"")+(r.error.code||"")))PUB.on=false;return}
-    PUB.on=true;PUB.uid=S.uid;const novos=(r.data||[]).map(x=>({...x,fotos:Array.isArray(x.fotos)?x.fotos:[]}));const sig=novos.map(x=>x.id+":"+x.at+":"+(x.editado||"")+":"+(x.fixado||"")+":"+JSON.stringify(x.estilo||"").length).join(",")+"|"+[...S.amigos].sort().join(",");const mudou=sig!==PUB.sig;PUB.sig=sig;novos.forEach(x=>{try{pubLimpa(x)}catch(e){}});PUB.itens=novos;await pubAssinar();pubLimparMeus();if(mudou)pubRedesenha()}
+    PUB.on=true;PUB.uid=S.uid;const novos=(r.data||[]).map(x=>({...x,fotos:Array.isArray(x.fotos)?x.fotos:[]}));const sig=novos.map(x=>x.id+":"+x.at+":"+(x.editado||"")+":"+(x.fixado||"")+":"+JSON.stringify(x.estilo||"").length).join(",")+"|"+[...S.amigos].sort().join(",");const mudou=sig!==PUB.sig;PUB.sig=sig;novos.forEach(x=>{try{pubLimpa(x)}catch(e){}});try{if(typeof cl146Herda==="function")cl146Herda(novos,PUB.itens)}catch(e){}PUB.itens=novos;await pubAssinar();pubLimparMeus();if(mudou)pubRedesenha()}
   catch(e){}finally{PUB.carregando=false;PUB.carregou=true}}
 async function pubAssinar(){const now=Date.now(),falta=[];pubVisiveis().forEach(x=>x.fotos.forEach(p=>{const c=PUB.urls[p];if(!c||c.exp<now+600e3)falta.push(p)}));if(!falta.length)return;
   try{const r=await SB.storage.from("fotos").createSignedUrls(falta,6*3600);(r.data||[]).forEach(d=>{if(d&&d.signedUrl)PUB.urls[d.path]={u:d.signedUrl,exp:now+6*3600e3}})}catch(e){}}
@@ -17625,6 +17650,96 @@ function mc1111Tempo(p){const vs=Array.isArray(p&&p.visuais)?p.visuais:[];const 
    Agora ela entra logo abaixo da legenda, empurrando as linhas para baixo; nada fica coberto. */
 {const _ms145=menSugere;menSugere=function(i){const r=_ms145.apply(this,arguments);
   try{if(MEN_BOX&&MEN_BOX.isConnected&&MEN_INP===i&&i.id==="ce-leg"){MEN_BOX.classList.add("men-in145");MEN_BOX.style.left=MEN_BOX.style.top=MEN_BOX.style.bottom=MEN_BOX.style.width="";if(i.nextElementSibling!==MEN_BOX)i.insertAdjacentElement("afterend",MEN_BOX)}}catch(e){}return r}}
+/* ---------- 146: o Feed não baixa o texto inteiro das colunas (13/11) ----------
+   Antes, a lista de publicações vinha com select("*"), e cada coluna trazia o texto longo (publicacoes.corpo, até 40.000
+   caracteres) a cada atualização do Feed, mesmo sem ninguém abrir. Agora:
+   - a lista vem sem o corpo (PUB_SEL, no 068); se o banco não tiver alguma das colunas da lista, volta para "*";
+   - o cartão no Feed usa a chamada e o tempo de leitura guardados no aparelho (cl146 no localStorage, por coluna e
+     versão); só a coluna que o aparelho nunca viu busca o corpo, uma vez, num pedido só para todas as novas;
+   - quem já tinha o corpo (mesma coluna, mesma versão) herda de uma atualização para a outra;
+   - ler, editar, exportar ou cancelar o agendamento buscam o corpo antes de abrir (rápido; sem rede, um aviso).
+   Colunas antigas (antes da v9) guardam o texto em estilo.coluna.corpo e não mudam. Nomes com o prefixo cl146. */
+PUB_SEL="id,autor,tipo,at,expira,texto,fotos,pid,snap,estilo,agenda_aviso,arquivado,editado,fixado,publicar_em,publico";
+const CL146_K="prumo-col146",CL146={c:null,busca:null};
+function cl146Le(){if(CL146.c)return CL146.c;try{const o=JSON.parse(localStorage.getItem(CL146_K)||"{}");CL146.c=o&&typeof o==="object"&&!Array.isArray(o)?o:{}}catch(e){CL146.c={}}return CL146.c}
+function cl146Grava(){try{const c=cl146Le(),ks=Object.keys(c);if(ks.length>400)ks.sort((a,b)=>(c[a].t||0)-(c[b].t||0)).slice(0,ks.length-300).forEach(k=>delete c[k]);localStorage.setItem(CL146_K,JSON.stringify(c))}catch(e){}}
+const cl146Ver=x=>String(+x.editado||+x.at||0);
+/* a coluna veio sem o texto longo? (só as colunas novas, com o texto em publicacoes.corpo) */
+function cl146Falta(x){try{if(!x||x.tipo!=="post"||("corpo" in x))return false;const k=x.estilo&&x.estilo.coluna;return !!(k&&typeof k==="object"&&!Array.isArray(k)&&!k.corpo&&k.tit)}catch(e){return false}}
+/* guarda a chamada e os minutos de quem tem o corpo */
+function cl146Anota(x){try{if(!x||typeof x.corpo!=="string"||!x.corpo)return;const c=cs123Col(x);if(!c)return;const m=cl146Le(),v=cl146Ver(x),o=m[x.id];
+  if(o&&o.v===v)return;m[x.id]={v,tz:cs123Teaser(c.corpo)||"",min:(typeof ed132Min==="function"?ed132Min:cs123Min)(c.corpo),t:Date.now()};cl146Grava()}catch(e){}}
+function cl146Herda(novos,velhos){const by=new Map((velhos||[]).map(y=>[y.id,y]));
+  (novos||[]).forEach(x=>{if(!cl146Falta(x))return;const y=by.get(x.id);if(y&&typeof y.corpo==="string"&&cl146Ver(y)===cl146Ver(x))x.corpo=y.corpo});
+  setTimeout(cl146Completa,0)}
+/* busca o corpo de algumas colunas e põe nas publicações (PUB.itens e as agendadas) */
+async function cl146Busca(ids){ids=[...new Set(ids)].filter(Boolean).slice(0,60);if(!ids.length||typeof SB==="undefined"||!SB)return false;
+  try{const r=await SB.from("publicacoes").select("id,corpo,editado,at").in("id",ids);if(r.error)return false;
+    (r.data||[]).forEach(d=>{const l=[pubDe(d.id)];try{if(typeof ED132!=="undefined"&&ED132.agend)l.push(ED132.agend.find(x=>x.id===d.id))}catch(e){}
+      l.forEach(x=>{if(x&&cl146Falta(x)){x.corpo=typeof d.corpo==="string"?d.corpo:null;cl146Anota(x)}})});return true}catch(e){return false}}
+/* cartões das colunas que este aparelho nunca viu: busca o corpo delas de uma vez e acerta só aquele cartão */
+async function cl146Completa(){if(CL146.busca)return;const m=cl146Le(),falta=[];
+  try{pubVisiveis().forEach(x=>{if(typeof x.corpo==="string")cl146Anota(x);else if(cl146Falta(x)){const o=m[x.id];if(!o||o.v!==cl146Ver(x))falta.push(x.id)}})}catch(e){}
+  if(!falta.length)return;CL146.busca=cl146Busca(falta);try{if(await CL146.busca)falta.forEach(cl146Acerta)}finally{CL146.busca=null}}
+function cl146Acerta(id){const x=pubDe(id),c=x&&cs123Col(x);if(!c)return;
+  document.querySelectorAll(`.cs123-card[data-cs123ler="${CSS.escape(id)}"]`).forEach(el=>{try{const tp=document.createElement("template");tp.innerHTML=cs123CardHTML(x,c).trim();const n=tp.content.firstElementChild;if(n)el.replaceWith(n)}catch(e){}})}
+/* cartão sem o corpo: chamada e minutos guardados (ou só a linha fina, até o corpo chegar) */
+{const _ch=cs123CardHTML;cs123CardHTML=function(x,c){if(!cl146Falta(x))return _ch.apply(this,arguments);
+  const o=cl146Le()[x.id],ok=o&&o.v===cl146Ver(x);let h=_ch.call(this,x,{...c,corpo:"",html:x.estilo.coluna.f==="h"?"<p></p>":c.html});
+  try{const tp=document.createElement("template");tp.innerHTML=String(h).trim();const a=tp.content.firstElementChild;if(!a)return h;
+    const mi=a.querySelector(".cs123-min");if(mi){if(ok)mi.textContent=o.min+" min de leitura";else mi.textContent=""}
+    if(ok&&o.tz&&!c.cham&&!a.querySelector(".cs123-x")){const r=a.querySelector(".cs123-r"),p=document.createElement("p");p.className="cs123-x";p.textContent=o.tz;if(r)r.before(p)}
+    return a.outerHTML}catch(e){return h}}}
+/* abrir, editar, exportar e cancelar o agendamento precisam do texto */
+async function cl146Garante(id){let x=pubDe(id);try{if(!x&&typeof ed132Pub==="function")x=ed132Pub(id)}catch(e){}if(!x||!cl146Falta(x))return true;
+  if(CL146.busca)try{await CL146.busca}catch(e){}if(!cl146Falta(x))return true;
+  const ok=await cl146Busca([id]);if(!ok||cl146Falta(x)){toast("Sem conexão para abrir a coluna agora. Tente de novo em instantes.");return false}return true}
+{const _ab=cs123Abrir;cs123Abrir=function(id){const x=pubDe(id)||(typeof pubVisiveis==="function"?pubVisiveis().find(y=>y.id===id):null);if(!cl146Falta(x))return _ab.apply(this,arguments);
+  const a=arguments,t=this;cl146Garante(id).then(ok=>{if(ok)_ab.apply(t,a)})}}
+{const _ed=ed132Edita;ed132Edita=function(id){const x=ed132Pub(id);if(!cl146Falta(x))return _ed.apply(this,arguments);const a=arguments,t=this;cl146Garante(id).then(ok=>{if(ok)_ed.apply(t,a)})}}
+{const _ca=ed132CancelaAg;ed132CancelaAg=async function(id){const x=(ED132.agend||[]).find(y=>y.id===id);if(cl146Falta(x)&&!(await cl146Garante(id)))return;return _ca.apply(this,arguments)}}
+window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-ex133exp]");if(!b)return;const id=b.dataset.ex133exp,x=(typeof ed132Pub==="function"?ed132Pub(id):pubDe(id));if(!cl146Falta(x))return;
+  e.stopPropagation();e.preventDefault();cl146Garante(id).then(ok=>{if(ok)ex133Exportar(ex133DaPub(id))})},true);
+/* ---------- 148: o Feed entra em lotes de 3 ao rolar (13/11) ----------
+   Ao rolar, cada carregarMais punha 6 posts de uma vez: com CPU 4× e amigos no Feed, tarefas de 200–300 ms (o celular
+   "engasga" no meio da rolagem). Agora entram 3 por vez; se o fim da lista ainda está perto da tela depois que o lote foi
+   pintado, o próximo lote vem na tarefa seguinte (o toque e a rolagem passam no meio). carregarMais(true), usado para
+   abrir um post específico, continua de 6 em 6 e na hora. Nomes com o prefixo lt148. */
+LOTE_PASSO=3;
+function lt148Emenda(){if(lt148Emenda.t)return;lt148Emenda.t=1;
+  requestAnimationFrame(()=>setTimeout(()=>{lt148Emenda.t=0;const m=document.getElementById("mais");if(!m)return;const v=document.getElementById("v-feed");if(v&&v.hidden)return;
+    try{if(m.getBoundingClientRect().top<innerHeight+600)carregarMais()}catch(e){}},0))}
+{const _cm148=carregarMais;carregarMais=function(sync){const r=_cm148.apply(this,arguments);if(!sync)try{lt148Emenda()}catch(e){}return r}}
+/* ---------- 149: montar o cartão do Feed com menos trabalho repetido (NC05, 13/11) ----------
+   Perfil com CPU 4× (32 cartões, 5 passadas): ~13 ms por cartão de notícia. Duas contas eram refeitas em todo cartão com
+   o mesmo resultado:
+   - marcarTermos (014) montava e ordenava a lista de pessoas e termos do glossário e a expressão regular a cada texto;
+     agora isso é feito uma vez por edição (muda quando FEED.pessoas ou FEED.glossario mudam);
+   - faPessoa (043) procurava, a cada cartão, todas as chaves de todas as pessoas do acervo no título; agora guarda a
+     resposta por título enquanto o acervo for o mesmo.
+   O resultado de cada chamada é o mesmo de antes (inclusive o "cada termo marcado uma vez só" do MT_USADOS).
+   Nomes com o prefixo mt149. */
+const MT149={p:null,g:null,v:null},MT149_FA=new WeakMap();
+function mt149Base(){const P=FEED&&FEED.pessoas||null,G=FEED&&FEED.glossario||null;if(MT149.v&&MT149.p===P&&MT149.g===G)return MT149.v;
+  const lista=[...Object.keys(P||{}).map(k=>["p",k]),...Object.keys(G||{}).map(k=>["g",k])].filter(([,k])=>k).sort((a,b)=>b[1].length-a[1].length);
+  let v=null;if(lista.length){const tipo=new Map();lista.forEach(([t,k])=>{if(!tipo.has(k))tipo.set(k,t)});
+    const fonte=`(^|[^\\p{L}\\d])(${[...tipo.keys()].map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")})(?=$|[^\\p{L}\\d])`;v={tipo,fonte}}
+  MT149.p=P;MT149.g=G;MT149.v=v||{vazio:true};return MT149.v}
+marcarTermos=function(txt){txt=String(txt??"");const b=mt149Base();if(b.vazio)return esc(txt);const tipo=b.tipo,re=new RegExp(b.fonte,"gu");
+  const usados=window.MT_USADOS||new Set();let out="",last=0,m;
+  while((m=re.exec(txt))){const k=m[2],ini=m.index+m[1].length;if(usados.has(k))continue;usados.add(k);const t=tipo.get(k);
+    out+=esc(txt.slice(last,ini))+`<button type="button" class="gl ${t==="p"?"gp":""}" data-gl="${t}" data-k="${esc(k)}">${esc(k)}</button>`;last=ini+k.length}
+  return out+esc(txt.slice(last))};
+{const _fa=faPessoa;faPessoa=function(tit,A){if(!A||typeof A!=="object"||typeof tit!=="string")return _fa.apply(this,arguments);
+  let m=MT149_FA.get(A);if(!m){m=new Map();MT149_FA.set(A,m)}const pes=A.pessoas;if(m.pes!==pes){m.clear();m.pes=pes}
+  if(m.has(tit))return m.get(tit);const r=_fa.call(this,tit,A);if(m.size>600)m.clear();m.set(tit,r);return r}}
+/* números e datas: o mesmo formatador (Intl) para todas as chamadas, em vez de criar um a cada número/data
+   (toLocaleString/toLocaleDateString criam um por chamada); a saída é a mesma. Data sem dia/mês/ano/semana nas opções
+   fica com o caminho antigo (toLocaleDateString põe a data junto nesse caso). */
+const MT149_NF=new Map(),MT149_DF=new Map();
+function mt149Df(o){const k=JSON.stringify(o);let f=MT149_DF.get(k);if(!f){f=new Intl.DateTimeFormat("pt-BR",o);MT149_DF.set(k,f)}return f}
+{const _gn=grNum;grNum=function(v,c){try{const k=c===undefined?"u":String(c);let f=MT149_NF.get(k);if(!f){f=new Intl.NumberFormat("pt-BR",{minimumFractionDigits:c,maximumFractionDigits:c});MT149_NF.set(k,f)}return f.format(Number(v))}catch(e){return _gn.apply(this,arguments)}}}
+{const _cs=cobSP;cobSP=function(iso,o){if(o&&!["weekday","year","month","day"].some(k=>k in o))return _cs.apply(this,arguments);const d=new Date(iso);if(isNaN(d))return "";try{return mt149Df(Object.assign({timeZone:"America/Sao_Paulo"},o||{day:"2-digit",month:"2-digit"})).format(d)}catch(e){return _cs.apply(this,arguments)}}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
