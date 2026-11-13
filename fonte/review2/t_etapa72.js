@@ -22,7 +22,7 @@ async function criar(p, { url, nome, email }) {
   const pid = await ev(B, async () => { const r = await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', texto: 'Pôr do sol na praia', fotos: [], estilo: { v: 2, fundo: 3 } }).select('id'); return r.data[0].id });
   await ev(A, () => { go('feed'); pubCarregar() }); await sleep(1500);
   await ev(A, id => { renderPosts(); garantirPost('u:' + id); document.querySelector(`[data-umenu="${id}"]`).click() }, pid); await sleep(400);
-  ok(await ev(A, () => /Compartilhar no seu story/.test(document.querySelector('.sheet').textContent) && /só quem é amigo de Bia/.test(document.querySelector('.sheet').textContent)), 'menu do post da amiga: Compartilhar no seu story');
+  ok(await ev(A, () => /Compartilhar no seu (story|giro)/.test(document.querySelector('.sheet').textContent) && /só quem é amigo de Bia/.test(document.querySelector('.sheet').textContent)), 'menu do post da amiga: Compartilhar no seu story');
   await clk(A, '[data-upstory]'); await esperar(A, () => !!document.querySelector('#layer .ce .fg-pub'), null, 8000).catch(() => {});
   ok(await ev(A, () => ED && ED.tela === 'edit' && ED.st.els.some(e => e.t === 'pub') && /Bia Souza/.test(document.querySelector('#layer .ce .fg-pub').textContent)), 'editor abre com a figurinha do post');
   await A.screenshot({ path: SH + 'd72-editor.png' });
@@ -40,7 +40,7 @@ async function criar(p, { url, nome, email }) {
   await ev(A, async u => { await dmEnviar(u, { texto: '', tipo: 'curtiu_story', snap: { story: { t: 'Meu dia' } } }, true) }, uidB); await sleep(1200);
   await ev(B, () => { AT.t = 0; atCarregar() }); await sleep(1500); await ev(B, () => abrirAtividade()); await sleep(800);
   const tB = await ev(B, () => document.querySelector('#layer .pfv-at').textContent);
-  ok(/Pedro compartilhou seu post no story/.test(tB), 'Atividade: compartilhou seu post no story', tB.slice(0, 300));
+  ok(/Pedro compartilhou seu post no (story|giro)/.test(tB), 'Atividade: compartilhou seu post no story', tB.slice(0, 300));
   await ev(B, () => closeLayer()); await sleep(300);
   // Sua semana (Pedro)
   await ev(A, () => { window.SEM_SEMPRE = true; FEED.pautas.slice(0, 5).forEach(p => registrarHistorico(p.id)); go('feed'); renderSecs() }); await sleep(500);

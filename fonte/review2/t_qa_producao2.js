@@ -32,9 +32,9 @@ const recarrega = async p => { await p.reload(); await esperar(p, () => S.membro
   await storyTexto(A, 'Menção', [{ t: 'men', uid: uB, tx: '@Bia Souza' }]);
   await storyTexto(A, 'Pergunta', [{ t: 'perg', q: 'Que notícia vocês querem amanhã?' }]);
   await ev(B, () => { scrollTo(0, 0) }); await esperar(B, u => pubStoriesDe(u).length === 2, uA, 8000);
-  ok(await ev(B, () => S.msgsIn.some(m => m.tipo === 'mencao') && dmPrevia(S.msgsIn.find(m => m.tipo === 'mencao')) === 'Mencionou você no story'), 'prévia da menção no story: "Mencionou você no story" (não "num post")');
+  ok(await ev(B, () => S.msgsIn.some(m => m.tipo === 'mencao') && /^Mencionou você no (story|giro)$/.test(dmPrevia(S.msgsIn.find(m => m.tipo === 'mencao')))), 'prévia da menção no story: "Mencionou você no story" (não "num post")');
   await ev(B, u => abrirConversa(u), uA); await sleep(1000);
-  ok(await ev(B, () => { const lb = [...document.querySelectorAll('#v-msgs .dm-lb')].map(x => x.textContent); return lb.includes('Mencionou você no story') && !lb.some(t => /num post/.test(t)) && ![...document.querySelectorAll('#v-msgs .bub')].some(x => /Mencionou você no story/.test(x.textContent)) }), 'conversa: "Mencionou você no story" uma vez (sem "num post" nem balão repetido)', await ev(B, () => document.querySelector('#v-msgs .thread').innerText.slice(0, 200)));
+  ok(await ev(B, () => { const lb = [...document.querySelectorAll('#v-msgs .dm-lb')].map(x => x.textContent); return lb.some(t => /^Mencionou você no (story|giro)$/.test(t)) && !lb.some(t => /num post/.test(t)) && ![...document.querySelectorAll('#v-msgs .bub')].some(x => /Mencionou você no (story|giro)/.test(x.textContent)) }), 'conversa: "Mencionou você no story" uma vez (sem "num post" nem balão repetido)', await ev(B, () => document.querySelector('#v-msgs .thread').innerText.slice(0, 200)));
   // Bia responde a pergunta
   const sP = await ev(B, u => pubStoriesDe(u)[1].id, uA);
   await ev(B, () => go('feed')); await sleep(300); await ev(B, id => igAbrirUser(pubDe(id).autor, id), sP); await sleep(1200);

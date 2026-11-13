@@ -59,7 +59,7 @@ function nt124PintaJa(){const c=nt124Contagem();
   try{const b=$("#badge");if(b&&!nt124App("mensagens"))b.hidden=true}catch(e){}
   let n=c.ativ;try{const ped=nt124App("amizades")?(S.pedidosIn||[]).filter(u=>S.membros[u]).length:0;n=Math.max(c.ativ,ped)}catch(e){}
   try{const mb=$("#mbadge");if(mb){mb.hidden=!n;mb.setAttribute("aria-label",n?(n===1?"1 novidade no Perfil":n+" novidades no Perfil"):"")}}catch(e){}
-  try{const tab=$('#v-me [data-pfaba="conta"]');if(tab){const d=tab.querySelector(".nt124-dot");if(n&&!d){tab.insertAdjacentHTML("beforeend",`<i class="nt124-dot" aria-hidden="true"></i>`)}else if(!n&&d)d.remove()}
+  try{const tab=$('#v-me [data-vnpfaba="conta"]')||$('#v-me [data-pfaba="conta"]');if(tab){const d=tab.querySelector(".nt124-dot");if(n&&!d){tab.insertAdjacentHTML("beforeend",`<i class="nt124-dot" aria-hidden="true"></i>`)}else if(!n&&d)d.remove()}
     const r=$("#v-me [data-nt124ativ] em");if(r){r.textContent=n?String(n>99?"99+":n):"";r.className=n?"nt124-n":""}}catch(e){}
   nt124PoeBadge(c.total)}
 function nt124Instalado(){try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){return false}}

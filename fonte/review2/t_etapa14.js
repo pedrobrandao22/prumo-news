@@ -29,7 +29,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(await p.evaluate(() => [...document.querySelectorAll('.post .track')].every(t => (t.lastElementChild.classList.contains('ss-enq') || (t.lastElementChild.classList.contains('ss-fim') && /veículo|quadro completo/.test(t.lastElementChild.textContent))))), 'último quadro: "Ler a matéria" / "Quer o quadro completo?" (contagem de veículos discreta)', semFim);
   ok(await p.evaluate(() => [...document.querySelectorAll('.post img.fcv-i')].some(i => /\/thumb\/.*\/960px-/.test(i.getAttribute('src')))), 'Feed usa miniatura leve do Wikimedia');
   await p.evaluate(() => { const t = [...document.querySelectorAll('.post .track')].find(t => t.closest('.post').querySelector('.pdots')); window.__t14 = t.closest('.post'); t.scrollLeft = t.clientWidth; t.dispatchEvent(new Event('scroll')) }); await sleep(450);
-  ok(await p.evaluate(() => { const d = [...window.__t14.querySelector('.pdots').children].filter(x => x.tagName === 'I'); const c = d.map(x => getComputedStyle(x).backgroundColor); return c[1] !== c[0] && c[0] === c[2] }), 'pontos acompanham o carrossel');
+  ok(await p.evaluate(() => { const d = [...window.__t14.querySelector('.pdots').children].filter(x => x.tagName === 'I'); return d.length > 1 && d[1].classList.contains('on') && (!d[2] || !d[2].classList.contains('on')) }), 'pontos acompanham o carrossel');
   await p.evaluate(() => { const t = document.querySelector('.post .track'); t.scrollLeft = 0 }); await sleep(100);
   await p.screenshot({ path: D + 'feed.png' });
   ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'Feed sem erros ' + p._erros.join('|'));

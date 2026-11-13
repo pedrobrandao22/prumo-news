@@ -60,7 +60,7 @@ const toque = async (p, sel) => { const r = await ev(p, s => { const b = documen
 
   // 5. vazia é descartada; voltar do celular conclui
   await chip(A, 'perg'); await clk(A, '[data-edfok]'); await sleep(200);
-  ok(await ev(A, () => ED.st.els.length === 4 && !document.querySelector('.ce-fe')), 'figurinha vazia é descartada');
+  ok(await ev(A, () => ED.st.els.length === 3 && !document.querySelector('.ce-fe')), 'figurinha vazia é descartada');
   await chip(A, 'perg'); await A.fill('#fq', 'Qual notícia te chamou atenção?'); await ev(A, () => history.back()); await sleep(500);
   ok(await ev(A, () => !!document.querySelector('#layer .ce') && !document.querySelector('.ce-fe') && ED.st.els.some(e => e.t === 'perg')), 'voltar do celular conclui a figurinha e fica no editor');
   // espalha
@@ -92,12 +92,12 @@ const toque = async (p, sel) => { const r = await ev(p, s => { const b = documen
 
   // 8. caneta: ícones, tamanho com prévia, segurar pinta o fundo, desfazer
   await clk(A, '[data-edcaneta]'); await sleep(250); await foto(A, '09-caneta');
-  ok(await ev(A, () => document.querySelectorAll('.ce-cn [data-edcnt] svg').length === 4 && !!document.querySelector('#cn2-tam') && document.querySelectorAll('.ce-cn [data-edcncor]').length >= 8), 'caneta: 4 pincéis com ícone, espessura vertical e cores');
-  await clk(A, '[data-edcnt="neon"]'); await clk(A, '[data-edcncor="#ff66c4"]');
+  ok(await ev(A, () => document.querySelectorAll('.ce-cn [data-edcnt] svg').length === 3 && !!document.querySelector('#cn2-tam') && document.querySelectorAll('.ce-cn [data-edcncor]').length >= 8), 'caneta: 3 pincéis com ícone (sem Neon, 105), espessura vertical e cores');
+  await clk(A, '[data-edcnt="caneta"]'); await clk(A, '[data-edcncor="#c9822b"]');
   { const r = await ev(A, () => { const b = document.querySelector('#cn2-tam').getBoundingClientRect(); return { x: b.x + b.width / 2, y: b.y, h: b.height } }); await A.mouse.move(r.x, r.y + r.h * .7); await A.mouse.down(); await A.mouse.move(r.x, r.y + r.h * .15, { steps: 5 }); await foto(A, '10-caneta-tamanho');
-    ok(await ev(A, () => ED.st.caneta.w > .03 && !document.querySelector('#cn2-dot').hidden && ED.st.caneta.neon), 'arrastar a espessura mostra a bolinha com o tamanho'); await A.mouse.up(); await sleep(600) }
+    ok(await ev(A, () => ED.st.caneta.w > .03 && !document.querySelector('#cn2-dot').hidden), 'arrastar a espessura mostra a bolinha com o tamanho'); await A.mouse.up(); await sleep(600) }
   { const r = await ev(A, () => { const b = document.querySelector('#ce-cv').getBoundingClientRect(); return { x: b.x, y: b.y, w: b.width, h: b.height } }); await A.mouse.move(r.x + r.w * .15, r.y + r.h * .58); await A.mouse.down(); for (let i = 1; i <= 8; i++) await A.mouse.move(r.x + r.w * (.15 + i * .08), r.y + r.h * (.58 + Math.sin(i) * .04)); await A.mouse.up(); await sleep(150);
-    ok(await ev(A, () => ED.st.tracos.length === 1 && ED.st.tracos[0].neon && ED.st.tracos[0].pts.length > 5), 'traço neon desenhado');
+    ok(await ev(A, () => ED.st.tracos.length === 1 && !ED.st.tracos[0].neon && ED.st.tracos[0].pts.length > 5), 'traço desenhado');
     await clk(A, '[data-edcnt="mk"]'); await clk(A, '[data-edcncor="#ffd23f"]'); await A.mouse.move(r.x + r.w * .5, r.y + r.h * .1); await A.mouse.down(); await sleep(900); await A.mouse.up(); await sleep(150);
     ok(await ev(A, () => { const t = ED.st.tracos[1]; return ED.st.tracos.length === 2 && t.w === 3 && t.mk && t.cor === '#ffd23f' }), 'segurar parado com o marcador pinta o fundo (translúcido)');
     await foto(A, '11-caneta-fundo');
@@ -112,7 +112,7 @@ const toque = async (p, sel) => { const r = await ev(p, s => { const b = documen
   ok(await ev(A, () => { const x = pubStoriesDe(S.uid)[0]; const it = x && x.estilo.itens; const q = it.find(i => i.t === 'quiz'), e = it.find(i => i.t === 'enq'); return it.map(i => i.t).sort().join() === 'cont,enq,perg,quiz' && q.c === 2 && e.cor === 2 && e.o.length === 2 }), 'publicado: formato antigo + cor');
   await ev(B, () => go('feed')); await sleep(300); await ev(B, () => pubCarregar()); await sleep(1500);
   await clk(B, '#secs [data-ustory]'); await sleep(1500);
-  ok(await ev(B, () => !!document.querySelector('#layer .us-enq.fgc-2') && document.querySelectorAll('#layer .us-enq button').length === 2 && document.querySelectorAll('#layer .us-fg').length === 4), 'amiga vê a enquete com a cor e as outras figurinhas');
+  ok(await ev(B, () => !!document.querySelector('#layer .us-enq.fgc-2') && document.querySelectorAll('#layer .us-enq button').length === 2 && document.querySelectorAll('#layer .us-fg').length === 3), 'amiga vê a enquete com a cor e as outras figurinhas');
   await B.click('#layer [data-usvoto][data-i="1"]'); await sleep(700);
   ok(await ev(B, () => /100%/.test(document.querySelector('#layer .us-enq button[data-i="1"]').textContent)), 'voto na enquete colorida');
   await ev(B, () => typeof igPausa === 'function' && igPausa()); await foto(B, '13-B-story');

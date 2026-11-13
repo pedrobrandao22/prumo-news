@@ -75,14 +75,14 @@ async function publica(p) { const n0 = await ev(p, () => pubStoriesDe(S.uid).len
   // ===== 4. Pedro vê nas Conversas com a miniatura; tocar abre o story
   await ev(A, () => { go('msgs') }); await sleep(300); await ev(A, u => abrirConversa(u), uidB); await esperar(A, () => document.querySelectorAll('#v-msgs .ca100-st').length >= 2, null, 8000);
   await esperar(A, () => [...document.querySelectorAll('#v-msgs .ca100-st img')].every(i => i.complete && i.naturalWidth > 0), null, 8000).catch(() => {});
-  ok(await ev(A, () => { const s = [...document.querySelectorAll('#v-msgs .ca100-sq')]; return s.length === 2 && /Respondeu ao seu story/.test(s[0].textContent) && /Curtiu seu story/.test(s[1].textContent) && [...document.querySelectorAll('#v-msgs .ca100-st img')].every(i => i.naturalWidth > 0) }), 'Conversas: "Respondeu ao seu story" e "Curtiu seu story" com miniatura carregada');
+  ok(await ev(A, () => { const s = [...document.querySelectorAll('#v-msgs .ca100-sq')]; return s.length === 2 && /Respondeu ao seu (story|giro)/.test(s[0].textContent) && /Curtiu seu (story|giro)/.test(s[1].textContent) && [...document.querySelectorAll('#v-msgs .ca100-st img')].every(i => i.naturalWidth > 0) }), 'Conversas: "Respondeu ao seu story" e "Curtiu seu story" com miniatura carregada');
   ok(await ev(A, () => { const r = document.querySelector('#v-msgs .ca100-st').getBoundingClientRect(); return Math.abs(r.height / r.width - 16 / 9) < .05 }), 'miniatura em 9:16');
   await shot(A, 'conversa-com-miniatura');
   await clk(A, '#v-msgs [data-ca100st]'); await sleep(900);
   ok(await ev(A, id => !!document.querySelector('#layer .story') && ST.itens[ST.i].id === id, stId), 'tocar na miniatura abre o story');
   await ev(A, () => closeLayer()); await sleep(300);
   // mensagens antigas (sem sth) continuam como antes
-  ok(await ev(A, () => { const m = { id: 'velha1', de: Object.keys(S.membros).find(u => u !== S.uid), para: S.uid, at: Date.now(), tipo: 'curtiu_story', texto: '❤️', snap: { story: { id: 'x', t: 'Antigo', foto: true } } }; S.msgsIn.push(m); renderMsgs(); const ok = /curtiu seu story · “Antigo”/.test(document.querySelector('#v-msgs').textContent); S.msgsIn = S.msgsIn.filter(x => x !== m); renderMsgs(); return ok }), 'curtida antiga sem miniatura continua como linha de evento');
+  ok(await ev(A, () => { const m = { id: 'velha1', de: Object.keys(S.membros).find(u => u !== S.uid), para: S.uid, at: Date.now(), tipo: 'curtiu_story', texto: '❤️', snap: { story: { id: 'x', t: 'Antigo', foto: true } } }; S.msgsIn.push(m); renderMsgs(); const ok = /curtiu seu (story|giro) · “Antigo”/.test(document.querySelector('#v-msgs').textContent); S.msgsIn = S.msgsIn.filter(x => x !== m); renderMsgs(); return ok }), 'curtida antiga sem miniatura continua como linha de evento');
   // story que já acabou: avisa
   await ev(A, id => { pubDe(id).expira = Date.now() - 1 }, stId); await clk(A, '#v-msgs [data-ca100st]'); await sleep(200);
   ok(await ev(A, () => !document.querySelector('#layer .story') && /não está mais disponível/.test(document.querySelector('.toast')?.textContent || '')), 'story vencido: avisa em vez de abrir');

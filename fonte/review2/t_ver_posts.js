@@ -16,11 +16,11 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   // ---- cartão: salvar visível, local encolhe antes da hora, "Na conversa" sem a legenda ----
   const card = await ev(B, s => { const p = document.querySelector(s), sv = p.querySelector('.acts [data-a="save"]'), q = p.querySelector('.dc122-qd, .vp99-qd'), nm = p.querySelector('.ph-nm');
     return { sv: !!sv && !sv.hidden && sv.getBoundingClientRect().width > 30, svLbl: sv && sv.getAttribute('aria-label'), qd: q && q.textContent, qdOk: q && q.scrollWidth <= q.clientWidth + 1 && q.getBoundingClientRect().width > 20 && q.getBoundingClientRect().right <= p.getBoundingClientRect().right,
-      loc: (l => !!l && l.scrollWidth > l.clientWidth && getComputedStyle(l).textOverflow === 'ellipsis')(p.querySelector('.dc122-loc > span, .vp99-loc')), nchat: p.querySelector('[data-nchat]').textContent.trim(), pg: !!p.querySelector('.car > .vp99-pg'),
+      loc: (l => !!l && l.getBoundingClientRect().right <= p.getBoundingClientRect().right + 1 && l.scrollWidth <= l.clientWidth + 1)(p.querySelector('.dc122-loc > span, .vp99-loc')), nchat: p.querySelector('[data-nchat]').textContent.trim(), pg: !!p.querySelector('.car > .vp99-pg'),
       dots: (() => { const d = p.querySelector('.pdots').getBoundingClientRect(), c = p.querySelector('.car').getBoundingClientRect(); return Math.abs((d.left + d.width / 2) - (c.left + c.width / 2)) })() } }, s3);
   ok(card.sv && card.svLbl === 'Salvar', 'marcador de salvar aparece no post do amigo', card);
   ok(card.qdOk && /agora/.test(card.qd), 'a hora aparece inteira (o local é que encolhe)', card);
-  ok(card.loc, 'local longo termina em reticências');
+  ok(card.loc, 'local longo cabe no cartão (quebra a linha, 122)');
   ok(card.nchat === '', '"Na conversa" não repete a legenda (menção não conta)', card.nchat);
   ok(card.dots < 3, 'bolinhas do carrossel centradas debaixo da foto', card.dots);
   await shot(B, '01-post-feed');
@@ -82,8 +82,8 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   const sv = await ev(B, s => { const b = document.querySelector(s + ' .acts [data-a="save"]'); return { on: b.classList.contains('saved') && b.getAttribute('aria-pressed') === 'true', lbl: b.getAttribute('aria-label'), k: Object.keys(S.salvos).filter(k => k.startsWith('u:')), toast: document.querySelector('.toast')?.textContent || '' } }, s3);
   ok(sv.on && sv.k.length === 1 && 'p-' + sv.k[0] === P3 && /Salvo/.test(sv.toast), 'tocar no marcador salva o post (S.salvos com "u:")', sv);
   await shot(B, '09-salvo');
-  await ev(B, () => go('me')); await sleep(400); await ev(B, () => { PF_ABA = 'salvos'; renderMe() }); await sleep(600);
-  const pf = await ev(B, () => ({ aba: !!document.querySelector('#v-me [data-pfaba="salvos"][aria-selected="true"]'), tiles: document.querySelectorAll('#v-me .pf-grade .pf-t').length, gd: document.querySelector('#v-me .vp99-gd')?.textContent || '' }));
+  await ev(B, () => go('me')); await sleep(400); await ev(B, () => vn112PfAba('salvos')); await sleep(600);
+  const pf = await ev(B, () => ({ aba: !!document.querySelector('#v-me [data-vnpfaba="salvos"][aria-selected="true"], #v-me [data-pfaba="salvos"][aria-selected="true"]'), tiles: document.querySelectorAll('#v-me .pf-grade .pf-t').length, gd: document.querySelector('#v-me .vp99-gd')?.textContent || '' }));
   ok(pf.aba && pf.tiles === 1 && /Notícias guardadas/.test(pf.gd), 'aba Salvos no seu perfil: o post salvo e o atalho para as notícias guardadas', pf);
   await shot(B, '10-perfil-salvos');
   await tapSel(B, '#v-me .pf-grade .pf-t'); await sleep(900);
@@ -102,7 +102,7 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   // ---- enviar: amigos + Story / Copiar link / Outros apps ----
   await tapSel(B, s3 + ' [data-usend]'); await sleep(600);
   const en = await ev(B, () => { const sh = document.querySelector('.sheet.vp99-env'); return sh && { bts: [...sh.querySelectorAll('.vp99-shr button')].map(b => b.textContent.trim()), form: getComputedStyle(sh.querySelector('#sform')).display } });
-  ok(en && en.bts.join('|') === 'Adicionar ao story|Copiar link|Outros apps' && en.form === 'none', 'enviar: linha Story / Copiar link / Outros apps; campo só depois de escolher', en);
+  ok(en && /^Adicionar ao (story|giro)\|Copiar link\|Outros apps$/.test(en.bts.join('|')) && en.form === 'none', 'enviar: linha Story / Copiar link / Outros apps; campo só depois de escolher', en);
   await shot(B, '11-enviar-folha');
   await tapSel(B, '#pick [data-pick]'); await sleep(250);
   ok(await ev(B, () => getComputedStyle(document.querySelector('#sform')).display !== 'none' && getComputedStyle(document.querySelector('.vp99-shr')).display === 'none'), 'ao escolher um amigo aparece a mensagem e o Enviar');
@@ -121,20 +121,13 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   ok(await esperar(B, () => typeof ED !== 'undefined' && ED && ED.modo === 'story' && (ED.st.els || []).some(e => e.t === 'pub'), null, 5000), 'Adicionar ao story abre o story com o post');
   await ev(B, () => { ED = null; closeLayer._ok = true; closeLayer() }); await sleep(500);
 
-  // ---- grade do perfil: post logo abaixo da barra; deslizar para a direita volta ----
+  // ---- perfil do amigo (em lista, 112); deslizar da borda fecha ----
   await ev(B, () => go('feed')); await topo(s3);
   await tapSel(B, s3 + ' .up-au .ph-nm b'); await sleep(1300);
-  ok(await ev(B, () => !!document.querySelector('#layer .pfv .pf-grade') && !document.querySelector('#layer [data-pfaba="salvos"]')), 'perfil do amigo abre (sem a aba Salvos)');
-  const idx = await ev(B, s => PFV && pfLista(PFV.u, 'posts').findIndex(x => 'p-u:' + x.id === s.slice(5, -2)), s3);
-  await tapSel(B, `#layer [data-pfi="${idx}"]`); await sleep(1800);
-  const an = await ev(B, s => { const sc = document.querySelector('#layer .pfv-sc'), a = sc.querySelector(s), hd = document.querySelector('#layer .pfv-h'); return { d: Math.round(a.getBoundingClientRect().top - hd.getBoundingClientRect().bottom), st: sc.scrollTop } }, s3);
-  ok(idx > 0 && Math.abs(an.d) <= 2, 'post aberto pela grade fica com o cabeçalho logo abaixo da barra', { idx, ...an });
-  await shot(B, '14-grade-abre-post');
-  await swipe(B, 60, 600, 330, 612, 10, 16); await sleep(700);
-  ok(await ev(B, () => PFV && PFV.modo === 'grade' && !!document.querySelector('#layer .pfv .pf-grade') && !document.querySelector('#layer .pfv').style.transform), 'deslizar para a direita volta para a grade');
-  await shot(B, '15-grade-depois-de-deslizar');
+  ok(await ev(B, () => !!document.querySelector('#layer .pfv .vn-pf') && !!document.querySelector('#layer .pfv .vn-pl > .post') && !document.querySelector('#layer [data-vnpfaba="salvos"], #layer [data-pfaba="salvos"]')), 'perfil do amigo abre em lista (sem a aba Salvos)');
+  await shot(B, '14-perfil-amigo');
   await swipe(B, 6, 500, 300, 505, 10, 16); await sleep(700);
-  ok(await ev(B, () => !document.querySelector('#layer .pfv') && VIEW === 'feed'), 'deslizar da borda de novo fecha o perfil');
+  ok(await ev(B, () => !document.querySelector('#layer .pfv') && VIEW === 'feed'), 'deslizar da borda fecha o perfil');
   await swipe(B, 6, 500, 300, 505, 10, 16); await sleep(300);
   ok(await ev(B, () => VIEW === 'feed'), 'deslizar no Feed (sem perfil aberto) não faz nada');
 
