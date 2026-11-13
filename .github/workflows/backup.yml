@@ -25,9 +25,10 @@ jobs:
     steps:
       - name: Conferir os segredos
         run: |
-          [ -n "$DB_URL" ] || { echo "::error::Falta o segredo SUPABASE_DB_URL (ver o topo deste arquivo)"; exit 1; }
-          [ ${#SENHA} -ge 16 ] || { echo "::error::Falta o segredo BACKUP_SENHA (ou tem menos de 16 caracteres)"; exit 1; }
+          # sem os segredos, o robô não faz nada e não fica vermelho (o backup ainda não foi ligado)
+          if [ -z "$DB_URL" ] || [ ${#SENHA} -lt 16 ]; then echo "::notice::Backup desligado: faltam os segredos SUPABASE_DB_URL e BACKUP_SENHA (ver o topo deste arquivo)."; echo "PULA=1" >> "$GITHUB_ENV"; fi
       - name: Instalar o pg_dump 17
+        if: env.PULA != '1'
         run: |
           sudo install -d /usr/share/postgresql-common/pgdg
           sudo curl -fsSo /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
@@ -35,6 +36,7 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client-17 >/dev/null
           /usr/lib/postgresql/17/bin/pg_dump --version
       - name: Copiar o banco
+        if: env.PULA != '1'
         run: |
           set -o pipefail
           PGD=/usr/lib/postgresql/17/bin
@@ -53,9 +55,11 @@ jobs:
           rm -f app.dump contas.dump lista.txt
           ls -la saida
       - name: Conferir que a cópia abre com a senha
+        if: env.PULA != '1'
         run: |
           gpg --batch --pinentry-mode loopback --passphrase-fd 3 -d "saida/prumo-$D.tar.gz.gpg" 3<<<"$SENHA" 2>/dev/null | tar -tzf -
       - name: Guardar (30 dias)
+        if: env.PULA != '1'
         uses: actions/upload-artifact@v4
         with:
           name: prumo-backup-${{ env.D }}
