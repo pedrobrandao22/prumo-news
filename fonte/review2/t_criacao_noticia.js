@@ -15,7 +15,10 @@ const IND = { atualizado: '2026-11-02T17:54-03:00', itens: [
   { id: 'dolar', nome: 'Dólar', valor: 'R$ 5,44', variacao: '-0,06%', dir: 'desce', data: '2026-11-02', serie: [5.07, 5.10, 5.14, 5.13, 5.12, 5.08, 5.20, 5.22, 5.18, 5.02, 4.98, 5.03, 5.10, 5.37, 5.35, 5.44], rotulos: ['2026-08-02', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2026-11-02'] },
   { id: 'selic', nome: 'Selic', valor: '15,00%', variacao: 'estável', dir: 'estavel', data: '2026-10-29', serie: [15, 15, 15, 15], rotulos: ['2026-07-30', '', '', '2026-10-29'] },
   { id: 'ipca12m', nome: 'IPCA 12 meses', valor: '5,17%', variacao: '+0,12 p.p.', dir: 'sobe', data: '2026-10-10', serie: [4.8, 4.9, 5.0, 5.05, 5.17], rotulos: ['2026-06', '', '', '', '2026-10'] }] };
-async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x => x.tipo === 'post').length); await clk(p, '[data-edpubpo]'); await esperar(p, n => !ED && !PQ.atual && PUB.itens.filter(x => x.tipo === 'post').length === n + 1, n0, 20000); await sleep(500); return ev(p, () => PUB.itens.filter(x => x.tipo === 'post' && x.autor === S.uid).sort((a, b) => b.at - a.at)[0]) }
+async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x => x.tipo === 'post').length); await clk(p, '[data-edpubpo]'); await sleep(400);
+  // sem fonte, a análise pede uma (foco, 105): "Se não tiver, toque em Publicar de novo"
+  if (await ev(p, () => !!ED && /toque em Publicar de novo/.test((document.querySelector('#layer') || {}).textContent || ''))) await clk(p, '[data-edpubpo]');
+  if (!(await esperar(p, n => !ED && !PQ.atual && PUB.itens.filter(x => x.tipo === 'post').length === n + 1, n0, 20000))) console.log('DIAGPUB', await ev(p, n0 => JSON.stringify({ ed: !!ED, pq: !!PQ.atual, n: PUB.itens.filter(x => x.tipo === 'post').length, n0, layer: (document.querySelector('#layer') || {}).textContent?.slice(0, 300), sheet: [...document.querySelectorAll('.sheet, .ce-sel')].map(e => e.textContent.slice(0, 200)), toast: [...document.querySelectorAll('.toast')].map(e => e.textContent) }), n0)); await sleep(500); return ev(p, () => PUB.itens.filter(x => x.tipo === 'post' && x.autor === S.uid).sort((a, b) => b.at - a.at)[0]) }
 (async () => {
   U.feedFresco('site'); const srv = U.servir('site', 8981); await sleep(800);
   const H = await require('../harness').criar(); const b = await U.navegador();

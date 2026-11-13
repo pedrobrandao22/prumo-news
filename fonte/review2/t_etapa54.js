@@ -60,7 +60,9 @@ ok(await ev(A, () => { const t = ED.st.els.find(e => e.t === 'texto'); return ED
   ok(await ev(A, () => { const x = pubStoriesDe(S.uid)[0]; return x && x.estilo.v === 2 && x.fotos.length === 1 && x.estilo.itens.length === 2 }), 'story publicado como imagem com enquete e menção tocáveis');
   // B vê
   await ev(B, () => go('feed')); await sleep(500); await ev(B, () => pubCarregar()); await sleep(1500);
-  ok(await ev(B, () => document.querySelectorAll('#posts .upost').length === 2 && !!document.querySelector('#secs [data-ustory]')), 'amiga vê os 2 posts no Feed e o story de Pedro na fileira');
+  // o post sobre a notícia aparece junto dela (107): carrega o Feed até a notícia
+  await ev(B, () => { for (let i = 0; i < 12; i++) try { carregarMais(true) } catch (e) { } }); await sleep(600);
+  ok(await ev(B, () => { const ps = PUB.itens.filter(x => x.tipo === 'post'); return ps.length === 2 && ps.map(x => { const e = document.getElementById('p-u:' + x.id); return e ? 'ok' : x.pid && document.querySelector(`#posts [data-pid="${x.pid}"], #posts [id="p-${x.pid}"]`) ? 'junto' : 'nao' }).every(r => r !== 'nao') && !!document.querySelector('#secs [data-ustory]') }), 'amiga vê os 2 posts no Feed e o story de Pedro na fileira', await ev(B, () => JSON.stringify({ n: document.querySelectorAll('#posts .upost').length, cls: [...document.querySelectorAll('#posts .upost')].map(e => e.className), its: PUB.itens.map(x => x.tipo + ':' + (x.pid || '') + ':' + !!document.getElementById('p-u:' + x.id) + ':' + (x.pid ? FEED.pautas.some(p => p.id === x.pid) : '')), st: !!document.querySelector('#secs [data-ustory]') })));
   await ev(B, () => { const p = document.querySelector('#posts .upost'); p.scrollIntoView({ block: 'start' }) }); await sleep(800); await B.screenshot({ path: __dirname + '/../review3/var/pub-feedB.png' });
   await ev(B, () => scrollTo(0, 0)); await sleep(300); await B.screenshot({ path: __dirname + '/../review3/var/pub-rowB.png', clip: { x: 0, y: 0, width: 390, height: 260 } });
   await clk(B, '#secs [data-ustory]'); await sleep(1200); await B.screenshot({ path: __dirname + '/../review3/var/pub-storyB.png' });

@@ -76,7 +76,9 @@ const ins = (P, rows) => ev(P, async rows => { const ids = []; for (const r of r
 
   // ===== 5. análise e relato: "Análise de", do tamanho do texto
   await ev(A, () => { go('feed'); FILTRO = 'tudo'; renderPosts(); for (let i = 0; i < 6; i++) try { carregarMais(true) } catch (e) { } }); await sleep(500);
-  const an = await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-ana'), r = document.querySelector('#posts .upost.cn102-rel'); return a && r && { aCar: !!a.querySelector(':scope > .car'), aTit: /Juros altos por mais tempo/.test(a.textContent), rTit: /Fila no posto/.test(r.textContent), h: Math.round(a.getBoundingClientRect().height), hr: Math.round(r.getBoundingClientRect().height) } });
+  // fora da tela o cartão fica com a altura reservada (content-visibility); mede cada um depois de trazê-lo para a tela
+  for (const k of ['ana', 'rel']) { await ev(A, k => document.querySelector('#posts .upost.cn102-' + k).scrollIntoView({ block: 'center' }), k); await sleep(400) }
+  const an = await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-ana'), r = document.querySelector('#posts .upost.cn102-rel'); return a && r && { aCar: !!a.querySelector(':scope > .car'), aTit: /Juros altos por mais tempo/.test(a.textContent), rTit: /Fila no posto/.test(r.textContent), h: (a.scrollIntoView({ block: 'center' }), Math.round(a.getBoundingClientRect().height)), hr: (r.scrollIntoView({ block: 'center' }), Math.round(r.getBoundingClientRect().height)) } });
   ok(an && !an.aCar && an.aTit && an.rTit && an.h < 420 && an.hr < 460, 'análise e relato sem foto: sem o cartão colorido (122), título e texto do tamanho do conteúdo', JSON.stringify(an));
 
   // ===== 6. arte da notícia sem corte
@@ -88,12 +90,10 @@ const ins = (P, rows) => ev(P, async rows => { const ids = []; for (const r of r
   await ev(A, u => abrirPerfil(u), uidB); await esperar(A, () => !!document.querySelector('#layer .pfv .fc107-pk'), null, 5000); await sleep(400);
   const pk = await ev(A, () => [...document.querySelectorAll('#layer .fc107-pk button')].map(b => b.textContent.replace(/\s+/g, ' ').trim() + (b.getAttribute('aria-pressed') === 'true' ? '*' : '')));
   ok(pk.join('|') === 'Tudo 3*|Notícias comentadas 1|De perto 1|Análises 1', 'perfil: contribuições por tipo (Tudo, Notícias comentadas, De perto, Análises)', pk.join('|'));
-  ok(await ev(A, () => { const t = [...document.querySelectorAll('#layer .pf-t .fc107-pt small')].map(s => s.textContent).sort().join(); return t === 'Análise,De perto' }), 'miniaturas de análise e De perto mostram o tipo e o título');
+  ok(await ev(A, () => !!document.querySelector('#layer .vn-pl > .post.cn102-ana') && !!document.querySelector('#layer .vn-pl > .post.cn102-rel')), 'perfil em lista (112) com a análise e o De perto');
   await clk(A, '#layer [data-fc107pk="ana"]'); await sleep(400);
-  ok(await ev(A, () => document.querySelectorAll('#layer .pf-t').length === 1 && document.querySelector('#layer [data-fc107pk="ana"]').getAttribute('aria-pressed') === 'true' && /Juros altos/.test(document.querySelector('#layer .pf-t').textContent)), 'tocar em "Análises" deixa só as análises na grade');
+  ok(await ev(A, () => { const l = [...document.querySelectorAll('#layer .vn-pl > .post')]; return l.length === 1 && l[0].classList.contains('cn102-ana') && /Juros altos/.test(l[0].textContent) && document.querySelector('#layer [data-fc107pk="ana"]').getAttribute('aria-pressed') === 'true' }), 'tocar em "Análises" deixa só as análises na lista');
   await A.screenshot({ path: SH + 't-perfil.png' });
-  await clk(A, '#layer [data-pfi="0"]'); await sleep(600);
-  ok(await ev(A, () => document.querySelectorAll('#layer .pfv-posts .upost').length === 1 && !!document.querySelector('#layer .pfv-posts .upost.cn102-ana')), 'abrir a grade filtrada mostra a análise (mesma lista)');
   await ev(A, () => closeLayer()); await sleep(400);
   await ev(A, u => abrirPerfil(u), uidB); await sleep(500);
   ok(await ev(A, () => document.querySelector('#layer [data-fc107pk=""]')?.getAttribute('aria-pressed') === 'true'), 'ao abrir o perfil de novo, volta para "Tudo"');
