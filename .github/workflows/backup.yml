@@ -1,0 +1,64 @@
+name: Backup do banco
+# Cópia diária do banco do Prumo (Supabase), sem IA e sem gastar créditos do Claude. O plano grátis do Supabase não
+# guarda cópias; esta é a nossa. O repositório é público, então a cópia NUNCA entra no repositório: ela é
+# criptografada com a senha BACKUP_SENHA (só o Pedro sabe) e fica guardada 30 dias como "artifact" desta execução.
+# Sem a senha o arquivo é inútil para quem baixar. Precisa de dois segredos (Settings › Secrets and variables › Actions):
+#   SUPABASE_DB_URL  — a "Session pooler" connection string do Supabase (Connect › Session pooler), com a senha do banco
+#   BACKUP_SENHA     — uma senha longa inventada pelo Pedro, guardada no gerenciador de senhas dele
+# Como restaurar: fonte/BACKUP.md.
+on:
+  schedule:
+    - cron: "41 7 * * *"   # 4h41 em Brasília
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: prumo-backup
+  cancel-in-progress: false
+jobs:
+  backup:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      SENHA: ${{ secrets.BACKUP_SENHA }}
+    steps:
+      - name: Conferir os segredos
+        run: |
+          [ -n "$DB_URL" ] || { echo "::error::Falta o segredo SUPABASE_DB_URL (ver o topo deste arquivo)"; exit 1; }
+          [ ${#SENHA} -ge 16 ] || { echo "::error::Falta o segredo BACKUP_SENHA (ou tem menos de 16 caracteres)"; exit 1; }
+      - name: Instalar o pg_dump 17
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSo /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt noble-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+          sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client-17 >/dev/null
+          /usr/lib/postgresql/17/bin/pg_dump --version
+      - name: Copiar o banco
+        run: |
+          set -o pipefail
+          PGD=/usr/lib/postgresql/17/bin
+          D=$(TZ=America/Sao_Paulo date +%Y-%m-%d-%Hh%M); echo "D=$D" >> "$GITHUB_ENV"; mkdir -p saida
+          # dados do app (todas as tabelas, funções e regras) — obrigatório
+          $PGD/pg_dump "$DB_URL" -Fc --no-owner --no-privileges -n public -f app.dump
+          # contas (auth) e a lista de arquivos de fotos (storage) — só os dados; se falhar, o backup do app vale mesmo assim
+          $PGD/pg_dump "$DB_URL" -Fc --data-only -t auth.users -t auth.identities -t storage.buckets -t storage.objects -f contas.dump \
+            || { echo "::warning::Não deu para copiar as contas (auth/storage); o backup do app foi feito."; rm -f contas.dump; }
+          # confere que os arquivos abrem antes de guardar
+          $PGD/pg_restore -l app.dump > lista.txt
+          echo "Tabelas copiadas: $(grep -c ' TABLE DATA public ' lista.txt)"
+          [ -f contas.dump ] && $PGD/pg_restore -l contas.dump | grep -c 'TABLE DATA' | sed 's/^/Tabelas de contas: /'
+          tar -cf - app.dump $( [ -f contas.dump ] && echo contas.dump ) | gzip -9 \
+            | gpg --batch --yes --pinentry-mode loopback --passphrase-fd 3 --symmetric --cipher-algo AES256 -o "saida/prumo-$D.tar.gz.gpg" 3<<<"$SENHA"
+          rm -f app.dump contas.dump lista.txt
+          ls -la saida
+      - name: Conferir que a cópia abre com a senha
+        run: |
+          gpg --batch --pinentry-mode loopback --passphrase-fd 3 -d "saida/prumo-$D.tar.gz.gpg" 3<<<"$SENHA" 2>/dev/null | tar -tzf -
+      - name: Guardar (30 dias)
+        uses: actions/upload-artifact@v4
+        with:
+          name: prumo-backup-${{ env.D }}
+          path: saida/
+          retention-days: 30
+          compression-level: 0
