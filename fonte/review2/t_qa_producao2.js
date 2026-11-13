@@ -32,9 +32,9 @@ const recarrega = async p => { await p.reload(); await esperar(p, () => S.membro
   await storyTexto(A, 'Menção', [{ t: 'men', uid: uB, tx: '@Bia Souza' }]);
   await storyTexto(A, 'Pergunta', [{ t: 'perg', q: 'Que notícia vocês querem amanhã?' }]);
   await ev(B, () => { scrollTo(0, 0) }); await esperar(B, u => pubStoriesDe(u).length === 2, uA, 8000);
-  ok(await ev(B, () => S.msgsIn.some(m => m.tipo === 'mencao') && dmPrevia(S.msgsIn.find(m => m.tipo === 'mencao')) === 'Mencionou você no story'), 'prévia da menção no story: "Mencionou você no story" (não "num post")');
+  ok(await ev(B, () => S.msgsIn.some(m => m.tipo === 'mencao') && /^Mencionou você no (story|giro)$/.test(dmPrevia(S.msgsIn.find(m => m.tipo === 'mencao')))), 'prévia da menção no story: "Mencionou você no story" (não "num post")');
   await ev(B, u => abrirConversa(u), uA); await sleep(1000);
-  ok(await ev(B, () => { const lb = [...document.querySelectorAll('#v-msgs .dm-lb')].map(x => x.textContent); return lb.includes('Mencionou você no story') && !lb.some(t => /num post/.test(t)) && ![...document.querySelectorAll('#v-msgs .bub')].some(x => /Mencionou você no story/.test(x.textContent)) }), 'conversa: "Mencionou você no story" uma vez (sem "num post" nem balão repetido)', await ev(B, () => document.querySelector('#v-msgs .thread').innerText.slice(0, 200)));
+  ok(await ev(B, () => { const lb = [...document.querySelectorAll('#v-msgs .dm-lb')].map(x => x.textContent); return lb.some(t => /^Mencionou você no (story|giro)$/.test(t)) && !lb.some(t => /num post/.test(t)) && ![...document.querySelectorAll('#v-msgs .bub')].some(x => /Mencionou você no (story|giro)/.test(x.textContent)) }), 'conversa: "Mencionou você no story" uma vez (sem "num post" nem balão repetido)', await ev(B, () => document.querySelector('#v-msgs .thread').innerText.slice(0, 200)));
   // Bia responde a pergunta
   const sP = await ev(B, u => pubStoriesDe(u)[1].id, uA);
   await ev(B, () => go('feed')); await sleep(300); await ev(B, id => igAbrirUser(pubDe(id).autor, id), sP); await sleep(1200);
@@ -127,9 +127,9 @@ const recarrega = async p => { await p.reload(); await esperar(p, () => S.membro
   // ===== 9. Feed comprido: os posts que chegam ao rolar não são medidos todos de uma vez
   await ev(B, async () => { for (let i = 0; i < 14; i++) await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', texto: 'Post ' + i, fotos: [], estilo: { fundo: i % 6 }, publico: 'amigos' }) });
   await ev(B, () => { pubCarregar() }); await sleep(1500); await ev(B, () => { go('capa'); go('feed'); scrollTo(0, 0) }); await sleep(800);
-  const m = await ev(B, async () => { let n = 0; const o = fitTrack; fitTrack = function () { n++; return o.apply(this, arguments) }; const p0 = LOTE.pos; let sinc = -1;
-    try { carregarMais(); sinc = n } finally { fitTrack = o } await new Promise(r => setTimeout(r, 600)); const novos = [...document.querySelectorAll('#posts > .post')].slice(p0).map(x => x.querySelector('.track')).filter(Boolean);
-    return { sinc, lote: LOTE.pos - p0, ok: novos.length > 0 && novos.every(t => !!t.style.getPropertyValue('--slh')) } });
+  const m = await ev(B, async () => { let n = 0; const o = fitTrack; fitTrack = function () { n++; return o.apply(this, arguments) }; const p0 = LOTE.pos; const antes = new Set(document.querySelectorAll('#posts .post')); let sinc = -1;
+    try { carregarMais(); sinc = n } finally { fitTrack = o } await new Promise(r => setTimeout(r, 600)); const novos = [...document.querySelectorAll('#posts .post')].filter(x => !antes.has(x)).map(x => x.querySelector('.track')).filter(Boolean);
+    return { sinc, lote: LOTE.pos - p0, ok: novos.length > 0 && novos.every(t => !!t.style.getPropertyValue('--slh')), sem: novos.filter(t => !t.style.getPropertyValue('--slh')).map(t => t.closest('.post').className + ' h' + t.style.height) } });
   ok(m.lote > 0 && m.sinc === 0 && m.ok, 'rolar o Feed: lote novo é medido aos poucos (nenhuma medida dentro do lote) e fica com a altura certa', JSON.stringify(m));
 
   // ===== 10. ver os stories de um amigo: o anel fica "visto" ao fechar; no outro aparelho também

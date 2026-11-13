@@ -15,7 +15,10 @@ const IND = { atualizado: '2026-11-02T17:54-03:00', itens: [
   { id: 'dolar', nome: 'Dólar', valor: 'R$ 5,44', variacao: '-0,06%', dir: 'desce', data: '2026-11-02', serie: [5.07, 5.10, 5.14, 5.13, 5.12, 5.08, 5.20, 5.22, 5.18, 5.02, 4.98, 5.03, 5.10, 5.37, 5.35, 5.44], rotulos: ['2026-08-02', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2026-11-02'] },
   { id: 'selic', nome: 'Selic', valor: '15,00%', variacao: 'estável', dir: 'estavel', data: '2026-10-29', serie: [15, 15, 15, 15], rotulos: ['2026-07-30', '', '', '2026-10-29'] },
   { id: 'ipca12m', nome: 'IPCA 12 meses', valor: '5,17%', variacao: '+0,12 p.p.', dir: 'sobe', data: '2026-10-10', serie: [4.8, 4.9, 5.0, 5.05, 5.17], rotulos: ['2026-06', '', '', '', '2026-10'] }] };
-async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x => x.tipo === 'post').length); await clk(p, '[data-edpubpo]'); await esperar(p, n => !ED && !PQ.atual && PUB.itens.filter(x => x.tipo === 'post').length === n + 1, n0, 20000); await sleep(500); return ev(p, () => PUB.itens.filter(x => x.tipo === 'post')[0]) }
+async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x => x.tipo === 'post').length); await clk(p, '[data-edpubpo]'); await sleep(400);
+  // sem fonte, a análise pede uma (foco, 105): "Se não tiver, toque em Publicar de novo"
+  if (await ev(p, () => !!ED && /toque em Publicar de novo/.test((document.querySelector('#layer') || {}).textContent || ''))) await clk(p, '[data-edpubpo]');
+  if (!(await esperar(p, n => !ED && !PQ.atual && PUB.itens.filter(x => x.tipo === 'post').length === n + 1, n0, 20000))) console.log('DIAGPUB', await ev(p, n0 => JSON.stringify({ ed: !!ED, pq: !!PQ.atual, n: PUB.itens.filter(x => x.tipo === 'post').length, n0, layer: (document.querySelector('#layer') || {}).textContent?.slice(0, 300), sheet: [...document.querySelectorAll('.sheet, .ce-sel')].map(e => e.textContent.slice(0, 200)), toast: [...document.querySelectorAll('.toast')].map(e => e.textContent) }), n0)); await sleep(500); return ev(p, () => PUB.itens.filter(x => x.tipo === 'post' && x.autor === S.uid).sort((a, b) => b.at - a.at)[0]) }
 (async () => {
   U.feedFresco('site'); const srv = U.servir('site', 8981); await sleep(800);
   const H = await require('../harness').criar(); const b = await U.navegador();
@@ -55,7 +58,7 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
   const pa = await publicaPost(A);
   ok(pa.estilo.cn && pa.estilo.cn.k === 'ana' && pa.estilo.cn.tit === 'Dólar volta a subir e pressiona a inflação' && pa.estilo.cn.d.tipo === 'ind' && pa.estilo.cn.fu === 'https://www.bcb.gov.br/estatisticas' && /^Dólar volta a subir e pressiona a inflação\n\nA alta/.test(pa.texto), 'publicado: estilo.cn {k:ana, tit, d, fu} e texto "título + corpo" (compatível)');
   await ev(A, () => scrollTo(0, 0)); await sleep(300);
-  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-ana'); return a && /Opinião/.test(a.querySelector('.ph-sub').textContent) && /Opinião de Pedro Brandão/.test(a.querySelector('.cn102-k').textContent) && a.querySelectorAll('.track > .sl').length === 2 && !!a.querySelector('.cn102-dsl svg') && !!a.querySelector('a.cn102-fonte[href^="https://www.bcb.gov.br"]') }), 'Feed: rótulo Opinião, cartão "Opinião de Pedro Brandão", slide do gráfico e link da fonte');
+  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-ana'); return a && a.querySelectorAll('.track > .sl').length >= 1 && !!a.querySelector('.cn102-dsl svg') && !!a.querySelector('a.cn102-fonte[href^="https://www.bcb.gov.br"]') }), 'Feed: análise com o gráfico como imagem do cartão A (122) e o link da fonte');
   await shotEl(A, '#posts .upost.cn102-ana', 'feed-analise');
   await ev(A, () => { const t = document.querySelector('#posts .upost.cn102-ana .track'); t.scrollLeft = t.clientWidth }); await sleep(300);
   await shotEl(A, '#posts .upost.cn102-ana', 'feed-analise-grafico');
@@ -71,9 +74,9 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
   await shot(A, 'analise-meus-numeros');
   await clk(A, '[data-cn102dok]'); await sleep(200);
   const pb = await publicaPost(A);
-  ok(pb.estilo.cn.d.tipo === 'bar' && pb.estilo.cn.d.s.join() === '12.5,8.1,7.3,4.9' && pb.estilo.cn.d.r.join() === 'SP,RJ,MG,PR' && pb.texto === 'Quanto cada estado recebeu', 'números em pt-BR viram dados do gráfico');
+  ok(pb.estilo.cn.d.tipo === 'bar' && pb.estilo.cn.d.s.join() === '12.5,8.1,7.3,4.9' && pb.estilo.cn.d.r.join() === 'SP,RJ,MG,PR' && pb.texto === 'Quanto cada estado recebeu', 'números em pt-BR viram dados do gráfico', JSON.stringify({ d: pb.estilo.cn.d, t: pb.texto }));
   await ev(A, () => scrollTo(0, 0)); await sleep(300);
-  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-ana'); return a && a.querySelectorAll('.track > .sl').length === 1 && a.querySelectorAll('.cn102-dmini rect.cn102-g-b').length === 4 }), 'análise só com título e gráfico: um cartão com o gráfico dentro');
+  ok(await ev(A, () => { const a = [...document.querySelectorAll('#posts .upost.cn102-ana')].find(e => /Quanto cada estado/.test(e.textContent)); return a && a.querySelectorAll('.track > .sl').length === 1 && a.querySelectorAll('.cn102-dsl rect.cn102-g-b').length === 4 }), 'análise só com título e gráfico: o gráfico é a única imagem do cartão');
   await shotEl(A, '#posts .upost.cn102-ana', 'feed-analise-barras');
 
   // ===== 4. Aconteceu perto de mim: foto, título, onde, quando, fonte
@@ -89,7 +92,7 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
   const pr = await publicaPost(A);
   ok(pr.estilo.cn.k === 'rel' && pr.estilo.cn.q === '2026-11-02T14:10' && pr.estilo.cn.fu === 'Defesa Civil do Rio' && pr.estilo.local === 'Botafogo, Rio' && pr.fotos.length === 2, 'relato publicado: fotos, local no estilo de sempre, quando e fonte no cn');
   await ev(A, () => scrollTo(0, 0)); await sleep(400);
-  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); return a && /De perto/.test(a.querySelector('.ph-sub').textContent) && /Árvore cai/.test(a.querySelector('.cn102-lt').textContent) && /Botafogo, Rio · /.test(a.querySelector('.cn102-lm').textContent) && /Fonte: Defesa Civil do Rio/.test(a.textContent) && a.querySelectorAll('.track .up-img').length === 2 && !/Árvore cai/.test(a.querySelector('.up-leg').textContent) }), 'Feed: rótulo De perto (antes Relato), título e "onde · quando" na legenda, fotos e fonte (sem repetir o título)');
+  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); return a && /Botafogo, Rio/.test(a.querySelector('.ph-sub').textContent) && /Árvore cai/.test(a.querySelector('h3')?.textContent || '') && /Fonte: Defesa Civil do Rio/.test(a.textContent) && a.querySelectorAll('.track > .sl').length === 2 && !/Árvore cai/.test(a.querySelector('.up-leg')?.textContent || '') }), 'Feed: relato com título, local e hora no cabeçalho, as duas fotos e a fonte (sem repetir o título na legenda)', await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); return a && a.textContent.slice(0, 400) }));
   await shotEl(A, '#posts .upost.cn102-rel', 'feed-relato-com-foto');
   await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); a.scrollIntoView({ block: 'end' }) }); await sleep(300); await shot(A, 'feed-relato-legenda');
   // relato sem foto
@@ -98,7 +101,7 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
   await A.fill('#cn102-tit', 'Falta de luz no Centro desde as 9h'); await A.fill('#ce-local', 'Centro, Curitiba'); await A.fill('#ce-leg', 'Vários prédios da Rua XV sem energia. A Copel diz que equipes já trabalham no conserto.');
   const pr2 = await publicaPost(A);
   await ev(A, () => scrollTo(0, 0)); await sleep(400);
-  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); return a && a.querySelector('.cn102-rel .cn102-cd h3')?.textContent === 'Falta de luz no Centro desde as 9h' && /De perto · Pedro Brandão/.test(a.textContent) && /Centro, Curitiba/.test(a.querySelector('.cn102-meta').textContent) }), 'relato sem foto vira cartão com título, onde e quando');
+  ok(await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-rel'); return a && a.querySelector('h3')?.textContent === 'Falta de luz no Centro desde as 9h' && /Centro, Curitiba/.test(a.querySelector('.ph-sub').textContent) }), 'relato sem foto: título, onde e quando');
   await shotEl(A, '#posts .upost.cn102-rel', 'feed-relato-sem-foto');
 
 
@@ -147,12 +150,12 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
 
   // ===== 8. story: "Notícia" na câmera, bandeja de notícia primeiro e figurinha de indicador
   await ev(A, () => criarAbrir('story')); await sleep(500);
-  ok(await ev(A, () => { const r = [...document.querySelectorAll('#layer .ce-rail > button')].map(b => (b.querySelector('span')?.textContent || '').trim()); return r[0] === 'Criar' && r[1] === 'Notícia' }), 'câmera do story: "Notícia" logo abaixo de "Criar"');
+  ok(await ev(A, () => { const r = [...document.querySelectorAll('#layer .ce-rail > button')].map(b => (b.querySelector('span')?.textContent || '').trim()); return r[0] === 'Notícia' }), 'câmera do giro começa pela Notícia (Notícia · Texto · Indicador · Livre, 105)', await ev(A, () => [...document.querySelectorAll('#layer .ce-rail > button')].map(b => (b.querySelector('span')?.textContent || '').trim())));
   await shot(A, 'story-camera-noticia');
   await clk(A, '[data-cn102stnt]'); await sleep(300); await clk(A, '#layer [data-cn102stsel]'); await sleep(500);
   ok(await ev(A, () => ED.tela === 'edit' && ED.st.els.filter(e => e.t === 'nt').length === 1), 'escolher a notícia abre o editor com o cartão da notícia');
   await clk(A, '.ce-top [data-edfig]'); await sleep(400);
-  ok(await ev(A, () => { const k = [...document.querySelectorAll('.ce-fig .fg2-chips > *')].map(e => e.dataset.edfig || ('#' + e.textContent)); return k.slice(0, 9).join() === '#Notícia e contexto,nt,link,local,hora,ind,enq,perg,quiz' && k[9] === '#Pessoas e diversão' && /Fonte/.test(document.querySelector('.ce-fig [data-edfig="link"]').textContent) }), 'bandeja: Notícia e contexto primeiro (Notícia, Fonte/link, Local, Hora, Indicador, Enquete…), diversão depois');
+  ok(await ev(A, () => { const k = [...document.querySelectorAll('.ce-fig .fg2-chips > *')].map(e => e.dataset.edfig || ('#' + e.textContent)); return k.join() === '#Notícia e contexto,nt,link,local,hora,ind,#Perguntar,enq,perg,quiz,#Mais,men,cont,foto' && /Fonte/.test(document.querySelector('.ce-fig [data-edfig="link"]').textContent) }), 'bandeja: Notícia e contexto primeiro, depois Perguntar e Mais (105)');
   await shot(A, 'story-bandeja');
   await A.fill('#ce-figq', 'selic'); await sleep(150); ok(await ev(A, () => [...document.querySelectorAll('.ce-fig [data-edfig]')].filter(b => !b.hidden).map(b => b.dataset.edfig).join() === 'ind' && [...document.querySelectorAll('.ce-fig .cn102-fh')].every(h => h.hidden)), 'busca "selic" acha o Indicador');
   await A.fill('#ce-figq', ''); await sleep(100);
@@ -163,7 +166,7 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
 
   // ===== 9. a Bia vê, vota na pergunta e o Pedro vê o resultado
   await ev(B, () => go('feed')); await esperar(B, () => PUB.on === true, null, 8000); await ev(B, () => pubCarregar()); await esperar(B, id => !!pubDe(id), idQ, 8000); await sleep(800);
-  ok(await ev(B, () => { const l = PUB.itens.filter(x => x.tipo === 'post' && x.estilo && x.estilo.cn); const ks = l.map(x => (pubPostHTML(x).match(/cn102-post cn102-(\w+)/) || [])[1]).sort().join(); return ks === 'ana,ana,enq,nt,rel,rel' && !!document.querySelector('#posts .upost.cn102-enq') }), 'a Bia vê os 6 posts com os cartões de cada tipo');
+  ok(await ev(B, () => { const l = PUB.itens.filter(x => x.tipo === 'post' && x.estilo && x.estilo.cn); const ks = l.map(x => (pubPostHTML(x).match(/cn102-post cn102-(\w+)/) || [])[1]).sort().join(); return ks === 'ana,ana,enq,nt,rel,rel' && !!document.querySelector('#posts .upost.cn102-enq') }), 'a Bia vê os 6 posts com os cartões de cada tipo', await ev(B, () => PUB.itens.filter(x => x.tipo === 'post' && x.estilo && x.estilo.cn).map(x => (pubPostHTML(x).match(/cn102-post cn102-(\w+)/) || [])[1] + ':' + x.estilo.cn.k)));
   await shotEl(B, '#posts .upost.cn102-enq', 'bia-pergunta-antes');
   await ev(B, () => { const b = document.querySelector('#posts .upost.cn102-enq [data-cn102voto="2"]'); b.scrollIntoView({ block: 'center' }) }); await sleep(200);
   await clk(B, '#posts .upost.cn102-enq [data-cn102voto="2"]'); await sleep(900);
@@ -191,7 +194,7 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
   // ===== 10. post antigo com notícia (sem cn) ganha o cartão novo; dado inválido de outro membro é ignorado
   ok(await ev(A, () => { const h = pubPostHTML({ id: '31111111-1111-1111-1111-111111111111', autor: S.uid, tipo: 'post', at: Date.now(), texto: 'Antigo', fotos: [], pid: 'pec-6x1-senado', estilo: { v: 2 } }); return /cn102-ntb/.test(h) && /data-capmat="pec-6x1-senado"/.test(h) && /via Prumo/.test(h) }), 'post antigo com notícia: cartão novo, mesmo toque para a matéria');
   ok(await ev(A, () => { const h = pubPostHTML({ id: '41111111-1111-1111-1111-111111111111', autor: S.uid, tipo: 'post', at: Date.now(), texto: 'x', fotos: [], estilo: { v: 2, cn: { k: 'ana', tit: '<img src=x onerror=alert(1)>', fu: 'javascript:alert(1)', d: { tipo: 'bar', s: ['a', 1e99] } } } }); return !/<img src=x/.test(h) && !/href="javascript/.test(h) && !/cn102-g/.test(h) && /cn102-ana/.test(h) }), 'dados de outro membro são limpos (sem HTML, sem link perigoso, gráfico inválido some)');
-  ok(await ev(A, () => { const h = pubPostHTML({ id: '51111111-1111-1111-1111-111111111111', autor: S.uid, tipo: 'post', at: Date.now(), texto: 'x', fotos: [], estilo: { v: 2, cn: { k: 'zzz' } } }); return /up-tx/.test(h) && !/cn102/.test(h) }), 'tipo desconhecido: o post aparece como antes');
+  ok(await ev(A, () => { const h = pubPostHTML({ id: '51111111-1111-1111-1111-111111111111', autor: S.uid, tipo: 'post', at: Date.now(), texto: 'x', fotos: [], estilo: { v: 2, cn: { k: 'zzz' } } }); return /^\s*<article/.test(h) && !/cn102-post/.test(h) }), 'tipo desconhecido: o post aparece como um post comum');
 
   // ===== 11. rascunho guarda o tipo
   await ev(A, () => criarAbrir('post')); await sleep(300); await clk(A, '[data-cn102ini="ana"]'); await sleep(300); await A.keyboard.type('Rascunho de análise'); await A.fill('#ce-leg', 'Texto ainda pela metade');

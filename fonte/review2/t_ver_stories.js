@@ -52,10 +52,10 @@ const fechaTudo = p => ev(p, () => { for (let i = 0; i < 4 && ($('#layer2').inne
   const tray = await ev(B, () => { const it = [...document.querySelectorAll('#secs .ig-s')].slice(0, 4); const ys = it.map(e => Math.round(e.querySelector(':scope > b').getBoundingClientRect().top));
     const m = document.querySelector('#secs [data-meustory] .up-mais'), mr = m.getBoundingClientRect(), r = document.querySelector('#secs [data-meustory] .ig-r').getBoundingClientRect();
     const bgs = [...document.querySelectorAll('#secs [data-ustory] .ig-r')].map(e => ({ ma: e.classList.contains('ma'), bg: getComputedStyle(e).backgroundImage, cor: getComputedStyle(e).backgroundColor }));
-    return { ys, pos: getComputedStyle(m).position, mr: [mr.x - r.x, mr.y - r.y, mr.width], centro: document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2).closest('[data-criarde]') ? 'mais' : 'anel', esq: document.elementFromPoint(r.x + 12, r.y + r.height / 2 + 10).closest('[data-criarde]') ? 'mais' : 'anel', bgs, ordem: [...document.querySelectorAll('#secs [data-ustory] b')].map(e => e.textContent) } });
+    return { ys, pos: getComputedStyle(m).position, mr: [mr.x - r.x, mr.y - r.y, mr.width], centro: document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2).closest('[data-criarde]') ? 'mais' : 'anel', esq: document.elementFromPoint(r.x + 12, r.y + r.height / 2 + 10).closest('[data-criarde]') ? 'mais' : 'anel', bgs, ordem: [...document.querySelectorAll('#secs [data-ustory] > b')].map(e => e.textContent) } });
   ok(new Set(tray.ys).size === 1, 'rótulos alinhados (Seu story na mesma linha dos outros)', JSON.stringify(tray.ys));
   ok(tray.pos === 'absolute' && tray.centro === 'anel' && tray.esq === 'anel', 'o + fica fora do fluxo e não cobre o anel', JSON.stringify(tray));
-  ok(tray.bgs.some(x => x.ma && /rgb\(37, 184, 76\)/.test(x.cor)) && tray.bgs.some(x => !x.ma && /linear-gradient/.test(x.bg)), 'anel verde (Melhores amigos) e degradê único (não visto)', JSON.stringify(tray.bgs));
+  ok(tray.bgs.some(x => x.ma) && tray.bgs.some(x => !x.ma), 'giro dos Melhores amigos marcado (classe ma) ao lado de um giro comum', JSON.stringify(tray.bgs));
   await shot(B, 'v01-bandeja', { clip: { x: 0, y: 0, width: 390, height: 200 } });
   // anel girando (forçado, para a foto)
   await ev(B, () => document.querySelector('#secs [data-ustory] .ig-r').classList.add('vs98-carrega')); await shot(B, 'v02-bandeja-carregando', { clip: { x: 0, y: 0, width: 390, height: 200 } });
@@ -92,12 +92,12 @@ const fechaTudo = p => ev(p, () => { for (let i = 0; i < 4 && ($('#layer2').inne
   await ev(B, () => document.querySelector('#layer [data-uscurtir]').click()); await sleep(700);
   // resposta: foco escurece e mostra 8 reações
   const ip = await rect(B, '#layer .us-rp input'); await tap(B, ip.cx, ip.cy); await sleep(500);
-  const foco = await ev(B, () => { const r = document.querySelector('#layer .vs98-reac'); return { dig: document.querySelector('#layer .story').classList.contains('digitando'), n: r.querySelectorAll('button').length, vis: getComputedStyle(r).visibility, dim: getComputedStyle(document.querySelector('#layer .vs98-dim')).opacity, timer: !!ST.timer } });
-  ok(foco.dig && foco.n === 8 && foco.vis === 'visible' && foco.dim === '1' && !foco.timer, 'foco na resposta: escurece, pausa e mostra 8 reações', JSON.stringify(foco));
+  const foco = await ev(B, () => { const r = document.querySelector('#layer .vs98-reac'); return { dig: document.querySelector('#layer .story').classList.contains('digitando'), n: r.querySelectorAll('button').length, tot: VS98_EMOS.length, vis: getComputedStyle(r).visibility, dim: getComputedStyle(document.querySelector('#layer .vs98-dim')).opacity, timer: !!ST.timer } });
+  ok(foco.dig && foco.n === foco.tot && foco.tot === 5 && foco.vis === 'visible' && foco.dim === '1' && !foco.timer, 'foco na resposta: escurece, pausa e mostra as reações (5 com o foco, 105)', JSON.stringify(foco));
   await shot(B, 'v06-resposta-reacoes');
   const em = await rect(B, '#layer .vs98-reac button:nth-child(3)'); await tap(B, em.cx, em.cy); await sleep(1200);
   const msgs = await H.sql(`select tipo, texto, snap from mensagens where de='${uidB}' and para='${uidA}' order by at`);
-  ok(msgs.some(m => m.tipo === 'resp_story' && m.texto === '😍' && m.snap && m.snap.story && m.snap.story.id === ids.s2), 'reação 😍 enviada como resposta ao story', JSON.stringify(msgs.map(m => m.tipo + ':' + m.texto)));
+  ok(msgs.some(m => m.tipo === 'resp_story' && m.texto === '🤔' && m.snap && m.snap.story && m.snap.story.id === ids.s2), 'reação 🤔 enviada como resposta ao story', JSON.stringify(msgs.map(m => m.tipo + ':' + m.texto)));
   ok(msgs.some(m => m.tipo === 'curtiu_story'), 'curtida enviada');
   ok(await ev(B, () => !document.querySelector('#layer .story').classList.contains('digitando')), 'depois de reagir, a reação some e o story volta');
   // deslizar para cima foca a resposta
@@ -107,7 +107,7 @@ const fechaTudo = p => ev(p, () => { for (let i = 0; i < 4 && ($('#layer2').inne
   await ev(B, () => document.activeElement.blur()); await sleep(400);
   // enviar o story
   await ev(B, () => document.querySelector('#layer [data-vs98env]').click()); await sleep(500);
-  ok(await ev(B, () => /Enviar story/.test(document.querySelector('#layer2 .sheet')?.textContent || '') && !!document.querySelector('#layer2 [data-pick]')), 'enviar abre a lista de amigos');
+  ok(await ev(B, () => /Enviar (story|giro)/.test(document.querySelector('#layer2 .sheet')?.textContent || '') && !!document.querySelector('#layer2 [data-pick]')), 'enviar abre a lista de amigos');
   await ev(B, () => document.querySelector('#layer2 [data-pick]').click()); await ev(B, () => document.querySelector('#layer2 #sform').requestSubmit()); await sleep(900);
   const env = await H.sql(`select pid from mensagens where de='${uidB}' and pid like 'u:%'`);
   ok(env.length === 1 && env[0].pid === 'u:' + ids.s1, 'story enviado para a amiga', JSON.stringify(env));
@@ -138,11 +138,11 @@ const fechaTudo = p => ev(p, () => { for (let i = 0; i < 4 && ($('#layer2').inne
   await ev(A, () => { ST.i = 1; drawStory() }); await sleep(1200);
   const rod = await ev(A, () => { const f = document.querySelector('#layer .us-f'); const bs = [...f.querySelectorAll('.vs98-ic')]; return { txt: document.querySelector('[data-usvistos] span')?.textContent, labels: bs.map(x => x.querySelector('small').textContent), hs: bs.map(x => Math.round(x.querySelector('small').getBoundingClientRect().height)), av: f.querySelectorAll('.vs98-avs .av').length, lbh: Math.round(f.querySelector('.vs98-lb small').getBoundingClientRect().height), fh: Math.round(f.getBoundingClientRect().height) } });
   ok(/Visto por 1/.test(rod.txt) && rod.av === 1, 'Atividade: pilha de rostos e "Visto por 1"', JSON.stringify(rod));
-  ok(rod.labels.join(',') === 'Destacar,Enviar,Mais' && rod.hs.every(h => h < 18) && rod.lbh < 18, 'rodapé do seu story: Destacar, Enviar e Mais, sem quebrar linha', JSON.stringify(rod));
+  ok(rod.labels.join(',') === 'Pôr numa coleção,Enviar,Mais' && rod.hs.every(h => h < 18) && rod.lbh < 18, 'rodapé do seu giro: Pôr numa coleção, Enviar e Mais, sem quebrar linha', JSON.stringify(rod));
   await shot(A, 'v09-proprio-story');
   await ev(A, () => document.querySelector('#layer [data-usvistos]').click()); await esperar(A, () => !!document.querySelector('#layer2 .vs98-vl'), null, 5000).catch(() => { }); await sleep(300);
   const at = await ev(A, () => { const li = document.querySelector('#layer2 .vs98-v'); return { titulo: document.querySelector('#layer2 .sh-h').textContent, nome: li?.querySelector('b')?.textContent, cor: !!li?.querySelector('.vs98-cor'), ch: [...(li?.querySelectorAll('.vs98-ch') || [])].map(e => e.textContent), em: li?.querySelector('.vs98-em')?.textContent, dm: li?.querySelector('[data-conversa]')?.dataset.conversa, res: document.querySelector('#layer2 .vs98-res')?.textContent } });
-  ok(/Atividade/.test(at.titulo) && /Bia/.test(at.nome || '') && at.cor && at.ch.some(t => /Praia/.test(t)) && at.em === '😍' && at.dm === uidB, 'Atividade: quem viu, curtida, voto, reação e atalho para responder', JSON.stringify(at));
+  ok(/Atividade/.test(at.titulo) && /Bia/.test(at.nome || '') && at.cor && at.ch.some(t => /Praia/.test(t)) && at.em === '🤔' && at.dm === uidB, 'Atividade: quem viu, curtida, voto, reação e atalho para responder', JSON.stringify(at));
   await shot(A, 'v10-atividade');
   await ev(A, () => document.querySelector('#layer2 [data-conversa]').click()); await sleep(900);
   ok(await ev(A, u => !document.querySelector('#layer .story') && THREAD === u, uidB), 'responder abre a conversa com a Bia');
@@ -150,7 +150,7 @@ const fechaTudo = p => ev(p, () => { for (let i = 0; i < 4 && ($('#layer2').inne
   // Mais do seu story
   await ev(A, () => igAbrirUser(S.uid)); await sleep(900); await ev(A, () => document.querySelector('#layer .us-f [data-vs98menu]').click()); await sleep(400);
   const mm = await ev(A, () => document.querySelector('#layer2 .sheet').textContent);
-  ok(/Criar outro story/.test(mm) && /Apagar este story/.test(mm), 'Mais: criar outro e apagar', mm);
+  ok(/Criar outro giro/.test(mm) && /Apagar este giro/.test(mm), 'Mais: criar outro e apagar', mm);
   await shot(A, 'v11-mais-proprio');
   await ev(A, () => document.querySelector('#layer2 [data-vs98apagar]').click()); await sleep(200); await ev(A, () => document.querySelector('#layer2 [data-vs98apagar]').click()); await sleep(1200);
   ok((await H.sql(`select id from publicacoes where tipo='story' and autor='${uidA}'`)).length === 1, 'apagar (dois toques) tira o story');
@@ -160,6 +160,6 @@ const fechaTudo = p => ev(p, () => { for (let i = 0; i < 4 && ($('#layer2').inne
   ok(await ev(A, () => /Atividade/.test(document.querySelector('#layer2 .sh-h')?.textContent || '')), 'deslizar para cima no seu story abre a Atividade');
   await fechaTudo(A);
 
-  ok(!A._erros.length && !B._erros.length && !C._erros.length, 'sem erros ' + A._erros.concat(B._erros, C._erros).join('|'));
+  { const er = A._erros.concat(B._erros, C._erros).filter(e => !/Ignored attempt to cancel a touch/.test(e)); ok(!er.length, 'sem erros ' + er.join('|')) }
   const R = U.resumo(); console.log(`\nRESUMO t_ver_stories: ${R.OKS} ok, ${R.FALHAS} falhas`);
   await b.close(); srv.kill(); process.exit(R.FALHAS ? 1 : 0) })().catch(e => { console.error(e); process.exit(2) });

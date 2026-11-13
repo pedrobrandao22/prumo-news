@@ -27,7 +27,7 @@ const ev = (p, fn, a) => p.evaluate(fn, a); const SH = __dirname + '/../review3/
     S.adm.esp = null; abrirAdmin('uso') }); await sleep(1500);
   const t = await ev(p, () => document.querySelector('#uso-esp').textContent);
   ok(/Banco de dados31 MB de 500 MB/.test(t) && /Fotos e vídeos900 MB de 1 GB/.test(t), 'barras de banco e de arquivos com os limites do plano grátis', t.slice(0, 200));
-  ok(/Posts e stories/.test(t) && /5 stories com mais de 30 dias/.test(t) && /3 arquivos sem uso/.test(t), 'o que mais ocupa e o que dá para limpar');
+  ok(/Posts e (stories|giros)/.test(t) && /5 (stories|giros) com mais de 30 dias/.test(t) && /3 arquivos sem uso/.test(t), 'o que mais ocupa e o que dá para limpar');
   ok(await ev(p, () => !!document.querySelector('#uso-esp .esp-b.alto')), 'arquivos acima de 80% ficam em laranja');
   await ev(p, () => document.querySelector('#uso-esp').scrollIntoView()); await p.screenshot({ path: SH + 'd73-espaco.png' });
   await ev(p, () => { window.__T = []; const t0 = toast; toast = function (m) { window.__T.push(m); return t0.apply(this, arguments) } });

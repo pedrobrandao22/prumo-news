@@ -26,9 +26,9 @@ async function criar(p, { url, nome, email }) {
   ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.ox !== 0 || f.oy !== 0 }), 'arrastar enquadra a foto');
   await clk(A, '[data-edar]'); await sleep(100); ok(await ev(A, () => ED.po.ar === '1:1'), 'troca o formato para 1:1');
   await A.screenshot({ path: __dirname + '/../review3/var/ce-post1.png' });
-  await clk(A, '[data-edav]'); await sleep(300); await clk(A, '[data-edflt="juno"]'); await sleep(200); await A.screenshot({ path: __dirname + '/../review3/var/ce-post2.png' });
+  await clk(A, '[data-edav]'); await sleep(300); await clk(A, '[data-edflt="clarendon"]'); await sleep(200); await A.screenshot({ path: __dirname + '/../review3/var/ce-post2.png' });
   await clk(A, '[data-edaba="editar"]'); await sleep(200); await ev(A, () => { const r = document.querySelector('[data-edaj2="b"]'); r.value = 20; r.dispatchEvent(new Event('input', { bubbles: true })) }); await sleep(100);
-  ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.f === 'juno' && f.aj.b === 20 }), 'filtro e ajuste aplicados');
+  ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.f === 'clarendon' && f.aj.b === 20 }), 'filtro e ajuste aplicados');
   await clk(A, '[data-edav]'); await sleep(300); await A.fill('#ce-leg', 'Domingo de leitura com @Bia Souza'); await A.fill('#ce-local', 'Curitiba');
   await clk(A, '[data-edtags]'); await sleep(300); { const r = await ev(A, () => { const b = document.querySelector('#ce-tgb').getBoundingClientRect(); return { x: b.x + b.width * .4, y: b.y + b.height * .6 } }); await A.mouse.click(r.x, r.y) } await sleep(300); await clk(A, '[data-edtagu]'); await sleep(300);
   ok(await ev(A, () => ED.po.tags.length === 1 && !!document.querySelector('.ce-tg')), 'marcar a Bia tocando na foto'); await A.screenshot({ path: __dirname + '/../review3/var/ce-tags.png' }); await clk(A, '[data-edtagok]'); await sleep(200);
@@ -42,25 +42,27 @@ async function criar(p, { url, nome, email }) {
   // Seu story: sem story, tocar no rosto cria
   await ev(A, () => scrollTo(0, 0)); await sleep(300); await clk(A, '#secs [data-meustory] .ig-r'); await sleep(500); ok(await ev(A, () => !!document.querySelector('#layer .ce.ce-story.t-cam')), 'rosto sem story abre a câmera do story');
   // modo Criar: fundo colorido e texto
-  await clk(A, '[data-edcriar]'); await sleep(400); await A.fill('#ce-txa', 'Bom domingo!'); await clk(A, '[data-edtxf="neon"]'); await clk(A, '[data-edtxcor="#ff66c4"]'); await clk(A, '[data-edtxok]'); await sleep(200);
+  await clk(A, '[data-edcriar]'); await sleep(400); await A.fill('#ce-txa', 'Bom domingo!'); await clk(A, '[data-edtxf="jornal"]'); await clk(A, '[data-edtxcor="#c9822b"]'); await clk(A, '[data-edtxok]'); await sleep(200);
   // enquete
   await clk(A, '.ce-top [data-edfig]'); await sleep(200); await clk(A, '.ce-fig [data-edfig="enq"]'); await sleep(200); await A.fill('#ce-eq', 'Vai ler hoje?'); await clk(A, '[data-edfok]'); await sleep(200);
-  // menção + emoji
+  // menção + hora (os emojis saíram com o foco, 105)
   await clk(A, '.ce-top [data-edfig]'); await sleep(200); await clk(A, '.ce-fig [data-edfig="men"]'); await sleep(200); await clk(A, '[data-edmensel]'); await sleep(200);
-  await clk(A, '.ce-top [data-edfig]'); await sleep(200); await clk(A, '[data-edemo="☕"]'); await sleep(200);
+  await clk(A, '.ce-top [data-edfig]'); await sleep(200); await clk(A, '.ce-fig [data-edfig="hora"]'); await sleep(200);
   // caneta
   await clk(A, '[data-edcaneta]'); await sleep(200);
   { const r = await ev(A, () => { const b = document.querySelector('#ce-cv').getBoundingClientRect(); return { x: b.x, y: b.y, w: b.width, h: b.height } }); await A.mouse.move(r.x + r.w * .2, r.y + r.h * .8); await A.mouse.down(); await A.mouse.move(r.x + r.w * .7, r.y + r.h * .85, { steps: 8 }); await A.mouse.up() }
   await clk(A, '[data-edcnok]'); await sleep(200);
   // arrastar o texto
   { const r = await ev(A, () => { const e = [...document.querySelectorAll('#ce-els .ce-el')].find(x => x.querySelector('.ce-t')).getBoundingClientRect(); return { x: e.x + e.width / 2, y: e.y + e.height / 2 } }); await A.mouse.move(r.x, r.y); await A.mouse.down(); await A.mouse.move(r.x, r.y - 60, { steps: 5 }); await A.mouse.up() }
-ok(await ev(A, () => { const t = ED.st.els.find(e => e.t === 'texto'); return ED.st.els.length === 4 && t.y < .4 && ED.st.tracos.length === 1 }), 'story com texto, enquete, menção, emoji e desenho; texto arrastado');
+ok(await ev(A, () => { const t = ED.st.els.find(e => e.t === 'texto'); return ED.st.els.length === 4 && t.y < .4 && ED.st.tracos.length === 1 }), 'story com texto, enquete, menção, hora e desenho; texto arrastado');
   await A.screenshot({ path: __dirname + '/../review3/var/ce-story.png' });
   await clk(A, "[data-edpubst='amigos']"); await sleep(2000);
   ok(await ev(A, () => { const x = pubStoriesDe(S.uid)[0]; return x && x.estilo.v === 2 && x.fotos.length === 1 && x.estilo.itens.length === 2 }), 'story publicado como imagem com enquete e menção tocáveis');
   // B vê
   await ev(B, () => go('feed')); await sleep(500); await ev(B, () => pubCarregar()); await sleep(1500);
-  ok(await ev(B, () => document.querySelectorAll('#posts .upost').length === 2 && !!document.querySelector('#secs [data-ustory]')), 'amiga vê os 2 posts no Feed e o story de Pedro na fileira');
+  // o post sobre a notícia aparece junto dela (107): carrega o Feed até a notícia
+  await ev(B, () => { for (let i = 0; i < 12; i++) try { carregarMais(true) } catch (e) { } }); await sleep(600);
+  ok(await ev(B, () => { const ps = PUB.itens.filter(x => x.tipo === 'post'); return ps.length === 2 && ps.map(x => { const e = document.getElementById('p-u:' + x.id); return e ? 'ok' : x.pid && document.querySelector(`#posts [data-pid="${x.pid}"], #posts [id="p-${x.pid}"]`) ? 'junto' : 'nao' }).every(r => r !== 'nao') && !!document.querySelector('#secs [data-ustory]') }), 'amiga vê os 2 posts no Feed e o story de Pedro na fileira', await ev(B, () => JSON.stringify({ n: document.querySelectorAll('#posts .upost').length, cls: [...document.querySelectorAll('#posts .upost')].map(e => e.className), its: PUB.itens.map(x => x.tipo + ':' + (x.pid || '') + ':' + !!document.getElementById('p-u:' + x.id) + ':' + (x.pid ? FEED.pautas.some(p => p.id === x.pid) : '')), st: !!document.querySelector('#secs [data-ustory]') })));
   await ev(B, () => { const p = document.querySelector('#posts .upost'); p.scrollIntoView({ block: 'start' }) }); await sleep(800); await B.screenshot({ path: __dirname + '/../review3/var/pub-feedB.png' });
   await ev(B, () => scrollTo(0, 0)); await sleep(300); await B.screenshot({ path: __dirname + '/../review3/var/pub-rowB.png', clip: { x: 0, y: 0, width: 390, height: 260 } });
   await clk(B, '#secs [data-ustory]'); await sleep(1200); await B.screenshot({ path: __dirname + '/../review3/var/pub-storyB.png' });

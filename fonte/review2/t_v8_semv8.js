@@ -16,7 +16,7 @@ const PORTA = 8992, BASE = `http://localhost:${PORTA}/index.html`;
   await ev(A, id => { go('feed'); FILTRO = 'tudo'; renderPosts(); garantirPost('u:' + id); document.querySelector(`[data-umenu="${id}"]`).click() }, id); await sleep(400);
   ok(await ev(A, () => !!document.querySelector('.sheet [data-uapagar]') && !document.querySelector('[data-u8arq]')), 'menu do post sem "Arquivar"');
   await ev(A, () => { closeLayer(); go('me'); PF_ABA = 'posts'; renderMe() }); await sleep(700);
-  ok(await ev(A, () => !!document.querySelector('#v-me .pf-cab') && !document.querySelector('[data-fp8]') && document.querySelectorAll('#v-me .pf-t').length === 1), 'perfil sem "Editar foto" e com a grade normal');
+  ok(await ev(A, () => !!document.querySelector('#v-me .vn-pf') && !document.querySelector('[data-fp8]') && document.querySelectorAll('#v-me .vn-pl > .post').length === 1), 'perfil sem "Editar foto" e com a publicação');
   await ev(A, () => { PF_ABA = 'conta'; renderMe() }); await sleep(400);
   ok(await ev(A, () => !!document.querySelector('#v-me [data-arquivo]') && !document.querySelector('[data-arq8]')), 'Conta sem "Posts arquivados" (o Arquivo de stories continua)');
   // comentário da Bia; o Pedro abre os comentários: sem o botão de curtir

@@ -24,13 +24,11 @@ const toque = async (p, sel) => { const r = await ev(p, s => { const b = documen
   await ev(A, () => go('feed')); await esperar(A, () => PUB.on === true, null, 8000); await sleep(500);
   await ev(A, () => criarAbrir('story')); await sleep(400); await clk(A, '[data-edcriar]'); await sleep(300); await ev(A, () => edTextoOk()); await sleep(100);
 
-  // 1. bandeja: busca, chips com ícone, Foto, emojis
+  // 1. bandeja: busca, chips com ícone, Foto (os emojis saíram com o foco, 105)
   await bandeja(A); await foto(A, '01-bandeja');
-  ok(await ev(A, () => { const ks = [...document.querySelectorAll('.ce-fig [data-edfig]')].map(b => b.dataset.edfig); return ['local', 'men', 'hora', 'foto', 'perg', 'enq', 'quiz', 'slid', 'cont', 'link', 'add', 'hash', 'selfie', 'nt'].every(k => ks.includes(k)) && document.querySelectorAll('.ce-fig .fg2-c svg').length === ks.length && !!document.querySelector('#ce-figq') }), 'bandeja: busca, chips com ícone (inclui Foto) e emojis');
+  ok(await ev(A, () => { const ks = [...document.querySelectorAll('.ce-fig [data-edfig]')].map(b => b.dataset.edfig); return ['local', 'men', 'hora', 'foto', 'perg', 'enq', 'quiz', 'cont', 'link', 'nt'].every(k => ks.includes(k)) && !['slid', 'add', 'hash', 'selfie'].some(k => ks.includes(k)) && !document.querySelector('.ce-fig [data-edemo]') && document.querySelectorAll('.ce-fig .fg2-c svg').length === ks.length && !!document.querySelector('#ce-figq') }), 'bandeja: busca e chips com ícone (inclui Foto), sem emojis nem figurinhas de brincadeira');
   await A.fill('#ce-figq', 'votação'); await sleep(150);
   ok(await ev(A, () => { const v = [...document.querySelectorAll('.ce-fig [data-edfig]')].filter(b => !b.hidden).map(b => b.dataset.edfig); return v.join() === 'enq' }), 'busca "votação" acha só a Enquete');
-  await A.fill('#ce-figq', 'cafe'); await sleep(150); await foto(A, '02-bandeja-busca');
-  ok(await ev(A, () => { const e = [...document.querySelectorAll('.ce-fig [data-edemo]')].filter(b => !b.hidden).map(b => b.dataset.edemo); return e.includes('☕') && document.querySelector('.fg2-chips').hidden }), 'busca "cafe" acha o emoji ☕ (sem acento)');
   await A.fill('#ce-figq', 'zzzz'); await sleep(100); ok(await ev(A, () => !document.querySelector('#fg2-nada').hidden), 'busca sem resultado avisa');
   await ev(A, () => document.querySelector('.ce-fig').remove());
 
@@ -53,19 +51,16 @@ const toque = async (p, sel) => { const r = await ev(p, s => { const b = documen
   await clk(A, '[data-edfok]'); await sleep(200);
   ok(await ev(A, () => { const e = ED.st.els.find(x => x.t === 'quiz'); return e && e.c === 2 && e.o.length === 3 }), 'quiz salvo com a resposta certa (C) e sem opção vazia');
 
-  // 4. slider e contagem
-  await chip(A, 'slid'); await A.fill('#fq', 'Gostou do app?'); await clk(A, '[data-femo="🔥"]'); await sleep(100);
-  ok(await ev(A, () => document.querySelector('.ce-fe .fg-emo').textContent === '🔥'), 'slider: emoji escolhido na fileira aparece no adesivo');
-  await foto(A, '06-slider'); await clk(A, '[data-edfok]'); await sleep(200);
+  // 4. contagem
   await chip(A, 'cont'); await A.fill('#fq', 'Debate na TV');
   await ev(A, () => { const d = new Date(Date.now() + 3 * 864e5); const i = document.querySelector('#fd'); i.value = d.toISOString().slice(0, 10); i.dispatchEvent(new Event('change', { bubbles: true })) }); await sleep(150);
   ok(await ev(A, () => /^0[23]/.test(document.querySelector('.ce-fe .fg-cd b').textContent)), 'contagem: os números mudam com a data');
   await foto(A, '07-contagem'); await clk(A, '[data-edfok]'); await sleep(200);
-  ok(await ev(A, () => ED.st.els.map(e => e.t).join() === 'enq,quiz,slid,cont'), 'slider e contagem no story');
+  ok(await ev(A, () => ED.st.els.map(e => e.t).join() === 'enq,quiz,cont'), 'contagem no story');
 
   // 5. vazia é descartada; voltar do celular conclui
   await chip(A, 'perg'); await clk(A, '[data-edfok]'); await sleep(200);
-  ok(await ev(A, () => ED.st.els.length === 4 && !document.querySelector('.ce-fe')), 'figurinha vazia é descartada');
+  ok(await ev(A, () => ED.st.els.length === 3 && !document.querySelector('.ce-fe')), 'figurinha vazia é descartada');
   await chip(A, 'perg'); await A.fill('#fq', 'Qual notícia te chamou atenção?'); await ev(A, () => history.back()); await sleep(500);
   ok(await ev(A, () => !!document.querySelector('#layer .ce') && !document.querySelector('.ce-fe') && ED.st.els.some(e => e.t === 'perg')), 'voltar do celular conclui a figurinha e fica no editor');
   // espalha
@@ -97,12 +92,12 @@ const toque = async (p, sel) => { const r = await ev(p, s => { const b = documen
 
   // 8. caneta: ícones, tamanho com prévia, segurar pinta o fundo, desfazer
   await clk(A, '[data-edcaneta]'); await sleep(250); await foto(A, '09-caneta');
-  ok(await ev(A, () => document.querySelectorAll('.ce-cn [data-edcnt] svg').length === 4 && !!document.querySelector('#cn2-tam') && document.querySelectorAll('.ce-cn [data-edcncor]').length >= 8), 'caneta: 4 pincéis com ícone, espessura vertical e cores');
-  await clk(A, '[data-edcnt="neon"]'); await clk(A, '[data-edcncor="#ff66c4"]');
+  ok(await ev(A, () => document.querySelectorAll('.ce-cn [data-edcnt] svg').length === 3 && !!document.querySelector('#cn2-tam') && document.querySelectorAll('.ce-cn [data-edcncor]').length >= 8), 'caneta: 3 pincéis com ícone (sem Neon, 105), espessura vertical e cores');
+  await clk(A, '[data-edcnt="caneta"]'); await clk(A, '[data-edcncor="#c9822b"]');
   { const r = await ev(A, () => { const b = document.querySelector('#cn2-tam').getBoundingClientRect(); return { x: b.x + b.width / 2, y: b.y, h: b.height } }); await A.mouse.move(r.x, r.y + r.h * .7); await A.mouse.down(); await A.mouse.move(r.x, r.y + r.h * .15, { steps: 5 }); await foto(A, '10-caneta-tamanho');
-    ok(await ev(A, () => ED.st.caneta.w > .03 && !document.querySelector('#cn2-dot').hidden && ED.st.caneta.neon), 'arrastar a espessura mostra a bolinha com o tamanho'); await A.mouse.up(); await sleep(600) }
+    ok(await ev(A, () => ED.st.caneta.w > .03 && !document.querySelector('#cn2-dot').hidden), 'arrastar a espessura mostra a bolinha com o tamanho'); await A.mouse.up(); await sleep(600) }
   { const r = await ev(A, () => { const b = document.querySelector('#ce-cv').getBoundingClientRect(); return { x: b.x, y: b.y, w: b.width, h: b.height } }); await A.mouse.move(r.x + r.w * .15, r.y + r.h * .58); await A.mouse.down(); for (let i = 1; i <= 8; i++) await A.mouse.move(r.x + r.w * (.15 + i * .08), r.y + r.h * (.58 + Math.sin(i) * .04)); await A.mouse.up(); await sleep(150);
-    ok(await ev(A, () => ED.st.tracos.length === 1 && ED.st.tracos[0].neon && ED.st.tracos[0].pts.length > 5), 'traço neon desenhado');
+    ok(await ev(A, () => ED.st.tracos.length === 1 && !ED.st.tracos[0].neon && ED.st.tracos[0].pts.length > 5), 'traço desenhado');
     await clk(A, '[data-edcnt="mk"]'); await clk(A, '[data-edcncor="#ffd23f"]'); await A.mouse.move(r.x + r.w * .5, r.y + r.h * .1); await A.mouse.down(); await sleep(900); await A.mouse.up(); await sleep(150);
     ok(await ev(A, () => { const t = ED.st.tracos[1]; return ED.st.tracos.length === 2 && t.w === 3 && t.mk && t.cor === '#ffd23f' }), 'segurar parado com o marcador pinta o fundo (translúcido)');
     await foto(A, '11-caneta-fundo');
@@ -114,10 +109,10 @@ const toque = async (p, sel) => { const r = await ev(p, s => { const b = documen
 
   // 9. publica; amiga vê enquete colorida, quiz e foto na imagem
   await clk(A, "[data-edpubst='amigos']"); await esperar(A, () => !ED, null, 10000); await sleep(600);
-  ok(await ev(A, () => { const x = pubStoriesDe(S.uid)[0]; const it = x && x.estilo.itens; const q = it.find(i => i.t === 'quiz'), e = it.find(i => i.t === 'enq'); return it.map(i => i.t).sort().join() === 'cont,enq,perg,quiz,slid' && q.c === 2 && e.cor === 2 && e.o.length === 2 }), 'publicado: formato antigo + cor');
+  ok(await ev(A, () => { const x = pubStoriesDe(S.uid)[0]; const it = x && x.estilo.itens; const q = it.find(i => i.t === 'quiz'), e = it.find(i => i.t === 'enq'); return it.map(i => i.t).sort().join() === 'cont,enq,perg,quiz' && q.c === 2 && e.cor === 2 && e.o.length === 2 }), 'publicado: formato antigo + cor');
   await ev(B, () => go('feed')); await sleep(300); await ev(B, () => pubCarregar()); await sleep(1500);
   await clk(B, '#secs [data-ustory]'); await sleep(1500);
-  ok(await ev(B, () => !!document.querySelector('#layer .us-enq.fgc-2') && document.querySelectorAll('#layer .us-enq button').length === 2 && document.querySelectorAll('#layer .us-fg').length === 4), 'amiga vê a enquete com a cor e as outras figurinhas');
+  ok(await ev(B, () => !!document.querySelector('#layer .us-enq.fgc-2') && document.querySelectorAll('#layer .us-enq button').length === 2 && document.querySelectorAll('#layer .us-fg').length === 3), 'amiga vê a enquete com a cor e as outras figurinhas');
   await B.click('#layer [data-usvoto][data-i="1"]'); await sleep(700);
   ok(await ev(B, () => /100%/.test(document.querySelector('#layer .us-enq button[data-i="1"]').textContent)), 'voto na enquete colorida');
   await ev(B, () => typeof igPausa === 'function' && igPausa()); await foto(B, '13-B-story');

@@ -14,7 +14,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U;
   await p.evaluate(id => { go('feed'); renderPosts(); garantirPost('u:' + id); document.querySelector(`[data-umenu="${id}"]`).click() }, id); await sleep(400);
   ok(await p.evaluate(() => !document.querySelector('[data-ueditar]') && !document.querySelector('[data-ufixar]') && !!document.querySelector('.sheet')), 'menu do post sem Editar/Fixar');
   await p.evaluate(() => { closeLayer(); go('me'); PF_ABA = 'posts'; renderMe() }); await sleep(900);
-  ok(await p.evaluate(() => document.querySelectorAll('#v-me .pf-t').length === 1 && !document.querySelector('#v-me .pf-dests')), 'grade abre sem a fileira de destaques');
+  ok(await p.evaluate(() => document.querySelectorAll('#v-me .vn-pl > .post').length === 1 && !document.querySelector('#v-me .pf-dests')), 'perfil abre com a publicação e sem a fileira de destaques');
   ok(!p._erros.length, 'sem erros: ' + p._erros.join('|'));
   await br.close(); srv.kill(); process.exit(U.resumo().FALHAS ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(2) });

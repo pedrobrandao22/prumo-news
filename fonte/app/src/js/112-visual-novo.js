@@ -12,11 +12,8 @@
    miniatura no perfil) funciona com a chave ligada ou não, para quem estiver no visual atual não ver um post vazio.
    Nos testes automáticos fica tudo como antes, a não ser com localStorage "prumo-teste-visual"="1". */
 const VISUAL_PADRAO="novo";
-const VN112_ATIVO=(()=>{try{return !navigator.webdriver||localStorage.getItem("prumo-teste-visual")==="1"}catch(e){return !navigator.webdriver}})();
-const VISUAL_NOVO=(()=>{if(!VN112_ATIVO)return false;try{
-  const q=new URLSearchParams(location.search),v=q.get("visual");
-  if(v==="novo"||v==="atual"){localStorage.setItem("prumo-visual",v);q.delete("visual");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-visual");return (g==="novo"||g==="atual"?g:VISUAL_PADRAO)==="novo"}catch(e){return VISUAL_PADRAO==="novo"}})();
+const VN112_ATIVO=true; /* 13/11: só existe o visual novo */
+const VISUAL_NOVO=true;
 
 /* ===== 1. repost: leitura (vale para todos) ===== */
 const VN112_IC={rp:'<svg class="ico" viewBox="0 0 24 24"><path d="M7 7h9.5a2.5 2.5 0 0 1 2.5 2.5V12"/><path d="M10 4L7 7l3 3"/><path d="M17 17H7.5A2.5 2.5 0 0 1 5 14.5V12"/><path d="M14 20l3-3-3-3"/></svg>'};
@@ -70,16 +67,7 @@ function vn112AbrePub(id){const x=pubVisiveis().find(y=>y.id===id)||vn112Pub(id)
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("[data-vnqpub]");if(!b||t.closest("a,[data-capmat]"))return;e.stopPropagation();e.preventDefault();vn112AbrePub(b.dataset.vnqpub)},true);
 document.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const b=e.target&&e.target.closest&&e.target.closest("[data-vnqpub]");if(!b)return;e.preventDefault();vn112AbrePub(b.dataset.vnqpub)});
 
-/* ===== 2. a chave em Perfil › Conta ===== */
-function vn112VeChave(){try{return localStorage.getItem("prumo-visual")!=null||(S.uid&&(S.membros[S.uid]||{}).papel==="admin")}catch(e){return false}}
-function vn112Chave(){const m=$("#v-me .pf-conta .card.menu")||$("#v-me .card.menu");if(!m||m.querySelector("[data-vntroca]")||!vn112VeChave())return;
-  m.insertAdjacentHTML("afterbegin",`<button type="button" data-vntroca role="switch" aria-checked="${VISUAL_NOVO}" aria-label="Visual novo (teste): ${VISUAL_NOVO?"ligado":"desligado"}"><span>Visual novo (teste)</span><em class="vn-sw${VISUAL_NOVO?" on":""}" aria-hidden="true"><i></i></em></button>`)}
-if(VN112_ATIVO){
-  {const _rm112c=renderMe;renderMe=function(){const r=_rm112c.apply(this,arguments);try{vn112Chave()}catch(e){}return r}}
-  document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-vntroca]");if(!b)return;e.stopPropagation();e.preventDefault();
-    try{localStorage.setItem("prumo-visual",VISUAL_NOVO?"atual":"novo")}catch(_){toast("Não deu para guardar a escolha neste aparelho.");return}
-    b.setAttribute("aria-checked",String(!VISUAL_NOVO));b.querySelector(".vn-sw")?.classList.toggle("on",!VISUAL_NOVO);toast(VISUAL_NOVO?"Voltando ao visual atual…":"Ligando o visual novo…");setTimeout(()=>{try{location.reload()}catch(_){}},450)},true);
-}
+/* ===== 2. (a chave "Visual novo (teste)" saiu em 13/11: só existe o visual novo) ===== */
 
 /* ===== 3. nomes: "Giro" no lugar de stories e "Coleções" no lugar de destaques (só o que a pessoa lê) ===== */
 const VN112_NOMES=[[/\bNovo destaque\b/g,"Nova coleção"],[/\bnovo destaque\b/g,"nova coleção"],[/\bCriar destaque\b/g,"Criar coleção"],[/\bApagar destaque\b/g,"Apagar coleção"],[/\bNome do destaque\b/g,"Nome da coleção"],
@@ -116,7 +104,7 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
     else if(b.hasAttribute("data-5min")){cls="vn-tl-5";const a=vn112Primeira("_5min");if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit="O dia em 5 minutos";visto=false}
     else if(b.hasAttribute("data-ultimas")){cls="vn-tl-ult";const a=vn112Primeira("_ult");tit=a?vn112Curto(a.t,70):"";visto=vn112Visto("_ult")}
     else if(b.dataset.dest){const p=pautaById(b.dataset.dest);if(p){art=capaArte(p,"vn-tl-art");tit=vn112Curto(versao(p,lente()).titulo,70);visto=SEEN.has(seenKey(p))}cls="vn-tl-dest"}
-    else if(b.dataset.secStory){const s=b.dataset.secStory,a=vn112Primeira(s);if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit=a?vn112Curto(a.t,70):"";visto=vn112Visto(s)}
+    else if(b.dataset.secStory){const s=b.dataset.secStory,a=vn112Primeira(s);if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit=a?vn112Curto(a.t,70):"";visto=visto||vn112Visto(s)}
     else return;
     const av=cls==="vn-tl-u"||cls==="vn-tl-eu"?(b.querySelector(".av")||{}).outerHTML||"":"";
     r.insertAdjacentHTML("beforeend",`<span class="vn-tl ${cls}" aria-hidden="true"><span class="vn-tl-bg">${vn112Corta(art)}</span>${av?`<span class="vn-tl-av">${av}</span>`:""}<span class="vn-tl-tx"><small>${esc(kick)}</small>${tit?`<b>${esc(tit)}</b>`:""}</span></span>`);
@@ -127,12 +115,8 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
    Padrão (com o visual novo ligado): a direção A (Jornal) — chapéu da editoria e hora, manchete em serifa (menor no Feed que na
    matéria), linha fina de duas linhas, arte entre fios; post de amigo como nota assinada, a foto do amigo com cantos arredondados
    e sem fios; ações em texto com ícone pequeno e número ("◇ 3 · Comentar 2 · Repostar"), Enviar e Guardar em ícone à direita.
-   localStorage "prumo-cartao" = "atual" (o cartão de hoje, só com o botão Repostar ao lado de Guardar e a linha "Bia repostou"
-   embaixo de "Bia gostou"), "b" (Fio) ou "c" (Cartão); vazio = "a". Ou ?cartao=a|b|c|atual no endereço (guarda e some do
-   endereço, como o ?visual). */
-const VN112_CT=(()=>{if(!VN112_ATIVO)return "";try{const q=new URLSearchParams(location.search),v=q.get("cartao");
-  if(v!=null){if(v==="a"||v==="b"||v==="c"||v==="atual")localStorage.setItem("prumo-cartao",v);else localStorage.removeItem("prumo-cartao");q.delete("cartao");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-cartao");if(!VISUAL_NOVO||g==="atual")return "";return g==="b"||g==="c"?g:"a"}catch(e){return VISUAL_NOVO?"a":""}})();
+   (Os cartões "atual", B e C e o ?cartao= saíram em 13/11.) */
+const VN112_CT="a"; /* cartão A (Jornal); B e C saíram em 13/11 */
 const VN112_ROT={like:"Gostei",cmt:"Comentar",send:"Enviar",save:"Guardar"};
 function vn112BtRp(k,id){return `<button type="button" class="act vn-rpb" data-vnrp="${esc(k+":"+id)}" aria-label="Repostar" aria-pressed="false">${VN112_IC.rp}<span>Repostar</span><em class="cnt" data-n="vnrp"></em></button>`}
 function vn112NRp(k,id){let n=0,eu=false;const us=[];pubVisiveis().forEach(x=>{const r=vn112Rp(x);if(r&&r.k===k&&r.id===id){n++;if(x.autor===S.uid)eu=true;if(!us.includes(x.autor))us.push(x.autor)}});return {n,eu,us}}
@@ -145,20 +129,14 @@ function vn112Tp(h){const tp=document.createElement("template");tp.innerHTML=Str
 function vn112Dots(a){const pr=a.querySelector(".acts>.prog"),car=a.querySelector(":scope>.car");if(pr&&car){pr.classList.add("vn-dots");car.appendChild(pr)}}
 /* rótulos visíveis nas ações (a direção A mostra as ações como texto) */
 function vn112Rotulos(a){a.querySelectorAll(".acts>.act").forEach(b=>{if(b.querySelector(":scope>span"))return;const k=b.dataset.a||(b.hasAttribute("data-usend")?"send":"");if(VN112_ROT[k])b.insertAdjacentHTML("beforeend",`<span>${VN112_ROT[k]}</span>`)})}
-/* C: avatar ao lado do texto, numa linha (como o canal no YouTube) */
-function vn112LinhaC(a,av,itens){const ph=a.querySelector(":scope>.ph");const row=document.createElement("div");row.className="vn-cc-row";
-  row.innerHTML=`${av}<div class="vn-cc-tx"></div>`;const tx=row.querySelector(".vn-cc-tx");itens.forEach(e=>{if(e)tx.appendChild(e)});if(ph)tx.appendChild(ph);
-  const mb=ph&&ph.querySelector(".more-btn");if(mb)row.appendChild(mb);return row}
-function vn112CtNt(h,p){const a=vn112Tp(h);if(!a)return h;const ct=VN112_CT;a.classList.add("vn-c","vn-cn","vn-c"+ct);a.style.setProperty("--vn-sec",secCor(secOf(p)));
+/* aceita o HTML ou o elemento já lido (o postSeguro abaixo já leu o cartão para pôr o Repostar: uma leitura a menos por notícia) */
+function vn112CtNt(h,p){const a=typeof h==="string"?vn112Tp(h):h;if(!a)return h;const ct=VN112_CT;a.classList.add("vn-c","vn-cn","vn-c"+ct);a.style.setProperty("--vn-sec",secCor(secOf(p)));
   const ph=a.querySelector(":scope>.ph"),car=a.querySelector(":scope>.car"),cap=a.querySelector(".pt-cap"),hr=a.querySelector(".pt-hora"),sub=ph&&ph.querySelector(".ph-sub");
   const sec=secOf(p),tit=versao(p,lente()).titulo,hora=hr?hr.textContent.trim():"";
   if(sub&&hora)sub.insertAdjacentHTML("beforeend",`<span class="vn-hr">${sub.textContent.trim()?" · ":""}${esc(hora)}</span>`);
   const h3=vn112Tp(`<h3 class="vn-tit"><button type="button" data-capmat="${esc(p.id)}">${esc(tit)}</button></h3>`);
-  vn112Dots(a);if(ct==="a")vn112Rotulos(a);
-  if(ct==="c"){if(car){const kk=(car.querySelector(".track>.sl:first-child .kick")||{}).textContent;car.insertAdjacentHTML("beforeend",`<span class="vn-cc-chip" aria-hidden="true">${esc(String(kk||p.subtema||secNome(sec)).trim())}</span>`);a.prepend(car)}
-    sub?.insertAdjacentHTML("beforeend",`<span class="vn-cc-n" data-vncn></span>`);
-    const row=vn112LinhaC(a,`<span class="vn-cc-av vn-cc-sec" style="--c:${secCor(sec)}" aria-hidden="true">${esc(secNome(sec).slice(0,1))}</span>`,[h3]);(car||a.firstElementChild).after(row);if(!car)a.prepend(row)}
-  else if(car){car.before(h3);if(cap)car.before(cap)}
+  vn112Dots(a);vn112Rotulos(a);
+  if(car){car.before(h3);if(cap)car.before(cap)}
   return a.outerHTML}
 function vn112CtPub(h,x){const a=vn112Tp(h);if(!a||!x)return h;const ct=VN112_CT;a.classList.add("vn-c","vn-cp","vn-c"+ct);
   const ph=a.querySelector(":scope>.ph"),car=a.querySelector(":scope>.car");let leg=a.querySelector(":scope>.gut>.up-leg");
@@ -167,17 +145,12 @@ function vn112CtPub(h,x){const a=vn112Tp(h);if(!a||!x)return h;const ct=VN112_CT
   const tr=car&&car.querySelector(".track");if(tr&&tr.children.length===1&&tr.firstElementChild.classList.contains("up-tx")){const p=tr.firstElementChild.querySelector("p"),n=String(x.texto||"").length;
     const l=vn112Tp(`<p class="up-leg vn-txt vn-so${n>280||/\n.*\n.*\n/.test(x.texto||"")?" up-curta":""}"${n>280?' data-upmais role="button" tabindex="0"':""}>${p?p.innerHTML:""}</p>`);if(leg)leg.remove();leg=l;car.remove()}
   const rpw=a.querySelector(":scope>.vn-rpw"),midia=a.querySelector(":scope>.car");
-  vn112Dots(a);if(ct==="a")vn112Rotulos(a);
+  vn112Dots(a);vn112Rotulos(a);
   const rtx=rpw&&rpw.querySelector(":scope>.vn-rptx");
-  if(ct==="a"){/* nota: o texto primeiro, a assinatura embaixo, depois a mídia (ou a publicação citada) */
-    if(rtx)ph.before(rtx);if(leg)ph.before(leg)}
-  else if(ct==="b"){if(leg)ph.after(leg);if(rpw&&leg)leg.after(rpw)}
-  else if(ct==="c"){const avo=ph&&ph.querySelector(".up-au .av");const av=avo?`<span class="up-au vn-cc-av" aria-hidden="true">${avo.outerHTML}</span>`:"";
-    if(midia)a.querySelector(":scope>.fc107-gh")?a.querySelector(":scope>.fc107-gh").after(midia):a.prepend(midia);
-    const row=vn112LinhaC(a,av,[leg||rtx]);if(midia)midia.after(row);else{const g=a.querySelector(":scope>.fc107-gh");if(g)g.after(row);else a.prepend(row)}
-    if(rpw)row.after(rpw)}
+  /* nota: o texto primeiro, a assinatura embaixo, depois a mídia (ou a publicação citada) */
+  if(rtx)ph.before(rtx);if(leg)ph.before(leg)
   return a.outerHTML}
-/* contagens: o repost sempre ("Bia repostou", como "Bia gostou"); nas direções A, B e C também os números ao lado das ações */
+/* contagens: o repost sempre ("Bia repostou", como "Bia gostou"); no cartão A também os números ao lado das ações */
 function vn112Social(pid){const el=document.getElementById("p-"+pid);if(!el)return;try{const ct=el.classList.contains("vn-c")?VN112_CT:"";
   if(ct){const {likes,cm}=socialOf(pid);const l=el.querySelector('.acts [data-n="like"]'),c=el.querySelector('.acts [data-n="cmt"]');if(l)l.textContent=likes.length||"";if(c)c.textContent=cm.length||"";
     const cn=el.querySelector("[data-vncn]");if(cn)cn.textContent=cm.length?` · ${cm.length} ${cm.length===1?"comentário":"comentários"}`:""}
@@ -269,11 +242,11 @@ if(VISUAL_NOVO){
   {const _pp112x=pubPostHTML;pubPostHTML=function(x){let h=_pp112x.apply(this,arguments);try{if(typeof h!=="string"||!h||!x||x.tipo!=="post")return h;
     const a=vn112Tp(h);if(a){const r=vn112Rp(x);const alvo=r&&!String(x.texto||"").trim()?r:{k:"pub",id:x.id};vn112PoeRp(a,alvo.k,alvo.id);h=a.outerHTML}
     return VN112_CT?vn112CtPub(h,x):h}catch(e){return h}}}
-  {const _ps112=postSeguro;postSeguro=function(p){let h=_ps112.apply(this,arguments);try{if(typeof h==="string"&&h&&p&&!p.__pub&&pautaById(p.id)){const a=vn112Tp(h);if(a){vn112PoeRp(a,"pauta",p.id);h=a.outerHTML}return VN112_CT?vn112CtNt(h,p):h}
+  {const _ps112=postSeguro;postSeguro=function(p){let h=_ps112.apply(this,arguments);try{if(typeof h==="string"&&h&&p&&!p.__pub&&pautaById(p.id)){const a=vn112Tp(h);if(a){vn112PoeRp(a,"pauta",p.id);return VN112_CT?vn112CtNt(a,p):a.outerHTML}return VN112_CT?vn112CtNt(h,p):h}
     /* 107 escreve o título do comentário único entre aspas duplas (sai "${esc(...)}" na tela); aqui sai o nome */
     if(typeof h==="string"&&p&&p.__fc107&&p.__pub&&h.indexOf("${esc(fc107Prim(x.autor))}")>=0)h=h.replace("${esc(fc107Prim(x.autor))}",esc(fc107Prim(p.__pub.autor)))}catch(e){}return h}}
   /* direções em teste: mídia mais baixa (A e B: a manchete já está em cima; C: 16:9, como no YouTube) */
-  {const _ft112=fitTrack;fitTrack=function(t){const r=_ft112.apply(this,arguments);try{const c=VN112_CT&&t&&t.closest&&t.closest(".vn-c");if(c&&(VN112_CT==="c"||c.classList.contains("vn-cn"))){const w=t.clientWidth;if(w){t.style.setProperty("--slh",(VN112_CT==="c"?Math.max(200,Math.round(w*9/16)):Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6))))+"px");try{if(typeof ssCaber==="function")ssCaber(t)}catch(e){}const s=t.children[r|0];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}}catch(e){}return r}}
+  {const _ft112=fitTrack;fitTrack=function(t){const r=_ft112.apply(this,arguments);try{const c=t&&t.closest&&t.closest(".vn-c");if(c&&c.classList.contains("vn-cn")){const w=t.clientWidth;if(w){t.style.setProperty("--slh",Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6)))+"px");try{if(typeof ssCaber==="function")ssCaber(t)}catch(e){}const s=t.children[r|0];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}}catch(e){}return r}}
   {const _us112=updateSocial;updateSocial=function(pid){const r=_us112.apply(this,arguments);vn112Social(pid);return r}}
   /* perfil */
   {const _rm112=renderMe;renderMe=function(){if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;

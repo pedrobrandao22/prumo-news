@@ -26,7 +26,7 @@ const lento = (p, ms, falhas) => ev(p, ([ms, falhas]) => { window.__lentoMs = ms
 
   // ===== story: tela limpa, texto, figurinhas =====
   await ev(A, () => scrollTo(0, 0)); await clk(A, '#secs [data-meustory] .up-mais'); await sleep(400);
-  ok(await ev(A, () => !!document.querySelector('#layer .ce .ce-modos')), 'câmera: seletor POST/STORY/REELS aparece');
+  ok(await ev(A, () => !!document.querySelector('#layer .ce .ce-modos')), 'câmera: seletor POST/STORY aparece');
   await clk(A, '[data-edgal]'); await A.setInputFiles('#ce-file', F1); await esperar(A, () => ED && ED.tela === 'edit', null, 5000); await sleep(400);
   ok(await ev(A, () => !document.querySelector('#layer .ce .ce-modos')), 'depois de escolher a foto: seletor de modo some');
   await shot(A, '01-story-editor-limpo');
@@ -121,16 +121,7 @@ const lento = (p, ms, falhas) => ev(p, ([ms, falhas]) => { window.__lentoMs = ms
   await clk(A, '[data-pqdesc]'); await sleep(200);
   ok(await ev(A, () => !document.querySelector('#pq .pq-row') && !document.querySelector('#secs .ig-r.pq-erro') && !PQ.jobs.length), 'descartar tira o aviso');
 
-  // ===== reel em segundo plano =====
   await lento(A, 0, 0);
-  await clk(A, '#b-criar'); await sleep(300); await clk(A, '[data-edmodo="reel"]'); await sleep(400);
-  await A.setInputFiles('#rl-file', VID); await esperar(A, () => ED && ED.rl && ED.rl.tela === 'vid', null, 8000); await sleep(400);
-  await clk(A, '[data-rlav]'); await sleep(300); await A.fill('#ce-leg', 'Reel em segundo plano'); await clk(A, '[data-rlpub]'); await sleep(150);
-  ok(await ev(A, () => !document.querySelector('#layer .ce') && PQ.atual && PQ.atual.tipo === 'reel' && /Publicando/.test(document.querySelector('#pq .pq-row').textContent)), 'reel: o editor fecha e a faixa mostra o progresso');
-  await sleep(1500); await A.screenshot({ path: SH + '13-reel-publicando.png', clip: { x: 0, y: 0, width: 390, height: 360 } });
-  ok(await ev(A, () => PQ.atual && PQ.atual.disp > .05), 'progresso do reel anda');
-  await esperar(A, () => !ED && !PQ.atual, null, 30000); await sleep(600);
-  ok(await ev(A, () => PUB.itens.some(y => y.estilo && y.estilo.reel && y.texto === 'Reel em segundo plano')), 'reel publicado');
 
   // ===== movimento (com animações ligadas) =====
   await ev(A, () => localStorage.setItem('prumo-teste-anim', '1'));
@@ -140,7 +131,7 @@ const lento = (p, ms, falhas) => ev(p, ([ms, falhas]) => { window.__lentoMs = ms
   ok(await ev(A, () => !!document.querySelector('#ce-els .ce-el.ce-pop')), 'texto novo entra com um "pop"');
   await sleep(300); await clk(A, '.ce-top [data-edfig]'); await sleep(30);
   ok(await ev(A, () => /ceSobe|sheetIn/.test(getComputedStyle(document.querySelector('.ce-figp')).animationName)), 'bandeja de figurinhas sobe deslizando');
-  await sleep(300); await clk(A, '.ce-fig [data-edemo]'); await sleep(30);
+  await sleep(300); await clk(A, '.ce-fig [data-edfig="hora"]'); await sleep(30);
   ok(await ev(A, () => !!document.querySelector('#ce-els .ce-el.ce-pop')), 'figurinha nova entra com um "pop"');
   await sleep(400); await ev(A, () => { ED = null; closeLayer._ok = true; closeLayer() }); await sleep(40);
   ok(await ev(A, () => !!document.querySelector('body > .ce.ce-sai') && !document.querySelector('#layer .ce')), 'editor fecha deslizando para baixo');
@@ -152,7 +143,7 @@ const lento = (p, ms, falhas) => ev(p, ([ms, falhas]) => { window.__lentoMs = ms
 
   // B vê o que foi publicado
   await ev(B, () => pubCarregar()); await sleep(1500);
-  ok(await ev(B, () => PUB.itens.filter(x => x.autor !== S.uid && x.tipo === 'post').length === 3), 'Bia recebe os 3 posts (2 + reel)');
+  ok(await ev(B, () => PUB.itens.filter(x => x.autor !== S.uid && x.tipo === 'post').length === 2), 'Bia recebe os 2 posts');
   ok(!A._erros.length && !B._erros.length, 'sem erros ' + A._erros.concat(B._erros).join('|'));
   const R = U.resumo(); console.log(`\nRESUMO t_ig_publicar: ${R.OKS} ok, ${R.FALHAS} falhas`);
   await b.close(); srv.kill(); process.exit(R.FALHAS ? 1 : 0) })().catch(e => { console.error(e); process.exit(2) });

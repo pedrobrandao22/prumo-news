@@ -5,7 +5,7 @@ name: Testes do app
 # e o GitHub avisa por e-mail. Testes que dependem do relógio (fonte/MELHORIAS.md) não reprovam a execução.
 on:
   push:
-    branches: [main]
+    branches: [main, reestruturacao]
     paths: ["fonte/**", ".github/workflows/testes.yml"]
   schedule:
     - cron: "20 5 * * *"   # 2h20 em Brasília
@@ -13,8 +13,8 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: prumo-testes
-  cancel-in-progress: true
+  group: prumo-testes-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref == 'refs/heads/main' }}   # na branch de trabalho, a execução em andamento termina (a próxima espera)
 jobs:
   testes:
     runs-on: ubuntu-24.04   # o ubuntu-latest passou a ser o 26.04, que o Playwright 1.56 ainda não aceita

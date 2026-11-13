@@ -13,10 +13,7 @@
       notícias que estavam mais abaixo no Feed; elas saem da lista principal (sem repetir). No máximo 3 por carga do Feed.
    4. Contexto do Prumo (como as notas da comunidade do X): sob o post de um amigo que cita uma notícia (anexada, do tipo
       Notícia ou por hashtag da pauta), uma caixa com o resumo neutro da pauta e "Ler a matéria ›". Só campos neutros. */
-const VN_FASE2=(()=>{if(typeof VISUAL_NOVO==="undefined"||!VISUAL_NOVO)return false;try{
-  const q=new URLSearchParams(location.search),v=q.get("fase2");
-  if(v!=null){if(v==="1")localStorage.setItem("prumo-fase2","1");else if(v==="0")localStorage.setItem("prumo-fase2","0");q.delete("fase2");const s=q.toString();try{history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}catch(e){}}
-  const g=localStorage.getItem("prumo-fase2");return g==="1"||(g!=="0"&&!navigator.webdriver)}catch(e){return !navigator.webdriver}})(); /* ligada para todos desde 03/11; ?fase2=0 desliga no aparelho; nos testes só com "1" */
+const VN_FASE2=true; /* fase 2 é o único caminho desde 13/11 */
 const F113_MAX=5;
 const F113_SVG={mais:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',x:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   info:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.4"/></svg>'};

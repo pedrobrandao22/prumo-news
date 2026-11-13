@@ -16,7 +16,8 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const r = await p.evaluate(id => { const t = document.querySelector('#p-' + id + ' .track'); const sl = [...t.children]; const f1 = t.querySelector('.ss-fato'); return { n: sl.length, capa: sl[0].querySelector('.cover') ? 1 : 0, fim: sl[sl.length - 1].classList.contains('ss-fim'), num: f1.querySelector('.ss-n')?.textContent, txt: f1.querySelector('.ss-t').textContent, fatos: t.querySelectorAll('.ss-fato').length } }, ps.id);
   ok(r.capa && r.fim && r.n <= 10, 'carrossel: começa na foto, termina em "Ler a matéria", no máximo 10 páginas ' + JSON.stringify(r));
   ok(r.fatos === 3 && r.num === 'R$ 44.008,52' && /^É o subsídio/.test(r.txt), 'usa as frases "social": número grande e frase sem repetir o número ' + JSON.stringify(r));
-  ok(await p.evaluate(id => { const t = document.querySelector('#p-' + id + ' .track'); return !!t.querySelector('.ss-enq [data-poll] .poll') }, pe.id), 'enquete dentro do carrossel');
+  // a enquete de uma notícia da lista principal (as da prateleira da fase 2 aparecem como miniatura)
+  ok(await p.evaluate(() => [...document.querySelectorAll('#posts .post .track')].some(t => !!t.querySelector('.ss-enq [data-poll] .poll'))), 'enquete dentro do carrossel');
   ok(await p.evaluate(() => [...document.querySelectorAll('#posts .post .track > .sl')].every(s => s.scrollHeight <= s.clientHeight + 2)), 'nenhuma página transborda');
   await p.evaluate(id => document.querySelector('#p-' + id + ' .ss-cta').click(), ps.id); await sleep(600);
   ok(await p.evaluate(id => MAT_PID === id, ps.id), '"Ler a matéria completa" abre a matéria');

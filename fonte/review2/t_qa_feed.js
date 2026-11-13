@@ -41,7 +41,7 @@ const topo = async (p, sel) => { await ev(p, s => { const m = s.match(/p-(.*?)"/
   // ---- nome novo aparece nos posts já na tela ----
   await ev(A, () => { go('me'); PF_ABA = 'conta'; renderMe() }); await sleep(300); await ev(A, () => document.querySelector('#v-me [data-a="nome"]').click()); await sleep(400);
   await A.fill('.sheet input', 'Pedro B. Brandão'); await A.keyboard.press('Enter'); await sleep(1200);
-  ok(await esperar(B, s => /Pedro B\. Brandão/.test(document.querySelector(s + ' .up-au')?.textContent || '') && /Pedro B\. Brandão/.test(document.querySelector(s + ' .up-leg')?.textContent || ''), s1, 9000), 'Bia vê o nome novo do Pedro no post (cabeçalho e legenda)');
+  ok(await esperar(B, s => /Pedro B\. Brandão/.test(document.querySelector(s + ' .up-au')?.textContent || '') && ((document.querySelector(s)?.textContent || '').match(/Pedro B\. Brandão/g) || []).length >= 2, s1, 9000), 'Bia vê o nome novo do Pedro no post (cabeçalho e legenda)', await B.evaluate(s => { const e = document.querySelector(s); return e ? e.className + ' | ' + e.innerHTML.slice(0, 900) : 'sem' }, s1));
   // ---- perfil: "N amigos" abre a lista ----
   await ev(A, () => { go('me'); PF_ABA = 'posts'; renderMe(); scrollTo(0, 0) }); await sleep(500);
   await tapSel(A, '#v-me [data-fd104am]'); await sleep(600);
@@ -64,27 +64,26 @@ const topo = async (p, sel) => { await ev(p, s => { const m = s.match(/p-(.*?)"/
   await ev(B, () => { while (document.querySelector('#layer').innerHTML) closeLayer() }).catch(() => { }); await sleep(400);
   // ---- publicar e apagar com o Perfil aberto: número e grade acompanham ----
   await ev(A, () => { go('me'); PF_ABA = 'posts'; renderMe(); scrollTo(0, 0) }); await sleep(500);
-  const n0 = await ev(A, () => +document.querySelector('#v-me .pf-num b').textContent);
+  const n0 = await ev(A, () => (() => { const sp = [...document.querySelectorAll('#v-me .vn-pf-num span')].find(e => /publica/.test(e.textContent)); return sp ? +sp.querySelector('b').textContent : NaN })());
   await ev(A, () => criarAbrir('post')); await sleep(400); await clk(A, '[data-edpgal]'); await A.setInputFiles('#ce-pfile', [__dirname + '/../qa2/f3.jpg']); await esperar(A, () => ED.po.fotos.length === 1, null, 6000); await sleep(300);
   await clk(A, '[data-edav]'); await sleep(400); await clk(A, '[data-edav]'); await sleep(400); await A.fill('#ce-leg', 'Só para os melhores amigos');
   await clk(A, '[data-cfppub]'); await sleep(400); await ev(A, () => document.querySelector('[data-cfppubv="proximos"]').click()); await sleep(500);
   if (await ev(A, () => !!document.querySelector('[data-edma]'))) { await ev(A, u => document.querySelector(`[data-edma="${u}"]`).click(), uidB); await sleep(600); await ev(A, () => document.querySelector('[data-edmaok]').click()); await sleep(400) }
   await ev(A, () => [...document.querySelectorAll('.ce-sel button')].find(b => /Concluir/.test(b.textContent))?.click()); await sleep(300);
   await clk(A, '[data-edpubpo]'); await esperar(A, () => !ED && !PQ.atual, null, 20000); await sleep(1200);
-  ok(await ev(A, n => VIEW === 'me' && +document.querySelector('#v-me .pf-num b').textContent === n + 1 && document.querySelectorAll('#v-me .pf-grade .pf-t').length === n + 1, n0), 'publicou com o Perfil aberto: número e grade já com o post novo');
-  const pMA = await ev(A, () => PUB.itens.filter(x => x.tipo === 'post')[0].id);
+  ok(await ev(A, n => VIEW === 'me' && (() => { const sp = [...document.querySelectorAll('#v-me .vn-pf-num span')].find(e => /publica/.test(e.textContent)); return sp ? +sp.querySelector('b').textContent : NaN })() === n + 1 && document.querySelectorAll('#v-me .vn-pl > .post').length === n + 1, n0), 'publicou com o Perfil aberto: número e lista já com o post novo');
+  const pMA = await ev(A, () => PUB.itens.filter(x => x.tipo === 'post' && x.autor === S.uid).sort((a, b) => b.at - a.at)[0].id);
   await ev(B, () => { while (document.querySelector('#layer').innerHTML) closeLayer(); go('feed') }).catch(() => { }); await sleep(400);
   ok(await esperar(B, id => { try { pubCarregar() } catch (e) { } if (pubDe(id)) garantirPost('u:' + id); return !!document.querySelector(`[id="p-u:${id}"] .fd104-ma`) }, pMA, 9000), 'post só para Melhores amigos: selo ★ no cabeçalho para a amiga', JSON.stringify({ a: await ev(A, id => [pubDe(id).publico, [...MA.set]], pMA), b: await ev(B, id => [!!pubDe(id), !!document.querySelector(`[id="p-u:${id}"]`), VIEW], pMA) }));
-  await tapSel(A, '#v-me [data-pfi="0"]'); await sleep(1300);
-  await ev(A, id => document.querySelector(`#layer [id="p-u:${id}"] [data-umenu]`).click(), pMA); await sleep(400);
+  await ev(A, id => document.querySelector(`#v-me [id="p-u:${id}"] [data-umenu]`).click(), pMA); await sleep(400);
   await ev(A, () => document.querySelector('[data-uapagar]').click()); await sleep(200); await ev(A, () => document.querySelector('[data-uapagar]').click()); await sleep(1500);
   await ev(A, () => { while (document.querySelector('#layer').innerHTML) closeLayer() }).catch(() => { }); await sleep(600);
-  ok(await ev(A, n => +document.querySelector('#v-me .pf-num b').textContent === n && document.querySelectorAll('#v-me .pf-grade .pf-t').length === n, n0), 'apagou pela grade: ao voltar, o perfil já não tem o post');
+  ok(await ev(A, n => (() => { const sp = [...document.querySelectorAll('#v-me .vn-pf-num span')].find(e => /publica/.test(e.textContent)); return sp ? +sp.querySelector('b').textContent : NaN })() === n && document.querySelectorAll('#v-me .vn-pl > .post').length === n, n0), 'apagou pelo perfil: o perfil já não tem o post');
   // ---- desfazer amizade pelo perfil: perfil aberto passa a "só para amigos" com Pedir amizade ----
   await ev(B, u => abrirPerfil(u), uidA); await sleep(1200); await tapSel(B, '#layer [data-fd104pm]'); await sleep(400);
   await ev(B, () => document.querySelector('.sheet [data-desfazer]').click()); await sleep(500);
   await ev(B, () => document.querySelector('.sheet [data-desfazerok], .sheet .btn.perigo').click()); await sleep(2000);
-  ok(await ev(B, () => !!document.querySelector('#layer .pfv [data-pedir]') && !document.querySelector('#layer .pfv .pf-grade') && /só para amigos/.test(document.querySelector('#layer .pfv').textContent) && !document.querySelector('#layer [data-fd104pm]')), 'depois de desfazer a amizade o perfil aberto mostra "Pedir amizade" e esconde as publicações');
+  ok(await ev(B, () => !!document.querySelector('#layer .pfv [data-pedir]') && !document.querySelector('#layer .pfv .pf-grade, #layer .pfv .vn-pl > .post') && /só para amigos/.test(document.querySelector('#layer .pfv').textContent) && !document.querySelector('#layer [data-fd104pm]')), 'depois de desfazer a amizade o perfil aberto mostra "Pedir amizade" e esconde as publicações');
   await shot(B, 'perfil-depois-desfazer');
   ok(!A._erros.length && !B._erros.length, 'sem erros ' + A._erros.concat(B._erros).join('|'));
   const R = U.resumo(); console.log(`\nRESUMO t_qa_feed: ${R.OKS} ok, ${R.FALHAS} falhas`);

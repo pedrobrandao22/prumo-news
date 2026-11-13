@@ -51,7 +51,7 @@ async function compara(p, sel, tipo) {
   // ===== EDITAR
   ok(await ev(A, () => document.querySelectorAll('#cfp-trk .cfp-sl').length === 3 && document.querySelectorAll('.cfp-dots i').length === 3 && document.querySelector('.cfp-dots i.on') === document.querySelectorAll('.cfp-dots i')[0]), 'editar: 3 fotos lado a lado com pontinhos');
   ok(await ev(A, () => [...document.querySelectorAll('[data-edfn]')].every(b => b.getBoundingClientRect().width <= 1)), 'botões ‹ › ficam só para leitor de tela');
-  ok(await ev(A, () => document.querySelectorAll('.cfp-flts [data-edflt] .cfp-th img').length === 9 && /url\(.*cfp-t-moon/.test(document.querySelector('[data-edflt="moon"] img').style.filter)), 'miniaturas mostram a foto com cada filtro');
+  ok(await ev(A, () => document.querySelectorAll('.cfp-flts [data-edflt] .cfp-th img').length === ED_FILTROS.length && /url\(.*cfp-t-moon/.test(document.querySelector('[data-edflt="moon"] img').style.filter)), 'miniaturas mostram a foto com cada filtro');
   await shot(A, 'post-editar-filtros');
   // deslizar para a 2ª foto (gesto de toque de verdade)
   { const cdp = await A.context().newCDPSession(A); const r = await ev(A, () => { const b = document.querySelector('#cfp-trk').getBoundingClientRect(); return { x: b.x + b.width * .8, y: b.y + b.height / 2 } });

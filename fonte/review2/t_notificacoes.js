@@ -133,7 +133,7 @@ const APARELHO = () => {
   ok(await ev(A, () => [...document.querySelectorAll('.at-dot')].some(x => !x.hidden)), 'topo: bolinha no ♥ da Atividade');
   await foto(A, '1-barra-com-bolinhas');
   await ev(A, () => { go('me'); PF_ABA = 'conta'; renderMe() }); await sleep(500);
-  ok(await ev(A, () => !!document.querySelector('#v-me [data-pfaba="conta"] .nt124-dot')), 'Perfil: bolinha na aba Conta');
+  ok(await ev(A, () => !!document.querySelector('#v-me [data-vnpfaba="conta"] .nt124-dot')), 'Perfil: bolinha na aba Conta');
   ok(await ev(A, n => { const e = document.querySelector('#v-me [data-nt124ativ] em'); return e && e.classList.contains('nt124-n') && +e.textContent === n }, cont.ativ), 'Perfil › Conta: "Atividade" com o número');
   ok(await ev(A, () => { const b = document.querySelector('#v-me [data-nt124abrir]'); return b && !!b.closest('.card.menu').querySelector('.cm-h') }), 'Perfil › Conta: "Notificações" no cartão Conta');
 
@@ -155,7 +155,7 @@ const APARELHO = () => {
   await clk(A, '#layer [data-nt124f="curtidas"]'); await sleep(200);
   ok(await ev(A, () => [...document.querySelectorAll('#layer .at-l li')].every(li => !li.hidden)), 'Atividade: tocar de novo mostra tudo');
   await ev(A, () => closeLayer()); await sleep(300);
-  ok(await ev(A, () => { const c = nt124Contagem(); return c.ativ === 1 && c.por.amizades === 1 && document.querySelectorAll('#v-me [data-pfaba="conta"] .nt124-dot').length === 1 }), 'depois de ver: só o pedido ainda sem resposta continua contando', await ev(A, () => nt124Contagem()));
+  ok(await ev(A, () => { const c = nt124Contagem(); return c.ativ === 1 && c.por.amizades === 1 && document.querySelectorAll('#v-me [data-vnpfaba="conta"] .nt124-dot').length === 1 }), 'depois de ver: só o pedido ainda sem resposta continua contando', await ev(A, () => nt124Contagem()));
 
   /* ===================== 2. a página Notificações ===================== */
   await ev(A, () => { go('me'); PF_ABA = 'conta'; renderMe() }); await sleep(300);

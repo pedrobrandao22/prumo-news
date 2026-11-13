@@ -18,7 +18,7 @@ async function criar(p, { url, nome, email }, fecha = true) {
   await B.addInitScript(() => { try { localStorage.setItem('prumo-teste-tour', '1') } catch (e) { } });
   await criar(B, { url: link, nome: 'Bia Souza', email: 'b@x.com' }, false);
   await esperar(B, () => !!document.querySelector('#layer .tour'), null, 5000).catch(() => { });
-  ok(await ev(B, () => !!document.querySelector('#layer .tour') && /Bem-vindo, Bia/.test(document.querySelector('#layer .tour').textContent)), 'quem entra por convite vê o guia, com o nome');
+  ok(await ev(B, () => !!document.querySelector('#layer .tour') && /Boas-vindas, Bia/.test(document.querySelector('#layer .tour').textContent)), 'quem entra por convite vê o guia, com o nome ("Boas-vindas", 106)');
   ok(await ev(B, () => document.querySelectorAll('#layer .tr-t').length === 4 && document.documentElement.scrollWidth <= 390), '4 telas, sem rolagem horizontal');
   await B.screenshot({ path: SH + 'd76-tour1.png' });
   for (let i = 0; i < 3; i++) { await clk(B, '[data-tourprox]'); await sleep(700) }

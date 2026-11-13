@@ -1,4 +1,4 @@
-// Etapa 60: story completo (câmera, layout, várias fotos, filtros por arrasto, texto com tamanho/animação, Melhores amigos)
+// Etapa 60: story completo (câmera, várias fotos, filtros por arrasto, texto com tamanho/animação, Melhores amigos)
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8769/index.html'; const F1 = __dirname + '/etapa13/foto.jpg', F2 = __dirname + '/../qa2/f2.jpg', F3 = __dirname + '/../qa2/f3.jpg';
 const clk = (p, sel) => p.$eval(sel, e => { e.scrollIntoView({ block: 'center' }); e.click() });
@@ -52,20 +52,16 @@ const cv = p => ev(p, () => { const b = document.querySelector('#ce-cv').getBoun
   await clk(A, "[data-edpubst='amigos']"); await esperar(A, () => !ED, null, 15000); await sleep(800);
   ok(await ev(A, () => pubStoriesDe(S.uid).length === 3), '3 stories publicados de uma vez');
   ok(await ev(A, () => { const x = pubStoriesDe(S.uid)[0]; return x.publico === 'amigos' && x.estilo.itens.some(i => i.t === 'texto' && i.an === 'surgir') }), 'texto animado continua vivo no story publicado');
-  // layout + Melhores amigos
-  await clk(A, '#secs [data-meustory] .up-mais'); await sleep(400); await clk(A, '[data-edlayout]'); await sleep(300);
-  ok(await esperar(A, () => document.querySelector('.ce-cel.on video')?.videoWidth > 0, null, 5000), 'Layout mostra a câmera dentro do quadro');
-  await clk(A, '[data-edgrade]'); await sleep(200); await clk(A, '[data-edgrade]'); await sleep(200); ok(await ev(A, () => ED.st.bg.lay === '3' && ED.st.bg.cel.length === 3), 'trocar a grade (3 fotos)');
-  await clk(A, '[data-edfoto]'); await sleep(600); await clk(A, '[data-edgal]'); await A.setInputFiles('#ce-file', F1); await sleep(800); await clk(A, '[data-edfoto]'); await sleep(800);
-  ok(await ev(A, () => ED.st.bg.cel.every(Boolean) && !!document.querySelector('[data-edlayok]')), 'Layout cheio (câmera + galeria)');
-  await A.screenshot({ path: SH + 'st60-layout.png' });
-  await clk(A, '[data-edlayok]'); await sleep(300);
+  // Melhores amigos (o Layout saiu da câmera com o foco, 105)
+  await clk(A, '#secs [data-meustory] .up-mais'); await sleep(400);
+  await esperar(A, () => !!CAM.s && document.querySelector('#ce-video')?.videoWidth > 0, null, 6000); await clk(A, '[data-edfoto]'); await esperar(A, () => ED && ED.tela === 'edit', null, 4000); await sleep(300);
+  ok(await ev(A, () => !document.querySelector('[data-edlayout]')), 'câmera sem Layout');
   await clk(A, "[data-edpubst='proximos']"); await sleep(300); ok(await ev(A, () => !!document.querySelector('.ce-sel [data-edma]')), 'sem lista: abre a lista dos Melhores amigos');
   await clk(A, `[data-edma="${uidB}"]`); await sleep(500); await clk(A, '[data-edmaok]'); await sleep(200);
   ok(await ev(A, (u) => MA.set.has(u) && MA.set.size === 1, uidB), 'Bia entrou na lista');
   await A.screenshot({ path: SH + 'st60-layout-ed.png' });
   await clk(A, "[data-edpubst='proximos']"); await esperar(A, () => !ED, null, 10000); await sleep(800);
-  ok(await ev(A, () => pubStoriesDe(S.uid).slice(-1)[0].publico === 'proximos'), 'story de layout publicado para Melhores amigos');
+  ok(await ev(A, () => pubStoriesDe(S.uid).slice(-1)[0].publico === 'proximos'), 'story publicado para Melhores amigos');
   // B vê (anel verde), C não vê o story dos Melhores amigos
   for (const P of [B, C]) { await ev(P, () => go('feed')); await sleep(300); await ev(P, () => pubCarregar()); await sleep(1500) }
   ok(await ev(B, () => pubStoriesDe([...S.amigos][0]).length === 4 && !!document.querySelector('#secs [data-ustory] .ig-r.ma')), 'Bia vê 4 stories e o anel verde');

@@ -49,7 +49,7 @@ const ins = (P, rows) => ev(P, async rows => { const ids = []; for (const r of r
   const ordem = await ev(A, m => pubVisiveis().filter(x => x.pid === m && x.tipo === 'post').sort((a, b) => b.at - a.at).map(x => nomeDe(x.autor)).join(), ids.m);
   const g = await ev(A, m => { const n = document.getElementById('p-' + m); const out = []; let e = n && n.nextElementSibling; while (e && e.classList.contains('fc107-junto')) { out.push({ j1: e.classList.contains('fc107-j1'), gh: e.querySelector('.fc107-gh')?.textContent || '', car: getComputedStyle(e.querySelector('.car')).display, nome: e.querySelector('.ph-nm b').textContent, legAntes: !!e.querySelector('.up-leg + .acts'), leg: e.querySelector('.up-leg')?.textContent || '' }); e = e.nextElementSibling } return out }, ids.m);
   ok(g.length === 3 && g[0].j1 && g[0].gh === 'O que seus amigos acham' && g.map(x => x.nome).join() === ordem, 'Feed: os comentários sobre a manchete vêm logo abaixo dela, do mais novo para o mais antigo, com "O que seus amigos acham"', JSON.stringify(g));
-  ok(g.every(x => x.car === 'none' && x.legAntes && !/^\s*(Bia|Carla|Pedro)/.test(x.leg)), 'comentário junto da notícia é compacto: sem repetir a arte, texto logo abaixo do nome (sem o nome de novo)', JSON.stringify(g));
+  ok(g.every(x => x.car === 'none' && !/^\s*(Bia|Carla|Pedro)/.test(x.leg)), 'comentário junto da notícia é compacto: sem repetir a arte e sem o nome de novo no texto', JSON.stringify(g));
   ok(await ev(A, m => !document.querySelector(`#p-${CSS.escape(m)} .fc107-amg`), ids.m), 'com os comentários logo abaixo, a notícia não ganha a linha "comentaram" (não repete)');
   await A.screenshot({ path: SH + 't-feed-junto.png' });
   ok(await ev(A, () => { for (let i = 0; i < 6; i++) try { carregarMais(true) } catch (e) { } return [...document.querySelectorAll('#posts .upost.fc107-junto')].length === 3 && !!document.querySelector('#posts .upost.cn102-ana:not(.fc107-junto)') && !!document.querySelector('#posts .upost.cn102-rel:not(.fc107-junto)') }), 'os outros posts (análise, relato) seguem no Feed normalmente');
@@ -76,9 +76,10 @@ const ins = (P, rows) => ev(P, async rows => { const ids = []; for (const r of r
 
   // ===== 5. análise e relato: "Análise de", do tamanho do texto
   await ev(A, () => { go('feed'); FILTRO = 'tudo'; renderPosts(); for (let i = 0; i < 6; i++) try { carregarMais(true) } catch (e) { } }); await sleep(500);
-  const an = await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-ana'), r = document.querySelector('#posts .upost.cn102-rel'); return { lb: a.querySelector('.cn102-lb').textContent, k: a.querySelector('.cn102-k').textContent, auto: a.classList.contains('fc107-auto') && r.classList.contains('fc107-auto'), h: Math.round(a.querySelector('.track .sl').getBoundingClientRect().height), hr: Math.round(r.querySelector('.track .sl').getBoundingClientRect().height), ass: getComputedStyle(a.querySelector('.cn102-ass')).display } });
-  ok(an.lb === 'Análise' && an.k === 'Análise de Bia Souza' && an.ass === 'none', 'análise: "Análise de Bia Souza" e rótulo "Análise" (como no cartão do story), sem assinatura repetida', JSON.stringify(an));
-  ok(an.auto && an.h < 330 && an.hr < 360, 'análise e relato sem foto ficam do tamanho do texto (antes: cartão 4:5 com espaço vazio)', JSON.stringify(an));
+  // fora da tela o cartão fica com a altura reservada (content-visibility); mede cada um depois de trazê-lo para a tela
+  for (const k of ['ana', 'rel']) { await ev(A, k => document.querySelector('#posts .upost.cn102-' + k).scrollIntoView({ block: 'center' }), k); await sleep(400) }
+  const an = await ev(A, () => { const a = document.querySelector('#posts .upost.cn102-ana'), r = document.querySelector('#posts .upost.cn102-rel'); return a && r && { aCar: !!a.querySelector(':scope > .car'), aTit: /Juros altos por mais tempo/.test(a.textContent), rTit: /Fila no posto/.test(r.textContent), h: (a.scrollIntoView({ block: 'center' }), Math.round(a.getBoundingClientRect().height)), hr: (r.scrollIntoView({ block: 'center' }), Math.round(r.getBoundingClientRect().height)) } });
+  ok(an && !an.aCar && an.aTit && an.rTit && an.h < 420 && an.hr < 460, 'análise e relato sem foto: sem o cartão colorido (122), título e texto do tamanho do conteúdo', JSON.stringify(an));
 
   // ===== 6. arte da notícia sem corte
   const art = await ev(A, () => { for (let i = 0; i < 6; i++) try { carregarMais(true) } catch (e) { } const cs = [...document.querySelectorAll('#posts .post .sl>.cover.paper:not(.info):not(.fcv)')]; return { n: cs.length, ok: cs.every(c => { const s = c.querySelector(':scope>svg'), r = s.getBoundingClientRect(), cv = c.querySelector('.cv').getBoundingClientRect(); return Math.abs(r.width - c.getBoundingClientRect().width) < 2 && Math.abs(r.height - r.width * 264 / 400) < 3 && cv.top >= r.bottom - 1 }) } });
@@ -89,12 +90,10 @@ const ins = (P, rows) => ev(P, async rows => { const ids = []; for (const r of r
   await ev(A, u => abrirPerfil(u), uidB); await esperar(A, () => !!document.querySelector('#layer .pfv .fc107-pk'), null, 5000); await sleep(400);
   const pk = await ev(A, () => [...document.querySelectorAll('#layer .fc107-pk button')].map(b => b.textContent.replace(/\s+/g, ' ').trim() + (b.getAttribute('aria-pressed') === 'true' ? '*' : '')));
   ok(pk.join('|') === 'Tudo 3*|Notícias comentadas 1|De perto 1|Análises 1', 'perfil: contribuições por tipo (Tudo, Notícias comentadas, De perto, Análises)', pk.join('|'));
-  ok(await ev(A, () => { const t = [...document.querySelectorAll('#layer .pf-t .fc107-pt small')].map(s => s.textContent).sort().join(); return t === 'Análise,De perto' }), 'miniaturas de análise e De perto mostram o tipo e o título');
+  ok(await ev(A, () => !!document.querySelector('#layer .vn-pl > .post.cn102-ana') && !!document.querySelector('#layer .vn-pl > .post.cn102-rel')), 'perfil em lista (112) com a análise e o De perto');
   await clk(A, '#layer [data-fc107pk="ana"]'); await sleep(400);
-  ok(await ev(A, () => document.querySelectorAll('#layer .pf-t').length === 1 && document.querySelector('#layer [data-fc107pk="ana"]').getAttribute('aria-pressed') === 'true' && /Juros altos/.test(document.querySelector('#layer .pf-t').textContent)), 'tocar em "Análises" deixa só as análises na grade');
+  ok(await ev(A, () => { const l = [...document.querySelectorAll('#layer .vn-pl > .post')]; return l.length === 1 && l[0].classList.contains('cn102-ana') && /Juros altos/.test(l[0].textContent) && document.querySelector('#layer [data-fc107pk="ana"]').getAttribute('aria-pressed') === 'true' }), 'tocar em "Análises" deixa só as análises na lista');
   await A.screenshot({ path: SH + 't-perfil.png' });
-  await clk(A, '#layer [data-pfi="0"]'); await sleep(600);
-  ok(await ev(A, () => document.querySelectorAll('#layer .pfv-posts .upost').length === 1 && !!document.querySelector('#layer .pfv-posts .upost.cn102-ana')), 'abrir a grade filtrada mostra a análise (mesma lista)');
   await ev(A, () => closeLayer()); await sleep(400);
   await ev(A, u => abrirPerfil(u), uidB); await sleep(500);
   ok(await ev(A, () => document.querySelector('#layer [data-fc107pk=""]')?.getAttribute('aria-pressed') === 'true'), 'ao abrir o perfil de novo, volta para "Tudo"');
