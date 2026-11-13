@@ -1,33 +1,152 @@
 {
- "gerado": "2026-11-12T20:16-03:00",
+ "gerado": "2026-11-12T21:17-03:00",
  "desde": "2026-11-12T19:39-03:00",
  "feed_atualizado_em": "2026-11-12T19:49:00-03:00",
  "resumo": {
-  "manchetes": 68,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 54,
+  "manchetes": 167,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 128,
   "pautas_com_novidade": 2,
-  "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 6,
-  "acionar_itens": 0,
-  "ja_avaliados": 1
+  "pautas_com_novidade_3_fontes": 1,
+  "pautas_com_relatos": 5,
+  "acionar_itens": 3,
+  "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (54 assuntos fora do feed, 6 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta ajuste-fiscal-lula-4: 6 veículos em 90 min depois da última atualização; pauta principal caso-master sem atualização há 7.5 h e 2 veículos com relatos novos; assunto novo: 3 veículos em 90 min (politica)",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "ajuste-fiscal-lula-4",
+   "titulo": "Senado aprova pacote de ajuste fiscal do governo Lula",
+   "n_fontes": 6,
+   "motivo": "pauta ajuste-fiscal-lula-4: 6 veículos em 90 min depois da última atualização"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Fachin não diz como vai encaminhar caso Master nem análise do caso Moraes",
+   "n_fontes": 2,
+   "motivo": "pauta principal caso-master sem atualização há 7.5 h e 2 veículos com relatos novos"
+  },
+  {
+   "tipo": "novo",
+   "titulo": "PGR se manifesta contra revisão criminal da condenação de Bolsonaro",
+   "secao": "politica",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "chave": [
+    "anular",
+    "bolsonaro",
+    "condenacao",
+    "criminal",
+    "defende",
+    "jair",
+    "manifesta",
+    "pedido",
+    "pgr",
+    "poderia",
+    "rejeicao",
+    "rejeite",
+    "revisao",
+    "stf"
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois",
  "novos": [
   {
-   "assunto": "Marisa Lojas (AMAR3) reverte lucro e tem prejuízo líquido de R$ 52,9 milhões no 3T",
-   "secao": "economia",
-   "n_fontes": 2,
+   "assunto": "PGR se manifesta contra revisão criminal da condenação de Bolsonaro",
+   "secao": "politica",
+   "n_fontes": 3,
    "fontes": [
     "cnn",
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "PGR se manifesta contra revisão criminal da condenação de Bolsonaro",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/pgr-se-manifesta-contra-revisao-criminal-da-pena-de-bolsonaro.shtml",
+     "hora": "12/11 20h19"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "PGR defende que STF rejeite pedido de revisão criminal de Jair Bolsonaro",
+     "url": "https://www.cnnbrasil.com.br/politica/pgr-defende-que-stf-rejeite-pedido-de-revisao-criminal-de-jair-bolsonaro/",
+     "hora": "12/11 20h07"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "PGR defende rejeição de novo pedido de revisão criminal que poderia anular a condenação de Jair Bolsonaro",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/12/pgr-diz-se-contra-revisao-criminal-que-poderia-anular-a-condenacao-de-jair-bolsonaro.ghtml",
+     "hora": "12/11 20h04"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Quina hoje, concurso 7166: confira o resultado sorteado nesta quinta-feira (12)",
+   "secao": "economia",
+   "n_fontes": 4,
+   "fontes": [
+    "cnn",
+    "g1",
+    "im",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Quina hoje, concurso 7166: confira o resultado sorteado nesta quinta-feira (12)",
+     "url": "https://www.infomoney.com.br/consumo/quina-hoje-concurso-7166-confira-o-resultado-sorteado-nesta-quinta-feira-12/",
+     "hora": "12/11 21h12"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Quina 7166 sorteia R$ 10 milhões hoje (12/11). Confira o resultado",
+     "url": "https://www.metropoles.com/brasil/quina-7166-sorteia-r-10-milhoes-hoje-12-11-confira-o-resultado",
+     "hora": "12/11 21h11"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Confira o resultado da Lotofácil 3828, sorteada hoje (12/11)",
+     "url": "https://www.metropoles.com/brasil/confira-resultado-da-lotofacil-3828-sorteada-hoje-12-11",
+     "hora": "12/11 21h10"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Lotofácil hoje, concurso 3828: confira o resultado sorteado nesta quinta-feira (12)",
+     "url": "https://www.infomoney.com.br/consumo/lotofacil-hoje-concurso-3828-confira-o-resultado-sorteado-nesta-quinta-feira-12/",
+     "hora": "12/11 21h10"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Natura reverte prejuízo com lucro de R$ 49 milhões no 3° tri",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "folha",
     "im"
    ],
    "ja_e_breve": true,
    "relevante": false,
    "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Natura reverte prejuízo com lucro de R$ 49 milhões no 3° tri",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/natura-reverte-prejuizo-com-lucro-de-r-49-milhoes-no-3-tri.shtml",
+     "hora": "12/11 20h30"
+    },
     {
      "veiculo": "InfoMoney",
      "titulo": "Marisa Lojas (AMAR3) reverte lucro e tem prejuízo líquido de R$ 52,9 milhões no 3T",
@@ -45,15 +164,119 @@
      "titulo": "Light reverte lucro e tem prejuízo de R$ 56,1 milhões no 3º trimestre",
      "url": "https://www.cnnbrasil.com.br/infra/light-reverte-lucro-e-tem-prejuizo-de-r-561-milhoes-no-3o-trimestre/",
      "hora": "12/11 19h52"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Ponte Preta perde para Operário e tem pior campanha da história da Série B",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ponte Preta perde para Operário e tem pior campanha da história da Série B",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/ponte-preta-perde-para-operario-e-tem-pior-campanha-da-historia-da-serie-b/",
+     "hora": "12/11 21h10"
     },
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Light (LIGT3) reverte lucro e tem prejuízo de R$ 56 milhões no terceiro trimestre",
-     "url": "https://www.infomoney.com.br/mercados/light-ligt3-resultados-terceiro-trimestre-2026/",
-     "hora": "12/11 19h42"
+     "veiculo": "ge",
+     "titulo": "Ponte Preta perde do Operário e amarga a pior campanha da história da Série B",
+     "url": "https://ge.globo.com/sp/campinas-e-regiao/futebol/times/ponte-preta/noticia/2026/11/12/ponte-preta-perde-do-operario-e-amarga-a-pior-campanha-da-historia-da-serie-b.ghtml",
+     "hora": "12/11 21h02"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Operário-PR vence a Ponte Preta pela última rodada da Série B",
+     "url": "https://ge.globo.com/sp/campinas-e-regiao/futebol/brasileirao-serie-b/jogo/12-11-2026/ponte-preta-operario-pr.ghtml",
+     "hora": "12/11 20h57"
     }
    ],
    "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Tesouro Nacional sofre ataque hacker que expõe dados de 30 mil cadastros e 4.000 chaves Pix",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Tesouro Nacional sofre ataque hacker que expõe dados de 30 mil cadastros e 4.000 chaves Pix",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/tec/2026/11/tesouro-nacional-sofre-ataque-hacker-que-expoe-dados-de-30-mil-cadastros-e-4000-chaves-pix.shtml",
+     "hora": "12/11 20h57"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Tesouro Nacional identifica acesso indevido a dados de 30 mil cadastros e 4 mil chaves PIX",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/12/tesouro-nacional-incidente-seguranca.ghtml",
+     "hora": "12/11 20h13"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "VÍDEOS: Jornal Anhanguera 2ª Edição de quinta-feira, 12 de novembro de 2026",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "VÍDEOS: Jornal Anhanguera 2ª Edição de quinta-feira, 12 de novembro de 2026",
+     "url": "https://g1.globo.com/go/goias/edicao/2026/11/12/videos-jornal-anhanguera-2-edicao-de-quinta-feira-12-de-novembro-de-2026.ghtml",
+     "hora": "12/11 20h14"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Veja os destaques do esporte no Diário TV 1ª Edição desta quinta-feira, 12 de novembro",
+     "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/noticia/2026/11/12/veja-os-destaques-do-esporte-no-diario-tv-1a-edicao-desta-quinta-feira-12-de-novembro.ghtml",
+     "hora": "12/11 20h11"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "VÍDEOS: Jornal do Acre 2ª Edição desta quinta-feira, 12 de novembro de 2026",
+     "url": "https://g1.globo.com/ac/acre/playlist/videos-jornal-do-acre-2-edicao-desta-quinta-feira-12-de-novembro-de-2026.ghtml",
+     "hora": "12/11 20h08"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "lixo": true
+  },
+  {
+   "assunto": "\"A escolha é sua\": homem manda nudes a \"contatinho\" no zap e sofre extorsão",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "\"A escolha é sua\": homem manda nudes a \"contatinho\" no zap e sofre extorsão",
+     "url": "https://www.metropoles.com/distrito-federal/na-mira/a-escolha-e-sua-homem-manda-nudes-a-contatinho-no-zap-e-sofre-extorsao",
+     "hora": "12/11 20h46"
+    }
+   ],
+   "n_fontes_90min": 1
   },
   {
    "assunto": "Acidente de trânsito deixa 14 mortos e 30 feridos nos Emirados Árabes",
@@ -70,6 +293,44 @@
      "titulo": "Acidente de trânsito deixa 14 mortos e 30 feridos nos Emirados Árabes",
      "url": "https://www.cnnbrasil.com.br/internacional/acidente-de-transito-deixa-mortos-e-feridos-nos-emirados-arabes-unidos/",
      "hora": "12/11 19h48"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Aposentada perde quase R$ 40 mil ao acreditar em namoro com Elon Musk",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Aposentada perde quase R$ 40 mil ao acreditar em namoro com Elon Musk",
+     "url": "https://www.metropoles.com/sao-paulo/aposentada-perde-quase-r-40-mil-ao-acreditar-em-namoro-com-elon-musk",
+     "hora": "12/11 20h59"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Após decisão de Zanin, campanha de Paes volta a defender 2º turno no Rio",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Após decisão de Zanin, campanha de Paes volta a defender 2º turno no Rio",
+     "url": "https://www.metropoles.com/brasil/apos-decisao-de-zanin-campanha-de-paes-volta-a-defender-2o-turno-no-rio",
+     "hora": "12/11 20h28"
     }
    ],
    "n_fontes_90min": 1
@@ -155,20 +416,77 @@
    "lixo": true
   },
   {
-   "assunto": "B3 (B3SA3) tem lucro líquido recorrente de R$ 1,4 bilhão, alta anual de 10%",
+   "assunto": "Ações do Banco do Brasil desabam 8,35% após balanço do 3º trimestre de 2026",
    "secao": "economia",
    "n_fontes": 1,
    "fontes": [
-    "im"
+    "met"
+   ],
+   "ja_e_breve": true,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Ações do Banco do Brasil desabam 8,35% após balanço do 3º trimestre de 2026",
+     "url": "https://www.metropoles.com/brasil/acoes-do-banco-do-brasil-desabam-835-apos-balanco-do-3o-trimestre-de-2026",
+     "hora": "12/11 20h24"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "BB diz que não responsabiliza agronegócio por queda nos resultado",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "B3 (B3SA3) tem lucro líquido recorrente de R$ 1,4 bilhão, alta anual de 10%",
-     "url": "https://www.infomoney.com.br/mercados/b3-b3sa3-resultados-terceiro-trimestre-2026/",
-     "hora": "12/11 19h41"
+     "veiculo": "CNN Brasil",
+     "titulo": "BB diz que não responsabiliza agronegócio por queda nos resultado",
+     "url": "https://www.cnnbrasil.com.br/agro/bb-diz-que-nao-responsabiliza-agronegocio-por-queda-nos-resultado/",
+     "hora": "12/11 21h05"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Bebê indígena nasce em ambulância no AC com ajuda de agente de saúde: 'Gratificante'",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Bebê indígena nasce em ambulância no AC com ajuda de agente de saúde: 'Gratificante'",
+     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/12/bebe-indigena-nasce-em-ambulancia-no-acre-com-ajuda-de-agente-de-saude.ghtml",
+     "hora": "12/11 20h52"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Caixa Seguridade informa ataque cibernético e vazamento de dados",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "ab"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Caixa Seguridade informa ataque cibernético e vazamento de dados",
+     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/caixa-seguridade-informa-ataque-cibernetico-e-vazamento-de-dados",
+     "hora": "12/11 20h06"
     }
    ],
    "n_fontes_90min": 1
@@ -188,6 +506,25 @@
      "titulo": "Campeão da Fórmula 1, Kimi Antonelli é ovacionado antes de Itália x França",
      "url": "https://www.metropoles.com/esportes/campeao-da-formula-1-kimi-antonelli-e-ovacionado-antes-de-italia-x-franca",
      "hora": "12/11 20h06"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Carro dirigido por Ayrton Senna em 1994 será leiloado em Nova York",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Carro dirigido por Ayrton Senna em 1994 será leiloado em Nova York",
+     "url": "https://www.metropoles.com/esportes/carro-dirigido-por-ayrton-senna-em-1994-sera-leiloado-em-nova-york",
+     "hora": "12/11 20h12"
     }
    ],
    "n_fontes_90min": 1
@@ -231,6 +568,63 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Com Kassab, Ministério das Cidades entra nas articulações do PSD",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Com Kassab, Ministério das Cidades entra nas articulações do PSD",
+     "url": "https://www.cnnbrasil.com.br/politica/com-kassab-ministerio-das-cidades-entra-nas-articulacoes-do-psd/",
+     "hora": "12/11 21h10"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Com festa da torcida, Goiás embarca para jogo decisivo contra o Sport no Recife; veja vídeo",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Com festa da torcida, Goiás embarca para jogo decisivo contra o Sport no Recife; veja vídeo",
+     "url": "https://ge.globo.com/go/futebol/times/goias/noticia/2026/11/12/com-festa-da-torcida-goias-embarca-para-jogo-decisivo-contra-o-sport-no-recife.ghtml",
+     "hora": "12/11 20h46"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Complexo Cultural Yolanda e Edson Queiroz é inaugurado em Fortaleza",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Complexo Cultural Yolanda e Edson Queiroz é inaugurado em Fortaleza",
+     "url": "https://g1.globo.com/ce/ceara/noticia/2026/11/12/complexo-cultural-yolanda-e-edson-queiroz-e-inaugurado-em-fortaleza.ghtml",
+     "hora": "12/11 20h38"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Criança morre após se afogar durante brincadeira em tanque de água em Conchas",
    "secao": null,
    "n_fontes": 1,
@@ -245,6 +639,25 @@
      "titulo": "Criança morre após se afogar durante brincadeira em tanque de água em Conchas",
      "url": "https://g1.globo.com/sp/itapetininga-regiao/noticia/2026/11/12/crianca-morre-apos-se-afogar-durante-brincadeira-em-tanque-de-agua-em-conchas.ghtml",
      "hora": "12/11 19h41"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Criminosos invadem apartamentos em prédio em Higienópolis, amarram moradora e perguntam por joias",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Criminosos invadem apartamentos em prédio em Higienópolis, amarram moradora e perguntam por joias",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/12/criminosos-invadem-apartamentos-em-predio-em-higienopolis-amarram-moradora-e-perguntam-por-joias.ghtml",
+     "hora": "12/11 20h47"
     }
    ],
    "n_fontes_90min": 1
@@ -269,102 +682,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Dois homens são baleados durante ataque a tiros em Teresina",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Dois homens são baleados durante ataque a tiros em Teresina",
-     "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/12/homens-baleados-teresina.ghtml",
-     "hora": "12/11 19h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Dono de clínica de reabilitação clandestina é preso por cárcere privado e instituição é fechada, no Paraná: 'Tudo irregular'",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Dono de clínica de reabilitação clandestina é preso por cárcere privado e instituição é fechada, no Paraná: 'Tudo irregular'",
-     "url": "https://g1.globo.com/pr/norte-noroeste/noticia/2026/11/12/dono-clinica-reabilitacao-preso-sem-alvara-londrina.ghtml",
-     "hora": "12/11 19h52"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Evento de luta entre policiais terá presença de tricampeão do UFC em SC",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Evento de luta entre policiais terá presença de tricampeão do UFC em SC",
-     "url": "https://ge.globo.com/sc/noticia/2026/11/12/evento-de-luta-agarrada-entre-policiais-tera-presenca-de-tricampeao-do-ufc-em-sc.ghtml",
-     "hora": "12/11 19h54"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Fachin evita dizer o que fará com o processo de afastamento de Andrei da PF",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Fachin evita dizer o que fará com o processo de afastamento de Andrei da PF",
-     "url": "https://www.poder360.com.br/poder-justica/fachin-evita-dizer-o-que-fara-com-o-processo-de-afastamento-de-andrei-da-pf/",
-     "hora": "12/11 20h09"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Grammy Latino 2026: Urias, de Uberlândia, conquista um gramofone: 'não tô acreditando'",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Grammy Latino 2026: Urias, de Uberlândia, conquista um gramofone: 'não tô acreditando'",
-     "url": "https://g1.globo.com/mg/triangulo-mineiro/noticia/2026/11/12/grammy-latino-2026-urias-de-uberlandia-conquista-um-gramofone-nao-to-acreditando.ghtml",
-     "hora": "12/11 19h43"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Grammy Latino 2026: veja os looks dos famosos para premiação musical",
+   "assunto": "Câmeras com IA que identificam uso de vapes em escola serão testadas no ES",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -375,66 +693,15 @@
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Grammy Latino 2026: veja os looks dos famosos para premiação musical",
-     "url": "https://www.cnnbrasil.com.br/pop/musica/grammy-latino-2026-veja-os-looks-dos-famosos-para-premiacao-musical/",
-     "hora": "12/11 19h48"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Grupo Mateus (GMAT3) tem lucro de R$ 322 mi no 3º tri, queda de 36%",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Grupo Mateus (GMAT3) tem lucro de R$ 322 mi no 3º tri, queda de 36%",
-     "url": "https://www.infomoney.com.br/mercados/grupo-mateus-gmat3-resultados-terceiro-trimestre-2026/",
-     "hora": "12/11 20h03"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Grupo GPS (GGPS3) tem lucro ajustado de R$193 mi no 3º tri, alta de 3%",
-     "url": "https://www.infomoney.com.br/mercados/grupo-gps-ggps3-resultados-terceiro-trimestre-2026/",
-     "hora": "12/11 19h48"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Track&Field (TFCO4) tem lucro de R$ 35 mi no 3º tri, alta de 17%",
-     "url": "https://www.infomoney.com.br/mercados/resultados-trackfield-tfco4-terceiro-trimestre-2026/",
-     "hora": "12/11 19h44"
+     "titulo": "Câmeras com IA que identificam uso de vapes em escola serão testadas no ES",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/es/cameras-com-ia-que-identificam-uso-de-vapes-em-escola-serao-testadas-no-es/",
+     "hora": "12/11 20h13"
     }
    ],
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Homem é preso suspeito de agredir companheira e trancar crianças de 2 e 7 anos em banheiro em Duque de Caxias",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Homem é preso suspeito de agredir companheira e trancar crianças de 2 e 7 anos em banheiro em Duque de Caxias",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/12/homem-e-preso-em-duque-de-caxias.ghtml",
-     "hora": "12/11 19h50"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Itália busca diminuir impacto de alertas falsos de bomba após novas ameaças",
+   "assunto": "De apenas 20 borboletas a uma explosão de 922%: a incrível história da volta da rara Wood White à floresta",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -445,264 +712,176 @@
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Itália busca diminuir impacto de alertas falsos de bomba após novas ameaças",
-     "url": "https://www.cnnbrasil.com.br/internacional/italia-busca-diminuir-impacto-de-alertas-falsos-de-bomba-apos-novas-ameacas/",
-     "hora": "12/11 19h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Justiça torna Milton Leite réu por promover o PCC no transporte de SP",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Justiça torna Milton Leite réu por promover o PCC no transporte de SP",
-     "url": "https://www.poder360.com.br/poder-justica/justica-torna-milton-leite-reu-por-promover-o-pcc-no-transporte-de-sp/",
-     "hora": "12/11 19h52"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Lauana Prado celebra Grammy Latino de Melhor Álbum de Música Sertaneja",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Lauana Prado celebra Grammy Latino de Melhor Álbum de Música Sertaneja",
-     "url": "https://www.cnnbrasil.com.br/pop/musica/lauana-prado-celebra-grammy-latino-de-melhor-album-de-musica-sertaneja/",
-     "hora": "12/11 19h39"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Linha 8 da ViaMobilidade acumula quase 40 falhas em 1 ano; Tarcísio não descarta romper contrato com concessionária",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Linha 8 da ViaMobilidade acumula quase 40 falhas em 1 ano; Tarcísio não descarta romper contrato com concessionária",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/12/linha-8-da-viamobilidade-acumula-quase-40-falhas-em-1-ano-tarcisio-nao-descarta-romper-contrato-com-concessionaria.ghtml",
-     "hora": "12/11 19h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Lucro da MBRF mais que dobra no 3º tri com melhor resultado em 2 anos para unidade dos EUA",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Lucro da MBRF mais que dobra no 3º tri com melhor resultado em 2 anos para unidade dos EUA",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/lucro-da-mbrf-mais-que-dobra-no-3o-tri-com-melhor-resultado-em-2-anos-para-unidade-dos-eua.shtml",
-     "hora": "12/11 20h05"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Minas bate Londrina no retorno de Luzia e mantém invencibilidade na Superliga",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Minas bate Londrina no retorno de Luzia e mantém invencibilidade na Superliga",
-     "url": "https://ge.globo.com/mg/triangulo-mineiro/volei/noticia/2026/11/12/minas-bate-londrina-no-retorno-de-luzia-e-mantem-invencibilidade-na-superliga.ghtml",
-     "hora": "12/11 20h09"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Ministros veem pouca chance de “pular” Moraes na sucessão de Fachin no STF",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ministros veem pouca chance de “pular” Moraes na sucessão de Fachin no STF",
-     "url": "https://www.cnnbrasil.com.br/politica/ministros-veem-pouca-chance-de-pular-moraes-na-sucessao-de-fachin-no-stf/",
-     "hora": "12/11 19h45"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Mostra de Cinema de Gostoso 2026 anuncia programação com estreias nacionais; confira",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Mostra de Cinema de Gostoso 2026 anuncia programação com estreias nacionais; confira",
-     "url": "https://g1.globo.com/rn/rio-grande-do-norte/noticia/2026/11/12/mostra-de-cinema-de-gostoso-2026-anuncia-programacao-com-estreias-nacionais-confira.ghtml",
-     "hora": "12/11 19h44"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Mulher e criança feitas reféns em lotérica: atendente percebeu assalto, simulou problemas para sacar dinheiro e chamou polícia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Mulher e criança feitas reféns em lotérica: atendente percebeu assalto, simulou problemas para sacar dinheiro e chamou polícia",
-     "url": "https://g1.globo.com/mg/minas-gerais/noticia/2026/11/12/mulher-e-crianca-feitas-refens-em-loterica-atendente-percebeu-assalto-simulou-problemas-para-sacar-dinheiro-e-chamou-policia.ghtml",
-     "hora": "12/11 19h55"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Neusa Borges é internada no Rio de Janeiro: \"Sem previsão de alta\"",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Neusa Borges é internada no Rio de Janeiro: \"Sem previsão de alta\"",
-     "url": "https://www.metropoles.com/colunas/fabia-oliveira/neusa-borges-e-internada-no-rio-de-janeiro-sem-previsao-de-alta",
-     "hora": "12/11 19h39"
+     "titulo": "De apenas 20 borboletas a uma explosão de 922%: a incrível história da volta da rara Wood White à floresta",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/de-apenas-20-borboletas-a-uma-explosao-de-922-a-incrivel-historia-da-volta-da-rara-wood-white-a-floresta/",
+     "hora": "12/11 20h20"
     }
    ],
    "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
-  "decreto-6x1-adiado": {
-   "secao": "politica",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Fim da escala 6×1: STF analisa a partir de sexta-feira decisão de Dino",
-     "url": "https://www.infomoney.com.br/politica/fim-da-escala-6x1-stf-analisa-a-partir-de-sexta-feira-decisao-de-dino/",
-     "hora": "12/11 19h40"
-    }
-   ]
-  },
   "ajuste-fiscal-lula-4": {
    "secao": "economia",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "manchetes": [
     {
-     "veiculo": "Agência Senado",
-     "titulo": "Áudio: Projeto de ajuste fiscal prevê economia de até R$ 60 bilhões em 2027",
-     "url": "https://www12.senado.leg.br/noticias/audios/2026/11/projeto-de-ajuste-fiscal-preve-economia-de-ate-r-60-bilhoes-em-2027",
-     "hora": "12/11 19h54"
+     "veiculo": "Poder360",
+     "titulo": "Senado aprova pacote de ajuste fiscal do governo Lula",
+     "url": "https://www.poder360.com.br/poder-congresso/senado-aprova-pacote-de-ajuste-fiscal-do-governo-lula/",
+     "hora": "12/11 21h06"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Senado aprova texto-base do pacote de ajuste fiscal de Lula",
+     "url": "https://www.metropoles.com/brasil/senado-ajuste-fiscal-de-lula",
+     "hora": "12/11 21h05"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Kassab elogia “pré-disposição” de Lula para fazer ajuste fiscal",
+     "url": "https://www.poder360.com.br/poder-economia/kassab-elogia-pre-disposicao-de-lula-para-fazer-ajuste-fiscal/",
+     "hora": "12/11 19h39"
     },
     {
      "veiculo": "g1",
-     "titulo": "ASSISTA: Senado discute o projeto de ajuste fiscal; texto pode ser votado ainda hoje",
+     "titulo": "ASSISTA: Senado aprova texto-base do projeto de ajuste fiscal",
      "url": "https://g1.globo.com/politica/ao-vivo/senado-pacote-medidas-fiscais.ghtml",
-     "hora": "12/11 19h51"
+     "hora": "12/11 21h05"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Senado aprova texto-base do ajuste fiscal com limite a cortes do Executivo",
+     "url": "https://www.cnnbrasil.com.br/politica/senado-aprova-plp-do-ajuste-fiscal/",
+     "hora": "12/11 21h05"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Senado Federal aprova texto-base de projeto que prevê ajuste fiscal de até R$ 60 bilhões",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/12/senado-federal-aprova-ajuste-fiscal-de-ate-r-60-bilhoes.ghtml",
+     "hora": "12/11 21h05"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ajuste fiscal: Economia com supersalários pode virar reajuste no Judiciário",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/ajuste-fiscal-economia-com-supersalarios-pode-virar-reajuste-no-judiciario/",
+     "hora": "12/11 20h04"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Braga preserva Fundo do DF e desoneração da folha em novo relatório do ajuste fiscal",
+     "url": "https://www.infomoney.com.br/politica/braga-preserva-fundo-do-df-e-desoneracao-da-folha-em-novo-relatorio-do-ajuste-fiscal/",
+     "hora": "12/11 20h46"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Celina articulou com Aziz e Eduardo Braga para tirar DF do ajuste fiscal",
+     "url": "https://www.metropoles.com/colunas/grande-angular/celina-articulou-com-aziz-e-eduardo-braga-para-tirar-df-do-ajuste-fiscal",
+     "hora": "12/11 20h16"
+    }
+   ]
+  },
+  "caso-master": {
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Fachin não diz como vai encaminhar caso Master nem análise do caso Moraes",
+     "url": "https://www.poder360.com.br/poder-justica/fachin-nao-diz-como-vai-encaminhar-caso-master-nem-analise-do-caso-moraes/",
+     "hora": "12/11 20h20"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Defesa pede soltura de Vorcaro e contesta condução de Fachin no Caso Master",
+     "url": "https://www.metropoles.com/brasil/defesa-pede-soltura-de-vorcaro-e-contesta-conducao-de-fachin-no-caso-master",
+     "hora": "12/11 20h16"
     }
    ]
   }
  },
  "novos_relatos": {
   "ajuste-fiscal-lula-4": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 8,
+   "n_fontes": 6,
    "fontes": [
-    "agsenado"
+    "agsenado",
+    "cnn",
+    "g1",
+    "im",
+    "met",
+    "p360"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "12/11 19h54",
-   "ultima_iso": "2026-11-12T19:54-03:00",
+   "n_fontes_90min": 6,
+   "ultima": "12/11 21h06",
+   "ultima_iso": "2026-11-12T21:06-03:00",
    "pauta_atualizada_em": "2026-11-12T19:48-03:00",
-   "horas_sem_atualizar": 0.5,
+   "horas_sem_atualizar": 1.5,
    "principal": true,
    "manchetes": [
     {
-     "veiculo": "Agência Senado",
-     "titulo": "Áudio: Projeto de ajuste fiscal prevê economia de até R$ 60 bilhões em 2027",
-     "url": "https://www12.senado.leg.br/noticias/audios/2026/11/projeto-de-ajuste-fiscal-preve-economia-de-ate-r-60-bilhoes-em-2027",
-     "hora": "12/11 19h54"
+     "veiculo": "Poder360",
+     "titulo": "Senado aprova pacote de ajuste fiscal do governo Lula",
+     "url": "https://www.poder360.com.br/poder-congresso/senado-aprova-pacote-de-ajuste-fiscal-do-governo-lula/",
+     "hora": "12/11 21h06"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Senado aprova texto-base do pacote de ajuste fiscal de Lula",
+     "url": "https://www.metropoles.com/brasil/senado-ajuste-fiscal-de-lula",
+     "hora": "12/11 21h05"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Senado aprova texto-base do ajuste fiscal com limite a cortes do Executivo",
+     "url": "https://www.cnnbrasil.com.br/politica/senado-aprova-plp-do-ajuste-fiscal/",
+     "hora": "12/11 21h05"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Senado Federal aprova texto-base de projeto que prevê ajuste fiscal de até R$ 60 bilhões",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/12/senado-federal-aprova-ajuste-fiscal-de-ate-r-60-bilhoes.ghtml",
+     "hora": "12/11 21h05"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Braga preserva Fundo do DF e desoneração da folha em novo relatório do ajuste fiscal",
+     "url": "https://www.infomoney.com.br/politica/braga-preserva-fundo-do-df-e-desoneracao-da-folha-em-novo-relatorio-do-ajuste-fiscal/",
+     "hora": "12/11 20h46"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Celina articulou com Aziz e Eduardo Braga para tirar DF do ajuste fiscal",
+     "url": "https://www.metropoles.com/colunas/grande-angular/celina-articulou-com-aziz-e-eduardo-braga-para-tirar-df-do-ajuste-fiscal",
+     "hora": "12/11 20h16"
     }
    ]
   },
-  "decreto-6x1-adiado": {
+  "caso-master": {
    "n": 2,
    "n_fontes": 2,
    "fontes": [
-    "folha",
-    "im"
+    "met",
+    "p360"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "12/11 19h40",
-   "ultima_iso": "2026-11-12T19:40-03:00",
-   "pauta_atualizada_em": "2026-11-10T19:48-03:00",
-   "horas_sem_atualizar": 48.5,
+   "n_fontes_90min": 2,
+   "ultima": "12/11 20h20",
+   "ultima_iso": "2026-11-12T20:20-03:00",
+   "pauta_atualizada_em": "2026-11-12T13:48-03:00",
+   "horas_sem_atualizar": 7.5,
    "principal": true,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Fim da escala 6×1: STF analisa a partir de sexta-feira decisão de Dino",
-     "url": "https://www.infomoney.com.br/politica/fim-da-escala-6x1-stf-analisa-a-partir-de-sexta-feira-decisao-de-dino/",
-     "hora": "12/11 19h40"
+     "veiculo": "Poder360",
+     "titulo": "Fachin não diz como vai encaminhar caso Master nem análise do caso Moraes",
+     "url": "https://www.poder360.com.br/poder-justica/fachin-nao-diz-como-vai-encaminhar-caso-master-nem-analise-do-caso-moraes/",
+     "hora": "12/11 20h20"
     },
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Flávio Dino mantém período de transição para o fim da escala 6x1 e permite flexibilizar folgas",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/dino-mantem-periodo-de-transicao-para-o-fim-da-escala-6x1-e-permite-flexibilizar-folgas.shtml",
-     "hora": "12/11 14h08"
+     "veiculo": "Metrópoles",
+     "titulo": "Defesa pede soltura de Vorcaro e contesta condução de Fachin no Caso Master",
+     "url": "https://www.metropoles.com/brasil/defesa-pede-soltura-de-vorcaro-e-contesta-conducao-de-fachin-no-caso-master",
+     "hora": "12/11 20h16"
     }
    ]
   },
@@ -716,7 +895,7 @@
    "ultima": "12/11 16h22",
    "ultima_iso": "2026-11-12T16:22-03:00",
    "pauta_atualizada_em": "2026-11-09T06:54-03:00",
-   "horas_sem_atualizar": 85.4,
+   "horas_sem_atualizar": 86.4,
    "principal": false,
    "manchetes": [
     {
@@ -724,27 +903,6 @@
      "titulo": "Árbitra catarinense é escolhida para apitar final da Copa do Brasil Feminina",
      "url": "https://ge.globo.com/sc/noticia/2026/11/12/arbitra-catarinense-e-escolhida-para-apitar-final-da-copa-do-brasil-feminina.ghtml",
      "hora": "12/11 16h22"
-    }
-   ]
-  },
-  "brasileirao-31-rodada-lideres": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "12/11 15h01",
-   "ultima_iso": "2026-11-12T15:01-03:00",
-   "pauta_atualizada_em": "2026-11-12T06:52-03:00",
-   "horas_sem_atualizar": 13.4,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Grêmio começa a definir time que enfrenta o Bahia na volta do Brasileirão",
-     "url": "https://ge.globo.com/rs/futebol/times/gremio/noticia/2026/11/12/gremio-comeca-a-definir-time-que-enfrenta-o-bahia-na-volta-do-brasileirao.ghtml",
-     "hora": "12/11 15h01"
     }
    ]
   },
@@ -758,7 +916,7 @@
    "ultima": "12/11 19h28",
    "ultima_iso": "2026-11-12T19:28-03:00",
    "pauta_atualizada_em": "2026-11-12T06:52-03:00",
-   "horas_sem_atualizar": 13.4,
+   "horas_sem_atualizar": 14.4,
    "principal": false,
    "manchetes": [
     {
@@ -791,7 +949,7 @@
    "ultima": "12/11 15h25",
    "ultima_iso": "2026-11-12T15:25-03:00",
    "pauta_atualizada_em": "2026-11-12T13:48-03:00",
-   "horas_sem_atualizar": 6.5,
+   "horas_sem_atualizar": 7.5,
    "principal": true,
    "manchetes": [
     {
@@ -806,6 +964,15 @@
  "fotos_livres": [
   {
    "veiculo": "Agência Brasil",
+   "titulo": "Caixa Seguridade informa ataque cibernético e vazamento de dados",
+   "materia": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/caixa-seguridade-informa-ataque-cibernetico-e-vazamento-de-dados",
+   "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1708629&o=rss",
+   "credito": "Foto: Agência Brasil",
+   "hora": "12/11 20h06",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Brasil",
    "titulo": "Dólar dispara 1,58% e fecha a R$ 5,65, maior nível em 17 meses",
    "materia": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/dolar-dispara-158-e-fecha-r-565-maior-nivel-em-17-meses",
    "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1708626&o=rss",
@@ -815,20 +982,11 @@
   },
   {
    "veiculo": "Agência Brasil",
-   "titulo": "BB aponta recusa de produtores em renegociar dívidas do agro",
-   "materia": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/bb-aponta-recusa-de-produtores-em-renegociar-dividas-do-agro",
+   "titulo": "BB aponta recusa de parte dos produtores em renegociar dívidas do agro",
+   "materia": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/bb-aponta-recusa-de-parte-dos-produtores-em-renegociar-dividas-do-agro",
    "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1708599&o=rss",
    "credito": "Foto: Agência Brasil",
    "hora": "12/11 17h33",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Brasil",
-   "titulo": "EBC recebe selo Diamante em avaliação de transparência pública",
-   "materia": "https://agenciabrasil.ebc.com.br/geral/noticia/2026-11/ebc-recebe-selo-diamante-em-avaliacao-de-transparencia-publica",
-   "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1708595&o=rss",
-   "credito": "Foto: Agência Brasil",
-   "hora": "12/11 15h44",
    "pid_sugerido": null
   },
   {
@@ -1211,20 +1369,20 @@
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 8 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 8 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 7 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 7 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 97 nas últimas 6 h",
+  "ge": "ok: 100 itens, 91 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 9 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 33 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 15 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 30 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 7 nas últimas 6 h",
-  "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
+  "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 3 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 30 itens, 5 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 17 nas últimas 6 h"
+  "Agência Câmara": "ok: 20 itens, 12 nas últimas 6 h"
  }
 }
