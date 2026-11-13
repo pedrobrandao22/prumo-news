@@ -26,9 +26,9 @@ async function criar(p, { url, nome, email }) {
   ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.ox !== 0 || f.oy !== 0 }), 'arrastar enquadra a foto');
   await clk(A, '[data-edar]'); await sleep(100); ok(await ev(A, () => ED.po.ar === '1:1'), 'troca o formato para 1:1');
   await A.screenshot({ path: __dirname + '/../review3/var/ce-post1.png' });
-  await clk(A, '[data-edav]'); await sleep(300); await clk(A, '[data-edflt="juno"]'); await sleep(200); await A.screenshot({ path: __dirname + '/../review3/var/ce-post2.png' });
+  await clk(A, '[data-edav]'); await sleep(300); await clk(A, '[data-edflt="clarendon"]'); await sleep(200); await A.screenshot({ path: __dirname + '/../review3/var/ce-post2.png' });
   await clk(A, '[data-edaba="editar"]'); await sleep(200); await ev(A, () => { const r = document.querySelector('[data-edaj2="b"]'); r.value = 20; r.dispatchEvent(new Event('input', { bubbles: true })) }); await sleep(100);
-  ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.f === 'juno' && f.aj.b === 20 }), 'filtro e ajuste aplicados');
+  ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.f === 'clarendon' && f.aj.b === 20 }), 'filtro e ajuste aplicados');
   await clk(A, '[data-edav]'); await sleep(300); await A.fill('#ce-leg', 'Domingo de leitura com @Bia Souza'); await A.fill('#ce-local', 'Curitiba');
   await clk(A, '[data-edtags]'); await sleep(300); { const r = await ev(A, () => { const b = document.querySelector('#ce-tgb').getBoundingClientRect(); return { x: b.x + b.width * .4, y: b.y + b.height * .6 } }); await A.mouse.click(r.x, r.y) } await sleep(300); await clk(A, '[data-edtagu]'); await sleep(300);
   ok(await ev(A, () => ED.po.tags.length === 1 && !!document.querySelector('.ce-tg')), 'marcar a Bia tocando na foto'); await A.screenshot({ path: __dirname + '/../review3/var/ce-tags.png' }); await clk(A, '[data-edtagok]'); await sleep(200);

@@ -29,10 +29,10 @@ async function publica(p) { const n0 = await ev(p, () => pubStoriesDe(S.uid).len
   await ev(A, () => criarAbrir('story')); await sleep(400); await clk(A, '[data-edcriar]'); await sleep(300);
   await A.fill('#ce-txa', 'Pergunta do dia'); await clk(A, '[data-edtxok]'); await sleep(200);
   await chip(A, 'enq'); await A.fill('#ce-eq', 'Onde vamos no domingo?'); await A.fill('#fe-o0', 'Praia'); await A.fill('#fe-o1', 'Serra'); await clk(A, '[data-edfok]'); await sleep(350);
-  await chip(A, 'slid'); await A.fill('#fq', 'Quanto você ama domingo?'); await clk(A, '[data-edfok]'); await sleep(350);
+  await chip(A, 'local'); await A.fill('#fq', 'Curitiba'); await clk(A, '[data-edfok]'); await sleep(350);
   await chip(A, 'perg'); await A.fill('#fq', 'Que notícia te chamou atenção?'); await clk(A, '[data-edfok]'); await sleep(350);
   for (let i = 0; i < 3; i++) { await chip(A, 'hora'); await sleep(200) }
-  let ov = await sobrepostas(A); ok(ov.length === 0, 'texto + enquete + slider + pergunta + 3 horas: nenhuma figurinha cobre outra ' + JSON.stringify(ov));
+  let ov = await sobrepostas(A); ok(ov.length === 0, 'texto + enquete + local + pergunta + 3 horas: nenhuma figurinha cobre outra ' + JSON.stringify(ov));
   ok(await ev(A, () => ED.st.els.every(e => e.x > .02 && e.x < .98 && e.y > .06 && e.y < .9)), 'todas dentro da área segura do story');
   ok(await ev(A, () => { const e = ED.st.els.find(x => x.t === 'enq'); return Math.abs(e.x - .5) < .08 }), 'a primeira figurinha fica perto do centro');
   await shot(A, 'figurinhas-sem-sobrepor');
@@ -59,20 +59,14 @@ async function publica(p) { const n0 = await ev(p, () => pubStoriesDe(S.uid).len
   await ev(A, () => history.back()); await sleep(400);
   ok(await ev(A, () => !!document.querySelector('#layer .ce') && !document.querySelector('.ca100-men') && ED.st.els.some(x => x.t === 'men')), 'voltar do celular fecha a menção e fica no editor');
   await shot(A, 'story-com-mencao');
-  // força o slider por cima da enquete (como no story antigo) para testar o toque passando para baixo
-  await ev(A, () => { const e = ED.st.els.find(x => x.t === 'enq'), s = ED.st.els.find(x => x.t === 'slid'); e.x = .5; e.y = .5; s.x = .5; s.y = .62; edDesenha() }); await sleep(200);
   await publica(A);
   const stId = await ev(A, () => pubStoriesDe(S.uid).slice(-1)[0].id);
   ok(await ev(A, () => { const x = pubStoriesDe(S.uid).slice(-1)[0]; return x.estilo.itens.some(i => i.t === 'men' && typeof i.uid === 'string') }), 'menção publicada no formato de sempre');
 
-  // ===== 3. Bia vê: a parte de cima do slider não bloqueia a opção da enquete que está embaixo; responde e curte
+  // ===== 3. Bia vê: responde e curte (o slider saiu com o foco, 105)
   await ev(B, () => go('feed')); await esperar(B, () => PUB.on === true, null, 8000); await ev(B, () => pubCarregar()); await esperar(B, id => !!pubDe(id), stId, 8000);
   await ev(B, id => stLista([pubDe(id)], 0, 'Pedro', 'x'), stId); await sleep(1300);
   await shot(B, 'bia-ve-story');
-  const pt = await ev(B, () => { const s = [...document.querySelectorAll('#layer .us2-its .us-it')].find(n => n.querySelector('.fg-slid')); const bs = [...document.querySelectorAll('#layer [data-usvoto]')]; if (!s) return null;
-    const q = s.querySelector('.fg-slid').getBoundingClientRect(); for (const bt of bs) { const r = bt.getBoundingClientRect(); for (let y = Math.max(q.top, r.top) + 3; y < Math.min(q.bottom, r.bottom) - 3; y += 3) for (let x = Math.max(q.left, r.left) + 3; x < Math.min(q.right, r.right) - 3; x += 6) { const el = document.elementFromPoint(x, y); if (el && s.contains(el) && !el.closest('button,[data-usslid]')) return { x, y, i: +bt.dataset.i } } } return null });
-  if (pt) { await B.mouse.click(pt.x, pt.y); await sleep(500); ok(await ev(B, ([id, i]) => meuVoto('us:' + id) === i, [stId, pt.i]), 'tocar no slider por cima da enquete vota na opção de baixo (' + pt.i + ')') }
-  else ok(false, 'não achei um ponto do slider por cima da enquete para testar');
   await ev(B, () => { const i = document.querySelector('#layer .us-rp input'); i.value = 'Praia, claro!'; i.dispatchEvent(new Event('input', { bubbles: true })); document.querySelector('#layer .us-rp').requestSubmit() }); await sleep(600);
   await clk(B, '#layer [data-uscurtir]'); await sleep(600);
   ok(await ev(B, () => S.msgsOut.filter(m => /story/.test(m.tipo)).every(m => m.snap && m.snap.sth && m.snap.sth.id && /\//.test(m.snap.sth.p || ''))), 'resposta e curtida levam a miniatura do story (caminho da foto do autor)');

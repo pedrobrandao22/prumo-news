@@ -14,12 +14,12 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   await topo(s3);
 
   // ---- cartão: salvar visível, local encolhe antes da hora, "Na conversa" sem a legenda ----
-  const card = await ev(B, s => { const p = document.querySelector(s), sv = p.querySelector('.acts [data-a="save"]'), q = p.querySelector('.vp99-qd'), nm = p.querySelector('.ph-nm');
-    return { sv: !!sv && !sv.hidden && sv.getBoundingClientRect().width > 30, svLbl: sv && sv.getAttribute('aria-label'), qd: q && q.textContent, qdOk: q && q.getBoundingClientRect().right <= nm.getBoundingClientRect().right + 1 && q.getBoundingClientRect().width > 20,
-      loc: p.querySelector('.vp99-loc')?.scrollWidth > p.querySelector('.vp99-loc')?.clientWidth, nchat: p.querySelector('[data-nchat]').textContent.trim(), pg: !!p.querySelector('.car > .vp99-pg'),
+  const card = await ev(B, s => { const p = document.querySelector(s), sv = p.querySelector('.acts [data-a="save"]'), q = p.querySelector('.dc122-qd, .vp99-qd'), nm = p.querySelector('.ph-nm');
+    return { sv: !!sv && !sv.hidden && sv.getBoundingClientRect().width > 30, svLbl: sv && sv.getAttribute('aria-label'), qd: q && q.textContent, qdOk: q && q.scrollWidth <= q.clientWidth + 1 && q.getBoundingClientRect().width > 20 && q.getBoundingClientRect().right <= p.getBoundingClientRect().right,
+      loc: (l => !!l && l.scrollWidth > l.clientWidth && getComputedStyle(l).textOverflow === 'ellipsis')(p.querySelector('.dc122-loc > span, .vp99-loc')), nchat: p.querySelector('[data-nchat]').textContent.trim(), pg: !!p.querySelector('.car > .vp99-pg'),
       dots: (() => { const d = p.querySelector('.pdots').getBoundingClientRect(), c = p.querySelector('.car').getBoundingClientRect(); return Math.abs((d.left + d.width / 2) - (c.left + c.width / 2)) })() } }, s3);
   ok(card.sv && card.svLbl === 'Salvar', 'marcador de salvar aparece no post do amigo', card);
-  ok(card.qdOk && /agora/.test(card.qd), 'a hora aparece inteira depois do local (o local é que encolhe)', card);
+  ok(card.qdOk && /agora/.test(card.qd), 'a hora aparece inteira (o local é que encolhe)', card);
   ok(card.loc, 'local longo termina em reticências');
   ok(card.nchat === '', '"Na conversa" não repete a legenda (menção não conta)', card.nchat);
   ok(card.dots < 3, 'bolinhas do carrossel centradas debaixo da foto', card.dots);
@@ -56,10 +56,10 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   const fl = await ev(B, () => { const sh = document.querySelector('.sheet.vp99-cm'), fx = sh && sh.querySelector('.sh-h [data-close]'); return sh && { h: sh.getBoundingClientRect().height, fx: fx && fx.getBoundingClientRect().width, emo: sh.querySelectorAll('[data-vp99emo]').length, grab: !!sh.querySelector('.grab') } });
   ok(fl && fl.h > 844 * .6 && fl.h < 844 * .8, 'folha de comentários abre em ~70% da tela', fl);
   ok(fl && fl.fx <= 1 && fl.grab, 'sem botão "Fechar" à vista (fica para leitor de tela/teclado), com alça', fl);
-  ok(fl && fl.emo === 8, 'barra de emojis rápidos em cima do campo');
+  ok(fl && fl.emo === 6, 'barra de emojis rápidos em cima do campo (6 com o foco, 105)');
   await ev(B, () => document.querySelector('#ctext').blur());
-  await tapSel(B, '[data-vp99emo="🔥"]'); await sleep(200);
-  ok(await ev(B, () => document.querySelector('#ctext').value === '🔥' && !document.querySelector('#cform .sendc').disabled), 'tocar no emoji põe no campo e libera o enviar');
+  await tapSel(B, '[data-vp99emo="👏"]'); await sleep(200);
+  ok(await ev(B, () => document.querySelector('#ctext').value === '👏' && !document.querySelector('#cform .sendc').disabled), 'tocar no emoji põe no campo e libera o enviar');
   await shot(B, '06-comentarios-folha');
   await ev(B, () => { const i = document.querySelector('#ctext'); i.value = ''; i.dispatchEvent(new Event('input', { bubbles: true })) });
   await B.fill('#ctext', 'Que dia lindo! @Pedro'); await B.keyboard.press('Enter'); await sleep(1200);

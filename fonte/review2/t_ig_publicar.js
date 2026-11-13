@@ -131,7 +131,7 @@ const lento = (p, ms, falhas) => ev(p, ([ms, falhas]) => { window.__lentoMs = ms
   ok(await ev(A, () => !!document.querySelector('#ce-els .ce-el.ce-pop')), 'texto novo entra com um "pop"');
   await sleep(300); await clk(A, '.ce-top [data-edfig]'); await sleep(30);
   ok(await ev(A, () => /ceSobe|sheetIn/.test(getComputedStyle(document.querySelector('.ce-figp')).animationName)), 'bandeja de figurinhas sobe deslizando');
-  await sleep(300); await clk(A, '.ce-fig [data-edemo]'); await sleep(30);
+  await sleep(300); await clk(A, '.ce-fig [data-edfig="hora"]'); await sleep(30);
   ok(await ev(A, () => !!document.querySelector('#ce-els .ce-el.ce-pop')), 'figurinha nova entra com um "pop"');
   await sleep(400); await ev(A, () => { ED = null; closeLayer._ok = true; closeLayer() }); await sleep(40);
   ok(await ev(A, () => !!document.querySelector('body > .ce.ce-sai') && !document.querySelector('#layer .ce')), 'editor fecha deslizando para baixo');

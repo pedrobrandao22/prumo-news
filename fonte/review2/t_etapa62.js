@@ -27,7 +27,7 @@ const slide = (p, k, v) => ev(p, ([k, v]) => { const r = document.querySelector(
   await A.screenshot({ path: SH + 'po62-grade.png' });
   await clk(A, '[data-edav]'); await sleep(300);
   // intensidade
-  await clk(A, '[data-edflt="valencia"]'); await sleep(150); await clk(A, '[data-edflt="valencia"]'); await sleep(200);
+  await clk(A, '[data-edflt="aden"]'); await sleep(150); await clk(A, '[data-edflt="aden"]'); await sleep(200);
   ok(await ev(A, () => !!document.querySelector('.ce-fi [data-edaj2="fi"]')), 'tocar de novo no filtro abre a intensidade');
   await slide(A, 'fi', 40); await clk(A, '[data-edfiok]'); await sleep(150);
   // ajustes

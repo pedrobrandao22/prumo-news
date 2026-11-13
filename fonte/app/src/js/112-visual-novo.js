@@ -104,7 +104,7 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
     else if(b.hasAttribute("data-5min")){cls="vn-tl-5";const a=vn112Primeira("_5min");if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit="O dia em 5 minutos";visto=false}
     else if(b.hasAttribute("data-ultimas")){cls="vn-tl-ult";const a=vn112Primeira("_ult");tit=a?vn112Curto(a.t,70):"";visto=vn112Visto("_ult")}
     else if(b.dataset.dest){const p=pautaById(b.dataset.dest);if(p){art=capaArte(p,"vn-tl-art");tit=vn112Curto(versao(p,lente()).titulo,70);visto=SEEN.has(seenKey(p))}cls="vn-tl-dest"}
-    else if(b.dataset.secStory){const s=b.dataset.secStory,a=vn112Primeira(s);if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit=a?vn112Curto(a.t,70):"";visto=vn112Visto(s)}
+    else if(b.dataset.secStory){const s=b.dataset.secStory,a=vn112Primeira(s);if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit=a?vn112Curto(a.t,70):"";visto=visto||vn112Visto(s)}
     else return;
     const av=cls==="vn-tl-u"||cls==="vn-tl-eu"?(b.querySelector(".av")||{}).outerHTML||"":"";
     r.insertAdjacentHTML("beforeend",`<span class="vn-tl ${cls}" aria-hidden="true"><span class="vn-tl-bg">${vn112Corta(art)}</span>${av?`<span class="vn-tl-av">${av}</span>`:""}<span class="vn-tl-tx"><small>${esc(kick)}</small>${tit?`<b>${esc(tit)}</b>`:""}</span></span>`);
