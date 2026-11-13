@@ -3,13 +3,12 @@
    O estado do editor (ED) fica guardado com o envio até ele terminar; as funções de publicar
    de antes (e quem as embrulhou) continuam sendo as mesmas, só que rodando com a tela fechada. */
 var PQ={atual:null,jobs:[],t:0,n:0};
-const PQ_NOMES={story:"edPublicaStory",post:"edPublicaPost",reel:"rlPublica"};
-function pqUnidades(tipo,ed){if(tipo==="post")return Math.max(1,ed.po.fotos.length);if(tipo==="reel")return 4;
+const PQ_NOMES={story:"edPublicaStory",post:"edPublicaPost"};
+function pqUnidades(tipo,ed){if(tipo==="post")return Math.max(1,ed.po.fotos.length);
   return Math.max(1,(ed.sts||[ed.st]).filter(edStTem).reduce((n,st)=>n+(st.bg.tipo==="video"?4:1),0))}
 function pqQuadro(v){if(!v)return "";try{const c=document.createElement("canvas");c.width=72;c.height=128;edCover(c.getContext("2d"),v,72,128,1,0,0);return c.toDataURL("image/jpeg",.7)}catch(e){return ""}}
 function pqThumb(tipo,ed){try{
   if(tipo==="post"){const f=ed.po.fotos[0];return f?{img:edUrlF(f)}:{bg:pubFundo(1),aa:1}}
-  if(tipo==="reel"){const v=ed.rl&&ed.rl.vd&&ed.rl.vd.v;return {img:pqQuadro(v),bg:"#111"}}
   const st=(ed.sts||[ed.st]).find(edStTem)||ed.st,b=st.bg;
   if(b.tipo==="foto")return {img:b.url};if(b.tipo==="layout"){const o=(b.cel||[]).find(Boolean);return o?{img:o.url}:{bg:"#111"}}
   if(b.tipo==="video")return {img:pqQuadro(b.v||b.img),bg:"#111"};return {bg:pubFundo(b.g),aa:1}}catch(e){return {bg:"#333"}}}

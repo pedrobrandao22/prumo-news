@@ -1,4 +1,4 @@
-/* ---------- Etapa 63: vídeo (stories e Reels) ---------- */
+/* ---------- Etapa 63: vídeo no story (e a exibição dos Reels já publicados) ---------- */
 const VID_MIMES=["video/mp4;codecs=avc1.42E01E,mp4a.40.2","video/mp4;codecs=avc1","video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"];
 function vidMime(){if(!window.MediaRecorder||!MediaRecorder.isTypeSupported)return "";for(const m of VID_MIMES){try{if(MediaRecorder.isTypeSupported(m))return m}catch(e){}}return ""}
 const vidExt=m=>/webm/.test(m)?"webm":/quicktime/.test(m)?"mov":"mp4";
@@ -39,7 +39,6 @@ function camGravaIni(max,pronto){if(!CAM.s)return false;const mime=vidMime();if(
 function camGravaFim(){clearInterval(CAM.recI);if(CAM.rec&&CAM.rec.state!=="inactive")try{CAM.rec.stop()}catch(e){}$("#layer .ce-shut")?.classList.remove("grava")}
 async function edVidPronto(blob,modo){if(!ED)return;toast("Abrindo o vídeo…");let vd;try{vd=await vidCarrega(blob)}catch(e){toast("Não deu para abrir esse vídeo.");return}if(!ED)return;
   if(!vidMime()&&blob.size>vidMB){toast("Vídeo grande demais para este aparelho. Escolha um mais curto.");return}camDesliga();
-  if(modo==="reel"){ED.rl={tela:"vid",vd,ini:0,fim:Math.min(30,vd.dur||30),mudo:false,capa:0,z:1,ox:0,oy:0,img:vd.v};edDesenha();return}
   if(edStOcupado(ED.st)){const st=edNovoSt();ED.sts.splice(ED.si+1,0,st);ED.si++;ED.st=st}
   ED.st.bg={tipo:"video",...vd,img:vd.v,z:1,ox:0,oy:0,ini:0,fim:Math.min(15,vd.dur||15),mudo:false};ED.tela="edit";edDesenha()}
 /* story com vídeo no editor */
@@ -64,8 +63,8 @@ async function edVidStory(st,row,fotos){const b=st.bg;const sp=()=>$("#layer [da
   row.estilo.video=vp;row.estilo.dur=+Math.max(1,r.fim-r.ini).toFixed(2);if(r.orig){row.estilo.ini=+r.ini.toFixed(2);row.estilo.fim=+r.fim.toFixed(2)}row.estilo.mudo=!!b.mudo;
   if(st.tracos.length||st.els.some(edAssa)){let pb=await new Promise(ok=>edOverlayCanvas(st,720,1280).toBlob(ok,"image/png"));if(pb&&pb.size>950000)pb=await new Promise(ok=>{const c2=document.createElement("canvas");c2.width=540;c2.height=960;c2.getContext("2d").drawImage(edOverlayCanvas(st,720,1280),0,0,540,960);c2.toBlob(ok,"image/png")});fotos.push(await pubSobePng(pb));row.estilo.ov=1}}
 /* desbloqueia som e vídeo no toque de publicar (iPhone) */
-document.addEventListener("click",e=>{if(!ED||!e.target.closest||!e.target.closest("#layer [data-edpubst],#layer [data-rlpub]"))return;try{if(!ED._actx)ED._actx=new (window.AudioContext||window.webkitAudioContext)();ED._actx.resume&&ED._actx.resume()}catch(_){}
-  const vd=ED.modo==="reel"?ED.rl&&ED.rl.vd:(ED.sts.find(s=>s.bg.tipo==="video")||{}).bg;if(vd&&vd.url&&!ED._vu){const v=document.createElement("video");v.playsInline=true;v.setAttribute("playsinline","");v.src=vd.url;v.muted=false;const p=v.play();if(p&&p.then)p.then(()=>v.pause()).catch(()=>{});ED._vu=v}},true);
+document.addEventListener("click",e=>{if(!ED||!e.target.closest||!e.target.closest("#layer [data-edpubst]"))return;try{if(!ED._actx)ED._actx=new (window.AudioContext||window.webkitAudioContext)();ED._actx.resume&&ED._actx.resume()}catch(_){}
+  const vd=(ED.sts.find(s=>s.bg.tipo==="video")||{}).bg;if(vd&&vd.url&&!ED._vu){const v=document.createElement("video");v.playsInline=true;v.setAttribute("playsinline","");v.src=vd.url;v.muted=false;const p=v.play();if(p&&p.then)p.then(()=>v.pause()).catch(()=>{});ED._vu=v}},true);
 /* cortar */
 function edTrim(o,max,vSel){$("#layer .ce-sel")?.remove();const ov=document.createElement("div");ov.className="ce-sel ce-trim";const d=Math.max(.5,o.dur||(o.vd&&o.vd.dur)||o.fim||1);
   ov.innerHTML=`<div class="ce-selp"><b>Cortar <span class="ce-trd" id="ce-trd"></span></b><div class="ce-trs" id="ce-trs"></div><label class="ce-trl"><span>Início</span><input type="range" min="0" max="${d.toFixed(2)}" step="0.1" value="${(o.ini||0).toFixed(2)}" data-trini></label><label class="ce-trl"><span>Fim</span><input type="range" min="0" max="${d.toFixed(2)}" step="0.1" value="${(o.fim||d).toFixed(2)}" data-trfim></label><p class="ce-selh">Até ${max} segundos.</p><div class="ce-selb"><button type="button" class="btn" data-trok>Concluir</button></div></div>`;
@@ -73,61 +72,16 @@ function edTrim(o,max,vSel){$("#layer .ce-sel")?.remove();const ov=document.crea
   const ri=ov.querySelector("[data-trini]"),rf=ov.querySelector("[data-trfim]");const aj=(qual)=>{let a=+ri.value,b=+rf.value;if(b-a<.5){if(qual==="i")a=b-.5;else b=a+.5}if(b-a>max){if(qual==="i")b=a+max;else a=b-max}a=Math.max(0,a);b=Math.min(d,b);ri.value=a;rf.value=b;o.ini=a;o.fim=b;lb();const v=$(vSel);if(v){v.currentTime=qual==="i"?a:Math.max(a,b-1)}};
   ri.addEventListener("input",()=>aj("i"));rf.addEventListener("input",()=>aj("f"));
   (async()=>{const box=$("#ce-trs");if(!box||!o.url)return;for(let i=0;i<8;i++){if(!$("#ce-trs"))return;const c=await vidQuadro(o,d*i/8,45,80,null);c.className="ce-trq";box.appendChild(c)}})()}
-/* ===== Reels ===== */
-edModos=function(){return `<div class="ce-modos" role="tablist">${[["post","POST"],["story","STORY"],["reel","REELS"]].map(([k,n])=>`<button type="button" role="tab" data-edmodo="${k}" aria-selected="${ED.modo===k}">${n}</button>`).join("")}</div>`};
-{const _ed63=edDesenha;edDesenha=function(){if(!ED)return;if(ED.modo!=="reel"){if(CAM.rec)camGravaFim();return _ed63.apply(this,arguments)}const el=$("#layer .ce");if(!el)return;ED.rl=ED.rl||{tela:"cam"};el.className="ce ce-reel t-r"+ED.rl.tela;
-  if(ED.rl.tela==="cam")rlCam(el);else{camDesliga();if(ED.rl.tela==="vid")rlVid(el);else rlDet(el)}}}
-{const _tm63=edTemAlgo;edTemAlgo=function(){return _tm63.apply(this,arguments)||!!(ED&&ED.rl&&ED.rl.vd)}}
-function rlCam(el){el.innerHTML=`<div class="ce-palco"><div class="ce-cv ce-cam" id="ce-cv"><div class="cam-slot"></div><div class="cam-msg" id="cam-msg" hidden></div><div class="rl-tempo" id="rl-tempo" hidden>0:00</div></div></div>
-    <div class="ce-top"><button type="button" class="ce-b" data-edfechar aria-label="Fechar">${EDI.x}</button><span class="sp"></span><b class="rl-tit">Reels</b><span class="sp"></span><button type="button" class="ce-b ce-flb" data-edflash aria-pressed="${CAM.flash}" aria-label="Flash">${EDI.flash}</button></div>
-    <div class="ce-cbot"><button type="button" class="ce-gal" data-rlgal aria-label="Escolher vídeo">${EDI.gal}</button><button type="button" class="ce-shut rl-shut" data-rlgrava aria-label="Gravar"><i></i></button><button type="button" class="ce-b ce-vira" data-edvira aria-label="Virar a câmera">${EDI.vira}</button></div>
-    ${edModos()}<input type="file" id="rl-file" accept="video/*" hidden>`;
-  camMonta();edEncaixa();camLiga();$("#rl-file").addEventListener("change",e=>{const f=e.target.files[0];e.target.value="";if(f)edVidPronto(f,"reel")})}
-function rlVid(el){const R=ED.rl;el.innerHTML=`<div class="ce-palco"><div class="ce-cv" id="ce-cv"><video id="rl-v" playsinline loop autoplay preload="auto"></video></div></div>
-    <div class="ce-top"><button type="button" class="ce-b" data-rlvolta aria-label="Voltar">${EDI.vol}</button><span class="sp"></span><button type="button" class="ce-b" data-rlsom aria-pressed="${!!R.mudo}" aria-label="${R.mudo?"Ligar o som":"Tirar o som"}">${R.mudo?"🔇":"🔊"}</button></div>
-    <div class="ce-rail"><button type="button" data-rltrim><i>✂</i><span>Cortar</span></button><button type="button" data-rlcapa><i>🖼</i><span>Capa</span></button></div>
-    <div class="ce-bot"><span class="rl-dur">${(R.fim-R.ini).toFixed(1)} s</span><span class="sp"></span><button type="button" class="ce-pub rl-av" data-rlav>Avançar <i>›</i></button></div>`;
-  edEncaixa();const v=$("#rl-v"),cv=$("#ce-cv");v.src=R.vd.url;v.muted=R.mudo||!!ED._mPrev;v.currentTime=R.ini;v.addEventListener("timeupdate",()=>{if(!R.capaOn&&(v.currentTime>=R.fim-.05||v.currentTime<R.ini-.3))v.currentTime=R.ini});v.play().catch(()=>{v.muted=true;ED._mPrev=true;v.play().catch(()=>{})});
-  const pos=()=>{edLimita(R,cv);edPosImg(v,R,cv)};v.addEventListener("loadedmetadata",pos,{once:true});pos();
-  let G=null;cv.addEventListener("pointerdown",e=>{G={x:e.clientX,y:e.clientY,ox:R.ox,oy:R.oy};try{cv.setPointerCapture(e.pointerId)}catch(_){}});cv.addEventListener("pointermove",e=>{if(!G)return;const r=cv.getBoundingClientRect();R.ox=G.ox+(e.clientX-G.x)/r.width;R.oy=G.oy+(e.clientY-G.y)/r.height;pos()});["pointerup","pointercancel"].forEach(k=>cv.addEventListener(k,()=>{G=null}))}
-function rlDet(el){const R=ED.rl;el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-rlvolta aria-label="Voltar">${EDI.vol}</button><b>Novo reel</b><button type="button" class="ce-av" data-rlpub ${ED.env?"disabled":""}>${ED.env?"Publicando…":"Compartilhar"}</button></div>
-    <div class="ce-det"><div class="ce-legr"><canvas id="rl-th" width="90" height="160" class="rl-th"></canvas><textarea id="ce-leg" maxlength="2200" rows="4" placeholder="Escreva uma legenda…" aria-label="Legenda">${esc(R.texto||"")}</textarea></div>
-      <button type="button" class="ce-row" data-rlmarcar><span>Marcar pessoas</span><em>${(R.marcados||[]).length?esc(R.marcados.map(u=>String(nomeDe(u)).split(" ")[0]).join(", ")):""}</em><i>›</i></button>
-      <label class="ce-row"><span>Adicionar local</span><input id="ce-local" maxlength="60" placeholder="Ex.: Rio de Janeiro" value="${esc(R.local||"")}"></label>
-      <p class="cr-quem">O reel aparece no Feed dos seus amigos e toca sozinho, sem som.</p><p class="cr-quem rl-pg" id="rl-pg"></p></div>`;
-  $("#ce-leg").addEventListener("input",e=>{R.texto=e.target.value;if(typeof menSugere==="function")menSugere(e.target)});$("#ce-local").addEventListener("input",e=>{R.local=e.target.value});
-  vidQuadro(R.vd,R.capa||R.ini,180,320,R).then(c=>{const t=$("#rl-th");if(t)t.getContext("2d").drawImage(c,0,0,90,160)})}
-async function rlPublica(){if(!ED||ED.env)return;const R=ED.rl;if(!R||!R.vd)return;ED.env=true;const ed0=ED;edDesenha();const pg=t=>{const x=$("#rl-pg");if(x)x.textContent=t};let fotos=[],vp=null;
-  try{const r=await vidFinal(R.vd,{W:720,H:1280,ini:R.ini,fim:R.fim,mudo:!!R.mudo,ox:R.ox,oy:R.oy,z:R.z,actx:ED._actx,v:ED._vu,prog:p=>pg(`Preparando o vídeo… ${Math.round(p*100)}%`)});
-    if(r.blob.size>vidMB)throw new Error("GRANDE");pg("Enviando o vídeo…");vp=await vidSobe(r.blob,r.mime);
-    const capa=edCapa45(await vidQuadro(R.vd,Math.min(R.fim,Math.max(R.ini,R.capa||R.ini)),1080,1920,R));fotos.push(await pubSobe(await edJpeg(capa)));
-    const marc=(R.marcados||[]).slice(0,20),at=Date.now();const row={autor:S.uid,tipo:"post",at,texto:String(R.texto||"").trim().slice(0,2200),fotos,pid:null,snap:null,estilo:{v:2,reel:true,video:vp,dur:+Math.max(1,r.fim-r.ini).toFixed(2),mudo:!!R.mudo,arv:.8,ar:"4:5",marcados:marc,local:String(R.local||"").trim().slice(0,60)}};
-    if(r.orig){row.estilo.ini=+r.ini.toFixed(2);row.estilo.fim=+r.fim.toFixed(2)}
-    const q=await SB.from("publicacoes").insert(row).select("id");if(q.error)throw q.error;const id=q.data&&q.data[0]&&q.data[0].id;PUB.itens.unshift({...row,id});PUB.urls[vp]={u:(typeof r!=="undefined"&&r&&r.blob)?URL.createObjectURL(r.blob):R.vd.url,exp:Date.now()+3600e3};
-    const txt=row.texto,aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast("Reel publicado");vibrar(10);
-    if(id&&txt)pubAvisarMencoes(id,txt,"post");const mm=marc.filter(u=>S.amigos.has(u)&&!(typeof mencionados==="function"&&mencionados(txt).includes(u)));if(id&&mm.length)Promise.all(mm.map(u=>dmEnviar(u,{texto:"",pid:"u:"+id,snap:{titulo:"Reel de "+nomeDe(S.uid),upub:id},tipo:"mencao"},true)));pubRedesenha();setTimeout(pubCarregar,1500)}
-  catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(vp)try{await SB.storage.from("videos").remove([vp])}catch(_){}if(ED===ed0){ED.env=false;edDesenha()}
-    toast(String(e&&e.message)==="SEM_VIDEOS"?"Os vídeos ainda não estão ligados no Prumo (falta rodar o SQL novo).":String(e&&e.message)==="GRANDE"?"O vídeo ficou grande demais. Corte um trecho menor.":"Não deu para publicar. Tente de novo.")}}
-/* cliques do vídeo e dos Reels */
+/* ===== modos do editor: POST e STORY (a criação de Reels saiu em 13/11; os Reels já publicados continuam tocando no Feed) ===== */
+edModos=function(){return `<div class="ce-modos" role="tablist">${[["post","POST"],["story","STORY"]].map(([k,n])=>`<button type="button" role="tab" data-edmodo="${k}" aria-selected="${ED.modo===k}">${n}</button>`).join("")}</div>`};
+{const _ed63=edDesenha;edDesenha=function(){if(!ED)return;if(ED.modo==="reel")ED.modo="post";if(CAM.rec)camGravaFim();return _ed63.apply(this,arguments)}}
+/* cliques do vídeo no story */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer .ce")||!ED||t.closest("#layer2"))return;let b;const pare=()=>{e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()};
-  if(Date.now()-(ED._gravou||0)<900&&t.closest("[data-edfoto],[data-rlgrava]")){pare();return}
-  if(ED.env&&t.closest("[data-edmudo],[data-edtrim],[data-rlgrava],[data-rlgal],[data-rlvolta],[data-rlsom],[data-rltrim],[data-rlcapa],[data-rlav],[data-rlmarcar],[data-trok]")){pare();return}
+  if(Date.now()-(ED._gravou||0)<900&&t.closest("[data-edfoto]")){pare();return}
+  if(ED.env&&t.closest("[data-edmudo],[data-edtrim],[data-trok]")){pare();return}
   if(b=t.closest("[data-edmudo]")){pare();const bg=ED.st.bg;bg.mudo=!bg.mudo;ED._mPrev=false;b.textContent=bg.mudo?"🔇":"🔊";b.setAttribute("aria-pressed",String(bg.mudo));const v=$("#ce-bgv");if(v){v.muted=bg.mudo;v.play().catch(()=>{})}toast(bg.mudo?"Story sem som":"Story com som");return}
   if(t.closest("[data-edtrim]")){pare();edTrim(ED.st.bg,15,"#ce-bgv");return}
-  if(t.closest("[data-trok]")){pare();$("#layer .ce-sel")?.remove();if(ED.modo==="reel"){const R=ED.rl;R.capaOn=false;if(R.capa!=null)R.capa=Math.min(R.fim,Math.max(R.ini,R.capa));edDesenha()}return}
-  if(t.closest("[data-rlgrava]")){pare();if(CAM.rec){camGravaFim();return}if(!CAM.s){$("#rl-file")?.click();return}camGravaIni(30,bl=>edVidPronto(bl,"reel"));return}
-  if(t.closest("[data-rlgal]")){pare();$("#rl-file")?.click();return}
-  if(t.closest("[data-rlvolta]")){pare();const R=ED.rl;if(R.tela==="det")R.tela="vid";else{if(Date.now()-(ED._rlv||0)>3000){ED._rlv=Date.now();toast("Toque de novo para descartar este vídeo.");return}ED.rl={tela:"cam"}}edDesenha();return}
-  if(b=t.closest("[data-rlsom]")){pare();const R=ED.rl;R.mudo=!R.mudo;ED._mPrev=false;b.textContent=R.mudo?"🔇":"🔊";const v=$("#rl-v");if(v){v.muted=R.mudo;v.play().catch(()=>{})}return}
-  if(t.closest("[data-rltrim]")){pare();edTrim(ED.rl,30,"#rl-v");return}
-  if(t.closest("[data-rlcapa]")){pare();const R=ED.rl;R.capaOn=true;R.capa=R.capa||R.ini;$("#layer .ce-sel")?.remove();const ov=document.createElement("div");ov.className="ce-sel ce-trim";ov.innerHTML=`<div class="ce-selp"><b>Capa</b><p class="ce-selh">Arraste para escolher o quadro que aparece no Feed.</p><input type="range" min="${R.ini.toFixed(2)}" max="${R.fim.toFixed(2)}" step="0.05" value="${R.capa.toFixed(2)}" data-rlcapat><div class="ce-selb"><button type="button" class="btn" data-trok>Concluir</button></div></div>`;$("#layer .ce").appendChild(ov);const v=$("#rl-v");if(v){v.pause();v.currentTime=R.capa}
-    ov.querySelector("[data-rlcapat]").addEventListener("input",ev=>{R.capa=+ev.target.value;const v=$("#rl-v");if(v){v.pause();v.currentTime=R.capa}});return}
-  if(t.closest("[data-rlav]")){pare();ED.rl.tela="det";edDesenha();return}
-  if(t.closest("[data-rlmarcar]")){pare();const am=amigosL();if(!am.length){toast("Você ainda não tem amigos no Prumo.");return}const R=ED.rl;R.marcados=R.marcados||[];const ov=document.createElement("div");ov.className="ce-sel";
-    ov.innerHTML=`<div class="ce-selp"><b>Marcar pessoas</b><div class="pick dm-pick">${am.map(u=>`<button type="button" data-rlmarca="${esc(u)}" aria-pressed="${R.marcados.includes(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><div class="ce-selb"><button type="button" class="btn" data-rlmarcaok>Concluir</button></div></div>`;$("#layer .ce").appendChild(ov);return}
-  if(b=t.closest("[data-rlmarca]")){pare();const R=ED.rl,u=b.dataset.rlmarca,i=R.marcados.indexOf(u);if(i>=0)R.marcados.splice(i,1);else R.marcados.push(u);b.setAttribute("aria-pressed",String(i<0));return}
-  if(t.closest("[data-rlmarcaok]")){pare();$("#layer .ce-sel")?.remove();edDesenha();return}
-  if(t.closest("[data-rlpub]")){pare();rlPublica();return}},true);
+  if(t.closest("[data-trok]")){pare();$("#layer .ce-sel")?.remove();return}},true);
 /* segurar o botão da câmera do story grava vídeo (até 15 s) */
 (function(){let lp=0;document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest("#layer .ce.t-cam [data-edfoto]");if(!b||!ED||!CAM.s)return;lp=setTimeout(()=>{lp=0;if(camGravaIni(15,bl=>edVidPronto(bl,"story")))ED._gravando=true},320)},true);
   const solta=()=>{if(lp){clearTimeout(lp);lp=0}if(ED&&ED._gravando){ED._gravando=false;ED._gravou=Date.now();camGravaFim()}};document.addEventListener("pointerup",solta,true);document.addEventListener("pointercancel",solta,true)})();

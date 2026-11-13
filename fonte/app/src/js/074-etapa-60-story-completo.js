@@ -23,7 +23,7 @@ async function camLiga(){const v=$("#ce-video");if(!v)return;if(!navigator.media
   if(CAM.s&&CAM.sf===CAM.f&&CAM.s.getVideoTracks().some(t=>t.readyState==="live")){v.srcObject=CAM.s;v.play().catch(()=>{});return}
   camDesliga();const pedido=CAM.pedido=Date.now();
   try{const vq={facingMode:{ideal:CAM.f},width:{ideal:1920},height:{ideal:1080}};let st;try{st=await navigator.mediaDevices.getUserMedia({video:vq,audio:CAM.mic!==false})}catch(e1){if(CAM.mic===false||e1&&e1.name==="NotFoundError"&&!/audio/i.test(e1.message||""))throw e1;CAM.mic=false;st=await navigator.mediaDevices.getUserMedia({video:vq,audio:false})}
-    if(pedido!==CAM.pedido||!ED||!(ED.modo==="reel"?ED.rl&&ED.rl.tela==="cam":ED.modo==="story"&&(ED.tela!=="edit"||$("#layer .ce-selfie")))){st.getTracks().forEach(t=>t.stop());return}
+    if(pedido!==CAM.pedido||!ED||!(ED.modo==="story"&&(ED.tela!=="edit"||$("#layer .ce-selfie")))){st.getTracks().forEach(t=>t.stop());return}
     CAM.s=st;CAM.sf=CAM.f;CAM.erro=null;const vv=$("#ce-video");if(vv){vv.srcObject=st;vv.play().catch(()=>{})}const m=$("#cam-msg");if(m)m.hidden=true}
   catch(e){if(pedido===CAM.pedido)camErro(e&&e.name)}}
 function camErro(n){CAM.erro=n||"erro";const m=$("#cam-msg");if(!m)return;m.hidden=false;const bloq=n==="NotAllowedError"||n==="SecurityError";

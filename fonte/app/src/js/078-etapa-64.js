@@ -7,7 +7,6 @@ window.addEventListener("click",e=>{if(!ED||!e.target.closest)return;if((Date.no
     if($("#layer .ce-tagov")){$("#layer .ce-tagov").remove();edDesenha();fica();return}
     if(!$("#layer .ce-sel,#layer .ce-fig,#layer .ce-tx,#layer .ce-cn")){
       if(ED.modo==="story"&&ED.tela==="lay"){ED.st.bg={tipo:"grad",g:Math.floor(Math.random()*PUB_FUNDOS.length)};ED.tela="cam";edDesenha();fica();return}
-      if(ED.modo==="reel"&&ED.rl&&ED.rl.tela==="det"){ED.rl.tela="vid";edDesenha();fica();return}
       if(ED.modo==="post"&&ED.po.passo==="fotos"&&ED.po.fotos.length+ED.po.texto.trim().length>0){edFechar();fica();return}}}
   return _cl64.apply(this,arguments)}}
 /* 6. segurar o story de um amigo pausa também o vídeo */
