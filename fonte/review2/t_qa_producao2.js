@@ -127,8 +127,8 @@ const recarrega = async p => { await p.reload(); await esperar(p, () => S.membro
   // ===== 9. Feed comprido: os posts que chegam ao rolar não são medidos todos de uma vez
   await ev(B, async () => { for (let i = 0; i < 14; i++) await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', texto: 'Post ' + i, fotos: [], estilo: { fundo: i % 6 }, publico: 'amigos' }) });
   await ev(B, () => { pubCarregar() }); await sleep(1500); await ev(B, () => { go('capa'); go('feed'); scrollTo(0, 0) }); await sleep(800);
-  const m = await ev(B, async () => { let n = 0; const o = fitTrack; fitTrack = function () { n++; return o.apply(this, arguments) }; const p0 = LOTE.pos; let sinc = -1;
-    try { carregarMais(); sinc = n } finally { fitTrack = o } await new Promise(r => setTimeout(r, 600)); const novos = [...document.querySelectorAll('#posts > .post')].slice(p0).map(x => x.querySelector('.track')).filter(Boolean);
+  const m = await ev(B, async () => { let n = 0; const o = fitTrack; fitTrack = function () { n++; return o.apply(this, arguments) }; const p0 = LOTE.pos; const antes = new Set(document.querySelectorAll('#posts .post')); let sinc = -1;
+    try { carregarMais(); sinc = n } finally { fitTrack = o } await new Promise(r => setTimeout(r, 600)); const novos = [...document.querySelectorAll('#posts .post')].filter(x => !antes.has(x)).map(x => x.querySelector('.track')).filter(Boolean);
     return { sinc, lote: LOTE.pos - p0, ok: novos.length > 0 && novos.every(t => !!t.style.getPropertyValue('--slh')), sem: novos.filter(t => !t.style.getPropertyValue('--slh')).map(t => t.closest('.post').className + ' h' + t.style.height) } });
   ok(m.lote > 0 && m.sinc === 0 && m.ok, 'rolar o Feed: lote novo é medido aos poucos (nenhuma medida dentro do lote) e fica com a altura certa', JSON.stringify(m));
 

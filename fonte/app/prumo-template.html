@@ -1933,7 +1933,9 @@ button:active:not(:disabled):not(.tap),[role=button]:active{transform:none}
 .ss-enq .pollbox{margin:0;border:0;background:none;padding:0}
 .ss-enq .pollbox .pb-l{display:block;margin-bottom:6px;color:var(--bronze-ink)}
 .ss-enq .poll>b{font-size:calc(23px*var(--ssk,1)*var(--fz,1));line-height:1.22;margin-bottom:10px}
-.ss-enq .poll button{min-height:50px;font-size:16px;border-radius:12px;background:var(--bg)}
+.ss-enq .poll button{min-height:max(40px,calc(50px*var(--ssk,1)));font-size:16px;border-radius:12px;background:var(--bg)}
+/* mídia mais baixa do cartão A (112): a enquete também encolhe para caber (ssCaber) */
+.post .track .ss-enq{padding:calc(22px*var(--ssk,1)) 22px}
 /* página final */
 .ss-fim{background:var(--ink)!important}
 .ss-fim .ss-k{color:#f2c27b}.ss-fim .ss-t{color:#fff;font-size:calc(22px*var(--ssk,1)*var(--fz,1))}
@@ -3272,24 +3274,10 @@ html.ce-anim .ce .ce-shut:active{scale:.94}
 /* editor do reel: ferramentas embaixo, como no Instagram */
 .ce-reel.t-rvid .ce-palco{bottom:calc(env(safe-area-inset-bottom,0px) + 134px)}
 
-.rc-fi{width:40px;height:40px;border-radius:50%;background:rgb(255 255 255 / .13);display:flex;align-items:center;justify-content:center;transition:background .15s}
-.rc-fi .ico{width:22px;height:22px;color:#fff;stroke:#fff}.rc-fi .ce-aa{font:800 15px var(--f-ui);color:#fff}
-
-.rc-tag{display:inline-flex;align-items:center;height:28px;padding:0 11px;border-radius:999px;background:rgb(0 0 0 / .45);color:#fff;font:800 12px var(--f-ui);letter-spacing:.02em;margin:0 4px}
-.rc-fignota{margin:10px 2px 0;font:600 12px var(--f-ui);color:#9aa0a6}
 /* capa */
-
-.rc-tl{height:40px;padding:0 12px;color:#fff;font:600 15px var(--f-ui)}.rc-tl.rc-ok{color:#4a9eff;font-weight:800}
 
 .rc-45{position:absolute;left:0;right:0;top:50%;aspect-ratio:4/5;transform:translateY(-50%);box-shadow:0 0 0 999px rgb(0 0 0 / .42);border-top:1.5px solid rgb(255 255 255 / .75);border-bottom:1.5px solid rgb(255 255 255 / .75);pointer-events:none}
 
-.rc-cfs{height:64px;margin:10px 22px 4px;flex:none;cursor:pointer}
-.rc-cbox{position:absolute;top:-9px;left:0;width:46px;height:82px;border:3px solid #fff;border-radius:8px;overflow:hidden;box-shadow:0 4px 14px rgb(0 0 0 / .6);background:#111;pointer-events:none;box-sizing:border-box;transition:opacity .15s}
-.rc-cbox canvas{width:100%;height:100%;display:block}
-.rc-cbox.off{opacity:.35}
-
-.rc-galb{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;background:#2a2d34;color:#fff;font:700 14px var(--f-ui)}
-.rc-galb .ico{width:20px;height:20px;stroke:#fff}
 /* câmera */
 .ce-shut{position:relative}
 .rc-ring{position:absolute;left:-10px;top:-10px;width:calc(100% + 20px);height:calc(100% + 20px);transform:rotate(-90deg);pointer-events:none;overflow:visible}
@@ -3297,20 +3285,11 @@ html.ce-anim .ce .ce-shut:active{scale:.94}
 .rc-rt{stroke:rgb(255 255 255 / .38)}.rc-rp{stroke:#ff3b30}
 .ce-shut.rc-anel{border-color:rgb(255 255 255 / .0)!important;background:none!important;animation:none!important}
 .ce-shut.rc-anel i{background:#ff3b30;border-radius:14px;transform:scale(.55)}
-.ce-shut.rc-boom i{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ff9f1c,#ff3d8b 55%,#8338ec)}
-.ce-shut.rc-boom i .ico{width:36px;height:36px;color:#fff;stroke:#fff}
-.ce-shut.rc-boom i .ico *{stroke-width:2.4}
-.ce-shut.rc-boom.rc-anel i{transform:scale(.7);border-radius:50%}
-.ce-shut.rc-proc i{animation:rcPulsa .8s ease-in-out infinite}
+
 @keyframes rcPulsa{50%{transform:scale(.8);opacity:.7}}
-.ce-rail button>b.rc-tmb{font:800 13px var(--f-ui)}
-.ce-rail button.on>b.rc-tmb{background:#fff;color:#111;text-shadow:none}
-.rc-cd{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgb(0 0 0 / .28);color:#fff;pointer-events:none}
-.rc-cd b{font:900 132px/1 var(--f-ui);text-shadow:0 4px 28px rgb(0 0 0 / .45);font-variant-numeric:tabular-nums}
-.rc-cd b.pop{animation:rcPop 1s ease-out both}
-.rc-cd small{font:600 13px var(--f-ui);opacity:.9;text-shadow:0 1px 3px rgb(0 0 0 / .5)}
+
 @keyframes rcPop{0%{transform:scale(1.7);opacity:0}22%{transform:scale(1);opacity:1}80%{opacity:1}100%{transform:scale(.86);opacity:0}}
-.ce.rc-contando .ce-rail,.ce.rc-contando .ce-modos,.ce.rc-contando>.ce-top,.ce.rc-contando .ce-gal,.ce.rc-contando .ce-vira,.ce.rc-contando .rc-zoom{visibility:hidden}
+
 .rc-zoom{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 152px);z-index:5;display:flex;align-items:center;gap:10px;height:36px;padding:0 14px;border-radius:999px;background:rgb(0 0 0 / .42);color:#fff;font:800 13px var(--f-ui);font-variant-numeric:tabular-nums}
 .rc-zoom[hidden]{display:none}
 .rc-zoom input{width:140px;accent-color:#fff}
@@ -3320,10 +3299,10 @@ html.ce-anim .ce .ce-shut:active{scale:.94}
 .rc-aviso.sai{opacity:0}
 #ce-video.rc-gira{animation:rcGira .42s ease}
 @keyframes rcGira{40%{filter:blur(12px) brightness(.7);opacity:.55}}
-@media (prefers-reduced-motion:reduce){.rc-cd b.pop,.ce-shut.rc-proc i,.ce.rc-gravando .ce-rail,.ce.rc-gravando .ce-modos,.ce.rc-gravando .ce-gal,.ce.rc-gravando>.ce-top .ce-flb{visibility:hidden}
+@media (prefers-reduced-motion:reduce){.ce.rc-gravando .ce-rail,.ce.rc-gravando .ce-modos,.ce.rc-gravando .ce-gal,.ce.rc-gravando>.ce-top .ce-flb{visibility:hidden}
 .rc-aviso{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 200px);transform:translateX(-50%);z-index:8;max-width:calc(100% - 40px);padding:8px 14px;border-radius:999px;background:rgb(0 0 0 / .62);color:#fff;font:700 13.5px var(--f-ui);text-align:center;pointer-events:none;transition:opacity .3s}
 .rc-aviso.sai{opacity:0}
-#ce-video.rc-gira{animation:none}.rc-fi,.rc-cbox,.rc-aviso{transition:none}}
+#ce-video.rc-gira{animation:none}.rc-aviso{transition:none}}
 /* ================= Ver stories (rodada 2) ================= */
 /* bandeja: um só degradê para stories não vistos de pessoas; verde = Melhores amigos; cinza = visto */
 #secs [data-ustory] .ig-r:not(.visto):not(.ma):not(.pq-on):not(.pq-erro),
@@ -5715,7 +5694,8 @@ function updateSocial(pid){
   el.querySelector("[data-cmts]").innerHTML=(cm.length>2?`<button type="button" class="link" data-a="cmt">Ver os ${cm.length} comentários</button>`:"")+cm.slice(-2).map(c=>`<div class="cmt" data-a="cmt" role="button" tabindex="0"><b>${esc(nomeDe(c.uid))}</b>${esc(c.texto)}</div>`).join("");
 }
 var FIT_IO=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)fitTrack(e.target)}),{rootMargin:"900px 0px"}):null;
-function fitTrack(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",Math.max(300,Math.round(Math.min(w*1.25,innerHeight*0.7)))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
+/* cartão de notícia do visual novo (112, .vn-cn): mídia mais baixa; a altura já sai certa aqui para as páginas de texto (052) serem cortadas nela */
+function fitTrack(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",(t.closest&&t.closest(".vn-cn")?Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6))):Math.max(300,Math.round(Math.min(w*1.25,innerHeight*0.7))))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
 function wireTracks(root){
   root.querySelectorAll(".track").forEach((t,ix)=>{
     if(ix<3||!FIT_IO)fitTrack(t);else FIT_IO.observe(t);let tm=null;t.closest(".post")?.addEventListener("contentvisibilityautostatechange",ev=>{if(!ev.skipped)fitTrack(t)});
@@ -13181,7 +13161,7 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
     else if(b.hasAttribute("data-5min")){cls="vn-tl-5";const a=vn112Primeira("_5min");if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit="O dia em 5 minutos";visto=false}
     else if(b.hasAttribute("data-ultimas")){cls="vn-tl-ult";const a=vn112Primeira("_ult");tit=a?vn112Curto(a.t,70):"";visto=vn112Visto("_ult")}
     else if(b.dataset.dest){const p=pautaById(b.dataset.dest);if(p){art=capaArte(p,"vn-tl-art");tit=vn112Curto(versao(p,lente()).titulo,70);visto=SEEN.has(seenKey(p))}cls="vn-tl-dest"}
-    else if(b.dataset.secStory){const s=b.dataset.secStory,a=vn112Primeira(s);if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit=a?vn112Curto(a.t,70):"";visto=vn112Visto(s)}
+    else if(b.dataset.secStory){const s=b.dataset.secStory,a=vn112Primeira(s);if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit=a?vn112Curto(a.t,70):"";visto=visto||vn112Visto(s)}
     else return;
     const av=cls==="vn-tl-u"||cls==="vn-tl-eu"?(b.querySelector(".av")||{}).outerHTML||"":"";
     r.insertAdjacentHTML("beforeend",`<span class="vn-tl ${cls}" aria-hidden="true"><span class="vn-tl-bg">${vn112Corta(art)}</span>${av?`<span class="vn-tl-av">${av}</span>`:""}<span class="vn-tl-tx"><small>${esc(kick)}</small>${tit?`<b>${esc(tit)}</b>`:""}</span></span>`);
@@ -14446,7 +14426,7 @@ function nt124PintaJa(){const c=nt124Contagem();
   try{const b=$("#badge");if(b&&!nt124App("mensagens"))b.hidden=true}catch(e){}
   let n=c.ativ;try{const ped=nt124App("amizades")?(S.pedidosIn||[]).filter(u=>S.membros[u]).length:0;n=Math.max(c.ativ,ped)}catch(e){}
   try{const mb=$("#mbadge");if(mb){mb.hidden=!n;mb.setAttribute("aria-label",n?(n===1?"1 novidade no Perfil":n+" novidades no Perfil"):"")}}catch(e){}
-  try{const tab=$('#v-me [data-pfaba="conta"]');if(tab){const d=tab.querySelector(".nt124-dot");if(n&&!d){tab.insertAdjacentHTML("beforeend",`<i class="nt124-dot" aria-hidden="true"></i>`)}else if(!n&&d)d.remove()}
+  try{const tab=$('#v-me [data-vnpfaba="conta"]')||$('#v-me [data-pfaba="conta"]');if(tab){const d=tab.querySelector(".nt124-dot");if(n&&!d){tab.insertAdjacentHTML("beforeend",`<i class="nt124-dot" aria-hidden="true"></i>`)}else if(!n&&d)d.remove()}
     const r=$("#v-me [data-nt124ativ] em");if(r){r.textContent=n?String(n>99?"99+":n):"";r.className=n?"nt124-n":""}}catch(e){}
   nt124PoeBadge(c.total)}
 function nt124Instalado(){try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){return false}}

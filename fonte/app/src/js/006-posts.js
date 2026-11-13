@@ -85,7 +85,8 @@ function updateSocial(pid){
   el.querySelector("[data-cmts]").innerHTML=(cm.length>2?`<button type="button" class="link" data-a="cmt">Ver os ${cm.length} comentários</button>`:"")+cm.slice(-2).map(c=>`<div class="cmt" data-a="cmt" role="button" tabindex="0"><b>${esc(nomeDe(c.uid))}</b>${esc(c.texto)}</div>`).join("");
 }
 var FIT_IO=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)fitTrack(e.target)}),{rootMargin:"900px 0px"}):null;
-function fitTrack(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",Math.max(300,Math.round(Math.min(w*1.25,innerHeight*0.7)))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
+/* cartão de notícia do visual novo (112, .vn-cn): mídia mais baixa; a altura já sai certa aqui para as páginas de texto (052) serem cortadas nela */
+function fitTrack(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",(t.closest&&t.closest(".vn-cn")?Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6))):Math.max(300,Math.round(Math.min(w*1.25,innerHeight*0.7))))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
 function wireTracks(root){
   root.querySelectorAll(".track").forEach((t,ix)=>{
     if(ix<3||!FIT_IO)fitTrack(t);else FIT_IO.observe(t);let tm=null;t.closest(".post")?.addEventListener("contentvisibilityautostatechange",ev=>{if(!ev.skipped)fitTrack(t)});
