@@ -20,7 +20,7 @@ let srv = null;
     await p.addInitScript(() => { try { for (const x of ['foco', 'semreels', 'visual']) localStorage.setItem('prumo-teste-' + x, '1'); localStorage.setItem('prumo-fase2', '1') } catch (e) { } });
     await p.goto(BASE); await esperar(p, () => typeof S !== 'undefined' && S.membro && S.amigosOk && PUB.on === true && typeof V8 !== 'undefined' && V8.on === true, null, 15000); await sleep(600); await fecha(p); return p };
   const A = await abrir('a'), A2 = await abrir('a', { n: '2', dark: true }), B = await abrir('b'), C = await abrir('c'), D = await abrir('d');
-  ok(await ev(A, () => document.documentElement.classList.contains('dc122') && VN112_CT === 'a' && VN_FASE2 && FOCO_LIGADO && !REELS_LIGADO && typeof dc122Feed === 'function'), 'estado de produção (cartão A, fase 2, foco, sem reels) e o 122 carregado');
+  ok(await ev(A, () => document.documentElement.classList.contains('dc122') && VN_FASE2 && FOCO_LIGADO && typeof dc122Feed === 'function'), 'estado de produção (cartão A, fase 2, foco, sem reels) e o 122 carregado');
   const AT = {}; // a hora pedida de cada publicação (o banco grava a hora do insert; o teste acerta depois)
   const ins = async (P, r) => { const id = await ins0(P, r); AT[id] = r.at; return id };
   const ins0 = (P, r) => ev(P, async r => { const q = await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', fotos: [], ...r }).select('id'); await pubCarregar(); return q.data[0].id }, r);

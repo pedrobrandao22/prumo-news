@@ -48,7 +48,8 @@ async function criar(p, { url, nome, email }) {
   ok(await ev(A, () => window.__T.some(m => /3 posts fixados/.test(m))), 'no máximo 3 fixados');
   const sqlFix = await H.sql(`select count(*)::int n from publicacoes where fixado is not null`); ok(sqlFix[0].n === 3, "servidor tem 3 fixados", sqlFix);
   await ev(A, () => { go('me'); PF_ABA = 'posts'; renderMe() }); await sleep(1200);
-  ok(await ev(A, () => document.querySelectorAll('#v-me .pf-t[data-fixo]').length === 3 && !!document.querySelector('#v-me .pf-t[data-pfi="3"]:not([data-fixo])')), 'grade: os 3 fixados primeiro, com alfinete');
+  const ordem = await ev(A, () => [...document.querySelectorAll('#v-me .vn-pl > .post')].map(e => e.id.replace(/^p-u:/, '')));
+  ok(ordem.length > 3 && [ids[3], ids[4], ids[5]].every(id => ordem.slice(0, 3).includes(id)), 'perfil: os 3 fixados primeiro', ordem);
   ok(await ev(A, () => !!document.querySelector('#v-me .pf-dests [data-pfdest]') && /Viagem/.test(document.querySelector('#v-me .pf-dests').textContent)), 'fileira de destaques no perfil');
   await A.screenshot({ path: SH + 'd70-perfil.png' });
   // B vê o destaque (stories vencidos) no perfil do Pedro

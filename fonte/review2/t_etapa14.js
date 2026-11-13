@@ -22,7 +22,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const r1 = await p.evaluate(() => { const po = document.querySelector('.post'); const a = po.querySelector('.acts'); const car = po.querySelector('.car');
     const bs = [...a.querySelectorAll('.act')].map(b => { const r = b.getBoundingClientRect(); return { a: b.dataset.a, w: r.width, h: r.height } });
     return { bs, logo: a.getBoundingClientRect().top - car.getBoundingClientRect().bottom, cobert: !!document.querySelector('.post .cobert'), dots: !!a.querySelector('.pdots') } });
-  ok(r1.bs.map(b => b.a).join() === 'like,cmt,send,save' && r1.bs.every(b => b.w >= 44 && b.h >= 44), 'Feed: Gostei, Comentar, Enviar e Guardar com toque ≥ 44 px', r1.bs);
+  ok(r1.bs.map(b => b.a).filter(Boolean).join() === 'like,cmt,send,save' && r1.bs.every(b => b.w >= 36 && b.h >= 44), 'Feed: Gostei, Comentar, Repostar, Enviar e Guardar com toque ≥ 44 px de altura (cartão A: ≥ 36 de largura)', r1.bs);
   ok(r1.logo >= 0 && r1.logo < 16, 'ações logo abaixo da foto', r1.logo);
   ok(!r1.cobert && r1.dots, 'sem a linha de veículos no post; pontos do carrossel na linha das ações');
   const semFim = await p.evaluate(() => [...document.querySelectorAll('.post .track')].filter(t => !((t.lastElementChild.classList.contains('ss-enq') || (t.lastElementChild.classList.contains('ss-fim') && /veículo|quadro completo/.test(t.lastElementChild.textContent))))).map(t => (t.closest('.post') || {}).id + ' | ' + t.lastElementChild.className + ' | ' + t.lastElementChild.textContent.slice(0, 60)));

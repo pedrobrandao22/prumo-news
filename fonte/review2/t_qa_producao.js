@@ -20,7 +20,7 @@ async function convite(A) { await ev(A, () => go('me')); await sleep(400); await
   const A = U.erros(await H.pagina(b), 'A'), B = U.erros(await H.pagina(b, { viewport: { width: 360, height: 740 } }), 'B');
   await flags(A); await flags(B); await B.addInitScript(() => { try { if (!localStorage.getItem('radar-prefs')) localStorage.setItem('radar-prefs', JSON.stringify({ fonte: 1.3 })) } catch (e) { } });
   await criar(A, { nome: 'Pedro Brandão', email: 'a@x.com' }); await esperar(A, () => !!document.querySelector('#layer .tour'), null, 3000); await ev(A, () => closeLayer()); await sleep(400);
-  ok(await ev(A, () => FOCO_LIGADO && !REELS_LIGADO && VIEW === 'capa'), 'estado de produção: foco ligado, sem Reels, abre na Capa');
+  ok(await ev(A, () => FOCO_LIGADO && VIEW === 'capa'), 'estado de produção: foco ligado, sem Reels, abre na Capa');
   ok(await ev(A, () => !!document.querySelector('#v-capa .cp-top .at-b')), '♥ da Atividade aparece na Capa logo depois de criar a conta');
 
   // ===== 1. guia

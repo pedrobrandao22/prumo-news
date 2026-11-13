@@ -24,8 +24,8 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   await p.evaluate(() => document.querySelector('#layer .story [data-close]').click()); await sleep(80);
   ok(await p.evaluate(() => !!document.querySelector('#layer .story')), 'fechar tem animação (não some de uma vez)');
   await sleep(500);
-  const r = await p.evaluate(() => { const ordem = [...document.querySelectorAll('#secs .sb')].map(b => b.dataset.secStory || '-'); const pol = document.querySelector('#secs [data-sec-story="politica"] .ig-r'); return { fechou: !document.querySelector('#layer .story'), visto: pol.classList.contains('visto'), bg: getComputedStyle(pol).backgroundColor, ordem } });
-  ok(r.fechou && r.visto && r.bg !== 'rgba(0, 0, 0, 0)', 'Política vista: anel cinza visível ' + JSON.stringify(r));
+  const r = await p.evaluate(() => { const ordem = [...document.querySelectorAll('#secs .sb')].map(b => b.dataset.secStory || '-'); const pol = document.querySelector('#secs [data-sec-story="politica"] .ig-r'); return { fechou: !document.querySelector('#layer .story'), visto: pol.classList.contains('visto'), vn: pol.closest('.sb').classList.contains('vn-visto'), ordem } });
+  ok(r.fechou && r.visto && r.vn, 'Política vista: o cartão fica marcado como visto (sem a borda de destaque) ' + JSON.stringify(r));
   ok(JSON.stringify(r.ordem.filter(x => x !== '-')) === JSON.stringify(ordem0.filter(x => !['5', 'ag', 'ult'].includes(x))), 'círculos não mudam de lugar depois de vistos');
   ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'sem erros ' + p._erros.join('|'));
   const R = U.resumo(); console.log(`\nRESUMO t_etapa44: ${R.OKS} ok, ${R.FALHAS} falhas`); await br.close(); srv.kill(); try { fs.unlinkSync(S0 + 'fotos-arquivo.json') } catch (e) { } process.exit(R.FALHAS ? 1 : 0);

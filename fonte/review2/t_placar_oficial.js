@@ -135,7 +135,7 @@ let srv = null, srv2 = null;
     ok(!m.tem && !f.tem && m.larg <= 0 && !p._erros.length, `F: oficiais.json ${nome}: sem bloco, sem linha, sem erro`, { m: m.tem, f: f.tem, e: p._erros });
     await ctx.close() }
 
-  // ===== G: os dados chegam com a matéria já aberta (e o cartão de hoje, sem o visual novo)
+  // ===== G: os dados chegam com a matéria já aberta 
   feed(pauta({ hashtags: ['PEC18'] })); put(null);
   ({ ctx, p } = await abre({ nome: 'G' }));
   await p.evaluate(pid => abrirMateria(pid), PID); await sleep(200);
@@ -145,13 +145,13 @@ let srv = null, srv2 = null;
   ok(await p.evaluate(() => { try { return JSON.parse(localStorage.getItem('prumo-placar')).v.length === 1 } catch (e) { return false } }), 'G: a cópia guardada no aparelho tem só as votações');
   ok(!p._erros.length, 'G: sem erros ' + p._erros.join(' | ')); await ctx.close();
 
-  // ===== H: cartão de hoje (sem o visual novo) e site com Supabase: a linha também entra, sem erro
+  // ===== H: site com Supabase: a linha também entra, sem erro
   fs.writeFileSync(S1 + 'oficiais.json', ofic([e1])); const f0 = JSON.parse(fs.readFileSync(S0 + 'feed.json', 'utf8')); fs.writeFileSync(S1 + 'feed.json.po118', fs.existsSync(S1 + 'feed.json') ? fs.readFileSync(S1 + 'feed.json') : '');
   fs.writeFileSync(S1 + 'feed.json', JSON.stringify(f0));
   srv2 = U.servir('site', PORTA2); await sleep(800);
   { const ctx2 = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true }); await ctx2.route(/^https?:\/\/(?!localhost)/, r => r.abort());
     const p2 = U.erros(await ctx2.newPage(), 'H'); await p2.goto(`http://localhost:${PORTA2}/index.html`); await esperar(p2, () => typeof FEED !== 'undefined' && FEED, null, 12000); await sleep(1500);
-    const h = await feedLinha(p2); ok(h.tem && !h.ca && h.txt === 'Senado aprovou · 62 a 9 · 1º turno ›', 'H: cartão de hoje (sem o visual novo): a linha aparece', h);
+    const h = await feedLinha(p2); ok(h.tem && h.txt === 'Senado aprovou · 62 a 9 · 1º turno ›', 'H: site com Supabase: a linha aparece', h);
     ok(!p2._erros.filter(x => !/supabase|teste\.supabase|Failed to fetch|NetworkError|ERR_FAILED/i.test(x)).length, 'H: sem erros ' + p2._erros.join(' | ')); await ctx2.close() }
   const antes = fs.readFileSync(S1 + 'feed.json.po118'); if (antes.length) fs.writeFileSync(S1 + 'feed.json', antes); fs.unlinkSync(S1 + 'feed.json.po118'); fs.unlinkSync(S1 + 'oficiais.json');
 

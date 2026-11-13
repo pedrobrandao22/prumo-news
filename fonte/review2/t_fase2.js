@@ -1,9 +1,9 @@
-// Fase 2 do visual novo (113), atrás da chave VN_FASE2 (?fase2=1 / localStorage "prumo-fase2"), só com o visual novo ligado.
+// Fase 2 do visual novo (113), ligada para todos desde 13/11.
 // 1. Fio (2 a 5 partes, estilo.fio, sem SQL): criar, ler no Feed (fechado e aberto), camada com o fio inteiro, hashtag em outra parte, editar.
 // 2. Capítulos na matéria: só as seções que existem, tocar rola até a seção, o capítulo atual fica marcado.
 // 3. Prateleiras no Feed: a cada ~6 itens, no máximo 3, 4 a 6 notícias cada, sem repetir a lista principal.
 // 4. Contexto do Prumo sob o post de um amigo: só o texto neutro, nunca quando o post já mostra o cartão da notícia.
-// Desligada (padrão), nada disso aparece. Portas 8960–8969. Capturas 390x844 em qa/fase2/.
+// Portas 8960–8969. Capturas 390x844 em qa/fase2/.
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const fs = require('fs'), path = require('path');
 const PORTA = 8961, BASE = `http://localhost:${PORTA}/index.html`;
@@ -20,7 +20,6 @@ async function convite(A) { await ev(A, () => { go('me'); PF_ABA = 'posts'; rend
 const ins = (P, rows) => ev(P, async rows => { const ids = []; for (const r of rows) { const q = await SB.from('publicacoes').insert({ autor: S.uid, ...r }).select('id'); ids.push(q.data && q.data[0] && q.data[0].id) } await pubCarregar(); return ids }, rows);
 const feed = (P, tudo) => ev(P, async tudo => { if (document.querySelector('#layer').innerHTML) closeLayer(); await pubCarregar(); FILTRO = 'tudo'; go('feed'); renderPosts(); if (tudo) for (let i = 0; i < 8; i++) try { carregarMais(true) } catch (e) { } scrollTo(0, 0) }, !!tudo);
 const recarrega = async (P, url) => { if (url) await P.goto(url); else await P.reload(); await esperar(P, () => typeof S !== 'undefined' && S.membro && PUB.on === true, null, 12000); await sleep(1200); await ev(P, () => { if (document.querySelector('#layer').innerHTML) closeLayer() }) };
-const marcas = P => ev(P, () => ({ on: typeof VN_FASE2 !== 'undefined' && VN_FASE2, cls: document.documentElement.classList.contains('fs2'), sh: document.querySelectorAll('#posts .fs2-sh').length, fio: document.querySelectorAll('.fs2-fio').length, ctx: document.querySelectorAll('.fs2-ctx').length }));
 const semRolagem = P => ev(P, () => { const s = document.scrollingElement; const m = document.querySelector('#layer .mat'); return { pg: s.scrollWidth - innerWidth, mat: m ? m.scrollWidth - m.clientWidth : 0 } });
 async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path.join(QA, nome + '.png') }) }
 (async () => {
@@ -47,27 +46,9 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
     { tipo: 'post', at: now - 18 * 60e3, texto: 'O que vocês acham?', fotos: [], pid: pk.anexo, estilo: { v: 2, cn: { v: 1, k: 'enq', tit: 'Passa no Senado?', o: ['Sim', 'Não'] } } }]);
   const [pFioBia] = await ins(B, [{ tipo: 'post', at: now - 15 * 60e3, texto: 'Três pontos sobre os juros.', fotos: [], estilo: { v: 2, fio: ['Segundo: o crédito encarece.', 'Terceiro: #Copom decide amanhã.'] } }]);
 
-  // ===== 0. chave desligada (padrão): nada da fase 2, mesmo com um fio no banco
+  // ===== 0. a fase 2 vale para todos (13/11)
   await feed(A, true); await sleep(600);
-  let m = await marcas(A);
-  ok(!m.on && !m.cls && !m.sh && !m.fio && !m.ctx, 'desligada por padrão: sem prateleira, fio, contexto nem a classe fs2', JSON.stringify(m));
-  ok(await ev(A, (id) => { const e = document.getElementById('p-u:' + id); return !!e && /Três pontos/.test(e.textContent) && !/Segundo: o crédito/.test(e.textContent) }, pFioBia), 'desligada: o fio aparece como o post de hoje (só a parte 1)');
-  await ev(A, id => abrirMateria(id), pk.anexo); await sleep(500);
-  ok(await ev(A, () => !document.querySelector('.fs2-cap') && !document.querySelector('.fs2-faq')), 'desligada: matéria sem "Nesta matéria" e sem perguntas novas');
-  await ev(A, () => closeLayer()); await sleep(200);
-  await ev(A, () => { cn102AbreInicio('') }); await sleep(400); await clk(A, '[data-edsotexto]'); await sleep(300);
-  ok(await ev(A, () => !!document.querySelector('#ce-leg') && !document.querySelector('[data-f113mais]')), 'desligada: o criador não tem "Adicionar parte"');
-  await ev(A, () => { ED = null; closeLayer._ok = true; closeLayer(); closeLayer._ok = false; go('feed') }); await sleep(300);
-
-  // ===== 1. ligar por ?fase2=1: guarda no aparelho e some do endereço; ?fase2=0 desliga
-  await recarrega(A, BASE + '?fase2=1');
-  const u = await ev(A, () => ({ on: VN_FASE2, ls: localStorage.getItem('prumo-fase2'), q: location.search, cls: document.documentElement.classList.contains('fs2') }));
-  ok(u.on && u.ls === '1' && u.q === '' && u.cls, '?fase2=1 liga, guarda "prumo-fase2" e tira o parâmetro do endereço', JSON.stringify(u));
-  await recarrega(A); ok(await ev(A, () => VN_FASE2), 'continua ligada depois de recarregar');
-  await ev(B, () => localStorage.setItem('prumo-fase2', '1')); await recarrega(B);
-  const E = U.erros(await H.pagina(b), 'E'); await E.addInitScript(() => { try { for (const k of ['foco', 'semreels', 'capa', 'anim', 'visual']) localStorage.setItem('prumo-teste-' + k, '1'); localStorage.setItem('prumo-visual', 'atual') } catch (e) { } });
-  await E.goto(BASE + '?fase2=1'); await sleep(1500);
-  ok(await ev(E, () => !VN_FASE2 && !document.documentElement.classList.contains('fs2') && localStorage.getItem('prumo-fase2') === null), 'sem o visual novo, ?fase2=1 não liga nada');
+  ok(await ev(A, () => VN_FASE2 && document.documentElement.classList.contains('fs2')), 'fase 2 ligada para todos (classe fs2)');
 
   // ===== 2. Fio: Pedro cria um fio de 3 partes pelo criador
   await ev(A, () => { cn102AbreInicio('') }); await sleep(400); await clk(A, '[data-edsotexto]'); await sleep(300);
@@ -213,11 +194,7 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
   await clk(A, '[data-f113cap="1"]'); await sleep(1000); await foto(A, 'escuro-materia');
   await ev(A, () => closeLayer()); await A.emulateMedia({ colorScheme: 'light' });
 
-  // ===== 10. ?fase2=0 desliga
-  await recarrega(A, BASE + '?fase2=0'); await feed(A, true); await sleep(500); m = await marcas(A);
-  ok(!m.on && !m.cls && !m.sh && !m.fio && !m.ctx && await ev(A, () => localStorage.getItem('prumo-fase2') === '0' && location.search === ''), '?fase2=0 desliga e tira o parâmetro', JSON.stringify(m));
-
-  const errs = [A, B, E].flatMap(p => p._erros);
+  const errs = [A, B].flatMap(p => p._erros);
   ok(!errs.length, 'sem erros no console', JSON.stringify(errs.slice(0, 5)));
   const r = U.resumo(); console.log(`\n${r.OKS} ok, ${r.FALHAS} falhas`);
   await b.close(); srv.kill(); process.exit(r.FALHAS ? 1 : 0);

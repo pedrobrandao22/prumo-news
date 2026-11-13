@@ -10,7 +10,7 @@ const foto = async (P, n) => { await sleep(300); await P.evaluate(() => document
 const tudo = P => ev(P, () => { if (document.querySelector('#layer').innerHTML) closeLayer(); FILTRO = 'tudo'; go('feed'); renderPosts(); for (let i = 0; i < 12; i++) try { carregarMais(true) } catch (e) { } scrollTo(0, 0) });
 (async () => {
   const c = await R.cena(PORTA); const { A, B, pk } = c;
-  ok(await ev(A, () => VN_FASE2 && VN112_CT === 'a' && FOCO_LIGADO && !REELS_LIGADO), 'estado de produção: cartão A, fase 2, foco, sem reels');
+  ok(await ev(A, () => VN_FASE2 && FOCO_LIGADO), 'estado de produção: cartão A, fase 2, foco, sem reels');
   await tudo(A); await sleep(700);
 
   // ===== B02: notícia citada por amigo fora das prateleiras

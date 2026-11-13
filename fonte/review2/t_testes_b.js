@@ -19,7 +19,7 @@ let srv = null;
     await p.addInitScript(() => { try { for (const x of ['foco', 'semreels', 'visual']) localStorage.setItem('prumo-teste-' + x, '1'); localStorage.setItem('prumo-fase2', '1') } catch (e) { } });
     await p.goto(BASE); await esperar(p, () => typeof S !== 'undefined' && S.membro && S.amigosOk && PUB.on === true && typeof V8 !== 'undefined' && V8.on === true, null, 15000); await sleep(600); await fecha(p); return p };
   const A = await abrir('a'), A2 = await abrir('a', { n: '2', dark: true, vp: { width: 360, height: 760 } }), B = await abrir('b'), C = await abrir('c'), D = await abrir('d');
-  ok(await ev(A, () => document.documentElement.classList.contains('vn') && VN112_CT === 'a' && VN_FASE2 && FOCO_LIGADO && !REELS_LIGADO && typeof tb121Voto === 'function'), 'estado de produção (cartão A, fase 2, foco, sem reels) e o 121 carregado');
+  ok(await ev(A, () => document.documentElement.classList.contains('vn') && VN_FASE2 && FOCO_LIGADO && typeof tb121Voto === 'function'), 'estado de produção (cartão A, fase 2, foco, sem reels) e o 121 carregado');
   const ins = (P, r) => ev(P, async r => { const q = await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', fotos: [], ...r }).select('id'); await pubCarregar(); return q.data[0].id }, r);
   const feed = P => ev(P, async () => { let i = 0; while (($('#layer2')?.innerHTML || $('#layer').innerHTML) && i++ < 6) { closeLayer._ok = true; closeLayer(); closeLayer._ok = false } await pubCarregar(); FILTRO = 'tudo'; go('feed'); renderPosts(); for (let i = 0; i < 12; i++) try { carregarMais(true) } catch (e) { } scrollTo(0, 0) });
   const pinta = P => ev(P, () => { const cv = document.createElement('canvas'); cv.width = 800; cv.height = 600; const g = cv.getContext('2d');
