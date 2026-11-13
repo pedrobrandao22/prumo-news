@@ -17,7 +17,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
       const pid = po.dataset.pid, pa = pautaById(pid); const orig = document.createElement('div'); orig.innerHTML = slidesSociais(pa).join(''); document.body.appendChild(orig); orig.style.cssText = 'position:absolute;left:-9999px';
       const a = norm([...orig.children].map(x => x.textContent).join('')), b = norm([...t.children].map(x => { const c = x.cloneNode(true); c.querySelectorAll('.lbl em').forEach(e => { if (/continua/.test(e.textContent)) e.parentNode.remove() }); c.querySelectorAll('.ht-nl').forEach(e => e.remove()); c.querySelectorAll('[data-poll]').forEach(e => e.innerHTML = ''); return c.textContent }).join('')); orig.remove();
       if (a !== b) perdas.push(pid + ' ' + a.length + '→' + b.length);
-      [...t.children].forEach((sl, i) => { const h = sl.getBoundingClientRect().height; if (Math.abs(h - H) > 1.5 || sl.scrollHeight > H + 2) ruins.push(pid + '#' + i + ' h' + Math.round(h) + ' sh' + sl.scrollHeight + '/' + H) });
+      [...t.children].forEach((sl, i) => { const h = sl.getBoundingClientRect().height; if (Math.abs(h - H) > 1.5 || sl.scrollHeight > H + 2) ruins.push(pid + '#' + i + ' h' + Math.round(h) + ' sh' + sl.scrollHeight + '/' + H + ' ' + sl.className + ' ' + (sl.querySelector('*') || {}).className) });
       pags += t.querySelectorAll('.pag').length; const d = po.querySelectorAll('.pdots i').length; if (d !== t.children.length && !(t.children.length === 1 && d === 0)) dots.push(pid + ' ' + d + '/' + t.children.length) }
     return { ruins: ruins.slice(0, 6), nr: ruins.length, perdas: perdas.slice(0, 6), np: perdas.length, pags, dots: dots.slice(0, 4) } });
   const tag = `[${w}px${fz > 1 ? ', letra maior' : ''}] `;

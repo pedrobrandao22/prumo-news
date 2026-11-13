@@ -129,7 +129,7 @@ const recarrega = async p => { await p.reload(); await esperar(p, () => S.membro
   await ev(B, () => { pubCarregar() }); await sleep(1500); await ev(B, () => { go('capa'); go('feed'); scrollTo(0, 0) }); await sleep(800);
   const m = await ev(B, async () => { let n = 0; const o = fitTrack; fitTrack = function () { n++; return o.apply(this, arguments) }; const p0 = LOTE.pos; let sinc = -1;
     try { carregarMais(); sinc = n } finally { fitTrack = o } await new Promise(r => setTimeout(r, 600)); const novos = [...document.querySelectorAll('#posts > .post')].slice(p0).map(x => x.querySelector('.track')).filter(Boolean);
-    return { sinc, lote: LOTE.pos - p0, ok: novos.length > 0 && novos.every(t => !!t.style.getPropertyValue('--slh')) } });
+    return { sinc, lote: LOTE.pos - p0, ok: novos.length > 0 && novos.every(t => !!t.style.getPropertyValue('--slh')), sem: novos.filter(t => !t.style.getPropertyValue('--slh')).map(t => t.closest('.post').className + ' h' + t.style.height) } });
   ok(m.lote > 0 && m.sinc === 0 && m.ok, 'rolar o Feed: lote novo é medido aos poucos (nenhuma medida dentro do lote) e fica com a altura certa', JSON.stringify(m));
 
   // ===== 10. ver os stories de um amigo: o anel fica "visto" ao fechar; no outro aparelho também

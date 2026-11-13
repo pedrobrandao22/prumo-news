@@ -41,7 +41,7 @@ const topo = async (p, sel) => { await ev(p, s => { const m = s.match(/p-(.*?)"/
   // ---- nome novo aparece nos posts já na tela ----
   await ev(A, () => { go('me'); PF_ABA = 'conta'; renderMe() }); await sleep(300); await ev(A, () => document.querySelector('#v-me [data-a="nome"]').click()); await sleep(400);
   await A.fill('.sheet input', 'Pedro B. Brandão'); await A.keyboard.press('Enter'); await sleep(1200);
-  ok(await esperar(B, s => /Pedro B\. Brandão/.test(document.querySelector(s + ' .up-au')?.textContent || '') && /Pedro B\. Brandão/.test(document.querySelector(s + ' .up-leg')?.textContent || ''), s1, 9000), 'Bia vê o nome novo do Pedro no post (cabeçalho e legenda)');
+  ok(await esperar(B, s => /Pedro B\. Brandão/.test(document.querySelector(s + ' .up-au')?.textContent || '') && /Pedro B\. Brandão/.test(document.querySelector(s + ' .up-leg')?.textContent || ''), s1, 9000), 'Bia vê o nome novo do Pedro no post (cabeçalho e legenda)', await B.evaluate(s => { const e = document.querySelector(s); return e ? e.className + ' | ' + e.innerHTML.slice(0, 900) : 'sem' }, s1));
   // ---- perfil: "N amigos" abre a lista ----
   await ev(A, () => { go('me'); PF_ABA = 'posts'; renderMe(); scrollTo(0, 0) }); await sleep(500);
   await tapSel(A, '#v-me [data-fd104am]'); await sleep(600);
