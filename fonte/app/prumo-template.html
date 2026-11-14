@@ -17482,6 +17482,11 @@ var SR150_USADAS=null;
 /* 8. "Do que você segue" com uma cobertura só: a faixa repetia o cartão logo abaixo (a cobertura seguida já sobe para o
       topo do Feed); com duas ou mais, a faixa continua como atalho */
 {const _cs150=cobSegStrip;cobSegStrip=function(){try{if(FILTRO==="tudo"&&(FEED.pautas||[]).filter(p=>seguido(p)&&!silenciado(p)&&!(PREF.ocultas||[]).includes(secOf(p))).length<2)return ""}catch(e){}return _cs150.apply(this,arguments)}}
+
+/* 9. dólar e Ibovespa do dia mostram a hora da cotação ("hoje, 18h56"): o indicador é a última cotação e a notícia pode
+      trazer o fechamento, então os dois números podem diferir no centavo */
+{const _it150=indTile;indTile=function(x){const h=_it150.apply(this,arguments);try{const at=IND_AUTO&&IND_AUTO.atualizado;
+  if(x&&/^(dolar|ibovespa|euro)$/.test(x.id||"")&&at&&String(at).slice(0,10)===hojeSP()){const m=String(at).match(/T(\d{2}):(\d{2})/);if(m)return h.replace('<small class="ind-d">hoje</small>',`<small class="ind-d">hoje, ${+m[1]}h${m[2]}</small>`)}}catch(e){}return h}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
