@@ -31,7 +31,8 @@ document.addEventListener("focusin",e=>{const el=e.target;if(!sr150CampoComentar
 /* 5 */
 {const _ts150=trocarSessao;trocarSessao=async function(user){const r=await _ts150.apply(this,arguments);
   try{if(user&&CONVITE_URL&&!sr150Convite.feito&&!CRIANDO){sr150Convite.feito=1;sr150Convite(0)}}catch(e){}return r}}
-function sr150Convite(n){try{if(!S.uid||CRIANDO)return;if(S.membro)return;if(!INIT_FIM||$("#layer .sheet")){if(n<40)setTimeout(()=>sr150Convite(n+1),250);return}
+/* só abre se, 2 s depois de entrar, a pessoa continua sem ser membro (o cadastro de membro chega um instante depois da sessão) */
+function sr150Convite(n){try{if(!S.uid||CRIANDO)return;if(S.membro)return;if(n<8){setTimeout(()=>sr150Convite(n+1),250);return}if(!INIT_FIM||$("#layer .sheet")){if(n<40)setTimeout(()=>sr150Convite(n+1),250);return}
   let nome="";try{nome=(JSON.parse(localStorage.getItem("prumo-convite")||"null")||{}).n||""}catch(_){}abrirFaltaConvite({codigo:CONVITE_URL,nome})}catch(e){}}
 
 /* 6 */

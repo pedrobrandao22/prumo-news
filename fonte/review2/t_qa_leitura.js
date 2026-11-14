@@ -22,13 +22,15 @@ function feedReal() {  // edição real do repositório (cai no feed de teste se
   for (let i = 0; i < 6; i++) { if (!(await A.$('#layer .tour'))) break; await clk(A, '#layer .tr-prox'); await sleep(350) }
   ok(await ev(A, () => VIEW === 'capa' && !document.querySelector('#layer').innerHTML), '"Começar a ler" leva à Capa', await ev(A, () => VIEW));
   // Busca: título primeiro; tocar abre a matéria e voltar volta à Busca
-  await A.tap('#t-busca'); await sleep(300); await A.fill('#bvq', 'seguranca'); await sleep(400);
+  /* termo tirado de um título da edição atual (a edição real muda: 'segurança' saiu em 14/11) */
+  const termo = await ev(A, () => { const n = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); for (const p of FEED.pautas) { const t = n((p.neutro || {}).titulo || p.titulo || ''); const w = t.split(/[^a-z]+/).find(x => x.length >= 8 && FEED.pautas.filter(q => n(((q.neutro || {}).titulo || '') + ' ' + JSON.stringify(q.neutro || {})).includes(x)).length >= 2); if (w) return w } return 'senado' });
+  await A.tap('#t-busca'); await sleep(300); await A.fill('#bvq', termo); await sleep(400);
   const r1 = await ev(A, () => { const l = [...document.querySelectorAll('#bvres .sres li b')].map(x => x.textContent); return l });
-  ok(r1.length > 0 && /seguran/i.test(r1[0].normalize('NFD').replace(/[̀-ͯ]/g, '')), 'Busca: resultado com o termo no título vem primeiro', r1.slice(0, 3));
+  ok(r1.length > 0 && r1[0].normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(termo), 'Busca: resultado com o termo no título vem primeiro', { termo, r: r1.slice(0, 3) });
   await clk(A, '#bvres [data-busca]'); await sleep(700);
   ok(await ev(A, () => VIEW === 'busca' && !!document.querySelector('#layer .mat') && /Busca/.test(document.querySelector('#layer .mat-v').textContent)), 'Busca: resultado abre a matéria ("‹ Busca")');
   await A.goBack(); await sleep(500);
-  ok(await ev(A, () => VIEW === 'busca' && !document.querySelector('#layer').innerHTML && $('#bvq').value === 'seguranca'), 'Busca: voltar volta à Busca com o termo');
+  ok(await ev(A, t => VIEW === 'busca' && !document.querySelector('#layer').innerHTML && $('#bvq').value === t, termo), 'Busca: voltar volta à Busca com o termo');
   // Quiz aberto pela Capa volta para a Capa
   await A.tap('#t-capa'); await sleep(300);
   await ev(A, () => go('play')); await sleep(300);
