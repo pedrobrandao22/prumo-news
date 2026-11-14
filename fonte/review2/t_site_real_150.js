@@ -7,7 +7,7 @@ let srv = null;
 (async () => {
   const { DIR, F } = montarPasta('xsr150');
   // rodadas com bastidor, para conferir o que o leitor vê
-  fs.writeFileSync(path.join(DIR, 'rodadas.json'), JSON.stringify({ dia: '2026-11-13', itens: {
+  fs.writeFileSync(path.join(DIR, 'rodadas.json'), JSON.stringify({ dia: new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10), itens: {
     '19h48': { tipo: 'rapida', status: 'ok', pautas: 33, mudancas: 2, checagem: '0 erros, 12 avisos', nota: 'Fechamento semanal do dólar e nova pauta sobre os voos nos EUA.' },
     '13h48': { tipo: 'rapida', status: 'sem_mudancas', checagem: '0 erros, 9 avisos', nota: 'Acionada por ajuste-fiscal-lula-4; as buscas não trouxeram a matéria.' } } }));
   srv = U.servir('xsr150', 8737); await sleep(800);
@@ -41,6 +41,8 @@ let srv = null;
   // 4. círculos do topo: nenhuma notícia em dois círculos
   const circ = await v.evaluate(() => { const r = []; try { SR150_USADAS = new Set(); document.querySelectorAll('#secs [data-5min], #secs [data-sec-story]').forEach(b => { const s = b.hasAttribute('data-5min') ? '_5min' : b.dataset.secStory; const a = vn112Primeira(s); r.push(a && a.p && a.p.id) }) } finally { SR150_USADAS = null } return r.filter(Boolean) });
   ok(circ.length >= 3 && new Set(circ).size === circ.length, 'círculos do topo: cada um com uma notícia diferente', circ);
+  const dest = await v.evaluate(() => [...document.querySelectorAll('#secs .sb[data-dest]')].filter(b => b.getClientRects().length).map(b => b.dataset.dest));
+  ok(dest.every(d => !circ.includes(d)), 'destaques do topo não repetem a notícia de um círculo de editoria', { dest, circ });
 
   // 5. botão de leitura: só o ícone, 40 px
   await v.evaluate(() => { go('capa'); scrollTo(0, 0) }); await sleep(800);
@@ -65,6 +67,23 @@ let srv = null;
   ok(out.c !== 'Outros', 'chapéu da Capa não mostra "Outros"', out);
   ok(v._erros.length === 0, 'sem erros (visitante)', v._erros);
   await v.close();
+
+  // 7b. guia da primeira visita para quem não tem conta (3 telas) e botão Instalar quando o navegador oferece
+  const g = U.erros(await H.pagina(br, { viewport: { width: 390, height: 800 } }), 'guia');
+  await g.addInitScript(() => { try { localStorage.setItem('prumo-teste-tourvis', '1'); for (const x of ['foco', 'semreels', 'visual', 'capa']) localStorage.setItem('prumo-teste-' + x, '1'); localStorage.setItem('prumo-fase2', '1') } catch (e) { } });
+  await g.goto(BASE); await esperar(g, () => typeof INIT_FIM !== 'undefined' && INIT_FIM && FEED, null, 20000);
+  ok(await esperar(g, () => document.querySelectorAll('#layer .tour .tr-t').length === 3, null, 6000), 'primeira visita sem conta: guia com 3 telas', await g.evaluate(() => ({ n: document.querySelectorAll('#layer .tr-t').length, lay: document.querySelector('#layer').innerHTML.slice(0, 120), uid: S.uid, L: LINK_PID, V: VP99_LINK, C: CONVITE_URL, vis: localStorage.getItem('prumo-tour-visto'), wd: navigator.webdriver, f: localStorage.getItem('prumo-teste-tourvis') })));
+  if (!(await g.evaluate(() => !!document.querySelector('#layer .tour')))) { console.log('DBG', await g.evaluate(() => { try { const _tt = tourTelas; tourTelas = () => sr150TelasVisitante(_tt); try { abrirTour('') } finally { tourTelas = _tt } return 'ok ' + document.querySelectorAll('#layer .tr-t').length } catch (e) { return 'erro ' + e.message } })); await g.close(); throw new Error('guia não abriu') }
+  ok(await g.evaluate(() => /convite/.test(document.querySelector('#layer .tour').textContent)), 'o guia do visitante explica que curtir e comentar pedem convite');
+  await g.evaluate(() => document.querySelector('[data-tourfim]').click()); await sleep(400);
+  await g.reload(); await esperar(g, () => typeof INIT_FIM !== 'undefined' && INIT_FIM && FEED, null, 20000); await sleep(2500);
+  ok(await g.evaluate(() => !document.querySelector('#layer .tour')), 'o guia aparece uma vez só');
+  await g.evaluate(() => { const ev = new Event('beforeinstallprompt'); ev.prompt = async () => { window.__pediu = 1 }; ev.userChoice = Promise.resolve({ outcome: 'accepted' }); dispatchEvent(ev); go('me') }); await sleep(800);
+  await g.evaluate(() => { document.querySelector('#v-me [data-vnpfaba="conta"]')?.click(); renderMe() }); await sleep(500);
+  const inst = await g.evaluate(() => !!document.querySelector('[data-sr150inst]'));
+  ok(inst, 'Perfil: botão Instalar o Prumo quando o navegador oferece');
+  if (inst) { await g.evaluate(() => document.querySelector('[data-sr150inst]').click()); await sleep(400); ok(await g.evaluate(() => window.__pediu === 1 && !document.querySelector('[data-sr150inst]')), 'tocar em Instalar abre o pedido do navegador e o botão sai') }
+  ok(g._erros.length === 0, 'sem erros (guia e instalar)', g._erros); await g.close();
 
   // 8. quem já tem conta e chega pelo link de convite: depois de entrar, "Usar um convite" com o código
   const uid = await H.criarConta('ja@x', '123456');

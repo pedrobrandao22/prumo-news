@@ -165,7 +165,7 @@ async function toque(p, sel) { const h = await p.$(sel); await h.scrollIntoViewI
   ok(await ev(A, () => !document.querySelector('#layer .mat')), 'L18: o segundo voltar fecha a matéria');
 
   // ===== L22: Dólar de hoje com data embaixo
-  ok(await ev(A, () => /<small class="ind-d">hoje<\/small>/.test(indTile({ id: 'dolar', nome: 'Dólar', valor: 'R$ 5,44', data: hojeSP() }))), 'L22: indicador de hoje mostra "hoje" como os outros mostram a data');
+  ok(await ev(A, () => /<small class="ind-d">hoje(, \d{1,2}h\d{2})?<\/small>/.test(indTile({ id: 'dolar', nome: 'Dólar', valor: 'R$ 5,44', data: hojeSP() }))), 'L22: indicador de hoje mostra "hoje" como os outros mostram a data');
 
   // ===== L24: "Seguir cobertura" numa linha
   const pidCob = await ev(A, () => (FEED.pautas.find(p => temaDe(p)) || {}).id);

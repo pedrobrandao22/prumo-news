@@ -133,7 +133,8 @@ function vn112Rotulos(a){a.querySelectorAll(".acts>.act").forEach(b=>{if(b.query
 function vn112CtNt(h,p){const a=typeof h==="string"?vn112Tp(h):h;if(!a)return h;const ct=VN112_CT;a.classList.add("vn-c","vn-cn","vn-c"+ct);a.style.setProperty("--vn-sec",secCor(secOf(p)));
   const ph=a.querySelector(":scope>.ph"),car=a.querySelector(":scope>.car"),cap=a.querySelector(".pt-cap"),hr=a.querySelector(".pt-hora"),sub=ph&&ph.querySelector(".ph-sub");
   const sec=secOf(p),tit=versao(p,lente()).titulo,hora=hr?hr.textContent.trim():"";
-  if(sub&&hora)sub.insertAdjacentHTML("beforeend",`<span class="vn-hr">${sub.textContent.trim()?" · ":""}${esc(hora)}</span>`);
+  if(sub&&hora){let rec=false;try{rec=Date.now()-tms(ultimaAtualizacao(p)||p.hora)<2*3600e3}catch(e){}/* notícia nova ou atualizada nas últimas 2 h: a hora fica em destaque (150) */
+    sub.insertAdjacentHTML("beforeend",`<span class="vn-hr${rec?" vn-hr-rec":""}">${sub.textContent.trim()?" · ":""}${esc(hora)}</span>`)}
   const h3=vn112Tp(`<h3 class="vn-tit"><button type="button" data-capmat="${esc(p.id)}">${esc(tit)}</button></h3>`);
   vn112Dots(a);vn112Rotulos(a);
   if(car){car.before(h3);if(cap)car.before(cap)}

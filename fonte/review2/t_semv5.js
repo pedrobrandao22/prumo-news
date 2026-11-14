@@ -11,7 +11,9 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U;
   const id = await p.evaluate(async () => { const r = await SB.from('publicacoes').insert({ autor: S.uid, tipo: 'post', texto: 'Oi', fotos: [], estilo: { v: 2 } }).select('id'); await pubCarregar(); return r.data[0].id });
   await sleep(1200);
   ok(await p.evaluate(() => V5.on === false), 'detecta que o v5 não foi rodado');
-  await p.evaluate(id => { go('feed'); renderPosts(); garantirPost('u:' + id); document.querySelector(`[data-umenu="${id}"]`).click() }, id); await sleep(400);
+  await p.evaluate(id => { go('feed'); renderPosts(); garantirPost('u:' + id) }, id);
+  await esperar(p, id => { try { garantirPost('u:' + id) } catch (e) { } return !!document.querySelector(`[data-umenu="${id}"]`) }, id, 8000);  /* o Feed entra em lotes (148): o post pode chegar um instante depois */
+  await p.evaluate(id => document.querySelector(`[data-umenu="${id}"]`).click(), id); await sleep(400);
   ok(await p.evaluate(() => !document.querySelector('[data-ueditar]') && !document.querySelector('[data-ufixar]') && !!document.querySelector('.sheet')), 'menu do post sem Editar/Fixar');
   await p.evaluate(() => { closeLayer(); go('me'); PF_ABA = 'posts'; renderMe() }); await sleep(900);
   ok(await p.evaluate(() => document.querySelectorAll('#v-me .vn-pl > .post').length === 1 && !document.querySelector('#v-me .pf-dests')), 'perfil abre com a publicação e sem a fileira de destaques');

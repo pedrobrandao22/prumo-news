@@ -5431,6 +5431,17 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
 .cfp-pubs button[aria-pressed="true"],.cn102-inds button[aria-selected="true"]{border-color:var(--bronze)}
 .dest-o[aria-pressed="true"] i{background:var(--bronze)}.dest-o[aria-pressed="true"]{outline-color:var(--bronze)}
 .ce-av{color:#e0a458}
+#secs .sb.sr150-rep{display:none}
+/* hora em destaque na notícia nova ou atualizada nas últimas 2 h */
+.vn-hr-rec{color:var(--bronze-ink);font-weight:700}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .vn-hr-rec{color:var(--bronze)}}
+:root[data-aparencia="escuro"] .vn-hr-rec{color:var(--bronze)}
+.sr150-inst{margin-top:10px;width:100%}
+/* "Coberturas ativas" e "Do que você segue": a faixa usa a classe .segs, que também é a do seletor de abas (09-v12:
+   .segs button{flex:1}); os cartões encolhiam para ~70 px e o título virava "Fim da esc...". Agora cada cartão tem a
+   largura dele e a faixa rola para o lado */
+.segs .segc{flex:0 0 auto;min-height:0;border-radius:12px;font-size:inherit;font-weight:inherit;color:inherit;width:min(220px,62vw)}
+.segs:has(>.segc){background:none;padding:4px 0 10px;border-radius:0}
 </style>
 </head>
 <body>
@@ -13218,7 +13229,8 @@ function vn112Rotulos(a){a.querySelectorAll(".acts>.act").forEach(b=>{if(b.query
 function vn112CtNt(h,p){const a=typeof h==="string"?vn112Tp(h):h;if(!a)return h;const ct=VN112_CT;a.classList.add("vn-c","vn-cn","vn-c"+ct);a.style.setProperty("--vn-sec",secCor(secOf(p)));
   const ph=a.querySelector(":scope>.ph"),car=a.querySelector(":scope>.car"),cap=a.querySelector(".pt-cap"),hr=a.querySelector(".pt-hora"),sub=ph&&ph.querySelector(".ph-sub");
   const sec=secOf(p),tit=versao(p,lente()).titulo,hora=hr?hr.textContent.trim():"";
-  if(sub&&hora)sub.insertAdjacentHTML("beforeend",`<span class="vn-hr">${sub.textContent.trim()?" · ":""}${esc(hora)}</span>`);
+  if(sub&&hora){let rec=false;try{rec=Date.now()-tms(ultimaAtualizacao(p)||p.hora)<2*3600e3}catch(e){}/* notícia nova ou atualizada nas últimas 2 h: a hora fica em destaque (150) */
+    sub.insertAdjacentHTML("beforeend",`<span class="vn-hr${rec?" vn-hr-rec":""}">${sub.textContent.trim()?" · ":""}${esc(hora)}</span>`)}
   const h3=vn112Tp(`<h3 class="vn-tit"><button type="button" data-capmat="${esc(p.id)}">${esc(tit)}</button></h3>`);
   vn112Dots(a);vn112Rotulos(a);
   if(car){car.before(h3);if(cap)car.before(cap)}
@@ -17470,11 +17482,40 @@ var SR150_USADAS=null;
   if(sec&&sec[0]!=="_"&&SR150_USADAS.has(a.p.id)){try{const r=igLista(sec),q=(r.ps||[]).find(p=>!SR150_USADAS.has(p.id)&&!SEEN.has(seenKey(p)))||(r.ps||[]).find(p=>!SR150_USADAS.has(p.id));
     if(q){SR150_USADAS.add(q.id);return {p:q,t:versao(q,lente()).titulo}}}catch(e){}}
   SR150_USADAS.add(a.p.id);return a}}
-{const _vt150=vn112Tiles;vn112Tiles=function(){SR150_USADAS=new Set();try{return _vt150.apply(this,arguments)}finally{SR150_USADAS=null}}}
+/* os círculos de destaque (data-dest) que repetem a notícia de um círculo de editoria somem (o carrossel mostrava a mesma notícia duas vezes) */
+{const _vt150=vn112Tiles;vn112Tiles=function(){SR150_USADAS=new Set();try{const r=_vt150.apply(this,arguments);
+  try{const box=$("#secs");if(box){const usadas=SR150_USADAS;box.querySelectorAll(":scope>.sb[data-dest]").forEach(b=>{b.classList.toggle("sr150-rep",usadas.has(b.dataset.dest))})}}catch(e){}return r}finally{SR150_USADAS=null}}}
 
 /* 7. miniaturas (Capa e círculos do topo, ~90–110 px na tela) pediam a foto da Wikimedia com 960 px (até 250 KB cada);
       agora pedem a de 330 px (nítida em tela 3×) */
 {const _ca150=capaArte;capaArte=function(p,cls){const r=_ca150.apply(this,arguments);return /^(cp-th|vn-tl-art)$/.test(cls||"")?r.replace(/(upload\.wikimedia\.org\/wikipedia\/[a-z]+\/thumb\/[^"']+?\/)960px-/g,"$1330px-"):r}}
+
+/* 8. "Do que você segue" com uma cobertura só: a faixa repetia o cartão logo abaixo (a cobertura seguida já sobe para o
+      topo do Feed); com duas ou mais, a faixa continua como atalho */
+{const _cs150=cobSegStrip;cobSegStrip=function(){try{if(FILTRO==="tudo"&&(FEED.pautas||[]).filter(p=>seguido(p)&&!silenciado(p)&&!(PREF.ocultas||[]).includes(secOf(p))).length<2)return ""}catch(e){}return _cs150.apply(this,arguments)}}
+
+/* 9. dólar e Ibovespa do dia mostram a hora da cotação ("hoje, 18h56"): o indicador é a última cotação e a notícia pode
+      trazer o fechamento, então os dois números podem diferir no centavo */
+{const _it150=indTile;indTile=function(x){const h=_it150.apply(this,arguments);try{const at=IND_AUTO&&IND_AUTO.atualizado;
+  if(x&&/^(dolar|ibovespa|euro)$/.test(x.id||"")&&at&&String(at).slice(0,10)===hojeSP()){const m=String(at).match(/T(\d{2}):(\d{2})/);if(m)return h.replace('<small class="ind-d">hoje</small>',`<small class="ind-d">hoje, ${+m[1]}h${m[2]}</small>`)}}catch(e){}return h}}
+
+/* 10. botão "Instalar o Prumo" (Android/Chrome): o navegador avisa que dá para instalar (beforeinstallprompt) e o Perfil
+       ganha o botão na parte "Usar como app no celular"; no iPhone continua o passo a passo */
+var SR150_INST=null;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();SR150_INST=e;try{sr150Instalar()}catch(_){}});
+addEventListener("appinstalled",()=>{SR150_INST=null;document.querySelectorAll(".sr150-inst").forEach(b=>b.remove());try{toast("O Prumo foi para a tela de início.")}catch(_){}});
+function sr150Instalar(){if(!SR150_INST)return;document.querySelectorAll("#v-me details.card.dt").forEach(d=>{if(!/Usar como app/.test((d.querySelector("summary")||{}).textContent||"")||d.querySelector(".sr150-inst"))return;
+  d.insertAdjacentHTML("beforeend",`<button type="button" class="btn sr150-inst" data-sr150inst>Instalar o Prumo neste celular</button>`)})}
+{const _rm150=renderMe;renderMe=function(){const r=_rm150.apply(this,arguments);try{sr150Instalar()}catch(e){}return r}}
+document.addEventListener("click",async e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-sr150inst]");if(!b||!SR150_INST)return;e.preventDefault();
+  const ev=SR150_INST;try{uso("instalar")}catch(_){}try{await ev.prompt();const r=await ev.userChoice;if(r&&r.outcome==="accepted"){SR150_INST=null;b.remove()}}catch(_){}},true);
+
+/* 11. primeira visita sem conta: um guia curto (Capa e lentes, Feed, usar como app) — antes só quem criava conta via.
+       Não aparece para quem chega por link de notícia, de post ou de convite, nem nos testes automáticos. */
+function sr150TelasVisitante(orig){const t=(orig||tourTelas)("");return [t[0],Object.assign({},t[1],{p:"No Feed, as notícias viram posts e giros. Para curtir, comentar, votar e conversar com amigos, entre com o convite de alguém do Prumo."}),t[3]]}
+(function sr150Guia(n){try{if(!INIT_FIM||!FEED){if(n<80)setTimeout(()=>sr150Guia(n+1),250);return}
+  if(S.uid||LINK_PID||VP99_LINK||CONVITE_URL)return;let visto=false,teste=false;try{visto=!!localStorage.getItem("prumo-tour-visto");teste=navigator.webdriver&&localStorage.getItem("prumo-teste-tourvis")!=="1"}catch(_){return}
+  if(visto||teste)return;setTimeout(()=>{try{if(S.uid||$("#layer").innerHTML||document.visibilityState!=="visible")return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(_){}},1500)}catch(e){}})(0);
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

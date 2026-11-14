@@ -17,3 +17,14 @@
 .cfp-pubs button[aria-pressed="true"],.cn102-inds button[aria-selected="true"]{border-color:var(--bronze)}
 .dest-o[aria-pressed="true"] i{background:var(--bronze)}.dest-o[aria-pressed="true"]{outline-color:var(--bronze)}
 .ce-av{color:#e0a458}
+#secs .sb.sr150-rep{display:none}
+/* hora em destaque na notícia nova ou atualizada nas últimas 2 h */
+.vn-hr-rec{color:var(--bronze-ink);font-weight:700}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .vn-hr-rec{color:var(--bronze)}}
+:root[data-aparencia="escuro"] .vn-hr-rec{color:var(--bronze)}
+.sr150-inst{margin-top:10px;width:100%}
+/* "Coberturas ativas" e "Do que você segue": a faixa usa a classe .segs, que também é a do seletor de abas (09-v12:
+   .segs button{flex:1}); os cartões encolhiam para ~70 px e o título virava "Fim da esc...". Agora cada cartão tem a
+   largura dele e a faixa rola para o lado */
+.segs .segc{flex:0 0 auto;min-height:0;border-radius:12px;font-size:inherit;font-weight:inherit;color:inherit;width:min(220px,62vw)}
+.segs:has(>.segc){background:none;padding:4px 0 10px;border-radius:0}

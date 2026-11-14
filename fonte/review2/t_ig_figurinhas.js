@@ -53,7 +53,7 @@ const toque = async (p, sel) => { const r = await ev(p, s => { const b = documen
 
   // 4. contagem
   await chip(A, 'cont'); await A.fill('#fq', 'Debate na TV');
-  await ev(A, () => { const d = new Date(Date.now() + 3 * 864e5); const i = document.querySelector('#fd'); i.value = d.toISOString().slice(0, 10); i.dispatchEvent(new Event('change', { bubbles: true })) }); await sleep(150);
+  await ev(A, () => { const d = new Date(Date.now() + 3 * 864e5); const i = document.querySelector('#fd'); const z2 = n => String(n).padStart(2, '0'); i.value = d.getFullYear() + '-' + z2(d.getMonth() + 1) + '-' + z2(d.getDate());  /* data local: em UTC já podia ser o dia seguinte e a contagem dava 04 */ i.dispatchEvent(new Event('change', { bubbles: true })) }); await sleep(150);
   ok(await ev(A, () => /^0[23]/.test(document.querySelector('.ce-fe .fg-cd b').textContent)), 'contagem: os números mudam com a data');
   await foto(A, '07-contagem'); await clk(A, '[data-edfok]'); await sleep(200);
   ok(await ev(A, () => ED.st.els.map(e => e.t).join() === 'enq,quiz,cont'), 'contagem no story');

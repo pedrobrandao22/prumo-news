@@ -5,9 +5,10 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8'));
   const iso = ms => new Date(ms - 3 * 3600e3).toISOString().slice(0, 16) + ':00-03:00';
   f.atualizado_em = iso(Date.now() - 5 * 60e3);
-  const pc = f.pautas[2]; pc.correcoes = [{ hora: iso(Date.now() - 2 * 3600e3), texto: 'O valor certo é R$ 44 mil, e não R$ 46 mil.' }];
+  const pc = f.pautas[2]; pc.correcoes = [{ hora: iso(Math.max(Date.now() - 2 * 3600e3, Date.parse(new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10) + 'T00:01:00-03:00'))),  /* ainda hoje, mesmo logo depois da meia-noite */ texto: 'O valor certo é R$ 44 mil, e não R$ 46 mil.' }];
   f.resumo_dia.titulo = 'A semana em 5 fatos';
   const hj = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10); const mais = n => { const d = new Date(hj + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10) };
+  f.agenda = (f.agenda || []).filter(a => false);  /* a edição real pode ter mais de 8 itens hoje e amanhã e esconder o de teste no fim de semana */
   f.agenda.push({ data: mais(4), hora: '10h', texto: 'Evento de teste da semana que vem', secao: 'politica' });
   fs.writeFileSync(S0 + 'feed.json', JSON.stringify(f));
   fs.copyFileSync(require('../t_util').REPO + '/fotos-arquivo.json', S0 + 'fotos-arquivo.json');

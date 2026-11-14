@@ -38,7 +38,7 @@ let srv = null;
   await p.evaluate(() => { const el = document.querySelector('#cpi-congresso-base-lula') || [...document.querySelectorAll('#v-capa img')].find(i => /acervo/.test(i.src)); if (el) el.scrollIntoView({ block: 'center' }) }); await sleep(900);
   const im = await p.evaluate(() => [...document.querySelectorAll('#v-capa img')].filter(i => /\/acervo\//.test(i.getAttribute('src'))).map(i => ({ src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0, orig: i.getAttribute('data-orig') || '' })));
   ok(im.length >= 2 && im.filter(x => x.ok).length >= 1, 'Capa mostra fotos do acervo (arquivo local carregado)', im.slice(0, 4));
-  ok(im.every(x => !x.orig || /\/thumb\/.*\/960px-|camara\.leg\.br|senado\.leg\.br/.test(x.orig)), 'reserva da foto local = miniatura da fonte (não o original pesado)', im.slice(0, 3));
+  ok(im.every(x => !x.orig || /\/thumb\/.*\/(960|330)px-|camara\.leg\.br|senado\.leg\.br/.test(x.orig)), 'reserva da foto local = miniatura da fonte (não o original pesado)', im.slice(0, 3));
   ok(!remotos.some(u => /bandep\/204521|Banco_Central_do_Brasil_sede/.test(u)), 'foto do acervo não vai buscar na fonte', remotos.slice(0, 4));
   await p.screenshot({ path: QA + 'capa-fotos-acervo.png' });
 

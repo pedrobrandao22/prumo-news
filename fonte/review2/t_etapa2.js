@@ -38,7 +38,11 @@ const fs = require('fs');
     await p.screenshot({ path: D + n + '4-pagina-baixo.png' });
     await p.evaluate(() => document.querySelector('[data-cobseg]').click()); await sleep(500);
     ok(await p.evaluate(() => /Seguindo/.test(document.querySelector('[data-cobseg]').textContent) && seguido(pautaById('pec-6x1-senado'))), n + ': Seguir');
-    await p.evaluate(() => closeLayer()); await sleep(300); await p.evaluate(() => window.scrollTo(0, 0)); await sleep(400);
+    await p.evaluate(() => closeLayer()); await sleep(300);
+    // com uma cobertura só, a faixa não aparece (ela já sobe no Feed; 150); com duas, aparece como atalho
+    ok(await p.evaluate(() => !document.querySelector('.segs')), n + ': uma cobertura seguida: sem faixa repetida');
+    await p.evaluate(() => { const q = FEED.pautas.find(x => !seguido(x) && temaDe(x) !== temaDe(pautaById('pec-6x1-senado'))); cobSegue(temaDe(q), true); renderPosts(true) }); await sleep(300);
+    await p.evaluate(() => window.scrollTo(0, 0)); await sleep(400);
     ok(await p.evaluate(() => !!document.querySelector('.segs [data-cobpag="pec-6x1-senado"]')), n + ': faixa "Do que você segue"');
     await p.screenshot({ path: D + n + '5-faixa.png' });
     await p.evaluate(() => abrirBusca('paquistao')); await sleep(400);
