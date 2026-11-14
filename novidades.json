@@ -1,58 +1,178 @@
 {
- "gerado": "2026-11-13T20:15-03:00",
+ "gerado": "2026-11-13T21:10-03:00",
  "desde": "2026-11-13T19:40-03:00",
  "feed_atualizado_em": "2026-11-13T19:50:00-03:00",
  "resumo": {
-  "manchetes": 53,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 43,
-  "pautas_com_novidade": 1,
+  "manchetes": 137,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 101,
+  "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 7,
-  "acionar_itens": 1,
-  "ja_avaliados": 1
+  "acionar_itens": 2,
+  "ja_avaliados": 0
  },
  "acionar": true,
- "acionar_motivo": "pauta eua-faa-suspende-decolagens: 6 veículos em 90 min depois da última atualização",
+ "acionar_motivo": "pauta eua-faa-suspende-decolagens: 6 veículos em 90 min depois da última atualização; assunto novo: 3 veículos em 90 min (politica)",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "eua-faa-suspende-decolagens",
-   "titulo": "Secretário dos EUA diz que técnicos investigam falha que afetou voos",
+   "titulo": "Anac monitora voos entre Brasil e EUA após suspensão de decolagens",
    "n_fontes": 6,
    "motivo": "pauta eua-faa-suspende-decolagens: 6 veículos em 90 min depois da última atualização"
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Subvenção de R$ 1,40 ao diesel importado não será renovada, diz ministério",
+   "secao": "politica",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "chave": [
+    "diesel",
+    "extra",
+    "governo",
+    "importado",
+    "litro",
+    "lula",
+    "ministerio",
+    "renova",
+    "renovada",
+    "retira",
+    "sera",
+    "subsidio",
+    "subvencao"
+   ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois",
  "novos": [
   {
-   "assunto": "Serviço Nacional de Meteorologia dos EUA relata problemas de internet em todo o país",
-   "secao": "economia",
-   "n_fontes": 2,
+   "assunto": "Falha do tráfego aéreo não será resolvida de forma rápida, diz secretário dos EUA",
+   "secao": "mundo",
+   "n_fontes": 3,
    "fontes": [
     "g1",
-    "im"
+    "im",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Falha do tráfego aéreo não será resolvida de forma rápida, diz secretário dos EUA",
+     "url": "https://www.infomoney.com.br/mundo/falha-do-trafego-aereo-nao-sera-resolvida-de-forma-rapida-diz-secretario-dos-eua/",
+     "hora": "13/11 20h54"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "FBI investiga se atualização de software provocou caos aéreo nos EUA",
+     "url": "https://www.metropoles.com/mundo/fbi-investiga-se-atualizacao-de-software-provocou-caos-aereo-nos-eua",
+     "hora": "13/11 20h22"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Em meio a caos aéreo nos EUA, Starship é lançada nos EUA; propulsor falha e cai no Golfo do México",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/13/spacex-lanca-foguete-starship-para-teste-de-manobra-inedita.ghtml",
+     "hora": "13/11 19h48"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Subvenção de R$ 1,40 ao diesel importado não será renovada, diz ministério",
+   "secao": "politica",
+   "n_fontes": 3,
+   "fontes": [
+    "ab",
+    "cnn",
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Subvenção de R$ 1,40 ao diesel importado não será renovada, diz ministério",
+     "url": "https://www.cnnbrasil.com.br/infra/subvencao-de-r-140-ao-diesel-importado-nao-sera-renovada-diz-ministerio/",
+     "hora": "13/11 20h36"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Governo Lula retira subvenção extra de R$ 1,40 por litro de diesel importado",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/governo-lula-retira-subvencao-extra-de-r-140-por-litro-de-diesel-importado.shtml",
+     "hora": "13/11 19h55"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Governo não renova subsídio de R$ 1,40 ao diesel importado",
+     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/governo-nao-renova-subsidio-de-r-140-ao-diesel-importado",
+     "hora": "13/11 19h54"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Alan Ruschel, sobrevivente da tragédia da Chapecoense, anuncia despedida",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Serviço Nacional de Meteorologia dos EUA relata problemas de internet em todo o país",
-     "url": "https://www.infomoney.com.br/mundo/servico-nacional-de-meteorologia-dos-eua-relata-problemas-de-internet-em-todo-o-pais/",
-     "hora": "13/11 20h07"
+     "veiculo": "Metrópoles",
+     "titulo": "Alan Ruschel, sobrevivente da tragédia da Chapecoense, anuncia despedida",
+     "url": "https://www.metropoles.com/esportes/alan-ruschel-sobrevivente-da-tragedia-da-chapecoense-anuncia-despedida",
+     "hora": "13/11 20h46"
     },
     {
-     "veiculo": "g1",
-     "titulo": "Paralisação de voos nos EUA: agência suspende todas as decolagens no país",
-     "url": "https://g1.globo.com/mundo/ao-vivo/paralisacao-de-voos-nos-eua.ghtml",
-     "hora": "13/11 20h02"
+     "veiculo": "ge",
+     "titulo": "Alan Ruschel anuncia aposentadoria em jogo que pode dar acesso ao Juventude",
+     "url": "https://ge.globo.com/rs/futebol/times/juventude/noticia/2026/11/13/alan-ruschel-anuncia-aposentadoria-em-jogo-que-pode-dar-acesso-ao-juventude.ghtml",
+     "hora": "13/11 20h19"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Argentina x Uruguai - Amistosos 2026 - Ao vivo - globoesporte.com",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Argentina x Uruguai - Amistosos 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/jogo/13-11-2026/argentina-uruguai.ghtml",
+     "hora": "13/11 20h52"
     },
     {
-     "veiculo": "InfoMoney",
-     "titulo": "EUA suspendem decolagens em todo o país pela primeira vez desde 2023",
-     "url": "https://www.infomoney.com.br/mundo/eua-suspendem-decolagens-em-todo-o-pais-pela-primeira-vez-desde-2023/",
-     "hora": "13/11 19h45"
+     "veiculo": "ge",
+     "titulo": "Brasil x Peru - Amistosos Seleção Sub-20 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/pa/futebol/jogo/13-11-2026/brasil-peru.ghtml",
+     "hora": "13/11 20h51"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Japão x Brasil - Amistosos da Seleção Brasileira 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/futebol/selecao-brasileira/jogo/14-11-2026/japao-brasil.ghtml",
+     "hora": "13/11 20h38"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Na Ásia, Seleção Brasileira enfrenta o Japão no penúltimo amistoso de 2026",
+     "url": "https://www.metropoles.com/esportes/na-asia-selecao-brasileira-enfrenta-o-japao-no-penultimo-amistoso-de-2026",
+     "hora": "13/11 20h00"
     }
    ],
    "n_fontes_90min": 2
@@ -79,15 +199,66 @@
      "titulo": "SpaceX realiza 15º voo de teste do foguete Starship com manobra jamais vista durante os voos anteriores",
      "url": "https://www.cnnbrasil.com.br/ciencia/spacex-realiza-15o-voo-de-teste/",
      "hora": "13/11 19h50"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "SpaceX lança foguete Starship para teste de manobra inédita",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/13/spacex-lanca-foguete-starship-para-teste-de-manobra-inedita.ghtml",
-     "hora": "13/11 19h48"
     }
    ],
    "n_fontes_90min": 2
+  },
+  {
+   "assunto": "'Acordo e fico esperando por ela', diz pai de médica morta a tiros no interior do Acre",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Acordo e fico esperando por ela', diz pai de médica morta a tiros no interior do Acre",
+     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/13/acordo-e-fico-esperando-por-ela-diz-pai-de-medica-morta-a-tiros-no-interior-do-acre.ghtml",
+     "hora": "13/11 20h46"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "ACBJJ 23",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "ACBJJ 23",
+     "url": "https://ge.globo.com/combate/ao-vivo/acbjj-23-quatro-primeiras-lutas-ao-vivo.ghtml",
+     "hora": "13/11 20h24"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "ANAC diz que monitora caos nos EUA e orienta passageiro a buscar empresas",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "ANAC diz que monitora caos nos EUA e orienta passageiro a buscar empresas",
+     "url": "https://www.metropoles.com/mundo/anac-diz-que-monitora-caos-nos-eua-e-orienta-passageiro-a-buscar-empresas",
+     "hora": "13/11 20h45"
+    }
+   ],
+   "n_fontes_90min": 1
   },
   {
    "assunto": "AO VIVO: assita Praia Clube e Mackenzie pela Superliga Feminina",
@@ -103,7 +274,7 @@
      "veiculo": "ge",
      "titulo": "AO VIVO: assita Praia Clube e Mackenzie pela Superliga Feminina",
      "url": "https://ge.globo.com/mg/triangulo-mineiro/volei/ao-vivo/superliga-feminina-praia-clube-x-mackenzie.ghtml",
-     "hora": "13/11 19h49"
+     "hora": "13/11 20h26"
     }
    ],
    "n_fontes_90min": 0,
@@ -124,6 +295,25 @@
      "titulo": "Apresentadora da Globo fica dentro de avião durante paralisação nos EUA: 'Não temos previsão'",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/13/kenya-esta-dentro-de-aviao-durante-paralizacao-nos-eua.ghtml",
      "hora": "13/11 19h51"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Após salto das ações, Inter mira longo prazo com consistência, diz CEO",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Após salto das ações, Inter mira longo prazo com consistência, diz CEO",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/apos-salto-das-acoes-inter-mira-longo-prazo-com-consistencia-diz-ceo/",
+     "hora": "13/11 20h33"
     }
    ],
    "n_fontes_90min": 1
@@ -229,6 +419,63 @@
    "lixo": true
   },
   {
+   "assunto": "Atraso de ambulância afeta abertura dos portões da Concha Acústica e público de show protesta em Salvador",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Atraso de ambulância afeta abertura dos portões da Concha Acústica e público de show protesta em Salvador",
+     "url": "https://g1.globo.com/ba/bahia/noticia/2026/11/13/atraso-abertura-dos-portoes-da-concha-acustica.ghtml",
+     "hora": "13/11 20h12"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Atriz Neusa Borges é internada aos 84 anos com pneumonia",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Atriz Neusa Borges é internada aos 84 anos com pneumonia",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/atriz-neusa-borges-e-internada-aos-84-anos-com-pneumonia/",
+     "hora": "13/11 20h25"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "BC aprova compra de banco pelo Nubank, que passará a ter licença bancária no Brasil",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "BC aprova compra de banco pelo Nubank, que passará a ter licença bancária no Brasil",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/bc-aprova-compra-de-banco-pelo-nubank-que-passara-a-ter-licenca-bancaria-no-brasil.shtml",
+     "hora": "13/11 20h15"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "BH ganha 59 novos pontos de internet gratuita em comunidades e praças",
    "secao": null,
    "n_fontes": 1,
@@ -248,26 +495,115 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Brasil x Peru - Amistosos Seleção Sub-20 2026 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
+   "assunto": "Baixada Santista recebe treinamento da Defesa Civil contra eventos climáticos extremos do El Niño",
+   "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "ge"
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Brasil x Peru - Amistosos Seleção Sub-20 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/pa/futebol/jogo/13-11-2026/brasil-peru.ghtml",
-     "hora": "13/11 20h11"
-    },
+     "veiculo": "g1",
+     "titulo": "Baixada Santista recebe treinamento da Defesa Civil contra eventos climáticos extremos do El Niño",
+     "url": "https://g1.globo.com/sp/santos-regiao/noticia/2026/11/13/baixada-santista-recebe-treinamento-da-defesa-civil-contra-eventos-climaticos-extremos-do-el-nino.ghtml",
+     "hora": "13/11 20h15"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Bambolê rodou o mundo, virou febre e deixou uma história curiosa sobre quem levou a ideia aos EUA",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Argentina x Uruguai - Amistosos 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/jogo/13-11-2026/argentina-uruguai.ghtml",
-     "hora": "13/11 20h09"
+     "veiculo": "CNN Brasil",
+     "titulo": "Bambolê rodou o mundo, virou febre e deixou uma história curiosa sobre quem levou a ideia aos EUA",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/bambole-rodou-o-mundo-virou-febre-e-deixou-uma-historia-curiosa-sobre-quem-levou-a-ideia-aos-eua/",
+     "hora": "13/11 20h20"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Banco do Brasil soma R$ 1,64 bilhão em renegociação de dívidas rurais em MT",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Banco do Brasil soma R$ 1,64 bilhão em renegociação de dívidas rurais em MT",
+     "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/13/banco-do-brasil-soma-r-164-bilhao-em-renegociacao-de-dividas-rurais-em-mt.ghtml",
+     "hora": "13/11 20h26"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Bitcoin recua ao menor nível desde agosto com perdas no setor tech",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Bitcoin recua ao menor nível desde agosto com perdas no setor tech",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/bitcoin-recua-ao-menor-nivel-desde-agosto-com-perdas-no-setor-tech/",
+     "hora": "13/11 20h49"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Brasileiro que morreu em prisão isralense é sepultado depois de 1 ano e 8 meses; governo cobra explicação de Israel",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Brasileiro que morreu em prisão isralense é sepultado depois de 1 ano e 8 meses; governo cobra explicação de Israel",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/13/brasileiro-que-morreu-em-prisao-isralense-e-sepultado-depois-de-1-ano-e-8-meses-governo-cobra-explicacao-de-israel.ghtml",
+     "hora": "13/11 20h36"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Bruno Cardoso, Jordana Morais e Gui Araújo são demitidos do Link Podcast",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Bruno Cardoso, Jordana Morais e Gui Araújo são demitidos do Link Podcast",
+     "url": "https://www.metropoles.com/colunas/fabia-oliveira/bruno-cardoso-jordana-morais-e-gui-araujo-sao-demitidos-do-link-podcast",
+     "hora": "13/11 20h59"
     }
    ],
    "n_fontes_90min": 1
@@ -292,141 +628,46 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Casal é preso em Taubaté, suspeito de estelionato no RJ",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Casal é preso em Taubaté, suspeito de estelionato no RJ",
-     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/13/casal-e-preso-em-taubate-suspeito-de-estelionato-no-rj.ghtml",
-     "hora": "13/11 19h40"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Caso de influencer que fingiu ser mulher com câncer tem audiência marcada",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Caso de influencer que fingiu ser mulher com câncer tem audiência marcada",
-     "url": "https://www.metropoles.com/sao-paulo/caso-de-influencer-que-fingiu-ser-mulher-com-cancer-tem-audiencia-marcada",
-     "hora": "13/11 19h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Cruzeiro-AL anuncia a contratação de Caíque Valdívia",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Cruzeiro-AL anuncia a contratação de Caíque Valdívia",
-     "url": "https://ge.globo.com/al/futebol/noticia/2026/11/13/cruzeiro-al-anuncia-a-contratacao-de-caique-valdivia.ghtml",
-     "hora": "13/11 19h51"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "DF sedia evento gratuito e internacional de controle e combate à corrupção",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "DF sedia evento gratuito e internacional de controle e combate à corrupção",
-     "url": "https://www.metropoles.com/distrito-federal/df-sedia-evento-gratuito-e-internacional-de-controle-e-combate-a-corrupcao",
-     "hora": "13/11 20h05"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Eleição do Vasco: ge entrevista o candidato a presidente Pedrinho",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Eleição do Vasco: ge entrevista o candidato a presidente Pedrinho",
-     "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/13/eleicao-do-vasco-ge-entrevista-o-candidato-a-presidente-pedrinho.ghtml",
-     "hora": "13/11 19h41"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Faculdade Favoo mobiliza comunidade acadêmica em campanha de doação de sangue",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Faculdade Favoo mobiliza comunidade acadêmica em campanha de doação de sangue",
-     "url": "https://g1.globo.com/ro/rondonia/especial-publicitario/cooperativa-educacional-de-vilhena-favoo-divulga-novidades-e-programacao-de-2026/noticia/2026/11/13/faculdade-favoo-mobiliza-comunidade-academica-em-campanha-de-doacao-de-sangue.ghtml",
-     "hora": "13/11 20h03"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Filhote de lontra é resgatado e recebe cuidados de especialistas em Belém",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Filhote de lontra é resgatado e recebe cuidados de especialistas em Belém",
-     "url": "https://g1.globo.com/pa/para/noticia/2026/11/13/filhote-de-lontra-e-resgatado-e-recebe-cuidados-de-especialistas-em-belem.ghtml",
-     "hora": "13/11 19h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Governo Lula retira subvenção extra de R$ 1,40 por litro de diesel importado",
+   "assunto": "Camas, cofres e secadores: governo do Pará vai leiloar 405 lotes de itens da antiga Vila COP 30",
    "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Camas, cofres e secadores: governo do Pará vai leiloar 405 lotes de itens da antiga Vila COP 30",
+     "url": "https://g1.globo.com/pa/para/noticia/2026/11/13/camas-cofres-e-secadores-governo-do-para-vai-leiloar-lotes-de-itens-da-antiga-vila-cop-30.ghtml",
+     "hora": "13/11 20h18"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Caminhoneiro é preso com oito fuzis escondidos em carreta na Via Dutra, em Piraí",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Caminhoneiro é preso com oito fuzis escondidos em carreta na Via Dutra, em Piraí",
+     "url": "https://g1.globo.com/rj/sul-do-rio-costa-verde/noticia/2026/11/13/caminhoneiro-e-preso-com-oito-fuzis-escondidos-em-carreta-na-via-dutra-em-pirai.ghtml",
+     "hora": "13/11 20h10"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Caminhão fica pendurado a dez metros de altura após acidente em SC",
+   "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
     "folha"
@@ -435,201 +676,10 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Governo Lula retira subvenção extra de R$ 1,40 por litro de diesel importado",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/governo-lula-retira-subvencao-extra-de-r-140-por-litro-de-diesel-importado.shtml",
-     "hora": "13/11 19h55"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Grupo de chineses escapa de imóvel onde teria sido mantido em cárcere privado e pede ajuda à polícia no Paraná",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Grupo de chineses escapa de imóvel onde teria sido mantido em cárcere privado e pede ajuda à polícia no Paraná",
-     "url": "https://g1.globo.com/pr/oeste-sudoeste/noticia/2026/11/13/grupo-de-chineses-carcere-privado.ghtml",
-     "hora": "13/11 20h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Guerreiras do K-Pop anuncia turnê mundial com América Latina; saiba tudo",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Guerreiras do K-Pop anuncia turnê mundial com América Latina; saiba tudo",
-     "url": "https://www.cnnbrasil.com.br/pop/streaming/guerreiras-do-k-pop-anuncia-turne-mundial-com-america-latina-saiba-tudo/",
-     "hora": "13/11 19h46"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Japão x Brasil: Veja onde assistir, horário e escalações",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Japão x Brasil: Veja onde assistir, horário e escalações",
-     "url": "https://www.infomoney.com.br/esportes/japao-brasil-onde-assistir-horario-escalacoes/",
-     "hora": "13/11 20h00"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Matheus e Kauan descumprem decisão e podem pagar multa de R$ 2 milhões",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Matheus e Kauan descumprem decisão e podem pagar multa de R$ 2 milhões",
-     "url": "https://www.metropoles.com/colunas/fabia-oliveira/matheus-e-kauan-descumprem-decisao-e-podem-pagar-multa-de-r-2-milhoes",
-     "hora": "13/11 20h11"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Morador de prédio em Higienópolis participou de assalto que fez mulher refém, diz polícia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Morador de prédio em Higienópolis participou de assalto que fez mulher refém, diz polícia",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/13/morador-de-predio-em-higienopolis-participou-de-assalto-que-fez-mulher-refem-diz-policia.ghtml",
-     "hora": "13/11 19h41"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Moradores denunciam furtos e falta de segurança na Vila do Estreito, em Pedregulho: 'Abandonada'",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Moradores denunciam furtos e falta de segurança na Vila do Estreito, em Pedregulho: 'Abandonada'",
-     "url": "https://g1.globo.com/sp/ribeirao-preto-franca/noticia/2026/11/13/moradores-denunciam-furtos-e-falta-de-seguranca-na-vila-do-estreito-em-pedregulho-abandonada.ghtml",
-     "hora": "13/11 20h04"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Mpox: nova variante que circula pelo Brasil já causou surto na África",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Mpox: nova variante que circula pelo Brasil já causou surto na África",
-     "url": "https://www.cnnbrasil.com.br/saude/mpox-nova-variante-que-circula-pelo-brasil-ja-causou-surto-na-africa/",
-     "hora": "13/11 19h49"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Mulher que passou 3 dias da infância com Xuxa, em 1987, se prepara para 'reencontro' com a apresentadora em BH",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Mulher que passou 3 dias da infância com Xuxa, em 1987, se prepara para 'reencontro' com a apresentadora em BH",
-     "url": "https://g1.globo.com/mg/minas-gerais/noticia/2026/11/13/mulher-que-passou-3-dias-da-infancia-com-xuxa-em-1987-se-prepara-para-reencontro-com-a-apresentadora-em-bh.ghtml",
-     "hora": "13/11 19h59"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Na Ásia, Seleção Brasileira enfrenta o Japão no penúltimo amistoso de 2026",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Na Ásia, Seleção Brasileira enfrenta o Japão no penúltimo amistoso de 2026",
-     "url": "https://www.metropoles.com/esportes/na-asia-selecao-brasileira-enfrenta-o-japao-no-penultimo-amistoso-de-2026",
-     "hora": "13/11 20h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Número de vítimas em incêndio de fábrica no interior de SP sobe para 12",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Número de vítimas em incêndio de fábrica no interior de SP sobe para 12",
-     "url": "https://www.metropoles.com/sao-paulo/numero-de-vitimas-em-incendio-de-fabrica-no-interior-de-sp-sobe",
-     "hora": "13/11 20h00"
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Caminhão fica pendurado a dez metros de altura após acidente em SC",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/caminhao-fica-pendurado-a-dez-metros-de-altura-apos-acidente-em-sc.shtml",
+     "hora": "13/11 20h31"
     }
    ],
    "n_fontes_90min": 1
@@ -638,25 +688,55 @@
  "em_pautas": {
   "eua-faa-suspende-decolagens": {
    "secao": "mundo",
-   "n_fontes": 3,
+   "n_fontes": 5,
    "manchetes": [
     {
      "veiculo": "Poder360",
-     "titulo": "Suspensão nos EUA atinge mais de 12 mil voos, mostra FlightAware",
-     "url": "https://www.poder360.com.br/poder-internacional/suspensao-nos-eua-atinge-voos-mostra-flightaware/",
-     "hora": "13/11 19h56"
+     "titulo": "Anac monitora voos entre Brasil e EUA após suspensão de decolagens",
+     "url": "https://www.poder360.com.br/poder-internacional/anac-monitora-voos-entre-brasil-e-eua-apos-suspensao-de-decolagens/",
+     "hora": "13/11 20h55"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Brasileiro relata tensão em avião após suspensão de voos nos EUA",
-     "url": "https://www.metropoles.com/colunas/grande-angular/brasileiro-relata-tensao-em-aviao-apos-suspensao-de-voos-nos-eua",
-     "hora": "13/11 19h54"
+     "veiculo": "Folha Mundo",
+     "titulo": "Europa suspende voos para os EUA após interrupção de decolagens",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/europa-suspende-voos-para-os-eua-apos-interrupcao-de-decolagens.shtml",
+     "hora": "13/11 20h55"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Suspensão de voos nos EUA: O que causou a pausa nas operações aéreas?",
-     "url": "https://www.cnnbrasil.com.br/internacional/suspensao-de-voos-nos-eua-o-que-causou-a-pausa-nas-operacoes-aereas/",
-     "hora": "13/11 19h48"
+     "titulo": "Ações de aéreas dos EUA caem após suspensão de voos em todo o país",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/acoes-de-aereas-dos-eua-caem-apos-suspensao-de-voos-em-todo-o-pais/",
+     "hora": "13/11 20h48"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Caos aéreo nos EUA: agência de aviação suspende todas as decolagens no país",
+     "url": "https://g1.globo.com/mundo/ao-vivo/paralisacao-de-voos-nos-eua.ghtml",
+     "hora": "13/11 20h43"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "American Airlines diz que voos nos EUA terão alterações pelo resto do dia",
+     "url": "https://www.metropoles.com/mundo/american-airlines-diz-que-voos-nos-eua-terao-alteracoes-pelo-resto-do-dia",
+     "hora": "13/11 20h47"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Aéreas brasileiras aguardam autoridades americanas sobre voos aos EUA",
+     "url": "https://www.cnnbrasil.com.br/nacional/brasil/aereas-brasileiras-aguardam-autoridades-americanas-sobre-voos-aos-eua/",
+     "hora": "13/11 20h41"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "O que se sabe sobre a suspensão de voos nos EUA",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/13/o-que-se-sabe-sobre-a-suspensao-de-voos-nos-eua.ghtml",
+     "hora": "13/11 20h39"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "EUA expandiram ferramenta de IA para controle de voos dias antes de paralisação total nos aeroportos",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/13/estados-unidos-ferramenta-inteligencia-artificial-controle-aereo-paralisacao-aeroportos.ghtml",
+     "hora": "13/11 20h37"
     },
     {
      "veiculo": "g1",
@@ -669,41 +749,97 @@
      "titulo": "Secretário dos EUA diz que técnicos investigam falha que afetou voos",
      "url": "https://www.poder360.com.br/poder-internacional/secretario-dos-eua-diz-que-tecnicos-investigam-falha-que-afetou-voos/",
      "hora": "13/11 20h03"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Senadora dos EUA pede “investigação minuciosa” sobre voos suspensos",
+     "url": "https://www.cnnbrasil.com.br/internacional/senadora-dos-eua-pede-investigacao-minuciosa-sobre-voos-suspensos/",
+     "hora": "13/11 20h28"
+    }
+   ]
+  },
+  "serie-b-38-rodada-final": {
+   "secao": "esportes",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Série B: quem tem vantagem no playoff de acesso e como funciona o mando",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/serie-b-quem-tem-vantagem-no-playoff-de-acesso-e-como-funciona-o-mando/",
+     "hora": "13/11 20h00"
+    }
+   ]
+  },
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Presidente do PT rebate críticas a ajuste fiscal e nega cortes sociais",
+     "url": "https://www.poder360.com.br/poder-partidos-politicos/presidente-do-pt-rebate-criticas-a-ajuste-fiscal-e-nega-cortes-sociais/",
+     "hora": "13/11 20h20"
+    }
+   ]
+  },
+  "lula-viagem-cop31-asean": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Lula muda rota de viagem e vai à Espanha para encontrar Sánchez",
+     "url": "https://www.poder360.com.br/poder-governo/lula-muda-rota-de-viagem-e-vai-a-espanha-para-encontrar-sanchez/",
+     "hora": "13/11 20h29"
     }
    ]
   }
  },
  "novos_relatos": {
-  "ajuste-fiscal-lula-4": {
-   "n": 2,
-   "n_fontes": 2,
+  "lula-viagem-cop31-asean": {
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "folha",
     "p360"
    ],
    "n_fontes_90min": 1,
-   "ultima": "13/11 18h39",
-   "ultima_iso": "2026-11-13T18:39-03:00",
+   "ultima": "13/11 20h29",
+   "ultima_iso": "2026-11-13T20:29-03:00",
+   "pauta_atualizada_em": "2026-11-12T06:52-03:00",
+   "horas_sem_atualizar": 38.3,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Lula muda rota de viagem e vai à Espanha para encontrar Sánchez",
+     "url": "https://www.poder360.com.br/poder-governo/lula-muda-rota-de-viagem-e-vai-a-espanha-para-encontrar-sanchez/",
+     "hora": "13/11 20h29"
+    }
+   ]
+  },
+  "ajuste-fiscal-lula-4": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "13/11 20h20",
+   "ultima_iso": "2026-11-13T20:20-03:00",
    "pauta_atualizada_em": "2026-11-13T06:53-03:00",
-   "horas_sem_atualizar": 13.4,
+   "horas_sem_atualizar": 14.3,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "Poder360",
-     "titulo": "Bolsa sobe 0,66% e dólar segue em R$ 5,65 com ajuste fiscal em vista",
-     "url": "https://www.poder360.com.br/poder-economia/bolsa-sobe-066-e-dolar-segue-em-r-565-com-ajuste-fiscal-em-vista/",
-     "hora": "13/11 18h39"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Ajuste fiscal não é incompatível com promessas do governo Lula 4, diz André Esteves",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/ajuste-fiscal-nao-e-incompativel-com-promessas-do-governo-lula-4-diz-andre-esteves.shtml",
-     "hora": "13/11 14h21"
+     "titulo": "Presidente do PT rebate críticas a ajuste fiscal e nega cortes sociais",
+     "url": "https://www.poder360.com.br/poder-partidos-politicos/presidente-do-pt-rebate-criticas-a-ajuste-fiscal-e-nega-cortes-sociais/",
+     "hora": "13/11 20h20"
     }
    ]
   },
   "copa-do-brasil-semifinal-ida-palmeiras-vasco-gremio-atletico": {
-   "n": 4,
+   "n": 3,
    "n_fontes": 2,
    "fontes": [
     "g1",
@@ -713,7 +849,7 @@
    "ultima": "13/11 19h10",
    "ultima_iso": "2026-11-13T19:10-03:00",
    "pauta_atualizada_em": "2026-11-09T06:54-03:00",
-   "horas_sem_atualizar": 109.4,
+   "horas_sem_atualizar": 110.3,
    "principal": false,
    "manchetes": [
     {
@@ -733,49 +869,29 @@
      "titulo": "Internacional x Flamengo - Copa do Brasil Feminina 2026 - globoesporte.com",
      "url": "https://ge.globo.com/rs/futebol/futebol-feminino/copa-do-brasil-feminina/jogo/15-11-2026/internacional-flamengo-feminino.ghtml",
      "hora": "13/11 16h40"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Dupla de Mogi reforça Brasil na busca pelo tetra da Copa do Mundo de Futebol de Amputados",
-     "url": "https://ge.globo.com/sp/mogi-das-cruzes-suzano/noticia/2026/11/13/dupla-de-mogi-reforca-brasil-na-busca-pelo-tetra-da-copa-do-mundo-de-futebol-de-amputados.ghtml",
-     "hora": "13/11 15h15"
-    }
-   ]
-  },
-  "brasileirao-31-rodada-lideres": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "13/11 15h00",
-   "ultima_iso": "2026-11-13T15:00-03:00",
-   "pauta_atualizada_em": "2026-11-12T06:52-03:00",
-   "horas_sem_atualizar": 37.4,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Grêmio pode perder pontos no Brasileirão por dívida com Cuéllar; entenda",
-     "url": "https://ge.globo.com/rs/futebol/times/gremio/noticia/2026/11/13/gremio-pode-perder-pontos-no-brasileirao-por-divida-com-cuellar-entenda.ghtml",
-     "hora": "13/11 15h00"
     }
    ]
   },
   "serie-b-38-rodada-final": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
+    "cnn",
     "ge"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "13/11 19h18",
-   "ultima_iso": "2026-11-13T19:18-03:00",
+   "n_fontes_90min": 2,
+   "ultima": "13/11 20h00",
+   "ultima_iso": "2026-11-13T20:00-03:00",
    "pauta_atualizada_em": "2026-11-12T06:52-03:00",
-   "horas_sem_atualizar": 37.4,
+   "horas_sem_atualizar": 38.3,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Série B: quem tem vantagem no playoff de acesso e como funciona o mando",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/serie-b-quem-tem-vantagem-no-playoff-de-acesso-e-como-funciona-o-mando/",
+     "hora": "13/11 20h00"
+    },
     {
      "veiculo": "ge",
      "titulo": "Botafogo-SP fecha patrocínio máster pontual para última rodada da Série B",
@@ -795,7 +911,7 @@
    "ultima": "13/11 18h04",
    "ultima_iso": "2026-11-13T18:04-03:00",
    "pauta_atualizada_em": "2026-11-12T06:52-03:00",
-   "horas_sem_atualizar": 37.4,
+   "horas_sem_atualizar": 38.3,
    "principal": false,
    "manchetes": [
     {
@@ -822,7 +938,7 @@
    "ultima": "13/11 18h41",
    "ultima_iso": "2026-11-13T18:41-03:00",
    "pauta_atualizada_em": "2026-11-13T15:12-03:00",
-   "horas_sem_atualizar": 5.1,
+   "horas_sem_atualizar": 6.0,
    "principal": false,
    "manchetes": [
     {
@@ -834,7 +950,7 @@
    ]
   },
   "eua-faa-suspende-decolagens": {
-   "n": 16,
+   "n": 26,
    "n_fontes": 6,
    "fontes": [
     "cnn",
@@ -845,47 +961,47 @@
     "p360"
    ],
    "n_fontes_90min": 6,
-   "ultima": "13/11 20h03",
-   "ultima_iso": "2026-11-13T20:03-03:00",
+   "ultima": "13/11 20h55",
+   "ultima_iso": "2026-11-13T20:55-03:00",
    "pauta_atualizada_em": "2026-11-13T19:10-03:00",
-   "horas_sem_atualizar": 1.1,
+   "horas_sem_atualizar": 2.0,
    "principal": false,
    "manchetes": [
     {
      "veiculo": "Poder360",
-     "titulo": "Secretário dos EUA diz que técnicos investigam falha que afetou voos",
-     "url": "https://www.poder360.com.br/poder-internacional/secretario-dos-eua-diz-que-tecnicos-investigam-falha-que-afetou-voos/",
-     "hora": "13/11 20h03"
+     "titulo": "Anac monitora voos entre Brasil e EUA após suspensão de decolagens",
+     "url": "https://www.poder360.com.br/poder-internacional/anac-monitora-voos-entre-brasil-e-eua-apos-suspensao-de-decolagens/",
+     "hora": "13/11 20h55"
     },
     {
-     "veiculo": "g1",
-     "titulo": "Paralisação de voos nos EUA: agência suspende todas as decolagens no país",
-     "url": "https://g1.globo.com/mundo/ao-vivo/paralisacao-de-voos-nos-eua.ghtml",
-     "hora": "13/11 20h02"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Suspensão nos EUA atinge mais de 12 mil voos, mostra FlightAware",
-     "url": "https://www.poder360.com.br/poder-internacional/suspensao-nos-eua-atinge-voos-mostra-flightaware/",
-     "hora": "13/11 19h56"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Brasileiro relata tensão em avião após suspensão de voos nos EUA",
-     "url": "https://www.metropoles.com/colunas/grande-angular/brasileiro-relata-tensao-em-aviao-apos-suspensao-de-voos-nos-eua",
-     "hora": "13/11 19h54"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Aeroporto Internacional de SP: voos com origem ou destino dos EUA devem permanecer em solo, diz concessionária",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/13/voos-com-origem-ou-destino-nos-eua-devem-permanecer-em-solo-diz-concessionaria-que-administra-aeroporto-internacional-de-sp.ghtml",
-     "hora": "13/11 19h49"
+     "veiculo": "Folha Mundo",
+     "titulo": "Europa suspende voos para os EUA após interrupção de decolagens",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/europa-suspende-voos-para-os-eua-apos-interrupcao-de-decolagens.shtml",
+     "hora": "13/11 20h55"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Suspensão de voos nos EUA: O que causou a pausa nas operações aéreas?",
-     "url": "https://www.cnnbrasil.com.br/internacional/suspensao-de-voos-nos-eua-o-que-causou-a-pausa-nas-operacoes-aereas/",
-     "hora": "13/11 19h48"
+     "titulo": "Ações de aéreas dos EUA caem após suspensão de voos em todo o país",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/acoes-de-aereas-dos-eua-caem-apos-suspensao-de-voos-em-todo-o-pais/",
+     "hora": "13/11 20h48"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "American Airlines diz que voos nos EUA terão alterações pelo resto do dia",
+     "url": "https://www.metropoles.com/mundo/american-airlines-diz-que-voos-nos-eua-terao-alteracoes-pelo-resto-do-dia",
+     "hora": "13/11 20h47"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Caos aéreo nos EUA: agência de aviação suspende todas as decolagens no país",
+     "url": "https://g1.globo.com/mundo/ao-vivo/paralisacao-de-voos-nos-eua.ghtml",
+     "hora": "13/11 20h43"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Aéreas brasileiras aguardam autoridades americanas sobre voos aos EUA",
+     "url": "https://www.cnnbrasil.com.br/nacional/brasil/aereas-brasileiras-aguardam-autoridades-americanas-sobre-voos-aos-eua/",
+     "hora": "13/11 20h41"
     }
    ]
   }
@@ -1328,19 +1444,19 @@
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 5 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 6 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 4 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 21 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 31 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 28 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 30 itens, 5 nas últimas 6 h",
+  "BBC News Brasil": "ok: 30 itens, 4 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 5 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 6 nas últimas 6 h"
  }
