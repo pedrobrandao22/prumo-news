@@ -17473,7 +17473,8 @@ document.addEventListener("focusin",e=>{const el=e.target;if(!sr150CampoComentar
 /* 5 */
 {const _ts150=trocarSessao;trocarSessao=async function(user){const r=await _ts150.apply(this,arguments);
   try{if(user&&CONVITE_URL&&!sr150Convite.feito&&!CRIANDO){sr150Convite.feito=1;sr150Convite(0)}}catch(e){}return r}}
-function sr150Convite(n){try{if(!S.uid||CRIANDO)return;if(S.membro)return;if(!INIT_FIM||$("#layer .sheet")){if(n<40)setTimeout(()=>sr150Convite(n+1),250);return}
+/* só abre se, 2 s depois de entrar, a pessoa continua sem ser membro (o cadastro de membro chega um instante depois da sessão) */
+function sr150Convite(n){try{if(!S.uid||CRIANDO)return;if(S.membro)return;if(n<8){setTimeout(()=>sr150Convite(n+1),250);return}if(!INIT_FIM||$("#layer .sheet")){if(n<40)setTimeout(()=>sr150Convite(n+1),250);return}
   let nome="";try{nome=(JSON.parse(localStorage.getItem("prumo-convite")||"null")||{}).n||""}catch(_){}abrirFaltaConvite({codigo:CONVITE_URL,nome})}catch(e){}}
 
 /* 6 */
@@ -17521,6 +17522,22 @@ function sr150TelasVisitante(orig){const t=(orig||tourTelas)("");return [t[0],Ob
 /* 13. no guia, a tela "Deixe na tela de início" ganha o botão Instalar quando o navegador oferece (Android/Chrome) */
 {const _at150=abrirTour;abrirTour=function(){const r=_at150.apply(this,arguments);try{if(SR150_INST){const t=[...document.querySelectorAll("#layer .tr-t")].pop();
   if(t&&!t.querySelector(".sr150-inst"))t.insertAdjacentHTML("beforeend",`<button type="button" class="btn sr150-inst" data-sr150inst>Instalar o Prumo neste celular</button>`)}}catch(e){}return r}}
+/* ---------- 151: o Feed desenhado "no ocioso" sai em pedaços (14/11) ----------
+   Quem abre na Capa tem o Feed desenhado logo depois, num momento ocioso (035/103). Medido com CPU 4×: esse desenho era a
+   maior tarefa da abertura (300–600 ms de uma vez, ~1 s depois da Capa aparecer), somando a Capa de novo (quando as fotos
+   de arquivo chegam), os círculos do topo e os posts; um toque nesse meio-tempo esperava tudo. Agora, quando o Feed é
+   desenhado sem estar na tela, a Capa e os círculos vão para tarefas seguintes (o toque passa no meio). Ir para o Feed
+   antes disso desenha o que faltar na hora. Nomes com o prefixo pf151. */
+var PF151={fila:[],t:0};
+function pf151Roda(){PF151.t=0;const f=PF151.fila.shift();if(!f)return;try{f()}catch(e){}if(PF151.fila.length)PF151.t=setTimeout(pf151Roda,0)}
+function pf151Tudo(){if(PF151.t){clearTimeout(PF151.t);PF151.t=0}while(PF151.fila.length){const f=PF151.fila.shift();try{f()}catch(e){}}}
+{const _rf151=RF_REAL;RF_REAL=function(){if(VIEW==="feed")return _rf151.apply(this,arguments);
+  const rc=renderCapa,rs=renderSecs;let capa=null,secs=null;
+  renderCapa=function(){const a=arguments,t=this;capa=()=>rc.apply(t,a)};renderSecs=function(){const a=arguments,t=this;secs=()=>rs.apply(t,a)};
+  try{return _rf151.apply(this,arguments)}finally{renderCapa=rc;renderSecs=rs;
+    /* a Capa (que está na tela) primeiro; os círculos do Feed depois */
+    if(capa)PF151.fila.push(capa);if(secs)PF151.fila.push(secs);if(PF151.fila.length&&!PF151.t)PF151.t=setTimeout(pf151Roda,0)}}}
+{const _go151=go;go=function(v){if(PF151.fila.length)pf151Tudo();return _go151.apply(this,arguments)}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
