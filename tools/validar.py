@@ -836,7 +836,10 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
                 span = range(-30, 131) if loc.startswith("calendario") else range(-30, 21)
                 cands = [hoje + timedelta(days=k) for k in span if (hoje + timedelta(days=k)).day == dn]
                 ok = not cands or any(c.weekday() == wd for c in cands)
-            if not ok: E(f"{loc}: '{m[0]}' não confere com o calendário")
+            if not ok:
+                # na virada (sem IA), texto corrido (explicadores, FAQ, atualizações) só avisa: dia citado há mais de 30 dias
+                # sem o mês deixa de "conferir" sozinho na troca do dia e não pode travar a virada (14/11)
+                (A if virada and tipo != "estrito" else E)(f"{loc}: '{m[0]}' não confere com o calendário" + (" (escreva o mês: 14/10)" if not mes else ""))
 
     # palavras de dia relativo (escritas no dia do feed anterior; na virada, no dia que acabou)
     ra = dt((ant or {}).get("atualizado_em"))
