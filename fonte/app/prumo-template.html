@@ -17511,6 +17511,11 @@ function sr150TelasVisitante(orig){const t=(orig||tourTelas)("");return [t[0],Ob
 (function sr150Guia(n){try{if(!INIT_FIM||!FEED){if(n<80)setTimeout(()=>sr150Guia(n+1),250);return}
   if(S.uid||LINK_PID||VP99_LINK||CONVITE_URL)return;let visto=false,teste=false;try{visto=!!localStorage.getItem("prumo-tour-visto");teste=navigator.webdriver&&localStorage.getItem("prumo-teste-tourvis")!=="1"}catch(_){return}
   if(visto||teste)return;setTimeout(()=>{try{if(S.uid||$("#layer").innerHTML||document.visibilityState!=="visible")return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(_){}},1500)}catch(e){}})(0);
+
+/* 12. desempenho: capaSig lia innerWidth, que obriga o navegador a calcular o layout no meio da abertura (~75 ms com
+       CPU 4×, duas vezes); agora usa matchMedia (sem layout). O resultado é o mesmo. */
+const SR150_LARGO=matchMedia("(min-width:900px)");
+capaSig=function(){try{return [FEED&&FEED.atualizado_em,FEED&&FEED.pautas&&FEED.pautas.length,lente(),CP_AB,NOVAS.size,ATUALIZADAS.size,LIDAS.size,(PREF.ocultas||[]).join(),FOTOS_ARQ&&FOTOS_ARQ.gerado,typeof NOVID_AG!=="undefined"&&NOVID_AG&&NOVID_AG.gerado,Math.floor(Date.now()/300000),S.uid||"",S.membro?1:0,SR150_LARGO.matches,typeof CAPA_FIXA!=="undefined"?JSON.stringify(CAPA_FIXA):"",capaPrefSig(),JSON.stringify(((S.quiz||{})[S.uid||"eu"]||{}).at||"")].join("|")}catch(e){return String(Math.random())}};
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
