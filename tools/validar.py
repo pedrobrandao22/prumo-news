@@ -416,6 +416,11 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
         if m: E(f"{loc}: bastidor no texto do leitor ('{m.group(0)}'): diga o que se sabe e de quem é a informação (manual 3b)")
         elif re.search(r"\bpautas?\b", t) and tipo != "estrito" and not re.search(r"pauta d[aoe] (plenário|Senado|Câmara|STF|votaç)|da pauta|na pauta|em pauta|à pauta|a pauta", t, re.I):
             A(f"{loc}: 'pauta' no sentido interno? O leitor não sabe o que é (manual 3b)")
+    # seção pelo fato do título (manual 3b): título que começa por decisão de tribunal vai para política/STF e Judiciário
+    for p in ps:
+        tit = str(((p.get("neutro") or {}).get("titulo")) or p.get("titulo") or "")
+        if re.match(r"(STF|Supremo|STJ|TSE|TST|TCU|Moraes|Dino|Fachin|Gilmar|Zanin|Barroso|Mendonça|Nunes Marques|Fux|Cármen|Toffoli)\b", tit) and (p.get("secao"), p.get("subtema")) != ("politica", "STF e Judiciário"):
+            A(f"[{p.get('id')}] título é decisão de tribunal ('{tit[:50]}'), mas está em {p.get('secao')}/{p.get('subtema')}: mude para politica/STF e Judiciário ou reescreva o título pelo fato principal (manual 3b)")
     # validade: cobertura sem fato novo há mais de 3 dias (manual 3b)
     for p in ps:
         if p.get("status") == "ao_vivo": continue
@@ -425,7 +430,7 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
         idade = (ref - max(hs)).total_seconds() / 86400
         lim = 2 if p.get("tipo") == "pontual" else 3
         if idade > lim:
-            A(f"[{p.get('id')}] sem fato novo há {idade:.0f} dias: tire da edição (remove_pauta) salvo etapa nos próximos 5 dias (manual 3b)")
+            A(f"[{p.get('id')}] sem fato novo há {idade:.0f} dias: tire da edição (remove_pauta). Só fica se houver etapa marcada nos próximos 5 dias; nesse caso, diga qual na nota da rodada (manual 3b)")
 
     dup = {i for i in ids if ids.count(i) > 1}
     if dup: E(f"ids repetidos: {sorted(dup)}")
