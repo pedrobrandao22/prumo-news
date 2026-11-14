@@ -141,6 +141,12 @@ CATÁLOGO DE GRÁFICOS: visual {tipo "grafico", forma, titulo ≤ 70, fonte, uni
   - ▶ PLACAR OFICIAL (desde 03/11): votação de plenário da Câmara/Senado ligada a uma pauta aparece SOZINHA na matéria ("Placar oficial", com turnos e "Fonte: Senado Federal, 19h42") e numa linha do cartão no Feed, minutos depois (o robô também roda às :10 e :40 das 14h às 23h). Não digite esse placar_votacao (se já houver um seu para a mesma votação, o app mostra só o seu). Para o robô ligar a votação, ponha o número da proposição na pauta: "PEC 18/2025" no contexto ou a hashtag #PEC18. O texto (update_add do para_pautas) continua com a rodada.
 - Rodada rápida: no máx. 6 buscas e 6 leituras de página (pendências, erros apontados e novidades).
 
+## 3b. Texto para o leitor, validade e foto (desde 13/11, teste no site real)
+- SEM BASTIDOR. O leitor não sabe o que é rodada, pauta, busca ou conferente. Proibido em neutro, contexto, proximo, faq, checagem.texto, atualizacoes e breves: "o Prumo ainda não leu/conferiu/achou", "rodada anterior", "nesta rodada", "pauta", "as buscas não trouxeram", ids (ajuste-fiscal-lula-4). Se falta um detalhe, escreva o que se sabe e de quem é a informação ("segundo a Agência Brasil, a Caixa Seguridade também relatou ataque"), sem dizer o que o Prumo não leu.
+- VALIDADE. Cobertura sem fato novo há mais de 3 dias sai da edição (remove_pauta; ela vira "dormente" e volta pelo mesmo id se o assunto voltar). Exceções: status "ao_vivo", ou etapa/agenda marcada para os próximos 5 dias (aí fica com prioridade baixa). Pontual sai depois de 2 dias.
+- SEÇÃO E SUBTEMA pelo fato do título: decisão do STF é política/STF e Judiciário mesmo quando o assunto é uma empresa; "Outros" só quando nenhum subtema serve (o app mostra a tag no lugar de "Outros", então capriche na tag).
+- FOTO. Lugar ou pessoa errados são piores que nenhuma foto: evento no exterior (COP, cúpula, eleição de outro país) não usa foto de plenário brasileiro nem de outro parlamento; nesses casos "foto_arquivo": "tema" ou foto do próprio fato. Duas notícias seguidas não devem ter a mesma pessoa em primeiro plano quando der para variar.
+
 ## 4. Erros apontados pelos leitores (toda rodada que trabalha)
 O GitHub copia a cada 30 min (das 6h às 23h30) os avisos de "Achei um erro" do site para erros-abertos.json (lista de {id,pid,titulo,texto,edicao,status,at}); as respostas ficam em erros-respostas.json ({id:{status,resposta}}).
 1. Avisos a tratar: os de erros-abertos.json sem resposta "corrigido" ou "mantido" em erros-respostas.json. Na rápida, até 2 por rodada.

@@ -1,0 +1,43 @@
+/* ---------- 150: correções do teste no site real (13/11, noite) ----------
+   Achados de duas horas usando o prumonews.com.br como leitor (com e sem conta). Nomes com o prefixo sr150.
+   1. link de notícia (/m/<id>.html ou #m=<id>): também é tentado quando o Feed é desenhado (antes só a Capa tentava;
+      quem abre no Feed ficava sem a matéria);
+   2. link de post (#p=<id>) aberto por quem não entrou: diz que precisa entrar (antes esperava em silêncio);
+   3. visitante que toca no campo de comentário: abre o entrar dizendo por quê, antes de digitar (antes digitava, tocava
+      em enviar e perdia o texto);
+   4. visitante que toca em Enviar numa notícia: abre "Mandar notícia" (WhatsApp, outros apps, copiar), como na matéria;
+   5. quem já tem conta e chega por um link de convite: depois de entrar, abre "Usar um convite" com o código preenchido;
+   6. círculos do topo do Feed: a mesma notícia não abre dois círculos seguidos com a mesma foto (o Em 5 min e a editoria
+      da manchete mostravam a mesma arte); a editoria passa a mostrar a próxima notícia dela. */
+
+/* 1 */
+{const _rf150=renderFeed;renderFeed=function(){const r=_rf150.apply(this,arguments);try{if(LINK_PID)linkTentar()}catch(e){}return r}}
+
+/* 2 */
+(function sr150Post(n){try{if(!VP99_LINK)return;if(INIT_FIM&&!S.uid){const id=VP99_LINK;PC106={k:"post_link",t:Date.now()};abrirLogin();
+  /* depois de entrar, o link volta a valer */
+  VP99_LINK=id;return}}catch(e){return}if(n<80)setTimeout(()=>sr150Post(n+1),250)})(0);
+PC106_TX.post_link="Esse post é de alguém do Prumo: entre na sua conta para ver.";
+
+/* 3 */
+PC106_TX.comentar="Para comentar, entre na sua conta.";
+function sr150CampoComentario(el){if(!el||!el.matches||!el.matches("textarea,input"))return false;const ph=String(el.getAttribute("placeholder")||"");return /^(Escreva um comentário|Comentar|Responder|Adicione um comentário)/i.test(ph)}
+document.addEventListener("focusin",e=>{const el=e.target;if(!sr150CampoComentario(el))return;try{if(S.uid&&S.membro)return}catch(_){return}
+  try{el.blur()}catch(_){}PC106={k:"comentar",t:Date.now()};setTimeout(()=>{try{precisaConta()}catch(_){}},0)},true);
+
+/* 4 */
+{const _os150=openSend;openSend=function(pid){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||snapById(pid))){compartilhar(pid);return}}catch(e){}return _os150.apply(this,arguments)}}
+
+/* 5 */
+{const _ts150=trocarSessao;trocarSessao=async function(user){const r=await _ts150.apply(this,arguments);
+  try{if(user&&CONVITE_URL&&!sr150Convite.feito&&!CRIANDO){sr150Convite.feito=1;sr150Convite(0)}}catch(e){}return r}}
+function sr150Convite(n){try{if(!S.uid||CRIANDO)return;if(S.membro)return;if(!INIT_FIM||$("#layer .sheet")){if(n<40)setTimeout(()=>sr150Convite(n+1),250);return}
+  let nome="";try{nome=(JSON.parse(localStorage.getItem("prumo-convite")||"null")||{}).n||""}catch(_){}abrirFaltaConvite({codigo:CONVITE_URL,nome})}catch(e){}}
+
+/* 6 */
+var SR150_USADAS=null;
+{const _vp150=vn112Primeira;vn112Primeira=function(sec){const a=_vp150.apply(this,arguments);if(!SR150_USADAS||!a||!a.p)return a;
+  if(sec&&sec[0]!=="_"&&SR150_USADAS.has(a.p.id)){try{const r=igLista(sec),q=(r.ps||[]).find(p=>!SR150_USADAS.has(p.id)&&!SEEN.has(seenKey(p)))||(r.ps||[]).find(p=>!SR150_USADAS.has(p.id));
+    if(q){SR150_USADAS.add(q.id);return {p:q,t:versao(q,lente()).titulo}}}catch(e){}}
+  SR150_USADAS.add(a.p.id);return a}}
+{const _vt150=vn112Tiles;vn112Tiles=function(){SR150_USADAS=new Set();try{return _vt150.apply(this,arguments)}finally{SR150_USADAS=null}}}

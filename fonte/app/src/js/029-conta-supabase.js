@@ -3,7 +3,7 @@
 const SB_URL="%%SB_URL%%",SB_KEY="%%SB_KEY%%";
 var INIT_FIM=false;
 let SB=null,SESS_UID,SESS_TOK=0,CRIANDO=false;
-const CONVITE_URL=(()=>{try{const q=new URLSearchParams(location.search),c=q.get("convite");if(c==null)return "";q.delete("convite");const r=q.toString();history.replaceState(history.state,"",location.pathname+(r?"?"+r:"")+location.hash);return c.trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20)}catch(e){return ""}})();
+const CONVITE_URL=(()=>{try{const q=new URLSearchParams(location.search),c=q.get("convite");if(c==null){try{const g=JSON.parse(localStorage.getItem("prumo-convite")||"null");if(g&&g.c)window.CONVITE_GUARDADO=true;return g&&g.c?String(g.c).slice(0,20):""}catch(_){return ""}}q.delete("convite");const r=q.toString();history.replaceState(history.state,"",location.pathname+(r?"?"+r:"")+location.hash);return c.trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20)}catch(e){return ""}})();
 function sbCliente(){if(SB)return SB;const url=/^https:\/\/\S+$/.test(SB_URL)?SB_URL:"",key=SB_KEY&&SB_KEY.indexOf("%%")<0?SB_KEY:"";
   if(!url||!key||typeof criarDB!=="function"||!window.supabase||typeof supabase.createClient!=="function")return null;
   try{SB=supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:"prumo-auth"}})}catch(e){SB=null}return SB}
@@ -15,7 +15,7 @@ function pararSocial(){try{S.db&&S.db.fechar()}catch(e){}Object.keys(UNS).forEac
 async function trocarSessao(user,forcar){
   const uid=user&&user.id||null;if(uid===SESS_UID&&!forcar)return;
   const tok=++SESS_TOK;SESS_UID=uid;pararSocial();
-  if(!uid){INIT_FIM=true;rerenderAll();if(FEED&&FILTRO[0]==="_")renderFeed();avisoConta();if(CONVITE_URL&&!trocarSessao._conv){trocarSessao._conv=1;abrirLogin("criar",CONVITE_URL)}return}
+  if(!uid){INIT_FIM=true;rerenderAll();if(FEED&&FILTRO[0]==="_")renderFeed();avisoConta();if(CONVITE_URL&&!trocarSessao._conv){trocarSessao._conv=1;abrirLogin(window.CONVITE_GUARDADO?"entrar":"criar",CONVITE_URL)}return}
   S.uid=uid;S.user={id:uid,email:user.email||""};S.email=user.email||"";S.db=criarDB(SB,uid);$("#avisoconta")?.remove();
   let membro=null;try{const g=await Promise.race([S.db.doc("pessoas/"+uid).get(),new Promise((_,no)=>setTimeout(()=>no(new Error("prazo")),8000))]);membro=g.exists;if(g.exists)S.membros[uid]=g.data()}catch(e){}
   if(tok!==SESS_TOK)return;INIT_FIM=true;
@@ -151,9 +151,14 @@ function abrirBreve(i){const b=(window.BREVES||[])[i];if(!b)return;const rel=agP
     ${rp?`<div class="card"><span class="hint">Relacionada no Prumo</span><button type="button" class="link" data-goto="${esc(rp.id)}">${esc(rp.neutro?.titulo||"")} ›</button></div>`:""}
     <a class="btn" href="${escU(b.url)}" target="_blank" rel="noopener">Ler em ${esc(nomeFonte(b.fonte))} ›</a><p class="hint" style="margin:0">Notícia menor desta edição: o Prumo só traz o título e o link, sem resumo próprio.</p>`)}
 /* 23. rodadas */
-function proximaRodadaTxt(){const m=minAgoraSP(),cand=[];for(let h=7;h<=23;h++)if(h!==17)cand.push([h*60+48,"rápida"]);cand.push([6*60+52,"completa"],[17*60+52,"completa"]);cand.sort((a,b)=>a[0]-b[0]);const nx=cand.find(c=>c[0]>m);const f=c=>`${Math.floor(c[0]/60)}h${String(c[0]%60).padStart(2,"0")}`;return nx?`Próxima atualização ${nx[1]} por volta das ${f(nx)}.`:`Próxima atualização amanhã por volta das 6h52.`}
+function proximaRodadaTxt(){const m=minAgoraSP(),cand=[];for(let h=9;h<=21;h+=2)cand.push([h*60+48,"rápida"]);cand.push([6*60+52,"completa"]);cand.sort((a,b)=>a[0]-b[0]);const nx=cand.find(c=>c[0]>m);const f=c=>`${Math.floor(c[0]/60)}h${String(c[0]%60).padStart(2,"0")}`;return nx?`Próxima atualização ${nx[1]} por volta das ${f(nx)}.`:`Próxima atualização amanhã por volta das 6h52.`}
+/* registro das rodadas: o leitor vê o que mudou; números da checagem e bastidores (ids, buscas, "acionada por") só para o administrador */
+function rodadaDetalhe(x){const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.uid]&&S.membros[S.uid].papel==="admin");
+  if(adm)return `${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}`;
+  const nota=String(x.nota||"").replace(/\bPautas\b/g,"Notícias").replace(/\bpautas\b/g,"notícias").replace(/\bPauta\b/g,"Notícia").replace(/\bpauta\b/g,"notícia").replace(/([.;])\s+/g,"$1\n").split("\n").filter(f=>f&&!/acionad[ao] por|\bbuscas?\b|\bpauta|\brodada|\baviso|\berros?\b|github|acionaram|para conferir|\bIA\b|conferente|não (foi )?(atualizad|alterad|conferid)|[a-z0-9]+-[a-z0-9]+-[a-z0-9-]+/i.test(f)).join(" ").replace(/[;,]\s*$/,"");
+  return esc(nota||(x.status==="sem_mudancas"?"Nada mudou desde a anterior.":"Notícias revisadas."))}
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
-  sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, às 10h48, 13h48, 17h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Rodada completa":x.tipo==="virada"?"Virada da meia-noite":"Rodada rápida"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"problema"}</b><span class="hint">${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
+  sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Edição completa":x.tipo==="virada"?"Virada do dia":"Atualização"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"não saiu"}</b><span class="hint">${rodadaDetalhe(x)}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
 /* 24. story passando sozinho */
 function storyAuto(p){clearTimeout(ST.timer);if(!PREF.storyAuto)return;const w=((p.neutro?.titulo||"")+" "+(p.neutro?.texto||"")).split(/\s+/).length;const dur=Math.max(7000,Math.min(24000,w/3.2*1000));

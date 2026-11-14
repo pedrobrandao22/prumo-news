@@ -408,6 +408,25 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     if str(f.get("edicao", "")).replace("h00", "h") != esp_e: E(f"edicao deveria ser '{esp_e}' (é '{f.get('edicao', '')}')")
     if f.get("semana") and hoje.weekday() != 6: A("semana (resumo da semana) só no domingo: tire na rodada completa")
 
+    # texto para o leitor sem bastidor (manual 3b)
+    for loc, tipo, t in campos_texto(f):
+        t = str(t or "")
+        pm = re.match(r"\[([^\]]+)\]", loc); esporte = bool(pm and (P.get(pm.group(1)) or {}).get("secao") == "esportes")
+        m = re.search(r"\bo Prumo (ainda )?n[ãa]o (leu|conferiu|achou|encontrou|confirmou)|\bas buscas n[ãa]o\b|\bconferente\b" + ("" if esporte else r"|\bnesta rodada\b|\brodada anterior\b|\b(na|da) rodada (r[áa]pida|completa)\b"), t, re.I)
+        if m: E(f"{loc}: bastidor no texto do leitor ('{m.group(0)}'): diga o que se sabe e de quem é a informação (manual 3b)")
+        elif re.search(r"\bpautas?\b", t) and tipo != "estrito" and not re.search(r"pauta d[aoe] (plenário|Senado|Câmara|STF|votaç)|da pauta|na pauta|em pauta|à pauta|a pauta", t, re.I):
+            A(f"{loc}: 'pauta' no sentido interno? O leitor não sabe o que é (manual 3b)")
+    # validade: cobertura sem fato novo há mais de 3 dias (manual 3b)
+    for p in ps:
+        if p.get("status") == "ao_vivo": continue
+        hs = [dt(u.get("hora")) for u in (p.get("atualizacoes") or []) if isinstance(u, dict)] + [dt(p.get("hora")), dt(p.get("inicio"))]
+        hs = [h for h in hs if h]
+        if not hs: continue
+        idade = (ref - max(hs)).total_seconds() / 86400
+        lim = 2 if p.get("tipo") == "pontual" else 3
+        if idade > lim:
+            A(f"[{p.get('id')}] sem fato novo há {idade:.0f} dias: tire da edição (remove_pauta) salvo etapa nos próximos 5 dias (manual 3b)")
+
     dup = {i for i in ids if ids.count(i) > 1}
     if dup: E(f"ids repetidos: {sorted(dup)}")
     por_sec = Counter(p.get("secao") for p in ps)

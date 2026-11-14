@@ -53,8 +53,8 @@ function erroAuth(e){const m=String((e&&(e.message||e.code))||e||"").toLowerCase
   if(/invalid login|invalid_credentials|invalid credentials/.test(m))return "E-mail ou senha errados.";
   if(/already|registered|exists/.test(m))return "Este e-mail já tem conta. Use a aba Entrar.";
   if(/password/.test(m)&&/short|least|characters|weak|6/.test(m))return "A senha precisa ter pelo menos 6 caracteres.";
-  if(/not confirmed/.test(m))return "Este e-mail ainda não foi confirmado. Fale com o Pedro.";
-  if(/convite/.test(m))return "Convite inválido ou já usado.";
+  if(/not confirmed/.test(m))return "Falta confirmar o e-mail: abra o link que mandamos na sua caixa de entrada (veja também o spam).";
+  if(/convite/.test(m))return window.__codVazio?"Escreva o código do convite. Ele vem no link que você recebeu.":"Convite inválido ou já usado.";
   if(/nome/.test(m))return "Escreva um nome de até 40 letras.";
   if(/email/.test(m)&&/invalid|valid|format/.test(m))return "Confira o e-mail.";
   if(/rate|too many|limit/.test(m))return "Muitas tentativas. Espere um pouco e tente de novo.";
@@ -70,29 +70,29 @@ function abrirLogin(aba,cod){aba=aba==="criar"?"criar":"entrar";const cria=aba==
     ${cria?"":`<button type="button" class="link" data-esqueci>Esqueci a senha</button><p class="hint" id="lesq" style="margin:0" hidden>Fale com o Pedro: ele redefine a sua senha.</p>`}</form>`);
   $("#lform").addEventListener("submit",e=>{e.preventDefault();if(cria)criarConta();else entrarConta()})}
 async function entrarConta(){const em=$("#lemail").value.trim(),pw=$("#lsenha").value,b=$("#lform [type=submit]");
-  if(!em||!pw)return mostraErro("#lerro","Preencha o e-mail e a senha.");
+  if(!em||!pw)return mostraErro("#lerro","Preencha o e-mail e a senha.");if(!/^\S+@\S+\.\S+$/.test(em))return mostraErro("#lerro","Confira o e-mail: falta algo depois do @.");
   const sb=sbCliente();if(!sb)return mostraErro("#lerro","O login não está disponível neste endereço.");
   b.disabled=true;try{const r=await sb.auth.signInWithPassword({email:em,password:pw});if(r.error)throw r.error;closeLayer();await trocarSessao(r.data.user||r.data.session?.user);if(S.membro)toast("Olá, "+nomeDe(S.uid)+".")}catch(e){b.disabled=false;mostraErro("#lerro",erroAuth(e))}}
 async function criarConta(){const cod=$("#lcod").value.trim().toUpperCase(),nome=$("#lnome").value.trim(),em=$("#lemail").value.trim(),pw=$("#lsenha").value,b=$("#lform [type=submit]");
-  if(!nome)return mostraErro("#lerro","Escreva seu nome.");if(!em||!/^\S+@\S+\.\S+$/.test(em))return mostraErro("#lerro","Confira o e-mail.");if(pw.length<6)return mostraErro("#lerro","A senha precisa ter pelo menos 6 caracteres.");
+  window.__codVazio=!cod;if(!nome)return mostraErro("#lerro","Escreva seu nome.");if(!em||!/^\S+@\S+\.\S+$/.test(em))return mostraErro("#lerro","Confira o e-mail.");if(pw.length<6)return mostraErro("#lerro","A senha precisa ter pelo menos 6 caracteres.");
   const sb=sbCliente();if(!sb)return mostraErro("#lerro","O login não está disponível neste endereço.");
   b.disabled=true;CRIANDO=true;
   try{const r=await sb.auth.signUp({email:em,password:pw});if(r.error)throw r.error;let user=r.data.user;
-    if(!r.data.session){const r2=await sb.auth.signInWithPassword({email:em,password:pw});if(r2.error){CRIANDO=false;b.disabled=false;return mostraErro("#lerro","A conta foi criada, mas o e-mail precisa ser confirmado antes. Fale com o Pedro.")}user=r2.data.user}
+    if(!r.data.session){const r2=await sb.auth.signInWithPassword({email:em,password:pw});if(r2.error){CRIANDO=false;b.disabled=false;try{localStorage.setItem("prumo-convite",JSON.stringify({c:cod,n:nome}))}catch(_){}return mostraErro("#lerro","Conta criada. Mandamos um link para "+em+": abra o e-mail, confirme e depois entre aqui. O convite fica guardado.")}user=r2.data.user}
     await trocarSessao(user);
     try{await usarConvite(cod,nome,user)}catch(e){CRIANDO=false;abrirFaltaConvite({codigo:cod,nome,erro:erroAuth(e)});return}
     CRIANDO=false;closeLayer();boasVindas(nome)}
   catch(e){CRIANDO=false;b.disabled=false;mostraErro("#lerro",erroAuth(e))}}
 function boasVindas(nome){setTimeout(()=>{sheet("Bem-vindo ao Prumo, "+nome,`<div class="bv">
-  <div><b>📰 As notícias do dia, num lugar só</b><p>A cada hora o Prumo lê vários veículos, junta o que fala do mesmo fato e escreve um resumo próprio, com os ângulos de cada lado.</p></div>
+  <div><b>📰 As notícias do dia, num lugar só</b><p>Várias vezes ao dia o Prumo lê vários veículos, junta o que fala do mesmo fato e escreve um resumo próprio, com os ângulos de cada lado.</p></div>
   <div><b>👥 Seus amigos</b><p>Quem te convidou já é seu amigo. Amigos veem o que você curte, vota e comenta. Mensagens ficam só entre vocês dois. Para achar mais gente, vá ao Perfil › Adicionar amigos.</p></div>
   <div><b>📲 Use como app</b><p>No celular, adicione o Prumo à tela de início. O passo a passo está no fim do Perfil.</p></div></div>`,`<button type="button" class="btn" data-close>Começar a ler</button>`)},280)}
-async function usarConvite(cod,nome,user){const sb=sbCliente();const u=user||S.user;const r=await sb.rpc("entrar",{p_codigo:cod||null,p_nome:nome});if(r.error)throw r.error;await trocarSessao(u,true);return r.data}
+async function usarConvite(cod,nome,user){const sb=sbCliente();const u=user||S.user;const r=await sb.rpc("entrar",{p_codigo:cod||null,p_nome:nome});if(r.error)throw r.error;try{localStorage.removeItem("prumo-convite")}catch(_){}await trocarSessao(u,true);return r.data}
 function abrirFaltaConvite(o){o=o||{};if(!S.uid)return abrirLogin();
   sheet("Falta só o convite",`<p class="hint" style="margin:0;font-size:14.5px">Você entrou como <b>${esc(S.email)}</b>, mas ainda não faz parte do Prumo. Use o código do convite que você recebeu.</p>
     <form id="fform" class="lform" novalidate><label>Código do convite<input class="field" id="fcod" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" value="${esc(o.codigo||CONVITE_URL||"")}"></label><label>Seu nome<input class="field" id="fnome" maxlength="40" autocomplete="given-name" value="${esc(o.nome||"")}"></label>
     <p class="erro-t" id="ferro" role="alert"${o.erro?"":" hidden"}>${esc(o.erro||"")}</p><button class="btn" type="submit">Entrar no Prumo</button><button type="button" class="link" data-sair>Sair desta conta</button></form>`);
-  $("#fform").addEventListener("submit",async e=>{e.preventDefault();const cod=$("#fcod").value.trim().toUpperCase(),nome=$("#fnome").value.trim(),b=e.target.querySelector("[type=submit]");if(!nome)return mostraErro("#ferro","Escreva seu nome.");
+  $("#fform").addEventListener("submit",async e=>{e.preventDefault();const cod=$("#fcod").value.trim().toUpperCase(),nome=$("#fnome").value.trim(),b=e.target.querySelector("[type=submit]");window.__codVazio=!cod;if(!nome)return mostraErro("#ferro","Escreva seu nome.");
     b.disabled=true;try{await usarConvite(cod,nome);closeLayer();boasVindas(nome)}catch(err){b.disabled=false;mostraErro("#ferro",erroAuth(err))}})}
 async function sair(){closeLayer();const sb=sbCliente();await trocarSessao(null);try{await sb?.auth.signOut({scope:"local"})}catch(e){}limparLocalConta();toast("Você saiu.")}
 /* o que é pessoal e fica no aparelho: some ao sair e quando outra conta entra neste aparelho.

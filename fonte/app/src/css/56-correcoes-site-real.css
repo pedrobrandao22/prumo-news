@@ -1,0 +1,11 @@
+/* 150: correções do teste no site real (13/11) */
+/* botão de leitura (Neutra/Direita/Esquerda): fica só o ícone, sem cobrir o fim das linhas; com um lado escolhido, o nome aparece */
+.lp:not(.direita):not(.esquerda){font-size:0;gap:0;padding:0;width:40px;height:40px;justify-content:center}
+.lp:not(.direita):not(.esquerda) i{display:none}
+.lp.lp-mini{width:40px;height:40px;justify-content:center;padding:0}
+/* "Fontes e quem noticiou": parece botão, com contraste de texto (antes cinza claro, 3,4:1) */
+.cpx-fontes{color:var(--accent);opacity:1;font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+/* áreas de toque: hashtags e o × do aviso tinham 19–21 px; a área tocável cresce sem mexer no desenho */
+[data-ht],[data-fecharaviso]{position:relative}
+[data-ht]::after{content:"";position:absolute;inset:-12px -3px}
+[data-fecharaviso]::after{content:"";position:absolute;inset:-10px -12px}
