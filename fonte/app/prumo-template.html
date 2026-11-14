@@ -5431,6 +5431,7 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
 .cfp-pubs button[aria-pressed="true"],.cn102-inds button[aria-selected="true"]{border-color:var(--bronze)}
 .dest-o[aria-pressed="true"] i{background:var(--bronze)}.dest-o[aria-pressed="true"]{outline-color:var(--bronze)}
 .ce-av{color:#e0a458}
+#secs .sb.sr150-rep{display:none}
 </style>
 </head>
 <body>
@@ -17470,7 +17471,9 @@ var SR150_USADAS=null;
   if(sec&&sec[0]!=="_"&&SR150_USADAS.has(a.p.id)){try{const r=igLista(sec),q=(r.ps||[]).find(p=>!SR150_USADAS.has(p.id)&&!SEEN.has(seenKey(p)))||(r.ps||[]).find(p=>!SR150_USADAS.has(p.id));
     if(q){SR150_USADAS.add(q.id);return {p:q,t:versao(q,lente()).titulo}}}catch(e){}}
   SR150_USADAS.add(a.p.id);return a}}
-{const _vt150=vn112Tiles;vn112Tiles=function(){SR150_USADAS=new Set();try{return _vt150.apply(this,arguments)}finally{SR150_USADAS=null}}}
+/* os círculos de destaque (data-dest) que repetem a notícia de um círculo de editoria somem (o carrossel mostrava a mesma notícia duas vezes) */
+{const _vt150=vn112Tiles;vn112Tiles=function(){SR150_USADAS=new Set();try{const r=_vt150.apply(this,arguments);
+  try{const box=$("#secs");if(box){const usadas=SR150_USADAS;box.querySelectorAll(":scope>.sb[data-dest]").forEach(b=>{b.classList.toggle("sr150-rep",usadas.has(b.dataset.dest))})}}catch(e){}return r}finally{SR150_USADAS=null}}}
 
 /* 7. miniaturas (Capa e círculos do topo, ~90–110 px na tela) pediam a foto da Wikimedia com 960 px (até 250 KB cada);
       agora pedem a de 330 px (nítida em tela 3×) */

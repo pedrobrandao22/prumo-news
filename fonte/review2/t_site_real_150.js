@@ -41,6 +41,8 @@ let srv = null;
   // 4. círculos do topo: nenhuma notícia em dois círculos
   const circ = await v.evaluate(() => { const r = []; try { SR150_USADAS = new Set(); document.querySelectorAll('#secs [data-5min], #secs [data-sec-story]').forEach(b => { const s = b.hasAttribute('data-5min') ? '_5min' : b.dataset.secStory; const a = vn112Primeira(s); r.push(a && a.p && a.p.id) }) } finally { SR150_USADAS = null } return r.filter(Boolean) });
   ok(circ.length >= 3 && new Set(circ).size === circ.length, 'círculos do topo: cada um com uma notícia diferente', circ);
+  const dest = await v.evaluate(() => [...document.querySelectorAll('#secs .sb[data-dest]')].filter(b => b.getClientRects().length).map(b => b.dataset.dest));
+  ok(dest.every(d => !circ.includes(d)), 'destaques do topo não repetem a notícia de um círculo de editoria', { dest, circ });
 
   // 5. botão de leitura: só o ícone, 40 px
   await v.evaluate(() => { go('capa'); scrollTo(0, 0) }); await sleep(800);
