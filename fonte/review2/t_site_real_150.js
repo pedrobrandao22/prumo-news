@@ -47,6 +47,10 @@ let srv = null;
   const lp = await v.evaluate(() => { const b = document.getElementById('lp'); if (!b) return null; const r = b.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height), fs: getComputedStyle(b).fontSize } });
   ok(lp && lp.w <= 42 && lp.h >= 38 && lp.fs === '0px', 'botão Neutra só com o ícone (não cobre o fim das linhas)', lp);
 
+  // 5b. miniaturas da Capa não pedem a foto grande da Wikimedia
+  await v.evaluate(async () => { for (let y = 0; y < 6000; y += 600) { scrollTo(0, y); await new Promise(r => setTimeout(r, 60)) } scrollTo(0, 0) });
+  const th = await v.evaluate(() => [...document.querySelectorAll('#v-capa .cp-th img, #secs .vn-tl-art img')].map(i => i.getAttribute('src') || '').filter(u => /wikimedia/.test(u)));
+  ok(th.every(u => !/\/960px-/.test(u)), 'miniaturas com a foto pequena da Wikimedia (330 px)', th.slice(0, 3));
   // 6. "Atualizações de hoje": horários certos e sem bastidor
   await v.evaluate(() => abrirRodadas()); await sleep(900);
   const rod = await v.evaluate(() => (document.querySelector('.sheet') || {}).innerText || '');

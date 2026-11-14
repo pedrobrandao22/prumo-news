@@ -17463,6 +17463,10 @@ var SR150_USADAS=null;
     if(q){SR150_USADAS.add(q.id);return {p:q,t:versao(q,lente()).titulo}}}catch(e){}}
   SR150_USADAS.add(a.p.id);return a}}
 {const _vt150=vn112Tiles;vn112Tiles=function(){SR150_USADAS=new Set();try{return _vt150.apply(this,arguments)}finally{SR150_USADAS=null}}}
+
+/* 7. miniaturas (Capa e círculos do topo, ~90–110 px na tela) pediam a foto da Wikimedia com 960 px (até 250 KB cada);
+      agora pedem a de 330 px (nítida em tela 3×) */
+{const _ca150=capaArte;capaArte=function(p,cls){const r=_ca150.apply(this,arguments);return /^(cp-th|vn-tl-art)$/.test(cls||"")?r.replace(/(upload\.wikimedia\.org\/wikipedia\/[a-z]+\/thumb\/[^"']+?\/)960px-/g,"$1330px-"):r}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
