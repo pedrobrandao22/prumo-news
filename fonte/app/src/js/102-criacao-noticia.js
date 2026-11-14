@@ -247,7 +247,7 @@ function cn102Valida(P){const cn=P.cn;cn102Sync();
   if(cn.k==="nt"&&!P.pid)return "Escolha a notícia que você quer comentar.";
   if(cn.k==="rel"&&!String(cn.tit).trim())return "Dê um título curto ao relato.";
   if(cn.k==="ana"&&!String(cn.tit).trim()&&!String(cn.corpo).trim())return "Escreva a sua análise.";
-  if(cn.k==="enq"){if(!String(cn.tit).trim())return "Escreva a pergunta.";if(cn.o.map(v=>String(v||"").trim()).filter(Boolean).length<2)return "A pergunta precisa de pelo menos duas opções."}
+  if(cn.k==="enq"){if(!String(cn.tit).trim())return "Escreva a pergunta.";{const f=cn.o.map(v=>String(v||"").trim()).filter(Boolean);if(!f.length)cn.o=["Sim","Não"];/* opções em branco: vale o Sim/Não que aparece nos campos */else if(f.length<2)return "A pergunta precisa de pelo menos duas opções."}}
   return ""}
 function cn102Grava(P){const cn=P.cn,o={v:1,k:cn.k};const t=String(cn.tit||"").trim().slice(0,120);if(t&&cn.k!=="nt")o.tit=t;
   const f=cn102Fonte(cn.fu);if(f&&cn.k!=="nt"&&cn.k!=="enq")o.fu=f.u||f.n;if(cn.k==="rel"&&cn.q)o.q=String(cn.q).slice(0,16);

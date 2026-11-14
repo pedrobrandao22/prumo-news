@@ -226,7 +226,7 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   await ev(A, () => { ERRT = 0 }); await irPara(A, 'me');
   ok(await esperar(A, () => /Corrigido · Ajustado na rodada/.test(document.querySelector('#v-me').textContent)), 'status do erro vem de erros-respostas.json');
   await clk(A, '#v-me [data-rodadas]');
-  ok(await esperar(A, () => /Rodada completa · publicada/.test(document.querySelector('.sheet')?.textContent || '')), 'Atualizações lê rodadas.json');
+  ok(await esperar(A, () => /(Rodada|Edição) completa · publicada/.test(document.querySelector('.sheet')?.textContent || '')), 'Atualizações lê rodadas.json');
   await fecha(A);
 
   // ---------------- mudar nome

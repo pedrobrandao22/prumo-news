@@ -30,7 +30,7 @@ function renderMe(){
     ${er.length?`<div class="card"><b>Erros que eu apontei</b><ul class="secpref">${er.map(e=>`<li style="flex-direction:column;align-items:flex-start;gap:2px"><b style="font-size:14.5px">${esc(e.titulo||"")}</b><span class="hint">“${esc(e.texto)}” · ${stE(e)}${e.resposta?" · "+esc(e.resposta):""}</span></li>`).join("")}</ul></div>`:""}
     ${u?contaCardHTML():`<div class="card menu"><button type="button" data-privacidade><span>Política de privacidade</span><i>›</i></button></div>`}
     <details class="card dt"><summary><b>Usar como app no celular</b></summary><p>No iPhone: abra no Safari, toque em Compartilhar e em “Adicionar à Tela de Início”.</p><p>No Android: abra no Chrome, toque nos três pontos e em “Adicionar à tela inicial”.</p></details>
-    <details class="card dt"><summary><b>Como o Prumo funciona</b></summary><p>A cada hora, o Prumo lê as matérias de vários veículos, junta as que tratam do mesmo fato e escreve um resumo próprio. Antes de publicar, uma checagem automática procura números sem fonte, links quebrados e notícias repetidas.</p></details>
+    <details class="card dt"><summary><b>Como o Prumo funciona</b></summary><p>Várias vezes ao dia (a edição completa às 6h52 e atualizações de 2 em 2 horas até as 21h48), o Prumo lê as matérias de vários veículos, junta as que tratam do mesmo fato e escreve um resumo próprio. Antes de publicar, uma checagem automática procura números sem fonte, links quebrados e notícias repetidas.</p></details>
     </div></div>`;
   const ab=$("#ajbox");if(ab)ab.innerHTML=ajustesHTML();
 }

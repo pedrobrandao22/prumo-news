@@ -19,6 +19,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Prumo">
 <link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#f3f4f6">
 <!-- sem preload das fontes (QA noite C, 04/11): em 3G lento os 160 KB das fontes disputavam a banda com a página e a primeira pintura
@@ -5411,6 +5412,25 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
 :root[data-aparencia="escuro"] .tl142-sw.on i{background:#0f1522}
 /* 145: sugestões de @ dentro do criador, no fluxo (não cobrem "Marcar pessoas") */
 .men-box.men-in145{position:static;z-index:auto;margin:6px 0 10px;box-shadow:none}
+/* 150: correções do teste no site real (13/11) */
+/* botão de leitura (Neutra/Direita/Esquerda): fica só o ícone, sem cobrir o fim das linhas; com um lado escolhido, o nome aparece */
+.lp:not(.direita):not(.esquerda){font-size:0;gap:0;padding:0;width:40px;height:40px;justify-content:center}
+.lp:not(.direita):not(.esquerda) i{display:none}
+.lp.lp-mini{width:40px;height:40px;justify-content:center;padding:0}
+/* "Fontes e quem noticiou": parece botão, com contraste de texto (antes cinza claro, 3,4:1) */
+.cpx-fontes{color:var(--accent);opacity:1;font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+/* áreas de toque: hashtags e o × do aviso tinham 19–21 px; a área tocável cresce sem mexer no desenho */
+[data-ht],[data-fecharaviso]{position:relative}
+[data-ht]::after{content:"";position:absolute;inset:-12px -3px}
+[data-fecharaviso]::after{content:"";position:absolute;inset:-10px -12px}
+/* telas de criar: o botão principal e os controles ligados usam o bronze do Prumo (antes um azul forte que não aparece no resto do app);
+   as cores das figurinhas continuam as delas */
+.cfp-shb,.ce-rch,.ce-selp .btn{background:var(--bronze);border-color:var(--bronze);color:#1b1406}
+.ce-mlt.on,.ce-num.on,.cfp-mlt.on,.cfp-dots i.on,.cfp-tl.mud::after,.pf-mais,.up-mais,.ce-sw input:checked{background:var(--bronze)}
+.ce-sw input{accent-color:var(--bronze)}
+.cfp-pubs button[aria-pressed="true"],.cn102-inds button[aria-selected="true"]{border-color:var(--bronze)}
+.dest-o[aria-pressed="true"] i{background:var(--bronze)}.dest-o[aria-pressed="true"]{outline-color:var(--bronze)}
+.ce-av{color:#e0a458}
 </style>
 </head>
 <body>
@@ -5646,7 +5666,7 @@ function postSeguro(p){try{return postHTML(p)}catch(e){return ""}}
 function postHTML(p){
   const sec=secOf(p),ss=slidesSociais(p),nv=NOVAS.has(p.id)&&!LIDAS.has(p.id),at=ATUALIZADAS.has(p.id);
   return `<article class="post" id="p-${esc(p.id)}" data-pid="${esc(p.id)}">
-    <div class="ph gut"><div class="ph-t"><button type="button" class="ph-sec" data-secfiltro="${esc(sec)}"><span class="ph-av${nv||at?" ph-av-novo":""}" style="--c:${secCor(sec)}"><i>${esc(secNome(sec).slice(0,1))}</i></span><span class="ph-nm"><b>${esc(secNome(sec))}</b><span class="ph-sub">${esc(p.subtema||"")}${seguido(p)?" · seguindo":""}</span></span></button><em class="lida-t"${lidaAtual(p)?"":" hidden"}>✓ lida</em><span data-otr></span></div>${cobStatus(p)}${nv?`<span class="badge-new">Novo</span>`:at?`<span class="badge-new upd2">Atualizado</span>`:""}<button type="button" class="more-btn" data-a="menu" aria-label="Mais opções">${ICON.dots}</button></div>
+    <div class="ph gut"><div class="ph-t"><button type="button" class="ph-sec" data-secfiltro="${esc(sec)}"><span class="ph-av${nv||at?" ph-av-novo":""}" style="--c:${secCor(sec)}"><i>${esc(secNome(sec).slice(0,1))}</i></span><span class="ph-nm"><b>${esc(secNome(sec))}</b><span class="ph-sub">${esc(/^Outros/.test(p.subtema||"")?(p.tag||""):(p.subtema||""))}${seguido(p)?" · seguindo":""}</span></span></button><em class="lida-t"${lidaAtual(p)?"":" hidden"}>✓ lida</em><span data-otr></span></div>${cobStatus(p)}${nv?`<span class="badge-new">Novo</span>`:at?`<span class="badge-new upd2">Atualizado</span>`:""}<button type="button" class="more-btn" data-a="menu" aria-label="Mais opções">${ICON.dots}</button></div>
     <div class="car"><div class="track">${ss.join("")}</div></div>
     <div class="gut">
       <div class="acts"><button type="button" class="act" data-a="like" aria-label="Gostei">${ICON.like}<span>Gostei</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-a="send" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span>${ss.length>1?`<div class="prog pdots" aria-hidden="true">${ss.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${ss.length}</span></div>`:""}<button type="button" class="act" data-a="save" aria-label="Guardar">${ICON.save}</button></div>
@@ -5731,7 +5751,7 @@ function renderPosts(manter){
   const br=FILTRO[0]==="_"?[]:(FEED.breves||[]).filter(b=>(FILTRO==="tudo"&&!(PREF.ocultas||[]).includes(b.secao||"politica"))||(b.secao||"politica")===FILTRO);
   const at=new Date(FEED.atualizado_em);
   $("#extra").innerHTML=`<div class="done gut" id="emdia"></div>${br.length?`<div class="sec gut"><h4>Outras notícias</h4><ul class="brv">${(window.BREVES=br,br).map((b,bi)=>`<li><button type="button" class="brv-b" data-breve="${bi}">${b.urgente&&tms(b.hora)&&Date.now()-tms(b.hora)<3*3600e3?`<em class="ug">Urgente</em>`:""}${esc(b.titulo)}</button><span>${esc(secNome(b.secao||"politica"))} · ${esc(nomeFonte(b.fonte))}</span></li>`).join("")}</ul></div>`:""}
-  <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}.</b> A edição completa sai às 6h52 e é atualizada às 10h48, 13h48, 17h48 e 21h48; manchetes e indicadores são conferidos de hora em hora.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As fotos vêm de acervos de uso livre, sempre com crédito (Agência Brasil, Senado, Câmara e Wikimedia Commons); quando não há foto, o Prumo usa um desenho.</p></div>`;
+  <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}.</b> A edição completa sai às 6h52 e é atualizada de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48; manchetes e indicadores são conferidos de hora em hora.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As fotos vêm de acervos de uso livre, sempre com crédito (Agência Brasil, Senado, Câmara e Wikimedia Commons); quando não há foto, o Prumo usa um desenho.</p></div>`;
   atualizarEmDia();
 }
 function renderFeed(){
@@ -5992,7 +6012,7 @@ function renderMe(){
     ${er.length?`<div class="card"><b>Erros que eu apontei</b><ul class="secpref">${er.map(e=>`<li style="flex-direction:column;align-items:flex-start;gap:2px"><b style="font-size:14.5px">${esc(e.titulo||"")}</b><span class="hint">“${esc(e.texto)}” · ${stE(e)}${e.resposta?" · "+esc(e.resposta):""}</span></li>`).join("")}</ul></div>`:""}
     ${u?contaCardHTML():`<div class="card menu"><button type="button" data-privacidade><span>Política de privacidade</span><i>›</i></button></div>`}
     <details class="card dt"><summary><b>Usar como app no celular</b></summary><p>No iPhone: abra no Safari, toque em Compartilhar e em “Adicionar à Tela de Início”.</p><p>No Android: abra no Chrome, toque nos três pontos e em “Adicionar à tela inicial”.</p></details>
-    <details class="card dt"><summary><b>Como o Prumo funciona</b></summary><p>A cada hora, o Prumo lê as matérias de vários veículos, junta as que tratam do mesmo fato e escreve um resumo próprio. Antes de publicar, uma checagem automática procura números sem fonte, links quebrados e notícias repetidas.</p></details>
+    <details class="card dt"><summary><b>Como o Prumo funciona</b></summary><p>Várias vezes ao dia (a edição completa às 6h52 e atualizações de 2 em 2 horas até as 21h48), o Prumo lê as matérias de vários veículos, junta as que tratam do mesmo fato e escreve um resumo próprio. Antes de publicar, uma checagem automática procura números sem fonte, links quebrados e notícias repetidas.</p></details>
     </div></div>`;
   const ab=$("#ajbox");if(ab)ab.innerHTML=ajustesHTML();
 }
@@ -6598,7 +6618,7 @@ document.addEventListener("visibilitychange",()=>{if(document.visibilityState===
 const SB_URL="%%SB_URL%%",SB_KEY="%%SB_KEY%%";
 var INIT_FIM=false;
 let SB=null,SESS_UID,SESS_TOK=0,CRIANDO=false;
-const CONVITE_URL=(()=>{try{const q=new URLSearchParams(location.search),c=q.get("convite");if(c==null)return "";q.delete("convite");const r=q.toString();history.replaceState(history.state,"",location.pathname+(r?"?"+r:"")+location.hash);return c.trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20)}catch(e){return ""}})();
+const CONVITE_URL=(()=>{try{const q=new URLSearchParams(location.search),c=q.get("convite");if(c==null){try{const g=JSON.parse(localStorage.getItem("prumo-convite")||"null");if(g&&g.c)window.CONVITE_GUARDADO=true;return g&&g.c?String(g.c).slice(0,20):""}catch(_){return ""}}q.delete("convite");const r=q.toString();history.replaceState(history.state,"",location.pathname+(r?"?"+r:"")+location.hash);return c.trim().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20)}catch(e){return ""}})();
 function sbCliente(){if(SB)return SB;const url=/^https:\/\/\S+$/.test(SB_URL)?SB_URL:"",key=SB_KEY&&SB_KEY.indexOf("%%")<0?SB_KEY:"";
   if(!url||!key||typeof criarDB!=="function"||!window.supabase||typeof supabase.createClient!=="function")return null;
   try{SB=supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:"prumo-auth"}})}catch(e){SB=null}return SB}
@@ -6610,7 +6630,7 @@ function pararSocial(){try{S.db&&S.db.fechar()}catch(e){}Object.keys(UNS).forEac
 async function trocarSessao(user,forcar){
   const uid=user&&user.id||null;if(uid===SESS_UID&&!forcar)return;
   const tok=++SESS_TOK;SESS_UID=uid;pararSocial();
-  if(!uid){INIT_FIM=true;rerenderAll();if(FEED&&FILTRO[0]==="_")renderFeed();avisoConta();if(CONVITE_URL&&!trocarSessao._conv){trocarSessao._conv=1;abrirLogin("criar",CONVITE_URL)}return}
+  if(!uid){INIT_FIM=true;rerenderAll();if(FEED&&FILTRO[0]==="_")renderFeed();avisoConta();if(CONVITE_URL&&!trocarSessao._conv){trocarSessao._conv=1;abrirLogin(window.CONVITE_GUARDADO?"entrar":"criar",CONVITE_URL)}return}
   S.uid=uid;S.user={id:uid,email:user.email||""};S.email=user.email||"";S.db=criarDB(SB,uid);$("#avisoconta")?.remove();
   let membro=null;try{const g=await Promise.race([S.db.doc("pessoas/"+uid).get(),new Promise((_,no)=>setTimeout(()=>no(new Error("prazo")),8000))]);membro=g.exists;if(g.exists)S.membros[uid]=g.data()}catch(e){}
   if(tok!==SESS_TOK)return;INIT_FIM=true;
@@ -6746,9 +6766,14 @@ function abrirBreve(i){const b=(window.BREVES||[])[i];if(!b)return;const rel=agP
     ${rp?`<div class="card"><span class="hint">Relacionada no Prumo</span><button type="button" class="link" data-goto="${esc(rp.id)}">${esc(rp.neutro?.titulo||"")} ›</button></div>`:""}
     <a class="btn" href="${escU(b.url)}" target="_blank" rel="noopener">Ler em ${esc(nomeFonte(b.fonte))} ›</a><p class="hint" style="margin:0">Notícia menor desta edição: o Prumo só traz o título e o link, sem resumo próprio.</p>`)}
 /* 23. rodadas */
-function proximaRodadaTxt(){const m=minAgoraSP(),cand=[];for(let h=7;h<=23;h++)if(h!==17)cand.push([h*60+48,"rápida"]);cand.push([6*60+52,"completa"],[17*60+52,"completa"]);cand.sort((a,b)=>a[0]-b[0]);const nx=cand.find(c=>c[0]>m);const f=c=>`${Math.floor(c[0]/60)}h${String(c[0]%60).padStart(2,"0")}`;return nx?`Próxima atualização ${nx[1]} por volta das ${f(nx)}.`:`Próxima atualização amanhã por volta das 6h52.`}
+function proximaRodadaTxt(){const m=minAgoraSP(),cand=[];for(let h=9;h<=21;h+=2)cand.push([h*60+48,"rápida"]);cand.push([6*60+52,"completa"]);cand.sort((a,b)=>a[0]-b[0]);const nx=cand.find(c=>c[0]>m);const f=c=>`${Math.floor(c[0]/60)}h${String(c[0]%60).padStart(2,"0")}`;return nx?`Próxima atualização ${nx[1]} por volta das ${f(nx)}.`:`Próxima atualização amanhã por volta das 6h52.`}
+/* registro das rodadas: o leitor vê o que mudou; números da checagem e bastidores (ids, buscas, "acionada por") só para o administrador */
+function rodadaDetalhe(x){const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.uid]&&S.membros[S.uid].papel==="admin");
+  if(adm)return `${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}`;
+  const nota=String(x.nota||"").replace(/\bPautas\b/g,"Notícias").replace(/\bpautas\b/g,"notícias").replace(/\bPauta\b/g,"Notícia").replace(/\bpauta\b/g,"notícia").replace(/([.;])\s+/g,"$1\n").split("\n").filter(f=>f&&!/acionad[ao] por|\bbuscas?\b|\bpauta|\brodada|\baviso|\berros?\b|github|acionaram|para conferir|\bIA\b|conferente|não (foi )?(atualizad|alterad|conferid)|[a-z0-9]+-[a-z0-9]+-[a-z0-9-]+/i.test(f)).join(" ").replace(/[;,]\s*$/,"");
+  return esc(nota||(x.status==="sem_mudancas"?"Nada mudou desde a anterior.":"Notícias revisadas."))}
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
-  sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, às 10h48, 13h48, 17h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Rodada completa":x.tipo==="virada"?"Virada da meia-noite":"Rodada rápida"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"problema"}</b><span class="hint">${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
+  sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Edição completa":x.tipo==="virada"?"Virada do dia":"Atualização"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"não saiu"}</b><span class="hint">${rodadaDetalhe(x)}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
 /* 24. story passando sozinho */
 function storyAuto(p){clearTimeout(ST.timer);if(!PREF.storyAuto)return;const w=((p.neutro?.titulo||"")+" "+(p.neutro?.texto||"")).split(/\s+/).length;const dur=Math.max(7000,Math.min(24000,w/3.2*1000));
@@ -6813,8 +6838,8 @@ function erroAuth(e){const m=String((e&&(e.message||e.code))||e||"").toLowerCase
   if(/invalid login|invalid_credentials|invalid credentials/.test(m))return "E-mail ou senha errados.";
   if(/already|registered|exists/.test(m))return "Este e-mail já tem conta. Use a aba Entrar.";
   if(/password/.test(m)&&/short|least|characters|weak|6/.test(m))return "A senha precisa ter pelo menos 6 caracteres.";
-  if(/not confirmed/.test(m))return "Este e-mail ainda não foi confirmado. Fale com o Pedro.";
-  if(/convite/.test(m))return "Convite inválido ou já usado.";
+  if(/not confirmed/.test(m))return "Falta confirmar o e-mail: abra o link que mandamos na sua caixa de entrada (veja também o spam).";
+  if(/convite/.test(m))return window.__codVazio?"Escreva o código do convite. Ele vem no link que você recebeu.":"Convite inválido ou já usado.";
   if(/nome/.test(m))return "Escreva um nome de até 40 letras.";
   if(/email/.test(m)&&/invalid|valid|format/.test(m))return "Confira o e-mail.";
   if(/rate|too many|limit/.test(m))return "Muitas tentativas. Espere um pouco e tente de novo.";
@@ -6830,29 +6855,29 @@ function abrirLogin(aba,cod){aba=aba==="criar"?"criar":"entrar";const cria=aba==
     ${cria?"":`<button type="button" class="link" data-esqueci>Esqueci a senha</button><p class="hint" id="lesq" style="margin:0" hidden>Fale com o Pedro: ele redefine a sua senha.</p>`}</form>`);
   $("#lform").addEventListener("submit",e=>{e.preventDefault();if(cria)criarConta();else entrarConta()})}
 async function entrarConta(){const em=$("#lemail").value.trim(),pw=$("#lsenha").value,b=$("#lform [type=submit]");
-  if(!em||!pw)return mostraErro("#lerro","Preencha o e-mail e a senha.");
+  if(!em||!pw)return mostraErro("#lerro","Preencha o e-mail e a senha.");if(!/^\S+@\S+\.\S+$/.test(em))return mostraErro("#lerro","Confira o e-mail: falta algo depois do @.");
   const sb=sbCliente();if(!sb)return mostraErro("#lerro","O login não está disponível neste endereço.");
   b.disabled=true;try{const r=await sb.auth.signInWithPassword({email:em,password:pw});if(r.error)throw r.error;closeLayer();await trocarSessao(r.data.user||r.data.session?.user);if(S.membro)toast("Olá, "+nomeDe(S.uid)+".")}catch(e){b.disabled=false;mostraErro("#lerro",erroAuth(e))}}
 async function criarConta(){const cod=$("#lcod").value.trim().toUpperCase(),nome=$("#lnome").value.trim(),em=$("#lemail").value.trim(),pw=$("#lsenha").value,b=$("#lform [type=submit]");
-  if(!nome)return mostraErro("#lerro","Escreva seu nome.");if(!em||!/^\S+@\S+\.\S+$/.test(em))return mostraErro("#lerro","Confira o e-mail.");if(pw.length<6)return mostraErro("#lerro","A senha precisa ter pelo menos 6 caracteres.");
+  window.__codVazio=!cod;if(!nome)return mostraErro("#lerro","Escreva seu nome.");if(!em||!/^\S+@\S+\.\S+$/.test(em))return mostraErro("#lerro","Confira o e-mail.");if(pw.length<6)return mostraErro("#lerro","A senha precisa ter pelo menos 6 caracteres.");
   const sb=sbCliente();if(!sb)return mostraErro("#lerro","O login não está disponível neste endereço.");
   b.disabled=true;CRIANDO=true;
   try{const r=await sb.auth.signUp({email:em,password:pw});if(r.error)throw r.error;let user=r.data.user;
-    if(!r.data.session){const r2=await sb.auth.signInWithPassword({email:em,password:pw});if(r2.error){CRIANDO=false;b.disabled=false;return mostraErro("#lerro","A conta foi criada, mas o e-mail precisa ser confirmado antes. Fale com o Pedro.")}user=r2.data.user}
+    if(!r.data.session){const r2=await sb.auth.signInWithPassword({email:em,password:pw});if(r2.error){CRIANDO=false;b.disabled=false;try{localStorage.setItem("prumo-convite",JSON.stringify({c:cod,n:nome}))}catch(_){}return mostraErro("#lerro","Conta criada. Mandamos um link para "+em+": abra o e-mail, confirme e depois entre aqui. O convite fica guardado.")}user=r2.data.user}
     await trocarSessao(user);
     try{await usarConvite(cod,nome,user)}catch(e){CRIANDO=false;abrirFaltaConvite({codigo:cod,nome,erro:erroAuth(e)});return}
     CRIANDO=false;closeLayer();boasVindas(nome)}
   catch(e){CRIANDO=false;b.disabled=false;mostraErro("#lerro",erroAuth(e))}}
 function boasVindas(nome){setTimeout(()=>{sheet("Bem-vindo ao Prumo, "+nome,`<div class="bv">
-  <div><b>📰 As notícias do dia, num lugar só</b><p>A cada hora o Prumo lê vários veículos, junta o que fala do mesmo fato e escreve um resumo próprio, com os ângulos de cada lado.</p></div>
+  <div><b>📰 As notícias do dia, num lugar só</b><p>Várias vezes ao dia o Prumo lê vários veículos, junta o que fala do mesmo fato e escreve um resumo próprio, com os ângulos de cada lado.</p></div>
   <div><b>👥 Seus amigos</b><p>Quem te convidou já é seu amigo. Amigos veem o que você curte, vota e comenta. Mensagens ficam só entre vocês dois. Para achar mais gente, vá ao Perfil › Adicionar amigos.</p></div>
   <div><b>📲 Use como app</b><p>No celular, adicione o Prumo à tela de início. O passo a passo está no fim do Perfil.</p></div></div>`,`<button type="button" class="btn" data-close>Começar a ler</button>`)},280)}
-async function usarConvite(cod,nome,user){const sb=sbCliente();const u=user||S.user;const r=await sb.rpc("entrar",{p_codigo:cod||null,p_nome:nome});if(r.error)throw r.error;await trocarSessao(u,true);return r.data}
+async function usarConvite(cod,nome,user){const sb=sbCliente();const u=user||S.user;const r=await sb.rpc("entrar",{p_codigo:cod||null,p_nome:nome});if(r.error)throw r.error;try{localStorage.removeItem("prumo-convite")}catch(_){}await trocarSessao(u,true);return r.data}
 function abrirFaltaConvite(o){o=o||{};if(!S.uid)return abrirLogin();
   sheet("Falta só o convite",`<p class="hint" style="margin:0;font-size:14.5px">Você entrou como <b>${esc(S.email)}</b>, mas ainda não faz parte do Prumo. Use o código do convite que você recebeu.</p>
     <form id="fform" class="lform" novalidate><label>Código do convite<input class="field" id="fcod" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" value="${esc(o.codigo||CONVITE_URL||"")}"></label><label>Seu nome<input class="field" id="fnome" maxlength="40" autocomplete="given-name" value="${esc(o.nome||"")}"></label>
     <p class="erro-t" id="ferro" role="alert"${o.erro?"":" hidden"}>${esc(o.erro||"")}</p><button class="btn" type="submit">Entrar no Prumo</button><button type="button" class="link" data-sair>Sair desta conta</button></form>`);
-  $("#fform").addEventListener("submit",async e=>{e.preventDefault();const cod=$("#fcod").value.trim().toUpperCase(),nome=$("#fnome").value.trim(),b=e.target.querySelector("[type=submit]");if(!nome)return mostraErro("#ferro","Escreva seu nome.");
+  $("#fform").addEventListener("submit",async e=>{e.preventDefault();const cod=$("#fcod").value.trim().toUpperCase(),nome=$("#fnome").value.trim(),b=e.target.querySelector("[type=submit]");window.__codVazio=!cod;if(!nome)return mostraErro("#ferro","Escreva seu nome.");
     b.disabled=true;try{await usarConvite(cod,nome);closeLayer();boasVindas(nome)}catch(err){b.disabled=false;mostraErro("#ferro",erroAuth(err))}})}
 async function sair(){closeLayer();const sb=sbCliente();await trocarSessao(null);try{await sb?.auth.signOut({scope:"local"})}catch(e){}limparLocalConta();toast("Você saiu.")}
 /* o que é pessoal e fica no aparelho: some ao sair e quando outra conta entra neste aparelho.
@@ -7108,7 +7133,7 @@ function capaEscolha(){const ps=(FEED?.pautas||[]).filter(p=>!(PREF.ocultas||[])
   if(dest.length<3){const n={};[man,...dest].forEach(p=>n[secOf(p)]=(n[secOf(p)]||0)+1);for(const p of ord){if(dest.length>=4)break;if(p===man||dest.includes(p)||(n[secOf(p)]||0)>=2)continue;dest.push(p);n[secOf(p)]=(n[secOf(p)]||0)+1}}
   return {ps,ord,man,dest:dest.slice(0,5),fixa:!!fx,linha:!fx&&c.manchete===man.id?c.linha_fina:""}}
 function capaFrase(t,n){t=String(t||"").trim();if(t.length<=n)return t;const fr=t.replace(/([.!?])\s+/g,"$1\u0001").split("\u0001");let o="";for(const f of fr){if((o+" "+f).trim().length>n)break;o=(o+" "+f).trim()}return o||t.slice(0,n).replace(/\s+\S*$/,"")+"…"}
-function capaChapeu(p){return p.subtema||p.tag||secNome(secOf(p))}
+function capaChapeu(p){return (/^Outros/.test(p.subtema||"")?"":p.subtema)||p.tag||secNome(secOf(p))}
 var FOTO_OK=/^https:\/\/([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)\//i;
 function fotoSrc(u){const m=typeof u==="string"&&u.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([a-z]+)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png|webp))$/i);return m?`https://upload.wikimedia.org/wikipedia/${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/960px-${m[4]}`:u}
 function fotoErro(img,feed){const o=img.getAttribute("data-orig");if(o&&img.getAttribute("src")!==o){img.removeAttribute("data-orig");img.loading="eager";img.setAttribute("src",o);return}
@@ -7198,7 +7223,7 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().sort((a,b)=>tms(b.hora)-tms(a.hora));
   if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
   const nx=matProx(p.id);h+=matRel(p,nx);
-  h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
+  h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
   if(vazio&&pushH())HST++}
 (function(){const ant=closeLayer;closeLayer=function(fp){const eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);ant.apply(this,arguments);
@@ -11731,7 +11756,7 @@ function cn102Valida(P){const cn=P.cn;cn102Sync();
   if(cn.k==="nt"&&!P.pid)return "Escolha a notícia que você quer comentar.";
   if(cn.k==="rel"&&!String(cn.tit).trim())return "Dê um título curto ao relato.";
   if(cn.k==="ana"&&!String(cn.tit).trim()&&!String(cn.corpo).trim())return "Escreva a sua análise.";
-  if(cn.k==="enq"){if(!String(cn.tit).trim())return "Escreva a pergunta.";if(cn.o.map(v=>String(v||"").trim()).filter(Boolean).length<2)return "A pergunta precisa de pelo menos duas opções."}
+  if(cn.k==="enq"){if(!String(cn.tit).trim())return "Escreva a pergunta.";{const f=cn.o.map(v=>String(v||"").trim()).filter(Boolean);if(!f.length)cn.o=["Sim","Não"];/* opções em branco: vale o Sim/Não que aparece nos campos */else if(f.length<2)return "A pergunta precisa de pelo menos duas opções."}}
   return ""}
 function cn102Grava(P){const cn=P.cn,o={v:1,k:cn.k};const t=String(cn.tit||"").trim().slice(0,120);if(t&&cn.k!=="nt")o.tit=t;
   const f=cn102Fonte(cn.fu);if(f&&cn.k!=="nt"&&cn.k!=="enq")o.fu=f.u||f.n;if(cn.k==="rel"&&cn.q)o.q=String(cn.q).slice(0,16);
@@ -17403,6 +17428,53 @@ const MT149_NF=new Map(),MT149_DF=new Map();
 function mt149Df(o){const k=JSON.stringify(o);let f=MT149_DF.get(k);if(!f){f=new Intl.DateTimeFormat("pt-BR",o);MT149_DF.set(k,f)}return f}
 {const _gn=grNum;grNum=function(v,c){try{const k=c===undefined?"u":String(c);let f=MT149_NF.get(k);if(!f){f=new Intl.NumberFormat("pt-BR",{minimumFractionDigits:c,maximumFractionDigits:c});MT149_NF.set(k,f)}return f.format(Number(v))}catch(e){return _gn.apply(this,arguments)}}}
 {const _cs=cobSP;cobSP=function(iso,o){if(o&&!["weekday","year","month","day"].some(k=>k in o))return _cs.apply(this,arguments);const d=new Date(iso);if(isNaN(d))return "";try{return mt149Df(Object.assign({timeZone:"America/Sao_Paulo"},o||{day:"2-digit",month:"2-digit"})).format(d)}catch(e){return _cs.apply(this,arguments)}}}
+/* ---------- 150: correções do teste no site real (13/11, noite) ----------
+   Achados de duas horas usando o prumonews.com.br como leitor (com e sem conta). Nomes com o prefixo sr150.
+   1. link de notícia (/m/<id>.html ou #m=<id>): também é tentado quando o Feed é desenhado (antes só a Capa tentava;
+      quem abre no Feed ficava sem a matéria);
+   2. link de post (#p=<id>) aberto por quem não entrou: diz que precisa entrar (antes esperava em silêncio);
+   3. visitante que toca no campo de comentário: abre o entrar dizendo por quê, antes de digitar (antes digitava, tocava
+      em enviar e perdia o texto);
+   4. visitante que toca em Enviar numa notícia: abre "Mandar notícia" (WhatsApp, outros apps, copiar), como na matéria;
+   5. quem já tem conta e chega por um link de convite: depois de entrar, abre "Usar um convite" com o código preenchido;
+   6. círculos do topo do Feed: a mesma notícia não abre dois círculos seguidos com a mesma foto (o Em 5 min e a editoria
+      da manchete mostravam a mesma arte); a editoria passa a mostrar a próxima notícia dela. */
+
+/* 1 */
+{const _rf150=renderFeed;renderFeed=function(){const r=_rf150.apply(this,arguments);try{if(LINK_PID)linkTentar()}catch(e){}return r}}
+
+/* 2 */
+(function sr150Post(n){try{if(!VP99_LINK)return;if(INIT_FIM&&!S.uid){const id=VP99_LINK;PC106={k:"post_link",t:Date.now()};abrirLogin();
+  /* depois de entrar, o link volta a valer */
+  VP99_LINK=id;return}}catch(e){return}if(n<80)setTimeout(()=>sr150Post(n+1),250)})(0);
+PC106_TX.post_link="Esse post é de alguém do Prumo: entre na sua conta para ver.";
+
+/* 3 */
+PC106_TX.comentar="Para comentar, entre na sua conta.";
+function sr150CampoComentario(el){if(!el||!el.matches||!el.matches("textarea,input"))return false;const ph=String(el.getAttribute("placeholder")||"");return /^(Escreva um comentário|Comentar|Responder|Adicione um comentário)/i.test(ph)}
+document.addEventListener("focusin",e=>{const el=e.target;if(!sr150CampoComentario(el))return;try{if(S.uid&&S.membro)return}catch(_){return}
+  try{el.blur()}catch(_){}PC106={k:"comentar",t:Date.now()};setTimeout(()=>{try{precisaConta()}catch(_){}},0)},true);
+
+/* 4 */
+{const _os150=openSend;openSend=function(pid){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||snapById(pid))){compartilhar(pid);return}}catch(e){}return _os150.apply(this,arguments)}}
+
+/* 5 */
+{const _ts150=trocarSessao;trocarSessao=async function(user){const r=await _ts150.apply(this,arguments);
+  try{if(user&&CONVITE_URL&&!sr150Convite.feito&&!CRIANDO){sr150Convite.feito=1;sr150Convite(0)}}catch(e){}return r}}
+function sr150Convite(n){try{if(!S.uid||CRIANDO)return;if(S.membro)return;if(!INIT_FIM||$("#layer .sheet")){if(n<40)setTimeout(()=>sr150Convite(n+1),250);return}
+  let nome="";try{nome=(JSON.parse(localStorage.getItem("prumo-convite")||"null")||{}).n||""}catch(_){}abrirFaltaConvite({codigo:CONVITE_URL,nome})}catch(e){}}
+
+/* 6 */
+var SR150_USADAS=null;
+{const _vp150=vn112Primeira;vn112Primeira=function(sec){const a=_vp150.apply(this,arguments);if(!SR150_USADAS||!a||!a.p)return a;
+  if(sec&&sec[0]!=="_"&&SR150_USADAS.has(a.p.id)){try{const r=igLista(sec),q=(r.ps||[]).find(p=>!SR150_USADAS.has(p.id)&&!SEEN.has(seenKey(p)))||(r.ps||[]).find(p=>!SR150_USADAS.has(p.id));
+    if(q){SR150_USADAS.add(q.id);return {p:q,t:versao(q,lente()).titulo}}}catch(e){}}
+  SR150_USADAS.add(a.p.id);return a}}
+{const _vt150=vn112Tiles;vn112Tiles=function(){SR150_USADAS=new Set();try{return _vt150.apply(this,arguments)}finally{SR150_USADAS=null}}}
+
+/* 7. miniaturas (Capa e círculos do topo, ~90–110 px na tela) pediam a foto da Wikimedia com 960 px (até 250 KB cada);
+      agora pedem a de 330 px (nítida em tela 3×) */
+{const _ca150=capaArte;capaArte=function(p,cls){const r=_ca150.apply(this,arguments);return /^(cp-th|vn-tl-art)$/.test(cls||"")?r.replace(/(upload\.wikimedia\.org\/wikipedia\/[a-z]+\/thumb\/[^"']+?\/)960px-/g,"$1330px-"):r}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
