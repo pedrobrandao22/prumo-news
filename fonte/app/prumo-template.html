@@ -5491,6 +5491,11 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
 .cp152-novo{animation:cp152Novo 2s ease}
 @keyframes cp152Novo{0%,40%{box-shadow:inset 0 0 0 2px var(--bronze,#c8812e)}100%{box-shadow:inset 0 0 0 2px transparent}}
 @media (prefers-reduced-motion:reduce){.cp152-novo{animation:none}}
+
+/* folhas que sobem de baixo: quase opacas (14/11, testador: com 86% o texto e a barra de baixo apareciam por trás das opções) */
+.sheet{background:color-mix(in srgb,var(--card) 97%,transparent)!important}
+/* Entrar | Criar conta: a faixa encolhia (16 px, sem os nomes) quando o formulário de criar conta não cabia (14/11, testador) */
+.sheet .segs{flex-shrink:0}
 </style>
 </head>
 <body>
@@ -6907,7 +6912,7 @@ function erroAuth(e){const m=String((e&&(e.message||e.code))||e||"").toLowerCase
   return "Não deu certo agora. Tente de novo."}
 function abrirLogin(aba,cod){aba=aba==="criar"?"criar":"entrar";const cria=aba==="criar",em=$("#lemail")?.value||"";
   sheet("Entrar no Prumo",`<div class="segs" role="tablist"><button type="button" role="tab" data-laba="entrar" aria-selected="${!cria}">Entrar</button><button type="button" role="tab" data-laba="criar" aria-selected="${cria}">Criar conta</button></div>
-    <form id="lform" class="lform" novalidate>${cria?`<p class="hint" style="margin:0">O Prumo é só para convidados. O código vem no link que você recebeu.</p><label>Código do convite<input class="field" id="lcod" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" value="${esc(cod||CONVITE_URL||"")}"></label><label>Seu nome<input class="field" id="lnome" maxlength="40" autocomplete="given-name" placeholder="Como seus amigos vão te ver"></label>`:""}
+    <form id="lform" class="lform" novalidate>${cria?`<p class="hint" style="margin:0">O Prumo é só para convidados. O código vem no link que você recebeu. Não tem convite? Peça a um amigo que já usa o Prumo: em Perfil, "Convidar amigo" gera o link. Enquanto isso, dá para ler tudo sem conta.</p><label>Código do convite<input class="field" id="lcod" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" value="${esc(cod||CONVITE_URL||"")}"></label><label>Seu nome<input class="field" id="lnome" maxlength="40" autocomplete="given-name" placeholder="Como seus amigos vão te ver"></label>`:""}
     <label>E-mail<input class="field" id="lemail" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" value="${esc(em)}"></label>
     <label>Senha<input class="field" id="lsenha" type="password" autocomplete="${cria?"new-password":"current-password"}"${cria?' placeholder="Mínimo de 6 caracteres"':""}></label>
     <p class="erro-t" id="lerro" role="alert" hidden></p>
