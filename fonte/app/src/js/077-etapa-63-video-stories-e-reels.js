@@ -79,7 +79,7 @@ edModos=function(){return `<div class="ce-modos" role="tablist">${[["post","POST
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer .ce")||!ED||t.closest("#layer2"))return;let b;const pare=()=>{e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()};
   if(Date.now()-(ED._gravou||0)<900&&t.closest("[data-edfoto]")){pare();return}
   if(ED.env&&t.closest("[data-edmudo],[data-edtrim],[data-trok]")){pare();return}
-  if(b=t.closest("[data-edmudo]")){pare();const bg=ED.st.bg;bg.mudo=!bg.mudo;ED._mPrev=false;b.textContent=bg.mudo?"🔇":"🔊";b.setAttribute("aria-pressed",String(bg.mudo));const v=$("#ce-bgv");if(v){v.muted=bg.mudo;v.play().catch(()=>{})}toast(bg.mudo?"Story sem som":"Story com som");return}
+  if(b=t.closest("[data-edmudo]")){pare();const bg=ED.st.bg;bg.mudo=!bg.mudo;ED._mPrev=false;b.textContent=bg.mudo?"🔇":"🔊";b.setAttribute("aria-pressed",String(bg.mudo));const v=$("#ce-bgv");if(v){v.muted=bg.mudo;v.play().catch(()=>{})}toast(bg.mudo?"Giro sem som":"Giro com som");return}
   if(t.closest("[data-edtrim]")){pare();edTrim(ED.st.bg,15,"#ce-bgv");return}
   if(t.closest("[data-trok]")){pare();$("#layer .ce-sel")?.remove();return}},true);
 /* segurar o botão da câmera do story grava vídeo (até 15 s) */

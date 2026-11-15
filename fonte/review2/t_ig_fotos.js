@@ -34,7 +34,7 @@ async function compara(p, sel, tipo) {
   await ev(A, () => go('feed')); await esperar(A, () => PUB.on === true, null, 8000); await ev(A, () => pubCarregar()); await sleep(800);
 
   // ===== POST: o toque no + já abre a galeria
-  await clk(A, '#b-criar'); await esperar(A, () => !!document.querySelector('#layer .ce [data-edpgal]'), null, 8000); await sleep(300);
+  await ev(A, () => criarAbrir('post')); await esperar(A, () => !!document.querySelector('#layer .ce [data-edpgal]'), null, 8000); await sleep(300);
   ok(await ev(A, () => !!document.querySelector('#layer .cn102-cards')), 'tocar no + abre "O que você quer publicar?" com Escolher fotos');
   const [fc] = await Promise.all([A.waitForEvent('filechooser', { timeout: 5000 }).catch(() => null), clk(A, '#layer [data-edpgal]')]);
   ok(!!fc && fc.isMultiple(), 'Escolher fotos abre a galeria do aparelho');

@@ -161,7 +161,7 @@ const APARELHO = () => {
   await ev(A, () => { go('me'); PF_ABA = 'conta'; renderMe() }); await sleep(300);
   await esperar(A, () => typeof LT134 !== 'undefined' && LT134.v13 !== null, null, 10000);
   await clk(A, '#v-me [data-nt124abrir]'); await sleep(500);
-  ok(await ev(A, () => !!document.querySelector('#layer .pfv-nt124 [data-nt124estado="admin"]') && /Ainda não ativado pelo administrador/.test(document.querySelector('#layer .pfv-nt124').textContent) && !document.querySelector('[data-nt124push]')), 'sem a chave pública: "Ainda não ativado pelo administrador" e sem a coluna Celular');
+  ok(await ev(A, () => !!document.querySelector('#layer .pfv-nt124 [data-nt124estado="admin"]') && /Ainda não estão disponíveis no Prumo/.test(document.querySelector('#layer .pfv-nt124').textContent) && !document.querySelector('[data-nt124push]')), 'sem a chave pública: "Ainda não ativado pelo administrador" e sem a coluna Celular');
   const nomes = await ev(A, () => [...document.querySelectorAll('#layer .nt124-li[data-nt124tipo]')].map(x => x.dataset.nt124tipo));
   ok(nomes.length === 11 && nomes.includes('colunas_seguidas'), 'página: os 11 tipos (com o Seguir e, da v13, as séries assinadas)', nomes);
   ok(await ev(A, () => [...document.querySelectorAll('[data-nt124app]')].every(x => x.getAttribute('aria-checked') === 'true')), 'no app: tudo ligado por padrão');

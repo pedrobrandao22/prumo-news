@@ -13,8 +13,8 @@ const NT124_TIPOS=[
   ["amizades","Pedidos de amizade","Pedidos novos e pedidos aceitos","+"],
   ["comentarios","Comentários e respostas","Nas suas publicações e onde você comentou","💬"],
   ["mencoes","Menções","Quando alguém marca você","@"],
-  ["curtidas","Curtidas","Nos seus posts, stories e comentários (agrupadas)","♥"],
-  ["reposts","Reposts","Quando repostam ou citam sua publicação","↻"],
+  ["curtidas","Curtidas","Nos seus posts, giros e comentários (agrupadas)","♥"],
+  ["reposts","Repostagens","Quando repostam ou citam sua publicação","↻"],
   ["seguidores","Novos seguidores","Quando alguém começa a seguir você","👤",1],
   ["seguindo","Posts de quem você segue","Publicações novas de quem você segue","▤",1],
   ["coberturas","Coberturas que você segue","Atualizações das notícias que você segue","📌"],
@@ -145,7 +145,7 @@ function nt124B64(s){const p="=".repeat((4-s.length%4)%4),b=atob((s+p).replace(/
 function nt124MesmaChave(sub,u8){try{const k=sub&&sub.options&&sub.options.applicationServerKey;if(!k)return true;const a=new Uint8Array(k);return a.length===u8.length&&a.every((x,i)=>x===u8[i])}catch(e){return true}}
 function nt124Prazo(p,ms){return Promise.race([p,new Promise((_,no)=>setTimeout(()=>no(new Error("prazo")),ms))])}
 async function nt124Reg(){const sw=navigator.serviceWorker;let r=await sw.getRegistration();if(!r)r=await sw.register("sw.js");await nt124Prazo(sw.ready,10000);return r}
-async function nt124Ativar(tipo){if(NT124.ocupado)return false;if(!NT124.chave){toast("Ainda não ativado pelo administrador.");return false}
+async function nt124Ativar(tipo){if(NT124.ocupado)return false;if(!NT124.chave){toast("Os avisos no celular ainda não estão disponíveis no Prumo.");return false}
   if(!nt124Suporte()){toast("Este aparelho não recebe notificações do Prumo.");return false}
   NT124.ocupado=true;nt124Desenha();let ok=false;
   try{let perm=nt124Perm();if(perm!=="granted")perm=await Notification.requestPermission();
@@ -181,7 +181,7 @@ async function nt124Teste(){try{const reg=await nt124Reg();await reg.showNotific
 function nt124Sw(on,attrs,lab,dis){return `<button type="button" class="nt124-sw${on?" on":""}" role="switch" aria-checked="${!!on}" aria-label="${esc(lab)}" ${attrs}${dis?" disabled":""}><i></i></button>`}
 function nt124PushCard(){if(NT124.v10!==true)return {h:"",col:false};
   const ios=nt124Ios(),inst=nt124Instalado();
-  if(!NT124.chave)return {h:`<div class="card nt124-cel"><b>Avisos no celular</b><p class="hint" data-nt124estado="admin">Ainda não ativado pelo administrador.</p></div>`,col:false};
+  if(!NT124.chave)return {h:`<div class="card nt124-cel"><b>Avisos no celular</b><p class="hint" data-nt124estado="admin">Ainda não estão disponíveis no Prumo. Por enquanto, as novidades aparecem em Atividade.</p></div>`,col:false};
   if(!nt124Suporte())return {h:`<div class="card nt124-cel"><b>Avisos no celular</b><p class="hint" data-nt124estado="sem">${ios&&!inst?"No iPhone, os avisos só funcionam com o Prumo na Tela de Início (iOS 16.4 ou mais novo): no Safari, toque em Compartilhar › “Adicionar à Tela de Início” e abra o Prumo por lá.":"Este navegador não recebe avisos do Prumo."}</p></div>`,col:false};
   if(nt124Perm()==="denied")return {h:`<div class="card nt124-cel"><b>Avisos no celular</b><p class="hint" data-nt124estado="bloq">Os avisos estão bloqueados para o Prumo neste aparelho. Para liberar, abra os ajustes do navegador (ou do celular), procure o Prumo e permita notificações.</p></div>`,col:false};
   const at=nt124Ativo(),oc=NT124.ocupado;

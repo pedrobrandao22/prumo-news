@@ -37,7 +37,7 @@ function vs98Rodape(){const x=vs98Atual();const st=$("#layer .story.sg-user"),f=
       <button type="button" class="vs98-ic" data-vs98env="${esc(x.id)}">${ICON.send}<small>Enviar</small></button>
       <button type="button" class="vs98-ic" data-vs98menu>${ICON.dots}<small>Mais</small></button>`;
     return}
-  if(!f.querySelector("[data-vs98env]")&&x.publico!=="proximos"){const lk=f.querySelector("[data-uscurtir]");const h=`<button type="button" class="sg-a vs98-env" data-vs98env="${esc(x.id)}" aria-label="Enviar o story para amigos">${ICON.send}</button>`;if(lk)lk.insertAdjacentHTML("afterend",h);else f.insertAdjacentHTML("beforeend",h)}
+  if(!f.querySelector("[data-vs98env]")&&x.publico!=="proximos"){const lk=f.querySelector("[data-uscurtir]");const h=`<button type="button" class="sg-a vs98-env" data-vs98env="${esc(x.id)}" aria-label="Enviar o giro para amigos">${ICON.send}</button>`;if(lk)lk.insertAdjacentHTML("afterend",h);else f.insertAdjacentHTML("beforeend",h)}
   if(!f.querySelector(".vs98-reac"))f.insertAdjacentHTML("afterbegin",`<div class="vs98-reac" role="group" aria-label="Reações rápidas">${VS98_EMOS.map(e=>`<button type="button" data-vs98reac="${e}" aria-label="Reagir com ${e}">${e}</button>`).join("")}</div>`)}
 const vs98TxtVis=n=>n?`Visto por ${n}`:"Ninguém viu ainda";
 const vs98Avs=vs=>(vs||[]).slice(0,3).map(v=>avatar(v.uid)).join("");
@@ -68,22 +68,22 @@ async function vs98Atividade(id){igPausa();const x=pubDe(id)||(ST&&ST.itens||[])
     const sub=[v.at?dmCurto(+v.at):""].concat(ch.map(t=>`<em class="vs98-ch">${esc(t)}</em>`)).concat(m&&!emo&&!(m.snap&&m.snap.q!=null)?[`<em class="vs98-ch vs98-rp">💬 ${esc(String(m.texto||"").slice(0,40))}</em>`]:m&&m.snap&&m.snap.q!=null?[`<em class="vs98-ch vs98-rp">Respondeu à pergunta</em>`]:[]).filter(Boolean);
     return `<li class="vs98-v"><span class="vs98-va">${avatar(u)}${emo?`<i class="vs98-em">${esc(emo)}</i>`:""}</span><span class="vs98-vn"><b>${esc(nomeDe(u))}</b><span>${sub.map((s,i)=>i===0&&!/^<em/.test(s)?esc(s):s).join(" ")}</span></span>${curt.has(u)?`<i class="vs98-cor" role="img" aria-label="Curtiu">${VS98_IC.cor}</i>`:""}${S.amigos.has(u)?`<button type="button" class="vs98-dm" data-conversa="${esc(u)}" aria-label="Responder a ${esc(nomeDe(u))}">${ICON.send}</button>`:""}</li>`};
   const resumo=`<div class="vs98-res"><span>${VS98_IC.olho}<b>${vs.length}</b> ${vs.length===1?"visualização":"visualizações"}</span>${curt.size?`<span class="vs98-rc">${VS98_IC.cor}<b>${curt.size}</b> ${curt.size===1?"curtida":"curtidas"}</span>`:""}</div>`;
-  sheet("Atividade",vs.length?`${resumo}<ul class="vs98-vl">${ordem.map(linha).join("")}</ul>`:`<div class="empty vs98-vz"><b>Ninguém viu ainda</b><span>Quando seus amigos virem este story, eles aparecem aqui.</span></div>`)}
+  sheet("Atividade",vs.length?`${resumo}<ul class="vs98-vl">${ordem.map(linha).join("")}</ul>`:`<div class="empty vs98-vz"><b>Ninguém viu ainda</b><span>Quando seus amigos virem este giro, eles aparecem aqui.</span></div>`)}
 
 /* Enviar o story para amigos (mesmo fluxo de enviar post) */
-function vs98Enviar(x){if(precisaConta()||!x)return;if(x.publico==="proximos"&&x.autor!==S.uid){toast("Este story é só para os Melhores amigos: não dá para enviar.");return}
+function vs98Enviar(x){if(precisaConta()||!x)return;if(x.publico==="proximos"&&x.autor!==S.uid){toast("Este giro é só para os Melhores amigos: não dá para enviar.");return}
   let am=amigosL();if(x.publico==="proximos"&&typeof MA!=="undefined"&&MA.set)am=am.filter(u=>MA.set.has(u));if(x.autor!==S.uid)am=am.filter(u=>u!==x.autor);
-  if(!am.length){toast("Adicione amigos no Perfil para mandar.");return}igPausa();const snap={titulo:"Story de "+nomeDe(x.autor),upub:x.id};
-  sheet("Enviar story",`<div class="pick dm-pick" id="pick">${am.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="false">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><p class="hint">${x.autor===S.uid?"O story some em 24 horas.":`Só quem também é amigo de ${esc(vs98Nome1(x.autor))} consegue abrir. Some em 24 horas.`}</p>`,`<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)"><button class="send" id="sbtn" type="submit" disabled>Enviar</button></form>`);
+  if(!am.length){toast("Adicione amigos no Perfil para mandar.");return}igPausa();const snap={titulo:"Giro de "+nomeDe(x.autor),upub:x.id};
+  sheet("Enviar giro",`<div class="pick dm-pick" id="pick">${am.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="false">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><p class="hint">${x.autor===S.uid?"O giro some em 24 horas.":`Só quem também é amigo de ${esc(vs98Nome1(x.autor))} consegue abrir. Some em 24 horas.`}</p>`,`<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)"><button class="send" id="sbtn" type="submit" disabled>Enviar</button></form>`);
   const sel=new Set();$("#pick").addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;const u=b.dataset.pick;sel.has(u)?sel.delete(u):sel.add(u);b.setAttribute("aria-pressed",String(sel.has(u)));$("#sbtn").disabled=!sel.size});
   $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel.size)return;const t=$("#stext").value.trim();$("#sbtn").disabled=true;const us=[...sel];
     const r=await Promise.all(us.map(u=>dmEnviar(u,{texto:t,pid:"u:"+x.id,snap},true)));closeLayer();toast(r.every(Boolean)?(us.length>1?"Enviado":"Enviado para "+vs98Nome1(us[0])):"Algumas não foram enviadas")})}
 
 /* Menu ⋯ */
 function vs98Menu(){const x=vs98Atual();const auto=`<button type="button" data-vs98auto aria-pressed="${!!PREF.storyAuto}">Passar sozinho<span>${PREF.storyAuto?"ligado":"desligado"}</span></button>`;
-  if(x&&x.autor===S.uid){sheet("Seu story",`<div class="opt"><button type="button" data-criarde="story">Criar outro story</button>${auto}<button type="button" class="perigo" data-vs98apagar="${esc(x.id)}">Apagar este story<span>some para todos</span></button></div>`);return}
-  if(x){const u=x.autor;sheet("Story de "+nomeDe(u),`<div class="opt">${S.amigos.has(u)?`<button type="button" data-conversa="${esc(u)}">Mandar mensagem para ${esc(vs98Nome1(u))}</button>`:""}${auto}<button type="button" data-denp="${esc(u)}">Denunciar<span>o Pedro recebe e analisa</span></button></div>`);return}
-  sheet("Stories",`<div class="opt">${auto}</div>`)}
+  if(x&&x.autor===S.uid){sheet("Seu giro",`<div class="opt"><button type="button" data-criarde="story">Criar outro giro</button>${auto}<button type="button" class="perigo" data-vs98apagar="${esc(x.id)}">Apagar este giro<span>some para todos</span></button></div>`);return}
+  if(x){const u=x.autor;sheet("Giro de "+nomeDe(u),`<div class="opt">${S.amigos.has(u)?`<button type="button" data-conversa="${esc(u)}">Mandar mensagem para ${esc(vs98Nome1(u))}</button>`:""}${auto}<button type="button" data-denp="${esc(u)}">Denunciar<span>o Pedro recebe e analisa</span></button></div>`);return}
+  sheet("Giros",`<div class="opt">${auto}</div>`)}
 
 /* Reações rápidas (enviadas como resposta ao story) */
 async function vs98Reagir(emo){const x=vs98Atual();if(!x||x.autor===S.uid||precisaConta())return;const i=$("#layer .us-rp input");if(i)i.blur();vs98Voa(emo);vibrar(8);
@@ -107,9 +107,9 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
   if(b=t.closest("#layer .story [data-vs98reac]")){e.stopPropagation();e.preventDefault();vs98Reagir(b.dataset.vs98reac);return}
   if(b=t.closest("#layer .story .vs98-dim")){e.stopPropagation();e.preventDefault();document.activeElement?.blur?.();return}
   if(b=t.closest("#layer2 [data-vs98auto]")){e.stopPropagation();e.preventDefault();PREF.storyAuto=!PREF.storyAuto;salvarPrefs();closeLayer();if($("#layer .story")&&ST){clearTimeout(ST.timer);ST.timer=0;drawStory()}
-    toast(PREF.storyAuto?"O story passa sozinho. Segure o dedo para pausar.":"O story não passa mais sozinho.");return}
+    toast(PREF.storyAuto?"O giro passa sozinho. Segure o dedo para pausar.":"O giro não passa mais sozinho.");return}
   if(b=t.closest("#layer2 [data-vs98apagar]")){e.stopPropagation();e.preventDefault();if(!b.classList.contains("conf")){b.classList.add("conf");b.firstChild.textContent="Toque de novo para apagar";return}
-    const id=b.dataset.vs98apagar;closeLayer();igPausa();pubApagar(id,true).then(ok=>{if(!ok){toast("Não deu para apagar agora.");return}toast("Story apagado");if(!$("#layer .story"))return;const fr=pubStoriesDe(S.uid);
+    const id=b.dataset.vs98apagar;closeLayer();igPausa();pubApagar(id,true).then(ok=>{if(!ok){toast("Não deu para apagar agora.");return}toast("Giro apagado");if(!$("#layer .story"))return;const fr=pubStoriesDe(S.uid);
       if(String(ST.sec||"").indexOf("_u:~")===0||!fr.length){igFechar();return}ST.itens=fr;ST.ids=fr.map(x=>"us:"+x.id);ST.i=Math.min(ST.i,fr.length-1);drawStory()});return}},true);
 /* tocar num emoji não tira o foco do campo antes do clique */
 document.addEventListener("pointerdown",e=>{if(e.target.closest&&e.target.closest("#layer .vs98-reac button"))e.preventDefault()},true);

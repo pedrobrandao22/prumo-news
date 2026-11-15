@@ -59,7 +59,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
     ok(await p.evaluate(() => GR.d.length === 22 && /1 mês/.test(document.querySelector('.gr-per-t').textContent) && !!document.querySelector('#layer .sheet')), 'período 1 mês');
     ok(await p.evaluate(() => HST === 1), 'trocar período não cria passo extra no Voltar');
     await p.evaluate(() => document.querySelector('.gr-outros [data-indg="selic"]').click()); await sleep(400);
-    ok(await p.evaluate(() => /Selic/.test(document.querySelector('#layer .sh-h').textContent) && /2 anos/.test(document.querySelector('.gr-per-t').textContent) && /ponto/.test(document.querySelector('.gr-per-t').textContent)), 'Selic: degraus, 2 anos, variação em pontos');
+    ok(await p.evaluate(() => /Selic/.test(document.querySelector('#layer .sh-h').textContent) && /12 meses/.test(document.querySelector('.gr-per-t').textContent) && /ponto/.test(document.querySelector('.gr-per-t').textContent)), 'Selic: degraus, abre em 12 meses, variação em pontos');
     await p.screenshot({ path: D + n + '5-selic.png' });
     await p.evaluate(() => document.querySelector('.gr-outros [data-indg="ipca12m"]').click()); await sleep(400);
     ok(await p.evaluate(() => !document.querySelector('.gr-pers') && /12 meses/.test(document.querySelector('.gr-per-t').textContent)), 'IPCA: 12 meses sem botões de período');

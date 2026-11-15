@@ -180,7 +180,7 @@ edCaneta=function(){if(!ED||$("#layer .ce-cn"))return;ED.st.ferr="caneta";const 
       <span class="sp"></span><button type="button" class="ce-ok" data-edcnok>Concluído</button></div>
     <div class="cn2-tam" id="cn2-tam" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Espessura" aria-valuemin="4" aria-valuemax="40" aria-valuenow="${Math.round(c.w*1000)}"><svg class="cn2-tr" viewBox="0 0 24 200" preserveAspectRatio="none" aria-hidden="true"><path d="M1.5 4a10.5 3 0 0 1 21 0L13.6 196a1.6 1.6 0 0 1-3.2 0z" vector-effect="non-scaling-stroke"/></svg><i class="cn2-pt" id="cn2-pt"></i></div>
     <i class="cn2-dot" id="cn2-dot" hidden></i>
-    ${ED._cnDica?"":`<p class="cn2-dica" id="cn2-dica">Segure no story para pintar o fundo</p>`}
+    ${ED._cnDica?"":`<p class="cn2-dica" id="cn2-dica">Segure no giro para pintar o fundo</p>`}
     <div class="ce-cores">${ED_CORES.map(x=>`<button type="button" data-edcncor="${x}" style="background:${x}" aria-label="Cor ${x}" aria-pressed="${x===c.cor}"></button>`).join("")}</div>`;
   $("#layer .ce").appendChild(ov);$("#layer .ce").classList.add("desenhando");if(!ED._cnDica){ED._cnDica=1;setTimeout(()=>{const d=$("#cn2-dica");if(d)d.classList.add("some")},3200)}
   fg2TamPos();fg2Tam()};

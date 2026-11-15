@@ -107,6 +107,10 @@ function cr137Md(e){const cp=cr137Cp();if(!cp||CR137.ocupado)return false;const 
   if(b.tagName==="P"&&antes.length<=4){const m=CR137_MD.find(([re])=>re.test(antes));if(m){CR137.ocupado=true;try{cr137Marca();const r=document.createRange();r.selectNodeContents(b);r.setEnd(s.anchorNode,s.anchorOffset);r.deleteContents();
       if(!(b.textContent||"").length&&!b.querySelector("br"))b.innerHTML="<br>";const r2=document.createRange();r2.setStart(b,0);r2.collapse(true);s.removeAllRanges();s.addRange(r2);ED132.rg=r2.cloneRange();
       ed132MenuFecha();ed132Cmd(m[1])}finally{CR137.ocupado=false}return true}}
+  /* já dentro de uma lista: "- " ou "1. " no começo do item some (antes ficava "- item dois" no texto) (14/11) */
+  if(b.tagName==="UL"||b.tagName==="OL"){const an=s.anchorNode,li=(an.nodeType===1?an:an.parentElement)?.closest("li");if(li&&b.contains(li)){let a2;try{const r=document.createRange();r.selectNodeContents(li);r.setEnd(s.anchorNode,s.anchorOffset);a2=r.toString()}catch(_){a2=""}
+    if(/^(?:[-*•]|\d+[.)])[\s\u00a0]$/.test(a2)){CR137.ocupado=true;try{cr137Marca();const r=document.createRange();r.selectNodeContents(li);r.setEnd(s.anchorNode,s.anchorOffset);r.deleteContents();if(!(li.textContent||"").length&&!li.querySelector("br"))li.innerHTML="<br>";
+      const r2=document.createRange();r2.setStart(li,0);r2.collapse(true);s.removeAllRanges();s.addRange(r2)}finally{CR137.ocupado=false}return true}}}
   /* separador: a linha inteira é --- (o iPhone troca -- por —) */
   if(b.tagName==="P"&&/^(?:---|—-|–-|\*\*\*|___)$/.test(antes)&&(b.textContent||"")===antes){CR137.ocupado=true;try{cr137Marca();b.innerHTML="<br>";ed132CaretFim(b);ed132PoeBloco(document.createElement("hr"))}finally{CR137.ocupado=false}return true}
   /* negrito e itálico no texto que acabou de ser digitado */

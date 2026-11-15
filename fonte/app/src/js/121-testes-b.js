@@ -24,9 +24,9 @@ function tb121Voto(x){if(!x||typeof x!=="object"||typeof x.k!=="string"||x.k.ind
   const pb=(AT.pubs||{})[x.pub]||(typeof pubDe==="function"&&pubDe(x.pub));if(!pb)return x;const n=(x.us||[]).length,v=n>1?"votaram":"votou";
   const nm=x.txt.match(/^<b>[^<]*<\/b>/);if(!nm)return x;
   if(pb.tipo==="story"){const its=((pb.estilo||{}).itens||[]).filter(i=>i&&["enq","quiz","slid","perg","cont"].includes(i.t));
-    if(!its.length||!its.every(i=>i.t==="enq"))return x;return {...x,ic:"☑",txt:`${nm[0]} ${v} na enquete do seu story`}}
+    if(!its.length||!its.every(i=>i.t==="enq"))return x;return {...x,ic:"☑",txt:`${nm[0]} ${v} na enquete do seu giro`}}
   const cn=typeof cn102De==="function"?cn102De(pb):null;if(!cn||cn.k!=="enq")return x;
-  return {...x,ic:"☑",txt:`${nm[0]} ${v} na sua pergunta${cn.tit?` “${esc(String(cn.tit).slice(0,70))}”`:""}`}}
+  return {...x,ic:"☑",txt:`${nm[0]} ${v} na sua pergunta${cn.tit?` “${esc(cp152Corta(cn.tit,70))}”`:""}`}}
 {const _ai121=atItens;atItens=function(){let it=_ai121.apply(this,arguments);try{if(Array.isArray(it))it=tb121SemBloq(it).map(tb121Voto)}catch(e){}return it}}
 
 /* ===== TB03: ações cortadas nos posts desenhados fora da tela ===== */

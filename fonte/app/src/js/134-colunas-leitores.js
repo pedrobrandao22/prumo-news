@@ -18,7 +18,7 @@ var LT134={v13:null,n:0,uid:null,tk:0,ctx:null,notif:null,forca:null,ses:null,as
 const LT134_ORIG=[["feed","Feed"],["perfil","Perfil"],["hashtag","Hashtag"],["serie","Série"],["busca","Busca"],["conversa","Conversa ou envio"],["notificacao","Notificação"],["outro","Outros caminhos"]];
 const LT134_IC={num:'<path d="M5 19V11M10 19V5M15 19v-6M20 19V8"/>',pin:'<path d="M9 4h6l-1 5 3 3H7l3-3z"/><path d="M12 12v8"/>'};
 const lt134Svg=d=>`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
-const lt134Prim=u=>String(nomeDe(u)||"").split(" ")[0]||"a autora";
+const lt134Prim=u=>String(nomeDe(u)||"").split(" ")[0]||"quem escreve";
 const lt134N=(n,a,b)=>`${cs123Num(n)} ${n===1?a:b}`;
 const lt134Erro=e=>String((e&&(e.code||""))+" "+(e&&e.message||""));
 
@@ -117,14 +117,14 @@ try{NT124_TIPOS.push(["colunas_seguidas","Séries e colunistas que você assina"
 {const _nc=nt124Cat;nt124Cat=function(x){return /^lt134c:/.test(String(x&&x.k||""))?"colunas_seguidas":_nc.apply(this,arguments)}}
 
 /* ===== 4. comentários: selo "Autora" e destaques ===== */
-const lt134Au=()=>`<em class="lt134-au">Autora</em>`;
+const lt134Au=()=>`<em class="lt134-au">Colunista</em>`;
 async function lt134DestCarrega(id){if(LT134.v13!==true||typeof SB==="undefined"||!SB||!id)return;if(Date.now()-(LT134.destT[id]||0)<1500)return;LT134.destT[id]=Date.now();
   try{const r=await SB.from("coluna_destaques").select("cautor,cid,txt,nome,at").eq("pub",id);if(r.error)return;
     const l=(r.data||[]).map(d=>({cautor:String(d.cautor),cid:String(d.cid),txt:cs123S(d.txt,600),nome:cs123S(d.nome,80),at:+d.at||0})).sort((a,b)=>a.at-b.at).slice(0,3);
     const k=JSON.stringify(l),mudou=JSON.stringify(LT134.dest[id]||null)!==k;LT134.dest[id]=l;if(mudou){cs123FimAtualiza();lt134CmDecora()}}catch(e){}}
 const lt134Nome=d=>S.membros[d.cautor]||d.cautor===S.uid?nomeDe(d.cautor):(d.nome||nomeDe(d.cautor));
 function lt134DestHTML(x){const l=LT134.v13===true&&LT134.dest[x.id];if(!l||!l.length)return "";const eu=x.autor===S.uid;
-  return `<section class="lt134-dest" aria-label="Destaque da autora"><p class="lt134-dk">${lt134Svg(LT134_IC.pin)}Destaque da autora</p><ul>${l.map(d=>`<li>${avatar(d.cautor)}<div><p><b>${esc(lt134Nome(d))}</b>${d.cautor===x.autor?lt134Au():""} ${esc(d.txt)}</p>
+  return `<section class="lt134-dest" aria-label="Destaque da coluna"><p class="lt134-dk">${lt134Svg(LT134_IC.pin)}Destaque da coluna</p><ul>${l.map(d=>`<li>${avatar(d.cautor)}<div><p><b>${esc(lt134Nome(d))}</b>${d.cautor===x.autor?lt134Au():""} ${esc(d.txt)}</p>
     <span class="lt134-da"><button type="button" data-lt134resp="${esc(x.id)}" data-n="${esc(lt134Nome(d))}">Responder</button>${eu?`<button type="button" data-lt134fix="${esc(x.id)}" data-au="${esc(d.cautor)}" data-cid="${esc(d.cid)}">Desafixar</button>`:""}</span></div></li>`).join("")}</ul></section>`}
 {const _fh=cs123FimHTML;cs123FimHTML=function(x){let h=_fh.apply(this,arguments);try{if(!x)return h;
   if(h.indexOf('class="cs123-cms"')>=0){const ult=socialOf("u:"+x.id).cm.slice(-2),tp=document.createElement("template");tp.innerHTML=h;
@@ -137,7 +137,7 @@ function lt134CmDecora(){const pid=LT134.cpid,m=/^u:(.+)$/.exec(String(pid||""))
   box.querySelectorAll(".clist > li").forEach(li=>{const c=lt134CmDo(li);if(!c)return;const sp=li.querySelector(":scope > div > span");
     if(c.autor===x.autor&&sp&&!sp.querySelector(".lt134-au")){const b=sp.querySelector("b");if(b)b.insertAdjacentHTML("afterend",lt134Au())}
     const fx=l.some(d=>d.cautor===c.autor&&d.cid===c.cid);li.classList.toggle("lt134-fx",fx);
-    let k=li.querySelector(".lt134-fk");if(fx&&!k&&sp)sp.insertAdjacentHTML("beforebegin",`<small class="lt134-fk">${lt134Svg(LT134_IC.pin)}Fixado pela autora</small>`);else if(!fx&&k)k.remove();
+    let k=li.querySelector(".lt134-fk");if(fx&&!k&&sp)sp.insertAdjacentHTML("beforebegin",`<small class="lt134-fk">${lt134Svg(LT134_IC.pin)}Fixado na coluna</small>`);else if(!fx&&k)k.remove();
     const ac=li.querySelector(":scope > div > i");if(!eu||!ac)return;let b=ac.querySelector("[data-lt134fix]");
     if(!b){ac.insertAdjacentHTML("beforeend",`<button type="button" class="c-a" data-lt134fix="${esc(x.id)}" data-au="${esc(c.autor)}" data-cid="${esc(c.cid)}"></button>`);b=ac.querySelector("[data-lt134fix]")}
     b.textContent=fx?"Desafixar":"Fixar"});
@@ -174,7 +174,7 @@ function lt134PainelHTML(x,c,d,mais){d=d||{};const L=+d.leituras||0,F=+d.fim||0,
     ${graf?`<div class="lt134-g">${graf}<p class="hint">Dia 1 é o dia da publicação.</p></div>`:""}
     ${cur.length||com.length?`<h4 class="lt134-h">Quem você conhece</h4><div class="lt134-nm">${cur.length?`<p><b>Curtiram:</b> ${nm(cur)}</p>`:""}${com.length?`<p><b>Comentaram:</b> ${nm(com)}</p>`:""}<p class="hint">Só amigos e seguidores que curtiram ou comentaram. Quem só leu não aparece.</p></div>`:""}
     <h4 class="lt134-h">Suas colunas mais lidas</h4>${lt134MaisHTML(mais)}`}
-async function lt134Numeros(id){if(precisaConta()||LT134.v13!==true||typeof SB==="undefined"||!SB)return;const x=ed132Pub(id)||pubDe(id),c=x&&cs123Col(x);if(!c||x.autor!==S.uid){toast("Só a autora vê os números da coluna.");return}
+async function lt134Numeros(id){if(precisaConta()||LT134.v13!==true||typeof SB==="undefined"||!SB)return;const x=ed132Pub(id)||pubDe(id),c=x&&cs123Col(x);if(!c||x.autor!==S.uid){toast("Só quem escreveu vê os números da coluna.");return}
   ex133Folha("Leitores",`<div id="lt134-np" class="lt134-np" data-pub="${esc(id)}"><p class="hint">Carregando…</p></div>`);uso("coluna_numeros");
   try{const [r,m]=await Promise.all([SB.rpc("coluna_numeros",{p_pub:id}),SB.rpc("coluna_mais_lidas")]);if(r.error)throw r.error;if(m&&!m.error)LT134.mais=m.data||[];
     const box=$("#lt134-np");if(box&&box.dataset.pub===id)box.innerHTML=lt134PainelHTML(x,c,r.data,LT134.mais)}
@@ -210,7 +210,7 @@ function lt134Barra(){const r=lt134Raiz();document.querySelectorAll(".lt134-bar"
   let b=r.querySelector(":scope > .lt134-bar");if(!b){r.insertAdjacentHTML("beforeend",`<div class="lt134-bar" role="toolbar" aria-label="Trecho selecionado"><small></small><button type="button" data-lt134cit>Citar trecho</button><button type="button" data-lt134cop>Copiar trecho</button></div>`);b=r.querySelector(":scope > .lt134-bar")}
   b.querySelector("small").textContent=S0.longo?"Vão os primeiros 280 caracteres":`${S0.t.length} de 280 caracteres`}
 ["pointerdown","mousedown"].forEach(k=>document.addEventListener(k,e=>{if(e.target.closest&&e.target.closest(".lt134-bar button"))e.preventDefault()},true));
-const lt134Assina=id=>{const x=pubDe(id);return "— "+(x?nomeDe(x.autor):"Autora")+", no Prumo"};
+const lt134Assina=id=>{const x=pubDe(id);return "— "+(x?nomeDe(x.autor):"Colunista")+", no Prumo"};
 function lt134CopiaTxt(sel){return `“${sel.t}”\n\n${lt134Assina(sel.id)}`}
 function lt134Citar(){const s0=LT134.sel,x=s0&&pubDe(s0.id),c=x&&cs123Col(x);if(!c){toast("Esta coluna não está disponível.");return}if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}
   if(x.publico==="proximos"){toast("Esta coluna não pode ser citada.");return}

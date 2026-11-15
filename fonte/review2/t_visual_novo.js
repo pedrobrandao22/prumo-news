@@ -129,7 +129,7 @@ const recarrega = async P => { await P.reload(); await esperar(P, () => typeof S
     larg.push([w, f, p]) }
   await A.setViewportSize({ width: 390, height: 844 }); await sleep(200);
   ok(larg.every(([w, f, p]) => f <= w && p <= w), 'em 360 e 430 px de largura, Feed e Perfil sem rolagem para o lado', JSON.stringify(larg));
-  await ev(A, () => criarMenu()); await sleep(400);
+  await ev(A, () => criarAbrir('post')); await sleep(400);
   ok(await ev(A, () => [...document.querySelectorAll('#layer [data-edmodo]')].map(e => e.textContent.trim().toUpperCase()).includes('GIRO')), 'na criação, o modo "Story" aparece como "Giro"');
   await ev(A, () => { ED = null; closeLayer._ok = true; closeLayer(); closeLayer._ok = false; go('feed') }); await sleep(300);
 

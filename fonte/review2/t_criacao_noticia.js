@@ -39,7 +39,9 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
 
   // ===== 1. o + continua abrindo a galeria, e atrás dela o criador começa pelo conteúdo
   const [fc] = await Promise.all([A.waitForEvent('filechooser', { timeout: 2500 }).catch(() => null), clk(A, '#b-criar')]);
-  ok(!fc, 'o + abre direto em "O que você quer publicar?" (sem abrir a galeria)');
+  ok(!fc && await ev(A, () => !!document.querySelector('#layer > .cp152')), 'o + abre a caixa de publicar (152), sem abrir a galeria');
+  // o editor de post por baixo da caixa continua com os começos de conteúdo (usado por Foto e pelos rascunhos)
+  await ev(A, () => { closeLayer(); criarAbrir('post') }); await sleep(400);
   ok(await ev(A, () => { const ks = [...document.querySelectorAll('#layer [data-cn102ini]')].map(b => b.dataset.cn102ini); return ks.join() === 'nt,rel,ana,enq' && !!document.querySelector('#layer .ce-big') && !!document.querySelector('#layer [data-edsotexto]') }), 'criador vazio: Comentar notícia, Aconteceu perto de mim, Minha análise, Pergunte aos amigos (+ Só texto)');
   await shot(A, 'criador-comeca-pelo-conteudo');
 

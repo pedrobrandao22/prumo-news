@@ -2,7 +2,7 @@
 /* 1. guia da primeira abertura: "Boas-vindas" (vale para todos) e a tela do Feed fala de conversar sobre notícias, não de "curtir" */
 {const _tt106=tourTelas;tourTelas=function(nome){const ts=_tt106.apply(this,arguments);
   try{if(FOCO_LIGADO){if(nome)ts[0].t=`Boas-vindas, ${nome}`;const f=ts.find(x=>x.ic==="feed");
-    if(f){f.t="Notícias para conversar";f.p="No Feed, as notícias da edição viram posts e stories, junto com o que seus amigos publicam: comentários, relatos do que viram e análises. Comente, vote nas enquetes e mande para quem quiser."}}}catch(e){}return ts}}
+    if(f){f.t="Notícias para conversar";f.p="No Feed, as notícias da edição viram posts e giros, junto com o que seus amigos publicam: comentários, relatos do que viram e análises. Comente, vote nas enquetes e mande para quem quiser."}}}catch(e){}return ts}}
 /* 2. endereço sem "https://" (ex.: g1.globo.com) vale como link; o atalho "Fonte" da foto abre a folha com o nome "Fonte" */
 {const _uo106=edUrlOk;edUrlOk=function(u){let s=String(u==null?"":u).trim();if(s&&!/^[a-z][a-z0-9+.-]*:/i.test(s)&&/^[^\s\/@]+\.[a-z]{2,}(?:[\/?#]\S*)?$/i.test(s))s="https://"+s;return _uo106.call(this,s)}}
 {const _ca106=fc105CtxAbre;fc105CtxAbre=function(k){const r=_ca106.apply(this,arguments);

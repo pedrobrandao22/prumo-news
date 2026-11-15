@@ -20,7 +20,7 @@ const slide = (p, k, v) => ev(p, ([k, v]) => { const r = document.querySelector(
   await criar(B, { url: link, nome: 'Bia Souza', email: 'b@x.com' }); const uidB = await ev(B, () => S.uid); await esperar(A, u => S.amigos.has(u), uidB);
   await ev(A, () => go('feed')); await esperar(A, () => PUB.on === true, null, 8000); await sleep(400);
   // grade numerada
-  await clk(A, '#b-criar'); await sleep(300); await A.setInputFiles('#ce-pfile', [F1, F2, F3]); await esperar(A, () => ED.po.fotos.length === 3, null, 5000); await sleep(300);
+  await ev(A, () => criarAbrir('post')); await sleep(300); await A.setInputFiles('#ce-pfile', [F1, F2, F3]); await esperar(A, () => ED.po.fotos.length === 3, null, 5000); await sleep(300);
   ok(await ev(A, () => ED.po.multi && [...document.querySelectorAll('.ce-num.on')].map(x => x.textContent).join() === '1,2,3'), '3 fotos escolhidas aparecem numeradas 1, 2, 3');
   await clk(A, '[data-edrolo="2"]'); await sleep(150); await clk(A, '[data-edrolo="2"]'); await sleep(150); await clk(A, '[data-edrolo="0"]'); await sleep(150); await clk(A, '[data-edrolo="0"]'); await sleep(150); await clk(A, '[data-edrolo="2"]'); await sleep(150); await clk(A, '[data-edrolo="0"]'); await sleep(200);
   ok(await ev(A, () => ED.po.fotos.map(f => ED.po.rolo.indexOf(f)).join() === '1,2,0'), 'tirar e repor muda a ordem (2, 3, 1)');
@@ -45,7 +45,7 @@ const slide = (p, k, v) => ev(p, ([k, v]) => { const r = document.querySelector(
   await clk(A, '[data-edvolta]'); await sleep(200); await clk(A, '[data-edvolta]'); await sleep(200); await clk(A, '[data-edfechar]'); await sleep(300);
   ok(await ev(A, () => !!document.querySelector('.ce-sair [data-edrsalva]')), 'fechar pergunta se quer salvar rascunho');
   await clk(A, '[data-edrsalva]'); await sleep(800); ok(await ev(A, () => !ED && !document.querySelector('#layer .ce')), 'rascunho salvo e criador fechado');
-  await clk(A, '#b-criar'); await sleep(600); ok(await ev(A, () => /Rascunhos \(1\)/.test(document.querySelector('[data-edrascs]')?.textContent || '')), 'criador mostra Rascunhos (1)');
+  await ev(A, () => criarAbrir('post')); await sleep(600); ok(await ev(A, () => /Rascunhos \(1\)/.test(document.querySelector('[data-edrascs]')?.textContent || '')), 'criador mostra Rascunhos (1)');
   await clk(A, '[data-edrascs]'); await sleep(300); await clk(A, '[data-edrasc]'); await sleep(1200);
   ok(await ev(A, () => { const P = ED.po; return P.fotos.length === 3 && P.texto === 'Fim de semana' && P.tags.length === 1 && P.semCom && P.semCurt && P.fotos[0].alt === 'Praia ao pôr do sol' && P.fotos.some(f => f.rot === 1 && f.fi === 40 && f.aj.v === 60) }), 'rascunho volta com fotos, edição, legenda, marcas e opções');
   await clk(A, '[data-edav]'); await sleep(300); await clk(A, '[data-edav]'); await sleep(300); await clk(A, '[data-edpubpo]'); await esperar(A, () => !ED, null, 15000); await sleep(800);

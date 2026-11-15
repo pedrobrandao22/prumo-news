@@ -55,7 +55,7 @@ let srv = null;
   ok(await ev(B, () => { const it = atItens(); const v = it.find(x => /^voto:/.test(x.k)); return !!v && v.us.length === 1 }), 'TB01: o item de voto tem um avatar só');
   // a regra antiga continua para giro com outras figurinhas (quiz/slider): "respondeu"
   ok(await ev(B, u => { const r0 = AT.rows, p0 = AT.pubs; try { AT.rows = [{ tipo: 'voto', pub: 'zz1', uid: u, at: Date.now(), chave: 'k1' }]; AT.pubs = { zz1: { id: 'zz1', tipo: 'story', autor: S.uid, estilo: { itens: [{ t: 'quiz' }] }, fotos: [] } };
-    const it = atItens().find(x => x.pub === 'zz1'); return it && /<\/b> respondeu ao seu story/.test(it.txt) } finally { AT.rows = r0; AT.pubs = p0 } }, ids.a), 'TB01: giro com quiz continua "respondeu ao seu giro"');
+    const it = atItens().find(x => x.pub === 'zz1'); return it && /<\/b> respondeu ao seu giro/.test(it.txt) } finally { AT.rows = r0; AT.pubs = p0 } }, ids.a), 'TB01: giro com quiz continua "respondeu ao seu giro"');
   await fecha(B);
   // TB04: conversas
   await ev(B, () => { THREAD = null; go('msgs') }); await sleep(600);

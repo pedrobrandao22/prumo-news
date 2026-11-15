@@ -51,7 +51,7 @@ const tudo = P => ev(P, () => { if (document.querySelector('#layer').innerHTML) 
 
   // ===== B07: aviso da câmera fala do modo Livre
   await ev(A, () => { if (document.querySelector('#layer').innerHTML) closeLayer(); scrollTo(0, 0) }); await sleep(300);
-  await clk(A, '#b-criar'); await sleep(700);
+  await ev(A, () => criarAbrir('post')); await sleep(700);
   await ev(A, () => { const b = [...document.querySelectorAll('#layer [data-edmodo]')].find(b => /GIRO/i.test(b.textContent)); b && b.click() }); await sleep(900);
   const av = await ev(A, () => document.querySelector('#layer').innerText);
   ok(/modo Livre/.test(av) && !/modo Criar/.test(av), 'B07: "Câmera indisponível" indica o modo Livre (o nome do botão)', av.slice(0, 200));

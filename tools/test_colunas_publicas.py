@@ -53,7 +53,7 @@ class T(unittest.TestCase):
         self.assertRegex(img, r"^https://prumonews\.com\.br/c/f/[0-9a-f]{24}\.jpg$")
         self.assertTrue(os.path.exists(os.path.join(self.d, "f", img.rsplit("/", 1)[1])))
         self.assertIn('data-coluna="aaaaaaaa-0000-4000-8000-000000000001"', h); self.assertIn("Assinar por e-mail", h); self.assertIn("Ler no Prumo", h)
-        self.assertIn("../?nt=coluna:aaaaaaaa-0000-4000-8000-000000000001", h); self.assertIn("só a autora vê quem confirmou", h)
+        self.assertIn("../?nt=coluna:aaaaaaaa-0000-4000-8000-000000000001", h); self.assertIn("só quem escreve vê quem confirmou", h)
         self.assertIn("../fontes/newsreader.woff2", self.le("coluna.css"))
         self.assertIn("#Economia", h)
         self.assertNotIn("Inválida", self.le("index.html"))

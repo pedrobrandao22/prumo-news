@@ -20,8 +20,10 @@ async function criar(p, { url, nome, email }) {
   ok(await ev(A, () => !document.getElementById('b-criar').hidden && !!document.querySelector('#secs [data-meustory]')), 'com o banco pronto: botão + no topo e círculo Seu story');
   await A.screenshot({ path: __dirname + '/../review3/var/pub-topo.png', clip: { x: 0, y: 0, width: 390, height: 260 } });
   // post no estilo Instagram: fotos → filtros → detalhes
-  await clk(A, '#b-criar'); await sleep(400); ok(await ev(A, () => !!document.querySelector('#layer .ce.ce-post .ce-big')), '+ abre direto o criador (POST)');
-  await A.setInputFiles('#ce-pfile', [FOTO, FOTO]); await esperar(A, () => document.querySelectorAll('#layer .ce-tb img').length === 2, null, 5000);
+  await clk(A, '#b-criar'); await sleep(400); ok(await ev(A, () => !!document.querySelector('#layer > .cp152')), '+ abre a caixa de publicar (152)');
+  const [fch] = await Promise.all([A.waitForEvent('filechooser', { timeout: 5000 }).catch(() => null), clk(A, '[data-cp152ax="foto"]')]);
+  ok(!!fch && await ev(A, () => !!document.querySelector('#layer .ce.ce-post')), 'Foto abre a galeria e o criador de post');
+  if (fch) await fch.setFiles([FOTO, FOTO]); await esperar(A, () => document.querySelectorAll('#layer .ce-tb img').length === 2, null, 5000);
   { const r = await ev(A, () => { const b = document.querySelector('#ce-pv').getBoundingClientRect(); return { x: b.x + b.width / 2, y: b.y + b.height / 2 } }); await A.mouse.move(r.x, r.y); await A.mouse.down(); await A.mouse.move(r.x + 40, r.y + 30, { steps: 5 }); await A.mouse.up() }
   ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.ox !== 0 || f.oy !== 0 }), 'arrastar enquadra a foto');
   await clk(A, '[data-edar]'); await sleep(100); ok(await ev(A, () => ED.po.ar === '1:1'), 'troca o formato para 1:1');
@@ -37,7 +39,7 @@ async function criar(p, { url, nome, email }) {
   ok(await ev(A, () => PUB.itens.filter(x => x.tipo === 'post').length === 1 && PUB.itens[0].fotos.length === 2 && !!document.querySelector('#posts .upost .up-img')), 'post com 2 fotos publicado e no Feed');
   ok(await ev(A, () => { const p = document.querySelector('#posts .upost'); return /Curitiba/.test(p.textContent) && /com Bia/.test(p.textContent) }), 'Feed mostra local e "com Bia"');
   // post só texto com notícia
-  await clk(A, '#b-criar'); await sleep(300); await clk(A, '[data-edsont]'); await sleep(300); await clk(A, '[data-edpnt]'); await sleep(300); await A.fill('#ce-leg', 'Essa é importante'); await clk(A, '[data-edpubpo]'); await sleep(1500);
+  await ev(A, () => criarAbrir('post')); await sleep(300); await clk(A, '[data-edsont]'); await sleep(300); await clk(A, '[data-edpnt]'); await sleep(300); await A.fill('#ce-leg', 'Essa é importante'); await clk(A, '[data-edpubpo]'); await sleep(1500);
   ok(await ev(A, () => PUB.itens.filter(x => x.tipo === 'post').length === 2 && !!PUB.itens[0].pid), 'post com notícia publicado');
   // Seu story: sem story, tocar no rosto cria
   await ev(A, () => scrollTo(0, 0)); await sleep(300); await clk(A, '#secs [data-meustory] .ig-r'); await sleep(500); ok(await ev(A, () => !!document.querySelector('#layer .ce.ce-story.t-cam')), 'rosto sem story abre a câmera do story');

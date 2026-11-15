@@ -36,7 +36,7 @@ document.addEventListener("click",e=>{
   if(t.closest("[data-rodadas]")){abrirRodadas();return}
   if(t.closest("[data-cinco]")){if(FEED)abrir5min();return}
   const vg=t.closest("[data-vgo]");if(vg){closeLayer();go(vg.dataset.vgo);return}
-  if(t.closest("[data-sauto]")){PREF.storyAuto=!PREF.storyAuto;salvarPrefs();drawStory();toast(PREF.storyAuto?"O story passa sozinho. Segure o dedo para pausar.":"O story não passa mais sozinho.");return}
+  if(t.closest("[data-sauto]")){PREF.storyAuto=!PREF.storyAuto;salvarPrefs();drawStory();toast(PREF.storyAuto?"O giro passa sozinho. Segure o dedo para pausar.":"O giro não passa mais sozinho.");return}
   const au=t.closest("[data-aud]");if(au){audCtrl(au.dataset.aud);return}
   if(t.closest("[data-fecharaviso]")){$("#avisoconta")?.remove();try{sessionStorage.setItem("prumo-aviso","1")}catch(e){}return}
   if(t.closest("[data-agtoggle]")){PREF.agendaFechada=PREF.agendaFechada===false;salvarPrefs();renderChgBox();return}

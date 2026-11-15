@@ -13,7 +13,7 @@
    Fotos e gráficos do texto ficam só no Prumo (menos no PDF). Nomes globais com o prefixo ex133 / EX133. */
 
 var EX133={imp:null,F:null,dest:"",li:"post",fb:"t",wa:"t",x:[],ig:[],igb:[],igU:[],ult:null,igT:0};
-const EX133_ASS=n=>`— ${String(n||"").trim()||"Autora"}, publicado originalmente no Prumo`;
+const EX133_ASS=n=>`— ${String(n||"").trim()||"Colunista"}, publicado originalmente no Prumo`;
 const EX133_COMPLETA="A coluna completa está no Prumo.";
 const EX133_IC={
   arq:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9 14l3 3 3-3"/>',
