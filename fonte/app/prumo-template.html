@@ -5496,6 +5496,12 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
 .sheet{background:color-mix(in srgb,var(--card) 97%,transparent)!important}
 /* Entrar | Criar conta: a faixa encolhia (16 px, sem os nomes) quando o formulário de criar conta não cabia (14/11, testador) */
 .sheet .segs{flex-shrink:0}
+/* Perfil: "Minhas colunas" numa linha própria, abaixo dos botões (na fileira de botões não cabia em 360 px) */
+.pf-cols{display:flex;align-items:center;gap:10px;width:100%;margin:10px 0 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:none;color:var(--ink);text-align:left}
+.pf-cols .cn102-i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;color:var(--bronze-ink,#9a5a12)}
+.pf-cols span{flex:1;min-width:0;display:flex;flex-direction:column}
+.pf-cols b{font:700 14px var(--f-ui)}.pf-cols small{font:500 12.5px var(--f-ui);color:var(--muted)}
+.pf-cols i{font-style:normal;color:var(--muted);font-size:18px}
 </style>
 </head>
 <body>
@@ -13352,7 +13358,7 @@ function vn112Desde(u){const at=(S.membros[u]||{}).at;if(!at)return "";const d=n
 function vn112Cor(u){const h=avatar(u),m=/background:\s*(#[0-9a-f]{3,8})/i.exec(h);return m?m[1]:corDe(u)}
 function vn112Abas(u,ab,eu,orig){const l=[["posts","Posts"],["resp","Respostas"],["midia","Mídia"]];
   if(orig.includes("marc")&&pfLista(u,"marc").length)l.push(["marc","Marcado"]);if(eu&&orig.includes("salvos"))l.push(["salvos","Salvos"]);if(eu&&orig.includes("arq8"))l.push(["arq8","Arquivo"]);
-  return `<div class="vn-abas" role="tablist" aria-label="Conteúdo do perfil">${l.map(([k,n])=>`<button type="button" role="tab" data-vnpfaba="${k}" aria-selected="${ab===k}">${n}</button>`).join("")}${eu?`<button type="button" role="tab" class="vn-aba-ct" data-vnpfaba="conta" aria-selected="${ab==="conta"}" aria-label="Conta e ajustes"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M6 18l1.6-1.6M16.4 7.6 18 6"/></svg></button>`:""}</div>`}
+  return `<div class="vn-abas" role="tablist" aria-label="Conteúdo do perfil">${l.map(([k,n])=>`<button type="button" role="tab" data-vnpfaba="${k}" aria-selected="${ab===k}">${n}</button>`).join("")}${eu?`<button type="button" role="tab" class="vn-aba-ct" data-vnpfaba="conta" aria-selected="${ab==="conta"}" aria-label="Conta e ajustes"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>`:""}</div>`}
 function vn112Resp(u){const l=todosComentarios().filter(c=>c.uid===u).sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,60);
   if(!l.length)return `<div class="pf-vz"><b>Respostas</b><span>${u===S.uid?"Seus comentários nas notícias e nas publicações aparecem aqui.":"Nenhum comentário ainda."}</span></div>`;
   return `<ul class="vn-resp">${l.map(c=>{const m=/^u:(.+)$/.exec(String(c.pid||"")),p=!m&&pautaById(c.pid),x=m&&(pubVisiveis().find(y=>y.id===m[1]));const ctx=p?versao(p,lente()).titulo:x?"publicação de "+nomeDe(x.autor):"";
@@ -17695,7 +17701,8 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 
 /* ===== Perfil: "Minhas colunas" ao lado de "Nova publicação" ===== */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cp152cols]");if(!b)return;e.preventDefault();e.stopPropagation();ed132Hub()},true);
-{const _pc152=pfCab;pfCab=function(u){const h=_pc152.apply(this,arguments);try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-cp152cols")<0)return h.replace(/(<button type="button" class="btn ghost" data-criarde="post">Nova publicação<\/button>)/,'$1<button type="button" class="btn ghost" data-cp152cols>Minhas colunas</button>')}catch(e){}return h}}
+{const _pc152=pfCab;pfCab=function(u){const h=_pc152.apply(this,arguments);try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-cp152cols")<0){const i=h.indexOf('<div class="pf-bts">');if(i>=0){const j=h.indexOf("</div>",i)+6;
+  return h.slice(0,j)+`<button type="button" class="pf-cols" data-cp152cols>${CN102_SVG('<path d="M6 4h9l3 3v13H6z"/><path d="M9 11h6M9 15h4"/>')}<span><b>Minhas colunas</b><small>rascunhos, agendadas e publicadas</small></span><i aria-hidden="true">›</i></button>`+h.slice(j)}}}catch(e){}return h}}
 
 /* ===== depois de publicar, o post aparece na tela (14/11, testador: "Já está no Feed", mas ficava abaixo da notícia em destaque) ===== */
 function cp152Mostra(id){let n=0;const tenta=()=>{const el=document.getElementById("p-u:"+id);if(el&&el.getClientRects().length){try{const top=el.getBoundingClientRect().top+scrollY-((document.querySelector(".top")||{}).offsetHeight||56)-8;scrollTo({top:Math.max(0,top),behavior:"smooth"});el.classList.add("cp152-novo");setTimeout(()=>el.classList.remove("cp152-novo"),2200)}catch(e){}return}
