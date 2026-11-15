@@ -235,6 +235,8 @@ COMUNS = {"bacelar", "general", "pastor", "delegado", "coronel", "capitao", "sar
 # fotos que já apareceram em lugar errado (14/11, testador e Pedro): aulão com dança no lugar de prova do Enem, pessoa
 # específica como foto genérica de plenário, teatro em "Meio ambiente", criança em desfile na Ásia. Vale para as novas e
 # tira as que já estavam no acervo.
+# foto de lugar ou assunto não pode ser retrato de alguém (14/11: príncipe do Camboja na foto "ONU")
+COM_GENTE = re.compile(r"(prince|princess|principe|king |queen |rei |rainha|president|presidente|minister|ministr|secretary|senator|senador|deputad|governor|governador|portrait|retrato|\bmeets?\b|\bh\.e\b|\bwith\b)")
 NEGADAS = re.compile(r"(aulao|teatro|young pioneers|pioneiros|mbeki|adeola|monica benicio|haitianos|carnaval|danca|dancing|festa|desfile|baile|parade)")
 
 
@@ -284,7 +286,7 @@ def licenca_do_credito(c):
     return m.group(1) if m else ""
 
 
-def busca(consulta, chaves, n=4, exige_todos=False, evitar=()):
+def busca(consulta, chaves, n=4, exige_todos=False, evitar=(), sem_gente=False):
     """Fotos livres do Commons cujo nome do arquivo contém as palavras-chave (licença conferida arquivo a arquivo)."""
     try:
         d = api({"action": "query", "generator": "search", "gsrsearch": f"{consulta} filetype:bitmap", "gsrnamespace": "6", "gsrlimit": "40",
@@ -301,6 +303,7 @@ def busca(consulta, chaves, n=4, exige_todos=False, evitar=()):
             if not all(all(w in tit for w in k.split()) for k in ks[:1]): continue
         elif not any(k in tit for k in ks): continue
         if FORA.search(tit.replace("_", " ")) or NEGADAS.search(norm(tit).replace("_", " ")): continue
+        if sem_gente and COM_GENTE.search(norm(tit).replace("_", " ")): continue
         if ii.get("mime") not in ("image/jpeg", "image/webp"): continue
         if (ii.get("width") or 0) < 700 or (ii.get("height") or 0) < 400: continue
         md = ii.get("extmetadata") or {}
@@ -559,16 +562,16 @@ def main(argv):
         fotos = junta(VT.get(k) or [], [], 4)
         if len(fotos) < 3:
             for q, ch in qs:
-                fotos = junta(fotos, busca(q, ch, n=3), 4)
+                fotos = junta(fotos, busca(q, ch, n=3, sem_gente=True), 4)
                 if len(fotos) >= 4: break
         if fotos: out_t[k] = [dict(f, alt=f.get("alt") or f"Foto de arquivo: {qs[0][0]}") for f in fotos[:4]]
         print(f"{k}: {len(fotos)}")
     for nome, (chaves, q, ch, secs) in ASSUNTOS.items():
         # as antigas só ficam se ainda batem com as palavras do assunto (14/11: "incêndio" mudou de queimada para bombeiros)
         chn = [norm(c) for c in ch]
-        velhas = [v for v in (((VA.get(nome) or {}).get("fotos")) or []) if isinstance(v, dict) and any(c in norm(urllib.parse.unquote(str(v.get("url", "")).rsplit("/", 1)[-1])).replace("_", " ") for c in chn)]
+        velhas = [v for v in (((VA.get(nome) or {}).get("fotos")) or []) if isinstance(v, dict) and any(c in norm(urllib.parse.unquote(str(v.get("url", "")).rsplit("/", 1)[-1])).replace("_", " ") for c in chn) and not COM_GENTE.search(norm(urllib.parse.unquote(str(v.get("url", "")).rsplit("/", 1)[-1])).replace("_", " "))]
         fotos = junta(velhas, [], 3)
-        if len(fotos) < 2: fotos = junta(fotos, busca(q, ch, n=3), 3)
+        if len(fotos) < 2: fotos = junta(fotos, busca(q, ch, n=3, sem_gente=True), 3)
         if fotos:
             out_a[nome] = {"chaves": chaves, "fotos": [dict(f, alt=f.get("alt") or f"Foto de arquivo: {q}") for f in fotos]}
             if secs: out_a[nome]["secoes"] = secs
