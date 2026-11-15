@@ -16,7 +16,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const tr = await p.evaluate(() => document.querySelector('#layer .story-in').style.transform); await touch('touchEnd', []); await sleep(300);
   ok(!tr && await p.evaluate(() => ST.i === 0 && !!document.querySelector('#layer .story')), 'segurar com o dedo tremendo só pausa (não encolhe nem avança) ' + tr);
   await p.evaluate(() => document.querySelector('#layer [data-stmat]').click()); await sleep(700);
-  ok(await p.evaluate(() => !!document.getElementById('sg-fundo') && /Story/.test(document.querySelector('#layer .mat-v').textContent)), 'matéria aberta pelo story: o story fica atrás e o botão diz "‹ Story"');
+  ok(await p.evaluate(() => !!document.getElementById('sg-fundo') && /Giro/.test(document.querySelector('#layer .mat-v').textContent)), 'matéria aberta pelo story: o story fica atrás e o botão diz "‹ Story"');
   await touch('touchStart', [[20, 400]]); for (let i = 1; i <= 12; i++) { await touch('touchMove', [[20 + i * 25, 402]]); await sleep(20) } await touch('touchEnd', []); await sleep(1100);
   ok(await p.evaluate(() => !!document.querySelector('#layer .story') && !document.getElementById('sg-fundo') && VIEW === 'feed'), 'arrastar a matéria para a direita volta ao story');
   await p.evaluate(() => document.querySelector('#layer [data-stmat]').click()); await sleep(700);

@@ -84,9 +84,9 @@ function ca100StInfo(m){const s=m&&m.snap,th=s&&s.sth;if(!th||typeof th!=="objec
   const id=typeof th.id==="string"?th.id.slice(0,80):"";if(!id)return null;const o={id,au};
   if(typeof th.p==="string"&&th.p.length<300&&th.p.startsWith(au+"/")&&!/\.\.|[?#]/.test(th.p))o.p=th.p;else o.g=Math.floor(+th.g||0);return o}
 function ca100StHTML(m,inf){const eu=m.de===S.uid,lk=m._ca100lk,perg=m.snap&&m.snap.q!=null&&!lk;
-  const lb=lk?(eu?"Você curtiu o story de "+nomeDe(m.para):"Curtiu seu story"):perg?(eu?"Você respondeu à pergunta de "+nomeDe(m.para):"Respondeu à sua pergunta"):(eu?"Você respondeu ao story de "+nomeDe(m.para):"Respondeu ao seu story");
+  const lb=lk?(eu?"Você curtiu o giro de "+nomeDe(m.para):"Curtiu seu giro"):perg?(eu?"Você respondeu à pergunta de "+nomeDe(m.para):"Respondeu à sua pergunta"):(eu?"Você respondeu ao giro de "+nomeDe(m.para):"Respondeu ao seu giro");
   const u=inf.p?pubUrl(inf.p):"";
-  return `<span class="ca100-stl">${esc(lb)}</span><button type="button" class="ca100-st" data-ca100st="${esc(inf.id)}" data-au="${esc(inf.au)}" aria-label="Ver o story" style="background:${inf.p?"#1b1d22":pubFundo(inf.g)}">${inf.p?`<img alt="" ${u?`src="${pubSrc(u)}"`:""} data-ca100p="${esc(inf.p)}" onerror="this.remove()">`:""}</button>${perg?`<span class="ca100-stq">${esc(String(m.snap.q).slice(0,80))}</span>`:""}`}
+  return `<span class="ca100-stl">${esc(lb)}</span><button type="button" class="ca100-st" data-ca100st="${esc(inf.id)}" data-au="${esc(inf.au)}" aria-label="Ver o giro" style="background:${inf.p?"#1b1d22":pubFundo(inf.g)}">${inf.p?`<img alt="" ${u?`src="${pubSrc(u)}"`:""} data-ca100p="${esc(inf.p)}" onerror="this.remove()">`:""}</button>${perg?`<span class="ca100-stq">${esc(String(m.snap.q).slice(0,80))}</span>`:""}`}
 {const _th100=dmThreadHTML;dmThreadHTML=function(u){const am=allMsgs,lk=new Set();
   allMsgs=function(){return am.apply(this,arguments).map(m=>{if(m&&m.tipo==="curtiu_story"&&ca100StInfo(m)){lk.add(m.id);return {...m,tipo:"resp_story",texto:m.texto||"❤️",_ca100lk:1}}return m})};
   let h;try{h=_th100.apply(this,arguments)}finally{allMsgs=am}
@@ -102,7 +102,7 @@ async function ca100Assina(){const v=$("#v-msgs");if(!v)return;const ims=[...v.q
   v.querySelectorAll("img[data-ca100p]:not([src])").forEach(i=>{const u=pubUrl(i.dataset.ca100p);if(u)i.src=pubSrc(u);else i.remove()})}
 {const _rm100=renderMsgs;renderMsgs=function(){const r=_rm100.apply(this,arguments);try{if(THREAD)ca100Assina()}catch(e){}return r}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#v-msgs [data-ca100st]");if(!b)return;e.stopPropagation();e.preventDefault();
-  const x=pubDe(b.dataset.ca100st),agora=Date.now();if(!x||x.tipo!=="story"||!((x.expira||0)>agora)){toast("Este story não está mais disponível.");return}
+  const x=pubDe(b.dataset.ca100st),agora=Date.now();if(!x||x.tipo!=="story"||!((x.expira||0)>agora)){toast("Este giro não está mais disponível.");return}
   const l=(typeof pubStoriesDe==="function"?pubStoriesDe(x.autor):[]).filter(y=>(y.expira||0)>agora),i=l.indexOf(x);
   vibrar&&vibrar(6);if(i>=0)stLista(l,i,nomeDe(x.autor),"dm"+x.autor);else stLista([x],0,nomeDe(x.autor),"dm"+x.id)},true);
 

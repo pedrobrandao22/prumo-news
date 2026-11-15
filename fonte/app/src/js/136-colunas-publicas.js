@@ -16,7 +16,7 @@ const pb136Slug=s=>{const t=String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,""
 const pb136Arq=x=>{const c=x&&cs123Col(x);return `${pb136Slug(c?c.tit:"")}-${String(x&&x.id||"").replace(/[^0-9a-f]/gi,"").slice(0,8).toLowerCase()}.html`};
 const pb136Link=x=>`${PB136_SITE}/c/${pb136Arq(x)}`;
 const pb136E=x=>!!(x&&x.publico==="publico"&&cs123Col(x));
-const pb136Prim=u=>String(nomeDe(u)||"").split(" ")[0]||"a autora";
+const pb136Prim=u=>String(nomeDe(u)||"").split(" ")[0]||"quem escreve";
 const pb136Erro=e=>String((e&&(e.code||""))+" "+(e&&e.message||""));
 const PB136_TX="Qualquer pessoa lê pelo link, mesmo sem conta no Prumo (LinkedIn, X, Google). No app, aparece para seus amigos e seguidores. Comentários continuam só no Prumo.";
 
@@ -62,7 +62,7 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
   SB.from=function(t){const b=f.apply(SB,arguments);if(t==="publicacoes"&&b&&typeof b.insert==="function"){const ins=b.insert;b.insert=function(row){if(row&&!Array.isArray(row)&&row.estilo&&row.estilo.coluna){row.publico="publico";foi=true}return ins.call(this,row)}}return b};
   let r;try{r=await _p.apply(this,arguments)}finally{SB.from=f}
   try{const x=foi&&PUB.itens.length>n0&&PUB.itens[0]&&PUB.itens[0].autor===S.uid&&PUB.itens[0].publico==="publico"?PUB.itens[0]:null;
-    if(x){PB136.link=pb136Link(x);setTimeout(()=>toast("Coluna publicada com link aberto. A página sai em até 15 minutos.","Copiar link",()=>pb136Copia(x.id)),900)}}catch(e){}
+    if(x){PB136.link=pb136Link(x);setTimeout(()=>toast("Coluna publicada com link aberto. A página aberta costuma sair em até 2 horas.","Copiar link",()=>pb136Copia(x.id)),900)}}catch(e){}
   return r}}
 
 /* ===== 2. coluna já publicada: menu "…" › "Quem pode ler" ===== */
@@ -75,7 +75,7 @@ function pb136Quem(id){const x=pubDe(id);if(!x)return;const ab=typeof V9!=="unde
   sheet("Quem pode ler",`<div class="opt pb136-quem" role="radiogroup" aria-label="Quem pode ler">${op("amigos","Amigos","Seus amigos no Prumo")}${ab?op("seguidores","Seguidores e amigos","Quem segue você e seus amigos"):""}${op("publico","Todos (link público)","Página aberta, sem conta")}</div><p class="hint">${esc(PB136_TX)} Ao fechar o link, a página sai do ar na próxima atualização do site (até 15 minutos).</p>`)}
 async function pb136Muda(id,v){const x=pubDe(id);if(!x||!SB)return;try{const r=await SB.rpc("coluna_mudar_publico",{p_id:id,p_publico:v});if(r.error)throw r.error;x.publico=String(r.data||v);
     closeLayer();try{PUB.sig="";pubRedesenha()}catch(e){}pb136PaginaPoe();
-    if(x.publico==="publico")toast("Coluna aberta. A página sai em até 15 minutos.","Copiar link",()=>pb136Copia(id));else toast("Pronto: a coluna ficou só no Prumo. A página aberta sai do ar em até 15 minutos.")}
+    if(x.publico==="publico")toast("Coluna aberta. A página aberta costuma sair em até 2 horas.","Copiar link",()=>pb136Copia(id));else toast("Pronto: a coluna ficou só no Prumo. A página aberta sai do ar em até 2 horas.")}
   catch(e){toast("Não deu para mudar agora.")}}
 
 /* ===== 3. link: selo para a autora, "Copiar link" do Enviar, cópia ===== */
@@ -117,7 +117,7 @@ function pb136PoeLink(t,F){t=String(t);if(!F||!F.link||t.indexOf(F.link)>=0)retu
   if(!i.aberta)return h;const bt=`<button type="button" class="btn ghost pb136-pf${i.assinando?" on":""}" data-pb136nl="${esc(u)}" aria-pressed="${!!i.assinando}">${i.assinando?"✓ Por e-mail":"Colunas por e-mail"}</button>`;
   if(/<div class="pf-bts">/.test(h))h=h.replace(/(<div class="pf-bts">[\s\S]*?)(<\/div>)/,`$1${bt}$2`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h}}
 function pb136NlFolha(u){if(precisaConta())return;const i=PB136.info[u]||{},n=esc(nomeDe(u)),em=esc(S.email||"o e-mail da sua conta");
-  const priv=`<p class="hint pb136-priv">Seu e-mail serve só para mandar as colunas abertas de ${n} quando saírem. Não aparece para ninguém; só a autora vê a lista de quem confirmou (e pode baixá-la). Para sair, toque aqui de novo ou use o link “Cancelar” de qualquer e-mail.</p>`;
+  const priv=`<p class="hint pb136-priv">Seu e-mail serve só para mandar as colunas abertas de ${n} quando saírem. Não aparece para ninguém; só quem escreve vê a lista de quem confirmou (e pode baixá-la). Para sair, toque aqui de novo ou use o link “Cancelar” de qualquer e-mail.</p>`;
   if(i.assinando){sheet("Colunas por e-mail",`<p class="pb136-st">Você recebe as colunas abertas de <b>${n}</b> em <b>${em}</b>.</p>${priv}`,`<div class="pb136-bts"><button type="button" class="btn ghost" data-pb136nlx="${esc(u)}">Cancelar a assinatura</button></div>`);return}
   sheet("Colunas por e-mail",`<p class="pb136-st">Receba no e-mail as próximas colunas abertas de <b>${n}</b>, assim que saírem.</p>
     <label class="pb136-ok"><input type="checkbox" id="pb136-cons"> <span>Pode usar o e-mail da minha conta (<b>${em}</b>) para isso.</span></label>${priv}

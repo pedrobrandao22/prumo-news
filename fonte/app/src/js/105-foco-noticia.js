@@ -87,7 +87,7 @@ async function fc105CartaoCanvas(c,esc2){try{await Promise.all(['600 80px Newsre
   if(f&&!f.u){y+=64;g.fillStyle=ac;g.fillRect(X,y-36,5,44);g.font=`600 34px ${SANS}`;g.fillStyle=mu;g.fillText(("Fonte: "+f.n).slice(0,52),X+24,y-1);y+=36}
   return cv}
 function fc105CsHTML(){const c=FC105_C,cit=c.k==="cit";
-  return `<div class="ce-selp fc105-csp" role="dialog" aria-label="Cartão de texto"><div class="fc105-csh"><b>Cartão de texto</b><small>A prévia aparece no story, acima</small></div>
+  return `<div class="ce-selp fc105-csp" role="dialog" aria-label="Cartão de texto"><div class="fc105-csh"><b>Cartão de texto</b><small>A prévia aparece no giro, acima</small></div>
     <div class="fc105-ks" role="tablist" aria-label="Tipo">${FC105_KS.map(([k,n])=>`<button type="button" role="tab" data-fc105k="${k}" aria-selected="${k===c.k}">${n}</button>`).join("")}</div>
     <textarea class="field fc105-tit" id="fc105-tit" data-fc105c="tit" rows="2" maxlength="${cit?200:140}" placeholder="${cit?"A frase, entre aspas":"Título"}">${esc(c.tit)}</textarea>
     ${cit?`<input class="field" id="fc105-quem" data-fc105c="quem" maxlength="40" placeholder="Quem disse (ex.: ministro da Fazenda)" value="${esc(c.quem)}" autocomplete="off">`
@@ -159,7 +159,7 @@ if(FOCO_LIGADO){
   {const _am=abrirMateria;abrirMateria=function(pid){const r=_am.apply(this,arguments);try{fc105Mat(pid)}catch(e){}return r}}
 }
 function fc105Mat(pid){const m=$("#layer .mat");if(!m||m.querySelector(".fc105-mc")||!S.membro||PUB.on===false||!pautaById(pid))return;const ref=m.querySelector(".mat-pe,.mat-prox,.mat-rod");if(!ref)return;
-  ref.insertAdjacentHTML("beforebegin",`<div class="fc105-mc gut"><p><b>O que você acha?</b> Comente esta notícia com seus amigos.</p><div class="fc105-mcb"><button type="button" class="btn" data-cn102envp="${esc(pid)}">${fc105Svg(CN102_ICO.ana)}Publicar comentário</button><button type="button" class="btn ghost" data-cn102envs="${esc(pid)}">${fc105Svg(CN102_ICO.story)}No story</button></div></div>`)}
+  ref.insertAdjacentHTML("beforebegin",`<div class="fc105-mc gut"><p><b>O que você acha?</b> Comente esta notícia com seus amigos.</p><div class="fc105-mcb"><button type="button" class="btn" data-cn102envp="${esc(pid)}">${fc105Svg(CN102_ICO.ana)}Publicar comentário</button><button type="button" class="btn ghost" data-cn102envs="${esc(pid)}">${fc105Svg(CN102_ICO.story)}No giro</button></div></div>`)}
 
 /* ===== 7. cliques ===== */
 window.addEventListener("click",e=>{if(!FOCO_LIGADO)return;const t=e.target;if(!t||!t.closest||!ED||!$("#layer .ce")||t.closest("#layer2"))return;let b;

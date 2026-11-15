@@ -5442,6 +5442,52 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
    largura dele e a faixa rola para o lado */
 .segs .segc{flex:0 0 auto;min-height:0;border-radius:12px;font-size:inherit;font-weight:inherit;color:inherit;width:min(220px,62vw)}
 .segs:has(>.segc){background:none;padding:4px 0 10px;border-radius:0}
+
+/* Nesta matéria: o começo da faixa some mais suave junto do rótulo (antes um pedaço de palavra aparecia colado) */
+.fs2-cap-l{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 18px),transparent);mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 18px),transparent);padding-left:6px}
+/* ---------- 152: criar numa caixa só ---------- */
+.cp152{position:fixed;inset:0;z-index:50;background:#000;color:#fff;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.cp152-hd{display:flex;align-items:center;gap:6px;height:52px;padding:0 8px;flex:none}
+.cp152-hd>b{flex:1;text-align:center;font:700 17px var(--f-ui)}
+.cp152-b{width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#fff;border-radius:50%;flex:none}
+.cp152-b.conf{width:auto;padding:0 12px;border-radius:999px;background:#3a1d1a;color:#ffb4a8;font:700 14px var(--f-ui)}
+.cp152-ok{height:38px;padding:0 16px;border-radius:999px;background:var(--bronze,#c8812e);color:#1b1406;font:800 15px var(--f-ui);flex:none}
+.cp152-ok:disabled{opacity:.35}
+.cp152-abas{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:3px;margin:2px 16px 6px;border-radius:12px;background:#16181d;flex:none}
+.cp152-abas button{height:40px;border-radius:9px;color:#aeb3bd;font:700 15px var(--f-ui)}
+.cp152-abas button[aria-selected="true"]{background:#fff;color:#0b0d12}
+.cp152-sc{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:8px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
+.cp152-quem{display:flex;align-items:center;gap:10px;margin:6px 0 4px}
+.cp152-quem .av,.cp152-quem img{width:36px;height:36px}
+.cp152-quem b{font:700 15px var(--f-ui)}
+.cp152-tx{display:block;width:100%;min-height:150px;resize:none;border:0;outline:0;background:transparent;color:#fff;font:400 18px/1.45 var(--f-ui);padding:6px 0 12px;-webkit-user-select:text;user-select:text}
+.cp152-tx::placeholder{color:#7c828d}
+.cp152-h{margin:14px 0 8px;font:800 11.5px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:#8a909b}
+.cp152-ax{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.cp152-a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:76px;padding:8px 2px;border-radius:14px;background:#16181d;border:1px solid #25282f;color:#fff;font:700 12.5px var(--f-ui)}
+.cp152-a .cn102-i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cp152-a-foto{color:#9cc3ff}.cp152-a-nt{color:#8fb4ff}.cp152-a-enq{color:#c4a6ff}.cp152-a-ana{color:#7fd6b5}.cp152-a-rel{color:#f2b36b}
+.cp152-a span{color:#fff}
+.cp152-a:active{scale:.96}
+.cp152-pub{display:flex;align-items:center;gap:10px;min-height:54px;margin-top:14px;border-top:1px solid #22252c;border-bottom:1px solid #22252c;font:600 15px var(--f-ui);position:relative}
+.cp152-pub>span{flex:1}
+.cp152-pub select{appearance:none;-webkit-appearance:none;background:transparent;border:0;color:#aeb3bd;font:500 15px var(--f-ui);text-align:right;padding-right:4px;max-width:60%}
+.cp152-pub i{color:#6c717b;font-style:normal}
+.cp152-dica{margin:12px 0 0;color:#8a909b;font:400 13.5px/1.45 var(--f-ui)}
+.cp152-rl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.cp152-r{display:flex;align-items:center;gap:12px;width:100%;padding:14px;border-radius:14px;background:#16181d;border:1px solid #25282f;color:#fff;text-align:left}
+.cp152-r .cn102-i{width:22px;height:22px;flex:none;fill:none;stroke:#e0a458;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cp152-r span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.cp152-r b{font:700 15.5px var(--f-ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cp152-r small{color:#8a909b;font:500 13px var(--f-ui)}
+.cp152-r i{color:#6c717b;font-style:normal;font-size:20px}
+.cp152-nova{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:50px;margin-top:14px;border-radius:14px;background:var(--bronze,#c8812e);color:#1b1406;font:800 15.5px var(--f-ui)}
+.cp152-nova .cn102-i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.cp152-col .cp152-h:first-child{margin-top:8px}
+@media (max-width:360px){.cp152-ax{grid-template-columns:repeat(3,1fr)}}
+.cp152-rp{display:flex;align-items:center;gap:10px;width:100%;min-height:50px;margin-top:12px;padding:0 14px;border-radius:12px;background:#16181d;border:1px solid #25282f;color:#fff;font:600 14.5px var(--f-ui);text-align:left}
+.cp152-rp .cn102-i{width:20px;height:20px;fill:none;stroke:#aeb3bd;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.cp152-rp span{flex:1}.cp152-rp b{margin-left:4px;color:#e0a458}.cp152-rp i{color:#6c717b;font-style:normal}
 </style>
 </head>
 <body>
@@ -6088,7 +6134,7 @@ document.addEventListener("click",e=>{
   if(t.closest("[data-rodadas]")){abrirRodadas();return}
   if(t.closest("[data-cinco]")){if(FEED)abrir5min();return}
   const vg=t.closest("[data-vgo]");if(vg){closeLayer();go(vg.dataset.vgo);return}
-  if(t.closest("[data-sauto]")){PREF.storyAuto=!PREF.storyAuto;salvarPrefs();drawStory();toast(PREF.storyAuto?"O story passa sozinho. Segure o dedo para pausar.":"O story não passa mais sozinho.");return}
+  if(t.closest("[data-sauto]")){PREF.storyAuto=!PREF.storyAuto;salvarPrefs();drawStory();toast(PREF.storyAuto?"O giro passa sozinho. Segure o dedo para pausar.":"O giro não passa mais sozinho.");return}
   const au=t.closest("[data-aud]");if(au){audCtrl(au.dataset.aud);return}
   if(t.closest("[data-fecharaviso]")){$("#avisoconta")?.remove();try{sessionStorage.setItem("prumo-aviso","1")}catch(e){}return}
   if(t.closest("[data-agtoggle]")){PREF.agendaFechada=PREF.agendaFechada===false;salvarPrefs();renderChgBox();return}
@@ -8507,12 +8553,12 @@ function igFundoTira(){document.getElementById("sg-fundo")?.remove()}
   if(st){igFundoTira();cl=st.cloneNode(true);cl.id="sg-fundo";cl.removeAttribute("role");cl.setAttribute("aria-hidden","true");cl.querySelectorAll("[id]").forEach(x=>x.removeAttribute("id"));cl.classList.remove("segurando","digitando","sg-anim")}
   const r=_lm47.apply(this,arguments);
   if(cl&&$("#layer .mat")){cl.querySelectorAll(".bars b").forEach(b=>b.style.animationPlayState="paused");document.body.appendChild(cl);
-    const b=$("#layer .mat-v");if(b){b.textContent="‹ Story";b.setAttribute("aria-label","Voltar para o story")}}
+    const b=$("#layer .mat-v");if(b){b.textContent="‹ Giro";b.setAttribute("aria-label","Voltar para o giro")}}
   return r}}
 {const _cl47=closeLayer;closeLayer=function(){const r=_cl47.apply(this,arguments);if(!$("#layer .mat"))setTimeout(igFundoTira,$("#layer .story")?60:320);return r}}
 {const _go47=go;go=function(){igFundoTira();return _go47.apply(this,arguments)}}
 /* matéria aberta pelo story e trocada por outra (deslizar para a esquerda): o botão continua "‹ Story" */
-{const _am47=abrirMateria;abrirMateria=function(){const r=_am47.apply(this,arguments);if(IG_VOLTA&&document.getElementById("sg-fundo")){const b=$("#layer .mat-v");if(b){b.textContent="‹ Story";b.setAttribute("aria-label","Voltar para o story")}}return r}}
+{const _am47=abrirMateria;abrirMateria=function(){const r=_am47.apply(this,arguments);if(IG_VOLTA&&document.getElementById("sg-fundo")){const b=$("#layer .mat-v");if(b){b.textContent="‹ Giro";b.setAttribute("aria-label","Voltar para o giro")}}return r}}
 /* Gostei: ícone dourado e pulso */
 
 /* teclado do celular: o rodapé sobe junto */
@@ -8596,8 +8642,8 @@ function dmPrevia(m){const eu=m.de===S.uid;
   if(m.tipo==="reacao_msg")return (eu?"Você reagiu ":"Reagiu ")+(m.texto||"❤️")+(eu?" a uma mensagem":" à sua mensagem");
   if(m.tipo==="reacao")return (eu?"Você reagiu ":"Reagiu ")+(m.texto||"")+" a uma notícia";
   if(m.tipo==="mencao")return eu?"Você mencionou num comentário":"Mencionou você num comentário";
-  if(m.tipo==="curtiu_story")return eu?"Você curtiu o story":"Curtiu seu story ❤️";
-  if(m.tipo==="resp_story")return (eu?"Você respondeu ao story: ":"Respondeu ao seu story: ")+(m.texto||"");
+  if(m.tipo==="curtiu_story")return eu?"Você curtiu o giro":"Curtiu seu giro ❤️";
+  if(m.tipo==="resp_story")return (eu?"Você respondeu ao giro: ":"Respondeu ao seu giro: ")+(m.texto||"");
   if(m.pid&&!m.texto)return eu?"Você enviou uma notícia":"Enviou uma notícia";
   return (eu?"Você: ":"")+(m.texto||"")}
 function dmFotoDe(m){const p=m.pid&&pautaById(m.pid);const f=p&&fotoDe(p);return f&&f.url?f:null}
@@ -8612,14 +8658,14 @@ function dmThreadHTML(u){const all=allMsgs().filter(dmPar(u)),reac={},ms=[];
   ms.forEach((m,i)=>{const nx=ms[i+1],eu=m.de===S.uid;if(quebra(ant,m))h+=`<div class="dm-tm">${esc(dmQuando(m.at))}</div>`;
     const pri=quebra(ant,m)||ant.de!==m.de||m.at-ant.at>300e3,ult=!nx||quebra(m,nx)||nx.de!==m.de||nx.at-m.at>300e3;
     let corpo="";
-    if(m.tipo==="curtiu_story"){h+=`<div class="dm-ev">${eu?"Você curtiu o story de "+esc(nomeDe(m.para)):"❤️ "+esc(nomeDe(m.de))+" curtiu seu story"}${m.snap&&m.snap.story&&m.snap.story.t?` · “${esc(m.snap.story.t)}”`:""}</div>`;ant=m;return}
-    if(m.tipo==="resp_story"){const st=(m.snap&&m.snap.story)||{};corpo+=`<div class="dm-q"><small>${eu?"Você respondeu ao story de "+esc(nomeDe(m.para)):"Respondeu ao seu story"}</small><span>${esc(st.t||(st.foto?"📷 Foto":"Story"))}</span></div>`}
+    if(m.tipo==="curtiu_story"){h+=`<div class="dm-ev">${eu?"Você curtiu o giro de "+esc(nomeDe(m.para)):"❤️ "+esc(nomeDe(m.de))+" curtiu seu giro"}${m.snap&&m.snap.story&&m.snap.story.t?` · “${esc(m.snap.story.t)}”`:""}</div>`;ant=m;return}
+    if(m.tipo==="resp_story"){const st=(m.snap&&m.snap.story)||{};corpo+=`<div class="dm-q"><small>${eu?"Você respondeu ao giro de "+esc(nomeDe(m.para)):"Respondeu ao seu giro"}</small><span>${esc(st.t||(st.foto?"📷 Foto":"Giro"))}</span></div>`}
     if(m.tipo==="reacao"){h+=`<div class="dm-ev">${eu?"Você reagiu":esc(nomeDe(m.de))+" reagiu"} ${esc(m.texto||"")} a uma notícia</div>`;ant=m;return}
-    if(m.tipo==="mencao")corpo+=`<span class="dm-lb">${eu?"Você mencionou "+esc(nomeDe(m.para)):"Mencionou você"} ${m.snap&&m.snap.story===true?"no story":"num comentário"}</span>`;
+    if(m.tipo==="mencao")corpo+=`<span class="dm-lb">${eu?"Você mencionou "+esc(nomeDe(m.para)):"Mencionou você"} ${m.snap&&m.snap.story===true?"no giro":"num comentário"}</span>`;
     if(m.tipo==="resposta"&&m.snap&&m.snap.q){const q=m.snap.q;corpo+=`<div class="dm-q"><small>${eu?(q.de===S.uid?"Você respondeu a si mesmo":"Você respondeu a "+esc(nomeDe(q.de))):(q.de===S.uid?"Respondeu a você":"Respondeu a si mesmo")}</small><span>${esc(q.t||"")}</span></div>`}
     else if(m.pid&&m.resp&&m.tipo!=="mencao")corpo+=`<button type="button" class="dm-q" data-open="${esc(m.pid)}"><small>Sobre a notícia</small><span>${esc(m.snap?.titulo||"notícia")}</span></button>`;
     else if(m.pid)corpo+=dmCard(m);
-    if(m.texto&&!(m.tipo==="mencao"&&m.snap&&m.snap.upub&&(m.snap.story===true&&m.texto==="Mencionou você no story"||typeof pubDe==="function"&&(pubDe(m.snap.upub)||{}).texto===m.texto)))corpo+=`<div class="bub${dmSoEmoji(m.texto)?" bub-emo":""}">${dmLinka(m.tipo==="mencao"?dmMarca(m.texto):esc(m.texto))}</div>`;
+    if(m.texto&&!(m.tipo==="mencao"&&m.snap&&m.snap.upub&&(m.snap.story===true&&/^Mencionou você no (giro|story)$/.test(m.texto)||typeof pubDe==="function"&&(pubDe(m.snap.upub)||{}).texto===m.texto)))corpo+=`<div class="bub${dmSoEmoji(m.texto)?" bub-emo":""}">${dmLinka(m.tipo==="mencao"?dmMarca(m.texto):esc(m.texto))}</div>`;
     const rs=reac[m.id]||[];const pill=rs.length?`<button type="button" class="dm-rx" data-dmacoes="${esc(m.id)}" aria-label="Reações">${[...new Set(rs.map(r=>String(r.texto||"").slice(0,8)))].map(esc).join("")}${rs.length>1?`<i>${rs.length}</i>`:""}</button>`:"";
     h+=`<div class="msg dm-m ${eu?"mine":"theirs"}${pri?" pri":""}${ult?" ult":""}${rs.length?" crx":""}" data-mid="${esc(m.id)}">${!eu?`<span class="dm-av">${ult?avatar(m.de):""}</span>`:""}<div class="dm-c">${corpo}${pill}</div></div>`;
     if(m===ultMinha)h+=`<div class="dm-st">${m.lida?"Visto":String(m.id).startsWith("tmp")?"Enviando…":"Enviada"}</div>`;
@@ -8750,7 +8796,7 @@ async function pubAssinar(){const now=Date.now(),falta=[];pubVisiveis().forEach(
 const pubUrl=p=>(PUB.urls[p]||{}).u||"";
 async function pubLimparMeus(){const now=Date.now();const velhos=PUB.itens.filter(x=>x.autor===S.uid&&x.tipo==="story"&&(x.expira||0)<now);for(const x of velhos)await pubApagar(x.id,true)}
 async function pubApagar(id,quieto){const x=pubDe(id);if(!x||x.autor!==S.uid)return false;try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)throw r.error;if(x.fotos.length)try{await SB.storage.from("fotos").remove(x.fotos)}catch(e){}
-    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Story apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(!quieto)toast("Não deu para apagar agora.");return false}}
+    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(!quieto)toast("Não deu para apagar agora.");return false}}
 let PUB_T=0,PUB_FEED_PEND=false;function pubRedesenha(){clearTimeout(PUB_T);PUB_T=setTimeout(()=>{try{renderSecs();if(VIEW==="feed"&&!$("#layer").innerHTML&&scrollY<300){PUB_FEED_PEND=false;renderPosts(true)}else PUB_FEED_PEND=true}catch(e){}},30)}
 addEventListener("scroll",()=>{if(PUB_FEED_PEND&&VIEW==="feed"&&scrollY<300&&!$("#layer").innerHTML){PUB_FEED_PEND=false;setTimeout(()=>{try{renderPosts(true)}catch(e){}},200)}},{passive:true});
 (function(){let uid=null;setInterval(()=>{if(S.uid&&S.membro&&SB&&uid!==S.uid){uid=S.uid;PUB.itens=[];pubCarregar();pubOuvir()}if(!S.uid&&uid){uid=null;PUB.itens=[];PUB.on=null}},1500);
@@ -8768,14 +8814,14 @@ function pubSnap(pid){const s=pid&&snapById(pid);return s?{id:pid,titulo:s.titul
 var CR=null;
 function criarAbrir(tipo){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+tipo);
   CR={tipo,fotos:[],pid:null,texto:"",fundo:Math.floor(Math.random()*PUB_FUNDOS.length),caixa:false,env:false};const vazio=!$("#layer").innerHTML;if(!vazio)closeLayer();
-  $("#layer").innerHTML=`<div class="cria" role="dialog" aria-modal="true" aria-label="${tipo==="story"?"Novo story":"Novo post"}"></div>`;if(pushH())HST++;criarDesenha()}
+  $("#layer").innerHTML=`<div class="cria" role="dialog" aria-modal="true" aria-label="${tipo==="story"?"Novo giro":"Novo post"}"></div>`;if(pushH())HST++;criarDesenha()}
 function criarDesenha(){const el=$("#layer .cria");if(!el||!CR)return;const st=CR.tipo==="story",pode=CR.fotos.length||CR.texto.trim()||CR.pid;
   const nt=CR.pid&&pautaById(CR.pid),ntHTML=nt?`<div class="cr-nt"><small style="color:${secCor(secOf(nt))}">${esc(secNome(secOf(nt)))}</small><b>${esc(versao(nt,lente()).titulo)}</b><button type="button" data-crsemnt aria-label="Tirar a notícia">✕</button></div>`:"";
-  const abas=`<div class="cr-abas" role="tablist"><button type="button" role="tab" data-crtipo="post" aria-selected="${!st}">Post</button><button type="button" role="tab" data-crtipo="story" aria-selected="${st}">Story</button></div>`;
-  const topo=`<div class="cr-top"><button type="button" class="cr-x" data-close aria-label="Cancelar">${ICON.close}</button>${abas}<button type="button" class="cr-pub" data-crpub ${pode&&!CR.env?"":"disabled"}>${CR.env?"Publicando…":st?"Seu story":"Publicar"}</button></div>`;
+  const abas=`<div class="cr-abas" role="tablist"><button type="button" role="tab" data-crtipo="post" aria-selected="${!st}">Post</button><button type="button" role="tab" data-crtipo="story" aria-selected="${st}">Giro</button></div>`;
+  const topo=`<div class="cr-top"><button type="button" class="cr-x" data-close aria-label="Cancelar">${ICON.close}</button>${abas}<button type="button" class="cr-pub" data-crpub ${pode&&!CR.env?"":"disabled"}>${CR.env?"Publicando…":st?"Seu giro":"Publicar"}</button></div>`;
   const inp=`<input type="file" id="cr-file" accept="image/*" ${st?"":"multiple"} hidden>`;
   if(st){const f=CR.fotos[0];
-    el.innerHTML=`${topo}<div class="cr-st"><div class="cr-tela${f?" com-foto":""}" style="${f?"":"background:"+pubFundo(CR.fundo)}">${f?`<img class="cr-ft" alt="">`:""}<div class="cr-meio"><textarea id="cr-txt" class="cr-stx${CR.caixa?" caixa":""}" maxlength="300" rows="1" placeholder="${f?"Escreva algo…":"Toque para escrever"}" aria-label="Texto do story">${esc(CR.texto)}</textarea>${ntHTML}</div></div>
+    el.innerHTML=`${topo}<div class="cr-st"><div class="cr-tela${f?" com-foto":""}" style="${f?"":"background:"+pubFundo(CR.fundo)}">${f?`<img class="cr-ft" alt="">`:""}<div class="cr-meio"><textarea id="cr-txt" class="cr-stx${CR.caixa?" caixa":""}" maxlength="300" rows="1" placeholder="${f?"Escreva algo…":"Toque para escrever"}" aria-label="Texto do giro">${esc(CR.texto)}</textarea>${ntHTML}</div></div>
       <div class="cr-ferr"><button type="button" data-crfoto>${f?"Trocar foto":"Foto"}</button>${f?`<button type="button" data-crsemfoto>Sem foto</button>`:`<span class="cr-cores">${PUB_FUNDOS.map((x,i)=>`<button type="button" data-crfundo="${i}" aria-label="Fundo ${i+1}" aria-pressed="${i===CR.fundo}" style="background:${pubFundo(i)}"></button>`).join("")}</span>`}<button type="button" data-crcaixa aria-pressed="${CR.caixa}">Aa</button><button type="button" data-crnt>${CR.pid?"Trocar notícia":"Notícia"}</button></div></div>${inp}`;
     if(f){const im=el.querySelector(".cr-ft");im.src=f.prev}}
   else{el.innerHTML=`${topo}<div class="cr-post"><div class="cr-midia">${CR.fotos.length?`<div class="cr-fotos">${CR.fotos.map((f,i)=>`<div class="cr-fi"><img alt="" data-i="${i}"><button type="button" data-crtira="${i}" aria-label="Tirar foto">✕</button></div>`).join("")}${CR.fotos.length<10?`<button type="button" class="cr-mais" data-crfoto aria-label="Mais fotos">+</button>`:""}</div><small class="cr-n">${CR.fotos.length}/10 fotos</small>`
@@ -8803,7 +8849,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
   if(t.closest("[data-criar]")){e.stopPropagation();criarMenu();return}
   if(b=t.closest("[data-criarde]")){e.stopPropagation();const tp=b.dataset.criarde;closeLayer();setTimeout(()=>criarAbrir(tp),40);return}
   if(!$("#layer .cria")&&!t.closest("[data-crnts]"))return;
-  if(b=t.closest("[data-crtipo]")){e.stopPropagation();if(CR&&!CR.env){CR.tipo=b.dataset.crtipo;if(CR.tipo==="story"&&CR.fotos.length>1)toast("O story usa só a primeira foto; as outras voltam se você voltar para Post.");criarDesenha()}return}
+  if(b=t.closest("[data-crtipo]")){e.stopPropagation();if(CR&&!CR.env){CR.tipo=b.dataset.crtipo;if(CR.tipo==="story"&&CR.fotos.length>1)toast("O giro usa só a primeira foto; as outras voltam se você voltar para Post.");criarDesenha()}return}
   if(t.closest("[data-crfoto]")){e.stopPropagation();$("#cr-file")?.click();return}
   if(t.closest("[data-crsemfoto]")){e.stopPropagation();CR.fotos.shift();criarDesenha();return}
   if(b=t.closest("[data-crtira]")){e.stopPropagation();CR.fotos.splice(+b.dataset.crtira,1);criarDesenha();return}
@@ -8818,7 +8864,7 @@ function criarMenu(){if(precisaConta())return;if(PUB.on===false){toast("Publicar
 {const _cl54=closeLayer;closeLayer=function(fromPop){if($("#layer .cria")&&CR&&!CR.env&&(CR.fotos.length||CR.texto.trim()||CR.pid)&&!fromPop&&!closeLayer._ok&&!($("#layer2")?.innerHTML)){if(!confirmaDescartar())return}closeLayer._ok=false;if($("#layer .cria")&&!($("#layer2")?.innerHTML))CR=null;return _cl54.apply(this,arguments)}}
 function confirmaDescartar(){const b=$("#layer .cr-x");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.innerHTML="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=ICON.close}},2500);return false}closeLayer._ok=true;return true}
 /* botão + no topo do Feed */
-(function(){const f=document.querySelector(".top-in .brand");if(f&&!document.getElementById("b-criar")){f.insertAdjacentHTML("beforebegin",`<button type="button" class="icbtn" id="b-criar" data-criar aria-label="Criar post ou story" hidden><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5.5"/><path d="M12 7.8v8.4M7.8 12h8.4"/></svg></button>`)}
+(function(){const f=document.querySelector(".top-in .brand");if(f&&!document.getElementById("b-criar")){f.insertAdjacentHTML("beforebegin",`<button type="button" class="icbtn" id="b-criar" data-criar aria-label="Criar post ou giro" hidden><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5.5"/><path d="M12 7.8v8.4M7.8 12h8.4"/></svg></button>`)}
   setInterval(()=>{const b=document.getElementById("b-criar");if(b)b.hidden=!(S.uid&&S.membro&&PUB.on!==false)},1000)})();
 
 /* ---- posts no Feed ---- */
@@ -8844,7 +8890,7 @@ function pubMistura(lista){if(FILTRO!=="tudo"||!PUB.on)return lista;const now=Da
 /* menu e enviar dos posts */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("[data-umenu]")){e.stopPropagation();const x=pubDe(b.dataset.umenu);if(!x)return;
-    sheet(x.autor===S.uid?"Seu post":"Post de "+nomeDe(x.autor),`<div class="opt">${x.tipo==="post"&&x.publico!=="proximos"?`<button type="button" data-upstory="${esc(x.id)}">Compartilhar no seu story<span>${x.autor===S.uid?"seus amigos tocam e abrem o post":"só quem é amigo de "+esc(String(nomeDe(x.autor)).split(" ")[0])+" consegue abrir o post"}</span></button>`:""}${x.autor===S.uid?`${V5.on&&x.tipo==="post"?`<button type="button" data-ueditar="${esc(x.id)}">Editar legenda</button><button type="button" data-ufixar="${esc(x.id)}">${x.fixado?"Desafixar do perfil":"Fixar no perfil"}<span>até 3 aparecem primeiro na sua grade</span></button>`:""}<button type="button" data-uapagar="${esc(x.id)}" class="perigo">Apagar post<span>some para todos</span></button>`:`<button type="button" data-conversa="${esc(x.autor)}">Mandar mensagem para ${esc(nomeDe(x.autor))}</button><button type="button" data-denp="${esc(x.autor)}">Denunciar<span>o Pedro recebe e analisa</span></button>`}${x.pid?`<button type="button" data-capmat="${esc(x.pid)}">Abrir a notícia anexada</button>`:""}</div>`);return}
+    sheet(x.autor===S.uid?"Seu post":"Post de "+nomeDe(x.autor),`<div class="opt">${x.tipo==="post"&&x.publico!=="proximos"?`<button type="button" data-upstory="${esc(x.id)}">Compartilhar no seu giro<span>${x.autor===S.uid?"seus amigos tocam e abrem o post":"só quem é amigo de "+esc(String(nomeDe(x.autor)).split(" ")[0])+" consegue abrir o post"}</span></button>`:""}${x.autor===S.uid?`${V5.on&&x.tipo==="post"?`<button type="button" data-ueditar="${esc(x.id)}">Editar legenda</button><button type="button" data-ufixar="${esc(x.id)}">${x.fixado?"Desafixar do perfil":"Fixar no perfil"}<span>até 3 aparecem primeiro na sua grade</span></button>`:""}<button type="button" data-uapagar="${esc(x.id)}" class="perigo">Apagar post<span>some para todos</span></button>`:`<button type="button" data-conversa="${esc(x.autor)}">Mandar mensagem para ${esc(nomeDe(x.autor))}</button><button type="button" data-denp="${esc(x.autor)}">Denunciar<span>o Pedro recebe e analisa</span></button>`}${x.pid?`<button type="button" data-capmat="${esc(x.pid)}">Abrir a notícia anexada</button>`:""}</div>`);return}
   if(b=t.closest("[data-uapagar]")){e.stopPropagation();if(!b.classList.contains("conf")){b.classList.add("conf");b.firstChild.textContent="Toque de novo para apagar";return}const id=b.dataset.uapagar;closeLayer();pubApagar(id);return}
   if(b=t.closest("[data-usend]")){e.stopPropagation();const x=pubDe(b.dataset.usend);if(!x)return;pubEnviar(x);return}
   if(b=t.closest("[data-open]")){const v=b.dataset.open||"";if(v.indexOf("u:")===0){e.stopPropagation();pubIrPara(v.slice(2))}}},true);
@@ -8863,12 +8909,12 @@ function pubAutoresStory(){const now=Date.now(),m={};pubVisiveis().forEach(x=>{i
 {const _rs54=renderSecs;renderSecs=function(){const r=_rs54.apply(this,arguments);const box=$("#secs");if(!box||$("#layer .story")||!box.classList.contains("ig"))return r;
   try{box.querySelectorAll("[data-meustory],[data-ustory]").forEach(x=>x.remove());if(!(S.uid&&S.membro&&PUB.on!==false))return r;const x0=box.scrollLeft;
     const meus=pubStoriesDe(S.uid),av=u=>`<span class="ig-f up-avf">${avatar(u)}</span>`;
-    let h=`<button type="button" class="sb ig-s" data-meustory aria-label="${meus.length?"Seu story":"Criar story"}"><span class="ig-r${meus.length?(meus.every(x=>PUB_VISTOS.has(x.id))?" visto":""):" sem"}">${av(S.uid)}</span><i class="up-mais" data-criarde="story" role="button" aria-label="Criar story">+</i><b>Seu story</b></button>`;
-    h+=pubAutoresStory().map(a=>`<button type="button" class="sb ig-s" data-ustory="${esc(a.u)}" aria-label="Story de ${esc(nomeDe(a.u))}"><span class="ig-r${a.novo?"":" visto"}" style="--c:${corDe(a.u)}">${av(a.u)}</span><b>${esc(String(nomeDe(a.u)).split(" ")[0])}</b></button>`).join("");
+    let h=`<button type="button" class="sb ig-s" data-meustory aria-label="${meus.length?"Seu giro":"Criar giro"}"><span class="ig-r${meus.length?(meus.every(x=>PUB_VISTOS.has(x.id))?" visto":""):" sem"}">${av(S.uid)}</span><i class="up-mais" data-criarde="story" role="button" aria-label="Criar giro">+</i><b>Seu giro</b></button>`;
+    h+=pubAutoresStory().map(a=>`<button type="button" class="sb ig-s" data-ustory="${esc(a.u)}" aria-label="Giro de ${esc(nomeDe(a.u))}"><span class="ig-r${a.novo?"":" visto"}" style="--c:${corDe(a.u)}">${av(a.u)}</span><b>${esc(String(nomeDe(a.u)).split(" ")[0])}</b></button>`).join("");
     box.insertAdjacentHTML("afterbegin",h);box.scrollLeft=x0}catch(e){}return r}}
 {const _il54=igLista;igLista=function(sec){if(String(sec).indexOf("_u:")===0){const fr=pubStoriesDe(sec.slice(3));return {ps:fr,itens:fr}}return _il54.apply(this,arguments)}}
 {const _sp54=stPs;stPs=function(){if(ST&&String(ST.sec||"").indexOf("_u:")===0)return ST.itens||[];return _sp54.apply(this,arguments)}}
-{const _no54=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_u:")===0){const u=sec.slice(3);return u===S.uid?"Seu story":nomeDe(u)}return _no54.apply(this,arguments)}}
+{const _no54=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_u:")===0){const u=sec.slice(3);return u===S.uid?"Seu giro":nomeDe(u)}return _no54.apply(this,arguments)}}
 {const _so54=storyOrdem;storyOrdem=function(){const L=_so54.apply(this,arguments);if(ST&&String(ST.sec||"").indexOf("_h:")===0)return L;if(!(S.uid&&S.membro&&PUB.on))return L;
   const us=(pubStoriesDe(S.uid).length?["_u:"+S.uid]:[]).concat(pubAutoresStory().map(a=>"_u:"+a.u));return us.concat(L.filter(x=>String(x).indexOf("_u:")!==0))}}
 {const _is54=igSet;igSet=function(sec,pos){if(String(sec).indexOf("_u:")===0){const fr=pubStoriesDe(sec.slice(3));let i=pos==="fim"?fr.length-1:pos==="novo"?Math.max(0,fr.findIndex(x=>!PUB_VISTOS.has(x.id))):pos||0;ST={...(ST||{}),sec,ids:fr.map(x=>"us:"+x.id),itens:fr,i:Math.max(0,i)};return fr.length}return _is54.apply(this,arguments)}}
@@ -8881,15 +8927,15 @@ function igDrawUser(){const x=ST.itens[ST.i];if(!x)return closeLayer();const u=x
   if(!IG_PREVIA&&!PUB_VISTOS.has(x.id)){PUB_VISTOS.add(x.id);try{localStorage.setItem("prumo-pub-vistos",JSON.stringify([...PUB_VISTOS].slice(-400)))}catch(e){}if(!eu)SB.from("pub_vistos").insert({pub:x.id,uid:S.uid}).then(()=>{},()=>{})}
   ST.palavras=Math.max(10,String(x.texto||"").split(/\s+/).length+(f?8:4)+(x.pid?8:0));
   const ntHTML=x.pid?`<button type="button" class="us-nt" data-stmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):"politica")}">${esc(nt?secNome(secOf(nt)):(x.snap&&x.snap.secao?secNome(x.snap.secao):"Notícia"))}</small><b>${esc(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}</b><span>Ler a matéria ›</span></button>`:"";
-  $("#layer").innerHTML=`<div class="story sg sg-user${f?" com-foto":""}" data-sec="_u" role="dialog" aria-modal="true" aria-label="Story de ${esc(nomeDe(u))}"><div class="story-in">
+  $("#layer").innerHTML=`<div class="story sg sg-user${f?" com-foto":""}" data-sec="_u" role="dialog" aria-modal="true" aria-label="Giro de ${esc(nomeDe(u))}"><div class="story-in">
     <div class="sg-bg" style="${f?"":"background:"+pubFundo(es.fundo)}">${f?`<img src="${pubSrc(f)}" alt="" decoding="async">`:""}</div>
     ${f?`<div class="sg-sh us-sh"></div>`:""}
     <div class="bars">${ST.itens.map((_,k)=>`<i class="${k<ST.i||(k===ST.i&&!PREF.storyAuto)?"on":""}">${k===ST.i&&PREF.storyAuto?"<b></b>":""}</i>`).join("")}</div>
-    <div class="s-h"><span class="sg-av us-av">${avatar(u)}</span><span class="sg-who"><b>${esc(eu?"Seu story":nomeDe(u))}</b><span>${esc(dmCurto(x.at))}</span></span><span class="s-hb"><button type="button" data-sauto aria-pressed="${!!PREF.storyAuto}" aria-label="${PREF.storyAuto?"Parar de passar sozinho":"Passar sozinho"}">${PREF.storyAuto?'<svg viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>'}</button><button type="button" data-close aria-label="Fechar">${ICON.close}</button></span></div>
+    <div class="s-h"><span class="sg-av us-av">${avatar(u)}</span><span class="sg-who"><b>${esc(eu?"Seu giro":nomeDe(u))}</b><span>${esc(dmCurto(x.at))}</span></span><span class="s-hb"><button type="button" data-sauto aria-pressed="${!!PREF.storyAuto}" aria-label="${PREF.storyAuto?"Parar de passar sozinho":"Passar sozinho"}">${PREF.storyAuto?'<svg viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>'}</button><button type="button" data-close aria-label="Fechar">${ICON.close}</button></span></div>
     <button type="button" class="tap l" data-sgo="-1" aria-label="Anterior"></button><button type="button" class="tap r" data-sgo="1" aria-label="Próximo"></button>
     <div class="us-body">${x.texto?`<p class="us-tx${es.caixa?" caixa":""}">${dmMarcaPub(x.texto)}</p>`:""}${ntHTML}</div>
-    <div class="s-f sg-f us-f">${eu?`<button type="button" class="us-vis" data-usvistos="${esc(x.id)}"><svg class="ico" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>Visto por…</span></button><span class="sp"></span><button type="button" class="sg-ler" data-criarde="story">+ Novo</button><button type="button" class="sg-a" data-usapagar="${esc(x.id)}" aria-label="Apagar este story"><svg class="ico" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/></svg></button>`
-      :`<form class="sg-rp us-rp" autocomplete="off"><input type="text" maxlength="600" enterkeyhint="send" placeholder="Responder a ${esc(String(nomeDe(u)).split(" ")[0])}…" aria-label="Responder ao story"><button type="submit" class="sg-rp-b">Enviar</button></form><button type="button" class="sg-a" data-uscurtir="${esc(x.id)}" aria-label="Curtir o story">${ICON.like}</button>`}</div>
+    <div class="s-f sg-f us-f">${eu?`<button type="button" class="us-vis" data-usvistos="${esc(x.id)}"><svg class="ico" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>Visto por…</span></button><span class="sp"></span><button type="button" class="sg-ler" data-criarde="story">+ Novo</button><button type="button" class="sg-a" data-usapagar="${esc(x.id)}" aria-label="Apagar este giro"><svg class="ico" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/></svg></button>`
+      :`<form class="sg-rp us-rp" autocomplete="off"><input type="text" maxlength="600" enterkeyhint="send" placeholder="Responder a ${esc(String(nomeDe(u)).split(" ")[0])}…" aria-label="Responder ao giro"><button type="submit" class="sg-rp-b">Enviar</button></form><button type="button" class="sg-a" data-uscurtir="${esc(x.id)}" aria-label="Curtir o giro">${ICON.like}</button>`}</div>
   </div></div>`;
   igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(null);igEntra();
   if(eu)pubContaVistos(x.id);igPreCarrega()}
@@ -8898,7 +8944,7 @@ async function pubContaVistos(id){try{const r=await SB.from("pub_vistos").select
 document.addEventListener("click",async e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("#layer [data-usvistos]")){e.stopPropagation();igPausa();const r=await SB.from("pub_vistos").select("uid,at").eq("pub",b.dataset.usvistos);const vs=(r.data||[]).filter(v=>v.uid!==S.uid).sort((a,c)=>c.at-a.at);
     sheet(vs.length?`Visto por ${vs.length}`:"Visto por",vs.length?`<ul class="amgl">${vs.map(v=>`<li><button type="button" class="amg-r" data-conversa="${esc(v.uid)}">${avatar(v.uid)}<span class="amg-n"><b>${esc(nomeDe(v.uid))}</b><span>${esc(dmCurto(+v.at))}</span></span></button></li>`).join("")}</ul>`:`<div class="empty" style="padding:14px 0"><b>Ninguém viu ainda</b></div>`);return}
-  if(b=t.closest("#layer [data-usapagar]")){e.stopPropagation();if(!b.classList.contains("conf")){b.classList.add("conf");igPausa();toast("Toque de novo na lixeira para apagar");setTimeout(()=>b.classList.remove("conf"),3000);return}const id=b.dataset.usapagar;const ok=await pubApagar(id,true);if(ok){toast("Story apagado");const fr=pubStoriesDe(S.uid);if(!fr.length)igFechar();else{ST.itens=fr;ST.ids=fr.map(x=>"us:"+x.id);ST.i=Math.min(ST.i,fr.length-1);drawStory()}}return}
+  if(b=t.closest("#layer [data-usapagar]")){e.stopPropagation();if(!b.classList.contains("conf")){b.classList.add("conf");igPausa();toast("Toque de novo na lixeira para apagar");setTimeout(()=>b.classList.remove("conf"),3000);return}const id=b.dataset.usapagar;const ok=await pubApagar(id,true);if(ok){toast("Giro apagado");const fr=pubStoriesDe(S.uid);if(!fr.length)igFechar();else{ST.itens=fr;ST.ids=fr.map(x=>"us:"+x.id);ST.i=Math.min(ST.i,fr.length-1);drawStory()}}return}
   if(b=t.closest("#layer [data-uscurtir]")){e.stopPropagation();const x=pubDe(b.dataset.uscurtir);if(!x||b.classList.contains("on"))return;b.classList.add("on","anel");vibrar(8);
     dmEnviar(x.autor,{texto:"❤️",tipo:"curtiu_story",snap:{story:{id:x.id,t:String(x.texto||"").slice(0,80),foto:!!x.fotos.length}}},true).then(ok=>{if(ok)toast("Curtida enviada para "+nomeDe(x.autor))});return}},true);
 document.addEventListener("submit",async e=>{const fm=e.target.closest&&e.target.closest("#layer .us-rp");if(!fm)return;e.preventDefault();e.stopImmediatePropagation();const i=fm.querySelector("input"),t=i.value.trim();const x=ST&&ST.itens&&ST.itens[ST.i];if(!t||!x)return;
@@ -8920,8 +8966,8 @@ async function dmCopiar(t){let ok=false;try{if(navigator.clipboard&&navigator.cl
 function dmEhPub(m){return String(m.pid||"").indexOf("u:")===0}
 {const _dc56=dmCard;dmCard=function(m){if(!dmEhPub(m))return _dc56.apply(this,arguments);const id=m.pid.slice(2),x=typeof pubDe==="function"&&pubDe(id),s=m.snap||{};
   const u=x&&x.fotos&&x.fotos[0]&&pubUrl(x.fotos[0]),au=x?x.autor:null,tx=x?x.texto:(String(s.titulo||"").replace(/^(Post|Story) de [^:]+:\s*/,""));
-  return `<button type="button" class="dm-card dm-ucard" data-open="${esc(m.pid)}"><span class="dm-uh">${au?avatar(au):""}<b>${esc(au?nomeDe(au):(String(s.titulo||"").match(/^(?:Post|Story) de ([^:]+)/)||[,"Publicação"])[1])}</b><small>${x?(x.tipo==="story"?"Story":x.estilo&&x.estilo.reel?"Reel":"Post"):/^Story de /.test(String(s.titulo||""))?"Story":"Publicação"}</small></span>${u?`<span class="dm-cf"><img src="${pubSrc(u)}" alt="" loading="lazy" decoding="async"></span>`:""}${tx?`<span class="dm-ct"><b class="dm-utx">${esc(String(tx).slice(0,160))}</b></span>`:""}${!x?`<span class="dm-ct"><small class="dm-indisp">Só quem é amigo do autor consegue abrir</small></span>`:""}</button>`}}
-{const _dp56=dmPrevia;dmPrevia=function(m){const eu=m.de===S.uid;if(m.tipo==="mencao"&&dmEhPub(m)&&m.snap&&m.snap.upub)return m.snap.story===true?(eu?"Você mencionou no story":"Mencionou você no story"):eu?"Você marcou num post":"Marcou você num post";
+  return `<button type="button" class="dm-card dm-ucard" data-open="${esc(m.pid)}"><span class="dm-uh">${au?avatar(au):""}<b>${esc(au?nomeDe(au):(String(s.titulo||"").match(/^(?:Post|Story|Giro) de ([^:]+)/)||[,"Publicação"])[1])}</b><small>${x?(x.tipo==="story"?"Giro":x.estilo&&x.estilo.reel?"Reel":"Post"):/^Story de /.test(String(s.titulo||""))?"Giro":"Publicação"}</small></span>${u?`<span class="dm-cf"><img src="${pubSrc(u)}" alt="" loading="lazy" decoding="async"></span>`:""}${tx?`<span class="dm-ct"><b class="dm-utx">${esc(String(tx).slice(0,160))}</b></span>`:""}${!x?`<span class="dm-ct"><small class="dm-indisp">Só quem é amigo do autor consegue abrir</small></span>`:""}</button>`}}
+{const _dp56=dmPrevia;dmPrevia=function(m){const eu=m.de===S.uid;if(m.tipo==="mencao"&&dmEhPub(m)&&m.snap&&m.snap.upub)return m.snap.story===true?(eu?"Você mencionou no giro":"Mencionou você no giro"):eu?"Você marcou num post":"Marcou você num post";
   if(dmEhPub(m)&&!m.texto&&m.tipo!=="mencao")return eu?"Você enviou um post":"Enviou um post";return _dp56.apply(this,arguments)}}
 {const _th56=dmThreadHTML;dmThreadHTML=function(u){let h=_th56.apply(this,arguments);return h.replace(/(<span class="dm-lb">)(Você mencionou [^<]*|Mencionou você) num comentário(<\/span>)(<button type="button" class="dm-card dm-ucard" data-open="u:([^"]+)")/g,(a,b1,quem,b3,b4,id)=>{const m=allMsgs().find(x=>x.tipo==="mencao"&&x.pid==="u:"+id&&x.snap&&x.snap.upub);return m?b1+quem+" num post"+b3+b4:a})}}
 /* 3. curtida de story lembrada */
@@ -8959,7 +9005,7 @@ criarAbrir=function(tipo){if(precisaConta())return;if(PUB.on===false){toast("Pub
   $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;edDesenha()};
 criarMenu=function(){criarAbrir("post")};
 function edTemAlgo(){if(!ED)return false;return (ED.st.tx&&String(ED.st.tx.tx||"").trim())||ED.st.els.length||ED.st.tracos.length||ED.st.bg.tipo==="foto"||ED.po.fotos.length||ED.po.texto.trim()||ED.po.pid}
-function edModos(){return `<div class="ce-modos" role="tablist"><button type="button" role="tab" data-edmodo="post" aria-selected="${ED.modo==="post"}">POST</button><button type="button" role="tab" data-edmodo="story" aria-selected="${ED.modo==="story"}">STORY</button></div>`}
+function edModos(){return `<div class="ce-modos" role="tablist"><button type="button" role="tab" data-edmodo="post" aria-selected="${ED.modo==="post"}">POST</button><button type="button" role="tab" data-edmodo="story" aria-selected="${ED.modo==="story"}">GIRO</button></div>`}
 const EDI={x:'<svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',aa:'<b class="ce-aa">Aa</b>',fig:'<svg class="ico" viewBox="0 0 24 24"><path d="M14 3H7a4 4 0 0 0-4 4v10a4 4 0 0 0 4 4h7l7-7V7a4 4 0 0 0-4-4z" /><path d="M14 21v-4a3 3 0 0 1 3-3h4"/><circle cx="9" cy="10" r=".8"/><circle cx="14" cy="10" r=".8"/><path d="M8.5 14.2c1.4 1.3 3.6 1.3 5 0"/></svg>',caneta:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 20l4-1 10-10-3-3L5 16z"/><path d="M13.5 7.5l3 3"/></svg>',fundo:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>',gal:'<svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 2.5-2.5L20 17"/></svg>',vol:'<svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',lixo:'<svg class="ico" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/></svg>',desf:'<svg class="ico" viewBox="0 0 24 24"><path d="M9 7L4 12l5 5"/><path d="M4 12h10a6 6 0 0 1 0 12"/></svg>'};
 function edDesenha(){const el=$("#layer .ce");if(!el||!ED)return;el.className="ce ce-"+ED.modo;if(ED.modo==="story")edStory(el);else edPost(el)}
 
@@ -8967,7 +9013,7 @@ function edDesenha(){const el=$("#layer .ce");if(!el||!ED)return;el.className="c
 function edStory(el){const st=ED.st,foto=st.bg.tipo==="foto";
   el.innerHTML=`<div class="ce-palco"><div class="ce-cv" id="ce-cv"><div class="ce-bg" style="${foto?"":"background:"+pubFundo(st.bg.g)}">${foto?`<img id="ce-bgi" alt="" draggable="false">`:""}</div><canvas id="ce-draw" class="ce-draw"></canvas><div class="ce-els" id="ce-els"></div>${!st.els.length&&!st.tracos.length&&!foto?`<div class="ce-dica">Toque em <b>Aa</b> para escrever<br>ou escolha uma foto na galeria</div>`:""}<div class="ce-lixo" id="ce-lixo" hidden>${EDI.lixo}</div></div></div>
     <div class="ce-top"><button type="button" class="ce-b" data-edfechar aria-label="Fechar">${EDI.x}</button><span class="sp"></span>${foto?"":`<button type="button" class="ce-b" data-edfundo aria-label="Trocar o fundo">${EDI.fundo}</button>`}<button type="button" class="ce-b" data-edtexto aria-label="Texto">${EDI.aa}</button><button type="button" class="ce-b" data-edfig aria-label="Figurinhas">${EDI.fig}</button><button type="button" class="ce-b" data-edcaneta aria-label="Desenhar">${EDI.caneta}</button></div>
-    <div class="ce-bot"><button type="button" class="ce-gal" data-edgal aria-label="Galeria">${foto?`<img alt="" id="ce-galt">`:EDI.gal}</button>${foto?`<button type="button" class="ce-semf" data-edsemfoto>Sem foto</button>`:""}<span class="sp"></span><button type="button" class="ce-pub" data-edpubst ${ED.env?"disabled":""}>${avatar(S.uid)}<span>${ED.env?"Publicando…":"Seu story"}</span><i>›</i></button></div>
+    <div class="ce-bot"><button type="button" class="ce-gal" data-edgal aria-label="Galeria">${foto?`<img alt="" id="ce-galt">`:EDI.gal}</button>${foto?`<button type="button" class="ce-semf" data-edsemfoto>Sem foto</button>`:""}<span class="sp"></span><button type="button" class="ce-pub" data-edpubst ${ED.env?"disabled":""}>${avatar(S.uid)}<span>${ED.env?"Publicando…":"Seu giro"}</span><i>›</i></button></div>
     ${edModos()}<input type="file" id="ce-file" accept="image/*" hidden>`;
   if(foto){$("#ce-bgi").src=st.bg.url;$("#ce-galt").src=st.bg.url}edEncaixa();edEls();edTracos();edGestos();
   $("#ce-file").addEventListener("change",async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;try{const r=await edCarrega(f,2048);st.bg={tipo:"foto",...r,z:1,ox:0,oy:0};edDesenha()}catch(err){toast("Não deu para abrir essa foto.")}})}
@@ -9018,7 +9064,7 @@ function edCaneta(){ED.st.ferr="caneta";ED.st.caneta=ED.st.caneta||{cor:"#ffffff
 /* texto */
 function edTexto(el){const novo=!el;const e=el||{id:edNid(),t:"texto",tx:"",f:"classico",cor:"#ffffff",al:"c",fd:0,x:.5,y:.42,s:1,r:0};if(!novo)e._velho=e.tx;
   const ov=document.createElement("div");ov.className="ce-tx";ov.innerHTML=`<div class="ce-top"><button type="button" class="ce-b" data-edtxal aria-label="Alinhamento">${e.al==="e"?"⇤":e.al==="d"?"⇥":"≡"}</button><button type="button" class="ce-b ce-fd" data-edtxfd aria-label="Fundo do texto"><b class="ce-aa">A</b></button><span class="sp"></span><button type="button" class="ce-ok" data-edtxok>Concluir</button></div>
-    <div class="ce-txm"><div class="ce-t f-${e.f} al-${e.al}${e.fd?" fd"+e.fd:""}" style="--cor:${e.cor}"><textarea id="ce-txa" rows="1" maxlength="220" aria-label="Texto do story" placeholder="Escreva…">${esc(e.tx)}</textarea></div></div>
+    <div class="ce-txm"><div class="ce-t f-${e.f} al-${e.al}${e.fd?" fd"+e.fd:""}" style="--cor:${e.cor}"><textarea id="ce-txa" rows="1" maxlength="220" aria-label="Texto do giro" placeholder="Escreva…">${esc(e.tx)}</textarea></div></div>
     <div class="ce-fts">${ED_FONTES.map(([k,n])=>`<button type="button" class="ce-chip f-${k}${k===e.f?" on":""}" data-edtxf="${k}">${n}</button>`).join("")}</div>
     <div class="ce-cores">${ED_CORES.map(x=>`<button type="button" data-edtxcor="${x}" style="background:${x}" aria-pressed="${x===e.cor}"></button>`).join("")}</div>`;
   const cvw=$("#ce-cv")?.clientWidth;if(cvw)ov.style.setProperty("--bw",cvw+"px");ov.querySelector("[data-edtxfd]").dataset.fd=e.fd||0;
@@ -9031,7 +9077,7 @@ function edTxRefaz(){const e=ED.st.tx,box=$("#layer .ce-tx .ce-t");if(!e||!box)r
 function edFigs(){const ov=document.createElement("div");ov.className="ce-fig";ov.innerHTML=`<div class="ce-figp"><div class="grab"></div><div class="ce-figs"><button type="button" data-edfig="men" class="fg-men">@MENÇÃO</button><button type="button" data-edfig="enq" class="fg-enq">ENQUETE</button><button type="button" data-edfig="nt" class="fg-nt">📰 NOTÍCIA</button><button type="button" data-edfig="hora" class="fg-hora">${esc(hhmm(new Date().toISOString()).replace("h",":"))}</button></div><div class="ce-emos">${ED_EMOJIS.map(x=>`<button type="button" data-edemo="${x}">${x}</button>`).join("")}</div></div>`;
   $("#layer .ce").appendChild(ov)}
 function edAdd(e){ED.st.els.push({id:edNid(),x:.5,y:.5,s:1,r:0,...e});$("#layer .ce-fig")?.remove();$("#layer .ce-sel")?.remove();edDesenha()}
-function edEnquete(el){const e=el||{t:"enq",q:"",o:["Sim","Não"]};const ov=document.createElement("div");ov.className="ce-sel";ov.innerHTML=`<div class="ce-selp"><b>Enquete</b><input class="field" id="ce-eq" maxlength="80" placeholder="Faça uma pergunta…" value="${esc(e.q||"")}"><input class="field" id="ce-e0" maxlength="24" value="${esc(e.o[0]||"Sim")}"><input class="field" id="ce-e1" maxlength="24" value="${esc(e.o[1]||"Não")}"><div class="ce-selb"><button type="button" class="btn ghost" data-edselx>Cancelar</button><button type="button" class="btn" data-edenqok>${el?"Salvar":"Pôr no story"}</button></div></div>`;
+function edEnquete(el){const e=el||{t:"enq",q:"",o:["Sim","Não"]};const ov=document.createElement("div");ov.className="ce-sel";ov.innerHTML=`<div class="ce-selp"><b>Enquete</b><input class="field" id="ce-eq" maxlength="80" placeholder="Faça uma pergunta…" value="${esc(e.q||"")}"><input class="field" id="ce-e0" maxlength="24" value="${esc(e.o[0]||"Sim")}"><input class="field" id="ce-e1" maxlength="24" value="${esc(e.o[1]||"Não")}"><div class="ce-selb"><button type="button" class="btn ghost" data-edselx>Cancelar</button><button type="button" class="btn" data-edenqok>${el?"Salvar":"Pôr no giro"}</button></div></div>`;
   ED.st.enqEd=el||null;$("#layer .ce-fig")?.remove();$("#layer .ce").appendChild(ov);setTimeout(()=>$("#ce-eq")?.focus(),40)}
 function edLista(tit,itens,attr){const ov=document.createElement("div");ov.className="ce-sel";ov.innerHTML=`<div class="ce-selp"><b>${esc(tit)}</b><input class="field" id="ce-lq" type="search" placeholder="Buscar" autocomplete="off"><ul class="ce-lis">${itens.map(([v,h])=>`<li><button type="button" ${attr}="${esc(v)}">${h}</button></li>`).join("")||`<li class="hint">Nada por aqui</li>`}</ul><div class="ce-selb"><button type="button" class="btn ghost" data-edselx>Cancelar</button></div></div>`;
   $("#layer .ce-fig")?.remove();$("#layer .ce").appendChild(ov);$("#ce-lq").addEventListener("input",e=>{const n=norm(e.target.value).trim();ov.querySelectorAll(".ce-lis li").forEach(li=>li.hidden=!!n&&!norm(li.textContent).includes(n))})}
@@ -9065,8 +9111,8 @@ async function edPublicaStory(){if(!ED||ED.env)return;const st=ED.st;if(!st.els.
     const row={autor:S.uid,tipo:"story",at,expira:at+86400000,texto,fotos,pid:nt?nt.pid:null,snap:nt?pubSnap(nt.pid):null,estilo:{v:2,itens}};
     const r=await SB.from("publicacoes").insert(row).select("id");if(r.error)throw r.error;const id=r.data&&r.data[0]&&r.data[0].id;PUB.itens.unshift({...row,id});PUB.urls[fotos[0]]={u:URL.createObjectURL(blob),exp:Date.now()+3600e3};
     const men=[...new Set(st.els.filter(e=>e.t==="men").map(e=>e.uid).concat(typeof mencionados==="function"?mencionados(texto):[]))].filter(u=>S.amigos.has(u));
-    const aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast("Story publicado. Some em 24 horas.");vibrar(10);
-    if(id&&men.length)Promise.all(men.map(u=>dmEnviar(u,{texto:"Mencionou você no story",pid:"u:"+id,snap:{titulo:"Story de "+nomeDe(S.uid),upub:id,story:true},tipo:"mencao"},true)));pubRedesenha();setTimeout(pubCarregar,1500)}
+    const aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast("Giro publicado. Some em 24 horas.");vibrar(10);
+    if(id&&men.length)Promise.all(men.map(u=>dmEnviar(u,{texto:"Mencionou você no giro",pid:"u:"+id,snap:{titulo:"Giro de "+nomeDe(S.uid),upub:id,story:true},tipo:"mencao"},true)));pubRedesenha();setTimeout(pubCarregar,1500)}
   catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(ED===ed0){ED.env=false;edDesenha()}toast("Não deu para publicar. Tente de novo.")}}
 
 /* ===== POST ===== */
@@ -9199,7 +9245,7 @@ function usItensHTML(x){const it=(x.estilo&&x.estilo.itens)||[];let ne=0;return 
     st.classList.add("us2");const u=x.fotos[0]&&pubUrl(x.fotos[0]);si.querySelector(".us-body")?.remove();si.querySelector(".us-sh")?.remove();
     const bg=si.querySelector(".sg-bg");bg.removeAttribute("style");bg.innerHTML=u?`<img class="us2-blur" src="${pubSrc(u)}" alt="">`:"";
     const rr=si.getBoundingClientRect(),w=Math.min(rr.width,rr.height*9/16),h=w*16/9;
-    bg.insertAdjacentHTML("afterend",`<div class="us2-box" style="width:${w}px;height:${h}px">${u?`<img class="us2-img" src="${pubSrc(u)}" alt="${esc(x.texto||"Story")}">`:""}</div><div class="us2-box us2-ov" style="width:${w}px;height:${h}px;--bw:${w}px"><div class="us2-its">${usItensHTML(x)}</div></div>`)}catch(e){}return r}}
+    bg.insertAdjacentHTML("afterend",`<div class="us2-box" style="width:${w}px;height:${h}px">${u?`<img class="us2-img" src="${pubSrc(u)}" alt="${esc(x.texto||"Giro")}">`:""}</div><div class="us2-box us2-ov" style="width:${w}px;height:${h}px;--bw:${w}px"><div class="us2-its">${usItensHTML(x)}</div></div>`)}catch(e){}return r}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-usvoto]");if(!b)return;e.stopPropagation();const id=b.dataset.usvoto,i=+b.dataset.i,n=+b.dataset.n||0,key=n?"us:"+id+"#e"+n:"us:"+id;const x=pubDe(id);if(!x||x.autor===S.uid||meuVoto(key)!=null)return;
   if(typeof igPausa==="function")igPausa();Promise.resolve(votar(key,i)).then(()=>{const box=$("#layer .us2-its");if(box)box.innerHTML=usItensHTML(x);setTimeout(()=>{if(typeof storyRetoma==="function")storyRetoma()},900)});setTimeout(()=>{const box=$("#layer .us2-its");if(box)box.innerHTML=usItensHTML(x)},60)},true);
 
@@ -9290,9 +9336,9 @@ function edLayTela(el){const b=ED.st.bg,cs=ED_LAYS[b.lay],cheio=b.cel.every(Bool
   el.querySelectorAll("img[data-ci]").forEach(im=>{im.src=b.cel[+im.dataset.ci].url});camMonta();edEncaixa();edArqStory();if(!b.cel[b.ativa]&&!cheio)camLiga();else if(cheio)camDesliga()}
 function edLayProxima(){const b=ED.st.bg;const i=b.cel.findIndex(x=>!x);b.ativa=i<0?b.ativa:i}
 /* ===== arquivos da galeria ===== */
-function edArqStory(){const f=$("#ce-file");if(!f)return;f.addEventListener("change",async e=>{const fs=[...e.target.files];e.target.value="";if(!fs.length||!ED)return;const ehV=x=>/^video\//.test(x.type)||/\.(mov|mp4|webm|m4v)$/i.test(x.name);if(fs.some(ehV)&&ED.tela!=="lay"){const lim=Math.max(1,10-ED.sts.length+(edStOcupado(ED.st)?0:1));if(fs.length>lim)toast("Dá para mandar até 10 stories de uma vez.");for(const x of fs.slice(0,lim)){if(!ED)return;if(ehV(x))await edVidPronto(x,"story",true);else{try{const r=await edCarrega(x,2048);const st=edNovoSt();st.bg={tipo:"foto",...r,z:1,ox:0,oy:0,f:"normal"};if(edStOcupado(ED.st)){ED.sts.splice(ED.si+1,0,st);ED.si++}else{st.els=ED.st.els;st.tracos=ED.st.tracos;ED.sts.splice(ED.si,1,st)}ED.st=ED.sts[ED.si]}catch(err){toast("Não deu para abrir uma das fotos.")}}}if(ED){ED.tela="edit";edDesenha()}return}
+function edArqStory(){const f=$("#ce-file");if(!f)return;f.addEventListener("change",async e=>{const fs=[...e.target.files];e.target.value="";if(!fs.length||!ED)return;const ehV=x=>/^video\//.test(x.type)||/\.(mov|mp4|webm|m4v)$/i.test(x.name);if(fs.some(ehV)&&ED.tela!=="lay"){const lim=Math.max(1,10-ED.sts.length+(edStOcupado(ED.st)?0:1));if(fs.length>lim)toast("Dá para mandar até 10 giros de uma vez.");for(const x of fs.slice(0,lim)){if(!ED)return;if(ehV(x))await edVidPronto(x,"story",true);else{try{const r=await edCarrega(x,2048);const st=edNovoSt();st.bg={tipo:"foto",...r,z:1,ox:0,oy:0,f:"normal"};if(edStOcupado(ED.st)){ED.sts.splice(ED.si+1,0,st);ED.si++}else{st.els=ED.st.els;st.tracos=ED.st.tracos;ED.sts.splice(ED.si,1,st)}ED.st=ED.sts[ED.si]}catch(err){toast("Não deu para abrir uma das fotos.")}}}if(ED){ED.tela="edit";edDesenha()}return}
   if(ED.tela==="lay"){try{const r=await edCarrega(fs[0],2048);const b=ED.st.bg;b.cel[b.ativa]={...r,z:1,ox:0,oy:0};edLayProxima();edDesenha()}catch(err){toast("Não deu para abrir essa foto.")}return}
-  const tot=fs.length,lim=Math.max(0,10-ED.sts.length+(edStTem(ED.st)?0:1));if(tot>lim)toast("Dá para mandar até 10 stories de uma vez.");
+  const tot=fs.length,lim=Math.max(0,10-ED.sts.length+(edStTem(ED.st)?0:1));if(tot>lim)toast("Dá para mandar até 10 giros de uma vez.");
   const novos=[];for(const x of fs.slice(0,lim)){try{const r=await edCarrega(x,2048);const st=edNovoSt();st.bg={tipo:"foto",...r,z:1,ox:0,oy:0,f:"normal"};novos.push(st)}catch(err){toast("Não deu para abrir uma das fotos.")}}
   if(!novos.length||!ED)return;if(edStOcupado(ED.st)){ED.sts.splice(ED.si+1,0,...novos);ED.si=ED.si+1}else{novos[0].els=ED.st.els;novos[0].tracos=ED.st.tracos;ED.sts.splice(ED.si,1,...novos)}
   ED.st=ED.sts[ED.si];ED.tela="edit";edDesenha()})}
@@ -9311,10 +9357,10 @@ edStory=function(el){const st=ED.st,b=st.bg,foto=b.tipo==="foto",lay=b.tipo==="l
   const n=ED.envN;
   el.innerHTML=`<div class="ce-palco"><div class="ce-cv" id="ce-cv"><div class="ce-bg" style="background:${foto||lay?"#000":pubFundo(b.g)}">${bgIn}</div><canvas id="ce-draw" class="ce-draw"></canvas><div class="ce-els" id="ce-els"></div><i class="ce-gv" id="ce-gv" hidden></i><i class="ce-gh" id="ce-gh" hidden></i><div class="ce-fn" id="ce-fn"></div>${!st.els.length&&!st.tracos.length&&!foto&&!lay?`<div class="ce-dica">Toque para escrever<br><small>arraste para o lado para trocar a cor</small></div>`:""}<div class="ce-lixo" id="ce-lixo" hidden>${EDI.lixo}</div></div></div>
     <div class="ce-top"><button type="button" class="ce-b" data-edfechar aria-label="Fechar">${EDI.x}</button><span class="sp"></span><button type="button" class="ce-b" data-edsalvar aria-label="Salvar no celular">${EDI.salvar}</button><button type="button" class="ce-b" data-edtexto aria-label="Texto">${EDI.aa}</button><button type="button" class="ce-b" data-edfig aria-label="Figurinhas">${EDI.fig}</button><button type="button" class="ce-b" data-edcaneta aria-label="Desenhar">${EDI.caneta}</button></div>
-    ${multi?`<div class="ce-sts">${ED.sts.map((x,i)=>`<button type="button" class="ce-stb${i===ED.si?" on":""}" data-edsti="${i}" aria-label="Story ${i+1}"><canvas width="54" height="96" data-stt="${i}"></canvas>${i===ED.si?`<i data-edstx="${i}" role="button" aria-label="Tirar este story">✕</i>`:""}</button>`).join("")}${ED.sts.length<10?`<button type="button" class="ce-stb ce-stm" data-edgal aria-label="Mais fotos">+</button>`:""}</div>`:""}
+    ${multi?`<div class="ce-sts">${ED.sts.map((x,i)=>`<button type="button" class="ce-stb${i===ED.si?" on":""}" data-edsti="${i}" aria-label="Giro ${i+1}"><canvas width="54" height="96" data-stt="${i}"></canvas>${i===ED.si?`<i data-edstx="${i}" role="button" aria-label="Tirar este giro">✕</i>`:""}</button>`).join("")}${ED.sts.length<10?`<button type="button" class="ce-stb ce-stm" data-edgal aria-label="Mais fotos">+</button>`:""}</div>`:""}
     <div class="ce-bot"><button type="button" class="ce-gal" data-edgal aria-label="Galeria">${foto?`<img alt="" id="ce-galt">`:EDI.gal}</button><span class="sp"></span>
       ${MA.on?`<button type="button" class="ce-pub ma" data-edpubst="proximos" ${ED.env?"disabled":""} aria-label="Mandar para os Melhores amigos"><i class="ma-ic">★</i><span>Melhores amigos</span></button>`:""}
-      <button type="button" class="ce-pub" data-edpubst="amigos" ${ED.env?"disabled":""}>${avatar(S.uid)}<span>${ED.env?(n&&n[1]>1?`Publicando ${Math.min(n[0]+1,n[1])}/${n[1]}…`:"Publicando…"):"Seu story"}</span><i>›</i></button></div>
+      <button type="button" class="ce-pub" data-edpubst="amigos" ${ED.env?"disabled":""}>${avatar(S.uid)}<span>${ED.env?(n&&n[1]>1?`Publicando ${Math.min(n[0]+1,n[1])}/${n[1]}…`:"Publicando…"):"Seu giro"}</span><i>›</i></button></div>
     ${edModos()}<input type="file" id="ce-file" accept="image/*,video/*" multiple hidden>`;
   if(foto){$("#ce-galt").src=b.url}edBgSrcs();edEncaixa();edEls();edTracos();edGestos();edArqStory();if(multi)edStThumbs()};
 function edStThumbs(){document.querySelectorAll("#layer canvas[data-stt]").forEach(c=>{const st=ED.sts[+c.dataset.stt];if(!st)return;const g=c.getContext("2d"),b=st.bg,W=c.width,H=c.height;
@@ -9355,7 +9401,7 @@ edTexto=function(el){if($("#layer .ce-tx"))return;const novo=!el;const e=el||{id
   const anN=(ED_ANIMS.find(a=>a[0]===(e.an||""))||ED_ANIMS[0])[1];
   const ov=document.createElement("div");ov.className="ce-tx";ov.innerHTML=`<div class="ce-top"><button type="button" class="ce-b" data-edtxal aria-label="Alinhamento">${e.al==="e"?"⇤":e.al==="d"?"⇥":"≡"}</button><button type="button" class="ce-b ce-fd" data-edtxfd data-fd="${e.fd||0}" aria-label="Fundo do texto"><b class="ce-aa">A</b></button><button type="button" class="ce-b ce-anb${e.an?" on":""}" data-edtxan aria-label="Animação: ${esc(anN)}"><b>✦</b></button><span class="sp"></span><button type="button" class="ce-ok" data-edtxok>Concluir</button></div>
     <input type="range" class="ce-tam" id="ce-tam" min="50" max="260" value="${Math.round((e.tam||1)*100)}" aria-label="Tamanho do texto">
-    <div class="ce-txm"><div class="ce-t f-${e.f} al-${e.al}${e.fd?" fd"+e.fd:""}" style="--cor:${e.cor};--tam:${e.tam||1}"><textarea id="ce-txa" rows="1" maxlength="220" aria-label="Texto do story" placeholder="Escreva…">${esc(e.tx)}</textarea></div></div>
+    <div class="ce-txm"><div class="ce-t f-${e.f} al-${e.al}${e.fd?" fd"+e.fd:""}" style="--cor:${e.cor};--tam:${e.tam||1}"><textarea id="ce-txa" rows="1" maxlength="220" aria-label="Texto do giro" placeholder="Escreva…">${esc(e.tx)}</textarea></div></div>
     <div class="ce-anl" id="ce-anl" ${e.an?"":"hidden"}>${esc(anN)}</div>
     <div class="ce-fts">${ED_FONTES.map(([k,n])=>`<button type="button" class="ce-chip f-${k}${k===e.f?" on":""}" data-edtxf="${k}">${n}</button>`).join("")}</div>
     <div class="ce-cores">${ED_CORES.map(x=>`<button type="button" data-edtxcor="${x}" style="background:${x}" aria-pressed="${x===e.cor}"></button>`).join("")}</div>`;
@@ -9395,20 +9441,20 @@ edPublicaStory=async function(pub){if(!ED||ED.env)return;const lista=ED.sts.filt
       const row={autor:S.uid,tipo:"story",at,expira:at+86400000,texto,fotos,pid:nt?nt.pid:null,snap:nt?pubSnap(nt.pid):null,estilo:{v:2,itens:edItens(st)}};if(st.bg.tipo==="video")await edVidStory(st,row,fotos);if(MA.on)row.publico=pub==="proximos"?"proximos":"amigos";
       const r=await SB.from("publicacoes").insert(row).select("id");if(r.error)throw r.error;const id=r.data&&r.data[0]&&r.data[0].id;PUB.itens.unshift({...row,id});PUB.urls[fotos[0]]={u:URL.createObjectURL(blob),exp:Date.now()+3600e3};
       const men=[...new Set(st.els.filter(e=>e.t==="men").map(e=>e.uid).concat(typeof mencionados==="function"?mencionados(texto):[]))].filter(u=>S.amigos.has(u)&&(pub!=="proximos"||MA.set.has(u)));
-      if(id&&men.length)Promise.all(men.map(u=>dmEnviar(u,{texto:"Mencionou você no story",pid:"u:"+id,snap:{titulo:"Story de "+nomeDe(S.uid),upub:id,story:true},tipo:"mencao"},true)));
+      if(id&&men.length)Promise.all(men.map(u=>dmEnviar(u,{texto:"Mencionou você no giro",pid:"u:"+id,snap:{titulo:"Giro de "+nomeDe(S.uid),upub:id,story:true},tipo:"mencao"},true)));
       feitos.push(st);ED.envN[0]++;if(ED===ed0&&lista.length>1){const sp=$("#layer [data-edpubst='"+((ED&&ED._pubq)||"amigos")+"'] > span:not(.av)");if(sp)sp.textContent=`Publicando ${Math.min(ED.envN[0]+1,lista.length)}/${lista.length}…`}}
     catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(st._vp){try{await SB.storage.from("videos").remove([st._vp])}catch(_){}st._vp=null}erro=true;break}}
   pubRedesenha();setTimeout(pubCarregar,1500);
   if(erro){if(ED===ed0){ED.sts=ED.sts.filter(x=>!feitos.includes(x));if(!ED.sts.length)ED.sts=[edNovoSt()];ED.si=0;ED.st=ED.sts[0];ED.env=false;edDesenha()}toast(feitos.length?`${feitos.length} publicado(s); o resto não foi. Tente de novo.`:"Não deu para publicar. Tente de novo.");return}
-  const aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast(feitos.length>1?`${feitos.length} stories publicados. Somem em 24 horas.`:pub==="proximos"?"Story publicado para os Melhores amigos.":"Story publicado. Some em 24 horas.");vibrar(10)};
-async function edSalvar(){if(!ED)return;if(ED.st.tx)edTextoOk();try{const b=await edExportaStory(ED.st,true);const f=new File([b],"prumo-story.jpg",{type:"image/jpeg"});
+  const aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast(feitos.length>1?`${feitos.length} stories publicados. Somem em 24 horas.`:pub==="proximos"?"Giro publicado para os Melhores amigos.":"Giro publicado. Some em 24 horas.");vibrar(10)};
+async function edSalvar(){if(!ED)return;if(ED.st.tx)edTextoOk();try{const b=await edExportaStory(ED.st,true);const f=new File([b],"prumo-giro.jpg",{type:"image/jpeg"});
   if(navigator.canShare&&navigator.canShare({files:[f]})&&/iP(hone|ad)|Android/i.test(navigator.userAgent)){try{await navigator.share({files:[f]});return}catch(e){if(e&&e.name==="AbortError")return}}
-  const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="prumo-story.jpg";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);toast("Imagem salva")}catch(e){toast("Não deu para salvar a imagem.")}}
+  const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="prumo-giro.jpg";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);toast("Imagem salva")}catch(e){toast("Não deu para salvar a imagem.")}}
 /* ===== Melhores amigos ===== */
 async function maCarregar(){if(!S.uid||!SB)return;try{const r=await SB.from("melhores_amigos").select("amigo").eq("dono",S.uid);if(r.error){MA.on=false;return}MA.on=true;MA.uid=S.uid;MA.set=new Set((r.data||[]).map(x=>x.amigo))}catch(e){MA.on=false}}
 {const _pc60=pubCarregar;pubCarregar=async function(){const r=await _pc60.apply(this,arguments);if(PUB.on&&(MA.uid!==S.uid||MA.on===null||Date.now()-(MA.t||0)>120000)){MA.t=Date.now();await maCarregar()}return r}}
 function edMaLista(aviso){const am=amigosL();if(!am.length){toast("Você ainda não tem amigos no Prumo.");return}const ov=document.createElement("div");ov.className="ce-sel";
-  ov.innerHTML=`<div class="ce-selp"><b>Melhores amigos</b><p class="ce-selh">${aviso?"Escolha quem entra na sua lista. ":""}Só eles veem os stories e posts que você manda para os Melhores amigos. Ninguém é avisado quando entra ou sai.</p><div class="pick dm-pick">${am.map(u=>`<button type="button" data-edma="${esc(u)}" aria-pressed="${MA.set.has(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><div class="ce-selb"><button type="button" class="btn" data-edmaok>Concluir</button></div></div>`;$("#layer .ce").appendChild(ov)}
+  ov.innerHTML=`<div class="ce-selp"><b>Melhores amigos</b><p class="ce-selh">${aviso?"Escolha quem entra na sua lista. ":""}Só eles veem os giros e posts que você manda para os Melhores amigos. Ninguém é avisado quando entra ou sai.</p><div class="pick dm-pick">${am.map(u=>`<button type="button" data-edma="${esc(u)}" aria-pressed="${MA.set.has(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><div class="ce-selb"><button type="button" class="btn" data-edmaok>Concluir</button></div></div>`;$("#layer .ce").appendChild(ov)}
 async function maTroca(u,b){const on=!MA.set.has(u);if(on)MA.set.add(u);else MA.set.delete(u);b.setAttribute("aria-pressed",String(on));
   try{const r=on?await SB.from("melhores_amigos").insert({dono:S.uid,amigo:u}):await SB.from("melhores_amigos").delete().eq("dono",S.uid).eq("amigo",u);if(r&&r.error)throw r.error}
   catch(e){if(on)MA.set.delete(u);else MA.set.add(u);b.setAttribute("aria-pressed",String(!on));toast("Não deu para salvar agora.")}}
@@ -9483,7 +9529,7 @@ function edFigHTML(e,vivo,x,k){const q=esc(e.q||"");
 edItemExtra=(e,o)=>{if(["perg","add"].includes(e.t))o.q=String(e.q||"").slice(0,90);if(e.t==="quiz"){o.q=String(e.q||"").slice(0,90);o.o=(e.o||[]).map(x=>String(x).slice(0,30)).slice(0,4);o.c=+e.c||0}
   if(e.t==="cont"){o.q=String(e.q||"").slice(0,40);o.ate=+e.ate||0}if(e.t==="slid"){o.q=String(e.q||"").slice(0,80);o.emo=String(e.emo||"😍").slice(0,8)}if(e.t==="link"){o.url=edUrlOk(String(e.url||"").slice(0,300));o.tit=String(e.tit||"").slice(0,30)}if(e.t==="add"&&e.ref)o.ref=String(e.ref).slice(0,40);return o};
 /* formulários das figurinhas */
-function edForm(tit,corpo,ok,el){$("#layer .ce-fig")?.remove();$("#layer .ce-sel")?.remove();const ov=document.createElement("div");ov.className="ce-sel";ov.innerHTML=`<div class="ce-selp"><b>${esc(tit)}</b>${corpo}<div class="ce-selb"><button type="button" class="btn ghost" data-edselx>Cancelar</button><button type="button" class="btn" data-edfok>${el?"Salvar":"Pôr no story"}</button></div></div>`;
+function edForm(tit,corpo,ok,el){$("#layer .ce-fig")?.remove();$("#layer .ce-sel")?.remove();const ov=document.createElement("div");ov.className="ce-sel";ov.innerHTML=`<div class="ce-selp"><b>${esc(tit)}</b>${corpo}<div class="ce-selb"><button type="button" class="btn ghost" data-edselx>Cancelar</button><button type="button" class="btn" data-edfok>${el?"Salvar":"Pôr no giro"}</button></div></div>`;
   ED._fok=()=>{const v=ok(ov);if(v===false)return;$("#layer .ce-sel")?.remove();if(el){Object.assign(el,v);edDesenha()}else edAdd(v)};$("#layer .ce").appendChild(ov);setTimeout(()=>ov.querySelector("input")?.focus(),40)}
 const fv=(ov,id)=>(ov.querySelector("#"+id)?.value||"").trim();
 function edFigForm(k,el){const e=el||{};
@@ -9761,7 +9807,7 @@ edModos=function(){return `<div class="ce-modos" role="tablist">${[["post","POST
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer .ce")||!ED||t.closest("#layer2"))return;let b;const pare=()=>{e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()};
   if(Date.now()-(ED._gravou||0)<900&&t.closest("[data-edfoto]")){pare();return}
   if(ED.env&&t.closest("[data-edmudo],[data-edtrim],[data-trok]")){pare();return}
-  if(b=t.closest("[data-edmudo]")){pare();const bg=ED.st.bg;bg.mudo=!bg.mudo;ED._mPrev=false;b.textContent=bg.mudo?"🔇":"🔊";b.setAttribute("aria-pressed",String(bg.mudo));const v=$("#ce-bgv");if(v){v.muted=bg.mudo;v.play().catch(()=>{})}toast(bg.mudo?"Story sem som":"Story com som");return}
+  if(b=t.closest("[data-edmudo]")){pare();const bg=ED.st.bg;bg.mudo=!bg.mudo;ED._mPrev=false;b.textContent=bg.mudo?"🔇":"🔊";b.setAttribute("aria-pressed",String(bg.mudo));const v=$("#ce-bgv");if(v){v.muted=bg.mudo;v.play().catch(()=>{})}toast(bg.mudo?"Giro sem som":"Giro com som");return}
   if(t.closest("[data-edtrim]")){pare();edTrim(ED.st.bg,15,"#ce-bgv");return}
   if(t.closest("[data-trok]")){pare();$("#layer .ce-sel")?.remove();return}},true);
 /* segurar o botão da câmera do story grava vídeo (até 15 s) */
@@ -9858,8 +9904,8 @@ function edCabe(st){let it=edItens(st);const tam=()=>JSON.stringify({v:2,itens:i
   while((it.length>=10&&st.els.filter(e=>!edAssa(e)||e.t==="men").length>10||tam()>6000)&&ani.length){ani.pop().an="";mudou=true;it=edItens(st)}
   if(st.els.filter(e=>!edAssa(e)||e.t==="men").length>10||tam()>6000)return "demais";return mudou?"ok-mudou":"ok"}
 {const _ps66=edPublicaStory;edPublicaStory=async function(pub){if(!ED||ED.env)return _ps66.apply(this,arguments);if(ED.st.tx)edTextoOk();let aviso=false;
-  for(let i=0;i<ED.sts.length;i++){const r=edCabe(ED.sts[i]);if(r==="demais"){ED.si=i;ED.st=ED.sts[i];edDesenha();toast(ED.st.els.filter(e=>!edAssa(e)||e.t==="men").length>10?"Este story tem figurinhas demais. Tire algumas (até 10 tocáveis).":"Este story ficou grande demais para salvar. Tire uma figurinha ou encurte os textos.");return}if(r==="ok-mudou")aviso=true}
-  if(aviso)toast("Algumas animações de texto viraram texto fixo para caber no story.");return _ps66.apply(this,arguments)}}
+  for(let i=0;i<ED.sts.length;i++){const r=edCabe(ED.sts[i]);if(r==="demais"){ED.si=i;ED.st=ED.sts[i];edDesenha();toast(ED.st.els.filter(e=>!edAssa(e)||e.t==="men").length>10?"Este giro tem figurinhas demais. Tire algumas (até 10 tocáveis).":"Este giro ficou grande demais para salvar. Tire uma figurinha ou encurte os textos.");return}if(r==="ok-mudou")aviso=true}
+  if(aviso)toast("Algumas animações de texto viraram texto fixo para caber no giro.");return _ps66.apply(this,arguments)}}
 /* 4. ordem dos amigos congelada enquanto você assiste */
 {const _so66=storyOrdem;storyOrdem=function(){const L=_so66.apply(this,arguments);if(!ST||String(ST.sec||"").indexOf("_h:")===0)return L;if(!ST._uord)ST._uord=L.filter(x=>String(x).indexOf("_u:")===0);
   const vivos=ST._uord.filter(x=>x===ST.sec||(pubStoriesDe(String(x).slice(3)).length>0));return vivos.concat(L.filter(x=>String(x).indexOf("_u:")!==0))}}
@@ -9968,7 +10014,7 @@ async function pfCarregar(u){if(!SB||!S.uid||!S.membro||PUB.on===false)return;if
   try{const r=await SB.from("publicacoes").select("*").eq("autor",u).eq("tipo","post").order("at",{ascending:false}).limit(90);if(r.error)return;const ids=new Set(PUB.itens.map(x=>x.id));
     (r.data||[]).forEach(x=>{x.fotos=Array.isArray(x.fotos)?x.fotos:[];try{pubLimpa(x)}catch(e){}if(!ids.has(x.id))PUB.itens.push(x)});await pubAssinar()}catch(e){}}
 function pfCab(u){const eu=u===S.uid,st=pubStoriesDe(u),n=pfLista(u,"posts").length,na=amigosL().length,cm=!eu&&S.comuns?S.comuns[u]:null,vist=st.length&&st.every(x=>PUB_VISTOS.has(x.id));
-  return `<div class="pf-cab"><button type="button" class="pf-av${st.length?(vist?" ring visto":" ring"):""}" ${st.length?`data-pfstory="${esc(u)}"`:eu?`data-criarde="story"`:""} aria-label="${st.length?"Ver o story":"Foto de "+esc(nomeDe(u))}"><span class="pf-avi">${avatar(u)}</span>${eu&&!st.length?`<i class="pf-mais" aria-hidden="true">+</i>`:""}</button>
+  return `<div class="pf-cab"><button type="button" class="pf-av${st.length?(vist?" ring visto":" ring"):""}" ${st.length?`data-pfstory="${esc(u)}"`:eu?`data-criarde="story"`:""} aria-label="${st.length?"Ver o giro":"Foto de "+esc(nomeDe(u))}"><span class="pf-avi">${avatar(u)}</span>${eu&&!st.length?`<i class="pf-mais" aria-hidden="true">+</i>`:""}</button>
     <div class="pf-num"><span><b>${n}</b>${n===1?"publicação":"publicações"}</span>${eu?`<span><b>${na}</b>${na===1?"amigo":"amigos"}</span>`:cm!=null?`<span><b>${cm}</b>${cm===1?"amigo em comum":"amigos em comum"}</span>`:""}</div></div>
     <b class="pf-nome">${esc(nomeDe(u))}</b>${eu?`<div class="pf-bts"><button type="button" class="btn ghost" data-criarde="post">Nova publicação</button><button type="button" class="btn ghost" data-convidar>Convidar amigo</button></div>`:S.amigos.has(u)?`<div class="pf-bts"><button type="button" class="btn" data-pfmsg="${esc(u)}">Mensagem</button></div>`:""}`}
 function pfAbas(u,aba){return `<div class="pf-abas" role="tablist">${PF_ABAS.filter(a=>a[0]!=="conta"||u===S.uid).map(([k,n,ic])=>`<button type="button" role="tab" data-pfaba="${k}" aria-selected="${aba===k}" aria-label="${n}">${ic}</button>`).join("")}</div>`}
@@ -10033,17 +10079,17 @@ function destRowHTML(u){const ds=DEST[u]||[];const eu=u===S.uid;if(!V5.on||(!ds.
 /* lista especial no visualizador de stories ("_u:~…") */
 {const _sd70=pubStoriesDe;pubStoriesDe=function(u){if(String(u).charAt(0)==="~")return (ST&&ST._lista)||[];return _sd70.apply(this,arguments)}}
 {const _so70=storyOrdem;storyOrdem=function(){if(ST&&String(ST.sec||"").indexOf("_u:~")===0)return [ST.sec];return _so70.apply(this,arguments)}}
-{const _nm70=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_u:~")===0)return (ST&&ST._nome)||"Story";return _nm70.apply(this,arguments)}}
+{const _nm70=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_u:~")===0)return (ST&&ST._nome)||"Giro";return _nm70.apply(this,arguments)}}
 function stLista(lista,i,nome,chave){if(!lista.length)return;if($("#layer").innerHTML)closeLayer();ST={sec:"_u:~"+chave,ids:lista.map(x=>"us:"+x.id),itens:lista,i:Math.max(0,i||0),ordem:[],_lista:lista,_nome:nome,_chave:chave};drawStory()}
 async function abrirDestaque(id,u){const d=(DEST[u]||[]).find(x=>x.id===id);if(!d||!d.stories.length){if(d&&u===S.uid)toast("Este destaque está vazio.");return}uso("destaque_perfil");stLista(d.stories,0,d.nome,"d"+id)}
 {const _du70=igDrawUser;igDrawUser=function(){const r=_du70.apply(this,arguments);try{if(ST&&String(ST.sec||"").indexOf("_u:~")===0){const w=$("#layer .story .sg-who b");if(w&&ST._nome)w.textContent=ST._nome;const t=$("#layer .story .sg-who span");const x=ST.itens[ST.i];if(t&&x)t.textContent=new Date(x.at).toLocaleDateString("pt-BR",{day:"numeric",month:"short"})}
   const x=ST.itens&&ST.itens[ST.i];if(x&&x.autor===S.uid&&V5.on){const f=$("#layer .story .us-f");if(f&&!f.querySelector("[data-usdest]"))f.querySelector(".sp")?.insertAdjacentHTML("afterend",`<button type="button" class="sg-ler" data-usdest="${esc(x.id)}">♥ Destacar</button>`)}}catch(e){}return r}}
 /* arquivo dos seus stories */
 async function arqCarregar(){try{const r=await SB.from("publicacoes").select("*").eq("autor",S.uid).eq("tipo","story").order("at",{ascending:false}).limit(200);if(r.error)return ARQ||[];ARQ=(r.data||[]).map(pubNorm);await pubAssinaLista(ARQ);return ARQ}catch(e){return ARQ||[]}}
-async function abrirArquivo(){if($("#layer").innerHTML)closeLayer();PFV={u:S.uid,modo:"arq"};$("#layer").innerHTML=`<div class="pfv pfv-arq" role="dialog" aria-modal="true" aria-label="Arquivo de stories"></div>`;if(pushH())HST++;arqDesenha();await arqCarregar();arqDesenha()}
+async function abrirArquivo(){if($("#layer").innerHTML)closeLayer();PFV={u:S.uid,modo:"arq"};$("#layer").innerHTML=`<div class="pfv pfv-arq" role="dialog" aria-modal="true" aria-label="Arquivo de giros"></div>`;if(pushH())HST++;arqDesenha();await arqCarregar();arqDesenha()}
 function arqDesenha(){const el=$("#layer .pfv-arq");if(!el)return;const l=ARQ||[];let dia="";
-  el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>Arquivo de stories<small>só você vê</small></b><span class="sp"></span></div>
-    <div class="pfv-sc">${ARQ===null?`<p class="hint" style="padding:20px">Carregando…</p>`:!l.length?`<div class="pf-vz"><b>Nenhum story ainda</b><span>Seus stories ficam guardados aqui depois das 24 horas (por 30 dias, ou para sempre se estiverem num destaque).</span></div>`:`<div class="pf-grade arq-grade">${l.map((x,i)=>{const f=x.fotos[0]&&pubUrl(x.fotos[0]);const d=new Date(x.at);const lab=d.toLocaleDateString("pt-BR",{day:"numeric",month:"short"});const novo=lab!==dia;dia=lab;
+  el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>Arquivo de giros<small>só você vê</small></b><span class="sp"></span></div>
+    <div class="pfv-sc">${ARQ===null?`<p class="hint" style="padding:20px">Carregando…</p>`:!l.length?`<div class="pf-vz"><b>Nenhum giro ainda</b><span>Seus giros ficam guardados aqui depois das 24 horas (por 30 dias, ou para sempre se estiverem num destaque).</span></div>`:`<div class="pf-grade arq-grade">${l.map((x,i)=>{const f=x.fotos[0]&&pubUrl(x.fotos[0]);const d=new Date(x.at);const lab=d.toLocaleDateString("pt-BR",{day:"numeric",month:"short"});const novo=lab!==dia;dia=lab;
       return `<button type="button" class="pf-t arq-t" data-arqi="${i}">${f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<span class="pf-tx" style="background:${pubFundo(x.estilo&&x.estilo.fundo)}">${esc(String(x.texto||"").slice(0,60))}</span>`}${novo?`<i class="arq-d"><b>${d.getDate()}</b>${esc(d.toLocaleDateString("pt-BR",{month:"short"}).replace(".",""))}</i>`:""}${x.estilo&&x.estilo.video?`<i class="pf-ic">▶</i>`:""}${(x.expira||0)>Date.now()?`<i class="arq-ativo">no ar</i>`:""}</button>`}).join("")}</div>`}</div>`}
 {const _lm70=pubLimparMeus;pubLimparMeus=async function(){if(V5.on===null)await v5Testa();if(!V5.on)return _lm70.apply(this,arguments);
   /* com o SQL v5: guarda 30 dias no arquivo; o que está em destaque fica para sempre */
@@ -10060,21 +10106,21 @@ async function pubFixar(id){const x=pubDe(id);if(!x)return;const on=!x.fixado;if
 {const _pc70=pfCab;pfCab=function(u){return _pc70.apply(this,arguments)+destRowHTML(u)}}
 {const _cp70=pfCarregar;pfCarregar=async function(u){const r=await _cp70.apply(this,arguments);if(await v5Testa())await destCarregar(u);return r}}
 /* Conta: Arquivo */
-{const _rm70=renderMe;renderMe=function(){const r=_rm70.apply(this,arguments);try{if(V5.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arquivo]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-arquivo><span>Arquivo de stories</span><i>›</i></button>`)}}catch(e){}return r}}
+{const _rm70=renderMe;renderMe=function(){const r=_rm70.apply(this,arguments);try{if(V5.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arquivo]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-arquivo><span>Arquivo de giros</span><i>›</i></button>`)}}catch(e){}return r}}
 /* folhas: destacar, novo destaque, editar destaque */
 function destEscolher(storyId){const ds=DEST[S.uid]||[];sheet("Destacar",`<div class="opt">${ds.map(d=>`<button type="button" data-destpor="${esc(d.id)}" data-st="${esc(storyId)}">${esc(d.nome)}<span>${(d.itens||[]).includes(storyId)?"já está aqui · toque para tirar":d.itens.length+" "+(d.itens.length===1?"story":"stories")}</span></button>`).join("")}<button type="button" data-destnovo data-st="${esc(storyId)}">＋ Novo destaque</button></div>`)}
-async function destNovo(pre){const l=await arqCarregar();if(!l.length){toast("Publique um story primeiro.");return}const sel=new Set(pre?[pre]:[]);
-  sheet("Novo destaque",`<input class="field" id="dest-nome" maxlength="30" placeholder="Nome do destaque" value="Destaque"><p class="hint">Escolha os stories:</p><div class="dest-pick">${l.map(x=>{const f=x.fotos[0]&&pubUrl(x.fotos[0]);return `<button type="button" class="dest-o" data-destsel="${esc(x.id)}" aria-pressed="${sel.has(x.id)}">${f?`<img src="${pubSrc(f)}" alt="">`:`<span style="background:${pubFundo(x.estilo&&x.estilo.fundo)}"></span>`}<i></i></button>`}).join("")}</div>`,`<button type="button" class="btn" data-destcriar>Criar destaque</button>`)}
+async function destNovo(pre){const l=await arqCarregar();if(!l.length){toast("Publique um giro primeiro.");return}const sel=new Set(pre?[pre]:[]);
+  sheet("Novo destaque",`<input class="field" id="dest-nome" maxlength="30" placeholder="Nome do destaque" value="Destaque"><p class="hint">Escolha os giros:</p><div class="dest-pick">${l.map(x=>{const f=x.fotos[0]&&pubUrl(x.fotos[0]);return `<button type="button" class="dest-o" data-destsel="${esc(x.id)}" aria-pressed="${sel.has(x.id)}">${f?`<img src="${pubSrc(f)}" alt="">`:`<span style="background:${pubFundo(x.estilo&&x.estilo.fundo)}"></span>`}<i></i></button>`}).join("")}</div>`,`<button type="button" class="btn" data-destcriar>Criar destaque</button>`)}
 async function destSalvar(d,mud){const r=await SB.from("destaques").update(mud).eq("id",d.id);if(r&&r.error){toast("Não deu para salvar o destaque.");return false}Object.assign(d,mud);await destCarregar(S.uid);if(VIEW==="me")renderMe();return true}
 document.addEventListener("click",async e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if(b=t.closest("[data-pfdest]")){pare();abrirDestaque(b.dataset.pfdest,b.dataset.dono);return}
   if(b=t.closest("[data-destnovo]")){pare();const st=b.dataset.st;if($("#layer2")?.innerHTML)closeLayer();setTimeout(()=>destNovo(st),60);return}
   if(b=t.closest("[data-destsel]")){pare();b.setAttribute("aria-pressed",String(b.getAttribute("aria-pressed")!=="true"));return}
-  if(t.closest("[data-destcriar]")){pare();const ids=[...document.querySelectorAll("[data-destsel][aria-pressed=true]")].map(x=>x.dataset.destsel);if(!ids.length){toast("Escolha pelo menos um story.");return}const nome=($("#dest-nome")?.value||"").trim().slice(0,30)||"Destaque";
+  if(t.closest("[data-destcriar]")){pare();const ids=[...document.querySelectorAll("[data-destsel][aria-pressed=true]")].map(x=>x.dataset.destsel);if(!ids.length){toast("Escolha pelo menos um giro.");return}const nome=($("#dest-nome")?.value||"").trim().slice(0,30)||"Destaque";
     const r=await SB.from("destaques").insert({dono:S.uid,nome,itens:ids,ordem:(DEST[S.uid]||[]).length}).select("id");if(r.error){toast("Não deu para criar o destaque.");return}closeLayer();await destCarregar(S.uid);toast("Destaque criado");if(VIEW==="me")renderMe();return}
   if(b=t.closest("[data-usdest]")){pare();igPausa();if(!DEST[S.uid])await destCarregar(S.uid);destEscolher(b.dataset.usdest);return}
   if(b=t.closest("[data-destpor]")){pare();const d=(DEST[S.uid]||[]).find(x=>x.id===b.dataset.destpor),st=b.dataset.st;if(!d)return;const it=d.itens.includes(st)?d.itens.filter(x=>x!==st):d.itens.concat(st);
-    if(!it.length){toast("Um destaque precisa de pelo menos um story. Para apagar, segure o destaque no perfil.");return}if(await destSalvar(d,{itens:it})){closeLayer();toast(d.itens.includes(st)?`Adicionado a "${d.nome}"`:`Tirado de "${d.nome}"`)}return}
+    if(!it.length){toast("Um destaque precisa de pelo menos um giro. Para apagar, segure o destaque no perfil.");return}if(await destSalvar(d,{itens:it})){closeLayer();toast(d.itens.includes(st)?`Adicionado a "${d.nome}"`:`Tirado de "${d.nome}"`)}return}
   if(t.closest("[data-arquivo]")){pare();abrirArquivo();return}
   if(b=t.closest("[data-arqi]")){pare();const i=+b.dataset.arqi;stLista(ARQ||[],i,"Arquivo","a");return}
   if(b=t.closest("[data-ueditar]")){pare();const x=pubDe(b.dataset.ueditar);if(!x)return;closeLayer();setTimeout(()=>sheet("Editar legenda",`<textarea class="field" id="ed-leg" rows="5" maxlength="2200">${esc(x.texto||"")}</textarea>`,`<button type="button" class="btn" data-uedok="${esc(x.id)}">Salvar</button>`),60);return}
@@ -10084,7 +10130,7 @@ document.addEventListener("click",async e=>{const t=e.target;if(!t.closest)retur
   if(b=t.closest("[data-destapagar]")){pare();if(!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Toque de novo para apagar";return}const r=await SB.from("destaques").delete().eq("id",b.dataset.destapagar);closeLayer();if(r&&r.error){toast("Não deu para apagar.");return}await destCarregar(S.uid);toast("Destaque apagado");if(VIEW==="me")renderMe();return}},true);
 /* segurar um destaque seu: renomear ou apagar */
 (function(){let lp=0;document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest("[data-pfdest]");if(!b||b.dataset.dono!==S.uid)return;lp=setTimeout(()=>{lp=0;window.__destLP=Date.now();const d=(DEST[S.uid]||[]).find(x=>x.id===b.dataset.pfdest);if(!d)return;vibrar(10);
-    sheet("Destaque",`<input class="field" id="dest-nome" maxlength="30" value="${esc(d.nome)}"><p class="hint">Para tirar ou pôr stories, abra o story e toque em "♥ Destacar".</p>`,`<button type="button" class="btn" data-destedok="${esc(d.id)}">Salvar nome</button><button type="button" class="btn ghost perigo" data-destapagar="${esc(d.id)}">Apagar destaque</button>`)},550)},true);
+    sheet("Destaque",`<input class="field" id="dest-nome" maxlength="30" value="${esc(d.nome)}"><p class="hint">Para tirar ou pôr giros, abra o giro e toque em "♥ Destacar".</p>`,`<button type="button" class="btn" data-destedok="${esc(d.id)}">Salvar nome</button><button type="button" class="btn ghost perigo" data-destapagar="${esc(d.id)}">Apagar destaque</button>`)},550)},true);
   ["pointerup","pointercancel","pointerleave"].forEach(k=>document.addEventListener(k,()=>{if(lp){clearTimeout(lp);lp=0}},true));
   document.addEventListener("click",e=>{if(Date.now()-(window.__destLP||0)<700&&e.target.closest&&e.target.closest("[data-pfdest]")){e.stopPropagation();e.preventDefault()}},true)})();
 /* voltar no arquivo fecha */
@@ -10108,17 +10154,17 @@ async function atCarregar(){if(!SB||!S.uid||!S.membro||AT.carregando)return;AT.c
 /* coisas sem horário (pedido, amizade nova, voto diferente) ganham a hora em que o app viu pela primeira vez */
 function atPrimeiraVez(chaves){let l=atLed();const base=!l;l=l||{};const agora=Date.now(),vivas=new Set(chaves);
   chaves.forEach(k=>{if(!(k in l))l[k]=base?0:agora});Object.keys(l).forEach(k=>{if(!vivas.has(k)&&!/^_/.test(k))delete l[k]});l._b=1;atLedSalva(l);return l}
-function atPubNome(x){return !x?"sua publicação":x.tipo==="story"?"seu story":x.estilo&&x.estilo.reel?"seu reel":"seu post"}
+function atPubNome(x){return !x?"sua publicação":x.tipo==="story"?"seu giro":x.estilo&&x.estilo.reel?"seu reel":"seu post"}
 function atJunta(us){const n=[...new Set(us)].map(nomeDe);if(n.length===1)return n[0];if(n.length===2)return n[0]+" e "+n[1];return n[0]+", "+n[1]+" e mais "+(n.length-2)}
 function atItens(){if(!S.uid||!S.membro)return [];const it=[],agora=Date.now();
   // reações às minhas publicações
   const g={};AT.rows.forEach(x=>{if(!S.amigos.has(x.uid)&&!S.membros[x.uid])return;if(x.tipo==="comentario"){const v=x.valor||{};it.push({k:"c:"+x.chave,at:+x.at,us:[x.uid],ic:"💬",txt:`<b>${esc(nomeDe(x.uid))}</b> comentou: “${esc((t=>t.length>90?t.slice(0,89).trimEnd()+"…":t)(String(v.texto||"")))}”`,pub:x.pub,acao:"cmt"});return}
     const k=x.tipo+":"+x.pub;(g[k]=g[k]||{tipo:x.tipo,pub:x.pub,us:[],at:0}).us.push([x.uid,+x.at]);g[k].at=Math.max(g[k].at,+x.at)});
   Object.entries(g).forEach(([k,o])=>{const us=o.us.sort((a,b)=>b[1]-a[1]).map(a=>a[0]);const pb=AT.pubs[o.pub];
-    it.push({k,at:o.at,us,ic:o.tipo==="curtida"?"♥":"✋",txt:`<b>${esc(atJunta(us))}</b> ${o.tipo==="curtida"?(us.length>1?"curtiram ":"curtiu ")+atPubNome(pb):(us.length>1?"responderam ao ":"respondeu ao ")+(pb&&pb.tipo==="story"?"seu story":atPubNome(pb))}`,pub:o.pub,acao:"pub"})});
+    it.push({k,at:o.at,us,ic:o.tipo==="curtida"?"♥":"✋",txt:`<b>${esc(atJunta(us))}</b> ${o.tipo==="curtida"?(us.length>1?"curtiram ":"curtiu ")+atPubNome(pb):(us.length>1?"responderam ao ":"respondeu ao ")+(pb&&pb.tipo==="story"?"seu giro":atPubNome(pb))}`,pub:o.pub,acao:"pub"})});
   // menções e marcações
   (S.msgsIn||[]).filter(m=>m.tipo==="mencao"&&+m.at>agora-30*864e5).forEach(m=>{let t;try{t=dmPrevia(m)}catch(e){t="Mencionou você"}
-    it.push({k:"m:"+m.id,at:+m.at,us:[m.de],ic:"@",txt:`<b>${esc(nomeDe(m.de))}</b> ${esc(String(t).charAt(0).toLowerCase()+String(t).slice(1))}${m.texto&&!/^Mencionou você no story$/.test(m.texto)?`: “${esc((t=>t.length>80?t.slice(0,79).trimEnd()+"…":t)(String(m.texto)))}”`:""}`,msg:m,acao:"men"})});
+    it.push({k:"m:"+m.id,at:+m.at,us:[m.de],ic:"@",txt:`<b>${esc(nomeDe(m.de))}</b> ${esc(String(t).charAt(0).toLowerCase()+String(t).slice(1))}${m.texto&&!/^Mencionou você no (story|giro)$/.test(m.texto)?`: “${esc((t=>t.length>80?t.slice(0,79).trimEnd()+"…":t)(String(m.texto)))}”`:""}`,msg:m,acao:"men"})});
   // amizades: pedidos e novas
   const pin=(S.pedidosIn||[]).filter(u=>S.membros[u]),am=amigosL();const chaves=pin.map(u=>"p:"+u).concat(am.map(u=>"a:"+u));
   // enquetes: amigos que votaram diferente de mim
@@ -10162,7 +10208,7 @@ function atAcao(x){const fecha=()=>{if($("#layer .pfv-at"))closeLayer()};
   if(x.acao==="men"){const m=x.msg;fecha();setTimeout(()=>{if(m.snap&&m.snap.upub){if(m.snap.story)abrirConversa(m.de);else pubIrPara(m.snap.upub)}else if(m.pid&&!/^u:/.test(m.pid)&&pautaById(m.pid))openComments(m.pid);else abrirConversa(m.de)},320);return}
   if(x.acao==="cob"){fecha();setTimeout(()=>abrirPagCob(x.pid),320);return}
   if(x.acao==="debate"){fecha();setTimeout(()=>debAbrir(x.pid),320);return}
-  if(x.pub){const pb=AT.pubs[x.pub];if(!pb)return;if(pb.tipo==="story"){stLista([pb],0,"Seu story","at");return}
+  if(x.pub){const pb=AT.pubs[x.pub];if(!pb)return;if(pb.tipo==="story"){stLista([pb],0,"Seu giro","at");return}
     fecha();setTimeout(()=>{if(x.acao==="cmt"&&pubDe(x.pub))openComments("u:"+x.pub);else pubIrPara(x.pub)},320)}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   if(t.closest("[data-ativ]")){e.stopPropagation();abrirAtividade();return}
@@ -10211,9 +10257,9 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 /* Atividade: curtidas e respostas nos meus stories, e amigos que puseram meu post no story */
 {const _ai72=atItens;atItens=function(){const it=_ai72.apply(this,arguments);if(!S.uid||!S.membro)return it;const agora=Date.now();
   try{(S.msgsIn||[]).filter(m=>(m.tipo==="curtiu_story"||m.tipo==="resp_story")&&+m.at>agora-30*864e5).forEach(m=>{const st=(m.snap&&m.snap.story)||{};
-      it.push({k:"s:"+m.id,at:+m.at,us:[m.de],ic:m.tipo==="curtiu_story"?"♥":"💬",txt:`<b>${esc(nomeDe(m.de))}</b> ${m.tipo==="curtiu_story"?"curtiu seu story":"respondeu ao seu story: “"+esc(String(m.texto||"").slice(0,80))+"”"}${m.tipo==="curtiu_story"&&st.t?` · “${esc(String(st.t).slice(0,50))}”`:""}`,msg:m,acao:"conv"})});
+      it.push({k:"s:"+m.id,at:+m.at,us:[m.de],ic:m.tipo==="curtiu_story"?"♥":"💬",txt:`<b>${esc(nomeDe(m.de))}</b> ${m.tipo==="curtiu_story"?"curtiu seu giro":"respondeu ao seu giro: “"+esc(String(m.texto||"").slice(0,80))+"”"}${m.tipo==="curtiu_story"&&st.t?` · “${esc(String(st.t).slice(0,50))}”`:""}`,msg:m,acao:"conv"})});
     (PUB.itens||[]).filter(x=>x.tipo==="story"&&x.autor!==S.uid&&x.estilo&&Array.isArray(x.estilo.itens)).forEach(x=>{const f=x.estilo.itens.find(e=>e&&e.t==="pub"&&(e.au===S.uid||(AT.pubs[e.ref]&&1)));if(!f)return;
-      it.push({k:"sh:"+x.id,at:+x.at,us:[x.autor],ic:"↗",txt:`<b>${esc(nomeDe(x.autor))}</b> compartilhou seu post no story`,story:x,pub:f.ref,acao:"vstory"})})}catch(e){}
+      it.push({k:"sh:"+x.id,at:+x.at,us:[x.autor],ic:"↗",txt:`<b>${esc(nomeDe(x.autor))}</b> compartilhou seu post no giro`,story:x,pub:f.ref,acao:"vstory"})})}catch(e){}
   return it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}}
 {const _aa72=atAcao;atAcao=function(x){if(x.acao==="conv"){if($("#layer .pfv-at"))closeLayer();setTimeout(()=>abrirConversa(x.msg.de),320);return}
   if(x.acao==="vstory"){stLista([x.story],0,nomeDe(x.story.autor),"sh"+x.story.id);return}return _aa72.apply(this,arguments)}}
@@ -10279,7 +10325,7 @@ function semDraw(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const vazi
 /* Admin › Uso: espaço ocupado, limites do plano grátis e botão de limpeza */
 const ESP_LIM={db:500*1048576,arq:1024*1048576};
 function espMB(b){b=+b||0;return b>=1073741824?(b/1073741824).toLocaleString("pt-BR",{maximumFractionDigits:2})+" GB":b>=1048576?(b/1048576).toLocaleString("pt-BR",{maximumFractionDigits:1})+" MB":Math.max(0,Math.round(b/1024))+" KB"}
-const ESP_NOMES={publicacoes:"Posts e stories",pub_reacoes:"Curtidas, comentários e votos em posts",mensagens:"Mensagens",docs:"Curtidas, votos e comentários nas notícias",membros:"Pessoas",amizades:"Amizades",eventos:"Contagem de uso",erros:"Erros",pub_vistos:"Quem viu os stories",destaques:"Destaques",convites:"Convites",denuncias:"Denúncias",melhores_amigos:"Melhores amigos",bloqueios:"Bloqueios",config_app:"Configuração"};
+const ESP_NOMES={publicacoes:"Posts e giros",pub_reacoes:"Curtidas, comentários e votos em posts",mensagens:"Mensagens",docs:"Curtidas, votos e comentários nas notícias",membros:"Pessoas",amizades:"Amizades",eventos:"Contagem de uso",erros:"Erros",pub_vistos:"Quem viu os giros",destaques:"Destaques",convites:"Convites",denuncias:"Denúncias",melhores_amigos:"Melhores amigos",bloqueios:"Bloqueios",config_app:"Configuração"};
 async function espCarregar(){try{S.adm.esp=await S.db.rpc("admin_espaco")}catch(e){S.adm.esp={erro:String(e&&(e.message||e.code)||"")}}espDesenhar()}
 function espBarra(rot,usado,lim){const p=Math.min(100,usado/lim*100);return `<div class="esp-b${p>80?" alto":""}"><span><b>${esc(rot)}</b>${esc(espMB(usado))} de ${esc(espMB(lim))}</span><i><em style="width:${Math.max(1,p).toFixed(1)}%"></em></i></div>`}
 function espDesenhar(){const b=$("#uso-esp");if(!b)return;const d=S.adm.esp;
@@ -10291,7 +10337,7 @@ function espDesenhar(){const b=$("#uso-esp");if(!b)return;const d=S.adm.esp;
   if(bk.length)h+=`<p class="hint">${bk.map(x=>`${esc(nb(x))}: ${(+x.arquivos||0).toLocaleString("pt-BR")} ${+x.arquivos===1?"arquivo":"arquivos"} · ${esc(espMB(x.bytes))}`).join(" — ")}</p>`;
   if(tb.length)h+=`<b class="cm-h">O que mais ocupa no banco</b><ul class="uso-b esp-t">${tb.map(t=>`<li><span>${esc(ESP_NOMES[t.nome]||t.nome)}</span><i style="width:${(Math.max(1,(+t.bytes||0)/(+tb[0].bytes||1)*100)).toFixed(1)}%"></i><b>${esc(espMB(t.bytes))}</b></li>`).join("")}</ul>`;
   const temLixo=sv||+orf.arquivos;
-  h+=`<div class="esp-l"><b>Limpeza</b><p class="hint">${temLixo?`${sv?`${sv} ${sv===1?"story com mais de 30 dias":"stories com mais de 30 dias"} fora de destaques`:""}${sv&&+orf.arquivos?" e ":""}${+orf.arquivos?`${orf.arquivos} ${+orf.arquivos===1?"arquivo":"arquivos"} sem uso (${esc(espMB(orf.bytes))})`:""}.`:"Nada para limpar agora."} Cada pessoa também apaga os próprios stories velhos quando abre o app.</p>${temLixo?`<button type="button" class="btn ghost" data-esplimpar>Limpar agora</button>`:""}</div>`;
+  h+=`<div class="esp-l"><b>Limpeza</b><p class="hint">${temLixo?`${sv?`${sv} ${sv===1?"giro com mais de 30 dias":"giros com mais de 30 dias"} fora de destaques`:""}${sv&&+orf.arquivos?" e ":""}${+orf.arquivos?`${orf.arquivos} ${+orf.arquivos===1?"arquivo":"arquivos"} sem uso (${esc(espMB(orf.bytes))})`:""}.`:"Nada para limpar agora."} Cada pessoa também apaga os próprios giros velhos quando abre o app.</p>${temLixo?`<button type="button" class="btn ghost" data-esplimpar>Limpar agora</button>`:""}</div>`;
   h+=`<p class="hint">Plano grátis do Supabase: 500 MB de banco, 1 GB de fotos e vídeos e 5 GB de tráfego por mês. O projeto pausa depois de 1 semana sem ninguém usar. O tráfego aparece só no painel do Supabase (Usage).</p>`;
   b.innerHTML=h}
 async function espLimpar(btn){if(!btn.classList.contains("conf")){btn.classList.add("conf");btn.textContent="Toque de novo para limpar";return}btn.disabled=true;btn.textContent="Limpando…";let n=0,arqs=0;
@@ -10322,7 +10368,7 @@ v5Testa=async function(){if(V5.on!==null||!SB||!S.uid)return V5.on;try{const r=a
 {const _pa74=pubApagar;pubApagar=async function(id,quieto){const x=pubDe(id);
   if(x&&x.tipo==="story"&&x.autor===S.uid&&V5.on){try{const dr=await SB.from("destaques").select("id,itens").eq("dono",S.uid);if(dr.error)throw dr.error;
       for(const d of (dr.data||[]).filter(d=>(d.itens||[]).includes(id))){const it=d.itens.filter(i=>i!==id);const q=it.length?await SB.from("destaques").update({itens:it}).eq("id",d.id):await SB.from("destaques").delete().eq("id",d.id);if(q&&q.error)throw q.error}
-      if(DEST[S.uid])await destCarregar(S.uid)}catch(e){if(!quieto)toast("Não deu para tirar o story do destaque agora.");return false}}
+      if(DEST[S.uid])await destCarregar(S.uid)}catch(e){if(!quieto)toast("Não deu para tirar o giro do destaque agora.");return false}}
   return _pa74.apply(this,arguments)}}
 /* Atividade: a "primeira vez" só é registrada com amigos e notícias carregados, e nada é esquecido por sumir um instante */
 atPrimeiraVez=function(chaves){let l=atLed();if(!S.amigosOk||!FEED)return l||{};const agora=Date.now();l=l||{_t0:agora};if(!l._t0)l._t0=agora-864e5;const base=agora-l._t0<90e3;
@@ -10399,7 +10445,7 @@ const TOUR_IC={capa:'<svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" hei
 function tourTelas(nome){return [
   {ic:"capa",k:"Capa",t:nome?`Bem-vindo, ${nome}`:"As notícias do dia",p:"A Capa traz o que importa hoje, em poucas linhas e sem viés. Toque na manchete para ler ali mesmo e escolha a versão Neutra, de Direita ou de Esquerda.",
     demo:`<div class="tr-capa"><i class="tr-k"></i><b></b><b class="c"></b><span class="tr-seg"><em class="on">Neutra</em><em>Direita</em><em>Esquerda</em></span></div>`},
-  {ic:"feed",k:"Feed e stories",t:"Notícias que dá para curtir",p:"No Feed, as notícias viram posts e stories, junto com o que seus amigos publicam. Curta, comente, vote nas enquetes e mande para quem quiser.",
+  {ic:"feed",k:"Feed e giros",t:"Notícias que dá para curtir",p:"No Feed, as notícias viram posts e giros, junto com o que seus amigos publicam. Curta, comente, vote nas enquetes e mande para quem quiser.",
     demo:`<div class="tr-feed"><span><i></i><i></i><i></i><i></i></span><div><b></b><b class="c"></b></div><p><em>♥</em><em>💬</em><em>➤</em></p></div>`},
   {ic:"ativ",k:"Amigos e Atividade",t:"Seus amigos estão aqui",p:"Quem te convidou já é seu amigo. O ♥ no topo mostra quem curtiu, comentou ou te marcou, e quando uma cobertura que você segue ganha novidade.",
     demo:`<div class="tr-ativ"><p><i></i><span><b></b><b class="c"></b></span></p><p><i></i><span><b></b><b class="c"></b></span></p><p><i class="q"></i><span><b></b><b class="c"></b></span></p></div>`},
@@ -10773,7 +10819,7 @@ edCaneta=function(){if(!ED||$("#layer .ce-cn"))return;ED.st.ferr="caneta";const 
       <span class="sp"></span><button type="button" class="ce-ok" data-edcnok>Concluído</button></div>
     <div class="cn2-tam" id="cn2-tam" role="slider" tabindex="0" aria-orientation="vertical" aria-label="Espessura" aria-valuemin="4" aria-valuemax="40" aria-valuenow="${Math.round(c.w*1000)}"><svg class="cn2-tr" viewBox="0 0 24 200" preserveAspectRatio="none" aria-hidden="true"><path d="M1.5 4a10.5 3 0 0 1 21 0L13.6 196a1.6 1.6 0 0 1-3.2 0z" vector-effect="non-scaling-stroke"/></svg><i class="cn2-pt" id="cn2-pt"></i></div>
     <i class="cn2-dot" id="cn2-dot" hidden></i>
-    ${ED._cnDica?"":`<p class="cn2-dica" id="cn2-dica">Segure no story para pintar o fundo</p>`}
+    ${ED._cnDica?"":`<p class="cn2-dica" id="cn2-dica">Segure no giro para pintar o fundo</p>`}
     <div class="ce-cores">${ED_CORES.map(x=>`<button type="button" data-edcncor="${x}" style="background:${x}" aria-label="Cor ${x}" aria-pressed="${x===c.cor}"></button>`).join("")}</div>`;
   $("#layer .ce").appendChild(ov);$("#layer .ce").classList.add("desenhando");if(!ED._cnDica){ED._cnDica=1;setTimeout(()=>{const d=$("#cn2-dica");if(d)d.classList.add("some")},3200)}
   fg2TamPos();fg2Tam()};
@@ -11112,7 +11158,7 @@ function vs98Rodape(){const x=vs98Atual();const st=$("#layer .story.sg-user"),f=
       <button type="button" class="vs98-ic" data-vs98env="${esc(x.id)}">${ICON.send}<small>Enviar</small></button>
       <button type="button" class="vs98-ic" data-vs98menu>${ICON.dots}<small>Mais</small></button>`;
     return}
-  if(!f.querySelector("[data-vs98env]")&&x.publico!=="proximos"){const lk=f.querySelector("[data-uscurtir]");const h=`<button type="button" class="sg-a vs98-env" data-vs98env="${esc(x.id)}" aria-label="Enviar o story para amigos">${ICON.send}</button>`;if(lk)lk.insertAdjacentHTML("afterend",h);else f.insertAdjacentHTML("beforeend",h)}
+  if(!f.querySelector("[data-vs98env]")&&x.publico!=="proximos"){const lk=f.querySelector("[data-uscurtir]");const h=`<button type="button" class="sg-a vs98-env" data-vs98env="${esc(x.id)}" aria-label="Enviar o giro para amigos">${ICON.send}</button>`;if(lk)lk.insertAdjacentHTML("afterend",h);else f.insertAdjacentHTML("beforeend",h)}
   if(!f.querySelector(".vs98-reac"))f.insertAdjacentHTML("afterbegin",`<div class="vs98-reac" role="group" aria-label="Reações rápidas">${VS98_EMOS.map(e=>`<button type="button" data-vs98reac="${e}" aria-label="Reagir com ${e}">${e}</button>`).join("")}</div>`)}
 const vs98TxtVis=n=>n?`Visto por ${n}`:"Ninguém viu ainda";
 const vs98Avs=vs=>(vs||[]).slice(0,3).map(v=>avatar(v.uid)).join("");
@@ -11143,22 +11189,22 @@ async function vs98Atividade(id){igPausa();const x=pubDe(id)||(ST&&ST.itens||[])
     const sub=[v.at?dmCurto(+v.at):""].concat(ch.map(t=>`<em class="vs98-ch">${esc(t)}</em>`)).concat(m&&!emo&&!(m.snap&&m.snap.q!=null)?[`<em class="vs98-ch vs98-rp">💬 ${esc(String(m.texto||"").slice(0,40))}</em>`]:m&&m.snap&&m.snap.q!=null?[`<em class="vs98-ch vs98-rp">Respondeu à pergunta</em>`]:[]).filter(Boolean);
     return `<li class="vs98-v"><span class="vs98-va">${avatar(u)}${emo?`<i class="vs98-em">${esc(emo)}</i>`:""}</span><span class="vs98-vn"><b>${esc(nomeDe(u))}</b><span>${sub.map((s,i)=>i===0&&!/^<em/.test(s)?esc(s):s).join(" ")}</span></span>${curt.has(u)?`<i class="vs98-cor" role="img" aria-label="Curtiu">${VS98_IC.cor}</i>`:""}${S.amigos.has(u)?`<button type="button" class="vs98-dm" data-conversa="${esc(u)}" aria-label="Responder a ${esc(nomeDe(u))}">${ICON.send}</button>`:""}</li>`};
   const resumo=`<div class="vs98-res"><span>${VS98_IC.olho}<b>${vs.length}</b> ${vs.length===1?"visualização":"visualizações"}</span>${curt.size?`<span class="vs98-rc">${VS98_IC.cor}<b>${curt.size}</b> ${curt.size===1?"curtida":"curtidas"}</span>`:""}</div>`;
-  sheet("Atividade",vs.length?`${resumo}<ul class="vs98-vl">${ordem.map(linha).join("")}</ul>`:`<div class="empty vs98-vz"><b>Ninguém viu ainda</b><span>Quando seus amigos virem este story, eles aparecem aqui.</span></div>`)}
+  sheet("Atividade",vs.length?`${resumo}<ul class="vs98-vl">${ordem.map(linha).join("")}</ul>`:`<div class="empty vs98-vz"><b>Ninguém viu ainda</b><span>Quando seus amigos virem este giro, eles aparecem aqui.</span></div>`)}
 
 /* Enviar o story para amigos (mesmo fluxo de enviar post) */
-function vs98Enviar(x){if(precisaConta()||!x)return;if(x.publico==="proximos"&&x.autor!==S.uid){toast("Este story é só para os Melhores amigos: não dá para enviar.");return}
+function vs98Enviar(x){if(precisaConta()||!x)return;if(x.publico==="proximos"&&x.autor!==S.uid){toast("Este giro é só para os Melhores amigos: não dá para enviar.");return}
   let am=amigosL();if(x.publico==="proximos"&&typeof MA!=="undefined"&&MA.set)am=am.filter(u=>MA.set.has(u));if(x.autor!==S.uid)am=am.filter(u=>u!==x.autor);
-  if(!am.length){toast("Adicione amigos no Perfil para mandar.");return}igPausa();const snap={titulo:"Story de "+nomeDe(x.autor),upub:x.id};
-  sheet("Enviar story",`<div class="pick dm-pick" id="pick">${am.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="false">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><p class="hint">${x.autor===S.uid?"O story some em 24 horas.":`Só quem também é amigo de ${esc(vs98Nome1(x.autor))} consegue abrir. Some em 24 horas.`}</p>`,`<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)"><button class="send" id="sbtn" type="submit" disabled>Enviar</button></form>`);
+  if(!am.length){toast("Adicione amigos no Perfil para mandar.");return}igPausa();const snap={titulo:"Giro de "+nomeDe(x.autor),upub:x.id};
+  sheet("Enviar giro",`<div class="pick dm-pick" id="pick">${am.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="false">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><p class="hint">${x.autor===S.uid?"O giro some em 24 horas.":`Só quem também é amigo de ${esc(vs98Nome1(x.autor))} consegue abrir. Some em 24 horas.`}</p>`,`<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)"><button class="send" id="sbtn" type="submit" disabled>Enviar</button></form>`);
   const sel=new Set();$("#pick").addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;const u=b.dataset.pick;sel.has(u)?sel.delete(u):sel.add(u);b.setAttribute("aria-pressed",String(sel.has(u)));$("#sbtn").disabled=!sel.size});
   $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel.size)return;const t=$("#stext").value.trim();$("#sbtn").disabled=true;const us=[...sel];
     const r=await Promise.all(us.map(u=>dmEnviar(u,{texto:t,pid:"u:"+x.id,snap},true)));closeLayer();toast(r.every(Boolean)?(us.length>1?"Enviado":"Enviado para "+vs98Nome1(us[0])):"Algumas não foram enviadas")})}
 
 /* Menu ⋯ */
 function vs98Menu(){const x=vs98Atual();const auto=`<button type="button" data-vs98auto aria-pressed="${!!PREF.storyAuto}">Passar sozinho<span>${PREF.storyAuto?"ligado":"desligado"}</span></button>`;
-  if(x&&x.autor===S.uid){sheet("Seu story",`<div class="opt"><button type="button" data-criarde="story">Criar outro story</button>${auto}<button type="button" class="perigo" data-vs98apagar="${esc(x.id)}">Apagar este story<span>some para todos</span></button></div>`);return}
-  if(x){const u=x.autor;sheet("Story de "+nomeDe(u),`<div class="opt">${S.amigos.has(u)?`<button type="button" data-conversa="${esc(u)}">Mandar mensagem para ${esc(vs98Nome1(u))}</button>`:""}${auto}<button type="button" data-denp="${esc(u)}">Denunciar<span>o Pedro recebe e analisa</span></button></div>`);return}
-  sheet("Stories",`<div class="opt">${auto}</div>`)}
+  if(x&&x.autor===S.uid){sheet("Seu giro",`<div class="opt"><button type="button" data-criarde="story">Criar outro giro</button>${auto}<button type="button" class="perigo" data-vs98apagar="${esc(x.id)}">Apagar este giro<span>some para todos</span></button></div>`);return}
+  if(x){const u=x.autor;sheet("Giro de "+nomeDe(u),`<div class="opt">${S.amigos.has(u)?`<button type="button" data-conversa="${esc(u)}">Mandar mensagem para ${esc(vs98Nome1(u))}</button>`:""}${auto}<button type="button" data-denp="${esc(u)}">Denunciar<span>o Pedro recebe e analisa</span></button></div>`);return}
+  sheet("Giros",`<div class="opt">${auto}</div>`)}
 
 /* Reações rápidas (enviadas como resposta ao story) */
 async function vs98Reagir(emo){const x=vs98Atual();if(!x||x.autor===S.uid||precisaConta())return;const i=$("#layer .us-rp input");if(i)i.blur();vs98Voa(emo);vibrar(8);
@@ -11182,9 +11228,9 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
   if(b=t.closest("#layer .story [data-vs98reac]")){e.stopPropagation();e.preventDefault();vs98Reagir(b.dataset.vs98reac);return}
   if(b=t.closest("#layer .story .vs98-dim")){e.stopPropagation();e.preventDefault();document.activeElement?.blur?.();return}
   if(b=t.closest("#layer2 [data-vs98auto]")){e.stopPropagation();e.preventDefault();PREF.storyAuto=!PREF.storyAuto;salvarPrefs();closeLayer();if($("#layer .story")&&ST){clearTimeout(ST.timer);ST.timer=0;drawStory()}
-    toast(PREF.storyAuto?"O story passa sozinho. Segure o dedo para pausar.":"O story não passa mais sozinho.");return}
+    toast(PREF.storyAuto?"O giro passa sozinho. Segure o dedo para pausar.":"O giro não passa mais sozinho.");return}
   if(b=t.closest("#layer2 [data-vs98apagar]")){e.stopPropagation();e.preventDefault();if(!b.classList.contains("conf")){b.classList.add("conf");b.firstChild.textContent="Toque de novo para apagar";return}
-    const id=b.dataset.vs98apagar;closeLayer();igPausa();pubApagar(id,true).then(ok=>{if(!ok){toast("Não deu para apagar agora.");return}toast("Story apagado");if(!$("#layer .story"))return;const fr=pubStoriesDe(S.uid);
+    const id=b.dataset.vs98apagar;closeLayer();igPausa();pubApagar(id,true).then(ok=>{if(!ok){toast("Não deu para apagar agora.");return}toast("Giro apagado");if(!$("#layer .story"))return;const fr=pubStoriesDe(S.uid);
       if(String(ST.sec||"").indexOf("_u:~")===0||!fr.length){igFechar();return}ST.itens=fr;ST.ids=fr.map(x=>"us:"+x.id);ST.i=Math.min(ST.i,fr.length-1);drawStory()});return}},true);
 /* tocar num emoji não tira o foco do campo antes do clique */
 document.addEventListener("pointerdown",e=>{if(e.target.closest&&e.target.closest("#layer .vs98-reac button"))e.preventDefault()},true);
@@ -11309,7 +11355,7 @@ function vp99TextoFora(x){const t=String(x.texto||"").replace(/\s+/g," ").trim()
 {const _pe99=pubEnviar;pubEnviar=function(x){const r=_pe99.apply(this,arguments);try{vp99Partilha(x)}catch(e){}return r}}
 function vp99Partilha(x){const pk=$("#pick");const sh=pk&&pk.closest(".sheet");if(!sh||!x||sh.querySelector(".vp99-shr")||x.publico==="proximos")return;sh.classList.add("vp99-env");
   const f=sh.querySelector(".sh-f");if(!f)return;
-  f.insertAdjacentHTML("afterbegin",`<div class="vp99-shr">${x.tipo==="post"?`<button type="button" data-upstory="${esc(x.id)}"><span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke-dasharray="3 2.4"/><path d="M12 8.5v7M8.5 12h7"/></svg></span>Adicionar ao story</button>`:""}<button type="button" data-vp99link="${esc(x.id)}"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg></span>Copiar link</button><button type="button" data-vp99fora="${esc(x.id)}"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></span>Outros apps</button></div>`);
+  f.insertAdjacentHTML("afterbegin",`<div class="vp99-shr">${x.tipo==="post"?`<button type="button" data-upstory="${esc(x.id)}"><span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke-dasharray="3 2.4"/><path d="M12 8.5v7M8.5 12h7"/></svg></span>Adicionar ao giro</button>`:""}<button type="button" data-vp99link="${esc(x.id)}"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg></span>Copiar link</button><button type="button" data-vp99fora="${esc(x.id)}"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></span>Outros apps</button></div>`);
   const sync=()=>{const b=$("#sbtn");sh.classList.toggle("vp99-sel",!!(b&&!b.disabled))};pk.addEventListener("click",()=>setTimeout(sync,0));sync()}
 async function vp99Copia(t){try{await navigator.clipboard.writeText(t);return true}catch(e){return false}}
 document.addEventListener("click",async e=>{const t=e.target;if(!t.closest)return;let b;
@@ -11426,9 +11472,9 @@ function ca100StInfo(m){const s=m&&m.snap,th=s&&s.sth;if(!th||typeof th!=="objec
   const id=typeof th.id==="string"?th.id.slice(0,80):"";if(!id)return null;const o={id,au};
   if(typeof th.p==="string"&&th.p.length<300&&th.p.startsWith(au+"/")&&!/\.\.|[?#]/.test(th.p))o.p=th.p;else o.g=Math.floor(+th.g||0);return o}
 function ca100StHTML(m,inf){const eu=m.de===S.uid,lk=m._ca100lk,perg=m.snap&&m.snap.q!=null&&!lk;
-  const lb=lk?(eu?"Você curtiu o story de "+nomeDe(m.para):"Curtiu seu story"):perg?(eu?"Você respondeu à pergunta de "+nomeDe(m.para):"Respondeu à sua pergunta"):(eu?"Você respondeu ao story de "+nomeDe(m.para):"Respondeu ao seu story");
+  const lb=lk?(eu?"Você curtiu o giro de "+nomeDe(m.para):"Curtiu seu giro"):perg?(eu?"Você respondeu à pergunta de "+nomeDe(m.para):"Respondeu à sua pergunta"):(eu?"Você respondeu ao giro de "+nomeDe(m.para):"Respondeu ao seu giro");
   const u=inf.p?pubUrl(inf.p):"";
-  return `<span class="ca100-stl">${esc(lb)}</span><button type="button" class="ca100-st" data-ca100st="${esc(inf.id)}" data-au="${esc(inf.au)}" aria-label="Ver o story" style="background:${inf.p?"#1b1d22":pubFundo(inf.g)}">${inf.p?`<img alt="" ${u?`src="${pubSrc(u)}"`:""} data-ca100p="${esc(inf.p)}" onerror="this.remove()">`:""}</button>${perg?`<span class="ca100-stq">${esc(String(m.snap.q).slice(0,80))}</span>`:""}`}
+  return `<span class="ca100-stl">${esc(lb)}</span><button type="button" class="ca100-st" data-ca100st="${esc(inf.id)}" data-au="${esc(inf.au)}" aria-label="Ver o giro" style="background:${inf.p?"#1b1d22":pubFundo(inf.g)}">${inf.p?`<img alt="" ${u?`src="${pubSrc(u)}"`:""} data-ca100p="${esc(inf.p)}" onerror="this.remove()">`:""}</button>${perg?`<span class="ca100-stq">${esc(String(m.snap.q).slice(0,80))}</span>`:""}`}
 {const _th100=dmThreadHTML;dmThreadHTML=function(u){const am=allMsgs,lk=new Set();
   allMsgs=function(){return am.apply(this,arguments).map(m=>{if(m&&m.tipo==="curtiu_story"&&ca100StInfo(m)){lk.add(m.id);return {...m,tipo:"resp_story",texto:m.texto||"❤️",_ca100lk:1}}return m})};
   let h;try{h=_th100.apply(this,arguments)}finally{allMsgs=am}
@@ -11444,7 +11490,7 @@ async function ca100Assina(){const v=$("#v-msgs");if(!v)return;const ims=[...v.q
   v.querySelectorAll("img[data-ca100p]:not([src])").forEach(i=>{const u=pubUrl(i.dataset.ca100p);if(u)i.src=pubSrc(u);else i.remove()})}
 {const _rm100=renderMsgs;renderMsgs=function(){const r=_rm100.apply(this,arguments);try{if(THREAD)ca100Assina()}catch(e){}return r}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#v-msgs [data-ca100st]");if(!b)return;e.stopPropagation();e.preventDefault();
-  const x=pubDe(b.dataset.ca100st),agora=Date.now();if(!x||x.tipo!=="story"||!((x.expira||0)>agora)){toast("Este story não está mais disponível.");return}
+  const x=pubDe(b.dataset.ca100st),agora=Date.now();if(!x||x.tipo!=="story"||!((x.expira||0)>agora)){toast("Este giro não está mais disponível.");return}
   const l=(typeof pubStoriesDe==="function"?pubStoriesDe(x.autor):[]).filter(y=>(y.expira||0)>agora),i=l.indexOf(x);
   vibrar&&vibrar(6);if(i>=0)stLista(l,i,nomeDe(x.autor),"dm"+x.autor);else stLista([x],0,nomeDe(x.autor),"dm"+x.id)},true);
 
@@ -11673,7 +11719,7 @@ function cn102Det(el){const P=ED.po,cn=P.cn,k=cn.k,tem=P.fotos.length,nt=P.pid&&
           <label class="ce-sw"><span>Desativar comentários<small>Ninguém poderá comentar neste post.</small></span><input type="checkbox" data-edsw="semCom" ${P.semCom?"checked":""}></label>
           ${tem?`<b class="ce-avt" id="cfp-altt">Texto alternativo</b>${P.fotos.map((x,i)=>`<div class="ce-altr"><img alt="" data-ai="${i}"><input class="field" maxlength="200" placeholder="Descreva a foto ${i+1}" data-edalt="${i}" value="${esc(x.alt||"")}"></div>`).join("")}`:""}</div>`:""}</div>
       <p class="cn102-aviso">${esc(aviso)}</p></div>
-    <div class="cfp-share cn102-share">${k==="nt"&&nt?`<button type="button" class="cn102-st" data-cn102nst>${CN102_SVG(CN102_ICO.story)}Story</button>`:""}<button type="button" class="cfp-shb" data-edpubpo ${ED.env?"disabled":""}>${ED.env?"Publicando…":"Publicar"}</button></div>`;
+    <div class="cfp-share cn102-share">${k==="nt"&&nt?`<button type="button" class="cn102-st" data-cn102nst>${CN102_SVG(CN102_ICO.story)}Giro</button>`:""}<button type="button" class="cfp-shb" data-edpubpo ${ED.env?"disabled":""}>${ED.env?"Publicando…":"Publicar"}</button></div>`;
   el.querySelectorAll("img[data-ai]").forEach(im=>{im.src=edUrlF(P.fotos[+im.dataset.ai])});cn102Cresce($("#cn102-tit"));
   el.querySelectorAll("canvas[data-cfpc]").forEach(c=>{try{edRenderFoto(P.fotos[+c.dataset.cfpc],c,P.ar)}catch(e){}})}
 {const _cd=cfpDet;cfpDet=function(el){const P=ED&&ED.po;if(P&&P.cn&&P.cn.k){try{return cn102Det(el)}catch(e){console.error(e)}}return _cd.apply(this,arguments)}}
@@ -11844,7 +11890,7 @@ function cn102StoryNt(pid,tx){if(precisaConta())return;if(PUB.on===false){toast(
   setTimeout(()=>{criarAbrir("story");let n=0;(function w(){if(ED&&ED.modo==="story"&&$("#layer .ce")){cn102StoryComNt(pid,tx);return}if(n++<60)setTimeout(w,50)})()},60)}
 function cn102PostParaStory(){const P=ED&&ED.po;if(!P||!P.pid)return;const pid=P.pid,tx=String(P.cn&&P.cn.corpo||"").trim();ED=null;closeLayer._ok=true;closeLayer();closeLayer._ok=false;cn102StoryNt(pid,tx)}
 {const _os=openSend;openSend=function(pid){const r=_os.apply(this,arguments);try{if(pid&&String(pid).indexOf("u:")!==0&&pautaById(pid)&&S.membro&&PUB.on!==false){const b=document.querySelector("#layer .sheet .sh-b,#layer2 .sheet .sh-b");
-    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG(CN102_ICO.ana)}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button><button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu story</b><small>Some em 24 horas</small></span></button></div>`)}}catch(e){}return r}}
+    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG(CN102_ICO.ana)}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button><button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu giro</b><small>Some em 24 horas</small></span></button></div>`)}}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("[data-cn102envp]")){e.stopPropagation();e.preventDefault();const pid=b.dataset.cn102envp;closeLayer();setTimeout(()=>cn102Comeca("nt",{pid}),$("#layer .story")?280:60);return}
   if(b=t.closest("[data-cn102envs]")){e.stopPropagation();e.preventDefault();const pid=b.dataset.cn102envs;closeLayer();setTimeout(()=>cn102StoryNt(pid),60);return}},true);
@@ -12168,7 +12214,7 @@ async function fc105CartaoCanvas(c,esc2){try{await Promise.all(['600 80px Newsre
   if(f&&!f.u){y+=64;g.fillStyle=ac;g.fillRect(X,y-36,5,44);g.font=`600 34px ${SANS}`;g.fillStyle=mu;g.fillText(("Fonte: "+f.n).slice(0,52),X+24,y-1);y+=36}
   return cv}
 function fc105CsHTML(){const c=FC105_C,cit=c.k==="cit";
-  return `<div class="ce-selp fc105-csp" role="dialog" aria-label="Cartão de texto"><div class="fc105-csh"><b>Cartão de texto</b><small>A prévia aparece no story, acima</small></div>
+  return `<div class="ce-selp fc105-csp" role="dialog" aria-label="Cartão de texto"><div class="fc105-csh"><b>Cartão de texto</b><small>A prévia aparece no giro, acima</small></div>
     <div class="fc105-ks" role="tablist" aria-label="Tipo">${FC105_KS.map(([k,n])=>`<button type="button" role="tab" data-fc105k="${k}" aria-selected="${k===c.k}">${n}</button>`).join("")}</div>
     <textarea class="field fc105-tit" id="fc105-tit" data-fc105c="tit" rows="2" maxlength="${cit?200:140}" placeholder="${cit?"A frase, entre aspas":"Título"}">${esc(c.tit)}</textarea>
     ${cit?`<input class="field" id="fc105-quem" data-fc105c="quem" maxlength="40" placeholder="Quem disse (ex.: ministro da Fazenda)" value="${esc(c.quem)}" autocomplete="off">`
@@ -12240,7 +12286,7 @@ if(FOCO_LIGADO){
   {const _am=abrirMateria;abrirMateria=function(pid){const r=_am.apply(this,arguments);try{fc105Mat(pid)}catch(e){}return r}}
 }
 function fc105Mat(pid){const m=$("#layer .mat");if(!m||m.querySelector(".fc105-mc")||!S.membro||PUB.on===false||!pautaById(pid))return;const ref=m.querySelector(".mat-pe,.mat-prox,.mat-rod");if(!ref)return;
-  ref.insertAdjacentHTML("beforebegin",`<div class="fc105-mc gut"><p><b>O que você acha?</b> Comente esta notícia com seus amigos.</p><div class="fc105-mcb"><button type="button" class="btn" data-cn102envp="${esc(pid)}">${fc105Svg(CN102_ICO.ana)}Publicar comentário</button><button type="button" class="btn ghost" data-cn102envs="${esc(pid)}">${fc105Svg(CN102_ICO.story)}No story</button></div></div>`)}
+  ref.insertAdjacentHTML("beforebegin",`<div class="fc105-mc gut"><p><b>O que você acha?</b> Comente esta notícia com seus amigos.</p><div class="fc105-mcb"><button type="button" class="btn" data-cn102envp="${esc(pid)}">${fc105Svg(CN102_ICO.ana)}Publicar comentário</button><button type="button" class="btn ghost" data-cn102envs="${esc(pid)}">${fc105Svg(CN102_ICO.story)}No giro</button></div></div>`)}
 
 /* ===== 7. cliques ===== */
 window.addEventListener("click",e=>{if(!FOCO_LIGADO)return;const t=e.target;if(!t||!t.closest||!ED||!$("#layer .ce")||t.closest("#layer2"))return;let b;
@@ -12351,7 +12397,7 @@ window.addEventListener("click",e=>{if(!st106NoX(e.clientX,e.clientY)||(e.target
 /* 1. guia da primeira abertura: "Boas-vindas" (vale para todos) e a tela do Feed fala de conversar sobre notícias, não de "curtir" */
 {const _tt106=tourTelas;tourTelas=function(nome){const ts=_tt106.apply(this,arguments);
   try{if(FOCO_LIGADO){if(nome)ts[0].t=`Boas-vindas, ${nome}`;const f=ts.find(x=>x.ic==="feed");
-    if(f){f.t="Notícias para conversar";f.p="No Feed, as notícias da edição viram posts e stories, junto com o que seus amigos publicam: comentários, relatos do que viram e análises. Comente, vote nas enquetes e mande para quem quiser."}}}catch(e){}return ts}}
+    if(f){f.t="Notícias para conversar";f.p="No Feed, as notícias da edição viram posts e giros, junto com o que seus amigos publicam: comentários, relatos do que viram e análises. Comente, vote nas enquetes e mande para quem quiser."}}}catch(e){}return ts}}
 /* 2. endereço sem "https://" (ex.: g1.globo.com) vale como link; o atalho "Fonte" da foto abre a folha com o nome "Fonte" */
 {const _uo106=edUrlOk;edUrlOk=function(u){let s=String(u==null?"":u).trim();if(s&&!/^[a-z][a-z0-9+.-]*:/i.test(s)&&/^[^\s\/@]+\.[a-z]{2,}(?:[\/?#]\S*)?$/i.test(s))s="https://"+s;return _uo106.call(this,s)}}
 {const _ca106=fc105CtxAbre;fc105CtxAbre=function(k){const r=_ca106.apply(this,arguments);
@@ -12579,7 +12625,7 @@ document.addEventListener("submit",e=>{const f=e.target;if(!f)return;if(f.id==="
 function st108Vencidos(){try{if(!S.uid||!S.membro||typeof PUB==="undefined"||!PUB.on||$("#layer .story"))return false;
   return [...document.querySelectorAll("#secs [data-ustory]")].some(b=>{const u=b.dataset.ustory;return u&&u.charAt(0)!=="~"&&!pubStoriesDe(u).length})}catch(e){return false}}
 setInterval(()=>{if(!document.hidden&&st108Vencidos())pubRedesenha()},20e3);
-{const _au108=igAbrirUser;igAbrirUser=function(u){try{if(u&&u!==S.uid&&String(u).charAt(0)!=="~"&&typeof PUB!=="undefined"&&PUB.on&&!pubStoriesDe(u).length){pubRedesenha();toast("Esse story não está mais disponível.");return Promise.resolve()}}catch(e){}return _au108.apply(this,arguments)}}
+{const _au108=igAbrirUser;igAbrirUser=function(u){try{if(u&&u!==S.uid&&String(u).charAt(0)!=="~"&&typeof PUB!=="undefined"&&PUB.on&&!pubStoriesDe(u).length){pubRedesenha();toast("Esse giro não está mais disponível.");return Promise.resolve()}}catch(e){}return _au108.apply(this,arguments)}}
 
 /* 6. Atividade: voto na pergunta de um post aparece como voto (não "respondeu ao seu post") */
 {const _ai108=atItens;atItens=function(){const l=_ai108.apply(this,arguments);try{(l||[]).forEach(x=>{if(!x||typeof x.k!=="string"||x.k.indexOf("voto:")!==0)return;const pb=AT.pubs[x.pub],cn=pb&&pb.tipo==="post"&&pb.estilo&&pb.estilo.cn;
@@ -12605,8 +12651,8 @@ if(typeof FIT_IO!=="undefined"&&FIT_IO){try{FIT_IO.disconnect()}catch(e){}FIT_IO
 {const _dc108=dmCard;dmCard=function(m){let h=_dc108.apply(this,arguments);
   try{if(typeof h==="string"&&h.indexOf("dm-indisp")>=0&&dmEhPub(m)){const s=m.snap||{},t=String(s.titulo||""),mm=t.match(/^(Post|Story|Reel) de ([^:]+)$/),nome=mm&&mm[2].trim();
     if(mm)h=h.replace(`<span class="dm-ct"><b class="dm-utx">${esc(t.slice(0,160))}</b></span>`,"");
-    const story=s.story===true||/^Story de /.test(t),amigo=!!nome&&(nome===nomeDe(S.uid)||amigosL().some(u=>nomeDe(u)===nome));
-    if(story||amigo)h=h.replace("Só quem é amigo do autor consegue abrir",story?"Este story não está mais disponível":"Esta publicação não está mais disponível")}}catch(e){}return h}}
+    const story=s.story===true||/^(Story|Giro) de /.test(t),amigo=!!nome&&(nome===nomeDe(S.uid)||amigosL().some(u=>nomeDe(u)===nome));
+    if(story||amigo)h=h.replace("Só quem é amigo do autor consegue abrir",story?"Este giro não está mais disponível":"Esta publicação não está mais disponível")}}catch(e){}return h}}
 
 /* 10. depois de ver todos os stories de um amigo, o anel dele continuava colorido (como "não visto") até a bandeja ser
        redesenhada por outro motivo: ao fechar o story, os anéis da bandeja são atualizados no lugar (a ordem não muda) */
@@ -13430,6 +13476,8 @@ function f113Caps(){if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO=null}
   add(c.querySelector(".mat-tl"),"Linha do tempo");
   add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
   add(c.querySelector(".fs2-faq"),"Perguntas");
+  /* a lista de atualizações vem depois das Perguntas: sem capítulo próprio, o fim da matéria ficava marcado como "Perguntas" (14/11) */
+  add([...c.querySelectorAll(".cpx-bl")].find(e=>/^Atualizações/.test((e.querySelector("b")||{}).textContent||"")),"Atualizações");
   if(caps.length<2)return;
   caps.sort((x,y)=>x.el.compareDocumentPosition(y.el)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1);
   caps.forEach((x,i)=>{x.el.id="fs2c-"+i;x.el.classList.add("fs2-alvo");if(!x.el.hasAttribute("tabindex"))x.el.tabIndex=-1});
@@ -13601,7 +13649,7 @@ function ra114MaDesenha(){const box=$("#ra114ma");if(!box)return;const am=amigos
     :`<div class="empty" style="padding:14px 0"><b>Você ainda não tem amigos no Prumo</b></div>`;
   const n=am.filter(u=>MA.set.has(u)).length,c=$("#ra114man");if(c)c.textContent=n?(n===1?"1 pessoa na lista":n+" pessoas na lista"):"Ninguém na lista ainda"}
 async function ra114MaAbrir(){if(precisaConta())return;
-  sheet("Melhores amigos",`<p class="hint" style="margin:0 0 4px">Só eles veem os stories e posts que você manda para os Melhores amigos. Ninguém é avisado quando entra ou sai.</p><p class="ra114-man" id="ra114man" aria-live="polite"></p><div id="ra114ma"><div class="empty" style="padding:14px 0"><b>Carregando…</b></div></div>`);
+  sheet("Melhores amigos",`<p class="hint" style="margin:0 0 4px">Só eles veem os giros e posts que você manda para os Melhores amigos. Ninguém é avisado quando entra ou sai.</p><p class="ra114-man" id="ra114man" aria-live="polite"></p><div id="ra114ma"><div class="empty" style="padding:14px 0"><b>Carregando…</b></div></div>`);
   if(MA.uid!==S.uid||MA.on!==true){MA.t=Date.now();try{await maCarregar()}catch(e){}}
   if(MA.on!==true){const b=$("#ra114ma");if(b)b.innerHTML=`<div class="empty" style="padding:14px 0"><b>A lista ainda não está disponível no Prumo.</b></div>`;return}
   ra114MaDesenha()}
@@ -13904,7 +13952,7 @@ function tb121Voto(x){if(!x||typeof x!=="object"||typeof x.k!=="string"||x.k.ind
   const pb=(AT.pubs||{})[x.pub]||(typeof pubDe==="function"&&pubDe(x.pub));if(!pb)return x;const n=(x.us||[]).length,v=n>1?"votaram":"votou";
   const nm=x.txt.match(/^<b>[^<]*<\/b>/);if(!nm)return x;
   if(pb.tipo==="story"){const its=((pb.estilo||{}).itens||[]).filter(i=>i&&["enq","quiz","slid","perg","cont"].includes(i.t));
-    if(!its.length||!its.every(i=>i.t==="enq"))return x;return {...x,ic:"☑",txt:`${nm[0]} ${v} na enquete do seu story`}}
+    if(!its.length||!its.every(i=>i.t==="enq"))return x;return {...x,ic:"☑",txt:`${nm[0]} ${v} na enquete do seu giro`}}
   const cn=typeof cn102De==="function"?cn102De(pb):null;if(!cn||cn.k!=="enq")return x;
   return {...x,ic:"☑",txt:`${nm[0]} ${v} na sua pergunta${cn.tit?` “${esc(String(cn.tit).slice(0,70))}”`:""}`}}
 {const _ai121=atItens;atItens=function(){let it=_ai121.apply(this,arguments);try{if(Array.isArray(it))it=tb121SemBloq(it).map(tb121Voto)}catch(e){}return it}}
@@ -14376,7 +14424,7 @@ function cs123BusPoe(){const out=$("#sres"),q=(($("#btext")||{}).value||"").trim
 /* Perfil › Conta: "Perfil aberto" */
 function cs123Conta9(){const m=$("#v-me .pf-conta .card.menu")||$("#v-me .card.menu");if(!m||$("#v-me .cs123-cfg"))return;const on=CS123.aberto,p=CS123.perf[S.uid]||{};
   m.insertAdjacentHTML("beforebegin",`<div class="card cs123-cfg"><label class="cs123-sw"><span><b>Perfil aberto</b><small>Quem não é seu amigo pode seguir e ver o que você publicar para seguidores.</small></span><input type="checkbox" role="switch" data-cs123aberto ${on?"checked":""} aria-label="Perfil aberto"></label>
-    ${on?`<p class="hint cs123-cfgh">Para chegar aos seguidores, escolha “Seguidores e amigos” ao publicar. O resto (stories, Melhores amigos, posts para amigos) continua só com os amigos.</p>`:""}
+    ${on?`<p class="hint cs123-cfgh">Para chegar aos seguidores, escolha “Seguidores e amigos” ao publicar. O resto (giros, Melhores amigos, posts para amigos) continua só com os amigos.</p>`:""}
     <div class="cs123-cfgb"><button type="button" data-cs123lista="seguidores" data-u="${esc(S.uid)}"><b>${cs123Num(p.seguidores||0)}</b> ${p.seguidores===1?"seguidor":"seguidores"}</button><button type="button" data-cs123lista="seguindo" data-u="${esc(S.uid)}"><b>${cs123Num(p.seguindo||0)}</b> seguindo</button><button type="button" data-cs123descobre>Descobrir perfis abertos <i aria-hidden="true">›</i></button></div></div>`)}
 async function cs123MudaAberto(on,inp){if(inp)inp.disabled=true;try{const r=await SB.rpc("mudar_perfil_aberto",{p_aberto:!!on});if(r&&r.error)throw r.error;CS123.aberto=!!on;const p=CS123.perf[S.uid];if(p)p.aberto=!!on;
   toast(on?"Perfil aberto: quem não é seu amigo pode seguir você":"Perfil fechado: só os amigos veem o que você publica");if(VIEW==="me")renderMe()}catch(e){if(inp){inp.disabled=false;inp.checked=!on}toast("Não deu para mudar agora.")}}
@@ -14421,7 +14469,7 @@ const NT124_TIPOS=[
   ["amizades","Pedidos de amizade","Pedidos novos e pedidos aceitos","+"],
   ["comentarios","Comentários e respostas","Nas suas publicações e onde você comentou","💬"],
   ["mencoes","Menções","Quando alguém marca você","@"],
-  ["curtidas","Curtidas","Nos seus posts, stories e comentários (agrupadas)","♥"],
+  ["curtidas","Curtidas","Nos seus posts, giros e comentários (agrupadas)","♥"],
   ["reposts","Reposts","Quando repostam ou citam sua publicação","↻"],
   ["seguidores","Novos seguidores","Quando alguém começa a seguir você","👤",1],
   ["seguindo","Posts de quem você segue","Publicações novas de quem você segue","▤",1],
@@ -15647,7 +15695,7 @@ function ed132Hub(){if(precisaConta())return;const L=$("#layer");if(L.innerHTML)
    Fotos e gráficos do texto ficam só no Prumo (menos no PDF). Nomes globais com o prefixo ex133 / EX133. */
 
 var EX133={imp:null,F:null,dest:"",li:"post",fb:"t",wa:"t",x:[],ig:[],igb:[],igU:[],ult:null,igT:0};
-const EX133_ASS=n=>`— ${String(n||"").trim()||"Autora"}, publicado originalmente no Prumo`;
+const EX133_ASS=n=>`— ${String(n||"").trim()||"Colunista"}, publicado originalmente no Prumo`;
 const EX133_COMPLETA="A coluna completa está no Prumo.";
 const EX133_IC={
   arq:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9 14l3 3 3-3"/>',
@@ -16072,7 +16120,7 @@ var LT134={v13:null,n:0,uid:null,tk:0,ctx:null,notif:null,forca:null,ses:null,as
 const LT134_ORIG=[["feed","Feed"],["perfil","Perfil"],["hashtag","Hashtag"],["serie","Série"],["busca","Busca"],["conversa","Conversa ou envio"],["notificacao","Notificação"],["outro","Outros caminhos"]];
 const LT134_IC={num:'<path d="M5 19V11M10 19V5M15 19v-6M20 19V8"/>',pin:'<path d="M9 4h6l-1 5 3 3H7l3-3z"/><path d="M12 12v8"/>'};
 const lt134Svg=d=>`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
-const lt134Prim=u=>String(nomeDe(u)||"").split(" ")[0]||"a autora";
+const lt134Prim=u=>String(nomeDe(u)||"").split(" ")[0]||"quem escreve";
 const lt134N=(n,a,b)=>`${cs123Num(n)} ${n===1?a:b}`;
 const lt134Erro=e=>String((e&&(e.code||""))+" "+(e&&e.message||""));
 
@@ -16171,14 +16219,14 @@ try{NT124_TIPOS.push(["colunas_seguidas","Séries e colunistas que você assina"
 {const _nc=nt124Cat;nt124Cat=function(x){return /^lt134c:/.test(String(x&&x.k||""))?"colunas_seguidas":_nc.apply(this,arguments)}}
 
 /* ===== 4. comentários: selo "Autora" e destaques ===== */
-const lt134Au=()=>`<em class="lt134-au">Autora</em>`;
+const lt134Au=()=>`<em class="lt134-au">Colunista</em>`;
 async function lt134DestCarrega(id){if(LT134.v13!==true||typeof SB==="undefined"||!SB||!id)return;if(Date.now()-(LT134.destT[id]||0)<1500)return;LT134.destT[id]=Date.now();
   try{const r=await SB.from("coluna_destaques").select("cautor,cid,txt,nome,at").eq("pub",id);if(r.error)return;
     const l=(r.data||[]).map(d=>({cautor:String(d.cautor),cid:String(d.cid),txt:cs123S(d.txt,600),nome:cs123S(d.nome,80),at:+d.at||0})).sort((a,b)=>a.at-b.at).slice(0,3);
     const k=JSON.stringify(l),mudou=JSON.stringify(LT134.dest[id]||null)!==k;LT134.dest[id]=l;if(mudou){cs123FimAtualiza();lt134CmDecora()}}catch(e){}}
 const lt134Nome=d=>S.membros[d.cautor]||d.cautor===S.uid?nomeDe(d.cautor):(d.nome||nomeDe(d.cautor));
 function lt134DestHTML(x){const l=LT134.v13===true&&LT134.dest[x.id];if(!l||!l.length)return "";const eu=x.autor===S.uid;
-  return `<section class="lt134-dest" aria-label="Destaque da autora"><p class="lt134-dk">${lt134Svg(LT134_IC.pin)}Destaque da autora</p><ul>${l.map(d=>`<li>${avatar(d.cautor)}<div><p><b>${esc(lt134Nome(d))}</b>${d.cautor===x.autor?lt134Au():""} ${esc(d.txt)}</p>
+  return `<section class="lt134-dest" aria-label="Destaque da coluna"><p class="lt134-dk">${lt134Svg(LT134_IC.pin)}Destaque da coluna</p><ul>${l.map(d=>`<li>${avatar(d.cautor)}<div><p><b>${esc(lt134Nome(d))}</b>${d.cautor===x.autor?lt134Au():""} ${esc(d.txt)}</p>
     <span class="lt134-da"><button type="button" data-lt134resp="${esc(x.id)}" data-n="${esc(lt134Nome(d))}">Responder</button>${eu?`<button type="button" data-lt134fix="${esc(x.id)}" data-au="${esc(d.cautor)}" data-cid="${esc(d.cid)}">Desafixar</button>`:""}</span></div></li>`).join("")}</ul></section>`}
 {const _fh=cs123FimHTML;cs123FimHTML=function(x){let h=_fh.apply(this,arguments);try{if(!x)return h;
   if(h.indexOf('class="cs123-cms"')>=0){const ult=socialOf("u:"+x.id).cm.slice(-2),tp=document.createElement("template");tp.innerHTML=h;
@@ -16191,7 +16239,7 @@ function lt134CmDecora(){const pid=LT134.cpid,m=/^u:(.+)$/.exec(String(pid||""))
   box.querySelectorAll(".clist > li").forEach(li=>{const c=lt134CmDo(li);if(!c)return;const sp=li.querySelector(":scope > div > span");
     if(c.autor===x.autor&&sp&&!sp.querySelector(".lt134-au")){const b=sp.querySelector("b");if(b)b.insertAdjacentHTML("afterend",lt134Au())}
     const fx=l.some(d=>d.cautor===c.autor&&d.cid===c.cid);li.classList.toggle("lt134-fx",fx);
-    let k=li.querySelector(".lt134-fk");if(fx&&!k&&sp)sp.insertAdjacentHTML("beforebegin",`<small class="lt134-fk">${lt134Svg(LT134_IC.pin)}Fixado pela autora</small>`);else if(!fx&&k)k.remove();
+    let k=li.querySelector(".lt134-fk");if(fx&&!k&&sp)sp.insertAdjacentHTML("beforebegin",`<small class="lt134-fk">${lt134Svg(LT134_IC.pin)}Fixado na coluna</small>`);else if(!fx&&k)k.remove();
     const ac=li.querySelector(":scope > div > i");if(!eu||!ac)return;let b=ac.querySelector("[data-lt134fix]");
     if(!b){ac.insertAdjacentHTML("beforeend",`<button type="button" class="c-a" data-lt134fix="${esc(x.id)}" data-au="${esc(c.autor)}" data-cid="${esc(c.cid)}"></button>`);b=ac.querySelector("[data-lt134fix]")}
     b.textContent=fx?"Desafixar":"Fixar"});
@@ -16228,7 +16276,7 @@ function lt134PainelHTML(x,c,d,mais){d=d||{};const L=+d.leituras||0,F=+d.fim||0,
     ${graf?`<div class="lt134-g">${graf}<p class="hint">Dia 1 é o dia da publicação.</p></div>`:""}
     ${cur.length||com.length?`<h4 class="lt134-h">Quem você conhece</h4><div class="lt134-nm">${cur.length?`<p><b>Curtiram:</b> ${nm(cur)}</p>`:""}${com.length?`<p><b>Comentaram:</b> ${nm(com)}</p>`:""}<p class="hint">Só amigos e seguidores que curtiram ou comentaram. Quem só leu não aparece.</p></div>`:""}
     <h4 class="lt134-h">Suas colunas mais lidas</h4>${lt134MaisHTML(mais)}`}
-async function lt134Numeros(id){if(precisaConta()||LT134.v13!==true||typeof SB==="undefined"||!SB)return;const x=ed132Pub(id)||pubDe(id),c=x&&cs123Col(x);if(!c||x.autor!==S.uid){toast("Só a autora vê os números da coluna.");return}
+async function lt134Numeros(id){if(precisaConta()||LT134.v13!==true||typeof SB==="undefined"||!SB)return;const x=ed132Pub(id)||pubDe(id),c=x&&cs123Col(x);if(!c||x.autor!==S.uid){toast("Só quem escreveu vê os números da coluna.");return}
   ex133Folha("Leitores",`<div id="lt134-np" class="lt134-np" data-pub="${esc(id)}"><p class="hint">Carregando…</p></div>`);uso("coluna_numeros");
   try{const [r,m]=await Promise.all([SB.rpc("coluna_numeros",{p_pub:id}),SB.rpc("coluna_mais_lidas")]);if(r.error)throw r.error;if(m&&!m.error)LT134.mais=m.data||[];
     const box=$("#lt134-np");if(box&&box.dataset.pub===id)box.innerHTML=lt134PainelHTML(x,c,r.data,LT134.mais)}
@@ -16264,7 +16312,7 @@ function lt134Barra(){const r=lt134Raiz();document.querySelectorAll(".lt134-bar"
   let b=r.querySelector(":scope > .lt134-bar");if(!b){r.insertAdjacentHTML("beforeend",`<div class="lt134-bar" role="toolbar" aria-label="Trecho selecionado"><small></small><button type="button" data-lt134cit>Citar trecho</button><button type="button" data-lt134cop>Copiar trecho</button></div>`);b=r.querySelector(":scope > .lt134-bar")}
   b.querySelector("small").textContent=S0.longo?"Vão os primeiros 280 caracteres":`${S0.t.length} de 280 caracteres`}
 ["pointerdown","mousedown"].forEach(k=>document.addEventListener(k,e=>{if(e.target.closest&&e.target.closest(".lt134-bar button"))e.preventDefault()},true));
-const lt134Assina=id=>{const x=pubDe(id);return "— "+(x?nomeDe(x.autor):"Autora")+", no Prumo"};
+const lt134Assina=id=>{const x=pubDe(id);return "— "+(x?nomeDe(x.autor):"Colunista")+", no Prumo"};
 function lt134CopiaTxt(sel){return `“${sel.t}”\n\n${lt134Assina(sel.id)}`}
 function lt134Citar(){const s0=LT134.sel,x=s0&&pubDe(s0.id),c=x&&cs123Col(x);if(!c){toast("Esta coluna não está disponível.");return}if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}
   if(x.publico==="proximos"){toast("Esta coluna não pode ser citada.");return}
@@ -16365,7 +16413,7 @@ const pb136Slug=s=>{const t=String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,""
 const pb136Arq=x=>{const c=x&&cs123Col(x);return `${pb136Slug(c?c.tit:"")}-${String(x&&x.id||"").replace(/[^0-9a-f]/gi,"").slice(0,8).toLowerCase()}.html`};
 const pb136Link=x=>`${PB136_SITE}/c/${pb136Arq(x)}`;
 const pb136E=x=>!!(x&&x.publico==="publico"&&cs123Col(x));
-const pb136Prim=u=>String(nomeDe(u)||"").split(" ")[0]||"a autora";
+const pb136Prim=u=>String(nomeDe(u)||"").split(" ")[0]||"quem escreve";
 const pb136Erro=e=>String((e&&(e.code||""))+" "+(e&&e.message||""));
 const PB136_TX="Qualquer pessoa lê pelo link, mesmo sem conta no Prumo (LinkedIn, X, Google). No app, aparece para seus amigos e seguidores. Comentários continuam só no Prumo.";
 
@@ -16411,7 +16459,7 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
   SB.from=function(t){const b=f.apply(SB,arguments);if(t==="publicacoes"&&b&&typeof b.insert==="function"){const ins=b.insert;b.insert=function(row){if(row&&!Array.isArray(row)&&row.estilo&&row.estilo.coluna){row.publico="publico";foi=true}return ins.call(this,row)}}return b};
   let r;try{r=await _p.apply(this,arguments)}finally{SB.from=f}
   try{const x=foi&&PUB.itens.length>n0&&PUB.itens[0]&&PUB.itens[0].autor===S.uid&&PUB.itens[0].publico==="publico"?PUB.itens[0]:null;
-    if(x){PB136.link=pb136Link(x);setTimeout(()=>toast("Coluna publicada com link aberto. A página sai em até 15 minutos.","Copiar link",()=>pb136Copia(x.id)),900)}}catch(e){}
+    if(x){PB136.link=pb136Link(x);setTimeout(()=>toast("Coluna publicada com link aberto. A página aberta costuma sair em até 2 horas.","Copiar link",()=>pb136Copia(x.id)),900)}}catch(e){}
   return r}}
 
 /* ===== 2. coluna já publicada: menu "…" › "Quem pode ler" ===== */
@@ -16424,7 +16472,7 @@ function pb136Quem(id){const x=pubDe(id);if(!x)return;const ab=typeof V9!=="unde
   sheet("Quem pode ler",`<div class="opt pb136-quem" role="radiogroup" aria-label="Quem pode ler">${op("amigos","Amigos","Seus amigos no Prumo")}${ab?op("seguidores","Seguidores e amigos","Quem segue você e seus amigos"):""}${op("publico","Todos (link público)","Página aberta, sem conta")}</div><p class="hint">${esc(PB136_TX)} Ao fechar o link, a página sai do ar na próxima atualização do site (até 15 minutos).</p>`)}
 async function pb136Muda(id,v){const x=pubDe(id);if(!x||!SB)return;try{const r=await SB.rpc("coluna_mudar_publico",{p_id:id,p_publico:v});if(r.error)throw r.error;x.publico=String(r.data||v);
     closeLayer();try{PUB.sig="";pubRedesenha()}catch(e){}pb136PaginaPoe();
-    if(x.publico==="publico")toast("Coluna aberta. A página sai em até 15 minutos.","Copiar link",()=>pb136Copia(id));else toast("Pronto: a coluna ficou só no Prumo. A página aberta sai do ar em até 15 minutos.")}
+    if(x.publico==="publico")toast("Coluna aberta. A página aberta costuma sair em até 2 horas.","Copiar link",()=>pb136Copia(id));else toast("Pronto: a coluna ficou só no Prumo. A página aberta sai do ar em até 2 horas.")}
   catch(e){toast("Não deu para mudar agora.")}}
 
 /* ===== 3. link: selo para a autora, "Copiar link" do Enviar, cópia ===== */
@@ -16466,7 +16514,7 @@ function pb136PoeLink(t,F){t=String(t);if(!F||!F.link||t.indexOf(F.link)>=0)retu
   if(!i.aberta)return h;const bt=`<button type="button" class="btn ghost pb136-pf${i.assinando?" on":""}" data-pb136nl="${esc(u)}" aria-pressed="${!!i.assinando}">${i.assinando?"✓ Por e-mail":"Colunas por e-mail"}</button>`;
   if(/<div class="pf-bts">/.test(h))h=h.replace(/(<div class="pf-bts">[\s\S]*?)(<\/div>)/,`$1${bt}$2`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h}}
 function pb136NlFolha(u){if(precisaConta())return;const i=PB136.info[u]||{},n=esc(nomeDe(u)),em=esc(S.email||"o e-mail da sua conta");
-  const priv=`<p class="hint pb136-priv">Seu e-mail serve só para mandar as colunas abertas de ${n} quando saírem. Não aparece para ninguém; só a autora vê a lista de quem confirmou (e pode baixá-la). Para sair, toque aqui de novo ou use o link “Cancelar” de qualquer e-mail.</p>`;
+  const priv=`<p class="hint pb136-priv">Seu e-mail serve só para mandar as colunas abertas de ${n} quando saírem. Não aparece para ninguém; só quem escreve vê a lista de quem confirmou (e pode baixá-la). Para sair, toque aqui de novo ou use o link “Cancelar” de qualquer e-mail.</p>`;
   if(i.assinando){sheet("Colunas por e-mail",`<p class="pb136-st">Você recebe as colunas abertas de <b>${n}</b> em <b>${em}</b>.</p>${priv}`,`<div class="pb136-bts"><button type="button" class="btn ghost" data-pb136nlx="${esc(u)}">Cancelar a assinatura</button></div>`);return}
   sheet("Colunas por e-mail",`<p class="pb136-st">Receba no e-mail as próximas colunas abertas de <b>${n}</b>, assim que saírem.</p>
     <label class="pb136-ok"><input type="checkbox" id="pb136-cons"> <span>Pode usar o e-mail da minha conta (<b>${em}</b>) para isso.</span></label>${priv}
@@ -16617,6 +16665,10 @@ function cr137Md(e){const cp=cr137Cp();if(!cp||CR137.ocupado)return false;const 
   if(b.tagName==="P"&&antes.length<=4){const m=CR137_MD.find(([re])=>re.test(antes));if(m){CR137.ocupado=true;try{cr137Marca();const r=document.createRange();r.selectNodeContents(b);r.setEnd(s.anchorNode,s.anchorOffset);r.deleteContents();
       if(!(b.textContent||"").length&&!b.querySelector("br"))b.innerHTML="<br>";const r2=document.createRange();r2.setStart(b,0);r2.collapse(true);s.removeAllRanges();s.addRange(r2);ED132.rg=r2.cloneRange();
       ed132MenuFecha();ed132Cmd(m[1])}finally{CR137.ocupado=false}return true}}
+  /* já dentro de uma lista: "- " ou "1. " no começo do item some (antes ficava "- item dois" no texto) (14/11) */
+  if(b.tagName==="UL"||b.tagName==="OL"){const an=s.anchorNode,li=(an.nodeType===1?an:an.parentElement)?.closest("li");if(li&&b.contains(li)){let a2;try{const r=document.createRange();r.selectNodeContents(li);r.setEnd(s.anchorNode,s.anchorOffset);a2=r.toString()}catch(_){a2=""}
+    if(/^(?:[-*•]|\d+[.)])[\s\u00a0]$/.test(a2)){CR137.ocupado=true;try{cr137Marca();const r=document.createRange();r.selectNodeContents(li);r.setEnd(s.anchorNode,s.anchorOffset);r.deleteContents();if(!(li.textContent||"").length&&!li.querySelector("br"))li.innerHTML="<br>";
+      const r2=document.createRange();r2.setStart(li,0);r2.collapse(true);s.removeAllRanges();s.addRange(r2)}finally{CR137.ocupado=false}return true}}}
   /* separador: a linha inteira é --- (o iPhone troca -- por —) */
   if(b.tagName==="P"&&/^(?:---|—-|–-|\*\*\*|___)$/.test(antes)&&(b.textContent||"")===antes){CR137.ocupado=true;try{cr137Marca();b.innerHTML="<br>";ed132CaretFim(b);ed132PoeBloco(document.createElement("hr"))}finally{CR137.ocupado=false}return true}
   /* negrito e itálico no texto que acabou de ser digitado */
@@ -17538,6 +17590,104 @@ function pf151Tudo(){if(PF151.t){clearTimeout(PF151.t);PF151.t=0}while(PF151.fil
     /* a Capa (que está na tela) primeiro; os círculos do Feed depois */
     if(capa)PF151.fila.push(capa);if(secs)PF151.fila.push(secs);if(PF151.fila.length&&!PF151.t)PF151.t=setTimeout(pf151Roda,0)}}}
 {const _go151=go;go=function(v){if(PF151.fila.length)pf151Tudo();return _go151.apply(this,arguments)}}
+/* ---------- 152: criar numa caixa só (14/11) ----------
+   Pedido do Pedro: "muitas telas diferentes para criar um novo post". Antes o "+" abria cartões de tipo (Comentar notícia,
+   De perto, Análise, Pergunta, Coluna, Só texto, fotos, Minhas colunas) e cada formulário repetia a escolha do tipo em abas.
+   Agora o "+" abre uma tela só:
+   - no alto, Post · Giro · Coluna;
+   - Post: uma caixa "Escreva…" e, embaixo, o que dá para juntar: Foto, Notícia, Enquete, Número, De perto. Só texto publica
+     dali mesmo; juntar algo abre o formulário daquele tipo já com o texto escrito (sem as abas de tipo repetidas), e
+     "voltar" traz de volta para a caixa com o texto;
+   - Coluna: continuar um rascunho (os mais recentes) ou começar uma nova; a lista completa ("Minhas colunas") foi para o Perfil.
+   Nomes com o prefixo cp152. */
+var CP152={aba:"post",txt:"",pub:"amigos",veio:false};
+const CP152_IC={foto:CN102_ICO.foto,nt:CN102_ICO.nt,enq:CN102_ICO.enq,ana:CN102_ICO.ind,rel:CN102_ICO.rel};
+const CP152_ANEXOS=[["foto","Foto"],["nt","Notícia"],["enq","Enquete"],["ana","Número"],["rel","De perto"]];
+function cp152Publicos(){const l=[["amigos","Todos os amigos"]];try{if(MA.on)l.push(["proximos","★ Melhores amigos"])}catch(e){}try{if(typeof cs123PodeSeg==="function"&&cs123PodeSeg())l.push(["seguidores","Seguidores e amigos"])}catch(e){}return l}
+function cp152Rascs(){let l=[];try{l=ed132RascLe()}catch(e){}return l}
+function cp152ColHTML(){const rs=cp152Rascs();
+  return `<div class="cp152-col">
+    ${rs.length?`<p class="cp152-h">Continuar escrevendo</p><ul class="cp152-rl">${rs.slice(0,3).map(r=>`<li><button type="button" class="cp152-r" data-cp152rasc="${esc(r.rid)}">${CN102_SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>')}<span><b>${esc(String(r.tit||"").trim()||"Sem título")}</b><small>${esc(quando(r.at))} · ${(+r.pal||0).toLocaleString("pt-BR")} ${+r.pal===1?"palavra":"palavras"}</small></span><i aria-hidden="true">›</i></button></li>`).join("")}</ul>`:""}
+    <button type="button" class="btn cp152-nova" data-cp152nova>${CN102_SVG(CN102_ICO.mais)}Nova coluna</button>
+    <p class="cp152-dica">Coluna é um texto longo, com título, como um artigo. O que você escreve fica guardado sozinho.${rs.length>3?" Os outros rascunhos estão no seu Perfil, em Minhas colunas.":" Rascunhos, agendadas e publicadas ficam no seu Perfil, em Minhas colunas."}</p></div>`}
+function cp152PostHTML(){const pubs=cp152Publicos();if(!pubs.some(p=>p[0]===CP152.pub))CP152.pub="amigos";
+  return `<div class="cp152-post"><div class="cp152-quem">${avatar(S.uid)}<b>${esc(nomeDe(S.uid))}</b></div>
+    <textarea id="cp152-tx" class="cp152-tx" maxlength="2200" rows="5" placeholder="Escreva o que você acha…" aria-label="Seu post">${esc(CP152.txt)}</textarea>
+    <p class="cp152-h">Juntar ao post</p>
+    <div class="cp152-ax" role="group" aria-label="Juntar ao post">${CP152_ANEXOS.map(([k,n])=>`<button type="button" class="cp152-a cp152-a-${k}" data-cp152ax="${k}">${CN102_SVG(CP152_IC[k])}<span>${n}</span></button>`).join("")}</div>
+    <label class="cp152-pub"><span>Público</span><select id="cp152-pub" aria-label="Quem vê">${pubs.map(([k,n])=>`<option value="${k}"${k===CP152.pub?" selected":""}>${esc(n)}</option>`).join("")}</select><i aria-hidden="true">›</i></label>
+    <div id="cp152-rascs"></div>
+    <p class="cp152-dica">Notícia comenta uma notícia da edição; Enquete pergunta aos amigos; Número junta um indicador ou gráfico; De perto conta o que você viu, com local e hora. Use @ para marcar alguém.</p></div>`}
+function cp152HTML(){const a=CP152.aba;
+  return `<div class="cp152-hd"><button type="button" class="cp152-b" data-cp152x aria-label="Fechar">${EDI.x}</button><b>Nova publicação</b>${a==="post"?`<button type="button" class="cp152-ok" data-cp152pub>Publicar</button>`:`<span class="cp152-b" aria-hidden="true"></span>`}</div>
+    <div class="cp152-abas" role="tablist" aria-label="O que publicar">${[["post","Post"],["giro","Giro"],["coluna","Coluna"]].map(([k,n])=>`<button type="button" role="tab" data-cp152aba="${k}" aria-selected="${a===k}">${n}</button>`).join("")}</div>
+    <div class="cp152-sc">${a==="coluna"?cp152ColHTML():cp152PostHTML()}</div>`}
+function cp152Desenha(){const el=$("#layer > .cp152");if(!el)return;el.innerHTML=cp152HTML();if(CP152.aba==="post"){const t=$("#cp152-tx");if(t){t.addEventListener("input",()=>{CP152.txt=t.value;cp152Ok()});cp152Ok()}const s=$("#cp152-pub");if(s)s.addEventListener("change",()=>{CP152.pub=s.value});cp152RascPosts()}}
+/* posts que ficaram nos rascunhos (sem rede, ou "salvar rascunho") */
+async function cp152RascPosts(){try{const l=await rascLista();const box=$("#cp152-rascs");if(!box||!l.length)return;box.innerHTML=`<button type="button" class="cp152-rp" data-cp152rascp>${CN102_SVG('<path d="M6 4h9l3 3v13H6z"/><path d="M9 11h6M9 15h4"/>')}<span>Rascunhos de post <b>${l.length}</b></span><i aria-hidden="true">›</i></button>`}catch(e){}}
+function cp152Ok(){const b=$("#layer [data-cp152pub]");if(b)b.disabled=!CP152.txt.trim()}
+function cp152Abre(o){o=o||{};if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}
+  const L=$("#layer");if(L.innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}if(typeof ED!=="undefined")ED=null;
+  if(o.aba)CP152.aba=o.aba;if(!o.manter&&!o.aba)CP152.aba="post";if(!o.manter)CP152.txt="";
+  L.innerHTML=`<div class="cp152" role="dialog" aria-modal="true" aria-label="Publicar"></div>`;if(pushH())HST++;cp152Desenha();uso("criar_caixa");
+  if(CP152.aba==="post")setTimeout(()=>{const t=$("#cp152-tx");if(t&&!o.semFoco)try{t.focus({preventScroll:true});t.setSelectionRange(t.value.length,t.value.length)}catch(e){}},120);
+  /* rascunhos de coluna guardados na conta (outro aparelho) */
+  try{Promise.resolve(ed132Testa()).then(()=>ed132Sinc()).then(ok=>{if(ok&&CP152.aba==="coluna"&&$("#layer > .cp152"))cp152Desenha()}).catch(()=>{})}catch(e){}}
+function cp152Fecha(){if(CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},2600);return}}
+  CP152.txt="";closeLayer()}
+/* abre o editor de post por baixo (como o "Só texto" fazia) */
+function cp152Editor(){if($("#layer").innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}CN102_SEMGAL=1;CP152.interno=1;try{criarAbrir("post")}finally{CN102_SEMGAL=0;CP152.interno=0}return typeof ED!=="undefined"&&ED&&ED.modo==="post"?ED:null}
+async function cp152Publica(){const tx=CP152.txt.trim();if(!tx){toast("Escreva algo para publicar.");return}const pub=CP152.pub;
+  const E=cp152Editor();if(!E){toast("Não deu para abrir agora. Tente de novo.");return}const P=E.po;P.texto=tx;P.pub=pub;P.passo="detalhes";try{edDesenha()}catch(e){}
+  CP152.txt="";try{await edPublicaPost()}catch(e){}
+  /* se não publicou (sem rede), o texto fica no editor de post, com o botão Compartilhar */}
+function cp152Anexo(k){const tx=CP152.txt,pub=CP152.pub;CP152.veio=true;
+  if(k==="foto"){const E=cp152Editor();if(!E)return;const P=E.po;P.texto=tx;P.pub=pub;
+    /* abre a galeria no mesmo toque (o iPhone só deixa abrir dentro do toque); se a pessoa desistir, volta para a caixa */
+    const f=$("#ce-pfile");if(f){f.addEventListener("cancel",()=>{if(ED===E&&!E.po.fotos.length&&!(E.po.rolo&&E.po.rolo.length)){CP152.txt=tx;ED=null;cp152Abre({manter:true,aba:"post",semFoco:true})}},{once:true});try{f.click()}catch(e){}}
+    return}
+  cn102Comeca(k,k==="rel"?{}:{});const E=typeof ED!=="undefined"&&ED;if(!E||!E.po||!E.po.cn)return;const cn=E.po.cn;E.po.pub=pub;
+  if(tx){if(k==="enq"&&tx.length<=120&&!/\n/.test(tx))cn.tit=tx;else cn.corpo=tx}
+  try{edDesenha()}catch(e){}
+  if(k==="nt"&&!E.po.pid)setTimeout(()=>{try{if(!$("#layer .cn102-ntl"))cn102ListaNt("data-edpnt")}catch(e){}},0);
+  if(k==="ana")setTimeout(()=>{try{const b=$("#layer [data-cn102dado]");if(b)b.click()}catch(e){}},120)}
+/* o texto do formulário volta para a caixa */
+function cp152TextoDe(E){try{const P=E&&E.po;if(!P)return CP152.txt;const cn=P.cn;if(!cn)return String(P.texto||"");return [cn.tit,cn.corpo].map(s=>String(s||"").trim()).filter(Boolean).join("\n\n")}catch(e){return CP152.txt}}
+
+/* entradas: o "+" e "Nova publicação" abrem a caixa */
+{const _cm152=criarMenu;criarMenu=function(){if(precisaConta())return;cp152Abre()}}
+/* "Nova publicação" (Perfil) e outros botões data-criarde="post"; criarAbrir("post") chamado pelo código (rascunhos, testes) continua abrindo o editor */
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest('[data-criarde="post"]');if(!b)return;e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();
+  if($("#layer").innerHTML&&!$("#layer > .cp152")){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}setTimeout(()=>cp152Abre(),40)},true);
+
+window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
+  /* no editor de giro, "POST" volta para a caixa */
+  const md=t.closest("#layer [data-edmodo='post'],#layer [data-crtipo='post']");if(md&&!$("#layer > .cp152")){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();if(typeof ED!=="undefined"&&ED&&ED.env)return;
+    ED=null;cp152Abre();return}
+  /* voltar de um formulário aberto pela caixa: volta para a caixa, com o texto */
+  const vt=t.closest("#layer [data-edvolta]");if(vt&&CP152.veio&&typeof ED!=="undefined"&&ED&&ED.po&&(ED.po.cn||ED.po.passo==="detalhes")&&!ED.env){
+    e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();CP152.txt=cp152TextoDe(ED);CP152.veio=false;ED=null;cp152Abre({manter:true,aba:"post"});return}
+},true);
+document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
+  if(!t.closest("#layer > .cp152"))return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
+  if(t.closest("[data-cp152x]")){pare();cp152Fecha();return}
+  if(b=t.closest("[data-cp152aba]")){pare();const a=b.dataset.cp152aba;if(a==="giro"){const tx=CP152.txt;ED=null;CP152.txt=tx;if($("#layer").innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}criarAbrir("story");return}
+    CP152.aba=a;cp152Desenha();return}
+  if(t.closest("[data-cp152pub]")){pare();cp152Publica();return}
+  if(b=t.closest("[data-cp152ax]")){pare();cp152Anexo(b.dataset.cp152ax);return}
+  if(t.closest("[data-cp152rascp]")){pare();const E=cp152Editor();if(E)setTimeout(()=>{try{rascPainel()}catch(e){}},60);return}
+  if(t.closest("[data-cp152nova]")){pare();ed132Abre(ed132Novo());return}
+  if(b=t.closest("[data-cp152rasc]")){pare();const d=cp152Rascs().find(r=>r.rid===b.dataset.cp152rasc);if(d)ed132Abre(ed132DoRasc(d));return}
+},true);
+/* fechar pelo "voltar" do celular */
+{const _cl152=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&$("#layer > .cp152")&&CP152.txt.trim()&&!$("#layer2")?.innerHTML){/* guarda o texto: abrir de novo traz de volta */CP152.guardado=CP152.txt}return _cl152.apply(this,arguments)}}
+
+/* ===== formulários abertos pela caixa: sem a faixa de tipos repetida ===== */
+{const _cd152=cn102Det;cn102Det=function(el){const r=_cd152.apply(this,arguments);try{if(CP152.veio){const ks=el.querySelector(".cn102-ks");if(ks)ks.hidden=true}}catch(e){}return r}}
+
+/* ===== Perfil: "Minhas colunas" ao lado de "Nova publicação" ===== */
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cp152cols]");if(!b)return;e.preventDefault();e.stopPropagation();ed132Hub()},true);
+{const _pc152=pfCab;pfCab=function(u){const h=_pc152.apply(this,arguments);try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-cp152cols")<0)return h.replace(/(<button type="button" class="btn ghost" data-criarde="post">Nova publicação<\/button>)/,'$1<button type="button" class="btn ghost" data-cp152cols>Minhas colunas</button>')}catch(e){}return h}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

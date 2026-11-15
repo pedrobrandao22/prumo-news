@@ -44,7 +44,7 @@ const recarrega = async p => { await p.reload(); await esperar(p, () => S.membro
   ok(await ev(A, () => { const q = document.querySelector('#v-msgs .ca100-sq'); if (!q) return false; const m = q.closest('.dm-m') || q.parentElement; return document.querySelectorAll('#v-msgs .ca100-st').length === 1 && !(m && m.querySelector('.dm-ucard')) && /Respondeu à sua pergunta/.test(q.textContent) }), 'resposta da pergunta: o story aparece uma vez (sem o cartão grande repetido)', await ev(A, () => document.querySelector('#v-msgs .thread').innerHTML.length));
   ok(await ev(B, () => { const id = '00000000-0000-4000-8000-000000000001', c = (t, st) => dmCard({ de: S.uid, pid: 'u:' + id, snap: { titulo: t, upub: id, ...(st ? { story: true } : {}) } });
     const p = c('Post de Pedro Brandão'), st = c('Story de Pedro Brandão', 1), fora = c('Post de Fulano de Tal');
-    return /Esta publicação não está mais disponível/.test(p) && !/dm-utx/.test(p) && /Este story não está mais disponível/.test(st) && /Só quem é amigo do autor/.test(fora) }), 'cartão de post apagado / story vencido de um amigo: "não está mais disponível" (sem "Só quem é amigo" nem "Post de Fulano" repetido)');
+    return /Esta publicação não está mais disponível/.test(p) && !/dm-utx/.test(p) && /Este giro não está mais disponível/.test(st) && /Só quem é amigo do autor/.test(fora) }), 'cartão de post apagado / story vencido de um amigo: "não está mais disponível" (sem "Só quem é amigo" nem "Post de Fulano" repetido)');
   await ev(A, () => go('feed')); await ev(B, () => go('feed')); await sleep(300);
 
   // ===== 2. Atividade: voto na pergunta de um post

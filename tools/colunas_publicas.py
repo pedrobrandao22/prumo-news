@@ -216,7 +216,7 @@ def valida(c):
             "formato": "h" if c.get("formato") == "h" else "md", "corpo": str(c.get("corpo") or "")[:40000], "capa": capa, "fotos": fotos,
             "serie": str(c.get("serie") or "").strip()[:60], "n": n, "at": at, "min": c.get("min") if isinstance(c.get("min"), int) else None,
             "tags": [t for t in re.findall(r"#[^\s#]{1,40}", str(c.get("tags") or ""))][:10],
-            "autora": {"k": re.sub(r"[^0-9a-f]", "", str(a.get("k") or ""))[:16] or "x", "nome": str(a.get("nome") or "Autora").strip()[:40] or "Autora", "foto": af}}
+            "autora": {"k": re.sub(r"[^0-9a-f]", "", str(a.get("k") or ""))[:16] or "x", "nome": str(a.get("nome") or "Colunista").strip()[:40] or "Colunista", "foto": af}}
 
 
 CSS = """@font-face{font-family:"Newsreader";font-style:normal;font-weight:200 800;font-display:swap;src:url(../fontes/newsreader.woff2) format("woff2")}
@@ -264,8 +264,8 @@ var t=q.get("confirmar"),c=q.get("cancelar"),fe=q.get("email"),fc=q.get("coluna"
 try{if(t||c||fe)history.replaceState(null,"",location.pathname)}catch(e){}
 function mostra(h,p){st.querySelector("h1").textContent=h;st.querySelector("p").textContent=p}
 if(!U||!K){mostra("Assinatura","Esta página ainda não está ligada ao Prumo.");return}
-if(t)rpc("newsletter_confirmar",{p_token:t}).then(function(r){if(r&&r.ok)mostra("Assinatura confirmada","Você vai receber as colunas de "+(r.nome||"a autora")+" quando saírem. Para sair, use o link “Cancelar” em qualquer e-mail.");else mostra("Link vencido ou inválido",r&&r.motivo==="expirado"?"O link de confirmação vale 7 dias. Peça de novo na página da coluna.":"Peça a assinatura de novo na página da coluna.")}).catch(function(){mostra("Não deu agora","Tente abrir o link de novo daqui a pouco.")});
-else if(c)rpc("newsletter_cancelar",{p_token:c}).then(function(r){if(r&&r.ok)mostra("Assinatura cancelada","Você não vai mais receber as colunas de "+(r.nome||"a autora")+" por e-mail.");else mostra("Link inválido","Este link de cancelar não foi reconhecido.")}).catch(function(){mostra("Não deu agora","Tente abrir o link de novo daqui a pouco.")});
+if(t)rpc("newsletter_confirmar",{p_token:t}).then(function(r){if(r&&r.ok)mostra("Assinatura confirmada","Você vai receber as colunas de "+(r.nome||"quem escreve")+" quando saírem. Para sair, use o link “Cancelar” em qualquer e-mail.");else mostra("Link vencido ou inválido",r&&r.motivo==="expirado"?"O link de confirmação vale 7 dias. Peça de novo na página da coluna.":"Peça a assinatura de novo na página da coluna.")}).catch(function(){mostra("Não deu agora","Tente abrir o link de novo daqui a pouco.")});
+else if(c)rpc("newsletter_cancelar",{p_token:c}).then(function(r){if(r&&r.ok)mostra("Assinatura cancelada","Você não vai mais receber as colunas de "+(r.nome||"quem escreve")+" por e-mail.");else mostra("Link inválido","Este link de cancelar não foi reconhecido.")}).catch(function(){mostra("Não deu agora","Tente abrir o link de novo daqui a pouco.")});
 else if(fe&&fc)rpc("newsletter_assinar",{p_email:fe,p_coluna:fc}).then(function(r){mostra(r==="limite"?"Muitos pedidos":"Falta confirmar",r==="limite"?"Tente de novo mais tarde.":"Mandamos um e-mail para "+fe+". Toque no link dele para confirmar.")}).catch(function(){mostra("Não deu agora","Confira o e-mail e tente de novo.")});
 })();
 """
@@ -311,7 +311,7 @@ def form(c):
 <button class="cp-btn" type="submit">Assinar por e-mail</button>
 </form>
 <p class="cp-msg" role="status" aria-live="polite"></p>
-<p class="cp-priv">Seu e-mail serve só para mandar as colunas de {e(c['autora']['nome'])} quando saírem. Primeiro chega um e-mail para você confirmar; todo e-mail tem o link para cancelar. A lista não é pública: só a autora vê quem confirmou.</p>"""
+<p class="cp-priv">Seu e-mail serve só para mandar as colunas de {e(c['autora']['nome'])} quando saírem. Primeiro chega um e-mail para você confirmar; todo e-mail tem o link para cancelar. A lista não é pública: só quem escreve vê quem confirmou.</p>"""
 
 
 def pagina(c, todas, url_foto, base=BASE):
@@ -360,13 +360,13 @@ def pagina(c, todas, url_foto, base=BASE):
 </article>
 <div class="cp-acoes"><a class="cp-btn" href="{e(ler)}">Ler no Prumo</a><a class="cp-btn cp-g" href="#assinar">Assinar por e-mail</a></div>
 {f'<section class="cp-box" aria-label="Série"><p class="cp-k">Série</p><h2>{e(c["serie"])}</h2>{nav}</section>' if nav else ""}
-<section class="cp-box" id="assinar" aria-label="Sobre a autora">
+<section class="cp-box" id="assinar" aria-label="Sobre quem escreve">
 <div class="cp-au">{avatar(a, url_foto).replace('width="40" height="40"', 'width="56" height="56"')}<div><h2>{e(a['nome'])}</h2><p>{n_au} {"coluna aberta" if n_au == 1 else "colunas abertas"} no Prumo</p></div></div>
 <p>Receba as próximas colunas de {e(a['nome'])} por e-mail.</p>
 {form(c)}
 </section>
 </main>
-<footer>Publicado originalmente no Prumo News, por {e(a['nome'])}. O texto é da autora.</footer>
+<footer>Publicado originalmente no Prumo News. O texto é de {e(a['nome'])}.</footer>
 <script src="assinar.js" defer></script>
 </body>
 </html>
@@ -401,7 +401,7 @@ def assinatura(base=BASE):
 <link rel="canonical" href="{base}/c/assinatura.html"><link rel="stylesheet" href="coluna.css"></head>
 <body><header class="cp-top"><a class="cp-marca" href="../">Prumo</a><a class="cp-ler" href="index.html">Colunas</a></header>
 <main><section id="cp-estado" class="cp-box" aria-live="polite"><h1>Um instante…</h1><p>Conferindo o link.</p></section>
-<p class="cp-priv">O e-mail que você deixou serve só para mandar as colunas da autora que você escolheu. Para sair, use o link “Cancelar” de qualquer e-mail.</p></main>
+<p class="cp-priv">O e-mail que você deixou serve só para mandar as colunas que você escolheu. Para sair, use o link “Cancelar” de qualquer e-mail.</p></main>
 <script src="assinar.js" defer></script></body></html>
 """
 

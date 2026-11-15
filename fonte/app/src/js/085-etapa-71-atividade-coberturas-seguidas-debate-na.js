@@ -14,17 +14,17 @@ async function atCarregar(){if(!SB||!S.uid||!S.membro||AT.carregando)return;AT.c
 /* coisas sem horário (pedido, amizade nova, voto diferente) ganham a hora em que o app viu pela primeira vez */
 function atPrimeiraVez(chaves){let l=atLed();const base=!l;l=l||{};const agora=Date.now(),vivas=new Set(chaves);
   chaves.forEach(k=>{if(!(k in l))l[k]=base?0:agora});Object.keys(l).forEach(k=>{if(!vivas.has(k)&&!/^_/.test(k))delete l[k]});l._b=1;atLedSalva(l);return l}
-function atPubNome(x){return !x?"sua publicação":x.tipo==="story"?"seu story":x.estilo&&x.estilo.reel?"seu reel":"seu post"}
+function atPubNome(x){return !x?"sua publicação":x.tipo==="story"?"seu giro":x.estilo&&x.estilo.reel?"seu reel":"seu post"}
 function atJunta(us){const n=[...new Set(us)].map(nomeDe);if(n.length===1)return n[0];if(n.length===2)return n[0]+" e "+n[1];return n[0]+", "+n[1]+" e mais "+(n.length-2)}
 function atItens(){if(!S.uid||!S.membro)return [];const it=[],agora=Date.now();
   // reações às minhas publicações
   const g={};AT.rows.forEach(x=>{if(!S.amigos.has(x.uid)&&!S.membros[x.uid])return;if(x.tipo==="comentario"){const v=x.valor||{};it.push({k:"c:"+x.chave,at:+x.at,us:[x.uid],ic:"💬",txt:`<b>${esc(nomeDe(x.uid))}</b> comentou: “${esc((t=>t.length>90?t.slice(0,89).trimEnd()+"…":t)(String(v.texto||"")))}”`,pub:x.pub,acao:"cmt"});return}
     const k=x.tipo+":"+x.pub;(g[k]=g[k]||{tipo:x.tipo,pub:x.pub,us:[],at:0}).us.push([x.uid,+x.at]);g[k].at=Math.max(g[k].at,+x.at)});
   Object.entries(g).forEach(([k,o])=>{const us=o.us.sort((a,b)=>b[1]-a[1]).map(a=>a[0]);const pb=AT.pubs[o.pub];
-    it.push({k,at:o.at,us,ic:o.tipo==="curtida"?"♥":"✋",txt:`<b>${esc(atJunta(us))}</b> ${o.tipo==="curtida"?(us.length>1?"curtiram ":"curtiu ")+atPubNome(pb):(us.length>1?"responderam ao ":"respondeu ao ")+(pb&&pb.tipo==="story"?"seu story":atPubNome(pb))}`,pub:o.pub,acao:"pub"})});
+    it.push({k,at:o.at,us,ic:o.tipo==="curtida"?"♥":"✋",txt:`<b>${esc(atJunta(us))}</b> ${o.tipo==="curtida"?(us.length>1?"curtiram ":"curtiu ")+atPubNome(pb):(us.length>1?"responderam ao ":"respondeu ao ")+(pb&&pb.tipo==="story"?"seu giro":atPubNome(pb))}`,pub:o.pub,acao:"pub"})});
   // menções e marcações
   (S.msgsIn||[]).filter(m=>m.tipo==="mencao"&&+m.at>agora-30*864e5).forEach(m=>{let t;try{t=dmPrevia(m)}catch(e){t="Mencionou você"}
-    it.push({k:"m:"+m.id,at:+m.at,us:[m.de],ic:"@",txt:`<b>${esc(nomeDe(m.de))}</b> ${esc(String(t).charAt(0).toLowerCase()+String(t).slice(1))}${m.texto&&!/^Mencionou você no story$/.test(m.texto)?`: “${esc((t=>t.length>80?t.slice(0,79).trimEnd()+"…":t)(String(m.texto)))}”`:""}`,msg:m,acao:"men"})});
+    it.push({k:"m:"+m.id,at:+m.at,us:[m.de],ic:"@",txt:`<b>${esc(nomeDe(m.de))}</b> ${esc(String(t).charAt(0).toLowerCase()+String(t).slice(1))}${m.texto&&!/^Mencionou você no (story|giro)$/.test(m.texto)?`: “${esc((t=>t.length>80?t.slice(0,79).trimEnd()+"…":t)(String(m.texto)))}”`:""}`,msg:m,acao:"men"})});
   // amizades: pedidos e novas
   const pin=(S.pedidosIn||[]).filter(u=>S.membros[u]),am=amigosL();const chaves=pin.map(u=>"p:"+u).concat(am.map(u=>"a:"+u));
   // enquetes: amigos que votaram diferente de mim
@@ -68,7 +68,7 @@ function atAcao(x){const fecha=()=>{if($("#layer .pfv-at"))closeLayer()};
   if(x.acao==="men"){const m=x.msg;fecha();setTimeout(()=>{if(m.snap&&m.snap.upub){if(m.snap.story)abrirConversa(m.de);else pubIrPara(m.snap.upub)}else if(m.pid&&!/^u:/.test(m.pid)&&pautaById(m.pid))openComments(m.pid);else abrirConversa(m.de)},320);return}
   if(x.acao==="cob"){fecha();setTimeout(()=>abrirPagCob(x.pid),320);return}
   if(x.acao==="debate"){fecha();setTimeout(()=>debAbrir(x.pid),320);return}
-  if(x.pub){const pb=AT.pubs[x.pub];if(!pb)return;if(pb.tipo==="story"){stLista([pb],0,"Seu story","at");return}
+  if(x.pub){const pb=AT.pubs[x.pub];if(!pb)return;if(pb.tipo==="story"){stLista([pb],0,"Seu giro","at");return}
     fecha();setTimeout(()=>{if(x.acao==="cmt"&&pubDe(x.pub))openComments("u:"+x.pub);else pubIrPara(x.pub)},320)}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   if(t.closest("[data-ativ]")){e.stopPropagation();abrirAtividade();return}

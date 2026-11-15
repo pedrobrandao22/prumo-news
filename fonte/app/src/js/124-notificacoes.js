@@ -13,7 +13,7 @@ const NT124_TIPOS=[
   ["amizades","Pedidos de amizade","Pedidos novos e pedidos aceitos","+"],
   ["comentarios","Comentários e respostas","Nas suas publicações e onde você comentou","💬"],
   ["mencoes","Menções","Quando alguém marca você","@"],
-  ["curtidas","Curtidas","Nos seus posts, stories e comentários (agrupadas)","♥"],
+  ["curtidas","Curtidas","Nos seus posts, giros e comentários (agrupadas)","♥"],
   ["reposts","Reposts","Quando repostam ou citam sua publicação","↻"],
   ["seguidores","Novos seguidores","Quando alguém começa a seguir você","👤",1],
   ["seguindo","Posts de quem você segue","Publicações novas de quem você segue","▤",1],

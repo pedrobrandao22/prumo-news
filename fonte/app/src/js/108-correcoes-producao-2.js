@@ -41,7 +41,7 @@ document.addEventListener("submit",e=>{const f=e.target;if(!f)return;if(f.id==="
 function st108Vencidos(){try{if(!S.uid||!S.membro||typeof PUB==="undefined"||!PUB.on||$("#layer .story"))return false;
   return [...document.querySelectorAll("#secs [data-ustory]")].some(b=>{const u=b.dataset.ustory;return u&&u.charAt(0)!=="~"&&!pubStoriesDe(u).length})}catch(e){return false}}
 setInterval(()=>{if(!document.hidden&&st108Vencidos())pubRedesenha()},20e3);
-{const _au108=igAbrirUser;igAbrirUser=function(u){try{if(u&&u!==S.uid&&String(u).charAt(0)!=="~"&&typeof PUB!=="undefined"&&PUB.on&&!pubStoriesDe(u).length){pubRedesenha();toast("Esse story não está mais disponível.");return Promise.resolve()}}catch(e){}return _au108.apply(this,arguments)}}
+{const _au108=igAbrirUser;igAbrirUser=function(u){try{if(u&&u!==S.uid&&String(u).charAt(0)!=="~"&&typeof PUB!=="undefined"&&PUB.on&&!pubStoriesDe(u).length){pubRedesenha();toast("Esse giro não está mais disponível.");return Promise.resolve()}}catch(e){}return _au108.apply(this,arguments)}}
 
 /* 6. Atividade: voto na pergunta de um post aparece como voto (não "respondeu ao seu post") */
 {const _ai108=atItens;atItens=function(){const l=_ai108.apply(this,arguments);try{(l||[]).forEach(x=>{if(!x||typeof x.k!=="string"||x.k.indexOf("voto:")!==0)return;const pb=AT.pubs[x.pub],cn=pb&&pb.tipo==="post"&&pb.estilo&&pb.estilo.cn;
@@ -67,8 +67,8 @@ if(typeof FIT_IO!=="undefined"&&FIT_IO){try{FIT_IO.disconnect()}catch(e){}FIT_IO
 {const _dc108=dmCard;dmCard=function(m){let h=_dc108.apply(this,arguments);
   try{if(typeof h==="string"&&h.indexOf("dm-indisp")>=0&&dmEhPub(m)){const s=m.snap||{},t=String(s.titulo||""),mm=t.match(/^(Post|Story|Reel) de ([^:]+)$/),nome=mm&&mm[2].trim();
     if(mm)h=h.replace(`<span class="dm-ct"><b class="dm-utx">${esc(t.slice(0,160))}</b></span>`,"");
-    const story=s.story===true||/^Story de /.test(t),amigo=!!nome&&(nome===nomeDe(S.uid)||amigosL().some(u=>nomeDe(u)===nome));
-    if(story||amigo)h=h.replace("Só quem é amigo do autor consegue abrir",story?"Este story não está mais disponível":"Esta publicação não está mais disponível")}}catch(e){}return h}}
+    const story=s.story===true||/^(Story|Giro) de /.test(t),amigo=!!nome&&(nome===nomeDe(S.uid)||amigosL().some(u=>nomeDe(u)===nome));
+    if(story||amigo)h=h.replace("Só quem é amigo do autor consegue abrir",story?"Este giro não está mais disponível":"Esta publicação não está mais disponível")}}catch(e){}return h}}
 
 /* 10. depois de ver todos os stories de um amigo, o anel dele continuava colorido (como "não visto") até a bandeja ser
        redesenhada por outro motivo: ao fechar o story, os anéis da bandeja são atualizados no lugar (a ordem não muda) */

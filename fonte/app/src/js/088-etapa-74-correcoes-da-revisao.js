@@ -17,7 +17,7 @@ v5Testa=async function(){if(V5.on!==null||!SB||!S.uid)return V5.on;try{const r=a
 {const _pa74=pubApagar;pubApagar=async function(id,quieto){const x=pubDe(id);
   if(x&&x.tipo==="story"&&x.autor===S.uid&&V5.on){try{const dr=await SB.from("destaques").select("id,itens").eq("dono",S.uid);if(dr.error)throw dr.error;
       for(const d of (dr.data||[]).filter(d=>(d.itens||[]).includes(id))){const it=d.itens.filter(i=>i!==id);const q=it.length?await SB.from("destaques").update({itens:it}).eq("id",d.id):await SB.from("destaques").delete().eq("id",d.id);if(q&&q.error)throw q.error}
-      if(DEST[S.uid])await destCarregar(S.uid)}catch(e){if(!quieto)toast("Não deu para tirar o story do destaque agora.");return false}}
+      if(DEST[S.uid])await destCarregar(S.uid)}catch(e){if(!quieto)toast("Não deu para tirar o giro do destaque agora.");return false}}
   return _pa74.apply(this,arguments)}}
 /* Atividade: a "primeira vez" só é registrada com amigos e notícias carregados, e nada é esquecido por sumir um instante */
 atPrimeiraVez=function(chaves){let l=atLed();if(!S.amigosOk||!FEED)return l||{};const agora=Date.now();l=l||{_t0:agora};if(!l._t0)l._t0=agora-864e5;const base=agora-l._t0<90e3;

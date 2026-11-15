@@ -186,7 +186,7 @@ let srv = null, srv2 = null;
   ok(await esperar(A, () => !!document.querySelector('#layer .pfv [data-pb136nl]'), null, 8000), 'perfil da autora: "Colunas por e-mail"');
   await shot(A, '01-perfil-botao'); ok(await semLateral(A), '390 px: perfil com o botão sem rolagem lateral');
   await ev(A, () => document.querySelector('#layer .pfv [data-pb136nl]').click());
-  ok(await esperar(A, () => !!document.querySelector('#layer2 .sheet [data-pb136nla]'), null, 4000) && await ev(A, () => document.querySelector('[data-pb136nla]').disabled && /pedro@exemplo\.com/.test($('#layer2 .sheet').textContent) && /só a autora vê a lista/.test($('#layer2 .sheet').textContent)),
+  ok(await esperar(A, () => !!document.querySelector('#layer2 .sheet [data-pb136nla]'), null, 4000) && await ev(A, () => document.querySelector('[data-pb136nla]').disabled && /pedro@exemplo\.com/.test($('#layer2 .sheet').textContent) && /só quem escreve vê a lista/.test($('#layer2 .sheet').textContent)),
     'folha: "Assinar" travado até marcar que concorda, com o e-mail da conta e o texto de privacidade');
   await sleep(700); await shot(A, '02-folha-assinar');
   await ev(A, () => document.querySelector('[data-pb136nla]').click()); await sleep(300);

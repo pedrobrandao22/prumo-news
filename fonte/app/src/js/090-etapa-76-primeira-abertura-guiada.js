@@ -6,7 +6,7 @@ const TOUR_IC={capa:'<svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" hei
 function tourTelas(nome){return [
   {ic:"capa",k:"Capa",t:nome?`Bem-vindo, ${nome}`:"As notícias do dia",p:"A Capa traz o que importa hoje, em poucas linhas e sem viés. Toque na manchete para ler ali mesmo e escolha a versão Neutra, de Direita ou de Esquerda.",
     demo:`<div class="tr-capa"><i class="tr-k"></i><b></b><b class="c"></b><span class="tr-seg"><em class="on">Neutra</em><em>Direita</em><em>Esquerda</em></span></div>`},
-  {ic:"feed",k:"Feed e stories",t:"Notícias que dá para curtir",p:"No Feed, as notícias viram posts e stories, junto com o que seus amigos publicam. Curta, comente, vote nas enquetes e mande para quem quiser.",
+  {ic:"feed",k:"Feed e giros",t:"Notícias que dá para curtir",p:"No Feed, as notícias viram posts e giros, junto com o que seus amigos publicam. Curta, comente, vote nas enquetes e mande para quem quiser.",
     demo:`<div class="tr-feed"><span><i></i><i></i><i></i><i></i></span><div><b></b><b class="c"></b></div><p><em>♥</em><em>💬</em><em>➤</em></p></div>`},
   {ic:"ativ",k:"Amigos e Atividade",t:"Seus amigos estão aqui",p:"Quem te convidou já é seu amigo. O ♥ no topo mostra quem curtiu, comentou ou te marcou, e quando uma cobertura que você segue ganha novidade.",
     demo:`<div class="tr-ativ"><p><i></i><span><b></b><b class="c"></b></span></p><p><i></i><span><b></b><b class="c"></b></span></p><p><i class="q"></i><span><b></b><b class="c"></b></span></p></div>`},

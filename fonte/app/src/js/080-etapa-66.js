@@ -8,8 +8,8 @@ function edCabe(st){let it=edItens(st);const tam=()=>JSON.stringify({v:2,itens:i
   while((it.length>=10&&st.els.filter(e=>!edAssa(e)||e.t==="men").length>10||tam()>6000)&&ani.length){ani.pop().an="";mudou=true;it=edItens(st)}
   if(st.els.filter(e=>!edAssa(e)||e.t==="men").length>10||tam()>6000)return "demais";return mudou?"ok-mudou":"ok"}
 {const _ps66=edPublicaStory;edPublicaStory=async function(pub){if(!ED||ED.env)return _ps66.apply(this,arguments);if(ED.st.tx)edTextoOk();let aviso=false;
-  for(let i=0;i<ED.sts.length;i++){const r=edCabe(ED.sts[i]);if(r==="demais"){ED.si=i;ED.st=ED.sts[i];edDesenha();toast(ED.st.els.filter(e=>!edAssa(e)||e.t==="men").length>10?"Este story tem figurinhas demais. Tire algumas (até 10 tocáveis).":"Este story ficou grande demais para salvar. Tire uma figurinha ou encurte os textos.");return}if(r==="ok-mudou")aviso=true}
-  if(aviso)toast("Algumas animações de texto viraram texto fixo para caber no story.");return _ps66.apply(this,arguments)}}
+  for(let i=0;i<ED.sts.length;i++){const r=edCabe(ED.sts[i]);if(r==="demais"){ED.si=i;ED.st=ED.sts[i];edDesenha();toast(ED.st.els.filter(e=>!edAssa(e)||e.t==="men").length>10?"Este giro tem figurinhas demais. Tire algumas (até 10 tocáveis).":"Este giro ficou grande demais para salvar. Tire uma figurinha ou encurte os textos.");return}if(r==="ok-mudou")aviso=true}
+  if(aviso)toast("Algumas animações de texto viraram texto fixo para caber no giro.");return _ps66.apply(this,arguments)}}
 /* 4. ordem dos amigos congelada enquanto você assiste */
 {const _so66=storyOrdem;storyOrdem=function(){const L=_so66.apply(this,arguments);if(!ST||String(ST.sec||"").indexOf("_h:")===0)return L;if(!ST._uord)ST._uord=L.filter(x=>String(x).indexOf("_u:")===0);
   const vivos=ST._uord.filter(x=>x===ST.sec||(pubStoriesDe(String(x).slice(3)).length>0));return vivos.concat(L.filter(x=>String(x).indexOf("_u:")!==0))}}

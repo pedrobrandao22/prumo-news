@@ -43,7 +43,7 @@ function ra114MaDesenha(){const box=$("#ra114ma");if(!box)return;const am=amigos
     :`<div class="empty" style="padding:14px 0"><b>Você ainda não tem amigos no Prumo</b></div>`;
   const n=am.filter(u=>MA.set.has(u)).length,c=$("#ra114man");if(c)c.textContent=n?(n===1?"1 pessoa na lista":n+" pessoas na lista"):"Ninguém na lista ainda"}
 async function ra114MaAbrir(){if(precisaConta())return;
-  sheet("Melhores amigos",`<p class="hint" style="margin:0 0 4px">Só eles veem os stories e posts que você manda para os Melhores amigos. Ninguém é avisado quando entra ou sai.</p><p class="ra114-man" id="ra114man" aria-live="polite"></p><div id="ra114ma"><div class="empty" style="padding:14px 0"><b>Carregando…</b></div></div>`);
+  sheet("Melhores amigos",`<p class="hint" style="margin:0 0 4px">Só eles veem os giros e posts que você manda para os Melhores amigos. Ninguém é avisado quando entra ou sai.</p><p class="ra114-man" id="ra114man" aria-live="polite"></p><div id="ra114ma"><div class="empty" style="padding:14px 0"><b>Carregando…</b></div></div>`);
   if(MA.uid!==S.uid||MA.on!==true){MA.t=Date.now();try{await maCarregar()}catch(e){}}
   if(MA.on!==true){const b=$("#ra114ma");if(b)b.innerHTML=`<div class="empty" style="padding:14px 0"><b>A lista ainda não está disponível no Prumo.</b></div>`;return}
   ra114MaDesenha()}

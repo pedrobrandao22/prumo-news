@@ -30,7 +30,7 @@ function edFigHTML(e,vivo,x,k){const q=esc(e.q||"");
 edItemExtra=(e,o)=>{if(["perg","add"].includes(e.t))o.q=String(e.q||"").slice(0,90);if(e.t==="quiz"){o.q=String(e.q||"").slice(0,90);o.o=(e.o||[]).map(x=>String(x).slice(0,30)).slice(0,4);o.c=+e.c||0}
   if(e.t==="cont"){o.q=String(e.q||"").slice(0,40);o.ate=+e.ate||0}if(e.t==="slid"){o.q=String(e.q||"").slice(0,80);o.emo=String(e.emo||"😍").slice(0,8)}if(e.t==="link"){o.url=edUrlOk(String(e.url||"").slice(0,300));o.tit=String(e.tit||"").slice(0,30)}if(e.t==="add"&&e.ref)o.ref=String(e.ref).slice(0,40);return o};
 /* formulários das figurinhas */
-function edForm(tit,corpo,ok,el){$("#layer .ce-fig")?.remove();$("#layer .ce-sel")?.remove();const ov=document.createElement("div");ov.className="ce-sel";ov.innerHTML=`<div class="ce-selp"><b>${esc(tit)}</b>${corpo}<div class="ce-selb"><button type="button" class="btn ghost" data-edselx>Cancelar</button><button type="button" class="btn" data-edfok>${el?"Salvar":"Pôr no story"}</button></div></div>`;
+function edForm(tit,corpo,ok,el){$("#layer .ce-fig")?.remove();$("#layer .ce-sel")?.remove();const ov=document.createElement("div");ov.className="ce-sel";ov.innerHTML=`<div class="ce-selp"><b>${esc(tit)}</b>${corpo}<div class="ce-selb"><button type="button" class="btn ghost" data-edselx>Cancelar</button><button type="button" class="btn" data-edfok>${el?"Salvar":"Pôr no giro"}</button></div></div>`;
   ED._fok=()=>{const v=ok(ov);if(v===false)return;$("#layer .ce-sel")?.remove();if(el){Object.assign(el,v);edDesenha()}else edAdd(v)};$("#layer .ce").appendChild(ov);setTimeout(()=>ov.querySelector("input")?.focus(),40)}
 const fv=(ov,id)=>(ov.querySelector("#"+id)?.value||"").trim();
 function edFigForm(k,el){const e=el||{};

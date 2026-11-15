@@ -71,6 +71,8 @@ function f113Caps(){if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO=null}
   add(c.querySelector(".mat-tl"),"Linha do tempo");
   add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
   add(c.querySelector(".fs2-faq"),"Perguntas");
+  /* a lista de atualizações vem depois das Perguntas: sem capítulo próprio, o fim da matéria ficava marcado como "Perguntas" (14/11) */
+  add([...c.querySelectorAll(".cpx-bl")].find(e=>/^Atualizações/.test((e.querySelector("b")||{}).textContent||"")),"Atualizações");
   if(caps.length<2)return;
   caps.sort((x,y)=>x.el.compareDocumentPosition(y.el)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1);
   caps.forEach((x,i)=>{x.el.id="fs2c-"+i;x.el.classList.add("fs2-alvo");if(!x.el.hasAttribute("tabindex"))x.el.tabIndex=-1});

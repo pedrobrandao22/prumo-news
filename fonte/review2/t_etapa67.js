@@ -36,7 +36,7 @@ const convite = async P => { await ev(P, () => go('me')); await sleep(300); awai
   await ev(B, () => go('msgs')); await sleep(600); await ev(B, () => { const t = document.querySelector('[data-thread]'); t && t.click() }); await sleep(900);
   ok(await ev(B, () => { const a = document.querySelector('.thread a.dm-link, a.dm-link'); return a && a.href === 'https://www.gov.br/tse?a=1&b=2' && a.target === '_blank' }), 'link na mensagem vira tocável (sem o ponto final)');
   // marcas seguem a foto
-  await ev(A, () => { go('feed'); scrollTo(0, 0) }); await sleep(300); await clk(A, '#b-criar'); await sleep(300); await A.setInputFiles('#ce-pfile', [F1, F2, F3]); await esperar(A, () => ED.po.fotos.length === 3, null, 5000);
+  await ev(A, () => { go('feed'); scrollTo(0, 0) }); await sleep(300); await ev(A, () => criarAbrir('post')); await sleep(300); await A.setInputFiles('#ce-pfile', [F1, F2, F3]); await esperar(A, () => ED.po.fotos.length === 3, null, 5000);
   await ev(A, u => { const P = ED.po; P.tags = [{ u, i: 1, f: P.fotos[1], x: .5, y: .5 }]; P.fotos.splice(0, 1); P.cur = 0; edDesenha() }, uidB); await sleep(200);
   await clk(A, '[data-edav]'); await sleep(300); await clk(A, '[data-edav]'); await sleep(300); await clk(A, '[data-edpubpo]'); await esperar(A, () => !ED, null, 15000); await sleep(600);
   ok(await ev(A, u => { const x = PUB.itens.find(y => y.tipo === 'post' && y.autor === S.uid && y.fotos.length === 2); return x && x.estilo.tags.length === 1 && x.estilo.tags[0].i === 0 && x.estilo.tags[0].u === u }, uidB), 'marca da foto 2 vai junto quando a foto 1 sai');
