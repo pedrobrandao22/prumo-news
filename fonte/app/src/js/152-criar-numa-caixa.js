@@ -102,3 +102,6 @@ function cp152Mostra(id){let n=0;const tenta=()=>{const el=document.getElementBy
   if(++n<12)setTimeout(tenta,250)};setTimeout(tenta,300)}
 {const _ep152=edPublicaPost;edPublicaPost=async function(){const antes=new Set((PUB.itens||[]).filter(x=>x.autor===S.uid).map(x=>x.id));const r=await _ep152.apply(this,arguments);
   try{const novo=(PUB.itens||[]).find(x=>x.autor===S.uid&&x.tipo==="post"&&x.id&&!antes.has(x.id));if(novo){if(VIEW!=="feed")go("feed");cp152Mostra(novo.id)}}catch(e){}return r}}
+
+/* trechos citados (Atividade, conversas): corta na palavra e põe "…" (14/11, testador: "a estimativa do Executivo ” há 1 d") */
+function cp152Corta(s,n){s=String(s==null?"":s).replace(/\s+/g," ").trim();if(s.length<=n)return s;const c=s.slice(0,n-1),i=c.lastIndexOf(" ");return (i>n*.6?c.slice(0,i):c).replace(/[\s,;:.\-–—]+$/,"")+"…"}

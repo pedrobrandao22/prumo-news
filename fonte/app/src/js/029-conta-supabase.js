@@ -133,7 +133,7 @@ function duploGostei(c){const pid=c.closest("[data-pid]")?.dataset.pid;if(!pid)r
 function abrirMinhaLista(tipo){const u=S.uid;if(!u){precisaConta();return}let html="",tit="";
   const row=(id,snap,sub)=>`<li><button type="button" data-goto="${esc(id)}"><b>${esc(snap?.titulo||"Notícia")}</b><span>${sub}</span></button></li>`;
   if(tipo==="gostei"){tit="Notícias que você gostou";const it=Object.entries(curtidasDe(u)).filter(([,x])=>x).sort((a,b)=>(b[1].at||0)-(a[1].at||0));html=it.map(([id,x])=>{const sn=x.snap&&x.snap.titulo?x.snap:snapById(id);return row(id,sn,esc(secNome(sn?.secao||"politica"))+" · "+esc(quando(x.at)))}).join("")}
-  if(tipo==="cmt"){tit="Seus comentários";const it=todosComentarios().filter(c=>c.uid===u).map(c=>({id:c.pid,snap:c.snap||snapById(c.pid),c}));it.sort((a,b)=>b.c.at-a.c.at);html=it.map(x=>row(x.id,x.snap,"“"+esc(x.c.texto.slice(0,90))+"” · "+esc(quando(x.c.at)))).join("")}
+  if(tipo==="cmt"){tit="Seus comentários";const it=todosComentarios().filter(c=>c.uid===u).map(c=>({id:c.pid,snap:c.snap||snapById(c.pid),c}));it.sort((a,b)=>b.c.at-a.c.at);html=it.map(x=>row(x.id,x.snap,"“"+esc(cp152Corta(x.c.texto,90))+"” · "+esc(quando(x.c.at)))).join("")}
   if(tipo==="env"){tit="Notícias que você enviou";const it=S.msgsOut.filter(m=>m.pid&&!m.resp&&m.tipo!=="cutucada").sort((a,b)=>b.at-a.at);html=it.map(m=>row(m.pid,m.snap,"Para "+esc(nomeDe(m.para))+" · "+esc(quando(m.at)))).join("")}
   sheet(tit,html?`<ul class="sres">${html}</ul>`:`<div class="empty"><b>Nada por aqui ainda</b></div>`)}
 /* 19. ponto no Interagir */

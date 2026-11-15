@@ -39,10 +39,10 @@ function atItens(){if(!S.uid||!S.membro)return [];const it=[],agora=Date.now();
   enqs.concat(FEED?(FEED.pautas||[]):[]).forEach(p=>{if(it.some(x=>x.k==="cn:"+p.id))return;const {cm}=socialOf(p.id);const meus=cm.filter(c=>c.uid===S.uid);const votei=p.enquete&&meuVoto(p.id)!=null;if(!meus.length&&!votei)return;
     const desde=meus.length?Math.min(...meus.map(c=>c.at)):0;const outros=cm.filter(c=>c.uid!==S.uid&&c.at>desde&&c.at>agora-7*864e5);if(!outros.length)return;
     const us=[...new Set(outros.slice().reverse().map(c=>c.uid))];const ult=outros[outros.length-1];
-    it.push({k:"cn:"+p.id,at:ult.at,us,ic:"💬",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"comentaram":"comentou"} ${p.enquete?"na enquete":"na notícia"} “${esc(p.enquete?p.enquete.pergunta:(versao(p,lente()).titulo||temaDe(p)))}”: “${esc(String(ult.texto).slice(0,70))}”`,pid:p.id,acao:"debate"})});
+    it.push({k:"cn:"+p.id,at:ult.at,us,ic:"💬",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"comentaram":"comentou"} ${p.enquete?"na enquete":"na notícia"} “${esc(p.enquete?p.enquete.pergunta:(versao(p,lente()).titulo||temaDe(p)))}”: “${esc(cp152Corta(ult.texto,70))}”`,pid:p.id,acao:"debate"})});
   // coberturas seguidas: atualizações dos últimos 3 dias
   if(FEED)(FEED.pautas||[]).filter(p=>seguido(p)).forEach(p=>{const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto&&tms(u.hora)>agora-3*864e5).sort((a,b)=>tms(b.hora)-tms(a.hora));if(!ups.length)return;
-    it.push({k:"cob:"+p.id+":"+ups[0].hora,at:tms(ups[0].hora),us:[],ic:"📌",txt:`<b>${esc(temaDe(p))}</b>, que você segue, teve ${ups.length>1?ups.length+" atualizações":"uma atualização"}: “${esc(String(ups[0].texto).slice(0,90))}”`,pid:p.id,acao:"cob"})});
+    it.push({k:"cob:"+p.id+":"+ups[0].hora,at:tms(ups[0].hora),us:[],ic:"📌",txt:`<b>${esc(temaDe(p))}</b>, que você segue, teve ${ups.length>1?ups.length+" atualizações":"uma atualização"}: “${esc(cp152Corta(ups[0].texto,90))}”`,pid:p.id,acao:"cob"})});
   return it.filter(x=>x.fixo||x.at>agora-30*864e5).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}
 function atNovas(){const v=atVisto();return atItens().filter(x=>x.at>v).length}
 function atDot(){const n=S.uid&&S.membro?atNovas():0;document.querySelectorAll(".at-dot").forEach(d=>{d.hidden=!n})}
