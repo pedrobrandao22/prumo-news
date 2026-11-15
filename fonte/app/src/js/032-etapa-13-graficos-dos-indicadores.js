@@ -40,7 +40,7 @@ function abrirGrafico(id,per){const it=indItens().filter(x=>x&&x.nome&&x.valor),
   const diario=id==="dolar"||id==="ibovespa"||/^\d{4}-\d{2}-\d{2}$/.test((tudo[0]||{}).r||"");
   const ops=(diario?[[22,"1 mês"],[66,"3 meses"]]:[[13,"12 meses"],[25,"2 anos"]]).filter((o,k)=>k===0||tudo.length>ops0(diario)+2);
   function ops0(dd){return dd?22:13}
-  const chips=ops.length>1;const full=chips?ops[ops.length-1][0]:tudo.length;per=chips?(ops.some(o=>o[0]===per)?per:full):tudo.length;
+  const chips=ops.length>1;const full=chips?ops[ops.length-1][0]:tudo.length;/* mensais abrem em 12 meses (14/11: a Selic caindo no cartão e "▲ +1,50 em 2 anos" no gráfico confundia) */const ini=chips&&!diario?ops[0][0]:full;per=chips?(ops.some(o=>o[0]===per)?per:ini):tudo.length;
   const d=tudo.slice(-per);GR.id=id;GR.d=d;GR.per=per;
   const seta={sobe:"▲",desce:"▼",estavel:"▬"};
   let h=`<div class="gr"><div class="gr-hd"><b class="gr-v">${esc(x.valor)}</b>${x.variacao?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao)} <small>no dia</small></em>`:""}</div>`;

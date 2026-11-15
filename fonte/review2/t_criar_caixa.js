@@ -30,6 +30,7 @@ async function criar(p, { nome, email }) {
   ok(await ev(A, () => !document.querySelector('[data-cp152pub]').disabled), 'Publicar liga com texto');
   await clk(A, '[data-cp152pub]');
   ok(await esperar(A, () => PUB.itens.some(x => x.autor === S.uid && x.tipo === 'post' && x.texto === 'Primeiro post pela caixa') && !document.querySelector('#layer').innerHTML, null, 8000), 'texto publica direto e a tela fecha');
+  ok(await esperar(A, () => { const x = PUB.itens.find(x => x.texto === 'Primeiro post pela caixa'); const el = x && document.getElementById('p-u:' + x.id); if (!el) return false; const r = el.getBoundingClientRect(); return VIEW === 'feed' && r.top >= 0 && r.top < innerHeight * .6 }, null, 6000), 'depois de publicar, o post aparece na tela do Feed');
 
   // 3. Notícia: formulário com o texto e sem a faixa de tipos; voltar traz o texto
   await ev(A, () => criarMenu()); await sleep(300); await A.fill('#cp152-tx', 'Acho que isso muda tudo'); await clk(A, '[data-cp152ax="nt"]'); await sleep(600);

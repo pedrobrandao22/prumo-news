@@ -5488,6 +5488,9 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
 .cp152-rp{display:flex;align-items:center;gap:10px;width:100%;min-height:50px;margin-top:12px;padding:0 14px;border-radius:12px;background:#16181d;border:1px solid #25282f;color:#fff;font:600 14.5px var(--f-ui);text-align:left}
 .cp152-rp .cn102-i{width:20px;height:20px;fill:none;stroke:#aeb3bd;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
 .cp152-rp span{flex:1}.cp152-rp b{margin-left:4px;color:#e0a458}.cp152-rp i{color:#6c717b;font-style:normal}
+.cp152-novo{animation:cp152Novo 2s ease}
+@keyframes cp152Novo{0%,40%{box-shadow:inset 0 0 0 2px var(--bronze,#c8812e)}100%{box-shadow:inset 0 0 0 2px transparent}}
+@media (prefers-reduced-motion:reduce){.cp152-novo{animation:none}}
 </style>
 </head>
 <body>
@@ -7614,7 +7617,7 @@ function abrirGrafico(id,per){const it=indItens().filter(x=>x&&x.nome&&x.valor),
   const diario=id==="dolar"||id==="ibovespa"||/^\d{4}-\d{2}-\d{2}$/.test((tudo[0]||{}).r||"");
   const ops=(diario?[[22,"1 mês"],[66,"3 meses"]]:[[13,"12 meses"],[25,"2 anos"]]).filter((o,k)=>k===0||tudo.length>ops0(diario)+2);
   function ops0(dd){return dd?22:13}
-  const chips=ops.length>1;const full=chips?ops[ops.length-1][0]:tudo.length;per=chips?(ops.some(o=>o[0]===per)?per:full):tudo.length;
+  const chips=ops.length>1;const full=chips?ops[ops.length-1][0]:tudo.length;/* mensais abrem em 12 meses (14/11: a Selic caindo no cartão e "▲ +1,50 em 2 anos" no gráfico confundia) */const ini=chips&&!diario?ops[0][0]:full;per=chips?(ops.some(o=>o[0]===per)?per:ini):tudo.length;
   const d=tudo.slice(-per);GR.id=id;GR.d=d;GR.per=per;
   const seta={sobe:"▲",desce:"▼",estavel:"▬"};
   let h=`<div class="gr"><div class="gr-hd"><b class="gr-v">${esc(x.valor)}</b>${x.variacao?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao)} <small>no dia</small></em>`:""}</div>`;
@@ -17688,6 +17691,12 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 /* ===== Perfil: "Minhas colunas" ao lado de "Nova publicação" ===== */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cp152cols]");if(!b)return;e.preventDefault();e.stopPropagation();ed132Hub()},true);
 {const _pc152=pfCab;pfCab=function(u){const h=_pc152.apply(this,arguments);try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-cp152cols")<0)return h.replace(/(<button type="button" class="btn ghost" data-criarde="post">Nova publicação<\/button>)/,'$1<button type="button" class="btn ghost" data-cp152cols>Minhas colunas</button>')}catch(e){}return h}}
+
+/* ===== depois de publicar, o post aparece na tela (14/11, testador: "Já está no Feed", mas ficava abaixo da notícia em destaque) ===== */
+function cp152Mostra(id){let n=0;const tenta=()=>{const el=document.getElementById("p-u:"+id);if(el&&el.getClientRects().length){try{const top=el.getBoundingClientRect().top+scrollY-((document.querySelector(".top")||{}).offsetHeight||56)-8;scrollTo({top:Math.max(0,top),behavior:"smooth"});el.classList.add("cp152-novo");setTimeout(()=>el.classList.remove("cp152-novo"),2200)}catch(e){}return}
+  if(++n<12)setTimeout(tenta,250)};setTimeout(tenta,300)}
+{const _ep152=edPublicaPost;edPublicaPost=async function(){const antes=new Set((PUB.itens||[]).filter(x=>x.autor===S.uid).map(x=>x.id));const r=await _ep152.apply(this,arguments);
+  try{const novo=(PUB.itens||[]).find(x=>x.autor===S.uid&&x.tipo==="post"&&x.id&&!antes.has(x.id));if(novo){if(VIEW!=="feed")go("feed");cp152Mostra(novo.id)}}catch(e){}return r}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

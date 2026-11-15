@@ -96,3 +96,9 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 /* ===== Perfil: "Minhas colunas" ao lado de "Nova publicação" ===== */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cp152cols]");if(!b)return;e.preventDefault();e.stopPropagation();ed132Hub()},true);
 {const _pc152=pfCab;pfCab=function(u){const h=_pc152.apply(this,arguments);try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-cp152cols")<0)return h.replace(/(<button type="button" class="btn ghost" data-criarde="post">Nova publicação<\/button>)/,'$1<button type="button" class="btn ghost" data-cp152cols>Minhas colunas</button>')}catch(e){}return h}}
+
+/* ===== depois de publicar, o post aparece na tela (14/11, testador: "Já está no Feed", mas ficava abaixo da notícia em destaque) ===== */
+function cp152Mostra(id){let n=0;const tenta=()=>{const el=document.getElementById("p-u:"+id);if(el&&el.getClientRects().length){try{const top=el.getBoundingClientRect().top+scrollY-((document.querySelector(".top")||{}).offsetHeight||56)-8;scrollTo({top:Math.max(0,top),behavior:"smooth"});el.classList.add("cp152-novo");setTimeout(()=>el.classList.remove("cp152-novo"),2200)}catch(e){}return}
+  if(++n<12)setTimeout(tenta,250)};setTimeout(tenta,300)}
+{const _ep152=edPublicaPost;edPublicaPost=async function(){const antes=new Set((PUB.itens||[]).filter(x=>x.autor===S.uid).map(x=>x.id));const r=await _ep152.apply(this,arguments);
+  try{const novo=(PUB.itens||[]).find(x=>x.autor===S.uid&&x.tipo==="post"&&x.id&&!antes.has(x.id));if(novo){if(VIEW!=="feed")go("feed");cp152Mostra(novo.id)}}catch(e){}return r}}
