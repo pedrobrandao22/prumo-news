@@ -5,7 +5,7 @@ function ssNumero(t){const m=SS_NUM.exec(t||"");if(!m||m.index>70)return null;co
   if(/^\s*(?:[,–—-]|(?:a|até|e|ou)\s+(?:R\$\s?|US\$\s?)?\d)/i.test(resto))return null;return m[1].trim().replace(/[.,;:]+$/,"")}
 function ssFrasesSociais(p,L){const so=L==="neutro"&&Array.isArray(p.social)?p.social.map(x=>typeof x==="string"?x:(x&&x.texto)||"").filter(x=>x.trim()):[];
   return (so.length>=2?so:pontosDe(p,L)).slice(0,5)}
-function ssPessoa(p,usadas){const A=FOTOS_ARQ;if(!A)return null;const n=p.neutro||{},t=[n.titulo,p.subtitulo,(n.pontos||[])[0]].join(" ");
+function ssPessoa(p,usadas){const A=FOTOS_ARQ;if(!A)return null;const n=p.neutro||{};/* só quem está no TÍTULO (14/11: Trump aparecia na notícia dos voos por estar no 1º ponto) */const t=String(versao(p,lente()).titulo||n.titulo||"");
   const a=faPessoa(t,A);if(!a||!Array.isArray(a.fotos))return null;const nome=Object.keys(A.pessoas||{}).find(k=>A.pessoas[k]===a)||"";
   const f=a.fotos.filter(faValida).find(x=>!usadas.has(faNome(x.url)));if(!f||!nome)return null;usadas.add(faNome(f.url));
   return {nome,desc:(FEED.pessoas||{})[nome]||"",f}}

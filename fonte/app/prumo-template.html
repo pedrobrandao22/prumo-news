@@ -5502,6 +5502,11 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
 .pf-cols span{flex:1;min-width:0;display:flex;flex-direction:column}
 .pf-cols b{font:700 14px var(--f-ui)}.pf-cols small{font:500 12.5px var(--f-ui);color:var(--muted)}
 .pf-cols i{font-style:normal;color:var(--muted);font-size:18px}
+
+/* ---------- 153: Feed limpo ---------- */
+#posts .post:not(.upost) .ht-nl{display:none}
+#posts .post:not(.upost) .cmt-area .addc{display:none}
+#posts .post:not(.upost) .cmt-area:has(.cmts:empty){display:none}
 </style>
 </head>
 <body>
@@ -8128,7 +8133,7 @@ function ssNumero(t){const m=SS_NUM.exec(t||"");if(!m||m.index>70)return null;co
   if(/^\s*(?:[,–—-]|(?:a|até|e|ou)\s+(?:R\$\s?|US\$\s?)?\d)/i.test(resto))return null;return m[1].trim().replace(/[.,;:]+$/,"")}
 function ssFrasesSociais(p,L){const so=L==="neutro"&&Array.isArray(p.social)?p.social.map(x=>typeof x==="string"?x:(x&&x.texto)||"").filter(x=>x.trim()):[];
   return (so.length>=2?so:pontosDe(p,L)).slice(0,5)}
-function ssPessoa(p,usadas){const A=FOTOS_ARQ;if(!A)return null;const n=p.neutro||{},t=[n.titulo,p.subtitulo,(n.pontos||[])[0]].join(" ");
+function ssPessoa(p,usadas){const A=FOTOS_ARQ;if(!A)return null;const n=p.neutro||{};/* só quem está no TÍTULO (14/11: Trump aparecia na notícia dos voos por estar no 1º ponto) */const t=String(versao(p,lente()).titulo||n.titulo||"");
   const a=faPessoa(t,A);if(!a||!Array.isArray(a.fotos))return null;const nome=Object.keys(A.pessoas||{}).find(k=>A.pessoas[k]===a)||"";
   const f=a.fotos.filter(faValida).find(x=>!usadas.has(faNome(x.url)));if(!f||!nome)return null;usadas.add(faNome(f.url));
   return {nome,desc:(FEED.pessoas||{})[nome]||"",f}}
@@ -17712,6 +17717,12 @@ function cp152Mostra(id){let n=0;const tenta=()=>{const el=document.getElementBy
 
 /* trechos citados (Atividade, conversas): corta na palavra e põe "…" (14/11, testador: "a estimativa do Executivo ” há 1 d") */
 function cp152Corta(s,n){s=String(s==null?"":s).replace(/\s+/g," ").trim();if(s.length<=n)return s;const c=s.slice(0,n-1),i=c.lastIndexOf(" ");return (i>n*.6?c.slice(0,i):c).replace(/[\s,;:.\-–—]+$/,"")+"…"}
+/* ---------- 153: notícias do Feed mais limpas (14/11, pedido do Pedro) ----------
+   O cartão de notícia no Feed tinha 4 faixas depois das ações: barra da cobertura com "desde 08/11 · etapa: … · 6
+   manchetes", hashtags e o campo "Adicione um comentário…". Agora: a barra diz só "Cobertura completa" (e a etapa, se
+   houver); hashtags e o campo vazio de comentário saem do Feed (continuam na matéria e nos comentários). Prefixo fl153. */
+{const _cb153=cobBarra;cobBarra=function(p){const h=_cb153.apply(this,arguments);if(!h)return h;try{const et=cobEtapaAtual(p);
+  return h.replace(/<span class="cb-t">[\s\S]*?<\/span>/,`<span class="cb-t"><b>Cobertura completa</b>${et?" · "+esc(et):""}</span>`)}catch(e){return h}}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

@@ -10,6 +10,18 @@ agendada, nunca neste repositório, que é público).
 3. `curl -s https://prumonews.com.br/versao.json`: se a versão mudou desde `config/estado.ultima_versao`, a rodada
    começa pelo que mudou (ver `git log` de `fonte/app/src` desde a versão anterior).
 
+## Em TODA rodada, antes da área do dia (pedido do Pedro, 14/11)
+Estes três pontos ficam sempre no radar; anote cada caso novo (ou atualize o achado que já existe):
+1. **Foto x notícia**: percorra as notícias da Capa e do Feed e confira se a foto mostra o fato, o lugar ou a pessoa
+   da notícia (ex. ruim: Enem com jovens dançando, incêndio em fábrica com foto de queimada, COP com Parlamento
+   Europeu). Diga no achado qual notícia, qual foto (legenda/crédito) e que foto faria sentido.
+2. **"Quem é" fora de lugar**: no carrossel das notícias do Feed, o cartão "Quem é" só pode ser de pessoa central da
+   notícia (ex. ruim: "Quem é Trump" na notícia dos voos cancelados).
+3. **Feed limpo**: o cartão de notícia do Feed está enxuto? Aponte o que sobra (faixas, rótulos, repetições) e o que
+   poderia sair ou ficar mais simples, com foto de tela.
+Use os ids `fotos-sem-relacao-com-a-noticia`, `quem-e-trump-na-noticia-dos-voos` e `feed-noticias-mais-clean` para o
+geral e crie um achado por caso concreto novo (id com o assunto, ex. `foto-enem-jovens-dancando`).
+
 ## O que testar (uma área por rodada, em rodízio pela hora; sempre mais 5 min livres em outra área)
 | hora % 8 | área |
 |---|---|

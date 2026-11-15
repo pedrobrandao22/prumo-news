@@ -108,7 +108,7 @@ TEMAS = {
     "mundo/África": [("African Union headquarters Addis Ababa", ["african union headquarters", "african union hall", "african union conference"])],
     "educacao/Educação básica": [("sala de aula escola estadual alunos", ["sala de aula", "escola estadual", "escola municipal", "alunos"])],
     "educacao/Ensino superior": [("campus universidade federal Brasil", ["campus", "reitoria", "universidade federal"])],
-    "educacao/Enem e vestibulares": [("Enem candidatos prova", ["enem"]), ("vestibular candidatos", ["vestibular"])],
+    "educacao/Enem e vestibulares": [("Enem candidatos fazem prova", ["enem"]), ("vestibular candidatos prova sala", ["vestibular", "prova"])],
     "educacao/Políticas": [("Ministério da Educação Brasília", ["educação", "mec"])],
     "educacao/Avaliações": [("sala de aula escola estadual alunos", ["sala de aula", "escola estadual", "escola municipal", "alunos"])],
     "esportes/Brasileirão": [("Estádio do Maracanã", ["maracanã", "maracana"]), ("Allianz Parque", ["allianz parque"])],
@@ -144,7 +144,8 @@ ASSUNTOS = {
     "trens": (["trem", "trens", "Trem", "Trens", "ferrovia", "ferroviário", "metrô", "Metrô"], "trem de passageiros ferrovia", ["trem", "passenger train", "railway"], None),
     "aviação": (["avião", "aviões", "Avião", "voo", "voos", "aeroporto", "Aeroporto", "aérea", "aéreo"], "Aeroporto de Guarulhos avião", ["aeroporto", "airport", "aircraft", "airbus", "boeing"], None),
     "barragem": (["barragem", "Barragem", "represa", "açude"], "barragem Brasil", ["barragem", "dam"], None),
-    "incêndio": (["incêndio", "Incêndio", "queimada", "queimadas", "fogo"], "incêndio florestal Brasil", ["incêndio", "incendio", "queimada", "wildfire"], None),
+    "incêndio": (["incêndio", "Incêndio", "fogo"], "bombeiros combate a incêndio", ["bombeiros", "firefighter", "fire department"], None),
+    "queimadas": (["queimada", "queimadas", "incêndio florestal", "Incêndio florestal"], "incêndio florestal Brasil", ["incêndio florestal", "incendio florestal", "queimada", "wildfire"], None),
     "aves": (["aves", "aviária", "Newcastle", "frango", "frangos", "granja"], "chickens poultry farm", ["chicken", "frango", "galinha", "poultry", "avicultura", "aviário"], None),
     "café e agro": (["café", "Café", "safra", "agro", "agronegócio"], "colheita de café Brasil", ["café", "coffee"], None),
     "combustíveis": (["gasolina", "Gasolina", "diesel", "combustível", "combustíveis", "etanol"], "posto de combustível bomba de gasolina", ["posto", "gas station", "fuel"], None),
@@ -231,6 +232,12 @@ COMUNS = {"bacelar", "general", "pastor", "delegado", "coronel", "capitao", "sar
           "doutora", "padre", "irmao", "irma", "pastora", "cabo", "major", "tenente", "missionario", "juninho", "zezinho"}
 
 
+# fotos que já apareceram em lugar errado (14/11, testador e Pedro): aulão com dança no lugar de prova do Enem, pessoa
+# específica como foto genérica de plenário, teatro em "Meio ambiente", criança em desfile na Ásia. Vale para as novas e
+# tira as que já estavam no acervo.
+NEGADAS = re.compile(r"(aulao|teatro|young pioneers|pioneiros|mbeki|adeola|monica benicio|haitianos|carnaval|danca|dancing|festa|desfile|baile|parade)")
+
+
 def norm(s):
     return unicodedata.normalize("NFD", str(s or "")).encode("ascii", "ignore").decode().lower()
 
@@ -293,7 +300,7 @@ def busca(consulta, chaves, n=4, exige_todos=False, evitar=()):
         if exige_todos:
             if not all(all(w in tit for w in k.split()) for k in ks[:1]): continue
         elif not any(k in tit for k in ks): continue
-        if FORA.search(tit.replace("_", " ")): continue
+        if FORA.search(tit.replace("_", " ")) or NEGADAS.search(norm(tit).replace("_", " ")): continue
         if ii.get("mime") not in ("image/jpeg", "image/webp"): continue
         if (ii.get("width") or 0) < 700 or (ii.get("height") or 0) < 400: continue
         md = ii.get("extmetadata") or {}
@@ -429,7 +436,7 @@ def tamanho_pasta(p):
 
 # ---------- escolha estável (não troca foto todo dia) ----------
 def valida_velha(f):
-    return isinstance(f, dict) and isinstance(f.get("url"), str) and f["url"].startswith("https://") and not FORA.search(norm(f["url"].rsplit("/", 1)[-1]).replace("_", " "))
+    return isinstance(f, dict) and isinstance(f.get("url"), str) and f["url"].startswith("https://") and not FORA.search(norm(f["url"].rsplit("/", 1)[-1]).replace("_", " ")) and not NEGADAS.search(norm(urllib.parse.unquote(f["url"].rsplit("/", 1)[-1])).replace("_", " "))
 
 
 def completa(f):
