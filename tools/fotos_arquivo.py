@@ -564,7 +564,10 @@ def main(argv):
         if fotos: out_t[k] = [dict(f, alt=f.get("alt") or f"Foto de arquivo: {qs[0][0]}") for f in fotos[:4]]
         print(f"{k}: {len(fotos)}")
     for nome, (chaves, q, ch, secs) in ASSUNTOS.items():
-        fotos = junta(((VA.get(nome) or {}).get("fotos")) or [], [], 3)
+        # as antigas só ficam se ainda batem com as palavras do assunto (14/11: "incêndio" mudou de queimada para bombeiros)
+        chn = [norm(c) for c in ch]
+        velhas = [v for v in (((VA.get(nome) or {}).get("fotos")) or []) if isinstance(v, dict) and any(c in norm(urllib.parse.unquote(str(v.get("url", "")).rsplit("/", 1)[-1])).replace("_", " ") for c in chn)]
+        fotos = junta(velhas, [], 3)
         if len(fotos) < 2: fotos = junta(fotos, busca(q, ch, n=3), 3)
         if fotos:
             out_a[nome] = {"chaves": chaves, "fotos": [dict(f, alt=f.get("alt") or f"Foto de arquivo: {q}") for f in fotos]}
