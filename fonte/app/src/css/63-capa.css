@@ -1,0 +1,22 @@
+/* 159: Capa (15/11, noite) — ver js/159-capa.js */
+/* 1. pregão com variação muito forte */
+.gr-svg .ca159-sp{fill:var(--card);stroke:var(--hot);stroke-width:2}
+.ca159-salto{margin:8px 0 0;font:500 12.5px/1.45 var(--f-ui);color:var(--muted)}
+.ca159-salto b{font-weight:700;color:var(--ink)}.ca159-salto span{white-space:nowrap}
+/* 2. setas de Selic, IPCA e desemprego em cor neutra; "vs set" menor */
+.ind-t em.ca159-neu,.gr em.ca159-neu,.gr-outros .ind-t em.ca159-neu{color:var(--ink-2)!important}
+.ind-t em small,.gr-hd em small{font-weight:500;font-size:.88em;color:var(--muted)}
+/* 4. balança no cabeçalho da Capa enquanto ela está no alto (celular) */
+@media (max-width:700px){
+  html.ca159-lp-topo .lp{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);bottom:auto;right:auto;left:max(16px,env(safe-area-inset-left,0px));box-shadow:none;font-size:0;gap:2px;padding:0;min-width:40px;height:40px;justify-content:center}
+  html.ca159-lp-topo .lpm{position:absolute;top:calc(env(safe-area-inset-top,0px) + 60px);bottom:auto;right:auto;left:max(16px,env(safe-area-inset-left,0px))}
+}
+/* 7. "Para acompanhar": o que mudou */
+.cp-l .ca159-mud{display:block;margin-top:3px;font:400 13.5px/1.4 var(--f-ui);color:var(--muted)}
+/* 10. Atividade: número na bolinha */
+.at-dot.ca159-n{width:auto;height:auto;min-width:17px;padding:1px 4px;top:2px;right:0;border-radius:9px;font:700 10px/13px var(--f-ui);color:#fff;text-align:center;box-sizing:border-box}
+/* 11. letra grande: a foto pequena das listas da Capa sobe para cima do texto, que usa a largura toda */
+@media (max-width:600px){
+  html.fzg .cp .cpi:not(.cpi-man):not(.cpi-rel)>.cpi-b{flex-direction:column-reverse;align-items:stretch;gap:10px}
+  html.fzg .cp .cpi:not(.cpi-man)>.cpi-b>.cp-th{width:100%;aspect-ratio:2/1}
+}
