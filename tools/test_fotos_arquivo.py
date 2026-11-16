@@ -224,6 +224,8 @@ class TesteRevisao1511(unittest.TestCase):
 
     def test_bloqueadas_e_historicas(s):
         s.assertTrue(FA.bloqueada(foto("Casa-da-moeda-bovespa-01.jpg")))
+        s.assertTrue(FA.bloqueada(foto("Bolsa_de_Valores_(17205467578).jpg")))  # pregão antigo P&B (corretor 16/11)
+        s.assertTrue(FA.bloqueada(foto("Bolsa_de_Valores_(17391295482).jpg")))
         s.assertTrue(FA.bloqueada(foto("ISS-32_American_EVA_b3_Aki_Hoshide.jpg")))
         s.assertTrue(FA.bloqueada(foto("Senado_Federal_do_Brasil_Plenário_do_Senado_(15717805622).jpg")))
         s.assertTrue(FA.bloqueada(foto("Foo.jpg", cred="Foto de arquivo: Núcleo de digitalização / IMS/Wikimedia Commons (Public domain)")))

@@ -250,7 +250,8 @@ NEGADAS = re.compile(r"(aulao|teatro|young pioneers|pioneiros|mbeki|adeola|monic
 # 15/11 (revisão das fotos de todas as notícias): arquivos que apareceram no lugar errado e não voltam. Nome do arquivo sem
 # acento, minúsculo, "_" → " ". Astronauta e carro como "B3", cartão-postal do Rio como "prédio do STF", close de um
 # senador como "plenário", mural de vestibular antigo como "Enem", diretoria do Real Madrid como "Ancelotti" etc.
-BLOQUEADAS = ["iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
+BLOQUEADAS = ["bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bolsa de valores (17393276865)",  # pregão de viva-voz, P&B (corretor 16/11)
+              "iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
               "plenario do senado (15717805622)", "plenario do senado (15687627386)", "plenario do senado (15109327665)", "vestibular.jpg",
               "ofrenda de la liga", "roda viva com senadora", "com bandeira do brasil", "conselheira tais ferraz", "arena corinthians opening",
               "allianz parque - reconhecimento facial", "tudo-o-que-voce-sempre-quis-saber", "vidpovid to be performing", "hibakujumoku",
