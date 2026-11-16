@@ -33,7 +33,9 @@ async function foto2(p, n) { await U.foto(p, n + '-claro'); await p.evaluate(() 
     U.ok(/pelo menos 6/.test(await page.$eval('#lerro', e => e.textContent)), nome + ': senha curta');
     if (nome === 'com config') await foto2(page, 'criar-conta');
     await page.click('[data-laba="entrar"]'); await page.click('[data-esqueci]');
-    U.ok(await page.$eval('#lesq', e => !e.hidden && /redefine a sua senha/.test(e.textContent)), nome + ': esqueci a senha');
+    await U.sleep(300);  // 160: pede o e-mail ou manda o link (o envio em si é conferido no t_conta_1511)
+    const esq = await page.$eval('#lesq', e => e.hidden ? '' : e.textContent).catch(() => '');
+    U.ok(/e-mail|link/i.test(esq) && !/Fale com o Pedro/.test(esq), nome + ': esqueci a senha', esq);
     await page.click('[data-close]');
     // abas sem conta
     for (const v of ['capa', 'msgs', 'busca', 'saved', 'play', 'me']) { if (v === 'saved' || v === 'play') await page.evaluate(x => go(x), v); else await page.click('#t-' + v); await U.sleep(150) }
