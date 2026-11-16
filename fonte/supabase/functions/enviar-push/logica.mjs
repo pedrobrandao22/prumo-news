@@ -112,7 +112,11 @@ export async function enviarUm(buildPushPayload, fetchFn, insc, texto, vapid, tt
   const req = await buildPushPayload({ data: texto, options: { ttl } }, sub, vapid);
   const res = await fetchFn(insc.endpoint, req);
   const status = res && typeof res.status === "number" ? res.status : 0;
-  return { ok: status >= 200 && status < 300, status, sumiu: status === 404 || status === 410 };
+  const ok = status >= 200 && status < 300;
+  // o motivo que o serviço de push devolve (ex.: Apple {"reason":"BadJwtToken"}), para o log
+  let motivo = "";
+  if (!ok && res && typeof res.text === "function") { try { motivo = String(await res.text()).slice(0, 200) } catch (_) { motivo = "" } }
+  return { ok, status, sumiu: status === 404 || status === 410, motivo };
 }
 
 // ---------- coberturas seguidas (o app guarda em prefs.seguindo, com a chave = tema sem acento e minúsculo)

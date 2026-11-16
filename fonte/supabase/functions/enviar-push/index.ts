@@ -87,7 +87,7 @@ async function processarFila(r: Resumo) {
         const res = await enviarUm(buildPushPayload, fetch, i, payload, VAPID);
         if (res.ok) { algum = true; r.enviados++ }
         else if (res.sumiu) { await SB.from("push_inscricoes").delete().eq("id", i.id); r.removidas++ }
-        else { r.falhas++; console.error("push recusado", res.status, new URL(i.endpoint).host) }
+        else { r.falhas++; console.error("push recusado", res.status, new URL(i.endpoint).host, res.motivo || "", "· chave pública da função começa com", VAPID_PUBLIC.slice(0, 10), "· assunto", VAPID_SUBJECT.replace(/^(mailto:.).*(@.*)$/, "$1…$2")) }
       } catch (e) {
         r.falhas++; console.error("push falhou", String((e as Error)?.message ?? e).slice(0, 200));
       }
