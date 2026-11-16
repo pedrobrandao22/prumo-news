@@ -11,7 +11,7 @@ document.addEventListener("click",e=>{
   const ex=t.closest("[data-explica]");if(ex){abrirExplicador(ex.dataset.explica);return}
   const vt=t.closest("[data-voto]");if(vt){const pid=vt.closest("[data-pid]")?.dataset.pid;if(pid)votar(pid,+vt.dataset.voto);return}
   if(t.closest("#pilula")){if(NOVO){aplicarNovo(NOVO);window.scrollTo({top:0});vibrar();setTimeout(abrirMudou,80)}return}
-  const sf=t.closest("[data-secfiltro]");if(sf){if(FILTRO==="tudo"&&pushH())FST++;FILTRO=sf.dataset.secfiltro;ssSet("radar-filtro",FILTRO);renderSecs();renderPosts();window.scrollTo({top:0,behavior:"smooth"});toast("Mostrando só "+secNome(FILTRO)+". Toque em Ver tudo para voltar.");return}
+  const sf=t.closest("[data-secfiltro]");if(sf){if(FILTRO==="tudo"&&pushH())FST++;FILTRO=sf.dataset.secfiltro;ssSet("radar-filtro",FILTRO);renderSecs();renderPosts();window.scrollTo({top:0,behavior:"smooth"});toast("Mostrando só "+secNome(FILTRO)+". Toque em Todas as editorias para voltar.");return}
   const tg=t.closest("[data-tagx]");if(tg){const p=pautaById(tg.closest("[data-pid]")?.dataset.pid);if(p){if((FEED.explicadores||{})[temaDe(p)])abrirExplicador(temaDe(p));else abrirBusca(p.tag||temaDe(p))}return}
   const lm=t.closest("[data-lermais]");if(lm){const sl=lm.closest(".txs");sl.classList.add("aberto");sl.classList.remove("ovf");const tr=sl.closest(".track");if(tr)fitTrack(tr);uso("ler_mais");return}
   const tr=t.closest("[data-tirar]");if(tr){const id=tr.dataset.tirar;closeLayer();toggleSave(id);return}

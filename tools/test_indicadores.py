@@ -90,6 +90,33 @@ class TesteSeries(unittest.TestCase):
         s.assertTrue(os.path.exists(ind))
 
 
+class TesteSaltos(unittest.TestCase):
+    """Salto grande num pregão (ex.: Ibovespa −13,9% em 26/10/2026, dia seguinte ao 2º turno) é gravado, mas o robô avisa."""
+    def test_acha_saltos(s):
+        pts = [["2026-10-22", 204120.0], ["2026-10-23", 205083.0], ["2026-10-26", 176608.0], ["2026-10-27", 175710.0]]
+        s.assertEqual(IN.saltos(pts, 0.06), [("2026-10-26", -13.9)])
+        s.assertEqual(IN.saltos(pts, 0.2), [])
+        s.assertEqual(IN.saltos([["2026-10-23", 0], ["2026-10-26", 5.5]], 0.04), [])   # zero não quebra
+
+    def test_avisa_so_o_salto_novo(s):
+        import io, contextlib
+        d = tempfile.mkdtemp(prefix="salto-")
+        try:
+            velho = [["2026-10-21", 206495.0], ["2026-10-22", 204120.0], ["2026-10-23", 205083.0]]
+            with open(os.path.join(d, "ibovespa.json"), "w", encoding="utf-8") as fh: json.dump({"pontos": velho}, fh)
+            g0, b0 = IN.get_json, IN.buscar_serie
+            IN.buscar_serie = lambda sid, cfg, v: [("2026-10-26", 176608.0)] if sid == "ibovespa" else []
+            out = io.StringIO()
+            try:
+                with contextlib.redirect_stdout(out): IN.atualizar_series(d)
+                with contextlib.redirect_stdout(io.StringIO()) as o2: IN.atualizar_series(d)
+            finally: IN.get_json, IN.buscar_serie = g0, b0
+            s.assertIn("AVISO série ibovespa: -13.9% num pregão em 2026-10-26", out.getvalue())
+            s.assertNotIn("AVISO", o2.getvalue())   # na rodada seguinte o mesmo salto já é conhecido
+            with open(os.path.join(d, "ibovespa.json"), encoding="utf-8") as fh: s.assertEqual(json.load(fh)["pontos"][-1], ["2026-10-26", 176608.0])
+        finally: shutil.rmtree(d, ignore_errors=True)
+
+
 class TesteDiaYahoo(unittest.TestCase):
     """Barras diárias do câmbio vêm à meia-noite de Londres: o dia não pode cair no anterior (sexta virava quinta)."""
     def test_dia_no_fuso_da_bolsa(s):
@@ -116,6 +143,20 @@ class TesteDiaYahoo(unittest.TestCase):
         finally: IN.get_json = g0
         s.assertEqual(d["rotulos"], ["2026-10-30", "2026-11-02"])
         s.assertEqual(d["serie"], [5.44, 5.5])     # o preço de agora fica no dia certo, sem repetir o valor num domingo
+        s.assertNotIn("fonte_serie", d)             # sem a PTAX, o gráfico fica com a série do Yahoo
+
+    def test_grafico_do_dolar_vem_da_ptax(s):
+        """Valor e variação do dia: cotação comercial (Yahoo); a linha do gráfico: só a PTAX, com as datas do BC."""
+        def gj(url, tempo=20):
+            if "bcdata.sgs.1/" in url: return carrega("sgs_1.json")
+            if "range=1d" in url: return {"chart": {"result": [{"meta": {"regularMarketPrice": 5.50, "chartPreviousClose": 5.44, "regularMarketTime": 1793318400}}]}}
+            return {"chart": {"result": [{"meta": {"exchangeTimezoneName": "Europe/London"}, "timestamp": [1793318400], "indicators": {"quote": [{"close": [5.44]}]}}]}}
+        g0 = IN.get_json; IN.get_json = gj
+        try: d = IN.dolar()
+        finally: IN.get_json = g0
+        ptax = [(f"{x['data'][6:]}-{x['data'][3:5]}-{x['data'][:2]}", float(x["valor"])) for x in carrega("sgs_1.json")]
+        s.assertEqual(d["valor"], "R$ 5,50"); s.assertEqual(d["fonte"], "cotação comercial"); s.assertEqual(d["fonte_serie"], "PTAX/Banco Central")
+        s.assertEqual(d["rotulos"], [a for a, _ in ptax][-66:]); s.assertEqual(d["serie"], [b for _, b in ptax][-66:])
 
 
 if __name__ == "__main__":

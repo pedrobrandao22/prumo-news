@@ -106,10 +106,21 @@ def yahoo(simbolo):
 def dolar():
     try:
         p, a, data, serie, rot = yahoo("BRL%3DX")
-        return {"id": "dolar", "nome": "Dólar", "valor": "R$ " + br(p, 2), "variacao": pct((p / a - 1) * 100),
+        item = {"id": "dolar", "nome": "Dólar", "valor": "R$ " + br(p, 2), "variacao": pct((p / a - 1) * 100),
                 "dir": direcao(round(a, 3), round(p, 3)), "data": data, "serie": serie, "rotulos": rot, "fonte": "cotação comercial"}
     except Exception as e:
-        print("dólar (Yahoo) falhou:", repr(e)[:120])
+        print("dólar (Yahoo) falhou:", repr(e)[:120]); item = None
+    if item:
+        # o gráfico vem de uma fonte só, a PTAX, com o dia certo de cada pregão: as barras diárias do Yahoo para o câmbio
+        # chegam um dia atrasadas (em 3 meses até 13/11/2026, o valor do dia D batia com a PTAX de D−1; a alta de 26/10
+        # aparecia em 27/10). O valor e a variação do dia continuam sendo a cotação comercial de agora.
+        try:
+            s = [x for x in sgs(1, dias=110) if x[0] <= datetime.now(SP).date().isoformat()]
+            if len(s) >= 10:
+                item.update(serie=[v for _, v in s][-66:], rotulos=[d for d, _ in s][-66:], fonte_serie="PTAX/Banco Central")
+        except Exception as e:
+            print("dólar: PTAX para o gráfico falhou, fica a série do Yahoo:", repr(e)[:120])
+        return item
     s = sgs(1, 20)
     (d0, a), (d1, p) = s[-2], s[-1]
     return {"id": "dolar", "nome": "Dólar", "valor": "R$ " + br(p, 2), "variacao": pct((p / a - 1) * 100),
@@ -215,6 +226,21 @@ def buscar_serie(sid, cfg, velho):
     return pts
 
 
+# variação de um dia acima disto é rara o bastante para conferir à mão (o robô avisa, mas grava: em 05/10 e 26/10/2026,
+# depois do 1º e do 2º turno, o Ibovespa andou +7,7% e −13,9% e o dólar −4,6% e +9,2% num pregão, e era verdade)
+LIMITE_SALTO = {"ibovespa": 0.06, "dolar": 0.04}
+
+
+def saltos(pontos, limite):
+    """[(dia, variação em %)] dos pregões que andaram mais que `limite` (fração) sobre o anterior."""
+    out = []
+    for (_, a), (d, b) in zip(pontos, pontos[1:]):
+        try:
+            if a and abs(b / a - 1) > limite: out.append((d, round((b / a - 1) * 100, 1)))
+        except (TypeError, ZeroDivisionError): continue
+    return out
+
+
 def juntar_pontos(velhos, novos):
     m = {d: v for d, v in velhos}
     for d, v in novos: m[d] = v
@@ -235,6 +261,9 @@ def atualizar_series(pasta):
             novos = buscar_serie(sid, cfg, vp)
             pts = juntar_pontos(vp, novos)
             log.append(f"série {sid}: {len(pts)} pontos (+{len(pts) - len(vp)})")
+            ja = {d for d, _ in vp}
+            for d, v in saltos(pts, LIMITE_SALTO.get(sid, 1e9)):
+                if d not in ja: log.append(f"AVISO série {sid}: {v:+.1f}% num pregão em {d}; confira a fonte antes de confiar no gráfico")
         except Exception as e:
             log.append(f"série {sid}: FALHOU {repr(e)[:100]}"); pts = vp
         if not pts: continue
