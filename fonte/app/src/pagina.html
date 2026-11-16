@@ -164,7 +164,10 @@
 <!--@inclui js/120-testes-a-abertura.js-->
 </script>
 
-<script>window.SBJS_URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";window.SBJS_PRONTO=new Promise(function(ok){window.__sbjsOk=ok});function carregarSbjs(){if(window.__sbjsIni)return;window.__sbjsIni=1;var s=document.createElement("script");s.id="sbjs";s.async=true;s.src=window.SBJS_URL;s.onload=s.onerror=function(){window.__sbjsOk()};document.head.appendChild(s)}document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(function(){setTimeout(carregarSbjs,0)})});setTimeout(carregarSbjs,2500);</script>
+<!-- 170: o supabase.js (~55 KB) só começa a vir depois de a página inteira chegar (DOMContentLoaded; a reserva de 2,5 s
+     conta a partir daí, para aba escondida sem requestAnimationFrame). Antes, a reserva contava do início e, em 3G, ele disputava a
+     banda com o próprio index.html e atrasava a manchete. initSocial também o pede ao terminar de ler o código. -->
+<script>window.SBJS_URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";window.SBJS_PRONTO=new Promise(function(ok){window.__sbjsOk=ok});function carregarSbjs(){if(window.__sbjsIni)return;window.__sbjsIni=1;var s=document.createElement("script");s.id="sbjs";s.async=true;s.src=window.SBJS_URL;s.onload=s.onerror=function(){window.__sbjsOk()};document.head.appendChild(s)}document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(function(){setTimeout(carregarSbjs,0)});setTimeout(carregarSbjs,2500)});</script>
 <script>
 <!--@inclui js/000-inicio.js-->
 <!--@inclui js/001-estado.js-->
