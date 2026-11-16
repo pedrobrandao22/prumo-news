@@ -53,9 +53,18 @@ na Capa, foto repetida, informação contraditória.
   Média: atrapalha, mas tem saída. Baixa: acabamento.
 - No máximo 6 achados novos por rodada, os mais importantes. Melhor poucos e bem descritos.
 
+## Conferir as correções (toda rodada, 5 min)
+Liste os achados com `status: "resolvido"` cujo `status_em` é depois de `config/estado.ultima_rodada` (ou que ainda não
+têm `conferido_em`). Para cada um, refaça o "como" e veja se ficou bom:
+- ficou bom: `update` com `conferido_em` (ISO) e `conferido: "ok"`;
+- voltou ou ficou pela metade: `status: "aberto"`, `conferido: "falhou"` e diga no `detalhe` o que ainda acontece.
+
 ## Ao terminar
 `update` em `config/estado`: `ultima_rodada` (ISO), `ultima_versao`, `ultimo_resumo` (uma frase: área testada e
 quantos achados novos).
+E grave a rodada no Diário (coleção `diario`, id `AAAA-MM-DDTHHMM-testador`, horário de Brasília):
+`{ "quem": "testador", "em": ISO, "area": "...", "versao": "...", "resumo": "uma ou duas frases",
+   "novos": ["título de cada achado novo"], "conferidos": ["título — ok"], "reabertos": ["título — o que voltou"] }`.
 
 ## Regras
 - Só a conta de teste; nunca a conta do Pedro. Tudo que publicar leva "Teste do testador" no texto e é apagado no

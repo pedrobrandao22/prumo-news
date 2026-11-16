@@ -17658,7 +17658,7 @@ function cp152Fecha(){if(CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(
 function cp152Editor(){if($("#layer").innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}CN102_SEMGAL=1;CP152.interno=1;try{criarAbrir("post")}finally{CN102_SEMGAL=0;CP152.interno=0}return typeof ED!=="undefined"&&ED&&ED.modo==="post"?ED:null}
 async function cp152Publica(){const tx=CP152.txt.trim();if(!tx){toast("Escreva algo para publicar.");return}const pub=CP152.pub;
   const E=cp152Editor();if(!E){toast("Não deu para abrir agora. Tente de novo.");return}const P=E.po;P.texto=tx;P.pub=pub;P.passo="detalhes";try{edDesenha()}catch(e){}
-  CP152.txt="";try{await edPublicaPost()}catch(e){}
+  CP152.txt="";CP152.direto=true;try{await edPublicaPost()}catch(e){}
   /* se não publicou (sem rede), o texto fica no editor de post, com o botão Compartilhar */}
 function cp152Anexo(k){const tx=CP152.txt,pub=CP152.pub;CP152.veio=true;
   if(k==="foto"){const E=cp152Editor();if(!E)return;const P=E.po;P.texto=tx;P.pub=pub;
@@ -17712,7 +17712,7 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 /* ===== depois de publicar, o post aparece na tela (14/11, testador: "Já está no Feed", mas ficava abaixo da notícia em destaque) ===== */
 function cp152Mostra(id){let n=0;const tenta=()=>{const el=document.getElementById("p-u:"+id);if(el&&el.getClientRects().length){try{const top=el.getBoundingClientRect().top+scrollY-((document.querySelector(".top")||{}).offsetHeight||56)-8;scrollTo({top:Math.max(0,top),behavior:"smooth"});el.classList.add("cp152-novo");setTimeout(()=>el.classList.remove("cp152-novo"),2200)}catch(e){}return}
   if(++n<12)setTimeout(tenta,250)};setTimeout(tenta,300)}
-{const _ep152=edPublicaPost;edPublicaPost=async function(){const antes=new Set((PUB.itens||[]).filter(x=>x.autor===S.uid).map(x=>x.id));const r=await _ep152.apply(this,arguments);
+{const _ep152=edPublicaPost;edPublicaPost=async function(){const daCaixa=CP152.direto||CP152.veio;CP152.direto=false;CP152.veio=false;if(!daCaixa)return _ep152.apply(this,arguments);const antes=new Set((PUB.itens||[]).filter(x=>x.autor===S.uid).map(x=>x.id));const r=await _ep152.apply(this,arguments);
   try{const novo=(PUB.itens||[]).find(x=>x.autor===S.uid&&x.tipo==="post"&&x.id&&!antes.has(x.id));if(novo){if(VIEW!=="feed")go("feed");cp152Mostra(novo.id)}}catch(e){}return r}}
 
 /* trechos citados (Atividade, conversas): corta na palavra e põe "…" (14/11, testador: "a estimativa do Executivo ” há 1 d") */
