@@ -60,6 +60,28 @@ FIXAS = {"cnn": ("CNN Brasil", "centro"), "p360": ("Poder360", "centro"), "met":
          "r7": ("R7", "centro"), "zh": ("GZH", "centro"), "jc": ("Jornal do Commercio", "centro"),
          "agsenado": ("Agência Senado", "publica"), "agcamara": ("Agência Câmara", "publica")}
 
+# espectro dos veículos: a mesma tabela do app (fonte/app/src/js/158-materia.js, aprovada pelo Pedro em 16/11).
+# Veículo fora dela fica "nc" (não classificado): o app não mostra etiqueta, em vez de pôr todo mundo no "centro".
+def _tabela_espectro():
+    import re, unicodedata
+    js = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "fonte", "app", "src", "js", "158-materia.js")
+    try: t = open(js, encoding="utf-8").read()
+    except OSError: return {}, {}
+    veic = dict((k, e) for k, _n, e in re.findall(r'(\w+):\["([^"]+)","(esquerda|direita|centro|publica)"\]', t.split("const MT158_VEIC=", 1)[-1].split("};", 1)[0]))
+    alias = dict(re.findall(r'(\w+):"(\w+)"', t.split("const MT158_ALIAS=", 1)[-1].split("};", 1)[0]))
+    return veic, alias
+_VEIC, _ALIAS = _tabela_espectro()
+def _n(s):
+    import re, unicodedata
+    s = unicodedata.normalize("NFD", str(s or "")).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", "", re.sub(r"\(.*?\)", " ", s))
+def espectro_de(k, nome=""):
+    if k in FIXAS: return FIXAS[k][1]
+    for c in (_n(k), _n(nome)):
+        c = _ALIAS.get(c, c)
+        if c in _VEIC: return _VEIC[c]
+    return "nc"
+
 class Recusa(Exception): pass
 
 def iso(t): return t.strftime("%Y-%m-%dT%H:%M:00-03:00")
@@ -423,7 +445,7 @@ def mecanicos(F, agora, podar, virada, dia_anterior):
     fontes = F.setdefault("fontes", {}); esp = F.setdefault("espectro", {})
     for k in usadas:
         if k not in fontes: fontes[k] = FIXAS.get(k, (k, "centro"))[0]
-        if k not in esp: esp[k] = FIXAS.get(k, (k, "centro"))[1]
+        if k not in esp or (esp[k] == "centro" and k not in FIXAS and espectro_de(k, fontes.get(k)) != "centro"): esp[k] = espectro_de(k, fontes.get(k))
     sai = [k for k in list(fontes) if k not in usadas and k not in V.REGUA]
     for k in sai: fontes.pop(k, None)
     for k in list(esp):
