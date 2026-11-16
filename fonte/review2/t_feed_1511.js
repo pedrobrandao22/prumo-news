@@ -113,7 +113,9 @@ async function criar(p, { nome, email }) {
   // 11. curtida de um jeito só: com a linha "Você gostou", o número some
   await sleep(500);
   const lk = await ev(A, p => { const el = document.getElementById('p-' + p); const n = el.querySelector('.acts [data-n="like"]'); return { linha: el.querySelector('[data-likes]').textContent.trim(), num: n && getComputedStyle(n).display !== 'none' && n.textContent.trim() } }, pid);
-  ok(lk.linha && !lk.num, 'curtiu: só a linha, sem o número repetido', lk);
+  ok(lk.num === '1' && !(await ev(A, p => { const l = document.querySelector('#p-' + p + ' [data-likes]'); return l && getComputedStyle(l).display !== 'none' && l.textContent.trim() }, pid)), 'só você gostou: só o número, sem a linha "Você gostou"', lk);
+  const amg = await ev(A, p => { const el = document.getElementById('p-' + p); el.querySelector('[data-likes]').innerHTML = '<b>Ana</b> gostou'; el.classList.remove('fd156-eu'); el.classList.add('fd156-lk'); const n = el.querySelector('.acts [data-n="like"]'); return getComputedStyle(n).display === 'none' && getComputedStyle(el.querySelector('[data-likes]')).display !== 'none' }, pid);
+  ok(amg, 'amigo gostou: só a linha com o nome, sem o número');
 
   // 12. post de membro também sem o campo vazio; cabeçalho opaco ao rolar
   await ev(A, () => criarMenu()); await sleep(400); await A.fill('#cp152-tx', 'Vai dar ruim'); await clk(A, '[data-cp152pub]'); await sleep(1500);

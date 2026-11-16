@@ -50,9 +50,11 @@ function fd156Cartao(el){try{if(!el||el.dataset.fd156)return;el.dataset.fd156="1
     if(ns.length&&ns.some(n=>(n.textContent||"").trim())){const s=document.createElement("span");s.className="fd156-st";sub.insertBefore(s,ns[0]);ns.forEach(n=>s.appendChild(n));sub.classList.add("fd156-sub")}}}catch(e){}}
 {const _wt156=wireTracks;wireTracks=function(root){const r=_wt156.apply(this,arguments);try{if(root){const ls=root.matches&&root.matches(".post.vn-cn")?[root]:[...root.querySelectorAll(".post.vn-cn")];ls.forEach(fd156Cartao)}}catch(e){}return r}}
 
-/* ---- curtidas: um jeito só. A linha embaixo das ações diz quem gostou; quando ela aparece, o número ao lado do losango some ---- */
+/* ---- curtidas: um jeito só. Amigos: a linha embaixo das ações diz quem gostou (sem o número); só você: só o número ---- */
 function fd156Curtidas(pid){try{const el=document.getElementById("p-"+pid);if(!el||!el.classList.contains("vn-c"))return;const lk=el.querySelector("[data-likes]");
-  el.classList.toggle("fd156-lk",!!(lk&&lk.textContent.trim()))}catch(e){}}
+  let soEu=false;try{const l=socialOf(pid).likes;soEu=!!S.uid&&l.length===1&&l[0]===S.uid}catch(e){}
+  /* só você gostou: fica só o número ao lado do losango (sem a linha "Você gostou"); amigos gostaram: só a linha com o nome */
+  el.classList.toggle("fd156-eu",soEu);el.classList.toggle("fd156-lk",!soEu&&!!(lk&&lk.textContent.trim()))}catch(e){}}
 {const _us156=updateSocial;updateSocial=function(pid){const r=_us156.apply(this,arguments);fd156Curtidas(pid);return r}}
 if(typeof vn112Social==="function"){const _vs156=vn112Social;vn112Social=function(pid){const r=_vs156.apply(this,arguments);fd156Curtidas(pid);return r}}
 
