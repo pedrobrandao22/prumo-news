@@ -143,7 +143,7 @@ async function visitante(H, b, o = {}) { const p = U.erros(await H.pagina(b, o),
   await ev(B, () => { const f = document.querySelector('#nform'); f.querySelector('[type=submit]').disabled = false; f.requestSubmit() }); await sleep(200);
   ok(await ev(B, () => /Escreva seu nome/.test(document.querySelector('#co160nerr').textContent) && !document.querySelector('#co160nerr').hidden && !!document.querySelector('#nform')), 'nome vazio: avisa "Escreva seu nome" e a folha fica aberta');
   await ev(B, () => closeLayer());
-  ok(await ev(B, () => /Posts salvos/.test(pfTiles([], 'salvos', S.uid)) && /Notícias guardadas/.test(pfTiles([], 'salvos', S.uid))), 'Salvos explica as duas listas');
+  ok(await ev(B, () => { const h = pfTiles([], 'salvos', S.uid); return /data-gd161="noticias"/.test(h) && /data-gd161="posts"/.test(h) && /Guardar/.test(h) }), 'Guardados: uma lista só, com filtro Notícias e Posts');
 
   // ===== guia da primeira visita =====
   const ctx = await b.newContext({ viewport: { width: 844, height: 340 }, hasTouch: true, colorScheme: 'dark' });

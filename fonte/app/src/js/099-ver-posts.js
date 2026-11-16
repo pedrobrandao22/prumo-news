@@ -16,7 +16,7 @@ const vp99EhPost=k=>String(k||"").indexOf("u:")===0;
 /* ===== cartão do post ===== */
 {const _pp99=pubPostHTML;pubPostHTML=function(x){let h=_pp99.apply(this,arguments);if(!h||!x)return h;try{
     /* marcador de salvar (o botão já existia, escondido) */
-    h=h.replace(/<button[^>]*data-a="save"[^>]*>[\s\S]*?<\/button>/,`<button type="button" class="act vp99-sv" data-a="save" aria-label="Salvar" aria-pressed="false">${VP99_BM}</button>`);
+    h=h.replace(/<button[^>]*data-a="save"[^>]*>[\s\S]*?<\/button>/,`<button type="button" class="act vp99-sv" data-a="save" aria-label="Guardar" aria-pressed="false">${VP99_BM}</button>`);
     /* local · hora: o local encolhe, a hora fica inteira */
     const es=x.estilo||{};
     if(es.local){const loc=esc(es.local);h=h.replace(/<span class="ph-sub">([^<]*)<\/span>/,(a,c)=>c.indexOf(loc+" · ")===0?`<span class="ph-sub vp99-sub"><span class="vp99-loc">${loc}</span><span class="vp99-qd">&nbsp;· ${c.slice(loc.length+3)}</span></span>`:a)}
@@ -34,7 +34,7 @@ function vp99Social(pid){const el=document.getElementById("p-"+pid);if(!el)retur
   if(nc&&typeof allMsgs==="function"){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto&&m.tipo!=="mencao");const u=ms[ms.length-1];
     nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}
   const ver=el.querySelector('[data-cmts] > .link[data-a="cmt"]');if(ver)ver.textContent=`Ver todos os ${cm.length} comentários`;
-  const sv=el.querySelector('.vp99-sv');if(sv)sv.setAttribute("aria-label",vp99Sv()[pid]?"Remover dos salvos":"Salvar")}
+  const sv=el.querySelector('.vp99-sv');if(sv)sv.setAttribute("aria-label",vp99Sv()[pid]?"Tirar dos guardados":"Guardar")}
 {const _us99=updateSocial;updateSocial=function(pid){const r=_us99.apply(this,arguments);try{vp99Social(pid)}catch(e){}return r}}
 {const _tl99=toggleLike;toggleLike=function(pid){const antes=!!(S.uid&&socialOf(pid).likes.includes(S.uid));const r=_tl99.apply(this,arguments);try{if(!antes&&S.uid)vp99Pop(document.querySelector(`[id="p-${pid}"] .acts [data-a="like"]`))}catch(e){}return r}}
 
@@ -57,7 +57,7 @@ async function vp99Salvar(pid){uso("salvar_post");if(precisaConta())return;const
   try{await gravarMapa(`data/users/${S.uid}/salvos`,"itens",pid,val)}catch(e){if(on)delete S.salvos[pid];else S.salvos[pid]=ant;updateSocial(pid);if(VIEW==="me"&&PF_ABA==="salvos")renderMe();toast("Não deu para salvar agora.")}}
 function vp99VerSalvos(){if($("#layer").innerHTML)closeLayer();setTimeout(()=>{PF_ABA="salvos";go("me");renderMe();scrollTo(0,0)},60)}
 /* aba Salvos no seu perfil (só você vê) */
-{const ic='<svg class="ico" viewBox="0 0 24 24"><path d="M6.5 3.5h11a1 1 0 0 1 1 1v16l-6.5-4.7-6.5 4.7v-16a1 1 0 0 1 1-1z"/></svg>';const i=PF_ABAS.findIndex(a=>a[0]==="conta");PF_ABAS.splice(i<0?PF_ABAS.length:i,0,["salvos","Salvos",ic])}
+{const ic='<svg class="ico" viewBox="0 0 24 24"><path d="M6.5 3.5h11a1 1 0 0 1 1 1v16l-6.5-4.7-6.5 4.7v-16a1 1 0 0 1 1-1z"/></svg>';const i=PF_ABAS.findIndex(a=>a[0]==="conta");PF_ABAS.splice(i<0?PF_ABAS.length:i,0,["salvos","Guardados",ic])}
 {const _pa99=pfAbas;pfAbas=function(u){const h=_pa99.apply(this,arguments);return u===S.uid?h:h.replace(/<button[^>]*data-pfaba="salvos"[^>]*>[\s\S]*?<\/button>/,"")}}
 function vp99ListaSalvos(){const sv=vp99Sv();return Object.entries(sv).filter(([k,v])=>v&&vp99EhPost(k)).map(([k,v])=>({x:pubDe(k.slice(2)),at:+v.at||0}))
   .filter(o=>o.x&&o.x.tipo==="post"&&(o.x.autor===S.uid||S.amigos.has(o.x.autor))).sort((a,b)=>b.at-a.at).map(o=>o.x)}
@@ -118,7 +118,7 @@ vp99AbreLink();addEventListener("hashchange",()=>{const id=vp99LeLink();if(id){V
 function vp99Ancora(el){const sc=el.querySelector(".pfv-sc");const a=PFV&&PFV.lista&&PFV.lista[PFV.i];const alvo=a&&sc&&sc.querySelector(`[id="p-u:${a.id}"]`);if(!alvo)return;
   let mexeu=false;const para=()=>{mexeu=true};sc.addEventListener("touchstart",para,{passive:true,once:true});sc.addEventListener("wheel",para,{passive:true,once:true});sc.addEventListener("keydown",para,{once:true});
   const t0=performance.now();const fixa=()=>{if(mexeu||!alvo.isConnected)return;const d=alvo.getBoundingClientRect().top-sc.getBoundingClientRect().top;if(Math.abs(d)>.5)sc.scrollTop+=d;if(performance.now()-t0<1600)requestAnimationFrame(fixa)};fixa()}
-{const _pv99=pfvPosts;pfvPosts=function(el){const r=_pv99.apply(this,arguments);try{if(PFV&&PFV.aba==="salvos"){const b=el.querySelector(".pfv-h b");if(b&&b.firstChild&&b.firstChild.nodeType===3)b.firstChild.textContent="Salvos";const sm=b&&b.querySelector("small");if(sm)sm.textContent="Só você vê"}vp99Ancora(el)}catch(e){}return r}}
+{const _pv99=pfvPosts;pfvPosts=function(el){const r=_pv99.apply(this,arguments);try{if(PFV&&PFV.aba==="salvos"){const b=el.querySelector(".pfv-h b");if(b&&b.firstChild&&b.firstChild.nodeType===3)b.firstChild.textContent="Guardados";const sm=b&&b.querySelector("small");if(sm)sm.textContent="Só você vê"}vp99Ancora(el)}catch(e){}return r}}
 (function(){let x0=null,y0=0,dx=0,ok=false,el=null;
   const solta=()=>{if(!el)return;el.style.transition="";el.style.transform="";el.style.boxShadow=""};
   document.addEventListener("touchstart",e=>{x0=null;const p=e.target.closest&&e.target.closest("#layer .pfv");if(!p||(($("#layer2")||{}).innerHTML)||e.touches.length>1)return;const t=e.touches[0];

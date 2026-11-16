@@ -5776,6 +5776,13 @@ body.co160-folha .nav{visibility:hidden}
   .tr-t p{font-size:15px;line-height:1.45}
   .tr-pe{padding:6px 24px calc(8px + env(safe-area-inset-bottom,0px))}
 }
+/* 161 · Guardados: filtro Tudo · Notícias · Posts */
+.gd161-f{display:flex;gap:8px;margin:4px 0 12px;flex-wrap:wrap}
+.gd161-f button{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:7px 14px;min-height:36px;cursor:pointer}
+.gd161-f button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.gd161-f em{font-style:normal;opacity:.7;font-weight:500}
+.gd161-h{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:14px 0 6px}
+.gd161-nl{margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -11560,7 +11567,7 @@ const vp99EhPost=k=>String(k||"").indexOf("u:")===0;
 /* ===== cartão do post ===== */
 {const _pp99=pubPostHTML;pubPostHTML=function(x){let h=_pp99.apply(this,arguments);if(!h||!x)return h;try{
     /* marcador de salvar (o botão já existia, escondido) */
-    h=h.replace(/<button[^>]*data-a="save"[^>]*>[\s\S]*?<\/button>/,`<button type="button" class="act vp99-sv" data-a="save" aria-label="Salvar" aria-pressed="false">${VP99_BM}</button>`);
+    h=h.replace(/<button[^>]*data-a="save"[^>]*>[\s\S]*?<\/button>/,`<button type="button" class="act vp99-sv" data-a="save" aria-label="Guardar" aria-pressed="false">${VP99_BM}</button>`);
     /* local · hora: o local encolhe, a hora fica inteira */
     const es=x.estilo||{};
     if(es.local){const loc=esc(es.local);h=h.replace(/<span class="ph-sub">([^<]*)<\/span>/,(a,c)=>c.indexOf(loc+" · ")===0?`<span class="ph-sub vp99-sub"><span class="vp99-loc">${loc}</span><span class="vp99-qd">&nbsp;· ${c.slice(loc.length+3)}</span></span>`:a)}
@@ -11578,7 +11585,7 @@ function vp99Social(pid){const el=document.getElementById("p-"+pid);if(!el)retur
   if(nc&&typeof allMsgs==="function"){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto&&m.tipo!=="mencao");const u=ms[ms.length-1];
     nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}
   const ver=el.querySelector('[data-cmts] > .link[data-a="cmt"]');if(ver)ver.textContent=`Ver todos os ${cm.length} comentários`;
-  const sv=el.querySelector('.vp99-sv');if(sv)sv.setAttribute("aria-label",vp99Sv()[pid]?"Remover dos salvos":"Salvar")}
+  const sv=el.querySelector('.vp99-sv');if(sv)sv.setAttribute("aria-label",vp99Sv()[pid]?"Tirar dos guardados":"Guardar")}
 {const _us99=updateSocial;updateSocial=function(pid){const r=_us99.apply(this,arguments);try{vp99Social(pid)}catch(e){}return r}}
 {const _tl99=toggleLike;toggleLike=function(pid){const antes=!!(S.uid&&socialOf(pid).likes.includes(S.uid));const r=_tl99.apply(this,arguments);try{if(!antes&&S.uid)vp99Pop(document.querySelector(`[id="p-${pid}"] .acts [data-a="like"]`))}catch(e){}return r}}
 
@@ -11601,7 +11608,7 @@ async function vp99Salvar(pid){uso("salvar_post");if(precisaConta())return;const
   try{await gravarMapa(`data/users/${S.uid}/salvos`,"itens",pid,val)}catch(e){if(on)delete S.salvos[pid];else S.salvos[pid]=ant;updateSocial(pid);if(VIEW==="me"&&PF_ABA==="salvos")renderMe();toast("Não deu para salvar agora.")}}
 function vp99VerSalvos(){if($("#layer").innerHTML)closeLayer();setTimeout(()=>{PF_ABA="salvos";go("me");renderMe();scrollTo(0,0)},60)}
 /* aba Salvos no seu perfil (só você vê) */
-{const ic='<svg class="ico" viewBox="0 0 24 24"><path d="M6.5 3.5h11a1 1 0 0 1 1 1v16l-6.5-4.7-6.5 4.7v-16a1 1 0 0 1 1-1z"/></svg>';const i=PF_ABAS.findIndex(a=>a[0]==="conta");PF_ABAS.splice(i<0?PF_ABAS.length:i,0,["salvos","Salvos",ic])}
+{const ic='<svg class="ico" viewBox="0 0 24 24"><path d="M6.5 3.5h11a1 1 0 0 1 1 1v16l-6.5-4.7-6.5 4.7v-16a1 1 0 0 1 1-1z"/></svg>';const i=PF_ABAS.findIndex(a=>a[0]==="conta");PF_ABAS.splice(i<0?PF_ABAS.length:i,0,["salvos","Guardados",ic])}
 {const _pa99=pfAbas;pfAbas=function(u){const h=_pa99.apply(this,arguments);return u===S.uid?h:h.replace(/<button[^>]*data-pfaba="salvos"[^>]*>[\s\S]*?<\/button>/,"")}}
 function vp99ListaSalvos(){const sv=vp99Sv();return Object.entries(sv).filter(([k,v])=>v&&vp99EhPost(k)).map(([k,v])=>({x:pubDe(k.slice(2)),at:+v.at||0}))
   .filter(o=>o.x&&o.x.tipo==="post"&&(o.x.autor===S.uid||S.amigos.has(o.x.autor))).sort((a,b)=>b.at-a.at).map(o=>o.x)}
@@ -11662,7 +11669,7 @@ vp99AbreLink();addEventListener("hashchange",()=>{const id=vp99LeLink();if(id){V
 function vp99Ancora(el){const sc=el.querySelector(".pfv-sc");const a=PFV&&PFV.lista&&PFV.lista[PFV.i];const alvo=a&&sc&&sc.querySelector(`[id="p-u:${a.id}"]`);if(!alvo)return;
   let mexeu=false;const para=()=>{mexeu=true};sc.addEventListener("touchstart",para,{passive:true,once:true});sc.addEventListener("wheel",para,{passive:true,once:true});sc.addEventListener("keydown",para,{once:true});
   const t0=performance.now();const fixa=()=>{if(mexeu||!alvo.isConnected)return;const d=alvo.getBoundingClientRect().top-sc.getBoundingClientRect().top;if(Math.abs(d)>.5)sc.scrollTop+=d;if(performance.now()-t0<1600)requestAnimationFrame(fixa)};fixa()}
-{const _pv99=pfvPosts;pfvPosts=function(el){const r=_pv99.apply(this,arguments);try{if(PFV&&PFV.aba==="salvos"){const b=el.querySelector(".pfv-h b");if(b&&b.firstChild&&b.firstChild.nodeType===3)b.firstChild.textContent="Salvos";const sm=b&&b.querySelector("small");if(sm)sm.textContent="Só você vê"}vp99Ancora(el)}catch(e){}return r}}
+{const _pv99=pfvPosts;pfvPosts=function(el){const r=_pv99.apply(this,arguments);try{if(PFV&&PFV.aba==="salvos"){const b=el.querySelector(".pfv-h b");if(b&&b.firstChild&&b.firstChild.nodeType===3)b.firstChild.textContent="Guardados";const sm=b&&b.querySelector("small");if(sm)sm.textContent="Só você vê"}vp99Ancora(el)}catch(e){}return r}}
 (function(){let x0=null,y0=0,dx=0,ok=false,el=null;
   const solta=()=>{if(!el)return;el.style.transition="";el.style.transform="";el.style.boxShadow=""};
   document.addEventListener("touchstart",e=>{x0=null;const p=e.target.closest&&e.target.closest("#layer .pfv");if(!p||(($("#layer2")||{}).innerHTML)||e.touches.length>1)return;const t=e.touches[0];
@@ -13631,7 +13638,7 @@ var VN112_PF={me:"posts"};
 function vn112Desde(u){const at=(S.membros[u]||{}).at;if(!at)return "";const d=new Date(at);if(isNaN(d))return "";return "No Prumo desde "+d.toLocaleDateString("pt-BR",{month:"long",year:"numeric"})}
 function vn112Cor(u){const h=avatar(u),m=/background:\s*(#[0-9a-f]{3,8})/i.exec(h);return m?m[1]:corDe(u)}
 function vn112Abas(u,ab,eu,orig){const l=[["posts","Posts"],["resp","Respostas"],["midia","Mídia"]];
-  if(orig.includes("marc")&&pfLista(u,"marc").length)l.push(["marc","Marcado"]);if(eu&&orig.includes("salvos"))l.push(["salvos","Salvos"]);if(eu&&orig.includes("arq8"))l.push(["arq8","Arquivo"]);
+  if(orig.includes("marc")&&pfLista(u,"marc").length)l.push(["marc","Marcado"]);if(eu&&orig.includes("salvos"))l.push(["salvos","Guardados"]);if(eu&&orig.includes("arq8"))l.push(["arq8","Arquivo"]);
   return `<div class="vn-abas" role="tablist" aria-label="Conteúdo do perfil">${l.map(([k,n])=>`<button type="button" role="tab" data-vnpfaba="${k}" aria-selected="${ab===k}">${n}</button>`).join("")}${eu?`<button type="button" role="tab" class="vn-aba-ct" data-vnpfaba="conta" aria-selected="${ab==="conta"}" aria-label="Conta e ajustes"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>`:""}</div>`}
 function vn112Resp(u){const l=todosComentarios().filter(c=>c.uid===u).sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,60);
   if(!l.length)return `<div class="pf-vz"><b>Respostas</b><span>${u===S.uid?"Seus comentários nas notícias e nas publicações aparecem aqui.":"Nenhum comentário ainda."}</span></div>`;
@@ -19171,6 +19178,35 @@ if(typeof pfvDesenha==="function"){const _pv160=pfvDesenha;pfvDesenha=function()
 /* ---------- 10. folha aberta: barra de baixo escondida ---------- */
 function co160Folha(){try{const l=$("#layer"),l2=$("#layer2");document.body.classList.toggle("co160-folha",!!((l&&l.querySelector(".sheet"))||(l2&&l2.querySelector(".sheet"))))}catch(e){}}
 try{const mo=new MutationObserver(co160Folha);["#layer","#layer2"].forEach(s=>{const el=$(s);if(el)mo.observe(el,{childList:true})});co160Folha()}catch(e){}
+/* 161 · Guardados numa lista só (decisão do Pedro, 16/11).
+   A aba "Guardados" do Perfil junta as notícias guardadas e os posts guardados, com filtro Tudo · Notícias · Posts.
+   No app todo a palavra é "Guardar" (antes os posts diziam "Salvar"/"Salvos"). Prefixo gd161. */
+var GD161_F="tudo";
+function gd161Noticias(){const sv=vp99Sv();return Object.entries(sv).filter(([k,x])=>x&&!vp99EhPost(k)).sort((a,b)=>(+b[1].at||0)-(+a[1].at||0))}
+function gd161Chips(nN,nP){const c=(k,t,n)=>`<button type="button" role="tab" data-gd161="${k}" aria-selected="${GD161_F===k}">${t}${n?` <em>${n}</em>`:""}</button>`;
+  return `<div class="gd161-f" role="tablist" aria-label="Filtrar guardados">${c("tudo","Tudo",nN+nP)}${c("noticias","Notícias",nN)}${c("posts","Posts",nP)}</div>`}
+function gd161ListaNoticias(l){return `<ul class="svl gd161-nl">${l.map(([pid,x])=>{const s=x.snap||snapById(pid)||{};
+  return linhaSalva(pid,s,`${esc(secNome(s.secao||"politica"))} · guardada ${esc(quando(x.at))}`,x.nota?`<span class="nt">Nota: ${esc(x.nota)}</span>`:"")}).join("")}</ul>`}
+{const _pt161=pfTiles;pfTiles=function(l,aba,u){if(aba!=="salvos")return _pt161.apply(this,arguments);
+  try{const nt=gd161Noticias(),nN=nt.length,nP=(l||[]).length;let h=gd161Chips(nN,nP);
+    const verN=GD161_F!=="posts",verP=GD161_F!=="noticias";
+    if(verN&&nN){if(GD161_F==="tudo"&&nP)h+=`<h3 class="gd161-h">Notícias</h3>`;h+=gd161ListaNoticias(nt)}
+    if(verP&&nP){if(GD161_F==="tudo"&&nN)h+=`<h3 class="gd161-h">Posts</h3>`;h+=_pt161.call(this,l,"posts",u)}
+    const vazio=(GD161_F==="tudo"&&!nN&&!nP)||(GD161_F==="noticias"&&!nN)||(GD161_F==="posts"&&!nP);
+    if(vazio)h+=`<div class="pf-vz"><b>${GD161_F==="noticias"?"Nenhuma notícia guardada":GD161_F==="posts"?"Nenhum post guardado":"Nada guardado ainda"}</b><span>Toque em “Guardar” (o marcador) numa notícia ou num post para ele aparecer aqui.</span></div>`;
+    return h+`<p class="hint vp99-so">Só você vê o que guardou.</p>`}
+  catch(e){return _pt161.apply(this,arguments)}}}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-gd161]");if(!b)return;e.preventDefault();e.stopPropagation();
+  GD161_F=b.dataset.gd161;try{renderMe()}catch(_){}},true);
+/* ver os guardados (do aviso de post guardado ou do menu do Perfil) abre a aba com o filtro certo */
+function gd161Abre(f){GD161_F=f||"tudo";try{vp99VerSalvos()}catch(e){}}
+/* textos: Guardar em todo o app */
+{const _tt161=toast;toast=function(m,ac,fn){const a=[...arguments];try{if(m==="Salvo"){a[0]="Guardado";if(ac==="Ver salvos"){a[1]="Ver guardados";a[2]=()=>gd161Abre("posts")}}
+  else if(m==="Removido dos salvos")a[0]="Removido dos guardados";else if(m==="Não deu para salvar agora.")a[0]="Não deu para guardar agora."}catch(e){}return _tt161.apply(this,a)}}
+/* o item "Guardadas" do menu do Perfil abre a aba Guardados */
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest('#v-me .card.menu [data-vgo="saved"]');if(!b||!S.uid||!S.membro)return;
+  e.preventDefault();e.stopPropagation();gd161Abre("noticias")},true);
+{const _rm161=renderMe;renderMe=function(){const r=_rm161.apply(this,arguments);try{const b=document.querySelector('#v-me .card.menu [data-vgo="saved"] span');if(b&&b.textContent==="Guardadas")b.textContent="Guardados"}catch(e){}return r}}
 /* 161 (corretor 16/11): a ilustração "genérica" era sempre o Congresso Nacional, em qualquer notícia (China, voos
    nos EUA, Nvidia, fundo de florestas…). Agora o desenho segue o assunto (rótulo + texto alternativo): futebol,
    avião, floresta/clima, tecnologia, mundo; o Congresso fica só para Brasília/governo/Congresso; sem pista, um

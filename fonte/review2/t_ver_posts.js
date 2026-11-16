@@ -18,7 +18,7 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
     return { sv: !!sv && !sv.hidden && sv.getBoundingClientRect().width > 30, svLbl: sv && sv.getAttribute('aria-label'), qd: q && q.textContent, qdOk: q && q.scrollWidth <= q.clientWidth + 1 && q.getBoundingClientRect().width > 20 && q.getBoundingClientRect().right <= p.getBoundingClientRect().right,
       loc: (l => !!l && l.getBoundingClientRect().right <= p.getBoundingClientRect().right + 1 && l.scrollWidth <= l.clientWidth + 1)(p.querySelector('.dc122-loc > span, .vp99-loc')), nchat: p.querySelector('[data-nchat]').textContent.trim(), pg: !!p.querySelector('.car > .vp99-pg'),
       dots: (() => { const d = p.querySelector('.pdots').getBoundingClientRect(), c = p.querySelector('.car').getBoundingClientRect(); return Math.abs((d.left + d.width / 2) - (c.left + c.width / 2)) })() } }, s3);
-  ok(card.sv && card.svLbl === 'Salvar', 'marcador de salvar aparece no post do amigo', card);
+  ok(card.sv && card.svLbl === 'Guardar', 'marcador de guardar aparece no post do amigo', card);
   ok(card.qdOk && /agora/.test(card.qd), 'a hora aparece inteira (o local é que encolhe)', card);
   ok(card.loc, 'local longo cabe no cartão (quebra a linha, 122)');
   ok(card.nchat === '', '"Na conversa" não repete a legenda (menção não conta)', card.nchat);
@@ -80,14 +80,25 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   // ---- salvar ----
   await tapSel(B, s3 + ' .acts [data-a="save"]'); await sleep(500);
   const sv = await ev(B, s => { const b = document.querySelector(s + ' .acts [data-a="save"]'); return { on: b.classList.contains('saved') && b.getAttribute('aria-pressed') === 'true', lbl: b.getAttribute('aria-label'), k: Object.keys(S.salvos).filter(k => k.startsWith('u:')), toast: document.querySelector('.toast')?.textContent || '' } }, s3);
-  ok(sv.on && sv.k.length === 1 && 'p-' + sv.k[0] === P3 && /Salvo/.test(sv.toast), 'tocar no marcador salva o post (S.salvos com "u:")', sv);
+  ok(sv.on && sv.k.length === 1 && 'p-' + sv.k[0] === P3 && /Guardado/.test(sv.toast), 'tocar no marcador guarda o post (S.salvos com "u:")', sv);
   await shot(B, '09-salvo');
   await ev(B, () => go('me')); await sleep(400); await ev(B, () => vn112PfAba('salvos')); await sleep(600);
-  const pf = await ev(B, () => ({ aba: !!document.querySelector('#v-me [data-vnpfaba="salvos"][aria-selected="true"], #v-me [data-pfaba="salvos"][aria-selected="true"]'), tiles: document.querySelectorAll('#v-me .pf-grade .pf-t').length, gd: document.querySelector('#v-me .vp99-gd')?.textContent || '' }));
-  ok(pf.aba && pf.tiles === 1 && /Notícias guardadas/.test(pf.gd), 'aba Salvos no seu perfil: o post salvo e o atalho para as notícias guardadas', pf);
+  const pf = await ev(B, () => ({ aba: !!document.querySelector('#v-me [data-vnpfaba="salvos"][aria-selected="true"], #v-me [data-pfaba="salvos"][aria-selected="true"]'), tiles: document.querySelectorAll('#v-me .pf-grade .pf-t').length, gd: document.querySelector('#v-me .gd161-f')?.textContent || '' }));
+  ok(pf.aba && pf.tiles === 1 && /Tudo/.test(pf.gd) && /Notícias/.test(pf.gd) && /Posts/.test(pf.gd), 'aba Guardados no seu perfil: o post guardado e o filtro Tudo · Notícias · Posts', pf);
   await shot(B, '10-perfil-salvos');
+  // Guardados: notícia e post na mesma lista, com filtro
+  await ev(B, () => toggleSave(FEED.pautas[0].id)); await sleep(700); await ev(B, () => vn112PfAba('salvos')); await sleep(500);
+  const gdT = await ev(B, () => ({ n: document.querySelectorAll('#v-me .gd161-nl li').length, p: document.querySelectorAll('#v-me .pf-grade .pf-t').length }));
+  ok(gdT.n === 1 && gdT.p === 1, 'Guardados (Tudo): a notícia guardada e o post guardado juntos', gdT);
+  await tapSel(B, '#v-me [data-gd161="noticias"]'); await sleep(400);
+  const gdN = await ev(B, () => ({ n: document.querySelectorAll('#v-me .gd161-nl li').length, p: document.querySelectorAll('#v-me .pf-grade .pf-t').length }));
+  await tapSel(B, '#v-me [data-gd161="posts"]'); await sleep(400);
+  const gdP = await ev(B, () => ({ n: document.querySelectorAll('#v-me .gd161-nl li').length, p: document.querySelectorAll('#v-me .pf-grade .pf-t').length }));
+  ok(gdN.n === 1 && gdN.p === 0 && gdP.n === 0 && gdP.p === 1, 'filtro Notícias / Posts', { gdN, gdP });
+  await shot(B, '10b-guardados');
+  await tapSel(B, '#v-me [data-gd161="tudo"]'); await ev(B, () => toggleSave(FEED.pautas[0].id)); await sleep(700); await ev(B, () => vn112PfAba('salvos')); await sleep(400);
   await tapSel(B, '#v-me .pf-grade .pf-t'); await sleep(900);
-  ok(await ev(B, () => /Salvos/.test(document.querySelector('#layer .pfv-h b')?.textContent || '') && document.querySelectorAll('#layer .pfv-posts .upost').length === 1), 'tocar no salvo abre o post (título "Salvos")');
+  ok(await ev(B, () => /Guardados/.test(document.querySelector('#layer .pfv-h b')?.textContent || '') && document.querySelectorAll('#layer .pfv-posts .upost').length === 1), 'tocar no guardado abre o post (título "Guardados")');
   await ev(B, () => history.back()); await sleep(600);
   await ev(B, () => go('saved')); await sleep(400);
   ok(await ev(B, () => !document.querySelector('#v-saved [data-open^="u:"]')), 'Guardadas (notícias) não mostra o post salvo');
