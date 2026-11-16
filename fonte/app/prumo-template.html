@@ -5537,9 +5537,10 @@ html.ab141-abrindo .nav button,html.ab141-abrindo .nav button *{transition:none!
 .mt158-ag small{font-size:13px;color:var(--ink-2)}
 
 /* cobertura anterior e link de outra edição */
-.mt158-foto{display:block;width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin:0 0 10px;background:var(--chip)}
+.mt158-foto{display:block;width:100%;max-height:180px;object-fit:cover;border-radius:12px;margin:0 0 10px;background:var(--chip)}
 .mt158-fora h3{margin:4px 0 8px;font:700 19px/1.25 var(--f-display,var(--f-ui));color:var(--ink)}
-.sh-f .btn+.btn{margin-top:8px}
+.sh-f [data-mt158hoje],.sh-f [data-mt158busca]{width:100%}
+.sh-f [data-mt158busca]{margin-top:8px}
 
 /* Coberturas que sigo */
 .mt158-pf svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;color:var(--bronze-ink,#9a5a1c)}
@@ -17869,6 +17870,7 @@ function mt158Periodo(d){const a=d.inicio?cobSP(d.inicio):"",b=d.ultima?cobSP(d.
 {const _ad158=abrirDormente;abrirDormente=function(id){const r=_ad158.apply(this,arguments);try{const d=(FEED.dormentes||[]).find(x=>x.id===id);const box=document.querySelector(".sheet .pc");if(!d||!box)return r;
     mt158Titulo(d.tema||d.tag||"Cobertura anterior");
     const m=box.querySelector(".pc-m");if(m){const s=[...m.querySelectorAll("span")].find(x=>!x.classList.contains("cst"));if(s)s.textContent=mt158Periodo(d)}
+    const st=box.querySelector(".pc-m .cst.enc");if(st)st.textContent="Cobertura anterior";
     const h=box.querySelector(".hint:last-child");if(h)h.textContent=`Esta cobertura é ${mt158Periodo(d)||"de outra edição"} e saiu da edição. O resumo fica aqui; se o assunto voltar, ela reaparece no feed com o histórico.`;
     /* foto e resumo da página da notícia (/m/), quando ela existe */
     mt158Pagina(id).then(pg=>{const b=document.querySelector(".sheet .pc");if(!pg||!b||b.dataset.mt158===id)return;b.dataset.mt158=id;
@@ -17885,7 +17887,7 @@ function mt158SegPinta(){document.querySelectorAll("[data-mt158seg]").forEach(b=
   b.setAttribute("aria-pressed",String(on));b.classList.toggle("ghost",on);b.textContent=on?`Seguindo “${tema}” ✓`:`Seguir a cobertura “${tema}”`})}
 /* matéria aberta por um evento da agenda */
 var MT158_AG=null;
-{const _am158=abrirMateria;abrirMateria=function(pid){const p=pautaById(pid);const ups=p&&p.atualizacoes;if(p&&Array.isArray(ups))p.atualizacoes=mt158Ups(ups);
+{const _am158=abrirMateria;abrirMateria=function(pid,manter){if(!manter||pid!==MAT_PID)MT158_CAPTAP=null;const p=pautaById(pid);const ups=p&&p.atualizacoes;if(p&&Array.isArray(ups))p.atualizacoes=mt158Ups(ups);
   let r;try{r=_am158.apply(this,arguments)}finally{if(p&&Array.isArray(ups))p.atualizacoes=ups}
   try{const m=document.querySelector("#layer .mat");if(m&&p){const b=m.querySelector(".mat-pe [data-cobpag]");if(b&&temaDe(p))b.outerHTML=mt158SegBt(p);
     const ag=MT158_AG;MT158_AG=null;if(ag&&ag.pid===pid&&Date.now()-ag.t<4000&&!m.querySelector(".mt158-ag")){const tx=m.querySelector(".mat-tx");const tema=temaDe(p)||capaChapeu(p);
@@ -17963,7 +17965,13 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 /* ===== 6. "Nesta matéria": seção marcada e faixa ===== */
 /* marca a última seção cujo começo já chegou ao terço de cima da área de leitura (antes: a 40 px da faixa, e a seção
    anterior ficava marcada enquanto a seguinte já ocupava a tela) */
-f113CapAtual=function(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;const off=f113Off(m),top=m.getBoundingClientRect().top;
+/* depois de tocar num capítulo, ele fica marcado até a pessoa rolar por conta própria (no fim da matéria o seguinte também
+   cabe no terço de cima e roubava a marca) */
+var MT158_CAPTAP=null;
+{const _cv158=f113CapVai;f113CapVai=function(i){MT158_CAPTAP=null;try{const m=$("#layer .mat"),el=m&&m.querySelector("#fs2c-"+i);if(el){const y=el.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop-f113Off(m);
+  MT158_CAPTAP={i:+i,t:Date.now(),s0:m.scrollTop,y:Math.max(0,Math.min(y,m.scrollHeight-m.clientHeight))}}}catch(e){}return _cv158.apply(this,arguments)}}
+f113CapAtual=function(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;
+  const tp=MT158_CAPTAP;if(tp&&nav.querySelector(`[data-f113cap="${tp.i}"]`)&&(Math.abs(m.scrollTop-tp.y)<30||(Date.now()-tp.t<1600&&m.scrollTop>=Math.min(tp.s0,tp.y)-30&&m.scrollTop<=Math.max(tp.s0,tp.y)+30))){f113CapMarca(nav,tp.i);return}MT158_CAPTAP=null;const off=f113Off(m),top=m.getBoundingClientRect().top;
   const lim=off+Math.max(60,(m.clientHeight-off)*.33);const els=[...m.querySelectorAll(".fs2-alvo[id^='fs2c-']")];let i=0;els.forEach((e,k)=>{if(e.getBoundingClientRect().top-top<=lim)i=k});
   if(m.scrollTop+m.clientHeight>=m.scrollHeight-4&&els.length){const ul=els[els.length-1];if(ul.getBoundingClientRect().top<top+m.clientHeight)i=els.length-1}
   f113CapMarca(nav,i)};
