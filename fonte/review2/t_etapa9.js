@@ -61,7 +61,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
       await p.evaluate(() => history.back()); await sleep(500);
       ok(await p.evaluate(() => VIEW === 'capa'), 'Busca → voltar → Capa (raiz)');
       // fechar
-      await p.evaluate(() => document.querySelector('.cpi-man .cpi-b').click()); await sleep(200);
+      await p.evaluate(() => document.querySelector('.cpi-man .cpi-b').click()); await sleep(900);  // 163: toque repetido em menos de 0,8 s é ignorado
       await p.evaluate(() => document.querySelector('.cpi-man .cpi-b').click()); await sleep(200);
       ok(await p.evaluate(() => !document.querySelector('.cpx') && CP_AB === null), 'tocar de novo no título recolhe');
       const larg = await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1);
