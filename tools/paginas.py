@@ -90,7 +90,9 @@ BLOQ = ["bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bol
         "plenario do senado (15717805622)", "plenario do senado (15687627386)", "plenario do senado (15109327665)", "vestibular.jpg",
         "ofrenda de la liga", "roda viva com senadora", "com bandeira do brasil", "conselheira tais ferraz", "arena corinthians opening",
         "allianz parque - reconhecimento facial", "tudo-o-que-voce-sempre-quis-saber", "vidpovid to be performing", "hibakujumoku",
-        "northern door of the assumption cathedral", "estacao agrometeorologica", "travessia de pedestres no patio da estacao"]
+        "northern door of the assumption cathedral", "estacao agrometeorologica", "travessia de pedestres no patio da estacao",
+        # 16/11 (169): selo postal de MG na chuva da Bahia; árbitro de outro jogo na Série B
+        "brasil barragem de 3 marias", "selo postal", "postage stamp", "stamp of ", "francobollo", "arbitro futebol apontando estadio"]
 HIST = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly)", re.I)
 BR = re.compile(r"(brasil|brazil|brasilia|sao paulo|guarulhos|rio de janeiro|planalto|congresso nacional|senado federal|camara dos deputados|supremo tribunal|paulista|copacabana|maracana|esplanada|itamaraty|banco central|ministerio d|bovespa|petrobras|policia militar|policia federal|unidade basica|allianz|mineirao|januario|beira-rio|fonte nova|arena mrv|interlagos)")
 FORA = re.compile(r"(\bEUA\b|Estados Unidos|Miami|Nova York|Washington|Casa Branca|China|Shenzhen|Pequim|Apec|Asean|Filipinas|Manila|Turquia|\bCOP ?\d|Jap[aã]o|Singapura|Canad[aá]|Europa|Uni[aã]o Europeia|\bONU\b|\bG20\b|\bG7\b|Brics|[Vv]iagem|[Cc][uú]pula|exterior|Argentina|Venezuela|R[uú]ssia|Ucr[aâ]nia|Israel|Gaza|Ir[aã](?=$|[^A-Za-zÀ-ú])|Fran[cç]a|Alemanha|Reino Unido|Londres|Paris|[ÍI]ndia|Catar)")
@@ -100,7 +102,7 @@ EXIGE = {"café e agro": re.compile(r"[Cc]af[eé]"), "ONU": re.compile(r"(\bONU\
 TEMA = {"politica/Eleições 2026": 1, "politica/Congresso": 1, "politica/Planalto e governo": 1,
         "politica/STF e Judiciário": re.compile(r"(STF|Supremo|[Mm]inistr|[Pp]len[aá]rio|[Jj]ulg|Corte|Fachin|Moraes|Dino|Fux|Gilmar|Kassio|Nunes Marques|Mendon[cç]a|Zanin|Toffoli|C[aá]rmen|Barroso|Messias)"),
         "politica/Partidos": 1, "politica/Estados": re.compile(r"(S[aã]o Paulo|Rio de Janeiro|Tarc[ií]sio|Cl[aá]udio Castro|Bandeirantes|Guanabara)"),
-        "economia/Juros e inflação": 1, "economia/Contas públicas": 1, "economia/Mercados": 1, "economia/Atividade econômica": 1, "economia/Trabalho e renda": 1, "economia/Seu dinheiro": 1,
+        "economia/Juros e inflação": re.compile(r"(\b[Jj]uros|Selic|Copom|Banco Central|\bBC\b|Gal[ií]polo)"), "economia/Contas públicas": 1, "economia/Mercados": 1, "economia/Atividade econômica": 1, "economia/Trabalho e renda": 1, "economia/Seu dinheiro": 1,
         "brasil/Segurança": 1, "brasil/Justiça e polícia": 1, "brasil/Saúde": 1,
         "brasil/Meio ambiente e clima": re.compile(r"([Cc]huva|[Ee]nchente|[Aa]laga|[Ii]nunda|[Tt]emporal|[Cc]heia)"),
         "brasil/Infraestrutura e transporte": re.compile(r"([Rr]odovia|[Ee]strada|\bBR-\d|[Mm]etr[oô]|[Tt]r[aâ]nsito|[Tt]ransporte)"),
@@ -108,8 +110,10 @@ TEMA = {"politica/Eleições 2026": 1, "politica/Congresso": 1, "politica/Planal
         "mundo/Oriente Médio": re.compile(r"(Knesset|Jerusal[eé]m)"), "mundo/Ásia": re.compile(r"(Tiananmen|Pequim)"), "mundo/América Latina": re.compile(r"(Casa Rosada|Buenos Aires|Milei)"),
         "mundo/África": re.compile(r"(Uni[aã]o Africana|Adis Abeba)"),
         "educacao/Educação básica": 1, "educacao/Ensino superior": 1, "educacao/Enem e vestibulares": 1, "educacao/Políticas": 1, "educacao/Avaliações": 1,
-        "esportes/Brasileirão": 1, "esportes/Série B": 1, "esportes/Copa do Brasil": 1, "esportes/Libertadores": 1, "esportes/Sul-Americana": 1, "esportes/Seleção": 1,
-        "esportes/Clubes": 1, "esportes/Outros esportes": 1}
+        # 169 (16/11): Esportes só com o estádio citado; taça só na final/decisão; nada de foto genérica de jogo de outros times
+        "esportes/Brasileirão": re.compile(r"(Maracan[aã]|Allianz)"), "esportes/Copa do Brasil": re.compile(r"Maracan[aã]"), "esportes/Clubes": re.compile(r"Maracan[aã]"),
+        "esportes/Libertadores": re.compile(r"([Ff]inal|[Dd]ecid|[Dd]ecis|[Cc]ampe[aã]|[Tt][ií]tulo|[Tt]a[cç]a)"), "esportes/Sul-Americana": re.compile(r"([Ff]inal|[Dd]ecid|[Dd]ecis|[Cc]ampe[aã]|[Tt][ií]tulo|[Tt]a[cç]a)"),
+        "esportes/Outros esportes": re.compile(r"Ibirapuera")}
 
 
 def bloqueada(f):
@@ -146,10 +150,17 @@ def _br(f):
     return bool(BR.search(_arq(f) + " " + _norm(f.get("alt"))))
 
 
+FORA_ESP = re.compile(r"(Col[oô]mbia|Barranquilla|Bogot[aá]|Medell[ií]n|Uruguai|Montevid[eé]u|Paraguai|Assun[cç][aã]o|Chile|Santiago do Chile|Peru\b|Lima\b|Equador|Quito|Guayaquil|Bol[ií]via|La Paz|M[eé]xico|Arábia|Riad|Catar|Doha|Singapura|Jap[aã]o|T[oó]quio|Estados Unidos|\bEUA\b|Espanha|Madri|Portugal|Lisboa|Inglaterra|Londres|It[aá]lia|Fran[cç]a|Alemanha|Argentina|Buenos Aires|Avellaneda|La Bombonera)")
+INC_MATO = re.compile(r"(florest|queimad|wildfire|forest|bush ?fire|cerrado|vegetac|brigadist|crash|hercules|c-130|aircraft)")
+INC_TIT = re.compile(r"([Ff]loresta|[Qq]ueimad|[Mm]ato\b|[Vv]egeta|[Cc]errado|[Pp]antanal|[Aa]maz[oô]nia|[Rr]eserva)")
+
+
 def fora(p):
     if (p.get("secao") or "politica") == "mundo": return True
     n = p.get("neutro") or {}
-    return bool(FORA.search(" · ".join(x for x in (n.get("titulo"), p.get("tema"), p.get("tag")) if isinstance(x, str))))
+    if FORA.search(" · ".join(x for x in (n.get("titulo"), p.get("tema"), p.get("tag")) if isinstance(x, str))): return True
+    # 169: jogo fora do Brasil (o resumo diz "em Barranquilla, na Colômbia") não usa estádio brasileiro
+    return (p.get("secao") or "") == "esportes" and bool(FORA_ESP.search(" · ".join(x for x in (n.get("titulo"), p.get("subtitulo")) if isinstance(x, str))))
 
 
 def assunto_ok(nome, p, tit):
@@ -211,7 +222,11 @@ def fa_listas(p, A):
         if pe: pega(pe["fotos"], False)
     fr = re.split(r";|\s[—–]\s", tit)[0]
     for nome, x in assuntos_titulo(fr, A, sec):
-        if assunto_ok(nome, p, fr): pega(x.get("fotos"), True)
+        if not assunto_ok(nome, p, fr): continue
+        fs = x.get("fotos")
+        if nome == "incêndio" and isinstance(fs, list) and not INC_TIT.search(tit):  # 169: fábrica não é queimada no mato
+            fs = [f for f in fs if not INC_MATO.search(_arq(f) + " " + _norm(f.get("alt")))]
+        pega(fs, True)
     k = f"{sec}/{p.get('subtema') or ''}"
     if tema_ok(k, p): pega(T.get(k), True)
     return [ok for _, ok in L]
@@ -266,6 +281,149 @@ def mapa_fotos(pautas, A, pessoas_feed=None):
     return M
 
 
+# ---- prévia própria das notícias sem foto (16/11, 169) ----
+# As notícias com ilustração no app iam para o WhatsApp com og-padrao.png (o mesmo quadrado escuro em todas). Agora cada
+# uma ganha m/og/<id>.jpg: a cor da editoria, a editoria e o tema, o destaque da ilustração do app (o número das cédulas,
+# o carimbo, a etiqueta) e o título. Só texto e formas (nada de imagem gerada de pessoa). Precisa do Pillow (o mesmo do
+# robô de fotos); sem ele, fica a imagem padrão.
+ARTE_VERSAO = "1"
+ARTE_W, ARTE_H = 1200, 630
+SECOES = {"politica": ("Política", "#e3e8f0", "#1d3a63", "#cbd5e3"), "economia": ("Economia", "#e4ece7", "#24533c", "#cddcd3"),
+          "brasil": ("Brasil", "#efe7dc", "#6e4419", "#dfd2c0"), "mundo": ("Mundo", "#e8e4ef", "#46337a", "#d5cee3"),
+          "educacao": ("Educação", "#f1e3e5", "#7a2b37", "#e3ccd0"), "esportes": ("Esportes", "#e1edef", "#1e5a60", "#c9dde0")}
+TINTA, AMBAR, ESCURO = "#14213a", "#c9822b", "#0f1522"
+FONTES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fontes")
+
+
+def _fonte(tipo, tam, peso):
+    """Newsreader/Public Sans do app (woff2 variável); sem suporte a woff2, DejaVu; por fim a fonte embutida do Pillow."""
+    from PIL import ImageFont
+    arq = {"serif": "newsreader.woff2", "sans": "public-sans.woff2"}[tipo]
+    try:
+        f = ImageFont.truetype(os.path.join(FONTES, arq), tam)
+        try: f.set_variation_by_axes([peso, min(72, max(6, tam // 2))] if tipo == "serif" else [peso])
+        except Exception: pass
+        return f
+    except Exception: pass
+    for c in ([f"/usr/share/fonts/truetype/dejavu/DejaVuSerif{'-Bold' if peso >= 600 else ''}.ttf"] if tipo == "serif" else []) + [f"/usr/share/fonts/truetype/dejavu/DejaVuSans{'-Bold' if peso >= 600 else ''}.ttf"]:
+        try: return ImageFont.truetype(c, tam)
+        except Exception: pass
+    try: return ImageFont.load_default(tam)
+    except Exception: return ImageFont.load_default()
+
+
+def _linhas(d, txt, f, larg, maxl):
+    pal, out, cur = str(txt or "").split(), [], ""
+    for w in pal:
+        t = (cur + " " + w).strip()
+        if d.textlength(t, font=f) <= larg or not cur: cur = t
+        else: out.append(cur); cur = w
+    if cur: out.append(cur)
+    if len(out) > maxl:
+        out = out[:maxl]
+        while out[-1] and d.textlength(out[-1] + "…", font=f) > larg: out[-1] = out[-1].rsplit(" ", 1)[0] if " " in out[-1] else out[-1][:-1]
+        out[-1] = out[-1].rstrip(" ,;:—–-") + "…"
+    return out
+
+
+FEIRA_TIT = re.compile(r"([Tt]omate|[Ff]eira|[Hh]ortifr|[Aa]limentos|[Vv]erduras|[Ll]egumes|[Cc]esta b[aá]sica|[Ff]eij[aã]o|[Aa]rroz|[Bb]atata|[Cc]ebola)")
+
+
+def _maiusc(t):
+    return str(t or "").upper()
+
+
+def arte_dados(p):
+    """O que entra na imagem (também é a chave: a imagem só é refeita quando isto muda)."""
+    n, im = p.get("neutro") or {}, p.get("imagem") if isinstance(p.get("imagem"), dict) else {}
+    dd = im.get("dados") if isinstance(im.get("dados"), dict) else {}
+    sec = p.get("secao") if p.get("secao") in SECOES else "politica"
+    sub = str(p.get("subtema") or "").strip()
+    if not dd and sec == "economia" and FEIRA_TIT.search(str(n.get("titulo") or "")):  # igual ao app (169): feira
+        dd = {"rotulo": "INFLAÇÃO DOS ALIMENTOS" if sub == "Juros e inflação" else "ALIMENTOS"}
+    sel = {"valor": str(dd.get("valor") or "").strip()[:14], "legenda": str(dd.get("legenda") or "").strip()[:80],
+           "carimbo": _maiusc(dd.get("carimbo")).strip()[:28], "rotulo": _maiusc(dd.get("rotulo")).strip()[:36]}
+    return {"v": ARTE_VERSAO, "sec": sec, "sub": "" if sub.startswith("Outros") else sub, "titulo": str(n.get("titulo") or "").strip(), **sel}
+
+
+def arte_chave(p):
+    import hashlib
+    return hashlib.sha1(json.dumps(arte_dados(p), ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:10]
+
+
+def desenhar_arte(p, cam):
+    """Grava a prévia em JPEG (1200×630). Devolve False sem o Pillow."""
+    try: from PIL import Image, ImageDraw
+    except ImportError: return False
+    D = arte_dados(p)
+    nome, bg, ac, fundo = SECOES[D["sec"]]
+    W, H, M = ARTE_W, ARTE_H, 72
+    im = Image.new("RGB", (W, H), bg); d = ImageDraw.Draw(im)
+    # formas da editoria ao fundo (sem pessoas nem logotipos)
+    d.ellipse((W - 250, -190, W + 130, 190), fill=fundo)
+    d.ellipse((W - 150, 52, W - 70, 132), outline=ac, width=5)
+    d.rectangle((0, 0, 14, H - 96), fill=ac)
+    fundo_img, d0 = im, d
+    im = Image.new("RGBA", (W, H - 96), (0, 0, 0, 0)); d = ImageDraw.Draw(im)  # texto numa camada, centralizada depois
+    y = 0
+    fk = _fonte("sans", 25, 700)
+    kick = _maiusc(nome) + (" · " + _maiusc(D["sub"]) if D["sub"] else "")
+    d.text((M, y), kick, font=fk, fill=ac); y += 52
+    if D["valor"]:
+        fv = _fonte("serif", 112, 800)
+        d.text((M - 4, y + 4), D["valor"], font=fv, fill=ac); y += 134
+        if D["legenda"]:
+            fl = _fonte("sans", 24, 500)
+            d.text((M, y), _linhas(d, D["legenda"], fl, W - 2 * M - 200, 1)[0], font=fl, fill="#3b4a62"); y += 44
+    elif D["carimbo"]:
+        fc = _fonte("sans", 44, 800)
+        tw = int(d.textlength(D["carimbo"], font=fc)) + 56
+        st = Image.new("RGBA", (tw + 20, 110), (0, 0, 0, 0)); sd = ImageDraw.Draw(st)
+        sd.rounded_rectangle((10, 18, tw + 10, 92), radius=10, outline="#b4532a", width=7)
+        sd.text((10 + tw / 2, 56), D["carimbo"], font=fc, fill="#b4532a", anchor="mm")
+        st = st.rotate(4, resample=Image.BICUBIC, expand=True)
+        im.paste(st, (M - 12, y - 14), st); y += st.height - 6
+    elif D["rotulo"]:
+        fr = _fonte("sans", 24, 700)
+        tw = int(d.textlength(D["rotulo"], font=fr)) + 44
+        d.rounded_rectangle((M, y, M + tw, y + 46), radius=23, fill=TINTA)
+        d.text((M + tw / 2, y + 23), D["rotulo"], font=fr, fill="#ffffff", anchor="mm"); y += 76
+    # título: o maior tamanho que cabe em até 3 linhas no espaço que sobra
+    base = H - 96 - 100
+    for tam in (74, 66, 58, 52, 46):
+        ft = _fonte("serif", tam, 700)
+        ls = _linhas(d, D["titulo"], ft, W - 2 * M - 40, 3)
+        alt = int(tam * 1.14) * len(ls)
+        if y + alt <= base and (len(ls) < 3 or tam <= 58 or y + alt + int(tam * 1.14) <= base): break
+    y0 = y + 6
+    for i, l in enumerate(ls): d.text((M, y0 + i * int(tam * 1.14)), l, font=ft, fill=TINTA)
+    usado = y0 + alt
+    fundo_img.paste(im, (0, max(48, (H - 96 - usado) // 2)), im)
+    im, d = fundo_img, d0
+    # rodapé com a marca
+    d.rectangle((0, H - 96, W, H), fill=ESCURO)
+    fm, fn, fu = _fonte("serif", 44, 700), _fonte("sans", 19, 700), _fonte("sans", 24, 500)
+    d.text((M, H - 48), "prumo", font=fm, fill="#ffffff", anchor="lm")
+    d.text((M + d.textlength("prumo", font=fm) + 12, H - 52), "N E W S", font=fn, fill=AMBAR, anchor="lm")
+    d.text((W - M, H - 48), "prumonews.com.br", font=fu, fill="#9aa6b8", anchor="rm")
+    os.makedirs(os.path.dirname(cam), exist_ok=True)
+    im.save(cam, "JPEG", quality=76, optimize=True, progressive=True)
+    return True
+
+
+def pagina_bloqueada(txt):
+    """Página antiga (pauta que saiu) com foto que já apareceu no lugar errado: devolve o texto com a imagem padrão."""
+    m = re.search(r'<meta property="og:image" content="([^"]+)">', txt or "")
+    if not m or "wikimedia.org" not in m.group(1): return None
+    f = {"url": html.unescape(m.group(1))}
+    t = re.search(r'<meta property="og:title" content="([^"]*)">', txt)
+    t = html.unescape(t.group(1)) if t else ""
+    inc = bool(re.search(r"[Ii]nc[eê]ndio", t)) and not INC_TIT.search(t) and bool(INC_MATO.search(_arq(f)))
+    if not bloqueada(f) and not inc: return None
+    tam = '\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">'
+    return txt.replace(m.group(0), f'<meta property="og:image" content="{BASE}/og-padrao.png">{tam}', 1)
+
+
 def primeira_frase(t):
     t = re.sub(r"\s+", " ", str(t or "")).strip()
     m = re.match(r"(.+?[.!?])(\s|$)", t)
@@ -291,7 +449,7 @@ def alvo_do_arquivo(cam):
     return m.group(1) if m else None
 
 
-def pagina(p, FA=None, propria=None, slug=None):
+def pagina(p, FA=None, propria=None, slug=None, arte=None):
     pid = p["id"]
     n = p.get("neutro") or {}
     tit = str(n.get("titulo") or "Prumo News").strip()
@@ -301,6 +459,8 @@ def pagina(p, FA=None, propria=None, slug=None):
     img, w, h = BASE + "/og-padrao.png", "1200", "630"
     if isinstance(f.get("url"), str) and FOTO_OK.match(f["url"]):
         img, w, h = foto_leve(f["url"]), "", ""  # o crédito fica na página da matéria, não na prévia (15/11)
+    elif arte:
+        img, w, h = arte, str(ARTE_W), str(ARTE_H)
     e = lambda s: html.escape(str(s), quote=True)
     url = f"{BASE}/m/{slug or pid}.html"
     alvo = f"/#m={pid}"
@@ -366,11 +526,28 @@ def main(argv):
             for cand in (s0, s0 + "-" + re.sub(r"[^a-z0-9-]", "", pid.lower())[:24]):
                 dono = alvo_do_arquivo(os.path.join(pasta, cand + ".html"))
                 if (dono is None or dono == pid) and cand not in ids - {pid}: sl = cand; break
-        txt = pagina(p, FA, propria, sl)
+        tem_foto = bool(FA.get(pid)) or (fa_valida(p.get("foto")) and not bloqueada(p["foto"]) and propria(p))
+        arte = None
+        if not tem_foto:
+            k = arte_chave(p)
+            cam_arte = os.path.join(pasta, "og", pid + ".jpg")
+            url_arte = f"{BASE}/m/og/{pid}.jpg?v={k}"
+            antes = open(os.path.join(pasta, pid + ".html"), encoding="utf-8").read() if os.path.exists(os.path.join(pasta, pid + ".html")) else ""
+            if (url_arte in antes and os.path.exists(cam_arte)) or desenhar_arte(p, cam_arte): arte = url_arte
+        txt = pagina(p, FA, propria, sl, arte)
         grava(os.path.join(pasta, pid + ".html"), txt)
         if sl:
             grava(os.path.join(pasta, sl + ".html"), txt)
             IND[pid] = sl
+    # páginas de notícias que saíram e mostram foto bloqueada depois (selo postal na chuva da Bahia): imagem padrão
+    for fn in sorted(os.listdir(pasta)):
+        if not fn.endswith(".html"): continue
+        cam = os.path.join(pasta, fn)
+        if alvo_do_arquivo(cam) in ids: continue
+        try: velho = open(cam, encoding="utf-8").read()
+        except OSError: continue
+        novo_txt = pagina_bloqueada(velho)
+        if novo_txt: grava(cam, novo_txt)
     novo = json.dumps(dict(sorted(IND.items())), ensure_ascii=False, separators=(",", ":"))
     if not os.path.exists(cam_ind) or open(cam_ind, encoding="utf-8").read() != novo:
         with open(cam_ind, "w", encoding="utf-8") as fh: fh.write(novo)

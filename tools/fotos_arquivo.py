@@ -114,7 +114,6 @@ TEMAS = {
     "educacao/Políticas": [("Ministério da Educação Brasília", ["educação", "mec"])],
     "educacao/Avaliações": [("sala de aula escola estadual alunos", ["sala de aula", "escola estadual", "escola municipal", "alunos"])],
     "esportes/Brasileirão": [("Estádio do Maracanã", ["maracanã", "maracana"]), ("Allianz Parque", ["allianz parque"])],
-    "esportes/Série B": [("estádio de futebol Brasil torcida", ["estádio", "estadio"])],
     "esportes/Copa do Brasil": [("Estádio do Maracanã", ["maracanã", "maracana"])],
     "esportes/Libertadores": [("taça Copa Libertadores troféu", ["libertadores"])],
     "esportes/Sul-Americana": [("Copa Sudamericana", ["sudamericana", "sul-americana"])],
@@ -150,7 +149,9 @@ ASSUNTOS = {
     "Nvidia": (["Nvidia"], "Nvidia headquarters Santa Clara", ["nvidia"], None),
     "Microsoft": (["Microsoft"], "Microsoft campus Redmond building", ["microsoft"], None),
     "barragem": (["barragem", "Barragem", "represa", "açude"], "barragem Brasil", ["barragem", "dam"], None),
-    "incêndio": (["incêndio", "Incêndio", "fogo"], "bombeiros combate a incêndio", ["bombeiros", "firefighter", "fire department"], None),
+    # 16/11 (2ª rodada): incêndio em indústria de Salto ilustrado com brigadistas numa queimada do cerrado. Incêndio
+    # urbano/industrial; queimada no mato é o assunto "queimadas" (ver EVITAR).
+    "incêndio": (["incêndio", "Incêndio", "fogo"], "incêndio fábrica bombeiros combate", ["bombeiros", "firefighter", "fire department", "incêndio", "incendio"], None),
     "queimadas": (["queimada", "queimadas", "incêndio florestal", "Incêndio florestal"], "incêndio florestal Brasil", ["incêndio florestal", "incendio florestal", "queimada", "wildfire"], None),
     "aves": (["aves", "aviária", "Newcastle", "frango", "frangos", "granja"], "chickens poultry farm", ["chicken", "frango", "galinha", "poultry", "avicultura", "aviário"], None),
     "café e agro": (["café", "Café", "safra", "agro", "agronegócio"], "colheita de café Brasil", ["café", "coffee"], None),
@@ -229,6 +230,8 @@ ASSUNTOS_BR = {
     "Bolsa Família": (["Bolsa Família"], "agência Caixa Econômica Federal fachada", ["caixa econômica", "caixa economica"], None),
     "dinheiro": (["dólar", "Dólar", "câmbio", "Câmbio", "inflação", "IPCA", "salário mínimo", "Desenrola", "dívidas"], "cédulas de real moeda brasileira", ["cédulas de real", "cedulas de real", "notas de real", "brazilian real"], ["economia"]),
     "supermercado": (["preços", "alimentos", "supermercado", "cesta básica"], "supermercado Brasil gôndola", ["supermercado"], None),
+    # 16/11 (2ª rodada): alta do tomate com foto de fachada de supermercado; o tomate na feira mostra o fato
+    "tomate e feira": (["tomate", "Tomate", "tomates", "Tomates", "feira livre", "hortifrúti", "Hortifrúti", "Ceagesp"], "tomates feira livre", ["tomate", "tomato", "feira"], ["economia", "brasil"]),
     "urna": (["urna", "urnas", "apuração", "votos válidos", "eleição", "Eleição", "eleitores"], "urna eletrônica brasileira", ["urna"], ["politica"]),
 }
 PADRAO = {"politica": "politica/Congresso", "economia": "economia/Mercados", "brasil": "brasil/Sociedade", "mundo": "mundo/Europa",
@@ -246,7 +249,7 @@ COMUNS = {"bacelar", "general", "pastor", "delegado", "coronel", "capitao", "sar
 # tira as que já estavam no acervo.
 # foto de lugar ou assunto não pode ser retrato de alguém (14/11: príncipe do Camboja na foto "ONU")
 COM_GENTE = re.compile(r"(prince|princess|principe|king |queen |rei |rainha|president|presidente|minister|ministr|secretary|senator|senador|deputad|governor|governador|portrait|retrato|\bmeets?\b|\bh\.e\b|\bwith\b)")
-NEGADAS = re.compile(r"(aulao|teatro|young pioneers|pioneiros|mbeki|adeola|monica benicio|haitianos|carnaval|danca|dancing|festa|desfile|baile|parade|casa da moeda|casa-da-moeda|numismat|moedas antigas)")
+NEGADAS = re.compile(r"(selo postal|selos postais|postage|stamp|francobollo|briefmarke|aulao|teatro|young pioneers|pioneiros|mbeki|adeola|monica benicio|haitianos|carnaval|danca|dancing|festa|desfile|baile|parade|casa da moeda|casa-da-moeda|numismat|moedas antigas)")
 # 15/11 (revisão das fotos de todas as notícias): arquivos que apareceram no lugar errado e não voltam. Nome do arquivo sem
 # acento, minúsculo, "_" → " ". Astronauta e carro como "B3", cartão-postal do Rio como "prédio do STF", close de um
 # senador como "plenário", mural de vestibular antigo como "Enem", diretoria do Real Madrid como "Ancelotti" etc.
@@ -255,7 +258,10 @@ BLOQUEADAS = ["bolsa de valores (17205467578)", "bolsa de valores (17391295482)"
               "plenario do senado (15717805622)", "plenario do senado (15687627386)", "plenario do senado (15109327665)", "vestibular.jpg",
               "ofrenda de la liga", "roda viva com senadora", "com bandeira do brasil", "conselheira tais ferraz", "arena corinthians opening",
               "allianz parque - reconhecimento facial", "tudo-o-que-voce-sempre-quis-saber", "vidpovid to be performing", "hibakujumoku",
-              "northern door of the assumption cathedral", "estacao agrometeorologica", "travessia de pedestres no patio da estacao"]
+              "northern door of the assumption cathedral", "estacao agrometeorologica", "travessia de pedestres no patio da estacao",
+              "brasil barragem de 3 marias", "arbitro futebol apontando estadio"]  # 16/11: selo postal de MG na chuva da Bahia; árbitro de outro jogo na Série B
+# por assunto: nome de arquivo que não mostra o fato (16/11: queimada no mato e simulação de queda de avião como "incêndio")
+EVITAR = {"incêndio": re.compile(r"(florest|queimad|wildfire|forest|bush ?fire|cerrado|vegetac|brigadist|crash|hercules|c-130|aircraft)")}
 # acervos históricos (foto do século passado não ilustra fato de hoje)
 HISTORICO = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly)", re.I)
 
@@ -551,6 +557,19 @@ def junta(velhas, novas, n):
     return out
 
 
+def _nome_norm(f):
+    return norm(urllib.parse.unquote(str((f or {}).get("url", "")).rsplit("/", 1)[-1])).replace("_", " ")
+
+
+def alt_do_tema(f, qs):
+    """Texto alternativo da foto do tema pela busca cujas palavras estão no nome do arquivo (16/11: a fachada de um
+    supermercado saía como "Banco Central do Brasil", o texto da 1ª busca do tema)."""
+    n = _nome_norm(f)
+    for q, ch in qs:
+        if any(norm(c) in n for c in ch): return f"Foto de arquivo: {q}"
+    return f.get("alt") or f"Foto de arquivo: {qs[0][0]}"
+
+
 def no_titulo(titulos, chaves):
     for t in titulos:
         for k in chaves:
@@ -652,14 +671,16 @@ def main(argv):
             for q, ch in qs:
                 fotos = junta(fotos, busca(q, ch, n=3, sem_gente=True), 4)
                 if len(fotos) >= 4: break
-        if fotos: out_t[k] = [dict(f, alt=f.get("alt") or f"Foto de arquivo: {qs[0][0]}") for f in fotos[:4]]
+        if fotos: out_t[k] = [dict(f, alt=alt_do_tema(f, qs)) for f in fotos[:4]]
         print(f"{k}: {len(fotos)}")
     for nome, (chaves, q, ch, secs) in ASSUNTOS.items():
         # as antigas só ficam se ainda batem com as palavras do assunto (14/11: "incêndio" mudou de queimada para bombeiros)
         chn = [norm(c) for c in ch]
         velhas = [v for v in (((VA.get(nome) or {}).get("fotos")) or []) if isinstance(v, dict) and any(c in norm(urllib.parse.unquote(str(v.get("url", "")).rsplit("/", 1)[-1])).replace("_", " ") for c in chn) and not COM_GENTE.search(norm(urllib.parse.unquote(str(v.get("url", "")).rsplit("/", 1)[-1])).replace("_", " "))]
-        fotos = junta(velhas, [], 3)
-        if len(fotos) < 2: fotos = junta(fotos, busca(q, ch, n=3, sem_gente=True), 3)
+        ev = EVITAR.get(nome)
+        serve = lambda l: [f for f in l if not (ev and ev.search(_nome_norm(f)))]
+        fotos = junta(serve(velhas), [], 3)
+        if len(fotos) < 2: fotos = junta(fotos, serve(busca(q, ch, n=6, sem_gente=True)), 3)
         if fotos:
             out_a[nome] = {"chaves": chaves, "fotos": [dict(f, alt=f.get("alt") or f"Foto de arquivo: {q}") for f in fotos]}
             if secs: out_a[nome]["secoes"] = secs

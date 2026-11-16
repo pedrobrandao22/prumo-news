@@ -291,6 +291,90 @@ class TesteRevisao1511(unittest.TestCase):
         s.assertNotIn("Wikimedia", pg)
 
 
+class TesteFotos1611b(unittest.TestCase):
+    """2ª rodada de 16/11 (169): a foto mostra o fato, o lugar ou a pessoa; na dúvida, ilustração. Prévia própria das
+    notícias sem foto; páginas antigas com foto bloqueada."""
+
+    def acervo(s):
+        return {"gerado": "x", "pessoas": {},
+                "assuntos": {"Atlético-MG": {"chaves": ["Atlético-MG"], "secoes": ["esportes"], "fotos": [foto("Atlético_Mineiro_v_Botafogo,_Arena_MRV,_Horizonte,_2023.jpg", alt="Foto de arquivo: Arena MRV")]},
+                             "incêndio": {"chaves": ["Incêndio", "incêndio"], "fotos": [foto("Corpo_de_Bombeiros_intensifica_combate_a_incêndios_florestais.jpg"), foto("Fire_of_a_simulated_C-130_Hercules_plane_crash.jpg")]},
+                             "barragem": {"chaves": ["barragem"], "fotos": [foto("Brasil_Barragem_de_3_Marias_(22129648701).jpg")]}},
+                "temas": {"economia/Juros e inflação": [foto("Edifício_Sede_do_Banco_Central_do_Brasil.jpg"), foto("Supermercado_Zaffari_Lima_e_Silva_(Porto_Alegre,_Brasil)_0.jpg", alt="Foto de arquivo: Banco Central do Brasil")],
+                          "esportes/Série B": [foto("Arbitro_futebol_apontando_estadio_Brasil.jpg")],
+                          "esportes/Sul-Americana": [foto("Taça_da_Copa_Sul-Americana_de_2016.jpg")]}}
+
+    def test_regras(s):
+        P = lambda i, sec, t, **k: dict({"id": i, "secao": sec, "neutro": {"titulo": t}}, **k)
+        pautas = [P("tomate", "economia", "Tomate acumula alta de 58,7% em 2026 com chuva", subtema="Juros e inflação"),
+                  P("copom", "economia", "Copom mantém os juros em 15%", subtema="Juros e inflação"),
+                  P("serieb", "esportes", "Playoffs da Série B começam domingo (22)", subtema="Série B"),
+                  P("final", "esportes", "Atlético-MG e Boca decidem a Sul-Americana no sábado (21)", subtema="Sul-Americana", subtitulo="A final é em Barranquilla, na Colômbia."),
+                  P("salto", "brasil", "Incêndio em indústria química de Salto deixa 9 feridos", subtema="Infraestrutura e transporte"),
+                  P("cerrado", "brasil", "Incêndio florestal atinge reserva no cerrado", subtema="Meio ambiente e clima"),
+                  P("bahia", "brasil", "Chuva derruba barragem na Bahia", subtema="Meio ambiente e clima")]
+        M = PG.mapa_fotos(pautas, s.acervo())
+        nome = lambda i: urllib.parse.unquote(M[i]["url"].rsplit("/", 1)[-1]) if i in M else None
+        s.assertIsNone(nome("tomate"))                                     # nem Banco Central nem fachada de supermercado
+        s.assertEqual(nome("copom"), "Edifício_Sede_do_Banco_Central_do_Brasil.jpg")
+        s.assertIsNone(nome("serieb"))                                     # árbitro de outro jogo
+        s.assertEqual(nome("final"), "Taça_da_Copa_Sul-Americana_de_2016.jpg")  # final em Barranquilla: sem Arena MRV
+        s.assertIsNone(nome("salto"))                                      # fábrica não é queimada no mato
+        s.assertEqual(nome("cerrado"), "Corpo_de_Bombeiros_intensifica_combate_a_incêndios_florestais.jpg")
+        s.assertIsNone(nome("bahia"))                                      # selo postal de MG
+        s.assertTrue(FA.NEGADAS.search("selo postal brasil 1962"))
+        s.assertTrue(FA.EVITAR["incêndio"].search("corpo de bombeiros intensifica combate a incendios florestais"))
+
+    def test_alt_do_tema(s):
+        qs = FA.TEMAS["economia/Juros e inflação"]
+        s.assertEqual(FA.alt_do_tema(foto("Supermercado_Zaffari_Lima_e_Silva.jpg", alt="Foto de arquivo: Banco Central do Brasil"), qs), "Foto de arquivo: supermercado Brasil")
+        s.assertEqual(FA.alt_do_tema(foto("Edifício_Sede_do_Banco_Central_do_Brasil.jpg"), qs), "Foto de arquivo: Banco Central do Brasil")
+        s.assertNotIn("esportes/Série B", FA.TEMAS)
+        s.assertIn("tomate e feira", FA.ASSUNTOS)
+
+    def test_previa_propria(s):
+        try: import PIL  # noqa: F401
+        except ImportError: s.skipTest("sem Pillow")
+        d = tempfile.mkdtemp()
+        try:
+            feed = {"pautas": [{"id": "caso-x", "secao": "politica", "subtema": "STF e Judiciário", "neutro": {"titulo": "PGR prepara as primeiras denúncias do caso X"},
+                                "imagem": {"modelo": "investigacao", "dados": {"carimbo": "CASO X"}}},
+                               {"id": "dolar", "secao": "economia", "subtema": "Mercados", "neutro": {"titulo": "Dólar fecha a R$ 5,65 na sexta"},
+                                "imagem": {"modelo": "dinheiro", "dados": {"valor": "R$ 5,65", "legenda": "Dólar no fechamento"}}},
+                               {"id": "jogo", "secao": "esportes", "subtema": "Série B", "neutro": {"titulo": "Playoffs da Série B começam domingo"},
+                                "imagem": {"modelo": "generica", "dados": {"rotulo": "Série B · playoffs"}}}]}
+            json.dump(feed, open(os.path.join(d, "feed.json"), "w")); json.dump({"pessoas": {}, "assuntos": {}, "temas": {}}, open(os.path.join(d, "fa.json"), "w"))
+            m = os.path.join(d, "m")
+            # página antiga de notícia que saiu, com o selo postal e com queimada num incêndio de fábrica
+            os.makedirs(m)
+            velha = lambda pid, tit, img: f'<meta property="og:title" content="{tit}">\n<meta property="og:image" content="{img}">\n<script>location.replace("/#m={pid}")</script>'
+            open(os.path.join(m, "chuva.html"), "w").write(velha("chuva", "Chuva derruba barragem na Bahia", "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Brasil_Barragem_de_3_Marias_%2822129648701%29.jpg/960px-Brasil_Barragem_de_3_Marias_%2822129648701%29.jpg"))
+            open(os.path.join(m, "salto.html"), "w").write(velha("salto", "Incêndio em indústria química de Salto", "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Corpo_de_Bombeiros_intensifica_combate_a_inc%C3%AAndios_florestais.jpg/960px-Corpo_de_Bombeiros_intensifica_combate_a_inc%C3%AAndios_florestais.jpg"))
+            open(os.path.join(m, "ok.html"), "w").write(velha("ok", "Queimada no Pantanal", "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Corpo_de_Bombeiros_intensifica_combate_a_inc%C3%AAndios_florestais.jpg/960px-x.jpg"))
+            s.assertEqual(PG.main([os.path.join(d, "feed.json"), m, os.path.join(d, "fa.json")]), 0)
+            for pid in ("caso-x", "dolar", "jogo"):
+                pg = open(os.path.join(m, pid + ".html")).read()
+                s.assertRegex(pg, r'og:image" content="https://prumonews\.com\.br/m/og/' + pid + r'\.jpg\?v=[0-9a-f]{10}"')
+                s.assertNotIn("og-padrao", pg)
+                from PIL import Image
+                im = Image.open(os.path.join(m, "og", pid + ".jpg")); s.assertEqual(im.size, (1200, 630))
+                s.assertLess(os.path.getsize(os.path.join(m, "og", pid + ".jpg")), 90_000)
+            # estável: rodar de novo não refaz nada
+            t0 = os.path.getmtime(os.path.join(m, "og", "dolar.jpg")); antes = open(os.path.join(m, "dolar.html")).read()
+            PG.main([os.path.join(d, "feed.json"), m, os.path.join(d, "fa.json")])
+            s.assertEqual(os.path.getmtime(os.path.join(m, "og", "dolar.jpg")), t0); s.assertEqual(open(os.path.join(m, "dolar.html")).read(), antes)
+            # título novo: imagem nova (a chave muda)
+            feed["pautas"][1]["neutro"]["titulo"] = "Dólar fecha a R$ 5,70 na segunda"; json.dump(feed, open(os.path.join(d, "feed.json"), "w"))
+            PG.main([os.path.join(d, "feed.json"), m, os.path.join(d, "fa.json")])
+            s.assertNotEqual(open(os.path.join(m, "dolar.html")).read(), antes)
+            # páginas antigas
+            s.assertIn("og-padrao.png", open(os.path.join(m, "chuva.html")).read())
+            s.assertIn("og-padrao.png", open(os.path.join(m, "salto.html")).read())
+            s.assertNotIn("og-padrao.png", open(os.path.join(m, "ok.html")).read())  # queimada de verdade fica
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+
 def self_fotos(A):
     out = []
     for x in A["pessoas"].values(): out += x["fotos"]
