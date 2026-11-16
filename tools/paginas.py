@@ -5,7 +5,10 @@
 
 Para cada pauta grava m/<id>.html: uma página mínima com título, resumo e foto nas etiquetas Open Graph
 (o que o WhatsApp mostra na prévia do link) e que leva direto à matéria no app (/#m=<id>).
-Só reescreve o arquivo quando muda. Páginas de pautas que saíram ficam (o app avisa que a notícia saiu).
+Desde 16/11 grava também m/<título-da-notícia>.html (o link que o app compartilha) e m/indice.json ({id: endereço}).
+O endereço pelo título é o "endereço bonito"; o m/<id>.html continua valendo para os links antigos.
+Só reescreve o arquivo quando muda. Páginas de pautas que saíram ficam (o app avisa que a notícia saiu); endereços
+antigos de uma notícia cujo título mudou também ficam, para nenhum link compartilhado quebrar.
 """
 import copy, html, json, os, re, sys, unicodedata
 
@@ -269,7 +272,26 @@ def primeira_frase(t):
     return (m.group(1) if m else t)[:220]
 
 
-def pagina(p, FA=None, propria=None):
+SLUG_MAX = 70
+def slug_de(tit):
+    """endereço pelo título: minúsculas, sem acento, palavras com hífen, até ~70 letras sem cortar palavra"""
+    t = unicodedata.normalize("NFD", str(tit or "")).encode("ascii", "ignore").decode().lower()
+    pal = [w for w in re.sub(r"[^a-z0-9]+", " ", t).split() if w]
+    out = ""
+    for w in pal:
+        if out and len(out) + 1 + len(w) > SLUG_MAX: break
+        out = (out + "-" + w) if out else w[:SLUG_MAX]
+    return out
+
+
+def alvo_do_arquivo(cam):
+    """para qual notícia uma página m/ já existente leva (None se não existe ou não é página do Prumo)"""
+    try: m = re.search(r'location\.replace\("/#m=([A-Za-z0-9_-]+)"\)', open(cam, encoding="utf-8").read())
+    except OSError: return None
+    return m.group(1) if m else None
+
+
+def pagina(p, FA=None, propria=None, slug=None):
     pid = p["id"]
     n = p.get("neutro") or {}
     tit = str(n.get("titulo") or "Prumo News").strip()
@@ -280,7 +302,7 @@ def pagina(p, FA=None, propria=None):
     if isinstance(f.get("url"), str) and FOTO_OK.match(f["url"]):
         img, w, h = foto_leve(f["url"]), "", ""  # o crédito fica na página da matéria, não na prévia (15/11)
     e = lambda s: html.escape(str(s), quote=True)
-    url = f"{BASE}/m/{pid}.html"
+    url = f"{BASE}/m/{slug or pid}.html"
     alvo = f"/#m={pid}"
     tam = f'\n<meta property="og:image:width" content="{w}">\n<meta property="og:image:height" content="{h}">' if w else ""
     return f"""<!doctype html>
@@ -322,16 +344,36 @@ def main(argv):
     AP = preparar(A) if isinstance(A, dict) else {}
     propria = lambda p: propria_ok(p, p.get("foto"), AP, PF)
     novas = mudou = 0
-    for p in F.get("pautas") or []:
-        pid = p.get("id") if isinstance(p, dict) else None
-        if not isinstance(pid, str) or not PID.match(pid): continue
-        cam = os.path.join(pasta, pid + ".html")
-        txt = pagina(p, FA, propria)
+    cam_ind = os.path.join(pasta, "indice.json")
+    try: IND = json.load(open(cam_ind, encoding="utf-8"))
+    except (OSError, ValueError): IND = {}
+    if not isinstance(IND, dict): IND = {}
+    ids = {p.get("id") for p in pautas if isinstance(p.get("id"), str)}
+    def grava(cam, txt):
+        nonlocal novas, mudou
         velho = open(cam, encoding="utf-8").read() if os.path.exists(cam) else None
-        if velho == txt: continue
+        if velho == txt: return
         with open(cam, "w", encoding="utf-8") as fh: fh.write(txt)
         if velho is None: novas += 1
         else: mudou += 1
+    for p in pautas:
+        pid = p.get("id")
+        if not isinstance(pid, str) or not PID.match(pid): continue
+        # o endereço pelo título: não pode tomar o de outra notícia nem o m/<id>.html de outra pauta
+        s0 = slug_de((p.get("neutro") or {}).get("titulo"))
+        sl = None
+        if s0 and len(s0) >= 8:
+            for cand in (s0, s0 + "-" + re.sub(r"[^a-z0-9-]", "", pid.lower())[:24]):
+                dono = alvo_do_arquivo(os.path.join(pasta, cand + ".html"))
+                if (dono is None or dono == pid) and cand not in ids - {pid}: sl = cand; break
+        txt = pagina(p, FA, propria, sl)
+        grava(os.path.join(pasta, pid + ".html"), txt)
+        if sl:
+            grava(os.path.join(pasta, sl + ".html"), txt)
+            IND[pid] = sl
+    novo = json.dumps(dict(sorted(IND.items())), ensure_ascii=False, separators=(",", ":"))
+    if not os.path.exists(cam_ind) or open(cam_ind, encoding="utf-8").read() != novo:
+        with open(cam_ind, "w", encoding="utf-8") as fh: fh.write(novo)
     print(f"páginas: {novas} novas, {mudou} atualizadas")
     return 0
 

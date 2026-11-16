@@ -5,7 +5,7 @@ name: Páginas de compartilhamento
 on:
   push:
     branches: [main]
-    paths: [feed.json, fotos-arquivo.json, tools/paginas.py, .github/workflows/paginas.yml]
+    paths: [feed.json, fotos-arquivo.json, tools/paginas.py, tools/test_paginas_slug.py, .github/workflows/paginas.yml]
   schedule:
     - cron: "50 */6 * * *"
   workflow_dispatch:
@@ -23,6 +23,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - name: Testar o endereço pelo título
+        run: python3 -I tools/test_paginas_slug.py
       - name: Gerar páginas
         run: python3 -I tools/paginas.py feed.json m
       - name: Gravar

@@ -44,6 +44,15 @@ async function convite(A) { await ev(A, () => go('me')); await sleep(300); await
   await ev(A, u => abrirConversa(u), uidB); await sleep(300); await A.fill('#mtext', 'Mensagem nova'); await clk(A, '#mform .send');
   ok(await esperar(B, u => allMsgs().filter(m => m.de === u).length === 1 && /Mensagem nova/.test(allMsgs().filter(m => m.de === u)[0].texto), uidA, 8000), 'mensagem nova reabre a conversa só com o que veio depois');
   await U.foto(B, 'conversas-1611');
+  // link da notícia pelo título (163): usa o índice m/indice.json; sem índice, o m/<id>.html de sempre
+  const fs = require('fs'), path = require('path'); const MP = path.join(__dirname, '..', 'site', 'm'); fs.mkdirSync(MP, { recursive: true });
+  const pidL = await ev(A, () => FEED.pautas[1].id);
+  const antes = await ev(A, p => linkMateria(p), pidL);
+  fs.writeFileSync(path.join(MP, 'indice.json'), JSON.stringify({ [pidL]: 'titulo-da-noticia-de-teste' }));
+  await ev(A, () => lk163Carrega()); await sleep(800);
+  const depois = await ev(A, p => linkMateria(p), pidL);
+  ok(antes.endsWith('/m/' + pidL + '.html') && depois.endsWith('/m/titulo-da-noticia-de-teste.html') && /\/m\/[^/]+\.html$/.test(await ev(A, () => linkMateria(FEED.pautas[0].id))), 'link da notícia usa o endereço pelo título quando está no índice', { antes, depois });
+  fs.unlinkSync(path.join(MP, 'indice.json'));
   ok(!A._erros.length && !B._erros.length, 'sem erros ' + A._erros.concat(B._erros).join('|'));
   const R = U.resumo(); console.log(`\nRESUMO t_conversas_1611: ${R.OKS} ok, ${R.FALHAS} falhas`);
   await b.close(); srv.kill(); process.exit(R.FALHAS ? 1 : 0);
