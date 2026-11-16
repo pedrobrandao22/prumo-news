@@ -17,7 +17,7 @@ const topo = async (p, sel) => { await ev(p, s => { const m = s.match(/p-(.*?)"/
   ok(await ev(A, s => document.querySelector(s + ' [data-likes]').textContent === 'Curtido por você e Bia Souza', s1), 'os dois: "Curtido por você e Bia Souza"');
   ok(await ev(A, s => { const o = document.querySelector(s + ' [data-otr]'); return !o || getComputedStyle(o).display === 'none' }, s1), 'post de membro: sem o chip "gostou" no cabeçalho');
   await shot(A, 'curtido-por');
-  ok(await ev(A, () => { const n = document.querySelector('#posts .post:not(.upost)'); n.querySelector('.acts [data-a="like"]').click(); return /Você gostou/.test(n.querySelector('[data-likes]').textContent) }), 'notícia continua com "Você gostou"');
+  ok(await ev(A, () => { const n = document.querySelector('#posts .post:not(.upost)'); n.querySelector('.acts [data-a="like"]').click(); const l = n.querySelector('[data-likes]'), c = n.querySelector('.acts [data-n="like"]'); return c.textContent.trim() === '1' && getComputedStyle(c).display !== 'none' && (getComputedStyle(l).display === 'none' || !l.textContent.trim()) }), 'notícia que você gostou: só o número "1" (156: sem repetir "Você gostou")');
   // ---- comentários: o dono do post apaga o comentário da Bia; folha opaca ----
   await topo(B, s3); await tapSel(B, s3 + ' .acts [data-a="cmt"]'); await sleep(600);
   await B.fill('#ctext', 'Comentário que o Pedro vai apagar'); await B.keyboard.press('Enter'); await sleep(1200); await ev(B, () => closeLayer()); await sleep(300);
