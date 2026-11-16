@@ -5800,6 +5800,45 @@ body.co160-folha .nav{visibility:hidden}
 .fc164-det svg{width:20px;height:20px;flex-shrink:0}
 .fc164-det span{flex:1}
 .fc164-det i{font-style:normal;opacity:.6}
+/* ---------- 167: segunda rodada de acertos do Feed (16/11, noite). Prefixo fd167. ---------- */
+
+/* topo do cartão: "✓ seguindo" inteiro; quem encolhe (com reticências) é o subtema */
+#posts .post .ph-sub.fd156-sub .fd167-seg{flex:none;white-space:pre}
+#posts .post .ph-sub.fd156-sub .fd167-seg b{font-weight:600}
+
+/* linha da cobertura: sem o vão embaixo (é a última linha do cartão) */
+#posts .post.vn-cn .cobbar{padding-bottom:0!important;margin-bottom:0!important}
+#posts .post.vn-cn:has(.cobbar){padding-bottom:4px!important}
+
+/* barra de baixo: fundo quase opaco (o texto da página não aparece atrás dos nomes) */
+.nav{background:rgb(255 255 255 / .93)!important}
+:root[data-aparencia="escuro"] .nav{background:rgb(28 30 36 / .94)!important}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .nav{background:rgb(28 30 36 / .94)!important}}
+
+/* letra grande: comandos crescem também (até 1,2×, menos que o texto) */
+html.fzg .nav button{font-size:calc(11px * min(var(--fz,1), 1.2))!important}
+html.fzg .nav button .lbl{max-height:20px;white-space:nowrap}
+html.fzg .nav button .ico{width:27px!important;height:27px!important}
+html.fzg .acts .act{font-size:calc(13px * min(var(--fz,1), 1.2))!important}
+html.fzg .acts .act>span{font-size:inherit!important}
+html.fzg .av-entrar,html.fzg .btn,html.fzg #cbox .c-a,html.fzg .cobbar .cb-t{font-size:calc(13.5px * min(var(--fz,1), 1.2))!important}
+/* iPhone SE: com a letra no máximo, os cinco nomes da barra não cabem; ficam no tamanho que cabe (sem cortar) */
+@media (max-width:359px){html.fzg .nav{width:calc(100% - 8px)}html.fzg .nav-in{padding:6px 3px!important;gap:1px!important}
+  html.fzg .nav button{font-size:calc(11px * min(var(--fz,1), 1.08))!important;letter-spacing:-.02em}}
+
+/* giro com foto: véu escuro forte atrás do título e dos tópicos */
+.story.sg.com-foto .sg-sh{background:linear-gradient(rgb(0 0 0 / .55),rgb(0 0 0 / .1) 14%,rgb(0 0 0 / .1) 24%,rgb(0 0 0 / .7) 40%,rgb(0 0 0 / .86) 52%,rgb(0 0 0 / .93) 100%)!important}
+.story.sg.com-foto h2,.story.sg.com-foto .sg-t,.story.sg.com-foto li{text-shadow:0 1px 3px rgb(0 0 0 / .55)}
+
+/* comentários: quebras de linha aparecem; o pendente aparece apagado com "Enviando quando a internet voltar" */
+#cbox .clist li>div>span{white-space:pre-line}
+#cbox .clist li.fd167-pend>div>span{opacity:.55}
+#cbox .clist li.fd167-pend i{color:var(--muted)}
+/* "Respondendo a Fulano" acima do campo */
+.fd167-rb{display:flex;align-items:center;gap:8px;padding:6px 16px 4px;font-size:13px;color:var(--muted)}
+.fd167-rb span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fd167-rb b{color:var(--ink,inherit);font-weight:600}
+.fd167-rb button{flex:none;width:32px;height:32px;border:0;border-radius:16px;background:transparent;color:var(--muted);font-size:14px}
 </style>
 </head>
 <body>
@@ -19343,6 +19382,129 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!t.closest
   const r=_fe164.apply(this,arguments);if(!$("#layer > .cp152"))CP152.ed=null;return r}}
 /* abrir a caixa do zero (não "manter") começa sem fotos */
 {const _ab164=cp152Abre;cp152Abre=function(o){if(!(o&&o.manter))CP152.ed=null;return _ab164.apply(this,arguments)}}
+/* ---------- 167: segunda rodada de acertos do Feed (16/11, noite). Prefixo fd167. ----------
+   Continua o 156. Topo: o círculo Últimas e a miniatura do Em 5 min não repetem a notícia do 1º cartão; a ilustração dos
+   círculos sai sem a etiqueta desenhada (que aparecia cortada no canto); a fileira fica onde estava ao fechar um giro.
+   Cartão: "seguindo" não é cortado no meio (vira "✓ seguindo" inteiro e o subtema encolhe); sem o vão embaixo da linha da
+   cobertura. Comentários: o comentário guardado sem internet aparece na conversa ("Enviando quando a internet voltar ·
+   Cancelar"); no celular o retorno pula linha (só a seta publica) e as quebras de linha aparecem; responder mostra
+   "Respondendo a Fulano" acima do campo em vez de escrever "@Fulano" no texto, e a resposta não repete o nome no texto.
+   Sem conta: "curtir" no lugar de "gostar". Rodapé: a hora da última conferência e a próxima atualização, sem a lista de
+   horários. Voltar do celular: refaz o caminho das abas (Perfil → Feed na mesma altura → Conversas → Capa) e só sai do
+   site a partir da raiz. (Letra grande, barra de baixo opaca e o véu do giro estão no css/70-feed.css.) */
+
+/* ---- topo: Últimas e Em 5 min não repetem o 1º cartão do Feed ---- */
+function fd167Primeiro(){try{const l=(LOTE&&LOTE.lista&&LOTE.lista.length?LOTE.lista:listaFeed())||[];const f=l.find(x=>x&&x.id&&pautaById(x.id));return f?fd156Id(f.id):""}catch(e){return ""}}
+/* primeiro item não visto das Últimas que não é a notícia do 1º cartão (se só houver ela, fica ela) */
+function fd167Ult(){try{const r=igLista("_ult"),pr=fd167Primeiro();const its=r.itens||[];
+  const ok=its.filter(x=>fd156Id(x.pid)!==pr);const i=ok.find(x=>!ULT_VISTOS.has(ultKey(x)))||its.find(x=>!ULT_VISTOS.has(ultKey(x)))||ok[0]||its[0];return i||null}catch(e){return null}}
+_vp156Ult=function(){const i=fd167Ult();return i&&i.pid};
+{const _vp167=vn112Primeira;vn112Primeira=function(sec){const r=_vp167.apply(this,arguments);try{
+  if(sec==="_ult"){const i=fd167Ult();if(i)return {p:pautaById(i.pid),t:i.txt||""};return r}
+  /* Em 5 min: a miniatura usa outra notícia quando a primeira já é o 1º cartão ou a das Últimas (só dentro do desenho do topo) */
+  if(sec==="_5min"&&FD156_EXCL&&r&&r.p&&FD156_EXCL.has(fd156Id(r.p.id))){const ps=(igLista("_5min").ps||[]).filter(p=>!FD156_EXCL.has(fd156Id(p.id)));if(ps[0])return {p:ps[0],t:r.t}}}catch(e){}return r}}
+
+/* ---- círculos do topo: a ilustração sem a etiqueta do canto (o círculo já tem o título) ---- */
+function fd167SemEtiqueta(root){try{(root||document).querySelectorAll(".vn-tl svg text.t").forEach(t=>{if(+t.getAttribute("y")>34)return;
+  const a=t.previousElementSibling;if(a&&a.tagName.toLowerCase()==="rect"&&+a.getAttribute("y")<=16&&+a.getAttribute("height")<=24)a.remove();t.remove()})}catch(e){}}
+{const _tl167=vn112Tiles;vn112Tiles=function(){const r=_tl167.apply(this,arguments);fd167SemEtiqueta(document.getElementById("secs"));return r}}
+
+/* ---- ao fechar um giro, a fileira do topo fica na mesma posição (antes rolava para centrar o círculo aberto) ---- */
+var FD167_FILA=null;
+/* a posição é guardada no toque (antes da animação de abrir, que pode rolar a fileira) */
+window.addEventListener("click",e=>{const t=e.target&&e.target.closest&&e.target.closest("#secs .sb");if(!t||VIEW!=="feed"||document.querySelector("#layer .story"))return;try{FD167_FILA=document.getElementById("secs").scrollLeft}catch(_){}},true);
+{const _ia167=igAbrir;igAbrir=function(){try{const b=document.getElementById("secs");if(b&&VIEW==="feed"&&!document.querySelector("#layer .story")&&FD167_FILA==null)FD167_FILA=b.scrollLeft}catch(e){}return _ia167.apply(this,arguments)}}
+{const _cl167=closeLayer;closeLayer=function(){const eraStory=!!document.querySelector("#layer .story")&&FD167_FILA!=null,x=FD167_FILA;const b=document.getElementById("secs");let st=null;
+  if(eraStory&&b){st=b.scrollTo;b.scrollTo=function(){}}
+  try{return _cl167.apply(this,arguments)}finally{if(eraStory&&b){try{delete b.scrollTo}catch(e){}if(b.scrollTo!==Element.prototype.scrollTo)b.scrollTo=st;
+    if(!document.querySelector("#layer .story")){FD167_FILA=null;b.scrollLeft=x;requestAnimationFrame(()=>{try{b.scrollLeft=x}catch(e){}})}}}}}
+
+/* ---- topo do cartão: "seguindo" nunca cortado ---- */
+function fd167Seguindo(el){try{const st=el.querySelector(":scope>.ph .fd156-st");if(!st||st.dataset.fd167)return;st.dataset.fd167="1";
+  const w=document.createTreeWalker(st,NodeFilter.SHOW_TEXT);let n,achou=false;while(n=w.nextNode()){if(/ · seguindo\s*$/.test(n.nodeValue)){n.nodeValue=n.nodeValue.replace(/ · seguindo\s*$/,"");achou=true;break}}
+  if(!achou)return;const s=document.createElement("span");s.className="fd167-seg";s.innerHTML=`${st.textContent.trim()?" · ":""}<b aria-hidden="true">✓</b> seguindo`;st.after(s)}catch(e){}}
+{const _wt167=wireTracks;wireTracks=function(root){const r=_wt167.apply(this,arguments);try{if(root){const ls=root.matches&&root.matches(".post.vn-cn")?[root]:[...root.querySelectorAll(".post.vn-cn")];ls.forEach(fd167Seguindo)}fd167Curtir(root)}catch(e){}return r}}
+
+/* ---- "curtir" no lugar de "gostar" (sem conta e no nome do botão) ---- */
+function fd167Curtir(root){try{(root||document).querySelectorAll('[data-a="like"][aria-label="Gostei"]').forEach(b=>b.setAttribute("aria-label","Curtir"))}catch(e){}}
+{const _ac167=avisoConta;avisoConta=function(){const r=_ac167.apply(this,arguments);try{const s=document.querySelector("#avisoconta>span");if(s&&/para gostar/.test(s.textContent))s.textContent="Você está só lendo. Entre para curtir, comentar e conversar."}catch(e){}return r}}
+{const _to167=toast;toast=function(m){const a=[...arguments];try{if(typeof m==="string")a[0]=m.replace("o Gostei vai ser enviado","a curtida vai ser enviada").replace("o Gostei foi enviado","a curtida foi enviada").replace("os Gostei foram enviados","as curtidas foram enviadas")}catch(e){}return _to167.apply(this,a)}}
+
+/* ---- rodapé do Feed: hora da última conferência e próxima atualização (sem a lista de horários) ---- */
+function fd167Conferida(){try{const r=S.rodadas;if(!r||!r.itens||r.dia!==hojeSP())return null;let m=null;
+  for(const k of Object.keys(r.itens)){const v=r.itens[k],x=/^(\d{2})h(\d{2})$/.exec(k);if(!v||!x)continue;const t=Date.parse(`${r.dia}T${x[1]}:${x[2]}:00-03:00`);if(isFinite(t)&&(!m||t>m.t))m={t,k:(+x[1])+"h"+x[2],pub:v.publicou===true}}
+  return m}catch(e){return null}}
+function fd167Rodape(){try{const p=document.querySelector("#extra .foot p");if(!p||!FEED)return;const at=Date.parse(FEED.atualizado_em||"");if(!isFinite(at))return;
+  const c=fd167Conferida();const conf=c&&!c.pub&&c.t>at+5*60000?` Conferido às ${c.k}, sem novidades.`:"";
+  let prox="";try{prox=" "+proximaRodadaTxt()}catch(e){}
+  p.innerHTML=`<b>Atualizado ${esc(diaHora(FEED.atualizado_em))}.</b>${esc(conf)}${esc(prox)}`;p.classList.add("fd167-at")}catch(e){}}
+{const _rp167=renderPosts;renderPosts=function(){const r=_rp167.apply(this,arguments);fd167Rodape();fd167Curtir(document.getElementById("posts"));return r}}
+{const _cr167=carregarRodadas;carregarRodadas=async function(){const r=await _cr167.apply(this,arguments);fd167Rodape();return r}}
+
+/* ---- comentários: retorno pula linha no celular (só a seta publica); quebras de linha aparecem ---- */
+var FD167_TOQUE=(()=>{try{return matchMedia("(pointer:coarse)").matches}catch(e){return false}})();
+document.addEventListener("keydown",e=>{const t=e.target;if(!FD167_TOQUE||!t||t.id!=="ctext"||e.key!=="Enter")return;
+  e.stopImmediatePropagation();/* o 106 publicava no Enter: no celular o retorno é só pular linha */
+  setTimeout(()=>{try{if(typeof cm106Ajusta==="function")cm106Ajusta(t)}catch(_){}},0)},true);
+
+/* o 106 trocava a quebra de linha por espaço a cada letra: guarda o texto antes e devolve depois */
+document.addEventListener("input",e=>{const t=e.target;if(t&&t.id==="ctext"&&t.tagName==="TEXTAREA"&&/\n/.test(t.value))t._fd167={v:t.value,p:t.selectionStart}},true);
+document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="ctext"||!t._fd167)return;const x=t._fd167;t._fd167=null;
+  if(t.value!==x.v){t.value=x.v;try{t.setSelectionRange(x.p,x.p)}catch(_){}try{if(typeof cm106Ajusta==="function")cm106Ajusta(t)}catch(_){}}});
+
+/* ---- comentários: responder sem escrever "@Fulano" no campo; a resposta não repete o nome no texto ---- */
+var FD167_RESP=null;
+function fd167RespBarra(){const f=document.getElementById("cform");if(!f)return;let b=document.getElementById("fd167-rb");
+  if(!FD167_RESP){if(b)b.remove();return}
+  if(!b){b=document.createElement("div");b.id="fd167-rb";b.className="fd167-rb";f.before(b)}
+  b.innerHTML=`<span>Respondendo a <b>${esc(FD167_RESP)}</b></span><button type="button" data-fd167rx aria-label="Cancelar resposta">✕</button>`}
+document.addEventListener("click",e=>{const r=e.target&&e.target.closest&&e.target.closest("#cbox [data-resp]");if(r){e.stopPropagation();e.preventDefault();
+    FD167_RESP=r.dataset.resp||null;fd167RespBarra();const i=document.getElementById("ctext");if(i){if(/^@/.test(i.value))i.value=i.value.replace(/^@\S[^\n]*?\s/,"");try{i.focus()}catch(_){}}return}
+  if(e.target&&e.target.closest&&e.target.closest("[data-fd167rx]")){FD167_RESP=null;fd167RespBarra();try{document.getElementById("ctext").focus()}catch(_){}}},true);
+/* ao publicar, a menção vai no começo do texto (é ela que agrupa a resposta embaixo do comentário) */
+document.addEventListener("submit",e=>{if(!e.target||e.target.id!=="cform"||!FD167_RESP)return;const i=document.getElementById("ctext");
+  if(i&&i.value.trim()&&!/^@/.test(i.value.trim())){i.value="@"+FD167_RESP+" "+i.value.trim()}FD167_RESP=null;fd167RespBarra()},true);
+function fd167SemMencao(){try{document.querySelectorAll("#cbox .clist li.fd156-resp").forEach(li=>{if(li.dataset.fd167)return;const rt=li.querySelector(".fd156-rt");const q=rt&&rt.textContent.replace(/^respondendo a /,"");
+  const sp=li.querySelector(":scope>div>span");if(!q||!sp)return;li.dataset.fd167="1";
+  for(const n of sp.childNodes){if(n.nodeType!==3)continue;const v=n.nodeValue;const k=v.indexOf("@"+q);if(k>=0&&!v.slice(0,k).trim()){n.nodeValue=v.slice(0,k)+v.slice(k+q.length+1).replace(/^\s+/,"");break}}})}catch(e){}}
+
+/* ---- comentário guardado sem internet: aparece na conversa até ser enviado (ou cancelado) ---- */
+function fd167Pend(){try{const box=document.getElementById("cbox");if(!box||!FD156_PID||!S.uid)return;
+  const l=fd156CmtLe().filter(x=>x.pid===FD156_PID&&x.uid===S.uid);const k=l.map(x=>x.at).join(",");
+  const tem=box.querySelectorAll("li.fd167-pend").length;if(box.dataset.fd167k===k&&tem===l.length)return;box.dataset.fd167k=k;
+  box.querySelectorAll("li.fd167-pend").forEach(x=>x.remove());
+  let ul=box.querySelector(".clist");const vazio=box.querySelector(":scope>.empty");
+  if(!l.length){if(vazio)vazio.hidden=false;return}
+  if(!ul){ul=document.createElement("ul");ul.className="clist";box.appendChild(ul)}if(vazio)vazio.hidden=true;
+  ul.insertAdjacentHTML("beforeend",l.map(x=>`<li class="fd167-pend">${avatar(S.uid)}<div><span><b>${esc(nomeDe(S.uid))}</b> ${esc(x.texto)}</span><i>Enviando quando a internet voltar<button type="button" class="c-a" data-fd167cx="${x.at}">Cancelar</button></i></div></li>`).join(""));
+  const sb=document.querySelector(".sheet .sh-b");if(sb)sb.scrollTop=sb.scrollHeight}catch(e){}}
+function fd167Cancela(at){const l=fd156CmtLe();const i=l.findIndex(x=>String(x.at)===String(at));if(i<0)return;const x=l.splice(i,1)[0];fd156CmtGrava(l);
+  const c=document.getElementById("ctext");if(c&&!c.value.trim()){c.value=x.texto;const b=document.querySelector("#cform .sendc");if(b)b.disabled=false;try{if(typeof cm106Ajusta==="function")cm106Ajusta(c)}catch(e){}}
+  fd167Pend();toast("Comentário cancelado.")}
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-fd167cx]");if(!b)return;e.stopPropagation();fd167Cancela(b.dataset.fd167cx)},true);
+/* o Cancelar do aviso cancela o último guardado e atualiza a conversa */
+fd156CmtCancela=function(){const l=fd156CmtLe();const x=l[l.length-1];if(x)fd167Cancela(x.at)};
+{const _cg167=fd156CmtGuarda;fd156CmtGuarda=function(){const r=_cg167.apply(this,arguments);if(r)setTimeout(fd167Pend,0);return r}}
+{const _ce167=fd156CmtEnvia;fd156CmtEnvia=async function(){try{return await _ce167.apply(this,arguments)}finally{fd167Pend()}}}
+/* a conversa redesenhada (comentário novo, apagado, etc.) recoloca o pendente e tira a menção repetida */
+{const _ag167=fd156Agrupa;fd156Agrupa=function(){const r=_ag167.apply(this,arguments);fd167SemMencao();fd167Pend();return r}}
+{const _oc167=openComments;openComments=function(){FD167_RESP=null;const r=_oc167.apply(this,arguments);try{fd167Pend();fd167SemMencao();const i=document.getElementById("ctext");if(i&&FD167_TOQUE)i.setAttribute("enterkeyhint","enter")}catch(e){}return r}}
+
+/* ---- voltar do celular: refaz o caminho das abas ---- */
+var FD167_ABAS=["capa","feed","msgs","busca","me"],FD167_PILHA=[];
+{const _go167=go;go=function(v,fromPop){try{
+  /* o voltar já tirou um passo (VST--) e pede a raiz: vai para a aba guardada nesse passo */
+  if(fromPop&&v===RAIZ&&FD167_PILHA.length===VST+1){const alvo=FD167_PILHA[VST];FD167_PILHA.length=VST;if(alvo&&FD167_ABAS.includes(alvo))v=alvo;return _go167.call(this,v,fromPop)}
+  if(FD167_PILHA.length>VST)FD167_PILHA.length=Math.max(0,VST);
+  const simples=!fromPop&&v!==VIEW&&FD167_ABAS.includes(v)&&FD167_ABAS.includes(VIEW)&&!(JUMPS&&JUMPS.length)&&!TST&&!SUBV;
+  if(simples){
+    if(v===RAIZ){if(VST>1){voltarH(VST-1);VST=1}FD167_PILHA.length=0}
+    else if(VIEW===RAIZ){FD167_PILHA=[RAIZ]}/* o go de sempre guarda esta entrada (VST 0 → 1) */
+    else if(FD167_PILHA.length===VST&&VST>0){
+      /* voltar pela barra para a aba anterior = um passo para trás; senão, um passo novo */
+      if(FD167_PILHA[VST-1]===v&&VST>1){FD167_PILHA.length=VST-1;VST--;voltarH(1)}
+      else if(VST<8&&pushH()){FD167_PILHA.push(VIEW);VST++}}}}catch(e){}
+  return _go167.apply(this,arguments)}}
 /* 161 (corretor 16/11): a ilustração "genérica" era sempre o Congresso Nacional, em qualquer notícia (China, voos
    nos EUA, Nvidia, fundo de florestas…). Agora o desenho segue o assunto (rótulo + texto alternativo): futebol,
    avião, floresta/clima, tecnologia, mundo; o Congresso fica só para Brasília/governo/Congresso; sem pista, um
