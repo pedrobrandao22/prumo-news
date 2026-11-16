@@ -100,15 +100,16 @@ async function criar(p, { nome, email }) {
   await ev(A, () => { window.__gm156 = gravarMapa; gravarMapa = () => Promise.reject(new Error('Failed to fetch')) });
   const longo = 'Esse texto é bem comprido para ocupar várias linhas no campo de comentário e conferir que, quando o envio falha, a caixa volta com a altura do texto inteiro e não com uma linha só cortada.';
   await A.fill('#ctext', longo); await sleep(200); await clk(A, '#cform .sendc'); await sleep(900);
-  const falha = await ev(A, () => ({ v: document.getElementById('ctext').value, h: document.getElementById('ctext').offsetHeight, t: (document.querySelector('.toast') || {}).textContent || '' }));
-  ok(falha.v.length > 100 && falha.h > 50, 'comentário que falhou volta com a altura do texto', falha.h);
-  ok(/Sem conexão/.test(falha.t), 'aviso do comentário diz que é a conexão', falha.t);
+  const falha = await ev(A, () => ({ v: document.getElementById('ctext').value, t: (document.querySelector('.toast') || {}).textContent || '', q: JSON.parse(localStorage.getItem('fd156cq') || '[]').length }));
+  ok(falha.v === '' && falha.q === 1, 'sem internet: o comentário sai da caixa e fica guardado para enviar depois', falha);
+  ok(/Sem conexão.*quando a internet voltar/.test(falha.t) && /Cancelar/.test(falha.t), 'aviso diz que vai ser enviado quando a conexão voltar, com Cancelar', falha.t);
   await ev(A, () => closeLayer()); await sleep(400);
   await ev(A, p => toggleLike(p), pid); await sleep(800);
   ok(/Sem conexão/.test(await ev(A, () => (document.querySelector('.toast') || {}).textContent || '')), 'Gostei sem internet: aviso diz que é a conexão');
   ok(await ev(A, p => !socialOf(p).likes.includes(S.uid), pid), 'Gostei não ficou marcado sem internet');
   await ev(A, () => { gravarMapa = window.__gm156 }); await ctx.setOffline(false);
   ok(await esperar(A, p => socialOf(p).likes.includes(S.uid), pid, 6000), 'internet volta: o Gostei é enviado sozinho');
+  ok(await esperar(A, a => JSON.parse(localStorage.getItem('fd156cq') || '[]').length === 0 && socialOf(a[0]).cm.some(c => c.texto === a[1]), [pid, longo], 8000), 'internet volta: o comentário guardado é enviado sozinho');
 
   // 11. curtida de um jeito só: com a linha "Você gostou", o número some
   await sleep(500);

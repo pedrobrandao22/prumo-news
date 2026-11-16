@@ -112,10 +112,36 @@ function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)r
 var FD156_GOSTEI={};
 function fd156Offline(){return typeof navigator!=="undefined"&&navigator.onLine===false}
 {const _tl156b=toast;toast=function(m){const a=[...arguments];try{if(typeof m==="string"){
-  if(/^O comentário não foi salvo/.test(m)){if(fd156Offline())a[0]="Sem conexão: o comentário não foi enviado. O texto ficou na caixa; toque na seta quando a internet voltar.";
-    setTimeout(()=>{const i=document.getElementById("ctext");if(!i)return;try{if(typeof cm106Ajusta==="function")cm106Ajusta(i)}catch(e){}try{const n=i.value.length;i.setSelectionRange(n,n)}catch(e){}},0)}
+  if(/^O comentário não foi salvo/.test(m)){
+    if(fd156Offline()&&fd156CmtGuarda()){a[0]="Sem conexão: o comentário vai ser enviado quando a internet voltar.";a[1]="Cancelar";a[2]=fd156CmtCancela}
+    else setTimeout(()=>{const i=document.getElementById("ctext");if(!i)return;try{if(typeof cm106Ajusta==="function")cm106Ajusta(i)}catch(e){}try{const n=i.value.length;i.setSelectionRange(n,n)}catch(e){}},0)}
   else if(/^Não deu para marcar agora/.test(m)&&fd156Offline())a[0]="Sem conexão: o Gostei vai ser enviado quando a internet voltar."}}catch(e){}return _tl156b.apply(this,a)}}
 {const _tk156=toggleLike;toggleLike=function(pid){let quer=null;try{if(S.uid)quer=!socialOf(pid).likes.includes(S.uid)}catch(e){}
   const r=_tk156.apply(this,arguments);try{if(quer!==null&&fd156Offline())FD156_GOSTEI[pid]=quer}catch(e){}return r}}
 addEventListener("online",()=>{const ps=Object.keys(FD156_GOSTEI);if(!ps.length)return;setTimeout(()=>{let n=0;ps.forEach(pid=>{const q=FD156_GOSTEI[pid];delete FD156_GOSTEI[pid];
   try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});if(n)try{toast(n===1?"Conexão de volta: o Gostei foi enviado.":"Conexão de volta: os Gostei foram enviados.")}catch(e){}},600)});
+
+/* ---- comentário escrito sem internet: fica guardado e é enviado sozinho quando a conexão volta (decisão do Pedro, 16/11) ---- */
+var FD156_PID=null;
+{const _oc156b=openComments;openComments=function(pid){FD156_PID=pid;return _oc156b.apply(this,arguments)}}
+function fd156CmtLe(){try{return JSON.parse(localStorage.getItem("fd156cq")||"[]")||[]}catch(e){return []}}
+function fd156CmtGrava(l){try{localStorage.setItem("fd156cq",JSON.stringify(l))}catch(e){}}
+/* o texto que voltou para a caixa vai para a fila; a caixa fica vazia */
+function fd156CmtGuarda(){try{const i=document.getElementById("ctext");const t=i&&i.value.trim();if(!t||!FD156_PID||!S.uid)return false;
+  const l=fd156CmtLe();l.push({pid:FD156_PID,texto:t,uid:S.uid,at:Date.now()});fd156CmtGrava(l);i.value="";
+  const b=document.querySelector("#cform .sendc");if(b)b.disabled=true;try{if(typeof cm106Ajusta==="function")cm106Ajusta(i)}catch(e){}return true}catch(e){return false}}
+/* Cancelar: tira o último da fila e devolve o texto para a caixa, se ela ainda estiver aberta */
+function fd156CmtCancela(){const l=fd156CmtLe(),x=l.pop();fd156CmtGrava(l);if(!x)return;const i=document.getElementById("ctext");
+  if(i&&!i.value){i.value=x.texto;const b=document.querySelector("#cform .sendc");if(b)b.disabled=false;try{i.focus()}catch(e){}}
+  else{try{navigator.clipboard&&navigator.clipboard.writeText(x.texto)}catch(e){}toast("Comentário cancelado.")}}
+async function fd156CmtEnvia(){if(fd156Offline()||!S.uid||typeof gravarMapa!=="function")return;const l=fd156CmtLe();if(!l.length)return;
+  const fica=[];let n=0;
+  for(const x of l){if(x.uid!==S.uid){fica.push(x);continue}
+    const cid=Date.now().toString(36)+Math.random().toString(36).slice(2,6);let sn=null;try{sn=snapById(x.pid)}catch(e){}
+    const v={pid:x.pid,texto:x.texto,at:Date.now(),snap:sn?{id:x.pid,titulo:sn.titulo||"",secao:sn.secao||""}:{id:x.pid}};
+    try{CPEND[S.uid+"\u0001"+cid]={v,t:Date.now()};S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(x.pid)}catch(e){}
+    try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v);n++}
+    catch(e){try{delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(x.pid)}catch(_){}fica.push(x)}}
+  fd156CmtGrava(fica);if(n)try{toast(n===1?"Conexão de volta: o comentário foi enviado.":"Conexão de volta: "+n+" comentários enviados.")}catch(e){}}
+addEventListener("online",()=>setTimeout(fd156CmtEnvia,900));
+setTimeout(()=>{try{if(fd156CmtLe().length)fd156CmtEnvia()}catch(e){}},4000);
