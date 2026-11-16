@@ -29,9 +29,13 @@ let srv = null;
     return r });
   ok(fa['congresso-base-lula'] && /bandep\/204521/.test(fa['congresso-base-lula'].url) && /\/acervo\/p\/ze-trovao-/.test(fa['congresso-base-lula'].src), 'pessoa no título (deputado): retrato oficial da Câmara, servido do acervo do site', fa['congresso-base-lula']);
   ok(fa['congresso-base-lula'] && fa['congresso-base-lula'].curto === 'Arquivo · Câmara dos Deputados' && /uso livre com crédito/.test(fa['congresso-base-lula'].cred), 'crédito: "Arquivo · Câmara dos Deputados" (completo com a licença)', fa['congresso-base-lula']);
-  ok(fa['reforma-eleitoral-distrital'] && /bandep\/204554/.test(fa['reforma-eleitoral-distrital'].url), 'sem pessoa no título: pessoa do subtítulo (Hugo Motta)', fa['reforma-eleitoral-distrital']);
+  // 15/11 (157): retrato só de quem está no TÍTULO; a pessoa do subtítulo não vira foto
+  ok(!fa['reforma-eleitoral-distrital'] || !/bandep\/204554/.test(fa['reforma-eleitoral-distrital'].url), 'sem pessoa no título: nada de retrato da pessoa do subtítulo (Hugo Motta)', fa['reforma-eleitoral-distrital']);
   ok(fa['copom-novembro-selic'] && /Banco_Central/.test(fa['copom-novembro-selic'].url) && /\/acervo\/a\//.test(fa['copom-novembro-selic'].src), 'assunto no título (Copom → Banco Central), do acervo', fa['copom-novembro-selic']);
-  ok(fa['flavio-mandato-senado'] && !/senado\.leg\.br/.test(fa['flavio-mandato-senado'].url) && /Congresso/.test(fa['flavio-mandato-senado'].url), '"foto_arquivo":"tema" continua trocando o retrato pela foto do assunto', fa['flavio-mandato-senado']);
+  // a foto do Congresso já está na notícia de maior prioridade (não repete na edição): confere a troca numa cópia fora da edição
+  const tema = await p.evaluate(() => { const q = { ...FEED.pautas.find(x => x.id === 'flavio-mandato-senado'), id: 'copia-flavio' }; const f = fotoArquivo(q); return f && f.url });
+  ok(!fa['flavio-mandato-senado'] || !/senado\.leg\.br/.test(fa['flavio-mandato-senado'].url), '"foto_arquivo":"tema": nada de retrato na notícia', fa['flavio-mandato-senado']);
+  ok(tema && !/senado\.leg\.br/.test(tema) && /Congresso/.test(tema), '"foto_arquivo":"tema" continua trocando o retrato pela foto do assunto', tema);
   const py = JSON.parse(cp.execFileSync('python3', ['-c', `import json,sys;sys.path.insert(0,'${U.REPO}/tools');import paginas as P;F=json.load(open('${S0}feed.json'));A=json.load(open('${S0}fotos-arquivo.json'));print(json.dumps({k:v['url'] for k,v in P.mapa_fotos(F['pautas'],A).items()}))`]).toString());
   const js = await p.evaluate(() => Object.fromEntries(Object.entries(faMapa()).map(([k, v]) => [k, v.url])));
   ok(JSON.stringify(Object.keys(js).sort().map(k => [k, js[k]])) === JSON.stringify(Object.keys(py).sort().map(k => [k, py[k]])), 'prévia do link (paginas.py) escolhe a mesma foto que o app');
