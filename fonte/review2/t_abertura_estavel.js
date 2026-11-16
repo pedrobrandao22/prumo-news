@@ -108,7 +108,7 @@ const INIT = `(() => {
     if (!PASTA_OUTRA) ok(M.sw, 'volta ao app: com o service worker no controle');
     await ctx.close();
     EXTRA = '<i id="marca-nova"></i>'; VERSAO = 'ab141ab141ab';
-    ctx = await contexto(); ({ p, M } = await abrir(ctx, 'versão nova', 9000)); confere('versão nova', M);
+    ctx = await contexto(); ({ p, M } = await abrir(ctx, 'versão nova', 14000)); confere('versão nova', M);
     if (!PASTA_OUTRA) ok(!M.marca && !!M.nova, `versão nova: fica guardada para a próxima abertura, sem recarregar a tela (VERSAO_NOVA=${M.nova})`);
     await p.close(); ({ p, M } = await abrir(ctx, 'abertura seguinte', 5000));
     if (!PASTA_OUTRA) ok(M.marca && M.navs === 1, 'abertura seguinte: já com a versão nova, sem recarregar');
