@@ -43,7 +43,7 @@ let srv = null, srv2 = null;
     ph: $('#ed132-corpo').dataset.ph, ct: el.querySelector('.cr137-ct')?.textContent } });
   ok(t0.foco === 'ed132-tit' && t0.semBar, 'abre no título; a barra de formatação some enquanto se escreve o título', t0);
   ok(t0.mH <= 50 && t0.seg === 'Escrever|Prévia' && t0.capaH <= 40 && t0.dica === 'none', 'tela limpa: uma linha de modo (Escrever | Prévia), capa discreta, sem a dica escondida atrás da barra', t0);
-  ok(/Toque em \+/.test(t0.ph) && /## título/.test(t0.ph) && /^0 palavras$/.test(t0.ct || ''), 'texto de exemplo ensina o "+" e os atalhos; contagem curta', t0);
+  ok(/Toque no texto e depois em \+/.test(t0.ph) && /## título/.test(t0.ph) && /^0 palavras$/.test(t0.ct || ''), 'texto de exemplo ensina o "+" e os atalhos; contagem curta', t0);
   await shot(B, '01-editor-vazio');
   await B.fill('#ed132-tit', 'Orçamento: o que muda em 2027'); await B.fill('#ed132-lin', 'Cinco pontos para entender a votação');
   await ev(B, () => { $('#ed132-tit').value = 'x'.repeat(75); $('#ed132-tit').dispatchEvent(new Event('input', { bubbles: true })) });

@@ -5800,6 +5800,26 @@ body.co160-folha .nav{visibility:hidden}
 .fc164-det svg{width:20px;height:20px;flex-shrink:0}
 .fc164-det span{flex:1}
 .fc164-det i{font-style:normal;opacity:.6}
+.fc164-det span small{display:block;font-size:12.5px;opacity:.7;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fc164-det span{min-width:0}
+/* com foto: Enquete, Número e De perto apagados; o porquê fica embaixo dos botões */
+.cp152-a.fc164-off{opacity:.38}
+.fc164-nota{margin:8px 2px 0;font:600 13.5px/1.4 var(--f-ui);color:#f2c48a}
+/* editor aberto pela miniatura: só o corte (sem Galeria, sem várias fotos, sem POST/GIRO) */
+.ce.fc164-corte .cfp-gh,.ce.fc164-corte .cfp-grade,.ce.fc164-corte .ce-modos,.ce.fc164-corte .cfp-mlt{display:none}
+/* folha "Local e pessoas" e lista de notícias por cima da caixa */
+.cp152>.ce-sel{position:fixed;z-index:60}
+.fc164-dsh .ce-selp{max-height:82%}
+.fc164-lb{display:flex;flex-direction:column;gap:6px;font:700 13px var(--f-ui);color:#bbb}
+.fc164-lb .field{font-size:16px}
+.fc164-st{margin:6px 0 0;font:800 13px var(--f-ui);color:#bbb;text-transform:uppercase;letter-spacing:.04em}
+.fc164-pick{max-height:30vh;overflow-y:auto}
+.fc164-dsh .ce-altr .field{font-size:16px}
+/* 166 · criar: avisos junto do campo, coluna sem título */
+.cr166-er{margin:6px 2px 10px;font:600 13.5px/1.4 var(--f-ui);color:#ff8a80}
+.cr166-erc{box-shadow:0 0 0 1.5px #ff6b5f !important;border-radius:10px}
+.ed132 .cr166-er{color:var(--hot);margin:2px 0 8px}
+.cr166-lk{display:inline-block;padding:12px 2px;border:0;background:none;color:var(--accent);font:700 15px var(--f-ui);cursor:pointer}
 </style>
 </head>
 <body>
@@ -19276,7 +19296,11 @@ addEventListener("online",()=>setTimeout(lk163Carrega,1500));
    Antes: "Foto" na caixa abria o editor de fotos antigo (Novo post › Editar › Avançar) e a caixa sumia.
    Agora: escolher a foto volta direto para a caixa, com as miniaturas embaixo do texto. Tocar numa miniatura abre o corte e o
    ajuste (o mesmo editor); "Concluir" (ou ×) volta para a caixa com o texto. "Publicar" publica o texto com as fotos.
-   O editor fica guardado em CP152.ed enquanto a caixa está aberta. */
+   O editor fica guardado em CP152.ed enquanto a caixa está aberta.
+   Revisto em 16/11 (noite, testador): a miniatura abre direto Filtros/Editar daquela foto (com a aba Cortar ao lado), sem a
+   Galeria, sem Avançar e sem POST/GIRO; "Concluir", × e a seta voltam para a caixa. Notícia com foto escolhe a notícia ali na
+   caixa (antes abria a tela da Notícia, que publicava sem a foto); Enquete/Número/De perto ficam apagados com foto e dizem por
+   quê embaixo dos botões; "Local e pessoas na foto" é uma folha pequena (Local, Marcar pessoas, Texto alternativo, Pronto). */
 CP152.ed=null;
 const fc164Tem=()=>!!(CP152.ed&&CP152.ed.po&&CP152.ed.po.fotos&&CP152.ed.po.fotos.length);
 function fc164Url(f){try{return edUrlF(f)}catch(e){return ""}}
@@ -19284,48 +19308,82 @@ function fc164Volta(){const E=typeof ED!=="undefined"?ED:null;if(E&&E.fc164){E.f
     if(CP152.ed){E.po.passo="fotos";E.po.aba="filtros"}}
   ED=null;cp152Abre({manter:true,aba:"post",semFoco:true})}
 /* abre o editor (o mesmo de antes) com as fotos que já estão na caixa */
-function fc164Edita(i){const E=CP152.ed;if(!E)return;CP152.veio=true;
+function fc164Edita(i,passo){const E=CP152.ed;if(!E)return;CP152.veio=true;
   if($("#layer").innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}
-  ED=E;E.fc164=true;E.fc164novo=false;const P=E.po;P.passo="fotos";if(typeof i==="number"&&P.fotos[i])P.cur=i;
+  ED=E;E.fc164=true;E.fc164novo=false;const P=E.po;P.passo=passo||"filtros";P.aba="filtros";P.fiOn=false;if(typeof i==="number"&&P.fotos[i])P.cur=i;
   $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Editar fotos"></div>`;if(pushH())HST++;try{edDesenha()}catch(e){}}
 
 /* "Foto" na caixa: escolhe na galeria (no mesmo toque) e volta para a caixa */
 {const _an164=cp152Anexo;cp152Anexo=function(k){
-  if(k!=="foto"){if(fc164Tem()){toast("Um post com foto junta só uma notícia. Tire as fotos para usar "+({enq:"Enquete",ana:"Número",rel:"De perto"}[k]||"essa opção")+".");if(k!=="nt")return}
+  if(k!=="foto"){if(fc164Tem()){if(k==="nt"){fc164ListaNt();return}fc164Nota(k);return}
     return _an164.apply(this,arguments)}
   /* mais fotos: junta (não troca) e volta para a caixa; desistir também volta */
-  if(fc164Tem()){fc164Edita();const E=ED;if(E){E.po.multi=true;E.fc164novo=true}
+  if(fc164Tem()){fc164Edita(undefined,"fotos");const E=ED;if(E){E.po.multi=true;E.fc164novo=true}
     try{const f=$("#ce-pfile");if(f&&E&&E.po.fotos.length<10){f.addEventListener("cancel",()=>{if(ED===E&&E.fc164novo)fc164Volta()},{once:true});f.click()}}catch(e){}return}
   const r=_an164.apply(this,arguments);try{if(typeof ED!=="undefined"&&ED&&ED.modo==="post"){ED.fc164=true;ED.fc164novo=true}}catch(e){}return r}}
 /* depois de escolher: o editor ia mostrar o corte; volta para a caixa com as miniaturas */
 {const _ed164=edDesenha;edDesenha=function(){const E=typeof ED!=="undefined"?ED:null;
   if(E&&E.fc164&&E.fc164novo&&E.po&&E.po.passo==="fotos"&&E.po.fotos.length){E.fc164novo=false;setTimeout(()=>{if(ED===E)fc164Volta()},0);return}
   const r=_ed164.apply(this,arguments);
-  try{if(E&&E.fc164&&E.po&&(E.po.passo==="filtros"||E.po.passo==="editar")){const b=$("#layer .ce [data-edav]");if(b)b.textContent="Concluir"}
-    if(E&&E.fc164&&E.po&&E.po.passo==="fotos"){const h=$("#layer .ce .ce-ph b");if(h)h.textContent="Fotos do post"}}catch(e){}
+  try{fc164Ajusta(E)}catch(e){}
   return r}}
+/* editor aberto pela miniatura: Concluir no alto, abas Cortar · Filtros · Editar, sem Galeria nem POST/GIRO */
+function fc164Abas(a){return `<div class="ce-abas2 fc164-abas" role="tablist">${[["cortar","Cortar"],["filtros","Filtros"],["editar","Editar"]].map(([k,n])=>`<button type="button" role="tab" data-fc164aba="${k}" aria-selected="${k===a}">${n}</button>`).join("")}</div>`}
+function fc164Ajusta(E){const ce=$("#layer .ce");if(!E||!E.fc164||!E.po||!ce)return;const P=E.po,ps=P.passo;
+  const corte=ps==="fotos"&&!E.fc164novo&&P.fotos.length;ce.classList.toggle("fc164-corte",!!corte);
+  if(ps!=="filtros"&&ps!=="editar"&&!corte)return;
+  const b=ce.querySelector("[data-edav]");if(b){b.textContent="Concluir";b.disabled=false}
+  const h=ce.querySelector(".ce-ph b");if(h)h.textContent=corte?"Cortar":"Editar foto";
+  const v=ce.querySelector(".ce-ph [data-edvolta]");if(v){v.innerHTML=EDI.x;v.setAttribute("aria-label","Voltar para a publicação")}
+  if(corte){const bx=ce.querySelector("#cfp-box");if(bx&&!ce.querySelector(".fc164-abas"))bx.insertAdjacentHTML("afterend",fc164Abas("cortar"))}
+  else{const ab=ce.querySelector(".ce-abas2:not(.fc164-abas)");if(ab)ab.outerHTML=fc164Abas(P.aba==="editar"?"editar":"filtros")}}
 /* no editor aberto pela caixa: "Concluir" e × voltam para a caixa (com as fotos e o texto) */
 window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;const E=typeof ED!=="undefined"?ED:null;if(!E||!E.fc164||E.env)return;
-  const av=t.closest("#layer .ce [data-edav]");if(av&&(E.po.passo==="filtros"||E.po.passo==="editar")){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();fc164Volta();return}
-  const x=t.closest("#layer .ce [data-edfechar]");if(x&&(E.po.passo==="fotos"||E.po.passo==="filtros"||E.po.passo==="editar")){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();
-    if(E.po.passo!=="fotos"){E.po.passo="fotos";try{edDesenha()}catch(_){}return}fc164Volta();return}},true);
+  const ps=E.po.passo,ed=ps==="fotos"||ps==="filtros"||ps==="editar";if(!ed||t.closest("#layer .ce-sel"))return;let b;const pare=()=>{e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()};
+  if(t.closest("#layer .ce [data-edav],#layer .ce [data-edfechar],#layer .ce .ce-ph [data-edvolta]")){pare();fc164Volta();return}
+  if(b=t.closest("#layer .ce [data-fc164aba]")){pare();const a=b.dataset.fc164aba;if(a==="cortar")E.po.passo="fotos";else{E.po.passo="filtros";E.po.aba=a;E.po.fiOn=false}try{edDesenha()}catch(_){}return}},true);
 
 /* miniaturas na caixa */
 function fc164HTML(){if(!fc164Tem())return "";const P=CP152.ed.po;
   return `<div class="fc164" role="group" aria-label="Fotos do post">${P.fotos.map((f,i)=>`<div class="fc164-i"><button type="button" class="fc164-t" data-fc164ed="${i}" aria-label="Foto ${i+1}: toque para cortar e ajustar"><img alt="" data-fc164i="${i}"></button><button type="button" class="fc164-x" data-fc164x="${i}" aria-label="Tirar a foto ${i+1}">${CN102_SVG(CN102_ICO.x)}</button></div>`).join("")}${P.fotos.length<10?`<button type="button" class="fc164-mais" data-cp152ax="foto" aria-label="Mais fotos">${CN102_SVG(CN102_ICO.mais)}</button>`:""}</div>
     <p class="fc164-d">Toque numa foto para cortar, ajustar ou pôr filtro.</p>
-    <button type="button" class="fc164-det" data-fc164det>${CN102_SVG('<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>')}<span>Local e pessoas na foto</span><i aria-hidden="true">›</i></button>`}
-/* "Local e pessoas na foto": abre a tela de detalhes do editor (legenda = o texto da caixa); voltar traz de volta para a caixa */
-function fc164Detalhes(){const E=CP152.ed;if(!E)return;fc164Edita();const P=E.po;P.texto=CP152.txt;P.pub=CP152.pub;
-  try{if(CR155.pid&&pautaById(CR155.pid))P.pid=CR155.pid}catch(e){}P.passo="detalhes";try{edDesenha()}catch(e){}}
+    <button type="button" class="fc164-det" data-fc164det>${CN102_SVG('<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>')}<span>Local e pessoas na foto${fc164Resumo(P)?`<small>${esc(fc164Resumo(P))}</small>`:""}</span><i aria-hidden="true">›</i></button>`}
+function fc164Resumo(P){const m=(P.marcados||[]).map(u=>String(nomeDe(u)).split(" ")[0]),a=P.fotos.filter(x=>String(x.alt||"").trim()).length;
+  return [String(P.local||"").trim(),m.join(", "),a?`texto alternativo em ${a} de ${P.fotos.length}`:""].filter(Boolean).join(" · ")}
+/* com foto: Enquete, Número e De perto não vão junto (o aviso fica embaixo dos botões, sem cobrir nada) */
+const FC164_NAO={enq:"Enquete não vai junto com foto. Tire a foto para fazer uma enquete.",ana:"Número não vai junto com foto. Tire a foto para juntar um número ou gráfico.",rel:"De perto tem as próprias fotos. Tire a foto daqui para usar De perto."};
+function fc164Nota(k){const ax=$("#layer > .cp152 .cp152-ax");if(!ax)return;let n=$("#layer > .cp152 .fc164-nota");if(!n){n=document.createElement("p");n.className="fc164-nota";n.setAttribute("role","status");ax.after(n)}
+  n.textContent=FC164_NAO[k]||"Isso não vai junto com foto.";clearTimeout(fc164Nota.t);fc164Nota.t=setTimeout(()=>{if(n.isConnected)n.remove()},6000)}
+/* Notícia com foto: escolhe a notícia na própria caixa; a foto, o texto e a notícia ficam juntos */
+function fc164ListaNt(){const cx=$("#layer > .cp152");if(!cx)return;cx.querySelector(".cn102-ntl")?.remove();
+  /* a lista da edição (102, com a busca do 154) é montada dentro de um .ce de passagem e vem para a caixa */
+  const tmp=document.createElement("div");tmp.className="ce";tmp.hidden=true;cx.appendChild(tmp);
+  try{cn102ListaNt("data-fc164nt")}catch(e){}const ov=tmp.querySelector(".cn102-ntl");tmp.remove();if(!ov)return;ov.classList.add("fc164-ntl");cx.appendChild(ov)}
+/* Local e pessoas: uma folha pequena por cima da caixa */
+function fc164Detalhes(){const E=CP152.ed,cx=$("#layer > .cp152");if(!E||!cx)return;const P=E.po;P.marcados=P.marcados||[];cx.querySelector(".fc164-dsh")?.remove();const am=amigosL();
+  const ov=document.createElement("div");ov.className="ce-sel fc164-dsh";
+  ov.innerHTML=`<div class="ce-selp" role="dialog" aria-label="Local e pessoas na foto"><b>Local e pessoas na foto</b>
+    <label class="fc164-lb"><span>Local</span><input class="field" id="fc164-local" maxlength="60" placeholder="Ex.: Rio de Janeiro" value="${esc(P.local||"")}" enterkeyhint="done"></label>
+    <p class="fc164-st">Marcar pessoas</p>${am.length?`<div class="pick dm-pick fc164-pick">${am.map(u=>`<button type="button" data-fc164marca="${esc(u)}" aria-pressed="${P.marcados.includes(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div>`:`<p class="ce-selh">Quando tiver amigos no Prumo, eles aparecem aqui. Você também pode usar @ no texto.</p>`}
+    <p class="fc164-st">Texto alternativo</p><p class="ce-selh">Descreva cada foto para quem usa leitor de tela.</p>
+    ${P.fotos.map((x,i)=>`<div class="ce-altr"><img alt="" data-fc164ai="${i}"><input class="field" maxlength="200" placeholder="Descreva a foto ${i+1}" data-fc164alt="${i}" value="${esc(x.alt||"")}"></div>`).join("")}
+    <div class="ce-selb"><button type="button" class="btn" data-fc164detok>Pronto</button></div></div>`;
+  cx.appendChild(ov);ov.querySelectorAll("img[data-fc164ai]").forEach(im=>{im.src=fc164Url(P.fotos[+im.dataset.fc164ai])})}
+document.addEventListener("input",e=>{const t=e.target;if(!t||!t.closest||!t.closest("#layer > .cp152 .fc164-dsh"))return;const P=CP152.ed&&CP152.ed.po;if(!P)return;
+  if(t.id==="fc164-local")P.local=t.value;else if(t.dataset.fc164alt!=null&&P.fotos[+t.dataset.fc164alt])P.fotos[+t.dataset.fc164alt].alt=t.value});
 /* o "voltar" dos detalhes (152) traz o texto de volta; as fotos ficam guardadas na caixa */
 {const _td164=cp152TextoDe;cp152TextoDe=function(E){try{if(E&&E.fc164&&E.po&&E.po.fotos&&E.po.fotos.length){E.po.passo="fotos";CP152.ed=E}}catch(e){}return _td164.apply(this,arguments)}}
 {const _ph164=cp152PostHTML;cp152PostHTML=function(){let h=_ph164.apply(this,arguments);try{const f=fc164HTML();if(f){const i=h.indexOf("</textarea>");if(i>=0)h=h.slice(0,i+11)+f+h.slice(i+11);
+    h=h.replace(/class="cp152-a cp152-a-(enq|ana|rel)"/g,'class="cp152-a cp152-a-$1 fc164-off" aria-disabled="true"');
     h=h.replace('placeholder="Escreva o que você acha…"','placeholder="Escreva uma legenda…"')}}catch(e){}return h}}
 {const _de164=cp152Desenha;cp152Desenha=function(){const r=_de164.apply(this,arguments);try{if(fc164Tem())document.querySelectorAll("#layer > .cp152 img[data-fc164i]").forEach(im=>{im.src=fc164Url(CP152.ed.po.fotos[+im.dataset.fc164i])})}catch(e){}return r}}
 {const _ok164=cp152Ok;cp152Ok=function(){const r=_ok164.apply(this,arguments);try{const b=$("#layer [data-cp152pub]");if(b&&fc164Tem())b.disabled=false}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!t.closest("#layer > .cp152"))return;let b;
   if(t.closest("[data-fc164det]")){e.stopPropagation();e.preventDefault();fc164Detalhes();return}
+  if(b=t.closest("[data-fc164nt]")){e.stopPropagation();e.preventDefault();CR155.pid=b.dataset.fc164nt;try{cr155Guarda()}catch(_){}cp152Desenha();return}
+  if(t.closest(".fc164-ntl [data-edselx]")||(t.classList&&t.classList.contains("fc164-ntl"))){e.stopPropagation();e.preventDefault();t.closest(".fc164-ntl").remove();return}
+  if(b=t.closest("[data-fc164marca]")){e.stopPropagation();e.preventDefault();const P=CP152.ed&&CP152.ed.po;if(!P)return;const u=b.dataset.fc164marca,i=P.marcados.indexOf(u);if(i>=0)P.marcados.splice(i,1);else P.marcados.push(u);b.setAttribute("aria-pressed",String(i<0));return}
+  if(t.closest("[data-fc164detok]")||(t.classList&&t.classList.contains("fc164-dsh"))){e.stopPropagation();e.preventDefault();cp152Desenha();return}
   if(b=t.closest("[data-fc164ed]")){e.stopPropagation();e.preventDefault();fc164Edita(+b.dataset.fc164ed);return}
   if(b=t.closest("[data-fc164x]")){e.stopPropagation();e.preventDefault();const P=CP152.ed&&CP152.ed.po;if(!P)return;const i=+b.dataset.fc164x,f=P.fotos[i];P.fotos.splice(i,1);
     if(P.rolo){const j=P.rolo.indexOf(f);if(j>=0)P.rolo.splice(j,1)}P.cur=0;if(!P.fotos.length)CP152.ed=null;cp152Desenha();return}},true);
@@ -19343,6 +19401,74 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!t.closest
   const r=_fe164.apply(this,arguments);if(!$("#layer > .cp152"))CP152.ed=null;return r}}
 /* abrir a caixa do zero (não "manter") começa sem fotos */
 {const _ab164=cp152Abre;cp152Abre=function(o){if(!(o&&o.manter))CP152.ed=null;return _ab164.apply(this,arguments)}}
+/* ---------- 166: criar, achados do testador (16/11, noite) ----------
+   (as correções da foto na caixa ficaram no próprio 164)
+   1. Toque duplo em Publicar: o 2º toque caía no ícone do cabeçalho do Feed (Atividade, Busca). Por 0,7 s depois de
+      tocar em Publicar, toques fora da tela de criar são ignorados.
+   2. Avisos dos formulários (Enquete, De perto, Número): aparecem embaixo do campo que falta, com borda vermelha, em vez de
+      subir no alto da tela por cima da pergunta. Enquete com opções iguais ("Sim" e "sim ") não publica.
+   3. Sem internet: o cartão do Feed já diz "vamos publicar quando a internet voltar"; o aviso "Não deu para publicar. Tente
+      de novo." não aparece mais junto, e o cartão fica só com "Descartar" (com rede mas falha de conexão: "Publicar agora").
+   4. Coluna: a ajuda diz "Toque no texto e depois em +"; sem título, "Publicar" não abre "Antes de publicar": marca o campo
+      Título e põe o cursor nele; na prévia, sem título, um link "Escrever o título ›" em vez da frase numa caixa.
+   5. Giro: os ícones do menu (Notícia, Texto, Indicador, Livre) acompanham a borda do cartão do giro.
+   6. Número: o gráfico do indicador termina no mesmo dia do título (o valor do dia entra como último ponto).
+   Nomes com o prefixo cr166. */
+var CR166={pubT:0};
+
+/* ===== 1. toque duplo em Publicar ===== */
+window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
+  if(t.closest("#layer [data-cp152pub],#layer [data-edpubpo],#layer .ce-pub,#layer .cn102-pub,#layer .cfp-shb")){CR166.pubT=Date.now();return}
+  if(Date.now()-CR166.pubT<700&&!t.closest("#layer,#layer2,.toast,#pq")){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()}},true);
+{const _cp166=cp152Publica;cp152Publica=function(){CR166.pubT=Date.now();return _cp166.apply(this,arguments)}}
+
+/* ===== 2. avisos junto do campo ===== */
+const cr166Nm=v=>String(v||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g," ").trim().toLowerCase();
+function cr166Dups(cn){const vs=(cn.o||[]).map(cr166Nm),d=[];vs.forEach((v,i)=>{if(v&&vs.indexOf(v)!==i)d.push(i)});return d}
+{const _va166=cn102Valida;cn102Valida=function(P){const r=_va166.apply(this,arguments);try{const cn=P&&P.cn;if(!r&&cn&&cn.k==="enq"&&cr166Dups(cn).length)return "Duas opções estão iguais. Troque uma delas."}catch(e){}return r}}
+function cr166Limpa(){document.querySelectorAll("#layer .cr166-er").forEach(x=>x.remove());document.querySelectorAll("#layer .cr166-erc").forEach(x=>x.classList.remove("cr166-erc"))}
+function cr166Erro(er,P){const ce=$("#layer .ce");if(!ce||!P||!P.cn)return false;cr166Limpa();let alvo=null,marca=[];
+  if(/opç/i.test(er)){alvo=ce.querySelector(".cn102-ops");const ins=[...ce.querySelectorAll("input[data-cn102o]")];
+    const d=/iguais/.test(er)?cr166Dups(P.cn):[];marca=d.length?d.map(i=>ins[i]).filter(Boolean):ins.filter(i=>!i.value.trim())}
+  else if(/pergunta|título|relato|análise|viu/i.test(er)){alvo=ce.querySelector("#cn102-tit");if(alvo)marca=[alvo]}
+  if(!alvo)return false;marca.forEach(i=>(i.closest(".cn102-op")||i).classList.add("cr166-erc"));
+  const p=document.createElement("p");p.className="cr166-er";p.setAttribute("role","alert");p.textContent=er;alvo.insertAdjacentElement("afterend",p);
+  try{p.scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}
+  const f=marca[0]||alvo;setTimeout(()=>{try{if(f.focus)f.focus({preventScroll:true})}catch(e){}},80);return true}
+{const _ep166=edPublicaPost;edPublicaPost=async function(){if($("#layer .ce"))CR166.pubT=Date.now();
+  try{const P=ED&&ED.po;if(P&&P.cn&&!ED.env&&$("#layer .ce")){const er=cn102Valida(P);if(er&&cr166Erro(er,P))return}}catch(e){}
+  return _ep166.apply(this,arguments)}}
+document.addEventListener("input",e=>{const t=e.target;if(t&&t.closest&&t.closest("#layer .ce")&&document.querySelector("#layer .cr166-er"))cr166Limpa()},true);
+
+/* ===== 3. sem internet: uma mensagem só ===== */
+{const _to166=toast;toast=function(m){try{if(typeof m==="string"&&/^Não deu para publicar\. Tente de novo\.$/.test(m)&&navigator.onLine===false&&typeof PQ!=="undefined"&&(PQ.atual||PQ.jobs.length))return}catch(e){}return _to166.apply(this,arguments)}}
+{const _pd166=pqDesenha;pqDesenha=function(){const r=_pd166.apply(this,arguments);try{const box=$("#pq");if(box)PQ.jobs.forEach(j=>{if(j.estado!=="erro"||!cr155SemRede(j))return;const b=box.querySelector(`[data-pqtenta="${j.id}"]`);if(!b)return;
+    if(navigator.onLine===false)b.remove();else b.textContent="Publicar agora"})}catch(e){}return r}}
+addEventListener("offline",()=>{try{if(PQ.jobs.some(j=>j.estado==="erro"))pqDesenha()}catch(e){}});
+addEventListener("online",()=>{try{if(PQ.jobs.some(j=>j.estado==="erro"))pqDesenha()}catch(e){}});
+
+/* ===== 4. coluna ===== */
+{const _ar166=cr137Arruma;cr137Arruma=function(){const r=_ar166.apply(this,arguments);try{const cp=cr137Cp();if(cp)cp.setAttribute("data-ph","Comece a escrever. Toque no texto e depois em + para foto, gráfico, citação ou lista, ou use ## título, > citação, - lista.")}catch(e){}return r}}
+function cr166ColTit(){const t=$("#layer > .ed132 #ed132-tit");if(!t)return;$("#layer > .ed132 .ed132-pp")?.remove();t.classList.add("cr166-erc");
+  let p=$("#layer > .ed132 .cr166-er");if(!p){p=document.createElement("p");p.className="cr166-er";p.setAttribute("role","alert");p.textContent="Dê um título à coluna para publicar.";(t.parentElement.querySelector(".cr137-tl")||t).insertAdjacentElement("afterend",p)}
+  try{t.scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}setTimeout(()=>{try{t.focus({preventScroll:true})}catch(e){}},60)}
+window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
+  if(t.closest("#layer > .ed132 [data-ed132painel]")){const E=ED132.E;if(!E||E.env)return;try{ed132Le()}catch(_){}if(!String(E.tit||"").trim()){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();cr166ColTit()}return}
+  if(t.closest("#layer > .ed132 [data-cr166tit]")){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();cr166ColTit()}},true);
+document.addEventListener("input",e=>{const t=e.target;if(t&&t.id==="ed132-tit"&&t.value.trim()){t.classList.remove("cr166-erc");$("#layer > .ed132 .cr166-er")?.remove()}},true);
+{const _pc166=ed132PainelCard;ed132PainelCard=function(){const r=_pc166.apply(this,arguments);try{const b=$("#layer > .ed132 .ed132-pp .ed132-pvf");const E=ED132.E;
+    if(b&&E&&!String(E.tit||"").trim())b.innerHTML=`<button type="button" class="cr166-lk" data-cr166tit>Escrever o título ›</button>`}catch(e){}return r}}
+
+/* ===== 5. giro: menu dentro do cartão ===== */
+function cr166Rail(){const ce=$("#layer .ce.ce-story");if(!ce)return;const rail=ce.querySelector(".ce-rail"),cv=ce.querySelector("#ce-cv");if(!rail||!cv)return;
+  const a=cv.getBoundingClientRect(),b=ce.getBoundingClientRect();if(!a.width)return;const l=Math.round(a.left-b.left+12);rail.style.left=l>10?l+"px":""}
+{const _ed166=edDesenha;edDesenha=function(){const r=_ed166.apply(this,arguments);try{if(ED&&ED.modo==="story"){cr166Rail();requestAnimationFrame(cr166Rail)}}catch(e){}return r}}
+addEventListener("resize",()=>{try{cr166Rail()}catch(e){}});
+
+/* ===== 6. número: a linha vai até o dia do título ===== */
+function cr166Num(v){let s=String(v||"").replace(/[^\d,.\-]/g,"");if(!s)return NaN;if(s.indexOf(",")>=0)s=s.replace(/\./g,"").replace(",",".");else if(/^\-?\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,"");return parseFloat(s)}
+{const _id166=cn102IndDado;cn102IndDado=function(x){const d=_id166.apply(this,arguments);try{const ult=d.r[d.r.length-1]||"",v=cr166Num(d.val);
+    if(d.dt&&/^\d{4}-\d{2}-\d{2}$/.test(ult)&&d.dt>ult&&isFinite(v)&&d.s.length>=2){d.s.push(+v.toPrecision(6));d.r.push(d.dt);if(d.s.length>30){d.s.shift();d.r.shift()}}}catch(e){}return d}}
 /* 161 (corretor 16/11): a ilustração "genérica" era sempre o Congresso Nacional, em qualquer notícia (China, voos
    nos EUA, Nvidia, fundo de florestas…). Agora o desenho segue o assunto (rótulo + texto alternativo): futebol,
    avião, floresta/clima, tecnologia, mundo; o Congresso fica só para Brasília/governo/Congresso; sem pista, um

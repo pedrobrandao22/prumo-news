@@ -29,8 +29,8 @@ const escolhe = async (A, fotos) => { const [fch] = await Promise.all([A.waitFor
   ok(await esperar(A, () => document.querySelectorAll('#layer > .cp152 .fc164 img').length === 2, null, 5000), 'a foto nova se junta à outra e volta para a caixa');
   // tocar na miniatura: corte/ajuste; × volta sem perder nada
   await clk(A, '#layer > .cp152 [data-fc164ed="1"]'); await sleep(500);
-  ok(await ev(A, () => !!document.querySelector('#layer .ce.ce-post') && /Fotos do post/.test(document.querySelector('#layer .ce-ph b').textContent) && ED.po.cur === 1), 'tocar na miniatura abre o corte daquela foto');
-  await clk(A, '#layer .ce [data-edar]'); await sleep(150); await clk(A, '#layer .ce [data-edav]'); await sleep(300);
+  ok(await ev(A, () => !!document.querySelector('#layer .ce.ce-post') && /Editar foto/.test(document.querySelector('#layer .ce-ph b').textContent) && ED.po.cur === 1 && ED.po.passo === 'filtros'), 'tocar na miniatura abre os filtros daquela foto (166: direto, sem Avançar)');
+  await clk(A, '#layer .ce [data-fc164aba="cortar"]'); await sleep(300); await clk(A, '#layer .ce [data-edar]'); await sleep(150); await clk(A, '#layer .ce [data-fc164aba="filtros"]'); await sleep(300);
   ok(await ev(A, () => /Concluir/.test(document.querySelector('#layer .ce [data-edav]').textContent)), 'na tela de filtros o botão é Concluir');
   await clk(A, '#layer .ce [data-edflt="clarendon"]'); await sleep(200); await clk(A, '#layer .ce [data-edav]'); await sleep(500);
   ok(await ev(A, () => !!document.querySelector('#layer > .cp152') && document.getElementById('cp152-tx').value === 'Fim de tarde no Aterro' && CP152.ed.po.fotos[1].f === 'clarendon'), 'Concluir volta para a caixa com o texto e o filtro');

@@ -90,7 +90,7 @@ const CONTRASTE = ([a, b]) => { const l = s => { const m = String(s).match(/[\d.
   ok(await ev(A, () => [...document.querySelectorAll('#layer [data-cn102o]')].map(i => i.placeholder).join('|') === 'Opção 1|Opção 2'), 'enquete: campos "Opção 1" e "Opção 2"');
   const n0 = await ev(A, () => PUB.itens.length);
   await ev(A, () => document.querySelector('#layer [data-edpubpo]').click()); await sleep(600);
-  ok(await ev(A, n => PUB.itens.length === n && !!document.querySelector('#layer .ce') && /opções/.test(document.querySelector('.toast')?.textContent || ''), n0), 'enquete sem opções não publica Sim/Não inventados; pede as opções');
+  ok(await ev(A, n => PUB.itens.length === n && !!document.querySelector('#layer .ce') && /opções/.test(document.querySelector('#layer .cr166-er')?.textContent || ''), n0), 'enquete sem opções não publica Sim/Não inventados; pede as opções');
   await fecha(A); await sleep(300); await ev(A, () => { try { localStorage.removeItem(cr155K()) } catch (e) { } });
 
   // ===== 7. sem rede =====
