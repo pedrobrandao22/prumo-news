@@ -194,6 +194,101 @@ class TesteSemPillow(Base):
         s.assertTrue(any("/500px-" in u for u in s.rede.baixados) or all("wikimedia" not in u for u in s.rede.baixados))
 
 
+W = "https://upload.wikimedia.org/wikipedia/commons/a/ab/"
+
+
+def foto(nome, cred="Foto de arquivo: Fulano/Wikimedia Commons (CC BY 2.0)", alt="Foto de arquivo"):
+    return {"url": W + urllib.parse.quote(nome), "credito": cred, "alt": alt}
+
+
+class TesteRevisao1511(unittest.TestCase):
+    """Revisão das fotos de todas as notícias (15/11): créditos, fotos bloqueadas, retratos de grupo e a escolha da prévia."""
+
+    def test_credito_limpo(s):
+        casos = {
+            "Foto de arquivo: Agência Senado from Brasilia, Brazil/Wikimedia Commons (CC BY 2.0)": "Foto de arquivo: Agência Senado/Wikimedia Commons (CC BY 2.0)",
+            "Foto de arquivo: Agência Senado from Brasilia, Bra…/Wikimedia Commons (CC BY 2.0)": "Foto de arquivo: Agência Senado/Wikimedia Commons (CC BY 2.0)",
+            "Foto de arquivo: Taken by Adrian Pingstone in June 2002 and released to the publ…/Wikimedia Commons (Public domain)": "Foto de arquivo: Adrian Pingstone/Wikimedia Commons (domínio público)",
+            "Foto de arquivo: Contato: clickdearaujo@gmail.com/Wikimedia Commons (CC BY 2.0)": "Foto de arquivo: autor desconhecido/Wikimedia Commons (CC BY 2.0)",
+            "Foto de arquivo: Unknown authorUnknown author/Wikimedia Commons (Public domain)": "Foto de arquivo: autor desconhecido/Wikimedia Commons (domínio público)",
+            "Foto de arquivo: Photograph by Mike Peel (www.mikepeel.net)./Wikimedia Commons (CC BY-SA 4.0)": "Foto de arquivo: Mike Peel/Wikimedia Commons (CC BY-SA 4.0)",
+            "Foto de arquivo: Rodrigo Silveira Camargo (RodrigoCamargo on commons or RodrigoC…/Wikimedia Commons (CC BY 2.0)": "Foto de arquivo: Rodrigo Silveira Camargo/Wikimedia Commons (CC BY 2.0)",
+            "Foto de arquivo: Sérgio Valle Duarte .mw-parser-output .messagebox{margin:4px 0;/Wikimedia Commons (CC BY 3.0)": "Foto de arquivo: Sérgio Valle Duarte/Wikimedia Commons (CC BY 3.0)",
+            "Foto de arquivo: Staff Sgt. Craig Cisek, U.S. Air Force/Wikimedia Commons (Public domain)": "Foto de arquivo: Craig Cisek/Força Aérea dos EUA/Wikimedia Commons (domínio público)",
+            "Foto de arquivo: José Cruz/ABr/Wikimedia Commons (CC BY 3.0 br)": "Foto de arquivo: José Cruz/ABr/Wikimedia Commons (CC BY 3.0 br)",
+            FA.CRED_CAMARA: FA.CRED_CAMARA,
+        }
+        for a, b in casos.items():
+            s.assertEqual(FA.limpa_credito(a), b)
+            s.assertEqual(FA.limpa_credito(b), b)  # não estraga o que já está limpo
+
+    def test_bloqueadas_e_historicas(s):
+        s.assertTrue(FA.bloqueada(foto("Casa-da-moeda-bovespa-01.jpg")))
+        s.assertTrue(FA.bloqueada(foto("ISS-32_American_EVA_b3_Aki_Hoshide.jpg")))
+        s.assertTrue(FA.bloqueada(foto("Senado_Federal_do_Brasil_Plenário_do_Senado_(15717805622).jpg")))
+        s.assertTrue(FA.bloqueada(foto("Foo.jpg", cred="Foto de arquivo: Núcleo de digitalização / IMS/Wikimedia Commons (Public domain)")))
+        s.assertFalse(FA.bloqueada(foto("Prédio_do_Supremo_Tribunal_Federal_(Brasilia).jpg")))
+        s.assertFalse(FA.valida_velha(foto("Vestibular.JPG")))
+
+    def test_retrato_de_grupo(s):
+        s.assertEqual(FA.grupo(foto("Carlo_Ancelotti_2012_(cropped).jpg")), 0)
+        s.assertEqual(FA.grupo(foto("Ofrenda_de_la_Liga_y_la_Champions-50-L.Millán_(Carlo_Ancelotti,_Florentino_Pérez)_(cropped).jpg")), 2)
+        s.assertEqual(FA.grupo(foto("Ministra_Margareth_Menezes_acompanha_posse_de_Flávio_Dino_como_novo_ministro_do_STF.jpg")), 2)
+        s.assertEqual(FA.grupo(foto("Javier_Milei_y_Santiago_Peña_(cropped).jpg")), 1)
+        s.assertEqual(FA.grupo(foto("02.01.2023_-_Posse_de_Jader_Filho_(52626809793)_(cropped).jpg")), 0)
+        fotos = [dict(foto("Javier_Milei_y_Santiago_Peña_(cropped).jpg"), fonte="Wikimedia Commons"), dict(foto("Javier_Milei_2023.jpg"), fonte="Wikimedia Commons")]
+        s.assertEqual([f["url"].rsplit("/", 1)[-1] for f in FA.so_retratos(fotos)], ["Javier_Milei_2023.jpg"])
+
+    def acervo(s):
+        return {"gerado": "x", "padrao": {"mundo": "mundo/Europa", "economia": "economia/Mercados"},
+                "pessoas": {"Edson Fachin": {"chaves": ["Fachin"], "fotos": [foto("Edson_Fachin_(cropped).jpg", alt="Foto de arquivo: Edson Fachin")]},
+                            "Carlo Ancelotti": {"chaves": ["Ancelotti"], "fotos": [foto("Ofrenda_de_la_Liga_y_la_Champions_(Carlo_Ancelotti,_Florentino_Pérez)_(cropped).jpg"), foto("Carlo_Ancelotti_2016_ICC.jpg")]}},
+                "assuntos": {"aviação": {"chaves": ["voos", "aéreo"], "fotos": [foto("Aeroporto_Internacional_de_São_Paulo-Guarulhos_-_Avião.jpg", alt="Foto de arquivo: Aeroporto de Guarulhos avião")]},
+                             "China": {"chaves": ["China"], "fotos": [foto("Beijing_skyline_(cropped).jpg")]},
+                             "café e agro": {"chaves": ["agro", "café"], "fotos": [foto("Colheita_de_café_moderna.jpg")]},
+                             "B3 e Bolsa": {"chaves": ["Ibovespa"], "fotos": [foto("Casa-da-moeda-bovespa-01.jpg"), foto("Bolsa_de_Valores_pregão.jpg")]}},
+                "temas": {"mundo/Europa": [foto("European_Parliament_Strasbourg.jpg")], "economia/Mercados": [foto("Bolsa_de_Valores_(1).jpg")],
+                          "economia/Empresas": [foto("Building_in_Paulista_Avenue_09.jpg")], "brasil/Meio ambiente e clima": [foto("Enchente_em_Itapecuru_Mirim.jpg")],
+                          "politica/STF e Judiciário": [foto("Supremo_Tribunal_Federal2.jpg")]}}
+
+    def test_previa_escolhe_foto_que_combina(s):
+        P = lambda i, sec, t, **k: dict({"id": i, "secao": sec, "neutro": {"titulo": t}}, **k)
+        pautas = [P("master", "politica", "PGR prepara as primeiras denúncias do caso Master", subtema="STF e Judiciário", subtitulo="Fachin recebe o pedido", prioridade=9),
+                  P("fachin", "politica", "Fachin manda arquivar o inquérito", subtema="STF e Judiciário", prioridade=8),
+                  P("voos", "mundo", "Aviões colidem em Miami após caos aéreo nos EUA", subtema="EUA", prioridade=7),
+                  P("apec", "mundo", "Trump vai se reunir com Xi na China, na cúpula da Apec", subtema="Ásia", foto_arquivo="tema"),
+                  P("bb", "economia", "Lucro do BB cai 66%; ação recua e agro reage", subtema="Empresas"),
+                  P("ibov", "economia", "Ibovespa sobe 0,66%; dólar fecha a R$ 5,67", subtema="Mercados"),
+                  P("canada", "brasil", "Canadá promete US$ 400 milhões a fundo de florestas", subtema="Meio ambiente e clima"),
+                  P("cop", "mundo", "Lula negocia com Erdogan na COP31", subtema="Europa"),
+                  P("selecao", "esportes", "Brasil perde do Japão; Ancelotti é expulso", subtema="Seleção"),
+                  P("propria", "politica", "Senado aprova o ajuste fiscal", subtema="Congresso",
+                    foto={"url": W + "Edson_Fachin_(cropped).jpg", "credito": "Foto de arquivo: X/Wikimedia Commons (CC BY 2.0)", "alt": "Foto de arquivo: Edson Fachin"})]
+        M = PG.mapa_fotos(pautas, s.acervo())
+        nome = lambda i: urllib.parse.unquote(M[i]["url"].rsplit("/", 1)[-1]) if i in M else None
+        s.assertIsNone(nome("master"))                      # Fachin só no subtítulo; tema do STF sem STF no título
+        s.assertEqual(nome("fachin"), "Edson_Fachin_(cropped).jpg")
+        s.assertIsNone(nome("voos"))                        # avião em Guarulhos não serve para voo nos EUA
+        s.assertIsNone(nome("apec"))                        # cúpula na China não usa o cartão-postal de Pequim
+        s.assertIsNone(nome("bb"))                          # "agro" no fim do título não é colheita de café; Empresas sem foto
+        s.assertEqual(nome("ibov"), "Bolsa_de_Valores_pregão.jpg")  # moedas de réis fora
+        s.assertIsNone(nome("canada"))                      # enchente não ilustra fundo de florestas
+        s.assertIsNone(nome("cop"))                         # Parlamento Europeu não é a COP31
+        s.assertEqual(nome("selecao"), "Carlo_Ancelotti_2016_ICC.jpg")  # nada da diretoria do Real Madrid
+        s.assertNotIn("propria", M)
+        pg = PG.pagina(pautas[-1], M, lambda p: PG.propria_ok(p, p.get("foto"), PG.preparar(s.acervo()), {}))
+        s.assertIn("og-padrao.png", pg)                     # retrato de quem não está no título: a prévia não usa
+        # sem repetir a mesma foto em duas notícias
+        dois = [P("a", "economia", "Ibovespa sobe", subtema="Outros"), P("b", "economia", "Ibovespa cai", subtema="Outros")]
+        M2 = PG.mapa_fotos(dois, s.acervo()); s.assertEqual(len(M2), 1)
+
+    def test_previa_sem_credito(s):
+        p = {"id": "x", "secao": "economia", "neutro": {"titulo": "Ibovespa sobe"}, "subtitulo": "Bolsa fecha em alta."}
+        pg = PG.pagina(p, {"x": {"url": W + "Bolsa.jpg", "credito": "Foto de arquivo: Agência Senado from Brasilia, Brazil/Wikimedia Commons (CC BY 2.0)"}})
+        s.assertIn('<meta property="og:description" content="Bolsa fecha em alta.">', pg)
+        s.assertNotIn("Wikimedia", pg)
+
+
 def self_fotos(A):
     out = []
     for x in A["pessoas"].values(): out += x["fotos"]

@@ -78,6 +78,8 @@ PESSOAS = {
     "Nicolás Maduro": ["Maduro"],
     "Ali Khamenei": ["Khamenei"],
     "Carlo Ancelotti": ["Ancelotti"],
+    "Jensen Huang": ["Jensen Huang", "Huang"],
+    "Recep Tayyip Erdogan": ["Erdogan", "Erdoğan"],
 }
 # assuntos: seção/subtema → buscas no Commons (o título do arquivo precisa conter ao menos uma palavra-chave)
 TEMAS = {
@@ -108,7 +110,7 @@ TEMAS = {
     "mundo/África": [("African Union headquarters Addis Ababa", ["african union headquarters", "african union hall", "african union conference"])],
     "educacao/Educação básica": [("sala de aula escola estadual alunos", ["sala de aula", "escola estadual", "escola municipal", "alunos"])],
     "educacao/Ensino superior": [("campus universidade federal Brasil", ["campus", "reitoria", "universidade federal"])],
-    "educacao/Enem e vestibulares": [("Enem candidatos fazem prova", ["enem"]), ("vestibular candidatos prova sala", ["vestibular", "prova"])],
+    "educacao/Enem e vestibulares": [("Enem candidatos fazem prova", ["enem"]), ("candidatos chegam local de prova Enem portões", ["enem", "candidatos"])],
     "educacao/Políticas": [("Ministério da Educação Brasília", ["educação", "mec"])],
     "educacao/Avaliações": [("sala de aula escola estadual alunos", ["sala de aula", "escola estadual", "escola municipal", "alunos"])],
     "esportes/Brasileirão": [("Estádio do Maracanã", ["maracanã", "maracana"]), ("Allianz Parque", ["allianz parque"])],
@@ -142,7 +144,11 @@ ASSUNTOS = {
     "Petrobras": (["Petrobras"], "Petrobras plataforma de petróleo", ["petrobras", "plataforma"], None),
     "ONU": (["ONU", "Nações Unidas", "COP"], "United Nations headquarters New York", ["united nations"], None),
     "trens": (["trem", "trens", "Trem", "Trens", "ferrovia", "ferroviário", "metrô", "Metrô"], "trem de passageiros ferrovia", ["trem", "passenger train", "railway"], None),
-    "aviação": (["avião", "aviões", "Avião", "voo", "voos", "aeroporto", "Aeroporto", "aérea", "aéreo"], "Aeroporto de Guarulhos avião", ["aeroporto", "airport", "aircraft", "airbus", "boeing"], None),
+    "aviação": (["avião", "aviões", "Avião", "voo", "voos", "aeroporto", "Aeroporto", "aérea", "aéreo"], "Aeroporto de Guarulhos avião", ["aeroporto", "airport", "aircraft", "airbus", "boeing"], ["politica", "economia", "brasil"]),
+    # 15/11: voo nos EUA com avião em Guarulhos. No exterior, avião de companhia estrangeira, sem lugar brasileiro no nome.
+    "aviação no exterior": (["avião", "aviões", "Avião", "Aviões", "voo", "voos", "aeroporto", "Aeroporto", "aérea", "aéreo"], "airliner taking off runway United States airport", ["airliner", "boeing 7", "airbus a3"], ["mundo"]),
+    "Nvidia": (["Nvidia"], "Nvidia headquarters Santa Clara", ["nvidia"], None),
+    "Microsoft": (["Microsoft"], "Microsoft campus Redmond building", ["microsoft"], None),
     "barragem": (["barragem", "Barragem", "represa", "açude"], "barragem Brasil", ["barragem", "dam"], None),
     "incêndio": (["incêndio", "Incêndio", "fogo"], "bombeiros combate a incêndio", ["bombeiros", "firefighter", "fire department"], None),
     "queimadas": (["queimada", "queimadas", "incêndio florestal", "Incêndio florestal"], "incêndio florestal Brasil", ["incêndio florestal", "incendio florestal", "queimada", "wildfire"], None),
@@ -199,12 +205,15 @@ CURADOS = {
 ASSUNTOS_BR = {
     "Congresso": (["Congresso", "PEC", "LDO", "Orçamento de", "emendas parlamentares", "emenda parlamentar"], "Congresso Nacional Brasília cúpulas", ["congresso nacional"], ["politica", "economia"]),
     "Câmara plenário": (["Câmara", "deputados", "Deputados"], "plenário Câmara dos Deputados sessão", ["câmara dos deputados", "camara dos deputados", "plenário ulysses"], ["politica", "economia"]),
-    "Senado plenário": (["Senado", "senadores", "Senadores"], "plenário Senado Federal sessão", ["senado federal", "plenário do senado"], ["politica", "economia"]),
+    "Senado plenário": (["Senado", "senadores", "Senadores"], "Plenário do Senado Federal vista geral", ["senado federal", "plenário do senado"], ["politica", "economia"]),
     "Planalto": (["Planalto", "Presidência da República"], "Palácio do Planalto fachada", ["palácio do planalto", "palacio do planalto"], None),
     "STF": (["STF", "Supremo"], "Supremo Tribunal Federal prédio", ["supremo tribunal federal"], None),
     "TSE": (["TSE", "Justiça Eleitoral"], "Tribunal Superior Eleitoral sede", ["tribunal superior eleitoral"], None),
     "Banco Central": (["Banco Central", "Copom", "Selic", "juros", "Juros", "BC"], "Banco Central do Brasil edifício sede", ["banco central"], None),
-    "B3 e Bolsa": (["Ibovespa", "Bolsa", "B3", "ações"], "B3 Bolsa de Valores São Paulo", ["b3", "bovespa", "bolsa de valores"], None),
+    "B3 e Bolsa": (["Ibovespa", "Bolsa", "B3", "ações"], "B3 Bolsa de Valores São Paulo pregão", ["bovespa", "bolsa de valores", "b3 - brasil", "b3 sa", "bm&f"], None),
+    "Banco do Brasil": (["Banco do Brasil", "BB"], "agência Banco do Brasil fachada", ["banco do brasil"], ["economia"]),
+    "PGR": (["PGR", "Procuradoria-Geral da República"], "Procuradoria-Geral da República sede Brasília", ["procuradoria-geral da república", "procuradoria geral da república", "procuradoria-geral da republica"], ["politica"]),
+    "florestas": (["floresta", "florestas", "Floresta", "Florestas", "Amazônia", "desmatamento"], "floresta amazônica vista aérea", ["amazon", "amazônia", "amazonia", "floresta", "rainforest"], None),
     "Esplanada": (["Esplanada", "ministérios"], "Esplanada dos Ministérios Brasília", ["esplanada dos ministérios", "esplanada dos ministerios"], None),
     "Fazenda": (["Fazenda", "fiscal", "arcabouço", "meta fiscal", "Tesouro"], "Ministério da Fazenda Brasília prédio", ["ministério da fazenda", "ministerio da fazenda"], None),
     "Itamaraty": (["Itamaraty", "diplomacia", "embaixador"], "Palácio Itamaraty Brasília", ["itamaraty"], None),
@@ -237,7 +246,17 @@ COMUNS = {"bacelar", "general", "pastor", "delegado", "coronel", "capitao", "sar
 # tira as que já estavam no acervo.
 # foto de lugar ou assunto não pode ser retrato de alguém (14/11: príncipe do Camboja na foto "ONU")
 COM_GENTE = re.compile(r"(prince|princess|principe|king |queen |rei |rainha|president|presidente|minister|ministr|secretary|senator|senador|deputad|governor|governador|portrait|retrato|\bmeets?\b|\bh\.e\b|\bwith\b)")
-NEGADAS = re.compile(r"(aulao|teatro|young pioneers|pioneiros|mbeki|adeola|monica benicio|haitianos|carnaval|danca|dancing|festa|desfile|baile|parade)")
+NEGADAS = re.compile(r"(aulao|teatro|young pioneers|pioneiros|mbeki|adeola|monica benicio|haitianos|carnaval|danca|dancing|festa|desfile|baile|parade|casa da moeda|casa-da-moeda|numismat|moedas antigas)")
+# 15/11 (revisão das fotos de todas as notícias): arquivos que apareceram no lugar errado e não voltam. Nome do arquivo sem
+# acento, minúsculo, "_" → " ". Astronauta e carro como "B3", cartão-postal do Rio como "prédio do STF", close de um
+# senador como "plenário", mural de vestibular antigo como "Enem", diretoria do Real Madrid como "Ancelotti" etc.
+BLOQUEADAS = ["iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
+              "plenario do senado (15717805622)", "plenario do senado (15687627386)", "plenario do senado (15109327665)", "vestibular.jpg",
+              "ofrenda de la liga", "roda viva com senadora", "com bandeira do brasil", "conselheira tais ferraz", "arena corinthians opening",
+              "allianz parque - reconhecimento facial", "tudo-o-que-voce-sempre-quis-saber", "vidpovid to be performing", "hibakujumoku",
+              "northern door of the assumption cathedral", "estacao agrometeorologica", "travessia de pedestres no patio da estacao"]
+# acervos históricos (foto do século passado não ilustra fato de hoje)
+HISTORICO = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly)", re.I)
 
 
 def norm(s):
@@ -281,6 +300,70 @@ def limpa(htm):
     return re.sub(r"\s+", " ", t)[:70]
 
 
+def nome_arquivo(u):
+    """Nome do arquivo para comparar: sem acento, minúsculo, "_" → " "."""
+    return norm(urllib.parse.unquote(str(u or "").split("?")[0].rsplit("/", 1)[-1])).replace("_", " ")
+
+
+def bloqueada(f):
+    """Foto que já apareceu no lugar errado (BLOQUEADAS) ou de acervo histórico."""
+    n = nome_arquivo(f.get("url")) if isinstance(f, dict) else ""
+    return any(b in n for b in BLOQUEADAS) or bool(HISTORICO.search(str((f or {}).get("credito") or "")))
+
+
+def grupo(f):
+    """Retrato: 0 = serve; 1 = recorte de foto com outra pessoa (só se não houver outro); 2 = foto de grupo/evento.
+    Igual ao ft157Grupo do app (157-fotos.js)."""
+    n = nome_arquivo(f.get("url")); crop = "crop" in n
+    if re.search(r"(ofrenda|champions|roda viva|bandeira|conselheir|nobel|gift to)", n): return 2
+    if not crop and (n.count(",") >= 2 or re.search(r"\b(posse|cerimonia|almoco|convencao|comitiva|lancamento|inauguracao|votacao|acompanha|visita|meets|with|programa)\b", n)): return 2
+    if re.search(r"\b(e|y|and|with|meets|com)\b", re.sub(r"\.[a-z]+$", "", n)): return 1 if crop else 2
+    return 0
+
+
+def so_retratos(fotos):
+    """Tira foto de grupo/evento da lista de retratos; recorte com outra pessoa só se não houver retrato sozinho."""
+    bons = [f for f in fotos if f.get("fonte") != "Wikimedia Commons" or grupo(f) == 0]
+    return bons or [f for f in fotos if grupo(f) == 1]
+
+
+# nomes de órgãos estrangeiros mais comuns nos créditos do Commons (igual ao FT157_TRAD do app)
+TRAD = [(r"https?://www\.president\.gov\.ua/?", "Presidência da Ucrânia"), (r"(?:The )?Presidential Administration of Ukraine", "Presidência da Ucrânia"),
+        (r"(?:The |Russian )?Presidential Press [Aa]nd Information Office", "Serviço de imprensa da Presidência da Rússia"),
+        (r"Presidential Communications Office", "Comunicação da Presidência"), (r"Prime Minister's Office", "Gabinete do primeiro-ministro"),
+        (r"\bThe White House\b", "Casa Branca"), (r"U\.S\. Department of Defense", "Departamento de Defesa dos EUA"),
+        (r"U\.S\. Department of Transportation", "Departamento de Transportes dos EUA"), (r"U\.S\. Secretary of Defense", "Secretaria de Defesa dos EUA"),
+        (r"U\.S\. Embassy (?:in )?([A-Z][A-Za-z ]+?)(?=/|$)", r"Embaixada dos EUA em \1"), (r"^(Foto de arquivo:\s*)Photo\s+", r"\1")]
+
+
+def limpa_credito(c):
+    """Crédito do Commons em português, sem "from <cidade>, <país>", e-mail, CSS ou "Template:". Igual ao ft157Cred do app."""
+    t = str(c or "")
+    if not t: return t
+    for a, b in TRAD: t = re.sub(a, b, t, count=1)
+    t = re.sub(r"[\u200e\u200f\u202a-\u202e]", "", t)
+    t = re.sub(r"\s*\.mw-parser-output[^/]*", "", t, count=1, flags=re.I)
+    t = re.sub(r"\s+from\s+[^/()]+?(?=\s*/\s*(?:Wikimedia|Commons)|\s*\(|\s*$)", "", t, flags=re.I)
+    t = re.sub(r"Taken by\s+(.+?)\s+in\s+[A-Z][a-z]+\s+\d{4}[^/]*", r"\1", t, count=1)
+    t = re.sub(r"Photograph by\s+", "", t, count=1, flags=re.I)
+    t = re.sub(r"\s*\([^()/]*?(?:www\.|https?:|on commons|wikipedia|flickr)[^()/]*\)?", "", t, flags=re.I)
+    t = re.sub(r"Contato:\s*", "", t, count=1, flags=re.I)
+    t = re.sub(r"[\w.+-]+@[\w-]+\.[\w.]+", "", t)
+    t = re.sub(r"Template:\S*", "", t)
+    t = re.sub(r"(Unknown author)+", "autor desconhecido", t, flags=re.I)
+    t = re.sub(r"\b(?:Staff |Tech\. |Master )?Sgt\.\s*", "", t)
+    for a, b in ((r",?\s*U\.S\. Air Force", "/Força Aérea dos EUA"), (r",?\s*U\.S\. Navy", "/Marinha dos EUA"), (r",?\s*U\.S\. Army", "/Exército dos EUA"),
+                 (r"Brazilian Government", "Governo Federal"), (r"State Government Photographer", "Governo estadual"),
+                 (r"\s+at\s+\w+\s+Wikipedia", ""), (r"\s+in contract with a local company", ""), (r"\s+edit by\s+", " (edição de ")):
+        t = re.sub(a, b, t)
+    t = re.sub(r"\(Public domain\)", "(domínio público)", t, flags=re.I)
+    t = re.sub(r"\.\s*(?=/)", "", t, count=1)
+    t = re.sub(r"(\(edição de [^()/]*)(?=/)", r"\1)", t, count=1)
+    t = re.sub(r":\s*/\s*(Wikimedia|Commons)", r": autor desconhecido/\1", t, count=1)
+    t = re.sub(r"\s{2,}", " ", t); t = re.sub(r"\s+/", "/", t); t = re.sub(r"/\s+", "/", t)
+    return t.strip()
+
+
 def licenca_do_credito(c):
     m = re.search(r"\(([^()]*)\)\s*$", str(c or ""))
     return m.group(1) if m else ""
@@ -304,12 +387,14 @@ def busca(consulta, chaves, n=4, exige_todos=False, evitar=(), sem_gente=False):
         elif not any(k in tit for k in ks): continue
         if FORA.search(tit.replace("_", " ")) or NEGADAS.search(norm(tit).replace("_", " ")): continue
         if sem_gente and COM_GENTE.search(norm(tit).replace("_", " ")): continue
+        if any(b in tit.replace("_", " ") for b in BLOQUEADAS): continue
         if ii.get("mime") not in ("image/jpeg", "image/webp"): continue
         if (ii.get("width") or 0) < 700 or (ii.get("height") or 0) < 400: continue
         md = ii.get("extmetadata") or {}
         lic = limpa((md.get("LicenseShortName") or {}).get("value"))
         if not lic or not LIVRE.search(lic) or PROIBIDO.search(lic): continue
         autor = limpa((md.get("Artist") or {}).get("value")) or "autor desconhecido"
+        if HISTORICO.search(autor): continue
         url = (ii.get("url") or "").split("?")[0]
         if not url.startswith("https://upload.wikimedia.org/"): continue
         t2 = tit.replace("_", " ")
@@ -317,8 +402,9 @@ def busca(consulta, chaves, n=4, exige_todos=False, evitar=(), sem_gente=False):
         else: nota_outro = 0
         if exige_todos and re.search(r"\b(pec|sessao|reuniao|cerimonia|encontro|audiencia|plenario|congresso nacional|descerramento|entrega|visita|lancamento|meeting|summit|welcomes|hosts|bilateral|visits|greets|recebe|cumprimenta|coletiva|entrevista|plenaria)\b", t2): nota_outro -= 5
         nota = nota_outro + (3 if re.search(r"cropped|retrato|portrait|oficial|official", t2) else 0) - (2 if exige_todos and re.search(r" e | and | com | with |, ", t2) else 0)
-        out.append({"url": url, "credito": f"Foto de arquivo: {autor}/Wikimedia Commons ({lic})", "pagina": (ii.get("descriptionurl") or "").split("?")[0],
-                    "licenca": lic, "autor": autor, "fonte": "Wikimedia Commons", "_n": nota})
+        if exige_todos and grupo({"url": url}) == 2: continue  # retrato: nada de posse, "X e Y" sem recorte, taças…
+        out.append({"url": url, "credito": limpa_credito(f"Foto de arquivo: {autor}/Wikimedia Commons ({lic})"), "pagina": (ii.get("descriptionurl") or "").split("?")[0],
+                    "licenca": lic, "autor": autor, "fonte": "Wikimedia Commons", "alt": "Foto de arquivo: " + re.sub(r'intitle:"([^"]+)"', r"\1", consulta), "_n": nota})
     out.sort(key=lambda x: -x["_n"])
     if any(x["_n"] >= 0 for x in out): out = [x for x in out if x["_n"] >= 0]  # foto de grupo só se não houver retrato sozinho
     out = [{k: v for k, v in x.items() if k != "_n"} for x in out[:n]]
@@ -439,11 +525,12 @@ def tamanho_pasta(p):
 
 # ---------- escolha estável (não troca foto todo dia) ----------
 def valida_velha(f):
-    return isinstance(f, dict) and isinstance(f.get("url"), str) and f["url"].startswith("https://") and not FORA.search(norm(f["url"].rsplit("/", 1)[-1]).replace("_", " ")) and not NEGADAS.search(norm(urllib.parse.unquote(f["url"].rsplit("/", 1)[-1])).replace("_", " "))
+    return isinstance(f, dict) and not bloqueada(f) and isinstance(f.get("url"), str) and f["url"].startswith("https://") and not FORA.search(norm(f["url"].rsplit("/", 1)[-1]).replace("_", " ")) and not NEGADAS.search(norm(urllib.parse.unquote(f["url"].rsplit("/", 1)[-1])).replace("_", " "))
 
 
 def completa(f):
     f = dict(f)
+    if isinstance(f.get("credito"), str): f["credito"] = limpa_credito(f["credito"])
     if not f.get("licenca"):
         lic = licenca_do_credito(f.get("credito"))
         if lic: f["licenca"] = lic
@@ -512,13 +599,13 @@ def main(argv):
         n = 3 if grupo[nome] == "curado" else 2
         antes = (VP.get(nome) or {}).get("fotos") or []
         antes = [f for f in antes if "wikimedia.org" in str(f.get("url", ""))]
-        fotos = junta(antes, [], n)
+        fotos = so_retratos(junta(antes, [], n))
         if len(fotos) < 2 and visto.get(nome, hoje) == hoje:  # só procura quem ainda tem menos de 2 fotos (o resto fica como está)
             outros = [o for o in pessoas if o != nome and o.split()[-1] not in nome]
             novas = busca(f'intitle:"{nome}"', [nome], n=3, exige_todos=True, evitar=outros)
             if not novas and len(nome.split()) > 2:  # ex.: Luiz Inácio Lula da Silva → "Lula"
                 novas = busca(f'intitle:"{chaves[0]}"', [chaves[0]], n=3, exige_todos=True, evitar=outros)
-            fotos = junta(fotos, novas, n)
+            fotos = so_retratos(junta(fotos, novas, n))
         if fotos:
             out_p[nome] = {"chaves": list(chaves), "grupo": grupo[nome], "fotos": [dict(f, alt=f"Foto de arquivo: {nome}") for f in fotos]}
             if nome in visto: out_p[nome]["visto"] = visto[nome]

@@ -31,7 +31,10 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   // foto própria quebrada
   await p.evaluate(id => { const el = document.getElementById('cpi-' + id); if (el) el.scrollIntoView() }, pQ.id); await sleep(1500);
   const q = await p.evaluate(id => { const el = document.querySelector('#cpi-' + id); const img = el && el.querySelector('img'); const c = el && el.querySelector('[data-credfull]'); return { img: img && img.getAttribute('src'), ok: img && img.naturalWidth > 0, cred: c && c.textContent, ill: el && !!el.querySelector('.foto') } }, pQ.id);
-  ok(q.img && !/Quebrada/.test(q.img) && q.ok && q.ill, 'foto própria que não carrega vira foto de arquivo (não ilustração) ' + JSON.stringify(q));
+  // 15/11 (157): só vira foto de arquivo se houver uma que combine com a notícia; senão fica a ilustração da pauta
+  const alt = await p.evaluate(id => { const q = pautaById(id); return !!(FOTOS_ARQ && faListas(q, FOTOS_ARQ).length) }, pQ.id);
+  const ilu = await p.evaluate(id => { const el = document.querySelector('#cpi-' + id); return !!(el && el.querySelector('svg') && !/Quebrada/.test(el.innerHTML)) }, pQ.id);
+  ok(alt ? (q.img && !/Quebrada/.test(q.img) && q.ok && q.ill) : ilu, 'foto própria que não carrega vira foto de arquivo que combina (ou a ilustração, se não houver) ' + JSON.stringify({ ...q, alt, ilu }));
   // Agora: fato novo, não o nome do tema
   const ag = await p.evaluate(id => (agoraItens().find(a => a.pid === id) || {}).t, pe.id);
   ok(/Rubio nega/.test(ag || ''), 'Agora mostra a manchete mais nova da pauta, não o tema: ' + ag);
