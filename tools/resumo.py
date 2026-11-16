@@ -60,7 +60,7 @@ def main(argv):
     print("PAUTAS (id | seção/subtema | prio | hora | título | nº fontes | sinais)")
     print("  sinais: P=pendência E=enquete C=checagem ok / D=divergência V=visual U=nº atualizações X=correções B=versões de viés")
     print("          AOVIVO / ENCERRADA · PONTUAL · etapa n/N · FAQ · T=nº de títulos no histórico")
-    pend = V.pendencias(f, agora)
+    pend = V.pendencias(f, agora, V.ler_indicadores(os.path.join(os.path.dirname(os.path.abspath(caminho)), "indicadores.json")))
     com_pend = {x["pid"] for x in pend}
     for p in sorted(ps, key=lambda p: -(p.get("prioridade") or 0)):
         sinais = []

@@ -9,7 +9,8 @@ Uso:
 
 --prev X: feed que estava no ar (OBRIGATÓRIO na completa, que monta o feed do zero). Sem ele, a base é o próprio feed de entrada.
 Coberturas (automático): pauta que sai do feed vai para "dormentes" (o id pode voltar com add_pauta e recupera o histórico);
-título que muda entra em "titulos"; "inicio" fica gravado; ao_vivo sem novidade há 4 h volta para ativa; "taxonomia" é regravada.
+título que muda entra em "titulos"; "inicio" fica gravado; ao_vivo sem novidade há 4 h volta para ativa; "taxonomia" é regravada;
+cobertura sem fato novo há mais de 3 dias (pontual: 2) fica com prioridade 35 no máximo; cada breve ganha "hora" (quando entrou).
 
 patch.json: lista de operações (ou {"ops": [...]}). Operações:
   {"op":"set","pid":ID,"path":"neutro.texto","value":...}        caminho com pontos; índices numéricos valem (visuais.0.titulo)
@@ -212,7 +213,10 @@ class Feed:
             if b.get("urgente") is True:
                 ja = next((x for x in F.get("breves") or [] if x.get("url") == b.get("url") and x.get("urgente") is True and x.get("hora")), None)
                 b["hora"] = ja["hora"] if ja and not b.get("hora") else para_iso(b.get("hora"), self.agora)
-            else: b.pop("urgente", None)
+            else:
+                b.pop("urgente", None)
+                ja = next((x for x in F.get("breves") or [] if x.get("url") == b.get("url") and x.get("hora")), None)
+                if not b.get("hora"): b["hora"] = ja["hora"] if ja else iso(self.agora)
             if not all(b.get(kk) for kk in ("titulo", "fonte", "url", "secao")): raise Recusa("breve_add precisa de titulo, fonte, url e secao")
             F["breves"] = [x for x in F.get("breves") or [] if x.get("url") != b["url"]] + [b]
         elif k == "breve_remove":
@@ -318,6 +322,8 @@ def resumo_curto(t, n=220):
     if len(out) > n: out = out[:n].rsplit(" ", 1)[0].rstrip(",;:(") + "…"
     return out
 
+PRIO_VELHA = 35  # prioridade máxima de cobertura que passou da validade (fica só por etapa/agenda próxima)
+
 def coberturas(F, base, agora, virada=False):
     """Histórico de títulos, início, ao vivo vencido e dormentes. base = feed que estava no ar."""
     rel = []
@@ -356,6 +362,23 @@ def coberturas(F, base, agora, virada=False):
             if u and (agora - u).total_seconds() > 4 * 3600:
                 p["status"] = "ativa"; p.pop("ao_vivo_desde", None); p.pop("essencial", None); rel.append(f"[{pid}] ao_vivo sem novidade há 4 h: voltou para ativa")
         else: p.pop("ao_vivo_desde", None)
+        # VALIDADE (manual 3b): cobertura sem fato novo há mais de 3 dias só fica por etapa/agenda próxima, e aí com
+        # prioridade baixa (16/11: Huang/Nvidia, de quinta, abria Economia na Capa de segunda com prioridade 53)
+        if p.get("status") != "ao_vivo" and isinstance(p.get("prioridade"), (int, float)) and p["prioridade"] > PRIO_VELHA:
+            hs = [V.dt(u.get("hora")) for u in p.get("atualizacoes") or [] if isinstance(u, dict)] + [V.dt(p.get("hora")), V.dt(p.get("inicio"))]
+            hs = [h for h in hs if h]
+            lim = 2 if p.get("tipo") == "pontual" else 3
+            if hs and (agora - max(hs)).total_seconds() > lim * 86400:
+                rel.append(f"[{pid}] sem fato novo há {(agora - max(hs)).days} dias: prioridade {p['prioridade']} → {PRIO_VELHA}")
+                p["prioridade"] = PRIO_VELHA
+    # hora em que cada breve entrou (o app mostra na lista "Outras notícias"; o validar.py acha as breves do dia)
+    if not virada:
+        # breve que já estava no ar sem hora (antes de 16/11): fica com a hora daquela edição, não com a desta rodada
+        ed = str(base.get("atualizado_em") or "") if V.ISO.match(str(base.get("atualizado_em") or "")) else ""
+        hb = {b.get("url"): b.get("hora") or ed for b in base.get("breves") or [] if isinstance(b, dict)}
+        for b in F.get("breves") or []:
+            if isinstance(b, dict) and not b.get("hora"):
+                b["hora"] = hb.get(b.get("url")) or agora_iso
     for pid, bp in BP.items():
         if pid in ids: continue
         dor[pid] = {"id": pid, "secao": bp.get("secao"), "subtema": bp.get("subtema") or "", "tema": bp.get("tema") or "",

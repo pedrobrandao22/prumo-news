@@ -164,6 +164,16 @@ def main(argv):
     if not args: print(__doc__); return 2
     entrada = args[0]; saida = saida or entrada
     anterior = json.load(open(entrada, encoding="utf-8"))
+    # virada atrasada (o GitHub rodou a das 0h05 às 7h46 de 16/11, depois da completa): a edição de hoje já saiu, então
+    # não há o que virar. Rodar assim trocava "hoje" do texto da manhã pelo dia de ontem e regravava o atualizado_em.
+    ag0 = V.dt(agora) if agora else datetime.now(V.SP)
+    if ag0 and ag0.tzinfo is None: ag0 = ag0.replace(tzinfo=V.SP)
+    ref0 = V.dt(anterior.get("atualizado_em"))
+    if ag0 and ref0 and ref0.date() == ag0.date() and ref0.hour >= 6:
+        print(f"virada pulada: a edição de hoje já saiu ({anterior.get('atualizado_em')}); o feed não foi mexido")
+        resumo = {"tipo": "virada", "status": "sem_mudancas", "publicou": False, "nota": "Virada atrasada: a edição do dia já tinha saído; o feed ficou como estava."}
+        print("REG " + json.dumps(resumo, ensure_ascii=False))
+        return 0
     tmp = tempfile.mkdtemp()
     v1 = os.path.join(tmp, "v1.json")
     cmd = [sys.executable, "-I", os.path.join(AQUI, "aplicar.py"), entrada, "-o", v1, "--virada"] + (["--agora", agora] if agora else [])
