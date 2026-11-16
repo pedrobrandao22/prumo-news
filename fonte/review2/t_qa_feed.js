@@ -51,7 +51,7 @@ const topo = async (p, sel) => { await ev(p, s => { const m = s.match(/p-(.*?)"/
   await ev(B, u => abrirPerfil(u), uidA); await sleep(1200);
   ok(await ev(B, () => !!document.querySelector('#layer .pfv-h [data-fd104pm]')), 'perfil do amigo tem o menu "…"');
   await tapSel(B, '#layer .pfv-h [data-fd104pm]'); await sleep(500);
-  ok(await ev(B, () => { const t = [...document.querySelectorAll('.sheet .opt button')].map(b => b.dataset); return t.some(d => 'desfazer' in d) && t.some(d => 'bloquear' in d) && t.some(d => 'denp' in d) }), 'menu do perfil: Desfazer amizade, Bloquear, Denunciar');
+  ok(await ev(B, () => { const t = [...document.querySelectorAll('.sheet .opt button')].map(b => b.dataset); return t.some(d => 'desfazer' in d) && t.some(d => 'bloquear' in d) && !t.some(d => 'denp' in d) }), 'menu do perfil do administrador: Desfazer amizade e Bloquear, sem Denunciar');
   await shot(B, 'menu-perfil-amigo'); await ev(B, () => closeLayer()); await sleep(300);
   // ---- folha com título longo não encosta no Fechar ----
   await ev(B, () => sheet('Bem-vindo ao Prumo, Maria Aparecida Souza', '<p>x</p>')); await sleep(400);
