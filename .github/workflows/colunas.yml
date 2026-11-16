@@ -6,6 +6,14 @@ name: Colunas públicas
 on:
   schedule:
     - cron: "*/15 * * * *"
+  # O cron de 15 min atrasa horas no GitHub (14/11: rodou às 13h50, 14h27 e 18h38; a coluna levou 1h30). Por isso o robô
+  # também roda logo depois dos outros robôs frequentes: cada um que termina (com sucesso ou não) é mais uma chance.
+  # Somados, passam várias vezes por hora das 6h à 0h; o "Feed leve" ainda roda a cada push do feed.json pelas rodadas.
+  # workflow_run não precisa de segredo novo e só vale para os workflows do ramo principal. O grupo de concorrência
+  # abaixo junta os disparos que chegam juntos (fica no máximo 1 rodando e 1 esperando).
+  workflow_run:
+    workflows: ["Feed leve", "Avisos de erro", "Manchetes novas", "Dados oficiais", "Indicadores", "Páginas de compartilhamento"]
+    types: [completed]
   workflow_dispatch:
 permissions:
   contents: write

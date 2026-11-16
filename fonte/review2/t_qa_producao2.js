@@ -59,7 +59,7 @@ const recarrega = async p => { await p.reload(); await esperar(p, () => S.membro
   await ev(A, u => abrirPerfil(u), uB); await sleep(1200); await ev(A, () => document.querySelector('#layer .pfv-h [data-fd104pm]').click()); await sleep(400);
   ok(await ev(A, () => { const t = document.querySelector('.sheet [data-denp]')?.textContent || ''; return /fica na sua lista da Administração/.test(t) && !/o Pedro recebe/.test(t) }), 'administrador: "Denunciar" diz que fica na lista da Administração');
   await fecha(A); await ev(B, u => abrirPerfil(u), uA); await sleep(1200); await ev(B, () => document.querySelector('#layer .pfv-h [data-fd104pm]').click()); await sleep(400);
-  ok(await ev(B, () => /o Pedro recebe e analisa/.test(document.querySelector('.sheet [data-denp]')?.textContent || '')), 'membro comum continua lendo "o Pedro recebe e analisa"');
+  ok(await ev(B, () => !!document.querySelector('.sheet [data-desfazer]') && !document.querySelector('.sheet [data-denp]') && !/recebe e analisa/.test(document.querySelector('.sheet').textContent)), 'membro comum: perfil do administrador sem "Denunciar" (a denúncia iria para ele mesmo; 160)');
   await fecha(B);
 
   // ===== 4. destaque aberto pelo perfil de um amigo volta ao perfil

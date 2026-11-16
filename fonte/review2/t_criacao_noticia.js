@@ -34,8 +34,8 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
   ok(await ev(A, () => { const b = document.querySelector('#cn102-bar'); return b && !b.hidden && b.previousElementSibling && b.previousElementSibling.id === 'secs' }), 'Feed: linha "Comente uma notícia ou conte o que viu…" logo abaixo dos stories');
   await shot(A, 'feed-linha-publicar');
   const [fc0] = await Promise.all([A.waitForEvent('filechooser', { timeout: 1500 }).catch(() => null), clk(A, '#cn102-bar [data-cn102bar]')]); await sleep(400);
-  ok(!fc0 && await ev(A, () => ED && ED.modo === 'post' && document.querySelectorAll('#layer [data-cn102ini]').length === 4), 'tocar na linha abre os começos de conteúdo sem abrir a galeria');
-  await ev(A, () => { ED = null; closeLayer._ok = true; closeLayer() }); await sleep(300);
+  ok(!fc0 && await ev(A, () => !!document.querySelector('#layer > .cp152') && document.querySelectorAll('#layer [data-cp152ax]').length === 5), 'tocar na linha abre a caixa única (155), sem abrir a galeria');
+  await ev(A, () => { ED = null; closeLayer._ok = true; closeLayer(); closeLayer._ok = false }); await sleep(300);
 
   // ===== 1. o + continua abrindo a galeria, e atrás dela o criador começa pelo conteúdo
   const [fc] = await Promise.all([A.waitForEvent('filechooser', { timeout: 2500 }).catch(() => null), clk(A, '#b-criar')]);
@@ -47,7 +47,7 @@ async function publicaPost(p) { const n0 = await ev(p, () => PUB.itens.filter(x 
 
   // ===== 2. Minha análise: título, texto, indicador da edição, fonte
   await clk(A, '[data-cn102ini="ana"]'); await sleep(400);
-  ok(await ev(A, () => ED.po.cn && ED.po.cn.k === 'ana' && !!document.querySelector('#layer .cn102 #cn102-tit') && document.activeElement.id === 'cn102-tit' && /Análise/.test(document.querySelector('.ce-ph b').textContent)), 'Minha análise: formulário com título em foco');
+  ok(await ev(A, () => ED.po.cn && ED.po.cn.k === 'ana' && !!document.querySelector('#layer .cn102 #cn102-tit') && document.activeElement.id === 'cn102-tit' && /Número/.test(document.querySelector('.ce-ph b').textContent)), 'Minha análise: formulário "Número" (o nome da caixa, 155) com título em foco');
   await A.keyboard.type('Dólar volta a subir e pressiona a inflação');
   await A.fill('#ce-leg', 'A alta do dólar nas últimas semanas encarece importados e combustíveis. Se continuar, o IPCA de novembro deve vir acima do previsto pelo mercado, e o Banco Central fica sem espaço para cortar a Selic.');
   await clk(A, '[data-cn102dado]'); await sleep(300);

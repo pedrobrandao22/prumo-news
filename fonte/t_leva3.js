@@ -82,7 +82,8 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   // ---------- bloquear: Caio bloqueia Pedro? não; Ana bloqueia Pedro pela conversa
   await ev(A, a => abrirConversa(a), uids[0]); await sleep(300);
   await clk(A, '.icbtn[data-thmenu]');
-  ok(await esperar(A, () => /Bloquear Pedro/.test(document.querySelector('.sheet')?.textContent || '') && /Denunciar Pedro/.test(document.querySelector('.sheet').textContent)), 'menu da conversa: Bloquear e Denunciar');
+  // 160: rótulos curtos (o nome já está no título) e sem "Denunciar" quando a outra pessoa é o administrador (Pedro)
+  ok(await esperar(A, () => /Conversa com Pedro/.test(document.querySelector('.sheet')?.textContent || '') && !!document.querySelector('.sheet [data-bloquear]') && /Bloquear/.test(document.querySelector('.sheet').textContent) && !document.querySelector('.sheet [data-denp]')), 'menu da conversa: Bloquear (e sem Denunciar o administrador)');
   await clk(A, '[data-bloquear]'); await clk(A, '[data-bloquearok]');
   await ev(P, () => S.db.atualizar());
   ok(await esperar(A, p => !S.amigos.has(p), uids[0]) && await esperar(P, a => !S.amigos.has(a), uids[1], 8000), 'bloqueio desfaz a amizade dos dois lados');

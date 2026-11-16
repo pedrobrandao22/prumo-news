@@ -134,7 +134,7 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   // ---- notícia: só você gostou; comentários também na folha nova ----
   const np = await ev(B, () => document.querySelector('#posts .post:not(.upost)')?.dataset.pid);
   await ev(B, p => { document.getElementById('p-' + p).scrollIntoView({ block: 'center' }); document.querySelector(`[id="p-${p}"] .acts [data-a="like"]`).click() }, np); await sleep(700);
-  ok(await ev(B, p => /Você gostou/.test(document.querySelector(`[id="p-${p}"] [data-likes]`).textContent), np), 'notícia que só você gostou: "Você gostou"');
+  ok(await ev(B, p => { const el = document.querySelector(`[id="p-${p}"]`), l = el.querySelector('[data-likes]'), c = el.querySelector('.acts [data-n="like"]'); return c.textContent.trim() === '1' && getComputedStyle(c).display !== 'none' && (getComputedStyle(l).display === 'none' || !l.textContent.trim()) }, np), 'notícia que só você gostou: só o número "1" (156: sem repetir "Você gostou")');
   await ev(B, p => document.querySelector(`[id="p-${p}"] .acts [data-a="cmt"]`).click(), np); await sleep(600);
   ok(await ev(B, () => !!document.querySelector('.sheet.vp99-cm .vp99-emo')), 'comentários da notícia usam a mesma folha');
   await ev(B, () => closeLayer()); await sleep(300);
