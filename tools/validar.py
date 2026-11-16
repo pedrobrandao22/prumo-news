@@ -380,6 +380,252 @@ def checar_mercado(f, IND, ref):
                 (E if estrito else A)(f"{onde}: número de mercado não bate com os indicadores — {pr_}. Confira na fonte.")
 
 
+# ---------- regras de 15/11 (achados do testador no site real) ----------
+# Palavras sem conteúdo, para medir o que uma frase acrescenta ao título ou a outra atualização.
+VAZIAS = set("o a os as um uma uns umas de do da dos das em no na nos nas ao aos à às para pra por pelo pela pelos pelas com sem "
+             "que e ou se seu sua seus suas mais muito já ainda isso esse essa este esta foi ser são está estão tem têm após "
+             "sobre entre como quando onde também até".split())
+VAZIAS_N = {norm(x) for x in VAZIAS}
+def palavras(t):
+    return {w for w in re.findall(r"[0-9a-z]+", norm(t)) if len(w) >= 2 and w not in VAZIAS_N}
+
+# Nome de cobertura que parece propaganda (o app mostra "Cobertura completa · <passo atual>"; 15/11 "· Anúncio").
+PUBLI_EXATO = re.compile(r"^\s*(an[úu]ncios?|publicidade|patrocinad[oa]s?|propaganda|publi|publieditorial|conte[úu]do patrocinado|"
+                         r"informe publicit[áa]rio|oferta|promo[çc][ãa]o|ad|ads)\s*[.:!]?\s*$", re.I)
+PUBLI_PALAVRA = re.compile(r"\b(an[úu]ncio|publicidade|patrocinad[oa]|propaganda|publieditorial|informe publicit[áa]rio)\b", re.I)
+# tema que é só a seção, o subtema ou uma instituição não é nome de cobertura ("Mercado", "STF", "Fiscal")
+TEMA_GENERICO = {"stf", "supremo", "judiciario", "mercado", "mercados", "governo", "planalto", "congresso", "senado", "camara",
+                 "economia", "politica", "fiscal", "contas publicas", "clima", "diplomacia", "brasil", "mundo", "esportes",
+                 "educacao", "cambio", "juros", "noticias", "geral", "outros", "cobertura", "eua"}
+
+# Evento anunciado no futuro com data que já passou (Esportes da Capa, 15/11: "Série B fecha no sábado (14), às 16h30")
+# FUTURO_FORTE só faz sentido antes do evento; FUTURO_PRESENTE ("fecha", "decide") também serve de resultado ("dólar fecha a R$ 5,67
+# na sexta (13)"), então só conta com horário marcado na mesma frase ("às 16h30") ou com confronto "A x B"
+FUTURO_FORTE = re.compile(r"\b(volta|voltam|ter[áa]|ser[áa]|ser[ãa]o|vai|v[ãa]o|deve|devem|estreia|estreiam|promete|prometem|prev[êe]|"
+                          r"prevista?o?s?|marcad[oa]s?|agendad[oa]s?|programad[oa]s?|aguarda|aguardam)\b", re.I)
+FUTURO_PRESENTE = re.compile(r"\b(fecha|fecham|come[çc]a|come[çc]am|abre|abrem|decide|decidem|enfrenta|enfrentam|recebe|recebem|visita|visitam|"
+                             r"pega|pegam|encara|encaram|joga|jogam|disputa|disputam|tem|t[êe]m|acontece|acontecem|ocorre|ocorrem|define|definem|"
+                             r"julga|julgam|vota|votam)\b", re.I)
+HORA_EVENTO = re.compile(r"\b[àa]s?\s+(\d{1,2})h(\d{2})?\b", re.I)
+DDMM = re.compile(r"\b(\d{1,2})/(\d{1,2})\b(?!/|\d)")
+# preposições que "amarram" uma data na frase; sem elas, a data fica solta ("votos zeram, 16/12 vale")
+PREP_DATA = re.compile(r"(\b(em|até|de|do|da|desde|após|apos|antes de|depois de|entre|e|ou|a|à|para|no|na|dia|partir de|marcad[oa] para)\s*)$", re.I)
+
+CLIMA_RE = re.compile(r"clima|aquecimento|emiss|carbono|desmat|florest|queimad|chuva|enchente|seca\b|calor|ambient|f[óo]ss|"
+                      r"energia|metano|biodivers|tfff|petr[óo]leo|renov[áa]v|oceano|temperatura|tornado|temporal|temporais|ciclone|tempestade|vendaval|"
+                      r"granizo|el ni[ñn]o|la ni[ñn]a|frente fria|onda de", re.I)
+NAO_CLIMA_RE = re.compile(r"\bdefesa\b(?! civil)|militar|\barmas?\b|ca[çc]as?\b|m[íi]sseis|m[íi]ssil|com[ée]rcio|comercia|tarif|diplomac|"
+                          r"visita de estado|guerra|cessar-fogo|investimento", re.I)
+
+
+def resolver_data(wd, dn, mes, hoje):
+    """Data de "sábado (14)" ou "14/11" (wd = índice do dia da semana ou None). None se não der para saber."""
+    try:
+        dn = int(dn)
+        if mes:
+            mm = int(mes); y = hoje.year + (1 if mm < hoje.month - 6 else -1 if mm > hoje.month + 6 else 0)
+            d = date(y, mm, dn)
+            return d if wd is None or d.weekday() == wd else None
+        cands = [hoje + timedelta(days=k) for k in range(-20, 21) if (hoje + timedelta(days=k)).day == dn]
+        if wd is not None: cands = [c for c in cands if c.weekday() == wd]
+        return min(cands, key=lambda c: abs((c - hoje).days)) if cands else None
+    except (ValueError, TypeError):
+        return None
+
+
+def datas_em(t, hoje):
+    """[(início, fim, data, texto)] das datas citadas ("sábado (14)", "sexta, 13", "16/12")."""
+    out, ocup = [], []
+    for m in DIA_NUM.finditer(t):
+        d = resolver_data(DIAS.index(m[1].lower()), m[2] or m[4], m[3] or m[5], hoje)
+        out.append((m.start(), m.end(), d, m[0])); ocup.append((m.start(), m.end()))
+    for m in DDMM.finditer(t):
+        if any(a <= m.start() < b for a, b in ocup): continue
+        if not (1 <= int(m[2]) <= 12 and 1 <= int(m[1]) <= 31): continue
+        out.append((m.start(), m.end(), resolver_data(None, m[1], m[2], hoje), m[0]))
+    return out
+
+
+def ultimo_fato(p):
+    hs = [dt(p.get("hora"))] + [dt(u.get("hora")) for u in (p.get("atualizacoes") or []) if isinstance(u, dict) and not str(u.get("texto", "")).startswith("Correção")]
+    hs = [h for h in hs if h]
+    return max(hs) if hs else None
+
+
+def valores_dolar(t):
+    """Cotações do dólar citadas na frase (R$ 5,66 perto de "dólar")."""
+    out = []
+    for fr in re.split(r"(?<=[.;!?])\s+", str(t or "")):
+        if not re.search(r"d[óo]lar", fr, re.I) or OUTRA_MOEDA.search(fr): continue
+        for m in re.finditer(r"R\$\s?(\d,\d{2})(?!\d)", fr):
+            antes = fr[:m.start()]
+            k = max((x.start() for x in re.finditer(r"d[óo]lar", antes, re.I)), default=-1)
+            if k < 0 or m.start() - k > 40 or "R$" in fr[k:m.start()]: continue
+            out.append(float(m[1].replace(",", ".")))
+    return out
+
+
+def checar_regras_1511(f, ant, ref, virada, IND=None):
+    ps = [p for p in f.get("pautas") or [] if isinstance(p, dict)]
+    P = {p.get("id"): p for p in ps}
+    hoje = ref.date()
+    AP = {p.get("id"): p for p in (ant or {}).get("pautas") or [] if isinstance(p, dict)}
+    AD = {d.get("id"): d for d in (ant or {}).get("dormentes") or [] if isinstance(d, dict)}
+    E_ = A if virada else E  # na virada (sem IA) as regras novas só avisam
+
+    # 1. MANCHETE DO DIA (manual 3b): depois da rápida das 9h48 (dia útil) ou da completa (fim de semana)
+    cp = f.get("capa") if isinstance(f.get("capa"), dict) else {}
+    m = cp.get("manchete")
+    minutos = ref.hour * 60 + ref.minute
+    limite = 9 * 60 + 40 if hoje.weekday() < 5 else 6 * 60 + 40
+    if m in P and not virada and minutos >= limite:
+        um = ultimo_fato(P[m])
+        if um and um.date() < hoje:
+            novas = sorted((p for p in ps if p.get("id") != m and p.get("secao") in ("politica", "economia", "brasil", "mundo")
+                            and (ultimo_fato(p) or ref).date() == hoje and (ultimo_fato(p) or ref) <= ref),
+                           key=lambda p: -(p.get("prioridade") or 0))
+            msg = (f"capa.manchete '{m}' é de {um.strftime('%d/%m %Hh%M')} (o leitor vê \"atualizado ontem\"): troque pela notícia mais importante de hoje"
+                   + (f" (ex.: {', '.join(p.get('id') for p in novas[:3])})" if novas else "") + " ou registre um fato real do dia na manchete (manual 3b, MANCHETE DO DIA)")
+            (E if novas else A)(msg)
+
+    # 2. UM NÚMERO SÓ (manual 3b): o mesmo dólar em título, subtítulo, pontos, quadro de números, ilustração, linha fina e resumo
+    vistos = []
+    def junta(onde, t):
+        for v in valores_dolar(t): vistos.append((v, onde))
+    junta("capa.linha_fina", cp.get("linha_fina"))
+    for it in ((f.get("resumo_dia") or {}).get("itens") or []) if isinstance(f.get("resumo_dia"), dict) else []:
+        if isinstance(it, dict): junta("resumo_dia", it.get("texto"))
+    for p in ps:
+        pid = p.get("id"); n = p.get("neutro") or {}
+        junta(f"[{pid}] neutro.titulo", n.get("titulo")); junta(f"[{pid}] subtitulo", p.get("subtitulo"))
+        for x in n.get("pontos") or []: junta(f"[{pid}] neutro.pontos", x if isinstance(x, str) else "")
+        for v in p.get("visuais") or []:
+            if isinstance(v, dict) and v.get("tipo") == "numeros":
+                for it in v.get("itens") or []:
+                    if isinstance(it, dict) and re.search(r"d[óo]lar", f"{it.get('rotulo', '')} {v.get('titulo', '')}", re.I):
+                        mm_ = re.search(r"(\d,\d{2})(?!\d)", str(it.get("valor", "")))
+                        if mm_ and "R$" in str(it.get("valor", "")): vistos.append((float(mm_[1].replace(",", ".")), f"[{pid}] quadro de números"))
+        im = p.get("imagem") if isinstance(p.get("imagem"), dict) else {}
+        dd = im.get("dados") if isinstance(im.get("dados"), dict) else {}
+        if im.get("modelo") == "dinheiro" and re.search(r"d[óo]lar", str(dd.get("legenda", "")), re.I):
+            mm_ = re.search(r"R\$\s?(\d,\d{2})(?!\d)", str(dd.get("valor", "")))
+            if mm_: vistos.append((float(mm_[1].replace(",", ".")), f"[{pid}] ilustração"))
+        # quadro de números de um dia diferente do título ("fechamento de quinta (12)" com título da sexta)
+        dt_tit = {d for _, _, d, _ in datas_em(str(n.get("titulo") or ""), hoje) if d}
+        if dt_tit and re.search(r"d[óo]lar|ibovespa|bolsa", str(n.get("titulo") or ""), re.I):
+            for v in p.get("visuais") or []:
+                if isinstance(v, dict) and v.get("tipo") == "numeros":
+                    txt = " ".join([str(v.get("titulo") or "")] + [str(it.get("rotulo") or "") for it in v.get("itens") or [] if isinstance(it, dict)])
+                    dq = {d for _, _, d, _ in datas_em(txt, hoje) if d}
+                    if dq and not dq & dt_tit:
+                        A(f"[{pid}] quadro de números é de {', '.join(sorted(x.strftime('%d/%m') for x in dq))}, mas o título fala de {', '.join(sorted(x.strftime('%d/%m') for x in dt_tit))}: atualize o quadro junto com a chamada ou tire (manual 3b, UM NÚMERO SÓ)")
+    difs = sorted({v for v, _ in vistos})
+    if len(difs) > 1:
+        A("dólar com valores diferentes na mesma edição (" + "; ".join(f"R$ {v:.2f}".replace(".", ",") + " em " + ", ".join(sorted({o for x, o in vistos if x == v}))[:120] for v in difs) +
+          "): use o mesmo número e a mesma data em todos os lugares; se forem horas diferentes, escreva a hora (manual 3b, UM NÚMERO SÓ)")
+    x = (IND or {}).get("dolar") or {}
+    try:
+        vi = float(str(x.get("valor", "")).replace("R$", "").strip().replace(",", ".")); di = date.fromisoformat(str(x.get("data", "")))
+    except ValueError: vi = di = None
+    if vi and di and (hoje - di).days <= 4:
+        for v, onde in vistos:
+            if abs(v - vi) >= 0.005 and onde.endswith(("neutro.titulo", "subtitulo", "quadro de números", "ilustração", "capa.linha_fina")):
+                p_ = P.get((re.match(r"\[([^\]]+)\]", onde) or [None, None])[1]) or {}
+                alvo = " ".join(str(z) for z in [(p_.get("neutro") or {}).get("titulo"), p_.get("subtitulo"), cp.get("linha_fina") if onde == "capa.linha_fina" else ""])
+                if di in {d for _, _, d, _ in datas_em(alvo, hoje)}:
+                    A(f"{onde}: dólar a R$ {v:.2f}".replace(".", ",") + f" em {di.strftime('%d/%m')}, mas o indicador da Capa mostra {x.get('valor')} para o mesmo dia: confira e use um número só (manual 3b)")
+
+    # 3. Chamada de evento que já passou (manual 3b, EVENTO PASSADO): vira resultado
+    def campos_chamada():
+        yield "capa.linha_fina", None, cp.get("linha_fina") or ""
+        for it in ((f.get("resumo_dia") or {}).get("itens") or []) if isinstance(f.get("resumo_dia"), dict) else []:
+            if isinstance(it, dict): yield "resumo_dia", None, it.get("texto") or ""
+        for p in ps:
+            n = p.get("neutro") or {}
+            yield f"[{p.get('id')}] neutro.titulo", p, n.get("titulo") or ""
+            yield f"[{p.get('id')}] subtitulo", p, p.get("subtitulo") or ""
+            for x in n.get("pontos") or []: yield f"[{p.get('id')}] neutro.pontos", p, x if isinstance(x, str) else ""
+    for onde, p, t in campos_chamada():
+        for cl in re.split(r";\s+|,\s+(?!às?\s+\d)(?=[A-ZÁÉÍÓÚa-zà-ú])|\s+[—–]\s+", str(t)):
+            if not (FUTURO_FORTE.search(cl) or (FUTURO_PRESENTE.search(cl) and (HORA_EVENTO.search(cl) or re.search(r"\S\s+x\s+\S", cl)))): continue
+            for a, b, d, txt in datas_em(cl, hoje):
+                if not d: continue
+                hm = HORA_EVENTO.search(cl)
+                passou = d < hoje or (d == hoje and hm and int(hm[1]) <= 23 and ref >= datetime(d.year, d.month, d.day, int(hm[1]), int(hm[2] or 0), tzinfo=SP) + timedelta(hours=3))
+                if not passou: continue
+                msg = (f"{onde}: anuncia no futuro um evento de {d.strftime('%d/%m')} que já passou ('{cl.strip()[:70]}'): troque pelo resultado "
+                       "(placar, decisão, votação) ou tire da chamada (manual 3b, EVENTO PASSADO)")
+                (E_ if hm and onde.endswith(("titulo", "subtitulo")) else A)(msg)
+                break
+
+    for p in ps:
+        pid = p.get("id"); n = p.get("neutro") or {}
+        tit = str(n.get("titulo") or "")
+        # 4. título que se entende sozinho (manual 3b, TÍTULO CLARO)
+        for a, b, d, txt in datas_em(tit, hoje):
+            # "16/12 vale": dd/mm sem preposição antes, ou qualquer data logo depois de vírgula/ponto e vírgula
+            ddmm = not re.match(r"[A-Za-zÀ-ú]", txt)
+            if a > 0 and not re.match(r"\s*[:—–]", tit[b:]) and ((ddmm and not PREP_DATA.search(tit[:a])) or re.search(r"[,;]\s*$", tit[:a])):
+                A(f"[{pid}] neutro.titulo com data solta ('{txt}' em '{tit[:70]}'): diga o que acontece na data, com preposição ('jornada de 42 h segue valendo em 16/12') (manual 3b, TÍTULO CLARO)")
+                break
+        if len(re.findall(r"[;,]\s", tit)) >= 2:
+            A(f"[{pid}] neutro.titulo telegráfico, com 3 partes ou mais ('{tit[:70]}'): no máximo 2 ideias; o resto vai no subtítulo (manual 3b, TÍTULO CLARO)")
+        # 5. EM 30 SEGUNDOS: o 1º ponto não repete o título (o "Em 5 min" mostra os dois juntos)
+        for lado in ("neutro", "direita", "esquerda"):
+            v = p.get(lado) if isinstance(p.get(lado), dict) else None
+            pt = (v or {}).get("pontos") if v else None
+            tl = (v or {}).get("titulo") or ""
+            if isinstance(pt, list) and pt and isinstance(pt[0], str) and tl:
+                novo = palavras(pt[0]) - palavras(tl)
+                if len(novo) < 2 and difflib.SequenceMatcher(None, norm(tl), norm(pt[0])).ratio() > 0.6:
+                    A(f"[{pid}] {lado}.pontos[0] repete o título ('{pt[0][:70]}'): o 1º ponto traz um fato a mais (número, prazo, consequência), em frase completa (manual 2)")
+        # 6. atualização sem fato novo (manual 3b, ATUALIZAÇÃO É FATO NOVO)
+        ups = [u for u in (p.get("atualizacoes") or []) if isinstance(u, dict) and isinstance(u.get("texto"), str)]
+        ups = sorted(ups, key=lambda u: str(u.get("hora") or ""))
+        ant_h = {str(u.get("hora")) for u in ((AP.get(pid) or {}).get("atualizacoes") or []) if isinstance(u, dict)} if ant else None
+        for j in range(1, len(ups)):
+            for i in range(j):
+                a_, b_ = norm(ups[i]["texto"]), norm(ups[j]["texto"])
+                if a_ == b_: continue  # igual: o "atualização repetida" já avisa
+                r = difflib.SequenceMatcher(None, a_, b_).ratio()
+                if r < 0.8: continue
+                novo = palavras(ups[j]["texto"]) - palavras(ups[i]["texto"])
+                nova_agora = ant_h is not None and str(ups[j].get("hora")) not in ant_h
+                msg = (f"[{pid}] atualização das {str(ups[j].get('hora'))[11:16]} ({str(ups[j].get('hora'))[8:10]}/{str(ups[j].get('hora'))[5:7]}) quase igual à de "
+                       f"{str(ups[i].get('hora'))[8:10]}/{str(ups[i].get('hora'))[5:7]} {str(ups[i].get('hora'))[11:16]} (semelhança {r:.2f}): atualização só com fato novo, dito em 1 frase; "
+                       "detalhe que muda vai no texto (set), sem nova atualização (manual 3b)")
+                (E_ if nova_agora and r >= 0.85 and len(novo) < 3 else A)(msg)
+                break
+            else: continue
+            break
+        # 7. nome da cobertura (manual 3b, NOME DA COBERTURA)
+        tema = p.get("tema"); tag = p.get("tag")
+        et = p.get("etapa") if isinstance(p.get("etapa"), dict) else {}
+        rotulos = [("tema", tema), ("tag", tag)] + [(f"etapa.passos.{i}", x) for i, x in enumerate(et.get("passos") or []) if isinstance(x, str)]
+        for campo, x in rotulos:
+            if not isinstance(x, str) or not x: continue
+            if PUBLI_EXATO.match(x):
+                E_(f"[{pid}] {campo} '{x}' parece propaganda (o app mostra \"Cobertura completa · {x}\"): use o assunto ou a etapa sem essa palavra ('Encontro marcado', 'Cúpula da Apec') (manual 3b)")
+            elif PUBLI_PALAVRA.search(x):
+                A(f"[{pid}] {campo} '{x}' tem palavra de propaganda ('{PUBLI_PALAVRA.search(x)[0]}'): diga o fato sem ela (manual 3b)")
+        if p.get("tipo", "cobertura") == "cobertura":
+            if not isinstance(tema, str) or not tema.strip():
+                A(f"[{pid}] cobertura sem tema: o tema é o NOME da cobertura (o leitor segue por ele), ex.: 'Caso Master', 'Ajuste fiscal' (manual 3b)")
+            else:
+                gen = {norm(x).rstrip("s") for x in [p.get("subtema"), tag, dict((s_["id"], s_.get("nome")) for s_ in f.get("secoes") or [] if isinstance(s_, dict)).get(p.get("secao"))] if x}
+                if norm(tema) in TEMA_GENERICO or norm(tema).rstrip("s") in gen:
+                    A(f"[{pid}] tema '{tema}' é genérico (seção, subtema ou instituição): o tema é o nome da cobertura, o assunto ('Dólar e Bolsa', 'Caso Master') (manual 3b)")
+            velho = (AP.get(pid) or AD.get(pid) or {}).get("tema")
+            if ant and isinstance(velho, str) and isinstance(tema, str) and velho and norm(velho) != norm(tema):
+                A(f"[{pid}] o nome da cobertura (tema) mudou de '{velho}' para '{tema}': mantenha o mesmo nome em todo lugar (os leitores seguem pelo tema) (manual 3b)")
+        # 8. seção/tag pelo fato do título: local do evento não define a editoria (Erdogan na COP31 como "Clima", 15/11)
+        rot_clima = norm(tag) in ("clima", "cop", "meio ambiente") or re.match(r"cop\d*$", norm(tag)) or p.get("subtema") == "Meio ambiente e clima"
+        if rot_clima and NAO_CLIMA_RE.search(tit) and not CLIMA_RE.search(re.sub(r"\bCOP\s?\d*\b", "", tit, flags=re.I)):
+            A(f"[{pid}] rótulo de clima ('{tag or p.get('subtema')}'), mas o fato do título é outro ('{tit[:60]}'): a tag e o subtema vêm do assunto, não do evento onde aconteceu (ex.: Diplomacia) (manual 3b)")
+        if p.get("subtema") == "Planalto e governo" and re.search(r"\b(STF|Supremo|plen[áa]rio (f[íi]sico|virtual))\b", tit) and not re.match(r"(STF|Supremo|Moraes|Dino|Fachin|Gilmar|Zanin|Barroso|Mendonça|Nunes Marques|Fux|Cármen|Toffoli)\b", tit):
+            A(f"[{pid}] título fala do STF ('{tit[:60]}'), mas está em Planalto e governo: se o fato principal é a decisão do tribunal, use STF e Judiciário (e troque a ilustração antiga) (manual 3b)")
+
+
 def checar(f, ant=None, virada=False, agora=None, IND=None):
     preparar_veiculos(f)
     ps = f.get("pautas") or []
@@ -420,7 +666,8 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     for p in ps:
         tit = str(((p.get("neutro") or {}).get("titulo")) or p.get("titulo") or "")
         if re.match(r"(STF|Supremo|STJ|TSE|TST|TCU|Moraes|Dino|Fachin|Gilmar|Zanin|Barroso|Mendonça|Nunes Marques|Fux|Cármen|Toffoli)\b", tit) and (p.get("secao"), p.get("subtema")) != ("politica", "STF e Judiciário"):
-            A(f"[{p.get('id')}] título é decisão de tribunal ('{tit[:50]}'), mas está em {p.get('secao')}/{p.get('subtema')}: mude para politica/STF e Judiciário ou reescreva o título pelo fato principal (manual 3b)")
+            # Planalto e governo com título de decisão de tribunal é contradição clara (6×1 no STF marcada como governo, 15/11): ERRO
+            (E if p.get("subtema") == "Planalto e governo" and not virada else A)(f"[{p.get('id')}] título é decisão de tribunal ('{tit[:50]}'), mas está em {p.get('secao')}/{p.get('subtema')}: mude para politica/STF e Judiciário ou reescreva o título pelo fato principal (manual 3b)")
     # validade: cobertura sem fato novo há mais de 3 dias (manual 3b)
     for p in ps:
         if p.get("status") == "ao_vivo": continue
@@ -921,6 +1168,8 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
             if isinstance(h, str) and HASHTAG.match(h): grafias.setdefault(chave_hashtag(h), set()).add(h)
     for k, g in grafias.items():
         if len(g) > 1: A(f"a mesma hashtag com grafias diferentes ({', '.join(sorted(g))}): use uma só em todas as pautas")
+    try: checar_regras_1511(f, ant, ref, virada, IND)
+    except Exception as e: A(f"conferência das regras de 15/11 falhou: {e!r}")
     try: checar_mercado(f, IND, ref)
     except Exception as e: A(f"conferência dos números de mercado falhou: {e!r}")
     return ref, agora
