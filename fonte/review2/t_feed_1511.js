@@ -37,8 +37,8 @@ async function criar(p, { nome, email }) {
   const cob = await ev(A, () => { const p = (FEED.pautas || []).find(x => document.getElementById('p-' + x.id)); const q = Object.assign({}, p, { tipo: 'cobertura', status: 'ao_vivo', subtema: 'Cúpula da Apec', etapa: { passos: ['Anúncio', 'Encontro'], atual: 0 } });
     const a = cobBarra(q); const b2 = cobBarra(Object.assign({}, q, { etapa: { passos: ['Patrocinado'], atual: 0 }, subtema: 'Outros', tag: 'Diplomacia' })); const c = cobBarra(Object.assign({}, q, { etapa: { passos: ['Senado: destaques'], atual: 0 } }));
     const t = h => { const d = document.createElement('div'); d.innerHTML = h; return d.textContent.trim() }; return [t(a), t(b2), t(c)] });
-  ok(!/an[uú]ncio|patrocinad|publicidade/i.test(cob.join('|')) && /Cobertura completa · Cúpula da Apec/.test(cob[0]) && /Diplomacia/.test(cob[1]), 'cobertura com nome de propaganda usa o subtema/tema', cob);
-  ok(/Cobertura completa · Senado: destaques/.test(cob[2]), 'cobertura com etapa normal mostra a etapa', cob[2]);
+  ok(!/an[uú]ncio|patrocinad|publicidade/i.test(cob.join('|')) && /· cobertura completa/.test(cob[0]) && /· cobertura completa/.test(cob[1]), 'cobertura com etapa de nome de propaganda não mostra a etapa (163: nome + cobertura completa)', cob);
+  ok(/· Senado: destaques/.test(cob[2]), 'cobertura com etapa normal mostra a etapa', cob[2]);
 
   // 3. tela só com a fonte vira o pé do gráfico anterior; pontinhos do total
   const fonte = await ev(A, () => { const p = document.querySelector('#posts .post.vn-cn'); const t = p.querySelector('.track'); const n0 = t.children.length;

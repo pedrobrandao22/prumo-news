@@ -21,7 +21,7 @@ const fs = require('fs');
     await p.goto('http://localhost:8777/index.html'); await esperar(p, () => document.querySelectorAll('.post').length > 2, null, 10000); await sleep(800);
     ok(await p.evaluate(() => /Congresso/.test(document.querySelector('#p-pec-6x1-senado .ph-sec').textContent)), n + ': subtema no cabeçalho do card');
     ok(await p.evaluate(() => !!document.querySelector('#p-pec-6x1-senado .cst.enc') && !!document.querySelector('#p-pec-6x1-senado [data-cobpag]')), n + ': selo Encerrada e barra da cobertura');
-    ok(await p.evaluate(() => /Cobertura completa/.test(document.querySelector('#p-pec-6x1-senado .cobbar').textContent) && /Promulgação/.test(document.querySelector('#p-pec-6x1-senado .cobbar').textContent)), n + ': barra diz Cobertura completa e a etapa (153)');
+    ok(await p.evaluate(() => document.querySelector('#p-pec-6x1-senado .cobbar').textContent.indexOf(cr163NomeCob(pautaById('pec-6x1-senado'))) === 0 && /Promulgação/.test(document.querySelector('#p-pec-6x1-senado .cobbar').textContent)), n + ': barra diz o nome da cobertura e a etapa (153/163)');
     ok(await p.evaluate(() => { const e = document.querySelector('#p-x-pontual'); return e && e.querySelectorAll('.track > .sl').length <= 6 && /Por que importa/.test(e.textContent) && !e.querySelector('.cobbar') }), n + ': pontual em formato curto');
     await p.evaluate(() => document.querySelector('#p-x-pontual').scrollIntoView()); await sleep(300);
     await p.screenshot({ path: D + n + '1-pontual.png' });
