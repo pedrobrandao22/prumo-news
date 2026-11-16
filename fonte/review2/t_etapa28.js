@@ -24,7 +24,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   await p.evaluate(() => renderCapa()); await sleep(300);
 
   // fotos sem repetir
-  const r1 = await p.evaluate(() => { const M = faMapa(); const nomes = FEED.pautas.map(x => fotoDe(x)).filter(Boolean).map(x => faNome(x.url)); const top = [...FEED.pautas].sort((a, b) => (b.prioridade || 0) - (a.prioridade || 0)).slice(0, 15).map(x => faNome(fotoDe(x).url));
+  const r1 = await p.evaluate(() => { const M = faMapa(); const nomes = FEED.pautas.map(x => fotoDe(x)).filter(Boolean).map(x => faNome(x.url)); const top = [...FEED.pautas].sort((a, b) => (b.prioridade || 0) - (a.prioridade || 0)).slice(0, 15).map(x => fotoDe(x)).filter(Boolean).map(f => faNome(f.url));  /* 15/11 (157): notícia sem foto que combine fica com a ilustração */
     return { tot: nomes.length, uni: new Set(nomes).size, top: top.length, topU: new Set(top).size, M } });
   ok(r1.topU === r1.top, `as 15 notícias principais têm fotos diferentes (${r1.topU}/${r1.top}); na edição: ${r1.uni} fotos distintas em ${r1.tot}`);
   const py = JSON.parse(cp.execFileSync('python3', ['-c', `import json,sys;sys.path.insert(0,'${require('../t_util').REPO}/tools');import paginas as P;F=json.load(open('${S0}feed.json'));A=json.load(open('${S0}fotos-arquivo.json'));print(json.dumps({k:v['url'] for k,v in P.mapa_fotos(F['pautas'],A).items()}))`]).toString());
@@ -33,6 +33,8 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(await p.evaluate(() => { const q = { ...FEED.pautas.find(x => !x.foto && /Flávio/.test(x.neutro.titulo)) }; if (!q.id) return 'sem'; const a = fotoArquivo(q); q.foto_arquivo = 'tema'; q.neutro = { ...q.neutro, titulo: q.neutro.titulo + ' ' }; const b = fotoArquivo(q); return a && b && !/Bolsonaro/i.test(b.alt + b.url) }), 'foto_arquivo:"tema" troca o retrato da pessoa por foto do assunto');
 
   // crédito curto
+  // 15/11 (157): se a manchete do dia ficou com a ilustração (sem foto que combine), põe na Capa a arte de uma notícia com foto
+  await p.evaluate(() => { if (document.querySelector('#v-capa [data-credfull]')) return; const q = FEED.pautas.find(x => fotoDe(x)); if (!q) return; const d = document.createElement('div'); d.innerHTML = capaArte(q, 'cpi-x', 1); document.querySelector('#v-capa').prepend(d) });
   const cr = await p.evaluate(() => [...document.querySelectorAll('#v-capa [data-credfull]')].map(e => e.textContent));
   ok(cr.length && cr.every(t => /^(Arquivo · |Foto: )/.test(t) && t.length <= 44 && !/Commons|CC BY/.test(t)), 'crédito curto na foto: ' + cr.slice(0, 3).join(' | '));
   const tg = await p.evaluate(() => { const el = document.querySelector('#v-capa [data-credfull]'); const _o = renderCapa; window.__rs = ''; renderCapa = function () { window.__rs += new Error().stack.split('\n').slice(1, 7).join(' / ') + ' || '; return _o.apply(this, arguments) }; el.click(); renderCapa = _o; const c1 = el.isConnected; const a = el.textContent; const lay = !!document.querySelector('#layer').innerHTML; el.click(); return { rs: window.__rs, c1, a, b: el.textContent, lay } });
