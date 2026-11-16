@@ -1,0 +1,55 @@
+/* 62: matéria e coberturas (rodada 15/11, noite) — par do js/158-materia.js */
+
+/* topo da matéria: "Guardar" vira ícone (o nome segue para leitor de tela) e a editoria cabe inteira */
+.mat-top .mat-g{font-size:0!important;padding:0!important;width:40px;min-width:40px;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.mat-top .mat-g::before{content:"";width:20px;height:20px;background:currentColor;-webkit-mask:var(--mt158-marca) center/contain no-repeat;mask:var(--mt158-marca) center/contain no-repeat}
+.mat-top{--mt158-marca:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M6 3.5h12v17l-6-4.2-6 4.2z'/%3E%3C/svg%3E")}
+.mat-top .mat-g[aria-pressed="true"]{--mt158-marca:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M6 3.5h12v17l-6-4.2-6 4.2z'/%3E%3C/svg%3E")}
+.mat-top .mat-k{letter-spacing:.04em!important}
+/* celular estreito: a editoria quebra em até duas linhas em vez de virar "CON…" */
+@media (max-width:430px){.mat-top .mat-k{white-space:normal!important;text-overflow:clip!important;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-height:1.15;font-size:11px!important;letter-spacing:.03em!important;overflow-wrap:anywhere}}
+
+/* letra grande: a linha do tempo e os quadros da matéria seguem o tamanho do texto */
+.mat .mat-tl span{font-family:var(--f-body);font-size:calc(15.5px*var(--fz));line-height:1.45}
+.mat .mat-tl time{font-size:calc(12px*min(var(--fz),1.25))}
+.mat .mat-tl li::before{top:calc(5px*min(var(--fz),1.25))}
+.mat .fs2-faq summary,.mat .fs2-faq p{font-size:calc(15.5px*var(--fz))}
+.mat .cpx-neutro p{font-size:calc(15.5px*var(--fz))}
+
+/* fim da matéria: seguir com um toque */
+.mt158-seg{display:flex;flex-direction:column;align-items:stretch;gap:6px}
+.mt158-seg .btn{width:100%}
+.mt158-ver{align-self:center;background:none;border:0;color:var(--ink-2);font:700 13.5px var(--f-ui);padding:8px 10px;min-height:36px;text-decoration:underline;text-underline-offset:3px}
+
+/* matéria aberta pela agenda */
+.mt158-ag{display:flex;flex-direction:column;gap:2px;margin:0 0 14px;padding:10px 12px;border-left:3px solid var(--bronze,#b8792a);background:var(--chip);border-radius:0 10px 10px 0;font:500 14px/1.4 var(--f-ui);color:var(--ink)}
+.mt158-ag>b{font:800 11.5px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--bronze-ink,#8a5a1c)}
+.mt158-ag>span{font-weight:700}
+.mt158-ag small{font-size:13px;color:var(--ink-2)}
+
+/* cobertura anterior e link de outra edição */
+.mt158-foto{display:block;width:100%;max-height:180px;object-fit:cover;border-radius:12px;margin:0 0 10px;background:var(--chip)}
+.mt158-fora h3{margin:4px 0 8px;font:700 19px/1.25 var(--f-display,var(--f-ui));color:var(--ink)}
+.sh-f [data-mt158hoje],.sh-f [data-mt158busca]{width:100%}
+.sh-f [data-mt158busca]{margin-top:8px}
+
+/* Coberturas que sigo */
+.mt158-pf svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;color:var(--bronze-ink,#9a5a1c)}
+.mt158-pfw{margin:4px 0 10px}
+.mt158-cl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.mt158-cl li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.mt158-cl li>span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.mt158-cl small{font:500 12.5px var(--f-ui);color:var(--muted)}
+.mt158-cn{background:none;border:0;padding:0;text-align:left;font:700 15px var(--f-ui);color:var(--ink);min-height:28px}
+.mt158-cl .btn{width:auto;padding:0 12px;min-height:36px;font-size:13px;flex:none}
+
+/* celular deitado: foto com no máximo ~45% da altura e barra de baixo compacta */
+@media (orientation:landscape) and (max-height:520px){
+  .cpi-man .art,.mat-arte .art{aspect-ratio:auto!important;height:45vh!important;max-height:45vh}
+  .cpi-man .art img,.mat-arte .art img,.cpi-man .art svg,.mat-arte .art svg{width:100%;height:100%!important;object-fit:cover}
+  .nav{width:min(340px,calc(100% - 96px))!important;bottom:calc(6px + env(safe-area-inset-bottom,0px))!important}
+  .nav-in{height:44px!important;padding:4px 6px!important}
+  .nav .lbl{opacity:0;max-height:0}
+  .nav button .ico{width:22px!important;height:22px!important}
+  .app{padding-bottom:calc(44px + 16px + env(safe-area-inset-bottom,0px))!important}
+}
