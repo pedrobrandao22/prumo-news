@@ -22,8 +22,10 @@ async function criar(p, { url, nome, email }) {
   // post no estilo Instagram: fotos → filtros → detalhes
   await clk(A, '#b-criar'); await sleep(400); ok(await ev(A, () => !!document.querySelector('#layer > .cp152')), '+ abre a caixa de publicar (152)');
   const [fch] = await Promise.all([A.waitForEvent('filechooser', { timeout: 5000 }).catch(() => null), clk(A, '[data-cp152ax="foto"]')]);
-  ok(!!fch && await ev(A, () => !!document.querySelector('#layer .ce.ce-post')), 'Foto abre a galeria e o criador de post');
-  if (fch) await fch.setFiles([FOTO, FOTO]); await esperar(A, () => document.querySelectorAll('#layer .ce-tb img').length === 2, null, 5000);
+  ok(!!fch, 'Foto abre a galeria');
+  if (fch) await fch.setFiles([FOTO, FOTO]);
+  ok(await esperar(A, () => document.querySelectorAll('#layer > .cp152 .fc164 img').length === 2, null, 5000), 'as fotos escolhidas voltam para a caixa, em miniatura (164)');
+  await clk(A, '#layer > .cp152 [data-fc164ed="0"]'); await esperar(A, () => document.querySelectorAll('#layer .ce-tb img').length === 2, null, 5000);
   { const r = await ev(A, () => { const b = document.querySelector('#ce-pv').getBoundingClientRect(); return { x: b.x + b.width / 2, y: b.y + b.height / 2 } }); await A.mouse.move(r.x, r.y); await A.mouse.down(); await A.mouse.move(r.x + 40, r.y + 30, { steps: 5 }); await A.mouse.up() }
   ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.ox !== 0 || f.oy !== 0 }), 'arrastar enquadra a foto');
   await clk(A, '[data-edar]'); await sleep(100); ok(await ev(A, () => ED.po.ar === '1:1'), 'troca o formato para 1:1');
@@ -31,7 +33,11 @@ async function criar(p, { url, nome, email }) {
   await clk(A, '[data-edav]'); await sleep(300); await clk(A, '[data-edflt="clarendon"]'); await sleep(200); await A.screenshot({ path: __dirname + '/../review3/var/ce-post2.png' });
   await clk(A, '[data-edaba="editar"]'); await sleep(200); await ev(A, () => { const r = document.querySelector('[data-edaj2="b"]'); r.value = 20; r.dispatchEvent(new Event('input', { bubbles: true })) }); await sleep(100);
   ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.f === 'clarendon' && f.aj.b === 20 }), 'filtro e ajuste aplicados');
-  await clk(A, '[data-edav]'); await sleep(300); await A.fill('#ce-leg', 'Domingo de leitura com @Bia Souza'); await A.fill('#ce-local', 'Curitiba');
+  ok(await ev(A, () => /Concluir/.test(document.querySelector('#layer .ce [data-edav]').textContent)), 'no editor aberto pela caixa, o botão é Concluir');
+  await clk(A, '[data-edav]'); await sleep(400);
+  ok(await ev(A, () => !!document.querySelector('#layer > .cp152') && ED === null && CP152.ed.po.fotos[0].f === 'clarendon'), 'Concluir volta para a caixa, com o filtro guardado');
+  await clk(A, '#layer > .cp152 [data-fc164det]'); await sleep(400);
+  await A.fill('#ce-leg', 'Domingo de leitura com @Bia Souza'); await A.fill('#ce-local', 'Curitiba');
   await clk(A, '[data-edtags]'); await sleep(300); { const r = await ev(A, () => { const b = document.querySelector('#ce-tgb').getBoundingClientRect(); return { x: b.x + b.width * .4, y: b.y + b.height * .6 } }); await A.mouse.click(r.x, r.y) } await sleep(300); await clk(A, '[data-edtagu]'); await sleep(300);
   ok(await ev(A, () => ED.po.tags.length === 1 && !!document.querySelector('.ce-tg')), 'marcar a Bia tocando na foto'); await A.screenshot({ path: __dirname + '/../review3/var/ce-tags.png' }); await clk(A, '[data-edtagok]'); await sleep(200);
   await A.screenshot({ path: __dirname + '/../review3/var/ce-post3.png' });
