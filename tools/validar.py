@@ -145,6 +145,18 @@ def dur_agenda(texto):
     if re.search(r"debate|entrevista|sabatina", t): return 150
     return 120
 
+# bastidor da redação no texto do leitor (manual 3b). 16/11: notas de manutenção ("atualização duplicada de 14/11
+# removida", "Tema passa a Dólar e Bolsa") apareceram como manchete nas Últimas da Capa.
+BASTIDOR_SEMPRE = (r"\bo Prumo (ainda )?n[ãa]o (leu|conferiu|achou|encontrou|confirmou)|\bas buscas n[ãa]o\b|\bconferente\b"
+                   r"|atualiza[çc][ãa]o (duplicada|repetida)|\bduplicad[ao]s?\b[^;.]{0,40}\bremovid[ao]s?\b"
+                   r"|\bremovid[ao]s? (da|do) (feed|edi[çc][ãa]o|lista)\b|^\s*tema passa a\b|;\s*tema passa a\b|\bnota interna\b")
+BASTIDOR_RODADA = r"|\bnesta rodada\b|\brodada anterior\b|\b(na|da) rodada (r[áa]pida|completa)\b"
+
+
+def bastidor(t, esporte=False):
+    return re.search(BASTIDOR_SEMPRE + ("" if esporte else BASTIDOR_RODADA), str(t or ""), re.I)
+
+
 def campos_texto(f):
     """(local, tipo, texto). tipo 'estrito' = títulos, enquetes, breves, agenda, mudanças (não podem ter dia relativo)."""
     for p in f.get("pautas") or []:
@@ -658,10 +670,13 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     for loc, tipo, t in campos_texto(f):
         t = str(t or "")
         pm = re.match(r"\[([^\]]+)\]", loc); esporte = bool(pm and (P.get(pm.group(1)) or {}).get("secao") == "esportes")
-        m = re.search(r"\bo Prumo (ainda )?n[ãa]o (leu|conferiu|achou|encontrou|confirmou)|\bas buscas n[ãa]o\b|\bconferente\b" + ("" if esporte else r"|\bnesta rodada\b|\brodada anterior\b|\b(na|da) rodada (r[áa]pida|completa)\b"), t, re.I)
+        m = bastidor(t, esporte)
         if m: E(f"{loc}: bastidor no texto do leitor ('{m.group(0)}'): diga o que se sabe e de quem é a informação (manual 3b)")
         elif re.search(r"\bpautas?\b", t) and tipo != "estrito" and not re.search(r"pauta d[aoe] (plenário|Senado|Câmara|STF|votaç)|da pauta|na pauta|em pauta|à pauta|a pauta", t, re.I):
             A(f"{loc}: 'pauta' no sentido interno? O leitor não sabe o que é (manual 3b)")
+    for i, d in enumerate(f.get("dormentes") if isinstance(f.get("dormentes"), list) else []):
+        m = bastidor(d.get("resumo")) if isinstance(d, dict) else None
+        if m: A(f"dormentes.{i}.resumo: bastidor no resumo da cobertura anterior ('{m.group(0)}'): reescreva só com o fato (manual 3b)")
     # seção pelo fato do título (manual 3b): título que começa por decisão de tribunal vai para política/STF e Judiciário
     for p in ps:
         tit = str(((p.get("neutro") or {}).get("titulo")) or p.get("titulo") or "")
