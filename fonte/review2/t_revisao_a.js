@@ -92,7 +92,7 @@ const fecha = p => ev(p, () => { let i = 0; while (($('#layer2')?.innerHTML || $
   /* ---------- A05: 360 px, os botões do próprio perfil cabem ---------- */
   await ev(D, () => { go('me'); PF_ABA = 'posts'; try { VN112_PF.me = 'posts' } catch (e) { } renderMe(); scrollTo(0, 0) }); await sleep(600);
   const bts = await ev(D, () => [...document.querySelectorAll('#v-me .vn-pf>.pf-bts .btn')].map(b => { const r = b.getBoundingClientRect(); return { t: b.textContent.trim(), r: Math.round(r.right), cabe: b.scrollWidth <= b.clientWidth + 1 } }));
-  ok(bts.length === 3 && bts.every(b => b.r <= 360 - 8 && b.cabe), 'A05: 360 px: "Nova publicação", "Convidar amigo" e "Editar foto" inteiros na tela', JSON.stringify(bts));
+  ok(bts.length === 2 && bts.every(b => b.r <= 360 - 8 && b.cabe), 'A05: 360 px: "Convidar amigo" e "Editar foto" inteiros na tela (165: sem "Nova publicação" na fileira)', JSON.stringify(bts));
   await foto(D, 'a05-perfil-360');
 
   /* ---------- A06: foto do perfil, botões alinhados ---------- */
