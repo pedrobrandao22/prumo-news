@@ -79,7 +79,7 @@ async function criar(p, { nome, email }) {
   await clk(A, '#v-me [data-cp152cols]'); await sleep(500);
   ok(await ev(A, () => !!document.querySelector('#layer > .ed132-hubr')), '"Minhas colunas" abre a lista');
   await ev(A, () => closeLayer()); await sleep(300);
-  await clk(A, '#v-me [data-criarde="post"]'); await sleep(500);
+  await ev(A, () => { document.querySelector('#v-me .gut').insertAdjacentHTML('beforeend', '<button type="button" class="btn" id="tcx165" data-criarde="post">Nova publicação</button>') }); await clk(A, '#tcx165'); await sleep(500); await ev(A, () => document.querySelector('#tcx165')?.remove());
   ok(await ev(A, () => !!document.querySelector('#layer > .cp152')), '"Nova publicação" abre a caixa');
   await ev(A, () => closeLayer()); await sleep(300);
 

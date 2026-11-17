@@ -49,7 +49,7 @@ const fs = require('fs');
   await P.screenshot({ path: D + '5-buscar-res.png' });
   // Perfil: Guardadas e Quiz
   await P.click('#t-me'); await sleep(400);
-  ok(await P.evaluate(() => !!document.querySelector('#v-me [data-vgo="saved"]') && !!document.querySelector('#v-me [data-vgo="play"]')), 'Perfil tem Guardadas e Quiz e enquetes');
+  ok(await P.evaluate(() => !!document.querySelector('#v-me [data-vnpfaba="salvos"], #v-me [data-pfaba="salvos"]') && !!document.querySelector('#v-me [data-vgo="play"]')), 'Perfil tem a aba Guardados e Quiz e enquetes');
   await P.screenshot({ path: D + '6-perfil.png' });
   await P.evaluate(() => document.querySelector('#v-me [data-vgo="play"]').click()); await sleep(400);
   ok(await P.evaluate(() => VIEW === 'play' && document.querySelector('#t-me').getAttribute('aria-current') === 'page' && !!document.querySelector('#v-play .vback')), 'Quiz abre com Perfil marcado e botão voltar');

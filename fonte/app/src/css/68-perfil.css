@@ -1,0 +1,81 @@
+/* 165: revisão do Perfil (js/165-perfil.js) */
+/* abas: a engrenagem centrada sobre a linha da aba marcada; no iPhone SE as cinco cabem sem rolar */
+html.vn .vn-abas .vn-aba-ct{display:inline-flex;align-items:center;justify-content:center}
+html.vn .vn-abas .vn-aba-ct .ico{display:block;margin:0}
+html.vn .vn-abas button{font-size:calc(14.5px*min(var(--fz),1.15))}
+@media (max-width:374px){
+  html.vn .vn-abas button{min-width:0;padding:0 7px;font-size:calc(13.5px*min(var(--fz),1.15))}
+  html.vn .vn-abas .vn-aba-ct{flex:0 0 44px;min-width:44px}
+}
+/* fileira de botões: dois botões com respiro, sem encostar na borda */
+html.vn .vn-pf>.pf-bts{padding:12px 16px 0;gap:8px;flex-wrap:wrap;overflow:visible}
+html.vn .vn-pf>.pf-bts .btn{flex:0 1 auto;min-width:0;padding:0 14px;font-size:calc(13.5px*min(var(--fz),1.15));height:auto;min-height:34px}
+/* Posts vazio: "Nova publicação" acima da barra de baixo já na abertura; a página tem folga para a barra */
+#v-me .pf-me .pf-vz{padding:22px 20px 28px}
+#v-me .pf-me{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+/* Conta e ajustes */
+.pf165-h{margin:14px 0 10px;font:800 calc(19px*min(var(--fz),1.2)) var(--f-ui);color:var(--ink);letter-spacing:-.01em}
+.pf-conta .pf165-st{margin:4px 0 12px}
+/* Adicionar amigos: quem já é amigo */
+.pf165-ja{margin:4px 0 10px}
+.pf165-jah{margin:0 0 2px;font:700 calc(12px*min(var(--fz),1.2)) var(--f-ui);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+/* Guardados: foto da Capa na miniatura */
+.svt.foto{position:relative}
+.svt.foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.svt.foto .ill{display:none}
+
+/* letra grande também no Perfil, nas Conversas, na Busca e nas folhas */
+html:root .vn-pf-nome{font-size:calc(21px*min(var(--fz),1.2))}
+html:root .vn-pf-desde,html:root .vn-pf-num,html:root .vn-pf-num span{font-size:calc(14px*min(var(--fz),1.25))}
+html:root .pf-cols b{font-size:calc(14px*var(--fz))}
+html:root .pf-cols small{font-size:calc(12.5px*var(--fz))}
+html:root .pf-vz b{font-size:calc(18px*min(var(--fz),1.2))}
+html:root .pf-vz span{font-size:calc(14px*var(--fz))}
+html:root .pf-vz .btn{font-size:calc(16px*min(var(--fz),1.2))}
+html:root .vn-resp-h b{font-size:calc(14.5px*var(--fz))}
+html:root .vn-resp-h i,html:root .vn-resp-c small{font-size:calc(13px*var(--fz))}
+html:root .vn-resp-t{font-size:calc(15.5px*var(--fz))}
+html:root .pf-conta .stats b{font-size:calc(19px*min(var(--fz),1.2))}
+html:root .pf-conta .stats span{font-size:calc(13px*var(--fz))}
+html:root .pf-conta .card.menu button>span,html:root .pf-conta summary b{font-size:calc(15.5px*var(--fz))}
+html:root .pf-conta .card.menu button>em{font-size:calc(13.5px*var(--fz))}
+html:root .pf-conta .card>b,html:root .pf-conta .cm-h,html:root .pf-conta .amg-t,html:root .pf-conta .amg-n b{font-size:calc(15px*var(--fz))}
+html:root .pf-conta .cm-email span,html:root .pf-conta .cm-email b{font-size:calc(14px*var(--fz))}
+html:root .pf-conta .amg-n span,html:root .pf-conta .hint,html:root .pf-conta .cs123-cfg small{font-size:calc(13px*var(--fz))}
+html:root .pf-conta .card.dt p{font-size:calc(15px*var(--fz))}
+html:root .opt button{font-size:calc(15.5px*var(--fz))}
+html:root .opt button span:not(.av){font-size:calc(13px*var(--fz))}
+html:root .dm-h h1{font-size:calc(23px*min(var(--fz),1.2))}
+html:root .dm-sh{font-size:calc(15px*var(--fz))}
+html:root .dm-amg span:not(.av){font-size:calc(12px*var(--fz))}
+html:root .dm-row .pt b,html:root .dm-who b{font-size:calc(16px*var(--fz))}
+html:root .dm-pv,html:root .dm-t{font-size:calc(14px*var(--fz))}
+html:root .dm-who small,html:root .dm-tm{font-size:calc(12px*var(--fz))}
+html:root .dm-st{font-size:calc(11.5px*var(--fz))}
+html:root .bv-sec h3{font-size:calc(11.5px*var(--fz))}
+html:root .bv-g b,html:root .bu154-it span,html:root .bv-it .chev{font-size:calc(15px*var(--fz))}
+html:root .bu154-it small,html:root .bu154-ag .bu154-selo,html:root .bu154-cb small{font-size:calc(10.5px*var(--fz))}
+html:root .bv-chips .chipb{font-size:calc(14px*min(var(--fz),1.2));height:auto;min-height:34px}
+html:root .bu154-po li button em.trecho{font-size:calc(14px*var(--fz))}
+html:root .bu154-cb>span,html:root .bu154-ag li span,html:root .bu154-h,html:root .bu154-sh{font-size:calc(11.5px*var(--fz))}
+html:root .bu154-cb .bu154-ex{font-size:calc(13.5px*var(--fz))}
+
+/* modo escuro: botões principais sem o bloco quase branco (azul-escuro do Prumo com contorno); mesma força dos seletores de 09-v12 */
+:root[data-aparencia="escuro"] .btn,:root[data-aparencia="escuro"] .mat-prox{background:#22365a;color:#f1f4f9;box-shadow:inset 0 0 0 1px #3b5584}
+:root[data-aparencia="escuro"] .mat-prox span{opacity:.8}
+:root[data-aparencia="escuro"] .btn.ghost{box-shadow:none}
+:root[data-aparencia="escuro"] .cp152-abas button[aria-selected="true"]{background:#3a4150;color:#fff}
+@media (prefers-color-scheme:dark){
+  :root:not([data-aparencia="claro"]) .btn,:root:not([data-aparencia="claro"]) .mat-prox{background:#22365a;color:#f1f4f9;box-shadow:inset 0 0 0 1px #3b5584}
+  :root:not([data-aparencia="claro"]) .mat-prox span{opacity:.8}
+  :root:not([data-aparencia="claro"]) .btn.ghost{box-shadow:none}
+  :root:not([data-aparencia="claro"]) .cp152-abas button[aria-selected="true"]{background:#3a4150;color:#fff}
+}
+/* opções da conversa: entre as opções leves e as pesadas só um espaço (sem a segunda linha, que parecia um item vazio); rótulo numa linha */
+.co160-opt+.co160-pesado{margin-top:18px;border-top:0}
+.co160-opt button{white-space:nowrap}
+.co160-opt button span{white-space:normal;text-align:right;max-width:58%}
+/* letra grande: as cinco abas continuam cabendo (menos respiro entre elas) */
+html.fzg.vn .vn-abas button{padding:0 8px;min-width:0}
+html.fzg.vn .vn-abas .vn-aba-ct{flex:0 0 42px;min-width:42px;padding:0}
+@media (max-width:374px){html.fzg.vn .vn-abas button{padding:0 5px;font-size:calc(13.5px*min(var(--fz),1.05))}html.fzg.vn .vn-abas .vn-aba-ct{flex-basis:38px;min-width:38px}}

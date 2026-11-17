@@ -131,7 +131,7 @@ async function visitante(H, b, o = {}) { const p = U.erros(await H.pagina(b, o),
 
   // ===== perfil próprio, melhores amigos, nome, salvos =====
   await B.setViewportSize({ width: 320, height: 568 }); await ev(B, () => { go('me'); renderMe() }); await sleep(500);
-  ok(await ev(B, () => { const bt = document.querySelector('#v-me .co160-bts [data-criarde="post"]'); return bt && bt.hidden && !!document.querySelector('#v-me .pf-vz [data-criarde="post"]') }), 'perfil sem posts: um "Nova publicação" só');
+  ok(await ev(B, () => { return !document.querySelector('#v-me .pf-bts [data-criarde="post"]') && document.querySelectorAll('#v-me [data-criarde="post"]').length === 1 && !!document.querySelector('#v-me .pf-vz [data-criarde="post"]') }), 'perfil sem posts: um "Nova publicação" só');
   ok(await ev(B, () => [...document.querySelectorAll('#v-me .co160-bts .btn')].filter(x => !x.hidden).every(x => { const r = x.getBoundingClientRect(); return r.left >= 8 && r.right <= innerWidth - 8 && x.scrollWidth <= x.clientWidth + 1 })), 'botões do perfil cabem no iPhone SE com respiro');
   await U.foto(B, 'conta-perfil-se');
   await B.setViewportSize({ width: 390, height: 844 });
