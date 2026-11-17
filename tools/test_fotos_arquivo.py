@@ -280,16 +280,17 @@ class TesteRevisao1511(unittest.TestCase):
         s.assertIsNone(nome("voos"))                        # avião em Guarulhos não serve para voo nos EUA
         s.assertIsNone(nome("apec"))                        # cúpula na China não usa o cartão-postal de Pequim
         s.assertIsNone(nome("bb"))                          # "agro" no fim do título não é colheita de café; Empresas sem foto
-        s.assertEqual(nome("ibov"), "Bolsa_de_Valores_pregão.jpg")  # moedas de réis fora
+        s.assertIsNone(nome("ibov"))                        # 18/11: B3 só com arquivo que diz "Bovespa" (moedas de réis bloqueadas)
         s.assertIsNone(nome("canada"))                      # enchente não ilustra fundo de florestas
         s.assertIsNone(nome("cop"))                         # Parlamento Europeu não é a COP31
-        s.assertEqual(nome("selecao"), "Carlo_Ancelotti_2016_ICC.jpg")  # nada da diretoria do Real Madrid
+        s.assertIsNone(nome("selecao"))                     # 18/11: Ancelotti só na 2ª frase do título (o fato é a derrota)
         s.assertNotIn("propria", M)
         pg = PG.pagina(pautas[-1], M, lambda p: PG.propria_ok(p, p.get("foto"), PG.preparar(s.acervo()), {}))
         s.assertIn("og-padrao.png", pg)                     # retrato de quem não está no título: a prévia não usa
         # sem repetir a mesma foto em duas notícias
-        dois = [P("a", "economia", "Ibovespa sobe", subtema="Outros"), P("b", "economia", "Ibovespa cai", subtema="Outros")]
-        M2 = PG.mapa_fotos(dois, s.acervo()); s.assertEqual(len(M2), 1)
+        dois = [P("a", "politica", "Fachin vota pela condenação", subtema="Outros"), P("b", "politica", "Fachin pede vista", subtema="Outros")]
+        M2 = PG.mapa_fotos(dois, s.acervo()); s.assertEqual(len({v["url"] for v in M2.values()}), len(M2))
+        s.assertIn("Supremo_Tribunal_Federal2.jpg", M2["b"]["url"])  # 18/11 (meio-termo): o retrato já foi usado; fica a fachada do órgão (STF)
 
     def test_previa_sem_credito(s):
         p = {"id": "x", "secao": "economia", "neutro": {"titulo": "Ibovespa sobe"}, "subtitulo": "Bolsa fecha em alta."}
@@ -325,9 +326,9 @@ class TesteFotos1611b(unittest.TestCase):
         s.assertIsNone(nome("tomate"))                                     # nem Banco Central nem fachada de supermercado
         s.assertEqual(nome("copom"), "Edifício_Sede_do_Banco_Central_do_Brasil.jpg")
         s.assertIsNone(nome("serieb"))                                     # árbitro de outro jogo
-        s.assertEqual(nome("final"), "Taça_da_Copa_Sul-Americana_de_2016.jpg")  # final em Barranquilla: sem Arena MRV
+        s.assertIsNone(nome("final"))                                      # 18/11: taça não é o fato; final em Barranquilla: sem Arena MRV
         s.assertIsNone(nome("salto"))                                      # fábrica não é queimada no mato
-        s.assertEqual(nome("cerrado"), "Corpo_de_Bombeiros_intensifica_combate_a_incêndios_florestais.jpg")
+        s.assertIsNone(nome("cerrado"))                                    # 18/11: assunto genérico (incêndio) fica com a ilustração
         s.assertIsNone(nome("bahia"))                                      # selo postal de MG
         s.assertTrue(FA.NEGADAS.search("selo postal brasil 1962"))
         s.assertTrue(FA.EVITAR["incêndio"].search("corpo de bombeiros intensifica combate a incendios florestais"))

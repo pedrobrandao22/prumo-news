@@ -35,13 +35,17 @@ let srv = null;
   // a foto do Congresso já está na notícia de maior prioridade (não repete na edição): confere a troca numa cópia fora da edição
   const tema = await p.evaluate(() => { const q = { ...FEED.pautas.find(x => x.id === 'flavio-mandato-senado'), id: 'copia-flavio' }; const f = fotoArquivo(q); return f && f.url });
   ok(!fa['flavio-mandato-senado'] || !/senado\.leg\.br/.test(fa['flavio-mandato-senado'].url), '"foto_arquivo":"tema": nada de retrato na notícia', fa['flavio-mandato-senado']);
-  ok(tema && !/senado\.leg\.br/.test(tema) && /Congresso/.test(tema), '"foto_arquivo":"tema" continua trocando o retrato pela foto do assunto', tema);
+  // 18/11 (187): sem retrato, a foto de arquivo só vem de um lugar dito no título; aqui não há: fica a ilustração
+  ok(!tema, '"foto_arquivo":"tema": sem retrato e sem lugar no título, fica a ilustração', tema);
   const py = JSON.parse(cp.execFileSync('python3', ['-c', `import json,sys;sys.path.insert(0,'${U.REPO}/tools');import paginas as P;F=json.load(open('${S0}feed.json'));A=json.load(open('${S0}fotos-arquivo.json'));print(json.dumps({k:v['url'] for k,v in P.mapa_fotos(F['pautas'],A).items()}))`]).toString());
   const js = await p.evaluate(() => Object.fromEntries(Object.entries(faMapa()).map(([k, v]) => [k, v.url])));
   ok(JSON.stringify(Object.keys(js).sort().map(k => [k, js[k]])) === JSON.stringify(Object.keys(py).sort().map(k => [k, py[k]])), 'prévia do link (paginas.py) escolhe a mesma foto que o app');
   await p.evaluate(() => { const el = document.querySelector('#cpi-congresso-base-lula') || [...document.querySelectorAll('#v-capa img')].find(i => /acervo/.test(i.src)); if (el) el.scrollIntoView({ block: 'center' }) }); await sleep(900);
-  const im = await p.evaluate(() => [...document.querySelectorAll('#v-capa img')].filter(i => /\/acervo\//.test(i.getAttribute('src'))).map(i => ({ src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0, orig: i.getAttribute('data-orig') || '' })));
-  ok(im.length >= 2 && im.filter(x => x.ok).length >= 1, 'Capa mostra fotos do acervo (arquivo local carregado)', im.slice(0, 4));
+  // 18/11 (187): com menos fotos, as do alto da Capa deste feed ficam com a ilustração; confere a foto local na matéria do Copom
+  await p.evaluate(() => abrirMateria('copom-novembro-selic')); await sleep(1200);
+  const im = await p.evaluate(() => [...document.querySelectorAll('#layer img')].filter(i => /\/acervo\//.test(i.getAttribute('src'))).map(i => ({ src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0, orig: i.getAttribute('data-orig') || '' })));
+  ok(im.length >= 1 && im.filter(x => x.ok).length >= 1, 'matéria mostra a foto do acervo (arquivo local carregado)', im.slice(0, 4));
+  await p.evaluate(() => closeLayer()); await sleep(400);
   ok(im.every(x => !x.orig || /\/thumb\/.*\/(960|330)px-|camara\.leg\.br|senado\.leg\.br/.test(x.orig)), 'reserva da foto local = miniatura da fonte (não o original pesado)', im.slice(0, 3));
   ok(!remotos.some(u => /bandep\/204521|Banco_Central_do_Brasil_sede/.test(u)), 'foto do acervo não vai buscar na fonte', remotos.slice(0, 4));
   await p.screenshot({ path: QA + 'capa-fotos-acervo.png' });

@@ -15,7 +15,8 @@ let srv = null;
   const RET = 'https://upload.wikimedia.org/wikipedia/commons/c/cf/Carlo_Ancelotti_2012_%28cropped%29.jpg';
   if (!anc.fotos.some(x => x.url === BAY)) anc.fotos.unshift({ url: BAY, credito: 'Foto de arquivo: goatling/Wikimedia Commons (CC BY-SA 2.0)', alt: 'Foto de arquivo: Carlo Ancelotti', local: 'acervo/p/carlo-ancelotti-653a34c8.webp' });
   if (!anc.fotos.some(x => x.url === RET)) anc.fotos.push({ url: RET, credito: 'Foto de arquivo: Wikimedia Commons (CC BY-SA 3.0)', alt: 'Foto de arquivo: Carlo Ancelotti', local: 'acervo/p/carlo-ancelotti-af29d848.webp' });
-  const tit = 'Brasil perde do Japão por 3 a 2; Vini Jr. faz 2 e Ancelotti é expulso';
+  anc.fotos = anc.fotos.filter(x => x.url === BAY || x.url === RET);  // 18/11: só as duas fotos do teste (as outras do acervo não têm cópia local e a matéria as tira quando não carregam)
+  const tit = 'Brasil perde do Japão por 3 a 2 e Ancelotti é expulso'; // 18/11 (187): o retrato só vale com a pessoa na frase principal do título
   const nova = { id: 't-selecao-170', secao: 'esportes', subtema: 'Seleção', tema: 'Seleção Brasileira', tipo: 'cobertura', status: 'nova', hora: f.atualizado_em, prioridade: 99,
     neutro: { titulo: tit, texto: tit + '. Texto da notícia.', pontos: [tit] },
     imagem: { modelo: 'generica', etiqueta: 'Ilustração', alt: 'Ilustração de bola de futebol em gramado', dados: { rotulo: 'Seleção · amistoso' } } };

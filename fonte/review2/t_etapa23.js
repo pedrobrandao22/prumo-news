@@ -3,7 +3,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
 (async () => {
   const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8'));
   f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
-  f.pautas.forEach((p, i) => { p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/F' + i + '.jpg', credito: 'Foto: X/Agência Senado', alt: 't' } });
+  f.pautas.forEach((p, i) => { p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/F' + i + '.jpg', credito: 'Foto: X/Agência Senado', alt: 't', mostra: p.neutro.titulo } });  // 18/11 (187): foto própria só com "mostra"
   fs.writeFileSync(__dirname + '/../site/feed.json', JSON.stringify(f)); const jpg = fs.readFileSync(__dirname + '/etapa13/foto.jpg');
   const srv = U.servir('site', 8807); await sleep(700); const br = await U.navegador(); const D = __dirname + '/etapa23/'; fs.mkdirSync(D, { recursive: true });
   const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });

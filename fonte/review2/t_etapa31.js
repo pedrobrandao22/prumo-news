@@ -39,7 +39,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   await p.evaluate(() => closeLayer()); await sleep(400);
   // círculos do Feed com foto; coberturas com título inteiro
   await p.evaluate(() => go('feed')); await sleep(1200);
-  ok(await p.evaluate(() => { const fs = [...document.querySelectorAll('#secs [data-sec-story] .ig-f')]; return fs.length && fs.every(f => f.querySelector('img')) }), 'círculos das seções no Feed com foto real');
+  ok(await p.evaluate(() => { const fs = [...document.querySelectorAll('#secs [data-sec-story] .ig-f')]; return fs.length && fs.some(f => f.querySelector('img')) && fs.every(f => f.querySelector('img,svg')) }), 'círculos das seções no Feed com foto real ou ilustração (18/11: foto só com confirmação forte)');
   await p.screenshot({ path: D + 'feed.png' });
   ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'sem erros ' + p._erros.join('|'));
   const r = U.resumo(); console.log(`\nRESUMO t_etapa31: ${r.OKS} ok, ${r.FALHAS} falhas`); await br.close(); srv.kill(); try { fs.unlinkSync(S0 + 'fotos-arquivo.json') } catch (e) { } try { fs.unlinkSync(S0 + 'acervo') } catch (e) { } process.exit(r.FALHAS ? 1 : 0);
