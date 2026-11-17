@@ -228,6 +228,8 @@ class TesteRevisao1511(unittest.TestCase):
         s.assertTrue(FA.bloqueada(foto("Bolsa_de_Valores_(17391295482).jpg")))
         s.assertTrue(FA.bloqueada(foto("200_anos_do_Senado_Federal_%2853454234104%29_%28cropped%29.jpg")))  # corretor 17/11
         s.assertTrue(FA.bloqueada(foto("Bosque_Campus_Universidade_Federal_de_Goi%C3%A1s.JPG")))
+        s.assertTrue(FA.bloqueada(foto("Vista_de_Goiânia_a_partir_da_Faculdade_de_Ciências_e_Tecnologia,_Campus_Aparecida_de_Goiânia,_Universidade_Federal_de_Goiás,_maio_de_2025_(13).jpg")))  # corretor 17/11 noite
+        s.assertFalse(FA.bloqueada(foto("Reitoria_da_Universidade_Federal_de_Goiás.jpg")))
         s.assertFalse(FA.bloqueada(foto("Plen%C3%A1rio_do_Senado_%2829281060086%29.jpg")))
         s.assertTrue(FA.bloqueada(foto("ISS-32_American_EVA_b3_Aki_Hoshide.jpg")))
         s.assertTrue(FA.bloqueada(foto("Senado_Federal_do_Brasil_Plenário_do_Senado_(15717805622).jpg")))

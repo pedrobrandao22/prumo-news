@@ -5948,6 +5948,16 @@ html.fzg .av-entrar,html.fzg .btn,html.fzg #cbox .c-a,html.fzg .cobbar .cb-t{fon
 #posts .post.vn-cn .track>.sl:first-child>.cover.paper:not(.info):not(.fcv)>svg[data-ft169]~.cv{background:none}
 /* 170: retrato de pessoa mostra a parte de cima (o rosto) quando o quadro corta a foto */
 img[data-cr170="1"]{object-position:50% 18%}
+/* ---------- 172: corretor 17/11 noite ---------- */
+/* letra grande: fileira só com ícone + número quando "Comentar"/"Repostar" não cabem */
+html .post .acts.fc172-ic .act[data-a="cmt"]>span,html .post .acts.fc172-ic .act.vn-rpb>span,
+html.vn-ca .post.vn-c .acts.fc172-ic .act[data-a="cmt"]>span,html.vn-ca .post.vn-c .acts.fc172-ic .act.vn-rpb>span{display:none!important}
+/* Perfil: "Minhas colunas" e "Coberturas que sigo" lado a lado */
+.fc172-dupla{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.fc172-dupla>.pf-cols{margin:0;padding:9px 10px;gap:8px;align-items:center}
+.fc172-dupla>.pf-cols b{line-height:1.2}
+.fc172-dupla>.pf-cols small{display:none}
+.fc172-dupla>.pf-cols>i{display:none}
 /* 168: Capa, matéria, busca e coberturas (16/11, noite) — ver js/168-capa.js */
 /* 1. dólar: de onde vem cada número */
 .cm168-agora{margin:6px 0 0;font:500 12.5px/1.45 var(--f-ui);color:var(--muted)}
@@ -20086,6 +20096,33 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
    Constituinte ("200 anos do Senado Federal", descrita como plenário do Senado), e o Fies aparecia com galhos de árvore
    contra o céu ("Bosque Campus..."). As duas saem do acervo aqui e no robô de fotos (tools/fotos_arquivo.py). */
 try{FT157_BLOQ.push("200 anos do senado federal","bosque campus universidade")}catch(e){}
+/* ---------- 172: corretor 17/11 noite (achados do testador) ----------
+   1. Fies: a "Vista de Goiânia a partir da Faculdade..." (céu, palmeiras e um estacionamento vazio) sai do acervo, aqui e
+      no robô de fotos (tools/fotos_arquivo.py). A Reitoria da UFG continua valendo.
+   2. Letra grande no celular pequeno: se mesmo sem os pontinhos (.vn-aperta) "Comentar" e "Repostar" não cabem e viram
+      "Come…"/"Repo…", a fileira fica só com ícone + número (o nome continua no aria-label para o leitor de tela).
+      Mudar o tamanho da letra mede de novo (antes só a largura da tela fazia isso).
+   3. Perfil: "Minhas colunas" e "Coberturas que sigo" lado a lado, numa linha só, para "Nova publicação" do Perfil
+      vazio caber acima da barra de baixo já na abertura. */
+try{FT157_BLOQ.push("vista de goiania a partir da faculdade")}catch(e){}
+
+/* 2. letra grande: só ícones quando o rótulo não cabe */
+function fc172Corta(a){return [...a.querySelectorAll(":scope>.act>span")].some(s=>s.offsetWidth&&s.scrollWidth>s.clientWidth+1)}
+if(typeof vn112Aperta==="function"){const _ap172=vn112Aperta;vn112Aperta=function(el,forca){
+  const a=el&&el.querySelector&&el.querySelector(".acts");if(a&&forca)a.classList.remove("fc172-ic");
+  const r=_ap172.apply(this,arguments);
+  try{if(a&&a.isConnected&&!a.classList.contains("fc172-ic")&&a.classList.contains("vn-aperta")&&fc172Corta(a))a.classList.add("fc172-ic")}catch(e){}
+  return r}}
+function fc172Remede(){try{document.querySelectorAll(".post").forEach(e=>{const a=e.querySelector(".acts");if(a&&a.offsetParent)vn112Aperta(e,true)})}catch(e){}}
+if(typeof aplicarFonte==="function"){const _af172=aplicarFonte;aplicarFonte=function(){const r=_af172.apply(this,arguments);
+  try{requestAnimationFrame(()=>requestAnimationFrame(fc172Remede))}catch(e){}return r}}
+
+/* 3. Perfil: os dois cartões numa linha */
+if(typeof pfCab==="function"){const _pc172=pfCab;pfCab=function(u){const h=_pc172.apply(this,arguments);
+  try{if(typeof h!=="string"||h.indexOf("fc172-dupla")>=0)return h;const i=h.indexOf('<button type="button" class="pf-cols" data-cp152cols');
+    const k=h.indexOf('<button type="button" class="pf-cols mt158-pf"');if(i<0||k<0||k<i)return h;
+    const j1=h.indexOf("</button>",i)+9;if(h.slice(j1,k).trim())return h;const j2=h.indexOf("</button>",k)+9;
+    return h.slice(0,i)+'<div class="fc172-dupla">'+h.slice(i,j2)+"</div>"+h.slice(j2)}catch(e){}return h}}
 /* ---------- 168: Capa, matéria, busca e coberturas (16/11, noite) — achados do testador. Prefixo cm168. ----------
    1. Selic: o rodapé do gráfico diz desde quando a taxa vale e a última reunião (não mais "dado de 17 set").
       Dólar: o gráfico diz que a linha é a PTAX ("PTAX · último dado") e mostra a cotação de agora com a hora.
