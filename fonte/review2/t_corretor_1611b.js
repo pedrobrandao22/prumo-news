@@ -67,7 +67,8 @@ const ev = (p, fn, a) => p.evaluate(fn, a);
   const nomeLinha = cb[0] && cb[0].nome;
   await ev(A, pc => { const b = document.querySelector('#v-feed .cobbar[data-cobpag="' + CSS.escape(pc) + '"]'); b.scrollIntoView({ block: 'center' }); b.click() }, pc);
   await esperar(A, () => !!document.querySelector('.sheet .pc[data-pc]'), null, 6000); await sleep(400);
-  const tit = await ev(A, () => { const s = document.querySelector('.sheet'); const h = s && (s.querySelector('h2,h3,.sheet-t,.sh-t,header b')); return (h && h.textContent || '').trim() });
+  // o nome da cobertura é a 1ª linha da folha (desde a 168 o título da notícia vem logo abaixo, num h2)
+  const tit = await ev(A, () => { const s = document.querySelector('.sheet'); return s ? s.innerText.trim().split('\n')[0].trim() : '' });
   ok(!!tit && tit.indexOf(nomeLinha) >= 0, 'a folha que abre tem o mesmo nome da linha', { tit, nomeLinha });
   await U.foto(A, 'corretor-1611b-cobertura');
   ok(A._erros.length === 0, 'sem erro de JavaScript', A._erros);

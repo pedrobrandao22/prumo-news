@@ -230,6 +230,8 @@ class TesteRevisao1511(unittest.TestCase):
         s.assertTrue(FA.bloqueada(foto("Senado_Federal_do_Brasil_Plenário_do_Senado_(15717805622).jpg")))
         s.assertTrue(FA.bloqueada(foto("Foo.jpg", cred="Foto de arquivo: Núcleo de digitalização / IMS/Wikimedia Commons (Public domain)")))
         s.assertFalse(FA.bloqueada(foto("Prédio_do_Supremo_Tribunal_Federal_(Brasilia).jpg")))
+        s.assertTrue(FA.bloqueada(foto("Carlo_Ancelotti_2016_ICC.jpg")))  # camisa do Bayern, rosto cortado (corretor 16/11 noite)
+        s.assertFalse(FA.bloqueada(foto("Carlo_Ancelotti_2012_(cropped).jpg")))
         s.assertFalse(FA.valida_velha(foto("Vestibular.JPG")))
 
     def test_retrato_de_grupo(s):
