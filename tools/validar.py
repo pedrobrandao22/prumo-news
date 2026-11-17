@@ -426,7 +426,150 @@ def checar_mercado(f, IND, ref):
                     if any(abs(c - r) <= max(1.5, 0.2 * r) for r in ok[k]["sems"]): continue
                 problemas.append(f"{ok[k]['nome']}: \"{m.group(0)}\", mas a variação foi de {real:.2f}% ({m.group(2)})")
             for pr_ in problemas:
-                (E if estrito else A)(f"{onde}: número de mercado não bate com os indicadores — {pr_}. Confira na fonte.")
+                (E if estrito else A)(f"{onde}: número de mercado não bate com os indicadores — {pr_}. Confira na fonte; "
+                                    "se é o fechamento atual, escreva a marca ({dolar}, {dolar.var}, {ibovespa}, {ibovespa.var}; manual 5).")
+
+
+# ---------- marcas de indicador (18/11): o número de mercado vem de indicadores.json, o texto só o cita ----------
+# A rodada escreve {dolar} no lugar de "R$ 5,78"; o app (fonte/app/src/js/186-numeros.js), o aplicar.py (histórico de
+# títulos e dormentes) e o paginas.py (prévia do WhatsApp) trocam pelo valor atual. Mesma regra nos quatro lugares.
+MARCA = re.compile(r"\{(dolar|ibov|ibovespa|selic|ipca|ipca12m|desemprego)(?:\.(var|dia|mes))?\}")
+MARCA_SOLTA = re.compile(r"\{[A-Za-zÀ-ú_][\wÀ-ú]{0,20}(?:\.[\wÀ-ú]{1,12})?\}")
+MARCA_ALIAS = {"ibov": "ibovespa", "ipca": "ipca12m"}
+MARCA_LISTA = "{dolar}, {dolar.var}, {dolar.dia}, {ibovespa}, {ibovespa.var}, {ibovespa.dia}, {selic}, {ipca}, {ipca.mes}, {desemprego}, {desemprego.mes}"
+MESES_LONGOS = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"]
+# onde a marca vale: o que descreve o nível ATUAL. Atualização, correção, breve, mudança, agenda e histórico são registro
+# de um momento: lá o número é digitado, com a hora ("às 17h, R$ 5,78").
+MARCA_CAMPOS = re.compile(r"^(pautas\.\*\.((neutro|direita|esquerda)\.(titulo|texto|pontos\.\*)|subtitulo|social\.\*|faq\.\*\.[pr]|"
+                          r"visuais\.\*\..+|imagem\.dados\..+)|capa\.linha_fina|resumo_dia\.itens\.\*\.texto)$")
+
+
+def mapa_marcas(f, IND):
+    """{id: item}: o indicadores do feed (reserva) por baixo, indicadores.json por cima (como o app)."""
+    M = {}
+    ind = f.get("indicadores") if isinstance(f, dict) else None
+    for x in (ind.get("itens") if isinstance(ind, dict) else None) or []:
+        if isinstance(x, dict) and x.get("id") and x.get("valor"): M[x["id"]] = x
+    for k, x in (IND or {}).items():
+        if isinstance(x, dict) and x.get("valor"): M[k] = x
+    return M
+
+
+def marca_valor(i, v, x):
+    if not isinstance(x, dict): return ""
+    mercado = i in ("dolar", "ibovespa")
+    if not v: return str(x.get("valor") or "").strip()
+    if v == "var": return str(x.get("variacao") or "").strip() if mercado else ""
+    if v == "dia":
+        m = re.match(r"^(\d{4})-(\d{2})-(\d{2})", str(x.get("data") or ""))
+        if not mercado or not m: return ""
+        try: return dia_rotulo(date(int(m[1]), int(m[2]), int(m[3])))
+        except ValueError: return ""
+    if v == "mes":
+        m = re.match(r"^\d{4}-(\d{2})", str(x.get("ref") or ""))
+        return MESES_LONGOS[int(m[1]) - 1] if m and i in ("ipca12m", "desemprego") and 1 <= int(m[1]) <= 12 else ""
+    return ""
+
+
+def marca_texto(s, M):
+    """Troca as marcas de um texto. Marca sem valor tira a frase (ou só a marca, se o texto é uma frase só)."""
+    if not isinstance(s, str) or "{" not in s: return s
+    falta = []
+    def tr(m):
+        i = MARCA_ALIAS.get(m[1], m[1]); t = marca_valor(i, m[2] or "", M.get(i))
+        if not t: falta.append(1); return "\x00"
+        return t
+    r = MARCA.sub(tr, s)
+    if not falta: return r
+    frs = [x for x in re.findall(r"[^.!?]*(?:[.!?]+|$)\s*", r) if x.strip()]
+    fica = [x for x in frs if "\x00" not in x]
+    if fica: return "".join(fica).strip()
+    if len(frs) > 1: return ""
+    r = re.sub(r"\s*\x00\s*", " ", r); r = re.sub(r"\(\s*\)", "", r); r = re.sub(r"\s+([,.;:!?])", r"\1", r)
+    return re.sub(r"\s{2,}", " ", r).strip()
+
+
+def marcas_resolver(f, IND):
+    """Cópia do feed com as marcas trocadas pelo valor (o que o leitor vê). Sem marca, devolve o próprio feed."""
+    if not isinstance(f, dict): return f
+    M = None
+    def anda(x):
+        nonlocal M
+        if isinstance(x, str):
+            if "{" not in x or not MARCA.search(x): return x
+            if M is None: M = mapa_marcas(f, IND)
+            return marca_texto(x, M)
+        if isinstance(x, list): return [anda(y) for y in x]
+        if isinstance(x, dict): return {k: anda(v) for k, v in x.items() if k != "_m186"}
+        return x
+    if not MARCA.search(json.dumps(f, ensure_ascii=False)): return f
+    return anda(f)
+
+
+def checar_marcas(f, IND, ref):
+    """Marca escrita certo, no campo certo, com indicador disponível e sem data digitada que desminta o fechamento."""
+    M = mapa_marcas(f, IND)
+    hoje = ref.date()
+    def anda(x, cam):
+        if isinstance(x, str):
+            if "{" in x: yield cam, x
+        elif isinstance(x, list):
+            for i, y in enumerate(x): yield from anda(y, cam + [i])
+        elif isinstance(x, dict):
+            for k, v in x.items():
+                if k != "_m186": yield from anda(v, cam + [k])
+    for cam, t in anda(f, []):
+        onde = ".".join(str(c) for c in cam)
+        if cam and cam[0] == "pautas" and len(cam) > 1 and isinstance(cam[1], int):
+            p = (f.get("pautas") or [])[cam[1]]
+            onde = f"[{p.get('id') if isinstance(p, dict) else cam[1]}] " + ".".join(str(c) for c in cam[2:])
+        gen = ".".join("*" if isinstance(c, int) else str(c) for c in cam)
+        for m in MARCA_SOLTA.finditer(t):
+            mm = MARCA.fullmatch(m[0])
+            if not mm:
+                E(f"{onde}: marca desconhecida {m[0]} (valem {MARCA_LISTA}) (manual 5, NÚMEROS DE MERCADO)"); continue
+            i, v = MARCA_ALIAS.get(mm[1], mm[1]), mm[2] or ""
+            if (v in ("var", "dia") and i not in ("dolar", "ibovespa")) or (v == "mes" and i not in ("ipca12m", "desemprego")):
+                E(f"{onde}: {m[0]} não existe ({'.var e .dia são só de dólar e Ibovespa' if v != 'mes' else '.mes é só de IPCA e desemprego'}) (manual 5)"); continue
+            if not MARCA_CAMPOS.match(gen):
+                E(f"{onde}: {m[0]} fora dos campos de agora (título, subtítulo, pontos, texto, social, Entenda, quadro de números, ilustração, "
+                  "linha fina, resumo do dia). Atualização, breve, mudança e agenda registram um momento: digite o número com a hora (manual 5)"); continue
+            if not marca_valor(i, v, M.get(i)):
+                A(f"{onde}: {m[0]} sem valor em indicadores.json nem no indicadores do feed: o app tira a frase (manual 5)")
+        if re.search(r"R\$\s*\{dolar\}", t): E(f"{onde}: escreva só {{dolar}} (a marca já traz o \"R$\")")
+        if re.search(r"\{(dolar|ibov|ibovespa)\.var\}\s*%|\{(selic|ipca|ipca12m|desemprego)\}\s*%", t): E(f"{onde}: a marca já traz o \"%\"")
+        # data digitada na frase da marca de fechamento que não é a do fechamento no arquivo ("fecha a {dolar} nesta terça (17)"
+        # com o indicadores.json ainda de segunda): use {dolar.dia}
+        for fr in re.split(r"(?<=[.!?;])\s+", t):
+            for k in ("dolar", "ibovespa"):
+                if not re.search(r"\{" + ("ibov(?:espa)?" if k == "ibovespa" else k) + r"(\.var)?\}", fr): continue
+                x = M.get(k) or {}
+                try: di = date.fromisoformat(str(x.get("data") or "")[:10])
+                except ValueError: continue
+                ds = [d for _, _, d, _ in datas_em(MARCA.sub("", fr), hoje) if d]
+                if ds and di not in ds:
+                    A(f"{onde}: '{fr.strip()[:70]}' mostra o fechamento de {dia_rotulo(di)} (indicadores.json), mas a frase diz "
+                      f"{', '.join(dia_rotulo(d) for d in ds)}: escreva {{{k}.dia}} no lugar da data (manual 5)")
+                    break
+    # quadro de números, ilustração e Entenda "agora" com o dólar digitado: são o lugar da marca
+    for p in f.get("pautas") or []:
+        if not isinstance(p, dict): continue
+        pid = p.get("id"); achou = []
+        for v in p.get("visuais") or []:
+            if isinstance(v, dict) and v.get("tipo") == "numeros":
+                for it in v.get("itens") or []:
+                    if isinstance(it, dict) and re.search(r"d[óo]lar", f"{it.get('rotulo', '')} {v.get('titulo', '')}", re.I) and re.search(r"R\$\s?\d,\d{2}", str(it.get("valor", ""))):
+                        achou.append("quadro de números")
+        im = p.get("imagem") if isinstance(p.get("imagem"), dict) else {}
+        dd = im.get("dados") if isinstance(im.get("dados"), dict) else {}
+        if im.get("modelo") == "dinheiro" and re.search(r"d[óo]lar", str(dd.get("legenda", "")), re.I) and re.search(r"R\$\s?\d,\d{2}", str(dd.get("valor", ""))):
+            achou.append("ilustração")
+        for q in p.get("faq") if isinstance(p.get("faq"), list) else []:
+            if isinstance(q, dict) and AGORA_PERGUNTA.search(str(q.get("p") or "")) and re.search(r"d[óo]lar", str(q.get("p") or ""), re.I) and re.search(r"R\$\s?\d,\d{2}", str(q.get("r") or "")):
+                achou.append("Entenda")
+        if achou:
+            A(f"[{pid}] {', '.join(achou)}: dólar digitado; se é o fechamento atual, escreva {{dolar}} (e {{dolar.dia}}) e o número acompanha o "
+              "indicadores.json sozinho (manual 5)")
 
 
 # ---------- regras de 15/11 (achados do testador no site real) ----------
@@ -576,7 +719,7 @@ def checar_regras_1511(f, ant, ref, virada, IND=None, agora=None):
     difs = sorted({v for v, _ in vistos})
     if len(difs) > 1:
         A("dólar com valores diferentes na mesma edição (" + "; ".join(f"R$ {v:.2f}".replace(".", ",") + " em " + ", ".join(sorted({o for x, o in vistos if x == v}))[:120] for v in difs) +
-          "): use o mesmo número e a mesma data em todos os lugares; se forem horas diferentes, escreva a hora (manual 3b, UM NÚMERO SÓ)")
+          "): use o mesmo número e a mesma data em todos os lugares (para o fechamento atual, a marca {dolar}); se forem horas diferentes, escreva a hora (manual 3b, UM NÚMERO SÓ)")
     x = (IND or {}).get("dolar") or {}
     try:
         vi = float(str(x.get("valor", "")).replace("R$", "").strip().replace(",", ".")); di = date.fromisoformat(str(x.get("data", "")))
@@ -587,7 +730,7 @@ def checar_regras_1511(f, ant, ref, virada, IND=None, agora=None):
                 p_ = P.get((re.match(r"\[([^\]]+)\]", onde) or [None, None])[1]) or {}
                 alvo = " ".join(str(z) for z in [(p_.get("neutro") or {}).get("titulo"), p_.get("subtitulo"), cp.get("linha_fina") if onde == "capa.linha_fina" else ""])
                 if di in {d for _, _, d, _ in datas_em(alvo, hoje)}:
-                    A(f"{onde}: dólar a R$ {v:.2f}".replace(".", ",") + f" em {di.strftime('%d/%m')}, mas o indicador da Capa mostra {x.get('valor')} para o mesmo dia: confira e use um número só (manual 3b)")
+                    A(f"{onde}: dólar a R$ {v:.2f}".replace(".", ",") + f" em {di.strftime('%d/%m')}, mas o indicador da Capa mostra {x.get('valor')} para o mesmo dia: escreva a marca {{dolar}} e o número vem do indicador (manual 5)")
 
     # 3. Chamada de evento que já passou (manual 3b, EVENTO PASSADO): vira resultado
     def campos_chamada():
@@ -937,6 +1080,10 @@ def checar_regras_1711(f, ant, ref, agora, virada):
 
 
 def checar(f, ant=None, virada=False, agora=None, IND=None):
+    # marcas de indicador (18/11): confere a escrita e checa o texto como o leitor vê (com o valor de indicadores.json)
+    try: checar_marcas(f, IND, dt(f.get("atualizado_em")) or datetime.now(SP))
+    except Exception as e: A(f"conferência das marcas de indicador falhou: {e!r}")
+    f = marcas_resolver(f, IND); ant = marcas_resolver(ant, IND)
     preparar_veiculos(f)
     ps = f.get("pautas") or []
     P = {p.get("id"): p for p in ps}
@@ -1832,7 +1979,7 @@ def main(argv):
     try: ref, ag = checar(f, ant, virada, agora, IND)
     except Exception as e:
         E(f"validar.py falhou ao checar (algum campo com tipo errado?): {e!r}"); ag = agora or datetime.now(SP)
-    try: pend = pendencias(f, ag, IND)
+    try: pend = pendencias(marcas_resolver(f, IND), ag, IND)
     except Exception as e:
         E(f"validar.py falhou nas pendências: {e!r}"); pend = []
     for pnd in pend:

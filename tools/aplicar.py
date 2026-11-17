@@ -88,6 +88,8 @@ def espectro_de(k, nome=""):
 
 class Recusa(Exception): pass
 
+IND_APL = None  # indicadores.json (main): congela as marcas de indicador no que vira histórico
+
 def iso(t): return t.strftime("%Y-%m-%dT%H:%M:00-03:00")
 
 def para_iso(h, agora):
@@ -340,6 +342,9 @@ def coberturas(F, base, agora, virada=False):
     """Histórico de títulos, início, ao vivo vencido e dormentes. base = feed que estava no ar."""
     rel = []
     agora_iso = iso(agora)
+    # marcas de indicador ({dolar}, 18/11): o que vira HISTÓRICO (títulos anteriores, dormentes) fica com o número de agora
+    M = V.mapa_marcas(F, IND_APL)
+    cg = lambda t: V.marca_texto(t, M) if isinstance(t, str) else t
     BP = {p.get("id"): p for p in base.get("pautas") or []}
     dor = {d.get("id"): d for d in (base.get("dormentes") or [])}
     for d in F.get("dormentes") or []: dor[d.get("id")] = d
@@ -361,10 +366,10 @@ def coberturas(F, base, agora, virada=False):
         hist = list(p.get("titulos") or [])
         if velho and novo and V.norm(velho) != V.norm(novo):
             if virada:
-                if hist: hist[-1]["titulo"] = novo   # na virada só a referência de dia muda: não é manchete nova
+                if hist: hist[-1]["titulo"] = cg(novo)   # na virada só a referência de dia muda: não é manchete nova
             else:
-                if not hist: hist = [{"hora": str(bp.get("inicio") or p["inicio"]), "titulo": velho}]
-                if V.norm(hist[-1].get("titulo")) != V.norm(novo): hist.append({"hora": agora_iso, "titulo": novo})
+                if not hist: hist = [{"hora": str(bp.get("inicio") or p["inicio"]), "titulo": cg(velho)}]
+                if V.norm(hist[-1].get("titulo")) != V.norm(cg(novo)): hist.append({"hora": agora_iso, "titulo": cg(novo)})
                 rel.append(f"[{pid}] título mudou: entrou no histórico ({len(hist)})")
         if len(hist) > 6: hist = hist[:1] + hist[-5:]
         if hist: p["titulos"] = hist
@@ -395,8 +400,8 @@ def coberturas(F, base, agora, virada=False):
     for pid, bp in BP.items():
         if pid in ids: continue
         dor[pid] = {"id": pid, "secao": bp.get("secao"), "subtema": bp.get("subtema") or "", "tema": bp.get("tema") or "",
-                    "tag": bp.get("tag") or "", "titulo": (bp.get("neutro") or {}).get("titulo", ""),
-                    "resumo": resumo_curto((bp.get("neutro") or {}).get("texto")), "inicio": bp.get("inicio") or str(bp.get("hora") or ""),
+                    "tag": bp.get("tag") or "", "titulo": cg((bp.get("neutro") or {}).get("titulo", "")),
+                    "resumo": resumo_curto(cg((bp.get("neutro") or {}).get("texto"))), "inicio": bp.get("inicio") or str(bp.get("hora") or ""),
                     "ultima": ultima_de(bp), "status": bp.get("status") or "ativa"}
         if bp.get("titulos"): dor[pid]["titulos"] = bp["titulos"]
         if isinstance(bp.get("hashtags"), list) and bp["hashtags"]: dor[pid]["hashtags"] = list(bp["hashtags"])
@@ -546,6 +551,8 @@ def main(argv):
             a0, e = AP.get(p.get("id")), p.get("enquete")
             if a0 and e and (a0.get("pergunta") != e.get("pergunta") or a0.get("opcoes") != e.get("opcoes")):
                 print(f"ERRO: [{p.get('id')}] a enquete mudou em relação ao feed no ar: copie a anterior byte a byte ou deixe sem. Nada foi gravado."); return 1
+    global IND_APL
+    IND_APL = V.ler_indicadores(os.path.join(os.path.dirname(os.path.abspath(args[0])), "indicadores.json"))
     rel = coberturas(F, base, agora, virada) + mecanicos(F, agora, podar, virada, dia_anterior)
     txt = json.dumps(F, ensure_ascii=False, separators=(",", ":"))
     with open(out, "w", encoding="utf-8") as fh: fh.write(txt)
