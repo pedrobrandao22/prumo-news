@@ -29,7 +29,7 @@ const fs = require('fs');
     await p.evaluate(() => document.querySelector('[data-secsub="Congresso"]').click()); await sleep(300);
     ok(await p.evaluate(() => listaFeed().every(x => x.subtema === 'Congresso') && listaFeed().length >= 1 && document.querySelectorAll('#posts .post').length === listaFeed().length), n + ': filtro por subtema');
     await sec('economia');
-    ok(await p.evaluate(() => /Indicadores/.test(document.querySelector('.sh4').textContent) && !!document.querySelector('.sh4-ind svg') && /Copom/.test(document.querySelector('.sh4').textContent) && !/passado/.test(document.querySelector('.sh4').textContent)), n + ': Economia: painel com gráfico e calendário (sem data passada)');
+    ok(await p.evaluate(() => !/Indicadores/.test(document.querySelector('.sh4').textContent) && /Copom/.test(document.querySelector('.sh4').textContent) && !/passado/.test(document.querySelector('.sh4').textContent)), n + ': Economia: painel com calendário, sem indicadores (17/11; sem data passada)');
     await p.screenshot({ path: D + n + '2-economia.png' });
     await sec('brasil');
     ok(await p.evaluate(() => !!document.querySelector('[data-secuf="SP"]') && /Serviços e como ajudar/.test(document.querySelector('.sh4').textContent)), n + ': Brasil: estados e serviços');
