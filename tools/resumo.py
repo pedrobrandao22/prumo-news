@@ -141,6 +141,16 @@ def main(argv):
     sem = [p.get("id") for p in ps if not p.get("subtema")]
     if sem:
         print(f"SEM SUBTEMA ({len(sem)}): {', '.join(sem)} — dê um com set path \"subtema\" (lista no manual, seção 2b)")
+    # 18/11: as rápidas de hoje que passaram sem novidade e por quê (o que ficou "sem_confirmacao" é a 1ª tentativa desta)
+    try:
+        R = json.load(open(os.path.join(os.path.dirname(os.path.abspath(caminho)), "rodadas.json"), encoding="utf-8"))
+        sem = [(h, r) for h, r in sorted((R.get("itens") or {}).items()) if isinstance(r, dict) and r.get("tipo") == "rapida" and r.get("status") == "sem_mudancas"]
+        if R.get("dia") == agora.date().isoformat() and sem:
+            print()
+            print(f"RÁPIDAS SEM NOVIDADE HOJE ({len(sem)}) — 'sem_confirmacao' de antes: tente de novo, por outra página")
+            for h, r in sem: print(f"  {h} {r.get('motivo') or '(sem motivo)'}: {corta(r.get('nota'), 140)}")
+    except Exception:
+        pass
     print()
     print(f"PENDÊNCIAS ({len(pend)}) — resolva primeiro")
     for x in pend:
