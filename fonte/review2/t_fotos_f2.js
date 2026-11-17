@@ -1,6 +1,6 @@
 // Fase 2 (18/11): foto só com confirmação forte (187-fotos-f2.js). Foto própria só com "mostra" que cita a pessoa ou o
 // lugar do título; acervo só com retrato da 1ª pessoa da frase principal do título ou foto do lugar que o título e o nome
-// do arquivo dizem; o resto fica com a ilustração. App e prévia do WhatsApp (tools/paginas.py) escolhem igual, inclusive
+// do arquivo dizem, o órgão do sujeito (meio-termo de 18/11) ou o estádio do mandante; o resto fica com a ilustração. App e prévia do WhatsApp (tools/paginas.py) escolhem igual, inclusive
 // no feed real. Portas 9130–9131.
 const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs'); const path = require('path'); const cp = require('child_process');
 const PORTA = 9130, BASE = `http://localhost:${PORTA}/index.html`, SITE = path.join(__dirname, '..', 'site');
@@ -14,6 +14,9 @@ const PAUTAS = [
   ['t-ufs', 'brasil', 'Saúde', 'Fiocruz vê alta de casos graves de Covid em 5 estados', { prioridade: 95 }],
   ['t-taca', 'esportes', 'Sul-Americana', 'Atlético-MG e Boca decidem a Sul-Americana no sábado', { prioridade: 94 }],
   ['t-fachin', 'politica', 'STF e Judiciário', 'PGR pede arquivar inquérito; Fachin mira dezembro', { prioridade: 93 }],
+  ['t-kassio', 'politica', 'STF e Judiciário', 'Kassio deve levar ao plenário a revisão da pena', { prioridade: 92.5 }],
+  ['t-jogo', 'esportes', 'Brasileirão', 'Brasileirão: Cruzeiro x Palmeiras jogam na quarta', { prioridade: 92.4 }],
+  ['t-final', 'esportes', 'Copa do Brasil', 'Cruzeiro x Flamengo decidem a final em Brasília', { prioridade: 92.3 }],
   ['t-sem', 'politica', 'Congresso', 'Câmara aprova PEC da segurança em 1º turno', { prioridade: 92, foto: { url: AB + 'sem.jpg', credito: 'Foto: Lula Marques/Agência Brasil', alt: 'Plenário da Câmara' } }],
   ['t-com', 'politica', 'Congresso', 'Câmara conclui a votação da PEC da segurança', { prioridade: 91, foto: { url: AB + 'com.jpg', credito: 'Foto: Lula Marques/Agência Brasil', alt: 'Plenário da Câmara', mostra: 'Deputados no plenário da Câmara durante a votação' } }],
   ['t-errada', 'economia', 'Mercados', 'Dólar sobe 2,17% e vai ao maior valor desde abril', { prioridade: 90, foto: { url: AB + 'err.jpg', credito: 'Foto: X/Agência Brasil', alt: 'Cédulas', mostra: 'Cédulas de real sobre a mesa' } }],
@@ -48,6 +51,10 @@ print(json.dumps(o))`]).toString());
   ok(/Banco_Central/.test(r['t-copom'] || ''), 'Copom no título: prédio do Banco Central', r['t-copom']);
   ok(!r['t-aluguel'] && !r['t-fies'] && !r['t-ufs'] && !r['t-taca'], 'assunto genérico (cédula, campus, posto de saúde, taça): ilustração', [r['t-aluguel'], r['t-fies'], r['t-ufs'], r['t-taca']]);
   ok(!r['t-fachin'], 'Fachin só na 2ª frase do título: sem retrato', r['t-fachin']);
+  // meio-termo do Pedro (18/11): órgão do sujeito e estádio do mandante
+  ok(/Supremo_Tribunal_Federal/.test(r['t-kassio'] || ''), 'Kassio (ministro do STF) sujeito do título: fachada do STF', r['t-kassio']);
+  ok(/Mineir/.test(r['t-jogo'] || ''), 'jogo "Cruzeiro x Palmeiras": estádio do mandante (Mineirão)', r['t-jogo']);
+  ok(!r['t-final'], 'final em campo neutro: sem estádio', r['t-final']);
   ok(r['t-sem'] !== 'sem.jpg', 'foto própria sem "mostra": não aparece', r['t-sem']);
   ok(r['t-com'] === 'com.jpg', 'foto própria com "mostra" que cita a Câmara: aparece', r['t-com']);
   ok(r['t-errada'] !== 'err.jpg', 'foto própria cujo "mostra" não cita nada do título: não aparece', r['t-errada']);

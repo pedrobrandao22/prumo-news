@@ -57,7 +57,7 @@ PESSOAS = {
     "Gilmar Mendes": ["Gilmar"],
     "Flávio Dino": ["Flávio Dino", "Dino"],
     "André Mendonça": ["Mendonça"],
-    "Kassio Nunes Marques": ["Nunes Marques"],
+    "Kassio Nunes Marques": ["Nunes Marques", "Kassio"],
     "Cármen Lúcia": ["Cármen Lúcia"],
     "Paulo Gonet": ["Gonet"],
     "Andrei Rodrigues": ["Andrei Rodrigues"],

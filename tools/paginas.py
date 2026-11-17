@@ -137,18 +137,18 @@ def pessoa_titulo(tit, A):
 # ilustração. Lugar brasileiro não entra em notícia que acontece fora do Brasil.
 # [nome, o que o título diz (regex), o que o nome do arquivo diz (sem acento, minúsculo), 1 = lugar no Brasil]
 LUGARES = [
-    ["Congresso", r"Congresso(?! dos EUA| americano| argentino| do Peru)", r"congresso nacional|palacio do congresso", 1],
-    ["Senado", r"Senado(?! dos EUA| americano)|[Ss]enadores", r"plenario do senado|senado federal", 1],
-    ["Câmara", r"Câmara(?! Municipal| de | Legislativa| dos Comuns)", r"camara dos deputados", 1],
+    ["Congresso", r"Congresso(?! dos EUA| americano| argentino| do Peru)|PEC|CPI|CPMI|[Pp]rojeto de lei|PL d[aoe]s?|[Rr]elatora?", r"congresso nacional|palacio do congresso", 1],
+    ["Senado", r"Senado(?! dos EUA| americano)|[Ss]enador(?:a|es|as)?", r"plenario do senado|senado federal", 1],
+    ["Câmara", r"Câmara(?! Municipal| de | Legislativa| dos Comuns)|[Dd]eputad[oa]s?(?! estadua| distrita)", r"camara dos deputados", 1],
     ["Planalto", r"Planalto|Presidência da República", r"planalto", 1],
-    ["STF", r"STF|Supremo(?! dos EUA| americano| Tribunal de Justiça)", r"supremo tribunal federal", 1],
+    ["STF", r"STF|Supremo(?! dos EUA| americano| Tribunal de Justiça)|Kassio", r"supremo tribunal federal", 1],
     ["TSE", r"TSE|Justiça Eleitoral", r"tribunal superior eleitoral|^tse ", 1],
-    ["Banco Central", r"Banco Central(?! Europeu| do Japão| da China| dos EUA| americano)|BC|Copom", r"banco central", 1],
+    ["Banco Central", r"Banco Central(?! Europeu| do Japão| da China| dos EUA| americano)|BC|Copom|Selic", r"banco central", 1],
     ["Itamaraty", r"Itamaraty", r"itamaraty", 1],
     ["Fazenda", r"Ministério da Fazenda|Fazenda", r"ministerio da fazenda", 1],
     ["MEC", r"MEC|Ministério da Educação", r"ministerio da educacao", 1],
     ["Esplanada", r"Esplanada", r"esplanada", 1],
-    ["B3", r"B3|Bovespa|Ibovespa|Bolsa de Valores|Bolsa brasileira", r"bovespa", 1],
+    ["B3", r"B3|Bovespa|Ibovespa|Bolsa(?! Família| de estudo| Atleta| Verde)", r"bovespa", 1],
     ["Bandeirantes", r"Palácio dos Bandeirantes|Bandeirantes", r"bandeirantes", 1],
     ["Guanabara", r"Palácio Guanabara|Guanabara", r"guanabara", 1],
     ["Maracanã", r"Maracanã", r"maracana", 1], ["Allianz Parque", r"Allianz Parque|Allianz", r"allianz", 1],
@@ -170,13 +170,55 @@ def frase_principal(tit):
     return re.split(r";|\s[—–]\s", str(tit or ""))[0]
 
 
-def lugares_do_titulo(fr):
-    """Lugares que a frase principal do título diz, na ordem em que aparecem."""
+# órgão da pessoa (18/11, meio-termo): o grupo que o acervo traz (deputado → Câmara, senador → Senado, ministro do STF →
+# STF); para os retratos curados, que vêm sem cargo, esta tabela curta
+ORGAO_GRUPO = {"camara": "Câmara", "senado": "Senado", "stf": "STF"}
+ORGAO_NOME = {"Alexandre de Moraes": "STF", "Edson Fachin": "STF", "Gilmar Mendes": "STF", "Flávio Dino": "STF", "André Mendonça": "STF",
+              "Kassio Nunes Marques": "STF", "Cármen Lúcia": "STF", "Dias Toffoli": "STF", "Luiz Fux": "STF", "Cristiano Zanin": "STF",
+              "Fernando Haddad": "Fazenda", "Gabriel Galípolo": "Banco Central"}
+
+
+def orgao_da_pessoa(fr, A):
+    """(posição, lugar) do órgão da 1ª pessoa citada na frase principal (com ou sem retrato no acervo)."""
+    best, pos, ln = None, 10**9, 0
+    for nome, x in (A.get("pessoas") or {}).items():
+        if not isinstance(x, dict) or not isinstance(x.get("chaves"), list): continue
+        for k in x["chaves"]:
+            if not isinstance(k, str) or not k: continue
+            i = pos_palavra(fr, k)
+            if i >= 0 and (i < pos or (i == pos and len(k) > ln)): best, pos, ln = (nome, x), i, len(k)
+    if not best: return None
+    org = ORGAO_GRUPO.get(best[1].get("grupo")) or ORGAO_NOME.get(best[0])
+    return (pos, org) if org else None
+
+
+def lugares_do_titulo(fr, A=None):
+    """Lugares da frase principal do título, na ordem em que aparecem: os que o título diz e o órgão da 1ª pessoa citada."""
     out = []
     for k, (nome, rt, ra, br) in enumerate(LUG_RE):
         m = rt.search(fr)
         if m: out.append((m.start(1), k, nome, ra, br))
+    og = orgao_da_pessoa(fr, A) if A else None
+    if og and not any(x[2] == og[1] for x in out):
+        k = next(i for i, x in enumerate(LUG_RE) if x[0] == og[1]); out.append((og[0], k) + LUG_RE[k][:1] + LUG_RE[k][2:])
     return [x[2:] for x in sorted(out)]
+
+
+# jogo (18/11): estádio do mandante, o time citado primeiro em "A x B", quando o acervo tem a foto do estádio do time;
+# nunca em final/decisão (campo neutro) nem em jogo fora do Brasil
+FINAL = re.compile(r"[Ff]ina(?:l|is)|[Dd]ecide|[Dd]ecis")
+
+
+def mandante(p, fr, A):
+    if (p.get("secao") or "") != "esportes" or FINAL.search(fr) or fora(p): return []
+    best, pos = None, 10**9
+    for x in (A.get("assuntos") or {}).values():
+        if not isinstance(x, dict) or x.get("secoes") != ["esportes"] or not isinstance(x.get("chaves"), list): continue
+        for k in x["chaves"]:
+            if not isinstance(k, str) or not k: continue
+            i = pos_palavra(fr, k)
+            if 0 <= i < pos and fr[i + len(k):i + len(k) + 3] == " x ": best, pos = x, i
+    return [f for f in (best or {}).get("fotos") or [] if fa_valida(f) and not bloqueada(f)]
 
 
 def fotos_do_lugar(A, ra):
@@ -192,7 +234,8 @@ def fotos_do_lugar(A, ra):
 
 def fa_listas(p, A):
     """Igual ao faListas do app (187-fotos-f2.js): retrato da 1ª pessoa da frase principal do título (menos com
-    "foto_arquivo": "tema") > foto do lugar que o título diz (confirmado pelo nome do arquivo). A = acervo preparado."""
+    "foto_arquivo": "tema") > foto do lugar que o título diz ou do órgão da pessoa/assunto (confirmado pelo nome do
+    arquivo) > estádio do mandante. A = acervo preparado."""
     L, fr = [], frase_principal((p.get("neutro") or {}).get("titulo"))
     if p.get("foto_arquivo") != "tema":
         pe = pessoa_titulo(fr, A)
@@ -200,12 +243,14 @@ def fa_listas(p, A):
             ok = [f for f in pe["fotos"] if fa_valida(f) and not bloqueada(f)]
             if ok: L.append(ok)
     fo = None
-    for nome, ra, br in lugares_do_titulo(fr):
+    for nome, ra, br in lugares_do_titulo(fr, A):
         if br:
             if fo is None: fo = fora(p)
             if fo: continue
         ok = fotos_do_lugar(A, ra)
         if ok: L.append(ok)
+    ok = mandante(p, fr, A)
+    if ok: L.append(ok)
     return L
 
 

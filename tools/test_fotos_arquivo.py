@@ -289,7 +289,8 @@ class TesteRevisao1511(unittest.TestCase):
         s.assertIn("og-padrao.png", pg)                     # retrato de quem não está no título: a prévia não usa
         # sem repetir a mesma foto em duas notícias
         dois = [P("a", "politica", "Fachin vota pela condenação", subtema="Outros"), P("b", "politica", "Fachin pede vista", subtema="Outros")]
-        M2 = PG.mapa_fotos(dois, s.acervo()); s.assertEqual(len(M2), 1)
+        M2 = PG.mapa_fotos(dois, s.acervo()); s.assertEqual(len({v["url"] for v in M2.values()}), len(M2))
+        s.assertIn("Supremo_Tribunal_Federal2.jpg", M2["b"]["url"])  # 18/11 (meio-termo): o retrato já foi usado; fica a fachada do órgão (STF)
 
     def test_previa_sem_credito(s):
         p = {"id": "x", "secao": "economia", "neutro": {"titulo": "Ibovespa sobe"}, "subtitulo": "Bolsa fecha em alta."}
