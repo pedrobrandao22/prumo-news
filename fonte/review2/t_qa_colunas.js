@@ -157,9 +157,9 @@ let srv = null, srv2 = null;
 
   /* ================= 6. bordas no editor ================= */
   await ev(B, () => ed132Abre(ed132Novo({}))); await sleep(300);
-  const tentaPub = async () => { await semToast(B); await ev(B, () => { document.querySelector('[data-ed132painel]').click(); document.querySelector('[data-ed132pub]').click(); document.querySelector('[data-ed132ppx]')?.click() }); await sleep(300) };
+  const tentaPub = async () => { await semToast(B); await ev(B, () => { document.querySelector('[data-ed132painel]').click(); document.querySelector('[data-ed132pub]')?.click(); document.querySelector('[data-ed132ppx]')?.click() }); await sleep(300) };
   await tentaPub();
-  ok(/Dê um título/.test(await toastTx(B)), 'coluna vazia: "Dê um título à coluna."'); await semToast(B);
+  ok(/Dê um título/.test(await ev(B, () => document.querySelector('#layer > .ed132 .cr166-er')?.textContent || '')) && !(await ev(B, () => !!document.querySelector('#layer .ed132-pp'))), 'coluna vazia: "Dê um título à coluna" junto do título, sem abrir "Antes de publicar"'); await semToast(B);
   await B.fill('#ed132-tit', 'Só título'); await tentaPub();
   ok(/Escreva o texto/.test(await toastTx(B)), 'só título: "Escreva o texto da coluna antes de publicar."'); await semToast(B);
   await fim(B); await cola(B, Array.from({ length: 180 }, (_, i) => `<p>Parágrafo ${i} ` + 'palavra '.repeat(26) + '</p>').join('')); await sleep(600);
