@@ -59,7 +59,7 @@ def main(argv):
     print()
     print("PAUTAS (id | seção/subtema | prio | hora | título | nº fontes | sinais)")
     print("  sinais: P=pendência E=enquete C=checagem ok / D=divergência V=visual U=nº atualizações X=correções B=versões de viés")
-    print("          AOVIVO / ENCERRADA · PONTUAL · etapa n/N · FAQ · T=nº de títulos no histórico")
+    print("          AOVIVO / ENCERRADA · PONTUAL · etapa n/N · FAQ · T=nº de títulos no histórico · SEM-FIM = cobertura sem \"fim\"")
     pend = V.pendencias(f, agora, V.ler_indicadores(os.path.join(os.path.dirname(os.path.abspath(caminho)), "indicadores.json")))
     com_pend = {x["pid"] for x in pend}
     for p in sorted(ps, key=lambda p: -(p.get("prioridade") or 0)):
@@ -84,8 +84,10 @@ def main(argv):
             except (TypeError, ValueError): sinais.append("etapa ?")
         if p.get("faq"): sinais.append("FAQ")
         if len(p.get("titulos") or []) > 1: sinais.append(f"T{len(p['titulos'])}")
+        if p.get("tipo", "cobertura") == "cobertura" and not p.get("fim"): sinais.append("SEM-FIM")
         print(f"{p.get('id')} | {p.get('secao', '')[:4]}/{p.get('subtema') or 'SEM SUBTEMA'} | {p.get('prioridade')} | {hm(p.get('hora'))} | "
               f"{corta((p.get('neutro') or {}).get('titulo'), 70)} | {len(p.get('fontes') or [])} | {' '.join(sinais)}")
+        if p.get("fim") and p.get("tipo", "cobertura") == "cobertura": print(f"    fim: {corta(p.get('fim'), 110)}")
     print()
     print("AGENDA (data hora | texto | pid)")
     for a in sorted(f.get("agenda") or [], key=lambda a: (str(a.get("data")), V.hora_agenda(a.get("hora")) or (99, 0))):
@@ -132,9 +134,9 @@ def main(argv):
         print(f"  {j.get('id')} | {j.get('comp')} | {j.get('data')} {j.get('hora') or '--'} | {j.get('a')} x {j.get('b')} | {j.get('estado')}{pl}{marca}")
     dor = f.get("dormentes") or []
     print()
-    print(f"DORMENTES ({len(dor)}) — coberturas que saíram; se o assunto voltar, REUSE o id com add_pauta (id | seção/subtema | última | título)")
+    print(f"DORMENTES ({len(dor)}) — coberturas que saíram; se o assunto voltar, REUSE o id com add_pauta, menos as ENCERRADAS (atingiram o fim: tema novo abre cobertura nova) (id | seção/subtema | última | título)")
     for d in dor[:40]:
-        print(f"  {d.get('id')} | {str(d.get('secao', ''))[:4]}/{d.get('subtema') or '-'} | {hm(d.get('ultima'))} | {corta(d.get('titulo'), 70)}")
+        print(f"  {d.get('id')} | {str(d.get('secao', ''))[:4]}/{d.get('subtema') or '-'} | {hm(d.get('ultima'))} | {corta(d.get('titulo'), 70)}{' | ENCERRADA' if d.get('status') == 'encerrada' else ''}")
     if not dor: print("  nenhuma")
     sem = [p.get("id") for p in ps if not p.get("subtema")]
     if sem:
