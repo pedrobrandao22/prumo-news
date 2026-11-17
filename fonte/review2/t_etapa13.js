@@ -1,4 +1,4 @@
-// Etapa 13: fotos nas capas do Feed; gráficos dos indicadores
+// Etapa 13: fotos nas capas do Feed; indicadores (desde 17/11 um card só na Capa, sem gráfico)
 const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs');
 (async () => {
   const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8'));
@@ -40,34 +40,16 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
     await ctx2.route('https://upload.wikimedia.org/**', r => r.fulfill({ body: jpg, contentType: 'image/jpeg' }));
     await ctx2.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1'));
     p = U.erros(await ctx2.newPage(), n);
-    await p.goto('http://localhost:8788/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cp-ind button.ind-t'), null, 10000); await sleep(500);
-    ok(await p.evaluate(() => document.querySelectorAll('#v-capa .cp-ind .ind-t .gr-sp').length >= 3), 'miniaturas nos indicadores da Capa');
-    await p.evaluate(() => { document.querySelector('#v-capa .cp-ind').scrollIntoView({ block: 'center' }) }); await sleep(200);
+    // decisão do Pedro (17/11): um card só na Capa, sem gráfico nem "outros indicadores"; tocar só explica (ver t_uso_f1)
+    await p.goto('http://localhost:8788/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .ui184'), null, 10000); await sleep(500);
+    ok(await p.evaluate(() => document.querySelectorAll('#v-capa .ui184 .ui184-c').length === 4 && !document.querySelector('#v-capa .cp-ind, #v-capa [data-indg]')), 'Capa: indicadores num card só (4 números)');
+    await p.evaluate(() => { document.querySelector('#v-capa .ui184').scrollIntoView({ block: 'center' }) }); await sleep(200);
     await p.screenshot({ path: D + n + '2-capa-ind.png' });
-    await p.evaluate(() => document.querySelector('#v-capa .cp-ind [data-indg="dolar"]').click()); await sleep(500);
-    ok(await p.evaluate(() => { const s = document.querySelector('#layer .sheet'); return s && s.querySelector('.gr-svg') && /Dólar/.test(s.textContent) && s.querySelectorAll('.gr-pers button').length === 2 && /3 meses/.test(s.querySelector('.gr-per-t').textContent) }), (dark ? '[e] ' : '') + 'tocar no Dólar abre o gráfico (3 meses, com períodos)');
-    await p.screenshot({ path: D + n + '3-dolar.png' });
-    // arrastar: leitura do ponto
-    const bb = await p.evaluate(() => { const r = document.querySelector('.gr-svg').getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height } });
-    await p.mouse.move(bb.x + bb.w * .3, bb.y + bb.h * .5); await sleep(150);
-    const ro = await p.evaluate(() => ({ t: document.querySelector('.gr-ro').textContent, vis: document.querySelector('.gr-x').style.display !== 'none' }));
-    ok(ro.vis && /R\$/.test(ro.t) && !/último dado/.test(ro.t), 'passar o dedo/mouse mostra valor e data do ponto', ro);
-    await p.screenshot({ path: D + n + '4-dolar-ponto.png' });
-    await p.mouse.move(5, 5); await sleep(100);
-    ok(await p.evaluate(() => /último dado/.test(document.querySelector('.gr-ro').textContent)), 'ao sair, volta ao último dado');
-    await p.evaluate(() => document.querySelector('[data-grper="22"]').click()); await sleep(300);
-    ok(await p.evaluate(() => GR.d.length === 22 && /1 mês/.test(document.querySelector('.gr-per-t').textContent) && !!document.querySelector('#layer .sheet')), 'período 1 mês');
-    ok(await p.evaluate(() => HST === 1), 'trocar período não cria passo extra no Voltar');
-    await p.evaluate(() => document.querySelector('.gr-outros [data-indg="selic"]').click()); await sleep(400);
-    ok(await p.evaluate(() => /Selic/.test(document.querySelector('#layer .sh-h').textContent) && /12 meses/.test(document.querySelector('.gr-per-t').textContent) && /ponto/.test(document.querySelector('.gr-per-t').textContent)), 'Selic: degraus, abre em 12 meses, variação em pontos');
-    await p.screenshot({ path: D + n + '5-selic.png' });
-    await p.evaluate(() => document.querySelector('.gr-outros [data-indg="ipca12m"]').click()); await sleep(400);
-    ok(await p.evaluate(() => !document.querySelector('.gr-pers') && /12 meses/.test(document.querySelector('.gr-per-t').textContent)), 'IPCA: 12 meses sem botões de período');
-    await p.evaluate(() => { document.querySelector('.gr-tab').open = true; document.querySelector('#layer .sh-b').scrollTo(0, 9999) }); await sleep(200);
-    await p.screenshot({ path: D + n + '6-ipca-tabela.png' });
-    ok(await p.evaluate(() => document.querySelectorAll('.gr-tab tbody tr').length === 12), 'tabela com os números');
+    await p.evaluate(() => document.querySelector('#v-capa .ui184-b').click()); await sleep(500);
+    ok(await p.evaluate(() => { const s = document.querySelector('#layer .sheet'); return s && !s.querySelector('.gr-svg') && !document.querySelector('.gr-outros') && /Selic/.test(s.textContent) }), 'tocar no card: explicação, sem gráfico');
+    await p.screenshot({ path: D + n + '3-explica.png' });
     await p.evaluate(() => history.back()); await sleep(400);
-    ok(await p.evaluate(() => !document.querySelector('#layer .sheet') && VIEW === 'capa'), 'Voltar fecha o gráfico');
+    ok(await p.evaluate(() => !document.querySelector('#layer .sheet') && VIEW === 'capa'), 'Voltar fecha a explicação');
     ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'sem rolagem lateral');
     ok(!p._erros.filter(e => !/ERR_|404|net::|Falha/.test(e)).length, 'sem erros ' + p._erros.join('|'));
     await ctx2.close();

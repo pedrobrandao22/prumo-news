@@ -62,7 +62,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(await p.evaluate(() => !!document.querySelector('.saida.sai-mat .mat') && !document.querySelector('#layer .mat')), 'fechar: a matéria sai pela direita');
   await sleep(450);
   // janela (sheet) desce ao fechar
-  await p.evaluate(() => document.querySelector('#v-capa [data-indg]')?.click()); await sleep(450);
+  await p.evaluate(() => document.querySelector('#v-capa .ui184-b')?.click()); await sleep(450);
   const temSheet = await p.evaluate(() => !!document.querySelector('#layer .sheet'));
   if (temSheet) { await p.evaluate(() => history.back()); await sleep(60); ok(await p.evaluate(() => !!document.querySelector('.saida.sai-sheet .sheet') && !document.querySelector('#layer .sheet')), 'janela desce ao fechar'); await sleep(400) }
   // troca de aba: só esmaece

@@ -161,10 +161,8 @@ const ev = (p, fn, a) => p.evaluate(fn, a);
       ok(bt.n.join() === 'pe,meia' && !bt.nomeia && bt.pe, 'busca: "pe de meia" não acha "nomeia"; "de" não conta; acha "Pé-de-Meia"', JSON.stringify(bt));
       await ev(P, () => go('busca')); await sleep(300);
       await P.fill('#bvq', 'dólar'); await sleep(500);
-      ok(await ev(P, () => !!document.querySelector('#bvres .cm168-ind [data-indg="dolar"]')), 'busca "dólar": cartão do indicador no topo');
-      await ev(P, () => document.querySelector('#bvres .cm168-indg').click()); await sleep(400);
-      ok(await ev(P, () => !!document.querySelector('.gr') && GR.id === 'dolar'), 'cartão do indicador: "Ver gráfico" abre o gráfico');
-      await ev(P, () => closeLayer()); await sleep(200);
+      // decisão do Pedro (17/11): indicadores só no card da Capa, sem atalho na Busca nem gráfico
+      ok(await ev(P, () => !document.querySelector('#bvres .cm168-ind, #bvres [data-indg]') && !/Ver gráfico/.test(document.querySelector('#bvres').textContent)), 'busca "dólar": sem atalho de indicador (17/11)');
       await P.fill('#bvq', 'xyzwqk'); await sleep(500);
       const sug = await ev(P, () => ({ h: (document.querySelector('#bvres .bu154-sh') || {}).textContent || '', c: [...document.querySelectorAll('#bvres .bu154-sug [data-bu154q]')].map(b => b.dataset.bu154q), ok: cm168Sugestoes() }));
       ok(sug.ok.length >= 2 ? sug.h === 'Coberturas desta edição' && sug.c.every(t => FEED.pautas.some(p => temaDe(p) === t && cobTemPagina(p))) : sug.h === 'Assuntos para explorar', 'nada encontrado: sugestões só com coberturas desta edição', JSON.stringify(sug));

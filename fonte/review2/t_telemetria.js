@@ -205,7 +205,7 @@ let srv = null, srv2 = null;
   ok((await H.sql(`select resolvido_em is not null r from tl_erros where mensagem='erro desta versão'`))[0].r === true && await ev(A, () => /Resolvidos \(1\)/.test($('#admbox').textContent)), 'painel: marcar como resolvido');
   await ev(A, () => document.querySelector('[data-tl142aba="uso"]').click()); await sleep(200);
   const tu = await ev(A, () => $('#admbox').textContent);
-  ok(/Telas e ações/.test(tu) && /Abrir a Capa/.test(tu) && /Por plataforma/.test(tu) && /Android/.test(tu) && /O que quase ninguém usa/.test(tu) && /Colunas: exportar/.test(tu) && !!(await ev(A, () => document.querySelectorAll('#admbox .tl142-dias i').length === 30)), 'painel Uso: 30 dias por dia, por tela/ação, por plataforma e "o que quase ninguém usa"', tu.slice(0, 300));
+  ok(/Telas e ações/.test(tu) && /Abrir a Capa/.test(tu) && /Por plataforma/.test(tu) && /Android/.test(tu) && /O que quase ninguém usa/.test(tu) && /Colunas: exportar/.test(tu) && /Por recurso/.test(tu) && /Giros de notícia/.test(tu) && !!(await ev(A, () => document.querySelectorAll('#admbox .tl142-dias i').length === 30)), 'painel Uso: 30 dias por dia, por tela/ação, por plataforma e "o que quase ninguém usa"', tu.slice(0, 300));
   ok(await ev(A, () => document.documentElement.scrollWidth <= innerWidth), '390 px: painel sem rolagem lateral');
   await A.screenshot({ path: path.join(U.SHOTS, 't_telemetria-uso.png') });
   // o aviso abre o painel

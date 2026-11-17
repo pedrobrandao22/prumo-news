@@ -136,6 +136,19 @@ class TesteMercado(unittest.TestCase):
         s.assertTrue(s.checa("Ibovespa cai 30% na semana"))                           # nenhuma semana recente
         s.assertTrue(s.checa("Ibovespa sobe 5% no dia"))                              # dia: só os últimos pregões
 
+    def test_pregao_de_hoje_ainda_sem_fechamento(s):
+        """Desde 17/11/2026 o robô grava só o fechamento (18h30): às 15h o arquivo ainda é do pregão anterior e a variação
+        "no dia" de hoje não tem com o que comparar (não é ERRO); o nível continua conferido."""
+        from datetime import datetime
+        ind = {"ibovespa": dict(s.IND["ibovespa"], data="2026-11-02")}
+        def checa(t, quando):
+            V.erros.clear(); V.avisos.clear()
+            V.checar_mercado({"pautas": [{"id": "b", "secao": "economia", "neutro": {"titulo": t, "texto": ""}}]}, ind, datetime.fromisoformat(quando))
+            return list(V.erros)
+        s.assertEqual(checa("Ibovespa sobe 5% no dia", "2026-11-03T15:00-03:00"), [])
+        s.assertTrue(checa("Ibovespa sobe 5% no dia", "2026-11-02T20:00-03:00"))       # o fechamento do dia já está no arquivo
+        s.assertTrue(checa("Ibovespa vai a 250.000 pontos", "2026-11-03T15:00-03:00"))   # nível fora da faixa continua ERRO
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)
