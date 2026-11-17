@@ -128,11 +128,34 @@ def dolar():
 
 
 def fora_do_pregao(agora=None):
-    """Fim de semana ou antes das 9h (Brasília) num dia útil: o câmbio de BRL=X segue mudando de madrugada no exterior
-    (em 16/11/2026, à 1h21, a Capa mostrava "R$ 5,64 ▼ −0,46% · hoje" antes de o mercado abrir). Nesses horários o
-    dólar do dia fica como estava (o fechamento do último pregão)."""
+    """Fim de semana, antes das 9h ou a partir das 19h (Brasília) num dia útil: o câmbio de BRL=X segue mudando no
+    exterior (em 16/11/2026, à 1h21, a Capa mostrava "R$ 5,64 ▼ −0,46% · hoje" antes de o mercado abrir). E às 21h
+    (meia-noite em Londres) o Yahoo vira o dia do câmbio: o "fechamento anterior" passa a ser o preço de agora e a
+    variação cai para 0,00% (16/11/2026, 21h35: "R$ 5,79 ▬ 0,00%" no dia em que o dólar subiu mais de 2% e fechou a
+    R$ 5,77). Nesses horários o dólar do dia fica como estava (o último valor do pregão)."""
     agora = agora or datetime.now(SP)
-    return agora.weekday() >= 5 or agora.hour < 9
+    return agora.weekday() >= 5 or agora.hour < 9 or agora.hour >= 19
+
+
+def depois_do_fechamento(agora=None):
+    """Dia útil, a partir das 19h: o pregão do dia já fechou."""
+    agora = agora or datetime.now(SP)
+    return agora.weekday() < 5 and agora.hour >= 19
+
+
+def corrigir_variacao_zerada(item, ptax):
+    """Se a cotação veio com variação 0,00% depois do fechamento (o Yahoo já virou o dia), calcula a variação contra
+    a PTAX do pregão anterior ao do item; sem esse dado, tira a variação em vez de mostrar 0,00%."""
+    if not item or item.get("variacao") not in ("0,00%", "+0,00%", "-0,00%"): return item
+    try: p = float(item["valor"].replace("R$", "").strip().replace(".", "").replace(",", "."))
+    except Exception: return item
+    ant = [v for d, v in (ptax or []) if d < str(item.get("data") or "")]
+    item = dict(item)
+    if ant and abs(p / ant[-1] - 1) >= 0.00005:
+        item.update(variacao=pct((p / ant[-1] - 1) * 100), dir=direcao(round(ant[-1], 3), round(p, 3)), base_variacao="PTAX do pregão anterior")
+    else:
+        item.update(variacao="", dir="")
+    return item
 
 
 def ibovespa():
@@ -308,10 +331,15 @@ def main(argv):
                ("ipca12m", lambda: mensal(13522, "ipca12m", "IPCA 12m", "IBGE", antigo.get("ipca12m"))),
                ("desemprego", lambda: mensal(24369, "desemprego", "Desemprego", "IBGE/PNAD", antigo.get("desemprego")))]
     for id_, fn in tarefas:
-        if id_ == "dolar" and "dolar" in antigo and fora_do_pregao():
+        hoje = datetime.now(SP).date().isoformat()
+        if id_ == "dolar" and "dolar" in antigo and fora_do_pregao() and not (depois_do_fechamento() and antigo["dolar"].get("data") != hoje):
             novos[id_] = antigo[id_]; log.append("dolar: fora do horário do pregão, fica o último (" + str(antigo[id_].get("data")) + ")"); continue
         try:
-            novos[id_] = fn(); log.append(f"{id_}: {novos[id_]['valor']} ({novos[id_]['data']})")
+            novos[id_] = fn()
+            if id_ == "dolar" and depois_do_fechamento():
+                try: novos[id_] = corrigir_variacao_zerada(novos[id_], sgs(1, 20))
+                except Exception as e: log.append("dolar: PTAX para a variação falhou " + repr(e)[:80]); novos[id_] = corrigir_variacao_zerada(novos[id_], [])
+            log.append(f"{id_}: {novos[id_]['valor']} ({novos[id_]['data']})")
         except Exception as e:
             log.append(f"{id_}: FALHOU {repr(e)[:120]}"); falhas[id_] = repr(e)[:160]
             if id_ in antigo: novos[id_] = antigo[id_]

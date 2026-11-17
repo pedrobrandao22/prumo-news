@@ -877,6 +877,62 @@ def checar_regras_1611r(f, ant, ref, agora, virada):
             A(f"agenda '{str(a.get('texto'))[:50]}' sem hora: a divulgação costuma sair às {ht[0]}h{ht[1]:02d}; ponha a hora para o evento virar resultado quando passar (manual 1, agenda)")
 
 
+# ---------- regras de 17/11 (corretor: achados do testador) ----------
+PASSADO_NARRADO = re.compile(r"\b(estava|estavam|era|eram|foi|foram|tinha|tinham|havia|adiad[oa]s?|cancelad[oa]s?|suspens[oa]s?|desmarcad[oa]s?)\b", re.I)
+MERCADO_PERGUNTA = re.compile(r"d[óo]lar|bolsa|ibovespa|c[âa]mbio|cota[çc][ãa]o", re.I)
+AGORA_PERGUNTA = re.compile(r"\b(agora|hoje|atual|atualmente|neste momento|no momento|est[áa] hoje)\b", re.I)
+
+
+def checar_regras_1711(f, ant, ref, agora, virada):
+    """1. EVENTO PASSADO também no "O que vem agora" (proximo) e no Entenda (faq): "Lula volta da viagem na segunda (16)"
+    lido na terça e "o mercado reabre na segunda (16)" depois do pregão de segunda (16-17/11).
+    2. Entenda com "agora" parado: resposta de "Quanto custa o dólar agora?" com o fechamento de sexta quando a cobertura
+    já tem o de segunda (16/11, 21h55)."""
+    ps = [p for p in f.get("pautas") or [] if isinstance(p, dict)]
+    agora = agora if agora is not None and agora >= ref else ref
+    hoje = agora.date()
+    for p in ps:
+        pid = p.get("id")
+        campos = [("proximo", p.get("proximo"), "")]
+        faq = [q for q in (p.get("faq") if isinstance(p.get("faq"), list) else []) if isinstance(q, dict)]
+        campos += [(f"faq.{i}.r", q.get("r"), str(q.get("p") or "")) for i, q in enumerate(faq)]
+        for onde, t, pergunta in campos:
+            if PASSADO_NARRADO.search(pergunta): continue  # "O que foi adiado?" → "... prevista para segunda (9)" conta o que era
+            for cl in re.split(r";\s+|,\s+(?!às?\s+\d)(?=[A-ZÁÉÍÓÚa-zà-ú])|\s+[—–]\s+|(?<=[.!?])\s+", str(t or "")):
+                if not FUTURO_FORTE.search(cl) or PASSADO_NARRADO.search(cl): continue
+                ds = [d for _, _, d, _ in datas_em(cl, hoje) if d and d < hoje]
+                if ds:
+                    A(f"[{pid}] {onde} anuncia no futuro algo de {ds[0].strftime('%d/%m')} que já passou ('{cl.strip()[:70]}'): "
+                      "escreva o que aconteceu ou o próximo passo de verdade (manual 3b, EVENTO PASSADO)")
+                    break
+        uf = ultimo_fato(p)
+        for i, q in enumerate(faq):
+            if not AGORA_PERGUNTA.search(str(q.get("p") or "")): continue
+            r = str(q.get("r") or "")
+            ds = [d for a_, _, d, _ in sorted(datas_em(r, hoje)) if d]  # a 1ª data citada é a do dado da resposta
+            if uf and ds:
+                if MERCADO_PERGUNTA.search(str(q.get("p") or "")):
+                    # último pregão fechado até o fato mais novo da cobertura (o câmbio fecha por volta das 17h)
+                    lim = uf.date() if uf.weekday() < 5 and uf.hour >= 17 else uf.date() - timedelta(days=1)
+                    while lim.weekday() >= 5: lim -= timedelta(days=1)
+                    velha = ds[0] < lim
+                else:
+                    velha = (uf.date() - ds[0]).days >= 2
+            if uf and ds and velha:
+                A(f"[{pid}] faq.{i}: a pergunta fala de agora ('{str(q.get('p'))[:50]}'), mas a resposta é de {ds[0].strftime('%d/%m')} "
+                  f"e a cobertura já tem fato de {uf.date().strftime('%d/%m')} ('{r[:60]}'): atualize a resposta junto com a notícia (set path \"faq\") (manual 3b, ENTENDA)")
+                continue
+            vr = valores_dolar(r)
+            if not vr and re.search(r"d[óo]lar", str(q.get("p") or ""), re.I) and not OUTRA_MOEDA.search(r):
+                vr = [float(m[1].replace(",", ".")) for m in re.finditer(r"R\$\s?(\d,\d{2})(?!\d)", r)][:1]
+            if vr:
+                n = p.get("neutro") if isinstance(p.get("neutro"), dict) else {}
+                vt = valores_dolar(n.get("titulo")) + valores_dolar(p.get("subtitulo"))
+                if vt and not any(abs(a - b) < 0.005 for a in vr for b in vt):
+                    A(f"[{pid}] faq.{i}: '{str(q.get('p'))[:50]}' responde dólar a R$ {vr[0]:.2f}".replace(".", ",") +
+                      f", mas o título diz R$ {vt[0]:.2f}".replace(".", ",") + ": use o mesmo número (manual 3b, ENTENDA)")
+
+
 def checar(f, ant=None, virada=False, agora=None, IND=None):
     preparar_veiculos(f)
     ps = f.get("pautas") or []
@@ -1426,6 +1482,8 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     except Exception as e: A(f"conferência das regras de 15/11 falhou: {e!r}")
     try: checar_regras_1611r(f, ant, ref, agora, virada)
     except Exception as e: A(f"conferência das regras de 16/11 (noite) falhou: {e!r}")
+    try: checar_regras_1711(f, ant, ref, agora, virada)
+    except Exception as e: A(f"conferência das regras de 17/11 falhou: {e!r}")
     try: checar_mercado(f, IND, ref)
     except Exception as e: A(f"conferência dos números de mercado falhou: {e!r}")
     return ref, agora

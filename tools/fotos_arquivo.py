@@ -260,7 +260,8 @@ BLOQUEADAS = ["bolsa de valores (17205467578)", "bolsa de valores (17391295482)"
               "allianz parque - reconhecimento facial", "tudo-o-que-voce-sempre-quis-saber", "vidpovid to be performing", "hibakujumoku",
               "northern door of the assumption cathedral", "estacao agrometeorologica", "travessia de pedestres no patio da estacao",
               "brasil barragem de 3 marias", "arbitro futebol apontando estadio",
-              "carlo ancelotti 2016 icc"]  # 16/11 noite: Ancelotti de corpo inteiro com a camisa do Bayern na notícia da Seleção (rosto cortado)  # 16/11: selo postal de MG na chuva da Bahia; árbitro de outro jogo na Série B
+              "carlo ancelotti 2016 icc",
+              "200 anos do senado federal", "bosque campus universidade"]  # 17/11: P&B da promulgação de 1988 como "plenário do Senado" no ajuste fiscal; galhos contra o céu no Fies  # 16/11 noite: Ancelotti de corpo inteiro com a camisa do Bayern na notícia da Seleção (rosto cortado)  # 16/11: selo postal de MG na chuva da Bahia; árbitro de outro jogo na Série B
 # por assunto: nome de arquivo que não mostra o fato (16/11: queimada no mato e simulação de queda de avião como "incêndio")
 EVITAR = {"incêndio": re.compile(r"(florest|queimad|wildfire|forest|bush ?fire|cerrado|vegetac|brigadist|crash|hercules|c-130|aircraft)")}
 # acervos históricos (foto do século passado não ilustra fato de hoje)

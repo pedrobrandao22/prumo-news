@@ -98,6 +98,47 @@ class TesteForaDoPregao(unittest.TestCase):
         s.assertTrue(IN.fora_do_pregao(D(2026, 11, 15, 15, 0, tzinfo=IN.SP)))   # domingo
         s.assertFalse(IN.fora_do_pregao(D(2026, 11, 16, 9, 26, tzinfo=IN.SP)))  # segunda, mercado aberto
         s.assertFalse(IN.fora_do_pregao(D(2026, 11, 13, 18, 0, tzinfo=IN.SP)))  # sexta, fechamento
+        s.assertTrue(IN.fora_do_pregao(D(2026, 11, 16, 21, 35, tzinfo=IN.SP)))  # segunda à noite: Yahoo já virou o dia
+
+    def test_variacao_zerada_depois_do_fechamento(s):
+        """16/11/2026, 21h35: "R$ 5,79 ▬ 0,00%" no dia em que o dólar subiu mais de 2% (sexta: PTAX 5,65)."""
+        it = {"id": "dolar", "valor": "R$ 5,79", "variacao": "0,00%", "dir": "estavel", "data": "2026-11-16"}
+        ptax = [("2026-11-12", 5.66), ("2026-11-13", 5.6518), ("2026-11-16", 5.7324)]
+        r = IN.corrigir_variacao_zerada(it, ptax)
+        s.assertEqual(r["dir"], "sobe"); s.assertTrue(r["variacao"].startswith("+2,"), r["variacao"])
+        r = IN.corrigir_variacao_zerada(it, [])
+        s.assertEqual(r["variacao"], ""); s.assertEqual(r["dir"], "")
+        ok = dict(it, variacao="+2,10%", dir="sobe")
+        s.assertEqual(IN.corrigir_variacao_zerada(ok, ptax), ok)   # variação de verdade não muda
+
+    def test_noite_mantem_o_dolar_do_dia(s):
+        """Depois das 19h fica o valor do pregão de hoje; se o de hoje ainda não foi gravado, calcula (sem 0,00%)."""
+        from datetime import datetime as D
+        d = tempfile.mkdtemp(prefix="ind-"); ind = os.path.join(d, "indicadores.json")
+        velho = {"id": "dolar", "nome": "Dólar", "valor": "R$ 5,77", "variacao": "+2,12%", "dir": "sobe", "data": "2026-11-16",
+                 "serie": [5.65, 5.77], "rotulos": ["2026-11-13", "2026-11-16"], "fonte": "cotação comercial"}
+        with open(ind, "w", encoding="utf-8") as fh: json.dump({"atualizado": "2026-11-16T17:20-03:00", "itens": [velho]}, fh)
+        chamou = []; d0, o0, dt0 = IN.dolar, IN.get_json, IN.datetime
+        class F(D):
+            @classmethod
+            def now(cls, tz=None): return D(2026, 11, 16, 21, 35, tzinfo=IN.SP)
+        IN.datetime = F
+        IN.dolar = lambda: chamou.append(1) or dict(velho, valor="R$ 5,79", variacao="0,00%", dir="estavel")
+        IN.get_json = Rede().get_json
+        try:
+            IN.main([ind])
+            s.assertEqual(chamou, [])
+            itens = {x["id"]: x for x in json.load(open(ind, encoding="utf-8"))["itens"]}
+            s.assertEqual(itens["dolar"], velho)
+            velho2 = dict(velho, data="2026-11-13")   # o de hoje não foi gravado: busca, sem 0,00%
+            with open(ind, "w", encoding="utf-8") as fh: json.dump({"atualizado": "x", "itens": [velho2]}, fh)
+            IN.main([ind])
+            s.assertEqual(chamou, [1])
+            itens = {x["id"]: x for x in json.load(open(ind, encoding="utf-8"))["itens"]}
+            s.assertNotEqual(itens["dolar"]["variacao"], "0,00%")
+        finally:
+            IN.dolar, IN.get_json, IN.datetime = d0, o0, dt0
+            shutil.rmtree(d, ignore_errors=True)
 
     def test_main_mantem_o_dolar_de_madrugada(s):
         d = tempfile.mkdtemp(prefix="ind-"); ind = os.path.join(d, "indicadores.json")
