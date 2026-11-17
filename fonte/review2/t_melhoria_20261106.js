@@ -46,7 +46,7 @@ let srv = null;
     ok(r && r.fora && r.fora.length === 0 && !r.sobrepoe && r.h2, `${n}: os números do infográfico ficam dentro do cartão, título abaixo sem sobrepor`, r);
     ok(r && !r.cred, `${n}: crédito da foto que não apareceu não aparece`, r);
     ok(o && /\bfcv\b/.test(o.cls) && o.img && o.cred && !/\binfo\b/.test(o.cls), `${n}: foto que carrega continua como antes (foto, crédito)`, o);
-    ok(g && !/\binfo\b/.test(g.cls) && !/\bfcv\b/.test(g.cls) && g.vb === '0 0 400 320', `${n}: ilustração comum com foto que falha continua como antes`, g);
+    ok(g && !/\binfo\b/.test(g.cls) && !/\bfcv\b/.test(g.cls) && (g.vb === '0 0 400 320' || g.vb === '0 -200 400 640' /* 169: desenho no meio do quadro */), `${n}: ilustração comum com foto que falha continua como antes`, g);
     ok(r && r.lat, `${n}: sem rolagem lateral`);
     await p.evaluate(() => document.querySelector('#p-mc1106-ruim').scrollIntoView({ block: 'start' })); await sleep(400);
     await p.screenshot({ path: path.join(QA, `01-feed-${n}.png`) });
