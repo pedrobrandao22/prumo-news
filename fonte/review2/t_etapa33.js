@@ -21,8 +21,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(await p.evaluate(() => window.__rc === 0 && window.__man.isConnected), 'voltar para a aba Capa sem mudança não remonta');
   await p.evaluate(() => { lente && PREF && (PREF.lente = PREF.lente) ; LIDAS.set('x-teste', new Date().toISOString()) }); await p.evaluate(() => document.querySelector('.nav [data-v="me"]').click()); await sleep(300); await p.evaluate(() => document.querySelector('.nav [data-v="capa"]').click()); await sleep(400);
   ok(await p.evaluate(() => window.__rc === 1), 'se algo mudou (leitura), a Capa remonta');
-  // desde 17/11 o "Em 1 min" fica no alto da Capa: o respiro é entre ele e a manchete
-  ok(await p.evaluate(() => { const a = document.querySelector('#v-capa .cp > .cp-1m').getBoundingClientRect().bottom, b = document.querySelector('#v-capa .cpi-man').getBoundingClientRect().top; return b - a >= 14 }), 'respiro entre o "Em 1 min" e a manchete');
+  ok(await p.evaluate(() => { const a = document.querySelector('#v-capa .cp-dest').getBoundingClientRect().bottom, b = document.querySelector('#v-capa .cp > .cp-1m').getBoundingClientRect().top; return b - a >= 14 }), 'respiro entre os destaques e o "Dia em 1 minuto"');
   // Feed: só os carrosséis perto da tela são medidos
   await p.evaluate(() => { window.__ft = 0; const o = fitTrack; fitTrack = function () { window.__ft++; return o.apply(this, arguments) } });
   await p.evaluate(() => document.querySelector('.nav [data-v="feed"]').click()); await sleep(900);

@@ -1,5 +1,5 @@
 // Fase 1, formatos (182, 17/11): Quiz, Enquete, Número, De perto e criar Giro escondidos atrás de FT182_ESCONDE (posts antigos
-// viram post comum; giro de quem já postou continua); "Em 5 min"/"Em 30 segundos" viram o "Em 1 min" no alto da Capa;
+// viram post comum; giro de quem já postou continua); "Em 5 min"/"Em 30 segundos" viram o "Em 1 min" no meio da Capa;
 // "Quem noticiou" vira uma linha na matéria que abre a lista, e a barra de espectro sai do cartão do Feed.
 // iPhone 13 e iPhone SE. Portas 9020 (site).
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
@@ -30,10 +30,10 @@ const SEM = /\b(Quiz|Enquetes?|enquetes?|De perto|Em 5 min|Em 30 segundos|5 minu
     // interruptor
     ok(await ev(P, () => JSON.stringify(FT182_ESCONDE) === '["quiz","enquete","numero","deperto","giro"]' && document.documentElement.classList.contains('ft182-sem-giro')), 'um interruptor só: FT182_ESCONDE com os 5 formatos' + tag);
 
-    // 2. Em 1 min no alto da Capa
+    // 2. Em 1 min no meio da Capa (lugar de sempre)
     const um = await ev(P, () => { const s = [...document.querySelectorAll('#v-capa .cp-1m')]; const m = s[0]; const man = document.querySelector('#v-capa .cpi-man');
-      return { n: s.length, tit: m && m.querySelector('h3 span').textContent, itens: m ? m.querySelectorAll('li').length : 0, antes: !!(m && man && (m.compareDocumentPosition(man) & Node.DOCUMENT_POSITION_FOLLOWING)) } });
-    ok(um.n === 1 && um.tit === 'Em 1 min' && um.itens >= 3 && um.itens <= 5 && um.antes, '"Em 1 min" único, com até 5 tópicos, antes da manchete' + tag, JSON.stringify(um));
+      return { n: s.length, tit: m && m.querySelector('h3 span').textContent, itens: m ? m.querySelectorAll('li').length : 0, antes: !!(m && man && (m.compareDocumentPosition(man) & Node.DOCUMENT_POSITION_PRECEDING)) } });
+    ok(um.n === 1 && um.tit === 'Em 1 min' && um.itens >= 3 && um.itens <= 5 && um.antes, '"Em 1 min" único, com até 5 tópicos, abaixo da manchete (no meio da Capa)' + tag, JSON.stringify(um));
     const um6 = await ev(P, () => { const ps = FEED.pautas.slice(0, 6); FEED.resumo_dia = { itens: ps.map((p, i) => ({ pid: p.id, texto: 'Tópico curto ' + (i + 1) })) }; renderCapa(); const li = [...document.querySelectorAll('#v-capa .cp-1m li')].map(l => l.textContent); delete FEED.resumo_dia; return li });
     ok(um6.length === 5 && um6[0] === 'Tópico curto 1', '"Em 1 min" usa o resumo do dia e corta em 5' + tag, JSON.stringify(um6));
     await ev(P, () => renderCapa()); await sleep(200);
