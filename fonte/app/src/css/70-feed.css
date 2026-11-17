@@ -1,0 +1,39 @@
+/* ---------- 167: segunda rodada de acertos do Feed (16/11, noite). Prefixo fd167. ---------- */
+
+/* topo do cartão: "✓ seguindo" inteiro; quem encolhe (com reticências) é o subtema */
+#posts .post .ph-sub.fd156-sub .fd167-seg{flex:none;white-space:pre}
+#posts .post .ph-sub.fd156-sub .fd167-seg b{font-weight:600}
+
+/* linha da cobertura: sem o vão embaixo (é a última linha do cartão) */
+#posts .post.vn-cn .cobbar{padding-bottom:0!important;margin-bottom:0!important}
+#posts .post.vn-cn:has(.cobbar){padding-bottom:4px!important}
+
+/* barra de baixo: fundo quase opaco (o texto da página não aparece atrás dos nomes) */
+.nav{background:rgb(255 255 255 / .93)!important}
+:root[data-aparencia="escuro"] .nav{background:rgb(28 30 36 / .94)!important}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .nav{background:rgb(28 30 36 / .94)!important}}
+
+/* letra grande: comandos crescem também (até 1,2×, menos que o texto) */
+html.fzg .nav button{font-size:calc(11px * min(var(--fz,1), 1.2))!important}
+html.fzg .nav button .lbl{max-height:20px;white-space:nowrap}
+html.fzg .nav button .ico{width:27px!important;height:27px!important}
+html.fzg .acts .act{font-size:calc(13px * min(var(--fz,1), 1.2))!important}
+html.fzg .acts .act>span{font-size:inherit!important}
+html.fzg .av-entrar,html.fzg .btn,html.fzg #cbox .c-a,html.fzg .cobbar .cb-t{font-size:calc(13.5px * min(var(--fz,1), 1.2))!important}
+/* iPhone SE: com a letra no máximo, os cinco nomes da barra não cabem; ficam no tamanho que cabe (sem cortar) */
+@media (max-width:359px){html.fzg .nav{width:calc(100% - 8px)}html.fzg .nav-in{padding:6px 3px!important;gap:1px!important}
+  html.fzg .nav button{font-size:calc(11px * min(var(--fz,1), 1.08))!important;letter-spacing:-.02em}}
+
+/* giro com foto: véu escuro forte atrás do título e dos tópicos */
+.story.sg.com-foto .sg-sh{background:linear-gradient(rgb(0 0 0 / .55),rgb(0 0 0 / .1) 14%,rgb(0 0 0 / .1) 24%,rgb(0 0 0 / .7) 40%,rgb(0 0 0 / .86) 52%,rgb(0 0 0 / .93) 100%)!important}
+.story.sg.com-foto h2,.story.sg.com-foto .sg-t,.story.sg.com-foto li{text-shadow:0 1px 3px rgb(0 0 0 / .55)}
+
+/* comentários: quebras de linha aparecem; o pendente aparece apagado com "Enviando quando a internet voltar" */
+#cbox .clist li>div>span{white-space:pre-line}
+#cbox .clist li.fd167-pend>div>span{opacity:.55}
+#cbox .clist li.fd167-pend i{color:var(--muted)}
+/* "Respondendo a Fulano" acima do campo */
+.fd167-rb{display:flex;align-items:center;gap:8px;padding:6px 16px 4px;font-size:13px;color:var(--muted)}
+.fd167-rb span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fd167-rb b{color:var(--ink,inherit);font-weight:600}
+.fd167-rb button{flex:none;width:32px;height:32px;border:0;border-radius:16px;background:transparent;color:var(--muted);font-size:14px}

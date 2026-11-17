@@ -59,7 +59,10 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
       ok(await p.evaluate(() => document.querySelector('#lp').hidden && !document.querySelector('#lpm')), 'botão de leitura só na Capa');
       await p.click('#t-busca'); await sleep(300);
       await p.evaluate(() => history.back()); await sleep(500);
-      ok(await p.evaluate(() => VIEW === 'capa'), 'Busca → voltar → Capa (raiz)');
+      // desde o 167 (16/11): o voltar refaz o caminho das abas (Busca → Feed → Capa)
+      ok(await p.evaluate(() => VIEW === 'feed'), 'Busca → voltar → Feed (aba anterior)');
+      await p.evaluate(() => history.back()); await sleep(500);
+      ok(await p.evaluate(() => VIEW === 'capa'), 'Feed → voltar → Capa (raiz)');
       // fechar
       await p.evaluate(() => document.querySelector('.cpi-man .cpi-b').click()); await sleep(900);  // 163: toque repetido em menos de 0,8 s é ignorado
       await p.evaluate(() => document.querySelector('.cpi-man .cpi-b').click()); await sleep(200);

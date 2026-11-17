@@ -132,8 +132,11 @@ async function toque(p, sel) { const h = await p.$(sel); await h.scrollIntoViewI
   await sleep(200); const h1 = await ev(B, () => document.querySelector('#ctext').getBoundingClientRect().height);
   ok(h1 > h0 + 15, 'F21: a caixa cresce com o texto', [h0, h1]);
   await foto(B, 'f21-B360-comentario');
-  await B.keyboard.press('Enter'); await sleep(1500);
-  ok(await ev(B, () => document.querySelector('#ctext').value === '' && /Comentário comprido/.test(document.querySelector('#cbox').textContent)), 'F21: Enter publica, como antes');
+  // desde o 167 (16/11): no celular o retorno pula linha e só a seta publica
+  await B.keyboard.press('Enter'); await sleep(300);
+  ok(await ev(B, () => !matchMedia('(pointer:coarse)').matches || (/\n$/.test(document.querySelector('#ctext').value) && !/Comentário comprido/.test(document.querySelector('#cbox').textContent))), 'F21: no celular o retorno pula linha e não publica');
+  if (await ev(B, () => !!document.querySelector('#ctext').value)) { await ev(B, () => document.querySelector('#cform .sendc').click()) } await sleep(1500);
+  ok(await ev(B, () => document.querySelector('#ctext').value === '' && /Comentário comprido/.test(document.querySelector('#cbox').textContent)), 'F21: a seta publica');
   const h2 = await ev(B, () => document.querySelector('#ctext').getBoundingClientRect().height);
   ok(Math.abs(h2 - h0) < 3, 'F21: depois de publicar a caixa volta ao tamanho de uma linha', [h0, h2]);
   await ev(B, () => closeLayer()); await sleep(300); await B.setViewportSize({ width: 390, height: 844 });
