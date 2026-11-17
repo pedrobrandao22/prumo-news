@@ -49,7 +49,9 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const tr2 = await arrasta(40, 260, 6);
   ok(/translateX\(2/.test(tr2), 'arrastar para a direita move a matéria junto', tr2);
   await p.evaluate(() => { const el = document.querySelector('#layer .mat h1'); const t = new Touch({ identifier: 1, target: el, clientX: 260, clientY: 400 }); el.dispatchEvent(new TouchEvent('touchend', { bubbles: true, touches: [], changedTouches: [t] })) }); await sleep(700);
-  ok(await p.evaluate(() => !document.querySelector('#layer .mat') && VIEW === 'capa' && HST === 0 && !document.querySelector('.saida')), 'soltar à direita volta para a Capa (sem cópia extra)');
+  { const st = await p.evaluate(() => ({ mat: !!document.querySelector('#layer .mat'), pid: MAT_PID, HST, saida: document.querySelectorAll('.saida').length, tr: (document.querySelector('#layer .mat') || {style:{}}).style.transform, pil: CM168_PILHA.map(x => x.pid).join(), ign: IGN, hl: history.length })); st.pid1 = pid1; st.prox = prox; ok(st.mat && st.pid === pid1 && st.HST === st.pil.split(',').filter(Boolean).length + 1 && !st.saida, 'soltar à direita volta para a matéria anterior (168: a Próxima conta no voltar; sem cópia extra)', JSON.stringify(st)) }
+  await p.evaluate(() => document.querySelector('#layer .mat-v').click()); await sleep(700);
+  ok(await p.evaluate(() => !document.querySelector('#layer .mat') && VIEW === 'capa' && HST === 0), '"‹ Capa" volta para a Capa');
   // arrasto curto volta ao lugar
   await p.evaluate(id => { abrirMateria(id) }, mid); await sleep(450);
   await arrasta(100, 140, 3);

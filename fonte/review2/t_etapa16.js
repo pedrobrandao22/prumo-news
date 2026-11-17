@@ -29,7 +29,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   await p.context().addInitScript(() => { localStorage.setItem('prumo-teste-capa', '1'); window.__evTeste = 1 });
   await p.goto(BASE + 'index.html#m=' + P.id);
   ok(await esperar(p, id => MAT_PID === id && !!document.querySelector('#layer .mat'), P.id, 10000), 'link #m= abre direto a matéria');
-  ok(await p.evaluate(() => !/#m=/.test(location.href)), 'o endereço fica limpo depois de abrir');
+  ok(await p.evaluate(id => location.hash === '#m=' + id && !/\/m\//.test(location.pathname), P.id), 'o endereço fica o da matéria aberta (#m=, 168)');
   ok(await p.evaluate(() => !!document.querySelector('#layer .mat .mat-p .gl[data-k="Copom"]')), 'glossário: termo marcado no texto da matéria');
   await p.evaluate(() => document.querySelector('#layer .mat .mat-p .gl').click()); await sleep(400);
   ok(await p.evaluate(() => !!document.querySelector('#layer2 .sheet') && /Banco Central/.test(document.querySelector('#layer2 .sheet').textContent)), 'tocar no termo abre a explicação por cima da matéria');

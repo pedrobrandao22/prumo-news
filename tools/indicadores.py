@@ -127,6 +127,14 @@ def dolar():
             "dir": direcao(a, p), "data": d1, "serie": [v for _, v in s], "rotulos": [d for d, _ in s], "fonte": "PTAX/Banco Central"}
 
 
+def fora_do_pregao(agora=None):
+    """Fim de semana ou antes das 9h (Brasília) num dia útil: o câmbio de BRL=X segue mudando de madrugada no exterior
+    (em 16/11/2026, à 1h21, a Capa mostrava "R$ 5,64 ▼ −0,46% · hoje" antes de o mercado abrir). Nesses horários o
+    dólar do dia fica como estava (o fechamento do último pregão)."""
+    agora = agora or datetime.now(SP)
+    return agora.weekday() >= 5 or agora.hour < 9
+
+
 def ibovespa():
     p, a, data, serie, rot = yahoo("%5EBVSP")
     return {"id": "ibovespa", "nome": "Ibovespa", "valor": br(p, 0), "variacao": pct((p / a - 1) * 100),
@@ -300,6 +308,8 @@ def main(argv):
                ("ipca12m", lambda: mensal(13522, "ipca12m", "IPCA 12m", "IBGE", antigo.get("ipca12m"))),
                ("desemprego", lambda: mensal(24369, "desemprego", "Desemprego", "IBGE/PNAD", antigo.get("desemprego")))]
     for id_, fn in tarefas:
+        if id_ == "dolar" and "dolar" in antigo and fora_do_pregao():
+            novos[id_] = antigo[id_]; log.append("dolar: fora do horário do pregão, fica o último (" + str(antigo[id_].get("data")) + ")"); continue
         try:
             novos[id_] = fn(); log.append(f"{id_}: {novos[id_]['valor']} ({novos[id_]['data']})")
         except Exception as e:
