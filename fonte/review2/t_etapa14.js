@@ -62,13 +62,15 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(!!prox && prox !== mid, 'matéria: botão Próxima', prox);
   await p.evaluate(() => document.querySelector('#layer .mat').scrollTo(0, 99999)); await sleep(200); await p.screenshot({ path: D + 'mat-fim.png' });
   await p.evaluate(() => document.querySelector('#layer [data-matprox]').click()); await sleep(500);
-  ok(await p.evaluate(a => MAT_PID === a && document.querySelector('#layer .mat').scrollTop === 0 && HST === 1, prox), 'Próxima abre a seguinte do topo, sem passo extra no Voltar');
+  ok(await p.evaluate(a => MAT_PID === a && document.querySelector('#layer .mat').scrollTop === 0 && HST === 2, prox), 'Próxima abre a seguinte do topo e conta um passo no Voltar (168)');
   // deslizar
   const prox2 = await p.evaluate(() => document.querySelector('#layer [data-matprox]')?.dataset.matprox);
   await p.evaluate(() => { const m = document.querySelector('#layer .mat h1'); const mk = (tp, x) => { const t = new Touch({ identifier: 1, target: m, clientX: x, clientY: 300 }); m.dispatchEvent(new TouchEvent(tp, { bubbles: true, touches: tp === 'touchend' ? [] : [t], changedTouches: [t] })) }; mk('touchstart', 320); mk('touchmove', 280); mk('touchmove', 200); mk('touchmove', 120); mk('touchend', 120) }); await sleep(500);
   ok(await p.evaluate(a => MAT_PID === a, prox2), 'deslizar para o lado abre a próxima');
   await p.evaluate(() => history.back()); await sleep(600);
-  const vr = await p.evaluate(a => { const el = document.getElementById('cpi-' + a); return { mat: !!document.querySelector('#layer .mat'), view: VIEW, top: el ? el.getBoundingClientRect().top : null } }, prox2);
+  ok(await p.evaluate(a => MAT_PID === a && !!document.querySelector('#layer .mat'), prox), 'voltar depois de deslizar: a matéria anterior (168)');
+  await p.evaluate(() => document.querySelector('#layer .mat-v').click()); await sleep(600);
+  const vr = await p.evaluate(a => { const el = document.getElementById('cpi-' + a); return { mat: !!document.querySelector('#layer .mat'), view: VIEW, top: el ? el.getBoundingClientRect().top : null } }, prox);
   ok(!vr.mat && vr.view === 'capa' && vr.top != null && vr.top > -10 && vr.top < 844, 'voltar: Capa na altura da última matéria lida', vr);
   ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'sem rolagem lateral');
   ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'Capa sem erros ' + p._erros.join('|'));

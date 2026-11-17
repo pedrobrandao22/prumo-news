@@ -44,12 +44,14 @@ const PREPARA = () => {
     // 1. Quem noticiou
     await ev(A, id => abrirCobertura(id), pid); await sleep(300);
     const q = await ev(A, () => { const sh = document.querySelector('.sheet'); const lis = [...sh.querySelectorAll('.cvl li')].map(l => ({ n: l.querySelector('b').textContent, e: (l.querySelector('.cv-e') || {}).textContent || '' }));
-      const fora = [...sh.querySelectorAll('h4')].find(h => /Não encontramos/.test(h.textContent)); return { lis, fora: fora ? fora.nextElementSibling.textContent : '', box: sh.querySelector('.cv-box').textContent } });
-    const nomes = q.lis.map(x => x.n), esp = Object.fromEntries(q.lis.map(x => [x.n, x.e]));
+      const fora = [...sh.querySelectorAll('h4')].find(h => /Não encontramos/.test(h.textContent)); return { lis, tb: (sh.querySelector('.cm168-tb') || {}).textContent || '', fora: fora ? fora.nextElementSibling.textContent : '', box: sh.querySelector('.cv-box').textContent } });
+    /* 168: veículo sem resumo e sem link vai para "Também noticiaram" (sem etiqueta de espectro) */
+    const tb = q.tb.replace(/^.*?:\s*/, '').split(/,\s*/).filter(Boolean);
+    const nomes = q.lis.map(x => x.n).concat(tb), esp = Object.fromEntries(q.lis.map(x => [x.n, x.e]).concat(tb.map(n => [n, 'também'])));
     ok(nomes.filter(n => n === 'CNN Brasil').length === 1, '"cnn" e "CNN Brasil" viram uma linha só', nomes.join('|'));
     ok(!/CNN Brasil/.test(q.fora), 'CNN Brasil não aparece em "Não encontramos em"', q.fora);
-    ok(esp['Brasil de Fato'] === 'Mais à esquerda' && esp['CartaCapital'] === 'Mais à esquerda' && esp['Brasil 247'] === 'Mais à esquerda', 'Brasil de Fato, CartaCapital e Brasil 247 à esquerda', JSON.stringify(esp));
-    ok(esp['Mix Vale'] === '', 'veículo fora da tabela fica sem etiqueta (não cai em "Centro")', JSON.stringify(esp));
+    ok(['Brasil de Fato', 'CartaCapital', 'Brasil 247'].every(n => esp[n] === 'Mais à esquerda' || esp[n] === 'também') && ['Brasil de Fato', 'CartaCapital', 'Brasil 247'].some(n => esp[n] === 'Mais à esquerda'), 'Brasil de Fato, CartaCapital e Brasil 247 à esquerda', JSON.stringify(esp));
+    ok(esp['Mix Vale'] === '' || esp['Mix Vale'] === 'também', 'veículo fora da tabela fica sem etiqueta (não cai em "Centro")', JSON.stringify(esp));
     ok(nomes.includes('O Tempo') && nomes.includes('Congresso em Foco'), 'quem o quadro de divergências cita entra em "Noticiaram"', nomes.join('|'));
     ok(nomes.includes('Folha') && !nomes.includes('folha'), '"folha" aparece como "Folha"');
     ok(!/atribuídas cada número/.test(q.box) && /Cada número está atribuído à sua fonte/.test(q.box), 'frase quebrada do quadro corrigida', q.box);

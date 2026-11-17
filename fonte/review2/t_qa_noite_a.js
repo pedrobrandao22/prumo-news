@@ -100,7 +100,7 @@ let srv = null, srv2 = null;
   await ev(D, () => document.querySelector('#b-busca') ? document.querySelector('#b-busca').click() : go('busca')); await sleep(400);
   ok(await ev(D, () => VIEW === 'busca' && !!$('#bvq')), 'a lupa abre a aba Buscar');
   await D.fill('#bvq', 'Bia');
-  ok(await esperar(D, () => /Perfis abertos/.test(document.querySelector('#bvres .cs123-bus')?.textContent || '') && !!document.querySelector('#bvres .cs123-bus [data-cs123seg]'), null, 5000), 'aba Buscar: "Perfis abertos" com a Bia e o botão Seguir (antes só na busca antiga)');
+  ok(await esperar(D, () => !!document.querySelector('#bvres .cs123-bus [data-cs123seg], #bvres .bu154-pe [data-cs123seg]') && /Pessoas/.test(document.querySelector('#bvres').textContent) && !/Perfis abertos/.test(document.querySelector('#bvres').textContent), null, 5000), 'aba Buscar: a Bia com o botão Seguir em "Pessoas" (168: perfis abertos juntos das pessoas)');
   ok(await ev(D, () => getComputedStyle(document.querySelector('#bvres .cs123-bus .amg-n b')).fontFamily === getComputedStyle(document.querySelector('#bvq')).fontFamily || !/Newsreader/.test(getComputedStyle(document.querySelector('#bvres .cs123-bus .amg-n b')).fontFamily)), 'lista de perfis com a letra das listas (não a serifa da coluna)');
   await shot(D, '03-busca-perfis-abertos');
   await clk(D, '#bvres .cs123-bus [data-cs123perfil]'); await sleep(800);

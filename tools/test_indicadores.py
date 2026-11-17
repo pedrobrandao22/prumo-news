@@ -90,6 +90,32 @@ class TesteSeries(unittest.TestCase):
         s.assertTrue(os.path.exists(ind))
 
 
+class TesteForaDoPregao(unittest.TestCase):
+    """De madrugada e no fim de semana o dólar do dia não muda (16/11/2026, 1h21: "hoje" com variação antes da abertura)."""
+    def test_horarios(s):
+        from datetime import datetime as D
+        s.assertTrue(IN.fora_do_pregao(D(2026, 11, 16, 1, 21, tzinfo=IN.SP)))   # segunda de madrugada
+        s.assertTrue(IN.fora_do_pregao(D(2026, 11, 15, 15, 0, tzinfo=IN.SP)))   # domingo
+        s.assertFalse(IN.fora_do_pregao(D(2026, 11, 16, 9, 26, tzinfo=IN.SP)))  # segunda, mercado aberto
+        s.assertFalse(IN.fora_do_pregao(D(2026, 11, 13, 18, 0, tzinfo=IN.SP)))  # sexta, fechamento
+
+    def test_main_mantem_o_dolar_de_madrugada(s):
+        d = tempfile.mkdtemp(prefix="ind-"); ind = os.path.join(d, "indicadores.json")
+        velho = {"id": "dolar", "nome": "Dólar", "valor": "R$ 5,65", "variacao": "+0,10%", "dir": "sobe", "data": "2026-11-13",
+                 "serie": [5.6, 5.65], "rotulos": ["2026-11-12", "2026-11-13"], "fonte": "cotação comercial"}
+        with open(ind, "w", encoding="utf-8") as fh: json.dump({"atualizado": "2026-11-13T18:00-03:00", "itens": [velho]}, fh)
+        chamou = []; f0, d0, o0 = IN.fora_do_pregao, IN.dolar, IN.get_json
+        IN.fora_do_pregao = lambda agora=None: True
+        IN.dolar = lambda: chamou.append(1) or {}
+        IN.get_json = Rede().get_json
+        try: IN.main([ind])
+        finally: IN.fora_do_pregao, IN.dolar, IN.get_json = f0, d0, o0
+        itens = {x["id"]: x for x in json.load(open(ind, encoding="utf-8"))["itens"]}
+        s.assertEqual(chamou, [])
+        s.assertEqual(itens["dolar"], velho)
+        shutil.rmtree(d, ignore_errors=True)
+
+
 class TesteSaltos(unittest.TestCase):
     """Salto grande num pregão (ex.: Ibovespa −13,9% em 26/10/2026, dia seguinte ao 2º turno) é gravado, mas o robô avisa."""
     def test_acha_saltos(s):

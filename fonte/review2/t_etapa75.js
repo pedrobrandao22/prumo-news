@@ -13,7 +13,7 @@ const SH = __dirname + '/../review3/var/';
   await ctx.route('https://upload.wikimedia.org/**', r => r.fulfill({ body: fs.readFileSync(__dirname + '/etapa13/foto.jpg'), contentType: 'image/jpeg' }));
   const p = U.erros(await ctx.newPage(), 'a'); await p.goto('http://localhost:8783/index.html'); await esperar(p, () => FEED && FEED.pautas.length, null, 10000); await sleep(800);
   await p.evaluate(id => abrirPagCob(id), pid); await sleep(500);
-  ok(await p.evaluate(([s, n]) => { const b = document.querySelector('.sheet [data-assunto]'); return b && b.dataset.assunto === s && new RegExp(n + ' histórias').test(b.textContent) }, [sub, tot]), `página da cobertura tem "Tudo sobre ${sub}" (${tot} histórias)`);
+  ok(await p.evaluate(([s, n]) => { const b = document.querySelector('.sheet [data-assunto]'); return b && b.dataset.assunto === s && new RegExp('^Notícias de ' + s + ' ' + n + ' ›').test(b.textContent.trim()) }, [sub, tot]), `página da cobertura tem "Notícias de ${sub}" (${tot}) (168)`);
   await p.evaluate(() => document.querySelector('.sheet [data-assunto]').click()); await sleep(800);
   const r = await p.evaluate(() => { const el = document.querySelector('#layer .pfv-as'); return el && { agora: el.querySelectorAll('[data-ascob]').length, tl: el.querySelectorAll('.as-tl li:not(.as-d)').length, dias: el.querySelectorAll('.as-tl .as-d').length, antes: el.querySelectorAll('.as-l [data-asdorm]').length, larg: document.documentElement.scrollWidth } });
   ok(r && r.agora >= 1 && r.tl >= tot && r.dias >= 1 && r.antes === tot - f.pautas.filter(x => x.subtema === sub).length, 'página do assunto: agora, linha do tempo por dia e dos últimos dias', r);
