@@ -369,7 +369,10 @@ def checar_mercado(f, IND, ref):
         # sexta (30) é verdade na terça (3), quando a semana "móvel" de 5 pregões dá 6% (ERRO falso em 03/11)
         sems = [abs(se[i] / se[i - 5] - 1) * 100 for i in range(max(5, len(se) - 6), len(se))]
         dias = [abs(se[i] / se[i - 1] - 1) * 100 for i in range(max(1, len(se) - 3), len(se))] + ([abs(var)] if var is not None else [])
-        ok[k] = {"lo": min(ult) * 0.97, "hi": max(ult) * 1.03, "sem": sems[-1], "sems": sems, "dia": abs(var) if var is not None else None,
+        # o robô grava só o FECHAMENTO (18h30, decisão de 17/11/2026): num dia útil, antes disso, o pregão de hoje ainda não está no
+        # arquivo e a variação "no dia" citada não tem com o que comparar (fica para a conferência em 2 veículos, manual 3b)
+        sem_hoje = dd < ref.date() and ref.weekday() < 5 and ref.hour >= 9
+        ok[k] = {"lo": min(ult) * 0.97, "hi": max(ult) * 1.03, "sem": sems[-1], "sems": sems, "dia": abs(var) if var is not None and not sem_hoje else None,
                  "dias": dias, "nome": x.get("nome") or k}
     if not ok: return
     def campos():

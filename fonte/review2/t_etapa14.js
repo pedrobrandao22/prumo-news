@@ -80,7 +80,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   await ctx.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1'));
   p = U.erros(await ctx.newPage(), 'd');
   await p.goto('http://localhost:8788/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi'), null, 10000); await sleep(700);
-  const lg = await p.evaluate(() => ({ cp2: !!document.querySelector('.cp.cp2'), side1m: !!document.querySelector('.cp-side .cp-1m'), sideInd: !!document.querySelector('.cp-side .cp-ind'), largo: document.querySelector('.app').classList.contains('largo'), w: document.querySelector('.app').getBoundingClientRect().width, man: !!document.querySelector('.cp-main .cpi-man') }));
+  const lg = await p.evaluate(() => ({ cp2: !!document.querySelector('.cp.cp2'), side1m: !!document.querySelector('.cp-side .cp-1m'), sideInd: !!document.querySelector('.cp-side .ui184'), largo: document.querySelector('.app').classList.contains('largo'), w: document.querySelector('.app').getBoundingClientRect().width, man: !!document.querySelector('.cp-main .cpi-man') }));
   ok(lg.cp2 && lg.side1m && lg.sideInd && lg.largo && lg.w > 1000 && lg.man, 'tela larga: Capa em 2 colunas', lg);
   await p.screenshot({ path: D + 'larga.png' });
   await p.evaluate(() => go('feed')); await sleep(500);

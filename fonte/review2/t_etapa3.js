@@ -22,7 +22,7 @@ const fs = require('fs');
   await P.click('#t-capa'); await sleep(600);
   ok(await P.evaluate(() => !document.querySelector('#v-capa').hidden && /Caso Master|Vorcaro|Master/i.test(document.querySelector('.cpi-man').textContent) && /Linha fina escrita/.test(document.querySelector('.cpi-man').textContent)), 'capa: manchete escolhida pela rodada, com linha fina');
   ok(await P.evaluate(() => document.querySelectorAll('.cp-dest>.cpi').length === 4), 'capa: 4 destaques');
-  ok(await P.evaluate(() => document.querySelectorAll('.cp-ind .ind-t').length === 4 && /R\$ 5,09/.test(document.querySelector('.cp-ind').textContent)), 'capa: indicadores');
+  ok(await P.evaluate(() => document.querySelectorAll('.ui184 .ui184-c').length === 4 && /R\$ 5,09/.test(document.querySelector('.ui184').textContent)), 'capa: indicadores (card único, 17/11)');
   ok(await P.evaluate(() => !!document.querySelector('.cp-vivo') && document.querySelectorAll('.cp-h').length >= 6), 'capa: faixa ao vivo e faixas por seção');
   ok(await P.evaluate(() => { return /Para acompanhar/.test(document.querySelector('#v-capa').textContent) && /Últimas/.test(document.querySelector('#v-capa').textContent) }), 'capa: Para acompanhar e Últimas');
   await P.screenshot({ path: D + '1-capa.png' });

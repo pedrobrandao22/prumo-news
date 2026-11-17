@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""Indicadores econômicos do Prumo News, sem IA (roda no GitHub a cada hora em dia útil).
+"""Indicadores econômicos do Prumo News, sem IA (roda no GitHub uma vez por dia útil, depois do fechamento dos mercados).
 
   python3 tools/indicadores.py indicadores.json [--series series]
 
 Fontes públicas, sem chave:
-- Dólar e Ibovespa: cotação do dia (Yahoo Finance; se falhar, o dólar usa a PTAX do Banco Central).
+- Dólar e Ibovespa: FECHAMENTO do dia (Yahoo Finance; se falhar, o dólar usa a PTAX do Banco Central). Decisão do Pedro
+  (17/11/2026): a Capa mostra um card só, atualizado no fim do dia. Durante o pregão o robô não troca o dólar nem o
+  Ibovespa (fica o último fechamento); a partir das 18h20 de Brasília num dia útil grava o fechamento, com "fechamento": true
+  e "hora" (a hora da cotação, ISO com fuso). O arquivo leva "dados_em" (a hora mais recente das cotações) para a legenda
+  "Atualizado em … às …" do app.
 - Selic (meta), IPCA em 12 meses e desemprego (PNAD Contínua): séries do Banco Central (SGS).
-Grava {"atualizado", "itens": [{id, nome, valor, variacao, dir, data, serie, fonte}]}. O app junta com os
+Grava {"atualizado", "dados_em", "itens": [{id, nome, valor, variacao, dir, data, hora, fechamento, serie, fonte}]}. O app junta com os
 indicadores do feed. Se uma fonte falhar, o indicador anterior do arquivo continua valendo.
 
 Com --series PASTA, guarda também o HISTÓRICO de cada indicador em PASTA/<id>.json (selic, ipca12m, ipca_mes,
@@ -83,12 +87,13 @@ def dia_yahoo(t, meta=None):
 
 
 def yahoo(simbolo):
-    """(preço atual, fechamento do pregão anterior, data, fechamentos dos últimos 3 meses, datas deles)."""
+    """(preço atual, fechamento do pregão anterior, data, fechamentos dos últimos 3 meses, datas deles, hora da cotação)."""
     d1 = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=1d&interval=5m")["chart"]["result"][0]["meta"]
     preco = float(d1["regularMarketPrice"])
     ant = float(d1.get("chartPreviousClose") or d1.get("previousClose"))
     t = d1.get("regularMarketTime")
     data = datetime.fromtimestamp(t, SP).date().isoformat() if t else datetime.now(SP).date().isoformat()
+    hora = (datetime.fromtimestamp(t, SP) if t else datetime.now(SP)).isoformat(timespec="minutes")
     try:
         r = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=3mo&interval=1d")["chart"]["result"][0]
         pares = [(dia_yahoo(t, r.get("meta")), round(float(c), 4))
@@ -100,14 +105,14 @@ def yahoo(simbolo):
         serie, rotulos = [dia[d] for d in ds], ds
     except Exception:
         serie, rotulos = [], []
-    return preco, ant, data, serie, rotulos
+    return preco, ant, data, serie, rotulos, hora
 
 
 def dolar():
     try:
-        p, a, data, serie, rot = yahoo("BRL%3DX")
+        p, a, data, serie, rot, hora = yahoo("BRL%3DX")
         item = {"id": "dolar", "nome": "Dólar", "valor": "R$ " + br(p, 2), "variacao": pct((p / a - 1) * 100),
-                "dir": direcao(round(a, 3), round(p, 3)), "data": data, "serie": serie, "rotulos": rot, "fonte": "cotação comercial"}
+                "dir": direcao(round(a, 3), round(p, 3)), "data": data, "hora": hora, "serie": serie, "rotulos": rot, "fonte": "cotação comercial"}
     except Exception as e:
         print("dólar (Yahoo) falhou:", repr(e)[:120]); item = None
     if item:
@@ -143,6 +148,26 @@ def depois_do_fechamento(agora=None):
     return agora.weekday() < 5 and agora.hour >= 19
 
 
+def janela_do_fechamento(agora=None):
+    """Dia útil, das 18h20 (Brasília) em diante: a B3 já fechou (17h com horário de verão nos EUA, 18h sem ele) e o câmbio
+    à vista também. É quando o robô grava o fechamento do dólar e do Ibovespa (decisão do Pedro, 17/11/2026)."""
+    agora = agora or datetime.now(SP)
+    return agora.weekday() < 5 and agora.hour * 60 + agora.minute >= 18 * 60 + 20
+
+
+MERCADO = ("dolar", "ibovespa")
+
+
+def manter_mercado(velho, agora=None):
+    """Motivo para NÃO buscar de novo o dólar/Ibovespa (o valor mostrado é sempre um fechamento), ou "" para buscar.
+    Sem valor anterior, busca sempre (primeira vez)."""
+    if not velho: return ""
+    agora = agora or datetime.now(SP)
+    if not janela_do_fechamento(agora): return "antes do fechamento (ou fora de dia útil): fica o último fechamento"
+    if velho.get("fechamento") and velho.get("data") == agora.date().isoformat(): return "fechamento de hoje já gravado"
+    return ""
+
+
 def corrigir_variacao_zerada(item, ptax):
     """Se a cotação veio com variação 0,00% depois do fechamento (o Yahoo já virou o dia), calcula a variação contra
     a PTAX do pregão anterior ao do item; sem esse dado, tira a variação em vez de mostrar 0,00%."""
@@ -159,9 +184,9 @@ def corrigir_variacao_zerada(item, ptax):
 
 
 def ibovespa():
-    p, a, data, serie, rot = yahoo("%5EBVSP")
+    p, a, data, serie, rot, hora = yahoo("%5EBVSP")
     return {"id": "ibovespa", "nome": "Ibovespa", "valor": br(p, 0), "variacao": pct((p / a - 1) * 100),
-            "dir": direcao(round(a), round(p)), "data": data, "serie": [round(x) for x in serie], "rotulos": rot, "fonte": "B3"}
+            "dir": direcao(round(a), round(p)), "data": data, "hora": hora, "serie": [round(x) for x in serie], "rotulos": rot, "fonte": "B3"}
 
 
 def mudanca(serie):
@@ -331,11 +356,13 @@ def main(argv):
                ("ipca12m", lambda: mensal(13522, "ipca12m", "IPCA 12m", "IBGE", antigo.get("ipca12m"))),
                ("desemprego", lambda: mensal(24369, "desemprego", "Desemprego", "IBGE/PNAD", antigo.get("desemprego")))]
     for id_, fn in tarefas:
-        hoje = datetime.now(SP).date().isoformat()
-        if id_ == "dolar" and "dolar" in antigo and fora_do_pregao() and not (depois_do_fechamento() and antigo["dolar"].get("data") != hoje):
-            novos[id_] = antigo[id_]; log.append("dolar: fora do horário do pregão, fica o último (" + str(antigo[id_].get("data")) + ")"); continue
+        agora = datetime.now(SP)
+        motivo = manter_mercado(antigo.get(id_), agora) if id_ in MERCADO else ""
+        if motivo:
+            novos[id_] = antigo[id_]; log.append(f"{id_}: {motivo} ({antigo[id_].get('data')})"); continue
         try:
             novos[id_] = fn()
+            if id_ in MERCADO and janela_do_fechamento(agora): novos[id_] = dict(novos[id_], fechamento=True)
             if id_ == "dolar" and depois_do_fechamento():
                 try: novos[id_] = corrigir_variacao_zerada(novos[id_], sgs(1, 20))
                 except Exception as e: log.append("dolar: PTAX para a variação falhou " + repr(e)[:80]); novos[id_] = corrigir_variacao_zerada(novos[id_], [])
@@ -349,6 +376,8 @@ def main(argv):
     if [{k: v for k, v in x.items()} for x in itens] == list(antigo.values()) and len(antigo) == len(itens):
         print("sem mudança"); return 0
     out = {"atualizado": datetime.now(SP).isoformat(timespec="minutes"), "itens": itens}
+    horas = sorted(str(x["hora"]) for x in itens if x.get("id") in MERCADO and x.get("hora"))
+    if horas: out["dados_em"] = horas[-1]   # hora real das cotações (legenda "Atualizado em … às …" do card da Capa)
     if falhas: out["falhas"] = falhas
     with open(caminho, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, separators=(",", ":"))

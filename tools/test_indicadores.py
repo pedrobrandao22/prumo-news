@@ -112,10 +112,10 @@ class TesteForaDoPregao(unittest.TestCase):
         s.assertEqual(IN.corrigir_variacao_zerada(ok, ptax), ok)   # variação de verdade não muda
 
     def test_noite_mantem_o_dolar_do_dia(s):
-        """Depois das 19h fica o valor do pregão de hoje; se o de hoje ainda não foi gravado, calcula (sem 0,00%)."""
+        """Depois das 19h fica o fechamento de hoje; se o de hoje ainda não foi gravado, calcula (sem 0,00%)."""
         from datetime import datetime as D
         d = tempfile.mkdtemp(prefix="ind-"); ind = os.path.join(d, "indicadores.json")
-        velho = {"id": "dolar", "nome": "Dólar", "valor": "R$ 5,77", "variacao": "+2,12%", "dir": "sobe", "data": "2026-11-16",
+        velho = {"id": "dolar", "nome": "Dólar", "valor": "R$ 5,77", "variacao": "+2,12%", "dir": "sobe", "data": "2026-11-16", "fechamento": True,
                  "serie": [5.65, 5.77], "rotulos": ["2026-11-13", "2026-11-16"], "fonte": "cotação comercial"}
         with open(ind, "w", encoding="utf-8") as fh: json.dump({"atualizado": "2026-11-16T17:20-03:00", "itens": [velho]}, fh)
         chamou = []; d0, o0, dt0 = IN.dolar, IN.get_json, IN.datetime
@@ -145,16 +145,75 @@ class TesteForaDoPregao(unittest.TestCase):
         velho = {"id": "dolar", "nome": "Dólar", "valor": "R$ 5,65", "variacao": "+0,10%", "dir": "sobe", "data": "2026-11-13",
                  "serie": [5.6, 5.65], "rotulos": ["2026-11-12", "2026-11-13"], "fonte": "cotação comercial"}
         with open(ind, "w", encoding="utf-8") as fh: json.dump({"atualizado": "2026-11-13T18:00-03:00", "itens": [velho]}, fh)
-        chamou = []; f0, d0, o0 = IN.fora_do_pregao, IN.dolar, IN.get_json
-        IN.fora_do_pregao = lambda agora=None: True
+        chamou = []; f0, d0, o0 = IN.datetime, IN.dolar, IN.get_json
+        from datetime import datetime as D
+        class F(D):
+            @classmethod
+            def now(cls, tz=None): return D(2026, 11, 16, 1, 21, tzinfo=IN.SP)
+        IN.datetime = F
         IN.dolar = lambda: chamou.append(1) or {}
         IN.get_json = Rede().get_json
         try: IN.main([ind])
-        finally: IN.fora_do_pregao, IN.dolar, IN.get_json = f0, d0, o0
+        finally: IN.datetime, IN.dolar, IN.get_json = f0, d0, o0
         itens = {x["id"]: x for x in json.load(open(ind, encoding="utf-8"))["itens"]}
         s.assertEqual(chamou, [])
         s.assertEqual(itens["dolar"], velho)
         shutil.rmtree(d, ignore_errors=True)
+
+
+class TesteFechamento(unittest.TestCase):
+    """Decisão do Pedro (17/11/2026): a Capa mostra o FECHAMENTO do dólar e do Ibovespa, gravado depois das 18h20 em dia
+    útil, com a hora da cotação ("hora") e a hora mais recente no arquivo ("dados_em") para a legenda "Atualizado em …"."""
+    def test_janela(s):
+        from datetime import datetime as D
+        s.assertFalse(IN.janela_do_fechamento(D(2026, 11, 17, 15, 0, tzinfo=IN.SP)))   # terça, pregão aberto
+        s.assertFalse(IN.janela_do_fechamento(D(2026, 11, 17, 18, 19, tzinfo=IN.SP)))
+        s.assertTrue(IN.janela_do_fechamento(D(2026, 11, 17, 18, 30, tzinfo=IN.SP)))
+        s.assertTrue(IN.janela_do_fechamento(D(2026, 11, 17, 22, 0, tzinfo=IN.SP)))
+        s.assertFalse(IN.janela_do_fechamento(D(2026, 11, 21, 19, 0, tzinfo=IN.SP)))   # sábado
+        v = {"data": "2026-11-17", "fechamento": True}
+        s.assertTrue(IN.manter_mercado(v, D(2026, 11, 17, 15, 0, tzinfo=IN.SP)))
+        s.assertTrue(IN.manter_mercado(v, D(2026, 11, 17, 19, 30, tzinfo=IN.SP)))      # 2ª rodada: já gravado
+        s.assertFalse(IN.manter_mercado({"data": "2026-11-17"}, D(2026, 11, 17, 18, 30, tzinfo=IN.SP)))  # valor do meio do dia: troca
+        s.assertFalse(IN.manter_mercado(dict(v, data="2026-11-16"), D(2026, 11, 17, 18, 30, tzinfo=IN.SP)))
+        s.assertFalse(IN.manter_mercado(None, D(2026, 11, 17, 15, 0, tzinfo=IN.SP)))   # primeira vez: busca
+
+    def _roda(s, quando, velhos):
+        from datetime import datetime as D
+        d = tempfile.mkdtemp(prefix="ind-"); ind = os.path.join(d, "indicadores.json")
+        with open(ind, "w", encoding="utf-8") as fh: json.dump({"atualizado": "x", "itens": velhos}, fh)
+        t = int(D(2026, 11, 17, 18, 7, tzinfo=IN.SP).timestamp())
+        def gj(url, tempo=20):
+            if "range=1d" in url:
+                preco = 5.81 if "BRL" in url else 171000.0
+                return {"chart": {"result": [{"meta": {"regularMarketPrice": preco, "chartPreviousClose": preco * 0.99, "regularMarketTime": t}}]}}
+            return Rede().get_json(url, tempo)
+        class F(D):
+            @classmethod
+            def now(cls, tz=None): return quando
+        g0, d0 = IN.get_json, IN.datetime; IN.get_json, IN.datetime = gj, F
+        try: IN.main([ind])
+        finally: IN.get_json, IN.datetime = g0, d0
+        out = json.load(open(ind, encoding="utf-8")); shutil.rmtree(d, ignore_errors=True)
+        return out, {x["id"]: x for x in out["itens"]}
+
+    def test_meio_do_dia_nao_troca_o_fechamento(s):
+        from datetime import datetime as D
+        v = [{"id": "dolar", "nome": "Dólar", "valor": "R$ 5,77", "variacao": "+2,12%", "dir": "sobe", "data": "2026-11-16", "fechamento": True, "hora": "2026-11-16T18:31-03:00"},
+             {"id": "ibovespa", "nome": "Ibovespa", "valor": "169.295", "variacao": "-1,83%", "dir": "desce", "data": "2026-11-16", "fechamento": True, "hora": "2026-11-16T18:05-03:00"}]
+        out, it = s._roda(D(2026, 11, 17, 14, 20, tzinfo=IN.SP), v)
+        s.assertEqual(it["dolar"], v[0]); s.assertEqual(it["ibovespa"], v[1])
+        s.assertEqual(out["dados_em"], "2026-11-16T18:31-03:00")
+
+    def test_fim_do_dia_grava_o_fechamento_com_hora(s):
+        from datetime import datetime as D
+        v = [{"id": "dolar", "nome": "Dólar", "valor": "R$ 5,77", "data": "2026-11-16", "fechamento": True}]
+        out, it = s._roda(D(2026, 11, 17, 18, 30, tzinfo=IN.SP), v)
+        s.assertEqual(it["dolar"]["valor"], "R$ 5,81"); s.assertTrue(it["dolar"]["fechamento"])
+        s.assertEqual(it["dolar"]["data"], "2026-11-17"); s.assertEqual(it["dolar"]["hora"], "2026-11-17T18:07-03:00")
+        s.assertEqual(it["ibovespa"]["valor"], "171.000"); s.assertTrue(it["ibovespa"]["fechamento"])
+        s.assertEqual(out["dados_em"], "2026-11-17T18:07-03:00")
+        s.assertTrue(out["atualizado"].startswith("2026-11-17T18:30"))
 
 
 class TesteSaltos(unittest.TestCase):

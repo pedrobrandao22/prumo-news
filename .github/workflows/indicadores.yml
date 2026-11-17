@@ -1,10 +1,11 @@
 name: Indicadores
-# Dias úteis, de hora em hora (8h20 às 19h20 de Brasília): dólar, Ibovespa, Selic, IPCA 12 meses e desemprego
-# de fontes públicas (Banco Central, IBGE, cotações), gravados em indicadores.json. O app junta com o feed.
-# Também guarda o histórico de cada um em series/*.json (gráficos do app com "serie": "selic", sem digitar números).
+# Dias úteis, no fim do dia, depois do fechamento dos mercados (decisão do Pedro, 17/11/2026): 18h30 de Brasília e, de
+# reserva, 19h30 (a segunda rodada não troca o fechamento já gravado). Dólar e Ibovespa (fechamento, com a hora da cotação),
+# Selic, IPCA 12 meses e desemprego de fontes públicas (Banco Central, IBGE, cotações), gravados em indicadores.json.
+# O app mostra um card só na Capa, com "Atualizado em … às …". Também guarda o histórico em series/*.json.
 on:
   schedule:
-    - cron: "20 11-22 * * 1-5"
+    - cron: "30 21,22 * * 1-5"
   workflow_dispatch:
   push:
     branches: [main]
