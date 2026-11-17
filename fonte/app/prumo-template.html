@@ -51,8 +51,10 @@ var ab141Pre={};
   if(!fa)r.classList.add("ab141-sem-arq")}catch(e){}})();
 </script>
 <style>
-@font-face{font-family:"Newsreader";font-style:normal;font-weight:200 800;font-display:swap;src:url(fontes/newsreader.woff2) format("woff2-variations"),url(fontes/newsreader.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Newsreader";font-style:italic;font-weight:200 800;font-display:swap;src:url(fontes/newsreader-italico.woff2) format("woff2-variations"),url(fontes/newsreader-italico.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+/* 170: os arquivos da Newsreader vão só do peso 400 ao 800 (o app não usa menos de 400 nessa letra): 99 e 109 KB em vez de 129 e 144 KB,
+   desenho idêntico nos pesos 400–800 (conferido pixel a pixel). Gerados com fontTools: instancer.instantiateVariableFont(f, {"wght": (400, 800)}). */
+@font-face{font-family:"Newsreader";font-style:normal;font-weight:400 800;font-display:swap;src:url(fontes/newsreader.woff2) format("woff2-variations"),url(fontes/newsreader.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Newsreader";font-style:italic;font-weight:400 800;font-display:swap;src:url(fontes/newsreader-italico.woff2) format("woff2-variations"),url(fontes/newsreader-italico.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Public Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(fontes/public-sans.woff2) format("woff2-variations"),url(fontes/public-sans.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Public Sans";font-style:italic;font-weight:100 900;font-display:swap;src:url(fontes/public-sans-italico.woff2) format("woff2-variations"),url(fontes/public-sans-italico.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 /* 141: letras de reserva com as mesmas medidas (largura média e altura da linha) da Newsreader e da Public Sans: enquanto as
@@ -5939,7 +5941,10 @@ html.fzg.vn .vn-abas .vn-aba-ct{flex:0 0 42px;min-width:42px;padding:0}
   var a=document.getElementById("t-feed"),b=document.getElementById("t-capa");if(a)a.removeAttribute("aria-current");if(b)b.setAttribute("aria-current","page")}catch(e){}})();
 </script>
 
-<script>window.SBJS_URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";window.SBJS_PRONTO=new Promise(function(ok){window.__sbjsOk=ok});function carregarSbjs(){if(window.__sbjsIni)return;window.__sbjsIni=1;var s=document.createElement("script");s.id="sbjs";s.async=true;s.src=window.SBJS_URL;s.onload=s.onerror=function(){window.__sbjsOk()};document.head.appendChild(s)}document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(function(){setTimeout(carregarSbjs,0)})});setTimeout(carregarSbjs,2500);</script>
+<!-- 170: o supabase.js (~55 KB) só começa a vir depois de a página inteira chegar (DOMContentLoaded; a reserva de 2,5 s
+     conta a partir daí, para aba escondida sem requestAnimationFrame). Antes, a reserva contava do início e, em 3G, ele disputava a
+     banda com o próprio index.html e atrasava a manchete. initSocial também o pede ao terminar de ler o código. -->
+<script>window.SBJS_URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";window.SBJS_PRONTO=new Promise(function(ok){window.__sbjsOk=ok});function carregarSbjs(){if(window.__sbjsIni)return;window.__sbjsIni=1;var s=document.createElement("script");s.id="sbjs";s.async=true;s.src=window.SBJS_URL;s.onload=s.onerror=function(){window.__sbjsOk()};document.head.appendChild(s)}document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(function(){setTimeout(carregarSbjs,0)});setTimeout(carregarSbjs,2500)});</script>
 <script>
 const $=s=>document.querySelector(s);
 var RAIZ="feed",JUMPS=[],FST=0,PUSHQ=0,HST=0,VST=0,TST=0,IGN=0,NOVO=null,BACKN=0,BACKT=0,VIRA_T=0,FEED_Y=0;
