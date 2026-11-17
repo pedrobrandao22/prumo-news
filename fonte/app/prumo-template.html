@@ -20893,6 +20893,17 @@ function sg181Textos(root){if(!root||SG181.on!==true||!root.querySelectorAll)ret
 (function(){let fila=new Set(),t=0;const roda=()=>{t=0;const l=[...fila];fila.clear();l.forEach(el=>{try{if(el.isConnected)sg181Textos(el)}catch(e){}})};
   const mo=new MutationObserver(ms=>{if(SG181.on!==true)return;ms.forEach(m=>m.addedNodes.forEach(x=>{if(x.nodeType===1)fila.add(x);else if(x.parentElement)fila.add(x.parentElement)}));if(!t)t=requestAnimationFrame(roda)});
   const liga=()=>{try{mo.observe(document.body,{childList:true,subtree:true})}catch(e){}};if(document.body)liga();else addEventListener("DOMContentLoaded",liga)})();
+/* 188 · rodadas rápidas (Fase 2, 18/11): a rápida "sem novidade" diz por quê.
+   Desde 18/11 o registro em rodadas.json traz "motivo" (código conferido pelo tools/aplicar.py --rodada; manual 7).
+   "Atualizações de hoje" mostra o texto do motivo no lugar do genérico "Nada mudou desde a anterior."; o administrador vê
+   também o código. Registro antigo, sem motivo: fica como era. */
+var RP188_MOT={nada_novo:"Nenhum fato novo relevante desde a anterior.",ja_no_feed:"Os fatos novos já estavam na edição.",
+  sem_confirmacao:"Há relatos novos ainda sem confirmação em fonte aberta; ficam para a próxima.",menor:"Só assuntos menores desde a anterior."};
+if(typeof rodadaDetalhe==="function"){const _rd188=rodadaDetalhe;rodadaDetalhe=function(x){
+  const h=_rd188.apply(this,arguments);const m=x&&x.status==="sem_mudancas"&&RP188_MOT[x.motivo];if(!m)return h;
+  const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.uid]&&S.membros[S.uid].papel==="admin");
+  if(adm)return `${esc(m)} (${esc(x.motivo)})${h?" · "+h:""}`;
+  return h&&h!==esc("Nada mudou desde a anterior.")?`${esc(m)} ${h}`:esc(m)}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

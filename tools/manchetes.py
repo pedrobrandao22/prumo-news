@@ -12,6 +12,8 @@ manchetes que falam do mesmo assunto e compara com o feed do Prumo:
 "acionar" (regra em REGRA, abaixo) + "acionar_motivo" + "acionar_itens": diz à rodada rápida do Claude se vale
 rodar e por onde começar. Lê também oficiais.json (dados públicos, tools/oficiais.py) e rodadas.json (para não
 acionar de novo pelo que uma rodada já viu). Se "acionar" for false, a rodada encerra sem gastar quase nada.
+Desde 18/11 cada item do acionar traz "acao" ("atualiza: <pid>" ou "nova") e os assuntos novos trazem
+"pid_provavel" quando parecem continuação de uma cobertura do feed: a rodada não decide sozinha entre breve e notícia.
 """
 import email.utils, json, os, re, sys, unicodedata, urllib.request
 import xml.etree.ElementTree as ET
@@ -136,7 +138,8 @@ N_PRINCIPAIS = 8    # as 8 pautas de maior prioridade
 REGRA = ("acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, "
          "Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos "
          "de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se "
-         "ganharem 2+ veículos ou se a pauta for atualizada depois")
+         "ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). "
+         "Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve")
 
 LIXO = re.compile(
     r"horoscopo|\bsignos?\b|\btaro\b|\bbbb\b|big brother|\ba fazenda \d|\bpeo(es|a)\b|\breality|\bnovela|\bfamosos|celebridade|"
@@ -208,6 +211,25 @@ def ultima_rodada(feed, rodadas):
     return max(cands) if cands else None
 
 
+def casa_pauta(tk, ptk, ttk=None):
+    """18/11: quanto um título (palavras tk) parece fato da pauta (palavras de tema, tag e título: ptk; ttk = do tema).
+    0 = não casa; >= 0.35 = casa. 2 palavras em comum só valem com metade das palavras ou o tema inteiro; 3+ com 35%.
+    Usada aqui (pid_provavel) e no validar.py (breve que é fato de cobertura)."""
+    inter = len(tk & ptk)
+    if inter < 2: return 0.0
+    s = inter / min(len(tk), len(ptk))
+    if ttk and len(ttk) >= 2 and ttk <= tk: s = max(s, 0.6)
+    return s if (inter >= 3 or s >= 0.5) else 0.0
+
+
+def acao_de(c):
+    """18/11: o que a rodada faz com cada item do acionar, já decidido aqui (a rodada confere o fato e executa).
+    Nunca "breve": o que aciona tem veículos bastantes para ser notícia."""
+    pid = c.get("pid") or c.get("pid_provavel")
+    if pid: return f"atualiza: {pid}" + ("" if c.get("pid") else " (provável; confira que é o mesmo assunto)")
+    return "nova" + (" (e tire a breve do mesmo assunto)" if c.get("ja_e_breve") else "")
+
+
 def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, rodadas=None, fotos=()):
     """Toda a lógica sem rede (testável). itens_todos: [{titulo,url,hora(datetime),fonte,veiculo,secao,tk}]."""
     anterior, oficiais, rodadas = anterior or {}, oficiais or {}, rodadas or {}
@@ -218,8 +240,9 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
     itens = [x for x in todos if x["hora"] >= desde]
 
     # o que já é pauta (título, tema e tag) e o que já é breve
-    pautas, sec_p, prio, tema_tk = [], {}, {}, {}
+    pautas, sec_p, prio, tema_tk, ativas = [], {}, {}, {}, set()
     for p in feed.get("pautas") or []:
+        if p.get("status") != "encerrada": ativas.add(p.get("id"))
         tk = tokens(" ".join(str(p.get(k) or "") for k in ("tema", "tag")) + " " + str((p.get("neutro") or {}).get("titulo") or ""))
         pautas.append((p.get("id"), p.get("secao"), tk, ultima_pauta(p)))
         tema_tk[p.get("id")] = tokens(p.get("tema"))
@@ -231,13 +254,20 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
     def pauta_de(tk):
         best, sc = None, 0.0
         for pid, sec, ptk, ult in pautas:
-            if not tk or not ptk: continue
+            # cobertura encerrada não recebe atualização: fato novo do tema é assunto novo (manual 2b, FIM; 18/11)
+            if not tk or not ptk or pid not in ativas: continue
             inter = len(tk & ptk)
             s = inter / min(len(tk), len(ptk))
             # o tema da pauta (nome estável: "Caso Master", "Mercado", "PEC da Segurança") inteiro na manchete
             if inter >= 2 and tema_tk.get(pid) and tema_tk[pid] <= tk: s = max(s, 0.6)
             if inter >= 2 and s > sc: best, sc = (pid, sec, ult), s
         return best if sc >= 0.5 else None
+
+    def pauta_provavel(gtk):
+        """18/11: cobertura provável de um assunto "novo" (o grupo inteiro, não manchete a manchete). Só cobertura ativa."""
+        sc = [(casa_pauta(gtk, ptk, tema_tk.get(pid)), pid) for pid, sec, ptk, ult in pautas if pid in ativas]
+        sc = [x for x in sc if x[0] >= 0.35]
+        return max(sc)[1] if sc else None
 
     for x in todos:
         x["lixo"] = lixo(x["titulo"])
@@ -279,15 +309,22 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
         sec = secao_de(g["itens"])
         nj, ini = janela([x for x in g["itens"] if not x["lixo"]])
         pontos = nj * PESO.get(sec, PESO[None])
+        # 18/11: assunto que já é breve continua relevante e acionando (antes a breve o calava: o fato da tarde
+        # entrava como breve e nunca mais voltava, mesmo com 5 veículos)
         novo = {"assunto": lista[0]["titulo"], "secao": sec, "n_fontes": len(fontes), "fontes": fontes,
-                "ja_e_breve": breve, "relevante": len(fontes) >= 3 and not breve and not eh_lixo, "manchetes": lista,
+                "ja_e_breve": breve, "relevante": len(fontes) >= 3 and not eh_lixo, "manchetes": lista,
                 "n_fontes_90min": nj}
+        prov = None if eh_lixo else pauta_provavel(g["tk"])
+        if prov: novo["pid_provavel"] = prov
         if eh_lixo: novo["lixo"] = True
         novos.append(novo)
-        if not eh_lixo and not breve and pontos >= LIMIAR:
-            cands.append({"tipo": "novo", "titulo": lista[0]["titulo"], "secao": sec, "n_fontes": len(fontes),
-                          "motivo": f"assunto novo: {nj} veículos em {JANELA_MIN} min ({sec or 'sem seção'})",
-                          "chave": sorted(g["tk"])[:40], "_pontos": pontos})
+        if not eh_lixo and pontos >= LIMIAR:
+            c = {"tipo": "novo", "titulo": lista[0]["titulo"], "secao": sec, "n_fontes": len(fontes),
+                 "motivo": f"assunto novo: {nj} veículos em {JANELA_MIN} min ({sec or 'sem seção'})" + (" — hoje só breve" if breve else ""),
+                 "chave": sorted(g["tk"])[:40], "_pontos": pontos}
+            if prov: c["pid_provavel"] = prov
+            if breve: c["ja_e_breve"] = True
+            cands.append(c)
     novos.sort(key=lambda g: (-g["relevante"], -g["n_fontes"], g["assunto"]))
 
     # 1C: novos relatos por pauta (manchetes das últimas horas posteriores à última atualização da pauta)
@@ -353,7 +390,9 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
     ativos = [c for c in cands if not ja_visto(c)]
     ja_av = len(cands) - len(ativos)
     ativos.sort(key=lambda c: -c["_pontos"])
-    for c in ativos: c.pop("_pontos", None)
+    for c in ativos:
+        c.pop("_pontos", None)
+        c["acao"] = acao_de(c)
     if ativos:
         motivo = "; ".join(c["motivo"] for c in ativos[:3]) + (f" (+{len(ativos) - 3})" if len(ativos) > 3 else "")
     else:

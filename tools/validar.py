@@ -5,6 +5,7 @@ Uso:
   python3 validar.py feed.json [anterior.json]            (forma antiga, continua valendo)
   python3 validar.py feed.json --prev anterior.json [--json] [--virada] [--agora 2026-10-14T21:48:00-03:00]
 
+  --nov X     novidades.json (padrão: ao lado do feed, ou /tmp/prumo-site/novidades.json): breve de assunto com 3+ veículos
   --ind X     indicadores.json (padrão: ao lado do feed, ou /tmp/prumo-site/indicadores.json): confere dólar e Ibovespa citados
   --prev X    feed anterior (o que estava no ar antes da sua rodada): enquetes, pesquisas, mudanças
   --json      imprime na ÚLTIMA linha um resumo {"erros":N,"avisos":N,"pendencias":[...]}
@@ -936,6 +937,95 @@ def checar_regras_1711(f, ant, ref, agora, virada):
                       f", mas o título diz R$ {vt[0]:.2f}".replace(".", ",") + ": use o mesmo número (manual 3b, ENTENDA)")
 
 
+# ---------- regras de 18/11: fato novo relevante vira notícia, não breve ----------
+NOVIDADES = None  # novidades.json (robô de manchetes), lido no main
+_M = None
+
+
+def manchetes_mod():
+    """tools/manchetes.py: a mesma régua de palavras com que o robô casa manchete e cobertura."""
+    global _M
+    if _M is None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("manchetes_prumo", os.path.join(os.path.dirname(os.path.abspath(__file__)), "manchetes.py"))
+        _M = importlib.util.module_from_spec(spec); spec.loader.exec_module(_M)
+    return _M
+
+
+def ler_novidades(caminho, ref):
+    for c in [caminho, "novidades.json", "/tmp/prumo-site/novidades.json"]:
+        if not c: continue
+        try: d = json.load(open(c, encoding="utf-8"))
+        except Exception: continue
+        g = dt(d.get("gerado")) if isinstance(d, dict) else None
+        if g and ref and abs((ref - g).total_seconds()) <= 8 * 3600: return d  # de outro dia/turno não serve
+        return None
+    return None
+
+
+def checar_breves_1811(f, ant, ref, nov=None):
+    """Breve que é fato de uma cobertura ativa (pede update_add) ou de um assunto que o robô de manchetes viu em 3+
+    veículos (pede notícia). Breve nova desta rodada: ERRO; no feed no ar (sem --prev): AVISO. Urgente fica de fora."""
+    M = manchetes_mod()
+    novas = None if ant is None else {b.get("url") for b in ant.get("breves") or [] if isinstance(b, dict)}
+    cobs = []
+    for p in f.get("pautas") or []:
+        if not isinstance(p, dict) or p.get("tipo") == "pontual" or p.get("status") == "encerrada": continue
+        ptk = M.tokens(" ".join(str(p.get(k) or "") for k in ("tema", "tag")) + " " + str((p.get("neutro") or {}).get("titulo") or ""))
+        cobs.append((p.get("id"), ptk, M.tokens(p.get("tema"))))
+    rel = [g for g in (nov or {}).get("novos") or [] if isinstance(g, dict) and g.get("relevante") and not g.get("lixo")
+           and (g.get("n_fontes") or 0) >= 3 and g.get("secao") in ("politica", "economia", "brasil", "mundo")]
+    hoje = ref.date()
+    for b in f.get("breves") or []:
+        if not isinstance(b, dict) or b.get("urgente") is True: continue
+        nova = novas is not None and b.get("url") not in novas
+        if novas is not None and not nova: continue
+        if novas is None and (dt(b.get("hora")) or ref).date() != hoje: continue
+        tk = M.tokens(b.get("titulo"))
+        msg = None
+        for pid, ptk, ttk in cobs:
+            if M.casa_pauta(tk, ptk, ttk) >= 0.35:
+                msg = f"breve '{str(b.get('titulo'))[:60]}' é fato da cobertura {pid}: registre como atualização (update_add com titulo), não como breve"
+                break
+        if not msg:
+            for g in rel:
+                ms = [m for m in g.get("manchetes") or [] if isinstance(m, dict)]
+                if any(m.get("url") == b.get("url") for m in ms) or any(M.parecido(tk, M.tokens(m.get("titulo"))) for m in ms):
+                    msg = (f"breve '{str(b.get('titulo'))[:60]}' é assunto que {g.get('n_fontes')} veículos noticiaram: vira notícia "
+                           f"(add_pauta" + (f", ou update_add em {g['pid_provavel']}" if g.get("pid_provavel") else "") + "), não breve")
+                    break
+        if msg: (E if nova else A)(msg + " (manual 3, BREVE OU NOTÍCIA)")
+
+
+# ---------- registro da rodada (rodadas.json), 18/11 ----------
+# Rápida "sem_mudancas" diz por quê, com um destes códigos (o app mostra o texto ao leitor; a nota traz o detalhe).
+MOTIVOS = {
+    "nada_novo": "Nenhum fato novo relevante desde a anterior.",
+    "ja_no_feed": "Os fatos novos já estavam na edição.",
+    "sem_confirmacao": "Há relatos novos ainda sem confirmação em fonte aberta; ficam para a próxima.",
+    "menor": "Só assuntos menores desde a anterior.",
+}
+STATUS_RODADA = ("ok", "sem_mudancas", "falhou", "pulada")
+
+
+def checar_registro(reg, nov=None, agora=None):
+    """Erros do registro de uma rodada (lista vazia = ok). nov: novidades.json do momento da rodada."""
+    out = []
+    if not isinstance(reg, dict): return ["o registro precisa ser um objeto JSON"]
+    if reg.get("tipo") not in ("completa", "rapida", "virada"): out.append(f"tipo {reg.get('tipo')!r}: use completa, rapida ou virada")
+    if reg.get("status") not in STATUS_RODADA: out.append(f"status {reg.get('status')!r}: use {', '.join(STATUS_RODADA)}")
+    if not str(reg.get("nota") or "").strip(): out.append("falta a nota (1 frase)")
+    if reg.get("motivo") is not None and reg.get("motivo") not in MOTIVOS:
+        out.append(f"motivo {reg.get('motivo')!r}: use um destes: {', '.join(MOTIVOS)}")
+    if reg.get("tipo") == "rapida" and reg.get("status") == "sem_mudancas":
+        if not reg.get("motivo"): out.append(f"rápida sem novidade precisa de \"motivo\" ({', '.join(MOTIVOS)}) e da nota com o detalhe (manual 7)")
+        g = dt((nov or {}).get("gerado")) if isinstance(nov, dict) else None
+        if reg.get("motivo") == "nada_novo" and nov and nov.get("acionar") and g and agora and timedelta(0) <= agora - g <= timedelta(hours=3):
+            out.append("motivo nada_novo, mas o acionar de novidades.json pediu: " + str(nov.get("acionar_motivo") or "")[:160] +
+                       " — faça a notícia (acao de cada item) ou diga ja_no_feed / sem_confirmacao / menor, com o assunto na nota")
+    return out
+
+
 def checar(f, ant=None, virada=False, agora=None, IND=None):
     preparar_veiculos(f)
     ps = f.get("pautas") or []
@@ -1488,6 +1578,8 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     except Exception as e: A(f"conferência das regras de 16/11 (noite) falhou: {e!r}")
     try: checar_regras_1711(f, ant, ref, agora, virada)
     except Exception as e: A(f"conferência das regras de 17/11 falhou: {e!r}")
+    try: checar_breves_1811(f, ant, ref, NOVIDADES)
+    except Exception as e: A(f"conferência das breves (18/11) falhou: {e!r}")
     try: checar_mercado(f, IND, ref)
     except Exception as e: A(f"conferência dos números de mercado falhou: {e!r}")
     return ref, agora
@@ -1801,13 +1893,14 @@ def checar_imagem(pid, im, p):
         A(f"[{pid}] celular.contador '{d.get('contador')}' não aparece no texto")
 
 def main(argv):
-    args, prev, as_json, virada, agora, indf = [], None, False, False, None, None
+    args, prev, as_json, virada, agora, indf, novf = [], None, False, False, None, None, None
     i = 0
     while i < len(argv):
         a = argv[i]
         if a == "--prev": prev = argv[i + 1]; i += 2; continue
         if a == "--agora": agora = datetime.fromisoformat(argv[i + 1]); i += 2; continue
         if a == "--ind": indf = argv[i + 1]; i += 2; continue
+        if a == "--nov": novf = argv[i + 1]; i += 2; continue
         if a == "--json": as_json = True
         elif a == "--virada": virada = True
         elif a in ("-h", "--help"): print(__doc__); return 0
@@ -1827,8 +1920,9 @@ def main(argv):
         except Exception: A("não consegui ler o feed anterior")
     if agora is not None and agora.tzinfo is None: agora = agora.replace(tzinfo=SP)
     IND = ler_indicadores(indf or os.path.join(os.path.dirname(os.path.abspath(args[0])), "indicadores.json"))
-    global SERIES_IDX
+    global SERIES_IDX, NOVIDADES
     SERIES_IDX = ler_series(os.path.dirname(os.path.abspath(args[0])))
+    NOVIDADES = ler_novidades(novf or os.path.join(os.path.dirname(os.path.abspath(args[0])), "novidades.json"), dt(f.get("atualizado_em")))
     try: ref, ag = checar(f, ant, virada, agora, IND)
     except Exception as e:
         E(f"validar.py falhou ao checar (algum campo com tipo errado?): {e!r}"); ag = agora or datetime.now(SP)
