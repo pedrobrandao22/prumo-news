@@ -94,6 +94,8 @@ Supabase › **Integrations** › **Cron** › **Create job** › Name `push_cob
 Type **Supabase Edge Function** › `enviar-push` › Method POST › HTTP Headers: **Add auth header with service key**
 (sem ele a função responde 401, a não ser que você tenha publicado com `--no-verify-jwt`) › Body `{"modo":"coberturas"}` › Create.
 Na primeira vez, ela só olha a última hora (não manda avisos antigos).
+Quem desligou os avisos de uma cobertura na página dela (17/11) só deixa de receber no celular depois de rodar
+`sql/proposta-2026-11-17-coberturas.sql` (o banco confere a preferência antes de pôr o aviso na fila).
 
 ## 8. Testar (2 min)
 

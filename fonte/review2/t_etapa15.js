@@ -16,7 +16,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const c1 = await p.evaluate(() => { const cp = document.querySelector('#v-capa .cp'); const ch = [...cp.children]; const i1m = ch.findIndex(x => x.classList.contains('cp-1m')), idest = ch.findIndex(x => x.classList.contains('cp-dest'));
     return { top: !!cp.querySelector('.cp-top'), nov: !!cp.querySelector('.cp-nov'), primeiro: ch[0].className, i1m, idest, y: ch[0].getBoundingClientRect().top } });
   ok(c1.top && !c1.nov && /cp-top/.test(c1.primeiro), 'Capa começa com o cabeçalho do jornal (voltou na etapa 26)', c1);
-  ok(c1.i1m > c1.idest && c1.idest > 1, '"O dia em 1 minuto" fica depois dos destaques', c1);
+  ok(c1.i1m >= 1 && c1.idest > c1.i1m, '"Em 1 min" logo no alto da Capa, antes da manchete e dos destaques (17/11)', c1);
   await p.screenshot({ path: D + 'capa.png' });
   // lida: sem esmaecer
   const mid = await p.evaluate(() => FEED.capa.manchete);
@@ -62,7 +62,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(await p.evaluate(() => !!document.querySelector('.saida.sai-mat .mat') && !document.querySelector('#layer .mat')), 'fechar: a matéria sai pela direita');
   await sleep(450);
   // janela (sheet) desce ao fechar
-  await p.evaluate(() => document.querySelector('#v-capa [data-indg]')?.click()); await sleep(450);
+  await p.evaluate(() => document.querySelector('#v-capa .ui184-b')?.click()); await sleep(450);
   const temSheet = await p.evaluate(() => !!document.querySelector('#layer .sheet'));
   if (temSheet) { await p.evaluate(() => history.back()); await sleep(60); ok(await p.evaluate(() => !!document.querySelector('.saida.sai-sheet .sheet') && !document.querySelector('#layer .sheet')), 'janela desce ao fechar'); await sleep(400) }
   // troca de aba: só esmaece

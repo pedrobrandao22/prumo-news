@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // QA stories (02/11): regressões dos bugs achados andando pelo app como usuário (ver qa/BUGS.md)
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const PORT = 8920, BASE = `http://localhost:${PORT}/index.html`;

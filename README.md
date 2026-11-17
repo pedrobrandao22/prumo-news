@@ -7,7 +7,7 @@ App de notícias do Prumo. Site: https://prumonews.com.br
 - `rodadas.json` — registro das rodadas do dia.
 - `erros-abertos.json` — avisos de "Achei um erro" (sem nome), copiados a cada 30 min.
 - `erros-respostas.json` — o que as rodadas responderam a cada aviso.
-- `indicadores.json` — dólar, Ibovespa, Selic, IPCA e desemprego, gravados de hora em hora (dias úteis) pelo GitHub.
+- `indicadores.json` — dólar, Ibovespa, Selic, IPCA e desemprego, gravados uma vez por dia útil, depois do fechamento dos mercados (18h30), pelo GitHub.
 - `novidades.json` — manchetes novas dos veículos (título e link), gravadas de hora em hora pelo GitHub; a rodada rápida do Claude só trabalha se houver novidade.
 - `tools/` — ferramentas das rodadas: `manual.md` (regras), `aplicar.py`, `validar.py`, `resumo.py`, e os scripts sem IA `virada_auto.py`, `indicadores.py` e `manchetes.py`.
 

@@ -43,9 +43,15 @@ function erros(page, nome) {
   return page;
 }
 async function foto(page, nome) { await sleep(250); await page.screenshot({ path: path.join(SHOTS, nome + '.png') }); }
-async function navegador(o) { return chromium.launch({ executablePath: EXE, ...(o || {}) }); }
+// testes dos formatos escondidos em 17/11 (Quiz, Enquete, Número, De perto, criar Giro): com PRUMO_FORMATOS_TODOS=1 o app
+// religa tudo (FT182_ESCONDE vazio), para continuar testando o código que ficou guardado atrás do interruptor
+const formatosTodos = ctx => process.env.PRUMO_FORMATOS_TODOS ? ctx.addInitScript(() => { try { localStorage.setItem('prumo-teste-formatos', 'todos') } catch (e) {} }).then(() => ctx) : ctx;
+async function navegador(o) { const b = await chromium.launch({ executablePath: EXE, ...(o || {}) });
+  if (process.env.PRUMO_FORMATOS_TODOS) { const nc = b.newContext.bind(b), np = b.newPage.bind(b);
+    b.newContext = async (...a) => formatosTodos(await nc(...a)); b.newPage = async (...a) => { const c = await b.newContext(...a); return c.newPage() } }
+  return b; }
 async function esperar(page, fn, arg, ms = 5000) {
   try { await page.waitForFunction(fn, arg, { timeout: ms, polling: 100 }); return true } catch (e) { return false }
 }
 const REPO = process.env.PRUMO_REPO || path.resolve(AQUI, '..');  // raiz do repositório do site (fonte/ fica dentro dele)
-module.exports = { REPO, servir, feedFresco, sleep, ok, erros, foto, navegador, esperar, SHOTS, resumo: () => ({ OKS, FALHAS, RES }) };
+module.exports = { REPO, servir, feedFresco, sleep, ok, erros, foto, navegador, formatosTodos, esperar, SHOTS, resumo: () => ({ OKS, FALHAS, RES }) };

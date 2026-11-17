@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Fase 2 do visual novo (113), ligada para todos desde 13/11.
 // 1. Fio (2 a 5 partes, estilo.fio, sem SQL): criar, ler no Feed (fechado e aberto), camada com o fio inteiro, hashtag em outra parte, editar.
 // 2. Capítulos na matéria: só as seções que existem, tocar rola até a seção, o capítulo atual fica marcado.

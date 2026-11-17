@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Etapa 61: figurinhas (perguntas, quiz, contagem, link, local). Slider, hashtag, "Adicione o seu" e selfie saíram da criação (foco, 105).
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8770/index.html';

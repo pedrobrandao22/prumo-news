@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // QA da leitura e da conta (02/11): Busca abre a matéria e ordena por título, Quiz/Guardadas voltam para onde vieram,
 // aviso de atraso/sem conexão na Capa, "Ver a seção" volta à Capa num toque, guia termina na Capa, letra grande,
 // sair volta ao topo, linha do tempo com data futura, puxar sem internet, dica do "1 minuto".

@@ -18,9 +18,10 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const it = await p.evaluate(() => indItens().map(x => x.id + '=' + x.valor).join(' '));
   ok(it === 'dolar=R$ 5,31 ibovespa=100.000 selic=13,75% desemprego=5,3%', 'junta: o automático vale onde existe, na ordem', it);
   await p.evaluate(() => go('capa')); await sleep(400);
-  ok(await p.evaluate(() => /5,31/.test(document.querySelector('#v-capa').textContent) && /Desemprego/.test(document.querySelector('#v-capa').textContent)), 'capa mostra o automático');
+  // desde 17/11: card só com dólar, Selic, IPCA 12 meses e Ibovespa (desemprego fora) e nada de indicador na Economia
+  ok(await p.evaluate(() => /5,31/.test(document.querySelector('#v-capa .ui184').textContent) && /100\.000/.test(document.querySelector('#v-capa .ui184').textContent) && !/Desemprego/.test(document.querySelector('#v-capa .ui184').textContent)), 'capa mostra o automático (card único, sem desemprego)');
   await p.evaluate(() => { go('feed'); FILTRO = 'economia'; renderPosts() }); await sleep(300);
-  ok(await p.evaluate(() => /5,31/.test(document.querySelector('#posts').textContent)), 'Economia mostra o automático');
+  ok(await p.evaluate(() => !document.querySelector('#posts .sh4-ind, #posts [data-indg]')), 'Economia sem painel de indicadores (17/11)');
   await p.reload(); await sleep(300);
   ok(await p.evaluate(() => /5,31/.test(JSON.stringify(indItens()))), 'guardado no aparelho para a próxima abertura');
   // aviso de atraso: feed de 4 h, mas uma rodada registrada há pouco (sem novidade) => sem aviso

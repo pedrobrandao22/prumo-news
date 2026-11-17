@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Etapa 60: story completo (câmera, várias fotos, filtros por arrasto, texto com tamanho/animação, Melhores amigos)
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8769/index.html'; const F1 = __dirname + '/etapa13/foto.jpg', F2 = __dirname + '/../qa2/f2.jpg', F3 = __dirname + '/../qa2/f3.jpg';

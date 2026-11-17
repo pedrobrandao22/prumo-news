@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Criar numa caixa só (152, 14/11): o "+" abre Post · Giro · Coluna; texto publica dali; juntar Notícia/Enquete/Número/De perto
 // abre o formulário com o texto e sem a faixa de tipos; voltar traz o texto; Coluna mostra rascunhos e Nova coluna;
 // "Minhas colunas" no Perfil; "giro" no lugar de "story". Porta 8909.

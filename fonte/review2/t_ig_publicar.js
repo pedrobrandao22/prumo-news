@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Criação (dev 1): publicar em segundo plano, movimento, tela mais limpa, correções
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8910/index.html'; const F1 = __dirname + '/etapa13/foto.jpg', F2 = __dirname + '/../qa2/f2.jpg', VID = __dirname + '/teste.webm';

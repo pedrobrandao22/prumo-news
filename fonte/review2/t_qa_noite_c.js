@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // QA da noite C (127, 04/11): regressão de tudo depois do dia cheio (100–124), no estado de produção (foco, visual novo com o
 // cartão A, fase 2, sem reels, abre na Capa) e com a edição real do repositório servida como o GitHub Pages (feed-leve +
 // feed-det, oficiais.json, séries, acervo). Leitor (visitante) e membros (Pedro admin, Bia amiga), 360/390/430, claro/escuro,
@@ -96,8 +97,8 @@ let srv = null;
   ok(qz && await ev(V, () => !!document.querySelector('.sheet .ok, .sheet .no, .sheet [data-qr].ok, .sheet [data-qr][disabled], .sheet .qz-exp, .sheet [aria-pressed="true"]') || /Próxima|Ver resultado|Acertou|Errou|resposta/i.test(document.querySelector('.sheet').textContent)), 'Quiz abre e aceita resposta'); await fecha(V);
   // indicador (gráfico)
   await ev(V, () => go('capa')); await sleep(400);
-  const gr = await ev(V, () => { const b = document.querySelector('#v-capa [data-indg]'); if (!b) return null; b.click(); return b.dataset.indg }); await sleep(900);
-  if (gr) { ok(await ev(V, () => !!document.querySelector('#layer svg, .sheet svg')), 'indicador da Capa abre o gráfico', gr); await foto(V, 'nc-indicador-360'); await fecha(V) }
+  const gr = await ev(V, () => { const b = document.querySelector('#v-capa .ui184-b'); if (!b) return null; b.click(); return 1 }); await sleep(900);
+  if (gr) { ok(await ev(V, () => !!document.querySelector('#layer .ui184-ex') && !document.querySelector('.gr')), 'indicadores da Capa: explicação curta, sem gráfico (17/11)'); await foto(V, 'nc-indicador-360'); await fecha(V) }
   ok(V._erros.length === 0, 'sem erros (visitante)', V._erros);
   await V.context().close();
 

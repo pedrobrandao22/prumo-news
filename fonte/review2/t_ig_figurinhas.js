@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Criação no estilo Instagram: bandeja com busca, figurinhas editadas no próprio story, figurinha de foto, caneta nova
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8920/index.html';

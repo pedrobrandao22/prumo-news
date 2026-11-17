@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Foco em notícia, 2º passe (107): o Feed lê como "a notícia + o que meus amigos acham", barra de publicar com a manchete,
 // linha discreta na Capa e nos filtros, análise/relato do tamanho do texto, "Análise de", Perfil com contribuições por tipo,
 // Atividade agrupada por notícia, stories com notícias primeiro, prévia do cartão de texto visível, arte da notícia sem corte.

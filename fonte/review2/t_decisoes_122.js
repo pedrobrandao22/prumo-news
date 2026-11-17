@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Decisões do Pedro (122, 03/11), no estado de produção (foco, visual novo com o cartão A, sem reels e fase 2), com Pedro, Bia, Carla e Dani:
 // 1. repost sem comentário de original indisponível (arquivado, apagado, amizade desfeita) só aparece para quem repostou;
 // 2. original + reposts sem comentário = um item só no Feed, com "Bia e Carla repostaram", na posição do repost mais recente; citação à parte;

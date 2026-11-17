@@ -369,7 +369,10 @@ def checar_mercado(f, IND, ref):
         # sexta (30) é verdade na terça (3), quando a semana "móvel" de 5 pregões dá 6% (ERRO falso em 03/11)
         sems = [abs(se[i] / se[i - 5] - 1) * 100 for i in range(max(5, len(se) - 6), len(se))]
         dias = [abs(se[i] / se[i - 1] - 1) * 100 for i in range(max(1, len(se) - 3), len(se))] + ([abs(var)] if var is not None else [])
-        ok[k] = {"lo": min(ult) * 0.97, "hi": max(ult) * 1.03, "sem": sems[-1], "sems": sems, "dia": abs(var) if var is not None else None,
+        # o robô grava só o FECHAMENTO (18h30, decisão de 17/11/2026): num dia útil, antes disso, o pregão de hoje ainda não está no
+        # arquivo e a variação "no dia" citada não tem com o que comparar (fica para a conferência em 2 veículos, manual 3b)
+        sem_hoje = dd < ref.date() and ref.weekday() < 5 and ref.hour >= 9
+        ok[k] = {"lo": min(ult) * 0.97, "hi": max(ult) * 1.03, "sem": sems[-1], "sems": sems, "dia": abs(var) if var is not None and not sem_hoje else None,
                  "dias": dias, "nome": x.get("nome") or k}
     if not ok: return
     def campos():
@@ -1001,6 +1004,7 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
         if not tit or not n.get("texto"): E(f"[{pid}] neutro sem titulo ou texto")
         checar_cobertura(p, pid, ref)
         checar_hashtags(p, pid, ant)
+        checar_fim(p, pid, ant)
         if len(tit) > 90: E(f"[{pid}] título com {len(tit)} caracteres (máx. 90; ideal ≤ 75)")
         elif len(tit) > 75: A(f"[{pid}] título com {len(tit)} caracteres (ideal ≤ 60)")
         # estilo: título diz o fato (manual seção 2, ESTILO)
@@ -1510,6 +1514,29 @@ def checar_hashtags(p, pid, ant):
     ap = ant_pauta(ant, pid) if ant else None
     old = [chave_hashtag(x) for x in (ap.get("hashtags") or []) if isinstance(x, str)] if ap and isinstance(ap.get("hashtags"), list) else []
     if old and ks and not set(old) & set(ks): A(f"[{pid}] a cobertura trocou todas as hashtags (antes: {', '.join(ap['hashtags'])}): mantenha a principal, porque há leitores seguindo")
+
+FIM_MAX = 160
+
+def checar_fim(p, pid, ant):
+    """FIM (17/11, Pedro): toda cobertura tem um critério de encerramento ("fim": "Aprovação e promulgação da PEC").
+    Atingido o fim, status "encerrada" (com desfecho) e acabou: fato novo do tema abre cobertura NOVA (id e tema novos)."""
+    fim = p.get("fim")
+    tp = p.get("tipo", "cobertura")
+    ap = ant_pauta(ant, pid) if ant else None
+    if fim is not None:
+        if not isinstance(fim, str) or not fim.strip(): E(f"[{pid}] fim deve ser um texto (o critério de encerramento da cobertura)")
+        elif len(fim) > FIM_MAX: E(f"[{pid}] fim com {len(fim)} caracteres (até {FIM_MAX}: uma frase curta, ex.: \"Aprovação e promulgação da PEC\")")
+        elif tp == "pontual": A(f"[{pid}] pontual com fim (só cobertura usa)")
+    elif tp == "cobertura":
+        nova = ant is not None and ap is None and pid not in {d.get("id") for d in ant.get("dormentes") or [] if isinstance(d, dict)}
+        if nova: E(f"[{pid}] cobertura nova sem \"fim\": diga quando ela termina (ex.: \"Aprovação e promulgação da PEC\", \"Final da Copa do Brasil\")")
+        else: A(f"[{pid}] cobertura sem \"fim\": acrescente o critério de encerramento (set path \"fim\")")
+    if ap and ap.get("status") == "encerrada":
+        if p.get("status") != "encerrada":
+            E(f"[{pid}] cobertura encerrada voltou a {p.get('status', 'ativa')}: depois do fim ela não reabre; fato novo do tema abre cobertura nova (id e tema novos, com o seu fim)")
+        velhas = {(u.get("hora"), u.get("texto")) for u in ap.get("atualizacoes") or [] if isinstance(u, dict)}
+        if any((u.get("hora"), u.get("texto")) not in velhas for u in p.get("atualizacoes") or [] if isinstance(u, dict)):
+            E(f"[{pid}] cobertura encerrada recebeu atualização: depois do fim, fato novo do tema vai para uma cobertura nova (ex.: \"Implementação da escala 6x1\")")
 
 def checar_cobertura(p, pid, ref):
     sec = p.get("secao")

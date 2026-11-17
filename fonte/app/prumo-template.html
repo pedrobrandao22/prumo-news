@@ -5982,6 +5982,80 @@ img[data-cr170="1"]{object-position:50% 18%}
   .cp .cpi-man .cp-sub{font-size:calc(15.5px*var(--fz))!important}
   .mat-arte .art img{object-position:50% 28%}
 }
+/* ---------- 182: formatos (Fase 1, 17/11) ---------- */
+/* "Em 5 min" sai do Feed (bolinha, botão do fim e o do topo antigo); fica o "Em 1 min" da Capa */
+html.ft182-em1min #secs [data-5min],html.ft182-em1min [data-cinco],html.ft182-em1min #b-5min,html.ft182-em1min .vn-tl-5{display:none!important}
+/* criar giro escondido: "Seu giro" vazio, os "+", "Adicionar ao giro", "+ Novo", "Adicione o seu" e o POST/GIRO do editor */
+html.ft182-sem-giro #secs [data-meustory][aria-label="Criar giro"],
+html.ft182-sem-giro #secs .up-mais,
+html.ft182-sem-giro [data-criarde="story"],
+html.ft182-sem-giro .pf-av .pf-mais,
+html.ft182-sem-giro [data-upstory],
+html.ft182-sem-giro [data-usadd],
+html.ft182-sem-giro [data-cp152aba="giro"],
+html.ft182-sem-giro #layer .ce-post .ce-modos{display:none!important}
+/* "Em 1 min" no alto da Capa */
+.cp-1m.ft182-1m{margin:4px 0 16px}
+/* Quem noticiou: uma linha na matéria */
+.ft182-qn{display:flex;align-items:center;gap:6px;margin:8px 0 0;padding:4px 0;background:none;border:0;font-family:var(--f-ui);font-size:13px;font-weight:600;color:var(--muted);text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ft182-qn i{font-style:normal;font-size:15px;line-height:1}
+.ft182-qn:active{opacity:.6}
+.ft182-sp{margin:4px 0 12px}
+/* 183 · Coberturas (17/11): fim da cobertura e interruptor de avisos na página da cobertura */
+.cb183-fim{margin:2px 0 0;font-size:13px;line-height:1.4;color:var(--muted)}
+.cb183-fim b{font-weight:600;color:var(--ink,inherit)}
+.cb183-fim.enc b{color:var(--muted);font-weight:700}
+.cb183-av{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0 2px;border-top:1px solid var(--line);margin-top:2px}
+.cb183-av span{display:flex;flex-direction:column;gap:2px;min-width:0}
+.cb183-av b{font-size:15px;font-weight:600}
+.cb183-av small{font-size:12.5px;color:var(--muted);line-height:1.35}
+.cb183-sw{position:relative;flex:none;width:48px;height:44px;padding:0;background:none;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.cb183-sw::before{content:"";width:40px;height:24px;border-radius:999px;background:var(--line);transition:background .15s}
+.cb183-sw i{position:absolute;left:7px;top:13px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgb(0 0 0 / .3);transition:transform .15s}
+.cb183-sw.on::before{background:var(--accent)}
+.cb183-sw.on i{transform:translateX(16px)}
+.cb183-sw:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:12px}
+.cb183-enc{margin:0}
+.cb183-mudo{color:var(--muted)}
+/* 184: card único dos indicadores na Capa e bloco "Por recurso" no painel de Uso (17/11) */
+.ui184{margin:18px 0 6px}
+.ui184-b{display:block;width:100%;text-align:left;background:var(--soft);border:0;border-radius:14px;padding:11px 12px 10px;color:inherit;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s ease}
+.ui184-b:active{transform:scale(.985)}
+.ui184-h{display:block;font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.ui184-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px}
+@media (min-width:480px){.ui184-g{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.cp-side .ui184-g{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ui184-c{display:flex;flex-direction:column;min-width:0;gap:1px}
+.ui184-n{font-size:12.5px;font-weight:700;color:var(--ink-2,var(--ink));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui184-c b{font-size:19px;font-weight:800;color:var(--ink);line-height:1.15;font-feature-settings:"tnum" 1;white-space:nowrap}
+.ui184-c em,.ui184-c small{font-style:normal;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui184-c em.sobe{color:#1f7a4d}.ui184-c em.desce{color:var(--hot)}
+:root[data-aparencia="escuro"] .ui184-c em.sobe{color:#5cc68d}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .ui184-c em.sobe{color:#5cc68d}}
+.ui184-at{display:block;margin-top:8px;font-size:12px;color:var(--muted)}
+.ui184-ex p{margin:0 0 10px;font-size:15px;line-height:1.45}
+.ui184-ex .hint{margin-top:4px}
+.ui184-ph{margin:2px 0 4px}
+.ui184-rec li{grid-template-columns:118px 1fr 44px}
+.ui184-rec li.ui184-pouco span{color:var(--hot);font-weight:700}
+.ui184-rec li.ui184-pouco i{background:var(--hot);opacity:.55}
+/* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
+.sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
+.sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
+.sg181-num{display:inline-flex;gap:14px;flex-wrap:wrap}
+.sg181-num button,.sg181-num span{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.sg181-num span{cursor:default}
+.sg181-num b{font-weight:700;color:var(--ink,inherit)}
+.sg181-fech{display:flex;align-items:center;gap:6px;margin:4px 0 0;font-size:13px;color:var(--mut,#667085)}
+.sg181-fech .ico{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}
+.sg181-bts{display:flex;gap:8px;flex-wrap:wrap}
+.sg181-pf{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line,rgba(0,0,0,.08))}
+.sg181-pf>span{display:flex;flex-direction:column;gap:3px;min-width:0}
+.sg181-pf small{font-size:13px;line-height:1.4;color:var(--mut,#667085)}
+.sg181-pf .tl142-sw{flex:none}
+.sg181-ped{margin-bottom:12px}
+.sg181-ped li{display:flex;align-items:center;gap:8px}
+.sg181-ped .amg-r{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left}
 </style>
 </head>
 <body>
@@ -20354,6 +20428,436 @@ function cr163MostraAberto(el){try{const x=el.querySelector(":scope > .cpx");if(
 window.addEventListener("click",e=>{try{const b=e.target&&e.target.closest&&e.target.closest(".cpi-b[data-cpx]");if(!b)return;const pid=b.dataset.cpx;
   if(CR163_ABRIU.pid===pid&&Date.now()-CR163_ABRIU.t<800&&typeof CP_AB!=="undefined"&&CP_AB===pid){e.stopImmediatePropagation();e.preventDefault();return}
   if(typeof CP_AB==="undefined"||CP_AB!==pid)CR163_ABRIU={pid,t:Date.now()};else CR163_ABRIU={pid:"",t:0}}catch(_){}},true);
+/* ---------- 182: formatos (Fase 1, decisões do Pedro de 17/11) ----------
+   1. Esconder por ora, atrás de UM interruptor (FT182_ESCONDE): Quiz, Enquete, Número, De perto e a CRIAÇÃO de Giros pelo
+      usuário. O código continua; para religar um formato, tire o nome da lista. Somem da caixa de criar, dos atalhos, do
+      Perfil, da Capa, do Feed, da ajuda e dos textos que citavam esses formatos.
+      - "quiz": o Quiz do dia some (a edição chega sem quiz; a tela "Quiz e enquetes" não abre mais).
+      - "enquete": somem as enquetes das notícias e a Enquete da caixa; post antigo de enquete vira post de texto.
+      - "numero" e "deperto": somem da caixa; post antigo vira post comum (texto e fotos continuam).
+      - "giro": some tudo o que cria giro (caixa, "Seu giro" vazio, "+" do perfil, "Adicionar ao giro", "+ Novo"...).
+        Os giros de notícia do app continuam, e o giro de quem já postou continua abrindo.
+   2. "Em 5 min" e "Em 30 segundos" viram um só "Em 1 min": até 5 tópicos curtos no alto da Capa (resumo_dia da edição; sem
+      ele, os títulos das mais importantes). Sai a bolinha "Em 5 min" do Feed e o botão "Ler as principais em 5 minutos";
+      o resumo de cada notícia passa a se chamar só "Resumo".
+   3. "Quem noticiou": na matéria, uma linha "Noticiado por 7 veículos · da esquerda à direita" que abre a lista completa;
+      a barra de espectro sai do cartão do Feed e fica só na folha aberta pela matéria.
+   Nomes com o prefixo ft182. */
+var FT182_ESCONDE=["quiz","enquete","numero","deperto","giro"];
+/* "Em 1 min" no lugar de "Em 5 min"/"Em 30 segundos" (false volta ao jeito antigo) */
+var FT182_EM1MIN=true;
+/* só nos testes automáticos (navegador controlado): religa tudo para testar o código que ficou guardado */
+try{if(navigator.webdriver&&localStorage.getItem("prumo-teste-formatos")==="todos"){FT182_ESCONDE=[];FT182_EM1MIN=false}}catch(e){}
+function ft182Esc(k){return FT182_ESCONDE.indexOf(k)>=0}
+FT182_ESCONDE.forEach(k=>document.documentElement.classList.add("ft182-sem-"+k));if(FT182_EM1MIN)document.documentElement.classList.add("ft182-em1min");
+const FT182_CN={enq:"enquete",ana:"numero",rel:"deperto"};
+
+/* ===== 1a. dados da edição: sem quiz e sem enquete ===== */
+function ft182Limpa(f){try{if(!f||typeof f!=="object")return f;if(ft182Esc("quiz"))f.quiz=[];
+  if(ft182Esc("enquete")&&Array.isArray(f.pautas))f.pautas.forEach(p=>{if(p&&p.enquete)delete p.enquete})}catch(e){}return f}
+{const _sa182=sanear;sanear=function(){const r=_sa182.apply(this,arguments);return r?ft182Limpa(r):r}}
+if(typeof FEED!=="undefined"&&FEED){ft182Limpa(FEED);try{derivaQuiz();updatePlayBadge()}catch(e){}}
+/* a tela "Quiz e enquetes" não abre */
+{const _go182=go;go=function(v){const a=[...arguments];if(v==="play"&&ft182Esc("quiz")&&ft182Esc("enquete"))a[0]="capa";return _go182.apply(this,a)}}
+
+/* ===== 1b. posts antigos de Enquete, Número e De perto: viram post comum ===== */
+{const _de182=cn102De;cn102De=function(){const c=_de182.apply(this,arguments);return c&&FT182_CN[c.k]&&ft182Esc(FT182_CN[c.k])?null:c}}
+
+/* ===== 1c. caixa de criar ===== */
+for(let i=CP152_ANEXOS.length-1;i>=0;i--){const k=FT182_CN[CP152_ANEXOS[i][0]];if(k&&ft182Esc(k))CP152_ANEXOS.splice(i,1)}
+function ft182Dica(){const d={nt:"Notícia comenta uma notícia da edição",enq:"Enquete pergunta aos amigos",ana:"Número junta um indicador ou gráfico",rel:"De perto conta o que você viu, com local e hora"};
+  const l=CP152_ANEXOS.map(a=>d[a[0]]).filter(Boolean);return (l.length?l.join("; ")+". ":"")+"Use @ para marcar alguém."}
+{const _ch182=cp152HTML;cp152HTML=function(){let h=_ch182.apply(this,arguments);try{
+    if(ft182Esc("giro"))h=h.replace(/<button type="button" role="tab" data-cp152aba="giro"[^>]*>[^<]*<\/button>/,"");
+    if(CP152_ANEXOS.length<5)h=h.replace(/(<p class="cp152-dica">)Notícia comenta[^<]*(<\/p>)/,"$1"+ft182Dica()+"$2")}catch(e){}return h}}
+/* criar giro: nenhum caminho abre o editor de giro (giro de notícia e giro já postado continuam) */
+{const _ca182=criarAbrir;criarAbrir=function(m){if(m==="story"&&ft182Esc("giro"))return;return _ca182.apply(this,arguments)}}
+window.addEventListener("click",e=>{if(!ft182Esc("giro"))return;const t=e.target;if(!t||!t.closest)return;
+  const b=t.closest('[data-criarde="story"],[data-upstory],[data-usadd],#layer [data-edmodo="story"],#layer [data-crtipo="story"]');
+  const vazio=!b&&t.closest("#secs [data-meustory]")&&!(typeof pubStoriesDe==="function"&&pubStoriesDe(S.uid).length);
+  if(b||vazio){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()}},true);
+/* Perfil: a foto sem giro não tem "+" (nem abre a criação) */
+{const _pc182=pfCab;pfCab=function(u){const h=_pc182.apply(this,arguments);if(!ft182Esc("giro")||typeof h!=="string")return h;
+  return h.replace(' data-criarde="story"',"").replace('<i class="pf-mais" aria-hidden="true">+</i>',"")}}
+/* textos que citavam os formatos escondidos */
+{const _pt182=pfTiles;pfTiles=function(){const h=_pt182.apply(this,arguments);return typeof h==="string"&&ft182Esc("deperto")?h.replace("Comente uma notícia ou conte o que aconteceu perto de você.","Comente uma notícia ou escreva o que você pensa."):h}}
+function ft182Tour(t){if(typeof t!=="string")return t;if(ft182Esc("enquete"))t=t.replace(/, vote nas enquetes/g,"").replace("curtir, comentar, votar e conversar","curtir, comentar e conversar");
+  if(ft182Esc("deperto"))t=t.replace(": comentários, relatos do que viram e análises.",": comentários e opiniões.");return t}
+{const _tt182=tourTelas;tourTelas=function(){const l=_tt182.apply(this,arguments);try{l.forEach(s=>{s.p=ft182Tour(s.p)})}catch(e){}return l}}
+{const _tv182=sr150TelasVisitante;sr150TelasVisitante=function(){const l=_tv182.apply(this,arguments);try{l.forEach(s=>{if(s)s.p=ft182Tour(s.p)})}catch(e){}return l}}
+{const _fb182=fc107Barra;fc107Barra=function(){const r=_fb182.apply(this,arguments);try{const b=$("#cn102-bar .fc107-bmais");if(b)b.setAttribute("aria-label","Nova publicação")}catch(e){}return r}}
+try{if(ft182Esc("giro")){const c=NT124_TIPOS.find(t=>t[0]==="curtidas");if(c)c[2]="Nos seus posts e comentários (agrupadas)"}}catch(e){}
+
+/* ===== 2. "Em 1 min" no alto da Capa ===== */
+function ft182Um(){if(!FEED)return "";let ps=[];try{ps=capaEscolha().ps}catch(e){ps=FEED.pautas||[]}
+  const rd=FEED.resumo_dia&&Array.isArray(FEED.resumo_dia.itens)?FEED.resumo_dia.itens.filter(x=>x&&typeof x.texto==="string"&&x.texto.trim()):[];
+  let it=rd.filter(x=>!x.pid||ps.some(p=>p.id===x.pid)).slice(0,5);
+  if(!it.length){const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;it=[...ps].sort((a,b)=>pr(b)-pr(a)).slice(0,5).map(p=>({pid:p.id,texto:versao(p,lente()).titulo||""})).filter(x=>x.texto)}
+  if(!it.length)return "";
+  return `<section class="cp-1m ft182-1m" aria-label="Em 1 min"><h3><span>Em 1 min</span><button type="button" class="cp-1m-sh" data-1mshare aria-label="Mandar o resumo">${ICON.send}<span>Mandar</span></button></h3><ol>${it.map(x=>`<li>${x.pid?`<button type="button" data-cp1m="${esc(x.pid)}">${esc(x.texto)}</button>`:`<span>${esc(x.texto)}</span>`}</li>`).join("")}</ol></section>`}
+if(FT182_EM1MIN){
+/* entra logo depois do "Urgente" (urgHTML sem argumento só é chamado pela Capa); o do meio da Capa sai */
+{const _ur182=urgHTML;urgHTML=function(){const h=_ur182.apply(this,arguments);if(arguments.length)return h;let u="";try{u=ft182Um()}catch(e){}return h+u}}
+dia1min=function(){return ""};
+/* sem "Em 5 min": a bolinha some (CSS) e a lista vazia tira o "Em 5 min" da sequência dos giros de notícia */
+cincoLista=function(){return []};
+abrir5min=function(){try{if($("#layer").innerHTML)closeLayer()}catch(e){}go("capa");try{scrollTo({top:0,behavior:"smooth"})}catch(e){}};
+{const _ia182=igAbrir;igAbrir=function(sec){if(sec==="_5min"){abrir5min();return}return _ia182.apply(this,arguments)}}
+/* o resumo de cada notícia ("Em 30 segundos") vira só "Resumo" */
+{const _ab182=cpAberta;cpAberta=function(){const h=_ab182.apply(this,arguments);return typeof h==="string"?h.replace("<b>Em 30 segundos</b>","<b>Resumo</b>"):h}}
+}
+
+/* ===== 3. Quem noticiou: uma linha ===== */
+const ft182Esp0=espectroHTML;
+espectroHTML=function(){return ""};
+function ft182Faixa(es){const pos={esquerda:0,centro:1,publica:1,direita:2};const v=es.filter(e=>e in pos);if(v.length<2)return "";
+  const ns=v.map(e=>pos[e]),a=Math.min.apply(null,ns),b=Math.max.apply(null,ns);
+  if(a===b)return a===0?"só da esquerda":a===2?"só da direita":v.every(e=>e==="publica")?"só veículos públicos":"só do centro";
+  return (a===0?"da esquerda ":"do centro ")+(b===1?"ao centro":"à direita")}
+function ft182Linha(p){let l=[];try{l=mt158Lista(p)}catch(e){l=(p.fontes||[]).map(k=>({k}))}const n=l.length;if(!n)return "";
+  let es=[];try{es=l.map(v=>mt158Esp(v.k)).filter(Boolean)}catch(e){}const f=ft182Faixa(es);
+  return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${f?" · "+f:""}`}
+coberturaTxt=function(p){return ft182Linha(p)||"Quem noticiou"};
+{const _am182=abrirMateria;abrirMateria=function(pid){const r=_am182.apply(this,arguments);try{const p=pautaById(pid),m=$("#layer .mat");
+    if(p&&m){const b30=m.querySelector(".mat-30>b");if(b30&&FT182_EM1MIN&&/^Em 30 segundos$/.test(b30.textContent))b30.textContent="Resumo";
+      m.querySelectorAll(".mat-rod [data-cpfontes]").forEach(b=>b.remove());const tx=ft182Linha(p),meta=m.querySelector(".mat-meta");
+      if(tx&&meta&&!m.querySelector(".ft182-qn"))meta.insertAdjacentHTML("afterend",`<button type="button" class="ft182-qn" data-cpfontes="${esc(p.id)}" aria-haspopup="dialog">${esc(tx)}<i aria-hidden="true">›</i></button>`)}}catch(e){}return r}}
+/* a barra do espectro fica na folha com a lista completa */
+{const _ac182=abrirCobertura;abrirCobertura=function(pid){const r=_ac182.apply(this,arguments);try{const p=pautaById(pid),h=document.querySelector(".sheet h4.cv-t");
+    if(p&&h&&!document.querySelector(".sheet .ft182-sp")){const s=ft182Esp0(p);if(s)h.insertAdjacentHTML("beforebegin",`<div class="ft182-sp">${s}</div>`)}}catch(e){}return r}}
+/* ---------- 183 · Coberturas (17/11, decisão do Pedro) ----------
+   1. Avisos por cobertura: quem segue uma cobertura pode desligar os avisos dela (interruptor na página da cobertura).
+      Desligada, ela some da Atividade e da bolinha; a cobertura continua no feed, sobe por ser seguida e as matérias
+      aparecem normalmente. Religar é o mesmo interruptor (ou "Coberturas que sigo", no Perfil, que leva à página).
+      Fica em PREF.cobSemAviso = {<id da cobertura>: <nome>} (preferências da conta). O aviso no celular passa a
+      respeitar isso quando o Pedro rodar sql/proposta-2026-11-17-coberturas.sql (antes, só o app respeita).
+      Sem limite de coberturas seguidas.
+   2. Fim da cobertura: a página mostra "Acompanha até: <fim>" (campo "fim" do feed, escrito pelos robôs); depois do
+      fim, o selo "Cobertura encerrada" (que já existia) e "Acompanhou até: <fim>"; encerrada não manda mais aviso (os
+      robôs não põem atualização nela) e a página diz isso no lugar do interruptor. */
+
+function cb183Mudas(){const m=PREF.cobSemAviso;return m&&typeof m==="object"&&!Array.isArray(m)?m:{}}
+function cb183Avisa(pid){return !cb183Mudas()[pid]}
+function cb183Liga(pid,on){const p=pautaById(pid);const m=PREF.cobSemAviso&&typeof PREF.cobSemAviso==="object"?PREF.cobSemAviso:(PREF.cobSemAviso={});
+  if(on)delete m[pid];else m[pid]=(p&&temaDe(p))||pid;salvarPrefs();uso(on?"cob_avisos_on":"cob_avisos_off")}
+/* deixar de seguir (ou voltar a seguir) recomeça com os avisos ligados */
+{const _cs183=cobSegue;cobSegue=function(tema){const r=_cs183.apply(this,arguments);try{const k=norm(tema),m=PREF.cobSemAviso;
+    if(m&&typeof m==="object")Object.keys(m).forEach(pid=>{const p=pautaById(pid);if(norm(m[pid])===k||(p&&norm(temaDe(p))===k))delete m[pid]})}catch(e){}return r}}
+
+/* Atividade e bolinha: sem os avisos das coberturas desligadas */
+{const _ai183=atItens;atItens=function(){const it=_ai183.apply(this,arguments);try{if(!Array.isArray(it))return it;const m=cb183Mudas();
+    if(!Object.keys(m).length)return it;return it.filter(x=>!(x&&x.acao==="cob"&&x.pid&&m[x.pid]))}catch(e){return it}}}
+
+/* página da cobertura: fim, encerrada e o interruptor de avisos */
+function cb183SwHTML(p){const on=cb183Avisa(p.id);
+  return `<div class="cb183-av"><span><b>Avisos de novidades</b><small>${on?"No celular e na Atividade, a cada novidade":"Desligados. A cobertura continua no seu feed"}</small></span><button type="button" class="cb183-sw${on?" on":""}" role="switch" aria-checked="${on}" aria-label="Avisos de novidades de ${esc(temaDe(p))}" data-cb183sw="${esc(p.id)}"><i></i></button></div>`}
+function cb183Pinta(pid){const box=document.querySelector(`.sheet .pc[data-pc="${CSS.escape(pid)}"]`);const p=pautaById(pid);if(!box||!p)return;
+  box.querySelectorAll(".cb183-fim,.cb183-av,.cb183-enc").forEach(x=>x.remove());
+  const enc=p.status==="encerrada",fim=typeof p.fim==="string"?p.fim.trim():"";
+  const m=box.querySelector(".pc-m");
+  if(m&&fim)m.insertAdjacentHTML("afterend",`<p class="cb183-fim${enc?" enc":""}">${enc?(fim?`Acompanhou até: <b>${esc(fim)}</b>`:""):`Acompanha até: <b>${esc(fim)}</b>`}</p>`);
+  const a=box.querySelector(".pc-a");if(!a||!seguido(p))return;
+  a.insertAdjacentHTML("afterend",enc?`<p class="cb183-enc hint">Cobertura encerrada: não há mais avisos. Se o assunto continuar, ele vira uma cobertura nova.</p>`:cb183SwHTML(p))}
+{const _pc183=abrirPagCob;abrirPagCob=function(pid){const r=_pc183.apply(this,arguments);try{cb183Pinta(pid)}catch(e){}return r}}
+
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("[data-cb183sw]");if(!b)return;e.stopPropagation();
+  const pid=b.dataset.cb183sw,p=pautaById(pid);if(!p)return;const on=!cb183Avisa(pid);cb183Liga(pid,on);cb183Pinta(pid);try{atDot();if(typeof nt124Pinta==="function")nt124Pinta()}catch(er){}
+  const tema=temaDe(p);toast(on?`Avisos de “${tema}” ligados`:`Avisos de “${tema}” desligados. Ela continua no seu feed.`,on?"":"Desfazer",on?null:()=>{cb183Liga(pid,true);cb183Pinta(pid);try{atDot()}catch(er){}})},true);
+
+/* Perfil › "Coberturas que sigo": marca as que estão com avisos desligados (tocar no nome abre a página, com o interruptor) */
+{const _as183=mt158AbreSeguidas;mt158AbreSeguidas=function(){const r=_as183.apply(this,arguments);try{const m=cb183Mudas();
+    document.querySelectorAll(".mt158-cl .mt158-cn[data-cobpag]").forEach(b=>{if(!m[b.dataset.cobpag])return;const s=b.parentNode&&b.parentNode.querySelector("small");
+      if(s&&!s.querySelector(".cb183-mudo"))s.insertAdjacentHTML("beforeend",` · <span class="cb183-mudo">avisos desligados</span>`)})}catch(e){}return r}}
+/* ---------- 184: Indicadores num card só + uso por recurso (Fase 1, decisões do Pedro de 17/11). Prefixo ui184/UI184. ----------
+   1. Indicadores: UM card compacto na Capa com dólar, Selic, IPCA 12 meses e Ibovespa (variação do dia só no dólar e no
+      Ibovespa), com a legenda "Atualizado em 16/11 às 18h07" (hora das cotações: indicadores.json › dados_em, gravado
+      pelo tools/indicadores.py depois do fechamento). Sem página própria: saem o gráfico, os "outros indicadores", o
+      painel da Economia e o atalho da Busca; tocar no card abre só uma explicação curta.
+   2. Uso por recurso: Administração › App › Uso ganha o bloco "Por recurso", que soma no app as contagens que o painel já
+      recebe (tl142_admin_uso) nos 23 recursos que o Pedro quer medir, com os menos usados destacados. Sem SQL novo.
+      Contagens novas: indicadores (toque no card), indicadores_visto (o card apareceu na tela, 1 vez por abertura),
+      publicar_cn_<tipo> (notícia comentada e os outros formatos, antes contados como publicar_post) e capa (abertura do
+      app já na Capa, que acontecia antes de a telemetria ligar). */
+
+/* ===== 1. card dos indicadores ===== */
+var UI184_IDS=["dolar","selic","ipca12m","ibovespa"];
+var UI184_NOME={dolar:"Dólar",selic:"Selic",ipca12m:"IPCA 12 meses",ibovespa:"Ibovespa"};
+var UI184_MES=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+function ui184Itens(){const m={};try{indItens().forEach(x=>{if(x&&x.id&&x.valor)m[x.id]=x})}catch(e){}return UI184_IDS.map(id=>m[id]).filter(Boolean)}
+/* "AAAA-MM-DDTHH:MM…" (hora de Brasília, como o robô grava) → {d:"16/11", h:"18h07"} */
+function ui184Hora(s){const m=/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?/.exec(String(s||""));if(!m)return null;return {d:m[3]+"/"+m[2],h:m[4]?(+m[4])+"h"+m[5]:""}}
+function ui184Legenda(it){let s="";try{s=(IND_AUTO&&IND_AUTO.dados_em)||""}catch(e){}
+  if(!s){const hs=it.filter(x=>/^(dolar|ibovespa)$/.test(x.id)&&x.hora).map(x=>String(x.hora)).sort();s=hs.pop()||""}
+  if(!s){try{s=(IND_AUTO&&IND_AUTO.atualizado)||""}catch(e){}}
+  if(!s){const ds=it.map(x=>String(x.data||"")).filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d)).sort();s=ds.pop()||""}
+  const q=ui184Hora(s);return q?"Atualizado em "+q.d+(q.h?" às "+q.h:""):""}
+function ui184Sub(x){
+  if(x.id==="dolar"||x.id==="ibovespa"){const v=String(x.variacao||"").trim();if(!v)return "";const d=/^(sobe|desce|estavel)$/.test(x.dir||"")?x.dir:"estavel";
+    return `<em class="${d}">${{sobe:"▲",desce:"▼",estavel:"="}[d]} ${esc(v.replace(/^\+/,""))}</em>`}
+  if(x.id==="selic")return `<small>meta do Copom</small>`;
+  const m=/^\d{4}-(\d{2})$/.exec(String(x.ref||""));return `<small>${m?"até "+UI184_MES[+m[1]-1]:"IBGE"}</small>`}
+function ui184Card(){const it=ui184Itens();if(!it.length)return "";const leg=ui184Legenda(it);
+  return `<section class="ui184" aria-label="Indicadores"><button type="button" class="ui184-b" data-ui184 aria-label="Indicadores: ${esc(it.map(x=>UI184_NOME[x.id]+" "+x.valor).join(", "))}. ${esc(leg)}. Toque para saber o que é cada um">`+
+    `<span class="ui184-h">Indicadores</span><span class="ui184-g">${it.map(x=>`<span class="ui184-c" data-ui184id="${esc(x.id)}"><span class="ui184-n">${esc(UI184_NOME[x.id])}</span><b>${esc(x.valor)}</b>${ui184Sub(x)}</span>`).join("")}</span>`+
+    (leg?`<span class="ui184-at">${esc(leg)}</span>`:"")+`</button></section>`}
+function ui184Explica(){try{uso("indicadores")}catch(e){}
+  sheet("Indicadores",`<div class="ui184-ex"><p><b>Dólar</b>: cotação comercial no fechamento do dia, com a variação sobre o fechamento anterior.</p>`+
+    `<p><b>Selic</b>: a taxa básica de juros, definida pelo Copom do Banco Central.</p><p><b>IPCA 12 meses</b>: a inflação oficial acumulada em 12 meses, medida pelo IBGE (sai uma vez por mês).</p>`+
+    `<p><b>Ibovespa</b>: o principal índice da bolsa brasileira (B3) no fechamento, com a variação do dia.</p>`+
+    `<p class="hint">Os números são atualizados uma vez por dia útil, depois do fechamento dos mercados. Fontes: Banco Central, IBGE e B3.</p></div>`)}
+capaIndicadores=ui184Card;
+/* sem página própria nem outros atalhos: Economia e Busca sem indicadores; qualquer toque antigo em indicador explica */
+indPainel=function(){return ""};
+if(typeof cm168IndBusca==="function")cm168IndBusca=function(){return ""};
+addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("[data-ui184],[data-indg]");if(!b)return;
+  e.stopPropagation();e.preventDefault();ui184Explica()},true);
+/* o card apareceu na tela: conta uma vez por abertura do app (o uso de um card que só se lê é vê-lo) */
+var UI184_VISTO=false,UI184_OBS=null;
+function ui184Observa(){if(UI184_VISTO||typeof IntersectionObserver!=="function")return;const el=document.querySelector("#v-capa .ui184");if(!el)return;
+  if(!UI184_OBS)UI184_OBS=new IntersectionObserver(es=>{if(UI184_VISTO)return;if(es.some(x=>x.isIntersecting)){UI184_VISTO=true;try{tl142Conta("indicadores_visto")}catch(e){}UI184_OBS.disconnect()}},{threshold:.6});
+  UI184_OBS.disconnect();UI184_OBS.observe(el)}
+/* tela larga (Capa em 2 colunas, 033): o card vai para a coluna do lado, como os indicadores antigos */
+function ui184Lado(){const sd=document.querySelector("#v-capa .cp-side"),c=document.querySelector("#v-capa .cp-main .ui184");if(sd&&c)sd.insertBefore(c,sd.querySelector(".cp-h")||null)}
+{const _rc184=renderCapa;renderCapa=function(){const r=_rc184.apply(this,arguments);try{ui184Lado();ui184Observa()}catch(e){}return r}}
+
+/* ===== 2. contagens que faltavam ===== */
+/* notícia comentada (e os outros formatos) e repost eram todos "publicar_post": cada um ganha o seu nome */
+{const _ci184=tl142ContaIns;tl142ContaIns=function(t,row){if(t!=="publicacoes")return _ci184.apply(this,arguments);
+  const resto=[];(Array.isArray(row)?row:[row]).forEach(x=>{const es=x&&typeof x==="object"&&x.estilo&&typeof x.estilo==="object"?x.estilo:null;
+    const k=es&&es.cn&&typeof es.cn==="object"&&/^[a-z]{2,8}$/.test(String(es.cn.k||""))?String(es.cn.k):"";
+    if(k)tl142Conta("publicar_cn_"+k);else if(es&&es.rp&&typeof es.rp==="object"){/* o repost já conta como vn_repostar/vn_citar (112) */}else resto.push(x)});
+  return resto.length?_ci184.call(this,t,resto):undefined}}
+/* abertura do app já na Capa: o go("capa") da abertura roda antes de a telemetria existir */
+{let _ui184c=false;const conta=()=>{if(_ui184c)return;_ui184c=true;try{if(VIEW==="capa")tl142Conta("capa")}catch(e){}};
+  if(typeof VIEW==="string"&&VIEW==="capa")conta();else setTimeout(conta,0)}
+
+/* ===== 3. painel de Uso: "Por recurso" ===== */
+/* cada recurso = a soma das telas/ações dele (o primeiro que casa leva o evento) */
+var UI184_REC=[
+  ["Capa",/^(capa|capa_abre|capa_mais|capa_desde|ultimas|faixa|urgente|o_que_mudou)$/],
+  ["Matéria",/^(materia|ler_mais|entenda|letra_materia|foto_zoom|previa)$/],
+  ["Agenda",/^agenda/],
+  ["Balança",/^lente_/],
+  ["Busca",/^(busca|aba_busca)$/],
+  ["Guardar",/^(guardar|salvar_post|tela_saved|pasta|arquivados)$/],
+  ["Histórico",/^historico/],
+  ["Feed",/^(tela_feed|filtro|filtro_sheet|secsub|secuf|feed_legenda)$/],
+  ["Post",/^(publicar_post|criar_post|criar_caixa|menu_post|post_link)$/],
+  ["Notícia comentada",/^(publicar_cn_nt|criar_nt|barra_sugestao)$/],
+  ["Colunas",/^(coluna_|criar_coluna|publicar_coluna)/],
+  ["Conversas",/^(tela_msgs|enviar|reagir_msg)$/],
+  ["Repostar",/^(vn_repostar|vn_citar|repost)/],
+  ["Curtir/comentar",/^(curtir|curtir_post|comentar|comentarios|reagir_post)$/],
+  ["Seguir pessoas",/^(seguir|deixar_de_seguir|deixar_seguir|amizade|amigo_)/],
+  ["Atividade",/^atividade/],
+  ["Avisos",/^(notificacoes|notif_ativar|avisos)/],
+  ["Hashtags",/^hashtag/],
+  ["Em 1 min",/^(capa_1min|em1min|em_1min|um_min|5min)/],
+  ["Quem noticiou",/^(cobertura|fontes|quem_noticiou|veiculos)$/],
+  ["Coberturas",/^(pag_cobertura|coberturas_seguidas|deixar_cob|cob_)/],
+  ["Indicadores",/^(indicadores|grafico)/],
+  ["Giros de notícia",/^(story|story_materia|story_comentario|destaque)$/]];
+function ui184Recurso(ev){for(const [n,re] of UI184_REC)if(re.test(ev))return n;return ""}
+/* [[nome, total, [eventos]]] do maior para o menor, com os 23 recursos sempre presentes (zero também conta) */
+function ui184PorRecurso(L){const tot={},evs={};UI184_REC.forEach(([n])=>{tot[n]=0;evs[n]=new Set()});
+  (L||[]).forEach(x=>{const e=String(x&&x.evento||"");if(!e||(typeof TL142_ESTADO!=="undefined"&&TL142_ESTADO.has(e)))return;const n=ui184Recurso(e);if(!n)return;tot[n]+=+x.n||0;evs[n].add(e)});
+  return UI184_REC.map(([n],i)=>[n,tot[n],[...evs[n]].sort(),i]).sort((a,b)=>b[1]-a[1]||a[3]-b[3])}
+function ui184RecursoHTML(){const A=TL142.adm,l=ui184PorRecurso(A.uso);const mx=Math.max(1,...l.map(x=>x[1]));
+  /* menos usados: os 5 de baixo entre os que tiveram uso, e todo recurso sem nenhum uso */
+  const com=l.filter(x=>x[1]>0),zero=l.filter(x=>x[1]===0).map(x=>x[0]),baixo=com.slice(Math.max(0,com.length-5)).map(x=>x[0]).reverse();
+  const pouco=new Set([...zero,...baixo]);
+  const txt=[zero.length?"Sem uso: "+zero.join(", ")+".":"",baixo.length?"Menos usados: "+baixo.join(", ")+".":""].filter(Boolean).join(" ");
+  return `<b class="cm-h">Por recurso</b><p class="hint ui184-ph">Últimos ${A.dias} dias. ${esc(txt)}</p>`+
+    `<ul class="uso-b ui184-rec">${l.map(([n,v,e])=>`<li class="${pouco.has(n)?"ui184-pouco":""}" title="${esc(e.join(", ")||"sem registro")}"><span>${esc(n)}</span><i style="width:${(v*100/mx).toFixed(1)}%"></i><b>${v.toLocaleString("pt-BR")}</b></li>`).join("")}</ul>`}
+{const _uh184=tl142UsoHTML;tl142UsoHTML=function(){let h=_uh184.apply(this,arguments);try{const r=ui184RecursoHTML(),k='<b class="cm-h">Telas e ações</b>';h=h.indexOf(k)>=0?h.replace(k,r+k):h+r}catch(e){}return h}}
+try{Object.assign(TL142_NOMES,{indicadores:"Indicadores: explicação",indicadores_visto:"Indicadores: card visto",capa:"Capa",publicar_cn_nt:"Publicar notícia comentada",
+  vn_repostar:"Repostar",vn_citar:"Repostar com comentário",cobertura:"Quem noticiou",pag_cobertura:"Coberturas: página",lente_menu:"Balança"})}catch(e){}
+/* ---------- 181: "só seguir" (17/11, decisão do Pedro). Nomes com o prefixo sg181. ----------
+   Não existem mais amigos nem Melhores amigos: cada pessoa tem perfil aberto (padrão) ou fechado.
+   - Perfil aberto: qualquer membro segue na hora, vê os posts, interage e manda mensagem.
+   - Perfil fechado: "Seguir" vira pedido (o dono aprova no Perfil); quem não segue vê nome, foto e os números, mas não os
+     posts, as listas nem manda mensagem (só responde se a pessoa começou a conversa).
+   - Post e giro: para todos no perfil aberto, só seguidores no fechado (sem escolha de público).
+   - Coluna: "Para todos" (padrão) ou "Só para quem me segue".
+   Tudo depende de sql/proposta-2026-11-17-so-seguir.sql: a função seguir_estado() diz se ele foi rodado. Sem ela, o app fica
+   exatamente como antes (amigos, Melhores amigos, perfil aberto opcional). Com ela, S.amigos passa a ser "quem você segue"
+   (assim o Feed, as listas de enviar, as menções e o resto do app seguem funcionando sem mudar cada tela). */
+var SG181={on:null,n:0,uid:null,aberto:true,env:new Set(),rec:[],fech:new Set(),t:0,cache:null,ck:""};
+
+/* ===== 0. detecção e estado ===== */
+const sg181SemFuncao=e=>/PGRST202|42883|Could not find the function|does not exist|schema cache/i.test(String(e&&e.message||"")+" "+String(e&&e.code||""));
+async function sg181Estado(){if(typeof SB==="undefined"||!SB||!S.uid||!S.membro)return;const eu=S.uid;
+  try{const r=await SB.rpc("seguir_estado");if(S.uid!==eu)return;
+    if(r&&r.error){if(sg181SemFuncao(r.error))SG181.on=false;return}
+    const d=r&&r.data||{},liga=SG181.on!==true;SG181.on=true;SG181.t=Date.now();
+    const k0=JSON.stringify([SG181.aberto,[...SG181.env],SG181.rec.map(x=>x.uid),[...SG181.fech]]);
+    SG181.aberto=d.aberto!==false;SG181.env=new Set(Array.isArray(d.enviados)?d.enviados:[]);SG181.fech=new Set(Array.isArray(d.fechados)?d.fechados:[]);
+    SG181.rec=(Array.isArray(d.recebidos)?d.recebidos:[]).filter(x=>x&&x.uid).map(x=>({uid:x.uid,at:+x.at||0}));
+    (Array.isArray(d.recebidos)?d.recebidos:[]).forEach(x=>{try{cs123Pess({...x,aberto:true})}catch(e){}});
+    try{cs123Nomes()}catch(e){}
+    if(liga)sg181Liga();
+    if(liga||k0!==JSON.stringify([SG181.aberto,[...SG181.env],SG181.rec.map(x=>x.uid),[...SG181.fech]]))sg181Redesenha()}
+  catch(e){}}
+setInterval(()=>{if(S.uid!==SG181.uid){SG181.uid=S.uid;SG181.on=null;SG181.n=0;SG181.env=new Set();SG181.rec=[];SG181.fech=new Set();document.body&&document.body.classList.remove("sg181-on")}
+  if(!S.uid||!S.membro)return;
+  if(SG181.on===null&&SG181.n<40){SG181.n++;sg181Estado()}
+  else if(SG181.on===true&&!document.hidden&&Date.now()-SG181.t>60e3)sg181Estado()},2500);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&SG181.on===true)setTimeout(sg181Estado,700)});
+function sg181Liga(){document.body.classList.add("sg181-on");try{V9.on=true;cs123Liga()}catch(e){}try{MA.on=false;MA.set=new Set()}catch(e){}}
+const sg181On=()=>SG181.on===true&&!!S.uid&&!!S.membro;
+const sg181Prim=u=>String(nomeDe(u)||"").split(" ")[0];
+/* vê os posts de u? (você, quem você segue, ou perfil aberto) */
+const sg181Ve=u=>!!u&&(u===S.uid||CS123.sigo.has(u)||!SG181.fech.has(u))&&!(S.bloq||[]).includes(u);
+/* pode mandar mensagem para u? (o mesmo, ou responder a quem começou a conversa) */
+const sg181Msg=u=>!!u&&u!==S.uid&&!(S.bloq||[]).includes(u)&&!!S.membros[u]&&!S.membros[u].excluido&&(sg181Ve(u)||(S.msgsIn||[]).some(m=>m.de===u));
+
+/* S.amigos = quem você segue (e, numa conversa aberta com quem pode receber mensagem, essa pessoa também) */
+(function(){let am=S.amigos;try{Object.defineProperty(S,"amigos",{configurable:true,enumerable:true,
+  get(){if(SG181.on!==true)return am;const s=CS123.sigo,t=typeof THREAD!=="undefined"?THREAD:null;
+    if(!t||s.has(t)||!sg181Msg(t))return s;const k=t+"|"+s.size;if(SG181.ck!==k||!SG181.cache){SG181.ck=k;SG181.cache=new Set([...s,t])}return SG181.cache},
+  set(v){am=v}})}catch(e){}})();
+/* Melhores amigos: desligado */
+if(typeof maCarregar==="function"){const _ma=maCarregar;maCarregar=async function(){if(SG181.on===true){MA.on=false;MA.set=new Set();return}return _ma.apply(this,arguments)}}
+
+function sg181Redesenha(){try{if(typeof PFV!=="undefined"&&PFV&&PFV.modo==="grade"&&$("#layer .pfv"))pfvDesenha()}catch(e){}
+  try{if(VIEW==="me")renderMe()}catch(e){}try{if(VIEW==="msgs")renderMsgs()}catch(e){}try{atDot();atRedesenha()}catch(e){}}
+
+/* ===== 1. botão Seguir / Pedido enviado / Seguindo ===== */
+function sg181Bt(u,extra){const sigo=CS123.sigo.has(u),env=SG181.env.has(u);
+  return `<button type="button" class="btn${sigo||env?" ghost":""} sg181-bt${extra?" "+extra:""}" data-sg181seg="${esc(u)}" aria-pressed="${sigo}">${sigo?"Seguindo":env?"Pedido enviado":"Seguir"}</button>`}
+async function sg181Seguir(u,b){if(precisaConta()||!sg181On()||!u||u===S.uid)return;
+  if(CS123.sigo.has(u)){sheet("Seguindo "+nomeDe(u),`<div class="opt"><button type="button" data-sg181deixa="${esc(u)}">Deixar de seguir<span>${SG181.fech.has(u)?"o perfil é fechado: para ver de novo, você precisa pedir de novo":"as publicações de "+esc(sg181Prim(u))+" saem do seu Feed"}</span></button></div>`);return}
+  if(SG181.env.has(u)){sheet("Pedido enviado",`<div class="opt"><button type="button" data-sg181deixa="${esc(u)}">Cancelar o pedido<span>${esc(sg181Prim(u))} ainda não aprovou</span></button></div>`);return}
+  if(b){b.disabled=true}
+  try{const r=await SB.rpc("seguir",{p_uid:u});if(r&&r.error)throw r.error;
+    if(r.data==="pedido"){SG181.env.add(u);toast("Pedido enviado. "+sg181Prim(u)+" precisa aprovar.")}
+    else{CS123.sigo.add(u);SG181.env.delete(u);toast("Você está seguindo "+nomeDe(u))}
+    try{vibrar(8);uso("seguir")}catch(e){}delete CS123.perf[u];sg181Depois(u)}
+  catch(e){const m=String((e&&(e.code||""))+" "+(e&&e.message||""));toast(/54000|demais/.test(m)?"Você seguiu muita gente hoje. Tente amanhã.":"Não deu para seguir agora.");if(b)b.disabled=false;sg181Depois(u)}}
+async function sg181Deixa(u){try{const r=await SB.rpc("deixar_de_seguir",{p_uid:u});if(r&&r.error)throw r.error;const era=SG181.env.has(u);CS123.sigo.delete(u);SG181.env.delete(u);
+    toast(era?"Pedido cancelado":"Você deixou de seguir "+nomeDe(u));if(SG181.fech.has(u))PUB.itens=PUB.itens.filter(x=>x.autor!==u||(x.publico==="todos"||x.publico==="publico"));delete CS123.perf[u];sg181Depois(u)}
+  catch(e){toast("Não deu agora.")}}
+async function sg181Depois(u){try{PUB.sig="";if(u)PF_T[u]=0;sg181Redesenha();await pubCarregar();if(u)await pfCarregar(u);await cs123Perf(u,true)}catch(e){}
+  sg181Redesenha();try{cs123Carregar()}catch(e){}sg181Estado()}
+/* aprovar ou recusar um pedido (perfil fechado) */
+async function sg181Responde(u,sim,b){if(b)b.disabled=true;try{const r=await SB.rpc("seguir_responder",{p_uid:u,p_aceitar:!!sim});if(r&&r.error)throw r.error;
+    SG181.rec=SG181.rec.filter(x=>x.uid!==u);toast(sim?nomeDe(u)+" agora segue você":"Pedido recusado");delete CS123.perf[S.uid];sg181Redesenha();try{cs123Carregar()}catch(e){}}
+  catch(e){if(b)b.disabled=false;toast("Não deu agora.")}}
+/* perfil fechado (Ajustes do app › Privacidade) */
+async function sg181Fecha(fechar,b){if(b)b.disabled=true;try{const r=await SB.rpc("mudar_perfil_aberto",{p_aberto:!fechar});if(r&&r.error)throw r.error;SG181.aberto=!fechar;CS123.aberto=!fechar;
+    if(b){b.classList.toggle("on",fechar);b.setAttribute("aria-checked",String(fechar))}
+    toast(fechar?"Perfil fechado: quem quiser seguir você pede e você aprova":"Perfil aberto: qualquer membro pode seguir você");if(!fechar)SG181.rec=[];sg181Estado()}
+  catch(e){toast("Não deu para mudar agora.")}finally{if(b)b.disabled=false}}
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||SG181.on!==true)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
+  if(b=t.closest("[data-sg181seg]")){pare();sg181Seguir(b.dataset.sg181seg,b);return}
+  if(b=t.closest("[data-sg181deixa]")){pare();const u=b.dataset.sg181deixa;closeLayer();sg181Deixa(u);return}
+  if(b=t.closest("[data-sg181sim]")){pare();sg181Responde(b.dataset.sg181sim,true,b);return}
+  if(b=t.closest("[data-sg181nao]")){pare();sg181Responde(b.dataset.sg181nao,false,b);return}
+  if(b=t.closest("[data-sg181fech]")){pare();sg181Fecha(b.getAttribute("aria-checked")!=="true",b);return}
+  if(b=t.closest("[data-sg181lista]")){pare();cs123Lista(b.dataset.u,b.dataset.sg181lista);return}
+  /* as listas antigas de "amigos" viram a lista de quem você segue */
+  if(t.closest("[data-fd104am],[data-veramigos]")){pare();cs123Lista(S.uid,"seguindo");return}},true);
+
+/* ===== 2. perfil ===== */
+function sg181NumHTML(u){const p=CS123.perf[u];if(!p||!p.ok)return "";const lista=u===S.uid||p.lista!==false&&sg181Ve(u);
+  const it=(k,n,tx)=>lista?`<button type="button" data-sg181lista="${k}" data-u="${esc(u)}"><b>${cs123Num(n||0)}</b> ${tx}</button>`:`<span><b>${cs123Num(n||0)}</b> ${tx}</span>`;
+  return `<span class="sg181-num">${it("seguidores",p.seguidores,p.seguidores===1?"seguidor":"seguidores")}${it("seguindo",p.seguindo,"seguindo")}</span>`}
+/* cabeçalho de outra pessoa: Seguir/Pedido enviado/Seguindo e Mensagem (se puder) */
+{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(!sg181On()||!u||u===S.uid)return h;
+  h=h.replace(/<div class="pf-bts">[\s\S]*?<\/div>/g,"");if((S.bloq||[]).includes(u))return h;
+  h+=`<div class="pf-bts sg181-bts">${sg181Bt(u)}${sg181Msg(u)?`<button type="button" class="btn ghost" data-pfmsg="${esc(u)}">Mensagem</button>`:""}</div>`}catch(e){}return h}}
+function sg181Pf(root,u){if(!root||!sg181On()||!u)return;
+  root.querySelectorAll(".co160-am,[data-fd104am],[data-pedir],[data-cancelar],[data-aceitar],[data-recusar],.cs123-num,.cs123-numl,.cs123-ab,.pf-ped").forEach(x=>x.remove());
+  if(u!==S.uid){root.querySelectorAll("[data-cs123seg]").forEach(x=>x.remove());if(!sg181Msg(u))root.querySelectorAll("[data-pfmsg]").forEach(x=>x.remove())}
+  const num=root.querySelector(".vn-pf-num");
+  if(num){[...num.children].forEach(c=>{if(/amigo/i.test(c.textContent))c.remove()});
+    if(!num.querySelector(".sg181-num")){const p=CS123.perf[u];if(!p){cs123Perf(u).then(()=>{try{if(u===S.uid){if(VIEW==="me")renderMe()}else if(PFV&&PFV.u===u&&$("#layer .pfv"))pfvDesenha()}catch(e){}})}
+      else num.insertAdjacentHTML("afterbegin",sg181NumHTML(u))}}
+  if(u!==S.uid&&SG181.fech.has(u)&&!root.querySelector(".sg181-fech")){const cab=root.querySelector(".vn-pf-desde,.vn-pf-num");
+    if(cab)cab.insertAdjacentHTML("afterend",`<p class="sg181-fech">${cs123Svg('<rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>')}Perfil fechado${CS123.perf[u]&&CS123.perf[u].me_segue?" · segue você":""}</p>`)}
+  root.querySelectorAll("[data-convidar]").forEach(b=>{if(/amigo/.test(b.textContent))b.textContent="Convidar alguém"})}
+if(typeof pfvDesenha==="function"){const _pv=pfvDesenha;pfvDesenha=function(){const r=_pv.apply(this,arguments);try{if(PFV&&PFV.modo==="grade")sg181Pf($("#layer .pfv"),PFV.u)}catch(e){}return r}}
+/* posts no perfil: os de quem você vê (o banco já só entrega o que pode), não só os de quem você segue */
+{const _pv=pubVisiveis;pubVisiveis=function(){if(!SG181.todos||SG181.on!==true)return _pv.apply(this,arguments);const now=Date.now();
+  return PUB.itens.filter(x=>x&&(x.autor===S.uid||!x.arquivado)&&(x.tipo!=="story"||(x.expira||0)>now))}}
+{const _pl=pfLista;pfLista=function(u,aba){if(SG181.on!==true||aba==="salvos")return _pl.apply(this,arguments);SG181.todos=true;try{return _pl.apply(this,arguments)}finally{SG181.todos=false}}}
+{const _pt=pfTiles;pfTiles=function(l,aba,u){try{if(sg181On()&&u&&u!==S.uid&&aba!=="marc"){
+  if(!sg181Ve(u)&&!(l||[]).length)return `<div class="pf-vz sg181-vz"><b>Perfil fechado</b><span>${SG181.env.has(u)?`Seu pedido foi enviado. Quando ${esc(sg181Prim(u))} aprovar, as publicações aparecem aqui.`:`Siga ${esc(sg181Prim(u))} para ver as publicações. ${esc(sg181Prim(u))} precisa aprovar.`}</span></div>`;
+  if(!(l||[]).length)return `<div class="pf-vz"><b>Publicações</b><span>Nenhuma publicação ainda.</span></div>`}}catch(e){}return _pt.apply(this,arguments)}}
+/* o seu perfil: números, pedidos para seguir (perfil fechado) e sem amizades */
+function sg181PedHTML(){const l=SG181.rec.filter(x=>!(S.bloq||[]).includes(x.uid));if(!l.length)return "";
+  return `<div class="card amg sg181-ped"><span class="amg-t">${l.length===1?"Pedido para seguir você":l.length+" pedidos para seguir você"}</span><ul class="amgl">${l.map(x=>`<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(x.uid)}">${avatar(x.uid)}<span class="amg-n"><b>${esc(nomeDe(x.uid))}</b></span></button><button type="button" class="btn amg-b" data-sg181sim="${esc(x.uid)}">Aprovar</button><button type="button" class="btn ghost amg-b" data-sg181nao="${esc(x.uid)}">Recusar</button></li>`).join("")}</ul></div>`}
+{const _rm=renderMe;renderMe=function(){const r=_rm.apply(this,arguments);try{if(sg181On()){const v=$("#v-me");sg181Pf(v,S.uid);
+    if(PF_ABA==="conta"){const c=v.querySelector(".pf-conta");if(c){c.querySelectorAll(".card.amg,.cs123-cfg").forEach(x=>x.remove());
+      c.querySelectorAll(".card.menu button, .card.menu a").forEach(b=>{if(/^\s*Melhores amigos/.test(b.textContent))b.remove()})}}
+    else{const corpo=v.querySelector(".pf-corpo");if(corpo&&!corpo.querySelector(".sg181-ped")){const h=sg181PedHTML();if(h)corpo.insertAdjacentHTML("afterbegin",h)}}}}catch(e){console.error(e)}return r}}
+/* listas de seguidores: linha com o botão novo */
+{const _l=cs123Linha;cs123Linha=function(x,meu,tipo){if(!sg181On())return _l.apply(this,arguments);const u=x.uid,eu=u===S.uid;
+  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${eu?"":SG181.fech.has(u)?"perfil fechado":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:eu?"":sg181Bt(u,"amg-b")}</li>`}}
+/* "Adicionar amigos" vira "Buscar pessoas" (todos os membros, abertos e fechados) */
+if(typeof abrirAddAmigos==="function"){const _ad=abrirAddAmigos;abrirAddAmigos=function(){if(sg181On())return cs123Descobre();return _ad.apply(this,arguments)}}
+
+/* ===== 3. Atividade: pedidos para seguir ===== */
+{const _ai=atItens;atItens=function(){const it=_ai.apply(this,arguments);if(!sg181On()||!Array.isArray(it))return it;
+  try{SG181.rec.forEach(x=>it.push({k:"sp:"+x.uid,at:x.at,us:[x.uid],ic:"+",txt:`<b>${esc(nomeDe(x.uid))}</b> pediu para seguir você`,u:S.uid,acao:"perfil"}))}catch(e){}
+  return it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}}
+
+/* ===== 4. Ajustes do app › Privacidade: "Perfil fechado" ===== */
+{const _aj=ajustesHTML;ajustesHTML=function(){let h=_aj.apply(this,arguments);try{if(!sg181On())return h;const f=!SG181.aberto;
+  const row=`<div class="sg181-pf"><span><b>Perfil fechado</b><small>${f?"Quem quiser seguir você pede e você aprova. Quem não segue vê só o seu nome, a foto e os números.":"Desligado: qualquer membro pode seguir você e ver o que você publica."} Colunas “Para todos” continuam abertas.</small></span><button type="button" class="tl142-sw${f?" on":""}" role="switch" aria-checked="${f}" aria-label="Perfil fechado" data-sg181fech><i></i></button></div>`;
+  if(h.indexOf('<div class="card tl142-priv"><b>Privacidade</b>')>=0)h=h.replace('<div class="card tl142-priv"><b>Privacidade</b>','<div class="card tl142-priv"><b>Privacidade</b>'+row);
+  else h+=`<div class="card tl142-priv"><b>Privacidade</b>${row}</div>`}catch(e){}return h}}
+
+/* ===== 5. criar: sem escolha de público no post; coluna "Para todos" ou "Só para quem me segue" ===== */
+if(typeof cp152Publicos==="function"){const _cp=cp152Publicos;cp152Publicos=function(){const l=_cp.apply(this,arguments);return sg181On()?[["amigos","Todos"]]:l}}
+const SG181_COLTX={amigos:"Qualquer membro do Prumo pode ler, curtir e comentar, mesmo com o perfil fechado.",seguidores:"Só quem segue você pode ler e comentar."};
+function sg181ColRotulos(root){if(!root||!sg181On())return;root.querySelectorAll('[data-ed132pubv="amigos"]').forEach(b=>{b.textContent="Para todos"});
+  const s=root.querySelector('[data-ed132pubv="seguidores"]');if(s)s.textContent="Só para quem me segue";
+  const ph=root.matches&&root.matches("[data-ed132pubh]")?root:root.querySelector("[data-ed132pubh]");
+  if(ph&&typeof ED132!=="undefined"&&ED132.E&&!ED132.E.pb136){const tx=SG181_COLTX[ED132.E.pub==="seguidores"?"seguidores":"amigos"];if(ph.textContent!==tx)ph.textContent=tx}}
+/* ao publicar a coluna: "todos" (padrão) ou "seguidores"; o link público (136) continua como está */
+if(typeof ed132Publica==="function"){const _p=ed132Publica;ed132Publica=async function(){const E=ED132.E;if(!sg181On()||!E||!SB)return _p.apply(this,arguments);const f=SB.from;
+  SB.from=function(t){const b=f.apply(SB,arguments);if(t==="publicacoes"&&b&&typeof b.insert==="function"){const ins=b.insert;b.insert=function(row){try{if(row&&!Array.isArray(row)&&row.publico!=="publico")row.publico=E.pub==="seguidores"?"seguidores":"todos"}catch(e){}return ins.apply(this,arguments)}}return b};
+  try{return await _p.apply(this,arguments)}finally{SB.from=f}}}
+/* coluna já publicada: "Quem pode ler" (136) com as opções novas */
+if(typeof pb136Quem==="function"){const _q=pb136Quem;pb136Quem=function(id){const x=pubDe(id);if(!sg181On()||!x)return _q.apply(this,arguments);
+  const v=x.publico==="publico"?"publico":x.publico==="seguidores"?"seguidores":"amigos";
+  const op=(k,t,d)=>`<button type="button" role="radio" data-pb136qv="${k}" data-id="${esc(id)}" aria-checked="${v===k}">${t}<span>${d}</span></button>`;
+  sheet("Quem pode ler",`<div class="opt pb136-quem" role="radiogroup" aria-label="Quem pode ler">${op("amigos","Para todos","Qualquer membro do Prumo")}${op("seguidores","Só para quem me segue","Só os seus seguidores")}${op("publico","Todos (link público)","Página aberta, sem conta")}</div><p class="hint">${esc(PB136_TX)}</p>`)}}
+{const _pl=pubLimpa;pubLimpa=function(x){const p=x&&x.publico;const r=_pl.apply(this,arguments);if(p==="todos"&&x)x.publico="todos";return r}}
+
+/* ===== 6. conversas: quem não pode receber mensagem ===== */
+function sg181DmAviso(){const v=$("#v-msgs"),u=typeof THREAD!=="undefined"?THREAD:null;if(!v)return;
+  if(u&&!sg181Msg(u)&&S.membros[u]&&!S.membros[u].excluido&&!(S.bloq||[]).includes(u)){const h=v.querySelector(".dm-comp .hint");
+    if(h&&!h.querySelector(".sg181-bt"))h.innerHTML=`${esc(sg181Prim(u))} tem perfil fechado. Siga para mandar mensagem. ${sg181Bt(u)}`}
+  v.querySelectorAll(".dm104-am").forEach(x=>x.remove());
+  v.querySelectorAll(".pf165-amh,.dm-sh").forEach(x=>{if(x.textContent.trim()==="Amigos")x.textContent="Quem você segue"})}
+if(typeof dm104Amizade==="function"){const _da=dm104Amizade;dm104Amizade=function(){if(sg181On()){try{sg181DmAviso()}catch(e){}return}return _da.apply(this,arguments)}}
+{const _rg=renderMsgs;renderMsgs=function(){const r=_rg.apply(this,arguments);try{if(sg181On())sg181DmAviso()}catch(e){}return r}}
+
+/* ===== 7. textos que ainda falam de amizade (troca só o texto inteiro de um trecho, nunca o que alguém escreveu) ===== */
+const SG181_TX={"Convidar amigo":"Convidar alguém","Nenhum amigo ainda":"Você ainda não segue ninguém",
+  "Adicione amigos no Perfil para mandar notícias para eles.":"Siga pessoas para mandar notícias para elas.","Adicione amigos no Perfil para conversar.":"Siga pessoas para conversar.",
+  "Adicione amigos no Perfil para mandar.":"Siga pessoas para mandar.","Seus amigos no Prumo vão ver.":"Quem vê o seu perfil vai ver.",
+  "Seus amigos no Prumo vão ver. Use @ para marcar alguém na legenda.":"Quem vê o seu perfil vai ver. Use @ para marcar alguém na legenda.",
+  "Você ainda não tem amigos no Prumo.":"Você ainda não segue ninguém no Prumo.","Você ainda não tem amigos no Prumo":"Você ainda não segue ninguém no Prumo",
+  "Lidas por amigos":"Lidas por quem você segue","Amigos gostaram":"Quem você segue gostou","O que seus amigos acham":"O que dizem no Prumo",
+  "Amigos nesta notícia":"Quem você segue nesta notícia","Nenhum amigo por aqui ainda":"Ninguém que você segue por aqui ainda",
+  "Amigo no Prumo":"Você segue","Não são amigos agora":"Você não segue","Perfis abertos":"Pessoas","Descobrir perfis abertos":"Buscar pessoas",
+  "Pessoas do Prumo que deixam qualquer membro seguir. Você vê o que elas publicam para seguidores.":"Siga pessoas do Prumo. Perfil fechado: a pessoa aprova o seu pedido.",
+  "Nenhum perfil aberto ainda":"Ninguém por aqui ainda","Mencionar um amigo":"Mencionar alguém","Nome do amigo":"Nome da pessoa","Amigos":"Seguindo",
+  "Enviar o giro para amigos":"Enviar o giro","seguidores e amigos":"só para quem me segue","amigos":"para todos","Comente esta notícia com seus amigos.":"Comente esta notícia.","Buscar amigo":"Buscar pessoa",
+  "Toque num amigo acima, ou mande uma notícia pelo botão Enviar de um post.":"Toque em alguém acima, ou mande uma notícia pelo botão Enviar de um post.",
+  "Seus amigos e quem segue você conseguem abrir o post.":"Quem vê o seu perfil consegue abrir o post.","Seus amigos conseguem abrir o post.":"Quem vê o seu perfil consegue abrir o post."};
+function sg181Textos(root){if(!root||SG181.on!==true||!root.querySelectorAll)return;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;const troca=[];
+  while((n=w.nextNode())){const t=n.nodeValue.trim();if(t&&Object.prototype.hasOwnProperty.call(SG181_TX,t)&&!(n.parentElement&&n.parentElement.closest(".pv-txt,.pub-tx,.dm-c,.cm-t,textarea,[contenteditable]")))troca.push(n)}
+  troca.forEach(x=>{x.nodeValue=x.nodeValue.replace(x.nodeValue.trim(),SG181_TX[x.nodeValue.trim()])});
+  root.querySelectorAll("input[placeholder]").forEach(i=>{const t=i.getAttribute("placeholder");if(SG181_TX[t])i.setAttribute("placeholder",SG181_TX[t])});
+  sg181ColRotulos(root)}
+(function(){let fila=new Set(),t=0;const roda=()=>{t=0;const l=[...fila];fila.clear();l.forEach(el=>{try{if(el.isConnected)sg181Textos(el)}catch(e){}})};
+  const mo=new MutationObserver(ms=>{if(SG181.on!==true)return;ms.forEach(m=>m.addedNodes.forEach(x=>{if(x.nodeType===1)fila.add(x);else if(x.parentElement)fila.add(x.parentElement)}));if(!t)t=requestAnimationFrame(roda)});
+  const liga=()=>{try{mo.observe(document.body,{childList:true,subtree:true})}catch(e){}};if(document.body)liga();else addEventListener("DOMContentLoaded",liga)})();
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>

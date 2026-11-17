@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Etapa 42: topo do Feed e stories no estilo Instagram
 const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = require('fs');
 (async () => {

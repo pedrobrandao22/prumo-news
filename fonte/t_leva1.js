@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Leva 1: economia (tempo real aplica a linha, sem reler tudo), falhas que voltam atrás, conversas, poda.
 const U = require('./t_util');
 const { ok, sleep, esperar } = U;

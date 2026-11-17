@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Criar (155, 15/11, achados do testador): um caminho só para criar (barra do Feed → caixa; "O que você acha?" → formulário
 // da notícia sem a faixa de tipos, voltar → caixa com a notícia); @ sugere amigos na caixa; o texto da caixa não se perde
 // (Giro, voltar do celular, reabrir); enquete exige opções; Publicar legível no escuro; sem rede diz por quê e tenta sozinho;

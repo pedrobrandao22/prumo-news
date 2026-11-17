@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Criação (dev 3): filtros rápidos (prévia CSS/SVG × foto final), foto inteira no story, post no fluxo do Instagram
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8930/index.html'; const D = __dirname + '/ig3/', PAIS = D + 'paisagem.jpg', RET = D + 'retrato.jpg', QUA = D + 'quadrada.jpg';

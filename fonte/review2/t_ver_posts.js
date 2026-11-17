@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Ver posts dos membros no jeito do Instagram (099): salvar, marcações com um toque, coração grande, comentários,
 // curtidas, "Na conversa", aviso de menção, enviar (story/link/outros apps), grade do perfil, contador e local, legenda do criador.
 // Portas 8960–8969. Capturas 390x844 com toque em shots-ig6/.

@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Pendências do QA de 02/11: histórico longo nas Conversas, redesenho incremental, citação apagada, envio de post,
 // denúncia do administrador, Atividade com pedido aceito, aviso sobre folha, comentário que cresce, opção da pergunta,
 // "Aa" e voltar, visitante e Guardar, "Atualizado às", Dólar com data, cobertura numa linha, Em 5 min sem "1 de 5", stories.
