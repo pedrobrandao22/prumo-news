@@ -493,10 +493,30 @@ def pagina(p, FA=None, propria=None, slug=None, arte=None):
 """
 
 
+MARCA_RE = re.compile(r"\{(dolar|ibov|ibovespa|selic|ipca|ipca12m|desemprego)(?:\.(var|dia|mes))?\}")
+
+
+def resolver_marcas(F, feed):
+    """Marcas de indicador ({dolar}, 18/11) → o valor de indicadores.json (ao lado do feed), com a mesma regra do app
+    (tools/validar.py, marcas_resolver). Sem o validar.py, a frase com a marca sai como o app faria sem indicador."""
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("validar_prumo", os.path.join(os.path.dirname(os.path.abspath(__file__)), "validar.py"))
+        V = importlib.util.module_from_spec(spec); spec.loader.exec_module(V)
+        return V.marcas_resolver(F, V.ler_indicadores(os.path.join(os.path.dirname(os.path.abspath(feed)), "indicadores.json")))
+    except Exception as e:
+        print("marcas de indicador: validar.py indisponível:", repr(e)[:120])
+        tira = lambda x: re.sub(r"\s{2,}", " ", MARCA_RE.sub("", x)).strip() if isinstance(x, str) else ([tira(y) for y in x] if isinstance(x, list) else ({k: tira(v) for k, v in x.items()} if isinstance(x, dict) else x))
+        return tira(F)
+
+
 def main(argv):
     if len(argv) < 2: print(__doc__); return 2
     feed, pasta = argv[0], argv[1]
     F = json.load(open(feed, encoding="utf-8"))
+    # o endereço pelo título não muda quando o número muda: sai do título sem as marcas
+    tit_cru = {p.get("id"): MARCA_RE.sub("", str((p.get("neutro") or {}).get("titulo") or "")) for p in F.get("pautas") or [] if isinstance(p, dict)}
+    F = resolver_marcas(F, feed)
     os.makedirs(pasta, exist_ok=True)
     arq = argv[2] if len(argv) > 2 else os.path.join(os.path.dirname(os.path.abspath(feed)), "fotos-arquivo.json")
     try: A = json.load(open(arq, encoding="utf-8"))
@@ -523,7 +543,7 @@ def main(argv):
         pid = p.get("id")
         if not isinstance(pid, str) or not PID.match(pid): continue
         # o endereço pelo título: não pode tomar o de outra notícia nem o m/<id>.html de outra pauta
-        s0 = slug_de((p.get("neutro") or {}).get("titulo"))
+        s0 = slug_de(tit_cru.get(pid, (p.get("neutro") or {}).get("titulo")))
         sl = None
         if s0 and len(s0) >= 8:
             for cand in (s0, s0 + "-" + re.sub(r"[^a-z0-9-]", "", pid.lower())[:24]):
