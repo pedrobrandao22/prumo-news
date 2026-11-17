@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Etapa 63: vídeo (story gravado segurando o botão, story da galeria com corte e texto, Reels já publicados tocando no Feed)
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8773/index.html'; const VID = __dirname + '/teste.webm';

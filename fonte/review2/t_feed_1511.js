@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Feed enxuto (156, 15/11): cartão de notícia só com editoria, título, foto/carrossel, ações e uma linha da cobertura;
 // cobertura nunca "Anúncio"; fonte do gráfico sem tela própria; círculos sem repetir; "1 notícia"; Mais recentes na ordem
 // da hora; esqueleto no fim do lote; Em 5 min sem repetir o título; comentários (foco, altura, ajuda curta, respostas);

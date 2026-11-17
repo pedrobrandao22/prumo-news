@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // QA do app como chega ao usuário (03/11): flags de produção ligadas (foco, sem Reels, Capa, guia, animações).
 // Guia sem "Bem-vindo"/"curtir", ♥ da Capa logo após entrar, "Fonte" aceita domínio, eixo mensal "dez/24", figurinhas sem rosa/roxo
 // (também as "assadas" na foto), nome comprido no cartão, matéria em 360px e volta para a matéria, botões do story em 360px, fundos sóbrios.

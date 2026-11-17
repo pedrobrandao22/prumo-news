@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Feed, segunda rodada (167, 16/11 noite): círculos do topo sem repetir o 1º cartão e sem etiqueta cortada, fileira parada ao
 // fechar o giro; "✓ seguindo" inteiro; sem vão embaixo da cobertura; véu escuro no giro com foto; comentário guardado sem
 // internet aparece na conversa; retorno pula linha no celular; responder sem "@Nome" repetido; "curtir" sem conta; rodapé

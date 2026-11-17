@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Criação rodada 2: figurinhas sem sobreposição, fundo da foto inteira em degradê, story com miniatura nas Conversas, menção digitada
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8970/index.html'; const PAIS = __dirname + '/ig3/paisagem.jpg', RET = __dirname + '/ig3/retrato.jpg';

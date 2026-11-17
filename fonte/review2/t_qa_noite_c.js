@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // QA da noite C (127, 04/11): regressão de tudo depois do dia cheio (100–124), no estado de produção (foco, visual novo com o
 // cartão A, fase 2, sem reels, abre na Capa) e com a edição real do repositório servida como o GitHub Pages (feed-leve +
 // feed-det, oficiais.json, séries, acervo). Leitor (visitante) e membros (Pedro admin, Bia amiga), 360/390/430, claro/escuro,

@@ -60,7 +60,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   await p.evaluate(() => history.back()); await sleep(500);
 
   // resumo com título e agenda da semana
-  ok(await p.evaluate(() => document.querySelector('#v-capa .cp-1m h3 span')?.textContent === 'A semana em 5 fatos'), 'resumo com título próprio ("A semana em 5 fatos")');
+  ok(await p.evaluate(() => document.querySelector('#v-capa .cp-1m h3 span')?.textContent === 'Em 1 min'), 'resumo da Capa sempre "Em 1 min" (17/11), mesmo com título próprio na edição');
   const ag = await p.evaluate(() => ({ fds: fimDeSemana(), t: [...document.querySelectorAll('#v-capa .cp-h h3')].map(h => h.textContent).find(t => /Agenda/.test(t)), tem: /Evento de teste da semana que vem/.test(document.querySelector('#v-capa').textContent), dia: agDiaTxt('2026-11-03', '2026-10-31', '2026-11-01') }));
   ok(ag.dia === 'ter (3)' && (ag.fds ? ag.t === 'Agenda da semana' && ag.tem : (ag.t === 'Agenda' || ag.t === undefined) && !ag.tem), 'agenda: no fim de semana mostra a semana que vem (em dia útil, sem a semana que vem; sem eventos futuros no feed de teste a seção some) ' + JSON.stringify(ag));
 

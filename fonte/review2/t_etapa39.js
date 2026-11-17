@@ -12,13 +12,15 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const p = U.erros(await ctx.newPage(), 'a'); await p.goto('http://localhost:8839/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi'), null, 10000); await sleep(600);
   await p.evaluate(() => document.querySelector('.nav [data-v="feed"]').click()); await sleep(1500);
   const n = esc ? '[escuro] ' : '';
-  ok(await p.evaluate(() => { const v = e => e && getComputedStyle(e).display !== 'none'; return !v(document.getElementById('b-audio')) && !v(document.getElementById('ed')) && v(document.getElementById('b-busca')) && document.querySelector('#secs .sb')?.matches('[data-5min]') }), n + 'topo enxuto: marca, filtro e busca; "Em 5 min" é o primeiro círculo');
+  ok(await p.evaluate(() => { const v = e => e && getComputedStyle(e).display !== 'none'; return !v(document.getElementById('b-audio')) && !v(document.getElementById('ed')) && v(document.getElementById('b-busca')) && !!document.querySelector('#secs .sb') }), n + 'topo enxuto: marca, filtro e busca');
   ok(await p.evaluate(() => { const po = document.querySelector('#posts .post'); return !!po.querySelector('.ph-av') && !!po.querySelector('.ph-nm b') && !!po.querySelector('.pt-cap') && !!po.querySelector('.pt-hora') }), n + 'post: avatar da seção, legenda e hora no pé');
   ok(await p.evaluate(() => { const c = document.querySelector('#posts .post .cover'); const r = c.getBoundingClientRect(); return r.height >= Math.min(r.width * .98, innerHeight * .6) - 2 && r.height <= r.width + 2 }), n + 'mídia do cartão A: quase quadrada (até 98% da largura, 60% da tela), a manchete fica em cima');
   if (!esc) {
     await p.evaluate(() => { window.__c5 = 0; document.getElementById('b-5min').addEventListener('click', () => window.__c5++, true) });
     await p.evaluate(() => document.querySelector('#secs [data-5min]').click()); await sleep(900);
-    ok(await p.evaluate(() => ST && ST.sec === '_5min' && !!document.querySelector('#layer .story')), 'tocar em "Em 5 min" abre o resumo de 5 minutos em story');
+    // 17/11: "Em 5 min" saiu (virou o "Em 1 min" da Capa); a bolinha fica escondida e, se acionada, leva à Capa
+    ok(await p.evaluate(() => getComputedStyle(document.querySelector('#secs [data-5min]')).display === 'none' && !document.querySelector('#layer .story') && VIEW === 'capa'), '"Em 5 min" escondido no Feed; acionado, leva à Capa (Em 1 min)');
+    await p.evaluate(() => go('feed')); await sleep(600);
     await p.evaluate(() => closeLayer()); await sleep(400);
     const pid = await p.evaluate(() => { const b = document.querySelector('#posts .post .pt-cap'); b.click(); return b.dataset.capmat }); await sleep(600);
     ok(await p.evaluate(pid => MAT_PID === pid && !!document.querySelector('#layer .mat'), pid), 'tocar na legenda abre a matéria (como na Capa)');

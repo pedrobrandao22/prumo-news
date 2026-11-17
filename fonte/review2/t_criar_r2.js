@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Criar, 2ª rodada (166 e 164 revisto, 16/11 noite): foto + notícia publica com a foto; miniatura abre Cortar/Filtros/Editar
 // com Concluir e sem Galeria/POST-GIRO; "Local e pessoas" é uma folha na caixa; Enquete/Número/De perto apagados com foto;
 // avisos junto do campo; enquete sem opções iguais; toque duplo em Publicar não abre o cabeçalho; sem rede uma mensagem só;

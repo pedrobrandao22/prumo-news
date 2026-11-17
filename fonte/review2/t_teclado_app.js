@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Teclado do celular em todas as telas com campo de texto (139): iPhone (Chromium com o aparelho "iPhone 13" e um
 // visualViewport falso com ~55% da altura, que não encolhe a página, como o Safari; também com offsetTop, quando o Safari
 // "puxa" a tela) e Android ("Pixel 7", a página encolhe). Em cada tela: o campo e a linha digitada ficam à vista e não
@@ -66,6 +67,7 @@ let srv = null, srv2 = null;
   const abrir = async (k, o) => { const { viewport, deviceScaleFactor, isMobile, hasTouch, userAgent } = devices[o.dev];
     const p = U.erros(await H.pagina(o.dev === 'iPhone 13' && brW ? brW : br, { sessao: { user: { id: ids[k], email: k + '@x' } }, viewport, ctx: { deviceScaleFactor: Math.min(2, deviceScaleFactor), isMobile, hasTouch, userAgent } }), o.n);
     await p.addInitScript(() => { try { for (const x of ['foco', 'semreels', 'visual']) localStorage.setItem('prumo-teste-' + x, '1'); localStorage.setItem('prumo-fase2', '1') } catch (e) { } });
+    if (process.env.PRUMO_FORMATOS_TODOS) await p.addInitScript(() => { try { localStorage.setItem('prumo-teste-formatos', 'todos') } catch (e) { } });  // WebKit não passa pelo U.navegador
     if (o.vv) await p.addInitScript(FAKE_VV); await p.addInitScript(MEDE);
     await p.goto(o.base); await esperar(p, () => typeof S !== 'undefined' && S.membro && S.amigosOk && PUB.on === true && FEED && FEED.pautas, null, 20000); await sleep(500); await fecha(p); return p };
 

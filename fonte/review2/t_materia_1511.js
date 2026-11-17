@@ -55,7 +55,7 @@ const PREPARA = () => {
     ok(nomes.includes('O Tempo') && nomes.includes('Congresso em Foco'), 'quem o quadro de divergências cita entra em "Noticiaram"', nomes.join('|'));
     ok(nomes.includes('Folha') && !nomes.includes('folha'), '"folha" aparece como "Folha"');
     ok(!/atribuídas cada número/.test(q.box) && /Cada número está atribuído à sua fonte/.test(q.box), 'frase quebrada do quadro corrigida', q.box);
-    ok(await ev(A, () => { const p = FEED.pautas[0]; const h = espectroHTML({ fontes: ['cnn', 'CNN Brasil', 'Mix Vale', 'jp'] }); return /Centro: 1/.test(h) && /Mais à direita: 1/.test(h) }), 'barra "Quem cobriu" conta cada veículo uma vez e ignora os sem classificação');
+    ok(await ev(A, () => { const p = FEED.pautas[0]; const h = ft182Esp0({ fontes: ['cnn', 'CNN Brasil', 'Mix Vale', 'jp'] }); return /Centro: 1/.test(h) && /Mais à direita: 1/.test(h) && espectroHTML(p) === '' }), 'barra "Quem cobriu" (só na folha da matéria desde 17/11) conta cada veículo uma vez e ignora os sem classificação');
     await U.foto(A, 'materia1511-quem'); await ev(A, () => closeLayer()); await sleep(200);
 
     // 2. cobertura com o nome dela

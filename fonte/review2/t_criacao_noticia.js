@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Criação com foco em notícia: começos de conteúdo, notícia comentada, relato, análise com dado, pergunta, story com notícia e indicador
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const BASE = 'http://localhost:8981/index.html'; const PAIS = __dirname + '/ig3/paisagem.jpg', RET = __dirname + '/ig3/retrato.jpg';

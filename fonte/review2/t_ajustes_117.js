@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Ajustes 117 (03/11): 1. o aviso de atraso da Capa não pisca na abertura; 2. Relato no cartão A com quem postou primeiro.
 // Parte 1 (visitante, site sem configuração, porta 8730): grava o DOM dos 2 primeiros segundos (MutationObserver posto antes da página)
 //   em CPU normal e 4x mais lenta: edição velha + rodada recente → nenhum aviso; edição velha + rodada velha → o aviso entra uma vez e fica;

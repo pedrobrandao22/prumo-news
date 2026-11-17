@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // 096: câmera do story — zoom (barra) e toque duplo para virar; sem Boomerang nem Timer (o trilho começa pela notícia). Era o t_ig_reels até 13/11.
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const PORT = 8940, BASE = `http://localhost:${PORT}/index.html`; const VID = __dirname + '/teste.webm';

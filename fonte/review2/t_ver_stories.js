@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Ver stories (rodada 2): bandeja, ordem congelada, cabeçalho ⋯, segurar, resposta com reações, enviar, Atividade do seu story
 const U = require('../t_util'); const { ok, sleep, esperar } = U;
 const PORT = 8951, BASE = `http://localhost:${PORT}/index.html`;

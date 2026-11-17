@@ -182,6 +182,8 @@ const ev = (p, fn, a) => p.evaluate(fn, a);
 
     // celular deitado: foto da manchete ao lado do título, título inteiro na primeira tela
     await ev(P, () => { closeLayer(); go('capa'); window.scrollTo(0, 0) }); await P.setViewportSize({ width: dev.h, height: dev.w }); await sleep(900);
+    // desde 17/11 o "Em 1 min" fica acima da manchete: a conta vale a partir do começo da manchete
+    await ev(P, () => { const m = document.querySelector('#v-capa .cpi-man'); if (m) window.scrollTo(0, m.getBoundingClientRect().top + scrollY - 8) }); await sleep(300);
     const dt = await ev(P, () => { const m = document.querySelector('#v-capa .cpi-man'); if (!m) return null; const a = m.querySelector('.art'), t = m.querySelector('.cp-t'); const ra = a.getBoundingClientRect(), rt = t.getBoundingClientRect(), rm = m.getBoundingClientRect();
       return { lado: rt.left >= ra.right - 1, larg: ra.width / rm.width, fimTit: rt.bottom, h: innerHeight } });
     ok(dt && dt.lado && dt.larg < .5 && dt.fimTit < dt.h - 40, 'celular deitado: foto ao lado do título e título inteiro acima da barra' + tag, JSON.stringify(dt));

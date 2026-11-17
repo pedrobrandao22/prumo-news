@@ -1,0 +1,19 @@
+/* ---------- 182: formatos (Fase 1, 17/11) ---------- */
+/* "Em 5 min" sai do Feed (bolinha, botão do fim e o do topo antigo); fica o "Em 1 min" da Capa */
+html.ft182-em1min #secs [data-5min],html.ft182-em1min [data-cinco],html.ft182-em1min #b-5min,html.ft182-em1min .vn-tl-5{display:none!important}
+/* criar giro escondido: "Seu giro" vazio, os "+", "Adicionar ao giro", "+ Novo", "Adicione o seu" e o POST/GIRO do editor */
+html.ft182-sem-giro #secs [data-meustory][aria-label="Criar giro"],
+html.ft182-sem-giro #secs .up-mais,
+html.ft182-sem-giro [data-criarde="story"],
+html.ft182-sem-giro .pf-av .pf-mais,
+html.ft182-sem-giro [data-upstory],
+html.ft182-sem-giro [data-usadd],
+html.ft182-sem-giro [data-cp152aba="giro"],
+html.ft182-sem-giro #layer .ce-post .ce-modos{display:none!important}
+/* "Em 1 min" no alto da Capa */
+.cp-1m.ft182-1m{margin:4px 0 16px}
+/* Quem noticiou: uma linha na matéria */
+.ft182-qn{display:flex;align-items:center;gap:6px;margin:8px 0 0;padding:4px 0;background:none;border:0;font-family:var(--f-ui);font-size:13px;font-weight:600;color:var(--muted);text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ft182-qn i{font-style:normal;font-size:15px;line-height:1}
+.ft182-qn:active{opacity:.6}
+.ft182-sp{margin:4px 0 12px}

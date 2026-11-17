@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Teste social com usuários reais em páginas abertas ao mesmo tempo (Postgres real com RLS via harness).
 // A = fundador (Pedro); B = convidada por A (Ana); C = convidado por B (Caio); D = login sem convite que depois entra com convite de A (Dani).
 const U = require('./t_util');

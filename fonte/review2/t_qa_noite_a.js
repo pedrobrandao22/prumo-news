@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // QA da noite (A): colunas, seguir, reposts e "De perto" usados por 5 pessoas em vários "dias", como em produção
 // (foco, visual novo com o cartão A, sem reels, fase 2). Pedro, Bia e Carla são amigos; Dani e Edu são amigos entre si e
 // não conhecem os outros. Bia abre o perfil e escreve; Dani segue a Bia; Edu nunca segue ninguém.

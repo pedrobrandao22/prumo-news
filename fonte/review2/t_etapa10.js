@@ -26,7 +26,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
     ok(await p.evaluate(m => !/veículos|Guardar|Abrir no feed/.test(document.querySelector('#cpi-' + m + ' .cpx').textContent), m), 'quadro limpo: sem fontes, Guardar nem Abrir no feed');
     await p.screenshot({ path: D + n + '2-30s.png' });
     await p.evaluate(m => document.querySelector('#cpi-' + m + ' [data-cpmat]').click(), m); await sleep(400);
-    ok(await p.evaluate(() => !!document.querySelector('#layer .mat .mat-p') && /Fontes/.test(document.querySelector('#layer .mat .mat-rod').textContent)), 'tocar no quadro abre a matéria completa (fontes discretas no rodapé)');
+    ok(await p.evaluate(() => !!document.querySelector('#layer .mat .mat-p') && /^Noticiado por \d+ ve/.test((document.querySelector('#layer .mat .ft182-qn') || {}).textContent || '')), 'tocar no quadro abre a matéria completa (quem noticiou numa linha discreta, 17/11)');
     await p.evaluate(() => history.back()); await sleep(500);
     if (P.direita) {
       await p.evaluate(() => { document.querySelector('#lp').click(); document.querySelector('#lpm [data-lente="direita"]').click() }); await sleep(300);

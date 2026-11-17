@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Atividade (130, decisão do Pedro 04/11): quando a MESMA pessoa repostou e também citou (repost com comentário) o MESMO post,
 // a Atividade mostra um item só: "Bia repostou e comentou seu post De perto “…”: “comentário”" (seu post, sua coluna…).
 // Só repost = "repostou"; só citação = como antes; duas pessoas diferentes não juntam; a contagem conta 1; tocar abre a citação.

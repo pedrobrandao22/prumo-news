@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Revisão B (Feed, Giro e criação) no estado de produção: visual novo com o cartão A + fase 2 + foco + sem reels. Correções do 115.
 // B01 avatar do Giro de amigo não cobre o nome · B02 notícia citada por amigo não vai para prateleira · B03 Contexto do Prumo uma vez por notícia
 // B05 hora no cabeçalho com selo em 360px · B06 dica sobre a prévia do cartão

@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // QA de produção 2 (03/11): vida de vários dias de um grupo, o lado da amiga, recarregar no meio. Flags de produção ligadas.
 // Amizade desfeita tira anel/posts na hora e amigo novo traz os stories; menção no story e resposta de pergunta na conversa;
 // post em segundo plano vira rascunho se o app fechar; rascunho de mensagem e de comentário; "Denunciar" para o administrador;

@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Testes B (03/11): amigos, posts, Giro e conversas usando o app como Pedro (admin, dois aparelhos), Bia, Carla e Dani,
 // no estado de produção (foco, visual novo com o cartão A, sem reels e fase 2). Correções em js/121 + css/36; detalhes em qa/TESTES-B.md.
 // Portas 8738–8739. Capturas em qa/testes-b/depois/.

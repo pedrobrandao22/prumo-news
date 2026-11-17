@@ -1,3 +1,4 @@
+process.env.PRUMO_FORMATOS_TODOS = '1';  // testa os formatos escondidos em 17/11 (FT182_ESCONDE), religados só no teste
 // Foco em notícia e conteúdo (105): sem Boomerang/Layout/Timer/emojis/figurinhas de brincadeira; câmera que começa pela notícia,
 // cartão de texto, fundos sóbrios, atalhos de contexto na foto, "via Prumo", reações sóbrias, pedido de fonte, comentar pela matéria.
 // Roda com localStorage "prumo-teste-foco"="1" (o estado de produção); sem ele, nos testes automáticos, tudo fica como antes.
