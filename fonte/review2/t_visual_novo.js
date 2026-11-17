@@ -150,7 +150,7 @@ const recarrega = async P => { await P.reload(); await esperar(P, () => typeof S
   ok(await esperar(A, p => { const b = document.querySelector(`#posts > .post[data-pid="${p}"] .acts [data-a="like"]`); return b && b.classList.contains('on') && b.getAttribute('aria-pressed') === 'true' && b.querySelector('.cnt').textContent === '1' && getComputedStyle(b.querySelector('.cnt')).display !== 'none' }, pidNt, 5000), 'A: tocar em Gostei marca (aceso) e mostra "1" ao lado do ícone');
   // comentar: abre a folha; o número aparece depois de comentar
   await clk(A, `#posts > .post[data-pid="${pidNt}"] .acts [data-a="cmt"]`); ok(await esperar(A, () => !!document.querySelector('#ctext'), null, 4000), 'A: Comentar abre os comentários');
-  await A.fill('#ctext', 'Comentário pelo cartão A'); await A.keyboard.press('Enter'); await sleep(1200); await ev(A, () => closeLayer()); await sleep(400);
+  await A.fill('#ctext', 'Comentário pelo cartão A'); await ev(A, () => document.querySelector('#cform .sendc').click()); await sleep(1200); await ev(A, () => closeLayer()); await sleep(400);
   ok(await esperar(A, p => document.querySelector(`#posts > .post[data-pid="${p}"] .acts [data-a="cmt"] .cnt`)?.textContent === '1', pidNt, 6000), 'A: depois de comentar, "Comentar 1"');
   // repostar: o número de reposts do post do Pedro (a Bia repostou duas vezes) e a folha
   ok(await ev(A, id => document.querySelector(`[id="p-u:${id}"] .acts [data-vnrp] .cnt`)?.textContent === '2', pPedro), 'A: "Repostar 2" no post do Pedro');

@@ -54,7 +54,10 @@ function fd167Rodape(){try{const p=document.querySelector("#extra .foot p");if(!
   const c=fd167Conferida();const conf=c&&!c.pub&&c.t>at+5*60000?` Conferido às ${c.k}, sem novidades.`:"";
   let prox="";try{prox=" "+proximaRodadaTxt()}catch(e){}
   p.innerHTML=`<b>Atualizado ${esc(diaHora(FEED.atualizado_em))}.</b>${esc(conf)}${esc(prox)}`;p.classList.add("fd167-at")}catch(e){}}
-{const _rp167=renderPosts;renderPosts=function(){const r=_rp167.apply(this,arguments);fd167Rodape();fd167Curtir(document.getElementById("posts"));return r}}
+/* lista "Outras notícias": a hora da breve, quando a rodada manda (campo "hora") */
+function fd167BreveHora(){try{document.querySelectorAll("#extra .brv-b[data-breve]").forEach(bt=>{const b=(window.BREVES||[])[+bt.dataset.breve];const sp=bt.nextElementSibling;
+  if(!b||!sp||sp.querySelector(".fd167-bh")||!tms(b.hora))return;sp.insertAdjacentHTML("beforeend",`<span class="fd167-bh"> · ${esc(quando(b.hora))}</span>`)})}catch(e){}}
+{const _rp167=renderPosts;renderPosts=function(){const r=_rp167.apply(this,arguments);fd167Rodape();fd167BreveHora();fd167Curtir(document.getElementById("posts"));return r}}
 {const _cr167=carregarRodadas;carregarRodadas=async function(){const r=await _cr167.apply(this,arguments);fd167Rodape();return r}}
 
 /* ---- comentários: retorno pula linha no celular (só a seta publica); quebras de linha aparecem ---- */
@@ -78,6 +81,8 @@ document.addEventListener("click",e=>{const r=e.target&&e.target.closest&&e.targ
     FD167_RESP=r.dataset.resp||null;fd167RespBarra();const i=document.getElementById("ctext");if(i){if(/^@/.test(i.value))i.value=i.value.replace(/^@\S[^\n]*?\s/,"");try{i.focus()}catch(_){}}return}
   if(e.target&&e.target.closest&&e.target.closest("[data-fd167rx]")){FD167_RESP=null;fd167RespBarra();try{document.getElementById("ctext").focus()}catch(_){}}},true);
 /* ao publicar, a menção vai no começo do texto (é ela que agrupa a resposta embaixo do comentário) */
+/* depois de publicar pela seta, a caixa volta ao tamanho de uma linha */
+document.addEventListener("submit",e=>{if(!e.target||e.target.id!=="cform")return;setTimeout(()=>{const i=document.getElementById("ctext");if(i&&!i.value)try{if(typeof cm106Ajusta==="function")cm106Ajusta(i)}catch(_){}},0)});
 document.addEventListener("submit",e=>{if(!e.target||e.target.id!=="cform"||!FD167_RESP)return;const i=document.getElementById("ctext");
   if(i&&i.value.trim()&&!/^@/.test(i.value.trim())){i.value="@"+FD167_RESP+" "+i.value.trim()}FD167_RESP=null;fd167RespBarra()},true);
 function fd167SemMencao(){try{document.querySelectorAll("#cbox .clist li.fd156-resp").forEach(li=>{if(li.dataset.fd167)return;const rt=li.querySelector(".fd156-rt");const q=rt&&rt.textContent.replace(/^respondendo a /,"");

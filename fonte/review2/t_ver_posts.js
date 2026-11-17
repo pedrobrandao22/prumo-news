@@ -62,12 +62,12 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   ok(await ev(B, () => document.querySelector('#ctext').value === '👏' && !document.querySelector('#cform .sendc').disabled), 'tocar no emoji põe no campo e libera o enviar');
   await shot(B, '06-comentarios-folha');
   await ev(B, () => { const i = document.querySelector('#ctext'); i.value = ''; i.dispatchEvent(new Event('input', { bubbles: true })) });
-  await B.fill('#ctext', 'Que dia lindo! @Pedro'); await B.keyboard.press('Enter'); await sleep(1200);
+  await B.fill('#ctext', 'Que dia lindo! @Pedro'); await ev(B, () => document.querySelector('#cform .sendc').click()); await sleep(1200);
   const pil = await ev(B, () => ({ p: document.querySelector('.vp99-pill')?.textContent || '', t: [...document.querySelectorAll('.toast')].map(x => x.textContent).join('|') }));
   ok(/Pedro Brandão foi avisado/.test(pil.p) && !/avisado/.test(pil.t), 'aviso de menção vira pílula pequena no topo (não cobre o comentário)', pil);
   await shot(B, '07-comentario-enviado-pilula');
   await sleep(2000); ok(await ev(B, () => !document.querySelector('.vp99-pill')), 'pílula some rápido');
-  for (const t of ['Saudade desse lugar', 'Vamos de novo!']) { await B.fill('#ctext', t); await B.keyboard.press('Enter'); await sleep(700) }
+  for (const t of ['Saudade desse lugar', 'Vamos de novo!']) { await B.fill('#ctext', t); await ev(B, () => document.querySelector('#cform .sendc').click()); await sleep(700) }
   const g = await rect(B, '.sheet .grab'); await swipe(B, g.cx, g.cy, g.cx, g.cy + 300, 8, 16); await sleep(700);
   ok(await ev(B, () => !document.querySelector('.sheet')), 'arrastar a alça para baixo fecha os comentários');
   const vt = await ev(B, s => ({ l: document.querySelector(s + ' [data-cmts] > .link')?.textContent || '', nc: document.querySelector(s + ' [data-nchat]').textContent.trim() }), s3);

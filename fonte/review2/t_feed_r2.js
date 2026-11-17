@@ -104,6 +104,7 @@ const comentarios = p => ev(p, () => [...document.querySelectorAll('#cbox .clist
     S.rodadas = { dia: hojeSP(), itens: { [f]: { tipo: 'rapida', status: 'sem_mudancas', publicou: false } } }; fd167Rodape(); return { t: (document.querySelector('#extra .foot p') || {}).textContent || '', f } });
   ok(/^Atualizado .+\. Conferido às \d{1,2}h\d{2}, sem novidades\. Próxima atualização/.test(rod.t) && !/9h48, 11h48/.test(rod.t), 'rodapé: "Atualizado…", "Conferido às …, sem novidades" e a próxima atualização', rod);
   ok(await ev(A, () => { S.rodadas = {}; fd167Rodape(); const t = document.querySelector('#extra .foot p').textContent; return /^Atualizado .+\. Próxima atualização/.test(t) && !/Conferido/.test(t) }), 'rodapé sem rodada conferida depois: só a hora e a próxima');
+  ok(await ev(A, () => { const b = (window.BREVES || [])[0]; if (!b) return true; b.hora = new Date(Date.now() - 2 * 3600e3).toISOString(); fd167BreveHora(); return /· há 2 h$/.test(document.querySelector('#extra .brv li span').textContent) }), 'Outras notícias: a breve mostra a hora quando a rodada manda');
   await ev(A, () => scrollTo(0, 0)); await sleep(300);
 
   // 10. barra de baixo quase opaca

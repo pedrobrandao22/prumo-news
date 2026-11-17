@@ -20,7 +20,7 @@ const topo = async (p, sel) => { await ev(p, s => { const m = s.match(/p-(.*?)"/
   ok(await ev(A, () => { const n = document.querySelector('#posts .post:not(.upost)'); n.querySelector('.acts [data-a="like"]').click(); const l = n.querySelector('[data-likes]'), c = n.querySelector('.acts [data-n="like"]'); return c.textContent.trim() === '1' && getComputedStyle(c).display !== 'none' && (getComputedStyle(l).display === 'none' || !l.textContent.trim()) }), 'notícia que você gostou: só o número "1" (156: sem repetir "Você gostou")');
   // ---- comentários: o dono do post apaga o comentário da Bia; folha opaca ----
   await topo(B, s3); await tapSel(B, s3 + ' .acts [data-a="cmt"]'); await sleep(600);
-  await B.fill('#ctext', 'Comentário que o Pedro vai apagar'); await B.keyboard.press('Enter'); await sleep(1200); await ev(B, () => closeLayer()); await sleep(300);
+  await B.fill('#ctext', 'Comentário que o Pedro vai apagar'); await ev(B, () => document.querySelector('#cform .sendc').click()); await sleep(1200); await ev(B, () => closeLayer()); await sleep(300);
   await esperar(A, s => { try { psCarregar() } catch (e) { } return socialOf(s.slice(7, -2)).cm.length === 1 }, s3, 8000);
   await topo(A, s3); await tapSel(A, s3 + ' .acts [data-a="cmt"]'); await sleep(700); await ev(A, () => document.querySelector('#ctext').blur());
   const fl = await ev(A, () => ({ ap: document.querySelectorAll('.sheet [data-apagar]').length, den: document.querySelectorAll('.sheet [data-denc]').length, bg: getComputedStyle(document.querySelector('.sheet.vp99-cm')).backgroundColor }));
