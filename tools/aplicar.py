@@ -11,6 +11,9 @@ Uso:
 Coberturas (automático): pauta que sai do feed vai para "dormentes" (o id pode voltar com add_pauta e recupera o histórico);
 título que muda entra em "titulos"; "inicio" fica gravado; ao_vivo sem novidade há 4 h volta para ativa; "taxonomia" é regravada;
 cobertura sem fato novo há mais de 3 dias (pontual: 2) fica com prioridade 35 no máximo; cada breve ganha "hora" (quando entrou).
+FIM (17/11): toda cobertura nova (add_pauta tipo cobertura) precisa de "fim" (o critério de encerramento); a pauta que já tinha
+"fim" o mantém mesmo se a rodada não o reescrever. Cobertura "encerrada" no feed de entrada não recebe update_add nem volta
+de dormentes: fato novo do tema abre cobertura nova (id e tema novos, com o seu próprio fim).
 
 patch.json: lista de operações (ou {"ops": [...]}). Operações:
   {"op":"set","pid":ID,"path":"neutro.texto","value":...}        caminho com pontos; índices numéricos valem (visuais.0.titulo)
@@ -122,6 +125,8 @@ def set_path(obj, path, value):
 class Feed:
     def __init__(self, f, agora):
         self.f, self.agora, self.log = f, agora, []
+        # coberturas já encerradas no feed de entrada (17/11: depois do fim não recebem fato novo)
+        self.encerradas = {p.get("id") for p in f.get("pautas") or [] if isinstance(p, dict) and p.get("status") == "encerrada"}
     def pauta(self, pid):
         for p in self.f.get("pautas") or []:
             if p.get("id") == pid: return p
@@ -154,6 +159,8 @@ class Feed:
             if ks and ks[0] == "enquete" and p.get("enquete"): raise Recusa(f"[{p['id']}] enquete existente não pode ser editada (os votos são gravados pelo índice da opção); use remove_enquete")
             set_path(p, op.get("path"), op.get("value"))
         elif k == "update_add":
+            if op.get("pid") in self.encerradas:
+                raise Recusa(f"[{op.get('pid')}] cobertura encerrada (atingiu o fim): não recebe atualização. Fato novo do tema abre cobertura nova (add_pauta com id e tema novos e o seu \"fim\"; ex.: \"Implementação da escala 6x1\")")
             tit = op.get("titulo")
             if not (isinstance(tit, str) and tit.strip()) and op.get("manter_titulo") is not True:
                 raise Recusa(f"[{op.get('pid')}] update_add sem 'titulo': quando a notícia ganha fato novo, a manchete passa a dizer o fato mais novo ou mais importante (use \"manter_titulo\": true só em atualização de detalhe)")
@@ -177,6 +184,11 @@ class Feed:
             if not sub: raise Recusa(f"add_pauta '{pid}' sem subtema (de {p['secao']}: {', '.join(V.TAXONOMIA[p['secao']])})")
             if sub not in V.TAXONOMIA[p["secao"]]: raise Recusa(f"add_pauta '{pid}': subtema '{sub}' não existe em {p['secao']} ({', '.join(V.TAXONOMIA[p['secao']])})")
             dor = {d.get("id"): d for d in F.get("dormentes") or []}
+            if pid in dor and dor[pid].get("status") == "encerrada":
+                raise Recusa(f"add_pauta '{pid}': essa cobertura foi encerrada (atingiu o fim). Fato novo do tema abre cobertura nova, com id e tema novos e o seu \"fim\"")
+            if pid in dor and not p.get("fim") and dor[pid].get("fim"): p["fim"] = dor[pid]["fim"]
+            if p.get("tipo", "cobertura") == "cobertura" and not (isinstance(p.get("fim"), str) and p["fim"].strip()):
+                raise Recusa(f"add_pauta '{pid}' sem \"fim\": toda cobertura nova diz quando termina (ex.: \"Aprovação e promulgação da PEC\"); pontual não precisa")
             if pid in dor:
                 d = dor[pid]
                 for c in ("inicio", "titulos"): 
@@ -339,6 +351,7 @@ def coberturas(F, base, agora, virada=False):
         for c in ("inicio", "titulos"):
             if not p.get(c) and bp.get(c): p[c] = copy.deepcopy(bp[c])
         if "hashtags" not in p and isinstance(bp.get("hashtags"), list) and bp["hashtags"]: p["hashtags"] = list(bp["hashtags"])  # cobertura que continua mantém as hashtags
+        if not p.get("fim") and isinstance(bp.get("fim"), str) and bp["fim"].strip(): p["fim"] = bp["fim"]  # e o fim (17/11)
         if not p.get("inicio"):
             hs = [str(p.get("hora") or "")] + [str(u.get("hora") or "") for u in p.get("atualizacoes") or []]
             hs = [h for h in hs if V.ISO.match(h)]
@@ -387,6 +400,7 @@ def coberturas(F, base, agora, virada=False):
                     "ultima": ultima_de(bp), "status": bp.get("status") or "ativa"}
         if bp.get("titulos"): dor[pid]["titulos"] = bp["titulos"]
         if isinstance(bp.get("hashtags"), list) and bp["hashtags"]: dor[pid]["hashtags"] = list(bp["hashtags"])
+        if isinstance(bp.get("fim"), str) and bp["fim"].strip(): dor[pid]["fim"] = bp["fim"]
         rel.append(f"[{pid}] saiu do feed: guardada em dormentes")
     limite = (agora - timedelta(days=V.DIAS_DORMENTE)).strftime("%Y-%m-%dT%H:%M")
     fica = [d for pid, d in dor.items() if pid not in ids and str(d.get("ultima", ""))[:16] >= limite]
