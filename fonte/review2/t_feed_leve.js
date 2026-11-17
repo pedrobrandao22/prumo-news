@@ -84,7 +84,7 @@ function gravarFeed(f) { fs.writeFileSync(path.join(DIR, 'feed.json'), JSON.stri
   ok(m1.t.length > 5 && m1.pts > 0 && m1.sk && m1.p === 0, 'matéria antes do detalhe: título e pontos na hora, sinal de "carregando"', m1);
   M.soltar();
   ok(await esperar(M.p, () => !document.querySelector('#layer .fl119-sk') && (document.querySelector('#layer .mat-p')?.textContent.trim().length || 0) > 100, null, 8000), 'matéria se completa quando o detalhe chega');
-  ok(await ev(M.p, id => MAT_PID === id && document.querySelector('#layer .mat-p').textContent.includes(FEED.pautas.find(x => x.id === id).neutro.texto.slice(0, 40)), alvo.id), 'é o texto da mesma matéria');
+  ok(await ev(M.p, id => MAT_PID === id && document.querySelector('#layer .mat-p').textContent.includes((typeof dt185Rel === 'function' ? dt185Rel : x => x)(FEED.pautas.find(x => x.id === id).neutro.texto).slice(0, 40)), alvo.id), 'é o texto da mesma matéria');
   ok(M.p._erros.length === 0, 'sem erros na página (M)', M.p._erros);
   await M.ctx.close();
 

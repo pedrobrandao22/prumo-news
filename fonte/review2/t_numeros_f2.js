@@ -59,7 +59,7 @@ print(json.dumps([V.marca_texto(t,M) for t in json.loads(sys.argv[3])],ensure_as
     // 1. Capa: manchete, linha fina e card com o mesmo número; nenhuma marca na tela
     const capa = await ev(P, () => document.querySelector('#v-capa').innerText);
     ok(!/\{(dolar|ibov|selic|ipca|desemprego)/.test(capa), 'Capa sem marca na tela' + tag);
-    ok(capa.includes('Dólar fecha a R$ 5,81 (+0,42%) na terça (17)'), 'manchete com o dólar do indicadores.json' + tag, capa.slice(0, 300));
+    ok(capa.includes((await ev(P, x => typeof dt185Rel === 'function' ? dt185Rel(x) : x, 'Dólar fecha a R$ 5,81 (+0,42%) na terça (17)'))), 'manchete com o dólar do indicadores.json' + tag, capa.slice(0, 300));
     ok(await ev(P, () => [...document.querySelectorAll('#v-capa .ui184 b')].some(e => e.textContent === 'R$ 5,81')), 'card da Capa com o mesmo valor' + tag);
     await U.foto(P, 'numeros-f2-capa' + (se ? '-se' : ''));
 
@@ -67,7 +67,7 @@ print(json.dumps([V.marca_texto(t,M) for t in json.loads(sys.argv[3])],ensure_as
     await ev(P, id => abrirMateria(id), PID); await sleep(700);
     const mat = await ev(P, () => (document.querySelector('#layer') || document.body).innerText);
     ok(!/\{(dolar|ibov|selic|ipca|desemprego)/.test(mat), 'matéria sem marca na tela' + tag, mat.match(/.{0,40}\{[a-z.]+\}.{0,20}/));
-    ok(/terminou a terça \(17\) a R\$ 5,81/.test(mat) && /4,63%, até outubro/.test(mat), 'texto da matéria com os valores' + tag);
+    ok(mat.includes((await ev(P, x => typeof dt185Rel === 'function' ? dt185Rel(x) : x, 'terminou a terça (17) a R$ 5,81'))) && /4,63%, até outubro/.test(mat), 'texto da matéria com os valores' + tag);
     ok(await ev(P, id => { const p = pautaById(id); return p.visuais[0].itens[0].valor === 'R$ 5,81' && p.visuais[0].itens[0].rotulo === 'dólar na terça (17)' && p.faq[0].r === 'R$ 5,81, no fechamento de terça (17).' }, PID), 'quadro de números e Entenda se preenchem sozinhos' + tag);
     await U.foto(P, 'numeros-f2-materia' + (se ? '-se' : ''));
     await ev(P, () => { try { closeLayer() } catch (e) {} }); await sleep(300);
@@ -77,7 +77,7 @@ print(json.dumps([V.marca_texto(t,M) for t in json.loads(sys.argv[3])],ensure_as
     IND = IND2;
     await ev(P, () => { IND_T = 0; return carregarIndAuto() }); await sleep(500);
     const c2 = await ev(P, () => document.querySelector('#v-capa').innerText);
-    ok(c2.includes('Dólar fecha a R$ 5,90 (+1,55%) na quarta (18)') && !c2.includes('5,81'), 'indicadores.json novo: a Capa troca o número sem edição nova', c2.slice(0, 300));
+    ok(c2.includes((await ev(P, x => typeof dt185Rel === 'function' ? dt185Rel(x) : x, 'Dólar fecha a R$ 5,90 (+1,55%) na quarta (18)'))) && !c2.includes('5,81'), 'indicadores.json novo: a Capa troca o número sem edição nova', c2.slice(0, 300));
     ok(await ev(P, id => { const p = pautaById(id); return p.subtitulo.startsWith('Ibovespa termina a 171.000') && p.neutro.pontos[0] === 'Dólar a R$ 5,90' && FEED.capa.linha_fina === 'Dólar a R$ 5,90 e Ibovespa a 171.000 pontos' }, PID), 'pontos e linha fina trocam juntos');
     await ev(P, () => fl119Guardar(FEED));
     ok(await ev(P, id => { const g = JSON.parse(localStorage.getItem('radar-feed')); const p = g.pautas.find(x => x.id === id); return p.neutro._m186.titulo === 'Dólar fecha a {dolar} ({dolar.var}) na {dolar.dia}' && p.neutro.titulo.includes('R$ 5,90') }, PID), 'a edição guardada leva o texto com a marca (e o valor da hora)');
