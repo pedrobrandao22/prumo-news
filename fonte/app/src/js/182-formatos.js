@@ -58,7 +58,7 @@ function ft182Tour(t){if(typeof t!=="string")return t;if(ft182Esc("enquete"))t=t
 {const _fb182=fc107Barra;fc107Barra=function(){const r=_fb182.apply(this,arguments);try{const b=$("#cn102-bar .fc107-bmais");if(b)b.setAttribute("aria-label","Nova publicação")}catch(e){}return r}}
 try{if(ft182Esc("giro")){const c=NT124_TIPOS.find(t=>t[0]==="curtidas");if(c)c[2]="Nos seus posts e comentários (agrupadas)"}}catch(e){}
 
-/* ===== 2. "Em 1 min" no alto da Capa ===== */
+/* ===== 2. "Em 1 min" no meio da Capa ===== */
 function ft182Um(){if(!FEED)return "";let ps=[];try{ps=capaEscolha().ps}catch(e){ps=FEED.pautas||[]}
   const rd=FEED.resumo_dia&&Array.isArray(FEED.resumo_dia.itens)?FEED.resumo_dia.itens.filter(x=>x&&typeof x.texto==="string"&&x.texto.trim()):[];
   let it=rd.filter(x=>!x.pid||ps.some(p=>p.id===x.pid)).slice(0,5);
@@ -66,9 +66,8 @@ function ft182Um(){if(!FEED)return "";let ps=[];try{ps=capaEscolha().ps}catch(e)
   if(!it.length)return "";
   return `<section class="cp-1m ft182-1m" aria-label="Em 1 min"><h3><span>Em 1 min</span><button type="button" class="cp-1m-sh" data-1mshare aria-label="Mandar o resumo">${ICON.send}<span>Mandar</span></button></h3><ol>${it.map(x=>`<li>${x.pid?`<button type="button" data-cp1m="${esc(x.pid)}">${esc(x.texto)}</button>`:`<span>${esc(x.texto)}</span>`}</li>`).join("")}</ol></section>`}
 if(FT182_EM1MIN){
-/* entra logo depois do "Urgente" (urgHTML sem argumento só é chamado pela Capa); o do meio da Capa sai */
-{const _ur182=urgHTML;urgHTML=function(){const h=_ur182.apply(this,arguments);if(arguments.length)return h;let u="";try{u=ft182Um()}catch(e){}return h+u}}
-dia1min=function(){return ""};
+/* fica no lugar de sempre, no meio da Capa (Pedro, 17/11: não no topo) */
+dia1min=function(){try{return ft182Um()}catch(e){return ""}};
 /* sem "Em 5 min": a bolinha some (CSS) e a lista vazia tira o "Em 5 min" da sequência dos giros de notícia */
 cincoLista=function(){return []};
 abrir5min=function(){try{if($("#layer").innerHTML)closeLayer()}catch(e){}go("capa");try{scrollTo({top:0,behavior:"smooth"})}catch(e){}};
