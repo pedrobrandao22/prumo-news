@@ -7,7 +7,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const man = f.capa.manchete; const P = f.pautas.find(p => p.id === man);
   P.foto = { url: 'http://localhost:8788/foto.svg', credito: 'Foto: Teste/Agência Brasil', alt: 'teste' }; // domínio fora da lista: deve ser ignorado
   const D2 = f.pautas.find(p => p.id === f.capa.destaques[0]);
-  D2.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/x/xx/Inexistente.jpg', credito: 'Foto: Fulano/Wikimedia Commons', alt: 'x' };
+  D2.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/x/xx/Inexistente.jpg', credito: 'Foto: Fulano/Wikimedia Commons', alt: 'x', mostra: D2.neutro.titulo };
   fs.writeFileSync(__dirname + '/../site/feed.json', JSON.stringify(f));
   const srv = U.servir('site', 8788); await sleep(800);
   const br = await U.navegador(); const D = __dirname + '/etapa12/';

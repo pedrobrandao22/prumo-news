@@ -14,7 +14,7 @@ let srv = null;
   const real = JSON.parse(fs.readFileSync(path.join(U.REPO, 'feed.json'), 'utf8'));
   const base = real.pautas.find(p => p.imagem && p.imagem.modelo === 'dinheiro') || real.pautas[0];
   const din = { modelo: 'dinheiro', etiqueta: 'Infográfico', alt: 'Cédulas com a Selic', dados: { valor: '13,75%', legenda: 'Selic em vigor desde 16/9; decisão do Copom em 4/11', itens: [['Chance de manter', '80%'], ['Chance de corte', '20%'], ['Decisão', '4/11']] } };
-  const mk = (id, min, imagem, foto) => { const p = JSON.parse(JSON.stringify(base)); p.id = id; p.hora = spISO(Date.now() - min * 60e3); p.prioridade = 99; p.imagem = imagem; if (foto) p.foto = { url: foto, credito: 'Foto: Teste/Wikimedia Commons (CC0)', alt: 'foto' }; else delete p.foto; return p };
+  const mk = (id, min, imagem, foto) => { const p = JSON.parse(JSON.stringify(base)); p.id = id; p.hora = spISO(Date.now() - min * 60e3); p.prioridade = 99; p.imagem = imagem; if (foto) p.foto = { url: foto, credito: 'Foto: Teste/Wikimedia Commons (CC0)', alt: 'foto', mostra: (p.neutro || {}).titulo }; else delete p.foto; return p };
   const f = JSON.parse(JSON.stringify(real));
   const novas = [mk('mc1106-ruim', 2, din, FOTO_RUIM), mk('mc1106-ok', 3, din, FOTO_OK), mk('mc1106-gen', 4, { modelo: 'generica', alt: 'x', dados: { rotulo: 'TESTE' } }, FOTO_RUIM)];
   f.pautas = novas.concat(f.pautas.filter(p => !/^mc1106/.test(p.id))); f.atualizado_em = spISO(Date.now() - 5 * 60e3);

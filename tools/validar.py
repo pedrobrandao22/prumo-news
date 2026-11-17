@@ -20,6 +20,8 @@ import json, os, re, sys, difflib, unicodedata
 from collections import Counter
 from datetime import datetime, date, timedelta, timezone
 from urllib.parse import urlparse
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from paginas import confirma as foto_confirma  # noqa: E402  (18/11: a mesma confirmação da foto que o app e a prévia usam)
 
 SP = timezone(timedelta(hours=-3))
 TURNO2 = date(2026, 10, 25)
@@ -1076,6 +1078,13 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
             else:
                 if not ft.get("credito"): E(f"[{pid}] foto sem credito (ex.: \"Foto: Marcelo Camargo/Agência Brasil\")")
                 if not ft.get("alt"): A(f"[{pid}] foto sem alt (o que a foto mostra)")
+                # 18/11 (fase 2): foto própria só aparece com "mostra" que cita a pessoa ou o lugar do título (paginas.confirma)
+                if not isinstance(ft.get("mostra"), str) or not ft["mostra"].strip():
+                    fa = (ant_pauta(ant, pid) if ant else None) or {}
+                    velha = isinstance(fa.get("foto"), dict) and fa["foto"].get("url") == ft["url"]
+                    (A if velha else E)(f"[{pid}] foto sem \"mostra\" (o que está na foto, com a pessoa ou o lugar do título): o app não mostra a foto; acrescente \"mostra\" ou tire a foto")
+                elif not foto_confirma(p, ft):
+                    E(f"[{pid}] foto: \"mostra\" não cita nenhum nome do título (pessoa, lugar, sigla): o app não mostra a foto; corrija \"mostra\" ou tire a foto")
         # subtítulo (linha fina da Capa)
         st = p.get("subtitulo")
         if st is not None:

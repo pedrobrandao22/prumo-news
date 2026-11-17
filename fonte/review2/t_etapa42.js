@@ -4,7 +4,8 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
 (async () => {
   const S0 = __dirname + '/../site/';
   const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8')); f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
-  const ps = f.pautas.filter(p => p.secao === 'politica')[0] || f.pautas[0]; ps.social = ['R$ 44.008,52: é o subsídio bruto do senador.', 'Cada falta gera desconto.', 'E agora? Alcolumbre não respondeu.'];
+  const ps = f.pautas.filter(p => p.secao === 'politica')[0] || f.pautas[0]; ps.foto = { url: 'https://imagens.ebc.com.br/teste/story.jpg', credito: 'Foto: Teste/Agência Brasil', alt: 'Foto de teste', mostra: ps.neutro.titulo };  // 18/11 (187): foto própria confirmada (o feed do dia pode não ter foto em Política)
+  ps.social = ['R$ 44.008,52: é o subsídio bruto do senador.', 'Cada falta gera desconto.', 'E agora? Alcolumbre não respondeu.'];
   const hoje = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10); f.agenda = [{ data: hoje, hora: '23h59', texto: 'Evento de teste no Senado' }].concat(f.agenda || []);
   fs.writeFileSync(S0 + 'feed.json', JSON.stringify(f)); fs.copyFileSync(require('../t_util').REPO + '/fotos-arquivo.json', S0 + 'fotos-arquivo.json');
   const jpg = fs.readFileSync(__dirname + '/etapa13/foto.jpg');

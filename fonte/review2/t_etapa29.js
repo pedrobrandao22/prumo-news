@@ -6,7 +6,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
   const ach = re => f.pautas.find(p => re.test(p.neutro.titulo));
   const pTrem = ach(/trens/), pCatar = ach(/^Catar/), pCor = ach(/Corinthians/);
-  const pQ = f.pautas.find(p => p.id === (f.capa && f.capa.manchete)) || f.pautas[0]; pQ.foto = { ...(pQ.foto || {}), url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Quebrada.jpg', credito: 'Foto: Fulano/Agência Senado' };
+  const pQ = f.pautas.find(p => p.id === (f.capa && f.capa.manchete)) || f.pautas[0]; pQ.foto = { ...(pQ.foto || {}), url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Quebrada.jpg', credito: 'Foto: Fulano/Agência Senado', mostra: pQ.neutro.titulo };
   fs.writeFileSync(S0 + 'feed.json', JSON.stringify(f));
   const A = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/fotos-arquivo.json', 'utf8'));
   const fx = n => [1, 2].map(i => ({ url: `https://upload.wikimedia.org/wikipedia/commons/0/0${i}/${n}_${i}.jpg`, credito: `Foto de arquivo: Autor ${n}/Wikimedia Commons (CC BY-SA 4.0)`, alt: 'Foto de arquivo: ' + n }));
