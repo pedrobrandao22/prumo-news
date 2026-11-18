@@ -19,8 +19,6 @@ const fd104Sig=x=>[x.texto||"",x.editado||"",x.fixado||"",JSON.stringify(x.estil
 
 /* perfil: tocar em "N amigos" abre a lista de amigos */
 /* perfil de um amigo: menu "…" com desfazer amizade, bloquear e denunciar */
-{const _pv104=pfvDesenha;pfvDesenha=function(){const r=_pv104.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"&&S.amigos.has(PFV.u)){const sp=document.querySelector("#layer .pfv .pfv-h .sp");
-  if(sp&&!sp.nextElementSibling)sp.insertAdjacentHTML("afterend",`<button type="button" class="icbtn fd104-pm" data-fd104pm="${esc(PFV.u)}" aria-label="Mais opções"><svg class="ico" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></button>`)}}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("[data-fd104am]")){e.stopPropagation();abrirTodosAmigos();return}
   if(b=t.closest("[data-fd104pm]")){e.stopPropagation();const u=b.dataset.fd104pm,n=esc(nomeDe(u));
@@ -35,7 +33,3 @@ var FD104_ME=false;function fd104Me(){if(VIEW!=="me"||PF_ABA==="conta")return;if
 {const _pr104=pubRedesenha;pubRedesenha=function(){const r=_pr104.apply(this,arguments);clearTimeout(pubRedesenha.t104);pubRedesenha.t104=setTimeout(()=>{try{fd104Me()}catch(e){}},60);return r}}
 /* quem curtiu um post: "Curtidas" (as notícias seguem com "Quem gostou") */
 {const _aq104=abrirQuem;abrirQuem=function(pid){const r=_aq104.apply(this,arguments);try{if(String(pid).indexOf("u:")===0){const h=$(".sheet .sh-h");if(h&&h.firstChild&&h.firstChild.nodeType===3)h.firstChild.textContent="Curtidas"}}catch(e){}return r}}
-/* perfil de quem não é (mais) amigo: botão de pedir/aceitar amizade; e o perfil aberto acompanha desfazer amizade/bloquear */
-{const _pc104=pfCab;pfCab=function(u){let h=_pc104.apply(this,arguments);try{if(u&&u!==S.uid&&!S.amigos.has(u)&&!(S.bloq||[]).includes(u)&&S.membro){const rec=(S.pedidosIn||[]).includes(u),env=(S.pedidosOut||[]).includes(u);
-  h+=`<div class="pf-bts">${rec?`<button type="button" class="btn" data-aceitar="${esc(u)}">Aceitar pedido de amizade</button>`:env?`<button type="button" class="btn ghost" data-cancelar="${esc(u)}">Cancelar pedido</button>`:`<button type="button" class="btn" data-pedir="${esc(u)}">Pedir amizade</button>`}</div>`}}catch(e){}return h}}
-{const _pt104=pfTiles;pfTiles=function(l,aba,u){if(u&&u!==S.uid&&!S.amigos.has(u)&&!(l||[]).length)return `<div class="pf-vz"><b>Perfil só para amigos</b><span>Quando vocês forem amigos, as publicações de ${esc(String(nomeDe(u)).split(" ")[0])} aparecem aqui.</span></div>`;return _pt104.apply(this,arguments)}}

@@ -49,11 +49,6 @@ function vn112RpHTML(h,x){const rp=vn112Rp(x);if(!rp||typeof h!=="string"||!h)re
   a.querySelector(".up-leg")?.remove();
   const sub=a.querySelector(".ph-sub");if(sub&&!tx)sub.insertAdjacentHTML("afterbegin",`<span class="vn-rpk">${VN112_IC.rp}repostou</span> · `);
   return a.outerHTML}
-/* perfil em grade: o repost mostra o que foi citado */
-{const _pt112=pfTiles;pfTiles=function(l){let h=_pt112.apply(this,arguments);try{if(typeof h!=="string"||!(l||[]).some(vn112Rp))return h;const tp=document.createElement("template");tp.innerHTML=h;
-  tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],rp=x&&vn112Rp(x),o=b.querySelector(".pf-tx");if(!rp||!o)return;const q=rp.k==="pauta"?pautaById(rp.id):vn112Pub(rp.id);
-    const t=rp.k==="pauta"?(q?versao(q,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia"):q?(q.texto||"Publicação de "+nomeDe(q.autor)):"Publicação indisponível";
-    o.outerHTML=`<span class="pf-tx vn-pfrp"><small>${VN112_IC.rp}${String(x.texto||"").trim()?"Citação":"Repost"}</small><b>${esc(vn112Curto(String(x.texto||"").trim()||t,90))}</b></span>`});h=tp.innerHTML}catch(e){}return h}}
 /* Atividade: "Bia repostou sua publicação" */
 function vn112AtRp(){const out=[];if(!S.uid)return out;const ag=Date.now();
   pubVisiveis().forEach(x=>{const rp=vn112Rp(x);if(!rp||rp.k!=="pub"||x.autor===S.uid||ag-x.at>30*864e5)return;const o=pubDe(rp.id);if(!o||o.autor!==S.uid)return;const com=!!String(x.texto||"").trim();
@@ -240,9 +235,6 @@ if(VISUAL_NOVO){
   
   /* direções em teste: mídia mais baixa (A e B: a manchete já está em cima; C: 16:9, como no YouTube) */
 
-  /* perfil */
-  {const _pv112=pfvDesenha;pfvDesenha=function(){const r=_pv112.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){if(PFV.aba!=="posts")PFV.vnAba=PFV.aba;else if(!["posts","resp","midia"].includes(PFV.vnAba))PFV.vnAba="posts";vn112Pf($("#layer .pfv .pfv-sc"),PFV.u,PFV.vnAba)}}catch(e){console.error(e)}return r}}
-  {const _ap112=abrirPerfil;abrirPerfil=function(u){if(u===S.uid)VN112_PF.me="posts";return _ap112.apply(this,arguments)}}
   /* nomes */
   try{const ob=new MutationObserver(ms=>{ms.forEach(m=>{if(m.type==="attributes"){const v=m.target.getAttribute(m.attributeName);if(v&&VN112_NOMES_T.test(v))vn112NomesAttr(m.target);return}m.addedNodes.forEach(n=>{if(n.nodeType===1||n.nodeType===3)vn112Nomes(n)})})});
     const liga=()=>{["#layer","#layer2","#v-me"].forEach(s=>{const el=$(s);if(el)ob.observe(el,{childList:true,subtree:true,attributes:true,attributeFilter:["aria-label"]})})};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",liga);else liga()}catch(e){}

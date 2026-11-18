@@ -30,7 +30,6 @@ function ra114SoAmigos(u){return `<div class="pf-vz"><b>Perfil só para amigos</
 if(typeof vn112Resp==="function"){const _r=vn112Resp;vn112Resp=function(u){return ra114Fora(u)?ra114SoAmigos(u):_r.apply(this,arguments)}}
 if(typeof vn112Midia==="function"){const _m=vn112Midia;vn112Midia=function(u){return ra114Fora(u)&&!pfLista(u,"posts").length?ra114SoAmigos(u):_m.apply(this,arguments)}}
 if(typeof vn112Pf==="function"){const _p=vn112Pf;vn112Pf=function(root,u){const r=_p.apply(this,arguments);try{if(ra114Fora(u)&&root&&!pfLista(u,"posts").length)root.querySelectorAll(".vn-pf-num span").forEach(s=>{if(/publicaç/.test(s.textContent))s.remove()})}catch(e){}return r}}
-{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(ra114Fora(u)&&!pfLista(u,"posts").length)h=h.replace(/<span><b>0<\/b>publicações<\/span>/,"")}catch(e){}return h}}
 
 /* ===== A02: Melhores amigos no Perfil › Conta ===== */
 function ra114MaDesenha(){const box=$("#ra114ma");if(!box)return;const am=amigosL();

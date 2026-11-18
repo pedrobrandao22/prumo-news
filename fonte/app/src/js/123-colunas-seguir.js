@@ -98,10 +98,6 @@ function cs123CardHTML(x,c){const id=esc(x.id),f=x.fotos[0],u=f&&pubUrl(f),tz=cs
     <h3 class="cs123-t"><button type="button" data-cs123ler="${id}">${esc(c.tit)}</button></h3>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
     ${f?`<button type="button" class="cs123-capa" data-cs123ler="${id}" aria-label="Ler a coluna">${u?`<img src="${pubSrc(u)}" alt="${esc((x.estilo.alt||[])[0]||"")}" loading="lazy" decoding="async">`:`<span class="up-sem">Foto indisponível</span>`}</button>`:""}
     ${tz?`<p class="cs123-x">${esc(tz)}</p>`:""}<div class="cs123-r"><span class="cs123-min">${min} min de leitura</span><button type="button" class="cs123-lb" data-cs123ler="${id}">Ler a coluna <i aria-hidden="true">›</i></button></div></div>`}
-/* grade do perfil: a capa (ou o título) com o selo "Coluna" */
-{const _pt=pfTiles;pfTiles=function(l,aba,u){let h=_pt.apply(this,arguments);try{if(!(l||[]).some(x=>cs123Col(x))||typeof h!=="string")return h;const tp=document.createElement("template");tp.innerHTML=h;
-  tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],c=x&&cs123Col(x);if(!c)return;if(!x.fotos.length)b.innerHTML=`<span class="pf-tx cs123-pft"><b>${esc(c.tit)}</b></span>`;b.insertAdjacentHTML("beforeend",`<i class="cs123-pfk">Coluna</i>`)});
-  return tp.innerHTML}catch(e){return h}}}
 /* a coluna não tem "Editar legenda" (o texto do post é o título e a linha fina) */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-umenu]");if(!b)return;const x=pubDe(b.dataset.umenu);if(!x||!cs123Col(x))return;
   setTimeout(()=>{document.querySelectorAll(`.sheet [data-ueditar="${CSS.escape(x.id)}"]`).forEach(el=>el.remove())},0)},true);
@@ -239,11 +235,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||!CS123.e
 /* ===== 6. seguir: perfil, números e listas ===== */
 const cs123Prim=u=>String(nomeDe(u)||"").split(" ")[0];
 function cs123SegBt(u){const sigo=CS123.sigo.has(u);return `<button type="button" class="btn${sigo?" ghost":""} cs123-sg" data-cs123seg="${esc(u)}" aria-pressed="${sigo}">${sigo?"Seguindo":"Seguir"}</button>`}
-/* o botão: no perfil aberto de quem não é amigo */
-{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(!V9.on||!u||u===S.uid||S.amigos.has(u)||(S.bloq||[]).includes(u))return h;const p=CS123.perf[u];
-  if(!p){cs123Perf(u).then(()=>{if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha()});return h}
-  if(!p.ok||!p.aberto)return h;const bt=cs123SegBt(u);
-  if(/<div class="pf-bts">/.test(h))h=h.replace(/<div class="pf-bts">/,`<div class="pf-bts">${bt}`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h}}
 /* os números (seguidores · seguindo), depois do perfil montado (no visual novo e no de hoje) */
 function cs123NumHTML(u,p){return `<span class="cs123-num"><button type="button" data-cs123lista="seguidores" data-u="${esc(u)}"><b>${cs123Num(p.seguidores||0)}</b> ${p.seguidores===1?"seguidor":"seguidores"}</button><button type="button" data-cs123lista="seguindo" data-u="${esc(u)}"><b>${cs123Num(p.seguindo||0)}</b> seguindo</button></span>`}
 function cs123PoeNum(root,u){if(!root||!V9.on||!u||root.querySelector(".cs123-num"))return;const p=CS123.perf[u];
@@ -251,11 +242,6 @@ function cs123PoeNum(root,u){if(!root||!V9.on||!u||root.querySelector(".cs123-nu
   if(!p.ok||(u!==S.uid&&!p.aberto)||(u===S.uid&&!p.aberto&&!p.seguidores&&!p.seguindo))return;
   const vn=root.querySelector(".vn-pf-num");if(vn){vn.insertAdjacentHTML("beforeend",cs123NumHTML(u,p));return}
   const nm=root.querySelector(".pf-nome");if(nm)nm.insertAdjacentHTML("afterend",`<p class="cs123-numl">${cs123NumHTML(u,p)}</p>`)}
-{const _pv=pfvDesenha;pfvDesenha=function(){const r=_pv.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){const sc=$("#layer .pfv .pfv-sc");cs123PoeNum(sc,PFV.u);
-  const p=CS123.perf[PFV.u];if(sc&&p&&p.ok&&p.aberto&&!S.amigos.has(PFV.u)&&!sc.querySelector(".cs123-ab")){const cab=sc.querySelector(".vn-pf-desde,.cs123-numl,.vn-pf-num");if(cab)cab.insertAdjacentHTML("afterend",`<p class="cs123-ab">${cs123Svg(CS123_IC.seg)}Perfil aberto${p.me_segue?" · segue você":""}</p>`)}}}catch(e){}return r}}
-/* perfil aberto sem nada para mostrar: o que fazer, no lugar de "Perfil só para amigos" */
-{const _pt=pfTiles;pfTiles=function(l,aba,u){try{const p=u&&CS123.perf[u];if(V9.on&&u&&u!==S.uid&&!S.amigos.has(u)&&p&&p.ok&&p.aberto&&!(l||[]).length&&aba!=="marc")
-  return `<div class="pf-vz"><b>${CS123.sigo.has(u)?"Nada para seguidores ainda":"Perfil aberto"}</b><span>${CS123.sigo.has(u)?`Quando ${esc(cs123Prim(u))} publicar para seguidores, aparece aqui e no seu Feed.`:`Siga ${esc(cs123Prim(u))} para ver aqui e no seu Feed o que ${esc(cs123Prim(u))} publica para seguidores.`}</span></div>`}catch(e){}return _pt.apply(this,arguments)}}
 async function cs123Seguir(u,b){if(precisaConta()||!V9.on||!u)return;
   if(CS123.sigo.has(u)){sheet("Seguindo "+nomeDe(u),`<div class="opt"><button type="button" data-cs123deixa="${esc(u)}">Deixar de seguir<span>o que ${esc(cs123Prim(u))} publica para seguidores sai do seu Feed</span></button></div>`);return}
   if(b){b.disabled=true;b.textContent="Seguindo…"}

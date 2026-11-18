@@ -11,8 +11,6 @@ async function destCarregar(u){if(!(await v5Testa()))return [];try{const r=await
   if(ids.length){const q=await SB.from("publicacoes").select("*").in("id",ids);st=(q.data||[]).map(pubNorm)}const by={};st.forEach(x=>by[x.id]=x);
   ds.forEach(d=>{d.stories=d.itens.map(i=>by[i]).filter(Boolean)});DEST[u]=ds.filter(d=>d.stories.length||d.dono===S.uid);await pubAssinaLista(st);return DEST[u]}catch(e){return DEST[u]||[]}}
 function destCapa(d){const x=(d.capa&&d.stories.find(s=>s.id===d.capa))||d.stories[0];const f=x&&x.fotos[0]&&pubUrl(x.fotos[0]);return f?`<img src="${pubSrc(f)}" alt="">`:`<span style="background:${pubFundo(1)}"></span>`}
-function destRowHTML(u){const ds=DEST[u]||[];const eu=u===S.uid;if(!V5.on||(!ds.length&&!eu))return "";
-  return `<div class="pf-dests">${ds.map(d=>`<button type="button" class="pf-d" data-pfdest="${esc(d.id)}" data-dono="${esc(u)}"><span class="pf-dc">${destCapa(d)}</span><b>${esc(d.nome)}</b></button>`).join("")}${eu?`<button type="button" class="pf-d pf-dn" data-destnovo><span class="pf-dc">+</span><b>Novo</b></button>`:""}</div>`}
 /* lista especial no visualizador de stories ("_u:~…") */
 {const _sd70=pubStoriesDe;pubStoriesDe=function(u){if(String(u).charAt(0)==="~")return (ST&&ST._lista)||[];return _sd70.apply(this,arguments)}}
 
@@ -36,11 +34,6 @@ async function pubEditar(id,txt){const x=pubDe(id);if(!x)return;const r=await SB
   const el=document.getElementById("p-u:"+id);if(el){try{el.outerHTML=pubPostHTML(x);const n=document.getElementById("p-u:"+id);if(n){wireTracks(n);updateSocial("u:"+id)}}catch(e){}}if(typeof avisarMencoes==="function"&&txt)pubAvisarMencoes(id,txt,"post")}
 async function pubFixar(id){const x=pubDe(id);if(!x)return;const on=!x.fixado;if(on&&PUB.itens.filter(y=>y.autor===S.uid&&y.fixado).length>=3){toast("Você já tem 3 posts fixados. Desafixe um antes.");return}
   const r=await SB.from("publicacoes").update({fixado:on?Date.now():null}).eq("id",id);if(r&&r.error){toast("Não deu para fixar agora.");return}x.fixado=on?Date.now():null;toast(on?"Fixado no seu perfil":"Desafixado");if(VIEW==="me")renderMe()}
-{const _pl70=pfLista;pfLista=function(u,aba){const l=_pl70.apply(this,arguments);if(aba!=="posts")return l;return l.slice().sort((a,b)=>(+!!b.fixado-+!!a.fixado)||(b.fixado&&a.fixado?b.fixado-a.fixado:0)||(b.at-a.at))}}
-{const _pt70=pfTiles;pfTiles=function(l,aba,u){let h=_pt70.apply(this,arguments);if(aba==="posts")l.forEach((x,i)=>{if(x.fixado)h=h.replace(`data-pfi="${i}"`,`data-pfi="${i}" data-fixo`)});return h}}
-/* perfil: fileira de destaques */
-{const _pc70=pfCab;pfCab=function(u){return _pc70.apply(this,arguments)+destRowHTML(u)}}
-{const _cp70=pfCarregar;pfCarregar=async function(u){const r=await _cp70.apply(this,arguments);if(await v5Testa())await destCarregar(u);return r}}
 /* Conta: Arquivo */
 /* folhas: destacar, novo destaque, editar destaque */
 function destEscolher(storyId){const ds=DEST[S.uid]||[];sheet("Destacar",`<div class="opt">${ds.map(d=>`<button type="button" data-destpor="${esc(d.id)}" data-st="${esc(storyId)}">${esc(d.nome)}<span>${(d.itens||[]).includes(storyId)?"já está aqui · toque para tirar":d.itens.length+" "+(d.itens.length===1?"story":"stories")}</span></button>`).join("")}<button type="button" data-destnovo data-st="${esc(storyId)}">＋ Novo destaque</button></div>`)}

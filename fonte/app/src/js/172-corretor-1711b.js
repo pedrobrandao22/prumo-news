@@ -19,9 +19,3 @@ function fc172Remede(){try{document.querySelectorAll(".post").forEach(e=>{const 
 if(typeof aplicarFonte==="function"){const _af172=aplicarFonte;aplicarFonte=function(){const r=_af172.apply(this,arguments);
   try{requestAnimationFrame(()=>requestAnimationFrame(fc172Remede))}catch(e){}return r}}
 
-/* 3. Perfil: os dois cartões numa linha */
-if(typeof pfCab==="function"){const _pc172=pfCab;pfCab=function(u){const h=_pc172.apply(this,arguments);
-  try{if(typeof h!=="string"||h.indexOf("fc172-dupla")>=0)return h;const i=h.indexOf('<button type="button" class="pf-cols" data-cp152cols');
-    const k=h.indexOf('<button type="button" class="pf-cols mt158-pf"');if(i<0||k<0||k<i)return h;
-    const j1=h.indexOf("</button>",i)+9;if(h.slice(j1,k).trim())return h;const j2=h.indexOf("</button>",k)+9;
-    return h.slice(0,i)+'<div class="fc172-dupla">'+h.slice(i,j2)+"</div>"+h.slice(j2)}catch(e){}return h}}

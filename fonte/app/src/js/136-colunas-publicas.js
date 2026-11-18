@@ -112,10 +112,6 @@ function pb136PoeLink(t,F){t=String(t);if(!F||!F.link||t.indexOf(F.link)>=0)retu
   const p=`<p style="margin:24px 0 0;font-size:17px;line-height:1.6;color:#1f2937">Leia a coluna completa: <a href="${esc(F.link)}" style="color:#24406b;text-decoration:underline">${esc(F.link)}</a></p>`;return i>0?h.slice(0,i)+p+h.slice(i):h}}
 
 /* ===== 5. newsletter: perfil da autora (membro assina com 1 toque) ===== */
-{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(PB136.v14!==true||!u||u===S.uid||(S.bloq||[]).includes(u))return h;const i=PB136.info[u];
-  if(!i||Date.now()-(PB136.infoT[u]||0)>60e3){if(PB136.infoT[u]!==-1)pb136Info(u).then(n=>{if(n&&n.aberta&&(!i||i.aberta!==n.aberta||i.assinando!==n.assinando))pb136Redesenha()});if(!i)return h}
-  if(!i.aberta)return h;const bt=`<button type="button" class="btn ghost pb136-pf${i.assinando?" on":""}" data-pb136nl="${esc(u)}" aria-pressed="${!!i.assinando}">${i.assinando?"✓ Por e-mail":"Colunas por e-mail"}</button>`;
-  if(/<div class="pf-bts">/.test(h))h=h.replace(/(<div class="pf-bts">[\s\S]*?)(<\/div>)/,`$1${bt}$2`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h}}
 function pb136NlFolha(u){if(precisaConta())return;const i=PB136.info[u]||{},n=esc(nomeDe(u)),em=esc(S.email||"o e-mail da sua conta");
   const priv=`<p class="hint pb136-priv">Seu e-mail serve só para mandar as colunas abertas de ${n} quando saírem. Não aparece para ninguém; só quem escreve vê a lista de quem confirmou (e pode baixá-la). Para sair, toque aqui de novo ou use o link “Cancelar” de qualquer e-mail.</p>`;
   if(i.assinando){sheet("Colunas por e-mail",`<p class="pb136-st">Você recebe as colunas abertas de <b>${n}</b> em <b>${em}</b>.</p>${priv}`,`<div class="pb136-bts"><button type="button" class="btn ghost" data-pb136nlx="${esc(u)}">Cancelar a assinatura</button></div>`);return}

@@ -113,7 +113,6 @@ if(VN_FASE2){
   /* o comentário logo abaixo da notícia já está junto dela: sem caixa de contexto; prateleira */
   
   /* publicação aberta numa camada (e a página da hashtag): o fio inteiro */
-  {const _pv113=pfvDesenha;pfvDesenha=function(){const r=_pv113.apply(this,arguments);try{if(PFV&&PFV.modo!=="grade")f113AbreTudo($("#layer .pfv"))}catch(e){}return r}}
   {const _hd113=htDesenha;htDesenha=function(){const r=_hd113.apply(this,arguments);try{f113AbreTudo($("#layer .pfv-ht"))}catch(e){}return r}}
   /* hashtags de todas as partes contam (página da hashtag, em alta, seguir) */
   {const _hp113=htPubs;htPubs=function(){const l=_hp113.apply(this,arguments);try{const ex=pubVisiveis().filter(x=>x&&!x.texto&&f113Fio(x));

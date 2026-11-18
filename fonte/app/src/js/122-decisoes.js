@@ -61,8 +61,6 @@ function dc122Linha(h,p){const us=p.__dc122.us;if(!us||!us.length||typeof h!=="s
   a.classList.add("dc122-rpd");const ln=`<p class="dc122-rpl">${VN112_IC.rp}<span>${esc(dc122Quem(us))}</span></p>`;
   const ref=a.querySelector(":scope>.ph");if(ref)ref.insertAdjacentHTML("beforebegin",ln);else a.insertAdjacentHTML("afterbegin",ln);return a.outerHTML}
 
-/* perfil de outra pessoa: o repost simples indisponível também some (no próprio perfil fica) */
-{const _pl122=pfLista;pfLista=function(u,aba){const l=_pl122.apply(this,arguments);try{if(aba==="posts"&&Array.isArray(l)&&u!==S.uid)return l.filter(x=>!(x&&x.autor===u&&dc122Some(x)))}catch(e){}return l}}
 /* quando o banco responde sobre um original que faltava: redesenha (se apareceu) ou tira o que ficou indisponível */
 {const _vb122=vn112Busca;vn112Busca=async function(){const r=await _vb122.apply(this,arguments);try{
     const ok=[...DC122_ESP].filter(id=>VN112_Q.has(id));ok.forEach(id=>DC122_ESP.delete(id));

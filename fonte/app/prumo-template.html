@@ -10679,33 +10679,10 @@ async function psMigra(){if(PS.migrou||!PS.on||!S.uid)return;PS.migrou=true;try{
 /* ---------- Etapa 69: grade de perfil ---------- */
 var PFV=null,PF_ABA=(()=>{try{const a=localStorage.getItem("prumo-pf-aba");return ["posts","reels","marc","conta"].includes(a)?a:"posts"}catch(e){return "posts"}})(),PF_TROCA=[],PF_T={};
 const PF_ABAS=[["posts","Publicações",'<svg class="ico" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9.3 4v16M14.7 4v16M4 9.3h16M4 14.7h16"/></svg>'],["reels","Reels",'<svg class="ico" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/></svg>'],["marc","Marcado",'<svg class="ico" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="12" cy="10.5" r="2.6"/><path d="M7.5 17.5c1-2.3 2.6-3.3 4.5-3.3s3.5 1 4.5 3.3"/></svg>'],["conta","Ajustes",'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>']];
-function pfLista(u,aba){const vs=pubVisiveis().filter(x=>x.tipo==="post");let l;
-  if(aba==="marc")l=vs.filter(x=>x.autor!==u&&((x.estilo&&(x.estilo.tags||[]).some(t=>t.u===u))||(x.estilo&&(x.estilo.marcados||[]).includes(u))));
-  else l=vs.filter(x=>x.autor===u&&(aba!=="reels"||(x.estilo&&x.estilo.reel)));return l.sort((a,b)=>b.at-a.at)}
-async function pfCarregar(u){if(!SB||!S.uid||!S.membro||PUB.on===false)return;if(Date.now()-(PF_T[u]||0)<45000)return;PF_T[u]=Date.now();
-  try{const r=await SB.from("publicacoes").select("*").eq("autor",u).eq("tipo","post").order("at",{ascending:false}).limit(90);if(r.error)return;const ids=new Set(PUB.itens.map(x=>x.id));
-    (r.data||[]).forEach(x=>{x.fotos=Array.isArray(x.fotos)?x.fotos:[];try{pubLimpa(x)}catch(e){}if(!ids.has(x.id))PUB.itens.push(x)});await pubAssinar()}catch(e){}}
-function pfCab(u){const eu=u===S.uid,st=pubStoriesDe(u),n=pfLista(u,"posts").length,na=amigosL().length,cm=!eu&&S.comuns?S.comuns[u]:null,vist=st.length&&st.every(x=>PUB_VISTOS.has(x.id));
-  return `<div class="pf-cab"><button type="button" class="pf-av${st.length?(vist?" ring visto":" ring"):""}" ${st.length?`data-pfstory="${esc(u)}"`:eu?`data-criarde="story"`:""} aria-label="${st.length?"Ver o giro":"Foto de "+esc(nomeDe(u))}"><span class="pf-avi">${avatar(u)}</span>${eu&&!st.length?`<i class="pf-mais" aria-hidden="true">+</i>`:""}</button>
-    <div class="pf-num"><span><b>${n}</b>${n===1?"publicação":"publicações"}</span>${eu?`<span><b>${na}</b>${na===1?"amigo":"amigos"}</span>`:cm!=null?`<span><b>${cm}</b>${cm===1?"amigo em comum":"amigos em comum"}</span>`:""}</div></div>
-    <b class="pf-nome">${esc(nomeDe(u))}</b>${eu?`<div class="pf-bts"><button type="button" class="btn ghost" data-criarde="post">Nova publicação</button><button type="button" class="btn ghost" data-convidar>Convidar amigo</button></div>`:S.amigos.has(u)?`<div class="pf-bts"><button type="button" class="btn" data-pfmsg="${esc(u)}">Mensagem</button></div>`:""}`}
-function pfAbas(u,aba){return `<div class="pf-abas" role="tablist">${PF_ABAS.filter(a=>a[0]!=="conta"||u===S.uid).map(([k,n,ic])=>`<button type="button" role="tab" data-pfaba="${k}" aria-selected="${aba===k}" aria-label="${n}">${ic}</button>`).join("")}</div>`}
-function pfTiles(l,aba,u){if(!l.length){const eu=u===S.uid;const msg=aba==="reels"?(eu?"Seus reels aparecem aqui.":"Nenhum reel ainda."):aba==="marc"?(eu?"Quando marcarem você numa foto, ela aparece aqui.":"Ninguém marcou "+esc(String(nomeDe(u)).split(" ")[0])+" ainda."):(eu?"Compartilhe sua primeira publicação.":"Nenhuma publicação ainda.");
-    return `<div class="pf-vz"><b>${aba==="reels"?"Reels":aba==="marc"?"Fotos com você":"Publicações"}</b><span>${msg}</span>${eu&&aba!=="marc"?`<button type="button" class="btn" data-criarde="${aba==="reels"?"post":"post"}"${aba==="reels"?" data-pfreel":""}>${aba==="reels"?"Criar reel":"Nova publicação"}</button>`:""}</div>`}
-  return `<div class="pf-grade">${l.map((x,i)=>{const es=x.estilo||{},f=x.fotos[0],uu=f&&pubUrl(f),nt=x.pid&&pautaById(x.pid);const ic=es.reel?"▶":(x.fotos.length+(x.pid&&x.fotos.length?1:0))>1?"⧉":"";
-    const inner=uu?`<img src="${pubSrc(uu)}" alt="${esc((es.alt&&es.alt[0])||x.texto||"Publicação")}" loading="lazy" decoding="async">`:x.pid?`<span class="pf-nt"><small style="color:${secCor(nt?secOf(nt):"politica")}">${esc(nt?secNome(secOf(nt)):"Notícia")}</small><b>${esc(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}</b></span>`:`<span class="pf-tx" style="background:${pubFundo(String(x.id).charCodeAt(0))}">${esc(String(x.texto||"").slice(0,110))}</span>`;
-    return `<button type="button" class="pf-t" data-pfi="${i}" aria-label="${esc(es.reel?"Reel":"Publicação")} de ${esc(quando(x.at))}">${inner}${ic?`<i class="pf-ic">${ic}</i>`:""}</button>`}).join("")}</div>`}
 /* troca de ids para a lista do perfil (o Feed e a lista podem ter o mesmo post) */
 function pfIdsTroca(l){pfIdsVolta();l.forEach(x=>{document.querySelectorAll(`#posts [id="p-u:${x.id}"]`).forEach(el=>{el.id="p-u:"+x.id+"~f";PF_TROCA.push(el)})})}
 function pfIdsVolta(){const t=PF_TROCA;PF_TROCA=[];t.forEach(el=>{if(el.isConnected){el.id=el.id.replace(/~f$/,"");try{updateSocial(el.dataset.pid)}catch(e){}}})}
 /* perfil de amigo (camada) */
-function abrirPerfil(u){if(!u||!S.uid)return;if(u===S.uid){if($("#layer").innerHTML)closeLayer();setTimeout(()=>{go("me");PF_ABA="posts";renderMe();scrollTo(0,0)},60);return}
-  if($("#layer").innerHTML)closeLayer();PFV={u,aba:"posts",modo:"grade"};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Perfil de ${esc(nomeDe(u))}"></div>`;if(pushH())HST++;uso("perfil");
-  pfvDesenha();pfCarregar(u).then(()=>{if(PFV&&PFV.u===u&&PFV.modo==="grade")pfvDesenha()})}
-function pfvDesenha(){const el=$("#layer .pfv");if(!el||!PFV)return;if(PFV.modo==="posts")return pfvPosts(el);
-  el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>${esc(nomeDe(PFV.u))}</b><span class="sp"></span></div><div class="pfv-sc">${pfCab(PFV.u)}${pfAbas(PFV.u,PFV.aba)}${pfTiles(pfLista(PFV.u,PFV.aba),PFV.aba,PFV.u)}</div>`}
-function pfvPosts(el){const l=PFV.lista||[];el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>${PFV.aba==="reels"?"Reels":PFV.aba==="marc"?"Marcações":"Publicações"}<small>${esc(nomeDe(PFV.u))}</small></b><span class="sp"></span></div><div class="pfv-sc pfv-posts">${l.map(x=>{try{return pubPostHTML(x)}catch(e){return ""}}).join("")}</div>`;
-  pfIdsTroca(l);const sc=el.querySelector(".pfv-sc");try{wireTracks(sc)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}});const a=l[PFV.i];const alvo=a&&el.querySelector(`[id="p-u:${a.id}"]`);if(alvo){sc.scrollTop=alvo.offsetTop-sc.offsetTop;requestAnimationFrame(()=>{sc.scrollTop=alvo.offsetTop-sc.offsetTop})}}
 function pfAbrePosts(u,aba,i){const lista=pfLista(u,aba);if(!lista[i])return;if(PFV&&$("#layer .pfv")&&PFV.modo==="grade"){PFV={...PFV,modo:"posts",aba,lista,i,daGrade:true};if(pushH())HST++;pfvDesenha();return}
   if($("#layer").innerHTML)closeLayer();PFV={u,aba,modo:"posts",lista,i,daGrade:false};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicações"></div>`;if(pushH())HST++;pfvDesenha()}
 /* aba Perfil no estilo Instagram */
@@ -10739,8 +10716,6 @@ async function destCarregar(u){if(!(await v5Testa()))return [];try{const r=await
   if(ids.length){const q=await SB.from("publicacoes").select("*").in("id",ids);st=(q.data||[]).map(pubNorm)}const by={};st.forEach(x=>by[x.id]=x);
   ds.forEach(d=>{d.stories=d.itens.map(i=>by[i]).filter(Boolean)});DEST[u]=ds.filter(d=>d.stories.length||d.dono===S.uid);await pubAssinaLista(st);return DEST[u]}catch(e){return DEST[u]||[]}}
 function destCapa(d){const x=(d.capa&&d.stories.find(s=>s.id===d.capa))||d.stories[0];const f=x&&x.fotos[0]&&pubUrl(x.fotos[0]);return f?`<img src="${pubSrc(f)}" alt="">`:`<span style="background:${pubFundo(1)}"></span>`}
-function destRowHTML(u){const ds=DEST[u]||[];const eu=u===S.uid;if(!V5.on||(!ds.length&&!eu))return "";
-  return `<div class="pf-dests">${ds.map(d=>`<button type="button" class="pf-d" data-pfdest="${esc(d.id)}" data-dono="${esc(u)}"><span class="pf-dc">${destCapa(d)}</span><b>${esc(d.nome)}</b></button>`).join("")}${eu?`<button type="button" class="pf-d pf-dn" data-destnovo><span class="pf-dc">+</span><b>Novo</b></button>`:""}</div>`}
 /* lista especial no visualizador de stories ("_u:~…") */
 {const _sd70=pubStoriesDe;pubStoriesDe=function(u){if(String(u).charAt(0)==="~")return (ST&&ST._lista)||[];return _sd70.apply(this,arguments)}}
 
@@ -10764,11 +10739,6 @@ async function pubEditar(id,txt){const x=pubDe(id);if(!x)return;const r=await SB
   const el=document.getElementById("p-u:"+id);if(el){try{el.outerHTML=pubPostHTML(x);const n=document.getElementById("p-u:"+id);if(n){wireTracks(n);updateSocial("u:"+id)}}catch(e){}}if(typeof avisarMencoes==="function"&&txt)pubAvisarMencoes(id,txt,"post")}
 async function pubFixar(id){const x=pubDe(id);if(!x)return;const on=!x.fixado;if(on&&PUB.itens.filter(y=>y.autor===S.uid&&y.fixado).length>=3){toast("Você já tem 3 posts fixados. Desafixe um antes.");return}
   const r=await SB.from("publicacoes").update({fixado:on?Date.now():null}).eq("id",id);if(r&&r.error){toast("Não deu para fixar agora.");return}x.fixado=on?Date.now():null;toast(on?"Fixado no seu perfil":"Desafixado");if(VIEW==="me")renderMe()}
-{const _pl70=pfLista;pfLista=function(u,aba){const l=_pl70.apply(this,arguments);if(aba!=="posts")return l;return l.slice().sort((a,b)=>(+!!b.fixado-+!!a.fixado)||(b.fixado&&a.fixado?b.fixado-a.fixado:0)||(b.at-a.at))}}
-{const _pt70=pfTiles;pfTiles=function(l,aba,u){let h=_pt70.apply(this,arguments);if(aba==="posts")l.forEach((x,i)=>{if(x.fixado)h=h.replace(`data-pfi="${i}"`,`data-pfi="${i}" data-fixo`)});return h}}
-/* perfil: fileira de destaques */
-{const _pc70=pfCab;pfCab=function(u){return _pc70.apply(this,arguments)+destRowHTML(u)}}
-{const _cp70=pfCarregar;pfCarregar=async function(u){const r=await _cp70.apply(this,arguments);if(await v5Testa())await destCarregar(u);return r}}
 /* Conta: Arquivo */
 /* folhas: destacar, novo destaque, editar destaque */
 function destEscolher(storyId){const ds=DEST[S.uid]||[];sheet("Destacar",`<div class="opt">${ds.map(d=>`<button type="button" data-destpor="${esc(d.id)}" data-st="${esc(storyId)}">${esc(d.nome)}<span>${(d.itens||[]).includes(storyId)?"já está aqui · toque para tirar":d.itens.length+" "+(d.itens.length===1?"story":"stories")}</span></button>`).join("")}<button type="button" data-destnovo data-st="${esc(storyId)}">＋ Novo destaque</button></div>`)}
@@ -11893,14 +11863,8 @@ async function vp99Salvar(pid){uso("salvar_post");if(precisaConta())return;const
 function vp99VerSalvos(){if($("#layer").innerHTML)closeLayer();setTimeout(()=>{PF_ABA="salvos";go("me");renderMe();scrollTo(0,0)},60)}
 /* aba Salvos no seu perfil (só você vê) */
 {const ic='<svg class="ico" viewBox="0 0 24 24"><path d="M6.5 3.5h11a1 1 0 0 1 1 1v16l-6.5-4.7-6.5 4.7v-16a1 1 0 0 1 1-1z"/></svg>';const i=PF_ABAS.findIndex(a=>a[0]==="conta");PF_ABAS.splice(i<0?PF_ABAS.length:i,0,["salvos","Guardados",ic])}
-{const _pa99=pfAbas;pfAbas=function(u){const h=_pa99.apply(this,arguments);return u===S.uid?h:h.replace(/<button[^>]*data-pfaba="salvos"[^>]*>[\s\S]*?<\/button>/,"")}}
 function vp99ListaSalvos(){const sv=vp99Sv();return Object.entries(sv).filter(([k,v])=>v&&vp99EhPost(k)).map(([k,v])=>({x:pubDe(k.slice(2)),at:+v.at||0}))
   .filter(o=>o.x&&o.x.tipo==="post"&&(o.x.autor===S.uid||S.amigos.has(o.x.autor))).sort((a,b)=>b.at-a.at).map(o=>o.x)}
-{const _pl99=pfLista;pfLista=function(u,aba){return aba==="salvos"?vp99ListaSalvos():_pl99.apply(this,arguments)}}
-{const _pt99=pfTiles;pfTiles=function(l,aba,u){if(aba!=="salvos")return _pt99.apply(this,arguments);const sv=vp99Sv(),nn=Object.keys(sv).filter(k=>sv[k]&&!vp99EhPost(k)).length;
-  const topo=`<button type="button" class="vp99-gd" data-vgo="saved"><span class="vp99-gdi">${ICON.save}</span><span class="vp99-gdt"><b>Notícias guardadas</b><small>${nn?nn+(nn===1?" notícia":" notícias"):"Nenhuma ainda"}</small></span><i aria-hidden="true">›</i></button>`;
-  if(!l.length)return topo+`<div class="pf-vz"><b>Salvos</b><span>Toque no marcador de um post para guardar aqui. Só você vê o que salvou.</span></div>`;
-  return topo+_pt99.call(this,l,"posts",u)+`<p class="hint vp99-so">Só você vê o que salvou.</p>`}}
 async function vp99CarregaSalvos(){const sv=vp99Sv();const falta=Object.keys(sv).filter(k=>sv[k]&&vp99EhPost(k)&&!pubDe(k.slice(2))).map(k=>k.slice(2)).filter(id=>/^[0-9a-f-]{36}$/i.test(id));
   if(!falta.length||typeof SB==="undefined"||!SB||Date.now()-(vp99CarregaSalvos.t||0)<60000)return false;vp99CarregaSalvos.t=Date.now();
   try{const r=await SB.from("publicacoes").select("*").in("id",falta.slice(0,100));if(r.error)return false;let n=0;(r.data||[]).forEach(x=>{x.fotos=Array.isArray(x.fotos)?x.fotos:[];try{pubLimpa(x)}catch(e){}if(!pubDe(x.id)){PUB.itens.push(x);n++}});if(n)await pubAssinar();return n>0}catch(e){return false}}
@@ -11951,7 +11915,6 @@ vp99AbreLink();addEventListener("hashchange",()=>{const id=vp99LeLink();if(id){V
 function vp99Ancora(el){const sc=el.querySelector(".pfv-sc");const a=PFV&&PFV.lista&&PFV.lista[PFV.i];const alvo=a&&sc&&sc.querySelector(`[id="p-u:${a.id}"]`);if(!alvo)return;
   let mexeu=false;const para=()=>{mexeu=true};sc.addEventListener("touchstart",para,{passive:true,once:true});sc.addEventListener("wheel",para,{passive:true,once:true});sc.addEventListener("keydown",para,{once:true});
   const t0=performance.now();const fixa=()=>{if(mexeu||!alvo.isConnected)return;const d=alvo.getBoundingClientRect().top-sc.getBoundingClientRect().top;if(Math.abs(d)>.5)sc.scrollTop+=d;if(performance.now()-t0<1600)requestAnimationFrame(fixa)};fixa()}
-{const _pv99=pfvPosts;pfvPosts=function(el){const r=_pv99.apply(this,arguments);try{if(PFV&&PFV.aba==="salvos"){const b=el.querySelector(".pfv-h b");if(b&&b.firstChild&&b.firstChild.nodeType===3)b.firstChild.textContent="Guardados";const sm=b&&b.querySelector("small");if(sm)sm.textContent="Só você vê"}vp99Ancora(el)}catch(e){}return r}}
 (function(){let x0=null,y0=0,dx=0,ok=false,el=null;
   const solta=()=>{if(!el)return;el.style.transition="";el.style.transform="";el.style.boxShadow=""};
   document.addEventListener("touchstart",e=>{x0=null;const p=e.target.closest&&e.target.closest("#layer .pfv");if(!p||(($("#layer2")||{}).innerHTML)||e.touches.length>1)return;const t=e.touches[0];
@@ -12544,8 +12507,6 @@ const fd104Sig=x=>[x.texto||"",x.editado||"",x.fixado||"",JSON.stringify(x.estil
 
 /* perfil: tocar em "N amigos" abre a lista de amigos */
 /* perfil de um amigo: menu "…" com desfazer amizade, bloquear e denunciar */
-{const _pv104=pfvDesenha;pfvDesenha=function(){const r=_pv104.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"&&S.amigos.has(PFV.u)){const sp=document.querySelector("#layer .pfv .pfv-h .sp");
-  if(sp&&!sp.nextElementSibling)sp.insertAdjacentHTML("afterend",`<button type="button" class="icbtn fd104-pm" data-fd104pm="${esc(PFV.u)}" aria-label="Mais opções"><svg class="ico" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></button>`)}}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("[data-fd104am]")){e.stopPropagation();abrirTodosAmigos();return}
   if(b=t.closest("[data-fd104pm]")){e.stopPropagation();const u=b.dataset.fd104pm,n=esc(nomeDe(u));
@@ -12560,10 +12521,6 @@ var FD104_ME=false;function fd104Me(){if(VIEW!=="me"||PF_ABA==="conta")return;if
 {const _pr104=pubRedesenha;pubRedesenha=function(){const r=_pr104.apply(this,arguments);clearTimeout(pubRedesenha.t104);pubRedesenha.t104=setTimeout(()=>{try{fd104Me()}catch(e){}},60);return r}}
 /* quem curtiu um post: "Curtidas" (as notícias seguem com "Quem gostou") */
 {const _aq104=abrirQuem;abrirQuem=function(pid){const r=_aq104.apply(this,arguments);try{if(String(pid).indexOf("u:")===0){const h=$(".sheet .sh-h");if(h&&h.firstChild&&h.firstChild.nodeType===3)h.firstChild.textContent="Curtidas"}}catch(e){}return r}}
-/* perfil de quem não é (mais) amigo: botão de pedir/aceitar amizade; e o perfil aberto acompanha desfazer amizade/bloquear */
-{const _pc104=pfCab;pfCab=function(u){let h=_pc104.apply(this,arguments);try{if(u&&u!==S.uid&&!S.amigos.has(u)&&!(S.bloq||[]).includes(u)&&S.membro){const rec=(S.pedidosIn||[]).includes(u),env=(S.pedidosOut||[]).includes(u);
-  h+=`<div class="pf-bts">${rec?`<button type="button" class="btn" data-aceitar="${esc(u)}">Aceitar pedido de amizade</button>`:env?`<button type="button" class="btn ghost" data-cancelar="${esc(u)}">Cancelar pedido</button>`:`<button type="button" class="btn" data-pedir="${esc(u)}">Pedir amizade</button>`}</div>`}}catch(e){}return h}}
-{const _pt104=pfTiles;pfTiles=function(l,aba,u){if(u&&u!==S.uid&&!S.amigos.has(u)&&!(l||[]).length)return `<div class="pf-vz"><b>Perfil só para amigos</b><span>Quando vocês forem amigos, as publicações de ${esc(String(nomeDe(u)).split(" ")[0])} aparecem aqui.</span></div>`;return _pt104.apply(this,arguments)}}
 /* ---------- 104: correções dos stories (QA 02/11) ---------- */
 /* 1. ordem dos amigos = a ordem que está na bandeja quando você toca (antes era recalculada com os vistos no fim:
    abrir um story já visto pulava os amigos que estavam depois dele na bandeja) */
@@ -12754,8 +12711,6 @@ if(FOCO_LIGADO){
     return _pp.apply(this,arguments)}}
   /* bandeja: busca só de figurinhas */
   {const _fg=edFigs;edFigs=function(){const r=_fg.apply(this,arguments);try{const q=$("#ce-figq");if(q)q.placeholder="Buscar figurinhas"}catch(e){}return r}}
-  /* perfil vazio: o convite fala de conteúdo */
-  {const _pt=pfTiles;pfTiles=function(){const h=_pt.apply(this,arguments);return typeof h==="string"?h.replace("Compartilhe sua primeira publicação.","Comente uma notícia ou conte o que aconteceu perto de você."):h}}
 }
 
 /* ===== 7. cliques ===== */
@@ -12982,13 +12937,7 @@ if(FOCO_LIGADO){
   {const _cb107=cn102Barra;cn102Barra=function(){const r=_cb107.apply(this,arguments);try{fc107Barra()}catch(e){}return r}}
   {const _pc107=pubCarregar;pubCarregar=async function(){const r=await _pc107.apply(this,arguments);try{fc107Capa();fc107Barra()}catch(e){}return r}}
   /* Perfil */
-  {FC107_PL=pfLista;const _pl107=pfLista;pfLista=function(u,aba){const l=_pl107.apply(this,arguments);if(aba!=="posts"||FC107_PF.u!==u||!FC107_PF.k)return l;const f=l.filter(x=>fc107Tipo(x)===FC107_PF.k);return f.length?f:l}}
-  {const _pt107=pfTiles;pfTiles=function(l,aba,u){let h=_pt107.apply(this,arguments);try{if(aba!=="posts"||typeof h!=="string"||!(l||[]).length)return h;
-      const tp=document.createElement("template");tp.innerHTML=h;tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],t=x&&fc107PfTile(x),o=b.querySelector(".pf-tx");if(t&&o)o.outerHTML=t});
-      h=fc107PfChips(u)+tp.innerHTML}catch(e){}return h}}
-  {const _ap107=abrirPerfil;abrirPerfil=function(){FC107_PF={u:null,k:""};return _ap107.apply(this,arguments)}}
-  /* fileira de destaques vazia ("+ Novo") no próprio perfil: some até existir um destaque (dá para destacar pelo story) */
-  {const _dr107=destRowHTML;destRowHTML=function(u){const h=_dr107.apply(this,arguments);try{if(u===S.uid&&!(DEST[u]||[]).length)return ""}catch(e){}return h}}
+  FC107_PL=pf205ListaAte99;
   /* Atividade */
   {const _apn107=atPubNome;atPubNome=function(x){const n=_apn107.apply(this,arguments);try{if(!x||x.tipo!=="post")return n;const cn=cn102De(x),full=pubDe(x.id)||x,k=cn?cn.k:fc107EhTake(full)?"nt":"";
       if(k==="nt"){const p=pautaById(full.pid);return p?`seu comentário sobre “${esc(fc107Curto(versao(p,lente()).titulo,70))}”`:"seu comentário sobre uma notícia"}
@@ -13105,7 +13054,6 @@ async function av8Assina(){const l=[...AV8.pede];AV8.pede.clear();if(!l.length||
   l.forEach(f=>{if(!pubUrl(f))AV8.falhou[f]=now});av8Pinta()}
 function av8Pinta(){document.querySelectorAll(".av[data-avf]:not(.av8)").forEach(el=>{const u=pubUrl(el.dataset.avf);if(!u)return;el.classList.add("av8");el.innerHTML=`<img src="${pubSrc(u)}" alt="" decoding="async">`})}
 /* Perfil: "Editar foto" ao lado de "Nova publicação" */
-{const _pc8=pfCab;pfCab=function(u){let h=_pc8.apply(this,arguments);try{if(u===S.uid&&V8.on)h=h.replace(/(<button type="button" class="btn ghost" data-convidar>[^<]*<\/button>)/,`$1<button type="button" class="btn ghost" data-fp8>Editar foto</button>`)}catch(e){}return h}}
 var FP8=null;
 function fp8Abrir(){if(!V8.on||!S.uid)return;FP8=null;const tem=!!((S.membros[S.uid]||{}).foto);
   sheet("Foto do perfil",`<div class="fp8"><div class="fp8-prev">${avatar(S.uid)}</div><p class="hint">Quem vê seu nome no Prumo vê a foto.</p></div><input type="file" id="fp8-file" accept="image/*" hidden>`,
@@ -13174,10 +13122,6 @@ function arq8Desenha(){const el=$("#layer .pfv-arq8");if(!el)return;const l=ARQ8
   let g=l.length?pfTiles(l,"posts",S.uid).replace(/data-pfi="/g,'data-arq8i="').replace(/ data-fixo/g,""):"";
   el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>Posts arquivados<small>só você vê</small></b><span class="sp"></span></div>
     <div class="pfv-sc">${ARQ8===null?`<p class="hint" style="padding:20px">Carregando…</p>`:!l.length?`<div class="pf-vz"><b>Nenhum post arquivado</b><span>No menu ⋯ de um post seu, “Arquivar” tira o post do perfil e do Feed dos amigos sem apagar. Ele fica aqui, e você pode mostrar de novo quando quiser.</span></div>`:`<p class="arq8-dica">Só você vê estes posts. Toque em um para mostrar de novo no perfil.</p>${g}`}</div>`}
-/* lista dos arquivados aberta como posts: faixa "Mostrar no perfil" em cada um; voltar leva à grade dos arquivados */
-{const _pd8=pfvDesenha;pfvDesenha=function(){if(PFV&&PFV.aba==="arq8"&&PFV.modo!=="posts")return arq8Desenha();const r=_pd8.apply(this,arguments);
-  try{if(PFV&&PFV.aba==="arq8"&&PFV.modo==="posts"){const el=$("#layer .pfv");const h=el&&el.querySelector(".pfv-h b");if(h)h.innerHTML=`Arquivados<small>só você vê</small>`;
-    el&&el.querySelectorAll(".upost[data-pid]").forEach(a=>{const id=String(a.dataset.pid).slice(2);const ph=a.querySelector(".ph");if(ph&&!a.querySelector(".arq8-bar"))ph.insertAdjacentHTML("afterend",`<div class="arq8-bar gut"><span>Arquivado · só você vê</span><button type="button" class="btn ghost" data-u8arq="${esc(id)}" data-on="0">Mostrar no perfil</button></div>`)})}}catch(e){}return r}}
 
 /* ===== 3. curtir comentário (posts de membros e notícias: a mesma folha de comentários) ===== */
 var CC8={m:{},pid:null,t:0,carregando:false};
@@ -13585,11 +13529,6 @@ function vn112RpHTML(h,x){const rp=vn112Rp(x);if(!rp||typeof h!=="string"||!h)re
   a.querySelector(".up-leg")?.remove();
   const sub=a.querySelector(".ph-sub");if(sub&&!tx)sub.insertAdjacentHTML("afterbegin",`<span class="vn-rpk">${VN112_IC.rp}repostou</span> · `);
   return a.outerHTML}
-/* perfil em grade: o repost mostra o que foi citado */
-{const _pt112=pfTiles;pfTiles=function(l){let h=_pt112.apply(this,arguments);try{if(typeof h!=="string"||!(l||[]).some(vn112Rp))return h;const tp=document.createElement("template");tp.innerHTML=h;
-  tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],rp=x&&vn112Rp(x),o=b.querySelector(".pf-tx");if(!rp||!o)return;const q=rp.k==="pauta"?pautaById(rp.id):vn112Pub(rp.id);
-    const t=rp.k==="pauta"?(q?versao(q,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia"):q?(q.texto||"Publicação de "+nomeDe(q.autor)):"Publicação indisponível";
-    o.outerHTML=`<span class="pf-tx vn-pfrp"><small>${VN112_IC.rp}${String(x.texto||"").trim()?"Citação":"Repost"}</small><b>${esc(vn112Curto(String(x.texto||"").trim()||t,90))}</b></span>`});h=tp.innerHTML}catch(e){}return h}}
 /* Atividade: "Bia repostou sua publicação" */
 function vn112AtRp(){const out=[];if(!S.uid)return out;const ag=Date.now();
   pubVisiveis().forEach(x=>{const rp=vn112Rp(x);if(!rp||rp.k!=="pub"||x.autor===S.uid||ag-x.at>30*864e5)return;const o=pubDe(rp.id);if(!o||o.autor!==S.uid)return;const com=!!String(x.texto||"").trim();
@@ -13776,9 +13715,6 @@ if(VISUAL_NOVO){
   
   /* direções em teste: mídia mais baixa (A e B: a manchete já está em cima; C: 16:9, como no YouTube) */
 
-  /* perfil */
-  {const _pv112=pfvDesenha;pfvDesenha=function(){const r=_pv112.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){if(PFV.aba!=="posts")PFV.vnAba=PFV.aba;else if(!["posts","resp","midia"].includes(PFV.vnAba))PFV.vnAba="posts";vn112Pf($("#layer .pfv .pfv-sc"),PFV.u,PFV.vnAba)}}catch(e){console.error(e)}return r}}
-  {const _ap112=abrirPerfil;abrirPerfil=function(u){if(u===S.uid)VN112_PF.me="posts";return _ap112.apply(this,arguments)}}
   /* nomes */
   try{const ob=new MutationObserver(ms=>{ms.forEach(m=>{if(m.type==="attributes"){const v=m.target.getAttribute(m.attributeName);if(v&&VN112_NOMES_T.test(v))vn112NomesAttr(m.target);return}m.addedNodes.forEach(n=>{if(n.nodeType===1||n.nodeType===3)vn112Nomes(n)})})});
     const liga=()=>{["#layer","#layer2","#v-me"].forEach(s=>{const el=$(s);if(el)ob.observe(el,{childList:true,subtree:true,attributes:true,attributeFilter:["aria-label"]})})};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",liga);else liga()}catch(e){}
@@ -13898,7 +13834,6 @@ if(VN_FASE2){
   /* o comentário logo abaixo da notícia já está junto dela: sem caixa de contexto; prateleira */
   
   /* publicação aberta numa camada (e a página da hashtag): o fio inteiro */
-  {const _pv113=pfvDesenha;pfvDesenha=function(){const r=_pv113.apply(this,arguments);try{if(PFV&&PFV.modo!=="grade")f113AbreTudo($("#layer .pfv"))}catch(e){}return r}}
   {const _hd113=htDesenha;htDesenha=function(){const r=_hd113.apply(this,arguments);try{f113AbreTudo($("#layer .pfv-ht"))}catch(e){}return r}}
   /* hashtags de todas as partes contam (página da hashtag, em alta, seguir) */
   {const _hp113=htPubs;htPubs=function(){const l=_hp113.apply(this,arguments);try{const ex=pubVisiveis().filter(x=>x&&!x.texto&&f113Fio(x));
@@ -13975,7 +13910,6 @@ function ra114SoAmigos(u){return `<div class="pf-vz"><b>Perfil só para amigos</
 if(typeof vn112Resp==="function"){const _r=vn112Resp;vn112Resp=function(u){return ra114Fora(u)?ra114SoAmigos(u):_r.apply(this,arguments)}}
 if(typeof vn112Midia==="function"){const _m=vn112Midia;vn112Midia=function(u){return ra114Fora(u)&&!pfLista(u,"posts").length?ra114SoAmigos(u):_m.apply(this,arguments)}}
 if(typeof vn112Pf==="function"){const _p=vn112Pf;vn112Pf=function(root,u){const r=_p.apply(this,arguments);try{if(ra114Fora(u)&&root&&!pfLista(u,"posts").length)root.querySelectorAll(".vn-pf-num span").forEach(s=>{if(/publicaç/.test(s.textContent))s.remove()})}catch(e){}return r}}
-{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(ra114Fora(u)&&!pfLista(u,"posts").length)h=h.replace(/<span><b>0<\/b>publicações<\/span>/,"")}catch(e){}return h}}
 
 /* ===== A02: Melhores amigos no Perfil › Conta ===== */
 function ra114MaDesenha(){const box=$("#ra114ma");if(!box)return;const am=amigosL();
@@ -14363,8 +14297,6 @@ function dc122Linha(h,p){const us=p.__dc122.us;if(!us||!us.length||typeof h!=="s
   a.classList.add("dc122-rpd");const ln=`<p class="dc122-rpl">${VN112_IC.rp}<span>${esc(dc122Quem(us))}</span></p>`;
   const ref=a.querySelector(":scope>.ph");if(ref)ref.insertAdjacentHTML("beforebegin",ln);else a.insertAdjacentHTML("afterbegin",ln);return a.outerHTML}
 
-/* perfil de outra pessoa: o repost simples indisponível também some (no próprio perfil fica) */
-{const _pl122=pfLista;pfLista=function(u,aba){const l=_pl122.apply(this,arguments);try{if(aba==="posts"&&Array.isArray(l)&&u!==S.uid)return l.filter(x=>!(x&&x.autor===u&&dc122Some(x)))}catch(e){}return l}}
 /* quando o banco responde sobre um original que faltava: redesenha (se apareceu) ou tira o que ficou indisponível */
 {const _vb122=vn112Busca;vn112Busca=async function(){const r=await _vb122.apply(this,arguments);try{
     const ok=[...DC122_ESP].filter(id=>VN112_Q.has(id));ok.forEach(id=>DC122_ESP.delete(id));
@@ -14507,10 +14439,6 @@ function cs123CardHTML(x,c){const id=esc(x.id),f=x.fotos[0],u=f&&pubUrl(f),tz=cs
     <h3 class="cs123-t"><button type="button" data-cs123ler="${id}">${esc(c.tit)}</button></h3>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
     ${f?`<button type="button" class="cs123-capa" data-cs123ler="${id}" aria-label="Ler a coluna">${u?`<img src="${pubSrc(u)}" alt="${esc((x.estilo.alt||[])[0]||"")}" loading="lazy" decoding="async">`:`<span class="up-sem">Foto indisponível</span>`}</button>`:""}
     ${tz?`<p class="cs123-x">${esc(tz)}</p>`:""}<div class="cs123-r"><span class="cs123-min">${min} min de leitura</span><button type="button" class="cs123-lb" data-cs123ler="${id}">Ler a coluna <i aria-hidden="true">›</i></button></div></div>`}
-/* grade do perfil: a capa (ou o título) com o selo "Coluna" */
-{const _pt=pfTiles;pfTiles=function(l,aba,u){let h=_pt.apply(this,arguments);try{if(!(l||[]).some(x=>cs123Col(x))||typeof h!=="string")return h;const tp=document.createElement("template");tp.innerHTML=h;
-  tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],c=x&&cs123Col(x);if(!c)return;if(!x.fotos.length)b.innerHTML=`<span class="pf-tx cs123-pft"><b>${esc(c.tit)}</b></span>`;b.insertAdjacentHTML("beforeend",`<i class="cs123-pfk">Coluna</i>`)});
-  return tp.innerHTML}catch(e){return h}}}
 /* a coluna não tem "Editar legenda" (o texto do post é o título e a linha fina) */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-umenu]");if(!b)return;const x=pubDe(b.dataset.umenu);if(!x||!cs123Col(x))return;
   setTimeout(()=>{document.querySelectorAll(`.sheet [data-ueditar="${CSS.escape(x.id)}"]`).forEach(el=>el.remove())},0)},true);
@@ -14648,11 +14576,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||!CS123.e
 /* ===== 6. seguir: perfil, números e listas ===== */
 const cs123Prim=u=>String(nomeDe(u)||"").split(" ")[0];
 function cs123SegBt(u){const sigo=CS123.sigo.has(u);return `<button type="button" class="btn${sigo?" ghost":""} cs123-sg" data-cs123seg="${esc(u)}" aria-pressed="${sigo}">${sigo?"Seguindo":"Seguir"}</button>`}
-/* o botão: no perfil aberto de quem não é amigo */
-{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(!V9.on||!u||u===S.uid||S.amigos.has(u)||(S.bloq||[]).includes(u))return h;const p=CS123.perf[u];
-  if(!p){cs123Perf(u).then(()=>{if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha()});return h}
-  if(!p.ok||!p.aberto)return h;const bt=cs123SegBt(u);
-  if(/<div class="pf-bts">/.test(h))h=h.replace(/<div class="pf-bts">/,`<div class="pf-bts">${bt}`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h}}
 /* os números (seguidores · seguindo), depois do perfil montado (no visual novo e no de hoje) */
 function cs123NumHTML(u,p){return `<span class="cs123-num"><button type="button" data-cs123lista="seguidores" data-u="${esc(u)}"><b>${cs123Num(p.seguidores||0)}</b> ${p.seguidores===1?"seguidor":"seguidores"}</button><button type="button" data-cs123lista="seguindo" data-u="${esc(u)}"><b>${cs123Num(p.seguindo||0)}</b> seguindo</button></span>`}
 function cs123PoeNum(root,u){if(!root||!V9.on||!u||root.querySelector(".cs123-num"))return;const p=CS123.perf[u];
@@ -14660,11 +14583,6 @@ function cs123PoeNum(root,u){if(!root||!V9.on||!u||root.querySelector(".cs123-nu
   if(!p.ok||(u!==S.uid&&!p.aberto)||(u===S.uid&&!p.aberto&&!p.seguidores&&!p.seguindo))return;
   const vn=root.querySelector(".vn-pf-num");if(vn){vn.insertAdjacentHTML("beforeend",cs123NumHTML(u,p));return}
   const nm=root.querySelector(".pf-nome");if(nm)nm.insertAdjacentHTML("afterend",`<p class="cs123-numl">${cs123NumHTML(u,p)}</p>`)}
-{const _pv=pfvDesenha;pfvDesenha=function(){const r=_pv.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){const sc=$("#layer .pfv .pfv-sc");cs123PoeNum(sc,PFV.u);
-  const p=CS123.perf[PFV.u];if(sc&&p&&p.ok&&p.aberto&&!S.amigos.has(PFV.u)&&!sc.querySelector(".cs123-ab")){const cab=sc.querySelector(".vn-pf-desde,.cs123-numl,.vn-pf-num");if(cab)cab.insertAdjacentHTML("afterend",`<p class="cs123-ab">${cs123Svg(CS123_IC.seg)}Perfil aberto${p.me_segue?" · segue você":""}</p>`)}}}catch(e){}return r}}
-/* perfil aberto sem nada para mostrar: o que fazer, no lugar de "Perfil só para amigos" */
-{const _pt=pfTiles;pfTiles=function(l,aba,u){try{const p=u&&CS123.perf[u];if(V9.on&&u&&u!==S.uid&&!S.amigos.has(u)&&p&&p.ok&&p.aberto&&!(l||[]).length&&aba!=="marc")
-  return `<div class="pf-vz"><b>${CS123.sigo.has(u)?"Nada para seguidores ainda":"Perfil aberto"}</b><span>${CS123.sigo.has(u)?`Quando ${esc(cs123Prim(u))} publicar para seguidores, aparece aqui e no seu Feed.`:`Siga ${esc(cs123Prim(u))} para ver aqui e no seu Feed o que ${esc(cs123Prim(u))} publica para seguidores.`}</span></div>`}catch(e){}return _pt.apply(this,arguments)}}
 async function cs123Seguir(u,b){if(precisaConta()||!V9.on||!u)return;
   if(CS123.sigo.has(u)){sheet("Seguindo "+nomeDe(u),`<div class="opt"><button type="button" data-cs123deixa="${esc(u)}">Deixar de seguir<span>o que ${esc(cs123Prim(u))} publica para seguidores sai do seu Feed</span></button></div>`);return}
   if(b){b.disabled=true;b.textContent="Seguindo…"}
@@ -15046,7 +14964,6 @@ function qb126MarcaDepois(pred){setTimeout(()=>qb126Marca(pred),60)}
 function qb126MarcaPub(id){id=String(id||"");if(!id)return;qb126MarcaDepois(x=>x.pub===id||x.vnrp===id||x.k==="nt124p:"+id||x.k==="nt124c:"+id||(x.msg&&x.msg.snap&&x.msg.snap.upub===id))}
 {const _pi126=pubIrPara;pubIrPara=function(id){const r=_pi126.apply(this,arguments);qb126MarcaPub(id);return r}}
 if(typeof vn112AbrePub==="function"){const _va126=vn112AbrePub;vn112AbrePub=function(id){const r=_va126.apply(this,arguments);qb126MarcaPub(id);return r}}
-{const _ap126=abrirPerfil;abrirPerfil=function(u){const r=_ap126.apply(this,arguments);try{if(u&&u!==S.uid)qb126MarcaDepois(x=>x.k==="a:"+u||(nt124Cat(x)==="seguidores"&&(x.us||[]).includes(u)))}catch(e){}return r}}
 
 /* ===== NB02/NB03: as preferências seguem o que está no banco ===== */
 function qb126Caminho(){return `data/users/${S.uid}/prefs`}
@@ -16719,10 +16636,6 @@ function pb136PoeLink(t,F){t=String(t);if(!F||!F.link||t.indexOf(F.link)>=0)retu
   const p=`<p style="margin:24px 0 0;font-size:17px;line-height:1.6;color:#1f2937">Leia a coluna completa: <a href="${esc(F.link)}" style="color:#24406b;text-decoration:underline">${esc(F.link)}</a></p>`;return i>0?h.slice(0,i)+p+h.slice(i):h}}
 
 /* ===== 5. newsletter: perfil da autora (membro assina com 1 toque) ===== */
-{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(PB136.v14!==true||!u||u===S.uid||(S.bloq||[]).includes(u))return h;const i=PB136.info[u];
-  if(!i||Date.now()-(PB136.infoT[u]||0)>60e3){if(PB136.infoT[u]!==-1)pb136Info(u).then(n=>{if(n&&n.aberta&&(!i||i.aberta!==n.aberta||i.assinando!==n.assinando))pb136Redesenha()});if(!i)return h}
-  if(!i.aberta)return h;const bt=`<button type="button" class="btn ghost pb136-pf${i.assinando?" on":""}" data-pb136nl="${esc(u)}" aria-pressed="${!!i.assinando}">${i.assinando?"✓ Por e-mail":"Colunas por e-mail"}</button>`;
-  if(/<div class="pf-bts">/.test(h))h=h.replace(/(<div class="pf-bts">[\s\S]*?)(<\/div>)/,`$1${bt}$2`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h}}
 function pb136NlFolha(u){if(precisaConta())return;const i=PB136.info[u]||{},n=esc(nomeDe(u)),em=esc(S.email||"o e-mail da sua conta");
   const priv=`<p class="hint pb136-priv">Seu e-mail serve só para mandar as colunas abertas de ${n} quando saírem. Não aparece para ninguém; só quem escreve vê a lista de quem confirmou (e pode baixá-la). Para sair, toque aqui de novo ou use o link “Cancelar” de qualquer e-mail.</p>`;
   if(i.assinando){sheet("Colunas por e-mail",`<p class="pb136-st">Você recebe as colunas abertas de <b>${n}</b> em <b>${em}</b>.</p>${priv}`,`<div class="pb136-bts"><button type="button" class="btn ghost" data-pb136nlx="${esc(u)}">Cancelar a assinatura</button></div>`);return}
@@ -17863,8 +17776,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 
 /* ===== Perfil: "Minhas colunas" ao lado de "Nova publicação" ===== */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cp152cols]");if(!b)return;e.preventDefault();e.stopPropagation();ed132Hub()},true);
-{const _pc152=pfCab;pfCab=function(u){const h=_pc152.apply(this,arguments);try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-cp152cols")<0){const i=h.indexOf('<div class="pf-bts">');if(i>=0){const j=h.indexOf("</div>",i)+6;
-  return h.slice(0,j)+`<button type="button" class="pf-cols" data-cp152cols>${CN102_SVG('<path d="M6 4h9l3 3v13H6z"/><path d="M9 11h6M9 15h4"/>')}<span><b>Minhas colunas</b><small>rascunhos, agendadas e publicadas</small></span><i aria-hidden="true">›</i></button>`+h.slice(j)}}}catch(e){}return h}}
 
 /* ===== depois de publicar, o post aparece na tela (14/11, testador: "Já está no Feed", mas ficava abaixo da notícia em destaque) ===== */
 function cp152Mostra(id){let n=0;const tenta=()=>{const el=document.getElementById("p-u:"+id);if(el&&el.getClientRects().length){try{const top=el.getBoundingClientRect().top+scrollY-((document.querySelector(".top")||{}).offsetHeight||56)-8;scrollTo({top:Math.max(0,top),behavior:"smooth"});el.classList.add("cp152-novo");setTimeout(()=>el.classList.remove("cp152-novo"),2200)}catch(e){}return}
@@ -18624,9 +18535,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 function mt158Seguidas(){return Object.keys(PREF.seguindo||{}).map(k=>({k,nome:PREF.seguindo[k]}))}
 function mt158SegLinha(){const n=mt158Seguidas().length;if(!n)return "";
   return `<button type="button" class="pf-cols mt158-pf" data-mt158cobs><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg><span><b>Coberturas que sigo</b><small>${n} ${n===1?"cobertura":"coberturas"} · sobem no feed</small></span><i aria-hidden="true">›</i></button>`}
-{const _pf158=pfCab;pfCab=function(u){const h=_pf158.apply(this,arguments);try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-mt158cobs")<0){const l=mt158SegLinha();if(!l)return h;
-    const i=h.indexOf("data-cp152cols");if(i>=0){const j=h.indexOf("</button>",i)+9;return h.slice(0,j)+l+h.slice(j)}
-    const k=h.indexOf('<div class="pf-bts">');if(k>=0){const j=h.indexOf("</div>",k)+6;return h.slice(0,j)+l+h.slice(j)}}}catch(e){}return h}}
 /* sem conta: o Perfil não tem cabeçalho, então a linha entra no alto da tela */
 function mt158AbreSeguidas(){const l=mt158Seguidas();uso("coberturas_seguidas");
   const ps=FEED&&FEED.pautas||[],dm=FEED&&FEED.dormentes||[];
@@ -18944,7 +18852,6 @@ function co160Pf(root,u){if(!root||!u)return;
   const cs=num.querySelector(".cs123-num");if(cs){const bs=[...cs.querySelectorAll("b")].map(b=>b.textContent.trim());cs.hidden=bs.length>0&&bs.every(x=>x==="0")}
   if(S.amigos.has(u)&&!num.querySelector(".co160-am"))num.insertAdjacentHTML("afterbegin",`<button type="button" class="co160-am" data-fd104pm="${esc(u)}" aria-label="Vocês são amigos. Opções da amizade">Amigos ✓</button>`);
   if(!S.amigos.has(u))num.querySelector(".co160-am")?.remove()}
-if(typeof pfvDesenha==="function"){const _pv160=pfvDesenha;pfvDesenha=function(){const r=_pv160.apply(this,arguments);try{if(typeof PFV!=="undefined"&&PFV&&PFV.u)co160Pf($("#layer .pfv"),PFV.u)}catch(e){}return r}}
 
 /* ---------- 9. Melhores amigos, nome, Salvos ---------- */
 {const _md160=ra114MaDesenha;ra114MaDesenha=function(){const r=_md160.apply(this,arguments);try{const box=$("#ra114ma");if(box&&box.querySelector("[data-ra114ma]")&&!$("#layer .co160-madica"))box.insertAdjacentHTML("beforebegin",`<p class="co160-madica">Toque em quem você quer pôr na lista. Toque de novo para tirar.</p>`)}catch(e){}return r}}
@@ -18953,7 +18860,6 @@ if(typeof pfvDesenha==="function"){const _pv160=pfvDesenha;pfvDesenha=function()
   f.insertAdjacentHTML("afterend",`<p class="erro-t co160-nerr" id="co160nerr" role="alert" hidden></p>`);
   const vale=()=>{const ok=!!i.value.trim();if(b)b.disabled=!ok;if(ok){const e=$("#co160nerr");if(e)e.hidden=true}};i.addEventListener("input",vale);vale();
   f.addEventListener("submit",e=>{if(!i.value.trim()){e.preventDefault();e.stopImmediatePropagation();mostraErro("#co160nerr","Escreva seu nome.");try{i.focus()}catch(_){}}},true)}catch(e){}return r}}
-{const _pt160=pfTiles;pfTiles=function(l,aba){let h=_pt160.apply(this,arguments);try{if(aba==="salvos"&&typeof h==="string")h=h.replace("<b>Salvos</b><span>Toque no marcador de um post para guardar aqui. Só você vê o que salvou.</span>","<b>Posts salvos</b><span>Toque no marcador (Salvar) de um post para ele aparecer aqui. As notícias que você guarda pelo botão “Guardar” ficam em “Notícias guardadas”, logo acima. Só você vê o que salvou.</span>")}catch(e){}return h}}
 
 /* ---------- 6. guia da primeira visita: antes das notícias, não por cima delas ---------- */
 (function co160GuiaCedo(){try{if(typeof abrirTour!=="function"||typeof sr150TelasVisitante!=="function")return;
@@ -18977,15 +18883,6 @@ function gd161Chips(nN,nP){const c=(k,t,n)=>`<button type="button" role="tab" da
   return `<div class="gd161-f" role="tablist" aria-label="Filtrar guardados">${c("tudo","Tudo",nN+nP)}${c("noticias","Notícias",nN)}${c("posts","Posts",nP)}</div>`}
 function gd161ListaNoticias(l){return `<ul class="svl gd161-nl">${l.map(([pid,x])=>{const s=x.snap||snapById(pid)||{};
   return linhaSalva(pid,s,`${esc(secNome(s.secao||"politica"))} · guardada ${esc(quando(x.at))}`,x.nota?`<span class="nt">Nota: ${esc(x.nota)}</span>`:"")}).join("")}</ul>`}
-{const _pt161=pfTiles;pfTiles=function(l,aba,u){if(aba!=="salvos")return _pt161.apply(this,arguments);
-  try{const nt=gd161Noticias(),nN=nt.length,nP=(l||[]).length;let h=gd161Chips(nN,nP);
-    const verN=GD161_F!=="posts",verP=GD161_F!=="noticias";
-    if(verN&&nN){if(GD161_F==="tudo"&&nP)h+=`<h3 class="gd161-h">Notícias</h3>`;h+=gd161ListaNoticias(nt)}
-    if(verP&&nP){if(GD161_F==="tudo"&&nN)h+=`<h3 class="gd161-h">Posts</h3>`;h+=_pt161.call(this,l,"posts",u)}
-    const vazio=(GD161_F==="tudo"&&!nN&&!nP)||(GD161_F==="noticias"&&!nN)||(GD161_F==="posts"&&!nP);
-    if(vazio)h+=`<div class="pf-vz"><b>${GD161_F==="noticias"?"Nenhuma notícia guardada":GD161_F==="posts"?"Nenhum post guardado":"Nada guardado ainda"}</b><span>Toque em “Guardar” (o marcador) numa notícia ou num post para ele aparecer aqui.</span></div>`;
-    return h+`<p class="hint vp99-so">Só você vê o que guardou.</p>`}
-  catch(e){return _pt161.apply(this,arguments)}}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-gd161]");if(!b)return;e.preventDefault();e.stopPropagation();
   GD161_F=b.dataset.gd161;try{renderMe()}catch(_){}},true);
 /* ver os guardados (do aviso de post guardado ou do menu do Perfil) abre a aba com o filtro certo */
@@ -19175,7 +19072,6 @@ function pf165Conta(){const c=$("#v-me .pf-conta");if(!c||c.dataset.pf165)return
 function pf165Guardados(){document.querySelectorAll("#v-me .gd161-nl [data-open]").forEach(b=>{if(b.dataset.pf165)return;b.dataset.pf165="1";const p=pautaById(b.dataset.open);if(!p)return;
   try{const t=b.querySelector(".svt");if(t&&fotoDe(p)){const d=document.createElement("div");d.innerHTML=capaArte(p,"svt",false);const n=d.firstElementChild;if(n)t.replaceWith(n)}}catch(e){}
   try{const s=b.querySelector(".svx>span"),ch=capaChapeu(p);if(s&&ch){const i=s.textContent.indexOf(" · ");if(i>0)s.textContent=ch+s.textContent.slice(i)}}catch(e){}})}
-if(typeof pfvDesenha==="function"){const _pv165=pfvDesenha;pfvDesenha=function(){const r=_pv165.apply(this,arguments);try{pf165Abas($("#layer .pfv"))}catch(e){}return r}}
 if(typeof vn112PfAba==="function"){const _pa165=vn112PfAba;vn112PfAba=function(k,camada){const r=_pa165.apply(this,arguments);
   try{if(!camada&&k==="conta"){const ab=$("#v-me .vn-abas");if(ab){const y=ab.getBoundingClientRect().top+scrollY-6;scrollTo(0,Math.max(0,y))}}}catch(e){}return r}}
 
@@ -19578,12 +19474,6 @@ function fc172Remede(){try{document.querySelectorAll(".post").forEach(e=>{const 
 if(typeof aplicarFonte==="function"){const _af172=aplicarFonte;aplicarFonte=function(){const r=_af172.apply(this,arguments);
   try{requestAnimationFrame(()=>requestAnimationFrame(fc172Remede))}catch(e){}return r}}
 
-/* 3. Perfil: os dois cartões numa linha */
-if(typeof pfCab==="function"){const _pc172=pfCab;pfCab=function(u){const h=_pc172.apply(this,arguments);
-  try{if(typeof h!=="string"||h.indexOf("fc172-dupla")>=0)return h;const i=h.indexOf('<button type="button" class="pf-cols" data-cp152cols');
-    const k=h.indexOf('<button type="button" class="pf-cols mt158-pf"');if(i<0||k<0||k<i)return h;
-    const j1=h.indexOf("</button>",i)+9;if(h.slice(j1,k).trim())return h;const j2=h.indexOf("</button>",k)+9;
-    return h.slice(0,i)+'<div class="fc172-dupla">'+h.slice(i,j2)+"</div>"+h.slice(j2)}catch(e){}return h}}
 /* ---------- 168: Capa, matéria, busca e coberturas (16/11, noite) — achados do testador. Prefixo cm168. ----------
    1. Selic: o rodapé do gráfico diz desde quando a taxa vale e a última reunião (não mais "dado de 17 set").
       Dólar: o gráfico diz que a linha é a PTAX ("PTAX · último dado") e mostra a cotação de agora com a hora.
@@ -19914,11 +19804,7 @@ window.addEventListener("click",e=>{if(!ft182Esc("giro"))return;const t=e.target
   const b=t.closest('[data-criarde="story"],[data-upstory],[data-usadd],#layer [data-edmodo="story"],#layer [data-crtipo="story"]');
   const vazio=!b&&t.closest("#secs [data-meustory]")&&!(typeof pubStoriesDe==="function"&&pubStoriesDe(S.uid).length);
   if(b||vazio){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()}},true);
-/* Perfil: a foto sem giro não tem "+" (nem abre a criação) */
-{const _pc182=pfCab;pfCab=function(u){const h=_pc182.apply(this,arguments);if(!ft182Esc("giro")||typeof h!=="string")return h;
-  return h.replace(' data-criarde="story"',"").replace('<i class="pf-mais" aria-hidden="true">+</i>',"")}}
 /* textos que citavam os formatos escondidos */
-{const _pt182=pfTiles;pfTiles=function(){const h=_pt182.apply(this,arguments);return typeof h==="string"&&ft182Esc("deperto")?h.replace("Comente uma notícia ou conte o que aconteceu perto de você.","Comente uma notícia ou escreva o que você pensa."):h}}
 function ft182Tour(t){if(typeof t!=="string")return t;if(ft182Esc("enquete"))t=t.replace(/, vote nas enquetes/g,"").replace("curtir, comentar, votar e conversar","curtir, comentar e conversar");
   if(ft182Esc("deperto"))t=t.replace(": comentários, relatos do que viram e análises.",": comentários e opiniões.");return t}
 {const _tt182=tourTelas;tourTelas=function(){const l=_tt182.apply(this,arguments);try{l.forEach(s=>{s.p=ft182Tour(s.p)})}catch(e){}return l}}
@@ -20143,10 +20029,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||SG181.
 function sg181NumHTML(u){const p=CS123.perf[u];if(!p||!p.ok)return "";const lista=u===S.uid||p.lista!==false&&sg181Ve(u);
   const it=(k,n,tx)=>lista?`<button type="button" data-sg181lista="${k}" data-u="${esc(u)}"><b>${cs123Num(n||0)}</b> ${tx}</button>`:`<span><b>${cs123Num(n||0)}</b> ${tx}</span>`;
   return `<span class="sg181-num">${it("seguidores",p.seguidores,p.seguidores===1?"seguidor":"seguidores")}${it("seguindo",p.seguindo,"seguindo")}</span>`}
-/* cabeçalho de outra pessoa: Seguir/Pedido enviado/Seguindo e Mensagem (se puder) */
-{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(!sg181On()||!u||u===S.uid)return h;
-  h=h.replace(/<div class="pf-bts">[\s\S]*?<\/div>/g,"");if((S.bloq||[]).includes(u))return h;
-  h+=`<div class="pf-bts sg181-bts">${sg181Bt(u)}${sg181Msg(u)?`<button type="button" class="btn ghost" data-pfmsg="${esc(u)}">Mensagem</button>`:""}</div>`}catch(e){}return h}}
 function sg181Pf(root,u){if(!root||!sg181On()||!u)return;
   root.querySelectorAll(".co160-am,[data-fd104am],[data-pedir],[data-cancelar],[data-aceitar],[data-recusar],.cs123-num,.cs123-numl,.cs123-ab,.pf-ped").forEach(x=>x.remove());
   if(u!==S.uid){root.querySelectorAll("[data-cs123seg]").forEach(x=>x.remove());if(!sg181Msg(u))root.querySelectorAll("[data-pfmsg]").forEach(x=>x.remove())}
@@ -20157,14 +20039,9 @@ function sg181Pf(root,u){if(!root||!sg181On()||!u)return;
   if(u!==S.uid&&SG181.fech.has(u)&&!root.querySelector(".sg181-fech")){const cab=root.querySelector(".vn-pf-desde,.vn-pf-num");
     if(cab)cab.insertAdjacentHTML("afterend",`<p class="sg181-fech">${cs123Svg('<rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>')}Perfil fechado${CS123.perf[u]&&CS123.perf[u].me_segue?" · segue você":""}</p>`)}
   root.querySelectorAll("[data-convidar]").forEach(b=>{if(/amigo/.test(b.textContent))b.textContent="Convidar alguém"})}
-if(typeof pfvDesenha==="function"){const _pv=pfvDesenha;pfvDesenha=function(){const r=_pv.apply(this,arguments);try{if(PFV&&PFV.modo==="grade")sg181Pf($("#layer .pfv"),PFV.u)}catch(e){}return r}}
 /* posts no perfil: os de quem você vê (o banco já só entrega o que pode), não só os de quem você segue */
 {const _pv=pubVisiveis;pubVisiveis=function(){if(!SG181.todos||SG181.on!==true)return _pv.apply(this,arguments);const now=Date.now();
   return PUB.itens.filter(x=>x&&(x.autor===S.uid||!x.arquivado)&&(x.tipo!=="story"||(x.expira||0)>now))}}
-{const _pl=pfLista;pfLista=function(u,aba){if(SG181.on!==true||aba==="salvos")return _pl.apply(this,arguments);SG181.todos=true;try{return _pl.apply(this,arguments)}finally{SG181.todos=false}}}
-{const _pt=pfTiles;pfTiles=function(l,aba,u){try{if(sg181On()&&u&&u!==S.uid&&aba!=="marc"){
-  if(!sg181Ve(u)&&!(l||[]).length)return `<div class="pf-vz sg181-vz"><b>Perfil fechado</b><span>${SG181.env.has(u)?`Seu pedido foi enviado. Quando ${esc(sg181Prim(u))} aprovar, as publicações aparecem aqui.`:`Siga ${esc(sg181Prim(u))} para ver as publicações. ${esc(sg181Prim(u))} precisa aprovar.`}</span></div>`;
-  if(!(l||[]).length)return `<div class="pf-vz"><b>Publicações</b><span>Nenhuma publicação ainda.</span></div>`}}catch(e){}return _pt.apply(this,arguments)}}
 /* o seu perfil: números, pedidos para seguir (perfil fechado) e sem amizades */
 function sg181PedHTML(){const l=SG181.rec.filter(x=>!(S.bloq||[]).includes(x.uid));if(!l.length)return "";
   return `<div class="card amg sg181-ped"><span class="amg-t">${l.length===1?"Pedido para seguir você":l.length+" pedidos para seguir você"}</span><ul class="amgl">${l.map(x=>`<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(x.uid)}">${avatar(x.uid)}<span class="amg-n"><b>${esc(nomeDe(x.uid))}</b></span></button><button type="button" class="btn amg-b" data-sg181sim="${esc(x.uid)}">Aprovar</button><button type="button" class="btn ghost amg-b" data-sg181nao="${esc(x.uid)}">Recusar</button></li>`).join("")}</ul></div>`}
@@ -20918,6 +20795,202 @@ function storyAuto(p){
   const x=ST.itens&&ST.itens[ST.i];const vid=x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0;
   if(!vid)return c058();const pal=ST.palavras,sec=ST.sec;ST.palavras=1;ST.sec="__v";let r;try{r=c058()}finally{ST.palavras=pal;ST.sec=sec}
   const dur=Math.max(2000,Math.min(31000,(+x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);ST.timer=0;if(!PREF.storyAuto)return r;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);return r}
+/* ---------- 205 · Perfil (Fase 3): as funções do Perfil, cada uma numa versão só ----------
+   Antes eram definidas no 083 (grade de perfil) e no 084 (destaques) e remendadas em 084, 099, 104-correcoes-feed, 105,
+   107, 109, 112, 113, 114, 122, 123, 126, 136, 152, 158, 160, 161, 165, 172, 181 e 182 (nesta ordem de carga: o 182
+   carrega antes do 181). Cada função abaixo faz o que a cadeia inteira fazia, na mesma ordem; os comentários dizem de
+   onde veio cada passo. Os auxiliares dos outros arquivos (vp99*, fc107*, vn112*, cs123*, sg181*, gd161*, pb136*, …)
+   continuam onde estavam: aqui eles só são chamados, sempre depois da carga (nenhuma destas funções roda na carga).
+   Regra daqui para a frente: corrigir DENTRO destas funções, não embrulhá-las de novo em outro arquivo. */
+
+/* ===== pfLista: as publicações de uma aba do perfil =====
+   Base no 083; remendos (de dentro para fora): 084 (fixadas primeiro), 099 (Salvos), 107 (filtro por tipo),
+   122 (some o que a pessoa escondeu), 181 (só seguir: posts de quem você vê, não só de quem segue). */
+function pf205Lista(u,aba){const vs=pubVisiveis().filter(x=>x.tipo==="post");let l;
+  if(aba==="marc")l=vs.filter(x=>x.autor!==u&&((x.estilo&&(x.estilo.tags||[]).some(t=>t.u===u))||(x.estilo&&(x.estilo.marcados||[]).includes(u))));
+  else l=vs.filter(x=>x.autor===u&&(aba!=="reels"||(x.estilo&&x.estilo.reel)));return l.sort((a,b)=>b.at-a.at)}
+/* 084 + 099: é a lista que o 107 guarda em FC107_PL (as contagens por tipo do perfil) */
+function pf205ListaAte99(u,aba){if(aba==="salvos")return vp99ListaSalvos();const l=pf205Lista(u,aba);if(aba!=="posts")return l;
+  return l.slice().sort((a,b)=>(+!!b.fixado-+!!a.fixado)||(b.fixado&&a.fixado?b.fixado-a.fixado:0)||(b.at-a.at))}
+function pfLista(u,aba){
+  /* 181: com o só seguir ligado, pubVisiveis entrega os posts de quem você vê (SG181.todos) enquanto a lista é montada */
+  const sg=SG181.on===true&&aba!=="salvos";if(sg)SG181.todos=true;
+  try{let l=pf205ListaAte99(u,aba);
+    /* 107: filtro por tipo escolhido nas fichas do perfil */
+    if(!(aba!=="posts"||FC107_PF.u!==u||!FC107_PF.k)){const f=l.filter(x=>fc107Tipo(x)===FC107_PF.k);l=f.length?f:l}
+    /* 122: no perfil dos outros, some o que a pessoa escondeu */
+    try{if(aba==="posts"&&Array.isArray(l)&&u!==S.uid)return l.filter(x=>!(x&&x.autor===u&&dc122Some(x)))}catch(e){}return l}
+  finally{if(sg)SG181.todos=false}}
+
+/* ===== pfTiles: a grade (ou o aviso de vazio) de uma aba =====
+   Base no 083; remendos: 084, 099, 104, 105, 107, 112, 123 (dois), 160, 161, 182, 181. */
+function pf205Tiles(l,aba,u){if(!l.length){const eu=u===S.uid;const msg=aba==="reels"?(eu?"Seus reels aparecem aqui.":"Nenhum reel ainda."):aba==="marc"?(eu?"Quando marcarem você numa foto, ela aparece aqui.":"Ninguém marcou "+esc(String(nomeDe(u)).split(" ")[0])+" ainda."):(eu?"Compartilhe sua primeira publicação.":"Nenhuma publicação ainda.");
+    return `<div class="pf-vz"><b>${aba==="reels"?"Reels":aba==="marc"?"Fotos com você":"Publicações"}</b><span>${msg}</span>${eu&&aba!=="marc"?`<button type="button" class="btn" data-criarde="${aba==="reels"?"post":"post"}"${aba==="reels"?" data-pfreel":""}>${aba==="reels"?"Criar reel":"Nova publicação"}</button>`:""}</div>`}
+  return `<div class="pf-grade">${l.map((x,i)=>{const es=x.estilo||{},f=x.fotos[0],uu=f&&pubUrl(f),nt=x.pid&&pautaById(x.pid);const ic=es.reel?"▶":(x.fotos.length+(x.pid&&x.fotos.length?1:0))>1?"⧉":"";
+    const inner=uu?`<img src="${pubSrc(uu)}" alt="${esc((es.alt&&es.alt[0])||x.texto||"Publicação")}" loading="lazy" decoding="async">`:x.pid?`<span class="pf-nt"><small style="color:${secCor(nt?secOf(nt):"politica")}">${esc(nt?secNome(secOf(nt)):"Notícia")}</small><b>${esc(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}</b></span>`:`<span class="pf-tx" style="background:${pubFundo(String(x.id).charCodeAt(0))}">${esc(String(x.texto||"").slice(0,110))}</span>`;
+    return `<button type="button" class="pf-t" data-pfi="${i}" aria-label="${esc(es.reel?"Reel":"Publicação")} de ${esc(quando(x.at))}">${inner}${ic?`<i class="pf-ic">${ic}</i>`:""}</button>`}).join("")}</div>`}
+/* 084: marca as fixadas */
+function pf205TilesAte84(l,aba,u){let h=pf205Tiles(l,aba,u);if(aba==="posts")l.forEach((x,i)=>{if(x.fixado)h=h.replace(`data-pfi="${i}"`,`data-pfi="${i}" data-fixo`)});return h}
+/* do 099 ao 160 (o 161 chama este pedaço com a aba "posts" para a parte dos posts guardados) */
+function pf205TilesAte160(l,aba,u){let h,curto=null;
+  /* 123 (o segundo): perfil aberto ainda sem nada para seguidores */
+  try{const p=u&&CS123.perf[u];if(V9.on&&u&&u!==S.uid&&!S.amigos.has(u)&&p&&p.ok&&p.aberto&&!(l||[]).length&&aba!=="marc")
+    curto=`<div class="pf-vz"><b>${CS123.sigo.has(u)?"Nada para seguidores ainda":"Perfil aberto"}</b><span>${CS123.sigo.has(u)?`Quando ${esc(cs123Prim(u))} publicar para seguidores, aparece aqui e no seu Feed.`:`Siga ${esc(cs123Prim(u))} para ver aqui e no seu Feed o que ${esc(cs123Prim(u))} publica para seguidores.`}</span></div>`}catch(e){}
+  if(curto!==null)h=curto;
+  else{
+    /* 104: quem não é amigo e não tem nada visível */
+    if(u&&u!==S.uid&&!S.amigos.has(u)&&!(l||[]).length)h=`<div class="pf-vz"><b>Perfil só para amigos</b><span>Quando vocês forem amigos, as publicações de ${esc(String(nomeDe(u)).split(" ")[0])} aparecem aqui.</span></div>`;
+    /* 099: Salvos (notícias guardadas no alto) */
+    else if(aba==="salvos"){const sv=vp99Sv(),nn=Object.keys(sv).filter(k=>sv[k]&&!vp99EhPost(k)).length;
+      const topo=`<button type="button" class="vp99-gd" data-vgo="saved"><span class="vp99-gdi">${ICON.save}</span><span class="vp99-gdt"><b>Notícias guardadas</b><small>${nn?nn+(nn===1?" notícia":" notícias"):"Nenhuma ainda"}</small></span><i aria-hidden="true">›</i></button>`;
+      if(!l.length)h=topo+`<div class="pf-vz"><b>Salvos</b><span>Toque no marcador de um post para guardar aqui. Só você vê o que salvou.</span></div>`;
+      else h=topo+pf205TilesAte84(l,"posts",u)+`<p class="hint vp99-so">Só você vê o que salvou.</p>`}
+    else h=pf205TilesAte84(l,aba,u);
+    /* 105: perfil vazio, o convite fala de conteúdo */
+    h=typeof h==="string"?h.replace("Compartilhe sua primeira publicação.","Comente uma notícia ou conte o que aconteceu perto de você."):h;
+    /* 107: fichas por tipo e o quadrinho de cada tipo */
+    try{if(!(aba!=="posts"||typeof h!=="string"||!(l||[]).length)){
+      const tp=document.createElement("template");tp.innerHTML=h;tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],t=x&&fc107PfTile(x),o=b.querySelector(".pf-tx");if(t&&o)o.outerHTML=t});
+      h=fc107PfChips(u)+tp.innerHTML}}catch(e){}
+    /* 112: repost e citação */
+    try{if(!(typeof h!=="string"||!(l||[]).some(vn112Rp))){const tp=document.createElement("template");tp.innerHTML=h;
+      tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],rp=x&&vn112Rp(x),o=b.querySelector(".pf-tx");if(!rp||!o)return;const q=rp.k==="pauta"?pautaById(rp.id):vn112Pub(rp.id);
+        const t=rp.k==="pauta"?(q?versao(q,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia"):q?(q.texto||"Publicação de "+nomeDe(q.autor)):"Publicação indisponível";
+        o.outerHTML=`<span class="pf-tx vn-pfrp"><small>${VN112_IC.rp}${String(x.texto||"").trim()?"Citação":"Repost"}</small><b>${esc(vn112Curto(String(x.texto||"").trim()||t,90))}</b></span>`});h=tp.innerHTML}}catch(e){}
+    /* 123 (o primeiro): colunas na grade */
+    h=(h=>{try{if(!(l||[]).some(x=>cs123Col(x))||typeof h!=="string")return h;const tp=document.createElement("template");tp.innerHTML=h;
+      tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],c=x&&cs123Col(x);if(!c)return;if(!x.fotos.length)b.innerHTML=`<span class="pf-tx cs123-pft"><b>${esc(c.tit)}</b></span>`;b.insertAdjacentHTML("beforeend",`<i class="cs123-pfk">Coluna</i>`)});
+      return tp.innerHTML}catch(e){return h}})(h)}
+  /* 160: texto do Salvos vazio */
+  try{if(aba==="salvos"&&typeof h==="string")h=h.replace("<b>Salvos</b><span>Toque no marcador de um post para guardar aqui. Só você vê o que salvou.</span>","<b>Posts salvos</b><span>Toque no marcador (Salvar) de um post para ele aparecer aqui. As notícias que você guarda pelo botão “Guardar” ficam em “Notícias guardadas”, logo acima. Só você vê o que salvou.</span>")}catch(e){}
+  return h}
+function pfTiles(l,aba,u){
+  /* 181: só seguir — perfil fechado de quem você não vê; vazio de quem você vê */
+  try{if(sg181On()&&u&&u!==S.uid&&aba!=="marc"){
+    if(!sg181Ve(u)&&!(l||[]).length)return `<div class="pf-vz sg181-vz"><b>Perfil fechado</b><span>${SG181.env.has(u)?`Seu pedido foi enviado. Quando ${esc(sg181Prim(u))} aprovar, as publicações aparecem aqui.`:`Siga ${esc(sg181Prim(u))} para ver as publicações. ${esc(sg181Prim(u))} precisa aprovar.`}</span></div>`;
+    if(!(l||[]).length)return `<div class="pf-vz"><b>Publicações</b><span>Nenhuma publicação ainda.</span></div>`}}catch(e){}
+  let h;
+  /* 161: Guardados (notícias e posts, com as fichas) */
+  if(aba!=="salvos")h=pf205TilesAte160(l,aba,u);
+  else h=(()=>{try{const nt=gd161Noticias(),nN=nt.length,nP=(l||[]).length;let h=gd161Chips(nN,nP);
+      const verN=GD161_F!=="posts",verP=GD161_F!=="noticias";
+      if(verN&&nN){if(GD161_F==="tudo"&&nP)h+=`<h3 class="gd161-h">Notícias</h3>`;h+=gd161ListaNoticias(nt)}
+      if(verP&&nP){if(GD161_F==="tudo"&&nN)h+=`<h3 class="gd161-h">Posts</h3>`;h+=pf205TilesAte160(l,"posts",u)}
+      const vazio=(GD161_F==="tudo"&&!nN&&!nP)||(GD161_F==="noticias"&&!nN)||(GD161_F==="posts"&&!nP);
+      if(vazio)h+=`<div class="pf-vz"><b>${GD161_F==="noticias"?"Nenhuma notícia guardada":GD161_F==="posts"?"Nenhum post guardado":"Nada guardado ainda"}</b><span>Toque em “Guardar” (o marcador) numa notícia ou num post para ele aparecer aqui.</span></div>`;
+      return h+`<p class="hint vp99-so">Só você vê o que guardou.</p>`}
+    catch(e){return pf205TilesAte160(l,aba,u)}})();
+  /* 182: com "De perto" escondido, o convite não fala do que aconteceu perto */
+  return typeof h==="string"&&ft182Esc("deperto")?h.replace("Comente uma notícia ou conte o que aconteceu perto de você.","Comente uma notícia ou escreva o que você pensa."):h}
+
+/* ===== destRowHTML: a fileira de destaques =====
+   Base no 084; remendo do 107 (a fileira vazia "+ Novo" do próprio perfil some até existir um destaque). */
+function pf205Dest(u){const ds=DEST[u]||[];const eu=u===S.uid;if(!V5.on||(!ds.length&&!eu))return "";
+  return `<div class="pf-dests">${ds.map(d=>`<button type="button" class="pf-d" data-pfdest="${esc(d.id)}" data-dono="${esc(u)}"><span class="pf-dc">${destCapa(d)}</span><b>${esc(d.nome)}</b></button>`).join("")}${eu?`<button type="button" class="pf-d pf-dn" data-destnovo><span class="pf-dc">+</span><b>Novo</b></button>`:""}</div>`}
+function destRowHTML(u){const h=pf205Dest(u);try{if(u===S.uid&&!(DEST[u]||[]).length)return ""}catch(e){}return h}
+
+/* ===== pfCab: o cabeçalho do perfil (foto, números, nome, botões) =====
+   Base no 083; remendos (de dentro para fora): 084, 104, 109, 114, 123, 136, 152, 158, 172, 182, 181.
+   Cada passo abaixo é o corpo do remendo, com o HTML do passo anterior em h. */
+function pf205Cab(u){const eu=u===S.uid,st=pubStoriesDe(u),n=pfLista(u,"posts").length,na=amigosL().length,cm=!eu&&S.comuns?S.comuns[u]:null,vist=st.length&&st.every(x=>PUB_VISTOS.has(x.id));
+  return `<div class="pf-cab"><button type="button" class="pf-av${st.length?(vist?" ring visto":" ring"):""}" ${st.length?`data-pfstory="${esc(u)}"`:eu?`data-criarde="story"`:""} aria-label="${st.length?"Ver o giro":"Foto de "+esc(nomeDe(u))}"><span class="pf-avi">${avatar(u)}</span>${eu&&!st.length?`<i class="pf-mais" aria-hidden="true">+</i>`:""}</button>
+    <div class="pf-num"><span><b>${n}</b>${n===1?"publicação":"publicações"}</span>${eu?`<span><b>${na}</b>${na===1?"amigo":"amigos"}</span>`:cm!=null?`<span><b>${cm}</b>${cm===1?"amigo em comum":"amigos em comum"}</span>`:""}</div></div>
+    <b class="pf-nome">${esc(nomeDe(u))}</b>${eu?`<div class="pf-bts"><button type="button" class="btn ghost" data-criarde="post">Nova publicação</button><button type="button" class="btn ghost" data-convidar>Convidar amigo</button></div>`:S.amigos.has(u)?`<div class="pf-bts"><button type="button" class="btn" data-pfmsg="${esc(u)}">Mensagem</button></div>`:""}`}
+function pfCab(u){
+  /* 084: destaques */
+  let h=pf205Cab(u)+destRowHTML(u);
+  /* 104: quem não é amigo — pedir, cancelar ou aceitar amizade */
+  h=(h=>{try{if(u&&u!==S.uid&&!S.amigos.has(u)&&!(S.bloq||[]).includes(u)&&S.membro){const rec=(S.pedidosIn||[]).includes(u),env=(S.pedidosOut||[]).includes(u);
+    h+=`<div class="pf-bts">${rec?`<button type="button" class="btn" data-aceitar="${esc(u)}">Aceitar pedido de amizade</button>`:env?`<button type="button" class="btn ghost" data-cancelar="${esc(u)}">Cancelar pedido</button>`:`<button type="button" class="btn" data-pedir="${esc(u)}">Pedir amizade</button>`}</div>`}}catch(e){}return h})(h);
+  /* 109: Editar foto */
+  h=(h=>{try{if(u===S.uid&&V8.on)h=h.replace(/(<button type="button" class="btn ghost" data-convidar>[^<]*<\/button>)/,`$1<button type="button" class="btn ghost" data-fp8>Editar foto</button>`)}catch(e){}return h})(h);
+  /* 114: "0 publicações" sai de quem está fora */
+  h=(h=>{try{if(ra114Fora(u)&&!pfLista(u,"posts").length)h=h.replace(/<span><b>0<\/b>publicações<\/span>/,"")}catch(e){}return h})(h);
+  /* 123: Seguir (perfil aberto) */
+  h=(h=>{try{if(!V9.on||!u||u===S.uid||S.amigos.has(u)||(S.bloq||[]).includes(u))return h;const p=CS123.perf[u];
+    if(!p){cs123Perf(u).then(()=>{if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha()});return h}
+    if(!p.ok||!p.aberto)return h;const bt=cs123SegBt(u);
+    if(/<div class="pf-bts">/.test(h))h=h.replace(/<div class="pf-bts">/,`<div class="pf-bts">${bt}`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h})(h);
+  /* 136: colunas por e-mail */
+  h=(h=>{try{if(PB136.v14!==true||!u||u===S.uid||(S.bloq||[]).includes(u))return h;const i=PB136.info[u];
+    if(!i||Date.now()-(PB136.infoT[u]||0)>60e3){if(PB136.infoT[u]!==-1)pb136Info(u).then(n=>{if(n&&n.aberta&&(!i||i.aberta!==n.aberta||i.assinando!==n.assinando))pb136Redesenha()});if(!i)return h}
+    if(!i.aberta)return h;const bt=`<button type="button" class="btn ghost pb136-pf${i.assinando?" on":""}" data-pb136nl="${esc(u)}" aria-pressed="${!!i.assinando}">${i.assinando?"✓ Por e-mail":"Colunas por e-mail"}</button>`;
+    if(/<div class="pf-bts">/.test(h))h=h.replace(/(<div class="pf-bts">[\s\S]*?)(<\/div>)/,`$1${bt}$2`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h})(h);
+  /* 152: Minhas colunas */
+  h=(h=>{try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-cp152cols")<0){const i=h.indexOf('<div class="pf-bts">');if(i>=0){const j=h.indexOf("</div>",i)+6;
+    return h.slice(0,j)+`<button type="button" class="pf-cols" data-cp152cols>${CN102_SVG('<path d="M6 4h9l3 3v13H6z"/><path d="M9 11h6M9 15h4"/>')}<span><b>Minhas colunas</b><small>rascunhos, agendadas e publicadas</small></span><i aria-hidden="true">›</i></button>`+h.slice(j)}}}catch(e){}return h})(h);
+  /* 158: coberturas que você segue */
+  h=(h=>{try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-mt158cobs")<0){const l=mt158SegLinha();if(!l)return h;
+    const i=h.indexOf("data-cp152cols");if(i>=0){const j=h.indexOf("</button>",i)+9;return h.slice(0,j)+l+h.slice(j)}
+    const k=h.indexOf('<div class="pf-bts">');if(k>=0){const j=h.indexOf("</div>",k)+6;return h.slice(0,j)+l+h.slice(j)}}}catch(e){}return h})(h);
+  /* 172: Minhas colunas e coberturas lado a lado */
+  h=(h=>{try{if(typeof h!=="string"||h.indexOf("fc172-dupla")>=0)return h;const i=h.indexOf('<button type="button" class="pf-cols" data-cp152cols');
+    const k=h.indexOf('<button type="button" class="pf-cols mt158-pf"');if(i<0||k<0||k<i)return h;
+    const j1=h.indexOf("</button>",i)+9;if(h.slice(j1,k).trim())return h;const j2=h.indexOf("</button>",k)+9;
+    return h.slice(0,i)+'<div class="fc172-dupla">'+h.slice(i,j2)+"</div>"+h.slice(j2)}catch(e){}return h})(h);
+  /* 182: com o Giro escondido, a foto não abre a criação de story */
+  if(ft182Esc("giro")&&typeof h==="string")h=h.replace(' data-criarde="story"',"").replace('<i class="pf-mais" aria-hidden="true">+</i>',"");
+  /* 181: só seguir — Seguir/Pedido enviado/Seguindo e Mensagem (se puder) no lugar dos botões de amizade */
+  h=(h=>{try{if(!sg181On()||!u||u===S.uid)return h;
+    h=h.replace(/<div class="pf-bts">[\s\S]*?<\/div>/g,"");if((S.bloq||[]).includes(u))return h;
+    h+=`<div class="pf-bts sg181-bts">${sg181Bt(u)}${sg181Msg(u)?`<button type="button" class="btn ghost" data-pfmsg="${esc(u)}">Mensagem</button>`:""}</div>`}catch(e){}return h})(h);
+  return h}
+
+/* ===== pfAbas: os ícones das abas (base no 083; o 099 tira "Salvos" do perfil dos outros) ===== */
+function pf205Abas(u,aba){return `<div class="pf-abas" role="tablist">${PF_ABAS.filter(a=>a[0]!=="conta"||u===S.uid).map(([k,n,ic])=>`<button type="button" role="tab" data-pfaba="${k}" aria-selected="${aba===k}" aria-label="${n}">${ic}</button>`).join("")}</div>`}
+function pfAbas(u){const h=pf205Abas.apply(this,arguments);return u===S.uid?h:h.replace(/<button[^>]*data-pfaba="salvos"[^>]*>[\s\S]*?<\/button>/,"")}
+
+/* ===== pfCarregar: busca as publicações da pessoa (base no 083; o 084 busca os destaques depois) ===== */
+async function pf205Carregar(u){if(!SB||!S.uid||!S.membro||PUB.on===false)return;if(Date.now()-(PF_T[u]||0)<45000)return;PF_T[u]=Date.now();
+  try{const r=await SB.from("publicacoes").select("*").eq("autor",u).eq("tipo","post").order("at",{ascending:false}).limit(90);if(r.error)return;const ids=new Set(PUB.itens.map(x=>x.id));
+    (r.data||[]).forEach(x=>{x.fotos=Array.isArray(x.fotos)?x.fotos:[];try{pubLimpa(x)}catch(e){}if(!ids.has(x.id))PUB.itens.push(x)});await pubAssinar()}catch(e){}}
+async function pfCarregar(u){const r=await pf205Carregar.apply(this,arguments);if(await v5Testa())await destCarregar(u);return r}
+
+/* ===== abrirPerfil: abre o perfil de alguém numa camada (o seu, na aba Perfil) =====
+   Base no 083; remendos: 107 (zera o filtro por tipo), 112 (o seu abre em Publicações), 126 (marca a atividade como vista). */
+function pf205Abrir(u){if(!u||!S.uid)return;if(u===S.uid){if($("#layer").innerHTML)closeLayer();setTimeout(()=>{go("me");PF_ABA="posts";renderMe();scrollTo(0,0)},60);return}
+  if($("#layer").innerHTML)closeLayer();PFV={u,aba:"posts",modo:"grade"};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Perfil de ${esc(nomeDe(u))}"></div>`;if(pushH())HST++;uso("perfil");
+  pfvDesenha();pfCarregar(u).then(()=>{if(PFV&&PFV.u===u&&PFV.modo==="grade")pfvDesenha()})}
+function abrirPerfil(u){
+  /* 112 */ if(u===S.uid)VN112_PF.me="posts";
+  /* 107 */ FC107_PF={u:null,k:""};
+  const r=pf205Abrir.apply(this,arguments);
+  /* 126 */ try{if(u&&u!==S.uid)qb126MarcaDepois(x=>x.k==="a:"+u||(nt124Cat(x)==="seguidores"&&(x.us||[]).includes(u)))}catch(e){}
+  return r}
+
+/* ===== pfvDesenha: desenha a camada do perfil (grade ou lista de publicações) =====
+   Base no 083; remendos (de dentro para fora): 104, 109, 112, 113, 123, 160, 165, 181. */
+function pf205Desenha(){const el=$("#layer .pfv");if(!el||!PFV)return;if(PFV.modo==="posts")return pfvPosts(el);
+  el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>${esc(nomeDe(PFV.u))}</b><span class="sp"></span></div><div class="pfv-sc">${pfCab(PFV.u)}${pfAbas(PFV.u,PFV.aba)}${pfTiles(pfLista(PFV.u,PFV.aba),PFV.aba,PFV.u)}</div>`}
+function pfvDesenha(){let r;
+  /* 109: a aba Arquivo tem desenho próprio (os remendos de fora continuam valendo) */
+  if(PFV&&PFV.aba==="arq8"&&PFV.modo!=="posts")r=arq8Desenha();
+  else{r=pf205Desenha.apply(this,arguments);
+    /* 104: "⋯" no perfil de amigo */
+    try{if(PFV&&PFV.modo==="grade"&&S.amigos.has(PFV.u)){const sp=document.querySelector("#layer .pfv .pfv-h .sp");
+      if(sp&&!sp.nextElementSibling)sp.insertAdjacentHTML("afterend",`<button type="button" class="icbtn fd104-pm" data-fd104pm="${esc(PFV.u)}" aria-label="Mais opções"><svg class="ico" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></button>`)}}catch(e){}
+    /* 109: publicações arquivadas abertas */
+    try{if(PFV&&PFV.aba==="arq8"&&PFV.modo==="posts"){const el=$("#layer .pfv");const h=el&&el.querySelector(".pfv-h b");if(h)h.innerHTML=`Arquivados<small>só você vê</small>`;
+      el&&el.querySelectorAll(".upost[data-pid]").forEach(a=>{const id=String(a.dataset.pid).slice(2);const ph=a.querySelector(".ph");if(ph&&!a.querySelector(".arq8-bar"))ph.insertAdjacentHTML("afterend",`<div class="arq8-bar gut"><span>Arquivado · só você vê</span><button type="button" class="btn ghost" data-u8arq="${esc(id)}" data-on="0">Mostrar no perfil</button></div>`)})}}catch(e){}}
+  /* 112: visual novo do perfil */
+  try{if(PFV&&PFV.modo==="grade"){if(PFV.aba!=="posts")PFV.vnAba=PFV.aba;else if(!["posts","resp","midia"].includes(PFV.vnAba))PFV.vnAba="posts";vn112Pf($("#layer .pfv .pfv-sc"),PFV.u,PFV.vnAba)}}catch(e){console.error(e)}
+  /* 113: publicação aberta mostra o fio inteiro */
+  try{if(PFV&&PFV.modo!=="grade")f113AbreTudo($("#layer .pfv"))}catch(e){}
+  /* 123: números de seguidores e "Perfil aberto" */
+  try{if(PFV&&PFV.modo==="grade"){const sc=$("#layer .pfv .pfv-sc");cs123PoeNum(sc,PFV.u);
+    const p=CS123.perf[PFV.u];if(sc&&p&&p.ok&&p.aberto&&!S.amigos.has(PFV.u)&&!sc.querySelector(".cs123-ab")){const cab=sc.querySelector(".vn-pf-desde,.cs123-numl,.vn-pf-num");if(cab)cab.insertAdjacentHTML("afterend",`<p class="cs123-ab">${cs123Svg(CS123_IC.seg)}Perfil aberto${p.me_segue?" · segue você":""}</p>`)}}}catch(e){}
+  /* 160: conta (amizade e opções) */
+  try{if(typeof PFV!=="undefined"&&PFV&&PFV.u)co160Pf($("#layer .pfv"),PFV.u)}catch(e){}
+  /* 165: abas do perfil */
+  try{pf165Abas($("#layer .pfv"))}catch(e){}
+  /* 181: só seguir */
+  try{if(PFV&&PFV.modo==="grade")sg181Pf($("#layer .pfv"),PFV.u)}catch(e){}
+  return r}
+
+/* ===== pfvPosts: a lista de publicações aberta a partir da grade (base no 083; o 099 dá título aos Guardados) ===== */
+function pf205Posts(el){const l=PFV.lista||[];el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>${PFV.aba==="reels"?"Reels":PFV.aba==="marc"?"Marcações":"Publicações"}<small>${esc(nomeDe(PFV.u))}</small></b><span class="sp"></span></div><div class="pfv-sc pfv-posts">${l.map(x=>{try{return pubPostHTML(x)}catch(e){return ""}}).join("")}</div>`;
+  pfIdsTroca(l);const sc=el.querySelector(".pfv-sc");try{wireTracks(sc)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}});const a=l[PFV.i];const alvo=a&&el.querySelector(`[id="p-u:${a.id}"]`);if(alvo){sc.scrollTop=alvo.offsetTop-sc.offsetTop;requestAnimationFrame(()=>{sc.scrollTop=alvo.offsetTop-sc.offsetTop})}}
+function pfvPosts(el){const r=pf205Posts.apply(this,arguments);try{if(PFV&&PFV.aba==="salvos"){const b=el.querySelector(".pfv-h b");if(b&&b.firstChild&&b.firstChild.nodeType===3)b.firstChild.textContent="Guardados";const sm=b&&b.querySelector("small");if(sm)sm.textContent="Só você vê"}vp99Ancora(el)}catch(e){}return r}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários

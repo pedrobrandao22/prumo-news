@@ -223,8 +223,63 @@ const AREAS = {
       await P.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight)); await foto('fim');
       await P.evaluate(() => window.scrollBy(0, -(innerHeight - 80))); await foto('fim-antes') },
   },
-  // criar, perfil: acrescentar aqui (cada tela abre a partir da Capa, num contexto novo)
+  // Perfil (Fase 3): sem conta; com a conta de teste — o próprio perfil (cabeçalho, grade, cada aba, uma publicação aberta),
+  // perfil de amigo e de quem não é amigo; com o "só seguir" ligado: o próprio, perfil aberto, fechado, pedido enviado e as listas
+  perfil: {
+    'sem-conta': async (P, foto) => { await P.evaluate(() => go('me')); await rolarPartes(P, foto, 'sem-conta', 2) },
+    'proprio': async (P, foto) => { await pfEstado(P); await P.evaluate(() => { go('me'); window.scrollTo(0, 0) }); await rolarPartes(P, foto, 'proprio', 3);
+      await pfAbas(P, foto, '#v-me', 'proprio');
+      const ok = await P.evaluate(() => { const b = document.querySelector('#v-me [data-pfi]'); if (b) b.click(); return !!b }); if (ok) { await U_sleep(300); await foto('proprio-post'); await fechar(P) } },
+    'amigo': async (P, foto) => { await pfEstado(P); await P.evaluate(() => abrirPerfil('u-bia')); await foto('amigo'); await pfAbas(P, foto, '#layer .pfv', 'amigo');
+      const ok = await P.evaluate(() => { const b = document.querySelector('#layer .pfv [data-pfi]'); if (b) b.click(); return !!b }); if (ok) { await U_sleep(300); await foto('amigo-post') } },
+    'nao-amigo': async (P, foto) => { await pfEstado(P);
+      for (const u of ['u-dora', 'u-edu', 'u-caio']) { await P.evaluate(u => abrirPerfil(u), u); await foto('outro-' + u.slice(2)); await fechar(P) } },
+    'seguir': async (P, foto) => { await pfEstado(P, true); await P.evaluate(() => { go('me'); window.scrollTo(0, 0) }); await rolarPartes(P, foto, 'seguir-proprio', 2);
+      for (const u of ['u-bia', 'u-edu', 'u-dora', 'u-caio']) { await P.evaluate(u => abrirPerfil(u), u); await foto('seguir-' + u.slice(2)); await fechar(P) }
+      await P.evaluate(() => { SG181.env.add('u-dora'); abrirPerfil('u-dora') }); await foto('seguir-dora-pedido'); await fechar(P) },
+    'seguidores': async (P, foto) => { await pfEstado(P, true); await P.evaluate(() => { go('me'); window.scrollTo(0, 0) });
+      await P.evaluate(() => { const l = { seguidores: [{ uid: 'u-bia', nome: 'Bia Souza' }, { uid: 'u-edu', nome: 'Edu Prado' }, { uid: 'u-dora', nome: 'Dora Reis' }], seguindo: [{ uid: 'u-bia', nome: 'Bia Souza' }, { uid: 'u-caio', nome: 'Caio Lima' }] };
+        SB = { rpc: (n, a) => Promise.resolve({ data: n === 'seg_lista' ? l[a.p_tipo] || [] : [] }) } });
+      for (const k of ['seguidores', 'seguindo']) { const ok = await P.evaluate(k => { const b = document.querySelector(`#v-me [data-sg181lista="${k}"]`); if (b) b.click(); return !!b }, k);
+        if (ok) { await U_sleep(400); await foto('lista-' + k); await fechar(P) } }
+      await P.evaluate(() => abrirPerfil('u-bia')); const ok = await P.evaluate(() => { const b = document.querySelector('#layer .pfv [data-sg181lista="seguidores"]'); if (b) b.click(); return !!b });
+      if (ok) { await U_sleep(400); await foto('lista-bia') } },
+  },
+  // criar: acrescentar aqui (cada tela abre a partir da Capa, num contexto novo)
 };
+// Perfil: clica cada aba (as do visual novo e as antigas) e fotografa
+async function pfAbas(P, foto, raiz, prefixo) {
+  const ks = await P.evaluate(r => [...document.querySelectorAll(r + ' [data-vnpfaba], ' + r + ' [data-pfaba]')].map(b => b.dataset.vnpfaba ? 'vn:' + b.dataset.vnpfaba : 'pf:' + b.dataset.pfaba), raiz);
+  for (const k of ks) { const ok = await P.evaluate(([r, k]) => { const [t, v] = k.split(':'); const b = document.querySelector(`${r} [data-${t === 'vn' ? 'vnpfaba' : 'pfaba'}="${v}"]`); if (b) b.click(); return !!b }, [raiz, k]);
+    if (ok) { await U_sleep(200); await P.evaluate(() => window.scrollTo(0, 0)); await foto(prefixo + '-aba-' + k.replace(':', '-')) } }
+}
+// Perfil: conta de teste com publicações (texto, comentário de notícia, fixada, análise, repost) e, com "seguir", o só-seguir ligado
+async function pfEstado(P, seguir) {
+  await P.evaluate(seguir => {
+    const T = Date.now(), H = 36e5, D = 864e5, p0 = FEED.pautas[0], p1 = FEED.pautas[1], p2 = FEED.pautas[2];
+    S.uid = 'u-pedro'; S.user = { id: 'u-pedro', email: 'pedro@x.com' }; S.email = 'pedro@x.com'; S.membro = true; S.amigosOk = true;
+    S.membros = { 'u-pedro': { nome: 'Pedro' }, 'u-bia': { nome: 'Bia Souza' }, 'u-caio': { nome: 'Caio Lima' }, 'u-dora': { nome: 'Dora Reis' }, 'u-edu': { nome: 'Edu Prado' } };
+    S.amigos = new Set(['u-bia', 'u-caio']); S.pedidosIn = ['u-edu']; S.pedidosOut = []; S.comuns = { 'u-dora': 2, 'u-edu': 1 };
+    const nada = () => new Promise(() => { });
+    S.db = { marcarLidas: () => Promise.resolve(), collection: () => ({ add: nada }), doc: () => ({ delete: nada, set: nada }), rpc: nada, recarregar: () => { } };
+    const po = (n, autor, at, x) => ({ id: n + '0000000-1111-4111-8111-11111111111' + n, autor, tipo: 'post', at: T - at, texto: '', fotos: [], ...x });
+    PUB.on = true; PUB.carregou = true; PUB.uid = 'u-pedro';
+    PUB.itens = [po('a', 'u-pedro', 2 * H, { texto: 'Primeira publicação, só texto, com #economia.' }),
+      po('b', 'u-pedro', 5 * H, { texto: 'Comentando a notícia do dia.', pid: p0.id, estilo: { v: 2 } }),
+      po('c', 'u-pedro', 3 * D, { texto: 'Esta fica fixada no alto.', fixado: T - D }),
+      po('d', 'u-pedro', 4 * D, { texto: 'Dólar volta a subir\n\nA alta pressiona a inflação.', estilo: { v: 2, cn: { k: 'ana', tit: 'Dólar volta a subir', fu: 'Banco Central' } } }),
+      po('e', 'u-pedro', 6 * D, { texto: '', pid: p1.id, estilo: { v: 2, rp: { k: 'pauta', id: p1.id } } }),
+      po('f', 'u-bia', 3 * H, { texto: 'Bia escreve sobre o trânsito.', estilo: { v: 2, tags: [{ u: 'u-pedro' }] } }),
+      po('7', 'u-bia', 2 * D, { texto: 'Notícia que vale ler.', pid: p2.id, estilo: { v: 2 } }),
+      po('8', 'u-edu', 4 * H, { texto: 'Edu publica para todos.' })];
+    if (seguir) { V9.on = true; SG181.uid = S.uid; SG181.on = true; CS123.sigo = new Set(['u-bia', 'u-caio']); SG181.fech = new Set(['u-dora']); SG181.rec = [{ uid: 'u-edu' }]; SG181.aberto = false;
+      document.body.classList.add('sg181-on');
+      CS123.perf = { 'u-pedro': { ok: true, seguidores: 3, seguindo: 2, aberto: false, t: T }, 'u-bia': { ok: true, seguidores: 5, seguindo: 4, aberto: true, me_segue: true, t: T },
+        'u-caio': { ok: true, seguidores: 1, seguindo: 1, aberto: true, me_segue: true, t: T }, 'u-dora': { ok: true, seguidores: 7, seguindo: 1, aberto: false, me_segue: false, t: T },
+        'u-edu': { ok: true, seguidores: 2, seguindo: 0, aberto: true, me_segue: true, t: T } } }
+    updateBadge();
+  }, !!seguir);
+}
 // Feed com gente: conta de teste com amigos, curtidas, comentários e dois posts de amigos (entram no meio do Feed)
 async function feedSocial(P) {
   await P.evaluate(() => {
