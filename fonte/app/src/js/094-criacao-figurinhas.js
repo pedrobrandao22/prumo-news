@@ -225,7 +225,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||!ED||!$(
   if(b=t.closest("#layer .ce-cn [data-edcnt]")){pare();e.preventDefault();const c=ED.st.caneta,k=b.dataset.edcnt;c.mk=k==="mk";c.neon=k==="neon";c.bor=k==="bor";fg2CnUI();fg2Dot(true);fg2DotPisca(500);return}
   if(b=t.closest("#layer .ce-cn [data-edcncor]")){pare();e.preventDefault();const c=ED.st.caneta;c.cor=b.dataset.edcncor;if(c.bor)c.bor=false;fg2CnUI();return}},true);
 /* voltar do celular com a figurinha aberta: conclui e fica no editor */
-{const _cl=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&ED&&$("#layer .ce-fe")&&!($("#layer2")?.innerHTML)){fg2Ok();if(pushH())HST++;return}if(!$("#layer .ce-fe"))FG2=null;return _cl.apply(this,arguments)}}
 /* folhas que continuam (link, menção, notícia): mesmo visual da bandeja */
 {const _fo=edForm;edForm=function(){const r=_fo.apply(this,arguments);$("#layer .ce-sel")?.classList.add("fg2-sel");return r}}
 {const _li=edLista;edLista=function(){const r=_li.apply(this,arguments);$("#layer .ce-sel")?.classList.add("fg2-sel");return r}}

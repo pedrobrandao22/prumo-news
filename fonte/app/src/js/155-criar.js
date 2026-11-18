@@ -85,11 +85,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 {const _ed155=edDesenha;edDesenha=function(){const r=_ed155.apply(this,arguments);try{if(ED&&ED.cr155caixa)$("#layer .ce")?.classList.add("cr155-dacaixa")}catch(e){}return r}}
 
 /* ===== voltar do celular com texto na caixa: pergunta antes (como o editor), e o texto fica guardado ===== */
-{const _cl155=closeLayer;closeLayer=function(fromPop){try{if(fromPop===true&&$("#layer > .cp152")&&!$("#layer2")?.innerHTML){
-    if(String(CP152.txt||"").trim()||CR155.pid){cr155Guarda();if(Date.now()-CR155.volta>3000){CR155.volta=Date.now();if(pushH())HST++;
-      const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},3000)}
-      toast("Volte de novo para sair. O texto fica guardado.");return}
-      const r=_cl155.apply(this,arguments);toast("Seu texto ficou guardado. Toque em + para continuar.");return r}}}catch(e){}return _cl155.apply(this,arguments)}}
 
 /* ===== publicar pelo formulário que veio da caixa: a caixa começa vazia depois ===== */
 {const _pp155=edPublicaPost;edPublicaPost=async function(){const daCaixa=CP152.direto||CP152.veio;const r=await _pp155.apply(this,arguments);try{if(daCaixa&&!$("#layer .ce"))cr155Limpa()}catch(e){}return r}}

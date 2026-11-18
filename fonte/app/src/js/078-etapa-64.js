@@ -2,13 +2,6 @@
 /* 1. segurar para gravar: o soltar não tira foto (antes de qualquer outro clique) */
 window.addEventListener("click",e=>{if(!ED||!e.target.closest)return;if((Date.now()-(ED._gravou||0)<1200||ED._gravando||CAM.rec&&ED.modo==="story")&&e.target.closest("#layer [data-edfoto]")){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()}},true);
 /* 2 e 8. voltar do celular: selfie desliga a câmera; marcar pessoas fecha só a tela de marcas; Layout e Reels voltam um passo; post oferece rascunho */
-{const _cl64=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&ED&&$("#layer .ce")&&!($("#layer2")?.innerHTML)&&!ED.env){const fica=()=>{if(pushH())HST++};
-    if($("#layer .ce-selfie")){camDesliga();CAM.f=ED._selfieF||"environment";$("#layer .ce-selfie").remove();fica();return}
-    if($("#layer .ce-tagov")){$("#layer .ce-tagov").remove();edDesenha();fica();return}
-    if(!$("#layer .ce-sel,#layer .ce-fig,#layer .ce-tx,#layer .ce-cn")){
-      if(ED.modo==="story"&&ED.tela==="lay"){ED.st.bg={tipo:"grad",g:Math.floor(Math.random()*PUB_FUNDOS.length)};ED.tela="cam";edDesenha();fica();return}
-      if(ED.modo==="post"&&ED.po.passo==="fotos"&&ED.po.fotos.length+ED.po.texto.trim().length>0){edFechar();fica();return}}}
-  return _cl64.apply(this,arguments)}}
 /* 6. segurar o story de um amigo pausa também o vídeo */
 var US_HOLD=false;
 document.addEventListener("pointerdown",e=>{if(!e.target.closest||!e.target.closest("#layer .story")||e.target.closest(".s-f,.s-h,.us-it,[data-usom]"))return;const v=$("#layer .us2-vid");if(v){US_HOLD=true;v.pause()}},true);

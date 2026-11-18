@@ -103,5 +103,4 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="dmq"){DM_Q=e.t
   document.addEventListener("contextmenu",e=>{const m=m0(e);if(!m)return;e.preventDefault();dmAcoes(m.dataset.mid)});
   document.addEventListener("dblclick",e=>{const m=m0(e);if(!m||matchMedia("(pointer:coarse)").matches||e.target.closest("button,a"))return;if(S.amigos.has(THREAD))dmReagir(m.dataset.mid,"❤️")})})();
 /* barra de abas some dentro da conversa */
-{const _go53=go;go=function(v){const r=_go53.apply(this,arguments);document.body.classList.toggle("dm-conv",VIEW==="msgs"&&!!THREAD);return r}}
 

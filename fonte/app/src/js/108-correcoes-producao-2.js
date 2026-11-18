@@ -74,7 +74,6 @@ if(typeof FIT_IO!=="undefined"&&FIT_IO){try{FIT_IO.disconnect()}catch(e){}FIT_IO
        redesenhada por outro motivo: ao fechar o story, os anéis da bandeja são atualizados no lugar (a ordem não muda) */
 function st108Aneis(){try{document.querySelectorAll("#secs [data-ustory]").forEach(b=>{const u=b.dataset.ustory,r=b.querySelector(".ig-r");if(!r||!u||u.charAt(0)==="~")return;const xs=pubStoriesDe(u);if(!xs.length)return;
   r.classList.toggle("visto",xs.every(x=>PUB_VISTOS.has(x.id)));r.classList.toggle("ma",xs.some(x=>x.publico==="proximos"&&!PUB_VISTOS.has(x.id)))})}catch(e){}}
-{const _cl108=closeLayer;closeLayer=function(){const st=!!$("#layer .story");const r=_cl108.apply(this,arguments);if(st&&!$("#layer .story"))requestAnimationFrame(st108Aneis);return r}}
 
 /* 11. dois aparelhos: story visto no celular aparecia como não visto no computador (o "visto" só ficava no aparelho).
        Ao reler as publicações, confere no servidor quais stories ainda "não vistos" aqui já foram vistos noutro aparelho. */

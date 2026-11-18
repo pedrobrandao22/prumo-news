@@ -30,14 +30,11 @@ function pfvPosts(el){const l=PFV.lista||[];el.innerHTML=`<div class="pfv-h"><bu
   pfIdsTroca(l);const sc=el.querySelector(".pfv-sc");try{wireTracks(sc)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}});const a=l[PFV.i];const alvo=a&&el.querySelector(`[id="p-u:${a.id}"]`);if(alvo){sc.scrollTop=alvo.offsetTop-sc.offsetTop;requestAnimationFrame(()=>{sc.scrollTop=alvo.offsetTop-sc.offsetTop})}}
 function pfAbrePosts(u,aba,i){const lista=pfLista(u,aba);if(!lista[i])return;if(PFV&&$("#layer .pfv")&&PFV.modo==="grade"){PFV={...PFV,modo:"posts",aba,lista,i,daGrade:true};if(pushH())HST++;pfvDesenha();return}
   if($("#layer").innerHTML)closeLayer();PFV={u,aba,modo:"posts",lista,i,daGrade:false};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicações"></div>`;if(pushH())HST++;pfvDesenha()}
-{const _cl69=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&PFV&&PFV.modo==="posts"&&PFV.daGrade&&$("#layer .pfv")&&!($("#layer2")?.innerHTML)){pfIdsVolta();PFV={...PFV,modo:"grade",lista:null};pfvDesenha();return}
-  const r=_cl69.apply(this,arguments);if(!$("#layer .pfv")){if(PFV){pfIdsVolta();PFV=null}}return r}}
 /* aba Perfil no estilo Instagram */
 {const _rm69=renderMe;renderMe=function(){const r=_rm69.apply(this,arguments);try{if(!(S.uid&&S.db&&S.membro)||PUB.on===false)return r;const v=$("#v-me"),gut=v&&v.querySelector(".gut"),head=gut&&gut.querySelector(".me-head");if(!head)return r;
     const resto=document.createElement("div");resto.className="pf-conta";[...gut.children].forEach(c=>{if(c!==head)resto.appendChild(c)});
     gut.innerHTML=`<div class="pf-me">${pfCab(S.uid)}${pfAbas(S.uid,PF_ABA)}<div class="pf-corpo"></div></div>`;const corpo=gut.querySelector(".pf-corpo");
     if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);corpo.innerHTML=(pin.length?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}return r}}
-{const _go69=go;go=function(v){const r=_go69.apply(this,arguments);if(v==="me"&&S.uid&&S.membro)pfCarregar(S.uid).then(()=>{if(VIEW==="me")renderMe()});return r}}
 /* toques */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if(b=t.closest("[data-pfaba]")){pare();const k=b.dataset.pfaba;if(t.closest("#layer .pfv")){PFV.aba=k;pfvDesenha()}else{PF_ABA=k;try{localStorage.setItem("prumo-pf-aba",k)}catch(_){}renderMe()}return}

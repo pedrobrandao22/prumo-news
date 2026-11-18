@@ -92,7 +92,6 @@ function tl142Conta(ev,n){try{if(tl142Desligado()||TL142.v15===false)return;ev=S
 function tl142GuardaUso(){try{const o={};Object.entries(TL142.uso).forEach(([k,n])=>{if(n>0)o[k]=n});tl142Ls(TL142_LS.uso,Object.keys(o).length?JSON.stringify(o):null)}catch(e){}}
 (function(){try{const o=JSON.parse(tl142Ls(TL142_LS.uso)||"null");if(o&&typeof o==="object")Object.entries(o).forEach(([k,n])=>{if(/^[0-9]{4}-[0-9]{2}-[0-9]{2}\|[a-z][a-z0-9_]{1,39}$/.test(k)&&+n>0)TL142.uso[k]=Math.min(200,+n)})}catch(e){}})();
 {const _u=uso;uso=function(k){const r=_u.apply(this,arguments);try{if(typeof k==="string")tl142Conta(k)}catch(e){}return r}}
-{const _g=go;go=function(v){const ant=typeof VIEW==="string"?VIEW:"";const r=_g.apply(this,arguments);try{if(typeof v==="string"&&/^[a-z]{2,12}$/.test(v)){tl142Acao("go:"+v);if(v!==ant)tl142Conta("tela_"+v)}}catch(e){}return r}}
 if(typeof reagir==="function"){const _rg=reagir;reagir=function(){try{tl142Conta("reagir_msg")}catch(e){}return _rg.apply(this,arguments)}}
 function tl142ContaIns(t,row){const rs=Array.isArray(row)?row:[row];rs.forEach(x=>{if(!x||typeof x!=="object")return;
   if(t==="publicacoes"){const col=x.estilo&&typeof x.estilo==="object"&&x.estilo.coluna&&typeof x.estilo.coluna==="object";const tp=/^[a-z]{2,12}$/.test(String(x.tipo||""))?x.tipo:"post";tl142Conta("publicar_"+(col?"coluna":tp))}

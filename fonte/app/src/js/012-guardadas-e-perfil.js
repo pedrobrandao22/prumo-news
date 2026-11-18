@@ -43,17 +43,4 @@ function contaCardHTML(){return `<div class="card menu"><b class="cm-h">Conta</b
 let RRT=0;function refiltrar(){if(FILTRO[0]!=="_"||VIEW!=="feed")return;clearTimeout(RRT);RRT=setTimeout(()=>{const y=scrollY;renderPosts();window.scrollTo(0,y)},400)}
 function rerenderAll(){refiltrar();if(FEED)renderChgBox();if(FEED)(FEED.pautas||[]).forEach(p=>updateSocial(p.id));if(VIEW==="msgs")renderMsgs();if(VIEW==="saved")renderSaved();if(VIEW==="play")renderPlay();if(VIEW==="me")renderMe();updateBadge();S._reAmg&&S._reAmg()}
 var SUBV=0;
-function go(v,fromPop){
-  let naRaiz=false;if(!fromPop&&JUMPS.length){let n=JUMPS.length;if(JUMPS[0].view!==RAIZ){n+=VST+SUBV;VST=0;SUBV=0}naRaiz=true;JUMPS=[];voltarH(n)}
-  if(!fromPop){if(VIEW==="me"&&(v==="saved"||v==="play")){if(pushH())SUBV++}else if(SUBV>0&&(VIEW==="saved"||VIEW==="play")){voltarH(SUBV);SUBV=0}}
-  if(!fromPop&&TST>0&&(v!=="msgs"||!THREAD)){voltarH(TST);TST=0}
-  if(!fromPop){if(v!==RAIZ&&(VIEW===RAIZ||naRaiz)){if(pushH())VST++}else if(v===RAIZ&&VST>0){VST--;voltarH(1)}}
-  const yAlvo=v==="feed"?(VIEW==="feed"?0:FEED_Y):0;if(VIEW==="feed"&&v!=="feed")FEED_Y=scrollY;
-  const pl=$("#pilula");if(pl)pl.hidden=v!=="feed"&&v!=="capa";if(v!==VIEW)document.querySelectorAll(".toast").forEach(x=>x.remove());
-  VIEW=v;["feed","capa","msgs","busca","saved","play","me"].forEach(k=>{const sv=$("#v-"+k);if(sv)sv.hidden=k!==v});{const tab={saved:"me",play:"me"}[v]||v;document.querySelectorAll(".nav button[data-v]").forEach(b=>{if(b.dataset.v===tab)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")})}
-  $("header.top").hidden=v!=="feed";if(v!=="msgs")THREAD=null;
-  if(v==="msgs")renderMsgs();if(v==="saved")renderSaved();if(v==="play")renderPlay();if(v==="me"){renderMe();carregarRodadas();carregarErrosResp()}
-  if(v==="feed"){requestAnimationFrame(()=>document.querySelectorAll(".track").forEach(t=>{if(FIT_IO){FIT_IO.unobserve(t);FIT_IO.observe(t)}else fitTrack(t)}));tkStart()}
-  window.scrollTo(0,yAlvo);
-}
 

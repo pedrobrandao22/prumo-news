@@ -160,7 +160,6 @@ if(VN_FASE2){
   {const _hs113=htSeguidaDePost;htSeguidaDePost=function(x){if(x&&f113Fio(x))try{return _hs113.call(this,{texto:f113Tudo(x)})}catch(e){}return _hs113.apply(this,arguments)}}
   /* matéria */
   {const _am113=abrirMateria;abrirMateria=function(){const r=_am113.apply(this,arguments);try{f113Caps()}catch(e){console.error(e)}return r}}
-  {const _cl113=closeLayer;closeLayer=function(){const r=_cl113.apply(this,arguments);try{if(F113_IO&&!$("#layer .mat")){F113_IO.disconnect();F113_IO=null}}catch(e){}return r}}
   /* Feed: prateleiras só na lista principal ("Tudo"), uma vez por desenho; a contagem "faltam N" fica como antes */
   {const _rp113=renderPosts;renderPosts=function(){F113_SH_LIGA=true;try{return _rp113.apply(this,arguments)}finally{F113_SH_LIGA=false}}}
   {const _ae113=atualizarEmDia;atualizarEmDia=function(){const o=F113_SH_LIGA;F113_SH_LIGA=false;try{return _ae113.apply(this,arguments)}finally{F113_SH_LIGA=o}}}

@@ -29,8 +29,6 @@ function qa125VeReac(u,x){return !!u&&(ehVisivel(u)||!!(x&&u===x.autor)||qa125Co
 {const _ab=cs123Abrir;cs123Abrir=function(id){let tag=null;try{const pg=$("#layer .pfv-ht");if(pg&&!$("#layer2")?.innerHTML)tag=pg.dataset.tag||null}catch(e){}
   if(!tag)return _ab.apply(this,arguments);HT_FECHANDO=true;let r;try{r=_ab.apply(this,arguments)}finally{HT_FECHANDO=false}
   try{if(CS123.ler&&CS123.ler.id===id)CS123.ler.ht=tag;else if(!$("#layer").innerHTML)abrirHashtag(tag,{reabre:true})}catch(e){}return r}}
-{const _cl=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML);const ht=!l2&&$("#layer > .cs123-ler")&&CS123.ler&&CS123.ler.ht;
-  const r=_cl.apply(this,arguments);try{if(ht&&fromPop===true&&!$("#layer").innerHTML)setTimeout(()=>{if(!$("#layer").innerHTML)abrirHashtag(ht,{reabre:true})},0)}catch(e){}return r}}
 
 /* ===== 4. textos ===== */
 {const _dc=dmCard;dmCard=function(m){const h=_dc.apply(this,arguments);try{if(typeof h!=="string"||!dmEhPub(m))return h;const x=pubDe(String(m.pid).slice(2)),c=x&&cs123Col(x);if(!c)return h;

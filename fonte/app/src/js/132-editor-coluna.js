@@ -602,12 +602,3 @@ function ed132Hub(){if(precisaConta())return;const L=$("#layer");if(L.innerHTML)
 
 /* ===== 15. camadas: folhas por cima do editor; voltar salva o rascunho ===== */
 {const _sh=sheet;sheet=function(){const r0=document.querySelector("#layer > .ed132, #layer > .ed132-hubr");if(r0&&!$("#layer2")?.innerHTML){r0.classList.add("cria");try{return _sh.apply(this,arguments)}finally{r0.classList.remove("cria")}}return _sh.apply(this,arguments)}}
-{const _cl=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML),root=!l2&&$("#layer > .ed132");
-  if(root&&!closeLayer._ok&&ED132.E){const E=ED132.E;
-    const pp=root.querySelector(".ed132-pp");if(pp){pp.remove();if(fromPop===true&&pushH())HST++;return}
-    if(E.env&&fromPop!==true){toast(E.modo==="editar"?"Salvando…":"Publicando…");return}
-    if(E.modo==="editar"&&E.descartar!=="sim"&&ed132Sujo(E)){if(fromPop===true&&pushH())HST++;E.descartar=true;ed132Cab();toast("Alterações não salvas. Toque em Salvar, ou no × de novo para descartar.");return}
-    if(E.modo!=="editar")try{ed132Guarda()}catch(e){}
-    ED132.E=null;try{htFecha()}catch(e){}}
-  else if(root&&closeLayer._ok)ED132.E=null;
-  return _cl.apply(this,arguments)}}

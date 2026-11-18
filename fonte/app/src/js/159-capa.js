@@ -65,7 +65,6 @@ var CA159_SETA={sobe:"▲",desce:"▼",estavel:"="};
 /* ===== 4. botão da balança no cabeçalho enquanto a Capa está no alto ===== */
 function ca159Lp(){const no=VIEW==="capa"&&scrollY<40&&!!document.querySelector("#v-capa .cp-top");if(document.getElementById("lpm"))return;document.documentElement.classList.toggle("ca159-lp-topo",no)}
 addEventListener("scroll",ca159Lp,{passive:true});
-{const _go159=go;go=function(){const r=_go159.apply(this,arguments);try{ca159Lp()}catch(e){}return r}}
 
 /* ===== 6. chamada de evento que já passou ===== */
 function ca159DiaSP(iso){const d=new Date(iso);if(isNaN(d))return "";try{return d.toLocaleDateString("en-CA",{timeZone:"America/Sao_Paulo"})}catch(e){return ""}}

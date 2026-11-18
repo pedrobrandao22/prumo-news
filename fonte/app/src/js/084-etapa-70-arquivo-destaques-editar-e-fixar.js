@@ -71,7 +71,6 @@ document.addEventListener("click",async e=>{const t=e.target;if(!t.closest)retur
   ["pointerup","pointercancel","pointerleave"].forEach(k=>document.addEventListener(k,()=>{if(lp){clearTimeout(lp);lp=0}},true));
   document.addEventListener("click",e=>{if(Date.now()-(window.__destLP||0)<700&&e.target.closest&&e.target.closest("[data-pfdest]")){e.stopPropagation();e.preventDefault()}},true)})();
 /* voltar no arquivo fecha */
-{const _cl70=closeLayer;closeLayer=function(){const r=_cl70.apply(this,arguments);if(!$("#layer .pfv-arq")&&PFV&&PFV.modo==="arq")PFV=null;return r}}
 setTimeout(()=>{v5Testa()},4000);
 {const _pp70=pubPostHTML;pubPostHTML=function(x){const h=_pp70.apply(this,arguments);return x.editado&&x.tipo==="post"?h.replace(/(<span class="ph-sub">)([^<]*)(<\/span>)/,(a,b1,t,b3)=>b1+t+" · editado"+b3):h}}
 

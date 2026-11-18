@@ -6406,7 +6406,6 @@ function sheet(title,body,foot="",opt={}){
   const f=L.querySelector("input");if(f&&(opt.focus||matchMedia("(pointer:fine)").matches))f.focus();
   if(vazio&&pushH())HST++;wireSheetDrag(L.querySelector(".sheet"));
 }
-function closeLayer(fromPop){if(QUIZ_ON&&$(".qopts")){QUIZ_ON=false;setTimeout(()=>toast("Quiz interrompido. Dá para refazer em Interagir."),50)}const had=($("#layer2")?.innerHTML)||$("#layer").innerHTML;if(had&&!fromPop&&HST>0){HST--;voltarH(1)}const l2=$("#layer2");if(l2&&l2.innerHTML){l2.innerHTML="";const c2=onClose;onClose=null;c2&&c2();storyRetoma();return}clearTimeout(ST?.timer);if(ST)ST.timer=0;clearTimeout(VIRA_T);VIRANDO=false;$("#layer").innerHTML="";const c=onClose;onClose=null;c&&c()}
 /* voltas do histórico ficam para o fim do toque; se outra janela abrir no mesmo toque, ela reaproveita a entrada */
 function voltarH(n){BACKN+=n;if(!BACKT)BACKT=setTimeout(()=>{BACKT=0;const k=BACKN;BACKN=0;if(k>0){IGN++;try{history.go(-k)}catch(e){IGN--}}},0)}
 function pushH(){if(BACKN>0){BACKN--;return true}if(IGN>0){PUSHQ++;return true}return hPush()}
@@ -6662,19 +6661,6 @@ function contaCardHTML(){return `<div class="card menu"><b class="cm-h">Conta</b
 let RRT=0;function refiltrar(){if(FILTRO[0]!=="_"||VIEW!=="feed")return;clearTimeout(RRT);RRT=setTimeout(()=>{const y=scrollY;renderPosts();window.scrollTo(0,y)},400)}
 function rerenderAll(){refiltrar();if(FEED)renderChgBox();if(FEED)(FEED.pautas||[]).forEach(p=>updateSocial(p.id));if(VIEW==="msgs")renderMsgs();if(VIEW==="saved")renderSaved();if(VIEW==="play")renderPlay();if(VIEW==="me")renderMe();updateBadge();S._reAmg&&S._reAmg()}
 var SUBV=0;
-function go(v,fromPop){
-  let naRaiz=false;if(!fromPop&&JUMPS.length){let n=JUMPS.length;if(JUMPS[0].view!==RAIZ){n+=VST+SUBV;VST=0;SUBV=0}naRaiz=true;JUMPS=[];voltarH(n)}
-  if(!fromPop){if(VIEW==="me"&&(v==="saved"||v==="play")){if(pushH())SUBV++}else if(SUBV>0&&(VIEW==="saved"||VIEW==="play")){voltarH(SUBV);SUBV=0}}
-  if(!fromPop&&TST>0&&(v!=="msgs"||!THREAD)){voltarH(TST);TST=0}
-  if(!fromPop){if(v!==RAIZ&&(VIEW===RAIZ||naRaiz)){if(pushH())VST++}else if(v===RAIZ&&VST>0){VST--;voltarH(1)}}
-  const yAlvo=v==="feed"?(VIEW==="feed"?0:FEED_Y):0;if(VIEW==="feed"&&v!=="feed")FEED_Y=scrollY;
-  const pl=$("#pilula");if(pl)pl.hidden=v!=="feed"&&v!=="capa";if(v!==VIEW)document.querySelectorAll(".toast").forEach(x=>x.remove());
-  VIEW=v;["feed","capa","msgs","busca","saved","play","me"].forEach(k=>{const sv=$("#v-"+k);if(sv)sv.hidden=k!==v});{const tab={saved:"me",play:"me"}[v]||v;document.querySelectorAll(".nav button[data-v]").forEach(b=>{if(b.dataset.v===tab)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")})}
-  $("header.top").hidden=v!=="feed";if(v!=="msgs")THREAD=null;
-  if(v==="msgs")renderMsgs();if(v==="saved")renderSaved();if(v==="play")renderPlay();if(v==="me"){renderMe();carregarRodadas();carregarErrosResp()}
-  if(v==="feed"){requestAnimationFrame(()=>document.querySelectorAll(".track").forEach(t=>{if(FIT_IO){FIT_IO.unobserve(t);FIT_IO.observe(t)}else fitTrack(t)}));tkStart()}
-  window.scrollTo(0,yAlvo);
-}
 
 /* ---------- eventos ---------- */
 document.addEventListener("click",e=>{
@@ -7917,11 +7903,7 @@ function cliqueConta(t){
     nav.classList.toggle("mini",desce);topo.classList.toggle("esconde",desce&&VIEW==="feed");topo.classList.toggle("rolou",y>6)};
   addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(rola)},{passive:true});
   nav.addEventListener("pointerdown",()=>nav.classList.remove("mini"));
-  /* troca de aba: some o "encolhido" e a nova tela entra suave (141: só quando a pessoa troca de aba; na abertura do app a
-     Capa entrava com opacidade 0 enquanto o código ainda rodava, e o esqueleto sumia, a tela ficava vazia e a Capa reaparecia) */
-  const goAnt=go;
-  go=function(v,fromPop){const mudou=v!==VIEW;goAnt(v,fromPop);nav.classList.remove("mini");topo.classList.remove("esconde");
-    if(mudou&&document.readyState!=="loading"&&!document.documentElement.classList.contains("ab141-abrindo")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const sec=document.getElementById("v-"+v);if(sec){try{sec.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}catch(e){}}}};
+  /* troca de aba (encolhido some, tela entra suave): agora em go, no 201-nucleo.js */
   /* abrir com transição: o elemento tocado "cresce" até virar a tela nova */
   window.comTransicao=(origem,abre,alvo)=>{
     if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches||!origem){abre();return}
@@ -8061,9 +8043,6 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
   h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
   if(vazio&&pushH())HST++}
-(function(){const ant=closeLayer;closeLayer=function(fp){const eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);ant.apply(this,arguments);
-  if(eraMat&&MAT_PID){const pid=MAT_PID;MAT_PID=null;if(VIEW==="capa"){const el0=document.getElementById("cpi-"+pid);const r0=el0?el0.getBoundingClientRect().top:null;const ab0=CP_AB;CP_AB=null;if(!cpAlternar(ab0,null))renderCapa();
-    const el=document.getElementById("cpi-"+pid);if(el&&r0!=null)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-r0)}}}})();
 /* aba Buscar */
 function buscaRes(q){const hit=rc116Hit(q);const res=[];
   (FEED?.pautas||[]).map(p=>[p,hit(p.neutro?.titulo)?2:hit([p.tag,p.tema,p.subtema].join(" "))?1:0]).sort((a,b)=>b[1]-a[1]).forEach(([p])=>{if(hit([p.neutro?.titulo,p.neutro?.texto,p.tag,p.tema,p.subtema,p.contexto,p.por_que].join(" ")))res.push(`<li><button type="button" data-busca="${esc(p.id)}"><b>${esc(p.neutro?.titulo)}</b><span>${esc(secNome(secOf(p)))}${p.subtema?" · "+esc(p.subtema):""} · esta edição</span></button></li>`)});
@@ -8083,8 +8062,7 @@ function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")
   v.innerHTML=`<div class="gut"><form class="bv-f" onsubmit="return false"><input class="field" id="bvq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar notícia, nome ou assunto" aria-label="Buscar" value="${esc(q0)}"></form><div id="bvres"></div></div>`;
   const inp=$("#bvq"),run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
 /* menu, aba inicial e eventos */
-(function(){const goAnt=go;
-  go=function(v,fromPop){goAnt(v,fromPop);if(typeof lenteBotao==="function")lenteBotao();if(v==="capa"){capaSeMudou();uso("capa")}if(v==="busca"){renderBuscaView();uso("aba_busca");if(!fromPop){const q=$("#bvq");if(q&&!q.value)try{q.focus({preventScroll:true})}catch(e){}}}if(!fromPop&&(v==="feed"||v==="capa"))try{localStorage.setItem("prumo-aba",v);localStorage.setItem("prumo-aba-dia",hojeSP())}catch(e){}};
+(function(){
   let teste=false;try{teste=localStorage.getItem("prumo-teste-capa")==="1"}catch(e){}
   if(!navigator.webdriver||teste){RAIZ="capa";go("capa",true)}
   setInterval(()=>{if(!document.hidden&&VIEW==="capa")carregarCapaFixa()},300000);
@@ -8402,8 +8380,6 @@ var MAT_ORIG=null;
 function capaOrdemIds(){const ids=[...document.querySelectorAll("#v-capa .cpi[id^='cpi-']")].map(e=>e.id.slice(4));if(ids.length)return [...new Set(ids)];try{return capaEscolha().ord.map(p=>p.id)}catch(e){return []}}
 function matProx(pid){const ids=capaOrdemIds(),i=ids.indexOf(pid);const rest=ids.slice(i+1).concat(i>=0?ids.slice(0,i):[]).map(pautaById).filter(Boolean);return rest.find(p=>!lidaAtual(p))||(i>=0?pautaById(ids[i+1]):null)||null}
 function matIr(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;abrirMateria(pid);const m=document.querySelector("#layer .mat");if(m){m.scrollTop=0;m.classList.remove("mat-in");void m.offsetWidth;m.classList.add("mat-in")}}
-(function(){const ant=closeLayer;closeLayer=function(){const pid=MAT_PID,orig=MAT_ORIG,eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);const r=ant.apply(this,arguments);
-  if(eraMat){MAT_ORIG=null;if(orig&&pid&&pid!==orig&&VIEW==="capa"){const f=()=>{const el=document.getElementById("cpi-"+pid);if(el)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-innerHeight*.28)};f();requestAnimationFrame(f);setTimeout(f,150)}}return r}})();
 (function(){let x0=null,y0=0,t0=0,eixo=null,m=null,dx=0;
   document.addEventListener("touchstart",e=>{const mm=e.target&&e.target.closest&&e.target.closest("#layer .mat"),l2=$("#layer2");if(!mm||e.touches.length>1||(l2&&l2.innerHTML)||e.target.closest(".gr-box,.gn,input,textarea")){x0=null;return}m=mm;x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now();eixo=null;dx=0},{passive:true});
   document.addEventListener("touchmove",e=>{if(x0==null||!m)return;const t=e.touches[0],ddx=t.clientX-x0,ddy=t.clientY-y0;
@@ -8441,7 +8417,6 @@ function capaLargo(){appLargo();const cp=document.querySelector("#v-capa .cp");i
     (lado?side:main).appendChild(el)});
   const fim=main.querySelector(".cp-fim");if(fim)main.appendChild(fim);
   cp.appendChild(main);cp.appendChild(side);cp.classList.add("cp2")}
-(function(){const ant=go;go=function(){const r=ant.apply(this,arguments);try{appLargo()}catch(e){}return r}})();
 if(LARGO_MQ){const f=()=>{try{if(FEED)renderCapa();appLargo()}catch(e){}};if(LARGO_MQ.addEventListener)LARGO_MQ.addEventListener("change",f);else if(LARGO_MQ.addListener)LARGO_MQ.addListener(f)}
 
 /* ---------- Etapa 15: transições ---------- */
@@ -8451,9 +8426,6 @@ function saidaClone(node,cls,ms){if(!node)return;const w=document.createElement(
   const c=node.cloneNode(true);c.querySelectorAll("[id]").forEach(x=>x.removeAttribute("id"));c.removeAttribute("id");w.appendChild(c);document.body.appendChild(w);
   if(node.scrollTop)c.scrollTop=node.scrollTop;const b=node.querySelector(".sh-b"),cb=c.querySelector(".sh-b");if(b&&cb&&b.scrollTop)cb.scrollTop=b.scrollTop;
   setTimeout(()=>w.remove(),ms||320)}
-(function(){const ant=closeLayer;closeLayer=function(){try{if(ANIM_OK()&&!MAT_ARRASTO){const l2=$("#layer2"),L=l2&&l2.innerHTML?l2:$("#layer"),n=L&&L.firstElementChild;
-    if(n&&n.classList.contains("mat")){n.style.transform="";saidaClone(n,"sai-mat",300)}else if(n&&n.classList.contains("scrim"))saidaClone(n,"sai-sheet",280)}}catch(e){}
-  MAT_ARRASTO=false;return ant.apply(this,arguments)}})();
 (function(){const ant=abrirMateria;abrirMateria=function(pid,manter){const vazio=!$("#layer").innerHTML;const r=ant.apply(this,arguments);const m=$("#layer .mat");if(m&&vazio&&ANIM_OK())m.classList.add("mat-entra");return r}})();
 matIr=function(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;const old=$("#layer .mat");if(old&&ANIM_OK()){old.style.transform="";saidaClone(old,"sai-esq",360)}
   abrirMateria(pid);const m=$("#layer .mat");if(m){m.scrollTop=0;m.style.transform="";if(ANIM_OK()){m.classList.remove("mat-entra");void m.offsetWidth;m.classList.add("mat-entra")}}};
@@ -8463,7 +8435,6 @@ matIr=function(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;cons
 var FEED_ADIADO=!!window.__feedAdiado,RF_REAL=renderFeed;
 if(FEED_ADIADO){const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}
 renderFeed=function(){if(VIEW!=="feed"&&FEED&&document.querySelector("#v-capa .cpi")){if(VIEW==="capa"){try{renderCapa()}catch(e){}}FEED_ADIADO=true;if(!renderFeed._t){const f=()=>{renderFeed._t=0;if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};renderFeed._t=window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}return}FEED_ADIADO=false;return RF_REAL.apply(this,arguments)};
-(function(){const ant=go;go=function(v){if(v==="feed"&&FEED_ADIADO){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}return ant.apply(this,arguments)}})();
 /* eventos de uso, anônimos (sem conta, sem nome): aparelho = número aleatório guardado no aparelho */
 var EV_FILA=[],EV_OFF=false,EV_SESS=(function(){try{let s=localStorage.getItem("prumo-aparelho");if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("prumo-aparelho",s)}return s}catch(e){return "sem-"+Math.random().toString(36).slice(2)}})();
 function evento(tipo,pid,secao){if(EV_OFF||navigator.webdriver&&!window.__evTeste)return;EV_FILA.push({p_sessao:EV_SESS,p_tipo:tipo,p_pid:pid||null,p_secao:secao||null,p_origem:(matchMedia("(display-mode: standalone)").matches||navigator.standalone)?"app":"site"});clearTimeout(evento._t);evento._t=setTimeout(enviarEventos,1500)}
@@ -8585,7 +8556,6 @@ function travarFundo(){if(TRAVA_Y!==null)return;window.PULA_SCROLL=Date.now();TR
 function destravarFundo(){if(TRAVA_Y===null)return;const y=TRAVA_Y;window.PULA_SCROLL=Date.now();TRAVA_Y=null;const b=document.body;b.style.position="";b.style.top="";b.style.left="";b.style.right="";b.style.width="";document.documentElement.classList.remove("travado");window.scrollTo(0,y)}
 function temJanela(){const a=$("#layer"),b=$("#layer2");return !!((a&&a.innerHTML)||(b&&b.innerHTML))}
 (function(){const ob=new MutationObserver(()=>{if(temJanela())travarFundo();else destravarFundo()});["#layer","#layer2"].forEach(sel=>{const el=$(sel);if(el)ob.observe(el,{childList:true})})})();
-(function(){const ant=closeLayer;closeLayer=function(){const l2=$("#layer2"),l1=$("#layer");const fica=!!(l2&&l2.innerHTML&&l1&&l1.innerHTML);if(!fica)destravarFundo();return ant.apply(this,arguments)}})();
 /* segurar o dedo: nada de seleção nem menu do sistema */
 document.addEventListener("contextmenu",e=>{if(e.target.closest&&e.target.closest(".cpi-b,.post .cover,.post .sl,.pv,[data-capair],[data-cp1m],.cp-agora,.mat-rel"))e.preventDefault()});
 (function(){const ant=abrirPrevia;abrirPrevia=function(){const r=ant.apply(this,arguments);try{const s=getSelection();if(s)s.removeAllRanges()}catch(e){}return r}})();
@@ -8732,9 +8702,6 @@ function abrirPessoa(k){const d=FEED.pessoas?.[k],A=pessoaArq(k),f=A&&Array.isAr
 /* coberturas encerradas: como terminou, no topo da matéria */
 function matDesfecho(p){if(p.status!=="encerrada")return "";const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto);const u=ups.length?ups.reduce((a,b)=>tms(b.hora)>tms(a.hora)?b:a):null;
   const t=typeof p.desfecho==="string"&&p.desfecho.trim()?p.desfecho.trim():u?u.texto:"";if(!t)return "";return `<div class="mat-fim"><b>Como terminou</b><p>${esc(t)}</p></div>`}
-
-/* ---------- Etapa 32 ---------- */
-{const _cl32=closeLayer;closeLayer=function(){const r=_cl32.apply(this,arguments);if(window.RECARGA_PEND&&VERSAO_NOVA)setTimeout(()=>{if(!temJanela()){try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}},400);return r}}
 
 /* ---------- Etapa 36 ---------- */
 /* o cartão que a pessoa está vendo (o primeiro que aparece abaixo do topo) */
@@ -9066,9 +9033,6 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
 {const _rs44=renderSecs;renderSecs=function(){const box=$("#secs");const x=box?box.scrollLeft:0;const r=_rs44.apply(this,arguments);if(!box)return r;
   try{const ag=box.querySelector("[data-igagenda]"),c5=box.querySelector("[data-5min]");if(ag){if(c5)c5.after(ag);else box.prepend(ag);ag.querySelector(".ig-r")?.classList.toggle("visto",agPaginas().every(p=>AG_VISTOS.has(p.chave)))}}catch(e){}
   box.scrollLeft=x;return r}}
-{const _cl44=closeLayer;closeLayer=function(){const sec=ST&&ST.sec,eraStory=!!$("#layer .story")&&!($("#layer2")?.innerHTML);const r=_cl44.apply(this,arguments);
-  if(eraStory&&sec&&VIEW==="feed"){const box=$("#secs");const sel=sec==="_5min"?"[data-5min]":sec==="_ult"?"[data-ultimas]":sec==="_ag"?"[data-igagenda]":`[data-sec-story="${CSS.escape(sec)}"]`;const b=box&&box.querySelector(sel);
-    if(b){const L=b.getBoundingClientRect().left-box.getBoundingClientRect().left+box.scrollLeft,want=Math.max(0,L-(box.clientWidth-b.offsetWidth)/2);if(Math.abs(box.scrollLeft-want)>8)box.scrollTo({left:want,behavior:REDUZ.matches?"auto":"smooth"})}}return r}}
 /* nada de faixa de novidades no Feed nem pílula: a edição nova entra quando a pessoa está no topo */
 mostrarPilula=function(){$("#pilula")?.remove()};
 function igAplicaNovo(){if(!NOVO)return;if((VIEW==="feed"||VIEW==="capa")&&scrollY<60&&!$("#layer").innerHTML)aplicarNovo(NOVO)}
@@ -9097,12 +9061,6 @@ var C5=null;
 var IG_VOLTA=null,IG_XMAT=0;
 {const _lm=igLerMateria;igLerMateria=function(pid){if(ST&&$("#layer .story"))IG_VOLTA={...ST,timer:0};return _lm.apply(this,arguments)}}
 document.addEventListener("click",e=>{if(e.target&&e.target.closest&&e.target.closest("#layer .mat [data-close],#layer .mat .mat-x,#layer .mat [data-voltar]"))IG_XMAT=Date.now()},true);
-{const _cl45=closeLayer;closeLayer=function(fromPop){const tinhaMat=!!$("#layer .mat")&&!($("#layer2")?.innerHTML),eraStory=!!$("#layer .story")&&!($("#layer2")?.innerHTML);
-  const r=_cl45.apply(this,arguments);
-  if(tinhaMat&&IG_VOLTA&&!$("#layer").innerHTML){const v=IG_VOLTA;IG_VOLTA=null;if(fromPop===true||Date.now()-IG_XMAT<1500){ST=v;IG_MATPUSH=false;const _ph=pushH;pushH=()=>false;try{drawStory()}catch(e){}finally{pushH=_ph}}}
-  else if(eraStory&&!$("#layer .story")){C5=null}
-  return r}}
-{const _go45=go;go=function(){IG_VOLTA=null;return _go45.apply(this,arguments)}}
 
 /* ---------- Etapa 46: comentar pelo story, telas de gráfico, destaques, pré-carga e cubo no dedo ---------- */
 /* ===== telas de gráfico/números/linha do tempo ===== */
@@ -9176,8 +9134,6 @@ function igDrawDest(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const p
   try{box.querySelectorAll(".ig-div,[data-dest]").forEach(x=>x.remove());const ds=destaques();if(ds.length){const x=box.scrollLeft;
     box.insertAdjacentHTML("beforeend",`<span class="ig-div" aria-hidden="true"></span>`+ds.map(p=>{const f=fotoDe(p);return `<button type="button" class="sb ig-s ig-dest" data-dest="${esc(p.id)}" aria-label="Destaque: ${esc(temaDe(p)||capaChapeu(p))}"><span class="ig-r dest${DEST_VISTOS.has(destChave(p))?" visto":""}"><span class="ig-f paper" data-sec="${esc(secOf(p))}">${f?`<img src="${escU(fotoMini(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(p.imagem)}</span></span><b>${esc(destNome(p))}</b></button>`}).join(""));box.scrollLeft=x}}catch(e){}return r}}
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#secs [data-dest]");if(!b)return;e.stopPropagation();(window.comTransicao||((o,f)=>f()))(b.querySelector(".ig-r")||b,()=>destAbrir(b.dataset.dest),".story-in")},true);
-{const _cl46=closeLayer;closeLayer=function(){const sec=ST&&ST.sec,era=!!$("#layer .story")&&!($("#layer2")?.innerHTML);const r=_cl46.apply(this,arguments);
-  if(era&&sec&&String(sec).indexOf("_h:")===0&&VIEW==="feed"){const b=$(`#secs [data-dest="${CSS.escape(sec.slice(3))}"]`),box=$("#secs");if(b&&box){const want=b.getBoundingClientRect().left-box.getBoundingClientRect().left+box.scrollLeft-(box.clientWidth-b.offsetWidth)/2;box.scrollTo({left:Math.max(0,want),behavior:"smooth"})}}return r}}
 
 /* ===== 1. comentar pelo story ===== */
 storyActs=function(pid){const {likes}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));
@@ -9275,8 +9231,6 @@ function igFundoTira(){document.getElementById("sg-fundo")?.remove()}
   if(cl&&$("#layer .mat")){cl.querySelectorAll(".bars b").forEach(b=>b.style.animationPlayState="paused");document.body.appendChild(cl);
     const b=$("#layer .mat-v");if(b){b.textContent="‹ Giro";b.setAttribute("aria-label","Voltar para o giro")}}
   return r}}
-{const _cl47=closeLayer;closeLayer=function(){const r=_cl47.apply(this,arguments);if(!$("#layer .mat"))setTimeout(igFundoTira,$("#layer .story")?60:320);return r}}
-{const _go47=go;go=function(){igFundoTira();return _go47.apply(this,arguments)}}
 /* matéria aberta pelo story e trocada por outra (deslizar para a esquerda): o botão continua "‹ Story" */
 {const _am47=abrirMateria;abrirMateria=function(){const r=_am47.apply(this,arguments);if(IG_VOLTA&&document.getElementById("sg-fundo")){const b=$("#layer .mat-v");if(b){b.textContent="‹ Giro";b.setAttribute("aria-label","Voltar para o giro")}}return r}}
 /* Gostei: ícone dourado e pulso */
@@ -9288,8 +9242,6 @@ function igFundoTira(){document.getElementById("sg-fundo")?.remove()}
 /* ---------- Etapa 48 ---------- */
 var IG_MATPUSH=false;
 {const _lm48=igLerMateria;igLerMateria=function(pid){if($("#layer .story")&&!IG_MATPUSH){if(pushH()){HST++;IG_MATPUSH=true}}return _lm48.apply(this,arguments)}}
-{const _cl48=closeLayer;closeLayer=function(fromPop){const tinhaMat=!!$("#layer .mat")&&!($("#layer2")?.innerHTML);const r=_cl48.apply(this,arguments);
-  if(tinhaMat&&IG_MATPUSH&&!$("#layer .story")&&!$("#layer .mat")){IG_MATPUSH=false;if(HST>0){HST--;voltarH(1)}}return r}}
 /* Gostei no story: atualiza no lugar */
 function igLikeNoLugar(pid){const sa=$("#layer #s-acts");if(!sa||sa.dataset.pid!==pid)return false;const b=sa.querySelector('[data-a="like"]');if(!b)return false;
   const {likes}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));const era=b.classList.contains("on");b.classList.toggle("on",mine);b.setAttribute("aria-pressed",String(mine));
@@ -9300,8 +9252,6 @@ function igLikeNoLugar(pid){const sa=$("#layer #s-acts");if(!sa||sa.dataset.pid!
 /* desempenho: a fileira de círculos fica escondida atrás do story; redesenha uma vez só, ao fechar */
 var RS_PEND=false;
 {const _rs48=renderSecs;renderSecs=function(){if($("#layer .story")){RS_PEND=true;return}RS_PEND=false;return _rs48.apply(this,arguments)}}
-{const _cl48b=closeLayer;closeLayer=function(){const sec=ST&&ST.sec;const r=_cl48b.apply(this,arguments);if(RS_PEND&&!$("#layer .story")){try{renderSecs();const box=$("#secs");if(box&&sec&&VIEW==="feed"){const sel=sec==="_5min"?"[data-5min]":sec==="_ult"?"[data-ultimas]":sec==="_ag"?"[data-igagenda]":String(sec).indexOf("_h:")===0?`[data-dest="${CSS.escape(sec.slice(3))}"]`:`[data-sec-story="${CSS.escape(sec)}"]`;const b=box.querySelector(sel);
-    if(b){const want=Math.max(0,b.getBoundingClientRect().left-box.getBoundingClientRect().left+box.scrollLeft-(box.clientWidth-b.offsetWidth)/2);if(Math.abs(box.scrollLeft-want)>8)box.scrollTo({left:want,behavior:REDUZ.matches?"auto":"smooth"})}}}catch(e){}}return r}}
 {const _de48=destaques;let ck="",cv=[];destaques=function(){const k=FEED?(FEED.atualizado_em+"|"+(FEED.pautas||[]).length+"|"+(PREF.ocultas||[]).join()):"";if(k&&k===ck)return cv;cv=_de48.apply(this,arguments);ck=k;return cv}}
 /* rolagem infinita: se a marca de "carregar mais" já passou da tela (feed redesenhado lá embaixo), carrega na hora */
 {const _om48=observarMais;observarMais=function(){const r=_om48.apply(this,arguments);requestAnimationFrame(()=>{const m=$("#mais");if(m&&m.getBoundingClientRect().top<innerHeight+600)carregarMais()});return r}}
@@ -9456,7 +9406,6 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="dmq"){DM_Q=e.t
   document.addEventListener("contextmenu",e=>{const m=m0(e);if(!m)return;e.preventDefault();dmAcoes(m.dataset.mid)});
   document.addEventListener("dblclick",e=>{const m=m0(e);if(!m||matchMedia("(pointer:coarse)").matches||e.target.closest("button,a"))return;if(S.amigos.has(THREAD))dmReagir(m.dataset.mid,"❤️")})})();
 /* barra de abas some dentro da conversa */
-{const _go53=go;go=function(v){const r=_go53.apply(this,arguments);document.body.classList.toggle("dm-conv",VIEW==="msgs"&&!!THREAD);return r}}
 
 /* ---------- Enviar: vários amigos de uma vez ---------- */
 openSend=function(pid,pre){uso("enviar");if(precisaConta())return;const others=amigosL();
@@ -9581,7 +9530,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
   if(t.closest("[data-crpub]")){e.stopPropagation();criarPublicar();return}},true);
 function criarMenu(){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}sheet("Criar",`<div class="opt cr-menu"><button type="button" data-criarde="post">Post<span>fotos, texto ou uma notícia, no Feed dos seus amigos</span></button><button type="button" data-criarde="story">Story<span>some em 24 horas</span></button></div>`)}
 /* fechar o criador com algo escrito: pergunta antes */
-{const _cl54=closeLayer;closeLayer=function(fromPop){if($("#layer .cria")&&CR&&!CR.env&&(CR.fotos.length||CR.texto.trim()||CR.pid)&&!fromPop&&!closeLayer._ok&&!($("#layer2")?.innerHTML)){if(!confirmaDescartar())return}closeLayer._ok=false;if($("#layer .cria")&&!($("#layer2")?.innerHTML))CR=null;return _cl54.apply(this,arguments)}}
 function confirmaDescartar(){const b=$("#layer .cr-x");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.innerHTML="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=ICON.close}},2500);return false}closeLayer._ok=true;return true}
 /* botão + no topo do Feed */
 (function(){const f=document.querySelector(".top-in .brand");if(f&&!document.getElementById("b-criar")){f.insertAdjacentHTML("beforebegin",`<button type="button" class="icbtn" id="b-criar" data-criar aria-label="Criar post ou giro" hidden><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5.5"/><path d="M12 7.8v8.4M7.8 12h8.4"/></svg></button>`)}
@@ -9696,10 +9644,8 @@ function usCurtiu(id){return US_CURTI.has(id)||S.msgsOut.some(m=>m.tipo==="curti
 {const _du56=igDrawUser;igDrawUser=function(){const r=_du56.apply(this,arguments);try{const x=ST.itens[ST.i];const b=$("#layer [data-uscurtir]");if(b&&x&&usCurtiu(x.id))b.classList.add("on")}catch(e){}return r}}
 window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-uscurtir]");if(!b)return;const id=b.dataset.uscurtir;if(usCurtiu(id)){e.stopPropagation();b.classList.add("on");return}US_CURTI.add(id);try{localStorage.setItem("prumo-us-curti",JSON.stringify([...US_CURTI].slice(-300)))}catch(_){}},true);
 /* 5. Feed com publicação apagada: redesenha ao entrar no Feed */
-{const _go56=go;go=function(v){const r=_go56.apply(this,arguments);if(v==="feed"&&typeof PUB_FEED_PEND!=="undefined"&&PUB_FEED_PEND){PUB_FEED_PEND=false;try{renderPosts(true)}catch(e){}}return r}}
 /* 8. voltar (gesto/botão do celular) com algo no criador: pede um segundo voltar */
 var CR_VOLTA=0;
-{const _cl56=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&$("#layer .cria")&&!($("#layer2")?.innerHTML)&&CR&&!CR.env&&(CR.fotos.length||CR.texto.trim()||CR.pid)&&Date.now()-CR_VOLTA>3000){CR_VOLTA=Date.now();if(pushH())HST++;toast("Volte de novo para descartar o que você fez.");return}return _cl56.apply(this,arguments)}}
 
 /* ---------- Etapa 57: criação no estilo Instagram ---------- */
 var ED=null;
@@ -9942,17 +9888,6 @@ document.addEventListener("input",e=>{const r=e.target.closest&&e.target.closest
 function edMarcar(){const P=ED.po,am=amigosL();if(!am.length){toast("Você ainda não tem amigos no Prumo.");return}const ov=document.createElement("div");ov.className="ce-sel";
   ov.innerHTML=`<div class="ce-selp"><b>Marcar pessoas</b><div class="pick dm-pick">${am.map(u=>`<button type="button" data-edmarca="${esc(u)}" aria-pressed="${P.marcados.includes(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><div class="ce-selb"><button type="button" class="btn" data-edmarcaok>Concluir</button></div></div>`;$("#layer .ce").appendChild(ov)}
 function edFechar(){if(ED&&ED.env){toast("Publicando…");return}if(edTemAlgo()){const b=$("#layer [data-edfechar]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.innerHTML="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},2500);return}}ED=null;closeLayer._ok=true;closeLayer()}
-{const _cl57=closeLayer;closeLayer=function(fromPop){if($("#layer .ce")&&!($("#layer2")?.innerHTML)){
-    if(fromPop===true&&ED){const fica=()=>{if(pushH())HST++};
-      if(ED.env){fica();toast("Publicando…");return}
-      if($("#layer .ce-sel")){$("#layer .ce-sel").remove();fica();return}
-      if($("#layer .ce-fig")){$("#layer .ce-fig").remove();fica();return}
-      if(ED.st.tx||$("#layer .ce-tx")){edTextoOk();fica();return}
-      if(ED.st.ferr==="caneta"){ED.st.ferr=null;$("#layer .ce-cn")?.remove();$("#layer .ce").classList.remove("desenhando");edDesenha();fica();return}
-      if(ED.modo==="post"&&ED.po.passo!=="fotos"){ED.po.passo=ED.po.passo==="detalhes"&&ED.po.fotos.length?"filtros":"fotos";edDesenha();fica();return}
-      if(edTemAlgo()&&Date.now()-(ED._volta||0)>3000){ED._volta=Date.now();fica();toast("Volte de novo para descartar o que você fez.");return}}
-    if(ED&&(ED.st.tx||$("#layer .ce-tx"))&&fromPop!==true&&!closeLayer._ok){edTextoOk();return}
-    ED=null;closeLayer._ok=false}return _cl57.apply(this,arguments)}}
 addEventListener("resize",()=>{if($("#layer .ce-st")||$("#ce-cv")){edEncaixa();edTracos()}});
 
 /* ===== ver o story novo (imagem + enquete/notícia/menção tocáveis) ===== */
@@ -10213,7 +10148,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!ED||!ED.s
   ["pointerup","pointercancel","pointerleave"].forEach(k=>document.addEventListener(k,()=>{if(lp){clearTimeout(lp);lp=0}},true));
   document.addEventListener("click",e=>{if(ED&&Date.now()-(ED._malp||0)<700&&e.target.closest&&e.target.closest("#layer [data-edpubst]")){e.stopPropagation();e.preventDefault()}},true)})();
 /* câmera desligada ao fechar, ao trocar de app ou de modo */
-{const _cl60=closeLayer;closeLayer=function(){const r=_cl60.apply(this,arguments);if(!$("#layer .ce"))camDesliga();return r}}
 document.addEventListener("visibilitychange",()=>{if(document.hidden)camDesliga();else if(ED&&ED.modo==="story"&&(ED.tela==="cam"||ED.tela==="lay")&&$("#ce-video"))camLiga()});
 /* voltar do celular: no editor com foto/texto volta à câmera como no Instagram (com confirmação se houver algo) */
 
@@ -10567,13 +10501,6 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 /* 1. segurar para gravar: o soltar não tira foto (antes de qualquer outro clique) */
 window.addEventListener("click",e=>{if(!ED||!e.target.closest)return;if((Date.now()-(ED._gravou||0)<1200||ED._gravando||CAM.rec&&ED.modo==="story")&&e.target.closest("#layer [data-edfoto]")){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()}},true);
 /* 2 e 8. voltar do celular: selfie desliga a câmera; marcar pessoas fecha só a tela de marcas; Layout e Reels voltam um passo; post oferece rascunho */
-{const _cl64=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&ED&&$("#layer .ce")&&!($("#layer2")?.innerHTML)&&!ED.env){const fica=()=>{if(pushH())HST++};
-    if($("#layer .ce-selfie")){camDesliga();CAM.f=ED._selfieF||"environment";$("#layer .ce-selfie").remove();fica();return}
-    if($("#layer .ce-tagov")){$("#layer .ce-tagov").remove();edDesenha();fica();return}
-    if(!$("#layer .ce-sel,#layer .ce-fig,#layer .ce-tx,#layer .ce-cn")){
-      if(ED.modo==="story"&&ED.tela==="lay"){ED.st.bg={tipo:"grad",g:Math.floor(Math.random()*PUB_FUNDOS.length)};ED.tela="cam";edDesenha();fica();return}
-      if(ED.modo==="post"&&ED.po.passo==="fotos"&&ED.po.fotos.length+ED.po.texto.trim().length>0){edFechar();fica();return}}}
-  return _cl64.apply(this,arguments)}}
 /* 6. segurar o story de um amigo pausa também o vídeo */
 var US_HOLD=false;
 document.addEventListener("pointerdown",e=>{if(!e.target.closest||!e.target.closest("#layer .story")||e.target.closest(".s-f,.s-h,.us-it,[data-usom]"))return;const v=$("#layer .us2-vid");if(v){US_HOLD=true;v.pause()}},true);
@@ -10640,7 +10567,6 @@ var IG_DEDO=false;document.addEventListener("pointerdown",e=>{if(e.target.closes
 /* 8. sair do Layout com fotos pede confirmação */
 window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-edlaysai]");if(!b||!ED||ED.tela!=="lay")return;if(!ED.st.bg.cel.some(Boolean))return;if(Date.now()-(ED._laysai||0)<3000)return;
   e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();ED._laysai=Date.now();toast("Toque de novo para sair do Layout. As fotos serão descartadas.")},true);
-{const _cl66=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&ED&&ED.modo==="story"&&ED.tela==="lay"&&!$("#layer .ce-sel,#layer .ce-fig")&&ED.st.bg.cel&&ED.st.bg.cel.some(Boolean)&&Date.now()-(ED._laysai||0)>3000){ED._laysai=Date.now();if(pushH())HST++;toast("Volte de novo para sair do Layout. As fotos serão descartadas.");return}return _cl66.apply(this,arguments)}}
 /* 9. selfie: a câmera volta depois de trocar de app */
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&ED&&$("#layer .ce-selfie")){camMonta();camLiga()}});
 
@@ -10756,14 +10682,11 @@ function pfvPosts(el){const l=PFV.lista||[];el.innerHTML=`<div class="pfv-h"><bu
   pfIdsTroca(l);const sc=el.querySelector(".pfv-sc");try{wireTracks(sc)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}});const a=l[PFV.i];const alvo=a&&el.querySelector(`[id="p-u:${a.id}"]`);if(alvo){sc.scrollTop=alvo.offsetTop-sc.offsetTop;requestAnimationFrame(()=>{sc.scrollTop=alvo.offsetTop-sc.offsetTop})}}
 function pfAbrePosts(u,aba,i){const lista=pfLista(u,aba);if(!lista[i])return;if(PFV&&$("#layer .pfv")&&PFV.modo==="grade"){PFV={...PFV,modo:"posts",aba,lista,i,daGrade:true};if(pushH())HST++;pfvDesenha();return}
   if($("#layer").innerHTML)closeLayer();PFV={u,aba,modo:"posts",lista,i,daGrade:false};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicações"></div>`;if(pushH())HST++;pfvDesenha()}
-{const _cl69=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&PFV&&PFV.modo==="posts"&&PFV.daGrade&&$("#layer .pfv")&&!($("#layer2")?.innerHTML)){pfIdsVolta();PFV={...PFV,modo:"grade",lista:null};pfvDesenha();return}
-  const r=_cl69.apply(this,arguments);if(!$("#layer .pfv")){if(PFV){pfIdsVolta();PFV=null}}return r}}
 /* aba Perfil no estilo Instagram */
 {const _rm69=renderMe;renderMe=function(){const r=_rm69.apply(this,arguments);try{if(!(S.uid&&S.db&&S.membro)||PUB.on===false)return r;const v=$("#v-me"),gut=v&&v.querySelector(".gut"),head=gut&&gut.querySelector(".me-head");if(!head)return r;
     const resto=document.createElement("div");resto.className="pf-conta";[...gut.children].forEach(c=>{if(c!==head)resto.appendChild(c)});
     gut.innerHTML=`<div class="pf-me">${pfCab(S.uid)}${pfAbas(S.uid,PF_ABA)}<div class="pf-corpo"></div></div>`;const corpo=gut.querySelector(".pf-corpo");
     if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);corpo.innerHTML=(pin.length?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}return r}}
-{const _go69=go;go=function(v){const r=_go69.apply(this,arguments);if(v==="me"&&S.uid&&S.membro)pfCarregar(S.uid).then(()=>{if(VIEW==="me")renderMe()});return r}}
 /* toques */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if(b=t.closest("[data-pfaba]")){pare();const k=b.dataset.pfaba;if(t.closest("#layer .pfv")){PFV.aba=k;pfvDesenha()}else{PF_ABA=k;try{localStorage.setItem("prumo-pf-aba",k)}catch(_){}renderMe()}return}
@@ -10854,7 +10777,6 @@ document.addEventListener("click",async e=>{const t=e.target;if(!t.closest)retur
   ["pointerup","pointercancel","pointerleave"].forEach(k=>document.addEventListener(k,()=>{if(lp){clearTimeout(lp);lp=0}},true));
   document.addEventListener("click",e=>{if(Date.now()-(window.__destLP||0)<700&&e.target.closest&&e.target.closest("[data-pfdest]")){e.stopPropagation();e.preventDefault()}},true)})();
 /* voltar no arquivo fecha */
-{const _cl70=closeLayer;closeLayer=function(){const r=_cl70.apply(this,arguments);if(!$("#layer .pfv-arq")&&PFV&&PFV.modo==="arq")PFV=null;return r}}
 setTimeout(()=>{v5Testa()},4000);
 {const _pp70=pubPostHTML;pubPostHTML=function(x){const h=_pp70.apply(this,arguments);return x.editado&&x.tipo==="post"?h.replace(/(<span class="ph-sub">)([^<]*)(<\/span>)/,(a,b1,t,b3)=>b1+t+" · editado"+b3):h}}
 
@@ -11324,9 +11246,6 @@ addEventListener("beforeunload",e=>{if(PQ.atual&&!navigator.webdriver){e.prevent
 function pqAnimCls(){document.documentElement.classList.toggle("ce-anim",ANIM_OK())}
 pqAnimCls();try{REDUZ.addEventListener("change",pqAnimCls)}catch(e){}
 /* fechar o editor: desliza para baixo e some */
-{const _cl93=closeLayer;closeLayer=function(){const n=$("#layer > .ce");const r=_cl93.apply(this,arguments);
-  if(n&&!n.isConnected&&ANIM_OK()){try{if(CAM.v&&n.contains(CAM.v))CAM.v.remove();n.querySelectorAll("video").forEach(v=>{v.muted=true;try{v.pause()}catch(_){}});n.querySelectorAll("[id]").forEach(x=>x.removeAttribute("id"));
-    n.classList.add("ce-sai");n.setAttribute("aria-hidden","true");n.inert=true;delete n.dataset.anim;document.body.appendChild(n);setTimeout(()=>n.remove(),260)}catch(e){n.remove()}}return r}}
 function edPop(id){if(!id||!ANIM_OK())return;const d=document.querySelector(`#ce-els [data-eid="${id}"]`);if(!d)return;d.classList.add("ce-pop");setTimeout(()=>d.classList.remove("ce-pop"),400)}
 /* figurinhas novas não nascem empilhadas: cada uma desce um pouco */
 const ED_CASCATA=[[0,0]].concat(...[1,2,3,4,5,6,7,8].map(k=>[[0,.07*k],[0,-.07*k],[.06*k,.07*k],[-.06*k,.07*k]]));
@@ -11583,7 +11502,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||!ED||!$(
   if(b=t.closest("#layer .ce-cn [data-edcnt]")){pare();e.preventDefault();const c=ED.st.caneta,k=b.dataset.edcnt;c.mk=k==="mk";c.neon=k==="neon";c.bor=k==="bor";fg2CnUI();fg2Dot(true);fg2DotPisca(500);return}
   if(b=t.closest("#layer .ce-cn [data-edcncor]")){pare();e.preventDefault();const c=ED.st.caneta;c.cor=b.dataset.edcncor;if(c.bor)c.bor=false;fg2CnUI();return}},true);
 /* voltar do celular com a figurinha aberta: conclui e fica no editor */
-{const _cl=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&ED&&$("#layer .ce-fe")&&!($("#layer2")?.innerHTML)){fg2Ok();if(pushH())HST++;return}if(!$("#layer .ce-fe"))FG2=null;return _cl.apply(this,arguments)}}
 /* folhas que continuam (link, menção, notícia): mesmo visual da bandeja */
 {const _fo=edForm;edForm=function(){const r=_fo.apply(this,arguments);$("#layer .ce-sel")?.classList.add("fg2-sel");return r}}
 {const _li=edLista;edLista=function(){const r=_li.apply(this,arguments);$("#layer .ce-sel")?.classList.add("fg2-sel");return r}}
@@ -12248,7 +12166,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||!ED||!$(
   if(t===ov||t.classList.contains("fe-box")){ca100MenOk();return}
   if(t.closest(".ca100-mw"))$("#ca100-mq")?.focus()},true);
 {const _te100=edToqueEl;edToqueEl=function(el){if($("#layer .ca100-men"))return;if(el&&el.t==="men")return ca100MenAbre(el);return _te100.apply(this,arguments)}}
-{const _cl100=closeLayer;closeLayer=function(fromPop){if($("#layer .ca100-men")){if(fromPop===true&&ED&&!($("#layer2")?.innerHTML)){ca100MenFecha();if(pushH())HST++;return}ca100MenFecha()}return _cl100.apply(this,arguments)}}
 
 /* ===== 5. ajustes rápidos ===== */
 /* campos de uma linha nas figurinhas (local, hashtag, menção) crescem com o texto em vez de rolar e cortar o começo */
@@ -12665,7 +12582,6 @@ if(typeof RF_REAL==="function"){const _rf102=RF_REAL;RF_REAL=function(){if(VIEW!
   const rc=renderCapa;renderCapa=function(){if(!document.querySelector("#v-capa .cpi")||capaSig()!==CAPA_SIG)return rc.apply(this,arguments)};
   try{return _rf102.apply(this,arguments)}finally{renderCapa=rc}}}
 /* 4. Capa e Feed já mostrados uma vez ficam montados quando escondidos (ver css/18-desempenho.css): trocar de aba fica leve */
-{const _go102=go;go=function(v){const r=_go102.apply(this,arguments);try{const s=(v==="feed"||v==="capa")&&document.getElementById("v-"+v);if(s&&!s.classList.contains("cv-pronto"))requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add("cv-pronto")))}catch(e){}return r}}
 if(VIEW==="capa"||VIEW==="feed"){const s=document.getElementById("v-"+VIEW);if(s)requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add("cv-pronto")))}
 /* ---------- Correções de Conversas (QA 02/11) ---------- */
 /* reagir a uma mensagem que ainda está sendo enviada (id provisório) criava uma reação "órfã": não aparecia para ninguém,
@@ -12731,10 +12647,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 var VOLTA_DE=null;
 function vbackAjusta(){const n={capa:"Capa",feed:"Feed",busca:"Busca",msgs:"Conversas"}[VOLTA_DE];if(!n)return;
   ["#v-play","#v-saved"].forEach(s=>{const b=document.querySelector(s+" .vback");if(b){b.textContent="‹ "+n;b.dataset.vgo=VOLTA_DE;b.setAttribute("aria-label","Voltar para "+n)}})}
-{const _go104=go;go=function(v,fromPop){const de=VIEW;
-  if(v==="play"||v==="saved"){if(!fromPop&&de!==v&&de!=="play"&&de!=="saved")VOLTA_DE=de==="me"?null:de}else VOLTA_DE=null;
-  if(v==="capa"&&window.FILTRO_CAPA){window.FILTRO_CAPA=0;if(FILTRO!=="tudo"){FILTRO="tudo";ssSet("radar-filtro",FILTRO);try{renderSecs();renderPosts()}catch(e){}}}
-  const r=_go104.apply(this,arguments);try{vbackAjusta()}catch(e){}return r}}
 {const _rp104=renderPlay;renderPlay=function(){const r=_rp104.apply(this,arguments);try{vbackAjusta()}catch(e){}return r}}
 {const _rs104=renderSaved;renderSaved=function(){const r=_rs104.apply(this,arguments);try{vbackAjusta()}catch(e){}return r}}
 /* Perfil: depois de sair da conta, a tela volta ao topo (onde está o "Entrar") */
@@ -12788,7 +12700,6 @@ document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.tar
 /* publicou (ou apagou) com o Perfil aberto: a grade e o número de publicações acompanham */
 var FD104_ME=false;function fd104Me(){if(VIEW!=="me"||PF_ABA==="conta")return;if($("#layer").innerHTML){FD104_ME=true;return}FD104_ME=false;const y=scrollY;renderMe();scrollTo(0,y)}
 {const _pr104=pubRedesenha;pubRedesenha=function(){const r=_pr104.apply(this,arguments);clearTimeout(pubRedesenha.t104);pubRedesenha.t104=setTimeout(()=>{try{fd104Me()}catch(e){}},60);return r}}
-{const _cl104=closeLayer;closeLayer=function(){const r=_cl104.apply(this,arguments);if(FD104_ME)setTimeout(()=>{try{if(!$("#layer").innerHTML)fd104Me()}catch(e){}},80);return r}}
 /* quem curtiu um post: "Curtidas" (as notícias seguem com "Quem gostou") */
 {const _aq104=abrirQuem;abrirQuem=function(pid){const r=_aq104.apply(this,arguments);try{if(String(pid).indexOf("u:")===0){const h=$(".sheet .sh-h");if(h&&h.firstChild&&h.firstChild.nodeType===3)h.firstChild.textContent="Curtidas"}}catch(e){}return r}}
 /* perfil de quem não é (mais) amigo: botão de pedir/aceitar amizade; e o perfil aberto acompanha desfazer amizade/bloquear */
@@ -12822,8 +12733,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const r=await _ia104.apply(this,arguments);if(p&&ST&&$("#layer .story"))ST._ret104=p.abre;return r}}
 {const _sl104=stLista;stLista=function(lista,i,nome,chave){const doArq=chave==="a"&&!!$("#layer .pfv-arq");const r=_sl104.apply(this,arguments);
   if(ST)ST._ret104=doArq&&ST.sec==="_u:~a"?()=>abrirArquivo():null;return r}}
-{const _cl104=closeLayer;closeLayer=function(){const ret=!!$("#layer .story")&&!$("#layer2").innerHTML&&ST&&ST._ret104;if(ret)ST._ret104=null;const r=_cl104.apply(this,arguments);
-  if(ret){const v=VIEW,th=typeof THREAD!=="undefined"?THREAD:null;setTimeout(()=>{try{if(VIEW===v&&(typeof THREAD==="undefined"||THREAD===th)&&!$("#layer").innerHTML&&!$("#layer2").innerHTML&&!ED&&S.uid)ret()}catch(e){}},420)}return r}}
 /* 4. miniaturas do Arquivo e do "Novo destaque": as figurinhas "vivas" (notícia, post compartilhado, enquete, pergunta…)
    não estão na imagem do story, então a miniatura ficava só com o fundo. Agora mostra um cartãozinho com o que é. */
 function ar104Rotulo(x){try{const it=(x&&x.estilo&&Array.isArray(x.estilo.itens)?x.estilo.itens:[]);
@@ -13076,7 +12985,6 @@ function at106Aceitos(){try{if(!S.uid||!S.membro||!S.amigosOk)return;const k="pr
 {const _sh106=sheet;sheet=function(){const r=_sh106.apply(this,arguments);try{document.querySelectorAll(".toast").forEach(x=>{if(!x.querySelector(".toast-a")&&Date.now()-(x._t106||0)>400)x.remove()})}catch(e){}return r}}
 
 /* 5. Matéria: voltar do celular com o menu "Aa" aberto fecha só o menu */
-{const _cl106a=closeLayer;closeLayer=function(fromPop){const ab=$("#layer .mat-aap");if(fromPop===true&&ab&&!($("#layer2")?.innerHTML)){ab.remove();$("#layer [data-mataa]")?.setAttribute("aria-expanded","false");if(pushH())HST++;return}return _cl106a.apply(this,arguments)}}
 
 /* 6. Visitante: a tela de entrar diz por que apareceu (guardar, curtir, mandar) */
 var PC106={k:"",t:0};
@@ -13099,8 +13007,6 @@ var AD106=null;
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const c=t.closest("#layer .story .fg-add");if(!c)return;const b=c.querySelector("[data-usadd]");if(!b)return;
   if(!t.closest("[data-usadd]")){e.stopImmediatePropagation();e.preventDefault();b.click();return}
   try{const x=usX(b);AD106=x&&x.autor!==S.uid?{autor:x.autor,id:x.id,t:Date.now()}:null}catch(_){}},true);
-{const _cl106=closeLayer;closeLayer=function(){const ce=!!$("#layer .ce")&&!($("#layer2")?.innerHTML);const r=_cl106.apply(this,arguments);
-  try{if(AD106&&ce&&!$("#layer .ce")){const a=AD106;AD106=null;const pub=typeof ED!=="undefined"&&ED&&ED.env;if(!pub&&Date.now()-a.t<30*60e3&&typeof igAbrirUser==="function"&&pubDe(a.id))setTimeout(()=>{if(!$("#layer").innerHTML){document.querySelectorAll(".toast").forEach(x=>{if(!x.querySelector(".toast-a"))x.remove()});igAbrirUser(a.autor,a.id)}},260)}}catch(e){}return r}}
 
 /* 10. Stories: tocar no ✕ enquanto o cubo gira (troca de grupo) fecha — antes o toque caía no vazio */
 function st106NoX(cx,cy){const st=$("#layer .story");if(!st||($("#layer2")?.innerHTML)||!(VIRANDO||st.classList.contains("sg-cubo")))return false;
@@ -13133,8 +13039,6 @@ var MC106=null;
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("#layer .fc105-mc [data-cn102envp],#layer .fc105-mc [data-cn102envs]");
   if(b){MC106={pid:b.dataset.cn102envp||b.dataset.cn102envs,t:Date.now()};return}
   if(t.closest("[data-edpubpo],[data-edpubst]")&&MC106)MC106.pub=1},true);
-{const _cl106=closeLayer;closeLayer=function(){const ed=!!$("#layer > .ce");const r=_cl106.apply(this,arguments);
-  try{if(ed&&MC106&&!$("#layer > .ce")){const m=MC106;MC106=null;if(!m.pub&&!(typeof PQ!=="undefined"&&PQ.atual)&&Date.now()-m.t<36e5&&pautaById(m.pid))setTimeout(()=>{try{if(!$("#layer").innerHTML&&!ED){abrirMateria(m.pid);$("#layer .fc105-mc")?.scrollIntoView({block:"center"})}}catch(e){}},ANIM_OK()?260:40)}}catch(e){}return r}}
 /* 7. análise: o texto do campo de fonte cabia só pela metade em telas de 360px */
 {const _cd106=cn102Det;cn102Det=function(el){const r=_cd106.apply(this,arguments);try{const fu=el.querySelector("#cn102-fu");if(FOCO_LIGADO&&fu&&/recomendado/.test(fu.placeholder))fu.placeholder="Link ou nome (recomendado)"}catch(e){}return r}}
 /* 8. Local e Menção vão "assados" na foto do story com roxo e rosa fixos; no foco, saem com os tons de jornal (como na tela) */
@@ -13370,7 +13274,6 @@ if(typeof FIT_IO!=="undefined"&&FIT_IO){try{FIT_IO.disconnect()}catch(e){}FIT_IO
        redesenhada por outro motivo: ao fechar o story, os anéis da bandeja são atualizados no lugar (a ordem não muda) */
 function st108Aneis(){try{document.querySelectorAll("#secs [data-ustory]").forEach(b=>{const u=b.dataset.ustory,r=b.querySelector(".ig-r");if(!r||!u||u.charAt(0)==="~")return;const xs=pubStoriesDe(u);if(!xs.length)return;
   r.classList.toggle("visto",xs.every(x=>PUB_VISTOS.has(x.id)));r.classList.toggle("ma",xs.some(x=>x.publico==="proximos"&&!PUB_VISTOS.has(x.id)))})}catch(e){}}
-{const _cl108=closeLayer;closeLayer=function(){const st=!!$("#layer .story");const r=_cl108.apply(this,arguments);if(st&&!$("#layer .story"))requestAnimationFrame(st108Aneis);return r}}
 
 /* 11. dois aparelhos: story visto no celular aparecia como não visto no computador (o "visto" só ficava no aparelho).
        Ao reler as publicações, confere no servidor quais stories ainda "não vistos" aqui já foram vistos noutro aparelho. */
@@ -13806,12 +13709,6 @@ function htDesenha(){const el=$("#layer .pfv-ht");if(!el)return;const k=el.datas
   </div>`;
   if(posts.length){try{pfIdsTroca(posts)}catch(e){}const sc=el.querySelector(".ht-posts");try{wireTracks(sc)}catch(e){}posts.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}})}}
 /* volta: a página da hashtag e a matéria aberta por ela devolvem o leitor para onde estava */
-{const _cl111=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML);const eraHt=!l2&&!!$("#layer .pfv-ht"),eraMat=!l2&&!!$("#layer .mat");
-  const r=_cl111.apply(this,arguments);
-  try{if(!$("#layer").innerHTML&&(eraHt||eraMat)){const user=fromPop===true||Date.now()-HT_CLK<800;
-    if(eraHt){try{pfIdsVolta()}catch(e){}if(!HT_FECHANDO){const o=HT_PILHA.pop();if(user)htRestaura(o);else HT_PILHA=[]}}
-    else if(HT_MAT_VOLTA){const v=HT_MAT_VOLTA;HT_MAT_VOLTA=null;if(!HT_FECHANDO&&user)abrirHashtag(v,{reabre:true})}}}catch(e){}return r}}
-{const _go111=go;go=function(){HT_PILHA=[];HT_MAT_VOLTA=null;htFecha();return _go111.apply(this,arguments)}}
 /* ---- hashtags nas notícias: matéria e cartão do Feed ---- */
 function htLinhaNot(p,cls){const l=htDaPauta(p);return l.length?`<p class="${cls}">${l.map(t=>`<button type="button" class="ht-n" data-ht="${esc(t)}">${esc(t)}</button>`).join("")}</p>`:""}
 function htNaMateria(pid){const p=pautaById(pid),m=$("#layer .mat .mat-c");if(!p||!m)return;if(!m.querySelector(".ht-mat")){const h=htLinhaNot(p,"ht-mat");if(h){const h1=m.querySelector("h1");if(h1)h1.insertAdjacentHTML("beforebegin",h);else m.insertAdjacentHTML("afterbegin",h)}}
@@ -14107,7 +14004,6 @@ if(VISUAL_NOVO){
   {const _rm112=renderMe;renderMe=function(){if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;
     const r=_rm112.apply(this,arguments);try{const m=$("#v-me .pf-me");if(m)vn112Pf(m,S.uid,VN112_PF.me)}catch(e){console.error(e)}return r}}
   {const _pv112=pfvDesenha;pfvDesenha=function(){const r=_pv112.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){if(PFV.aba!=="posts")PFV.vnAba=PFV.aba;else if(!["posts","resp","midia"].includes(PFV.vnAba))PFV.vnAba="posts";vn112Pf($("#layer .pfv .pfv-sc"),PFV.u,PFV.vnAba)}}catch(e){console.error(e)}return r}}
-  {const _go112=go;go=function(v){if(v!=="me"&&VIEW==="me"&&!(PFV&&$("#layer .pfv")))try{pfIdsVolta()}catch(e){}return _go112.apply(this,arguments)}}
   {const _ap112=abrirPerfil;abrirPerfil=function(u){if(u===S.uid)VN112_PF.me="posts";return _ap112.apply(this,arguments)}}
   /* nomes */
   {const _sh112=sheet;sheet=function(){const r=_sh112.apply(this,arguments);try{vn112Nomes($("#layer2")&&$("#layer2").innerHTML?$("#layer2"):$("#layer"))}catch(e){}return r}}
@@ -14277,7 +14173,6 @@ if(VN_FASE2){
   {const _hs113=htSeguidaDePost;htSeguidaDePost=function(x){if(x&&f113Fio(x))try{return _hs113.call(this,{texto:f113Tudo(x)})}catch(e){}return _hs113.apply(this,arguments)}}
   /* matéria */
   {const _am113=abrirMateria;abrirMateria=function(){const r=_am113.apply(this,arguments);try{f113Caps()}catch(e){console.error(e)}return r}}
-  {const _cl113=closeLayer;closeLayer=function(){const r=_cl113.apply(this,arguments);try{if(F113_IO&&!$("#layer .mat")){F113_IO.disconnect();F113_IO=null}}catch(e){}return r}}
   /* Feed: prateleiras só na lista principal ("Tudo"), uma vez por desenho; a contagem "faltam N" fica como antes */
   {const _rp113=renderPosts;renderPosts=function(){F113_SH_LIGA=true;try{return _rp113.apply(this,arguments)}finally{F113_SH_LIGA=false}}}
   {const _ae113=atualizarEmDia;atualizarEmDia=function(){const o=F113_SH_LIGA;F113_SH_LIGA=false;try{return _ae113.apply(this,arguments)}finally{F113_SH_LIGA=o}}}
@@ -14624,7 +14519,6 @@ document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.targ
   try{if(FL119.parcial)document.querySelectorAll("#layer .mat-meta span").forEach(s=>{if(/min de leitura/.test(s.textContent))s.classList.add("ta120-esp")})}catch(e){}return r}}
 
 /* TA04: a linha do placar oficial confere ao abrir o Feed */
-{const _go120=go;go=function(v){const r=_go120.apply(this,arguments);if(v==="feed"&&typeof po118NoFeed==="function")try{po118NoFeed()}catch(e){}return r}}
 
 /* TA05: a última rodada que publicou (rodadas.json, horário de São Paulo) */
 function ta120Rodada(){const r=S.rodadas;if(!r||typeof r!=="object"||!r.itens||typeof r.dia!=="string")return 0;let t=0;
@@ -14971,12 +14865,6 @@ function cs123FimAtualiza(){const L=CS123.ler,el=L&&document.querySelector("#lay
 /* folhas (comentários, enviar) abrem por cima da coluna e do editor, sem fechá-los */
 {const _sh=sheet;sheet=function(){const r0=document.querySelector("#layer > .cs123-ler, #layer > .cs123-ed");if(r0&&!$("#layer2")?.innerHTML){r0.classList.add("cria");try{return _sh.apply(this,arguments)}finally{r0.classList.remove("cria")}}return _sh.apply(this,arguments)}}
 /* voltar: da coluna para o perfil de onde ela foi aberta; da prévia para o editor */
-{const _cl=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML);
-  if(!l2&&$("#layer .cs123-prev")&&CS123.ed){$("#layer .cs123-prev").remove();if(fromPop===true){if(pushH())HST++;return}if(HST>0){HST--;voltarH(1)}return}
-  if(!l2&&$("#layer > .cs123-ed")&&CS123.ed){if(CS123.ed.env&&fromPop!==true){toast("Publicando…");return}cs123RascGuarda(true);CS123.ed=null}
-  const ler=!l2&&$("#layer > .cs123-ler")&&CS123.ler,volta=ler&&CS123.ler.volta;const r=_cl.apply(this,arguments);
-  if(ler){CS123.ler=null;if(volta&&!$("#layer").innerHTML){PFV=volta.pfv;$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Perfil de ${esc(nomeDe(PFV.u))}"></div>`;try{pfvDesenha();const sc=$("#layer .pfv-sc");if(sc)sc.scrollTop=volta.sc}catch(e){}}}
-  return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if((b=t.closest("[data-cs123ler]"))&&!t.closest("a")){pare();cs123Abrir(b.dataset.cs123ler);return}
   if(t.closest("[data-cs123fecha]")){pare();history.back();return}
@@ -15434,8 +15322,6 @@ function qa125VeReac(u,x){return !!u&&(ehVisivel(u)||!!(x&&u===x.autor)||qa125Co
 {const _ab=cs123Abrir;cs123Abrir=function(id){let tag=null;try{const pg=$("#layer .pfv-ht");if(pg&&!$("#layer2")?.innerHTML)tag=pg.dataset.tag||null}catch(e){}
   if(!tag)return _ab.apply(this,arguments);HT_FECHANDO=true;let r;try{r=_ab.apply(this,arguments)}finally{HT_FECHANDO=false}
   try{if(CS123.ler&&CS123.ler.id===id)CS123.ler.ht=tag;else if(!$("#layer").innerHTML)abrirHashtag(tag,{reabre:true})}catch(e){}return r}}
-{const _cl=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML);const ht=!l2&&$("#layer > .cs123-ler")&&CS123.ler&&CS123.ler.ht;
-  const r=_cl.apply(this,arguments);try{if(ht&&fromPop===true&&!$("#layer").innerHTML)setTimeout(()=>{if(!$("#layer").innerHTML)abrirHashtag(ht,{reabre:true})},0)}catch(e){}return r}}
 
 /* ===== 4. textos ===== */
 {const _dc=dmCard;dmCard=function(m){const h=_dc.apply(this,arguments);try{if(typeof h!=="string"||!dmEhPub(m))return h;const x=pubDe(String(m.pid).slice(2)),c=x&&cs123Col(x);if(!c)return h;
@@ -16382,15 +16268,6 @@ function ed132Hub(){if(precisaConta())return;const L=$("#layer");if(L.innerHTML)
 
 /* ===== 15. camadas: folhas por cima do editor; voltar salva o rascunho ===== */
 {const _sh=sheet;sheet=function(){const r0=document.querySelector("#layer > .ed132, #layer > .ed132-hubr");if(r0&&!$("#layer2")?.innerHTML){r0.classList.add("cria");try{return _sh.apply(this,arguments)}finally{r0.classList.remove("cria")}}return _sh.apply(this,arguments)}}
-{const _cl=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML),root=!l2&&$("#layer > .ed132");
-  if(root&&!closeLayer._ok&&ED132.E){const E=ED132.E;
-    const pp=root.querySelector(".ed132-pp");if(pp){pp.remove();if(fromPop===true&&pushH())HST++;return}
-    if(E.env&&fromPop!==true){toast(E.modo==="editar"?"Salvando…":"Publicando…");return}
-    if(E.modo==="editar"&&E.descartar!=="sim"&&ed132Sujo(E)){if(fromPop===true&&pushH())HST++;E.descartar=true;ed132Cab();toast("Alterações não salvas. Toque em Salvar, ou no × de novo para descartar.");return}
-    if(E.modo!=="editar")try{ed132Guarda()}catch(e){}
-    ED132.E=null;try{htFecha()}catch(e){}}
-  else if(root&&closeLayer._ok)ED132.E=null;
-  return _cl.apply(this,arguments)}}
 /* ---------- 133: importar e exportar colunas (fase 2 do editor) ----------
    IMPORTAR (editor: botão "Importar" e menu "…"):
    - arquivo .docx (lido aqui mesmo: o .docx é um zip; DecompressionStream("deflate-raw") abre; sem ele, aviso claro),
@@ -17471,7 +17348,6 @@ function cr137Recupera(){const E=ED132.E,R=CR137.rec;if(!E||!R||E.pubId!==R.id)r
 /* descartar as alterações apaga a cópia */
 ["pointerdown","mousedown"].forEach(k=>window.addEventListener(k,e=>{const t=e.target;if(t&&t.closest&&t.closest("[data-ed132desc]")){const E=ED132.E;if(E&&E.pubId)CR137.desc=E.pubId}},true));
 window.addEventListener("click",e=>{const t=e.target;if(t&&t.closest&&t.closest("[data-ed132desc]")){const id=(ED132.E&&ED132.E.pubId)||CR137.desc;if(id)cr137BackTira(id);CR137.desc=null}},true);
-{const _cl=closeLayer;closeLayer=function(){const E=ED132.E;const r=_cl.apply(this,arguments);try{if(E&&E.modo==="editar"&&E.descartar==="sim"&&ED132.E!==E)cr137BackTira(E.pubId)}catch(e){}return r}}
 
 /* ===== CR11: Minhas colunas ===== */
 {const _hh=ed132HubHTML;ed132HubHTML=function(){let h=_hh.apply(this,arguments);try{const tp=document.createElement("template");tp.innerHTML=h;const rs=ed132RascLe();
@@ -17758,7 +17634,6 @@ function tc139F16Tudo(){if(!tc139Coarse())return;cancelAnimationFrame(TC139.f16)
 /* no toque, antes do foco (vale também para campos fora das camadas) */
 document.addEventListener("touchstart",e=>{const t=e.target;if(!t||!t.closest)return;const l=t.closest("label");const f=tc139Campo(t)?t:(l?l.querySelector(TC139_CAMPO):null);if(f)tc139F16(f)},{passive:true,capture:true});
 if(document.readyState!=="loading")tc139F16Tudo();else document.addEventListener("DOMContentLoaded",tc139F16Tudo);
-{const _g=typeof go==="function"?go:null;if(_g)go=function(){const r=_g.apply(this,arguments);try{tc139F16Tudo()}catch(e){}return r}}
 
 /* ===== TC06: tocar em enviar/publicar e nas ferramentas do texto não fecha o teclado ===== */
 ["pointerdown","mousedown"].forEach(k=>document.addEventListener(k,e=>{const f=tc139Ativo(),t=e.target;if(!f||!t||!t.closest||f.closest("#layer > .ed132"))return;
@@ -17915,7 +17790,6 @@ function tl142Conta(ev,n){try{if(tl142Desligado()||TL142.v15===false)return;ev=S
 function tl142GuardaUso(){try{const o={};Object.entries(TL142.uso).forEach(([k,n])=>{if(n>0)o[k]=n});tl142Ls(TL142_LS.uso,Object.keys(o).length?JSON.stringify(o):null)}catch(e){}}
 (function(){try{const o=JSON.parse(tl142Ls(TL142_LS.uso)||"null");if(o&&typeof o==="object")Object.entries(o).forEach(([k,n])=>{if(/^[0-9]{4}-[0-9]{2}-[0-9]{2}\|[a-z][a-z0-9_]{1,39}$/.test(k)&&+n>0)TL142.uso[k]=Math.min(200,+n)})}catch(e){}})();
 {const _u=uso;uso=function(k){const r=_u.apply(this,arguments);try{if(typeof k==="string")tl142Conta(k)}catch(e){}return r}}
-{const _g=go;go=function(v){const ant=typeof VIEW==="string"?VIEW:"";const r=_g.apply(this,arguments);try{if(typeof v==="string"&&/^[a-z]{2,12}$/.test(v)){tl142Acao("go:"+v);if(v!==ant)tl142Conta("tela_"+v)}}catch(e){}return r}}
 if(typeof reagir==="function"){const _rg=reagir;reagir=function(){try{tl142Conta("reagir_msg")}catch(e){}return _rg.apply(this,arguments)}}
 function tl142ContaIns(t,row){const rs=Array.isArray(row)?row:[row];rs.forEach(x=>{if(!x||typeof x!=="object")return;
   if(t==="publicacoes"){const col=x.estilo&&typeof x.estilo==="object"&&x.estilo.coluna&&typeof x.estilo.coluna==="object";const tp=/^[a-z]{2,12}$/.test(String(x.tipo||""))?x.tipo:"post";tl142Conta("publicar_"+(col?"coluna":tp))}
@@ -18292,7 +18166,6 @@ function pf151Tudo(){if(PF151.t){clearTimeout(PF151.t);PF151.t=0}while(PF151.fil
   try{return _rf151.apply(this,arguments)}finally{renderCapa=rc;renderSecs=rs;
     /* a Capa (que está na tela) primeiro; os círculos do Feed depois */
     if(capa)PF151.fila.push(capa);if(secs)PF151.fila.push(secs);if(PF151.fila.length&&!PF151.t)PF151.t=setTimeout(pf151Roda,0)}}}
-{const _go151=go;go=function(v){if(PF151.fila.length)pf151Tudo();return _go151.apply(this,arguments)}}
 /* ---------- 152: criar numa caixa só (14/11) ----------
    Pedido do Pedro: "muitas telas diferentes para criar um novo post". Antes o "+" abria cartões de tipo (Comentar notícia,
    De perto, Análise, Pergunta, Coluna, Só texto, fotos, Minhas colunas) e cada formulário repetia a escolha do tipo em abas.
@@ -18383,7 +18256,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   if(b=t.closest("[data-cp152rasc]")){pare();const d=cp152Rascs().find(r=>r.rid===b.dataset.cp152rasc);if(d)ed132Abre(ed132DoRasc(d));return}
 },true);
 /* fechar pelo "voltar" do celular */
-{const _cl152=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&$("#layer > .cp152")&&CP152.txt.trim()&&!$("#layer2")?.innerHTML){/* guarda o texto: abrir de novo traz de volta */CP152.guardado=CP152.txt}return _cl152.apply(this,arguments)}}
 
 /* ===== formulários abertos pela caixa: sem a faixa de tipos repetida ===== */
 {const _cd152=cn102Det;cn102Det=function(el){const r=_cd152.apply(this,arguments);try{if(CP152.veio){const ks=el.querySelector(".cn102-ks");if(ks)ks.hidden=true}}catch(e){}return r}}
@@ -18694,11 +18566,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 {const _ed155=edDesenha;edDesenha=function(){const r=_ed155.apply(this,arguments);try{if(ED&&ED.cr155caixa)$("#layer .ce")?.classList.add("cr155-dacaixa")}catch(e){}return r}}
 
 /* ===== voltar do celular com texto na caixa: pergunta antes (como o editor), e o texto fica guardado ===== */
-{const _cl155=closeLayer;closeLayer=function(fromPop){try{if(fromPop===true&&$("#layer > .cp152")&&!$("#layer2")?.innerHTML){
-    if(String(CP152.txt||"").trim()||CR155.pid){cr155Guarda();if(Date.now()-CR155.volta>3000){CR155.volta=Date.now();if(pushH())HST++;
-      const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},3000)}
-      toast("Volte de novo para sair. O texto fica guardado.");return}
-      const r=_cl155.apply(this,arguments);toast("Seu texto ficou guardado. Toque em + para continuar.");return r}}}catch(e){}return _cl155.apply(this,arguments)}}
 
 /* ===== publicar pelo formulário que veio da caixa: a caixa começa vazia depois ===== */
 {const _pp155=edPublicaPost;edPublicaPost=async function(){const daCaixa=CP152.direto||CP152.veio;const r=await _pp155.apply(this,arguments);try{if(daCaixa&&!$("#layer .ce"))cr155Limpa()}catch(e){}return r}}
@@ -19339,7 +19206,6 @@ var CA159_SETA={sobe:"▲",desce:"▼",estavel:"="};
 /* ===== 4. botão da balança no cabeçalho enquanto a Capa está no alto ===== */
 function ca159Lp(){const no=VIEW==="capa"&&scrollY<40&&!!document.querySelector("#v-capa .cp-top");if(document.getElementById("lpm"))return;document.documentElement.classList.toggle("ca159-lp-topo",no)}
 addEventListener("scroll",ca159Lp,{passive:true});
-{const _go159=go;go=function(){const r=_go159.apply(this,arguments);try{ca159Lp()}catch(e){}return r}}
 
 /* ===== 6. chamada de evento que já passou ===== */
 function ca159DiaSP(iso){const d=new Date(iso);if(isNaN(d))return "";try{return d.toLocaleDateString("en-CA",{timeZone:"America/Sao_Paulo"})}catch(e){return ""}}
@@ -19931,10 +19797,6 @@ var FD167_FILA=null;
 /* a posição é guardada no toque (antes da animação de abrir, que pode rolar a fileira) */
 window.addEventListener("click",e=>{const t=e.target&&e.target.closest&&e.target.closest("#secs .sb");if(!t||VIEW!=="feed"||document.querySelector("#layer .story"))return;try{FD167_FILA=document.getElementById("secs").scrollLeft}catch(_){}},true);
 {const _ia167=igAbrir;igAbrir=function(){try{const b=document.getElementById("secs");if(b&&VIEW==="feed"&&!document.querySelector("#layer .story")&&FD167_FILA==null)FD167_FILA=b.scrollLeft}catch(e){}return _ia167.apply(this,arguments)}}
-{const _cl167=closeLayer;closeLayer=function(){const eraStory=!!document.querySelector("#layer .story")&&FD167_FILA!=null,x=FD167_FILA;const b=document.getElementById("secs");let st=null;
-  if(eraStory&&b){st=b.scrollTo;b.scrollTo=function(){}}
-  try{return _cl167.apply(this,arguments)}finally{if(eraStory&&b){try{delete b.scrollTo}catch(e){}if(b.scrollTo!==Element.prototype.scrollTo)b.scrollTo=st;
-    if(!document.querySelector("#layer .story")){FD167_FILA=null;b.scrollLeft=x;requestAnimationFrame(()=>{try{b.scrollLeft=x}catch(e){}})}}}}}
 
 /* ---- topo do cartão: "seguindo" nunca cortado ---- */
 function fd167Seguindo(el){try{const st=el.querySelector(":scope>.ph .fd156-st");if(!st||st.dataset.fd167)return;st.dataset.fd167="1";
@@ -20014,19 +19876,6 @@ fd156CmtCancela=function(){const l=fd156CmtLe();const x=l[l.length-1];if(x)fd167
 
 /* ---- voltar do celular: refaz o caminho das abas ---- */
 var FD167_ABAS=["capa","feed","msgs","busca","me"],FD167_PILHA=[];
-{const _go167=go;go=function(v,fromPop){try{
-  /* o voltar já tirou um passo (VST--) e pede a raiz: vai para a aba guardada nesse passo */
-  if(fromPop&&v===RAIZ&&FD167_PILHA.length===VST+1){const alvo=FD167_PILHA[VST];FD167_PILHA.length=VST;if(alvo&&FD167_ABAS.includes(alvo))v=alvo;return _go167.call(this,v,fromPop)}
-  if(FD167_PILHA.length>VST)FD167_PILHA.length=Math.max(0,VST);
-  const simples=!fromPop&&v!==VIEW&&FD167_ABAS.includes(v)&&FD167_ABAS.includes(VIEW)&&!(JUMPS&&JUMPS.length)&&!TST&&!SUBV;
-  if(simples){
-    if(v===RAIZ){if(VST>1){voltarH(VST-1);VST=1}FD167_PILHA.length=0}
-    else if(VIEW===RAIZ){FD167_PILHA=[RAIZ]}/* o go de sempre guarda esta entrada (VST 0 → 1) */
-    else if(FD167_PILHA.length===VST&&VST>0){
-      /* voltar pela barra para a aba anterior = um passo para trás; senão, um passo novo */
-      if(FD167_PILHA[VST-1]===v&&VST>1){FD167_PILHA.length=VST-1;VST--;voltarH(1)}
-      else if(VST<8&&pushH()){FD167_PILHA.push(VIEW);VST++}}}}catch(e){}
-  return _go167.apply(this,arguments)}}
 /* ---------- 169: fotos e ilustrações, segunda rodada (16/11, noite; achados do testador) ----------
    Regra do Pedro: a foto tem que mostrar o fato, o lugar ou a pessoa da notícia; na dúvida, ilustração.
    1. foto do tema da seção só quando o título diz o lugar: "Juros e inflação" só com juros/Selic/Copom/BC (tomate não
@@ -20314,12 +20163,6 @@ var CM168_PILHA=[];
 {const _mi168=matIr;matIr=function(pid){try{const m=$("#layer .mat"),de=MAT_PID;if(m&&de&&pid!==de&&pautaById(pid)&&!(($("#layer2")||{}).innerHTML)){CM168_PILHA.push({pid:de,y:m.scrollTop});if(pushH())HST++}}catch(e){}return _mi168.apply(this,arguments)}}
 function cm168Volta(a){try{MAT_ARRASTO=false}catch(e){}MAT_ORIG=CM168_PILHA.length?MAT_ORIG:null;abrirMateria(a.pid);const m=$("#layer .mat");if(!m)return;m.style.transform="";
   const vai=()=>{const mm=$("#layer .mat");if(mm)mm.scrollTop=a.y};vai();requestAnimationFrame(vai);setTimeout(vai,120)}
-{const _cl168=closeLayer;closeLayer=function(fromPop){try{const mat=$("#layer .mat"),l2=($("#layer2")||{}).innerHTML;
-    if(mat&&!l2&&CM168_PILHA.length){if(fromPop===true){cm168Volta(CM168_PILHA.pop());return}
-      /* fechar de vez ("‹ Capa", Esc, arrastar): desfaz também os passos do "Próxima" */
-      const k=Math.min(CM168_PILHA.length,HST-1);CM168_PILHA=[];if(k>0){HST-=k;voltarH(k)}}
-    else if(!mat)CM168_PILHA=[]}catch(e){}
-  const r=_cl168.apply(this,arguments);try{if(!$("#layer .mat")){CM168_PILHA=[];cm168Url(null)}}catch(e){}return r}}
 /* endereço da matéria aberta (#m=<id>): copiar a barra manda a notícia, recarregar reabre */
 function cm168Url(pid){try{const base=location.pathname+location.search,h=pid?"#m="+pid:"";if(location.hash===h||(!pid&&!/^#m=/.test(location.hash)))return;history.replaceState(history.state,"",base+h)}catch(e){}}
 /* ponto de leitura: o bloco que está no alto da tela e quanto dele já passou */
@@ -20567,7 +20410,6 @@ function ft182Limpa(f){try{if(!f||typeof f!=="object")return f;if(ft182Esc("quiz
 {const _sa182=sanear;sanear=function(){const r=_sa182.apply(this,arguments);return r?ft182Limpa(r):r}}
 if(typeof FEED!=="undefined"&&FEED){ft182Limpa(FEED);try{derivaQuiz();updatePlayBadge()}catch(e){}}
 /* a tela "Quiz e enquetes" não abre */
-{const _go182=go;go=function(v){const a=[...arguments];if(v==="play"&&ft182Esc("quiz")&&ft182Esc("enquete"))a[0]="capa";return _go182.apply(this,a)}}
 
 /* ===== 1b. posts antigos de Enquete, Número e De perto: viram post comum ===== */
 {const _de182=cn102De;cn102De=function(){const c=_de182.apply(this,arguments);return c&&FT182_CN[c.k]&&ft182Esc(FT182_CN[c.k])?null:c}}
@@ -21147,14 +20989,284 @@ function ft187Confirma(p,f){const m=f&&f.mostra;if(typeof m!=="string"||!m.trim(
    Na tela "Notícia" (e nos outros formulários abertos pela caixa), o voltar do celular caía no passo "fotos" do editor
    antigo ("Novo post", Escolher fotos · Notícia · …) e o comentário sumia; um segundo voltar não saía dali. Agora o voltar
    do celular faz o mesmo que o "<" da tela: volta para a caixa "Nova publicação" com o texto e a notícia (152/155). */
-{const _cl189=closeLayer;closeLayer=function(fromPop){try{
+/* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
+   Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
+   Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários
+   [NNN] dizem de que arquivo veio cada pedaço; a ordem dos pedaços é a ordem em que rodavam.
+   Carregamento: este arquivo vem no fim (antes do 999), quando todas as variáveis já existem. As declarações function são
+   içadas, então quem chama estas funções antes daqui já encontra a versão final; quem chama DURANTE o carregamento
+   (o 031 abre a Capa com go("capa",true)) usa só a parte que existia naquele ponto, como antes: NUC_PRONTO só vira true
+   no 999 (nucPronto()). */
+var NUC_PRONTO;  /* sem valor (falso) até o 999 */
+function nucPronto(){NUC_PRONTO=true}
+
+/* ===== closeLayer: fecha a janela de cima (#layer2, senão #layer) =====
+   Antes: definida no 007 e remendada em 031, 033, 034, 041, 047, 056, 057, 058, 059, 060 (2×), 068, 070, 071, 074, 078,
+   080, 083, 084, 093, 094, 100, 104-feed, 104-stories, 106-pendências (2×), 106-produção, 108, 111, 113, 123, 125, 132,
+   137, 152, 155, 167, 168 e 189 (38 remendos).
+   Camadas de fora para dentro: 189 → 168 → 167 → 155 (aqui em closeLayer) → 152 … 031 → 007 (em clMiolo). O 155 pode
+   chamar o miolo duas vezes (se o miolo der erro dentro do try dele, chamava de novo): por isso o miolo é uma função. */
+function closeLayer(fromPop){
+  /* [189] voltar do celular no "Detalhes" de um post que veio da caixa: volta para a caixa com o texto */
+  try{
     if(fromPop===true&&typeof ED!=="undefined"&&ED&&ED.po&&(ED.po.cn||ED.po.passo==="detalhes")&&!ED.env&&CP152.veio&&$("#layer > .ce")&&!($("#layer2")?.innerHTML)
       &&!$("#layer .ce-sel,#layer .ce-fig,#layer .ce-tx,#layer .ce-cn,#layer .ce-selfie,#layer .ce-tagov,#layer .ce-fe,#layer .ca100-men")){
       const b=$("#layer > .ce .ce-ph [data-edvolta]");
       if(b){if(pushH())HST++;b.click();if(!$("#layer > .cp152")&&ED){CP152.txt=cp152TextoDe(ED);CP152.veio=false;ED=null;cp152Abre({manter:true,aba:"post"})}return}}
-  }catch(e){}return _cl189.apply(this,arguments)}}
+  }catch(e){}
+  /* [168] matéria aberta pelo "Próxima": voltar desfaz um passo; fechar de vez desfaz todos */
+  try{const mat=$("#layer .mat"),l2=($("#layer2")||{}).innerHTML;
+    if(mat&&!l2&&CM168_PILHA.length){if(fromPop===true){cm168Volta(CM168_PILHA.pop());return}
+      /* fechar de vez ("‹ Capa", Esc, arrastar): desfaz também os passos do "Próxima" */
+      const k=Math.min(CM168_PILHA.length,HST-1);CM168_PILHA=[];if(k>0){HST-=k;voltarH(k)}}
+    else if(!mat)CM168_PILHA=[]}catch(e){}
+  /* [167] fechar um story aberto pela faixa: a faixa fica onde estava (sem rolar sozinha) */
+  const eraStory=!!document.querySelector("#layer .story")&&FD167_FILA!=null,x=FD167_FILA;const b=document.getElementById("secs");let st=null;
+  if(eraStory&&b){st=b.scrollTo;b.scrollTo=function(){}}
+  try{
+    /* [155] voltar do celular na caixa de criar: o texto fica guardado */
+    let feito=false;
+    try{if(fromPop===true&&$("#layer > .cp152")&&!$("#layer2")?.innerHTML){
+      if(String(CP152.txt||"").trim()||CR155.pid){cr155Guarda();if(Date.now()-CR155.volta>3000){CR155.volta=Date.now();if(pushH())HST++;
+        const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},3000)}
+        toast("Volte de novo para sair. O texto fica guardado.");feito=true}
+        else{clMiolo(fromPop);toast("Seu texto ficou guardado. Toque em + para continuar.");feito=true}}}}catch(e){}
+    if(!feito)clMiolo(fromPop);
+  }finally{if(eraStory&&b){try{delete b.scrollTo}catch(e){}if(b.scrollTo!==Element.prototype.scrollTo)b.scrollTo=st;
+    if(!document.querySelector("#layer .story")){FD167_FILA=null;b.scrollLeft=x;requestAnimationFrame(()=>{try{b.scrollLeft=x}catch(e){}})}}}
+  /* [168] sem matéria aberta: zera a pilha e tira o #m= do endereço */
+  try{if(!$("#layer .mat")){CM168_PILHA=[];cm168Url(null)}}catch(e){}
+}
+/* Miolo do closeLayer: do 152 até o 007. Cada remendo podia parar antes de fechar (return); quando parava, os acabamentos
+   dos remendos de FORA dele ainda rodavam, os de dentro não. Aqui: "fim" guarda onde parou (0 = fechou de verdade) e cada
+   acabamento confere se o seu remendo chegou a chamar o de dentro (fim menor que o número dele). */
+function clMiolo(fromPop){
+  let fim=0,E137,ht125,ler123,volta123,eraHt111,eraMat111,st108,ed106c,ce106,ret104,n093;
+  pre:{
+    /* [152] voltar do celular com texto na caixa: guarda o texto (abrir de novo traz de volta) */
+    if(fromPop===true&&$("#layer > .cp152")&&CP152.txt.trim()&&!$("#layer2")?.innerHTML){CP152.guardado=CP152.txt}
+    /* [137] */
+    E137=ED132.E;
+    /* [132] editor de coluna: menu aberto, publicando, alterações não salvas */
+    {const l2=!!($("#layer2")&&$("#layer2").innerHTML),root=!l2&&$("#layer > .ed132");
+    if(root&&!closeLayer._ok&&ED132.E){const E=ED132.E;
+      const pp=root.querySelector(".ed132-pp");if(pp){pp.remove();if(fromPop===true&&pushH())HST++;fim=132;break pre}
+      if(E.env&&fromPop!==true){toast(E.modo==="editar"?"Salvando…":"Publicando…");fim=132;break pre}
+      if(E.modo==="editar"&&E.descartar!=="sim"&&ed132Sujo(E)){if(fromPop===true&&pushH())HST++;E.descartar=true;ed132Cab();toast("Alterações não salvas. Toque em Salvar, ou no × de novo para descartar.");fim=132;break pre}
+      if(E.modo!=="editar")try{ed132Guarda()}catch(e){}
+      ED132.E=null;try{htFecha()}catch(e){}}
+    else if(root&&closeLayer._ok)ED132.E=null;}
+    /* [125] */
+    {const l2=!!($("#layer2")&&$("#layer2").innerHTML);ht125=!l2&&$("#layer > .cs123-ler")&&CS123.ler&&CS123.ler.ht;}
+    /* [123] colunas: prévia, editor publicando, leitura que volta ao perfil */
+    {const l2=!!($("#layer2")&&$("#layer2").innerHTML);
+    if(!l2&&$("#layer .cs123-prev")&&CS123.ed){$("#layer .cs123-prev").remove();if(fromPop===true){if(pushH())HST++;fim=123;break pre}if(HST>0){HST--;voltarH(1)}fim=123;break pre}
+    if(!l2&&$("#layer > .cs123-ed")&&CS123.ed){if(CS123.ed.env&&fromPop!==true){toast("Publicando…");fim=123;break pre}cs123RascGuarda(true);CS123.ed=null}
+    ler123=!l2&&$("#layer > .cs123-ler")&&CS123.ler;volta123=ler123&&CS123.ler.volta;}
+    /* [111] */
+    {const l2=!!($("#layer2")&&$("#layer2").innerHTML);eraHt111=!l2&&!!$("#layer .pfv-ht");eraMat111=!l2&&!!$("#layer .mat");}
+    /* [108] */ st108=!!$("#layer .story");
+    /* [106-produção] */ ed106c=!!$("#layer > .ce");
+    /* [106-pendências] */ ce106=!!$("#layer .ce")&&!($("#layer2")?.innerHTML);
+    /* [106-pendências] voltar do celular com o "Aa" da matéria aberto: só fecha o "Aa" */
+    {const ab=$("#layer .mat-aap");if(fromPop===true&&ab&&!($("#layer2")?.innerHTML)){ab.remove();$("#layer [data-mataa]")?.setAttribute("aria-expanded","false");if(pushH())HST++;fim=106;break pre}}
+    /* [104-stories] */
+    ret104=!!$("#layer .story")&&!$("#layer2").innerHTML&&ST&&ST._ret104;if(ret104)ST._ret104=null;
+    /* [100] menu do editor aberto */
+    if($("#layer .ca100-men")){if(fromPop===true&&ED&&!($("#layer2")?.innerHTML)){ca100MenFecha();if(pushH())HST++;fim=100;break pre}ca100MenFecha()}
+    /* [094] figurinha sendo editada */
+    if(fromPop===true&&ED&&$("#layer .ce-fe")&&!($("#layer2")?.innerHTML)){fg2Ok();if(pushH())HST++;fim=94;break pre}if(!$("#layer .ce-fe"))FG2=null;
+    /* [093] */ n093=$("#layer > .ce");
+    /* [083] grade do perfil: voltar dos posts volta para a grade */
+    if(fromPop===true&&PFV&&PFV.modo==="posts"&&PFV.daGrade&&$("#layer .pfv")&&!($("#layer2")?.innerHTML)){pfIdsVolta();PFV={...PFV,modo:"grade",lista:null};pfvDesenha();fim=83;break pre}
+    /* [080] sair do Layout com fotos: pede para voltar de novo */
+    if(fromPop===true&&ED&&ED.modo==="story"&&ED.tela==="lay"&&!$("#layer .ce-sel,#layer .ce-fig")&&ED.st.bg.cel&&ED.st.bg.cel.some(Boolean)&&Date.now()-(ED._laysai||0)>3000){ED._laysai=Date.now();if(pushH())HST++;toast("Volte de novo para sair do Layout. As fotos serão descartadas.");fim=80;break pre}
+    /* [078] editor: voltar do celular desfaz um passo */
+    if(fromPop===true&&ED&&$("#layer .ce")&&!($("#layer2")?.innerHTML)&&!ED.env){const fica=()=>{if(pushH())HST++};
+      if($("#layer .ce-selfie")){camDesliga();CAM.f=ED._selfieF||"environment";$("#layer .ce-selfie").remove();fica();fim=78;break pre}
+      if($("#layer .ce-tagov")){$("#layer .ce-tagov").remove();edDesenha();fica();fim=78;break pre}
+      if(!$("#layer .ce-sel,#layer .ce-fig,#layer .ce-tx,#layer .ce-cn")){
+        if(ED.modo==="story"&&ED.tela==="lay"){ED.st.bg={tipo:"grad",g:Math.floor(Math.random()*PUB_FUNDOS.length)};ED.tela="cam";edDesenha();fica();fim=78;break pre}
+        if(ED.modo==="post"&&ED.po.passo==="fotos"&&ED.po.fotos.length+ED.po.texto.trim().length>0){edFechar();fica();fim=78;break pre}}}
+    /* [071] editor no estilo Instagram */
+    if($("#layer .ce")&&!($("#layer2")?.innerHTML)){
+      if(fromPop===true&&ED){const fica=()=>{if(pushH())HST++};
+        if(ED.env){fica();toast("Publicando…");fim=71;break pre}
+        if($("#layer .ce-sel")){$("#layer .ce-sel").remove();fica();fim=71;break pre}
+        if($("#layer .ce-fig")){$("#layer .ce-fig").remove();fica();fim=71;break pre}
+        if(ED.st.tx||$("#layer .ce-tx")){edTextoOk();fica();fim=71;break pre}
+        if(ED.st.ferr==="caneta"){ED.st.ferr=null;$("#layer .ce-cn")?.remove();$("#layer .ce").classList.remove("desenhando");edDesenha();fica();fim=71;break pre}
+        if(ED.modo==="post"&&ED.po.passo!=="fotos"){ED.po.passo=ED.po.passo==="detalhes"&&ED.po.fotos.length?"filtros":"fotos";edDesenha();fica();fim=71;break pre}
+        if(edTemAlgo()&&Date.now()-(ED._volta||0)>3000){ED._volta=Date.now();fica();toast("Volte de novo para descartar o que você fez.");fim=71;break pre}}
+      if(ED&&(ED.st.tx||$("#layer .ce-tx"))&&fromPop!==true&&!closeLayer._ok){edTextoOk();fim=71;break pre}
+      ED=null;closeLayer._ok=false}
+    /* [070] criação antiga: voltar do celular com algo feito pede para voltar de novo */
+    if(fromPop===true&&$("#layer .cria")&&!($("#layer2")?.innerHTML)&&CR&&!CR.env&&(CR.fotos.length||CR.texto.trim()||CR.pid)&&Date.now()-CR_VOLTA>3000){CR_VOLTA=Date.now();if(pushH())HST++;toast("Volte de novo para descartar o que você fez.");fim=70;break pre}
+    /* [068] criação antiga: confirma descartar */
+    if($("#layer .cria")&&CR&&!CR.env&&(CR.fotos.length||CR.texto.trim()||CR.pid)&&!fromPop&&!closeLayer._ok&&!($("#layer2")?.innerHTML)){if(!confirmaDescartar()){fim=68;break pre}}closeLayer._ok=false;if($("#layer .cria")&&!($("#layer2")?.innerHTML))CR=null;
+    /* daqui para dentro nenhum remendo para antes de fechar */
+    /* [060], [058], [057], [056] */
+    const sec=ST&&ST.sec,eraStory=!!$("#layer .story")&&!($("#layer2")?.innerHTML),tinhaMat=!!$("#layer .mat")&&!($("#layer2")?.innerHTML);
+    /* [041] janelas por cima: a página de baixo volta a rolar */
+    {const l2=$("#layer2"),l1=$("#layer");const fica=!!(l2&&l2.innerHTML&&l1&&l1.innerHTML);if(!fica)destravarFundo();}
+    /* [034] transição de saída */
+    try{if(ANIM_OK()&&!MAT_ARRASTO){const l2=$("#layer2"),L=l2&&l2.innerHTML?l2:$("#layer"),n=L&&L.firstElementChild;
+      if(n&&n.classList.contains("mat")){n.style.transform="";saidaClone(n,"sai-mat",300)}else if(n&&n.classList.contains("scrim"))saidaClone(n,"sai-sheet",280)}}catch(e){}
+    MAT_ARRASTO=false;
+    /* [033], [031] */
+    const pid033=MAT_PID,orig033=MAT_ORIG,eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);
+    /* [007] o fechar de sempre */
+    base:{if(QUIZ_ON&&$(".qopts")){QUIZ_ON=false;setTimeout(()=>toast("Quiz interrompido. Dá para refazer em Interagir."),50)}const had=($("#layer2")?.innerHTML)||$("#layer").innerHTML;if(had&&!fromPop&&HST>0){HST--;voltarH(1)}const l2=$("#layer2");if(l2&&l2.innerHTML){l2.innerHTML="";const c2=onClose;onClose=null;c2&&c2();storyRetoma();break base}clearTimeout(ST?.timer);if(ST)ST.timer=0;clearTimeout(VIRA_T);VIRANDO=false;$("#layer").innerHTML="";const c=onClose;onClose=null;c&&c()}
+    /* [031] matéria fechada na Capa: a Capa fica no mesmo lugar */
+    if(eraMat&&MAT_PID){const pid=MAT_PID;MAT_PID=null;if(VIEW==="capa"){const el0=document.getElementById("cpi-"+pid);const r0=el0?el0.getBoundingClientRect().top:null;const ab0=CP_AB;CP_AB=null;if(!cpAlternar(ab0,null))renderCapa();
+      const el=document.getElementById("cpi-"+pid);if(el&&r0!=null)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-r0)}}
+    /* [033] veio pelo "Próxima": a Capa mostra a última lida */
+    if(eraMat){MAT_ORIG=null;if(orig033&&pid033&&pid033!==orig033&&VIEW==="capa"){const f=()=>{const el=document.getElementById("cpi-"+pid033);if(el)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-innerHeight*.28)};f();requestAnimationFrame(f);setTimeout(f,150)}}
+    /* [047] versão nova esperando: recarrega quando não há janela aberta */
+    if(window.RECARGA_PEND&&VERSAO_NOVA)setTimeout(()=>{if(!temJanela()){try{sessionStorage.setItem("prumo-recarregou",VERSAO_NOVA)}catch(e){}location.reload()}},400);
+    /* [056] story fechado: a bolinha dele fica à vista na faixa */
+    if(eraStory&&sec&&VIEW==="feed"){const box=$("#secs");const sel=sec==="_5min"?"[data-5min]":sec==="_ult"?"[data-ultimas]":sec==="_ag"?"[data-igagenda]":`[data-sec-story="${CSS.escape(sec)}"]`;const b=box&&box.querySelector(sel);
+      if(b){const L=b.getBoundingClientRect().left-box.getBoundingClientRect().left+box.scrollLeft,want=Math.max(0,L-(box.clientWidth-b.offsetWidth)/2);if(Math.abs(box.scrollLeft-want)>8)box.scrollTo({left:want,behavior:REDUZ.matches?"auto":"smooth"})}}
+    /* [057] matéria aberta de dentro de um story: volta ao story */
+    if(tinhaMat&&IG_VOLTA&&!$("#layer").innerHTML){const v=IG_VOLTA;IG_VOLTA=null;if(fromPop===true||Date.now()-IG_XMAT<1500){ST=v;IG_MATPUSH=false;const _ph=pushH;pushH=()=>false;try{drawStory()}catch(e){}finally{pushH=_ph}}}
+    else if(eraStory&&!$("#layer .story")){C5=null}
+    /* [058] */
+    if(eraStory&&sec&&String(sec).indexOf("_h:")===0&&VIEW==="feed"){const b=$(`#secs [data-dest="${CSS.escape(sec.slice(3))}"]`),box=$("#secs");if(b&&box){const want=b.getBoundingClientRect().left-box.getBoundingClientRect().left+box.scrollLeft-(box.clientWidth-b.offsetWidth)/2;box.scrollTo({left:Math.max(0,want),behavior:"smooth"})}}
+    /* [059] */
+    if(!$("#layer .mat"))setTimeout(igFundoTira,$("#layer .story")?60:320);
+    /* [060] */
+    if(tinhaMat&&IG_MATPUSH&&!$("#layer .story")&&!$("#layer .mat")){IG_MATPUSH=false;if(HST>0){HST--;voltarH(1)}}
+    /* [060] faixa de stories redesenhada depois de fechar o story */
+    if(RS_PEND&&!$("#layer .story")){try{renderSecs();const box=$("#secs");if(box&&sec&&VIEW==="feed"){const sel=sec==="_5min"?"[data-5min]":sec==="_ult"?"[data-ultimas]":sec==="_ag"?"[data-igagenda]":String(sec).indexOf("_h:")===0?`[data-dest="${CSS.escape(sec.slice(3))}"]`:`[data-sec-story="${CSS.escape(sec)}"]`;const b=box.querySelector(sel);
+      if(b){const want=Math.max(0,b.getBoundingClientRect().left-box.getBoundingClientRect().left+box.scrollLeft-(box.clientWidth-b.offsetWidth)/2);if(Math.abs(box.scrollLeft-want)>8)box.scrollTo({left:want,behavior:REDUZ.matches?"auto":"smooth"})}}}catch(e){}}
+  }
+  /* acabamentos dos remendos de fora (rodam se o remendo chegou a chamar o de dentro: fim < número dele) */
+  /* [074] câmera desligada fora do editor */
+  if(fim<74){if(!$("#layer .ce"))camDesliga()}
+  /* [083] */
+  if(fim<83){if(!$("#layer .pfv")){if(PFV){pfIdsVolta();PFV=null}}}
+  /* [084] */
+  if(fim<84){if(!$("#layer .pfv-arq")&&PFV&&PFV.modo==="arq")PFV=null}
+  /* [093] editor sai com animação */
+  if(fim<93&&n093&&!n093.isConnected&&ANIM_OK()){try{if(CAM.v&&n093.contains(CAM.v))CAM.v.remove();n093.querySelectorAll("video").forEach(v=>{v.muted=true;try{v.pause()}catch(_){}});n093.querySelectorAll("[id]").forEach(x=>x.removeAttribute("id"));
+    n093.classList.add("ce-sai");n093.setAttribute("aria-hidden","true");n093.inert=true;delete n093.dataset.anim;document.body.appendChild(n093);setTimeout(()=>n093.remove(),260)}catch(e){n093.remove()}}
+  if(fim<=100){
+  /* [104-feed] */
+  if(FD104_ME)setTimeout(()=>{try{if(!$("#layer").innerHTML)fd104Me()}catch(e){}},80);
+  /* [104-stories] story aberto de um aviso: volta para onde estava */
+  if(ret104){const v=VIEW,th=typeof THREAD!=="undefined"?THREAD:null;setTimeout(()=>{try{if(VIEW===v&&(typeof THREAD==="undefined"||THREAD===th)&&!$("#layer").innerHTML&&!$("#layer2").innerHTML&&!ED&&S.uid)ret104()}catch(e){}},420)}}
+  if(fim<=106){
+  /* [106-pendências] depois de publicar, abre o perfil de quem foi marcado */
+  try{if(AD106&&ce106&&!$("#layer .ce")){const a=AD106;AD106=null;const pub=typeof ED!=="undefined"&&ED&&ED.env;if(!pub&&Date.now()-a.t<30*60e3&&typeof igAbrirUser==="function"&&pubDe(a.id))setTimeout(()=>{if(!$("#layer").innerHTML){document.querySelectorAll(".toast").forEach(x=>{if(!x.querySelector(".toast-a"))x.remove()});igAbrirUser(a.autor,a.id)}},260)}}catch(e){}
+  /* [106-produção] criou a partir da matéria e desistiu: volta para a matéria */
+  try{if(ed106c&&MC106&&!$("#layer > .ce")){const m=MC106;MC106=null;if(!m.pub&&!(typeof PQ!=="undefined"&&PQ.atual)&&Date.now()-m.t<36e5&&pautaById(m.pid))setTimeout(()=>{try{if(!$("#layer").innerHTML&&!ED){abrirMateria(m.pid);$("#layer .fc105-mc")?.scrollIntoView({block:"center"})}}catch(e){}},ANIM_OK()?260:40)}}catch(e){}
+  /* [108] anéis da faixa */
+  if(st108&&!$("#layer .story"))requestAnimationFrame(st108Aneis);
+  /* [111] página de hashtag e matéria aberta dela: volta para a hashtag */
+  try{if(!$("#layer").innerHTML&&(eraHt111||eraMat111)){const user=fromPop===true||Date.now()-HT_CLK<800;
+    if(eraHt111){try{pfIdsVolta()}catch(e){}if(!HT_FECHANDO){const o=HT_PILHA.pop();if(user)htRestaura(o);else HT_PILHA=[]}}
+    else if(HT_MAT_VOLTA){const v=HT_MAT_VOLTA;HT_MAT_VOLTA=null;if(!HT_FECHANDO&&user)abrirHashtag(v,{reabre:true})}}}catch(e){}
+  /* [113] */
+  try{if(F113_IO&&!$("#layer .mat")){F113_IO.disconnect();F113_IO=null}}catch(e){}}
+  /* [123] coluna lida a partir do perfil: volta ao perfil */
+  if(fim<123){if(ler123){CS123.ler=null;if(volta123&&!$("#layer").innerHTML){PFV=volta123.pfv;$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Perfil de ${esc(nomeDe(PFV.u))}"></div>`;try{pfvDesenha();const sc=$("#layer .pfv-sc");if(sc)sc.scrollTop=volta123.sc}catch(e){}}}}
+  /* [125] coluna lida a partir de uma hashtag: volta à hashtag */
+  if(fim<132){try{if(ht125&&fromPop===true&&!$("#layer").innerHTML)setTimeout(()=>{if(!$("#layer").innerHTML)abrirHashtag(ht125,{reabre:true})},0)}catch(e){}}
+  /* [137] */
+  try{if(E137&&E137.modo==="editar"&&E137.descartar==="sim"&&ED132.E!==E137)cr137BackTira(E137.pubId)}catch(e){}
+}
+
+/* ===== go: troca de aba (capa, feed, msgs, busca, saved, play, me) =====
+   Antes: definida no 012 e remendada em 031 (2×), 033, 035, 057, 059, 065, 070, 083, 103, 104-leitura, 111, 112, 120,
+   139, 142, 151, 159, 167 e 182 (20 remendos). Camadas: go (182, 167) → goTroca (151 … 035 e, depois, 033 … 159) →
+   goMostra (031, 031, 012). O 167 podia chamar o de dentro duas vezes (erro dentro do try dele): por isso goTroca é uma
+   função. Na carga, o 031 chama go("capa",true) quando só existiam o 012 e os dois remendos do 031: goMostra. */
+function go(v,fromPop){
+  if(!NUC_PRONTO){goMostra(v,fromPop);return}
+  /* [182] Quiz e Enquete escondidos: "Interagir" vira Capa */
+  if(v==="play"&&ft182Esc("quiz")&&ft182Esc("enquete"))v="capa";
+  /* [167] trocar de aba pela barra entra no histórico (voltar do celular volta à aba anterior) */
+  let feito=false;
+  try{
+  /* o voltar já tirou um passo (VST--) e pede a raiz: vai para a aba guardada nesse passo */
+  if(fromPop&&v===RAIZ&&FD167_PILHA.length===VST+1){const alvo=FD167_PILHA[VST];FD167_PILHA.length=VST;if(alvo&&FD167_ABAS.includes(alvo))v=alvo;goTroca(v,fromPop);feito=true}
+  else{
+  if(FD167_PILHA.length>VST)FD167_PILHA.length=Math.max(0,VST);
+  const simples=!fromPop&&v!==VIEW&&FD167_ABAS.includes(v)&&FD167_ABAS.includes(VIEW)&&!(JUMPS&&JUMPS.length)&&!TST&&!SUBV;
+  if(simples){
+    if(v===RAIZ){if(VST>1){voltarH(VST-1);VST=1}FD167_PILHA.length=0}
+    else if(VIEW===RAIZ){FD167_PILHA=[RAIZ]}/* o go de sempre guarda esta entrada (VST 0 → 1) */
+    else if(FD167_PILHA.length===VST&&VST>0){
+      /* voltar pela barra para a aba anterior = um passo para trás; senão, um passo novo */
+      if(FD167_PILHA[VST-1]===v&&VST>1){FD167_PILHA.length=VST-1;VST--;voltarH(1)}
+      else if(VST<8&&pushH()){FD167_PILHA.push(VIEW);VST++}}}}}catch(e){}
+  if(!feito)goTroca(v,fromPop);
+}
+function goTroca(v,fromPop){
+  /* [151] o feed adiado em pedaços termina antes de trocar */
+  if(PF151.fila.length)pf151Tudo();
+  /* [142] */
+  const ant142=typeof VIEW==="string"?VIEW:"";
+  /* [112] saindo do perfil */
+  if(v!=="me"&&VIEW==="me"&&!(PFV&&$("#layer .pfv")))try{pfIdsVolta()}catch(e){}
+  /* [111] */
+  HT_PILHA=[];HT_MAT_VOLTA=null;htFecha();
+  /* [104-leitura] "voltar" de Interagir/Guardadas e filtro da Capa */
+  const de=VIEW;
+  if(v==="play"||v==="saved"){if(!fromPop&&de!==v&&de!=="play"&&de!=="saved")VOLTA_DE=de==="me"?null:de}else VOLTA_DE=null;
+  if(v==="capa"&&window.FILTRO_CAPA){window.FILTRO_CAPA=0;if(FILTRO!=="tudo"){FILTRO="tudo";ssSet("radar-filtro",FILTRO);try{renderSecs();renderPosts()}catch(e){}}}
+  /* [059] */
+  igFundoTira();
+  /* [057] */
+  IG_VOLTA=null;
+  /* [035] feed adiado: desenha ao entrar */
+  if(v==="feed"&&FEED_ADIADO){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}
+  goMostra(v,fromPop);
+  /* [033] */
+  try{appLargo()}catch(e){}
+  /* [065] */
+  document.body.classList.toggle("dm-conv",VIEW==="msgs"&&!!THREAD);
+  /* [070] posts novos que chegaram fora do feed */
+  if(v==="feed"&&typeof PUB_FEED_PEND!=="undefined"&&PUB_FEED_PEND){PUB_FEED_PEND=false;try{renderPosts(true)}catch(e){}}
+  /* [083] */
+  if(v==="me"&&S.uid&&S.membro)pfCarregar(S.uid).then(()=>{if(VIEW==="me")renderMe()});
+  /* [103] */
+  try{const s=(v==="feed"||v==="capa")&&document.getElementById("v-"+v);if(s&&!s.classList.contains("cv-pronto"))requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add("cv-pronto")))}catch(e){}
+  /* [104-leitura] */
+  try{vbackAjusta()}catch(e){}
+  /* [120] */
+  if(v==="feed"&&typeof po118NoFeed==="function")try{po118NoFeed()}catch(e){}
+  /* [139] */
+  try{tc139F16Tudo()}catch(e){}
+  /* [142] telemetria */
+  try{if(typeof v==="string"&&/^[a-z]{2,12}$/.test(v)){tl142Acao("go:"+v);if(v!==ant142)tl142Conta("tela_"+v)}}catch(e){}
+  /* [159] */
+  try{ca159Lp()}catch(e){}
+}
+function goMostra(v,fromPop){
+  /* [031] */
+  const mudou=v!==VIEW;
+  /* [012] a troca de sempre */
+  let naRaiz=false;if(!fromPop&&JUMPS.length){let n=JUMPS.length;if(JUMPS[0].view!==RAIZ){n+=VST+SUBV;VST=0;SUBV=0}naRaiz=true;JUMPS=[];voltarH(n)}
+  if(!fromPop){if(VIEW==="me"&&(v==="saved"||v==="play")){if(pushH())SUBV++}else if(SUBV>0&&(VIEW==="saved"||VIEW==="play")){voltarH(SUBV);SUBV=0}}
+  if(!fromPop&&TST>0&&(v!=="msgs"||!THREAD)){voltarH(TST);TST=0}
+  if(!fromPop){if(v!==RAIZ&&(VIEW===RAIZ||naRaiz)){if(pushH())VST++}else if(v===RAIZ&&VST>0){VST--;voltarH(1)}}
+  const yAlvo=v==="feed"?(VIEW==="feed"?0:FEED_Y):0;if(VIEW==="feed"&&v!=="feed")FEED_Y=scrollY;
+  const pl=$("#pilula");if(pl)pl.hidden=v!=="feed"&&v!=="capa";if(v!==VIEW)document.querySelectorAll(".toast").forEach(x=>x.remove());
+  VIEW=v;["feed","capa","msgs","busca","saved","play","me"].forEach(k=>{const sv=$("#v-"+k);if(sv)sv.hidden=k!==v});{const tab={saved:"me",play:"me"}[v]||v;document.querySelectorAll(".nav button[data-v]").forEach(b=>{if(b.dataset.v===tab)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")})}
+  $("header.top").hidden=v!=="feed";if(v!=="msgs")THREAD=null;
+  if(v==="msgs")renderMsgs();if(v==="saved")renderSaved();if(v==="play")renderPlay();if(v==="me"){renderMe();carregarRodadas();carregarErrosResp()}
+  if(v==="feed"){requestAnimationFrame(()=>document.querySelectorAll(".track").forEach(t=>{if(FIT_IO){FIT_IO.unobserve(t);FIT_IO.observe(t)}else fitTrack(t)}));tkStart()}
+  window.scrollTo(0,yAlvo);
+  /* [031] troca de aba: some o "encolhido" e a nova tela entra suave (só quando a pessoa troca; não na abertura) */
+  {const nav=$(".nav"),topo=$("header.top");if(nav&&topo){nav.classList.remove("mini");topo.classList.remove("esconde");
+    if(mudou&&document.readyState!=="loading"&&!document.documentElement.classList.contains("ab141-abrindo")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const sec=document.getElementById("v-"+v);if(sec){try{sec.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}catch(e){}}}}}
+  /* [031] lente, Capa, Busca e aba guardada */
+  if(typeof lenteBotao==="function")lenteBotao();if(v==="capa"){capaSeMudou();uso("capa")}if(v==="busca"){renderBuscaView();uso("aba_busca");if(!fromPop){const q=$("#bvq");if(q&&!q.value)try{q.focus({preventScroll:true})}catch(e){}}}if(!fromPop&&(v==="feed"||v==="capa"))try{localStorage.setItem("prumo-aba",v);localStorage.setItem("prumo-aba-dia",hojeSP())}catch(e){}
+}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 cp200Pronta();  /* 200-capa.js: a Capa passa a desenhar com todos os acabamentos */
+nucPronto();  /* 201-nucleo.js: go passa a fazer tudo (na carga o 031 abriu a Capa só com a parte de então) */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
 </body>

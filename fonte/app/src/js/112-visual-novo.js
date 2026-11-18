@@ -253,7 +253,6 @@ if(VISUAL_NOVO){
   {const _rm112=renderMe;renderMe=function(){if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;
     const r=_rm112.apply(this,arguments);try{const m=$("#v-me .pf-me");if(m)vn112Pf(m,S.uid,VN112_PF.me)}catch(e){console.error(e)}return r}}
   {const _pv112=pfvDesenha;pfvDesenha=function(){const r=_pv112.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){if(PFV.aba!=="posts")PFV.vnAba=PFV.aba;else if(!["posts","resp","midia"].includes(PFV.vnAba))PFV.vnAba="posts";vn112Pf($("#layer .pfv .pfv-sc"),PFV.u,PFV.vnAba)}}catch(e){console.error(e)}return r}}
-  {const _go112=go;go=function(v){if(v!=="me"&&VIEW==="me"&&!(PFV&&$("#layer .pfv")))try{pfIdsVolta()}catch(e){}return _go112.apply(this,arguments)}}
   {const _ap112=abrirPerfil;abrirPerfil=function(u){if(u===S.uid)VN112_PF.me="posts";return _ap112.apply(this,arguments)}}
   /* nomes */
   {const _sh112=sheet;sheet=function(){const r=_sh112.apply(this,arguments);try{vn112Nomes($("#layer2")&&$("#layer2").innerHTML?$("#layer2"):$("#layer"))}catch(e){}return r}}

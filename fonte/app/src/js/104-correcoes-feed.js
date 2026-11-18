@@ -38,7 +38,6 @@ document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.tar
 /* publicou (ou apagou) com o Perfil aberto: a grade e o número de publicações acompanham */
 var FD104_ME=false;function fd104Me(){if(VIEW!=="me"||PF_ABA==="conta")return;if($("#layer").innerHTML){FD104_ME=true;return}FD104_ME=false;const y=scrollY;renderMe();scrollTo(0,y)}
 {const _pr104=pubRedesenha;pubRedesenha=function(){const r=_pr104.apply(this,arguments);clearTimeout(pubRedesenha.t104);pubRedesenha.t104=setTimeout(()=>{try{fd104Me()}catch(e){}},60);return r}}
-{const _cl104=closeLayer;closeLayer=function(){const r=_cl104.apply(this,arguments);if(FD104_ME)setTimeout(()=>{try{if(!$("#layer").innerHTML)fd104Me()}catch(e){}},80);return r}}
 /* quem curtiu um post: "Curtidas" (as notícias seguem com "Quem gostou") */
 {const _aq104=abrirQuem;abrirQuem=function(pid){const r=_aq104.apply(this,arguments);try{if(String(pid).indexOf("u:")===0){const h=$(".sheet .sh-h");if(h&&h.firstChild&&h.firstChild.nodeType===3)h.firstChild.textContent="Curtidas"}}catch(e){}return r}}
 /* perfil de quem não é (mais) amigo: botão de pedir/aceitar amizade; e o perfil aberto acompanha desfazer amizade/bloquear */

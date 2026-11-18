@@ -31,7 +31,6 @@ document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.targ
   try{if(FL119.parcial)document.querySelectorAll("#layer .mat-meta span").forEach(s=>{if(/min de leitura/.test(s.textContent))s.classList.add("ta120-esp")})}catch(e){}return r}}
 
 /* TA04: a linha do placar oficial confere ao abrir o Feed */
-{const _go120=go;go=function(v){const r=_go120.apply(this,arguments);if(v==="feed"&&typeof po118NoFeed==="function")try{po118NoFeed()}catch(e){}return r}}
 
 /* TA05: a última rodada que publicou (rodadas.json, horário de São Paulo) */
 function ta120Rodada(){const r=S.rodadas;if(!r||typeof r!=="object"||!r.itens||typeof r.dia!=="string")return 0;let t=0;

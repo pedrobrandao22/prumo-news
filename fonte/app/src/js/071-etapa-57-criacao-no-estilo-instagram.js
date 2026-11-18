@@ -239,17 +239,6 @@ document.addEventListener("input",e=>{const r=e.target.closest&&e.target.closest
 function edMarcar(){const P=ED.po,am=amigosL();if(!am.length){toast("Você ainda não tem amigos no Prumo.");return}const ov=document.createElement("div");ov.className="ce-sel";
   ov.innerHTML=`<div class="ce-selp"><b>Marcar pessoas</b><div class="pick dm-pick">${am.map(u=>`<button type="button" data-edmarca="${esc(u)}" aria-pressed="${P.marcados.includes(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><div class="ce-selb"><button type="button" class="btn" data-edmarcaok>Concluir</button></div></div>`;$("#layer .ce").appendChild(ov)}
 function edFechar(){if(ED&&ED.env){toast("Publicando…");return}if(edTemAlgo()){const b=$("#layer [data-edfechar]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.innerHTML="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},2500);return}}ED=null;closeLayer._ok=true;closeLayer()}
-{const _cl57=closeLayer;closeLayer=function(fromPop){if($("#layer .ce")&&!($("#layer2")?.innerHTML)){
-    if(fromPop===true&&ED){const fica=()=>{if(pushH())HST++};
-      if(ED.env){fica();toast("Publicando…");return}
-      if($("#layer .ce-sel")){$("#layer .ce-sel").remove();fica();return}
-      if($("#layer .ce-fig")){$("#layer .ce-fig").remove();fica();return}
-      if(ED.st.tx||$("#layer .ce-tx")){edTextoOk();fica();return}
-      if(ED.st.ferr==="caneta"){ED.st.ferr=null;$("#layer .ce-cn")?.remove();$("#layer .ce").classList.remove("desenhando");edDesenha();fica();return}
-      if(ED.modo==="post"&&ED.po.passo!=="fotos"){ED.po.passo=ED.po.passo==="detalhes"&&ED.po.fotos.length?"filtros":"fotos";edDesenha();fica();return}
-      if(edTemAlgo()&&Date.now()-(ED._volta||0)>3000){ED._volta=Date.now();fica();toast("Volte de novo para descartar o que você fez.");return}}
-    if(ED&&(ED.st.tx||$("#layer .ce-tx"))&&fromPop!==true&&!closeLayer._ok){edTextoOk();return}
-    ED=null;closeLayer._ok=false}return _cl57.apply(this,arguments)}}
 addEventListener("resize",()=>{if($("#layer .ce-st")||$("#ce-cv")){edEncaixa();edTracos()}});
 
 /* ===== ver o story novo (imagem + enquete/notícia/menção tocáveis) ===== */

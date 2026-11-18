@@ -30,10 +30,6 @@ var FD167_FILA=null;
 /* a posição é guardada no toque (antes da animação de abrir, que pode rolar a fileira) */
 window.addEventListener("click",e=>{const t=e.target&&e.target.closest&&e.target.closest("#secs .sb");if(!t||VIEW!=="feed"||document.querySelector("#layer .story"))return;try{FD167_FILA=document.getElementById("secs").scrollLeft}catch(_){}},true);
 {const _ia167=igAbrir;igAbrir=function(){try{const b=document.getElementById("secs");if(b&&VIEW==="feed"&&!document.querySelector("#layer .story")&&FD167_FILA==null)FD167_FILA=b.scrollLeft}catch(e){}return _ia167.apply(this,arguments)}}
-{const _cl167=closeLayer;closeLayer=function(){const eraStory=!!document.querySelector("#layer .story")&&FD167_FILA!=null,x=FD167_FILA;const b=document.getElementById("secs");let st=null;
-  if(eraStory&&b){st=b.scrollTo;b.scrollTo=function(){}}
-  try{return _cl167.apply(this,arguments)}finally{if(eraStory&&b){try{delete b.scrollTo}catch(e){}if(b.scrollTo!==Element.prototype.scrollTo)b.scrollTo=st;
-    if(!document.querySelector("#layer .story")){FD167_FILA=null;b.scrollLeft=x;requestAnimationFrame(()=>{try{b.scrollLeft=x}catch(e){}})}}}}}
 
 /* ---- topo do cartão: "seguindo" nunca cortado ---- */
 function fd167Seguindo(el){try{const st=el.querySelector(":scope>.ph .fd156-st");if(!st||st.dataset.fd167)return;st.dataset.fd167="1";
@@ -113,16 +109,3 @@ fd156CmtCancela=function(){const l=fd156CmtLe();const x=l[l.length-1];if(x)fd167
 
 /* ---- voltar do celular: refaz o caminho das abas ---- */
 var FD167_ABAS=["capa","feed","msgs","busca","me"],FD167_PILHA=[];
-{const _go167=go;go=function(v,fromPop){try{
-  /* o voltar já tirou um passo (VST--) e pede a raiz: vai para a aba guardada nesse passo */
-  if(fromPop&&v===RAIZ&&FD167_PILHA.length===VST+1){const alvo=FD167_PILHA[VST];FD167_PILHA.length=VST;if(alvo&&FD167_ABAS.includes(alvo))v=alvo;return _go167.call(this,v,fromPop)}
-  if(FD167_PILHA.length>VST)FD167_PILHA.length=Math.max(0,VST);
-  const simples=!fromPop&&v!==VIEW&&FD167_ABAS.includes(v)&&FD167_ABAS.includes(VIEW)&&!(JUMPS&&JUMPS.length)&&!TST&&!SUBV;
-  if(simples){
-    if(v===RAIZ){if(VST>1){voltarH(VST-1);VST=1}FD167_PILHA.length=0}
-    else if(VIEW===RAIZ){FD167_PILHA=[RAIZ]}/* o go de sempre guarda esta entrada (VST 0 → 1) */
-    else if(FD167_PILHA.length===VST&&VST>0){
-      /* voltar pela barra para a aba anterior = um passo para trás; senão, um passo novo */
-      if(FD167_PILHA[VST-1]===v&&VST>1){FD167_PILHA.length=VST-1;VST--;voltarH(1)}
-      else if(VST<8&&pushH()){FD167_PILHA.push(VIEW);VST++}}}}catch(e){}
-  return _go167.apply(this,arguments)}}

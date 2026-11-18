@@ -145,12 +145,6 @@ function cs123FimAtualiza(){const L=CS123.ler,el=L&&document.querySelector("#lay
 /* folhas (comentários, enviar) abrem por cima da coluna e do editor, sem fechá-los */
 {const _sh=sheet;sheet=function(){const r0=document.querySelector("#layer > .cs123-ler, #layer > .cs123-ed");if(r0&&!$("#layer2")?.innerHTML){r0.classList.add("cria");try{return _sh.apply(this,arguments)}finally{r0.classList.remove("cria")}}return _sh.apply(this,arguments)}}
 /* voltar: da coluna para o perfil de onde ela foi aberta; da prévia para o editor */
-{const _cl=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML);
-  if(!l2&&$("#layer .cs123-prev")&&CS123.ed){$("#layer .cs123-prev").remove();if(fromPop===true){if(pushH())HST++;return}if(HST>0){HST--;voltarH(1)}return}
-  if(!l2&&$("#layer > .cs123-ed")&&CS123.ed){if(CS123.ed.env&&fromPop!==true){toast("Publicando…");return}cs123RascGuarda(true);CS123.ed=null}
-  const ler=!l2&&$("#layer > .cs123-ler")&&CS123.ler,volta=ler&&CS123.ler.volta;const r=_cl.apply(this,arguments);
-  if(ler){CS123.ler=null;if(volta&&!$("#layer").innerHTML){PFV=volta.pfv;$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Perfil de ${esc(nomeDe(PFV.u))}"></div>`;try{pfvDesenha();const sc=$("#layer .pfv-sc");if(sc)sc.scrollTop=volta.sc}catch(e){}}}
-  return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if((b=t.closest("[data-cs123ler]"))&&!t.closest("a")){pare();cs123Abrir(b.dataset.cs123ler);return}
   if(t.closest("[data-cs123fecha]")){pare();history.back();return}
