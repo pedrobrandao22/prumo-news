@@ -1,11 +1,14 @@
 name: Indicadores
 # Dias úteis, no fim do dia, depois do fechamento dos mercados (decisão do Pedro, 17/11/2026): 18h30 de Brasília e, de
-# reserva, 19h30 (a segunda rodada não troca o fechamento já gravado). Dólar e Ibovespa (fechamento, com a hora da cotação),
+# reserva, 19h30 a 22h30 (as outras rodadas não troca o fechamento já gravado). Dólar e Ibovespa (fechamento, com a hora da cotação),
 # Selic, IPCA 12 meses e desemprego de fontes públicas (Banco Central, IBGE, cotações), gravados em indicadores.json.
 # O app mostra um card só na Capa, com "Atualizado em … às …". Também guarda o histórico em series/*.json.
 on:
   schedule:
-    - cron: "30 21,22 * * 1-5"
+    # 18/11: o GitHub atrasa ou pula horários (em 17/11 as duas rodadas viraram uma só às 0h05 e o fechamento não foi
+    # gravado); mais horários de reserva no mesmo dia (18h30 a 22h30 de Brasília). Os de depois não trocam o já gravado.
+    - cron: "30 21,22,23 * * 1-5"
+    - cron: "30 0,1 * * 2-6"
   workflow_dispatch:
   push:
     branches: [main]

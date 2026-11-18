@@ -20100,8 +20100,12 @@ function dt185Rel(s,hoje){s=String(s??"");if(!DT185_TEM.test(s))return s;hoje=ho
     const rel=dt185Qual(nome,dia,mes,hoje);if(!rel||antesDepois)return m0; /* "antes de ontem"/"depois de amanhã" mudariam o sentido */
     /* "ontem" só quando a frase já está no passado (18/11): "O Senado vota na terça (17)" lido na quarta viraria "vota
        ontem"; sem verbo no passado antes da data na mesma frase, fica a data por extenso. "desde/até" e "de ontem" valem. */
-    if(rel==="ontem"&&!prepTudo&&!(art&&/^d/i.test(art))){const o=arguments[arguments.length-2],tx=arguments[arguments.length-1];
-      const fr=tx.slice(0,o).split(/[.!?;:]\s/).pop();if(!DT185_PASSADO.test(fr))return m0}
+    if(rel==="ontem"){if(prepTudo&&/^para/i.test(prepTudo))return m0; /* "prevista para ontem" não serve */
+      if(!(prepTudo&&/^(até|desde)/i.test(prepTudo))&&!(art&&/^d/i.test(art))){const o=arguments[arguments.length-2],tx=arguments[arguments.length-1];
+        /* só a última oração antes da data conta: "A Nvidia perdeu 3% e divulga na quarta (17)" fica com a data */
+        /* e o verbo no passado tem de estar colado à data (até 4 palavras antes): "Quem foi pré-selecionado valida a
+           inscrição na terça (17)" fica com a data */
+        const fr=tx.slice(0,o).split(/[.!?;:,]\s|\s(?:e|mas|que|quando|onde)\s/).pop().trim().split(/\s+/).slice(-4).join(" ");if(!DT185_PASSADO.test(fr))return m0}}
     const ini=m0.slice(a.length);let n;
     if(per){const pn=perNome.toLowerCase();n=rel+(pn==="noite"?" à noite":pn==="tarde"?" à tarde":pn==="manhã"?" de manhã":" de madrugada")}
     else if(prep)n=prep.toLowerCase()+" "+rel;
