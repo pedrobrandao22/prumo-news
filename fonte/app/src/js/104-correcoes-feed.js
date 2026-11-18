@@ -34,7 +34,6 @@ document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.tar
 {const _ps104=psCarregar;psCarregar=async function(){const r=await _ps104.apply(this,arguments);try{if(PS.on){let m=0;Object.entries(CPEND).forEach(([k,p])=>{const v=p&&p.v,cid=k.split("\u0001")[1];
   if(v&&String(v.pid||"").indexOf("u:")===0&&Date.now()-p.t>5000&&!(PS.cm[String(v.pid).slice(2)]||[]).some(c=>c.id===cid)){delete CPEND[k];m=1}});if(m){S.cmts=montarCmts(S._cmtDocs);psRedesenha()}}}catch(e){}return r}}
 /* post só para os Melhores amigos: selo verde no cabeçalho (como nos stories) */
-{const _pp104=pubPostHTML;pubPostHTML=function(x){const h=_pp104.apply(this,arguments);try{if(x&&x.tipo==="post"&&x.publico==="proximos")return h.replace(/<span data-otr(="")?>/,m=>`<i class="fd104-ma" role="img" aria-label="Só para os Melhores amigos" title="Melhores amigos">★</i>`+m)}catch(e){}return h}}
 /* publicou (ou apagou) com o Perfil aberto: a grade e o número de publicações acompanham */
 var FD104_ME=false;function fd104Me(){if(VIEW!=="me"||PF_ABA==="conta")return;if($("#layer").innerHTML){FD104_ME=true;return}FD104_ME=false;const y=scrollY;renderMe();scrollTo(0,y)}
 {const _pr104=pubRedesenha;pubRedesenha=function(){const r=_pr104.apply(this,arguments);clearTimeout(pubRedesenha.t104);pubRedesenha.t104=setTimeout(()=>{try{fd104Me()}catch(e){}},60);return r}}

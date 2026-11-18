@@ -148,9 +148,6 @@ abrirThMenu=function(u){if(!S.amigos.has(u))return;const n1=String(nomeDe(u)||""
     <div class="opt co160-opt co160-pesado"><button type="button" data-desfazer="${esc(u)}">Desfazer amizade<span>vocês deixam de se ver</span></button><button type="button" data-bloquear="${esc(u)}">Bloquear<span>não pode mais te achar nem pedir amizade</span></button>${co160Admin(u)?"":`<button type="button" data-denp="${esc(u)}">Denunciar<span>o Pedro recebe e analisa</span></button>`}</div>`)};
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-co160pf]");if(!b)return;e.preventDefault();e.stopPropagation();const u=b.dataset.co160pf;closeLayer();setTimeout(()=>{try{abrirPerfil(u)}catch(_){}},60)},true);
 /* a folha "…" do perfil de um amigo (104): mesmos rótulos curtos e sem denunciar o administrador */
-{const _sh160=sheet;sheet=function(t,h){const a=[...arguments];try{if(typeof h==="string"&&/data-denp="/.test(h)){const m=h.match(/data-denp="([^"]+)"/),u=m&&m[1];
-  let x=h.replace(/(data-bloquear="[^"]+">)Bloquear [^<]*</,"$1Bloquear<").replace(/(data-denp="[^"]+">)Denunciar [^<]*</,"$1Denunciar<");if(!co160Admin(S.uid))x=x.replace("<span>o Pedro recebe e analisa</span>","<span>o administrador do Prumo analisa</span>");
-  if(u&&co160Admin(u))x=x.replace(/<button type="button" data-denp="[^"]+">[\s\S]*?<\/button>/,"");a[1]=x}}catch(e){}return _sh160.apply(this,a)}}
 /* cartão de notícia na conversa: a mesma editoria da Capa */
 {const _dc160=dmCard;dmCard=function(m){const h=_dc160.apply(this,arguments);try{if(typeof h!=="string"||(typeof dmEhPub==="function"&&dmEhPub(m)))return h;const p=m&&m.pid&&pautaById(m.pid);if(!p)return h;
   const ch=capaChapeu(p),sec=secOf(p);return ch?h.replace(new RegExp("(<span class=\"dm-ct\"><small[^>]*>)"+esc(secNome(sec)).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"</small>"),"$1"+esc(ch)+"</small>"):h}catch(e){return h}}}

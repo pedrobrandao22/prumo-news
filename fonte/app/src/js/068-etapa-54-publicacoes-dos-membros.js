@@ -89,20 +89,6 @@ function confirmaDescartar(){const b=$("#layer .cr-x");if(b&&!b.classList.contai
   setInterval(()=>{const b=document.getElementById("b-criar");if(b)b.hidden=!(S.uid&&S.membro&&PUB.on!==false)},1000)})();
 
 /* ---- posts no Feed ---- */
-function pubPostHTML(x){const id="u:"+x.id,eu=x.autor===S.uid,fs=x.fotos.map(pubUrl),nt=x.pid&&pautaById(x.pid);
-  let sl=fs.map(u=>`<div class="sl up-sl">${u?`<img class="up-img" src="${pubSrc(u)}" alt="" loading="lazy" decoding="async">`:`<div class="up-sem">Foto indisponível</div>`}</div>`);
-  const ntSl=x.pid?`<div class="sl up-sl up-nt"><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}</b><span>Ler a matéria ›</span></button></div>`:"";
-  if(ntSl)sl.push(ntSl);const soTexto=!sl.length;if(soTexto)sl=[`<div class="sl up-sl up-tx" style="background:${pubFundo(String(x.id).charCodeAt(0))}"><p>${dmMarcaPub(x.texto)}</p></div>`];
-  return `<article class="post upost" id="p-${esc(id)}" data-pid="${esc(id)}">
-    <div class="ph gut"><div class="ph-t"><span class="up-au">${avatar(x.autor)}<span class="ph-nm"><b>${esc(nomeDe(x.autor))}</b><span class="ph-sub">${esc(quando(x.at))}${x.pid&&x.fotos.length?" · com notícia":""}</span></span></span><span data-otr></span></div><button type="button" class="more-btn" data-umenu="${esc(x.id)}" aria-label="Mais opções">${ICON.dots}</button></div>
-    <div class="car"><div class="track">${sl.join("")}</div></div>
-    <div class="gut">
-      <div class="acts"><button type="button" class="act" data-a="like" aria-label="Gostei">${ICON.like}<span>Gostei</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-usend="${esc(x.id)}" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span>${sl.length>1?`<div class="prog pdots" aria-hidden="true">${sl.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${sl.length}</span></div>`:""}<button type="button" class="act" data-a="save" hidden aria-hidden="true">${ICON.save}</button></div>
-      <div class="likes" data-likes></div>
-      ${x.texto&&!soTexto?`<p class="up-leg"><b>${esc(nomeDe(x.autor))}</b> ${dmMarcaPub(x.texto)}</p>`:""}
-      <div class="pollbox" data-poll hidden></div><div data-together></div><div data-nchat></div>
-      <div class="cmt-area"><div class="cmts" data-cmts></div><button type="button" class="addc" data-a="cmt">Adicione um comentário…</button></div>
-    </div></article>`}
 function dmMarcaPub(t){return typeof dmMarca==="function"?dmMarca(t||""):esc(t||"")}
 {const _ps54=postSeguro;postSeguro=function(p){if(p&&p.__pub)try{return pubPostHTML(p.__pub)}catch(e){return ""}return _ps54.apply(this,arguments)}}
 function pubMistura(lista){if(FILTRO!=="tudo"||!PUB.on)return lista;const now=Date.now();const ps=pubVisiveis().filter(x=>x.tipo==="post"&&now-x.at<30*864e5).sort((a,b)=>b.at-a.at);if(!ps.length)return lista;

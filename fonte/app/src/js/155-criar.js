@@ -141,12 +141,6 @@ function cr155Conta(){const k=$("#layer > .ed132 .cr137-ct");if(k&&/^0 palavras/
 {const _cc155=cr137CtCopia;cr137CtCopia=function(){const r=_cc155.apply(this,arguments);try{cr155Conta()}catch(e){}return r}}
 
 /* ===== post só de texto: "Editar texto"; "Adicionar parte" explicado ===== */
-{const _sh155=sheet;sheet=function(title,body,foot){try{if(title==="Editar legenda"){const m=/data-uedok="([^"]+)"/.exec(String(foot||""));const x=m&&pubDe(m[1]);if(x&&!(x.fotos||[]).length)title="Editar texto"}
-    else if(typeof body==="string"&&body.indexOf("data-ueditar=")>=0){const m=/data-ueditar="([^"]+)"/.exec(body);const x=m&&pubDe(m[1]);if(x&&!(x.fotos||[]).length)body=body.replace(">Editar legenda<",">Editar texto<")}}catch(e){}
-  return _sh155.apply(this,[title,body,...[].slice.call(arguments,2)])}}
 {const _fh155=f113EdHTML;f113EdHTML=function(parts){let h=_fh155.apply(this,arguments);try{h=h.replace("Adicionar parte</button>","Continuar em outra parte</button>");if(!(parts||[]).length&&h.indexOf("fs2-ed-add")>=0)h+=`<p class="fs2-ed-d cr155-fio">Para um texto longo: divida em partes, como um fio. Seus amigos veem a primeira e tocam em “Ler o fio”.</p>`}catch(e){}return h}}
 
 /* ===== Feed: cartão do tamanho do conteúdo quando o post não tem foto ===== */
-{const _pp155=pubPostHTML;pubPostHTML=function(x){let h=_pp155.apply(this,arguments);try{if(typeof h!=="string"||!h||!x||x.tipo!=="post"||(x.fotos||[]).length||h.indexOf("cr155-auto")>=0)return h;
-    const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild,tr=a&&a.querySelector(".car .track");if(!tr||tr.children.length!==1)return h;
-    const s=tr.firstElementChild;if(!s.matches(".cn102-dsl,.cn102-ntsl,.up-nt,.cn102-sl"))return h;a.classList.add("cr155-auto");return a.outerHTML}catch(e){return h}}}

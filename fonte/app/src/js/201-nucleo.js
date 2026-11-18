@@ -273,3 +273,205 @@ function goMostra(v,fromPop){
   /* [031] lente, Capa, Busca e aba guardada */
   if(typeof lenteBotao==="function")lenteBotao();if(v==="capa"){capaSeMudou();uso("capa")}if(v==="busca"){renderBuscaView();uso("aba_busca");if(!fromPop){const q=$("#bvq");if(q&&!q.value)try{q.focus({preventScroll:true})}catch(e){}}}if(!fromPop&&(v==="feed"||v==="capa"))try{localStorage.setItem("prumo-aba",v);localStorage.setItem("prumo-aba-dia",hojeSP())}catch(e){}
 }
+
+/* ===== sheet: folha que sobe de baixo (título, corpo, rodapé) =====
+   Antes: definida no 007 e remendada em 106, 108, 112, 123, 132, 155 e 160 (7 remendos).
+   Camadas de fora para dentro: 160 → 155 → 132 → 123 → 112 → 108 → 106 → 007. */
+function sheet(title,body,foot="",opt={}){
+  /* [160] denúncia: textos curtos e sem "Denunciar" para o administrador */
+  try{if(typeof body==="string"&&/data-denp="/.test(body)){const m=body.match(/data-denp="([^"]+)"/),u=m&&m[1];
+    let x=body.replace(/(data-bloquear="[^"]+">)Bloquear [^<]*</,"$1Bloquear<").replace(/(data-denp="[^"]+">)Denunciar [^<]*</,"$1Denunciar<");if(!co160Admin(S.uid))x=x.replace("<span>o Pedro recebe e analisa</span>","<span>o administrador do Prumo analisa</span>");
+    if(u&&co160Admin(u))x=x.replace(/<button type="button" data-denp="[^"]+">[\s\S]*?<\/button>/,"");body=x}}catch(e){}
+  /* [155] post sem foto: "Editar texto" em vez de "Editar legenda" */
+  try{if(title==="Editar legenda"){const m=/data-uedok="([^"]+)"/.exec(String(foot||""));const x=m&&pubDe(m[1]);if(x&&!(x.fotos||[]).length)title="Editar texto"}
+    else if(typeof body==="string"&&body.indexOf("data-ueditar=")>=0){const m=/data-ueditar="([^"]+)"/.exec(body);const x=m&&pubDe(m[1]);if(x&&!(x.fotos||[]).length)body=body.replace(">Editar legenda<",">Editar texto<")}}catch(e){}
+  /* [132], [123] folha aberta sobre o editor/leitura de coluna: a coluna fica com a classe "cria" enquanto a folha monta */
+  const r132=document.querySelector("#layer > .ed132, #layer > .ed132-hubr"),c132=!!(r132&&!$("#layer2")?.innerHTML);if(c132)r132.classList.add("cria");
+  try{
+    const r123=document.querySelector("#layer > .cs123-ler, #layer > .cs123-ed"),c123=!!(r123&&!$("#layer2")?.innerHTML);if(c123)r123.classList.add("cria");
+    try{
+      /* [108] administrador: a denúncia fica na lista dele */
+      try{if(typeof body==="string"&&S.uid&&(S.membros[S.uid]||{}).papel==="admin")body=body.replace(/<span>o Pedro recebe e analisa<\/span>/g,"<span>fica na sua lista da Administração</span>")}catch(e){}
+      /* [007] a folha de sempre */
+      const L=$(".story")||$("#layer .mat")||$("#layer .pv.pv-sob")||$("#layer .cria")||$("#layer .ce")||$("#layer .pfv")?$("#layer2"):$("#layer");const vazio=!L.innerHTML;if(L.id==="layer2"&&ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now());const fb=$("#layer .bars b");if(fb)fb.style.animationPlayState="paused"}
+      L.innerHTML=`<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="grab"></div><div class="sh-h">${esc(title)}<button type="button" data-close>Fechar</button></div><div class="sh-b gut">${body}</div>${foot?`<div class="sh-f gut">${foot}</div>`:""}</div></div>`;
+      const f=L.querySelector("input");if(f&&(opt.focus||matchMedia("(pointer:fine)").matches))f.focus();
+      if(vazio&&pushH())HST++;wireSheetDrag(L.querySelector(".sheet"));
+      /* [106] avisos sem botão somem quando a folha abre */
+      try{document.querySelectorAll(".toast").forEach(x=>{if(!x.querySelector(".toast-a")&&Date.now()-(x._t106||0)>400)x.remove()})}catch(e){}
+      /* [112] nomes novos (Giro, Destaque) nos textos da folha */
+      try{vn112Nomes($("#layer2")&&$("#layer2").innerHTML?$("#layer2"):$("#layer"))}catch(e){}
+    }finally{if(c123)r123.classList.remove("cria")}
+  }finally{if(c132)r132.classList.remove("cria")}
+}
+
+/* ===== toast: aviso curto embaixo da tela (com botão opcional) =====
+   Antes: definida no 001 e remendada em 077, 099, 106, 112, 156, 161, 166 e 167 (8 remendos).
+   Camadas de fora para dentro: 167 → 166 → 161 → 156 → 112 → 106 → 099 → 077 → 001. */
+function toast(t,acao,fn){
+  /* [167] "Gostei" vira "curtida" nos avisos */
+  try{if(typeof t==="string")t=t.replace("o Gostei vai ser enviado","a curtida vai ser enviada").replace("o Gostei foi enviado","a curtida foi enviada").replace("os Gostei foram enviados","as curtidas foram enviadas")}catch(e){}
+  /* [166] sem internet com publicação na fila: não avisa que falhou */
+  try{if(typeof t==="string"&&/^Não deu para publicar\. Tente de novo\.$/.test(t)&&navigator.onLine===false&&typeof PQ!=="undefined"&&(PQ.atual||PQ.jobs.length))return}catch(e){}
+  /* [161] "salvos" viram "guardados" */
+  try{if(t==="Salvo"){t="Guardado";if(acao==="Ver salvos"){acao="Ver guardados";fn=()=>gd161Abre("posts")}}
+    else if(t==="Removido dos salvos")t="Removido dos guardados";else if(t==="Não deu para salvar agora.")t="Não deu para guardar agora."}catch(e){}
+  /* [156] sem conexão: comentário e Gostei ficam na fila */
+  try{if(typeof t==="string"){
+    if(/^O comentário não foi salvo/.test(t)){
+      if(fd156Offline()&&fd156CmtGuarda()){t="Sem conexão: o comentário vai ser enviado quando a internet voltar.";acao="Cancelar";fn=fd156CmtCancela}
+      else setTimeout(()=>{const i=document.getElementById("ctext");if(!i)return;try{if(typeof cm106Ajusta==="function")cm106Ajusta(i)}catch(e){}try{const n=i.value.length;i.setSelectionRange(n,n)}catch(e){}},0)}
+    else if(/^Não deu para marcar agora/.test(t)&&fd156Offline())t="Sem conexão: o Gostei vai ser enviado quando a internet voltar."}}catch(e){}
+  /* [112] nomes novos (Giro, Destaque) */
+  try{if(typeof t==="string"&&VN112_NOMES_T.test(t))t=vn112Troca(t)}catch(e){}
+  aviso:{
+    /* [099] "fulano foi avisado por mensagem" vira a pílula de confirmação */
+    if(typeof t==="string"){const k=/^(.+?) (foi avisado\(a\)|foram avisados|recebeu a notícia|receberam a notícia) por mensagem$/.exec(t);if(k){vp99Pilula(`✓ ${k[1]} ${k[2]}`);break aviso}}
+    /* [077] erro do vídeo no lugar do aviso genérico */
+    if(/Não deu para publicar/.test(t||"")&&window.__vErr)t=window.__vErr;
+    /* [001] o aviso de sempre */
+    document.querySelectorAll(".toast").forEach(x=>x.remove());const el=document.createElement("div");el.className="toast";el.setAttribute("role","status");const sp=document.createElement("span");sp.textContent=t;el.appendChild(sp);if(acao&&fn){const b=document.createElement("button");b.type="button";b.className="toast-a";b.textContent=acao;b.addEventListener("click",ev=>{ev.stopPropagation();el.remove();fn()});el.appendChild(b)}document.body.appendChild(el);setTimeout(()=>el.remove(),acao?4200:2600)
+  }
+  /* [106] marca a hora do aviso (a folha que abre logo depois não o apaga) */
+  const el=[...document.querySelectorAll(".toast")].pop();if(el)el._t106=Date.now();
+}
+
+/* ===== pubPostHTML: o cartão de um post de membro (Feed, Perfil, Criar) =====
+   Antes: definida no 068 e remendada em 071, 076, 077, 078, 079, 081, 084, 099, 102, 104-feed, 107, 112 (2×), 113, 117,
+   121, 122, 123, 125, 134 e 155 (20 remendos). Quase todos acabam o HTML do de dentro; dois trocam o post que vai para
+   dentro (a coluna do 123 e o post com formato do 102 desenham uma cópia com outro texto). Por isso três funções, uma por
+   "post que entra": pubPostHTML (155, 134, 125, 123) → ppMeio (122 … 102) → ppCartao (099 … 071 e o 068 em ppBase). */
+function pubPostHTML(x){
+  /* [123] coluna: o cartão sem texto nem fotos, com o cartão da coluna no lugar */
+  const c=x&&cs123Col(x);let h;
+  if(!c)h=ppMeio(x);
+  else{const y=Object.assign(Object.create(Object.getPrototypeOf(x)),x,{texto:"",fotos:[],pid:null});h=ppMeio(y);
+    try{const tp=document.createElement("template");tp.innerHTML=String(h||"").trim();const a=tp.content.firstElementChild;
+      if(a){a.classList.add("cs123-post");a.querySelectorAll(":scope>.car,:scope>.vn-rpw,.up-leg,.vn-cc-row .up-leg").forEach(e=>e.remove());
+        const ph=a.querySelector(":scope>.ph")||a.querySelector(".ph");if(ph)ph.insertAdjacentHTML("afterend",cs123CardHTML(x,c));else a.insertAdjacentHTML("afterbegin",cs123CardHTML(x,c));
+        const pg=a.querySelector(".vp99-pg,.pdots");if(pg)pg.remove();h=a.outerHTML}}catch(e){}}
+  try{if(h&&x&&x.publico==="seguidores")h=h.replace(/(<span class="ph-sub">[^<]*)/,`$1<span class="cs123-ps"> · seguidores</span>`)}catch(e){}
+  /* [125] "seguidores" também no cabeçalho do relato */
+  p125:{try{if(!x||x.publico!=="seguidores"||typeof h!=="string"||h.indexOf("ac117-meta")<0)break p125;
+    const a=vn112Tp(h),m=a&&a.querySelector(".ph .ac117-meta");if(!m||m.querySelector(".cs123-ps"))break p125;m.insertAdjacentHTML("beforeend",`<span class="cs123-ps">seguidores</span>`);h=a.outerHTML}catch(e){}}
+  /* [134] repost com trecho citado de coluna */
+  p134:{try{const tr=lt134Trecho(x),rp=tr&&vn112Rp(x);if(!tr||typeof h!=="string"||!h)break p134;
+    const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a)break p134;a.classList.remove("vn-rp-so");a.classList.add("lt134-pc");
+    a.querySelectorAll(".vn-rpk").forEach(k=>{const n=k.nextSibling;if(n&&n.nodeType===3&&/^\s*·\s*$/.test(n.nodeValue))n.remove();k.remove()});
+    const blk=lt134CitHTML(tr,rp&&rp.k==="pub"?rp.id:""),w=a.querySelector(".vn-rpw"),q=w&&w.querySelector(".vn-q");
+    if(q)q.insertAdjacentHTML("beforebegin",blk);else if(w)w.insertAdjacentHTML("beforeend",blk);else{const ph=a.querySelector(":scope>.ph");if(ph)ph.insertAdjacentHTML("afterend",`<div class="gut">${blk}</div>`);else a.insertAdjacentHTML("afterbegin",blk)}
+    h=a.outerHTML}catch(e){}}
+  /* [155] post sem foto com um slide só (gráfico, notícia, cartão): classe cr155-auto */
+  p155:{try{if(typeof h!=="string"||!h||!x||x.tipo!=="post"||(x.fotos||[]).length||h.indexOf("cr155-auto")>=0)break p155;
+    const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild,tr=a&&a.querySelector(".car .track");if(!tr||tr.children.length!==1)break p155;
+    const s=tr.firstElementChild;if(!s.matches(".cn102-dsl,.cn102-ntsl,.up-nt,.cn102-sl"))break p155;a.classList.add("cr155-auto");h=a.outerHTML}catch(e){}}
+  return h;
+}
+function ppMeio(x){
+  let h;
+  /* [102] formatos da criação (relato, análise, pergunta, notícia comentada): o cartão próprio de cada um */
+  n102:{
+    try{if(x)pubLimpa(x)}catch(e){h="";break n102}const cn=x&&x.tipo==="post"?cn102De(x):null;
+    if(!cn){h=ppCartao(x);if(h&&x&&x.pid&&!(x.fotos||[]).length)try{h=cn102TrocaNt(h,x)}catch(e){}break n102}
+    const corpo=cn102Corpo(x,cn),y=Object.assign(Object.create(Object.getPrototypeOf(x)),x,{texto:corpo});h=ppCartao(y);if(!h)break n102;
+    try{const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a)break n102;a.classList.add("cn102-post","cn102-"+cn.k);a.dataset.cn102k=cn.k;
+      /* rótulo no cabeçalho */
+      const sub=cn.k!=="nt"&&a.querySelector(".ph-sub");if(sub)sub.insertAdjacentHTML("afterbegin",`<span class="cn102-lb cn102-lb-${cn.k}">${esc({rel:"Relato",ana:"Opinião",enq:"Pergunta",nt:"Comentário"}[cn.k])}</span>`);
+      const tr=a.querySelector(".car .track");
+      if(tr){const tx=tr.querySelector(".up-tx");if(tx)tx.remove();const ntsl=tr.querySelector(".up-nt");
+        if(cn.k==="enq"&&ntsl)ntsl.remove();if(ntsl&&cn.k!=="enq")ntsl.outerHTML=cn102NtSlide(x);
+        const card=cn102CardHTML(x,cn,corpo);const fotos=!!tr.querySelector(".up-img,.up-sem,.up-vid");
+        if(card&&!(cn.k==="rel"&&fotos))tr.insertAdjacentHTML("afterbegin",card);
+        if(cn.k==="ana"&&cn.d&&String(corpo).trim())tr.children[0].insertAdjacentHTML("afterend",`<div class="sl up-sl cn102-sl cn102-dsl"><div class="cn102-cd">${cn102Svg(cn.d)}${cn.d.tipo==="ind"?`<p class="cn102-dfo">Indicador da edição do Prumo</p>`:cn.fu?`<p class="cn102-dfo">${esc("Fonte: "+((cn102Fonte(cn.fu)||{}).n||""))}</p>`:`<p class="cn102-dfo">Números informados por ${esc(cn102Primeiro(x.autor))}</p>`}</div></div>`);
+        /* pontinhos e contador com o novo número de slides */
+        const n=tr.children.length,dots=a.querySelector(".pdots");if(dots){if(n>1)dots.outerHTML=`<div class="prog pdots" aria-hidden="true">${[...Array(n)].map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${n}</span></div>`;else dots.remove()}
+        else if(n>1){const sp=a.querySelector(".acts .sp");if(sp)sp.insertAdjacentHTML("afterend",`<div class="prog pdots" aria-hidden="true">${[...Array(n)].map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${n}</span></div>`)}
+        const pg=a.querySelector(".vp99-pg");if(pg){if(n>1)pg.textContent="1/"+n;else pg.remove()}else if(n>1){const car=a.querySelector(".car");car.classList.add("vp99-car");car.insertAdjacentHTML("afterbegin",`<span class="vp99-pg" aria-hidden="true">1/${n}</span>`)}}
+      /* legenda: título e local/hora do relato com foto; o corpo inteiro da análise e do relato sem foto; fonte */
+      let leg=a.querySelector(".up-leg");const lk=a.querySelector("[data-likes]");
+      if(!leg&&String(corpo).trim().length>CN102_CURTO&&cn.k!=="enq"&&lk){lk.insertAdjacentHTML("afterend",`<p class="up-leg${corpo.length>160||/\n.*\n/.test(corpo)?" up-curta\" data-upmais role=\"button\" tabindex=\"0":""}"><b>${esc(nomeDe(x.autor))}</b> ${dmMarcaPub(corpo)}</p>`);leg=a.querySelector(".up-leg")}
+      if(!leg&&cn.k==="enq"&&String(corpo).trim()&&lk){lk.insertAdjacentHTML("afterend",`<p class="up-leg"><b>${esc(nomeDe(x.autor))}</b> ${dmMarcaPub(corpo)}</p>`);leg=a.querySelector(".up-leg")}
+      const extra=cn102Leg(x,cn,corpo);if(extra){if(leg)leg.insertAdjacentHTML("beforebegin",extra);else if(lk)lk.insertAdjacentHTML("afterend",extra)}
+      const fo=cn.k==="rel"||cn.k==="ana"?cn102FonteHTML(cn.fu):"";if(fo){const ref=leg||a.querySelector(".cn102-lm,.cn102-lt")||lk;if(ref)ref.insertAdjacentHTML("afterend",fo)}
+      h=a.outerHTML}catch(e){}
+  }
+  /* [104-feed] estrela dos Melhores amigos */
+  try{if(x&&x.tipo==="post"&&x.publico==="proximos")h=h.replace(/<span data-otr(="")?>/,m=>`<i class="fd104-ma" role="img" aria-label="Só para os Melhores amigos" title="Melhores amigos">★</i>`+m)}catch(e){}
+  /* [107] "Opinião" vira "Análise"; formato com um slide só: fc107-auto */
+  try{if(typeof h==="string"&&h&&x&&x.tipo==="post"){
+      h=h.replace('cn102-lb-ana">Opinião<','cn102-lb-ana">Análise<');const cn=cn102De(x);
+      if(cn&&["ana","rel","enq"].includes(cn.k)){const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild,tr=a&&a.querySelector(".car .track");
+        if(tr&&tr.children.length===1&&tr.firstElementChild.classList.contains("cn102-sl")){a.classList.add("fc107-auto");h=a.outerHTML}}}}catch(e){}
+  /* [112] repost */
+  try{h=vn112RpHTML(h,x)}catch(e){}
+  /* [112] cartão do visual novo */
+  p112:{try{if(typeof h!=="string"||!h||!x||x.tipo!=="post")break p112;
+    const a=vn112Tp(h);if(a){const r=vn112Rp(x);const alvo=r&&!String(x.texto||"").trim()?r:{k:"pub",id:x.id};vn112PoeRp(a,alvo.k,alvo.id);h=a.outerHTML}
+    h=VN112_CT?vn112CtPub(h,x):h}catch(e){}}
+  /* [113] fio e contexto */
+  p113:{if(typeof h!=="string"||!h||!x||x.tipo!=="post")break p113;try{const a=vn112Tp(h);if(!a)break p113;
+    const parts=f113PodeFio(x)?f113Fio(x):null;if(parts)f113PoeFio(a,x,parts);f113PoeCtx(a,x);h=a.outerHTML}catch(e){}}
+  /* [117] relato */
+  try{h=ac117Rel(h,x)}catch(e){}
+  /* [121] fonte do gráfico */
+  try{h=tb121Fonte(h,x)}catch(e){}
+  /* [122] */
+  try{h=dc122Hf(h,x)}catch(e){}try{h=dc122Nome(h)}catch(e){}
+  return h;
+}
+function ppCartao(x){
+  let h;
+  /* [079] dados de outros membros sempre normalizados (se não der, cartão vazio) */
+  c079:{try{pubLimpa(x)}catch(e){h="";break c079}
+    h=ppBase(x);
+    /* [071] local, marcados ("com fulano") e proporção da foto */
+    p071:{const es=x.estilo||{};if(es.v!==2)break p071;
+      const sub=[es.local?esc(es.local):"",esc(quando(x.at))].filter(Boolean).join(" · ");const com=(es.marcados||[]).filter(u=>S.membros[u]||S.amigos.has(u));
+      h=h.replace(/(<span class="ph-nm"><b>)([^<]*)(<\/b><span class="ph-sub">)[^<]*(<\/span>)/,(a,b1,nm,b3,b4)=>b1+nm+(com.length?` <span class="up-com">com ${com.slice(0,2).map(u=>esc(String(nomeDe(u)).split(" ")[0])).join(" e ")}${com.length>2?` e mais ${com.length-2}`:""}</span>`:"")+b3+sub+b4);
+      if(es.arv&&x.fotos.length&&Math.abs(es.arv-.8)>.01)h=h.replace('class="post upost"',`class="post upost up-ar" data-ar="${+es.arv}"`)}
+    /* [076] marcações nas fotos, texto alternativo, sem comentários/curtidas */
+    p076:{const es=x.estilo||{};if(es.v!==2||!(es.tags&&es.tags.length||es.alt||es.semCom||es.semCurt))break p076;
+      try{const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a)break p076;
+        if(es.semCom)a.classList.add("sem-com");if(es.semCurt&&x.autor!==S.uid)a.classList.add("sem-curt");
+        const sl=[...a.querySelectorAll(".track > .up-sl")].slice(0,x.fotos.length);
+        sl.forEach((s,i)=>{const im=s.querySelector("img.up-img");if(im&&es.alt&&es.alt[i])im.alt=es.alt[i];const ts=(es.tags||[]).filter(t=>t.i===i&&(S.membros&&S.membros[t.u]||S.amigos.has(t.u)||t.u===S.uid));
+          if(ts.length){s.insertAdjacentHTML("beforeend",`<button type="button" class="up-tgb" data-uptags aria-label="Ver quem está marcado">👤</button>${ts.map(t=>`<span class="up-tg" style="--tx:${t.x<.22?"-12%":t.x>.78?"-88%":"-50%"};--ty:${t.y>.82?"calc(-100% - 8px)":"8px"};left:${Math.max(5,Math.min(95,t.x*100))}%;top:${Math.max(5,Math.min(95,t.y*100))}%">${esc(nomeDe(t.u))}</span>`).join("")}`)}});
+        h=a.outerHTML}catch(e){}}
+    /* [077] reels */
+    p077:{const es=x.estilo||{};if(!es.reel||!es.video)break p077;
+      const poster=pubSrc(pubUrl(x.fotos[0])),vu=vidSrc(pubUrl(es.video));h=h.replace(/<img class="up-img"[^>]*>/,`<video class="up-img up-vid" muted loop playsinline preload="none" poster="${poster}" data-vsrc="${vu}" data-ini="${+es.ini||0}" data-fim="${+es.fim||0}"></video><span class="up-rl">▶ Reels</span>${es.mudo?"":`<button type="button" class="up-som" data-upsom aria-label="Ligar o som">🔇</button>`}`);
+      h=h.replace('class="post upost','class="post upost up-reel')}
+    /* [078] legenda longa: "mais" */
+    h=String(x.texto||"").length>160||/\n.*\n/.test(x.texto||"")?h.replace('<p class="up-leg">','<p class="up-leg up-curta" data-upmais role="button" tabindex="0">'):h;
+  }
+  /* [081] texto grande: letra menor e "Ler tudo" */
+  p081:{const n=String(x.texto||"").length;if(!/up-tx/.test(h))break p081;let o=h.replace('class="sl up-sl up-tx"',`class="sl up-sl up-tx${n>600?" up-txg":n>240?" up-txm":""}"`);if(n>600)o=o.replace(/(<div class="sl up-sl up-tx up-txg"[^>]*><p>[\s\S]*?<\/p>)/,`$1<button type="button" class="up-tudo-b" data-uptudo="${esc(x.id)}">Ler tudo</button>`);h=o}
+  /* [084] editado */
+  h=x.editado&&x.tipo==="post"?h.replace(/(<span class="ph-sub">)([^<]*)(<\/span>)/,(a,b1,t,b3)=>b1+t+" · editado"+b3):h;
+  /* [099] guardar, local · hora e contador 1/N */
+  p099:{if(!h||!x)break p099;try{
+    /* marcador de salvar (o botão já existia, escondido) */
+    h=h.replace(/<button[^>]*data-a="save"[^>]*>[\s\S]*?<\/button>/,`<button type="button" class="act vp99-sv" data-a="save" aria-label="Guardar" aria-pressed="false">${VP99_BM}</button>`);
+    /* local · hora: o local encolhe, a hora fica inteira */
+    const es=x.estilo||{};
+    if(es.local){const loc=esc(es.local);h=h.replace(/<span class="ph-sub">([^<]*)<\/span>/,(a,c)=>c.indexOf(loc+" · ")===0?`<span class="ph-sub vp99-sub"><span class="vp99-loc">${loc}</span><span class="vp99-qd">&nbsp;· ${c.slice(loc.length+3)}</span></span>`:a)}
+    /* contador 1/N em cima da foto enquanto desliza */
+    const n=(h.match(/class="sl /g)||[]).length;if(n>1)h=h.replace('<div class="car">',`<div class="car vp99-car"><span class="vp99-pg" aria-hidden="true">1/${n}</span>`);
+  }catch(e){}}
+  return h;
+}
+/* [068] o cartão de sempre */
+function ppBase(x){const id="u:"+x.id,eu=x.autor===S.uid,fs=x.fotos.map(pubUrl),nt=x.pid&&pautaById(x.pid);
+  let sl=fs.map(u=>`<div class="sl up-sl">${u?`<img class="up-img" src="${pubSrc(u)}" alt="" loading="lazy" decoding="async">`:`<div class="up-sem">Foto indisponível</div>`}</div>`);
+  const ntSl=x.pid?`<div class="sl up-sl up-nt"><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}</b><span>Ler a matéria ›</span></button></div>`:"";
+  if(ntSl)sl.push(ntSl);const soTexto=!sl.length;if(soTexto)sl=[`<div class="sl up-sl up-tx" style="background:${pubFundo(String(x.id).charCodeAt(0))}"><p>${dmMarcaPub(x.texto)}</p></div>`];
+  return `<article class="post upost" id="p-${esc(id)}" data-pid="${esc(id)}">
+    <div class="ph gut"><div class="ph-t"><span class="up-au">${avatar(x.autor)}<span class="ph-nm"><b>${esc(nomeDe(x.autor))}</b><span class="ph-sub">${esc(quando(x.at))}${x.pid&&x.fotos.length?" · com notícia":""}</span></span></span><span data-otr></span></div><button type="button" class="more-btn" data-umenu="${esc(x.id)}" aria-label="Mais opções">${ICON.dots}</button></div>
+    <div class="car"><div class="track">${sl.join("")}</div></div>
+    <div class="gut">
+      <div class="acts"><button type="button" class="act" data-a="like" aria-label="Gostei">${ICON.like}<span>Gostei</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-usend="${esc(x.id)}" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span>${sl.length>1?`<div class="prog pdots" aria-hidden="true">${sl.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${sl.length}</span></div>`:""}<button type="button" class="act" data-a="save" hidden aria-hidden="true">${ICON.save}</button></div>
+      <div class="likes" data-likes></div>
+      ${x.texto&&!soTexto?`<p class="up-leg"><b>${esc(nomeDe(x.autor))}</b> ${dmMarcaPub(x.texto)}</p>`:""}
+      <div class="pollbox" data-poll hidden></div><div data-together></div><div data-nchat></div>
+      <div class="cmt-area"><div class="cmts" data-cmts></div><button type="button" class="addc" data-a="cmt">Adicione um comentário…</button></div>
+    </div></article>`}

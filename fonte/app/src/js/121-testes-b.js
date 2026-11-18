@@ -59,8 +59,6 @@ function tb121Fonte(h,x){if(typeof h!=="string"||h.indexOf("cn102-fonte")<0||!x|
   const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a||!a.classList.contains("vn-ca"))return h;
   const fo=[...a.querySelectorAll(".cn102-fonte")].filter(f=>!f.closest(".cn102-cd,.ac117-tx"));const cd=a.querySelector(".car .cn102-cd");if(!fo.length||!cd)return h;
   fo.forEach(f=>{f.classList.add("tb121-fonte");cd.appendChild(f)});return a.outerHTML}
-if(typeof VISUAL_NOVO!=="undefined"&&VISUAL_NOVO&&typeof VN112_CT!=="undefined"&&VN112_CT==="a"){
-  const _pp121=pubPostHTML;pubPostHTML=function(x){const h=_pp121.apply(this,arguments);try{return tb121Fonte(h,x)}catch(e){return h}}}
 
 /* ===== TB07, TB09, TB10: cartão citado ===== */
 function tb121MeuArq(id){try{const x=(typeof pubDe==="function"&&pubDe(id))||(typeof ARQ8!=="undefined"&&ARQ8||[]).find(y=>y.id===id);return !!x&&x.autor===S.uid&&!!x.arquivado}catch(e){return false}}

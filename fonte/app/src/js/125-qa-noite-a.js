@@ -39,8 +39,6 @@ const qa125Prim=u=>String(nomeDe(u)||"").split(" ")[0];
 {const _vm=vn112Menu;vn112Menu=function(k,id){const r=_vm.apply(this,arguments);try{const a=vn112Alvo(k,id);if(a&&a.x&&a.x.publico==="seguidores"&&a.x.autor!==S.uid){
   const s=document.querySelector("[data-vnrpja] span");if(s)s.textContent=`Só aparece para quem também pode ver o post de ${qa125Prim(a.x.autor)} (amigos ou seguidores)`}}catch(e){}return r}}
 /* De perto (cabeçalho próprio do 117) também mostra "seguidores" quando o post é para seguidores */
-{const _pp=pubPostHTML;pubPostHTML=function(x){const h=_pp.apply(this,arguments);try{if(!x||x.publico!=="seguidores"||typeof h!=="string"||h.indexOf("ac117-meta")<0)return h;
-  const a=vn112Tp(h),m=a&&a.querySelector(".ph .ac117-meta");if(!m||m.querySelector(".cs123-ps"))return h;m.insertAdjacentHTML("beforeend",`<span class="cs123-ps">seguidores</span>`);return a.outerHTML}catch(e){}return h}}
 /* Atividade: "sua coluna “título”" no lugar de "seu post" */
 {const _an=atPubNome;atPubNome=function(x){const n=_an.apply(this,arguments);try{const c=x&&cs123Col(x);if(c)return `sua coluna “${esc(c.tit.length>60?c.tit.slice(0,59).trimEnd()+"…":c.tit)}”`}catch(e){}return n}}
 /* coluna citada: "Coluna", título e linha fina (não o texto cru com as hashtags); tocar abre a leitura */

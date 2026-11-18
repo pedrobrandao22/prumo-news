@@ -14,15 +14,6 @@ const vp99Sv=()=>window.__vp99sv||S.salvos||{};
 const vp99EhPost=k=>String(k||"").indexOf("u:")===0;
 
 /* ===== cartão do post ===== */
-{const _pp99=pubPostHTML;pubPostHTML=function(x){let h=_pp99.apply(this,arguments);if(!h||!x)return h;try{
-    /* marcador de salvar (o botão já existia, escondido) */
-    h=h.replace(/<button[^>]*data-a="save"[^>]*>[\s\S]*?<\/button>/,`<button type="button" class="act vp99-sv" data-a="save" aria-label="Guardar" aria-pressed="false">${VP99_BM}</button>`);
-    /* local · hora: o local encolhe, a hora fica inteira */
-    const es=x.estilo||{};
-    if(es.local){const loc=esc(es.local);h=h.replace(/<span class="ph-sub">([^<]*)<\/span>/,(a,c)=>c.indexOf(loc+" · ")===0?`<span class="ph-sub vp99-sub"><span class="vp99-loc">${loc}</span><span class="vp99-qd">&nbsp;· ${c.slice(loc.length+3)}</span></span>`:a)}
-    /* contador 1/N em cima da foto enquanto desliza */
-    const n=(h.match(/class="sl /g)||[]).length;if(n>1)h=h.replace('<div class="car">',`<div class="car vp99-car"><span class="vp99-pg" aria-hidden="true">1/${n}</span>`);
-  }catch(e){}return h}}
 document.addEventListener("scroll",e=>{const t=e.target;if(!t||!t.classList||!t.classList.contains("track"))return;const pg=t.parentElement&&t.parentElement.querySelector(":scope > .vp99-pg");if(!pg)return;
   const i=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));pg.textContent=`${Math.min(i+1,t.children.length)}/${t.children.length}`;pg.classList.add("on");clearTimeout(pg._t);pg._t=setTimeout(()=>pg.classList.remove("on"),1400)},true);
 
@@ -91,7 +82,6 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 /* ===== aviso "foi avisado(a) por mensagem": pílula pequena no topo, some logo ===== */
 function vp99Pilula(t){document.querySelectorAll(".vp99-pill").forEach(x=>x.remove());const el=document.createElement("div");el.className="vp99-pill";el.setAttribute("role","status");el.textContent=t;document.body.appendChild(el);
   setTimeout(()=>el.classList.add("sai"),1500);setTimeout(()=>el.remove(),1900)}
-{const _t99=toast;toast=function(m){if(typeof m==="string"){const k=/^(.+?) (foi avisado\(a\)|foram avisados|recebeu a notícia|receberam a notícia) por mensagem$/.exec(m);if(k){vp99Pilula(`✓ ${k[1]} ${k[2]}`);return}}return _t99.apply(this,arguments)}}
 
 /* ===== enviar: amigos em cima; embaixo Story, Copiar link e Outros apps ===== */
 function vp99Link(id){const o=/^https?:\/\/(localhost|127\.)/.test(location.origin)?location.origin:"https://prumonews.com.br";return `${o}/#p=${id}`}

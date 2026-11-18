@@ -257,8 +257,4 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer .story [data-conversa]");if(!b)return;e.stopPropagation();const u=b.dataset.conversa;closeLayer();setTimeout(()=>abrirConversa(u),60)},true);
 /* ===== post novo no Feed: formato, local e marcados ===== */
-{const _pp57=pubPostHTML;pubPostHTML=function(x){let h=_pp57.apply(this,arguments);const es=x.estilo||{};if(es.v!==2)return h;
-  const sub=[es.local?esc(es.local):"",esc(quando(x.at))].filter(Boolean).join(" · ");const com=(es.marcados||[]).filter(u=>S.membros[u]||S.amigos.has(u));
-  h=h.replace(/(<span class="ph-nm"><b>)([^<]*)(<\/b><span class="ph-sub">)[^<]*(<\/span>)/,(a,b1,nm,b3,b4)=>b1+nm+(com.length?` <span class="up-com">com ${com.slice(0,2).map(u=>esc(String(nomeDe(u)).split(" ")[0])).join(" e ")}${com.length>2?` e mais ${com.length-2}`:""}</span>`:"")+b3+sub+b4);
-  if(es.arv&&x.fotos.length&&Math.abs(es.arv-.8)>.01)h=h.replace('class="post upost"',`class="post upost up-ar" data-ar="${+es.arv}"`);return h}}
 

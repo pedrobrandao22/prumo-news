@@ -35,7 +35,6 @@ document.addEventListener("submit",e=>{const f=e.target;if(!f)return;if(f.id==="
 {const _oc108=openComments;openComments=function(pid){const r=_oc108.apply(this,arguments);try{rs108Poe($("#ctext"),"cm:"+pid)}catch(e){}return r}}
 
 /* 4. administrador: "Denunciar" não diz "o Pedro recebe e analisa" para o próprio administrador */
-{const _sh108=sheet;sheet=function(t,h){const a=[...arguments];try{if(typeof h==="string"&&S.uid&&(S.membros[S.uid]||{}).papel==="admin")a[1]=h.replace(/<span>o Pedro recebe e analisa<\/span>/g,"<span>fica na sua lista da Administração</span>")}catch(e){}return _sh108.apply(this,a)}}
 
 /* 5. story que venceu com a pessoa olhando: o anel sai da bandeja (antes ficava lá e o toque não abria nada) */
 function st108Vencidos(){try{if(!S.uid||!S.membro||typeof PUB==="undefined"||!PUB.on||$("#layer .story"))return false;

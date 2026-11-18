@@ -145,8 +145,6 @@ function f113EdLe(){document.querySelectorAll("#fs2-edb [data-f113eparte]").forE
 if(VN_FASE2){
   document.documentElement.classList.add("fs2");
   /* post: fio e contexto */
-  {const _pp113=pubPostHTML;pubPostHTML=function(x){const h=_pp113.apply(this,arguments);if(typeof h!=="string"||!h||!x||x.tipo!=="post")return h;try{const a=vn112Tp(h);if(!a)return h;
-    const parts=f113PodeFio(x)?f113Fio(x):null;if(parts)f113PoeFio(a,x,parts);f113PoeCtx(a,x);return a.outerHTML}catch(e){return h}}}
   /* o comentário logo abaixo da notícia já está junto dela: sem caixa de contexto; prateleira */
   {const _ps113=postSeguro;postSeguro=function(p){if(p&&p.__f113)try{return f113PratHTML(p.__f113)}catch(e){return ""}
     let h=_ps113.apply(this,arguments);try{if(p&&p.__fc107&&typeof h==="string"&&h.indexOf("fs2-ctx")>=0){const a=vn112Tp(h);if(a){a.querySelectorAll(".fs2-ctx").forEach(e=>e.remove());h=a.outerHTML}}}catch(e){}return h}}

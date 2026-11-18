@@ -53,8 +53,6 @@ function at106Aceitos(){try{if(!S.uid||!S.membro||!S.amigosOk)return;const k="pr
 {const _ra106=rerenderAll;rerenderAll=function(){at106Aceitos();return _ra106.apply(this,arguments)}}
 
 /* 4. Aviso (toast) que já estava na tela não fica por cima de uma folha que acabou de abrir */
-{const _t106=toast;toast=function(){const r=_t106.apply(this,arguments);const el=[...document.querySelectorAll(".toast")].pop();if(el)el._t106=Date.now();return r}}
-{const _sh106=sheet;sheet=function(){const r=_sh106.apply(this,arguments);try{document.querySelectorAll(".toast").forEach(x=>{if(!x.querySelector(".toast-a")&&Date.now()-(x._t106||0)>400)x.remove()})}catch(e){}return r}}
 
 /* 5. Matéria: voltar do celular com o menu "Aa" aberto fecha só o menu */
 

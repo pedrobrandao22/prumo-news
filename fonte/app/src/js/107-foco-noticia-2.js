@@ -93,10 +93,6 @@ if(FOCO_LIGADO){
   {const _ps107=postSeguro;postSeguro=function(p){const h=_ps107.apply(this,arguments);try{if(typeof h!=="string"||!h||!p)return h;if(p.__fc107)return fc107Junto(h,p);if(!p.__pub)return fc107NoPost(h,p.id)}catch(e){}return h}}
   /* post de membro: "Análise de" (como no cartão do story); análise e relato sem foto ficam do tamanho do texto */
   {const _ck107=cn102Kick;cn102Kick=function(k,au){return k==="ana"?`Análise de ${esc(nomeDe(au))}`:_ck107.apply(this,arguments)}}
-  {const _pp107=pubPostHTML;pubPostHTML=function(x){let h=_pp107.apply(this,arguments);try{if(typeof h!=="string"||!h||!x||x.tipo!=="post")return h;
-      h=h.replace('cn102-lb-ana">Opinião<','cn102-lb-ana">Análise<');const cn=cn102De(x);
-      if(cn&&["ana","rel","enq"].includes(cn.k)){const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild,tr=a&&a.querySelector(".car .track");
-        if(tr&&tr.children.length===1&&tr.firstElementChild.classList.contains("cn102-sl")){a.classList.add("fc107-auto");h=a.outerHTML}}}catch(e){}return h}}
   /* barra de publicar */
   {const _cb107=cn102Barra;cn102Barra=function(){const r=_cb107.apply(this,arguments);try{fc107Barra()}catch(e){}return r}}
   {const _pc107=pubCarregar;pubCarregar=async function(){const r=await _pc107.apply(this,arguments);try{fc107Capa();fc107Barra()}catch(e){}return r}}

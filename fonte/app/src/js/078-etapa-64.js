@@ -11,6 +11,5 @@ setInterval(()=>{const v=$("#layer .us2-vid");if(!v||!PREF.storyAuto||US_HOLD)re
 /* contador do texto do story */
 document.addEventListener("input",e=>{if(e.target.id!=="ce-txa")return;let c=$("#ce-txc");const n=e.target.value.length;if(n<180){c&&c.remove();return}if(!c){e.target.closest(".ce-tx").insertAdjacentHTML("beforeend",`<div class="ce-txc" id="ce-txc"></div>`);c=$("#ce-txc")}c.textContent=`${n}/220`},true);
 /* legenda longa no Feed: "… mais" */
-{const _pp64=pubPostHTML;pubPostHTML=function(x){const h=_pp64.apply(this,arguments);return String(x.texto||"").length>160||/\n.*\n/.test(x.texto||"")?h.replace('<p class="up-leg">','<p class="up-leg up-curta" data-upmais role="button" tabindex="0">'):h}}
 document.addEventListener("click",e=>{const p=e.target.closest&&e.target.closest(".upost .up-leg.up-curta");if(!p||e.target.closest("a,.dm-at"))return;p.classList.remove("up-curta")},true);
 

@@ -40,7 +40,6 @@ function fd167Seguindo(el){try{const st=el.querySelector(":scope>.ph .fd156-st")
 /* ---- "curtir" no lugar de "gostar" (sem conta e no nome do botão) ---- */
 function fd167Curtir(root){try{(root||document).querySelectorAll('[data-a="like"][aria-label="Gostei"]').forEach(b=>b.setAttribute("aria-label","Curtir"))}catch(e){}}
 {const _ac167=avisoConta;avisoConta=function(){const r=_ac167.apply(this,arguments);try{const s=document.querySelector("#avisoconta>span");if(s&&/para gostar/.test(s.textContent))s.textContent="Você está só lendo. Entre para curtir, comentar e conversar."}catch(e){}return r}}
-{const _to167=toast;toast=function(m){const a=[...arguments];try{if(typeof m==="string")a[0]=m.replace("o Gostei vai ser enviado","a curtida vai ser enviada").replace("o Gostei foi enviado","a curtida foi enviada").replace("os Gostei foram enviados","as curtidas foram enviadas")}catch(e){}return _to167.apply(this,a)}}
 
 /* ---- rodapé do Feed: hora da última conferência e próxima atualização (sem a lista de horários) ---- */
 function fd167Conferida(){try{const r=S.rodadas;if(!r||!r.itens||r.dia!==hojeSP())return null;let m=null;

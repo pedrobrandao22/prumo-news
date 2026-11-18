@@ -1,11 +1,5 @@
 /* ---------- camadas ---------- */
 let onClose=null;
-function sheet(title,body,foot="",opt={}){
-  const L=$(".story")||$("#layer .mat")||$("#layer .pv.pv-sob")||$("#layer .cria")||$("#layer .ce")||$("#layer .pfv")?$("#layer2"):$("#layer");const vazio=!L.innerHTML;if(L.id==="layer2"&&ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now());const fb=$("#layer .bars b");if(fb)fb.style.animationPlayState="paused"}
-  L.innerHTML=`<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="grab"></div><div class="sh-h">${esc(title)}<button type="button" data-close>Fechar</button></div><div class="sh-b gut">${body}</div>${foot?`<div class="sh-f gut">${foot}</div>`:""}</div></div>`;
-  const f=L.querySelector("input");if(f&&(opt.focus||matchMedia("(pointer:fine)").matches))f.focus();
-  if(vazio&&pushH())HST++;wireSheetDrag(L.querySelector(".sheet"));
-}
 /* voltas do histórico ficam para o fim do toque; se outra janela abrir no mesmo toque, ela reaproveita a entrada */
 function voltarH(n){BACKN+=n;if(!BACKT)BACKT=setTimeout(()=>{BACKT=0;const k=BACKN;BACKN=0;if(k>0){IGN++;try{history.go(-k)}catch(e){IGN--}}},0)}
 function pushH(){if(BACKN>0){BACKN--;return true}if(IGN>0){PUSHQ++;return true}return hPush()}

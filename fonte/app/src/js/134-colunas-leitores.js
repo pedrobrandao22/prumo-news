@@ -192,12 +192,6 @@ function lt134Trecho(x){const t=x&&x.estilo&&x.estilo.trecho;if(!t||typeof t!=="
   return {t:s,au:/^[0-9a-f-]{36}$/i.test(String(t.au||""))?String(t.au):"",n:cs123S(t.n,60).trim()}}
 const lt134TrNome=tr=>tr.au&&(S.membros[tr.au]||tr.au===S.uid||(CS123.pess||{})[tr.au])?nomeDe(tr.au):(tr.n||"Membro");
 function lt134CitHTML(tr,id){return `<blockquote class="lt134-cit"${id?` data-cs123ler="${esc(id)}"`:""}><p>“${esc(tr.t)}”</p><cite>Coluna de ${esc(lt134TrNome(tr))}</cite></blockquote>`}
-{const _pp=pubPostHTML;pubPostHTML=function(x){const h=_pp.apply(this,arguments);try{const tr=lt134Trecho(x),rp=tr&&vn112Rp(x);if(!tr||typeof h!=="string"||!h)return h;
-  const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a)return h;a.classList.remove("vn-rp-so");a.classList.add("lt134-pc");
-  a.querySelectorAll(".vn-rpk").forEach(k=>{const n=k.nextSibling;if(n&&n.nodeType===3&&/^\s*·\s*$/.test(n.nodeValue))n.remove();k.remove()});
-  const blk=lt134CitHTML(tr,rp&&rp.k==="pub"?rp.id:""),w=a.querySelector(".vn-rpw"),q=w&&w.querySelector(".vn-q");
-  if(q)q.insertAdjacentHTML("beforebegin",blk);else if(w)w.insertAdjacentHTML("beforeend",blk);else{const ph=a.querySelector(":scope>.ph");if(ph)ph.insertAdjacentHTML("afterend",`<div class="gut">${blk}</div>`);else a.insertAdjacentHTML("afterbegin",blk)}
-  return a.outerHTML}catch(e){return h}}}
 /* a citação com trecho não é "repost simples" (não some nem se junta no Feed) */
 if(typeof dc122Simples==="function"){const _ds=dc122Simples;dc122Simples=function(x){return lt134Trecho(x)?null:_ds.apply(this,arguments)}}
 /* seleção dentro do texto da coluna */
