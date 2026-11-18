@@ -107,9 +107,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 function mt158Seguidas(){return Object.keys(PREF.seguindo||{}).map(k=>({k,nome:PREF.seguindo[k]}))}
 function mt158SegLinha(){const n=mt158Seguidas().length;if(!n)return "";
   return `<button type="button" class="pf-cols mt158-pf" data-mt158cobs><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg><span><b>Coberturas que sigo</b><small>${n} ${n===1?"cobertura":"coberturas"} · sobem no feed</small></span><i aria-hidden="true">›</i></button>`}
-{const _pf158=pfCab;pfCab=function(u){const h=_pf158.apply(this,arguments);try{if(u===S.uid&&typeof h==="string"&&h.indexOf("data-mt158cobs")<0){const l=mt158SegLinha();if(!l)return h;
-    const i=h.indexOf("data-cp152cols");if(i>=0){const j=h.indexOf("</button>",i)+9;return h.slice(0,j)+l+h.slice(j)}
-    const k=h.indexOf('<div class="pf-bts">');if(k>=0){const j=h.indexOf("</div>",k)+6;return h.slice(0,j)+l+h.slice(j)}}}catch(e){}return h}}
 /* sem conta: o Perfil não tem cabeçalho, então a linha entra no alto da tela */
 function mt158AbreSeguidas(){const l=mt158Seguidas();uso("coberturas_seguidas");
   const ps=FEED&&FEED.pautas||[],dm=FEED&&FEED.dormentes||[];

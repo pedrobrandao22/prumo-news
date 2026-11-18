@@ -153,8 +153,6 @@ if(FOCO_LIGADO){
     return _pp.apply(this,arguments)}}
   /* bandeja: busca só de figurinhas */
   {const _fg=edFigs;edFigs=function(){const r=_fg.apply(this,arguments);try{const q=$("#ce-figq");if(q)q.placeholder="Buscar figurinhas"}catch(e){}return r}}
-  /* perfil vazio: o convite fala de conteúdo */
-  {const _pt=pfTiles;pfTiles=function(){const h=_pt.apply(this,arguments);return typeof h==="string"?h.replace("Compartilhe sua primeira publicação.","Comente uma notícia ou conte o que aconteceu perto de você."):h}}
 }
 
 /* ===== 7. cliques ===== */

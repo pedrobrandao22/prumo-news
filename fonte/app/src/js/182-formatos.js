@@ -45,11 +45,7 @@ window.addEventListener("click",e=>{if(!ft182Esc("giro"))return;const t=e.target
   const b=t.closest('[data-criarde="story"],[data-upstory],[data-usadd],#layer [data-edmodo="story"],#layer [data-crtipo="story"]');
   const vazio=!b&&t.closest("#secs [data-meustory]")&&!(typeof pubStoriesDe==="function"&&pubStoriesDe(S.uid).length);
   if(b||vazio){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()}},true);
-/* Perfil: a foto sem giro não tem "+" (nem abre a criação) */
-{const _pc182=pfCab;pfCab=function(u){const h=_pc182.apply(this,arguments);if(!ft182Esc("giro")||typeof h!=="string")return h;
-  return h.replace(' data-criarde="story"',"").replace('<i class="pf-mais" aria-hidden="true">+</i>',"")}}
 /* textos que citavam os formatos escondidos */
-{const _pt182=pfTiles;pfTiles=function(){const h=_pt182.apply(this,arguments);return typeof h==="string"&&ft182Esc("deperto")?h.replace("Comente uma notícia ou conte o que aconteceu perto de você.","Comente uma notícia ou escreva o que você pensa."):h}}
 function ft182Tour(t){if(typeof t!=="string")return t;if(ft182Esc("enquete"))t=t.replace(/, vote nas enquetes/g,"").replace("curtir, comentar, votar e conversar","curtir, comentar e conversar");
   if(ft182Esc("deperto"))t=t.replace(": comentários, relatos do que viram e análises.",": comentários e opiniões.");return t}
 {const _tt182=tourTelas;tourTelas=function(){const l=_tt182.apply(this,arguments);try{l.forEach(s=>{s.p=ft182Tour(s.p)})}catch(e){}return l}}
