@@ -33,7 +33,7 @@ function slides(p){
   return out.slice(0,5);
 }
 function coberturaTxt(p){const n=(p.fontes||[]).length,r=(p.fontes||[]).filter(k=>REGUA().includes(k)).length;return `${n} ${n===1?"veículo noticiou":"veículos noticiaram"}${r&&r<n?` · ${r} dos ${REGUA().length} principais`:""}`}
-function postSeguro(p){try{return postHTML(p)}catch(e){return ""}}
+
 function postHTML(p){
   const sec=secOf(p),ss=slidesSociais(p),nv=NOVAS.has(p.id)&&!LIDAS.has(p.id),at=ATUALIZADAS.has(p.id);
   return `<article class="post" id="p-${esc(p.id)}" data-pid="${esc(p.id)}">
@@ -61,32 +61,10 @@ function atividadeAmigos(pid){const {likes,cm}=socialOf(pid);return amigosL().ma
 const CPEND={};
 function montarCmts(docs){const by={};docs.forEach(([uid,dd])=>Object.entries((dd&&dd.itens)||{}).forEach(([cid,c])=>{const k=uid+"\u0001"+cid,p=CPEND[k];if(p){if(Date.now()-p.t>30000||(p.v?!!c:!c))delete CPEND[k]}if(c&&c.texto&&!(p&&p.v===null))(by[c.pid]=by[c.pid]||[]).push({...c,id:cid,uid})}));
   Object.entries(CPEND).forEach(([k,p])=>{if(Date.now()-p.t>90000){delete CPEND[k];return}if(!p.v)return;const [uid,cid]=k.split("\u0001");const l=(by[p.v.pid]=by[p.v.pid]||[]);if(!l.some(c=>c.id===cid))l.push({...p.v,id:cid,uid})});return by}
-function updateSocial(pid){
-  const sa=$("#s-acts");if(sa&&sa.dataset.pid===pid)sa.innerHTML=storyActs(pid);
-  const el=document.getElementById("p-"+pid);if(!el)return;
-  const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid)),others=likes.filter(u=>u!==S.uid);
-  const lb=el.querySelector('[data-a="like"]');lb.classList.toggle("on",mine);lb.setAttribute("aria-pressed",String(mine));
-  el.querySelector('[data-n="like"]').textContent="";
-  el.querySelector('[data-n="cmt"]').textContent="";
-  const sb=el.querySelector('[data-a="save"]'),sv=!!S.salvos[pid];sb.classList.toggle("saved",sv);sb.setAttribute("aria-pressed",String(sv));
-  let lt="";const n1=others[0]?`<b>${esc(nomeDe(others[0]))}</b>`:"";
-  if(mine&&others.length===1)lt=`<b>Você</b> e ${n1} gostaram`;
-  else if(mine&&others.length>1)lt=`<b>Você</b> e mais ${others.length} gostaram`;
-  else if(others.length===1)lt=`${n1} gostou`;
-  else if(others.length>1)lt=`${n1} e mais ${others.length-1} gostaram`;
-  {const lk=el.querySelector("[data-likes]");lk.innerHTML=lt;if(lt){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}else{delete lk.dataset.a;lk.removeAttribute("role");lk.removeAttribute("tabindex")}}
-  const pp=pautaById(pid);if(pp){const pl=el.querySelector("[data-poll]");if(pl){const eh=enqueteHTML(pp);pl.innerHTML=eh?`<span class="pb-l">Enquete</span>${eh}`:""}}
-  {const ot=el.querySelector("[data-otr]");if(ot){const at=atividadeAmigos(pid);
-    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("gostou")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
-    else if(at.length>1)ot.innerHTML=`<span class="otr" role="button" tabindex="0" data-otrs="${esc(pid)}" aria-label="${esc(at.length+" amigos nesta notícia")}">${avatares(at.map(x=>x.u))}${at.length} amigos</span>`;
-    else ot.innerHTML=""}}
-  {const nc=el.querySelector("[data-nchat]");if(nc){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto);const u=ms[ms.length-1];nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}}
-  el.querySelector("[data-together]").innerHTML="";
-  el.querySelector("[data-cmts]").innerHTML=(cm.length>2?`<button type="button" class="link" data-a="cmt">Ver os ${cm.length} comentários</button>`:"")+cm.slice(-2).map(c=>`<div class="cmt" data-a="cmt" role="button" tabindex="0"><b>${esc(nomeDe(c.uid))}</b>${esc(c.texto)}</div>`).join("");
-}
+
 var FIT_IO=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)fitTrack(e.target)}),{rootMargin:"900px 0px"}):null;
 /* cartão de notícia do visual novo (112, .vn-cn): mídia mais baixa; a altura já sai certa aqui para as páginas de texto (052) serem cortadas nela */
-function fitTrack(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",(t.closest&&t.closest(".vn-cn")?Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6))):Math.max(300,Math.round(Math.min(w*1.25,innerHeight*0.7))))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
+
 function wireTracks(root){
   root.querySelectorAll(".track").forEach((t,ix)=>{
     if(ix<3||!FIT_IO)fitTrack(t);else FIT_IO.observe(t);let tm=null;t.closest(".post")?.addEventListener("contentvisibilityautostatechange",ev=>{if(!ev.skipped)fitTrack(t)});
@@ -106,25 +84,7 @@ function renderChg(){
   if(FILTRO!=="tudo"||!m||!(m.itens||[]).length){box.innerHTML="";return}
   box.innerHTML=`<div class="chg gut"><h4>${esc(m.titulo||"O que mudou")}</h4><ul>${m.itens.slice(0,8).map(i=>`<li><button type="button" data-goto="${esc(i.pid)}"><em class="${esc(i.tipo)}">${i.tipo==="nova"?"Nova":i.tipo==="atualizada"?"Atualizada":"Saiu"}</em><span>${esc(i.texto||pautaById(i.pid)?.neutro?.titulo||"")}</span></button></li>`).join("")}</ul></div>`;
 }
-function renderPosts(manter){
-  AUTO=autoPesos();
-  let lista=listaFeed();
-  const novas=lista.filter(p=>NOVAS.has(p.id)&&!LIDAS.has(p.id)).length+lista.filter(p=>ATUALIZADAS.has(p.id)).length;
-  let h="";
-  if(FILTRO!=="tudo"){h+=`<div class="sech gut"><i style="background:${FILTRO[0]==="_"?"var(--bronze)":secCor(FILTRO)}"></i><h4>${esc(nomeFiltro(FILTRO))}</h4><button type="button" class="vertudo" data-filtro="tudo">Ver tudo ✕</button><span>${lista.length} ${lista.length===1?"notícia":"notícias"}${FILTRO==="politica"&&FEED.contagem?" · "+esc(FEED.contagem):""}</span></div>`;h+=secHub(FILTRO)}
-  NOVID=lista.filter(p=>(NOVAS.has(p.id)&&!LIDAS.has(p.id))||ATUALIZADAS.has(p.id)).map(p=>p.id);
-  if(novas)h+=`<button type="button" class="newbar gut" data-novidades><span class="nb-d"></span>${novas} ${novas===1?"novidade":"novidades"} desde a sua última visita${VISITA0&&hhmm(VISITA0)?` (${esc(diaHora(VISITA0))})`:""}<span class="chev" aria-hidden="true">›</span></button>`;
-  if(FILTRO==="tudo"){const u=urgHTML("urg-f");if(u)h=`<div class="gut">${u}</div>`+h}h+=cobSegStrip();
-  LOTE={lista,pos:Math.min(manter?Math.max(6,LOTE.pos||0):6,lista.length)};h=avisoAtraso()+h+lista.slice(0,LOTE.pos).map(postSeguro).join("")+(LOTE.pos<lista.length?`<div id="mais" class="empty" style="padding:24px">Carregando mais notícias…</div>`:"");
-  $("#posts").innerHTML=lista.length?h:`${h}<div class="empty"><b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Nada do que você segue nesta edição":FILTRO[0]==="_"?"Nada por aqui ainda":"Nenhuma notícia nesta seção agora"}</b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Siga uma cobertura (botão Seguir) ou escolha o seu time em Esportes. Para ver tudo, mude a ordem no filtro.":FILTRO[0]==="_"?"Quando isso mudar, as notícias aparecem aqui.":""}<button type="button" class="btn ghost" data-filtro="tudo" style="margin-top:10px">Ver todas as notícias</button></div>`;
-  lista.slice(0,LOTE.pos).forEach(p=>updateSocial(p.id));wireTracks($("#posts"));observarMais();
-  renderChgBox();
-  const br=FILTRO[0]==="_"?[]:(FEED.breves||[]).filter(b=>(FILTRO==="tudo"&&!(PREF.ocultas||[]).includes(b.secao||"politica"))||(b.secao||"politica")===FILTRO);
-  const at=new Date(FEED.atualizado_em);
-  $("#extra").innerHTML=`<div class="done gut" id="emdia"></div>${br.length?`<div class="sec gut"><h4>Outras notícias</h4><ul class="brv">${(window.BREVES=br,br).map((b,bi)=>`<li><button type="button" class="brv-b" data-breve="${bi}">${b.urgente&&tms(b.hora)&&Date.now()-tms(b.hora)<3*3600e3?`<em class="ug">Urgente</em>`:""}${esc(b.titulo)}</button><span>${esc(secNome(b.secao||"politica"))} · ${esc(nomeFonte(b.fonte))}</span></li>`).join("")}</ul></div>`:""}
-  <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}.</b> A edição completa sai às 6h52 e é atualizada de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48; manchetes e indicadores são conferidos de hora em hora.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As fotos vêm de acervos de uso livre, sempre com crédito (Agência Brasil, Senado, Câmara e Wikimedia Commons); quando não há foto, o Prumo usa um desenho.</p></div>`;
-  atualizarEmDia();
-}
+
 function renderFeed(){
   if(!FEED)return;
   $("#ed").textContent=[FEED.edicao,FEED.contagem].filter(Boolean).join(" · ");

@@ -136,8 +136,7 @@ function lt134CmDecora(){const pid=LT134.cpid,m=/^u:(.+)$/.exec(String(pid||""))
     b.textContent=fx?"Desafixar":"Fixar"});
   /* os fixados vão para o topo, na ordem em que foram fixados */
   const ul=box.querySelector(".clist");if(ul)l.slice().reverse().forEach(d=>{const li=[...ul.children].find(li=>{const c=lt134CmDo(li);return c&&c.autor===d.cautor&&c.cid===d.cid});if(li&&ul.firstElementChild!==li)ul.prepend(li)})}
-{const _oc=openComments;openComments=function(pid){const r=_oc.apply(this,arguments);try{const m=/^u:(.+)$/.exec(String(pid||"")),x=m&&pubDe(m[1]);
-  if(x&&cs123Col(x)){LT134.cpid=pid;const rc=S._reCmt;if(rc)S._reCmt=function(){const q=rc.apply(this,arguments);try{lt134CmDecora()}catch(e){}return q};lt134CmDecora();lt134DestCarrega(x.id)}else LT134.cpid=null}catch(e){}return r}}
+
 async function lt134Fixa(id,cautor,cid,b){if(LT134.v13!==true||typeof SB==="undefined"||!SB)return;const l=LT134.dest[id]||[],ja=l.find(d=>d.cautor===cautor&&d.cid===cid);if(b)b.disabled=true;
   try{if(ja){const r=await SB.from("coluna_destaques").delete().eq("pub",id).eq("cautor",cautor).eq("cid",cid);if(r&&r.error)throw r.error;toast("Comentário desafixado")}
     else{if(l.length>=3){toast("Você já fixou 3 comentários. Desafixe um para fixar outro.");return}const r=await SB.from("coluna_destaques").insert({pub:id,cautor,cid}).select("cid");if(r.error)throw r.error;toast("Comentário fixado no topo da coluna");uso("coluna_fixar")}

@@ -54,9 +54,4 @@ function semDraw(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const vazi
   </div></div>`;
   igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto({neutro:{titulo:"",texto:txt.replace(/<[^>]+>/g," ")}});igEntra();renderSecs()}
 {const _ds72=drawStory;drawStory=function(){if(ST&&ST.sec==="_sem"){clearTimeout(ST.timer);semDraw();return}return _ds72.apply(this,arguments)}}
-{const _rs72=renderSecs;renderSecs=function(){const r=_rs72.apply(this,arguments);try{const box=$("#secs");if(!box||!FEED||box.querySelector("[data-semana]")||!S.uid||!S.membro||!semMostra())return r;
-  const n=semDados().l.length;let vis=false;try{vis=localStorage.getItem("prumo-sem-visto")===semChave()}catch(e){}
-  const h=igCirc('data-semana',"ig-sem"+(vis?" visto":""),`<span class="ig-semc"><b>${n}</b><small>lidas</small></span>`,"Sua semana","Resumo da sua semana");
-  const c5=box.querySelector("[data-5min]");if(c5)c5.insertAdjacentHTML("afterend",h);else box.insertAdjacentHTML("afterbegin",h)}catch(e){}return r}}
-
 

@@ -34,5 +34,4 @@ function slidesSociais(p){try{
   return out}catch(e){return p.tipo==="pontual"?cobPontualSlides(p):slides(p)}}
 /* páginas desenhadas: se a letra não couber, diminui um pouco (sem quebrar a página) */
 function ssCaber(t){t.querySelectorAll(".ss").forEach(sl=>{let k=1;sl.style.setProperty("--ssk","1");for(let n=0;n<8&&sl.scrollHeight>sl.clientHeight+1;n++){k-=.07;sl.style.setProperty("--ssk",k.toFixed(2))}})}
-{const _ft41=fitTrack;fitTrack=function(t){const r=_ft41.apply(this,arguments);if(t&&t.closest&&t.closest(".post")){const go=()=>ssCaber(t);if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(go);else go()}return r}}
 

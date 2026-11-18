@@ -66,9 +66,7 @@ function igDrawDest(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const p
 {const _ds46=drawStory;drawStory=function(anim){if(ST&&String(ST.sec||"").indexOf("_h:")===0){clearTimeout(ST.timer);igDrawDest();igRodape();igPreCarrega();return}
   if(ST&&ST.sec!=="_ag"){const p=stPs()[ST.i];if(p&&p.__vis){clearTimeout(ST.timer);igDrawVis(p);igRodape();igPreCarrega();return}}
   const r=_ds46.apply(this,arguments);igRodape();igPreCarrega();return r}}
-{const _rs46=renderSecs;renderSecs=function(){const r=_rs46.apply(this,arguments);const box=$("#secs");if(!box||!FEED)return r;
-  try{box.querySelectorAll(".ig-div,[data-dest]").forEach(x=>x.remove());const ds=destaques();if(ds.length){const x=box.scrollLeft;
-    box.insertAdjacentHTML("beforeend",`<span class="ig-div" aria-hidden="true"></span>`+ds.map(p=>{const f=fotoDe(p);return `<button type="button" class="sb ig-s ig-dest" data-dest="${esc(p.id)}" aria-label="Destaque: ${esc(temaDe(p)||capaChapeu(p))}"><span class="ig-r dest${DEST_VISTOS.has(destChave(p))?" visto":""}"><span class="ig-f paper" data-sec="${esc(secOf(p))}">${f?`<img src="${escU(fotoMini(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(p.imagem)}</span></span><b>${esc(destNome(p))}</b></button>`}).join(""));box.scrollLeft=x}}catch(e){}return r}}
+
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#secs [data-dest]");if(!b)return;e.stopPropagation();(window.comTransicao||((o,f)=>f()))(b.querySelector(".ig-r")||b,()=>destAbrir(b.dataset.dest),".story-in")},true);
 
 /* ===== 1. comentar pelo story ===== */
@@ -79,7 +77,7 @@ function igRodape(){const sa=$("#layer #s-acts");if(!sa||sa.closest(".sg-f2"))re
   const f=document.createElement("div");f.className="s-f sg-f sg-f2";f.dataset.pid=pid;
   f.innerHTML=`<div class="sg-top2"><button type="button" class="sg-ler sg-ler2" data-stmat="${esc(pid)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>Ler a matéria</button><span class="sg-ccw">${igCmtChip(pid)}</span></div><div class="sg-bot2"><form class="sg-rp" autocomplete="off"><input type="text" maxlength="600" enterkeyhint="send" placeholder="Comentar…" aria-label="Comentar esta notícia"><button type="submit" class="sg-rp-b" aria-label="Publicar o comentário">Publicar</button></form></div>`;
   sa.replaceWith(f);sa.className="sg-acts";sa.removeAttribute("style");f.querySelector(".sg-bot2").appendChild(sa)}
-{const _us46=updateSocial;updateSocial=function(pid){const r=_us46.apply(this,arguments);try{const w=$("#layer .sg-f2");if(w&&w.dataset.pid===pid){const c=w.querySelector(".sg-ccw");if(c)c.innerHTML=igCmtChip(pid)}}catch(e){}return r}}
+
 var IG_DIG=false;
 function igPausa(){if(!ST)return;if(ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now())}const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"}
 document.addEventListener("focusin",e=>{const i=e.target.closest&&e.target.closest("#layer .sg-rp input");if(!i)return;

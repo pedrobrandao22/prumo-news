@@ -37,9 +37,7 @@ function qb126Marca(pred){if(!S.uid||!S.membro)return;try{const v=atVisto(),vk=q
     nt124PrefMuda(n=>{const m={};const lim=Math.max(atVisto(),ag-31*864e5);Object.entries(qb126Vk()).forEach(([k,t])=>{if(+t>lim)m[k]=+t});ks.forEach(k=>{m[k]=ag});
       const o=Object.keys(m).sort((a,b)=>m[b]-m[a]).slice(0,150);n.vk={};o.forEach(k=>{n.vk[k]=m[k]})});nt124Pinta()}catch(e){}}
 function qb126MarcaDepois(pred){setTimeout(()=>qb126Marca(pred),60)}
-{const _oc126=openComments;openComments=function(pid){const r=_oc126.apply(this,arguments);try{const id=String(pid||"");
-    if(/^u:/.test(id)){const pub=id.slice(2);qb126MarcaDepois(x=>(x.pub===pub&&nt124Cat(x)==="comentarios")||String(x.k).indexOf("cc8:"+pub+"|")===0)}
-    else if(id)qb126MarcaDepois(x=>(x.pid===id&&nt124Cat(x)==="comentarios")||x.cpid===id||(x.msg&&x.msg.pid===id))}catch(e){}return r}}
+
 function qb126MarcaPub(id){id=String(id||"");if(!id)return;qb126MarcaDepois(x=>x.pub===id||x.vnrp===id||x.k==="nt124p:"+id||x.k==="nt124c:"+id||(x.msg&&x.msg.snap&&x.msg.snap.upub===id))}
 {const _pi126=pubIrPara;pubIrPara=function(id){const r=_pi126.apply(this,arguments);qb126MarcaPub(id);return r}}
 if(typeof vn112AbrePub==="function"){const _va126=vn112AbrePub;vn112AbrePub=function(id){const r=_va126.apply(this,arguments);qb126MarcaPub(id);return r}}

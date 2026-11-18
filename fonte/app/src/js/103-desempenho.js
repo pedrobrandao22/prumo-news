@@ -11,7 +11,7 @@
 })();
 /* 2. com o Feed escondido (a pessoa está na Capa), não desenhar o Feed inteiro: só o primeiro lote.
       (escondido, o "#mais" parece estar sempre na tela e o carregamento seguia até o fim; o resto vem ao rolar, como sempre) */
-{const _cm102=carregarMais;carregarMais=function(sync){if(!sync){const v=document.getElementById("v-feed");if(v&&v.hidden)return}return _cm102.apply(this,arguments)}}
+
 /* 3. o Feed adiado (desenhado num momento ocioso) não redesenha a Capa se nada nela mudou */
 if(typeof RF_REAL==="function"){const _rf102=RF_REAL;RF_REAL=function(){if(VIEW!=="capa")return _rf102.apply(this,arguments);
   const rc=renderCapa;renderCapa=function(){if(!document.querySelector("#v-capa .cpi")||capaSig()!==CAPA_SIG)return rc.apply(this,arguments)};

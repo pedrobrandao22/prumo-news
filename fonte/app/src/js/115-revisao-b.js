@@ -16,10 +16,6 @@ function rb115CtxFeed(){const box=document.getElementById("posts");if(!box)retur
   box.querySelectorAll(".fs2-ctx").forEach(c=>{const id=c.dataset.f113ctx,post=c.closest(".post");if(!id||!post)return;
     let ant=post.previousElementSibling;while(ant&&!ant.matches(".post,.fs2-sh"))ant=ant.previousElementSibling;
     if(vistos.has(id)||(ant&&ant.id==="p-"+id))c.remove();else vistos.add(id)})}
-if(typeof VN_FASE2!=="undefined"&&VN_FASE2){
-  {const _rp115=renderPosts;renderPosts=function(){const r=_rp115.apply(this,arguments);try{rb115CtxFeed()}catch(e){}return r}}
-  {const _cm115=carregarMais;carregarMais=function(){const r=_cm115.apply(this,arguments);try{rb115CtxFeed()}catch(e){}return r}}
-}
 
 /* ===== B08 ===== */
 const RB115_Y_CARTAO=.74;

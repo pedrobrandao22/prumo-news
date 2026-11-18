@@ -76,7 +76,7 @@ function htSugere(i){const tk=htToken(i);if(!tk){if(HT_INP===i||!i)htFecha();ret
   HT_BOX.innerHTML=l.map(s=>`<button type="button" role="option" data-htsug="${esc(s.tag)}"><b>${esc(s.tag)}</b><small>${esc(s.d)}</small></button>`).join("");
   const r=i.getBoundingClientRect();HT_BOX.style.left=Math.max(8,r.left)+"px";HT_BOX.style.width=Math.min(innerWidth-16,Math.max(220,r.width))+"px";HT_BOX.style.top="";HT_BOX.style.bottom=(innerHeight-r.top+6)+"px";
   const b=HT_BOX.getBoundingClientRect();if(b.top<8){HT_BOX.style.bottom="auto";HT_BOX.style.top=(r.bottom+6)+"px"}}
-{const _ms111=menSugere;menSugere=function(i){const r=_ms111.apply(this,arguments);try{htSugere(i)}catch(e){}return r}}
+
 document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest(".ht-box [data-htsug]");if(!b||!HT_INP)return;e.preventDefault();const i=HT_INP,tk=htToken(i);if(!tk)return;
   const tag=b.dataset.htsug,pos=i.selectionStart??i.value.length;i.value=i.value.slice(0,tk.ini)+tag+" "+i.value.slice(pos);const np=tk.ini+tag.length+1;try{i.setSelectionRange(np,np)}catch(_){}
   htFecha();i.dispatchEvent(new Event("input",{bubbles:true}));htFecha();i.focus()},true);
@@ -113,16 +113,12 @@ function htDesenha(){const el=$("#layer .pfv-ht");if(!el)return;const k=el.datas
 function htLinhaNot(p,cls){const l=htDaPauta(p);return l.length?`<p class="${cls}">${l.map(t=>`<button type="button" class="ht-n" data-ht="${esc(t)}">${esc(t)}</button>`).join("")}</p>`:""}
 function htNaMateria(pid){const p=pautaById(pid),m=$("#layer .mat .mat-c");if(!p||!m)return;if(!m.querySelector(".ht-mat")){const h=htLinhaNot(p,"ht-mat");if(h){const h1=m.querySelector("h1");if(h1)h1.insertAdjacentHTML("beforebegin",h);else m.insertAdjacentHTML("afterbegin",h)}}
   if(HT_MAT_VOLTA){const b=$("#layer .mat-v");if(b){b.textContent="‹ "+HT_MAT_VOLTA;b.setAttribute("aria-label","Voltar para "+HT_MAT_VOLTA)}}}
-{const _ps111=postSeguro;postSeguro=function(p){let h=_ps111.apply(this,arguments);try{if(typeof h!=="string"||!h||!p||p.__fc107)return h;
-    let sg=null;if(p.__pub)sg=htSeguidaDePost(p.__pub);else{const pp=pautaById(p.id)||p;const ln=htLinhaNot(pp,"ht-nl");if(ln&&h.indexOf('class="ht-nl')<0){const i=h.indexOf('<div class="pollbox"');if(i>0)h=h.slice(0,i)+ln+h.slice(i)}sg=htSeguidaDe(pp)}
-    if(sg)h=h.replace(/^(\s*<article\b[^>]*>)/,`$1<p class="ht-por gut">Por seguir <b>${esc(sg)}</b></p>`)}catch(e){}return h}}
+
 /* ---- Feed: o que tem hashtag seguida sobe ---- */
 {const _lf111=listaFeed;listaFeed=function(){const l=_lf111.apply(this,arguments);try{if(FILTRO!=="tudo"||!Array.isArray(l)||l.length<3||!Object.keys(htSeguidas()).length)return l;
     const mov=[];for(let i=1;i<l.length&&mov.length<3;i++){const p=l[i];if(p&&!p.__pub&&!p.__fc107&&!LIDAS.has(p.id)&&htSeguidaDe(p))mov.push(p)}if(!mov.length)return l;
     const out=l.filter(p=>!mov.includes(p));out.splice(1,0,...mov);return out}catch(e){return l}}}
-{const _pm111=pubMistura;pubMistura=function(lista){const out=_pm111.apply(this,arguments);try{if(!Array.isArray(out)||!Object.keys(htSeguidas()).length)return out;
-    const ps=out.filter(x=>x&&x.__pub&&Date.now()-(+x.__pub.at||0)<7*864e5&&htSeguidaDePost(x.__pub)).slice(0,2);
-    ps.forEach((x,j)=>{const i=out.indexOf(x);if(i>1+j){out.splice(i,1);out.splice(1+j,0,x)}})}catch(e){}return out}}
+
 /* ---- Buscar: "#tag", hashtags seguidas e em alta ---- */
 function htResultado(o,I){const nn=htNoticias(o.k).length+htDormentes(o.k).length,np=htPostsCom(o.k).length,nc=htCmtsCom(o.k).length;
   const d=[nn?htPl(nn,"notícia","notícias"):"",np?htPl(np,"post","posts"):"",nc?htPl(nc,"comentário","comentários"):""].filter(Boolean).join(" · ")||"Nada ainda";

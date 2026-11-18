@@ -2,8 +2,7 @@
 /* "Sua semana" sai da fileira (continua em Perfil › Conta). A Agenda deixa de ter bolinha própria
    e vira as últimas telas do "Em 5 min" (hoje e o próximo dia com compromissos: no máximo 2 telas). */
 {const _agp101=agPaginas;agPaginas=function(){const l=_agp101.apply(this,arguments);return l.slice(0,2)}}
-{const _rs101=renderSecs;renderSecs=function(){const r=_rs101.apply(this,arguments);
-  try{const box=$("#secs");if(box)box.querySelectorAll("[data-igagenda],[data-semana]").forEach(b=>{const sb=b.closest(".sb")||b;sb.remove()})}catch(e){}return r}}
+
 function bt101Cinco(){try{return cincoLista().length>0}catch(e){return false}}
 function bt101N5(){try{return igLista("_5min").ps.length}catch(e){return 0}}
 /* "Em 5 min": a barra de progresso já mostra as telas da Agenda que vêm em seguida */

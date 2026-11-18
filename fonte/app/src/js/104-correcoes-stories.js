@@ -35,8 +35,7 @@ function ar104Marca(raiz,sel,achar){if(!raiz)return;raiz.querySelectorAll(sel).f
 {const _dn104=destNovo;destNovo=async function(){const r=await _dn104.apply(this,arguments);try{ar104Marca(document.querySelector(".sheet .dest-pick")?.closest(".sheet"),"[data-destsel]",b=>(ARQ||[]).find(x=>String(x.id)===b.dataset.destsel))}catch(e){}return r}}
 /* 5. anel verde dos Melhores amigos: aparece quando há um story para os Melhores amigos que você ainda não viu
    (antes só olhava o último story; se o amigo postasse outro depois, o verde sumia mesmo sem você ter visto) */
-{const _rs104=renderSecs;renderSecs=function(){const r=_rs104.apply(this,arguments);try{document.querySelectorAll("#secs [data-ustory]").forEach(b=>{const xs=pubStoriesDe(b.dataset.ustory);
-  if(xs.some(x=>x.publico==="proximos"&&!PUB_VISTOS.has(x.id)))b.querySelector(".ig-r")?.classList.add("ma")})}catch(e){}return r}}
+
 /* 6. apagar story pelo "Mais" (apaga em modo quieto): a bandeja não era redesenhada e o seu anel continuava lá
    (cinza) depois de apagar todos */
 {const _pa104=pubApagar;pubApagar=async function(id,quieto){const x=pubDe(id),st=x&&x.tipo==="story";const r=await _pa104.apply(this,arguments);try{if(r&&quieto&&st)pubRedesenha()}catch(e){}return r}}

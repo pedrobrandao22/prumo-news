@@ -6,7 +6,7 @@ function pubPodeVer(x){const s=new Set([x.autor]);if(x.autor===S.uid&&x.publico!
 {const _am67=avisarMencoes;avisarMencoes=async function(pid,t){if(String(pid||"").indexOf("u:")!==0)return _am67.apply(this,arguments);const x=pubDe(String(pid).slice(2));if(!x||!S.uid||!S.membro)return;const pode=pubPodeVer(x),todos=mencionados(t).filter(u=>u!==S.uid),us=todos.filter(u=>pode.has(u)),fora=todos.filter(u=>!pode.has(u));
   if(us.length){const res=await Promise.all(us.map(u=>dmEnviar(u,{texto:String(t).slice(0,1000),pid,snap:{titulo:(x.estilo&&x.estilo.reel?"Reel":"Post")+" de "+nomeDe(x.autor),upub:x.id},tipo:"mencao"},true)));const ok=us.filter((u,i)=>res[i]);if(ok.length)setTimeout(()=>toast(`${ok.map(nomeDe).join(" e ")} ${ok.length>1?"foram avisados":"foi avisado(a)"} por mensagem`),900)}
   if(fora.length)setTimeout(()=>toast(`${fora.map(u=>String(nomeDe(u)).split(" ")[0]).join(" e ")} não ${fora.length>1?"conseguem":"consegue"} abrir este post, então não ${fora.length>1?"foram avisados":"foi avisado(a)"}.`),1700)}}
-{const _ms67=menSugere;menSugere=function(i){const r=_ms67.apply(this,arguments);try{if(i&&i.id==="ctext"&&String(CMT_PID||"").indexOf("u:")===0&&MEN_BOX){const x=pubDe(String(CMT_PID).slice(2));if(x){const pode=pubPodeVer(x);MEN_BOX.querySelectorAll("[data-men]").forEach(b=>{if(!pode.has(b.dataset.men))b.remove()});if(!MEN_BOX.querySelector("[data-men]"))menFecha()}}}catch(e){}return r}}
+
 /* menção: nome inteiro, não pedaço de outro nome; primeiro nome sozinho vale se for único */
 mencionados=function(t){const n=norm(t||"");const am=amigosL().map(u=>[u,norm(nomeDe(u)).trim()]).filter(x=>x[1]).sort((a,b)=>b[1].length-a[1].length);let resto=n;const out=[];
   const re=k=>new RegExp("@"+k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![a-z0-9\\u00c0-\\u024f])","i");
@@ -29,7 +29,7 @@ document.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const L=$("#laye
   const a=fs[0],z=fs[fs.length-1];if(!L.contains(document.activeElement)){e.preventDefault();a.focus();return}if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}});
 
 /* curtidas ocultas: o cabeçalho também não diz quem curtiu */
-{const _us67=updateSocial;updateSocial=function(pid){const r=_us67.apply(this,arguments);try{const el=document.getElementById("p-"+pid);if(el&&el.classList.contains("sem-curt")){const o=el.querySelector("[data-otr]");if(o)o.innerHTML=""}}catch(e){}return r}}
+
 /* números das marcas acompanham as fotos */
 {const _ep67=edPost;edPost=function(){try{const P=ED.po;(P.tags||[]).forEach(t=>{const i=P.fotos.indexOf(edTagF(t));if(i>=0)t.i=i})}catch(e){}return _ep67.apply(this,arguments)}}
 /* post só de texto muito longo: "Ler tudo" */

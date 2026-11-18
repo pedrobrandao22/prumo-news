@@ -90,10 +90,7 @@ function confirmaDescartar(){const b=$("#layer .cr-x");if(b&&!b.classList.contai
 
 /* ---- posts no Feed ---- */
 function dmMarcaPub(t){return typeof dmMarca==="function"?dmMarca(t||""):esc(t||"")}
-{const _ps54=postSeguro;postSeguro=function(p){if(p&&p.__pub)try{return pubPostHTML(p.__pub)}catch(e){return ""}return _ps54.apply(this,arguments)}}
-function pubMistura(lista){if(FILTRO!=="tudo"||!PUB.on)return lista;const now=Date.now();const ps=pubVisiveis().filter(x=>x.tipo==="post"&&now-x.at<30*864e5).sort((a,b)=>b.at-a.at);if(!ps.length)return lista;
-  const out=lista.slice();let k=0;ps.forEach(x=>{const novo=now-x.at<48*3600e3;const pos=novo?1+k*3:Math.min(out.length,8+k*4);out.splice(Math.min(out.length,pos),0,{id:"u:"+x.id,__pub:x});k++});return out}
-{const _rp54=renderPosts;renderPosts=function(){const lf=listaFeed;listaFeed=function(){return pubMistura(lf.apply(this,arguments))};try{return _rp54.apply(this,arguments)}finally{listaFeed=lf}}}
+
 /* menu e enviar dos posts */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("[data-umenu]")){e.stopPropagation();const x=pubDe(b.dataset.umenu);if(!x)return;
@@ -113,12 +110,7 @@ function pubIrPara(id){const x=pubDe(id);if(!x){toast("Esta publicação não es
 function pubStoriesDe(u){const now=Date.now();return pubVisiveis().filter(x=>x.tipo==="story"&&x.autor===u&&(x.expira||0)>now).sort((a,b)=>a.at-b.at)}
 function pubAutoresStory(){const now=Date.now(),m={};pubVisiveis().forEach(x=>{if(x.tipo==="story"&&(x.expira||0)>now&&x.autor!==S.uid)(m[x.autor]=m[x.autor]||[]).push(x)});
   return Object.keys(m).map(u=>({u,ult:Math.max(...m[u].map(x=>x.at)),novo:m[u].some(x=>!PUB_VISTOS.has(x.id))})).sort((a,b)=>(b.novo-a.novo)||(b.ult-a.ult))}
-{const _rs54=renderSecs;renderSecs=function(){const r=_rs54.apply(this,arguments);const box=$("#secs");if(!box||$("#layer .story")||!box.classList.contains("ig"))return r;
-  try{box.querySelectorAll("[data-meustory],[data-ustory]").forEach(x=>x.remove());if(!(S.uid&&S.membro&&PUB.on!==false))return r;const x0=box.scrollLeft;
-    const meus=pubStoriesDe(S.uid),av=u=>`<span class="ig-f up-avf">${avatar(u)}</span>`;
-    let h=`<button type="button" class="sb ig-s" data-meustory aria-label="${meus.length?"Seu giro":"Criar giro"}"><span class="ig-r${meus.length?(meus.every(x=>PUB_VISTOS.has(x.id))?" visto":""):" sem"}">${av(S.uid)}</span><i class="up-mais" data-criarde="story" role="button" aria-label="Criar giro">+</i><b>Seu giro</b></button>`;
-    h+=pubAutoresStory().map(a=>`<button type="button" class="sb ig-s" data-ustory="${esc(a.u)}" aria-label="Giro de ${esc(nomeDe(a.u))}"><span class="ig-r${a.novo?"":" visto"}" style="--c:${corDe(a.u)}">${av(a.u)}</span><b>${esc(String(nomeDe(a.u)).split(" ")[0])}</b></button>`).join("");
-    box.insertAdjacentHTML("afterbegin",h);box.scrollLeft=x0}catch(e){}return r}}
+
 {const _il54=igLista;igLista=function(sec){if(String(sec).indexOf("_u:")===0){const fr=pubStoriesDe(sec.slice(3));return {ps:fr,itens:fr}}return _il54.apply(this,arguments)}}
 {const _sp54=stPs;stPs=function(){if(ST&&String(ST.sec||"").indexOf("_u:")===0)return ST.itens||[];return _sp54.apply(this,arguments)}}
 {const _no54=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_u:")===0){const u=sec.slice(3);return u===S.uid?"Seu giro":nomeDe(u)}return _no54.apply(this,arguments)}}

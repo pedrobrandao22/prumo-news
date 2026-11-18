@@ -192,8 +192,49 @@ const AREAS = {
       await foto('posts-01'); await P.evaluate(() => window.scrollBy(0, innerHeight - 80)); await foto('posts-02'); await P.evaluate(() => window.scrollBy(0, innerHeight - 80)); await foto('posts-03') },
     'perfil': async (P, foto) => { await P.evaluate(() => go('me')); await rolarPartes(P, foto, 'perfil', 3); await P.evaluate(() => go('capa')); await foto('perfil-volta-capa') },
   },
-  // feed, criar, perfil: acrescentar aqui (cada tela abre a partir da Capa, num contexto novo)
+  // Feed (Fase 3): do topo ao fim com prateleiras, círculos das seções, cartão de notícia em páginas, filtro de seção,
+  // posts de amigos no meio, comentários (no cartão e abertos), carregar mais até o fim
+  feed: {
+    'inteira': async (P, foto) => { await P.evaluate(() => go('feed')); await rolarPartes(P, foto, 'inteira', 12) },
+    'circulos': async (P, foto) => { await P.evaluate(() => { go('feed'); const s = document.querySelector('#secs'); if (s) s.scrollLeft = 200 }); await foto('circulos') },
+    'paginas': async (P, foto) => { await P.evaluate(() => go('feed'));
+      for (const k of [1, 2, 3]) { const ok = await P.evaluate(k => { const t = document.querySelector('#posts .post .track'); if (!t || !t.children[k]) return false;
+          t.closest('.post').scrollIntoView(); t.scrollLeft = t.clientWidth * k; t.dispatchEvent(new Event('scroll')); return true }, k);
+        if (!ok) break; await U_sleep(500); await foto('paginas-' + (k + 1)) } },
+    'secao': async (P, foto) => { await P.evaluate(() => { go('feed'); const b = document.querySelector('#filters [data-filtro]:not([data-filtro="tudo"])'); if (b) b.click() }); await rolarPartes(P, foto, 'secao', 3);
+      await P.evaluate(() => { const b = document.querySelector('[data-filtro="tudo"]'); if (b) b.click() }); await foto('secao-volta') },
+    'social': async (P, foto) => { await feedSocial(P); await P.evaluate(() => go('feed')); await rolarPartes(P, foto, 'social', 5) },
+    'comentarios': async (P, foto) => { await feedSocial(P); await P.evaluate(() => { go('feed'); openComments(FEED.pautas[0].id) }); await foto('comentarios-abertos'); await fechar(P);
+      // o cartão muda de altura enquanto as páginas se ajustam: volta ao topo, espera assentar e desce de uma vez só
+      // (o cabeçalho e a barra de baixo mudam conforme a última rolagem foi para cima ou para baixo)
+      await P.evaluate(() => window.scrollTo(0, 0)); await U_sleep(1200);
+      await P.evaluate(() => { const el = document.getElementById('p-' + FEED.pautas[0].id); if (el) window.scrollTo(0, el.getBoundingClientRect().top + scrollY - 60) });
+      await foto('comentarios-no-cartao') },
+    'fim': async (P, foto) => { await P.evaluate(() => go('feed'));
+      for (let i = 0; i < 30; i++) { const tem = await P.evaluate(() => { window.scrollTo(0, document.documentElement.scrollHeight); return !!document.querySelector('#mais') }); if (!tem) break; await U_sleep(300) }
+      await P.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight)); await foto('fim');
+      await P.evaluate(() => window.scrollBy(0, -(innerHeight - 80))); await foto('fim-antes') },
+  },
+  // criar, perfil: acrescentar aqui (cada tela abre a partir da Capa, num contexto novo)
 };
+// Feed com gente: conta de teste com amigos, curtidas, comentários e dois posts de amigos (entram no meio do Feed)
+async function feedSocial(P) {
+  await P.evaluate(() => {
+    const T = Date.now(), M = 6e4, H = 36e5, p0 = FEED.pautas[0], p1 = FEED.pautas[1];
+    S.uid = 'u-pedro'; S.user = { id: 'u-pedro', email: 'pedro@x.com' }; S.email = 'pedro@x.com'; S.membro = true; S.amigosOk = true;
+    S.membros = { 'u-pedro': { nome: 'Pedro' }, 'u-bia': { nome: 'Bia Souza' }, 'u-caio': { nome: 'Caio Lima' } };
+    S.amigos = new Set(['u-bia', 'u-caio']);
+    const nada = () => new Promise(() => { });
+    S.db = { marcarLidas: () => Promise.resolve(), collection: () => ({ add: nada }), doc: () => ({ delete: nada, set: nada }), rpc: nada, recarregar: () => { } };
+    S.soc = S.soc || {}; S.soc.curtidas = { 'u-bia': { [p0.id]: { at: T - H } }, 'u-caio': { [p0.id]: { at: T - 2 * H }, [p1.id]: { at: T - H } }, 'u-pedro': { [p1.id]: { at: T - M } } };
+    S.cmts = { [p0.id]: [{ id: 'c1', uid: 'u-bia', pid: p0.id, texto: 'Que notícia importante.', at: T - 50 * M }, { id: 'c2', uid: 'u-caio', pid: p0.id, texto: 'Concordo, Bia.', at: T - 40 * M },
+      { id: 'c3', uid: 'u-pedro', pid: p0.id, texto: 'Vou acompanhar.', at: T - 30 * M }], [p1.id]: [{ id: 'c4', uid: 'u-caio', pid: p1.id, texto: 'Alguém viu isso?', at: T - 20 * M }] };
+    PUB.on = true; PUB.carregou = true; PUB.uid = 'u-pedro';
+    PUB.itens = [{ id: 'a1111111-1111-4111-8111-111111111111', autor: 'u-bia', tipo: 'post', at: T - 3 * H, texto: 'Só texto, com #hashtag.', fotos: [] },
+      { id: 'b2222222-2222-4222-8222-222222222222', autor: 'u-caio', tipo: 'post', at: T - 4 * 864e5, texto: 'Comentando a notícia.', fotos: [], pid: p1.id, estilo: { v: 2 } }];
+    try { renderSecs(); renderPosts() } catch (e) { }
+  });
+}
 // Conversas: conta de teste montada direto no estado (Pedro, amigos Bia e Caio; Dora e Edu não são amigos; uma conta excluída),
 // mensagens com horários fixos em relação ao relógio parado e um banco de mentira que aceita tudo e não responde nada.
 // a conversa rola sozinha até o fim, às vezes em dois tempos (o aviso de amizade entra depois): espera e fixa no fim
@@ -246,9 +287,9 @@ async function tirar(PASTA, area, porta) {
   const U = require('../t_util');
   U.servir(SITE, porta); await U.sleep(800);
   fs.mkdirSync(PASTA, { recursive: true });
-  for (const f of fs.readdirSync(PASTA)) if (f.startsWith(area + '-') && f.endsWith('.png')) fs.rmSync(path.join(PASTA, f));
+  if (!process.env.TELAS) for (const f of fs.readdirSync(PASTA)) if (f.startsWith(area + '-') && f.endsWith('.png')) fs.rmSync(path.join(PASTA, f));
   const b = await U.navegador(); let n = 0; const erros = [];
-  for (const ap of APARELHOS) for (const tema of TEMAS) for (const [tela, fn] of Object.entries(telas)) {
+  for (const ap of APARELHOS) for (const tema of TEMAS) for (const [tela, fn] of Object.entries(telas)) { if (process.env.TELAS && !process.env.TELAS.split(',').includes(tela)) continue;
     const ctx = await b.newContext({ viewport: { width: ap.w, height: ap.h }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, colorScheme: tema === 'escuro' ? 'dark' : 'light', locale: 'pt-BR', timezoneId: 'America/Sao_Paulo' });
     await ctx.route(u => !/^https?:\/\/localhost[:/]/.test(u.toString()), r => r.abort());
     await ctx.addInitScript(([agora, ind]) => {

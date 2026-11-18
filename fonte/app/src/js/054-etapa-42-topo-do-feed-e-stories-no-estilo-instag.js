@@ -4,15 +4,6 @@ function igFace(p){const f=p&&fotoDe(p);return f?`<img src="${escU(fotoMini(f.ur
 function igAgendaItens(){const ag=FEED.agenda||[],hoje=hojeSP(),H=[],P=[];ag.forEach(a=>{const d=agData(a,hoje);if(!d||d<hoje)return;(d===hoje?H:P).push({...a,_d:d})});
   const ord=(x,y)=>x._d.localeCompare(y._d)||agMin(x)-agMin(y);H.sort(ord);P.sort(ord);return {H,P}}
 function igCirc(attr,cls,face,nome,label){return `<button type="button" class="sb ig-s" ${attr} aria-label="${esc(label||nome)}"><span class="ig-r ${cls}"><span class="ig-f">${face}</span></span><b>${esc(nome)}</b></button>`}
-renderSecs=function(){const box=$("#secs");if(!box||!FEED)return;let h="";
-  if($("#b-5min"))h+=igCirc('data-5min',"ig-5",`<span class="ig-5c"><b>5</b><small>min</small></span>`,"Em 5 min","O dia em 5 minutos");
-  try{const it=tickerItens(15);if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
-  h+=secsStory().map(s=>{const ps=pautasDa(s.id);if(!ps.length)return "";const nn=ps.filter(p=>!SEEN.has(seenKey(p))).length;const first=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
-    return `<button type="button" class="sb ig-s" data-sec-story="${esc(s.id)}" aria-label="${esc(s.nome)}: ${ps.length} notícias${nn?", "+nn+" não vistas":""}"><span class="ig-r${nn?"":" visto"}" style="--c:${secCor(s.id)}"><span class="ig-f paper" data-sec="${esc(s.id)}">${igFace(first)}</span></span><b>${esc(s.nome)}</b></button>`}).join("");
-  try{const {H,P}=igAgendaItens();if(H.length||P.length){const d=new Date(hojeSP()+"T12:00:00Z");const wd=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"UTC"}).replace(".","");
-    h+=igCirc('data-igagenda',"ig-ag"+(H.length?"":" visto"),`<span class="ig-agc"><small>${esc(wd)}</small><b>${d.getUTCDate()}</b></span>`,"Agenda",`Agenda: ${H.length} hoje, ${P.length} nos próximos dias`)}}catch(e){}
-  box.innerHTML=h;box.classList.add("ig");
-  const fl=$("#filters");if(fl){fl.hidden=true;fl.innerHTML=""}const bf=$("#b-filtro");if(bf)bf.setAttribute("aria-pressed",String(FILTRO!=="tudo"))};
 function igAgendaSheet(){uso("agenda");const {H,P}=igAgendaItens();
   sheet("Agenda",`${H.length?`<h4 class="ig-agh">Hoje</h4><ul class="ig-agl">${H.map(a=>agItem(a,false)).join("")}</ul>`:`<p class="hint">Nada marcado para hoje.</p>`}${P.length?`<h4 class="ig-agh">Próximos dias</h4><ul class="ig-agl">${P.map(a=>agItem(a,true)).join("")}</ul>`:""}`)}
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-igagenda]");if(!b)return;e.stopPropagation();if(FEED)igAgendaSheet()},true);

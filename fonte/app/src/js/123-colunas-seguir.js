@@ -132,7 +132,7 @@ function cs123Abrir(id){const x=pubDe(id)||pubVisiveis().find(y=>y.id===id),c=x&
   const vazio=!L.innerHTML;L.innerHTML=cs123LerHTML(x,c);CS123.ler={id,volta};const r=L.querySelector(".cs123-ler");cs123Progresso(r);
   if((vazio||volta)&&pushH())HST++;try{if(typeof htLinka==="function")r.querySelectorAll(".cs123-corpo p").forEach(htLinka)}catch(e){}}
 function cs123FimAtualiza(){const L=CS123.ler,el=L&&document.querySelector("#layer .cs123-ler .cs123-fim");if(!el)return;const x=pubDe(L.id);if(x)el.innerHTML=cs123FimHTML(x)}
-{const _us=updateSocial;updateSocial=function(pid){const r=_us.apply(this,arguments);try{if(CS123.ler&&pid==="u:"+CS123.ler.id)cs123FimAtualiza()}catch(e){}return r}}
+
 /* folhas (comentários, enviar) abrem por cima da coluna e do editor, sem fechá-los */
 /* voltar: da coluna para o perfil de onde ela foi aberta; da prévia para o editor */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};

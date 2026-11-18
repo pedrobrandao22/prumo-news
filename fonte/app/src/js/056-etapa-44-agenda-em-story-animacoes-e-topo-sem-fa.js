@@ -74,9 +74,7 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
 {const _ia=igAbrir;igAbrir=function(sec){if(sec==="_ag"){if(!FEED)return;uso("agenda");const pg=agPaginas();if(!pg.length){toast("Nada na agenda agora.");return}
   if($("#layer").innerHTML&&!$("#layer .story"))closeLayer();const k=pg.findIndex(x=>!AG_VISTOS.has(x.chave));ST={sec:"_ag",ids:pg.map(x=>x.id),itens:pg,i:k<0?0:k,ordem:secsStory().map(s=>s.id)};drawStory();return}return _ia.apply(this,arguments)}}
 /* fileira: Agenda logo depois do "Em 5 min"; não redesenha (nem pula) se nada mudou; volta mostrando o último círculo visto */
-{const _rs44=renderSecs;renderSecs=function(){const box=$("#secs");const x=box?box.scrollLeft:0;const r=_rs44.apply(this,arguments);if(!box)return r;
-  try{const ag=box.querySelector("[data-igagenda]"),c5=box.querySelector("[data-5min]");if(ag){if(c5)c5.after(ag);else box.prepend(ag);ag.querySelector(".ig-r")?.classList.toggle("visto",agPaginas().every(p=>AG_VISTOS.has(p.chave)))}}catch(e){}
-  box.scrollLeft=x;return r}}
+
 /* nada de faixa de novidades no Feed nem pílula: a edição nova entra quando a pessoa está no topo */
 mostrarPilula=function(){$("#pilula")?.remove()};
 function igAplicaNovo(){if(!NOVO)return;if((VIEW==="feed"||VIEW==="capa")&&scrollY<60&&!$("#layer").innerHTML)aplicarNovo(NOVO)}

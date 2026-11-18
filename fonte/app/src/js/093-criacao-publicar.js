@@ -37,7 +37,7 @@ function pqDesenha(){const box=pqBox();if(!box){return}const vis=PQ.jobs.filter(
         :`<b>${ok?"Publicado":"Publicando…"}</b><small>${ok?"Já está no Feed":"Seu "+nm+" vai aparecer aqui"}</small>`}</span>${ok?`<i class="pq-ok" aria-hidden="true">✓</i>`:""}${er?"":`<i class="pq-bar" aria-hidden="true"><i style="width:${(pqProg(j)*100).toFixed(1)}%"></i></i>`}</div>`}).join("");
   box.querySelectorAll(".pq-th").forEach((el,i)=>{const t=vis[i].th;if(t.bg)el.style.background=t.bg;if(t.img)el.style.backgroundImage=`url("${String(t.img).replace(/"/g,"%22")}")`});
   box.hidden=!vis.length;pqAtualiza()}
-{const _rs93=renderSecs;renderSecs=function(){const r=_rs93.apply(this,arguments);try{if(PQ.jobs.length){pqBox();pqAtualiza()}}catch(e){}return r}}
+
 /* embrulha as três funções de publicar */
 function pqEmbrulha(tipo){const nome=PQ_NOMES[tipo],orig=window[nome];if(typeof orig!=="function")return;
   window[nome]=function(){const args=[...arguments];

@@ -111,8 +111,7 @@ if(VN_FASE2){
   document.documentElement.classList.add("fs2");
   /* post: fio e contexto */
   /* o comentário logo abaixo da notícia já está junto dela: sem caixa de contexto; prateleira */
-  {const _ps113=postSeguro;postSeguro=function(p){if(p&&p.__f113)try{return f113PratHTML(p.__f113)}catch(e){return ""}
-    let h=_ps113.apply(this,arguments);try{if(p&&p.__fc107&&typeof h==="string"&&h.indexOf("fs2-ctx")>=0){const a=vn112Tp(h);if(a){a.querySelectorAll(".fs2-ctx").forEach(e=>e.remove());h=a.outerHTML}}}catch(e){}return h}}
+  
   /* publicação aberta numa camada (e a página da hashtag): o fio inteiro */
   {const _pv113=pfvDesenha;pfvDesenha=function(){const r=_pv113.apply(this,arguments);try{if(PFV&&PFV.modo!=="grade")f113AbreTudo($("#layer .pfv"))}catch(e){}return r}}
   {const _hd113=htDesenha;htDesenha=function(){const r=_hd113.apply(this,arguments);try{f113AbreTudo($("#layer .pfv-ht"))}catch(e){}return r}}
@@ -122,9 +121,9 @@ if(VN_FASE2){
   {const _hc113=htPostsCom;htPostsCom=function(){const l=_hc113.apply(this,arguments);return Array.isArray(l)?l.map(x=>x&&x.__f113o||x):l}}
   {const _hs113=htSeguidaDePost;htSeguidaDePost=function(x){if(x&&f113Fio(x))try{return _hs113.call(this,{texto:f113Tudo(x)})}catch(e){}return _hs113.apply(this,arguments)}}
   /* Feed: prateleiras só na lista principal ("Tudo"), uma vez por desenho; a contagem "faltam N" fica como antes */
-  {const _rp113=renderPosts;renderPosts=function(){F113_SH_LIGA=true;try{return _rp113.apply(this,arguments)}finally{F113_SH_LIGA=false}}}
+  
   {const _ae113=atualizarEmDia;atualizarEmDia=function(){const o=F113_SH_LIGA;F113_SH_LIGA=false;try{return _ae113.apply(this,arguments)}finally{F113_SH_LIGA=o}}}
-  {const _pm113=pubMistura;pubMistura=function(){const out=_pm113.apply(this,arguments);if(!F113_SH_LIGA||FILTRO!=="tudo")return out;F113_SH_LIGA=false;try{return f113Prat(out)}catch(e){console.error(e);return out}}}
+  
   /* "Ver no Feed" de uma notícia que está numa prateleira: ela volta para a lista */
   {const _gp113=garantirPost;garantirPost=function(pid){const r=_gp113.apply(this,arguments);if(r||!F113_NAPRAT.has(pid))return r;F113_SOLTA.add(pid);try{renderPosts(true)}catch(e){}return _gp113.apply(this,arguments)}}
   /* criar: "Adicionar parte" no passo do texto */

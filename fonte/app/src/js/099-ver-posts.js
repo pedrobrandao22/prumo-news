@@ -26,7 +26,7 @@ function vp99Social(pid){const el=document.getElementById("p-"+pid);if(!el)retur
     nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}
   const ver=el.querySelector('[data-cmts] > .link[data-a="cmt"]');if(ver)ver.textContent=`Ver todos os ${cm.length} comentários`;
   const sv=el.querySelector('.vp99-sv');if(sv)sv.setAttribute("aria-label",vp99Sv()[pid]?"Tirar dos guardados":"Guardar")}
-{const _us99=updateSocial;updateSocial=function(pid){const r=_us99.apply(this,arguments);try{vp99Social(pid)}catch(e){}return r}}
+
 {const _tl99=toggleLike;toggleLike=function(pid){const antes=!!(S.uid&&socialOf(pid).likes.includes(S.uid));const r=_tl99.apply(this,arguments);try{if(!antes&&S.uid)vp99Pop(document.querySelector(`[id="p-${pid}"] .acts [data-a="like"]`))}catch(e){}return r}}
 
 /* ===== toque na foto: um toque mostra as marcações, dois toques curte (coração grande) ===== */
@@ -67,7 +67,7 @@ let vp99RM=0;
 {const _rs99=renderSaved;renderSaved=function(){return vp99SemPosts(_rs99,this,arguments)}}
 
 /* ===== comentários: folha alta, sem botão "Fechar" à vista, emojis rápidos ===== */
-{const _oc99=openComments;openComments=function(pid){const r=_oc99.apply(this,arguments);try{vp99Cmts()}catch(e){}return r}}
+
 function vp99Cmts(){const sh=$("#cform")&&$("#cform").closest(".sheet");if(!sh||sh.classList.contains("vp99-cm"))return;sh.classList.add("vp99-cm");
   const fx=sh.querySelector(".sh-h [data-close]");if(fx){fx.classList.add("vp99-fx");fx.setAttribute("aria-label","Fechar comentários")}
   const f=sh.querySelector(".sh-f");if(f)f.insertAdjacentHTML("afterbegin",`<div class="vp99-emo" role="group" aria-label="Emojis rápidos">${VP99_EMOJIS.map(e=>`<button type="button" data-vp99emo="${e}" aria-label="Pôr ${e} no comentário">${e}</button>`).join("")}</div>`);

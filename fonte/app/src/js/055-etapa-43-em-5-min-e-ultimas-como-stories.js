@@ -54,8 +54,4 @@ drawStory=function(anim){
   igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);
   const si=$("#layer .story-in");if(anim&&si){si.classList.add(anim);si.addEventListener("animationend",()=>{si.classList.remove(anim);$("#layer .story")?.classList.remove("flipping")},{once:true});$("#layer .story").classList.add("flipping")}
   igCaber();renderSecs()};
-{const _rs43=renderSecs;renderSecs=function(){const r=_rs43.apply(this,arguments);try{
-  const c=$("#secs [data-5min] .ig-r");if(c)c.classList.toggle("visto",!ordenadas(visiveis()).some(p=>!lidaAtual(p)));
-  const u=$("#secs [data-ultimas] .ig-r");if(u)u.classList.toggle("visto",tickerItens(15).every(i=>ULT_VISTOS.has(ultKey(i))));
-  }catch(e){}return r}}
 

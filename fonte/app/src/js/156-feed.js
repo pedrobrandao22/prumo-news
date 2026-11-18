@@ -55,7 +55,7 @@ function fd156Curtidas(pid){try{const el=document.getElementById("p-"+pid);if(!e
   let soEu=false;try{const l=socialOf(pid).likes;soEu=!!S.uid&&l.length===1&&l[0]===S.uid}catch(e){}
   /* só você gostou: fica só o número ao lado do losango (sem a linha "Você gostou"); amigos gostaram: só a linha com o nome */
   el.classList.toggle("fd156-eu",soEu);el.classList.toggle("fd156-lk",!soEu&&!!(lk&&lk.textContent.trim()))}catch(e){}}
-{const _us156=updateSocial;updateSocial=function(pid){const r=_us156.apply(this,arguments);fd156Curtidas(pid);return r}}
+
 if(typeof vn112Social==="function"){const _vs156=vn112Social;vn112Social=function(pid){const r=_vs156.apply(this,arguments);fd156Curtidas(pid);return r}}
 
 /* ---- círculos do topo: a editoria não repete a notícia de Últimas nem a do 1º cartão do Feed; "1 notícia, 1 não vista" ---- */
@@ -70,7 +70,6 @@ function fd156Id(id){return String(id||"").split("#")[0]}
 function _vp156Ult(){try{const r=igLista("_ult");const i=r.itens.find(x=>!ULT_VISTOS.has(ultKey(x)))||r.itens[0];return i&&i.pid}catch(e){return null}}
 function fd156Rotulos(){try{document.querySelectorAll("#secs [data-sec-story][aria-label]").forEach(b=>{const a=b.getAttribute("aria-label");
   const n=a.replace(/\b1 notícias\b/,"1 notícia").replace(/\b1 não vistas\b/,"1 não vista");if(n!==a)b.setAttribute("aria-label",n)})}catch(e){}}
-{const _rs156=renderSecs;renderSecs=function(){const r=_rs156.apply(this,arguments);fd156Rotulos();return r}}
 
 /* ---- "Mais recentes": a mesma hora que o cartão mostra (atualização mais recente ou publicação), da mais nova para a mais velha ---- */
 function fd156Hora(p){try{return tms(ultimaAtualizacao(p)||p.hora)||0}catch(e){return 0}}
@@ -84,8 +83,7 @@ var FD156_IO=("IntersectionObserver" in window)?new IntersectionObserver(es=>{if
 function fd156Mais(){try{const m=document.getElementById("mais"),ex=document.getElementById("extra");if(ex)ex.classList.toggle("fd156-espera",!!m);
   if(m&&!m.dataset.fd156){m.dataset.fd156="1";m.classList.add("fd156-mais");m.setAttribute("role","status");m.setAttribute("aria-label","Carregando mais notícias…");
     m.innerHTML=`<span class="fd156-vh">Carregando mais notícias…</span><div class="fd156-sk" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i></div>`;if(FD156_IO)FD156_IO.observe(m)}}catch(e){}}
-{const _rp156=renderPosts;renderPosts=function(){const r=_rp156.apply(this,arguments);fd156Mais();return r}}
-{const _cm156=carregarMais;carregarMais=function(){const r=_cm156.apply(this,arguments);fd156Mais();return r}}
+
 lt148Emenda=function(){if(lt148Emenda.t)return;lt148Emenda.t=1;
   requestAnimationFrame(()=>setTimeout(()=>{lt148Emenda.t=0;const m=document.getElementById("mais");if(!m)return;const v=document.getElementById("v-feed");if(v&&v.hidden)return;
     try{if(m.getBoundingClientRect().top<innerHeight*3+600)carregarMais()}catch(e){}},0))};
@@ -106,7 +104,6 @@ function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)r
   if(Date.now()-FD156_FOCO<2000){FD156_FOCO=0;try{inp.focus({preventScroll:true})}catch(e){try{inp.focus()}catch(_){}}}
   fd156Agrupa();const box=document.getElementById("cbox");
   if(box&&!box._fd156&&"MutationObserver" in window){box._fd156=new MutationObserver(()=>fd156Agrupa());box._fd156.observe(box,{childList:true,subtree:true})}}
-{const _oc156=openComments;openComments=function(pid){const r=_oc156.apply(this,arguments);try{fd156Comentarios()}catch(e){}return r}}
 
 /* ---- sem internet: o aviso diz que é a conexão; o Gostei é reenviado quando a internet volta ---- */
 var FD156_GOSTEI={};
@@ -118,7 +115,7 @@ addEventListener("online",()=>{const ps=Object.keys(FD156_GOSTEI);if(!ps.length)
 
 /* ---- comentário escrito sem internet: fica guardado e é enviado sozinho quando a conexão volta (decisão do Pedro, 16/11) ---- */
 var FD156_PID=null;
-{const _oc156b=openComments;openComments=function(pid){FD156_PID=pid;return _oc156b.apply(this,arguments)}}
+
 function fd156CmtLe(){try{return JSON.parse(localStorage.getItem("fd156cq")||"[]")||[]}catch(e){return []}}
 function fd156CmtGrava(l){try{localStorage.setItem("fd156cq",JSON.stringify(l))}catch(e){}}
 /* o texto que voltou para a caixa vai para a fila; a caixa fica vazia */

@@ -55,12 +55,12 @@ function dc122Feed(out){if(!Array.isArray(out)||!out.length)return out;const tir
     troca.set(alvo,{...(po&&alvo===io?po:{}),id:"u:"+id,__pub:x,__dc122:{us}})});
   if(!tira.size&&!troca.size)return out;
   const res=[];out.forEach((p,i)=>{if(troca.has(i))res.push(troca.get(i));else if(!tira.has(i))res.push(p)});return res}
-{const _pm122=pubMistura;pubMistura=function(lista){const out=_pm122.apply(this,arguments);try{return dc122Feed(out)}catch(e){console.error(e);return out}}}
+
 /* a linha "Bia e Carla repostaram" em cima do original */
 function dc122Linha(h,p){const us=p.__dc122.us;if(!us||!us.length||typeof h!=="string"||!h)return h;const a=vn112Tp(h);if(!a)return h;
   a.classList.add("dc122-rpd");const ln=`<p class="dc122-rpl">${VN112_IC.rp}<span>${esc(dc122Quem(us))}</span></p>`;
   const ref=a.querySelector(":scope>.ph");if(ref)ref.insertAdjacentHTML("beforebegin",ln);else a.insertAdjacentHTML("afterbegin",ln);return a.outerHTML}
-{const _ps122=postSeguro;postSeguro=function(p){const h=_ps122.apply(this,arguments);try{if(p&&p.__dc122)return dc122Linha(h,p)}catch(e){}return h}}
+
 /* perfil de outra pessoa: o repost simples indisponível também some (no próprio perfil fica) */
 {const _pl122=pfLista;pfLista=function(u,aba){const l=_pl122.apply(this,arguments);try{if(aba==="posts"&&Array.isArray(l)&&u!==S.uid)return l.filter(x=>!(x&&x.autor===u&&dc122Some(x)))}catch(e){}return l}}
 /* quando o banco responde sobre um original que faltava: redesenha (se apareceu) ou tira o que ficou indisponível */
