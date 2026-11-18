@@ -23,6 +23,10 @@ do manual/robô produz todos esses casos e por que as correções anteriores nã
 publicar, marque a causa `status: "resolvida"`, `resolvida_em`, `resolucao` e resolva juntos todos os achados dela
 que o teste cobre. Se a causa for grande demais para uma rodada, escreva em `analise` o plano em passos e faça o
 primeiro passo.
+**Arquivados não entram** (18/11, a pedido do Pedro): achados `status: "arquivado"` e causas `status: "arquivada"`
+são de antes do app novo e ficam fora do backlog; não corrija, não reabra e não conte. O backlog é só o que está
+`aberto`.
+
 **Depois os achados soltos**: `status: "aberto"`, que não sejam "descartado" nem marcados `corretor_pulou`
 nas últimas 24 h. Ordem: prioridade (alta, média, baixa), depois `vezes` (mais visto primeiro), depois os da origem
 "Pedro". Escolha o que caiba na rodada (cada um com teste). Pela `natureza`:

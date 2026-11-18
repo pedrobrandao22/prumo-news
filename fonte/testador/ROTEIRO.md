@@ -77,6 +77,10 @@ some o id em `causas/<id>.achados`. Família nova: quando você vir o 3º caso a
 - Chegou a 3 reaberturas (ou a família tem 3+ casos abertos)? Marque `causa: true` e ligue à `causas/<id>` (crie se
   não existir). A partir daí não é mais remendo: o corretor trata a causa inteira.
 - "descartado" é decisão do Pedro: não reabrir nem gravar de novo.
+- "arquivado" (desde 18/11, a pedido do Pedro): achado de antes do app novo (Fase 3). Não reabra nem atualize um
+  arquivado e não o use para "Conferir as correções". Se o mesmo problema ainda acontece no app de hoje, grave um
+  achado NOVO (id com sufixo `-2`, se o id antigo já existir) e diga no `detalhe` "já tinha sido visto antes de 18/11".
+  Causas com `status: "arquivada"` também não valem: família nova só a partir de achados abertos depois de 18/11.
 - Prioridade alta: quebra algo, perde o que a pessoa escreveu, mostra coisa errada ou confunde quase todo mundo.
   Média: atrapalha, mas tem saída. Baixa: acabamento.
 - No máximo 6 achados novos por rodada, os mais importantes. Melhor poucos e bem descritos.
