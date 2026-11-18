@@ -52,8 +52,6 @@ function dz129Feed(out){if(!Array.isArray(out)||!out.length)return out;const gr=
     const junto=!!(out[io+1]&&out[io+1].__fc107),alvo=junto?io:Math.min(io,...is);
     is.concat(io).forEach(i=>{if(i!==alvo)tira.add(i)});troca.set(alvo,{...out[io],__dc122:{us},__dz129:1})});
   const res=[];out.forEach((p,i)=>{if(troca.has(i))res.push(troca.get(i));else if(!tira.has(i))res.push(p)});return res}
-if(typeof pubMistura==="function"){const _pm=pubMistura;pubMistura=function(lista){const out=_pm.apply(this,arguments);try{return dz129Feed(out)}catch(e){console.error(e);return out}}}
-{const _ps=postSeguro;postSeguro=function(p){const h=_ps.apply(this,arguments);try{if(p&&p.__dz129&&typeof h==="string"&&h){const a=vn112Tp(h);if(a&&!a.classList.contains("dz129-nt")){a.classList.add("dz129-nt");return a.outerHTML}}}catch(e){}return h}}
 
 /* ===== 4. Atividade: reposts de quem só segue você ===== */
 async function dz129AtCarrega(){if(DZ129.v11===false||DZ129.carregando||typeof SB==="undefined"||!SB||!S.uid||!S.membro)return;DZ129.carregando=true;const eu=S.uid;

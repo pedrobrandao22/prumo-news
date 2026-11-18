@@ -25,7 +25,7 @@ document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="cp152-tx")
   try{if(typeof menSugere==="function")menSugere(t)}catch(_){}});
 
 /* a lista de amigos entra logo abaixo do texto (como na legenda do criador, 145), sem cobrir o alto da caixa */
-{const _ms155=menSugere;menSugere=function(i){const r=_ms155.apply(this,arguments);try{if(MEN_BOX&&MEN_BOX.isConnected&&MEN_INP===i&&i.id==="cp152-tx"){MEN_BOX.classList.add("men-in145","cr155-men");MEN_BOX.style.left=MEN_BOX.style.top=MEN_BOX.style.bottom=MEN_BOX.style.width="";if(i.nextElementSibling!==MEN_BOX)i.insertAdjacentElement("afterend",MEN_BOX)}}catch(e){}return r}}
+
 /* abrir a caixa: devolve o texto e a notícia guardados; o={pid} abre já com a notícia */
 {const _ab155=cp152Abre;cp152Abre=function(o){o=o||{};const r=_ab155.apply(this,arguments);try{if(!$("#layer > .cp152"))return r;
     if(!o.manter){const g=cr155Le();CR155.pid=null;if(g){if(!o.aba||o.aba==="post")CP152.txt=g.tx;CR155.pid=g.pid&&pautaById(g.pid)?g.pid:null}

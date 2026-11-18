@@ -29,10 +29,9 @@ function semMostra(){if(!FEED)return false;let dia;try{dia=new Date().toLocaleDa
   return (window.SEM_SEMPRE||["Fri","Sat","Sun","Mon"].includes(dia))&&semDados().l.length>=3}
 function semFrames(){const d=semDados();const fr=[{id:"w0",tipo:"capa",d}];if(d.temas.length)fr.push({id:"w1",tipo:"temas",d});if(d.l.length)fr.push({id:"w2",tipo:"lidas",d});
   if(d.cm||d.enq||d.amg.length)fr.push({id:"w3",tipo:"amigos",d});fr.push({id:"w4",tipo:"fim",d});return fr}
-{const _il72=igLista;igLista=function(sec){if(sec==="_sem"){const fr=semFrames();return {ps:fr,itens:fr}}return _il72.apply(this,arguments)}}
+
 {const _sp72=stPs;stPs=function(){if(ST&&ST.sec==="_sem")return ST.itens||[];return _sp72.apply(this,arguments)}}
-{const _so72=storyOrdem;storyOrdem=function(){if(ST&&ST.sec==="_sem")return ["_sem"];return _so72.apply(this,arguments)}}
-{const _no72=igNomeSt;igNomeSt=function(sec){if(sec==="_sem")return "Sua semana";return _no72.apply(this,arguments)}}
+
 function semAbrir(){const fr=semFrames();if(!fr.length)return;uso("sua_semana");if($("#layer").innerHTML&&!$("#layer .story"))closeLayer();ST={sec:"_sem",ids:fr.map(f=>f.id),itens:fr,i:0,ordem:[]};drawStory()}
 function semFmt(ts){return new Date(ts).toLocaleDateString("pt-BR",{day:"numeric",month:"short",timeZone:"America/Sao_Paulo"}).replace(".","")}
 function semCorpo(fr){const d=fr.d;
@@ -53,10 +52,4 @@ function semDraw(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const vazi
     <div class="s-f sg-f" id="s-acts"></div>
   </div></div>`;
   igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto({neutro:{titulo:"",texto:txt.replace(/<[^>]+>/g," ")}});igEntra();renderSecs()}
-{const _ds72=drawStory;drawStory=function(){if(ST&&ST.sec==="_sem"){clearTimeout(ST.timer);semDraw();return}return _ds72.apply(this,arguments)}}
-{const _rs72=renderSecs;renderSecs=function(){const r=_rs72.apply(this,arguments);try{const box=$("#secs");if(!box||!FEED||box.querySelector("[data-semana]")||!S.uid||!S.membro||!semMostra())return r;
-  const n=semDados().l.length;let vis=false;try{vis=localStorage.getItem("prumo-sem-visto")===semChave()}catch(e){}
-  const h=igCirc('data-semana',"ig-sem"+(vis?" visto":""),`<span class="ig-semc"><b>${n}</b><small>lidas</small></span>`,"Sua semana","Resumo da sua semana");
-  const c5=box.querySelector("[data-5min]");if(c5)c5.insertAdjacentHTML("afterend",h);else box.insertAdjacentHTML("afterbegin",h)}catch(e){}return r}}
-
 

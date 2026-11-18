@@ -100,8 +100,7 @@ function po118NoFeed(root){const box=root||document.getElementById("posts");if(!
     const tit=a.querySelector(":scope>.vn-tit"),car=a.querySelector(":scope>.car");
     if(tit)tit.insertAdjacentHTML("afterend",h);else if(car)car.insertAdjacentHTML("beforebegin",h);else a.insertAdjacentHTML("beforeend",h)})}
 function po118Aplica(){try{if(typeof VIEW!=="undefined"&&VIEW==="feed")po118NoFeed()}catch(e){}try{po118NaMateria()}catch(e){}}
-{const _rp118=renderPosts;renderPosts=function(){const r=_rp118.apply(this,arguments);try{po118NoFeed()}catch(e){}return r}}
-{const _cm118=carregarMais;carregarMais=function(){const r=_cm118.apply(this,arguments);try{po118NoFeed()}catch(e){}return r}}
+
 /* troca de turno */
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-po118t]");if(!b)return;const s=b.closest(".po118");if(!s)return;e.stopPropagation();
   const p=pautaById(s.dataset.po118),l=po118Da(p),i=+b.dataset.po118t;if(!l||!l[i])return;

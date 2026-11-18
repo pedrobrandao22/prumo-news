@@ -2,7 +2,7 @@
 /* ===== telas de gráfico/números/linha do tempo ===== */
 function igVisDe(p){const vs=(p&&p.visuais)||[];return vs.find(v=>v.tipo==="grafico"&&(v.itens||[]).length>=2&&(v.itens||[]).every(i=>typeof i.valor==="number"))||vs.find(v=>v.tipo==="numeros"&&(v.itens||[]).length>=2)||vs.find(v=>v.tipo==="linha_do_tempo"&&(v.itens||[]).length>=3)||null}
 function igComVis(ps){const out=[];ps.forEach(p=>{out.push(p);if(igVisDe(p))out.push({...p,id:p.id+"#v",__vis:true})});return out}
-{const _il46=igLista;igLista=function(sec){const r=_il46.apply(this,arguments);if(sec==="_ult"||sec==="_ag"||String(sec).indexOf("_h:")===0)return r;return {ps:igComVis(r.ps),itens:r.itens}}}
+
 {const _sp46=stPs;stPs=function(){if(ST&&ST.sec&&String(ST.sec).indexOf("_h:")===0)return ST.itens||[];if(ST&&ST.sec==="_ag")return _sp46.apply(this,arguments);
   return (ST.ids||[]).map(id=>{if(/#v$/.test(id)){const p=pautaById(id.slice(0,-2));return p?{...p,id,__vis:true}:null}return pautaById(id)}).filter(Boolean)}}
 {const _is46=igSet;igSet=function(sec,pos){const n=_is46.apply(this,arguments);if(pos==="novo"&&sec!=="_ult"&&sec!=="_ag"){const ps=stPs();let k=ps.findIndex(p=>!p.__vis&&!SEEN.has(seenKey(p)));ST.i=k<0?0:k}return n}}
@@ -42,10 +42,7 @@ function destMarcos(p){const tl=(p.visuais||[]).find(v=>v.tipo==="linha_do_tempo
 function destaques(){if(!FEED)return [];return ordenadas(visiveis()).filter(p=>destMarcos(p)).slice(0,6)}
 function destChave(p){const m=destMarcos(p)||[];return p.id+"|"+m.length+"|"+((m[m.length-1]||{}).texto||"").slice(0,30)}
 function destNome(p){const t=temaDe(p)||capaChapeu(p);return t.length>14?t.slice(0,13).trim()+"…":t}
-{const _il46b=igLista;igLista=function(sec){if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));if(!p)return {ps:[],itens:[]};const m=destMarcos(p)||[];
-  const fr=[{id:"h0",tipo:"capa",p,n:m.length}].concat(m.map((x,k)=>({id:"h"+(k+1),tipo:"marco",p,m:x,k,n:m.length})));return {ps:fr,itens:fr}}return _il46b.apply(this,arguments)}}
-{const _so46=storyOrdem;storyOrdem=function(){if(ST&&ST.sec&&String(ST.sec).indexOf("_h:")===0)return [ST.sec];return _so46.apply(this,arguments)}}
-{const _no46=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));return p?temaDe(p)||capaChapeu(p):"Destaque"}return _no46.apply(this,arguments)}}
+
 function destAbrir(pid){const sec="_h:"+pid,r=igLista(sec);if(!r.ps.length)return;uso("destaque");if($("#layer").innerHTML&&!$("#layer .story"))closeLayer();
   ST={sec,ids:r.ps.map(x=>x.id),itens:r.itens,i:0,ordem:[]};drawStory()}
 function igDrawDest(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const p=fr.p,vazioS=!$("#layer").innerHTML,cor=secCor(secOf(p)),f=fotoDe(p);
@@ -63,12 +60,7 @@ function igDrawDest(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const p
     <div class="s-f sg-f" id="s-acts" data-pid="${esc(p.id)}">${storyActs(p.id)}</div>
   </div></div>`;
   igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);igEntra();igCaber();renderSecs()}
-{const _ds46=drawStory;drawStory=function(anim){if(ST&&String(ST.sec||"").indexOf("_h:")===0){clearTimeout(ST.timer);igDrawDest();igRodape();igPreCarrega();return}
-  if(ST&&ST.sec!=="_ag"){const p=stPs()[ST.i];if(p&&p.__vis){clearTimeout(ST.timer);igDrawVis(p);igRodape();igPreCarrega();return}}
-  const r=_ds46.apply(this,arguments);igRodape();igPreCarrega();return r}}
-{const _rs46=renderSecs;renderSecs=function(){const r=_rs46.apply(this,arguments);const box=$("#secs");if(!box||!FEED)return r;
-  try{box.querySelectorAll(".ig-div,[data-dest]").forEach(x=>x.remove());const ds=destaques();if(ds.length){const x=box.scrollLeft;
-    box.insertAdjacentHTML("beforeend",`<span class="ig-div" aria-hidden="true"></span>`+ds.map(p=>{const f=fotoDe(p);return `<button type="button" class="sb ig-s ig-dest" data-dest="${esc(p.id)}" aria-label="Destaque: ${esc(temaDe(p)||capaChapeu(p))}"><span class="ig-r dest${DEST_VISTOS.has(destChave(p))?" visto":""}"><span class="ig-f paper" data-sec="${esc(secOf(p))}">${f?`<img src="${escU(fotoMini(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(p.imagem)}</span></span><b>${esc(destNome(p))}</b></button>`}).join(""));box.scrollLeft=x}}catch(e){}return r}}
+
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#secs [data-dest]");if(!b)return;e.stopPropagation();(window.comTransicao||((o,f)=>f()))(b.querySelector(".ig-r")||b,()=>destAbrir(b.dataset.dest),".story-in")},true);
 
 /* ===== 1. comentar pelo story ===== */
@@ -79,7 +71,7 @@ function igRodape(){const sa=$("#layer #s-acts");if(!sa||sa.closest(".sg-f2"))re
   const f=document.createElement("div");f.className="s-f sg-f sg-f2";f.dataset.pid=pid;
   f.innerHTML=`<div class="sg-top2"><button type="button" class="sg-ler sg-ler2" data-stmat="${esc(pid)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>Ler a matéria</button><span class="sg-ccw">${igCmtChip(pid)}</span></div><div class="sg-bot2"><form class="sg-rp" autocomplete="off"><input type="text" maxlength="600" enterkeyhint="send" placeholder="Comentar…" aria-label="Comentar esta notícia"><button type="submit" class="sg-rp-b" aria-label="Publicar o comentário">Publicar</button></form></div>`;
   sa.replaceWith(f);sa.className="sg-acts";sa.removeAttribute("style");f.querySelector(".sg-bot2").appendChild(sa)}
-{const _us46=updateSocial;updateSocial=function(pid){const r=_us46.apply(this,arguments);try{const w=$("#layer .sg-f2");if(w&&w.dataset.pid===pid){const c=w.querySelector(".sg-ccw");if(c)c.innerHTML=igCmtChip(pid)}}catch(e){}return r}}
+
 var IG_DIG=false;
 function igPausa(){if(!ST)return;if(ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now())}const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"}
 document.addEventListener("focusin",e=>{const i=e.target.closest&&e.target.closest("#layer .sg-rp input");if(!i)return;
@@ -95,7 +87,6 @@ async function igComentar(pid,t){uso("story_comentario");const cid=Date.now().to
   try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v);return true}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);updateSocial(pid);return false}}
 /* enquanto digita, toques e gestos não mexem no story */
 window.addEventListener("click",e=>{if(!IG_DIG)return;const b=e.target&&e.target.closest&&e.target.closest("#layer .story [data-sgo]");if(b){e.stopPropagation();e.preventDefault();document.activeElement?.blur?.()}},true);
-{const _sa46=storyAuto;storyAuto=function(){const r=_sa46.apply(this,arguments);if(IG_DIG)igPausa();return r}}
 
 /* ===== 8. pré-carregar a próxima foto ===== */
 var IG_PRE=new Set();

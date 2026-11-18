@@ -160,11 +160,4 @@ function rodadaDetalhe(x){const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.u
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
   sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Edição completa":x.tipo==="virada"?"Virada do dia":"Atualização"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"não saiu"}</b><span class="hint">${rodadaDetalhe(x)}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
-/* 24. story passando sozinho */
-function storyAuto(p){clearTimeout(ST.timer);if(!PREF.storyAuto)return;const w=((p.neutro?.titulo||"")+" "+(p.neutro?.texto||"")).split(/\s+/).length;const dur=Math.max(7000,Math.min(24000,w/3.2*1000));
-  const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);
-  const el=$("#layer .story");if(!el||el._auto)return;el._auto=true;
-  el.addEventListener("pointerdown",ev=>{if(ev.target.closest(".s-f,.s-h,.us-it"))return;if(!PREF.storyAuto||!ST.timer)return;clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,ST.fim-Date.now());const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"});
-  const volta=()=>{if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2").innerHTML)return;ST.fim=Date.now()+ST.resto;ST.timer=setTimeout(()=>storyGo(1),ST.resto);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"};
-  el.addEventListener("pointerup",volta);el.addEventListener("pointercancel",volta)}
 function storyRetoma(){if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2")?.innerHTML)return;const r=ST.resto||4000;ST.fim=Date.now()+r;ST.timer=setTimeout(()=>storyGo(1),r);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"}

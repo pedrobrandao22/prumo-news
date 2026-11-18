@@ -89,8 +89,7 @@ function fc107Tray(){const box=$("#secs");if(!box)return;const us=[...box.queryS
 if(FOCO_LIGADO){
   document.documentElement.classList.add("foco2");
   /* Feed */
-  {const _pm107=pubMistura;pubMistura=function(lista){const out=_pm107.apply(this,arguments);try{return fc107Mistura(out,lista)}catch(e){return out}}}
-  {const _ps107=postSeguro;postSeguro=function(p){const h=_ps107.apply(this,arguments);try{if(typeof h!=="string"||!h||!p)return h;if(p.__fc107)return fc107Junto(h,p);if(!p.__pub)return fc107NoPost(h,p.id)}catch(e){}return h}}
+
   /* post de membro: "Análise de" (como no cartão do story); análise e relato sem foto ficam do tamanho do texto */
   {const _ck107=cn102Kick;cn102Kick=function(k,au){return k==="ana"?`Análise de ${esc(nomeDe(au))}`:_ck107.apply(this,arguments)}}
   /* barra de publicar */
@@ -112,7 +111,7 @@ if(FOCO_LIGADO){
       if(g.i===0){const p=pautaById(g.pid);if(p)h=`<li class="fc107-ath"><button type="button" data-fc107mat="${esc(g.pid)}"><small style="color:${secCor(secOf(p))}">${esc(secNome(secOf(p)))}</small><b>${esc(versao(p,lente()).titulo)}</b></button></li>`+h}}catch(e){}return h}}
   {const _ad107=atDesenha;atDesenha=function(){const r=_ad107.apply(this,arguments);try{const v=$("#layer .pfv-at .pf-vz span");if(v)v.textContent="Aqui aparecem os comentários dos seus amigos sobre as notícias, as reações ao que você publica, os pedidos de amizade e as novidades das coberturas que você segue."}catch(e){}return r}}
   /* stories */
-  {const _rs107=renderSecs;renderSecs=function(){const r=_rs107.apply(this,arguments);try{fc107Tray()}catch(e){}return r}}
+  
   /* cartão de texto */
   {const _ca107=fc105CsAbre;fc105CsAbre=function(){const r=_ca107.apply(this,arguments);requestAnimationFrame(fc107CsEncaixa);return r}}
   {const _cr107=fc105CsRefaz;fc105CsRefaz=function(){const r=_cr107.apply(this,arguments);requestAnimationFrame(fc107CsEncaixa);return r}}

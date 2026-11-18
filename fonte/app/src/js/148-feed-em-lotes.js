@@ -7,4 +7,4 @@ LOTE_PASSO=3;
 function lt148Emenda(){if(lt148Emenda.t)return;lt148Emenda.t=1;
   requestAnimationFrame(()=>setTimeout(()=>{lt148Emenda.t=0;const m=document.getElementById("mais");if(!m)return;const v=document.getElementById("v-feed");if(v&&v.hidden)return;
     try{if(m.getBoundingClientRect().top<innerHeight+600)carregarMais()}catch(e){}},0))}
-{const _cm148=carregarMais;carregarMais=function(sync){const r=_cm148.apply(this,arguments);if(!sync)try{lt148Emenda()}catch(e){}return r}}
+

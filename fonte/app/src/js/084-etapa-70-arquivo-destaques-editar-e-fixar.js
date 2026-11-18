@@ -15,8 +15,7 @@ function destRowHTML(u){const ds=DEST[u]||[];const eu=u===S.uid;if(!V5.on||(!ds.
   return `<div class="pf-dests">${ds.map(d=>`<button type="button" class="pf-d" data-pfdest="${esc(d.id)}" data-dono="${esc(u)}"><span class="pf-dc">${destCapa(d)}</span><b>${esc(d.nome)}</b></button>`).join("")}${eu?`<button type="button" class="pf-d pf-dn" data-destnovo><span class="pf-dc">+</span><b>Novo</b></button>`:""}</div>`}
 /* lista especial no visualizador de stories ("_u:~…") */
 {const _sd70=pubStoriesDe;pubStoriesDe=function(u){if(String(u).charAt(0)==="~")return (ST&&ST._lista)||[];return _sd70.apply(this,arguments)}}
-{const _so70=storyOrdem;storyOrdem=function(){if(ST&&String(ST.sec||"").indexOf("_u:~")===0)return [ST.sec];return _so70.apply(this,arguments)}}
-{const _nm70=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_u:~")===0)return (ST&&ST._nome)||"Giro";return _nm70.apply(this,arguments)}}
+
 function stLista(lista,i,nome,chave){if(!lista.length)return;if($("#layer").innerHTML)closeLayer();ST={sec:"_u:~"+chave,ids:lista.map(x=>"us:"+x.id),itens:lista,i:Math.max(0,i||0),ordem:[],_lista:lista,_nome:nome,_chave:chave};drawStory()}
 async function abrirDestaque(id,u){const d=(DEST[u]||[]).find(x=>x.id===id);if(!d||!d.stories.length){if(d&&u===S.uid)toast("Este destaque está vazio.");return}uso("destaque_perfil");stLista(d.stories,0,d.nome,"d"+id)}
 {const _du70=igDrawUser;igDrawUser=function(){const r=_du70.apply(this,arguments);try{if(ST&&String(ST.sec||"").indexOf("_u:~")===0){const w=$("#layer .story .sg-who b");if(w&&ST._nome)w.textContent=ST._nome;const t=$("#layer .story .sg-who span");const x=ST.itens[ST.i];if(t&&x)t.textContent=new Date(x.at).toLocaleDateString("pt-BR",{day:"numeric",month:"short"})}

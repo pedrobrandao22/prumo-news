@@ -6,7 +6,6 @@ function fd104Curtidas(pid){const el=document.getElementById("p-"+pid);if(!el||S
   if(eu&&!ou.length)t=`Curtido por <b>você</b>`;else if(eu&&ou.length===1)t=`Curtido por <b>você</b> e ${n1}`;else if(eu)t=`Curtido por <b>você</b> e ${outras(ou.length)}`;
   else if(ou.length===1)t=`Curtido por ${n1}`;else if(ou.length>1)t=`Curtido por ${n1} e ${outras(ou.length-1)}`;
   if(lk.innerHTML!==t)lk.innerHTML=t;if(t){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}}
-{const _us104=updateSocial;updateSocial=function(pid){const r=_us104.apply(this,arguments);try{fd104Curtidas(pid)}catch(e){}return r}}
 
 /* quem publicou o post pode apagar comentários dos outros no próprio post (o servidor já permite) */
 function cmDono(pid){if(String(pid||"").indexOf("u:")!==0||!S.uid)return false;const x=typeof pubDe==="function"&&pubDe(String(pid).slice(2));return !!(x&&x.autor===S.uid)}
