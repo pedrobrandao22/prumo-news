@@ -76,9 +76,6 @@ cfpFundoCss=function(b){const cv=$("#ce-cv");return ca100Css(b,(cv&&cv.clientWid
    que sempre lê os próprios arquivos (e a regra do bucket "fotos" deixa qualquer membro ler). Mensagens antigas, sem sth, ficam como eram. */
 function ca100StTh(x){if(!x||x.tipo!=="story")return null;const o={id:String(x.id)};const p=(x.fotos||[])[0];
   if(typeof p==="string"&&p.startsWith(String(x.autor)+"/"))o.p=p;else o.g=Math.floor(+(x.estilo&&x.estilo.fundo)||0);return o}
-{const _de100=dmEnviar;dmEnviar=function(para,campos){try{if(campos&&(campos.tipo==="resp_story"||campos.tipo==="curtiu_story")&&campos.snap&&typeof campos.snap==="object"&&!campos.snap.sth){
-    const sn=campos.snap,id=sn.story&&typeof sn.story==="object"?sn.story.id:sn.upub,th=id&&ca100StTh(pubDe(id));if(th)campos={...campos,snap:{...sn,sth:th}}}}catch(e){}
-  const a=[...arguments];a[1]=campos;return _de100.apply(this,a)}}
 /* lê o sth de uma mensagem (dado de outro membro: tudo validado) */
 function ca100StInfo(m){const s=m&&m.snap,th=s&&s.sth;if(!th||typeof th!=="object"||Array.isArray(th))return null;const au=String(m.para||"");if(!au)return null;
   const id=typeof th.id==="string"?th.id.slice(0,80):"";if(!id)return null;const o={id,au};
@@ -87,20 +84,9 @@ function ca100StHTML(m,inf){const eu=m.de===S.uid,lk=m._ca100lk,perg=m.snap&&m.s
   const lb=lk?(eu?"Você curtiu o giro de "+nomeDe(m.para):"Curtiu seu giro"):perg?(eu?"Você respondeu à pergunta de "+nomeDe(m.para):"Respondeu à sua pergunta"):(eu?"Você respondeu ao giro de "+nomeDe(m.para):"Respondeu ao seu giro");
   const u=inf.p?pubUrl(inf.p):"";
   return `<span class="ca100-stl">${esc(lb)}</span><button type="button" class="ca100-st" data-ca100st="${esc(inf.id)}" data-au="${esc(inf.au)}" aria-label="Ver o giro" style="background:${inf.p?"#1b1d22":pubFundo(inf.g)}">${inf.p?`<img alt="" ${u?`src="${pubSrc(u)}"`:""} data-ca100p="${esc(inf.p)}" onerror="this.remove()">`:""}</button>${perg?`<span class="ca100-stq">${esc(String(m.snap.q).slice(0,80))}</span>`:""}`}
-{const _th100=dmThreadHTML;dmThreadHTML=function(u){const am=allMsgs,lk=new Set();
-  allMsgs=function(){return am.apply(this,arguments).map(m=>{if(m&&m.tipo==="curtiu_story"&&ca100StInfo(m)){lk.add(m.id);return {...m,tipo:"resp_story",texto:m.texto||"❤️",_ca100lk:1}}return m})};
-  let h;try{h=_th100.apply(this,arguments)}finally{allMsgs=am}
-  try{am().filter(dmPar(u)).forEach(m0=>{if(m0.tipo!=="resp_story"&&!lk.has(m0.id))return;const inf=ca100StInfo(m0);if(!inf)return;const m=lk.has(m0.id)?{...m0,_ca100lk:1}:m0;
-    const k=`data-mid="${esc(m.id)}"`,i=h.indexOf(k);if(i<0)return;const nx=h.indexOf("data-mid=",i+k.length),a=h.indexOf('<div class="dm-q">',i);if(a<0||(nx>=0&&a>nx))return;const z=h.indexOf("</div>",a);if(z<0)return;
-    let blk=ca100StHTML(m,inf);
-    /* a resposta da pergunta (075) também desenha um cartão de notícia vazio: some */
-    let fim=z+6;if(h.startsWith('<button type="button" class="dm-card',fim)){const zz=h.indexOf("</button>",fim);if(zz>0&&(nx<0||zz<nx))fim=zz+9}
-    h=h.slice(0,a)+`<div class="ca100-sq${m.de===S.uid?" eu":""}">${blk}</div>`+h.slice(fim)})}catch(e){}
-  return h}}
 async function ca100Assina(){const v=$("#v-msgs");if(!v)return;const ims=[...v.querySelectorAll("img[data-ca100p]:not([src])")];if(!ims.length||typeof pubAssinaLista!=="function")return;
   const ps=[...new Set(ims.map(i=>i.dataset.ca100p))];try{await pubAssinaLista([{fotos:ps}])}catch(e){}
   v.querySelectorAll("img[data-ca100p]:not([src])").forEach(i=>{const u=pubUrl(i.dataset.ca100p);if(u)i.src=pubSrc(u);else i.remove()})}
-{const _rm100=renderMsgs;renderMsgs=function(){const r=_rm100.apply(this,arguments);try{if(THREAD)ca100Assina()}catch(e){}return r}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#v-msgs [data-ca100st]");if(!b)return;e.stopPropagation();e.preventDefault();
   const x=pubDe(b.dataset.ca100st),agora=Date.now();if(!x||x.tipo!=="story"||!((x.expira||0)>agora)){toast("Este giro não está mais disponível.");return}
   const l=(typeof pubStoriesDe==="function"?pubStoriesDe(x.autor):[]).filter(y=>(y.expira||0)>agora),i=l.indexOf(x);

@@ -69,11 +69,6 @@ if(typeof abrirAddAmigos==="function"){const _ad165=abrirAddAmigos;abrirAddAmigo
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-pf165conv]");if(!b)return;e.preventDefault();e.stopPropagation();const u=b.dataset.pf165conv;
   closeLayer();setTimeout(()=>{try{go("msgs");abrirConversa(u)}catch(_){}},80)},true);
 
-/* ---------- 6. Conversas: fileira de amigos sem repetir a lista ---------- */
-{const _rg165=renderMsgs;renderMsgs=function(){const r=_rg165.apply(this,arguments);try{if(S.uid&&S.membro&&!THREAD){const row=$("#v-msgs .dm-amg");if(row){
-  const conv=new Set([...document.querySelectorAll("#v-msgs .dm-lista [data-thread]")].map(b=>b.dataset.thread));
-  if(conv.size){row.querySelectorAll("[data-thread]").forEach(b=>{if(conv.has(b.dataset.thread))b.remove()});
-    if(!row.querySelector("[data-thread]"))row.remove();else if(!(row.previousElementSibling&&row.previousElementSibling.classList.contains("pf165-amh")))row.insertAdjacentHTML("beforebegin",`<h3 class="dm-sh pf165-amh">Amigos</h3>`)}}}}catch(e){}return r}}
 
 /* ---------- 7. Entrar e criar conta: avisos na ordem da tela ---------- */
 {const _ec165=entrarConta;entrarConta=function(){try{const em=($("#lemail")||{}).value||"",pw=($("#lsenha")||{}).value||"";if(em.trim()&&pw){const m=pf165EmErro(em);if(m)return mostraErro("#lerro",m)}}catch(e){}return _ec165.apply(this,arguments)}}

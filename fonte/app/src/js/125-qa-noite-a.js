@@ -33,8 +33,6 @@ function qa125VeReac(u,x){return !!u&&(ehVisivel(u)||!!(x&&u===x.autor)||qa125Co
   const r=_cl.apply(this,arguments);try{if(ht&&fromPop===true&&!$("#layer").innerHTML)setTimeout(()=>{if(!$("#layer").innerHTML)abrirHashtag(ht,{reabre:true})},0)}catch(e){}return r}}
 
 /* ===== 4. textos ===== */
-{const _dc=dmCard;dmCard=function(m){const h=_dc.apply(this,arguments);try{if(typeof h!=="string"||!dmEhPub(m))return h;const x=pubDe(String(m.pid).slice(2)),c=x&&cs123Col(x);if(!c)return h;
-  return h.replace(/(<span class="dm-uh">[\s\S]*?<small>)Post(<\/small>)/,"$1Coluna$2").replace(/(<b class="dm-utx">)[\s\S]*?(<\/b>)/,`$1${esc(c.tit)}$2`)}catch(e){return h}}}
 const qa125Prim=u=>String(nomeDe(u)||"").split(" ")[0];
 {const _pe=pubEnviar;pubEnviar=function(x){const r=_pe.apply(this,arguments);try{if(x&&x.publico==="seguidores"){const h=document.querySelector("#layer .sheet .hint, #layer2 .sheet .hint");
   if(h&&document.querySelector("#pick"))h.textContent=x.autor===S.uid?"Seus amigos e quem segue você conseguem abrir o post.":`Só quem é amigo de ${qa125Prim(x.autor)} ou segue ${qa125Prim(x.autor)} consegue abrir o post.`}}catch(e){}return r}}

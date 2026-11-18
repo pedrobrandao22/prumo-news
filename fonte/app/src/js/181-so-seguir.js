@@ -158,8 +158,6 @@ function sg181DmAviso(){const v=$("#v-msgs"),u=typeof THREAD!=="undefined"?THREA
     if(h&&!h.querySelector(".sg181-bt"))h.innerHTML=`${esc(sg181Prim(u))} tem perfil fechado. Siga para mandar mensagem. ${sg181Bt(u)}`}
   v.querySelectorAll(".dm104-am").forEach(x=>x.remove());
   v.querySelectorAll(".pf165-amh,.dm-sh").forEach(x=>{if(x.textContent.trim()==="Amigos")x.textContent="Quem você segue"})}
-if(typeof dm104Amizade==="function"){const _da=dm104Amizade;dm104Amizade=function(){if(sg181On()){try{sg181DmAviso()}catch(e){}return}return _da.apply(this,arguments)}}
-{const _rg=renderMsgs;renderMsgs=function(){const r=_rg.apply(this,arguments);try{if(sg181On())sg181DmAviso()}catch(e){}return r}}
 
 /* ===== 7. textos que ainda falam de amizade (troca só o texto inteiro de um trecho, nunca o que alguém escreveu) ===== */
 const SG181_TX={"Convidar amigo":"Convidar alguém","Nenhum amigo ainda":"Você ainda não segue ninguém",

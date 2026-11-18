@@ -6494,19 +6494,6 @@ function openComments(pid){uso("comentarios");
     try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v)}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);const i=$("#ctext");if(i&&!i.value){i.value=t;const b=$("#cform .sendc");if(b)b.disabled=false}toast("O comentário não foi salvo. O texto voltou para a caixa.")}});
 }
 function shareCard(s,attrs=""){return `<button type="button" class="share paper" data-sec="${esc(s?.secao||"politica")}" ${attrs}>${svgOf(s?.imagem)}<div><span>${esc(secNome(s?.secao||"politica"))} · ${esc(s?.tag)}</span><b>${esc(s?.titulo)}</b></div></button>`}
-function openSend(pid,pre){uso("enviar");
-  if(precisaConta())return;
-  const others=amigosL();
-  if(!others.length){sheet("Enviar",`<div class="empty" style="padding:18px 0"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para mandar notícias para eles.</div><button type="button" class="btn ghost" data-vgo="me">Ir ao Perfil</button><button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`);return}
-  let sel=pre&&others.includes(pre)?pre:(others.length===1?others[0]:null);const snap=snapById(pid);
-  const um=others.length===1;
-  sheet(um?"Enviar para "+nomeDe(others[0]):"Enviar",`${um?"":`${others.length>6?`<input class="field" id="pkq" type="search" autocomplete="off" placeholder="Buscar amigo" aria-label="Buscar amigo" style="margin-bottom:10px">`:""}<div class="pick" id="pick">${others.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="${u===sel}">${avatar(u)}${esc(nomeDe(u))}</button>`).join("")}</div>`}${shareCard(snap,'style="width:100%;pointer-events:none" tabindex="-1"')}<button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`,
-    `<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)" aria-label="Mensagem"><button class="send" id="sbtn" type="submit" ${sel?"":"disabled"}>Enviar</button></form>`);
-  $("#pkq")?.addEventListener("input",e=>{const n=norm(e.target.value).trim();document.querySelectorAll("#pick [data-pick]").forEach(b=>b.hidden=!!n&&!norm(b.textContent).includes(n))});
-  $("#pick")?.addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;sel=b.dataset.pick;document.querySelectorAll("[data-pick]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));$("#sbtn").disabled=false});
-  $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel)return;const t=$("#stext").value.trim(),bt=$("#sbtn");if(bt.disabled&&bt.dataset.env)return;bt.disabled=true;bt.dataset.env="1";bt.textContent="Enviando…";
-    try{await S.db.collection("mensagens").add({de:S.uid,para:sel,at:Date.now(),texto:t,pid,snap,lida:false});if($("#sform"))closeLayer();toast(`Enviado para ${nomeDe(sel)}`)}catch(err){const b=$("#sbtn");if(b){b.disabled=false;delete b.dataset.env;b.textContent="Enviar"}toast(err?.code==="permission_denied"?"Só dá para mandar para amigos.":"Não deu para enviar agora. Tente de novo.")}});
-}
 function snapLeve(pid){const s=snapById(pid);if(!s)return {id:pid};return {id:s.id||pid,secao:s.secao||"",tag:s.tag||"",titulo:s.titulo||"",texto:String(s.texto||"").slice(0,320),imagem:s.imagem||null,links:arrL(s.links).slice(0,1)}}
 async function toggleSave(pid){uso("guardar");
   if(precisaConta())return;const on=!S.salvos[pid],antS=S.salvos[pid];
@@ -6579,43 +6566,12 @@ function ouvir(){
 }
 
 /* ---------- conversas ---------- */
-function marcarLidasThread(th){if(document.hidden||!S.db)return;const nl=th.filter(m=>m.para===S.uid&&!m.lida);if(!nl.length)return;nl.forEach(m=>m.lida=true);const de=nl[0].de;S.db.marcarLidas(de).catch(()=>{nl.forEach(m=>m.lida=false);updateBadge()})}
 const REAC=[["concordo","👍","Concordo"],["surpreso","😮","Surpreso"],["discordo","👎","Discordo"]];
-function minhaReacao(m){return allMsgs().find(x=>x.de===S.uid&&x.para===m.de&&x.tipo==="reacao"&&x.pid===m.pid&&x.at>=m.at)}
-function reacHTML(m){const r=minhaReacao(m);if(r)return `<span class="reac-ok">Você reagiu: ${esc(r.texto)}</span>`;
-  return `<span class="reacs" role="group" aria-label="Reagir">${REAC.map(([k,e,l])=>`<button type="button" class="reac" data-reac="${esc(m.id)}" data-k="${k}">${e} ${l}</button>`).join("")}</span>`}
 async function reagir(mid,k){const m=allMsgs().find(x=>x.id===mid),r=REAC.find(x=>x[0]===k);if(!m||!r||!S.db)return;if(!S.amigos.has(m.de)){toast("Só dá para reagir com amigos.");return}vibrar(8);
   const at=Date.now(),texto=r[1]+" "+r[2];const ext={pid:m.pid,snap:{id:m.pid,titulo:m.snap?.titulo||"",secao:m.snap?.secao||""},resp:true,tipo:"reacao"};
   S.msgsOut.push({id:"tmp"+at,de:S.uid,para:m.de,at,texto,lida:false,...ext});renderMsgs();
   try{await S.db.collection("mensagens").add({de:S.uid,para:m.de,at,texto,lida:false,...ext})}catch(e){S.msgsOut=S.msgsOut.filter(x=>x.id!=="tmp"+at);renderMsgs();toast("Não deu para reagir agora.")}}
-function allMsgs(){const m=new Map();[...S.msgsIn,...S.msgsOut].forEach(x=>m.set(x.id,x));return [...m.values()].sort((a,b)=>a.at-b.at)}
 function updateBadge(){const n=S.msgsIn.filter(m=>!m.lida).length,b=$("#badge");b.hidden=!n;b.textContent=n>9?"9+":n;const mb=$("#mbadge");if(mb){const p=S.pedidosIn.length;mb.hidden=!p;mb.setAttribute("aria-label",p?(p===1?"1 pedido de amizade":p+" pedidos de amizade"):"")}}
-function renderMsgs(){
-  const v=$("#v-msgs");
-  if(!S.db||!S.uid||!S.membro){v.dataset.thr="";v.innerHTML=`<div class="gut"><div class="view-h"><h1>Conversas</h1></div><div class="empty"><b>Conversas precisam da sua conta</b>${S.uid?"Falta só o convite para você entrar no Prumo.":"Entre para trocar notícias com os seus amigos."}<button type="button" class="btn" data-entrar style="margin-top:10px">${S.uid?"Usar um convite":"Entrar"}</button></div></div>`;return}
-  const msgs=allMsgs(),am=amigosL();
-  if(THREAD){const amigo=S.amigos.has(THREAD);
-    const th=msgs.filter(m=>(m.de===THREAD&&m.para===S.uid)||(m.de===S.uid&&m.para===THREAD));
-    let diaAnt="";const thrHTML=th.length?th.map(m=>{const dd=dataSP(m.at),sep=dd!==diaAnt?(diaAnt=dd,`<div class="dia">${esc(dd===dataSP()?"Hoje":dd===somaDias(dataSP(),-1)?"Ontem":new Date(m.at).toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"2-digit",timeZone:"America/Sao_Paulo"}))}</div>`):"";return sep+`<div class="msg ${m.de===S.uid?"mine":""}">${m.pid&&m.resp?`<button type="button" class="quote" data-open="${esc(m.pid)}">↪ ${esc(m.snap?.titulo||"notícia")}</button>`:m.pid?shareCard(m.snap,`data-open="${esc(m.pid)}"`).replace('class="share paper"','class="share paper mini"'):""}${m.texto?`<div class="bub">${esc(m.texto)}</div>`:""}<span class="mrow"><span class="mt">${esc(quando(m.at))}</span>${m.pid&&!m.resp?`<button type="button" class="c-a rspm" data-resp-msg="${esc(m.id)}">Responder</button>`:""}</span>${m.pid&&!m.resp&&m.de!==S.uid&&amigo?reacHTML(m):""}</div>`}).join(""):`<div class="empty"><b>Comece a conversa</b>Envie uma notícia pelo botão Enviar de qualquer post, ou escreva abaixo.</div>`;
-    const ja=v.dataset.thr===THREAD&&v.dataset.am===String(amigo)&&v.querySelector(".thread");
-    if(ja){const perto=document.documentElement.scrollHeight-scrollY-innerHeight<160,n0=v.querySelectorAll(".thread .msg").length;v.querySelector(".thread").innerHTML=thrHTML;marcarLidasThread(th);updateBadge();if(perto||th.length>n0&&th[th.length-1]?.de===S.uid)window.scrollTo(0,document.body.scrollHeight);return}
-    v.dataset.thr=THREAD;v.dataset.am=String(amigo);RESP=null;
-    v.innerHTML=`<div class="gut"><div class="view-h">${am.length>1||!amigo?`<button type="button" data-back aria-label="Voltar" style="margin-left:-8px;width:40px;height:44px;display:flex;align-items:center;justify-content:center">${ICON.back}</button>`:""}${avatar(THREAD)}<h1 style="font-size:19px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(nomeDe(THREAD))}</h1>${amigo?`<button type="button" class="icbtn" data-thmenu aria-label="Opções da conversa">${ICON.dots}</button>`:""}</div>
-      <div class="thread">${thrHTML}</div></div>
-      <div class="composer gut">${amigo?`<form id="mform"><input class="field" id="mtext" maxlength="1000" autocomplete="off" placeholder="Mensagem…" aria-label="Mensagem"><button class="send" type="submit">Enviar</button></form>`:`<p class="hint" style="margin:0;padding:8px 0;max-width:560px;margin-inline:auto">${S.membros[THREAD]?.excluido?"Esta conta foi excluída. A conversa fica aqui só para leitura.":"Vocês não são amigos no Prumo agora. Para conversar de novo, peça amizade no Perfil."}</p>`}</div>`;
-    if(amigo)
-    $("#mform").addEventListener("submit",async e=>{e.preventDefault();const t=$("#mtext").value.trim();if(!t)return;$("#mtext").value="";
-      const at=Date.now(),para=THREAD,rp=RESP;RESP=null;const extra=rp?{pid:rp.pid,snap:rp.snap,resp:true}:{};S.msgsOut.push({id:"tmp"+at,de:S.uid,para,at,texto:t,lida:false,...extra});renderMsgs();$("#respbar")?.remove();
-      try{await S.db.collection("mensagens").add({de:S.uid,para,at,texto:t,lida:false,...extra})}catch(err){S.msgsOut=S.msgsOut.filter(m=>m.id!=="tmp"+at);renderMsgs();const i=$("#mtext");if(i&&!i.value)i.value=t;if(rp&&!RESP){const mm=allMsgs().find(x=>x.pid===rp.pid&&!x.resp);if(mm)responderMsg(mm.id);else RESP=rp}toast(err?.code==="permission_denied"?"Só dá para mandar mensagem para amigos.":"A mensagem não foi enviada. O texto voltou para a caixa.")}});
-    marcarLidasThread(th);updateBadge();
-    window.scrollTo(0,document.body.scrollHeight);return;
-  }
-  const ult=u=>{const l=msgs.filter(m=>m.de===u||m.para===u);return l.length?l[l.length-1].at:0};
-  const others=[...new Set(msgs.map(m=>m.de===S.uid?m.para:m.de))].filter(u=>u&&u!==S.uid).sort((a,b)=>ult(b)-ult(a));if(am.length===1&&others.every(u=>u===am[0])){THREAD=am[0];return renderMsgs()}v.dataset.thr="";
-  v.innerHTML=`<div class="gut"><div class="view-h"><h1>Conversas</h1>${am.length&&others.length?`<button type="button" class="btn ghost nconv" data-novaconv>Nova conversa</button>`:""}</div>${others.length?`<ul class="people">${others.map(u=>{const th=msgs.filter(m=>m.de===u||m.para===u),last=th[th.length-1],un=th.filter(m=>m.para===S.uid&&!m.lida).length;
-      return `<li><button type="button" data-thread="${esc(u)}">${avatar(u)}<span class="pt"><b>${esc(nomeDe(u))}</b><span class="${un?"unread":""}">${last?esc((last.de===S.uid?"Você: ":"")+(last.texto||("enviou: "+(last.snap?.titulo||"uma notícia"))))+" · "+esc(quando(last.at)):"Toque para conversar"}</span></span>${un?`<span class="dot" aria-label="${un} não lidas"></span>`:""}</button></li>`}).join("")}</ul>`
-      :am.length?`<div class="empty"><b>Nenhuma conversa ainda</b>Mande uma notícia pelo botão Enviar de um post, ou comece uma conversa com um amigo.<button type="button" class="btn" data-novaconv style="margin-top:10px">Nova conversa</button></div>`:`<div class="empty"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para conversar.<button type="button" class="btn ghost" data-vgo="me" style="margin-top:10px">Ir ao Perfil</button></div>`}</div>`;
-}
 
 /* ---------- guardadas e perfil ---------- */
 let ABA_G=lsGet("prumo-abag","minhas");
@@ -7671,9 +7627,7 @@ function abrirNovidades(){const l=NOVID.map(pautaById).filter(Boolean);
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="ult">${l.map(p=>`<li><button type="button" data-goto="${esc(p.id)}"><span class="u-t"><b style="color:${secCor(secOf(p))}">${NOVAS.has(p.id)?"Nova":"Atualizada"}</b> · ${esc(secNome(secOf(p)))}</span><span class="u-x">${esc(p.neutro?.titulo||"")}</span>${lidaAtual(p)?`<span class="u-t">✓ lida</span>`:""}</button></li>`).join("")}</ul>`)}
 function atualizarChatPosts(){if(!FEED)return;const ps=new Set(allMsgs().filter(m=>m.pid).map(m=>m.pid));ps.forEach(pid=>{if(document.getElementById("p-"+pid))updateSocial(pid)})}
 let RESP=null;
-function responderMsg(mid){const m=allMsgs().find(x=>x.id===mid);if(!m)return;RESP={pid:m.pid,snap:m.snap?{id:m.pid,titulo:m.snap.titulo||"",secao:m.snap.secao||""}:{id:m.pid}};$("#respbar")?.remove();const f=$("#mform");if(!f)return;f.insertAdjacentHTML("beforebegin",`<div id="respbar" class="respbar"><span>Respondendo a: <b>${esc(m.snap?.titulo||"notícia")}</b></span><button type="button" data-resp-x aria-label="Cancelar resposta">✕</button></div>`);$("#mtext")?.focus()}
 var THREAD_DE=null;
-function abrirConversa(uid){const de=VIEW;THREAD=uid;if(VIEW!=="msgs")go("msgs");else renderMsgs();if(pushH()){TST++;TST_AT=Date.now();THREAD_DE=de!=="msgs"?de:null}}
 
 function listaPath(u){return "lista/"+[S.uid,u].sort().join("_")}
 async function alternarLista(pid,com){if(precisaConta())return;if(!com){const am=amigosL();if(am.length===1)com=am[0];else{abrirEscolhaLista(pid);return}}
@@ -7774,7 +7728,6 @@ function listaPessoasSheet(tit,intro,ids,linha,vazio,servidor){
   return ()=>{const b=$("#pbox");if(!b)return false;b.innerHTML=draw($("#pq")?.value||"");return true}}
 const linhaAmigo=x=>`<li><button type="button" class="amg-r" data-conversa="${esc(x)}">${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b><span>Conversar</span></span><i aria-hidden="true">›</i></button></li>`;
 function abrirTodosAmigos(){listaPessoasSheet(`Seus amigos (${amigosL().length})`,"",amigosL,linhaAmigo,"Nenhum amigo ainda")}
-function abrirNovaConversa(){if(precisaConta())return;listaPessoasSheet("Nova conversa","",amigosL,linhaAmigo,"Nenhum amigo ainda")}
 async function cancelarPedido(u){if(precisaConta())return;S.pedidosOut=S.pedidosOut.filter(x=>x!==u);rerenderAll();S._reAmg&&S._reAmg();
   try{await S.db.rpc("desfazer_amizade",{p_uid:u});toast("Pedido cancelado.")}catch(e){toast("Não deu para cancelar agora.");S.db&&S.db.recarregar()}}
 function abrirAddAmigos(){if(precisaConta())return;
@@ -7795,7 +7748,6 @@ async function pedirAmizade(u,btn){if(precisaConta())return;if(btn){btn.disabled
   catch(e){if(btn){btn.disabled=false;btn.textContent="Pedir amizade";btn.classList.remove("ghost")}const m=String(e&&(e.message+" "+e.code));toast(/demais|54000/.test(m)?"Você já tem muitos pedidos esperando resposta.":/invalido|22023/.test(m)?"Não dá para pedir amizade a essa pessoa.":"Não deu para pedir agora.")}}
 async function responderAmizade(u,aceitar){if(precisaConta())return;S.pedidosIn=S.pedidosIn.filter(x=>x!==u);if(aceitar)S.amigos.add(u);rerenderAll();
   try{await S.db.rpc("responder_amizade",{p_uid:u,p_aceitar:!!aceitar});toast(aceitar?"Agora você e "+nomeDe(u)+" são amigos.":"Pedido recusado.")}catch(e){if(aceitar)S.amigos.delete(u);rerenderAll();toast(/nao existe|P0002/i.test(String(e&&(e.message||e.code)||""))?nomeDe(u)+" cancelou o pedido.":"Não deu para responder agora.");S.db&&S.db.recarregar()}}
-function abrirThMenu(u){if(!S.amigos.has(u))return;sheet("Conversa com "+nomeDe(u),`<div class="opt"><button type="button" data-desfazer="${esc(u)}">Desfazer amizade<span>vocês deixam de se ver</span></button><button type="button" data-bloquear="${esc(u)}">Bloquear ${esc(nomeDe(u))}<span>não pode mais te achar nem pedir amizade</span></button><button type="button" data-denp="${esc(u)}">Denunciar ${esc(nomeDe(u))}<span>o Pedro recebe e analisa</span></button></div>`)}
 function denunciaDestino(){return S.membros[S.uid]?.papel==="admin"?"fica na sua lista de denúncias, na Administração":"vai para o Pedro, que analisa"}
 function abrirDenuncia(tipo,alvo,ref,pid){if(precisaConta())return;
   sheet("Denunciar",`<p style="margin:0;font-size:15px;line-height:1.5">${tipo==="comentario"?"O comentário":"A conta de "+esc(nomeDe(alvo))} ${denunciaDestino()}. ${esc(nomeDe(alvo))} não fica sabendo quem denunciou.</p><textarea id="dmot" class="field" rows="3" maxlength="500" placeholder="O que aconteceu? (opcional)"></textarea><p class="erro-t" id="derro" role="alert" hidden></p><button type="button" class="btn" id="dok">Enviar denúncia</button>${S.amigos.has(alvo)||tipo==="pessoa"?`<label class="chk"><input type="checkbox" id="dblq"> Também bloquear ${esc(nomeDe(alvo))}</label>`:""}`);
@@ -9351,29 +9303,96 @@ var VOLTA_NOME={capa:"Capa",feed:"Feed",busca:"Busca",saved:"Guardadas",me:"Perf
   addEventListener("touchend",solta,{passive:true});addEventListener("touchcancel",()=>{if(on&&sec){sec.style.transform="";sec.style.opacity=""}on=false},{passive:true});
 })();
 
-/* ---------- Etapa 53: Conversas ---------- */
+/* ---------- 203 · Conversas (Fase 3): as funções de Conversas, cada uma numa versão só ----------
+   Antes eram remendadas em 065, 070, 091, 100, 104-correcoes-conversas, 106, 108, 114, 121, 125, 126, 160, 162, 165 e 181
+   (e openSend em 008/066/102/150). Cada função abaixo faz o que a cadeia inteira fazia, na mesma ordem; os comentários dizem
+   de onde veio cada passo. As variáveis, ouvintes e gestos que eram do 065 vêm aqui na mesma posição de carga (este arquivo
+   entra logo antes do 065). Os auxiliares dos outros arquivos (ca100*, dm104*, dm106*, rs108*, co160*, cv162*, pf165, sg181*)
+   continuam onde estavam: aqui eles só são chamados, sempre depois da carga. */
 const DM_EMO=["❤️","😂","😮","😢","👍","🔥"];
 var RESPM=null,DM_Q="";
 const DM_IC={nova:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>',busca:'<svg class="ico" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>',env:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5z"/><path d="M11.5 13.5L20 4"/></svg>',voltar:'<svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>'};
+/* todas as mensagens (recebidas e enviadas), sem repetir, em ordem de hora. Na carga (antes do 999) vale só a base, como
+   antes: os complementos ainda não existiam (o 029 desenha o Feed com a edição guardada e o cartão pergunta "Na conversa") */
+var CV203_PRONTA=false;
+function cv203Pronta(){CV203_PRONTA=true}
+function allMsgs(){const m=new Map();[...S.msgsIn,...S.msgsOut].forEach(x=>m.set(x.id,x));let l=[...m.values()].sort((a,b)=>a.at-b.at);
+  if(!CV203_PRONTA)return l;
+  /* 091: quem está bloqueado some de Conversas */
+  {const bl=S.bloq||[];if(bl.length)l=l.filter(m=>!bl.includes(m.de===S.uid?m.para:m.de))}
+  /* 106: mensagens antigas já carregadas ("Carregar mensagens antigas") */
+  if(DM106.uid===S.uid){dm106Desliza();if(DM106.ant.size){const ids=new Set(l.map(m=>m.id)),bl=S.bloq||[],ex=[];DM106.ant.forEach(m=>{if(!ids.has(m.id)&&!bl.includes(m.de===S.uid?m.para:m.de))ex.push(m)});
+    if(ex.length)l=l.concat(ex).sort((a,b)=>a.at-b.at)}}
+  /* 162: o que você apagou some da lista e da conversa */
+  if(PREF.conv)l=l.filter(m=>{const a=+cv162(cv162Outro(m)).apg||0;return !a||(+m.at||0)>a});
+  return l}
+function marcarLidasThread(th){if(document.hidden||!S.db)return;const nl=th.filter(m=>m.para===S.uid&&!m.lida);if(!nl.length)return;nl.forEach(m=>m.lida=true);const de=nl[0].de;S.db.marcarLidas(de).catch(()=>{nl.forEach(m=>m.lida=false);updateBadge()})}
 function dmPar(u){return m=>(m.de===u&&m.para===S.uid)||(m.de===S.uid&&m.para===u)}
 function dmCurto(at){const m=(Date.now()-at)/6e4;if(m<1)return "agora";if(m<60)return Math.floor(m)+" min";if(m<1440)return Math.floor(m/60)+" h";if(m<10080)return Math.floor(m/1440)+" d";return Math.floor(m/10080)+" sem"}
-function dmQuando(at){const d=dataSP(at),h=hhmm(at),hoje=hojeSP();if(d===hoje)return "Hoje, "+h;if(d===somaDias(hoje,-1))return "Ontem, "+h;const w=new Date(at).toLocaleDateString("pt-BR",{weekday:"short",timeZone:"America/Sao_Paulo"}).replace(".","");return `${w} (${+d.slice(8,10)}), ${h}`}
-function dmPrevia(m){const eu=m.de===S.uid;
-  if(m.tipo==="reacao_msg")return (eu?"Você reagiu ":"Reagiu ")+(m.texto||"❤️")+(eu?" a uma mensagem":" à sua mensagem");
-  if(m.tipo==="reacao")return (eu?"Você reagiu ":"Reagiu ")+(m.texto||"")+" a uma notícia";
-  if(m.tipo==="mencao")return eu?"Você mencionou num comentário":"Mencionou você num comentário";
-  if(m.tipo==="curtiu_story")return eu?"Você curtiu o giro":"Curtiu seu giro ❤️";
-  if(m.tipo==="resp_story")return (eu?"Você respondeu ao giro: ":"Respondeu ao seu giro: ")+(m.texto||"");
-  if(m.pid&&!m.texto)return eu?"Você enviou uma notícia":"Enviou uma notícia";
-  return (eu?"Você: ":"")+(m.texto||"")}
+/* hora na conversa; depois de uma semana, a data com o mês (104) */
+function dmQuando(at){try{const d=dataSP(at),hoje=hojeSP(),dias=Math.round((Date.parse(hoje+"T12:00:00Z")-Date.parse(d+"T12:00:00Z"))/864e5);
+  if(dias>=6){const o={day:"numeric",month:"short",timeZone:"America/Sao_Paulo"};if(d.slice(0,4)!==hoje.slice(0,4))o.year="numeric";return new Date(at).toLocaleDateString("pt-BR",o).replace(/\./g,"")+", "+hhmm(at)}}catch(e){}
+  const d=dataSP(at),h=hhmm(at),hoje=hojeSP();if(d===hoje)return "Hoje, "+h;if(d===somaDias(hoje,-1))return "Ontem, "+h;const w=new Date(at).toLocaleDateString("pt-BR",{weekday:"short",timeZone:"America/Sao_Paulo"}).replace(".","");return `${w} (${+d.slice(8,10)}), ${h}`}
+/* prévia da última mensagem na lista */
+function dmPrevia(m){let r;
+  /* 114: menção num comentário de post */
+  if(ra114MenCmt(m))r=m.de===S.uid?"Você mencionou num comentário":"Mencionou você num comentário";
+  /* 104: reação a uma mensagem diz de quem era a mensagem e qual era */
+  else if(m&&m.tipo==="reacao_msg"){const eu=m.de===S.uid,e=m.texto||"❤️",alvo=allMsgs().find(x=>x.id===(m.snap&&m.snap.ref)),tr=alvo?dm104Trecho(alvo):"";
+  const quem=alvo?(alvo.de===S.uid?"à sua mensagem":(eu?"à mensagem de "+String(nomeDe(alvo.de)).split(" ")[0]:"à própria mensagem")):(eu?"a uma mensagem":"à sua mensagem");
+  r=(eu?"Você reagiu ":"Reagiu ")+e+" "+quem+(tr?": “"+tr+"”":"")}
+  else{const eu=m.de===S.uid;
+    /* 070: posts de membros */
+    if(m.tipo==="mencao"&&dmEhPub(m)&&m.snap&&m.snap.upub)r=m.snap.story===true?(eu?"Você mencionou no giro":"Mencionou você no giro"):eu?"Você marcou num post":"Marcou você num post";
+    else if(dmEhPub(m)&&!m.texto&&m.tipo!=="mencao")r=eu?"Você enviou um post":"Enviou um post";
+    /* 065 */
+    else if(m.tipo==="reacao")r=(eu?"Você reagiu ":"Reagiu ")+(m.texto||"")+" a uma notícia";
+    else if(m.tipo==="mencao")r=eu?"Você mencionou num comentário":"Mencionou você num comentário";
+    else if(m.tipo==="curtiu_story")r=eu?"Você curtiu o giro":"Curtiu seu giro ❤️";
+    else if(m.tipo==="resp_story")r=(eu?"Você respondeu ao giro: ":"Respondeu ao seu giro: ")+(m.texto||"");
+    else if(m.pid&&!m.texto)r=eu?"Você enviou uma notícia":"Enviou uma notícia";
+    else r=(eu?"Você: ":"")+(m.texto||"")}
+  /* 121: "giro" no lugar de "story" */
+  try{return typeof r==="string"?tb121Giro(r):r}catch(e){return r}}
 function dmFotoDe(m){const p=m.pid&&pautaById(m.pid);const f=p&&fotoDe(p);return f&&f.url?f:null}
-function dmCard(m){const s=m.snap||{},p=m.pid&&pautaById(m.pid),tit=(p&&versao(p,lente()).titulo)||s.titulo||"Notícia",sec=(p&&secOf(p))||s.secao||"politica",f=dmFotoDe(m);
-  return `<button type="button" class="dm-card" data-open="${esc(m.pid)}"><span class="dm-cf paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(s.imagem||(p&&p.imagem))}</span><span class="dm-ct"><small style="color:${secCor(sec)}">${esc(secNome(sec))}</small><b>${esc(tit)}</b></span></button>`}
+/* cartão de notícia ou de publicação mandada na conversa */
+function dmCard(m){let h;
+  if(!dmEhPub(m)){/* 065: notícia */
+    const s=m.snap||{},p=m.pid&&pautaById(m.pid),tit=(p&&versao(p,lente()).titulo)||s.titulo||"Notícia",sec=(p&&secOf(p))||s.secao||"politica",f=dmFotoDe(m);
+    h=`<button type="button" class="dm-card" data-open="${esc(m.pid)}"><span class="dm-cf paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(s.imagem||(p&&p.imagem))}</span><span class="dm-ct"><small style="color:${secCor(sec)}">${esc(secNome(sec))}</small><b>${esc(tit)}</b></span></button>`;
+    /* 160: a mesma editoria da Capa */
+    try{if(typeof h==="string"){const p=m&&m.pid&&pautaById(m.pid);if(p){
+      const ch=capaChapeu(p),sec=secOf(p);if(ch)h=h.replace(new RegExp("(<span class=\"dm-ct\"><small[^>]*>)"+esc(secNome(sec)).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"</small>"),"$1"+esc(ch)+"</small>")}}}catch(e){}
+    return h}
+  /* 070: post ou giro de membro */
+  const id=m.pid.slice(2),x=typeof pubDe==="function"&&pubDe(id),s=m.snap||{};
+  const u=x&&x.fotos&&x.fotos[0]&&pubUrl(x.fotos[0]),au=x?x.autor:null,tx=x?x.texto:(String(s.titulo||"").replace(/^(Post|Story) de [^:]+:\s*/,""));
+    h=`<button type="button" class="dm-card dm-ucard" data-open="${esc(m.pid)}"><span class="dm-uh">${au?avatar(au):""}<b>${esc(au?nomeDe(au):(String(s.titulo||"").match(/^(?:Post|Story|Giro) de ([^:]+)/)||[,"Publicação"])[1])}</b><small>${x?(x.tipo==="story"?"Giro":x.estilo&&x.estilo.reel?"Reel":"Post"):/^Story de /.test(String(s.titulo||""))?"Giro":"Publicação"}</small></span>${u?`<span class="dm-cf"><img src="${pubSrc(u)}" alt="" loading="lazy" decoding="async"></span>`:""}${tx?`<span class="dm-ct"><b class="dm-utx">${esc(String(tx).slice(0,160))}</b></span>`:""}${!x?`<span class="dm-ct"><small class="dm-indisp">Só quem é amigo do autor consegue abrir</small></span>`:""}</button>`;
+  /* 108: publicação que não existe mais */
+  try{if(typeof h==="string"&&h.indexOf("dm-indisp")>=0&&dmEhPub(m)){const s=m.snap||{},t=String(s.titulo||""),mm=t.match(/^(Post|Story|Reel) de ([^:]+)$/),nome=mm&&mm[2].trim();
+    if(mm)h=h.replace(`<span class="dm-ct"><b class="dm-utx">${esc(t.slice(0,160))}</b></span>`,"");
+    const story=s.story===true||/^(Story|Giro) de /.test(t),amigo=!!nome&&(nome===nomeDe(S.uid)||amigosL().some(u=>nomeDe(u)===nome));
+    if(story||amigo)h=h.replace("Só quem é amigo do autor consegue abrir",story?"Este giro não está mais disponível":"Esta publicação não está mais disponível")}}catch(e){}
+  /* 125: coluna */
+  try{if(typeof h==="string"){const x=pubDe(String(m.pid).slice(2)),c=x&&cs123Col(x);
+    if(c)h=h.replace(/(<span class="dm-uh">[\s\S]*?<small>)Post(<\/small>)/,"$1Coluna$2").replace(/(<b class="dm-utx">)[\s\S]*?(<\/b>)/,`$1${esc(c.tit)}$2`)}}catch(e){}
+  return h}
 function dmMarca(t){let h=esc(t);amigosL().concat(S.uid?[S.uid]:[]).map(u=>nomeDe(u)).filter(Boolean).sort((a,b)=>b.length-a.length).forEach(n=>{const e=esc("@"+n);if(h.includes(e))h=h.split(e).join(`<b class="dm-at">${e}</b>`)});return h}
-function dmThreadHTML(u){const all=allMsgs().filter(dmPar(u)),reac={},ms=[];
+function dmSoEmoji(t){try{const x=String(t||"").trim();return x.length>0&&x.length<=12&&/^(\p{Extended_Pictographic}|\p{Emoji_Component}|‍|️|\s)+$/u.test(x)&&!/^[\d#*\s]+$/.test(x)}catch(e){return false}}
+function dmLinka(h){return String(h).replace(/(^|[\s>])((?:https?:\/\/|www\.)[^\s<]{2,300})/gi,(a,pre,u)=>{let tail="";while(/[.,;:!?)\]]$/.test(u)){tail=u.slice(-1)+tail;u=u.slice(0,-1)}const href=(/^www\./i.test(u)?"https://":"")+u.replace(/&amp;/g,"&");return /^https?:\/\//i.test(href)?`${pre}<a href="${esc(href)}" target="_blank" rel="noopener noreferrer nofollow" class="dm-link">${u}</a>${tail}`:a})}
+/* a conversa aberta: balões, separadores de hora, reações, citações */
+function dmThreadHTML(u){const R=allMsgs();
+  /* 106: resposta a uma mensagem que foi apagada não mostra mais o texto apagado */
+  let mud=false;const ids=new Set(R.map(m=>m.id));
+  const L2=R.map(m=>{if(m&&m.tipo==="resposta"&&m.snap&&m.snap.q&&dm106Apagada(m.snap.q,ids,u)){mud=true;return {...m,snap:{...m.snap,q:{...m.snap.q,t:DM106_APG}}}}return m});
+  /* 100: curtida de giro com miniatura vira resposta ao giro */
+  const lk=new Set();
+  const L1=L2.map(m=>{if(m&&m.tipo==="curtiu_story"&&ca100StInfo(m)){lk.add(m.id);return {...m,tipo:"resp_story",texto:m.texto||"❤️",_ca100lk:1}}return m});
+  /* 065 */
+  const all=L1.filter(dmPar(u)),reac={},ms=[];
   all.forEach(m=>{if(m.tipo==="reacao_msg"&&m.snap&&m.snap.ref)(reac[m.snap.ref]=reac[m.snap.ref]||[]).push(m);else ms.push(m)});
-  if(!ms.length)return `<div class="dm-vazio">${avatar(u)}<b>${esc(nomeDe(u))}</b><span>Mande uma mensagem ou uma notícia pelo botão Enviar de qualquer post.</span></div>`;
-  let h="",ant=null;const ultMinha=ms.length&&ms[ms.length-1].de===S.uid?ms[ms.length-1]:null;
+  let h;if(!ms.length)h=`<div class="dm-vazio">${avatar(u)}<b>${esc(nomeDe(u))}</b><span>Mande uma mensagem ou uma notícia pelo botão Enviar de qualquer post.</span></div>`;
+  else{h="";let ant=null;const ultMinha=ms.length&&ms[ms.length-1].de===S.uid?ms[ms.length-1]:null;
   const quebra=(a,b)=>!a||b.at-a.at>3600e3||dataSP(a.at)!==dataSP(b.at);
   ms.forEach((m,i)=>{const nx=ms[i+1],eu=m.de===S.uid;if(quebra(ant,m))h+=`<div class="dm-tm">${esc(dmQuando(m.at))}</div>`;
     const pri=quebra(ant,m)||ant.de!==m.de||m.at-ant.at>300e3,ult=!nx||quebra(m,nx)||nx.de!==m.de||nx.at-m.at>300e3;
@@ -9389,7 +9408,31 @@ function dmThreadHTML(u){const all=allMsgs().filter(dmPar(u)),reac={},ms=[];
     const rs=reac[m.id]||[];const pill=rs.length?`<button type="button" class="dm-rx" data-dmacoes="${esc(m.id)}" aria-label="Reações">${[...new Set(rs.map(r=>String(r.texto||"").slice(0,8)))].map(esc).join("")}${rs.length>1?`<i>${rs.length}</i>`:""}</button>`:"";
     h+=`<div class="msg dm-m ${eu?"mine":"theirs"}${pri?" pri":""}${ult?" ult":""}${rs.length?" crx":""}" data-mid="${esc(m.id)}">${!eu?`<span class="dm-av">${ult?avatar(m.de):""}</span>`:""}<div class="dm-c">${corpo}${pill}</div></div>`;
     if(m===ultMinha)h+=`<div class="dm-st">${m.lida?"Visto":String(m.id).startsWith("tmp")?"Enviando…":"Enviada"}</div>`;
-    ant=m});
+    ant=m});}
+  /* 070: menção num post (não num comentário) */
+  h=h.replace(/(<span class="dm-lb">)(Você mencionou [^<]*|Mencionou você) num comentário(<\/span>)(<button type="button" class="dm-card dm-ucard" data-open="u:([^"]+)")/g,(a,b1,quem,b3,b4,id)=>{const m=L1.find(x=>x.tipo==="mencao"&&x.pid==="u:"+id&&x.snap&&x.snap.upub);return m?b1+quem+" num post"+b3+b4:a});
+  /* 100: miniatura do giro */
+  try{L2.filter(dmPar(u)).forEach(m0=>{if(m0.tipo!=="resp_story"&&!lk.has(m0.id))return;const inf=ca100StInfo(m0);if(!inf)return;const m=lk.has(m0.id)?{...m0,_ca100lk:1}:m0;
+    const k=`data-mid="${esc(m.id)}"`,i=h.indexOf(k);if(i<0)return;const nx=h.indexOf("data-mid=",i+k.length),a=h.indexOf('<div class="dm-q">',i);if(a<0||(nx>=0&&a>nx))return;const z=h.indexOf("</div>",a);if(z<0)return;
+    let blk=ca100StHTML(m,inf);
+    /* a resposta da pergunta (075) também desenha um cartão de notícia vazio: some */
+    let fim=z+6;if(h.startsWith('<button type="button" class="dm-card',fim)){const zz=h.indexOf("</button>",fim);if(zz>0&&(nx<0||zz<nx))fim=zz+9}
+    h=h.slice(0,a)+`<div class="ca100-sq${m.de===S.uid?" eu":""}">${blk}</div>`+h.slice(fim)})}catch(e){}
+  /* 106: "Carregar mensagens antigas" */
+  try{if(dm106TemMais(u)&&h.indexOf('class="dm-vazio"')<0)h=`<div class="dm106-topo"><button type="button" class="btn ghost dm106-mais" data-dm106mais>${DM106.car?"Carregando…":"Carregar mensagens antigas"}</button></div>`+h}catch(e){}
+  if(mud)h=h.split(`<span>${DM106_APG}</span>`).join(`<span class="dm106-apg">Mensagem apagada</span>`);
+  /* 114: menção num comentário de post */
+  try{if(typeof h==="string"&&h.indexOf("num post")>=0){
+    const ms=R.filter(ra114MenCmt);if(ms.length){const t=document.createElement("template");t.innerHTML=h;let mudou=false;
+    ms.forEach(m=>{const el=t.content.querySelector(`[data-mid="${CSS.escape(String(m.id))}"] .dm-lb`);if(el&&/ num post$/.test(el.textContent)){el.textContent=el.textContent.replace(/ num post$/," num comentário");mudou=true}});
+    if(mudou)h=t.innerHTML}}}catch(e){}
+  /* 121: "giro" no lugar de "story" */
+  if(typeof h==="string"&&h.indexOf("tory")>=0){
+    try{const tp=document.createElement("template");tp.innerHTML=h;let mudou=false;
+      tp.content.querySelectorAll(".dm-lb,.dm-ev,.dm-q>small,.dm-uh>small,.ca100-stl,.dm-q>span").forEach(el=>{
+        const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n;const l=[];while(n=w.nextNode())l.push(n);
+        l.forEach(n=>{const t=n.nodeValue,v=el.matches(".dm-q>span")?t.replace(/^Story$/,"Giro"):tb121GiroTx(t);if(v!==t){n.nodeValue=v;mudou=true}})});
+      if(mudou)h=tp.innerHTML}catch(e){}}
   return h}
 function dmInboxHTML(){const msgs0=allMsgs(),ids=new Set(msgs0.map(m=>m.id)),msgs=msgs0.filter(m=>!(m.tipo==="reacao_msg"&&m.snap&&m.snap.ref&&!ids.has(m.snap.ref))),am=amigosL(),ult={};msgs.forEach(m=>{const o=m.de===S.uid?m.para:m.de;if(!o||o===S.uid)return;ult[o]=m});
   const convs=Object.keys(ult).sort((a,b)=>ult[b].at-ult[a].at),n=norm(DM_Q).trim();const ok=u=>!n||norm(nomeDe(u)).includes(n);
@@ -9406,13 +9449,15 @@ function dmInboxHTML(){const msgs0=allMsgs(),ids=new Set(msgs0.map(m=>m.id)),msg
 function dmPorCorpo(el,html){const t=document.createElement("template");t.innerHTML=html;const nv=[...t.content.childNodes],at=[...el.childNodes];if(!at.length||!nv.length){el.innerHTML=html;return}
   const k=n=>n.nodeType===1?n.outerHTML:"#"+n.textContent,A=at.map(k),B=nv.map(k);let p=0,s=0;while(p<A.length&&p<B.length&&A[p]===B[p])p++;while(s<A.length-p&&s<B.length-p&&A[A.length-1-s]===B[B.length-1-s])s++;
   const ref=at[A.length-s]||null;for(let i=p;i<A.length-s;i++)at[i].remove();const fr=document.createDocumentFragment();for(let i=p;i<B.length-s;i++)fr.appendChild(nv[i]);el.insertBefore(fr,ref)}
-renderMsgs=function(){const v=$("#v-msgs");document.body.classList.toggle("dm-conv",!!THREAD&&VIEW==="msgs");
-  if(!S.db||!S.uid||!S.membro){v.dataset.thr="";v.innerHTML=`<div class="gut"><div class="view-h"><h1>Conversas</h1></div><div class="empty"><b>Conversas precisam da sua conta</b>${S.uid?"Falta só o convite para você entrar no Prumo.":"Entre para trocar notícias com os seus amigos."}<button type="button" class="btn" data-entrar style="margin-top:10px">${S.uid?"Usar um convite":"Entrar"}</button></div></div>`;return}
-  if(!THREAD){const foco=document.activeElement&&document.activeElement.id==="dmq",pos=foco?document.activeElement.selectionStart:0;v.dataset.thr="";v.innerHTML=dmInboxHTML();if(foco){const i=$("#dmq");i.focus();try{i.setSelectionRange(pos,pos)}catch(e){}}return}
-  const u=THREAD,amigo=S.amigos.has(u),th=allMsgs().filter(dmPar(u)),corpo=dmThreadHTML(u);
+/* a tela Conversas: lista ou conversa aberta. Depois de desenhar, os acabamentos na ordem em que entraram */
+function renderMsgs(){
+  const v=$("#v-msgs");document.body.classList.toggle("dm-conv",!!THREAD&&VIEW==="msgs");
+  if(!S.db||!S.uid||!S.membro){v.dataset.thr="";v.innerHTML=`<div class="gut"><div class="view-h"><h1>Conversas</h1></div><div class="empty"><b>Conversas precisam da sua conta</b>${S.uid?"Falta só o convite para você entrar no Prumo.":"Entre para trocar notícias com os seus amigos."}<button type="button" class="btn" data-entrar style="margin-top:10px">${S.uid?"Usar um convite":"Entrar"}</button></div></div>`}
+  else if(!THREAD){const foco=document.activeElement&&document.activeElement.id==="dmq",pos=foco?document.activeElement.selectionStart:0;v.dataset.thr="";v.innerHTML=dmInboxHTML();if(foco){const i=$("#dmq");i.focus();try{i.setSelectionRange(pos,pos)}catch(e){}}}
+  else{const u=THREAD,amigo=S.amigos.has(u),th=allMsgs().filter(dmPar(u)),corpo=dmThreadHTML(u);
   const ja=v.dataset.thr===u&&v.dataset.am===String(amigo)&&v.querySelector(".thread");
-  if(ja){const perto=document.documentElement.scrollHeight-scrollY-innerHeight<200,n0=v.querySelectorAll(".thread .dm-m").length;dmPorCorpo(v.querySelector(".thread"),corpo);marcarLidasThread(th);updateBadge();const n1=v.querySelectorAll(".thread .dm-m").length;if(perto||(n1>n0&&th[th.length-1]?.de===S.uid))window.scrollTo(0,document.body.scrollHeight);return}
-  v.dataset.thr=u;v.dataset.am=String(amigo);RESPM=null;
+  if(ja){const perto=document.documentElement.scrollHeight-scrollY-innerHeight<200,n0=v.querySelectorAll(".thread .dm-m").length;dmPorCorpo(v.querySelector(".thread"),corpo);marcarLidasThread(th);updateBadge();const n1=v.querySelectorAll(".thread .dm-m").length;if(perto||(n1>n0&&th[th.length-1]?.de===S.uid))window.scrollTo(0,document.body.scrollHeight)}
+  else{v.dataset.thr=u;v.dataset.am=String(amigo);RESPM=null;
   v.innerHTML=`<div class="dm-th-h"><button type="button" class="dm-bk" data-back aria-label="Voltar para Conversas">${DM_IC.voltar}</button><button type="button" class="dm-who" ${amigo?"data-thmenu":""}>${avatar(u)}<span><b>${esc(nomeDe(u))}</b><small>${amigo?"Amigo no Prumo":S.membros[u]?.excluido?"Conta excluída":"Não são amigos agora"}</small></span></button>${amigo?`<button type="button" class="icbtn" data-thmenu aria-label="Opções da conversa">${ICON.dots}</button>`:""}</div>
     <div class="gut"><div class="thread dm-thr">${corpo}</div></div>
     <div class="composer gut dm-comp">${amigo?`<form id="mform" class="dm-f" autocomplete="off"><textarea class="field" id="mtext" rows="1" maxlength="1000" autocomplete="off" enterkeyhint="send" placeholder="Mensagem…" aria-label="Mensagem"></textarea><button class="send dm-send" type="submit" aria-label="Enviar" disabled>${DM_IC.env}</button></form>`:`<p class="hint" style="margin:0;padding:8px 0">${S.membros[u]?.excluido?"Esta conta foi excluída. A conversa fica aqui só para leitura.":(S.membros[u]&&!S.membros[u].excluido?"Vocês não são amigos no Prumo agora. Para conversar de novo, peça amizade no Perfil.":"Não dá para conversar com esta pessoa agora.")}</p>`}</div>`;
@@ -9420,22 +9465,72 @@ renderMsgs=function(){const v=$("#v-msgs");document.body.classList.toggle("dm-co
     $("#mform").addEventListener("submit",async e=>{e.preventDefault();const t=i.value.trim();if(!t)return;i.value="";b.disabled=true;const rq=RESPM;RESPM=null;$("#respbar")?.remove();
       const extra=rq?{tipo:"resposta",snap:{q:rq}}:{};const ok=await dmEnviar(u,{texto:t,...extra});
       if(!ok){if(!i.value){i.value=t;b.disabled=false}if(rq&&!RESPM){RESPM=rq;dmBarraResp()}}})}
-  marcarLidasThread(th);updateBadge();window.scrollTo(0,document.body.scrollHeight)};
-async function dmEnviar(para,campos,silencioso){const at=Date.now(),id="tmp"+at+Math.random().toString(36).slice(2,5);const m={de:S.uid,para,at,texto:"",lida:false,...campos};
+  marcarLidasThread(th);updateBadge();window.scrollTo(0,document.body.scrollHeight)}}
+  /* 100: miniaturas dos giros */
+  try{if(THREAD)ca100Assina()}catch(e){}
+  /* 104: conta excluída; quem deixou de ser amigo pode pedir amizade dali mesmo */
+  dm104Excluidas();
+  dm104Amizade();
+  /* 108: rascunho guardado da mensagem */
+  try{if(THREAD)rs108Poe($("#mtext"),"dm:"+THREAD)}catch(e){}
+  /* 160: sem conta; "ninguém com esse nome"; campo que cresce */
+  try{if(!S.uid){const v=$("#v-msgs .empty");if(v&&!v.querySelector(".co160-semconta"))v.innerHTML=`<b>Conversas precisam da sua conta</b>Com a conta você troca notícias e mensagens com os seus amigos.<p class="co160-como">${esc(CO160_COMO)}</p><div class="lbtns co160-semconta"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta com convite</button></div>`}
+  else if(S.membro&&!THREAD){co160SemNome()}else if(S.membro&&THREAD){co160Campo()}}catch(e){}
+  /* 162: conversas silenciadas */
+  try{
+  document.querySelectorAll('#v-msgs [data-thread]').forEach(b=>{const u=b.dataset.thread;if(!cv162Sil(u))return;
+    const d=b.querySelector(".dot");if(d)d.remove();const nm=b.querySelector(".pt b");if(nm&&!nm.querySelector(".cv162-ic")){nm.insertAdjacentHTML("beforeend",CV162_SINO);b.setAttribute("aria-label",(nm.textContent||"")+", conversa silenciada")}
+    b.classList.remove("un");const s=b.querySelector(".pt .unread");if(s)s.classList.remove("unread")});
+  if(THREAD&&cv162Sil(THREAD)){const h=document.querySelector("#v-msgs .dm-who b, #v-msgs .view-h h1");if(h&&!h.querySelector(".cv162-ic"))h.insertAdjacentHTML("beforeend",CV162_SINO)}}catch(e){}
+  /* 165: fileira de amigos sem repetir a lista */
+  try{if(S.uid&&S.membro&&!THREAD){const row=$("#v-msgs .dm-amg");if(row){
+  const conv=new Set([...document.querySelectorAll("#v-msgs .dm-lista [data-thread]")].map(b=>b.dataset.thread));
+  if(conv.size){row.querySelectorAll("[data-thread]").forEach(b=>{if(conv.has(b.dataset.thread))b.remove()});
+    if(!row.querySelector("[data-thread]"))row.remove();else if(!(row.previousElementSibling&&row.previousElementSibling.classList.contains("pf165-amh")))row.insertAdjacentHTML("beforebegin",`<h3 class="dm-sh pf165-amh">Amigos</h3>`)}}}}catch(e){}
+  /* 181: quem não pode receber mensagem (só seguir) */
+  try{if(sg181On())sg181DmAviso()}catch(e){}}
+/* conversa com quem deixou de ser amigo: o pedido de amizade sai dali mesmo (104); no modo só seguir, o aviso do 181 */
+function dm104Amizade(){if(sg181On()){try{sg181DmAviso()}catch(e){}return}
+  try{const u=THREAD;if(!u||VIEW!=="msgs"||S.amigos.has(u)||S.membros[u]?.excluido||!S.membros[u]||(S.bloq||[]).includes(u))return;const h=$("#v-msgs .dm-comp .hint");if(!h||h.querySelector(".dm104-am"))return;
+  const rec=(S.pedidosIn||[]).includes(u),env=(S.pedidosOut||[]).includes(u),perto=document.documentElement.scrollHeight-scrollY-innerHeight<200;
+  h.insertAdjacentHTML("beforeend",rec?` <button type="button" class="btn dm104-am" data-aceitar="${esc(u)}">Aceitar pedido</button>`:env?` <button type="button" class="btn ghost dm104-am" disabled>Pedido enviado</button>`:` <button type="button" class="btn dm104-am" data-pedir="${esc(u)}">Pedir amizade</button>`);
+  if(h.firstChild&&h.firstChild.nodeType===3)h.firstChild.textContent=rec?String(nomeDe(u)).split(" ")[0]+" pediu para ser seu amigo no Prumo. Aceite para conversar de novo.":env?"Você pediu amizade. Quando aceitarem, dá para conversar de novo.":"Vocês não são amigos no Prumo agora. Para conversar de novo, peça amizade.";if(perto)window.scrollTo(0,document.body.scrollHeight)}catch(e){}}
+/* manda uma mensagem (aparece na hora, como "Enviando…") */
+async function dmEnviar(para,campos,silencioso){
+  /* 100: resposta ou curtida de giro leva a miniatura do giro */
+  try{if(campos&&(campos.tipo==="resp_story"||campos.tipo==="curtiu_story")&&campos.snap&&typeof campos.snap==="object"&&!campos.snap.sth){
+    const sn=campos.snap,id=sn.story&&typeof sn.story==="object"?sn.story.id:sn.upub,th=id&&ca100StTh(pubDe(id));if(th)campos={...campos,snap:{...sn,sth:th}}}}catch(e){}
+  /* 065 */
+  const at=Date.now(),id="tmp"+at+Math.random().toString(36).slice(2,5);const m={de:S.uid,para,at,texto:"",lida:false,...campos};
   S.msgsOut.push({id,...m});if(VIEW==="msgs")renderMsgs();
-  try{await S.db.collection("mensagens").add(m);return true}catch(err){S.msgsOut=S.msgsOut.filter(x=>x.id!==id);if(VIEW==="msgs")renderMsgs();if(!silencioso)toast(err?.code==="permission_denied"?"Só dá para mandar mensagem para amigos.":"A mensagem não foi enviada. Tente de novo.");return false}}
-async function dmApagar(id){const m=allMsgs().find(x=>x.id===id);if(!m||m.de!==S.uid)return;const bk=S.msgsOut.slice();S.msgsOut=S.msgsOut.filter(x=>x.id!==id);if(VIEW==="msgs")renderMsgs();
+  let ok;try{await S.db.collection("mensagens").add(m);ok=true}catch(err){S.msgsOut=S.msgsOut.filter(x=>x.id!==id);if(VIEW==="msgs")renderMsgs();if(!silencioso)toast(err?.code==="permission_denied"?"Só dá para mandar mensagem para amigos.":"A mensagem não foi enviada. Tente de novo.");ok=false}
+  /* 091: curtida de giro que não foi enviada não fica marcada */
+  try{if(!ok&&campos&&campos.tipo==="curtiu_story"&&campos.snap&&campos.snap.story&&typeof US_CURTI!=="undefined"){US_CURTI.delete(campos.snap.story.id);localStorage.setItem("prumo-us-curti",JSON.stringify([...US_CURTI].slice(-300)));toast("A curtida não foi enviada. Tente de novo.")}}catch(e){}
+  return ok}
+async function dmApagar(id){/* 106: some também das antigas carregadas */{const m=DM106.ant.get(id);if(m&&m.de===S.uid)DM106.ant.delete(id)}
+  const m=allMsgs().find(x=>x.id===id);if(!m||m.de!==S.uid)return;const bk=S.msgsOut.slice();S.msgsOut=S.msgsOut.filter(x=>x.id!==id);if(VIEW==="msgs")renderMsgs();
   try{await S.db.doc("mensagens/"+id).delete()}catch(e){S.msgsOut=bk;if(VIEW==="msgs")renderMsgs();toast("Não deu para apagar agora.")}}
-async function dmReagir(mid,e){const m=allMsgs().find(x=>x.id===mid);if(!m||!THREAD)return;if(!S.amigos.has(THREAD)){toast("Só dá para reagir com amigos.");return}vibrar(8);
+/* reagir a uma mensagem. 104: não reage a mensagem ainda sem id do servidor (criava reação "órfã") nem troca a reação
+   enquanto a anterior ainda está a caminho */
+async function dmReagir(mid,e){if(String(mid||"").startsWith("tmp")){toast("Espere a mensagem ser enviada para reagir.");return}
+  if(allMsgs().some(x=>x.tipo==="reacao_msg"&&x.de===S.uid&&x.snap&&x.snap.ref===mid&&String(x.id).startsWith("tmp")))return;
+  const m=allMsgs().find(x=>x.id===mid);if(!m||!THREAD)return;if(!S.amigos.has(THREAD)){toast("Só dá para reagir com amigos.");return}vibrar(8);
   const minhas=allMsgs().filter(x=>x.tipo==="reacao_msg"&&x.de===S.uid&&x.snap&&x.snap.ref===mid);const igual=minhas.find(x=>x.texto===e);
   for(const r of minhas)if(!String(r.id).startsWith("tmp"))await dmApagar(r.id);if(igual)return;
   await dmEnviar(THREAD,{texto:e,tipo:"reacao_msg",snap:{ref:mid}})}
 function dmTexto(m){return m.texto||(m.snap&&m.snap.titulo?"📰 "+m.snap.titulo:m.pid?"📰 notícia":"")}
-function dmBarraResp(){$("#respbar")?.remove();const f=$("#mform");if(!f||!RESPM)return;f.insertAdjacentHTML("beforebegin",`<div id="respbar" class="respbar dm-rb"><span><small>Respondendo ${RESPM.de===S.uid?"a você mesmo":"a "+esc(nomeDe(RESPM.de))}</small>${esc(RESPM.t)}</span><button type="button" data-dmsemresp aria-label="Cancelar resposta">✕</button></div>`)}
+/* barra "Respondendo a…"; 104: a última mensagem não fica escondida atrás dela */
+function dmBarraResp(){const perto=document.documentElement.scrollHeight-scrollY-innerHeight<200;
+  $("#respbar")?.remove();const f=$("#mform");if(f&&RESPM)f.insertAdjacentHTML("beforebegin",`<div id="respbar" class="respbar dm-rb"><span><small>Respondendo ${RESPM.de===S.uid?"a você mesmo":"a "+esc(nomeDe(RESPM.de))}</small>${esc(RESPM.t)}</span><button type="button" data-dmsemresp aria-label="Cancelar resposta">✕</button></div>`);
+  if(perto&&$("#respbar"))requestAnimationFrame(()=>window.scrollTo(0,document.body.scrollHeight))}
 function dmResponder(mid){const m=allMsgs().find(x=>x.id===mid);if(!m)return;RESPM={id:m.id,de:m.de,t:dmTexto(m).slice(0,120)};dmBarraResp();$("#mtext")?.focus()}
-responderMsg=dmResponder;
-function dmAcoes(mid){const m=allMsgs().find(x=>x.id===mid);if(!m)return;const eu=m.de===S.uid;vibrar(10);
+/* o "Responder" antigo (030) foi trocado pelo do 065 */
+function responderMsg(mid){return dmResponder(mid)}
+/* segurar uma mensagem: reagir, responder, copiar, abrir, apagar; 104: denunciar a recebida */
+function dmAcoes(mid){const m0=allMsgs().find(x=>x.id===mid);if(m0){const m=m0,eu=m.de===S.uid;vibrar(10);
   sheet("Mensagem",`<div class="dm-emo" role="group" aria-label="Reagir">${DM_EMO.map(e=>`<button type="button" data-dmreac="${esc(mid)}" data-e="${e}">${e}</button>`).join("")}</div><div class="opt">${S.amigos.has(THREAD)?`<button type="button" data-dmresp="${esc(mid)}">Responder</button>`:""}${dmTexto(m)?`<button type="button" data-dmcopiar="${esc(mid)}">Copiar texto</button>`:""}${m.pid?`<button type="button" data-open="${esc(m.pid)}">${String(m.pid).indexOf("u:")===0?"Abrir a publicação":"Abrir a notícia"}</button>`:""}${eu?`<button type="button" data-dmapagar="${esc(mid)}" class="perigo">Apagar para todos<span>some para você e para ${esc(nomeDe(m.para))}</span></button>`:""}</div>`)}
+  try{const m=allMsgs().find(x=>x.id===mid);const o=$("#layer .sheet .opt")||$("#layer2 .sheet .opt");
+  if(m&&o&&m.de!==S.uid&&m.para===S.uid&&!String(m.id).startsWith("tmp")&&!o.querySelector("[data-dm104den]"))o.insertAdjacentHTML("beforeend",`<button type="button" data-dm104den="${esc(mid)}" class="perigo">Denunciar mensagem<span>${S.membros[S.uid]?.papel==="admin"?"fica na sua lista da Administração":"o Pedro recebe e analisa"}</span></button>`)}catch(e){}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("[data-dmreac]")){e.stopPropagation();const mid=b.dataset.dmreac,em=b.dataset.e;closeLayer();dmReagir(mid,em);return}
   if(b=t.closest("[data-dmresp]")){e.stopPropagation();const mid=b.dataset.dmresp;closeLayer();setTimeout(()=>dmResponder(mid),60);return}
@@ -9455,11 +9550,22 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="dmq"){DM_Q=e.t
     if(!mov&&!e.target.closest("button,a")){const now=Date.now();if(ultId===m.dataset.mid&&now-ultT<320){ultT=0;e.preventDefault();if(S.amigos.has(THREAD)){dmReagir(m.dataset.mid,"❤️");const k=document.createElement("span");k.className="dm-pop";k.textContent="❤️";m.querySelector(".dm-c")?.appendChild(k);setTimeout(()=>k.remove(),800)}}else{ultT=now;ultId=m.dataset.mid}}},{passive:false});
   document.addEventListener("contextmenu",e=>{const m=m0(e);if(!m)return;e.preventDefault();dmAcoes(m.dataset.mid)});
   document.addEventListener("dblclick",e=>{const m=m0(e);if(!m||matchMedia("(pointer:coarse)").matches||e.target.closest("button,a"))return;if(S.amigos.has(THREAD))dmReagir(m.dataset.mid,"❤️")})})();
-/* barra de abas some dentro da conversa */
-{const _go53=go;go=function(v){const r=_go53.apply(this,arguments);document.body.classList.toggle("dm-conv",VIEW==="msgs"&&!!THREAD);return r}}
-
-/* ---------- Enviar: vários amigos de uma vez ---------- */
-openSend=function(pid,pre){uso("enviar");if(precisaConta())return;const others=amigosL();
+/* abre a conversa com uid (de qualquer tela); 126: os avisos de mensagem dessa pessoa ficam vistos */
+function abrirConversa(uid){const de=VIEW;THREAD=uid;if(VIEW!=="msgs")go("msgs");else renderMsgs();if(pushH()){TST++;TST_AT=Date.now();THREAD_DE=de!=="msgs"?de:null}
+  try{if(uid)qb126MarcaDepois(x=>x.msg&&x.msg.de===uid&&!(x.msg.snap&&x.msg.snap.upub))}catch(e){}}
+/* nova conversa: escolher o amigo; 160: caminhos para quem ainda não é amigo */
+function abrirNovaConversa(){if(!precisaConta())listaPessoasSheet("Nova conversa","",amigosL,linhaAmigo,"Nenhum amigo ainda");
+  try{const b=$("#layer .sheet .sh-b");if(b&&$("#layer #pbox")&&!b.querySelector(".co160-novos"))b.insertAdjacentHTML("beforeend",co160Novos())}catch(e){}}
+/* "…" da conversa (160: ver perfil em cima; desfazer, bloquear e denunciar embaixo) e 162: silenciar e apagar */
+function abrirThMenu(u){if(S.amigos.has(u)){const n1=String(nomeDe(u)||"").split(" ")[0];
+  sheet("Conversa com "+n1,`<div class="opt co160-opt"><button type="button" data-co160pf="${esc(u)}">Ver perfil<span>publicações de ${esc(n1)}</span></button></div>
+    <div class="opt co160-opt co160-pesado"><button type="button" data-desfazer="${esc(u)}">Desfazer amizade<span>vocês deixam de se ver</span></button><button type="button" data-bloquear="${esc(u)}">Bloquear<span>não pode mais te achar nem pedir amizade</span></button>${co160Admin(u)?"":`<button type="button" data-denp="${esc(u)}">Denunciar<span>o Pedro recebe e analisa</span></button>`}</div>`)}
+  try{const g=document.querySelector("#layer .sheet .co160-opt");if(g&&!g.querySelector("[data-cv162sil]")){
+  const sil=cv162Sil(u);g.insertAdjacentHTML("beforeend",`<button type="button" data-cv162sil="${esc(u)}">${sil?"Reativar avisos":"Silenciar conversa"}<span>${sil?"volta a avisar quando chegar mensagem":"sem aviso no celular nem bolinha; a conversa continua"}</span></button><button type="button" data-cv162apg="${esc(u)}">Apagar conversa<span>some da sua lista; ${esc(String(nomeDe(u)||"").split(" ")[0])} continua vendo</span></button>`)}}catch(e){}}
+/* Enviar uma notícia (ou post) para amigos. 150: sem conta, vai direto para compartilhar fora do Prumo */
+function openSend(pid,pre){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||snapById(pid))){compartilhar(pid);return}}catch(e){}
+  /* 066: vários amigos de uma vez */
+  (()=>{uso("enviar");if(precisaConta())return;const others=amigosL();
   if(!others.length){sheet("Enviar",`<div class="empty" style="padding:18px 0"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para mandar notícias para eles.</div><button type="button" class="btn ghost" data-vgo="me">Ir ao Perfil</button><button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`);return}
   const sel=new Set(pre&&others.includes(pre)?[pre]:others.length===1?[others[0]]:[]);const snap=snapById(pid);
   const ult={};allMsgs().forEach(m=>{const o=m.de===S.uid?m.para:m.de;ult[o]=m.at});const ord=others.slice().sort((a,b)=>(ult[b]||0)-(ult[a]||0));
@@ -9473,7 +9579,13 @@ openSend=function(pid,pre){uso("enviar");if(precisaConta())return;const others=a
     const ok=alvos.filter((u,i)=>res[i]===true),erro=res.find(x=>x!==true);
     if(ok.length===alvos.length){if($("#sform"))closeLayer();toast(`Enviado para ${ok.length>2?ok.length+" amigos":ok.map(nomeDe).join(" e ")}`)}
     else{ok.forEach(u=>sel.delete(u));document.querySelectorAll("#pick [data-pick]").forEach(x=>x.setAttribute("aria-pressed",String(sel.has(x.dataset.pick))));const b=$("#sbtn");if(b){b.disabled=false;delete b.dataset.env;b.textContent=rot()}
-      toast(erro?.code==="permission_denied"?"Só dá para mandar para amigos.":ok.length?`Enviado para ${ok.map(nomeDe).join(" e ")}; o resto não foi. Tente de novo.`:"Não deu para enviar agora. Tente de novo.")}})};
+      toast(erro?.code==="permission_denied"?"Só dá para mandar para amigos.":ok.length?`Enviado para ${ok.map(nomeDe).join(" e ")}; o resto não foi. Tente de novo.`:"Não deu para enviar agora. Tente de novo.")}})})();
+  /* 102: publicar com comentário ou pôr no giro */
+  try{if(pid&&String(pid).indexOf("u:")!==0&&pautaById(pid)&&S.membro&&PUB.on!==false){const b=document.querySelector("#layer .sheet .sh-b,#layer2 .sheet .sh-b");
+    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG(CN102_ICO.ana)}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button><button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu giro</b><small>Some em 24 horas</small></span></button></div>`)}}catch(e){}}
+/* ---------- Etapa 53: Conversas ---------- */
+/* barra de abas some dentro da conversa */
+{const _go53=go;go=function(v){const r=_go53.apply(this,arguments);document.body.classList.toggle("dm-conv",VIEW==="msgs"&&!!THREAD);return r}}
 
 /* ---------- @ no comentário: sugere amigos e manda a notícia por mensagem ---------- */
 var MEN_BOX=null,MEN_INP=null;
@@ -9684,12 +9796,6 @@ async function dmCopiar(t){let ok=false;try{if(navigator.clipboard&&navigator.cl
   toast(ok?"Texto copiado":"Não deu para copiar aqui. Segure o texto para copiar.")}
 /* 2. posts de membros nas Conversas */
 function dmEhPub(m){return String(m.pid||"").indexOf("u:")===0}
-{const _dc56=dmCard;dmCard=function(m){if(!dmEhPub(m))return _dc56.apply(this,arguments);const id=m.pid.slice(2),x=typeof pubDe==="function"&&pubDe(id),s=m.snap||{};
-  const u=x&&x.fotos&&x.fotos[0]&&pubUrl(x.fotos[0]),au=x?x.autor:null,tx=x?x.texto:(String(s.titulo||"").replace(/^(Post|Story) de [^:]+:\s*/,""));
-  return `<button type="button" class="dm-card dm-ucard" data-open="${esc(m.pid)}"><span class="dm-uh">${au?avatar(au):""}<b>${esc(au?nomeDe(au):(String(s.titulo||"").match(/^(?:Post|Story|Giro) de ([^:]+)/)||[,"Publicação"])[1])}</b><small>${x?(x.tipo==="story"?"Giro":x.estilo&&x.estilo.reel?"Reel":"Post"):/^Story de /.test(String(s.titulo||""))?"Giro":"Publicação"}</small></span>${u?`<span class="dm-cf"><img src="${pubSrc(u)}" alt="" loading="lazy" decoding="async"></span>`:""}${tx?`<span class="dm-ct"><b class="dm-utx">${esc(String(tx).slice(0,160))}</b></span>`:""}${!x?`<span class="dm-ct"><small class="dm-indisp">Só quem é amigo do autor consegue abrir</small></span>`:""}</button>`}}
-{const _dp56=dmPrevia;dmPrevia=function(m){const eu=m.de===S.uid;if(m.tipo==="mencao"&&dmEhPub(m)&&m.snap&&m.snap.upub)return m.snap.story===true?(eu?"Você mencionou no giro":"Mencionou você no giro"):eu?"Você marcou num post":"Marcou você num post";
-  if(dmEhPub(m)&&!m.texto&&m.tipo!=="mencao")return eu?"Você enviou um post":"Enviou um post";return _dp56.apply(this,arguments)}}
-{const _th56=dmThreadHTML;dmThreadHTML=function(u){let h=_th56.apply(this,arguments);return h.replace(/(<span class="dm-lb">)(Você mencionou [^<]*|Mencionou você) num comentário(<\/span>)(<button type="button" class="dm-card dm-ucard" data-open="u:([^"]+)")/g,(a,b1,quem,b3,b4,id)=>{const m=allMsgs().find(x=>x.tipo==="mencao"&&x.pid==="u:"+id&&x.snap&&x.snap.upub);return m?b1+quem+" num post"+b3+b4:a})}}
 /* 3. curtida de story lembrada */
 var US_CURTI=new Set((()=>{try{return JSON.parse(localStorage.getItem("prumo-us-curti")||"[]")}catch(e){return []}})());
 function usCurtiu(id){return US_CURTI.has(id)||S.msgsOut.some(m=>m.tipo==="curtiu_story"&&m.snap&&m.snap.story&&m.snap.story.id===id)}
@@ -10647,8 +10753,6 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden&&ED&&$("#l
 /* ---------- Etapa 67 ---------- */
 const edTagF=t=>t.f||(ED&&ED.po.fotos[t.i])||null;
 function edCapa45(c){const o=document.createElement("canvas");o.width=1080;o.height=1350;o.getContext("2d").drawImage(c,0,(c.height-1350*c.width/1080)/2,c.width,1350*c.width/1080,0,0,1080,1350);return o}
-function dmSoEmoji(t){try{const x=String(t||"").trim();return x.length>0&&x.length<=12&&/^(\p{Extended_Pictographic}|\p{Emoji_Component}|‍|️|\s)+$/u.test(x)&&!/^[\d#*\s]+$/.test(x)}catch(e){return false}}
-function dmLinka(h){return String(h).replace(/(^|[\s>])((?:https?:\/\/|www\.)[^\s<]{2,300})/gi,(a,pre,u)=>{let tail="";while(/[.,;:!?)\]]$/.test(u)){tail=u.slice(-1)+tail;u=u.slice(0,-1)}const href=(/^www\./i.test(u)?"https://":"")+u.replace(/&amp;/g,"&");return /^https?:\/\//i.test(href)?`${pre}<a href="${esc(href)}" target="_blank" rel="noopener noreferrer nofollow" class="dm-link">${u}</a>${tail}`:a})}
 /* menção no comentário de um post de membro: só avisa quem consegue abrir o post */
 function pubPodeVer(x){const s=new Set([x.autor]);if(x.autor===S.uid&&x.publico!=="proximos")amigosL().forEach(u=>s.add(u));try{const so=socialOf("u:"+x.id);(so.likes||[]).forEach(u=>s.add(u));(so.cm||[]).forEach(c=>s.add(c.uid))}catch(e){}((x.estilo||{}).marcados||[]).forEach(u=>s.add(u));return s}
 {const _am67=avisarMencoes;avisarMencoes=async function(pid,t){if(String(pid||"").indexOf("u:")!==0)return _am67.apply(this,arguments);const x=pubDe(String(pid).slice(2));if(!x||!S.uid||!S.membro)return;const pode=pubPodeVer(x),todos=mencionados(t).filter(u=>u!==S.uid),us=todos.filter(u=>pode.has(u)),fora=todos.filter(u=>!pode.has(u));
@@ -11194,13 +11298,10 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const s=t.closest("#layer [data-stsnap]");if(s){e.stopPropagation();e.preventDefault();const x=pubDe(s.dataset.stsnap);const sn=(x&&x.snap)||{};if(typeof igPausa==="function")igPausa();
     sheet("Notícia",`<p class="hint" style="margin:0">${esc(sn.secao?secNome(sn.secao):"Notícia")}</p><h3 style="margin:4px 0 8px;font:700 19px/1.25 var(--f-display,var(--f-ui))">${esc(sn.titulo||"Notícia")}</h3><p class="hint">Esta notícia já saiu da edição do dia. Procure o assunto na Busca para ver o que saiu depois.</p>`,`<button type="button" class="btn ghost" data-close>Fechar</button>`);return}
   if(t.closest("#layer [data-stfora]")){e.stopPropagation();e.preventDefault();toast("Esta notícia já saiu da edição do dia.");return}},true);
-/* quem está bloqueado some de Conversas e do contador */
-{const _am=allMsgs;allMsgs=function(){const bl=S.bloq||[];const l=_am.apply(this,arguments);return bl.length?l.filter(m=>!bl.includes(m.de===S.uid?m.para:m.de)):l}}
+/* quem está bloqueado não conta no número de Conversas (a lista: allMsgs no 203) */
 {const _ub=updateBadge;updateBadge=function(){const r=_ub.apply(this,arguments);try{const bl=S.bloq||[];if(bl.length){const n=S.msgsIn.filter(m=>!m.lida&&!bl.includes(m.de)).length,b=$("#badge");if(b){b.hidden=!n;b.textContent=n>9?"9+":n}}}catch(e){}return r}}
 /* trocar de conta no mesmo aparelho: a curtida de story da conta anterior não fica marcada */
 {const _lc=limparLocalConta;limparLocalConta=function(){const r=_lc.apply(this,arguments);try{if(typeof US_CURTI!=="undefined")US_CURTI.clear()}catch(e){}return r}}
-/* curtida de story que não foi enviada não fica marcada */
-{const _de=dmEnviar;dmEnviar=async function(para,campos){const ok=await _de.apply(this,arguments);try{if(!ok&&campos&&campos.tipo==="curtiu_story"&&campos.snap&&campos.snap.story&&typeof US_CURTI!=="undefined"){US_CURTI.delete(campos.snap.story.id);localStorage.setItem("prumo-us-curti",JSON.stringify([...US_CURTI].slice(-300)));toast("A curtida não foi enviada. Tente de novo.")}}catch(e){}return ok}}
 /* curtidas e comentários apagados em publicações chegam aos outros aparelhos (o tempo real não manda exclusões) */
 setInterval(()=>{try{if(!document.hidden&&S.uid&&S.membro&&typeof psCarregar==="function"&&PS&&PS.on)psCarregar()}catch(e){}},90e3);
 document.addEventListener("visibilitychange",()=>{try{if(!document.hidden&&S.uid&&S.membro&&PS&&PS.on&&Date.now()-(PS.t||0)>30e3)psCarregar()}catch(e){}});
@@ -12183,9 +12284,6 @@ cfpFundoCss=function(b){const cv=$("#ce-cv");return ca100Css(b,(cv&&cv.clientWid
    que sempre lê os próprios arquivos (e a regra do bucket "fotos" deixa qualquer membro ler). Mensagens antigas, sem sth, ficam como eram. */
 function ca100StTh(x){if(!x||x.tipo!=="story")return null;const o={id:String(x.id)};const p=(x.fotos||[])[0];
   if(typeof p==="string"&&p.startsWith(String(x.autor)+"/"))o.p=p;else o.g=Math.floor(+(x.estilo&&x.estilo.fundo)||0);return o}
-{const _de100=dmEnviar;dmEnviar=function(para,campos){try{if(campos&&(campos.tipo==="resp_story"||campos.tipo==="curtiu_story")&&campos.snap&&typeof campos.snap==="object"&&!campos.snap.sth){
-    const sn=campos.snap,id=sn.story&&typeof sn.story==="object"?sn.story.id:sn.upub,th=id&&ca100StTh(pubDe(id));if(th)campos={...campos,snap:{...sn,sth:th}}}}catch(e){}
-  const a=[...arguments];a[1]=campos;return _de100.apply(this,a)}}
 /* lê o sth de uma mensagem (dado de outro membro: tudo validado) */
 function ca100StInfo(m){const s=m&&m.snap,th=s&&s.sth;if(!th||typeof th!=="object"||Array.isArray(th))return null;const au=String(m.para||"");if(!au)return null;
   const id=typeof th.id==="string"?th.id.slice(0,80):"";if(!id)return null;const o={id,au};
@@ -12194,20 +12292,9 @@ function ca100StHTML(m,inf){const eu=m.de===S.uid,lk=m._ca100lk,perg=m.snap&&m.s
   const lb=lk?(eu?"Você curtiu o giro de "+nomeDe(m.para):"Curtiu seu giro"):perg?(eu?"Você respondeu à pergunta de "+nomeDe(m.para):"Respondeu à sua pergunta"):(eu?"Você respondeu ao giro de "+nomeDe(m.para):"Respondeu ao seu giro");
   const u=inf.p?pubUrl(inf.p):"";
   return `<span class="ca100-stl">${esc(lb)}</span><button type="button" class="ca100-st" data-ca100st="${esc(inf.id)}" data-au="${esc(inf.au)}" aria-label="Ver o giro" style="background:${inf.p?"#1b1d22":pubFundo(inf.g)}">${inf.p?`<img alt="" ${u?`src="${pubSrc(u)}"`:""} data-ca100p="${esc(inf.p)}" onerror="this.remove()">`:""}</button>${perg?`<span class="ca100-stq">${esc(String(m.snap.q).slice(0,80))}</span>`:""}`}
-{const _th100=dmThreadHTML;dmThreadHTML=function(u){const am=allMsgs,lk=new Set();
-  allMsgs=function(){return am.apply(this,arguments).map(m=>{if(m&&m.tipo==="curtiu_story"&&ca100StInfo(m)){lk.add(m.id);return {...m,tipo:"resp_story",texto:m.texto||"❤️",_ca100lk:1}}return m})};
-  let h;try{h=_th100.apply(this,arguments)}finally{allMsgs=am}
-  try{am().filter(dmPar(u)).forEach(m0=>{if(m0.tipo!=="resp_story"&&!lk.has(m0.id))return;const inf=ca100StInfo(m0);if(!inf)return;const m=lk.has(m0.id)?{...m0,_ca100lk:1}:m0;
-    const k=`data-mid="${esc(m.id)}"`,i=h.indexOf(k);if(i<0)return;const nx=h.indexOf("data-mid=",i+k.length),a=h.indexOf('<div class="dm-q">',i);if(a<0||(nx>=0&&a>nx))return;const z=h.indexOf("</div>",a);if(z<0)return;
-    let blk=ca100StHTML(m,inf);
-    /* a resposta da pergunta (075) também desenha um cartão de notícia vazio: some */
-    let fim=z+6;if(h.startsWith('<button type="button" class="dm-card',fim)){const zz=h.indexOf("</button>",fim);if(zz>0&&(nx<0||zz<nx))fim=zz+9}
-    h=h.slice(0,a)+`<div class="ca100-sq${m.de===S.uid?" eu":""}">${blk}</div>`+h.slice(fim)})}catch(e){}
-  return h}}
 async function ca100Assina(){const v=$("#v-msgs");if(!v)return;const ims=[...v.querySelectorAll("img[data-ca100p]:not([src])")];if(!ims.length||typeof pubAssinaLista!=="function")return;
   const ps=[...new Set(ims.map(i=>i.dataset.ca100p))];try{await pubAssinaLista([{fotos:ps}])}catch(e){}
   v.querySelectorAll("img[data-ca100p]:not([src])").forEach(i=>{const u=pubUrl(i.dataset.ca100p);if(u)i.src=pubSrc(u);else i.remove()})}
-{const _rm100=renderMsgs;renderMsgs=function(){const r=_rm100.apply(this,arguments);try{if(THREAD)ca100Assina()}catch(e){}return r}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#v-msgs [data-ca100st]");if(!b)return;e.stopPropagation();e.preventDefault();
   const x=pubDe(b.dataset.ca100st),agora=Date.now();if(!x||x.tipo!=="story"||!((x.expira||0)>agora)){toast("Este giro não está mais disponível.");return}
   const l=(typeof pubStoriesDe==="function"?pubStoriesDe(x.autor):[]).filter(y=>(y.expira||0)>agora),i=l.indexOf(x);
@@ -12608,8 +12695,6 @@ function cn102StoryComNt(pid,tx){const p=pautaById(pid);if(!p||!ED||ED.modo!=="s
 function cn102StoryNt(pid,tx){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}if($("#layer").innerHTML)closeLayer();uso("noticia_no_story");
   setTimeout(()=>{criarAbrir("story");let n=0;(function w(){if(ED&&ED.modo==="story"&&$("#layer .ce")){cn102StoryComNt(pid,tx);return}if(n++<60)setTimeout(w,50)})()},60)}
 function cn102PostParaStory(){const P=ED&&ED.po;if(!P||!P.pid)return;const pid=P.pid,tx=String(P.cn&&P.cn.corpo||"").trim();ED=null;closeLayer._ok=true;closeLayer();closeLayer._ok=false;cn102StoryNt(pid,tx)}
-{const _os=openSend;openSend=function(pid){const r=_os.apply(this,arguments);try{if(pid&&String(pid).indexOf("u:")!==0&&pautaById(pid)&&S.membro&&PUB.on!==false){const b=document.querySelector("#layer .sheet .sh-b,#layer2 .sheet .sh-b");
-    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG(CN102_ICO.ana)}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button><button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu giro</b><small>Some em 24 horas</small></span></button></div>`)}}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("[data-cn102envp]")){e.stopPropagation();e.preventDefault();const pid=b.dataset.cn102envp;closeLayer();setTimeout(()=>cn102Comeca("nt",{pid}),$("#layer .story")?280:60);return}
   if(b=t.closest("[data-cn102envs]")){e.stopPropagation();e.preventDefault();const pid=b.dataset.cn102envs;closeLayer();setTimeout(()=>cn102StoryNt(pid),60);return}},true);
@@ -12668,16 +12753,7 @@ if(typeof RF_REAL==="function"){const _rf102=RF_REAL;RF_REAL=function(){if(VIEW!
 {const _go102=go;go=function(v){const r=_go102.apply(this,arguments);try{const s=(v==="feed"||v==="capa")&&document.getElementById("v-"+v);if(s&&!s.classList.contains("cv-pronto"))requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add("cv-pronto")))}catch(e){}return r}}
 if(VIEW==="capa"||VIEW==="feed"){const s=document.getElementById("v-"+VIEW);if(s)requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add("cv-pronto")))}
 /* ---------- Correções de Conversas (QA 02/11) ---------- */
-/* reagir a uma mensagem que ainda está sendo enviada (id provisório) criava uma reação "órfã": não aparecia para ninguém,
-   mas contava como não lida para o amigo. Também não troca a reação enquanto a anterior ainda está a caminho. */
-{const _r104=dmReagir;dmReagir=async function(mid,e){if(String(mid||"").startsWith("tmp")){toast("Espere a mensagem ser enviada para reagir.");return}
-  if(allMsgs().some(x=>x.tipo==="reacao_msg"&&x.de===S.uid&&x.snap&&x.snap.ref===mid&&String(x.id).startsWith("tmp")))return;return _r104.apply(this,arguments)}}
-/* prévia da reação na lista: diz de quem era a mensagem e qual era */
 function dm104Trecho(m){const t=String(dmTexto(m)||"").replace(/\s+/g," ").trim();return t.length>28?t.slice(0,27)+"…":t}
-{const _p104=dmPrevia;dmPrevia=function(m){if(!m||m.tipo!=="reacao_msg")return _p104.apply(this,arguments);
-  const eu=m.de===S.uid,e=m.texto||"❤️",alvo=allMsgs().find(x=>x.id===(m.snap&&m.snap.ref)),tr=alvo?dm104Trecho(alvo):"";
-  const quem=alvo?(alvo.de===S.uid?"à sua mensagem":(eu?"à mensagem de "+String(nomeDe(alvo.de)).split(" ")[0]:"à própria mensagem")):(eu?"a uma mensagem":"à sua mensagem");
-  return (eu?"Você reagiu ":"Reagiu ")+e+" "+quem+(tr?": “"+tr+"”":"")}}
 /* tocar na pílula de reações: mostra quem reagiu com o quê; a sua dá para tirar */
 function dm104Reacoes(mid){const m=allMsgs().find(x=>x.id===mid);if(!m)return;const rs=allMsgs().filter(x=>x.tipo==="reacao_msg"&&x.snap&&x.snap.ref===mid);if(!rs.length){dmAcoes(mid);return}
   sheet("Reações",`<ul class="dm104-rl">${rs.map(r=>{const eu=r.de===S.uid;return `<li><button type="button" ${eu?`data-dm104tira="${esc(mid)}" data-e="${esc(r.texto||"❤️")}"`:"disabled"}>${avatar(r.de)}<span class="dm104-rn"><b>${esc(eu?"Você":nomeDe(r.de))}</b>${eu&&S.amigos.has(THREAD)?"<small>Toque para tirar</small>":""}</span><span class="dm104-re">${esc(String(r.texto||"❤️").slice(0,8))}</span></button></li>`}).join("")}</ul>`,
@@ -12686,9 +12762,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
   if(b=t.closest("#v-msgs .dm-rx[data-dmacoes]")){e.stopImmediatePropagation();e.preventDefault();dm104Reacoes(b.dataset.dmacoes);return}
   if(b=t.closest("[data-dm104tira]")){e.stopImmediatePropagation();const mid=b.dataset.dm104tira,em=b.dataset.e;closeLayer();if(S.amigos.has(THREAD))dmReagir(mid,em);return}
   if(b=t.closest("[data-dm104mais]")){e.stopImmediatePropagation();const mid=b.dataset.dm104mais;closeLayer();setTimeout(()=>dmAcoes(mid),60);return}},true);
-/* denunciar uma mensagem recebida (o banco já aceita o tipo "mensagem") */
-{const _a104=dmAcoes;dmAcoes=function(mid){const r=_a104.apply(this,arguments);try{const m=allMsgs().find(x=>x.id===mid);const o=$("#layer .sheet .opt")||$("#layer2 .sheet .opt");
-  if(m&&o&&m.de!==S.uid&&m.para===S.uid&&!String(m.id).startsWith("tmp")&&!o.querySelector("[data-dm104den]"))o.insertAdjacentHTML("beforeend",`<button type="button" data-dm104den="${esc(mid)}" class="perigo">Denunciar mensagem<span>${S.membros[S.uid]?.papel==="admin"?"fica na sua lista da Administração":"o Pedro recebe e analisa"}</span></button>`)}catch(e){}return r}}
 window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-dm104den]");if(!b)return;e.stopImmediatePropagation();const m=allMsgs().find(x=>x.id===b.dataset.dm104den);closeLayer();if(!m)return;
   setTimeout(()=>{abrirDenuncia("mensagem",m.de,m.id);try{const p=$("#layer .sheet p")||$("#layer2 .sheet p");if(p)p.textContent=`A mensagem de ${nomeDe(m.de)} ${denunciaDestino()}. ${nomeDe(m.de)} não fica sabendo quem denunciou.`}catch(_){}},60)},true);
 /* notícia ou post mandado na conversa: abre por cima da conversa (o voltar traz de volta), em vez de jogar para o Feed */
@@ -12699,26 +12772,14 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||VIEW!=="
   if(pid.indexOf("u:")===0){const x=typeof pubDe==="function"&&pubDe(pid.slice(2));if(x&&x.tipo!=="story"&&typeof pfvDesenha==="function")abre=()=>dm104AbrePub(x)}
   else if(pautaById(pid)){const dm=b.closest(".dm-m"),mm=dm&&allMsgs().find(x=>x.id===dm.dataset.mid);if(mm&&mm.tipo==="mencao"&&typeof openComments==="function")abre=()=>openComments(pid);else if(typeof abrirMateria==="function")abre=()=>abrirMateria(pid)}
   if(!abre)return;e.stopImmediatePropagation();e.preventDefault();if(naFolha){closeLayer();setTimeout(abre,60)}else abre()},true);
-/* barra "Respondendo a…": a última mensagem não fica escondida atrás dela */
-{const _b104=dmBarraResp;dmBarraResp=function(){const perto=document.documentElement.scrollHeight-scrollY-innerHeight<200;const r=_b104.apply(this,arguments);if(perto&&$("#respbar"))requestAnimationFrame(()=>window.scrollTo(0,document.body.scrollHeight));return r}}
 /* conta excluída: avatar neutro e sem repetir "Conta excluída" no cabeçalho */
 function dm104Excluidas(){try{const v=$("#v-msgs");if(!v)return;v.querySelectorAll("[data-thread]").forEach(b=>{const u=b.dataset.thread;if(!S.membros[u]?.excluido)return;const a=b.querySelector(".av");if(a){a.classList.add("dm104-exc");a.textContent=""}});
   if(THREAD&&S.membros[THREAD]?.excluido){const h=v.querySelector(".dm-th-h");if(h){h.querySelectorAll(".av").forEach(a=>{a.classList.add("dm104-exc");a.textContent=""});const s=h.querySelector(".dm-who small");if(s)s.textContent="Não está mais no Prumo"}
     v.querySelectorAll(".dm-av .av").forEach(a=>{a.classList.add("dm104-exc");a.textContent=""})}}catch(e){}}
-{const _rm104=renderMsgs;renderMsgs=function(){const r=_rm104.apply(this,arguments);dm104Excluidas();return r}}
 /* teclado abrindo dentro da conversa: rola até a última mensagem, para ela não ficar atrás do teclado */
 {let ant104=0,alt104=innerHeight;const kb104=()=>{try{const k=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--kb"))||0,menor=innerHeight<alt104-80;alt104=innerHeight;if((k>ant104+40||menor)&&document.body.classList.contains("dm-conv")&&document.activeElement&&document.activeElement.id==="mtext")requestAnimationFrame(()=>window.scrollTo(0,document.body.scrollHeight));ant104=k}catch(e){}};
   if(window.visualViewport){visualViewport.addEventListener("resize",()=>setTimeout(kb104,0))}window.addEventListener("resize",()=>setTimeout(kb104,0));
   document.addEventListener("focusin",e=>{if(e.target&&e.target.id==="mtext")setTimeout(kb104,350)})}
-/* conversa com quem deixou de ser amigo: o pedido de amizade sai dali mesmo */
-function dm104Amizade(){try{const u=THREAD;if(!u||VIEW!=="msgs"||S.amigos.has(u)||S.membros[u]?.excluido||!S.membros[u]||(S.bloq||[]).includes(u))return;const h=$("#v-msgs .dm-comp .hint");if(!h||h.querySelector(".dm104-am"))return;
-  const rec=(S.pedidosIn||[]).includes(u),env=(S.pedidosOut||[]).includes(u),perto=document.documentElement.scrollHeight-scrollY-innerHeight<200;
-  h.insertAdjacentHTML("beforeend",rec?` <button type="button" class="btn dm104-am" data-aceitar="${esc(u)}">Aceitar pedido</button>`:env?` <button type="button" class="btn ghost dm104-am" disabled>Pedido enviado</button>`:` <button type="button" class="btn dm104-am" data-pedir="${esc(u)}">Pedir amizade</button>`);
-  if(h.firstChild&&h.firstChild.nodeType===3)h.firstChild.textContent=rec?String(nomeDe(u)).split(" ")[0]+" pediu para ser seu amigo no Prumo. Aceite para conversar de novo.":env?"Você pediu amizade. Quando aceitarem, dá para conversar de novo.":"Vocês não são amigos no Prumo agora. Para conversar de novo, peça amizade.";if(perto)window.scrollTo(0,document.body.scrollHeight)}catch(e){}}
-{const _rm104b=renderMsgs;renderMsgs=function(){const r=_rm104b.apply(this,arguments);dm104Amizade();return r}}
-/* hora na conversa: depois de uma semana, mostra a data (antes ficava só "sex (23)", sem o mês) */
-{const _q104=dmQuando;dmQuando=function(at){try{const d=dataSP(at),hoje=hojeSP(),dias=Math.round((Date.parse(hoje+"T12:00:00Z")-Date.parse(d+"T12:00:00Z"))/864e5);
-  if(dias>=6){const o={day:"numeric",month:"short",timeZone:"America/Sao_Paulo"};if(d.slice(0,4)!==hoje.slice(0,4))o.year="numeric";return new Date(at).toLocaleDateString("pt-BR",o).replace(/\./g,"")+", "+hhmm(at)}}catch(e){}return _q104.apply(this,arguments)}}
 /* tocar na citação de uma resposta leva até a mensagem original */
 document.addEventListener("click",e=>{const q=e.target.closest&&e.target.closest("#v-msgs .dm-m div.dm-q");if(!q)return;const dm=q.closest(".dm-m"),m=dm&&allMsgs().find(x=>x.id===dm.dataset.mid);const ref=m&&m.tipo==="resposta"&&m.snap&&m.snap.q&&m.snap.q.id;if(!ref)return;
   const el=document.querySelector(`#v-msgs [data-mid="${CSS.escape(String(ref))}"]`);if(!el){toast("A mensagem original foi apagada.");return}
@@ -13027,9 +13088,6 @@ function dm106Zera(){if(DM106.uid!==S.uid){DM106.uid=S.uid;DM106.ant=new Map();D
 function dm106Desliza(){[["i","msgsIn"],["o","msgsOut"]].forEach(([l,k])=>{const cur=S[k]||[],old=DM106["v"+l];DM106["v"+l]=cur;if(!old||old===cur||!DM106.ant.size)return;
   let mn=Infinity;cur.forEach(m=>{if(!String(m.id).startsWith("tmp")&&+m.at<mn)mn=+m.at});if(!isFinite(mn))return;
   old.forEach(m=>{const o=l==="o"?m.para:m.de;if(+m.at<mn&&!String(m.id).startsWith("tmp")&&DM106.pag[o])DM106.ant.set(m.id,m)})})}
-{const _am106=allMsgs;allMsgs=function(){const l=_am106.apply(this,arguments);if(DM106.uid!==S.uid)return l;dm106Desliza();if(!DM106.ant.size)return l;
-  const ids=new Set(l.map(m=>m.id)),bl=S.bloq||[],ex=[];DM106.ant.forEach(m=>{if(!ids.has(m.id)&&!bl.includes(m.de===S.uid?m.para:m.de))ex.push(m)});
-  return ex.length?l.concat(ex).sort((a,b)=>a.at-b.at):l}}
 /* lado "o" = o que eu mandei para u; lado "i" = o que u me mandou. A escuta guarda as 300 mais recentes de cada lado (de todas as conversas) */
 function dm106Lado(u,l){dm106Zera();const feed=(l==="o"?S.msgsOut:S.msgsIn)||[],k=u+":"+l;
   if(DM106.fim[k]||feed.filter(m=>!String(m.id).startsWith("tmp")).length<DM106_MAX)return {fim:true};
@@ -13047,17 +13105,11 @@ async function dm106Mais(u){if(DM106.car||typeof SB==="undefined"||!SB||!u)retur
   if(VIEW!=="msgs"||THREAD!==u){return}
   const pri=$("#v-msgs .thread .dm-m"),id=pri&&pri.dataset.mid,y0=pri?pri.getBoundingClientRect().top:0;renderMsgs();
   const el=id&&document.querySelector(`#v-msgs [data-mid="${CSS.escape(id)}"]`);if(el)window.scrollBy(0,el.getBoundingClientRect().top-y0)}
-{const _th106=dmThreadHTML;dmThreadHTML=function(u){const h=_th106.apply(this,arguments);try{if(dm106TemMais(u)&&h.indexOf('class="dm-vazio"')<0)return `<div class="dm106-topo"><button type="button" class="btn ghost dm106-mais" data-dm106mais>${DM106.car?"Carregando…":"Carregar mensagens antigas"}</button></div>`+h}catch(e){}return h}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-dm106mais]");if(!b)return;e.stopPropagation();dm106Mais(THREAD)});
-{const _ap106=dmApagar;dmApagar=async function(id){const m=DM106.ant.get(id);if(m&&m.de===S.uid)DM106.ant.delete(id);return _ap106.apply(this,arguments)}}
 
 /* 2. Conversas: resposta a uma mensagem que foi apagada não mostra mais o texto apagado */
 function dm106Apagada(q,ids,u){if(!q||!q.id||String(q.id).startsWith("tmp")||ids.has(q.id))return false;return dm106Lado(u,q.de===S.uid?"o":"i").fim}
 const DM106_APG="\u2063dm106apagada\u2063";
-{const _th106b=dmThreadHTML;dmThreadHTML=function(u){const am=allMsgs;let mud=false;
-  allMsgs=function(){const l=am.apply(this,arguments),ids=new Set(l.map(m=>m.id));return l.map(m=>{if(m&&m.tipo==="resposta"&&m.snap&&m.snap.q&&dm106Apagada(m.snap.q,ids,u)){mud=true;return {...m,snap:{...m.snap,q:{...m.snap.q,t:DM106_APG}}}}return m})};
-  let h;try{h=_th106b.apply(this,arguments)}finally{allMsgs=am}
-  return mud?h.split(`<span>${DM106_APG}</span>`).join(`<span class="dm106-apg">Mensagem apagada</span>`):h}}
 
 /* tocar na citação de uma original que ainda não foi carregada (conversa longa): não diz que foi apagada */
 window.addEventListener("click",e=>{const q=e.target.closest&&e.target.closest("#v-msgs .dm-m div.dm-q");if(!q||!THREAD)return;const dm=q.closest(".dm-m"),m=dm&&allMsgs().find(x=>x.id===dm.dataset.mid);const r=m&&m.tipo==="resposta"&&m.snap&&m.snap.q;
@@ -13327,7 +13379,6 @@ function rs108Grava(k,t){if(!S.uid||!k)return;try{const o=rs108Le();if(t&&t.trim
 function rs108Poe(i,k){if(!i||i.value||i._rs108===k)return;i._rs108=k;const t=rs108Le()[k];if(t){i.value=t;i.dispatchEvent(new Event("input",{bubbles:true}))}}
 document.addEventListener("input",e=>{const t=e.target;if(!t||!t.id)return;if(t.id==="mtext"&&THREAD)rs108Grava("dm:"+THREAD,t.value);else if(t.id==="ctext"&&CMT_PID)rs108Grava("cm:"+CMT_PID,t.value)});
 document.addEventListener("submit",e=>{const f=e.target;if(!f)return;if(f.id==="mform"&&THREAD)rs108Grava("dm:"+THREAD,"");else if(f.id==="cform"&&CMT_PID)rs108Grava("cm:"+CMT_PID,"")},true);
-{const _rm108=renderMsgs;renderMsgs=function(){const r=_rm108.apply(this,arguments);try{if(THREAD)rs108Poe($("#mtext"),"dm:"+THREAD)}catch(e){}return r}}
 {const _oc108=openComments;openComments=function(pid){const r=_oc108.apply(this,arguments);try{rs108Poe($("#ctext"),"cm:"+pid)}catch(e){}return r}}
 
 /* 4. administrador: "Denunciar" não diz "o Pedro recebe e analisa" para o próprio administrador */
@@ -13360,11 +13411,6 @@ if(typeof FIT_IO!=="undefined"&&FIT_IO){try{FIT_IO.disconnect()}catch(e){}FIT_IO
 
 /* 9. cartão de post/story que não existe mais (apagado, ou story de mais de 24 h): dizia "Só quem é amigo do autor consegue abrir"
       mesmo para quem é amigo, e repetia "Post de Fulano" embaixo do nome */
-{const _dc108=dmCard;dmCard=function(m){let h=_dc108.apply(this,arguments);
-  try{if(typeof h==="string"&&h.indexOf("dm-indisp")>=0&&dmEhPub(m)){const s=m.snap||{},t=String(s.titulo||""),mm=t.match(/^(Post|Story|Reel) de ([^:]+)$/),nome=mm&&mm[2].trim();
-    if(mm)h=h.replace(`<span class="dm-ct"><b class="dm-utx">${esc(t.slice(0,160))}</b></span>`,"");
-    const story=s.story===true||/^(Story|Giro) de /.test(t),amigo=!!nome&&(nome===nomeDe(S.uid)||amigosL().some(u=>nomeDe(u)===nome));
-    if(story||amigo)h=h.replace("Só quem é amigo do autor consegue abrir",story?"Este giro não está mais disponível":"Esta publicação não está mais disponível")}}catch(e){}return h}}
 
 /* 10. depois de ver todos os stories de um amigo, o anel dele continuava colorido (como "não visto") até a bandeja ser
        redesenhada por outro motivo: ao fechar o story, os anéis da bandeja são atualizados no lugar (a ordem não muda) */
@@ -14341,11 +14387,6 @@ if(typeof vn112Publica==="function"){
    leva "Post de Fulano: começo do texto", e a marcação na foto vai sem texto */
 function ra114MenCmt(m){try{if(!m||m.tipo!=="mencao"||!m.snap||!m.snap.upub||m.snap.story===true||!String(m.texto||"").trim())return false;
   if(!/^(Post|Reel) de [^:]+$/.test(String(m.snap.titulo||"")))return false;const x=typeof pubDe==="function"&&pubDe(m.snap.upub);return !(x&&x.texto===m.texto)}catch(e){return false}}
-{const _dp=dmPrevia;dmPrevia=function(m){if(ra114MenCmt(m))return m.de===S.uid?"Você mencionou num comentário":"Mencionou você num comentário";return _dp.apply(this,arguments)}}
-{const _th=dmThreadHTML;dmThreadHTML=function(u){const h=_th.apply(this,arguments);try{if(typeof h!=="string"||h.indexOf("num post")<0)return h;
-  const ms=allMsgs().filter(ra114MenCmt);if(!ms.length)return h;const t=document.createElement("template");t.innerHTML=h;let mudou=false;
-  ms.forEach(m=>{const el=t.content.querySelector(`[data-mid="${CSS.escape(String(m.id))}"] .dm-lb`);if(el&&/ num post$/.test(el.textContent)){el.textContent=el.textContent.replace(/ num post$/," num comentário");mudou=true}});
-  return mudou?t.innerHTML:h}catch(e){return h}}}
 
 /* ===== A04: perfil de quem não é amigo ===== */
 function ra114Fora(u){return !!u&&u!==S.uid&&!S.amigos.has(u)}
@@ -14681,14 +14722,6 @@ if(typeof VN112_CT!=="undefined"&&VN112_CT==="a"&&typeof vn112Aperta==="function
 
 /* ===== TB04: "giro" também nas Conversas ===== */
 function tb121Giro(s){return String(s).replace(/^(Você curtiu o|Curtiu seu|Você respondeu ao|Respondeu ao seu|Você mencionou no|Mencionou você no) story/,"$1 giro")}
-if(typeof VISUAL_NOVO!=="undefined"&&VISUAL_NOVO){
-  {const _dp=dmPrevia;dmPrevia=function(){const r=_dp.apply(this,arguments);try{return typeof r==="string"?tb121Giro(r):r}catch(e){return r}}}
-  {const _th=dmThreadHTML;dmThreadHTML=function(){const h=_th.apply(this,arguments);if(typeof h!=="string"||h.indexOf("tory")<0)return h;
-    try{const tp=document.createElement("template");tp.innerHTML=h;let mudou=false;
-      tp.content.querySelectorAll(".dm-lb,.dm-ev,.dm-q>small,.dm-uh>small,.ca100-stl,.dm-q>span").forEach(el=>{
-        const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n;const l=[];while(n=w.nextNode())l.push(n);
-        l.forEach(n=>{const t=n.nodeValue,v=el.matches(".dm-q>span")?t.replace(/^Story$/,"Giro"):tb121GiroTx(t);if(v!==t){n.nodeValue=v;mudou=true}})});
-      return mudou?tp.innerHTML:h}catch(e){return h}}}}
 /* só o rótulo (antes das aspas com o texto do giro) */
 function tb121GiroTx(t){const i=t.indexOf("“"),a=i<0?t:t.slice(0,i),b=i<0?"":t.slice(i);return a.replace(/([Cc]urtiu o|[Cc]urtiu seu|[Rr]espondeu ao seu|[Rr]espondeu ao|no) story\b/g,"$1 giro").replace(/^\s*Story\s*$/,"Giro")+b}
 
@@ -15438,8 +15471,6 @@ function qa125VeReac(u,x){return !!u&&(ehVisivel(u)||!!(x&&u===x.autor)||qa125Co
   const r=_cl.apply(this,arguments);try{if(ht&&fromPop===true&&!$("#layer").innerHTML)setTimeout(()=>{if(!$("#layer").innerHTML)abrirHashtag(ht,{reabre:true})},0)}catch(e){}return r}}
 
 /* ===== 4. textos ===== */
-{const _dc=dmCard;dmCard=function(m){const h=_dc.apply(this,arguments);try{if(typeof h!=="string"||!dmEhPub(m))return h;const x=pubDe(String(m.pid).slice(2)),c=x&&cs123Col(x);if(!c)return h;
-  return h.replace(/(<span class="dm-uh">[\s\S]*?<small>)Post(<\/small>)/,"$1Coluna$2").replace(/(<b class="dm-utx">)[\s\S]*?(<\/b>)/,`$1${esc(c.tit)}$2`)}catch(e){return h}}}
 const qa125Prim=u=>String(nomeDe(u)||"").split(" ")[0];
 {const _pe=pubEnviar;pubEnviar=function(x){const r=_pe.apply(this,arguments);try{if(x&&x.publico==="seguidores"){const h=document.querySelector("#layer .sheet .hint, #layer2 .sheet .hint");
   if(h&&document.querySelector("#pick"))h.textContent=x.autor===S.uid?"Seus amigos e quem segue você conseguem abrir o post.":`Só quem é amigo de ${qa125Prim(x.autor)} ou segue ${qa125Prim(x.autor)} consegue abrir o post.`}}catch(e){}return r}}
@@ -15518,7 +15549,6 @@ function qb126MarcaPub(id){id=String(id||"");if(!id)return;qb126MarcaDepois(x=>x
 if(typeof vn112AbrePub==="function"){const _va126=vn112AbrePub;vn112AbrePub=function(id){const r=_va126.apply(this,arguments);qb126MarcaPub(id);return r}}
 {const _ap126=abrirPerfil;abrirPerfil=function(u){const r=_ap126.apply(this,arguments);try{if(u&&u!==S.uid)qb126MarcaDepois(x=>x.k==="a:"+u||(nt124Cat(x)==="seguidores"&&(x.us||[]).includes(u)))}catch(e){}return r}}
 {const _pc126=abrirPagCob;abrirPagCob=function(pid){const r=_pc126.apply(this,arguments);try{if(pid)qb126MarcaDepois(x=>String(x.k).indexOf("cob:"+pid+":")===0)}catch(e){}return r}}
-{const _ac126=abrirConversa;abrirConversa=function(u){const r=_ac126.apply(this,arguments);try{if(u)qb126MarcaDepois(x=>x.msg&&x.msg.de===u&&!(x.msg.snap&&x.msg.snap.upub))}catch(e){}return r}}
 
 /* ===== NB02/NB03: as preferências seguem o que está no banco ===== */
 function qb126Caminho(){return `data/users/${S.uid}/prefs`}
@@ -18223,7 +18253,6 @@ document.addEventListener("focusin",e=>{const el=e.target;if(!sr150CampoComentar
   try{el.blur()}catch(_){}PC106={k:"comentar",t:Date.now()};setTimeout(()=>{try{precisaConta()}catch(_){}},0)},true);
 
 /* 4 */
-{const _os150=openSend;openSend=function(pid){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||snapById(pid))){compartilhar(pid);return}}catch(e){}return _os150.apply(this,arguments)}}
 
 /* 5 */
 {const _ts150=trocarSessao;trocarSessao=async function(user){const r=await _ts150.apply(this,arguments);
@@ -19495,8 +19524,6 @@ function co160Motivo(){const el=CO160.el;if(!el||!el.closest||Date.now()-CO160.t
 
 /* ---------- 5. Conversas, Guardadas e Perfil sem conta ---------- */
 const CO160_COMO="O Prumo é por convite: peça o link a um amigo que já usa o Prumo (em Perfil › Convidar amigo). Enquanto isso, dá para ler tudo sem conta.";
-{const _rm160=renderMsgs;renderMsgs=function(){const r=_rm160.apply(this,arguments);try{if(!S.uid){const v=$("#v-msgs .empty");if(v&&!v.querySelector(".co160-semconta"))v.innerHTML=`<b>Conversas precisam da sua conta</b>Com a conta você troca notícias e mensagens com os seus amigos.<p class="co160-como">${esc(CO160_COMO)}</p><div class="lbtns co160-semconta"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta com convite</button></div>`}
-  else if(S.membro&&!THREAD){co160SemNome()}else if(S.membro&&THREAD){co160Campo()}}catch(e){}return r}}
 {const _rs160=renderSaved;renderSaved=function(){const r=_rs160.apply(this,arguments);try{const v=$("#v-saved .empty");if(!v||v.querySelector(".co160-semconta"))return r;
   if(!S.uid||!S.membro){if(/Nada guardado/.test(v.textContent))v.innerHTML=`<b>Guardar notícias precisa de conta</b>Com a conta, o botão “Guardar” de cada notícia põe ela aqui para ler depois, em qualquer aparelho.<p class="co160-como">${esc(CO160_COMO)}</p><div class="lbtns co160-semconta"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta com convite</button></div>`}
   else v.innerHTML=v.innerHTML.replace("Toque no alfinete de um post para guardar a notícia aqui.","Toque em “Guardar” numa notícia para ela aparecer aqui.")}catch(e){}return r}}
@@ -19511,23 +19538,16 @@ document.addEventListener("keydown",e=>{const t=e.target;if(!t||t.id!=="mtext"||
 document.addEventListener("submit",e=>{if(e.target&&e.target.id==="mform")setTimeout(co160Campo,0)});
 /* caminhos para quem ainda não é amigo */
 const co160Novos=()=>`<div class="co160-novos"><p>Quer falar com alguém que ainda não é seu amigo no Prumo?</p><div class="lbtns"><button type="button" class="btn ghost" data-addamigos>Adicionar amigos</button><button type="button" class="btn ghost" data-convidar>Convidar alguém</button></div></div>`;
-{const _nc160=abrirNovaConversa;abrirNovaConversa=function(){const r=_nc160.apply(this,arguments);try{const b=$("#layer .sheet .sh-b");if(b&&$("#layer #pbox")&&!b.querySelector(".co160-novos"))b.insertAdjacentHTML("beforeend",co160Novos())}catch(e){}return r}}
 function co160SemNome(){const v=$("#v-msgs");if(!v)return;const nada=v.querySelector(".dm-in .empty, .dm-in .dm-nada");if(!nada||!/Ninguém com esse nome/.test(nada.textContent)||v.querySelector(".dm-in .co160-novos"))return;
   const alvo=nada.classList.contains("dm-nada")?nada.closest("ul"):nada;alvo.insertAdjacentHTML("afterend",co160Novos())}
 document.addEventListener("input",e=>{if(e.target&&e.target.id==="dmq")setTimeout(co160SemNome,0)});
-/* opções da conversa: ver perfil em cima; desfazer, bloquear e denunciar embaixo, com rótulos curtos */
+/* opções da conversa: ver perfil em cima; desfazer, bloquear e denunciar embaixo, com rótulos curtos (abrirThMenu no 203) */
 const co160Admin=u=>((S.membros[u]||{}).papel==="admin");
-abrirThMenu=function(u){if(!S.amigos.has(u))return;const n1=String(nomeDe(u)||"").split(" ")[0];
-  sheet("Conversa com "+n1,`<div class="opt co160-opt"><button type="button" data-co160pf="${esc(u)}">Ver perfil<span>publicações de ${esc(n1)}</span></button></div>
-    <div class="opt co160-opt co160-pesado"><button type="button" data-desfazer="${esc(u)}">Desfazer amizade<span>vocês deixam de se ver</span></button><button type="button" data-bloquear="${esc(u)}">Bloquear<span>não pode mais te achar nem pedir amizade</span></button>${co160Admin(u)?"":`<button type="button" data-denp="${esc(u)}">Denunciar<span>o Pedro recebe e analisa</span></button>`}</div>`)};
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-co160pf]");if(!b)return;e.preventDefault();e.stopPropagation();const u=b.dataset.co160pf;closeLayer();setTimeout(()=>{try{abrirPerfil(u)}catch(_){}},60)},true);
 /* a folha "…" do perfil de um amigo (104): mesmos rótulos curtos e sem denunciar o administrador */
 {const _sh160=sheet;sheet=function(t,h){const a=[...arguments];try{if(typeof h==="string"&&/data-denp="/.test(h)){const m=h.match(/data-denp="([^"]+)"/),u=m&&m[1];
   let x=h.replace(/(data-bloquear="[^"]+">)Bloquear [^<]*</,"$1Bloquear<").replace(/(data-denp="[^"]+">)Denunciar [^<]*</,"$1Denunciar<");if(!co160Admin(S.uid))x=x.replace("<span>o Pedro recebe e analisa</span>","<span>o administrador do Prumo analisa</span>");
   if(u&&co160Admin(u))x=x.replace(/<button type="button" data-denp="[^"]+">[\s\S]*?<\/button>/,"");a[1]=x}}catch(e){}return _sh160.apply(this,a)}}
-/* cartão de notícia na conversa: a mesma editoria da Capa */
-{const _dc160=dmCard;dmCard=function(m){const h=_dc160.apply(this,arguments);try{if(typeof h!=="string"||(typeof dmEhPub==="function"&&dmEhPub(m)))return h;const p=m&&m.pid&&pautaById(m.pid);if(!p)return h;
-  const ch=capaChapeu(p),sec=secOf(p);return ch?h.replace(new RegExp("(<span class=\"dm-ct\"><small[^>]*>)"+esc(secNome(sec)).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"</small>"),"$1"+esc(ch)+"</small>"):h}catch(e){return h}}}
 
 /* ---------- 8. Perfil ---------- */
 function co160Pf(root,u){if(!root||!u)return;
@@ -19603,23 +19623,13 @@ function cv162Poe(u,patch){if(!PREF.conv||typeof PREF.conv!=="object")PREF.conv=
   Object.keys(c).forEach(k=>{if(c[k]==null||c[k]===false)delete c[k]});if(Object.keys(c).length)PREF.conv[u]=c;else delete PREF.conv[u];salvarPrefs()}
 const cv162Sil=u=>!!cv162(u).sil;
 const cv162Outro=m=>m.de===S.uid?m.para:m.de;
-/* mensagens apagadas por você somem da lista e da conversa */
-{const _am162=allMsgs;allMsgs=function(){const l=_am162.apply(this,arguments);if(!PREF.conv)return l;
-  return l.filter(m=>{const a=+cv162(cv162Outro(m)).apg||0;return !a||(+m.at||0)>a})}}
+/* mensagens apagadas por você somem da lista e da conversa: allMsgs no 203 */
 /* bolinha e número: não contam conversas silenciadas nem o que foi apagado */
 function cv162Conta(m){const c=cv162(m.de);return !c.sil&&!((+c.apg||0)>=(+m.at||0))}
 {const _ub162=updateBadge;updateBadge=function(){const real=S.msgsIn;if(!PREF.conv||!Array.isArray(real))return _ub162.apply(this,arguments);
   S.msgsIn=real.filter(cv162Conta);try{return _ub162.apply(this,arguments)}finally{if(Array.isArray(S.msgsIn)&&S.msgsIn!==real)S.msgsIn=real}}}
-/* na lista: ícone de sino cortado e sem o ponto de não lida */
+/* na lista: ícone de sino cortado e sem o ponto de não lida (renderMsgs no 203) */
 const CV162_SINO=`<svg class="ico cv162-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 9.5-4.9M18 11v5l1.5 2H8M10 21h4M4 4l16 16"/></svg>`;
-{const _rm162=renderMsgs;renderMsgs=function(){const r=_rm162.apply(this,arguments);try{
-  document.querySelectorAll('#v-msgs [data-thread]').forEach(b=>{const u=b.dataset.thread;if(!cv162Sil(u))return;
-    const d=b.querySelector(".dot");if(d)d.remove();const nm=b.querySelector(".pt b");if(nm&&!nm.querySelector(".cv162-ic")){nm.insertAdjacentHTML("beforeend",CV162_SINO);b.setAttribute("aria-label",(nm.textContent||"")+", conversa silenciada")}
-    b.classList.remove("un");const s=b.querySelector(".pt .unread");if(s)s.classList.remove("unread")});
-  if(THREAD&&cv162Sil(THREAD)){const h=document.querySelector("#v-msgs .dm-who b, #v-msgs .view-h h1");if(h&&!h.querySelector(".cv162-ic"))h.insertAdjacentHTML("beforeend",CV162_SINO)}}catch(e){}return r}}
-/* folha de opções da conversa: Silenciar / Reativar avisos e Apagar conversa */
-{const _tm162=abrirThMenu;abrirThMenu=function(u){const r=_tm162.apply(this,arguments);try{const g=document.querySelector("#layer .sheet .co160-opt");if(!g||g.querySelector("[data-cv162sil]"))return r;
-  const sil=cv162Sil(u);g.insertAdjacentHTML("beforeend",`<button type="button" data-cv162sil="${esc(u)}">${sil?"Reativar avisos":"Silenciar conversa"}<span>${sil?"volta a avisar quando chegar mensagem":"sem aviso no celular nem bolinha; a conversa continua"}</span></button><button type="button" data-cv162apg="${esc(u)}">Apagar conversa<span>some da sua lista; ${esc(String(nomeDe(u)||"").split(" ")[0])} continua vendo</span></button>`)}catch(e){}return r}}
 window.addEventListener("click",e=>{const t=e.target&&e.target.closest;if(!t)return;
   const s=e.target.closest("[data-cv162sil]");if(s){e.preventDefault();e.stopPropagation();const u=s.dataset.cv162sil,on=!cv162Sil(u);cv162Poe(u,{sil:on});closeLayer();
     try{renderMsgs();updateBadge()}catch(_){}toast(on?"Conversa silenciada. Ela continua aqui, sem avisos.":"Avisos da conversa reativados.");return}
@@ -19820,11 +19830,6 @@ if(typeof abrirAddAmigos==="function"){const _ad165=abrirAddAmigos;abrirAddAmigo
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-pf165conv]");if(!b)return;e.preventDefault();e.stopPropagation();const u=b.dataset.pf165conv;
   closeLayer();setTimeout(()=>{try{go("msgs");abrirConversa(u)}catch(_){}},80)},true);
 
-/* ---------- 6. Conversas: fileira de amigos sem repetir a lista ---------- */
-{const _rg165=renderMsgs;renderMsgs=function(){const r=_rg165.apply(this,arguments);try{if(S.uid&&S.membro&&!THREAD){const row=$("#v-msgs .dm-amg");if(row){
-  const conv=new Set([...document.querySelectorAll("#v-msgs .dm-lista [data-thread]")].map(b=>b.dataset.thread));
-  if(conv.size){row.querySelectorAll("[data-thread]").forEach(b=>{if(conv.has(b.dataset.thread))b.remove()});
-    if(!row.querySelector("[data-thread]"))row.remove();else if(!(row.previousElementSibling&&row.previousElementSibling.classList.contains("pf165-amh")))row.insertAdjacentHTML("beforebegin",`<h3 class="dm-sh pf165-amh">Amigos</h3>`)}}}}catch(e){}return r}}
 
 /* ---------- 7. Entrar e criar conta: avisos na ordem da tela ---------- */
 {const _ec165=entrarConta;entrarConta=function(){try{const em=($("#lemail")||{}).value||"",pw=($("#lsenha")||{}).value||"";if(em.trim()&&pw){const m=pf165EmErro(em);if(m)return mostraErro("#lerro",m)}}catch(e){}return _ec165.apply(this,arguments)}}
@@ -20894,8 +20899,6 @@ function sg181DmAviso(){const v=$("#v-msgs"),u=typeof THREAD!=="undefined"?THREA
     if(h&&!h.querySelector(".sg181-bt"))h.innerHTML=`${esc(sg181Prim(u))} tem perfil fechado. Siga para mandar mensagem. ${sg181Bt(u)}`}
   v.querySelectorAll(".dm104-am").forEach(x=>x.remove());
   v.querySelectorAll(".pf165-amh,.dm-sh").forEach(x=>{if(x.textContent.trim()==="Amigos")x.textContent="Quem você segue"})}
-if(typeof dm104Amizade==="function"){const _da=dm104Amizade;dm104Amizade=function(){if(sg181On()){try{sg181DmAviso()}catch(e){}return}return _da.apply(this,arguments)}}
-{const _rg=renderMsgs;renderMsgs=function(){const r=_rg.apply(this,arguments);try{if(sg181On())sg181DmAviso()}catch(e){}return r}}
 
 /* ===== 7. textos que ainda falam de amizade (troca só o texto inteiro de um trecho, nunca o que alguém escreveu) ===== */
 const SG181_TX={"Convidar amigo":"Convidar alguém","Nenhum amigo ainda":"Você ainda não segue ninguém",
@@ -21155,6 +21158,7 @@ function ft187Confirma(p,f){const m=f&&f.mostra;if(typeof m!=="string"||!m.trim(
   }catch(e){}return _cl189.apply(this,arguments)}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 cp200Pronta();  /* 200-capa.js: a Capa passa a desenhar com todos os acabamentos */
+cv203Pronta();  /* 203-conversas.js: allMsgs passa a valer com bloqueados, antigas carregadas e conversas apagadas */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
 </body>

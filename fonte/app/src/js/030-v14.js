@@ -7,9 +7,7 @@ function abrirNovidades(){const l=NOVID.map(pautaById).filter(Boolean);
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="ult">${l.map(p=>`<li><button type="button" data-goto="${esc(p.id)}"><span class="u-t"><b style="color:${secCor(secOf(p))}">${NOVAS.has(p.id)?"Nova":"Atualizada"}</b> · ${esc(secNome(secOf(p)))}</span><span class="u-x">${esc(p.neutro?.titulo||"")}</span>${lidaAtual(p)?`<span class="u-t">✓ lida</span>`:""}</button></li>`).join("")}</ul>`)}
 function atualizarChatPosts(){if(!FEED)return;const ps=new Set(allMsgs().filter(m=>m.pid).map(m=>m.pid));ps.forEach(pid=>{if(document.getElementById("p-"+pid))updateSocial(pid)})}
 let RESP=null;
-function responderMsg(mid){const m=allMsgs().find(x=>x.id===mid);if(!m)return;RESP={pid:m.pid,snap:m.snap?{id:m.pid,titulo:m.snap.titulo||"",secao:m.snap.secao||""}:{id:m.pid}};$("#respbar")?.remove();const f=$("#mform");if(!f)return;f.insertAdjacentHTML("beforebegin",`<div id="respbar" class="respbar"><span>Respondendo a: <b>${esc(m.snap?.titulo||"notícia")}</b></span><button type="button" data-resp-x aria-label="Cancelar resposta">✕</button></div>`);$("#mtext")?.focus()}
 var THREAD_DE=null;
-function abrirConversa(uid){const de=VIEW;THREAD=uid;if(VIEW!=="msgs")go("msgs");else renderMsgs();if(pushH()){TST++;TST_AT=Date.now();THREAD_DE=de!=="msgs"?de:null}}
 
 function listaPath(u){return "lista/"+[S.uid,u].sort().join("_")}
 async function alternarLista(pid,com){if(precisaConta())return;if(!com){const am=amigosL();if(am.length===1)com=am[0];else{abrirEscolhaLista(pid);return}}
@@ -110,7 +108,6 @@ function listaPessoasSheet(tit,intro,ids,linha,vazio,servidor){
   return ()=>{const b=$("#pbox");if(!b)return false;b.innerHTML=draw($("#pq")?.value||"");return true}}
 const linhaAmigo=x=>`<li><button type="button" class="amg-r" data-conversa="${esc(x)}">${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b><span>Conversar</span></span><i aria-hidden="true">›</i></button></li>`;
 function abrirTodosAmigos(){listaPessoasSheet(`Seus amigos (${amigosL().length})`,"",amigosL,linhaAmigo,"Nenhum amigo ainda")}
-function abrirNovaConversa(){if(precisaConta())return;listaPessoasSheet("Nova conversa","",amigosL,linhaAmigo,"Nenhum amigo ainda")}
 async function cancelarPedido(u){if(precisaConta())return;S.pedidosOut=S.pedidosOut.filter(x=>x!==u);rerenderAll();S._reAmg&&S._reAmg();
   try{await S.db.rpc("desfazer_amizade",{p_uid:u});toast("Pedido cancelado.")}catch(e){toast("Não deu para cancelar agora.");S.db&&S.db.recarregar()}}
 function abrirAddAmigos(){if(precisaConta())return;
@@ -131,7 +128,6 @@ async function pedirAmizade(u,btn){if(precisaConta())return;if(btn){btn.disabled
   catch(e){if(btn){btn.disabled=false;btn.textContent="Pedir amizade";btn.classList.remove("ghost")}const m=String(e&&(e.message+" "+e.code));toast(/demais|54000/.test(m)?"Você já tem muitos pedidos esperando resposta.":/invalido|22023/.test(m)?"Não dá para pedir amizade a essa pessoa.":"Não deu para pedir agora.")}}
 async function responderAmizade(u,aceitar){if(precisaConta())return;S.pedidosIn=S.pedidosIn.filter(x=>x!==u);if(aceitar)S.amigos.add(u);rerenderAll();
   try{await S.db.rpc("responder_amizade",{p_uid:u,p_aceitar:!!aceitar});toast(aceitar?"Agora você e "+nomeDe(u)+" são amigos.":"Pedido recusado.")}catch(e){if(aceitar)S.amigos.delete(u);rerenderAll();toast(/nao existe|P0002/i.test(String(e&&(e.message||e.code)||""))?nomeDe(u)+" cancelou o pedido.":"Não deu para responder agora.");S.db&&S.db.recarregar()}}
-function abrirThMenu(u){if(!S.amigos.has(u))return;sheet("Conversa com "+nomeDe(u),`<div class="opt"><button type="button" data-desfazer="${esc(u)}">Desfazer amizade<span>vocês deixam de se ver</span></button><button type="button" data-bloquear="${esc(u)}">Bloquear ${esc(nomeDe(u))}<span>não pode mais te achar nem pedir amizade</span></button><button type="button" data-denp="${esc(u)}">Denunciar ${esc(nomeDe(u))}<span>o Pedro recebe e analisa</span></button></div>`)}
 function denunciaDestino(){return S.membros[S.uid]?.papel==="admin"?"fica na sua lista de denúncias, na Administração":"vai para o Pedro, que analisa"}
 function abrirDenuncia(tipo,alvo,ref,pid){if(precisaConta())return;
   sheet("Denunciar",`<p style="margin:0;font-size:15px;line-height:1.5">${tipo==="comentario"?"O comentário":"A conta de "+esc(nomeDe(alvo))} ${denunciaDestino()}. ${esc(nomeDe(alvo))} não fica sabendo quem denunciou.</p><textarea id="dmot" class="field" rows="3" maxlength="500" placeholder="O que aconteceu? (opcional)"></textarea><p class="erro-t" id="derro" role="alert" hidden></p><button type="button" class="btn" id="dok">Enviar denúncia</button>${S.amigos.has(alvo)||tipo==="pessoa"?`<label class="chk"><input type="checkbox" id="dblq"> Também bloquear ${esc(nomeDe(alvo))}</label>`:""}`);

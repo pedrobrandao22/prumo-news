@@ -26,7 +26,6 @@ document.addEventListener("focusin",e=>{const el=e.target;if(!sr150CampoComentar
   try{el.blur()}catch(_){}PC106={k:"comentar",t:Date.now()};setTimeout(()=>{try{precisaConta()}catch(_){}},0)},true);
 
 /* 4 */
-{const _os150=openSend;openSend=function(pid){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||snapById(pid))){compartilhar(pid);return}}catch(e){}return _os150.apply(this,arguments)}}
 
 /* 5 */
 {const _ts150=trocarSessao;trocarSessao=async function(user){const r=await _ts150.apply(this,arguments);

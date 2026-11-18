@@ -1,8 +1,6 @@
 /* ---------- Etapa 67 ---------- */
 const edTagF=t=>t.f||(ED&&ED.po.fotos[t.i])||null;
 function edCapa45(c){const o=document.createElement("canvas");o.width=1080;o.height=1350;o.getContext("2d").drawImage(c,0,(c.height-1350*c.width/1080)/2,c.width,1350*c.width/1080,0,0,1080,1350);return o}
-function dmSoEmoji(t){try{const x=String(t||"").trim();return x.length>0&&x.length<=12&&/^(\p{Extended_Pictographic}|\p{Emoji_Component}|‍|️|\s)+$/u.test(x)&&!/^[\d#*\s]+$/.test(x)}catch(e){return false}}
-function dmLinka(h){return String(h).replace(/(^|[\s>])((?:https?:\/\/|www\.)[^\s<]{2,300})/gi,(a,pre,u)=>{let tail="";while(/[.,;:!?)\]]$/.test(u)){tail=u.slice(-1)+tail;u=u.slice(0,-1)}const href=(/^www\./i.test(u)?"https://":"")+u.replace(/&amp;/g,"&");return /^https?:\/\//i.test(href)?`${pre}<a href="${esc(href)}" target="_blank" rel="noopener noreferrer nofollow" class="dm-link">${u}</a>${tail}`:a})}
 /* menção no comentário de um post de membro: só avisa quem consegue abrir o post */
 function pubPodeVer(x){const s=new Set([x.autor]);if(x.autor===S.uid&&x.publico!=="proximos")amigosL().forEach(u=>s.add(u));try{const so=socialOf("u:"+x.id);(so.likes||[]).forEach(u=>s.add(u));(so.cm||[]).forEach(c=>s.add(c.uid))}catch(e){}((x.estilo||{}).marcados||[]).forEach(u=>s.add(u));return s}
 {const _am67=avisarMencoes;avisarMencoes=async function(pid,t){if(String(pid||"").indexOf("u:")!==0)return _am67.apply(this,arguments);const x=pubDe(String(pid).slice(2));if(!x||!S.uid||!S.membro)return;const pode=pubPodeVer(x),todos=mencionados(t).filter(u=>u!==S.uid),us=todos.filter(u=>pode.has(u)),fora=todos.filter(u=>!pode.has(u));

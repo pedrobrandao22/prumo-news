@@ -123,9 +123,9 @@ const AREAS = {
       await P.evaluate(() => abrirThMenu('u-bia')); await foto('menu'); await fechar(P);
       await P.evaluate(() => dmResponder('m-b6')); await foto('respondendo') },
     'outras': async (P, foto) => { await dmEstado(P);
-      for (const u of ['u-caio', 'u-dora', 'u-edu', 'u-exc']) { await P.evaluate(u => { go('msgs'); abrirConversa(u) }, u); await foto('conversa-' + u.slice(2)); await P.evaluate(() => { THREAD = null; go('msgs') }) } },
+      for (const u of ['u-caio', 'u-dora', 'u-edu', 'u-exc']) { await P.evaluate(u => { go('msgs'); abrirConversa(u) }, u); await fimDaConversa(P); await foto('conversa-' + u.slice(2)); await P.evaluate(() => { THREAD = null; go('msgs') }) } },
     'so-seguir': async (P, foto) => { await dmEstado(P, true); await P.evaluate(() => go('msgs')); await foto('so-seguir-lista');
-      for (const u of ['u-edu', 'u-dora']) { await P.evaluate(u => abrirConversa(u), u); await foto('so-seguir-' + u.slice(2)); await P.evaluate(() => { THREAD = null; go('msgs') }) } },
+      for (const u of ['u-edu', 'u-dora']) { await P.evaluate(u => abrirConversa(u), u); await fimDaConversa(P); await foto('so-seguir-' + u.slice(2)); await P.evaluate(() => { THREAD = null; go('msgs') }) } },
     'enviar': async (P, foto) => { await dmEstado(P); const pid = await P.evaluate(() => FEED.pautas[0].id);
       await P.evaluate(pid => openSend(pid), pid); await foto('enviar-noticia'); await fechar(P);
       await P.evaluate(pid => openSend(pid, 'u-caio'), pid); await foto('enviar-para-caio'); await fechar(P);
@@ -135,6 +135,9 @@ const AREAS = {
 };
 // Conversas: conta de teste montada direto no estado (Pedro, amigos Bia e Caio; Dora e Edu não são amigos; uma conta excluída),
 // mensagens com horários fixos em relação ao relógio parado e um banco de mentira que aceita tudo e não responde nada.
+// a conversa rola sozinha até o fim, às vezes em dois tempos (o aviso de amizade entra depois): espera e fixa no fim
+async function fimDaConversa(P) { await U_sleep(400); await P.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight)) }
+const U_sleep = ms => new Promise(r => setTimeout(r, ms));
 async function dmEstado(P, soSeguir) {
   await P.evaluate(soSeguir => {
     const T = Date.now(), M = 6e4, H = 36e5, D = 864e5, p0 = FEED.pautas[0], p1 = FEED.pautas[1], p2 = FEED.pautas[2];

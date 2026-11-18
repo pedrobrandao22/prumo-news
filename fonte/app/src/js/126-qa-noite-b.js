@@ -51,7 +51,6 @@ function qb126MarcaPub(id){id=String(id||"");if(!id)return;qb126MarcaDepois(x=>x
 if(typeof vn112AbrePub==="function"){const _va126=vn112AbrePub;vn112AbrePub=function(id){const r=_va126.apply(this,arguments);qb126MarcaPub(id);return r}}
 {const _ap126=abrirPerfil;abrirPerfil=function(u){const r=_ap126.apply(this,arguments);try{if(u&&u!==S.uid)qb126MarcaDepois(x=>x.k==="a:"+u||(nt124Cat(x)==="seguidores"&&(x.us||[]).includes(u)))}catch(e){}return r}}
 {const _pc126=abrirPagCob;abrirPagCob=function(pid){const r=_pc126.apply(this,arguments);try{if(pid)qb126MarcaDepois(x=>String(x.k).indexOf("cob:"+pid+":")===0)}catch(e){}return r}}
-{const _ac126=abrirConversa;abrirConversa=function(u){const r=_ac126.apply(this,arguments);try{if(u)qb126MarcaDepois(x=>x.msg&&x.msg.de===u&&!(x.msg.snap&&x.msg.snap.upub))}catch(e){}return r}}
 
 /* ===== NB02/NB03: as preferências seguem o que está no banco ===== */
 function qb126Caminho(){return `data/users/${S.uid}/prefs`}

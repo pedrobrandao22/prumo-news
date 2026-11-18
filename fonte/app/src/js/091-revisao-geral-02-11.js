@@ -4,13 +4,10 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const s=t.closest("#layer [data-stsnap]");if(s){e.stopPropagation();e.preventDefault();const x=pubDe(s.dataset.stsnap);const sn=(x&&x.snap)||{};if(typeof igPausa==="function")igPausa();
     sheet("Notícia",`<p class="hint" style="margin:0">${esc(sn.secao?secNome(sn.secao):"Notícia")}</p><h3 style="margin:4px 0 8px;font:700 19px/1.25 var(--f-display,var(--f-ui))">${esc(sn.titulo||"Notícia")}</h3><p class="hint">Esta notícia já saiu da edição do dia. Procure o assunto na Busca para ver o que saiu depois.</p>`,`<button type="button" class="btn ghost" data-close>Fechar</button>`);return}
   if(t.closest("#layer [data-stfora]")){e.stopPropagation();e.preventDefault();toast("Esta notícia já saiu da edição do dia.");return}},true);
-/* quem está bloqueado some de Conversas e do contador */
-{const _am=allMsgs;allMsgs=function(){const bl=S.bloq||[];const l=_am.apply(this,arguments);return bl.length?l.filter(m=>!bl.includes(m.de===S.uid?m.para:m.de)):l}}
+/* quem está bloqueado não conta no número de Conversas (a lista: allMsgs no 203) */
 {const _ub=updateBadge;updateBadge=function(){const r=_ub.apply(this,arguments);try{const bl=S.bloq||[];if(bl.length){const n=S.msgsIn.filter(m=>!m.lida&&!bl.includes(m.de)).length,b=$("#badge");if(b){b.hidden=!n;b.textContent=n>9?"9+":n}}}catch(e){}return r}}
 /* trocar de conta no mesmo aparelho: a curtida de story da conta anterior não fica marcada */
 {const _lc=limparLocalConta;limparLocalConta=function(){const r=_lc.apply(this,arguments);try{if(typeof US_CURTI!=="undefined")US_CURTI.clear()}catch(e){}return r}}
-/* curtida de story que não foi enviada não fica marcada */
-{const _de=dmEnviar;dmEnviar=async function(para,campos){const ok=await _de.apply(this,arguments);try{if(!ok&&campos&&campos.tipo==="curtiu_story"&&campos.snap&&campos.snap.story&&typeof US_CURTI!=="undefined"){US_CURTI.delete(campos.snap.story.id);localStorage.setItem("prumo-us-curti",JSON.stringify([...US_CURTI].slice(-300)));toast("A curtida não foi enviada. Tente de novo.")}}catch(e){}return ok}}
 /* curtidas e comentários apagados em publicações chegam aos outros aparelhos (o tempo real não manda exclusões) */
 setInterval(()=>{try{if(!document.hidden&&S.uid&&S.membro&&typeof psCarregar==="function"&&PS&&PS.on)psCarregar()}catch(e){}},90e3);
 document.addEventListener("visibilitychange",()=>{try{if(!document.hidden&&S.uid&&S.membro&&PS&&PS.on&&Date.now()-(PS.t||0)>30e3)psCarregar()}catch(e){}});

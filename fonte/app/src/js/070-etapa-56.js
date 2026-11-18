@@ -6,12 +6,6 @@ async function dmCopiar(t){let ok=false;try{if(navigator.clipboard&&navigator.cl
   toast(ok?"Texto copiado":"Não deu para copiar aqui. Segure o texto para copiar.")}
 /* 2. posts de membros nas Conversas */
 function dmEhPub(m){return String(m.pid||"").indexOf("u:")===0}
-{const _dc56=dmCard;dmCard=function(m){if(!dmEhPub(m))return _dc56.apply(this,arguments);const id=m.pid.slice(2),x=typeof pubDe==="function"&&pubDe(id),s=m.snap||{};
-  const u=x&&x.fotos&&x.fotos[0]&&pubUrl(x.fotos[0]),au=x?x.autor:null,tx=x?x.texto:(String(s.titulo||"").replace(/^(Post|Story) de [^:]+:\s*/,""));
-  return `<button type="button" class="dm-card dm-ucard" data-open="${esc(m.pid)}"><span class="dm-uh">${au?avatar(au):""}<b>${esc(au?nomeDe(au):(String(s.titulo||"").match(/^(?:Post|Story|Giro) de ([^:]+)/)||[,"Publicação"])[1])}</b><small>${x?(x.tipo==="story"?"Giro":x.estilo&&x.estilo.reel?"Reel":"Post"):/^Story de /.test(String(s.titulo||""))?"Giro":"Publicação"}</small></span>${u?`<span class="dm-cf"><img src="${pubSrc(u)}" alt="" loading="lazy" decoding="async"></span>`:""}${tx?`<span class="dm-ct"><b class="dm-utx">${esc(String(tx).slice(0,160))}</b></span>`:""}${!x?`<span class="dm-ct"><small class="dm-indisp">Só quem é amigo do autor consegue abrir</small></span>`:""}</button>`}}
-{const _dp56=dmPrevia;dmPrevia=function(m){const eu=m.de===S.uid;if(m.tipo==="mencao"&&dmEhPub(m)&&m.snap&&m.snap.upub)return m.snap.story===true?(eu?"Você mencionou no giro":"Mencionou você no giro"):eu?"Você marcou num post":"Marcou você num post";
-  if(dmEhPub(m)&&!m.texto&&m.tipo!=="mencao")return eu?"Você enviou um post":"Enviou um post";return _dp56.apply(this,arguments)}}
-{const _th56=dmThreadHTML;dmThreadHTML=function(u){let h=_th56.apply(this,arguments);return h.replace(/(<span class="dm-lb">)(Você mencionou [^<]*|Mencionou você) num comentário(<\/span>)(<button type="button" class="dm-card dm-ucard" data-open="u:([^"]+)")/g,(a,b1,quem,b3,b4,id)=>{const m=allMsgs().find(x=>x.tipo==="mencao"&&x.pid==="u:"+id&&x.snap&&x.snap.upub);return m?b1+quem+" num post"+b3+b4:a})}}
 /* 3. curtida de story lembrada */
 var US_CURTI=new Set((()=>{try{return JSON.parse(localStorage.getItem("prumo-us-curti")||"[]")}catch(e){return []}})());
 function usCurtiu(id){return US_CURTI.has(id)||S.msgsOut.some(m=>m.tipo==="curtiu_story"&&m.snap&&m.snap.story&&m.snap.story.id===id)}

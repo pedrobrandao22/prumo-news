@@ -8,9 +8,6 @@ function dm106Zera(){if(DM106.uid!==S.uid){DM106.uid=S.uid;DM106.ant=new Map();D
 function dm106Desliza(){[["i","msgsIn"],["o","msgsOut"]].forEach(([l,k])=>{const cur=S[k]||[],old=DM106["v"+l];DM106["v"+l]=cur;if(!old||old===cur||!DM106.ant.size)return;
   let mn=Infinity;cur.forEach(m=>{if(!String(m.id).startsWith("tmp")&&+m.at<mn)mn=+m.at});if(!isFinite(mn))return;
   old.forEach(m=>{const o=l==="o"?m.para:m.de;if(+m.at<mn&&!String(m.id).startsWith("tmp")&&DM106.pag[o])DM106.ant.set(m.id,m)})})}
-{const _am106=allMsgs;allMsgs=function(){const l=_am106.apply(this,arguments);if(DM106.uid!==S.uid)return l;dm106Desliza();if(!DM106.ant.size)return l;
-  const ids=new Set(l.map(m=>m.id)),bl=S.bloq||[],ex=[];DM106.ant.forEach(m=>{if(!ids.has(m.id)&&!bl.includes(m.de===S.uid?m.para:m.de))ex.push(m)});
-  return ex.length?l.concat(ex).sort((a,b)=>a.at-b.at):l}}
 /* lado "o" = o que eu mandei para u; lado "i" = o que u me mandou. A escuta guarda as 300 mais recentes de cada lado (de todas as conversas) */
 function dm106Lado(u,l){dm106Zera();const feed=(l==="o"?S.msgsOut:S.msgsIn)||[],k=u+":"+l;
   if(DM106.fim[k]||feed.filter(m=>!String(m.id).startsWith("tmp")).length<DM106_MAX)return {fim:true};
@@ -28,17 +25,11 @@ async function dm106Mais(u){if(DM106.car||typeof SB==="undefined"||!SB||!u)retur
   if(VIEW!=="msgs"||THREAD!==u){return}
   const pri=$("#v-msgs .thread .dm-m"),id=pri&&pri.dataset.mid,y0=pri?pri.getBoundingClientRect().top:0;renderMsgs();
   const el=id&&document.querySelector(`#v-msgs [data-mid="${CSS.escape(id)}"]`);if(el)window.scrollBy(0,el.getBoundingClientRect().top-y0)}
-{const _th106=dmThreadHTML;dmThreadHTML=function(u){const h=_th106.apply(this,arguments);try{if(dm106TemMais(u)&&h.indexOf('class="dm-vazio"')<0)return `<div class="dm106-topo"><button type="button" class="btn ghost dm106-mais" data-dm106mais>${DM106.car?"Carregando…":"Carregar mensagens antigas"}</button></div>`+h}catch(e){}return h}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-dm106mais]");if(!b)return;e.stopPropagation();dm106Mais(THREAD)});
-{const _ap106=dmApagar;dmApagar=async function(id){const m=DM106.ant.get(id);if(m&&m.de===S.uid)DM106.ant.delete(id);return _ap106.apply(this,arguments)}}
 
 /* 2. Conversas: resposta a uma mensagem que foi apagada não mostra mais o texto apagado */
 function dm106Apagada(q,ids,u){if(!q||!q.id||String(q.id).startsWith("tmp")||ids.has(q.id))return false;return dm106Lado(u,q.de===S.uid?"o":"i").fim}
 const DM106_APG="\u2063dm106apagada\u2063";
-{const _th106b=dmThreadHTML;dmThreadHTML=function(u){const am=allMsgs;let mud=false;
-  allMsgs=function(){const l=am.apply(this,arguments),ids=new Set(l.map(m=>m.id));return l.map(m=>{if(m&&m.tipo==="resposta"&&m.snap&&m.snap.q&&dm106Apagada(m.snap.q,ids,u)){mud=true;return {...m,snap:{...m.snap,q:{...m.snap.q,t:DM106_APG}}}}return m})};
-  let h;try{h=_th106b.apply(this,arguments)}finally{allMsgs=am}
-  return mud?h.split(`<span>${DM106_APG}</span>`).join(`<span class="dm106-apg">Mensagem apagada</span>`):h}}
 
 /* tocar na citação de uma original que ainda não foi carregada (conversa longa): não diz que foi apagada */
 window.addEventListener("click",e=>{const q=e.target.closest&&e.target.closest("#v-msgs .dm-m div.dm-q");if(!q||!THREAD)return;const dm=q.closest(".dm-m"),m=dm&&allMsgs().find(x=>x.id===dm.dataset.mid);const r=m&&m.tipo==="resposta"&&m.snap&&m.snap.q;

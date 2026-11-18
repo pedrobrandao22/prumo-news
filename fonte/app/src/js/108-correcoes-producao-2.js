@@ -31,7 +31,6 @@ function rs108Grava(k,t){if(!S.uid||!k)return;try{const o=rs108Le();if(t&&t.trim
 function rs108Poe(i,k){if(!i||i.value||i._rs108===k)return;i._rs108=k;const t=rs108Le()[k];if(t){i.value=t;i.dispatchEvent(new Event("input",{bubbles:true}))}}
 document.addEventListener("input",e=>{const t=e.target;if(!t||!t.id)return;if(t.id==="mtext"&&THREAD)rs108Grava("dm:"+THREAD,t.value);else if(t.id==="ctext"&&CMT_PID)rs108Grava("cm:"+CMT_PID,t.value)});
 document.addEventListener("submit",e=>{const f=e.target;if(!f)return;if(f.id==="mform"&&THREAD)rs108Grava("dm:"+THREAD,"");else if(f.id==="cform"&&CMT_PID)rs108Grava("cm:"+CMT_PID,"")},true);
-{const _rm108=renderMsgs;renderMsgs=function(){const r=_rm108.apply(this,arguments);try{if(THREAD)rs108Poe($("#mtext"),"dm:"+THREAD)}catch(e){}return r}}
 {const _oc108=openComments;openComments=function(pid){const r=_oc108.apply(this,arguments);try{rs108Poe($("#ctext"),"cm:"+pid)}catch(e){}return r}}
 
 /* 4. administrador: "Denunciar" não diz "o Pedro recebe e analisa" para o próprio administrador */
@@ -64,11 +63,6 @@ if(typeof FIT_IO!=="undefined"&&FIT_IO){try{FIT_IO.disconnect()}catch(e){}FIT_IO
 
 /* 9. cartão de post/story que não existe mais (apagado, ou story de mais de 24 h): dizia "Só quem é amigo do autor consegue abrir"
       mesmo para quem é amigo, e repetia "Post de Fulano" embaixo do nome */
-{const _dc108=dmCard;dmCard=function(m){let h=_dc108.apply(this,arguments);
-  try{if(typeof h==="string"&&h.indexOf("dm-indisp")>=0&&dmEhPub(m)){const s=m.snap||{},t=String(s.titulo||""),mm=t.match(/^(Post|Story|Reel) de ([^:]+)$/),nome=mm&&mm[2].trim();
-    if(mm)h=h.replace(`<span class="dm-ct"><b class="dm-utx">${esc(t.slice(0,160))}</b></span>`,"");
-    const story=s.story===true||/^(Story|Giro) de /.test(t),amigo=!!nome&&(nome===nomeDe(S.uid)||amigosL().some(u=>nomeDe(u)===nome));
-    if(story||amigo)h=h.replace("Só quem é amigo do autor consegue abrir",story?"Este giro não está mais disponível":"Esta publicação não está mais disponível")}}catch(e){}return h}}
 
 /* 10. depois de ver todos os stories de um amigo, o anel dele continuava colorido (como "não visto") até a bandeja ser
        redesenhada por outro motivo: ao fechar o story, os anéis da bandeja são atualizados no lugar (a ordem não muda) */
