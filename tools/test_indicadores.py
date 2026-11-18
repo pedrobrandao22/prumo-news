@@ -224,6 +224,9 @@ class TesteFechamentoPerdido(unittest.TestCase):
         d = tempfile.mkdtemp(prefix="ind-"); ind = os.path.join(d, "indicadores.json")
         with open(ind, "w", encoding="utf-8") as fh: json.dump({"atualizado": "x", "itens": velhos}, fh)
         def gj(url, tempo=20):
+            if "range=5d&interval=1d" in url:
+                ts = [int(D(*x[0], tzinfo=IN.SP).timestamp()) for x in pontos.get("BVSP_D", [])]
+                return {"chart": {"result": [{"meta": {"exchangeTimezoneName": "America/Sao_Paulo"}, "timestamp": ts, "indicators": {"quote": [{"close": [x[1] for x in pontos.get("BVSP_D", [])]}]}}]}}
             if "range=5d" in url:
                 k = "BRL" if "BRL" in url else "BVSP"
                 ts = [int(D(*x[0], tzinfo=IN.SP).timestamp()) for x in pontos[k]]
@@ -241,7 +244,8 @@ class TesteFechamentoPerdido(unittest.TestCase):
 
     PONTOS = {"BRL": [((2026, 11, 16, 18, 25), 5.77), ((2026, 11, 17, 11, 30), 5.78), ((2026, 11, 17, 18, 25), 5.80),
                       ((2026, 11, 17, 21, 0), 5.83), ((2026, 11, 18, 0, 5), 5.84)],
-              "BVSP": [((2026, 11, 16, 17, 55), 169295.0), ((2026, 11, 17, 17, 55), 170634.0)]}
+              "BVSP": [((2026, 11, 16, 16, 55), 169000.0), ((2026, 11, 17, 16, 55), 169536.0)],
+              "BVSP_D": [((2026, 11, 16, 10, 0), 169295.0), ((2026, 11, 17, 10, 0), 170634.0)]}
 
     def test_madrugada_recupera_o_fechamento_de_ontem(s):
         from datetime import datetime as D
@@ -262,7 +266,7 @@ class TesteFechamentoPerdido(unittest.TestCase):
     def test_fechamento_ja_gravado_nao_busca(s):
         from datetime import datetime as D
         v = [{"id": "dolar", "nome": "Dólar", "valor": "R$ 5,80", "data": "2026-11-17", "fechamento": True}]
-        out, it = s._roda(D(2026, 11, 18, 10, 15, tzinfo=IN.SP), v, {"BRL": [], "BVSP": []})
+        out, it = s._roda(D(2026, 11, 18, 10, 15, tzinfo=IN.SP), v, {"BRL": [], "BVSP": [], "BVSP_D": []})
         s.assertEqual(it["dolar"], v[0])
 
     def test_segunda_de_manha_recupera_a_sexta(s):
