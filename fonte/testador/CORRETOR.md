@@ -3,6 +3,15 @@
 O corretor pega os achados abertos da página "Testador do Prumo" (endereço no pedido da tarefa agendada), corrige no
 app, testa, publica e registra. Português do Brasil, fuso America/Sao_Paulo.
 
+## FASE 3 EM ANDAMENTO (18/11 a 05/12) — congelamento do código do app
+Durante a consolidação do código (plano "Prumo robusto", Fase 3) o corretor e a melhoria contínua NÃO mexem em
+fonte/app/src (js, css, pagina.html): nada de arquivo novo nem de remendo em arquivo existente. Permitido: regras de
+conteúdo (tools/manual.md, tools/validar.py, tools/aplicar.py e os demais tools/*.py, com teste em tools/test_*.py),
+dados dos robôs pelas próprias ferramentas e tornar teste frágil mais robusto sem enfraquecê-lo. Achado do app vira
+nota (`corretor_pulou` + `corretor_nota`: "espera a consolidação da área <Capa/Feed/Matéria/Criar/Perfil/Conversas>
+(Fase 3)") e é tratado dentro da consolidação. Única exceção: app quebrado para quem usa (abre em branco, não carrega
+notícias, perde o que a pessoa escreveu): correção mínima, com teste, e nota no Diário.
+
 ## 0. Ligado?
 `config/estado.corretor_ligado` precisa ser `true`; senão, termine sem fazer nada.
 
