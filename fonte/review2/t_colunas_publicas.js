@@ -208,7 +208,7 @@ let srv = null, srv2 = null;
   ok(await ev(B, () => document.querySelector('[data-ed132pubv="publico"]').getAttribute('aria-checked') === 'true' && /mesmo sem conta/.test($('[data-ed132pubh]').textContent) && ED132.E.pb136 === true), 'escolher "Todos": marcado, com a explicação curta');
   await ev(B, () => document.querySelector('[data-ed132pubv="publico"]').scrollIntoView({ block: 'center' })); await shot(B, '03-quem-pode-ler');
   ok(await semLateral(B), '390 px: "Antes de publicar" sem rolagem lateral');
-  await ev(B, () => document.querySelector('#layer .ed132-pp [data-ed132pub]').click()); await sleep(1600);
+  await ev(B, () => ((ED132.E&&!ED132.E.ed&&(ED132.E.ed='politica')),document.querySelector('#layer .ed132-pp [data-ed132pub]').click())); await sleep(1600);
   const [nova] = await H.sql(`select id, publico from public.publicacoes where autor=$1 and estilo->'coluna'->>'tit' = 'Orçamento: o fim do corredor'`, [ids.b]);
   ok(nova && nova.publico === 'publico', 'publicada como pública (publico = publico)', nova);
   f = await fila(`where f.pub=$1`, [nova.id]);
@@ -221,7 +221,7 @@ let srv = null, srv2 = null;
   /* publicar privada pela tela: nada na fila */
   const n0 = (await fila()).length; await novaColuna(B);
   await B.fill('#ed132-tit', 'Coluna fechada pela tela'); await corpo(B); await B.keyboard.type('Texto da coluna que fica só para os amigos da autora dentro do Prumo, sem link aberto.');
-  await ev(B, () => document.querySelector('#layer > .ed132 [data-ed132painel]').click()); await sleep(400); await ev(B, () => document.querySelector('#layer .ed132-pp [data-ed132pub]').click()); await sleep(1400);
+  await ev(B, () => document.querySelector('#layer > .ed132 [data-ed132painel]').click()); await sleep(400); await ev(B, () => ((ED132.E&&!ED132.E.ed&&(ED132.E.ed='politica')),document.querySelector('#layer .ed132-pp [data-ed132pub]').click())); await sleep(1400);
   ok((await H.sql(`select publico from public.publicacoes where estilo->'coluna'->>'tit' = 'Coluna fechada pela tela'`))[0]?.publico === 'amigos' && (await fila()).length === n0, 'publicar privada pela tela: amigos e nada na fila');
 
   /* selo, copiar link, exportar */
@@ -298,7 +298,7 @@ let srv = null, srv2 = null;
   await novaColuna(SB2); await SB2.fill('#ed132-tit', 'Sem v14'); await corpo(SB2); await SB2.keyboard.type('Texto de uma coluna escrita com o banco ainda sem a versão catorze.');
   await ev(SB2, () => document.querySelector('#layer > .ed132 [data-ed132painel]').click()); await sleep(400);
   ok(await ev(SB2, () => !!$('#layer .ed132-pp') && !document.querySelector('[data-ed132pubv="publico"]')), 'sem a v14: sem "Todos (link público)"');
-  await ev(SB2, () => document.querySelector('#layer .ed132-pp [data-ed132pub]').click()); await sleep(1300);
+  await ev(SB2, () => ((ED132.E&&!ED132.E.ed&&(ED132.E.ed='politica')),document.querySelector('#layer .ed132-pp [data-ed132pub]').click())); await sleep(1300);
   ok((await H2.sql(`select publico from public.publicacoes where texto like 'Sem v14%' order by at desc limit 1`))[0]?.publico === 'amigos', 'sem a v14: publica normalmente (amigos)');
   await recarrega(SB2); await ev(SB2, id => cs123Abrir(id), s1.id); await sleep(500);
   ok(await ev(SB2, () => !document.querySelector('#layer .pb136-selo') && !!document.querySelector('#layer [data-ex133exp]')), 'sem a v14: sem selo (o resto da página igual)');

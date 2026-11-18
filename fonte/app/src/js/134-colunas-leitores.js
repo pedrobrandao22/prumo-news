@@ -171,12 +171,7 @@ async function lt134Numeros(id){if(precisaConta()||LT134.v13!==true||typeof SB==
   try{const [r,m]=await Promise.all([SB.rpc("coluna_numeros",{p_pub:id}),SB.rpc("coluna_mais_lidas")]);if(r.error)throw r.error;if(m&&!m.error)LT134.mais=m.data||[];
     const box=$("#lt134-np");if(box&&box.dataset.pub===id)box.innerHTML=lt134PainelHTML(x,c,r.data,LT134.mais)}
   catch(e){const box=$("#lt134-np");if(box)box.innerHTML=`<p class="erro-t">Não deu para carregar os números agora.</p>`}}
-/* Minhas colunas: "Suas colunas mais lidas" com "Leitores" em cada uma */
-{const _hh=ed132HubHTML;ed132HubHTML=function(){let h=_hh.apply(this,arguments);try{if(LT134.v13!==true)return h;
-  const minhas=PUB.itens.filter(x=>x&&x.autor===S.uid&&cs123Col(x)&&!ed132Agendada(x)),lidas=new Map((LT134.mais||[]).map(o=>[String(o.pub),o]));if(!minhas.length)return h;
-  const l=minhas.map(x=>({x,o:lidas.get(x.id)})).sort((a,b)=>((b.o&&+b.o.leituras)||0)-((a.o&&+a.o.leituras)||0)||b.x.at-a.x.at).slice(0,10);
-  const sec=`<h3 class="ed132-hh">Suas colunas mais lidas <small>só você vê os números</small></h3><ul class="ed132-hl lt134-hub">${l.map(({x,o})=>`<li><span class="ed132-hi"><b>${esc(cs123Col(x).tit)}</b><small>${o?`${lt134N(+o.leituras||0,"leitura","leituras")} · ${cs123Num(+o.fim||0)} até o fim`:"Ninguém leu ainda"}</small></span><span class="ed132-hb"><button type="button" class="btn ghost" data-lt134num="${esc(x.id)}">${lt134Svg(LT134_IC.num)}Leitores</button></span></li>`).join("")}</ul>`;
-  const i=h.lastIndexOf("</div></div>");return i>0?h.slice(0,i)+sec+h.slice(i):h+sec}catch(e){return h}}}
+/* Minhas colunas: os números de cada coluna publicada estão na lista "Publicadas" do próprio hub (132, col207PubHTML no 207) */
 {const _hb=ed132Hub;ed132Hub=function(){const r=_hb.apply(this,arguments);try{if(LT134.v13===true&&SB)Promise.resolve(SB.rpc("coluna_mais_lidas")).then(m=>{if(m&&!m.error){LT134.mais=m.data||[];ed132HubRedesenha()}}).catch(()=>{});else if(LT134.v13===null)lt134Testa().then(v=>{if(v)ed132HubRedesenha()})}catch(e){}return r}}
 
 /* ===== 6. citar e copiar um trecho ===== */

@@ -6053,6 +6053,30 @@ html.ft182-sem-quiz.ft182-sem-enquete [data-vgo="play"]{display:none!important}
 .ui184-rec li{grid-template-columns:118px 1fr 44px}
 .ui184-rec li.ui184-pouco span{color:var(--hot);font-weight:700}
 .ui184-rec li.ui184-pouco i{background:var(--hot);opacity:.55}
+/* 207 · Colunas (Fase 6): filtro do Feed, colunas guardadas e "Publicadas" em Minhas colunas */
+.col207-f{display:flex;gap:8px;overflow-x:auto;padding-block:8px 2px;scrollbar-width:none}
+.col207-f::-webkit-scrollbar{display:none}
+.col207-f button{flex:none;font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 13px;min-height:36px;cursor:pointer;white-space:nowrap}
+.col207-f button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.col207-f em{font-style:normal;opacity:.7;font-weight:500}
+.col207-gl{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-direction:column;gap:10px}
+.col207-gl li{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.col207-gi{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:3px;min-width:0}
+.col207-gi b{font-family:var(--f-display);font-size:18px;line-height:1.25;overflow-wrap:anywhere}
+.col207-gi small{color:var(--muted,var(--mut));font-size:13px}
+.col207-k{text-transform:uppercase;letter-spacing:.06em;font-size:11px!important;font-weight:700;color:var(--bronze)!important}
+.col207-pb{display:block;height:4px;border-radius:2px;background:var(--line);overflow:hidden;margin-top:4px}
+.col207-pb b{display:block;height:100%;background:var(--bronze)}
+.col207-cont{align-self:flex-start}
+.col207-ctl{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 10px}
+.col207-seg{flex-wrap:wrap}
+.col207-gh{margin:14px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted,var(--mut))}
+.col207-gh small{font-weight:500;letter-spacing:0}
+.col207-n{color:var(--ink)!important;font-weight:600}
+.col207-ctl{flex-direction:column;gap:2px}
+.col207-seg{align-items:center;padding-block:4px}
+.col207-seg span{font-size:12px;color:var(--muted);min-width:56px}
+.col207-seg button{min-height:32px;padding:4px 12px;font-size:13px}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -6310,10 +6334,11 @@ const ordenadas=list=>PREF.feedModo==="recentes"?[...list].sort((a,b)=>versaoP(b
 const pautaById=id=>(FEED?.pautas||[]).find(p=>p.id===id);
 function listaFeed(){if(!FEED)return [];
   if(FILTRO==="_leu")FILTRO="tudo";
+  if(FILTRO==="_colunas")return typeof col207Lista==="function"?col207Lista():[];
   if(FILTRO==="_gostou")return ordenadas(visiveis().filter(p=>socialOf(p.id).likes.some(u=>u!==S.uid)));
   return FILTRO==="tudo"?ordenadas(visiveis().filter(meusTemasOk)):secLista()}
 function secLista(){const l=pautasDa(FILTRO).filter(secFiltroOk);if(!l.length&&SECF&&SECF.sec===FILTRO&&(SECF.sub||SECF.uf)){SECF={sec:FILTRO,sub:"",uf:""};return pautasDa(FILTRO)}return l}
-function nomeFiltro(f){if(f==="_leu")return "Lidas por amigos";if(f==="_gostou")return "Amigos gostaram";if(f==="tudo")return "Tudo";return secNome(f)}
+function nomeFiltro(f){if(f==="_colunas")return "Colunas";if(f==="_leu")return "Lidas por amigos";if(f==="_gostou")return "Amigos gostaram";if(f==="tudo")return "Tudo";return secNome(f)}
 const pautasDa=sec=>ordenadas((FEED?.pautas||[]).filter(p=>secOf(p)===sec&&!silenciado(p)));
 const versaoP=p=>{const u=(p.atualizacoes||[]).map(x=>String(x.hora||"")).sort().pop();return u||String(p.hora||"")};
 const seenKey=p=>p.id+"|"+versaoP(p);
@@ -7855,8 +7880,9 @@ function storyRetoma(){if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#la
 /* ---------- v14 ---------- */
 function abrirFiltro(){uso("filtro_sheet");const opc=[{id:"tudo",nome:"Tudo",n:visiveis().length},...SECS().filter(s=>pautasDa(s.id).length).map(s=>({id:s.id,nome:s.nome,n:pautasDa(s.id).length,cor:secCor(s.id)}))];
   if(temAmigos()){const sv=FILTRO;FILTRO="_gostou";const b=listaFeed().length;FILTRO=sv;opc.push({id:"_gostou",nome:"Amigos gostaram",n:b,cor:"var(--bronze)"})}
+  try{const nc=typeof col207Todas==="function"?col207Todas().length:0;if(nc)opc.push({id:"_colunas",nome:"Colunas",n:nc,cor:"var(--bronze)",un:["coluna","colunas"]})}catch(e){}
   const M=PREF.feedModo==="recentes"?"recentes":"voce";
-  sheet("Filtrar o feed",`<div class="segs fmodo" role="tablist" aria-label="Ordem do feed"><button type="button" role="tab" data-fmodo="voce" aria-selected="${M==="voce"}">Para você</button><button type="button" role="tab" data-fmodo="recentes" aria-selected="${M==="recentes"}">Mais recentes</button><button type="button" role="tab" data-fmodo="seguindo" aria-selected="${PREF.feedModo==="seguindo"}">Meus temas</button></div><div class="opt fopt">${opc.map(x=>`<button type="button" data-filtro="${esc(x.id)}" aria-pressed="${FILTRO===x.id}">${x.cor?`<i style="background:${x.cor}"></i>`:""}<b>${esc(x.nome)}</b><span>${x.n} ${x.n===1?"notícia":"notícias"}${FILTRO===x.id?" · atual":""}</span></button>`).join("")}</div>`)}
+  sheet("Filtrar o feed",`<div class="segs fmodo" role="tablist" aria-label="Ordem do feed"><button type="button" role="tab" data-fmodo="voce" aria-selected="${M==="voce"}">Para você</button><button type="button" role="tab" data-fmodo="recentes" aria-selected="${M==="recentes"}">Mais recentes</button><button type="button" role="tab" data-fmodo="seguindo" aria-selected="${PREF.feedModo==="seguindo"}">Meus temas</button></div><div class="opt fopt">${opc.map(x=>`<button type="button" data-filtro="${esc(x.id)}" aria-pressed="${FILTRO===x.id}">${x.cor?`<i style="background:${x.cor}"></i>`:""}<b>${esc(x.nome)}</b><span>${x.n} ${x.n===1?(x.un?x.un[0]:"notícia"):(x.un?x.un[1]:"notícias")}${FILTRO===x.id?" · atual":""}</span></button>`).join("")}</div>`)}
 function abrirNovidades(){const l=NOVID.map(pautaById).filter(Boolean);
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="ult">${l.map(p=>`<li><button type="button" data-goto="${esc(p.id)}"><span class="u-t"><b style="color:${secCor(secOf(p))}">${NOVAS.has(p.id)?"Nova":"Atualizada"}</b> · ${esc(secNome(secOf(p)))}</span><span class="u-x">${esc(p.neutro?.titulo||"")}</span>${lidaAtual(p)?`<span class="u-t">✓ lida</span>`:""}</button></li>`).join("")}</ul>`)}
 function atualizarChatPosts(){if(!FEED)return;const ps=new Set(allMsgs().filter(m=>m.pid).map(m=>m.pid));ps.forEach(pid=>{if(document.getElementById("p-"+pid))updateSocial(pid)})}
@@ -14271,8 +14297,11 @@ function cs123LerHTML(x,c,o){o=o||{};const f=x.fotos&&x.fotos[0],u=o.capa||(f&&p
       <p class="cs123-aviso">Coluna de ${esc(nomeDe(x.autor))}: a opinião é do autor, separada das notícias da edição do Prumo.</p>
       ${o.prev?"":`<div class="cs123-fim" data-pid="${esc("u:"+x.id)}">${cs123FimHTML(x)}</div>`}</article></div></div>`}
 function cs123Progresso(root){const sc=root&&root.querySelector(".cs123-sc"),b=root&&root.querySelector(".cs123-pg b");if(!sc||!b)return;
-  const f=()=>{const m=sc.scrollHeight-sc.clientHeight;b.style.width=(m>0?Math.min(100,Math.max(0,sc.scrollTop/m*100)):100).toFixed(1)+"%"};sc.addEventListener("scroll",f,{passive:true});f()}
-function cs123Abrir(id){const x=pubDe(id)||pubVisiveis().find(y=>y.id===id),c=x&&cs123Col(x);if(!c){toast("Esta coluna não está disponível para você (ou já foi apagada).");return}uso("coluna_ler");
+  const prev=root.classList.contains("cs123-prev");
+  const f=()=>{const m=sc.scrollHeight-sc.clientHeight,fr=m>0?Math.min(1,Math.max(0,sc.scrollTop/m)):1;b.style.width=(fr*100).toFixed(1)+"%";
+    /* 207: guarda até onde a pessoa leu, para "Continuar de onde parei" nas colunas guardadas */
+    if(!prev&&m>0&&CS123.ler&&typeof col207Marca==="function")col207Marca(CS123.ler.id,fr)};sc.addEventListener("scroll",f,{passive:true});f()}
+function cs123Abrir(id){const x=pubDe(id)||pubVisiveis().find(y=>y.id===id)||(typeof ed132Pub==="function"?ed132Pub(id):null),c=x&&cs123Col(x);if(!c){toast("Esta coluna não está disponível para você (ou já foi apagada).");return}uso("coluna_ler");
   const L=$("#layer");let volta=null;
   if($("#layer2")?.innerHTML)closeLayer();
   if(L.innerHTML){if($("#layer .pfv")&&PFV){const sc=$("#layer .pfv-sc");volta={pfv:{...PFV},sc:sc?sc.scrollTop:0};try{pfIdsVolta()}catch(e){}PFV=null;L.innerHTML=""}else closeLayer()}
@@ -15074,7 +15103,7 @@ ED132.vistos=new Set();
 /* depois de uma carga completa: ficam em "Agendadas" só as que o banco ainda devolveu como agendadas */
 {const _pc=pubCarregar;pubCarregar=async function(){const livre=!PUB.carregando;if(livre){ED132.vistos=new Set();ED132.assinou=false}const r=await _pc.apply(this,arguments);
   try{const n=PUB.itens.length;ed132Separa();if(livre&&ED132.assinou)ED132.agend=ED132.agend.filter(x=>ED132.vistos.has(x.id)&&ed132Agendada(x));if(n!==PUB.itens.length)pubRedesenha();ed132HubRedesenha()}catch(e){}return r}}
-const ed132Pub=id=>pubDe(id)||ED132.agend.find(x=>x.id===id)||null;
+const ed132Pub=id=>pubDe(id)||ED132.agend.find(x=>x.id===id)||(typeof COL207!=="undefined"&&COL207.minhas.find(x=>x.id===id))||null;
 const ed132Url=p=>ED132.urls[p]||pubUrl(p)||"";
 async function ed132Assina(ps){const now=Date.now(),falta=[...new Set(ps||[])].filter(p=>p&&ED132_FOTO.test(p)&&!ED132.urls[p]&&!((PUB.urls[p]||{}).exp>now+600e3));
   if(!falta.length)return true;if(typeof SB==="undefined"||!SB)return false;
@@ -15161,10 +15190,11 @@ function ed132PoeFotos(){document.querySelectorAll("[data-ed132ff]").forEach(f=>
   if(k.f==="h"){c.html=c.corpo;c.corpo=ed132Plano(c.html)}
   const se=cs123S(k.serie,60).trim();if(se){c.serie=se;const n=Math.floor(+k.n);if(n>0&&n<10000)c.n=n}
   const ch=cs123S(k.cham,280).trim();if(ch)c.cham=ch;if(k.capa===false)c.capa=false;
+  const ed=cs123S(k.ed,30).trim();if(ed)c.ed=ed;
   if(Array.isArray(k.pautas)){const p=k.pautas.slice(0,3).filter(p=>p&&typeof p.id==="string"&&p.id&&p.id.length<=200).map(p=>({id:p.id,t:cs123S(p.t,140).trim()})).filter(p=>p.t);if(p.length)c.pautas=p}}catch(e){}return c}}
 const ed132Editado=x=>!!(x&&+x.editado>0&&+x.editado>(+x.at||0)+2e3);
 function ed132DataHora(ms){try{const d=new Date(+ms),z="America/Sao_Paulo";return d.toLocaleDateString("pt-BR",{timeZone:z,day:"numeric",month:"short"})+" às "+d.toLocaleTimeString("pt-BR",{timeZone:z,hour:"2-digit",minute:"2-digit"})}catch(e){return ""}}
-const ed132Kick=c=>`Coluna${c.n?" "+c.n:""}${c.serie?" · "+c.serie:""}`;
+const ed132Kick=c=>`Coluna${c.n?" "+c.n:""}${c.serie?" · "+c.serie:c.ed?" · "+secNome(c.ed):""}`;
 function ed132DaSerie(autor,serie){const k=norm(serie).trim();if(!k)return [];const l=[];const ja=new Set();
   (typeof pubVisiveis==="function"?pubVisiveis():[]).forEach(x=>{if(!x||x.autor!==autor||ja.has(x.id)||ed132Agendada(x))return;const c=cs123Col(x);if(c&&c.serie&&norm(c.serie).trim()===k){ja.add(x.id);l.push({id:x.id,n:c.n||0,at:+x.at||0,tit:c.tit})}});
   return l.sort((a,b)=>(a.n&&b.n?a.n-b.n:0)||a.at-b.at)}
@@ -15224,9 +15254,9 @@ function ed132Migra(){if(!S.uid)return;let l;try{l=JSON.parse(localStorage.getIt
 cs123RascLe=function(){try{ed132Migra()}catch(e){}return ed132RascLe()};
 
 /* ===== 5. abrir o editor ===== */
-function ed132Novo(o){return {rid:ED132_RID(),modo:"novo",pubId:null,ag:false,tit:"",linha:"",cham:"",html:"",tags:"",serie:"",n:0,pautas:[],pub:"amigos",capa:null,agendar:false,qd:"",qh:"",
+function ed132Novo(o){return {rid:ED132_RID(),modo:"novo",pubId:null,ag:false,tit:"",linha:"",cham:"",html:"",tags:"",serie:"",ed:"",n:0,pautas:[],pub:"amigos",capa:null,agendar:false,qd:"",qh:"",
   env:false,ver:false,pvAba:"pag",st:"",subindo:0,salvou:false,descartar:false,...o}}
-function ed132DoRasc(d){const E=ed132Novo({rid:d.rid,tit:cs123S(d.tit,90),linha:cs123S(d.linha,160),cham:cs123S(d.cham,240),html:ed132Limpa(d.html,{dono:S.uid}),tags:cs123S(d.tags,120),serie:cs123S(d.serie,60),
+function ed132DoRasc(d){const E=ed132Novo({rid:d.rid,tit:cs123S(d.tit,90),linha:cs123S(d.linha,160),cham:cs123S(d.cham,240),html:ed132Limpa(d.html,{dono:S.uid}),tags:cs123S(d.tags,120),serie:cs123S(d.serie,60),ed:cs123S(d.ed,30),
   n:Math.max(0,Math.floor(+d.n)||0),pautas:Array.isArray(d.pautas)?d.pautas.slice(0,3).filter(p=>p&&p.id&&p.t):[],pub:d.pub==="seguidores"?"seguidores":"amigos",capa:typeof d.capa==="string"&&ED132_FOTO.test(d.capa)&&d.capa.indexOf(S.uid+"/")===0?{p:d.capa}:null,salvou:true});
   if(d.quando&&typeof d.quando==="object"&&/^\d{4}-\d{2}-\d{2}$/.test(d.quando.d||"")&&/^\d{2}:\d{2}$/.test(d.quando.h||"")){E.agendar=true;E.qd=d.quando.d;E.qh=d.quando.h}
   if(!E.capa&&d.capaDu){E.subindo++;fetch(d.capaDu).then(r=>r.blob()).then(b=>pubSobe(b)).then(p=>{ED132.urls[p]=d.capaDu;if(ED132.E===E){E.capa={p};ed132CapaDesenha();ed132Agenda()}}).catch(()=>{}).finally(()=>{E.subindo--})}
@@ -15300,7 +15330,7 @@ function ed132Conta(ja){const f=()=>{const E=ED132.E,el=$("#layer > .ed132 [data
 function ed132Agenda(){const E=ED132.E;if(!E||E.modo==="editar")return;clearTimeout(ED132.gt);ED132.gt=setTimeout(()=>ed132Guarda(),2000)}
 function ed132Mudou(){ed132Vazia();ed132Conta();ed132Agenda();const E=ED132.E;if(E&&E.descartar){E.descartar=false;ed132Cab()}}
 function ed132Rasc(E){const tem=!!(E.tit.trim()||E.linha.trim()||!ed132Vazio(E.html)||E.capa);if(!tem)return null;
-  return {rid:E.rid,at:Date.now(),tit:E.tit,linha:E.linha,cham:E.cham,html:E.html,tags:E.tags,serie:E.serie,n:E.n||0,pautas:E.pautas,pub:E.pub,capa:E.capa&&E.capa.p||null,
+  return {rid:E.rid,at:Date.now(),tit:E.tit,linha:E.linha,cham:E.cham,html:E.html,tags:E.tags,serie:E.serie,ed:E.ed||"",n:E.n||0,pautas:E.pautas,pub:E.pub,capa:E.capa&&E.capa.p||null,
     quando:E.agendar&&E.qd&&E.qh?{d:E.qd,h:E.qh}:null,pal:ed132Palavras(ed132Plano(E.html)),sync:false}}
 function ed132Guarda(){const E=ED132.E;if(!E||E.modo==="editar"||E.env)return;clearTimeout(ED132.gt);ed132Le();ed132LePainel();const d=ed132Rasc(E);
   if(!d){if(E.salvou){ed132RascTira(E.rid);E.salvou=false}return}
@@ -15438,6 +15468,9 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
     if(b=t.closest("[data-ed132rabre]")){pare();const d=ed132RascLe().find(r=>r.rid===b.dataset.ed132rabre);if(d)ed132Abre(ed132DoRasc(d));return}
     if(b=t.closest("[data-ed132rx]")){pare();if(!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Apagar mesmo?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Apagar"}},3000);return}
       ed132RascTira(b.dataset.ed132rx);ed132HubRedesenha();toast("Rascunho apagado");return}
+    if(b=t.closest("[data-col207ag]")){pare();COL207.ag=b.dataset.col207ag;ed132HubRedesenha();return}
+    if(b=t.closest("[data-col207or]")){pare();COL207.or=b.dataset.col207or;ed132HubRedesenha();return}
+    if(b=t.closest("[data-col207edita]")){pare();ed132Edita(b.dataset.col207edita);return}
     if(b=t.closest("[data-ed132agedit]")){pare();ed132Edita(b.dataset.ed132agedit);return}
     if(b=t.closest("[data-ed132agja]")){pare();ed132AgoraAg(b.dataset.ed132agja);return}
     if(b=t.closest("[data-ed132agx]")){pare();if(!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Cancelar mesmo?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},3000);return}ed132CancelaAg(b.dataset.ed132agx);return}
@@ -15458,6 +15491,7 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
   if(b=t.closest("[data-ed132bl]")){pare();ed132MenuEscolhe(b.dataset.ed132bl);return}
   if(b=t.closest("[data-ed132fig]")){pare();ed132FigEdita(b.closest("figure"));return}
   if(b=t.closest("#ed132-corpo figure.ed132-fe")){pare();ed132FigEdita(b);return}
+  if(b=t.closest("[data-ed132ed]")){pare();E.ed=E.ed===b.dataset.ed132ed?"":b.dataset.ed132ed;ed132LePainel();ed132Painel(true);return}
   if(b=t.closest("[data-ed132pt]")){pare();const id=b.dataset.ed132pt,tx=b.dataset.t||"";const i=E.pautas.findIndex(p=>p.id===id);if(i>=0)E.pautas.splice(i,1);else if(E.pautas.length>=3){toast("Até 3 assuntos por coluna.");return}else E.pautas.push({id,t:tx});
     b.setAttribute("aria-pressed",i<0?"true":"false");ed132Agenda();return}
   if(b=t.closest("[data-ed132pubv]")){pare();E.pub=b.dataset.ed132pubv==="seguidores"?"seguidores":"amigos";root.querySelectorAll("[data-ed132pubv]").forEach(x=>x.setAttribute("aria-checked",x===b?"true":"false"));const ph=root.querySelector("[data-ed132pubh]");if(ph)ph.textContent=ed132PubTx(E.pub);ed132Agenda();return}
@@ -15501,6 +15535,7 @@ function ed132Painel(re){const E=ED132.E,root=$("#layer > .ed132");if(!E||!root)
   root.insertAdjacentHTML("beforeend",`<div class="ed132-pp" role="dialog" aria-modal="true" aria-label="${ed?"Detalhes da coluna":"Publicar coluna"}">
     <div class="ed132-h"><button type="button" class="cs123-v" data-ed132ppx>${ICON.back}<span>Texto</span></button><div class="ed132-ht"><b>${ed?"Detalhes da coluna":"Antes de publicar"}</b></div></div>
     <div class="ed132-pps"><div class="ed132-in">
+      <section class="ed132-ps" id="ed132-eds"><h3>Editoria <small>obrigatória</small></h3><p class="hint">Quem lê acha a coluna pelo filtro Colunas do Feed, por editoria.</p><div class="ed132-ptl col207-eds">${col207EdOpc().map(s=>`<button type="button" class="ed132-pc" data-ed132ed="${esc(s.id)}" aria-pressed="${E.ed===s.id}">${esc(s.nome)}</button>`).join("")}</div>${!E.ed&&col207EdSug(E)?`<p class="hint">Pelo texto, parece ${esc(secNome(col207EdSug(E)))}.</p>`:""}</section>
       <section class="ed132-ps"><h3>Chamada no Feed</h3><textarea id="ed132-cham" maxlength="240" rows="3" placeholder="${esc(sug||"Uma ou duas frases que chamam para a leitura")}">${esc(E.cham)}</textarea>
         <p class="hint">${sug?"Vazia, o Feed usa o começo do texto (o que aparece acima, em cinza).":"Vazia, o Feed usa o começo do texto."}</p></section>
       <section class="ed132-ps"><h3>Série <small>opcional</small></h3><div class="ed132-sr"><input id="ed132-ser" list="ed132-sers" maxlength="60" autocomplete="off" placeholder="Ex.: Bastidores de Brasília" value="${esc(E.serie)}">
@@ -15526,6 +15561,7 @@ function ed132PainelBotao(){const E=ED132.E,b=$("#layer > .ed132 .ed132-pp [data
 /* ===== 12. publicar, salvar e agendar ===== */
 function ed132Monta(E){const tags=cs123Tags(E.tags),tit=E.tit.trim().slice(0,90),linha=E.linha.trim().slice(0,160),html=E.html,pl=ed132Plano(html);
   const col={v:1,f:"h",tit,linha,min:ed132Min(pl),capa:!!(E.capa&&E.capa.p)};const ch=String(E.cham||"").trim().slice(0,240);if(ch)col.cham=ch;
+  if(E.ed)col.ed=String(E.ed).slice(0,30);
   const se=String(E.serie||"").trim().slice(0,60);if(se){col.serie=se;if(E.n>0)col.n=Math.min(9999,Math.floor(E.n))}
   if(E.pautas.length)col.pautas=E.pautas.slice(0,3).map(p=>({id:String(p.id).slice(0,200),t:String(p.t||"").slice(0,140)}));
   const fotos=[];if(E.capa&&E.capa.p)fotos.push(E.capa.p);ed132FotosDo(html).forEach(p=>{if(!fotos.includes(p))fotos.push(p)});
@@ -15539,6 +15575,7 @@ function ed132Erro(e){const m=String((e&&(e.code||""))+" "+(e&&e.message||""));r
 async function ed132Publica(){const E=ED132.E;if(!E||E.env||typeof SB==="undefined"||!SB)return;ed132Le();ed132LePainel();const P=ed132Monta(E),er=ed132Valida(E,P);if(er){toast(er);return}
   if(E.modo==="editar")return ed132Salva(P);
   if(!$("#layer > .ed132 .ed132-pp")){ed132Painel();return}
+  if(!E.ed){toast("Escolha a editoria da coluna.");try{const s=$("#ed132-eds");if(s)s.scrollIntoView({block:"center"})}catch(e){}return}
   let q=null;if(E.agendar&&ED132.v12.ag===true){q=ed132DeSp(E.qd,E.qh);if(!isFinite(q)){toast("Escolha o dia e a hora.");return}if(q<Date.now()+4*60e3){toast("Escolha um horário daqui a pelo menos 5 minutos.");return}if(q>Date.now()+365*864e5){toast("Escolha uma data dentro de um ano.");return}}
   const estilo={v:2,coluna:P.col};if(!V9.on){P.col.corpo=P.html;if(ed132Bytes(estilo)>7600){toast("Por enquanto, a coluna precisa ser um pouco menor (o limite é de cerca de 6.000 caracteres). Encurte o texto.");return}}
   E.env=true;ed132Cab();ed132PainelBotao();clearTimeout(ED132.gt);
@@ -15598,7 +15635,7 @@ async function ed132Historico(){const E=ED132.E;if(!E||!E.pubId||!SB)return;let 
       return `<li><span><b>${esc(ed132DataHora(+v.at))}${i===0?" · atual":""}</b><small>${esc(v.tit)} · ${cs123Num(n)} palavras</small></span>${i===0?"":`<button type="button" class="btn ghost" data-ed132vr="${i}">Restaurar</button>`}</li>`}).join("")}</ul>`
     :`<p class="hint">Ainda não há versões guardadas desta coluna. Elas começam a aparecer depois da próxima vez que você salvar.</p>`)}
 function ed132Restaura(i){const E=ED132.E,v=(ED132.vers||[])[i];if(!E||!v)return;const k=v.coluna&&typeof v.coluna==="object"?v.coluna:{};
-  E.tit=cs123S(v.tit,90);E.linha=cs123S(v.linha,160);E.html=k.f==="h"?ed132Limpa(v.corpo):ed132DeMarkdown(v.corpo);E.cham=cs123S(k.cham,240);E.serie=cs123S(k.serie,60);E.n=Math.max(0,Math.floor(+k.n)||0);
+  E.tit=cs123S(v.tit,90);E.linha=cs123S(v.linha,160);E.html=k.f==="h"?ed132Limpa(v.corpo):ed132DeMarkdown(v.corpo);E.cham=cs123S(k.cham,240);E.serie=cs123S(k.serie,60);E.ed=cs123S(k.ed,30);E.n=Math.max(0,Math.floor(+k.n)||0);
   if(Array.isArray(k.pautas))E.pautas=k.pautas.slice(0,3).filter(p=>p&&p.id&&p.t);closeLayer();E.ver=false;ed132Desenha();ed132EdFotos();
   toast(`Versão de ${ed132DataHora(+v.at)} no editor. Toque em Salvar para manter.`)}
 
@@ -15613,11 +15650,14 @@ function ed132HubHTML(){const rs=ed132RascLe(),ag=ED132.agend,ra=ED132.v12.ra===
       ${rs.length?`<ul class="ed132-hl">${rs.map(r=>`<li><button type="button" class="ed132-hi" data-ed132rabre="${esc(r.rid)}"><b>${esc(String(r.tit||"").trim()||"Sem título")}</b><small>${esc(quando(r.at))} · ${cs123Num(+r.pal||0)} ${+r.pal===1?"palavra":"palavras"}${r.quando?" · com data marcada":""}</small></button>
         <span class="ed132-hb"><button type="button" class="btn ghost" data-ed132rabre="${esc(r.rid)}">Continuar</button><button type="button" class="btn ghost ed132-dg" data-ed132rx="${esc(r.rid)}">Apagar</button></span></li>`).join("")}</ul>`
         :`<p class="hint ed132-hv">Nenhum rascunho. O que você escreve fica guardado sozinho enquanto escreve.</p>`}
+      ${typeof col207PubHTML==="function"?col207PubHTML():""}
     </div></div>`}
 function ed132HubRedesenha(){const el=$("#layer > .ed132-hubr");if(el)el.innerHTML=ed132HubHTML()}
 function ed132Hub(){if(precisaConta())return;const L=$("#layer");if(L.innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}try{ed132Migra()}catch(e){}
   L.innerHTML=`<div class="ed132-hubr" role="dialog" aria-modal="true" aria-label="Minhas colunas">${ed132HubHTML()}</div>`;if(pushH())HST++;
-  Promise.resolve(ed132Testa()).then(()=>ed132Sinc()).then(ok=>{if(ok)ed132HubRedesenha()}).catch(()=>{})}
+  Promise.resolve(ed132Testa()).then(()=>ed132Sinc()).then(ok=>{if(ok)ed132HubRedesenha()}).catch(()=>{});
+  /* 207: todas as colunas publicadas, com os números */
+  try{if(typeof col207Minhas==="function")col207Minhas().then(()=>ed132HubRedesenha()).catch(()=>{})}catch(e){}}
 
 /* ===== 15. camadas: folhas por cima do editor; voltar salva o rascunho ===== */
 /* ---------- 133: importar e exportar colunas (fase 2 do editor) ----------
@@ -16213,12 +16253,7 @@ async function lt134Numeros(id){if(precisaConta()||LT134.v13!==true||typeof SB==
   try{const [r,m]=await Promise.all([SB.rpc("coluna_numeros",{p_pub:id}),SB.rpc("coluna_mais_lidas")]);if(r.error)throw r.error;if(m&&!m.error)LT134.mais=m.data||[];
     const box=$("#lt134-np");if(box&&box.dataset.pub===id)box.innerHTML=lt134PainelHTML(x,c,r.data,LT134.mais)}
   catch(e){const box=$("#lt134-np");if(box)box.innerHTML=`<p class="erro-t">Não deu para carregar os números agora.</p>`}}
-/* Minhas colunas: "Suas colunas mais lidas" com "Leitores" em cada uma */
-{const _hh=ed132HubHTML;ed132HubHTML=function(){let h=_hh.apply(this,arguments);try{if(LT134.v13!==true)return h;
-  const minhas=PUB.itens.filter(x=>x&&x.autor===S.uid&&cs123Col(x)&&!ed132Agendada(x)),lidas=new Map((LT134.mais||[]).map(o=>[String(o.pub),o]));if(!minhas.length)return h;
-  const l=minhas.map(x=>({x,o:lidas.get(x.id)})).sort((a,b)=>((b.o&&+b.o.leituras)||0)-((a.o&&+a.o.leituras)||0)||b.x.at-a.x.at).slice(0,10);
-  const sec=`<h3 class="ed132-hh">Suas colunas mais lidas <small>só você vê os números</small></h3><ul class="ed132-hl lt134-hub">${l.map(({x,o})=>`<li><span class="ed132-hi"><b>${esc(cs123Col(x).tit)}</b><small>${o?`${lt134N(+o.leituras||0,"leitura","leituras")} · ${cs123Num(+o.fim||0)} até o fim`:"Ninguém leu ainda"}</small></span><span class="ed132-hb"><button type="button" class="btn ghost" data-lt134num="${esc(x.id)}">${lt134Svg(LT134_IC.num)}Leitores</button></span></li>`).join("")}</ul>`;
-  const i=h.lastIndexOf("</div></div>");return i>0?h.slice(0,i)+sec+h.slice(i):h+sec}catch(e){return h}}}
+/* Minhas colunas: os números de cada coluna publicada estão na lista "Publicadas" do próprio hub (132, col207PubHTML no 207) */
 {const _hb=ed132Hub;ed132Hub=function(){const r=_hb.apply(this,arguments);try{if(LT134.v13===true&&SB)Promise.resolve(SB.rpc("coluna_mais_lidas")).then(m=>{if(m&&!m.error){LT134.mais=m.data||[];ed132HubRedesenha()}}).catch(()=>{});else if(LT134.v13===null)lt134Testa().then(v=>{if(v)ed132HubRedesenha()})}catch(e){}return r}}
 
 /* ===== 6. citar e copiar um trecho ===== */
@@ -16639,11 +16674,12 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="ed132-tit")cr1
 {const _pn=ed132Painel;ed132Painel=function(){const r=_pn.apply(this,arguments);try{cr137Painel()}catch(e){}return r}}
 function cr137Painel(){const pp=document.querySelector("#layer > .ed132 .ed132-pp"),ins=pp&&pp.querySelector(".ed132-pps .ed132-in"),E=ED132.E;if(!ins||!E)return;
   const sec=q=>{const x=ins.querySelector(q);return x&&x.closest(".ed132-ps")};
-  const prev=sec(".ed132-pvf"),pub=sec("[data-ed132pubv]"),qd=sec(".ed132-qv"),ch=sec("#ed132-cham"),se=sec("#ed132-ser"),tg=sec("#ed132-tags"),as=sec(".ed132-ptl");
+  const prev=sec(".ed132-pvf"),pub=sec("[data-ed132pubv]"),qd=sec(".ed132-qv"),ch=sec("#ed132-cham"),se=sec("#ed132-ser"),tg=sec("#ed132-tags"),as=sec("[data-ed132pt]"),ed=ins.querySelector("#ed132-eds");
   let cp=ins.querySelector(".cr137-pc");if(!cp){ins.insertAdjacentHTML("afterbegin",`<section class="ed132-ps cr137-pc"><h3>Capa <small>opcional</small></h3><div class="cr137-pci"></div></section>`);cp=ins.querySelector(".cr137-pc")}
   cp.querySelector(".cr137-pci").innerHTML=ed132CapaHTML();
   let ph=ins.querySelector(".cr137-ph");if(!ph){ins.insertAdjacentHTML("beforeend",`<p class="cr137-ph">Detalhes opcionais</p>`);ph=ins.querySelector(".cr137-ph")}
-  [prev,cp,pub,qd,ph,ch,se,tg,as].filter(Boolean).forEach(s=>ins.appendChild(s));if(prev){const h=prev.querySelector("h3");if(h)h.textContent="Como vai aparecer no Feed"}
+  /* 207: a editoria é obrigatória: fica antes dos detalhes opcionais */
+  [prev,cp,pub,qd,ed,ph,ch,se,tg,as].filter(Boolean).forEach(s=>ins.appendChild(s));if(prev){const h=prev.querySelector("h3");if(h)h.textContent="Como vai aparecer no Feed"}
   ph.hidden=![ch,se,tg,as].some(Boolean)}
 {const _cd=ed132CapaDesenha;ed132CapaDesenha=function(){const r=_cd.apply(this,arguments);try{const c=document.querySelector("#layer > .ed132 .ed132-pp .cr137-pci");if(c){c.innerHTML=ed132CapaHTML();ed132PainelCard()}}catch(e){}return r}}
 /* a capa no painel: "Tirar" também atualiza a prévia do cartão */
@@ -18594,8 +18630,8 @@ try{const mo=new MutationObserver(co160Folha);["#layer","#layer2"].forEach(s=>{c
    No app todo a palavra é "Guardar" (antes os posts diziam "Salvar"/"Salvos"). Prefixo gd161. */
 var GD161_F="tudo";
 function gd161Noticias(){const sv=vp99Sv();return Object.entries(sv).filter(([k,x])=>x&&!vp99EhPost(k)).sort((a,b)=>(+b[1].at||0)-(+a[1].at||0))}
-function gd161Chips(nN,nP){const c=(k,t,n)=>`<button type="button" role="tab" data-gd161="${k}" aria-selected="${GD161_F===k}">${t}${n?` <em>${n}</em>`:""}</button>`;
-  return `<div class="gd161-f" role="tablist" aria-label="Filtrar guardados">${c("tudo","Tudo",nN+nP)}${c("noticias","Notícias",nN)}${c("posts","Posts",nP)}</div>`}
+function gd161Chips(nN,nP,nC){nC=nC||0;const c=(k,t,n)=>`<button type="button" role="tab" data-gd161="${k}" aria-selected="${GD161_F===k}">${t}${n?` <em>${n}</em>`:""}</button>`;
+  return `<div class="gd161-f" role="tablist" aria-label="Filtrar guardados">${c("tudo","Tudo",nN+nP+nC)}${c("noticias","Notícias",nN)}${nC?c("colunas","Colunas",nC):""}${c("posts","Posts",nP)}</div>`}
 function gd161ListaNoticias(l){return `<ul class="svl gd161-nl">${l.map(([pid,x])=>{const s=x.snap||snapById(pid)||{};
   return linhaSalva(pid,s,`${esc(secNome(s.secao||"politica"))} · guardada ${esc(quando(x.at))}`,x.nota?`<span class="nt">Nota: ${esc(x.nota)}</span>`:"")}).join("")}</ul>`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-gd161]");if(!b)return;e.preventDefault();e.stopPropagation();
@@ -20174,12 +20210,13 @@ function rp204Base(manter){
   let lista=listaFeed();
   const novas=lista.filter(p=>NOVAS.has(p.id)&&!LIDAS.has(p.id)).length+lista.filter(p=>ATUALIZADAS.has(p.id)).length;
   let h="";
-  if(FILTRO!=="tudo"){h+=`<div class="sech gut"><i style="background:${FILTRO[0]==="_"?"var(--bronze)":secCor(FILTRO)}"></i><h4>${esc(nomeFiltro(FILTRO))}</h4><button type="button" class="vertudo" data-filtro="tudo">Ver tudo ✕</button><span>${lista.length} ${lista.length===1?"notícia":"notícias"}${FILTRO==="politica"&&FEED.contagem?" · "+esc(FEED.contagem):""}</span></div>`;h+=secHub(FILTRO)}
+  if(FILTRO==="_colunas")h+=col207Cab(lista);
+  else if(FILTRO!=="tudo"){h+=`<div class="sech gut"><i style="background:${FILTRO[0]==="_"?"var(--bronze)":secCor(FILTRO)}"></i><h4>${esc(nomeFiltro(FILTRO))}</h4><button type="button" class="vertudo" data-filtro="tudo">Ver tudo ✕</button><span>${lista.length} ${lista.length===1?"notícia":"notícias"}${FILTRO==="politica"&&FEED.contagem?" · "+esc(FEED.contagem):""}</span></div>`;h+=secHub(FILTRO)}
   NOVID=lista.filter(p=>(NOVAS.has(p.id)&&!LIDAS.has(p.id))||ATUALIZADAS.has(p.id)).map(p=>p.id);
   if(novas)h+=`<button type="button" class="newbar gut" data-novidades><span class="nb-d"></span>${novas} ${novas===1?"novidade":"novidades"} desde a sua última visita${VISITA0&&hhmm(VISITA0)?` (${esc(diaHora(VISITA0))})`:""}<span class="chev" aria-hidden="true">›</span></button>`;
   if(FILTRO==="tudo"){const u=urgHTML("urg-f");if(u)h=`<div class="gut">${u}</div>`+h}h+=cobSegStrip();
   LOTE={lista,pos:Math.min(manter?Math.max(6,LOTE.pos||0):6,lista.length)};h=avisoAtraso()+h+lista.slice(0,LOTE.pos).map(postSeguro).join("")+(LOTE.pos<lista.length?`<div id="mais" class="empty" style="padding:24px">Carregando mais notícias…</div>`:"");
-  $("#posts").innerHTML=lista.length?h:`${h}<div class="empty"><b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Nada do que você segue nesta edição":FILTRO[0]==="_"?"Nada por aqui ainda":"Nenhuma notícia nesta seção agora"}</b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Siga uma cobertura (botão Seguir) ou escolha o seu time em Esportes. Para ver tudo, mude a ordem no filtro.":FILTRO[0]==="_"?"Quando isso mudar, as notícias aparecem aqui.":""}<button type="button" class="btn ghost" data-filtro="tudo" style="margin-top:10px">Ver todas as notícias</button></div>`;
+  $("#posts").innerHTML=lista.length?h:`${h}<div class="empty"><b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Nada do que você segue nesta edição":FILTRO==="_colunas"?"Nenhuma coluna aqui":FILTRO[0]==="_"?"Nada por aqui ainda":"Nenhuma notícia nesta seção agora"}</b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Siga uma cobertura (botão Seguir) ou escolha o seu time em Esportes. Para ver tudo, mude a ordem no filtro.":FILTRO==="_colunas"?(COL207.ed||COL207.au?"Nenhuma coluna com este filtro. Toque em Todas para ver as outras.":"As colunas de quem você segue aparecem aqui."):FILTRO[0]==="_"?"Quando isso mudar, as notícias aparecem aqui.":""}<button type="button" class="btn ghost" data-filtro="tudo" style="margin-top:10px">Ver todas as notícias</button></div>`;
   lista.slice(0,LOTE.pos).forEach(p=>updateSocial(p.id));wireTracks($("#posts"));observarMais();
   renderChgBox();
   const br=FILTRO[0]==="_"?[]:(FEED.breves||[]).filter(b=>(FILTRO==="tudo"&&!(PREF.ocultas||[]).includes(b.secao||"politica"))||(b.secao||"politica")===FILTRO);
@@ -20578,11 +20615,14 @@ function pfTiles(l,aba,u){
   let h;
   /* 161: Guardados (notícias e posts, com as fichas) */
   if(aba!=="salvos")h=pf205TilesAte160(l,aba,u);
-  else h=(()=>{try{const nt=gd161Noticias(),nN=nt.length,nP=(l||[]).length;let h=gd161Chips(nN,nP);
-      const verN=GD161_F!=="posts",verP=GD161_F!=="noticias";
-      if(verN&&nN){if(GD161_F==="tudo"&&nP)h+=`<h3 class="gd161-h">Notícias</h3>`;h+=gd161ListaNoticias(nt)}
-      if(verP&&nP){if(GD161_F==="tudo"&&nN)h+=`<h3 class="gd161-h">Posts</h3>`;h+=pf205TilesAte160(l,"posts",u)}
-      const vazio=(GD161_F==="tudo"&&!nN&&!nP)||(GD161_F==="noticias"&&!nN)||(GD161_F==="posts"&&!nP);
+  else h=(()=>{try{const nt=gd161Noticias(),nN=nt.length,cl=(l||[]).filter(x=>x&&cs123Col(x)),ps=(l||[]).filter(x=>!(x&&cs123Col(x))),nP=ps.length,nC=cl.length;
+      if(GD161_F==="colunas"&&!nC)GD161_F="tudo";let h=gd161Chips(nN,nP,nC);
+      /* 207: as colunas guardadas têm lista própria, com "Continuar de onde parei" */
+      const verN=GD161_F==="tudo"||GD161_F==="noticias",verC=GD161_F==="tudo"||GD161_F==="colunas",verP=GD161_F==="tudo"||GD161_F==="posts",varios=[nN,nC,nP].filter(Boolean).length>1;
+      if(verN&&nN){if(GD161_F==="tudo"&&varios)h+=`<h3 class="gd161-h">Notícias</h3>`;h+=gd161ListaNoticias(nt)}
+      if(verC&&nC){if(GD161_F==="tudo"&&varios)h+=`<h3 class="gd161-h">Colunas</h3>`;h+=col207Guardadas(cl)}
+      if(verP&&nP){if(GD161_F==="tudo"&&varios)h+=`<h3 class="gd161-h">Posts</h3>`;h+=pf205TilesAte160(ps,"posts",u)}
+      const vazio=(GD161_F==="tudo"&&!nN&&!nP&&!nC)||(GD161_F==="noticias"&&!nN)||(GD161_F==="posts"&&!nP);
       if(vazio)h+=`<div class="pf-vz"><b>${GD161_F==="noticias"?"Nenhuma notícia guardada":GD161_F==="posts"?"Nenhum post guardado":"Nada guardado ainda"}</b><span>Toque em “Guardar” (o marcador) numa notícia ou num post para ele aparecer aqui.</span></div>`;
       return h+`<p class="hint vp99-so">Só você vê o que guardou.</p>`}
     catch(e){return pf205TilesAte160(l,aba,u)}})();
@@ -21249,6 +21289,102 @@ function edPosImg(i,f,box){let r;
 /* edPrevFiltro: base no 076; 095 (no editor novo, atualiza a foto da trilha) */
 function ed206PrevFiltro0(){clearTimeout(ED_FT);ED_FT=setTimeout(()=>{const c=$("#ce-fc"),P=ED&&ED.po;if(!c||!P||!P.fotos[P.cur])return;c.width=Math.min(720,Math.round((c.parentElement.clientWidth||360)*Math.min(2,devicePixelRatio||1)));edRenderFoto(P.fotos[P.cur],c,P.ar)},30)}
 function edPrevFiltro(){if(!document.getElementById("cfp-trk"))return ed206PrevFiltro0.apply(this,arguments);cancelAnimationFrame(CFP_RAF);CFP_RAF=requestAnimationFrame(()=>{const P=ED&&ED.po;if(P)cfpAtualiza(P.cur)})}
+/* ---------- 207 · Colunas (Fase 6, 18/11): achar, guardar e organizar ----------
+   Decisões do Pedro (18/11):
+   - A Capa continua só com notícia. As colunas continuam no Feed, misturadas, e ganham o filtro "Colunas" (folha de
+     filtro do Feed), com escolha por editoria e por autor.
+   - Cada coluna tem uma editoria do Prumo (estilo.coluna.ed), obrigatória ao publicar (132); hashtags seguem opcionais.
+     Coluna antiga sem editoria: vale a das notícias ligadas a ela, senão uma hashtag com o nome da editoria.
+   - Colunas guardadas ficam nos Guardados (aba do Perfil, 161/205), com filtro "Colunas" e "Continuar de onde parei".
+   - "Minhas colunas" (132) mostra as publicadas com os números (leituras e quantos chegaram ao fim), agrupadas por mês,
+     série ou editoria, na ordem das mais recentes ou das mais lidas.
+   Nada aqui embrulha função: listaFeed (001), abrirFiltro (030), rp204Base (204), a aba Guardados (161/205),
+   cs123Progresso (123) e ed132HubHTML (132) chamam estas funções. Prefixo col207. */
+var COL207={ed:"",au:"",ag:"data",or:"data",minhas:[],nums:null,todos:false,carregado:0};
+const COL207_PROG="prumo-col207-prog";
+
+/* ===== editoria ===== */
+function col207EdOpc(){try{return ALLSECS().filter(s=>s&&s.id&&s.nome)}catch(e){return []}}
+const col207EdOk=id=>!!id&&col207EdOpc().some(s=>s.id===id);
+function col207EdTag(t){t=norm(String(t||"")).replace(/[#\s]+/g," ");const s=col207EdOpc().find(s=>{const n=norm(s.nome);return (" "+t+" ").indexOf(" "+n+" ")>=0||t.replace(/\s/g,"").indexOf(n.replace(/\s/g,""))>=0});return s?s.id:""}
+/* sugestão no "Antes de publicar": a editoria das notícias ligadas, senão uma hashtag ou o título */
+function col207EdSug(E){try{for(const p of (E.pautas||[])){const q=pautaById(p.id);if(q&&col207EdOk(secOf(q)))return secOf(q)}return col207EdTag(String(E.tags||""))}catch(e){return ""}}
+function col207Ed(x,c){c=c||cs123Col(x);if(!c)return "";if(col207EdOk(c.ed))return c.ed;
+  try{for(const p of (c.pautas||[])){const q=pautaById(p.id);if(q&&col207EdOk(secOf(q)))return secOf(q)}}catch(e){}
+  try{const ult=String(x.texto||"").split("\n\n").pop();if(/^#/.test(ult))return col207EdTag(ult)}catch(e){}return ""}
+
+/* ===== Feed: filtro Colunas ===== */
+function col207Todas(){if(typeof pubVisiveis!=="function")return [];
+  return pubVisiveis().filter(x=>x&&cs123Col(x)&&!(typeof ed132Agendada==="function"&&ed132Agendada(x))).sort((a,b)=>(+b.at||0)-(+a.at||0))}
+function col207Passa(x){if(COL207.au&&x.autor!==COL207.au)return false;if(!COL207.ed)return true;const e=col207Ed(x);return COL207.ed==="_sem"?!e:e===COL207.ed}
+function col207Lista(){return col207Todas().filter(col207Passa).map(x=>({id:"u:"+x.id,__pub:x}))}
+function col207Cab(lista){const t=col207Todas(),n=lista.length;
+  const eds=new Map();t.forEach(x=>{if(COL207.au&&x.autor!==COL207.au)return;const e=col207Ed(x)||"_sem";eds.set(e,(eds.get(e)||0)+1)});
+  const ord=col207EdOpc().map(s=>s.id).filter(id=>eds.has(id));if(eds.has("_sem"))ord.push("_sem");
+  const aus=new Map();t.forEach(x=>{if(COL207.ed&&!(COL207.ed==="_sem"?!col207Ed(x):col207Ed(x)===COL207.ed))return;aus.set(x.autor,(aus.get(x.autor)||0)+1)});
+  const chip=(k,v,tx,c,on)=>`<button type="button" data-${k}="${esc(v)}" aria-pressed="${on}">${esc(tx)}${c?` <em>${c}</em>`:""}</button>`;
+  let h=`<div class="sech gut"><i style="background:var(--bronze)"></i><h4>Colunas</h4><button type="button" class="vertudo" data-filtro="tudo">Ver tudo ✕</button><span>${n} ${n===1?"coluna":"colunas"}</span></div>`;
+  if(ord.length>1||COL207.ed)h+=`<div class="col207-f gut" role="group" aria-label="Editoria">${chip("col207fe","","Todas",0,!COL207.ed)}${ord.map(e=>chip("col207fe",e,e==="_sem"?"Sem editoria":secNome(e),eds.get(e),COL207.ed===e)).join("")}</div>`;
+  if(aus.size>1||COL207.au)h+=`<div class="col207-f gut" role="group" aria-label="Quem escreveu">${chip("col207fa","","Todos",0,!COL207.au)}${[...aus.entries()].sort((a,b)=>b[1]-a[1]).map(([u,c])=>chip("col207fa",u,nomeDe(u),c,COL207.au===u)).join("")}</div>`;
+  return h}
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;let b;
+  if(b=t.closest("[data-col207fe]")){e.preventDefault();e.stopPropagation();COL207.ed=b.dataset.col207fe;try{renderPosts()}catch(_){}return}
+  if(b=t.closest("[data-col207fa]")){e.preventDefault();e.stopPropagation();COL207.au=b.dataset.col207fa;try{renderPosts()}catch(_){}return}
+  /* escolher "Colunas" na folha de filtro começa sem editoria nem autor */
+  if((b=t.closest('[data-filtro="_colunas"]'))&&FILTRO!=="_colunas"){COL207.ed="";COL207.au=""}
+  if(b=t.closest("[data-col207cont]")){e.preventDefault();e.stopPropagation();col207Continuar(b.dataset.col207cont)}},true);
+
+/* ===== até onde leu ===== */
+function col207ProgLe(){try{const o=JSON.parse(localStorage.getItem(COL207_PROG)||"{}");return o&&typeof o==="object"&&!Array.isArray(o)?o:{}}catch(e){return {}}}
+let COL207_PEND=null,COL207_TM=0;
+/* f = onde parou (0 a 1), m = até onde chegou; o começo (0) não apaga o lugar guardado */
+function col207Marca(id,fr){if(!id||!(fr>=0.01))return;COL207_PEND={id:String(id),fr:Math.min(1,fr)};clearTimeout(COL207_TM);COL207_TM=setTimeout(col207Grava,700)}
+function col207Grava(){const p=COL207_PEND;COL207_PEND=null;if(!p)return;try{const o=col207ProgLe(),v=o[p.id]||{};o[p.id]={f:+p.fr.toFixed(3),m:+Math.max(+v.m||0,p.fr).toFixed(3),at:Date.now()};
+  const ks=Object.keys(o);if(ks.length>300)ks.sort((a,b)=>(o[a].at||0)-(o[b].at||0)).slice(0,ks.length-300).forEach(k=>delete o[k]);localStorage.setItem(COL207_PROG,JSON.stringify(o))}catch(e){}}
+window.addEventListener("pagehide",()=>{try{col207Grava()}catch(e){}});
+function col207Continuar(id){const p=col207ProgLe()[id];cs123Abrir(id);if(!p||!(p.f>0))return;let n=0;
+  const t=setInterval(()=>{const sc=document.querySelector("#layer .cs123-ler .cs123-sc");if(sc&&sc.querySelector(".cs123-corpo")&&sc.scrollHeight>sc.clientHeight+40){clearInterval(t);sc.scrollTop=Math.round(p.f*(sc.scrollHeight-sc.clientHeight))}else if(++n>60)clearInterval(t)},80)}
+
+/* ===== Guardados: lista das colunas guardadas ===== */
+function col207Guardadas(cl){const o=col207ProgLe();
+  const est=x=>{const p=o[x.id];return p&&+p.m>=0.9?2:p&&+p.f>0.05?0:1};
+  const l=cl.slice().sort((a,b)=>est(a)-est(b)||((o[b.id]&&o[b.id].at)||0)-((o[a.id]&&o[a.id].at)||0)||(+b.at||0)-(+a.at||0));
+  return `<ul class="col207-gl">${l.map(x=>{const c=cs123Col(x),p=o[x.id],s=est(x),ed=col207Ed(x,c);
+    return `<li><button type="button" class="col207-gi" data-cs123ler="${esc(x.id)}"><small class="col207-k">Coluna${ed?" · "+esc(secNome(ed)):""}</small><b>${esc(c.tit)}</b><small>${esc(nomeDe(x.autor))} · ${s===2?"lida até o fim":s===0?`você parou em ${Math.round(p.f*100)}%`:"ainda não lida"}</small>${s===0?`<i class="col207-pb" aria-hidden="true"><b style="width:${Math.round(p.f*100)}%"></b></i>`:""}</button>${s===0?`<button type="button" class="btn col207-cont" data-col207cont="${esc(x.id)}">Continuar de onde parei</button>`:""}</li>`}).join("")}</ul>`}
+
+/* ===== Minhas colunas: todas as publicadas, com os números ===== */
+async function col207Minhas(){if(typeof SB==="undefined"||!SB||!S.uid||!S.membro)return;if(Date.now()-COL207.carregado<30e3)return;COL207.carregado=Date.now();
+  /* só os posts da própria pessoa (sem o texto longo); as colunas são separadas aqui, pelo estilo */
+  try{const sel=typeof PUB_SEL==="string"?PUB_SEL:"*",q=c=>SB.from("publicacoes").select(c).eq("autor",S.uid).eq("tipo","post").order("at",{ascending:false}).limit(500);let r=await q(sel);
+    if(r.error&&sel!=="*")r=await q("*");
+    if(!r.error&&Array.isArray(r.data))COL207.minhas=r.data.map(x=>{const y={...x,fotos:Array.isArray(x.fotos)?x.fotos:[]};try{pubLimpa(y)}catch(e){}return y}).filter(x=>cs123Col(x))}catch(e){}
+  try{if(typeof lt134Testa==="function"&&LT134.v13===null)await lt134Testa();if(LT134.v13===true){let r=await SB.rpc("coluna_minhas_numeros");
+    if(r&&!r.error&&Array.isArray(r.data)){COL207.nums=r.data;COL207.todos=true}
+    else{r=await SB.rpc("coluna_mais_lidas");if(r&&!r.error&&Array.isArray(r.data)){COL207.nums=r.data;COL207.todos=false;LT134.mais=r.data}}}}catch(e){}}
+function col207Mes(at){try{return new Date(+at).toLocaleDateString("pt-BR",{timeZone:"America/Sao_Paulo",month:"long",year:"numeric"})}catch(e){return ""}}
+function col207PubHTML(){if(typeof S==="undefined"||!S.uid)return "";const ids=new Set(),l=[];
+  const add=x=>{if(x&&x.autor===S.uid&&!ids.has(x.id)&&cs123Col(x)&&!(typeof ed132Agendada==="function"&&ed132Agendada(x))){ids.add(x.id);l.push(x)}};
+  (typeof PUB!=="undefined"&&PUB.itens||[]).forEach(add);COL207.minhas.forEach(add);
+  if(!l.length)return `<h3 class="ed132-hh">Publicadas</h3><p class="hint ed132-hv">${COL207.carregado?"Você ainda não publicou colunas.":"Carregando…"}</p>`;
+  const nl=COL207.nums||(typeof LT134!=="undefined"&&LT134.mais)||null,nums=new Map((nl||[]).map(o=>[String(o.pub),o])),tem=!!nl;
+  const lei=x=>{const o=nums.get(String(x.id));return o?+o.leituras||0:0};
+  if(COL207.or==="lidas"&&!tem)COL207.or="data";
+  l.sort((a,b)=>COL207.or==="lidas"?lei(b)-lei(a)||(+b.at||0)-(+a.at||0):(+b.at||0)-(+a.at||0));
+  const grupo=x=>{const c=cs123Col(x);if(COL207.ag==="serie")return c.serie||"Fora de série";if(COL207.ag==="ed"){const e=col207Ed(x,c);return e?secNome(e):"Sem editoria"}return col207Mes(x.at)};
+  const gs=new Map();l.forEach(x=>{const g=grupo(x);if(!gs.has(g))gs.set(g,[]);gs.get(g).push(x)});
+  /* em série e editoria, os grupos maiores primeiro; "Fora de série" e "Sem editoria" no fim */
+  let ord=[...gs.keys()];if(COL207.ag!=="data")ord.sort((a,b)=>(/^(Fora de série|Sem editoria)$/.test(a)?1:0)-(/^(Fora de série|Sem editoria)$/.test(b)?1:0)||gs.get(b).length-gs.get(a).length||a.localeCompare(b,"pt-BR"));
+  const seg=(k,v,tx,on)=>`<button type="button" data-${k}="${v}" aria-pressed="${on}">${tx}</button>`;
+  const item=x=>{const c=cs123Col(x),o=nums.get(String(x.id)),e=col207Ed(x,c),L=o?+o.leituras||0:0,F=o?+o.fim||0:0;
+    const meta=[cs123Data(x.at),COL207.ag!=="ed"&&e?secNome(e):"",COL207.ag!=="serie"&&c.serie?c.serie+(c.n?" nº "+c.n:""):""].filter(Boolean).join(" · ");
+    const nn=o?`${lt134N(L,"leitura","leituras")} · ${cs123Num(F)} até o fim${L?` (${Math.round(F*100/L)}%)`:""}`:tem&&COL207.todos?"Ninguém leu ainda":"";
+    return `<li><span class="ed132-hi"><b>${esc(c.tit)}</b><small>${esc(meta)}</small>${nn?`<small class="col207-n">${esc(nn)}</small>`:""}</span>
+      <span class="ed132-hb"><button type="button" class="btn ghost" data-cs123ler="${esc(x.id)}">Abrir</button>${typeof LT134!=="undefined"&&LT134.v13===true?`<button type="button" class="btn ghost" data-lt134num="${esc(x.id)}">Leitores</button>`:""}<button type="button" class="btn ghost" data-col207edita="${esc(x.id)}">Editar</button></span></li>`};
+  return `<h3 class="ed132-hh">Publicadas <small>${l.length} ${l.length===1?"coluna":"colunas"}${tem?" · só você vê os números":""}</small></h3>
+    <div class="col207-ctl"><div class="col207-f col207-seg" role="group" aria-label="Agrupar por"><span>Agrupar</span>${seg("col207ag","data","Mês",COL207.ag==="data")}${seg("col207ag","serie","Série",COL207.ag==="serie")}${seg("col207ag","ed","Editoria",COL207.ag==="ed")}</div>
+      ${tem?`<div class="col207-f col207-seg" role="group" aria-label="Ordem"><span>Ordem</span>${seg("col207or","data","Recentes",COL207.or==="data")}${seg("col207or","lidas","Mais lidas",COL207.or==="lidas")}</div>`:""}</div>
+    ${ord.map(g=>`<h4 class="col207-gh">${esc(g)} <small>${gs.get(g).length}</small></h4><ul class="ed132-hl col207-pl">${gs.get(g).map(item).join("")}</ul>`).join("")}
+    ${tem&&!COL207.todos&&l.length>10?`<p class="hint">Os números aparecem nas 10 colunas mais lidas. Para ver os de todas, falta rodar sql/proposta-2026-11-18-colunas.sql.</p>`:""}`}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários
