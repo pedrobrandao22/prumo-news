@@ -16,38 +16,7 @@ function atPrimeiraVez(chaves){let l=atLed();const base=!l;l=l||{};const agora=D
   chaves.forEach(k=>{if(!(k in l))l[k]=base?0:agora});Object.keys(l).forEach(k=>{if(!vivas.has(k)&&!/^_/.test(k))delete l[k]});l._b=1;atLedSalva(l);return l}
 function atPubNome(x){return !x?"sua publicação":x.tipo==="story"?"seu giro":x.estilo&&x.estilo.reel?"seu reel":"seu post"}
 function atJunta(us){const n=[...new Set(us)].map(nomeDe);if(n.length===1)return n[0];if(n.length===2)return n[0]+" e "+n[1];return n[0]+", "+n[1]+" e mais "+(n.length-2)}
-function atItens(){if(!S.uid||!S.membro)return [];const it=[],agora=Date.now();
-  // reações às minhas publicações
-  const g={};AT.rows.forEach(x=>{if(!S.amigos.has(x.uid)&&!S.membros[x.uid])return;if(x.tipo==="comentario"){const v=x.valor||{};it.push({k:"c:"+x.chave,at:+x.at,us:[x.uid],ic:"💬",txt:`<b>${esc(nomeDe(x.uid))}</b> comentou: “${esc((t=>t.length>90?t.slice(0,89).trimEnd()+"…":t)(String(v.texto||"")))}”`,pub:x.pub,acao:"cmt"});return}
-    const k=x.tipo+":"+x.pub;(g[k]=g[k]||{tipo:x.tipo,pub:x.pub,us:[],at:0}).us.push([x.uid,+x.at]);g[k].at=Math.max(g[k].at,+x.at)});
-  Object.entries(g).forEach(([k,o])=>{const us=o.us.sort((a,b)=>b[1]-a[1]).map(a=>a[0]);const pb=AT.pubs[o.pub];
-    it.push({k,at:o.at,us,ic:o.tipo==="curtida"?"♥":"✋",txt:`<b>${esc(atJunta(us))}</b> ${o.tipo==="curtida"?(us.length>1?"curtiram ":"curtiu ")+atPubNome(pb):(us.length>1?"responderam ao ":"respondeu ao ")+(pb&&pb.tipo==="story"?"seu giro":atPubNome(pb))}`,pub:o.pub,acao:"pub"})});
-  // menções e marcações
-  (S.msgsIn||[]).filter(m=>m.tipo==="mencao"&&+m.at>agora-30*864e5).forEach(m=>{let t;try{t=dmPrevia(m)}catch(e){t="Mencionou você"}
-    it.push({k:"m:"+m.id,at:+m.at,us:[m.de],ic:"@",txt:`<b>${esc(nomeDe(m.de))}</b> ${esc(String(t).charAt(0).toLowerCase()+String(t).slice(1))}${m.texto&&!/^Mencionou você no (story|giro)$/.test(m.texto)?`: “${esc((t=>t.length>80?t.slice(0,79).trimEnd()+"…":t)(String(m.texto)))}”`:""}`,msg:m,acao:"men"})});
-  // amizades: pedidos e novas
-  const pin=(S.pedidosIn||[]).filter(u=>S.membros[u]),am=amigosL();const chaves=pin.map(u=>"p:"+u).concat(am.map(u=>"a:"+u));
-  // enquetes: amigos que votaram diferente de mim
-  const enqs=FEED?(FEED.pautas||[]).filter(p=>p.enquete&&(p.enquete.opcoes||[]).length):[];const difs={};
-  enqs.forEach(p=>{const meu=meuVoto(p.id);if(meu==null)return;const vs=votosDe(p.id);Object.entries(vs).forEach(([u,v])=>{if(u!==S.uid&&v!==meu&&v!=null){chaves.push("v:"+p.id+":"+u);(difs[p.id]=difs[p.id]||[]).push(u)}})});
-  const L=atPrimeiraVez(chaves);
-  pin.forEach(u=>it.push({k:"p:"+u,at:L["p:"+u]||0,us:[u],ic:"+",txt:`<b>${esc(nomeDe(u))}</b> quer ser seu amigo`,ped:u,fixo:1}));
-  am.forEach(u=>{const t=L["a:"+u];if(t)it.push({k:"a:"+u,at:t,us:[u],ic:"🤝",txt:`Você e <b>${esc(nomeDe(u))}</b> agora são amigos`,u,acao:"perfil"})});
-  Object.entries(difs).forEach(([pid,us])=>{const p=pautaById(pid);const at=Math.max(...us.map(u=>L["v:"+pid+":"+u]||0));if(!at||!p)return;
-    it.push({k:"vd:"+pid,at,us,ic:"⚖",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"votaram":"votou"} diferente de você em “${esc(p.enquete.pergunta)}”`,pid,acao:"debate"})});
-  // comentários de amigos onde eu comentei ou votei
-  enqs.concat(FEED?(FEED.pautas||[]):[]).forEach(p=>{if(it.some(x=>x.k==="cn:"+p.id))return;const {cm}=socialOf(p.id);const meus=cm.filter(c=>c.uid===S.uid);const votei=p.enquete&&meuVoto(p.id)!=null;if(!meus.length&&!votei)return;
-    const desde=meus.length?Math.min(...meus.map(c=>c.at)):0;const outros=cm.filter(c=>c.uid!==S.uid&&c.at>desde&&c.at>agora-7*864e5);if(!outros.length)return;
-    const us=[...new Set(outros.slice().reverse().map(c=>c.uid))];const ult=outros[outros.length-1];
-    it.push({k:"cn:"+p.id,at:ult.at,us,ic:"💬",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"comentaram":"comentou"} ${p.enquete?"na enquete":"na notícia"} “${esc(p.enquete?p.enquete.pergunta:(versao(p,lente()).titulo||temaDe(p)))}”: “${esc(cp152Corta(ult.texto,70))}”`,pid:p.id,acao:"debate"})});
-  // coberturas seguidas: atualizações dos últimos 3 dias
-  if(FEED)(FEED.pautas||[]).filter(p=>seguido(p)).forEach(p=>{const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto&&tms(u.hora)>agora-3*864e5).sort((a,b)=>tms(b.hora)-tms(a.hora));if(!ups.length)return;
-    it.push({k:"cob:"+p.id+":"+ups[0].hora,at:tms(ups[0].hora),us:[],ic:"📌",txt:`<b>${esc(temaDe(p))}</b>, que você segue, teve ${ups.length>1?ups.length+" atualizações":"uma atualização"}: “${esc(cp152Corta(ups[0].texto,90))}”`,pid:p.id,acao:"cob"})});
-  return it.filter(x=>x.fixo||x.at>agora-30*864e5).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}
 function atNovas(){const v=atVisto();return atItens().filter(x=>x.at>v).length}
-function atDot(){const n=S.uid&&S.membro?atNovas():0;document.querySelectorAll(".at-dot").forEach(d=>{d.hidden=!n})}
-function atThumb(x){const pb=x.pub&&AT.pubs[x.pub];if(!pb)return "";const f=pb.fotos[0]&&pubUrl(pb.fotos[0]);
-  return `<span class="at-th${pb.tipo==="story"?" st":""}">${f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<i style="background:${pubFundo(pb.estilo&&pb.estilo.fundo)}">${esc(String(pb.texto||"").slice(0,24))}</i>`}</span>`}
 function atLiHTML(x,i){const av=x.us.length?`<span class="at-av${x.us.length>1?" dois":""}">${x.us.slice(0,2).map(u=>avatar(u)).join("")}</span>`:`<span class="at-av at-ic">${esc(x.ic)}</span>`;
   const dir=x.ped?`<span class="at-bt"><button type="button" class="btn amg-b" data-aceitar="${esc(x.ped)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x.ped)}">Recusar</button></span>`:atThumb(x);
   return `<li><button type="button" class="at-it" data-ati="${i}">${av}<span class="at-tx">${x.txt} <i>${x.at?esc(quando(x.at)):""}</i></span></button>${dir}</li>`}
@@ -63,13 +32,6 @@ function atRedesenha(){if($("#layer .pfv-at"))atDesenha()}
 async function abrirAtividade(){if(precisaConta())return;if($("#layer").innerHTML)closeLayer();AT._visto0=atVisto();
   $("#layer").innerHTML=`<div class="pfv pfv-at" role="dialog" aria-modal="true" aria-label="Atividade"></div>`;if(pushH())HST++;atDesenha();atMarcaVisto();atDot();uso("atividade");
   if(Date.now()-AT.t>20e3)atCarregar()}
-function atAcao(x){const fecha=()=>{if($("#layer .pfv-at"))closeLayer()};
-  if(x.acao==="perfil"){abrirPerfil(x.u);return}
-  if(x.acao==="men"){const m=x.msg;fecha();setTimeout(()=>{if(m.snap&&m.snap.upub){if(m.snap.story)abrirConversa(m.de);else pubIrPara(m.snap.upub)}else if(m.pid&&!/^u:/.test(m.pid)&&pautaById(m.pid))openComments(m.pid);else abrirConversa(m.de)},320);return}
-  if(x.acao==="cob"){fecha();setTimeout(()=>abrirPagCob(x.pid),320);return}
-  if(x.acao==="debate"){fecha();setTimeout(()=>debAbrir(x.pid),320);return}
-  if(x.pub){const pb=AT.pubs[x.pub];if(!pb)return;if(pb.tipo==="story"){stLista([pb],0,"Seu giro","at");return}
-    fecha();setTimeout(()=>{if(x.acao==="cmt"&&pubDe(x.pub))openComments("u:"+x.pub);else pubIrPara(x.pub)},320)}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   if(t.closest("[data-ativ]")){e.stopPropagation();abrirAtividade();return}
   const b=t.closest("#layer .pfv-at [data-ati]");if(b){const x=(AT._l||[])[+b.dataset.ati];if(x)atAcao(x);return}
@@ -77,8 +39,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 /* botão ♥ no topo do Feed e da Capa */
 const AT_BTN=()=>`<button type="button" class="icbtn at-b" data-ativ aria-label="Atividade">${ICON.like}<i class="at-dot" hidden></i></button>`;
 (function(){const bb=$("#b-busca");if(bb&&!$(".top-in .at-b"))bb.insertAdjacentHTML("beforebegin",AT_BTN())})();
-{const _ub71=updateBadge;updateBadge=function(){const r=_ub71.apply(this,arguments);atDot();atRedesenha();return r}}
-{const _ra71=rerenderAll;rerenderAll=function(){const r=_ra71.apply(this,arguments);atDot();atRedesenha();return r}}
 {const _ps71=psCarregar;psCarregar=async function(){const r=await _ps71.apply(this,arguments);clearTimeout(AT._pt);AT._pt=setTimeout(atCarregar,700);return r}}
 setInterval(()=>{if(S.uid&&S.membro&&!document.hidden){atDot();if(Date.now()-AT.t>120e3)atCarregar()}},30e3);
 setTimeout(function at0(){if(S.uid&&S.membro&&S.amigosOk){atCarregar()}else setTimeout(at0,1500)},2500);

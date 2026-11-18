@@ -111,7 +111,6 @@ function mt158SegLinha(){const n=mt158Seguidas().length;if(!n)return "";
     const i=h.indexOf("data-cp152cols");if(i>=0){const j=h.indexOf("</button>",i)+9;return h.slice(0,j)+l+h.slice(j)}
     const k=h.indexOf('<div class="pf-bts">');if(k>=0){const j=h.indexOf("</div>",k)+6;return h.slice(0,j)+l+h.slice(j)}}}catch(e){}return h}}
 /* sem conta: o Perfil não tem cabeçalho, então a linha entra no alto da tela */
-{const _rm158=renderMe;renderMe=function(){const r=_rm158.apply(this,arguments);try{const v=$("#v-me");if(v&&!(S.uid&&S.membro)&&!v.querySelector("[data-mt158cobs]")){const l=mt158SegLinha();if(l){const g=v.querySelector(".gut")||v;g.insertAdjacentHTML("afterbegin",`<div class="mt158-pfw">${l}</div>`)}}}catch(e){}return r}}
 function mt158AbreSeguidas(){const l=mt158Seguidas();uso("coberturas_seguidas");
   const ps=FEED&&FEED.pautas||[],dm=FEED&&FEED.dormentes||[];
   sheet("Coberturas que sigo",l.length?`<ul class="mt158-cl">${l.map(x=>{const p=ps.find(q=>norm(temaDe(q))===x.k),d=!p&&dm.find(q=>norm(q.tema||q.tag||"")===x.k);

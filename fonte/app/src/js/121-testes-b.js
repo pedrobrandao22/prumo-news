@@ -27,7 +27,6 @@ function tb121Voto(x){if(!x||typeof x!=="object"||typeof x.k!=="string"||x.k.ind
     if(!its.length||!its.every(i=>i.t==="enq"))return x;return {...x,ic:"☑",txt:`${nm[0]} ${v} na enquete do seu giro`}}
   const cn=typeof cn102De==="function"?cn102De(pb):null;if(!cn||cn.k!=="enq")return x;
   return {...x,ic:"☑",txt:`${nm[0]} ${v} na sua pergunta${cn.tit?` “${esc(cp152Corta(cn.tit,70))}”`:""}`}}
-{const _ai121=atItens;atItens=function(){let it=_ai121.apply(this,arguments);try{if(Array.isArray(it))it=tb121SemBloq(it).map(tb121Voto)}catch(e){}return it}}
 
 /* ===== TB03: ações cortadas nos posts desenhados fora da tela ===== */
 /* o .post usa content-visibility:auto; fora da tela os rótulos não têm largura e o 112 não conseguia medir. Mede de novo quando o post aparece. */
@@ -42,14 +41,6 @@ if(typeof VN112_CT!=="undefined"&&VN112_CT==="a"&&typeof vn112Aperta==="function
 
 /* ===== TB04: "giro" também nas Conversas ===== */
 function tb121Giro(s){return String(s).replace(/^(Você curtiu o|Curtiu seu|Você respondeu ao|Respondeu ao seu|Você mencionou no|Mencionou você no) story/,"$1 giro")}
-if(typeof VISUAL_NOVO!=="undefined"&&VISUAL_NOVO){
-  {const _dp=dmPrevia;dmPrevia=function(){const r=_dp.apply(this,arguments);try{return typeof r==="string"?tb121Giro(r):r}catch(e){return r}}}
-  {const _th=dmThreadHTML;dmThreadHTML=function(){const h=_th.apply(this,arguments);if(typeof h!=="string"||h.indexOf("tory")<0)return h;
-    try{const tp=document.createElement("template");tp.innerHTML=h;let mudou=false;
-      tp.content.querySelectorAll(".dm-lb,.dm-ev,.dm-q>small,.dm-uh>small,.ca100-stl,.dm-q>span").forEach(el=>{
-        const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n;const l=[];while(n=w.nextNode())l.push(n);
-        l.forEach(n=>{const t=n.nodeValue,v=el.matches(".dm-q>span")?t.replace(/^Story$/,"Giro"):tb121GiroTx(t);if(v!==t){n.nodeValue=v;mudou=true}})});
-      return mudou?tp.innerHTML:h}catch(e){return h}}}}
 /* só o rótulo (antes das aspas com o texto do giro) */
 function tb121GiroTx(t){const i=t.indexOf("“"),a=i<0?t:t.slice(0,i),b=i<0?"":t.slice(i);return a.replace(/([Cc]urtiu o|[Cc]urtiu seu|[Rr]espondeu ao seu|[Rr]espondeu ao|no) story\b/g,"$1 giro").replace(/^\s*Story\s*$/,"Giro")+b}
 
@@ -59,8 +50,6 @@ function tb121Fonte(h,x){if(typeof h!=="string"||h.indexOf("cn102-fonte")<0||!x|
   const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a||!a.classList.contains("vn-ca"))return h;
   const fo=[...a.querySelectorAll(".cn102-fonte")].filter(f=>!f.closest(".cn102-cd,.ac117-tx"));const cd=a.querySelector(".car .cn102-cd");if(!fo.length||!cd)return h;
   fo.forEach(f=>{f.classList.add("tb121-fonte");cd.appendChild(f)});return a.outerHTML}
-if(typeof VISUAL_NOVO!=="undefined"&&VISUAL_NOVO&&typeof VN112_CT!=="undefined"&&VN112_CT==="a"){
-  const _pp121=pubPostHTML;pubPostHTML=function(x){const h=_pp121.apply(this,arguments);try{return tb121Fonte(h,x)}catch(e){return h}}}
 
 /* ===== TB07, TB09, TB10: cartão citado ===== */
 function tb121MeuArq(id){try{const x=(typeof pubDe==="function"&&pubDe(id))||(typeof ARQ8!=="undefined"&&ARQ8||[]).find(y=>y.id===id);return !!x&&x.autor===S.uid&&!!x.arquivado}catch(e){return false}}

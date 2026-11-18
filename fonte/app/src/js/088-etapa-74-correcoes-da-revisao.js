@@ -24,8 +24,6 @@ atPrimeiraVez=function(chaves){let l=atLed();if(!S.amigosOk||!FEED)return l||{};
   chaves.forEach(k=>{if(!(k in l))l[k]=base?0:agora});const ks=Object.keys(l).filter(k=>!/^_/.test(k));if(ks.length>600)ks.sort((a,b)=>l[a]-l[b]).slice(0,ks.length-600).forEach(k=>delete l[k]);
   l._b=1;atLedSalva(l);return l};
 /* Atividade: comentário com @menção no meu post não aparece duas vezes */
-{const _ai74=atItens;atItens=function(){const it=_ai74.apply(this,arguments);const cm=new Set(it.filter(x=>x.acao==="cmt").map(x=>x.us[0]+"|"+x.pub));
-  return it.filter(x=>!(x.acao==="men"&&x.msg&&/^u:/.test(String(x.msg.pid||""))&&cm.has(x.msg.de+"|"+String(x.msg.pid).slice(2))))}}
 /* editar legenda: confere que salvou e avisa só quem foi mencionado agora */
 pubEditar=async function(id,txt){const x=pubDe(id);if(!x||x.autor!==S.uid)return;const men=t=>typeof mencionados==="function"?mencionados(t||""):[];const antes=men(x.texto);
   let r;try{r=await SB.from("publicacoes").update({texto:txt}).eq("id",id).select("id")}catch(e){r={error:e}}

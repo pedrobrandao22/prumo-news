@@ -18,8 +18,6 @@ function qa125VeReac(u,x){return !!u&&(ehVisivel(u)||!!(x&&u===x.autor)||qa125Co
 {const _vd=votosDe;votosDe=function(k){const r=_vd.apply(this,arguments);try{if(typeof PS==="undefined"||!PS.on||typeof psPub!=="function")return r;const id=psPub(k);if(!id)return r;const x=pubDe(id);if(!x)return r;
   let o=null;Object.entries(PS.vt[k]||{}).forEach(([u,v])=>{if(!(u in r)&&qa125VeReac(u,x)){o=o||{...r};o[u]=v}});return o||r}catch(e){return r}}}
 /* Atividade: curtidas e comentários de quem segue você (o nome vem da lista de seguidores) */
-{const _ai=atItens;atItens=function(){const pus=[];try{if(typeof AT!=="undefined"&&Array.isArray(AT.rows))AT.rows.forEach(x=>{const u=x&&x.uid;if(u&&!S.membros[u]&&!S.amigos.has(u)&&qa125Conhece(u)&&!pus.includes(u)){const p=CS123.pess[u]||{};S.membros[u]={uid:u,nome:p.nome||nomeDe(u),foto:p.foto||null};pus.push(u)}})}catch(e){}
-  try{return _ai.apply(this,arguments)}finally{pus.forEach(u=>{delete S.membros[u]})}}}
 
 /* ===== 2. repost e citação de quem você segue ===== */
 {const _vp=vn112Pub;vn112Pub=function(id){const r=_vp.apply(this,arguments);if(r)return r;try{const x=pubVisiveis().find(y=>y.id===id)||VN112_Q.get(id);
@@ -29,20 +27,14 @@ function qa125VeReac(u,x){return !!u&&(ehVisivel(u)||!!(x&&u===x.autor)||qa125Co
 {const _ab=cs123Abrir;cs123Abrir=function(id){let tag=null;try{const pg=$("#layer .pfv-ht");if(pg&&!$("#layer2")?.innerHTML)tag=pg.dataset.tag||null}catch(e){}
   if(!tag)return _ab.apply(this,arguments);HT_FECHANDO=true;let r;try{r=_ab.apply(this,arguments)}finally{HT_FECHANDO=false}
   try{if(CS123.ler&&CS123.ler.id===id)CS123.ler.ht=tag;else if(!$("#layer").innerHTML)abrirHashtag(tag,{reabre:true})}catch(e){}return r}}
-{const _cl=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML);const ht=!l2&&$("#layer > .cs123-ler")&&CS123.ler&&CS123.ler.ht;
-  const r=_cl.apply(this,arguments);try{if(ht&&fromPop===true&&!$("#layer").innerHTML)setTimeout(()=>{if(!$("#layer").innerHTML)abrirHashtag(ht,{reabre:true})},0)}catch(e){}return r}}
 
 /* ===== 4. textos ===== */
-{const _dc=dmCard;dmCard=function(m){const h=_dc.apply(this,arguments);try{if(typeof h!=="string"||!dmEhPub(m))return h;const x=pubDe(String(m.pid).slice(2)),c=x&&cs123Col(x);if(!c)return h;
-  return h.replace(/(<span class="dm-uh">[\s\S]*?<small>)Post(<\/small>)/,"$1Coluna$2").replace(/(<b class="dm-utx">)[\s\S]*?(<\/b>)/,`$1${esc(c.tit)}$2`)}catch(e){return h}}}
 const qa125Prim=u=>String(nomeDe(u)||"").split(" ")[0];
 {const _pe=pubEnviar;pubEnviar=function(x){const r=_pe.apply(this,arguments);try{if(x&&x.publico==="seguidores"){const h=document.querySelector("#layer .sheet .hint, #layer2 .sheet .hint");
   if(h&&document.querySelector("#pick"))h.textContent=x.autor===S.uid?"Seus amigos e quem segue você conseguem abrir o post.":`Só quem é amigo de ${qa125Prim(x.autor)} ou segue ${qa125Prim(x.autor)} consegue abrir o post.`}}catch(e){}return r}}
 {const _vm=vn112Menu;vn112Menu=function(k,id){const r=_vm.apply(this,arguments);try{const a=vn112Alvo(k,id);if(a&&a.x&&a.x.publico==="seguidores"&&a.x.autor!==S.uid){
   const s=document.querySelector("[data-vnrpja] span");if(s)s.textContent=`Só aparece para quem também pode ver o post de ${qa125Prim(a.x.autor)} (amigos ou seguidores)`}}catch(e){}return r}}
 /* De perto (cabeçalho próprio do 117) também mostra "seguidores" quando o post é para seguidores */
-{const _pp=pubPostHTML;pubPostHTML=function(x){const h=_pp.apply(this,arguments);try{if(!x||x.publico!=="seguidores"||typeof h!=="string"||h.indexOf("ac117-meta")<0)return h;
-  const a=vn112Tp(h),m=a&&a.querySelector(".ph .ac117-meta");if(!m||m.querySelector(".cs123-ps"))return h;m.insertAdjacentHTML("beforeend",`<span class="cs123-ps">seguidores</span>`);return a.outerHTML}catch(e){}return h}}
 /* Atividade: "sua coluna “título”" no lugar de "seu post" */
 {const _an=atPubNome;atPubNome=function(x){const n=_an.apply(this,arguments);try{const c=x&&cs123Col(x);if(c)return `sua coluna “${esc(c.tit.length>60?c.tit.slice(0,59).trimEnd()+"…":c.tit)}”`}catch(e){}return n}}
 /* coluna citada: "Coluna", título e linha fina (não o texto cru com as hashtags); tocar abre a leitura */

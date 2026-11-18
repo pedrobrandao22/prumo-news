@@ -23,11 +23,6 @@ if(typeof vn112Publica==="function"){
    leva "Post de Fulano: começo do texto", e a marcação na foto vai sem texto */
 function ra114MenCmt(m){try{if(!m||m.tipo!=="mencao"||!m.snap||!m.snap.upub||m.snap.story===true||!String(m.texto||"").trim())return false;
   if(!/^(Post|Reel) de [^:]+$/.test(String(m.snap.titulo||"")))return false;const x=typeof pubDe==="function"&&pubDe(m.snap.upub);return !(x&&x.texto===m.texto)}catch(e){return false}}
-{const _dp=dmPrevia;dmPrevia=function(m){if(ra114MenCmt(m))return m.de===S.uid?"Você mencionou num comentário":"Mencionou você num comentário";return _dp.apply(this,arguments)}}
-{const _th=dmThreadHTML;dmThreadHTML=function(u){const h=_th.apply(this,arguments);try{if(typeof h!=="string"||h.indexOf("num post")<0)return h;
-  const ms=allMsgs().filter(ra114MenCmt);if(!ms.length)return h;const t=document.createElement("template");t.innerHTML=h;let mudou=false;
-  ms.forEach(m=>{const el=t.content.querySelector(`[data-mid="${CSS.escape(String(m.id))}"] .dm-lb`);if(el&&/ num post$/.test(el.textContent)){el.textContent=el.textContent.replace(/ num post$/," num comentário");mudou=true}});
-  return mudou?t.innerHTML:h}catch(e){return h}}}
 
 /* ===== A04: perfil de quem não é amigo ===== */
 function ra114Fora(u){return !!u&&u!==S.uid&&!S.amigos.has(u)}
@@ -47,8 +42,6 @@ async function ra114MaAbrir(){if(precisaConta())return;
   if(MA.uid!==S.uid||MA.on!==true){MA.t=Date.now();try{await maCarregar()}catch(e){}}
   if(MA.on!==true){const b=$("#ra114ma");if(b)b.innerHTML=`<div class="empty" style="padding:14px 0"><b>A lista ainda não está disponível no Prumo.</b></div>`;return}
   ra114MaDesenha()}
-{const _rm=renderMe;renderMe=function(){const r=_rm.apply(this,arguments);try{if(S.membro&&PUB.on!==false){const b=$("#v-me [data-bloqueados]");
-  if(b&&!$("#v-me [data-ra114maa]"))b.insertAdjacentHTML("beforebegin",`<button type="button" data-ra114maa><span>Melhores amigos</span><i>›</i></button>`)}}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;let b;
   if(t.closest("[data-ra114maa]")){e.stopPropagation();e.preventDefault();ra114MaAbrir();return}
   if(b=t.closest("[data-ra114ma]")){e.stopPropagation();e.preventDefault();if(b.disabled)return;b.disabled=true;Promise.resolve(maTroca(b.dataset.ra114ma,b)).finally(()=>{b.disabled=false;const c=$("#ra114man");if(c){const n=amigosL().filter(u=>MA.set.has(u)).length;c.textContent=n?(n===1?"1 pessoa na lista":n+" pessoas na lista"):"Ninguém na lista ainda"}});return}},true);

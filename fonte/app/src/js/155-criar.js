@@ -85,11 +85,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 {const _ed155=edDesenha;edDesenha=function(){const r=_ed155.apply(this,arguments);try{if(ED&&ED.cr155caixa)$("#layer .ce")?.classList.add("cr155-dacaixa")}catch(e){}return r}}
 
 /* ===== voltar do celular com texto na caixa: pergunta antes (como o editor), e o texto fica guardado ===== */
-{const _cl155=closeLayer;closeLayer=function(fromPop){try{if(fromPop===true&&$("#layer > .cp152")&&!$("#layer2")?.innerHTML){
-    if(String(CP152.txt||"").trim()||CR155.pid){cr155Guarda();if(Date.now()-CR155.volta>3000){CR155.volta=Date.now();if(pushH())HST++;
-      const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},3000)}
-      toast("Volte de novo para sair. O texto fica guardado.");return}
-      const r=_cl155.apply(this,arguments);toast("Seu texto ficou guardado. Toque em + para continuar.");return r}}}catch(e){}return _cl155.apply(this,arguments)}}
 
 /* ===== publicar pelo formulário que veio da caixa: a caixa começa vazia depois ===== */
 {const _pp155=edPublicaPost;edPublicaPost=async function(){const daCaixa=CP152.direto||CP152.veio;const r=await _pp155.apply(this,arguments);try{if(daCaixa&&!$("#layer .ce"))cr155Limpa()}catch(e){}return r}}
@@ -146,12 +141,6 @@ function cr155Conta(){const k=$("#layer > .ed132 .cr137-ct");if(k&&/^0 palavras/
 {const _cc155=cr137CtCopia;cr137CtCopia=function(){const r=_cc155.apply(this,arguments);try{cr155Conta()}catch(e){}return r}}
 
 /* ===== post só de texto: "Editar texto"; "Adicionar parte" explicado ===== */
-{const _sh155=sheet;sheet=function(title,body,foot){try{if(title==="Editar legenda"){const m=/data-uedok="([^"]+)"/.exec(String(foot||""));const x=m&&pubDe(m[1]);if(x&&!(x.fotos||[]).length)title="Editar texto"}
-    else if(typeof body==="string"&&body.indexOf("data-ueditar=")>=0){const m=/data-ueditar="([^"]+)"/.exec(body);const x=m&&pubDe(m[1]);if(x&&!(x.fotos||[]).length)body=body.replace(">Editar legenda<",">Editar texto<")}}catch(e){}
-  return _sh155.apply(this,[title,body,...[].slice.call(arguments,2)])}}
 {const _fh155=f113EdHTML;f113EdHTML=function(parts){let h=_fh155.apply(this,arguments);try{h=h.replace("Adicionar parte</button>","Continuar em outra parte</button>");if(!(parts||[]).length&&h.indexOf("fs2-ed-add")>=0)h+=`<p class="fs2-ed-d cr155-fio">Para um texto longo: divida em partes, como um fio. Seus amigos veem a primeira e tocam em “Ler o fio”.</p>`}catch(e){}return h}}
 
 /* ===== Feed: cartão do tamanho do conteúdo quando o post não tem foto ===== */
-{const _pp155=pubPostHTML;pubPostHTML=function(x){let h=_pp155.apply(this,arguments);try{if(typeof h!=="string"||!h||!x||x.tipo!=="post"||(x.fotos||[]).length||h.indexOf("cr155-auto")>=0)return h;
-    const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild,tr=a&&a.querySelector(".car .track");if(!tr||tr.children.length!==1)return h;
-    const s=tr.firstElementChild;if(!s.matches(".cn102-dsl,.cn102-ntsl,.up-nt,.cn102-sl"))return h;a.classList.add("cr155-auto");return a.outerHTML}catch(e){return h}}}

@@ -66,16 +66,9 @@ function nt124Instalado(){try{return matchMedia("(display-mode: standalone)").ma
 function nt124BadgeSuporte(){return typeof navigator.setAppBadge==="function"}
 function nt124PoeBadge(n){if(!nt124BadgeSuporte())return;const quer=nt124BadgeOn()&&nt124Instalado()&&S.uid&&S.membro?Math.min(99,n):0;
   if(quer===NT124.badgeN)return;NT124.badgeN=quer;try{const p=quer?navigator.setAppBadge(quer):navigator.clearAppBadge();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
-{const _ub124=updateBadge;updateBadge=function(){const r=_ub124.apply(this,arguments);nt124Pinta();return r}}
-{const _ad124=atDot;atDot=function(){const r=_ad124.apply(this,arguments);nt124Pinta();return r}}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)nt124Pinta()});
 
 /* Perfil › Conta: "Atividade" (com o número) e "Notificações" */
-{const _rm124=renderMe;renderMe=function(){const r=_rm124.apply(this,arguments);try{if(S.uid&&S.membro){
-    const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-nt124ativ]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-nt124ativ><span>Atividade</span><em></em><i>›</i></button>`);
-    const cc=[...document.querySelectorAll("#v-me .pf-conta .card.menu")].find(x=>x.querySelector(".cm-h"))||m;
-    if(cc&&!cc.querySelector("[data-nt124abrir]")){const h=`<button type="button" data-nt124abrir><span>Notificações</span><i>›</i></button>`;const em=cc.querySelector(".cm-email");if(em)em.insertAdjacentHTML("afterend",h);else cc.insertAdjacentHTML("afterbegin",h)}}
-  nt124PintaJa()}catch(e){}return r}}
 
 /* ===== 2. Atividade: faixa "Desde a sua última visita" e filtro por tipo ===== */
 function nt124Rot(c,n){const p=NT124_PLURAL[c]||NT124_PLURAL.outros;return n+" "+(n===1?p[0]:p[1])}
@@ -111,16 +104,6 @@ async function nt124CarregaSeg(){if(!SB||!S.uid||!S.membro||NT124.v9===false)ret
     /* desde quando sigo cada um: posts de antes de começar a seguir não contam como novidade (NB19) */
     NT124.segDesde={};rows.filter(x=>x[de]===S.uid).forEach(x=>{NT124.segDesde[x[para]]=nt124Ts(x)||0});
     if(ant!==true&&$("#layer .pfv-nt124"))nt124Desenha();atRedesenha();nt124Pinta()}catch(e){}}
-{const _ai124=atItens;atItens=function(){let it=_ai124.apply(this,arguments);try{if(!NT124.v9||!S.uid||!S.membro||!Array.isArray(it))return it;const ag=Date.now(),novos=[];
-    const semHora=NT124.seguidores.filter(s=>!s.at).map(s=>"nt124s:"+s.u);const L=semHora.length?nt124PrimeiraVez(semHora):{};
-    NT124.seguidores.forEach(s=>{if(!S.membros[s.u]||(S.bloq||[]).includes(s.u))return;const at=s.at||L["nt124s:"+s.u]||0;if(!at)return;
-      novos.push({k:"nt124s:"+s.u,at,us:[s.u],ic:"👤",txt:`<b>${esc(nomeDe(s.u))}</b> começou a seguir você`,u:s.u,acao:"perfil"})});
-    if(NT124.seguindo.size)pubVisiveis().filter(x=>NT124.seguindo.has(x.autor)&&x.autor!==S.uid&&x.tipo!=="story"&&ag-x.at<30*864e5&&!(NT124.segDesde&&x.at<(NT124.segDesde[x.autor]||0))&&!nt124RpMeu(x)).sort((a,b)=>b.at-a.at).slice(0,12).forEach(x=>{const col=nt124EhColuna(x);
-      const tt=String((x.estilo&&x.estilo.titulo)||x.texto||"").trim();
-      novos.push({k:(col?"nt124c:":"nt124p:")+x.id,at:x.at,us:[x.autor],ic:col?"✎":"▤",txt:`<b>${esc(nomeDe(x.autor))}</b> ${col?"publicou uma coluna":"publicou"}${tt?`: “${esc(tt.length>80?tt.slice(0,79).trimEnd()+"…":tt)}”`:""}`,pub:x.id,acao:"nt124pub"})});
-    if(novos.length)it=it.concat(novos).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){}return it}}
-{const _aa124b=atAcao;atAcao=function(x){if(x&&x.acao==="nt124pub"){const id=x.pub;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>nt124AbrePub(id),320);return}return _aa124b.apply(this,arguments)}}
-{const _th124=atThumb;atThumb=function(x){if(x&&x.acao==="nt124pub"){const pb=pubDe(x.pub);if(!pb)return "";const old=AT.pubs[x.pub];AT.pubs[x.pub]=pb;const h=_th124.apply(this,arguments);if(!old)delete AT.pubs[x.pub];return h}return _th124.apply(this,arguments)}}
 function nt124AbrePub(id){try{if(typeof vn112AbrePub==="function"){vn112AbrePub(id);return}}catch(e){}try{pubIrPara(id)}catch(e){}}
 
 /* ===== detectar a v10 (e a chave pública) e a v9 ===== */

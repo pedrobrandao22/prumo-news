@@ -28,5 +28,4 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 /* quem acabou de entrar vê o guia no lugar do texto de boas-vindas */
 {const _bv76=boasVindas;boasVindas=function(nome){let teste=false;try{teste=navigator.webdriver&&localStorage.getItem("prumo-teste-tour")!=="1"}catch(e){}if(teste)return _bv76.apply(this,arguments);setTimeout(()=>abrirTour(String(nome||"").split(" ")[0]),280)}}
 /* rever em Perfil › Conta */
-{const _rm76=renderMe;renderMe=function(){const r=_rm76.apply(this,arguments);try{const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-tourver]"))m.insertAdjacentHTML("beforeend",`<button type="button" data-tourver><span>Como usar o Prumo</span><i>›</i></button>`)}catch(e){}return r}}
 

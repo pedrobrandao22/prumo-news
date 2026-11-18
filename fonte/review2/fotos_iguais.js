@@ -143,8 +143,97 @@ const AREAS = {
     'do-feed': async (P, foto) => { await P.evaluate(() => go('feed')); const id = await P.evaluate(() => (FEED.pautas[3] || FEED.pautas[0]).id);
       await P.evaluate(id => abrirMateria(id), id); await foto('do-feed'); await fechar(P) },
   },
-  // feed, criar, perfil, conversas: acrescentar aqui (cada tela abre a partir da Capa, num contexto novo)
+  conversas: {
+    'sem-conta': async (P, foto) => { await P.evaluate(() => go('msgs')); await foto('sem-conta') },
+    'lista': async (P, foto) => { await dmEstado(P); await P.evaluate(() => go('msgs')); await rolarPartes(P, foto, 'lista', 3) },
+    'lista-busca': async (P, foto) => { await dmEstado(P); await P.evaluate(() => go('msgs'));
+      for (const q of ['bi', 'zz']) { await P.evaluate(q => { const i = document.querySelector('#dmq'); i.focus(); i.value = q; i.dispatchEvent(new Event('input', { bubbles: true })) }, q); await P.evaluate(() => document.activeElement.blur()); await foto('lista-busca-' + q) } },
+    'conversa': async (P, foto) => { await dmEstado(P); await P.evaluate(() => { go('msgs'); abrirConversa('u-bia') }); await foto('conversa-fim'); await rolarPartes(P, foto, 'conversa', 6) },
+    'link': async (P, foto) => { await dmEstado(P); await P.evaluate(() => { go('msgs'); abrirConversa('u-bia') }); if (await rolarAte(P, '#v-msgs .bub a', 200)) await foto('link') },
+    'acoes': async (P, foto) => { await dmEstado(P); await P.evaluate(() => { go('msgs'); abrirConversa('u-bia') });
+      await P.evaluate(() => dmAcoes('m-b6')); await foto('acoes-recebida'); await fechar(P);
+      await P.evaluate(() => dmAcoes('m-b3')); await foto('acoes-enviada'); await fechar(P);
+      await P.evaluate(() => { const b = document.querySelector('#v-msgs .dm-rx'); if (b) b.click() }); await foto('reacoes'); await fechar(P);
+      await P.evaluate(() => abrirThMenu('u-bia')); await foto('menu'); await fechar(P);
+      await P.evaluate(() => dmResponder('m-b6')); await foto('respondendo') },
+    'outras': async (P, foto) => { await dmEstado(P);
+      for (const u of ['u-caio', 'u-dora', 'u-edu', 'u-exc']) { await P.evaluate(u => { go('msgs'); abrirConversa(u) }, u); await fimDaConversa(P); await foto('conversa-' + u.slice(2)); await P.evaluate(() => { THREAD = null; go('msgs') }) } },
+    'so-seguir': async (P, foto) => { await dmEstado(P, true); await P.evaluate(() => go('msgs')); await foto('so-seguir-lista');
+      for (const u of ['u-edu', 'u-dora']) { await P.evaluate(u => abrirConversa(u), u); await fimDaConversa(P); await foto('so-seguir-' + u.slice(2)); await P.evaluate(() => { THREAD = null; go('msgs') }) } },
+    'enviar': async (P, foto) => { await dmEstado(P); const pid = await P.evaluate(() => FEED.pautas[0].id);
+      await P.evaluate(pid => openSend(pid), pid); await foto('enviar-noticia'); await fechar(P);
+      await P.evaluate(pid => openSend(pid, 'u-caio'), pid); await foto('enviar-para-caio'); await fechar(P);
+      await P.evaluate(() => abrirNovaConversa()); await foto('nova-conversa'); await fechar(P) },
+  },
+  // núcleo (Fase 3): funções compartilhadas — closeLayer, go, sheet, toast, pubPostHTML, atividade, renderMe
+  nucleo: {
+    'materia-fecha': async (P, foto) => { const id = await manchete(P); await P.evaluate(id => abrirMateria(id), id); await foto('materia-aberta');
+      await P.evaluate(() => closeLayer()); await foto('materia-fechada') },
+    'destaque-fecha': async (P, foto) => { const id = await P.evaluate(() => { const b = document.querySelector('#v-capa .cp-dest [data-cpx]'); return b && b.dataset.cpx }); if (!id) return;
+      await P.evaluate(() => window.scrollTo(0, 400)); await P.evaluate(id => abrirMateria(id), id);
+      await P.evaluate(() => { const m = document.querySelector('#layer .mat'); if (m) { m.scrollTop = 500; m.dispatchEvent(new Event('scroll')) } });
+      await P.evaluate(() => closeLayer()); await foto('destaque-fechado') },
+    'sheet': async (P, foto) => { await P.evaluate(() => sheet('Folha de teste', '<p>Corpo da folha com <b>texto</b>.</p><input placeholder="campo">', '<button type="button" class="btn">Pronto</button>'));
+      await foto('sheet-aberta'); await P.evaluate(() => closeLayer()); await foto('sheet-fechada') },
+    'toast': async (P, foto) => { await P.evaluate(() => toast('Aviso de teste do núcleo', 'Desfazer', () => { })); await foto('toast', { toast: true }) },
+    'feed': async (P, foto) => { await P.evaluate(() => go('feed')); await rolarPartes(P, foto, 'feed', 4) },
+    'feed-capa': async (P, foto) => { await P.evaluate(() => { go('feed'); window.scrollTo(0, 900) }); await P.evaluate(() => go('capa')); await foto('feed-volta-capa');
+      await P.evaluate(() => go('feed')); await foto('capa-volta-feed') },
+    'story-fecha': async (P, foto) => { await P.evaluate(() => go('feed')); const ok = await P.evaluate(() => { const b = document.querySelector('#secs [data-sec-story]'); if (b) b.click(); return !!b });
+      if (!ok) return; await foto('story-aberto'); await P.evaluate(() => closeLayer()); await foto('story-fechado') },
+    'posts': async (P, foto) => { await P.evaluate(() => { go('feed'); const pid = (FEED.pautas || [])[0]?.id; const at = Date.now() - 3600e3, A = '11111111-aaaa-4aaa-8aaa-111111111111';
+      const xs = [{ id: 'a1111111-1111-4111-8111-111111111111', autor: A, tipo: 'post', at, texto: 'Só texto, com #hashtag e @alguem.', fotos: [] },
+        { id: 'b2222222-2222-4222-8222-222222222222', autor: A, tipo: 'post', at: at - 7200e3, texto: 'Comentando a notícia.', fotos: [], pid, estilo: { v: 2 } },
+        { id: 'c3333333-3333-4333-8333-333333333333', autor: A, tipo: 'post', at: at - 86400e3, texto: 'Dólar volta a subir\n\nA alta pressiona a inflação.', fotos: [], estilo: { v: 2, cn: { k: 'ana', tit: 'Dólar volta a subir', d: { tipo: 'bar', s: [12.5, 8.1, 7.3], r: ['SP', 'RJ', 'MG'] }, fu: 'Banco Central' } } },
+        { id: 'd4444444-4444-4444-8444-444444444444', autor: A, tipo: 'post', at: at - 2 * 86400e3, texto: 'Vale a pena?', fotos: [], pid, estilo: { v: 2, cn: { k: 'enq', o: ['Sim', 'Não', 'Talvez'] } } },
+        { id: 'e5555555-5555-4555-8555-555555555555', autor: A, tipo: 'post', at: at - 3 * 86400e3, texto: 'Importante acompanhar.', fotos: [], pid, snap: { titulo: 'Título guardado', secao: 'economia' }, estilo: { v: 2, cn: { k: 'nt' } } }];
+      const d = document.createElement('div'); d.id = 'nucleo-posts'; d.innerHTML = xs.map(x => { try { return pubPostHTML(x) } catch (e) { return '<p>erro ' + e.message + '</p>' } }).join('');
+      const alvo = document.querySelector('#posts') || document.querySelector('#v-feed'); alvo.prepend(d); window.scrollTo(0, d.getBoundingClientRect().top + scrollY - 60) });
+      await foto('posts-01'); await P.evaluate(() => window.scrollBy(0, innerHeight - 80)); await foto('posts-02'); await P.evaluate(() => window.scrollBy(0, innerHeight - 80)); await foto('posts-03') },
+    'perfil': async (P, foto) => { await P.evaluate(() => go('me')); await rolarPartes(P, foto, 'perfil', 3); await P.evaluate(() => go('capa')); await foto('perfil-volta-capa') },
+  },
+  // feed, criar, perfil: acrescentar aqui (cada tela abre a partir da Capa, num contexto novo)
 };
+// Conversas: conta de teste montada direto no estado (Pedro, amigos Bia e Caio; Dora e Edu não são amigos; uma conta excluída),
+// mensagens com horários fixos em relação ao relógio parado e um banco de mentira que aceita tudo e não responde nada.
+// a conversa rola sozinha até o fim, às vezes em dois tempos (o aviso de amizade entra depois): espera e fixa no fim
+async function fimDaConversa(P) { await U_sleep(400); await P.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight)) }
+const U_sleep = ms => new Promise(r => setTimeout(r, ms));
+async function dmEstado(P, soSeguir) {
+  await P.evaluate(soSeguir => {
+    const T = Date.now(), M = 6e4, H = 36e5, D = 864e5, p0 = FEED.pautas[0], p1 = FEED.pautas[1], p2 = FEED.pautas[2];
+    S.uid = 'u-pedro'; S.user = { id: 'u-pedro', email: 'pedro@x.com' }; S.email = 'pedro@x.com'; S.membro = true; S.amigosOk = true;
+    S.membros = { 'u-pedro': { nome: 'Pedro' }, 'u-bia': { nome: 'Bia Souza' }, 'u-caio': { nome: 'Caio Lima' }, 'u-dora': { nome: 'Dora Reis' }, 'u-edu': { nome: 'Edu Prado' }, 'u-exc': { nome: 'Rui', excluido: true } };
+    S.amigos = new Set(['u-bia', 'u-caio']); S.pedidosIn = []; S.pedidosOut = [];
+    const nada = () => new Promise(() => { });
+    S.db = { marcarLidas: () => Promise.resolve(), collection: () => ({ add: nada }), doc: () => ({ delete: nada }), rpc: nada, recarregar: () => { } };
+    const eu = 'u-pedro', mk = (id, de, para, at, x) => ({ id, de, para, at: T - at, texto: '', lida: true, ...x });
+    S.msgsOut = [
+      mk('m-b1', eu, 'u-bia', 3 * D + 2 * H, { texto: 'Oi Bia, tudo bem?' }),
+      mk('m-b3', eu, 'u-bia', 2 * H, { pid: p0.id, snap: snapById(p0.id) }),
+      mk('m-b4', eu, 'u-bia', 2 * H - M, { texto: 'Viu essa? Saiu agora há pouco no Prumo e já tem bastante gente comentando.' }),
+      mk('m-b8', eu, 'u-bia', 20 * M, { texto: '😂' }),
+      mk('m-b10', eu, 'u-bia', 5 * M, { texto: 'Vou ler agora' }),
+      mk('m-c2', eu, 'u-caio', 2 * D, { pid: p1.id, snap: snapById(p1.id), texto: 'Para você' }),
+      mk('m-d2', eu, 'u-dora', 5 * D - 3 * M, { texto: 'Oi Dora' }),
+      mk('m-e1', eu, 'u-edu', 6 * D, { texto: 'Oi Edu, viu o jogo?' }),
+    ];
+    S.msgsIn = [
+      mk('m-b2', 'u-bia', eu, 3 * D + 2 * H - 2 * M, { texto: 'Tudo! E você?' }),
+      mk('m-b5', 'u-bia', eu, 110 * M, { texto: 'Que notícia!', tipo: 'resposta', snap: { q: { id: 'm-b4', de: eu, t: 'Viu essa? Saiu agora há pouco no Prumo' } } }),
+      mk('m-b6', 'u-bia', eu, 100 * M, { texto: 'Olha isso: https://prumonews.com.br/m/teste-123 e www.exemplo.com.br.' }),
+      mk('m-b7', 'u-bia', eu, 99 * M, { texto: '❤️', tipo: 'reacao_msg', snap: { ref: 'm-b4' } }),
+      mk('m-b9', 'u-bia', eu, 10 * M, { texto: '@Pedro olha o que escrevi aqui', tipo: 'mencao', pid: p2.id, resp: true, snap: { titulo: snapById(p2.id).titulo, secao: snapById(p2.id).secao } }),
+      mk('m-c1', 'u-caio', eu, 50 * M, { texto: 'Bom dia! Viu a agenda de hoje?', lida: false }),
+      mk('m-c3', 'u-caio', eu, 2 * D - H, { texto: '👍 Concordo', tipo: 'reacao', pid: p1.id, resp: true, snap: { id: p1.id, titulo: snapById(p1.id).titulo, secao: snapById(p1.id).secao } }),
+      mk('m-d1', 'u-dora', eu, 5 * D, { texto: 'Oi Pedro' }),
+      mk('m-x1', 'u-exc', eu, 8 * D, { texto: 'Até mais' }),
+    ];
+    PREF.conv = { 'u-caio': { sil: true } };
+    if (soSeguir) { SG181.uid = S.uid; SG181.on = true; CS123.sigo = new Set(['u-bia', 'u-caio']); SG181.fech = new Set(['u-dora', 'u-edu']); document.body.classList.add('sg181-on') }
+    updateBadge();
+  }, !!soSeguir);
+}
 
 async function tirar(PASTA, area, porta) {
   const telas = AREAS[area]; if (!telas) { console.log('área desconhecida: ' + area + ' (há: ' + Object.keys(AREAS).join(', ') + ')'); process.exit(2) }
@@ -183,7 +272,7 @@ async function tirar(PASTA, area, porta) {
         let ult = pos(), igual = 0; for (let i = 0; i < 60 && igual < 5; i++) { await new Promise(r => setTimeout(r, 100)); const p = pos(); if (p === ult) igual++; else { igual = 0; ult = p } } });
       await P.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].filter(i => !i.complete).map(i => new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 3000) }))) });
       await P.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))); await U.sleep(250) };
-    const foto = async nome => { await assenta(); await P.evaluate(() => document.querySelectorAll('.toast').forEach(t => t.remove()));
+    const foto = async (nome, o = {}) => { await assenta(); if (!o.toast) await P.evaluate(() => document.querySelectorAll('.toast').forEach(t => t.remove()));
       await P.screenshot({ path: path.join(PASTA, `${area}-${nome}-${ap.nome}-${tema}.png`), animations: 'disabled', caret: 'hide' }); n++ };
     await P.evaluate(() => window.scrollTo(0, 0));
     try { await fn(P, foto) } catch (e) { erros.push(`${ap.nome}/${tema}/${tela}: ${e.message.split('\n')[0]}`) }

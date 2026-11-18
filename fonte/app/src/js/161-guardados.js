@@ -21,9 +21,6 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 /* ver os guardados (do aviso de post guardado ou do menu do Perfil) abre a aba com o filtro certo */
 function gd161Abre(f){GD161_F=f||"tudo";try{vp99VerSalvos()}catch(e){}}
 /* textos: Guardar em todo o app */
-{const _tt161=toast;toast=function(m,ac,fn){const a=[...arguments];try{if(m==="Salvo"){a[0]="Guardado";if(ac==="Ver salvos"){a[1]="Ver guardados";a[2]=()=>gd161Abre("posts")}}
-  else if(m==="Removido dos salvos")a[0]="Removido dos guardados";else if(m==="Não deu para salvar agora.")a[0]="Não deu para guardar agora."}catch(e){}return _tt161.apply(this,a)}}
 /* o item "Guardadas" do menu do Perfil abre a aba Guardados */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest('#v-me .card.menu [data-vgo="saved"]');if(!b||!S.uid||!S.membro)return;
   e.preventDefault();e.stopPropagation();gd161Abre("noticias")},true);
-{const _rm161=renderMe;renderMe=function(){const r=_rm161.apply(this,arguments);try{const b=document.querySelector('#v-me .card.menu [data-vgo="saved"] span');if(b&&b.textContent==="Guardadas")b.textContent="Guardados"}catch(e){}return r}}

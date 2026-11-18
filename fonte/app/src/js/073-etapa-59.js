@@ -5,7 +5,6 @@
 /* post apagado sai do Feed na hora */
 {const _pa59=pubApagar;pubApagar=async function(id){const r=await _pa59.apply(this,arguments);if(r){const el=document.getElementById("p-u:"+id);if(el)el.remove()}return r}}
 /* curtidas e comentários em posts de amigos ao vivo */
-{const _ra59=rerenderAll;rerenderAll=function(){const r=_ra59.apply(this,arguments);try{document.querySelectorAll("#posts .upost[data-pid]").forEach(a=>updateSocial(a.dataset.pid))}catch(e){}return r}}
 /* "Visto por" → tocar na pessoa: fecha o story e abre a conversa */
 window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer2 [data-conversa]");if(!b||!$("#layer .story"))return;e.stopPropagation();e.preventDefault();const u=b.dataset.conversa;closeLayer();setTimeout(()=>{if($("#layer .story"))closeLayer();setTimeout(()=>abrirConversa(u),80)},40)},true);
 /* abrir um post de amigo pela conversa: voltar retorna à conversa */

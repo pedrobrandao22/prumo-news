@@ -121,8 +121,6 @@ function co160Motivo(){const el=CO160.el;if(!el||!el.closest||Date.now()-CO160.t
 
 /* ---------- 5. Conversas, Guardadas e Perfil sem conta ---------- */
 const CO160_COMO="O Prumo é por convite: peça o link a um amigo que já usa o Prumo (em Perfil › Convidar amigo). Enquanto isso, dá para ler tudo sem conta.";
-{const _rm160=renderMsgs;renderMsgs=function(){const r=_rm160.apply(this,arguments);try{if(!S.uid){const v=$("#v-msgs .empty");if(v&&!v.querySelector(".co160-semconta"))v.innerHTML=`<b>Conversas precisam da sua conta</b>Com a conta você troca notícias e mensagens com os seus amigos.<p class="co160-como">${esc(CO160_COMO)}</p><div class="lbtns co160-semconta"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta com convite</button></div>`}
-  else if(S.membro&&!THREAD){co160SemNome()}else if(S.membro&&THREAD){co160Campo()}}catch(e){}return r}}
 {const _rs160=renderSaved;renderSaved=function(){const r=_rs160.apply(this,arguments);try{const v=$("#v-saved .empty");if(!v||v.querySelector(".co160-semconta"))return r;
   if(!S.uid||!S.membro){if(/Nada guardado/.test(v.textContent))v.innerHTML=`<b>Guardar notícias precisa de conta</b>Com a conta, o botão “Guardar” de cada notícia põe ela aqui para ler depois, em qualquer aparelho.<p class="co160-como">${esc(CO160_COMO)}</p><div class="lbtns co160-semconta"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta com convite</button></div>`}
   else v.innerHTML=v.innerHTML.replace("Toque no alfinete de um post para guardar a notícia aqui.","Toque em “Guardar” numa notícia para ela aparecer aqui.")}catch(e){}return r}}
@@ -137,23 +135,13 @@ document.addEventListener("keydown",e=>{const t=e.target;if(!t||t.id!=="mtext"||
 document.addEventListener("submit",e=>{if(e.target&&e.target.id==="mform")setTimeout(co160Campo,0)});
 /* caminhos para quem ainda não é amigo */
 const co160Novos=()=>`<div class="co160-novos"><p>Quer falar com alguém que ainda não é seu amigo no Prumo?</p><div class="lbtns"><button type="button" class="btn ghost" data-addamigos>Adicionar amigos</button><button type="button" class="btn ghost" data-convidar>Convidar alguém</button></div></div>`;
-{const _nc160=abrirNovaConversa;abrirNovaConversa=function(){const r=_nc160.apply(this,arguments);try{const b=$("#layer .sheet .sh-b");if(b&&$("#layer #pbox")&&!b.querySelector(".co160-novos"))b.insertAdjacentHTML("beforeend",co160Novos())}catch(e){}return r}}
 function co160SemNome(){const v=$("#v-msgs");if(!v)return;const nada=v.querySelector(".dm-in .empty, .dm-in .dm-nada");if(!nada||!/Ninguém com esse nome/.test(nada.textContent)||v.querySelector(".dm-in .co160-novos"))return;
   const alvo=nada.classList.contains("dm-nada")?nada.closest("ul"):nada;alvo.insertAdjacentHTML("afterend",co160Novos())}
 document.addEventListener("input",e=>{if(e.target&&e.target.id==="dmq")setTimeout(co160SemNome,0)});
-/* opções da conversa: ver perfil em cima; desfazer, bloquear e denunciar embaixo, com rótulos curtos */
+/* opções da conversa: ver perfil em cima; desfazer, bloquear e denunciar embaixo, com rótulos curtos (abrirThMenu no 203) */
 const co160Admin=u=>((S.membros[u]||{}).papel==="admin");
-abrirThMenu=function(u){if(!S.amigos.has(u))return;const n1=String(nomeDe(u)||"").split(" ")[0];
-  sheet("Conversa com "+n1,`<div class="opt co160-opt"><button type="button" data-co160pf="${esc(u)}">Ver perfil<span>publicações de ${esc(n1)}</span></button></div>
-    <div class="opt co160-opt co160-pesado"><button type="button" data-desfazer="${esc(u)}">Desfazer amizade<span>vocês deixam de se ver</span></button><button type="button" data-bloquear="${esc(u)}">Bloquear<span>não pode mais te achar nem pedir amizade</span></button>${co160Admin(u)?"":`<button type="button" data-denp="${esc(u)}">Denunciar<span>o Pedro recebe e analisa</span></button>`}</div>`)};
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-co160pf]");if(!b)return;e.preventDefault();e.stopPropagation();const u=b.dataset.co160pf;closeLayer();setTimeout(()=>{try{abrirPerfil(u)}catch(_){}},60)},true);
 /* a folha "…" do perfil de um amigo (104): mesmos rótulos curtos e sem denunciar o administrador */
-{const _sh160=sheet;sheet=function(t,h){const a=[...arguments];try{if(typeof h==="string"&&/data-denp="/.test(h)){const m=h.match(/data-denp="([^"]+)"/),u=m&&m[1];
-  let x=h.replace(/(data-bloquear="[^"]+">)Bloquear [^<]*</,"$1Bloquear<").replace(/(data-denp="[^"]+">)Denunciar [^<]*</,"$1Denunciar<");if(!co160Admin(S.uid))x=x.replace("<span>o Pedro recebe e analisa</span>","<span>o administrador do Prumo analisa</span>");
-  if(u&&co160Admin(u))x=x.replace(/<button type="button" data-denp="[^"]+">[\s\S]*?<\/button>/,"");a[1]=x}}catch(e){}return _sh160.apply(this,a)}}
-/* cartão de notícia na conversa: a mesma editoria da Capa */
-{const _dc160=dmCard;dmCard=function(m){const h=_dc160.apply(this,arguments);try{if(typeof h!=="string"||(typeof dmEhPub==="function"&&dmEhPub(m)))return h;const p=m&&m.pid&&pautaById(m.pid);if(!p)return h;
-  const ch=capaChapeu(p),sec=secOf(p);return ch?h.replace(new RegExp("(<span class=\"dm-ct\"><small[^>]*>)"+esc(secNome(sec)).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"</small>"),"$1"+esc(ch)+"</small>"):h}catch(e){return h}}}
 
 /* ---------- 8. Perfil ---------- */
 function co160Pf(root,u){if(!root||!u)return;
@@ -163,8 +151,6 @@ function co160Pf(root,u){if(!root||!u)return;
   const cs=num.querySelector(".cs123-num");if(cs){const bs=[...cs.querySelectorAll("b")].map(b=>b.textContent.trim());cs.hidden=bs.length>0&&bs.every(x=>x==="0")}
   if(S.amigos.has(u)&&!num.querySelector(".co160-am"))num.insertAdjacentHTML("afterbegin",`<button type="button" class="co160-am" data-fd104pm="${esc(u)}" aria-label="Vocês são amigos. Opções da amizade">Amigos ✓</button>`);
   if(!S.amigos.has(u))num.querySelector(".co160-am")?.remove()}
-{const _rme160=renderMe;renderMe=function(){const r=_rme160.apply(this,arguments);try{if(S.uid&&S.membro)co160Pf($("#v-me"),S.uid);
-  else if(!S.uid){const p=[...document.querySelectorAll("#v-me .card p")].find(p=>/Entre para gostar/.test(p.textContent));if(p)p.textContent="Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos. A conta é por convite de quem já usa o Prumo."}}catch(e){}return r}}
 if(typeof pfvDesenha==="function"){const _pv160=pfvDesenha;pfvDesenha=function(){const r=_pv160.apply(this,arguments);try{if(typeof PFV!=="undefined"&&PFV&&PFV.u)co160Pf($("#layer .pfv"),PFV.u)}catch(e){}return r}}
 
 /* ---------- 9. Melhores amigos, nome, Salvos ---------- */

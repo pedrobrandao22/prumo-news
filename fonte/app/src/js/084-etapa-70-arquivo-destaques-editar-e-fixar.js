@@ -43,7 +43,6 @@ async function pubFixar(id){const x=pubDe(id);if(!x)return;const on=!x.fixado;if
 {const _pc70=pfCab;pfCab=function(u){return _pc70.apply(this,arguments)+destRowHTML(u)}}
 {const _cp70=pfCarregar;pfCarregar=async function(u){const r=await _cp70.apply(this,arguments);if(await v5Testa())await destCarregar(u);return r}}
 /* Conta: Arquivo */
-{const _rm70=renderMe;renderMe=function(){const r=_rm70.apply(this,arguments);try{if(V5.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arquivo]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-arquivo><span>Arquivo de giros</span><i>›</i></button>`)}}catch(e){}return r}}
 /* folhas: destacar, novo destaque, editar destaque */
 function destEscolher(storyId){const ds=DEST[S.uid]||[];sheet("Destacar",`<div class="opt">${ds.map(d=>`<button type="button" data-destpor="${esc(d.id)}" data-st="${esc(storyId)}">${esc(d.nome)}<span>${(d.itens||[]).includes(storyId)?"já está aqui · toque para tirar":d.itens.length+" "+(d.itens.length===1?"story":"stories")}</span></button>`).join("")}<button type="button" data-destnovo data-st="${esc(storyId)}">＋ Novo destaque</button></div>`)}
 async function destNovo(pre){const l=await arqCarregar();if(!l.length){toast("Publique um giro primeiro.");return}const sel=new Set(pre?[pre]:[]);
@@ -71,7 +70,5 @@ document.addEventListener("click",async e=>{const t=e.target;if(!t.closest)retur
   ["pointerup","pointercancel","pointerleave"].forEach(k=>document.addEventListener(k,()=>{if(lp){clearTimeout(lp);lp=0}},true));
   document.addEventListener("click",e=>{if(Date.now()-(window.__destLP||0)<700&&e.target.closest&&e.target.closest("[data-pfdest]")){e.stopPropagation();e.preventDefault()}},true)})();
 /* voltar no arquivo fecha */
-{const _cl70=closeLayer;closeLayer=function(){const r=_cl70.apply(this,arguments);if(!$("#layer .pfv-arq")&&PFV&&PFV.modo==="arq")PFV=null;return r}}
 setTimeout(()=>{v5Testa()},4000);
-{const _pp70=pubPostHTML;pubPostHTML=function(x){const h=_pp70.apply(this,arguments);return x.editado&&x.tipo==="post"?h.replace(/(<span class="ph-sub">)([^<]*)(<\/span>)/,(a,b1,t,b3)=>b1+t+" · editado"+b3):h}}
 

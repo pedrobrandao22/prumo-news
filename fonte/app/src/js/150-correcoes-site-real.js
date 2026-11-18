@@ -26,7 +26,6 @@ document.addEventListener("focusin",e=>{const el=e.target;if(!sr150CampoComentar
   try{el.blur()}catch(_){}PC106={k:"comentar",t:Date.now()};setTimeout(()=>{try{precisaConta()}catch(_){}},0)},true);
 
 /* 4 */
-{const _os150=openSend;openSend=function(pid){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||snapById(pid))){compartilhar(pid);return}}catch(e){}return _os150.apply(this,arguments)}}
 
 /* 5 */
 {const _ts150=trocarSessao;trocarSessao=async function(user){const r=await _ts150.apply(this,arguments);
@@ -65,7 +64,6 @@ addEventListener("beforeinstallprompt",e=>{e.preventDefault();SR150_INST=e;try{s
 addEventListener("appinstalled",()=>{SR150_INST=null;document.querySelectorAll(".sr150-inst").forEach(b=>b.remove());try{toast("O Prumo foi para a tela de início.")}catch(_){}});
 function sr150Instalar(){if(!SR150_INST)return;document.querySelectorAll("#v-me details.card.dt").forEach(d=>{if(!/Usar como app/.test((d.querySelector("summary")||{}).textContent||"")||d.querySelector(".sr150-inst"))return;
   d.insertAdjacentHTML("beforeend",`<button type="button" class="btn sr150-inst" data-sr150inst>Instalar o Prumo neste celular</button>`)})}
-{const _rm150=renderMe;renderMe=function(){const r=_rm150.apply(this,arguments);try{sr150Instalar()}catch(e){}return r}}
 document.addEventListener("click",async e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-sr150inst]");if(!b||!SR150_INST)return;e.preventDefault();
   const ev=SR150_INST;try{uso("instalar")}catch(_){}/* o pedido do navegador só vale uma vez: depois de responder (sim ou não), o botão sai até o navegador oferecer de novo */
   SR150_INST=null;document.querySelectorAll(".sr150-inst").forEach(x=>x.remove());try{await ev.prompt();await ev.userChoice}catch(_){}},true);

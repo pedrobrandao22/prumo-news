@@ -23,8 +23,6 @@ function igFundoTira(){document.getElementById("sg-fundo")?.remove()}
   if(cl&&$("#layer .mat")){cl.querySelectorAll(".bars b").forEach(b=>b.style.animationPlayState="paused");document.body.appendChild(cl);
     const b=$("#layer .mat-v");if(b){b.textContent="‹ Giro";b.setAttribute("aria-label","Voltar para o giro")}}
   return r}}
-{const _cl47=closeLayer;closeLayer=function(){const r=_cl47.apply(this,arguments);if(!$("#layer .mat"))setTimeout(igFundoTira,$("#layer .story")?60:320);return r}}
-{const _go47=go;go=function(){igFundoTira();return _go47.apply(this,arguments)}}
 /* Gostei: ícone dourado e pulso */
 
 /* teclado do celular: o rodapé sobe junto */

@@ -68,9 +68,6 @@ addEventListener("beforeunload",e=>{if(PQ.atual&&!navigator.webdriver){e.prevent
 function pqAnimCls(){document.documentElement.classList.toggle("ce-anim",ANIM_OK())}
 pqAnimCls();try{REDUZ.addEventListener("change",pqAnimCls)}catch(e){}
 /* fechar o editor: desliza para baixo e some */
-{const _cl93=closeLayer;closeLayer=function(){const n=$("#layer > .ce");const r=_cl93.apply(this,arguments);
-  if(n&&!n.isConnected&&ANIM_OK()){try{if(CAM.v&&n.contains(CAM.v))CAM.v.remove();n.querySelectorAll("video").forEach(v=>{v.muted=true;try{v.pause()}catch(_){}});n.querySelectorAll("[id]").forEach(x=>x.removeAttribute("id"));
-    n.classList.add("ce-sai");n.setAttribute("aria-hidden","true");n.inert=true;delete n.dataset.anim;document.body.appendChild(n);setTimeout(()=>n.remove(),260)}catch(e){n.remove()}}return r}}
 function edPop(id){if(!id||!ANIM_OK())return;const d=document.querySelector(`#ce-els [data-eid="${id}"]`);if(!d)return;d.classList.add("ce-pop");setTimeout(()=>d.classList.remove("ce-pop"),400)}
 /* figurinhas novas não nascem empilhadas: cada uma desce um pouco */
 const ED_CASCATA=[[0,0]].concat(...[1,2,3,4,5,6,7,8].map(k=>[[0,.07*k],[0,-.07*k],[.06*k,.07*k],[-.06*k,.07*k]]));

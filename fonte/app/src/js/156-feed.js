@@ -111,11 +111,6 @@ function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)r
 /* ---- sem internet: o aviso diz que é a conexão; o Gostei é reenviado quando a internet volta ---- */
 var FD156_GOSTEI={};
 function fd156Offline(){return typeof navigator!=="undefined"&&navigator.onLine===false}
-{const _tl156b=toast;toast=function(m){const a=[...arguments];try{if(typeof m==="string"){
-  if(/^O comentário não foi salvo/.test(m)){
-    if(fd156Offline()&&fd156CmtGuarda()){a[0]="Sem conexão: o comentário vai ser enviado quando a internet voltar.";a[1]="Cancelar";a[2]=fd156CmtCancela}
-    else setTimeout(()=>{const i=document.getElementById("ctext");if(!i)return;try{if(typeof cm106Ajusta==="function")cm106Ajusta(i)}catch(e){}try{const n=i.value.length;i.setSelectionRange(n,n)}catch(e){}},0)}
-  else if(/^Não deu para marcar agora/.test(m)&&fd156Offline())a[0]="Sem conexão: o Gostei vai ser enviado quando a internet voltar."}}catch(e){}return _tl156b.apply(this,a)}}
 {const _tk156=toggleLike;toggleLike=function(pid){let quer=null;try{if(S.uid)quer=!socialOf(pid).likes.includes(S.uid)}catch(e){}
   const r=_tk156.apply(this,arguments);try{if(quer!==null&&fd156Offline())FD156_GOSTEI[pid]=quer}catch(e){}return r}}
 addEventListener("online",()=>{const ps=Object.keys(FD156_GOSTEI);if(!ps.length)return;setTimeout(()=>{let n=0;ps.forEach(pid=>{const q=FD156_GOSTEI[pid];delete FD156_GOSTEI[pid];

@@ -1,11 +1,6 @@
 /* ---------- 108: correções da vida de vários dias de um grupo (QA de produção 2, 03/11): o lado da amiga, dois aparelhos, recarregar no meio ---------- */
-/* 1. amizade desfeita/bloqueio: o anel e os posts de quem deixou de ser amigo saem do Feed na hora; amigo novo traz os posts dele */
-{let k108=null;const _ra108=rerenderAll;rerenderAll=function(){const r=_ra108.apply(this,arguments);
-  try{if(S.uid&&S.amigosOk){const k=S.uid+":"+[...S.amigos].sort().join(",");
-    if(k108!==null&&k!==k108&&k.split(":")[0]===k108.split(":")[0]&&typeof PUB!=="undefined"&&PUB.on){const ant=new Set(k108.split(":")[1].split(","));
-      document.querySelectorAll("#posts .upost[id^='p-u:']").forEach(el=>{const x=pubDe(el.id.slice(4));if(x&&x.autor!==S.uid&&!S.amigos.has(x.autor))el.remove()});
-      pubRedesenha();if([...S.amigos].some(u=>!ant.has(u)))setTimeout(pubCarregar,300)}
-    k108=k}}catch(e){}return r}}
+/* 1. amizade desfeita/bloqueio: o anel e os posts de quem deixou de ser amigo saem do Feed na hora; amigo novo traz os posts dele
+   (agora em rerenderAll, no 201-nucleo.js) */
 
 /* 2. post publicado em segundo plano: fica nos rascunhos até o servidor confirmar (fechar o app no meio não perde o post) */
 const PQ108_LS="prumo-pq-pend";
@@ -31,11 +26,9 @@ function rs108Grava(k,t){if(!S.uid||!k)return;try{const o=rs108Le();if(t&&t.trim
 function rs108Poe(i,k){if(!i||i.value||i._rs108===k)return;i._rs108=k;const t=rs108Le()[k];if(t){i.value=t;i.dispatchEvent(new Event("input",{bubbles:true}))}}
 document.addEventListener("input",e=>{const t=e.target;if(!t||!t.id)return;if(t.id==="mtext"&&THREAD)rs108Grava("dm:"+THREAD,t.value);else if(t.id==="ctext"&&CMT_PID)rs108Grava("cm:"+CMT_PID,t.value)});
 document.addEventListener("submit",e=>{const f=e.target;if(!f)return;if(f.id==="mform"&&THREAD)rs108Grava("dm:"+THREAD,"");else if(f.id==="cform"&&CMT_PID)rs108Grava("cm:"+CMT_PID,"")},true);
-{const _rm108=renderMsgs;renderMsgs=function(){const r=_rm108.apply(this,arguments);try{if(THREAD)rs108Poe($("#mtext"),"dm:"+THREAD)}catch(e){}return r}}
 {const _oc108=openComments;openComments=function(pid){const r=_oc108.apply(this,arguments);try{rs108Poe($("#ctext"),"cm:"+pid)}catch(e){}return r}}
 
 /* 4. administrador: "Denunciar" não diz "o Pedro recebe e analisa" para o próprio administrador */
-{const _sh108=sheet;sheet=function(t,h){const a=[...arguments];try{if(typeof h==="string"&&S.uid&&(S.membros[S.uid]||{}).papel==="admin")a[1]=h.replace(/<span>o Pedro recebe e analisa<\/span>/g,"<span>fica na sua lista da Administração</span>")}catch(e){}return _sh108.apply(this,a)}}
 
 /* 5. story que venceu com a pessoa olhando: o anel sai da bandeja (antes ficava lá e o toque não abria nada) */
 function st108Vencidos(){try{if(!S.uid||!S.membro||typeof PUB==="undefined"||!PUB.on||$("#layer .story"))return false;
@@ -44,10 +37,6 @@ setInterval(()=>{if(!document.hidden&&st108Vencidos())pubRedesenha()},20e3);
 {const _au108=igAbrirUser;igAbrirUser=function(u){try{if(u&&u!==S.uid&&String(u).charAt(0)!=="~"&&typeof PUB!=="undefined"&&PUB.on&&!pubStoriesDe(u).length){pubRedesenha();toast("Esse giro não está mais disponível.");return Promise.resolve()}}catch(e){}return _au108.apply(this,arguments)}}
 
 /* 6. Atividade: voto na pergunta de um post aparece como voto (não "respondeu ao seu post") */
-{const _ai108=atItens;atItens=function(){const l=_ai108.apply(this,arguments);try{(l||[]).forEach(x=>{if(!x||typeof x.k!=="string"||x.k.indexOf("voto:")!==0)return;const pb=AT.pubs[x.pub],cn=pb&&pb.tipo==="post"&&pb.estilo&&pb.estilo.cn;
-  if(cn&&cn.k==="enq"&&typeof x.txt==="string")x.txt=x.txt.replace(/ responderam ao (?:seu post|sua pergunta)( “[^”]*”)?$/," votaram na sua pergunta$1").replace(/ respondeu ao (?:seu post|sua pergunta)( “[^”]*”)?$/," votou na sua pergunta$1")});
-  /* concordância: "ao sua análise" → "à sua análise" (nomes do 107) */
-  (l||[]).forEach(x=>{if(x&&typeof x.txt==="string")x.txt=x.txt.replace(/ ao sua /g," à sua ")})}catch(e){}return l}}
 
 /* 7. Feed comprido: ao rolar, os posts que chegam ajustam a altura aos poucos (um pedaço por quadro), sem travar a rolagem.
       Antes cada lote de 6 posts media e redesenhava tudo de uma vez (até ~280 ms parado num celular médio). */
@@ -64,17 +53,11 @@ if(typeof FIT_IO!=="undefined"&&FIT_IO){try{FIT_IO.disconnect()}catch(e){}FIT_IO
 
 /* 9. cartão de post/story que não existe mais (apagado, ou story de mais de 24 h): dizia "Só quem é amigo do autor consegue abrir"
       mesmo para quem é amigo, e repetia "Post de Fulano" embaixo do nome */
-{const _dc108=dmCard;dmCard=function(m){let h=_dc108.apply(this,arguments);
-  try{if(typeof h==="string"&&h.indexOf("dm-indisp")>=0&&dmEhPub(m)){const s=m.snap||{},t=String(s.titulo||""),mm=t.match(/^(Post|Story|Reel) de ([^:]+)$/),nome=mm&&mm[2].trim();
-    if(mm)h=h.replace(`<span class="dm-ct"><b class="dm-utx">${esc(t.slice(0,160))}</b></span>`,"");
-    const story=s.story===true||/^(Story|Giro) de /.test(t),amigo=!!nome&&(nome===nomeDe(S.uid)||amigosL().some(u=>nomeDe(u)===nome));
-    if(story||amigo)h=h.replace("Só quem é amigo do autor consegue abrir",story?"Este giro não está mais disponível":"Esta publicação não está mais disponível")}}catch(e){}return h}}
 
 /* 10. depois de ver todos os stories de um amigo, o anel dele continuava colorido (como "não visto") até a bandeja ser
        redesenhada por outro motivo: ao fechar o story, os anéis da bandeja são atualizados no lugar (a ordem não muda) */
 function st108Aneis(){try{document.querySelectorAll("#secs [data-ustory]").forEach(b=>{const u=b.dataset.ustory,r=b.querySelector(".ig-r");if(!r||!u||u.charAt(0)==="~")return;const xs=pubStoriesDe(u);if(!xs.length)return;
   r.classList.toggle("visto",xs.every(x=>PUB_VISTOS.has(x.id)));r.classList.toggle("ma",xs.some(x=>x.publico==="proximos"&&!PUB_VISTOS.has(x.id)))})}catch(e){}}
-{const _cl108=closeLayer;closeLayer=function(){const st=!!$("#layer .story");const r=_cl108.apply(this,arguments);if(st&&!$("#layer .story"))requestAnimationFrame(st108Aneis);return r}}
 
 /* 11. dois aparelhos: story visto no celular aparecia como não visto no computador (o "visto" só ficava no aparelho).
        Ao reler as publicações, confere no servidor quais stories ainda "não vistos" aqui já foram vistos noutro aparelho. */

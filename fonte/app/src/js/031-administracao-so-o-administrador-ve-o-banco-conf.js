@@ -111,11 +111,7 @@ function cliqueConta(t){
     nav.classList.toggle("mini",desce);topo.classList.toggle("esconde",desce&&VIEW==="feed");topo.classList.toggle("rolou",y>6)};
   addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(rola)},{passive:true});
   nav.addEventListener("pointerdown",()=>nav.classList.remove("mini"));
-  /* troca de aba: some o "encolhido" e a nova tela entra suave (141: só quando a pessoa troca de aba; na abertura do app a
-     Capa entrava com opacidade 0 enquanto o código ainda rodava, e o esqueleto sumia, a tela ficava vazia e a Capa reaparecia) */
-  const goAnt=go;
-  go=function(v,fromPop){const mudou=v!==VIEW;goAnt(v,fromPop);nav.classList.remove("mini");topo.classList.remove("esconde");
-    if(mudou&&document.readyState!=="loading"&&!document.documentElement.classList.contains("ab141-abrindo")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const sec=document.getElementById("v-"+v);if(sec){try{sec.animate([{opacity:0},{opacity:1}],{duration:150,easing:"ease-out"})}catch(e){}}}};
+  /* troca de aba (encolhido some, tela entra suave): agora em go, no 201-nucleo.js */
   /* abrir com transição: o elemento tocado "cresce" até virar a tela nova */
   window.comTransicao=(origem,abre,alvo)=>{
     if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches||!origem){abre();return}
@@ -211,9 +207,6 @@ function pontosDe(p,L){L=L||lente();const n=p.neutro||{};const v=L!=="neutro"&&p
   const pt=Array.isArray(o.pontos)?o.pontos.filter(x=>typeof x==="string"&&x.trim()):[];return pt.length?pt.slice(0,4):frases(o.texto).slice(0,3)}
 function capaSub(p,L,extra){const v=versao(p,L);if(v.tem)return capaFrase(v.texto,170);return extra||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro?.texto,170)}
 var MAT_PID=null;
-(function(){const ant=closeLayer;closeLayer=function(fp){const eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);ant.apply(this,arguments);
-  if(eraMat&&MAT_PID){const pid=MAT_PID;MAT_PID=null;if(VIEW==="capa"){const el0=document.getElementById("cpi-"+pid);const r0=el0?el0.getBoundingClientRect().top:null;const ab0=CP_AB;CP_AB=null;if(!cpAlternar(ab0,null))renderCapa();
-    const el=document.getElementById("cpi-"+pid);if(el&&r0!=null)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-r0)}}}})();
 /* aba Buscar */
 function buscaRes(q){const hit=rc116Hit(q);const res=[];
   (FEED?.pautas||[]).map(p=>[p,hit(p.neutro?.titulo)?2:hit([p.tag,p.tema,p.subtema].join(" "))?1:0]).sort((a,b)=>b[1]-a[1]).forEach(([p])=>{if(hit([p.neutro?.titulo,p.neutro?.texto,p.tag,p.tema,p.subtema,p.contexto,p.por_que].join(" ")))res.push(`<li><button type="button" data-busca="${esc(p.id)}"><b>${esc(p.neutro?.titulo)}</b><span>${esc(secNome(secOf(p)))}${p.subtema?" · "+esc(p.subtema):""} · esta edição</span></button></li>`)});
@@ -233,8 +226,7 @@ function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")
   v.innerHTML=`<div class="gut"><form class="bv-f" onsubmit="return false"><input class="field" id="bvq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar notícia, nome ou assunto" aria-label="Buscar" value="${esc(q0)}"></form><div id="bvres"></div></div>`;
   const inp=$("#bvq"),run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
 /* menu, aba inicial e eventos */
-(function(){const goAnt=go;
-  go=function(v,fromPop){goAnt(v,fromPop);if(typeof lenteBotao==="function")lenteBotao();if(v==="capa"){capaSeMudou();uso("capa")}if(v==="busca"){renderBuscaView();uso("aba_busca");if(!fromPop){const q=$("#bvq");if(q&&!q.value)try{q.focus({preventScroll:true})}catch(e){}}}if(!fromPop&&(v==="feed"||v==="capa"))try{localStorage.setItem("prumo-aba",v);localStorage.setItem("prumo-aba-dia",hojeSP())}catch(e){}};
+(function(){
   let teste=false;try{teste=localStorage.getItem("prumo-teste-capa")==="1"}catch(e){}
   if(!navigator.webdriver||teste){RAIZ="capa";go("capa",true)}
   setInterval(()=>{if(!document.hidden&&VIEW==="capa")carregarCapaFixa()},300000);

@@ -38,7 +38,6 @@ function cr166Erro(er,P){const ce=$("#layer .ce");if(!ce||!P||!P.cn)return false
 document.addEventListener("input",e=>{const t=e.target;if(t&&t.closest&&t.closest("#layer .ce")&&document.querySelector("#layer .cr166-er"))cr166Limpa()},true);
 
 /* ===== 3. sem internet: uma mensagem só ===== */
-{const _to166=toast;toast=function(m){try{if(typeof m==="string"&&/^Não deu para publicar\. Tente de novo\.$/.test(m)&&navigator.onLine===false&&typeof PQ!=="undefined"&&(PQ.atual||PQ.jobs.length))return}catch(e){}return _to166.apply(this,arguments)}}
 {const _pd166=pqDesenha;pqDesenha=function(){const r=_pd166.apply(this,arguments);try{const box=$("#pq");if(box)PQ.jobs.forEach(j=>{if(j.estado!=="erro"||!cr155SemRede(j))return;const b=box.querySelector(`[data-pqtenta="${j.id}"]`);if(!b)return;
     if(navigator.onLine===false)b.remove();else b.textContent="Publicar agora"})}catch(e){}return r}}
 addEventListener("offline",()=>{try{if(PQ.jobs.some(j=>j.estado==="erro"))pqDesenha()}catch(e){}});

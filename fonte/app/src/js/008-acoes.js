@@ -38,19 +38,6 @@ function openComments(pid){uso("comentarios");
     try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v)}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);const i=$("#ctext");if(i&&!i.value){i.value=t;const b=$("#cform .sendc");if(b)b.disabled=false}toast("O comentário não foi salvo. O texto voltou para a caixa.")}});
 }
 function shareCard(s,attrs=""){return `<button type="button" class="share paper" data-sec="${esc(s?.secao||"politica")}" ${attrs}>${svgOf(s?.imagem)}<div><span>${esc(secNome(s?.secao||"politica"))} · ${esc(s?.tag)}</span><b>${esc(s?.titulo)}</b></div></button>`}
-function openSend(pid,pre){uso("enviar");
-  if(precisaConta())return;
-  const others=amigosL();
-  if(!others.length){sheet("Enviar",`<div class="empty" style="padding:18px 0"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para mandar notícias para eles.</div><button type="button" class="btn ghost" data-vgo="me">Ir ao Perfil</button><button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`);return}
-  let sel=pre&&others.includes(pre)?pre:(others.length===1?others[0]:null);const snap=snapById(pid);
-  const um=others.length===1;
-  sheet(um?"Enviar para "+nomeDe(others[0]):"Enviar",`${um?"":`${others.length>6?`<input class="field" id="pkq" type="search" autocomplete="off" placeholder="Buscar amigo" aria-label="Buscar amigo" style="margin-bottom:10px">`:""}<div class="pick" id="pick">${others.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="${u===sel}">${avatar(u)}${esc(nomeDe(u))}</button>`).join("")}</div>`}${shareCard(snap,'style="width:100%;pointer-events:none" tabindex="-1"')}<button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`,
-    `<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)" aria-label="Mensagem"><button class="send" id="sbtn" type="submit" ${sel?"":"disabled"}>Enviar</button></form>`);
-  $("#pkq")?.addEventListener("input",e=>{const n=norm(e.target.value).trim();document.querySelectorAll("#pick [data-pick]").forEach(b=>b.hidden=!!n&&!norm(b.textContent).includes(n))});
-  $("#pick")?.addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;sel=b.dataset.pick;document.querySelectorAll("[data-pick]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));$("#sbtn").disabled=false});
-  $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel)return;const t=$("#stext").value.trim(),bt=$("#sbtn");if(bt.disabled&&bt.dataset.env)return;bt.disabled=true;bt.dataset.env="1";bt.textContent="Enviando…";
-    try{await S.db.collection("mensagens").add({de:S.uid,para:sel,at:Date.now(),texto:t,pid,snap,lida:false});if($("#sform"))closeLayer();toast(`Enviado para ${nomeDe(sel)}`)}catch(err){const b=$("#sbtn");if(b){b.disabled=false;delete b.dataset.env;b.textContent="Enviar"}toast(err?.code==="permission_denied"?"Só dá para mandar para amigos.":"Não deu para enviar agora. Tente de novo.")}});
-}
 function snapLeve(pid){const s=snapById(pid);if(!s)return {id:pid};return {id:s.id||pid,secao:s.secao||"",tag:s.tag||"",titulo:s.titulo||"",texto:String(s.texto||"").slice(0,320),imagem:s.imagem||null,links:arrL(s.links).slice(0,1)}}
 async function toggleSave(pid){uso("guardar");
   if(precisaConta())return;const on=!S.salvos[pid],antS=S.salvos[pid];

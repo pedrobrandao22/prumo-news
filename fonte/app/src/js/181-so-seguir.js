@@ -113,10 +113,6 @@ if(typeof pfvDesenha==="function"){const _pv=pfvDesenha;pfvDesenha=function(){co
 /* o seu perfil: números, pedidos para seguir (perfil fechado) e sem amizades */
 function sg181PedHTML(){const l=SG181.rec.filter(x=>!(S.bloq||[]).includes(x.uid));if(!l.length)return "";
   return `<div class="card amg sg181-ped"><span class="amg-t">${l.length===1?"Pedido para seguir você":l.length+" pedidos para seguir você"}</span><ul class="amgl">${l.map(x=>`<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(x.uid)}">${avatar(x.uid)}<span class="amg-n"><b>${esc(nomeDe(x.uid))}</b></span></button><button type="button" class="btn amg-b" data-sg181sim="${esc(x.uid)}">Aprovar</button><button type="button" class="btn ghost amg-b" data-sg181nao="${esc(x.uid)}">Recusar</button></li>`).join("")}</ul></div>`}
-{const _rm=renderMe;renderMe=function(){const r=_rm.apply(this,arguments);try{if(sg181On()){const v=$("#v-me");sg181Pf(v,S.uid);
-    if(PF_ABA==="conta"){const c=v.querySelector(".pf-conta");if(c){c.querySelectorAll(".card.amg,.cs123-cfg").forEach(x=>x.remove());
-      c.querySelectorAll(".card.menu button, .card.menu a").forEach(b=>{if(/^\s*Melhores amigos/.test(b.textContent))b.remove()})}}
-    else{const corpo=v.querySelector(".pf-corpo");if(corpo&&!corpo.querySelector(".sg181-ped")){const h=sg181PedHTML();if(h)corpo.insertAdjacentHTML("afterbegin",h)}}}}catch(e){console.error(e)}return r}}
 /* listas de seguidores: linha com o botão novo */
 {const _l=cs123Linha;cs123Linha=function(x,meu,tipo){if(!sg181On())return _l.apply(this,arguments);const u=x.uid,eu=u===S.uid;
   return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${eu?"":SG181.fech.has(u)?"perfil fechado":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:eu?"":sg181Bt(u,"amg-b")}</li>`}}
@@ -124,9 +120,6 @@ function sg181PedHTML(){const l=SG181.rec.filter(x=>!(S.bloq||[]).includes(x.uid
 if(typeof abrirAddAmigos==="function"){const _ad=abrirAddAmigos;abrirAddAmigos=function(){if(sg181On())return cs123Descobre();return _ad.apply(this,arguments)}}
 
 /* ===== 3. Atividade: pedidos para seguir ===== */
-{const _ai=atItens;atItens=function(){const it=_ai.apply(this,arguments);if(!sg181On()||!Array.isArray(it))return it;
-  try{SG181.rec.forEach(x=>it.push({k:"sp:"+x.uid,at:x.at,us:[x.uid],ic:"+",txt:`<b>${esc(nomeDe(x.uid))}</b> pediu para seguir você`,u:S.uid,acao:"perfil"}))}catch(e){}
-  return it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}}
 
 /* ===== 4. Ajustes do app › Privacidade: "Perfil fechado" ===== */
 {const _aj=ajustesHTML;ajustesHTML=function(){let h=_aj.apply(this,arguments);try{if(!sg181On())return h;const f=!SG181.aberto;
@@ -158,8 +151,6 @@ function sg181DmAviso(){const v=$("#v-msgs"),u=typeof THREAD!=="undefined"?THREA
     if(h&&!h.querySelector(".sg181-bt"))h.innerHTML=`${esc(sg181Prim(u))} tem perfil fechado. Siga para mandar mensagem. ${sg181Bt(u)}`}
   v.querySelectorAll(".dm104-am").forEach(x=>x.remove());
   v.querySelectorAll(".pf165-amh,.dm-sh").forEach(x=>{if(x.textContent.trim()==="Amigos")x.textContent="Quem você segue"})}
-if(typeof dm104Amizade==="function"){const _da=dm104Amizade;dm104Amizade=function(){if(sg181On()){try{sg181DmAviso()}catch(e){}return}return _da.apply(this,arguments)}}
-{const _rg=renderMsgs;renderMsgs=function(){const r=_rg.apply(this,arguments);try{if(sg181On())sg181DmAviso()}catch(e){}return r}}
 
 /* ===== 7. textos que ainda falam de amizade (troca só o texto inteiro de um trecho, nunca o que alguém escreveu) ===== */
 const SG181_TX={"Convidar amigo":"Convidar alguém","Nenhum amigo ainda":"Você ainda não segue ninguém",

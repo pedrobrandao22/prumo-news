@@ -110,8 +110,6 @@ function f113EdLe(){document.querySelectorAll("#fs2-edb [data-f113eparte]").forE
 if(VN_FASE2){
   document.documentElement.classList.add("fs2");
   /* post: fio e contexto */
-  {const _pp113=pubPostHTML;pubPostHTML=function(x){const h=_pp113.apply(this,arguments);if(typeof h!=="string"||!h||!x||x.tipo!=="post")return h;try{const a=vn112Tp(h);if(!a)return h;
-    const parts=f113PodeFio(x)?f113Fio(x):null;if(parts)f113PoeFio(a,x,parts);f113PoeCtx(a,x);return a.outerHTML}catch(e){return h}}}
   /* o comentário logo abaixo da notícia já está junto dela: sem caixa de contexto; prateleira */
   {const _ps113=postSeguro;postSeguro=function(p){if(p&&p.__f113)try{return f113PratHTML(p.__f113)}catch(e){return ""}
     let h=_ps113.apply(this,arguments);try{if(p&&p.__fc107&&typeof h==="string"&&h.indexOf("fs2-ctx")>=0){const a=vn112Tp(h);if(a){a.querySelectorAll(".fs2-ctx").forEach(e=>e.remove());h=a.outerHTML}}}catch(e){}return h}}
@@ -123,7 +121,6 @@ if(VN_FASE2){
     return l.concat(ex).map(x=>{if(!f113Fio(x))return x;const y=Object.assign(Object.create(Object.getPrototypeOf(x)),x,{texto:f113Tudo(x)});try{Object.defineProperty(y,"__f113o",{value:x})}catch(e){}return y})}catch(e){return l}}}
   {const _hc113=htPostsCom;htPostsCom=function(){const l=_hc113.apply(this,arguments);return Array.isArray(l)?l.map(x=>x&&x.__f113o||x):l}}
   {const _hs113=htSeguidaDePost;htSeguidaDePost=function(x){if(x&&f113Fio(x))try{return _hs113.call(this,{texto:f113Tudo(x)})}catch(e){}return _hs113.apply(this,arguments)}}
-  {const _cl113=closeLayer;closeLayer=function(){const r=_cl113.apply(this,arguments);try{if(F113_IO&&!$("#layer .mat")){F113_IO.disconnect();F113_IO=null}}catch(e){}return r}}
   /* Feed: prateleiras só na lista principal ("Tudo"), uma vez por desenho; a contagem "faltam N" fica como antes */
   {const _rp113=renderPosts;renderPosts=function(){F113_SH_LIGA=true;try{return _rp113.apply(this,arguments)}finally{F113_SH_LIGA=false}}}
   {const _ae113=atualizarEmDia;atualizarEmDia=function(){const o=F113_SH_LIGA;F113_SH_LIGA=false;try{return _ae113.apply(this,arguments)}finally{F113_SH_LIGA=o}}}

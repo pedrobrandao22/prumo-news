@@ -24,7 +24,6 @@ var IG_DEDO=false;document.addEventListener("pointerdown",e=>{if(e.target.closes
 /* 8. sair do Layout com fotos pede confirmação */
 window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-edlaysai]");if(!b||!ED||ED.tela!=="lay")return;if(!ED.st.bg.cel.some(Boolean))return;if(Date.now()-(ED._laysai||0)<3000)return;
   e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();ED._laysai=Date.now();toast("Toque de novo para sair do Layout. As fotos serão descartadas.")},true);
-{const _cl66=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&ED&&ED.modo==="story"&&ED.tela==="lay"&&!$("#layer .ce-sel,#layer .ce-fig")&&ED.st.bg.cel&&ED.st.bg.cel.some(Boolean)&&Date.now()-(ED._laysai||0)>3000){ED._laysai=Date.now();if(pushH())HST++;toast("Volte de novo para sair do Layout. As fotos serão descartadas.");return}return _cl66.apply(this,arguments)}}
 /* 9. selfie: a câmera volta depois de trocar de app */
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&ED&&$("#layer .ce-selfie")){camMonta();camLiga()}});
 

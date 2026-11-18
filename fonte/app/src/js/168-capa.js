@@ -78,12 +78,6 @@ function cm168AsLink(){document.querySelectorAll(".sheet .as-link[data-assunto]"
 var CM168_PILHA=[];
 function cm168Volta(a){try{MAT_ARRASTO=false}catch(e){}MAT_ORIG=CM168_PILHA.length?MAT_ORIG:null;abrirMateria(a.pid);const m=$("#layer .mat");if(!m)return;m.style.transform="";
   const vai=()=>{const mm=$("#layer .mat");if(mm)mm.scrollTop=a.y};vai();requestAnimationFrame(vai);setTimeout(vai,120)}
-{const _cl168=closeLayer;closeLayer=function(fromPop){try{const mat=$("#layer .mat"),l2=($("#layer2")||{}).innerHTML;
-    if(mat&&!l2&&CM168_PILHA.length){if(fromPop===true){cm168Volta(CM168_PILHA.pop());return}
-      /* fechar de vez ("‹ Capa", Esc, arrastar): desfaz também os passos do "Próxima" */
-      const k=Math.min(CM168_PILHA.length,HST-1);CM168_PILHA=[];if(k>0){HST-=k;voltarH(k)}}
-    else if(!mat)CM168_PILHA=[]}catch(e){}
-  const r=_cl168.apply(this,arguments);try{if(!$("#layer .mat")){CM168_PILHA=[];cm168Url(null)}}catch(e){}return r}}
 /* endereço da matéria aberta (#m=<id>): copiar a barra manda a notícia, recarregar reabre */
 function cm168Url(pid){try{const base=location.pathname+location.search,h=pid?"#m="+pid:"";if(location.hash===h||(!pid&&!/^#m=/.test(location.hash)))return;history.replaceState(history.state,"",base+h)}catch(e){}}
 /* ponto de leitura: o bloco que está no alto da tela e quanto dele já passou */

@@ -99,9 +99,6 @@ storyAuto=(function(ant){return function(p){const x=ST.itens&&ST.itens[ST.i];if(
 {const _sr63=storyRetoma;storyRetoma=function(){const r=_sr63.apply(this,arguments);const v=$("#layer .us2-vid");if(v&&v.paused&&ST.timer)v.play().catch(()=>{});return r}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-usom]");if(!b)return;e.stopPropagation();e.preventDefault();US_MUDO=!US_MUDO;const v=$("#layer .us2-vid");if(v){v.muted=US_MUDO;if(!US_MUDO)v.play().catch(()=>{})}b.textContent=US_MUDO?"🔇":"🔊"},true);
 /* ===== Feed: Reels tocando sozinhos ===== */
-{const _pp63=pubPostHTML;pubPostHTML=function(x){let h=_pp63.apply(this,arguments);const es=x.estilo||{};if(!es.reel||!es.video)return h;
-  const poster=pubSrc(pubUrl(x.fotos[0])),vu=vidSrc(pubUrl(es.video));h=h.replace(/<img class="up-img"[^>]*>/,`<video class="up-img up-vid" muted loop playsinline preload="none" poster="${poster}" data-vsrc="${vu}" data-ini="${+es.ini||0}" data-fim="${+es.fim||0}"></video><span class="up-rl">▶ Reels</span>${es.mudo?"":`<button type="button" class="up-som" data-upsom aria-label="Ligar o som">🔇</button>`}`);
-  return h.replace('class="post upost','class="post upost up-reel')}}
 setInterval(()=>{if(document.hidden)return;const vs=document.querySelectorAll("#posts .up-vid");const H=innerHeight;vs.forEach(v=>{const r=v.getBoundingClientRect();const vis=r.height>0&&r.top<H*.75&&r.bottom>H*.25&&!$("#layer").innerHTML;
   if(vis){if(!v.src&&v.dataset.vsrc){v.src=v.dataset.vsrc;if(+v.dataset.ini)v.currentTime=+v.dataset.ini}if(+v.dataset.fim&&v.currentTime>=+v.dataset.fim)v.currentTime=+v.dataset.ini||0;if(v.paused)v.play().catch(()=>{})}else if(!v.paused)v.pause()})},500);
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".upost [data-upsom]");if(!b)return;e.stopPropagation();e.preventDefault();const v=b.closest(".up-sl").querySelector(".up-vid");if(!v)return;
@@ -112,6 +109,5 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 {const _ap63=pubApagar;pubApagar=async function(id){const x=pubDe(id),vp=x&&x.estilo&&x.estilo.video;const r=await _ap63.apply(this,arguments);if(r&&vp)try{await SB.storage.from("videos").remove([vp])}catch(e){}return r}}
 {const _lm63=pubLimparMeus;pubLimparMeus=async function(){const now=Date.now();const vs=PUB.itens.filter(x=>x.autor===S.uid&&x.tipo==="story"&&(x.expira||0)<now&&x.estilo&&x.estilo.video).map(x=>x.estilo.video);const r=await _lm63.apply(this,arguments);if(vs.length)try{await SB.storage.from("videos").remove(vs)}catch(e){}return r}}
 /* mensagens de erro do vídeo no story */
-{const _t63=toast;toast=function(m){if(/Não deu para publicar/.test(m||"")&&window.__vErr)m=window.__vErr;return _t63.apply(this,[m,...[].slice.call(arguments,1)])}}
 {const _vs63=edVidStory;edVidStory=async function(){try{return await _vs63.apply(this,arguments)}catch(e){window.__vErr=String(e&&e.message)==="SEM_VIDEOS"?"Os vídeos ainda não estão ligados no Prumo (falta rodar o SQL novo).":String(e&&e.message)==="GRANDE"?"O vídeo ficou grande demais. Corte um trecho menor.":null;setTimeout(()=>{window.__vErr=null},4000);throw e}}}
 

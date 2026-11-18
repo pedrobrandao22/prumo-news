@@ -65,7 +65,6 @@ var CA159_SETA={sobe:"▲",desce:"▼",estavel:"="};
 /* ===== 4. botão da balança no cabeçalho enquanto a Capa está no alto ===== */
 function ca159Lp(){const no=VIEW==="capa"&&scrollY<40&&!!document.querySelector("#v-capa .cp-top");if(document.getElementById("lpm"))return;document.documentElement.classList.toggle("ca159-lp-topo",no)}
 addEventListener("scroll",ca159Lp,{passive:true});
-{const _go159=go;go=function(){const r=_go159.apply(this,arguments);try{ca159Lp()}catch(e){}return r}}
 
 /* ===== 6. chamada de evento que já passou ===== */
 function ca159DiaSP(iso){const d=new Date(iso);if(isNaN(d))return "";try{return d.toLocaleDateString("en-CA",{timeZone:"America/Sao_Paulo"})}catch(e){return ""}}
@@ -84,7 +83,6 @@ function ca159Sino(){document.querySelectorAll(".at-b").forEach(b=>{const s=b.qu
   let n=0;try{n=S.uid&&S.membro?atNovas():0}catch(e){}
   document.querySelectorAll(".at-b").forEach(b=>{const d=b.querySelector(".at-dot");if(d){d.textContent=n?(n>9?"9+":String(n)):"";d.classList.toggle("ca159-n",!!n)}
     b.setAttribute("aria-label","Atividade"+(n?`: ${n} ${n===1?"novidade":"novidades"}`:""))})}
-{const _ad159=atDot;atDot=function(){const r=_ad159.apply(this,arguments);try{ca159Sino()}catch(e){}return r}}
 
 /* ===== 8. "Ver a seção": Feed já na lista da editoria ===== */
 function ca159NaLista(n){const s=document.querySelector("#v-feed .sech");if(VIEW!=="feed"||FILTRO==="tudo")return;

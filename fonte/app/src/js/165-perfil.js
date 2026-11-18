@@ -34,9 +34,6 @@ function pf165Conta(){const c=$("#v-me .pf-conta");if(!c||c.dataset.pf165)return
 function pf165Guardados(){document.querySelectorAll("#v-me .gd161-nl [data-open]").forEach(b=>{if(b.dataset.pf165)return;b.dataset.pf165="1";const p=pautaById(b.dataset.open);if(!p)return;
   try{const t=b.querySelector(".svt");if(t&&fotoDe(p)){const d=document.createElement("div");d.innerHTML=capaArte(p,"svt",false);const n=d.firstElementChild;if(n)t.replaceWith(n)}}catch(e){}
   try{const s=b.querySelector(".svx>span"),ch=capaChapeu(p);if(s&&ch){const i=s.textContent.indexOf(" · ");if(i>0)s.textContent=ch+s.textContent.slice(i)}}catch(e){}})}
-{const _rm165=renderMe;renderMe=function(){const r=_rm165.apply(this,arguments);try{if(S.uid&&S.membro){const v=$("#v-me");
-    v.querySelectorAll('.pf-bts [data-criarde="post"]').forEach(b=>b.remove());
-    if(PF_ABA==="conta")pf165Conta();if(PF_ABA==="salvos")pf165Guardados();pf165Abas(v)}}catch(e){console.error(e)}return r}}
 if(typeof pfvDesenha==="function"){const _pv165=pfvDesenha;pfvDesenha=function(){const r=_pv165.apply(this,arguments);try{pf165Abas($("#layer .pfv"))}catch(e){}return r}}
 if(typeof vn112PfAba==="function"){const _pa165=vn112PfAba;vn112PfAba=function(k,camada){const r=_pa165.apply(this,arguments);
   try{if(!camada&&k==="conta"){const ab=$("#v-me .vn-abas");if(ab){const y=ab.getBoundingClientRect().top+scrollY-6;scrollTo(0,Math.max(0,y))}}}catch(e){}return r}}
@@ -46,7 +43,6 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
   e.preventDefault();e.stopPropagation();abrirMateria(pid);try{const v=$("#layer .mat-v");if(v){v.textContent="‹ Guardados";v.setAttribute("aria-label","Voltar para Guardados")}}catch(_){}},true);
 
 /* ---------- 4. Atividade: cobertura por cima, fechar volta para a Atividade ---------- */
-if(typeof atAcao==="function"){const _aa165=atAcao;atAcao=function(x){if(x&&x.acao==="cob"&&x.pid&&$("#layer .pfv-at")&&pautaById(x.pid)){abrirPagCob(x.pid);return}return _aa165.apply(this,arguments)}}
 /* "Ler a notícia" na cobertura aberta por cima da Atividade: fecha as duas e abre a matéria */
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#layer2 [data-cobler]");if(!b||!$("#layer .pfv-at"))return;e.preventDefault();e.stopPropagation();
   const id=b.dataset.cobler;closeLayer();closeLayer();setTimeout(()=>{try{if(pautaById(id))abrirMateria(id);else openSnap(id)}catch(_){}},80)},true);
@@ -69,11 +65,6 @@ if(typeof abrirAddAmigos==="function"){const _ad165=abrirAddAmigos;abrirAddAmigo
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-pf165conv]");if(!b)return;e.preventDefault();e.stopPropagation();const u=b.dataset.pf165conv;
   closeLayer();setTimeout(()=>{try{go("msgs");abrirConversa(u)}catch(_){}},80)},true);
 
-/* ---------- 6. Conversas: fileira de amigos sem repetir a lista ---------- */
-{const _rg165=renderMsgs;renderMsgs=function(){const r=_rg165.apply(this,arguments);try{if(S.uid&&S.membro&&!THREAD){const row=$("#v-msgs .dm-amg");if(row){
-  const conv=new Set([...document.querySelectorAll("#v-msgs .dm-lista [data-thread]")].map(b=>b.dataset.thread));
-  if(conv.size){row.querySelectorAll("[data-thread]").forEach(b=>{if(conv.has(b.dataset.thread))b.remove()});
-    if(!row.querySelector("[data-thread]"))row.remove();else if(!(row.previousElementSibling&&row.previousElementSibling.classList.contains("pf165-amh")))row.insertAdjacentHTML("beforebegin",`<h3 class="dm-sh pf165-amh">Amigos</h3>`)}}}}catch(e){}return r}}
 
 /* ---------- 7. Entrar e criar conta: avisos na ordem da tela ---------- */
 {const _ec165=entrarConta;entrarConta=function(){try{const em=($("#lemail")||{}).value||"",pw=($("#lsenha")||{}).value||"";if(em.trim()&&pw){const m=pf165EmErro(em);if(m)return mostraErro("#lerro",m)}}catch(e){}return _ec165.apply(this,arguments)}}

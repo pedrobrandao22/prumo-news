@@ -104,5 +104,4 @@ function dc122Hf(h,x){if(typeof h!=="string"||!h||!x||x.tipo!=="post"||typeof VN
     if(card){if(cn.d&&!car.querySelector(".cn102-dsl"))card.insertAdjacentHTML("afterend",dc122Grafico(x,cn));card.remove();dc122Slides(a)}}
   if(corpo)corpo.classList.add("dc122-corpo");
   return a.outerHTML}
-{const _pp122=pubPostHTML;pubPostHTML=function(x){let h=_pp122.apply(this,arguments);try{h=dc122Hf(h,x)}catch(e){}try{h=dc122Nome(h)}catch(e){}return h}}
 if(typeof VISUAL_NOVO!=="undefined"&&VISUAL_NOVO&&typeof VN112_CT!=="undefined"&&VN112_CT==="a")document.documentElement.classList.add("dc122");

@@ -45,8 +45,6 @@ function lt134Onde(t){if(!t||!t.closest)return "outro";
 ["pointerdown","click"].forEach(k=>window.addEventListener(k,e=>{LT134.ctx={o:lt134Onde(e.target),t:Date.now()}},true));
 /* veio de um aviso (Atividade ou celular) */
 if(typeof nt124AbrePub==="function"){const _ap=nt124AbrePub;nt124AbrePub=function(id){LT134.notif={id:String(id||""),t:Date.now()};return _ap.apply(this,arguments)}}
-{const _aa=atAcao;atAcao=function(x){if(x&&x.acao==="lt134col"){const id=x.col;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>{LT134.forca="notificacao";cs123Abrir(id)},320);return}
-  if(x&&x.pub)LT134.notif={id:String(x.pub),t:Date.now()};return _aa.apply(this,arguments)}}
 if(typeof nt124RotaTenta==="function"){const _rt=nt124RotaTenta;nt124RotaTenta=function(n){const nt=NT124.rota;
   if(nt&&/^coluna:[0-9a-f-]{36}$/i.test(nt)&&nt124Pronto()){NT124.rota=null;const id=nt.slice(7);try{if($("#layer2")?.innerHTML||$("#layer").innerHTML)closeLayer()}catch(e){}
     setTimeout(async()=>{try{if(!pubDe(id))await pubCarregar()}catch(e){}if(pubDe(id)){LT134.forca="notificacao";cs123Abrir(id)}else abrirAtividade()},60);return}
@@ -105,11 +103,6 @@ async function lt134AssTroca(autor,serie,b){if(precisaConta()||LT134.v13!==true|
   lt134AssRedesenha();try{atRedesenha()}catch(e){}}
 
 /* ----- Atividade: coluna nova de série/autora assinada (só as que a pessoa já pode ler) ----- */
-{const _ai=atItens;atItens=function(){let it=_ai.apply(this,arguments);try{if(LT134.v13!==true||!LT134.assin.length||!Array.isArray(it)||!S.uid)return it;const ag=Date.now(),novos=[],ids=new Set();
-    pubVisiveis().forEach(x=>{if(!x||x.autor===S.uid||x.tipo!=="post"||ag-x.at>30*864e5)return;const c=cs123Col(x);if(!c)return;const a=lt134AssDe(x.autor,c.serie);if(!a||x.at<a.at)return;ids.add(x.id);
-      const t=c.tit.length>80?c.tit.slice(0,79).trimEnd()+"…":c.tit;
-      novos.push({k:"lt134c:"+x.id,at:x.at,us:[x.autor],ic:"✎",txt:`<b>${esc(nomeDe(x.autor))}</b> ${a.serie?`publicou na série “${esc(c.serie)}”`:"publicou uma coluna"}: “${esc(t)}”`,col:x.id,acao:"lt134col"})});
-    if(novos.length)it=it.filter(y=>!(y&&/^nt124c:/.test(String(y.k))&&ids.has(String(y.k).slice(7)))).concat(novos).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){}return it}}
 /* o tipo novo nas Notificações (só com a v13) */
 try{NT124_TIPOS.push(["colunas_seguidas","Séries e colunistas que você assina","Coluna nova de quem você escolheu ser avisado, sem seguir a pessoa","✎",0]);
   NT124_PLURAL.colunas_seguidas=["coluna nova de série assinada","colunas novas de séries assinadas"]}catch(e){}
@@ -192,12 +185,6 @@ function lt134Trecho(x){const t=x&&x.estilo&&x.estilo.trecho;if(!t||typeof t!=="
   return {t:s,au:/^[0-9a-f-]{36}$/i.test(String(t.au||""))?String(t.au):"",n:cs123S(t.n,60).trim()}}
 const lt134TrNome=tr=>tr.au&&(S.membros[tr.au]||tr.au===S.uid||(CS123.pess||{})[tr.au])?nomeDe(tr.au):(tr.n||"Membro");
 function lt134CitHTML(tr,id){return `<blockquote class="lt134-cit"${id?` data-cs123ler="${esc(id)}"`:""}><p>“${esc(tr.t)}”</p><cite>Coluna de ${esc(lt134TrNome(tr))}</cite></blockquote>`}
-{const _pp=pubPostHTML;pubPostHTML=function(x){const h=_pp.apply(this,arguments);try{const tr=lt134Trecho(x),rp=tr&&vn112Rp(x);if(!tr||typeof h!=="string"||!h)return h;
-  const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a)return h;a.classList.remove("vn-rp-so");a.classList.add("lt134-pc");
-  a.querySelectorAll(".vn-rpk").forEach(k=>{const n=k.nextSibling;if(n&&n.nodeType===3&&/^\s*·\s*$/.test(n.nodeValue))n.remove();k.remove()});
-  const blk=lt134CitHTML(tr,rp&&rp.k==="pub"?rp.id:""),w=a.querySelector(".vn-rpw"),q=w&&w.querySelector(".vn-q");
-  if(q)q.insertAdjacentHTML("beforebegin",blk);else if(w)w.insertAdjacentHTML("beforeend",blk);else{const ph=a.querySelector(":scope>.ph");if(ph)ph.insertAdjacentHTML("afterend",`<div class="gut">${blk}</div>`);else a.insertAdjacentHTML("afterbegin",blk)}
-  return a.outerHTML}catch(e){return h}}}
 /* a citação com trecho não é "repost simples" (não some nem se junta no Feed) */
 if(typeof dc122Simples==="function"){const _ds=dc122Simples;dc122Simples=function(x){return lt134Trecho(x)?null:_ds.apply(this,arguments)}}
 /* seleção dentro do texto da coluna */
