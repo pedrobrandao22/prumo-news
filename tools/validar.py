@@ -304,8 +304,8 @@ def pendencias_do_dia(f, agora, IND=None):
     """Edição parada e mercado de outro dia (16/11: rápidas da tarde "sem novidade" com o Feed só de manhã)."""
     out = []
     hoje = agora.date()
-    if hoje.weekday() >= 5: return out
     ps = [p for p in f.get("pautas") or [] if isinstance(p, dict)]
+    if hoje.weekday() >= 5: return eventos_de_hoje_parados(ps, agora)
     # EDIÇÃO PARADA: de tarde, nenhuma notícia de Política, Economia, Brasil ou Mundo ganhou fato novo há 6 h
     if 13 <= agora.hour < 23:
         hs = [h for h in (ultimo_fato(p) for p in ps if p.get("secao") in ("politica", "economia", "brasil", "mundo")) if h and h <= agora]
@@ -317,6 +317,7 @@ def pendencias_do_dia(f, agora, IND=None):
             out.append({"pid": "", "tipo": "edicao_parada", "texto": f"nenhuma notícia ganhou fato novo desde {ult.strftime('%d/%m %Hh%M')} "
                         f"({int((agora - ult).total_seconds() // 3600)} h): quem abre agora vê o Feed da manhã. Transforme em notícia (add_pauta ou update_add) "
                         f"o fato mais importante da tarde" + (f" (breves: {ex})" if ex else "") + " (manual 3b, EDIÇÃO DA TARDE)"})
+    out += eventos_de_hoje_parados(ps, agora)
     # MERCADO DE OUTRO DIA: depois do fechamento (18h), a notícia de mercado ainda fala do pregão anterior
     ind = IND or {}
     datas_ind = {str((ind.get(k) or {}).get("data") or "") for k in ("dolar", "ibovespa")}
@@ -330,6 +331,37 @@ def pendencias_do_dia(f, agora, IND=None):
                 out.append({"pid": p.get("id") or "", "tipo": "mercado_velho", "texto": f"o mercado já fechou hoje e a notícia ainda é de outro pregão ('{tit[:60]}'): "
                             "registre o fechamento do dia (update_add, conferido em indicadores.json e num veículo) (manual 3b, EDIÇÃO DA TARDE)"})
     return out
+
+def eventos_de_hoje_parados(ps, agora):
+    """EVENTO DE HOJE PARADO (corretor 18/11; testador 17/11: às 16h50 a manchete "Senado vota os quatro destaques do ajuste
+    fiscal na terça (17)" seguia com a última linha às 06h52, e "Seleção enfrenta Singapura na terça (17)" continuava no futuro
+    depois do jogo). O título anuncia para hoje (data de hoje + verbo de futuro/agenda na mesma frase) e a notícia não ganhou
+    fato novo: com horário no título, 3 h depois dele; sem horário, das 14h em diante e 4 h sem fato novo."""
+    out, hoje = [], agora.date()
+    for p in ps:
+        if p.get("status") == "encerrada": continue
+        n = p.get("neutro") if isinstance(p.get("neutro"), dict) else {}
+        tit = str(n.get("titulo") or "")
+        uf = ultimo_fato(p)
+        if not tit or not uf: continue
+        for cl in re.split(r";\s+|\s+[—–]\s+|:\s+", tit):
+            if not any(d == hoje for _, _, d, _ in datas_em(cl, hoje)): continue
+            if not (FUTURO_FORTE.search(cl) or FUTURO_PRESENTE.search(cl)) or PASSADO_NARRADO.search(cl): continue
+            hm = HORA_EVENTO.search(cl)
+            if hm and int(hm[1]) <= 23:
+                ini = datetime(hoje.year, hoje.month, hoje.day, int(hm[1]), min(int(hm[2] or 0), 59), tzinfo=SP)
+                parado = agora >= ini + timedelta(hours=3) and uf < ini + timedelta(minutes=30)
+            else:
+                parado = agora.hour >= 14 and (agora - uf).total_seconds() >= 4 * 3600
+            if parado:
+                out.append({"pid": p.get("id") or "", "tipo": "evento_de_hoje_parado", "texto":
+                            f"o título anuncia para hoje ('{tit[:70]}') e a notícia não tem fato novo desde {uf.strftime('%d/%m %Hh%M')}: "
+                            "registre o estado com hora (update_add: começou, adiado, aprovado, resultado do jogo) e reescreva o título; "
+                            "se nada mudou, diga isso na atualização ('sem novidade desde 7h; a votação ainda não começou') "
+                            "(manual 3b, EVENTO DE HOJE)"})
+            break
+    return out
+
 
 # ---------- checagem ----------
 # números do mercado no texto × indicadores.json (dólar e Ibovespa, gravados pelo robô de cotações)
