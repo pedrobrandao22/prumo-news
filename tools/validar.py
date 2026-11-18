@@ -152,7 +152,8 @@ def dur_agenda(texto):
 # removida", "Tema passa a Dólar e Bolsa") apareceram como manchete nas Últimas da Capa.
 BASTIDOR_SEMPRE = (r"\bo Prumo (ainda )?n[ãa]o (leu|conferiu|achou|encontrou|confirmou)|\bas buscas n[ãa]o\b|\bconferente\b"
                    r"|atualiza[çc][ãa]o (duplicada|repetida)|\bduplicad[ao]s?\b[^;.]{0,40}\bremovid[ao]s?\b"
-                   r"|\bremovid[ao]s? (da|do) (feed|edi[çc][ãa]o|lista)\b|^\s*tema passa a\b|;\s*tema passa a\b|\bnota interna\b")
+                   r"|\bremovid[ao]s? (da|do) (feed|edi[çc][ãa]o|lista)\b|^\s*tema passa a\b|;\s*tema passa a\b|\bnota interna\b"
+                   r"|\b(p[áa]ginas|sites) consultad[ao]s\b")
 BASTIDOR_RODADA = r"|\bnesta rodada\b|\brodada anterior\b|\b(na|da) rodada (r[áa]pida|completa)\b"
 
 
@@ -357,7 +358,8 @@ def eventos_de_hoje_parados(ps, agora):
                 out.append({"pid": p.get("id") or "", "tipo": "evento_de_hoje_parado", "texto":
                             f"o título anuncia para hoje ('{tit[:70]}') e a notícia não tem fato novo desde {uf.strftime('%d/%m %Hh%M')}: "
                             "registre o estado com hora (update_add: começou, adiado, aprovado, resultado do jogo) e reescreva o título; "
-                            "se nada mudou, diga isso na atualização ('sem novidade desde 7h; a votação ainda não começou') "
+                            "se nada mudou, diga isso na atualização ('sem novidade desde 7h; a votação ainda não começou'), sem trocar o título "
+                            "pelo 'sem confirmação': o título continua com o fato que se sabe "
                             "(manual 3b, EVENTO DE HOJE)"})
             break
     return out
@@ -1114,6 +1116,76 @@ def checar_regras_1711(f, ant, ref, agora, virada):
                       f", mas o título diz R$ {vt[0]:.2f}".replace(".", ",") + ": use o mesmo número (manual 3b, ENTENDA)")
 
 
+# ---------- corretor 18/11 (tarde): "sem confirmação" não é notícia ----------
+# Testador 17/11 21h50: a Capa abriu com "Sem votação confirmada do PL das big techs na Câmara hoje", "Sem decisão confirmada
+# da Aneel sobre a Enel-SP hoje" e "Placar de Brasil x Singapura não foi confirmado"; "Últimas" repetia "sem desfecho
+# confirmado". E a matéria do ajuste dizia "o resultado não foi confirmado" nas Atualizações, mas "votados na terça (17)" no
+# Entenda, "Senado vota os quatro destaques; o texto segue para a Câmara" na linha do tempo e "Concluída a votação…" no
+# "O que vem agora".
+SEM_CONFIRMACAO = re.compile(r"\b(sem|segue sem|seguem sem|ainda sem)\s+(\w+\s+){0,3}confirma(d[ao]s?|[çc][ãa]o)\b"
+                             r"|\bn[ãa]o (foi|foram|[ée]|s[ãa]o|tem|t[êe]m|teve|tiveram) (\w+\s+){0,2}confirmad[ao]s?\b"
+                             r"|\bsem (desfecho|resultado|decis[ãa]o|placar) (confirmad[ao]|conhecid[ao]|divulgad[ao])\b", re.I)
+RESULTADO_ABERTO = re.compile(r"\b(resultado|desfecho|placar|decis[ãa]o)\b[^.;]{0,60}\bn[ãa]o (foi|tinha sido|havia sido) (\w+\s+){0,1}(confirmad|divulgad)[ao]"
+                              r"|\bsem (desfecho|resultado|decis[ãa]o|placar) (confirmad[ao]|conhecid[ao]|divulgad[ao])\b"
+                              r"|\b(resultado|desfecho|placar)\b[^.;]{0,30}\bainda n[ãa]o (saiu|foi divulgad)", re.I)
+FEITO = re.compile(r"\b(votad[oa]s?|aprovad[oa]s?|rejeitad[oa]s?|derrubad[oa]s?|mantid[oa]s?|conclu[íi]d[oa]s?|segue para|seguem para|"
+                   r"seguiu para|venceu|venceram|perdeu|perderam|empatou|empataram|decidiu|decidiram|cassou|aprovou|aprovaram|rejeitou|rejeitaram)\b", re.I)
+
+
+def checar_incerto_1811(f, ref, virada):
+    """1. TÍTULO NÃO É "SEM CONFIRMAÇÃO" (manual 3b): neutro.titulo e breves com "sem … confirmada", "não foi confirmado",
+    "sem desfecho confirmado" viram ERRO (aviso na virada); "Últimas" (mudancas) e "Em 1 min" (resumo_dia), aviso.
+    2. RESULTADO EM ABERTO (manual 3b): se a atualização mais recente diz que o resultado não foi confirmado, a linha do tempo,
+    o Entenda e o "O que vem agora" não podem dar o fato daquele dia como feito."""
+    hoje = ref.date()
+    for p in f.get("pautas") or []:
+        if not isinstance(p, dict): continue
+        pid = p.get("id", "?")
+        tit = str((p.get("neutro") or {}).get("titulo") or "") if isinstance(p.get("neutro"), dict) else ""
+        m = SEM_CONFIRMACAO.search(tit)
+        if m:
+            (A if virada else E)(f"[{pid}] neutro.titulo é a falta de notícia ('{tit[:70]}'): o título diz o fato que se sabe (o que está "
+                                 "em jogo, quem decide, quando) e o estado vai numa atualização com hora ('resultado ainda não divulgado às 21h48') (manual 3b, SEM CONFIRMAÇÃO)")
+        ups = sorted([u for u in p.get("atualizacoes") or [] if isinstance(u, dict) and not str(u.get("texto", "")).startswith("Correção")],
+                     key=lambda u: str(u.get("hora", "")))
+        if not ups: continue
+        ut = str(ups[-1].get("texto") or "")
+        if not RESULTADO_ABERTO.search(ut): continue
+        hu = dt(ups[-1].get("hora"))
+        ds = [d for _, _, d, _ in datas_em(ut, hu.date() if hu else hoje) if d]
+        dia = ds[0] if ds else (hu.date() if hu else hoje)
+        rot = dia.strftime("%d/%m")
+        for vi, v in enumerate(p.get("visuais") or []):
+            if not isinstance(v, dict) or v.get("tipo") != "linha_do_tempo": continue
+            for ii, it in enumerate(v.get("itens") or []):
+                if not isinstance(it, dict): continue
+                q = str(it.get("quando") or "").strip()
+                mq = re.match(r"(\d{1,2})/(\d{1,2})", q)
+                if mq and (int(mq[1]), int(mq[2])) == (dia.day, dia.month) and FEITO.search(str(it.get("texto") or "")) or \
+                   mq and (int(mq[1]), int(mq[2])) == (dia.day, dia.month) and re.search(r"\b(vota|votam|julga|julgam|decide|decidem|enfrenta|enfrentam)\b", str(it.get("texto") or ""), re.I):
+                    (A if virada else E)(f"[{pid}] visuais.{vi}.itens.{ii}: a linha do tempo dá {rot} como feito ('{str(it.get('texto'))[:60]}'), "
+                                         f"mas a última atualização diz que o resultado não foi confirmado: tire o passo de {rot} ou escreva "
+                                         f"'previsto para {rot}; resultado ainda não confirmado' (manual 3b, RESULTADO EM ABERTO)")
+        campos = [("proximo", p.get("proximo"))]
+        campos += [(f"faq.{i}.r", q.get("r")) for i, q in enumerate(p.get("faq") if isinstance(p.get("faq"), list) else []) if isinstance(q, dict)]
+        for onde, t in campos:
+            for cl in re.split(r";\s+|\s+[—–]\s+|(?<=[.!?])\s+", str(t or "")):
+                if not FEITO.search(cl) or RESULTADO_ABERTO.search(cl) or re.search(r"\bse (for|forem|o|a|os|as)\b|\bquando\b|\bdepois que\b", cl, re.I): continue
+                dcl = [d for _, _, d, _ in datas_em(cl, hoje) if d]
+                if (dcl and dia in dcl) or (not dcl and re.search(r"\bconclu[íi]d[oa]s?\b", cl, re.I)):
+                    A(f"[{pid}] {onde} dá como feito o que a última atualização diz não estar confirmado ('{cl.strip()[:70]}'): use a mesma "
+                      f"cautela ('previstos para {rot}; resultado ainda não confirmado') (manual 3b, RESULTADO EM ABERTO)")
+                    break
+    for loc, k in (("breves", "titulo"), ("mudancas.itens", "texto"), ("resumo_dia.itens", "texto")):
+        base = f.get(loc.split(".")[0])
+        lst = base if loc == "breves" else ((base or {}).get("itens") if isinstance(base, dict) else None)
+        for i, x in enumerate(lst if isinstance(lst, list) else []):
+            t = str((x or {}).get(k) or "") if isinstance(x, dict) else ""
+            if SEM_CONFIRMACAO.search(t):
+                (E if loc == "breves" and not virada else A)(f"{loc}.{i}.{k} é a falta de notícia ('{t[:70]}'): diga o fato que se sabe; "
+                                                            "o estado ('resultado ainda não divulgado') vai na atualização (manual 3b, SEM CONFIRMAÇÃO)")
+
+
 # ---------- regras de 18/11: fato novo relevante vira notícia, não breve ----------
 NOVIDADES = None  # novidades.json (robô de manchetes), lido no main
 _M = None
@@ -1766,6 +1838,8 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     except Exception as e: A(f"conferência das regras de 16/11 (noite) falhou: {e!r}")
     try: checar_regras_1711(f, ant, ref, agora, virada)
     except Exception as e: A(f"conferência das regras de 17/11 falhou: {e!r}")
+    try: checar_incerto_1811(f, ref, virada)
+    except Exception as e: A(f"conferência de 'sem confirmação' (18/11) falhou: {e!r}")
     try: checar_breves_1811(f, ant, ref, NOVIDADES)
     except Exception as e: A(f"conferência das breves (18/11) falhou: {e!r}")
     try: checar_mercado(f, IND, ref)
