@@ -108,15 +108,8 @@ if(FOCO_LIGADO){
   {const _apn107=atPubNome;atPubNome=function(x){const n=_apn107.apply(this,arguments);try{if(!x||x.tipo!=="post")return n;const cn=cn102De(x),full=pubDe(x.id)||x,k=cn?cn.k:fc107EhTake(full)?"nt":"";
       if(k==="nt"){const p=pautaById(full.pid);return p?`seu comentário sobre “${esc(fc107Curto(versao(p,lente()).titulo,70))}”`:"seu comentário sobre uma notícia"}
       if(k==="ana"||k==="rel"||k==="enq"){const nm={ana:"sua análise",rel:"seu relato",enq:"sua pergunta"}[k];return cn.tit?`${nm} “${esc(fc107Curto(cn.tit,60))}”`:nm}}catch(e){}return n}}
-  {const _ai107=atItens;atItens=function(){let it=_ai107.apply(this,arguments);try{if(!S.uid||!S.membro||!Array.isArray(it))return it;const ag=Date.now(),g={};
-      pubVisiveis().forEach(x=>{if(x.autor===S.uid||ag-x.at>3*864e5||!fc107EhTake(x)||!pautaById(x.pid))return;(g[x.pid]=g[x.pid]||[]).push(x)});
-      Object.entries(g).forEach(([pid,l])=>{l.sort((a,b)=>b.at-a.at);const us=[...new Set(l.map(x=>x.autor))],p=pautaById(pid);
-        it.push({k:"fc107:"+pid,at:l[0].at,us,ic:"💬",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"comentaram":"comentou"} a notícia “${esc(fc107Curto(versao(p,lente()).titulo,80))}”`,pid,acao:"fc107"})});
-      it=it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80);return fc107AtAgrupa(it)}catch(e){}return it}}
   {const _al107=atLiHTML;atLiHTML=function(x,i){let h=_al107.apply(this,arguments);try{const g=x&&x.fc107g;if(!g)return h;h=h.replace(/^<li>/,`<li class="fc107-atg${g.i===g.n-1?" fc107-atgl":""}">`);
       if(g.i===0){const p=pautaById(g.pid);if(p)h=`<li class="fc107-ath"><button type="button" data-fc107mat="${esc(g.pid)}"><small style="color:${secCor(secOf(p))}">${esc(secNome(secOf(p)))}</small><b>${esc(versao(p,lente()).titulo)}</b></button></li>`+h}}catch(e){}return h}}
-  {const _at107=atThumb;atThumb=function(x){if(x&&(x.acao==="fc107"||x.pub)){const pb=x.pub&&(pubDe(x.pub)||AT.pubs[x.pub]),p=pautaById(x.acao==="fc107"?x.pid:pb&&!(pb.fotos||[]).length&&fc107EhTake(pb)?pb.pid:"");if(p)try{return `<span class="at-th fc107-atn">${capaArte(p,"fc107-ata")}</span>`}catch(e){}}return _at107.apply(this,arguments)}}
-  {const _aa107=atAcao;atAcao=function(x){if(x&&x.acao==="fc107"){const pid=x.pid;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>fc107Abre(pid),320);return}return _aa107.apply(this,arguments)}}
   {const _ad107=atDesenha;atDesenha=function(){const r=_ad107.apply(this,arguments);try{const v=$("#layer .pfv-at .pf-vz span");if(v)v.textContent="Aqui aparecem os comentários dos seus amigos sobre as notícias, as reações ao que você publica, os pedidos de amizade e as novidades das coberturas que você segue."}catch(e){}return r}}
   /* stories */
   {const _rs107=renderSecs;renderSecs=function(){const r=_rs107.apply(this,arguments);try{fc107Tray()}catch(e){}return r}}

@@ -46,7 +46,6 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
   e.preventDefault();e.stopPropagation();abrirMateria(pid);try{const v=$("#layer .mat-v");if(v){v.textContent="‹ Guardados";v.setAttribute("aria-label","Voltar para Guardados")}}catch(_){}},true);
 
 /* ---------- 4. Atividade: cobertura por cima, fechar volta para a Atividade ---------- */
-if(typeof atAcao==="function"){const _aa165=atAcao;atAcao=function(x){if(x&&x.acao==="cob"&&x.pid&&$("#layer .pfv-at")&&pautaById(x.pid)){abrirPagCob(x.pid);return}return _aa165.apply(this,arguments)}}
 /* "Ler a notícia" na cobertura aberta por cima da Atividade: fecha as duas e abre a matéria */
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#layer2 [data-cobler]");if(!b||!$("#layer .pfv-at"))return;e.preventDefault();e.stopPropagation();
   const id=b.dataset.cobler;closeLayer();closeLayer();setTimeout(()=>{try{if(pautaById(id))abrirMateria(id);else openSnap(id)}catch(_){}},80)},true);

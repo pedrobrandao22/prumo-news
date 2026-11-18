@@ -1,11 +1,6 @@
 /* ---------- 108: correções da vida de vários dias de um grupo (QA de produção 2, 03/11): o lado da amiga, dois aparelhos, recarregar no meio ---------- */
-/* 1. amizade desfeita/bloqueio: o anel e os posts de quem deixou de ser amigo saem do Feed na hora; amigo novo traz os posts dele */
-{let k108=null;const _ra108=rerenderAll;rerenderAll=function(){const r=_ra108.apply(this,arguments);
-  try{if(S.uid&&S.amigosOk){const k=S.uid+":"+[...S.amigos].sort().join(",");
-    if(k108!==null&&k!==k108&&k.split(":")[0]===k108.split(":")[0]&&typeof PUB!=="undefined"&&PUB.on){const ant=new Set(k108.split(":")[1].split(","));
-      document.querySelectorAll("#posts .upost[id^='p-u:']").forEach(el=>{const x=pubDe(el.id.slice(4));if(x&&x.autor!==S.uid&&!S.amigos.has(x.autor))el.remove()});
-      pubRedesenha();if([...S.amigos].some(u=>!ant.has(u)))setTimeout(pubCarregar,300)}
-    k108=k}}catch(e){}return r}}
+/* 1. amizade desfeita/bloqueio: o anel e os posts de quem deixou de ser amigo saem do Feed na hora; amigo novo traz os posts dele
+   (agora em rerenderAll, no 201-nucleo.js) */
 
 /* 2. post publicado em segundo plano: fica nos rascunhos até o servidor confirmar (fechar o app no meio não perde o post) */
 const PQ108_LS="prumo-pq-pend";
@@ -43,10 +38,6 @@ setInterval(()=>{if(!document.hidden&&st108Vencidos())pubRedesenha()},20e3);
 {const _au108=igAbrirUser;igAbrirUser=function(u){try{if(u&&u!==S.uid&&String(u).charAt(0)!=="~"&&typeof PUB!=="undefined"&&PUB.on&&!pubStoriesDe(u).length){pubRedesenha();toast("Esse giro não está mais disponível.");return Promise.resolve()}}catch(e){}return _au108.apply(this,arguments)}}
 
 /* 6. Atividade: voto na pergunta de um post aparece como voto (não "respondeu ao seu post") */
-{const _ai108=atItens;atItens=function(){const l=_ai108.apply(this,arguments);try{(l||[]).forEach(x=>{if(!x||typeof x.k!=="string"||x.k.indexOf("voto:")!==0)return;const pb=AT.pubs[x.pub],cn=pb&&pb.tipo==="post"&&pb.estilo&&pb.estilo.cn;
-  if(cn&&cn.k==="enq"&&typeof x.txt==="string")x.txt=x.txt.replace(/ responderam ao (?:seu post|sua pergunta)( “[^”]*”)?$/," votaram na sua pergunta$1").replace(/ respondeu ao (?:seu post|sua pergunta)( “[^”]*”)?$/," votou na sua pergunta$1")});
-  /* concordância: "ao sua análise" → "à sua análise" (nomes do 107) */
-  (l||[]).forEach(x=>{if(x&&typeof x.txt==="string")x.txt=x.txt.replace(/ ao sua /g," à sua ")})}catch(e){}return l}}
 
 /* 7. Feed comprido: ao rolar, os posts que chegam ajustam a altura aos poucos (um pedaço por quadro), sem travar a rolagem.
       Antes cada lote de 6 posts media e redesenhava tudo de uma vez (até ~280 ms parado num celular médio). */

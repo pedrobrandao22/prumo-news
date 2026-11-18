@@ -475,3 +475,236 @@ function ppBase(x){const id="u:"+x.id,eu=x.autor===S.uid,fs=x.fotos.map(pubUrl),
       <div class="pollbox" data-poll hidden></div><div data-together></div><div data-nchat></div>
       <div class="cmt-area"><div class="cmts" data-cmts></div><button type="button" class="addc" data-a="cmt">Adicione um comentário…</button></div>
     </div></article>`}
+
+/* ===== Atividade (o sino) e bolinhas: atItens, atAcao, atThumb, atDot, updateBadge =====
+   Antes: definidas no 085 (updateBadge no 011) e remendadas em 18 (atItens), 8 (atAcao), 5 (atThumb), 3 (atDot) e
+   4 (updateBadge) arquivos. A parte "de sempre" de atItens, atAcao e atThumb continua como era, em atItensBase,
+   atAcaoBase e atThumbBase (copiadas do 085); aqui ficam os acréscimos, na ordem em que rodavam. */
+
+/* lista da Atividade. Camadas: 181 → 183 → 142 → 134 → 130 → 129 → 126 → 125 (nomes de quem não é membro, só durante
+   a montagem) → 124 … 086 → 085 */
+function atOrdem(a,b){return (b.fixo||0)-(a.fixo||0)||b.at-a.at}
+function atItens(){
+  /* [125] quem não é membro mas é conhecido ganha nome enquanto a lista é montada */
+  const pus=[];try{if(typeof AT!=="undefined"&&Array.isArray(AT.rows))AT.rows.forEach(x=>{const u=x&&x.uid;if(u&&!S.membros[u]&&!S.amigos.has(u)&&qa125Conhece(u)&&!pus.includes(u)){const p=CS123.pess[u]||{};S.membros[u]={uid:u,nome:p.nome||nomeDe(u),foto:p.foto||null};pus.push(u)}})}catch(e){}
+  let it;
+  try{
+    it=atItensBase();
+    /* [086] curtidas e respostas aos seus giros; seu post compartilhado num giro */
+    if(S.uid&&S.membro){const agora=Date.now();
+      try{(S.msgsIn||[]).filter(m=>(m.tipo==="curtiu_story"||m.tipo==="resp_story")&&+m.at>agora-30*864e5).forEach(m=>{const st=(m.snap&&m.snap.story)||{};
+          it.push({k:"s:"+m.id,at:+m.at,us:[m.de],ic:m.tipo==="curtiu_story"?"♥":"💬",txt:`<b>${esc(nomeDe(m.de))}</b> ${m.tipo==="curtiu_story"?"curtiu seu giro":"respondeu ao seu giro: “"+esc(cp152Corta(m.texto,80))+"”"}${m.tipo==="curtiu_story"&&st.t?` · “${esc(cp152Corta(st.t,50))}”`:""}`,msg:m,acao:"conv"})});
+        (PUB.itens||[]).filter(x=>x.tipo==="story"&&x.autor!==S.uid&&x.estilo&&Array.isArray(x.estilo.itens)).forEach(x=>{const f=x.estilo.itens.find(e=>e&&e.t==="pub"&&(e.au===S.uid||(AT.pubs[e.ref]&&1)));if(!f)return;
+          it.push({k:"sh:"+x.id,at:+x.at,us:[x.autor],ic:"↗",txt:`<b>${esc(nomeDe(x.autor))}</b> compartilhou seu post no giro`,story:x,pub:f.ref,acao:"vstory"})})}catch(e){}
+      it=it.sort(atOrdem).slice(0,80)}
+    /* [088] menção num comentário que já aparece como comentário: some */
+    {const cm=new Set(it.filter(x=>x.acao==="cmt").map(x=>x.us[0]+"|"+x.pub));
+    it=it.filter(x=>!(x.acao==="men"&&x.msg&&/^u:/.test(String(x.msg.pid||""))&&cm.has(x.msg.de+"|"+String(x.msg.pid).slice(2))))}
+    /* [106] a mesma pessoa duas vezes no mesmo post: uma só, e o verbo no singular */
+    try{(it||[]).forEach(x=>{if(!x||!Array.isArray(x.us)||x.acao!=="pub")return;const u=[...new Set(x.us)];if(u.length===x.us.length)return;x.us=u;
+      if(u.length===1&&typeof x.txt==="string")x.txt=x.txt.replace("</b> curtiram ","</b> curtiu ").replace("</b> responderam ao ","</b> respondeu ao ")})}catch(e){}
+    /* [107] amigos que comentaram uma notícia */
+    try{if(S.uid&&S.membro&&Array.isArray(it)){const ag=Date.now(),g={};
+        pubVisiveis().forEach(x=>{if(x.autor===S.uid||ag-x.at>3*864e5||!fc107EhTake(x)||!pautaById(x.pid))return;(g[x.pid]=g[x.pid]||[]).push(x)});
+        Object.entries(g).forEach(([pid,l])=>{l.sort((a,b)=>b.at-a.at);const us=[...new Set(l.map(x=>x.autor))],p=pautaById(pid);
+          it.push({k:"fc107:"+pid,at:l[0].at,us,ic:"💬",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"comentaram":"comentou"} a notícia “${esc(fc107Curto(versao(p,lente()).titulo,80))}”`,pid,acao:"fc107"})});
+        it=it.sort(atOrdem).slice(0,80);it=fc107AtAgrupa(it)}}catch(e){}
+    /* [108] votos na pergunta; "ao sua" → "à sua" */
+    try{(it||[]).forEach(x=>{if(!x||typeof x.k!=="string"||x.k.indexOf("voto:")!==0)return;const pb=AT.pubs[x.pub],cn=pb&&pb.tipo==="post"&&pb.estilo&&pb.estilo.cn;
+      if(cn&&cn.k==="enq"&&typeof x.txt==="string")x.txt=x.txt.replace(/ responderam ao (?:seu post|sua pergunta)( “[^”]*”)?$/," votaram na sua pergunta$1").replace(/ respondeu ao (?:seu post|sua pergunta)( “[^”]*”)?$/," votou na sua pergunta$1")});
+      /* concordância: "ao sua análise" → "à sua análise" (nomes do 107) */
+      (it||[]).forEach(x=>{if(x&&typeof x.txt==="string")x.txt=x.txt.replace(/ ao sua /g," à sua ")})}catch(e){}
+    /* [109] curtidas nos seus comentários */
+    if(V8.on&&S.uid&&S.membro&&(AT.cc8||[]).length){
+      try{const g={};AT.cc8.forEach(x=>{if(!S.amigos.has(x.uid)&&!S.membros[x.uid])return;const k=(x.pub||"")+"|"+x.cid;(g[k]=g[k]||{x,us:[],at:0}).us.push([x.uid,+x.at]);g[k].at=Math.max(g[k].at,+x.at)});
+        Object.entries(g).forEach(([k,o])=>{const c=at8Coment(o.x);if(!c)return;const us=o.us.sort((a,b)=>b[1]-a[1]).map(a=>a[0]);const t=String(c.texto||"");
+          it.push({k:"cc8:"+k,at:o.at,us,ic:"♥",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"curtiram":"curtiu"} seu comentário${t?`: “${esc(t.length>80?t.slice(0,79).trimEnd()+"…":t)}”`:""}`,cpid:c.pid,acao:"cc8"})})}catch(e){}
+      it=it.sort(atOrdem).slice(0,80)}
+    /* [112] reposts */
+    try{if(Array.isArray(it)){const n=vn112AtRp();if(n.length)it=it.concat(n).sort(atOrdem).slice(0,80)}}catch(e){}
+    /* [121] sem bloqueados; votos */
+    try{if(Array.isArray(it))it=tb121SemBloq(it).map(tb121Voto)}catch(e){}
+    /* [123] quem começou a seguir você */
+    if(V9.on&&S.uid&&S.membro&&CS123.segs.length&&Array.isArray(it)){
+      try{const lim=Date.now()-30*864e5;CS123.segs.filter(s=>s.at>lim&&s.uid!==S.uid).forEach(s=>it.push({k:"sg:"+s.uid,at:s.at,us:[s.uid],ic:"+",txt:`<b>${esc(nomeDe(s.uid))}</b> começou a seguir você`,u:s.uid,acao:"perfil"}))}catch(e){}
+      it=it.sort(atOrdem).slice(0,80)}
+    /* [124] seguidores novos e posts de quem você segue */
+    try{if(NT124.v9&&S.uid&&S.membro&&Array.isArray(it)){const ag=Date.now(),novos=[];
+        const semHora=NT124.seguidores.filter(s=>!s.at).map(s=>"nt124s:"+s.u);const L=semHora.length?nt124PrimeiraVez(semHora):{};
+        NT124.seguidores.forEach(s=>{if(!S.membros[s.u]||(S.bloq||[]).includes(s.u))return;const at=s.at||L["nt124s:"+s.u]||0;if(!at)return;
+          novos.push({k:"nt124s:"+s.u,at,us:[s.u],ic:"👤",txt:`<b>${esc(nomeDe(s.u))}</b> começou a seguir você`,u:s.u,acao:"perfil"})});
+        if(NT124.seguindo.size)pubVisiveis().filter(x=>NT124.seguindo.has(x.autor)&&x.autor!==S.uid&&x.tipo!=="story"&&ag-x.at<30*864e5&&!(NT124.segDesde&&x.at<(NT124.segDesde[x.autor]||0))&&!nt124RpMeu(x)).sort((a,b)=>b.at-a.at).slice(0,12).forEach(x=>{const col=nt124EhColuna(x);
+          const tt=String((x.estilo&&x.estilo.titulo)||x.texto||"").trim();
+          novos.push({k:(col?"nt124c:":"nt124p:")+x.id,at:x.at,us:[x.autor],ic:col?"✎":"▤",txt:`<b>${esc(nomeDe(x.autor))}</b> ${col?"publicou uma coluna":"publicou"}${tt?`: “${esc(tt.length>80?tt.slice(0,79).trimEnd()+"…":tt)}”`:""}`,pub:x.id,acao:"nt124pub"})});
+        if(novos.length)it=it.concat(novos).sort(atOrdem).slice(0,80)}}catch(e){}
+  }finally{pus.forEach(u=>{delete S.membros[u]})}
+  /* [126] "começou a seguir" uma vez só; título da coluna */
+  try{if(Array.isArray(it)){
+    const sg=new Set(it.filter(x=>x&&/^sg:/.test(String(x.k||""))).map(x=>String(x.k).slice(3)));
+    if(sg.size)it=it.filter(x=>!(x&&/^nt124s:/.test(String(x.k||""))&&sg.has(String(x.k).slice(7))));
+    it.forEach(x=>{if(!x||!/^nt124c:/.test(String(x.k||"")))return;const pb=pubDe(x.pub),tit=qb126TitCol(pb);
+      if(tit)x.txt=`<b>${esc(nomeDe(pb.autor))}</b> publicou uma coluna: “${esc(tit.length>80?tit.slice(0,79).trimEnd()+"…":tit)}”`});
+    if(typeof tb121SemBloq==="function")it=tb121SemBloq(it)}}catch(e){}
+  /* [129] reposts (decisões de 04/11) */
+  try{if(Array.isArray(it)){const n=dz129AtRp();if(n.length){const ja=new Set(it.map(x=>x.k));
+    const mais=n.filter(x=>!ja.has(x.k));if(mais.length)it=it.concat(mais).sort(atOrdem).slice(0,80)}}}catch(e){}
+  /* [130] junta itens parecidos */
+  try{it=aj130Junta(it)}catch(e){}
+  /* [134] colunas de quem você assina */
+  try{if(LT134.v13===true&&LT134.assin.length&&Array.isArray(it)&&S.uid){const ag=Date.now(),novos=[],ids=new Set();
+    pubVisiveis().forEach(x=>{if(!x||x.autor===S.uid||x.tipo!=="post"||ag-x.at>30*864e5)return;const c=cs123Col(x);if(!c)return;const a=lt134AssDe(x.autor,c.serie);if(!a||x.at<a.at)return;ids.add(x.id);
+      const t=c.tit.length>80?c.tit.slice(0,79).trimEnd()+"…":c.tit;
+      novos.push({k:"lt134c:"+x.id,at:x.at,us:[x.autor],ic:"✎",txt:`<b>${esc(nomeDe(x.autor))}</b> ${a.serie?`publicou na série “${esc(c.serie)}”`:"publicou uma coluna"}: “${esc(t)}”`,col:x.id,acao:"lt134col"})});
+    if(novos.length)it=it.filter(y=>!(y&&/^nt124c:/.test(String(y.k))&&ids.has(String(y.k).slice(7)))).concat(novos).sort(atOrdem).slice(0,80)}}catch(e){}
+  /* [142] alertas de erro (administrador) */
+  try{if(Array.isArray(it)&&TL142.alertas.length&&tl142SouAdm()){
+    const n=TL142.alertas.map(a=>{const m=String(a.mensagem||"");return {k:"tl142:"+a.id+":"+a.alerta_em,at:Date.parse(a.alerta_em)||Date.now(),us:[],ic:"⚠",acao:"tl142",tl142:+a.id,
+      txt:`<b>Erro novo frequente no app</b>: “${esc(m.length>90?m.slice(0,89)+"…":m)}” · ${+a.alerta_n||0} aparelhos em 1 hora`}});
+    it=it.concat(n).sort(atOrdem).slice(0,80)}}catch(e){}
+  /* [183] coberturas silenciadas */
+  try{if(Array.isArray(it)){const m=cb183Mudas();
+    if(Object.keys(m).length)it=it.filter(x=>!(x&&x.acao==="cob"&&x.pid&&m[x.pid]))}}catch(e){}
+  /* [181] pedidos para seguir */
+  if(sg181On()&&Array.isArray(it)){
+    try{SG181.rec.forEach(x=>it.push({k:"sp:"+x.uid,at:x.at,us:[x.uid],ic:"+",txt:`<b>${esc(nomeDe(x.uid))}</b> pediu para seguir você`,u:S.uid,acao:"perfil"}))}catch(e){}
+    it=it.sort(atOrdem).slice(0,80)}
+  return it;
+}
+
+/* tocar num item da Atividade. Camadas: 165 → 142 → 134 → 124 → 112 → 109 → 107 → 086 → 085 */
+function atAcao(x){
+  /* [165] cobertura: abre a página dela por cima da Atividade */
+  if(x&&x.acao==="cob"&&x.pid&&$("#layer .pfv-at")&&pautaById(x.pid)){abrirPagCob(x.pid);return}
+  /* [142] alerta de erro: abre a Administração */
+  if(x&&x.acao==="tl142"){if($("#layer").innerHTML)closeLayer();const id=x.tl142;setTimeout(()=>{TL142.adm.sub="erros";TL142.adm.abre=id;abrirAdmin("app")},320);return}
+  /* [134] coluna */
+  if(x&&x.acao==="lt134col"){const id=x.col;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>{LT134.forca="notificacao";cs123Abrir(id)},320);return}
+  if(x&&x.pub)LT134.notif={id:String(x.pub),t:Date.now()};
+  /* [124] post de quem você segue */
+  if(x&&x.acao==="nt124pub"){const id=x.pub;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>nt124AbrePub(id),320);return}
+  /* [112] repost */
+  if(x&&x.acao==="vnrp"){const id=x.vnrp;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>vn112AbrePub(id),320);return}
+  /* [109] curtida no seu comentário */
+  if(x&&x.acao==="cc8"){if($("#layer .pfv-at"))closeLayer();setTimeout(()=>openComments(x.cpid),320);return}
+  /* [107] amigos comentaram a notícia */
+  if(x&&x.acao==="fc107"){const pid=x.pid;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>fc107Abre(pid),320);return}
+  /* [086] conversa; giro */
+  if(x.acao==="conv"){if($("#layer .pfv-at"))closeLayer();setTimeout(()=>abrirConversa(x.msg.de),320);return}
+  if(x.acao==="vstory"){stLista([x.story],0,nomeDe(x.story.autor),"sh"+x.story.id);return}
+  return atAcaoBase(x);
+}
+
+/* miniatura de um item da Atividade. Camadas: 142 → 124 → 107 → 106 → 086 → 085 */
+function atThumb(x){
+  /* [142] */
+  if(x&&x.acao==="tl142")return "";
+  /* [124] post de quem você segue: a miniatura usa o post (só enquanto desenha) */
+  let novo124=false;
+  if(x&&x.acao==="nt124pub"){const pb=pubDe(x.pub);if(!pb)return "";novo124=!AT.pubs[x.pub];AT.pubs[x.pub]=pb}
+  let h;
+  m107:{
+    /* [107] notícia comentada: a arte da notícia */
+    if(x&&(x.acao==="fc107"||x.pub)){const pb=x.pub&&(pubDe(x.pub)||AT.pubs[x.pub]),p=pautaById(x.acao==="fc107"?x.pid:pb&&!(pb.fotos||[]).length&&fc107EhTake(pb)?pb.pid:"");if(p)try{h=`<span class="at-th fc107-atn">${capaArte(p,"fc107-ata")}</span>`;break m107}catch(e){}}
+    /* [106] post só de texto: a miniatura com o fundo dele */
+    const k=x&&x.pub,pb=k&&AT.pubs[k];
+    if(!pb||pb.tipo==="story"||(pb.fotos&&pb.fotos.length)||(pb.estilo&&pb.estilo.fundo))h=atThumb086(x);
+    else{AT.pubs[k]={...pb,estilo:{...(pb.estilo||{}),fundo:String(pb.id).charCodeAt(0)}};try{h=atThumb086(x)}finally{AT.pubs[k]=pb}}
+  }
+  if(novo124)delete AT.pubs[x.pub];
+  return h;
+}
+/* [086] giro com o seu post: a miniatura do post */
+function atThumb086(x){if(x.acao==="vstory"){const pb=AT.pubs[x.pub];if(pb)return atThumbBase({...x,pub:x.pub})}return atThumbBase(x)}
+
+/* bolinha da Atividade. Camadas: 159 → 124 → 106 → 085 */
+function atDot(){
+  /* [106] coração da Capa */
+  cp106Coracao();
+  /* [085] */
+  const n=S.uid&&S.membro?atNovas():0;document.querySelectorAll(".at-dot").forEach(d=>{d.hidden=!n});
+  /* [124] */
+  nt124Pinta();
+  /* [159] sino da Capa */
+  try{ca159Sino()}catch(e){}
+}
+
+/* contador de conversas não lidas. Camadas: 162 → 124 → 091 → 085 → 011 */
+function updateBadge(){
+  /* [162] conversas: só contam as que entram na conta (enquanto conta) */
+  const real=S.msgsIn,filtra=!!PREF.conv&&Array.isArray(real);if(filtra)S.msgsIn=real.filter(cv162Conta);
+  try{
+    /* [011] */
+    {const n=S.msgsIn.filter(m=>!m.lida).length,b=$("#badge");b.hidden=!n;b.textContent=n>9?"9+":n;const mb=$("#mbadge");if(mb){const p=S.pedidosIn.length;mb.hidden=!p;mb.setAttribute("aria-label",p?(p===1?"1 pedido de amizade":p+" pedidos de amizade"):"")}}
+    /* [085] */
+    atDot();atRedesenha();
+    /* [091] bloqueados não contam */
+    try{const bl=S.bloq||[];if(bl.length){const n=S.msgsIn.filter(m=>!m.lida&&!bl.includes(m.de)).length,b=$("#badge");if(b){b.hidden=!n;b.textContent=n>9?"9+":n}}}catch(e){}
+    /* [124] */
+    nt124Pinta();
+  }finally{if(filtra&&Array.isArray(S.msgsIn)&&S.msgsIn!==real)S.msgsIn=real}
+}
+
+/* ===== rerenderAll: redesenha o que depende da conta (depois de entrar, sair, chegar amigo…) =====
+   Antes: definida no 012 e remendada em 073, 085, 104-feed (2×), 106 e 108 (6 remendos).
+   Camadas: 108 → 106 → 104 → 104 → 085 → 073 → 012. */
+let RR104_NOMES="",RR104_K="",RR108_K=null;  /* eram variáveis dos blocos do 104 e do 108 */
+function rerenderAll(){
+  /* [106] pedidos aceitos */
+  at106Aceitos();
+  /* [012] */
+  refiltrar();if(FEED)renderChgBox();if(FEED)(FEED.pautas||[]).forEach(p=>updateSocial(p.id));if(VIEW==="msgs")renderMsgs();if(VIEW==="saved")renderSaved();if(VIEW==="play")renderPlay();if(VIEW==="me")renderMe();updateBadge();S._reAmg&&S._reAmg();
+  /* [073] curtidas e comentários dos posts de membros */
+  try{document.querySelectorAll("#posts .upost[data-pid]").forEach(a=>updateSocial(a.dataset.pid))}catch(e){}
+  /* [085] */
+  atDot();atRedesenha();
+  /* [104] nomes dos membros mudaram: redesenha os posts */
+  try{const k=Object.keys(S.membros||{}).sort().map(u=>u+"="+((S.membros[u]||{}).nome||"")).join("|");
+    if(RR104_NOMES&&k!==RR104_NOMES)document.querySelectorAll("#posts .upost[data-pid]").forEach(a=>fd104Troca(String(a.dataset.pid).slice(2)));RR104_NOMES=k}catch(e){}
+  /* [104] perfil aberto em grade: amizade mudou, redesenha */
+  try{if(PFV&&PFV.modo==="grade"&&$("#layer .pfv")){const k=[S.amigos.has(PFV.u),(S.pedidosIn||[]).includes(PFV.u),(S.pedidosOut||[]).includes(PFV.u),(S.bloq||[]).includes(PFV.u)].join();if(k!==RR104_K){RR104_K=k;const sc=$("#layer .pfv-sc"),y=sc?sc.scrollTop:0;pfvDesenha();const s2=$("#layer .pfv-sc");if(s2)s2.scrollTop=y}}else RR104_K=""}catch(e){}
+  /* [108] amigos mudaram: tira posts de quem não é mais amigo e busca os dos novos */
+  try{if(S.uid&&S.amigosOk){const k=S.uid+":"+[...S.amigos].sort().join(",");
+    if(RR108_K!==null&&k!==RR108_K&&k.split(":")[0]===RR108_K.split(":")[0]&&typeof PUB!=="undefined"&&PUB.on){const ant=new Set(RR108_K.split(":")[1].split(","));
+      document.querySelectorAll("#posts .upost[id^='p-u:']").forEach(el=>{const x=pubDe(el.id.slice(4));if(x&&x.autor!==S.uid&&!S.amigos.has(x.autor))el.remove()});
+      pubRedesenha();if([...S.amigos].some(u=>!ant.has(u)))setTimeout(pubCarregar,300)}
+    RR108_K=k}}catch(e){}
+}
+
+/* [085] a parte de sempre da Atividade (era a definição de atItens, atAcao e atThumb) */
+function atItensBase(){if(!S.uid||!S.membro)return [];const it=[],agora=Date.now();
+  // reações às minhas publicações
+  const g={};AT.rows.forEach(x=>{if(!S.amigos.has(x.uid)&&!S.membros[x.uid])return;if(x.tipo==="comentario"){const v=x.valor||{};it.push({k:"c:"+x.chave,at:+x.at,us:[x.uid],ic:"💬",txt:`<b>${esc(nomeDe(x.uid))}</b> comentou: “${esc((t=>t.length>90?t.slice(0,89).trimEnd()+"…":t)(String(v.texto||"")))}”`,pub:x.pub,acao:"cmt"});return}
+    const k=x.tipo+":"+x.pub;(g[k]=g[k]||{tipo:x.tipo,pub:x.pub,us:[],at:0}).us.push([x.uid,+x.at]);g[k].at=Math.max(g[k].at,+x.at)});
+  Object.entries(g).forEach(([k,o])=>{const us=o.us.sort((a,b)=>b[1]-a[1]).map(a=>a[0]);const pb=AT.pubs[o.pub];
+    it.push({k,at:o.at,us,ic:o.tipo==="curtida"?"♥":"✋",txt:`<b>${esc(atJunta(us))}</b> ${o.tipo==="curtida"?(us.length>1?"curtiram ":"curtiu ")+atPubNome(pb):(us.length>1?"responderam ao ":"respondeu ao ")+(pb&&pb.tipo==="story"?"seu giro":atPubNome(pb))}`,pub:o.pub,acao:"pub"})});
+  // menções e marcações
+  (S.msgsIn||[]).filter(m=>m.tipo==="mencao"&&+m.at>agora-30*864e5).forEach(m=>{let t;try{t=dmPrevia(m)}catch(e){t="Mencionou você"}
+    it.push({k:"m:"+m.id,at:+m.at,us:[m.de],ic:"@",txt:`<b>${esc(nomeDe(m.de))}</b> ${esc(String(t).charAt(0).toLowerCase()+String(t).slice(1))}${m.texto&&!/^Mencionou você no (story|giro)$/.test(m.texto)?`: “${esc((t=>t.length>80?t.slice(0,79).trimEnd()+"…":t)(String(m.texto)))}”`:""}`,msg:m,acao:"men"})});
+  // amizades: pedidos e novas
+  const pin=(S.pedidosIn||[]).filter(u=>S.membros[u]),am=amigosL();const chaves=pin.map(u=>"p:"+u).concat(am.map(u=>"a:"+u));
+  // enquetes: amigos que votaram diferente de mim
+  const enqs=FEED?(FEED.pautas||[]).filter(p=>p.enquete&&(p.enquete.opcoes||[]).length):[];const difs={};
+  enqs.forEach(p=>{const meu=meuVoto(p.id);if(meu==null)return;const vs=votosDe(p.id);Object.entries(vs).forEach(([u,v])=>{if(u!==S.uid&&v!==meu&&v!=null){chaves.push("v:"+p.id+":"+u);(difs[p.id]=difs[p.id]||[]).push(u)}})});
+  const L=atPrimeiraVez(chaves);
+  pin.forEach(u=>it.push({k:"p:"+u,at:L["p:"+u]||0,us:[u],ic:"+",txt:`<b>${esc(nomeDe(u))}</b> quer ser seu amigo`,ped:u,fixo:1}));
+  am.forEach(u=>{const t=L["a:"+u];if(t)it.push({k:"a:"+u,at:t,us:[u],ic:"🤝",txt:`Você e <b>${esc(nomeDe(u))}</b> agora são amigos`,u,acao:"perfil"})});
+  Object.entries(difs).forEach(([pid,us])=>{const p=pautaById(pid);const at=Math.max(...us.map(u=>L["v:"+pid+":"+u]||0));if(!at||!p)return;
+    it.push({k:"vd:"+pid,at,us,ic:"⚖",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"votaram":"votou"} diferente de você em “${esc(p.enquete.pergunta)}”`,pid,acao:"debate"})});
+  // comentários de amigos onde eu comentei ou votei
+  enqs.concat(FEED?(FEED.pautas||[]):[]).forEach(p=>{if(it.some(x=>x.k==="cn:"+p.id))return;const {cm}=socialOf(p.id);const meus=cm.filter(c=>c.uid===S.uid);const votei=p.enquete&&meuVoto(p.id)!=null;if(!meus.length&&!votei)return;
+    const desde=meus.length?Math.min(...meus.map(c=>c.at)):0;const outros=cm.filter(c=>c.uid!==S.uid&&c.at>desde&&c.at>agora-7*864e5);if(!outros.length)return;
+    const us=[...new Set(outros.slice().reverse().map(c=>c.uid))];const ult=outros[outros.length-1];
+    it.push({k:"cn:"+p.id,at:ult.at,us,ic:"💬",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"comentaram":"comentou"} ${p.enquete?"na enquete":"na notícia"} “${esc(p.enquete?p.enquete.pergunta:(versao(p,lente()).titulo||temaDe(p)))}”: “${esc(cp152Corta(ult.texto,70))}”`,pid:p.id,acao:"debate"})});
+  // coberturas seguidas: atualizações dos últimos 3 dias
+  if(FEED)(FEED.pautas||[]).filter(p=>seguido(p)).forEach(p=>{const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto&&tms(u.hora)>agora-3*864e5).sort((a,b)=>tms(b.hora)-tms(a.hora));if(!ups.length)return;
+    it.push({k:"cob:"+p.id+":"+ups[0].hora,at:tms(ups[0].hora),us:[],ic:"📌",txt:`<b>${esc(temaDe(p))}</b>, que você segue, teve ${ups.length>1?ups.length+" atualizações":"uma atualização"}: “${esc(cp152Corta(ups[0].texto,90))}”`,pid:p.id,acao:"cob"})});
+  return it.filter(x=>x.fixo||x.at>agora-30*864e5).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}
+function atAcaoBase(x){const fecha=()=>{if($("#layer .pfv-at"))closeLayer()};
+  if(x.acao==="perfil"){abrirPerfil(x.u);return}
+  if(x.acao==="men"){const m=x.msg;fecha();setTimeout(()=>{if(m.snap&&m.snap.upub){if(m.snap.story)abrirConversa(m.de);else pubIrPara(m.snap.upub)}else if(m.pid&&!/^u:/.test(m.pid)&&pautaById(m.pid))openComments(m.pid);else abrirConversa(m.de)},320);return}
+  if(x.acao==="cob"){fecha();setTimeout(()=>abrirPagCob(x.pid),320);return}
+  if(x.acao==="debate"){fecha();setTimeout(()=>debAbrir(x.pid),320);return}
+  if(x.pub){const pb=AT.pubs[x.pub];if(!pb)return;if(pb.tipo==="story"){stLista([pb],0,"Seu giro","at");return}
+    fecha();setTimeout(()=>{if(x.acao==="cmt"&&pubDe(x.pub))openComments("u:"+x.pub);else pubIrPara(x.pub)},320)}}
+function atThumbBase(x){const pb=x.pub&&AT.pubs[x.pub];if(!pb)return "";const f=pb.fotos[0]&&pubUrl(pb.fotos[0]);
+  return `<span class="at-th${pb.tipo==="story"?" st":""}">${f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<i style="background:${pubFundo(pb.estilo&&pb.estilo.fundo)}">${esc(String(pb.texto||"").slice(0,24))}</i>`}</span>`}

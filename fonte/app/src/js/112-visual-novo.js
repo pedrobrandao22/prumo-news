@@ -58,8 +58,6 @@ function vn112RpHTML(h,x){const rp=vn112Rp(x);if(!rp||typeof h!=="string"||!h)re
 function vn112AtRp(){const out=[];if(!S.uid)return out;const ag=Date.now();
   pubVisiveis().forEach(x=>{const rp=vn112Rp(x);if(!rp||rp.k!=="pub"||x.autor===S.uid||ag-x.at>30*864e5)return;const o=pubDe(rp.id);if(!o||o.autor!==S.uid)return;const com=!!String(x.texto||"").trim();
     out.push({k:"vn112:"+x.id,at:x.at,us:[x.autor],ic:"↻",txt:`<b>${esc(nomeDe(x.autor))}</b> repostou sua publicação${com?`: “${esc(vn112Curto(x.texto,80))}”`:""}`,pub:rp.id,acao:"vnrp",vnrp:x.id})});return out}
-{const _ai112=atItens;atItens=function(){const it=_ai112.apply(this,arguments);try{if(!Array.isArray(it))return it;const n=vn112AtRp();if(!n.length)return it;return it.concat(n).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){return it}}}
-{const _aa112=atAcao;atAcao=function(x){if(x&&x.acao==="vnrp"){const id=x.vnrp;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>vn112AbrePub(id),320);return}return _aa112.apply(this,arguments)}}
 /* abre uma publicação (a citada ou o repost) numa camada, como no perfil */
 function vn112AbrePub(id){const x=pubVisiveis().find(y=>y.id===id)||vn112Pub(id);if(!x){toast("Esta publicação não está disponível para você (ou já foi apagada).");return}
   if($("#layer").innerHTML)closeLayer();PFV={u:x.autor,aba:"posts",modo:"posts",lista:[x],i:0,daGrade:false};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicação"></div>`;if(pushH())HST++;pfvDesenha()}

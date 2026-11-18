@@ -50,7 +50,6 @@ function at106Aceitos(){try{if(!S.uid||!S.membro||!S.amigosOk)return;const k="pr
   const agora=(S.pedidosOut||[]).slice().sort(),novos=(ant||[]).filter(u=>S.amigos.has(u));
   if(novos.length){let l=atLed();if(!l)l={_t0:Date.now()};novos.forEach(u=>{l["a:"+u]=Date.now()});atLedSalva(l);setTimeout(()=>{try{atDot()}catch(e){}},0)}
   if(JSON.stringify(ant)!==JSON.stringify(agora))try{localStorage.setItem(k,JSON.stringify(agora))}catch(e){}}catch(e){}}
-{const _ra106=rerenderAll;rerenderAll=function(){at106Aceitos();return _ra106.apply(this,arguments)}}
 
 /* 4. Aviso (toast) que já estava na tela não fica por cima de uma folha que acabou de abrir */
 

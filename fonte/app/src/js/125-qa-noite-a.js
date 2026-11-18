@@ -18,8 +18,6 @@ function qa125VeReac(u,x){return !!u&&(ehVisivel(u)||!!(x&&u===x.autor)||qa125Co
 {const _vd=votosDe;votosDe=function(k){const r=_vd.apply(this,arguments);try{if(typeof PS==="undefined"||!PS.on||typeof psPub!=="function")return r;const id=psPub(k);if(!id)return r;const x=pubDe(id);if(!x)return r;
   let o=null;Object.entries(PS.vt[k]||{}).forEach(([u,v])=>{if(!(u in r)&&qa125VeReac(u,x)){o=o||{...r};o[u]=v}});return o||r}catch(e){return r}}}
 /* Atividade: curtidas e comentários de quem segue você (o nome vem da lista de seguidores) */
-{const _ai=atItens;atItens=function(){const pus=[];try{if(typeof AT!=="undefined"&&Array.isArray(AT.rows))AT.rows.forEach(x=>{const u=x&&x.uid;if(u&&!S.membros[u]&&!S.amigos.has(u)&&qa125Conhece(u)&&!pus.includes(u)){const p=CS123.pess[u]||{};S.membros[u]={uid:u,nome:p.nome||nomeDe(u),foto:p.foto||null};pus.push(u)}})}catch(e){}
-  try{return _ai.apply(this,arguments)}finally{pus.forEach(u=>{delete S.membros[u]})}}}
 
 /* ===== 2. repost e citação de quem você segue ===== */
 {const _vp=vn112Pub;vn112Pub=function(id){const r=_vp.apply(this,arguments);if(r)return r;try{const x=pubVisiveis().find(y=>y.id===id)||VN112_Q.get(id);

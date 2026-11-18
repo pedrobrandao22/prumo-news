@@ -319,7 +319,4 @@ const cs123PodeSeg=()=>!!(V9.on&&CS123.aberto);
   try{return await _ep.apply(this,arguments)}finally{SB.from=_from}}}
 
 /* ===== 8. Atividade: "Bia começou a seguir você" ===== */
-{const _ai=atItens;atItens=function(){const it=_ai.apply(this,arguments);if(!V9.on||!S.uid||!S.membro||!CS123.segs.length||!Array.isArray(it))return it;
-  try{const lim=Date.now()-30*864e5;CS123.segs.filter(s=>s.at>lim&&s.uid!==S.uid).forEach(s=>it.push({k:"sg:"+s.uid,at:s.at,us:[s.uid],ic:"+",txt:`<b>${esc(nomeDe(s.uid))}</b> começou a seguir você`,u:s.uid,acao:"perfil"}))}catch(e){}
-  return it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}}
 try{ESP_NOMES.seguidores="Quem segue quem"}catch(e){}

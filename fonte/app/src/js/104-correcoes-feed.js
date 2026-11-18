@@ -17,8 +17,6 @@ function fd104Troca(id){const x=pubDe(id);if(!x)return;document.querySelectorAll
 const fd104Sig=x=>[x.texto||"",x.editado||"",x.fixado||"",JSON.stringify(x.estilo||"").length].join("\u0001");
 {const _pc104=pubCarregar;pubCarregar=async function(){const antes={};try{(PUB.itens||[]).forEach(x=>{if(x&&x.tipo==="post")antes[x.id]=fd104Sig(x)})}catch(e){}const r=await _pc104.apply(this,arguments);
   try{(PUB.itens||[]).forEach(x=>{if(x&&x.tipo==="post"&&antes[x.id]!=null&&antes[x.id]!==fd104Sig(x))fd104Troca(x.id)})}catch(e){}return r}}
-{let nomes="";const _ra104=rerenderAll;rerenderAll=function(){const r=_ra104.apply(this,arguments);try{const k=Object.keys(S.membros||{}).sort().map(u=>u+"="+((S.membros[u]||{}).nome||"")).join("|");
-  if(nomes&&k!==nomes)document.querySelectorAll("#posts .upost[data-pid]").forEach(a=>fd104Troca(String(a.dataset.pid).slice(2)));nomes=k}catch(e){}return r}}
 
 /* perfil: tocar em "N amigos" abre a lista de amigos */
 {const _rm104=renderMe;renderMe=function(){const r=_rm104.apply(this,arguments);try{const s=document.querySelector("#v-me .pf-me .pf-num span:nth-child(2)");if(s&&typeof abrirTodosAmigos==="function"){s.setAttribute("role","button");s.tabIndex=0;s.dataset.fd104am="";s.setAttribute("aria-label",s.textContent.replace(/(\d+)/,"$1 ")+": ver a lista")}}catch(e){}return r}}
@@ -42,5 +40,4 @@ var FD104_ME=false;function fd104Me(){if(VIEW!=="me"||PF_ABA==="conta")return;if
 /* perfil de quem não é (mais) amigo: botão de pedir/aceitar amizade; e o perfil aberto acompanha desfazer amizade/bloquear */
 {const _pc104=pfCab;pfCab=function(u){let h=_pc104.apply(this,arguments);try{if(u&&u!==S.uid&&!S.amigos.has(u)&&!(S.bloq||[]).includes(u)&&S.membro){const rec=(S.pedidosIn||[]).includes(u),env=(S.pedidosOut||[]).includes(u);
   h+=`<div class="pf-bts">${rec?`<button type="button" class="btn" data-aceitar="${esc(u)}">Aceitar pedido de amizade</button>`:env?`<button type="button" class="btn ghost" data-cancelar="${esc(u)}">Cancelar pedido</button>`:`<button type="button" class="btn" data-pedir="${esc(u)}">Pedir amizade</button>`}</div>`}}catch(e){}return h}}
-{let k104="";const _ra2=rerenderAll;rerenderAll=function(){const r=_ra2.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"&&$("#layer .pfv")){const k=[S.amigos.has(PFV.u),(S.pedidosIn||[]).includes(PFV.u),(S.pedidosOut||[]).includes(PFV.u),(S.bloq||[]).includes(PFV.u)].join();if(k!==k104){k104=k;const sc=$("#layer .pfv-sc"),y=sc?sc.scrollTop:0;pfvDesenha();const s2=$("#layer .pfv-sc");if(s2)s2.scrollTop=y}}else k104=""}catch(e){}return r}}
 {const _pt104=pfTiles;pfTiles=function(l,aba,u){if(u&&u!==S.uid&&!S.amigos.has(u)&&!(l||[]).length)return `<div class="pf-vz"><b>Perfil só para amigos</b><span>Quando vocês forem amigos, as publicações de ${esc(String(nomeDe(u)).split(" ")[0])} aparecem aqui.</span></div>`;return _pt104.apply(this,arguments)}}

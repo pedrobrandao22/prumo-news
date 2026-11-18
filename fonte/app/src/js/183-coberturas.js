@@ -18,8 +18,6 @@ function cb183Liga(pid,on){const p=pautaById(pid);const m=PREF.cobSemAviso&&type
     if(m&&typeof m==="object")Object.keys(m).forEach(pid=>{const p=pautaById(pid);if(norm(m[pid])===k||(p&&norm(temaDe(p))===k))delete m[pid]})}catch(e){}return r}}
 
 /* Atividade e bolinha: sem os avisos das coberturas desligadas */
-{const _ai183=atItens;atItens=function(){const it=_ai183.apply(this,arguments);try{if(!Array.isArray(it))return it;const m=cb183Mudas();
-    if(!Object.keys(m).length)return it;return it.filter(x=>!(x&&x.acao==="cob"&&x.pid&&m[x.pid]))}catch(e){return it}}}
 
 /* página da cobertura: fim, encerrada e o interruptor de avisos */
 function cb183SwHTML(p){const on=cb183Avisa(p.id);

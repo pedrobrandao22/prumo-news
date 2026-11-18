@@ -45,8 +45,6 @@ function lt134Onde(t){if(!t||!t.closest)return "outro";
 ["pointerdown","click"].forEach(k=>window.addEventListener(k,e=>{LT134.ctx={o:lt134Onde(e.target),t:Date.now()}},true));
 /* veio de um aviso (Atividade ou celular) */
 if(typeof nt124AbrePub==="function"){const _ap=nt124AbrePub;nt124AbrePub=function(id){LT134.notif={id:String(id||""),t:Date.now()};return _ap.apply(this,arguments)}}
-{const _aa=atAcao;atAcao=function(x){if(x&&x.acao==="lt134col"){const id=x.col;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>{LT134.forca="notificacao";cs123Abrir(id)},320);return}
-  if(x&&x.pub)LT134.notif={id:String(x.pub),t:Date.now()};return _aa.apply(this,arguments)}}
 if(typeof nt124RotaTenta==="function"){const _rt=nt124RotaTenta;nt124RotaTenta=function(n){const nt=NT124.rota;
   if(nt&&/^coluna:[0-9a-f-]{36}$/i.test(nt)&&nt124Pronto()){NT124.rota=null;const id=nt.slice(7);try{if($("#layer2")?.innerHTML||$("#layer").innerHTML)closeLayer()}catch(e){}
     setTimeout(async()=>{try{if(!pubDe(id))await pubCarregar()}catch(e){}if(pubDe(id)){LT134.forca="notificacao";cs123Abrir(id)}else abrirAtividade()},60);return}
@@ -105,11 +103,6 @@ async function lt134AssTroca(autor,serie,b){if(precisaConta()||LT134.v13!==true|
   lt134AssRedesenha();try{atRedesenha()}catch(e){}}
 
 /* ----- Atividade: coluna nova de série/autora assinada (só as que a pessoa já pode ler) ----- */
-{const _ai=atItens;atItens=function(){let it=_ai.apply(this,arguments);try{if(LT134.v13!==true||!LT134.assin.length||!Array.isArray(it)||!S.uid)return it;const ag=Date.now(),novos=[],ids=new Set();
-    pubVisiveis().forEach(x=>{if(!x||x.autor===S.uid||x.tipo!=="post"||ag-x.at>30*864e5)return;const c=cs123Col(x);if(!c)return;const a=lt134AssDe(x.autor,c.serie);if(!a||x.at<a.at)return;ids.add(x.id);
-      const t=c.tit.length>80?c.tit.slice(0,79).trimEnd()+"…":c.tit;
-      novos.push({k:"lt134c:"+x.id,at:x.at,us:[x.autor],ic:"✎",txt:`<b>${esc(nomeDe(x.autor))}</b> ${a.serie?`publicou na série “${esc(c.serie)}”`:"publicou uma coluna"}: “${esc(t)}”`,col:x.id,acao:"lt134col"})});
-    if(novos.length)it=it.filter(y=>!(y&&/^nt124c:/.test(String(y.k))&&ids.has(String(y.k).slice(7)))).concat(novos).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){}return it}}
 /* o tipo novo nas Notificações (só com a v13) */
 try{NT124_TIPOS.push(["colunas_seguidas","Séries e colunistas que você assina","Coluna nova de quem você escolheu ser avisado, sem seguir a pessoa","✎",0]);
   NT124_PLURAL.colunas_seguidas=["coluna nova de série assinada","colunas novas de séries assinadas"]}catch(e){}

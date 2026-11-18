@@ -83,7 +83,6 @@ function ca159Sino(){document.querySelectorAll(".at-b").forEach(b=>{const s=b.qu
   let n=0;try{n=S.uid&&S.membro?atNovas():0}catch(e){}
   document.querySelectorAll(".at-b").forEach(b=>{const d=b.querySelector(".at-dot");if(d){d.textContent=n?(n>9?"9+":String(n)):"";d.classList.toggle("ca159-n",!!n)}
     b.setAttribute("aria-label","Atividade"+(n?`: ${n} ${n===1?"novidade":"novidades"}`:""))})}
-{const _ad159=atDot;atDot=function(){const r=_ad159.apply(this,arguments);try{ca159Sino()}catch(e){}return r}}
 
 /* ===== 8. "Ver a seção": Feed já na lista da editoria ===== */
 function ca159NaLista(n){const s=document.querySelector("#v-feed .sech");if(VIEW!=="feed"||FILTRO==="tudo")return;

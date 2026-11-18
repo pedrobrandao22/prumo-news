@@ -27,7 +27,6 @@ function tb121Voto(x){if(!x||typeof x!=="object"||typeof x.k!=="string"||x.k.ind
     if(!its.length||!its.every(i=>i.t==="enq"))return x;return {...x,ic:"☑",txt:`${nm[0]} ${v} na enquete do seu giro`}}
   const cn=typeof cn102De==="function"?cn102De(pb):null;if(!cn||cn.k!=="enq")return x;
   return {...x,ic:"☑",txt:`${nm[0]} ${v} na sua pergunta${cn.tit?` “${esc(cp152Corta(cn.tit,70))}”`:""}`}}
-{const _ai121=atItens;atItens=function(){let it=_ai121.apply(this,arguments);try{if(Array.isArray(it))it=tb121SemBloq(it).map(tb121Voto)}catch(e){}return it}}
 
 /* ===== TB03: ações cortadas nos posts desenhados fora da tela ===== */
 /* o .post usa content-visibility:auto; fora da tela os rótulos não têm largura e o 112 não conseguia medir. Mede de novo quando o post aparece. */

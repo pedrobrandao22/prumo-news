@@ -26,4 +26,3 @@ function aj130Junta(it){if(!Array.isArray(it)||it.length<2)return it;const gr=ne
     g.rp.forEach(i=>tira.add(i))});
   if(!tira.size)return it;const out=[];it.forEach((x,i)=>{if(tira.has(i))return;out.push(troca.has(i)?troca.get(i):x)});
   return out.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at)}
-{const _ai130=atItens;atItens=function(){const it=_ai130.apply(this,arguments);try{return aj130Junta(it)}catch(e){return it}}}

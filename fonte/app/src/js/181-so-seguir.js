@@ -124,9 +124,6 @@ function sg181PedHTML(){const l=SG181.rec.filter(x=>!(S.bloq||[]).includes(x.uid
 if(typeof abrirAddAmigos==="function"){const _ad=abrirAddAmigos;abrirAddAmigos=function(){if(sg181On())return cs123Descobre();return _ad.apply(this,arguments)}}
 
 /* ===== 3. Atividade: pedidos para seguir ===== */
-{const _ai=atItens;atItens=function(){const it=_ai.apply(this,arguments);if(!sg181On()||!Array.isArray(it))return it;
-  try{SG181.rec.forEach(x=>it.push({k:"sp:"+x.uid,at:x.at,us:[x.uid],ic:"+",txt:`<b>${esc(nomeDe(x.uid))}</b> pediu para seguir você`,u:S.uid,acao:"perfil"}))}catch(e){}
-  return it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}}
 
 /* ===== 4. Ajustes do app › Privacidade: "Perfil fechado" ===== */
 {const _aj=ajustesHTML;ajustesHTML=function(){let h=_aj.apply(this,arguments);try{if(!sg181On())return h;const f=!SG181.aberto;

@@ -66,7 +66,5 @@ function dz129AtRp(){const out=[];if(!DZ129.v11||!DZ129.rps.length||!S.uid)retur
   DZ129.rps.forEach(r=>{const at=+r.at||0;if(!at||ag-at>30*864e5||bl.includes(r.autor))return;const nm=r.nome||nomeDe(r.autor),tr=String(r.trecho||"").trim();
     const abre=r.visivel&&(pubVisiveis().some(y=>y.id===r.id)||(typeof VN112_Q!=="undefined"&&VN112_Q.get(r.id)))?r.id:r.orig;
     out.push({k:"vn112:"+r.id,at,us:[r.autor],ic:"↻",txt:r.citacao&&!tr?`<b>${esc(nm)}</b> citou sua publicação`:`<b>${esc(nm)}</b> repostou sua publicação${tr?`: “${esc(vn112Curto(tr,80))}”`:""}`,pub:r.orig,acao:"vnrp",vnrp:abre,dz129:1})});return out}
-{const _ai=atItens;atItens=function(){const it=_ai.apply(this,arguments);try{if(!Array.isArray(it))return it;const n=dz129AtRp();if(!n.length)return it;const ja=new Set(it.map(x=>x.k));
-  const mais=n.filter(x=>!ja.has(x.k));if(!mais.length)return it;return it.concat(mais).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){return it}}}
 /* para o número e a bolinha: busca de vez em quando, como o resto da Atividade */
 setInterval(()=>{if(DZ129.v11!==false&&S.uid&&S.membro&&!document.hidden&&Date.now()-DZ129.rt>180e3)dz129AtCarrega()},5000);

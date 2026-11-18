@@ -13,15 +13,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   const v=t.closest("#layer .story [data-uspub]");if(v){e.stopPropagation();e.preventDefault();const id=v.dataset.uspub;closeLayer();setTimeout(()=>pubIrPara(id),280);return}
   const sm=t.closest("[data-semana]");if(sm){e.stopPropagation();e.preventDefault();if(sm.closest(".pfv,.sheet")&&$("#layer").innerHTML&&!$("#layer .story"))closeLayer();setTimeout(semAbrir,sm.closest("#secs")?0:260);return}},true);
 /* Atividade: curtidas e respostas nos meus stories, e amigos que puseram meu post no story */
-{const _ai72=atItens;atItens=function(){const it=_ai72.apply(this,arguments);if(!S.uid||!S.membro)return it;const agora=Date.now();
-  try{(S.msgsIn||[]).filter(m=>(m.tipo==="curtiu_story"||m.tipo==="resp_story")&&+m.at>agora-30*864e5).forEach(m=>{const st=(m.snap&&m.snap.story)||{};
-      it.push({k:"s:"+m.id,at:+m.at,us:[m.de],ic:m.tipo==="curtiu_story"?"♥":"💬",txt:`<b>${esc(nomeDe(m.de))}</b> ${m.tipo==="curtiu_story"?"curtiu seu giro":"respondeu ao seu giro: “"+esc(cp152Corta(m.texto,80))+"”"}${m.tipo==="curtiu_story"&&st.t?` · “${esc(cp152Corta(st.t,50))}”`:""}`,msg:m,acao:"conv"})});
-    (PUB.itens||[]).filter(x=>x.tipo==="story"&&x.autor!==S.uid&&x.estilo&&Array.isArray(x.estilo.itens)).forEach(x=>{const f=x.estilo.itens.find(e=>e&&e.t==="pub"&&(e.au===S.uid||(AT.pubs[e.ref]&&1)));if(!f)return;
-      it.push({k:"sh:"+x.id,at:+x.at,us:[x.autor],ic:"↗",txt:`<b>${esc(nomeDe(x.autor))}</b> compartilhou seu post no giro`,story:x,pub:f.ref,acao:"vstory"})})}catch(e){}
-  return it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}}
-{const _aa72=atAcao;atAcao=function(x){if(x.acao==="conv"){if($("#layer .pfv-at"))closeLayer();setTimeout(()=>abrirConversa(x.msg.de),320);return}
-  if(x.acao==="vstory"){stLista([x.story],0,nomeDe(x.story.autor),"sh"+x.story.id);return}return _aa72.apply(this,arguments)}}
-{const _th72=atThumb;atThumb=function(x){if(x.acao==="vstory"){const pb=AT.pubs[x.pub];if(pb)return _th72({...x,pub:x.pub})}return _th72.apply(this,arguments)}}
 /* ===== Sua semana: story com o resumo dos últimos 7 dias ===== */
 function semDados(){const agora=Date.now(),de=agora-7*864e5;
   const l=Object.entries(HIST||{}).map(([pid,h])=>({pid,...h,ts:tms(h&&h.t)})).filter(h=>h.ts>de).sort((a,b)=>b.ts-a.ts);

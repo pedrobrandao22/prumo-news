@@ -14,12 +14,6 @@ var QB126={db:null,unsub:null,fila:Promise.resolve(),cfgS:"",fut:null};
 
 /* ===== NB01: um item por novo seguidor ===== */
 {const _c126=nt124Cat;nt124Cat=function(x){if(/^sg:/.test(String(x&&x.k||"")))return "seguidores";return _c126.apply(this,arguments)}}
-{const _ai126=atItens;atItens=function(){let it=_ai126.apply(this,arguments);try{if(!Array.isArray(it))return it;
-    const sg=new Set(it.filter(x=>x&&/^sg:/.test(String(x.k||""))).map(x=>String(x.k).slice(3)));
-    if(sg.size)it=it.filter(x=>!(x&&/^nt124s:/.test(String(x.k||""))&&sg.has(String(x.k).slice(7))));
-    it.forEach(x=>{if(!x||!/^nt124c:/.test(String(x.k||"")))return;const pb=pubDe(x.pub),tit=qb126TitCol(pb);
-      if(tit)x.txt=`<b>${esc(nomeDe(pb.autor))}</b> publicou uma coluna: “${esc(tit.length>80?tit.slice(0,79).trimEnd()+"…":tit)}”`});
-    if(typeof tb121SemBloq==="function")it=tb121SemBloq(it)}catch(e){}return it}}
 
 /* ===== NB09: coluna da v9 ===== */
 function qb126TitCol(x){const c=x&&x.estilo&&x.estilo.coluna;return c&&typeof c==="object"&&!Array.isArray(c)?String(c.tit||"").trim():""}
