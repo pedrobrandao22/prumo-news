@@ -8,7 +8,7 @@
    fitTrack). Naquela hora só existia a definição base, e os complementos ainda nem tinham sido declarados: até o 999
    chamar fd204Pronta(), estas funções fazem só a parte base, como antes. As variáveis daqui não têm valor inicial
    (var sem =): o 121 grava FD204_VIGIA121 na carga e a posição deste arquivo não pode apagá-la. */
-var FD204_PRONTA,FD204_FIT108,FD204_VIGIA121;
+var FD204_PRONTA,FD204_VIGIA121;
 function fd204Pronta(){FD204_PRONTA=true}
 
 /* ===== postSeguro: o HTML de um item do Feed (notícia, post de membro, prateleira) =====
@@ -56,11 +56,9 @@ function pubMistura(lista){
   const out=c122();try{return dz129Feed(out)}catch(e){console.error(e);return out}}
 
 /* ===== fitTrack: altura das páginas do cartão =====
-   Base no 006; remendos: 052, 053, 061, 072, 108 (troca por um instante durante carregarMais), 112. */
+   Base no 006; remendos: 052, 053, 061, 072, 112. O 108 troca fitTrack por um instante durante carregarMais (lá embaixo). */
 function ft204Base(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",(t.closest&&t.closest(".vn-cn")?Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6))):Math.max(300,Math.round(Math.min(w*1.25,innerHeight*0.7))))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
 function fitTrack(t){
-  /* 108: durante carregarMais (lote novo), o trilho só ganha a altura de reserva; o resto vem quando ele aparece */
-  if(FD204_FIT108&&t&&t.classList&&t.classList.contains("track")){fit108Poe(t);return 0}
   const r=ft204Base(t);
   if(!FD204_PRONTA)return r;
   /* 052: páginas de altura fixa */
@@ -179,9 +177,10 @@ function carregarMais(sync){
   const r=(()=>{
     /* 103: Feed escondido não carrega */
     if(!sync){const v=document.getElementById("v-feed");if(v&&v.hidden)return}
-    /* 108: no lote novo, fitTrack só reserva a altura */
-    if(sync||typeof FIT_IO==="undefined"||!FIT_IO)return cm204Base.apply(this,arguments);
-    FD204_FIT108=true;try{return cm204Base.apply(this,arguments)}finally{FD204_FIT108=false}})();
+    /* 108: no lote novo, fitTrack só reserva a altura (troca por um instante, como antes: t_qa_producao2 conta as medidas
+       pela variável global fitTrack); o resto vem quando o trilho aparece */
+    if(sync||typeof FIT_IO==="undefined"||!FIT_IO)return cm204Base.apply(this,arguments);const ft=fitTrack;
+    fitTrack=function(t){if(t&&t.classList&&t.classList.contains("track")){fit108Poe(t);return 0}return ft.apply(this,arguments)};try{return cm204Base.apply(this,arguments)}finally{fitTrack=ft}})();
   /* 115 (VN_FASE2, sempre ligado) */
   try{rb115CtxFeed()}catch(e){}
   /* 118 */
@@ -326,3 +325,113 @@ function renderSecs(){
   const c112=()=>{const r=c107();try{vn112Tiles()}catch(e){console.error(e)}return r};
   /* 156 */
   const r=c112();fd156Rotulos();return r}
+
+/* ===== stories do topo do Feed (círculos de notícia, Em 5 min, Últimas, Agenda, destaques, giros dos amigos) =====
+   Só o que o topo do Feed abre; criar giro continua onde estava. */
+/* igLista: as páginas de um círculo. Base no 055; remendos: 056, 058 (2×), 068, 086. */
+function il204Base(sec){
+  if(sec==="_5min"){const ps=cincoLista();return {ps,itens:null}}
+  if(sec==="_ult"){const it=tickerItens(15).filter(i=>pautaById(i.pid));return {ps:it.map(i=>pautaById(i.pid)),itens:it}}
+  return {ps:pautasDa(sec),itens:null}}
+function igLista(sec){
+  /* 086: Sua semana */
+  if(sec==="_sem"){const fr=semFrames();return {ps:fr,itens:fr}}
+  /* 068: giro de um membro */
+  if(String(sec).indexOf("_u:")===0){const fr=pubStoriesDe(sec.slice(3));return {ps:fr,itens:fr}}
+  /* 058: destaque (capa e marcos) */
+  if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));if(!p)return {ps:[],itens:[]};const m=destMarcos(p)||[];
+  const fr=[{id:"h0",tipo:"capa",p,n:m.length}].concat(m.map((x,k)=>({id:"h"+(k+1),tipo:"marco",p,m:x,k,n:m.length})));return {ps:fr,itens:fr}}
+  /* 056: Agenda; base */
+  const r=(()=>{if(sec==="_ag"){const pg=agPaginas();return {ps:pg,itens:pg}}return il204Base(sec)})();
+  /* 058: telas de gráfico no meio das notícias */
+  if(sec==="_ult"||sec==="_ag"||String(sec).indexOf("_h:")===0)return r;return {ps:igComVis(r.ps),itens:r.itens}}
+
+/* igNomeSt: o nome no alto do story. Base no 055; remendos: 056, 058, 068, 084, 086. */
+function in204Base(sec){return sec==="_5min"?"Em 5 min":sec==="_ult"?"Últimas":secNome(sec)}
+function igNomeSt(sec){
+  /* 086 */ if(sec==="_sem")return "Sua semana";
+  /* 084: destaque de giro */ if(String(sec).indexOf("_u:~")===0)return (ST&&ST._nome)||"Giro";
+  /* 068 */ if(String(sec).indexOf("_u:")===0){const u=sec.slice(3);return u===S.uid?"Seu giro":nomeDe(u)}
+  /* 058 */ if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));return p?temaDe(p)||capaChapeu(p):"Destaque"}
+  /* 056 */ return sec==="_ag"?"Agenda":in204Base(sec)}
+
+/* storyOrdem: a ordem dos círculos ao passar de um para o outro. A base do 007 e a troca do 055 foram trocadas pela do 056
+   (que é a que vale aqui); remendos: 058, 068, 080, 084, 086, 104-correcoes-stories (2×). */
+function storyOrdem(){
+  /* 056: Em 5 min, Agenda, Últimas e as seções */
+  const c056=()=>{const base=(ST&&ST.ordem&&ST.ordem.length?ST.ordem:secsStory().map(s=>s.id)).filter(id=>pautasDa(id).length);
+  const v=[];if(cincoLista().length)v.push("_5min");if(agPaginas().length)v.push("_ag");try{if(tickerItens(15).length)v.push("_ult")}catch(e){}return v.concat(base)};
+  /* 058: destaque aberto sozinho */
+  const c058=()=>{if(ST&&ST.sec&&String(ST.sec).indexOf("_h:")===0)return [ST.sec];return c056()};
+  /* 068: giros primeiro */
+  const c068=()=>{const L=c058();if(ST&&String(ST.sec||"").indexOf("_h:")===0)return L;if(!(S.uid&&S.membro&&PUB.on))return L;
+  const us=(pubStoriesDe(S.uid).length?["_u:"+S.uid]:[]).concat(pubAutoresStory().map(a=>"_u:"+a.u));return us.concat(L.filter(x=>String(x).indexOf("_u:")!==0))};
+  /* 080: a ordem dos giros fica a da abertura */
+  const c080=()=>{const L=c068();if(!ST||String(ST.sec||"").indexOf("_h:")===0)return L;if(!ST._uord)ST._uord=L.filter(x=>String(x).indexOf("_u:")===0);
+  const vivos=ST._uord.filter(x=>x===ST.sec||(pubStoriesDe(String(x).slice(3)).length>0));return vivos.concat(L.filter(x=>String(x).indexOf("_u:")!==0))};
+  /* 084: destaque de giro aberto sozinho */
+  const c084=()=>{if(ST&&String(ST.sec||"").indexOf("_u:~")===0)return [ST.sec];return c080()};
+  /* 086: Sua semana sozinha */
+  const c086=()=>{if(ST&&ST.sec==="_sem")return ["_sem"];return c084()};
+  /* 104: giros na ordem dos círculos do topo */
+  const c104=()=>{const novo=!!(ST&&!ST._uord);const L=c086();
+  try{if(novo&&ST&&ST._uord&&String(ST.sec||"").indexOf("_u:")===0&&String(ST.sec).indexOf("_u:~")!==0){
+    const tr=[...document.querySelectorAll("#secs [data-ustory]")].map(b=>"_u:"+b.dataset.ustory);
+    if(tr.includes(ST.sec)){const pos=x=>{const k=tr.indexOf(x);return k<0?1e3:k};const u=ST._uord.slice().sort((a,b)=>pos(a)-pos(b));
+      if(ST._uord[0]==="_u:"+S.uid&&u[0]!==ST._uord[0]){u.splice(u.indexOf(ST._uord[0]),1);u.unshift(ST._uord[0])}
+      ST._uord=u;return c086()}}}catch(e){}return L};
+  /* 104: Em 5 min e Agenda juntos */
+  const L=c104();
+  try{if(SS104_GRUPO&&ST&&L.includes("_5min")&&L.includes("_ag")&&typeof bt101Cinco==="function"&&bt101Cinco())return L.filter(x=>x!==(ST.sec==="_ag"?"_5min":"_ag"))}catch(e){}return L}
+
+/* drawStory: desenha a página do story. A base do 007 e a troca do 054 foram trocadas pela do 055 (a que vale aqui);
+   remendos: 056, 058, 068, 086, 098, 101. */
+function drawStory(anim){
+  /* 055: notícia (também Em 5 min e Últimas) */
+  const c055=()=>{
+  const ps=stPs(),p=ps[ST.i];if(!p)return closeLayer();clearTimeout(ST.timer);const vazioS=!$("#layer").innerHTML;
+  SEEN.add(seenKey(p));lsSet("radar-vistos",[...SEEN].slice(-400));marcarLida(p.id);
+  const vsec=ST.sec,virt=vsec==="_5min"||vsec==="_ult",it=vsec==="_ult"&&ST.itens?ST.itens[ST.i]:null;
+  if(it){ULT_VISTOS.add(ultKey(it));try{localStorage.setItem("prumo-ult-vistos",JSON.stringify([...ULT_VISTOS].slice(-200)))}catch(e){}}
+  const L=lente(),v=versao(p,L),psec=secOf(p),cor=secCor(psec),f=fotoDe(p);
+  const tit=it&&it.txt?it.txt:v.titulo;
+  let lin=igLinhas(p,L);if(it){lin=lin.filter(t=>norm(t)!==norm(tit));lin=lin.slice(0,3)}
+  let num=null;
+  const linHTML=lin.map((t0,k)=>{let t=t0;if(k===0&&!it){const n=ssNumero(t0);if(n&&t0.indexOf(n)===0){let r=t0.slice(n.length).replace(/^\s*:?\s*/,"");if(r.length>8){num=n;t=r.charAt(0).toUpperCase()+r.slice(1)}}}return `<li>${esc(t)}</li>`}).join("");
+  const hr=it?it.hora:(ultimaAtualizacao(p)||p.hora);
+  const sub=vsec==="_5min"?"":it?(hr&&hhmm(hr)?(dataSP(hr)===hojeSP()?"às "+hhmm(hr):horaDia(hr)):""):(hr?quando(hr):"");
+  const kick=it?(it.tag==="Nova"||it.tag==="Atualizada"?`${it.tag} · ${secNome(psec)}`:secNome(psec)):vsec==="_5min"?`${secNome(psec)} · ${capaChapeu(p)}`:capaChapeu(p);
+  const av=vsec==="_5min"?`<span class="ph-av sg-av sg-av5"><i>5</i></span>`:vsec==="_ult"?`<span class="ph-av sg-av sg-avu"><b></b></span>`:`<span class="ph-av sg-av" style="--c:${cor}"><i>${esc(secNome(vsec).charAt(0))}</i></span>`;
+  ST.palavras=(tit+" "+lin.join(" ")).split(/\s+/).length;
+  $("#layer").innerHTML=`<div class="story sg${f?" com-foto":""}${virt?" sg-v":""}" data-sec="${esc(virt?psec:vsec)}" style="--c:${cor}" role="dialog" aria-modal="true" aria-label="${esc(igNomeSt(vsec))}"><div class="story-in">
+    <div class="sg-bg paper" data-sec="${esc(psec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.story').classList.remove('com-foto');this.remove()">`:`<div class="sg-art">${svgOf(p.imagem)}</div>`}</div>
+    <div class="sg-sh"></div>
+    <div class="bars">${ps.map((_,k)=>`<i class="${k<ST.i||(k===ST.i&&!PREF.storyAuto)?"on":""}">${k===ST.i&&PREF.storyAuto?"<b></b>":""}</i>`).join("")}</div>
+    <div class="s-h">${av}<span class="sg-who"><b>${esc(igNomeSt(vsec))}</b>${sub?`<span>${esc(sub)}</span>`:""}</span><span class="s-hb"><button type="button" data-sauto aria-pressed="${!!PREF.storyAuto}" aria-label="${PREF.storyAuto?"Parar de passar sozinho":"Passar sozinho"}">${PREF.storyAuto?'<svg viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>'}</button><button type="button" data-close aria-label="Fechar">${ICON.close}</button></span></div>
+    <button type="button" class="tap l" data-sgo="-1" aria-label="Anterior"></button><button type="button" class="tap r" data-sgo="1" aria-label="Próxima"></button>
+    <div class="sg-body"><span class="sg-k">${esc(kick)}</span><h2>${esc(tit)}</h2>${num?`<b class="sg-n">${esc(num)}</b>`:""}${linHTML?`<ul class="sg-l">${linHTML}</ul>`:""}${f?credHTML(f.credito||"Foto de arquivo","sg-cr"):""}</div>
+    <div class="s-f sg-f" id="s-acts" data-pid="${esc(p.id)}">${storyActs(p.id)}</div>
+  </div></div>`;
+  igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);
+  const si=$("#layer .story-in");if(anim&&si){si.classList.add(anim);si.addEventListener("animationend",()=>{si.classList.remove(anim);$("#layer .story")?.classList.remove("flipping")},{once:true});$("#layer .story").classList.add("flipping")}
+  igCaber();renderSecs()};
+  /* 056: Agenda; animação de entrada */
+  const c056=()=>{if(ST&&ST.sec==="_ag"){clearTimeout(ST.timer);return igDrawAgenda(anim)}const r=c055();igEntra();return r};
+  /* 058: destaque e telas de gráfico; rodapé e pré-carga */
+  const c058=()=>{if(ST&&String(ST.sec||"").indexOf("_h:")===0){clearTimeout(ST.timer);igDrawDest();igRodape();igPreCarrega();return}
+  if(ST&&ST.sec!=="_ag"){const p=stPs()[ST.i];if(p&&p.__vis){clearTimeout(ST.timer);igDrawVis(p);igRodape();igPreCarrega();return}}
+  const r=c056();igRodape();igPreCarrega();return r};
+  /* 068: giro de membro */
+  const c068=()=>{if(ST&&String(ST.sec||"").indexOf("_u:")===0){clearTimeout(ST.timer);return igDrawUser()}return c058()};
+  /* 086: Sua semana */
+  const c086=()=>{if(ST&&ST.sec==="_sem"){clearTimeout(ST.timer);semDraw();return}return c068()};
+  /* 098: cabeçalho */
+  const c098=()=>{const r=c086();try{vs98Cabecalho()}catch(e){}return r};
+  /* 101: barras do Em 5 min com a Agenda */
+  const r=c098();
+  try{if(ST&&ST.sec==="_5min"){const n=agPaginas().length,b=$("#layer .story .bars");if(n&&b&&!b.querySelector(".bt101"))b.insertAdjacentHTML("beforeend",Array.from({length:n},()=>`<i class="bt101"></i>`).join(""))}
+    else if(ST&&ST.sec==="_ag"&&bt101Cinco()){/* Agenda dentro do "Em 5 min": mesmo nome, mesmas barras */
+      const st=$("#layer .story.sg-ag");if(st){const n5=bt101N5(),b=st.querySelector(".bars");if(b&&n5)b.insertAdjacentHTML("afterbegin",Array.from({length:n5},()=>`<i class="on bt101"></i>`).join(""));
+        const w=st.querySelector(".sg-who b");if(w)w.textContent="Em 5 min";const s=st.querySelector(".sg-who span");if(s)s.textContent="Agenda · "+s.textContent;
+        const av=st.querySelector(".sg-avag");if(av){av.className="ph-av sg-av sg-av5";av.innerHTML="<i>5</i>"}
+        const nn=st.querySelector(".sga-n");if(nn)nn.textContent="";}}}catch(e){}return r}

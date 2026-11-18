@@ -1,17 +1,11 @@
 /* ---------- 104: correções dos stories (QA 02/11) ---------- */
 /* 1. ordem dos amigos = a ordem que está na bandeja quando você toca (antes era recalculada com os vistos no fim:
    abrir um story já visto pulava os amigos que estavam depois dele na bandeja) */
-{const _so104=storyOrdem;storyOrdem=function(){const novo=!!(ST&&!ST._uord);const L=_so104.apply(this,arguments);
-  try{if(novo&&ST&&ST._uord&&String(ST.sec||"").indexOf("_u:")===0&&String(ST.sec).indexOf("_u:~")!==0){
-    const tr=[...document.querySelectorAll("#secs [data-ustory]")].map(b=>"_u:"+b.dataset.ustory);
-    if(tr.includes(ST.sec)){const pos=x=>{const k=tr.indexOf(x);return k<0?1e3:k};const u=ST._uord.slice().sort((a,b)=>pos(a)-pos(b));
-      if(ST._uord[0]==="_u:"+S.uid&&u[0]!==ST._uord[0]){u.splice(u.indexOf(ST._uord[0]),1);u.unshift(ST._uord[0])}
-      ST._uord=u;return _so104.apply(this,arguments)}}}catch(e){}return L}}
+
 /* 2. deslizar para o lado troca de "bolinha": as telas da Agenda fazem parte do "Em 5 min" (101), então deslizar
    a partir do "Em 5 min" vai para "Últimas" (antes caía na Agenda, que parece o mesmo story) */
 let SS104_GRUPO=false;
-{const _so104g=storyOrdem;storyOrdem=function(){const L=_so104g.apply(this,arguments);
-  try{if(SS104_GRUPO&&ST&&L.includes("_5min")&&L.includes("_ag")&&typeof bt101Cinco==="function"&&bt101Cinco())return L.filter(x=>x!==(ST.sec==="_ag"?"_5min":"_ag"))}catch(e){}return L}}
+
 {const _ss104=storySec;storySec=function(){SS104_GRUPO=true;try{return _ss104.apply(this,arguments)}finally{SS104_GRUPO=false}}}
 {const _di104=igDragIni;igDragIni=function(){SS104_GRUPO=true;try{return _di104.apply(this,arguments)}finally{SS104_GRUPO=false}}}
 /* 3. story aberto pelo Arquivo ou pelo perfil de um amigo: fechar (✕, deslizar ou voltar do celular) volta para o

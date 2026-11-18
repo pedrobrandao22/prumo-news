@@ -7,12 +7,11 @@ function agPaginas(){let r;try{r=igAgendaItens()}catch(e){return []}const dias={
   const out=[];Object.keys(dias).sort().slice(0,7).forEach(d=>{const ev=dias[d];for(let k=0;k<ev.length;k+=5)out.push({id:"ag|"+d+"|"+k,d,ev:ev.slice(k,k+5),parte:k/5,partes:Math.ceil(ev.length/5),chave:d+"|"+ev.map(a=>a.texto).join("|").slice(0,120)})});return out}
 function agDiaNome(d){const hoje=hojeSP();if(d===hoje)return "Hoje";if(d===somaDias(hoje,1))return "Amanhã";const x=new Date(d+"T12:00:00Z");const w=x.toLocaleDateString("pt-BR",{weekday:"long",timeZone:"UTC"});return w.charAt(0).toUpperCase()+w.slice(1)}
 function agDataLonga(d){return new Date(d+"T12:00:00Z").toLocaleDateString("pt-BR",{day:"numeric",month:"long",timeZone:"UTC"})}
-{const _il=igLista;igLista=function(sec){if(sec==="_ag"){const pg=agPaginas();return {ps:pg,itens:pg}}return _il.apply(this,arguments)}}
+
 {const _sp=stPs;stPs=function(){if(ST&&ST.sec==="_ag")return ST.itens||[];return _sp.apply(this,arguments)}}
-{const _io=igNomeSt;igNomeSt=function(sec){return sec==="_ag"?"Agenda":_io.apply(this,arguments)}}
+
 {const _is=igSet;igSet=function(sec,pos){const n=_is.apply(this,arguments);if(sec==="_ag"&&pos==="novo"){const k=ST.itens.findIndex(x=>!AG_VISTOS.has(x.chave));ST.i=k<0?0:k}return n}}
-storyOrdem=function(){const base=(ST&&ST.ordem&&ST.ordem.length?ST.ordem:secsStory().map(s=>s.id)).filter(id=>pautasDa(id).length);
-  const v=[];if(cincoLista().length)v.push("_5min");if(agPaginas().length)v.push("_ag");try{if(tickerItens(15).length)v.push("_ult")}catch(e){}return v.concat(base)};
+
 function agEvHTML(a){const pid=agPid(a),hr=agHoraTxt(a),est=a._d===hojeSP()?agEstado(a):"";
   const inner=`<span class="sga-h">${est==="agora"?`<em class="sga-live"><i></i>Agora</em>`:hr?esc(hr):`<em class="sga-dia">Sem horário</em>`}</span><span class="sga-t">${esc(a.texto)}</span>${pid?`<span class="sga-c" aria-hidden="true">›</span>`:""}`;
   return `<li class="${est}">${pid?`<button type="button" data-stmat="${esc(pid)}">${inner}</button>`:`<div>${inner}</div>`}</li>`}
@@ -32,7 +31,7 @@ function igDrawAgenda(){const pg=ST.itens[ST.i];if(!pg)return closeLayer();const
 function agCaber(){const b=$("#layer .sga-body");if(!b)return;let k=1;b.style.setProperty("--sgk","1");for(let n=0;n<6&&b.scrollHeight>b.clientHeight+1;n++){k-=.08;b.style.setProperty("--sgk",k.toFixed(2))}}
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-igagsheet]");if(!b)return;e.stopPropagation();igAgendaSheet()},true);
 /* desenhar: Agenda à parte; troca suave entre notícias */
-{const _ds=drawStory;drawStory=function(anim){if(ST&&ST.sec==="_ag"){clearTimeout(ST.timer);return igDrawAgenda(anim)}const r=_ds.apply(this,arguments);igEntra();return r}}
+
 function igEntra(){const st=$("#layer .story.sg");if(!st||REDUZ.matches||IG_CUBO)return;st.classList.remove("sg-anim");void st.offsetWidth;st.classList.add("sg-anim")}
 /* troca de seção em cubo: as duas faces giram juntas */
 var IG_CUBO=false;

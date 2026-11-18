@@ -15,26 +15,7 @@ function igLinhas(p,L){const fr=ssFrasesSociais(p,L).slice(0,4);const tit=norm(v
   return fr.filter(t=>norm(t)!==tit).slice(0,3)}
 storyActs=function(pid){const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));
   return `<button type="button" class="sg-ler" data-stmat="${esc(pid)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>Ler a matéria</button><span class="sp"></span><button type="button" class="sg-a ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}${likes.length?`<span>${likes.length}</span>`:""}</button><button type="button" class="sg-a" data-a="cmt" aria-label="Comentar">${ICON.cmt}${cm.length?`<span>${cm.length}</span>`:""}</button><button type="button" class="sg-a" data-a="send" aria-label="Enviar">${ICON.send}</button>`};
-drawStory=function(anim){
-  const ps=stPs(),p=ps[ST.i];if(!p)return closeLayer();clearTimeout(ST.timer);const vazioS=!$("#layer").innerHTML;
-  SEEN.add(seenKey(p));lsSet("radar-vistos",[...SEEN].slice(-400));marcarLida(p.id);
-  const L=lente(),v=versao(p,L),sec=ST.sec,cor=secCor(sec),f=fotoDe(p);
-  const lin=igLinhas(p,L);let num=null;
-  const linHTML=lin.map((t0,k)=>{let t=t0;if(k===0){const n=ssNumero(t0);if(n&&t0.indexOf(n)===0){let r=t0.slice(n.length).replace(/^\s*:?\s*/,"");if(r.length>8){num=n;t=r.charAt(0).toUpperCase()+r.slice(1)}}}return `<li>${esc(t)}</li>`}).join("");
-  const hr=ultimaAtualizacao(p)||p.hora;const qd=hr?quando(hr):"";
-  ST.palavras=(v.titulo+" "+lin.join(" ")).split(/\s+/).length;
-  $("#layer").innerHTML=`<div class="story sg${f?" com-foto":""}" data-sec="${esc(sec)}" style="--c:${cor}" role="dialog" aria-modal="true" aria-label="${esc(secNome(sec))}"><div class="story-in">
-    <div class="sg-bg paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.story').classList.remove('com-foto');this.remove()">`:`<div class="sg-art">${svgOf(p.imagem)}</div>`}</div>
-    <div class="sg-sh"></div>
-    <div class="bars">${ps.map((_,k)=>`<i class="${k<ST.i||(k===ST.i&&!PREF.storyAuto)?"on":""}">${k===ST.i&&PREF.storyAuto?"<b></b>":""}</i>`).join("")}</div>
-    <div class="s-h"><span class="ph-av sg-av" style="--c:${cor}"><i>${esc(secNome(sec).charAt(0))}</i></span><span class="sg-who"><b>${esc(secNome(sec))}</b>${qd?`<span>${esc(qd)}</span>`:""}</span><span class="s-hb"><button type="button" data-sauto aria-pressed="${!!PREF.storyAuto}" aria-label="${PREF.storyAuto?"Parar de passar sozinho":"Passar sozinho"}">${PREF.storyAuto?'<svg viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>'}</button><button type="button" data-close aria-label="Fechar">${ICON.close}</button></span></div>
-    <button type="button" class="tap l" data-sgo="-1" aria-label="Notícia anterior"></button><button type="button" class="tap r" data-sgo="1" aria-label="Próxima notícia"></button>
-    <div class="sg-body"><span class="sg-k">${esc(capaChapeu(p))}</span><h2>${esc(v.titulo)}</h2>${num?`<b class="sg-n">${esc(num)}</b>`:""}${linHTML?`<ul class="sg-l">${linHTML}</ul>`:""}${f?credHTML(f.credito||"Foto de arquivo","sg-cr"):""}</div>
-    <div class="s-f sg-f" id="s-acts" data-pid="${esc(p.id)}">${storyActs(p.id)}</div>
-  </div></div>`;
-  igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);
-  const si=$("#layer .story-in");if(anim&&si){si.classList.add(anim);si.addEventListener("animationend",()=>{si.classList.remove(anim);$("#layer .story")?.classList.remove("flipping")},{once:true});$("#layer .story").classList.add("flipping")}
-  igCaber();renderSecs()};
+
 function igCaber(){const b=$("#layer .sg-body");if(!b)return;const lim=()=>b.getBoundingClientRect().top<110;let k=1;b.style.setProperty("--sgk","1");for(let n=0;n<6&&lim();n++){k-=.08;b.style.setProperty("--sgk",k.toFixed(2))}
   if(lim()){const li=[...b.querySelectorAll(".sg-l li")];while(li.length>1&&lim())li.pop().remove()}}
 function igWire(el){if(!el)return;let x0=0,y0=0,on=false;

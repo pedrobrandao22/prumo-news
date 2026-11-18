@@ -19,7 +19,7 @@ const vs98Nome1=u=>String(nomeDe(u)).split(" ")[0];
   return r}}
 
 /* Cabeçalho: sai o botão de pausar/continuar; entra o ⋯ (segurar continua pausando) */
-{const _ds98=drawStory;drawStory=function(){const r=_ds98.apply(this,arguments);try{vs98Cabecalho()}catch(e){}return r}}
+
 function vs98Cabecalho(){const hb=$("#layer .story.sg .s-hb");if(!hb||hb.querySelector("[data-vs98menu]"))return;
   const a=hb.querySelector("[data-sauto]");const h=`<button type="button" class="vs98-mn" data-vs98menu aria-label="Mais opções">${ICON.dots}</button>`;
   if(a)a.insertAdjacentHTML("beforebegin",h);else hb.insertAdjacentHTML("afterbegin",h)}

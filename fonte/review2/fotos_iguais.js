@@ -210,6 +210,14 @@ const AREAS = {
       await P.evaluate(() => window.scrollTo(0, 0)); await U_sleep(1200);
       await P.evaluate(() => { const el = document.getElementById('p-' + FEED.pautas[0].id); if (el) window.scrollTo(0, el.getBoundingClientRect().top + scrollY - 60) });
       await foto('comentarios-no-cartao') },
+    // stories do topo: cada tipo de círculo, a página seguinte e a passagem para o círculo seguinte (sem passar sozinho)
+    'stories': async (P, foto) => { await P.evaluate(() => { PREF.storyAuto = false; go('feed') });
+      for (const [nome, s] of [['5min', '[data-5min]'], ['ultimas', '[data-ultimas]'], ['secao', '[data-sec-story]'], ['destaque', '[data-dest]']]) {
+        const ok = await P.evaluate(s => { const b = document.querySelector('#secs ' + s); if (b) b.click(); return !!b }, s); if (!ok) continue;
+        await U_sleep(400); await foto('story-' + nome + '-1');
+        for (const k of [2, 3]) { await P.evaluate(() => { const b = document.querySelector('#layer [data-sgo="1"]'); if (b) b.click() }); await U_sleep(400); await foto('story-' + nome + '-' + k) }
+        await P.evaluate(() => { try { closeLayer() } catch (e) { } }); await U_sleep(300) }
+      await foto('story-volta-feed') },
     'fim': async (P, foto) => { await P.evaluate(() => go('feed'));
       for (let i = 0; i < 30; i++) { const tem = await P.evaluate(() => { window.scrollTo(0, document.documentElement.scrollHeight); return !!document.querySelector('#mais') }); if (!tem) break; await U_sleep(300) }
       await P.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight)); await foto('fim');

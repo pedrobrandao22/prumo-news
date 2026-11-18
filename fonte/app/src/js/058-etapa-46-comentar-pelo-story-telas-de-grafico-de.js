@@ -2,7 +2,7 @@
 /* ===== telas de gráfico/números/linha do tempo ===== */
 function igVisDe(p){const vs=(p&&p.visuais)||[];return vs.find(v=>v.tipo==="grafico"&&(v.itens||[]).length>=2&&(v.itens||[]).every(i=>typeof i.valor==="number"))||vs.find(v=>v.tipo==="numeros"&&(v.itens||[]).length>=2)||vs.find(v=>v.tipo==="linha_do_tempo"&&(v.itens||[]).length>=3)||null}
 function igComVis(ps){const out=[];ps.forEach(p=>{out.push(p);if(igVisDe(p))out.push({...p,id:p.id+"#v",__vis:true})});return out}
-{const _il46=igLista;igLista=function(sec){const r=_il46.apply(this,arguments);if(sec==="_ult"||sec==="_ag"||String(sec).indexOf("_h:")===0)return r;return {ps:igComVis(r.ps),itens:r.itens}}}
+
 {const _sp46=stPs;stPs=function(){if(ST&&ST.sec&&String(ST.sec).indexOf("_h:")===0)return ST.itens||[];if(ST&&ST.sec==="_ag")return _sp46.apply(this,arguments);
   return (ST.ids||[]).map(id=>{if(/#v$/.test(id)){const p=pautaById(id.slice(0,-2));return p?{...p,id,__vis:true}:null}return pautaById(id)}).filter(Boolean)}}
 {const _is46=igSet;igSet=function(sec,pos){const n=_is46.apply(this,arguments);if(pos==="novo"&&sec!=="_ult"&&sec!=="_ag"){const ps=stPs();let k=ps.findIndex(p=>!p.__vis&&!SEEN.has(seenKey(p)));ST.i=k<0?0:k}return n}}
@@ -42,10 +42,7 @@ function destMarcos(p){const tl=(p.visuais||[]).find(v=>v.tipo==="linha_do_tempo
 function destaques(){if(!FEED)return [];return ordenadas(visiveis()).filter(p=>destMarcos(p)).slice(0,6)}
 function destChave(p){const m=destMarcos(p)||[];return p.id+"|"+m.length+"|"+((m[m.length-1]||{}).texto||"").slice(0,30)}
 function destNome(p){const t=temaDe(p)||capaChapeu(p);return t.length>14?t.slice(0,13).trim()+"…":t}
-{const _il46b=igLista;igLista=function(sec){if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));if(!p)return {ps:[],itens:[]};const m=destMarcos(p)||[];
-  const fr=[{id:"h0",tipo:"capa",p,n:m.length}].concat(m.map((x,k)=>({id:"h"+(k+1),tipo:"marco",p,m:x,k,n:m.length})));return {ps:fr,itens:fr}}return _il46b.apply(this,arguments)}}
-{const _so46=storyOrdem;storyOrdem=function(){if(ST&&ST.sec&&String(ST.sec).indexOf("_h:")===0)return [ST.sec];return _so46.apply(this,arguments)}}
-{const _no46=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));return p?temaDe(p)||capaChapeu(p):"Destaque"}return _no46.apply(this,arguments)}}
+
 function destAbrir(pid){const sec="_h:"+pid,r=igLista(sec);if(!r.ps.length)return;uso("destaque");if($("#layer").innerHTML&&!$("#layer .story"))closeLayer();
   ST={sec,ids:r.ps.map(x=>x.id),itens:r.itens,i:0,ordem:[]};drawStory()}
 function igDrawDest(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const p=fr.p,vazioS=!$("#layer").innerHTML,cor=secCor(secOf(p)),f=fotoDe(p);
@@ -63,9 +60,6 @@ function igDrawDest(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const p
     <div class="s-f sg-f" id="s-acts" data-pid="${esc(p.id)}">${storyActs(p.id)}</div>
   </div></div>`;
   igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);igEntra();igCaber();renderSecs()}
-{const _ds46=drawStory;drawStory=function(anim){if(ST&&String(ST.sec||"").indexOf("_h:")===0){clearTimeout(ST.timer);igDrawDest();igRodape();igPreCarrega();return}
-  if(ST&&ST.sec!=="_ag"){const p=stPs()[ST.i];if(p&&p.__vis){clearTimeout(ST.timer);igDrawVis(p);igRodape();igPreCarrega();return}}
-  const r=_ds46.apply(this,arguments);igRodape();igPreCarrega();return r}}
 
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#secs [data-dest]");if(!b)return;e.stopPropagation();(window.comTransicao||((o,f)=>f()))(b.querySelector(".ig-r")||b,()=>destAbrir(b.dataset.dest),".story-in")},true);
 
