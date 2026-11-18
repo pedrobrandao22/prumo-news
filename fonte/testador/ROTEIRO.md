@@ -43,11 +43,39 @@ na Capa, foto repetida, informação contraditória.
 { "titulo": "frase curta do problema", "tipo": "erro" | "melhoria", "prioridade": "alta" | "media" | "baixa",
   "tela": "Capa" | "Matéria" | "Feed" | "Criar" | ..., "detalhe": "o que acontece e por que atrapalha",
   "como": "passo a passo para ver", "sugestao": "o que fazer", "status": "aberto",
-  "criado_em": "ISO", "visto_em": "ISO", "vezes": 1, "versao": "<versao.json>" }
+  "natureza": "app" | "conteudo" | "gosto", "familia": "<id da família, se houver>",
+  "criado_em": "ISO", "visto_em": "ISO", "vezes": 1, "reaberturas": 0, "historico": [], "versao": "<versao.json>" }
 ```
+
+### Natureza (obrigatória em todo achado novo; desde 18/11, plano "Prumo robusto", Fase 5)
+- `app`: defeito do código do app (tela, botão, navegação, texto fixo do app, erro de JS, lentidão). Vai para o
+  corretor mexer em `fonte/app/src`.
+- `conteudo`: problema do que as rodadas de notícias e os robôs escrevem (texto, manchete, data relativa, foto
+  escolhida, número de indicador, nome de cobertura, "Quem noticiou"). O app mostra certo o que recebeu; a correção é
+  na regra (tools/manual.md, tools/*.py), nunca no feed.json.
+- `gosto`: o app funciona e o conteúdo está certo, mas a apresentação poderia ser outra (layout, ícone, ordem,
+  quantidade de botões, "mais limpo"). É opinião: diga por que incomoda uma pessoa comum, não só que você faria diferente.
+Em dúvida entre `app` e `conteudo`: abra o feed (prumonews.com.br/feed.json) e veja se o texto/foto/número errado já
+está lá. Se está, é `conteudo`.
+
+### Famílias (mesma causa)
+Antes de criar um achado, veja a coleção `causas`: se o problema é mais um caso de uma causa já aberta (ex.: foto que
+não combina, "na terça" em vez de "hoje", três cotações do dólar), grave o achado com `familia: "<id da causa>"` e
+some o id em `causas/<id>.achados`. Família nova: quando você vir o 3º caso aberto com a mesma causa, crie
+`causas/<id>` com `{ "titulo", "natureza", "achados": [ids], "abertos": n, "status": "aberta", "criado_em",
+"motivo": "por que é uma causa só", "analise": "" }`.
 - id do documento: palavras do título sem acento, com hífens (ex.: `capa-foto-repetida`).
-- Já existe (mesmo problema)? Só `update` em `visto_em` e `vezes`. Se estiver "resolvido" e voltou a acontecer,
-  reabrir (`status: "aberto"`) e dizer no `detalhe` que voltou.
+- Já existe e está aberto (mesmo problema)? Só `update` em `visto_em` e `vezes`. Não reescreva o `detalhe` a cada
+  rodada: se algo mudou de verdade, acrescente uma linha datada no fim.
+- Está "resolvido" e voltou a acontecer? Reabrir é um evento, e todo evento diz a causa:
+  `status: "aberto"`, `reaberturas: reaberturas + 1`, e acrescente em `historico`
+  `{ "em": ISO, "evento": "reaberto", "versao": "<versao.json>", "causa_volta": "..." }`.
+  `causa_volta` é obrigatória e diz POR QUE voltou, com o que você verificou: "a correção cobriu só a Capa e o caso
+  agora é no Feed", "a foto saiu mas o robô escolheu outra errada do mesmo jeito", "voltou depois da versão X, que mexeu
+  em Y", "regra do manual não vale para a rodada rápida". "Voltou" sozinho não vale; se não achou a causa, escreva a
+  hipótese mais provável e o que olhou. Sem `causa_volta` não reabra: anote no `detalhe` e deixe resolvido.
+- Chegou a 3 reaberturas (ou a família tem 3+ casos abertos)? Marque `causa: true` e ligue à `causas/<id>` (crie se
+  não existir). A partir daí não é mais remendo: o corretor trata a causa inteira.
 - "descartado" é decisão do Pedro: não reabrir nem gravar de novo.
 - Prioridade alta: quebra algo, perde o que a pessoa escreveu, mostra coisa errada ou confunde quase todo mundo.
   Média: atrapalha, mas tem saída. Baixa: acabamento.
@@ -57,14 +85,15 @@ na Capa, foto repetida, informação contraditória.
 Liste os achados com `status: "resolvido"` cujo `status_em` é depois de `config/estado.ultima_rodada` (ou que ainda não
 têm `conferido_em`). Para cada um, refaça o "como" e veja se ficou bom:
 - ficou bom: `update` com `conferido_em` (ISO) e `conferido: "ok"`;
-- voltou ou ficou pela metade: `status: "aberto"`, `conferido: "falhou"` e diga no `detalhe` o que ainda acontece.
+- voltou ou ficou pela metade: reabra como acima (com `causa_volta`), mais `conferido: "falhou"`.
 
 ## Ao terminar
 `update` em `config/estado`: `ultima_rodada` (ISO), `ultima_versao`, `ultimo_resumo` (uma frase: área testada e
 quantos achados novos).
 E grave a rodada no Diário (coleção `diario`, id `AAAA-MM-DDTHHMM-testador`, horário de Brasília):
 `{ "quem": "testador", "em": ISO, "area": "...", "versao": "...", "resumo": "uma ou duas frases",
-   "novos": ["título de cada achado novo"], "conferidos": ["título — ok"], "reabertos": ["título — o que voltou"] }`.
+   "novos": ["título de cada achado novo"], "conferidos": ["título — ok"],
+   "reabertos": ["título — causa_volta"] }`.
 
 ## Regras
 - Só a conta de teste; nunca a conta do Pedro. Tudo que publicar leva "Teste do testador" no texto e é apagado no

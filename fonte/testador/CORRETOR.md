@@ -3,23 +3,36 @@
 O corretor pega os achados abertos da página "Testador do Prumo" (endereço no pedido da tarefa agendada), corrige no
 app, testa, publica e registra. Português do Brasil, fuso America/Sao_Paulo.
 
-## FASE 3 EM ANDAMENTO (18/11 a 05/12) — congelamento do código do app
-Durante a consolidação do código (plano "Prumo robusto", Fase 3) o corretor e a melhoria contínua NÃO mexem em
-fonte/app/src (js, css, pagina.html): nada de arquivo novo nem de remendo em arquivo existente. Permitido: regras de
-conteúdo (tools/manual.md, tools/validar.py, tools/aplicar.py e os demais tools/*.py, com teste em tools/test_*.py),
-dados dos robôs pelas próprias ferramentas e tornar teste frágil mais robusto sem enfraquecê-lo. Achado do app vira
-nota (`corretor_pulou` + `corretor_nota`: "espera a consolidação da área <Capa/Feed/Matéria/Criar/Perfil/Conversas>
-(Fase 3)") e é tratado dentro da consolidação. Única exceção: app quebrado para quem usa (abre em branco, não carrega
-notícias, perde o que a pessoa escreveu): correção mínima, com teste, e nota no Diário.
+## Depois da Fase 3 (código consolidado, desde 18/11)
+As áreas do app têm cada uma o seu módulo com a versão única de cada função: 200-capa, 201-nucleo, 202-materia,
+203-conversas, 204-feed, 205-perfil, 206-criar (o cabeçalho de cada um lista as funções). Correção do app é DENTRO da
+função, no módulo dela; não crie arquivo novo que embrulha (`const _x=f; f=function(){…}`) função existente. Arquivo
+novo só para parte realmente nova, e mesmo assim sem embrulhar. Antes de mexer, `grep -n "function nome" app/src/js/*.js`
+para achar a única definição.
 
 ## 0. Ligado?
 `config/estado.corretor_ligado` precisa ser `true`; senão, termine sem fazer nada.
 
-## 1. Escolher (no máximo 3 por rodada)
-Leia `achados` (limit 500). Candidatos: `status: "aberto"`, que não sejam "descartado" nem marcados `corretor_pulou`
+## 1. Escolher (no máximo 3 por rodada; uma causa conta como 2)
+Leia `causas` e `achados` (limit 1000).
+**Primeiro as causas** (`causas` com `status: "aberta"`, mais `abertos` primeiro; e achados com `causa: true`, os que
+voltaram 3 vezes). Causa não se corrige caso a caso: (1) leia todos os achados dela, abertos e resolvidos, e os
+`historico[].causa_volta`; (2) escreva em `causas/<id>.analise` a causa de verdade: qual função do app ou qual regra
+do manual/robô produz todos esses casos e por que as correções anteriores não seguraram; (3) corrija nesse ponto único;
+(4) faça um teste que gere a CLASSE do problema (vários casos, inclusive os antigos), não só o caso do dia; (5) ao
+publicar, marque a causa `status: "resolvida"`, `resolvida_em`, `resolucao` e resolva juntos todos os achados dela
+que o teste cobre. Se a causa for grande demais para uma rodada, escreva em `analise` o plano em passos e faça o
+primeiro passo.
+**Depois os achados soltos**: `status: "aberto"`, que não sejam "descartado" nem marcados `corretor_pulou`
 nas últimas 24 h. Ordem: prioridade (alta, média, baixa), depois `vezes` (mais visto primeiro), depois os da origem
-"Pedro". Escolha até 3 que caibam numa rodada (cada um com teste). Pule e marque `corretor_pulou` (ISO) +
-`corretor_nota` com o motivo quando:
+"Pedro". Escolha o que caiba na rodada (cada um com teste). Pela `natureza`:
+- `app`: corrige no módulo da função (acima);
+- `conteudo`: corrige a regra (tools/manual.md, tools/validar.py, tools/aplicar.py, tools/fotos_arquivo.py…), com
+  teste em tools/test_*.py; nunca o feed.json;
+- `gosto`: só quando a origem é o Pedro ou a prioridade é alta; senão marque `corretor_pulou` com
+  `corretor_nota: "gosto — fica para o Pedro decidir"` e liste no resumo do Diário (`para_o_pedro`).
+Sem `natureza` (achado antigo): decida e grave antes de corrigir.
+Pule e marque `corretor_pulou` (ISO) + `corretor_nota` com o motivo quando:
 - depende do Pedro (chaves, Supabase, decisão de produto) → diga o que ele precisa fazer;
 - é conteúdo das rodadas de notícias (texto, manchete, número de uma notícia): não edite feed.json; ajuste a regra em
   tools/manual.md ou tools/validar.py (com teste em tools/test_*.py) e diga isso na nota;
@@ -29,8 +42,7 @@ Fotos: a escolha automática fica em tools/fotos_arquivo.py (NEGADAS, COM_GENTE,
 
 ## 2. Corrigir
 Repositório pedrobrandao22/prumo-news, ramo `reestruturacao`; leia fonte/MELHORIAS.md (regras do produto).
-Código novo em fonte/app/src/js/NNN-*.js / css (incluído em pagina.html), embrulhando funções existentes; nomes
-globais únicos; sem lookbehind em regex. `python3 montar.py`. Teste novo (ou ajuste de teste) em fonte/review2/, na
+Correção dentro da função, no módulo dela (ver "Depois da Fase 3"); nomes globais únicos; sem lookbehind em regex. `python3 montar.py`. Teste novo (ou ajuste de teste) em fonte/review2/, na
 LISTA de testar.sh. Rode o teste novo + os que tocam a mesma parte (grep pelas funções) + review2/t_etapa7 +
 review2/t_criar_caixa. Tudo verde.
 
@@ -43,9 +55,13 @@ Espere `curl -s https://prumonews.com.br/versao.json` mostrar a versão nova (at
 
 ## 4. Registrar
 - Em cada achado corrigido: `status: "resolvido"`, `status_em` (ISO), `resolucao` (o que mudou, para o Pedro, em uma
-  frase simples), `versao`.
+  frase simples), `versao`, e acrescente em `historico` `{ "em": ISO, "evento": "resolvido", "versao": "...",
+  "como": "o que mudou e onde (função ou regra)" }`.
+- Achado que já voltou antes (`reaberturas` ≥ 1): na `resolucao`, diga por que desta vez não volta (o que a correção
+  anterior não cobria).
 - No Diário: `diario/AAAA-MM-DDTHHMM-corretor` com
   `{ "quem": "corretor", "em": ISO, "versao": "...", "resumo": "...", "corrigidos": [{"titulo": "...", "como": "..."}],
+     "causas": [{"titulo": "...", "analise": "uma frase"}], "para_o_pedro": ["títulos de gosto e o que depende dele"],
      "novos": [] }` e, se pulou algo que depende do Pedro, ponha em `resumo`.
 - `config/estado`: `corretor_ultima` (ISO).
 
