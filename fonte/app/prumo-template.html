@@ -17580,10 +17580,6 @@ function mc1111Tempo(p){const vs=Array.isArray(p&&p.visuais)?p.visuais:[];const 
     const depois=its.slice(i+1).some(o=>{const x=o&&typeof o.quando==="string"?rc116Data(o.quando,hj):null;return x&&x.iso<=hj});if(!depois)return it;
     mudou=true;return Object.assign({},it,{quando:`${m[1]}/${m[2]}/${ano}`})});
   if(!mudou)return p;const nv=vs.slice();nv[k]=Object.assign({},vs[k],{itens:novos});return Object.assign({},p,{visuais:nv})}
-/* Pendências pequenas 12/11/2026 (145).
-   Sugestões de @ na legenda do criador (post, reel, fotos): a caixa flutuava por cima da linha "Marcar pessoas".
-   Agora ela entra logo abaixo da legenda, empurrando as linhas para baixo; nada fica coberto. */
-
 /* ---------- 146: o Feed não baixa o texto inteiro das colunas (13/11) ----------
    Antes, a lista de publicações vinha com select("*"), e cada coluna trazia o texto longo (publicacoes.corpo, até 40.000
    caracteres) a cada atualização do Feed, mesmo sem ninguém abrir. Agora:
