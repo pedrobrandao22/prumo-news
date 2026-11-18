@@ -93,28 +93,13 @@ async function cn102DadoCanvas(d){try{await document.fonts.load('800 40px "Publi
 
 /* ===== 3. começar pelo conteúdo ===== */
 var CN102_SEMGAL=0;
-{const _ag=cfpAbreGaleria;cfpAbreGaleria=function(){if(CN102_SEMGAL)return;return _ag.apply(this,arguments)}}
 function cn102Novo(k){return {v:1,k,tit:"",corpo:"",q:k==="rel"?cn102Hoje():"",fu:"",o:["",""],d:null}}
 /* abre o criador já no formulário do tipo escolhido */
-function cn102Comeca(k,o){o=o||{};if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+k);
-  if($("#layer").innerHTML)closeLayer();CN102_SEMGAL=1;try{criarAbrir("post")}finally{CN102_SEMGAL=0}if(!ED||ED.modo!=="post")return;
-  const P=ED.po;P.cn=cn102Novo(k);if(o.pid)P.pid=o.pid;P.passo="detalhes";edDesenha();
-  if(k==="nt"&&!P.pid)cn102ListaNt("data-edpnt");
-  else if(k==="rel"&&!o.semFoto)cn102EscolheFotos();
-  else setTimeout(()=>{const i=$(k==="nt"?"#ce-leg":"#cn102-tit");if(i)try{i.focus({preventScroll:true})}catch(e){}},80)}
 /* lista de notícias com a arte da edição */
-function cn102ListaNt(attr){const ce=$("#layer .ce");if(!ce)return;$("#layer .ce-sel")?.remove();$("#layer .ce-fig")?.remove();
-  const ps=ordenadas(visiveis()).slice(0,60),ov=document.createElement("div");ov.className="ce-sel cn102-ntl";
-  ov.innerHTML=`<div class="ce-selp" role="dialog" aria-label="Escolher notícia"><b>Notícia da edição</b><input class="field" id="ce-lq" type="search" placeholder="Buscar na edição" autocomplete="off" enterkeyhint="search">
-    <ul class="ce-lis">${ps.map(p=>{const v=versao(p,lente());return `<li><button type="button" ${attr}="${esc(p.id)}" data-busca="${esc(norm(v.titulo+" "+(p.tag||"")+" "+secNome(secOf(p))))}">${capaArte(p,"cn102-th")}<span><small style="color:${secCor(secOf(p))}">${esc(secNome(secOf(p)))}${p.tag?" · "+esc(p.tag):""}</small><b>${esc(v.titulo)}</b></span></button></li>`}).join("")||`<li class="hint">A edição ainda não carregou.</li>`}</ul>
-    <div class="ce-selb"><button type="button" class="btn ghost" data-edselx>Cancelar</button></div></div>`;
-  ce.appendChild(ov);const q=ov.querySelector("#ce-lq");q.addEventListener("input",()=>{const n=norm(q.value).trim();ov.querySelectorAll("[data-busca]").forEach(b=>{b.parentElement.hidden=!!n&&!b.dataset.busca.includes(n)})})}
 
 /* tela vazia do post: o que publicar vem antes da galeria */
 function cn102InicioHTML(){return `<div class="cn102-ini"><p class="cn102-h">O que você quer publicar?</p><div class="cn102-cards">${CN102_KS.map(([k,,t,d])=>`<button type="button" class="cn102-card cn102-c-${k}" data-cn102ini="${k}"${k==="nt"?" data-edsont":""}>${CN102_SVG(CN102_ICO[k])}<b>${esc(t)}</b><small>${esc(d)}</small></button>`).join("")}</div>
   <div class="cn102-mais"><button type="button" class="cn102-chip" data-edsotexto>${CN102_SVG(CN102_ICO.tx)}Só texto</button><div id="ce-rascs"></div></div></div>`}
-{const _cf=cfpFotos;cfpFotos=function(el){const r=_cf.apply(this,arguments);try{const P=ED.po;if(!(P.rolo&&P.rolo.length&&P.fotos[P.cur])){const o=el.querySelector(".cfp-opc");if(o){o.outerHTML=cn102InicioHTML();if(typeof rascChip==="function")rascChip()}
-    const box=$("#cfp-box");if(box){box.style.height="";box.classList.add("cn102-box")}const v=el.querySelector(".cfp-vazio");if(v){const s=v.querySelector("span");if(s)s.textContent="Fotos da galeria, até 10"}}}catch(e){}return r}}
 
 /* ===== 4. formulário de cada tipo ===== */
 function cn102Fotos(P){return `<div class="cn102-fts" aria-label="Fotos">${P.fotos.map((f,i)=>`<span class="cn102-ft"><button type="button" data-cn102ed="${i}" aria-label="Editar a foto ${i+1}"><canvas data-cfpc="${i}" width="160"></canvas></button><button type="button" class="cn102-ftx" data-cn102tira="${i}" aria-label="Tirar a foto ${i+1}">${CN102_SVG(CN102_ICO.x)}</button></span>`).join("")}
@@ -122,41 +107,6 @@ function cn102Fotos(P){return `<div class="cn102-fts" aria-label="Fotos">${P.fot
 function cn102NtCard(p){const v=versao(p,lente()),f=fotoDe(p);return `${capaArte(p,"cn102-nta",1)}<span class="cn102-ntt"><small style="color:${secCor(secOf(p))}">${esc(secNome(secOf(p)))}${p.tag?" · "+esc(p.tag):""}</small><b>${esc(v.titulo)}</b><em>Notícia da edição do Prumo</em></span>`}
 function cn102DadoBloco(cn){const d=cn.d;if(!d)return `<button type="button" class="cn102-dadd" data-cn102dado>${CN102_SVG(CN102_ICO.ind)}<span><b>Número ou gráfico</b><small>Um indicador da edição ou os seus próprios números</small></span></button>`;
   return `<div class="cn102-dprev cn102-claro">${cn102Svg(d)}</div><div class="cn102-dbs"><button type="button" class="cn102-chip" data-cn102dado>Trocar</button><button type="button" class="cn102-chip" data-cn102dsem>Tirar</button></div>`}
-function cn102Det(el){const P=ED.po,cn=P.cn,k=cn.k,tem=P.fotos.length,nt=P.pid&&pautaById(P.pid),nm=[...new Set((P.tags||[]).map(t=>t.u).concat(P.marcados))],eu=cn102Primeiro(S.uid);
-  const campo=(id,f,ph,max,v,x)=>f==="tit"?`<textarea class="cn102-in cn102-tit" id="${id}" data-cn102f="${f}" maxlength="${max}" rows="1" placeholder="${esc(ph)}" ${x||""}>${esc(v||"")}</textarea>`:`<input class="cn102-in" id="${id}" data-cn102f="${f}" maxlength="${max}" placeholder="${esc(ph)}" value="${esc(v||"")}" autocomplete="off" ${x||""}>`;
-  let b="";
-  if(k==="nt")b=`${nt?`<button type="button" class="cn102-ntc" data-edsont aria-label="Trocar a notícia">${cn102NtCard(nt)}</button>`:`<button type="button" class="cn102-dadd" data-edsont>${CN102_SVG(CN102_ICO.nt)}<span><b>Escolher a notícia</b><small>Uma das notícias da edição de hoje</small></span></button>`}
-      ${tem?cn102Fotos(P):""}<textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="4" placeholder="O que você acha dessa notícia?" aria-label="Seu comentário">${esc(cn.corpo)}</textarea>`;
-  if(k==="rel")b=`${cn102Fotos(P)}${campo("cn102-tit","tit","O que aconteceu? (título curto)",120,cn.tit,'enterkeyhint="next"')}
-      <textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="4" placeholder="Conte o que você viu: o quê, onde, como." aria-label="Detalhes">${esc(cn.corpo)}</textarea>
-      <div class="cfp-rows cn102-rows"><label class="ce-row"><span>Onde</span><input id="ce-local" data-cn102f="local" maxlength="60" placeholder="Bairro, cidade" value="${esc(P.local)}" autocomplete="off"></label>
-        <label class="ce-row"><span>Quando</span><input id="cn102-q" type="datetime-local" lang="pt-BR" data-cn102f="q" value="${esc(cn.q||"")}" max="${cn102Hoje()}"></label>
-        <label class="ce-row"><span>Fonte</span><input id="cn102-fu" data-cn102f="fu" maxlength="300" placeholder="Link ou de onde veio (opcional)" value="${esc(cn.fu)}" autocomplete="off" inputmode="url"></label></div>`;
-  if(k==="ana")b=`${campo("cn102-tit","tit","Título da sua análise",120,cn.tit,'enterkeyhint="next"')}
-      <textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="6" placeholder="Seu ponto de vista sobre economia ou política. Diga de onde vêm os números." aria-label="Sua análise">${esc(cn.corpo)}</textarea>
-      <div class="cn102-dado">${cn102DadoBloco(cn)}</div>${tem?cn102Fotos(P):""}
-      <div class="cfp-rows cn102-rows"><label class="ce-row"><span>Fonte</span><input id="cn102-fu" data-cn102f="fu" maxlength="300" placeholder="Link ou nome da fonte (opcional)" value="${esc(cn.fu)}" autocomplete="off" inputmode="url"></label>
-        ${tem?"":`<button type="button" class="ce-row" data-cn102foto><span>Adicionar foto</span><em></em><i>›</i></button>`}</div>`;
-  if(k==="enq"){const os=cn.o.length?cn.o:["",""];b=`${campo("cn102-tit","tit","Sua pergunta",120,cn.tit,'enterkeyhint="next"')}
-      <div class="cn102-ops">${os.map((v,i)=>`<span class="cn102-op"><input data-cn102o="${i}" maxlength="40" placeholder="${["Sim","Não","Opção 3","Opção 4"][i]}" value="${esc(v)}" aria-label="Opção ${i+1}" autocomplete="off">${i>1?`<button type="button" data-cn102otira="${i}" aria-label="Tirar a opção">${CN102_SVG(CN102_ICO.x)}</button>`:""}</span>`).join("")}${os.length<4?`<button type="button" class="cn102-opm" data-cn102omais>${CN102_SVG(CN102_ICO.mais)}Opção</button>`:""}</div>
-      <div class="cfp-rows cn102-rows"><button type="button" class="ce-row" data-edsont><span>Sobre a notícia</span><em>${nt?esc(versao(nt,lente()).titulo):"Opcional"}</em><i>›</i></button>${nt?`<button type="button" class="ce-row ce-semnt" data-edsemnt><span>Tirar a notícia</span></button>`:""}</div>
-      <textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="2" placeholder="Contexto (opcional)" aria-label="Contexto">${esc(cn.corpo)}</textarea>`}
-  const aviso={nt:"A notícia aparece como da edição do Prumo e o comentário, com o seu nome.",rel:`Aparece como “Relato de ${eu}”. Conte só o que você viu ou confirmou: a redação não checa relatos.`,
-    ana:`Aparece como “Opinião de ${eu}”, separada das notícias da edição.`,enq:"Seus amigos votam e veem o resultado, como nas enquetes da edição."}[k];
-  el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edvolta="fotos" aria-label="Voltar">${EDI.vol}</button><b>${esc(CN102_NOME[k])}</b><span class="ce-b" aria-hidden="true"></span></div>
-    <div class="ce-det cfp-det cn102" data-k="${k}"><div class="cn102-ks" role="tablist" aria-label="Tipo de publicação">${CN102_KS.map(([kk,n])=>`<button type="button" role="tab" data-cn102k="${kk}" aria-selected="${kk===k}">${CN102_SVG(CN102_ICO[kk])}${esc(n)}</button>`).join("")}</div>
-      ${b}
-      <div class="cfp-rows"><button type="button" class="ce-row" ${tem?"data-edtags":"data-edmarcar"}><span>Marcar pessoas</span><em>${nm.length?esc(nm.map(u=>cn102Primeiro(u)).join(", ")):""}</em><i>›</i></button>
-        ${MA.on?`<button type="button" class="ce-row" data-cfppub><span>Público</span><em>${P.pub==="proximos"?"★ Melhores amigos":"Todos os amigos"}</em><i>›</i></button>`:""}
-        <button type="button" class="ce-row" data-edavanc aria-expanded="${!!P.avOn}"><span>Configurações avançadas</span><em></em><i>${P.avOn?"⌃":"›"}</i></button>
-        ${P.avOn?`<div class="ce-avc"><label class="ce-sw"><span>Ocultar o número de curtidas<small>Só você vê quem curtiu.</small></span><input type="checkbox" data-edsw="semCurt" ${P.semCurt?"checked":""}></label>
-          <label class="ce-sw"><span>Desativar comentários<small>Ninguém poderá comentar neste post.</small></span><input type="checkbox" data-edsw="semCom" ${P.semCom?"checked":""}></label>
-          ${tem?`<b class="ce-avt" id="cfp-altt">Texto alternativo</b>${P.fotos.map((x,i)=>`<div class="ce-altr"><img alt="" data-ai="${i}"><input class="field" maxlength="200" placeholder="Descreva a foto ${i+1}" data-edalt="${i}" value="${esc(x.alt||"")}"></div>`).join("")}`:""}</div>`:""}</div>
-      <p class="cn102-aviso">${esc(aviso)}</p></div>
-    <div class="cfp-share cn102-share">${k==="nt"&&nt?`<button type="button" class="cn102-st" data-cn102nst>${CN102_SVG(CN102_ICO.story)}Giro</button>`:""}<button type="button" class="cfp-shb" data-edpubpo ${ED.env?"disabled":""}>${ED.env?"Publicando…":"Publicar"}</button></div>`;
-  el.querySelectorAll("img[data-ai]").forEach(im=>{im.src=edUrlF(P.fotos[+im.dataset.ai])});cn102Cresce($("#cn102-tit"));
-  el.querySelectorAll("canvas[data-cfpc]").forEach(c=>{try{edRenderFoto(P.fotos[+c.dataset.cfpc],c,P.ar)}catch(e){}})}
-{const _cd=cfpDet;cfpDet=function(el){const P=ED&&ED.po;if(P&&P.cn&&P.cn.k){try{return cn102Det(el)}catch(e){console.error(e)}}return _cd.apply(this,arguments)}}
 /* o que se digita vai para o estado (e o texto do post fica sempre pronto, para o rascunho e o "descartar?") */
 function cn102Cresce(t){if(!t)return;t.style.height="auto";t.style.height=Math.min(140,t.scrollHeight+2)+"px"}
 function cn102Sync(){const P=ED&&ED.po;if(!P||!P.cn)return;P.texto=cn102Texto(P.cn,P.cn.corpo)}
@@ -177,8 +127,6 @@ function cn102EscolheFotos(){const ce=$("#layer .ce");if(!ce)return;$("#cn102-fi
 /* ===== 5. painel do número ou gráfico ===== */
 var CN102_DP=null;
 function cn102Inds(){try{return (typeof indItens==="function"?indItens():[]).filter(x=>x&&x.id&&x.valor)}catch(e){return []}}
-function cn102IndDado(x){const s=Array.isArray(x.serie)?x.serie.map(Number).filter(isFinite):[],r=Array.isArray(x.rotulos)?x.rotulos:[];const idx=cn102Amostra(s.map((_,i)=>i),30);
-  return {tipo:"ind",tit:String(x.nome||"").slice(0,60),un:"",ind:String(x.id).slice(0,30),val:String(x.valor).slice(0,24),var:String(x.variacao||"").slice(0,16),dir:["sobe","desce","estavel"].includes(x.dir)?x.dir:"",dt:/^\d{4}-\d{2}-\d{2}$/.test(x.data||"")?x.data:"",s:idx.map(i=>+(+s[i]).toPrecision(6)),r:idx.map(i=>String(r[i]||"").slice(0,10))}}
 function cn102DpDado(){const D=CN102_DP;if(!D)return null;if(D.aba==="ind"){const x=cn102Inds().find(y=>y.id===D.ind);return x?cn102IndDado(x):null}
   const pts=D.l.map(([r,v])=>[String(r||"").trim().slice(0,16),cn102Num(v)]).filter(([r,v])=>isFinite(v));if(pts.length<2)return null;
   return {tipo:D.tipo,tit:String(D.tit||"").trim().slice(0,60),un:String(D.un||"").trim().slice(0,12),s:pts.map(p=>p[1]),r:pts.map(p=>p[0])}}
@@ -243,25 +191,12 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||!ED||!$(
   if(t.closest(".ce-fig [data-edfig=\"ind\"]")){pare();$("#layer .ce-fig")?.remove();cn102DpAbre("story");return}},true);
 
 /* ===== 7. publicar: valida e grava o cn no estilo ===== */
-function cn102Valida(P){const cn=P.cn;cn102Sync();
-  if(cn.k==="nt"&&!P.pid)return "Escolha a notícia que você quer comentar.";
-  if(cn.k==="rel"&&!String(cn.tit).trim())return "Dê um título curto ao relato.";
-  if(cn.k==="ana"&&!String(cn.tit).trim()&&!String(cn.corpo).trim())return "Escreva a sua análise.";
-  if(cn.k==="enq"){if(!String(cn.tit).trim())return "Escreva a pergunta.";{const f=cn.o.map(v=>String(v||"").trim()).filter(Boolean);if(!f.length)cn.o=["Sim","Não"];/* opções em branco: vale o Sim/Não que aparece nos campos */else if(f.length<2)return "A pergunta precisa de pelo menos duas opções."}}
-  return ""}
 function cn102Grava(P){const cn=P.cn,o={v:1,k:cn.k};const t=String(cn.tit||"").trim().slice(0,120);if(t&&cn.k!=="nt")o.tit=t;
   const f=cn102Fonte(cn.fu);if(f&&cn.k!=="nt"&&cn.k!=="enq")o.fu=f.u||f.n;if(cn.k==="rel"&&cn.q)o.q=String(cn.q).slice(0,16);
   if(cn.k==="enq")o.o=cn.o.map(v=>String(v||"").trim().slice(0,40)).filter(Boolean).slice(0,4);if(cn.k==="ana"&&cn.d)o.d=cn.d;return o}
-{const _pp=edPublicaPost;edPublicaPost=async function(){const P=ED&&ED.po;if(!P||!P.cn||ED.env||!SB)return _pp.apply(this,arguments);
-  const er=cn102Valida(P);if(er){toast(er);return}const cn=cn102Grava(P);
-  P.texto=cn102Texto(cn.k==="nt"?{tit:""}:P.cn,P.cn.corpo);if(!P.texto.trim()&&!P.pid&&!P.fotos.length){toast("Escreva algo antes de publicar.");return}
-  const _from=SB.from;SB.from=function(tb){const q=_from.apply(this,arguments);if(tb==="publicacoes"&&q&&typeof q.insert==="function"&&!q._cn102){const ins=q.insert;q._cn102=1;q.insert=function(row){try{if(row&&row.tipo==="post"&&row.estilo&&typeof row.estilo==="object")row.estilo.cn=cn}catch(e){}return ins.apply(this,arguments)}}return q};
-  try{return await _pp.apply(this,arguments)}finally{SB.from=_from}}}
 /* rascunho: o cn fica guardado ao lado (por id do rascunho) */
 const CN102_RK="prumo-cn102-rasc";
 function cn102RLe(){try{return JSON.parse(localStorage.getItem(CN102_RK)||"{}")||{}}catch(e){return {}}}
-{const _rs=rascSalva;rascSalva=async function(){const P=ED&&ED.po;if(P&&P.cn){if(!P.rid)P.rid=edNid();const m=cn102RLe();m[P.rid]={...P.cn,d:P.cn.d||null};try{const ks=Object.keys(m);if(ks.length>30)ks.slice(0,ks.length-30).forEach(k=>delete m[k]);localStorage.setItem(CN102_RK,JSON.stringify(m))}catch(e){}}return _rs.apply(this,arguments)}}
-{const _ra=rascAbre;rascAbre=async function(id){const r=await _ra.apply(this,arguments);try{const c=cn102RLe()[id];if(c&&ED&&ED.po&&c.k){ED.po.cn={...cn102Novo(c.k),...c};ED.po.passo="detalhes";edDesenha()}}catch(e){}return r}}
 
 /* ===== 8. no Feed ===== */
 function cn102Kick(k,au){return {rel:`Relato de ${esc(nomeDe(au))}`,ana:`Opinião de ${esc(nomeDe(au))}`,enq:`Pergunta de ${esc(cn102Primeiro(au))}`,nt:"Notícia comentada"}[k]}
@@ -334,4 +269,3 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
   setTimeout(()=>{const t=$("#ed-leg");if(!t)return;CN102_EDC=id;t.value=cn102Corpo(x,cn);t.insertAdjacentHTML("beforebegin",`<p class="hint cn102-edt">${esc(cn.k==="enq"?"Pergunta":"Título")}: <b>${esc(cn.tit)}</b></p>`)},140)},true);
 {const _pe=pubEditar;pubEditar=function(id,txt){const x=pubDe(id),cn=x&&cn102De(x);if(CN102_EDC===id&&cn&&cn.tit){CN102_EDC=null;txt=cn102Texto(cn,txt)}return _pe.call(this,id,txt)}}
 /* o "+" abre direto em "O que você quer publicar?" (a galeria fica a um toque, em "Escolher fotos") */
-cfpAbreGaleria=function(){};

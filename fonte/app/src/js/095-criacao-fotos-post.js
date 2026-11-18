@@ -36,10 +36,6 @@ function cfpCores(b){const key=b.f||"normal";if(b._cor&&b._cor.k===key&&b._cor.i
   b._cor={k:key,img:b.img,v};return v}
 function cfpFundoCss(b){const [a,z]=cfpCores(b);return `linear-gradient(180deg,${a},${z})`}
 function cfpDesenhaCont(g,img,W,H,f){const [iw,ih]=edWH(img),k=Math.min(W/iw,H/ih)*(f.z||1),w=iw*k,h=ih*k;g.drawImage(img,(W-w)/2+(f.ox||0)*W,(H-h)/2+(f.oy||0)*H,w,h)}
-{const _pi95=edPosImg;edPosImg=function(i,f,box){if(!f||!f.cont)return _pi95.apply(this,arguments);const im=edBase(f);if(!box||!im)return;const W=box.clientWidth,H=box.clientHeight,[iw,ih]=edWH(im),k=Math.min(W/iw,H/ih)*(f.z||1),w=iw*k,h=ih*k;
-  i.style.cssText=`position:absolute;inset:auto;max-width:none;object-fit:fill;transform:none;width:${w}px;height:${h}px;left:${(W-w)/2+(f.ox||0)*W}px;top:${(H-h)/2+(f.oy||0)*H}px`}}
-{const _li95=edLimita;edLimita=function(f,box){if(!f||!f.cont)return _li95.apply(this,arguments);const r=box.getBoundingClientRect(),W=r.width||1,H=r.height||1,[iw,ih]=edWH(edBase(f)),k=Math.min(W/iw,H/ih)*(f.z||1);
-  const lx=Math.abs(iw*k-W)/2/W,ly=Math.abs(ih*k-H)/2/H;f.ox=Math.max(-lx,Math.min(lx,f.ox||0));f.oy=Math.max(-ly,Math.min(ly,f.oy||0))}}
 {const _es95=edStory;edStory=function(el){cfpMarcaSts();return _es95.apply(this,arguments)}}
 /* filtro do story: aparece na hora (CSS); a versão em pixels (igual à foto final) entra quando o dedo para */
 var CFP_ST=0;
@@ -60,31 +56,10 @@ var CFP_ST=0;
 Object.assign(EDI,{ar:'<svg class="ico" viewBox="0 0 24 24"><path d="M7 3v14h14"/><path d="M3 7h14v14"/></svg>',mlt:'<svg class="ico" viewBox="0 0 24 24"><rect x="8" y="3.5" width="12.5" height="12.5" rx="2.5"/><path d="M4 8v10a2.5 2.5 0 0 0 2.5 2.5H16"/></svg>',mais:'<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'});
 const CFP_TOOLS=[["aj","Ajustar",'<path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v4h-4"/>'],["b","Brilho",'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>'],["c","Contraste",'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>'],["s","Saturação",'<path d="M12 3s6.5 7.2 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 10.2 12 3 12 3z"/>'],["w","Calor",'<path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><path d="M12 9v7"/>'],["h","Realce",'<circle cx="12" cy="12" r="8.5"/><path d="M4 10h16M5.2 7h13.6M8 4.6h8"/>'],["sh","Sombras",'<circle cx="12" cy="12" r="8.5"/><path d="M4 14h16M5.2 17h13.6M8 19.4h8"/>'],["fd","Esmaecer",'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 9h16" opacity=".8"/><path d="M4 14h16" opacity=".5"/>'],["v","Vinheta",'<rect x="3.5" y="5" width="17" height="14" rx="3"/><ellipse cx="12" cy="12" rx="5" ry="4"/>'],["n","Nitidez",'<path d="M12 4l8.5 15h-17z"/>']];
 var CFP_RASC=null,CFP_RAF=0,CFP_SC=0;
-{const _rl95=rascLista;rascLista=async function(){const l=await _rl95.apply(this,arguments);CFP_RASC=(l||[]).length;return l}}
 setTimeout(()=>{try{if(S&&S.uid)rascLista()}catch(e){}},2500);
-function cfpAbreGaleria(){const P=ED&&ED.po;if(!P||ED.modo!=="post"||P.fotos.length||P.rolo&&P.rolo.length||P.passo!=="fotos"||CFP_RASC>0)return;const f=$("#ce-pfile");if(f)try{f.click()}catch(e){}}
 /* abrir o post já abre a galeria (sem o toque a mais em "Escolher fotos") */
-{const _ca95=criarAbrir;criarAbrir=function(tipo){const r=_ca95.apply(this,arguments);if(tipo!=="story"&&tipo!=="reel")cfpAbreGaleria();return r}}
 
-edPvTam=function(){const pv=$("#ce-pv"),P=ED&&ED.po;if(!pv||!P||!P.fotos.length)return;const box=pv.parentElement,k=edAR(P.ar,edBase(P.fotos[0])),W=box.clientWidth||innerWidth;
-  const bh=Math.round(Math.min(innerHeight*.6,W*Math.max(1,1/k)));if(box.classList.contains("cfp-box"))box.style.height=bh+"px";let w=W,h=w/k;if(h>bh){h=bh;w=h*k}
-  pv.style.cssText=`width:${Math.round(w)}px;height:${Math.round(h)}px;max-height:none`;P.fotos.forEach(f=>edLimita(f,pv))};
 
-function cfpFotos(el){const P=ED.po,f=P.fotos[P.cur],tem=!!(P.rolo.length&&f),arN=P.ar==="orig"?"Original":P.ar;
-  el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edfechar aria-label="Fechar">${EDI.x}</button><b>Novo post</b><button type="button" class="ce-av" data-edav ${P.fotos.length?"":"disabled"}>Avançar</button></div>
-    <div class="cfp-box" id="cfp-box">${tem?`<div class="ce-pv" id="ce-pv"><img id="ce-pvi" alt="" draggable="false"></div>
-        <button type="button" class="cfp-ar" data-edar aria-label="Formato ${esc(arN)}. Toque para trocar">${EDI.ar}<span>${esc(arN)}</span></button>
-        <button type="button" class="cfp-mlt${P.multi?" on":""}" data-edmulti aria-pressed="${!!P.multi}" aria-label="Selecionar várias fotos">${EDI.mlt}</button>${P.fotos.length>1?`<span class="ce-npg">${P.cur+1}/${P.fotos.length}</span>`:""}`
-      :`<button type="button" class="cfp-vazio ce-big" data-edpgal>${EDI.gal}<b>Escolher fotos</b><span>Até 10 fotos da galeria</span></button>`}</div>
-    ${tem?`<div class="cfp-gh"><b>Galeria</b><span>${P.multi?`${P.fotos.length} de 10`:""}</span></div>
-      <div class="ce-grade cfp-grade"><button type="button" class="ce-gi ce-gim" data-edpgal aria-label="Mais fotos da galeria">${EDI.mais}</button>${P.rolo.map((x,i)=>{const n=P.fotos.indexOf(x);return `<button type="button" class="ce-gi${x===f?" on":""}${n>=0?" sel":""}" data-edrolo="${i}" aria-label="Foto ${i+1}${n>=0?", escolhida":""}"><img alt="" data-ri="${i}">${P.multi?`<i class="ce-num${n>=0?" on":""}">${n>=0?n+1:""}</i>`:""}</button>`}).join("")}</div>`
-      :`<div class="cfp-opc"><span>Ou comece com</span><div class="ce-vz2"><button type="button" data-edsotexto>Só texto</button><button type="button" data-edsont>Notícia do Prumo</button></div><div id="ce-rascs"></div></div>`}
-    ${edModos()}<input type="file" id="ce-pfile" accept="image/*" multiple hidden>`;
-  const box=$("#cfp-box");if(!tem)box.style.height=Math.round(Math.min(innerHeight*.6,box.clientWidth||innerWidth))+"px";
-  if(tem){$("#ce-pvi").src=edUrlF(f);edPvTam();edPvPos();edGestosPv()}el.querySelectorAll(".ce-grade img[data-ri]").forEach(im=>{im.src=edUrlF(P.rolo[+im.dataset.ri])});
-  if(!tem)rascChip();
-  $("#ce-pfile").addEventListener("change",async e=>{const fs=[...e.target.files];e.target.value="";if(!fs.length)return;const novos=[];for(const x of fs.slice(0,30)){try{novos.push(edNovaFoto(await edCarrega(x,2048)))}catch(err){toast("Não deu para abrir uma das fotos.")}}if(!novos.length||!ED)return;
-    P.rolo.push(...novos);if(novos.length>1)P.multi=true;if(P.multi){const cabe=novos.slice(0,10-P.fotos.length);if(cabe.length<novos.length)toast("Um post tem no máximo 10 fotos.");P.fotos.push(...cabe);P.cur=Math.max(0,P.fotos.length-cabe.length)}else{P.fotos=[novos[0]];P.cur=0}edDesenha()})}
 
 /* editar: prévia grande, deslizar entre as fotos, pontinhos, Filtros / Editar */
 function cfpPos(im,f,W,H){const [iw,ih]=edWH(edBase(f)),k=Math.max(W/iw,H/ih)*(f.z||1),w=iw*k,h=ih*k;im.style.cssText=`width:${w}px;height:${h}px;left:${(W-w)/2+(f.ox||0)*W}px;top:${(H-h)/2+(f.oy||0)*H}px`}
@@ -113,41 +88,12 @@ function cfpEdit(el){const P=ED.po,n=P.fotos.length;
     <div class="cfp-pn" id="cfp-pn"></div>`;
   cfpTam();P.fotos.forEach((x,i)=>cfpAtualiza(i));const trk=$("#cfp-trk");trk.scrollLeft=P.cur*trk.clientWidth;cfpPainel();
   trk.addEventListener("scroll",()=>{const i=Math.round(trk.scrollLeft/Math.max(1,trk.clientWidth));if(!ED||ED.po!==P||i<0||i>=P.fotos.length)return;if(i!==P.cur){P.cur=i;P.fiOn=false;cfpDots();clearTimeout(CFP_SC);CFP_SC=setTimeout(()=>{if(ED&&ED.po===P&&P.cur===i)cfpPainel()},80)}},{passive:true})}
-{const _pf95=edPrevFiltro;edPrevFiltro=function(){if(!document.getElementById("cfp-trk"))return _pf95.apply(this,arguments);cancelAnimationFrame(CFP_RAF);CFP_RAF=requestAnimationFrame(()=>{const P=ED&&ED.po;if(P)cfpAtualiza(P.cur)})}}
 
 /* final: fotos, legenda, Marcar pessoas, Texto alternativo, Público… e Compartilhar grande */
-function cfpDet(el){const P=ED.po,tem=P.fotos.length,nt=P.pid&&pautaById(P.pid),nm=[...new Set(P.tags.map(t=>t.u).concat(P.marcados))],alts=P.fotos.filter(x=>String(x.alt||"").trim()).length;
-  el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edvolta="${tem?"filtros":"fotos"}" aria-label="Voltar">${EDI.vol}</button><b>Novo post</b><span class="ce-b" aria-hidden="true"></span></div>
-    <div class="ce-det cfp-det">${tem?`<div class="cfp-car${tem===1?" um":""}">${P.fotos.map((x,i)=>`<canvas data-cfpc="${i}" width="240" aria-label="Foto ${i+1}"></canvas>`).join("")}</div>`:nt?`<div class="cfp-nt"><small>Notícia anexada</small><b>${esc(versao(nt,lente()).titulo)}</b></div>`:""}
-      <textarea id="ce-leg" class="cfp-leg" maxlength="2200" rows="3" placeholder="${tem||P.pid?"Escreva uma legenda…":"Escreva o seu post…"}" aria-label="Legenda">${esc(P.texto)}</textarea>
-      <div class="cfp-rows">
-      <button type="button" class="ce-row" ${tem?"data-edtags":"data-edmarcar"}><span>Marcar pessoas</span><em>${nm.length?esc(nm.map(u=>String(nomeDe(u)).split(" ")[0]).join(", ")):""}</em><i>›</i></button>
-      <label class="ce-row"><span>Adicionar local</span><input id="ce-local" maxlength="60" placeholder="Ex.: Rio de Janeiro" value="${esc(P.local)}"></label>
-      ${tem?`<button type="button" class="ce-row" data-cfpalt><span>Texto alternativo</span><em>${alts?`${alts} de ${tem}`:""}</em><i>›</i></button>`:""}
-      ${MA.on?`<button type="button" class="ce-row" data-cfppub><span>Público</span><em>${P.pub==="proximos"?"★ Melhores amigos":"Todos os amigos"}</em><i>›</i></button>`:""}
-      <button type="button" class="ce-row" data-edsont><span>${nt?"Notícia anexada":"Anexar notícia"}</span><em>${nt?esc(versao(nt,lente()).titulo):""}</em><i>›</i></button>
-      ${nt?`<button type="button" class="ce-row ce-semnt" data-edsemnt><span>Tirar a notícia</span></button>`:""}
-      <button type="button" class="ce-row" data-edavanc aria-expanded="${!!P.avOn}"><span>Configurações avançadas</span><em></em><i>${P.avOn?"⌃":"›"}</i></button>
-      ${P.avOn?`<div class="ce-avc"><label class="ce-sw"><span>Ocultar o número de curtidas<small>Só você vê quem curtiu.</small></span><input type="checkbox" data-edsw="semCurt" ${P.semCurt?"checked":""}></label>
-        <label class="ce-sw"><span>Desativar comentários<small>Ninguém poderá comentar neste post.</small></span><input type="checkbox" data-edsw="semCom" ${P.semCom?"checked":""}></label>
-        ${tem?`<b class="ce-avt" id="cfp-altt">Texto alternativo</b><p class="ce-selh">Descreva cada foto para quem usa leitor de tela.</p>${P.fotos.map((x,i)=>`<div class="ce-altr"><img alt="" data-ai="${i}"><input class="field" maxlength="200" placeholder="Descreva a foto ${i+1}" data-edalt="${i}" value="${esc(x.alt||"")}"></div>`).join("")}`:""}</div>`:""}</div>
-      <p class="cr-quem">${P.pub==="proximos"?"Só os seus Melhores amigos vão ver.":"Seus amigos no Prumo vão ver."} Use @ para marcar alguém na legenda.</p></div>
-    <div class="cfp-share"><button type="button" class="cfp-shb" data-edpubpo ${ED.env?"disabled":""}>${ED.env?"Publicando…":"Compartilhar"}</button></div>`;
-  const ta=$("#ce-leg");ta.addEventListener("input",()=>{P.texto=ta.value;if(typeof menSugere==="function")menSugere(ta)});$("#ce-local").addEventListener("input",e=>{P.local=e.target.value});
-  el.querySelectorAll("img[data-ai]").forEach(im=>{im.src=edUrlF(P.fotos[+im.dataset.ai])});
-  el.querySelectorAll("canvas[data-cfpc]").forEach(c=>{try{edRenderFoto(P.fotos[+c.dataset.cfpc],c,P.ar)}catch(e){}})}
 
-{const _ep95=edPost;edPost=function(el){const P=ED.po;P.rolo=P.rolo||P.fotos.slice();P.tags=P.tags||[];try{P.tags.forEach(t=>{const i=P.fotos.indexOf(edTagF(t));if(i>=0)t.i=i})}catch(e){}
-  if(P.cur>=P.fotos.length)P.cur=Math.max(0,P.fotos.length-1);
-  try{if(P.passo==="fotos")cfpFotos(el);else if(P.passo==="filtros"&&P.fotos.length)cfpEdit(el);else cfpDet(el)}catch(e){return _ep95.apply(this,arguments)}}}
 addEventListener("resize",()=>{if(ED&&ED.modo==="post"&&$("#cfp-trk")){cfpTam();ED.po.fotos.forEach((x,i)=>cfpAtualiza(i));const t=$("#cfp-trk");t.scrollLeft=ED.po.cur*t.clientWidth}});
 
 /* público do post (quando a lista de Melhores amigos existe) */
-function cfpPublico(){const P=ED.po;const ov=document.createElement("div");ov.className="ce-sel";
-  ov.innerHTML=`<div class="ce-selp"><b>Quem pode ver</b><div class="cfp-pubs"><button type="button" data-cfppubv="amigos" aria-pressed="${P.pub!=="proximos"}"><span>Todos os amigos</span><small>Seus amigos no Prumo</small></button><button type="button" data-cfppubv="proximos" aria-pressed="${P.pub==="proximos"}"><span>★ Melhores amigos</span><small>${MA.set.size?`${MA.set.size} ${MA.set.size===1?"pessoa":"pessoas"}`:"Lista vazia"}</small></button></div><div class="ce-selb"><button type="button" class="btn ghost" data-cfpmaed>Editar a lista</button><button type="button" class="btn" data-edselx>Concluir</button></div></div>`;$("#layer .ce").appendChild(ov)}
-{const _pp95=edPublicaPost;edPublicaPost=async function(){const pub=ED&&ED.po&&MA.on&&ED.po.pub==="proximos"?"proximos":null;if(!pub||!SB)return _pp95.apply(this,arguments);if(!ED.env&&!MA.set.size){edMaLista(true);return}const _from=SB.from;
-  SB.from=function(t){const q=_from.apply(this,arguments);if(t==="publicacoes"&&q&&typeof q.insert==="function"){const ins=q.insert;q.insert=function(row){if(row&&row.tipo==="post")row.publico=pub;return ins.apply(this,arguments)}}return q};
-  try{return await _pp95.apply(this,arguments)}finally{SB.from=_from}}}
 
 /* cliques novos */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!ED||!$("#layer .ce")||t.closest("#layer2"))return;let b;const P=ED.po;const pare=()=>{e.stopPropagation();e.preventDefault()};

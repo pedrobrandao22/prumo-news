@@ -34,9 +34,6 @@ function pubSnap(pid){const s=pid&&snapById(pid);return s?{id:pid,titulo:s.titul
 
 /* ---- criar ---- */
 var CR=null;
-function criarAbrir(tipo){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+tipo);
-  CR={tipo,fotos:[],pid:null,texto:"",fundo:Math.floor(Math.random()*PUB_FUNDOS.length),caixa:false,env:false};const vazio=!$("#layer").innerHTML;if(!vazio)closeLayer();
-  $("#layer").innerHTML=`<div class="cria" role="dialog" aria-modal="true" aria-label="${tipo==="story"?"Novo giro":"Novo post"}"></div>`;if(pushH())HST++;criarDesenha()}
 function criarDesenha(){const el=$("#layer .cria");if(!el||!CR)return;const st=CR.tipo==="story",pode=CR.fotos.length||CR.texto.trim()||CR.pid;
   const nt=CR.pid&&pautaById(CR.pid),ntHTML=nt?`<div class="cr-nt"><small style="color:${secCor(secOf(nt))}">${esc(secNome(secOf(nt)))}</small><b>${esc(versao(nt,lente()).titulo)}</b><button type="button" data-crsemnt aria-label="Tirar a notícia">✕</button></div>`:"";
   const abas=`<div class="cr-abas" role="tablist"><button type="button" role="tab" data-crtipo="post" aria-selected="${!st}">Post</button><button type="button" role="tab" data-crtipo="story" aria-selected="${st}">Giro</button></div>`;

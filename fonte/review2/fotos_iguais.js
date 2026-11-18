@@ -245,8 +245,49 @@ const AREAS = {
       await P.evaluate(() => abrirPerfil('u-bia')); const ok = await P.evaluate(() => { const b = document.querySelector('#layer .pfv [data-sg181lista="seguidores"]'); if (b) b.click(); return !!b });
       if (ok) { await U_sleep(400); await foto('lista-bia') } },
   },
-  // criar: acrescentar aqui (cada tela abre a partir da Capa, num contexto novo)
+  criar: {
+    'caixa': async (P, foto) => { await pfEstado(P); await P.evaluate(() => { go('feed'); criarMenu() }); await U_sleep(400); await foto('caixa-vazia');
+      await P.fill('#cp152-tx', 'Primeiro post pela caixa, com #economia'); await P.evaluate(() => document.activeElement.blur()); await foto('caixa-texto');
+      for (const a of ['giro', 'coluna']) { const ok = await P.evaluate(a => { const b = document.querySelector(`[data-cp152aba="${a}"]`); if (b) b.click(); return !!b }, a); if (ok) { await U_sleep(300); await foto('caixa-aba-' + a) } } },
+    'caixa-foto': async (P, foto) => { await pfEstado(P); await P.evaluate(() => { go('feed'); criarMenu() }); await U_sleep(400); await P.fill('#cp152-tx', 'Fim de tarde no Aterro');
+      const [fch] = await Promise.all([P.waitForEvent('filechooser', { timeout: 5000 }).catch(() => null), P.evaluate(() => document.querySelector('#layer > .cp152 [data-cp152ax="foto"]').click())]);
+      if (!fch) throw new Error('sem galeria'); await fch.setFiles([FOTO_CRIAR]); await UE(P, () => document.querySelectorAll('#layer > .cp152 .fc164 img').length === 1, null, 5000);
+      await P.evaluate(() => document.activeElement.blur()); await foto('caixa-com-foto');
+      await P.evaluate(() => document.querySelector('#layer > .cp152 [data-fc164ed="0"]').click()); await U_sleep(500); await foto('foto-filtros');
+      const ok = await P.evaluate(() => { const b = document.querySelector('#layer .ce [data-fc164aba="cortar"]'); if (b) b.click(); return !!b }); if (ok) { await U_sleep(300); await foto('foto-cortar') }
+      await P.evaluate(() => document.querySelector('#layer .ce [data-edav]').click()); await U_sleep(500); await foto('foto-volta') },
+    'noticia': async (P, foto) => { await pfEstado(P); await P.evaluate(() => { go('feed'); criarMenu() }); await U_sleep(400); await P.fill('#cp152-tx', 'Acho que isso muda tudo');
+      await P.evaluate(() => document.querySelector('[data-cp152ax="nt"]').click()); await U_sleep(600); await foto('noticia-lista');
+      await P.evaluate(() => document.querySelector('#layer [data-edpnt]').click()); await U_sleep(400); await P.evaluate(() => document.activeElement && document.activeElement.blur()); await foto('noticia-form');
+      await P.evaluate(() => { const s = document.querySelector('#layer .ce-det') || document.scrollingElement; s.scrollTop = 9999 }); await foto('noticia-form-fim');
+      await P.evaluate(() => document.querySelector('#layer [data-edvolta]').click()); await U_sleep(500); await P.evaluate(() => document.activeElement && document.activeElement.blur()); await foto('noticia-volta') },
+    'formatos': async (P, foto) => { await P.evaluate(() => localStorage.setItem('prumo-teste-formatos', 'todos')); await P.reload();
+      await UE(P, () => typeof FEED !== 'undefined' && !!FEED && !!document.querySelector('#v-capa .cpi'), null, 15000); await U_sleep(2500);
+      await pfEstado(P); await P.evaluate(() => { go('feed'); criarMenu() }); await U_sleep(400); await foto('formatos-caixa'); await P.fill('#cp152-tx', 'O dólar vai cair?');
+      const ks = await P.evaluate(() => [...document.querySelectorAll('[data-cp152ax]')].map(b => b.dataset.cp152ax).filter(k => k !== 'foto' && k !== 'nt'));
+      for (const k of ks) { await P.evaluate(k => document.querySelector(`[data-cp152ax="${k}"]`).click(), k); await U_sleep(600); await P.evaluate(() => document.activeElement && document.activeElement.blur()); await foto('formato-' + k);
+        await P.evaluate(() => { const b = document.querySelector('#layer [data-edvolta]'); if (b) b.click() }); await U_sleep(500) }
+      await fechar(P); await P.evaluate(() => criarAbrir('post')); await U_sleep(500); await foto('editor-post');
+      const ok = await P.evaluate(() => { const b = document.querySelector('#layer [data-edsotexto]'); if (b) b.click(); return !!b }); if (ok) { await U_sleep(500); await P.evaluate(() => document.activeElement && document.activeElement.blur()); await foto('editor-so-texto') } },
+    'publicar': async (P, foto) => { await pfEstado(P); await criarBanco(P); await P.evaluate(() => { go('feed'); criarMenu() }); await U_sleep(400);
+      await P.fill('#cp152-tx', 'Publicado pela caixa de criar'); await P.evaluate(() => document.querySelector('[data-cp152pub]').click());
+      await UE(P, () => PUB.itens.some(x => x.texto === 'Publicado pela caixa de criar') && !document.querySelector('#layer').innerHTML, null, 8000); await U_sleep(1800); await foto('publicado-texto');
+      await P.evaluate(() => criarMenu()); await U_sleep(400); await P.fill('#cp152-tx', 'Comentário sobre a notícia');
+      await P.evaluate(() => document.querySelector('[data-cp152ax="nt"]').click()); await U_sleep(600); await P.evaluate(() => document.querySelector('#layer [data-edpnt]').click()); await U_sleep(400);
+      await P.evaluate(() => document.querySelector('#layer [data-edpubpo]').click());
+      await UE(P, () => PUB.itens.some(x => x.texto === 'Comentário sobre a notícia' && x.pid) && !document.querySelector('#layer').innerHTML, null, 8000); await U_sleep(1800); await foto('publicado-noticia', { toast: true }) },
+  },
 };
+// Criar: foto de teste e um banco de mentira que aceita a publicação (insert devolve um id fixo) e não responde o resto
+const UE = (...a) => require('../t_util').esperar(...a);
+const FOTO_CRIAR = path.join(AQUI, 'etapa13', 'foto.jpg');
+async function criarBanco(P) {
+  await P.evaluate(() => { let n = 0; const nada = () => new Promise(() => { });
+    const q = t => { const o = { insert: row => ({ select: () => Promise.resolve({ data: [{ id: 'c' + (++n) + '000000-2222-4222-8222-222222222222' }], error: null }) }), select: () => o, eq: () => o, in: () => o, order: () => o, limit: () => o, gte: () => o, then: (a, b) => nada().then(a, b), update: () => o, delete: () => o, upsert: () => o };
+      return o };
+    SB = { from: q, rpc: nada, storage: { from: () => ({ upload: nada, remove: nada }) }, channel: () => ({ on() { return this }, subscribe() { return this } }), removeChannel() { }, auth: { getSession: nada } };
+    PUB.carregou = true; window.pubCarregar = () => { } });
+}
 // Perfil: clica cada aba (as do visual novo e as antigas) e fotografa
 async function pfAbas(P, foto, raiz, prefixo) {
   const ks = await P.evaluate(r => [...document.querySelectorAll(r + ' [data-vnpfaba], ' + r + ' [data-pfaba]')].map(b => b.dataset.vnpfaba ? 'vn:' + b.dataset.vnpfaba : 'pf:' + b.dataset.pfaba), raiz);

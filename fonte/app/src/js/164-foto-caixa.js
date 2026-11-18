@@ -20,19 +20,7 @@ function fc164Edita(i,passo){const E=CP152.ed;if(!E)return;CP152.veio=true;
   $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Editar fotos"></div>`;if(pushH())HST++;try{edDesenha()}catch(e){}}
 
 /* "Foto" na caixa: escolhe na galeria (no mesmo toque) e volta para a caixa */
-{const _an164=cp152Anexo;cp152Anexo=function(k){
-  if(k!=="foto"){if(fc164Tem()){if(k==="nt"){fc164ListaNt();return}fc164Nota(k);return}
-    return _an164.apply(this,arguments)}
-  /* mais fotos: junta (não troca) e volta para a caixa; desistir também volta */
-  if(fc164Tem()){fc164Edita(undefined,"fotos");const E=ED;if(E){E.po.multi=true;E.fc164novo=true}
-    try{const f=$("#ce-pfile");if(f&&E&&E.po.fotos.length<10){f.addEventListener("cancel",()=>{if(ED===E&&E.fc164novo)fc164Volta()},{once:true});f.click()}}catch(e){}return}
-  const r=_an164.apply(this,arguments);try{if(typeof ED!=="undefined"&&ED&&ED.modo==="post"){ED.fc164=true;ED.fc164novo=true}}catch(e){}return r}}
 /* depois de escolher: o editor ia mostrar o corte; volta para a caixa com as miniaturas */
-{const _ed164=edDesenha;edDesenha=function(){const E=typeof ED!=="undefined"?ED:null;
-  if(E&&E.fc164&&E.fc164novo&&E.po&&E.po.passo==="fotos"&&E.po.fotos.length){E.fc164novo=false;setTimeout(()=>{if(ED===E)fc164Volta()},0);return}
-  const r=_ed164.apply(this,arguments);
-  try{fc164Ajusta(E)}catch(e){}
-  return r}}
 /* editor aberto pela miniatura: Concluir no alto, abas Cortar · Filtros · Editar, sem Galeria nem POST/GIRO */
 function fc164Abas(a){return `<div class="ce-abas2 fc164-abas" role="tablist">${[["cortar","Cortar"],["filtros","Filtros"],["editar","Editar"]].map(([k,n])=>`<button type="button" role="tab" data-fc164aba="${k}" aria-selected="${k===a}">${n}</button>`).join("")}</div>`}
 function fc164Ajusta(E){const ce=$("#layer .ce");if(!E||!E.fc164||!E.po||!ce)return;const P=E.po,ps=P.passo;
@@ -78,12 +66,6 @@ function fc164Detalhes(){const E=CP152.ed,cx=$("#layer > .cp152");if(!E||!cx)ret
 document.addEventListener("input",e=>{const t=e.target;if(!t||!t.closest||!t.closest("#layer > .cp152 .fc164-dsh"))return;const P=CP152.ed&&CP152.ed.po;if(!P)return;
   if(t.id==="fc164-local")P.local=t.value;else if(t.dataset.fc164alt!=null&&P.fotos[+t.dataset.fc164alt])P.fotos[+t.dataset.fc164alt].alt=t.value});
 /* o "voltar" dos detalhes (152) traz o texto de volta; as fotos ficam guardadas na caixa */
-{const _td164=cp152TextoDe;cp152TextoDe=function(E){try{if(E&&E.fc164&&E.po&&E.po.fotos&&E.po.fotos.length){E.po.passo="fotos";CP152.ed=E}}catch(e){}return _td164.apply(this,arguments)}}
-{const _ph164=cp152PostHTML;cp152PostHTML=function(){let h=_ph164.apply(this,arguments);try{const f=fc164HTML();if(f){const i=h.indexOf("</textarea>");if(i>=0)h=h.slice(0,i+11)+f+h.slice(i+11);
-    h=h.replace(/class="cp152-a cp152-a-(enq|ana|rel)"/g,'class="cp152-a cp152-a-$1 fc164-off" aria-disabled="true"');
-    h=h.replace('placeholder="Escreva o que você acha…"','placeholder="Escreva uma legenda…"')}}catch(e){}return h}}
-{const _de164=cp152Desenha;cp152Desenha=function(){const r=_de164.apply(this,arguments);try{if(fc164Tem())document.querySelectorAll("#layer > .cp152 img[data-fc164i]").forEach(im=>{im.src=fc164Url(CP152.ed.po.fotos[+im.dataset.fc164i])})}catch(e){}return r}}
-{const _ok164=cp152Ok;cp152Ok=function(){const r=_ok164.apply(this,arguments);try{const b=$("#layer [data-cp152pub]");if(b&&fc164Tem())b.disabled=false}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!t.closest("#layer > .cp152"))return;let b;
   if(t.closest("[data-fc164det]")){e.stopPropagation();e.preventDefault();fc164Detalhes();return}
   if(b=t.closest("[data-fc164nt]")){e.stopPropagation();e.preventDefault();CR155.pid=b.dataset.fc164nt;try{cr155Guarda()}catch(_){}cp152Desenha();return}
@@ -95,15 +77,5 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!t.closest
     if(P.rolo){const j=P.rolo.indexOf(f);if(j>=0)P.rolo.splice(j,1)}P.cur=0;if(!P.fotos.length)CP152.ed=null;cp152Desenha();return}},true);
 
 /* publicar: texto + fotos (e a notícia, se houver) */
-{const _pu164=cp152Publica;cp152Publica=async function(){if(!fc164Tem())return _pu164.apply(this,arguments);
-  const E=CP152.ed,P=E.po,tx=CP152.txt.trim();let pid=null;try{pid=CR155.pid&&pautaById(CR155.pid)?CR155.pid:null}catch(e){}
-  if($("#layer").innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}
-  ED=E;E.fc164=false;P.texto=tx;P.pub=CP152.pub;if(pid)P.pid=pid;P.passo="detalhes";
-  $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;try{edDesenha()}catch(e){}
-  CP152.ed=null;CP152.txt="";CP152.direto=true;try{await edPublicaPost()}catch(e){}
-  if(!$("#layer .ce")){try{cr155Limpa()}catch(e){}}}}
 /* descartar a caixa descarta também as fotos */
-{const _fe164=cp152Fecha;cp152Fecha=function(){if(fc164Tem()&&!CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},2600);return}}
-  const r=_fe164.apply(this,arguments);if(!$("#layer > .cp152"))CP152.ed=null;return r}}
 /* abrir a caixa do zero (não "manter") começa sem fotos */
-{const _ab164=cp152Abre;cp152Abre=function(o){if(!(o&&o.manter))CP152.ed=null;return _ab164.apply(this,arguments)}}

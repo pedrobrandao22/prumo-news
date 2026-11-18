@@ -74,7 +74,6 @@ function edTrim(o,max,vSel){$("#layer .ce-sel")?.remove();const ov=document.crea
   (async()=>{const box=$("#ce-trs");if(!box||!o.url)return;for(let i=0;i<8;i++){if(!$("#ce-trs"))return;const c=await vidQuadro(o,d*i/8,45,80,null);c.className="ce-trq";box.appendChild(c)}})()}
 /* ===== modos do editor: POST e STORY (a criação de Reels saiu em 13/11; os Reels já publicados continuam tocando no Feed) ===== */
 edModos=function(){return `<div class="ce-modos" role="tablist">${[["post","POST"],["story","STORY"]].map(([k,n])=>`<button type="button" role="tab" data-edmodo="${k}" aria-selected="${ED.modo===k}">${n}</button>`).join("")}</div>`};
-{const _ed63=edDesenha;edDesenha=function(){if(!ED)return;if(ED.modo==="reel")ED.modo="post";if(CAM.rec)camGravaFim();return _ed63.apply(this,arguments)}}
 /* cliques do vídeo no story */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer .ce")||!ED||t.closest("#layer2"))return;let b;const pare=()=>{e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()};
   if(Date.now()-(ED._gravou||0)<900&&t.closest("[data-edfoto]")){pare();return}

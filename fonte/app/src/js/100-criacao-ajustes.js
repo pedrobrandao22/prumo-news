@@ -62,7 +62,6 @@ function ca100Css(b,W,H){return `linear-gradient(180deg,${ca100Paradas(b,W,H).ma
 function ca100Pinta(g,b,W,H){const gr=g.createLinearGradient(0,0,0,H);ca100Paradas(b,W,H).forEach(([p,c])=>gr.addColorStop(p,c));g.fillStyle=gr;g.fillRect(0,0,W,H)}
 function ca100FundoEd(){const b=ED&&ED.st&&ED.st.bg,cv=$("#ce-cv"),bg=cv&&cv.querySelector(".ce-bg");if(!b||b.tipo!=="foto"||!b.cont||!bg)return;bg.style.background=ca100Css(b,cv.clientWidth||360,cv.clientHeight||640)}
 cfpFundoCss=function(b){const cv=$("#ce-cv");return ca100Css(b,(cv&&cv.clientWidth)||360,(cv&&cv.clientHeight)||640)};
-{const _pi100=edPosImg;edPosImg=function(i,f){const r=_pi100.apply(this,arguments);try{if(i&&i.id==="ce-bgi"&&f&&f.cont&&ED&&f===ED.st.bg)ca100FundoEd()}catch(e){}return r}}
 {const _st100=edStThumbs;edStThumbs=function(){const r=_st100.apply(this,arguments);try{document.querySelectorAll("#layer canvas[data-stt]").forEach(c=>{const st=ED.sts[+c.dataset.stt],b=st&&st.bg;if(!b||b.tipo!=="foto"||!b.cont||!b.img)return;
   const g=c.getContext("2d");ca100Pinta(g,b,c.width,c.height);cfpDesenhaCont(g,b.img,c.width,c.height,b)})}catch(e){}return r}}
 {const _ex100=edExportaStory;edExportaStory=async function(st0,tudo){const st=st0||ED.st,b=st&&st.bg;if(!b||b.tipo!=="foto"||!b.cont||!b.img)return _ex100.apply(this,arguments);
@@ -144,4 +143,3 @@ document.addEventListener("input",e=>{const t=e.target;if(t&&t.matches&&t.matche
 function ca100Leg(){const t=$("#layer #ce-leg");if(!t)return;const cs=getComputedStyle(t),lh=parseFloat(cs.lineHeight)||23,max=Math.round(lh*8+parseFloat(cs.paddingTop||0)+parseFloat(cs.paddingBottom||0));
   t.style.height="auto";const h=t.scrollHeight;t.style.height=Math.min(h,max)+"px";t.classList.toggle("ca100-mais",h>max+2)}
 document.addEventListener("input",e=>{if(e.target&&e.target.id==="ce-leg")ca100Leg()},true);
-{const _dz100=edDesenha;edDesenha=function(){const r=_dz100.apply(this,arguments);try{if($("#layer #ce-leg"))ca100Leg()}catch(e){}return r}}
