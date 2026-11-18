@@ -14,17 +14,12 @@ function edFiltra(c,f,aj){const P=(ED_FILTROS.find(x=>x[0]===f)||ED_FILTROS[0])[
     if(fa){r=fa+r*(1-fa);gg=fa+gg*(1-fa);bb=fa+bb*(1-fa)}p[i]=Math.max(0,Math.min(255,r*255));p[i+1]=Math.max(0,Math.min(255,gg*255));p[i+2]=Math.max(0,Math.min(255,bb*255))}g.putImageData(d,0,0)}
 /* desenha a foto com enquadramento (cover + zoom + deslocamento) */
 function edCover(g,img,W,H,z,ox,oy){const iw=img.naturalWidth,ih=img.naturalHeight,k=Math.max(W/iw,H/ih)*(z||1),w=iw*k,h=ih*k;g.drawImage(img,(W-w)/2+(ox||0)*W,(H-h)/2+(oy||0)*H,w,h)}
-function edAR(ar,img){if(ar==="1:1")return 1;if(ar==="orig"&&img)return Math.max(.8,Math.min(1.91,img.naturalWidth/img.naturalHeight));return .8}
 
 /* ===== abrir ===== */
-criarAbrir=function(tipo){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+tipo);if($("#layer").innerHTML)closeLayer();
-  ED={modo:tipo==="story"?"story":"post",env:false,st:{bg:{tipo:"grad",g:Math.floor(Math.random()*PUB_FUNDOS.length)},els:[],tracos:[],ferr:null},po:{passo:"fotos",fotos:[],cur:0,ar:"4:5",texto:"",marcados:[],local:"",pid:null,aba:"filtros"}};
-  $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;edDesenha()};
 criarMenu=function(){criarAbrir("post")};
 function edTemAlgo(){if(!ED)return false;return (ED.st.tx&&String(ED.st.tx.tx||"").trim())||ED.st.els.length||ED.st.tracos.length||ED.st.bg.tipo==="foto"||ED.po.fotos.length||ED.po.texto.trim()||ED.po.pid}
 function edModos(){return `<div class="ce-modos" role="tablist"><button type="button" role="tab" data-edmodo="post" aria-selected="${ED.modo==="post"}">POST</button><button type="button" role="tab" data-edmodo="story" aria-selected="${ED.modo==="story"}">GIRO</button></div>`}
 const EDI={x:'<svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',aa:'<b class="ce-aa">Aa</b>',fig:'<svg class="ico" viewBox="0 0 24 24"><path d="M14 3H7a4 4 0 0 0-4 4v10a4 4 0 0 0 4 4h7l7-7V7a4 4 0 0 0-4-4z" /><path d="M14 21v-4a3 3 0 0 1 3-3h4"/><circle cx="9" cy="10" r=".8"/><circle cx="14" cy="10" r=".8"/><path d="M8.5 14.2c1.4 1.3 3.6 1.3 5 0"/></svg>',caneta:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 20l4-1 10-10-3-3L5 16z"/><path d="M13.5 7.5l3 3"/></svg>',fundo:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>',gal:'<svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 2.5-2.5L20 17"/></svg>',vol:'<svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',lixo:'<svg class="ico" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/></svg>',desf:'<svg class="ico" viewBox="0 0 24 24"><path d="M9 7L4 12l5 5"/><path d="M4 12h10a6 6 0 0 1 0 12"/></svg>'};
-function edDesenha(){const el=$("#layer .ce");if(!el||!ED)return;el.className="ce ce-"+ED.modo;if(ED.modo==="story")edStory(el);else edPost(el)}
 
 /* ===== STORY ===== */
 function edStory(el){const st=ED.st,foto=st.bg.tipo==="foto";
@@ -37,8 +32,6 @@ function edStory(el){const st=ED.st,foto=st.bg.tipo==="foto";
 function edEncaixa(){const cv=$("#ce-cv"),pl=$("#layer .ce-palco");if(!cv||!pl)return;const r=pl.getBoundingClientRect();const w=Math.min(r.width,r.height*9/16);cv.style.width=w+"px";cv.style.height=(w*16/9)+"px";cv.style.setProperty("--bw",w+"px");
   const d=$("#ce-draw");if(d){const k=Math.min(2,devicePixelRatio||1);d.width=Math.round(w*k);d.height=Math.round(w*16/9*k)}edBgPos()}
 function edBgPos(){const i=$("#ce-bgi"),b=ED&&ED.st.bg;if(!i||!b||b.tipo!=="foto")return;const cv=$("#ce-cv");if(cv&&b.img)edLimita(b,cv);edPosImg(i,b,cv)}
-function edPosImg(i,f,box){if(!box||!f.img)return;const W=box.clientWidth,H=box.clientHeight,iw=f.img.naturalWidth,ih=f.img.naturalHeight,k=Math.max(W/iw,H/ih)*(f.z||1),w=iw*k,h=ih*k;
-  i.style.cssText=`position:absolute;inset:auto;max-width:none;object-fit:fill;transform:none;width:${w}px;height:${h}px;left:${(W-w)/2+(f.ox||0)*W}px;top:${(H-h)/2+(f.oy||0)*H}px`}
 function edElHTML(e,vivo){const tr=`left:${e.x*100}%;top:${e.y*100}%;transform:translate(-50%,-50%) rotate(${e.r||0}deg) scale(${e.s||1})`;let c="";
   if(e.t==="texto")c=`<div class="ce-t f-${e.f} al-${e.al||"c"}${e.fd?" fd"+e.fd:""}" style="--cor:${e.cor}"><span>${esc(e.tx).replace(/\n/g,"<br>")}</span></div>`;
   else if(e.t==="emoji")c=`<div class="ce-emo">${esc(e.tx)}</div>`;
@@ -133,36 +126,7 @@ async function edPublicaStory(){if(!ED||ED.env)return;const st=ED.st;if(!st.els.
   catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(ED===ed0){ED.env=false;edDesenha()}toast("Não deu para publicar. Tente de novo.")}}
 
 /* ===== POST ===== */
-function edPost(el){const P=ED.po,f=P.fotos[P.cur];
-  if(P.passo==="fotos"){
-    el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edfechar aria-label="Fechar">${EDI.x}</button><b>Novo post</b><button type="button" class="ce-av" data-edav ${P.fotos.length?"":"disabled"}>Avançar</button></div>
-      ${P.fotos.length?`<div class="ce-pvw"><div class="ce-pv" id="ce-pv"><img id="ce-pvi" alt="" draggable="false"></div><button type="button" class="ce-arb" data-edar>${P.ar==="orig"?"Original":P.ar}</button>${P.fotos.length>1?`<span class="ce-npg">${P.cur+1}/${P.fotos.length}</span>`:""}</div>
-        <div class="ce-tira">${P.fotos.map((x,i)=>`<button type="button" class="ce-tb${i===P.cur?" on":""}" data-edcur="${i}"><img alt="" data-i="${i}">${i===P.cur?`<i data-edtira="${i}" role="button" aria-label="Tirar foto">✕</i>`:""}</button>`).join("")}${P.fotos.length<10?`<button type="button" class="ce-tb ce-tbm" data-edpgal aria-label="Mais fotos">+</button>`:""}</div>
-        <p class="ce-dica2">Arraste e pince a foto para enquadrar. Toque no formato para trocar.</p>`
-      :`<div class="ce-vz"><button type="button" class="ce-big" data-edpgal>${EDI.gal}<b>Escolher fotos</b><span>até 10, da galeria</span></button><div class="ce-vz2"><button type="button" data-edsotexto>Só texto</button><button type="button" data-edsont>Notícia do Prumo</button></div></div>`}
-      ${edModos()}<input type="file" id="ce-pfile" accept="image/*" multiple hidden>`;
-    if(f){$("#ce-pvi").src=f.url;edPvTam();edPvPos();el.querySelectorAll(".ce-tb img").forEach(im=>{im.src=P.fotos[+im.dataset.i].url});edGestosPv()}
-    $("#ce-pfile").addEventListener("change",async e=>{const tot=e.target.files.length,fs=[...e.target.files].slice(0,10-P.fotos.length);e.target.value="";if(tot>fs.length)toast("Um post tem no máximo 10 fotos.");if(!fs.length)return;for(const x of fs){try{const r=await edCarrega(x,2048);P.fotos.push({...r,z:1,ox:0,oy:0,f:"normal",aj:{}})}catch(err){toast("Não deu para abrir uma das fotos.")}}P.cur=Math.max(0,P.fotos.length-fs.length);edDesenha()})}
-  else if(P.passo==="filtros"){
-    el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edvolta="fotos" aria-label="Voltar">${EDI.vol}</button><b>Editar</b><button type="button" class="ce-av" data-edav>Avançar</button></div>
-      <div class="ce-pvw"><canvas id="ce-fc" class="ce-fc"></canvas>${P.fotos.length>1?`<button type="button" class="ce-nav l" data-edfn="-1" aria-label="Foto anterior">‹</button><button type="button" class="ce-nav r" data-edfn="1" aria-label="Próxima foto">›</button><span class="ce-npg">${P.cur+1}/${P.fotos.length}</span>`:""}</div>
-      <div class="ce-abas2"><button type="button" data-edaba="filtros" aria-selected="${P.aba==="filtros"}">Filtros</button><button type="button" data-edaba="editar" aria-selected="${P.aba==="editar"}">Editar</button></div>
-      ${P.aba==="filtros"?`<div class="ce-flts">${ED_FILTROS.map(([k,n])=>`<button type="button" data-edflt="${k}" class="${k===f.f?"on":""}"><canvas data-fk="${k}" width="72" height="72"></canvas><span>${n}</span></button>`).join("")}</div>`
-        :`<div class="ce-ajs">${[["b","Brilho"],["c","Contraste"],["s","Saturação"],["w","Calor"]].map(([k,n])=>`<label><span>${n}<i id="ce-aj-${k}">${f.aj[k]||0}</i></span><input type="range" min="-50" max="50" value="${f.aj[k]||0}" data-edaj="${k}"></label>`).join("")}</div>`}`;
-    edPrevFiltro();if(P.aba==="filtros")edMiniFiltros()}
-  else{const tem=P.fotos.length,nt=P.pid&&pautaById(P.pid);
-    el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edvolta="${tem?"filtros":"fotos"}" aria-label="Voltar">${EDI.vol}</button><b>Novo post</b><button type="button" class="ce-av" data-edpubpo ${ED.env?"disabled":""}>${ED.env?"Publicando…":"Compartilhar"}</button></div>
-      <div class="ce-det"><div class="ce-legr">${tem?`<canvas id="ce-dthumb" width="128" height="160"></canvas>`:`<span class="ce-dsem" style="background:${pubFundo(1)}">Aa</span>`}<textarea id="ce-leg" maxlength="2200" rows="4" placeholder="${tem||P.pid?"Escreva uma legenda…":"Escreva o seu post…"}" aria-label="Legenda">${esc(P.texto)}</textarea></div>
-        <button type="button" class="ce-row" data-edmarcar><span>Marcar pessoas</span><em>${P.marcados.length?esc(P.marcados.map(u=>String(nomeDe(u)).split(" ")[0]).join(", ")):""}</em><i>›</i></button>
-        <label class="ce-row"><span>Adicionar local</span><input id="ce-local" maxlength="60" placeholder="Ex.: Rio de Janeiro" value="${esc(P.local)}"></label>
-        <button type="button" class="ce-row" data-edsont><span>${nt?"Notícia anexada":"Anexar notícia"}</span><em>${nt?esc(versao(nt,lente()).titulo):""}</em><i>›</i></button>
-        ${nt?`<button type="button" class="ce-row ce-semnt" data-edsemnt><span>Tirar a notícia</span></button>`:""}
-        <p class="cr-quem">Seus amigos no Prumo vão ver. Use @ para marcar alguém na legenda.</p></div>`;
-    const ta=$("#ce-leg");ta.addEventListener("input",()=>{P.texto=ta.value;if(typeof menSugere==="function")menSugere(ta)});$("#ce-local").addEventListener("input",e=>{P.local=e.target.value});
-    if(tem){const c=$("#ce-dthumb"),x=P.fotos[0];edRenderFoto(x,c,P.ar,false)}}}
-function edPvTam(){const pv=$("#ce-pv"),P=ED&&ED.po;if(!pv||!P||!P.fotos.length)return;const k=edAR(P.ar,P.fotos[0].img),W=pv.parentElement.clientWidth||innerWidth,maxH=Math.round(innerHeight*.58);let w=W,h=w/k;if(h>maxH){h=maxH;w=h*k}pv.style.cssText=`width:${Math.round(w)}px;height:${Math.round(h)}px;max-height:none`;P.fotos.forEach(f=>edLimita(f,pv))}
 function edPvPos(){const i=$("#ce-pvi"),f=ED&&ED.po.fotos[ED.po.cur];if(!i||!f)return;edPosImg(i,f,$("#ce-pv"))}
-function edLimita(f,box){const r=box.getBoundingClientRect(),W=r.width||1,H=r.height||1,iw=f.img.naturalWidth,ih=f.img.naturalHeight,k=Math.max(W/iw,H/ih)*f.z;const lx=Math.max(0,(iw*k-W)/2/W),ly=Math.max(0,(ih*k-H)/2/H);f.ox=Math.max(-lx,Math.min(lx,f.ox));f.oy=Math.max(-ly,Math.min(ly,f.oy))}
 function edGestosPv(){const pv=$("#ce-pv");if(!pv)return;const pts=new Map();let G=null;const xy=e=>{const r=pv.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height,cx:e.clientX,cy:e.clientY}};
   const dist=()=>{const p=[...pts.values()];return p.length<2?0:Math.hypot(p[1].cx-p[0].cx,p[1].cy-p[0].cy)};
   pv.addEventListener("pointerdown",e=>{pts.set(e.pointerId,xy(e));try{pv.setPointerCapture(e.pointerId)}catch(_){}const f=ED.po.fotos[ED.po.cur];G={p0:xy(e),b:{...f},d0:dist()}});
@@ -170,18 +134,7 @@ function edGestosPv(){const pv=$("#ce-pv");if(!pv)return;const pts=new Map();let
     if(pts.size===1){f.ox=G.b.ox+(p.x-G.p0.x);f.oy=G.b.oy+(p.y-G.p0.y)}else{if(!G.d0){G.d0=dist();G.b={...f}}f.z=Math.max(1,Math.min(5,G.b.z*dist()/G.d0))}
     edLimita(f,pv);edPvPos()});
   const fim=e=>{pts.delete(e.pointerId);if(!pts.size)G=null;else G={p0:[...pts.values()][0],b:{...ED.po.fotos[ED.po.cur]},d0:0}};pv.addEventListener("pointerup",fim);pv.addEventListener("pointercancel",fim)}
-function edRenderFoto(f,c,ar,filtro,maxW){const k=edAR(ar,(ED&&ED.po.fotos[0]||f).img),W=c.width,H=Math.round(W/k);c.height=H;const g=c.getContext("2d");g.fillStyle="#000";g.fillRect(0,0,W,H);edCover(g,f.img,W,H,f.z,f.ox,f.oy);if(filtro!==false)edFiltra(c,f.f,f.aj);return c}
-let ED_FT=0;function edPrevFiltro(){clearTimeout(ED_FT);ED_FT=setTimeout(()=>{const c=$("#ce-fc"),P=ED&&ED.po;if(!c||!P)return;c.width=Math.min(720,Math.round((c.parentElement.clientWidth||360)*Math.min(2,devicePixelRatio||1)));edRenderFoto(P.fotos[P.cur],c,P.ar)},20)}
-function edMiniFiltros(){const P=ED.po,f=P.fotos[P.cur];const b=document.createElement("canvas");b.width=72;b.height=72;const g=b.getContext("2d");edCover(g,f.img,72,72,f.z,f.ox,f.oy);
-  document.querySelectorAll("#layer [data-fk]").forEach(c=>{const x=c.getContext("2d");x.drawImage(b,0,0);edFiltra(c,c.dataset.fk,{})})}
-async function edPublicaPost(){if(!ED||ED.env)return;const P=ED.po;if(!P.fotos.length&&!P.texto.trim()&&!P.pid){toast("Escreva algo, escolha fotos ou anexe uma notícia.");return}ED.env=true;const ed0=ED;edDesenha();const fotos=[];
-  try{for(const f of P.fotos){const c=document.createElement("canvas");c.width=1080;edRenderFoto(f,c,P.ar);const b=await new Promise((ok,no)=>c.toBlob(x=>x?ok(x):no(new Error("img")),"image/jpeg",.86));fotos.push(await pubSobe(b));PUB.urls[fotos[fotos.length-1]]={u:URL.createObjectURL(b),exp:Date.now()+3600e3}}
-    const at=Date.now(),row={autor:S.uid,tipo:"post",at,texto:P.texto.trim().slice(0,2200),fotos,pid:P.pid||null,snap:pubSnap(P.pid),estilo:{v:2,ar:P.ar,arv:P.fotos.length?+edAR(P.ar,P.fotos[0].img).toFixed(3):null,marcados:P.marcados.slice(0,20),local:P.local.trim().slice(0,60)}};
-    const r=await SB.from("publicacoes").insert(row).select("id");if(r.error)throw r.error;const id=r.data&&r.data[0]&&r.data[0].id;PUB.itens.unshift({...row,id});
-    const txt=row.texto,marc=P.marcados.slice(),aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast("Post publicado");vibrar(10);
-    if(id&&txt)pubAvisarMencoes(id,txt,"post");const mm=marc.filter(u=>S.amigos.has(u)&&!(typeof mencionados==="function"&&mencionados(txt).includes(u)));
-    if(id&&mm.length)Promise.all(mm.map(u=>dmEnviar(u,{texto:"",pid:"u:"+id,snap:{titulo:"Post de "+nomeDe(S.uid),upub:id},tipo:"mencao"},true)));pubRedesenha();setTimeout(pubCarregar,1500)}
-  catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(ED===ed0){ED.env=false;edDesenha()}toast("Não deu para publicar. Tente de novo.")}}
+let ED_FT=0;
 
 /* ===== cliques do editor ===== */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer .ce")||!ED)return;if(t.closest("#layer2"))return;let b;const st=ED.st,P=ED.po;

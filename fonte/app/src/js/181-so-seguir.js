@@ -116,7 +116,6 @@ if(typeof abrirAddAmigos==="function"){const _ad=abrirAddAmigos;abrirAddAmigos=f
   else h+=`<div class="card tl142-priv"><b>Privacidade</b>${row}</div>`}catch(e){}return h}}
 
 /* ===== 5. criar: sem escolha de público no post; coluna "Para todos" ou "Só para quem me segue" ===== */
-if(typeof cp152Publicos==="function"){const _cp=cp152Publicos;cp152Publicos=function(){const l=_cp.apply(this,arguments);return sg181On()?[["amigos","Todos"]]:l}}
 const SG181_COLTX={amigos:"Qualquer membro do Prumo pode ler, curtir e comentar, mesmo com o perfil fechado.",seguidores:"Só quem segue você pode ler e comentar."};
 function sg181ColRotulos(root){if(!root||!sg181On())return;root.querySelectorAll('[data-ed132pubv="amigos"]').forEach(b=>{b.textContent="Para todos"});
   const s=root.querySelector('[data-ed132pubv="seguidores"]');if(s)s.textContent="Só para quem me segue";

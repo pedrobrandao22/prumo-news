@@ -126,13 +126,6 @@ if(VN_FASE2){
   /* "Ver no Feed" de uma notícia que está numa prateleira: ela volta para a lista */
   {const _gp113=garantirPost;garantirPost=function(pid){const r=_gp113.apply(this,arguments);if(r||!F113_NAPRAT.has(pid))return r;F113_SOLTA.add(pid);try{renderPosts(true)}catch(e){}return _gp113.apply(this,arguments)}}
   /* criar: "Adicionar parte" no passo do texto */
-  {const _cd113=cfpDet;cfpDet=function(el){const r=_cd113.apply(this,arguments);try{f113EdPoe(el)}catch(e){console.error(e)}return r}}
-  {const _ep113=edPublicaPost;edPublicaPost=async function(){const P=ED&&ED.po;if(!P||ED.env||!SB||!f113PodeCompor(P))return _ep113.apply(this,arguments);
-    const parts=f113Limpa(P.f113fio);if(!parts.length)return _ep113.apply(this,arguments);
-    const p1=P.cn?String(P.cn.corpo||"").trim()||String(P.cn.tit||"").trim():String(P.texto||"").trim();if(!p1){toast("Escreva a primeira parte do fio.");try{$("#ce-leg")?.focus()}catch(e){}return}
-    const _from=SB.from;SB.from=function(tb){const q=_from.apply(this,arguments);if(tb==="publicacoes"&&q&&typeof q.insert==="function"&&!q._f113){const ins=q.insert;q._f113=1;q.insert=function(row){try{if(row&&row.tipo==="post"&&row.estilo&&typeof row.estilo==="object")row.estilo.fio=parts}catch(e){}return ins.apply(this,arguments)}}return q};
-    let r;try{r=await _ep113.apply(this,arguments)}finally{SB.from=_from}
-    try{const x=(PUB.itens||[]).find(y=>y&&y.autor===S.uid&&y.estilo&&y.estilo.fio===parts);if(x&&x.id){uso("fase2_fio");f113AvisaPartes(x.id,x.texto,parts)}}catch(e){}return r}}
   /* editar: as partes aparecem embaixo da legenda */
   {const _pe113=pubEditar;pubEditar=async function(id,txt){const E=F113_ED,x=pubDe(id);F113_ED=null;if(!E||!E.ok||E.id!==id||!x)return _pe113.apply(this,arguments);
     const parts=f113Limpa(E.parts),ant=f113Fio(x)||[];
