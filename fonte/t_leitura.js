@@ -29,8 +29,11 @@ async function foto2(p, n) { await U.foto(p, n + '-claro'); await p.evaluate(() 
     await page.click('[data-laba="criar"]');
     U.ok(await U.esperar(page, () => !!document.querySelector('#lcod')), nome + ': aba Criar conta');
     await page.fill('#lnome', 'X'); await page.fill('#lemail', 'x@x.com'); await page.fill('#lsenha', '123'); await page.click('#lform [type=submit]');
-    await U.sleep(200);
-    U.ok(/pelo menos 6/.test(await page.$eval('#lerro', e => e.textContent)), nome + ': senha curta');
+    // 165: sem código, o primeiro aviso é o do convite (ordem da tela); com código, a senha curta
+    U.ok(await U.esperar(page, () => /código do convite/.test(document.querySelector('#lerro')?.textContent || '')), nome + ': sem convite avisa o código');
+    await page.fill('#lcod', 'TESTE123'); await page.click('#lform [type=submit]');
+    const lerro = async () => page.$eval('#lerro', e => e.textContent).catch(() => '');
+    U.ok(await U.esperar(page, () => /pelo menos 6/.test(document.querySelector('#lerro')?.textContent || ''), undefined, 5000), nome + ': senha curta', await lerro());
     if (nome === 'com config') await foto2(page, 'criar-conta');
     await page.click('[data-laba="entrar"]'); await page.click('[data-esqueci]');
     await U.sleep(300);  // 160: pede o e-mail ou manda o link (o envio em si é conferido no t_conta_1511)
