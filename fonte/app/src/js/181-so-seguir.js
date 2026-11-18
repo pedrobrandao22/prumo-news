@@ -93,7 +93,7 @@ function sg181Pf(root,u){if(!root||!sg181On()||!u)return;
   if(u!==S.uid){root.querySelectorAll("[data-cs123seg]").forEach(x=>x.remove());if(!sg181Msg(u))root.querySelectorAll("[data-pfmsg]").forEach(x=>x.remove())}
   const num=root.querySelector(".vn-pf-num");
   if(num){[...num.children].forEach(c=>{if(/amigo/i.test(c.textContent))c.remove()});
-    if(!num.querySelector(".sg181-num")){const p=CS123.perf[u];if(!p){cs123Perf(u).then(()=>{try{if(u===S.uid){if(VIEW==="me")renderMe()}else if(PFV&&PFV.u===u&&$("#layer .pfv"))pfvDesenha()}catch(e){}})}
+    if(!num.querySelector(".sg181-num")){const p=CS123.perf[u];if(!p){cs123Perf(u).then(q=>{if(!q)return;/* sem os números: não redesenha (laço) */try{if(u===S.uid){if(VIEW==="me")renderMe()}else if(PFV&&PFV.u===u&&$("#layer .pfv"))pfvDesenha()}catch(e){}})}
       else num.insertAdjacentHTML("afterbegin",sg181NumHTML(u))}}
   if(u!==S.uid&&SG181.fech.has(u)&&!root.querySelector(".sg181-fech")){const cab=root.querySelector(".vn-pf-desde,.vn-pf-num");
     if(cab)cab.insertAdjacentHTML("afterend",`<p class="sg181-fech">${cs123Svg('<rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>')}Perfil fechado${CS123.perf[u]&&CS123.perf[u].me_segue?" · segue você":""}</p>`)}

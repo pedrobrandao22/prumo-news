@@ -113,7 +113,7 @@ function pfCab(u){
   h=(h=>{try{if(ra114Fora(u)&&!pfLista(u,"posts").length)h=h.replace(/<span><b>0<\/b>publicações<\/span>/,"")}catch(e){}return h})(h);
   /* 123: Seguir (perfil aberto) */
   h=(h=>{try{if(!V9.on||!u||u===S.uid||S.amigos.has(u)||(S.bloq||[]).includes(u))return h;const p=CS123.perf[u];
-    if(!p){cs123Perf(u).then(()=>{if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha()});return h}
+    if(!p){cs123Perf(u).then(q=>{if(!q)return;/* sem os números: não redesenha (laço) */if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha()});return h}
     if(!p.ok||!p.aberto)return h;const bt=cs123SegBt(u);
     if(/<div class="pf-bts">/.test(h))h=h.replace(/<div class="pf-bts">/,`<div class="pf-bts">${bt}`);else h+=`<div class="pf-bts">${bt}</div>`}catch(e){}return h})(h);
   /* 136: colunas por e-mail */

@@ -238,7 +238,7 @@ function cs123SegBt(u){const sigo=CS123.sigo.has(u);return `<button type="button
 /* os números (seguidores · seguindo), depois do perfil montado (no visual novo e no de hoje) */
 function cs123NumHTML(u,p){return `<span class="cs123-num"><button type="button" data-cs123lista="seguidores" data-u="${esc(u)}"><b>${cs123Num(p.seguidores||0)}</b> ${p.seguidores===1?"seguidor":"seguidores"}</button><button type="button" data-cs123lista="seguindo" data-u="${esc(u)}"><b>${cs123Num(p.seguindo||0)}</b> seguindo</button></span>`}
 function cs123PoeNum(root,u){if(!root||!V9.on||!u||root.querySelector(".cs123-num"))return;const p=CS123.perf[u];
-  if(!p){cs123Perf(u).then(()=>{if(u===S.uid){if(VIEW==="me")renderMe()}else if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha()});return}
+  if(!p){cs123Perf(u).then(q=>{if(!q)return;/* sem os números (sem rede, erro): não redesenha, senão pede de novo em laço */if(u===S.uid){if(VIEW==="me")renderMe()}else if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha()});return}
   if(!p.ok||(u!==S.uid&&!p.aberto)||(u===S.uid&&!p.aberto&&!p.seguidores&&!p.seguindo))return;
   const vn=root.querySelector(".vn-pf-num");if(vn){vn.insertAdjacentHTML("beforeend",cs123NumHTML(u,p));return}
   const nm=root.querySelector(".pf-nome");if(nm)nm.insertAdjacentHTML("afterend",`<p class="cs123-numl">${cs123NumHTML(u,p)}</p>`)}
