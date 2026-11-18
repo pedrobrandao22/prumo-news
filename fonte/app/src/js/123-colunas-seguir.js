@@ -291,11 +291,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
 
 /* ===== 7. público "Seguidores e amigos" no post ===== */
 const cs123PodeSeg=()=>!!(V9.on&&CS123.aberto);
-{const _cp=cfpPublico;cfpPublico=function(){const r=_cp.apply(this,arguments);try{if(!cs123PodeSeg()||!ED||!ED.po)return r;const P=ED.po,box=$("#layer .ce-sel .cfp-pubs");if(!box||box.querySelector('[data-cfppubv="seguidores"]'))return r;
-  const am=box.querySelector('[data-cfppubv="amigos"]');if(am)am.insertAdjacentHTML("afterend",`<button type="button" data-cfppubv="seguidores" aria-pressed="false"><span>Seguidores e amigos</span><small>Quem segue você e seus amigos</small></button>`);
-  box.querySelectorAll("[data-cfppubv]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.cfppubv===(P.pub==="proximos"||P.pub==="seguidores"?P.pub:"amigos"))))}catch(e){}return r}}
-{const _cd=cfpDet;cfpDet=function(el){const P=ED&&ED.po;if(P&&P.pub==="seguidores"&&!cs123PodeSeg())P.pub="amigos";const r=_cd.apply(this,arguments);
-  try{if(P&&P.pub==="seguidores"){const em=el.querySelector("[data-cfppub] em");if(em)em.textContent="Seguidores e amigos";const q=el.querySelector(".cr-quem");if(q&&q.firstChild&&q.firstChild.nodeType===3)q.firstChild.textContent="Quem segue você e seus amigos vão ver. "}}catch(e){}return r}}
 
 /* ===== 8. Atividade: "Bia começou a seguir você" ===== */
 try{ESP_NOMES.seguidores="Quem segue quem"}catch(e){}

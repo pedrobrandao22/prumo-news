@@ -20,7 +20,6 @@ try{const r=FC107_PK.find(k=>k[0]==="rel");if(r)r[1]=DC122_DP}catch(e){}
 {const _ck122=cn102Kick;cn102Kick=function(k,au){return k==="rel"?`${DC122_DP} · ${esc(nomeDe(au))}`:_ck122.apply(this,arguments)}}
 {const _fk122=fc105Kicker;fc105Kicker=function(c,nome){return c&&c.k==="rel"?`${DC122_DP} · ${nome||nomeDe(S.uid)||""}`:_fk122.apply(this,arguments)}}
 {const _sn122=fc107StNoticia;fc107StNoticia=function(x){return _sn122.apply(this,arguments)||/^De perto · /.test(String((x&&x.texto)||""))}}
-{const _va122=cn102Valida;cn102Valida=function(){const r=_va122.apply(this,arguments);return r==="Dê um título curto ao relato."?"Dê um título curto ao que você viu.":r}}
 {const _pt122=fc107PfTile;fc107PfTile=function(){const h=_pt122.apply(this,arguments);return typeof h==="string"?h.replace("<small>Relato</small>",`<small>${DC122_DP}</small>`):h}}
 {const _an122=atPubNome;atPubNome=function(){const n=_an122.apply(this,arguments);return typeof n==="string"?n.replace(/^seu relato\b/,"seu post De perto"):n}}
 {const _br122=fc107Barra;fc107Barra=function(){const r=_br122.apply(this,arguments);try{const b=$("#cn102-bar .fc107-bmais");if(b)b.setAttribute("aria-label","Publicar outra coisa: notícia, De perto, análise ou pergunta")}catch(e){}return r}}

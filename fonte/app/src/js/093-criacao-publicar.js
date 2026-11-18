@@ -17,26 +17,11 @@ function pqNovo(tipo,ed,args){const j={id:"pq"+(++PQ.n),tipo,ed,args,estado:"env
 function pqFechaEditor(ed){if(!$("#layer .ce"))return;try{if(ed.st&&ed.st.tx)edTextoOk()}catch(e){}if(CAM&&CAM.rec)try{camGravaFim()}catch(e){}closeLayer._ok=true;closeLayer();closeLayer._ok=false;ED=ed}
 function pqComeca(j,p){PQ.atual=j;j.estado="env";j.t0=Date.now();j.feito=0;j.sub=0;j.disp=0;pqDesenha();pqLoop();
   Promise.resolve(p).then(()=>pqFim(j),e=>pqFim(j,e))}
-function pqFim(j,err){if(PQ.atual===j)PQ.atual=null;const ed=j.ed;
-  if(ED===ed){/* não terminou: guarda para tentar de novo */ed.env=false;ED=null;j.estado="erro";j.err=err||null;
-    if(j.tipo==="story"){const resto=(ed.sts||[]).filter(edStTem);if(!resto.length){j.estado="ok"}else{j.U=pqUnidades("story",ed);j.th=pqThumb("story",ed)}}
-    if(j.estado==="erro"&&j.tipo==="post"&&(ed.po.fotos.length||ed.po.texto.trim())&&typeof rascSalva==="function"){const s=ED;ED=ed;try{if(!ed.po.rid)ed.po.rid=edNid();rascSalva().catch(()=>{})}catch(e){}finally{ED=s}}}
-  else j.estado="ok";
-  if(j.estado==="ok"){j.disp=1;vibrar&&vibrar(8);setTimeout(()=>{PQ.jobs=PQ.jobs.filter(x=>x!==j);pqDesenha(true)},ANIM_OK()?900:300)}
-  pqDesenha();try{renderSecs()}catch(e){}}
 function pqProg(j){if(j.estado!=="env")return j.estado==="ok"?1:j.disp;const real=(j.feito+j.sub)/Math.max(1,j.U),tr=.85*(1-Math.exp(-(Date.now()-j.t0)/3500));j.disp=Math.max(j.disp,Math.min(.96,Math.max(real,tr)));return j.disp}
 function pqLoop(){if(PQ.t)return;PQ.t=setInterval(()=>{if(!PQ.atual){clearInterval(PQ.t);PQ.t=0;return}pqAtualiza()},160)}
 function pqAtualiza(){PQ.jobs.forEach(j=>{const p=pqProg(j),b=document.querySelector(`#pq [data-pq="${j.id}"] .pq-bar i`);if(b)b.style.width=(p*100).toFixed(1)+"%"});
   const r=document.querySelector("#secs [data-meustory] .ig-r");if(r){const j=PQ.jobs.find(x=>x.tipo==="story"&&x.estado!=="erro");r.classList.toggle("pq-on",!!j);r.classList.toggle("pq-erro",!j&&PQ.jobs.some(x=>x.tipo==="story"&&x.estado==="erro"));if(j)r.style.setProperty("--pq",(pqProg(j)*100).toFixed(1));else r.style.removeProperty("--pq")}}
 function pqBox(){let b=$("#pq");if(!b){const s=$("#secs");if(!s)return null;b=document.createElement("div");b.id="pq";b.className="pq gut";b.setAttribute("aria-live","polite");s.after(b)}return b}
-function pqDesenha(){const box=pqBox();if(!box){return}const vis=PQ.jobs.filter(j=>j.tipo!=="story"||j.estado==="erro");
-  const ant=new Set([...box.children].map(x=>x.dataset.pq));
-  box.innerHTML=vis.map(j=>{const er=j.estado==="erro",ok=j.estado==="ok",nm=j.tipo==="reel"?"reel":j.tipo==="story"?"story":"post";
-    return `<div class="pq-row${er?" erro":""}${ok?" ok":""}${ant.has(j.id)?"":" novo"}" data-pq="${j.id}"><span class="pq-th${j.th.aa?" aa":""}">${j.th.aa?"Aa":""}${j.tipo==="reel"?`<i class="pq-rl">▶</i>`:""}</span>
-      <span class="pq-tx">${er?`<b>Não foi publicado</b><span class="pq-bs"><button type="button" class="pq-b on" data-pqtenta="${j.id}">Tentar de novo</button><button type="button" class="pq-b" data-pqdesc="${j.id}">Descartar</button></span>`
-        :`<b>${ok?"Publicado":"Publicando…"}</b><small>${ok?"Já está no Feed":"Seu "+nm+" vai aparecer aqui"}</small>`}</span>${ok?`<i class="pq-ok" aria-hidden="true">✓</i>`:""}${er?"":`<i class="pq-bar" aria-hidden="true"><i style="width:${(pqProg(j)*100).toFixed(1)}%"></i></i>`}</div>`}).join("");
-  box.querySelectorAll(".pq-th").forEach((el,i)=>{const t=vis[i].th;if(t.bg)el.style.background=t.bg;if(t.img)el.style.backgroundImage=`url("${String(t.img).replace(/"/g,"%22")}")`});
-  box.hidden=!vis.length;pqAtualiza()}
 
 /* embrulha as três funções de publicar */
 /* pqCamada: a camada da fila em volta de uma função de publicar (o post usa no 206-criar.js: ED206_PQ) */

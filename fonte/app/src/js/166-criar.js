@@ -17,12 +17,10 @@ var CR166={pubT:0};
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   if(t.closest("#layer [data-cp152pub],#layer [data-edpubpo],#layer .ce-pub,#layer .cn102-pub,#layer .cfp-shb")){CR166.pubT=Date.now();return}
   if(Date.now()-CR166.pubT<700&&!t.closest("#layer,#layer2,.toast,#pq")){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()}},true);
-{const _cp166=cp152Publica;cp152Publica=function(){CR166.pubT=Date.now();return _cp166.apply(this,arguments)}}
 
 /* ===== 2. avisos junto do campo ===== */
 const cr166Nm=v=>String(v||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g," ").trim().toLowerCase();
 function cr166Dups(cn){const vs=(cn.o||[]).map(cr166Nm),d=[];vs.forEach((v,i)=>{if(v&&vs.indexOf(v)!==i)d.push(i)});return d}
-{const _va166=cn102Valida;cn102Valida=function(P){const r=_va166.apply(this,arguments);try{const cn=P&&P.cn;if(!r&&cn&&cn.k==="enq"&&cr166Dups(cn).length)return "Duas opções estão iguais. Troque uma delas."}catch(e){}return r}}
 function cr166Limpa(){document.querySelectorAll("#layer .cr166-er").forEach(x=>x.remove());document.querySelectorAll("#layer .cr166-erc").forEach(x=>x.classList.remove("cr166-erc"))}
 function cr166Erro(er,P){const ce=$("#layer .ce");if(!ce||!P||!P.cn)return false;cr166Limpa();let alvo=null,marca=[];
   if(/opç/i.test(er)){alvo=ce.querySelector(".cn102-ops");const ins=[...ce.querySelectorAll("input[data-cn102o]")];
@@ -35,8 +33,6 @@ function cr166Erro(er,P){const ce=$("#layer .ce");if(!ce||!P||!P.cn)return false
 document.addEventListener("input",e=>{const t=e.target;if(t&&t.closest&&t.closest("#layer .ce")&&document.querySelector("#layer .cr166-er"))cr166Limpa()},true);
 
 /* ===== 3. sem internet: uma mensagem só ===== */
-{const _pd166=pqDesenha;pqDesenha=function(){const r=_pd166.apply(this,arguments);try{const box=$("#pq");if(box)PQ.jobs.forEach(j=>{if(j.estado!=="erro"||!cr155SemRede(j))return;const b=box.querySelector(`[data-pqtenta="${j.id}"]`);if(!b)return;
-    if(navigator.onLine===false)b.remove();else b.textContent="Publicar agora"})}catch(e){}return r}}
 addEventListener("offline",()=>{try{if(PQ.jobs.some(j=>j.estado==="erro"))pqDesenha()}catch(e){}});
 addEventListener("online",()=>{try{if(PQ.jobs.some(j=>j.estado==="erro"))pqDesenha()}catch(e){}});
 
@@ -59,5 +55,3 @@ addEventListener("resize",()=>{try{cr166Rail()}catch(e){}});
 
 /* ===== 6. número: a linha vai até o dia do título ===== */
 function cr166Num(v){let s=String(v||"").replace(/[^\d,.\-]/g,"");if(!s)return NaN;if(s.indexOf(",")>=0)s=s.replace(/\./g,"").replace(",",".");else if(/^\-?\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,"");return parseFloat(s)}
-{const _id166=cn102IndDado;cn102IndDado=function(x){const d=_id166.apply(this,arguments);try{const ult=d.r[d.r.length-1]||"",v=cr166Num(d.val);
-    if(d.dt&&/^\d{4}-\d{2}-\d{2}$/.test(ult)&&d.dt>ult&&isFinite(v)&&d.s.length>=2){d.s.push(+v.toPrecision(6));d.r.push(d.dt);if(d.s.length>30){d.s.shift();d.r.shift()}}}catch(e){}return d}}

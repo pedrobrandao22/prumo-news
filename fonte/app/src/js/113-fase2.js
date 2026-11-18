@@ -126,7 +126,6 @@ if(VN_FASE2){
   /* "Ver no Feed" de uma notícia que está numa prateleira: ela volta para a lista */
   {const _gp113=garantirPost;garantirPost=function(pid){const r=_gp113.apply(this,arguments);if(r||!F113_NAPRAT.has(pid))return r;F113_SOLTA.add(pid);try{renderPosts(true)}catch(e){}return _gp113.apply(this,arguments)}}
   /* criar: "Adicionar parte" no passo do texto */
-  {const _cd113=cfpDet;cfpDet=function(el){const r=_cd113.apply(this,arguments);try{f113EdPoe(el)}catch(e){console.error(e)}return r}}
   /* editar: as partes aparecem embaixo da legenda */
   {const _pe113=pubEditar;pubEditar=async function(id,txt){const E=F113_ED,x=pubDe(id);F113_ED=null;if(!E||!E.ok||E.id!==id||!x)return _pe113.apply(this,arguments);
     const parts=f113Limpa(E.parts),ant=f113Fio(x)||[];
