@@ -30,7 +30,8 @@ const ev = (p, fn, a) => p.evaluate(fn, a);
       [`até ${L.am.art === 'no' ? 'o' : 'a'} ${lab(L.am)}`, 'até amanhã'],
       [`desde ${L.on.art === 'no' ? 'o' : 'a'} ${lab(L.on)}`, 'desde ontem'],
       [`a sessão ${L.on.art === 'no' ? 'do' : 'da'} ${lab(L.on)}`, 'a sessão de ontem'],
-      [`Na noite de ${lab(L.on)}`, 'Ontem à noite'],
+      [`Na noite de ${lab(L.on)}`, `Na noite de ${lab(L.on)}`], // 18/11: sem verbo no passado, a data fica
+      [`O Senado votou na noite de ${lab(L.on)}`, 'O Senado votou ontem à noite'],
       [`${lab(L.hj)[0].toUpperCase() + lab(L.hj).slice(1)}: Senado vota`, 'Hoje: Senado vota'],
       [`${L.hj.art} ${L.hj.n} (${L.hj.dia}/${L.hj.mes})`, 'hoje'],
       [`${L.hj.art} ${L.hj.n} (${L.hj.dia}/${L.hj.mes % 12 + 1})`, null],

@@ -87,7 +87,7 @@ print(json.dumps([V.marca_texto(t,M) for t in json.loads(sys.argv[3])],ensure_as
     await P.reload(); await esperar(P, () => !!FEED && IND_AUTO && IND_AUTO.dados_em && IND_AUTO.dados_em.startsWith('2026-11-19'), null, 12000);
     await ev(P, () => { go('capa'); renderCapa() }); await sleep(400);
     const c3 = await ev(P, () => document.querySelector('#v-capa').innerText);
-    ok(c3.includes('Dólar fecha a R$ 5,70 (-3,39%) na quinta (19)'), 'reabrir: a edição guardada mostra o fechamento novo', c3.slice(0, 200));
+    ok(c3.includes(await ev(P, x => typeof dt185Rel === 'function' ? dt185Rel(x) : x, 'Dólar fecha a R$ 5,70 (-3,39%) na quinta (19)')), 'reabrir: a edição guardada mostra o fechamento novo', c3.slice(0, 200));
 
     // 5. Feed: o cartão também
     await ev(P, () => go('feed')); await sleep(800);
