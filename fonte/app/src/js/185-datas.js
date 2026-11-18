@@ -6,15 +6,19 @@
    breves, agenda, atualizações, FAQ…), menos o que o leitor escreveu (posts, comentários, conversas) e campos de edição.
    O dia da semana tem de bater com o número (e com o mês, quando vier "17/11"); senão nada muda.
    Na virada do dia (app aberto de um dia para o outro), refaz a partir do texto original guardado.
-   As páginas de compartilhamento (m/) são estáticas e continuam com a data absoluta. */
+   As páginas de compartilhamento (m/) são estáticas e continuam com a data absoluta; o texto que sai do app (a bolha
+   de "Mandar notícia", que é o que vai para o WhatsApp) também (18/11). */
 var DT185_SEM=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
 var DT185_RX=/(^|[^A-Za-zÀ-ÿ])(?:(n[ao]\s+(noite|tarde|manhã|madrugada)\s+d[eao]\s+)|((?:antes|depois)\s+d[eao]\s+)|((até|desde|para)\s+(?:[ao]\s+)?)|((?:n[ao]|nest[ae]|d[ao]|dest[ae]|de|[ao])\s+))?(segunda|terça|quarta|quinta|sexta|sábado|domingo)(?:-feira)?\s*\((\d{1,2})(?:\/(\d{1,2}))?\)/gi;
 /* verbo no passado (pretérito perfeito, 3ª pessoa): aprovou, votou, subiu, bateu, fez, disse, foi, teve, foram… */
 var DT185_PASSADO=/(?:^|[^A-Za-zÀ-ÿ])(?:[a-zà-ÿ]{2,}(?:ou|eu|iu|aram|eram|iram)|foi|fez|disse|teve|houve|deu|veio|pôs|quis|trouxe|soube|foram|fizeram|disseram|tiveram|deram|vieram)(?:-(?:se|o|a|os|as|lhe))?(?=[^A-Za-zÀ-ÿ]|$)/i;
-var DT185_TEM=/\(\d{1,2}(?:\/\d{1,2})?\)/;
+var DT185_TEM=/\(\d{1,2}(?:\/\d{1,2})?\)|\d\/\d/;
+/* 18/11 (corretor): o dia só com número e mês, sem o nome da semana ("fica fora da pauta em 18/11", "Em 15/11, Kassio
+   sinalizou", "até 20/11"): só com "em", "até" ou "desde" antes, e nunca seguido de outra barra ou dígito (ano, faixa) */
+var DT185_DM=/(^|[^A-Za-zÀ-ÿ0-9\/])(em|até|desde)\s+(\d{1,2})\/(\d{1,2})(?![\d\/]|\s*(?:a|e|até)\s+\d)/gi;
 var DT185_PREP_FORA=/(?:^|[^A-Za-zÀ-ÿ])(?:n[ao]|nest[ae]|d[ao]|dest[ae]|de|[ao]|até|desde|para|antes|depois)\s*$/i;
 /* nada do que o leitor escreve (as mesmas caixas em que o app liga #hashtags) nem campos de edição */
-var DT185_FORA="textarea,input,script,style,[contenteditable],.up-leg,.up-tx,.us-tx,.up-tudo,.cn102-ex,.clist li,.cmt,.fc107-tq~p,.ht-cm-tx,.dm-utx,.cs123-corpo,.ed132,[data-dt185-nao]";
+var DT185_FORA="textarea,input,script,style,[contenteditable],.up-leg,.up-tx,.us-tx,.up-tudo,.cn102-ex,.clist li,.cmt,.fc107-tq~p,.ht-cm-tx,.dm-utx,.cs123-corpo,.ed132,.env-bolha,[data-dt185-nao]";
 var DT185={dia:"",m:new WeakMap(),nos:new Set(),fila:new Set(),ag:false};
 
 /* "ontem", "hoje", "amanhã" ou "" para o dia escrito (nome da semana, número, mês opcional) visto no dia hoje (AAAA-MM-DD) */
@@ -22,8 +26,20 @@ function dt185Qual(nome,dia,mes,hoje){const wd=DT185_SEM.indexOf(String(nome).to
   const R=["ontem","hoje","amanhã"];for(let k=-1;k<=1;k++){const d=somaDias(hoje,k),x=new Date(d+"T12:00:00Z");
     if(x.getUTCDate()===+dia&&x.getUTCDay()===wd&&(!mes||x.getUTCMonth()+1===+mes))return R[k+1]}return ""}
 
+/* o mesmo para "18/11" (dia e mês, sem a semana) */
+function dt185QualDM(dia,mes,hoje){if(!hoje)return "";const R=["ontem","hoje","amanhã"];
+  for(let k=-1;k<=1;k++){const x=new Date(somaDias(hoje,k)+"T12:00:00Z");if(x.getUTCDate()===+dia&&x.getUTCMonth()+1===+mes)return R[k+1]}return ""}
+
 /* a troca em si, num texto (função pura: o teste e outros arquivos podem chamar) */
 function dt185Rel(s,hoje){s=String(s??"");if(!DT185_TEM.test(s))return s;hoje=hoje||hojeSP();
+  if(s.indexOf("/")>=0)s=s.replace(DT185_DM,function(m0,a,prep,dia,mes,o,tx){
+    const rel=dt185QualDM(dia,mes,hoje);if(!rel)return m0;const p=prep.toLowerCase();
+    if(rel==="ontem"&&p==="em"){const fr=tx.slice(0,o).split(/[.!?;:,]\s|\s(?:e|mas|que|quando|onde)\s/).pop().trim().split(/\s+/).slice(-4).join(" ");
+      /* "Em 15/11, Kassio sinalizou": no começo da frase, o verbo vem depois */
+      const dep=tx.slice(o+m0.length).split(/[.!?;]/)[0].trim().split(/\s+/).slice(0,4).join(" ");
+      if(!DT185_PASSADO.test(fr)&&!(/^[,\s]*$/.test(fr)&&DT185_PASSADO.test(dep)))return m0}
+    const ini=m0.slice(a.length);let n=p==="em"?rel:p+" "+rel;
+    if(/^[A-ZÀ-Ý]/.test(ini))n=n[0].toUpperCase()+n.slice(1);return a+n});
   return s.replace(DT185_RX,function(m0,a,per,perNome,antesDepois,prepTudo,prep,art,nome,dia,mes){
     const rel=dt185Qual(nome,dia,mes,hoje);if(!rel||antesDepois)return m0; /* "antes de ontem"/"depois de amanhã" mudariam o sentido */
     /* "ontem" só quando a frase já está no passado (18/11): "O Senado vota na terça (17)" lido na quarta viraria "vota

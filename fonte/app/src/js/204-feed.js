@@ -96,8 +96,15 @@ function us204Base(pid){
     else ot.innerHTML=""}}
   {const nc=el.querySelector("[data-nchat]");if(nc){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto);const u=ms[ms.length-1];nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}}
   el.querySelector("[data-together]").innerHTML="";
-  el.querySelector("[data-cmts]").innerHTML=(cm.length>2?`<button type="button" class="link" data-a="cmt">Ver os ${cm.length} comentários</button>`:"")+cm.slice(-2).map(c=>`<div class="cmt" data-a="cmt" role="button" tabindex="0"><b>${esc(nomeDe(c.uid))}</b>${esc(c.texto)}</div>`).join("");
+  el.querySelector("[data-cmts]").innerHTML=(cm.length>2?`<button type="button" class="link" data-a="cmt">Ver os ${cm.length} comentários</button>`:"")+cm.slice(-2).map(c=>fd204CmtHTML(c,cm)).join("");
 }
+/* um comentário no cartão do Feed (corretor 18/11): resposta ("@Nome texto", como a folha grava) sai como na folha,
+   recuada e com "respondendo a Nome", sem o "@Nome" grudado no texto */
+function fd204CmtHTML(c,cm){const nm=nomeDe(c.uid);let tx=String(c.texto||""),quem="";
+  if(tx[0]==="@"){const ns=[...new Set((cm||[]).map(x=>nomeDe(x.uid)).filter(Boolean))].sort((a,b)=>b.length-a.length);
+    for(const n of ns){if(tx.slice(1,n.length+1)===n&&(tx.length===n.length+1||/\s/.test(tx[n.length+1]))){quem=n;tx=tx.slice(n.length+1).replace(/^\s+/,"");break}}}
+  return quem?`<div class="cmt cmt204-resp" data-a="cmt" role="button" tabindex="0"><small class="cmt204-rt">respondendo a ${esc(quem)}</small><b>${esc(nm)}</b>${esc(tx)}</div>`
+    :`<div class="cmt" data-a="cmt" role="button" tabindex="0"><b>${esc(nm)}</b>${esc(tx)}</div>`}
 function updateSocial(pid){
   if(!FD204_PRONTA)return us204Base(pid);
   /* 060: com o story aberto, a curtida do story é posta no lugar (sem redesenhar a barra) */
