@@ -38,7 +38,10 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
   const uidA = await ev(A, () => S.uid);
 
   // escolhe as pautas: uma para a hashtag (com pontos neutros), outra para o anexo
-  const pk = await ev(A, () => { const ps = FEED.pautas.filter(p => htDaPauta(p).length && (p.neutro.pontos || []).length); const p1 = ps[0], p2 = ps.find(p => p !== p1) || FEED.pautas[1];
+  const pk = await ev(A, () => { const ps0 = FEED.pautas.filter(p => htDaPauta(p).length && (p.neutro.pontos || []).length);
+    /* a hashtag tem de levar a ESTA pauta (uma hashtag geral, como #GovernoLula, leva à primeira de várias) */
+    const unica = p => { try { const k = htChave(htDaPauta(p)[0]); return htNoticias(k).find(q => htNotCasa(q, k) >= 2) === p } catch (e) { return false } };
+    const ps = ps0.filter(unica).concat(ps0.filter(p => !unica(p))); const p1 = ps[0], p2 = ps.find(p => p !== p1) || FEED.pautas[1];
     return { ht: p1.id, tag: htDaPauta(p1)[0], ponto: p1.neutro.pontos[0], dir: p1.direita && p1.direita.texto || '', esq: p1.esquerda && p1.esquerda.texto || '', anexo: p2.id } });
   const now = Date.now();
   const [pHt, pAnexo, pEnq] = await ins(B, [
@@ -104,7 +107,7 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
   ok(await ev(B, id => { const e = document.getElementById('p-u:' + id); return e && e.querySelector('.fs2-fio-k').textContent === 'Fio · 2 partes' }, pFio), 'Bia vê o fio editado (2 partes)');
 
   // ===== 5. Capítulos na matéria
-  const alvo = await ev(A, () => { const tem = p => ({ vis: (p.visuais || []).some(v => ['grafico', 'numeros', 'pesquisas'].includes(v.tipo)), tl: (p.visuais || []).some(v => v.tipo === 'linha_do_tempo' && (v.itens || []).length >= 2), vem: !!p.proximo, faq: (p.faq || []).some(q => q && q.p), po: (() => { try { return !!po118MatHTML(p) } catch (e) { return false } })() });
+  const alvo = await ev(A, () => { const tem = p => ({ vis: (p.visuais || []).some(v => ['grafico', 'numeros', 'pesquisas'].includes(v.tipo)), tl: (p.visuais || []).some(v => v.tipo === 'linha_do_tempo' && (v.itens || []).length >= 2) || (() => { const ts = (p.titulos || []).filter(x => x && x.titulo && x.hora); return ts.length >= 3 && tms(ts[ts.length - 1].hora) - tms(ts[0].hora) > 36 * 3600e3 })(), vem: !!p.proximo, faq: (p.faq || []).some(q => q && q.p), po: (() => { try { return !!po118MatHTML(p) } catch (e) { return false } })() });
     const l = FEED.pautas.map(p => ({ id: p.id, t: tem(p) })); const n = x => Object.values(x.t).filter(Boolean).length; l.sort((a, b) => n(b) - n(a)); return { cheia: l[0], pouca: l.find(x => n(x) === 1 && !x.t.po) || l.find(x => n(x) === 1) || l[l.length - 1] } });
   await ev(A, id => abrirMateria(id), alvo.cheia.id); await sleep(600);
   const cp = await ev(A, () => { const n = document.querySelector('#layer .fs2-cap'); return n && { rot: [...n.querySelectorAll('[data-f113cap]')].map(b => b.textContent.replace(/^\d+/, '')), cur: (n.querySelector('[aria-current="true"]') || {}).textContent, k: n.getAttribute('aria-label'), alvos: [...n.querySelectorAll('[data-f113cap]')].map(b => !!document.getElementById(b.getAttribute('aria-controls'))), sticky: getComputedStyle(n).position, h: n.getBoundingClientRect().height,

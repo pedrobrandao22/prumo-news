@@ -5338,7 +5338,7 @@ html.mb138-on,html.mb138-on body{overflow:hidden;overscroll-behavior:none}
   .ed132-menu{left:8px;right:8px;bottom:var(--mb138-mb,62px);max-width:none;max-height:var(--mb138-mh,46vh);padding:4px 6px 8px;border-radius:16px;overscroll-behavior:contain}
   /* grade 5 × 2 com nomes curtos: as 9 opções em ~160 px, sem rolar */
   .ed132-menu .mb138-g{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px}
-  .ed132-menu .mb138-g button{flex-direction:column;justify-content:center;gap:3px;min-height:58px;padding:4px 2px;text-align:center}
+  .ed132-menu .mb138-g button{flex-direction:column;justify-content:center;gap:3px;min-height:56px;padding:4px 2px;text-align:center}
   .ed132-menu .mb138-g .ed132-mi{width:30px;height:30px;border-radius:8px}
   .ed132-menu .mb138-g .ed132-mi .ico{width:17px;height:17px}
   .ed132-menu .mb138-g span:last-child>b,.ed132-menu .mb138-g small{display:none}
@@ -7576,7 +7576,9 @@ function matTempo(p){
   return (h=>{if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
   const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll(".mat-tl li")];if(!lis.length)return h;let mudou=false;
   lis.forEach(li=>{const t=li.querySelector("time");if(!t)return;const d=rc116Data(t.textContent,hj);if(!d)return;
-    if(d.iso>hj&&!li.classList.contains("fut")){li.classList.add("fut");mudou=true}
+    if((d.ini||d.iso)>hj&&!li.classList.contains("fut")){li.classList.add("fut");mudou=true}
+    /* período que já começou ("16 a 20/11" em 18/11): acontecendo, não futuro */
+    if(d.ini&&d.ini<=hj&&li.classList.contains("fut")){li.classList.remove("fut");mudou=true}
     if(d.so){const tx=dataCurta(d.iso)+(d.iso.slice(0,4)!==ano?" de "+d.iso.slice(0,4):"");if(tx&&tx!==t.textContent){t.textContent=tx;mudou=true}}
     if(!t.hasAttribute("datetime")){t.setAttribute("datetime",d.iso);mudou=true}});
   if(!mudou)return h;
@@ -13816,7 +13818,10 @@ function rc116AvisoCapa(){try{const c=document.getElementById("v-capa");if(!c)re
 /* ===== C05: datas da linha do tempo ===== */
 function rc116Data(q,hoje){const s=String(q||"");const m=s.match(/(?:^|[^\d])(\d{1,2})º?\/(\d{1,2})(?:\/(\d{4}))?(?!\d)/);if(!m)return null;const d=+m[1],mm=+m[2];if(!d||d>31||!mm||mm>12)return null;
   let y=m[3]?+m[3]:+hoje.slice(0,4);if(!m[3]){const hm=+hoje.slice(5,7);if(hm>=11&&mm<=2)y++;else if(hm<=2&&mm>=11)y--}
-  return {iso:`${y}-${String(mm).padStart(2,"0")}-${String(d).padStart(2,"0")}`,so:/^\s*\d{1,2}º?\/\d{1,2}(?:\/\d{4})?\s*$/.test(s)}}
+  /* 18/11: período ("16 a 20/11", "15 e 16/12"): ini é o 1º dia; um período que já começou não é futuro */
+  const r=s.match(/(?:^|[^\d])(\d{1,2})º?\s*(?:a|e|-|–|até)\s*\d{1,2}º?\/\d{1,2}/i),di=r?+r[1]:0;
+  const iso=`${y}-${String(mm).padStart(2,"0")}-${String(d).padStart(2,"0")}`,ini=di&&di<d?`${y}-${String(mm).padStart(2,"0")}-${String(di).padStart(2,"0")}`:"";
+  return {iso,ini,so:/^\s*\d{1,2}º?\/\d{1,2}(?:\/\d{4})?\s*$/.test(s)}}
 /* ---------- 117: ajustes da Capa e do Relato (03/11) ----------
    1. Aviso de atraso da Capa: não pisca mais na abertura. A correção está na origem (024, 027 e 028): o aviso só é desenhado depois que a
       edição da rede e o rodadas.json chegaram (AVISO_FEED_OK / AVISO_ROD_OK), e entra uma vez só, se o atraso for de verdade (avisoAtrasoDepois).
