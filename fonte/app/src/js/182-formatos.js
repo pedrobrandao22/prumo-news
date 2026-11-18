@@ -76,6 +76,3 @@ function ft182Linha(p){let l=[];try{l=mt158Lista(p)}catch(e){l=(p.fontes||[]).ma
   let es=[];try{es=l.map(v=>mt158Esp(v.k)).filter(Boolean)}catch(e){}const f=ft182Faixa(es);
   return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${f?" · "+f:""}`}
 coberturaTxt=function(p){return ft182Linha(p)||"Quem noticiou"};
-/* a barra do espectro fica na folha com a lista completa */
-{const _ac182=abrirCobertura;abrirCobertura=function(pid){const r=_ac182.apply(this,arguments);try{const p=pautaById(pid),h=document.querySelector(".sheet h4.cv-t");
-    if(p&&h&&!document.querySelector(".sheet .ft182-sp")){const s=ft182Esp0(p);if(s)h.insertAdjacentHTML("beforebegin",`<div class="ft182-sp">${s}</div>`)}}catch(e){}return r}}

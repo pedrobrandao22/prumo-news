@@ -154,23 +154,6 @@ function cobLinha(p){const it=[];const tt=p.titulos||[];
   return it.length?`<ol class="pct">${it.map(i=>`<li class="${i.c}"><small>${esc(i.k)} · ${esc(cobDH(i.h))}</small>${i.b?`<b>${esc(i.x)}</b>`:`<span>${esc(i.x)}</span>`}</li>`).join("")}</ol>`:""}
 function cobEtapas(p){const e=p.etapa;if(!e||!Array.isArray(e.passos)||e.passos.length<2)return "";const a=Math.max(0,Math.min(e.passos.length-1,e.atual|0));
   return `<ol class="etp" aria-label="Etapas">${e.passos.map((x,i)=>`<li class="${i<a?"ok":i===a?"ok at":""}"${i===a?' aria-current="step"':""}>${esc(x)}</li>`).join("")}</ol>`}
-function abrirPagCob(pid){uso("pag_cobertura");const p=pautaById(pid);if(!p){abrirDormente(pid);return}
-  const sec=secOf(p),n=p.neutro||{},tema=temaDe(p),seg=seguido(p),ult=ultimaAtualizacao(p)||p.hora,fs=p.fontes||[];
-  const ex=(FEED.explicadores||{})[tema];
-  sheet(p.tag||"Cobertura",`<div class="pc" data-pc="${esc(pid)}">${fotoDe(p)?capaArte(p,"art pc-foto",true):""}
-    <div class="pc-k"><span class="secdot" style="background:${secCor(sec)}"></span>${esc(secNome(sec))}${p.subtema?" · "+esc(p.subtema):""}</div>
-    <h2>${esc(n.titulo)}</h2>
-    <div class="pc-m">${cobStatus(p,true)}<span>${p.inicio?"Acompanhando desde "+esc(cobSP(p.inicio))+" · ":""}atualizada ${esc(quando(ult))}</span></div>
-    ${cobEtapas(p)}
-    <div class="pc-a">${tema?`<button type="button" class="btn${seg?" ghost":""}" data-cobseg="${esc(pid)}" aria-pressed="${seg}">${seg?"Seguindo ✓":"Seguir cobertura"}</button>`:""}<button type="button" class="btn ghost" data-cobler="${esc(pid)}">Ler a notícia</button></div>
-    <h4>Resumo</h4><p class="lead">${marcarTermos(n.texto||"")}</p>
-    ${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}
-    ${(p.faq||[]).length?`<h4>Entenda</h4><div class="faq">${p.faq.filter(q=>q&&q.p).map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(q.r||"")}</p></details>`).join("")}</div>`:""}
-    ${ex?`<button type="button" class="explain" data-explica="${esc(tema)}">Entenda: ${esc(tema)}</button>`:""}
-    ${cobLinha(p)?`<h4>Linha do tempo</h4>${cobLinha(p)}`:""}
-    ${fs.length?`<button type="button" class="cobx2 cobx2-d" data-cobfontes="${esc(pid)}"><span>Fontes</span><span class="chev" aria-hidden="true">›</span></button>`:""}
-    ${seg?`<p class="hint" style="margin:0">Você segue “${esc(tema)}”: ela sobe no feed e aparece em “Do que você segue”.</p>`:`<p class="hint" style="margin:0">Ao seguir, esta cobertura sobe no seu feed e aparece em “Do que você segue”, no topo.</p>`}
-  </div>`)}
 function abrirDormente(id){const d=(FEED.dormentes||[]).find(x=>x.id===id);if(!d){toast("Esta cobertura não está mais disponível.");return}uso("dormente");
   const tk=norm(d.tema||d.tag||""),seg=!!(PREF.seguindo||{})[tk];const tt=Array.isArray(d.titulos)?d.titulos:[];
   sheet("Cobertura anterior",`<div class="pc"><div class="pc-k"><span class="secdot" style="background:${secCor(d.secao||"politica")}"></span>${esc(secNome(d.secao||"politica"))}${d.subtema?" · "+esc(d.subtema):""}</div>
@@ -331,13 +314,6 @@ function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==se
     if(cf.length)h+=`<div class="sh4-b"><h5>Conflitos e crises</h5><div class="sh4-cf">${cf.map(p=>`<button type="button" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${esc(p.subtema||"")}${(FEED.explicadores||{})[temaDe(p)]?" · Entenda":""}${p.e_o_brasil?" · E o Brasil?":""}</span></button>`).join("")}</div></div>`}
   return h+`</div>`}
 function srvHTML(p){return `<ul class="sh4-srv">${(p.servicos||[]).filter(x=>x&&x.texto).slice(0,6).map(x=>`<li>${esc(x.texto)}${x.url?` · <a href="${escU(x.url)}" target="_blank" rel="noopener">abrir ›</a>`:""}</li>`).join("")}</ul>`}
-/* página da cobertura: O essencial (ao vivo), E o Brasil?, Serviços */
-(function(){const ant=abrirPagCob;abrirPagCob=function(pid){ant(pid);const p=pautaById(pid);const box=document.querySelector(".sheet .pc[data-pc]");if(!p||!box)return;
-  const ess=(Array.isArray(p.essencial)?p.essencial:[]).filter(Boolean).slice(0,3);const meta=box.querySelector(".pc-m"),et=box.querySelector(".etp");
-  if(ess.length&&p.status==="ao_vivo")(et||meta).insertAdjacentHTML("afterend",`<div class="pc-ess"><h4>O essencial</h4><ul>${ess.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`);
-  const res=[...box.querySelectorAll("h4")].find(x=>x.textContent==="Resumo");const lead=res&&res.nextElementSibling;
-  let extra="";if(Array.isArray(p.servicos)&&p.servicos.length)extra+=`<h4>Serviços e como ajudar</h4>${srvHTML(p)}`;
-  if(extra&&lead)lead.insertAdjacentHTML("afterend",extra)}})();
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const sb=t.closest("[data-secsub]");if(sb){e.stopPropagation();SECF={sec:FILTRO,sub:sb.dataset.secsub,uf:SECF.sec===FILTRO?SECF.uf:""};renderPosts();uso("secsub");return}
   const su=t.closest("[data-secuf]");if(su){e.stopPropagation();SECF={sec:FILTRO,sub:SECF.sec===FILTRO?SECF.sub:"",uf:su.dataset.secuf};renderPosts();uso("secuf");return}

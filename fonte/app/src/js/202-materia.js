@@ -2,9 +2,10 @@
    Antes: abrirMateria definida no 031 e remendada em 034, 036, 038, 059, 063, 105, 111, 113, 119, 120, 158, 168, 182 e 186;
    matIr (033, trocada no 034, remendada em 063 e 168); matProx (033 + 063); matTempo (033 + 104, 116, 144);
    matVisuais (033 + 118); f113Caps (113 + 118, 143); f113CapVai/f113CapAtual/f113CapMarca (113 + 158, 168);
-   fc105Mat (105 + 106). Aqui cada uma é a versão final, com o que a cadeia fazia (nada muda para quem usa).
+   fc105Mat (105 + 106); abrirCobertura, a folha "Quem noticiou" (008, trocada no 158, + 168, 182); abrirPagCob, a página
+   da cobertura (031 + 031, 089, 126, 158, 168, 183). Aqui cada uma é a versão final, com o que a cadeia fazia (nada muda para quem usa).
    Ficam onde estão os auxiliares sem remendo (matDesfecho, matCorBloco, matRel, matProgresso, htNaMateria, mt158*,
-   cm168*, ft182Linha, po118*, mc143NomeTl, mc1111Tempo, rc116Data…), as variáveis (MAT_PID, MAT_ORIG, MT158_CAPTAP,
+   cm168*, ft182Linha/ft182Esp0, po118*, mc143NomeTl, mc1111Tempo, rc116Data, cb183Pinta, qb126MarcaDepois…), as variáveis (MAT_PID, MAT_ORIG, MT158_CAPTAP,
    CM168_PILHA, F113_IO…) e os remendos de outras áreas (closeLayer, go). Só declarações function: a posição no
    pagina.html não importa para quem chama (içadas). Prefixo de nomes novos: mt202. */
 
@@ -182,3 +183,75 @@ function fc105Mat(pid){(()=>{const m=$("#layer .mat");if(!m||m.querySelector(".f
   ref.insertAdjacentHTML("beforebegin",`<div class="fc105-mc gut"><p><b>O que você acha?</b> Comente esta notícia com seus amigos.</p><div class="fc105-mcb"><button type="button" class="btn" data-cn102envp="${esc(pid)}">${fc105Svg(CN102_ICO.ana)}Publicar comentário</button><button type="button" class="btn ghost" data-cn102envs="${esc(pid)}">${fc105Svg(CN102_ICO.story)}No giro</button></div></div>`)})();
   /* 106: o ícone de comentar */
   try{const b=$("#layer .fc105-mc [data-cn102envp] .cn102-i");if(b)b.innerHTML=ICON.cmt.replace(/^<svg[^>]*>|<\/svg>$/g,"")}catch(e){}}
+
+/* ===== "Quem noticiou" (a folha da linha "Noticiado por") =====
+   Antes: 008 (anulada pela troca do 158), 158, 168 e 182. */
+function abrirCobertura(pid){(()=>{uso("cobertura");const p=pautaById(pid);if(!p)return;const c=p.checagem;
+  const lista=mt158Lista(p),ids=new Set(lista.map(v=>v.id));
+  const linha=v=>{const sp=mt158Esp(v.k),l=v.links[0];
+    return `<li><div class="cv-h"><b>${esc(mt158Nome(v.k))}</b>${sp?`<span class="cv-e"><i style="background:${ESPECTRO_COR[sp]}"></i>${esc(ESPECTRO_NOME[sp])}</span>`:""}</div>${v.enq.map(d=>`<p>${esc(d)}</p>`).join("")}${!v.enq.length&&v.cit?`<p>Citado no quadro acima.</p>`:""}${l?`<a href="${escU(l.url)}" target="_blank" rel="noopener">Ler a matéria ›</a>`:""}</li>`};
+  const vistos=new Set(),fora=REGUA().filter(k=>{const id=mt158Id(k);if(ids.has(id)||vistos.has(id))return false;vistos.add(id);return true});
+  sheet("Quem noticiou",`${c?`<div class="cv-box">${selo(p,false)}<p>${esc(mt158TextoQuadro(c.texto||(c.status==="divergencia"?"Os veículos trazem números diferentes.":"Os números principais batem em mais de um veículo.")))}</p></div>`:`<p class="hint" style="margin:0">Esta notícia não tem número principal para conferir, por isso não leva selo.</p>`}
+    <h4 class="cv-t">Noticiaram (${lista.length})</h4><ul class="cvl">${lista.map(linha).join("")}</ul>
+    ${fora.length?`<h4 class="cv-t">Não encontramos em</h4><p class="hint" style="margin:0">${fora.map(k=>esc(mt158Nome(k))).join(", ")}</p>`:""}
+    <p class="hint">O selo <b>No prumo</b> aparece quando os números principais da notícia batem em dois ou mais veículos. Quando não batem, aparece <b>Veículos divergem</b> e o texto acima diz quem publicou o quê. A posição de cada veículo no espectro é aproximada; veículo sem etiqueta ainda não foi classificado.</p>`)})();
+  /* 168: um resumo por veículo, "Antes de…" no resumo vencido e "Também noticiaram" sem link */
+  (()=>{try{const p=pautaById(pid),ul=document.querySelector(".sheet .cvl");if(!p||!ul||ul.dataset.cm168)return;ul.dataset.cm168="1";
+    const lista=mt158Lista(p),por={};lista.forEach(v=>por[mt158Nome(v.k)]=v);const tambem=[];
+    [...ul.children].forEach(li=>{const nome=((li.querySelector(".cv-h b"))||{}).textContent||"",v=por[nome];const ps=[...li.querySelectorAll(":scope>p")];
+      /* um resumo por veículo: o mais novo (o robô acrescenta no fim) */
+      if(ps.length>1)ps.slice(0,-1).forEach(x=>x.remove());const pr=li.querySelector(":scope>p");
+      if(pr&&!/^Citado no quadro/.test(pr.textContent)){const ve=cm168ResumoVelho(pr.textContent);if(ve)pr.insertAdjacentHTML("afterbegin",`<small class="cm168-antes">Antes de ${esc(ve)} · </small>`)}
+      const a=li.querySelector("a");
+      if(!pr&&v&&v.links&&v.links[0]&&v.links[0].titulo)li.querySelector(".cv-h").insertAdjacentHTML("afterend",`<p class="cm168-man">“${esc(v.links[0].titulo)}”</p>`);
+      else if(!pr&&!a){tambem.push(li)}});
+    if(tambem.length){const nomes=tambem.map(li=>((li.querySelector(".cv-h b"))||{}).textContent||"").filter(Boolean);tambem.forEach(li=>li.remove());
+      ul.insertAdjacentHTML("afterend",`<p class="hint cm168-tb"><b>Também noticiaram</b> (sem link nesta edição): ${nomes.map(esc).join(", ")}</p>`)}}catch(e){}})();
+  /* 182: a barra do espectro fica na folha */
+  {try{const p=pautaById(pid),h=document.querySelector(".sheet h4.cv-t");
+    if(p&&h&&!document.querySelector(".sheet .ft182-sp")){const s=ft182Esp0(p);if(s)h.insertAdjacentHTML("beforebegin",`<div class="ft182-sp">${s}</div>`)}}catch(e){}}}
+
+/* ===== página da cobertura =====
+   Antes: 031 (+ remendo no próprio 031), 089, 126, 158, 168 e 183. */
+function abrirPagCob(pid){
+  /* 158: atualizações quase iguais viram uma só também na linha do tempo da cobertura (só durante o desenho) */
+  const p=pautaById(pid);const ups=p&&p.atualizacoes;if(p&&Array.isArray(ups))p.atualizacoes=mt158Ups(ups);
+  try{
+    (()=>{uso("pag_cobertura");const p=pautaById(pid);if(!p){abrirDormente(pid);return}
+  const sec=secOf(p),n=p.neutro||{},tema=temaDe(p),seg=seguido(p),ult=ultimaAtualizacao(p)||p.hora,fs=p.fontes||[];
+  const ex=(FEED.explicadores||{})[tema];
+  sheet(p.tag||"Cobertura",`<div class="pc" data-pc="${esc(pid)}">${fotoDe(p)?capaArte(p,"art pc-foto",true):""}
+    <div class="pc-k"><span class="secdot" style="background:${secCor(sec)}"></span>${esc(secNome(sec))}${p.subtema?" · "+esc(p.subtema):""}</div>
+    <h2>${esc(n.titulo)}</h2>
+    <div class="pc-m">${cobStatus(p,true)}<span>${p.inicio?"Acompanhando desde "+esc(cobSP(p.inicio))+" · ":""}atualizada ${esc(quando(ult))}</span></div>
+    ${cobEtapas(p)}
+    <div class="pc-a">${tema?`<button type="button" class="btn${seg?" ghost":""}" data-cobseg="${esc(pid)}" aria-pressed="${seg}">${seg?"Seguindo ✓":"Seguir cobertura"}</button>`:""}<button type="button" class="btn ghost" data-cobler="${esc(pid)}">Ler a notícia</button></div>
+    <h4>Resumo</h4><p class="lead">${marcarTermos(n.texto||"")}</p>
+    ${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}
+    ${(p.faq||[]).length?`<h4>Entenda</h4><div class="faq">${p.faq.filter(q=>q&&q.p).map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(q.r||"")}</p></details>`).join("")}</div>`:""}
+    ${ex?`<button type="button" class="explain" data-explica="${esc(tema)}">Entenda: ${esc(tema)}</button>`:""}
+    ${cobLinha(p)?`<h4>Linha do tempo</h4>${cobLinha(p)}`:""}
+    ${fs.length?`<button type="button" class="cobx2 cobx2-d" data-cobfontes="${esc(pid)}"><span>Fontes</span><span class="chev" aria-hidden="true">›</span></button>`:""}
+    ${seg?`<p class="hint" style="margin:0">Você segue “${esc(tema)}”: ela sobe no feed e aparece em “Do que você segue”.</p>`:`<p class="hint" style="margin:0">Ao seguir, esta cobertura sobe no seu feed e aparece em “Do que você segue”, no topo.</p>`}
+  </div>`)})();
+    /* 031: O essencial (ao vivo) e Serviços */
+    (()=>{const p=pautaById(pid);const box=document.querySelector(".sheet .pc[data-pc]");if(!p||!box)return;
+  const ess=(Array.isArray(p.essencial)?p.essencial:[]).filter(Boolean).slice(0,3);const meta=box.querySelector(".pc-m"),et=box.querySelector(".etp");
+  if(ess.length&&p.status==="ao_vivo")(et||meta).insertAdjacentHTML("afterend",`<div class="pc-ess"><h4>O essencial</h4><ul>${ess.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`);
+  const res=[...box.querySelectorAll("h4")].find(x=>x.textContent==="Resumo");const lead=res&&res.nextElementSibling;
+  let extra="";if(Array.isArray(p.servicos)&&p.servicos.length)extra+=`<h4>Serviços e como ajudar</h4>${srvHTML(p)}`;
+  if(extra&&lead)lead.insertAdjacentHTML("afterend",extra)})();
+    /* 089: "Tudo sobre <assunto>" */
+    {try{const p=pautaById(pid);const k=document.querySelector(".sheet .pc[data-pc] .pc-k");
+  if(p&&p.subtema&&k&&!k.querySelector("[data-assunto]")&&asNorm(($("#layer .pfv-as")||{dataset:{}}).dataset.sub)!==asNorm(p.subtema)){const n=asDados(p.subtema);const tot=n?n.agora.length+n.antes.length:0;
+    if(tot>1)k.insertAdjacentHTML("afterend",`<button type="button" class="as-link" data-assunto="${esc(p.subtema)}">Tudo sobre ${esc(p.subtema)} <span>${tot} histórias ›</span></button>`)}}catch(e){}}
+    /* 126: a novidade da cobertura conta como vista */
+    {try{if(pid)qb126MarcaDepois(x=>String(x.k).indexOf("cob:"+pid+":")===0)}catch(e){}}
+  }finally{if(p&&Array.isArray(ups))p.atualizacoes=ups}
+  /* 158: "Cobertura desde" e o título do tema */
+  {try{if(p){const tema=temaDe(p);if(tema)mt158Titulo(tema);const m=document.querySelector(".sheet .pc[data-pc] .pc-m span:not(.cst)");if(m)m.innerHTML=m.innerHTML.replace("Acompanhando desde","Cobertura desde")}}catch(e){}}
+  /* 168: assunto como link e a nota do "O que vem" */
+  {try{cm168AsLink();const p=pautaById(pid),n=document.querySelector(".sheet .pc[data-pc] .note");
+    if(p&&n&&/^O que vem/.test((n.querySelector("b")||{}).textContent||""))cm168VemNota(n,p)}catch(e){}}
+  /* 183: fim, encerrada e o interruptor de avisos */
+  {try{cb183Pinta(pid)}catch(e){}}}

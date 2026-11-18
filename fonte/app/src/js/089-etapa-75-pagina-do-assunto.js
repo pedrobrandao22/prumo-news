@@ -27,9 +27,6 @@ function asDesenha(){const el=$("#layer .pfv-as");if(!el)return;const d=asDados(
 function abrirAssunto(sub){if(!sub||!FEED)return;uso("assunto");if($("#layer").innerHTML)closeLayer();
   $("#layer").innerHTML=`<div class="pfv pfv-as" role="dialog" aria-modal="true" aria-label="${esc(sub)}" data-sub="${esc(sub)}"></div>`;if(pushH())HST++;asDesenha()}
 /* entrada: o assunto no topo da página da cobertura vira um link */
-{const _pc75=abrirPagCob;abrirPagCob=function(pid){const r=_pc75.apply(this,arguments);try{const p=pautaById(pid);const k=document.querySelector(".sheet .pc[data-pc] .pc-k");
-  if(p&&p.subtema&&k&&!k.querySelector("[data-assunto]")&&asNorm(($("#layer .pfv-as")||{dataset:{}}).dataset.sub)!==asNorm(p.subtema)){const n=asDados(p.subtema);const tot=n?n.agora.length+n.antes.length:0;
-    if(tot>1)k.insertAdjacentHTML("afterend",`<button type="button" class="as-link" data-assunto="${esc(p.subtema)}">Tudo sobre ${esc(p.subtema)} <span>${tot} histórias ›</span></button>`)}}catch(e){}return r}}
 {const _ad75=abrirDormente;abrirDormente=function(id){const r=_ad75.apply(this,arguments);try{const d=(FEED.dormentes||[]).find(x=>x.id===id);const b=document.querySelector(".sheet .sh-b");
   if(d&&d.subtema&&b&&!b.querySelector("[data-assunto]")&&asNorm(($("#layer .pfv-as")||{dataset:{}}).dataset.sub)!==asNorm(d.subtema)){const n=asDados(d.subtema);const tot=n?n.agora.length+n.antes.length:0;
     if(tot>1)b.insertAdjacentHTML("afterbegin",`<button type="button" class="as-link" data-assunto="${esc(d.subtema)}">Tudo sobre ${esc(d.subtema)} <span>${tot} histórias ›</span></button>`)}}catch(e){}return r}}
