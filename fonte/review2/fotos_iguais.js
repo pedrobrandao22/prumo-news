@@ -350,9 +350,10 @@ async function tirar(PASTA, area, porta) {
   const U = require('../t_util');
   U.servir(SITE, porta); await U.sleep(800);
   fs.mkdirSync(PASTA, { recursive: true });
-  if (!process.env.TELAS) for (const f of fs.readdirSync(PASTA)) if (f.startsWith(area + '-') && f.endsWith('.png')) fs.rmSync(path.join(PASTA, f));
+  if (!process.env.TELAS && !process.env.APARELHO && !process.env.TEMA) for (const f of fs.readdirSync(PASTA)) if (f.startsWith(area + '-') && f.endsWith('.png')) fs.rmSync(path.join(PASTA, f));
   const b = await U.navegador(); let n = 0; const erros = [];
   for (const ap of APARELHOS) for (const tema of TEMAS) for (const [tela, fn] of Object.entries(telas)) { if (process.env.TELAS && !process.env.TELAS.split(',').includes(tela)) continue;
+    if ((process.env.APARELHO && process.env.APARELHO !== ap.nome) || (process.env.TEMA && process.env.TEMA !== tema)) continue;  // APARELHO=i13 TEMA=claro: só um par
     const ctx = await b.newContext({ viewport: { width: ap.w, height: ap.h }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, colorScheme: tema === 'escuro' ? 'dark' : 'light', locale: 'pt-BR', timezoneId: 'America/Sao_Paulo' });
     await ctx.route(u => !/^https?:\/\/localhost[:/]/.test(u.toString()), r => r.abort());
     await ctx.addInitScript(([agora, ind]) => {
