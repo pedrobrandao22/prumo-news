@@ -5,7 +5,7 @@
    fc105Mat (105 + 106); abrirCobertura, a folha "Quem noticiou" (008, trocada no 158, + 168, 182); abrirPagCob, a página
    da cobertura (031 + 031, 089, 126, 158, 168, 183). Aqui cada uma é a versão final, com o que a cadeia fazia (nada muda para quem usa).
    Ficam onde estão os auxiliares sem remendo (matDesfecho, matCorBloco, matRel, matProgresso, htNaMateria, mt158*,
-   cm168*, ft182Linha/ft182Esp0, po118*, mc143NomeTl, mc1111Tempo, rc116Data, cb183Pinta, qb126MarcaDepois…), as variáveis (MAT_PID, MAT_ORIG, MT158_CAPTAP,
+   cm168*, ft182Linha/ft182Esp0, po118*, mc1111Tempo, rc116Data, cb183Pinta, qb126MarcaDepois…), as variáveis (MAT_PID, MAT_ORIG, MT158_CAPTAP,
    CM168_PILHA, F113_IO…) e os remendos de outras áreas (closeLayer, go). Só declarações function: a posição no
    pagina.html não importa para quem chama (içadas). Prefixo de nomes novos: mt202. */
 
@@ -157,6 +157,12 @@ function f113Caps(){(()=>{if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO
   if(!m.__f113s){m.__f113s=1;let pend=0;m.addEventListener("scroll",()=>{if(pend)return;pend=requestAnimationFrame(()=>{pend=0;f113CapAtual()})},{passive:true})}})();
   /* 118: o bloco do placar ganha o nome certo; 143: o capítulo da linha do tempo leva o nome da seção */
   try{po118Caps()}catch(e){}try{mc143NomeTl()}catch(e){}}
+/* 143: o capítulo da linha do tempo no "Nesta matéria" leva o mesmo nome da seção
+   ("Como a história andou" ou o título próprio da linha do tempo), em vez do fixo "Linha do tempo". */
+function mc143NomeTl(){const m=$("#layer .mat");if(!m)return;const tl=m.querySelector(".mat-tl.fs2-alvo");if(!tl||!tl.id)return;
+  const bt=m.querySelector(`.fs2-cap-b[aria-controls="${tl.id}"]`);if(!bt)return;
+  const b=tl.querySelector(":scope > b"),nome=((b&&b.textContent)||"").replace(/\s+/g," ").trim();
+  const t=[...bt.childNodes].filter(n=>n.nodeType===3).pop();if(t&&nome.length>=3&&nome.length<=32)t.textContent=nome}
 function f113CapVai(i){/* 158: o capítulo tocado fica marcado até a pessoa rolar */
   MT158_CAPTAP=null;try{const m=$("#layer .mat"),el=m&&m.querySelector("#fs2c-"+i);if(el){const y=el.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop-f113Off(m);
   MT158_CAPTAP={i:+i,t:Date.now(),s0:m.scrollTop,y:Math.max(0,Math.min(y,m.scrollHeight-m.clientHeight))}}}catch(e){}
