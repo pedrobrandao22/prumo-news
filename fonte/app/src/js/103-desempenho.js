@@ -17,5 +17,4 @@ if(typeof RF_REAL==="function"){const _rf102=RF_REAL;RF_REAL=function(){if(VIEW!
   const rc=renderCapa;renderCapa=function(){if(!document.querySelector("#v-capa .cpi")||capaSig()!==CAPA_SIG)return rc.apply(this,arguments)};
   try{return _rf102.apply(this,arguments)}finally{renderCapa=rc}}}
 /* 4. Capa e Feed já mostrados uma vez ficam montados quando escondidos (ver css/18-desempenho.css): trocar de aba fica leve */
-{const _go102=go;go=function(v){const r=_go102.apply(this,arguments);try{const s=(v==="feed"||v==="capa")&&document.getElementById("v-"+v);if(s&&!s.classList.contains("cv-pronto"))requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add("cv-pronto")))}catch(e){}return r}}
 if(VIEW==="capa"||VIEW==="feed"){const s=document.getElementById("v-"+VIEW);if(s)requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add("cv-pronto")))}

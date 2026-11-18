@@ -126,13 +126,6 @@ document.addEventListener("input",e=>{const t=e.target;if(!ED||!t.closest)return
   if(r=t.closest("#layer [data-edalt]")){const x=P.fotos[+r.dataset.edalt];if(x)x.alt=r.value;return}},true);
 document.addEventListener("change",e=>{const r=e.target.closest&&e.target.closest("#layer [data-edsw]");if(!r||!ED)return;ED.po[r.dataset.edsw]=r.checked},true);
 /* no Feed: marcas na foto, texto alternativo, sem comentários, curtidas ocultas */
-{const _pp62=pubPostHTML;pubPostHTML=function(x){const h=_pp62.apply(this,arguments);const es=x.estilo||{};if(es.v!==2||!(es.tags&&es.tags.length||es.alt||es.semCom||es.semCurt))return h;
-  try{const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a)return h;
-    if(es.semCom)a.classList.add("sem-com");if(es.semCurt&&x.autor!==S.uid)a.classList.add("sem-curt");
-    const sl=[...a.querySelectorAll(".track > .up-sl")].slice(0,x.fotos.length);
-    sl.forEach((s,i)=>{const im=s.querySelector("img.up-img");if(im&&es.alt&&es.alt[i])im.alt=es.alt[i];const ts=(es.tags||[]).filter(t=>t.i===i&&(S.membros&&S.membros[t.u]||S.amigos.has(t.u)||t.u===S.uid));
-      if(ts.length){s.insertAdjacentHTML("beforeend",`<button type="button" class="up-tgb" data-uptags aria-label="Ver quem está marcado">👤</button>${ts.map(t=>`<span class="up-tg" style="--tx:${t.x<.22?"-12%":t.x>.78?"-88%":"-50%"};--ty:${t.y>.82?"calc(-100% - 8px)":"8px"};left:${Math.max(5,Math.min(95,t.x*100))}%;top:${Math.max(5,Math.min(95,t.y*100))}%">${esc(nomeDe(t.u))}</span>`).join("")}`)}});
-    return a.outerHTML}catch(e){return h}}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;const b=t.closest(".upost [data-uptags]");if(b){e.stopPropagation();e.preventDefault();b.closest(".upost").classList.toggle("tags-on");return}
   if(t.closest(".upost.sem-com [data-a='cmt']")){e.stopPropagation();e.preventDefault();toast("Os comentários deste post estão desativados.")}},true);
 

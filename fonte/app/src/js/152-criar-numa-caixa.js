@@ -88,7 +88,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   if(b=t.closest("[data-cp152rasc]")){pare();const d=cp152Rascs().find(r=>r.rid===b.dataset.cp152rasc);if(d)ed132Abre(ed132DoRasc(d));return}
 },true);
 /* fechar pelo "voltar" do celular */
-{const _cl152=closeLayer;closeLayer=function(fromPop){if(fromPop===true&&$("#layer > .cp152")&&CP152.txt.trim()&&!$("#layer2")?.innerHTML){/* guarda o texto: abrir de novo traz de volta */CP152.guardado=CP152.txt}return _cl152.apply(this,arguments)}}
 
 /* ===== formulários abertos pela caixa: sem a faixa de tipos repetida ===== */
 {const _cd152=cn102Det;cn102Det=function(el){const r=_cd152.apply(this,arguments);try{if(CP152.veio){const ks=el.querySelector(".cn102-ks");if(ks)ks.hidden=true}}catch(e){}return r}}

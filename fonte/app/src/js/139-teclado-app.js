@@ -102,7 +102,6 @@ function tc139F16Tudo(){if(!tc139Coarse())return;cancelAnimationFrame(TC139.f16)
 /* no toque, antes do foco (vale também para campos fora das camadas) */
 document.addEventListener("touchstart",e=>{const t=e.target;if(!t||!t.closest)return;const l=t.closest("label");const f=tc139Campo(t)?t:(l?l.querySelector(TC139_CAMPO):null);if(f)tc139F16(f)},{passive:true,capture:true});
 if(document.readyState!=="loading")tc139F16Tudo();else document.addEventListener("DOMContentLoaded",tc139F16Tudo);
-{const _g=typeof go==="function"?go:null;if(_g)go=function(){const r=_g.apply(this,arguments);try{tc139F16Tudo()}catch(e){}return r}}
 
 /* ===== TC06: tocar em enviar/publicar e nas ferramentas do texto não fecha o teclado ===== */
 ["pointerdown","mousedown"].forEach(k=>document.addEventListener(k,e=>{const f=tc139Ativo(),t=e.target;if(!f||!t||!t.closest||f.closest("#layer > .ed132"))return;

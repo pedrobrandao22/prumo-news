@@ -6,10 +6,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 var VOLTA_DE=null;
 function vbackAjusta(){const n={capa:"Capa",feed:"Feed",busca:"Busca",msgs:"Conversas"}[VOLTA_DE];if(!n)return;
   ["#v-play","#v-saved"].forEach(s=>{const b=document.querySelector(s+" .vback");if(b){b.textContent="‹ "+n;b.dataset.vgo=VOLTA_DE;b.setAttribute("aria-label","Voltar para "+n)}})}
-{const _go104=go;go=function(v,fromPop){const de=VIEW;
-  if(v==="play"||v==="saved"){if(!fromPop&&de!==v&&de!=="play"&&de!=="saved")VOLTA_DE=de==="me"?null:de}else VOLTA_DE=null;
-  if(v==="capa"&&window.FILTRO_CAPA){window.FILTRO_CAPA=0;if(FILTRO!=="tudo"){FILTRO="tudo";ssSet("radar-filtro",FILTRO);try{renderSecs();renderPosts()}catch(e){}}}
-  const r=_go104.apply(this,arguments);try{vbackAjusta()}catch(e){}return r}}
 {const _rp104=renderPlay;renderPlay=function(){const r=_rp104.apply(this,arguments);try{vbackAjusta()}catch(e){}return r}}
 {const _rs104=renderSaved;renderSaved=function(){const r=_rs104.apply(this,arguments);try{vbackAjusta()}catch(e){}return r}}
 /* Perfil: depois de sair da conta, a tela volta ao topo (onde está o "Entrar") */

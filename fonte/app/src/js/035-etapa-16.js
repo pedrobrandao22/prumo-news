@@ -3,7 +3,6 @@
 var FEED_ADIADO=!!window.__feedAdiado,RF_REAL=renderFeed;
 if(FEED_ADIADO){const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}
 renderFeed=function(){if(VIEW!=="feed"&&FEED&&document.querySelector("#v-capa .cpi")){if(VIEW==="capa"){try{renderCapa()}catch(e){}}FEED_ADIADO=true;if(!renderFeed._t){const f=()=>{renderFeed._t=0;if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};renderFeed._t=window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}return}FEED_ADIADO=false;return RF_REAL.apply(this,arguments)};
-(function(){const ant=go;go=function(v){if(v==="feed"&&FEED_ADIADO){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}return ant.apply(this,arguments)}})();
 /* eventos de uso, anônimos (sem conta, sem nome): aparelho = número aleatório guardado no aparelho */
 var EV_FILA=[],EV_OFF=false,EV_SESS=(function(){try{let s=localStorage.getItem("prumo-aparelho");if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("prumo-aparelho",s)}return s}catch(e){return "sem-"+Math.random().toString(36).slice(2)}})();
 function evento(tipo,pid,secao){if(EV_OFF||navigator.webdriver&&!window.__evTeste)return;EV_FILA.push({p_sessao:EV_SESS,p_tipo:tipo,p_pid:pid||null,p_secao:secao||null,p_origem:(matchMedia("(display-mode: standalone)").matches||navigator.standalone)?"app":"site"});clearTimeout(evento._t);evento._t=setTimeout(enviarEventos,1500)}

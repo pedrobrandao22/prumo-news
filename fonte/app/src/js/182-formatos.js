@@ -28,7 +28,6 @@ function ft182Limpa(f){try{if(!f||typeof f!=="object")return f;if(ft182Esc("quiz
 {const _sa182=sanear;sanear=function(){const r=_sa182.apply(this,arguments);return r?ft182Limpa(r):r}}
 if(typeof FEED!=="undefined"&&FEED){ft182Limpa(FEED);try{derivaQuiz();updatePlayBadge()}catch(e){}}
 /* a tela "Quiz e enquetes" não abre */
-{const _go182=go;go=function(v){const a=[...arguments];if(v==="play"&&ft182Esc("quiz")&&ft182Esc("enquete"))a[0]="capa";return _go182.apply(this,a)}}
 
 /* ===== 1b. posts antigos de Enquete, Número e De perto: viram post comum ===== */
 {const _de182=cn102De;cn102De=function(){const c=_de182.apply(this,arguments);return c&&FT182_CN[c.k]&&ft182Esc(FT182_CN[c.k])?null:c}}

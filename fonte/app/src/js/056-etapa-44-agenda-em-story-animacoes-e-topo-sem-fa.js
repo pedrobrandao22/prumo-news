@@ -77,9 +77,6 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
 {const _rs44=renderSecs;renderSecs=function(){const box=$("#secs");const x=box?box.scrollLeft:0;const r=_rs44.apply(this,arguments);if(!box)return r;
   try{const ag=box.querySelector("[data-igagenda]"),c5=box.querySelector("[data-5min]");if(ag){if(c5)c5.after(ag);else box.prepend(ag);ag.querySelector(".ig-r")?.classList.toggle("visto",agPaginas().every(p=>AG_VISTOS.has(p.chave)))}}catch(e){}
   box.scrollLeft=x;return r}}
-{const _cl44=closeLayer;closeLayer=function(){const sec=ST&&ST.sec,eraStory=!!$("#layer .story")&&!($("#layer2")?.innerHTML);const r=_cl44.apply(this,arguments);
-  if(eraStory&&sec&&VIEW==="feed"){const box=$("#secs");const sel=sec==="_5min"?"[data-5min]":sec==="_ult"?"[data-ultimas]":sec==="_ag"?"[data-igagenda]":`[data-sec-story="${CSS.escape(sec)}"]`;const b=box&&box.querySelector(sel);
-    if(b){const L=b.getBoundingClientRect().left-box.getBoundingClientRect().left+box.scrollLeft,want=Math.max(0,L-(box.clientWidth-b.offsetWidth)/2);if(Math.abs(box.scrollLeft-want)>8)box.scrollTo({left:want,behavior:REDUZ.matches?"auto":"smooth"})}}return r}}
 /* nada de faixa de novidades no Feed nem pílula: a edição nova entra quando a pessoa está no topo */
 mostrarPilula=function(){$("#pilula")?.remove()};
 function igAplicaNovo(){if(!NOVO)return;if((VIEW==="feed"||VIEW==="capa")&&scrollY<60&&!$("#layer").innerHTML)aplicarNovo(NOVO)}

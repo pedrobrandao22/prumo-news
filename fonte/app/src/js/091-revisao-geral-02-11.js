@@ -6,7 +6,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   if(t.closest("#layer [data-stfora]")){e.stopPropagation();e.preventDefault();toast("Esta notícia já saiu da edição do dia.");return}},true);
 /* quem está bloqueado some de Conversas e do contador */
 {const _am=allMsgs;allMsgs=function(){const bl=S.bloq||[];const l=_am.apply(this,arguments);return bl.length?l.filter(m=>!bl.includes(m.de===S.uid?m.para:m.de)):l}}
-{const _ub=updateBadge;updateBadge=function(){const r=_ub.apply(this,arguments);try{const bl=S.bloq||[];if(bl.length){const n=S.msgsIn.filter(m=>!m.lida&&!bl.includes(m.de)).length,b=$("#badge");if(b){b.hidden=!n;b.textContent=n>9?"9+":n}}}catch(e){}return r}}
 /* trocar de conta no mesmo aparelho: a curtida de story da conta anterior não fica marcada */
 {const _lc=limparLocalConta;limparLocalConta=function(){const r=_lc.apply(this,arguments);try{if(typeof US_CURTI!=="undefined")US_CURTI.clear()}catch(e){}return r}}
 /* curtida de story que não foi enviada não fica marcada */

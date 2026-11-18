@@ -24,8 +24,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const r=await _ia104.apply(this,arguments);if(p&&ST&&$("#layer .story"))ST._ret104=p.abre;return r}}
 {const _sl104=stLista;stLista=function(lista,i,nome,chave){const doArq=chave==="a"&&!!$("#layer .pfv-arq");const r=_sl104.apply(this,arguments);
   if(ST)ST._ret104=doArq&&ST.sec==="_u:~a"?()=>abrirArquivo():null;return r}}
-{const _cl104=closeLayer;closeLayer=function(){const ret=!!$("#layer .story")&&!$("#layer2").innerHTML&&ST&&ST._ret104;if(ret)ST._ret104=null;const r=_cl104.apply(this,arguments);
-  if(ret){const v=VIEW,th=typeof THREAD!=="undefined"?THREAD:null;setTimeout(()=>{try{if(VIEW===v&&(typeof THREAD==="undefined"||THREAD===th)&&!$("#layer").innerHTML&&!$("#layer2").innerHTML&&!ED&&S.uid)ret()}catch(e){}},420)}return r}}
 /* 4. miniaturas do Arquivo e do "Novo destaque": as figurinhas "vivas" (notícia, post compartilhado, enquete, pergunta…)
    não estão na imagem do story, então a miniatura ficava só com o fundo. Agora mostra um cartãozinho com o que é. */
 function ar104Rotulo(x){try{const it=(x&&x.estilo&&Array.isArray(x.estilo.itens)?x.estilo.itens:[]);

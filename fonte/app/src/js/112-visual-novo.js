@@ -49,7 +49,6 @@ function vn112RpHTML(h,x){const rp=vn112Rp(x);if(!rp||typeof h!=="string"||!h)re
   a.querySelector(".up-leg")?.remove();
   const sub=a.querySelector(".ph-sub");if(sub&&!tx)sub.insertAdjacentHTML("afterbegin",`<span class="vn-rpk">${VN112_IC.rp}repostou</span> · `);
   return a.outerHTML}
-{const _pp112=pubPostHTML;pubPostHTML=function(x){const h=_pp112.apply(this,arguments);try{return vn112RpHTML(h,x)}catch(e){return h}}}
 /* perfil em grade: o repost mostra o que foi citado */
 {const _pt112=pfTiles;pfTiles=function(l){let h=_pt112.apply(this,arguments);try{if(typeof h!=="string"||!(l||[]).some(vn112Rp))return h;const tp=document.createElement("template");tp.innerHTML=h;
   tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],rp=x&&vn112Rp(x),o=b.querySelector(".pf-tx");if(!rp||!o)return;const q=rp.k==="pauta"?pautaById(rp.id):vn112Pub(rp.id);
@@ -59,8 +58,6 @@ function vn112RpHTML(h,x){const rp=vn112Rp(x);if(!rp||typeof h!=="string"||!h)re
 function vn112AtRp(){const out=[];if(!S.uid)return out;const ag=Date.now();
   pubVisiveis().forEach(x=>{const rp=vn112Rp(x);if(!rp||rp.k!=="pub"||x.autor===S.uid||ag-x.at>30*864e5)return;const o=pubDe(rp.id);if(!o||o.autor!==S.uid)return;const com=!!String(x.texto||"").trim();
     out.push({k:"vn112:"+x.id,at:x.at,us:[x.autor],ic:"↻",txt:`<b>${esc(nomeDe(x.autor))}</b> repostou sua publicação${com?`: “${esc(vn112Curto(x.texto,80))}”`:""}`,pub:rp.id,acao:"vnrp",vnrp:x.id})});return out}
-{const _ai112=atItens;atItens=function(){const it=_ai112.apply(this,arguments);try{if(!Array.isArray(it))return it;const n=vn112AtRp();if(!n.length)return it;return it.concat(n).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){return it}}}
-{const _aa112=atAcao;atAcao=function(x){if(x&&x.acao==="vnrp"){const id=x.vnrp;if($("#layer .pfv-at"))closeLayer();setTimeout(()=>vn112AbrePub(id),320);return}return _aa112.apply(this,arguments)}}
 /* abre uma publicação (a citada ou o repost) numa camada, como no perfil */
 function vn112AbrePub(id){const x=pubVisiveis().find(y=>y.id===id)||vn112Pub(id);if(!x){toast("Esta publicação não está disponível para você (ou já foi apagada).");return}
   if($("#layer").innerHTML)closeLayer();PFV={u:x.autor,aba:"posts",modo:"posts",lista:[x],i:0,daGrade:false};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicação"></div>`;if(pushH())HST++;pfvDesenha()}
@@ -240,9 +237,6 @@ if(VISUAL_NOVO){
   {const _rs112=renderSecs;renderSecs=function(){const r=_rs112.apply(this,arguments);try{vn112Tiles()}catch(e){console.error(e)}return r}}
   /* post e notícia */
   if(VN112_CT)document.documentElement.classList.add("vn-c"+VN112_CT);
-  {const _pp112x=pubPostHTML;pubPostHTML=function(x){let h=_pp112x.apply(this,arguments);try{if(typeof h!=="string"||!h||!x||x.tipo!=="post")return h;
-    const a=vn112Tp(h);if(a){const r=vn112Rp(x);const alvo=r&&!String(x.texto||"").trim()?r:{k:"pub",id:x.id};vn112PoeRp(a,alvo.k,alvo.id);h=a.outerHTML}
-    return VN112_CT?vn112CtPub(h,x):h}catch(e){return h}}}
   {const _ps112=postSeguro;postSeguro=function(p){let h=_ps112.apply(this,arguments);try{if(typeof h==="string"&&h&&p&&!p.__pub&&pautaById(p.id)){const a=vn112Tp(h);if(a){vn112PoeRp(a,"pauta",p.id);return VN112_CT?vn112CtNt(a,p):a.outerHTML}return VN112_CT?vn112CtNt(h,p):h}
     /* 107 escreve o título do comentário único entre aspas duplas (sai "${esc(...)}" na tela); aqui sai o nome */
     if(typeof h==="string"&&p&&p.__fc107&&p.__pub&&h.indexOf("${esc(fc107Prim(x.autor))}")>=0)h=h.replace("${esc(fc107Prim(x.autor))}",esc(fc107Prim(p.__pub.autor)))}catch(e){}return h}}
@@ -250,14 +244,9 @@ if(VISUAL_NOVO){
   {const _ft112=fitTrack;fitTrack=function(t){const r=_ft112.apply(this,arguments);try{const c=t&&t.closest&&t.closest(".vn-c");if(c&&c.classList.contains("vn-cn")){const w=t.clientWidth;if(w){t.style.setProperty("--slh",Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6)))+"px");try{if(typeof ssCaber==="function")ssCaber(t)}catch(e){}const s=t.children[r|0];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}}catch(e){}return r}}
   {const _us112=updateSocial;updateSocial=function(pid){const r=_us112.apply(this,arguments);vn112Social(pid);return r}}
   /* perfil */
-  {const _rm112=renderMe;renderMe=function(){if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;
-    const r=_rm112.apply(this,arguments);try{const m=$("#v-me .pf-me");if(m)vn112Pf(m,S.uid,VN112_PF.me)}catch(e){console.error(e)}return r}}
   {const _pv112=pfvDesenha;pfvDesenha=function(){const r=_pv112.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){if(PFV.aba!=="posts")PFV.vnAba=PFV.aba;else if(!["posts","resp","midia"].includes(PFV.vnAba))PFV.vnAba="posts";vn112Pf($("#layer .pfv .pfv-sc"),PFV.u,PFV.vnAba)}}catch(e){console.error(e)}return r}}
-  {const _go112=go;go=function(v){if(v!=="me"&&VIEW==="me"&&!(PFV&&$("#layer .pfv")))try{pfIdsVolta()}catch(e){}return _go112.apply(this,arguments)}}
   {const _ap112=abrirPerfil;abrirPerfil=function(u){if(u===S.uid)VN112_PF.me="posts";return _ap112.apply(this,arguments)}}
   /* nomes */
-  {const _sh112=sheet;sheet=function(){const r=_sh112.apply(this,arguments);try{vn112Nomes($("#layer2")&&$("#layer2").innerHTML?$("#layer2"):$("#layer"))}catch(e){}return r}}
-  {const _to112=toast;toast=function(t){const a=[...arguments];try{if(typeof t==="string"&&VN112_NOMES_T.test(t))a[0]=vn112Troca(t)}catch(e){}return _to112.apply(this,a)}}
   try{const ob=new MutationObserver(ms=>{ms.forEach(m=>{if(m.type==="attributes"){const v=m.target.getAttribute(m.attributeName);if(v&&VN112_NOMES_T.test(v))vn112NomesAttr(m.target);return}m.addedNodes.forEach(n=>{if(n.nodeType===1||n.nodeType===3)vn112Nomes(n)})})});
     const liga=()=>{["#layer","#layer2","#v-me"].forEach(s=>{const el=$(s);if(el)ob.observe(el,{childList:true,subtree:true,attributes:true,attributeFilter:["aria-label"]})})};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",liga);else liga()}catch(e){}
 }

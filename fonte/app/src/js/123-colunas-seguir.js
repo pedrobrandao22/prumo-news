@@ -98,15 +98,6 @@ function cs123CardHTML(x,c){const id=esc(x.id),f=x.fotos[0],u=f&&pubUrl(f),tz=cs
     <h3 class="cs123-t"><button type="button" data-cs123ler="${id}">${esc(c.tit)}</button></h3>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
     ${f?`<button type="button" class="cs123-capa" data-cs123ler="${id}" aria-label="Ler a coluna">${u?`<img src="${pubSrc(u)}" alt="${esc((x.estilo.alt||[])[0]||"")}" loading="lazy" decoding="async">`:`<span class="up-sem">Foto indisponível</span>`}</button>`:""}
     ${tz?`<p class="cs123-x">${esc(tz)}</p>`:""}<div class="cs123-r"><span class="cs123-min">${min} min de leitura</span><button type="button" class="cs123-lb" data-cs123ler="${id}">Ler a coluna <i aria-hidden="true">›</i></button></div></div>`}
-{const _pp=pubPostHTML;pubPostHTML=function(x){const c=x&&cs123Col(x);let h;
-  if(!c)h=_pp.apply(this,arguments);
-  else{const y=Object.assign(Object.create(Object.getPrototypeOf(x)),x,{texto:"",fotos:[],pid:null});h=_pp.call(this,y);
-    try{const tp=document.createElement("template");tp.innerHTML=String(h||"").trim();const a=tp.content.firstElementChild;
-      if(a){a.classList.add("cs123-post");a.querySelectorAll(":scope>.car,:scope>.vn-rpw,.up-leg,.vn-cc-row .up-leg").forEach(e=>e.remove());
-        const ph=a.querySelector(":scope>.ph")||a.querySelector(".ph");if(ph)ph.insertAdjacentHTML("afterend",cs123CardHTML(x,c));else a.insertAdjacentHTML("afterbegin",cs123CardHTML(x,c));
-        const pg=a.querySelector(".vp99-pg,.pdots");if(pg)pg.remove();h=a.outerHTML}}catch(e){}}
-  try{if(h&&x&&x.publico==="seguidores")h=h.replace(/(<span class="ph-sub">[^<]*)/,`$1<span class="cs123-ps"> · seguidores</span>`)}catch(e){}
-  return h}}
 /* grade do perfil: a capa (ou o título) com o selo "Coluna" */
 {const _pt=pfTiles;pfTiles=function(l,aba,u){let h=_pt.apply(this,arguments);try{if(!(l||[]).some(x=>cs123Col(x))||typeof h!=="string")return h;const tp=document.createElement("template");tp.innerHTML=h;
   tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],c=x&&cs123Col(x);if(!c)return;if(!x.fotos.length)b.innerHTML=`<span class="pf-tx cs123-pft"><b>${esc(c.tit)}</b></span>`;b.insertAdjacentHTML("beforeend",`<i class="cs123-pfk">Coluna</i>`)});
@@ -143,14 +134,7 @@ function cs123Abrir(id){const x=pubDe(id)||pubVisiveis().find(y=>y.id===id),c=x&
 function cs123FimAtualiza(){const L=CS123.ler,el=L&&document.querySelector("#layer .cs123-ler .cs123-fim");if(!el)return;const x=pubDe(L.id);if(x)el.innerHTML=cs123FimHTML(x)}
 {const _us=updateSocial;updateSocial=function(pid){const r=_us.apply(this,arguments);try{if(CS123.ler&&pid==="u:"+CS123.ler.id)cs123FimAtualiza()}catch(e){}return r}}
 /* folhas (comentários, enviar) abrem por cima da coluna e do editor, sem fechá-los */
-{const _sh=sheet;sheet=function(){const r0=document.querySelector("#layer > .cs123-ler, #layer > .cs123-ed");if(r0&&!$("#layer2")?.innerHTML){r0.classList.add("cria");try{return _sh.apply(this,arguments)}finally{r0.classList.remove("cria")}}return _sh.apply(this,arguments)}}
 /* voltar: da coluna para o perfil de onde ela foi aberta; da prévia para o editor */
-{const _cl=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML);
-  if(!l2&&$("#layer .cs123-prev")&&CS123.ed){$("#layer .cs123-prev").remove();if(fromPop===true){if(pushH())HST++;return}if(HST>0){HST--;voltarH(1)}return}
-  if(!l2&&$("#layer > .cs123-ed")&&CS123.ed){if(CS123.ed.env&&fromPop!==true){toast("Publicando…");return}cs123RascGuarda(true);CS123.ed=null}
-  const ler=!l2&&$("#layer > .cs123-ler")&&CS123.ler,volta=ler&&CS123.ler.volta;const r=_cl.apply(this,arguments);
-  if(ler){CS123.ler=null;if(volta&&!$("#layer").innerHTML){PFV=volta.pfv;$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Perfil de ${esc(nomeDe(PFV.u))}"></div>`;try{pfvDesenha();const sc=$("#layer .pfv-sc");if(sc)sc.scrollTop=volta.sc}catch(e){}}}
-  return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if((b=t.closest("[data-cs123ler]"))&&!t.closest("a")){pare();cs123Abrir(b.dataset.cs123ler);return}
   if(t.closest("[data-cs123fecha]")){pare();history.back();return}
@@ -269,7 +253,6 @@ function cs123PoeNum(root,u){if(!root||!V9.on||!u||root.querySelector(".cs123-nu
   const nm=root.querySelector(".pf-nome");if(nm)nm.insertAdjacentHTML("afterend",`<p class="cs123-numl">${cs123NumHTML(u,p)}</p>`)}
 {const _pv=pfvDesenha;pfvDesenha=function(){const r=_pv.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){const sc=$("#layer .pfv .pfv-sc");cs123PoeNum(sc,PFV.u);
   const p=CS123.perf[PFV.u];if(sc&&p&&p.ok&&p.aberto&&!S.amigos.has(PFV.u)&&!sc.querySelector(".cs123-ab")){const cab=sc.querySelector(".vn-pf-desde,.cs123-numl,.vn-pf-num");if(cab)cab.insertAdjacentHTML("afterend",`<p class="cs123-ab">${cs123Svg(CS123_IC.seg)}Perfil aberto${p.me_segue?" · segue você":""}</p>`)}}}catch(e){}return r}}
-{const _rm=renderMe;renderMe=function(){const r=_rm.apply(this,arguments);try{if(V9.on&&S.uid&&S.membro){const m=$("#v-me .pf-me");if(m&&PF_ABA!=="conta")cs123PoeNum(m,S.uid);if(PF_ABA==="conta")cs123Conta9()}}catch(e){}return r}}
 /* perfil aberto sem nada para mostrar: o que fazer, no lugar de "Perfil só para amigos" */
 {const _pt=pfTiles;pfTiles=function(l,aba,u){try{const p=u&&CS123.perf[u];if(V9.on&&u&&u!==S.uid&&!S.amigos.has(u)&&p&&p.ok&&p.aberto&&!(l||[]).length&&aba!=="marc")
   return `<div class="pf-vz"><b>${CS123.sigo.has(u)?"Nada para seguidores ainda":"Perfil aberto"}</b><span>${CS123.sigo.has(u)?`Quando ${esc(cs123Prim(u))} publicar para seguidores, aparece aqui e no seu Feed.`:`Siga ${esc(cs123Prim(u))} para ver aqui e no seu Feed o que ${esc(cs123Prim(u))} publica para seguidores.`}</span></div>`}catch(e){}return _pt.apply(this,arguments)}}
@@ -335,7 +318,4 @@ const cs123PodeSeg=()=>!!(V9.on&&CS123.aberto);
   try{return await _ep.apply(this,arguments)}finally{SB.from=_from}}}
 
 /* ===== 8. Atividade: "Bia começou a seguir você" ===== */
-{const _ai=atItens;atItens=function(){const it=_ai.apply(this,arguments);if(!V9.on||!S.uid||!S.membro||!CS123.segs.length||!Array.isArray(it))return it;
-  try{const lim=Date.now()-30*864e5;CS123.segs.filter(s=>s.at>lim&&s.uid!==S.uid).forEach(s=>it.push({k:"sg:"+s.uid,at:s.at,us:[s.uid],ic:"+",txt:`<b>${esc(nomeDe(s.uid))}</b> começou a seguir você`,u:s.uid,acao:"perfil"}))}catch(e){}
-  return it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}}
 try{ESP_NOMES.seguidores="Quem segue quem"}catch(e){}

@@ -9,7 +9,6 @@ async function reagir(mid,k){const m=allMsgs().find(x=>x.id===mid),r=REAC.find(x
   S.msgsOut.push({id:"tmp"+at,de:S.uid,para:m.de,at,texto,lida:false,...ext});renderMsgs();
   try{await S.db.collection("mensagens").add({de:S.uid,para:m.de,at,texto,lida:false,...ext})}catch(e){S.msgsOut=S.msgsOut.filter(x=>x.id!=="tmp"+at);renderMsgs();toast("Não deu para reagir agora.")}}
 function allMsgs(){const m=new Map();[...S.msgsIn,...S.msgsOut].forEach(x=>m.set(x.id,x));return [...m.values()].sort((a,b)=>a.at-b.at)}
-function updateBadge(){const n=S.msgsIn.filter(m=>!m.lida).length,b=$("#badge");b.hidden=!n;b.textContent=n>9?"9+":n;const mb=$("#mbadge");if(mb){const p=S.pedidosIn.length;mb.hidden=!p;mb.setAttribute("aria-label",p?(p===1?"1 pedido de amizade":p+" pedidos de amizade"):"")}}
 function renderMsgs(){
   const v=$("#v-msgs");
   if(!S.db||!S.uid||!S.membro){v.dataset.thr="";v.innerHTML=`<div class="gut"><div class="view-h"><h1>Conversas</h1></div><div class="empty"><b>Conversas precisam da sua conta</b>${S.uid?"Falta só o convite para você entrar no Prumo.":"Entre para trocar notícias com os seus amigos."}<button type="button" class="btn" data-entrar style="margin-top:10px">${S.uid?"Usar um convite":"Entrar"}</button></div></div>`;return}

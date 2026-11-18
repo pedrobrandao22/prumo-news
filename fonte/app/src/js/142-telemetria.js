@@ -92,7 +92,6 @@ function tl142Conta(ev,n){try{if(tl142Desligado()||TL142.v15===false)return;ev=S
 function tl142GuardaUso(){try{const o={};Object.entries(TL142.uso).forEach(([k,n])=>{if(n>0)o[k]=n});tl142Ls(TL142_LS.uso,Object.keys(o).length?JSON.stringify(o):null)}catch(e){}}
 (function(){try{const o=JSON.parse(tl142Ls(TL142_LS.uso)||"null");if(o&&typeof o==="object")Object.entries(o).forEach(([k,n])=>{if(/^[0-9]{4}-[0-9]{2}-[0-9]{2}\|[a-z][a-z0-9_]{1,39}$/.test(k)&&+n>0)TL142.uso[k]=Math.min(200,+n)})}catch(e){}})();
 {const _u=uso;uso=function(k){const r=_u.apply(this,arguments);try{if(typeof k==="string")tl142Conta(k)}catch(e){}return r}}
-{const _g=go;go=function(v){const ant=typeof VIEW==="string"?VIEW:"";const r=_g.apply(this,arguments);try{if(typeof v==="string"&&/^[a-z]{2,12}$/.test(v)){tl142Acao("go:"+v);if(v!==ant)tl142Conta("tela_"+v)}}catch(e){}return r}}
 if(typeof reagir==="function"){const _rg=reagir;reagir=function(){try{tl142Conta("reagir_msg")}catch(e){}return _rg.apply(this,arguments)}}
 function tl142ContaIns(t,row){const rs=Array.isArray(row)?row:[row];rs.forEach(x=>{if(!x||typeof x!=="object")return;
   if(t==="publicacoes"){const col=x.estilo&&typeof x.estilo==="object"&&x.estilo.coluna&&typeof x.estilo.coluna==="object";const tp=/^[a-z]{2,12}$/.test(String(x.tipo||""))?x.tipo:"post";tl142Conta("publicar_"+(col?"coluna":tp))}
@@ -223,10 +222,4 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 async function tl142AdmTique(){if(!tl142SouAdm()||TL142.v15!==true||typeof SB==="undefined"||!SB||Date.now()-TL142.alT<10*60e3)return;TL142.alT=Date.now();
   try{const r=await SB.rpc("tl142_alertas");if(r.error)return;const ant=TL142.alertas.map(a=>a.id+"|"+a.alerta_em).join();TL142.alertas=Array.isArray(r.data)?r.data:[];
     if(ant!==TL142.alertas.map(a=>a.id+"|"+a.alerta_em).join()){try{atRedesenha()}catch(e){}try{nt124Pinta()}catch(e){}}}catch(e){}}
-{const _ai=atItens;atItens=function(){let it=_ai.apply(this,arguments);try{if(!Array.isArray(it)||!TL142.alertas.length||!tl142SouAdm())return it;
-  const n=TL142.alertas.map(a=>{const m=String(a.mensagem||"");return {k:"tl142:"+a.id+":"+a.alerta_em,at:Date.parse(a.alerta_em)||Date.now(),us:[],ic:"⚠",acao:"tl142",tl142:+a.id,
-    txt:`<b>Erro novo frequente no app</b>: “${esc(m.length>90?m.slice(0,89)+"…":m)}” · ${+a.alerta_n||0} aparelhos em 1 hora`}});
-  it=it.concat(n).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}catch(e){}return it}}
-{const _aa=atAcao;atAcao=function(x){if(x&&x.acao==="tl142"){if($("#layer").innerHTML)closeLayer();const id=x.tl142;setTimeout(()=>{TL142.adm.sub="erros";TL142.adm.abre=id;abrirAdmin("app")},320);return}return _aa.apply(this,arguments)}}
-{const _th=atThumb;atThumb=function(x){if(x&&x.acao==="tl142")return "";return _th.apply(this,arguments)}}
 TL142.custo=Date.now()-TL142.t0;
