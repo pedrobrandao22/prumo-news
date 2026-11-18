@@ -37,4 +37,3 @@ function mc1111Tempo(p){const vs=Array.isArray(p&&p.visuais)?p.visuais:[];const 
     const depois=its.slice(i+1).some(o=>{const x=o&&typeof o.quando==="string"?rc116Data(o.quando,hj):null;return x&&x.iso<=hj});if(!depois)return it;
     mudou=true;return Object.assign({},it,{quando:`${m[1]}/${m[2]}/${ano}`})});
   if(!mudou)return p;const nv=vs.slice();nv[k]=Object.assign({},vs[k],{itens:novos});return Object.assign({},p,{visuais:nv})}
-{const _mc1111MatTempo=matTempo;matTempo=function(p){try{p=mc1111Tempo(p)}catch(e){}return _mc1111MatTempo.call(this,p)}}

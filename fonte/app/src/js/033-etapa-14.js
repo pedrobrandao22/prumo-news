@@ -22,16 +22,9 @@ function graficoNoticia(v){const its=(Array.isArray(v.itens)?v.itens:[]).filter(
 }
   return `<div class="gn">${cab}${h}</svg>${pe}</div>`}
 function gnCol(x,y,w,h,cima){const r=Math.min(4,w/2,h);return cima?`M${x.toFixed(1)},${(y+h).toFixed(1)} V${(y+r).toFixed(1)} Q${x.toFixed(1)},${y.toFixed(1)} ${(x+r).toFixed(1)},${y.toFixed(1)} H${(x+w-r).toFixed(1)} Q${(x+w).toFixed(1)},${y.toFixed(1)} ${(x+w).toFixed(1)},${(y+r).toFixed(1)} V${(y+h).toFixed(1)} Z`:`M${x.toFixed(1)},${y.toFixed(1)} V${(y+h-r).toFixed(1)} Q${x.toFixed(1)},${(y+h).toFixed(1)} ${(x+r).toFixed(1)},${(y+h).toFixed(1)} H${(x+w-r).toFixed(1)} Q${(x+w).toFixed(1)},${(y+h).toFixed(1)} ${(x+w).toFixed(1)},${(y+h-r).toFixed(1)} V${y.toFixed(1)} Z`}
-function matVisuais(p){return (Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&["grafico","numeros","pesquisas"].includes(v.tipo)).map(v=>{let x="";try{x=visualHTML({...v,secao:secOf(p)})}catch(e){}return x?`<div class="mat-vis">${x}</div>`:""}).join("")}
-function matTempo(p){const vt=(Array.isArray(p.visuais)?p.visuais:[]).find(v=>v&&v.tipo==="linha_do_tempo"&&Array.isArray(v.itens)&&v.itens.length>=2);let its=[],tit="Como a história andou";
-  if(vt){tit=vt.titulo||tit;its=vt.itens.filter(i=>i&&i.texto).map(i=>({q:String(i.quando||""),t:String(i.texto)}))}
-  else{const ts=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo&&x.hora);if(ts.length>=3&&tms(ts[ts.length-1].hora)-tms(ts[0].hora)>36*3600e3)its=ts.map(x=>({q:dataCurta(String(x.hora).slice(0,10)),t:x.titulo}))}
-  if(its.length<2)return "";return `<div class="mat-tl"><b>${esc(tit)}</b><ol>${its.slice(-7).map((i,k,a)=>`<li${k===a.length-1?' class="ult"':""}><time>${esc(i.q)}</time><span>${esc(i.t)}</span></li>`).join("")}</ol></div>`}
 /* próxima matéria, na ordem da Capa (pula as já lidas quando dá) */
 var MAT_ORIG=null;
 function capaOrdemIds(){const ids=[...document.querySelectorAll("#v-capa .cpi[id^='cpi-']")].map(e=>e.id.slice(4));if(ids.length)return [...new Set(ids)];try{return capaEscolha().ord.map(p=>p.id)}catch(e){return []}}
-function matProx(pid){const ids=capaOrdemIds(),i=ids.indexOf(pid);const rest=ids.slice(i+1).concat(i>=0?ids.slice(0,i):[]).map(pautaById).filter(Boolean);return rest.find(p=>!lidaAtual(p))||(i>=0?pautaById(ids[i+1]):null)||null}
-function matIr(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;abrirMateria(pid);const m=document.querySelector("#layer .mat");if(m){m.scrollTop=0;m.classList.remove("mat-in");void m.offsetWidth;m.classList.add("mat-in")}}
 (function(){let x0=null,y0=0,t0=0,eixo=null,m=null,dx=0;
   document.addEventListener("touchstart",e=>{const mm=e.target&&e.target.closest&&e.target.closest("#layer .mat"),l2=$("#layer2");if(!mm||e.touches.length>1||(l2&&l2.innerHTML)||e.target.closest(".gr-box,.gn,input,textarea")){x0=null;return}m=mm;x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now();eixo=null;dx=0},{passive:true});
   document.addEventListener("touchmove",e=>{if(x0==null||!m)return;const t=e.touches[0],ddx=t.clientX-x0,ddy=t.clientY-y0;

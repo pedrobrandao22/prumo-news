@@ -59,7 +59,6 @@ function nm186Resolver(f){if(!f||typeof f!=="object")return 0;const cont={n:0};
 function nm186EmDia(){try{if(FEED&&NM186_SIG.get(FEED)!==nm186Assina(FEED)){nm186Resolver(FEED);return true}}catch(e){}return false}
 {const _sa186=sanear;sanear=function(){const r=_sa186.apply(this,arguments);if(r)nm186Resolver(r);return r}}
 {const _rp186=renderPosts;renderPosts=function(){nm186EmDia();return _rp186.apply(this,arguments)}}
-{const _am186=abrirMateria;abrirMateria=function(){nm186EmDia();return _am186.apply(this,arguments)}}
 /* indicadores.json chegou com outro fechamento: o 031 redesenha a Capa; o Feed aberto também ganha os números novos */
 {const _ci186=carregarIndAuto;carregarIndAuto=async function(){const r=await _ci186.apply(this,arguments);
   try{if(nm186EmDia()&&VIEW==="feed"&&typeof FILTRO!=="undefined"&&FILTRO!=="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}

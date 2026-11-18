@@ -72,21 +72,10 @@ function cm168Mesmo(f,x){if(f.ref!==x.ref)return false;const da=cm168Dias(f.txt)
     fica.forEach(x=>{if(x.cm168c&&String(x.tema).indexOf("número corrigido")<0)x.tema=(x.tema?x.tema+" · ":"")+"número corrigido"});d.ev=fica}catch(e){}return d}}
 function cm168AsLink(){document.querySelectorAll(".sheet .as-link[data-assunto]").forEach(b=>{if(b.dataset.cm168)return;b.dataset.cm168="1";const n=(b.querySelector("span")||{}).textContent||"";const k=/(\d+)/.exec(n);
   b.innerHTML=`Notícias de ${esc(b.dataset.assunto)} <span>${k?k[1]+" ›":"›"}</span>`;b.setAttribute("aria-label",`Ver as notícias do assunto ${b.dataset.assunto}`)})}
-{const _pc168=abrirPagCob;abrirPagCob=function(pid){const r=_pc168.apply(this,arguments);try{cm168AsLink();const p=pautaById(pid),n=document.querySelector(".sheet .pc[data-pc] .note");
-    if(p&&n&&/^O que vem/.test((n.querySelector("b")||{}).textContent||""))cm168VemNota(n,p)}catch(e){}return r}}
 {const _ado168=abrirDormente;abrirDormente=function(){const r=_ado168.apply(this,arguments);try{cm168AsLink()}catch(e){}return r}}
-
-/* ===== 6. "Nesta matéria": cada seção tem a sua vez ===== */
-/* linha de leitura no terço de cima; na última tela ela desce até o fim, para as seções curtas do fim também ficarem marcadas */
-f113CapAtual=function(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;
-  const tp=MT158_CAPTAP;if(tp&&nav.querySelector(`[data-f113cap="${tp.i}"]`)&&(Math.abs(m.scrollTop-tp.y)<30||(Date.now()-tp.t<1600&&m.scrollTop>=Math.min(tp.s0,tp.y)-30&&m.scrollTop<=Math.max(tp.s0,tp.y)+30))){f113CapMarca(nav,tp.i);return}MT158_CAPTAP=null;
-  const off=f113Off(m),top=m.getBoundingClientRect().top,H=Math.max(1,m.clientHeight-off),els=[...m.querySelectorAll(".fs2-alvo[id^='fs2c-']")];if(!els.length)return;
-  let lim=off+Math.max(60,H*.33);const resta=m.scrollHeight-m.clientHeight-m.scrollTop;if(resta<H){const f=1-Math.max(0,resta)/H;lim+=(m.clientHeight-24-lim)*f}
-  let i=0;els.forEach((e,k)=>{if(e.getBoundingClientRect().top-top<=lim)i=k});f113CapMarca(nav,i)};
 
 /* ===== 7. Matéria: voltar, endereço, recarregar e girar ===== */
 var CM168_PILHA=[];
-{const _mi168=matIr;matIr=function(pid){try{const m=$("#layer .mat"),de=MAT_PID;if(m&&de&&pid!==de&&pautaById(pid)&&!(($("#layer2")||{}).innerHTML)){CM168_PILHA.push({pid:de,y:m.scrollTop});if(pushH())HST++}}catch(e){}return _mi168.apply(this,arguments)}}
 function cm168Volta(a){try{MAT_ARRASTO=false}catch(e){}MAT_ORIG=CM168_PILHA.length?MAT_ORIG:null;abrirMateria(a.pid);const m=$("#layer .mat");if(!m)return;m.style.transform="";
   const vai=()=>{const mm=$("#layer .mat");if(mm)mm.scrollTop=a.y};vai();requestAnimationFrame(vai);setTimeout(vai,120)}
 /* endereço da matéria aberta (#m=<id>): copiar a barra manda a notícia, recarregar reabre */
@@ -105,9 +94,6 @@ addEventListener("resize",()=>{if(innerWidth===CM168_W)return;CM168_W=innerWidth
 /* recarregar a página com a matéria aberta: volta ao mesmo ponto */
 /* (o 035 já tirou o #m= do endereço e guardou a notícia em LINK_PID) */
 var CM168_REAB=(function(){try{const a=LINK_PID?ssGet("cm168-pos",null):null;return a&&a.pid===LINK_PID?a:null}catch(e){return null}})();
-{const _am168=abrirMateria;abrirMateria=function(pid,manter){const r=_am168.apply(this,arguments);try{if($("#layer .mat")&&MAT_PID===pid){cm168Url(pid);cm168MatExtra(pid);
-    const ra=CM168_REAB;if(ra&&ra.pid===pid&&Date.now()-ra.t<6*3600e3){CM168_REAB=null;const vai=()=>{const m=$("#layer .mat");if(m&&MAT_PID===pid)cm168Restaura(m,ra.a)};setTimeout(vai,60);setTimeout(vai,400);setTimeout(vai,1200)}
-    else if(!manter)CM168_ANC=null}}catch(e){}return r}}
 function cm168MatExtra(pid){const m=$("#layer .mat"),p=pautaById(pid);if(!m||!p)return;cm168AgNota();
   const t=cm168Velha(p),meta=m.querySelector(".mat-meta");if(t&&meta&&!m.querySelector(".cm168-velha"))meta.insertAdjacentHTML("afterend",`<p class="cm168-velha">Notícia de ${esc(cm168Dia(t))}, sem novidade desde então.</p>`);
   const vem=[...m.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||""));if(vem)cm168VemNota(vem,p)}
@@ -117,17 +103,6 @@ var CM168_FUT=/\b(prevista?s? para|pode(m)? ser|deve(m)? ser|vai ser|ser[áã]o?
 /* resumo que fala de um evento futuro numa data que já passou: "pode ser votado na quinta (12)" no dia 16 */
 function cm168ResumoVelho(s){const tx=String(s||"");if(!CM168_FUT.test(tx))return "";const m=/(segunda|terça|quarta|quinta|sexta|sábado|domingo)(?:-feira)?\s*\((\d{1,2})\)/i.exec(tx);if(!m)return "";
   const hj=hojeSP();for(let k=1;k<=10;k++){const d=somaDias(hj,-k);if(+d.slice(8,10)===+m[2]&&CM168_SEM[new Date(d+"T12:00:00Z").getUTCDay()]===m[1].toLowerCase())return m[1].toLowerCase()+" ("+(+m[2])+")"}return ""}
-{const _ac168=abrirCobertura;abrirCobertura=function(pid){const r=_ac168.apply(this,arguments);try{const p=pautaById(pid),ul=document.querySelector(".sheet .cvl");if(!p||!ul||ul.dataset.cm168)return r;ul.dataset.cm168="1";
-    const lista=mt158Lista(p),por={};lista.forEach(v=>por[mt158Nome(v.k)]=v);const tambem=[];
-    [...ul.children].forEach(li=>{const nome=((li.querySelector(".cv-h b"))||{}).textContent||"",v=por[nome];const ps=[...li.querySelectorAll(":scope>p")];
-      /* um resumo por veículo: o mais novo (o robô acrescenta no fim) */
-      if(ps.length>1)ps.slice(0,-1).forEach(x=>x.remove());const pr=li.querySelector(":scope>p");
-      if(pr&&!/^Citado no quadro/.test(pr.textContent)){const ve=cm168ResumoVelho(pr.textContent);if(ve)pr.insertAdjacentHTML("afterbegin",`<small class="cm168-antes">Antes de ${esc(ve)} · </small>`)}
-      const a=li.querySelector("a");
-      if(!pr&&v&&v.links&&v.links[0]&&v.links[0].titulo)li.querySelector(".cv-h").insertAdjacentHTML("afterend",`<p class="cm168-man">“${esc(v.links[0].titulo)}”</p>`);
-      else if(!pr&&!a){tambem.push(li)}});
-    if(tambem.length){const nomes=tambem.map(li=>((li.querySelector(".cv-h b"))||{}).textContent||"").filter(Boolean);tambem.forEach(li=>li.remove());
-      ul.insertAdjacentHTML("afterend",`<p class="hint cm168-tb"><b>Também noticiaram</b> (sem link nesta edição): ${nomes.map(esc).join(", ")}</p>`)}}catch(e){}return r}}
 
 /* ===== 9. Mandar notícia: copiar link e mandar para um amigo ===== */
 var CM168_ENV=null;

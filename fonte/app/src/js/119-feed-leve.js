@@ -70,10 +70,6 @@ function fl119Encaixar(full){const P=FL119.parcial;FL119.parcial=null;const v=FL
 /* o que estava aberto com o leve se completa: matéria e busca */
 function fl119Depois(){try{if(typeof MAT_PID!=="undefined"&&MAT_PID&&document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML))abrirMateria(MAT_PID,true)}catch(e){}
   ["bvq","btext"].forEach(id=>{const i=document.getElementById(id);if(i&&i.value.trim().length>=2)i.dispatchEvent(new Event("input"))})}
-/* matéria aberta antes do detalhe: mostra o que já tem e um sinal discreto de que o resto está chegando */
-{const _am119=abrirMateria;abrirMateria=function(pid){const r=_am119.apply(this,arguments);
-  if(FL119.parcial){fl119Completar();const m=document.querySelector("#layer .mat .mat-p");if(m&&!m.querySelector(".fl119-sk"))m.insertAdjacentHTML("beforeend",`<div class="cp-sk fl119-sk" role="status" aria-label="Carregando o resto da matéria"><i style="height:14px;width:92%"></i><i style="height:14px;width:84%"></i><i style="height:14px;width:60%"></i></div>`)}
-  return r}}
 /* outras telas que dependem do detalhe (página da cobertura, fontes, seção, explicador…): esperam o detalhe (até 4 s) */
 const FL119_ESPERA="[data-cobpag],[data-cpfontes],[data-cobfontes],[data-capasec],[data-explica],[data-dorm],[data-matshare],[data-sec-story],[data-1mshare]";
 document.addEventListener("click",e=>{if(!FL119.parcial)return;const t=e.target&&e.target.closest&&e.target.closest(FL119_ESPERA);if(!t||FL119.passa===t)return;

@@ -82,12 +82,9 @@ function po118LinhaHTML(p){const l=po118Da(p);if(!l||!l.length)return "";const e
   return `<button type="button" class="po118-ln" data-capmat="${esc(p.id)}" aria-label="${esc(al)}"><i class="po118-ln-${e.res==="rejeitado"?"no":e.res?"ok":"x"}" aria-hidden="true"></i><b>${esc(c.n)} ${po118Verbo(e)}</b>${num?`<span class="po118-sep" aria-hidden="true"> · </span><span class="po118-n">${esc(num)}</span>`:""}${e.turno?`<span class="po118-sep" aria-hidden="true"> · </span><span class="po118-tu">${esc(e.turno)} turno</span>`:""}<span class="po118-ir" aria-hidden="true"> ›</span></button>`}
 
 /* ===== 4) onde entra ===== */
-/* matéria: antes dos outros gráficos (é a parte "Os números" da matéria) */
-{const _mv118=matVisuais;matVisuais=function(p){const o=_mv118.apply(this,arguments);let h="";try{h=po118MatHTML(p)}catch(e){h=""}return h+o}}
 /* capítulos (fase 2): o bloco ganha o nome certo */
 function po118Caps(){const m=$("#layer .mat");if(!m)return;const b=m.querySelector(".po118.fs2-alvo");if(!b||!b.id)return;const bt=m.querySelector(`.fs2-cap-b[aria-controls="${b.id}"]`);if(!bt)return;
   const t=[...bt.childNodes].filter(n=>n.nodeType===3).pop();if(t)t.textContent="Placar oficial"}
-if(typeof f113Caps==="function"){const _fc118=f113Caps;f113Caps=function(){const r=_fc118.apply(this,arguments);try{po118Caps()}catch(e){}return r}}
 /* matéria já aberta quando os dados chegam: põe, troca ou tira o bloco no lugar */
 function po118NaMateria(){const m=$("#layer .mat"),c=m&&m.querySelector(".mat-c");if(!c||typeof MAT_PID==="undefined")return;const p=pautaById(MAT_PID);if(!p)return;
   const h=po118MatHTML(p),old=c.querySelector(".po118");if(!h&&!old)return;

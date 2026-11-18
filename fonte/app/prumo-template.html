@@ -6493,15 +6493,6 @@ async function toggleSave(pid){uso("guardar");
   updateSocial(pid);toast(on?"Guardada":"Removida das guardadas",on?"Desfazer":"",on?()=>toggleSave(pid):null);if(VIEW==="saved")renderSaved();
   try{const val=on?{at:Date.now(),snap:snapLeve(pid)}:null;await gravarMapa(`data/users/${S.uid}/salvos`,"itens",pid,val)}catch(e){if(on)delete S.salvos[pid];else S.salvos[pid]=antS;updateSocial(pid);if(VIEW==="saved")renderSaved();toast("Não deu para guardar agora.")}
 }
-function abrirCobertura(pid){uso("cobertura");const p=pautaById(pid);if(!p)return;
-  const map=FEED.espectro||{},fs=p.fontes||[],links=p.links||[],enq=p.enquadramentos||[],reg=REGUA(),c=p.checagem;
-  const linha=k=>{const l=links.find(x=>x.fonte===k),e=enq.find(x=>x.fonte===k),sp=map[k];
-    return `<li><div class="cv-h"><b>${esc(nomeFonte(k))}</b>${sp?`<span class="cv-e"><i style="background:${ESPECTRO_COR[sp]}"></i>${esc(ESPECTRO_NOME[sp])}</span>`:""}</div>${e?`<p>${esc(e.descricao)}</p>`:""}${l?`<a href="${escU(l.url)}" target="_blank" rel="noopener">Ler a matéria ›</a>`:""}</li>`};
-  const fora=reg.filter(k=>!fs.includes(k));
-  sheet("Quem noticiou",`${c?`<div class="cv-box">${selo(p,false)}<p>${esc(c.texto||(c.status==="divergencia"?"Os veículos trazem números diferentes.":"Os números principais batem em mais de um veículo."))}</p></div>`:`<p class="hint" style="margin:0">Esta notícia não tem número principal para conferir, por isso não leva selo.</p>`}
-    <h4 class="cv-t">Noticiaram (${fs.length})</h4><ul class="cvl">${fs.map(linha).join("")}</ul>
-    ${fora.length?`<h4 class="cv-t">Não encontramos em</h4><p class="hint" style="margin:0">${fora.map(k=>esc(nomeFonte(k))).join(", ")}</p>`:""}
-    <p class="hint">O selo <b>No prumo</b> aparece quando os números principais da notícia batem em dois ou mais veículos. Quando não batem, aparece <b>Veículos divergem</b> e o texto acima diz quem publicou o quê. A posição de cada veículo no espectro é aproximada.</p>`)}
 function openLinks(pid){uso("fontes");const p=pautaById(pid)||{links:arrL(snapById(pid)?.links)};sheet("Ler nas fontes",`<ul class="rows">${arrL(p.links).map(l=>`<li><span>${esc(nomeFonte(l.fonte))}</span><a href="${escU(l.url)}" target="_blank" rel="noopener">${esc(l.titulo)}</a></li>`).join("")}</ul>`)}
 function openMenu(pid){uso("menu_post");
   const p=pautaById(pid);if(!p)return;const sec=secOf(p),tema=temaDe(p),tk=norm(tema);
@@ -7129,10 +7120,6 @@ function fl119Encaixar(full){const P=FL119.parcial;FL119.parcial=null;const v=FL
 /* o que estava aberto com o leve se completa: matéria e busca */
 function fl119Depois(){try{if(typeof MAT_PID!=="undefined"&&MAT_PID&&document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML))abrirMateria(MAT_PID,true)}catch(e){}
   ["bvq","btext"].forEach(id=>{const i=document.getElementById(id);if(i&&i.value.trim().length>=2)i.dispatchEvent(new Event("input"))})}
-/* matéria aberta antes do detalhe: mostra o que já tem e um sinal discreto de que o resto está chegando */
-{const _am119=abrirMateria;abrirMateria=function(pid){const r=_am119.apply(this,arguments);
-  if(FL119.parcial){fl119Completar();const m=document.querySelector("#layer .mat .mat-p");if(m&&!m.querySelector(".fl119-sk"))m.insertAdjacentHTML("beforeend",`<div class="cp-sk fl119-sk" role="status" aria-label="Carregando o resto da matéria"><i style="height:14px;width:92%"></i><i style="height:14px;width:84%"></i><i style="height:14px;width:60%"></i></div>`)}
-  return r}}
 /* outras telas que dependem do detalhe (página da cobertura, fontes, seção, explicador…): esperam o detalhe (até 4 s) */
 const FL119_ESPERA="[data-cobpag],[data-cpfontes],[data-cobfontes],[data-capasec],[data-explica],[data-dorm],[data-matshare],[data-sec-story],[data-1mshare]";
 document.addEventListener("click",e=>{if(!FL119.parcial)return;const t=e.target&&e.target.closest&&e.target.closest(FL119_ESPERA);if(!t||FL119.passa===t)return;
@@ -7405,6 +7392,269 @@ var CP200_PRONTA=false;
 function cp200Pronta(){if(CP200_PRONTA)return;CP200_PRONTA=true;
 (function(){const ant=loadFeed;loadFeed=async function(){const r=await ant.apply(this,arguments);try{if(!FEED&&OFFLINE&&VIEW==="capa")renderCapa()}catch(e){}return r}})();
 (function(){let n=0;const t=setInterval(()=>{n++;if(FEED||n>60){clearInterval(t);return}if(OFFLINE&&VIEW==="capa"&&!document.querySelector("#v-capa .cp-off"))renderCapa()},1000)})();}
+/* ---------- 202: Matéria (Fase 3) — a tela da notícia aberta num módulo só ----------
+   Antes: abrirMateria definida no 031 e remendada em 034, 036, 038, 059, 063, 105, 111, 113, 119, 120, 158, 168, 182 e 186;
+   matIr (033, trocada no 034, remendada em 063 e 168); matProx (033 + 063); matTempo (033 + 104, 116, 144);
+   matVisuais (033 + 118); f113Caps (113 + 118, 143); f113CapVai/f113CapAtual/f113CapMarca (113 + 158, 168);
+   fc105Mat (105 + 106); abrirCobertura, a folha "Quem noticiou" (008, trocada no 158, + 168, 182); abrirPagCob, a página
+   da cobertura (031 + 031, 089, 126, 158, 168, 183). Aqui cada uma é a versão final, com o que a cadeia fazia (nada muda para quem usa).
+   Ficam onde estão os auxiliares sem remendo (matDesfecho, matCorBloco, matRel, matProgresso, htNaMateria, mt158*,
+   cm168*, ft182Linha/ft182Esp0, po118*, mc1111Tempo, rc116Data, cb183Pinta, qb126MarcaDepois…), as variáveis (MAT_PID, MAT_ORIG, MT158_CAPTAP,
+   CM168_PILHA, F113_IO…) e os remendos de outras áreas (closeLayer, go). Só declarações function: a posição no
+   pagina.html não importa para quem chama (içadas). Prefixo de nomes novos: mt202. */
+
+/* ===== abrir a matéria ===== */
+function abrirMateria(pid,manter){
+  /* 186: números dos indicadores em dia antes de desenhar */
+  nm186EmDia();
+  /* 158: atualizações com o mesmo texto juntam (só durante o desenho) */
+  if(!manter||pid!==MAT_PID)MT158_CAPTAP=null;const p=pautaById(pid);const ups=p&&p.atualizacoes;if(p&&Array.isArray(ups))p.atualizacoes=mt158Ups(ups);
+  try{
+    /* 038: termos do glossário marcados uma vez por matéria */
+    window.MT_USADOS=new Set();
+    try{
+      const vazio=!$("#layer").innerHTML;
+      mt202Monta(pid,manter);
+      /* 119: matéria aberta antes do detalhe: sinal de que o resto está chegando */
+      {if(FL119.parcial){fl119Completar();const m=document.querySelector("#layer .mat .mat-p");if(m&&!m.querySelector(".fl119-sk"))m.insertAdjacentHTML("beforeend",`<div class="cp-sk fl119-sk" role="status" aria-label="Carregando o resto da matéria"><i style="height:14px;width:92%"></i><i style="height:14px;width:84%"></i><i style="height:14px;width:60%"></i></div>`)}}
+      /* 034: entrada animada quando a camada estava vazia */
+      {const m=$("#layer .mat");if(m&&vazio&&ANIM_OK())m.classList.add("mat-entra");}
+      /* 036: barra de progresso e foco no título */
+      {try{matProgresso();if(!manter){const h=$("#layer .mat h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}catch(e){}}
+    }finally{window.MT_USADOS=null}
+    /* 059: aberta pelo giro: "‹ Giro" */
+    {if(IG_VOLTA&&document.getElementById("sg-fundo")){const b=$("#layer .mat-v");if(b){b.textContent="‹ Giro";b.setAttribute("aria-label","Voltar para o giro")}}}
+    /* 063: o botão de voltar diz de onde veio */
+    {try{if(!document.getElementById("sg-fundo")){const b=$("#layer .mat-v"),n=VOLTA_NOME[VIEW]||"";if(b&&n){b.textContent="‹ "+n;b.setAttribute("aria-label","Voltar para "+(VIEW==="busca"?"a Busca":VIEW==="saved"?"Guardadas":VIEW==="me"?"o Perfil":VIEW==="msgs"?"Conversas":VIEW==="feed"?"o Feed":"a Capa"))}}}catch(e){}}
+    /* 105: convite para comentar no fim */
+    {try{fc105Mat(pid)}catch(e){}}
+    /* 111: hashtags da notícia */
+    {try{htNaMateria(pid)}catch(e){}}
+    /* 113: capítulos ("Nesta matéria") e Perguntas */
+    {try{f113Caps()}catch(e){console.error(e)}}
+    /* 120: tempo de leitura só com o texto (detalhe ainda chegando) */
+    {try{if(FL119.parcial)document.querySelectorAll("#layer .mat-meta span").forEach(s=>{if(/min de leitura/.test(s.textContent))s.classList.add("ta120-esp")})}catch(e){}}
+  }finally{if(p&&Array.isArray(ups))p.atualizacoes=ups}
+  /* 158: seguir a cobertura e a nota da agenda */
+  {try{const m=document.querySelector("#layer .mat");if(m&&p){const b=m.querySelector(".mat-pe [data-cobpag]");if(b&&temaDe(p))b.outerHTML=mt158SegBt(p);
+    const ag=MT158_AG;MT158_AG=null;if(ag&&ag.pid===pid&&Date.now()-ag.t<4000&&!m.querySelector(".mt158-ag")){const tx=m.querySelector(".mat-tx");const tema=temaDe(p)||capaChapeu(p);
+      if(tx)tx.insertAdjacentHTML("afterbegin",`<div class="mt158-ag" role="note"><b>Na agenda${ag.dia?" · "+esc(ag.dia):""}</b><span>${esc(ag.texto)}</span><small>Ainda não há notícia só sobre esse evento. Abaixo, a cobertura ligada a ele: <b>${esc(tema)}</b>.</small></div>`)}}}catch(e){}}
+  /* 168: endereço #m=, notas de notícia velha / "o que vem" e volta ao ponto de leitura */
+  {try{if($("#layer .mat")&&MAT_PID===pid){cm168Url(pid);cm168MatExtra(pid);
+    const ra=CM168_REAB;if(ra&&ra.pid===pid&&Date.now()-ra.t<6*3600e3){CM168_REAB=null;const vai=()=>{const m=$("#layer .mat");if(m&&MAT_PID===pid)cm168Restaura(m,ra.a)};setTimeout(vai,60);setTimeout(vai,400);setTimeout(vai,1200)}
+    else if(!manter)CM168_ANC=null}}catch(e){}}
+  /* 182: "Resumo" e a linha "Noticiado por" */
+  {try{const p=pautaById(pid),m=$("#layer .mat");
+    if(p&&m){const b30=m.querySelector(".mat-30>b");if(b30&&FT182_EM1MIN&&/^Em 30 segundos$/.test(b30.textContent))b30.textContent="Resumo";
+      m.querySelectorAll(".mat-rod [data-cpfontes]").forEach(b=>b.remove());const tx=ft182Linha(p),meta=m.querySelector(".mat-meta");
+      if(tx&&meta&&!m.querySelector(".ft182-qn"))meta.insertAdjacentHTML("afterend",`<button type="button" class="ft182-qn" data-cpfontes="${esc(p.id)}" aria-haspopup="dialog">${esc(tx)}<i aria-hidden="true">›</i></button>`)}}catch(e){}}
+}
+
+/* ===== o desenho (o que o 031 fazia) ===== */
+function mt202Monta(pid,manter){const p=pautaById(pid);if(!p)return;const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);
+  const Ly=$("#layer");const vazio=!Ly.innerHTML;MAT_PID=pid;if(!manter){uso("materia");evento("materia",pid,secOf(p));try{marcarLida(pid)}catch(e){}}
+  const u=ultimaAtualizacao(p)||p.hora,sv=!!(S.salvos||{})[p.id],f=fotoDe(p);
+  let h=`<div class="mat" role="dialog" aria-modal="true" aria-label="${esc(v.titulo)}"><div class="mat-top"><button type="button" class="mat-v" data-close aria-label="Voltar para a Capa">‹ Capa</button><span class="mat-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}</span><button type="button" class="mat-aa" data-mataa aria-label="Tamanho da letra" aria-expanded="false">Aa</button><button type="button" class="mat-sh" data-matshare="${id}" aria-label="Compartilhar">${ICON.send}</button><button type="button" class="mat-g" data-matsalvar="${id}" aria-pressed="${sv}">${sv?"Guardada":"Guardar"}</button></div><article class="mat-c">`;
+  h+=`<div class="mat-arte">${capaArte(p,"art",true)}</div>`;
+  h+=`<div class="gut mat-tx"><h1>${v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:""}${esc(v.titulo)}</h1>`;
+  const sub=capaSub(p,L,"");if(sub&&sub!==v.titulo&&!(v.tem&&String(v.texto||"").indexOf(String(sub).replace(/…$/,""))===0))h+=`<p class="mat-sub">${esc(sub)}</p>`;
+  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>${esc(atualizadoTxt(u))}</span>`:""}<span>${minLeitura(p,v)} min de leitura</span>${matCorSelo(p)}</p>`;
+  if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
+  else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
+  h+=matDesfecho(p);
+  h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${marcarTermos(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${marcarTermos(v.texto)}</p></div>`;
+  h+=matCorBloco(p);h+=matVisuais(p);
+  if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
+  if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
+  const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
+  if(es.length)h+=`<div class="cpx-bl"><b>O essencial</b><ul>${es.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${marcarTermos(p.contexto)}</p>`;
+  if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${marcarTermos(p.proximo)}</p>`;
+  h+=matTempo(p);
+  const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().sort((a,b)=>tms(b.hora)-tms(a.hora));
+  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
+  const nx=matProx(p.id);h+=matRel(p,nx);
+  h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
+  Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
+  if(vazio&&pushH())HST++}
+
+/* ===== Próxima / deslizar ===== */
+function matIr(pid){
+  /* 168: guarda de onde veio (o voltar do celular volta para ela) */
+  try{const m=$("#layer .mat"),de=MAT_PID;if(m&&de&&pid!==de&&pautaById(pid)&&!(($("#layer2")||{}).innerHTML)){CM168_PILHA.push({pid:de,y:m.scrollTop});if(pushH())HST++}}catch(e){}
+  /* 063: aberta pelo giro: o giro anda junto */
+  if(IG_VOLTA&&Array.isArray(IG_VOLTA.ids)){const k=IG_VOLTA.ids.indexOf(pid);if(k>=0)IG_VOLTA.i=k}
+  /* 034: a anterior sai para a esquerda e a nova entra */
+  if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;const old=$("#layer .mat");if(old&&ANIM_OK()){old.style.transform="";saidaClone(old,"sai-esq",360)}
+  abrirMateria(pid);const m=$("#layer .mat");if(m){m.scrollTop=0;m.style.transform="";if(ANIM_OK()){m.classList.remove("mat-entra");void m.offsetWidth;m.classList.add("mat-entra")}}}
+
+/* ===== qual é a próxima ===== */
+function matProx(pid){/* 063: aberta pelo giro: a próxima é a próxima do giro */
+  if(IG_VOLTA&&document.getElementById("sg-fundo")&&Array.isArray(IG_VOLTA.ids)){const ids=IG_VOLTA.ids.filter(x=>!/#v$/.test(x)&&!/^(ag|h\d)/.test(x));const i=ids.indexOf(pid);const nx=i>=0?ids[i+1]:null;return nx?pautaById(nx):null}
+  const ids=capaOrdemIds(),i=ids.indexOf(pid);const rest=ids.slice(i+1).concat(i>=0?ids.slice(0,i):[]).map(pautaById).filter(Boolean);return rest.find(p=>!lidaAtual(p))||(i>=0?pautaById(ids[i+1]):null)||null}
+
+/* ===== quadro de números, gráficos e pesquisas ===== */
+function matVisuais(p){const o=(Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&["grafico","numeros","pesquisas"].includes(v.tipo)).map(v=>{let x="";try{x=visualHTML({...v,secao:secOf(p)})}catch(e){}return x?`<div class="mat-vis">${x}</div>`:""}).join("");
+  /* 118: o placar oficial vem antes dos outros gráficos */
+  let h="";try{h=po118MatHTML(p)}catch(e){h=""}return h+o}
+
+/* ===== linha do tempo ===== */
+function matTempo(p){
+  /* 144: data futura que já ficou para trás vira data com ano (só para a linha do tempo) */
+  try{p=mc1111Tempo(p)}catch(e){}
+  const h0=(()=>{const vt=(Array.isArray(p.visuais)?p.visuais:[]).find(v=>v&&v.tipo==="linha_do_tempo"&&Array.isArray(v.itens)&&v.itens.length>=2);let its=[],tit="Como a história andou";
+  if(vt){tit=vt.titulo||tit;its=vt.itens.filter(i=>i&&i.texto).map(i=>({q:String(i.quando||""),t:String(i.texto)}))}
+  else{const ts=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo&&x.hora);if(ts.length>=3&&tms(ts[ts.length-1].hora)-tms(ts[0].hora)>36*3600e3)its=ts.map(x=>({q:dataCurta(String(x.hora).slice(0,10)),t:x.titulo}))}
+  if(its.length<2)return "";return `<div class="mat-tl"><b>${esc(tit)}</b><ol>${its.slice(-7).map((i,k,a)=>`<li${k===a.length-1?' class="ult"':""}><time>${esc(i.q)}</time><span>${esc(i.t)}</span></li>`).join("")}</ol></div>`})();
+  /* 104: data que ainda vai acontecer aparece como próximo passo */
+  const h1=(h=>{if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
+  const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll("li")];let fut=0;
+  lis.forEach(li=>{const m=String(li.querySelector("time")?.textContent||"").trim().match(/^(\d{1,2})\/(\d{1,2})$/);if(m&&`${ano}-${m[2].padStart(2,"0")}-${m[1].padStart(2,"0")}`>hj){li.classList.add("fut");li.classList.remove("ult");fut++}});
+  if(fut){const pas=lis.filter(li=>!li.classList.contains("fut"));if(pas.length)pas[pas.length-1].classList.add("ult")}
+  return fut?tp.innerHTML:h}catch(e){return h}})(h0);
+  /* 116: datas por extenso, datetime e o ponto atual */
+  return (h=>{if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
+  const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll(".mat-tl li")];if(!lis.length)return h;let mudou=false;
+  lis.forEach(li=>{const t=li.querySelector("time");if(!t)return;const d=rc116Data(t.textContent,hj);if(!d)return;
+    if(d.iso>hj&&!li.classList.contains("fut")){li.classList.add("fut");mudou=true}
+    if(d.so){const tx=dataCurta(d.iso)+(d.iso.slice(0,4)!==ano?" de "+d.iso.slice(0,4):"");if(tx&&tx!==t.textContent){t.textContent=tx;mudou=true}}
+    if(!t.hasAttribute("datetime")){t.setAttribute("datetime",d.iso);mudou=true}});
+  if(!mudou)return h;
+  /* o ponto atual é o último que já aconteceu */
+  lis.forEach(li=>li.classList.remove("ult"));{let vf=false;lis.forEach(li=>{const tm=li.querySelector("time");if(li.classList.contains("fut"))vf=true;else if(vf&&tm&&!tm.getAttribute("datetime"))li.classList.add("fut")})}/* rótulo sem data ("Depois") depois de um ponto futuro também é futuro */const pas=lis.filter(li=>!li.classList.contains("fut"));(pas.length?pas[pas.length-1]:null)?.classList.add("ult");
+  return tp.innerHTML}catch(e){return h}})(h1)}
+
+/* ===== índice de capítulos ("Nesta matéria") ===== */
+function f113Caps(){(()=>{if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO=null}const m=$("#layer .mat"),c=m&&m.querySelector(".mat-c"),p=typeof MAT_PID!=="undefined"&&pautaById(MAT_PID);if(!c||!p)return;
+  c.querySelector(".fs2-cap")?.remove();
+  /* Perguntas: as mesmas da página da cobertura, depois da linha do tempo / do que vem agora */
+  if(!c.querySelector(".fs2-faq")){const h=f113FaqHTML(p);if(h){const vem=[...c.querySelectorAll(".cpx-c")].filter(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")).pop();
+    const ref=c.querySelector(".mat-tl")||vem||[...c.querySelectorAll(".mat-vis")].pop()||c.querySelector(".mat-p");if(ref)ref.insertAdjacentHTML("afterend",h)}}
+  const caps=[];const add=(el,nome)=>{if(el&&!caps.some(x=>x.el===el))caps.push({el,nome})};
+  add(c.querySelector(".mat-30")||c.querySelector(".mat-p"),"O que aconteceu");
+  /* um capítulo para cada bloco de visual (placar oficial, números, gráfico, pesquisas), na ordem em que aparecem */
+  {const vt=(Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&F113_VIS[v.tipo]);let k=0;
+    c.querySelectorAll(".mat-vis").forEach(el=>{if(el.classList.contains("po118"))add(el,"Placar oficial");else{const t=vt[k++];add(el,t?F113_VIS[t.tipo]:"Os números")}})}
+  add(c.querySelector(".mat-tl"),"Linha do tempo");
+  add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
+  add(c.querySelector(".fs2-faq"),"Perguntas");
+  /* a lista de atualizações vem depois das Perguntas: sem capítulo próprio, o fim da matéria ficava marcado como "Perguntas" (14/11) */
+  add([...c.querySelectorAll(".cpx-bl")].find(e=>/^Atualizações/.test((e.querySelector("b")||{}).textContent||"")),"Atualizações");
+  if(caps.length<2)return;
+  caps.sort((x,y)=>x.el.compareDocumentPosition(y.el)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1);
+  caps.forEach((x,i)=>{x.el.id="fs2c-"+i;x.el.classList.add("fs2-alvo");if(!x.el.hasAttribute("tabindex"))x.el.tabIndex=-1});
+  caps[0].el.insertAdjacentHTML("beforebegin",`<nav class="fs2-cap" aria-label="Nesta matéria"><span class="fs2-cap-k" aria-hidden="true">Nesta matéria</span><ol class="fs2-cap-l">${caps.map((x,i)=>`<li><button type="button" class="fs2-cap-b" data-f113cap="${i}" aria-controls="fs2c-${i}"${i===0?' aria-current="true"':""}><i aria-hidden="true">${i+1}</i>${esc(x.nome)}</button></li>`).join("")}</ol></nav>`);
+  if("IntersectionObserver" in window){const off=f113Off(m);
+    F113_IO=new IntersectionObserver(()=>f113CapAtual(),{root:m,rootMargin:`-${off}px 0px -55% 0px`,threshold:[0,1]});caps.forEach(x=>F113_IO.observe(x.el))}
+  /* saltos grandes de rolagem (topo/fim) podem não cruzar a faixa observada: confere também no fim da rolagem, uma vez por quadro */
+  if(!m.__f113s){m.__f113s=1;let pend=0;m.addEventListener("scroll",()=>{if(pend)return;pend=requestAnimationFrame(()=>{pend=0;f113CapAtual()})},{passive:true})}})();
+  /* 118: o bloco do placar ganha o nome certo; 143: o capítulo da linha do tempo leva o nome da seção */
+  try{po118Caps()}catch(e){}try{mc143NomeTl()}catch(e){}}
+/* 143: o capítulo da linha do tempo no "Nesta matéria" leva o mesmo nome da seção
+   ("Como a história andou" ou o título próprio da linha do tempo), em vez do fixo "Linha do tempo". */
+function mc143NomeTl(){const m=$("#layer .mat");if(!m)return;const tl=m.querySelector(".mat-tl.fs2-alvo");if(!tl||!tl.id)return;
+  const bt=m.querySelector(`.fs2-cap-b[aria-controls="${tl.id}"]`);if(!bt)return;
+  const b=tl.querySelector(":scope > b"),nome=((b&&b.textContent)||"").replace(/\s+/g," ").trim();
+  const t=[...bt.childNodes].filter(n=>n.nodeType===3).pop();if(t&&nome.length>=3&&nome.length<=32)t.textContent=nome}
+function f113CapVai(i){/* 158: o capítulo tocado fica marcado até a pessoa rolar */
+  MT158_CAPTAP=null;try{const m=$("#layer .mat"),el=m&&m.querySelector("#fs2c-"+i);if(el){const y=el.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop-f113Off(m);
+  MT158_CAPTAP={i:+i,t:Date.now(),s0:m.scrollTop,y:Math.max(0,Math.min(y,m.scrollHeight-m.clientHeight))}}}catch(e){}
+  const m=$("#layer .mat"),el=m&&m.querySelector("#fs2c-"+i),nav=m&&m.querySelector(".fs2-cap");if(!el)return;uso("fase2_capitulo");
+  const y=el.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop-f113Off(m);
+  F113_CAPFIXO=Date.now()+(f113Reduz()?60:700);if(nav)f113CapMarca(nav,i);
+  try{m.scrollTo({top:Math.max(0,y),behavior:f113Reduz()?"auto":"smooth"})}catch(e){m.scrollTop=Math.max(0,y)}
+  try{el.focus({preventScroll:true})}catch(e){}setTimeout(()=>{F113_CAPFIXO=0},720)}
+/* 168: linha de leitura no terço de cima; na última tela ela desce até o fim */
+function f113CapAtual(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;
+  const tp=MT158_CAPTAP;if(tp&&nav.querySelector(`[data-f113cap="${tp.i}"]`)&&(Math.abs(m.scrollTop-tp.y)<30||(Date.now()-tp.t<1600&&m.scrollTop>=Math.min(tp.s0,tp.y)-30&&m.scrollTop<=Math.max(tp.s0,tp.y)+30))){f113CapMarca(nav,tp.i);return}MT158_CAPTAP=null;
+  const off=f113Off(m),top=m.getBoundingClientRect().top,H=Math.max(1,m.clientHeight-off),els=[...m.querySelectorAll(".fs2-alvo[id^='fs2c-']")];if(!els.length)return;
+  let lim=off+Math.max(60,H*.33);const resta=m.scrollHeight-m.clientHeight-m.scrollTop;if(resta<H){const f=1-Math.max(0,resta)/H;lim+=(m.clientHeight-24-lim)*f}
+  let i=0;els.forEach((e,k)=>{if(e.getBoundingClientRect().top-top<=lim)i=k});f113CapMarca(nav,i)}
+/* 158: rola a faixa pela posição real da aba */
+function f113CapMarca(nav,i){nav.querySelectorAll("[data-f113cap]").forEach(b=>{if(+b.dataset.f113cap===i)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});
+  const b=nav.querySelector(`[data-f113cap="${i}"]`),l=nav.querySelector(".fs2-cap-l");if(!b||!l)return;
+  const lr=l.getBoundingClientRect(),br=b.getBoundingClientRect(),esq=br.left-lr.left+l.scrollLeft,M=16;
+  let x=null;if(br.left<lr.left+M)x=esq-M;else if(br.right>lr.right-M)x=Math.min(esq-M,esq+br.width-l.clientWidth+M);
+  if(x!=null){x=Math.max(0,x);try{l.scrollTo({left:x,behavior:f113Reduz()?"auto":"smooth"})}catch(e){l.scrollLeft=x}}}
+
+/* ===== convite para comentar no fim ===== */
+function fc105Mat(pid){(()=>{const m=$("#layer .mat");if(!m||m.querySelector(".fc105-mc")||!S.membro||PUB.on===false||!pautaById(pid))return;const ref=m.querySelector(".mat-pe,.mat-prox,.mat-rod");if(!ref)return;
+  ref.insertAdjacentHTML("beforebegin",`<div class="fc105-mc gut"><p><b>O que você acha?</b> Comente esta notícia com seus amigos.</p><div class="fc105-mcb"><button type="button" class="btn" data-cn102envp="${esc(pid)}">${fc105Svg(CN102_ICO.ana)}Publicar comentário</button><button type="button" class="btn ghost" data-cn102envs="${esc(pid)}">${fc105Svg(CN102_ICO.story)}No giro</button></div></div>`)})();
+  /* 106: o ícone de comentar */
+  try{const b=$("#layer .fc105-mc [data-cn102envp] .cn102-i");if(b)b.innerHTML=ICON.cmt.replace(/^<svg[^>]*>|<\/svg>$/g,"")}catch(e){}}
+
+/* ===== "Quem noticiou" (a folha da linha "Noticiado por") =====
+   Antes: 008 (anulada pela troca do 158), 158, 168 e 182. */
+function abrirCobertura(pid){(()=>{uso("cobertura");const p=pautaById(pid);if(!p)return;const c=p.checagem;
+  const lista=mt158Lista(p),ids=new Set(lista.map(v=>v.id));
+  const linha=v=>{const sp=mt158Esp(v.k),l=v.links[0];
+    return `<li><div class="cv-h"><b>${esc(mt158Nome(v.k))}</b>${sp?`<span class="cv-e"><i style="background:${ESPECTRO_COR[sp]}"></i>${esc(ESPECTRO_NOME[sp])}</span>`:""}</div>${v.enq.map(d=>`<p>${esc(d)}</p>`).join("")}${!v.enq.length&&v.cit?`<p>Citado no quadro acima.</p>`:""}${l?`<a href="${escU(l.url)}" target="_blank" rel="noopener">Ler a matéria ›</a>`:""}</li>`};
+  const vistos=new Set(),fora=REGUA().filter(k=>{const id=mt158Id(k);if(ids.has(id)||vistos.has(id))return false;vistos.add(id);return true});
+  sheet("Quem noticiou",`${c?`<div class="cv-box">${selo(p,false)}<p>${esc(mt158TextoQuadro(c.texto||(c.status==="divergencia"?"Os veículos trazem números diferentes.":"Os números principais batem em mais de um veículo.")))}</p></div>`:`<p class="hint" style="margin:0">Esta notícia não tem número principal para conferir, por isso não leva selo.</p>`}
+    <h4 class="cv-t">Noticiaram (${lista.length})</h4><ul class="cvl">${lista.map(linha).join("")}</ul>
+    ${fora.length?`<h4 class="cv-t">Não encontramos em</h4><p class="hint" style="margin:0">${fora.map(k=>esc(mt158Nome(k))).join(", ")}</p>`:""}
+    <p class="hint">O selo <b>No prumo</b> aparece quando os números principais da notícia batem em dois ou mais veículos. Quando não batem, aparece <b>Veículos divergem</b> e o texto acima diz quem publicou o quê. A posição de cada veículo no espectro é aproximada; veículo sem etiqueta ainda não foi classificado.</p>`)})();
+  /* 168: um resumo por veículo, "Antes de…" no resumo vencido e "Também noticiaram" sem link */
+  (()=>{try{const p=pautaById(pid),ul=document.querySelector(".sheet .cvl");if(!p||!ul||ul.dataset.cm168)return;ul.dataset.cm168="1";
+    const lista=mt158Lista(p),por={};lista.forEach(v=>por[mt158Nome(v.k)]=v);const tambem=[];
+    [...ul.children].forEach(li=>{const nome=((li.querySelector(".cv-h b"))||{}).textContent||"",v=por[nome];const ps=[...li.querySelectorAll(":scope>p")];
+      /* um resumo por veículo: o mais novo (o robô acrescenta no fim) */
+      if(ps.length>1)ps.slice(0,-1).forEach(x=>x.remove());const pr=li.querySelector(":scope>p");
+      if(pr&&!/^Citado no quadro/.test(pr.textContent)){const ve=cm168ResumoVelho(pr.textContent);if(ve)pr.insertAdjacentHTML("afterbegin",`<small class="cm168-antes">Antes de ${esc(ve)} · </small>`)}
+      const a=li.querySelector("a");
+      if(!pr&&v&&v.links&&v.links[0]&&v.links[0].titulo)li.querySelector(".cv-h").insertAdjacentHTML("afterend",`<p class="cm168-man">“${esc(v.links[0].titulo)}”</p>`);
+      else if(!pr&&!a){tambem.push(li)}});
+    if(tambem.length){const nomes=tambem.map(li=>((li.querySelector(".cv-h b"))||{}).textContent||"").filter(Boolean);tambem.forEach(li=>li.remove());
+      ul.insertAdjacentHTML("afterend",`<p class="hint cm168-tb"><b>Também noticiaram</b> (sem link nesta edição): ${nomes.map(esc).join(", ")}</p>`)}}catch(e){}})();
+  /* 182: a barra do espectro fica na folha */
+  {try{const p=pautaById(pid),h=document.querySelector(".sheet h4.cv-t");
+    if(p&&h&&!document.querySelector(".sheet .ft182-sp")){const s=ft182Esp0(p);if(s)h.insertAdjacentHTML("beforebegin",`<div class="ft182-sp">${s}</div>`)}}catch(e){}}}
+
+/* ===== página da cobertura =====
+   Antes: 031 (+ remendo no próprio 031), 089, 126, 158, 168 e 183. */
+function abrirPagCob(pid){
+  /* 158: atualizações quase iguais viram uma só também na linha do tempo da cobertura (só durante o desenho) */
+  const p=pautaById(pid);const ups=p&&p.atualizacoes;if(p&&Array.isArray(ups))p.atualizacoes=mt158Ups(ups);
+  try{
+    (()=>{uso("pag_cobertura");const p=pautaById(pid);if(!p){abrirDormente(pid);return}
+  const sec=secOf(p),n=p.neutro||{},tema=temaDe(p),seg=seguido(p),ult=ultimaAtualizacao(p)||p.hora,fs=p.fontes||[];
+  const ex=(FEED.explicadores||{})[tema];
+  sheet(p.tag||"Cobertura",`<div class="pc" data-pc="${esc(pid)}">${fotoDe(p)?capaArte(p,"art pc-foto",true):""}
+    <div class="pc-k"><span class="secdot" style="background:${secCor(sec)}"></span>${esc(secNome(sec))}${p.subtema?" · "+esc(p.subtema):""}</div>
+    <h2>${esc(n.titulo)}</h2>
+    <div class="pc-m">${cobStatus(p,true)}<span>${p.inicio?"Acompanhando desde "+esc(cobSP(p.inicio))+" · ":""}atualizada ${esc(quando(ult))}</span></div>
+    ${cobEtapas(p)}
+    <div class="pc-a">${tema?`<button type="button" class="btn${seg?" ghost":""}" data-cobseg="${esc(pid)}" aria-pressed="${seg}">${seg?"Seguindo ✓":"Seguir cobertura"}</button>`:""}<button type="button" class="btn ghost" data-cobler="${esc(pid)}">Ler a notícia</button></div>
+    <h4>Resumo</h4><p class="lead">${marcarTermos(n.texto||"")}</p>
+    ${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}
+    ${(p.faq||[]).length?`<h4>Entenda</h4><div class="faq">${p.faq.filter(q=>q&&q.p).map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(q.r||"")}</p></details>`).join("")}</div>`:""}
+    ${ex?`<button type="button" class="explain" data-explica="${esc(tema)}">Entenda: ${esc(tema)}</button>`:""}
+    ${cobLinha(p)?`<h4>Linha do tempo</h4>${cobLinha(p)}`:""}
+    ${fs.length?`<button type="button" class="cobx2 cobx2-d" data-cobfontes="${esc(pid)}"><span>Fontes</span><span class="chev" aria-hidden="true">›</span></button>`:""}
+    ${seg?`<p class="hint" style="margin:0">Você segue “${esc(tema)}”: ela sobe no feed e aparece em “Do que você segue”.</p>`:`<p class="hint" style="margin:0">Ao seguir, esta cobertura sobe no seu feed e aparece em “Do que você segue”, no topo.</p>`}
+  </div>`)})();
+    /* 031: O essencial (ao vivo) e Serviços */
+    (()=>{const p=pautaById(pid);const box=document.querySelector(".sheet .pc[data-pc]");if(!p||!box)return;
+  const ess=(Array.isArray(p.essencial)?p.essencial:[]).filter(Boolean).slice(0,3);const meta=box.querySelector(".pc-m"),et=box.querySelector(".etp");
+  if(ess.length&&p.status==="ao_vivo")(et||meta).insertAdjacentHTML("afterend",`<div class="pc-ess"><h4>O essencial</h4><ul>${ess.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`);
+  const res=[...box.querySelectorAll("h4")].find(x=>x.textContent==="Resumo");const lead=res&&res.nextElementSibling;
+  let extra="";if(Array.isArray(p.servicos)&&p.servicos.length)extra+=`<h4>Serviços e como ajudar</h4>${srvHTML(p)}`;
+  if(extra&&lead)lead.insertAdjacentHTML("afterend",extra)})();
+    /* 089: "Tudo sobre <assunto>" */
+    {try{const p=pautaById(pid);const k=document.querySelector(".sheet .pc[data-pc] .pc-k");
+  if(p&&p.subtema&&k&&!k.querySelector("[data-assunto]")&&asNorm(($("#layer .pfv-as")||{dataset:{}}).dataset.sub)!==asNorm(p.subtema)){const n=asDados(p.subtema);const tot=n?n.agora.length+n.antes.length:0;
+    if(tot>1)k.insertAdjacentHTML("afterend",`<button type="button" class="as-link" data-assunto="${esc(p.subtema)}">Tudo sobre ${esc(p.subtema)} <span>${tot} histórias ›</span></button>`)}}catch(e){}}
+    /* 126: a novidade da cobertura conta como vista */
+    {try{if(pid)qb126MarcaDepois(x=>String(x.k).indexOf("cob:"+pid+":")===0)}catch(e){}}
+  }finally{if(p&&Array.isArray(ups))p.atualizacoes=ups}
+  /* 158: "Cobertura desde" e o título do tema */
+  {try{if(p){const tema=temaDe(p);if(tema)mt158Titulo(tema);const m=document.querySelector(".sheet .pc[data-pc] .pc-m span:not(.cst)");if(m)m.innerHTML=m.innerHTML.replace("Acompanhando desde","Cobertura desde")}}catch(e){}}
+  /* 168: assunto como link e a nota do "O que vem" */
+  {try{cm168AsLink();const p=pautaById(pid),n=document.querySelector(".sheet .pc[data-pc] .note");
+    if(p&&n&&/^O que vem/.test((n.querySelector("b")||{}).textContent||""))cm168VemNota(n,p)}catch(e){}}
+  /* 183: fim, encerrada e o interruptor de avisos */
+  {try{cb183Pinta(pid)}catch(e){}}}
 /* ---------- conta: Supabase ---------- */
 %%PRUMO_DB%%
 const SB_URL="%%SB_URL%%",SB_KEY="%%SB_KEY%%";
@@ -7865,23 +8115,6 @@ function cobLinha(p){const it=[];const tt=p.titulos||[];
   return it.length?`<ol class="pct">${it.map(i=>`<li class="${i.c}"><small>${esc(i.k)} · ${esc(cobDH(i.h))}</small>${i.b?`<b>${esc(i.x)}</b>`:`<span>${esc(i.x)}</span>`}</li>`).join("")}</ol>`:""}
 function cobEtapas(p){const e=p.etapa;if(!e||!Array.isArray(e.passos)||e.passos.length<2)return "";const a=Math.max(0,Math.min(e.passos.length-1,e.atual|0));
   return `<ol class="etp" aria-label="Etapas">${e.passos.map((x,i)=>`<li class="${i<a?"ok":i===a?"ok at":""}"${i===a?' aria-current="step"':""}>${esc(x)}</li>`).join("")}</ol>`}
-function abrirPagCob(pid){uso("pag_cobertura");const p=pautaById(pid);if(!p){abrirDormente(pid);return}
-  const sec=secOf(p),n=p.neutro||{},tema=temaDe(p),seg=seguido(p),ult=ultimaAtualizacao(p)||p.hora,fs=p.fontes||[];
-  const ex=(FEED.explicadores||{})[tema];
-  sheet(p.tag||"Cobertura",`<div class="pc" data-pc="${esc(pid)}">${fotoDe(p)?capaArte(p,"art pc-foto",true):""}
-    <div class="pc-k"><span class="secdot" style="background:${secCor(sec)}"></span>${esc(secNome(sec))}${p.subtema?" · "+esc(p.subtema):""}</div>
-    <h2>${esc(n.titulo)}</h2>
-    <div class="pc-m">${cobStatus(p,true)}<span>${p.inicio?"Acompanhando desde "+esc(cobSP(p.inicio))+" · ":""}atualizada ${esc(quando(ult))}</span></div>
-    ${cobEtapas(p)}
-    <div class="pc-a">${tema?`<button type="button" class="btn${seg?" ghost":""}" data-cobseg="${esc(pid)}" aria-pressed="${seg}">${seg?"Seguindo ✓":"Seguir cobertura"}</button>`:""}<button type="button" class="btn ghost" data-cobler="${esc(pid)}">Ler a notícia</button></div>
-    <h4>Resumo</h4><p class="lead">${marcarTermos(n.texto||"")}</p>
-    ${p.proximo?`<p class="note"><b>O que vem.</b> ${marcarTermos(p.proximo)}</p>`:""}${p.e_o_brasil?`<p class="note"><b>E o Brasil?</b> ${marcarTermos(p.e_o_brasil)}</p>`:""}
-    ${(p.faq||[]).length?`<h4>Entenda</h4><div class="faq">${p.faq.filter(q=>q&&q.p).map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(q.r||"")}</p></details>`).join("")}</div>`:""}
-    ${ex?`<button type="button" class="explain" data-explica="${esc(tema)}">Entenda: ${esc(tema)}</button>`:""}
-    ${cobLinha(p)?`<h4>Linha do tempo</h4>${cobLinha(p)}`:""}
-    ${fs.length?`<button type="button" class="cobx2 cobx2-d" data-cobfontes="${esc(pid)}"><span>Fontes</span><span class="chev" aria-hidden="true">›</span></button>`:""}
-    ${seg?`<p class="hint" style="margin:0">Você segue “${esc(tema)}”: ela sobe no feed e aparece em “Do que você segue”.</p>`:`<p class="hint" style="margin:0">Ao seguir, esta cobertura sobe no seu feed e aparece em “Do que você segue”, no topo.</p>`}
-  </div>`)}
 function abrirDormente(id){const d=(FEED.dormentes||[]).find(x=>x.id===id);if(!d){toast("Esta cobertura não está mais disponível.");return}uso("dormente");
   const tk=norm(d.tema||d.tag||""),seg=!!(PREF.seguindo||{})[tk];const tt=Array.isArray(d.titulos)?d.titulos:[];
   sheet("Cobertura anterior",`<div class="pc"><div class="pc-k"><span class="secdot" style="background:${secCor(d.secao||"politica")}"></span>${esc(secNome(d.secao||"politica"))}${d.subtema?" · "+esc(d.subtema):""}</div>
@@ -7939,33 +8172,6 @@ function pontosDe(p,L){L=L||lente();const n=p.neutro||{};const v=L!=="neutro"&&p
   const pt=Array.isArray(o.pontos)?o.pontos.filter(x=>typeof x==="string"&&x.trim()):[];return pt.length?pt.slice(0,4):frases(o.texto).slice(0,3)}
 function capaSub(p,L,extra){const v=versao(p,L);if(v.tem)return capaFrase(v.texto,170);return extra||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro?.texto,170)}
 var MAT_PID=null;
-function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);
-  const Ly=$("#layer");const vazio=!Ly.innerHTML;MAT_PID=pid;if(!manter){uso("materia");evento("materia",pid,secOf(p));try{marcarLida(pid)}catch(e){}}
-  const u=ultimaAtualizacao(p)||p.hora,sv=!!(S.salvos||{})[p.id],f=fotoDe(p);
-  let h=`<div class="mat" role="dialog" aria-modal="true" aria-label="${esc(v.titulo)}"><div class="mat-top"><button type="button" class="mat-v" data-close aria-label="Voltar para a Capa">‹ Capa</button><span class="mat-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}</span><button type="button" class="mat-aa" data-mataa aria-label="Tamanho da letra" aria-expanded="false">Aa</button><button type="button" class="mat-sh" data-matshare="${id}" aria-label="Compartilhar">${ICON.send}</button><button type="button" class="mat-g" data-matsalvar="${id}" aria-pressed="${sv}">${sv?"Guardada":"Guardar"}</button></div><article class="mat-c">`;
-  h+=`<div class="mat-arte">${capaArte(p,"art",true)}</div>`;
-  h+=`<div class="gut mat-tx"><h1>${v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:""}${esc(v.titulo)}</h1>`;
-  const sub=capaSub(p,L,"");if(sub&&sub!==v.titulo&&!(v.tem&&String(v.texto||"").indexOf(String(sub).replace(/…$/,""))===0))h+=`<p class="mat-sub">${esc(sub)}</p>`;
-  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>${esc(atualizadoTxt(u))}</span>`:""}<span>${minLeitura(p,v)} min de leitura</span>${matCorSelo(p)}</p>`;
-  if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
-  else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
-  h+=matDesfecho(p);
-  h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
-  h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${marcarTermos(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${marcarTermos(v.texto)}</p></div>`;
-  h+=matCorBloco(p);h+=matVisuais(p);
-  if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
-  if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
-  const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
-  if(es.length)h+=`<div class="cpx-bl"><b>O essencial</b><ul>${es.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
-  if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${marcarTermos(p.contexto)}</p>`;
-  if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${marcarTermos(p.proximo)}</p>`;
-  h+=matTempo(p);
-  const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().sort((a,b)=>tms(b.hora)-tms(a.hora));
-  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
-  const nx=matProx(p.id);h+=matRel(p,nx);
-  h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
-  Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
-  if(vazio&&pushH())HST++}
 /* aba Buscar */
 function buscaRes(q){const hit=rc116Hit(q);const res=[];
   (FEED?.pautas||[]).map(p=>[p,hit(p.neutro?.titulo)?2:hit([p.tag,p.tema,p.subtema].join(" "))?1:0]).sort((a,b)=>b[1]-a[1]).forEach(([p])=>{if(hit([p.neutro?.titulo,p.neutro?.texto,p.tag,p.tema,p.subtema,p.contexto,p.por_que].join(" ")))res.push(`<li><button type="button" data-busca="${esc(p.id)}"><b>${esc(p.neutro?.titulo)}</b><span>${esc(secNome(secOf(p)))}${p.subtema?" · "+esc(p.subtema):""} · esta edição</span></button></li>`)});
@@ -8065,13 +8271,6 @@ function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==se
     if(cf.length)h+=`<div class="sh4-b"><h5>Conflitos e crises</h5><div class="sh4-cf">${cf.map(p=>`<button type="button" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${esc(p.subtema||"")}${(FEED.explicadores||{})[temaDe(p)]?" · Entenda":""}${p.e_o_brasil?" · E o Brasil?":""}</span></button>`).join("")}</div></div>`}
   return h+`</div>`}
 function srvHTML(p){return `<ul class="sh4-srv">${(p.servicos||[]).filter(x=>x&&x.texto).slice(0,6).map(x=>`<li>${esc(x.texto)}${x.url?` · <a href="${escU(x.url)}" target="_blank" rel="noopener">abrir ›</a>`:""}</li>`).join("")}</ul>`}
-/* página da cobertura: O essencial (ao vivo), E o Brasil?, Serviços */
-(function(){const ant=abrirPagCob;abrirPagCob=function(pid){ant(pid);const p=pautaById(pid);const box=document.querySelector(".sheet .pc[data-pc]");if(!p||!box)return;
-  const ess=(Array.isArray(p.essencial)?p.essencial:[]).filter(Boolean).slice(0,3);const meta=box.querySelector(".pc-m"),et=box.querySelector(".etp");
-  if(ess.length&&p.status==="ao_vivo")(et||meta).insertAdjacentHTML("afterend",`<div class="pc-ess"><h4>O essencial</h4><ul>${ess.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`);
-  const res=[...box.querySelectorAll("h4")].find(x=>x.textContent==="Resumo");const lead=res&&res.nextElementSibling;
-  let extra="";if(Array.isArray(p.servicos)&&p.servicos.length)extra+=`<h4>Serviços e como ajudar</h4>${srvHTML(p)}`;
-  if(extra&&lead)lead.insertAdjacentHTML("afterend",extra)}})();
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const sb=t.closest("[data-secsub]");if(sb){e.stopPropagation();SECF={sec:FILTRO,sub:sb.dataset.secsub,uf:SECF.sec===FILTRO?SECF.uf:""};renderPosts();uso("secsub");return}
   const su=t.closest("[data-secuf]");if(su){e.stopPropagation();SECF={sec:FILTRO,sub:SECF.sec===FILTRO?SECF.sub:"",uf:su.dataset.secuf};renderPosts();uso("secuf");return}
@@ -8293,16 +8492,9 @@ function graficoNoticia(v){const its=(Array.isArray(v.itens)?v.itens:[]).filter(
 }
   return `<div class="gn">${cab}${h}</svg>${pe}</div>`}
 function gnCol(x,y,w,h,cima){const r=Math.min(4,w/2,h);return cima?`M${x.toFixed(1)},${(y+h).toFixed(1)} V${(y+r).toFixed(1)} Q${x.toFixed(1)},${y.toFixed(1)} ${(x+r).toFixed(1)},${y.toFixed(1)} H${(x+w-r).toFixed(1)} Q${(x+w).toFixed(1)},${y.toFixed(1)} ${(x+w).toFixed(1)},${(y+r).toFixed(1)} V${(y+h).toFixed(1)} Z`:`M${x.toFixed(1)},${y.toFixed(1)} V${(y+h-r).toFixed(1)} Q${x.toFixed(1)},${(y+h).toFixed(1)} ${(x+r).toFixed(1)},${(y+h).toFixed(1)} H${(x+w-r).toFixed(1)} Q${(x+w).toFixed(1)},${(y+h).toFixed(1)} ${(x+w).toFixed(1)},${(y+h-r).toFixed(1)} V${y.toFixed(1)} Z`}
-function matVisuais(p){return (Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&["grafico","numeros","pesquisas"].includes(v.tipo)).map(v=>{let x="";try{x=visualHTML({...v,secao:secOf(p)})}catch(e){}return x?`<div class="mat-vis">${x}</div>`:""}).join("")}
-function matTempo(p){const vt=(Array.isArray(p.visuais)?p.visuais:[]).find(v=>v&&v.tipo==="linha_do_tempo"&&Array.isArray(v.itens)&&v.itens.length>=2);let its=[],tit="Como a história andou";
-  if(vt){tit=vt.titulo||tit;its=vt.itens.filter(i=>i&&i.texto).map(i=>({q:String(i.quando||""),t:String(i.texto)}))}
-  else{const ts=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo&&x.hora);if(ts.length>=3&&tms(ts[ts.length-1].hora)-tms(ts[0].hora)>36*3600e3)its=ts.map(x=>({q:dataCurta(String(x.hora).slice(0,10)),t:x.titulo}))}
-  if(its.length<2)return "";return `<div class="mat-tl"><b>${esc(tit)}</b><ol>${its.slice(-7).map((i,k,a)=>`<li${k===a.length-1?' class="ult"':""}><time>${esc(i.q)}</time><span>${esc(i.t)}</span></li>`).join("")}</ol></div>`}
 /* próxima matéria, na ordem da Capa (pula as já lidas quando dá) */
 var MAT_ORIG=null;
 function capaOrdemIds(){const ids=[...document.querySelectorAll("#v-capa .cpi[id^='cpi-']")].map(e=>e.id.slice(4));if(ids.length)return [...new Set(ids)];try{return capaEscolha().ord.map(p=>p.id)}catch(e){return []}}
-function matProx(pid){const ids=capaOrdemIds(),i=ids.indexOf(pid);const rest=ids.slice(i+1).concat(i>=0?ids.slice(0,i):[]).map(pautaById).filter(Boolean);return rest.find(p=>!lidaAtual(p))||(i>=0?pautaById(ids[i+1]):null)||null}
-function matIr(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;abrirMateria(pid);const m=document.querySelector("#layer .mat");if(m){m.scrollTop=0;m.classList.remove("mat-in");void m.offsetWidth;m.classList.add("mat-in")}}
 (function(){let x0=null,y0=0,t0=0,eixo=null,m=null,dx=0;
   document.addEventListener("touchstart",e=>{const mm=e.target&&e.target.closest&&e.target.closest("#layer .mat"),l2=$("#layer2");if(!mm||e.touches.length>1||(l2&&l2.innerHTML)||e.target.closest(".gr-box,.gn,input,textarea")){x0=null;return}m=mm;x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now();eixo=null;dx=0},{passive:true});
   document.addEventListener("touchmove",e=>{if(x0==null||!m)return;const t=e.touches[0],ddx=t.clientX-x0,ddy=t.clientY-y0;
@@ -8349,9 +8541,6 @@ function saidaClone(node,cls,ms){if(!node)return;const w=document.createElement(
   const c=node.cloneNode(true);c.querySelectorAll("[id]").forEach(x=>x.removeAttribute("id"));c.removeAttribute("id");w.appendChild(c);document.body.appendChild(w);
   if(node.scrollTop)c.scrollTop=node.scrollTop;const b=node.querySelector(".sh-b"),cb=c.querySelector(".sh-b");if(b&&cb&&b.scrollTop)cb.scrollTop=b.scrollTop;
   setTimeout(()=>w.remove(),ms||320)}
-(function(){const ant=abrirMateria;abrirMateria=function(pid,manter){const vazio=!$("#layer").innerHTML;const r=ant.apply(this,arguments);const m=$("#layer .mat");if(m&&vazio&&ANIM_OK())m.classList.add("mat-entra");return r}})();
-matIr=function(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;const old=$("#layer .mat");if(old&&ANIM_OK()){old.style.transform="";saidaClone(old,"sai-esq",360)}
-  abrirMateria(pid);const m=$("#layer .mat");if(m){m.scrollTop=0;m.style.transform="";if(ANIM_OK()){m.classList.remove("mat-entra");void m.offsetWidth;m.classList.add("mat-entra")}}};
 
 /* ---------- Etapa 16 ---------- */
 /* abrir só o que aparece: o Feed é desenhado quando for usado (ou num momento ocioso) */
@@ -8436,7 +8625,6 @@ function matRel(p,nx){if(!FEED)return "";const tm=temaDe(p),sec=secOf(p),L=lente
   return `<div class="mat-rel"><b>Relacionadas</b><ul>${l.map(q=>`<li><button type="button" data-matir="${esc(q.id)}">${capaArte(q,"mr-th")}<span><em style="color:${secCor(secOf(q))}">${esc(capaChapeu(q))}</em><b>${esc(versao(q,L).titulo)}</b></span></button></li>`).join("")}</ul></div>`}
 function matProgresso(){const m=$("#layer .mat");if(!m||m._prog)return;m._prog=1;const top=m.querySelector(".mat-top");if(!top)return;const b=document.createElement("i");b.className="mat-prog";b.setAttribute("aria-hidden","true");top.appendChild(b);
   let raf=0;const f=()=>{raf=0;const max=m.scrollHeight-m.clientHeight;b.style.transform=`scaleX(${max>0?Math.min(1,m.scrollTop/max).toFixed(3):0})`};m.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(f)},{passive:true});f()}
-(function(){const ant=abrirMateria;abrirMateria=function(pid,manter){const vazio=!$("#layer").innerHTML;const r=ant.apply(this,arguments);try{matProgresso();if(!manter){const h=$("#layer .mat h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}catch(e){}return r}})();
 
 /* ---------- Etapa 18 ---------- */
 function matLetraAtualiza(){const b=$("#layer .mat-aap");if(!b)return;const i=FZ.indexOf(PREF.fonte||1);b.querySelector("[data-matfz='-1']").disabled=i<=0;b.querySelector("[data-matfz='1']").disabled=i>=FZ.length-1;
@@ -8451,7 +8639,6 @@ function matZoom(el){const img=el.querySelector("img");if(!img||!img.classList.c
   if(vazio&&pushH())HST++;uso("foto_zoom")}
 
 /* ---------- Etapa 19 ---------- */
-(function(){const ant=abrirMateria;abrirMateria=function(){window.MT_USADOS=new Set();try{return ant.apply(this,arguments)}finally{window.MT_USADOS=null}}})();
 var INST_EV=null;
 addEventListener("beforeinstallprompt",e=>{e.preventDefault();INST_EV=e});
 addEventListener("appinstalled",()=>{lsSet("prumo-inst",{ok:1});const c=$("#v-capa .cp-inst");if(c)c.remove();uso("instalou")});
@@ -9154,8 +9341,6 @@ function igFundoTira(){document.getElementById("sg-fundo")?.remove()}
   if(cl&&$("#layer .mat")){cl.querySelectorAll(".bars b").forEach(b=>b.style.animationPlayState="paused");document.body.appendChild(cl);
     const b=$("#layer .mat-v");if(b){b.textContent="‹ Giro";b.setAttribute("aria-label","Voltar para o giro")}}
   return r}}
-/* matéria aberta pelo story e trocada por outra (deslizar para a esquerda): o botão continua "‹ Story" */
-{const _am47=abrirMateria;abrirMateria=function(){const r=_am47.apply(this,arguments);if(IG_VOLTA&&document.getElementById("sg-fundo")){const b=$("#layer .mat-v");if(b){b.textContent="‹ Giro";b.setAttribute("aria-label","Voltar para o giro")}}return r}}
 /* Gostei: ícone dourado e pulso */
 
 /* teclado do celular: o rodapé sobe junto */
@@ -9193,10 +9378,6 @@ function horaDia(iso){const d=new Date(iso);if(isNaN(d))return "";const dia=data
 function atualizadoTxt(iso){const t=horaDia(iso);if(!t)return "Atualizado";return dataSP(iso)===hojeSP()?"Atualizado às "+t:"Atualizado "+t.replace(/, /,", às ")}
 /* voltar da matéria: diz de onde veio */
 var VOLTA_NOME={capa:"Capa",feed:"Feed",busca:"Busca",saved:"Guardadas",me:"Perfil",msgs:"Conversas",play:"Interagir"};
-{const _am51=abrirMateria;abrirMateria=function(){const r=_am51.apply(this,arguments);try{if(!document.getElementById("sg-fundo")){const b=$("#layer .mat-v"),n=VOLTA_NOME[VIEW]||"";if(b&&n){b.textContent="‹ "+n;b.setAttribute("aria-label","Voltar para "+(VIEW==="busca"?"a Busca":VIEW==="saved"?"Guardadas":VIEW==="me"?"o Perfil":VIEW==="msgs"?"Conversas":VIEW==="feed"?"o Feed":"a Capa"))}}}catch(e){}return r}}
-/* matéria aberta pelo story: a próxima é a próxima notícia do story */
-{const _mp51=matProx;matProx=function(pid){if(IG_VOLTA&&document.getElementById("sg-fundo")&&Array.isArray(IG_VOLTA.ids)){const ids=IG_VOLTA.ids.filter(x=>!/#v$/.test(x)&&!/^(ag|h\d)/.test(x));const i=ids.indexOf(pid);const nx=i>=0?ids[i+1]:null;return nx?pautaById(nx):null}return _mp51.apply(this,arguments)}}
-{const _mi51=matIr;matIr=function(pid){if(IG_VOLTA&&Array.isArray(IG_VOLTA.ids)){const k=IG_VOLTA.ids.indexOf(pid);if(k>=0)IG_VOLTA.i=k}return _mi51.apply(this,arguments)}}
 /* botão das versões: some ao rolar para baixo, volta ao rolar para cima */
 (function(){let y0=scrollY,oc=false;addEventListener("scroll",()=>{const y=scrollY,dy=y-y0;if(Math.abs(dy)<6)return;const novo=dy>0&&y>120;if(novo!==oc){oc=novo;document.documentElement.classList.toggle("lp-some",oc)}y0=y},{passive:true})})();
 /* indicadores: dia do dado quando não é de hoje */
@@ -11047,9 +11228,6 @@ function asDesenha(){const el=$("#layer .pfv-as");if(!el)return;const d=asDados(
 function abrirAssunto(sub){if(!sub||!FEED)return;uso("assunto");if($("#layer").innerHTML)closeLayer();
   $("#layer").innerHTML=`<div class="pfv pfv-as" role="dialog" aria-modal="true" aria-label="${esc(sub)}" data-sub="${esc(sub)}"></div>`;if(pushH())HST++;asDesenha()}
 /* entrada: o assunto no topo da página da cobertura vira um link */
-{const _pc75=abrirPagCob;abrirPagCob=function(pid){const r=_pc75.apply(this,arguments);try{const p=pautaById(pid);const k=document.querySelector(".sheet .pc[data-pc] .pc-k");
-  if(p&&p.subtema&&k&&!k.querySelector("[data-assunto]")&&asNorm(($("#layer .pfv-as")||{dataset:{}}).dataset.sub)!==asNorm(p.subtema)){const n=asDados(p.subtema);const tot=n?n.agora.length+n.antes.length:0;
-    if(tot>1)k.insertAdjacentHTML("afterend",`<button type="button" class="as-link" data-assunto="${esc(p.subtema)}">Tudo sobre ${esc(p.subtema)} <span>${tot} histórias ›</span></button>`)}}catch(e){}return r}}
 {const _ad75=abrirDormente;abrirDormente=function(id){const r=_ad75.apply(this,arguments);try{const d=(FEED.dormentes||[]).find(x=>x.id===id);const b=document.querySelector(".sheet .sh-b");
   if(d&&d.subtema&&b&&!b.querySelector("[data-assunto]")&&asNorm(($("#layer .pfv-as")||{dataset:{}}).dataset.sub)!==asNorm(d.subtema)){const n=asDados(d.subtema);const tot=n?n.agora.length+n.antes.length:0;
     if(tot>1)b.insertAdjacentHTML("afterbegin",`<button type="button" class="as-link" data-assunto="${esc(d.subtema)}">Tudo sobre ${esc(d.subtema)} <span>${tot} histórias ›</span></button>`)}}catch(e){}return r}}
@@ -12555,12 +12733,6 @@ function vbackAjusta(){const n={capa:"Capa",feed:"Feed",busca:"Busca",msgs:"Conv
 /* foto que não carrega (sem internet): a bolinha do story mostra a ilustração em vez de um círculo vazio */
 document.addEventListener("error",e=>{const im=e.target;if(!im||im.tagName!=="IMG")return;const f=im.closest&&im.closest("#secs .ig-f.paper");if(!f)return;
   const sec=(f.closest("[data-sec-story]")||{dataset:{}}).dataset.secStory;try{const p=sec&&(pautasDa(sec).find(x=>!SEEN.has(seenKey(x)))||pautasDa(sec)[0]);if(p&&!f.querySelector("svg"))f.insertAdjacentHTML("beforeend",svgOf(p.imagem))}catch(_){}},true);
-/* linha do tempo da matéria: data que ainda vai acontecer (ex.: votação amanhã) aparece como "próximo passo", não como o ponto atual */
-{const _mt104=matTempo;matTempo=function(p){const h=_mt104.apply(this,arguments);if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
-  const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll("li")];let fut=0;
-  lis.forEach(li=>{const m=String(li.querySelector("time")?.textContent||"").trim().match(/^(\d{1,2})\/(\d{1,2})$/);if(m&&`${ano}-${m[2].padStart(2,"0")}-${m[1].padStart(2,"0")}`>hj){li.classList.add("fut");li.classList.remove("ult");fut++}});
-  if(fut){const pas=lis.filter(li=>!li.classList.contains("fut"));if(pas.length)pas[pas.length-1].classList.add("ult")}
-  return fut?tp.innerHTML:h}catch(e){return h}}}
 /* ---------- 104: correções do Feed, dos posts e do perfil (revisão de uso real) ---------- */
 /* curtidas dos posts dos membros no jeito do Instagram: "Curtido por …" (as notícias seguem com "gostou") */
 function fd104Curtidas(pid){const el=document.getElementById("p-"+pid);if(!el||String(pid).indexOf("u:")!==0)return;const lk=el.querySelector("[data-likes]");if(!lk)return;
@@ -12802,11 +12974,7 @@ if(FOCO_LIGADO){
   {const _fg=edFigs;edFigs=function(){const r=_fg.apply(this,arguments);try{const q=$("#ce-figq");if(q)q.placeholder="Buscar figurinhas"}catch(e){}return r}}
   /* perfil vazio: o convite fala de conteúdo */
   {const _pt=pfTiles;pfTiles=function(){const h=_pt.apply(this,arguments);return typeof h==="string"?h.replace("Compartilhe sua primeira publicação.","Comente uma notícia ou conte o que aconteceu perto de você."):h}}
-  /* matéria: convite para comentar no fim */
-  {const _am=abrirMateria;abrirMateria=function(pid){const r=_am.apply(this,arguments);try{fc105Mat(pid)}catch(e){}return r}}
 }
-function fc105Mat(pid){const m=$("#layer .mat");if(!m||m.querySelector(".fc105-mc")||!S.membro||PUB.on===false||!pautaById(pid))return;const ref=m.querySelector(".mat-pe,.mat-prox,.mat-rod");if(!ref)return;
-  ref.insertAdjacentHTML("beforebegin",`<div class="fc105-mc gut"><p><b>O que você acha?</b> Comente esta notícia com seus amigos.</p><div class="fc105-mcb"><button type="button" class="btn" data-cn102envp="${esc(pid)}">${fc105Svg(CN102_ICO.ana)}Publicar comentário</button><button type="button" class="btn ghost" data-cn102envs="${esc(pid)}">${fc105Svg(CN102_ICO.story)}No giro</button></div></div>`)}
 
 /* ===== 7. cliques ===== */
 window.addEventListener("click",e=>{if(!FOCO_LIGADO)return;const t=e.target;if(!t||!t.closest||!ED||!$("#layer .ce")||t.closest("#layer2"))return;let b;
@@ -12918,7 +13086,6 @@ function cp106Coracao(){try{const h=$("#v-capa .cp-top");if(h&&!h.querySelector(
 /* 6. "O que você acha?" no fim da matéria: ícone de comentário; e, se a pessoa desistir do post ou do story, volta para a matéria
    (antes o editor fechava a matéria e o ✕ levava para a Capa) */
 var MC106=null;
-{const _fm106=fc105Mat;fc105Mat=function(pid){const r=_fm106.apply(this,arguments);try{const b=$("#layer .fc105-mc [data-cn102envp] .cn102-i");if(b)b.innerHTML=ICON.cmt.replace(/^<svg[^>]*>|<\/svg>$/g,"")}catch(e){}return r}}
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("#layer .fc105-mc [data-cn102envp],#layer .fc105-mc [data-cn102envs]");
   if(b){MC106={pid:b.dataset.cn102envp||b.dataset.cn102envs,t:Date.now()};return}
   if(t.closest("[data-edpubpo],[data-edpubst]")&&MC106)MC106.pub=1},true);
@@ -13558,7 +13725,6 @@ function htDesenha(){const el=$("#layer .pfv-ht");if(!el)return;const k=el.datas
 function htLinhaNot(p,cls){const l=htDaPauta(p);return l.length?`<p class="${cls}">${l.map(t=>`<button type="button" class="ht-n" data-ht="${esc(t)}">${esc(t)}</button>`).join("")}</p>`:""}
 function htNaMateria(pid){const p=pautaById(pid),m=$("#layer .mat .mat-c");if(!p||!m)return;if(!m.querySelector(".ht-mat")){const h=htLinhaNot(p,"ht-mat");if(h){const h1=m.querySelector("h1");if(h1)h1.insertAdjacentHTML("beforebegin",h);else m.insertAdjacentHTML("afterbegin",h)}}
   if(HT_MAT_VOLTA){const b=$("#layer .mat-v");if(b){b.textContent="‹ "+HT_MAT_VOLTA;b.setAttribute("aria-label","Voltar para "+HT_MAT_VOLTA)}}}
-{const _am111=abrirMateria;abrirMateria=function(pid){const r=_am111.apply(this,arguments);try{htNaMateria(pid)}catch(e){}return r}}
 {const _ps111=postSeguro;postSeguro=function(p){let h=_ps111.apply(this,arguments);try{if(typeof h!=="string"||!h||!p||p.__fc107)return h;
     let sg=null;if(p.__pub)sg=htSeguidaDePost(p.__pub);else{const pp=pautaById(p.id)||p;const ln=htLinhaNot(pp,"ht-nl");if(ln&&h.indexOf('class="ht-nl')<0){const i=h.indexOf('<div class="pollbox"');if(i>0)h=h.slice(0,i)+ln+h.slice(i)}sg=htSeguidaDe(pp)}
     if(sg)h=h.replace(/^(\s*<article\b[^>]*>)/,`$1<p class="ht-por gut">Por seguir <b>${esc(sg)}</b></p>`)}catch(e){}return h}}
@@ -13906,44 +14072,9 @@ var F113_IO=null;
 const F113_VIS={numeros:"Os números",grafico:"O gráfico",pesquisas:"As pesquisas"};
 function f113FaqHTML(p){const fq=(Array.isArray(p.faq)?p.faq:[]).filter(q=>q&&typeof q.p==="string"&&q.p.trim()).slice(0,6);if(!fq.length)return "";
   return `<div class="fs2-faq"><b>Perguntas</b>${fq.map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(typeof q.r==="string"?q.r:"")}</p></details>`).join("")}</div>`}
-function f113Caps(){if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO=null}const m=$("#layer .mat"),c=m&&m.querySelector(".mat-c"),p=typeof MAT_PID!=="undefined"&&pautaById(MAT_PID);if(!c||!p)return;
-  c.querySelector(".fs2-cap")?.remove();
-  /* Perguntas: as mesmas da página da cobertura, depois da linha do tempo / do que vem agora */
-  if(!c.querySelector(".fs2-faq")){const h=f113FaqHTML(p);if(h){const vem=[...c.querySelectorAll(".cpx-c")].filter(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")).pop();
-    const ref=c.querySelector(".mat-tl")||vem||[...c.querySelectorAll(".mat-vis")].pop()||c.querySelector(".mat-p");if(ref)ref.insertAdjacentHTML("afterend",h)}}
-  const caps=[];const add=(el,nome)=>{if(el&&!caps.some(x=>x.el===el))caps.push({el,nome})};
-  add(c.querySelector(".mat-30")||c.querySelector(".mat-p"),"O que aconteceu");
-  /* um capítulo para cada bloco de visual (placar oficial, números, gráfico, pesquisas), na ordem em que aparecem */
-  {const vt=(Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&F113_VIS[v.tipo]);let k=0;
-    c.querySelectorAll(".mat-vis").forEach(el=>{if(el.classList.contains("po118"))add(el,"Placar oficial");else{const t=vt[k++];add(el,t?F113_VIS[t.tipo]:"Os números")}})}
-  add(c.querySelector(".mat-tl"),"Linha do tempo");
-  add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
-  add(c.querySelector(".fs2-faq"),"Perguntas");
-  /* a lista de atualizações vem depois das Perguntas: sem capítulo próprio, o fim da matéria ficava marcado como "Perguntas" (14/11) */
-  add([...c.querySelectorAll(".cpx-bl")].find(e=>/^Atualizações/.test((e.querySelector("b")||{}).textContent||"")),"Atualizações");
-  if(caps.length<2)return;
-  caps.sort((x,y)=>x.el.compareDocumentPosition(y.el)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1);
-  caps.forEach((x,i)=>{x.el.id="fs2c-"+i;x.el.classList.add("fs2-alvo");if(!x.el.hasAttribute("tabindex"))x.el.tabIndex=-1});
-  caps[0].el.insertAdjacentHTML("beforebegin",`<nav class="fs2-cap" aria-label="Nesta matéria"><span class="fs2-cap-k" aria-hidden="true">Nesta matéria</span><ol class="fs2-cap-l">${caps.map((x,i)=>`<li><button type="button" class="fs2-cap-b" data-f113cap="${i}" aria-controls="fs2c-${i}"${i===0?' aria-current="true"':""}><i aria-hidden="true">${i+1}</i>${esc(x.nome)}</button></li>`).join("")}</ol></nav>`);
-  if("IntersectionObserver" in window){const off=f113Off(m);
-    F113_IO=new IntersectionObserver(()=>f113CapAtual(),{root:m,rootMargin:`-${off}px 0px -55% 0px`,threshold:[0,1]});caps.forEach(x=>F113_IO.observe(x.el))}
-  /* saltos grandes de rolagem (topo/fim) podem não cruzar a faixa observada: confere também no fim da rolagem, uma vez por quadro */
-  if(!m.__f113s){m.__f113s=1;let pend=0;m.addEventListener("scroll",()=>{if(pend)return;pend=requestAnimationFrame(()=>{pend=0;f113CapAtual()})},{passive:true})}}
 /* altura do topo fixo da matéria + o índice grudado */
 function f113Off(m){const t=m.querySelector(".mat-top"),n=m.querySelector(".fs2-cap");return Math.round((t?t.getBoundingClientRect().height:52)+(n?n.getBoundingClientRect().height:44)+8)}
 var F113_CAPFIXO=0;
-function f113CapAtual(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;const off=f113Off(m),top=m.getBoundingClientRect().top;
-  const els=[...m.querySelectorAll(".fs2-alvo[id^='fs2c-']")];let i=0;els.forEach((e,k)=>{if(e.getBoundingClientRect().top-top<=off+40)i=k});
-  /* no fim da matéria, o último capítulo */
-  if(m.scrollTop+m.clientHeight>=m.scrollHeight-4&&els.length){const ul=els[els.length-1];if(ul.getBoundingClientRect().top<top+m.clientHeight)i=els.length-1}
-  f113CapMarca(nav,i)}
-function f113CapMarca(nav,i){nav.querySelectorAll("[data-f113cap]").forEach(b=>{const on=+b.dataset.f113cap===i;if(on)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});
-  const b=nav.querySelector(`[data-f113cap="${i}"]`),l=nav.querySelector(".fs2-cap-l");if(b&&l){const x=b.offsetLeft-12;if(x<l.scrollLeft||b.offsetLeft+b.offsetWidth>l.scrollLeft+l.clientWidth)try{l.scrollTo({left:Math.max(0,x),behavior:f113Reduz()?"auto":"smooth"})}catch(e){l.scrollLeft=Math.max(0,x)}}}
-function f113CapVai(i){const m=$("#layer .mat"),el=m&&m.querySelector("#fs2c-"+i),nav=m&&m.querySelector(".fs2-cap");if(!el)return;uso("fase2_capitulo");
-  const y=el.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop-f113Off(m);
-  F113_CAPFIXO=Date.now()+(f113Reduz()?60:700);if(nav)f113CapMarca(nav,i);
-  try{m.scrollTo({top:Math.max(0,y),behavior:f113Reduz()?"auto":"smooth"})}catch(e){m.scrollTop=Math.max(0,y)}
-  try{el.focus({preventScroll:true})}catch(e){}setTimeout(()=>{F113_CAPFIXO=0},720)}
 
 /* ===== 3. Prateleiras no Feed ===== */
 var F113_SH_LIGA=false,F113_NAPRAT=new Set();const F113_SOLTA=new Set();
@@ -14004,8 +14135,6 @@ if(VN_FASE2){
     return l.concat(ex).map(x=>{if(!f113Fio(x))return x;const y=Object.assign(Object.create(Object.getPrototypeOf(x)),x,{texto:f113Tudo(x)});try{Object.defineProperty(y,"__f113o",{value:x})}catch(e){}return y})}catch(e){return l}}}
   {const _hc113=htPostsCom;htPostsCom=function(){const l=_hc113.apply(this,arguments);return Array.isArray(l)?l.map(x=>x&&x.__f113o||x):l}}
   {const _hs113=htSeguidaDePost;htSeguidaDePost=function(x){if(x&&f113Fio(x))try{return _hs113.call(this,{texto:f113Tudo(x)})}catch(e){}return _hs113.apply(this,arguments)}}
-  /* matéria */
-  {const _am113=abrirMateria;abrirMateria=function(){const r=_am113.apply(this,arguments);try{f113Caps()}catch(e){console.error(e)}return r}}
   /* Feed: prateleiras só na lista principal ("Tudo"), uma vez por desenho; a contagem "faltam N" fica como antes */
   {const _rp113=renderPosts;renderPosts=function(){F113_SH_LIGA=true;try{return _rp113.apply(this,arguments)}finally{F113_SH_LIGA=false}}}
   {const _ae113=atualizarEmDia;atualizarEmDia=function(){const o=F113_SH_LIGA;F113_SH_LIGA=false;try{return _ae113.apply(this,arguments)}finally{F113_SH_LIGA=o}}}
@@ -14149,16 +14278,6 @@ function rc116AvisoCapa(){try{const c=document.getElementById("v-capa");if(!c)re
 function rc116Data(q,hoje){const s=String(q||"");const m=s.match(/(?:^|[^\d])(\d{1,2})º?\/(\d{1,2})(?:\/(\d{4}))?(?!\d)/);if(!m)return null;const d=+m[1],mm=+m[2];if(!d||d>31||!mm||mm>12)return null;
   let y=m[3]?+m[3]:+hoje.slice(0,4);if(!m[3]){const hm=+hoje.slice(5,7);if(hm>=11&&mm<=2)y++;else if(hm<=2&&mm>=11)y--}
   return {iso:`${y}-${String(mm).padStart(2,"0")}-${String(d).padStart(2,"0")}`,so:/^\s*\d{1,2}º?\/\d{1,2}(?:\/\d{4})?\s*$/.test(s)}}
-{const _mt116=matTempo;matTempo=function(p){const h=_mt116.apply(this,arguments);if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
-  const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll(".mat-tl li")];if(!lis.length)return h;let mudou=false;
-  lis.forEach(li=>{const t=li.querySelector("time");if(!t)return;const d=rc116Data(t.textContent,hj);if(!d)return;
-    if(d.iso>hj&&!li.classList.contains("fut")){li.classList.add("fut");mudou=true}
-    if(d.so){const tx=dataCurta(d.iso)+(d.iso.slice(0,4)!==ano?" de "+d.iso.slice(0,4):"");if(tx&&tx!==t.textContent){t.textContent=tx;mudou=true}}
-    if(!t.hasAttribute("datetime")){t.setAttribute("datetime",d.iso);mudou=true}});
-  if(!mudou)return h;
-  /* o ponto atual é o último que já aconteceu */
-  lis.forEach(li=>li.classList.remove("ult"));{let vf=false;lis.forEach(li=>{const tm=li.querySelector("time");if(li.classList.contains("fut"))vf=true;else if(vf&&tm&&!tm.getAttribute("datetime"))li.classList.add("fut")})}/* rótulo sem data ("Depois") depois de um ponto futuro também é futuro */const pas=lis.filter(li=>!li.classList.contains("fut"));(pas.length?pas[pas.length-1]:null)?.classList.add("ult");
-  return tp.innerHTML}catch(e){return h}}}
 /* ---------- 117: ajustes da Capa e do Relato (03/11) ----------
    1. Aviso de atraso da Capa: não pisca mais na abertura. A correção está na origem (024, 027 e 028): o aviso só é desenhado depois que a
       edição da rede e o rodadas.json chegaram (AVISO_FEED_OK / AVISO_ROD_OK), e entra uma vez só, se o atraso for de verdade (avisoAtrasoDepois).
@@ -14281,12 +14400,9 @@ function po118LinhaHTML(p){const l=po118Da(p);if(!l||!l.length)return "";const e
   return `<button type="button" class="po118-ln" data-capmat="${esc(p.id)}" aria-label="${esc(al)}"><i class="po118-ln-${e.res==="rejeitado"?"no":e.res?"ok":"x"}" aria-hidden="true"></i><b>${esc(c.n)} ${po118Verbo(e)}</b>${num?`<span class="po118-sep" aria-hidden="true"> · </span><span class="po118-n">${esc(num)}</span>`:""}${e.turno?`<span class="po118-sep" aria-hidden="true"> · </span><span class="po118-tu">${esc(e.turno)} turno</span>`:""}<span class="po118-ir" aria-hidden="true"> ›</span></button>`}
 
 /* ===== 4) onde entra ===== */
-/* matéria: antes dos outros gráficos (é a parte "Os números" da matéria) */
-{const _mv118=matVisuais;matVisuais=function(p){const o=_mv118.apply(this,arguments);let h="";try{h=po118MatHTML(p)}catch(e){h=""}return h+o}}
 /* capítulos (fase 2): o bloco ganha o nome certo */
 function po118Caps(){const m=$("#layer .mat");if(!m)return;const b=m.querySelector(".po118.fs2-alvo");if(!b||!b.id)return;const bt=m.querySelector(`.fs2-cap-b[aria-controls="${b.id}"]`);if(!bt)return;
   const t=[...bt.childNodes].filter(n=>n.nodeType===3).pop();if(t)t.textContent="Placar oficial"}
-if(typeof f113Caps==="function"){const _fc118=f113Caps;f113Caps=function(){const r=_fc118.apply(this,arguments);try{po118Caps()}catch(e){}return r}}
 /* matéria já aberta quando os dados chegam: põe, troca ou tira o bloco no lugar */
 function po118NaMateria(){const m=$("#layer .mat"),c=m&&m.querySelector(".mat-c");if(!c||typeof MAT_PID==="undefined")return;const p=pautaById(MAT_PID);if(!p)return;
   const h=po118MatHTML(p),old=c.querySelector(".po118");if(!h&&!old)return;
@@ -14338,10 +14454,6 @@ function ta120Falhou(){document.querySelectorAll("#layer .fl119-sk").forEach(s=>
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-ta120det]");if(!b)return;e.stopPropagation();
   const box=b.closest(".ta120-det");if(box)box.outerHTML=`<div class="cp-sk fl119-sk" role="status" aria-label="Carregando o resto da matéria"><i style="height:14px;width:92%"></i><i style="height:14px;width:84%"></i><i style="height:14px;width:60%"></i></div>`;
   fl119Completar()},true);
-
-/* TA06: tempo de leitura só com o texto */
-{const _am120=abrirMateria;abrirMateria=function(){const r=_am120.apply(this,arguments);
-  try{if(FL119.parcial)document.querySelectorAll("#layer .mat-meta span").forEach(s=>{if(/min de leitura/.test(s.textContent))s.classList.add("ta120-esp")})}catch(e){}return r}}
 
 /* TA04: a linha do placar oficial confere ao abrir o Feed */
 
@@ -15173,7 +15285,6 @@ function qb126MarcaPub(id){id=String(id||"");if(!id)return;qb126MarcaDepois(x=>x
 {const _pi126=pubIrPara;pubIrPara=function(id){const r=_pi126.apply(this,arguments);qb126MarcaPub(id);return r}}
 if(typeof vn112AbrePub==="function"){const _va126=vn112AbrePub;vn112AbrePub=function(id){const r=_va126.apply(this,arguments);qb126MarcaPub(id);return r}}
 {const _ap126=abrirPerfil;abrirPerfil=function(u){const r=_ap126.apply(this,arguments);try{if(u&&u!==S.uid)qb126MarcaDepois(x=>x.k==="a:"+u||(nt124Cat(x)==="seguidores"&&(x.us||[]).includes(u)))}catch(e){}return r}}
-{const _pc126=abrirPagCob;abrirPagCob=function(pid){const r=_pc126.apply(this,arguments);try{if(pid)qb126MarcaDepois(x=>String(x.k).indexOf("cob:"+pid+":")===0)}catch(e){}return r}}
 
 /* ===== NB02/NB03: as preferências seguem o que está no banco ===== */
 function qb126Caminho(){return `data/users/${S.uid}/prefs`}
@@ -17673,13 +17784,6 @@ async function tl142AdmTique(){if(!tl142SouAdm()||TL142.v15!==true||typeof SB===
   try{const r=await SB.rpc("tl142_alertas");if(r.error)return;const ant=TL142.alertas.map(a=>a.id+"|"+a.alerta_em).join();TL142.alertas=Array.isArray(r.data)?r.data:[];
     if(ant!==TL142.alertas.map(a=>a.id+"|"+a.alerta_em).join()){try{atRedesenha()}catch(e){}try{nt124Pinta()}catch(e){}}}catch(e){}}
 TL142.custo=Date.now()-TL142.t0;
-/* Melhoria contínua 09/11/2026: o capítulo da linha do tempo no "Nesta matéria" leva o mesmo nome da seção
-   ("Como a história andou" ou o título próprio da linha do tempo), em vez do fixo "Linha do tempo". */
-function mc143NomeTl(){const m=$("#layer .mat");if(!m)return;const tl=m.querySelector(".mat-tl.fs2-alvo");if(!tl||!tl.id)return;
-  const bt=m.querySelector(`.fs2-cap-b[aria-controls="${tl.id}"]`);if(!bt)return;
-  const b=tl.querySelector(":scope > b"),nome=((b&&b.textContent)||"").replace(/\s+/g," ").trim();
-  const t=[...bt.childNodes].filter(n=>n.nodeType===3).pop();if(t&&nome.length>=3&&nome.length<=32)t.textContent=nome}
-if(typeof f113Caps==="function"){const _fc143=f113Caps;f113Caps=function(){const r=_fc143.apply(this,arguments);try{mc143NomeTl()}catch(e){}return r}}
 /* Melhoria contínua 11/11/2026 (144): gráfico de linha (graficoNoticia, inclusive o do acervo) —
    o rótulo do último valor fica acima e à esquerda do ponto final; quando a linha desce até esse ponto, ela atravessava o número.
    Agora, se a linha passa pelo rótulo, ele vai para baixo do ponto (se couber acima dos rótulos do eixo); senão, sobe até sair da linha; fica a posição que a linha (e a base) menos cruza. */
@@ -17719,7 +17823,6 @@ function mc1111Tempo(p){const vs=Array.isArray(p&&p.visuais)?p.visuais:[];const 
     const depois=its.slice(i+1).some(o=>{const x=o&&typeof o.quando==="string"?rc116Data(o.quando,hj):null;return x&&x.iso<=hj});if(!depois)return it;
     mudou=true;return Object.assign({},it,{quando:`${m[1]}/${m[2]}/${ano}`})});
   if(!mudou)return p;const nv=vs.slice();nv[k]=Object.assign({},vs[k],{itens:novos});return Object.assign({},p,{visuais:nv})}
-{const _mc1111MatTempo=matTempo;matTempo=function(p){try{p=mc1111Tempo(p)}catch(e){}return _mc1111MatTempo.call(this,p)}}
 /* Pendências pequenas 12/11/2026 (145).
    Sugestões de @ na legenda do criador (post, reel, fotos): a caixa flutuava por cima da linha "Marcar pessoas".
    Agora ela entra logo abaixo da legenda, empurrando as linhas para baixo; nada fica coberto. */
@@ -18731,24 +18834,11 @@ function mt158Lista(p){const L=[],por={};const add=(k,cit)=>{if(!k)return;const 
 espectroHTML=function(p){const vs=mt158Lista({fontes:p.fontes||[]}).map(v=>mt158Esp(v.k)).filter(Boolean);if(!vs.length)return "";
   const c={};vs.forEach(e=>c[e]=(c[e]||0)+1);const ord=["direita","centro","publica","esquerda"].filter(k=>c[k]);
   return `<div class="spec"><span class="lbl">Quem cobriu</span><div class="bar">${ord.map(k=>`<i style="width:${(100*c[k]/vs.length).toFixed(1)}%;background:${ESPECTRO_COR[k]}"></i>`).join("")}</div><div class="lg">${ord.map(k=>`<span><i style="background:${ESPECTRO_COR[k]}"></i>${ESPECTRO_NOME[k]}: ${c[k]}</span>`).join("")}</div><p class="hint">Classificação aproximada do Prumo, pela linha editorial predominante de cada veículo.</p></div>`};
-abrirCobertura=function(pid){uso("cobertura");const p=pautaById(pid);if(!p)return;const c=p.checagem;
-  const lista=mt158Lista(p),ids=new Set(lista.map(v=>v.id));
-  const linha=v=>{const sp=mt158Esp(v.k),l=v.links[0];
-    return `<li><div class="cv-h"><b>${esc(mt158Nome(v.k))}</b>${sp?`<span class="cv-e"><i style="background:${ESPECTRO_COR[sp]}"></i>${esc(ESPECTRO_NOME[sp])}</span>`:""}</div>${v.enq.map(d=>`<p>${esc(d)}</p>`).join("")}${!v.enq.length&&v.cit?`<p>Citado no quadro acima.</p>`:""}${l?`<a href="${escU(l.url)}" target="_blank" rel="noopener">Ler a matéria ›</a>`:""}</li>`};
-  const vistos=new Set(),fora=REGUA().filter(k=>{const id=mt158Id(k);if(ids.has(id)||vistos.has(id))return false;vistos.add(id);return true});
-  sheet("Quem noticiou",`${c?`<div class="cv-box">${selo(p,false)}<p>${esc(mt158TextoQuadro(c.texto||(c.status==="divergencia"?"Os veículos trazem números diferentes.":"Os números principais batem em mais de um veículo.")))}</p></div>`:`<p class="hint" style="margin:0">Esta notícia não tem número principal para conferir, por isso não leva selo.</p>`}
-    <h4 class="cv-t">Noticiaram (${lista.length})</h4><ul class="cvl">${lista.map(linha).join("")}</ul>
-    ${fora.length?`<h4 class="cv-t">Não encontramos em</h4><p class="hint" style="margin:0">${fora.map(k=>esc(mt158Nome(k))).join(", ")}</p>`:""}
-    <p class="hint">O selo <b>No prumo</b> aparece quando os números principais da notícia batem em dois ou mais veículos. Quando não batem, aparece <b>Veículos divergem</b> e o texto acima diz quem publicou o quê. A posição de cada veículo no espectro é aproximada; veículo sem etiqueta ainda não foi classificado.</p>`)};
 
 /* ===== 2. Cobertura com um nome só ===== */
 function mt158Titulo(t){const s=document.querySelector("#layer2 .sheet .sh-h")||document.querySelector("#layer .sheet .sh-h");if(!s||!t)return;
   const n=[...s.childNodes].find(x=>x.nodeType===3);if(n)n.nodeValue=t;else s.insertBefore(document.createTextNode(t),s.firstChild);
   const sh=s.closest(".sheet");if(sh)sh.setAttribute("aria-label",t)}
-{const _pc158=abrirPagCob;abrirPagCob=function(pid){const p=pautaById(pid);
-  /* atualizações quase iguais viram uma só também na linha do tempo da cobertura */
-  const ups=p&&p.atualizacoes;if(p&&Array.isArray(ups))p.atualizacoes=mt158Ups(ups);let r;try{r=_pc158.apply(this,arguments)}finally{if(p&&Array.isArray(ups))p.atualizacoes=ups}
-  try{if(p){const tema=temaDe(p);if(tema)mt158Titulo(tema);const m=document.querySelector(".sheet .pc[data-pc] .pc-m span:not(.cst)");if(m)m.innerHTML=m.innerHTML.replace("Acompanhando desde","Cobertura desde")}}catch(e){}return r}}
 function mt158Periodo(d){const a=d.inicio?cobSP(d.inicio):"",b=d.ultima?cobSP(d.ultima):"";if(a&&b&&a!==b)return a+" a "+b;return (b||a)?"de "+(b||a):""}
 {const _ad158=abrirDormente;abrirDormente=function(id){const r=_ad158.apply(this,arguments);try{const d=(FEED.dormentes||[]).find(x=>x.id===id);const box=document.querySelector(".sheet .pc");if(!d||!box)return r;
     mt158Titulo(d.tema||d.tag||"Cobertura anterior");
@@ -18770,11 +18860,6 @@ function mt158SegPinta(){document.querySelectorAll("[data-mt158seg]").forEach(b=
   b.setAttribute("aria-pressed",String(on));b.classList.toggle("ghost",on);b.textContent=on?`Seguindo “${tema}” ✓`:`Seguir a cobertura “${tema}”`})}
 /* matéria aberta por um evento da agenda */
 var MT158_AG=null;
-{const _am158=abrirMateria;abrirMateria=function(pid,manter){if(!manter||pid!==MAT_PID)MT158_CAPTAP=null;const p=pautaById(pid);const ups=p&&p.atualizacoes;if(p&&Array.isArray(ups))p.atualizacoes=mt158Ups(ups);
-  let r;try{r=_am158.apply(this,arguments)}finally{if(p&&Array.isArray(ups))p.atualizacoes=ups}
-  try{const m=document.querySelector("#layer .mat");if(m&&p){const b=m.querySelector(".mat-pe [data-cobpag]");if(b&&temaDe(p))b.outerHTML=mt158SegBt(p);
-    const ag=MT158_AG;MT158_AG=null;if(ag&&ag.pid===pid&&Date.now()-ag.t<4000&&!m.querySelector(".mt158-ag")){const tx=m.querySelector(".mat-tx");const tema=temaDe(p)||capaChapeu(p);
-      if(tx)tx.insertAdjacentHTML("afterbegin",`<div class="mt158-ag" role="note"><b>Na agenda${ag.dia?" · "+esc(ag.dia):""}</b><span>${esc(ag.texto)}</span><small>Ainda não há notícia só sobre esse evento. Abaixo, a cobertura ligada a ele: <b>${esc(tema)}</b>.</small></div>`)}}}catch(e){}return r}}
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("#v-capa .cp-l [data-capair]");if(!b)return;
   const ul=b.closest(".cp-l"),h=ul&&ul.previousElementSibling;if(!h||!/^Agenda/.test(h.textContent||""))return;
   MT158_AG={pid:b.dataset.capair,texto:(b.querySelector("b")||{}).textContent||"",dia:((b.querySelector(".s")||{}).textContent||"").trim(),t:Date.now()}},true);
@@ -18850,19 +18935,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 /* depois de tocar num capítulo, ele fica marcado até a pessoa rolar por conta própria (no fim da matéria o seguinte também
    cabe no terço de cima e roubava a marca) */
 var MT158_CAPTAP=null;
-{const _cv158=f113CapVai;f113CapVai=function(i){MT158_CAPTAP=null;try{const m=$("#layer .mat"),el=m&&m.querySelector("#fs2c-"+i);if(el){const y=el.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop-f113Off(m);
-  MT158_CAPTAP={i:+i,t:Date.now(),s0:m.scrollTop,y:Math.max(0,Math.min(y,m.scrollHeight-m.clientHeight))}}}catch(e){}return _cv158.apply(this,arguments)}}
-f113CapAtual=function(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;
-  const tp=MT158_CAPTAP;if(tp&&nav.querySelector(`[data-f113cap="${tp.i}"]`)&&(Math.abs(m.scrollTop-tp.y)<30||(Date.now()-tp.t<1600&&m.scrollTop>=Math.min(tp.s0,tp.y)-30&&m.scrollTop<=Math.max(tp.s0,tp.y)+30))){f113CapMarca(nav,tp.i);return}MT158_CAPTAP=null;const off=f113Off(m),top=m.getBoundingClientRect().top;
-  const lim=off+Math.max(60,(m.clientHeight-off)*.33);const els=[...m.querySelectorAll(".fs2-alvo[id^='fs2c-']")];let i=0;els.forEach((e,k)=>{if(e.getBoundingClientRect().top-top<=lim)i=k});
-  if(m.scrollTop+m.clientHeight>=m.scrollHeight-4&&els.length){const ul=els[els.length-1];if(ul.getBoundingClientRect().top<top+m.clientHeight)i=els.length-1}
-  f113CapMarca(nav,i)};
-/* rola a faixa pela posição real da aba dentro dela (offsetLeft contava a partir do rótulo "Nesta matéria" e cortava a aba) */
-f113CapMarca=function(nav,i){nav.querySelectorAll("[data-f113cap]").forEach(b=>{if(+b.dataset.f113cap===i)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});
-  const b=nav.querySelector(`[data-f113cap="${i}"]`),l=nav.querySelector(".fs2-cap-l");if(!b||!l)return;
-  const lr=l.getBoundingClientRect(),br=b.getBoundingClientRect(),esq=br.left-lr.left+l.scrollLeft,M=16;
-  let x=null;if(br.left<lr.left+M)x=esq-M;else if(br.right>lr.right-M)x=Math.min(esq-M,esq+br.width-l.clientWidth+M);
-  if(x!=null){x=Math.max(0,x);try{l.scrollTo({left:x,behavior:f113Reduz()?"auto":"smooth"})}catch(e){l.scrollLeft=x}}};
 
 /* ===== 7. Atualizações quase iguais ===== */
 function mt158Pal(s){return new Set(norm(s).replace(/[^a-z0-9]+/g," ").split(" ").filter(w=>w.length>2))}
@@ -19837,21 +19909,10 @@ function cm168Mesmo(f,x){if(f.ref!==x.ref)return false;const da=cm168Dias(f.txt)
     fica.forEach(x=>{if(x.cm168c&&String(x.tema).indexOf("número corrigido")<0)x.tema=(x.tema?x.tema+" · ":"")+"número corrigido"});d.ev=fica}catch(e){}return d}}
 function cm168AsLink(){document.querySelectorAll(".sheet .as-link[data-assunto]").forEach(b=>{if(b.dataset.cm168)return;b.dataset.cm168="1";const n=(b.querySelector("span")||{}).textContent||"";const k=/(\d+)/.exec(n);
   b.innerHTML=`Notícias de ${esc(b.dataset.assunto)} <span>${k?k[1]+" ›":"›"}</span>`;b.setAttribute("aria-label",`Ver as notícias do assunto ${b.dataset.assunto}`)})}
-{const _pc168=abrirPagCob;abrirPagCob=function(pid){const r=_pc168.apply(this,arguments);try{cm168AsLink();const p=pautaById(pid),n=document.querySelector(".sheet .pc[data-pc] .note");
-    if(p&&n&&/^O que vem/.test((n.querySelector("b")||{}).textContent||""))cm168VemNota(n,p)}catch(e){}return r}}
 {const _ado168=abrirDormente;abrirDormente=function(){const r=_ado168.apply(this,arguments);try{cm168AsLink()}catch(e){}return r}}
-
-/* ===== 6. "Nesta matéria": cada seção tem a sua vez ===== */
-/* linha de leitura no terço de cima; na última tela ela desce até o fim, para as seções curtas do fim também ficarem marcadas */
-f113CapAtual=function(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;
-  const tp=MT158_CAPTAP;if(tp&&nav.querySelector(`[data-f113cap="${tp.i}"]`)&&(Math.abs(m.scrollTop-tp.y)<30||(Date.now()-tp.t<1600&&m.scrollTop>=Math.min(tp.s0,tp.y)-30&&m.scrollTop<=Math.max(tp.s0,tp.y)+30))){f113CapMarca(nav,tp.i);return}MT158_CAPTAP=null;
-  const off=f113Off(m),top=m.getBoundingClientRect().top,H=Math.max(1,m.clientHeight-off),els=[...m.querySelectorAll(".fs2-alvo[id^='fs2c-']")];if(!els.length)return;
-  let lim=off+Math.max(60,H*.33);const resta=m.scrollHeight-m.clientHeight-m.scrollTop;if(resta<H){const f=1-Math.max(0,resta)/H;lim+=(m.clientHeight-24-lim)*f}
-  let i=0;els.forEach((e,k)=>{if(e.getBoundingClientRect().top-top<=lim)i=k});f113CapMarca(nav,i)};
 
 /* ===== 7. Matéria: voltar, endereço, recarregar e girar ===== */
 var CM168_PILHA=[];
-{const _mi168=matIr;matIr=function(pid){try{const m=$("#layer .mat"),de=MAT_PID;if(m&&de&&pid!==de&&pautaById(pid)&&!(($("#layer2")||{}).innerHTML)){CM168_PILHA.push({pid:de,y:m.scrollTop});if(pushH())HST++}}catch(e){}return _mi168.apply(this,arguments)}}
 function cm168Volta(a){try{MAT_ARRASTO=false}catch(e){}MAT_ORIG=CM168_PILHA.length?MAT_ORIG:null;abrirMateria(a.pid);const m=$("#layer .mat");if(!m)return;m.style.transform="";
   const vai=()=>{const mm=$("#layer .mat");if(mm)mm.scrollTop=a.y};vai();requestAnimationFrame(vai);setTimeout(vai,120)}
 /* endereço da matéria aberta (#m=<id>): copiar a barra manda a notícia, recarregar reabre */
@@ -19870,9 +19931,6 @@ addEventListener("resize",()=>{if(innerWidth===CM168_W)return;CM168_W=innerWidth
 /* recarregar a página com a matéria aberta: volta ao mesmo ponto */
 /* (o 035 já tirou o #m= do endereço e guardou a notícia em LINK_PID) */
 var CM168_REAB=(function(){try{const a=LINK_PID?ssGet("cm168-pos",null):null;return a&&a.pid===LINK_PID?a:null}catch(e){return null}})();
-{const _am168=abrirMateria;abrirMateria=function(pid,manter){const r=_am168.apply(this,arguments);try{if($("#layer .mat")&&MAT_PID===pid){cm168Url(pid);cm168MatExtra(pid);
-    const ra=CM168_REAB;if(ra&&ra.pid===pid&&Date.now()-ra.t<6*3600e3){CM168_REAB=null;const vai=()=>{const m=$("#layer .mat");if(m&&MAT_PID===pid)cm168Restaura(m,ra.a)};setTimeout(vai,60);setTimeout(vai,400);setTimeout(vai,1200)}
-    else if(!manter)CM168_ANC=null}}catch(e){}return r}}
 function cm168MatExtra(pid){const m=$("#layer .mat"),p=pautaById(pid);if(!m||!p)return;cm168AgNota();
   const t=cm168Velha(p),meta=m.querySelector(".mat-meta");if(t&&meta&&!m.querySelector(".cm168-velha"))meta.insertAdjacentHTML("afterend",`<p class="cm168-velha">Notícia de ${esc(cm168Dia(t))}, sem novidade desde então.</p>`);
   const vem=[...m.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||""));if(vem)cm168VemNota(vem,p)}
@@ -19882,17 +19940,6 @@ var CM168_FUT=/\b(prevista?s? para|pode(m)? ser|deve(m)? ser|vai ser|ser[áã]o?
 /* resumo que fala de um evento futuro numa data que já passou: "pode ser votado na quinta (12)" no dia 16 */
 function cm168ResumoVelho(s){const tx=String(s||"");if(!CM168_FUT.test(tx))return "";const m=/(segunda|terça|quarta|quinta|sexta|sábado|domingo)(?:-feira)?\s*\((\d{1,2})\)/i.exec(tx);if(!m)return "";
   const hj=hojeSP();for(let k=1;k<=10;k++){const d=somaDias(hj,-k);if(+d.slice(8,10)===+m[2]&&CM168_SEM[new Date(d+"T12:00:00Z").getUTCDay()]===m[1].toLowerCase())return m[1].toLowerCase()+" ("+(+m[2])+")"}return ""}
-{const _ac168=abrirCobertura;abrirCobertura=function(pid){const r=_ac168.apply(this,arguments);try{const p=pautaById(pid),ul=document.querySelector(".sheet .cvl");if(!p||!ul||ul.dataset.cm168)return r;ul.dataset.cm168="1";
-    const lista=mt158Lista(p),por={};lista.forEach(v=>por[mt158Nome(v.k)]=v);const tambem=[];
-    [...ul.children].forEach(li=>{const nome=((li.querySelector(".cv-h b"))||{}).textContent||"",v=por[nome];const ps=[...li.querySelectorAll(":scope>p")];
-      /* um resumo por veículo: o mais novo (o robô acrescenta no fim) */
-      if(ps.length>1)ps.slice(0,-1).forEach(x=>x.remove());const pr=li.querySelector(":scope>p");
-      if(pr&&!/^Citado no quadro/.test(pr.textContent)){const ve=cm168ResumoVelho(pr.textContent);if(ve)pr.insertAdjacentHTML("afterbegin",`<small class="cm168-antes">Antes de ${esc(ve)} · </small>`)}
-      const a=li.querySelector("a");
-      if(!pr&&v&&v.links&&v.links[0]&&v.links[0].titulo)li.querySelector(".cv-h").insertAdjacentHTML("afterend",`<p class="cm168-man">“${esc(v.links[0].titulo)}”</p>`);
-      else if(!pr&&!a){tambem.push(li)}});
-    if(tambem.length){const nomes=tambem.map(li=>((li.querySelector(".cv-h b"))||{}).textContent||"").filter(Boolean);tambem.forEach(li=>li.remove());
-      ul.insertAdjacentHTML("afterend",`<p class="hint cm168-tb"><b>Também noticiaram</b> (sem link nesta edição): ${nomes.map(esc).join(", ")}</p>`)}}catch(e){}return r}}
 
 /* ===== 9. Mandar notícia: copiar link e mandar para um amigo ===== */
 var CM168_ENV=null;
@@ -20148,13 +20195,6 @@ function ft182Linha(p){let l=[];try{l=mt158Lista(p)}catch(e){l=(p.fontes||[]).ma
   let es=[];try{es=l.map(v=>mt158Esp(v.k)).filter(Boolean)}catch(e){}const f=ft182Faixa(es);
   return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${f?" · "+f:""}`}
 coberturaTxt=function(p){return ft182Linha(p)||"Quem noticiou"};
-{const _am182=abrirMateria;abrirMateria=function(pid){const r=_am182.apply(this,arguments);try{const p=pautaById(pid),m=$("#layer .mat");
-    if(p&&m){const b30=m.querySelector(".mat-30>b");if(b30&&FT182_EM1MIN&&/^Em 30 segundos$/.test(b30.textContent))b30.textContent="Resumo";
-      m.querySelectorAll(".mat-rod [data-cpfontes]").forEach(b=>b.remove());const tx=ft182Linha(p),meta=m.querySelector(".mat-meta");
-      if(tx&&meta&&!m.querySelector(".ft182-qn"))meta.insertAdjacentHTML("afterend",`<button type="button" class="ft182-qn" data-cpfontes="${esc(p.id)}" aria-haspopup="dialog">${esc(tx)}<i aria-hidden="true">›</i></button>`)}}catch(e){}return r}}
-/* a barra do espectro fica na folha com a lista completa */
-{const _ac182=abrirCobertura;abrirCobertura=function(pid){const r=_ac182.apply(this,arguments);try{const p=pautaById(pid),h=document.querySelector(".sheet h4.cv-t");
-    if(p&&h&&!document.querySelector(".sheet .ft182-sp")){const s=ft182Esp0(p);if(s)h.insertAdjacentHTML("beforebegin",`<div class="ft182-sp">${s}</div>`)}}catch(e){}return r}}
 /* ---------- 183 · Coberturas (17/11, decisão do Pedro) ----------
    1. Avisos por cobertura: quem segue uma cobertura pode desligar os avisos dela (interruptor na página da cobertura).
       Desligada, ela some da Atividade e da bolinha; a cobertura continua no feed, sobe por ser seguida e as matérias
@@ -20186,7 +20226,6 @@ function cb183Pinta(pid){const box=document.querySelector(`.sheet .pc[data-pc="$
   if(m&&fim)m.insertAdjacentHTML("afterend",`<p class="cb183-fim${enc?" enc":""}">${enc?(fim?`Acompanhou até: <b>${esc(fim)}</b>`:""):`Acompanha até: <b>${esc(fim)}</b>`}</p>`);
   const a=box.querySelector(".pc-a");if(!a||!seguido(p))return;
   a.insertAdjacentHTML("afterend",enc?`<p class="cb183-enc hint">Cobertura encerrada: não há mais avisos. Se o assunto continuar, ele vira uma cobertura nova.</p>`:cb183SwHTML(p))}
-{const _pc183=abrirPagCob;abrirPagCob=function(pid){const r=_pc183.apply(this,arguments);try{cb183Pinta(pid)}catch(e){}return r}}
 
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("[data-cb183sw]");if(!b)return;e.stopPropagation();
   const pid=b.dataset.cb183sw,p=pautaById(pid);if(!p)return;const on=!cb183Avisa(pid);cb183Liga(pid,on);cb183Pinta(pid);try{atDot();if(typeof nt124Pinta==="function")nt124Pinta()}catch(er){}
@@ -20570,7 +20609,6 @@ function nm186Resolver(f){if(!f||typeof f!=="object")return 0;const cont={n:0};
 function nm186EmDia(){try{if(FEED&&NM186_SIG.get(FEED)!==nm186Assina(FEED)){nm186Resolver(FEED);return true}}catch(e){}return false}
 {const _sa186=sanear;sanear=function(){const r=_sa186.apply(this,arguments);if(r)nm186Resolver(r);return r}}
 {const _rp186=renderPosts;renderPosts=function(){nm186EmDia();return _rp186.apply(this,arguments)}}
-{const _am186=abrirMateria;abrirMateria=function(){nm186EmDia();return _am186.apply(this,arguments)}}
 /* indicadores.json chegou com outro fechamento: o 031 redesenha a Capa; o Feed aberto também ganha os números novos */
 {const _ci186=carregarIndAuto;carregarIndAuto=async function(){const r=await _ci186.apply(this,arguments);
   try{if(nm186EmDia()&&VIEW==="feed"&&typeof FILTRO!=="undefined"&&FILTRO!=="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}

@@ -155,11 +155,7 @@ if(FOCO_LIGADO){
   {const _fg=edFigs;edFigs=function(){const r=_fg.apply(this,arguments);try{const q=$("#ce-figq");if(q)q.placeholder="Buscar figurinhas"}catch(e){}return r}}
   /* perfil vazio: o convite fala de conteúdo */
   {const _pt=pfTiles;pfTiles=function(){const h=_pt.apply(this,arguments);return typeof h==="string"?h.replace("Compartilhe sua primeira publicação.","Comente uma notícia ou conte o que aconteceu perto de você."):h}}
-  /* matéria: convite para comentar no fim */
-  {const _am=abrirMateria;abrirMateria=function(pid){const r=_am.apply(this,arguments);try{fc105Mat(pid)}catch(e){}return r}}
 }
-function fc105Mat(pid){const m=$("#layer .mat");if(!m||m.querySelector(".fc105-mc")||!S.membro||PUB.on===false||!pautaById(pid))return;const ref=m.querySelector(".mat-pe,.mat-prox,.mat-rod");if(!ref)return;
-  ref.insertAdjacentHTML("beforebegin",`<div class="fc105-mc gut"><p><b>O que você acha?</b> Comente esta notícia com seus amigos.</p><div class="fc105-mcb"><button type="button" class="btn" data-cn102envp="${esc(pid)}">${fc105Svg(CN102_ICO.ana)}Publicar comentário</button><button type="button" class="btn ghost" data-cn102envs="${esc(pid)}">${fc105Svg(CN102_ICO.story)}No giro</button></div></div>`)}
 
 /* ===== 7. cliques ===== */
 window.addEventListener("click",e=>{if(!FOCO_LIGADO)return;const t=e.target;if(!t||!t.closest||!ED||!$("#layer .ce")||t.closest("#layer2"))return;let b;

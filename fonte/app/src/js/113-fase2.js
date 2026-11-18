@@ -58,44 +58,9 @@ var F113_IO=null;
 const F113_VIS={numeros:"Os números",grafico:"O gráfico",pesquisas:"As pesquisas"};
 function f113FaqHTML(p){const fq=(Array.isArray(p.faq)?p.faq:[]).filter(q=>q&&typeof q.p==="string"&&q.p.trim()).slice(0,6);if(!fq.length)return "";
   return `<div class="fs2-faq"><b>Perguntas</b>${fq.map(q=>`<details><summary>${esc(q.p)}</summary><p>${esc(typeof q.r==="string"?q.r:"")}</p></details>`).join("")}</div>`}
-function f113Caps(){if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO=null}const m=$("#layer .mat"),c=m&&m.querySelector(".mat-c"),p=typeof MAT_PID!=="undefined"&&pautaById(MAT_PID);if(!c||!p)return;
-  c.querySelector(".fs2-cap")?.remove();
-  /* Perguntas: as mesmas da página da cobertura, depois da linha do tempo / do que vem agora */
-  if(!c.querySelector(".fs2-faq")){const h=f113FaqHTML(p);if(h){const vem=[...c.querySelectorAll(".cpx-c")].filter(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")).pop();
-    const ref=c.querySelector(".mat-tl")||vem||[...c.querySelectorAll(".mat-vis")].pop()||c.querySelector(".mat-p");if(ref)ref.insertAdjacentHTML("afterend",h)}}
-  const caps=[];const add=(el,nome)=>{if(el&&!caps.some(x=>x.el===el))caps.push({el,nome})};
-  add(c.querySelector(".mat-30")||c.querySelector(".mat-p"),"O que aconteceu");
-  /* um capítulo para cada bloco de visual (placar oficial, números, gráfico, pesquisas), na ordem em que aparecem */
-  {const vt=(Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&F113_VIS[v.tipo]);let k=0;
-    c.querySelectorAll(".mat-vis").forEach(el=>{if(el.classList.contains("po118"))add(el,"Placar oficial");else{const t=vt[k++];add(el,t?F113_VIS[t.tipo]:"Os números")}})}
-  add(c.querySelector(".mat-tl"),"Linha do tempo");
-  add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
-  add(c.querySelector(".fs2-faq"),"Perguntas");
-  /* a lista de atualizações vem depois das Perguntas: sem capítulo próprio, o fim da matéria ficava marcado como "Perguntas" (14/11) */
-  add([...c.querySelectorAll(".cpx-bl")].find(e=>/^Atualizações/.test((e.querySelector("b")||{}).textContent||"")),"Atualizações");
-  if(caps.length<2)return;
-  caps.sort((x,y)=>x.el.compareDocumentPosition(y.el)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1);
-  caps.forEach((x,i)=>{x.el.id="fs2c-"+i;x.el.classList.add("fs2-alvo");if(!x.el.hasAttribute("tabindex"))x.el.tabIndex=-1});
-  caps[0].el.insertAdjacentHTML("beforebegin",`<nav class="fs2-cap" aria-label="Nesta matéria"><span class="fs2-cap-k" aria-hidden="true">Nesta matéria</span><ol class="fs2-cap-l">${caps.map((x,i)=>`<li><button type="button" class="fs2-cap-b" data-f113cap="${i}" aria-controls="fs2c-${i}"${i===0?' aria-current="true"':""}><i aria-hidden="true">${i+1}</i>${esc(x.nome)}</button></li>`).join("")}</ol></nav>`);
-  if("IntersectionObserver" in window){const off=f113Off(m);
-    F113_IO=new IntersectionObserver(()=>f113CapAtual(),{root:m,rootMargin:`-${off}px 0px -55% 0px`,threshold:[0,1]});caps.forEach(x=>F113_IO.observe(x.el))}
-  /* saltos grandes de rolagem (topo/fim) podem não cruzar a faixa observada: confere também no fim da rolagem, uma vez por quadro */
-  if(!m.__f113s){m.__f113s=1;let pend=0;m.addEventListener("scroll",()=>{if(pend)return;pend=requestAnimationFrame(()=>{pend=0;f113CapAtual()})},{passive:true})}}
 /* altura do topo fixo da matéria + o índice grudado */
 function f113Off(m){const t=m.querySelector(".mat-top"),n=m.querySelector(".fs2-cap");return Math.round((t?t.getBoundingClientRect().height:52)+(n?n.getBoundingClientRect().height:44)+8)}
 var F113_CAPFIXO=0;
-function f113CapAtual(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;const off=f113Off(m),top=m.getBoundingClientRect().top;
-  const els=[...m.querySelectorAll(".fs2-alvo[id^='fs2c-']")];let i=0;els.forEach((e,k)=>{if(e.getBoundingClientRect().top-top<=off+40)i=k});
-  /* no fim da matéria, o último capítulo */
-  if(m.scrollTop+m.clientHeight>=m.scrollHeight-4&&els.length){const ul=els[els.length-1];if(ul.getBoundingClientRect().top<top+m.clientHeight)i=els.length-1}
-  f113CapMarca(nav,i)}
-function f113CapMarca(nav,i){nav.querySelectorAll("[data-f113cap]").forEach(b=>{const on=+b.dataset.f113cap===i;if(on)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});
-  const b=nav.querySelector(`[data-f113cap="${i}"]`),l=nav.querySelector(".fs2-cap-l");if(b&&l){const x=b.offsetLeft-12;if(x<l.scrollLeft||b.offsetLeft+b.offsetWidth>l.scrollLeft+l.clientWidth)try{l.scrollTo({left:Math.max(0,x),behavior:f113Reduz()?"auto":"smooth"})}catch(e){l.scrollLeft=Math.max(0,x)}}}
-function f113CapVai(i){const m=$("#layer .mat"),el=m&&m.querySelector("#fs2c-"+i),nav=m&&m.querySelector(".fs2-cap");if(!el)return;uso("fase2_capitulo");
-  const y=el.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop-f113Off(m);
-  F113_CAPFIXO=Date.now()+(f113Reduz()?60:700);if(nav)f113CapMarca(nav,i);
-  try{m.scrollTo({top:Math.max(0,y),behavior:f113Reduz()?"auto":"smooth"})}catch(e){m.scrollTop=Math.max(0,y)}
-  try{el.focus({preventScroll:true})}catch(e){}setTimeout(()=>{F113_CAPFIXO=0},720)}
 
 /* ===== 3. Prateleiras no Feed ===== */
 var F113_SH_LIGA=false,F113_NAPRAT=new Set();const F113_SOLTA=new Set();
@@ -156,8 +121,6 @@ if(VN_FASE2){
     return l.concat(ex).map(x=>{if(!f113Fio(x))return x;const y=Object.assign(Object.create(Object.getPrototypeOf(x)),x,{texto:f113Tudo(x)});try{Object.defineProperty(y,"__f113o",{value:x})}catch(e){}return y})}catch(e){return l}}}
   {const _hc113=htPostsCom;htPostsCom=function(){const l=_hc113.apply(this,arguments);return Array.isArray(l)?l.map(x=>x&&x.__f113o||x):l}}
   {const _hs113=htSeguidaDePost;htSeguidaDePost=function(x){if(x&&f113Fio(x))try{return _hs113.call(this,{texto:f113Tudo(x)})}catch(e){}return _hs113.apply(this,arguments)}}
-  /* matéria */
-  {const _am113=abrirMateria;abrirMateria=function(){const r=_am113.apply(this,arguments);try{f113Caps()}catch(e){console.error(e)}return r}}
   /* Feed: prateleiras só na lista principal ("Tudo"), uma vez por desenho; a contagem "faltam N" fica como antes */
   {const _rp113=renderPosts;renderPosts=function(){F113_SH_LIGA=true;try{return _rp113.apply(this,arguments)}finally{F113_SH_LIGA=false}}}
   {const _ae113=atualizarEmDia;atualizarEmDia=function(){const o=F113_SH_LIGA;F113_SH_LIGA=false;try{return _ae113.apply(this,arguments)}finally{F113_SH_LIGA=o}}}

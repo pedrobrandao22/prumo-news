@@ -29,7 +29,6 @@ function cb183Pinta(pid){const box=document.querySelector(`.sheet .pc[data-pc="$
   if(m&&fim)m.insertAdjacentHTML("afterend",`<p class="cb183-fim${enc?" enc":""}">${enc?(fim?`Acompanhou até: <b>${esc(fim)}</b>`:""):`Acompanha até: <b>${esc(fim)}</b>`}</p>`);
   const a=box.querySelector(".pc-a");if(!a||!seguido(p))return;
   a.insertAdjacentHTML("afterend",enc?`<p class="cb183-enc hint">Cobertura encerrada: não há mais avisos. Se o assunto continuar, ele vira uma cobertura nova.</p>`:cb183SwHTML(p))}
-{const _pc183=abrirPagCob;abrirPagCob=function(pid){const r=_pc183.apply(this,arguments);try{cb183Pinta(pid)}catch(e){}return r}}
 
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("[data-cb183sw]");if(!b)return;e.stopPropagation();
   const pid=b.dataset.cb183sw,p=pautaById(pid);if(!p)return;const on=!cb183Avisa(pid);cb183Liga(pid,on);cb183Pinta(pid);try{atDot();if(typeof nt124Pinta==="function")nt124Pinta()}catch(er){}

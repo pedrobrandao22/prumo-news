@@ -108,6 +108,40 @@ const AREAS = {
     'manchete': async (P, foto) => { const id = await manchete(P); await P.evaluate(id => abrirMateria(id), id); await rolarCamada(P, foto, 'manchete', '#layer .mat'); await fechar(P) },
     'destaque': async (P, foto) => { const id = await P.evaluate(() => { const b = document.querySelector('#v-capa .cp-dest [data-cpx]'); return b && b.dataset.cpx }); if (!id) return;
       await P.evaluate(id => abrirMateria(id), id); await rolarCamada(P, foto, 'destaque', '#layer .mat', 4); await fechar(P) },
+    // quadro de números, pesquisas e linha do tempo (cada uma com o seu capítulo)
+    'numeros': async (P, foto) => { await P.evaluate(() => abrirMateria('pacote-meis-perdao-pix')); await rolarCamada(P, foto, 'numeros', '#layer .mat', 5); await fechar(P) },
+    'pesquisas': async (P, foto) => { await P.evaluate(() => abrirMateria('pesquisas')); await rolarCamada(P, foto, 'pesquisas', '#layer .mat', 5); await fechar(P) },
+    'tempo': async (P, foto) => { await P.evaluate(() => abrirMateria('papa-leao-cancer-pulmao')); await rolarCamada(P, foto, 'tempo', '#layer .mat', 5); await fechar(P) },
+    // Atualizações, O essencial e Perguntas (o feed fixo não tem: entram na pauta antes de abrir)
+    'extras': async (P, foto) => { await P.evaluate(() => { const p = pautaById('caso-master');
+        p.atualizacoes = [{ hora: '2026-11-17T09:05:00-03:00', texto: 'Defesa pede mais prazo ao relator.' }, { hora: '2026-11-17T11:20:00-03:00', texto: 'Relator nega o pedido e mantém a data.' }, { hora: '2026-11-16T18:40:00-03:00', texto: 'Caso volta à pauta.' }];
+        p.faq = [{ p: 'O que está em jogo?', r: 'A decisão define quem responde pelo caso.' }, { p: 'Quando sai a decisão?', r: 'A previsão é para a próxima semana.' }];
+        p.essencial = ['Primeiro ponto essencial.', 'Segundo ponto essencial.']; abrirMateria('caso-master') });
+      await rolarCamada(P, foto, 'extras', '#layer .mat', 8);
+      if (await P.evaluate(() => { const s = document.querySelector('#layer .mat .fs2-faq summary'); if (!s) return false; s.click(); s.scrollIntoView({ block: 'center' }); return true })) await foto('extras-pergunta-aberta');
+      await fechar(P) },
+    // índice de capítulos: tocar no segundo capítulo
+    'indice': async (P, foto) => { await P.evaluate(() => abrirMateria('pacote-meis-perdao-pix'));
+      if (await P.evaluate(() => { const b = document.querySelectorAll('#layer .mat [data-f113cap]')[1]; if (!b) return false; b.click(); return true })) await foto('indice-capitulo');
+      await fechar(P) },
+    // "Noticiado por" aberto (quem noticiou)
+    'quem-noticiou': async (P, foto) => { const id = await manchete(P); await P.evaluate(id => abrirMateria(id), id);
+      if (await P.evaluate(() => { const b = document.querySelector('#layer .mat .ft182-qn, #layer .mat [data-cpfontes]'); if (!b) return false; b.click(); return true })) { await foto('quem-noticiou');
+        await P.evaluate(() => { const s = document.querySelector('.sheet'); if (s) { s.scrollTop = s.scrollHeight; s.dispatchEvent(new Event('scroll')) } }); await foto('quem-noticiou-fim') }
+      await fechar(P); await fechar(P) },
+    // página da cobertura aberta pela matéria
+    'cobertura': async (P, foto) => { await P.evaluate(() => abrirMateria('pec-6x1-senado'));
+      if (await P.evaluate(() => { const b = document.querySelector('#layer .mat [data-cobpag]'); if (!b) return false; b.click(); return true })) { await foto('cobertura-01');
+        await P.evaluate(() => { const ss = document.querySelectorAll('.sheet'), s = ss[ss.length - 1]; if (s) { s.scrollTop = 600; s.dispatchEvent(new Event('scroll')) } }); await foto('cobertura-02') }
+      await fechar(P); await fechar(P) },
+    // Próxima (matIr) e a volta para a primeira
+    'proxima': async (P, foto) => { const id = await manchete(P); await P.evaluate(id => abrirMateria(id), id);
+      if (await P.evaluate(() => { const b = document.querySelector('#layer .mat [data-matprox]'); if (!b) return false; b.click(); return true })) { await foto('proxima');
+        await P.evaluate(() => { try { closeLayer(true) } catch (e) { } }); await foto('proxima-volta') }
+      await fechar(P) },
+    // aberta a partir do Feed: o botão diz "‹ Feed"
+    'do-feed': async (P, foto) => { await P.evaluate(() => go('feed')); const id = await P.evaluate(() => (FEED.pautas[3] || FEED.pautas[0]).id);
+      await P.evaluate(id => abrirMateria(id), id); await foto('do-feed'); await fechar(P) },
   },
   conversas: {
     'sem-conta': async (P, foto) => { await P.evaluate(() => go('msgs')); await foto('sem-conta') },

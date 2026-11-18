@@ -45,15 +45,6 @@ async function toggleSave(pid){uso("guardar");
   updateSocial(pid);toast(on?"Guardada":"Removida das guardadas",on?"Desfazer":"",on?()=>toggleSave(pid):null);if(VIEW==="saved")renderSaved();
   try{const val=on?{at:Date.now(),snap:snapLeve(pid)}:null;await gravarMapa(`data/users/${S.uid}/salvos`,"itens",pid,val)}catch(e){if(on)delete S.salvos[pid];else S.salvos[pid]=antS;updateSocial(pid);if(VIEW==="saved")renderSaved();toast("Não deu para guardar agora.")}
 }
-function abrirCobertura(pid){uso("cobertura");const p=pautaById(pid);if(!p)return;
-  const map=FEED.espectro||{},fs=p.fontes||[],links=p.links||[],enq=p.enquadramentos||[],reg=REGUA(),c=p.checagem;
-  const linha=k=>{const l=links.find(x=>x.fonte===k),e=enq.find(x=>x.fonte===k),sp=map[k];
-    return `<li><div class="cv-h"><b>${esc(nomeFonte(k))}</b>${sp?`<span class="cv-e"><i style="background:${ESPECTRO_COR[sp]}"></i>${esc(ESPECTRO_NOME[sp])}</span>`:""}</div>${e?`<p>${esc(e.descricao)}</p>`:""}${l?`<a href="${escU(l.url)}" target="_blank" rel="noopener">Ler a matéria ›</a>`:""}</li>`};
-  const fora=reg.filter(k=>!fs.includes(k));
-  sheet("Quem noticiou",`${c?`<div class="cv-box">${selo(p,false)}<p>${esc(c.texto||(c.status==="divergencia"?"Os veículos trazem números diferentes.":"Os números principais batem em mais de um veículo."))}</p></div>`:`<p class="hint" style="margin:0">Esta notícia não tem número principal para conferir, por isso não leva selo.</p>`}
-    <h4 class="cv-t">Noticiaram (${fs.length})</h4><ul class="cvl">${fs.map(linha).join("")}</ul>
-    ${fora.length?`<h4 class="cv-t">Não encontramos em</h4><p class="hint" style="margin:0">${fora.map(k=>esc(nomeFonte(k))).join(", ")}</p>`:""}
-    <p class="hint">O selo <b>No prumo</b> aparece quando os números principais da notícia batem em dois ou mais veículos. Quando não batem, aparece <b>Veículos divergem</b> e o texto acima diz quem publicou o quê. A posição de cada veículo no espectro é aproximada.</p>`)}
 function openLinks(pid){uso("fontes");const p=pautaById(pid)||{links:arrL(snapById(pid)?.links)};sheet("Ler nas fontes",`<ul class="rows">${arrL(p.links).map(l=>`<li><span>${esc(nomeFonte(l.fonte))}</span><a href="${escU(l.url)}" target="_blank" rel="noopener">${esc(l.titulo)}</a></li>`).join("")}</ul>`)}
 function openMenu(pid){uso("menu_post");
   const p=pautaById(pid);if(!p)return;const sec=secOf(p),tema=temaDe(p),tk=norm(tema);
