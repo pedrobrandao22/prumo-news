@@ -178,8 +178,7 @@ async function maTroca(u,b){const on=!MA.set.has(u);if(on)MA.set.add(u);else MA.
   try{const r=on?await SB.from("melhores_amigos").insert({dono:S.uid,amigo:u}):await SB.from("melhores_amigos").delete().eq("dono",S.uid).eq("amigo",u);if(r&&r.error)throw r.error}
   catch(e){if(on)MA.set.delete(u);else MA.set.add(u);b.setAttribute("aria-pressed",String(!on));toast("Não deu para salvar agora.")}}
 /* anel verde e selo nos stories para Melhores amigos */
-{const _rs60=renderSecs;renderSecs=function(){const r=_rs60.apply(this,arguments);try{document.querySelectorAll("#secs [data-ustory],#secs [data-meustory]").forEach(b=>{const u=b.dataset.ustory||S.uid;const xs=pubStoriesDe(u);const ult=xs[xs.length-1];
-  b.querySelector(".ig-r")?.classList.toggle("ma",!!ult&&ult.publico==="proximos")})}catch(e){}return r}}
+
 {const _du60=igDrawUser;igDrawUser=function(){const r=_du60.apply(this,arguments);try{const x=ST.itens[ST.i];if(x&&x.publico==="proximos"){const w=$("#layer .story .sg-who span");if(w&&!w.querySelector(".us-ma"))w.insertAdjacentHTML("beforeend",` <i class="us-ma">★ Melhores amigos</i>`)}}catch(e){}return r}}
 /* textos animados no story publicado */
 {const _ui60=usItensHTML;usItensHTML=function(x){const it=(x.estilo&&x.estilo.itens)||[];const txs=it.filter(e=>e.t==="texto");if(!txs.length)return _ui60.apply(this,arguments);

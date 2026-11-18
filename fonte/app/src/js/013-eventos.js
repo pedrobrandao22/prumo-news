@@ -86,7 +86,6 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("dblclick",e=>{const c=e.target.closest(".cover");if(c&&!e.target.closest("button"))duploGostei(c)});
 
-
 /* ================= v6: recursos adicionais ================= */
 const lidaAtual=p=>{const t=LIDAS.get(p.id);if(!t)return false;const u=ultimaAtualizacao(p);return !(u&&tms(u)>tms(t))};
 const seguido=p=>!!(PREF.seguindo||{})[norm(temaDe(p))];

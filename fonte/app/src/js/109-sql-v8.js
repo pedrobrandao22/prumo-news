@@ -117,7 +117,7 @@ async function cc8Alterna(b){if(precisaConta())return;const cid=b.dataset.cid,au
   catch(e){if(on)s.delete(S.uid);else s.add(S.uid);cc8Pinta();const m=String((e&&(e.code||""))+" "+(e&&e.message||""));
     toast(/54000|demais/.test(m)?"Muitas curtidas seguidas. Espere um minuto.":/42501|row-level|policy/i.test(m)?"Este comentário não está mais disponível.":"Não deu para curtir agora. Tente de novo.")}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#cbox [data-cc8]");if(!b)return;e.stopPropagation();e.preventDefault();cc8Alterna(b)},true);
-{const _oc8=openComments;openComments=function(pid){const r=_oc8.apply(this,arguments);try{CC8.pid=pid;if(V8.on){const f=S._reCmt;if(f)S._reCmt=function(){const x=f.apply(this,arguments);cc8Pinta();return x};cc8Pinta();if(Date.now()-CC8.t>800)cc8Carregar()}}catch(e){}return r}}
+
 function cc8Ouvir(){try{if(!SB.channel||cc8Ouvir.ok)return;cc8Ouvir.ok=1;const ch=SB.channel("cc8-"+Math.random().toString(36).slice(2,7));
   ch.on("postgres_changes",{event:"INSERT",schema:"public",table:"com_curtidas"},p=>{if(p&&p.table&&p.table!=="com_curtidas")return;clearTimeout(cc8Ouvir.t);cc8Ouvir.t=setTimeout(()=>{if($("#cbox"))cc8Carregar();at8Carregar().then(()=>{atDot();atRedesenha()})},500)});ch.subscribe()}catch(e){}}
 

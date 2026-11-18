@@ -39,5 +39,4 @@ function paginarTrack(t){try{const H=parseInt(getComputedStyle(t).getPropertyVal
 function pgDots(t){const post=t.closest(".post");const d=post&&post.querySelector(".pdots");if(!d)return;const ds=[...d.querySelectorAll("i")],k=ds.length;d.classList.toggle("muitos",k>5);if(k<=5)return;
   const i=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));let a=Math.max(0,Math.min(i-2,k-5));ds.forEach((x,j)=>{const v=j>=a&&j<a+5;x.classList.toggle("dv",v);x.classList.toggle("dpq",v&&((j===a&&a>0)||(j===a+4&&a+5<k)))})}
 document.addEventListener("scroll",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("track")&&t.closest(".post"))requestAnimationFrame(()=>pgDots(t))},true);
-{const _ft=fitTrack;fitTrack=function(t){const r=_ft.apply(this,arguments);if(t&&t.closest&&t.closest(".post")){if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(()=>paginarTrack(t));else paginarTrack(t)}return r}}
 

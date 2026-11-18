@@ -19,24 +19,7 @@ async function toggleLike(pid){uso("curtir");vibrar(8);
   pend("curtidas",pid,val);recalcSoc("curtidas");updateSocial(pid);refiltrar();
   try{await gravarMapa("curtidas/"+S.uid,"itens",pid,val)}catch(e){desfazPend("curtidas",pid);updateSocial(pid);refiltrar();toast("Não deu para marcar agora. Tente de novo.")}
 }
-function openComments(pid){uso("comentarios");
-  const draw=()=>{const {cm}=socialOf(pid);return cm.length?`<ul class="clist">${cm.map(c=>`<li>${avatar(c.uid)}<div><span><b>${esc(nomeDe(c.uid))}</b>${typeof debVotoChip==="function"?debVotoChip(pid,c.uid):""} ${esc(c.texto)}</span><i>${esc(quando(c.at))}<button type="button" class="c-a" data-resp="${esc(nomeDe(c.uid))}">Responder</button>${c.uid===S.uid||(typeof cmDono==="function"&&cmDono(pid))?`<button type="button" class="c-a" data-apagar="${esc(c.id)}" data-au="${esc(c.uid)}">Apagar</button>`:""}${c.uid!==S.uid?`<button type="button" class="c-a" data-denc="${esc(c.id)}" data-du="${esc(c.uid)}" data-dp="${esc(pid)}">Denunciar</button>`:""}</i></div></li>`).join("")}</ul>`:`<div class="empty" style="padding:18px 0"><b>Nenhum comentário ainda</b>Escreva o primeiro.</div>`};
-  const n=socialOf(pid).cm.length;
-  sheet(n?`Comentários (${n})`:"Comentários",`${typeof debCab==="function"?debCab(pid):""}<div id="cbox">${draw()}</div>`,`<form id="cform" class="cform">${S.uid?avatar(S.uid):""}<textarea class="field" id="ctext" rows="1" maxlength="600" autocomplete="off" enterkeyhint="send" placeholder="Escreva um comentário…" aria-label="Comentário"></textarea><button class="sendc" type="submit" aria-label="Publicar" disabled><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></form>`,{focus:!n});
-  const box=()=>$("#cbox"),toEnd=()=>{const b=$(".sheet .sh-b");if(b)b.scrollTop=b.scrollHeight};toEnd();
-  const inp=$("#ctext"),btn=$("#cform .sendc");inp.addEventListener("input",()=>{btn.disabled=!inp.value.trim()});
-  let assin=JSON.stringify(socialOf(pid).cm.map(c=>c.id+c.texto));S._reCmt=forca=>{const b=box();if(!b)return;const k=JSON.stringify(socialOf(pid).cm.map(c=>c.id+c.texto));if(k===assin&&!forca)return;assin=k;const sb=$(".sheet .sh-b");const perto=sb&&sb.scrollHeight-sb.scrollTop-sb.clientHeight<90;b.innerHTML=draw();if(perto)toEnd();const nn=socialOf(pid).cm.length,hh=$(".sheet .sh-h");if(hh&&hh.firstChild&&hh.firstChild.nodeType===3)hh.firstChild.textContent=nn?`Comentários (${nn})`:"Comentários"};onClose=()=>{S._reCmt=null};
-  box().addEventListener("click",async e=>{const r=e.target.closest("[data-resp]");if(r){inp.value="@"+r.dataset.resp+" ";btn.disabled=false;inp.focus();return}
-    const ap=e.target.closest("[data-apagar]");if(ap){if(!ap.classList.contains("conf")){ap.classList.add("conf");ap.textContent="Toque de novo para apagar";return}
-      const cid=ap.dataset.apagar,au=ap.dataset.au||S.uid;CPEND[au+"\u0001"+cid]={v:null,t:Date.now()};S.cmts=montarCmts(S._cmtDocs);
-      S._reCmt&&S._reCmt(true);updateSocial(pid);
-      try{await gravarMapa("comentarios/"+S.uid,"itens",cid,null)}catch(err){delete CPEND[au+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);toast("Não deu para apagar agora.")}}});
-  $("#cform").addEventListener("submit",async e=>{e.preventDefault();const t=inp.value.trim();if(!t||precisaConta())return;inp.value="";btn.disabled=true;inp.focus();
-    const cid=Date.now().toString(36)+Math.random().toString(36).slice(2,6),c={uid:S.uid,texto:t,at:Date.now()};
-    const sn=snapById(pid);const v={pid,texto:t,at:c.at,snap:sn?{id:pid,titulo:sn.titulo||"",secao:sn.secao||""}:{id:pid}};
-    CPEND[S.uid+"\u0001"+cid]={v,t:Date.now()};S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);toEnd();updateSocial(pid);
-    try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v)}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);const i=$("#ctext");if(i&&!i.value){i.value=t;const b=$("#cform .sendc");if(b)b.disabled=false}toast("O comentário não foi salvo. O texto voltou para a caixa.")}});
-}
+
 function shareCard(s,attrs=""){return `<button type="button" class="share paper" data-sec="${esc(s?.secao||"politica")}" ${attrs}>${svgOf(s?.imagem)}<div><span>${esc(secNome(s?.secao||"politica"))} · ${esc(s?.tag)}</span><b>${esc(s?.titulo)}</b></div></button>`}
 function snapLeve(pid){const s=snapById(pid);if(!s)return {id:pid};return {id:s.id||pid,secao:s.secao||"",tag:s.tag||"",titulo:s.titulo||"",texto:String(s.texto||"").slice(0,320),imagem:s.imagem||null,links:arrL(s.links).slice(0,1)}}
 async function toggleSave(pid){uso("guardar");

@@ -52,7 +52,7 @@ function fd167Rodape(){try{const p=document.querySelector("#extra .foot p");if(!
 /* lista "Outras notícias": a hora da breve, quando a rodada manda (campo "hora") */
 function fd167BreveHora(){try{document.querySelectorAll("#extra .brv-b[data-breve]").forEach(bt=>{const b=(window.BREVES||[])[+bt.dataset.breve];const sp=bt.nextElementSibling;
   if(!b||!sp||sp.querySelector(".fd167-bh")||!tms(b.hora))return;sp.insertAdjacentHTML("beforeend",`<span class="fd167-bh"> · ${esc(quando(b.hora))}</span>`)})}catch(e){}}
-{const _rp167=renderPosts;renderPosts=function(){const r=_rp167.apply(this,arguments);fd167Rodape();fd167BreveHora();fd167Curtir(document.getElementById("posts"));return r}}
+
 {const _cr167=carregarRodadas;carregarRodadas=async function(){const r=await _cr167.apply(this,arguments);fd167Rodape();return r}}
 
 /* ---- comentários: retorno pula linha no celular (só a seta publica); quebras de linha aparecem ---- */
@@ -104,7 +104,6 @@ fd156CmtCancela=function(){const l=fd156CmtLe();const x=l[l.length-1];if(x)fd167
 {const _ce167=fd156CmtEnvia;fd156CmtEnvia=async function(){try{return await _ce167.apply(this,arguments)}finally{fd167Pend()}}}
 /* a conversa redesenhada (comentário novo, apagado, etc.) recoloca o pendente e tira a menção repetida */
 {const _ag167=fd156Agrupa;fd156Agrupa=function(){const r=_ag167.apply(this,arguments);fd167SemMencao();fd167Pend();return r}}
-{const _oc167=openComments;openComments=function(){FD167_RESP=null;const r=_oc167.apply(this,arguments);try{fd167Pend();fd167SemMencao();const i=document.getElementById("ctext");if(i&&FD167_TOQUE)i.setAttribute("enterkeyhint","enter")}catch(e){}return r}}
 
 /* ---- voltar do celular: refaz o caminho das abas ---- */
 var FD167_ABAS=["capa","feed","msgs","busca","me"],FD167_PILHA=[];

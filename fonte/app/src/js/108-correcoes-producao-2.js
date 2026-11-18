@@ -26,7 +26,6 @@ function rs108Grava(k,t){if(!S.uid||!k)return;try{const o=rs108Le();if(t&&t.trim
 function rs108Poe(i,k){if(!i||i.value||i._rs108===k)return;i._rs108=k;const t=rs108Le()[k];if(t){i.value=t;i.dispatchEvent(new Event("input",{bubbles:true}))}}
 document.addEventListener("input",e=>{const t=e.target;if(!t||!t.id)return;if(t.id==="mtext"&&THREAD)rs108Grava("dm:"+THREAD,t.value);else if(t.id==="ctext"&&CMT_PID)rs108Grava("cm:"+CMT_PID,t.value)});
 document.addEventListener("submit",e=>{const f=e.target;if(!f)return;if(f.id==="mform"&&THREAD)rs108Grava("dm:"+THREAD,"");else if(f.id==="cform"&&CMT_PID)rs108Grava("cm:"+CMT_PID,"")},true);
-{const _oc108=openComments;openComments=function(pid){const r=_oc108.apply(this,arguments);try{rs108Poe($("#ctext"),"cm:"+pid)}catch(e){}return r}}
 
 /* 4. administrador: "Denunciar" não diz "o Pedro recebe e analisa" para o próprio administrador */
 
@@ -44,8 +43,6 @@ var FIT108=[];
 function fit108Roda(){const t0=performance.now();while(FIT108.length&&performance.now()-t0<8){const t=FIT108.shift();if(t&&t.isConnected)try{fitTrack(t)}catch(e){}}if(FIT108.length)requestAnimationFrame(fit108Roda)}
 function fit108Poe(t){if(FIT108.indexOf(t)>=0)return;FIT108.push(t);if(FIT108.length===1)requestAnimationFrame(fit108Roda)}
 if(typeof FIT_IO!=="undefined"&&FIT_IO){try{FIT_IO.disconnect()}catch(e){}FIT_IO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)fit108Poe(e.target)}),{rootMargin:"900px 0px"});document.querySelectorAll(".track").forEach(t=>FIT_IO.observe(t))}
-{const _cm108=carregarMais;carregarMais=function(sync){if(sync||typeof FIT_IO==="undefined"||!FIT_IO)return _cm108.apply(this,arguments);const ft=fitTrack;
-  fitTrack=function(t){if(t&&t.classList&&t.classList.contains("track")){fit108Poe(t);return 0}return ft.apply(this,arguments)};try{return _cm108.apply(this,arguments)}finally{fitTrack=ft}}}
 
 /* 8. destaque aberto pelo perfil de um amigo: fechar (✕, deslizar ou voltar do celular) volta para o perfil, não para o Feed */
 {const _ad108=abrirDestaque;abrirDestaque=async function(id,u){const doPerfil=!!$("#layer .pfv:not(.pfv-arq):not(.pfv-at)")&&u!==S.uid;const r=await _ad108.apply(this,arguments);

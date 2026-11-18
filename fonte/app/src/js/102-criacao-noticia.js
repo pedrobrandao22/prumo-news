@@ -291,7 +291,6 @@ async function cn102Vota(id,i){const key=cn102EnqKey(id),x=pubDe(id);if(!x)retur
   vibrar&&vibrar(8);const p=votarValor(key,v);cn102EnqRedesenha(id);await p;cn102EnqRedesenha(id)}
 function cn102EnqRedesenha(id){const x=pubDe(id),cn=x&&cn102De(x);if(!cn||cn.k!=="enq")return;document.querySelectorAll(`.cn102-enq[data-cn102enq="${CSS.escape(String(id))}"]`).forEach(el=>{el.outerHTML=cn102EnqHTML(x,cn)})}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".cn102-enq [data-cn102voto]");if(!b)return;e.stopPropagation();e.preventDefault();if(precisaConta())return;cn102Vota(b.closest("[data-cn102enq]").dataset.cn102enq,+b.dataset.cn102voto)},true);
-{const _us=updateSocial;updateSocial=function(pid){const r=_us.apply(this,arguments);try{const m=/^u:(.+)$/.exec(String(pid||""));if(m&&document.querySelector(`.cn102-enq[data-cn102enq="${CSS.escape(m[1])}"]`))cn102EnqRedesenha(m[1])}catch(e){}return r}}
 
 /* ===== 9. notícia da edição: do "Enviar" direto para post ou story ===== */
 function cn102StoryComNt(pid,tx){const p=pautaById(pid);if(!p||!ED||ED.modo!=="story")return;const st=ED.st;if(st.bg.tipo!=="foto"&&st.bg.tipo!=="video")st.bg={tipo:"grad",g:5};ED.tela="edit";camDesliga&&camDesliga();
@@ -323,7 +322,7 @@ function cn102Barra(){const s=$("#secs");if(!s)return;let b=$("#cn102-bar");cons
   b.innerHTML=`${avatar(S.uid)}<button type="button" class="cn102-barb" data-cn102bar>Comente uma notícia ou conte o que viu…</button>`}
 function cn102AbreInicio(k){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}if(k){cn102Comeca(k);return}
   if($("#layer").innerHTML)closeLayer();CN102_SEMGAL=1;try{criarAbrir("post")}finally{CN102_SEMGAL=0}}
-{const _rs=renderSecs;renderSecs=function(){const r=_rs.apply(this,arguments);try{cn102Barra()}catch(e){}return r}}
+
 {const _pc=pubCarregar;pubCarregar=async function(){const r=await _pc.apply(this,arguments);try{cn102Barra()}catch(e){}return r}}
 setInterval(()=>{try{const b=$("#cn102-bar");if(b||(S.uid&&S.membro&&PUB.on===true))cn102Barra()}catch(e){}},1500);
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cn102bar]");if(!b)return;e.stopPropagation();e.preventDefault();if(typeof PQ!=="undefined"&&PQ.atual){toast("Espere terminar de publicar.");return}cn102AbreInicio(b.dataset.cn102bar||"")},true);

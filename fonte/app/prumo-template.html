@@ -6258,12 +6258,6 @@ function leram(pid){return Object.entries(S.leituras||{}).filter(([u,m])=>ehVisi
 /* ---------- seções (stories) e filtros ---------- */
 function ringSvg(sec,flags){const n=flags.length,R=30,c=2*Math.PI*R,gap=n>1?6:0,seg=(c-gap*n)/n;let s="";for(let i=0;i<n;i++){s+=`<circle cx="33" cy="33" r="${R}" fill="none" stroke="${flags[i]?"var(--line)":secCor(sec)}" stroke-width="3.2" stroke-dasharray="${seg.toFixed(2)} ${(c-seg).toFixed(2)}" stroke-dashoffset="${(-(i*(seg+gap))).toFixed(2)}" transform="rotate(-90 33 33)"/>`}return `<svg class="ring" viewBox="0 0 66 66" aria-hidden="true">${s}</svg>`}
 function secsStory(){const L=SECS().filter(s=>pautasDa(s.id).length);return L.map((s,i)=>({s,i,all:pautasDa(s.id).every(p=>SEEN.has(seenKey(p)))})).sort((a,b)=>a.all-b.all||a.i-b.i).map(x=>x.s)}
-function renderSecs(){
-  $("#secs").innerHTML=secsStory().map(s=>{const ps=pautasDa(s.id);if(!ps.length)return "";const flags=ps.map(p=>SEEN.has(seenKey(p)));const first=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
-    const nn=flags.filter(f=>!f).length;
-    return `<button type="button" class="sb" data-sec-story="${esc(s.id)}" aria-label="${esc(s.nome)}: ${ps.length} notícias${nn?", "+nn+" não vistas":""}"><span class="wrap">${ringSvg(s.id,flags)}<span class="face paper" data-sec="${esc(s.id)}">${svgOf(first.imagem)}${faceFoto(first)}</span>${nn?`<span class="ncount" style="background:${secCor(s.id)}">${nn}</span>`:""}</span><b>${esc(s.nome)}</b></button>`}).join("");
-  const fl=$("#filters");fl.hidden=true;fl.innerHTML="";const bf=$("#b-filtro");if(bf)bf.setAttribute("aria-pressed",String(FILTRO!=="tudo"));
-}
 
 /* ---------- posts ---------- */
 const ESPECTRO_NOME={direita:"Mais à direita",centro:"Centro",esquerda:"Mais à esquerda",publica:"Pública"};
@@ -6300,7 +6294,7 @@ function slides(p){
   return out.slice(0,5);
 }
 function coberturaTxt(p){const n=(p.fontes||[]).length,r=(p.fontes||[]).filter(k=>REGUA().includes(k)).length;return `${n} ${n===1?"veículo noticiou":"veículos noticiaram"}${r&&r<n?` · ${r} dos ${REGUA().length} principais`:""}`}
-function postSeguro(p){try{return postHTML(p)}catch(e){return ""}}
+
 function postHTML(p){
   const sec=secOf(p),ss=slidesSociais(p),nv=NOVAS.has(p.id)&&!LIDAS.has(p.id),at=ATUALIZADAS.has(p.id);
   return `<article class="post" id="p-${esc(p.id)}" data-pid="${esc(p.id)}">
@@ -6328,32 +6322,10 @@ function atividadeAmigos(pid){const {likes,cm}=socialOf(pid);return amigosL().ma
 const CPEND={};
 function montarCmts(docs){const by={};docs.forEach(([uid,dd])=>Object.entries((dd&&dd.itens)||{}).forEach(([cid,c])=>{const k=uid+"\u0001"+cid,p=CPEND[k];if(p){if(Date.now()-p.t>30000||(p.v?!!c:!c))delete CPEND[k]}if(c&&c.texto&&!(p&&p.v===null))(by[c.pid]=by[c.pid]||[]).push({...c,id:cid,uid})}));
   Object.entries(CPEND).forEach(([k,p])=>{if(Date.now()-p.t>90000){delete CPEND[k];return}if(!p.v)return;const [uid,cid]=k.split("\u0001");const l=(by[p.v.pid]=by[p.v.pid]||[]);if(!l.some(c=>c.id===cid))l.push({...p.v,id:cid,uid})});return by}
-function updateSocial(pid){
-  const sa=$("#s-acts");if(sa&&sa.dataset.pid===pid)sa.innerHTML=storyActs(pid);
-  const el=document.getElementById("p-"+pid);if(!el)return;
-  const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid)),others=likes.filter(u=>u!==S.uid);
-  const lb=el.querySelector('[data-a="like"]');lb.classList.toggle("on",mine);lb.setAttribute("aria-pressed",String(mine));
-  el.querySelector('[data-n="like"]').textContent="";
-  el.querySelector('[data-n="cmt"]').textContent="";
-  const sb=el.querySelector('[data-a="save"]'),sv=!!S.salvos[pid];sb.classList.toggle("saved",sv);sb.setAttribute("aria-pressed",String(sv));
-  let lt="";const n1=others[0]?`<b>${esc(nomeDe(others[0]))}</b>`:"";
-  if(mine&&others.length===1)lt=`<b>Você</b> e ${n1} gostaram`;
-  else if(mine&&others.length>1)lt=`<b>Você</b> e mais ${others.length} gostaram`;
-  else if(others.length===1)lt=`${n1} gostou`;
-  else if(others.length>1)lt=`${n1} e mais ${others.length-1} gostaram`;
-  {const lk=el.querySelector("[data-likes]");lk.innerHTML=lt;if(lt){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}else{delete lk.dataset.a;lk.removeAttribute("role");lk.removeAttribute("tabindex")}}
-  const pp=pautaById(pid);if(pp){const pl=el.querySelector("[data-poll]");if(pl){const eh=enqueteHTML(pp);pl.innerHTML=eh?`<span class="pb-l">Enquete</span>${eh}`:""}}
-  {const ot=el.querySelector("[data-otr]");if(ot){const at=atividadeAmigos(pid);
-    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("gostou")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
-    else if(at.length>1)ot.innerHTML=`<span class="otr" role="button" tabindex="0" data-otrs="${esc(pid)}" aria-label="${esc(at.length+" amigos nesta notícia")}">${avatares(at.map(x=>x.u))}${at.length} amigos</span>`;
-    else ot.innerHTML=""}}
-  {const nc=el.querySelector("[data-nchat]");if(nc){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto);const u=ms[ms.length-1];nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}}
-  el.querySelector("[data-together]").innerHTML="";
-  el.querySelector("[data-cmts]").innerHTML=(cm.length>2?`<button type="button" class="link" data-a="cmt">Ver os ${cm.length} comentários</button>`:"")+cm.slice(-2).map(c=>`<div class="cmt" data-a="cmt" role="button" tabindex="0"><b>${esc(nomeDe(c.uid))}</b>${esc(c.texto)}</div>`).join("");
-}
+
 var FIT_IO=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)fitTrack(e.target)}),{rootMargin:"900px 0px"}):null;
 /* cartão de notícia do visual novo (112, .vn-cn): mídia mais baixa; a altura já sai certa aqui para as páginas de texto (052) serem cortadas nela */
-function fitTrack(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",(t.closest&&t.closest(".vn-cn")?Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6))):Math.max(300,Math.round(Math.min(w*1.25,innerHeight*0.7))))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
+
 function wireTracks(root){
   root.querySelectorAll(".track").forEach((t,ix)=>{
     if(ix<3||!FIT_IO)fitTrack(t);else FIT_IO.observe(t);let tm=null;t.closest(".post")?.addEventListener("contentvisibilityautostatechange",ev=>{if(!ev.skipped)fitTrack(t)});
@@ -6373,25 +6345,7 @@ function renderChg(){
   if(FILTRO!=="tudo"||!m||!(m.itens||[]).length){box.innerHTML="";return}
   box.innerHTML=`<div class="chg gut"><h4>${esc(m.titulo||"O que mudou")}</h4><ul>${m.itens.slice(0,8).map(i=>`<li><button type="button" data-goto="${esc(i.pid)}"><em class="${esc(i.tipo)}">${i.tipo==="nova"?"Nova":i.tipo==="atualizada"?"Atualizada":"Saiu"}</em><span>${esc(i.texto||pautaById(i.pid)?.neutro?.titulo||"")}</span></button></li>`).join("")}</ul></div>`;
 }
-function renderPosts(manter){
-  AUTO=autoPesos();
-  let lista=listaFeed();
-  const novas=lista.filter(p=>NOVAS.has(p.id)&&!LIDAS.has(p.id)).length+lista.filter(p=>ATUALIZADAS.has(p.id)).length;
-  let h="";
-  if(FILTRO!=="tudo"){h+=`<div class="sech gut"><i style="background:${FILTRO[0]==="_"?"var(--bronze)":secCor(FILTRO)}"></i><h4>${esc(nomeFiltro(FILTRO))}</h4><button type="button" class="vertudo" data-filtro="tudo">Ver tudo ✕</button><span>${lista.length} ${lista.length===1?"notícia":"notícias"}${FILTRO==="politica"&&FEED.contagem?" · "+esc(FEED.contagem):""}</span></div>`;h+=secHub(FILTRO)}
-  NOVID=lista.filter(p=>(NOVAS.has(p.id)&&!LIDAS.has(p.id))||ATUALIZADAS.has(p.id)).map(p=>p.id);
-  if(novas)h+=`<button type="button" class="newbar gut" data-novidades><span class="nb-d"></span>${novas} ${novas===1?"novidade":"novidades"} desde a sua última visita${VISITA0&&hhmm(VISITA0)?` (${esc(diaHora(VISITA0))})`:""}<span class="chev" aria-hidden="true">›</span></button>`;
-  if(FILTRO==="tudo"){const u=urgHTML("urg-f");if(u)h=`<div class="gut">${u}</div>`+h}h+=cobSegStrip();
-  LOTE={lista,pos:Math.min(manter?Math.max(6,LOTE.pos||0):6,lista.length)};h=avisoAtraso()+h+lista.slice(0,LOTE.pos).map(postSeguro).join("")+(LOTE.pos<lista.length?`<div id="mais" class="empty" style="padding:24px">Carregando mais notícias…</div>`:"");
-  $("#posts").innerHTML=lista.length?h:`${h}<div class="empty"><b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Nada do que você segue nesta edição":FILTRO[0]==="_"?"Nada por aqui ainda":"Nenhuma notícia nesta seção agora"}</b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Siga uma cobertura (botão Seguir) ou escolha o seu time em Esportes. Para ver tudo, mude a ordem no filtro.":FILTRO[0]==="_"?"Quando isso mudar, as notícias aparecem aqui.":""}<button type="button" class="btn ghost" data-filtro="tudo" style="margin-top:10px">Ver todas as notícias</button></div>`;
-  lista.slice(0,LOTE.pos).forEach(p=>updateSocial(p.id));wireTracks($("#posts"));observarMais();
-  renderChgBox();
-  const br=FILTRO[0]==="_"?[]:(FEED.breves||[]).filter(b=>(FILTRO==="tudo"&&!(PREF.ocultas||[]).includes(b.secao||"politica"))||(b.secao||"politica")===FILTRO);
-  const at=new Date(FEED.atualizado_em);
-  $("#extra").innerHTML=`<div class="done gut" id="emdia"></div>${br.length?`<div class="sec gut"><h4>Outras notícias</h4><ul class="brv">${(window.BREVES=br,br).map((b,bi)=>`<li><button type="button" class="brv-b" data-breve="${bi}">${b.urgente&&tms(b.hora)&&Date.now()-tms(b.hora)<3*3600e3?`<em class="ug">Urgente</em>`:""}${esc(b.titulo)}</button><span>${esc(secNome(b.secao||"politica"))} · ${esc(nomeFonte(b.fonte))}</span></li>`).join("")}</ul></div>`:""}
-  <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}.</b> A edição completa sai às 6h52 e é atualizada de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48; manchetes e indicadores são conferidos de hora em hora.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As fotos vêm de acervos de uso livre, sempre com crédito (Agência Brasil, Senado, Câmara e Wikimedia Commons); quando não há foto, o Prumo usa um desenho.</p></div>`;
-  atualizarEmDia();
-}
+
 function renderFeed(){
   if(!FEED)return;
   $("#ed").textContent=[FEED.edicao,FEED.contagem].filter(Boolean).join(" · ");
@@ -6411,21 +6365,7 @@ function stPs(){return (ST.ids||[]).map(pautaById).filter(Boolean)}
 function openSecStory(sec){uso("story");const ps=pautasDa(sec);let i=ps.findIndex(p=>!SEEN.has(seenKey(p)));ST={sec,ids:ps.map(p=>p.id),i:i<0?0:i,ordem:secsStory().map(s=>s.id)};drawStory()}
 function storyActs(pid){const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));
   return `<button type="button" class="sact ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}<span>${likes.length||"Gostei"}</span></button><button type="button" class="sact" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>${cm.length||""}</span></button><button type="button" class="sact" data-a="send" aria-label="Enviar">${ICON.send}</button><span class="sp"></span><button type="button" class="sact go" data-goto="${esc(pid)}">Ver no feed</button>`}
-function drawStory(anim){
-  const ps=stPs(),p=ps[ST.i];if(!p)return closeLayer();clearTimeout(ST.timer);const vazioS=!$("#layer").innerHTML;
-  SEEN.add(seenKey(p));lsSet("radar-vistos",[...SEEN].slice(-400));marcarLida(p.id);
-  $("#layer").innerHTML=`<div class="story paper" data-sec="${esc(ST.sec)}" role="dialog" aria-modal="true" aria-label="${esc(secNome(ST.sec))}"><div class="story-in">
-    <div class="bars">${ps.map((_,k)=>`<i class="${k<ST.i||(k===ST.i&&!PREF.storyAuto)?"on":""}">${k===ST.i&&PREF.storyAuto?"<b></b>":""}</i>`).join("")}</div>
-    <div class="s-h"><b>${esc(secNome(ST.sec))} · ${ST.i+1}/${ps.length}</b><span class="s-hb"><button type="button" data-sauto aria-pressed="${!!PREF.storyAuto}" aria-label="${PREF.storyAuto?"Parar de passar sozinho":"Passar sozinho"}">${PREF.storyAuto?'<svg viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>'}</button><button type="button" data-close aria-label="Fechar">${ICON.close}</button></span></div>
-    <button type="button" class="tap l" data-sgo="-1" aria-label="Notícia anterior"></button><button type="button" class="tap r" data-sgo="1" aria-label="Próxima notícia"></button>
-    <div class="s-body">${p.tag?`<span class="s-kick">${esc(p.tag)}</span>`:""}<h2>${esc(p.neutro?.titulo)}</h2><p>${esc(p.neutro?.texto)}</p><div class="s-art">${svgOf(p.imagem)}</div></div>
-    <div class="s-f" id="s-acts" data-pid="${esc(p.id)}">${storyActs(p.id)}</div>
-  </div></div>`;
-  wireStorySwipe($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);
-  const si=$("#layer .story-in");if(anim&&si){si.classList.add(anim);si.addEventListener("animationend",()=>{si.classList.remove(anim);$("#layer .story")?.classList.remove("flipping")},{once:true});$("#layer .story").classList.add("flipping")}
-  const sp=$("#layer .s-body p");if(sp&&sp.scrollHeight>sp.clientHeight+2)sp.classList.add("ovf");
-  renderSecs();
-}
+
 function wireStorySwipe(el){if(!el)return;let x0=0,y0=0,on=false;
   const sb=el.querySelector(".s-body");if(sb){let sy=0,mv=false;sb.addEventListener("pointerdown",e=>{sy=(e.target.closest("p")||{}).scrollTop||0;mv=false},{passive:true});sb.addEventListener("pointermove",()=>{mv=true},{passive:true});
     sb.addEventListener("click",e=>{if(e.target.closest("button,a"))return;const p=e.target.closest("p");if(p&&Math.abs((p.scrollTop||0)-sy)>4)return;if(String(getSelection&&getSelection())!=="")return;storyGo(e.clientX<innerWidth*0.33?-1:1)})}
@@ -6434,7 +6374,7 @@ function wireStorySwipe(el){if(!el)return;let x0=0,y0=0,on=false;
     if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.3){e.preventDefault();storySec(dx<0?1:-1)}
     else if(dy>110&&Math.abs(dy)>Math.abs(dx)*1.5&&!e.target.closest(".s-body")?.scrollTop){e.preventDefault();closeLayer()}},{passive:false});
 }
-function storyOrdem(){const L=(ST.ordem&&ST.ordem.length?ST.ordem:secsStory().map(s=>s.id)).filter(id=>pautasDa(id).length);return L}
+
 let VIRANDO=false;
 function storySec(d){if(VIRANDO)return;const L=storyOrdem(),k=L.indexOf(ST.sec),nx=L[k+d];if(!nx){if(d>0)closeLayer();return}
   const ps=pautasDa(nx);let i=ps.findIndex(p=>!SEEN.has(seenKey(p)));if(i<0)i=0;
@@ -6469,24 +6409,7 @@ async function toggleLike(pid){uso("curtir");vibrar(8);
   pend("curtidas",pid,val);recalcSoc("curtidas");updateSocial(pid);refiltrar();
   try{await gravarMapa("curtidas/"+S.uid,"itens",pid,val)}catch(e){desfazPend("curtidas",pid);updateSocial(pid);refiltrar();toast("Não deu para marcar agora. Tente de novo.")}
 }
-function openComments(pid){uso("comentarios");
-  const draw=()=>{const {cm}=socialOf(pid);return cm.length?`<ul class="clist">${cm.map(c=>`<li>${avatar(c.uid)}<div><span><b>${esc(nomeDe(c.uid))}</b>${typeof debVotoChip==="function"?debVotoChip(pid,c.uid):""} ${esc(c.texto)}</span><i>${esc(quando(c.at))}<button type="button" class="c-a" data-resp="${esc(nomeDe(c.uid))}">Responder</button>${c.uid===S.uid||(typeof cmDono==="function"&&cmDono(pid))?`<button type="button" class="c-a" data-apagar="${esc(c.id)}" data-au="${esc(c.uid)}">Apagar</button>`:""}${c.uid!==S.uid?`<button type="button" class="c-a" data-denc="${esc(c.id)}" data-du="${esc(c.uid)}" data-dp="${esc(pid)}">Denunciar</button>`:""}</i></div></li>`).join("")}</ul>`:`<div class="empty" style="padding:18px 0"><b>Nenhum comentário ainda</b>Escreva o primeiro.</div>`};
-  const n=socialOf(pid).cm.length;
-  sheet(n?`Comentários (${n})`:"Comentários",`${typeof debCab==="function"?debCab(pid):""}<div id="cbox">${draw()}</div>`,`<form id="cform" class="cform">${S.uid?avatar(S.uid):""}<textarea class="field" id="ctext" rows="1" maxlength="600" autocomplete="off" enterkeyhint="send" placeholder="Escreva um comentário…" aria-label="Comentário"></textarea><button class="sendc" type="submit" aria-label="Publicar" disabled><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></form>`,{focus:!n});
-  const box=()=>$("#cbox"),toEnd=()=>{const b=$(".sheet .sh-b");if(b)b.scrollTop=b.scrollHeight};toEnd();
-  const inp=$("#ctext"),btn=$("#cform .sendc");inp.addEventListener("input",()=>{btn.disabled=!inp.value.trim()});
-  let assin=JSON.stringify(socialOf(pid).cm.map(c=>c.id+c.texto));S._reCmt=forca=>{const b=box();if(!b)return;const k=JSON.stringify(socialOf(pid).cm.map(c=>c.id+c.texto));if(k===assin&&!forca)return;assin=k;const sb=$(".sheet .sh-b");const perto=sb&&sb.scrollHeight-sb.scrollTop-sb.clientHeight<90;b.innerHTML=draw();if(perto)toEnd();const nn=socialOf(pid).cm.length,hh=$(".sheet .sh-h");if(hh&&hh.firstChild&&hh.firstChild.nodeType===3)hh.firstChild.textContent=nn?`Comentários (${nn})`:"Comentários"};onClose=()=>{S._reCmt=null};
-  box().addEventListener("click",async e=>{const r=e.target.closest("[data-resp]");if(r){inp.value="@"+r.dataset.resp+" ";btn.disabled=false;inp.focus();return}
-    const ap=e.target.closest("[data-apagar]");if(ap){if(!ap.classList.contains("conf")){ap.classList.add("conf");ap.textContent="Toque de novo para apagar";return}
-      const cid=ap.dataset.apagar,au=ap.dataset.au||S.uid;CPEND[au+"\u0001"+cid]={v:null,t:Date.now()};S.cmts=montarCmts(S._cmtDocs);
-      S._reCmt&&S._reCmt(true);updateSocial(pid);
-      try{await gravarMapa("comentarios/"+S.uid,"itens",cid,null)}catch(err){delete CPEND[au+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);toast("Não deu para apagar agora.")}}});
-  $("#cform").addEventListener("submit",async e=>{e.preventDefault();const t=inp.value.trim();if(!t||precisaConta())return;inp.value="";btn.disabled=true;inp.focus();
-    const cid=Date.now().toString(36)+Math.random().toString(36).slice(2,6),c={uid:S.uid,texto:t,at:Date.now()};
-    const sn=snapById(pid);const v={pid,texto:t,at:c.at,snap:sn?{id:pid,titulo:sn.titulo||"",secao:sn.secao||""}:{id:pid}};
-    CPEND[S.uid+"\u0001"+cid]={v,t:Date.now()};S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);toEnd();updateSocial(pid);
-    try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v)}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);const i=$("#ctext");if(i&&!i.value){i.value=t;const b=$("#cform .sendc");if(b)b.disabled=false}toast("O comentário não foi salvo. O texto voltou para a caixa.")}});
-}
+
 function shareCard(s,attrs=""){return `<button type="button" class="share paper" data-sec="${esc(s?.secao||"politica")}" ${attrs}>${svgOf(s?.imagem)}<div><span>${esc(secNome(s?.secao||"politica"))} · ${esc(s?.tag)}</span><b>${esc(s?.titulo)}</b></div></button>`}
 function snapLeve(pid){const s=snapById(pid);if(!s)return {id:pid};return {id:s.id||pid,secao:s.secao||"",tag:s.tag||"",titulo:s.titulo||"",texto:String(s.texto||"").slice(0,320),imagem:s.imagem||null,links:arrL(s.links).slice(0,1)}}
 async function toggleSave(pid){uso("guardar");
@@ -6669,7 +6592,6 @@ document.addEventListener("click",e=>{
   }
 });
 document.addEventListener("dblclick",e=>{const c=e.target.closest(".cover");if(c&&!e.target.closest("button"))duploGostei(c)});
-
 
 /* ================= v6: recursos adicionais ================= */
 const lidaAtual=p=>{const t=LIDAS.get(p.id);if(!t)return false;const u=ultimaAtualizacao(p);return !(u&&tms(u)>tms(t))};
@@ -7000,13 +6922,7 @@ var LOTE_PASSO=6; /* posts por vez ao rolar (o 148 baixa para 3 e emenda o próx
 const moreIO=("IntersectionObserver" in window)?new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))carregarMais()},{rootMargin:"600px"}):null;
 function observarMais(){const m=$("#mais");if(!m)return;if(moreIO)moreIO.observe(m);else carregarMais()}
 function garantirPost(pid){if(document.getElementById("p-"+pid))return true;const idx=LOTE.lista.findIndex(p=>p.id===pid);if(idx<0)return false;let g=0;while(LOTE.pos<=idx&&$("#mais")&&g++<20)carregarMais(true);return !!document.getElementById("p-"+pid)}
-function carregarMais(sync){
-  const m=$("#mais");if(!m)return;const prox=LOTE.lista.slice(LOTE.pos,LOTE.pos+(sync?6:LOTE_PASSO));LOTE.pos+=prox.length;
-  const tmp=document.createElement("div");tmp.innerHTML=prox.map(postSeguro).join("");const frag=[...tmp.children];
-  frag.forEach(el=>m.before(el));prox.forEach(p=>updateSocial(p.id));frag.forEach(el=>wireTracks(el));
-  if(LOTE.pos>=LOTE.lista.length){moreIO?.unobserve(m);m.remove();return}
-  if(!sync)requestAnimationFrame(()=>{const r=m.getBoundingClientRect();if(r.top<innerHeight+600)carregarMais()});
-}
+
 /* ---------- assinaturas que dependem da edição e do dia ---------- */
 const UNS={};
 function trocaSub(k,id,fn){if(UNS[k]?.id===id)return false;try{UNS[k]?.off&&UNS[k].off()}catch(e){}UNS[k]={id,off:fn()};return true}
@@ -7819,13 +7735,6 @@ function rodadaDetalhe(x){const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.u
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
   sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Edição completa":x.tipo==="virada"?"Virada do dia":"Atualização"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"não saiu"}</b><span class="hint">${rodadaDetalhe(x)}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
-/* 24. story passando sozinho */
-function storyAuto(p){clearTimeout(ST.timer);if(!PREF.storyAuto)return;const w=((p.neutro?.titulo||"")+" "+(p.neutro?.texto||"")).split(/\s+/).length;const dur=Math.max(7000,Math.min(24000,w/3.2*1000));
-  const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);
-  const el=$("#layer .story");if(!el||el._auto)return;el._auto=true;
-  el.addEventListener("pointerdown",ev=>{if(ev.target.closest(".s-f,.s-h,.us-it"))return;if(!PREF.storyAuto||!ST.timer)return;clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,ST.fim-Date.now());const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"});
-  const volta=()=>{if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2").innerHTML)return;ST.fim=Date.now()+ST.resto;ST.timer=setTimeout(()=>storyGo(1),ST.resto);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"};
-  el.addEventListener("pointerup",volta);el.addEventListener("pointercancel",volta)}
 function storyRetoma(){if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2")?.innerHTML)return;const r=ST.resto||4000;ST.fim=Date.now()+r;ST.timer=setTimeout(()=>storyGo(1),r);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"}
 /* ---------- v14 ---------- */
 function abrirFiltro(){uso("filtro_sheet");const opc=[{id:"tudo",nome:"Tudo",n:visiveis().length},...SECS().filter(s=>pautasDa(s.id).length).map(s=>({id:s.id,nome:s.nome,n:pautasDa(s.id).length,cor:secCor(s.id)}))];
@@ -8858,7 +8767,7 @@ function legendaPost(p){const L=lente(),sub=capaSub(p,L,"")||(pontosDe(p,L)||[])
   return `<button type="button" class="pt-cap" data-capmat="${esc(p.id)}"><span class="pt-cap-t">${esc(sub)}</span><span class="pt-cap-m">Ler a matéria <i aria-hidden="true">›</i></span></button>`}
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-capmat]");if(!b)return;e.stopPropagation();uso("feed_legenda");abrirMateria(b.dataset.capmat)},true);
 /* "5 min" vira o primeiro círculo do topo do Feed */
-{const _rs=renderSecs;renderSecs=function(){const r=_rs.apply(this,arguments);const box=$("#secs");if(box&&$("#b-5min")&&!box.querySelector(".sb-5")){box.insertAdjacentHTML("afterbegin",`<button type="button" class="sb sb-5" data-5min aria-label="O dia em 5 minutos"><span class="wrap"><span class="sb5-c"><b>5</b><small>min</small></span></span><b>Em 5 min</b></button>`)}return r}}
+
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-5min]");if(!b)return;e.stopPropagation();const o=$("#b-5min");if(o)o.click()},true);
 /* curtir: o botão "pula" ao marcar */
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest('.post .act[data-a="like"]');if(!b)return;setTimeout(()=>{if(b.getAttribute("aria-pressed")==="true"||b.classList.contains("on")){b.classList.remove("pulsa");void b.offsetWidth;b.classList.add("pulsa")}},30)});
@@ -8904,7 +8813,6 @@ function paginarTrack(t){try{const H=parseInt(getComputedStyle(t).getPropertyVal
 function pgDots(t){const post=t.closest(".post");const d=post&&post.querySelector(".pdots");if(!d)return;const ds=[...d.querySelectorAll("i")],k=ds.length;d.classList.toggle("muitos",k>5);if(k<=5)return;
   const i=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));let a=Math.max(0,Math.min(i-2,k-5));ds.forEach((x,j)=>{const v=j>=a&&j<a+5;x.classList.toggle("dv",v);x.classList.toggle("dpq",v&&((j===a&&a>0)||(j===a+4&&a+5<k)))})}
 document.addEventListener("scroll",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("track")&&t.closest(".post"))requestAnimationFrame(()=>pgDots(t))},true);
-{const _ft=fitTrack;fitTrack=function(t){const r=_ft.apply(this,arguments);if(t&&t.closest&&t.closest(".post")){if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(()=>paginarTrack(t));else paginarTrack(t)}return r}}
 
 /* ---------- Etapa 41: carrossel social ---------- */
 var SS_NUM=/(R\$\s?\d[\d.,]*(?:\s?(?:mil|mi|milhão|milhões|bi|bilhão|bilhões|tri))?|US\$\s?\d[\d.,]*(?:\s?(?:mil|mi|bi|milhões|bilhões))?|\d[\d.,]*\s?%|\d{1,3}(?:\.\d{3})+(?:,\d+)?(?:\s?(?:pontos|votos|mil))?|\d[\d,]*\s?(?:mil|milhões|bilhões|votos|pontos|anos|dias|vezes|cadeiras|mortos|feridos|deputados|senadores)\b)/i;
@@ -8942,7 +8850,6 @@ function slidesSociais(p){try{
   return out}catch(e){return p.tipo==="pontual"?cobPontualSlides(p):slides(p)}}
 /* páginas desenhadas: se a letra não couber, diminui um pouco (sem quebrar a página) */
 function ssCaber(t){t.querySelectorAll(".ss").forEach(sl=>{let k=1;sl.style.setProperty("--ssk","1");for(let n=0;n<8&&sl.scrollHeight>sl.clientHeight+1;n++){k-=.07;sl.style.setProperty("--ssk",k.toFixed(2))}})}
-{const _ft41=fitTrack;fitTrack=function(t){const r=_ft41.apply(this,arguments);if(t&&t.closest&&t.closest(".post")){const go=()=>ssCaber(t);if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(go);else go()}return r}}
 
 /* ---------- Etapa 42: topo do Feed e stories no estilo Instagram ---------- */
 if(PREF&&PREF.storyAuto===undefined)PREF.storyAuto=true;
@@ -8950,15 +8857,6 @@ function igFace(p){const f=p&&fotoDe(p);return f?`<img src="${escU(fotoMini(f.ur
 function igAgendaItens(){const ag=FEED.agenda||[],hoje=hojeSP(),H=[],P=[];ag.forEach(a=>{const d=agData(a,hoje);if(!d||d<hoje)return;(d===hoje?H:P).push({...a,_d:d})});
   const ord=(x,y)=>x._d.localeCompare(y._d)||agMin(x)-agMin(y);H.sort(ord);P.sort(ord);return {H,P}}
 function igCirc(attr,cls,face,nome,label){return `<button type="button" class="sb ig-s" ${attr} aria-label="${esc(label||nome)}"><span class="ig-r ${cls}"><span class="ig-f">${face}</span></span><b>${esc(nome)}</b></button>`}
-renderSecs=function(){const box=$("#secs");if(!box||!FEED)return;let h="";
-  if($("#b-5min"))h+=igCirc('data-5min',"ig-5",`<span class="ig-5c"><b>5</b><small>min</small></span>`,"Em 5 min","O dia em 5 minutos");
-  try{const it=tickerItens(15);if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
-  h+=secsStory().map(s=>{const ps=pautasDa(s.id);if(!ps.length)return "";const nn=ps.filter(p=>!SEEN.has(seenKey(p))).length;const first=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
-    return `<button type="button" class="sb ig-s" data-sec-story="${esc(s.id)}" aria-label="${esc(s.nome)}: ${ps.length} notícias${nn?", "+nn+" não vistas":""}"><span class="ig-r${nn?"":" visto"}" style="--c:${secCor(s.id)}"><span class="ig-f paper" data-sec="${esc(s.id)}">${igFace(first)}</span></span><b>${esc(s.nome)}</b></button>`}).join("");
-  try{const {H,P}=igAgendaItens();if(H.length||P.length){const d=new Date(hojeSP()+"T12:00:00Z");const wd=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"UTC"}).replace(".","");
-    h+=igCirc('data-igagenda',"ig-ag"+(H.length?"":" visto"),`<span class="ig-agc"><small>${esc(wd)}</small><b>${d.getUTCDate()}</b></span>`,"Agenda",`Agenda: ${H.length} hoje, ${P.length} nos próximos dias`)}}catch(e){}
-  box.innerHTML=h;box.classList.add("ig");
-  const fl=$("#filters");if(fl){fl.hidden=true;fl.innerHTML=""}const bf=$("#b-filtro");if(bf)bf.setAttribute("aria-pressed",String(FILTRO!=="tudo"))};
 function igAgendaSheet(){uso("agenda");const {H,P}=igAgendaItens();
   sheet("Agenda",`${H.length?`<h4 class="ig-agh">Hoje</h4><ul class="ig-agl">${H.map(a=>agItem(a,false)).join("")}</ul>`:`<p class="hint">Nada marcado para hoje.</p>`}${P.length?`<h4 class="ig-agh">Próximos dias</h4><ul class="ig-agl">${P.map(a=>agItem(a,true)).join("")}</ul>`:""}`)}
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-igagenda]");if(!b)return;e.stopPropagation();if(FEED)igAgendaSheet()},true);
@@ -8970,26 +8868,7 @@ function igLinhas(p,L){const fr=ssFrasesSociais(p,L).slice(0,4);const tit=norm(v
   return fr.filter(t=>norm(t)!==tit).slice(0,3)}
 storyActs=function(pid){const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));
   return `<button type="button" class="sg-ler" data-stmat="${esc(pid)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>Ler a matéria</button><span class="sp"></span><button type="button" class="sg-a ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}${likes.length?`<span>${likes.length}</span>`:""}</button><button type="button" class="sg-a" data-a="cmt" aria-label="Comentar">${ICON.cmt}${cm.length?`<span>${cm.length}</span>`:""}</button><button type="button" class="sg-a" data-a="send" aria-label="Enviar">${ICON.send}</button>`};
-drawStory=function(anim){
-  const ps=stPs(),p=ps[ST.i];if(!p)return closeLayer();clearTimeout(ST.timer);const vazioS=!$("#layer").innerHTML;
-  SEEN.add(seenKey(p));lsSet("radar-vistos",[...SEEN].slice(-400));marcarLida(p.id);
-  const L=lente(),v=versao(p,L),sec=ST.sec,cor=secCor(sec),f=fotoDe(p);
-  const lin=igLinhas(p,L);let num=null;
-  const linHTML=lin.map((t0,k)=>{let t=t0;if(k===0){const n=ssNumero(t0);if(n&&t0.indexOf(n)===0){let r=t0.slice(n.length).replace(/^\s*:?\s*/,"");if(r.length>8){num=n;t=r.charAt(0).toUpperCase()+r.slice(1)}}}return `<li>${esc(t)}</li>`}).join("");
-  const hr=ultimaAtualizacao(p)||p.hora;const qd=hr?quando(hr):"";
-  ST.palavras=(v.titulo+" "+lin.join(" ")).split(/\s+/).length;
-  $("#layer").innerHTML=`<div class="story sg${f?" com-foto":""}" data-sec="${esc(sec)}" style="--c:${cor}" role="dialog" aria-modal="true" aria-label="${esc(secNome(sec))}"><div class="story-in">
-    <div class="sg-bg paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.story').classList.remove('com-foto');this.remove()">`:`<div class="sg-art">${svgOf(p.imagem)}</div>`}</div>
-    <div class="sg-sh"></div>
-    <div class="bars">${ps.map((_,k)=>`<i class="${k<ST.i||(k===ST.i&&!PREF.storyAuto)?"on":""}">${k===ST.i&&PREF.storyAuto?"<b></b>":""}</i>`).join("")}</div>
-    <div class="s-h"><span class="ph-av sg-av" style="--c:${cor}"><i>${esc(secNome(sec).charAt(0))}</i></span><span class="sg-who"><b>${esc(secNome(sec))}</b>${qd?`<span>${esc(qd)}</span>`:""}</span><span class="s-hb"><button type="button" data-sauto aria-pressed="${!!PREF.storyAuto}" aria-label="${PREF.storyAuto?"Parar de passar sozinho":"Passar sozinho"}">${PREF.storyAuto?'<svg viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>'}</button><button type="button" data-close aria-label="Fechar">${ICON.close}</button></span></div>
-    <button type="button" class="tap l" data-sgo="-1" aria-label="Notícia anterior"></button><button type="button" class="tap r" data-sgo="1" aria-label="Próxima notícia"></button>
-    <div class="sg-body"><span class="sg-k">${esc(capaChapeu(p))}</span><h2>${esc(v.titulo)}</h2>${num?`<b class="sg-n">${esc(num)}</b>`:""}${linHTML?`<ul class="sg-l">${linHTML}</ul>`:""}${f?credHTML(f.credito||"Foto de arquivo","sg-cr"):""}</div>
-    <div class="s-f sg-f" id="s-acts" data-pid="${esc(p.id)}">${storyActs(p.id)}</div>
-  </div></div>`;
-  igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);
-  const si=$("#layer .story-in");if(anim&&si){si.classList.add(anim);si.addEventListener("animationend",()=>{si.classList.remove(anim);$("#layer .story")?.classList.remove("flipping")},{once:true});$("#layer .story").classList.add("flipping")}
-  igCaber();renderSecs()};
+
 function igCaber(){const b=$("#layer .sg-body");if(!b)return;const lim=()=>b.getBoundingClientRect().top<110;let k=1;b.style.setProperty("--sgk","1");for(let n=0;n<6&&lim();n++){k-=.08;b.style.setProperty("--sgk",k.toFixed(2))}
   if(lim()){const li=[...b.querySelectorAll(".sg-l li")];while(li.length>1&&lim())li.pop().remove()}}
 function igWire(el){if(!el)return;let x0=0,y0=0,on=false;
@@ -8998,22 +8877,12 @@ function igWire(el){if(!el)return;let x0=0,y0=0,on=false;
     if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.3){e.preventDefault();storySec(dx<0?1:-1)}
     else if(dy>110&&Math.abs(dy)>Math.abs(dx)*1.5){e.preventDefault();closeLayer()}
     else if(dy<-80&&Math.abs(dy)>Math.abs(dx)*1.5){e.preventDefault();const pid=$("#s-acts")?.dataset.pid;if(pid)igLerMateria(pid)}},{passive:false})}
-storyAuto=(function(ant){return function(p){const w=ST.palavras||20;const dur=Math.max(6000,Math.min(16000,1500+w/3.4*1000));
-  clearTimeout(ST.timer);if(!PREF.storyAuto)return;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);
-  const el=$("#layer .story");if(!el||el._auto)return;el._auto=true;
-  el.addEventListener("pointerdown",ev=>{if(ev.target.closest(".s-f,.s-h,.us-it"))return;if(!PREF.storyAuto||!ST.timer)return;clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,ST.fim-Date.now());const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"});
-  const volta=()=>{if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2").innerHTML)return;ST.fim=Date.now()+ST.resto;ST.timer=setTimeout(()=>storyGo(1),ST.resto);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"};
-  el.addEventListener("pointerup",volta);el.addEventListener("pointercancel",volta)}})(storyAuto);
 
 /* ---------- Etapa 43: "Em 5 min" e "Últimas" como stories ---------- */
 var ULT_VISTOS=new Set((()=>{try{return JSON.parse(localStorage.getItem("prumo-ult-vistos")||"[]")}catch(e){return []}})());
 function ultKey(i){return i.pid+"|"+(i.hora||"")+"|"+(i.txt||"").slice(0,40)}
 function cincoLista(){const top=ordenadas(visiveis()).filter(p=>!lidaAtual(p)).slice(0,5);return top.length?top:ordenadas(visiveis()).slice(0,5)}
-function igLista(sec){
-  if(sec==="_5min"){const ps=cincoLista();return {ps,itens:null}}
-  if(sec==="_ult"){const it=tickerItens(15).filter(i=>pautaById(i.pid));return {ps:it.map(i=>pautaById(i.pid)),itens:it}}
-  return {ps:pautasDa(sec),itens:null}}
-function igNomeSt(sec){return sec==="_5min"?"Em 5 min":sec==="_ult"?"Últimas":secNome(sec)}
+
 function igSet(sec,pos){const r=igLista(sec);let i;
   if(pos==="fim")i=r.ps.length-1;else if(pos==="novo"){i=sec==="_ult"?r.itens.findIndex(x=>!ULT_VISTOS.has(ultKey(x))):r.ps.findIndex(p=>!SEEN.has(seenKey(p)));if(i<0)i=0}else i=pos||0;
   ST={...(ST||{}),sec,ids:r.ps.map(p=>p.id),itens:r.itens,i};return r.ps.length}
@@ -9024,8 +8893,7 @@ function igAbrir(sec){if(!FEED)return;uso(sec==="_5min"?"5min":"ultimas");if($("
   drawStory()}
 abrir5min=function(){igAbrir("_5min")};
 abrirUltimas=function(){igAbrir("_ult")};
-storyOrdem=function(){const base=(ST&&ST.ordem&&ST.ordem.length?ST.ordem:secsStory().map(s=>s.id)).filter(id=>pautasDa(id).length);
-  const v=[];if(cincoLista().length)v.push("_5min");try{if(tickerItens(15).length)v.push("_ult")}catch(e){}return v.concat(base)};
+
 storySec=function(d){if(VIRANDO)return;const L=storyOrdem(),k=L.indexOf(ST.sec),nx=L[k+d];if(!nx){if(d>0)closeLayer();return}
   const go=()=>{VIRANDO=false;VIRA_T=0;if(!$("#layer .story"))return;igSet(nx,"novo");drawStory(REDUZ.matches?null:(d>0?"in-r":"in-l"))};
   const si=$("#layer .story-in");if(!si||REDUZ.matches){go();return}
@@ -9034,37 +8902,6 @@ storyGo=function(d){const ps=stPs();ST.i+=d;const L=storyOrdem(),k=L.indexOf(ST.
   if(ST.i<0){const prev=L[k-1];if(prev)igSet(prev,"fim");else ST.i=0}
   else if(ST.i>=ps.length){const nx=L[k+1];if(!nx)return closeLayer();igSet(nx,0)}
   drawStory()};
-drawStory=function(anim){
-  const ps=stPs(),p=ps[ST.i];if(!p)return closeLayer();clearTimeout(ST.timer);const vazioS=!$("#layer").innerHTML;
-  SEEN.add(seenKey(p));lsSet("radar-vistos",[...SEEN].slice(-400));marcarLida(p.id);
-  const vsec=ST.sec,virt=vsec==="_5min"||vsec==="_ult",it=vsec==="_ult"&&ST.itens?ST.itens[ST.i]:null;
-  if(it){ULT_VISTOS.add(ultKey(it));try{localStorage.setItem("prumo-ult-vistos",JSON.stringify([...ULT_VISTOS].slice(-200)))}catch(e){}}
-  const L=lente(),v=versao(p,L),psec=secOf(p),cor=secCor(psec),f=fotoDe(p);
-  const tit=it&&it.txt?it.txt:v.titulo;
-  let lin=igLinhas(p,L);if(it){lin=lin.filter(t=>norm(t)!==norm(tit));lin=lin.slice(0,3)}
-  let num=null;
-  const linHTML=lin.map((t0,k)=>{let t=t0;if(k===0&&!it){const n=ssNumero(t0);if(n&&t0.indexOf(n)===0){let r=t0.slice(n.length).replace(/^\s*:?\s*/,"");if(r.length>8){num=n;t=r.charAt(0).toUpperCase()+r.slice(1)}}}return `<li>${esc(t)}</li>`}).join("");
-  const hr=it?it.hora:(ultimaAtualizacao(p)||p.hora);
-  const sub=vsec==="_5min"?"":it?(hr&&hhmm(hr)?(dataSP(hr)===hojeSP()?"às "+hhmm(hr):horaDia(hr)):""):(hr?quando(hr):"");
-  const kick=it?(it.tag==="Nova"||it.tag==="Atualizada"?`${it.tag} · ${secNome(psec)}`:secNome(psec)):vsec==="_5min"?`${secNome(psec)} · ${capaChapeu(p)}`:capaChapeu(p);
-  const av=vsec==="_5min"?`<span class="ph-av sg-av sg-av5"><i>5</i></span>`:vsec==="_ult"?`<span class="ph-av sg-av sg-avu"><b></b></span>`:`<span class="ph-av sg-av" style="--c:${cor}"><i>${esc(secNome(vsec).charAt(0))}</i></span>`;
-  ST.palavras=(tit+" "+lin.join(" ")).split(/\s+/).length;
-  $("#layer").innerHTML=`<div class="story sg${f?" com-foto":""}${virt?" sg-v":""}" data-sec="${esc(virt?psec:vsec)}" style="--c:${cor}" role="dialog" aria-modal="true" aria-label="${esc(igNomeSt(vsec))}"><div class="story-in">
-    <div class="sg-bg paper" data-sec="${esc(psec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.story').classList.remove('com-foto');this.remove()">`:`<div class="sg-art">${svgOf(p.imagem)}</div>`}</div>
-    <div class="sg-sh"></div>
-    <div class="bars">${ps.map((_,k)=>`<i class="${k<ST.i||(k===ST.i&&!PREF.storyAuto)?"on":""}">${k===ST.i&&PREF.storyAuto?"<b></b>":""}</i>`).join("")}</div>
-    <div class="s-h">${av}<span class="sg-who"><b>${esc(igNomeSt(vsec))}</b>${sub?`<span>${esc(sub)}</span>`:""}</span><span class="s-hb"><button type="button" data-sauto aria-pressed="${!!PREF.storyAuto}" aria-label="${PREF.storyAuto?"Parar de passar sozinho":"Passar sozinho"}">${PREF.storyAuto?'<svg viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>'}</button><button type="button" data-close aria-label="Fechar">${ICON.close}</button></span></div>
-    <button type="button" class="tap l" data-sgo="-1" aria-label="Anterior"></button><button type="button" class="tap r" data-sgo="1" aria-label="Próxima"></button>
-    <div class="sg-body"><span class="sg-k">${esc(kick)}</span><h2>${esc(tit)}</h2>${num?`<b class="sg-n">${esc(num)}</b>`:""}${linHTML?`<ul class="sg-l">${linHTML}</ul>`:""}${f?credHTML(f.credito||"Foto de arquivo","sg-cr"):""}</div>
-    <div class="s-f sg-f" id="s-acts" data-pid="${esc(p.id)}">${storyActs(p.id)}</div>
-  </div></div>`;
-  igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);
-  const si=$("#layer .story-in");if(anim&&si){si.classList.add(anim);si.addEventListener("animationend",()=>{si.classList.remove(anim);$("#layer .story")?.classList.remove("flipping")},{once:true});$("#layer .story").classList.add("flipping")}
-  igCaber();renderSecs()};
-{const _rs43=renderSecs;renderSecs=function(){const r=_rs43.apply(this,arguments);try{
-  const c=$("#secs [data-5min] .ig-r");if(c)c.classList.toggle("visto",!ordenadas(visiveis()).some(p=>!lidaAtual(p)));
-  const u=$("#secs [data-ultimas] .ig-r");if(u)u.classList.toggle("visto",tickerItens(15).every(i=>ULT_VISTOS.has(ultKey(i))));
-  }catch(e){}return r}}
 
 /* ---------- Etapa 44: Agenda em story, animações e topo sem faixas ---------- */
 /* círculos sempre na mesma ordem (o visto fica cinza, não vai para o fim) */
@@ -9075,12 +8912,11 @@ function agPaginas(){let r;try{r=igAgendaItens()}catch(e){return []}const dias={
   const out=[];Object.keys(dias).sort().slice(0,7).forEach(d=>{const ev=dias[d];for(let k=0;k<ev.length;k+=5)out.push({id:"ag|"+d+"|"+k,d,ev:ev.slice(k,k+5),parte:k/5,partes:Math.ceil(ev.length/5),chave:d+"|"+ev.map(a=>a.texto).join("|").slice(0,120)})});return out}
 function agDiaNome(d){const hoje=hojeSP();if(d===hoje)return "Hoje";if(d===somaDias(hoje,1))return "Amanhã";const x=new Date(d+"T12:00:00Z");const w=x.toLocaleDateString("pt-BR",{weekday:"long",timeZone:"UTC"});return w.charAt(0).toUpperCase()+w.slice(1)}
 function agDataLonga(d){return new Date(d+"T12:00:00Z").toLocaleDateString("pt-BR",{day:"numeric",month:"long",timeZone:"UTC"})}
-{const _il=igLista;igLista=function(sec){if(sec==="_ag"){const pg=agPaginas();return {ps:pg,itens:pg}}return _il.apply(this,arguments)}}
+
 {const _sp=stPs;stPs=function(){if(ST&&ST.sec==="_ag")return ST.itens||[];return _sp.apply(this,arguments)}}
-{const _io=igNomeSt;igNomeSt=function(sec){return sec==="_ag"?"Agenda":_io.apply(this,arguments)}}
+
 {const _is=igSet;igSet=function(sec,pos){const n=_is.apply(this,arguments);if(sec==="_ag"&&pos==="novo"){const k=ST.itens.findIndex(x=>!AG_VISTOS.has(x.chave));ST.i=k<0?0:k}return n}}
-storyOrdem=function(){const base=(ST&&ST.ordem&&ST.ordem.length?ST.ordem:secsStory().map(s=>s.id)).filter(id=>pautasDa(id).length);
-  const v=[];if(cincoLista().length)v.push("_5min");if(agPaginas().length)v.push("_ag");try{if(tickerItens(15).length)v.push("_ult")}catch(e){}return v.concat(base)};
+
 function agEvHTML(a){const pid=agPid(a),hr=agHoraTxt(a),est=a._d===hojeSP()?agEstado(a):"";
   const inner=`<span class="sga-h">${est==="agora"?`<em class="sga-live"><i></i>Agora</em>`:hr?esc(hr):`<em class="sga-dia">Sem horário</em>`}</span><span class="sga-t">${esc(a.texto)}</span>${pid?`<span class="sga-c" aria-hidden="true">›</span>`:""}`;
   return `<li class="${est}">${pid?`<button type="button" data-stmat="${esc(pid)}">${inner}</button>`:`<div>${inner}</div>`}</li>`}
@@ -9100,7 +8936,7 @@ function igDrawAgenda(){const pg=ST.itens[ST.i];if(!pg)return closeLayer();const
 function agCaber(){const b=$("#layer .sga-body");if(!b)return;let k=1;b.style.setProperty("--sgk","1");for(let n=0;n<6&&b.scrollHeight>b.clientHeight+1;n++){k-=.08;b.style.setProperty("--sgk",k.toFixed(2))}}
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-igagsheet]");if(!b)return;e.stopPropagation();igAgendaSheet()},true);
 /* desenhar: Agenda à parte; troca suave entre notícias */
-{const _ds=drawStory;drawStory=function(anim){if(ST&&ST.sec==="_ag"){clearTimeout(ST.timer);return igDrawAgenda(anim)}const r=_ds.apply(this,arguments);igEntra();return r}}
+
 function igEntra(){const st=$("#layer .story.sg");if(!st||REDUZ.matches||IG_CUBO)return;st.classList.remove("sg-anim");void st.offsetWidth;st.classList.add("sg-anim")}
 /* troca de seção em cubo: as duas faces giram juntas */
 var IG_CUBO=false;
@@ -9142,9 +8978,7 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
 {const _ia=igAbrir;igAbrir=function(sec){if(sec==="_ag"){if(!FEED)return;uso("agenda");const pg=agPaginas();if(!pg.length){toast("Nada na agenda agora.");return}
   if($("#layer").innerHTML&&!$("#layer .story"))closeLayer();const k=pg.findIndex(x=>!AG_VISTOS.has(x.chave));ST={sec:"_ag",ids:pg.map(x=>x.id),itens:pg,i:k<0?0:k,ordem:secsStory().map(s=>s.id)};drawStory();return}return _ia.apply(this,arguments)}}
 /* fileira: Agenda logo depois do "Em 5 min"; não redesenha (nem pula) se nada mudou; volta mostrando o último círculo visto */
-{const _rs44=renderSecs;renderSecs=function(){const box=$("#secs");const x=box?box.scrollLeft:0;const r=_rs44.apply(this,arguments);if(!box)return r;
-  try{const ag=box.querySelector("[data-igagenda]"),c5=box.querySelector("[data-5min]");if(ag){if(c5)c5.after(ag);else box.prepend(ag);ag.querySelector(".ig-r")?.classList.toggle("visto",agPaginas().every(p=>AG_VISTOS.has(p.chave)))}}catch(e){}
-  box.scrollLeft=x;return r}}
+
 /* nada de faixa de novidades no Feed nem pílula: a edição nova entra quando a pessoa está no topo */
 mostrarPilula=function(){$("#pilula")?.remove()};
 function igAplicaNovo(){if(!NOVO)return;if((VIEW==="feed"||VIEW==="capa")&&scrollY<60&&!$("#layer").innerHTML)aplicarNovo(NOVO)}
@@ -9178,7 +9012,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.closest&&e.target.cl
 /* ===== telas de gráfico/números/linha do tempo ===== */
 function igVisDe(p){const vs=(p&&p.visuais)||[];return vs.find(v=>v.tipo==="grafico"&&(v.itens||[]).length>=2&&(v.itens||[]).every(i=>typeof i.valor==="number"))||vs.find(v=>v.tipo==="numeros"&&(v.itens||[]).length>=2)||vs.find(v=>v.tipo==="linha_do_tempo"&&(v.itens||[]).length>=3)||null}
 function igComVis(ps){const out=[];ps.forEach(p=>{out.push(p);if(igVisDe(p))out.push({...p,id:p.id+"#v",__vis:true})});return out}
-{const _il46=igLista;igLista=function(sec){const r=_il46.apply(this,arguments);if(sec==="_ult"||sec==="_ag"||String(sec).indexOf("_h:")===0)return r;return {ps:igComVis(r.ps),itens:r.itens}}}
+
 {const _sp46=stPs;stPs=function(){if(ST&&ST.sec&&String(ST.sec).indexOf("_h:")===0)return ST.itens||[];if(ST&&ST.sec==="_ag")return _sp46.apply(this,arguments);
   return (ST.ids||[]).map(id=>{if(/#v$/.test(id)){const p=pautaById(id.slice(0,-2));return p?{...p,id,__vis:true}:null}return pautaById(id)}).filter(Boolean)}}
 {const _is46=igSet;igSet=function(sec,pos){const n=_is46.apply(this,arguments);if(pos==="novo"&&sec!=="_ult"&&sec!=="_ag"){const ps=stPs();let k=ps.findIndex(p=>!p.__vis&&!SEEN.has(seenKey(p)));ST.i=k<0?0:k}return n}}
@@ -9218,10 +9052,7 @@ function destMarcos(p){const tl=(p.visuais||[]).find(v=>v.tipo==="linha_do_tempo
 function destaques(){if(!FEED)return [];return ordenadas(visiveis()).filter(p=>destMarcos(p)).slice(0,6)}
 function destChave(p){const m=destMarcos(p)||[];return p.id+"|"+m.length+"|"+((m[m.length-1]||{}).texto||"").slice(0,30)}
 function destNome(p){const t=temaDe(p)||capaChapeu(p);return t.length>14?t.slice(0,13).trim()+"…":t}
-{const _il46b=igLista;igLista=function(sec){if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));if(!p)return {ps:[],itens:[]};const m=destMarcos(p)||[];
-  const fr=[{id:"h0",tipo:"capa",p,n:m.length}].concat(m.map((x,k)=>({id:"h"+(k+1),tipo:"marco",p,m:x,k,n:m.length})));return {ps:fr,itens:fr}}return _il46b.apply(this,arguments)}}
-{const _so46=storyOrdem;storyOrdem=function(){if(ST&&ST.sec&&String(ST.sec).indexOf("_h:")===0)return [ST.sec];return _so46.apply(this,arguments)}}
-{const _no46=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));return p?temaDe(p)||capaChapeu(p):"Destaque"}return _no46.apply(this,arguments)}}
+
 function destAbrir(pid){const sec="_h:"+pid,r=igLista(sec);if(!r.ps.length)return;uso("destaque");if($("#layer").innerHTML&&!$("#layer .story"))closeLayer();
   ST={sec,ids:r.ps.map(x=>x.id),itens:r.itens,i:0,ordem:[]};drawStory()}
 function igDrawDest(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const p=fr.p,vazioS=!$("#layer").innerHTML,cor=secCor(secOf(p)),f=fotoDe(p);
@@ -9239,12 +9070,7 @@ function igDrawDest(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const p
     <div class="s-f sg-f" id="s-acts" data-pid="${esc(p.id)}">${storyActs(p.id)}</div>
   </div></div>`;
   igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);igEntra();igCaber();renderSecs()}
-{const _ds46=drawStory;drawStory=function(anim){if(ST&&String(ST.sec||"").indexOf("_h:")===0){clearTimeout(ST.timer);igDrawDest();igRodape();igPreCarrega();return}
-  if(ST&&ST.sec!=="_ag"){const p=stPs()[ST.i];if(p&&p.__vis){clearTimeout(ST.timer);igDrawVis(p);igRodape();igPreCarrega();return}}
-  const r=_ds46.apply(this,arguments);igRodape();igPreCarrega();return r}}
-{const _rs46=renderSecs;renderSecs=function(){const r=_rs46.apply(this,arguments);const box=$("#secs");if(!box||!FEED)return r;
-  try{box.querySelectorAll(".ig-div,[data-dest]").forEach(x=>x.remove());const ds=destaques();if(ds.length){const x=box.scrollLeft;
-    box.insertAdjacentHTML("beforeend",`<span class="ig-div" aria-hidden="true"></span>`+ds.map(p=>{const f=fotoDe(p);return `<button type="button" class="sb ig-s ig-dest" data-dest="${esc(p.id)}" aria-label="Destaque: ${esc(temaDe(p)||capaChapeu(p))}"><span class="ig-r dest${DEST_VISTOS.has(destChave(p))?" visto":""}"><span class="ig-f paper" data-sec="${esc(secOf(p))}">${f?`<img src="${escU(fotoMini(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(p.imagem)}</span></span><b>${esc(destNome(p))}</b></button>`}).join(""));box.scrollLeft=x}}catch(e){}return r}}
+
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#secs [data-dest]");if(!b)return;e.stopPropagation();(window.comTransicao||((o,f)=>f()))(b.querySelector(".ig-r")||b,()=>destAbrir(b.dataset.dest),".story-in")},true);
 
 /* ===== 1. comentar pelo story ===== */
@@ -9255,7 +9081,7 @@ function igRodape(){const sa=$("#layer #s-acts");if(!sa||sa.closest(".sg-f2"))re
   const f=document.createElement("div");f.className="s-f sg-f sg-f2";f.dataset.pid=pid;
   f.innerHTML=`<div class="sg-top2"><button type="button" class="sg-ler sg-ler2" data-stmat="${esc(pid)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>Ler a matéria</button><span class="sg-ccw">${igCmtChip(pid)}</span></div><div class="sg-bot2"><form class="sg-rp" autocomplete="off"><input type="text" maxlength="600" enterkeyhint="send" placeholder="Comentar…" aria-label="Comentar esta notícia"><button type="submit" class="sg-rp-b" aria-label="Publicar o comentário">Publicar</button></form></div>`;
   sa.replaceWith(f);sa.className="sg-acts";sa.removeAttribute("style");f.querySelector(".sg-bot2").appendChild(sa)}
-{const _us46=updateSocial;updateSocial=function(pid){const r=_us46.apply(this,arguments);try{const w=$("#layer .sg-f2");if(w&&w.dataset.pid===pid){const c=w.querySelector(".sg-ccw");if(c)c.innerHTML=igCmtChip(pid)}}catch(e){}return r}}
+
 var IG_DIG=false;
 function igPausa(){if(!ST)return;if(ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now())}const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"}
 document.addEventListener("focusin",e=>{const i=e.target.closest&&e.target.closest("#layer .sg-rp input");if(!i)return;
@@ -9271,7 +9097,6 @@ async function igComentar(pid,t){uso("story_comentario");const cid=Date.now().to
   try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v);return true}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);updateSocial(pid);return false}}
 /* enquanto digita, toques e gestos não mexem no story */
 window.addEventListener("click",e=>{if(!IG_DIG)return;const b=e.target&&e.target.closest&&e.target.closest("#layer .story [data-sgo]");if(b){e.stopPropagation();e.preventDefault();document.activeElement?.blur?.()}},true);
-{const _sa46=storyAuto;storyAuto=function(){const r=_sa46.apply(this,arguments);if(IG_DIG)igPausa();return r}}
 
 /* ===== 8. pré-carregar a próxima foto ===== */
 var IG_PRE=new Set();
@@ -9357,18 +9182,17 @@ function igLikeNoLugar(pid){const sa=$("#layer #s-acts");if(!sa||sa.dataset.pid!
   const {likes}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));const era=b.classList.contains("on");b.classList.toggle("on",mine);b.setAttribute("aria-pressed",String(mine));
   let sp=b.querySelector("span");if(likes.length){if(!sp){sp=document.createElement("span");b.appendChild(sp)}sp.textContent=likes.length}else if(sp)sp.remove();
   if(mine&&!era){b.classList.remove("anel");void b.offsetWidth;b.classList.add("anel")}return true}
-{const _us48=updateSocial;updateSocial=function(pid){const sa=$("#layer #s-acts");let tirou=false;if(sa&&sa.dataset.pid===pid&&sa.querySelector('[data-a="like"]')){sa.dataset.pid="";tirou=true}
-  let r;try{r=_us48.apply(this,arguments)}finally{if(tirou){sa.dataset.pid=pid;igLikeNoLugar(pid)}}return r}}
+
 /* desempenho: a fileira de círculos fica escondida atrás do story; redesenha uma vez só, ao fechar */
 var RS_PEND=false;
-{const _rs48=renderSecs;renderSecs=function(){if($("#layer .story")){RS_PEND=true;return}RS_PEND=false;return _rs48.apply(this,arguments)}}
+
 {const _de48=destaques;let ck="",cv=[];destaques=function(){const k=FEED?(FEED.atualizado_em+"|"+(FEED.pautas||[]).length+"|"+(PREF.ocultas||[]).join()):"";if(k&&k===ck)return cv;cv=_de48.apply(this,arguments);ck=k;return cv}}
 /* rolagem infinita: se a marca de "carregar mais" já passou da tela (feed redesenhado lá embaixo), carrega na hora */
 {const _om48=observarMais;observarMais=function(){const r=_om48.apply(this,arguments);requestAnimationFrame(()=>{const m=$("#mais");if(m&&m.getBoundingClientRect().top<innerHeight+600)carregarMais()});return r}}
 
 /* ---------- Etapa 49: linha do cabeçalho só depois de rolar ---------- */
 /* pontinhos do carrossel: no máximo 5 visíveis desde o início (antes só depois de deslizar) */
-{const _ft49=fitTrack;fitTrack=function(t){const r=_ft49.apply(this,arguments);try{if(t&&t.closest&&t.closest(".post"))pgDots(t)}catch(e){}return r}}
+
 (function(){let on=null;const f=()=>{const v=scrollY>4;if(v!==on){on=v;document.documentElement.classList.toggle("rolou",v)}};addEventListener("scroll",f,{passive:true});f()})();
 
 /* ---------- Etapa 50 ---------- */
@@ -9691,10 +9515,7 @@ function openSend(pid,pre){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||sna
 var MEN_BOX=null,MEN_INP=null;
 function menFecha(){MEN_BOX?.remove();MEN_BOX=null;MEN_INP=null}
 function menToken(i){const v=i.value.slice(0,i.selectionStart??i.value.length);const m=v.match(/(^|\s)@([^\s@]{0,24})$/);return m?{q:m[2],ini:v.length-m[2].length-1}:null}
-function menSugere(i){const tk=menToken(i);if(!tk||!S.uid||!S.membro){menFecha();return}const n=norm(tk.q);const l=amigosL().filter(u=>!n||norm(nomeDe(u)).split(/\s+/).some(w=>w.startsWith(n))||norm(nomeDe(u)).startsWith(n)).slice(0,5);
-  if(!l.length){menFecha();return}if(!MEN_BOX){MEN_BOX=document.createElement("div");MEN_BOX.className="men-box";MEN_BOX.setAttribute("role","listbox");document.body.appendChild(MEN_BOX)}MEN_INP=i;
-  MEN_BOX.innerHTML=l.map(u=>`<button type="button" role="option" data-men="${esc(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span></button>`).join("");
-  const r=i.getBoundingClientRect();MEN_BOX.style.left=Math.max(8,r.left)+"px";MEN_BOX.style.width=Math.min(innerWidth-16,Math.max(220,r.width))+"px";MEN_BOX.style.bottom=(innerHeight-r.top+6)+"px"}
+
 document.addEventListener("input",e=>{const i=e.target;if(i&&i.matches&&i.matches("#ctext,#layer .sg-rp input"))menSugere(i)});
 document.addEventListener("focusout",e=>{if(e.target===MEN_INP)setTimeout(()=>{if(document.activeElement!==MEN_INP)menFecha()},150)});
 document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest(".men-box [data-men]");if(!b||!MEN_INP)return;e.preventDefault();const i=MEN_INP,tk=menToken(i);if(!tk)return;const nome=nomeDe(b.dataset.men),pos=i.selectionStart??i.value.length;
@@ -9704,7 +9525,7 @@ async function avisarMencoes(pid,t){const us=mencionados(t);if(!us.length||!S.ui
   const res=await Promise.all(us.map(u=>dmEnviar(u,{texto:String(t).slice(0,1000),pid,snap,tipo:"mencao"},true)));const ok=us.filter((u,i)=>res[i]);
   if(ok.length)setTimeout(()=>toast(`${ok.length>2?ok.length+" amigos receberam":ok.map(nomeDe).join(" e ")+(ok.length>1?" receberam":" recebeu")} a notícia por mensagem`),900)}
 var CMT_PID=null;
-{const _oc53=openComments;openComments=function(pid){CMT_PID=pid;return _oc53.apply(this,arguments)}}
+
 document.addEventListener("submit",e=>{const f=e.target;if(!f||f.id!=="cform")return;const t=($("#ctext")?.value||"").trim();if(t&&CMT_PID&&S.uid&&S.membro){const pid=CMT_PID;setTimeout(()=>avisarMencoes(pid,t),50)}menFecha()},true);
 {const _ic53=igComentar;igComentar=async function(pid,t){const ok=await _ic53.apply(this,arguments);if(ok)avisarMencoes(pid,t);menFecha();return ok}}
 
@@ -9800,10 +9621,7 @@ function confirmaDescartar(){const b=$("#layer .cr-x");if(b&&!b.classList.contai
 
 /* ---- posts no Feed ---- */
 function dmMarcaPub(t){return typeof dmMarca==="function"?dmMarca(t||""):esc(t||"")}
-{const _ps54=postSeguro;postSeguro=function(p){if(p&&p.__pub)try{return pubPostHTML(p.__pub)}catch(e){return ""}return _ps54.apply(this,arguments)}}
-function pubMistura(lista){if(FILTRO!=="tudo"||!PUB.on)return lista;const now=Date.now();const ps=pubVisiveis().filter(x=>x.tipo==="post"&&now-x.at<30*864e5).sort((a,b)=>b.at-a.at);if(!ps.length)return lista;
-  const out=lista.slice();let k=0;ps.forEach(x=>{const novo=now-x.at<48*3600e3;const pos=novo?1+k*3:Math.min(out.length,8+k*4);out.splice(Math.min(out.length,pos),0,{id:"u:"+x.id,__pub:x});k++});return out}
-{const _rp54=renderPosts;renderPosts=function(){const lf=listaFeed;listaFeed=function(){return pubMistura(lf.apply(this,arguments))};try{return _rp54.apply(this,arguments)}finally{listaFeed=lf}}}
+
 /* menu e enviar dos posts */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("[data-umenu]")){e.stopPropagation();const x=pubDe(b.dataset.umenu);if(!x)return;
@@ -9823,17 +9641,9 @@ function pubIrPara(id){const x=pubDe(id);if(!x){toast("Esta publicação não es
 function pubStoriesDe(u){const now=Date.now();return pubVisiveis().filter(x=>x.tipo==="story"&&x.autor===u&&(x.expira||0)>now).sort((a,b)=>a.at-b.at)}
 function pubAutoresStory(){const now=Date.now(),m={};pubVisiveis().forEach(x=>{if(x.tipo==="story"&&(x.expira||0)>now&&x.autor!==S.uid)(m[x.autor]=m[x.autor]||[]).push(x)});
   return Object.keys(m).map(u=>({u,ult:Math.max(...m[u].map(x=>x.at)),novo:m[u].some(x=>!PUB_VISTOS.has(x.id))})).sort((a,b)=>(b.novo-a.novo)||(b.ult-a.ult))}
-{const _rs54=renderSecs;renderSecs=function(){const r=_rs54.apply(this,arguments);const box=$("#secs");if(!box||$("#layer .story")||!box.classList.contains("ig"))return r;
-  try{box.querySelectorAll("[data-meustory],[data-ustory]").forEach(x=>x.remove());if(!(S.uid&&S.membro&&PUB.on!==false))return r;const x0=box.scrollLeft;
-    const meus=pubStoriesDe(S.uid),av=u=>`<span class="ig-f up-avf">${avatar(u)}</span>`;
-    let h=`<button type="button" class="sb ig-s" data-meustory aria-label="${meus.length?"Seu giro":"Criar giro"}"><span class="ig-r${meus.length?(meus.every(x=>PUB_VISTOS.has(x.id))?" visto":""):" sem"}">${av(S.uid)}</span><i class="up-mais" data-criarde="story" role="button" aria-label="Criar giro">+</i><b>Seu giro</b></button>`;
-    h+=pubAutoresStory().map(a=>`<button type="button" class="sb ig-s" data-ustory="${esc(a.u)}" aria-label="Giro de ${esc(nomeDe(a.u))}"><span class="ig-r${a.novo?"":" visto"}" style="--c:${corDe(a.u)}">${av(a.u)}</span><b>${esc(String(nomeDe(a.u)).split(" ")[0])}</b></button>`).join("");
-    box.insertAdjacentHTML("afterbegin",h);box.scrollLeft=x0}catch(e){}return r}}
-{const _il54=igLista;igLista=function(sec){if(String(sec).indexOf("_u:")===0){const fr=pubStoriesDe(sec.slice(3));return {ps:fr,itens:fr}}return _il54.apply(this,arguments)}}
+
 {const _sp54=stPs;stPs=function(){if(ST&&String(ST.sec||"").indexOf("_u:")===0)return ST.itens||[];return _sp54.apply(this,arguments)}}
-{const _no54=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_u:")===0){const u=sec.slice(3);return u===S.uid?"Seu giro":nomeDe(u)}return _no54.apply(this,arguments)}}
-{const _so54=storyOrdem;storyOrdem=function(){const L=_so54.apply(this,arguments);if(ST&&String(ST.sec||"").indexOf("_h:")===0)return L;if(!(S.uid&&S.membro&&PUB.on))return L;
-  const us=(pubStoriesDe(S.uid).length?["_u:"+S.uid]:[]).concat(pubAutoresStory().map(a=>"_u:"+a.u));return us.concat(L.filter(x=>String(x).indexOf("_u:")!==0))}}
+
 {const _is54=igSet;igSet=function(sec,pos){if(String(sec).indexOf("_u:")===0){const fr=pubStoriesDe(sec.slice(3));let i=pos==="fim"?fr.length-1:pos==="novo"?Math.max(0,fr.findIndex(x=>!PUB_VISTOS.has(x.id))):pos||0;ST={...(ST||{}),sec,ids:fr.map(x=>"us:"+x.id),itens:fr,i:Math.max(0,i)};return fr.length}return _is54.apply(this,arguments)}}
 async function igAbrirUser(u,id){await pubAssinar();const fr=pubStoriesDe(u);if(!fr.length){if(u===S.uid)criarAbrir("story");return}if($("#layer").innerHTML&&!$("#layer .story"))closeLayer();uso("story_amigo");
   let i=id?fr.findIndex(x=>x.id===id):fr.findIndex(x=>!PUB_VISTOS.has(x.id));ST={sec:"_u:"+u,ids:fr.map(x=>"us:"+x.id),itens:fr,i:Math.max(0,i),ordem:secsStory().map(s=>s.id)};drawStory()}
@@ -9857,7 +9667,7 @@ function igDrawUser(){const x=ST.itens[ST.i];if(!x)return closeLayer();const u=x
   igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(null);igEntra();
   if(eu)pubContaVistos(x.id);igPreCarrega()}
 async function pubContaVistos(id){try{const r=await SB.from("pub_vistos").select("uid,at").eq("pub",id);const n=(r.data||[]).filter(v=>v.uid!==S.uid).length;const b=$(`#layer [data-usvistos="${CSS.escape(id)}"] span`);if(b)b.textContent=n?`Visto por ${n}`:"Ninguém viu ainda"}catch(e){}}
-{const _ds54=drawStory;drawStory=function(){if(ST&&String(ST.sec||"").indexOf("_u:")===0){clearTimeout(ST.timer);return igDrawUser()}return _ds54.apply(this,arguments)}}
+
 document.addEventListener("click",async e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("#layer [data-usvistos]")){e.stopPropagation();igPausa();const r=await SB.from("pub_vistos").select("uid,at").eq("pub",b.dataset.usvistos);const vs=(r.data||[]).filter(v=>v.uid!==S.uid).sort((a,c)=>c.at-a.at);
     sheet(vs.length?`Visto por ${vs.length}`:"Visto por",vs.length?`<ul class="amgl">${vs.map(v=>`<li><button type="button" class="amg-r" data-conversa="${esc(v.uid)}">${avatar(v.uid)}<span class="amg-n"><b>${esc(nomeDe(v.uid))}</b><span>${esc(dmCurto(+v.at))}</span></span></button></li>`).join("")}</ul>`:`<div class="empty" style="padding:14px 0"><b>Ninguém viu ainda</b></div>`);return}
@@ -10152,9 +9962,9 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 
 /* ---------- Etapa 58 ---------- */
 /* Feed: post com formato próprio (1:1, original) */
-{const _ft58=fitTrack;fitTrack=function(t){const r=_ft58.apply(this,arguments);try{const a=t.closest&&t.closest(".upost.up-ar"),ar=a&&+a.dataset.ar,w=t.clientWidth;if(ar&&w){t.style.setProperty("--slh",Math.round(w/ar)+"px");const s=t.children[r];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}catch(e){}return r}}
+
 /* sugestões de @ abaixo do campo quando não cabem acima */
-{const _ms58=menSugere;menSugere=function(i){const r=_ms58.apply(this,arguments);try{if(MEN_BOX&&MEN_BOX.isConnected&&MEN_INP===i){const b=MEN_BOX.getBoundingClientRect(),q=i.getBoundingClientRect();if(b.top<8){MEN_BOX.style.bottom="auto";MEN_BOX.style.top=(q.bottom+6)+"px"}else MEN_BOX.style.top=""}}catch(e){}return r}}
+
 document.addEventListener("input",e=>{if(e.target&&e.target.id==="ce-leg"&&MEN_BOX)MEN_BOX.style.top=""},true);
 addEventListener("resize",()=>{if($("#ce-pv")){edPvTam();edPvPos()}});
 
@@ -10352,8 +10162,7 @@ async function maTroca(u,b){const on=!MA.set.has(u);if(on)MA.set.add(u);else MA.
   try{const r=on?await SB.from("melhores_amigos").insert({dono:S.uid,amigo:u}):await SB.from("melhores_amigos").delete().eq("dono",S.uid).eq("amigo",u);if(r&&r.error)throw r.error}
   catch(e){if(on)MA.set.delete(u);else MA.set.add(u);b.setAttribute("aria-pressed",String(!on));toast("Não deu para salvar agora.")}}
 /* anel verde e selo nos stories para Melhores amigos */
-{const _rs60=renderSecs;renderSecs=function(){const r=_rs60.apply(this,arguments);try{document.querySelectorAll("#secs [data-ustory],#secs [data-meustory]").forEach(b=>{const u=b.dataset.ustory||S.uid;const xs=pubStoriesDe(u);const ult=xs[xs.length-1];
-  b.querySelector(".ig-r")?.classList.toggle("ma",!!ult&&ult.publico==="proximos")})}catch(e){}return r}}
+
 {const _du60=igDrawUser;igDrawUser=function(){const r=_du60.apply(this,arguments);try{const x=ST.itens[ST.i];if(x&&x.publico==="proximos"){const w=$("#layer .story .sg-who span");if(w&&!w.querySelector(".us-ma"))w.insertAdjacentHTML("beforeend",` <i class="us-ma">★ Melhores amigos</i>`)}}catch(e){}return r}}
 /* textos animados no story publicado */
 {const _ui60=usItensHTML;usItensHTML=function(x){const it=(x.estilo&&x.estilo.itens)||[];const txs=it.filter(e=>e.t==="texto");if(!txs.length)return _ui60.apply(this,arguments);
@@ -10706,8 +10515,7 @@ var US_MUDO=false;
     v.play().catch(()=>{v.muted=true;v.play().catch(()=>{});const sb=$("#layer [data-usom]");if(sb)sb.textContent="🔇"});
     if(!es.mudo)si.insertAdjacentHTML("beforeend",`<button type="button" class="us-som" data-usom aria-label="Som">${v.muted?"🔇":"🔊"}</button>`);
     ST.palavras=Math.round((es.dur||8)*3.4)}catch(e){}return r}}
-storyAuto=(function(ant){return function(p){const x=ST.itens&&ST.itens[ST.i];if(!(x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0))return ant.apply(this,arguments);
-  const dur=Math.max(2000,Math.min(31000,(x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);if(!PREF.storyAuto)return;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur)}})(storyAuto);
+
 {const _ip63=igPausa;igPausa=function(){const r=_ip63.apply(this,arguments);const v=$("#layer .us2-vid");if(v)v.pause();return r}}
 {const _sr63=storyRetoma;storyRetoma=function(){const r=_sr63.apply(this,arguments);const v=$("#layer .us2-vid");if(v&&v.paused&&ST.timer)v.play().catch(()=>{});return r}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-usom]");if(!b)return;e.stopPropagation();e.preventDefault();US_MUDO=!US_MUDO;const v=$("#layer .us2-vid");if(v){v.muted=US_MUDO;if(!US_MUDO)v.play().catch(()=>{})}b.textContent=US_MUDO?"🔇":"🔊"},true);
@@ -10779,13 +10587,9 @@ function edCabe(st){let it=edItens(st);const tam=()=>JSON.stringify({v:2,itens:i
   for(let i=0;i<ED.sts.length;i++){const r=edCabe(ED.sts[i]);if(r==="demais"){ED.si=i;ED.st=ED.sts[i];edDesenha();toast(ED.st.els.filter(e=>!edAssa(e)||e.t==="men").length>10?"Este giro tem figurinhas demais. Tire algumas (até 10 tocáveis).":"Este giro ficou grande demais para salvar. Tire uma figurinha ou encurte os textos.");return}if(r==="ok-mudou")aviso=true}
   if(aviso)toast("Algumas animações de texto viraram texto fixo para caber no giro.");return _ps66.apply(this,arguments)}}
 /* 4. ordem dos amigos congelada enquanto você assiste */
-{const _so66=storyOrdem;storyOrdem=function(){const L=_so66.apply(this,arguments);if(!ST||String(ST.sec||"").indexOf("_h:")===0)return L;if(!ST._uord)ST._uord=L.filter(x=>String(x).indexOf("_u:")===0);
-  const vivos=ST._uord.filter(x=>x===ST.sec||(pubStoriesDe(String(x).slice(3)).length>0));return vivos.concat(L.filter(x=>String(x).indexOf("_u:")!==0))}}
+
 {const _is66=igSet;igSet=function(){const u=ST&&ST._uord;const r=_is66.apply(this,arguments);if(u&&ST&&!ST._uord)ST._uord=u;return r}}
-/* 5. vídeo: segurar pausa a barra também (mantém os controles normais do story) */
-storyAuto=(function(ant){return function(p){const x=ST.itens&&ST.itens[ST.i];const vid=x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0;
-  if(!vid)return ant.apply(this,arguments);const pal=ST.palavras,sec=ST.sec;ST.palavras=1;ST.sec="__v";let r;try{r=ant.apply(this,arguments)}finally{ST.palavras=pal;ST.sec=sec}
-  const dur=Math.max(2000,Math.min(31000,(+x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);ST.timer=0;if(!PREF.storyAuto)return r;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);return r}})(storyAuto);
+
 /* não retomar o story enquanto o dedo segura */
 var IG_DEDO=false;document.addEventListener("pointerdown",e=>{if(e.target.closest&&e.target.closest("#layer .story"))IG_DEDO=true},true);["pointerup","pointercancel"].forEach(k=>document.addEventListener(k,()=>{IG_DEDO=false},true));
 {const _sr66=storyRetoma;storyRetoma=function(){if(IG_DEDO)return;return _sr66.apply(this,arguments)}}
@@ -10803,7 +10607,7 @@ function pubPodeVer(x){const s=new Set([x.autor]);if(x.autor===S.uid&&x.publico!
 {const _am67=avisarMencoes;avisarMencoes=async function(pid,t){if(String(pid||"").indexOf("u:")!==0)return _am67.apply(this,arguments);const x=pubDe(String(pid).slice(2));if(!x||!S.uid||!S.membro)return;const pode=pubPodeVer(x),todos=mencionados(t).filter(u=>u!==S.uid),us=todos.filter(u=>pode.has(u)),fora=todos.filter(u=>!pode.has(u));
   if(us.length){const res=await Promise.all(us.map(u=>dmEnviar(u,{texto:String(t).slice(0,1000),pid,snap:{titulo:(x.estilo&&x.estilo.reel?"Reel":"Post")+" de "+nomeDe(x.autor),upub:x.id},tipo:"mencao"},true)));const ok=us.filter((u,i)=>res[i]);if(ok.length)setTimeout(()=>toast(`${ok.map(nomeDe).join(" e ")} ${ok.length>1?"foram avisados":"foi avisado(a)"} por mensagem`),900)}
   if(fora.length)setTimeout(()=>toast(`${fora.map(u=>String(nomeDe(u)).split(" ")[0]).join(" e ")} não ${fora.length>1?"conseguem":"consegue"} abrir este post, então não ${fora.length>1?"foram avisados":"foi avisado(a)"}.`),1700)}}
-{const _ms67=menSugere;menSugere=function(i){const r=_ms67.apply(this,arguments);try{if(i&&i.id==="ctext"&&String(CMT_PID||"").indexOf("u:")===0&&MEN_BOX){const x=pubDe(String(CMT_PID).slice(2));if(x){const pode=pubPodeVer(x);MEN_BOX.querySelectorAll("[data-men]").forEach(b=>{if(!pode.has(b.dataset.men))b.remove()});if(!MEN_BOX.querySelector("[data-men]"))menFecha()}}}catch(e){}return r}}
+
 /* menção: nome inteiro, não pedaço de outro nome; primeiro nome sozinho vale se for único */
 mencionados=function(t){const n=norm(t||"");const am=amigosL().map(u=>[u,norm(nomeDe(u)).trim()]).filter(x=>x[1]).sort((a,b)=>b[1].length-a[1].length);let resto=n;const out=[];
   const re=k=>new RegExp("@"+k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![a-z0-9\\u00c0-\\u024f])","i");
@@ -10826,7 +10630,7 @@ document.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const L=$("#laye
   const a=fs[0],z=fs[fs.length-1];if(!L.contains(document.activeElement)){e.preventDefault();a.focus();return}if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}});
 
 /* curtidas ocultas: o cabeçalho também não diz quem curtiu */
-{const _us67=updateSocial;updateSocial=function(pid){const r=_us67.apply(this,arguments);try{const el=document.getElementById("p-"+pid);if(el&&el.classList.contains("sem-curt")){const o=el.querySelector("[data-otr]");if(o)o.innerHTML=""}}catch(e){}return r}}
+
 /* números das marcas acompanham as fotos */
 {const _ep67=edPost;edPost=function(){try{const P=ED.po;(P.tags||[]).forEach(t=>{const i=P.fotos.indexOf(edTagF(t));if(i>=0)t.i=i})}catch(e){}return _ep67.apply(this,arguments)}}
 /* post só de texto muito longo: "Ler tudo" */
@@ -10939,8 +10743,7 @@ function destRowHTML(u){const ds=DEST[u]||[];const eu=u===S.uid;if(!V5.on||(!ds.
   return `<div class="pf-dests">${ds.map(d=>`<button type="button" class="pf-d" data-pfdest="${esc(d.id)}" data-dono="${esc(u)}"><span class="pf-dc">${destCapa(d)}</span><b>${esc(d.nome)}</b></button>`).join("")}${eu?`<button type="button" class="pf-d pf-dn" data-destnovo><span class="pf-dc">+</span><b>Novo</b></button>`:""}</div>`}
 /* lista especial no visualizador de stories ("_u:~…") */
 {const _sd70=pubStoriesDe;pubStoriesDe=function(u){if(String(u).charAt(0)==="~")return (ST&&ST._lista)||[];return _sd70.apply(this,arguments)}}
-{const _so70=storyOrdem;storyOrdem=function(){if(ST&&String(ST.sec||"").indexOf("_u:~")===0)return [ST.sec];return _so70.apply(this,arguments)}}
-{const _nm70=igNomeSt;igNomeSt=function(sec){if(String(sec).indexOf("_u:~")===0)return (ST&&ST._nome)||"Giro";return _nm70.apply(this,arguments)}}
+
 function stLista(lista,i,nome,chave){if(!lista.length)return;if($("#layer").innerHTML)closeLayer();ST={sec:"_u:~"+chave,ids:lista.map(x=>"us:"+x.id),itens:lista,i:Math.max(0,i||0),ordem:[],_lista:lista,_nome:nome,_chave:chave};drawStory()}
 async function abrirDestaque(id,u){const d=(DEST[u]||[]).find(x=>x.id===id);if(!d||!d.stories.length){if(d&&u===S.uid)toast("Este destaque está vazio.");return}uso("destaque_perfil");stLista(d.stories,0,d.nome,"d"+id)}
 {const _du70=igDrawUser;igDrawUser=function(){const r=_du70.apply(this,arguments);try{if(ST&&String(ST.sec||"").indexOf("_u:~")===0){const w=$("#layer .story .sg-who b");if(w&&ST._nome)w.textContent=ST._nome;const t=$("#layer .story .sg-who span");const x=ST.itens[ST.i];if(t&&x)t.textContent=new Date(x.at).toLocaleDateString("pt-BR",{day:"numeric",month:"short"})}
@@ -11088,10 +10891,9 @@ function semMostra(){if(!FEED)return false;let dia;try{dia=new Date().toLocaleDa
   return (window.SEM_SEMPRE||["Fri","Sat","Sun","Mon"].includes(dia))&&semDados().l.length>=3}
 function semFrames(){const d=semDados();const fr=[{id:"w0",tipo:"capa",d}];if(d.temas.length)fr.push({id:"w1",tipo:"temas",d});if(d.l.length)fr.push({id:"w2",tipo:"lidas",d});
   if(d.cm||d.enq||d.amg.length)fr.push({id:"w3",tipo:"amigos",d});fr.push({id:"w4",tipo:"fim",d});return fr}
-{const _il72=igLista;igLista=function(sec){if(sec==="_sem"){const fr=semFrames();return {ps:fr,itens:fr}}return _il72.apply(this,arguments)}}
+
 {const _sp72=stPs;stPs=function(){if(ST&&ST.sec==="_sem")return ST.itens||[];return _sp72.apply(this,arguments)}}
-{const _so72=storyOrdem;storyOrdem=function(){if(ST&&ST.sec==="_sem")return ["_sem"];return _so72.apply(this,arguments)}}
-{const _no72=igNomeSt;igNomeSt=function(sec){if(sec==="_sem")return "Sua semana";return _no72.apply(this,arguments)}}
+
 function semAbrir(){const fr=semFrames();if(!fr.length)return;uso("sua_semana");if($("#layer").innerHTML&&!$("#layer .story"))closeLayer();ST={sec:"_sem",ids:fr.map(f=>f.id),itens:fr,i:0,ordem:[]};drawStory()}
 function semFmt(ts){return new Date(ts).toLocaleDateString("pt-BR",{day:"numeric",month:"short",timeZone:"America/Sao_Paulo"}).replace(".","")}
 function semCorpo(fr){const d=fr.d;
@@ -11112,12 +10914,6 @@ function semDraw(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const vazi
     <div class="s-f sg-f" id="s-acts"></div>
   </div></div>`;
   igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto({neutro:{titulo:"",texto:txt.replace(/<[^>]+>/g," ")}});igEntra();renderSecs()}
-{const _ds72=drawStory;drawStory=function(){if(ST&&ST.sec==="_sem"){clearTimeout(ST.timer);semDraw();return}return _ds72.apply(this,arguments)}}
-{const _rs72=renderSecs;renderSecs=function(){const r=_rs72.apply(this,arguments);try{const box=$("#secs");if(!box||!FEED||box.querySelector("[data-semana]")||!S.uid||!S.membro||!semMostra())return r;
-  const n=semDados().l.length;let vis=false;try{vis=localStorage.getItem("prumo-sem-visto")===semChave()}catch(e){}
-  const h=igCirc('data-semana',"ig-sem"+(vis?" visto":""),`<span class="ig-semc"><b>${n}</b><small>lidas</small></span>`,"Sua semana","Resumo da sua semana");
-  const c5=box.querySelector("[data-5min]");if(c5)c5.insertAdjacentHTML("afterend",h);else box.insertAdjacentHTML("afterbegin",h)}catch(e){}return r}}
-
 
 /* ---------- Etapa 73: espaço usado e limpeza ---------- */
 /* cada pessoa apaga os próprios stories com mais de 30 dias (menos os de destaques), no máximo a cada 6 horas */
@@ -11370,7 +11166,7 @@ function pqDesenha(){const box=pqBox();if(!box){return}const vis=PQ.jobs.filter(
         :`<b>${ok?"Publicado":"Publicando…"}</b><small>${ok?"Já está no Feed":"Seu "+nm+" vai aparecer aqui"}</small>`}</span>${ok?`<i class="pq-ok" aria-hidden="true">✓</i>`:""}${er?"":`<i class="pq-bar" aria-hidden="true"><i style="width:${(pqProg(j)*100).toFixed(1)}%"></i></i>`}</div>`}).join("");
   box.querySelectorAll(".pq-th").forEach((el,i)=>{const t=vis[i].th;if(t.bg)el.style.background=t.bg;if(t.img)el.style.backgroundImage=`url("${String(t.img).replace(/"/g,"%22")}")`});
   box.hidden=!vis.length;pqAtualiza()}
-{const _rs93=renderSecs;renderSecs=function(){const r=_rs93.apply(this,arguments);try{if(PQ.jobs.length){pqBox();pqAtualiza()}}catch(e){}return r}}
+
 /* embrulha as três funções de publicar */
 function pqEmbrulha(tipo){const nome=PQ_NOMES[tipo],orig=window[nome];if(typeof orig!=="function")return;
   window[nome]=function(){const args=[...arguments];
@@ -11932,7 +11728,7 @@ const vs98Nome1=u=>String(nomeDe(u)).split(" ")[0];
   return r}}
 
 /* Cabeçalho: sai o botão de pausar/continuar; entra o ⋯ (segurar continua pausando) */
-{const _ds98=drawStory;drawStory=function(){const r=_ds98.apply(this,arguments);try{vs98Cabecalho()}catch(e){}return r}}
+
 function vs98Cabecalho(){const hb=$("#layer .story.sg .s-hb");if(!hb||hb.querySelector("[data-vs98menu]"))return;
   const a=hb.querySelector("[data-sauto]");const h=`<button type="button" class="vs98-mn" data-vs98menu aria-label="Mais opções">${ICON.dots}</button>`;
   if(a)a.insertAdjacentHTML("beforebegin",h);else hb.insertAdjacentHTML("afterbegin",h)}
@@ -12074,7 +11870,7 @@ function vp99Social(pid){const el=document.getElementById("p-"+pid);if(!el)retur
     nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}
   const ver=el.querySelector('[data-cmts] > .link[data-a="cmt"]');if(ver)ver.textContent=`Ver todos os ${cm.length} comentários`;
   const sv=el.querySelector('.vp99-sv');if(sv)sv.setAttribute("aria-label",vp99Sv()[pid]?"Tirar dos guardados":"Guardar")}
-{const _us99=updateSocial;updateSocial=function(pid){const r=_us99.apply(this,arguments);try{vp99Social(pid)}catch(e){}return r}}
+
 {const _tl99=toggleLike;toggleLike=function(pid){const antes=!!(S.uid&&socialOf(pid).likes.includes(S.uid));const r=_tl99.apply(this,arguments);try{if(!antes&&S.uid)vp99Pop(document.querySelector(`[id="p-${pid}"] .acts [data-a="like"]`))}catch(e){}return r}}
 
 /* ===== toque na foto: um toque mostra as marcações, dois toques curte (coração grande) ===== */
@@ -12115,7 +11911,7 @@ let vp99RM=0;
 {const _rs99=renderSaved;renderSaved=function(){return vp99SemPosts(_rs99,this,arguments)}}
 
 /* ===== comentários: folha alta, sem botão "Fechar" à vista, emojis rápidos ===== */
-{const _oc99=openComments;openComments=function(pid){const r=_oc99.apply(this,arguments);try{vp99Cmts()}catch(e){}return r}}
+
 function vp99Cmts(){const sh=$("#cform")&&$("#cform").closest(".sheet");if(!sh||sh.classList.contains("vp99-cm"))return;sh.classList.add("vp99-cm");
   const fx=sh.querySelector(".sh-h [data-close]");if(fx){fx.classList.add("vp99-fx");fx.setAttribute("aria-label","Fechar comentários")}
   const f=sh.querySelector(".sh-f");if(f)f.insertAdjacentHTML("afterbegin",`<div class="vp99-emo" role="group" aria-label="Emojis rápidos">${VP99_EMOJIS.map(e=>`<button type="button" data-vp99emo="${e}" aria-label="Pôr ${e} no comentário">${e}</button>`).join("")}</div>`);
@@ -12318,18 +12114,11 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="ce-leg")ca100L
 /* "Sua semana" sai da fileira (continua em Perfil › Conta). A Agenda deixa de ter bolinha própria
    e vira as últimas telas do "Em 5 min" (hoje e o próximo dia com compromissos: no máximo 2 telas). */
 {const _agp101=agPaginas;agPaginas=function(){const l=_agp101.apply(this,arguments);return l.slice(0,2)}}
-{const _rs101=renderSecs;renderSecs=function(){const r=_rs101.apply(this,arguments);
-  try{const box=$("#secs");if(box)box.querySelectorAll("[data-igagenda],[data-semana]").forEach(b=>{const sb=b.closest(".sb")||b;sb.remove()})}catch(e){}return r}}
+
 function bt101Cinco(){try{return cincoLista().length>0}catch(e){return false}}
 function bt101N5(){try{return igLista("_5min").ps.length}catch(e){return 0}}
 /* "Em 5 min": a barra de progresso já mostra as telas da Agenda que vêm em seguida */
-{const _ds101=drawStory;drawStory=function(){const r=_ds101.apply(this,arguments);
-  try{if(ST&&ST.sec==="_5min"){const n=agPaginas().length,b=$("#layer .story .bars");if(n&&b&&!b.querySelector(".bt101"))b.insertAdjacentHTML("beforeend",Array.from({length:n},()=>`<i class="bt101"></i>`).join(""))}
-    else if(ST&&ST.sec==="_ag"&&bt101Cinco()){/* Agenda dentro do "Em 5 min": mesmo nome, mesmas barras */
-      const st=$("#layer .story.sg-ag");if(st){const n5=bt101N5(),b=st.querySelector(".bars");if(b&&n5)b.insertAdjacentHTML("afterbegin",Array.from({length:n5},()=>`<i class="on bt101"></i>`).join(""));
-        const w=st.querySelector(".sg-who b");if(w)w.textContent="Em 5 min";const s=st.querySelector(".sg-who span");if(s)s.textContent="Agenda · "+s.textContent;
-        const av=st.querySelector(".sg-avag");if(av){av.className="ph-av sg-av sg-av5";av.innerHTML="<i>5</i>"}
-        const nn=st.querySelector(".sga-n");if(nn)nn.textContent="";}}}catch(e){}return r}}
+
 /* ---------- Criação com foco em notícia e conteúdo ----------
    Pontos de partida de conteúdo (notícia comentada, relato, análise, pergunta), formulário próprio para cada um,
    cartões no Feed, notícia da edição direto no post ou no story, indicador como figurinha e bandeja com o que é de notícia primeiro.
@@ -12623,7 +12412,6 @@ async function cn102Vota(id,i){const key=cn102EnqKey(id),x=pubDe(id);if(!x)retur
   vibrar&&vibrar(8);const p=votarValor(key,v);cn102EnqRedesenha(id);await p;cn102EnqRedesenha(id)}
 function cn102EnqRedesenha(id){const x=pubDe(id),cn=x&&cn102De(x);if(!cn||cn.k!=="enq")return;document.querySelectorAll(`.cn102-enq[data-cn102enq="${CSS.escape(String(id))}"]`).forEach(el=>{el.outerHTML=cn102EnqHTML(x,cn)})}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".cn102-enq [data-cn102voto]");if(!b)return;e.stopPropagation();e.preventDefault();if(precisaConta())return;cn102Vota(b.closest("[data-cn102enq]").dataset.cn102enq,+b.dataset.cn102voto)},true);
-{const _us=updateSocial;updateSocial=function(pid){const r=_us.apply(this,arguments);try{const m=/^u:(.+)$/.exec(String(pid||""));if(m&&document.querySelector(`.cn102-enq[data-cn102enq="${CSS.escape(m[1])}"]`))cn102EnqRedesenha(m[1])}catch(e){}return r}}
 
 /* ===== 9. notícia da edição: do "Enviar" direto para post ou story ===== */
 function cn102StoryComNt(pid,tx){const p=pautaById(pid);if(!p||!ED||ED.modo!=="story")return;const st=ED.st;if(st.bg.tipo!=="foto"&&st.bg.tipo!=="video")st.bg={tipo:"grad",g:5};ED.tela="edit";camDesliga&&camDesliga();
@@ -12655,7 +12443,7 @@ function cn102Barra(){const s=$("#secs");if(!s)return;let b=$("#cn102-bar");cons
   b.innerHTML=`${avatar(S.uid)}<button type="button" class="cn102-barb" data-cn102bar>Comente uma notícia ou conte o que viu…</button>`}
 function cn102AbreInicio(k){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}if(k){cn102Comeca(k);return}
   if($("#layer").innerHTML)closeLayer();CN102_SEMGAL=1;try{criarAbrir("post")}finally{CN102_SEMGAL=0}}
-{const _rs=renderSecs;renderSecs=function(){const r=_rs.apply(this,arguments);try{cn102Barra()}catch(e){}return r}}
+
 {const _pc=pubCarregar;pubCarregar=async function(){const r=await _pc.apply(this,arguments);try{cn102Barra()}catch(e){}return r}}
 setInterval(()=>{try{const b=$("#cn102-bar");if(b||(S.uid&&S.membro&&PUB.on===true))cn102Barra()}catch(e){}},1500);
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cn102bar]");if(!b)return;e.stopPropagation();e.preventDefault();if(typeof PQ!=="undefined"&&PQ.atual){toast("Espere terminar de publicar.");return}cn102AbreInicio(b.dataset.cn102bar||"")},true);
@@ -12681,7 +12469,7 @@ cfpAbreGaleria=function(){};
 })();
 /* 2. com o Feed escondido (a pessoa está na Capa), não desenhar o Feed inteiro: só o primeiro lote.
       (escondido, o "#mais" parece estar sempre na tela e o carregamento seguia até o fim; o resto vem ao rolar, como sempre) */
-{const _cm102=carregarMais;carregarMais=function(sync){if(!sync){const v=document.getElementById("v-feed");if(v&&v.hidden)return}return _cm102.apply(this,arguments)}}
+
 /* 3. o Feed adiado (desenhado num momento ocioso) não redesenha a Capa se nada nela mudou */
 if(typeof RF_REAL==="function"){const _rf102=RF_REAL;RF_REAL=function(){if(VIEW!=="capa")return _rf102.apply(this,arguments);
   const rc=renderCapa;renderCapa=function(){if(!document.querySelector("#v-capa .cpi")||capaSig()!==CAPA_SIG)return rc.apply(this,arguments)};
@@ -12743,7 +12531,6 @@ function fd104Curtidas(pid){const el=document.getElementById("p-"+pid);if(!el||S
   if(eu&&!ou.length)t=`Curtido por <b>você</b>`;else if(eu&&ou.length===1)t=`Curtido por <b>você</b> e ${n1}`;else if(eu)t=`Curtido por <b>você</b> e ${outras(ou.length)}`;
   else if(ou.length===1)t=`Curtido por ${n1}`;else if(ou.length>1)t=`Curtido por ${n1} e ${outras(ou.length-1)}`;
   if(lk.innerHTML!==t)lk.innerHTML=t;if(t){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}}
-{const _us104=updateSocial;updateSocial=function(pid){const r=_us104.apply(this,arguments);try{fd104Curtidas(pid)}catch(e){}return r}}
 
 /* quem publicou o post pode apagar comentários dos outros no próprio post (o servidor já permite) */
 function cmDono(pid){if(String(pid||"").indexOf("u:")!==0||!S.uid)return false;const x=typeof pubDe==="function"&&pubDe(String(pid).slice(2));return !!(x&&x.autor===S.uid)}
@@ -12780,17 +12567,11 @@ var FD104_ME=false;function fd104Me(){if(VIEW!=="me"||PF_ABA==="conta")return;if
 /* ---------- 104: correções dos stories (QA 02/11) ---------- */
 /* 1. ordem dos amigos = a ordem que está na bandeja quando você toca (antes era recalculada com os vistos no fim:
    abrir um story já visto pulava os amigos que estavam depois dele na bandeja) */
-{const _so104=storyOrdem;storyOrdem=function(){const novo=!!(ST&&!ST._uord);const L=_so104.apply(this,arguments);
-  try{if(novo&&ST&&ST._uord&&String(ST.sec||"").indexOf("_u:")===0&&String(ST.sec).indexOf("_u:~")!==0){
-    const tr=[...document.querySelectorAll("#secs [data-ustory]")].map(b=>"_u:"+b.dataset.ustory);
-    if(tr.includes(ST.sec)){const pos=x=>{const k=tr.indexOf(x);return k<0?1e3:k};const u=ST._uord.slice().sort((a,b)=>pos(a)-pos(b));
-      if(ST._uord[0]==="_u:"+S.uid&&u[0]!==ST._uord[0]){u.splice(u.indexOf(ST._uord[0]),1);u.unshift(ST._uord[0])}
-      ST._uord=u;return _so104.apply(this,arguments)}}}catch(e){}return L}}
+
 /* 2. deslizar para o lado troca de "bolinha": as telas da Agenda fazem parte do "Em 5 min" (101), então deslizar
    a partir do "Em 5 min" vai para "Últimas" (antes caía na Agenda, que parece o mesmo story) */
 let SS104_GRUPO=false;
-{const _so104g=storyOrdem;storyOrdem=function(){const L=_so104g.apply(this,arguments);
-  try{if(SS104_GRUPO&&ST&&L.includes("_5min")&&L.includes("_ag")&&typeof bt101Cinco==="function"&&bt101Cinco())return L.filter(x=>x!==(ST.sec==="_ag"?"_5min":"_ag"))}catch(e){}return L}}
+
 {const _ss104=storySec;storySec=function(){SS104_GRUPO=true;try{return _ss104.apply(this,arguments)}finally{SS104_GRUPO=false}}}
 {const _di104=igDragIni;igDragIni=function(){SS104_GRUPO=true;try{return _di104.apply(this,arguments)}finally{SS104_GRUPO=false}}}
 /* 3. story aberto pelo Arquivo ou pelo perfil de um amigo: fechar (✕, deslizar ou voltar do celular) volta para o
@@ -12814,8 +12595,7 @@ function ar104Marca(raiz,sel,achar){if(!raiz)return;raiz.querySelectorAll(sel).f
 {const _dn104=destNovo;destNovo=async function(){const r=await _dn104.apply(this,arguments);try{ar104Marca(document.querySelector(".sheet .dest-pick")?.closest(".sheet"),"[data-destsel]",b=>(ARQ||[]).find(x=>String(x.id)===b.dataset.destsel))}catch(e){}return r}}
 /* 5. anel verde dos Melhores amigos: aparece quando há um story para os Melhores amigos que você ainda não viu
    (antes só olhava o último story; se o amigo postasse outro depois, o verde sumia mesmo sem você ter visto) */
-{const _rs104=renderSecs;renderSecs=function(){const r=_rs104.apply(this,arguments);try{document.querySelectorAll("#secs [data-ustory]").forEach(b=>{const xs=pubStoriesDe(b.dataset.ustory);
-  if(xs.some(x=>x.publico==="proximos"&&!PUB_VISTOS.has(x.id)))b.querySelector(".ig-r")?.classList.add("ma")})}catch(e){}return r}}
+
 /* 6. apagar story pelo "Mais" (apaga em modo quieto): a bandeja não era redesenhada e o seu anel continuava lá
    (cinza) depois de apagar todos */
 {const _pa104=pubApagar;pubApagar=async function(id,quieto){const x=pubDe(id),st=x&&x.tipo==="story";const r=await _pa104.apply(this,arguments);try{if(r&&quieto&&st)pubRedesenha()}catch(e){}return r}}
@@ -13195,8 +12975,7 @@ function fc107Tray(){const box=$("#secs");if(!box)return;const us=[...box.queryS
 if(FOCO_LIGADO){
   document.documentElement.classList.add("foco2");
   /* Feed */
-  {const _pm107=pubMistura;pubMistura=function(lista){const out=_pm107.apply(this,arguments);try{return fc107Mistura(out,lista)}catch(e){return out}}}
-  {const _ps107=postSeguro;postSeguro=function(p){const h=_ps107.apply(this,arguments);try{if(typeof h!=="string"||!h||!p)return h;if(p.__fc107)return fc107Junto(h,p);if(!p.__pub)return fc107NoPost(h,p.id)}catch(e){}return h}}
+
   /* post de membro: "Análise de" (como no cartão do story); análise e relato sem foto ficam do tamanho do texto */
   {const _ck107=cn102Kick;cn102Kick=function(k,au){return k==="ana"?`Análise de ${esc(nomeDe(au))}`:_ck107.apply(this,arguments)}}
   /* barra de publicar */
@@ -13218,7 +12997,7 @@ if(FOCO_LIGADO){
       if(g.i===0){const p=pautaById(g.pid);if(p)h=`<li class="fc107-ath"><button type="button" data-fc107mat="${esc(g.pid)}"><small style="color:${secCor(secOf(p))}">${esc(secNome(secOf(p)))}</small><b>${esc(versao(p,lente()).titulo)}</b></button></li>`+h}}catch(e){}return h}}
   {const _ad107=atDesenha;atDesenha=function(){const r=_ad107.apply(this,arguments);try{const v=$("#layer .pfv-at .pf-vz span");if(v)v.textContent="Aqui aparecem os comentários dos seus amigos sobre as notícias, as reações ao que você publica, os pedidos de amizade e as novidades das coberturas que você segue."}catch(e){}return r}}
   /* stories */
-  {const _rs107=renderSecs;renderSecs=function(){const r=_rs107.apply(this,arguments);try{fc107Tray()}catch(e){}return r}}
+  
   /* cartão de texto */
   {const _ca107=fc105CsAbre;fc105CsAbre=function(){const r=_ca107.apply(this,arguments);requestAnimationFrame(fc107CsEncaixa);return r}}
   {const _cr107=fc105CsRefaz;fc105CsRefaz=function(){const r=_cr107.apply(this,arguments);requestAnimationFrame(fc107CsEncaixa);return r}}
@@ -13263,7 +13042,6 @@ function rs108Grava(k,t){if(!S.uid||!k)return;try{const o=rs108Le();if(t&&t.trim
 function rs108Poe(i,k){if(!i||i.value||i._rs108===k)return;i._rs108=k;const t=rs108Le()[k];if(t){i.value=t;i.dispatchEvent(new Event("input",{bubbles:true}))}}
 document.addEventListener("input",e=>{const t=e.target;if(!t||!t.id)return;if(t.id==="mtext"&&THREAD)rs108Grava("dm:"+THREAD,t.value);else if(t.id==="ctext"&&CMT_PID)rs108Grava("cm:"+CMT_PID,t.value)});
 document.addEventListener("submit",e=>{const f=e.target;if(!f)return;if(f.id==="mform"&&THREAD)rs108Grava("dm:"+THREAD,"");else if(f.id==="cform"&&CMT_PID)rs108Grava("cm:"+CMT_PID,"")},true);
-{const _oc108=openComments;openComments=function(pid){const r=_oc108.apply(this,arguments);try{rs108Poe($("#ctext"),"cm:"+pid)}catch(e){}return r}}
 
 /* 4. administrador: "Denunciar" não diz "o Pedro recebe e analisa" para o próprio administrador */
 
@@ -13281,8 +13059,6 @@ var FIT108=[];
 function fit108Roda(){const t0=performance.now();while(FIT108.length&&performance.now()-t0<8){const t=FIT108.shift();if(t&&t.isConnected)try{fitTrack(t)}catch(e){}}if(FIT108.length)requestAnimationFrame(fit108Roda)}
 function fit108Poe(t){if(FIT108.indexOf(t)>=0)return;FIT108.push(t);if(FIT108.length===1)requestAnimationFrame(fit108Roda)}
 if(typeof FIT_IO!=="undefined"&&FIT_IO){try{FIT_IO.disconnect()}catch(e){}FIT_IO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)fit108Poe(e.target)}),{rootMargin:"900px 0px"});document.querySelectorAll(".track").forEach(t=>FIT_IO.observe(t))}
-{const _cm108=carregarMais;carregarMais=function(sync){if(sync||typeof FIT_IO==="undefined"||!FIT_IO)return _cm108.apply(this,arguments);const ft=fitTrack;
-  fitTrack=function(t){if(t&&t.classList&&t.classList.contains("track")){fit108Poe(t);return 0}return ft.apply(this,arguments)};try{return _cm108.apply(this,arguments)}finally{fitTrack=ft}}}
 
 /* 8. destaque aberto pelo perfil de um amigo: fechar (✕, deslizar ou voltar do celular) volta para o perfil, não para o Feed */
 {const _ad108=abrirDestaque;abrirDestaque=async function(id,u){const doPerfil=!!$("#layer .pfv:not(.pfv-arq):not(.pfv-at)")&&u!==S.uid;const r=await _ad108.apply(this,arguments);
@@ -13422,7 +13198,7 @@ async function cc8Alterna(b){if(precisaConta())return;const cid=b.dataset.cid,au
   catch(e){if(on)s.delete(S.uid);else s.add(S.uid);cc8Pinta();const m=String((e&&(e.code||""))+" "+(e&&e.message||""));
     toast(/54000|demais/.test(m)?"Muitas curtidas seguidas. Espere um minuto.":/42501|row-level|policy/i.test(m)?"Este comentário não está mais disponível.":"Não deu para curtir agora. Tente de novo.")}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#cbox [data-cc8]");if(!b)return;e.stopPropagation();e.preventDefault();cc8Alterna(b)},true);
-{const _oc8=openComments;openComments=function(pid){const r=_oc8.apply(this,arguments);try{CC8.pid=pid;if(V8.on){const f=S._reCmt;if(f)S._reCmt=function(){const x=f.apply(this,arguments);cc8Pinta();return x};cc8Pinta();if(Date.now()-CC8.t>800)cc8Carregar()}}catch(e){}return r}}
+
 function cc8Ouvir(){try{if(!SB.channel||cc8Ouvir.ok)return;cc8Ouvir.ok=1;const ch=SB.channel("cc8-"+Math.random().toString(36).slice(2,7));
   ch.on("postgres_changes",{event:"INSERT",schema:"public",table:"com_curtidas"},p=>{if(p&&p.table&&p.table!=="com_curtidas")return;clearTimeout(cc8Ouvir.t);cc8Ouvir.t=setTimeout(()=>{if($("#cbox"))cc8Carregar();at8Carregar().then(()=>{atDot();atRedesenha()})},500)});ch.subscribe()}catch(e){}}
 
@@ -13690,7 +13466,7 @@ function htSugere(i){const tk=htToken(i);if(!tk){if(HT_INP===i||!i)htFecha();ret
   HT_BOX.innerHTML=l.map(s=>`<button type="button" role="option" data-htsug="${esc(s.tag)}"><b>${esc(s.tag)}</b><small>${esc(s.d)}</small></button>`).join("");
   const r=i.getBoundingClientRect();HT_BOX.style.left=Math.max(8,r.left)+"px";HT_BOX.style.width=Math.min(innerWidth-16,Math.max(220,r.width))+"px";HT_BOX.style.top="";HT_BOX.style.bottom=(innerHeight-r.top+6)+"px";
   const b=HT_BOX.getBoundingClientRect();if(b.top<8){HT_BOX.style.bottom="auto";HT_BOX.style.top=(r.bottom+6)+"px"}}
-{const _ms111=menSugere;menSugere=function(i){const r=_ms111.apply(this,arguments);try{htSugere(i)}catch(e){}return r}}
+
 document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest(".ht-box [data-htsug]");if(!b||!HT_INP)return;e.preventDefault();const i=HT_INP,tk=htToken(i);if(!tk)return;
   const tag=b.dataset.htsug,pos=i.selectionStart??i.value.length;i.value=i.value.slice(0,tk.ini)+tag+" "+i.value.slice(pos);const np=tk.ini+tag.length+1;try{i.setSelectionRange(np,np)}catch(_){}
   htFecha();i.dispatchEvent(new Event("input",{bubbles:true}));htFecha();i.focus()},true);
@@ -13727,16 +13503,12 @@ function htDesenha(){const el=$("#layer .pfv-ht");if(!el)return;const k=el.datas
 function htLinhaNot(p,cls){const l=htDaPauta(p);return l.length?`<p class="${cls}">${l.map(t=>`<button type="button" class="ht-n" data-ht="${esc(t)}">${esc(t)}</button>`).join("")}</p>`:""}
 function htNaMateria(pid){const p=pautaById(pid),m=$("#layer .mat .mat-c");if(!p||!m)return;if(!m.querySelector(".ht-mat")){const h=htLinhaNot(p,"ht-mat");if(h){const h1=m.querySelector("h1");if(h1)h1.insertAdjacentHTML("beforebegin",h);else m.insertAdjacentHTML("afterbegin",h)}}
   if(HT_MAT_VOLTA){const b=$("#layer .mat-v");if(b){b.textContent="‹ "+HT_MAT_VOLTA;b.setAttribute("aria-label","Voltar para "+HT_MAT_VOLTA)}}}
-{const _ps111=postSeguro;postSeguro=function(p){let h=_ps111.apply(this,arguments);try{if(typeof h!=="string"||!h||!p||p.__fc107)return h;
-    let sg=null;if(p.__pub)sg=htSeguidaDePost(p.__pub);else{const pp=pautaById(p.id)||p;const ln=htLinhaNot(pp,"ht-nl");if(ln&&h.indexOf('class="ht-nl')<0){const i=h.indexOf('<div class="pollbox"');if(i>0)h=h.slice(0,i)+ln+h.slice(i)}sg=htSeguidaDe(pp)}
-    if(sg)h=h.replace(/^(\s*<article\b[^>]*>)/,`$1<p class="ht-por gut">Por seguir <b>${esc(sg)}</b></p>`)}catch(e){}return h}}
+
 /* ---- Feed: o que tem hashtag seguida sobe ---- */
 {const _lf111=listaFeed;listaFeed=function(){const l=_lf111.apply(this,arguments);try{if(FILTRO!=="tudo"||!Array.isArray(l)||l.length<3||!Object.keys(htSeguidas()).length)return l;
     const mov=[];for(let i=1;i<l.length&&mov.length<3;i++){const p=l[i];if(p&&!p.__pub&&!p.__fc107&&!LIDAS.has(p.id)&&htSeguidaDe(p))mov.push(p)}if(!mov.length)return l;
     const out=l.filter(p=>!mov.includes(p));out.splice(1,0,...mov);return out}catch(e){return l}}}
-{const _pm111=pubMistura;pubMistura=function(lista){const out=_pm111.apply(this,arguments);try{if(!Array.isArray(out)||!Object.keys(htSeguidas()).length)return out;
-    const ps=out.filter(x=>x&&x.__pub&&Date.now()-(+x.__pub.at||0)<7*864e5&&htSeguidaDePost(x.__pub)).slice(0,2);
-    ps.forEach((x,j)=>{const i=out.indexOf(x);if(i>1+j){out.splice(i,1);out.splice(1+j,0,x)}})}catch(e){}return out}}
+
 /* ---- Buscar: "#tag", hashtags seguidas e em alta ---- */
 function htResultado(o,I){const nn=htNoticias(o.k).length+htDormentes(o.k).length,np=htPostsCom(o.k).length,nc=htCmtsCom(o.k).length;
   const d=[nn?htPl(nn,"notícia","notícias"):"",np?htPl(np,"post","posts"):"",nc?htPl(nc,"comentário","comentários"):""].filter(Boolean).join(" · ")||"Nada ainda";
@@ -13998,15 +13770,12 @@ function vn112Pf(root,u,ab){if(!root||!u)return;const eu=u===S.uid,cab=root.quer
 if(VISUAL_NOVO){
   document.documentElement.classList.add("vn");
   /* topo */
-  {const _rs112=renderSecs;renderSecs=function(){const r=_rs112.apply(this,arguments);try{vn112Tiles()}catch(e){console.error(e)}return r}}
+  
   /* post e notícia */
   if(VN112_CT)document.documentElement.classList.add("vn-c"+VN112_CT);
-  {const _ps112=postSeguro;postSeguro=function(p){let h=_ps112.apply(this,arguments);try{if(typeof h==="string"&&h&&p&&!p.__pub&&pautaById(p.id)){const a=vn112Tp(h);if(a){vn112PoeRp(a,"pauta",p.id);return VN112_CT?vn112CtNt(a,p):a.outerHTML}return VN112_CT?vn112CtNt(h,p):h}
-    /* 107 escreve o título do comentário único entre aspas duplas (sai "${esc(...)}" na tela); aqui sai o nome */
-    if(typeof h==="string"&&p&&p.__fc107&&p.__pub&&h.indexOf("${esc(fc107Prim(x.autor))}")>=0)h=h.replace("${esc(fc107Prim(x.autor))}",esc(fc107Prim(p.__pub.autor)))}catch(e){}return h}}
+  
   /* direções em teste: mídia mais baixa (A e B: a manchete já está em cima; C: 16:9, como no YouTube) */
-  {const _ft112=fitTrack;fitTrack=function(t){const r=_ft112.apply(this,arguments);try{const c=t&&t.closest&&t.closest(".vn-c");if(c&&c.classList.contains("vn-cn")){const w=t.clientWidth;if(w){t.style.setProperty("--slh",Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6)))+"px");try{if(typeof ssCaber==="function")ssCaber(t)}catch(e){}const s=t.children[r|0];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}}catch(e){}return r}}
-  {const _us112=updateSocial;updateSocial=function(pid){const r=_us112.apply(this,arguments);vn112Social(pid);return r}}
+
   /* perfil */
   {const _pv112=pfvDesenha;pfvDesenha=function(){const r=_pv112.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){if(PFV.aba!=="posts")PFV.vnAba=PFV.aba;else if(!["posts","resp","midia"].includes(PFV.vnAba))PFV.vnAba="posts";vn112Pf($("#layer .pfv .pfv-sc"),PFV.u,PFV.vnAba)}}catch(e){console.error(e)}return r}}
   {const _ap112=abrirPerfil;abrirPerfil=function(u){if(u===S.uid)VN112_PF.me="posts";return _ap112.apply(this,arguments)}}
@@ -14127,8 +13896,7 @@ if(VN_FASE2){
   document.documentElement.classList.add("fs2");
   /* post: fio e contexto */
   /* o comentário logo abaixo da notícia já está junto dela: sem caixa de contexto; prateleira */
-  {const _ps113=postSeguro;postSeguro=function(p){if(p&&p.__f113)try{return f113PratHTML(p.__f113)}catch(e){return ""}
-    let h=_ps113.apply(this,arguments);try{if(p&&p.__fc107&&typeof h==="string"&&h.indexOf("fs2-ctx")>=0){const a=vn112Tp(h);if(a){a.querySelectorAll(".fs2-ctx").forEach(e=>e.remove());h=a.outerHTML}}}catch(e){}return h}}
+  
   /* publicação aberta numa camada (e a página da hashtag): o fio inteiro */
   {const _pv113=pfvDesenha;pfvDesenha=function(){const r=_pv113.apply(this,arguments);try{if(PFV&&PFV.modo!=="grade")f113AbreTudo($("#layer .pfv"))}catch(e){}return r}}
   {const _hd113=htDesenha;htDesenha=function(){const r=_hd113.apply(this,arguments);try{f113AbreTudo($("#layer .pfv-ht"))}catch(e){}return r}}
@@ -14138,9 +13906,9 @@ if(VN_FASE2){
   {const _hc113=htPostsCom;htPostsCom=function(){const l=_hc113.apply(this,arguments);return Array.isArray(l)?l.map(x=>x&&x.__f113o||x):l}}
   {const _hs113=htSeguidaDePost;htSeguidaDePost=function(x){if(x&&f113Fio(x))try{return _hs113.call(this,{texto:f113Tudo(x)})}catch(e){}return _hs113.apply(this,arguments)}}
   /* Feed: prateleiras só na lista principal ("Tudo"), uma vez por desenho; a contagem "faltam N" fica como antes */
-  {const _rp113=renderPosts;renderPosts=function(){F113_SH_LIGA=true;try{return _rp113.apply(this,arguments)}finally{F113_SH_LIGA=false}}}
+  
   {const _ae113=atualizarEmDia;atualizarEmDia=function(){const o=F113_SH_LIGA;F113_SH_LIGA=false;try{return _ae113.apply(this,arguments)}finally{F113_SH_LIGA=o}}}
-  {const _pm113=pubMistura;pubMistura=function(){const out=_pm113.apply(this,arguments);if(!F113_SH_LIGA||FILTRO!=="tudo")return out;F113_SH_LIGA=false;try{return f113Prat(out)}catch(e){console.error(e);return out}}}
+  
   /* "Ver no Feed" de uma notícia que está numa prateleira: ela volta para a lista */
   {const _gp113=garantirPost;garantirPost=function(pid){const r=_gp113.apply(this,arguments);if(r||!F113_NAPRAT.has(pid))return r;F113_SOLTA.add(pid);try{renderPosts(true)}catch(e){}return _gp113.apply(this,arguments)}}
   /* criar: "Adicionar parte" no passo do texto */
@@ -14247,10 +14015,6 @@ function rb115CtxFeed(){const box=document.getElementById("posts");if(!box)retur
   box.querySelectorAll(".fs2-ctx").forEach(c=>{const id=c.dataset.f113ctx,post=c.closest(".post");if(!id||!post)return;
     let ant=post.previousElementSibling;while(ant&&!ant.matches(".post,.fs2-sh"))ant=ant.previousElementSibling;
     if(vistos.has(id)||(ant&&ant.id==="p-"+id))c.remove();else vistos.add(id)})}
-if(typeof VN_FASE2!=="undefined"&&VN_FASE2){
-  {const _rp115=renderPosts;renderPosts=function(){const r=_rp115.apply(this,arguments);try{rb115CtxFeed()}catch(e){}return r}}
-  {const _cm115=carregarMais;carregarMais=function(){const r=_cm115.apply(this,arguments);try{rb115CtxFeed()}catch(e){}return r}}
-}
 
 /* ===== B08 ===== */
 const RB115_Y_CARTAO=.74;
@@ -14420,8 +14184,7 @@ function po118NoFeed(root){const box=root||document.getElementById("posts");if(!
     const tit=a.querySelector(":scope>.vn-tit"),car=a.querySelector(":scope>.car");
     if(tit)tit.insertAdjacentHTML("afterend",h);else if(car)car.insertAdjacentHTML("beforebegin",h);else a.insertAdjacentHTML("beforeend",h)})}
 function po118Aplica(){try{if(typeof VIEW!=="undefined"&&VIEW==="feed")po118NoFeed()}catch(e){}try{po118NaMateria()}catch(e){}}
-{const _rp118=renderPosts;renderPosts=function(){const r=_rp118.apply(this,arguments);try{po118NoFeed()}catch(e){}return r}}
-{const _cm118=carregarMais;carregarMais=function(){const r=_cm118.apply(this,arguments);try{po118NoFeed()}catch(e){}return r}}
+
 /* troca de turno */
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-po118t]");if(!b)return;const s=b.closest(".po118");if(!s)return;e.stopPropagation();
   const p=pautaById(s.dataset.po118),l=po118Da(p),i=+b.dataset.po118t;if(!l||!l[i])return;
@@ -14508,8 +14271,7 @@ if(typeof VN112_CT!=="undefined"&&VN112_CT==="a"&&typeof vn112Aperta==="function
   if(!("oncontentvisibilityautostatechange" in document.documentElement)&&typeof IntersectionObserver==="function"){
     const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)try{vn112Aperta(en.target,true)}catch(_){}}),{rootMargin:"200px 0px"});
     const vigia=()=>document.querySelectorAll(".post.vn-ca:not([data-tb121io])").forEach(p=>{p.dataset.tb121io="1";io.observe(p)});
-    {const _rp=renderPosts;renderPosts=function(){const r=_rp.apply(this,arguments);try{vigia()}catch(e){}return r}}
-    {const _cm=carregarMais;carregarMais=function(){const r=_cm.apply(this,arguments);try{vigia()}catch(e){}return r}}}}
+    FD204_VIGIA121=vigia;}}
 
 /* ===== TB04: "giro" também nas Conversas ===== */
 function tb121Giro(s){return String(s).replace(/^(Você curtiu o|Curtiu seu|Você respondeu ao|Respondeu ao seu|Você mencionou no|Mencionou você no) story/,"$1 giro")}
@@ -14595,12 +14357,12 @@ function dc122Feed(out){if(!Array.isArray(out)||!out.length)return out;const tir
     troca.set(alvo,{...(po&&alvo===io?po:{}),id:"u:"+id,__pub:x,__dc122:{us}})});
   if(!tira.size&&!troca.size)return out;
   const res=[];out.forEach((p,i)=>{if(troca.has(i))res.push(troca.get(i));else if(!tira.has(i))res.push(p)});return res}
-{const _pm122=pubMistura;pubMistura=function(lista){const out=_pm122.apply(this,arguments);try{return dc122Feed(out)}catch(e){console.error(e);return out}}}
+
 /* a linha "Bia e Carla repostaram" em cima do original */
 function dc122Linha(h,p){const us=p.__dc122.us;if(!us||!us.length||typeof h!=="string"||!h)return h;const a=vn112Tp(h);if(!a)return h;
   a.classList.add("dc122-rpd");const ln=`<p class="dc122-rpl">${VN112_IC.rp}<span>${esc(dc122Quem(us))}</span></p>`;
   const ref=a.querySelector(":scope>.ph");if(ref)ref.insertAdjacentHTML("beforebegin",ln);else a.insertAdjacentHTML("afterbegin",ln);return a.outerHTML}
-{const _ps122=postSeguro;postSeguro=function(p){const h=_ps122.apply(this,arguments);try{if(p&&p.__dc122)return dc122Linha(h,p)}catch(e){}return h}}
+
 /* perfil de outra pessoa: o repost simples indisponível também some (no próprio perfil fica) */
 {const _pl122=pfLista;pfLista=function(u,aba){const l=_pl122.apply(this,arguments);try{if(aba==="posts"&&Array.isArray(l)&&u!==S.uid)return l.filter(x=>!(x&&x.autor===u&&dc122Some(x)))}catch(e){}return l}}
 /* quando o banco responde sobre um original que faltava: redesenha (se apareceu) ou tira o que ficou indisponível */
@@ -14779,7 +14541,7 @@ function cs123Abrir(id){const x=pubDe(id)||pubVisiveis().find(y=>y.id===id),c=x&
   const vazio=!L.innerHTML;L.innerHTML=cs123LerHTML(x,c);CS123.ler={id,volta};const r=L.querySelector(".cs123-ler");cs123Progresso(r);
   if((vazio||volta)&&pushH())HST++;try{if(typeof htLinka==="function")r.querySelectorAll(".cs123-corpo p").forEach(htLinka)}catch(e){}}
 function cs123FimAtualiza(){const L=CS123.ler,el=L&&document.querySelector("#layer .cs123-ler .cs123-fim");if(!el)return;const x=pubDe(L.id);if(x)el.innerHTML=cs123FimHTML(x)}
-{const _us=updateSocial;updateSocial=function(pid){const r=_us.apply(this,arguments);try{if(CS123.ler&&pid==="u:"+CS123.ler.id)cs123FimAtualiza()}catch(e){}return r}}
+
 /* folhas (comentários, enviar) abrem por cima da coluna e do editor, sem fechá-los */
 /* voltar: da coluna para o perfil de onde ela foi aberta; da prévia para o editor */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
@@ -15280,9 +15042,7 @@ function qb126Marca(pred){if(!S.uid||!S.membro)return;try{const v=atVisto(),vk=q
     nt124PrefMuda(n=>{const m={};const lim=Math.max(atVisto(),ag-31*864e5);Object.entries(qb126Vk()).forEach(([k,t])=>{if(+t>lim)m[k]=+t});ks.forEach(k=>{m[k]=ag});
       const o=Object.keys(m).sort((a,b)=>m[b]-m[a]).slice(0,150);n.vk={};o.forEach(k=>{n.vk[k]=m[k]})});nt124Pinta()}catch(e){}}
 function qb126MarcaDepois(pred){setTimeout(()=>qb126Marca(pred),60)}
-{const _oc126=openComments;openComments=function(pid){const r=_oc126.apply(this,arguments);try{const id=String(pid||"");
-    if(/^u:/.test(id)){const pub=id.slice(2);qb126MarcaDepois(x=>(x.pub===pub&&nt124Cat(x)==="comentarios")||String(x.k).indexOf("cc8:"+pub+"|")===0)}
-    else if(id)qb126MarcaDepois(x=>(x.pid===id&&nt124Cat(x)==="comentarios")||x.cpid===id||(x.msg&&x.msg.pid===id))}catch(e){}return r}}
+
 function qb126MarcaPub(id){id=String(id||"");if(!id)return;qb126MarcaDepois(x=>x.pub===id||x.vnrp===id||x.k==="nt124p:"+id||x.k==="nt124c:"+id||(x.msg&&x.msg.snap&&x.msg.snap.upub===id))}
 {const _pi126=pubIrPara;pubIrPara=function(id){const r=_pi126.apply(this,arguments);qb126MarcaPub(id);return r}}
 if(typeof vn112AbrePub==="function"){const _va126=vn112AbrePub;vn112AbrePub=function(id){const r=_va126.apply(this,arguments);qb126MarcaPub(id);return r}}
@@ -15478,8 +15238,6 @@ function dz129Feed(out){if(!Array.isArray(out)||!out.length)return out;const gr=
     const junto=!!(out[io+1]&&out[io+1].__fc107),alvo=junto?io:Math.min(io,...is);
     is.concat(io).forEach(i=>{if(i!==alvo)tira.add(i)});troca.set(alvo,{...out[io],__dc122:{us},__dz129:1})});
   const res=[];out.forEach((p,i)=>{if(troca.has(i))res.push(troca.get(i));else if(!tira.has(i))res.push(p)});return res}
-if(typeof pubMistura==="function"){const _pm=pubMistura;pubMistura=function(lista){const out=_pm.apply(this,arguments);try{return dz129Feed(out)}catch(e){console.error(e);return out}}}
-{const _ps=postSeguro;postSeguro=function(p){const h=_ps.apply(this,arguments);try{if(p&&p.__dz129&&typeof h==="string"&&h){const a=vn112Tp(h);if(a&&!a.classList.contains("dz129-nt")){a.classList.add("dz129-nt");return a.outerHTML}}}catch(e){}return h}}
 
 /* ===== 4. Atividade: reposts de quem só segue você ===== */
 async function dz129AtCarrega(){if(DZ129.v11===false||DZ129.carregando||typeof SB==="undefined"||!SB||!S.uid||!S.membro)return;DZ129.carregando=true;const eu=S.uid;
@@ -16704,8 +16462,7 @@ function lt134CmDecora(){const pid=LT134.cpid,m=/^u:(.+)$/.exec(String(pid||""))
     b.textContent=fx?"Desafixar":"Fixar"});
   /* os fixados vão para o topo, na ordem em que foram fixados */
   const ul=box.querySelector(".clist");if(ul)l.slice().reverse().forEach(d=>{const li=[...ul.children].find(li=>{const c=lt134CmDo(li);return c&&c.autor===d.cautor&&c.cid===d.cid});if(li&&ul.firstElementChild!==li)ul.prepend(li)})}
-{const _oc=openComments;openComments=function(pid){const r=_oc.apply(this,arguments);try{const m=/^u:(.+)$/.exec(String(pid||"")),x=m&&pubDe(m[1]);
-  if(x&&cs123Col(x)){LT134.cpid=pid;const rc=S._reCmt;if(rc)S._reCmt=function(){const q=rc.apply(this,arguments);try{lt134CmDecora()}catch(e){}return q};lt134CmDecora();lt134DestCarrega(x.id)}else LT134.cpid=null}catch(e){}return r}}
+
 async function lt134Fixa(id,cautor,cid,b){if(LT134.v13!==true||typeof SB==="undefined"||!SB)return;const l=LT134.dest[id]||[],ja=l.find(d=>d.cautor===cautor&&d.cid===cid);if(b)b.disabled=true;
   try{if(ja){const r=await SB.from("coluna_destaques").delete().eq("pub",id).eq("cautor",cautor).eq("cid",cid);if(r&&r.error)throw r.error;toast("Comentário desafixado")}
     else{if(l.length>=3){toast("Você já fixou 3 comentários. Desafixe um para fixar outro.");return}const r=await SB.from("coluna_destaques").insert({pub:id,cautor,cid}).select("cid");if(r.error)throw r.error;toast("Comentário fixado no topo da coluna");uso("coluna_fixar")}
@@ -17825,11 +17582,6 @@ function mc1111Tempo(p){const vs=Array.isArray(p&&p.visuais)?p.visuais:[];const 
     const depois=its.slice(i+1).some(o=>{const x=o&&typeof o.quando==="string"?rc116Data(o.quando,hj):null;return x&&x.iso<=hj});if(!depois)return it;
     mudou=true;return Object.assign({},it,{quando:`${m[1]}/${m[2]}/${ano}`})});
   if(!mudou)return p;const nv=vs.slice();nv[k]=Object.assign({},vs[k],{itens:novos});return Object.assign({},p,{visuais:nv})}
-/* Pendências pequenas 12/11/2026 (145).
-   Sugestões de @ na legenda do criador (post, reel, fotos): a caixa flutuava por cima da linha "Marcar pessoas".
-   Agora ela entra logo abaixo da legenda, empurrando as linhas para baixo; nada fica coberto. */
-{const _ms145=menSugere;menSugere=function(i){const r=_ms145.apply(this,arguments);
-  try{if(MEN_BOX&&MEN_BOX.isConnected&&MEN_INP===i&&i.id==="ce-leg"){MEN_BOX.classList.add("men-in145");MEN_BOX.style.left=MEN_BOX.style.top=MEN_BOX.style.bottom=MEN_BOX.style.width="";if(i.nextElementSibling!==MEN_BOX)i.insertAdjacentElement("afterend",MEN_BOX)}}catch(e){}return r}}
 /* ---------- 146: o Feed não baixa o texto inteiro das colunas (13/11) ----------
    Antes, a lista de publicações vinha com select("*"), e cada coluna trazia o texto longo (publicacoes.corpo, até 40.000
    caracteres) a cada atualização do Feed, mesmo sem ninguém abrir. Agora:
@@ -17889,7 +17641,7 @@ LOTE_PASSO=3;
 function lt148Emenda(){if(lt148Emenda.t)return;lt148Emenda.t=1;
   requestAnimationFrame(()=>setTimeout(()=>{lt148Emenda.t=0;const m=document.getElementById("mais");if(!m)return;const v=document.getElementById("v-feed");if(v&&v.hidden)return;
     try{if(m.getBoundingClientRect().top<innerHeight+600)carregarMais()}catch(e){}},0))}
-{const _cm148=carregarMais;carregarMais=function(sync){const r=_cm148.apply(this,arguments);if(!sync)try{lt148Emenda()}catch(e){}return r}}
+
 /* ---------- 149: montar o cartão do Feed com menos trabalho repetido (NC05, 13/11) ----------
    Perfil com CPU 4× (32 cartões, 5 passadas): ~13 ms por cartão de notícia. Duas contas eram refeitas em todo cartão com
    o mesmo resultado:
@@ -18355,7 +18107,7 @@ document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="cp152-tx")
   try{if(typeof menSugere==="function")menSugere(t)}catch(_){}});
 
 /* a lista de amigos entra logo abaixo do texto (como na legenda do criador, 145), sem cobrir o alto da caixa */
-{const _ms155=menSugere;menSugere=function(i){const r=_ms155.apply(this,arguments);try{if(MEN_BOX&&MEN_BOX.isConnected&&MEN_INP===i&&i.id==="cp152-tx"){MEN_BOX.classList.add("men-in145","cr155-men");MEN_BOX.style.left=MEN_BOX.style.top=MEN_BOX.style.bottom=MEN_BOX.style.width="";if(i.nextElementSibling!==MEN_BOX)i.insertAdjacentElement("afterend",MEN_BOX)}}catch(e){}return r}}
+
 /* abrir a caixa: devolve o texto e a notícia guardados; o={pid} abre já com a notícia */
 {const _ab155=cp152Abre;cp152Abre=function(o){o=o||{};const r=_ab155.apply(this,arguments);try{if(!$("#layer > .cp152"))return r;
     if(!o.manter){const g=cr155Le();CR155.pid=null;if(g){if(!o.aba||o.aba==="post")CP152.txt=g.tx;CR155.pid=g.pid&&pautaById(g.pid)?g.pid:null}
@@ -18531,7 +18283,7 @@ function fd156Curtidas(pid){try{const el=document.getElementById("p-"+pid);if(!e
   let soEu=false;try{const l=socialOf(pid).likes;soEu=!!S.uid&&l.length===1&&l[0]===S.uid}catch(e){}
   /* só você gostou: fica só o número ao lado do losango (sem a linha "Você gostou"); amigos gostaram: só a linha com o nome */
   el.classList.toggle("fd156-eu",soEu);el.classList.toggle("fd156-lk",!soEu&&!!(lk&&lk.textContent.trim()))}catch(e){}}
-{const _us156=updateSocial;updateSocial=function(pid){const r=_us156.apply(this,arguments);fd156Curtidas(pid);return r}}
+
 if(typeof vn112Social==="function"){const _vs156=vn112Social;vn112Social=function(pid){const r=_vs156.apply(this,arguments);fd156Curtidas(pid);return r}}
 
 /* ---- círculos do topo: a editoria não repete a notícia de Últimas nem a do 1º cartão do Feed; "1 notícia, 1 não vista" ---- */
@@ -18546,7 +18298,6 @@ function fd156Id(id){return String(id||"").split("#")[0]}
 function _vp156Ult(){try{const r=igLista("_ult");const i=r.itens.find(x=>!ULT_VISTOS.has(ultKey(x)))||r.itens[0];return i&&i.pid}catch(e){return null}}
 function fd156Rotulos(){try{document.querySelectorAll("#secs [data-sec-story][aria-label]").forEach(b=>{const a=b.getAttribute("aria-label");
   const n=a.replace(/\b1 notícias\b/,"1 notícia").replace(/\b1 não vistas\b/,"1 não vista");if(n!==a)b.setAttribute("aria-label",n)})}catch(e){}}
-{const _rs156=renderSecs;renderSecs=function(){const r=_rs156.apply(this,arguments);fd156Rotulos();return r}}
 
 /* ---- "Mais recentes": a mesma hora que o cartão mostra (atualização mais recente ou publicação), da mais nova para a mais velha ---- */
 function fd156Hora(p){try{return tms(ultimaAtualizacao(p)||p.hora)||0}catch(e){return 0}}
@@ -18560,8 +18311,7 @@ var FD156_IO=("IntersectionObserver" in window)?new IntersectionObserver(es=>{if
 function fd156Mais(){try{const m=document.getElementById("mais"),ex=document.getElementById("extra");if(ex)ex.classList.toggle("fd156-espera",!!m);
   if(m&&!m.dataset.fd156){m.dataset.fd156="1";m.classList.add("fd156-mais");m.setAttribute("role","status");m.setAttribute("aria-label","Carregando mais notícias…");
     m.innerHTML=`<span class="fd156-vh">Carregando mais notícias…</span><div class="fd156-sk" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i></div>`;if(FD156_IO)FD156_IO.observe(m)}}catch(e){}}
-{const _rp156=renderPosts;renderPosts=function(){const r=_rp156.apply(this,arguments);fd156Mais();return r}}
-{const _cm156=carregarMais;carregarMais=function(){const r=_cm156.apply(this,arguments);fd156Mais();return r}}
+
 lt148Emenda=function(){if(lt148Emenda.t)return;lt148Emenda.t=1;
   requestAnimationFrame(()=>setTimeout(()=>{lt148Emenda.t=0;const m=document.getElementById("mais");if(!m)return;const v=document.getElementById("v-feed");if(v&&v.hidden)return;
     try{if(m.getBoundingClientRect().top<innerHeight*3+600)carregarMais()}catch(e){}},0))};
@@ -18582,7 +18332,6 @@ function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)r
   if(Date.now()-FD156_FOCO<2000){FD156_FOCO=0;try{inp.focus({preventScroll:true})}catch(e){try{inp.focus()}catch(_){}}}
   fd156Agrupa();const box=document.getElementById("cbox");
   if(box&&!box._fd156&&"MutationObserver" in window){box._fd156=new MutationObserver(()=>fd156Agrupa());box._fd156.observe(box,{childList:true,subtree:true})}}
-{const _oc156=openComments;openComments=function(pid){const r=_oc156.apply(this,arguments);try{fd156Comentarios()}catch(e){}return r}}
 
 /* ---- sem internet: o aviso diz que é a conexão; o Gostei é reenviado quando a internet volta ---- */
 var FD156_GOSTEI={};
@@ -18594,7 +18343,7 @@ addEventListener("online",()=>{const ps=Object.keys(FD156_GOSTEI);if(!ps.length)
 
 /* ---- comentário escrito sem internet: fica guardado e é enviado sozinho quando a conexão volta (decisão do Pedro, 16/11) ---- */
 var FD156_PID=null;
-{const _oc156b=openComments;openComments=function(pid){FD156_PID=pid;return _oc156b.apply(this,arguments)}}
+
 function fd156CmtLe(){try{return JSON.parse(localStorage.getItem("fd156cq")||"[]")||[]}catch(e){return []}}
 function fd156CmtGrava(l){try{localStorage.setItem("fd156cq",JSON.stringify(l))}catch(e){}}
 /* o texto que voltou para a caixa vai para a fila; a caixa fica vazia */
@@ -19038,7 +18787,6 @@ function ca159NaLista(n){const s=document.querySelector("#v-feed .sech");if(VIEW
   const y=scrollY+s.getBoundingClientRect().top-tb-6;if(y>8)window.scrollTo(0,y)}
 document.addEventListener("click",e=>{const t=e.target;if(t&&t.closest&&t.closest("[data-capasec]"))setTimeout(()=>ca159NaLista(0),0)},true);
 function ca159VerTudo(){document.querySelectorAll(".vertudo").forEach(b=>{if(b.dataset.ca159)return;b.dataset.ca159="1";b.textContent="Todas as editorias ✕";b.setAttribute("aria-label","Tirar o filtro e ver todas as editorias")})}
-{const _rp159=renderPosts;renderPosts=function(){const r=_rp159.apply(this,arguments);try{ca159VerTudo()}catch(e){}return r}}
 
 /* ===== 9. sem bolinha do quiz na aba Capa ===== */
 {const _up159=updatePlayBadge;updatePlayBadge=function(){const r=_up159.apply(this,arguments);const b=$("#pbadge");if(b){b.hidden=true;b.removeAttribute("aria-label")}return r}}
@@ -19585,7 +19333,7 @@ function fd167Rodape(){try{const p=document.querySelector("#extra .foot p");if(!
 /* lista "Outras notícias": a hora da breve, quando a rodada manda (campo "hora") */
 function fd167BreveHora(){try{document.querySelectorAll("#extra .brv-b[data-breve]").forEach(bt=>{const b=(window.BREVES||[])[+bt.dataset.breve];const sp=bt.nextElementSibling;
   if(!b||!sp||sp.querySelector(".fd167-bh")||!tms(b.hora))return;sp.insertAdjacentHTML("beforeend",`<span class="fd167-bh"> · ${esc(quando(b.hora))}</span>`)})}catch(e){}}
-{const _rp167=renderPosts;renderPosts=function(){const r=_rp167.apply(this,arguments);fd167Rodape();fd167BreveHora();fd167Curtir(document.getElementById("posts"));return r}}
+
 {const _cr167=carregarRodadas;carregarRodadas=async function(){const r=await _cr167.apply(this,arguments);fd167Rodape();return r}}
 
 /* ---- comentários: retorno pula linha no celular (só a seta publica); quebras de linha aparecem ---- */
@@ -19637,7 +19385,6 @@ fd156CmtCancela=function(){const l=fd156CmtLe();const x=l[l.length-1];if(x)fd167
 {const _ce167=fd156CmtEnvia;fd156CmtEnvia=async function(){try{return await _ce167.apply(this,arguments)}finally{fd167Pend()}}}
 /* a conversa redesenhada (comentário novo, apagado, etc.) recoloca o pendente e tira a menção repetida */
 {const _ag167=fd156Agrupa;fd156Agrupa=function(){const r=_ag167.apply(this,arguments);fd167SemMencao();fd167Pend();return r}}
-{const _oc167=openComments;openComments=function(){FD167_RESP=null;const r=_oc167.apply(this,arguments);try{fd167Pend();fd167SemMencao();const i=document.getElementById("ctext");if(i&&FD167_TOQUE)i.setAttribute("enterkeyhint","enter")}catch(e){}return r}}
 
 /* ---- voltar do celular: refaz o caminho das abas ---- */
 var FD167_ABAS=["capa","feed","msgs","busca","me"],FD167_PILHA=[];
@@ -20610,7 +20357,7 @@ function nm186Resolver(f){if(!f||typeof f!=="object")return 0;const cont={n:0};
 /* indicadores.json mudou depois que o feed foi resolvido: troca de novo (barato quando nada mudou) */
 function nm186EmDia(){try{if(FEED&&NM186_SIG.get(FEED)!==nm186Assina(FEED)){nm186Resolver(FEED);return true}}catch(e){}return false}
 {const _sa186=sanear;sanear=function(){const r=_sa186.apply(this,arguments);if(r)nm186Resolver(r);return r}}
-{const _rp186=renderPosts;renderPosts=function(){nm186EmDia();return _rp186.apply(this,arguments)}}
+
 /* indicadores.json chegou com outro fechamento: o 031 redesenha a Capa; o Feed aberto também ganha os números novos */
 {const _ci186=carregarIndAuto;carregarIndAuto=async function(){const r=await _ci186.apply(this,arguments);
   try{if(nm186EmDia()&&VIEW==="feed"&&typeof FILTRO!=="undefined"&&FILTRO!=="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}
@@ -20715,6 +20462,462 @@ function ft187Confirma(p,f){const m=f&&f.mostra;if(typeof m!=="string"||!m.trim(
    Na tela "Notícia" (e nos outros formulários abertos pela caixa), o voltar do celular caía no passo "fotos" do editor
    antigo ("Novo post", Escolher fotos · Notícia · …) e o comentário sumia; um segundo voltar não saía dali. Agora o voltar
    do celular faz o mesmo que o "<" da tela: volta para a caixa "Nova publicação" com o texto e a notícia (152/155). */
+/* ---------- 204 · Feed (Fase 3): as funções do Feed, cada uma numa versão só ----------
+   Antes eram definidas em 006, 008, 026, 067 e 068 e remendadas em 052, 053, 058, 060, 061, 067, 068, 072, 081, 099, 102,
+   103, 104-correcoes-feed, 107, 108, 109, 111, 112, 113, 115, 118, 121, 122, 123, 126, 129, 134, 145, 155, 156, 159, 167 e 186.
+   Cada função abaixo faz o que a cadeia inteira fazia, na mesma ordem; os comentários dizem de onde veio cada passo.
+   Os auxiliares dos outros arquivos (vn112*, fd156*, fd167*, f113*, fc107*, ht*, …) continuam onde estavam: aqui eles só
+   são chamados, sempre depois da carga.
+   Carga: o 029 desenha o Feed com a edição guardada antes dos complementos (renderPosts → postSeguro, updateSocial,
+   fitTrack). Naquela hora só existia a definição base, e os complementos ainda nem tinham sido declarados: até o 999
+   chamar fd204Pronta(), estas funções fazem só a parte base, como antes. As variáveis daqui não têm valor inicial
+   (var sem =): o 121 grava FD204_VIGIA121 na carga e a posição deste arquivo não pode apagá-la. */
+var FD204_PRONTA,FD204_VIGIA121;
+function fd204Pronta(){FD204_PRONTA=true}
+
+/* ===== postSeguro: o HTML de um item do Feed (notícia, post de membro, prateleira) =====
+   Base no 006; remendos (de dentro para fora): 068, 107, 111, 112, 113, 122, 129. */
+function ps204Base(p){try{return postHTML(p)}catch(e){return ""}}
+function postSeguro(p){
+  if(!FD204_PRONTA)return ps204Base(p);
+  /* 068: post de membro misturado no Feed */
+  const c068=()=>{if(p&&p.__pub)try{return pubPostHTML(p.__pub)}catch(e){return ""}return ps204Base(p)};
+  /* 107: foco na notícia (comentário junto da notícia; cartão da notícia) */
+  const c107=()=>{const h=c068();try{if(typeof h!=="string"||!h||!p)return h;if(p.__fc107)return fc107Junto(h,p);if(!p.__pub)return fc107NoPost(h,p.id)}catch(e){}return h};
+  /* 111: linha das hashtags e "Por seguir #…" */
+  const c111=()=>{let h=c107();try{if(typeof h!=="string"||!h||!p||p.__fc107)return h;
+    let sg=null;if(p.__pub)sg=htSeguidaDePost(p.__pub);else{const pp=pautaById(p.id)||p;const ln=htLinhaNot(pp,"ht-nl");if(ln&&h.indexOf('class="ht-nl')<0){const i=h.indexOf('<div class="pollbox"');if(i>0)h=h.slice(0,i)+ln+h.slice(i)}sg=htSeguidaDe(pp)}
+    if(sg)h=h.replace(/^(\s*<article\b[^>]*>)/,`$1<p class="ht-por gut">Por seguir <b>${esc(sg)}</b></p>`)}catch(e){}return h};
+  /* 112: visual novo (cartão A da notícia) */
+  const c112=()=>{let h=c111();try{if(typeof h==="string"&&h&&p&&!p.__pub&&pautaById(p.id)){const a=vn112Tp(h);if(a){vn112PoeRp(a,"pauta",p.id);return VN112_CT?vn112CtNt(a,p):a.outerHTML}return VN112_CT?vn112CtNt(h,p):h}
+    /* 107 escreve o título do comentário único entre aspas duplas (sai "${esc(...)}" na tela); aqui sai o nome */
+    if(typeof h==="string"&&p&&p.__fc107&&p.__pub&&h.indexOf("${esc(fc107Prim(x.autor))}")>=0)h=h.replace("${esc(fc107Prim(x.autor))}",esc(fc107Prim(p.__pub.autor)))}catch(e){}return h};
+  /* 113: prateleira; o comentário logo abaixo da notícia já está junto dela: sem caixa de contexto */
+  const c113=()=>{if(p&&p.__f113)try{return f113PratHTML(p.__f113)}catch(e){return ""}
+    let h=c112();try{if(p&&p.__fc107&&typeof h==="string"&&h.indexOf("fs2-ctx")>=0){const a=vn112Tp(h);if(a){a.querySelectorAll(".fs2-ctx").forEach(e=>e.remove());h=a.outerHTML}}}catch(e){}return h};
+  /* 122: linha de decisão */
+  const c122=()=>{const h=c113();try{if(p&&p.__dc122)return dc122Linha(h,p)}catch(e){}return h};
+  /* 129 */
+  const h=c122();try{if(p&&p.__dz129&&typeof h==="string"&&h){const a=vn112Tp(h);if(a&&!a.classList.contains("dz129-nt")){a.classList.add("dz129-nt");return a.outerHTML}}}catch(e){}return h}
+
+/* ===== pubMistura: põe os posts dos amigos no meio da lista do Feed =====
+   Base no 068; remendos: 107, 111, 113, 122, 129. */
+function pm204Base(lista){if(FILTRO!=="tudo"||!PUB.on)return lista;const now=Date.now();const ps=pubVisiveis().filter(x=>x.tipo==="post"&&now-x.at<30*864e5).sort((a,b)=>b.at-a.at);if(!ps.length)return lista;
+  const out=lista.slice();let k=0;ps.forEach(x=>{const novo=now-x.at<48*3600e3;const pos=novo?1+k*3:Math.min(out.length,8+k*4);out.splice(Math.min(out.length,pos),0,{id:"u:"+x.id,__pub:x});k++});return out}
+function pubMistura(lista){
+  if(!FD204_PRONTA)return pm204Base(lista);
+  /* 107 */
+  const c107=()=>{const out=pm204Base(lista);try{return fc107Mistura(out,lista)}catch(e){return out}};
+  /* 111: posts de hashtag seguida sobem */
+  const c111=()=>{const out=c107();try{if(!Array.isArray(out)||!Object.keys(htSeguidas()).length)return out;
+    const ps=out.filter(x=>x&&x.__pub&&Date.now()-(+x.__pub.at||0)<7*864e5&&htSeguidaDePost(x.__pub)).slice(0,2);
+    ps.forEach((x,j)=>{const i=out.indexOf(x);if(i>1+j){out.splice(i,1);out.splice(1+j,0,x)}})}catch(e){}return out};
+  /* 113: prateleiras só na lista principal ("Tudo"), uma vez por desenho */
+  const c113=()=>{const out=c111();if(!F113_SH_LIGA||FILTRO!=="tudo")return out;F113_SH_LIGA=false;try{return f113Prat(out)}catch(e){console.error(e);return out}};
+  /* 122 */
+  const c122=()=>{const out=c113();try{return dc122Feed(out)}catch(e){console.error(e);return out}};
+  /* 129 */
+  const out=c122();try{return dz129Feed(out)}catch(e){console.error(e);return out}}
+
+/* ===== fitTrack: altura das páginas do cartão =====
+   Base no 006; remendos: 052, 053, 061, 072, 112. O 108 troca fitTrack por um instante durante carregarMais (lá embaixo). */
+function ft204Base(t){const w=t.clientWidth;if(w)t.style.setProperty("--slh",(t.closest&&t.closest(".vn-cn")?Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6))):Math.max(300,Math.round(Math.min(w*1.25,innerHeight*0.7))))+"px");t.querySelectorAll(".txs:not(.aberto)").forEach(x=>x.classList.toggle("ovf",x.scrollHeight>x.clientHeight+6));const i=Math.max(0,Math.round(t.scrollLeft/Math.max(1,w)));const s=t.children[i];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px";return i}
+function fitTrack(t){
+  const r=ft204Base(t);
+  if(!FD204_PRONTA)return r;
+  /* 052: páginas de altura fixa */
+  if(t&&t.closest&&t.closest(".post")){if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(()=>paginarTrack(t));else paginarTrack(t)}
+  /* 053: carrossel social */
+  if(t&&t.closest&&t.closest(".post")){const go=()=>ssCaber(t);if(document.fonts&&document.fonts.status!=="loaded")document.fonts.ready.then(go);else go()}
+  /* 061: pontinhos das páginas */
+  try{if(t&&t.closest&&t.closest(".post"))pgDots(t)}catch(e){}
+  /* 072: proporção da foto do post */
+  try{const a=t.closest&&t.closest(".upost.up-ar"),ar=a&&+a.dataset.ar,w=t.clientWidth;if(ar&&w){t.style.setProperty("--slh",Math.round(w/ar)+"px");const s=t.children[r];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}catch(e){}
+  /* 112: mídia mais baixa no cartão da notícia */
+  try{const c=t&&t.closest&&t.closest(".vn-c");if(c&&c.classList.contains("vn-cn")){const w=t.clientWidth;if(w){t.style.setProperty("--slh",Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6)))+"px");try{if(typeof ssCaber==="function")ssCaber(t)}catch(e){}const s=t.children[r|0];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}}catch(e){}
+  return r}
+
+/* ===== updateSocial: curtidas, comentários e amigos no cartão =====
+   Base no 006; remendos: 058, 060, 081, 099, 102, 104-correcoes-feed, 112, 123, 156. */
+function us204Base(pid){
+  const sa=$("#s-acts");if(sa&&sa.dataset.pid===pid)sa.innerHTML=storyActs(pid);
+  const el=document.getElementById("p-"+pid);if(!el)return;
+  const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid)),others=likes.filter(u=>u!==S.uid);
+  const lb=el.querySelector('[data-a="like"]');lb.classList.toggle("on",mine);lb.setAttribute("aria-pressed",String(mine));
+  el.querySelector('[data-n="like"]').textContent="";
+  el.querySelector('[data-n="cmt"]').textContent="";
+  const sb=el.querySelector('[data-a="save"]'),sv=!!S.salvos[pid];sb.classList.toggle("saved",sv);sb.setAttribute("aria-pressed",String(sv));
+  let lt="";const n1=others[0]?`<b>${esc(nomeDe(others[0]))}</b>`:"";
+  if(mine&&others.length===1)lt=`<b>Você</b> e ${n1} gostaram`;
+  else if(mine&&others.length>1)lt=`<b>Você</b> e mais ${others.length} gostaram`;
+  else if(others.length===1)lt=`${n1} gostou`;
+  else if(others.length>1)lt=`${n1} e mais ${others.length-1} gostaram`;
+  {const lk=el.querySelector("[data-likes]");lk.innerHTML=lt;if(lt){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}else{delete lk.dataset.a;lk.removeAttribute("role");lk.removeAttribute("tabindex")}}
+  const pp=pautaById(pid);if(pp){const pl=el.querySelector("[data-poll]");if(pl){const eh=enqueteHTML(pp);pl.innerHTML=eh?`<span class="pb-l">Enquete</span>${eh}`:""}}
+  {const ot=el.querySelector("[data-otr]");if(ot){const at=atividadeAmigos(pid);
+    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("gostou")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
+    else if(at.length>1)ot.innerHTML=`<span class="otr" role="button" tabindex="0" data-otrs="${esc(pid)}" aria-label="${esc(at.length+" amigos nesta notícia")}">${avatares(at.map(x=>x.u))}${at.length} amigos</span>`;
+    else ot.innerHTML=""}}
+  {const nc=el.querySelector("[data-nchat]");if(nc){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto);const u=ms[ms.length-1];nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}}
+  el.querySelector("[data-together]").innerHTML="";
+  el.querySelector("[data-cmts]").innerHTML=(cm.length>2?`<button type="button" class="link" data-a="cmt">Ver os ${cm.length} comentários</button>`:"")+cm.slice(-2).map(c=>`<div class="cmt" data-a="cmt" role="button" tabindex="0"><b>${esc(nomeDe(c.uid))}</b>${esc(c.texto)}</div>`).join("");
+}
+function updateSocial(pid){
+  if(!FD204_PRONTA)return us204Base(pid);
+  /* 060: com o story aberto, a curtida do story é posta no lugar (sem redesenhar a barra) */
+  const sa=$("#layer #s-acts");let tirou=false;if(sa&&sa.dataset.pid===pid&&sa.querySelector('[data-a="like"]')){sa.dataset.pid="";tirou=true}
+  let r;try{r=us204Base(pid);
+    /* 058: contador de comentários no story */
+    try{const w=$("#layer .sg-f2");if(w&&w.dataset.pid===pid){const c=w.querySelector(".sg-ccw");if(c)c.innerHTML=igCmtChip(pid)}}catch(e){}
+  }finally{if(tirou){sa.dataset.pid=pid;igLikeNoLugar(pid)}}
+  /* 081: post sem curtidas não mostra amigos */
+  try{const el=document.getElementById("p-"+pid);if(el&&el.classList.contains("sem-curt")){const o=el.querySelector("[data-otr]");if(o)o.innerHTML=""}}catch(e){}
+  /* 099 */
+  try{vp99Social(pid)}catch(e){}
+  /* 102: enquete do post */
+  try{const m=/^u:(.+)$/.exec(String(pid||""));if(m&&document.querySelector(`.cn102-enq[data-cn102enq="${CSS.escape(m[1])}"]`))cn102EnqRedesenha(m[1])}catch(e){}
+  /* 104 */
+  try{fd104Curtidas(pid)}catch(e){}
+  /* 112 */
+  vn112Social(pid);
+  /* 123: coluna aberta */
+  try{if(CS123.ler&&pid==="u:"+CS123.ler.id)cs123FimAtualiza()}catch(e){}
+  /* 156 */
+  fd156Curtidas(pid);
+  return r}
+
+/* ===== renderPosts: a lista do Feed =====
+   Base no 006; remendos: 068 (posts dos amigos na lista), 113, 115, 118, 121, 156, 159, 167, 186. */
+function rp204Base(manter){
+  AUTO=autoPesos();
+  let lista=listaFeed();
+  const novas=lista.filter(p=>NOVAS.has(p.id)&&!LIDAS.has(p.id)).length+lista.filter(p=>ATUALIZADAS.has(p.id)).length;
+  let h="";
+  if(FILTRO!=="tudo"){h+=`<div class="sech gut"><i style="background:${FILTRO[0]==="_"?"var(--bronze)":secCor(FILTRO)}"></i><h4>${esc(nomeFiltro(FILTRO))}</h4><button type="button" class="vertudo" data-filtro="tudo">Ver tudo ✕</button><span>${lista.length} ${lista.length===1?"notícia":"notícias"}${FILTRO==="politica"&&FEED.contagem?" · "+esc(FEED.contagem):""}</span></div>`;h+=secHub(FILTRO)}
+  NOVID=lista.filter(p=>(NOVAS.has(p.id)&&!LIDAS.has(p.id))||ATUALIZADAS.has(p.id)).map(p=>p.id);
+  if(novas)h+=`<button type="button" class="newbar gut" data-novidades><span class="nb-d"></span>${novas} ${novas===1?"novidade":"novidades"} desde a sua última visita${VISITA0&&hhmm(VISITA0)?` (${esc(diaHora(VISITA0))})`:""}<span class="chev" aria-hidden="true">›</span></button>`;
+  if(FILTRO==="tudo"){const u=urgHTML("urg-f");if(u)h=`<div class="gut">${u}</div>`+h}h+=cobSegStrip();
+  LOTE={lista,pos:Math.min(manter?Math.max(6,LOTE.pos||0):6,lista.length)};h=avisoAtraso()+h+lista.slice(0,LOTE.pos).map(postSeguro).join("")+(LOTE.pos<lista.length?`<div id="mais" class="empty" style="padding:24px">Carregando mais notícias…</div>`:"");
+  $("#posts").innerHTML=lista.length?h:`${h}<div class="empty"><b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Nada do que você segue nesta edição":FILTRO[0]==="_"?"Nada por aqui ainda":"Nenhuma notícia nesta seção agora"}</b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Siga uma cobertura (botão Seguir) ou escolha o seu time em Esportes. Para ver tudo, mude a ordem no filtro.":FILTRO[0]==="_"?"Quando isso mudar, as notícias aparecem aqui.":""}<button type="button" class="btn ghost" data-filtro="tudo" style="margin-top:10px">Ver todas as notícias</button></div>`;
+  lista.slice(0,LOTE.pos).forEach(p=>updateSocial(p.id));wireTracks($("#posts"));observarMais();
+  renderChgBox();
+  const br=FILTRO[0]==="_"?[]:(FEED.breves||[]).filter(b=>(FILTRO==="tudo"&&!(PREF.ocultas||[]).includes(b.secao||"politica"))||(b.secao||"politica")===FILTRO);
+  const at=new Date(FEED.atualizado_em);
+  $("#extra").innerHTML=`<div class="done gut" id="emdia"></div>${br.length?`<div class="sec gut"><h4>Outras notícias</h4><ul class="brv">${(window.BREVES=br,br).map((b,bi)=>`<li><button type="button" class="brv-b" data-breve="${bi}">${b.urgente&&tms(b.hora)&&Date.now()-tms(b.hora)<3*3600e3?`<em class="ug">Urgente</em>`:""}${esc(b.titulo)}</button><span>${esc(secNome(b.secao||"politica"))} · ${esc(nomeFonte(b.fonte))}</span></li>`).join("")}</ul></div>`:""}
+  <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}.</b> A edição completa sai às 6h52 e é atualizada de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48; manchetes e indicadores são conferidos de hora em hora.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As fotos vêm de acervos de uso livre, sempre com crédito (Agência Brasil, Senado, Câmara e Wikimedia Commons); quando não há foto, o Prumo usa um desenho.</p></div>`;
+  atualizarEmDia();
+}
+function renderPosts(manter){
+  if(!FD204_PRONTA)return rp204Base.apply(this,arguments);
+  /* 186 */
+  nm186EmDia();
+  let r;
+  /* 113: prateleiras uma vez por desenho; 068: listaFeed passa por pubMistura durante o desenho */
+  F113_SH_LIGA=true;try{const lf=listaFeed;listaFeed=function(){return pubMistura(lf.apply(this,arguments))};try{r=rp204Base.apply(this,arguments)}finally{listaFeed=lf}}finally{F113_SH_LIGA=false}
+  /* 115 (VN_FASE2, sempre ligado) */
+  try{rb115CtxFeed()}catch(e){}
+  /* 118: placar */
+  try{po118NoFeed()}catch(e){}
+  /* 121: só em navegador sem contentvisibilityautostatechange */
+  if(FD204_VIGIA121)try{FD204_VIGIA121()}catch(e){}
+  /* 156 */
+  fd156Mais();
+  /* 159 */
+  try{ca159VerTudo()}catch(e){}
+  /* 167 */
+  fd167Rodape();fd167BreveHora();fd167Curtir(document.getElementById("posts"));
+  return r}
+
+/* ===== carregarMais: o próximo lote do Feed ao rolar =====
+   Base no 026; remendos: 103, 108, 115, 118, 121, 148, 156. */
+function cm204Base(sync){
+  const m=$("#mais");if(!m)return;const prox=LOTE.lista.slice(LOTE.pos,LOTE.pos+(sync?6:LOTE_PASSO));LOTE.pos+=prox.length;
+  const tmp=document.createElement("div");tmp.innerHTML=prox.map(postSeguro).join("");const frag=[...tmp.children];
+  frag.forEach(el=>m.before(el));prox.forEach(p=>updateSocial(p.id));frag.forEach(el=>wireTracks(el));
+  if(LOTE.pos>=LOTE.lista.length){moreIO?.unobserve(m);m.remove();return}
+  if(!sync)requestAnimationFrame(()=>{const r=m.getBoundingClientRect();if(r.top<innerHeight+600)carregarMais()});
+}
+function carregarMais(sync){
+  const r=(()=>{
+    /* 103: Feed escondido não carrega */
+    if(!sync){const v=document.getElementById("v-feed");if(v&&v.hidden)return}
+    /* 108: no lote novo, fitTrack só reserva a altura (troca por um instante, como antes: t_qa_producao2 conta as medidas
+       pela variável global fitTrack); o resto vem quando o trilho aparece */
+    if(sync||typeof FIT_IO==="undefined"||!FIT_IO)return cm204Base.apply(this,arguments);const ft=fitTrack;
+    fitTrack=function(t){if(t&&t.classList&&t.classList.contains("track")){fit108Poe(t);return 0}return ft.apply(this,arguments)};try{return cm204Base.apply(this,arguments)}finally{fitTrack=ft}})();
+  /* 115 (VN_FASE2, sempre ligado) */
+  try{rb115CtxFeed()}catch(e){}
+  /* 118 */
+  try{po118NoFeed()}catch(e){}
+  /* 121 */
+  if(FD204_VIGIA121)try{FD204_VIGIA121()}catch(e){}
+  /* 148: o próximo lote vem na tarefa seguinte */
+  if(!sync)try{lt148Emenda()}catch(e){}
+  /* 156 */
+  fd156Mais();
+  return r}
+
+/* ===== openComments: a folha de comentários =====
+   Base no 008; remendos: 067, 099, 108, 109, 126, 134, 156 (2×), 167. */
+function oc204Base(pid){uso("comentarios");
+  const draw=()=>{const {cm}=socialOf(pid);return cm.length?`<ul class="clist">${cm.map(c=>`<li>${avatar(c.uid)}<div><span><b>${esc(nomeDe(c.uid))}</b>${typeof debVotoChip==="function"?debVotoChip(pid,c.uid):""} ${esc(c.texto)}</span><i>${esc(quando(c.at))}<button type="button" class="c-a" data-resp="${esc(nomeDe(c.uid))}">Responder</button>${c.uid===S.uid||(typeof cmDono==="function"&&cmDono(pid))?`<button type="button" class="c-a" data-apagar="${esc(c.id)}" data-au="${esc(c.uid)}">Apagar</button>`:""}${c.uid!==S.uid?`<button type="button" class="c-a" data-denc="${esc(c.id)}" data-du="${esc(c.uid)}" data-dp="${esc(pid)}">Denunciar</button>`:""}</i></div></li>`).join("")}</ul>`:`<div class="empty" style="padding:18px 0"><b>Nenhum comentário ainda</b>Escreva o primeiro.</div>`};
+  const n=socialOf(pid).cm.length;
+  sheet(n?`Comentários (${n})`:"Comentários",`${typeof debCab==="function"?debCab(pid):""}<div id="cbox">${draw()}</div>`,`<form id="cform" class="cform">${S.uid?avatar(S.uid):""}<textarea class="field" id="ctext" rows="1" maxlength="600" autocomplete="off" enterkeyhint="send" placeholder="Escreva um comentário…" aria-label="Comentário"></textarea><button class="sendc" type="submit" aria-label="Publicar" disabled><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></form>`,{focus:!n});
+  const box=()=>$("#cbox"),toEnd=()=>{const b=$(".sheet .sh-b");if(b)b.scrollTop=b.scrollHeight};toEnd();
+  const inp=$("#ctext"),btn=$("#cform .sendc");inp.addEventListener("input",()=>{btn.disabled=!inp.value.trim()});
+  let assin=JSON.stringify(socialOf(pid).cm.map(c=>c.id+c.texto));S._reCmt=forca=>{const b=box();if(!b)return;const k=JSON.stringify(socialOf(pid).cm.map(c=>c.id+c.texto));if(k===assin&&!forca)return;assin=k;const sb=$(".sheet .sh-b");const perto=sb&&sb.scrollHeight-sb.scrollTop-sb.clientHeight<90;b.innerHTML=draw();if(perto)toEnd();const nn=socialOf(pid).cm.length,hh=$(".sheet .sh-h");if(hh&&hh.firstChild&&hh.firstChild.nodeType===3)hh.firstChild.textContent=nn?`Comentários (${nn})`:"Comentários"};onClose=()=>{S._reCmt=null};
+  box().addEventListener("click",async e=>{const r=e.target.closest("[data-resp]");if(r){inp.value="@"+r.dataset.resp+" ";btn.disabled=false;inp.focus();return}
+    const ap=e.target.closest("[data-apagar]");if(ap){if(!ap.classList.contains("conf")){ap.classList.add("conf");ap.textContent="Toque de novo para apagar";return}
+      const cid=ap.dataset.apagar,au=ap.dataset.au||S.uid;CPEND[au+"\u0001"+cid]={v:null,t:Date.now()};S.cmts=montarCmts(S._cmtDocs);
+      S._reCmt&&S._reCmt(true);updateSocial(pid);
+      try{await gravarMapa("comentarios/"+S.uid,"itens",cid,null)}catch(err){delete CPEND[au+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);toast("Não deu para apagar agora.")}}});
+  $("#cform").addEventListener("submit",async e=>{e.preventDefault();const t=inp.value.trim();if(!t||precisaConta())return;inp.value="";btn.disabled=true;inp.focus();
+    const cid=Date.now().toString(36)+Math.random().toString(36).slice(2,6),c={uid:S.uid,texto:t,at:Date.now()};
+    const sn=snapById(pid);const v={pid,texto:t,at:c.at,snap:sn?{id:pid,titulo:sn.titulo||"",secao:sn.secao||""}:{id:pid}};
+    CPEND[S.uid+"\u0001"+cid]={v,t:Date.now()};S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);toEnd();updateSocial(pid);
+    try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v)}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);S._reCmt&&S._reCmt(true);updateSocial(pid);const i=$("#ctext");if(i&&!i.value){i.value=t;const b=$("#cform .sendc");if(b)b.disabled=false}toast("O comentário não foi salvo. O texto voltou para a caixa.")}});
+}
+function openComments(pid){
+  /* 167, 156 e 067: antes de abrir */
+  FD167_RESP=null;FD156_PID=pid;CMT_PID=pid;
+  const r=oc204Base.apply(this,arguments);
+  /* 099 */
+  try{vp99Cmts()}catch(e){}
+  /* 108: rascunho do comentário */
+  try{rs108Poe($("#ctext"),"cm:"+pid)}catch(e){}
+  /* 109: comentários pelo SQL v8 */
+  try{CC8.pid=pid;if(V8.on){const f=S._reCmt;if(f)S._reCmt=function(){const x=f.apply(this,arguments);cc8Pinta();return x};cc8Pinta();if(Date.now()-CC8.t>800)cc8Carregar()}}catch(e){}
+  /* 126: marca as notificações deste comentário como vistas */
+  try{const id=String(pid||"");
+    if(/^u:/.test(id)){const pub=id.slice(2);qb126MarcaDepois(x=>(x.pub===pub&&nt124Cat(x)==="comentarios")||String(x.k).indexOf("cc8:"+pub+"|")===0)}
+    else if(id)qb126MarcaDepois(x=>(x.pid===id&&nt124Cat(x)==="comentarios")||x.cpid===id||(x.msg&&x.msg.pid===id))}catch(e){}
+  /* 134: coluna de leitor */
+  try{const m=/^u:(.+)$/.exec(String(pid||"")),x=m&&pubDe(m[1]);
+  if(x&&cs123Col(x)){LT134.cpid=pid;const rc=S._reCmt;if(rc)S._reCmt=function(){const q=rc.apply(this,arguments);try{lt134CmDecora()}catch(e){}return q};lt134CmDecora();lt134DestCarrega(x.id)}else LT134.cpid=null}catch(e){}
+  /* 156 */
+  try{fd156Comentarios()}catch(e){}
+  /* 167 */
+  try{fd167Pend();fd167SemMencao();const i=document.getElementById("ctext");if(i&&FD167_TOQUE)i.setAttribute("enterkeyhint","enter")}catch(e){}
+  return r}
+
+/* ===== menSugere: sugestões de @menção =====
+   Base no 067; remendos: 072, 081, 111, 145, 155. */
+function ms204Base(i){const tk=menToken(i);if(!tk||!S.uid||!S.membro){menFecha();return}const n=norm(tk.q);const l=amigosL().filter(u=>!n||norm(nomeDe(u)).split(/\s+/).some(w=>w.startsWith(n))||norm(nomeDe(u)).startsWith(n)).slice(0,5);
+  if(!l.length){menFecha();return}if(!MEN_BOX){MEN_BOX=document.createElement("div");MEN_BOX.className="men-box";MEN_BOX.setAttribute("role","listbox");document.body.appendChild(MEN_BOX)}MEN_INP=i;
+  MEN_BOX.innerHTML=l.map(u=>`<button type="button" role="option" data-men="${esc(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span></button>`).join("");
+  const r=i.getBoundingClientRect();MEN_BOX.style.left=Math.max(8,r.left)+"px";MEN_BOX.style.width=Math.min(innerWidth-16,Math.max(220,r.width))+"px";MEN_BOX.style.bottom=(innerHeight-r.top+6)+"px"}
+function menSugere(i){
+  const r=ms204Base(i);
+  /* 072: sem espaço em cima, a lista abre embaixo */
+  try{if(MEN_BOX&&MEN_BOX.isConnected&&MEN_INP===i){const b=MEN_BOX.getBoundingClientRect(),q=i.getBoundingClientRect();if(b.top<8){MEN_BOX.style.bottom="auto";MEN_BOX.style.top=(q.bottom+6)+"px"}else MEN_BOX.style.top=""}}catch(e){}
+  /* 081: comentário de post: só quem pode ver o post */
+  try{if(i&&i.id==="ctext"&&String(CMT_PID||"").indexOf("u:")===0&&MEN_BOX){const x=pubDe(String(CMT_PID).slice(2));if(x){const pode=pubPodeVer(x);MEN_BOX.querySelectorAll("[data-men]").forEach(b=>{if(!pode.has(b.dataset.men))b.remove()});if(!MEN_BOX.querySelector("[data-men]"))menFecha()}}}catch(e){}
+  /* 111: hashtags */
+  try{htSugere(i)}catch(e){}
+  /* 145: na legenda do criar, a lista fica logo abaixo do campo */
+  try{if(MEN_BOX&&MEN_BOX.isConnected&&MEN_INP===i&&i.id==="ce-leg"){MEN_BOX.classList.add("men-in145");MEN_BOX.style.left=MEN_BOX.style.top=MEN_BOX.style.bottom=MEN_BOX.style.width="";if(i.nextElementSibling!==MEN_BOX)i.insertAdjacentElement("afterend",MEN_BOX)}}catch(e){}
+  /* 155 */
+  try{if(MEN_BOX&&MEN_BOX.isConnected&&MEN_INP===i&&i.id==="cp152-tx"){MEN_BOX.classList.add("men-in145","cr155-men");MEN_BOX.style.left=MEN_BOX.style.top=MEN_BOX.style.bottom=MEN_BOX.style.width="";if(i.nextElementSibling!==MEN_BOX)i.insertAdjacentElement("afterend",MEN_BOX)}}catch(e){}
+  return r}
+
+/* ===== renderSecs: os círculos do topo do Feed (Em 5 min, Últimas, seções, destaques, giros dos amigos) =====
+   Base no 005 (vale só na carga, como antes: o 029 desenha o topo antes dos complementos). Depois da carga vale o desenho
+   do 054 (que trocou a base inteira; o 051 que vinha antes dele não chegava a rodar e saiu), com os remendos 055, 056,
+   058, 060, 068, 074, 086, 093, 101, 102, 104-correcoes-stories, 107, 112 e 156, de dentro para fora.
+   Continuam por fora: igPrevia (058) e RF_REAL (151) trocam renderSecs por um instante, como antes. */
+function rs204Base(){
+  $("#secs").innerHTML=secsStory().map(s=>{const ps=pautasDa(s.id);if(!ps.length)return "";const flags=ps.map(p=>SEEN.has(seenKey(p)));const first=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
+    const nn=flags.filter(f=>!f).length;
+    return `<button type="button" class="sb" data-sec-story="${esc(s.id)}" aria-label="${esc(s.nome)}: ${ps.length} notícias${nn?", "+nn+" não vistas":""}"><span class="wrap">${ringSvg(s.id,flags)}<span class="face paper" data-sec="${esc(s.id)}">${svgOf(first.imagem)}${faceFoto(first)}</span>${nn?`<span class="ncount" style="background:${secCor(s.id)}">${nn}</span>`:""}</span><b>${esc(s.nome)}</b></button>`}).join("");
+  const fl=$("#filters");fl.hidden=true;fl.innerHTML="";const bf=$("#b-filtro");if(bf)bf.setAttribute("aria-pressed",String(FILTRO!=="tudo"));
+}
+function renderSecs(){
+  if(!FD204_PRONTA)return rs204Base.apply(this,arguments);
+  /* 054: topo no estilo Instagram */
+  const c054=()=>{const box=$("#secs");if(!box||!FEED)return;let h="";
+  if($("#b-5min"))h+=igCirc('data-5min',"ig-5",`<span class="ig-5c"><b>5</b><small>min</small></span>`,"Em 5 min","O dia em 5 minutos");
+  try{const it=tickerItens(15);if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
+  h+=secsStory().map(s=>{const ps=pautasDa(s.id);if(!ps.length)return "";const nn=ps.filter(p=>!SEEN.has(seenKey(p))).length;const first=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
+    return `<button type="button" class="sb ig-s" data-sec-story="${esc(s.id)}" aria-label="${esc(s.nome)}: ${ps.length} notícias${nn?", "+nn+" não vistas":""}"><span class="ig-r${nn?"":" visto"}" style="--c:${secCor(s.id)}"><span class="ig-f paper" data-sec="${esc(s.id)}">${igFace(first)}</span></span><b>${esc(s.nome)}</b></button>`}).join("");
+  try{const {H,P}=igAgendaItens();if(H.length||P.length){const d=new Date(hojeSP()+"T12:00:00Z");const wd=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"UTC"}).replace(".","");
+    h+=igCirc('data-igagenda',"ig-ag"+(H.length?"":" visto"),`<span class="ig-agc"><small>${esc(wd)}</small><b>${d.getUTCDate()}</b></span>`,"Agenda",`Agenda: ${H.length} hoje, ${P.length} nos próximos dias`)}}catch(e){}
+  box.innerHTML=h;box.classList.add("ig");
+  const fl=$("#filters");if(fl){fl.hidden=true;fl.innerHTML=""}const bf=$("#b-filtro");if(bf)bf.setAttribute("aria-pressed",String(FILTRO!=="tudo"))};
+  /* 055: Em 5 min e Últimas ficam "vistos" */
+  const c055=()=>{const r=c054();try{
+  const c=$("#secs [data-5min] .ig-r");if(c)c.classList.toggle("visto",!ordenadas(visiveis()).some(p=>!lidaAtual(p)));
+  const u=$("#secs [data-ultimas] .ig-r");if(u)u.classList.toggle("visto",tickerItens(15).every(i=>ULT_VISTOS.has(ultKey(i))));
+  }catch(e){}return r};
+  /* 056: Agenda logo depois do Em 5 min; a rolagem dos círculos fica onde estava */
+  const c056=()=>{const box=$("#secs");const x=box?box.scrollLeft:0;const r=c055();if(!box)return r;
+  try{const ag=box.querySelector("[data-igagenda]"),c5=box.querySelector("[data-5min]");if(ag){if(c5)c5.after(ag);else box.prepend(ag);ag.querySelector(".ig-r")?.classList.toggle("visto",agPaginas().every(p=>AG_VISTOS.has(p.chave)))}}catch(e){}
+  box.scrollLeft=x;return r};
+  /* 058: destaques no fim */
+  const c058=()=>{const r=c056();const box=$("#secs");if(!box||!FEED)return r;
+  try{box.querySelectorAll(".ig-div,[data-dest]").forEach(x=>x.remove());const ds=destaques();if(ds.length){const x=box.scrollLeft;
+    box.insertAdjacentHTML("beforeend",`<span class="ig-div" aria-hidden="true"></span>`+ds.map(p=>{const f=fotoDe(p);return `<button type="button" class="sb ig-s ig-dest" data-dest="${esc(p.id)}" aria-label="Destaque: ${esc(temaDe(p)||capaChapeu(p))}"><span class="ig-r dest${DEST_VISTOS.has(destChave(p))?" visto":""}"><span class="ig-f paper" data-sec="${esc(secOf(p))}">${f?`<img src="${escU(fotoMini(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(p.imagem)}</span></span><b>${esc(destNome(p))}</b></button>`}).join(""));box.scrollLeft=x}}catch(e){}return r};
+  /* 060: com um story aberto, o topo fica para depois (RS_PEND; o closeLayer do 201 redesenha) */
+  const c060=()=>{if($("#layer .story")){RS_PEND=true;return}RS_PEND=false;return c058()};
+  /* 068: Seu giro e os giros dos amigos no começo */
+  const c068=()=>{const r=c060();const box=$("#secs");if(!box||$("#layer .story")||!box.classList.contains("ig"))return r;
+  try{box.querySelectorAll("[data-meustory],[data-ustory]").forEach(x=>x.remove());if(!(S.uid&&S.membro&&PUB.on!==false))return r;const x0=box.scrollLeft;
+    const meus=pubStoriesDe(S.uid),av=u=>`<span class="ig-f up-avf">${avatar(u)}</span>`;
+    let h=`<button type="button" class="sb ig-s" data-meustory aria-label="${meus.length?"Seu giro":"Criar giro"}"><span class="ig-r${meus.length?(meus.every(x=>PUB_VISTOS.has(x.id))?" visto":""):" sem"}">${av(S.uid)}</span><i class="up-mais" data-criarde="story" role="button" aria-label="Criar giro">+</i><b>Seu giro</b></button>`;
+    h+=pubAutoresStory().map(a=>`<button type="button" class="sb ig-s" data-ustory="${esc(a.u)}" aria-label="Giro de ${esc(nomeDe(a.u))}"><span class="ig-r${a.novo?"":" visto"}" style="--c:${corDe(a.u)}">${av(a.u)}</span><b>${esc(String(nomeDe(a.u)).split(" ")[0])}</b></button>`).join("");
+    box.insertAdjacentHTML("afterbegin",h);box.scrollLeft=x0}catch(e){}return r};
+  /* 074: anel dos Melhores amigos */
+  const c074=()=>{const r=c068();try{document.querySelectorAll("#secs [data-ustory],#secs [data-meustory]").forEach(b=>{const u=b.dataset.ustory||S.uid;const xs=pubStoriesDe(u);const ult=xs[xs.length-1];
+  b.querySelector(".ig-r")?.classList.toggle("ma",!!ult&&ult.publico==="proximos")})}catch(e){}return r};
+  /* 086: Sua semana */
+  const c086=()=>{const r=c074();try{const box=$("#secs");if(!box||!FEED||box.querySelector("[data-semana]")||!S.uid||!S.membro||!semMostra())return r;
+  const n=semDados().l.length;let vis=false;try{vis=localStorage.getItem("prumo-sem-visto")===semChave()}catch(e){}
+  const h=igCirc('data-semana',"ig-sem"+(vis?" visto":""),`<span class="ig-semc"><b>${n}</b><small>lidas</small></span>`,"Sua semana","Resumo da sua semana");
+  const c5=box.querySelector("[data-5min]");if(c5)c5.insertAdjacentHTML("afterend",h);else box.insertAdjacentHTML("afterbegin",h)}catch(e){}return r};
+  /* 093: fila de publicação */
+  const c093=()=>{const r=c086();try{if(PQ.jobs.length){pqBox();pqAtualiza()}}catch(e){}return r};
+  /* 101: Agenda e Sua semana saem do topo */
+  const c101=()=>{const r=c093();
+  try{const box=$("#secs");if(box)box.querySelectorAll("[data-igagenda],[data-semana]").forEach(b=>{const sb=b.closest(".sb")||b;sb.remove()})}catch(e){}return r};
+  /* 102: barra de publicar */
+  const c102=()=>{const r=c101();try{cn102Barra()}catch(e){}return r};
+  /* 104 */
+  const c104=()=>{const r=c102();try{document.querySelectorAll("#secs [data-ustory]").forEach(b=>{const xs=pubStoriesDe(b.dataset.ustory);
+  if(xs.some(x=>x.publico==="proximos"&&!PUB_VISTOS.has(x.id)))b.querySelector(".ig-r")?.classList.add("ma")})}catch(e){}return r};
+  /* 107 */
+  const c107=()=>{const r=c104();try{fc107Tray()}catch(e){}return r};
+  /* 112 */
+  const c112=()=>{const r=c107();try{vn112Tiles()}catch(e){console.error(e)}return r};
+  /* 156 */
+  const r=c112();fd156Rotulos();return r}
+
+/* ===== stories do topo do Feed (círculos de notícia, Em 5 min, Últimas, Agenda, destaques, giros dos amigos) =====
+   Só o que o topo do Feed abre; criar giro continua onde estava. */
+/* igLista: as páginas de um círculo. Base no 055; remendos: 056, 058 (2×), 068, 086. */
+function il204Base(sec){
+  if(sec==="_5min"){const ps=cincoLista();return {ps,itens:null}}
+  if(sec==="_ult"){const it=tickerItens(15).filter(i=>pautaById(i.pid));return {ps:it.map(i=>pautaById(i.pid)),itens:it}}
+  return {ps:pautasDa(sec),itens:null}}
+function igLista(sec){
+  /* 086: Sua semana */
+  if(sec==="_sem"){const fr=semFrames();return {ps:fr,itens:fr}}
+  /* 068: giro de um membro */
+  if(String(sec).indexOf("_u:")===0){const fr=pubStoriesDe(sec.slice(3));return {ps:fr,itens:fr}}
+  /* 058: destaque (capa e marcos) */
+  if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));if(!p)return {ps:[],itens:[]};const m=destMarcos(p)||[];
+  const fr=[{id:"h0",tipo:"capa",p,n:m.length}].concat(m.map((x,k)=>({id:"h"+(k+1),tipo:"marco",p,m:x,k,n:m.length})));return {ps:fr,itens:fr}}
+  /* 056: Agenda; base */
+  const r=(()=>{if(sec==="_ag"){const pg=agPaginas();return {ps:pg,itens:pg}}return il204Base(sec)})();
+  /* 058: telas de gráfico no meio das notícias */
+  if(sec==="_ult"||sec==="_ag"||String(sec).indexOf("_h:")===0)return r;return {ps:igComVis(r.ps),itens:r.itens}}
+
+/* igNomeSt: o nome no alto do story. Base no 055; remendos: 056, 058, 068, 084, 086. */
+function in204Base(sec){return sec==="_5min"?"Em 5 min":sec==="_ult"?"Últimas":secNome(sec)}
+function igNomeSt(sec){
+  /* 086 */ if(sec==="_sem")return "Sua semana";
+  /* 084: destaque de giro */ if(String(sec).indexOf("_u:~")===0)return (ST&&ST._nome)||"Giro";
+  /* 068 */ if(String(sec).indexOf("_u:")===0){const u=sec.slice(3);return u===S.uid?"Seu giro":nomeDe(u)}
+  /* 058 */ if(String(sec).indexOf("_h:")===0){const p=pautaById(sec.slice(3));return p?temaDe(p)||capaChapeu(p):"Destaque"}
+  /* 056 */ return sec==="_ag"?"Agenda":in204Base(sec)}
+
+/* storyOrdem: a ordem dos círculos ao passar de um para o outro. A base do 007 e a troca do 055 foram trocadas pela do 056
+   (que é a que vale aqui); remendos: 058, 068, 080, 084, 086, 104-correcoes-stories (2×). */
+function storyOrdem(){
+  /* 056: Em 5 min, Agenda, Últimas e as seções */
+  const c056=()=>{const base=(ST&&ST.ordem&&ST.ordem.length?ST.ordem:secsStory().map(s=>s.id)).filter(id=>pautasDa(id).length);
+  const v=[];if(cincoLista().length)v.push("_5min");if(agPaginas().length)v.push("_ag");try{if(tickerItens(15).length)v.push("_ult")}catch(e){}return v.concat(base)};
+  /* 058: destaque aberto sozinho */
+  const c058=()=>{if(ST&&ST.sec&&String(ST.sec).indexOf("_h:")===0)return [ST.sec];return c056()};
+  /* 068: giros primeiro */
+  const c068=()=>{const L=c058();if(ST&&String(ST.sec||"").indexOf("_h:")===0)return L;if(!(S.uid&&S.membro&&PUB.on))return L;
+  const us=(pubStoriesDe(S.uid).length?["_u:"+S.uid]:[]).concat(pubAutoresStory().map(a=>"_u:"+a.u));return us.concat(L.filter(x=>String(x).indexOf("_u:")!==0))};
+  /* 080: a ordem dos giros fica a da abertura */
+  const c080=()=>{const L=c068();if(!ST||String(ST.sec||"").indexOf("_h:")===0)return L;if(!ST._uord)ST._uord=L.filter(x=>String(x).indexOf("_u:")===0);
+  const vivos=ST._uord.filter(x=>x===ST.sec||(pubStoriesDe(String(x).slice(3)).length>0));return vivos.concat(L.filter(x=>String(x).indexOf("_u:")!==0))};
+  /* 084: destaque de giro aberto sozinho */
+  const c084=()=>{if(ST&&String(ST.sec||"").indexOf("_u:~")===0)return [ST.sec];return c080()};
+  /* 086: Sua semana sozinha */
+  const c086=()=>{if(ST&&ST.sec==="_sem")return ["_sem"];return c084()};
+  /* 104: giros na ordem dos círculos do topo */
+  const c104=()=>{const novo=!!(ST&&!ST._uord);const L=c086();
+  try{if(novo&&ST&&ST._uord&&String(ST.sec||"").indexOf("_u:")===0&&String(ST.sec).indexOf("_u:~")!==0){
+    const tr=[...document.querySelectorAll("#secs [data-ustory]")].map(b=>"_u:"+b.dataset.ustory);
+    if(tr.includes(ST.sec)){const pos=x=>{const k=tr.indexOf(x);return k<0?1e3:k};const u=ST._uord.slice().sort((a,b)=>pos(a)-pos(b));
+      if(ST._uord[0]==="_u:"+S.uid&&u[0]!==ST._uord[0]){u.splice(u.indexOf(ST._uord[0]),1);u.unshift(ST._uord[0])}
+      ST._uord=u;return c086()}}}catch(e){}return L};
+  /* 104: Em 5 min e Agenda juntos */
+  const L=c104();
+  try{if(SS104_GRUPO&&ST&&L.includes("_5min")&&L.includes("_ag")&&typeof bt101Cinco==="function"&&bt101Cinco())return L.filter(x=>x!==(ST.sec==="_ag"?"_5min":"_ag"))}catch(e){}return L}
+
+/* drawStory: desenha a página do story. A base do 007 e a troca do 054 foram trocadas pela do 055 (a que vale aqui);
+   remendos: 056, 058, 068, 086, 098, 101. */
+function drawStory(anim){
+  /* 055: notícia (também Em 5 min e Últimas) */
+  const c055=()=>{
+  const ps=stPs(),p=ps[ST.i];if(!p)return closeLayer();clearTimeout(ST.timer);const vazioS=!$("#layer").innerHTML;
+  SEEN.add(seenKey(p));lsSet("radar-vistos",[...SEEN].slice(-400));marcarLida(p.id);
+  const vsec=ST.sec,virt=vsec==="_5min"||vsec==="_ult",it=vsec==="_ult"&&ST.itens?ST.itens[ST.i]:null;
+  if(it){ULT_VISTOS.add(ultKey(it));try{localStorage.setItem("prumo-ult-vistos",JSON.stringify([...ULT_VISTOS].slice(-200)))}catch(e){}}
+  const L=lente(),v=versao(p,L),psec=secOf(p),cor=secCor(psec),f=fotoDe(p);
+  const tit=it&&it.txt?it.txt:v.titulo;
+  let lin=igLinhas(p,L);if(it){lin=lin.filter(t=>norm(t)!==norm(tit));lin=lin.slice(0,3)}
+  let num=null;
+  const linHTML=lin.map((t0,k)=>{let t=t0;if(k===0&&!it){const n=ssNumero(t0);if(n&&t0.indexOf(n)===0){let r=t0.slice(n.length).replace(/^\s*:?\s*/,"");if(r.length>8){num=n;t=r.charAt(0).toUpperCase()+r.slice(1)}}}return `<li>${esc(t)}</li>`}).join("");
+  const hr=it?it.hora:(ultimaAtualizacao(p)||p.hora);
+  const sub=vsec==="_5min"?"":it?(hr&&hhmm(hr)?(dataSP(hr)===hojeSP()?"às "+hhmm(hr):horaDia(hr)):""):(hr?quando(hr):"");
+  const kick=it?(it.tag==="Nova"||it.tag==="Atualizada"?`${it.tag} · ${secNome(psec)}`:secNome(psec)):vsec==="_5min"?`${secNome(psec)} · ${capaChapeu(p)}`:capaChapeu(p);
+  const av=vsec==="_5min"?`<span class="ph-av sg-av sg-av5"><i>5</i></span>`:vsec==="_ult"?`<span class="ph-av sg-av sg-avu"><b></b></span>`:`<span class="ph-av sg-av" style="--c:${cor}"><i>${esc(secNome(vsec).charAt(0))}</i></span>`;
+  ST.palavras=(tit+" "+lin.join(" ")).split(/\s+/).length;
+  $("#layer").innerHTML=`<div class="story sg${f?" com-foto":""}${virt?" sg-v":""}" data-sec="${esc(virt?psec:vsec)}" style="--c:${cor}" role="dialog" aria-modal="true" aria-label="${esc(igNomeSt(vsec))}"><div class="story-in">
+    <div class="sg-bg paper" data-sec="${esc(psec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.story').classList.remove('com-foto');this.remove()">`:`<div class="sg-art">${svgOf(p.imagem)}</div>`}</div>
+    <div class="sg-sh"></div>
+    <div class="bars">${ps.map((_,k)=>`<i class="${k<ST.i||(k===ST.i&&!PREF.storyAuto)?"on":""}">${k===ST.i&&PREF.storyAuto?"<b></b>":""}</i>`).join("")}</div>
+    <div class="s-h">${av}<span class="sg-who"><b>${esc(igNomeSt(vsec))}</b>${sub?`<span>${esc(sub)}</span>`:""}</span><span class="s-hb"><button type="button" data-sauto aria-pressed="${!!PREF.storyAuto}" aria-label="${PREF.storyAuto?"Parar de passar sozinho":"Passar sozinho"}">${PREF.storyAuto?'<svg viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>'}</button><button type="button" data-close aria-label="Fechar">${ICON.close}</button></span></div>
+    <button type="button" class="tap l" data-sgo="-1" aria-label="Anterior"></button><button type="button" class="tap r" data-sgo="1" aria-label="Próxima"></button>
+    <div class="sg-body"><span class="sg-k">${esc(kick)}</span><h2>${esc(tit)}</h2>${num?`<b class="sg-n">${esc(num)}</b>`:""}${linHTML?`<ul class="sg-l">${linHTML}</ul>`:""}${f?credHTML(f.credito||"Foto de arquivo","sg-cr"):""}</div>
+    <div class="s-f sg-f" id="s-acts" data-pid="${esc(p.id)}">${storyActs(p.id)}</div>
+  </div></div>`;
+  igWire($("#layer .story"));if(vazioS&&pushH())HST++;storyAuto(p);
+  const si=$("#layer .story-in");if(anim&&si){si.classList.add(anim);si.addEventListener("animationend",()=>{si.classList.remove(anim);$("#layer .story")?.classList.remove("flipping")},{once:true});$("#layer .story").classList.add("flipping")}
+  igCaber();renderSecs()};
+  /* 056: Agenda; animação de entrada */
+  const c056=()=>{if(ST&&ST.sec==="_ag"){clearTimeout(ST.timer);return igDrawAgenda(anim)}const r=c055();igEntra();return r};
+  /* 058: destaque e telas de gráfico; rodapé e pré-carga */
+  const c058=()=>{if(ST&&String(ST.sec||"").indexOf("_h:")===0){clearTimeout(ST.timer);igDrawDest();igRodape();igPreCarrega();return}
+  if(ST&&ST.sec!=="_ag"){const p=stPs()[ST.i];if(p&&p.__vis){clearTimeout(ST.timer);igDrawVis(p);igRodape();igPreCarrega();return}}
+  const r=c056();igRodape();igPreCarrega();return r};
+  /* 068: giro de membro */
+  const c068=()=>{if(ST&&String(ST.sec||"").indexOf("_u:")===0){clearTimeout(ST.timer);return igDrawUser()}return c058()};
+  /* 086: Sua semana */
+  const c086=()=>{if(ST&&ST.sec==="_sem"){clearTimeout(ST.timer);semDraw();return}return c068()};
+  /* 098: cabeçalho */
+  const c098=()=>{const r=c086();try{vs98Cabecalho()}catch(e){}return r};
+  /* 101: barras do Em 5 min com a Agenda */
+  const r=c098();
+  try{if(ST&&ST.sec==="_5min"){const n=agPaginas().length,b=$("#layer .story .bars");if(n&&b&&!b.querySelector(".bt101"))b.insertAdjacentHTML("beforeend",Array.from({length:n},()=>`<i class="bt101"></i>`).join(""))}
+    else if(ST&&ST.sec==="_ag"&&bt101Cinco()){/* Agenda dentro do "Em 5 min": mesmo nome, mesmas barras */
+      const st=$("#layer .story.sg-ag");if(st){const n5=bt101N5(),b=st.querySelector(".bars");if(b&&n5)b.insertAdjacentHTML("afterbegin",Array.from({length:n5},()=>`<i class="on bt101"></i>`).join(""));
+        const w=st.querySelector(".sg-who b");if(w)w.textContent="Em 5 min";const s=st.querySelector(".sg-who span");if(s)s.textContent="Agenda · "+s.textContent;
+        const av=st.querySelector(".sg-avag");if(av){av.className="ph-av sg-av sg-av5";av.innerHTML="<i>5</i>"}
+        const nn=st.querySelector(".sga-n");if(nn)nn.textContent="";}}}catch(e){}return r}
+
+/* storyAuto: o story passa sozinho (tempo pela quantidade de palavras; segurar o dedo pausa). A base do 029 era trocada
+   inteira pela do 054 (que não chamava a anterior) e saiu; remendos: 058 (pausa enquanto digita um comentário) e 080
+   (vídeo de giro: o tempo é o do vídeo). O 077 também tratava vídeo, mas o 080 o chamava já sem o vídeo (ST.sec="__v"):
+   aquele ramo nunca rodava e saiu. */
+function storyAuto(p){
+  /* 054 */
+  const c054=()=>{const w=ST.palavras||20;const dur=Math.max(6000,Math.min(16000,1500+w/3.4*1000));
+  clearTimeout(ST.timer);if(!PREF.storyAuto)return;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);
+  const el=$("#layer .story");if(!el||el._auto)return;el._auto=true;
+  el.addEventListener("pointerdown",ev=>{if(ev.target.closest(".s-f,.s-h,.us-it"))return;if(!PREF.storyAuto||!ST.timer)return;clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,ST.fim-Date.now());const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"});
+  const volta=()=>{if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2").innerHTML)return;ST.fim=Date.now()+ST.resto;ST.timer=setTimeout(()=>storyGo(1),ST.resto);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"};
+  el.addEventListener("pointerup",volta);el.addEventListener("pointercancel",volta)};
+  /* 058 */
+  const c058=()=>{const r=c054();if(IG_DIG)igPausa();return r};
+  /* 080: vídeo de giro */
+  const x=ST.itens&&ST.itens[ST.i];const vid=x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0;
+  if(!vid)return c058();const pal=ST.palavras,sec=ST.sec;ST.palavras=1;ST.sec="__v";let r;try{r=c058()}finally{ST.palavras=pal;ST.sec=sec}
+  const dur=Math.max(2000,Math.min(31000,(+x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);ST.timer=0;if(!PREF.storyAuto)return r;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);return r}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários
@@ -21513,6 +21716,7 @@ function renderMeMiolo(){
 nucPronto();  /* 201-nucleo.js: go passa a fazer tudo (na carga o 031 abriu a Capa só com a parte de então) */
 cp200Pronta();  /* 200-capa.js: a Capa passa a desenhar com todos os acabamentos */
 cv203Pronta();  /* 203-conversas.js: allMsgs passa a valer com bloqueados, antigas carregadas e conversas apagadas */
+fd204Pronta();  /* 204-feed.js: as funções do Feed passam a fazer tudo (na carga o 029 desenhou o Feed só com a base) */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
 </body>

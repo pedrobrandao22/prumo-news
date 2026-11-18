@@ -36,8 +36,7 @@ if(typeof VN112_CT!=="undefined"&&VN112_CT==="a"&&typeof vn112Aperta==="function
   if(!("oncontentvisibilityautostatechange" in document.documentElement)&&typeof IntersectionObserver==="function"){
     const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)try{vn112Aperta(en.target,true)}catch(_){}}),{rootMargin:"200px 0px"});
     const vigia=()=>document.querySelectorAll(".post.vn-ca:not([data-tb121io])").forEach(p=>{p.dataset.tb121io="1";io.observe(p)});
-    {const _rp=renderPosts;renderPosts=function(){const r=_rp.apply(this,arguments);try{vigia()}catch(e){}return r}}
-    {const _cm=carregarMais;carregarMais=function(){const r=_cm.apply(this,arguments);try{vigia()}catch(e){}return r}}}}
+    FD204_VIGIA121=vigia;}}
 
 /* ===== TB04: "giro" também nas Conversas ===== */
 function tb121Giro(s){return String(s).replace(/^(Você curtiu o|Curtiu seu|Você respondeu ao|Respondeu ao seu|Você mencionou no|Mencionou você no) story/,"$1 giro")}
