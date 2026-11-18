@@ -34,8 +34,6 @@ function pf165Conta(){const c=$("#v-me .pf-conta");if(!c||c.dataset.pf165)return
 function pf165Guardados(){document.querySelectorAll("#v-me .gd161-nl [data-open]").forEach(b=>{if(b.dataset.pf165)return;b.dataset.pf165="1";const p=pautaById(b.dataset.open);if(!p)return;
   try{const t=b.querySelector(".svt");if(t&&fotoDe(p)){const d=document.createElement("div");d.innerHTML=capaArte(p,"svt",false);const n=d.firstElementChild;if(n)t.replaceWith(n)}}catch(e){}
   try{const s=b.querySelector(".svx>span"),ch=capaChapeu(p);if(s&&ch){const i=s.textContent.indexOf(" · ");if(i>0)s.textContent=ch+s.textContent.slice(i)}}catch(e){}})}
-if(typeof vn112PfAba==="function"){const _pa165=vn112PfAba;vn112PfAba=function(k,camada){const r=_pa165.apply(this,arguments);
-  try{if(!camada&&k==="conta"){const ab=$("#v-me .vn-abas");if(ab){const y=ab.getBoundingClientRect().top+scrollY-6;scrollTo(0,Math.max(0,y))}}}catch(e){}return r}}
 
 /* ---------- 3. Guardados: abre a matéria por cima do Perfil ---------- */
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#v-me .gd161-nl [data-open]");if(!b)return;const pid=b.dataset.open;if(!pautaById(pid))return;

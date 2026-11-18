@@ -27,9 +27,6 @@ function ra114MenCmt(m){try{if(!m||m.tipo!=="mencao"||!m.snap||!m.snap.upub||m.s
 /* ===== A04: perfil de quem não é amigo ===== */
 function ra114Fora(u){return !!u&&u!==S.uid&&!S.amigos.has(u)}
 function ra114SoAmigos(u){return `<div class="pf-vz"><b>Perfil só para amigos</b><span>Quando vocês forem amigos, as publicações de ${esc(String(nomeDe(u)).split(" ")[0])} aparecem aqui.</span></div>`}
-if(typeof vn112Resp==="function"){const _r=vn112Resp;vn112Resp=function(u){return ra114Fora(u)?ra114SoAmigos(u):_r.apply(this,arguments)}}
-if(typeof vn112Midia==="function"){const _m=vn112Midia;vn112Midia=function(u){return ra114Fora(u)&&!pfLista(u,"posts").length?ra114SoAmigos(u):_m.apply(this,arguments)}}
-if(typeof vn112Pf==="function"){const _p=vn112Pf;vn112Pf=function(root,u){const r=_p.apply(this,arguments);try{if(ra114Fora(u)&&root&&!pfLista(u,"posts").length)root.querySelectorAll(".vn-pf-num span").forEach(s=>{if(/publicaç/.test(s.textContent))s.remove()})}catch(e){}return r}}
 
 /* ===== A02: Melhores amigos no Perfil › Conta ===== */
 function ra114MaDesenha(){const box=$("#ra114ma");if(!box)return;const am=amigosL();

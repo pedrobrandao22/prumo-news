@@ -13675,35 +13675,8 @@ function vn112Cor(u){const h=avatar(u),m=/background:\s*(#[0-9a-f]{3,8})/i.exec(
 function vn112Abas(u,ab,eu,orig){const l=[["posts","Posts"],["resp","Respostas"],["midia","Mídia"]];
   if(orig.includes("marc")&&pfLista(u,"marc").length)l.push(["marc","Marcado"]);if(eu&&orig.includes("salvos"))l.push(["salvos","Guardados"]);if(eu&&orig.includes("arq8"))l.push(["arq8","Arquivo"]);
   return `<div class="vn-abas" role="tablist" aria-label="Conteúdo do perfil">${l.map(([k,n])=>`<button type="button" role="tab" data-vnpfaba="${k}" aria-selected="${ab===k}">${n}</button>`).join("")}${eu?`<button type="button" role="tab" class="vn-aba-ct" data-vnpfaba="conta" aria-selected="${ab==="conta"}" aria-label="Conta e ajustes"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>`:""}</div>`}
-function vn112Resp(u){const l=todosComentarios().filter(c=>c.uid===u).sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,60);
-  if(!l.length)return `<div class="pf-vz"><b>Respostas</b><span>${u===S.uid?"Seus comentários nas notícias e nas publicações aparecem aqui.":"Nenhum comentário ainda."}</span></div>`;
-  return `<ul class="vn-resp">${l.map(c=>{const m=/^u:(.+)$/.exec(String(c.pid||"")),p=!m&&pautaById(c.pid),x=m&&(pubVisiveis().find(y=>y.id===m[1]));const ctx=p?versao(p,lente()).titulo:x?"publicação de "+nomeDe(x.autor):"";
-    return `<li><button type="button" data-vnresp="${esc(c.pid)}">${avatar(u)}<span class="vn-resp-c"><span class="vn-resp-h"><b>${esc(nomeDe(u))}</b><i>· ${esc(quando(c.at))}</i></span>${ctx?`<small>Em resposta a ${p?"“"+esc(vn112Curto(ctx,90))+"”":esc(ctx)}</small>`:""}<span class="vn-resp-t">${esc(vn112Curto(c.texto,400))}</span></span></button></li>`}).join("")}</ul>`}
-function vn112Midia(u){const l=pfLista(u,"posts").filter(x=>x.fotos.length);if(!l.length)return `<div class="pf-vz"><b>Mídia</b><span>${u===S.uid?"As fotos que você publicar aparecem aqui.":"Nenhuma foto ainda."}</span></div>`;
-  return `<div class="pf-grade vn-mid">${l.map(x=>{const f=pubUrl(x.fotos[0]);return `<button type="button" class="pf-t" data-vnmid="${esc(x.id)}" aria-label="Foto de ${esc(quando(x.at))}">${f?`<img src="${pubSrc(f)}" alt="${esc((x.estilo.alt&&x.estilo.alt[0])||x.texto||"Foto")}" loading="lazy" decoding="async">`:""}${x.fotos.length>1?`<i class="pf-ic">⧉</i>`:""}</button>`}).join("")}</div>`}
 function vn112Posts(u){const l=pfLista(u,"posts");const ch=typeof fc107PfChips==="function"&&FOCO_LIGADO?fc107PfChips(u):"";
   if(!l.length)return ch+pfTiles([],"posts",u);return `${ch}<div class="vn-pl">${l.map(x=>{try{return pubPostHTML(x)}catch(e){return ""}}).join("")}</div>`}
-function vn112PfAba(k,camada){const proprio=["posts","resp","midia"].includes(k);
-  if(camada){if(!PFV)return;PFV.vnAba=k;PFV.aba=proprio?"posts":k;pfvDesenha();const sc=$("#layer .pfv-sc"),ab=sc&&sc.querySelector(".vn-abas");if(sc&&ab&&sc.scrollTop>ab.offsetTop)sc.scrollTop=ab.offsetTop;return}
-  VN112_PF.me=k;PF_ABA=proprio?"posts":k;renderMe();const ab=$("#v-me .vn-abas");if(ab){const y=ab.getBoundingClientRect().top+scrollY-60;if(scrollY>y)scrollTo(0,y)}}
-/* troca cabeçalho, abas e corpo do perfil (próprio ou de amigo) mantendo os botões e o avatar originais */
-function vn112Pf(root,u,ab){if(!root||!u)return;const eu=u===S.uid,cab=root.querySelector(".pf-cab");if(!cab||root.querySelector(".vn-pf"))return;
-  const avb=cab.querySelector(".pf-av"),bts=root.querySelector(".pf-bts"),num=cab.querySelector(".pf-num"),abas=root.querySelector(".pf-abas");
-  const orig=abas?[...abas.querySelectorAll("[data-pfaba]")].map(b=>b.dataset.pfaba):[];
-  const n=pfLista(u,"posts").length,na=amigosL().length,cm=!eu&&S.comuns?S.comuns[u]:null,ds=vn112Desde(u);
-  const f=(S.membros[u]||{}).foto&&avb&&avb.querySelector("img");
-  const h=document.createElement("div");h.className="vn-pf";h.style.setProperty("--vn-band",vn112Cor(u));
-  h.innerHTML=`<div class="vn-pf-band" aria-hidden="true">${f?`<img src="${esc(f.getAttribute("src"))}" alt="">`:""}</div><div class="vn-pf-row"></div><h2 class="vn-pf-nome">${esc(nomeDe(u))}</h2>${ds?`<p class="vn-pf-desde"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>${esc(ds)}</p>`:""}
-    <p class="vn-pf-num">${eu?`<span role="button" tabindex="0" data-fd104am aria-label="${na} ${na===1?"amigo":"amigos"}: ver a lista"><b>${na}</b> ${na===1?"amigo":"amigos"}</span>`:cm!=null?`<span><b>${cm}</b> ${cm===1?"amigo em comum":"amigos em comum"}</span>`:""}<span><b>${n}</b> ${n===1?"publicação":"publicações"}</span></p>`;
-  const row=h.querySelector(".vn-pf-row");if(avb)row.appendChild(avb);if(bts){if(bts.children.length>1)h.appendChild(bts);else row.appendChild(bts)}
-  cab.before(h);cab.remove();root.querySelector(".pf-nome")?.remove();num?.remove();
-  const meu=["posts","resp","midia"].includes(ab);
-  if(abas)abas.outerHTML=vn112Abas(u,ab,eu,orig);
-  if(meu){root.querySelectorAll(".fc107-pk,.pf-grade,.pf-vz").forEach(e=>{if(!e.closest(".pf-ped"))e.remove()});
-    const corpo=root.querySelector(".pf-corpo")||root.querySelector(".vn-abas");const html=ab==="resp"?vn112Resp(u):ab==="midia"?vn112Midia(u):vn112Posts(u);
-    if(corpo.classList.contains("pf-corpo"))corpo.insertAdjacentHTML("beforeend",html);else corpo.insertAdjacentHTML("afterend",html);
-    if(ab==="posts"){const l=pfLista(u,"posts");if(!eu||VIEW==="me")try{pfIdsTroca(l)}catch(e){}const pl=root.querySelector(".vn-pl");if(pl){try{wireTracks(pl)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}})}}}
-  vn112Nomes(root)}
 
 /* ===== 9. instala ===== */
 if(VISUAL_NOVO){
@@ -13907,9 +13880,6 @@ function ra114MenCmt(m){try{if(!m||m.tipo!=="mencao"||!m.snap||!m.snap.upub||m.s
 /* ===== A04: perfil de quem não é amigo ===== */
 function ra114Fora(u){return !!u&&u!==S.uid&&!S.amigos.has(u)}
 function ra114SoAmigos(u){return `<div class="pf-vz"><b>Perfil só para amigos</b><span>Quando vocês forem amigos, as publicações de ${esc(String(nomeDe(u)).split(" ")[0])} aparecem aqui.</span></div>`}
-if(typeof vn112Resp==="function"){const _r=vn112Resp;vn112Resp=function(u){return ra114Fora(u)?ra114SoAmigos(u):_r.apply(this,arguments)}}
-if(typeof vn112Midia==="function"){const _m=vn112Midia;vn112Midia=function(u){return ra114Fora(u)&&!pfLista(u,"posts").length?ra114SoAmigos(u):_m.apply(this,arguments)}}
-if(typeof vn112Pf==="function"){const _p=vn112Pf;vn112Pf=function(root,u){const r=_p.apply(this,arguments);try{if(ra114Fora(u)&&root&&!pfLista(u,"posts").length)root.querySelectorAll(".vn-pf-num span").forEach(s=>{if(/publicaç/.test(s.textContent))s.remove()})}catch(e){}return r}}
 
 /* ===== A02: Melhores amigos no Perfil › Conta ===== */
 function ra114MaDesenha(){const box=$("#ra114ma");if(!box)return;const am=amigosL();
@@ -19072,8 +19042,6 @@ function pf165Conta(){const c=$("#v-me .pf-conta");if(!c||c.dataset.pf165)return
 function pf165Guardados(){document.querySelectorAll("#v-me .gd161-nl [data-open]").forEach(b=>{if(b.dataset.pf165)return;b.dataset.pf165="1";const p=pautaById(b.dataset.open);if(!p)return;
   try{const t=b.querySelector(".svt");if(t&&fotoDe(p)){const d=document.createElement("div");d.innerHTML=capaArte(p,"svt",false);const n=d.firstElementChild;if(n)t.replaceWith(n)}}catch(e){}
   try{const s=b.querySelector(".svx>span"),ch=capaChapeu(p);if(s&&ch){const i=s.textContent.indexOf(" · ");if(i>0)s.textContent=ch+s.textContent.slice(i)}}catch(e){}})}
-if(typeof vn112PfAba==="function"){const _pa165=vn112PfAba;vn112PfAba=function(k,camada){const r=_pa165.apply(this,arguments);
-  try{if(!camada&&k==="conta"){const ab=$("#v-me .vn-abas");if(ab){const y=ab.getBoundingClientRect().top+scrollY-6;scrollTo(0,Math.max(0,y))}}}catch(e){}return r}}
 
 /* ---------- 3. Guardados: abre a matéria por cima do Perfil ---------- */
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#v-me .gd161-nl [data-open]");if(!b)return;const pid=b.dataset.open;if(!pautaById(pid))return;
@@ -20801,6 +20769,7 @@ function storyAuto(p){
    carrega antes do 181). Cada função abaixo faz o que a cadeia inteira fazia, na mesma ordem; os comentários dizem de
    onde veio cada passo. Os auxiliares dos outros arquivos (vp99*, fc107*, vn112*, cs123*, sg181*, gd161*, pb136*, …)
    continuam onde estavam: aqui eles só são chamados, sempre depois da carga (nenhuma destas funções roda na carga).
+   Também aqui: vn112Resp, vn112Midia, vn112PfAba e vn112Pf (definidas no 112, remendadas no 114 e no 165).
    Regra daqui para a frente: corrigir DENTRO destas funções, não embrulhá-las de novo em outro arquivo. */
 
 /* ===== pfLista: as publicações de uma aba do perfil =====
@@ -20991,6 +20960,41 @@ function pfvDesenha(){let r;
 function pf205Posts(el){const l=PFV.lista||[];el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>${PFV.aba==="reels"?"Reels":PFV.aba==="marc"?"Marcações":"Publicações"}<small>${esc(nomeDe(PFV.u))}</small></b><span class="sp"></span></div><div class="pfv-sc pfv-posts">${l.map(x=>{try{return pubPostHTML(x)}catch(e){return ""}}).join("")}</div>`;
   pfIdsTroca(l);const sc=el.querySelector(".pfv-sc");try{wireTracks(sc)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}});const a=l[PFV.i];const alvo=a&&el.querySelector(`[id="p-u:${a.id}"]`);if(alvo){sc.scrollTop=alvo.offsetTop-sc.offsetTop;requestAnimationFrame(()=>{sc.scrollTop=alvo.offsetTop-sc.offsetTop})}}
 function pfvPosts(el){const r=pf205Posts.apply(this,arguments);try{if(PFV&&PFV.aba==="salvos"){const b=el.querySelector(".pfv-h b");if(b&&b.firstChild&&b.firstChild.nodeType===3)b.firstChild.textContent="Guardados";const sm=b&&b.querySelector("small");if(sm)sm.textContent="Só você vê"}vp99Ancora(el)}catch(e){}return r}
+
+/* ===== perfil no visual novo (112): abas Respostas e Mídia, troca de aba e o cabeçalho novo =====
+   Bases no 112; remendos: 114 (quem está fora vê "Perfil só para amigos" e não vê "0 publicações"), 165 (a aba Ajustes
+   do próprio perfil rola até as abas). */
+function pf205Resp(u){const l=todosComentarios().filter(c=>c.uid===u).sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,60);
+  if(!l.length)return `<div class="pf-vz"><b>Respostas</b><span>${u===S.uid?"Seus comentários nas notícias e nas publicações aparecem aqui.":"Nenhum comentário ainda."}</span></div>`;
+  return `<ul class="vn-resp">${l.map(c=>{const m=/^u:(.+)$/.exec(String(c.pid||"")),p=!m&&pautaById(c.pid),x=m&&(pubVisiveis().find(y=>y.id===m[1]));const ctx=p?versao(p,lente()).titulo:x?"publicação de "+nomeDe(x.autor):"";
+    return `<li><button type="button" data-vnresp="${esc(c.pid)}">${avatar(u)}<span class="vn-resp-c"><span class="vn-resp-h"><b>${esc(nomeDe(u))}</b><i>· ${esc(quando(c.at))}</i></span>${ctx?`<small>Em resposta a ${p?"“"+esc(vn112Curto(ctx,90))+"”":esc(ctx)}</small>`:""}<span class="vn-resp-t">${esc(vn112Curto(c.texto,400))}</span></span></button></li>`}).join("")}</ul>`}
+function vn112Resp(u){return ra114Fora(u)?ra114SoAmigos(u):pf205Resp.apply(this,arguments)}
+function pf205Midia(u){const l=pfLista(u,"posts").filter(x=>x.fotos.length);if(!l.length)return `<div class="pf-vz"><b>Mídia</b><span>${u===S.uid?"As fotos que você publicar aparecem aqui.":"Nenhuma foto ainda."}</span></div>`;
+  return `<div class="pf-grade vn-mid">${l.map(x=>{const f=pubUrl(x.fotos[0]);return `<button type="button" class="pf-t" data-vnmid="${esc(x.id)}" aria-label="Foto de ${esc(quando(x.at))}">${f?`<img src="${pubSrc(f)}" alt="${esc((x.estilo.alt&&x.estilo.alt[0])||x.texto||"Foto")}" loading="lazy" decoding="async">`:""}${x.fotos.length>1?`<i class="pf-ic">⧉</i>`:""}</button>`}).join("")}</div>`}
+function vn112Midia(u){return ra114Fora(u)&&!pfLista(u,"posts").length?ra114SoAmigos(u):pf205Midia.apply(this,arguments)}
+function pf205PfAba(k,camada){const proprio=["posts","resp","midia"].includes(k);
+  if(camada){if(!PFV)return;PFV.vnAba=k;PFV.aba=proprio?"posts":k;pfvDesenha();const sc=$("#layer .pfv-sc"),ab=sc&&sc.querySelector(".vn-abas");if(sc&&ab&&sc.scrollTop>ab.offsetTop)sc.scrollTop=ab.offsetTop;return}
+  VN112_PF.me=k;PF_ABA=proprio?"posts":k;renderMe();const ab=$("#v-me .vn-abas");if(ab){const y=ab.getBoundingClientRect().top+scrollY-60;if(scrollY>y)scrollTo(0,y)}}
+function vn112PfAba(k,camada){const r=pf205PfAba.apply(this,arguments);
+  try{if(!camada&&k==="conta"){const ab=$("#v-me .vn-abas");if(ab){const y=ab.getBoundingClientRect().top+scrollY-6;scrollTo(0,Math.max(0,y))}}}catch(e){}return r}
+function pf205VnPf(root,u,ab){if(!root||!u)return;const eu=u===S.uid,cab=root.querySelector(".pf-cab");if(!cab||root.querySelector(".vn-pf"))return;
+  const avb=cab.querySelector(".pf-av"),bts=root.querySelector(".pf-bts"),num=cab.querySelector(".pf-num"),abas=root.querySelector(".pf-abas");
+  const orig=abas?[...abas.querySelectorAll("[data-pfaba]")].map(b=>b.dataset.pfaba):[];
+  const n=pfLista(u,"posts").length,na=amigosL().length,cm=!eu&&S.comuns?S.comuns[u]:null,ds=vn112Desde(u);
+  const f=(S.membros[u]||{}).foto&&avb&&avb.querySelector("img");
+  const h=document.createElement("div");h.className="vn-pf";h.style.setProperty("--vn-band",vn112Cor(u));
+  h.innerHTML=`<div class="vn-pf-band" aria-hidden="true">${f?`<img src="${esc(f.getAttribute("src"))}" alt="">`:""}</div><div class="vn-pf-row"></div><h2 class="vn-pf-nome">${esc(nomeDe(u))}</h2>${ds?`<p class="vn-pf-desde"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>${esc(ds)}</p>`:""}
+    <p class="vn-pf-num">${eu?`<span role="button" tabindex="0" data-fd104am aria-label="${na} ${na===1?"amigo":"amigos"}: ver a lista"><b>${na}</b> ${na===1?"amigo":"amigos"}</span>`:cm!=null?`<span><b>${cm}</b> ${cm===1?"amigo em comum":"amigos em comum"}</span>`:""}<span><b>${n}</b> ${n===1?"publicação":"publicações"}</span></p>`;
+  const row=h.querySelector(".vn-pf-row");if(avb)row.appendChild(avb);if(bts){if(bts.children.length>1)h.appendChild(bts);else row.appendChild(bts)}
+  cab.before(h);cab.remove();root.querySelector(".pf-nome")?.remove();num?.remove();
+  const meu=["posts","resp","midia"].includes(ab);
+  if(abas)abas.outerHTML=vn112Abas(u,ab,eu,orig);
+  if(meu){root.querySelectorAll(".fc107-pk,.pf-grade,.pf-vz").forEach(e=>{if(!e.closest(".pf-ped"))e.remove()});
+    const corpo=root.querySelector(".pf-corpo")||root.querySelector(".vn-abas");const html=ab==="resp"?vn112Resp(u):ab==="midia"?vn112Midia(u):vn112Posts(u);
+    if(corpo.classList.contains("pf-corpo"))corpo.insertAdjacentHTML("beforeend",html);else corpo.insertAdjacentHTML("afterend",html);
+    if(ab==="posts"){const l=pfLista(u,"posts");if(!eu||VIEW==="me")try{pfIdsTroca(l)}catch(e){}const pl=root.querySelector(".vn-pl");if(pl){try{wireTracks(pl)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}})}}}
+  vn112Nomes(root)}
+function vn112Pf(root,u){const r=pf205VnPf.apply(this,arguments);try{if(ra114Fora(u)&&root&&!pfLista(u,"posts").length)root.querySelectorAll(".vn-pf-num span").forEach(s=>{if(/publicaç/.test(s.textContent))s.remove()})}catch(e){}return r}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários

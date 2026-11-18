@@ -195,35 +195,8 @@ function vn112Cor(u){const h=avatar(u),m=/background:\s*(#[0-9a-f]{3,8})/i.exec(
 function vn112Abas(u,ab,eu,orig){const l=[["posts","Posts"],["resp","Respostas"],["midia","Mídia"]];
   if(orig.includes("marc")&&pfLista(u,"marc").length)l.push(["marc","Marcado"]);if(eu&&orig.includes("salvos"))l.push(["salvos","Guardados"]);if(eu&&orig.includes("arq8"))l.push(["arq8","Arquivo"]);
   return `<div class="vn-abas" role="tablist" aria-label="Conteúdo do perfil">${l.map(([k,n])=>`<button type="button" role="tab" data-vnpfaba="${k}" aria-selected="${ab===k}">${n}</button>`).join("")}${eu?`<button type="button" role="tab" class="vn-aba-ct" data-vnpfaba="conta" aria-selected="${ab==="conta"}" aria-label="Conta e ajustes"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>`:""}</div>`}
-function vn112Resp(u){const l=todosComentarios().filter(c=>c.uid===u).sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,60);
-  if(!l.length)return `<div class="pf-vz"><b>Respostas</b><span>${u===S.uid?"Seus comentários nas notícias e nas publicações aparecem aqui.":"Nenhum comentário ainda."}</span></div>`;
-  return `<ul class="vn-resp">${l.map(c=>{const m=/^u:(.+)$/.exec(String(c.pid||"")),p=!m&&pautaById(c.pid),x=m&&(pubVisiveis().find(y=>y.id===m[1]));const ctx=p?versao(p,lente()).titulo:x?"publicação de "+nomeDe(x.autor):"";
-    return `<li><button type="button" data-vnresp="${esc(c.pid)}">${avatar(u)}<span class="vn-resp-c"><span class="vn-resp-h"><b>${esc(nomeDe(u))}</b><i>· ${esc(quando(c.at))}</i></span>${ctx?`<small>Em resposta a ${p?"“"+esc(vn112Curto(ctx,90))+"”":esc(ctx)}</small>`:""}<span class="vn-resp-t">${esc(vn112Curto(c.texto,400))}</span></span></button></li>`}).join("")}</ul>`}
-function vn112Midia(u){const l=pfLista(u,"posts").filter(x=>x.fotos.length);if(!l.length)return `<div class="pf-vz"><b>Mídia</b><span>${u===S.uid?"As fotos que você publicar aparecem aqui.":"Nenhuma foto ainda."}</span></div>`;
-  return `<div class="pf-grade vn-mid">${l.map(x=>{const f=pubUrl(x.fotos[0]);return `<button type="button" class="pf-t" data-vnmid="${esc(x.id)}" aria-label="Foto de ${esc(quando(x.at))}">${f?`<img src="${pubSrc(f)}" alt="${esc((x.estilo.alt&&x.estilo.alt[0])||x.texto||"Foto")}" loading="lazy" decoding="async">`:""}${x.fotos.length>1?`<i class="pf-ic">⧉</i>`:""}</button>`}).join("")}</div>`}
 function vn112Posts(u){const l=pfLista(u,"posts");const ch=typeof fc107PfChips==="function"&&FOCO_LIGADO?fc107PfChips(u):"";
   if(!l.length)return ch+pfTiles([],"posts",u);return `${ch}<div class="vn-pl">${l.map(x=>{try{return pubPostHTML(x)}catch(e){return ""}}).join("")}</div>`}
-function vn112PfAba(k,camada){const proprio=["posts","resp","midia"].includes(k);
-  if(camada){if(!PFV)return;PFV.vnAba=k;PFV.aba=proprio?"posts":k;pfvDesenha();const sc=$("#layer .pfv-sc"),ab=sc&&sc.querySelector(".vn-abas");if(sc&&ab&&sc.scrollTop>ab.offsetTop)sc.scrollTop=ab.offsetTop;return}
-  VN112_PF.me=k;PF_ABA=proprio?"posts":k;renderMe();const ab=$("#v-me .vn-abas");if(ab){const y=ab.getBoundingClientRect().top+scrollY-60;if(scrollY>y)scrollTo(0,y)}}
-/* troca cabeçalho, abas e corpo do perfil (próprio ou de amigo) mantendo os botões e o avatar originais */
-function vn112Pf(root,u,ab){if(!root||!u)return;const eu=u===S.uid,cab=root.querySelector(".pf-cab");if(!cab||root.querySelector(".vn-pf"))return;
-  const avb=cab.querySelector(".pf-av"),bts=root.querySelector(".pf-bts"),num=cab.querySelector(".pf-num"),abas=root.querySelector(".pf-abas");
-  const orig=abas?[...abas.querySelectorAll("[data-pfaba]")].map(b=>b.dataset.pfaba):[];
-  const n=pfLista(u,"posts").length,na=amigosL().length,cm=!eu&&S.comuns?S.comuns[u]:null,ds=vn112Desde(u);
-  const f=(S.membros[u]||{}).foto&&avb&&avb.querySelector("img");
-  const h=document.createElement("div");h.className="vn-pf";h.style.setProperty("--vn-band",vn112Cor(u));
-  h.innerHTML=`<div class="vn-pf-band" aria-hidden="true">${f?`<img src="${esc(f.getAttribute("src"))}" alt="">`:""}</div><div class="vn-pf-row"></div><h2 class="vn-pf-nome">${esc(nomeDe(u))}</h2>${ds?`<p class="vn-pf-desde"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>${esc(ds)}</p>`:""}
-    <p class="vn-pf-num">${eu?`<span role="button" tabindex="0" data-fd104am aria-label="${na} ${na===1?"amigo":"amigos"}: ver a lista"><b>${na}</b> ${na===1?"amigo":"amigos"}</span>`:cm!=null?`<span><b>${cm}</b> ${cm===1?"amigo em comum":"amigos em comum"}</span>`:""}<span><b>${n}</b> ${n===1?"publicação":"publicações"}</span></p>`;
-  const row=h.querySelector(".vn-pf-row");if(avb)row.appendChild(avb);if(bts){if(bts.children.length>1)h.appendChild(bts);else row.appendChild(bts)}
-  cab.before(h);cab.remove();root.querySelector(".pf-nome")?.remove();num?.remove();
-  const meu=["posts","resp","midia"].includes(ab);
-  if(abas)abas.outerHTML=vn112Abas(u,ab,eu,orig);
-  if(meu){root.querySelectorAll(".fc107-pk,.pf-grade,.pf-vz").forEach(e=>{if(!e.closest(".pf-ped"))e.remove()});
-    const corpo=root.querySelector(".pf-corpo")||root.querySelector(".vn-abas");const html=ab==="resp"?vn112Resp(u):ab==="midia"?vn112Midia(u):vn112Posts(u);
-    if(corpo.classList.contains("pf-corpo"))corpo.insertAdjacentHTML("beforeend",html);else corpo.insertAdjacentHTML("afterend",html);
-    if(ab==="posts"){const l=pfLista(u,"posts");if(!eu||VIEW==="me")try{pfIdsTroca(l)}catch(e){}const pl=root.querySelector(".vn-pl");if(pl){try{wireTracks(pl)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}})}}}
-  vn112Nomes(root)}
 
 /* ===== 9. instala ===== */
 if(VISUAL_NOVO){
