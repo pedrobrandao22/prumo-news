@@ -186,12 +186,24 @@ def fechamento_de(simbolo, dia):
     return p, (por_dia[ants[-1]][0] if ants else None), h.isoformat(timespec="minutes")
 
 
+def fechamento_diario(simbolo, dia):
+    """Ibovespa: o fechamento oficial do pregão vem da barra diária (as cotações de 5 min da B3 param antes do fim do
+    pregão no Yahoo: em 17/11/2026 a última era das 16h55). Devolve (fechamento, fechamento anterior, hora) ou None."""
+    r = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=5d&interval=1d")["chart"]["result"][0]
+    dias = {}
+    for t, c in zip(r.get("timestamp") or [], r["indicators"]["quote"][0].get("close") or []):
+        if c is not None: dias[dia_yahoo(t, r.get("meta"))] = float(c)
+    if dia not in dias: return None
+    ants = [d for d in sorted(dias) if d < dia]
+    return dias[dia], (dias[ants[-1]] if ants else None), dia + "T18:00-03:00"
+
+
 def recuperar_fechamento(id_, velho, agora=None):
     """Item com o fechamento do último pregão, quando o arquivo ainda não tem (rodada perdida); senão None."""
     agora = agora or datetime.now(SP)
     alvo = ultimo_pregao(agora)
     if not velho or (velho.get("fechamento") and str(velho.get("data") or "") >= alvo): return None
-    r = fechamento_de(SIMBOLO[id_], alvo)
+    r = fechamento_de(SIMBOLO[id_], alvo) if id_ == "dolar" else fechamento_diario(SIMBOLO[id_], alvo)
     if not r: return None
     p, a, hora = r
     casas = 2 if id_ == "dolar" else 0
