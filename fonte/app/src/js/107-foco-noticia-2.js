@@ -96,13 +96,7 @@ if(FOCO_LIGADO){
   {const _cb107=cn102Barra;cn102Barra=function(){const r=_cb107.apply(this,arguments);try{fc107Barra()}catch(e){}return r}}
   {const _pc107=pubCarregar;pubCarregar=async function(){const r=await _pc107.apply(this,arguments);try{fc107Capa();fc107Barra()}catch(e){}return r}}
   /* Perfil */
-  {FC107_PL=pfLista;const _pl107=pfLista;pfLista=function(u,aba){const l=_pl107.apply(this,arguments);if(aba!=="posts"||FC107_PF.u!==u||!FC107_PF.k)return l;const f=l.filter(x=>fc107Tipo(x)===FC107_PF.k);return f.length?f:l}}
-  {const _pt107=pfTiles;pfTiles=function(l,aba,u){let h=_pt107.apply(this,arguments);try{if(aba!=="posts"||typeof h!=="string"||!(l||[]).length)return h;
-      const tp=document.createElement("template");tp.innerHTML=h;tp.content.querySelectorAll("[data-pfi]").forEach(b=>{const x=l[+b.dataset.pfi],t=x&&fc107PfTile(x),o=b.querySelector(".pf-tx");if(t&&o)o.outerHTML=t});
-      h=fc107PfChips(u)+tp.innerHTML}catch(e){}return h}}
-  {const _ap107=abrirPerfil;abrirPerfil=function(){FC107_PF={u:null,k:""};return _ap107.apply(this,arguments)}}
-  /* fileira de destaques vazia ("+ Novo") no próprio perfil: some até existir um destaque (dá para destacar pelo story) */
-  {const _dr107=destRowHTML;destRowHTML=function(u){const h=_dr107.apply(this,arguments);try{if(u===S.uid&&!(DEST[u]||[]).length)return ""}catch(e){}return h}}
+  FC107_PL=pf205ListaAte99;
   /* Atividade */
   {const _apn107=atPubNome;atPubNome=function(x){const n=_apn107.apply(this,arguments);try{if(!x||x.tipo!=="post")return n;const cn=cn102De(x),full=pubDe(x.id)||x,k=cn?cn.k:fc107EhTake(full)?"nt":"";
       if(k==="nt"){const p=pautaById(full.pid);return p?`seu comentário sobre “${esc(fc107Curto(versao(p,lente()).titulo,70))}”`:"seu comentário sobre uma notícia"}

@@ -88,34 +88,22 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||SG181.
 function sg181NumHTML(u){const p=CS123.perf[u];if(!p||!p.ok)return "";const lista=u===S.uid||p.lista!==false&&sg181Ve(u);
   const it=(k,n,tx)=>lista?`<button type="button" data-sg181lista="${k}" data-u="${esc(u)}"><b>${cs123Num(n||0)}</b> ${tx}</button>`:`<span><b>${cs123Num(n||0)}</b> ${tx}</span>`;
   return `<span class="sg181-num">${it("seguidores",p.seguidores,p.seguidores===1?"seguidor":"seguidores")}${it("seguindo",p.seguindo,"seguindo")}</span>`}
-/* cabeçalho de outra pessoa: Seguir/Pedido enviado/Seguindo e Mensagem (se puder) */
-{const _pc=pfCab;pfCab=function(u){let h=_pc.apply(this,arguments);try{if(!sg181On()||!u||u===S.uid)return h;
-  h=h.replace(/<div class="pf-bts">[\s\S]*?<\/div>/g,"");if((S.bloq||[]).includes(u))return h;
-  h+=`<div class="pf-bts sg181-bts">${sg181Bt(u)}${sg181Msg(u)?`<button type="button" class="btn ghost" data-pfmsg="${esc(u)}">Mensagem</button>`:""}</div>`}catch(e){}return h}}
 function sg181Pf(root,u){if(!root||!sg181On()||!u)return;
   root.querySelectorAll(".co160-am,[data-fd104am],[data-pedir],[data-cancelar],[data-aceitar],[data-recusar],.cs123-num,.cs123-numl,.cs123-ab,.pf-ped").forEach(x=>x.remove());
   if(u!==S.uid){root.querySelectorAll("[data-cs123seg]").forEach(x=>x.remove());if(!sg181Msg(u))root.querySelectorAll("[data-pfmsg]").forEach(x=>x.remove())}
   const num=root.querySelector(".vn-pf-num");
   if(num){[...num.children].forEach(c=>{if(/amigo/i.test(c.textContent))c.remove()});
-    if(!num.querySelector(".sg181-num")){const p=CS123.perf[u];if(!p){cs123Perf(u).then(()=>{try{if(u===S.uid){if(VIEW==="me")renderMe()}else if(PFV&&PFV.u===u&&$("#layer .pfv"))pfvDesenha()}catch(e){}})}
+    if(!num.querySelector(".sg181-num")){const p=CS123.perf[u];if(!p){cs123Perf(u).then(q=>{if(!q)return;/* sem os números: não redesenha (laço) */try{if(u===S.uid){if(VIEW==="me")renderMe()}else if(PFV&&PFV.u===u&&$("#layer .pfv"))pfvDesenha()}catch(e){}})}
       else num.insertAdjacentHTML("afterbegin",sg181NumHTML(u))}}
   if(u!==S.uid&&SG181.fech.has(u)&&!root.querySelector(".sg181-fech")){const cab=root.querySelector(".vn-pf-desde,.vn-pf-num");
     if(cab)cab.insertAdjacentHTML("afterend",`<p class="sg181-fech">${cs123Svg('<rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>')}Perfil fechado${CS123.perf[u]&&CS123.perf[u].me_segue?" · segue você":""}</p>`)}
   root.querySelectorAll("[data-convidar]").forEach(b=>{if(/amigo/.test(b.textContent))b.textContent="Convidar alguém"})}
-if(typeof pfvDesenha==="function"){const _pv=pfvDesenha;pfvDesenha=function(){const r=_pv.apply(this,arguments);try{if(PFV&&PFV.modo==="grade")sg181Pf($("#layer .pfv"),PFV.u)}catch(e){}return r}}
 /* posts no perfil: os de quem você vê (o banco já só entrega o que pode), não só os de quem você segue */
 {const _pv=pubVisiveis;pubVisiveis=function(){if(!SG181.todos||SG181.on!==true)return _pv.apply(this,arguments);const now=Date.now();
   return PUB.itens.filter(x=>x&&(x.autor===S.uid||!x.arquivado)&&(x.tipo!=="story"||(x.expira||0)>now))}}
-{const _pl=pfLista;pfLista=function(u,aba){if(SG181.on!==true||aba==="salvos")return _pl.apply(this,arguments);SG181.todos=true;try{return _pl.apply(this,arguments)}finally{SG181.todos=false}}}
-{const _pt=pfTiles;pfTiles=function(l,aba,u){try{if(sg181On()&&u&&u!==S.uid&&aba!=="marc"){
-  if(!sg181Ve(u)&&!(l||[]).length)return `<div class="pf-vz sg181-vz"><b>Perfil fechado</b><span>${SG181.env.has(u)?`Seu pedido foi enviado. Quando ${esc(sg181Prim(u))} aprovar, as publicações aparecem aqui.`:`Siga ${esc(sg181Prim(u))} para ver as publicações. ${esc(sg181Prim(u))} precisa aprovar.`}</span></div>`;
-  if(!(l||[]).length)return `<div class="pf-vz"><b>Publicações</b><span>Nenhuma publicação ainda.</span></div>`}}catch(e){}return _pt.apply(this,arguments)}}
 /* o seu perfil: números, pedidos para seguir (perfil fechado) e sem amizades */
 function sg181PedHTML(){const l=SG181.rec.filter(x=>!(S.bloq||[]).includes(x.uid));if(!l.length)return "";
   return `<div class="card amg sg181-ped"><span class="amg-t">${l.length===1?"Pedido para seguir você":l.length+" pedidos para seguir você"}</span><ul class="amgl">${l.map(x=>`<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(x.uid)}">${avatar(x.uid)}<span class="amg-n"><b>${esc(nomeDe(x.uid))}</b></span></button><button type="button" class="btn amg-b" data-sg181sim="${esc(x.uid)}">Aprovar</button><button type="button" class="btn ghost amg-b" data-sg181nao="${esc(x.uid)}">Recusar</button></li>`).join("")}</ul></div>`}
-/* listas de seguidores: linha com o botão novo */
-{const _l=cs123Linha;cs123Linha=function(x,meu,tipo){if(!sg181On())return _l.apply(this,arguments);const u=x.uid,eu=u===S.uid;
-  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${eu?"":SG181.fech.has(u)?"perfil fechado":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:eu?"":sg181Bt(u,"amg-b")}</li>`}}
 /* "Adicionar amigos" vira "Buscar pessoas" (todos os membros, abertos e fechados) */
 if(typeof abrirAddAmigos==="function"){const _ad=abrirAddAmigos;abrirAddAmigos=function(){if(sg181On())return cs123Descobre();return _ad.apply(this,arguments)}}
 

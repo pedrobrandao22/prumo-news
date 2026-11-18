@@ -53,7 +53,11 @@ class Datas(unittest.TestCase):
                  "Na noite de segunda (16)": "Na noite de segunda (16)", "O Senado votou na noite de segunda (16)": "O Senado votou ontem à noite", "Terça-feira (17): Senado vota": "Hoje: Senado vota",
                  "na terça (17/11)": "hoje", "na terça (17/12)": "na terça (17/12)", "na quinta (19)": "na quinta (19)",
                  "antes da segunda (16)": "antes da segunda (16)", "depois de quarta (18)": "depois de quarta (18)",
-                 "na quarta (17)": "na quarta (17)"}
+                 "na quarta (17)": "na quarta (17)",
+                 "A Nvidia perdeu 3% e divulga na segunda (16)": "A Nvidia perdeu 3% e divulga na segunda (16)",
+                 "prevista para segunda (16)": "prevista para segunda (16)",
+                 "Quem foi chamado valida a inscrição na segunda (16)": "Quem foi chamado valida a inscrição na segunda (16)",
+                 "O Senado aprovou o texto na segunda (16)": "O Senado aprovou o texto ontem"}
         r = app([[k, h] for k in casos])
         for (k, e), got in zip(casos.items(), r): s.assertEqual(got, e, k)
 

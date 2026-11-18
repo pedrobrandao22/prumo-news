@@ -151,7 +151,6 @@ function co160Pf(root,u){if(!root||!u)return;
   const cs=num.querySelector(".cs123-num");if(cs){const bs=[...cs.querySelectorAll("b")].map(b=>b.textContent.trim());cs.hidden=bs.length>0&&bs.every(x=>x==="0")}
   if(S.amigos.has(u)&&!num.querySelector(".co160-am"))num.insertAdjacentHTML("afterbegin",`<button type="button" class="co160-am" data-fd104pm="${esc(u)}" aria-label="Vocês são amigos. Opções da amizade">Amigos ✓</button>`);
   if(!S.amigos.has(u))num.querySelector(".co160-am")?.remove()}
-if(typeof pfvDesenha==="function"){const _pv160=pfvDesenha;pfvDesenha=function(){const r=_pv160.apply(this,arguments);try{if(typeof PFV!=="undefined"&&PFV&&PFV.u)co160Pf($("#layer .pfv"),PFV.u)}catch(e){}return r}}
 
 /* ---------- 9. Melhores amigos, nome, Salvos ---------- */
 {const _md160=ra114MaDesenha;ra114MaDesenha=function(){const r=_md160.apply(this,arguments);try{const box=$("#ra114ma");if(box&&box.querySelector("[data-ra114ma]")&&!$("#layer .co160-madica"))box.insertAdjacentHTML("beforebegin",`<p class="co160-madica">Toque em quem você quer pôr na lista. Toque de novo para tirar.</p>`)}catch(e){}return r}}
@@ -160,7 +159,6 @@ if(typeof pfvDesenha==="function"){const _pv160=pfvDesenha;pfvDesenha=function()
   f.insertAdjacentHTML("afterend",`<p class="erro-t co160-nerr" id="co160nerr" role="alert" hidden></p>`);
   const vale=()=>{const ok=!!i.value.trim();if(b)b.disabled=!ok;if(ok){const e=$("#co160nerr");if(e)e.hidden=true}};i.addEventListener("input",vale);vale();
   f.addEventListener("submit",e=>{if(!i.value.trim()){e.preventDefault();e.stopImmediatePropagation();mostraErro("#co160nerr","Escreva seu nome.");try{i.focus()}catch(_){}}},true)}catch(e){}return r}}
-{const _pt160=pfTiles;pfTiles=function(l,aba){let h=_pt160.apply(this,arguments);try{if(aba==="salvos"&&typeof h==="string")h=h.replace("<b>Salvos</b><span>Toque no marcador de um post para guardar aqui. Só você vê o que salvou.</span>","<b>Posts salvos</b><span>Toque no marcador (Salvar) de um post para ele aparecer aqui. As notícias que você guarda pelo botão “Guardar” ficam em “Notícias guardadas”, logo acima. Só você vê o que salvou.</span>")}catch(e){}return h}}
 
 /* ---------- 6. guia da primeira visita: antes das notícias, não por cima delas ---------- */
 (function co160GuiaCedo(){try{if(typeof abrirTour!=="function"||typeof sr150TelasVisitante!=="function")return;

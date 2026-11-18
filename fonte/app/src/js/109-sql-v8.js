@@ -24,7 +24,6 @@ async function av8Assina(){const l=[...AV8.pede];AV8.pede.clear();if(!l.length||
   l.forEach(f=>{if(!pubUrl(f))AV8.falhou[f]=now});av8Pinta()}
 function av8Pinta(){document.querySelectorAll(".av[data-avf]:not(.av8)").forEach(el=>{const u=pubUrl(el.dataset.avf);if(!u)return;el.classList.add("av8");el.innerHTML=`<img src="${pubSrc(u)}" alt="" decoding="async">`})}
 /* Perfil: "Editar foto" ao lado de "Nova publicação" */
-{const _pc8=pfCab;pfCab=function(u){let h=_pc8.apply(this,arguments);try{if(u===S.uid&&V8.on)h=h.replace(/(<button type="button" class="btn ghost" data-convidar>[^<]*<\/button>)/,`$1<button type="button" class="btn ghost" data-fp8>Editar foto</button>`)}catch(e){}return h}}
 var FP8=null;
 function fp8Abrir(){if(!V8.on||!S.uid)return;FP8=null;const tem=!!((S.membros[S.uid]||{}).foto);
   sheet("Foto do perfil",`<div class="fp8"><div class="fp8-prev">${avatar(S.uid)}</div><p class="hint">Quem vê seu nome no Prumo vê a foto.</p></div><input type="file" id="fp8-file" accept="image/*" hidden>`,
@@ -93,10 +92,6 @@ function arq8Desenha(){const el=$("#layer .pfv-arq8");if(!el)return;const l=ARQ8
   let g=l.length?pfTiles(l,"posts",S.uid).replace(/data-pfi="/g,'data-arq8i="').replace(/ data-fixo/g,""):"";
   el.innerHTML=`<div class="pfv-h"><button type="button" class="icbtn" data-pfvolta aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>Posts arquivados<small>só você vê</small></b><span class="sp"></span></div>
     <div class="pfv-sc">${ARQ8===null?`<p class="hint" style="padding:20px">Carregando…</p>`:!l.length?`<div class="pf-vz"><b>Nenhum post arquivado</b><span>No menu ⋯ de um post seu, “Arquivar” tira o post do perfil e do Feed dos amigos sem apagar. Ele fica aqui, e você pode mostrar de novo quando quiser.</span></div>`:`<p class="arq8-dica">Só você vê estes posts. Toque em um para mostrar de novo no perfil.</p>${g}`}</div>`}
-/* lista dos arquivados aberta como posts: faixa "Mostrar no perfil" em cada um; voltar leva à grade dos arquivados */
-{const _pd8=pfvDesenha;pfvDesenha=function(){if(PFV&&PFV.aba==="arq8"&&PFV.modo!=="posts")return arq8Desenha();const r=_pd8.apply(this,arguments);
-  try{if(PFV&&PFV.aba==="arq8"&&PFV.modo==="posts"){const el=$("#layer .pfv");const h=el&&el.querySelector(".pfv-h b");if(h)h.innerHTML=`Arquivados<small>só você vê</small>`;
-    el&&el.querySelectorAll(".upost[data-pid]").forEach(a=>{const id=String(a.dataset.pid).slice(2);const ph=a.querySelector(".ph");if(ph&&!a.querySelector(".arq8-bar"))ph.insertAdjacentHTML("afterend",`<div class="arq8-bar gut"><span>Arquivado · só você vê</span><button type="button" class="btn ghost" data-u8arq="${esc(id)}" data-on="0">Mostrar no perfil</button></div>`)})}}catch(e){}return r}}
 
 /* ===== 3. curtir comentário (posts de membros e notícias: a mesma folha de comentários) ===== */
 var CC8={m:{},pid:null,t:0,carregando:false};
