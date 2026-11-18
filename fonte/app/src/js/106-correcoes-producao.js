@@ -12,7 +12,6 @@
   cn102DiaCurto=function(s){const m=/^(\d{4})-(\d{2})$/.exec(String(s||"").trim());if(m&&+m[2]>=1&&+m[2]<=12)return `${M106[+m[2]-1]}/${m[1].slice(2)}`;return _dc106.apply(this,arguments)}}
 /* 4. ♥ da Atividade na Capa: aparecia só se a Capa fosse desenhada depois de a conta carregar (logo após entrar, faltava) */
 function cp106Coracao(){try{const h=$("#v-capa .cp-top");if(h&&!h.querySelector(".at-b")&&S.uid&&S.membro)h.insertAdjacentHTML("beforeend",AT_BTN())}catch(e){}}
-{const _rc106=renderCapa;renderCapa=function(){const r=_rc106.apply(this,arguments);cp106Coracao();return r}}
 {const _ad106=atDot;atDot=function(){cp106Coracao();return _ad106.apply(this,arguments)}}
 /* 5. cartão de texto: nome comprido não é cortado no meio ("…DE ALBUQUERQUE CA"); usa o primeiro e o último nome */
 {const _ck106=fc105Kicker;fc105Kicker=function(c,nome){const k=_ck106.apply(this,arguments);if(k.length<=40||c.k==="cit")return k;

@@ -16,7 +16,6 @@ function rc116Hit(q){const ts=rc116Termos(q);return t=>{const s=norm(t);return t
 function rc116AvisoCapa(){try{const c=document.getElementById("v-capa");if(!c)return;const av=c.querySelectorAll(".late:not(.offl)");if(!av.length)return;
   if(estadoRadar().ok)av.forEach(e=>e.remove())}catch(e){}}
 {const _cr116=carregarRodadas;carregarRodadas=async function(){const r=await _cr116.apply(this,arguments);rc116AvisoCapa();return r}}
-{const _rc116=renderCapa;renderCapa=function(){const r=_rc116.apply(this,arguments);rc116AvisoCapa();return r}}
 
 /* ===== C05: datas da linha do tempo ===== */
 function rc116Data(q,hoje){const s=String(q||"");const m=s.match(/(?:^|[^\d])(\d{1,2})º?\/(\d{1,2})(?:\/(\d{4}))?(?!\d)/);if(!m)return null;const d=+m[1],mm=+m[2];if(!d||d>31||!mm||mm>12)return null;

@@ -40,37 +40,13 @@ function cm168Dia(ms){const d=dataSP(new Date(ms).toISOString()),w=new Date(d+"T
       if(hd)hd.insertAdjacentHTML("afterend",`<p class="cm168-agora">${esc(x.valor)} é a cotação comercial${qd?" de "+esc(qd):""}. A linha do gráfico é a PTAX do Banco Central, um valor por dia útil.</p>`)}}catch(e){}return r}}
 {const _gro168=grRo;grRo=function(i){let h=_gro168.apply(this,arguments);try{if(GR&&GR.id==="dolar"&&i===GR.d.length-1){const x=indItens().find(o=>o&&o.id==="dolar");if(x&&x.fonte_serie)h=h.replace("último dado","PTAX · último dado")}}catch(e){}return h}}
 
-/* ===== 2. "Para acompanhar": hora da última novidade ===== */
-function cm168Acomp(){const v=document.getElementById("v-capa");if(!v)return;
-  v.querySelectorAll(".cp-h").forEach(hh=>{const h3=hh.querySelector("h3");if(!h3||h3.textContent.trim()!=="Para acompanhar")return;const ul=hh.nextElementSibling;if(!ul||!ul.classList.contains("cp-l"))return;
-    const lis=[...ul.children].map(li=>{const b=li.querySelector("button[data-cobpag]"),p=b&&pautaById(b.dataset.cobpag);const t=p?cm168Ult(p):0;
-      const s=b&&b.querySelector(".s");if(s&&t){s.textContent=cm168Quando(t);s.dataset.cm168="1"}return {li,t}});
-    lis.sort((a,b)=>b.t-a.t).forEach(o=>ul.appendChild(o.li))})}
-
 /* ===== 3. notícia sem novidade há mais de 40 h ===== */
 /* comparado com a novidade mais recente da edição (não com o relógio: se a rodada atrasar, não vira tudo "velho"):
    mais de 40 h antes dela = de dois dias antes */
 var CM168_VELHA=40*3600e3,CM168_REF={f:null,n:-1,t:0};
 function cm168Ref(){const ps=FEED&&FEED.pautas||[];if(CM168_REF.f!==FEED||CM168_REF.n!==ps.length){let t=0;ps.forEach(p=>{const x=cm168Ult(p);if(x>t)t=x});CM168_REF={f:FEED,n:ps.length,t}}return CM168_REF.t}
 function cm168Velha(p){const t=cm168Ult(p),ed=cm168Ref();return t&&ed&&ed-t>CM168_VELHA?t:0}
-{const _ci168=cpItem;cpItem=function(p,o){let h=_ci168.apply(this,arguments);try{const t=o&&o.tam!=="man"&&cm168Velha(p);if(t){const i=h.indexOf('<b class="cp-t">'),j=i>=0?h.indexOf("</b>",i):-1;
-    if(j>0)h=h.slice(0,j+4)+`<span class="cm168-dia">de ${esc(cm168Dia(t))}</span>`+h.slice(j+4)}}catch(e){}return h}}
-{const _ca168=cpAberta;cpAberta=function(p){let h=_ca168.apply(this,arguments);try{const t=cm168Velha(p);if(t)h=h.replace('<div class="cpx">',`<div class="cpx"><p class="cm168-velha">Notícia de ${esc(cm168Dia(t))}, às ${esc(hhmm(new Date(t).toISOString()).replace(/^0/,""))}, sem novidade desde então.</p>`)}catch(e){}return h}}
-/* na editoria, a notícia velha não abre a lista (com foto grande) se há outra mais nova */
-{const _ces168=capaEscolha;capaEscolha=function(){const r=_ces168.apply(this,arguments);try{if(r&&Array.isArray(r.ord)){const nova=[],velha=[];r.ord.forEach(p=>(cm168Velha(p)?velha:nova).push(p));r.ord=nova.concat(velha)}}catch(e){}return r}}
-
 /* ===== 4. Agenda e "O que vem" que já passaram ===== */
-/* horário conhecido de divulgações sem hora na agenda */
-var CM168_HORAS=[[/boletim focus/i,8*60+25],[/\b(ipca|pnad|pib|ibge)\b/i,9*60]];
-function cm168AgMin(a){const h=String(a&&a.hora||"");if(/\d/.test(h))return agMin(a);const t=String(a&&a.texto||"");for(const [re,m] of CM168_HORAS)if(re.test(t))return m;return -1}
-function cm168HM(m){return Math.floor(m/60)+"h"+(m%60?String(m%60).padStart(2,"0"):"")}
-function cm168Agenda(){const v=document.getElementById("v-capa");if(!v||!FEED)return;const hh=[...v.querySelectorAll(".cp-h")].find(x=>/^Agenda/.test((x.querySelector("h3")||{}).textContent||""));if(!hh)return;
-  const ul=hh.nextElementSibling;if(!ul||!ul.classList.contains("cp-l"))return;const hj=hojeSP(),agora=minAgoraSP();
-  const hoje=(FEED.agenda||[]).filter(a=>a&&agData(a,hj)===hj);
-  ul.querySelectorAll("li").forEach(li=>{const b=li.querySelector("button"),s=b&&b.querySelector(".s"),tx=((b&&b.querySelector("b"))||{}).textContent||"";if(!s)return;
-    if(s.dataset.cm168orig==null){if(!/^Hoje/.test(s.textContent))return;s.dataset.cm168orig=s.textContent}
-    const a=hoje.find(x=>x.texto===tx),m=a?cm168AgMin(a):-1,passou=m>=0&&agora>=m+5;li.classList.toggle("cm168-passou",passou);
-    s.textContent=passou?"Hoje · "+(/divulga|publica|sai\b|resultado/i.test(tx)?"saiu às ":"foi às ")+cm168HM(m):s.dataset.cm168orig})}
 /* matéria aberta por um evento da agenda que já passou */
 function cm168AgNota(){const n=document.querySelector("#layer .mat .mt158-ag");if(!n||n.dataset.cm168)return;const d=((n.querySelector("b")||{}).textContent||"");const m=/(saiu|foi) às (\d{1,2}h\d{0,2})/.exec(d);if(!m)return;n.dataset.cm168="1";
   const sm=n.querySelector("small"),tema=((sm&&sm.querySelector("b"))||{}).textContent||"";
@@ -80,9 +56,6 @@ function cm168VemVelho(p){try{const tx=String(p&&p.proximo||"");if(!tx)return 0;
   const passou=ev.hora?Date.now()>ev.ini:Date.now()>ev.ini+10*3600e3;return passou?t:0}catch(e){return 0}}
 function cm168VemNota(el,p){if(!el||el.querySelector(".cm168-vem"))return;const t=cm168VemVelho(p);if(!t)return;
   el.insertAdjacentHTML("beforeend",`<small class="cm168-vem">Previsão escrita ${esc(cm168Quando(t).replace(/^hoje/,"hoje").replace(/^(\D{3}) \(/,"na $1 ("))}; ainda sem notícia nova sobre isso nesta edição.</small>`)}
-
-/* ===== depois de desenhar a Capa ===== */
-{const _rc168=renderCapa;renderCapa=function(){const r=_rc168.apply(this,arguments);try{cm168Acomp();cm168Agenda()}catch(e){}return r}}
 
 /* ===== 5. Página do assunto e cobertura ===== */
 function cm168Dias(s){const o=[];String(s||"").replace(/\((\d{1,2})\)|\b(\d{1,2})\/(\d{1,2})\b/g,(m0,a,b)=>{o.push(+(a||b));return m0});return o}

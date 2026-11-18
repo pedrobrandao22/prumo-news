@@ -99,8 +99,6 @@ if(FOCO_LIGADO){
         if(tr&&tr.children.length===1&&tr.firstElementChild.classList.contains("cn102-sl")){a.classList.add("fc107-auto");h=a.outerHTML}}}catch(e){}return h}}
   /* barra de publicar */
   {const _cb107=cn102Barra;cn102Barra=function(){const r=_cb107.apply(this,arguments);try{fc107Barra()}catch(e){}return r}}
-  /* Capa */
-  {const _rc107=renderCapa;renderCapa=function(){const r=_rc107.apply(this,arguments);fc107Capa();return r}}
   {const _pc107=pubCarregar;pubCarregar=async function(){const r=await _pc107.apply(this,arguments);try{fc107Capa();fc107Barra()}catch(e){}return r}}
   /* Perfil */
   {FC107_PL=pfLista;const _pl107=pfLista;pfLista=function(u,aba){const l=_pl107.apply(this,arguments);if(aba!=="posts"||FC107_PF.u!==u||!FC107_PF.k)return l;const f=l.filter(x=>fc107Tipo(x)===FC107_PF.k);return f.length?f:l}}

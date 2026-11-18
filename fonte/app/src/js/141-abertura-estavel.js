@@ -31,14 +31,6 @@ function ab141Filhos(vivo,base,novo){const fila=new Map();
     j=nj}
   while(i){const x=i.nextSibling;vivo.removeChild(i);i=x}}
 function ab141Raiz(v){const r=v&&v.childElementCount===1?v.firstElementChild:null;return r&&r.classList.contains("cp")&&r.querySelector(".cpi")?r:null}
-{const _rc141=renderCapa;renderCapa=function(){const v=document.getElementById("v-capa");if(!v)return _rc141.apply(this,arguments);
-  const vivo=ab141Raiz(v),r=_rc141.apply(this,arguments),novo=ab141Raiz(v);
-  if(!novo)return r;
-  if(vivo&&novo!==vivo&&ab141Chave(vivo)===ab141Chave(novo)){const base=ab141Base;ab141Base=novo.cloneNode(true);
-    try{ab141Mescla(vivo,base,novo);v.replaceChild(vivo,novo)}catch(e){ab141Base=novo.cloneNode(true);if(vivo.parentNode!==v&&novo.parentNode!==v)v.appendChild(novo)}
-    try{if(typeof capaObservar==="function")capaObservar()}catch(e){}}
-  else if(novo!==vivo){ab141Base=novo.cloneNode(true);ab141Marca(novo)}
-  return r}}
 /* a Capa que já estava desenhada (edição guardada no aparelho, antes destes complementos) vira a base da comparação */
 {const r=ab141Raiz(document.getElementById("v-capa"));if(r){ab141Base=r.cloneNode(true);ab141Marca(r)}}
 /* fim da abertura: as transições da barra de abas voltam quando a Capa já tem conteúdo (ou depois de 8 s, em último caso) */

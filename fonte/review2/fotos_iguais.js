@@ -143,7 +143,11 @@ async function tirar(PASTA, area, porta) {
     await P.goto(`http://localhost:${porta}/index.html`);
     await U.esperar(P, () => typeof FEED !== 'undefined' && !!FEED && !!document.querySelector('#v-capa .cpi'), null, 15000);
     await U.sleep(2500);  // complementos adiados (idle), carga das fontes
-    const assenta = async () => { await P.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].filter(i => !i.complete).map(i => new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 3000) }))) });
+    const assenta = async () => {
+      // rolagem que o app faz sozinho (abrir um cartão leva-o para a tela): espera a posição parar por meio segundo
+      await P.evaluate(async () => { const pos = () => [scrollY, ...[...document.querySelectorAll('#layer .mat, #layer .sheet')].map(e => e.scrollTop)].join();
+        let ult = pos(), igual = 0; for (let i = 0; i < 60 && igual < 5; i++) { await new Promise(r => setTimeout(r, 100)); const p = pos(); if (p === ult) igual++; else { igual = 0; ult = p } } });
+      await P.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].filter(i => !i.complete).map(i => new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 3000) }))) });
       await P.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))); await U.sleep(250) };
     const foto = async nome => { await assenta(); await P.evaluate(() => document.querySelectorAll('.toast').forEach(t => t.remove()));
       await P.screenshot({ path: path.join(PASTA, `${area}-${nome}-${ap.nome}-${tema}.png`), animations: 'disabled', caret: 'hide' }); n++ };

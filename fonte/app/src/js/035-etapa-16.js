@@ -54,7 +54,6 @@ function abrirAgora(){const l=agoraItens();
   sheet("Agora",`<p class="hint" style="margin:0">Assuntos que acabaram de aparecer nos noticiários. O Prumo confere e traz na próxima atualização.</p><ul class="ag-l">${l.map(x=>`<li>${x.pid?`<button type="button" data-agpid="${esc(x.pid)}"><span>${esc(x.t)}</span><em>${esc(quando(new Date(x.h).toISOString()))} · ler ›</em></button>`:`<div><span>${esc(x.t)}</span><em>${esc(quando(new Date(x.h).toISOString()))}</em></div>`}</li>`).join("")}</ul>`)}
 carregarAgora();setInterval(()=>{if(!document.hidden)carregarAgora()},10*6e4);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)carregarAgora()});
-(function(){const ant=renderCapa;renderCapa=function(){const r=ant.apply(this,arguments);try{linkTentar()}catch(e){}return r}})();
 /* painel de uso (Administração › Uso) */
 var USO_DIAS=14;
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-usodias]");if(b){USO_DIAS=+b.dataset.usodias||14;S.adm.uso=null;usoDesenhar();usoCarregar()}});
