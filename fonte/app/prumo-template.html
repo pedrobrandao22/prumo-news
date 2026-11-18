@@ -6591,7 +6591,6 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("dblclick",e=>{const c=e.target.closest(".cover");if(c&&!e.target.closest("button"))duploGostei(c)});
 
-
 /* ================= v6: recursos adicionais ================= */
 const lidaAtual=p=>{const t=LIDAS.get(p.id);if(!t)return false;const u=ultimaAtualizacao(p);return !(u&&tms(u)>tms(t))};
 const seguido=p=>!!(PREF.seguindo||{})[norm(temaDe(p))];
@@ -7734,13 +7733,6 @@ function rodadaDetalhe(x){const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.u
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
   sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Edição completa":x.tipo==="virada"?"Virada do dia":"Atualização"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"não saiu"}</b><span class="hint">${rodadaDetalhe(x)}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
-/* 24. story passando sozinho */
-function storyAuto(p){clearTimeout(ST.timer);if(!PREF.storyAuto)return;const w=((p.neutro?.titulo||"")+" "+(p.neutro?.texto||"")).split(/\s+/).length;const dur=Math.max(7000,Math.min(24000,w/3.2*1000));
-  const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);
-  const el=$("#layer .story");if(!el||el._auto)return;el._auto=true;
-  el.addEventListener("pointerdown",ev=>{if(ev.target.closest(".s-f,.s-h,.us-it"))return;if(!PREF.storyAuto||!ST.timer)return;clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,ST.fim-Date.now());const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"});
-  const volta=()=>{if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2").innerHTML)return;ST.fim=Date.now()+ST.resto;ST.timer=setTimeout(()=>storyGo(1),ST.resto);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"};
-  el.addEventListener("pointerup",volta);el.addEventListener("pointercancel",volta)}
 function storyRetoma(){if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2")?.innerHTML)return;const r=ST.resto||4000;ST.fim=Date.now()+r;ST.timer=setTimeout(()=>storyGo(1),r);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"}
 /* ---------- v14 ---------- */
 function abrirFiltro(){uso("filtro_sheet");const opc=[{id:"tudo",nome:"Tudo",n:visiveis().length},...SECS().filter(s=>pautasDa(s.id).length).map(s=>({id:s.id,nome:s.nome,n:pautasDa(s.id).length,cor:secCor(s.id)}))];
@@ -8883,12 +8875,6 @@ function igWire(el){if(!el)return;let x0=0,y0=0,on=false;
     if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.3){e.preventDefault();storySec(dx<0?1:-1)}
     else if(dy>110&&Math.abs(dy)>Math.abs(dx)*1.5){e.preventDefault();closeLayer()}
     else if(dy<-80&&Math.abs(dy)>Math.abs(dx)*1.5){e.preventDefault();const pid=$("#s-acts")?.dataset.pid;if(pid)igLerMateria(pid)}},{passive:false})}
-storyAuto=(function(ant){return function(p){const w=ST.palavras||20;const dur=Math.max(6000,Math.min(16000,1500+w/3.4*1000));
-  clearTimeout(ST.timer);if(!PREF.storyAuto)return;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);
-  const el=$("#layer .story");if(!el||el._auto)return;el._auto=true;
-  el.addEventListener("pointerdown",ev=>{if(ev.target.closest(".s-f,.s-h,.us-it"))return;if(!PREF.storyAuto||!ST.timer)return;clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,ST.fim-Date.now());const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"});
-  const volta=()=>{if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2").innerHTML)return;ST.fim=Date.now()+ST.resto;ST.timer=setTimeout(()=>storyGo(1),ST.resto);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"};
-  el.addEventListener("pointerup",volta);el.addEventListener("pointercancel",volta)}})(storyAuto);
 
 /* ---------- Etapa 43: "Em 5 min" e "Últimas" como stories ---------- */
 var ULT_VISTOS=new Set((()=>{try{return JSON.parse(localStorage.getItem("prumo-ult-vistos")||"[]")}catch(e){return []}})());
@@ -9109,7 +9095,6 @@ async function igComentar(pid,t){uso("story_comentario");const cid=Date.now().to
   try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v);return true}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);updateSocial(pid);return false}}
 /* enquanto digita, toques e gestos não mexem no story */
 window.addEventListener("click",e=>{if(!IG_DIG)return;const b=e.target&&e.target.closest&&e.target.closest("#layer .story [data-sgo]");if(b){e.stopPropagation();e.preventDefault();document.activeElement?.blur?.()}},true);
-{const _sa46=storyAuto;storyAuto=function(){const r=_sa46.apply(this,arguments);if(IG_DIG)igPausa();return r}}
 
 /* ===== 8. pré-carregar a próxima foto ===== */
 var IG_PRE=new Set();
@@ -10528,8 +10513,7 @@ var US_MUDO=false;
     v.play().catch(()=>{v.muted=true;v.play().catch(()=>{});const sb=$("#layer [data-usom]");if(sb)sb.textContent="🔇"});
     if(!es.mudo)si.insertAdjacentHTML("beforeend",`<button type="button" class="us-som" data-usom aria-label="Som">${v.muted?"🔇":"🔊"}</button>`);
     ST.palavras=Math.round((es.dur||8)*3.4)}catch(e){}return r}}
-storyAuto=(function(ant){return function(p){const x=ST.itens&&ST.itens[ST.i];if(!(x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0))return ant.apply(this,arguments);
-  const dur=Math.max(2000,Math.min(31000,(x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);if(!PREF.storyAuto)return;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur)}})(storyAuto);
+
 {const _ip63=igPausa;igPausa=function(){const r=_ip63.apply(this,arguments);const v=$("#layer .us2-vid");if(v)v.pause();return r}}
 {const _sr63=storyRetoma;storyRetoma=function(){const r=_sr63.apply(this,arguments);const v=$("#layer .us2-vid");if(v&&v.paused&&ST.timer)v.play().catch(()=>{});return r}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-usom]");if(!b)return;e.stopPropagation();e.preventDefault();US_MUDO=!US_MUDO;const v=$("#layer .us2-vid");if(v){v.muted=US_MUDO;if(!US_MUDO)v.play().catch(()=>{})}b.textContent=US_MUDO?"🔇":"🔊"},true);
@@ -10603,10 +10587,7 @@ function edCabe(st){let it=edItens(st);const tam=()=>JSON.stringify({v:2,itens:i
 /* 4. ordem dos amigos congelada enquanto você assiste */
 
 {const _is66=igSet;igSet=function(){const u=ST&&ST._uord;const r=_is66.apply(this,arguments);if(u&&ST&&!ST._uord)ST._uord=u;return r}}
-/* 5. vídeo: segurar pausa a barra também (mantém os controles normais do story) */
-storyAuto=(function(ant){return function(p){const x=ST.itens&&ST.itens[ST.i];const vid=x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0;
-  if(!vid)return ant.apply(this,arguments);const pal=ST.palavras,sec=ST.sec;ST.palavras=1;ST.sec="__v";let r;try{r=ant.apply(this,arguments)}finally{ST.palavras=pal;ST.sec=sec}
-  const dur=Math.max(2000,Math.min(31000,(+x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);ST.timer=0;if(!PREF.storyAuto)return r;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);return r}})(storyAuto);
+
 /* não retomar o story enquanto o dedo segura */
 var IG_DEDO=false;document.addEventListener("pointerdown",e=>{if(e.target.closest&&e.target.closest("#layer .story"))IG_DEDO=true},true);["pointerup","pointercancel"].forEach(k=>document.addEventListener(k,()=>{IG_DEDO=false},true));
 {const _sr66=storyRetoma;storyRetoma=function(){if(IG_DEDO)return;return _sr66.apply(this,arguments)}}
@@ -20920,6 +20901,25 @@ function drawStory(anim){
         const w=st.querySelector(".sg-who b");if(w)w.textContent="Em 5 min";const s=st.querySelector(".sg-who span");if(s)s.textContent="Agenda · "+s.textContent;
         const av=st.querySelector(".sg-avag");if(av){av.className="ph-av sg-av sg-av5";av.innerHTML="<i>5</i>"}
         const nn=st.querySelector(".sga-n");if(nn)nn.textContent="";}}}catch(e){}return r}
+
+/* storyAuto: o story passa sozinho (tempo pela quantidade de palavras; segurar o dedo pausa). A base do 029 era trocada
+   inteira pela do 054 (que não chamava a anterior) e saiu; remendos: 058 (pausa enquanto digita um comentário) e 080
+   (vídeo de giro: o tempo é o do vídeo). O 077 também tratava vídeo, mas o 080 o chamava já sem o vídeo (ST.sec="__v"):
+   aquele ramo nunca rodava e saiu. */
+function storyAuto(p){
+  /* 054 */
+  const c054=()=>{const w=ST.palavras||20;const dur=Math.max(6000,Math.min(16000,1500+w/3.4*1000));
+  clearTimeout(ST.timer);if(!PREF.storyAuto)return;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);
+  const el=$("#layer .story");if(!el||el._auto)return;el._auto=true;
+  el.addEventListener("pointerdown",ev=>{if(ev.target.closest(".s-f,.s-h,.us-it"))return;if(!PREF.storyAuto||!ST.timer)return;clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,ST.fim-Date.now());const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"});
+  const volta=()=>{if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2").innerHTML)return;ST.fim=Date.now()+ST.resto;ST.timer=setTimeout(()=>storyGo(1),ST.resto);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"};
+  el.addEventListener("pointerup",volta);el.addEventListener("pointercancel",volta)};
+  /* 058 */
+  const c058=()=>{const r=c054();if(IG_DIG)igPausa();return r};
+  /* 080: vídeo de giro */
+  const x=ST.itens&&ST.itens[ST.i];const vid=x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0;
+  if(!vid)return c058();const pal=ST.palavras,sec=ST.sec;ST.palavras=1;ST.sec="__v";let r;try{r=c058()}finally{ST.palavras=pal;ST.sec=sec}
+  const dur=Math.max(2000,Math.min(31000,(+x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);ST.timer=0;if(!PREF.storyAuto)return r;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);return r}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários

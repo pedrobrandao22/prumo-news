@@ -87,7 +87,6 @@ async function igComentar(pid,t){uso("story_comentario");const cid=Date.now().to
   try{await gravarMapa("comentarios/"+S.uid,"itens",cid,v);return true}catch(err){delete CPEND[S.uid+"\u0001"+cid];S.cmts=montarCmts(S._cmtDocs);updateSocial(pid);return false}}
 /* enquanto digita, toques e gestos não mexem no story */
 window.addEventListener("click",e=>{if(!IG_DIG)return;const b=e.target&&e.target.closest&&e.target.closest("#layer .story [data-sgo]");if(b){e.stopPropagation();e.preventDefault();document.activeElement?.blur?.()}},true);
-{const _sa46=storyAuto;storyAuto=function(){const r=_sa46.apply(this,arguments);if(IG_DIG)igPausa();return r}}
 
 /* ===== 8. pré-carregar a próxima foto ===== */
 var IG_PRE=new Set();

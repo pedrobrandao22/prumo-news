@@ -435,3 +435,22 @@ function drawStory(anim){
         const w=st.querySelector(".sg-who b");if(w)w.textContent="Em 5 min";const s=st.querySelector(".sg-who span");if(s)s.textContent="Agenda · "+s.textContent;
         const av=st.querySelector(".sg-avag");if(av){av.className="ph-av sg-av sg-av5";av.innerHTML="<i>5</i>"}
         const nn=st.querySelector(".sga-n");if(nn)nn.textContent="";}}}catch(e){}return r}
+
+/* storyAuto: o story passa sozinho (tempo pela quantidade de palavras; segurar o dedo pausa). A base do 029 era trocada
+   inteira pela do 054 (que não chamava a anterior) e saiu; remendos: 058 (pausa enquanto digita um comentário) e 080
+   (vídeo de giro: o tempo é o do vídeo). O 077 também tratava vídeo, mas o 080 o chamava já sem o vídeo (ST.sec="__v"):
+   aquele ramo nunca rodava e saiu. */
+function storyAuto(p){
+  /* 054 */
+  const c054=()=>{const w=ST.palavras||20;const dur=Math.max(6000,Math.min(16000,1500+w/3.4*1000));
+  clearTimeout(ST.timer);if(!PREF.storyAuto)return;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);
+  const el=$("#layer .story");if(!el||el._auto)return;el._auto=true;
+  el.addEventListener("pointerdown",ev=>{if(ev.target.closest(".s-f,.s-h,.us-it"))return;if(!PREF.storyAuto||!ST.timer)return;clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,ST.fim-Date.now());const f=$("#layer .bars b");if(f)f.style.animationPlayState="paused"});
+  const volta=()=>{if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2").innerHTML)return;ST.fim=Date.now()+ST.resto;ST.timer=setTimeout(()=>storyGo(1),ST.resto);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"};
+  el.addEventListener("pointerup",volta);el.addEventListener("pointercancel",volta)};
+  /* 058 */
+  const c058=()=>{const r=c054();if(IG_DIG)igPausa();return r};
+  /* 080: vídeo de giro */
+  const x=ST.itens&&ST.itens[ST.i];const vid=x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0;
+  if(!vid)return c058();const pal=ST.palavras,sec=ST.sec;ST.palavras=1;ST.sec="__v";let r;try{r=c058()}finally{ST.palavras=pal;ST.sec=sec}
+  const dur=Math.max(2000,Math.min(31000,(+x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);ST.timer=0;if(!PREF.storyAuto)return r;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);return r}
