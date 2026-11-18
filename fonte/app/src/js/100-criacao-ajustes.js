@@ -144,4 +144,3 @@ document.addEventListener("input",e=>{const t=e.target;if(t&&t.matches&&t.matche
 function ca100Leg(){const t=$("#layer #ce-leg");if(!t)return;const cs=getComputedStyle(t),lh=parseFloat(cs.lineHeight)||23,max=Math.round(lh*8+parseFloat(cs.paddingTop||0)+parseFloat(cs.paddingBottom||0));
   t.style.height="auto";const h=t.scrollHeight;t.style.height=Math.min(h,max)+"px";t.classList.toggle("ca100-mais",h>max+2)}
 document.addEventListener("input",e=>{if(e.target&&e.target.id==="ce-leg")ca100Leg()},true);
-{const _dz100=edDesenha;edDesenha=function(){const r=_dz100.apply(this,arguments);try{if($("#layer #ce-leg"))ca100Leg()}catch(e){}return r}}

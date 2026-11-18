@@ -6,11 +6,6 @@
 const PQ108_LS="prumo-pq-pend";
 function pq108Le(){try{return JSON.parse(localStorage.getItem(PQ108_LS+":"+S.uid)||"[]")||[]}catch(e){return []}}
 function pq108Grava(l){try{if(l.length)localStorage.setItem(PQ108_LS+":"+S.uid,JSON.stringify(l.slice(-10)));else localStorage.removeItem(PQ108_LS+":"+S.uid)}catch(e){}}
-{const _pp108=edPublicaPost;edPublicaPost=function(){const ed=ED;const p=_pp108.apply(this,arguments);
-  try{const j=PQ.atual;if(ed&&j&&j.ed===ed&&j.tipo==="post"&&typeof rascSalva==="function"){const P=ed.po;if(!P.rid)P.rid=edNid();const rid=P.rid,s=ED;
-      ED=ed;try{rascSalva().catch(()=>{})}finally{ED=s}pq108Grava(pq108Le().filter(x=>x!==rid).concat(rid));
-      Promise.resolve(p).then(()=>{if(j.estado==="ok"){pq108Grava(pq108Le().filter(x=>x!==rid));setTimeout(()=>rascApaga(rid),1500)}},()=>{})}}catch(e){}
-  return p}}
 setTimeout(function pq108Aviso(){if(!(S.uid&&S.membro&&S.amigosOk&&PUB.carregou)){setTimeout(pq108Aviso,1500);return}
   const l=pq108Le();if(!l.length||typeof rascLista!=="function")return;
   rascLista().then(rs=>{/* se o servidor recebeu (o app fechou antes da resposta), o rascunho sai sem aviso */

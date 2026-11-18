@@ -70,7 +70,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
 {const _cc155=cn102Comeca;cn102Comeca=function(k,o){const anexo=CR155.anexo;const r=_cc155.apply(this,arguments);try{const E=typeof ED!=="undefined"&&ED;
     if(!anexo&&E&&E.po&&E.po.cn&&k==="nt"&&o&&o.pid){CP152.veio=true;E.cr155pid=o.pid;const g=cr155Le();if(g&&g.tx.trim()&&!E.po.cn.corpo){E.po.cn.corpo=g.tx;try{cn102Sync();edDesenha()}catch(_){}}}}catch(e){}return r}}
 /* a faixa de tipos sai de todos os formulários (a escolha do tipo fica só na caixa) */
-{const _cd155=cn102Det;cn102Det=function(el){const r=_cd155.apply(this,arguments);try{const ks=el.querySelector(".cn102-ks");if(ks)ks.hidden=true}catch(e){}return r}}
 /* nomes iguais aos da caixa (Notícia, Enquete, Número, De perto) */
 try{Object.assign(CN102_NOME,{nt:"Notícia",rel:"De perto",ana:"Número",enq:"Enquete"});
   CN102_KS.forEach(k=>{const n={nt:["Notícia","Notícia","Sua opinião sobre uma notícia da edição"],rel:["De perto","De perto","Foto, local e hora do que você viu"],ana:["Número","Número ou análise","Seu texto, um indicador ou um gráfico"],enq:["Enquete","Enquete","Uma pergunta para os amigos votarem"]}[k[0]];if(n){k[1]=n[0];k[2]=n[1];k[3]=n[2]}})}catch(e){}
@@ -81,25 +80,20 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   /* × do giro aberto pela caixa, sem nada feito no giro: volta para a caixa, onde está o texto */
   const x=t.closest("#layer .ce [data-edfechar]");if(x&&typeof ED!=="undefined"&&ED&&ED.cr155caixa&&ED.modo==="story"&&!ED.env){let algo=true;try{algo=!!edTemAlgo()}catch(_){}
     const g=cr155Le();if(!algo&&g&&(g.tx.trim()||g.pid)){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();try{camDesliga()}catch(_){}ED=null;cp152Abre()}}},true);
-{const _ca155=criarAbrir;criarAbrir=function(m){const g=CR155.giro;CR155.giro=0;const r=_ca155.apply(this,arguments);try{if(g&&m==="story"&&ED&&ED.modo==="story"){ED.cr155caixa=1;$("#layer .ce")?.classList.add("cr155-dacaixa")}}catch(e){}return r}}
-{const _ed155=edDesenha;edDesenha=function(){const r=_ed155.apply(this,arguments);try{if(ED&&ED.cr155caixa)$("#layer .ce")?.classList.add("cr155-dacaixa")}catch(e){}return r}}
 
 /* ===== voltar do celular com texto na caixa: pergunta antes (como o editor), e o texto fica guardado ===== */
 
 /* ===== publicar pelo formulário que veio da caixa: a caixa começa vazia depois ===== */
-{const _pp155=edPublicaPost;edPublicaPost=async function(){const daCaixa=CP152.direto||CP152.veio;const r=await _pp155.apply(this,arguments);try{if(daCaixa&&!$("#layer .ce"))cr155Limpa()}catch(e){}return r}}
 
 /* ===== Enquete: as opções são da pessoa ===== */
 {const _va155=cn102Valida;cn102Valida=function(P){const cn=P&&P.cn;if(cn&&cn.k==="enq"&&String(cn.tit||"").trim()){const f=(cn.o||[]).map(v=>String(v||"").trim()).filter(Boolean);
     if(f.length<2){setTimeout(()=>{try{const i=[...document.querySelectorAll("#layer [data-cn102o]")].find(x=>!x.value.trim());if(i)i.focus()}catch(_){}},60);return f.length?"A enquete precisa de pelo menos duas opções.":"Escreva as opções da enquete (por exemplo, Sim e Não)."}}
   return _va155.apply(this,arguments)}}
-{const _dt155=cn102Det;cn102Det=function(el){const r=_dt155.apply(this,arguments);try{el.querySelectorAll("input[data-cn102o]").forEach(i=>{i.placeholder="Opção "+(+i.dataset.cn102o+1)})}catch(e){}return r}}
 
 /* ===== cores das editorias no fundo escuro ===== */
 function cr155Clareia(raiz){if(!raiz)return;raiz.querySelectorAll("small[style*='color']").forEach(s=>{if(s.dataset.cr155)return;const m=/rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(getComputedStyle(s).color);if(!m)return;
   const k=.5,f=v=>Math.round(+v+(255-v)*k);s.style.color=`rgb(${f(m[1])},${f(m[2])},${f(m[3])})`;s.dataset.cr155=1})}
 {const _ln155=cn102ListaNt;cn102ListaNt=function(){const r=_ln155.apply(this,arguments);try{cr155Clareia($("#layer .cn102-ntl"))}catch(e){}return r}}
-{const _dc155=cn102Det;cn102Det=function(el){const r=_dc155.apply(this,arguments);try{cr155Clareia(el.querySelector(".cn102-ntc"))}catch(e){}return r}}
 
 /* ===== sem rede: diz por quê, mostra o começo e tenta de novo sozinho ===== */
 function cr155SemRede(j){const m=String(j&&j.err&&(j.err.message||j.err)||"");return navigator.onLine===false||/fetch|network|rede|offline|conex|Load failed/i.test(m)}

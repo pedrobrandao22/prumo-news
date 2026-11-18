@@ -9565,9 +9565,6 @@ function pubSnap(pid){const s=pid&&snapById(pid);return s?{id:pid,titulo:s.titul
 
 /* ---- criar ---- */
 var CR=null;
-function criarAbrir(tipo){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+tipo);
-  CR={tipo,fotos:[],pid:null,texto:"",fundo:Math.floor(Math.random()*PUB_FUNDOS.length),caixa:false,env:false};const vazio=!$("#layer").innerHTML;if(!vazio)closeLayer();
-  $("#layer").innerHTML=`<div class="cria" role="dialog" aria-modal="true" aria-label="${tipo==="story"?"Novo giro":"Novo post"}"></div>`;if(pushH())HST++;criarDesenha()}
 function criarDesenha(){const el=$("#layer .cria");if(!el||!CR)return;const st=CR.tipo==="story",pode=CR.fotos.length||CR.texto.trim()||CR.pid;
   const nt=CR.pid&&pautaById(CR.pid),ntHTML=nt?`<div class="cr-nt"><small style="color:${secCor(secOf(nt))}">${esc(secNome(secOf(nt)))}</small><b>${esc(versao(nt,lente()).titulo)}</b><button type="button" data-crsemnt aria-label="Tirar a notícia">✕</button></div>`:"";
   const abas=`<div class="cr-abas" role="tablist"><button type="button" role="tab" data-crtipo="post" aria-selected="${!st}">Post</button><button type="button" role="tab" data-crtipo="story" aria-selected="${st}">Giro</button></div>`;
@@ -9719,14 +9716,10 @@ function edCover(g,img,W,H,z,ox,oy){const iw=img.naturalWidth,ih=img.naturalHeig
 function edAR(ar,img){if(ar==="1:1")return 1;if(ar==="orig"&&img)return Math.max(.8,Math.min(1.91,img.naturalWidth/img.naturalHeight));return .8}
 
 /* ===== abrir ===== */
-criarAbrir=function(tipo){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+tipo);if($("#layer").innerHTML)closeLayer();
-  ED={modo:tipo==="story"?"story":"post",env:false,st:{bg:{tipo:"grad",g:Math.floor(Math.random()*PUB_FUNDOS.length)},els:[],tracos:[],ferr:null},po:{passo:"fotos",fotos:[],cur:0,ar:"4:5",texto:"",marcados:[],local:"",pid:null,aba:"filtros"}};
-  $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;edDesenha()};
 criarMenu=function(){criarAbrir("post")};
 function edTemAlgo(){if(!ED)return false;return (ED.st.tx&&String(ED.st.tx.tx||"").trim())||ED.st.els.length||ED.st.tracos.length||ED.st.bg.tipo==="foto"||ED.po.fotos.length||ED.po.texto.trim()||ED.po.pid}
 function edModos(){return `<div class="ce-modos" role="tablist"><button type="button" role="tab" data-edmodo="post" aria-selected="${ED.modo==="post"}">POST</button><button type="button" role="tab" data-edmodo="story" aria-selected="${ED.modo==="story"}">GIRO</button></div>`}
 const EDI={x:'<svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',aa:'<b class="ce-aa">Aa</b>',fig:'<svg class="ico" viewBox="0 0 24 24"><path d="M14 3H7a4 4 0 0 0-4 4v10a4 4 0 0 0 4 4h7l7-7V7a4 4 0 0 0-4-4z" /><path d="M14 21v-4a3 3 0 0 1 3-3h4"/><circle cx="9" cy="10" r=".8"/><circle cx="14" cy="10" r=".8"/><path d="M8.5 14.2c1.4 1.3 3.6 1.3 5 0"/></svg>',caneta:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 20l4-1 10-10-3-3L5 16z"/><path d="M13.5 7.5l3 3"/></svg>',fundo:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>',gal:'<svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 2.5-2.5L20 17"/></svg>',vol:'<svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',lixo:'<svg class="ico" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/></svg>',desf:'<svg class="ico" viewBox="0 0 24 24"><path d="M9 7L4 12l5 5"/><path d="M4 12h10a6 6 0 0 1 0 12"/></svg>'};
-function edDesenha(){const el=$("#layer .ce");if(!el||!ED)return;el.className="ce ce-"+ED.modo;if(ED.modo==="story")edStory(el);else edPost(el)}
 
 /* ===== STORY ===== */
 function edStory(el){const st=ED.st,foto=st.bg.tipo==="foto";
@@ -9876,14 +9869,6 @@ function edRenderFoto(f,c,ar,filtro,maxW){const k=edAR(ar,(ED&&ED.po.fotos[0]||f
 let ED_FT=0;function edPrevFiltro(){clearTimeout(ED_FT);ED_FT=setTimeout(()=>{const c=$("#ce-fc"),P=ED&&ED.po;if(!c||!P)return;c.width=Math.min(720,Math.round((c.parentElement.clientWidth||360)*Math.min(2,devicePixelRatio||1)));edRenderFoto(P.fotos[P.cur],c,P.ar)},20)}
 function edMiniFiltros(){const P=ED.po,f=P.fotos[P.cur];const b=document.createElement("canvas");b.width=72;b.height=72;const g=b.getContext("2d");edCover(g,f.img,72,72,f.z,f.ox,f.oy);
   document.querySelectorAll("#layer [data-fk]").forEach(c=>{const x=c.getContext("2d");x.drawImage(b,0,0);edFiltra(c,c.dataset.fk,{})})}
-async function edPublicaPost(){if(!ED||ED.env)return;const P=ED.po;if(!P.fotos.length&&!P.texto.trim()&&!P.pid){toast("Escreva algo, escolha fotos ou anexe uma notícia.");return}ED.env=true;const ed0=ED;edDesenha();const fotos=[];
-  try{for(const f of P.fotos){const c=document.createElement("canvas");c.width=1080;edRenderFoto(f,c,P.ar);const b=await new Promise((ok,no)=>c.toBlob(x=>x?ok(x):no(new Error("img")),"image/jpeg",.86));fotos.push(await pubSobe(b));PUB.urls[fotos[fotos.length-1]]={u:URL.createObjectURL(b),exp:Date.now()+3600e3}}
-    const at=Date.now(),row={autor:S.uid,tipo:"post",at,texto:P.texto.trim().slice(0,2200),fotos,pid:P.pid||null,snap:pubSnap(P.pid),estilo:{v:2,ar:P.ar,arv:P.fotos.length?+edAR(P.ar,P.fotos[0].img).toFixed(3):null,marcados:P.marcados.slice(0,20),local:P.local.trim().slice(0,60)}};
-    const r=await SB.from("publicacoes").insert(row).select("id");if(r.error)throw r.error;const id=r.data&&r.data[0]&&r.data[0].id;PUB.itens.unshift({...row,id});
-    const txt=row.texto,marc=P.marcados.slice(),aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast("Post publicado");vibrar(10);
-    if(id&&txt)pubAvisarMencoes(id,txt,"post");const mm=marc.filter(u=>S.amigos.has(u)&&!(typeof mencionados==="function"&&mencionados(txt).includes(u)));
-    if(id&&mm.length)Promise.all(mm.map(u=>dmEnviar(u,{texto:"",pid:"u:"+id,snap:{titulo:"Post de "+nomeDe(S.uid),upub:id},tipo:"mencao"},true)));pubRedesenha();setTimeout(pubCarregar,1500)}
-  catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(ED===ed0){ED.env=false;edDesenha()}toast("Não deu para publicar. Tente de novo.")}}
 
 /* ===== cliques do editor ===== */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer .ce")||!ED)return;if(t.closest("#layer2"))return;let b;const st=ED.st,P=ED.po;
@@ -9995,12 +9980,7 @@ function edStTem(st){return st.els.length||st.tracos.length||st.bg.tipo!=="grad"
 function edJpeg(c,max){max=max||980000;return (async()=>{let b=null;for(const q of [.86,.8,.72,.64,.56,.48]){b=await new Promise((ok,no)=>c.toBlob(x=>x?ok(x):no(new Error("img")),"image/jpeg",q));if(b.size<=max)return b}return b})()}
 
 /* abrir: o story começa na câmera */
-criarAbrir=function(tipo){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+tipo);if($("#layer").innerHTML)closeLayer();
-  const st=edNovoSt();ED={modo:tipo==="story"?"story":"post",tela:"cam",env:false,st,sts:[st],si:0,po:{passo:"fotos",fotos:[],cur:0,ar:"4:5",texto:"",marcados:[],local:"",pid:null,aba:"filtros"}};
-  $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;edDesenha()};
 edTemAlgo=function(){if(!ED)return false;return (ED.st.tx&&String(ED.st.tx.tx||"").trim())||ED.sts.some(edStTem)||ED.po.fotos.length||ED.po.texto.trim()||ED.po.pid};
-edDesenha=function(){const el=$("#layer .ce");if(!el||!ED)return;el.className="ce ce-"+ED.modo+(ED.modo==="story"?" t-"+ED.tela:"");
-  if(ED.modo==="story"){if(ED.tela==="cam")edCamTela(el);else if(ED.tela==="lay")edLayTela(el);else{camDesliga();edStory(el)}}else{camDesliga();edPost(el)}};
 
 /* ===== câmera ===== */
 async function camLiga(){const v=$("#ce-video");if(!v)return;if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){camErro("sem");return}
@@ -10380,15 +10360,6 @@ async function rascPainel(){const l=await rascLista();l.forEach(x=>{x._u=x.fotos
     ov.innerHTML=`<div class="ce-selp"><b>Salvar como rascunho?</b><p class="ce-selh">O rascunho fica guardado neste aparelho para você continuar depois.</p><button type="button" class="btn" data-edrsalva>Salvar rascunho</button><button type="button" class="btn ghost ce-desc" data-edrdesc>Descartar</button><button type="button" class="btn ghost" data-edselx>Continuar editando</button></div>`;$("#layer .ce").appendChild(ov);return}
   return _ef62.apply(this,arguments)}}
 /* publicar o post */
-edPublicaPost=async function(){if(!ED||ED.env)return;const P=ED.po;if(!P.fotos.length&&!P.texto.trim()&&!P.pid){toast("Escreva algo, escolha fotos ou anexe uma notícia.");return}ED.env=true;const ed0=ED;edDesenha();const fotos=[];
-  try{for(const f of P.fotos){const c=document.createElement("canvas");c.width=1080;edRenderFoto(f,c,P.ar);const b=await edJpeg(c);fotos.push(await pubSobe(b));PUB.urls[fotos[fotos.length-1]]={u:URL.createObjectURL(b),exp:Date.now()+3600e3}}
-    const tags=(P.tags||[]).map(t=>{const i=P.fotos.indexOf(edTagF(t));return i>=0?{u:t.u,i,x:+(+t.x).toFixed(3),y:+(+t.y).toFixed(3)}:null}).filter(Boolean).slice(0,30),marc=[...new Set(tags.map(t=>t.u).concat(P.marcados))].slice(0,20);
-    const at=Date.now(),row={autor:S.uid,tipo:"post",at,texto:P.texto.trim().slice(0,2200),fotos,pid:P.pid||null,snap:pubSnap(P.pid),estilo:{v:2,ar:P.ar,arv:P.fotos.length?+edAR(P.ar,edBase(P.fotos[0])).toFixed(3):null,marcados:marc,local:P.local.trim().slice(0,60),tags,alt:P.fotos.map(f=>String(f.alt||"").slice(0,200)),semCom:!!P.semCom,semCurt:!!P.semCurt}};
-    let r=await SB.from("publicacoes").insert(row).select("id");if(r.error&&/estilo/i.test(JSON.stringify(r.error))){row.estilo.alt=row.estilo.alt.map(a=>a.slice(0,40));row.estilo.tags=tags.slice(0,10);row.estilo.marcados=row.estilo.marcados.slice(0,10);r=await SB.from("publicacoes").insert(row).select("id");if(r.error&&/estilo/i.test(JSON.stringify(r.error))){row.estilo.alt=[];row.estilo.tags=tags.slice(0,4);r=await SB.from("publicacoes").insert(row).select("id");if(!r.error)setTimeout(()=>toast("Publicado, mas algumas marcações e textos alternativos ficaram de fora (limite do servidor)."),1200)}}if(r.error)throw r.error;const id=r.data&&r.data[0]&&r.data[0].id;PUB.itens.unshift({...row,id});if(P.rid)rascApaga(P.rid);
-    const txt=row.texto,aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast("Post publicado");vibrar(10);
-    if(id&&txt)pubAvisarMencoes(id,txt,"post");const mm=marc.filter(u=>S.amigos.has(u)&&!(typeof mencionados==="function"&&mencionados(txt).includes(u)));
-    if(id&&mm.length)Promise.all(mm.map(u=>dmEnviar(u,{texto:"",pid:"u:"+id,snap:{titulo:"Post de "+nomeDe(S.uid),upub:id},tipo:"mencao"},true)));pubRedesenha();setTimeout(pubCarregar,1500)}
-  catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(ED===ed0){ED.env=false;edDesenha()}toast("Não deu para publicar. Tente de novo.")}};
 /* cliques do post */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer .ce")||!ED)return;if(t.closest("#layer2"))return;let b;const P=ED.po;const pare=()=>{e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()};
   if(ED.env&&t.closest("[data-edrolo],[data-edmulti],[data-edgira],[data-edfiok],[data-edtags],[data-edtagx],[data-edtagu],[data-edtagok],[data-edtgn],[data-edavanc],[data-edrasc],[data-edrascx],[data-edrascs],[data-edrsalva],[data-edrdesc],[data-edajzero]")){pare();return}
@@ -10496,7 +10467,6 @@ function edTrim(o,max,vSel){$("#layer .ce-sel")?.remove();const ov=document.crea
   (async()=>{const box=$("#ce-trs");if(!box||!o.url)return;for(let i=0;i<8;i++){if(!$("#ce-trs"))return;const c=await vidQuadro(o,d*i/8,45,80,null);c.className="ce-trq";box.appendChild(c)}})()}
 /* ===== modos do editor: POST e STORY (a criação de Reels saiu em 13/11; os Reels já publicados continuam tocando no Feed) ===== */
 edModos=function(){return `<div class="ce-modos" role="tablist">${[["post","POST"],["story","STORY"]].map(([k,n])=>`<button type="button" role="tab" data-edmodo="${k}" aria-selected="${ED.modo===k}">${n}</button>`).join("")}</div>`};
-{const _ed63=edDesenha;edDesenha=function(){if(!ED)return;if(ED.modo==="reel")ED.modo="post";if(CAM.rec)camGravaFim();return _ed63.apply(this,arguments)}}
 /* cliques do vídeo no story */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer .ce")||!ED||t.closest("#layer2"))return;let b;const pare=()=>{e.stopPropagation();e.stopImmediatePropagation();e.preventDefault()};
   if(Date.now()-(ED._gravou||0)<900&&t.closest("[data-edfoto]")){pare();return}
@@ -11138,8 +11108,9 @@ function pqDesenha(){const box=pqBox();if(!box){return}const vis=PQ.jobs.filter(
   box.hidden=!vis.length;pqAtualiza()}
 
 /* embrulha as três funções de publicar */
-function pqEmbrulha(tipo){const nome=PQ_NOMES[tipo],orig=window[nome];if(typeof orig!=="function")return;
-  window[nome]=function(){const args=[...arguments];
+/* pqCamada: a camada da fila em volta de uma função de publicar (o post usa no 206-criar.js: ED206_PQ) */
+function pqCamada(tipo,orig){
+  return function(){const args=[...arguments];
     if(PQ.retry&&PQ.retry.ed===ED&&PQ.retry.tipo===tipo){const j=PQ.retry;PQ.retry=null;const p=orig.apply(this,args);pqComeca(j,p);return p}
     if(!ED||ED.env||PQ.atual||!$("#layer .ce"))return orig.apply(this,args);const ed=ED;
     if(tipo==="post"){/* a 1ª foto é processada antes do 1º await: fecha antes para não travar */const P=ed.po;if(!P.fotos.length&&!P.texto.trim()&&!P.pid)return orig.apply(this,args);
@@ -11147,7 +11118,8 @@ function pqEmbrulha(tipo){const nome=PQ_NOMES[tipo],orig=window[nome];if(typeof 
       const p=new Promise(ok=>setTimeout(()=>{if(ED!==ed){ok();return}ok(orig.apply(this,args))},40));pqComeca(j,p);return p}
     const p=orig.apply(this,args);if(ED!==ed||!ed.env)return p;
     const j=pqNovo(tipo,ed,args);PQ.atual=j;pqFechaEditor(ed);pqComeca(j,p);return p}}
-pqEmbrulha("story");pqEmbrulha("post");pqEmbrulha("reel");
+function pqEmbrulha(tipo){const nome=PQ_NOMES[tipo],orig=window[nome];if(typeof orig!=="function")return;window[nome]=pqCamada(tipo,orig)}
+pqEmbrulha("story");pqEmbrulha("reel");  /* o post: a mesma camada, dentro do edPublicaPost do 206 (entre a base e o 095, como antes) */
 function pqTenta(id){const j=PQ.jobs.find(x=>x.id===id);if(!j||j.estado!=="erro")return;if(PQ.atual){toast("Espere terminar de publicar.");return}if(ED||$("#layer .ce")){toast("Feche o editor para tentar de novo.");return}
   ED=j.ed;ED.env=false;PQ.retry=j;let p;try{p=window[PQ_NOMES[j.tipo]].apply(null,j.args||[])}catch(e){p=Promise.reject(e)}if(PQ.retry===j){PQ.retry=null;pqComeca(j,p)}}
 function pqDescarta(id){const j=PQ.jobs.find(x=>x.id===id);if(!j||j.estado!=="erro")return;PQ.jobs=PQ.jobs.filter(x=>x!==j);if(j.tipo==="post"&&j.ed.po.rid&&typeof rascApaga==="function")rascApaga(j.ed.po.rid);j.ed=null;pqDesenha();try{renderSecs()}catch(e){}}
@@ -11159,7 +11131,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
 {const _v93=vidSobe;vidSobe=async function(){const j=PQ.atual;const r=await _v93.apply(this,arguments);if(j&&PQ.atual===j){j.feito+=3;j.sub=0}return r}}
 {const _f93=vidFinal;vidFinal=function(vd,o){const j=PQ.atual;if(j&&o){const p0=o.prog;o=Object.assign({},o,{prog:p=>{try{p0&&p0(p)}catch(e){}j.sub=Math.max(0,Math.min(1,+p||0))*2.5}})}return _f93.call(this,vd,o)}}
 /* enquanto um envio roda, o editor não abre de novo (o envio usa o estado dele) */
-{const _ca93=criarAbrir;criarAbrir=function(){if(PQ.atual){toast("Espere terminar de publicar.");return}pqAnimCls();const r=_ca93.apply(this,arguments);const ce=$("#layer .ce");if(ce&&ANIM_OK()){ce.dataset.anim="entra";setTimeout(()=>{if(ce.dataset.anim==="entra")delete ce.dataset.anim},400)}return r}}
 window.addEventListener("click",e=>{if(!PQ.atual||!e.target.closest)return;if(e.target.closest("[data-pfreel],#layer [data-usadd],[data-upstory],[data-criarde],#b-criar")){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();toast("Espere terminar de publicar.")}},true);
 addEventListener("beforeunload",e=>{if(PQ.atual&&!navigator.webdriver){e.preventDefault();e.returnValue=""}});
 
@@ -11492,7 +11463,6 @@ var CFP_RASC=null,CFP_RAF=0,CFP_SC=0;
 setTimeout(()=>{try{if(S&&S.uid)rascLista()}catch(e){}},2500);
 function cfpAbreGaleria(){const P=ED&&ED.po;if(!P||ED.modo!=="post"||P.fotos.length||P.rolo&&P.rolo.length||P.passo!=="fotos"||CFP_RASC>0)return;const f=$("#ce-pfile");if(f)try{f.click()}catch(e){}}
 /* abrir o post já abre a galeria (sem o toque a mais em "Escolher fotos") */
-{const _ca95=criarAbrir;criarAbrir=function(tipo){const r=_ca95.apply(this,arguments);if(tipo!=="story"&&tipo!=="reel")cfpAbreGaleria();return r}}
 
 edPvTam=function(){const pv=$("#ce-pv"),P=ED&&ED.po;if(!pv||!P||!P.fotos.length)return;const box=pv.parentElement,k=edAR(P.ar,edBase(P.fotos[0])),W=box.clientWidth||innerWidth;
   const bh=Math.round(Math.min(innerHeight*.6,W*Math.max(1,1/k)));if(box.classList.contains("cfp-box"))box.style.height=bh+"px";let w=W,h=w/k;if(h>bh){h=bh;w=h*k}
@@ -11573,9 +11543,6 @@ addEventListener("resize",()=>{if(ED&&ED.modo==="post"&&$("#cfp-trk")){cfpTam();
 /* público do post (quando a lista de Melhores amigos existe) */
 function cfpPublico(){const P=ED.po;const ov=document.createElement("div");ov.className="ce-sel";
   ov.innerHTML=`<div class="ce-selp"><b>Quem pode ver</b><div class="cfp-pubs"><button type="button" data-cfppubv="amigos" aria-pressed="${P.pub!=="proximos"}"><span>Todos os amigos</span><small>Seus amigos no Prumo</small></button><button type="button" data-cfppubv="proximos" aria-pressed="${P.pub==="proximos"}"><span>★ Melhores amigos</span><small>${MA.set.size?`${MA.set.size} ${MA.set.size===1?"pessoa":"pessoas"}`:"Lista vazia"}</small></button></div><div class="ce-selb"><button type="button" class="btn ghost" data-cfpmaed>Editar a lista</button><button type="button" class="btn" data-edselx>Concluir</button></div></div>`;$("#layer .ce").appendChild(ov)}
-{const _pp95=edPublicaPost;edPublicaPost=async function(){const pub=ED&&ED.po&&MA.on&&ED.po.pub==="proximos"?"proximos":null;if(!pub||!SB)return _pp95.apply(this,arguments);if(!ED.env&&!MA.set.size){edMaLista(true);return}const _from=SB.from;
-  SB.from=function(t){const q=_from.apply(this,arguments);if(t==="publicacoes"&&q&&typeof q.insert==="function"){const ins=q.insert;q.insert=function(row){if(row&&row.tipo==="post")row.publico=pub;return ins.apply(this,arguments)}}return q};
-  try{return await _pp95.apply(this,arguments)}finally{SB.from=_from}}}
 
 /* cliques novos */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!ED||!$("#layer .ce")||t.closest("#layer2"))return;let b;const P=ED.po;const pare=()=>{e.stopPropagation();e.preventDefault()};
@@ -11671,7 +11638,6 @@ function rcCamExtra(el){let rail=el.querySelector(".ce-rail");if(!rail){el.inser
   el.insertAdjacentHTML("beforeend",`<div class="rc-zoom" id="rc-zoom" hidden><input type="range" min="1" max="2" step="0.1" value="1" aria-label="Zoom"><b id="rc-zl">1×</b></div>`);
   el.querySelector("#rc-zoom input").addEventListener("input",e=>rcZoomPoe(+e.target.value));rcGestosCam(el.querySelector("#ce-cv"));rcZoomUI()}
 {const _ct96=edCamTela;edCamTela=function(el){const r=_ct96.apply(this,arguments);rcCamExtra(el);return r}}
-{const _ca96=criarAbrir;criarAbrir=function(){RC.ocupado=false;return _ca96.apply(this,arguments)}}
 /* ---------- 097: Reels ---------- */
 /* A criação de Reels saiu em 13/11 (o editor tem só POST e STORY). Os Reels já publicados continuam no Feed e no perfil
    (aba Posts); a aba Reels do perfil não aparece. */
@@ -12072,7 +12038,6 @@ document.addEventListener("input",e=>{const t=e.target;if(t&&t.matches&&t.matche
 function ca100Leg(){const t=$("#layer #ce-leg");if(!t)return;const cs=getComputedStyle(t),lh=parseFloat(cs.lineHeight)||23,max=Math.round(lh*8+parseFloat(cs.paddingTop||0)+parseFloat(cs.paddingBottom||0));
   t.style.height="auto";const h=t.scrollHeight;t.style.height=Math.min(h,max)+"px";t.classList.toggle("ca100-mais",h>max+2)}
 document.addEventListener("input",e=>{if(e.target&&e.target.id==="ce-leg")ca100Leg()},true);
-{const _dz100=edDesenha;edDesenha=function(){const r=_dz100.apply(this,arguments);try{if($("#layer #ce-leg"))ca100Leg()}catch(e){}return r}}
 /* ---------- 101: só duas bolinhas de abertura no topo do Feed ("Em 5 min" e "Últimas"), depois os temas ---------- */
 /* "Sua semana" sai da fileira (continua em Perfil › Conta). A Agenda deixa de ter bolinha própria
    e vira as últimas telas do "Em 5 min" (hoje e o próximo dia com compromissos: no máximo 2 telas). */
@@ -12206,40 +12171,6 @@ function cn102Fotos(P){return `<div class="cn102-fts" aria-label="Fotos">${P.fot
 function cn102NtCard(p){const v=versao(p,lente()),f=fotoDe(p);return `${capaArte(p,"cn102-nta",1)}<span class="cn102-ntt"><small style="color:${secCor(secOf(p))}">${esc(secNome(secOf(p)))}${p.tag?" · "+esc(p.tag):""}</small><b>${esc(v.titulo)}</b><em>Notícia da edição do Prumo</em></span>`}
 function cn102DadoBloco(cn){const d=cn.d;if(!d)return `<button type="button" class="cn102-dadd" data-cn102dado>${CN102_SVG(CN102_ICO.ind)}<span><b>Número ou gráfico</b><small>Um indicador da edição ou os seus próprios números</small></span></button>`;
   return `<div class="cn102-dprev cn102-claro">${cn102Svg(d)}</div><div class="cn102-dbs"><button type="button" class="cn102-chip" data-cn102dado>Trocar</button><button type="button" class="cn102-chip" data-cn102dsem>Tirar</button></div>`}
-function cn102Det(el){const P=ED.po,cn=P.cn,k=cn.k,tem=P.fotos.length,nt=P.pid&&pautaById(P.pid),nm=[...new Set((P.tags||[]).map(t=>t.u).concat(P.marcados))],eu=cn102Primeiro(S.uid);
-  const campo=(id,f,ph,max,v,x)=>f==="tit"?`<textarea class="cn102-in cn102-tit" id="${id}" data-cn102f="${f}" maxlength="${max}" rows="1" placeholder="${esc(ph)}" ${x||""}>${esc(v||"")}</textarea>`:`<input class="cn102-in" id="${id}" data-cn102f="${f}" maxlength="${max}" placeholder="${esc(ph)}" value="${esc(v||"")}" autocomplete="off" ${x||""}>`;
-  let b="";
-  if(k==="nt")b=`${nt?`<button type="button" class="cn102-ntc" data-edsont aria-label="Trocar a notícia">${cn102NtCard(nt)}</button>`:`<button type="button" class="cn102-dadd" data-edsont>${CN102_SVG(CN102_ICO.nt)}<span><b>Escolher a notícia</b><small>Uma das notícias da edição de hoje</small></span></button>`}
-      ${tem?cn102Fotos(P):""}<textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="4" placeholder="O que você acha dessa notícia?" aria-label="Seu comentário">${esc(cn.corpo)}</textarea>`;
-  if(k==="rel")b=`${cn102Fotos(P)}${campo("cn102-tit","tit","O que aconteceu? (título curto)",120,cn.tit,'enterkeyhint="next"')}
-      <textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="4" placeholder="Conte o que você viu: o quê, onde, como." aria-label="Detalhes">${esc(cn.corpo)}</textarea>
-      <div class="cfp-rows cn102-rows"><label class="ce-row"><span>Onde</span><input id="ce-local" data-cn102f="local" maxlength="60" placeholder="Bairro, cidade" value="${esc(P.local)}" autocomplete="off"></label>
-        <label class="ce-row"><span>Quando</span><input id="cn102-q" type="datetime-local" lang="pt-BR" data-cn102f="q" value="${esc(cn.q||"")}" max="${cn102Hoje()}"></label>
-        <label class="ce-row"><span>Fonte</span><input id="cn102-fu" data-cn102f="fu" maxlength="300" placeholder="Link ou de onde veio (opcional)" value="${esc(cn.fu)}" autocomplete="off" inputmode="url"></label></div>`;
-  if(k==="ana")b=`${campo("cn102-tit","tit","Título da sua análise",120,cn.tit,'enterkeyhint="next"')}
-      <textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="6" placeholder="Seu ponto de vista sobre economia ou política. Diga de onde vêm os números." aria-label="Sua análise">${esc(cn.corpo)}</textarea>
-      <div class="cn102-dado">${cn102DadoBloco(cn)}</div>${tem?cn102Fotos(P):""}
-      <div class="cfp-rows cn102-rows"><label class="ce-row"><span>Fonte</span><input id="cn102-fu" data-cn102f="fu" maxlength="300" placeholder="Link ou nome da fonte (opcional)" value="${esc(cn.fu)}" autocomplete="off" inputmode="url"></label>
-        ${tem?"":`<button type="button" class="ce-row" data-cn102foto><span>Adicionar foto</span><em></em><i>›</i></button>`}</div>`;
-  if(k==="enq"){const os=cn.o.length?cn.o:["",""];b=`${campo("cn102-tit","tit","Sua pergunta",120,cn.tit,'enterkeyhint="next"')}
-      <div class="cn102-ops">${os.map((v,i)=>`<span class="cn102-op"><input data-cn102o="${i}" maxlength="40" placeholder="${["Sim","Não","Opção 3","Opção 4"][i]}" value="${esc(v)}" aria-label="Opção ${i+1}" autocomplete="off">${i>1?`<button type="button" data-cn102otira="${i}" aria-label="Tirar a opção">${CN102_SVG(CN102_ICO.x)}</button>`:""}</span>`).join("")}${os.length<4?`<button type="button" class="cn102-opm" data-cn102omais>${CN102_SVG(CN102_ICO.mais)}Opção</button>`:""}</div>
-      <div class="cfp-rows cn102-rows"><button type="button" class="ce-row" data-edsont><span>Sobre a notícia</span><em>${nt?esc(versao(nt,lente()).titulo):"Opcional"}</em><i>›</i></button>${nt?`<button type="button" class="ce-row ce-semnt" data-edsemnt><span>Tirar a notícia</span></button>`:""}</div>
-      <textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="2" placeholder="Contexto (opcional)" aria-label="Contexto">${esc(cn.corpo)}</textarea>`}
-  const aviso={nt:"A notícia aparece como da edição do Prumo e o comentário, com o seu nome.",rel:`Aparece como “Relato de ${eu}”. Conte só o que você viu ou confirmou: a redação não checa relatos.`,
-    ana:`Aparece como “Opinião de ${eu}”, separada das notícias da edição.`,enq:"Seus amigos votam e veem o resultado, como nas enquetes da edição."}[k];
-  el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edvolta="fotos" aria-label="Voltar">${EDI.vol}</button><b>${esc(CN102_NOME[k])}</b><span class="ce-b" aria-hidden="true"></span></div>
-    <div class="ce-det cfp-det cn102" data-k="${k}"><div class="cn102-ks" role="tablist" aria-label="Tipo de publicação">${CN102_KS.map(([kk,n])=>`<button type="button" role="tab" data-cn102k="${kk}" aria-selected="${kk===k}">${CN102_SVG(CN102_ICO[kk])}${esc(n)}</button>`).join("")}</div>
-      ${b}
-      <div class="cfp-rows"><button type="button" class="ce-row" ${tem?"data-edtags":"data-edmarcar"}><span>Marcar pessoas</span><em>${nm.length?esc(nm.map(u=>cn102Primeiro(u)).join(", ")):""}</em><i>›</i></button>
-        ${MA.on?`<button type="button" class="ce-row" data-cfppub><span>Público</span><em>${P.pub==="proximos"?"★ Melhores amigos":"Todos os amigos"}</em><i>›</i></button>`:""}
-        <button type="button" class="ce-row" data-edavanc aria-expanded="${!!P.avOn}"><span>Configurações avançadas</span><em></em><i>${P.avOn?"⌃":"›"}</i></button>
-        ${P.avOn?`<div class="ce-avc"><label class="ce-sw"><span>Ocultar o número de curtidas<small>Só você vê quem curtiu.</small></span><input type="checkbox" data-edsw="semCurt" ${P.semCurt?"checked":""}></label>
-          <label class="ce-sw"><span>Desativar comentários<small>Ninguém poderá comentar neste post.</small></span><input type="checkbox" data-edsw="semCom" ${P.semCom?"checked":""}></label>
-          ${tem?`<b class="ce-avt" id="cfp-altt">Texto alternativo</b>${P.fotos.map((x,i)=>`<div class="ce-altr"><img alt="" data-ai="${i}"><input class="field" maxlength="200" placeholder="Descreva a foto ${i+1}" data-edalt="${i}" value="${esc(x.alt||"")}"></div>`).join("")}`:""}</div>`:""}</div>
-      <p class="cn102-aviso">${esc(aviso)}</p></div>
-    <div class="cfp-share cn102-share">${k==="nt"&&nt?`<button type="button" class="cn102-st" data-cn102nst>${CN102_SVG(CN102_ICO.story)}Giro</button>`:""}<button type="button" class="cfp-shb" data-edpubpo ${ED.env?"disabled":""}>${ED.env?"Publicando…":"Publicar"}</button></div>`;
-  el.querySelectorAll("img[data-ai]").forEach(im=>{im.src=edUrlF(P.fotos[+im.dataset.ai])});cn102Cresce($("#cn102-tit"));
-  el.querySelectorAll("canvas[data-cfpc]").forEach(c=>{try{edRenderFoto(P.fotos[+c.dataset.cfpc],c,P.ar)}catch(e){}})}
 {const _cd=cfpDet;cfpDet=function(el){const P=ED&&ED.po;if(P&&P.cn&&P.cn.k){try{return cn102Det(el)}catch(e){console.error(e)}}return _cd.apply(this,arguments)}}
 /* o que se digita vai para o estado (e o texto do post fica sempre pronto, para o rascunho e o "descartar?") */
 function cn102Cresce(t){if(!t)return;t.style.height="auto";t.style.height=Math.min(140,t.scrollHeight+2)+"px"}
@@ -12336,11 +12267,6 @@ function cn102Valida(P){const cn=P.cn;cn102Sync();
 function cn102Grava(P){const cn=P.cn,o={v:1,k:cn.k};const t=String(cn.tit||"").trim().slice(0,120);if(t&&cn.k!=="nt")o.tit=t;
   const f=cn102Fonte(cn.fu);if(f&&cn.k!=="nt"&&cn.k!=="enq")o.fu=f.u||f.n;if(cn.k==="rel"&&cn.q)o.q=String(cn.q).slice(0,16);
   if(cn.k==="enq")o.o=cn.o.map(v=>String(v||"").trim().slice(0,40)).filter(Boolean).slice(0,4);if(cn.k==="ana"&&cn.d)o.d=cn.d;return o}
-{const _pp=edPublicaPost;edPublicaPost=async function(){const P=ED&&ED.po;if(!P||!P.cn||ED.env||!SB)return _pp.apply(this,arguments);
-  const er=cn102Valida(P);if(er){toast(er);return}const cn=cn102Grava(P);
-  P.texto=cn102Texto(cn.k==="nt"?{tit:""}:P.cn,P.cn.corpo);if(!P.texto.trim()&&!P.pid&&!P.fotos.length){toast("Escreva algo antes de publicar.");return}
-  const _from=SB.from;SB.from=function(tb){const q=_from.apply(this,arguments);if(tb==="publicacoes"&&q&&typeof q.insert==="function"&&!q._cn102){const ins=q.insert;q._cn102=1;q.insert=function(row){try{if(row&&row.tipo==="post"&&row.estilo&&typeof row.estilo==="object")row.estilo.cn=cn}catch(e){}return ins.apply(this,arguments)}}return q};
-  try{return await _pp.apply(this,arguments)}finally{SB.from=_from}}}
 /* rascunho: o cn fica guardado ao lado (por id do rascunho) */
 const CN102_RK="prumo-cn102-rasc";
 function cn102RLe(){try{return JSON.parse(localStorage.getItem(CN102_RK)||"{}")||{}}catch(e){return {}}}
@@ -12704,11 +12630,6 @@ if(FOCO_LIGADO){
       if(c)(Array.isArray(row)?row:[row]).forEach(r=>{if(r&&r.tipo==="story"&&!String(r.texto||"").trim())r.texto=fc105Alt(c)})}catch(e){}return ins.apply(this,arguments)}}return q};
     try{return await _ps.apply(this,arguments)}finally{SB.from=_from}}}
   /* post: aviso com a regra da casa e pedido de fonte na análise */
-  {const _cd=cn102Det;cn102Det=function(el){const r=_cd.apply(this,arguments);try{const a=el.querySelector(".cn102-aviso");if(a&&!a.querySelector(".fc105-regra"))a.insertAdjacentHTML("beforeend",`<span class="fc105-regra">Discuta as ideias, com respeito às pessoas.</span>`);
-      const fu=el.querySelector("#cn102-fu");const P=ED&&ED.po;if(fu&&P&&P.cn&&P.cn.k==="ana"){fu.placeholder="Link ou nome da fonte (recomendado)";if(P._fc105fu)fu.closest(".ce-row")?.classList.add("fc105-pede")}}catch(e){}return r}}
-  {const _pp=edPublicaPost;edPublicaPost=async function(){const P=ED&&ED.po;try{if(P&&P.cn&&P.cn.k==="ana"&&!ED.env&&!P._fc105fu&&!String(P.cn.fu||"").trim()&&!(P.cn.d&&P.cn.d.tipo==="ind")&&!cn102Valida(P)){
-      P._fc105fu=1;edDesenha();const i=$("#cn102-fu"),row=i&&i.closest(".ce-row");if(row){row.insertAdjacentHTML("afterend",`<p class="fc105-pedet" role="status">De onde vêm as informações? Uma fonte dá mais confiança a quem lê. Se não tiver, toque em Publicar de novo.</p>`);row.scrollIntoView({block:"center"});try{i.focus({preventScroll:true})}catch(e){}}return}}catch(e){}
-    return _pp.apply(this,arguments)}}
   /* bandeja: busca só de figurinhas */
   {const _fg=edFigs;edFigs=function(){const r=_fg.apply(this,arguments);try{const q=$("#ce-figq");if(q)q.placeholder="Buscar figurinhas"}catch(e){}return r}}
 }
@@ -12827,7 +12748,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;co
   if(b){MC106={pid:b.dataset.cn102envp||b.dataset.cn102envs,t:Date.now()};return}
   if(t.closest("[data-edpubpo],[data-edpubst]")&&MC106)MC106.pub=1},true);
 /* 7. análise: o texto do campo de fonte cabia só pela metade em telas de 360px */
-{const _cd106=cn102Det;cn102Det=function(el){const r=_cd106.apply(this,arguments);try{const fu=el.querySelector("#cn102-fu");if(FOCO_LIGADO&&fu&&/recomendado/.test(fu.placeholder))fu.placeholder="Link ou nome (recomendado)"}catch(e){}return r}}
 /* 8. Local e Menção vão "assados" na foto do story com roxo e rosa fixos; no foco, saem com os tons de jornal (como na tela) */
 {const _pe106=edPintaEl;const T106={"#8338ec":"#1d3a63","#c2185b":"#6e2633"};edPintaEl=function(g,e){if(!FOCO_LIGADO||!g||!e||!["local","men"].includes(e.t))return _pe106.apply(this,arguments);
   const d=Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype,"fillStyle");try{Object.defineProperty(g,"fillStyle",{configurable:true,get(){return d.get.call(g)},set(v){d.set.call(g,typeof v==="string"&&T106[v.toLowerCase()]||v)}})}catch(x){return _pe106.apply(this,arguments)}
@@ -12971,11 +12891,6 @@ window.addEventListener("click",e=>{if(!FOCO_LIGADO)return;const t=e.target;if(!
 const PQ108_LS="prumo-pq-pend";
 function pq108Le(){try{return JSON.parse(localStorage.getItem(PQ108_LS+":"+S.uid)||"[]")||[]}catch(e){return []}}
 function pq108Grava(l){try{if(l.length)localStorage.setItem(PQ108_LS+":"+S.uid,JSON.stringify(l.slice(-10)));else localStorage.removeItem(PQ108_LS+":"+S.uid)}catch(e){}}
-{const _pp108=edPublicaPost;edPublicaPost=function(){const ed=ED;const p=_pp108.apply(this,arguments);
-  try{const j=PQ.atual;if(ed&&j&&j.ed===ed&&j.tipo==="post"&&typeof rascSalva==="function"){const P=ed.po;if(!P.rid)P.rid=edNid();const rid=P.rid,s=ED;
-      ED=ed;try{rascSalva().catch(()=>{})}finally{ED=s}pq108Grava(pq108Le().filter(x=>x!==rid).concat(rid));
-      Promise.resolve(p).then(()=>{if(j.estado==="ok"){pq108Grava(pq108Le().filter(x=>x!==rid));setTimeout(()=>rascApaga(rid),1500)}},()=>{})}}catch(e){}
-  return p}}
 setTimeout(function pq108Aviso(){if(!(S.uid&&S.membro&&S.amigosOk&&PUB.carregou)){setTimeout(pq108Aviso,1500);return}
   const l=pq108Le();if(!l.length||typeof rascLista!=="function")return;
   rascLista().then(rs=>{/* se o servidor recebeu (o app fechou antes da resposta), o rascunho sai sem aviso */
@@ -13821,12 +13736,6 @@ if(VN_FASE2){
   {const _gp113=garantirPost;garantirPost=function(pid){const r=_gp113.apply(this,arguments);if(r||!F113_NAPRAT.has(pid))return r;F113_SOLTA.add(pid);try{renderPosts(true)}catch(e){}return _gp113.apply(this,arguments)}}
   /* criar: "Adicionar parte" no passo do texto */
   {const _cd113=cfpDet;cfpDet=function(el){const r=_cd113.apply(this,arguments);try{f113EdPoe(el)}catch(e){console.error(e)}return r}}
-  {const _ep113=edPublicaPost;edPublicaPost=async function(){const P=ED&&ED.po;if(!P||ED.env||!SB||!f113PodeCompor(P))return _ep113.apply(this,arguments);
-    const parts=f113Limpa(P.f113fio);if(!parts.length)return _ep113.apply(this,arguments);
-    const p1=P.cn?String(P.cn.corpo||"").trim()||String(P.cn.tit||"").trim():String(P.texto||"").trim();if(!p1){toast("Escreva a primeira parte do fio.");try{$("#ce-leg")?.focus()}catch(e){}return}
-    const _from=SB.from;SB.from=function(tb){const q=_from.apply(this,arguments);if(tb==="publicacoes"&&q&&typeof q.insert==="function"&&!q._f113){const ins=q.insert;q._f113=1;q.insert=function(row){try{if(row&&row.tipo==="post"&&row.estilo&&typeof row.estilo==="object")row.estilo.fio=parts}catch(e){}return ins.apply(this,arguments)}}return q};
-    let r;try{r=await _ep113.apply(this,arguments)}finally{SB.from=_from}
-    try{const x=(PUB.itens||[]).find(y=>y&&y.autor===S.uid&&y.estilo&&y.estilo.fio===parts);if(x&&x.id){uso("fase2_fio");f113AvisaPartes(x.id,x.texto,parts)}}catch(e){}return r}}
   /* editar: as partes aparecem embaixo da legenda */
   {const _pe113=pubEditar;pubEditar=async function(id,txt){const E=F113_ED,x=pubDe(id);F113_ED=null;if(!E||!E.ok||E.id!==id||!x)return _pe113.apply(this,arguments);
     const parts=f113Limpa(E.parts),ant=f113Fio(x)||[];
@@ -14227,8 +14136,6 @@ try{const r=FC107_PK.find(k=>k[0]==="rel");if(r)r[1]=DC122_DP}catch(e){}
 {const _fk122=fc105Kicker;fc105Kicker=function(c,nome){return c&&c.k==="rel"?`${DC122_DP} · ${nome||nomeDe(S.uid)||""}`:_fk122.apply(this,arguments)}}
 {const _sn122=fc107StNoticia;fc107StNoticia=function(x){return _sn122.apply(this,arguments)||/^De perto · /.test(String((x&&x.texto)||""))}}
 {const _va122=cn102Valida;cn102Valida=function(){const r=_va122.apply(this,arguments);return r==="Dê um título curto ao relato."?"Dê um título curto ao que você viu.":r}}
-{const _cd122=cn102Det;cn102Det=function(el){const r=_cd122.apply(this,arguments);try{const P=ED&&ED.po;if(P&&P.cn&&P.cn.k==="rel"&&el){const av=el.querySelector(".cn102-aviso");
-  if(av)av.textContent=`Aparece como “${DC122_DP} · ${cn102Primeiro(S.uid)}”. Conte só o que você viu ou confirmou: a redação não checa estes posts.`}}catch(e){}return r}}
 {const _pt122=fc107PfTile;fc107PfTile=function(){const h=_pt122.apply(this,arguments);return typeof h==="string"?h.replace("<small>Relato</small>",`<small>${DC122_DP}</small>`):h}}
 {const _an122=atPubNome;atPubNome=function(){const n=_an122.apply(this,arguments);return typeof n==="string"?n.replace(/^seu relato\b/,"seu post De perto"):n}}
 {const _br122=fc107Barra;fc107Barra=function(){const r=_br122.apply(this,arguments);try{const b=$("#cn102-bar .fc107-bmais");if(b)b.setAttribute("aria-label","Publicar outra coisa: notícia, De perto, análise ou pergunta")}catch(e){}return r}}
@@ -14451,7 +14358,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
 /* no "O que você quer publicar?" e nas abas do formulário */
 {const _ih=cn102InicioHTML;cn102InicioHTML=function(){let h=_ih.apply(this,arguments);try{const n=cs123RascLe().length;
   h=h.replace(/(<div class="cn102-cards">[\s\S]*?)(<\/div>)/,(m,a,z)=>a+`<button type="button" class="cn102-card cs123-cardc" data-cs123ini>${CN102_SVG(CS123_IC.col)}<b>Escrever coluna</b><small>${n?`${n} ${n===1?"rascunho":"rascunhos"} guardado${n===1?"":"s"}`:"Texto longo com título, como um artigo"}</small></button>`+z)}catch(e){}return h}}
-{const _cd=cn102Det;cn102Det=function(el){const r=_cd.apply(this,arguments);try{const ks=el.querySelector(".cn102-ks");if(ks&&!ks.querySelector("[data-cs123ini]"))ks.insertAdjacentHTML("beforeend",`<button type="button" role="tab" data-cs123ini aria-selected="false">${CN102_SVG(CS123_IC.col)}Coluna</button>`)}catch(e){}return r}}
 window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-cs123ini]");if(!b)return;e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();
   if(typeof ED!=="undefined"&&ED&&ED.env)return;const P=ED&&ED.po,pre=P&&P.cn?{tit:String(P.cn.tit||"").slice(0,90),corpo:String(P.cn.corpo||"")}:P?{corpo:String(P.texto||"")}:{};cs123Comeca(pre)},true);
 function cs123Comeca(pre){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_coluna");
@@ -14608,9 +14514,6 @@ const cs123PodeSeg=()=>!!(V9.on&&CS123.aberto);
   box.querySelectorAll("[data-cfppubv]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.cfppubv===(P.pub==="proximos"||P.pub==="seguidores"?P.pub:"amigos"))))}catch(e){}return r}}
 {const _cd=cfpDet;cfpDet=function(el){const P=ED&&ED.po;if(P&&P.pub==="seguidores"&&!cs123PodeSeg())P.pub="amigos";const r=_cd.apply(this,arguments);
   try{if(P&&P.pub==="seguidores"){const em=el.querySelector("[data-cfppub] em");if(em)em.textContent="Seguidores e amigos";const q=el.querySelector(".cr-quem");if(q&&q.firstChild&&q.firstChild.nodeType===3)q.firstChild.textContent="Quem segue você e seus amigos vão ver. "}}catch(e){}return r}}
-{const _ep=edPublicaPost;edPublicaPost=async function(){const P=ED&&ED.po;if(!P||P.pub!=="seguidores"||!cs123PodeSeg()||!SB||ED.env)return _ep.apply(this,arguments);const _from=SB.from;
-  SB.from=function(t){const q=_from.apply(this,arguments);if(t==="publicacoes"&&q&&typeof q.insert==="function"&&!q._cs123){q._cs123=1;const ins=q.insert;q.insert=function(row){try{if(row&&row.tipo==="post")row.publico="seguidores"}catch(e){}return ins.apply(this,arguments)}}return q};
-  try{return await _ep.apply(this,arguments)}finally{SB.from=_from}}}
 
 /* ===== 8. Atividade: "Bia começou a seguir você" ===== */
 try{ESP_NOMES.seguidores="Quem segue quem"}catch(e){}
@@ -17740,7 +17643,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 /* fechar pelo "voltar" do celular */
 
 /* ===== formulários abertos pela caixa: sem a faixa de tipos repetida ===== */
-{const _cd152=cn102Det;cn102Det=function(el){const r=_cd152.apply(this,arguments);try{if(CP152.veio){const ks=el.querySelector(".cn102-ks");if(ks)ks.hidden=true}}catch(e){}return r}}
 
 /* ===== Perfil: "Minhas colunas" ao lado de "Nova publicação" ===== */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cp152cols]");if(!b)return;e.preventDefault();e.stopPropagation();ed132Hub()},true);
@@ -17748,8 +17650,6 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 /* ===== depois de publicar, o post aparece na tela (14/11, testador: "Já está no Feed", mas ficava abaixo da notícia em destaque) ===== */
 function cp152Mostra(id){let n=0;const tenta=()=>{const el=document.getElementById("p-u:"+id);if(el&&el.getClientRects().length){try{const top=el.getBoundingClientRect().top+scrollY-((document.querySelector(".top")||{}).offsetHeight||56)-8;scrollTo({top:Math.max(0,top),behavior:"smooth"});el.classList.add("cp152-novo");setTimeout(()=>el.classList.remove("cp152-novo"),2200)}catch(e){}return}
   if(++n<12)setTimeout(tenta,250)};setTimeout(tenta,300)}
-{const _ep152=edPublicaPost;edPublicaPost=async function(){const daCaixa=CP152.direto||CP152.veio;CP152.direto=false;CP152.veio=false;if(!daCaixa)return _ep152.apply(this,arguments);const antes=new Set((PUB.itens||[]).filter(x=>x.autor===S.uid).map(x=>x.id));const r=await _ep152.apply(this,arguments);
-  try{const novo=(PUB.itens||[]).find(x=>x.autor===S.uid&&x.tipo==="post"&&x.id&&!antes.has(x.id));if(novo){if(VIEW!=="feed")go("feed");cp152Mostra(novo.id)}}catch(e){}return r}}
 
 /* trechos citados (Atividade, conversas): corta na palavra e põe "…" (14/11, testador: "a estimativa do Executivo ” há 1 d") */
 function cp152Corta(s,n){s=String(s==null?"":s).replace(/\s+/g," ").trim();if(s.length<=n)return s;const c=s.slice(0,n-1),i=c.lastIndexOf(" ");return (i>n*.6?c.slice(0,i):c).replace(/[\s,;:.\-–—]+$/,"")+"…"}
@@ -18031,7 +17931,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
 {const _cc155=cn102Comeca;cn102Comeca=function(k,o){const anexo=CR155.anexo;const r=_cc155.apply(this,arguments);try{const E=typeof ED!=="undefined"&&ED;
     if(!anexo&&E&&E.po&&E.po.cn&&k==="nt"&&o&&o.pid){CP152.veio=true;E.cr155pid=o.pid;const g=cr155Le();if(g&&g.tx.trim()&&!E.po.cn.corpo){E.po.cn.corpo=g.tx;try{cn102Sync();edDesenha()}catch(_){}}}}catch(e){}return r}}
 /* a faixa de tipos sai de todos os formulários (a escolha do tipo fica só na caixa) */
-{const _cd155=cn102Det;cn102Det=function(el){const r=_cd155.apply(this,arguments);try{const ks=el.querySelector(".cn102-ks");if(ks)ks.hidden=true}catch(e){}return r}}
 /* nomes iguais aos da caixa (Notícia, Enquete, Número, De perto) */
 try{Object.assign(CN102_NOME,{nt:"Notícia",rel:"De perto",ana:"Número",enq:"Enquete"});
   CN102_KS.forEach(k=>{const n={nt:["Notícia","Notícia","Sua opinião sobre uma notícia da edição"],rel:["De perto","De perto","Foto, local e hora do que você viu"],ana:["Número","Número ou análise","Seu texto, um indicador ou um gráfico"],enq:["Enquete","Enquete","Uma pergunta para os amigos votarem"]}[k[0]];if(n){k[1]=n[0];k[2]=n[1];k[3]=n[2]}})}catch(e){}
@@ -18042,25 +17941,20 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   /* × do giro aberto pela caixa, sem nada feito no giro: volta para a caixa, onde está o texto */
   const x=t.closest("#layer .ce [data-edfechar]");if(x&&typeof ED!=="undefined"&&ED&&ED.cr155caixa&&ED.modo==="story"&&!ED.env){let algo=true;try{algo=!!edTemAlgo()}catch(_){}
     const g=cr155Le();if(!algo&&g&&(g.tx.trim()||g.pid)){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();try{camDesliga()}catch(_){}ED=null;cp152Abre()}}},true);
-{const _ca155=criarAbrir;criarAbrir=function(m){const g=CR155.giro;CR155.giro=0;const r=_ca155.apply(this,arguments);try{if(g&&m==="story"&&ED&&ED.modo==="story"){ED.cr155caixa=1;$("#layer .ce")?.classList.add("cr155-dacaixa")}}catch(e){}return r}}
-{const _ed155=edDesenha;edDesenha=function(){const r=_ed155.apply(this,arguments);try{if(ED&&ED.cr155caixa)$("#layer .ce")?.classList.add("cr155-dacaixa")}catch(e){}return r}}
 
 /* ===== voltar do celular com texto na caixa: pergunta antes (como o editor), e o texto fica guardado ===== */
 
 /* ===== publicar pelo formulário que veio da caixa: a caixa começa vazia depois ===== */
-{const _pp155=edPublicaPost;edPublicaPost=async function(){const daCaixa=CP152.direto||CP152.veio;const r=await _pp155.apply(this,arguments);try{if(daCaixa&&!$("#layer .ce"))cr155Limpa()}catch(e){}return r}}
 
 /* ===== Enquete: as opções são da pessoa ===== */
 {const _va155=cn102Valida;cn102Valida=function(P){const cn=P&&P.cn;if(cn&&cn.k==="enq"&&String(cn.tit||"").trim()){const f=(cn.o||[]).map(v=>String(v||"").trim()).filter(Boolean);
     if(f.length<2){setTimeout(()=>{try{const i=[...document.querySelectorAll("#layer [data-cn102o]")].find(x=>!x.value.trim());if(i)i.focus()}catch(_){}},60);return f.length?"A enquete precisa de pelo menos duas opções.":"Escreva as opções da enquete (por exemplo, Sim e Não)."}}
   return _va155.apply(this,arguments)}}
-{const _dt155=cn102Det;cn102Det=function(el){const r=_dt155.apply(this,arguments);try{el.querySelectorAll("input[data-cn102o]").forEach(i=>{i.placeholder="Opção "+(+i.dataset.cn102o+1)})}catch(e){}return r}}
 
 /* ===== cores das editorias no fundo escuro ===== */
 function cr155Clareia(raiz){if(!raiz)return;raiz.querySelectorAll("small[style*='color']").forEach(s=>{if(s.dataset.cr155)return;const m=/rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(getComputedStyle(s).color);if(!m)return;
   const k=.5,f=v=>Math.round(+v+(255-v)*k);s.style.color=`rgb(${f(m[1])},${f(m[2])},${f(m[3])})`;s.dataset.cr155=1})}
 {const _ln155=cn102ListaNt;cn102ListaNt=function(){const r=_ln155.apply(this,arguments);try{cr155Clareia($("#layer .cn102-ntl"))}catch(e){}return r}}
-{const _dc155=cn102Det;cn102Det=function(el){const r=_dc155.apply(this,arguments);try{cr155Clareia(el.querySelector(".cn102-ntc"))}catch(e){}return r}}
 
 /* ===== sem rede: diz por quê, mostra o começo e tenta de novo sozinho ===== */
 function cr155SemRede(j){const m=String(j&&j.err&&(j.err.message||j.err)||"");return navigator.onLine===false||/fetch|network|rede|offline|conex|Load failed/i.test(m)}
@@ -18925,11 +18819,6 @@ function fc164Edita(i,passo){const E=CP152.ed;if(!E)return;CP152.veio=true;
     try{const f=$("#ce-pfile");if(f&&E&&E.po.fotos.length<10){f.addEventListener("cancel",()=>{if(ED===E&&E.fc164novo)fc164Volta()},{once:true});f.click()}}catch(e){}return}
   const r=_an164.apply(this,arguments);try{if(typeof ED!=="undefined"&&ED&&ED.modo==="post"){ED.fc164=true;ED.fc164novo=true}}catch(e){}return r}}
 /* depois de escolher: o editor ia mostrar o corte; volta para a caixa com as miniaturas */
-{const _ed164=edDesenha;edDesenha=function(){const E=typeof ED!=="undefined"?ED:null;
-  if(E&&E.fc164&&E.fc164novo&&E.po&&E.po.passo==="fotos"&&E.po.fotos.length){E.fc164novo=false;setTimeout(()=>{if(ED===E)fc164Volta()},0);return}
-  const r=_ed164.apply(this,arguments);
-  try{fc164Ajusta(E)}catch(e){}
-  return r}}
 /* editor aberto pela miniatura: Concluir no alto, abas Cortar · Filtros · Editar, sem Galeria nem POST/GIRO */
 function fc164Abas(a){return `<div class="ce-abas2 fc164-abas" role="tablist">${[["cortar","Cortar"],["filtros","Filtros"],["editar","Editar"]].map(([k,n])=>`<button type="button" role="tab" data-fc164aba="${k}" aria-selected="${k===a}">${n}</button>`).join("")}</div>`}
 function fc164Ajusta(E){const ce=$("#layer .ce");if(!E||!E.fc164||!E.po||!ce)return;const P=E.po,ps=P.passo;
@@ -19108,9 +18997,6 @@ function cr166Erro(er,P){const ce=$("#layer .ce");if(!ce||!P||!P.cn)return false
   const p=document.createElement("p");p.className="cr166-er";p.setAttribute("role","alert");p.textContent=er;alvo.insertAdjacentElement("afterend",p);
   try{p.scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}
   const f=marca[0]||alvo;setTimeout(()=>{try{if(f.focus)f.focus({preventScroll:true})}catch(e){}},80);return true}
-{const _ep166=edPublicaPost;edPublicaPost=async function(){if($("#layer .ce"))CR166.pubT=Date.now();
-  try{const P=ED&&ED.po;if(P&&P.cn&&!ED.env&&$("#layer .ce")){const er=cn102Valida(P);if(er&&cr166Erro(er,P))return}}catch(e){}
-  return _ep166.apply(this,arguments)}}
 document.addEventListener("input",e=>{const t=e.target;if(t&&t.closest&&t.closest("#layer .ce")&&document.querySelector("#layer .cr166-er"))cr166Limpa()},true);
 
 /* ===== 3. sem internet: uma mensagem só ===== */
@@ -19134,7 +19020,6 @@ document.addEventListener("input",e=>{const t=e.target;if(t&&t.id==="ed132-tit"&
 /* ===== 5. giro: menu dentro do cartão ===== */
 function cr166Rail(){const ce=$("#layer .ce.ce-story");if(!ce)return;const rail=ce.querySelector(".ce-rail"),cv=ce.querySelector("#ce-cv");if(!rail||!cv)return;
   const a=cv.getBoundingClientRect(),b=ce.getBoundingClientRect();if(!a.width)return;const l=Math.round(a.left-b.left+12);rail.style.left=l>10?l+"px":""}
-{const _ed166=edDesenha;edDesenha=function(){const r=_ed166.apply(this,arguments);try{if(ED&&ED.modo==="story"){cr166Rail();requestAnimationFrame(cr166Rail)}}catch(e){}return r}}
 addEventListener("resize",()=>{try{cr166Rail()}catch(e){}});
 
 /* ===== 6. número: a linha vai até o dia do título ===== */
@@ -19765,7 +19650,6 @@ function ft182Dica(){const d={nt:"Notícia comenta uma notícia da edição",enq
     if(ft182Esc("giro"))h=h.replace(/<button type="button" role="tab" data-cp152aba="giro"[^>]*>[^<]*<\/button>/,"");
     if(CP152_ANEXOS.length<5)h=h.replace(/(<p class="cp152-dica">)Notícia comenta[^<]*(<\/p>)/,"$1"+ft182Dica()+"$2")}catch(e){}return h}}
 /* criar giro: nenhum caminho abre o editor de giro (giro de notícia e giro já postado continuam) */
-{const _ca182=criarAbrir;criarAbrir=function(m){if(m==="story"&&ft182Esc("giro"))return;return _ca182.apply(this,arguments)}}
 window.addEventListener("click",e=>{if(!ft182Esc("giro"))return;const t=e.target;if(!t||!t.closest)return;
   const b=t.closest('[data-criarde="story"],[data-upstory],[data-usadd],#layer [data-edmodo="story"],#layer [data-crtipo="story"]');
   const vazio=!b&&t.closest("#secs [data-meustory]")&&!(typeof pubStoriesDe==="function"&&pubStoriesDe(S.uid).length);
@@ -21002,6 +20886,184 @@ function pf205Linha(x,meu,tipo){const u=x.uid,eu=u===S.uid,am=S.amigos.has(u);
   return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${am?"amigo":x.aberto?"perfil aberto":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:!eu&&!am&&x.aberto?cs123SegBt(u):""}</li>`}
 function cs123Linha(x,meu,tipo){if(!sg181On())return pf205Linha.apply(this,arguments);const u=x.uid,eu=u===S.uid;
   return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${eu?"":SG181.fech.has(u)?"perfil fechado":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:eu?"":sg181Bt(u,"amg-b")}</li>`}
+/* ---------- 206 · Criar (Fase 3): as funções de criar post e notícia comentada, cada uma numa versão só ----------
+   Antes: criarAbrir definida no 068 e trocada no 071 e no 074, remendada em 093, 095, 096, 155 e 182; edDesenha definida
+   no 071, trocada no 074 e remendada em 077, 100, 155, 164 e 166; edPublicaPost definida no 071, trocada no 076 e
+   remendada em 093 (fila de publicar, pqEmbrulha), 095, 102, 105, 108, 113, 123, 152, 155 e 166; cn102Det definida no
+   102 e remendada em 105, 106, 122, 123, 152 e 155 (três vezes). Cada função abaixo faz o que a cadeia inteira fazia, na
+   mesma ordem; os comentários dizem de onde veio cada passo. Os auxiliares dos outros arquivos (cfp*, cn102*, fc105*,
+   f113*, cs123*, cp152*, cr155*, fc164*, cr166*, pq*, ca100*, ft182*) continuam onde estavam: aqui eles só são chamados,
+   sempre depois da carga (nenhuma destas funções roda na carga).
+   Fica de fora (de propósito): o 080 troca edDesenha por um instante dentro de edVidPronto (vídeo do giro, Fase 1) e
+   continua trocando a global como antes.
+   Regra daqui para a frente: corrigir DENTRO destas funções, não embrulhá-las de novo em outro arquivo. */
+
+/* ===== criarAbrir: abre o editor (post ou giro) =====
+   Base no 074 (as versões do 068 e do 071 eram trocadas inteiras antes de qualquer uso). */
+function cr206Abre(tipo){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+tipo);if($("#layer").innerHTML)closeLayer();
+  const st=edNovoSt();ED={modo:tipo==="story"?"story":"post",tela:"cam",env:false,st,sts:[st],si:0,po:{passo:"fotos",fotos:[],cur:0,ar:"4:5",texto:"",marcados:[],local:"",pid:null,aba:"filtros"}};
+  $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;edDesenha()};
+function criarAbrir(tipo){
+  /* 182: formato escondido (giro) não abre */
+  if(tipo==="story"&&ft182Esc("giro"))return;
+  /* 155: o giro que veio da caixa de criar */
+  const g=CR155.giro;CR155.giro=0;
+  /* 096: a câmera do reel volta a aceitar toque */
+  RC.ocupado=false;
+  /* 093: não abre enquanto publica; animação de entrada */
+  if(PQ.atual)toast("Espere terminar de publicar.");
+  else{pqAnimCls();cr206Abre.apply(this,arguments);const ce=$("#layer .ce");if(ce&&ANIM_OK()){ce.dataset.anim="entra";setTimeout(()=>{if(ce.dataset.anim==="entra")delete ce.dataset.anim},400)}}
+  /* 095: post abre direto na galeria (também depois do aviso do 093, como antes) */
+  if(tipo!=="story"&&tipo!=="reel")cfpAbreGaleria();
+  /* 155: marca o giro aberto pela caixa */
+  try{if(g&&tipo==="story"&&ED&&ED.modo==="story"){ED.cr155caixa=1;$("#layer .ce")?.classList.add("cr155-dacaixa")}}catch(e){}}
+
+/* ===== edDesenha: desenha o editor aberto =====
+   Base no 074 (a do 071 era trocada inteira); remendos (de dentro para fora): 077, 100, 155, 164, 166. */
+function ed206Desenha0(){const el=$("#layer .ce");if(!el||!ED)return;el.className="ce ce-"+ED.modo+(ED.modo==="story"?" t-"+ED.tela:"");
+  if(ED.modo==="story"){if(ED.tela==="cam")edCamTela(el);else if(ED.tela==="lay")edLayTela(el);else{camDesliga();edStory(el)}}else{camDesliga();edPost(el)}};
+/* 077: reel vira post; para a gravação */
+function ed206Desenha77(){if(!ED)return;if(ED.modo==="reel")ED.modo="post";if(CAM.rec)camGravaFim();return ed206Desenha0.apply(this,arguments)}
+function edDesenha(){
+  /* 164: foto nova escolhida pela caixa volta para a caixa (não desenha o editor) */
+  const E=typeof ED!=="undefined"?ED:null;
+  if(E&&E.fc164&&E.fc164novo&&E.po&&E.po.passo==="fotos"&&E.po.fotos.length){E.fc164novo=false;setTimeout(()=>{if(ED===E)fc164Volta()},0)}
+  else{ed206Desenha77.apply(this,arguments);
+    /* 100: legenda */
+    try{if($("#layer #ce-leg"))ca100Leg()}catch(e){}
+    /* 155: editor aberto pela caixa */
+    try{if(ED&&ED.cr155caixa)$("#layer .ce")?.classList.add("cr155-dacaixa")}catch(e){}
+    /* 164: ajustes da foto na caixa */
+    try{fc164Ajusta(E)}catch(e){}}
+  /* 166: trilho do giro */
+  try{if(ED&&ED.modo==="story"){cr166Rail();requestAnimationFrame(cr166Rail)}}catch(e){}}
+
+/* ===== cn102Det: o formulário de notícia comentada, relato, análise e enquete =====
+   Base no 102; remendos (de dentro para fora): 105, 106, 122, 123, 152, 155 (três). */
+function cn206Det0(el){const P=ED.po,cn=P.cn,k=cn.k,tem=P.fotos.length,nt=P.pid&&pautaById(P.pid),nm=[...new Set((P.tags||[]).map(t=>t.u).concat(P.marcados))],eu=cn102Primeiro(S.uid);
+  const campo=(id,f,ph,max,v,x)=>f==="tit"?`<textarea class="cn102-in cn102-tit" id="${id}" data-cn102f="${f}" maxlength="${max}" rows="1" placeholder="${esc(ph)}" ${x||""}>${esc(v||"")}</textarea>`:`<input class="cn102-in" id="${id}" data-cn102f="${f}" maxlength="${max}" placeholder="${esc(ph)}" value="${esc(v||"")}" autocomplete="off" ${x||""}>`;
+  let b="";
+  if(k==="nt")b=`${nt?`<button type="button" class="cn102-ntc" data-edsont aria-label="Trocar a notícia">${cn102NtCard(nt)}</button>`:`<button type="button" class="cn102-dadd" data-edsont>${CN102_SVG(CN102_ICO.nt)}<span><b>Escolher a notícia</b><small>Uma das notícias da edição de hoje</small></span></button>`}
+      ${tem?cn102Fotos(P):""}<textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="4" placeholder="O que você acha dessa notícia?" aria-label="Seu comentário">${esc(cn.corpo)}</textarea>`;
+  if(k==="rel")b=`${cn102Fotos(P)}${campo("cn102-tit","tit","O que aconteceu? (título curto)",120,cn.tit,'enterkeyhint="next"')}
+      <textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="4" placeholder="Conte o que você viu: o quê, onde, como." aria-label="Detalhes">${esc(cn.corpo)}</textarea>
+      <div class="cfp-rows cn102-rows"><label class="ce-row"><span>Onde</span><input id="ce-local" data-cn102f="local" maxlength="60" placeholder="Bairro, cidade" value="${esc(P.local)}" autocomplete="off"></label>
+        <label class="ce-row"><span>Quando</span><input id="cn102-q" type="datetime-local" lang="pt-BR" data-cn102f="q" value="${esc(cn.q||"")}" max="${cn102Hoje()}"></label>
+        <label class="ce-row"><span>Fonte</span><input id="cn102-fu" data-cn102f="fu" maxlength="300" placeholder="Link ou de onde veio (opcional)" value="${esc(cn.fu)}" autocomplete="off" inputmode="url"></label></div>`;
+  if(k==="ana")b=`${campo("cn102-tit","tit","Título da sua análise",120,cn.tit,'enterkeyhint="next"')}
+      <textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="6" placeholder="Seu ponto de vista sobre economia ou política. Diga de onde vêm os números." aria-label="Sua análise">${esc(cn.corpo)}</textarea>
+      <div class="cn102-dado">${cn102DadoBloco(cn)}</div>${tem?cn102Fotos(P):""}
+      <div class="cfp-rows cn102-rows"><label class="ce-row"><span>Fonte</span><input id="cn102-fu" data-cn102f="fu" maxlength="300" placeholder="Link ou nome da fonte (opcional)" value="${esc(cn.fu)}" autocomplete="off" inputmode="url"></label>
+        ${tem?"":`<button type="button" class="ce-row" data-cn102foto><span>Adicionar foto</span><em></em><i>›</i></button>`}</div>`;
+  if(k==="enq"){const os=cn.o.length?cn.o:["",""];b=`${campo("cn102-tit","tit","Sua pergunta",120,cn.tit,'enterkeyhint="next"')}
+      <div class="cn102-ops">${os.map((v,i)=>`<span class="cn102-op"><input data-cn102o="${i}" maxlength="40" placeholder="${["Sim","Não","Opção 3","Opção 4"][i]}" value="${esc(v)}" aria-label="Opção ${i+1}" autocomplete="off">${i>1?`<button type="button" data-cn102otira="${i}" aria-label="Tirar a opção">${CN102_SVG(CN102_ICO.x)}</button>`:""}</span>`).join("")}${os.length<4?`<button type="button" class="cn102-opm" data-cn102omais>${CN102_SVG(CN102_ICO.mais)}Opção</button>`:""}</div>
+      <div class="cfp-rows cn102-rows"><button type="button" class="ce-row" data-edsont><span>Sobre a notícia</span><em>${nt?esc(versao(nt,lente()).titulo):"Opcional"}</em><i>›</i></button>${nt?`<button type="button" class="ce-row ce-semnt" data-edsemnt><span>Tirar a notícia</span></button>`:""}</div>
+      <textarea id="ce-leg" class="cfp-leg cn102-corpo" data-cn102f="corpo" maxlength="2000" rows="2" placeholder="Contexto (opcional)" aria-label="Contexto">${esc(cn.corpo)}</textarea>`}
+  const aviso={nt:"A notícia aparece como da edição do Prumo e o comentário, com o seu nome.",rel:`Aparece como “Relato de ${eu}”. Conte só o que você viu ou confirmou: a redação não checa relatos.`,
+    ana:`Aparece como “Opinião de ${eu}”, separada das notícias da edição.`,enq:"Seus amigos votam e veem o resultado, como nas enquetes da edição."}[k];
+  el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edvolta="fotos" aria-label="Voltar">${EDI.vol}</button><b>${esc(CN102_NOME[k])}</b><span class="ce-b" aria-hidden="true"></span></div>
+    <div class="ce-det cfp-det cn102" data-k="${k}"><div class="cn102-ks" role="tablist" aria-label="Tipo de publicação">${CN102_KS.map(([kk,n])=>`<button type="button" role="tab" data-cn102k="${kk}" aria-selected="${kk===k}">${CN102_SVG(CN102_ICO[kk])}${esc(n)}</button>`).join("")}</div>
+      ${b}
+      <div class="cfp-rows"><button type="button" class="ce-row" ${tem?"data-edtags":"data-edmarcar"}><span>Marcar pessoas</span><em>${nm.length?esc(nm.map(u=>cn102Primeiro(u)).join(", ")):""}</em><i>›</i></button>
+        ${MA.on?`<button type="button" class="ce-row" data-cfppub><span>Público</span><em>${P.pub==="proximos"?"★ Melhores amigos":"Todos os amigos"}</em><i>›</i></button>`:""}
+        <button type="button" class="ce-row" data-edavanc aria-expanded="${!!P.avOn}"><span>Configurações avançadas</span><em></em><i>${P.avOn?"⌃":"›"}</i></button>
+        ${P.avOn?`<div class="ce-avc"><label class="ce-sw"><span>Ocultar o número de curtidas<small>Só você vê quem curtiu.</small></span><input type="checkbox" data-edsw="semCurt" ${P.semCurt?"checked":""}></label>
+          <label class="ce-sw"><span>Desativar comentários<small>Ninguém poderá comentar neste post.</small></span><input type="checkbox" data-edsw="semCom" ${P.semCom?"checked":""}></label>
+          ${tem?`<b class="ce-avt" id="cfp-altt">Texto alternativo</b>${P.fotos.map((x,i)=>`<div class="ce-altr"><img alt="" data-ai="${i}"><input class="field" maxlength="200" placeholder="Descreva a foto ${i+1}" data-edalt="${i}" value="${esc(x.alt||"")}"></div>`).join("")}`:""}</div>`:""}</div>
+      <p class="cn102-aviso">${esc(aviso)}</p></div>
+    <div class="cfp-share cn102-share">${k==="nt"&&nt?`<button type="button" class="cn102-st" data-cn102nst>${CN102_SVG(CN102_ICO.story)}Giro</button>`:""}<button type="button" class="cfp-shb" data-edpubpo ${ED.env?"disabled":""}>${ED.env?"Publicando…":"Publicar"}</button></div>`;
+  el.querySelectorAll("img[data-ai]").forEach(im=>{im.src=edUrlF(P.fotos[+im.dataset.ai])});cn102Cresce($("#cn102-tit"));
+  el.querySelectorAll("canvas[data-cfpc]").forEach(c=>{try{edRenderFoto(P.fotos[+c.dataset.cfpc],c,P.ar)}catch(e){}})}
+function cn102Det(el){const r=cn206Det0.apply(this,arguments);
+  /* 105: regra da casa no aviso e pedido de fonte na análise */
+  if(FOCO_LIGADO)try{const a=el.querySelector(".cn102-aviso");if(a&&!a.querySelector(".fc105-regra"))a.insertAdjacentHTML("beforeend",`<span class="fc105-regra">Discuta as ideias, com respeito às pessoas.</span>`);
+      const fu=el.querySelector("#cn102-fu");const P=ED&&ED.po;if(fu&&P&&P.cn&&P.cn.k==="ana"){fu.placeholder="Link ou nome da fonte (recomendado)";if(P._fc105fu)fu.closest(".ce-row")?.classList.add("fc105-pede")}}catch(e){}
+  /* 106: texto curto do pedido de fonte */
+  try{const fu=el.querySelector("#cn102-fu");if(FOCO_LIGADO&&fu&&/recomendado/.test(fu.placeholder))fu.placeholder="Link ou nome (recomendado)"}catch(e){}
+  /* 122: aviso do relato com o nome do tipo */
+  try{const P=ED&&ED.po;if(P&&P.cn&&P.cn.k==="rel"&&el){const av=el.querySelector(".cn102-aviso");
+    if(av)av.textContent=`Aparece como “${DC122_DP} · ${cn102Primeiro(S.uid)}”. Conte só o que você viu ou confirmou: a redação não checa estes posts.`}}catch(e){}
+  /* 123: aba Coluna na faixa de tipos */
+  try{const ks=el.querySelector(".cn102-ks");if(ks&&!ks.querySelector("[data-cs123ini]"))ks.insertAdjacentHTML("beforeend",`<button type="button" role="tab" data-cs123ini aria-selected="false">${CN102_SVG(CS123_IC.col)}Coluna</button>`)}catch(e){}
+  /* 152: veio da caixa: sem a faixa de tipos */
+  try{if(CP152.veio){const ks=el.querySelector(".cn102-ks");if(ks)ks.hidden=true}}catch(e){}
+  /* 155: faixa de tipos sempre escondida; opções da enquete numeradas; cartão da notícia mais claro */
+  try{const ks=el.querySelector(".cn102-ks");if(ks)ks.hidden=true}catch(e){}
+  try{el.querySelectorAll("input[data-cn102o]").forEach(i=>{i.placeholder="Opção "+(+i.dataset.cn102o+1)})}catch(e){}
+  try{cr155Clareia(el.querySelector(".cn102-ntc"))}catch(e){}
+  return r}
+
+/* ===== edPublicaPost: publica o post (texto, fotos, notícia comentada, análise, relato, enquete, fio) =====
+   Base no 076 (a do 071 era trocada inteira); camadas (de dentro para fora): 093 (fila de publicar), 095, 102, 105, 108,
+   113, 123, 152, 155, 166. Os remendos 095, 102, 113 e 123 trocavam SB.from durante a publicação para mexer na linha
+   gravada; aqui eles marcam ED206_LINHA enquanto a publicação corre e ed206Linha aplica as marcas na mesma ordem
+   (095, 102, 113, 123) logo antes de cada insert, como faziam os SB.from trocados. */
+var ED206_LINHA={};
+function ed206Linha(row){const L=ED206_LINHA;
+  /* 095: público "próximos" */
+  if(L.pub095&&row&&row.tipo==="post")row.publico=L.pub095;
+  /* 102: notícia comentada, relato, análise, enquete */
+  if(L.cn102)try{if(row&&row.tipo==="post"&&row.estilo&&typeof row.estilo==="object")row.estilo.cn=L.cn102}catch(e){}
+  /* 113: fio (as partes) */
+  if(L.fio113)try{if(row&&row.tipo==="post"&&row.estilo&&typeof row.estilo==="object")row.estilo.fio=L.fio113}catch(e){}
+  /* 123: só para seguidores */
+  if(L.seg123)try{if(row&&row.tipo==="post")row.publico="seguidores"}catch(e){}
+  return row}
+/* marca de 095/102/113/123 válida enquanto a publicação corre (como o SB.from trocado, que voltava no finally) */
+async function ed206ComLinha(k,v,fn){const o=ED206_LINHA[k];ED206_LINHA[k]=v;try{return await fn()}finally{ED206_LINHA[k]=o}}
+async function ed206Pub076(){if(!ED||ED.env)return;const P=ED.po;if(!P.fotos.length&&!P.texto.trim()&&!P.pid){toast("Escreva algo, escolha fotos ou anexe uma notícia.");return}ED.env=true;const ed0=ED;edDesenha();const fotos=[];
+  try{for(const f of P.fotos){const c=document.createElement("canvas");c.width=1080;edRenderFoto(f,c,P.ar);const b=await edJpeg(c);fotos.push(await pubSobe(b));PUB.urls[fotos[fotos.length-1]]={u:URL.createObjectURL(b),exp:Date.now()+3600e3}}
+    const tags=(P.tags||[]).map(t=>{const i=P.fotos.indexOf(edTagF(t));return i>=0?{u:t.u,i,x:+(+t.x).toFixed(3),y:+(+t.y).toFixed(3)}:null}).filter(Boolean).slice(0,30),marc=[...new Set(tags.map(t=>t.u).concat(P.marcados))].slice(0,20);
+    const at=Date.now(),row={autor:S.uid,tipo:"post",at,texto:P.texto.trim().slice(0,2200),fotos,pid:P.pid||null,snap:pubSnap(P.pid),estilo:{v:2,ar:P.ar,arv:P.fotos.length?+edAR(P.ar,edBase(P.fotos[0])).toFixed(3):null,marcados:marc,local:P.local.trim().slice(0,60),tags,alt:P.fotos.map(f=>String(f.alt||"").slice(0,200)),semCom:!!P.semCom,semCurt:!!P.semCurt}};
+    let r=await SB.from("publicacoes").insert(ed206Linha(row)).select("id");if(r.error&&/estilo/i.test(JSON.stringify(r.error))){row.estilo.alt=row.estilo.alt.map(a=>a.slice(0,40));row.estilo.tags=tags.slice(0,10);row.estilo.marcados=row.estilo.marcados.slice(0,10);r=await SB.from("publicacoes").insert(ed206Linha(row)).select("id");if(r.error&&/estilo/i.test(JSON.stringify(r.error))){row.estilo.alt=[];row.estilo.tags=tags.slice(0,4);r=await SB.from("publicacoes").insert(ed206Linha(row)).select("id");if(!r.error)setTimeout(()=>toast("Publicado, mas algumas marcações e textos alternativos ficaram de fora (limite do servidor)."),1200)}}if(r.error)throw r.error;const id=r.data&&r.data[0]&&r.data[0].id;PUB.itens.unshift({...row,id});if(P.rid)rascApaga(P.rid);
+    const txt=row.texto,aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast("Post publicado");vibrar(10);
+    if(id&&txt)pubAvisarMencoes(id,txt,"post");const mm=marc.filter(u=>S.amigos.has(u)&&!(typeof mencionados==="function"&&mencionados(txt).includes(u)));
+    if(id&&mm.length)Promise.all(mm.map(u=>dmEnviar(u,{texto:"",pid:"u:"+id,snap:{titulo:"Post de "+nomeDe(S.uid),upub:id},tipo:"mencao"},true)));pubRedesenha();setTimeout(pubCarregar,1500)}
+  catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(ED===ed0){ED.env=false;edDesenha()}toast("Não deu para publicar. Tente de novo.")}};
+/* 093: a fila de publicar (barra "Publicando…", tentar de novo) em volta da base; a mesma camada do pqEmbrulha */
+const ED206_PQ=pqCamada("post",ed206Pub076);
+/* 105, 102 e 095 (de fora para dentro) */
+async function ed206Pub105(){
+  /* 105: análise sem fonte: pede a fonte uma vez antes de publicar */
+  if(FOCO_LIGADO){const P=ED&&ED.po;try{if(P&&P.cn&&P.cn.k==="ana"&&!ED.env&&!P._fc105fu&&!String(P.cn.fu||"").trim()&&!(P.cn.d&&P.cn.d.tipo==="ind")&&!cn102Valida(P)){
+      P._fc105fu=1;edDesenha();const i=$("#cn102-fu"),row=i&&i.closest(".ce-row");if(row){row.insertAdjacentHTML("afterend",`<p class="fc105-pedet" role="status">De onde vêm as informações? Uma fonte dá mais confiança a quem lê. Se não tiver, toque em Publicar de novo.</p>`);row.scrollIntoView({block:"center"});try{i.focus({preventScroll:true})}catch(e){}}return}}catch(e){}}
+  /* 102: notícia comentada e afins: valida, grava os campos e monta o texto */
+  const P=ED&&ED.po;if(!P||!P.cn||ED.env||!SB)return ed206Pub095.apply(this,arguments);
+  const er=cn102Valida(P);if(er){toast(er);return}const cn=cn102Grava(P);
+  P.texto=cn102Texto(cn.k==="nt"?{tit:""}:P.cn,P.cn.corpo);if(!P.texto.trim()&&!P.pid&&!P.fotos.length){toast("Escreva algo antes de publicar.");return}
+  return ed206ComLinha("cn102",cn,()=>ed206Pub095.apply(this,arguments))}
+async function ed206Pub095(){
+  /* 095: público "próximos" (melhores amigos): sem ninguém escolhido abre a lista */
+  const pub=ED&&ED.po&&MA.on&&ED.po.pub==="proximos"?"proximos":null;if(!pub||!SB)return ED206_PQ.apply(this,arguments);if(!ED.env&&!MA.set.size){edMaLista(true);return}
+  return ed206ComLinha("pub095",pub,()=>ED206_PQ.apply(this,arguments))}
+/* 108 (síncrono, como era): guarda o rascunho enquanto publica e apaga quando dá certo */
+function ed206Pub108(){const ed=ED;const p=ed206Pub105.apply(this,arguments);
+  try{const j=PQ.atual;if(ed&&j&&j.ed===ed&&j.tipo==="post"&&typeof rascSalva==="function"){const P=ed.po;if(!P.rid)P.rid=edNid();const rid=P.rid,s=ED;
+      ED=ed;try{rascSalva().catch(()=>{})}finally{ED=s}pq108Grava(pq108Le().filter(x=>x!==rid).concat(rid));
+      Promise.resolve(p).then(()=>{if(j.estado==="ok"){pq108Grava(pq108Le().filter(x=>x!==rid));setTimeout(()=>rascApaga(rid),1500)}},()=>{})}}catch(e){}
+  return p}
+/* 113: fio (várias partes) */
+async function ed206Pub113(){const P=ED&&ED.po;if(!VN_FASE2||!P||ED.env||!SB||!f113PodeCompor(P))return ed206Pub108.apply(this,arguments);
+  const parts=f113Limpa(P.f113fio);if(!parts.length)return ed206Pub108.apply(this,arguments);
+  const p1=P.cn?String(P.cn.corpo||"").trim()||String(P.cn.tit||"").trim():String(P.texto||"").trim();if(!p1){toast("Escreva a primeira parte do fio.");try{$("#ce-leg")?.focus()}catch(e){}return}
+  const r=await ed206ComLinha("fio113",parts,()=>ed206Pub108.apply(this,arguments));
+  try{const x=(PUB.itens||[]).find(y=>y&&y.autor===S.uid&&y.estilo&&y.estilo.fio===parts);if(x&&x.id){uso("fase2_fio");f113AvisaPartes(x.id,x.texto,parts)}}catch(e){}return r}
+async function edPublicaPost(){
+  /* 166: erro do formulário aparece no campo, sem publicar */
+  if($("#layer .ce"))CR166.pubT=Date.now();
+  try{const P=ED&&ED.po;if(P&&P.cn&&!ED.env&&$("#layer .ce")){const er=cn102Valida(P);if(er&&cr166Erro(er,P))return}}catch(e){}
+  /* 155 e 152: publicado pela caixa de criar */
+  const cx155=CP152.direto||CP152.veio;
+  const cx152=CP152.direto||CP152.veio;CP152.direto=false;CP152.veio=false;
+  const antes=cx152?new Set((PUB.itens||[]).filter(x=>x.autor===S.uid).map(x=>x.id)):null;
+  /* 123: só para seguidores */
+  const P=ED&&ED.po;
+  const r=await (!P||P.pub!=="seguidores"||!cs123PodeSeg()||!SB||ED.env?ed206Pub113.apply(this,arguments):ed206ComLinha("seg123",1,()=>ed206Pub113.apply(this,arguments)));
+  /* 152: o post novo aparece na tela do Feed */
+  if(cx152)try{const novo=(PUB.itens||[]).find(x=>x.autor===S.uid&&x.tipo==="post"&&x.id&&!antes.has(x.id));if(novo){if(VIEW!=="feed")go("feed");cp152Mostra(novo.id)}}catch(e){}
+  /* 155: limpa a caixa depois de publicar */
+  try{if(cx155&&!$("#layer .ce"))cr155Limpa()}catch(e){}
+  return r}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários

@@ -64,7 +64,6 @@ var CFP_RASC=null,CFP_RAF=0,CFP_SC=0;
 setTimeout(()=>{try{if(S&&S.uid)rascLista()}catch(e){}},2500);
 function cfpAbreGaleria(){const P=ED&&ED.po;if(!P||ED.modo!=="post"||P.fotos.length||P.rolo&&P.rolo.length||P.passo!=="fotos"||CFP_RASC>0)return;const f=$("#ce-pfile");if(f)try{f.click()}catch(e){}}
 /* abrir o post já abre a galeria (sem o toque a mais em "Escolher fotos") */
-{const _ca95=criarAbrir;criarAbrir=function(tipo){const r=_ca95.apply(this,arguments);if(tipo!=="story"&&tipo!=="reel")cfpAbreGaleria();return r}}
 
 edPvTam=function(){const pv=$("#ce-pv"),P=ED&&ED.po;if(!pv||!P||!P.fotos.length)return;const box=pv.parentElement,k=edAR(P.ar,edBase(P.fotos[0])),W=box.clientWidth||innerWidth;
   const bh=Math.round(Math.min(innerHeight*.6,W*Math.max(1,1/k)));if(box.classList.contains("cfp-box"))box.style.height=bh+"px";let w=W,h=w/k;if(h>bh){h=bh;w=h*k}
@@ -145,9 +144,6 @@ addEventListener("resize",()=>{if(ED&&ED.modo==="post"&&$("#cfp-trk")){cfpTam();
 /* público do post (quando a lista de Melhores amigos existe) */
 function cfpPublico(){const P=ED.po;const ov=document.createElement("div");ov.className="ce-sel";
   ov.innerHTML=`<div class="ce-selp"><b>Quem pode ver</b><div class="cfp-pubs"><button type="button" data-cfppubv="amigos" aria-pressed="${P.pub!=="proximos"}"><span>Todos os amigos</span><small>Seus amigos no Prumo</small></button><button type="button" data-cfppubv="proximos" aria-pressed="${P.pub==="proximos"}"><span>★ Melhores amigos</span><small>${MA.set.size?`${MA.set.size} ${MA.set.size===1?"pessoa":"pessoas"}`:"Lista vazia"}</small></button></div><div class="ce-selb"><button type="button" class="btn ghost" data-cfpmaed>Editar a lista</button><button type="button" class="btn" data-edselx>Concluir</button></div></div>`;$("#layer .ce").appendChild(ov)}
-{const _pp95=edPublicaPost;edPublicaPost=async function(){const pub=ED&&ED.po&&MA.on&&ED.po.pub==="proximos"?"proximos":null;if(!pub||!SB)return _pp95.apply(this,arguments);if(!ED.env&&!MA.set.size){edMaLista(true);return}const _from=SB.from;
-  SB.from=function(t){const q=_from.apply(this,arguments);if(t==="publicacoes"&&q&&typeof q.insert==="function"){const ins=q.insert;q.insert=function(row){if(row&&row.tipo==="post")row.publico=pub;return ins.apply(this,arguments)}}return q};
-  try{return await _pp95.apply(this,arguments)}finally{SB.from=_from}}}
 
 /* cliques novos */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!ED||!$("#layer .ce")||t.closest("#layer2"))return;let b;const P=ED.po;const pare=()=>{e.stopPropagation();e.preventDefault()};

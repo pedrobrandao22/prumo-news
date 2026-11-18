@@ -32,9 +32,6 @@ function cr166Erro(er,P){const ce=$("#layer .ce");if(!ce||!P||!P.cn)return false
   const p=document.createElement("p");p.className="cr166-er";p.setAttribute("role","alert");p.textContent=er;alvo.insertAdjacentElement("afterend",p);
   try{p.scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}
   const f=marca[0]||alvo;setTimeout(()=>{try{if(f.focus)f.focus({preventScroll:true})}catch(e){}},80);return true}
-{const _ep166=edPublicaPost;edPublicaPost=async function(){if($("#layer .ce"))CR166.pubT=Date.now();
-  try{const P=ED&&ED.po;if(P&&P.cn&&!ED.env&&$("#layer .ce")){const er=cn102Valida(P);if(er&&cr166Erro(er,P))return}}catch(e){}
-  return _ep166.apply(this,arguments)}}
 document.addEventListener("input",e=>{const t=e.target;if(t&&t.closest&&t.closest("#layer .ce")&&document.querySelector("#layer .cr166-er"))cr166Limpa()},true);
 
 /* ===== 3. sem internet: uma mensagem só ===== */
@@ -58,7 +55,6 @@ document.addEventListener("input",e=>{const t=e.target;if(t&&t.id==="ed132-tit"&
 /* ===== 5. giro: menu dentro do cartão ===== */
 function cr166Rail(){const ce=$("#layer .ce.ce-story");if(!ce)return;const rail=ce.querySelector(".ce-rail"),cv=ce.querySelector("#ce-cv");if(!rail||!cv)return;
   const a=cv.getBoundingClientRect(),b=ce.getBoundingClientRect();if(!a.width)return;const l=Math.round(a.left-b.left+12);rail.style.left=l>10?l+"px":""}
-{const _ed166=edDesenha;edDesenha=function(){const r=_ed166.apply(this,arguments);try{if(ED&&ED.modo==="story"){cr166Rail();requestAnimationFrame(cr166Rail)}}catch(e){}return r}}
 addEventListener("resize",()=>{try{cr166Rail()}catch(e){}});
 
 /* ===== 6. número: a linha vai até o dia do título ===== */

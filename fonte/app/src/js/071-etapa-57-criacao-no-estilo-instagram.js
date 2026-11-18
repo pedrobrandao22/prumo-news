@@ -17,14 +17,10 @@ function edCover(g,img,W,H,z,ox,oy){const iw=img.naturalWidth,ih=img.naturalHeig
 function edAR(ar,img){if(ar==="1:1")return 1;if(ar==="orig"&&img)return Math.max(.8,Math.min(1.91,img.naturalWidth/img.naturalHeight));return .8}
 
 /* ===== abrir ===== */
-criarAbrir=function(tipo){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+tipo);if($("#layer").innerHTML)closeLayer();
-  ED={modo:tipo==="story"?"story":"post",env:false,st:{bg:{tipo:"grad",g:Math.floor(Math.random()*PUB_FUNDOS.length)},els:[],tracos:[],ferr:null},po:{passo:"fotos",fotos:[],cur:0,ar:"4:5",texto:"",marcados:[],local:"",pid:null,aba:"filtros"}};
-  $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;edDesenha()};
 criarMenu=function(){criarAbrir("post")};
 function edTemAlgo(){if(!ED)return false;return (ED.st.tx&&String(ED.st.tx.tx||"").trim())||ED.st.els.length||ED.st.tracos.length||ED.st.bg.tipo==="foto"||ED.po.fotos.length||ED.po.texto.trim()||ED.po.pid}
 function edModos(){return `<div class="ce-modos" role="tablist"><button type="button" role="tab" data-edmodo="post" aria-selected="${ED.modo==="post"}">POST</button><button type="button" role="tab" data-edmodo="story" aria-selected="${ED.modo==="story"}">GIRO</button></div>`}
 const EDI={x:'<svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',aa:'<b class="ce-aa">Aa</b>',fig:'<svg class="ico" viewBox="0 0 24 24"><path d="M14 3H7a4 4 0 0 0-4 4v10a4 4 0 0 0 4 4h7l7-7V7a4 4 0 0 0-4-4z" /><path d="M14 21v-4a3 3 0 0 1 3-3h4"/><circle cx="9" cy="10" r=".8"/><circle cx="14" cy="10" r=".8"/><path d="M8.5 14.2c1.4 1.3 3.6 1.3 5 0"/></svg>',caneta:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 20l4-1 10-10-3-3L5 16z"/><path d="M13.5 7.5l3 3"/></svg>',fundo:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>',gal:'<svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 2.5-2.5L20 17"/></svg>',vol:'<svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',lixo:'<svg class="ico" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/></svg>',desf:'<svg class="ico" viewBox="0 0 24 24"><path d="M9 7L4 12l5 5"/><path d="M4 12h10a6 6 0 0 1 0 12"/></svg>'};
-function edDesenha(){const el=$("#layer .ce");if(!el||!ED)return;el.className="ce ce-"+ED.modo;if(ED.modo==="story")edStory(el);else edPost(el)}
 
 /* ===== STORY ===== */
 function edStory(el){const st=ED.st,foto=st.bg.tipo==="foto";
@@ -174,14 +170,6 @@ function edRenderFoto(f,c,ar,filtro,maxW){const k=edAR(ar,(ED&&ED.po.fotos[0]||f
 let ED_FT=0;function edPrevFiltro(){clearTimeout(ED_FT);ED_FT=setTimeout(()=>{const c=$("#ce-fc"),P=ED&&ED.po;if(!c||!P)return;c.width=Math.min(720,Math.round((c.parentElement.clientWidth||360)*Math.min(2,devicePixelRatio||1)));edRenderFoto(P.fotos[P.cur],c,P.ar)},20)}
 function edMiniFiltros(){const P=ED.po,f=P.fotos[P.cur];const b=document.createElement("canvas");b.width=72;b.height=72;const g=b.getContext("2d");edCover(g,f.img,72,72,f.z,f.ox,f.oy);
   document.querySelectorAll("#layer [data-fk]").forEach(c=>{const x=c.getContext("2d");x.drawImage(b,0,0);edFiltra(c,c.dataset.fk,{})})}
-async function edPublicaPost(){if(!ED||ED.env)return;const P=ED.po;if(!P.fotos.length&&!P.texto.trim()&&!P.pid){toast("Escreva algo, escolha fotos ou anexe uma notícia.");return}ED.env=true;const ed0=ED;edDesenha();const fotos=[];
-  try{for(const f of P.fotos){const c=document.createElement("canvas");c.width=1080;edRenderFoto(f,c,P.ar);const b=await new Promise((ok,no)=>c.toBlob(x=>x?ok(x):no(new Error("img")),"image/jpeg",.86));fotos.push(await pubSobe(b));PUB.urls[fotos[fotos.length-1]]={u:URL.createObjectURL(b),exp:Date.now()+3600e3}}
-    const at=Date.now(),row={autor:S.uid,tipo:"post",at,texto:P.texto.trim().slice(0,2200),fotos,pid:P.pid||null,snap:pubSnap(P.pid),estilo:{v:2,ar:P.ar,arv:P.fotos.length?+edAR(P.ar,P.fotos[0].img).toFixed(3):null,marcados:P.marcados.slice(0,20),local:P.local.trim().slice(0,60)}};
-    const r=await SB.from("publicacoes").insert(row).select("id");if(r.error)throw r.error;const id=r.data&&r.data[0]&&r.data[0].id;PUB.itens.unshift({...row,id});
-    const txt=row.texto,marc=P.marcados.slice(),aqui=ED===ed0&&$("#layer .ce");ED=null;if(aqui){closeLayer._ok=true;closeLayer()}toast("Post publicado");vibrar(10);
-    if(id&&txt)pubAvisarMencoes(id,txt,"post");const mm=marc.filter(u=>S.amigos.has(u)&&!(typeof mencionados==="function"&&mencionados(txt).includes(u)));
-    if(id&&mm.length)Promise.all(mm.map(u=>dmEnviar(u,{texto:"",pid:"u:"+id,snap:{titulo:"Post de "+nomeDe(S.uid),upub:id},tipo:"mencao"},true)));pubRedesenha();setTimeout(pubCarregar,1500)}
-  catch(e){if(fotos.length)try{await SB.storage.from("fotos").remove(fotos)}catch(_){}if(ED===ed0){ED.env=false;edDesenha()}toast("Não deu para publicar. Tente de novo.")}}
 
 /* ===== cliques do editor ===== */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer .ce")||!ED)return;if(t.closest("#layer2"))return;let b;const st=ED.st,P=ED.po;

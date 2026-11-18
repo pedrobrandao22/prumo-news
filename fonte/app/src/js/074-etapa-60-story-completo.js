@@ -11,12 +11,7 @@ function edStTem(st){return st.els.length||st.tracos.length||st.bg.tipo!=="grad"
 function edJpeg(c,max){max=max||980000;return (async()=>{let b=null;for(const q of [.86,.8,.72,.64,.56,.48]){b=await new Promise((ok,no)=>c.toBlob(x=>x?ok(x):no(new Error("img")),"image/jpeg",q));if(b.size<=max)return b}return b})()}
 
 /* abrir: o story começa na câmera */
-criarAbrir=function(tipo){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_"+tipo);if($("#layer").innerHTML)closeLayer();
-  const st=edNovoSt();ED={modo:tipo==="story"?"story":"post",tela:"cam",env:false,st,sts:[st],si:0,po:{passo:"fotos",fotos:[],cur:0,ar:"4:5",texto:"",marcados:[],local:"",pid:null,aba:"filtros"}};
-  $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;edDesenha()};
 edTemAlgo=function(){if(!ED)return false;return (ED.st.tx&&String(ED.st.tx.tx||"").trim())||ED.sts.some(edStTem)||ED.po.fotos.length||ED.po.texto.trim()||ED.po.pid};
-edDesenha=function(){const el=$("#layer .ce");if(!el||!ED)return;el.className="ce ce-"+ED.modo+(ED.modo==="story"?" t-"+ED.tela:"");
-  if(ED.modo==="story"){if(ED.tela==="cam")edCamTela(el);else if(ED.tela==="lay")edLayTela(el);else{camDesliga();edStory(el)}}else{camDesliga();edPost(el)}};
 
 /* ===== câmera ===== */
 async function camLiga(){const v=$("#ce-video");if(!v)return;if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){camErro("sem");return}

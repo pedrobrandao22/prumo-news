@@ -40,7 +40,6 @@ function ft182Dica(){const d={nt:"Notícia comenta uma notícia da edição",enq
     if(ft182Esc("giro"))h=h.replace(/<button type="button" role="tab" data-cp152aba="giro"[^>]*>[^<]*<\/button>/,"");
     if(CP152_ANEXOS.length<5)h=h.replace(/(<p class="cp152-dica">)Notícia comenta[^<]*(<\/p>)/,"$1"+ft182Dica()+"$2")}catch(e){}return h}}
 /* criar giro: nenhum caminho abre o editor de giro (giro de notícia e giro já postado continuam) */
-{const _ca182=criarAbrir;criarAbrir=function(m){if(m==="story"&&ft182Esc("giro"))return;return _ca182.apply(this,arguments)}}
 window.addEventListener("click",e=>{if(!ft182Esc("giro"))return;const t=e.target;if(!t||!t.closest)return;
   const b=t.closest('[data-criarde="story"],[data-upstory],[data-usadd],#layer [data-edmodo="story"],#layer [data-crtipo="story"]');
   const vazio=!b&&t.closest("#secs [data-meustory]")&&!(typeof pubStoriesDe==="function"&&pubStoriesDe(S.uid).length);

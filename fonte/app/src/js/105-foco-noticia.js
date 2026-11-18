@@ -146,11 +146,6 @@ if(FOCO_LIGADO){
       if(c)(Array.isArray(row)?row:[row]).forEach(r=>{if(r&&r.tipo==="story"&&!String(r.texto||"").trim())r.texto=fc105Alt(c)})}catch(e){}return ins.apply(this,arguments)}}return q};
     try{return await _ps.apply(this,arguments)}finally{SB.from=_from}}}
   /* post: aviso com a regra da casa e pedido de fonte na análise */
-  {const _cd=cn102Det;cn102Det=function(el){const r=_cd.apply(this,arguments);try{const a=el.querySelector(".cn102-aviso");if(a&&!a.querySelector(".fc105-regra"))a.insertAdjacentHTML("beforeend",`<span class="fc105-regra">Discuta as ideias, com respeito às pessoas.</span>`);
-      const fu=el.querySelector("#cn102-fu");const P=ED&&ED.po;if(fu&&P&&P.cn&&P.cn.k==="ana"){fu.placeholder="Link ou nome da fonte (recomendado)";if(P._fc105fu)fu.closest(".ce-row")?.classList.add("fc105-pede")}}catch(e){}return r}}
-  {const _pp=edPublicaPost;edPublicaPost=async function(){const P=ED&&ED.po;try{if(P&&P.cn&&P.cn.k==="ana"&&!ED.env&&!P._fc105fu&&!String(P.cn.fu||"").trim()&&!(P.cn.d&&P.cn.d.tipo==="ind")&&!cn102Valida(P)){
-      P._fc105fu=1;edDesenha();const i=$("#cn102-fu"),row=i&&i.closest(".ce-row");if(row){row.insertAdjacentHTML("afterend",`<p class="fc105-pedet" role="status">De onde vêm as informações? Uma fonte dá mais confiança a quem lê. Se não tiver, toque em Publicar de novo.</p>`);row.scrollIntoView({block:"center"});try{i.focus({preventScroll:true})}catch(e){}}return}}catch(e){}
-    return _pp.apply(this,arguments)}}
   /* bandeja: busca só de figurinhas */
   {const _fg=edFigs;edFigs=function(){const r=_fg.apply(this,arguments);try{const q=$("#ce-figq");if(q)q.placeholder="Buscar figurinhas"}catch(e){}return r}}
 }

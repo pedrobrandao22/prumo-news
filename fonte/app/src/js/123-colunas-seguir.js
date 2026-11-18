@@ -140,7 +140,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
 /* no "O que você quer publicar?" e nas abas do formulário */
 {const _ih=cn102InicioHTML;cn102InicioHTML=function(){let h=_ih.apply(this,arguments);try{const n=cs123RascLe().length;
   h=h.replace(/(<div class="cn102-cards">[\s\S]*?)(<\/div>)/,(m,a,z)=>a+`<button type="button" class="cn102-card cs123-cardc" data-cs123ini>${CN102_SVG(CS123_IC.col)}<b>Escrever coluna</b><small>${n?`${n} ${n===1?"rascunho":"rascunhos"} guardado${n===1?"":"s"}`:"Texto longo com título, como um artigo"}</small></button>`+z)}catch(e){}return h}}
-{const _cd=cn102Det;cn102Det=function(el){const r=_cd.apply(this,arguments);try{const ks=el.querySelector(".cn102-ks");if(ks&&!ks.querySelector("[data-cs123ini]"))ks.insertAdjacentHTML("beforeend",`<button type="button" role="tab" data-cs123ini aria-selected="false">${CN102_SVG(CS123_IC.col)}Coluna</button>`)}catch(e){}return r}}
 window.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-cs123ini]");if(!b)return;e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();
   if(typeof ED!=="undefined"&&ED&&ED.env)return;const P=ED&&ED.po,pre=P&&P.cn?{tit:String(P.cn.tit||"").slice(0,90),corpo:String(P.cn.corpo||"")}:P?{corpo:String(P.texto||"")}:{};cs123Comeca(pre)},true);
 function cs123Comeca(pre){if(precisaConta())return;if(PUB.on===false){toast("Publicar ainda não está ligado no Prumo.");return}uso("criar_coluna");
@@ -297,9 +296,6 @@ const cs123PodeSeg=()=>!!(V9.on&&CS123.aberto);
   box.querySelectorAll("[data-cfppubv]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.cfppubv===(P.pub==="proximos"||P.pub==="seguidores"?P.pub:"amigos"))))}catch(e){}return r}}
 {const _cd=cfpDet;cfpDet=function(el){const P=ED&&ED.po;if(P&&P.pub==="seguidores"&&!cs123PodeSeg())P.pub="amigos";const r=_cd.apply(this,arguments);
   try{if(P&&P.pub==="seguidores"){const em=el.querySelector("[data-cfppub] em");if(em)em.textContent="Seguidores e amigos";const q=el.querySelector(".cr-quem");if(q&&q.firstChild&&q.firstChild.nodeType===3)q.firstChild.textContent="Quem segue você e seus amigos vão ver. "}}catch(e){}return r}}
-{const _ep=edPublicaPost;edPublicaPost=async function(){const P=ED&&ED.po;if(!P||P.pub!=="seguidores"||!cs123PodeSeg()||!SB||ED.env)return _ep.apply(this,arguments);const _from=SB.from;
-  SB.from=function(t){const q=_from.apply(this,arguments);if(t==="publicacoes"&&q&&typeof q.insert==="function"&&!q._cs123){q._cs123=1;const ins=q.insert;q.insert=function(row){try{if(row&&row.tipo==="post")row.publico="seguidores"}catch(e){}return ins.apply(this,arguments)}}return q};
-  try{return await _ep.apply(this,arguments)}finally{SB.from=_from}}}
 
 /* ===== 8. Atividade: "Bia começou a seguir você" ===== */
 try{ESP_NOMES.seguidores="Quem segue quem"}catch(e){}

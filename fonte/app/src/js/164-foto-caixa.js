@@ -28,11 +28,6 @@ function fc164Edita(i,passo){const E=CP152.ed;if(!E)return;CP152.veio=true;
     try{const f=$("#ce-pfile");if(f&&E&&E.po.fotos.length<10){f.addEventListener("cancel",()=>{if(ED===E&&E.fc164novo)fc164Volta()},{once:true});f.click()}}catch(e){}return}
   const r=_an164.apply(this,arguments);try{if(typeof ED!=="undefined"&&ED&&ED.modo==="post"){ED.fc164=true;ED.fc164novo=true}}catch(e){}return r}}
 /* depois de escolher: o editor ia mostrar o corte; volta para a caixa com as miniaturas */
-{const _ed164=edDesenha;edDesenha=function(){const E=typeof ED!=="undefined"?ED:null;
-  if(E&&E.fc164&&E.fc164novo&&E.po&&E.po.passo==="fotos"&&E.po.fotos.length){E.fc164novo=false;setTimeout(()=>{if(ED===E)fc164Volta()},0);return}
-  const r=_ed164.apply(this,arguments);
-  try{fc164Ajusta(E)}catch(e){}
-  return r}}
 /* editor aberto pela miniatura: Concluir no alto, abas Cortar · Filtros · Editar, sem Galeria nem POST/GIRO */
 function fc164Abas(a){return `<div class="ce-abas2 fc164-abas" role="tablist">${[["cortar","Cortar"],["filtros","Filtros"],["editar","Editar"]].map(([k,n])=>`<button type="button" role="tab" data-fc164aba="${k}" aria-selected="${k===a}">${n}</button>`).join("")}</div>`}
 function fc164Ajusta(E){const ce=$("#layer .ce");if(!E||!E.fc164||!E.po||!ce)return;const P=E.po,ps=P.passo;
