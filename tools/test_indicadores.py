@@ -216,6 +216,62 @@ class TesteFechamento(unittest.TestCase):
         s.assertTrue(out["atualizado"].startswith("2026-11-17T18:30"))
 
 
+class TesteFechamentoPerdido(unittest.TestCase):
+    """18/11/2026: o GitHub rodou as rodadas de 17/11 (18h30 e 19h30) só à 0h05 de 18/11; o card ficou com o dólar do meio
+    do dia. A rodada seguinte (de madrugada ou de manhã) recupera o fechamento do último pregão pelas cotações de 5 min."""
+    def _roda(s, quando, velhos, pontos):
+        from datetime import datetime as D
+        d = tempfile.mkdtemp(prefix="ind-"); ind = os.path.join(d, "indicadores.json")
+        with open(ind, "w", encoding="utf-8") as fh: json.dump({"atualizado": "x", "itens": velhos}, fh)
+        def gj(url, tempo=20):
+            if "range=5d" in url:
+                k = "BRL" if "BRL" in url else "BVSP"
+                ts = [int(D(*x[0], tzinfo=IN.SP).timestamp()) for x in pontos[k]]
+                return {"chart": {"result": [{"timestamp": ts, "indicators": {"quote": [{"close": [x[1] for x in pontos[k]]}]}}]}}
+            if "range=1d" in url: raise OSError("não devia buscar a cotação de agora")
+            return Rede().get_json(url, tempo)
+        class F(D):
+            @classmethod
+            def now(cls, tz=None): return quando
+        g0, d0 = IN.get_json, IN.datetime; IN.get_json, IN.datetime = gj, F
+        try: IN.main([ind])
+        finally: IN.get_json, IN.datetime = g0, d0
+        out = json.load(open(ind, encoding="utf-8")); shutil.rmtree(d, ignore_errors=True)
+        return out, {x["id"]: x for x in out["itens"]}
+
+    PONTOS = {"BRL": [((2026, 11, 16, 18, 25), 5.77), ((2026, 11, 17, 11, 30), 5.78), ((2026, 11, 17, 18, 25), 5.80),
+                      ((2026, 11, 17, 21, 0), 5.83), ((2026, 11, 18, 0, 5), 5.84)],
+              "BVSP": [((2026, 11, 16, 17, 55), 169295.0), ((2026, 11, 17, 17, 55), 170634.0)]}
+
+    def test_madrugada_recupera_o_fechamento_de_ontem(s):
+        from datetime import datetime as D
+        v = [{"id": "dolar", "nome": "Dólar", "valor": "R$ 5,78", "variacao": "-0,16%", "dir": "desce", "data": "2026-11-17", "hora": "2026-11-17T11:33-03:00"},
+             {"id": "ibovespa", "nome": "Ibovespa", "valor": "170.100", "data": "2026-11-17", "hora": "2026-11-17T11:33-03:00"}]
+        out, it = s._roda(D(2026, 11, 18, 0, 5, tzinfo=IN.SP), v, s.PONTOS)
+        s.assertEqual(it["dolar"]["valor"], "R$ 5,80"); s.assertTrue(it["dolar"]["fechamento"]); s.assertEqual(it["dolar"]["data"], "2026-11-17")
+        s.assertEqual(it["dolar"]["hora"], "2026-11-17T18:25-03:00"); s.assertEqual(it["dolar"]["dir"], "sobe")
+        s.assertEqual(it["ibovespa"]["valor"], "170.634"); s.assertTrue(it["ibovespa"]["fechamento"])
+        s.assertEqual(out["dados_em"], "2026-11-17T18:25-03:00")
+
+    def test_meio_do_dia_seguinte_tambem_recupera(s):
+        from datetime import datetime as D
+        v = [{"id": "dolar", "nome": "Dólar", "valor": "R$ 5,78", "data": "2026-11-17", "hora": "2026-11-17T11:33-03:00"}]
+        out, it = s._roda(D(2026, 11, 18, 10, 15, tzinfo=IN.SP), v, s.PONTOS)
+        s.assertEqual(it["dolar"]["valor"], "R$ 5,80"); s.assertTrue(it["dolar"].get("recuperado"))
+
+    def test_fechamento_ja_gravado_nao_busca(s):
+        from datetime import datetime as D
+        v = [{"id": "dolar", "nome": "Dólar", "valor": "R$ 5,80", "data": "2026-11-17", "fechamento": True}]
+        out, it = s._roda(D(2026, 11, 18, 10, 15, tzinfo=IN.SP), v, {"BRL": [], "BVSP": []})
+        s.assertEqual(it["dolar"], v[0])
+
+    def test_segunda_de_manha_recupera_a_sexta(s):
+        from datetime import datetime as D
+        s.assertEqual(IN.ultimo_pregao(D(2026, 11, 16, 8, 0, tzinfo=IN.SP)), "2026-11-13")
+        s.assertEqual(IN.ultimo_pregao(D(2026, 11, 17, 18, 30, tzinfo=IN.SP)), "2026-11-17")
+        s.assertEqual(IN.ultimo_pregao(D(2026, 11, 22, 12, 0, tzinfo=IN.SP)), "2026-11-20")
+
+
 class TesteSaltos(unittest.TestCase):
     """Salto grande num pregão (ex.: Ibovespa −13,9% em 26/10/2026, dia seguinte ao 2º turno) é gravado, mas o robô avisa."""
     def test_acha_saltos(s):

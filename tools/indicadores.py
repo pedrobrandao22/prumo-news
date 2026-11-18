@@ -156,6 +156,53 @@ def janela_do_fechamento(agora=None):
 
 
 MERCADO = ("dolar", "ibovespa")
+SIMBOLO = {"dolar": "BRL%3DX", "ibovespa": "%5EBVSP"}
+
+
+def ultimo_pregao(agora=None):
+    """Dia (AAAA-MM-DD) do último pregão já fechado: hoje a partir das 18h20 de um dia útil; senão, o dia útil anterior."""
+    agora = agora or datetime.now(SP)
+    if janela_do_fechamento(agora): return agora.date().isoformat()
+    d = agora.date() - timedelta(days=1)
+    while d.weekday() >= 5: d -= timedelta(days=1)
+    return d.isoformat()
+
+
+def fechamento_de(simbolo, dia):
+    """Recupera o fechamento de um pregão que o robô perdeu (18/11/2026: o GitHub rodou as rodadas das 18h30 e 19h30 de
+    17/11 só à 0h05 de 18/11, e o fechamento não foi gravado). Lê as cotações de 5 em 5 minutos dos últimos dias e pega a
+    última até as 18h30 de Brasília do dia pedido; a variação é contra a última até as 18h30 do pregão anterior.
+    Devolve (preço, preço anterior ou None, hora ISO) ou None se não houver cotação naquele dia (feriado)."""
+    r = get_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo}?range=5d&interval=5m")["chart"]["result"][0]
+    por_dia = {}
+    for t, c in zip(r.get("timestamp") or [], r["indicators"]["quote"][0].get("close") or []):
+        if c is None: continue
+        h = datetime.fromtimestamp(t, SP)
+        if h.hour * 60 + h.minute > 18 * 60 + 30: continue
+        por_dia[h.date().isoformat()] = (float(c), h)   # timestamps em ordem: fica o último até 18h30
+    if dia not in por_dia: return None
+    ants = [d for d in sorted(por_dia) if d < dia]
+    p, h = por_dia[dia]
+    return p, (por_dia[ants[-1]][0] if ants else None), h.isoformat(timespec="minutes")
+
+
+def recuperar_fechamento(id_, velho, agora=None):
+    """Item com o fechamento do último pregão, quando o arquivo ainda não tem (rodada perdida); senão None."""
+    agora = agora or datetime.now(SP)
+    alvo = ultimo_pregao(agora)
+    if not velho or (velho.get("fechamento") and str(velho.get("data") or "") >= alvo): return None
+    r = fechamento_de(SIMBOLO[id_], alvo)
+    if not r: return None
+    p, a, hora = r
+    casas = 2 if id_ == "dolar" else 0
+    item = dict(velho, valor=("R$ " if id_ == "dolar" else "") + br(p, casas), data=alvo, hora=hora, fechamento=True,
+                recuperado=True)
+    if a:
+        q = round if id_ == "ibovespa" else (lambda x: round(x, 3))
+        item.update(variacao=pct((p / a - 1) * 100), dir=direcao(q(a), q(p)))
+    else:
+        item.update(variacao="", dir="")
+    return item
 
 
 def manter_mercado(velho, agora=None):
@@ -358,6 +405,13 @@ def main(argv):
     for id_, fn in tarefas:
         agora = datetime.now(SP)
         motivo = manter_mercado(antigo.get(id_), agora) if id_ in MERCADO else ""
+        if motivo and id_ in MERCADO and not janela_do_fechamento(agora):
+            try:
+                rec = recuperar_fechamento(id_, antigo.get(id_), agora)
+            except Exception as e:
+                rec = None; log.append(f"{id_}: recuperar o fechamento falhou {repr(e)[:80]}")
+            if rec:
+                novos[id_] = rec; log.append(f"{id_}: fechamento recuperado {rec['valor']} ({rec['data']} {rec['hora']})"); continue
         if motivo:
             novos[id_] = antigo[id_]; log.append(f"{id_}: {motivo} ({antigo[id_].get('data')})"); continue
         try:
