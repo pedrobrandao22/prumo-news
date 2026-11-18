@@ -182,7 +182,8 @@ function capaSeMudou(){const v=$("#v-capa");if(!v||!v.querySelector(".cpi")||cap
    indicadores na coluna do lado, contagem do card visto). */
 function renderCapa(){nm186EmDia();
   const desenha=()=>{const v=$("#v-capa");if(!v)return;carregarCapaFixa();
-  if(!FEED){if(v.querySelector(".cp-sk.ab141-sk")&&!v.querySelector(".cpi"))return;v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed ab141-sk-ed" aria-hidden="true">Edição da noite · dom, 00 de nov</span></div><div class="cp-sk ab141-sk" role="status" aria-label="Carregando a Capa"><i class="ab141-sk-art"></i><i style="height:11px;width:34%"></i><i style="height:26px;width:94%"></i><i style="height:26px;width:88%"></i><i style="height:26px;width:52%"></i><i style="height:14px;width:97%"></i><i style="height:14px;width:91%"></i><i style="height:14px;width:62%"></i></div></div>`;return}
+  if(!FEED){if(v.querySelector(".cp.f4-pre"))return;  /* 121: o alto da Capa já desenhado com o feed-leve fica até a Capa de verdade */
+  if(v.querySelector(".cp-sk.ab141-sk")&&!v.querySelector(".cpi"))return;v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed ab141-sk-ed" aria-hidden="true">Edição da noite · dom, 00 de nov</span></div><div class="cp-sk ab141-sk" role="status" aria-label="Carregando a Capa"><i class="ab141-sk-art"></i><i style="height:11px;width:34%"></i><i style="height:26px;width:94%"></i><i style="height:26px;width:88%"></i><i style="height:26px;width:52%"></i><i style="height:14px;width:97%"></i><i style="height:14px;width:91%"></i><i style="height:14px;width:62%"></i></div></div>`;return}
   const {ps,ord,man,dest,fixa,linha}=capaEscolha();const L=lente();
   const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
   const vivo=ps.filter(p=>p.status==="ao_vivo");

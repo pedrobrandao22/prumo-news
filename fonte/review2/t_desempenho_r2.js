@@ -41,11 +41,12 @@ function servidor(porta) {
 }
 const INIT = `(() => {
   try { localStorage.setItem('prumo-teste-capa','1'); localStorage.setItem('prumo-teste-tour','1'); localStorage.setItem('prumo-teste-semreels','1'); localStorage.setItem('prumo-teste-anim','1') } catch (e) {}
-  const M = window.__dp = { manchete: 0, foto: 0 };
+  const M = window.__dp = { manchete: 0, foto: 0, real: 0 };
   const olha = () => { if (!M.manchete) { const c = document.querySelector('#v-capa .cpi'); if (c && c.textContent.trim().length > 20 && c.getBoundingClientRect().height > 0) M.manchete = Math.round(performance.now()) }
+    if (!M.real) { const c = document.querySelector('#v-capa .cp:not(.f4-pre) .cpi'); if (c && c.textContent.trim().length > 20) M.real = Math.round(performance.now()) }
     if (M.manchete && !M.foto) { const i = document.querySelector('#v-capa .cpi-man img'); if (i && i.complete && i.naturalWidth) M.foto = Math.round(performance.now()) } };
   new MutationObserver(olha).observe(document, { subtree: true, childList: true });
-  const raf = () => { olha(); if (!M.foto && performance.now() < 30000) requestAnimationFrame(raf) }; requestAnimationFrame(raf);
+  const raf = () => { olha(); if ((!M.foto || !M.real) && performance.now() < 30000) requestAnimationFrame(raf) }; requestAnimationFrame(raf);
 })();`;
 
 (async () => {
@@ -75,7 +76,9 @@ const INIT = `(() => {
       const cons = []; p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource|net::ERR/.test(m.text())) cons.push(m.text()) }); p.on('pageerror', e => cons.push(e.message));
       T0 = Date.now(); await p.goto(`http://localhost:${PORTA}/`, { waitUntil: 'commit', timeout: 60000 });
       const t0nav = Date.now() - T0;  // diferença entre o relógio do servidor e o performance.now() da página
-      await U.esperar(p, () => window.__dp && window.__dp.manchete > 0, null, 40000); await sleep(4000);
+      await U.esperar(p, () => window.__dp && window.__dp.manchete > 0, null, 40000);
+      // 121 (Fase 4): a manchete sai antes do resto do código; espera a Capa de verdade e a página inteira
+      await U.esperar(p, () => window.__dp.real > 0 && document.readyState === 'complete', null, 40000); await sleep(4000);
       const M = await p.evaluate(() => ({ ...window.__dp, cpi: document.querySelectorAll('#v-capa .cpi').length,
         nr: [...document.fonts].filter(f => f.family.replace(/"/g, '') === 'Newsreader' && f.status === 'loaded').map(f => f.style),
         dcl: Math.round(performance.getEntriesByType('navigation')[0].domContentLoadedEventEnd), resp: Math.round(performance.getEntriesByType('navigation')[0].responseEnd), mk: [window.__m1, window.__m2, window.__m3].map(x => Math.round(x || 0)), fcp: Math.round((performance.getEntriesByName('first-contentful-paint')[0] || {}).startTime || 0) }));
@@ -83,7 +86,7 @@ const INIT = `(() => {
       const antes = LOG.filter(x => x.ini < manchSrv - 200);  // folga: os dois relógios (servidor e página) não batem ao milissegundo
       const bytesAntes = antes.reduce((s, x) => s + (x.bytes || 0), 0);
       const linha = LOG.map(x => `${x.url.replace(/^\//, '') || 'index.html'} ${x.ini}→${x.fim ?? '…'} ${x.bytes ? Math.round(x.bytes / 1024) + 'K' : ''}`).join(' | ');
-      console.log(`  ${P.nome}#${rep + 1}: 1ª pintura ${M.fcp} ms · DOMContentLoaded ${M.dcl} ms · manchete ${M.manchete} ms · foto da manchete ${M.foto || '-'} ms · ${Math.round(bytesAntes / 1024)} KB pedidos antes da manchete · resposta ${M.resp} ms${M.mk[0] ? ' · marcas ' + M.mk.join('/') : ''} · cartões ${M.cpi} · Newsreader ${JSON.stringify(M.nr)}`);
+      console.log(`  ${P.nome}#${rep + 1}: 1ª pintura ${M.fcp} ms · DOMContentLoaded ${M.dcl} ms · manchete ${M.manchete} ms · Capa pronta ${M.real} ms · foto da manchete ${M.foto || '-'} ms · ${Math.round(bytesAntes / 1024)} KB pedidos antes da manchete · resposta ${M.resp} ms${M.mk[0] ? ' · marcas ' + M.mk.join('/') : ''} · cartões ${M.cpi} · Newsreader ${JSON.stringify(M.nr)}`);
       if (process.env.DETALHE || OUTRA) console.log('     ' + linha);
       (RES[P.nome] = RES[P.nome] || []).push({ M, antes: antes.map(x => x.url), cons });
       await ctx.close(); fs.rmSync(perfil, { recursive: true, force: true });

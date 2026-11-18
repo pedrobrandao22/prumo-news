@@ -44,8 +44,8 @@ function rodadas(lista) { const dia = lista.map(x => x[0]).sort().pop().slice(0,
   const corta = async (p) => p.context().route('**/index.html', async r => { const resp = await r.fetch(); let h = await resp.text(); const i = h.indexOf('<script>window.SBJS_URL'); h = h.slice(0, i) + '</body></html>'; r.fulfill({ response: resp, body: h }) });
   const T1 = await abrir({ nome: 'T1', antes: corta });
   await sleep(500);
-  const c1 = await ev(T1.p, () => ({ capa: !document.querySelector('#v-capa').hidden && !!document.querySelector('#v-capa .cp-top .word') && !!document.querySelector('#v-capa .cp-sk'), feed: document.querySelector('#v-feed').hidden, top: document.querySelector('header.top').hidden, cur: document.querySelector('.nav [aria-current]')?.id, sem: typeof VIEW === 'undefined' }));
-  ok(c1.sem && c1.capa && c1.feed && c1.top && c1.cur === 't-capa', 'TA01: antes do código, a casca já é a da Capa (esqueleto, aba Capa)', c1);
+  const c1 = await ev(T1.p, () => ({ capa: !document.querySelector('#v-capa').hidden && !!document.querySelector('#v-capa .cp-top .word') && (!!document.querySelector('#v-capa .cp-sk') || !!document.querySelector('#v-capa .cp.f4-pre .cpi-man')), pre: !!document.querySelector('#v-capa .cp.f4-pre .cpi-man'), feed: document.querySelector('#v-feed').hidden, top: document.querySelector('header.top').hidden, cur: document.querySelector('.nav [aria-current]')?.id, sem: typeof VIEW === 'undefined' }));
+  ok(c1.sem && c1.capa && c1.feed && c1.top && c1.cur === 't-capa', 'TA01: antes do código, a casca já é a da Capa (esqueleto ou, com o feed-leve, a manchete do 121; aba Capa)', c1);
   await U.foto(T1.p, 'ta120-casca'); await T1.ctx.close();
   const T2 = await abrir({ nome: 'T2', capa: false, antes: corta }); await sleep(500);
   ok(await ev(T2.p, () => !document.querySelector('#v-feed').hidden && document.querySelector('#v-capa').hidden && document.querySelector('.nav [aria-current]')?.id === 't-feed'), 'TA01: nos testes que abrem no Feed, a casca continua a do Feed');
