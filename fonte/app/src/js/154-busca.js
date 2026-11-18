@@ -180,11 +180,6 @@ function bu154NtFiltra(ov){const q=ov.querySelector("#ce-lq"),ul=ov.querySelecto
   ord.forEach(li=>ul.appendChild(li));
   let nd=ul.querySelector(".bu154-ntnada");if(!nd){ul.insertAdjacentHTML("beforeend",`<li class="bu154-ntnada hint" hidden></li>`);nd=ul.querySelector(".bu154-ntnada")}else ul.appendChild(nd);
   nd.hidden=!!n||!ts.length;if(!n&&ts.length)nd.textContent=`Nenhuma notícia desta edição com “${q.value.trim()}”. Tente outra palavra, como o nome de quem está na notícia ou o assunto.`}
-if(typeof cn102ListaNt==="function"){const _cl=cn102ListaNt;cn102ListaNt=function(attr){const r=_cl.apply(this,arguments);try{const ov=$("#layer .cn102-ntl");if(!ov)return r;
-  ov.querySelectorAll(".ce-lis [data-busca]").forEach((b,i)=>{const p=pautaById(b.getAttribute(attr)||"");const n=p&&p.neutro||{};if(b.parentElement)b.parentElement.dataset.bu154i=i;
-    b.dataset.bu154h=bu154N([b.textContent,n.titulo,p&&p.subtitulo,p&&p.tag,p&&p.tema,p&&p.subtema,p&&bu154Hash(p),p&&secNome(secOf(p))].filter(Boolean).join(" "));
-    if(p)b.dataset.bu154c=bu154N([n.texto,p.contexto].filter(Boolean).join(" ")).slice(0,6000)});
-  const q=ov.querySelector("#ce-lq");if(q){q.addEventListener("input",()=>bu154NtFiltra(ov));if(q.value)bu154NtFiltra(ov)}}catch(e){}return r}}
 
 /* ===== 7. Adicionar amigos: mensagens que não se contradizem ===== */
 function bu154AmgSheet(){return !!document.querySelector("#pform #pbusca")}

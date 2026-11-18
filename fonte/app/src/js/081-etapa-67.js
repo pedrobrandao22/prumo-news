@@ -31,7 +31,6 @@ document.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const L=$("#laye
 /* curtidas ocultas: o cabeçalho também não diz quem curtiu */
 
 /* números das marcas acompanham as fotos */
-{const _ep67=edPost;edPost=function(){try{const P=ED.po;(P.tags||[]).forEach(t=>{const i=P.fotos.indexOf(edTagF(t));if(i>=0)t.i=i})}catch(e){}return _ep67.apply(this,arguments)}}
 /* post só de texto muito longo: "Ler tudo" */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".upost [data-uptudo]");if(!b)return;e.stopPropagation();e.preventDefault();const x=pubDe(b.dataset.uptudo);if(!x)return;sheet(nomeDe(x.autor),`<p class="up-tudo">${dmMarcaPub(x.texto)}</p>`)},true);
 

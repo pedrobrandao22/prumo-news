@@ -36,11 +36,7 @@ if(typeof FEED!=="undefined"&&FEED){ft182Limpa(FEED);try{derivaQuiz();updatePlay
 for(let i=CP152_ANEXOS.length-1;i>=0;i--){const k=FT182_CN[CP152_ANEXOS[i][0]];if(k&&ft182Esc(k))CP152_ANEXOS.splice(i,1)}
 function ft182Dica(){const d={nt:"Notícia comenta uma notícia da edição",enq:"Enquete pergunta aos amigos",ana:"Número junta um indicador ou gráfico",rel:"De perto conta o que você viu, com local e hora"};
   const l=CP152_ANEXOS.map(a=>d[a[0]]).filter(Boolean);return (l.length?l.join("; ")+". ":"")+"Use @ para marcar alguém."}
-{const _ch182=cp152HTML;cp152HTML=function(){let h=_ch182.apply(this,arguments);try{
-    if(ft182Esc("giro"))h=h.replace(/<button type="button" role="tab" data-cp152aba="giro"[^>]*>[^<]*<\/button>/,"");
-    if(CP152_ANEXOS.length<5)h=h.replace(/(<p class="cp152-dica">)Notícia comenta[^<]*(<\/p>)/,"$1"+ft182Dica()+"$2")}catch(e){}return h}}
 /* criar giro: nenhum caminho abre o editor de giro (giro de notícia e giro já postado continuam) */
-{const _ca182=criarAbrir;criarAbrir=function(m){if(m==="story"&&ft182Esc("giro"))return;return _ca182.apply(this,arguments)}}
 window.addEventListener("click",e=>{if(!ft182Esc("giro"))return;const t=e.target;if(!t||!t.closest)return;
   const b=t.closest('[data-criarde="story"],[data-upstory],[data-usadd],#layer [data-edmodo="story"],#layer [data-crtipo="story"]');
   const vazio=!b&&t.closest("#secs [data-meustory]")&&!(typeof pubStoriesDe==="function"&&pubStoriesDe(S.uid).length);

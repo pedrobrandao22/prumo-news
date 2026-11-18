@@ -22,7 +22,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;co
   if(b){MC106={pid:b.dataset.cn102envp||b.dataset.cn102envs,t:Date.now()};return}
   if(t.closest("[data-edpubpo],[data-edpubst]")&&MC106)MC106.pub=1},true);
 /* 7. análise: o texto do campo de fonte cabia só pela metade em telas de 360px */
-{const _cd106=cn102Det;cn102Det=function(el){const r=_cd106.apply(this,arguments);try{const fu=el.querySelector("#cn102-fu");if(FOCO_LIGADO&&fu&&/recomendado/.test(fu.placeholder))fu.placeholder="Link ou nome (recomendado)"}catch(e){}return r}}
 /* 8. Local e Menção vão "assados" na foto do story com roxo e rosa fixos; no foco, saem com os tons de jornal (como na tela) */
 {const _pe106=edPintaEl;const T106={"#8338ec":"#1d3a63","#c2185b":"#6e2633"};edPintaEl=function(g,e){if(!FOCO_LIGADO||!g||!e||!["local","men"].includes(e.t))return _pe106.apply(this,arguments);
   const d=Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype,"fillStyle");try{Object.defineProperty(g,"fillStyle",{configurable:true,get(){return d.get.call(g)},set(v){d.set.call(g,typeof v==="string"&&T106[v.toLowerCase()]||v)}})}catch(x){return _pe106.apply(this,arguments)}

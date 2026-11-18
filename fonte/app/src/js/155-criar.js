@@ -27,38 +27,19 @@ document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="cp152-tx")
 /* a lista de amigos entra logo abaixo do texto (como na legenda do criador, 145), sem cobrir o alto da caixa */
 
 /* abrir a caixa: devolve o texto e a notícia guardados; o={pid} abre já com a notícia */
-{const _ab155=cp152Abre;cp152Abre=function(o){o=o||{};const r=_ab155.apply(this,arguments);try{if(!$("#layer > .cp152"))return r;
-    if(!o.manter){const g=cr155Le();CR155.pid=null;if(g){if(!o.aba||o.aba==="post")CP152.txt=g.tx;CR155.pid=g.pid&&pautaById(g.pid)?g.pid:null}
-      if(o.pid&&pautaById(o.pid))CR155.pid=o.pid;if(CR155.pid||CP152.txt)cp152Desenha()}
-    CR155.giro=0;CR155.volta=0}catch(e){}return r}}
 /* × e "Descartar?": quem descarta limpa o que estava guardado */
-{const _fe155=cp152Fecha;cp152Fecha=function(){const r=_fe155.apply(this,arguments);if(!$("#layer > .cp152"))cr155Limpa();return r}}
 
 /* ===== a notícia na caixa ===== */
 function cr155NtHTML(){const p=CR155.pid&&pautaById(CR155.pid);if(!p)return "";const v=versao(p,lente()),s=secOf(p);
   return `<div class="cr155-nt"><button type="button" class="cr155-ntb" data-cr155ntv aria-label="Trocar a notícia">${capaArte(p,"cn102-th")}<span><small style="color:${secCor(s)}">${esc(secNome(s))}${p.tag?" · "+esc(p.tag):""}</small><b>${esc(v.titulo)}</b></span></button><button type="button" class="cr155-ntx" data-cr155ntx aria-label="Tirar a notícia">${CN102_SVG(CN102_ICO.x)}</button></div>`}
-{const _ph155=cp152PostHTML;cp152PostHTML=function(){let h=_ph155.apply(this,arguments);try{const nt=cr155NtHTML();if(nt){const i=h.indexOf("</textarea>");if(i>=0)h=h.slice(0,i+11)+nt+h.slice(i+11);h=h.replace('placeholder="Escreva o que você acha…"','placeholder="O que você acha dessa notícia?"')}}catch(e){}return h}}
 /* publicar da caixa: com a notícia, sai como notícia comentada */
-cp152Publica=async function(){const tx=CP152.txt.trim(),pid=CR155.pid&&pautaById(CR155.pid)?CR155.pid:null;if(!tx&&!pid){toast("Escreva algo para publicar.");return}const pub=CP152.pub;
-  const E=cp152Editor();if(!E){toast("Não deu para abrir agora. Tente de novo.");return}const P=E.po;P.texto=tx;P.pub=pub;P.passo="detalhes";
-  if(pid){P.pid=pid;P.cn=cn102Novo("nt");P.cn.corpo=tx}try{edDesenha()}catch(e){}
-  CP152.direto=true;try{await edPublicaPost()}catch(e){}
-  /* foi para a fila (o editor fechou): a caixa começa vazia da próxima vez; se não saiu, o texto fica no editor */
-  if(!$("#layer .ce"))cr155Limpa();else{CP152.txt=tx;cr155Guarda()}};
-{const _ok155=cp152Ok;cp152Ok=function(){const r=_ok155.apply(this,arguments);try{const b=$("#layer [data-cp152pub]");if(b&&CR155.pid)b.disabled=false}catch(e){}return r}}
 /* juntar com a notícia já escolhida: Notícia e Enquete levam a notícia */
-{const _an155=cp152Anexo;cp152Anexo=function(k){CR155.anexo=1;try{return cr155Anexo.apply(this,arguments)}finally{CR155.anexo=0}};var cr155Anexo=function(k){const pid=CR155.pid&&pautaById(CR155.pid)?CR155.pid:null;
-  if(k==="nt"&&pid){const tx=CP152.txt,pub=CP152.pub;CP152.veio=true;cn102Comeca("nt",{pid});const E=typeof ED!=="undefined"&&ED;if(!E||!E.po||!E.po.cn)return;E.po.pub=pub;E.po.cn.corpo=tx;E.cr155pid=pid;try{edDesenha()}catch(e){}return}
-  const r=_an155.apply(this,arguments);try{const E=typeof ED!=="undefined"&&ED;if(E&&E.po&&E.po.cn&&pid&&k==="enq"){E.po.pid=pid;E.cr155pid=pid;edDesenha()}}catch(e){}return r}}
 /* a notícia escolhida no formulário fica marcada no editor (o 102 tira a notícia ao voltar sem texto) */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-edpnt]");if(!b)return;const pid=b.dataset.edpnt;setTimeout(()=>{try{if(ED&&ED.po&&ED.po.pid===pid)ED.cr155pid=pid}catch(_){}},0)});
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#layer [data-edsemnt]");if(!b)return;try{if(ED)ED.cr155pid=null}catch(_){}},true);
-{const _td155=cp152TextoDe;cp152TextoDe=function(E){const r=_td155.apply(this,arguments);try{const P=E&&E.po;if(P){const k=P.cn&&P.cn.k;
-    if(P.pid)CR155.pid=P.pid;else if(!P.cn&&E.cr155pid)CR155.pid=E.cr155pid;else if(k==="nt"||k==="enq")CR155.pid=null;CP152.txt=r;cr155Guarda()}}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!t.closest("#layer > .cp152"))return;
   if(t.closest("[data-cr155ntx]")){e.stopPropagation();e.preventDefault();CR155.pid=null;cr155Guarda();cp152Desenha();return}
   if(t.closest("[data-cr155ntv]")){e.stopPropagation();e.preventDefault();cp152Anexo("nt");setTimeout(()=>{try{if($("#layer .ce")&&!$("#layer .cn102-ntl"))cn102ListaNt("data-edpnt")}catch(_){}},0);return}},true);
-{const _de155=cp152Desenha;cp152Desenha=function(){const r=_de155.apply(this,arguments);try{cr155Clareia($("#layer > .cp152 .cr155-nt"))}catch(e){}return r}}
 
 /* ===== outros caminhos de criar ===== */
 window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
@@ -67,10 +48,7 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
 },true);
 /* "O que você acha? <manchete>", "Publicar com comentário" e outros: o formulário da notícia já escolhida, sem a faixa de tipos,
    com o texto guardado da caixa e com "voltar" levando para a caixa */
-{const _cc155=cn102Comeca;cn102Comeca=function(k,o){const anexo=CR155.anexo;const r=_cc155.apply(this,arguments);try{const E=typeof ED!=="undefined"&&ED;
-    if(!anexo&&E&&E.po&&E.po.cn&&k==="nt"&&o&&o.pid){CP152.veio=true;E.cr155pid=o.pid;const g=cr155Le();if(g&&g.tx.trim()&&!E.po.cn.corpo){E.po.cn.corpo=g.tx;try{cn102Sync();edDesenha()}catch(_){}}}}catch(e){}return r}}
 /* a faixa de tipos sai de todos os formulários (a escolha do tipo fica só na caixa) */
-{const _cd155=cn102Det;cn102Det=function(el){const r=_cd155.apply(this,arguments);try{const ks=el.querySelector(".cn102-ks");if(ks)ks.hidden=true}catch(e){}return r}}
 /* nomes iguais aos da caixa (Notícia, Enquete, Número, De perto) */
 try{Object.assign(CN102_NOME,{nt:"Notícia",rel:"De perto",ana:"Número",enq:"Enquete"});
   CN102_KS.forEach(k=>{const n={nt:["Notícia","Notícia","Sua opinião sobre uma notícia da edição"],rel:["De perto","De perto","Foto, local e hora do que você viu"],ana:["Número","Número ou análise","Seu texto, um indicador ou um gráfico"],enq:["Enquete","Enquete","Uma pergunta para os amigos votarem"]}[k[0]];if(n){k[1]=n[0];k[2]=n[1];k[3]=n[2]}})}catch(e){}
@@ -81,38 +59,23 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   /* × do giro aberto pela caixa, sem nada feito no giro: volta para a caixa, onde está o texto */
   const x=t.closest("#layer .ce [data-edfechar]");if(x&&typeof ED!=="undefined"&&ED&&ED.cr155caixa&&ED.modo==="story"&&!ED.env){let algo=true;try{algo=!!edTemAlgo()}catch(_){}
     const g=cr155Le();if(!algo&&g&&(g.tx.trim()||g.pid)){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();try{camDesliga()}catch(_){}ED=null;cp152Abre()}}},true);
-{const _ca155=criarAbrir;criarAbrir=function(m){const g=CR155.giro;CR155.giro=0;const r=_ca155.apply(this,arguments);try{if(g&&m==="story"&&ED&&ED.modo==="story"){ED.cr155caixa=1;$("#layer .ce")?.classList.add("cr155-dacaixa")}}catch(e){}return r}}
-{const _ed155=edDesenha;edDesenha=function(){const r=_ed155.apply(this,arguments);try{if(ED&&ED.cr155caixa)$("#layer .ce")?.classList.add("cr155-dacaixa")}catch(e){}return r}}
 
 /* ===== voltar do celular com texto na caixa: pergunta antes (como o editor), e o texto fica guardado ===== */
 
 /* ===== publicar pelo formulário que veio da caixa: a caixa começa vazia depois ===== */
-{const _pp155=edPublicaPost;edPublicaPost=async function(){const daCaixa=CP152.direto||CP152.veio;const r=await _pp155.apply(this,arguments);try{if(daCaixa&&!$("#layer .ce"))cr155Limpa()}catch(e){}return r}}
 
 /* ===== Enquete: as opções são da pessoa ===== */
-{const _va155=cn102Valida;cn102Valida=function(P){const cn=P&&P.cn;if(cn&&cn.k==="enq"&&String(cn.tit||"").trim()){const f=(cn.o||[]).map(v=>String(v||"").trim()).filter(Boolean);
-    if(f.length<2){setTimeout(()=>{try{const i=[...document.querySelectorAll("#layer [data-cn102o]")].find(x=>!x.value.trim());if(i)i.focus()}catch(_){}},60);return f.length?"A enquete precisa de pelo menos duas opções.":"Escreva as opções da enquete (por exemplo, Sim e Não)."}}
-  return _va155.apply(this,arguments)}}
-{const _dt155=cn102Det;cn102Det=function(el){const r=_dt155.apply(this,arguments);try{el.querySelectorAll("input[data-cn102o]").forEach(i=>{i.placeholder="Opção "+(+i.dataset.cn102o+1)})}catch(e){}return r}}
 
 /* ===== cores das editorias no fundo escuro ===== */
 function cr155Clareia(raiz){if(!raiz)return;raiz.querySelectorAll("small[style*='color']").forEach(s=>{if(s.dataset.cr155)return;const m=/rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(getComputedStyle(s).color);if(!m)return;
   const k=.5,f=v=>Math.round(+v+(255-v)*k);s.style.color=`rgb(${f(m[1])},${f(m[2])},${f(m[3])})`;s.dataset.cr155=1})}
-{const _ln155=cn102ListaNt;cn102ListaNt=function(){const r=_ln155.apply(this,arguments);try{cr155Clareia($("#layer .cn102-ntl"))}catch(e){}return r}}
-{const _dc155=cn102Det;cn102Det=function(el){const r=_dc155.apply(this,arguments);try{cr155Clareia(el.querySelector(".cn102-ntc"))}catch(e){}return r}}
 
 /* ===== sem rede: diz por quê, mostra o começo e tenta de novo sozinho ===== */
 function cr155SemRede(j){const m=String(j&&j.err&&(j.err.message||j.err)||"");return navigator.onLine===false||/fetch|network|rede|offline|conex|Load failed/i.test(m)}
-{const _pd155=pqDesenha;pqDesenha=function(){const r=_pd155.apply(this,arguments);try{const box=$("#pq");if(!box)return r;
-    PQ.jobs.forEach(j=>{if(j.estado!=="erro")return;const row=box.querySelector(`[data-pq="${j.id}"]`);if(!row)return;const tx=row.querySelector(".pq-tx>b");
-      if(tx)tx.textContent=cr155SemRede(j)?"Sem conexão: vamos publicar quando a internet voltar":"Não foi publicado";
-      const ini=j.tipo==="post"&&j.ed&&j.ed.po?String(j.ed.po.texto||"").replace(/\s+/g," ").trim():"";
-      if(ini&&!row.querySelector(".cr155-ini")&&tx)tx.insertAdjacentHTML("afterend",`<small class="cr155-ini">“${esc(cp152Corta(ini,60))}”</small>`)})}catch(e){}return r}}
 function cr155Reenvia(){if(navigator.onLine===false)return;const j=PQ.jobs.find(x=>x.estado==="erro"&&(x.cr155n||0)<3);if(!j)return;
   if(PQ.atual||(typeof ED!=="undefined"&&ED)||$("#layer .ce")){clearTimeout(CR155.rt);CR155.rt=setTimeout(cr155Reenvia,4000);return}
   j.cr155n=(j.cr155n||0)+1;try{pqTenta(j.id)}catch(e){}}
 addEventListener("online",()=>{clearTimeout(CR155.rt);CR155.rt=setTimeout(cr155Reenvia,800)});
-{const _pf155=pqFim;pqFim=function(j){const r=_pf155.apply(this,arguments);try{if(j&&j.estado==="ok"&&PQ.jobs.some(x=>x.estado==="erro")){clearTimeout(CR155.rt);CR155.rt=setTimeout(cr155Reenvia,800)}}catch(e){}return r}}
 
 /* ===== Giro sem câmera ===== */
 function cr155Cam(){const ce=$("#layer .ce"),m=$("#cam-msg");if(!ce)return;const sem=!!(m&&!m.hidden&&CAM&&CAM.erro);ce.classList.toggle("cr155-semcam",sem);if(!m)return;

@@ -81,4 +81,3 @@ function rcCamExtra(el){let rail=el.querySelector(".ce-rail");if(!rail){el.inser
   el.insertAdjacentHTML("beforeend",`<div class="rc-zoom" id="rc-zoom" hidden><input type="range" min="1" max="2" step="0.1" value="1" aria-label="Zoom"><b id="rc-zl">1×</b></div>`);
   el.querySelector("#rc-zoom input").addEventListener("input",e=>rcZoomPoe(+e.target.value));rcGestosCam(el.querySelector("#ce-cv"));rcZoomUI()}
 {const _ct96=edCamTela;edCamTela=function(el){const r=_ct96.apply(this,arguments);rcCamExtra(el);return r}}
-{const _ca96=criarAbrir;criarAbrir=function(){RC.ocupado=false;return _ca96.apply(this,arguments)}}
