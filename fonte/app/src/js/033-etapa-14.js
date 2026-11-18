@@ -71,7 +71,6 @@ function capaLargo(){appLargo();const cp=document.querySelector("#v-capa .cp");i
     (lado?side:main).appendChild(el)});
   const fim=main.querySelector(".cp-fim");if(fim)main.appendChild(fim);
   cp.appendChild(main);cp.appendChild(side);cp.classList.add("cp2")}
-(function(){const ant=renderCapa;renderCapa=function(){const r=ant.apply(this,arguments);try{capaLargo();capaObservar()}catch(e){}return r}})();
 (function(){const ant=go;go=function(){const r=ant.apply(this,arguments);try{appLargo()}catch(e){}return r}})();
 if(LARGO_MQ){const f=()=>{try{if(FEED)renderCapa();appLargo()}catch(e){}};if(LARGO_MQ.addEventListener)LARGO_MQ.addEventListener("change",f);else if(LARGO_MQ.addListener)LARGO_MQ.addListener(f)}
 

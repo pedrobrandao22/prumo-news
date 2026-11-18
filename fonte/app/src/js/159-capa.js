@@ -67,11 +67,6 @@ function ca159Lp(){const no=VIEW==="capa"&&scrollY<40&&!!document.querySelector(
 addEventListener("scroll",ca159Lp,{passive:true});
 {const _go159=go;go=function(){const r=_go159.apply(this,arguments);try{ca159Lp()}catch(e){}return r}}
 
-/* ===== 5. edição: hora da última atualização ===== */
-{const _ce159=capaEdicao;capaEdicao=function(){const d=new Date(FEED&&FEED.atualizado_em);if(isNaN(d))return _ce159.apply(this,arguments);
-  try{const p=d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":");
-    return "Atualizada às "+(+p[0])+"h"+p[1]+" · "+d.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short",timeZone:"America/Sao_Paulo"}).replace(/\./g,"")}catch(e){return _ce159.apply(this,arguments)}}}
-
 /* ===== 6. chamada de evento que já passou ===== */
 function ca159DiaSP(iso){const d=new Date(iso);if(isNaN(d))return "";try{return d.toLocaleDateString("en-CA",{timeZone:"America/Sao_Paulo"})}catch(e){return ""}}
 /* {ini, fim} (ms) do evento citado no título, a partir do dia em que ele foi escrito; null se não cita data */
@@ -83,21 +78,6 @@ function ca159Evento(txt,ref){const t=String(txt||""),rd=ca159DiaSP(ref);if(!rd)
   const pad=n=>String(n).padStart(2,"0"),h=/(?:^|\s)às\s+(\d{1,2})h(\d{2})?/i.exec(t),dia0=`${y}-${pad(mo)}-${pad(dia)}`;
   if(h&&+h[1]<24){const ini=Date.parse(`${dia0}T${pad(+h[1])}:${h[2]||"00"}:00-03:00`);return isNaN(ini)?null:{ini,fim:ini+3*3600e3,hora:1}}
   const ini=Date.parse(`${dia0}T00:00:00-03:00`);return isNaN(ini)?null:{ini,fim:ini+864e5,hora:0}}
-/* escrito antes do evento e o evento já passou: a chamada está vencida */
-function ca159Passou(p,agora){try{const n=p&&p.neutro||{},tit=String(n.titulo||"");if(!tit)return false;
-  const ts=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo===tit&&x.hora),esc0=ts.length?ts[0].hora:p.hora;
-  const ev=ca159Evento(tit,esc0);if(!ev)return false;const w=tms(esc0);if(!w)return false;
-  const antes=ev.hora?w<ev.ini:ca159DiaSP(esc0)<ca159DiaSP(new Date(ev.ini+12*3600e3).toISOString());
-  return antes&&(agora||Date.now())>ev.fim}catch(e){return false}}
-{const _ces159=capaEscolha;capaEscolha=function(){const r=_ces159.apply(this,arguments);try{if(r&&Array.isArray(r.ord)){const ag=Date.now(),vel=new Set(r.ord.filter(p=>p!==r.man&&ca159Passou(p,ag)).map(p=>p.id));
-    if(vel.size){r.ord=r.ord.filter(p=>!vel.has(p.id));if(Array.isArray(r.dest))r.dest=r.dest.filter(p=>!vel.has(p.id))}}}catch(e){}return r}}
-
-/* ===== 7. "Para acompanhar": o que mudou por último ===== */
-function ca159Acomp(){const v=document.getElementById("v-capa");if(!v)return;
-  v.querySelectorAll(".cp-h").forEach(hh=>{const h3=hh.querySelector("h3");if(!h3||h3.textContent.trim()!=="Para acompanhar")return;const ul=hh.nextElementSibling;if(!ul||!ul.classList.contains("cp-l"))return;
-    ul.querySelectorAll("button[data-cobpag]").forEach(b=>{if(b.querySelector(".ca159-mud"))return;const p=pautaById(b.dataset.cobpag);const a=p&&Array.isArray(p.atualizacoes)?p.atualizacoes.filter(x=>x&&typeof x.texto==="string"&&x.texto.trim()):[];
-      const u=a.length?a.slice().sort((x,y)=>tms(x.hora)-tms(y.hora)).pop():null;if(u)b.insertAdjacentHTML("beforeend",`<span class="ca159-mud">${esc(capaFrase(u.texto,96))}</span>`)})})}
-
 /* ===== 10. Atividade: sino com número ===== */
 var CA159_SINO=`<svg class="ico ca159-sino" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.6 2H4.4z"/><path d="M10 21a2.2 2.2 0 0 0 4 0"/></svg>`;
 function ca159Sino(){document.querySelectorAll(".at-b").forEach(b=>{const s=b.querySelector("svg");if(s&&!s.classList.contains("ca159-sino"))s.outerHTML=CA159_SINO});
@@ -105,9 +85,6 @@ function ca159Sino(){document.querySelectorAll(".at-b").forEach(b=>{const s=b.qu
   document.querySelectorAll(".at-b").forEach(b=>{const d=b.querySelector(".at-dot");if(d){d.textContent=n?(n>9?"9+":String(n)):"";d.classList.toggle("ca159-n",!!n)}
     b.setAttribute("aria-label","Atividade"+(n?`: ${n} ${n===1?"novidade":"novidades"}`:""))})}
 {const _ad159=atDot;atDot=function(){const r=_ad159.apply(this,arguments);try{ca159Sino()}catch(e){}return r}}
-
-/* ===== depois de desenhar a Capa ===== */
-{const _rc159=renderCapa;renderCapa=function(){const r=_rc159.apply(this,arguments);try{ca159Acomp();ca159Sino();ca159Lp()}catch(e){}return r}}
 
 /* ===== 8. "Ver a seção": Feed já na lista da editoria ===== */
 function ca159NaLista(n){const s=document.querySelector("#v-feed .sech");if(VIEW!=="feed"||FILTRO==="tudo")return;
