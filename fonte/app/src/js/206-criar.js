@@ -304,20 +304,22 @@ function cp152Abre(o){if(!(o&&o.manter))CP152.ed=null;
       if(o.pid&&pautaById(o.pid))CR155.pid=o.pid;if(CR155.pid||CP152.txt)cp152Desenha()}
     CR155.giro=0;CR155.volta=0}catch(e){}return r}
 /* cp152Fecha: base no 152; 164 (com fotos e sem texto pede "Descartar?"; fechou: sem fotos), 155 (fechou: limpa o guardado) */
-function cp206Fecha0(){if(CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},2600);return}}
+function cp206Fecha0(){if(CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},2600);return}}
   CP152.txt="";closeLayer()}
-function cp152Fecha(){if(fc164Tem()&&!CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},2600);return}}
+function cp152Fecha(){if(fc164Tem()&&!CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},2600);return}}
   const r=cp206Fecha0.apply(this,arguments);if(!$("#layer > .cp152"))cr155Limpa();
   if(!$("#layer > .cp152"))CP152.ed=null;return r}
 /* cp152PostHTML: base no 152; 155 (cartão da notícia), 164 (miniaturas das fotos) */
 function cp206PostHTML0(){const pubs=cp152Publicos();if(!pubs.some(p=>p[0]===CP152.pub))CP152.pub="amigos";
-  return `<div class="cp152-post"><div class="cp152-quem">${avatar(S.uid)}<b>${esc(nomeDe(S.uid))}</b></div>
-    <textarea id="cp152-tx" class="cp152-tx" maxlength="2200" rows="5" placeholder="Escreva o que você acha…" aria-label="Seu post">${esc(CP152.txt)}</textarea>
-    <p class="cp152-h">Juntar ao post</p>
-    <div class="cp152-ax" role="group" aria-label="Juntar ao post">${CP152_ANEXOS.map(([k,n])=>`<button type="button" class="cp152-a cp152-a-${k}" data-cp152ax="${k}">${CN102_SVG(CP152_IC[k])}<span>${n}</span></button>`).join("")}</div>
-    <label class="cp152-pub"><span>Público</span><select id="cp152-pub" aria-label="Quem vê">${pubs.map(([k,n])=>`<option value="${k}"${k===CP152.pub?" selected":""}>${esc(n)}</option>`).join("")}</select><i aria-hidden="true">›</i></label>
+  /* 18/11 noite (Pedro: "botões em locais errados, não pegando o perímetro da tela"): quem publica e o público numa
+     linha só; o texto ocupa o meio; o que juntar ao post fica numa barra presa embaixo, perto do polegar */
+  return `<div class="cp152-post"><div class="cp152-quem">${avatar(S.uid)}<span class="cp152-qn"><b>${esc(nomeDe(S.uid))}</b>
+      <label class="cp152-pub"><span class="sr">Público</span><select id="cp152-pub" aria-label="Quem vê">${pubs.map(([k,n])=>`<option value="${k}"${k===CP152.pub?" selected":""}>${esc(n)}</option>`).join("")}</select><i aria-hidden="true">▾</i></label></span></div>
+    <textarea id="cp152-tx" class="cp152-tx" maxlength="2200" rows="4" placeholder="Escreva o que você acha…" aria-label="Seu post">${esc(CP152.txt)}</textarea>
     <div id="cp152-rascs"></div>
-    <p class="cp152-dica">Notícia comenta uma notícia da edição; Enquete pergunta aos amigos; Número junta um indicador ou gráfico; De perto conta o que você viu, com local e hora. Use @ para marcar alguém.</p></div>`}
+    <div class="cp152-dock"><p class="cp152-h">Juntar ao post</p>
+    <div class="cp152-ax" role="group" aria-label="Juntar ao post">${CP152_ANEXOS.map(([k,n])=>`<button type="button" class="cp152-a cp152-a-${k}" data-cp152ax="${k}">${CN102_SVG(CP152_IC[k])}<span>${n}</span></button>`).join("")}</div>
+    <p class="cp152-dica">Use @ para marcar alguém.</p></div></div>`}
 function cp152PostHTML(){let h=cp206PostHTML0.apply(this,arguments);
   try{const nt=cr155NtHTML();if(nt){const i=h.indexOf("</textarea>");if(i>=0)h=h.slice(0,i+11)+nt+h.slice(i+11);h=h.replace('placeholder="Escreva o que você acha…"','placeholder="O que você acha dessa notícia?"')}}catch(e){}
   try{const f=fc164HTML();if(f){const i=h.indexOf("</textarea>");if(i>=0)h=h.slice(0,i+11)+f+h.slice(i+11);
@@ -373,7 +375,7 @@ async function cp206Publica164(){if(!fc164Tem())return cp206Publica155.apply(thi
 function cp152Publica(){CR166.pubT=Date.now();return cp206Publica164.apply(this,arguments)}
 /* cp152HTML: base no 152; 182 (sem a aba Giro quando escondida; dica dos formatos) */
 function cp206HTML0(){const a=CP152.aba;
-  return `<div class="cp152-hd"><button type="button" class="cp152-b" data-cp152x aria-label="Fechar">${EDI.x}</button><b>Nova publicação</b>${a==="post"?`<button type="button" class="cp152-ok" data-cp152pub>Publicar</button>`:`<span class="cp152-b" aria-hidden="true"></span>`}</div>
+  return `<div class="cp152-hd"><button type="button" class="cp152-c" data-cp152x>Cancelar</button><b>Nova publicação</b>${a==="post"?`<button type="button" class="cp152-ok" data-cp152pub>Publicar</button>`:`<span class="cp152-c" aria-hidden="true"></span>`}</div>
     <div class="cp152-abas" role="tablist" aria-label="O que publicar">${[["post","Post"],["giro","Giro"],["coluna","Coluna"]].map(([k,n])=>`<button type="button" role="tab" data-cp152aba="${k}" aria-selected="${a===k}">${n}</button>`).join("")}</div>
     <div class="cp152-sc">${a==="coluna"?cp152ColHTML():cp152PostHTML()}</div>`}
 function cp152HTML(){let h=cp206HTML0.apply(this,arguments);try{

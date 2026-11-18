@@ -1115,7 +1115,9 @@ html.sem-vidro .scrim{-webkit-backdrop-filter:none;backdrop-filter:none}
 .cp-fim b{color:var(--ink);font-size:17px}
 .cp-sk i{display:block;border-radius:10px;background:var(--chip);margin:12px 0;animation:skp 1.2s ease-in-out infinite alternate}
 /* aba Buscar */
-.bv-f{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(env(safe-area-inset-top,0px) + 10px) 0 10px}
+.bv-f{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(env(safe-area-inset-top,0px) + 10px) 0 10px;display:flex;align-items:center;gap:8px}
+.bv-f .field{flex:1;min-width:0}
+.bv-x{flex:none;min-height:44px;padding:0 6px;font:600 15px var(--f-ui);color:var(--acc,var(--ink))}
 .bv-f .field{width:100%;border-radius:12px;padding:12px 14px;font-size:16px}
 .bv-sec{margin-top:18px}
 .bv-sec>h3{margin:0 0 6px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
@@ -6077,6 +6079,66 @@ html.ft182-sem-quiz.ft182-sem-enquete [data-vgo="play"]{display:none!important}
 .col207-seg{align-items:center;padding-block:4px}
 .col207-seg span{font-size:12px;color:var(--muted);min-width:56px}
 .col207-seg button{min-height:32px;padding:4px 12px;font-size:13px}
+/* 86 · Nova publicação limpa (18/11 noite, pedido do Pedro: "o layout daquela tela não está legal, os botões estão em
+   locais errados, não pegando o perímetro da tela"). A caixa segue o tema do celular (antes era sempre preta);
+   "Cancelar" e "Publicar" nos cantos de cima, como em todo app; quem publica e o público numa linha; o texto no meio;
+   o que juntar ao post numa barra presa embaixo, ao alcance do polegar. */
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.cp152{background:var(--card);color:var(--ink)}
+.cp152-hd{height:54px;padding:0 max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+.cp152-hd>b{font:700 16.5px var(--f-ui);color:var(--ink)}
+.cp152-c{flex:none;min-width:76px;height:44px;padding:0 4px;text-align:left;font:500 16px var(--f-ui);color:var(--ink)}
+span.cp152-c{display:block}
+.cp152-c.conf{min-width:0;padding:0 12px;border-radius:999px;background:#fde8e4;color:#a1301d;font:700 14.5px var(--f-ui)}
+.cp152-ok{min-width:76px;height:36px;padding:0 16px;font:700 15px var(--f-ui);background:var(--bronze);color:#1b1406}
+.cp152-ok:disabled{background:var(--chip);color:var(--muted)}
+.cp152-abas{margin:10px 16px 4px;background:var(--chip)}
+.cp152-abas button{color:var(--muted)}
+.cp152-abas button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgb(0 0 0 / .12)}
+.cp152-sc{padding-bottom:0;display:flex;flex-direction:column}
+.cp152-post{flex:1;display:flex;flex-direction:column;min-height:100%}
+.cp152-quem{align-items:flex-start;margin:10px 0 2px}
+.cp152-qn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.cp152-qn>b{font:700 15px var(--f-ui);color:var(--ink)}
+.cp152 .cp152-pub{display:inline-flex;align-items:center;gap:2px;min-height:28px;margin:0;padding:0 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink-2,var(--muted))}
+.cp152 .cp152-pub select{max-width:none;padding:0;color:inherit;font:600 13px var(--f-ui);text-align:left}
+.cp152 .cp152-pub i{font-size:10px;color:inherit}
+.cp152-tx{flex:none;min-height:96px;field-sizing:content;max-height:none;color:var(--ink);font:400 18px/1.45 var(--f-ui)}
+.cp152-tx::placeholder{color:var(--muted)}
+.cp152-dock{position:sticky;bottom:0;z-index:2;margin:auto -16px 0;padding:8px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));background:var(--card);border-top:1px solid var(--line)}
+.cp152-dock .cp152-h{margin:2px 0 8px;color:var(--muted)}
+.cp152-ax{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -2px;padding:0 2px}
+.cp152-ax::-webkit-scrollbar{display:none}
+.cp152-a{flex:1 0 64px;flex-direction:column;min-height:62px;gap:4px;border-radius:12px;background:var(--chip);border:0;color:var(--ink);font:600 12px var(--f-ui)}
+.cp152-a span{color:var(--ink)}
+.cp152-a-foto{color:#2f6fd6}.cp152-a-nt{color:#3a5fc0}.cp152-a-enq{color:#7a4fd0}.cp152-a-ana{color:#1f8a66}.cp152-a-rel{color:#b8650f}
+.cp152-dica{margin:8px 0 0;color:var(--muted);font:400 12.5px var(--f-ui)}
+.cp152-r,.cp152-rp{background:var(--chip);border-color:var(--line);color:var(--ink)}
+.cp152-r small,.cp152-h{color:var(--muted)}
+body:has(#layer > .cp152) .men-box{background:var(--card);border-color:var(--line);color:var(--ink)}
+body:has(#layer > .cp152) .men-box button{color:var(--ink)}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .cp152-a-foto{color:#9cc3ff}:root:not([data-aparencia="claro"]) .cp152-a-nt{color:#8fb4ff}
+  :root:not([data-aparencia="claro"]) .cp152-a-enq{color:#c4a6ff}:root:not([data-aparencia="claro"]) .cp152-a-ana{color:#7fd6b5}:root:not([data-aparencia="claro"]) .cp152-a-rel{color:#f2b36b}
+  :root:not([data-aparencia="claro"]) .cp152-c.conf{background:#3a1d1a;color:#ffb4a8}}
+:root[data-aparencia="escuro"] .cp152-a-foto{color:#9cc3ff}:root[data-aparencia="escuro"] .cp152-a-nt{color:#8fb4ff}:root[data-aparencia="escuro"] .cp152-a-enq{color:#c4a6ff}
+:root[data-aparencia="escuro"] .cp152-a-ana{color:#7fd6b5}:root[data-aparencia="escuro"] .cp152-a-rel{color:#f2b36b}:root[data-aparencia="escuro"] .cp152-c.conf{background:#3a1d1a;color:#ffb4a8}
+.cp152 .cr155-nt{border-color:var(--line);background:var(--chip)}
+.cp152 .cr155-ntb{color:var(--ink)}
+.cp152 .cr155-ntx{color:var(--muted);border-left-color:var(--line)}
+.cp152 .fc164-det{border-color:var(--line);color:var(--ink);background:transparent}
+/* fechar igual em toda folha (18/11 noite, Pedro: "para fechar alguma janela que está aberta é sempre difícil"):
+   um × redondo e grande no canto de cima, à direita, sempre visível (a folha de comentários escondia o dela) */
+.sh-h .sh-x,.sh-h .vp99-fx{position:absolute!important;right:10px!important;top:50%!important;transform:translateY(-50%);width:36px!important;height:36px!important;padding:0!important;
+  clip:auto!important;clip-path:none!important;overflow:visible!important;display:flex!important;align-items:center;justify-content:center;border-radius:50%;background:var(--chip);color:var(--ink)}
+.sh-h .sh-x::after,.sh-h .vp99-fx::after{content:"";position:absolute;inset:-6px}
+.sh-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.sh-h{padding:0 56px}
+/* Perfil mais limpo (18/11 noite): as abas cabem na tela, sem "Guardados" cortado; nos posts do próprio Perfil, sem o
+   campo "Adicione um comentário…" embaixo de cada um (comentar continua pelo botão Comentar) */
+html.vn #v-me .vn-abas button{flex:1 1 auto;min-width:0;padding:0 7px;font-size:14px}
+html.vn #v-me .vn-abas .vn-aba-ct{flex:0 0 44px;min-width:44px}
+@media (max-width:380px){html.vn #v-me .vn-abas button{padding:0 5px;font-size:13px}}
+#v-me .cmt-area .addc,.pfv .cmt-area .addc{display:none}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -8242,8 +8304,15 @@ function buscaTemas(){if(!FEED)return `<p class="hint">As notícias ainda não c
   const ex=Object.keys(FEED.explicadores||{});if(ex.length)h+=`<div class="bv-sec"><h3>Entenda</h3><div class="bv-chips">${ex.map(t=>`<button type="button" class="chipb" data-explica="${esc(t)}">${esc(t)}</button>`).join("")}</div></div>`;
   const dr=(Array.isArray(FEED.dormentes)?FEED.dormentes:[]).slice(0,10);if(dr.length)h+=`<div class="bv-sec"><h3>Coberturas anteriores</h3>${dr.map(d=>`<button type="button" class="bv-it" data-dorm="${esc(d.id)}"><span>${esc(d.titulo)}</span><span class="chev" aria-hidden="true">›</span></button>`).join("")}</div>`;
   return h}
+var BV_DE=null;
+/* Cancelar da busca: limpa, fecha o teclado e volta para a tela e o ponto de onde a pessoa veio */
+function bvCancelar(){const i=$("#bvq");if(i){i.value="";try{i.blur()}catch(e){}}const BV_TEM=!!BV_DE,d=BV_DE||{v:RAIZ||"capa",y:0};BV_DE=null;
+  const volta=()=>{if(VIEW!==d.v)go(d.v);requestAnimationFrame(()=>window.scrollTo(0,d.y||0))};
+  if(VIEW==="busca"&&BV_TEM){let feito=false;const ok=()=>{if(feito)return;feito=true;setTimeout(volta,30)};
+    window.addEventListener("popstate",ok,{once:true});history.back();setTimeout(ok,350)}else volta()}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bvcancel]");if(b){e.preventDefault();e.stopPropagation();bvCancelar()}},true);
 function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")?.value||"";
-  v.innerHTML=`<div class="gut"><form class="bv-f" onsubmit="return false"><input class="field" id="bvq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar notícia, nome ou assunto" aria-label="Buscar" value="${esc(q0)}"></form><div id="bvres"></div></div>`;
+  v.innerHTML=`<div class="gut"><form class="bv-f" onsubmit="return false"><input class="field" id="bvq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar notícia, nome ou assunto" aria-label="Buscar" value="${esc(q0)}"><button type="button" class="bv-x" data-bvcancel>Cancelar</button></form><div id="bvres"></div></div>`;
   const inp=$("#bvq"),run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
 /* menu, aba inicial e eventos */
 (function(){
@@ -20049,10 +20118,22 @@ function ft187FotosLugar(A,nome,ra){const ck=(A.gerado||"")+"|"+nome;if(A===FOTO
   const out=[],vistos=new Set(),listas=Object.values(A.assuntos||{}).map(x=>x&&x.fotos).concat(Object.values(A.temas||{}));
   listas.forEach(l=>{(Array.isArray(l)?l:[]).forEach(f=>{if(faValida(f)&&!ft157Bloq(f)&&ra.test(ft157Arq(f))){const n=faNome(f.url);if(!vistos.has(n)){vistos.add(n);out.push(f)}}})});
   if(A===FOTOS_ARQ)FT187_CACHE[ck]=out;return out}
-faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep();const fr=ft157Frase(String((p.neutro||{}).titulo||""));
-  if(p.foto_arquivo!=="tema"){const pe=ft157Pessoa(fr,A);if(pe){const ok=pe.fotos.filter(f=>faValida(f)&&!ft157Bloq(f));if(ok.length)L.push(ok)}}
-  let fo=null;ft187Lugares(fr,A).forEach(([nome,ra,br])=>{if(br){if(fo===null)fo=!!ft157Fora(p);if(fo)return}const ok=ft187FotosLugar(A,nome,ra);if(ok.length)L.push(ok)});
+/* 18/11 noite, pedido do Pedro: "estamos sendo muito restritivos; se for errar, errar para mais". A ordem é a da
+   confiança, e a 1ª lista com foto ganha: (1) retrato de quem o título cita (no título todo, depois no subtítulo);
+   "foto_arquivo":"tema" só tira o retrato quando o título fala de morte, prisão, acidente ou ataque; (2) o lugar do
+   título ou o órgão da pessoa; (3) o estádio do mandante; (4) o assunto do título, da tag ou do subtítulo; (5) o tema
+   da editoria/subtema e a foto padrão da editoria. Lugar ou assunto brasileiro continua fora de notícia de fora do
+   Brasil, e as fotos bloqueadas (157) continuam bloqueadas. */
+var FT187_TRAGICO=/\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec)/i;
+faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep();const n=p.neutro||{},tit=String(n.titulo||""),fr=ft157Frase(tit),
+    sub=typeof p.subtitulo==="string"?p.subtitulo:"",extra=[p.tag,p.tema].filter(x=>typeof x==="string"&&x).join(" · "),sec=secOf(p),T=A.temas||{};
+  let fo=null;const fora=()=>{if(fo===null)fo=!!ft157Fora(p);return fo};
+  const pega=(l,lugar)=>{if(!Array.isArray(l))return;const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!(lugar&&fora()&&ft157Br(f)));if(ok.length&&!L.some(x=>x.ft187o===l)){ok.ft187o=l;L.push(ok)}};
+  if(p.foto_arquivo!=="tema"||!FT187_TRAGICO.test(tit)){const pe=ft157Pessoa(tit,A)||(sub?ft157Pessoa(sub,A):null);if(pe)pega(pe.fotos,false)}
+  ft187Lugares(tit,A).forEach(([nome,ra,br])=>{if(br&&fora())return;const ok=ft187FotosLugar(A,nome,ra);if(ok.length&&!L.some(x=>x.ft187n===nome)){ok.ft187n=nome;L.push(ok)}});
   const md=ft187Mandante(p,fr,A);if(md.length)L.push(md);
+  try{const as=faAssunto(tit,A,sec)||(extra?faAssunto(extra,A,sec):null)||(sub?faAssunto(sub,A,sec):null);if(as)pega(as.fotos,true)}catch(e){}
+  pega(T[sec+"/"+(p.subtema||"")],true);pega(T[(A.padrao||{})[sec]],true);
   return L};
 
 /* foto própria: "mostra" precisa partilhar um nome (pessoa, lugar, sigla, código) com o título — igual a confirma() em paginas.py */
@@ -20060,7 +20141,8 @@ var FT187_STOP=new Set(["a","o","as","os","e","em","no","na","nos","nas","de","d
   "apos","sem","se","ao","aos","que","mais","ja","nao","sob","ate","entre","contra","como","diz","foto","arquivo","durante"]);
 function ft187Nomes(t){const out=new Set();(String(t||"").match(/[A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:-[A-Za-zÀ-ÖØ-öø-ÿ0-9]+)*/g)||[]).forEach(tk=>{if(tk.length<2)return;
   if(/^[A-ZÀ-ÖØ-Þ]/.test(tk)||(/[0-9]/.test(tk)&&/[A-Za-zÀ-ÖØ-öø-ÿ]/.test(tk))){const n=ft157N(tk).replace(/[^\x00-\x7f]/g,"");if(!FT187_STOP.has(n))out.add(n)}});return out}
-function ft187Confirma(p,f){const m=f&&f.mostra;if(typeof m!=="string"||!m.trim())return false;const t=ft187Nomes((p&&p.neutro||{}).titulo);
+/* 18/11 noite: foto própria sem "mostra" volta a valer (errar para mais); com "mostra", ainda precisa bater com o título */
+function ft187Confirma(p,f){const m=f&&f.mostra;if(typeof m!=="string"||!m.trim())return true;const t=ft187Nomes((p&&p.neutro||{}).titulo);
   for(const n of ft187Nomes(m))if(t.has(n))return true;return false}
 {const _po187=ft157PropriaOk;ft157PropriaOk=function(p,f){return ft187Confirma(p,f)&&_po187.apply(this,arguments)}}
 /* 189 · corretor 18/11 (exceção da Fase 3: o app perdia o que a pessoa escreveu).
@@ -21090,20 +21172,22 @@ function cp152Abre(o){if(!(o&&o.manter))CP152.ed=null;
       if(o.pid&&pautaById(o.pid))CR155.pid=o.pid;if(CR155.pid||CP152.txt)cp152Desenha()}
     CR155.giro=0;CR155.volta=0}catch(e){}return r}
 /* cp152Fecha: base no 152; 164 (com fotos e sem texto pede "Descartar?"; fechou: sem fotos), 155 (fechou: limpa o guardado) */
-function cp206Fecha0(){if(CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},2600);return}}
+function cp206Fecha0(){if(CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},2600);return}}
   CP152.txt="";closeLayer()}
-function cp152Fecha(){if(fc164Tem()&&!CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},2600);return}}
+function cp152Fecha(){if(fc164Tem()&&!CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},2600);return}}
   const r=cp206Fecha0.apply(this,arguments);if(!$("#layer > .cp152"))cr155Limpa();
   if(!$("#layer > .cp152"))CP152.ed=null;return r}
 /* cp152PostHTML: base no 152; 155 (cartão da notícia), 164 (miniaturas das fotos) */
 function cp206PostHTML0(){const pubs=cp152Publicos();if(!pubs.some(p=>p[0]===CP152.pub))CP152.pub="amigos";
-  return `<div class="cp152-post"><div class="cp152-quem">${avatar(S.uid)}<b>${esc(nomeDe(S.uid))}</b></div>
-    <textarea id="cp152-tx" class="cp152-tx" maxlength="2200" rows="5" placeholder="Escreva o que você acha…" aria-label="Seu post">${esc(CP152.txt)}</textarea>
-    <p class="cp152-h">Juntar ao post</p>
-    <div class="cp152-ax" role="group" aria-label="Juntar ao post">${CP152_ANEXOS.map(([k,n])=>`<button type="button" class="cp152-a cp152-a-${k}" data-cp152ax="${k}">${CN102_SVG(CP152_IC[k])}<span>${n}</span></button>`).join("")}</div>
-    <label class="cp152-pub"><span>Público</span><select id="cp152-pub" aria-label="Quem vê">${pubs.map(([k,n])=>`<option value="${k}"${k===CP152.pub?" selected":""}>${esc(n)}</option>`).join("")}</select><i aria-hidden="true">›</i></label>
+  /* 18/11 noite (Pedro: "botões em locais errados, não pegando o perímetro da tela"): quem publica e o público numa
+     linha só; o texto ocupa o meio; o que juntar ao post fica numa barra presa embaixo, perto do polegar */
+  return `<div class="cp152-post"><div class="cp152-quem">${avatar(S.uid)}<span class="cp152-qn"><b>${esc(nomeDe(S.uid))}</b>
+      <label class="cp152-pub"><span class="sr">Público</span><select id="cp152-pub" aria-label="Quem vê">${pubs.map(([k,n])=>`<option value="${k}"${k===CP152.pub?" selected":""}>${esc(n)}</option>`).join("")}</select><i aria-hidden="true">▾</i></label></span></div>
+    <textarea id="cp152-tx" class="cp152-tx" maxlength="2200" rows="4" placeholder="Escreva o que você acha…" aria-label="Seu post">${esc(CP152.txt)}</textarea>
     <div id="cp152-rascs"></div>
-    <p class="cp152-dica">Notícia comenta uma notícia da edição; Enquete pergunta aos amigos; Número junta um indicador ou gráfico; De perto conta o que você viu, com local e hora. Use @ para marcar alguém.</p></div>`}
+    <div class="cp152-dock"><p class="cp152-h">Juntar ao post</p>
+    <div class="cp152-ax" role="group" aria-label="Juntar ao post">${CP152_ANEXOS.map(([k,n])=>`<button type="button" class="cp152-a cp152-a-${k}" data-cp152ax="${k}">${CN102_SVG(CP152_IC[k])}<span>${n}</span></button>`).join("")}</div>
+    <p class="cp152-dica">Use @ para marcar alguém.</p></div></div>`}
 function cp152PostHTML(){let h=cp206PostHTML0.apply(this,arguments);
   try{const nt=cr155NtHTML();if(nt){const i=h.indexOf("</textarea>");if(i>=0)h=h.slice(0,i+11)+nt+h.slice(i+11);h=h.replace('placeholder="Escreva o que você acha…"','placeholder="O que você acha dessa notícia?"')}}catch(e){}
   try{const f=fc164HTML();if(f){const i=h.indexOf("</textarea>");if(i>=0)h=h.slice(0,i+11)+f+h.slice(i+11);
@@ -21159,7 +21243,7 @@ async function cp206Publica164(){if(!fc164Tem())return cp206Publica155.apply(thi
 function cp152Publica(){CR166.pubT=Date.now();return cp206Publica164.apply(this,arguments)}
 /* cp152HTML: base no 152; 182 (sem a aba Giro quando escondida; dica dos formatos) */
 function cp206HTML0(){const a=CP152.aba;
-  return `<div class="cp152-hd"><button type="button" class="cp152-b" data-cp152x aria-label="Fechar">${EDI.x}</button><b>Nova publicação</b>${a==="post"?`<button type="button" class="cp152-ok" data-cp152pub>Publicar</button>`:`<span class="cp152-b" aria-hidden="true"></span>`}</div>
+  return `<div class="cp152-hd"><button type="button" class="cp152-c" data-cp152x>Cancelar</button><b>Nova publicação</b>${a==="post"?`<button type="button" class="cp152-ok" data-cp152pub>Publicar</button>`:`<span class="cp152-c" aria-hidden="true"></span>`}</div>
     <div class="cp152-abas" role="tablist" aria-label="O que publicar">${[["post","Post"],["giro","Giro"],["coluna","Coluna"]].map(([k,n])=>`<button type="button" role="tab" data-cp152aba="${k}" aria-selected="${a===k}">${n}</button>`).join("")}</div>
     <div class="cp152-sc">${a==="coluna"?cp152ColHTML():cp152PostHTML()}</div>`}
 function cp152HTML(){let h=cp206HTML0.apply(this,arguments);try{
@@ -21432,7 +21516,7 @@ function closeLayer(fromPop){
     let feito=false;
     try{if(fromPop===true&&$("#layer > .cp152")&&!$("#layer2")?.innerHTML){
       if(String(CP152.txt||"").trim()||CR155.pid){cr155Guarda();if(Date.now()-CR155.volta>3000){CR155.volta=Date.now();if(pushH())HST++;
-        const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},3000)}
+        const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},3000)}
         toast("Volte de novo para sair. O texto fica guardado.");feito=true}
         else{clMiolo(fromPop);toast("Seu texto ficou guardado. Toque em + para continuar.");feito=true}}}}catch(e){}
     if(!feito)clMiolo(fromPop);
@@ -21586,6 +21670,8 @@ function clMiolo(fromPop){
    goMostra (031, 031, 012). O 167 podia chamar o de dentro duas vezes (erro dentro do try dele): por isso goTroca é uma
    função. Na carga, o 031 chama go("capa",true) quando só existiam o 012 e os dois remendos do 031: goMostra. */
 function go(v,fromPop){
+  /* 18/11 (Pedro): a busca guarda de onde veio, para "Cancelar" voltar à mesma tela e ao mesmo ponto */
+  if(v==="busca"&&typeof VIEW==="string"&&VIEW!=="busca")BV_DE={v:VIEW,y:scrollY};
   if(!NUC_PRONTO){goMostra(v,fromPop);return}
   /* [182] Quiz e Enquete escondidos: "Interagir" vira Capa */
   if(v==="play"&&ft182Esc("quiz")&&ft182Esc("enquete"))v="capa";
@@ -21689,7 +21775,7 @@ function sheet(title,body,foot="",opt={}){
       try{if(typeof body==="string"&&S.uid&&(S.membros[S.uid]||{}).papel==="admin")body=body.replace(/<span>o Pedro recebe e analisa<\/span>/g,"<span>fica na sua lista da Administração</span>")}catch(e){}
       /* [007] a folha de sempre */
       const L=$(".story")||$("#layer .mat")||$("#layer .pv.pv-sob")||$("#layer .cria")||$("#layer .ce")||$("#layer .pfv")?$("#layer2"):$("#layer");const vazio=!L.innerHTML;if(L.id==="layer2"&&ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now());const fb=$("#layer .bars b");if(fb)fb.style.animationPlayState="paused"}
-      L.innerHTML=`<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="grab"></div><div class="sh-h">${esc(title)}<button type="button" data-close>Fechar</button></div><div class="sh-b gut">${body}</div>${foot?`<div class="sh-f gut">${foot}</div>`:""}</div></div>`;
+      L.innerHTML=`<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="grab"></div><div class="sh-h">${esc(title)}<button type="button" class="sh-x" data-close aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sh-b gut">${body}</div>${foot?`<div class="sh-f gut">${foot}</div>`:""}</div></div>`;
       const f=L.querySelector("input");if(f&&(opt.focus||matchMedia("(pointer:fine)").matches))f.focus();
       if(vazio&&pushH())HST++;wireSheetDrag(L.querySelector(".sheet"));
       /* [106] avisos sem botão somem quando a folha abre */
@@ -22176,7 +22262,7 @@ function renderMeMiolo(){
   p083:{try{if(!(S.uid&&S.db&&S.membro)||PUB.on===false)break p083;const v=$("#v-me"),gut=v&&v.querySelector(".gut"),head=gut&&gut.querySelector(".me-head");if(!head)break p083;
     const resto=document.createElement("div");resto.className="pf-conta";[...gut.children].forEach(c=>{if(c!==head)resto.appendChild(c)});
     gut.innerHTML=`<div class="pf-me">${pfCab(S.uid)}${pfAbas(S.uid,PF_ABA)}<div class="pf-corpo"></div></div>`;const corpo=gut.querySelector(".pf-corpo");
-    if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);corpo.innerHTML=(pin.length?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}}
+    if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);/* 18/11 noite: o pedido de amizade aparece só na aba Posts (antes repetia em todas as abas) */corpo.innerHTML=(pin.length&&(PF_ABA==="posts"||!PF_ABA)&&!(typeof VN112_PF!=="undefined"&&VN112_PF.me&&VN112_PF.me!=="posts")?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}}
   /* [084] arquivo de giros */
   try{if(V5.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arquivo]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-arquivo><span>Arquivo de giros</span><i>›</i></button>`)}}catch(e){}
   /* [086] sua semana */
