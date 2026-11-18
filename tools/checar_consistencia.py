@@ -286,6 +286,10 @@ def checar_rodadas(repo, R):
         cont[reg["status"]] = cont.get(reg["status"], 0) + 1
         if reg["status"] == "falhou": R.aviso(A, f"{k} ({reg.get('tipo')}) falhou: {reg.get('nota')}")
         if reg.get("publicou") is True and reg["status"] != "ok": R.aviso(A, f"{k}: publicou=true com status {reg['status']}")
+        if reg.get("tipo") == "rapida" and reg["status"] == "sem_mudancas":  # 18/11: sem novidade diz por quê (manual 7)
+            mot = "rápida sem novidade: " + (reg.get("motivo") or "sem motivo")
+            cont[mot] = cont.get(mot, 0) + 1
+            if not reg.get("motivo") and str(r.get("dia")) >= "2026-11-18": R.aviso(A, f"{k}: rápida sem novidade sem \"motivo\"")
         chk = str(reg.get("checagem") or "")
         m = re.match(r"(\d+) erros?", chk)
         if m and int(m.group(1)) > 0 and reg.get("tipo") != "virada": R.aviso(A, f"{k}: publicou com '{chk}'")

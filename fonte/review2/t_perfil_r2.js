@@ -66,7 +66,7 @@ const fileira = p => ev(p, () => [...document.querySelectorAll('#v-me .vn-pf .pf
   await U.foto(A, 'perfil-r2-escuro');
   await A.emulateMedia({ colorScheme: 'light' }); await ev(A, () => aplicarTema());
   // 8. Guardados: foto e editoria da Capa; abre a matéria por cima do Perfil
-  const pid = await ev(A, async () => { const p = FEED.pautas[1]; p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Teste_prumo.jpg', credito: 'Teste' }; await toggleSave(p.id); return p.id });
+  const pid = await ev(A, async () => { const p = FEED.pautas[1]; p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Teste_prumo.jpg', credito: 'Teste', mostra: p.neutro.titulo }; await toggleSave(p.id); return p.id });
   await sleep(600); await aba(A, 'salvos');
   const gd = await ev(A, p => { const b = document.querySelector(`#v-me .gd161-nl [data-open="${p}"]`); return { foto: !!(b && b.querySelector('.svt.foto img, .svt > .ill')), ed: b && b.querySelector('.svx>span').textContent.split(' · ')[0], cap: capaChapeu(pautaById(p)) } }, pid);
   ok(gd.foto && gd.ed === gd.cap, 'Guardados: a mesma foto da Capa (sem rede aqui, a foto cai na ilustração da Capa) e a mesma editoria', gd);

@@ -4,7 +4,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8'));
   const iso = ms => new Date(ms - 3 * 3600e3).toISOString().slice(0, 16) + ':00-03:00';
   f.atualizado_em = iso(Date.now() - 5 * 60e3);
-  f.pautas.forEach((p, i) => { p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/' + (p.id === f.capa.manchete ? 'SoOriginal' : 'Foto' + i) + '.jpg', credito: 'Foto: Fulano/Agência Senado', alt: 'teste' } });
+  f.pautas.forEach((p, i) => { p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/' + (p.id === f.capa.manchete ? 'SoOriginal' : 'Foto' + i) + '.jpg', credito: 'Foto: Fulano/Agência Senado', alt: 'teste', mostra: p.neutro.titulo } });  // 18/11 (187): foto própria só com "mostra"
   const man = f.pautas.find(p => p.id === f.capa.manchete);
   man.visuais = [{ tipo: 'grafico', forma: 'colunas', titulo: 'Dólar no fim de cada mês', unidade: 'R$', casas: 2, fonte: 'Banco Central', itens: [{ rotulo: 'mai', valor: 5.61 }, { rotulo: 'jun', valor: 5.44 }, { rotulo: 'jul', valor: 5.21 }, { rotulo: 'out', valor: 5.36, destaque: true }] }];
   man.titulos = [{ hora: '2026-10-20T07:00:00-03:00', titulo: 'Marco um' }, { hora: '2026-10-24T07:00:00-03:00', titulo: 'Marco dois' }, { hora: '2026-10-28T07:00:00-03:00', titulo: man.neutro.titulo }];

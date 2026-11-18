@@ -4,7 +4,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8'));
   const iso = ms => new Date(ms - 3 * 3600e3).toISOString().slice(0, 16) + ':00-03:00';
   f.atualizado_em = iso(Date.now() - 5 * 60e3);
-  f.pautas.forEach((p, i) => { p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/' + (i === 1 ? 'Falha' : 'Foto' + i) + '.jpg', credito: 'Foto: Fulano/Agência Senado', alt: 'teste' } });
+  f.pautas.forEach((p, i) => { p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/' + (i === 1 ? 'Falha' : 'Foto' + i) + '.jpg', credito: 'Foto: Fulano/Agência Senado', alt: 'teste', mostra: p.neutro.titulo } });  // 18/11 (187): foto própria só com "mostra"
   fs.writeFileSync(__dirname + '/../site/feed.json', JSON.stringify(f));
   // indicadores com datas
   const ind = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/indicadores.json', 'utf8'));

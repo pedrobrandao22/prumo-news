@@ -41,6 +41,12 @@ tira da agenda o que tem data passada; poda fontes/espectro sem uso (mantém as 
 --podar (rodada completa): também tira termos do glossário e pessoas que não aparecem nos textos, e "semana" fora do domingo.
 --virada: também tira breves de prazo/evento com data passada (ou com data de anteontem para trás) e lista as palavras de dia relativo que precisam ser reescritas.
 Recusa (sai com 1, sem gravar) qualquer patch que mude pergunta ou opções de uma enquete existente.
+
+Registro da rodada (18/11; manual 7):
+  python3 aplicar.py --rodada rodadas.json '{"hora":"13h48","tipo":"rapida","status":"sem_mudancas","motivo":"sem_confirmacao","nota":"..."}'
+  (o registro também pode ser um arquivo .json). Grava em rodadas.json (recomeça no dia novo). Recusa, sem gravar, registro
+  fora do formato e rápida "sem_mudancas" sem "motivo" (nada_novo, ja_no_feed, sem_confirmacao, menor); "nada_novo" com o
+  acionar de novidades.json (ao lado do rodadas.json) ligado também é recusado.
 """
 import copy, json, os, re, sys, importlib.util
 from collections import Counter
@@ -87,6 +93,8 @@ def espectro_de(k, nome=""):
     return "nc"
 
 class Recusa(Exception): pass
+
+IND_APL = None  # indicadores.json (main): congela as marcas de indicador no que vira histórico
 
 def iso(t): return t.strftime("%Y-%m-%dT%H:%M:00-03:00")
 
@@ -340,6 +348,9 @@ def coberturas(F, base, agora, virada=False):
     """Histórico de títulos, início, ao vivo vencido e dormentes. base = feed que estava no ar."""
     rel = []
     agora_iso = iso(agora)
+    # marcas de indicador ({dolar}, 18/11): o que vira HISTÓRICO (títulos anteriores, dormentes) fica com o número de agora
+    M = V.mapa_marcas(F, IND_APL)
+    cg = lambda t: V.marca_texto(t, M) if isinstance(t, str) else t
     BP = {p.get("id"): p for p in base.get("pautas") or []}
     dor = {d.get("id"): d for d in (base.get("dormentes") or [])}
     for d in F.get("dormentes") or []: dor[d.get("id")] = d
@@ -361,10 +372,10 @@ def coberturas(F, base, agora, virada=False):
         hist = list(p.get("titulos") or [])
         if velho and novo and V.norm(velho) != V.norm(novo):
             if virada:
-                if hist: hist[-1]["titulo"] = novo   # na virada só a referência de dia muda: não é manchete nova
+                if hist: hist[-1]["titulo"] = cg(novo)   # na virada só a referência de dia muda: não é manchete nova
             else:
-                if not hist: hist = [{"hora": str(bp.get("inicio") or p["inicio"]), "titulo": velho}]
-                if V.norm(hist[-1].get("titulo")) != V.norm(novo): hist.append({"hora": agora_iso, "titulo": novo})
+                if not hist: hist = [{"hora": str(bp.get("inicio") or p["inicio"]), "titulo": cg(velho)}]
+                if V.norm(hist[-1].get("titulo")) != V.norm(cg(novo)): hist.append({"hora": agora_iso, "titulo": cg(novo)})
                 rel.append(f"[{pid}] título mudou: entrou no histórico ({len(hist)})")
         if len(hist) > 6: hist = hist[:1] + hist[-5:]
         if hist: p["titulos"] = hist
@@ -395,8 +406,8 @@ def coberturas(F, base, agora, virada=False):
     for pid, bp in BP.items():
         if pid in ids: continue
         dor[pid] = {"id": pid, "secao": bp.get("secao"), "subtema": bp.get("subtema") or "", "tema": bp.get("tema") or "",
-                    "tag": bp.get("tag") or "", "titulo": (bp.get("neutro") or {}).get("titulo", ""),
-                    "resumo": resumo_curto((bp.get("neutro") or {}).get("texto")), "inicio": bp.get("inicio") or str(bp.get("hora") or ""),
+                    "tag": bp.get("tag") or "", "titulo": cg((bp.get("neutro") or {}).get("titulo", "")),
+                    "resumo": resumo_curto(cg((bp.get("neutro") or {}).get("texto"))), "inicio": bp.get("inicio") or str(bp.get("hora") or ""),
                     "ultima": ultima_de(bp), "status": bp.get("status") or "ativa"}
         if bp.get("titulos"): dor[pid]["titulos"] = bp["titulos"]
         if isinstance(bp.get("hashtags"), list) and bp["hashtags"]: dor[pid]["hashtags"] = list(bp["hashtags"])
@@ -498,7 +509,41 @@ def mecanicos(F, agora, podar, virada, dia_anterior):
                          "veiculos": [{"fonte": k, "n": n} for k, n in c.most_common(5)]}
     return rel
 
+def registrar(argv, agora):
+    """--rodada rodadas.json REGISTRO: confere e grava o registro da rodada."""
+    if len(argv) < 2: print(__doc__); return 2
+    caminho, bruto = argv[0], argv[1]
+    try: reg = json.load(open(bruto, encoding="utf-8")) if os.path.isfile(bruto) else json.loads(bruto)
+    except Exception as e: print(f"ERRO: registro não é JSON: {e}. Nada foi gravado."); return 1
+    if agora is None: agora = datetime.now(V.SP)
+    if agora.tzinfo is None: agora = agora.replace(tzinfo=V.SP)
+    agora = agora.astimezone(V.SP)
+    hora = str(reg.pop("hora", "") or agora.strftime("%Hh%M")) if isinstance(reg, dict) else ""
+    nov = None
+    try: nov = json.load(open(os.path.join(os.path.dirname(os.path.abspath(caminho)), "novidades.json"), encoding="utf-8"))
+    except Exception: pass
+    errs = V.checar_registro(reg, nov, agora)
+    if not re.match(r"^\d\dh\d\d$", hora): errs.append(f"hora {hora!r}: use HHhMM (a hora de início da rodada)")
+    if errs:
+        for e in errs: print("ERRO:", e)
+        print("Nada foi gravado."); return 1
+    try: R = json.load(open(caminho, encoding="utf-8"))
+    except Exception: R = {}
+    hoje = agora.date().isoformat()
+    if not isinstance(R, dict) or R.get("dia") != hoje or not isinstance(R.get("itens"), dict): R = {"dia": hoje, "itens": {}}
+    R["itens"][hora] = reg
+    with open(caminho, "w", encoding="utf-8") as fh: json.dump(R, fh, ensure_ascii=False, indent=1); fh.write("\n")
+    print(f"OK: rodada {hora} registrada em {caminho} ({reg.get('tipo')}, {reg.get('status')}" + (f", motivo {reg['motivo']}" if reg.get("motivo") else "") + ")")
+    return 0
+
+
 def main(argv):
+    if "--rodada" in argv:
+        i = argv.index("--rodada"); resto = argv[:i] + argv[i + 1:]
+        ag = None
+        if "--agora" in resto:
+            j = resto.index("--agora"); ag = datetime.fromisoformat(resto[j + 1]); resto = resto[:j] + resto[j + 2:]
+        return registrar(resto, ag)
     args, out, agora, podar, virada, prev = [], None, None, False, False, None
     i = 0
     while i < len(argv):
@@ -546,6 +591,8 @@ def main(argv):
             a0, e = AP.get(p.get("id")), p.get("enquete")
             if a0 and e and (a0.get("pergunta") != e.get("pergunta") or a0.get("opcoes") != e.get("opcoes")):
                 print(f"ERRO: [{p.get('id')}] a enquete mudou em relação ao feed no ar: copie a anterior byte a byte ou deixe sem. Nada foi gravado."); return 1
+    global IND_APL
+    IND_APL = V.ler_indicadores(os.path.join(os.path.dirname(os.path.abspath(args[0])), "indicadores.json"))
     rel = coberturas(F, base, agora, virada) + mecanicos(F, agora, podar, virada, dia_anterior)
     txt = json.dumps(F, ensure_ascii=False, separators=(",", ":"))
     with open(out, "w", encoding="utf-8") as fh: fh.write(txt)

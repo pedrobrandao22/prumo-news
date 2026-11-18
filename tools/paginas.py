@@ -55,29 +55,7 @@ def fa_valida(f):
     return isinstance(f, dict) and isinstance(f.get("url"), str) and bool(FOTO_OK.match(f["url"]))
 
 
-def fa_pessoa(tit, A):
-    best, pos, ln = None, 10**9, 0
-    for x in (A.get("pessoas") or {}).values():
-        for k in (x.get("chaves") if isinstance(x, dict) and isinstance(x.get("chaves"), list) else []):
-            if not isinstance(k, str) or not k: continue
-            i = pos_palavra(tit, k)
-            if i >= 0 and (i < pos or (i == pos and len(k) > ln)): best, pos, ln = x, i, len(k)
-    return best
-
-
-def fa_assunto(tit, A, sec):
-    best, pos, ln = None, 10**9, 0
-    for x in (A.get("assuntos") or {}).values():
-        if not isinstance(x, dict) or not isinstance(x.get("chaves"), list): continue
-        if isinstance(x.get("secoes"), list) and sec not in x["secoes"]: continue
-        for k in x["chaves"]:
-            if not isinstance(k, str) or not k: continue
-            i = pos_palavra(tit, k)
-            if i >= 0 and (i < pos or (i == pos and len(k) > ln)): best, pos, ln = x, i, len(k)
-    return best
-
-
-# ---- regras da foto de arquivo: iguais às do app (fonte/app/src/js/157-fotos.js) ----
+# ---- acervo de fotos: limpeza igual à do app (fonte/app/src/js/157-fotos.js) ----
 def _norm(s):
     return unicodedata.normalize("NFD", str(s or "")).encode("ascii", "ignore").decode().lower()
 
@@ -97,26 +75,7 @@ BLOQ = ["bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bol
         "200 anos do senado federal", "bosque campus universidade",
         "vista de goiania a partir da faculdade"]  # 17/11 noite (172): paisagem no Fies  # 17/11 (171): promulgação de 1988 como plenário; galhos no Fies
 HIST = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly)", re.I)
-BR = re.compile(r"(brasil|brazil|brasilia|sao paulo|guarulhos|rio de janeiro|planalto|congresso nacional|senado federal|camara dos deputados|supremo tribunal|paulista|copacabana|maracana|esplanada|itamaraty|banco central|ministerio d|bovespa|petrobras|policia militar|policia federal|unidade basica|allianz|mineirao|januario|beira-rio|fonte nova|arena mrv|interlagos)")
 FORA = re.compile(r"(\bEUA\b|Estados Unidos|Miami|Nova York|Washington|Casa Branca|China|Shenzhen|Pequim|Apec|Asean|Filipinas|Manila|Turquia|\bCOP ?\d|Jap[aã]o|Singapura|Canad[aá]|Europa|Uni[aã]o Europeia|\bONU\b|\bG20\b|\bG7\b|Brics|[Vv]iagem|[Cc][uú]pula|exterior|Argentina|Venezuela|R[uú]ssia|Ucr[aâ]nia|Israel|Gaza|Ir[aã](?=$|[^A-Za-zÀ-ú])|Fran[cç]a|Alemanha|Reino Unido|Londres|Paris|[ÍI]ndia|Catar)")
-PAISES = ["Irã", "Israel", "Ucrânia", "Rússia", "China", "Venezuela", "Argentina", "França", "Espanha", "Alemanha", "Reino Unido", "Japão", "Índia", "Catar"]
-EVENTO = re.compile(r"([Cc][uú]pula|reuni|[Ee]ncontro|[Cc]onfer[eê]ncia|\bCOP ?\d*|Apec|\bG20\b|\bG7\b|Brics|Asean|[Vv]isita|[Vv]iagem|amistoso|[Jj]ogo|partida|Copa)")
-EXIGE = {"café e agro": re.compile(r"[Cc]af[eé]"), "ONU": re.compile(r"(\bONU\b|Na[cç][oõ]es Unidas)"), "energia": re.compile(r"(energia|[Ll]uz\b|Aneel|hidrel|el[eé]tric)")}
-TEMA = {"politica/Eleições 2026": 1, "politica/Congresso": 1, "politica/Planalto e governo": 1,
-        "politica/STF e Judiciário": re.compile(r"(STF|Supremo|[Mm]inistr|[Pp]len[aá]rio|[Jj]ulg|Corte|Fachin|Moraes|Dino|Fux|Gilmar|Kassio|Nunes Marques|Mendon[cç]a|Zanin|Toffoli|C[aá]rmen|Barroso|Messias)"),
-        "politica/Partidos": 1, "politica/Estados": re.compile(r"(S[aã]o Paulo|Rio de Janeiro|Tarc[ií]sio|Cl[aá]udio Castro|Bandeirantes|Guanabara)"),
-        "economia/Juros e inflação": re.compile(r"(\b[Jj]uros|Selic|Copom|Banco Central|\bBC\b|Gal[ií]polo)"), "economia/Contas públicas": 1, "economia/Mercados": 1, "economia/Atividade econômica": 1, "economia/Trabalho e renda": 1, "economia/Seu dinheiro": 1,
-        "brasil/Segurança": 1, "brasil/Justiça e polícia": 1, "brasil/Saúde": 1,
-        "brasil/Meio ambiente e clima": re.compile(r"([Cc]huva|[Ee]nchente|[Aa]laga|[Ii]nunda|[Tt]emporal|[Cc]heia)"),
-        "brasil/Infraestrutura e transporte": re.compile(r"([Rr]odovia|[Ee]strada|\bBR-\d|[Mm]etr[oô]|[Tt]r[aâ]nsito|[Tt]ransporte)"),
-        "mundo/EUA": re.compile(r"(Casa Branca|Washington|Capit[oó]lio|Congresso (dos EUA|americano))"), "mundo/Europa": re.compile(r"(Parlamento Europeu|Estrasburgo|Bruxelas|Uni[aã]o Europeia)"),
-        "mundo/Oriente Médio": re.compile(r"(Knesset|Jerusal[eé]m)"), "mundo/Ásia": re.compile(r"(Tiananmen|Pequim)"), "mundo/América Latina": re.compile(r"(Casa Rosada|Buenos Aires|Milei)"),
-        "mundo/África": re.compile(r"(Uni[aã]o Africana|Adis Abeba)"),
-        "educacao/Educação básica": 1, "educacao/Ensino superior": 1, "educacao/Enem e vestibulares": 1, "educacao/Políticas": 1, "educacao/Avaliações": 1,
-        # 169 (16/11): Esportes só com o estádio citado; taça só na final/decisão; nada de foto genérica de jogo de outros times
-        "esportes/Brasileirão": re.compile(r"(Maracan[aã]|Allianz)"), "esportes/Copa do Brasil": re.compile(r"Maracan[aã]"), "esportes/Clubes": re.compile(r"Maracan[aã]"),
-        "esportes/Libertadores": re.compile(r"([Ff]inal|[Dd]ecid|[Dd]ecis|[Cc]ampe[aã]|[Tt][ií]tulo|[Tt]a[cç]a)"), "esportes/Sul-Americana": re.compile(r"([Ff]inal|[Dd]ecid|[Dd]ecis|[Cc]ampe[aã]|[Tt][ií]tulo|[Tt]a[cç]a)"),
-        "esportes/Outros esportes": re.compile(r"Ibirapuera")}
 
 
 def bloqueada(f):
@@ -149,13 +108,7 @@ def preparar(A):
     return A
 
 
-def _br(f):
-    return bool(BR.search(_arq(f) + " " + _norm(f.get("alt"))))
-
-
 FORA_ESP = re.compile(r"(Col[oô]mbia|Barranquilla|Bogot[aá]|Medell[ií]n|Uruguai|Montevid[eé]u|Paraguai|Assun[cç][aã]o|Chile|Santiago do Chile|Peru\b|Lima\b|Equador|Quito|Guayaquil|Bol[ií]via|La Paz|M[eé]xico|Arábia|Riad|Catar|Doha|Singapura|Jap[aã]o|T[oó]quio|Estados Unidos|\bEUA\b|Espanha|Madri|Portugal|Lisboa|Inglaterra|Londres|It[aá]lia|Fran[cç]a|Alemanha|Argentina|Buenos Aires|Avellaneda|La Bombonera)")
-INC_MATO = re.compile(r"(florest|queimad|wildfire|forest|bush ?fire|cerrado|vegetac|brigadist|crash|hercules|c-130|aircraft)")
-INC_TIT = re.compile(r"([Ff]loresta|[Qq]ueimad|[Mm]ato\b|[Vv]egeta|[Cc]errado|[Pp]antanal|[Aa]maz[oô]nia|[Rr]eserva)")
 
 
 def fora(p):
@@ -164,20 +117,6 @@ def fora(p):
     if FORA.search(" · ".join(x for x in (n.get("titulo"), p.get("tema"), p.get("tag")) if isinstance(x, str))): return True
     # 169: jogo fora do Brasil (o resumo diz "em Barranquilla, na Colômbia") não usa estádio brasileiro
     return (p.get("secao") or "") == "esportes" and bool(FORA_ESP.search(" · ".join(x for x in (n.get("titulo"), p.get("subtitulo")) if isinstance(x, str))))
-
-
-def assunto_ok(nome, p, tit):
-    if nome in PAISES and ((p.get("secao") or "politica") == "esportes" or EVENTO.search(tit)): return False
-    r = EXIGE.get(nome)
-    return not r or bool(r.search(tit))
-
-
-def tema_ok(k, p):
-    r = TEMA.get(k)
-    if not r: return False
-    if r == 1: return True
-    n = p.get("neutro") or {}
-    return bool(r.search(" · ".join(x for x in (n.get("titulo"), p.get("tema")) if isinstance(x, str))))
 
 
 def pessoa_titulo(tit, A):
@@ -191,48 +130,151 @@ def pessoa_titulo(tit, A):
     return best
 
 
-def assuntos_titulo(t, A, sec):
-    out = []
-    for nome, x in (A.get("assuntos") or {}).items():
+# ---- regra de 18/11 (fase 2, "foto só com confirmação forte"): igual ao app (fonte/app/src/js/187-fotos-f2.js) ----
+# A foto de arquivo só entra em dois casos: (1) retrato da 1ª pessoa citada na frase principal do título; (2) foto de um
+# LUGAR que a frase principal do título diz e que o NOME DO ARQUIVO da foto também diz (as duas pontas confirmam).
+# Todo o resto (assunto genérico: dinheiro, escola, hospital, colheita, avião, país em cartão-postal…) fica com a
+# ilustração. Lugar brasileiro não entra em notícia que acontece fora do Brasil.
+# [nome, o que o título diz (regex), o que o nome do arquivo diz (sem acento, minúsculo), 1 = lugar no Brasil]
+LUGARES = [
+    ["Congresso", r"Congresso(?! dos EUA| americano| argentino| do Peru)|PEC|CPI|CPMI|[Pp]rojeto de lei|PL d[aoe]s?|[Rr]elatora?", r"congresso nacional|palacio do congresso", 1],
+    ["Senado", r"Senado(?! dos EUA| americano)|[Ss]enador(?:a|es|as)?", r"plenario do senado|senado federal", 1],
+    ["Câmara", r"Câmara(?! Municipal| de | Legislativa| dos Comuns)|[Dd]eputad[oa]s?(?! estadua| distrita)", r"camara dos deputados", 1],
+    ["Planalto", r"Planalto|Presidência da República", r"planalto", 1],
+    ["STF", r"STF|Supremo(?! dos EUA| americano| Tribunal de Justiça)|Kassio", r"supremo tribunal federal", 1],
+    ["TSE", r"TSE|Justiça Eleitoral", r"tribunal superior eleitoral|^tse ", 1],
+    ["Banco Central", r"Banco Central(?! Europeu| do Japão| da China| dos EUA| americano)|BC|Copom|Selic", r"banco central", 1],
+    ["Itamaraty", r"Itamaraty", r"itamaraty", 1],
+    ["Fazenda", r"Ministério da Fazenda|Fazenda", r"ministerio da fazenda", 1],
+    ["MEC", r"MEC|Ministério da Educação", r"ministerio da educacao", 1],
+    ["Esplanada", r"Esplanada", r"esplanada", 1],
+    ["B3", r"B3|Bovespa|Ibovespa|Bolsa(?! Família| de estudo| Atleta| Verde)", r"bovespa", 1],
+    ["Bandeirantes", r"Palácio dos Bandeirantes|Bandeirantes", r"bandeirantes", 1],
+    ["Guanabara", r"Palácio Guanabara|Guanabara", r"guanabara", 1],
+    ["Maracanã", r"Maracanã", r"maracana", 1], ["Allianz Parque", r"Allianz Parque|Allianz", r"allianz", 1],
+    ["Arena MRV", r"Arena MRV", r"arena mrv", 1], ["Mineirão", r"Mineirão", r"mineirao", 1],
+    ["Beira-Rio", r"Beira-Rio", r"beira.rio", 1], ["São Januário", r"São Januário", r"sao januario", 1],
+    ["Fonte Nova", r"Fonte Nova", r"fonte nova", 1], ["Nilton Santos", r"Nilton Santos|Engenhão", r"nilton santos", 1],
+    ["Arena do Grêmio", r"Arena do Grêmio", r"arena do gremio", 1], ["Arena Corinthians", r"Arena Corinthians|Neo Química Arena", r"arena corinthians", 1],
+    ["Interlagos", r"Interlagos", r"interlagos", 1], ["Ibirapuera", r"Ibirapuera", r"ibirapuera", 1],
+    ["Casa Branca", r"Casa Branca", r"white house|casa branca", 0], ["Capitólio", r"Capitólio", r"capitol", 0],
+    ["Parlamento Europeu", r"Parlamento Europeu", r"european parliament", 0], ["Knesset", r"Knesset", r"knesset", 0],
+    ["Casa Rosada", r"Casa Rosada", r"casa rosada", 0],
+    ["Tiananmen", r"Tiananmen|Praça da Paz Celestial", r"tiananmen", 0], ["União Africana", r"União Africana", r"african union", 0],
+    ["Gaza", r"Gaza", r"gaza", 0]]
+_LETRA = "A-Za-zÀ-ÿ0-9"
+LUG_RE = [(nome, re.compile(f"(?:^|[^{_LETRA}])({tit})(?![{_LETRA}])"), re.compile(arq), br) for nome, tit, arq, br in LUGARES]
+
+
+def frase_principal(tit):
+    return re.split(r";|\s[—–]\s", str(tit or ""))[0]
+
+
+# órgão da pessoa (18/11, meio-termo): o grupo que o acervo traz (deputado → Câmara, senador → Senado, ministro do STF →
+# STF); para os retratos curados, que vêm sem cargo, esta tabela curta
+ORGAO_GRUPO = {"camara": "Câmara", "senado": "Senado", "stf": "STF"}
+ORGAO_NOME = {"Alexandre de Moraes": "STF", "Edson Fachin": "STF", "Gilmar Mendes": "STF", "Flávio Dino": "STF", "André Mendonça": "STF",
+              "Kassio Nunes Marques": "STF", "Cármen Lúcia": "STF", "Dias Toffoli": "STF", "Luiz Fux": "STF", "Cristiano Zanin": "STF",
+              "Fernando Haddad": "Fazenda", "Gabriel Galípolo": "Banco Central"}
+
+
+def orgao_da_pessoa(fr, A):
+    """(posição, lugar) do órgão da 1ª pessoa citada na frase principal (com ou sem retrato no acervo)."""
+    best, pos, ln = None, 10**9, 0
+    for nome, x in (A.get("pessoas") or {}).items():
         if not isinstance(x, dict) or not isinstance(x.get("chaves"), list): continue
-        if isinstance(x.get("secoes"), list) and sec not in x["secoes"]: continue
-        pos, ln = 10**9, 0
         for k in x["chaves"]:
             if not isinstance(k, str) or not k: continue
-            i = pos_palavra(t, k)
-            # palavra comum no começo do título vem com maiúscula ("Queimadas no Amazonas…", "Aviões colidem…")
-            if i < 0 and k[0] != k[0].upper() and pos_palavra(t, k[0].upper() + k[1:]) == 0: i = 0
-            if i >= 0 and (i < pos or (i == pos and len(k) > ln)): pos, ln = i, len(k)
-        if pos < 10**9: out.append((pos, -ln, nome, x))
-    out.sort(key=lambda z: (z[0], z[1], z[2]))
-    return [(z[2], z[3]) for z in out]
+            i = pos_palavra(fr, k)
+            if i >= 0 and (i < pos or (i == pos and len(k) > ln)): best, pos, ln = (nome, x), i, len(k)
+    if not best: return None
+    org = ORGAO_GRUPO.get(best[1].get("grupo")) or ORGAO_NOME.get(best[0])
+    return (pos, org) if org else None
+
+
+def lugares_do_titulo(fr, A=None):
+    """Lugares da frase principal do título, na ordem em que aparecem: os que o título diz e o órgão da 1ª pessoa citada."""
+    out = []
+    for k, (nome, rt, ra, br) in enumerate(LUG_RE):
+        m = rt.search(fr)
+        if m: out.append((m.start(1), k, nome, ra, br))
+    og = orgao_da_pessoa(fr, A) if A else None
+    if og and not any(x[2] == og[1] for x in out):
+        k = next(i for i, x in enumerate(LUG_RE) if x[0] == og[1]); out.append((og[0], k) + LUG_RE[k][:1] + LUG_RE[k][2:])
+    return [x[2:] for x in sorted(out)]
+
+
+# jogo (18/11): estádio do mandante, o time citado primeiro em "A x B", quando o acervo tem a foto do estádio do time;
+# nunca em final/decisão (campo neutro) nem em jogo fora do Brasil
+FINAL = re.compile(r"[Ff]ina(?:l|is)|[Dd]ecide|[Dd]ecis")
+
+
+def mandante(p, fr, A):
+    if (p.get("secao") or "") != "esportes" or FINAL.search(fr) or fora(p): return []
+    best, pos = None, 10**9
+    for x in (A.get("assuntos") or {}).values():
+        if not isinstance(x, dict) or x.get("secoes") != ["esportes"] or not isinstance(x.get("chaves"), list): continue
+        for k in x["chaves"]:
+            if not isinstance(k, str) or not k: continue
+            i = pos_palavra(fr, k)
+            if 0 <= i < pos and fr[i + len(k):i + len(k) + 3] == " x ": best, pos = x, i
+    return [f for f in (best or {}).get("fotos") or [] if fa_valida(f) and not bloqueada(f)]
+
+
+def fotos_do_lugar(A, ra):
+    """Fotos do acervo (assuntos e temas, nessa ordem, sem repetir) cujo nome de arquivo diz o lugar."""
+    out, vistos = [], set()
+    listas = [x.get("fotos") for x in (A.get("assuntos") or {}).values() if isinstance(x, dict)] + list((A.get("temas") or {}).values())
+    for l in listas:
+        for f in l if isinstance(l, list) else []:
+            if fa_valida(f) and not bloqueada(f) and ra.search(_arq(f)) and fa_nome(f["url"]) not in vistos:
+                vistos.add(fa_nome(f["url"])); out.append(f)
+    return out
 
 
 def fa_listas(p, A):
-    """Igual ao faListas do app (157-fotos.js): pessoa no TÍTULO > assuntos da frase principal do título que combinam
-    com o fato > tema da seção quando ele é o lugar do fato. Notícia do exterior não usa lugar brasileiro.
-    "foto_arquivo": "tema" tira o retrato. A = acervo já preparado (preparar)."""
-    L, T, sec = [], A.get("temas") or {}, p.get("secao") or "politica"
-    tit = str((p.get("neutro") or {}).get("titulo") or "")
-    fo = fora(p)
-
-    def pega(l, lugar):
-        if not isinstance(l, list): return
-        ok = [f for f in l if fa_valida(f) and not bloqueada(f) and not (lugar and fo and _br(f))]
-        if ok and not any(o is l for o, _ in L): L.append((l, ok))
+    """Igual ao faListas do app (187-fotos-f2.js): retrato da 1ª pessoa da frase principal do título (menos com
+    "foto_arquivo": "tema") > foto do lugar que o título diz ou do órgão da pessoa/assunto (confirmado pelo nome do
+    arquivo) > estádio do mandante. A = acervo preparado."""
+    L, fr = [], frase_principal((p.get("neutro") or {}).get("titulo"))
     if p.get("foto_arquivo") != "tema":
-        pe = pessoa_titulo(tit, A)
-        if pe: pega(pe["fotos"], False)
-    fr = re.split(r";|\s[—–]\s", tit)[0]
-    for nome, x in assuntos_titulo(fr, A, sec):
-        if not assunto_ok(nome, p, fr): continue
-        fs = x.get("fotos")
-        if nome == "incêndio" and isinstance(fs, list) and not INC_TIT.search(tit):  # 169: fábrica não é queimada no mato
-            fs = [f for f in fs if not INC_MATO.search(_arq(f) + " " + _norm(f.get("alt")))]
-        pega(fs, True)
-    k = f"{sec}/{p.get('subtema') or ''}"
-    if tema_ok(k, p): pega(T.get(k), True)
-    return [ok for _, ok in L]
+        pe = pessoa_titulo(fr, A)
+        if pe:
+            ok = [f for f in pe["fotos"] if fa_valida(f) and not bloqueada(f)]
+            if ok: L.append(ok)
+    fo = None
+    for nome, ra, br in lugares_do_titulo(fr, A):
+        if br:
+            if fo is None: fo = fora(p)
+            if fo: continue
+        ok = fotos_do_lugar(A, ra)
+        if ok: L.append(ok)
+    ok = mandante(p, fr, A)
+    if ok: L.append(ok)
+    return L
+
+
+# foto própria da rodada (pauta.foto) só vale com "mostra": o que está na foto, citando a pessoa ou o lugar do título
+STOP = {"a", "o", "as", "os", "e", "em", "no", "na", "nos", "nas", "de", "do", "da", "dos", "das", "um", "uma", "com", "por", "para", "pelo", "pela",
+        "apos", "sem", "se", "ao", "aos", "que", "mais", "ja", "nao", "sob", "ate", "entre", "contra", "como", "diz", "foto", "arquivo", "durante"}
+
+
+def nomes(t):
+    """Nomes próprios, siglas e códigos (COP31, BR-116) de um texto, sem acento e minúsculos."""
+    out = set()
+    for tk in re.findall(r"[A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:-[A-Za-zÀ-ÖØ-öø-ÿ0-9]+)*", str(t or "")):
+        if len(tk) < 2: continue
+        if re.match(r"[A-ZÀ-ÖØ-Þ]", tk) or (re.search(r"[0-9]", tk) and re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", tk)):
+            n = _norm(tk)
+            if n not in STOP: out.add(n)
+    return out
+
+
+def confirma(p, f):
+    """A foto própria diz o que mostra ("mostra") e isso partilha um nome (pessoa, lugar, sigla) com o título."""
+    m = f.get("mostra") if isinstance(f, dict) else None
+    if not isinstance(m, str) or not m.strip(): return False
+    return bool(nomes(m) & nomes((p.get("neutro") or {}).get("titulo")))
 
 
 def pessoa_da_foto(f, A, pessoas_feed):
@@ -248,8 +290,9 @@ def pessoa_da_foto(f, A, pessoas_feed):
 
 
 def propria_ok(p, f, A, pessoas_feed):
-    """Foto própria da pauta: vale, menos retrato de arquivo de quem não está no título (ou com "foto_arquivo":"tema")."""
-    if not fa_valida(f) or bloqueada(f): return False
+    """Foto própria da pauta: só com "mostra" que confirma (18/11); e nunca retrato de arquivo de quem não está no título
+    (nem com "foto_arquivo":"tema")."""
+    if not fa_valida(f) or bloqueada(f) or not confirma(p, f): return False
     pe = pessoa_da_foto(f, A, pessoas_feed)
     if not pe: return True
     if p.get("foto_arquivo") == "tema": return False
@@ -414,6 +457,11 @@ def desenhar_arte(p, cam):
     return True
 
 
+# páginas antigas (16/11, 169): incêndio em fábrica que saiu com foto de queimada no mato
+INC_MATO = re.compile(r"(florest|queimad|wildfire|forest|bush ?fire|cerrado|vegetac|brigadist|crash|hercules|c-130|aircraft)")
+INC_TIT = re.compile(r"([Ff]loresta|[Qq]ueimad|[Mm]ato\b|[Vv]egeta|[Cc]errado|[Pp]antanal|[Aa]maz[oô]nia|[Rr]eserva)")
+
+
 def pagina_bloqueada(txt):
     """Página antiga (pauta que saiu) com foto que já apareceu no lugar errado: devolve o texto com a imagem padrão."""
     m = re.search(r'<meta property="og:image" content="([^"]+)">', txt or "")
@@ -493,10 +541,30 @@ def pagina(p, FA=None, propria=None, slug=None, arte=None):
 """
 
 
+MARCA_RE = re.compile(r"\{(dolar|ibov|ibovespa|selic|ipca|ipca12m|desemprego)(?:\.(var|dia|mes))?\}")
+
+
+def resolver_marcas(F, feed):
+    """Marcas de indicador ({dolar}, 18/11) → o valor de indicadores.json (ao lado do feed), com a mesma regra do app
+    (tools/validar.py, marcas_resolver). Sem o validar.py, a frase com a marca sai como o app faria sem indicador."""
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("validar_prumo", os.path.join(os.path.dirname(os.path.abspath(__file__)), "validar.py"))
+        V = importlib.util.module_from_spec(spec); spec.loader.exec_module(V)
+        return V.marcas_resolver(F, V.ler_indicadores(os.path.join(os.path.dirname(os.path.abspath(feed)), "indicadores.json")))
+    except Exception as e:
+        print("marcas de indicador: validar.py indisponível:", repr(e)[:120])
+        tira = lambda x: re.sub(r"\s{2,}", " ", MARCA_RE.sub("", x)).strip() if isinstance(x, str) else ([tira(y) for y in x] if isinstance(x, list) else ({k: tira(v) for k, v in x.items()} if isinstance(x, dict) else x))
+        return tira(F)
+
+
 def main(argv):
     if len(argv) < 2: print(__doc__); return 2
     feed, pasta = argv[0], argv[1]
     F = json.load(open(feed, encoding="utf-8"))
+    # o endereço pelo título não muda quando o número muda: sai do título sem as marcas
+    tit_cru = {p.get("id"): MARCA_RE.sub("", str((p.get("neutro") or {}).get("titulo") or "")) for p in F.get("pautas") or [] if isinstance(p, dict)}
+    F = resolver_marcas(F, feed)
     os.makedirs(pasta, exist_ok=True)
     arq = argv[2] if len(argv) > 2 else os.path.join(os.path.dirname(os.path.abspath(feed)), "fotos-arquivo.json")
     try: A = json.load(open(arq, encoding="utf-8"))
@@ -523,7 +591,7 @@ def main(argv):
         pid = p.get("id")
         if not isinstance(pid, str) or not PID.match(pid): continue
         # o endereço pelo título: não pode tomar o de outra notícia nem o m/<id>.html de outra pauta
-        s0 = slug_de((p.get("neutro") or {}).get("titulo"))
+        s0 = slug_de(tit_cru.get(pid, (p.get("neutro") or {}).get("titulo")))
         sl = None
         if s0 and len(s0) >= 8:
             for cand in (s0, s0 + "-" + re.sub(r"[^a-z0-9-]", "", pid.lower())[:24]):

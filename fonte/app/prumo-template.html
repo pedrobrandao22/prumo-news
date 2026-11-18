@@ -20893,6 +20893,230 @@ function sg181Textos(root){if(!root||SG181.on!==true||!root.querySelectorAll)ret
 (function(){let fila=new Set(),t=0;const roda=()=>{t=0;const l=[...fila];fila.clear();l.forEach(el=>{try{if(el.isConnected)sg181Textos(el)}catch(e){}})};
   const mo=new MutationObserver(ms=>{if(SG181.on!==true)return;ms.forEach(m=>m.addedNodes.forEach(x=>{if(x.nodeType===1)fila.add(x);else if(x.parentElement)fila.add(x.parentElement)}));if(!t)t=requestAnimationFrame(roda)});
   const liga=()=>{try{mo.observe(document.body,{childList:true,subtree:true})}catch(e){}};if(document.body)liga();else addEventListener("DOMContentLoaded",liga)})();
+/* ===== 185. Datas relativas na hora de mostrar (Fase 2, 18/11) =====
+   As rodadas gravam o dia com o número ("na terça (17)", "quarta (18/11)"): é a data absoluta do fato e nunca envelhece.
+   O app troca por "hoje", "ontem" ou "amanhã" pela data de HOJE do leitor (fuso de São Paulo), na hora de mostrar:
+   "na terça (17)" lido na terça → "hoje"; na quarta → "ontem". Fora de ontem/hoje/amanhã o texto fica como está.
+   Um lugar só: um observador troca os nós de texto que entram na tela (título, linha fina, pontos, social, resumo do dia,
+   breves, agenda, atualizações, FAQ…), menos o que o leitor escreveu (posts, comentários, conversas) e campos de edição.
+   O dia da semana tem de bater com o número (e com o mês, quando vier "17/11"); senão nada muda.
+   Na virada do dia (app aberto de um dia para o outro), refaz a partir do texto original guardado.
+   As páginas de compartilhamento (m/) são estáticas e continuam com a data absoluta. */
+var DT185_SEM=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+var DT185_RX=/(^|[^A-Za-zÀ-ÿ])(?:(n[ao]\s+(noite|tarde|manhã|madrugada)\s+d[eao]\s+)|((?:antes|depois)\s+d[eao]\s+)|((até|desde|para)\s+(?:[ao]\s+)?)|((?:n[ao]|nest[ae]|d[ao]|dest[ae]|de|[ao])\s+))?(segunda|terça|quarta|quinta|sexta|sábado|domingo)(?:-feira)?\s*\((\d{1,2})(?:\/(\d{1,2}))?\)/gi;
+var DT185_TEM=/\(\d{1,2}(?:\/\d{1,2})?\)/;
+var DT185_PREP_FORA=/(?:^|[^A-Za-zÀ-ÿ])(?:n[ao]|nest[ae]|d[ao]|dest[ae]|de|[ao]|até|desde|para|antes|depois)\s*$/i;
+/* nada do que o leitor escreve (as mesmas caixas em que o app liga #hashtags) nem campos de edição */
+var DT185_FORA="textarea,input,script,style,[contenteditable],.up-leg,.up-tx,.us-tx,.up-tudo,.cn102-ex,.clist li,.cmt,.fc107-tq~p,.ht-cm-tx,.dm-utx,.cs123-corpo,.ed132,[data-dt185-nao]";
+var DT185={dia:"",m:new WeakMap(),nos:new Set(),fila:new Set(),ag:false};
+
+/* "ontem", "hoje", "amanhã" ou "" para o dia escrito (nome da semana, número, mês opcional) visto no dia hoje (AAAA-MM-DD) */
+function dt185Qual(nome,dia,mes,hoje){const wd=DT185_SEM.indexOf(String(nome).toLowerCase());if(wd<0||!hoje)return "";
+  const R=["ontem","hoje","amanhã"];for(let k=-1;k<=1;k++){const d=somaDias(hoje,k),x=new Date(d+"T12:00:00Z");
+    if(x.getUTCDate()===+dia&&x.getUTCDay()===wd&&(!mes||x.getUTCMonth()+1===+mes))return R[k+1]}return ""}
+
+/* a troca em si, num texto (função pura: o teste e outros arquivos podem chamar) */
+function dt185Rel(s,hoje){s=String(s??"");if(!DT185_TEM.test(s))return s;hoje=hoje||hojeSP();
+  return s.replace(DT185_RX,function(m0,a,per,perNome,antesDepois,prepTudo,prep,art,nome,dia,mes){
+    const rel=dt185Qual(nome,dia,mes,hoje);if(!rel||antesDepois)return m0; /* "antes de ontem"/"depois de amanhã" mudariam o sentido */
+    const ini=m0.slice(a.length);let n;
+    if(per){const pn=perNome.toLowerCase();n=rel+(pn==="noite"?" à noite":pn==="tarde"?" à tarde":pn==="manhã"?" de manhã":" de madrugada")}
+    else if(prep)n=prep.toLowerCase()+" "+rel;
+    else if(art&&/^d/i.test(art))n="de "+rel;
+    else n=rel;
+    if(/^[A-ZÀ-Ý]/.test(ini))n=n[0].toUpperCase()+n.slice(1);
+    return a+n})}
+
+/* texto anterior ao nó, no mesmo bloco (para não deixar "na hoje" quando o dia vem num <b> separado do "na") */
+function dt185Antes(t){let n=t,txt="";for(let i=0;i<2&&n&&!txt;i++){let p=n.previousSibling;while(p&&!txt){txt=(p.textContent||"");p=p.previousSibling}n=n.parentNode}return txt}
+
+function dt185No(t){const v=t.nodeValue||"",r=DT185.m.get(t);if(!r&&!DT185_TEM.test(v))return;
+  const o=r&&r.v===v?r.o:v;let n=dt185Rel(o,DT185.dia);
+  if(n!==o){DT185_RX.lastIndex=0;const m=DT185_RX.exec(o);DT185_RX.lastIndex=0;
+    if(m&&m.index===0&&!/\S/.test(m[1])&&!m[2]&&!m[4]&&!m[5]&&!m[7]&&DT185_PREP_FORA.test(dt185Antes(t)))n=o}
+  if(n!==v)t.nodeValue=n;if(n!==o||r){DT185.m.set(t,{o,v:n});DT185.nos.add(t)}}
+
+function dt185Fora(el){try{return !!(el&&el.closest&&el.closest(DT185_FORA))}catch(e){return false}}
+function dt185Varre(no){if(!no)return;
+  if(no.nodeType===3){if(DT185_TEM.test(no.nodeValue||"")||DT185.m.has(no)){if(!dt185Fora(no.parentElement))dt185No(no)}return}
+  if(no.nodeType!==1&&no.nodeType!==11)return;if(!DT185_TEM.test(no.textContent||""))return;if(no.nodeType===1&&dt185Fora(no))return;
+  const w=document.createTreeWalker(no,NodeFilter.SHOW_TEXT,null);let t;const l=[];while((t=w.nextNode()))if(DT185_TEM.test(t.nodeValue||""))l.push(t);
+  l.forEach(t=>{if(!dt185Fora(t.parentElement))dt185No(t)})}
+
+function dt185Fila(){DT185.ag=false;const l=[...DT185.fila];DT185.fila.clear();l.forEach(n=>{try{if(n.isConnected)dt185Varre(n)}catch(e){}})}
+/* virada do dia com o app aberto: refaz todos os textos trocados a partir do original */
+function dt185Dia(){const h=hojeSP();if(h===DT185.dia)return;DT185.dia=h;
+  DT185.nos.forEach(t=>{if(!t.isConnected){DT185.nos.delete(t);return}try{dt185No(t)}catch(e){}});
+  try{dt185Varre(document.body)}catch(e){}}
+function dt185Liga(){DT185.dia=hojeSP();try{dt185Varre(document.body)}catch(e){}
+  try{new MutationObserver(ms=>{ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1||n.nodeType===3)DT185.fila.add(n)}));
+    if(DT185.nos.size>3000)DT185.nos.forEach(t=>{if(!t.isConnected)DT185.nos.delete(t)});
+    if(DT185.fila.size&&!DT185.ag){DT185.ag=true;Promise.resolve().then(dt185Fila)}}).observe(document.body,{childList:true,subtree:true})}catch(e){}
+  setInterval(dt185Dia,60000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)dt185Dia()})}
+if(document.body)dt185Liga();else document.addEventListener("DOMContentLoaded",dt185Liga);
+/* ---------- 186: Números de mercado por referência (Fase 2, 18/11). Prefixo nm186/NM186. ----------
+   As rodadas escrevem uma MARCA no lugar da cotação/taxa e o app põe o valor atual de indicadores.json (o mesmo do card da
+   Capa, js/184), em qualquer texto do feed: título, subtítulo, pontos, texto, social, Entenda, quadro "numeros",
+   ilustração "dinheiro", linha fina, resumo do dia. Assim o mesmo dado não aparece com dois valores na mesma edição.
+     {dolar} R$ 5,78 · {dolar.var} -0,16% · {dolar.dia} terça (17)
+     {ibovespa} ou {ibov} 170.634 · {ibovespa.var} · {ibovespa.dia}
+     {selic} 13,75% · {ipca12m} ou {ipca} 4,63% · {ipca.mes} outubro · {desemprego} 5,2% · {desemprego.mes}
+   Valor: indicadores.json (IND_AUTO); sem ele, o indicadores do feed (reserva). Sem nenhum dos dois, a frase com a marca
+   sai do texto (sem "{dolar}" na tela). A mesma regra está em tools/validar.py (marcas_resolver), que o aplicar.py e o
+   paginas.py (prévia do WhatsApp, m/) também usam.
+   O texto com a marca fica guardado no próprio objeto (campo "_m186": {caminho: texto original}), que vai junto para a
+   edição guardada no aparelho: quando o indicadores.json muda (fechamento das 18h30), o app troca o número de novo. */
+var NM186_RE=/\{(dolar|ibov|ibovespa|selic|ipca|ipca12m|desemprego)(?:\.(var|dia|mes))?\}/g;
+var NM186_ALIAS={ibov:"ibovespa",ipca:"ipca12m"};
+var NM186_DIAS=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+var NM186_MESES=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+var NM186_SIG=new WeakMap();
+/* {id: item} — o do feed (reserva) por baixo, o de indicadores.json por cima (como indItens) */
+function nm186Mapa(f){const m={};const add=l=>{(Array.isArray(l)?l:[]).forEach(x=>{if(x&&typeof x==="object"&&x.id&&x.valor)m[x.id]=x})};
+  try{add(f&&f.indicadores&&f.indicadores.itens)}catch(e){}
+  try{add(IND_AUTO&&IND_AUTO.itens)}catch(e){}
+  return m}
+function nm186Valor(id,v,x){if(!x)return "";
+  if(!v)return String(x.valor||"").trim();
+  const mercado=id==="dolar"||id==="ibovespa";
+  if(v==="var")return mercado?String(x.variacao||"").trim():"";
+  if(v==="dia"){if(!mercado)return "";const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(x.data||""));if(!m)return "";
+    return NM186_DIAS[new Date(Date.UTC(+m[1],+m[2]-1,+m[3])).getUTCDay()]+" ("+(+m[3])+")"}
+  if(v==="mes"){if(mercado||id==="selic")return "";const m=/^\d{4}-(\d{2})/.exec(String(x.ref||""));return m?NM186_MESES[+m[1]-1]||"":""}
+  return ""}
+/* troca as marcas de um texto; marca sem valor tira a frase inteira (ou só a marca, se o texto é uma frase só; texto em que
+   toda frase tinha marca sem valor fica vazio) */
+function nm186Texto(s,M){if(typeof s!=="string"||s.indexOf("{")<0)return s;let falta=false;
+  const r=s.replace(NM186_RE,(_,id,v)=>{id=NM186_ALIAS[id]||id;const t=nm186Valor(id,v||"",M[id]);if(!t){falta=true;return "\u0000"}return t});
+  if(!falta)return r;
+  const fr=r.match(/[^.!?]*(?:[.!?]+|$)\s*/g)||[r];const fica=fr.filter(x=>x&&x.indexOf("\u0000")<0);
+  if(fica.length&&fica.join("").trim())return fica.join("").trim();
+  if(fr.filter(x=>x.trim()).length>1)return "";
+  return r.replace(/\s*\u0000\s*/g," ").replace(/\(\s*\)/g,"").replace(/\s+([,.;:!?])/g,"$1").replace(/\s{2,}/g," ").trim()}
+function nm186Tem(s){NM186_RE.lastIndex=0;const r=typeof s==="string"&&s.indexOf("{")>=0&&NM186_RE.test(s);NM186_RE.lastIndex=0;return r}
+/* percorre o objeto: o: objeto que guarda os originais; c: contêiner atual; pre: caminho relativo ao o */
+function nm186Anda(o,c,pre,M,cont){
+  const ks=Array.isArray(c)?c.map((_,i)=>i):Object.keys(c);
+  for(const k of ks){if(k==="_m186")continue;const v=c[k];const cam=pre+(pre?".":"")+k;
+    if(typeof v==="string"){if(nm186Tem(v)){(o._m186=o._m186||{})[cam]=v;c[k]=nm186Texto(v,M);cont.n++}}
+    else if(v&&typeof v==="object"){if(Array.isArray(v))nm186Anda(o,v,cam,M,cont);else nm186Obj(v,M,cont)}}}
+function nm186Obj(o,M,cont){
+  /* volta os textos originais (com marca) antes de trocar de novo */
+  const t=o._m186;if(t&&typeof t==="object"){delete o._m186;
+    for(const cam in t){const ps=cam.split(".");let c=o;for(let i=0;i<ps.length-1&&c&&typeof c==="object";i++)c=c[ps[i]];
+      const u=ps[ps.length-1];if(c&&typeof c==="object"&&typeof c[u]==="string"&&typeof t[cam]==="string")c[u]=t[cam]}}
+  nm186Anda(o,o,"",M,cont)}
+function nm186Assina(f){const M=nm186Mapa(f);return ["dolar","ibovespa","selic","ipca12m","desemprego"].map(id=>{const x=M[id];return x?[x.valor,x.variacao,x.data,x.ref].join("|"):""}).join("#")}
+/* resolve um feed inteiro (no lugar); devolve quantas marcas trocou */
+function nm186Resolver(f){if(!f||typeof f!=="object")return 0;const cont={n:0};
+  try{nm186Obj(f,nm186Mapa(f),cont);NM186_SIG.set(f,nm186Assina(f))}catch(e){}
+  return cont.n}
+/* indicadores.json mudou depois que o feed foi resolvido: troca de novo (barato quando nada mudou) */
+function nm186EmDia(){try{if(FEED&&NM186_SIG.get(FEED)!==nm186Assina(FEED)){nm186Resolver(FEED);return true}}catch(e){}return false}
+{const _sa186=sanear;sanear=function(){const r=_sa186.apply(this,arguments);if(r)nm186Resolver(r);return r}}
+{const _rc186=renderCapa;renderCapa=function(){nm186EmDia();return _rc186.apply(this,arguments)}}
+{const _rp186=renderPosts;renderPosts=function(){nm186EmDia();return _rp186.apply(this,arguments)}}
+{const _am186=abrirMateria;abrirMateria=function(){nm186EmDia();return _am186.apply(this,arguments)}}
+/* indicadores.json chegou com outro fechamento: o 031 redesenha a Capa; o Feed aberto também ganha os números novos */
+{const _ci186=carregarIndAuto;carregarIndAuto=async function(){const r=await _ci186.apply(this,arguments);
+  try{if(nm186EmDia()&&VIEW==="feed"&&typeof FILTRO!=="undefined"&&FILTRO!=="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}
+  return r}}
+/* 188 · rodadas rápidas (Fase 2, 18/11): a rápida "sem novidade" diz por quê.
+   Desde 18/11 o registro em rodadas.json traz "motivo" (código conferido pelo tools/aplicar.py --rodada; manual 7).
+   "Atualizações de hoje" mostra o texto do motivo no lugar do genérico "Nada mudou desde a anterior."; o administrador vê
+   também o código. Registro antigo, sem motivo: fica como era. */
+var RP188_MOT={nada_novo:"Nenhum fato novo relevante desde a anterior.",ja_no_feed:"Os fatos novos já estavam na edição.",
+  sem_confirmacao:"Há relatos novos ainda sem confirmação em fonte aberta; ficam para a próxima.",menor:"Só assuntos menores desde a anterior."};
+if(typeof rodadaDetalhe==="function"){const _rd188=rodadaDetalhe;rodadaDetalhe=function(x){
+  const h=_rd188.apply(this,arguments);const m=x&&x.status==="sem_mudancas"&&RP188_MOT[x.motivo];if(!m)return h;
+  const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.uid]&&S.membros[S.uid].papel==="admin");
+  if(adm)return `${esc(m)} (${esc(x.motivo)})${h?" · "+h:""}`;
+  return h&&h!==esc("Nada mudou desde a anterior.")?`${esc(m)} ${h}`:esc(m)}}
+/* ---------- 187: foto só com confirmação forte (fase 2 do plano "Prumo robusto", 18/11) ----------
+   "Foto só entra com confirmação forte de que mostra o fato; sem isso, a ilustração. Melhor menos fotos do que foto
+   errada." Troca a lista de exceções caso a caso (157, 169 e os corretores) por duas confirmações positivas:
+   1. FOTO PRÓPRIA da rodada (pauta.foto) só aparece com "mostra": o que está na foto, citando a pessoa ou o lugar do
+      título (precisa partilhar com o título um nome próprio, sigla ou código: "Lula", "Senado", "COP31"). Sem "mostra"
+      (inclusive nas pautas gravadas antes de 18/11), o app ignora a foto e segue a regra 2. O validar.py confere.
+   2. ACERVO só em dois casos: retrato da 1ª pessoa citada na frase principal do título (antes do ";"), menos com
+      "foto_arquivo":"tema"; ou foto de um LUGAR confirmado pelo NOME DO ARQUIVO da foto: o lugar que a frase principal
+      do título diz (Congresso, Senado, STF, Planalto, Banco Central/Copom, B3/Bolsa…) ou o órgão do sujeito (meio-termo
+      do Pedro, 18/11: ministro do STF → STF, deputado/senador → plenário da Casa, PEC/CPI/projeto → Congresso, Haddad →
+      Fazenda, Galípolo/Selic → Banco Central); ou, no jogo "A x B", o estádio do mandante (nunca em final nem fora do
+      Brasil). Lugar brasileiro não entra em notícia que acontece fora do Brasil. Todo o resto (dinheiro, escola,
+      hospital, colheita, avião, cartão-postal de país, taça) fica com a ilustração da pauta.
+   O resto do 157 continua valendo: acervo limpo (fotos bloqueadas, foto de grupo não é retrato), sem repetir foto na
+   edição, a pauta de maior prioridade escolhe primeiro. Igual a tools/paginas.py (prévia do WhatsApp). Prefixo ft187. */
+
+/* [nome, o que o título diz, o que o nome do arquivo diz (sem acento, minúsculo), 1 = lugar no Brasil] — igual a LUGARES em paginas.py */
+var FT187_LUGARES=[
+  ["Congresso","Congresso(?! dos EUA| americano| argentino| do Peru)|PEC|CPI|CPMI|[Pp]rojeto de lei|PL d[aoe]s?|[Rr]elatora?","congresso nacional|palacio do congresso",1],
+  ["Senado","Senado(?! dos EUA| americano)|[Ss]enador(?:a|es|as)?","plenario do senado|senado federal",1],
+  ["Câmara","Câmara(?! Municipal| de | Legislativa| dos Comuns)|[Dd]eputad[oa]s?(?! estadua| distrita)","camara dos deputados",1],
+  ["Planalto","Planalto|Presidência da República","planalto",1],
+  ["STF","STF|Supremo(?! dos EUA| americano| Tribunal de Justiça)|Kassio","supremo tribunal federal",1],
+  ["TSE","TSE|Justiça Eleitoral","tribunal superior eleitoral|^tse ",1],
+  ["Banco Central","Banco Central(?! Europeu| do Japão| da China| dos EUA| americano)|BC|Copom|Selic","banco central",1],
+  ["Itamaraty","Itamaraty","itamaraty",1],
+  ["Fazenda","Ministério da Fazenda|Fazenda","ministerio da fazenda",1],
+  ["MEC","MEC|Ministério da Educação","ministerio da educacao",1],
+  ["Esplanada","Esplanada","esplanada",1],
+  ["B3","B3|Bovespa|Ibovespa|Bolsa(?! Família| de estudo| Atleta| Verde)","bovespa",1],
+  ["Bandeirantes","Palácio dos Bandeirantes|Bandeirantes","bandeirantes",1],
+  ["Guanabara","Palácio Guanabara|Guanabara","guanabara",1],
+  ["Maracanã","Maracanã","maracana",1],["Allianz Parque","Allianz Parque|Allianz","allianz",1],
+  ["Arena MRV","Arena MRV","arena mrv",1],["Mineirão","Mineirão","mineirao",1],
+  ["Beira-Rio","Beira-Rio","beira.rio",1],["São Januário","São Januário","sao januario",1],
+  ["Fonte Nova","Fonte Nova","fonte nova",1],["Nilton Santos","Nilton Santos|Engenhão","nilton santos",1],
+  ["Arena do Grêmio","Arena do Grêmio","arena do gremio",1],["Arena Corinthians","Arena Corinthians|Neo Química Arena","arena corinthians",1],
+  ["Interlagos","Interlagos","interlagos",1],["Ibirapuera","Ibirapuera","ibirapuera",1],
+  ["Casa Branca","Casa Branca","white house|casa branca",0],["Capitólio","Capitólio","capitol",0],
+  ["Parlamento Europeu","Parlamento Europeu","european parliament",0],["Knesset","Knesset","knesset",0],
+  ["Casa Rosada","Casa Rosada","casa rosada",0],
+  ["Tiananmen","Tiananmen|Praça da Paz Celestial","tiananmen",0],["União Africana","União Africana","african union",0],
+  ["Gaza","Gaza","gaza",0]];
+var FT187_L="A-Za-zÀ-ÿ0-9";
+var FT187_RE=FT187_LUGARES.map(([nome,t,a,br])=>[nome,new RegExp(`(?:^|[^${FT187_L}])(${t})(?![${FT187_L}])`),new RegExp(a),br]);
+/* órgão da pessoa (18/11, meio-termo): o grupo do acervo (deputado → Câmara, senador → Senado, STF); os retratos curados
+   vêm sem cargo: tabela curta. Igual a ORGAO_GRUPO/ORGAO_NOME em paginas.py */
+var FT187_ORG_GRUPO={camara:"Câmara",senado:"Senado",stf:"STF"};
+var FT187_ORG_NOME={"Alexandre de Moraes":"STF","Edson Fachin":"STF","Gilmar Mendes":"STF","Flávio Dino":"STF","André Mendonça":"STF",
+  "Kassio Nunes Marques":"STF","Cármen Lúcia":"STF","Dias Toffoli":"STF","Luiz Fux":"STF","Cristiano Zanin":"STF",
+  "Fernando Haddad":"Fazenda","Gabriel Galípolo":"Banco Central"};
+function ft187Orgao(fr,A){let best=null,pos=1e9,len=0;Object.entries(A.pessoas||{}).forEach(([nome,x])=>{if(!x||!Array.isArray(x.chaves))return;
+  x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(fr,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=[nome,x]}})});
+  if(!best)return null;const org=FT187_ORG_GRUPO[best[1].grupo]||FT187_ORG_NOME[best[0]];return org?[pos,org]:null}
+/* lugares da frase principal do título, na ordem em que aparecem: os que o título diz e o órgão da 1ª pessoa citada */
+function ft187Lugares(fr,A){const out=[];FT187_RE.forEach(([nome,rt,ra,br],k)=>{const m=rt.exec(fr);if(m)out.push([m.index+m[0].length-m[1].length,k,nome,ra,br])});
+  const og=A?ft187Orgao(fr,A):null;
+  if(og&&!out.some(x=>x[2]===og[1])){const k=FT187_RE.findIndex(x=>x[0]===og[1]);if(k>=0)out.push([og[0],k,FT187_RE[k][0],FT187_RE[k][2],FT187_RE[k][3]])}
+  return out.sort((a,b)=>a[0]-b[0]||a[1]-b[1]).map(x=>x.slice(2))}
+/* jogo: estádio do mandante (o time citado primeiro em "A x B"); nunca em final/decisão nem em jogo fora do Brasil */
+var FT187_FINAL=/[Ff]ina(?:l|is)|[Dd]ecide|[Dd]ecis/;
+function ft187Mandante(p,fr,A){if(secOf(p)!=="esportes"||FT187_FINAL.test(fr)||ft157Fora(p))return [];let best=null,pos=1e9;
+  Object.values(A.assuntos||{}).forEach(x=>{if(!x||!Array.isArray(x.secoes)||x.secoes.length!==1||x.secoes[0]!=="esportes"||!Array.isArray(x.chaves))return;
+    x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(fr,k);if(i>=0&&i<pos&&fr.slice(i+k.length,i+k.length+3)===" x "){best=x;pos=i}})});
+  return ((best&&best.fotos)||[]).filter(f=>faValida(f)&&!ft157Bloq(f))}
+/* fotos do acervo (assuntos, depois temas; sem repetir) cujo nome de arquivo diz o lugar */
+var FT187_CACHE={};
+function ft187FotosLugar(A,nome,ra){const ck=(A.gerado||"")+"|"+nome;if(A===FOTOS_ARQ&&FT187_CACHE[ck])return FT187_CACHE[ck];
+  const out=[],vistos=new Set(),listas=Object.values(A.assuntos||{}).map(x=>x&&x.fotos).concat(Object.values(A.temas||{}));
+  listas.forEach(l=>{(Array.isArray(l)?l:[]).forEach(f=>{if(faValida(f)&&!ft157Bloq(f)&&ra.test(ft157Arq(f))){const n=faNome(f.url);if(!vistos.has(n)){vistos.add(n);out.push(f)}}})});
+  if(A===FOTOS_ARQ)FT187_CACHE[ck]=out;return out}
+faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep();const fr=ft157Frase(String((p.neutro||{}).titulo||""));
+  if(p.foto_arquivo!=="tema"){const pe=ft157Pessoa(fr,A);if(pe){const ok=pe.fotos.filter(f=>faValida(f)&&!ft157Bloq(f));if(ok.length)L.push(ok)}}
+  let fo=null;ft187Lugares(fr,A).forEach(([nome,ra,br])=>{if(br){if(fo===null)fo=!!ft157Fora(p);if(fo)return}const ok=ft187FotosLugar(A,nome,ra);if(ok.length)L.push(ok)});
+  const md=ft187Mandante(p,fr,A);if(md.length)L.push(md);
+  return L};
+
+/* foto própria: "mostra" precisa partilhar um nome (pessoa, lugar, sigla, código) com o título — igual a confirma() em paginas.py */
+var FT187_STOP=new Set(["a","o","as","os","e","em","no","na","nos","nas","de","do","da","dos","das","um","uma","com","por","para","pelo","pela",
+  "apos","sem","se","ao","aos","que","mais","ja","nao","sob","ate","entre","contra","como","diz","foto","arquivo","durante"]);
+function ft187Nomes(t){const out=new Set();(String(t||"").match(/[A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:-[A-Za-zÀ-ÖØ-öø-ÿ0-9]+)*/g)||[]).forEach(tk=>{if(tk.length<2)return;
+  if(/^[A-ZÀ-ÖØ-Þ]/.test(tk)||(/[0-9]/.test(tk)&&/[A-Za-zÀ-ÖØ-öø-ÿ]/.test(tk))){const n=ft157N(tk).replace(/[^\x00-\x7f]/g,"");if(!FT187_STOP.has(n))out.add(n)}});return out}
+function ft187Confirma(p,f){const m=f&&f.mostra;if(typeof m!=="string"||!m.trim())return false;const t=ft187Nomes((p&&p.neutro||{}).titulo);
+  for(const n of ft187Nomes(m))if(t.has(n))return true;return false}
+{const _po187=ft157PropriaOk;ft157PropriaOk=function(p,f){return ft187Confirma(p,f)&&_po187.apply(this,arguments)}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
 </script>
