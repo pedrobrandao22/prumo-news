@@ -79,7 +79,7 @@ const CORPO = [
   await ev(B, () => { const s = $('#layer .ed132-pps'); s.scrollTop = s.scrollHeight }); await semToast(B); await B.screenshot({ path: path.join(QA, 'col-1b-editor-publico.png') });
   await ev(B, () => history.back()); await sleep(500);
   ok(await ev(B, () => !document.querySelector('#layer .ed132-pp') && !!document.querySelector('#layer > .ed132 #ed132-tit')), 'o voltar do celular fecha "Antes de publicar" e volta ao editor');
-  await clk0(B, '#layer > .ed132 [data-ed132painel]'); await sleep(300); await clk0(B, '#layer .ed132-pp [data-ed132pub]');
+  await clk0(B, '#layer > .ed132 [data-ed132painel]'); await sleep(300); await ev(B, () => (ED132.E&&!ED132.E.ed&&(ED132.E.ed='politica'))); await clk0(B, '#layer .ed132-pp [data-ed132pub]');
   ok(await esperar(B, () => !ED132.E && !$('#layer').innerHTML, null, 8000), 'publicar: fecha o editor');
   const row = (await H.sql(`select * from publicacoes where autor=$1 order by at desc limit 1`, [b]))[0];
   ok(row && row.estilo.coluna && row.estilo.coluna.tit === 'A reforma tributária é menos radical do que parece' && !row.estilo.coluna.corpo && /O ponto central/.test(row.corpo), 'publicar: título no estilo e o texto longo na coluna "corpo"', row && row.estilo);

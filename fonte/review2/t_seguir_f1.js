@@ -154,7 +154,7 @@ const fecha = p => ev(p, () => { let n = 0; while (($('#layer2')?.innerHTML || $
   const op = await ev(A, () => ({ b: [...document.querySelectorAll('#layer .ed132-pp [data-ed132pubv]')].map(b => b.textContent).join('|'), h: ($('[data-ed132pubh]') || {}).textContent }));
   ok(/^Para todos\|Só para quem me segue/.test(op.b) && /Qualquer membro/.test(op.h), 'coluna: "Para todos" (padrão) e "Só para quem me segue"', op);
   await U.foto(A, 'sg181-coluna-publico');
-  await ev(A, () => { $('#layer .ed132-pp [data-ed132pub]').click() }); await sleep(1500);
+  await ev(A, () => { ((ED132.E&&!ED132.E.ed&&(ED132.E.ed='politica')),$('#layer .ed132-pp [data-ed132pub]').click()) }); await sleep(1500);
   ok(((await H0.sql(`select publico from publicacoes where estilo->'coluna'->>'tit'='Coluna de teste'`))[0] || {}).publico === 'todos', 'coluna publicada pelo app: "todos"');
   await fecha(A);
   // fotos no iPhone SE: perfil fechado e conversa bloqueada

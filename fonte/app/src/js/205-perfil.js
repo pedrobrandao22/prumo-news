@@ -77,11 +77,14 @@ function pfTiles(l,aba,u){
   let h;
   /* 161: Guardados (notícias e posts, com as fichas) */
   if(aba!=="salvos")h=pf205TilesAte160(l,aba,u);
-  else h=(()=>{try{const nt=gd161Noticias(),nN=nt.length,nP=(l||[]).length;let h=gd161Chips(nN,nP);
-      const verN=GD161_F!=="posts",verP=GD161_F!=="noticias";
-      if(verN&&nN){if(GD161_F==="tudo"&&nP)h+=`<h3 class="gd161-h">Notícias</h3>`;h+=gd161ListaNoticias(nt)}
-      if(verP&&nP){if(GD161_F==="tudo"&&nN)h+=`<h3 class="gd161-h">Posts</h3>`;h+=pf205TilesAte160(l,"posts",u)}
-      const vazio=(GD161_F==="tudo"&&!nN&&!nP)||(GD161_F==="noticias"&&!nN)||(GD161_F==="posts"&&!nP);
+  else h=(()=>{try{const nt=gd161Noticias(),nN=nt.length,cl=(l||[]).filter(x=>x&&cs123Col(x)),ps=(l||[]).filter(x=>!(x&&cs123Col(x))),nP=ps.length,nC=cl.length;
+      if(GD161_F==="colunas"&&!nC)GD161_F="tudo";let h=gd161Chips(nN,nP,nC);
+      /* 207: as colunas guardadas têm lista própria, com "Continuar de onde parei" */
+      const verN=GD161_F==="tudo"||GD161_F==="noticias",verC=GD161_F==="tudo"||GD161_F==="colunas",verP=GD161_F==="tudo"||GD161_F==="posts",varios=[nN,nC,nP].filter(Boolean).length>1;
+      if(verN&&nN){if(GD161_F==="tudo"&&varios)h+=`<h3 class="gd161-h">Notícias</h3>`;h+=gd161ListaNoticias(nt)}
+      if(verC&&nC){if(GD161_F==="tudo"&&varios)h+=`<h3 class="gd161-h">Colunas</h3>`;h+=col207Guardadas(cl)}
+      if(verP&&nP){if(GD161_F==="tudo"&&varios)h+=`<h3 class="gd161-h">Posts</h3>`;h+=pf205TilesAte160(ps,"posts",u)}
+      const vazio=(GD161_F==="tudo"&&!nN&&!nP&&!nC)||(GD161_F==="noticias"&&!nN)||(GD161_F==="posts"&&!nP);
       if(vazio)h+=`<div class="pf-vz"><b>${GD161_F==="noticias"?"Nenhuma notícia guardada":GD161_F==="posts"?"Nenhum post guardado":"Nada guardado ainda"}</b><span>Toque em “Guardar” (o marcador) numa notícia ou num post para ele aparecer aqui.</span></div>`;
       return h+`<p class="hint vp99-so">Só você vê o que guardou.</p>`}
     catch(e){return pf205TilesAte160(l,aba,u)}})();

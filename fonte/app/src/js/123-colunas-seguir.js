@@ -120,8 +120,11 @@ function cs123LerHTML(x,c,o){o=o||{};const f=x.fotos&&x.fotos[0],u=o.capa||(f&&p
       <p class="cs123-aviso">Coluna de ${esc(nomeDe(x.autor))}: a opinião é do autor, separada das notícias da edição do Prumo.</p>
       ${o.prev?"":`<div class="cs123-fim" data-pid="${esc("u:"+x.id)}">${cs123FimHTML(x)}</div>`}</article></div></div>`}
 function cs123Progresso(root){const sc=root&&root.querySelector(".cs123-sc"),b=root&&root.querySelector(".cs123-pg b");if(!sc||!b)return;
-  const f=()=>{const m=sc.scrollHeight-sc.clientHeight;b.style.width=(m>0?Math.min(100,Math.max(0,sc.scrollTop/m*100)):100).toFixed(1)+"%"};sc.addEventListener("scroll",f,{passive:true});f()}
-function cs123Abrir(id){const x=pubDe(id)||pubVisiveis().find(y=>y.id===id),c=x&&cs123Col(x);if(!c){toast("Esta coluna não está disponível para você (ou já foi apagada).");return}uso("coluna_ler");
+  const prev=root.classList.contains("cs123-prev");
+  const f=()=>{const m=sc.scrollHeight-sc.clientHeight,fr=m>0?Math.min(1,Math.max(0,sc.scrollTop/m)):1;b.style.width=(fr*100).toFixed(1)+"%";
+    /* 207: guarda até onde a pessoa leu, para "Continuar de onde parei" nas colunas guardadas */
+    if(!prev&&m>0&&CS123.ler&&typeof col207Marca==="function")col207Marca(CS123.ler.id,fr)};sc.addEventListener("scroll",f,{passive:true});f()}
+function cs123Abrir(id){const x=pubDe(id)||pubVisiveis().find(y=>y.id===id)||(typeof ed132Pub==="function"?ed132Pub(id):null),c=x&&cs123Col(x);if(!c){toast("Esta coluna não está disponível para você (ou já foi apagada).");return}uso("coluna_ler");
   const L=$("#layer");let volta=null;
   if($("#layer2")?.innerHTML)closeLayer();
   if(L.innerHTML){if($("#layer .pfv")&&PFV){const sc=$("#layer .pfv-sc");volta={pfv:{...PFV},sc:sc?sc.scrollTop:0};try{pfIdsVolta()}catch(e){}PFV=null;L.innerHTML=""}else closeLayer()}

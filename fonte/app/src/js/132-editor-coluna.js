@@ -55,7 +55,7 @@ ED132.vistos=new Set();
 /* depois de uma carga completa: ficam em "Agendadas" só as que o banco ainda devolveu como agendadas */
 {const _pc=pubCarregar;pubCarregar=async function(){const livre=!PUB.carregando;if(livre){ED132.vistos=new Set();ED132.assinou=false}const r=await _pc.apply(this,arguments);
   try{const n=PUB.itens.length;ed132Separa();if(livre&&ED132.assinou)ED132.agend=ED132.agend.filter(x=>ED132.vistos.has(x.id)&&ed132Agendada(x));if(n!==PUB.itens.length)pubRedesenha();ed132HubRedesenha()}catch(e){}return r}}
-const ed132Pub=id=>pubDe(id)||ED132.agend.find(x=>x.id===id)||null;
+const ed132Pub=id=>pubDe(id)||ED132.agend.find(x=>x.id===id)||(typeof COL207!=="undefined"&&COL207.minhas.find(x=>x.id===id))||null;
 const ed132Url=p=>ED132.urls[p]||pubUrl(p)||"";
 async function ed132Assina(ps){const now=Date.now(),falta=[...new Set(ps||[])].filter(p=>p&&ED132_FOTO.test(p)&&!ED132.urls[p]&&!((PUB.urls[p]||{}).exp>now+600e3));
   if(!falta.length)return true;if(typeof SB==="undefined"||!SB)return false;
@@ -142,10 +142,11 @@ function ed132PoeFotos(){document.querySelectorAll("[data-ed132ff]").forEach(f=>
   if(k.f==="h"){c.html=c.corpo;c.corpo=ed132Plano(c.html)}
   const se=cs123S(k.serie,60).trim();if(se){c.serie=se;const n=Math.floor(+k.n);if(n>0&&n<10000)c.n=n}
   const ch=cs123S(k.cham,280).trim();if(ch)c.cham=ch;if(k.capa===false)c.capa=false;
+  const ed=cs123S(k.ed,30).trim();if(ed)c.ed=ed;
   if(Array.isArray(k.pautas)){const p=k.pautas.slice(0,3).filter(p=>p&&typeof p.id==="string"&&p.id&&p.id.length<=200).map(p=>({id:p.id,t:cs123S(p.t,140).trim()})).filter(p=>p.t);if(p.length)c.pautas=p}}catch(e){}return c}}
 const ed132Editado=x=>!!(x&&+x.editado>0&&+x.editado>(+x.at||0)+2e3);
 function ed132DataHora(ms){try{const d=new Date(+ms),z="America/Sao_Paulo";return d.toLocaleDateString("pt-BR",{timeZone:z,day:"numeric",month:"short"})+" às "+d.toLocaleTimeString("pt-BR",{timeZone:z,hour:"2-digit",minute:"2-digit"})}catch(e){return ""}}
-const ed132Kick=c=>`Coluna${c.n?" "+c.n:""}${c.serie?" · "+c.serie:""}`;
+const ed132Kick=c=>`Coluna${c.n?" "+c.n:""}${c.serie?" · "+c.serie:c.ed?" · "+secNome(c.ed):""}`;
 function ed132DaSerie(autor,serie){const k=norm(serie).trim();if(!k)return [];const l=[];const ja=new Set();
   (typeof pubVisiveis==="function"?pubVisiveis():[]).forEach(x=>{if(!x||x.autor!==autor||ja.has(x.id)||ed132Agendada(x))return;const c=cs123Col(x);if(c&&c.serie&&norm(c.serie).trim()===k){ja.add(x.id);l.push({id:x.id,n:c.n||0,at:+x.at||0,tit:c.tit})}});
   return l.sort((a,b)=>(a.n&&b.n?a.n-b.n:0)||a.at-b.at)}
@@ -205,9 +206,9 @@ function ed132Migra(){if(!S.uid)return;let l;try{l=JSON.parse(localStorage.getIt
 cs123RascLe=function(){try{ed132Migra()}catch(e){}return ed132RascLe()};
 
 /* ===== 5. abrir o editor ===== */
-function ed132Novo(o){return {rid:ED132_RID(),modo:"novo",pubId:null,ag:false,tit:"",linha:"",cham:"",html:"",tags:"",serie:"",n:0,pautas:[],pub:"amigos",capa:null,agendar:false,qd:"",qh:"",
+function ed132Novo(o){return {rid:ED132_RID(),modo:"novo",pubId:null,ag:false,tit:"",linha:"",cham:"",html:"",tags:"",serie:"",ed:"",n:0,pautas:[],pub:"amigos",capa:null,agendar:false,qd:"",qh:"",
   env:false,ver:false,pvAba:"pag",st:"",subindo:0,salvou:false,descartar:false,...o}}
-function ed132DoRasc(d){const E=ed132Novo({rid:d.rid,tit:cs123S(d.tit,90),linha:cs123S(d.linha,160),cham:cs123S(d.cham,240),html:ed132Limpa(d.html,{dono:S.uid}),tags:cs123S(d.tags,120),serie:cs123S(d.serie,60),
+function ed132DoRasc(d){const E=ed132Novo({rid:d.rid,tit:cs123S(d.tit,90),linha:cs123S(d.linha,160),cham:cs123S(d.cham,240),html:ed132Limpa(d.html,{dono:S.uid}),tags:cs123S(d.tags,120),serie:cs123S(d.serie,60),ed:cs123S(d.ed,30),
   n:Math.max(0,Math.floor(+d.n)||0),pautas:Array.isArray(d.pautas)?d.pautas.slice(0,3).filter(p=>p&&p.id&&p.t):[],pub:d.pub==="seguidores"?"seguidores":"amigos",capa:typeof d.capa==="string"&&ED132_FOTO.test(d.capa)&&d.capa.indexOf(S.uid+"/")===0?{p:d.capa}:null,salvou:true});
   if(d.quando&&typeof d.quando==="object"&&/^\d{4}-\d{2}-\d{2}$/.test(d.quando.d||"")&&/^\d{2}:\d{2}$/.test(d.quando.h||"")){E.agendar=true;E.qd=d.quando.d;E.qh=d.quando.h}
   if(!E.capa&&d.capaDu){E.subindo++;fetch(d.capaDu).then(r=>r.blob()).then(b=>pubSobe(b)).then(p=>{ED132.urls[p]=d.capaDu;if(ED132.E===E){E.capa={p};ed132CapaDesenha();ed132Agenda()}}).catch(()=>{}).finally(()=>{E.subindo--})}
@@ -281,7 +282,7 @@ function ed132Conta(ja){const f=()=>{const E=ED132.E,el=$("#layer > .ed132 [data
 function ed132Agenda(){const E=ED132.E;if(!E||E.modo==="editar")return;clearTimeout(ED132.gt);ED132.gt=setTimeout(()=>ed132Guarda(),2000)}
 function ed132Mudou(){ed132Vazia();ed132Conta();ed132Agenda();const E=ED132.E;if(E&&E.descartar){E.descartar=false;ed132Cab()}}
 function ed132Rasc(E){const tem=!!(E.tit.trim()||E.linha.trim()||!ed132Vazio(E.html)||E.capa);if(!tem)return null;
-  return {rid:E.rid,at:Date.now(),tit:E.tit,linha:E.linha,cham:E.cham,html:E.html,tags:E.tags,serie:E.serie,n:E.n||0,pautas:E.pautas,pub:E.pub,capa:E.capa&&E.capa.p||null,
+  return {rid:E.rid,at:Date.now(),tit:E.tit,linha:E.linha,cham:E.cham,html:E.html,tags:E.tags,serie:E.serie,ed:E.ed||"",n:E.n||0,pautas:E.pautas,pub:E.pub,capa:E.capa&&E.capa.p||null,
     quando:E.agendar&&E.qd&&E.qh?{d:E.qd,h:E.qh}:null,pal:ed132Palavras(ed132Plano(E.html)),sync:false}}
 function ed132Guarda(){const E=ED132.E;if(!E||E.modo==="editar"||E.env)return;clearTimeout(ED132.gt);ed132Le();ed132LePainel();const d=ed132Rasc(E);
   if(!d){if(E.salvou){ed132RascTira(E.rid);E.salvou=false}return}
@@ -419,6 +420,9 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
     if(b=t.closest("[data-ed132rabre]")){pare();const d=ed132RascLe().find(r=>r.rid===b.dataset.ed132rabre);if(d)ed132Abre(ed132DoRasc(d));return}
     if(b=t.closest("[data-ed132rx]")){pare();if(!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Apagar mesmo?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Apagar"}},3000);return}
       ed132RascTira(b.dataset.ed132rx);ed132HubRedesenha();toast("Rascunho apagado");return}
+    if(b=t.closest("[data-col207ag]")){pare();COL207.ag=b.dataset.col207ag;ed132HubRedesenha();return}
+    if(b=t.closest("[data-col207or]")){pare();COL207.or=b.dataset.col207or;ed132HubRedesenha();return}
+    if(b=t.closest("[data-col207edita]")){pare();ed132Edita(b.dataset.col207edita);return}
     if(b=t.closest("[data-ed132agedit]")){pare();ed132Edita(b.dataset.ed132agedit);return}
     if(b=t.closest("[data-ed132agja]")){pare();ed132AgoraAg(b.dataset.ed132agja);return}
     if(b=t.closest("[data-ed132agx]")){pare();if(!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Cancelar mesmo?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},3000);return}ed132CancelaAg(b.dataset.ed132agx);return}
@@ -439,6 +443,7 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
   if(b=t.closest("[data-ed132bl]")){pare();ed132MenuEscolhe(b.dataset.ed132bl);return}
   if(b=t.closest("[data-ed132fig]")){pare();ed132FigEdita(b.closest("figure"));return}
   if(b=t.closest("#ed132-corpo figure.ed132-fe")){pare();ed132FigEdita(b);return}
+  if(b=t.closest("[data-ed132ed]")){pare();E.ed=E.ed===b.dataset.ed132ed?"":b.dataset.ed132ed;ed132LePainel();ed132Painel(true);return}
   if(b=t.closest("[data-ed132pt]")){pare();const id=b.dataset.ed132pt,tx=b.dataset.t||"";const i=E.pautas.findIndex(p=>p.id===id);if(i>=0)E.pautas.splice(i,1);else if(E.pautas.length>=3){toast("Até 3 assuntos por coluna.");return}else E.pautas.push({id,t:tx});
     b.setAttribute("aria-pressed",i<0?"true":"false");ed132Agenda();return}
   if(b=t.closest("[data-ed132pubv]")){pare();E.pub=b.dataset.ed132pubv==="seguidores"?"seguidores":"amigos";root.querySelectorAll("[data-ed132pubv]").forEach(x=>x.setAttribute("aria-checked",x===b?"true":"false"));const ph=root.querySelector("[data-ed132pubh]");if(ph)ph.textContent=ed132PubTx(E.pub);ed132Agenda();return}
@@ -482,6 +487,7 @@ function ed132Painel(re){const E=ED132.E,root=$("#layer > .ed132");if(!E||!root)
   root.insertAdjacentHTML("beforeend",`<div class="ed132-pp" role="dialog" aria-modal="true" aria-label="${ed?"Detalhes da coluna":"Publicar coluna"}">
     <div class="ed132-h"><button type="button" class="cs123-v" data-ed132ppx>${ICON.back}<span>Texto</span></button><div class="ed132-ht"><b>${ed?"Detalhes da coluna":"Antes de publicar"}</b></div></div>
     <div class="ed132-pps"><div class="ed132-in">
+      <section class="ed132-ps" id="ed132-eds"><h3>Editoria <small>obrigatória</small></h3><p class="hint">Quem lê acha a coluna pelo filtro Colunas do Feed, por editoria.</p><div class="ed132-ptl col207-eds">${col207EdOpc().map(s=>`<button type="button" class="ed132-pc" data-ed132ed="${esc(s.id)}" aria-pressed="${E.ed===s.id}">${esc(s.nome)}</button>`).join("")}</div>${!E.ed&&col207EdSug(E)?`<p class="hint">Pelo texto, parece ${esc(secNome(col207EdSug(E)))}.</p>`:""}</section>
       <section class="ed132-ps"><h3>Chamada no Feed</h3><textarea id="ed132-cham" maxlength="240" rows="3" placeholder="${esc(sug||"Uma ou duas frases que chamam para a leitura")}">${esc(E.cham)}</textarea>
         <p class="hint">${sug?"Vazia, o Feed usa o começo do texto (o que aparece acima, em cinza).":"Vazia, o Feed usa o começo do texto."}</p></section>
       <section class="ed132-ps"><h3>Série <small>opcional</small></h3><div class="ed132-sr"><input id="ed132-ser" list="ed132-sers" maxlength="60" autocomplete="off" placeholder="Ex.: Bastidores de Brasília" value="${esc(E.serie)}">
@@ -507,6 +513,7 @@ function ed132PainelBotao(){const E=ED132.E,b=$("#layer > .ed132 .ed132-pp [data
 /* ===== 12. publicar, salvar e agendar ===== */
 function ed132Monta(E){const tags=cs123Tags(E.tags),tit=E.tit.trim().slice(0,90),linha=E.linha.trim().slice(0,160),html=E.html,pl=ed132Plano(html);
   const col={v:1,f:"h",tit,linha,min:ed132Min(pl),capa:!!(E.capa&&E.capa.p)};const ch=String(E.cham||"").trim().slice(0,240);if(ch)col.cham=ch;
+  if(E.ed)col.ed=String(E.ed).slice(0,30);
   const se=String(E.serie||"").trim().slice(0,60);if(se){col.serie=se;if(E.n>0)col.n=Math.min(9999,Math.floor(E.n))}
   if(E.pautas.length)col.pautas=E.pautas.slice(0,3).map(p=>({id:String(p.id).slice(0,200),t:String(p.t||"").slice(0,140)}));
   const fotos=[];if(E.capa&&E.capa.p)fotos.push(E.capa.p);ed132FotosDo(html).forEach(p=>{if(!fotos.includes(p))fotos.push(p)});
@@ -520,6 +527,7 @@ function ed132Erro(e){const m=String((e&&(e.code||""))+" "+(e&&e.message||""));r
 async function ed132Publica(){const E=ED132.E;if(!E||E.env||typeof SB==="undefined"||!SB)return;ed132Le();ed132LePainel();const P=ed132Monta(E),er=ed132Valida(E,P);if(er){toast(er);return}
   if(E.modo==="editar")return ed132Salva(P);
   if(!$("#layer > .ed132 .ed132-pp")){ed132Painel();return}
+  if(!E.ed){toast("Escolha a editoria da coluna.");try{const s=$("#ed132-eds");if(s)s.scrollIntoView({block:"center"})}catch(e){}return}
   let q=null;if(E.agendar&&ED132.v12.ag===true){q=ed132DeSp(E.qd,E.qh);if(!isFinite(q)){toast("Escolha o dia e a hora.");return}if(q<Date.now()+4*60e3){toast("Escolha um horário daqui a pelo menos 5 minutos.");return}if(q>Date.now()+365*864e5){toast("Escolha uma data dentro de um ano.");return}}
   const estilo={v:2,coluna:P.col};if(!V9.on){P.col.corpo=P.html;if(ed132Bytes(estilo)>7600){toast("Por enquanto, a coluna precisa ser um pouco menor (o limite é de cerca de 6.000 caracteres). Encurte o texto.");return}}
   E.env=true;ed132Cab();ed132PainelBotao();clearTimeout(ED132.gt);
@@ -579,7 +587,7 @@ async function ed132Historico(){const E=ED132.E;if(!E||!E.pubId||!SB)return;let 
       return `<li><span><b>${esc(ed132DataHora(+v.at))}${i===0?" · atual":""}</b><small>${esc(v.tit)} · ${cs123Num(n)} palavras</small></span>${i===0?"":`<button type="button" class="btn ghost" data-ed132vr="${i}">Restaurar</button>`}</li>`}).join("")}</ul>`
     :`<p class="hint">Ainda não há versões guardadas desta coluna. Elas começam a aparecer depois da próxima vez que você salvar.</p>`)}
 function ed132Restaura(i){const E=ED132.E,v=(ED132.vers||[])[i];if(!E||!v)return;const k=v.coluna&&typeof v.coluna==="object"?v.coluna:{};
-  E.tit=cs123S(v.tit,90);E.linha=cs123S(v.linha,160);E.html=k.f==="h"?ed132Limpa(v.corpo):ed132DeMarkdown(v.corpo);E.cham=cs123S(k.cham,240);E.serie=cs123S(k.serie,60);E.n=Math.max(0,Math.floor(+k.n)||0);
+  E.tit=cs123S(v.tit,90);E.linha=cs123S(v.linha,160);E.html=k.f==="h"?ed132Limpa(v.corpo):ed132DeMarkdown(v.corpo);E.cham=cs123S(k.cham,240);E.serie=cs123S(k.serie,60);E.ed=cs123S(k.ed,30);E.n=Math.max(0,Math.floor(+k.n)||0);
   if(Array.isArray(k.pautas))E.pautas=k.pautas.slice(0,3).filter(p=>p&&p.id&&p.t);closeLayer();E.ver=false;ed132Desenha();ed132EdFotos();
   toast(`Versão de ${ed132DataHora(+v.at)} no editor. Toque em Salvar para manter.`)}
 
@@ -594,10 +602,13 @@ function ed132HubHTML(){const rs=ed132RascLe(),ag=ED132.agend,ra=ED132.v12.ra===
       ${rs.length?`<ul class="ed132-hl">${rs.map(r=>`<li><button type="button" class="ed132-hi" data-ed132rabre="${esc(r.rid)}"><b>${esc(String(r.tit||"").trim()||"Sem título")}</b><small>${esc(quando(r.at))} · ${cs123Num(+r.pal||0)} ${+r.pal===1?"palavra":"palavras"}${r.quando?" · com data marcada":""}</small></button>
         <span class="ed132-hb"><button type="button" class="btn ghost" data-ed132rabre="${esc(r.rid)}">Continuar</button><button type="button" class="btn ghost ed132-dg" data-ed132rx="${esc(r.rid)}">Apagar</button></span></li>`).join("")}</ul>`
         :`<p class="hint ed132-hv">Nenhum rascunho. O que você escreve fica guardado sozinho enquanto escreve.</p>`}
+      ${typeof col207PubHTML==="function"?col207PubHTML():""}
     </div></div>`}
 function ed132HubRedesenha(){const el=$("#layer > .ed132-hubr");if(el)el.innerHTML=ed132HubHTML()}
 function ed132Hub(){if(precisaConta())return;const L=$("#layer");if(L.innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}try{ed132Migra()}catch(e){}
   L.innerHTML=`<div class="ed132-hubr" role="dialog" aria-modal="true" aria-label="Minhas colunas">${ed132HubHTML()}</div>`;if(pushH())HST++;
-  Promise.resolve(ed132Testa()).then(()=>ed132Sinc()).then(ok=>{if(ok)ed132HubRedesenha()}).catch(()=>{})}
+  Promise.resolve(ed132Testa()).then(()=>ed132Sinc()).then(ok=>{if(ok)ed132HubRedesenha()}).catch(()=>{});
+  /* 207: todas as colunas publicadas, com os números */
+  try{if(typeof col207Minhas==="function")col207Minhas().then(()=>ed132HubRedesenha()).catch(()=>{})}catch(e){}}
 
 /* ===== 15. camadas: folhas por cima do editor; voltar salva o rascunho ===== */
