@@ -4,7 +4,8 @@
    carrega antes do 181). Cada função abaixo faz o que a cadeia inteira fazia, na mesma ordem; os comentários dizem de
    onde veio cada passo. Os auxiliares dos outros arquivos (vp99*, fc107*, vn112*, cs123*, sg181*, gd161*, pb136*, …)
    continuam onde estavam: aqui eles só são chamados, sempre depois da carga (nenhuma destas funções roda na carga).
-   Também aqui: vn112Resp, vn112Midia, vn112PfAba e vn112Pf (definidas no 112, remendadas no 114 e no 165).
+   Também aqui: vn112Resp, vn112Midia, vn112PfAba e vn112Pf (definidas no 112, remendadas no 114 e no 165) e
+   cs123Linha (definida no 123, remendada no 181).
    Regra daqui para a frente: corrigir DENTRO destas funções, não embrulhá-las de novo em outro arquivo. */
 
 /* ===== pfLista: as publicações de uma aba do perfil =====
@@ -230,3 +231,10 @@ function pf205VnPf(root,u,ab){if(!root||!u)return;const eu=u===S.uid,cab=root.qu
     if(ab==="posts"){const l=pfLista(u,"posts");if(!eu||VIEW==="me")try{pfIdsTroca(l)}catch(e){}const pl=root.querySelector(".vn-pl");if(pl){try{wireTracks(pl)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}})}}}
   vn112Nomes(root)}
 function vn112Pf(root,u){const r=pf205VnPf.apply(this,arguments);try{if(ra114Fora(u)&&root&&!pfLista(u,"posts").length)root.querySelectorAll(".vn-pf-num span").forEach(s=>{if(/publicaç/.test(s.textContent))s.remove()})}catch(e){}return r}
+
+/* ===== cs123Linha: uma pessoa nas listas de seguidores/seguindo =====
+   Base no 123; o 181 (só seguir) troca a linha: "perfil fechado", Remover (seus seguidores) ou Seguir/Pedido enviado/Seguindo. */
+function pf205Linha(x,meu,tipo){const u=x.uid,eu=u===S.uid,am=S.amigos.has(u);
+  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${am?"amigo":x.aberto?"perfil aberto":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:!eu&&!am&&x.aberto?cs123SegBt(u):""}</li>`}
+function cs123Linha(x,meu,tipo){if(!sg181On())return pf205Linha.apply(this,arguments);const u=x.uid,eu=u===S.uid;
+  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${eu?"":SG181.fech.has(u)?"perfil fechado":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:eu?"":sg181Bt(u,"amg-b")}</li>`}

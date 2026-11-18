@@ -14564,8 +14564,6 @@ async function cs123Deixa(u){try{const r=await SB.rpc("deixar_de_seguir",{p_uid:
 async function cs123Tira(u,b){if(b){b.disabled=true}try{const r=await SB.rpc("tirar_seguidor",{p_uid:u});if(r&&r.error)throw r.error;CS123.segs=CS123.segs.filter(s=>s.uid!==u);const p=CS123.perf[S.uid];if(p)p.seguidores=Math.max(0,(p.seguidores||1)-1);
   const li=b&&b.closest("li");if(li)li.remove();toast(nomeDe(u)+" não segue mais você");if(VIEW==="me")renderMe()}catch(e){if(b)b.disabled=false;toast("Não deu para tirar agora.")}}
 function cs123Redesenha(u){try{if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha();if(VIEW==="me")renderMe();document.querySelectorAll(`[data-cs123seg="${CSS.escape(u)}"]`).forEach(b=>{if(!b.closest(".pf-bts"))b.outerHTML=cs123SegBt(u)})}catch(e){}}
-function cs123Linha(x,meu,tipo){const u=x.uid,eu=u===S.uid,am=S.amigos.has(u);
-  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${am?"amigo":x.aberto?"perfil aberto":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:!eu&&!am&&x.aberto?cs123SegBt(u):""}</li>`}
 async function cs123Lista(u,tipo){if(!V9.on||!u)return;const meu=u===S.uid,tit=tipo==="seguindo"?(meu?"Quem você segue":cs123Prim(u)+" segue"):(meu?"Seus seguidores":"Seguidores de "+cs123Prim(u));
   sheet(tit,`<div id="cs123-lb"><p class="hint">Carregando…</p></div>`);
   try{const r=await SB.rpc("seg_lista",{p_uid:u,p_tipo:tipo==="seguindo"?"seguindo":"seguidores"});if(r&&r.error)throw r.error;const l=(r.data||[]);l.forEach(cs123Pess);cs123Nomes();
@@ -20013,9 +20011,6 @@ function sg181Pf(root,u){if(!root||!sg181On()||!u)return;
 /* o seu perfil: números, pedidos para seguir (perfil fechado) e sem amizades */
 function sg181PedHTML(){const l=SG181.rec.filter(x=>!(S.bloq||[]).includes(x.uid));if(!l.length)return "";
   return `<div class="card amg sg181-ped"><span class="amg-t">${l.length===1?"Pedido para seguir você":l.length+" pedidos para seguir você"}</span><ul class="amgl">${l.map(x=>`<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(x.uid)}">${avatar(x.uid)}<span class="amg-n"><b>${esc(nomeDe(x.uid))}</b></span></button><button type="button" class="btn amg-b" data-sg181sim="${esc(x.uid)}">Aprovar</button><button type="button" class="btn ghost amg-b" data-sg181nao="${esc(x.uid)}">Recusar</button></li>`).join("")}</ul></div>`}
-/* listas de seguidores: linha com o botão novo */
-{const _l=cs123Linha;cs123Linha=function(x,meu,tipo){if(!sg181On())return _l.apply(this,arguments);const u=x.uid,eu=u===S.uid;
-  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${eu?"":SG181.fech.has(u)?"perfil fechado":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:eu?"":sg181Bt(u,"amg-b")}</li>`}}
 /* "Adicionar amigos" vira "Buscar pessoas" (todos os membros, abertos e fechados) */
 if(typeof abrirAddAmigos==="function"){const _ad=abrirAddAmigos;abrirAddAmigos=function(){if(sg181On())return cs123Descobre();return _ad.apply(this,arguments)}}
 
@@ -20769,7 +20764,8 @@ function storyAuto(p){
    carrega antes do 181). Cada função abaixo faz o que a cadeia inteira fazia, na mesma ordem; os comentários dizem de
    onde veio cada passo. Os auxiliares dos outros arquivos (vp99*, fc107*, vn112*, cs123*, sg181*, gd161*, pb136*, …)
    continuam onde estavam: aqui eles só são chamados, sempre depois da carga (nenhuma destas funções roda na carga).
-   Também aqui: vn112Resp, vn112Midia, vn112PfAba e vn112Pf (definidas no 112, remendadas no 114 e no 165).
+   Também aqui: vn112Resp, vn112Midia, vn112PfAba e vn112Pf (definidas no 112, remendadas no 114 e no 165) e
+   cs123Linha (definida no 123, remendada no 181).
    Regra daqui para a frente: corrigir DENTRO destas funções, não embrulhá-las de novo em outro arquivo. */
 
 /* ===== pfLista: as publicações de uma aba do perfil =====
@@ -20995,6 +20991,13 @@ function pf205VnPf(root,u,ab){if(!root||!u)return;const eu=u===S.uid,cab=root.qu
     if(ab==="posts"){const l=pfLista(u,"posts");if(!eu||VIEW==="me")try{pfIdsTroca(l)}catch(e){}const pl=root.querySelector(".vn-pl");if(pl){try{wireTracks(pl)}catch(e){}l.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}})}}}
   vn112Nomes(root)}
 function vn112Pf(root,u){const r=pf205VnPf.apply(this,arguments);try{if(ra114Fora(u)&&root&&!pfLista(u,"posts").length)root.querySelectorAll(".vn-pf-num span").forEach(s=>{if(/publicaç/.test(s.textContent))s.remove()})}catch(e){}return r}
+
+/* ===== cs123Linha: uma pessoa nas listas de seguidores/seguindo =====
+   Base no 123; o 181 (só seguir) troca a linha: "perfil fechado", Remover (seus seguidores) ou Seguir/Pedido enviado/Seguindo. */
+function pf205Linha(x,meu,tipo){const u=x.uid,eu=u===S.uid,am=S.amigos.has(u);
+  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${am?"amigo":x.aberto?"perfil aberto":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:!eu&&!am&&x.aberto?cs123SegBt(u):""}</li>`}
+function cs123Linha(x,meu,tipo){if(!sg181On())return pf205Linha.apply(this,arguments);const u=x.uid,eu=u===S.uid;
+  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${eu?"":SG181.fech.has(u)?"perfil fechado":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:eu?"":sg181Bt(u,"amg-b")}</li>`}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários

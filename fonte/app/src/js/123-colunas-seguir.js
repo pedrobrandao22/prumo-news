@@ -253,8 +253,6 @@ async function cs123Deixa(u){try{const r=await SB.rpc("deixar_de_seguir",{p_uid:
 async function cs123Tira(u,b){if(b){b.disabled=true}try{const r=await SB.rpc("tirar_seguidor",{p_uid:u});if(r&&r.error)throw r.error;CS123.segs=CS123.segs.filter(s=>s.uid!==u);const p=CS123.perf[S.uid];if(p)p.seguidores=Math.max(0,(p.seguidores||1)-1);
   const li=b&&b.closest("li");if(li)li.remove();toast(nomeDe(u)+" não segue mais você");if(VIEW==="me")renderMe()}catch(e){if(b)b.disabled=false;toast("Não deu para tirar agora.")}}
 function cs123Redesenha(u){try{if(PFV&&PFV.u===u&&$("#layer .pfv")&&PFV.modo==="grade")pfvDesenha();if(VIEW==="me")renderMe();document.querySelectorAll(`[data-cs123seg="${CSS.escape(u)}"]`).forEach(b=>{if(!b.closest(".pf-bts"))b.outerHTML=cs123SegBt(u)})}catch(e){}}
-function cs123Linha(x,meu,tipo){const u=x.uid,eu=u===S.uid,am=S.amigos.has(u);
-  return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${am?"amigo":x.aberto?"perfil aberto":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:!eu&&!am&&x.aberto?cs123SegBt(u):""}</li>`}
 async function cs123Lista(u,tipo){if(!V9.on||!u)return;const meu=u===S.uid,tit=tipo==="seguindo"?(meu?"Quem você segue":cs123Prim(u)+" segue"):(meu?"Seus seguidores":"Seguidores de "+cs123Prim(u));
   sheet(tit,`<div id="cs123-lb"><p class="hint">Carregando…</p></div>`);
   try{const r=await SB.rpc("seg_lista",{p_uid:u,p_tipo:tipo==="seguindo"?"seguindo":"seguidores"});if(r&&r.error)throw r.error;const l=(r.data||[]);l.forEach(cs123Pess);cs123Nomes();
