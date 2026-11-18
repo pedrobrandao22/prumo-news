@@ -207,7 +207,7 @@ let srv = null, srv2 = null;
   await shot(B, '06-painel-leitores'); ok(await semLateral(B), '390 px: painel sem rolagem lateral');
   await ev(B, () => $('#layer2 .sh-b').scrollTop = 9999); await shot(B, '07-painel-fim');
   await fecha(B);
-  await ev(B, () => ed132Hub()); ok(await esperar(B, () => /Suas colunas mais lidas/.test($('#layer .ed132-hubr')?.textContent || '') && !!document.querySelector('#layer .ed132-hubr [data-lt134num]'), null, 5000), 'Minhas colunas: "Suas colunas mais lidas" com "Leitores"');
+  await ev(B, () => ed132Hub()); ok(await esperar(B, () => /Publicadas/.test($('#layer .ed132-hubr')?.textContent || '') && /leitura/.test($('#layer .col207-pl')?.textContent || '') && !!document.querySelector('#layer .ed132-hubr .col207-pl [data-lt134num]'), null, 5000), 'Minhas colunas: "Publicadas" com os números e "Leitores" (Fase 6)');
   ok(await ev(B, id => /2 leituras/.test(document.querySelector(`#layer .ed132-hubr [data-lt134num="${id}"]`).closest('li').textContent), p1), 'Minhas colunas: a mais lida com "2 leituras"');
   await shot(B, '08-minhas-colunas'); ok(await semLateral(B), '390 px: Minhas colunas sem rolagem lateral');
   await ev(B, id => document.querySelector(`#layer .ed132-hubr [data-lt134num="${id}"]`).click(), p2); await esperar(B, () => !!document.querySelector('#lt134-np .lt134-k'), null, 5000);

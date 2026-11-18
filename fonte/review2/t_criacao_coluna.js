@@ -140,7 +140,7 @@ let srv = null, srv2 = null;
   /* ================= 6. antes de publicar ================= */
   await ev(B, () => document.querySelector('#layer > .ed132 [data-ed132painel]').click()); await sleep(450);
   const pp = await ev(B, () => [...$('#layer .ed132-pp .ed132-pps .ed132-in').children].map(s => s.classList.contains('cr137-ph') ? '|opc|' : (s.querySelector('h3')?.textContent || '').trim()));
-  ok(/^Como vai aparecer no Feed$/.test(pp[0]) && /^Capa/.test(pp[1]) && /^Quem pode ler/.test(pp[2]) && /^Quando publicar/.test(pp[3]) && pp[4] === '|opc|' && /^Chamada/.test(pp[5]), 'ordem: prévia do cartão, capa, quem pode ler, quando; depois "Detalhes opcionais" (chamada, série, hashtags, assuntos)', pp);
+  ok(/^Como vai aparecer no Feed$/.test(pp[0]) && /^Capa/.test(pp[1]) && /^Quem pode ler/.test(pp[2]) && /^Quando publicar/.test(pp[3]) && /^Editoria/.test(pp[4]) && pp[5] === '|opc|' && /^Chamada/.test(pp[6]), 'ordem: prévia do cartão, capa, quem pode ler, quando, editoria (obrigatória, Fase 6); depois "Detalhes opcionais" (chamada, série, hashtags, assuntos)', pp);
   await B.fill('#ed132-cham', 'Uma chamada escrita pela autora.'); await sleep(150);
   ok(await ev(B, () => /Uma chamada escrita pela autora/.test($('#layer .ed132-pp .ed132-pvf .cs123-card').textContent)), 'prévia do cartão acompanha a chamada');
   const [fc2] = await Promise.all([B.waitForEvent('filechooser'), ev(B, () => document.querySelector('#layer .ed132-pp .cr137-pc [data-ed132capa]').click())]); await fc2.setFiles(FOTO);
@@ -148,7 +148,7 @@ let srv = null, srv2 = null;
   ok(await ev(B, () => !!document.querySelector('#layer > .ed132 .ed132-sc .ed132-cpi img')), 'a capa aparece também no editor');
   await ev(B, () => $('#layer .ed132-pps').scrollTop = 0); await shot(B, '05-antes-de-publicar');
   ok(await lateral(B), '390 px: "Antes de publicar" sem rolagem lateral');
-  await ev(B, () => document.querySelector('#layer .ed132-pp [data-ed132pub]').click()); await sleep(1500);
+  await ev(B, () => ((ED132.E&&!ED132.E.ed&&(ED132.E.ed='politica')),document.querySelector('#layer .ed132-pp [data-ed132pub]').click())); await sleep(1500);
   const [p1] = await H.sql(`select id,estilo,corpo,fotos from public.publicacoes where autor=$1 and estilo->'coluna' is not null order by at desc limit 1`, [ids.b]);
   ok(!!p1 && p1.estilo.coluna.f === 'h' && p1.estilo.coluna.capa === true && p1.estilo.coluna.cham === 'Uma chamada escrita pela autora.' && /<h2>O que muda<\/h2>/.test(p1.corpo) && /<strong>muito importante<\/strong>/.test(p1.corpo) && p1.fotos.length === 2, 'publicada com capa, chamada e o texto formatado pelos atalhos', p1 && p1.estilo);
   const tt = await toastTx(B);
@@ -187,7 +187,7 @@ let srv = null, srv2 = null;
   await ev(B, () => document.querySelector('#layer > .ed132 [data-ed132painel]').click()); await sleep(400);
   await ev(B, () => document.querySelector('[data-ed132qv="ag"]').click()); await sleep(250);
   ok(await ev(B, () => /^Agendar para/.test($('#layer .ed132-pp [data-ed132pub]').textContent) && [...$('#layer .ed132-pp .ed132-pps .ed132-in').children].findIndex(s => s.querySelector('.ed132-qv')) < [...$('#layer .ed132-pp .ed132-pps .ed132-in').children].findIndex(s => s.classList.contains('cr137-ph'))), 'agendar: continua antes dos detalhes opcionais depois de redesenhar; botão "Agendar para …"');
-  await ev(B, () => document.querySelector('#layer .ed132-pp [data-ed132pub]').click()); await sleep(1300);
+  await ev(B, () => ((ED132.E&&!ED132.E.ed&&(ED132.E.ed='politica')),document.querySelector('#layer .ed132-pp [data-ed132pub]').click())); await sleep(1300);
   ok((await H.sql(`select publicar_em from public.publicacoes where autor=$1 and estilo->'coluna'->>'tit'='Coluna agendada pelo editor novo'`, [ids.b]))[0]?.publicar_em !== null && /agendada/.test(await toastTx(B)), 'agendar: a coluna fica agendada');
 
   /* ================= 9. Feed, quem lê, 360 px, escuro, computador ================= */

@@ -35,7 +35,7 @@ const clk = (p, sel) => p.$eval(sel, e => { e.scrollIntoView({ block: 'center' }
   await ev(A, c => { const cp = $('#ed132-corpo'); cp.innerHTML = ed132ParaEditor(ed132DeMarkdown(c)); cp.dispatchEvent(new Event('input', { bubbles: true })) }, '## Começo\n' + longo);
   await clk(A, '#layer > .ed132 [data-ed132painel]'); await sleep(300);
   ok(await ev(A, () => !!document.querySelector('#layer .ed132-pp') && !document.querySelector('[data-ed132pubv]') && !document.querySelector('[data-ed132qv]')), 'antes de publicar: sem escolha de seguidores e sem agendar');
-  await clk(A, '#layer .ed132-pp [data-ed132pub]');
+  await ev(A, () => (ED132.E&&!ED132.E.ed&&(ED132.E.ed='politica'))); await clk(A, '#layer .ed132-pp [data-ed132pub]');
   ok(await esperar(A, () => !ED132.E && !$('#layer').innerHTML, null, 8000), 'publica a coluna (5.900 caracteres)');
   const row = (await H.sql(`select id, estilo, publico, pg_column_size(estilo) t from publicacoes where autor=$1`, [a]))[0];
   ok(row && row.estilo.coluna && row.estilo.coluna.corpo.length > 5800 && row.publico === 'amigos' && row.t <= 8192, 'banco antigo: texto em estilo.coluna.corpo, para amigos, dentro dos 8 KB', row && row.t);
@@ -50,7 +50,7 @@ const clk = (p, sel) => p.$eval(sel, e => { e.scrollIntoView({ block: 'center' }
   await ev(B, () => history.back()); await sleep(400); ok(await ev(B, () => !$('#layer').innerHTML), 'voltar fecha a coluna');
   // texto acima do limite (de um rascunho antigo): mensagem clara e nada publicado
   await ev(A, () => { go('feed'); ed132Abre(ed132Novo({ tit: 'Longa demais', html: '<p>' + 'x '.repeat(3200) + '</p>' })) }); await sleep(300);
-  await ev(A, () => ed132Publica()); await sleep(400);
+  await ev(A, () => ((ED132.E&&!ED132.E.ed&&(ED132.E.ed='politica')),ed132Publica())); await sleep(400);
   ok(await ev(A, () => /até 6\.000 caracteres/.test(document.querySelector('.toast')?.textContent || '') && !!ED132.E), 'acima de 6.000: avisa e não publica');
   await ev(A, () => { ed132RascTira(ED132.E.rid); closeLayer._ok = true; closeLayer(); closeLayer._ok = false });
   // público do post comum: sem "Seguidores e amigos"

@@ -159,11 +159,12 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="ed132-tit")cr1
 {const _pn=ed132Painel;ed132Painel=function(){const r=_pn.apply(this,arguments);try{cr137Painel()}catch(e){}return r}}
 function cr137Painel(){const pp=document.querySelector("#layer > .ed132 .ed132-pp"),ins=pp&&pp.querySelector(".ed132-pps .ed132-in"),E=ED132.E;if(!ins||!E)return;
   const sec=q=>{const x=ins.querySelector(q);return x&&x.closest(".ed132-ps")};
-  const prev=sec(".ed132-pvf"),pub=sec("[data-ed132pubv]"),qd=sec(".ed132-qv"),ch=sec("#ed132-cham"),se=sec("#ed132-ser"),tg=sec("#ed132-tags"),as=sec(".ed132-ptl");
+  const prev=sec(".ed132-pvf"),pub=sec("[data-ed132pubv]"),qd=sec(".ed132-qv"),ch=sec("#ed132-cham"),se=sec("#ed132-ser"),tg=sec("#ed132-tags"),as=sec("[data-ed132pt]"),ed=ins.querySelector("#ed132-eds");
   let cp=ins.querySelector(".cr137-pc");if(!cp){ins.insertAdjacentHTML("afterbegin",`<section class="ed132-ps cr137-pc"><h3>Capa <small>opcional</small></h3><div class="cr137-pci"></div></section>`);cp=ins.querySelector(".cr137-pc")}
   cp.querySelector(".cr137-pci").innerHTML=ed132CapaHTML();
   let ph=ins.querySelector(".cr137-ph");if(!ph){ins.insertAdjacentHTML("beforeend",`<p class="cr137-ph">Detalhes opcionais</p>`);ph=ins.querySelector(".cr137-ph")}
-  [prev,cp,pub,qd,ph,ch,se,tg,as].filter(Boolean).forEach(s=>ins.appendChild(s));if(prev){const h=prev.querySelector("h3");if(h)h.textContent="Como vai aparecer no Feed"}
+  /* 207: a editoria é obrigatória: fica antes dos detalhes opcionais */
+  [prev,cp,pub,qd,ed,ph,ch,se,tg,as].filter(Boolean).forEach(s=>ins.appendChild(s));if(prev){const h=prev.querySelector("h3");if(h)h.textContent="Como vai aparecer no Feed"}
   ph.hidden=![ch,se,tg,as].some(Boolean)}
 {const _cd=ed132CapaDesenha;ed132CapaDesenha=function(){const r=_cd.apply(this,arguments);try{const c=document.querySelector("#layer > .ed132 .ed132-pp .cr137-pci");if(c){c.innerHTML=ed132CapaHTML();ed132PainelCard()}}catch(e){}return r}}
 /* a capa no painel: "Tirar" também atualiza a prévia do cartão */
