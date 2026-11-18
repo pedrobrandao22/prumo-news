@@ -1,5 +1,4 @@
 /* ---------- Etapa 19 ---------- */
-(function(){const ant=abrirMateria;abrirMateria=function(){window.MT_USADOS=new Set();try{return ant.apply(this,arguments)}finally{window.MT_USADOS=null}}})();
 var INST_EV=null;
 addEventListener("beforeinstallprompt",e=>{e.preventDefault();INST_EV=e});
 addEventListener("appinstalled",()=>{lsSet("prumo-inst",{ok:1});const c=$("#v-capa .cp-inst");if(c)c.remove();uso("instalou")});

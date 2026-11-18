@@ -76,10 +76,6 @@ function ft182Linha(p){let l=[];try{l=mt158Lista(p)}catch(e){l=(p.fontes||[]).ma
   let es=[];try{es=l.map(v=>mt158Esp(v.k)).filter(Boolean)}catch(e){}const f=ft182Faixa(es);
   return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${f?" · "+f:""}`}
 coberturaTxt=function(p){return ft182Linha(p)||"Quem noticiou"};
-{const _am182=abrirMateria;abrirMateria=function(pid){const r=_am182.apply(this,arguments);try{const p=pautaById(pid),m=$("#layer .mat");
-    if(p&&m){const b30=m.querySelector(".mat-30>b");if(b30&&FT182_EM1MIN&&/^Em 30 segundos$/.test(b30.textContent))b30.textContent="Resumo";
-      m.querySelectorAll(".mat-rod [data-cpfontes]").forEach(b=>b.remove());const tx=ft182Linha(p),meta=m.querySelector(".mat-meta");
-      if(tx&&meta&&!m.querySelector(".ft182-qn"))meta.insertAdjacentHTML("afterend",`<button type="button" class="ft182-qn" data-cpfontes="${esc(p.id)}" aria-haspopup="dialog">${esc(tx)}<i aria-hidden="true">›</i></button>`)}}catch(e){}return r}}
 /* a barra do espectro fica na folha com a lista completa */
 {const _ac182=abrirCobertura;abrirCobertura=function(pid){const r=_ac182.apply(this,arguments);try{const p=pautaById(pid),h=document.querySelector(".sheet h4.cv-t");
     if(p&&h&&!document.querySelector(".sheet .ft182-sp")){const s=ft182Esp0(p);if(s)h.insertAdjacentHTML("beforebegin",`<div class="ft182-sp">${s}</div>`)}}catch(e){}return r}}

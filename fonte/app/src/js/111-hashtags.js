@@ -119,7 +119,6 @@ function htDesenha(){const el=$("#layer .pfv-ht");if(!el)return;const k=el.datas
 function htLinhaNot(p,cls){const l=htDaPauta(p);return l.length?`<p class="${cls}">${l.map(t=>`<button type="button" class="ht-n" data-ht="${esc(t)}">${esc(t)}</button>`).join("")}</p>`:""}
 function htNaMateria(pid){const p=pautaById(pid),m=$("#layer .mat .mat-c");if(!p||!m)return;if(!m.querySelector(".ht-mat")){const h=htLinhaNot(p,"ht-mat");if(h){const h1=m.querySelector("h1");if(h1)h1.insertAdjacentHTML("beforebegin",h);else m.insertAdjacentHTML("afterbegin",h)}}
   if(HT_MAT_VOLTA){const b=$("#layer .mat-v");if(b){b.textContent="‹ "+HT_MAT_VOLTA;b.setAttribute("aria-label","Voltar para "+HT_MAT_VOLTA)}}}
-{const _am111=abrirMateria;abrirMateria=function(pid){const r=_am111.apply(this,arguments);try{htNaMateria(pid)}catch(e){}return r}}
 {const _ps111=postSeguro;postSeguro=function(p){let h=_ps111.apply(this,arguments);try{if(typeof h!=="string"||!h||!p||p.__fc107)return h;
     let sg=null;if(p.__pub)sg=htSeguidaDePost(p.__pub);else{const pp=pautaById(p.id)||p;const ln=htLinhaNot(pp,"ht-nl");if(ln&&h.indexOf('class="ht-nl')<0){const i=h.indexOf('<div class="pollbox"');if(i>0)h=h.slice(0,i)+ln+h.slice(i)}sg=htSeguidaDe(pp)}
     if(sg)h=h.replace(/^(\s*<article\b[^>]*>)/,`$1<p class="ht-por gut">Por seguir <b>${esc(sg)}</b></p>`)}catch(e){}return h}}

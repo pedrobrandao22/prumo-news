@@ -7,5 +7,4 @@ function matRel(p,nx){if(!FEED)return "";const tm=temaDe(p),sec=secOf(p),L=lente
   return `<div class="mat-rel"><b>Relacionadas</b><ul>${l.map(q=>`<li><button type="button" data-matir="${esc(q.id)}">${capaArte(q,"mr-th")}<span><em style="color:${secCor(secOf(q))}">${esc(capaChapeu(q))}</em><b>${esc(versao(q,L).titulo)}</b></span></button></li>`).join("")}</ul></div>`}
 function matProgresso(){const m=$("#layer .mat");if(!m||m._prog)return;m._prog=1;const top=m.querySelector(".mat-top");if(!top)return;const b=document.createElement("i");b.className="mat-prog";b.setAttribute("aria-hidden","true");top.appendChild(b);
   let raf=0;const f=()=>{raf=0;const max=m.scrollHeight-m.clientHeight;b.style.transform=`scaleX(${max>0?Math.min(1,m.scrollTop/max).toFixed(3):0})`};m.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(f)},{passive:true});f()}
-(function(){const ant=abrirMateria;abrirMateria=function(pid,manter){const vazio=!$("#layer").innerHTML;const r=ant.apply(this,arguments);try{matProgresso();if(!manter){const h=$("#layer .mat h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}catch(e){}return r}})();
 

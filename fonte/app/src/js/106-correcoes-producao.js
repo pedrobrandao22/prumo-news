@@ -19,7 +19,6 @@ function cp106Coracao(){try{const h=$("#v-capa .cp-top");if(h&&!h.querySelector(
 /* 6. "O que você acha?" no fim da matéria: ícone de comentário; e, se a pessoa desistir do post ou do story, volta para a matéria
    (antes o editor fechava a matéria e o ✕ levava para a Capa) */
 var MC106=null;
-{const _fm106=fc105Mat;fc105Mat=function(pid){const r=_fm106.apply(this,arguments);try{const b=$("#layer .fc105-mc [data-cn102envp] .cn102-i");if(b)b.innerHTML=ICON.cmt.replace(/^<svg[^>]*>|<\/svg>$/g,"")}catch(e){}return r}}
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("#layer .fc105-mc [data-cn102envp],#layer .fc105-mc [data-cn102envs]");
   if(b){MC106={pid:b.dataset.cn102envp||b.dataset.cn102envs,t:Date.now()};return}
   if(t.closest("[data-edpubpo],[data-edpubst]")&&MC106)MC106.pub=1},true);

@@ -228,33 +228,6 @@ function pontosDe(p,L){L=L||lente();const n=p.neutro||{};const v=L!=="neutro"&&p
   const pt=Array.isArray(o.pontos)?o.pontos.filter(x=>typeof x==="string"&&x.trim()):[];return pt.length?pt.slice(0,4):frases(o.texto).slice(0,3)}
 function capaSub(p,L,extra){const v=versao(p,L);if(v.tem)return capaFrase(v.texto,170);return extra||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro?.texto,170)}
 var MAT_PID=null;
-function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);
-  const Ly=$("#layer");const vazio=!Ly.innerHTML;MAT_PID=pid;if(!manter){uso("materia");evento("materia",pid,secOf(p));try{marcarLida(pid)}catch(e){}}
-  const u=ultimaAtualizacao(p)||p.hora,sv=!!(S.salvos||{})[p.id],f=fotoDe(p);
-  let h=`<div class="mat" role="dialog" aria-modal="true" aria-label="${esc(v.titulo)}"><div class="mat-top"><button type="button" class="mat-v" data-close aria-label="Voltar para a Capa">‹ Capa</button><span class="mat-k" style="color:${secCor(secOf(p))}">${esc(capaChapeu(p))}</span><button type="button" class="mat-aa" data-mataa aria-label="Tamanho da letra" aria-expanded="false">Aa</button><button type="button" class="mat-sh" data-matshare="${id}" aria-label="Compartilhar">${ICON.send}</button><button type="button" class="mat-g" data-matsalvar="${id}" aria-pressed="${sv}">${sv?"Guardada":"Guardar"}</button></div><article class="mat-c">`;
-  h+=`<div class="mat-arte">${capaArte(p,"art",true)}</div>`;
-  h+=`<div class="gut mat-tx"><h1>${v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:""}${esc(v.titulo)}</h1>`;
-  const sub=capaSub(p,L,"");if(sub&&sub!==v.titulo&&!(v.tem&&String(v.texto||"").indexOf(String(sub).replace(/…$/,""))===0))h+=`<p class="mat-sub">${esc(sub)}</p>`;
-  h+=`<p class="mat-meta">${cobStatus(p)}${u?`<span>${esc(atualizadoTxt(u))}</span>`:""}<span>${minLeitura(p,v)} min de leitura</span>${matCorSelo(p)}</p>`;
-  if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
-  else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
-  h+=matDesfecho(p);
-  h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
-  h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${marcarTermos(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${marcarTermos(v.texto)}</p></div>`;
-  h+=matCorBloco(p);h+=matVisuais(p);
-  if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
-  if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
-  const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
-  if(es.length)h+=`<div class="cpx-bl"><b>O essencial</b><ul>${es.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
-  if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${marcarTermos(p.contexto)}</p>`;
-  if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${marcarTermos(p.proximo)}</p>`;
-  h+=matTempo(p);
-  const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().sort((a,b)=>tms(b.hora)-tms(a.hora));
-  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
-  const nx=matProx(p.id);h+=matRel(p,nx);
-  h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
-  Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
-  if(vazio&&pushH())HST++}
 (function(){const ant=closeLayer;closeLayer=function(fp){const eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);ant.apply(this,arguments);
   if(eraMat&&MAT_PID){const pid=MAT_PID;MAT_PID=null;if(VIEW==="capa"){const el0=document.getElementById("cpi-"+pid);const r0=el0?el0.getBoundingClientRect().top:null;const ab0=CP_AB;CP_AB=null;if(!cpAlternar(ab0,null))renderCapa();
     const el=document.getElementById("cpi-"+pid);if(el&&r0!=null)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-r0)}}}})();

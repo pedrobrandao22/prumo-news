@@ -76,17 +76,8 @@ function cm168AsLink(){document.querySelectorAll(".sheet .as-link[data-assunto]"
     if(p&&n&&/^O que vem/.test((n.querySelector("b")||{}).textContent||""))cm168VemNota(n,p)}catch(e){}return r}}
 {const _ado168=abrirDormente;abrirDormente=function(){const r=_ado168.apply(this,arguments);try{cm168AsLink()}catch(e){}return r}}
 
-/* ===== 6. "Nesta matéria": cada seção tem a sua vez ===== */
-/* linha de leitura no terço de cima; na última tela ela desce até o fim, para as seções curtas do fim também ficarem marcadas */
-f113CapAtual=function(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;
-  const tp=MT158_CAPTAP;if(tp&&nav.querySelector(`[data-f113cap="${tp.i}"]`)&&(Math.abs(m.scrollTop-tp.y)<30||(Date.now()-tp.t<1600&&m.scrollTop>=Math.min(tp.s0,tp.y)-30&&m.scrollTop<=Math.max(tp.s0,tp.y)+30))){f113CapMarca(nav,tp.i);return}MT158_CAPTAP=null;
-  const off=f113Off(m),top=m.getBoundingClientRect().top,H=Math.max(1,m.clientHeight-off),els=[...m.querySelectorAll(".fs2-alvo[id^='fs2c-']")];if(!els.length)return;
-  let lim=off+Math.max(60,H*.33);const resta=m.scrollHeight-m.clientHeight-m.scrollTop;if(resta<H){const f=1-Math.max(0,resta)/H;lim+=(m.clientHeight-24-lim)*f}
-  let i=0;els.forEach((e,k)=>{if(e.getBoundingClientRect().top-top<=lim)i=k});f113CapMarca(nav,i)};
-
 /* ===== 7. Matéria: voltar, endereço, recarregar e girar ===== */
 var CM168_PILHA=[];
-{const _mi168=matIr;matIr=function(pid){try{const m=$("#layer .mat"),de=MAT_PID;if(m&&de&&pid!==de&&pautaById(pid)&&!(($("#layer2")||{}).innerHTML)){CM168_PILHA.push({pid:de,y:m.scrollTop});if(pushH())HST++}}catch(e){}return _mi168.apply(this,arguments)}}
 function cm168Volta(a){try{MAT_ARRASTO=false}catch(e){}MAT_ORIG=CM168_PILHA.length?MAT_ORIG:null;abrirMateria(a.pid);const m=$("#layer .mat");if(!m)return;m.style.transform="";
   const vai=()=>{const mm=$("#layer .mat");if(mm)mm.scrollTop=a.y};vai();requestAnimationFrame(vai);setTimeout(vai,120)}
 {const _cl168=closeLayer;closeLayer=function(fromPop){try{const mat=$("#layer .mat"),l2=($("#layer2")||{}).innerHTML;
@@ -111,9 +102,6 @@ addEventListener("resize",()=>{if(innerWidth===CM168_W)return;CM168_W=innerWidth
 /* recarregar a página com a matéria aberta: volta ao mesmo ponto */
 /* (o 035 já tirou o #m= do endereço e guardou a notícia em LINK_PID) */
 var CM168_REAB=(function(){try{const a=LINK_PID?ssGet("cm168-pos",null):null;return a&&a.pid===LINK_PID?a:null}catch(e){return null}})();
-{const _am168=abrirMateria;abrirMateria=function(pid,manter){const r=_am168.apply(this,arguments);try{if($("#layer .mat")&&MAT_PID===pid){cm168Url(pid);cm168MatExtra(pid);
-    const ra=CM168_REAB;if(ra&&ra.pid===pid&&Date.now()-ra.t<6*3600e3){CM168_REAB=null;const vai=()=>{const m=$("#layer .mat");if(m&&MAT_PID===pid)cm168Restaura(m,ra.a)};setTimeout(vai,60);setTimeout(vai,400);setTimeout(vai,1200)}
-    else if(!manter)CM168_ANC=null}}catch(e){}return r}}
 function cm168MatExtra(pid){const m=$("#layer .mat"),p=pautaById(pid);if(!m||!p)return;cm168AgNota();
   const t=cm168Velha(p),meta=m.querySelector(".mat-meta");if(t&&meta&&!m.querySelector(".cm168-velha"))meta.insertAdjacentHTML("afterend",`<p class="cm168-velha">Notícia de ${esc(cm168Dia(t))}, sem novidade desde então.</p>`);
   const vem=[...m.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||""));if(vem)cm168VemNota(vem,p)}

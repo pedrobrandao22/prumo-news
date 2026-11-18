@@ -17,9 +17,3 @@ function vbackAjusta(){const n={capa:"Capa",feed:"Feed",busca:"Busca",msgs:"Conv
 /* foto que não carrega (sem internet): a bolinha do story mostra a ilustração em vez de um círculo vazio */
 document.addEventListener("error",e=>{const im=e.target;if(!im||im.tagName!=="IMG")return;const f=im.closest&&im.closest("#secs .ig-f.paper");if(!f)return;
   const sec=(f.closest("[data-sec-story]")||{dataset:{}}).dataset.secStory;try{const p=sec&&(pautasDa(sec).find(x=>!SEEN.has(seenKey(x)))||pautasDa(sec)[0]);if(p&&!f.querySelector("svg"))f.insertAdjacentHTML("beforeend",svgOf(p.imagem))}catch(_){}},true);
-/* linha do tempo da matéria: data que ainda vai acontecer (ex.: votação amanhã) aparece como "próximo passo", não como o ponto atual */
-{const _mt104=matTempo;matTempo=function(p){const h=_mt104.apply(this,arguments);if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
-  const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll("li")];let fut=0;
-  lis.forEach(li=>{const m=String(li.querySelector("time")?.textContent||"").trim().match(/^(\d{1,2})\/(\d{1,2})$/);if(m&&`${ano}-${m[2].padStart(2,"0")}-${m[1].padStart(2,"0")}`>hj){li.classList.add("fut");li.classList.remove("ult");fut++}});
-  if(fut){const pas=lis.filter(li=>!li.classList.contains("fut"));if(pas.length)pas[pas.length-1].classList.add("ult")}
-  return fut?tp.innerHTML:h}catch(e){return h}}}

@@ -107,11 +107,6 @@ function mt158SegPinta(){document.querySelectorAll("[data-mt158seg]").forEach(b=
   b.setAttribute("aria-pressed",String(on));b.classList.toggle("ghost",on);b.textContent=on?`Seguindo “${tema}” ✓`:`Seguir a cobertura “${tema}”`})}
 /* matéria aberta por um evento da agenda */
 var MT158_AG=null;
-{const _am158=abrirMateria;abrirMateria=function(pid,manter){if(!manter||pid!==MAT_PID)MT158_CAPTAP=null;const p=pautaById(pid);const ups=p&&p.atualizacoes;if(p&&Array.isArray(ups))p.atualizacoes=mt158Ups(ups);
-  let r;try{r=_am158.apply(this,arguments)}finally{if(p&&Array.isArray(ups))p.atualizacoes=ups}
-  try{const m=document.querySelector("#layer .mat");if(m&&p){const b=m.querySelector(".mat-pe [data-cobpag]");if(b&&temaDe(p))b.outerHTML=mt158SegBt(p);
-    const ag=MT158_AG;MT158_AG=null;if(ag&&ag.pid===pid&&Date.now()-ag.t<4000&&!m.querySelector(".mt158-ag")){const tx=m.querySelector(".mat-tx");const tema=temaDe(p)||capaChapeu(p);
-      if(tx)tx.insertAdjacentHTML("afterbegin",`<div class="mt158-ag" role="note"><b>Na agenda${ag.dia?" · "+esc(ag.dia):""}</b><span>${esc(ag.texto)}</span><small>Ainda não há notícia só sobre esse evento. Abaixo, a cobertura ligada a ele: <b>${esc(tema)}</b>.</small></div>`)}}}catch(e){}return r}}
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("#v-capa .cp-l [data-capair]");if(!b)return;
   const ul=b.closest(".cp-l"),h=ul&&ul.previousElementSibling;if(!h||!/^Agenda/.test(h.textContent||""))return;
   MT158_AG={pid:b.dataset.capair,texto:(b.querySelector("b")||{}).textContent||"",dia:((b.querySelector(".s")||{}).textContent||"").trim(),t:Date.now()}},true);
@@ -188,19 +183,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 /* depois de tocar num capítulo, ele fica marcado até a pessoa rolar por conta própria (no fim da matéria o seguinte também
    cabe no terço de cima e roubava a marca) */
 var MT158_CAPTAP=null;
-{const _cv158=f113CapVai;f113CapVai=function(i){MT158_CAPTAP=null;try{const m=$("#layer .mat"),el=m&&m.querySelector("#fs2c-"+i);if(el){const y=el.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop-f113Off(m);
-  MT158_CAPTAP={i:+i,t:Date.now(),s0:m.scrollTop,y:Math.max(0,Math.min(y,m.scrollHeight-m.clientHeight))}}}catch(e){}return _cv158.apply(this,arguments)}}
-f113CapAtual=function(){const m=$("#layer .mat");if(!m||Date.now()<F113_CAPFIXO)return;const nav=m.querySelector(".fs2-cap");if(!nav)return;
-  const tp=MT158_CAPTAP;if(tp&&nav.querySelector(`[data-f113cap="${tp.i}"]`)&&(Math.abs(m.scrollTop-tp.y)<30||(Date.now()-tp.t<1600&&m.scrollTop>=Math.min(tp.s0,tp.y)-30&&m.scrollTop<=Math.max(tp.s0,tp.y)+30))){f113CapMarca(nav,tp.i);return}MT158_CAPTAP=null;const off=f113Off(m),top=m.getBoundingClientRect().top;
-  const lim=off+Math.max(60,(m.clientHeight-off)*.33);const els=[...m.querySelectorAll(".fs2-alvo[id^='fs2c-']")];let i=0;els.forEach((e,k)=>{if(e.getBoundingClientRect().top-top<=lim)i=k});
-  if(m.scrollTop+m.clientHeight>=m.scrollHeight-4&&els.length){const ul=els[els.length-1];if(ul.getBoundingClientRect().top<top+m.clientHeight)i=els.length-1}
-  f113CapMarca(nav,i)};
-/* rola a faixa pela posição real da aba dentro dela (offsetLeft contava a partir do rótulo "Nesta matéria" e cortava a aba) */
-f113CapMarca=function(nav,i){nav.querySelectorAll("[data-f113cap]").forEach(b=>{if(+b.dataset.f113cap===i)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});
-  const b=nav.querySelector(`[data-f113cap="${i}"]`),l=nav.querySelector(".fs2-cap-l");if(!b||!l)return;
-  const lr=l.getBoundingClientRect(),br=b.getBoundingClientRect(),esq=br.left-lr.left+l.scrollLeft,M=16;
-  let x=null;if(br.left<lr.left+M)x=esq-M;else if(br.right>lr.right-M)x=Math.min(esq-M,esq+br.width-l.clientWidth+M);
-  if(x!=null){x=Math.max(0,x);try{l.scrollTo({left:x,behavior:f113Reduz()?"auto":"smooth"})}catch(e){l.scrollLeft=x}}};
 
 /* ===== 7. Atualizações quase iguais ===== */
 function mt158Pal(s){return new Set(norm(s).replace(/[^a-z0-9]+/g," ").split(" ").filter(w=>w.length>2))}

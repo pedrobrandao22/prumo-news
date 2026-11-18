@@ -21,13 +21,3 @@ function rc116AvisoCapa(){try{const c=document.getElementById("v-capa");if(!c)re
 function rc116Data(q,hoje){const s=String(q||"");const m=s.match(/(?:^|[^\d])(\d{1,2})º?\/(\d{1,2})(?:\/(\d{4}))?(?!\d)/);if(!m)return null;const d=+m[1],mm=+m[2];if(!d||d>31||!mm||mm>12)return null;
   let y=m[3]?+m[3]:+hoje.slice(0,4);if(!m[3]){const hm=+hoje.slice(5,7);if(hm>=11&&mm<=2)y++;else if(hm<=2&&mm>=11)y--}
   return {iso:`${y}-${String(mm).padStart(2,"0")}-${String(d).padStart(2,"0")}`,so:/^\s*\d{1,2}º?\/\d{1,2}(?:\/\d{4})?\s*$/.test(s)}}
-{const _mt116=matTempo;matTempo=function(p){const h=_mt116.apply(this,arguments);if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
-  const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll(".mat-tl li")];if(!lis.length)return h;let mudou=false;
-  lis.forEach(li=>{const t=li.querySelector("time");if(!t)return;const d=rc116Data(t.textContent,hj);if(!d)return;
-    if(d.iso>hj&&!li.classList.contains("fut")){li.classList.add("fut");mudou=true}
-    if(d.so){const tx=dataCurta(d.iso)+(d.iso.slice(0,4)!==ano?" de "+d.iso.slice(0,4):"");if(tx&&tx!==t.textContent){t.textContent=tx;mudou=true}}
-    if(!t.hasAttribute("datetime")){t.setAttribute("datetime",d.iso);mudou=true}});
-  if(!mudou)return h;
-  /* o ponto atual é o último que já aconteceu */
-  lis.forEach(li=>li.classList.remove("ult"));{let vf=false;lis.forEach(li=>{const tm=li.querySelector("time");if(li.classList.contains("fut"))vf=true;else if(vf&&tm&&!tm.getAttribute("datetime"))li.classList.add("fut")})}/* rótulo sem data ("Depois") depois de um ponto futuro também é futuro */const pas=lis.filter(li=>!li.classList.contains("fut"));(pas.length?pas[pas.length-1]:null)?.classList.add("ult");
-  return tp.innerHTML}catch(e){return h}}}

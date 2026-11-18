@@ -26,10 +26,6 @@ document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.targ
   const box=b.closest(".ta120-det");if(box)box.outerHTML=`<div class="cp-sk fl119-sk" role="status" aria-label="Carregando o resto da matéria"><i style="height:14px;width:92%"></i><i style="height:14px;width:84%"></i><i style="height:14px;width:60%"></i></div>`;
   fl119Completar()},true);
 
-/* TA06: tempo de leitura só com o texto */
-{const _am120=abrirMateria;abrirMateria=function(){const r=_am120.apply(this,arguments);
-  try{if(FL119.parcial)document.querySelectorAll("#layer .mat-meta span").forEach(s=>{if(/min de leitura/.test(s.textContent))s.classList.add("ta120-esp")})}catch(e){}return r}}
-
 /* TA04: a linha do placar oficial confere ao abrir o Feed */
 {const _go120=go;go=function(v){const r=_go120.apply(this,arguments);if(v==="feed"&&typeof po118NoFeed==="function")try{po118NoFeed()}catch(e){}return r}}
 
