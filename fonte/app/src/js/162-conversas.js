@@ -12,8 +12,6 @@ const cv162Outro=m=>m.de===S.uid?m.para:m.de;
 /* mensagens apagadas por você somem da lista e da conversa: allMsgs no 203 */
 /* bolinha e número: não contam conversas silenciadas nem o que foi apagado */
 function cv162Conta(m){const c=cv162(m.de);return !c.sil&&!((+c.apg||0)>=(+m.at||0))}
-{const _ub162=updateBadge;updateBadge=function(){const real=S.msgsIn;if(!PREF.conv||!Array.isArray(real))return _ub162.apply(this,arguments);
-  S.msgsIn=real.filter(cv162Conta);try{return _ub162.apply(this,arguments)}finally{if(Array.isArray(S.msgsIn)&&S.msgsIn!==real)S.msgsIn=real}}}
 /* na lista: ícone de sino cortado e sem o ponto de não lida (renderMsgs no 203) */
 const CV162_SINO=`<svg class="ico cv162-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 9.5-4.9M18 11v5l1.5 2H8M10 21h4M4 4l16 16"/></svg>`;
 window.addEventListener("click",e=>{const t=e.target&&e.target.closest;if(!t)return;

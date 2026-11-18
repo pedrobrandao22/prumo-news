@@ -109,12 +109,6 @@ function htDesenha(){const el=$("#layer .pfv-ht");if(!el)return;const k=el.datas
   </div>`;
   if(posts.length){try{pfIdsTroca(posts)}catch(e){}const sc=el.querySelector(".ht-posts");try{wireTracks(sc)}catch(e){}posts.forEach(x=>{try{updateSocial("u:"+x.id)}catch(e){}})}}
 /* volta: a página da hashtag e a matéria aberta por ela devolvem o leitor para onde estava */
-{const _cl111=closeLayer;closeLayer=function(fromPop){const l2=!!($("#layer2")&&$("#layer2").innerHTML);const eraHt=!l2&&!!$("#layer .pfv-ht"),eraMat=!l2&&!!$("#layer .mat");
-  const r=_cl111.apply(this,arguments);
-  try{if(!$("#layer").innerHTML&&(eraHt||eraMat)){const user=fromPop===true||Date.now()-HT_CLK<800;
-    if(eraHt){try{pfIdsVolta()}catch(e){}if(!HT_FECHANDO){const o=HT_PILHA.pop();if(user)htRestaura(o);else HT_PILHA=[]}}
-    else if(HT_MAT_VOLTA){const v=HT_MAT_VOLTA;HT_MAT_VOLTA=null;if(!HT_FECHANDO&&user)abrirHashtag(v,{reabre:true})}}}catch(e){}return r}}
-{const _go111=go;go=function(){HT_PILHA=[];HT_MAT_VOLTA=null;htFecha();return _go111.apply(this,arguments)}}
 /* ---- hashtags nas notícias: matéria e cartão do Feed ---- */
 function htLinhaNot(p,cls){const l=htDaPauta(p);return l.length?`<p class="${cls}">${l.map(t=>`<button type="button" class="ht-n" data-ht="${esc(t)}">${esc(t)}</button>`).join("")}</p>`:""}
 function htNaMateria(pid){const p=pautaById(pid),m=$("#layer .mat .mat-c");if(!p||!m)return;if(!m.querySelector(".ht-mat")){const h=htLinhaNot(p,"ht-mat");if(h){const h1=m.querySelector("h1");if(h1)h1.insertAdjacentHTML("beforebegin",h);else m.insertAdjacentHTML("afterbegin",h)}}

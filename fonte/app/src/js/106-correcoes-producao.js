@@ -12,7 +12,6 @@
   cn102DiaCurto=function(s){const m=/^(\d{4})-(\d{2})$/.exec(String(s||"").trim());if(m&&+m[2]>=1&&+m[2]<=12)return `${M106[+m[2]-1]}/${m[1].slice(2)}`;return _dc106.apply(this,arguments)}}
 /* 4. ♥ da Atividade na Capa: aparecia só se a Capa fosse desenhada depois de a conta carregar (logo após entrar, faltava) */
 function cp106Coracao(){try{const h=$("#v-capa .cp-top");if(h&&!h.querySelector(".at-b")&&S.uid&&S.membro)h.insertAdjacentHTML("beforeend",AT_BTN())}catch(e){}}
-{const _ad106=atDot;atDot=function(){cp106Coracao();return _ad106.apply(this,arguments)}}
 /* 5. cartão de texto: nome comprido não é cortado no meio ("…DE ALBUQUERQUE CA"); usa o primeiro e o último nome */
 {const _ck106=fc105Kicker;fc105Kicker=function(c,nome){const k=_ck106.apply(this,arguments);if(k.length<=40||c.k==="cit")return k;
   const n=String(nome||nomeDe(S.uid)||"").trim(),p=n.split(/\s+/);if(n.length>=40&&p.length>2)p.pop();/* nome com 40 letras foi cortado no cadastro: a última palavra pode estar pela metade */return _ck106.call(this,c,p.length>1?p[0]+" "+p[p.length-1]:p[0])}}
@@ -23,8 +22,6 @@ var MC106=null;
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("#layer .fc105-mc [data-cn102envp],#layer .fc105-mc [data-cn102envs]");
   if(b){MC106={pid:b.dataset.cn102envp||b.dataset.cn102envs,t:Date.now()};return}
   if(t.closest("[data-edpubpo],[data-edpubst]")&&MC106)MC106.pub=1},true);
-{const _cl106=closeLayer;closeLayer=function(){const ed=!!$("#layer > .ce");const r=_cl106.apply(this,arguments);
-  try{if(ed&&MC106&&!$("#layer > .ce")){const m=MC106;MC106=null;if(!m.pub&&!(typeof PQ!=="undefined"&&PQ.atual)&&Date.now()-m.t<36e5&&pautaById(m.pid))setTimeout(()=>{try{if(!$("#layer").innerHTML&&!ED){abrirMateria(m.pid);$("#layer .fc105-mc")?.scrollIntoView({block:"center"})}}catch(e){}},ANIM_OK()?260:40)}}catch(e){}return r}}
 /* 7. análise: o texto do campo de fonte cabia só pela metade em telas de 360px */
 {const _cd106=cn102Det;cn102Det=function(el){const r=_cd106.apply(this,arguments);try{const fu=el.querySelector("#cn102-fu");if(FOCO_LIGADO&&fu&&/recomendado/.test(fu.placeholder))fu.placeholder="Link ou nome (recomendado)"}catch(e){}return r}}
 /* 8. Local e Menção vão "assados" na foto do story com roxo e rosa fixos; no foco, saem com os tons de jornal (como na tela) */
@@ -37,8 +34,4 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;co
 /* 10. fonte escrita só com o domínio ("g1.globo.com/economia") vira link no post, como "www." já virava */
 {const _fo106=cn102Fonte;cn102Fonte=function(fu){const s=String(fu==null?"":fu).trim();if(s&&!/^[a-z][a-z0-9+.-]*:/i.test(s)&&!/^www\./i.test(s)&&/^[^\s\/@]+\.[a-z]{2,}(?:[\/?#]\S*)?$/i.test(s))return _fo106.call(this,"https://"+s);return _fo106.apply(this,arguments)}}
 /* 11. Atividade: a mesma pessoa que votou e respondeu no story contava duas vezes ("Bia Souza responderam", dois avatares iguais) */
-{const _ai106=atItens;atItens=function(){const l=_ai106.apply(this,arguments);try{(l||[]).forEach(x=>{if(!x||!Array.isArray(x.us)||x.acao!=="pub")return;const u=[...new Set(x.us)];if(u.length===x.us.length)return;x.us=u;
-  if(u.length===1&&typeof x.txt==="string")x.txt=x.txt.replace("</b> curtiram ","</b> curtiu ").replace("</b> responderam ao ","</b> respondeu ao ")})}catch(e){}return l}}
 /* 12. miniatura de post sem foto na Atividade: mesmo fundo do post no Feed e no perfil (sorteado pelo id), e não o fundo 0 (laranja/rosa) */
-{const _at106=atThumb;atThumb=function(x){const k=x&&x.pub,pb=k&&AT.pubs[k];if(!pb||pb.tipo==="story"||(pb.fotos&&pb.fotos.length)||(pb.estilo&&pb.estilo.fundo))return _at106.apply(this,arguments);
-  AT.pubs[k]={...pb,estilo:{...(pb.estilo||{}),fundo:String(pb.id).charCodeAt(0)}};try{return _at106.apply(this,arguments)}finally{AT.pubs[k]=pb}}}

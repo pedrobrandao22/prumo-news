@@ -20,10 +20,4 @@ var C5=null;
 var IG_VOLTA=null,IG_XMAT=0;
 {const _lm=igLerMateria;igLerMateria=function(pid){if(ST&&$("#layer .story"))IG_VOLTA={...ST,timer:0};return _lm.apply(this,arguments)}}
 document.addEventListener("click",e=>{if(e.target&&e.target.closest&&e.target.closest("#layer .mat [data-close],#layer .mat .mat-x,#layer .mat [data-voltar]"))IG_XMAT=Date.now()},true);
-{const _cl45=closeLayer;closeLayer=function(fromPop){const tinhaMat=!!$("#layer .mat")&&!($("#layer2")?.innerHTML),eraStory=!!$("#layer .story")&&!($("#layer2")?.innerHTML);
-  const r=_cl45.apply(this,arguments);
-  if(tinhaMat&&IG_VOLTA&&!$("#layer").innerHTML){const v=IG_VOLTA;IG_VOLTA=null;if(fromPop===true||Date.now()-IG_XMAT<1500){ST=v;IG_MATPUSH=false;const _ph=pushH;pushH=()=>false;try{drawStory()}catch(e){}finally{pushH=_ph}}}
-  else if(eraStory&&!$("#layer .story")){C5=null}
-  return r}}
-{const _go45=go;go=function(){IG_VOLTA=null;return _go45.apply(this,arguments)}}
 

@@ -41,14 +41,10 @@ function at106Aceitos(){try{if(!S.uid||!S.membro||!S.amigosOk)return;const k="pr
   const agora=(S.pedidosOut||[]).slice().sort(),novos=(ant||[]).filter(u=>S.amigos.has(u));
   if(novos.length){let l=atLed();if(!l)l={_t0:Date.now()};novos.forEach(u=>{l["a:"+u]=Date.now()});atLedSalva(l);setTimeout(()=>{try{atDot()}catch(e){}},0)}
   if(JSON.stringify(ant)!==JSON.stringify(agora))try{localStorage.setItem(k,JSON.stringify(agora))}catch(e){}}catch(e){}}
-{const _ra106=rerenderAll;rerenderAll=function(){at106Aceitos();return _ra106.apply(this,arguments)}}
 
 /* 4. Aviso (toast) que já estava na tela não fica por cima de uma folha que acabou de abrir */
-{const _t106=toast;toast=function(){const r=_t106.apply(this,arguments);const el=[...document.querySelectorAll(".toast")].pop();if(el)el._t106=Date.now();return r}}
-{const _sh106=sheet;sheet=function(){const r=_sh106.apply(this,arguments);try{document.querySelectorAll(".toast").forEach(x=>{if(!x.querySelector(".toast-a")&&Date.now()-(x._t106||0)>400)x.remove()})}catch(e){}return r}}
 
 /* 5. Matéria: voltar do celular com o menu "Aa" aberto fecha só o menu */
-{const _cl106a=closeLayer;closeLayer=function(fromPop){const ab=$("#layer .mat-aap");if(fromPop===true&&ab&&!($("#layer2")?.innerHTML)){ab.remove();$("#layer [data-mataa]")?.setAttribute("aria-expanded","false");if(pushH())HST++;return}return _cl106a.apply(this,arguments)}}
 
 /* 6. Visitante: a tela de entrar diz por que apareceu (guardar, curtir, mandar) */
 var PC106={k:"",t:0};
@@ -71,8 +67,6 @@ var AD106=null;
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const c=t.closest("#layer .story .fg-add");if(!c)return;const b=c.querySelector("[data-usadd]");if(!b)return;
   if(!t.closest("[data-usadd]")){e.stopImmediatePropagation();e.preventDefault();b.click();return}
   try{const x=usX(b);AD106=x&&x.autor!==S.uid?{autor:x.autor,id:x.id,t:Date.now()}:null}catch(_){}},true);
-{const _cl106=closeLayer;closeLayer=function(){const ce=!!$("#layer .ce")&&!($("#layer2")?.innerHTML);const r=_cl106.apply(this,arguments);
-  try{if(AD106&&ce&&!$("#layer .ce")){const a=AD106;AD106=null;const pub=typeof ED!=="undefined"&&ED&&ED.env;if(!pub&&Date.now()-a.t<30*60e3&&typeof igAbrirUser==="function"&&pubDe(a.id))setTimeout(()=>{if(!$("#layer").innerHTML){document.querySelectorAll(".toast").forEach(x=>{if(!x.querySelector(".toast-a"))x.remove()});igAbrirUser(a.autor,a.id)}},260)}}catch(e){}return r}}
 
 /* 10. Stories: tocar no ✕ enquanto o cubo gira (troca de grupo) fecha — antes o toque caía no vazio */
 function st106NoX(cx,cy){const st=$("#layer .story");if(!st||($("#layer2")?.innerHTML)||!(VIRANDO||st.classList.contains("sg-cubo")))return false;

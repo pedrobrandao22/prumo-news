@@ -21,7 +21,6 @@ function pubLimpa(x){if(!x||typeof x!=="object")return;let es=x.estilo;if(es&&es
   x.fotos=(Array.isArray(x.fotos)?x.fotos:[]).filter(p=>typeof p==="string"&&p.startsWith(au)&&!/\.\.|[?#]/.test(p)).slice(0,10);x.texto=strs(x.texto,2200);
   if(x.publico!=null&&x.publico!=="proximos")x.publico="amigos";if(x.pid!=null)x.pid=strs(x.pid,200)||null;if(x.snap!=null&&(typeof x.snap!=="object"||Array.isArray(x.snap)))x.snap=null}
 {const _ui65=usItensHTML;usItensHTML=function(x){try{pubLimpa(x)}catch(e){return ""}return _ui65.apply(this,arguments)}}
-{const _pp65=pubPostHTML;pubPostHTML=function(x){try{pubLimpa(x)}catch(e){return ""}return _pp65.apply(this,arguments)}}
 {const _du65=igDrawUser;igDrawUser=function(){try{const x=ST.itens&&ST.itens[ST.i];if(x)pubLimpa(x)}catch(e){}return _du65.apply(this,arguments)}}
 pubFundo=function(i){const n=PUB_FUNDOS.length,k=((Math.floor(+i)||0)%n+n)%n,f=PUB_FUNDOS[k];return `linear-gradient(160deg,${f[0]},${f[1]})`};
 {const _mc65=montarCmts;montarCmts=function(){const by=_mc65.apply(this,arguments);try{Object.values(by).forEach(l=>Array.isArray(l)&&l.forEach(c=>{if(c&&typeof c.texto!=="string")c.texto=strs(c.texto,2000)}))}catch(e){}return by}}

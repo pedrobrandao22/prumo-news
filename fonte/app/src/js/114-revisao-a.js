@@ -42,8 +42,6 @@ async function ra114MaAbrir(){if(precisaConta())return;
   if(MA.uid!==S.uid||MA.on!==true){MA.t=Date.now();try{await maCarregar()}catch(e){}}
   if(MA.on!==true){const b=$("#ra114ma");if(b)b.innerHTML=`<div class="empty" style="padding:14px 0"><b>A lista ainda não está disponível no Prumo.</b></div>`;return}
   ra114MaDesenha()}
-{const _rm=renderMe;renderMe=function(){const r=_rm.apply(this,arguments);try{if(S.membro&&PUB.on!==false){const b=$("#v-me [data-bloqueados]");
-  if(b&&!$("#v-me [data-ra114maa]"))b.insertAdjacentHTML("beforebegin",`<button type="button" data-ra114maa><span>Melhores amigos</span><i>›</i></button>`)}}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;let b;
   if(t.closest("[data-ra114maa]")){e.stopPropagation();e.preventDefault();ra114MaAbrir();return}
   if(b=t.closest("[data-ra114ma]")){e.stopPropagation();e.preventDefault();if(b.disabled)return;b.disabled=true;Promise.resolve(maTroca(b.dataset.ra114ma,b)).finally(()=>{b.disabled=false;const c=$("#ra114man");if(c){const n=amigosL().filter(u=>MA.set.has(u)).length;c.textContent=n?(n===1?"1 pessoa na lista":n+" pessoas na lista"):"Ninguém na lista ainda"}});return}},true);

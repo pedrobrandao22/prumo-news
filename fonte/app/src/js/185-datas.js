@@ -9,6 +9,8 @@
    As páginas de compartilhamento (m/) são estáticas e continuam com a data absoluta. */
 var DT185_SEM=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
 var DT185_RX=/(^|[^A-Za-zÀ-ÿ])(?:(n[ao]\s+(noite|tarde|manhã|madrugada)\s+d[eao]\s+)|((?:antes|depois)\s+d[eao]\s+)|((até|desde|para)\s+(?:[ao]\s+)?)|((?:n[ao]|nest[ae]|d[ao]|dest[ae]|de|[ao])\s+))?(segunda|terça|quarta|quinta|sexta|sábado|domingo)(?:-feira)?\s*\((\d{1,2})(?:\/(\d{1,2}))?\)/gi;
+/* verbo no passado (pretérito perfeito, 3ª pessoa): aprovou, votou, subiu, bateu, fez, disse, foi, teve, foram… */
+var DT185_PASSADO=/(?:^|[^A-Za-zÀ-ÿ])(?:[a-zà-ÿ]{2,}(?:ou|eu|iu|aram|eram|iram)|foi|fez|disse|teve|houve|deu|veio|pôs|quis|trouxe|soube|foram|fizeram|disseram|tiveram|deram|vieram)(?:-(?:se|o|a|os|as|lhe))?(?=[^A-Za-zÀ-ÿ]|$)/i;
 var DT185_TEM=/\(\d{1,2}(?:\/\d{1,2})?\)/;
 var DT185_PREP_FORA=/(?:^|[^A-Za-zÀ-ÿ])(?:n[ao]|nest[ae]|d[ao]|dest[ae]|de|[ao]|até|desde|para|antes|depois)\s*$/i;
 /* nada do que o leitor escreve (as mesmas caixas em que o app liga #hashtags) nem campos de edição */
@@ -24,6 +26,10 @@ function dt185Qual(nome,dia,mes,hoje){const wd=DT185_SEM.indexOf(String(nome).to
 function dt185Rel(s,hoje){s=String(s??"");if(!DT185_TEM.test(s))return s;hoje=hoje||hojeSP();
   return s.replace(DT185_RX,function(m0,a,per,perNome,antesDepois,prepTudo,prep,art,nome,dia,mes){
     const rel=dt185Qual(nome,dia,mes,hoje);if(!rel||antesDepois)return m0; /* "antes de ontem"/"depois de amanhã" mudariam o sentido */
+    /* "ontem" só quando a frase já está no passado (18/11): "O Senado vota na terça (17)" lido na quarta viraria "vota
+       ontem"; sem verbo no passado antes da data na mesma frase, fica a data por extenso. "desde/até" e "de ontem" valem. */
+    if(rel==="ontem"&&!prepTudo&&!(art&&/^d/i.test(art))){const o=arguments[arguments.length-2],tx=arguments[arguments.length-1];
+      const fr=tx.slice(0,o).split(/[.!?;:]\s/).pop();if(!DT185_PASSADO.test(fr))return m0}
     const ini=m0.slice(a.length);let n;
     if(per){const pn=perNome.toLowerCase();n=rel+(pn==="noite"?" à noite":pn==="tarde"?" à tarde":pn==="manhã"?" de manhã":" de madrugada")}
     else if(prep)n=prep.toLowerCase()+" "+rel;

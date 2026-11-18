@@ -35,5 +35,4 @@ function ac117Rel(h,x){if(!AC117_REL||typeof h!=="string"||!h||!x||x.tipo!=="pos
   const gh=a.querySelector(":scope>.fc107-gh");if(gh)gh.after(ph);else a.prepend(ph);
   ph.after(tx);const m=a.querySelector(":scope>.car");if(m)tx.after(m);
   return a.outerHTML}
-if(VISUAL_NOVO&&VN112_CT==="a"){document.documentElement.classList.add("ac117");
-  const _pp117=pubPostHTML;pubPostHTML=function(x){const h=_pp117.apply(this,arguments);try{return ac117Rel(h,x)}catch(e){return h}}}
+if(VISUAL_NOVO&&VN112_CT==="a"){document.documentElement.classList.add("ac117")}

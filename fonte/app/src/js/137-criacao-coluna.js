@@ -202,7 +202,6 @@ function cr137Recupera(){const E=ED132.E,R=CR137.rec;if(!E||!R||E.pubId!==R.id)r
 /* descartar as alterações apaga a cópia */
 ["pointerdown","mousedown"].forEach(k=>window.addEventListener(k,e=>{const t=e.target;if(t&&t.closest&&t.closest("[data-ed132desc]")){const E=ED132.E;if(E&&E.pubId)CR137.desc=E.pubId}},true));
 window.addEventListener("click",e=>{const t=e.target;if(t&&t.closest&&t.closest("[data-ed132desc]")){const id=(ED132.E&&ED132.E.pubId)||CR137.desc;if(id)cr137BackTira(id);CR137.desc=null}},true);
-{const _cl=closeLayer;closeLayer=function(){const E=ED132.E;const r=_cl.apply(this,arguments);try{if(E&&E.modo==="editar"&&E.descartar==="sim"&&ED132.E!==E)cr137BackTira(E.pubId)}catch(e){}return r}}
 
 /* ===== CR11: Minhas colunas ===== */
 {const _hh=ed132HubHTML;ed132HubHTML=function(){let h=_hh.apply(this,arguments);try{const tp=document.createElement("template");tp.innerHTML=h;const rs=ed132RascLe();

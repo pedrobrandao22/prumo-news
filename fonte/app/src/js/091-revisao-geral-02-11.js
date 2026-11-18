@@ -4,8 +4,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const s=t.closest("#layer [data-stsnap]");if(s){e.stopPropagation();e.preventDefault();const x=pubDe(s.dataset.stsnap);const sn=(x&&x.snap)||{};if(typeof igPausa==="function")igPausa();
     sheet("Notícia",`<p class="hint" style="margin:0">${esc(sn.secao?secNome(sn.secao):"Notícia")}</p><h3 style="margin:4px 0 8px;font:700 19px/1.25 var(--f-display,var(--f-ui))">${esc(sn.titulo||"Notícia")}</h3><p class="hint">Esta notícia já saiu da edição do dia. Procure o assunto na Busca para ver o que saiu depois.</p>`,`<button type="button" class="btn ghost" data-close>Fechar</button>`);return}
   if(t.closest("#layer [data-stfora]")){e.stopPropagation();e.preventDefault();toast("Esta notícia já saiu da edição do dia.");return}},true);
-/* quem está bloqueado não conta no número de Conversas (a lista: allMsgs no 203) */
-{const _ub=updateBadge;updateBadge=function(){const r=_ub.apply(this,arguments);try{const bl=S.bloq||[];if(bl.length){const n=S.msgsIn.filter(m=>!m.lida&&!bl.includes(m.de)).length,b=$("#badge");if(b){b.hidden=!n;b.textContent=n>9?"9+":n}}}catch(e){}return r}}
 /* trocar de conta no mesmo aparelho: a curtida de story da conta anterior não fica marcada */
 {const _lc=limparLocalConta;limparLocalConta=function(){const r=_lc.apply(this,arguments);try{if(typeof US_CURTI!=="undefined")US_CURTI.clear()}catch(e){}return r}}
 /* curtidas e comentários apagados em publicações chegam aos outros aparelhos (o tempo real não manda exclusões) */

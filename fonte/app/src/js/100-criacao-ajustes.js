@@ -127,7 +127,6 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||!ED||!$(
   if(t===ov||t.classList.contains("fe-box")){ca100MenOk();return}
   if(t.closest(".ca100-mw"))$("#ca100-mq")?.focus()},true);
 {const _te100=edToqueEl;edToqueEl=function(el){if($("#layer .ca100-men"))return;if(el&&el.t==="men")return ca100MenAbre(el);return _te100.apply(this,arguments)}}
-{const _cl100=closeLayer;closeLayer=function(fromPop){if($("#layer .ca100-men")){if(fromPop===true&&ED&&!($("#layer2")?.innerHTML)){ca100MenFecha();if(pushH())HST++;return}ca100MenFecha()}return _cl100.apply(this,arguments)}}
 
 /* ===== 5. ajustes rápidos ===== */
 /* campos de uma linha nas figurinhas (local, hashtag, menção) crescem com o texto em vez de rolar e cortar o começo */

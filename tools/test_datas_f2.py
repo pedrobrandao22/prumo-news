@@ -33,9 +33,9 @@ def app(pares):
 class Datas(unittest.TestCase):
     def test_virada_grava_e_app_mostra_relativo(s):
         ref = date(2026, 11, 17)  # terça
-        casos = [("Senado vota hoje a PEC", "Senado vota hoje a PEC", "Senado vota ontem a PEC"),
+        casos = [("Senado vota hoje a PEC", "Senado vota hoje a PEC", "="),  # 18/11: sem verbo no passado, "ontem" não entra
                  ("Copom decide amanhã", "Copom decide amanhã", "Copom decide hoje"),
-                 ("Hoje, o Senado aprovou", "Hoje, o Senado aprovou", "Ontem, o Senado aprovou"),
+                 ("Hoje, o Senado aprovou", "Hoje, o Senado aprovou", "="),  # verbo depois da data: fica a data
                  ("Votação fica para depois de hoje", None, None)]
         for orig, no_dia, dia_seguinte in casos:
             gravado, n = VA.reescreve(orig, ref)
@@ -44,13 +44,13 @@ class Datas(unittest.TestCase):
             if no_dia is None: continue
             r = app([[gravado, "2026-11-17"], [gravado, "2026-11-18"], [gravado, "2026-11-20"]])
             s.assertEqual(r[0], no_dia, gravado)
-            s.assertEqual(r[1], dia_seguinte, gravado)
+            s.assertEqual(r[1], gravado if dia_seguinte == "=" else dia_seguinte, gravado)
             s.assertEqual(r[2], gravado, "longe do dia, fica a data")
 
     def test_app_formas(s):
         h = "2026-11-17"
         casos = {"até a terça (17)": "até hoje", "desde a segunda (16)": "desde ontem", "de terça (17)": "de hoje",
-                 "Na noite de segunda (16)": "Ontem à noite", "Terça-feira (17): Senado vota": "Hoje: Senado vota",
+                 "Na noite de segunda (16)": "Na noite de segunda (16)", "O Senado votou na noite de segunda (16)": "O Senado votou ontem à noite", "Terça-feira (17): Senado vota": "Hoje: Senado vota",
                  "na terça (17/11)": "hoje", "na terça (17/12)": "na terça (17/12)", "na quinta (19)": "na quinta (19)",
                  "antes da segunda (16)": "antes da segunda (16)", "depois de quarta (18)": "depois de quarta (18)",
                  "na quarta (17)": "na quarta (17)"}

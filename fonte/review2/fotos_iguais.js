@@ -131,6 +131,33 @@ const AREAS = {
       await P.evaluate(pid => openSend(pid, 'u-caio'), pid); await foto('enviar-para-caio'); await fechar(P);
       await P.evaluate(() => abrirNovaConversa()); await foto('nova-conversa'); await fechar(P) },
   },
+  // núcleo (Fase 3): funções compartilhadas — closeLayer, go, sheet, toast, pubPostHTML, atividade, renderMe
+  nucleo: {
+    'materia-fecha': async (P, foto) => { const id = await manchete(P); await P.evaluate(id => abrirMateria(id), id); await foto('materia-aberta');
+      await P.evaluate(() => closeLayer()); await foto('materia-fechada') },
+    'destaque-fecha': async (P, foto) => { const id = await P.evaluate(() => { const b = document.querySelector('#v-capa .cp-dest [data-cpx]'); return b && b.dataset.cpx }); if (!id) return;
+      await P.evaluate(() => window.scrollTo(0, 400)); await P.evaluate(id => abrirMateria(id), id);
+      await P.evaluate(() => { const m = document.querySelector('#layer .mat'); if (m) { m.scrollTop = 500; m.dispatchEvent(new Event('scroll')) } });
+      await P.evaluate(() => closeLayer()); await foto('destaque-fechado') },
+    'sheet': async (P, foto) => { await P.evaluate(() => sheet('Folha de teste', '<p>Corpo da folha com <b>texto</b>.</p><input placeholder="campo">', '<button type="button" class="btn">Pronto</button>'));
+      await foto('sheet-aberta'); await P.evaluate(() => closeLayer()); await foto('sheet-fechada') },
+    'toast': async (P, foto) => { await P.evaluate(() => toast('Aviso de teste do núcleo', 'Desfazer', () => { })); await foto('toast', { toast: true }) },
+    'feed': async (P, foto) => { await P.evaluate(() => go('feed')); await rolarPartes(P, foto, 'feed', 4) },
+    'feed-capa': async (P, foto) => { await P.evaluate(() => { go('feed'); window.scrollTo(0, 900) }); await P.evaluate(() => go('capa')); await foto('feed-volta-capa');
+      await P.evaluate(() => go('feed')); await foto('capa-volta-feed') },
+    'story-fecha': async (P, foto) => { await P.evaluate(() => go('feed')); const ok = await P.evaluate(() => { const b = document.querySelector('#secs [data-sec-story]'); if (b) b.click(); return !!b });
+      if (!ok) return; await foto('story-aberto'); await P.evaluate(() => closeLayer()); await foto('story-fechado') },
+    'posts': async (P, foto) => { await P.evaluate(() => { go('feed'); const pid = (FEED.pautas || [])[0]?.id; const at = Date.now() - 3600e3, A = '11111111-aaaa-4aaa-8aaa-111111111111';
+      const xs = [{ id: 'a1111111-1111-4111-8111-111111111111', autor: A, tipo: 'post', at, texto: 'Só texto, com #hashtag e @alguem.', fotos: [] },
+        { id: 'b2222222-2222-4222-8222-222222222222', autor: A, tipo: 'post', at: at - 7200e3, texto: 'Comentando a notícia.', fotos: [], pid, estilo: { v: 2 } },
+        { id: 'c3333333-3333-4333-8333-333333333333', autor: A, tipo: 'post', at: at - 86400e3, texto: 'Dólar volta a subir\n\nA alta pressiona a inflação.', fotos: [], estilo: { v: 2, cn: { k: 'ana', tit: 'Dólar volta a subir', d: { tipo: 'bar', s: [12.5, 8.1, 7.3], r: ['SP', 'RJ', 'MG'] }, fu: 'Banco Central' } } },
+        { id: 'd4444444-4444-4444-8444-444444444444', autor: A, tipo: 'post', at: at - 2 * 86400e3, texto: 'Vale a pena?', fotos: [], pid, estilo: { v: 2, cn: { k: 'enq', o: ['Sim', 'Não', 'Talvez'] } } },
+        { id: 'e5555555-5555-4555-8555-555555555555', autor: A, tipo: 'post', at: at - 3 * 86400e3, texto: 'Importante acompanhar.', fotos: [], pid, snap: { titulo: 'Título guardado', secao: 'economia' }, estilo: { v: 2, cn: { k: 'nt' } } }];
+      const d = document.createElement('div'); d.id = 'nucleo-posts'; d.innerHTML = xs.map(x => { try { return pubPostHTML(x) } catch (e) { return '<p>erro ' + e.message + '</p>' } }).join('');
+      const alvo = document.querySelector('#posts') || document.querySelector('#v-feed'); alvo.prepend(d); window.scrollTo(0, d.getBoundingClientRect().top + scrollY - 60) });
+      await foto('posts-01'); await P.evaluate(() => window.scrollBy(0, innerHeight - 80)); await foto('posts-02'); await P.evaluate(() => window.scrollBy(0, innerHeight - 80)); await foto('posts-03') },
+    'perfil': async (P, foto) => { await P.evaluate(() => go('me')); await rolarPartes(P, foto, 'perfil', 3); await P.evaluate(() => go('capa')); await foto('perfil-volta-capa') },
+  },
   // feed, criar, perfil: acrescentar aqui (cada tela abre a partir da Capa, num contexto novo)
 };
 // Conversas: conta de teste montada direto no estado (Pedro, amigos Bia e Caio; Dora e Edu não são amigos; uma conta excluída),
@@ -211,7 +238,7 @@ async function tirar(PASTA, area, porta) {
         let ult = pos(), igual = 0; for (let i = 0; i < 60 && igual < 5; i++) { await new Promise(r => setTimeout(r, 100)); const p = pos(); if (p === ult) igual++; else { igual = 0; ult = p } } });
       await P.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].filter(i => !i.complete).map(i => new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 3000) }))) });
       await P.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))); await U.sleep(250) };
-    const foto = async nome => { await assenta(); await P.evaluate(() => document.querySelectorAll('.toast').forEach(t => t.remove()));
+    const foto = async (nome, o = {}) => { await assenta(); if (!o.toast) await P.evaluate(() => document.querySelectorAll('.toast').forEach(t => t.remove()));
       await P.screenshot({ path: path.join(PASTA, `${area}-${nome}-${ap.nome}-${tema}.png`), animations: 'disabled', caret: 'hide' }); n++ };
     await P.evaluate(() => window.scrollTo(0, 0));
     try { await fn(P, foto) } catch (e) { erros.push(`${ap.nome}/${tema}/${tela}: ${e.message.split('\n')[0]}`) }

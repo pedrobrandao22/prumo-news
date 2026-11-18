@@ -284,29 +284,6 @@ function cn102CardHTML(x,cn,corpo){const ex=cn102Ex(corpo);
 function cn102Leg(x,cn,corpo){const es=x.estilo||{};let h="";
   if(cn.k==="rel"&&x.fotos.length){h+=`<p class="cn102-lt"><b>${esc(cn.tit||"Relato")}</b></p>`;const m=[es.local,cn.q?cn102Quando(cn.q):""].filter(Boolean);h+=`<p class="cn102-lm">${m.length?esc(m.join(" · "))+" · ":""}<span>relato pessoal, não checado pela redação</span></p>`}
   return h}
-{const _pp=pubPostHTML;pubPostHTML=function(x){try{if(x)pubLimpa(x)}catch(e){return ""}const cn=x&&x.tipo==="post"?cn102De(x):null;
-  if(!cn){let h=_pp.apply(this,arguments);if(h&&x&&x.pid&&!(x.fotos||[]).length)try{h=cn102TrocaNt(h,x)}catch(e){}return h}
-  const corpo=cn102Corpo(x,cn),y=Object.assign(Object.create(Object.getPrototypeOf(x)),x,{texto:corpo});let h=_pp.call(this,y);if(!h)return h;
-  try{const tp=document.createElement("template");tp.innerHTML=h.trim();const a=tp.content.firstElementChild;if(!a)return h;a.classList.add("cn102-post","cn102-"+cn.k);a.dataset.cn102k=cn.k;
-    /* rótulo no cabeçalho */
-    const sub=cn.k!=="nt"&&a.querySelector(".ph-sub");if(sub)sub.insertAdjacentHTML("afterbegin",`<span class="cn102-lb cn102-lb-${cn.k}">${esc({rel:"Relato",ana:"Opinião",enq:"Pergunta",nt:"Comentário"}[cn.k])}</span>`);
-    const tr=a.querySelector(".car .track");
-    if(tr){const tx=tr.querySelector(".up-tx");if(tx)tx.remove();const ntsl=tr.querySelector(".up-nt");
-      if(cn.k==="enq"&&ntsl)ntsl.remove();if(ntsl&&cn.k!=="enq")ntsl.outerHTML=cn102NtSlide(x);
-      const card=cn102CardHTML(x,cn,corpo);const fotos=!!tr.querySelector(".up-img,.up-sem,.up-vid");
-      if(card&&!(cn.k==="rel"&&fotos))tr.insertAdjacentHTML("afterbegin",card);
-      if(cn.k==="ana"&&cn.d&&String(corpo).trim())tr.children[0].insertAdjacentHTML("afterend",`<div class="sl up-sl cn102-sl cn102-dsl"><div class="cn102-cd">${cn102Svg(cn.d)}${cn.d.tipo==="ind"?`<p class="cn102-dfo">Indicador da edição do Prumo</p>`:cn.fu?`<p class="cn102-dfo">${esc("Fonte: "+((cn102Fonte(cn.fu)||{}).n||""))}</p>`:`<p class="cn102-dfo">Números informados por ${esc(cn102Primeiro(x.autor))}</p>`}</div></div>`);
-      /* pontinhos e contador com o novo número de slides */
-      const n=tr.children.length,dots=a.querySelector(".pdots");if(dots){if(n>1)dots.outerHTML=`<div class="prog pdots" aria-hidden="true">${[...Array(n)].map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${n}</span></div>`;else dots.remove()}
-      else if(n>1){const sp=a.querySelector(".acts .sp");if(sp)sp.insertAdjacentHTML("afterend",`<div class="prog pdots" aria-hidden="true">${[...Array(n)].map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${n}</span></div>`)}
-      const pg=a.querySelector(".vp99-pg");if(pg){if(n>1)pg.textContent="1/"+n;else pg.remove()}else if(n>1){const car=a.querySelector(".car");car.classList.add("vp99-car");car.insertAdjacentHTML("afterbegin",`<span class="vp99-pg" aria-hidden="true">1/${n}</span>`)}}
-    /* legenda: título e local/hora do relato com foto; o corpo inteiro da análise e do relato sem foto; fonte */
-    let leg=a.querySelector(".up-leg");const lk=a.querySelector("[data-likes]");
-    if(!leg&&String(corpo).trim().length>CN102_CURTO&&cn.k!=="enq"&&lk){lk.insertAdjacentHTML("afterend",`<p class="up-leg${corpo.length>160||/\n.*\n/.test(corpo)?" up-curta\" data-upmais role=\"button\" tabindex=\"0":""}"><b>${esc(nomeDe(x.autor))}</b> ${dmMarcaPub(corpo)}</p>`);leg=a.querySelector(".up-leg")}
-    if(!leg&&cn.k==="enq"&&String(corpo).trim()&&lk){lk.insertAdjacentHTML("afterend",`<p class="up-leg"><b>${esc(nomeDe(x.autor))}</b> ${dmMarcaPub(corpo)}</p>`);leg=a.querySelector(".up-leg")}
-    const extra=cn102Leg(x,cn,corpo);if(extra){if(leg)leg.insertAdjacentHTML("beforebegin",extra);else if(lk)lk.insertAdjacentHTML("afterend",extra)}
-    const fo=cn.k==="rel"||cn.k==="ana"?cn102FonteHTML(cn.fu):"";if(fo){const ref=leg||a.querySelector(".cn102-lm,.cn102-lt")||lk;if(ref)ref.insertAdjacentHTML("afterend",fo)}
-    return a.outerHTML}catch(e){return h}}}
 /* post antigo com notícia e sem foto: o cartão novo da notícia (com a arte, crédito e "via Prumo") */
 function cn102TrocaNt(h,x){const i=h.indexOf('<div class="sl up-sl up-nt">');if(i<0)return h;const z=h.indexOf("</button></div>",i);if(z<0)return h;return h.slice(0,i)+cn102NtSlide(x)+h.slice(z+15)}
 /* votar na pergunta */

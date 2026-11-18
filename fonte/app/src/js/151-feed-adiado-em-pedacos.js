@@ -13,4 +13,3 @@ function pf151Tudo(){if(PF151.t){clearTimeout(PF151.t);PF151.t=0}while(PF151.fil
   try{return _rf151.apply(this,arguments)}finally{renderCapa=rc;renderSecs=rs;
     /* a Capa (que está na tela) primeiro; os círculos do Feed depois */
     if(capa)PF151.fila.push(capa);if(secs)PF151.fila.push(secs);if(PF151.fila.length&&!PF151.t)PF151.t=setTimeout(pf151Roda,0)}}}
-{const _go151=go;go=function(v){if(PF151.fila.length)pf151Tudo();return _go151.apply(this,arguments)}}

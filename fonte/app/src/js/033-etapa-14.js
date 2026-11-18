@@ -32,8 +32,6 @@ var MAT_ORIG=null;
 function capaOrdemIds(){const ids=[...document.querySelectorAll("#v-capa .cpi[id^='cpi-']")].map(e=>e.id.slice(4));if(ids.length)return [...new Set(ids)];try{return capaEscolha().ord.map(p=>p.id)}catch(e){return []}}
 function matProx(pid){const ids=capaOrdemIds(),i=ids.indexOf(pid);const rest=ids.slice(i+1).concat(i>=0?ids.slice(0,i):[]).map(pautaById).filter(Boolean);return rest.find(p=>!lidaAtual(p))||(i>=0?pautaById(ids[i+1]):null)||null}
 function matIr(pid){if(!pautaById(pid))return;if(!MAT_ORIG)MAT_ORIG=MAT_PID;abrirMateria(pid);const m=document.querySelector("#layer .mat");if(m){m.scrollTop=0;m.classList.remove("mat-in");void m.offsetWidth;m.classList.add("mat-in")}}
-(function(){const ant=closeLayer;closeLayer=function(){const pid=MAT_PID,orig=MAT_ORIG,eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);const r=ant.apply(this,arguments);
-  if(eraMat){MAT_ORIG=null;if(orig&&pid&&pid!==orig&&VIEW==="capa"){const f=()=>{const el=document.getElementById("cpi-"+pid);if(el)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-innerHeight*.28)};f();requestAnimationFrame(f);setTimeout(f,150)}}return r}})();
 (function(){let x0=null,y0=0,t0=0,eixo=null,m=null,dx=0;
   document.addEventListener("touchstart",e=>{const mm=e.target&&e.target.closest&&e.target.closest("#layer .mat"),l2=$("#layer2");if(!mm||e.touches.length>1||(l2&&l2.innerHTML)||e.target.closest(".gr-box,.gn,input,textarea")){x0=null;return}m=mm;x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now();eixo=null;dx=0},{passive:true});
   document.addEventListener("touchmove",e=>{if(x0==null||!m)return;const t=e.touches[0],ddx=t.clientX-x0,ddy=t.clientY-y0;
@@ -71,6 +69,5 @@ function capaLargo(){appLargo();const cp=document.querySelector("#v-capa .cp");i
     (lado?side:main).appendChild(el)});
   const fim=main.querySelector(".cp-fim");if(fim)main.appendChild(fim);
   cp.appendChild(main);cp.appendChild(side);cp.classList.add("cp2")}
-(function(){const ant=go;go=function(){const r=ant.apply(this,arguments);try{appLargo()}catch(e){}return r}})();
 if(LARGO_MQ){const f=()=>{try{if(FEED)renderCapa();appLargo()}catch(e){}};if(LARGO_MQ.addEventListener)LARGO_MQ.addEventListener("change",f);else if(LARGO_MQ.addListener)LARGO_MQ.addListener(f)}
 

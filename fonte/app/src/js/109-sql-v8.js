@@ -85,7 +85,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
   if(b=t.closest("[data-fp8ok]")){pare();fp8Salvar(b);return}
   if(b=t.closest("[data-fp8tira]")){pare();if(!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Toque de novo para remover";return}fp8Tirar(b);return}},true);
 /* Conta › Posts arquivados (junto do Arquivo de stories) */
-{const _rm8=renderMe;renderMe=function(){const r=_rm8.apply(this,arguments);try{if(V8.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arq8]")){const h=`<button type="button" data-arq8><span>Posts arquivados</span><i>›</i></button>`;const a=m.querySelector("[data-arquivo]");if(a)a.insertAdjacentHTML("afterend",h);else m.insertAdjacentHTML("afterbegin",h)}}}catch(e){}return r}}
 async function arq8Carregar(){try{const r=await SB.from("publicacoes").select("*").eq("autor",S.uid).eq("arquivado",true).order("at",{ascending:false}).limit(200);if(r.error)return ARQ8||[];
     ARQ8=(r.data||[]).map(pubNorm).filter(x=>x.tipo!=="story");const ids=new Set(PUB.itens.map(x=>x.id));ARQ8.forEach(x=>{if(!ids.has(x.id))PUB.itens.push(x);else{const y=pubDe(x.id);if(y)y.arquivado=true}});await pubAssinaLista(ARQ8);return ARQ8}catch(e){return ARQ8||[]}}
 async function arq8Abrir(){if(!V8.on)return;if($("#layer").innerHTML)closeLayer();PFV={u:S.uid,aba:"arq8",modo:"grade"};ARQ8=null;
@@ -129,12 +128,6 @@ async function at8Carregar(){if(!V8.on||!SB||!S.uid)return;try{const desde=Date.
 {const _ac8=atCarregar;atCarregar=async function(){const r=await _ac8.apply(this,arguments);if(V8.on){await at8Carregar();atDot();atRedesenha()}return r}}
 function at8Coment(x){if(x.pub){const c=(PS.cm&&PS.cm[x.pub]||[]).find(c=>c.id===x.cid&&c.uid===S.uid);return c?{texto:c.texto,pid:"u:"+x.pub}:{texto:"",pid:"u:"+x.pub}}
   const d=(S._cmtDocs||[]).find(([u])=>u===S.uid),v=d&&d[1]&&d[1].itens&&d[1].itens[x.cid];return v&&v.pid?{texto:String(v.texto||""),pid:v.pid}:null}
-{const _ai8=atItens;atItens=function(){const it=_ai8.apply(this,arguments);if(!V8.on||!S.uid||!S.membro||!(AT.cc8||[]).length)return it;
-  try{const g={};AT.cc8.forEach(x=>{if(!S.amigos.has(x.uid)&&!S.membros[x.uid])return;const k=(x.pub||"")+"|"+x.cid;(g[k]=g[k]||{x,us:[],at:0}).us.push([x.uid,+x.at]);g[k].at=Math.max(g[k].at,+x.at)});
-    Object.entries(g).forEach(([k,o])=>{const c=at8Coment(o.x);if(!c)return;const us=o.us.sort((a,b)=>b[1]-a[1]).map(a=>a[0]);const t=String(c.texto||"");
-      it.push({k:"cc8:"+k,at:o.at,us,ic:"♥",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"curtiram":"curtiu"} seu comentário${t?`: “${esc(t.length>80?t.slice(0,79).trimEnd()+"…":t)}”`:""}`,cpid:c.pid,acao:"cc8"})})}catch(e){}
-  return it.sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}}
-{const _aa8=atAcao;atAcao=function(x){if(x&&x.acao==="cc8"){if($("#layer .pfv-at"))closeLayer();setTimeout(()=>openComments(x.cpid),320);return}return _aa8.apply(this,arguments)}}
 
 /* ===== 5. acabamentos ===== */
 /* post arquivado ou mostrado em outro aparelho: o Feed e o perfil se redesenham na próxima leitura */

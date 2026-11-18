@@ -212,7 +212,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!ED||!ED.s
   ["pointerup","pointercancel","pointerleave"].forEach(k=>document.addEventListener(k,()=>{if(lp){clearTimeout(lp);lp=0}},true));
   document.addEventListener("click",e=>{if(ED&&Date.now()-(ED._malp||0)<700&&e.target.closest&&e.target.closest("#layer [data-edpubst]")){e.stopPropagation();e.preventDefault()}},true)})();
 /* câmera desligada ao fechar, ao trocar de app ou de modo */
-{const _cl60=closeLayer;closeLayer=function(){const r=_cl60.apply(this,arguments);if(!$("#layer .ce"))camDesliga();return r}}
 document.addEventListener("visibilitychange",()=>{if(document.hidden)camDesliga();else if(ED&&ED.modo==="story"&&(ED.tela==="cam"||ED.tela==="lay")&&$("#ce-video"))camLiga()});
 /* voltar do celular: no editor com foto/texto volta à câmera como no Instagram (com confirmação se houver algo) */
 

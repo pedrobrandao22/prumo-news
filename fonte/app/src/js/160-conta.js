@@ -142,9 +142,6 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="dmq")setTimeou
 const co160Admin=u=>((S.membros[u]||{}).papel==="admin");
 window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-co160pf]");if(!b)return;e.preventDefault();e.stopPropagation();const u=b.dataset.co160pf;closeLayer();setTimeout(()=>{try{abrirPerfil(u)}catch(_){}},60)},true);
 /* a folha "…" do perfil de um amigo (104): mesmos rótulos curtos e sem denunciar o administrador */
-{const _sh160=sheet;sheet=function(t,h){const a=[...arguments];try{if(typeof h==="string"&&/data-denp="/.test(h)){const m=h.match(/data-denp="([^"]+)"/),u=m&&m[1];
-  let x=h.replace(/(data-bloquear="[^"]+">)Bloquear [^<]*</,"$1Bloquear<").replace(/(data-denp="[^"]+">)Denunciar [^<]*</,"$1Denunciar<");if(!co160Admin(S.uid))x=x.replace("<span>o Pedro recebe e analisa</span>","<span>o administrador do Prumo analisa</span>");
-  if(u&&co160Admin(u))x=x.replace(/<button type="button" data-denp="[^"]+">[\s\S]*?<\/button>/,"");a[1]=x}}catch(e){}return _sh160.apply(this,a)}}
 
 /* ---------- 8. Perfil ---------- */
 function co160Pf(root,u){if(!root||!u)return;
@@ -154,8 +151,6 @@ function co160Pf(root,u){if(!root||!u)return;
   const cs=num.querySelector(".cs123-num");if(cs){const bs=[...cs.querySelectorAll("b")].map(b=>b.textContent.trim());cs.hidden=bs.length>0&&bs.every(x=>x==="0")}
   if(S.amigos.has(u)&&!num.querySelector(".co160-am"))num.insertAdjacentHTML("afterbegin",`<button type="button" class="co160-am" data-fd104pm="${esc(u)}" aria-label="Vocês são amigos. Opções da amizade">Amigos ✓</button>`);
   if(!S.amigos.has(u))num.querySelector(".co160-am")?.remove()}
-{const _rme160=renderMe;renderMe=function(){const r=_rme160.apply(this,arguments);try{if(S.uid&&S.membro)co160Pf($("#v-me"),S.uid);
-  else if(!S.uid){const p=[...document.querySelectorAll("#v-me .card p")].find(p=>/Entre para gostar/.test(p.textContent));if(p)p.textContent="Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos. A conta é por convite de quem já usa o Prumo."}}catch(e){}return r}}
 if(typeof pfvDesenha==="function"){const _pv160=pfvDesenha;pfvDesenha=function(){const r=_pv160.apply(this,arguments);try{if(typeof PFV!=="undefined"&&PFV&&PFV.u)co160Pf($("#layer .pfv"),PFV.u)}catch(e){}return r}}
 
 /* ---------- 9. Melhores amigos, nome, Salvos ---------- */
