@@ -708,3 +708,84 @@ function atAcaoBase(x){const fecha=()=>{if($("#layer .pfv-at"))closeLayer()};
     fecha();setTimeout(()=>{if(x.acao==="cmt"&&pubDe(x.pub))openComments("u:"+x.pub);else pubIrPara(x.pub)},320)}}
 function atThumbBase(x){const pb=x.pub&&AT.pubs[x.pub];if(!pb)return "";const f=pb.fotos[0]&&pubUrl(pb.fotos[0]);
   return `<span class="at-th${pb.tipo==="story"?" st":""}">${f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<i style="background:${pubFundo(pb.estilo&&pb.estilo.fundo)}">${esc(String(pb.texto||"").slice(0,24))}</i>`}</span>`}
+
+/* ===== renderMe: a aba Perfil (a sua) =====
+   Antes: definida no 012 e remendada em 083, 084, 086, 090, 099, 104-feed, 109, 112, 114, 123, 124, 150, 158, 160, 161,
+   165 e 181 (17 remendos). É do Perfil, mas fica no núcleo porque todo mundo a chama (go, rerenderAll, conta…).
+   Camadas: renderMe (181 … 104, e o 112 antes) → o 099 monta o miolo sem os posts guardados em S.salvos →
+   renderMeMiolo (090, 086, 084, 083 e o 012). */
+function renderMe(){
+  /* [112] aba do perfil no visual novo */
+  if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;
+  /* [099] o miolo vê só as notícias guardadas; os posts guardados chegam depois e redesenham */
+  vp99SemPosts(renderMeMiolo,this,arguments);if(PF_ABA==="salvos"&&!vp99RM&&S.uid&&S.membro)vp99CarregaSalvos().then(n=>{if(n&&VIEW==="me"&&PF_ABA==="salvos"){vp99RM=1;try{renderMe()}finally{vp99RM=0}}});
+  /* [104-feed] número de amigos abre a lista */
+  try{const s=document.querySelector("#v-me .pf-me .pf-num span:nth-child(2)");if(s&&typeof abrirTodosAmigos==="function"){s.setAttribute("role","button");s.tabIndex=0;s.dataset.fd104am="";s.setAttribute("aria-label",s.textContent.replace(/(\d+)/,"$1 ")+": ver a lista")}}catch(e){}
+  /* [109] posts arquivados */
+  try{if(V8.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arq8]")){const h=`<button type="button" data-arq8><span>Posts arquivados</span><i>›</i></button>`;const a=m.querySelector("[data-arquivo]");if(a)a.insertAdjacentHTML("afterend",h);else m.insertAdjacentHTML("afterbegin",h)}}}catch(e){}
+  /* [112] */
+  try{const m=$("#v-me .pf-me");if(m)vn112Pf(m,S.uid,VN112_PF.me)}catch(e){console.error(e)}
+  /* [114] Melhores amigos */
+  try{if(S.membro&&PUB.on!==false){const b=$("#v-me [data-bloqueados]");
+    if(b&&!$("#v-me [data-ra114maa]"))b.insertAdjacentHTML("beforebegin",`<button type="button" data-ra114maa><span>Melhores amigos</span><i>›</i></button>`)}}catch(e){}
+  /* [123] seguidores e seguindo */
+  try{if(V9.on&&S.uid&&S.membro){const m=$("#v-me .pf-me");if(m&&PF_ABA!=="conta")cs123PoeNum(m,S.uid);if(PF_ABA==="conta")cs123Conta9()}}catch(e){}
+  /* [124] Atividade e Notificações no menu */
+  try{if(S.uid&&S.membro){
+      const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-nt124ativ]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-nt124ativ><span>Atividade</span><em></em><i>›</i></button>`);
+      const cc=[...document.querySelectorAll("#v-me .pf-conta .card.menu")].find(x=>x.querySelector(".cm-h"))||m;
+      if(cc&&!cc.querySelector("[data-nt124abrir]")){const h=`<button type="button" data-nt124abrir><span>Notificações</span><i>›</i></button>`;const em=cc.querySelector(".cm-email");if(em)em.insertAdjacentHTML("afterend",h);else cc.insertAdjacentHTML("afterbegin",h)}}
+    nt124PintaJa()}catch(e){}
+  /* [150] */
+  try{sr150Instalar()}catch(e){}
+  /* [158] coberturas seguidas (sem conta) */
+  try{const v=$("#v-me");if(v&&!(S.uid&&S.membro)&&!v.querySelector("[data-mt158cobs]")){const l=mt158SegLinha();if(l){const g=v.querySelector(".gut")||v;g.insertAdjacentHTML("afterbegin",`<div class="mt158-pfw">${l}</div>`)}}}catch(e){}
+  /* [160] conta */
+  try{if(S.uid&&S.membro)co160Pf($("#v-me"),S.uid);
+    else if(!S.uid){const p=[...document.querySelectorAll("#v-me .card p")].find(p=>/Entre para gostar/.test(p.textContent));if(p)p.textContent="Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos. A conta é por convite de quem já usa o Prumo."}}catch(e){}
+  /* [161] "Guardadas" vira "Guardados" */
+  try{const b=document.querySelector('#v-me .card.menu [data-vgo="saved"] span');if(b&&b.textContent==="Guardadas")b.textContent="Guardados"}catch(e){}
+  /* [165] */
+  try{if(S.uid&&S.membro){const v=$("#v-me");
+      v.querySelectorAll('.pf-bts [data-criarde="post"]').forEach(b=>b.remove());
+      if(PF_ABA==="conta")pf165Conta();if(PF_ABA==="salvos")pf165Guardados();pf165Abas(v)}}catch(e){console.error(e)}
+  /* [181] só seguir */
+  try{if(sg181On()){const v=$("#v-me");sg181Pf(v,S.uid);
+      if(PF_ABA==="conta"){const c=v.querySelector(".pf-conta");if(c){c.querySelectorAll(".card.amg,.cs123-cfg").forEach(x=>x.remove());
+        c.querySelectorAll(".card.menu button, .card.menu a").forEach(b=>{if(/^\s*Melhores amigos/.test(b.textContent))b.remove()})}}
+      else{const corpo=v.querySelector(".pf-corpo");if(corpo&&!corpo.querySelector(".sg181-ped")){const h=sg181PedHTML();if(h)corpo.insertAdjacentHTML("afterbegin",h)}}}}catch(e){console.error(e)}
+}
+/* miolo da aba Perfil: o 012 e os acabamentos do 083, 084, 086 e 090 */
+function renderMeMiolo(){
+  /* [012] */
+  const v=$("#v-me"),u=S.uid,ok=!!(u&&S.db&&S.membro);
+  const likes=ok?Object.values(curtidasDe(u)).filter(Boolean).length:0,cms=todosComentarios().filter(c=>c.uid===u).length,env=S.msgsOut.filter(m=>m.pid&&!m.resp&&m.tipo!=="cutucada").length,na=amigosL().length;
+  const er=(S.erros||[]).slice(0,5).map(e=>({...e,...(S.errosResp[e.id]||{})}));
+  const stE=e=>e.status==="corrigido"?"Corrigido":e.status==="mantido"?"Conferido, sem erro":e.status==="em_analise"?"Em análise":"Aguardando conferência";
+  v.innerHTML=`<div class="gut">${ok?`<div class="me-head">${avatar(u)}<div><b>${esc(nomeDe(u))}</b><span>${na?na+" "+(na===1?"amigo":"amigos"):"Nenhum amigo ainda"}</span></div></div>
+    <div class="stats"><button type="button" data-minha="gostei"><b>${likes}</b><span>gostei</span></button><button type="button" data-minha="cmt"><b>${cms}</b><span>${cms===1?"comentário":"comentários"}</span></button><button type="button" data-minha="env"><b>${env}</b><span>${env===1?"enviada":"enviadas"}</span></button></div>`:`<div class="view-h"><h1>Perfil</h1></div>`}
+    <div style="display:flex;flex-direction:column;gap:12px;padding-bottom:24px">
+    ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para gostar, comentar, guardar e conversar com os seus amigos.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta</button></div></div>`:(!INIT_FIM&&!S.membro)?`<div class="card"><b>Conectando à sua conta…</b><p>Só um instante. Se demorar, confira a internet.</p></div>`:S.suspenso?`<div class="card"><b>Conta suspensa</b><p>Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-sair>Sair</button></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
+    <div class="card menu"><button type="button" data-vgo="saved"><span>Guardadas</span><em>${Object.values(S.salvos||{}).filter(Boolean).length||""}</em><i>›</i></button><button type="button" data-vgo="play"><span>Quiz e enquetes</span><i>›</i></button></div>
+    <div class="card menu"><button type="button" data-ajustes><span>Ajustes do app</span><i>›</i></button><button type="button" data-historico><span>Histórico de leitura</span><em>${Object.keys(HIST).length}</em><i>›</i></button><button type="button" data-rodadas><span>Atualizações do Prumo</span><em class="${estadoRadar().ok?"":"bad"}">${esc(estadoRadar().ok?(FEED?"edição das "+hhmm(FEED.atualizado_em):""):"atrasado")}</em><i>›</i></button></div>
+    ${S.membro&&S.membros[u]?.papel==="admin"?`<div class="card menu"><button type="button" data-admin><span>Administração</span><i>›</i></button></div>`:""}
+    ${relatorioHTML()}
+    ${er.length?`<div class="card"><b>Erros que eu apontei</b><ul class="secpref">${er.map(e=>`<li style="flex-direction:column;align-items:flex-start;gap:2px"><b style="font-size:14.5px">${esc(e.titulo||"")}</b><span class="hint">“${esc(e.texto)}” · ${stE(e)}${e.resposta?" · "+esc(e.resposta):""}</span></li>`).join("")}</ul></div>`:""}
+    ${u?contaCardHTML():`<div class="card menu"><button type="button" data-privacidade><span>Política de privacidade</span><i>›</i></button></div>`}
+    <details class="card dt"><summary><b>Usar como app no celular</b></summary><p>No iPhone: abra no Safari, toque em Compartilhar e em “Adicionar à Tela de Início”.</p><p>No Android: abra no Chrome, toque nos três pontos e em “Adicionar à tela inicial”.</p></details>
+    <details class="card dt"><summary><b>Como o Prumo funciona</b></summary><p>Várias vezes ao dia (a edição completa às 6h52 e atualizações de 2 em 2 horas até as 21h48), o Prumo lê as matérias de vários veículos, junta as que tratam do mesmo fato e escreve um resumo próprio. Antes de publicar, uma checagem automática procura números sem fonte, links quebrados e notícias repetidas.</p></details>
+    </div></div>`;
+  const ab=$("#ajbox");if(ab)ab.innerHTML=ajustesHTML();
+
+  /* [083] perfil em grade (cabeçalho, abas e posts); o resto vai para a aba Conta */
+  p083:{try{if(!(S.uid&&S.db&&S.membro)||PUB.on===false)break p083;const v=$("#v-me"),gut=v&&v.querySelector(".gut"),head=gut&&gut.querySelector(".me-head");if(!head)break p083;
+    const resto=document.createElement("div");resto.className="pf-conta";[...gut.children].forEach(c=>{if(c!==head)resto.appendChild(c)});
+    gut.innerHTML=`<div class="pf-me">${pfCab(S.uid)}${pfAbas(S.uid,PF_ABA)}<div class="pf-corpo"></div></div>`;const corpo=gut.querySelector(".pf-corpo");
+    if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);corpo.innerHTML=(pin.length?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}}
+  /* [084] arquivo de giros */
+  try{if(V5.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arquivo]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-arquivo><span>Arquivo de giros</span><i>›</i></button>`)}}catch(e){}
+  /* [086] sua semana */
+  try{const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-semana]")&&semDados().l.length)m.insertAdjacentHTML("afterbegin",`<button type="button" data-semana><span>Sua semana no Prumo</span><em>${semDados().l.length}</em><i>›</i></button>`)}catch(e){}
+  /* [090] como usar */
+  try{const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-tourver]"))m.insertAdjacentHTML("beforeend",`<button type="button" data-tourver><span>Como usar o Prumo</span><i>›</i></button>`)}catch(e){}
+}

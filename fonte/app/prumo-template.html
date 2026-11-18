@@ -6624,26 +6624,6 @@ function renderSaved(){
   v.innerHTML=`<div class="gut"><div class="view-h"><button type="button" class="vback" data-vgo="me" aria-label="Voltar ao Perfil">‹ Perfil</button><h1>Guardadas</h1></div>${abas}${corpo}</div>`;
 }
 const FZ=[0.9,1,1.12,1.25,1.4];
-function renderMe(){
-  const v=$("#v-me"),u=S.uid,ok=!!(u&&S.db&&S.membro);
-  const likes=ok?Object.values(curtidasDe(u)).filter(Boolean).length:0,cms=todosComentarios().filter(c=>c.uid===u).length,env=S.msgsOut.filter(m=>m.pid&&!m.resp&&m.tipo!=="cutucada").length,na=amigosL().length;
-  const er=(S.erros||[]).slice(0,5).map(e=>({...e,...(S.errosResp[e.id]||{})}));
-  const stE=e=>e.status==="corrigido"?"Corrigido":e.status==="mantido"?"Conferido, sem erro":e.status==="em_analise"?"Em análise":"Aguardando conferência";
-  v.innerHTML=`<div class="gut">${ok?`<div class="me-head">${avatar(u)}<div><b>${esc(nomeDe(u))}</b><span>${na?na+" "+(na===1?"amigo":"amigos"):"Nenhum amigo ainda"}</span></div></div>
-    <div class="stats"><button type="button" data-minha="gostei"><b>${likes}</b><span>gostei</span></button><button type="button" data-minha="cmt"><b>${cms}</b><span>${cms===1?"comentário":"comentários"}</span></button><button type="button" data-minha="env"><b>${env}</b><span>${env===1?"enviada":"enviadas"}</span></button></div>`:`<div class="view-h"><h1>Perfil</h1></div>`}
-    <div style="display:flex;flex-direction:column;gap:12px;padding-bottom:24px">
-    ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para gostar, comentar, guardar e conversar com os seus amigos.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta</button></div></div>`:(!INIT_FIM&&!S.membro)?`<div class="card"><b>Conectando à sua conta…</b><p>Só um instante. Se demorar, confira a internet.</p></div>`:S.suspenso?`<div class="card"><b>Conta suspensa</b><p>Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-sair>Sair</button></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
-    <div class="card menu"><button type="button" data-vgo="saved"><span>Guardadas</span><em>${Object.values(S.salvos||{}).filter(Boolean).length||""}</em><i>›</i></button><button type="button" data-vgo="play"><span>Quiz e enquetes</span><i>›</i></button></div>
-    <div class="card menu"><button type="button" data-ajustes><span>Ajustes do app</span><i>›</i></button><button type="button" data-historico><span>Histórico de leitura</span><em>${Object.keys(HIST).length}</em><i>›</i></button><button type="button" data-rodadas><span>Atualizações do Prumo</span><em class="${estadoRadar().ok?"":"bad"}">${esc(estadoRadar().ok?(FEED?"edição das "+hhmm(FEED.atualizado_em):""):"atrasado")}</em><i>›</i></button></div>
-    ${S.membro&&S.membros[u]?.papel==="admin"?`<div class="card menu"><button type="button" data-admin><span>Administração</span><i>›</i></button></div>`:""}
-    ${relatorioHTML()}
-    ${er.length?`<div class="card"><b>Erros que eu apontei</b><ul class="secpref">${er.map(e=>`<li style="flex-direction:column;align-items:flex-start;gap:2px"><b style="font-size:14.5px">${esc(e.titulo||"")}</b><span class="hint">“${esc(e.texto)}” · ${stE(e)}${e.resposta?" · "+esc(e.resposta):""}</span></li>`).join("")}</ul></div>`:""}
-    ${u?contaCardHTML():`<div class="card menu"><button type="button" data-privacidade><span>Política de privacidade</span><i>›</i></button></div>`}
-    <details class="card dt"><summary><b>Usar como app no celular</b></summary><p>No iPhone: abra no Safari, toque em Compartilhar e em “Adicionar à Tela de Início”.</p><p>No Android: abra no Chrome, toque nos três pontos e em “Adicionar à tela inicial”.</p></details>
-    <details class="card dt"><summary><b>Como o Prumo funciona</b></summary><p>Várias vezes ao dia (a edição completa às 6h52 e atualizações de 2 em 2 horas até as 21h48), o Prumo lê as matérias de vários veículos, junta as que tratam do mesmo fato e escreve um resumo próprio. Antes de publicar, uma checagem automática procura números sem fonte, links quebrados e notícias repetidas.</p></details>
-    </div></div>`;
-  const ab=$("#ajbox");if(ab)ab.innerHTML=ajustesHTML();
-}
 function amigosCardHTML(){const am=amigosL(),pin=S.pedidosIn.filter(x=>S.membros[x]).sort((a,b)=>nomeDe(a).localeCompare(nomeDe(b),"pt-BR"));
   return `<div class="card amg"><b>Amigos</b>
     ${pin.length?`<span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul>${am.length?`<span class="amg-t">Seus amigos</span>`:""}`:""}
@@ -10641,10 +10621,6 @@ function pfvPosts(el){const l=PFV.lista||[];el.innerHTML=`<div class="pfv-h"><bu
 function pfAbrePosts(u,aba,i){const lista=pfLista(u,aba);if(!lista[i])return;if(PFV&&$("#layer .pfv")&&PFV.modo==="grade"){PFV={...PFV,modo:"posts",aba,lista,i,daGrade:true};if(pushH())HST++;pfvDesenha();return}
   if($("#layer").innerHTML)closeLayer();PFV={u,aba,modo:"posts",lista,i,daGrade:false};$("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicações"></div>`;if(pushH())HST++;pfvDesenha()}
 /* aba Perfil no estilo Instagram */
-{const _rm69=renderMe;renderMe=function(){const r=_rm69.apply(this,arguments);try{if(!(S.uid&&S.db&&S.membro)||PUB.on===false)return r;const v=$("#v-me"),gut=v&&v.querySelector(".gut"),head=gut&&gut.querySelector(".me-head");if(!head)return r;
-    const resto=document.createElement("div");resto.className="pf-conta";[...gut.children].forEach(c=>{if(c!==head)resto.appendChild(c)});
-    gut.innerHTML=`<div class="pf-me">${pfCab(S.uid)}${pfAbas(S.uid,PF_ABA)}<div class="pf-corpo"></div></div>`;const corpo=gut.querySelector(".pf-corpo");
-    if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);corpo.innerHTML=(pin.length?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}return r}}
 /* toques */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if(b=t.closest("[data-pfaba]")){pare();const k=b.dataset.pfaba;if(t.closest("#layer .pfv")){PFV.aba=k;pfvDesenha()}else{PF_ABA=k;try{localStorage.setItem("prumo-pf-aba",k)}catch(_){}renderMe()}return}
@@ -10707,7 +10683,6 @@ async function pubFixar(id){const x=pubDe(id);if(!x)return;const on=!x.fixado;if
 {const _pc70=pfCab;pfCab=function(u){return _pc70.apply(this,arguments)+destRowHTML(u)}}
 {const _cp70=pfCarregar;pfCarregar=async function(u){const r=await _cp70.apply(this,arguments);if(await v5Testa())await destCarregar(u);return r}}
 /* Conta: Arquivo */
-{const _rm70=renderMe;renderMe=function(){const r=_rm70.apply(this,arguments);try{if(V5.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arquivo]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-arquivo><span>Arquivo de giros</span><i>›</i></button>`)}}catch(e){}return r}}
 /* folhas: destacar, novo destaque, editar destaque */
 function destEscolher(storyId){const ds=DEST[S.uid]||[];sheet("Destacar",`<div class="opt">${ds.map(d=>`<button type="button" data-destpor="${esc(d.id)}" data-st="${esc(storyId)}">${esc(d.nome)}<span>${(d.itens||[]).includes(storyId)?"já está aqui · toque para tirar":d.itens.length+" "+(d.itens.length===1?"story":"stories")}</span></button>`).join("")}<button type="button" data-destnovo data-st="${esc(storyId)}">＋ Novo destaque</button></div>`)}
 async function destNovo(pre){const l=await arqCarregar();if(!l.length){toast("Publique um giro primeiro.");return}const sel=new Set(pre?[pre]:[]);
@@ -10858,7 +10833,6 @@ function semDraw(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const vazi
   const n=semDados().l.length;let vis=false;try{vis=localStorage.getItem("prumo-sem-visto")===semChave()}catch(e){}
   const h=igCirc('data-semana',"ig-sem"+(vis?" visto":""),`<span class="ig-semc"><b>${n}</b><small>lidas</small></span>`,"Sua semana","Resumo da sua semana");
   const c5=box.querySelector("[data-5min]");if(c5)c5.insertAdjacentHTML("afterend",h);else box.insertAdjacentHTML("afterbegin",h)}catch(e){}return r}}
-{const _rm72=renderMe;renderMe=function(){const r=_rm72.apply(this,arguments);try{const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-semana]")&&semDados().l.length)m.insertAdjacentHTML("afterbegin",`<button type="button" data-semana><span>Sua semana no Prumo</span><em>${semDados().l.length}</em><i>›</i></button>`)}catch(e){}return r}}
 
 
 /* ---------- Etapa 73: espaço usado e limpeza ---------- */
@@ -11014,7 +10988,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 /* quem acabou de entrar vê o guia no lugar do texto de boas-vindas */
 {const _bv76=boasVindas;boasVindas=function(nome){let teste=false;try{teste=navigator.webdriver&&localStorage.getItem("prumo-teste-tour")!=="1"}catch(e){}if(teste)return _bv76.apply(this,arguments);setTimeout(()=>abrirTour(String(nome||"").split(" ")[0]),280)}}
 /* rever em Perfil › Conta */
-{const _rm76=renderMe;renderMe=function(){const r=_rm76.apply(this,arguments);try{const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-tourver]"))m.insertAdjacentHTML("beforeend",`<button type="button" data-tourver><span>Como usar o Prumo</span><i>›</i></button>`)}catch(e){}return r}}
 
 /* ---------- Revisão geral de 02/11: correções que tocam vários pontos ---------- */
 /* figurinha de notícia de um story antigo: a matéria saiu do ar, mostra o resumo guardado */
@@ -11862,7 +11835,6 @@ async function vp99CarregaSalvos(){const sv=vp99Sv();const falta=Object.keys(sv)
 function vp99SemPosts(fn,ctx,args){const real=S.salvos;if(!real)return fn.apply(ctx,args);const f={};Object.entries(real).forEach(([k,v])=>{if(!vp99EhPost(k))f[k]=v});window.__vp99sv=real;S.salvos=f;
   try{return fn.apply(ctx,args)}finally{if(S.salvos===f)S.salvos=real;window.__vp99sv=null}}
 let vp99RM=0;
-{const _rm99=renderMe;renderMe=function(){const r=vp99SemPosts(_rm99,this,arguments);if(PF_ABA==="salvos"&&!vp99RM&&S.uid&&S.membro)vp99CarregaSalvos().then(n=>{if(n&&VIEW==="me"&&PF_ABA==="salvos"){vp99RM=1;try{renderMe()}finally{vp99RM=0}}});return r}}
 {const _rs99=renderSaved;renderSaved=function(){return vp99SemPosts(_rs99,this,arguments)}}
 
 /* ===== comentários: folha alta, sem botão "Fechar" à vista, emojis rápidos ===== */
@@ -12553,7 +12525,6 @@ const fd104Sig=x=>[x.texto||"",x.editado||"",x.fixado||"",JSON.stringify(x.estil
   try{(PUB.itens||[]).forEach(x=>{if(x&&x.tipo==="post"&&antes[x.id]!=null&&antes[x.id]!==fd104Sig(x))fd104Troca(x.id)})}catch(e){}return r}}
 
 /* perfil: tocar em "N amigos" abre a lista de amigos */
-{const _rm104=renderMe;renderMe=function(){const r=_rm104.apply(this,arguments);try{const s=document.querySelector("#v-me .pf-me .pf-num span:nth-child(2)");if(s&&typeof abrirTodosAmigos==="function"){s.setAttribute("role","button");s.tabIndex=0;s.dataset.fd104am="";s.setAttribute("aria-label",s.textContent.replace(/(\d+)/,"$1 ")+": ver a lista")}}catch(e){}return r}}
 /* perfil de um amigo: menu "…" com desfazer amizade, bloquear e denunciar */
 {const _pv104=pfvDesenha;pfvDesenha=function(){const r=_pv104.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"&&S.amigos.has(PFV.u)){const sp=document.querySelector("#layer .pfv .pfv-h .sp");
   if(sp&&!sp.nextElementSibling)sp.insertAdjacentHTML("afterend",`<button type="button" class="icbtn fd104-pm" data-fd104pm="${esc(PFV.u)}" aria-label="Mais opções"><svg class="ico" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></button>`)}}catch(e){}return r}}
@@ -13208,7 +13179,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
   if(b=t.closest("[data-fp8ok]")){pare();fp8Salvar(b);return}
   if(b=t.closest("[data-fp8tira]")){pare();if(!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Toque de novo para remover";return}fp8Tirar(b);return}},true);
 /* Conta › Posts arquivados (junto do Arquivo de stories) */
-{const _rm8=renderMe;renderMe=function(){const r=_rm8.apply(this,arguments);try{if(V8.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arq8]")){const h=`<button type="button" data-arq8><span>Posts arquivados</span><i>›</i></button>`;const a=m.querySelector("[data-arquivo]");if(a)a.insertAdjacentHTML("afterend",h);else m.insertAdjacentHTML("afterbegin",h)}}}catch(e){}return r}}
 async function arq8Carregar(){try{const r=await SB.from("publicacoes").select("*").eq("autor",S.uid).eq("arquivado",true).order("at",{ascending:false}).limit(200);if(r.error)return ARQ8||[];
     ARQ8=(r.data||[]).map(pubNorm).filter(x=>x.tipo!=="story");const ids=new Set(PUB.itens.map(x=>x.id));ARQ8.forEach(x=>{if(!ids.has(x.id))PUB.itens.push(x);else{const y=pubDe(x.id);if(y)y.arquivado=true}});await pubAssinaLista(ARQ8);return ARQ8}catch(e){return ARQ8||[]}}
 async function arq8Abrir(){if(!V8.on)return;if($("#layer").innerHTML)closeLayer();PFV={u:S.uid,aba:"arq8",modo:"grade"};ARQ8=null;
@@ -13828,8 +13798,6 @@ if(VISUAL_NOVO){
   {const _ft112=fitTrack;fitTrack=function(t){const r=_ft112.apply(this,arguments);try{const c=t&&t.closest&&t.closest(".vn-c");if(c&&c.classList.contains("vn-cn")){const w=t.clientWidth;if(w){t.style.setProperty("--slh",Math.max(260,Math.round(Math.min(w*.98,innerHeight*.6)))+"px");try{if(typeof ssCaber==="function")ssCaber(t)}catch(e){}const s=t.children[r|0];if(s&&s.offsetHeight>0)t.style.height=s.offsetHeight+"px"}}}catch(e){}return r}}
   {const _us112=updateSocial;updateSocial=function(pid){const r=_us112.apply(this,arguments);vn112Social(pid);return r}}
   /* perfil */
-  {const _rm112=renderMe;renderMe=function(){if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;
-    const r=_rm112.apply(this,arguments);try{const m=$("#v-me .pf-me");if(m)vn112Pf(m,S.uid,VN112_PF.me)}catch(e){console.error(e)}return r}}
   {const _pv112=pfvDesenha;pfvDesenha=function(){const r=_pv112.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){if(PFV.aba!=="posts")PFV.vnAba=PFV.aba;else if(!["posts","resp","midia"].includes(PFV.vnAba))PFV.vnAba="posts";vn112Pf($("#layer .pfv .pfv-sc"),PFV.u,PFV.vnAba)}}catch(e){console.error(e)}return r}}
   {const _ap112=abrirPerfil;abrirPerfil=function(u){if(u===S.uid)VN112_PF.me="posts";return _ap112.apply(this,arguments)}}
   /* nomes */
@@ -14083,8 +14051,6 @@ async function ra114MaAbrir(){if(precisaConta())return;
   if(MA.uid!==S.uid||MA.on!==true){MA.t=Date.now();try{await maCarregar()}catch(e){}}
   if(MA.on!==true){const b=$("#ra114ma");if(b)b.innerHTML=`<div class="empty" style="padding:14px 0"><b>A lista ainda não está disponível no Prumo.</b></div>`;return}
   ra114MaDesenha()}
-{const _rm=renderMe;renderMe=function(){const r=_rm.apply(this,arguments);try{if(S.membro&&PUB.on!==false){const b=$("#v-me [data-bloqueados]");
-  if(b&&!$("#v-me [data-ra114maa]"))b.insertAdjacentHTML("beforebegin",`<button type="button" data-ra114maa><span>Melhores amigos</span><i>›</i></button>`)}}catch(e){}return r}}
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;let b;
   if(t.closest("[data-ra114maa]")){e.stopPropagation();e.preventDefault();ra114MaAbrir();return}
   if(b=t.closest("[data-ra114ma]")){e.stopPropagation();e.preventDefault();if(b.disabled)return;b.disabled=true;Promise.resolve(maTroca(b.dataset.ra114ma,b)).finally(()=>{b.disabled=false;const c=$("#ra114man");if(c){const n=amigosL().filter(u=>MA.set.has(u)).length;c.textContent=n?(n===1?"1 pessoa na lista":n+" pessoas na lista"):"Ninguém na lista ainda"}});return}},true);
@@ -14791,7 +14757,6 @@ function cs123PoeNum(root,u){if(!root||!V9.on||!u||root.querySelector(".cs123-nu
   const nm=root.querySelector(".pf-nome");if(nm)nm.insertAdjacentHTML("afterend",`<p class="cs123-numl">${cs123NumHTML(u,p)}</p>`)}
 {const _pv=pfvDesenha;pfvDesenha=function(){const r=_pv.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"){const sc=$("#layer .pfv .pfv-sc");cs123PoeNum(sc,PFV.u);
   const p=CS123.perf[PFV.u];if(sc&&p&&p.ok&&p.aberto&&!S.amigos.has(PFV.u)&&!sc.querySelector(".cs123-ab")){const cab=sc.querySelector(".vn-pf-desde,.cs123-numl,.vn-pf-num");if(cab)cab.insertAdjacentHTML("afterend",`<p class="cs123-ab">${cs123Svg(CS123_IC.seg)}Perfil aberto${p.me_segue?" · segue você":""}</p>`)}}}catch(e){}return r}}
-{const _rm=renderMe;renderMe=function(){const r=_rm.apply(this,arguments);try{if(V9.on&&S.uid&&S.membro){const m=$("#v-me .pf-me");if(m&&PF_ABA!=="conta")cs123PoeNum(m,S.uid);if(PF_ABA==="conta")cs123Conta9()}}catch(e){}return r}}
 /* perfil aberto sem nada para mostrar: o que fazer, no lugar de "Perfil só para amigos" */
 {const _pt=pfTiles;pfTiles=function(l,aba,u){try{const p=u&&CS123.perf[u];if(V9.on&&u&&u!==S.uid&&!S.amigos.has(u)&&p&&p.ok&&p.aberto&&!(l||[]).length&&aba!=="marc")
   return `<div class="pf-vz"><b>${CS123.sigo.has(u)?"Nada para seguidores ainda":"Perfil aberto"}</b><span>${CS123.sigo.has(u)?`Quando ${esc(cs123Prim(u))} publicar para seguidores, aparece aqui e no seu Feed.`:`Siga ${esc(cs123Prim(u))} para ver aqui e no seu Feed o que ${esc(cs123Prim(u))} publica para seguidores.`}</span></div>`}catch(e){}return _pt.apply(this,arguments)}}
@@ -14929,11 +14894,6 @@ function nt124PoeBadge(n){if(!nt124BadgeSuporte())return;const quer=nt124BadgeOn
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)nt124Pinta()});
 
 /* Perfil › Conta: "Atividade" (com o número) e "Notificações" */
-{const _rm124=renderMe;renderMe=function(){const r=_rm124.apply(this,arguments);try{if(S.uid&&S.membro){
-    const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-nt124ativ]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-nt124ativ><span>Atividade</span><em></em><i>›</i></button>`);
-    const cc=[...document.querySelectorAll("#v-me .pf-conta .card.menu")].find(x=>x.querySelector(".cm-h"))||m;
-    if(cc&&!cc.querySelector("[data-nt124abrir]")){const h=`<button type="button" data-nt124abrir><span>Notificações</span><i>›</i></button>`;const em=cc.querySelector(".cm-email");if(em)em.insertAdjacentHTML("afterend",h);else cc.insertAdjacentHTML("afterbegin",h)}}
-  nt124PintaJa()}catch(e){}return r}}
 
 /* ===== 2. Atividade: faixa "Desde a sua última visita" e filtro por tipo ===== */
 function nt124Rot(c,n){const p=NT124_PLURAL[c]||NT124_PLURAL.outros;return n+" "+(n===1?p[0]:p[1])}
@@ -17896,7 +17856,6 @@ addEventListener("beforeinstallprompt",e=>{e.preventDefault();SR150_INST=e;try{s
 addEventListener("appinstalled",()=>{SR150_INST=null;document.querySelectorAll(".sr150-inst").forEach(b=>b.remove());try{toast("O Prumo foi para a tela de início.")}catch(_){}});
 function sr150Instalar(){if(!SR150_INST)return;document.querySelectorAll("#v-me details.card.dt").forEach(d=>{if(!/Usar como app/.test((d.querySelector("summary")||{}).textContent||"")||d.querySelector(".sr150-inst"))return;
   d.insertAdjacentHTML("beforeend",`<button type="button" class="btn sr150-inst" data-sr150inst>Instalar o Prumo neste celular</button>`)})}
-{const _rm150=renderMe;renderMe=function(){const r=_rm150.apply(this,arguments);try{sr150Instalar()}catch(e){}return r}}
 document.addEventListener("click",async e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-sr150inst]");if(!b||!SR150_INST)return;e.preventDefault();
   const ev=SR150_INST;try{uso("instalar")}catch(_){}/* o pedido do navegador só vale uma vez: depois de responder (sim ou não), o botão sai até o navegador oferecer de novo */
   SR150_INST=null;document.querySelectorAll(".sr150-inst").forEach(x=>x.remove());try{await ev.prompt();await ev.userChoice}catch(_){}},true);
@@ -18808,7 +18767,6 @@ function mt158SegLinha(){const n=mt158Seguidas().length;if(!n)return "";
     const i=h.indexOf("data-cp152cols");if(i>=0){const j=h.indexOf("</button>",i)+9;return h.slice(0,j)+l+h.slice(j)}
     const k=h.indexOf('<div class="pf-bts">');if(k>=0){const j=h.indexOf("</div>",k)+6;return h.slice(0,j)+l+h.slice(j)}}}catch(e){}return h}}
 /* sem conta: o Perfil não tem cabeçalho, então a linha entra no alto da tela */
-{const _rm158=renderMe;renderMe=function(){const r=_rm158.apply(this,arguments);try{const v=$("#v-me");if(v&&!(S.uid&&S.membro)&&!v.querySelector("[data-mt158cobs]")){const l=mt158SegLinha();if(l){const g=v.querySelector(".gut")||v;g.insertAdjacentHTML("afterbegin",`<div class="mt158-pfw">${l}</div>`)}}}catch(e){}return r}}
 function mt158AbreSeguidas(){const l=mt158Seguidas();uso("coberturas_seguidas");
   const ps=FEED&&FEED.pautas||[],dm=FEED&&FEED.dormentes||[];
   sheet("Coberturas que sigo",l.length?`<ul class="mt158-cl">${l.map(x=>{const p=ps.find(q=>norm(temaDe(q))===x.k),d=!p&&dm.find(q=>norm(q.tema||q.tag||"")===x.k);
@@ -19148,8 +19106,6 @@ function co160Pf(root,u){if(!root||!u)return;
   const cs=num.querySelector(".cs123-num");if(cs){const bs=[...cs.querySelectorAll("b")].map(b=>b.textContent.trim());cs.hidden=bs.length>0&&bs.every(x=>x==="0")}
   if(S.amigos.has(u)&&!num.querySelector(".co160-am"))num.insertAdjacentHTML("afterbegin",`<button type="button" class="co160-am" data-fd104pm="${esc(u)}" aria-label="Vocês são amigos. Opções da amizade">Amigos ✓</button>`);
   if(!S.amigos.has(u))num.querySelector(".co160-am")?.remove()}
-{const _rme160=renderMe;renderMe=function(){const r=_rme160.apply(this,arguments);try{if(S.uid&&S.membro)co160Pf($("#v-me"),S.uid);
-  else if(!S.uid){const p=[...document.querySelectorAll("#v-me .card p")].find(p=>/Entre para gostar/.test(p.textContent));if(p)p.textContent="Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos. A conta é por convite de quem já usa o Prumo."}}catch(e){}return r}}
 if(typeof pfvDesenha==="function"){const _pv160=pfvDesenha;pfvDesenha=function(){const r=_pv160.apply(this,arguments);try{if(typeof PFV!=="undefined"&&PFV&&PFV.u)co160Pf($("#layer .pfv"),PFV.u)}catch(e){}return r}}
 
 /* ---------- 9. Melhores amigos, nome, Salvos ---------- */
@@ -19200,7 +19156,6 @@ function gd161Abre(f){GD161_F=f||"tudo";try{vp99VerSalvos()}catch(e){}}
 /* o item "Guardadas" do menu do Perfil abre a aba Guardados */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest('#v-me .card.menu [data-vgo="saved"]');if(!b||!S.uid||!S.membro)return;
   e.preventDefault();e.stopPropagation();gd161Abre("noticias")},true);
-{const _rm161=renderMe;renderMe=function(){const r=_rm161.apply(this,arguments);try{const b=document.querySelector('#v-me .card.menu [data-vgo="saved"] span');if(b&&b.textContent==="Guardadas")b.textContent="Guardados"}catch(e){}return r}}
 /* 162 · Silenciar e Apagar conversa (decisão do Pedro, 16/11). Prefixo cv162.
    - Fica nas preferências da conta (PREF.conv[uid] = {sil:true, apg:<ms>}), que vão para data/users/<uid>/prefs: vale em
      todos os aparelhos e só você vê.
@@ -19392,9 +19347,6 @@ function pf165Conta(){const c=$("#v-me .pf-conta");if(!c||c.dataset.pf165)return
 function pf165Guardados(){document.querySelectorAll("#v-me .gd161-nl [data-open]").forEach(b=>{if(b.dataset.pf165)return;b.dataset.pf165="1";const p=pautaById(b.dataset.open);if(!p)return;
   try{const t=b.querySelector(".svt");if(t&&fotoDe(p)){const d=document.createElement("div");d.innerHTML=capaArte(p,"svt",false);const n=d.firstElementChild;if(n)t.replaceWith(n)}}catch(e){}
   try{const s=b.querySelector(".svx>span"),ch=capaChapeu(p);if(s&&ch){const i=s.textContent.indexOf(" · ");if(i>0)s.textContent=ch+s.textContent.slice(i)}}catch(e){}})}
-{const _rm165=renderMe;renderMe=function(){const r=_rm165.apply(this,arguments);try{if(S.uid&&S.membro){const v=$("#v-me");
-    v.querySelectorAll('.pf-bts [data-criarde="post"]').forEach(b=>b.remove());
-    if(PF_ABA==="conta")pf165Conta();if(PF_ABA==="salvos")pf165Guardados();pf165Abas(v)}}catch(e){console.error(e)}return r}}
 if(typeof pfvDesenha==="function"){const _pv165=pfvDesenha;pfvDesenha=function(){const r=_pv165.apply(this,arguments);try{pf165Abas($("#layer .pfv"))}catch(e){}return r}}
 if(typeof vn112PfAba==="function"){const _pa165=vn112PfAba;vn112PfAba=function(k,camada){const r=_pa165.apply(this,arguments);
   try{if(!camada&&k==="conta"){const ab=$("#v-me .vn-abas");if(ab){const y=ab.getBoundingClientRect().top+scrollY-6;scrollTo(0,Math.max(0,y))}}}catch(e){}return r}}
@@ -20427,10 +20379,6 @@ if(typeof pfvDesenha==="function"){const _pv=pfvDesenha;pfvDesenha=function(){co
 /* o seu perfil: números, pedidos para seguir (perfil fechado) e sem amizades */
 function sg181PedHTML(){const l=SG181.rec.filter(x=>!(S.bloq||[]).includes(x.uid));if(!l.length)return "";
   return `<div class="card amg sg181-ped"><span class="amg-t">${l.length===1?"Pedido para seguir você":l.length+" pedidos para seguir você"}</span><ul class="amgl">${l.map(x=>`<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(x.uid)}">${avatar(x.uid)}<span class="amg-n"><b>${esc(nomeDe(x.uid))}</b></span></button><button type="button" class="btn amg-b" data-sg181sim="${esc(x.uid)}">Aprovar</button><button type="button" class="btn ghost amg-b" data-sg181nao="${esc(x.uid)}">Recusar</button></li>`).join("")}</ul></div>`}
-{const _rm=renderMe;renderMe=function(){const r=_rm.apply(this,arguments);try{if(sg181On()){const v=$("#v-me");sg181Pf(v,S.uid);
-    if(PF_ABA==="conta"){const c=v.querySelector(".pf-conta");if(c){c.querySelectorAll(".card.amg,.cs123-cfg").forEach(x=>x.remove());
-      c.querySelectorAll(".card.menu button, .card.menu a").forEach(b=>{if(/^\s*Melhores amigos/.test(b.textContent))b.remove()})}}
-    else{const corpo=v.querySelector(".pf-corpo");if(corpo&&!corpo.querySelector(".sg181-ped")){const h=sg181PedHTML();if(h)corpo.insertAdjacentHTML("afterbegin",h)}}}}catch(e){console.error(e)}return r}}
 /* listas de seguidores: linha com o botão novo */
 {const _l=cs123Linha;cs123Linha=function(x,meu,tipo){if(!sg181On())return _l.apply(this,arguments);const u=x.uid,eu=u===S.uid;
   return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${eu?"":SG181.fech.has(u)?"perfil fechado":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:eu?"":sg181Bt(u,"amg-b")}</li>`}}
@@ -21432,6 +21380,87 @@ function atAcaoBase(x){const fecha=()=>{if($("#layer .pfv-at"))closeLayer()};
     fecha();setTimeout(()=>{if(x.acao==="cmt"&&pubDe(x.pub))openComments("u:"+x.pub);else pubIrPara(x.pub)},320)}}
 function atThumbBase(x){const pb=x.pub&&AT.pubs[x.pub];if(!pb)return "";const f=pb.fotos[0]&&pubUrl(pb.fotos[0]);
   return `<span class="at-th${pb.tipo==="story"?" st":""}">${f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<i style="background:${pubFundo(pb.estilo&&pb.estilo.fundo)}">${esc(String(pb.texto||"").slice(0,24))}</i>`}</span>`}
+
+/* ===== renderMe: a aba Perfil (a sua) =====
+   Antes: definida no 012 e remendada em 083, 084, 086, 090, 099, 104-feed, 109, 112, 114, 123, 124, 150, 158, 160, 161,
+   165 e 181 (17 remendos). É do Perfil, mas fica no núcleo porque todo mundo a chama (go, rerenderAll, conta…).
+   Camadas: renderMe (181 … 104, e o 112 antes) → o 099 monta o miolo sem os posts guardados em S.salvos →
+   renderMeMiolo (090, 086, 084, 083 e o 012). */
+function renderMe(){
+  /* [112] aba do perfil no visual novo */
+  if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;
+  /* [099] o miolo vê só as notícias guardadas; os posts guardados chegam depois e redesenham */
+  vp99SemPosts(renderMeMiolo,this,arguments);if(PF_ABA==="salvos"&&!vp99RM&&S.uid&&S.membro)vp99CarregaSalvos().then(n=>{if(n&&VIEW==="me"&&PF_ABA==="salvos"){vp99RM=1;try{renderMe()}finally{vp99RM=0}}});
+  /* [104-feed] número de amigos abre a lista */
+  try{const s=document.querySelector("#v-me .pf-me .pf-num span:nth-child(2)");if(s&&typeof abrirTodosAmigos==="function"){s.setAttribute("role","button");s.tabIndex=0;s.dataset.fd104am="";s.setAttribute("aria-label",s.textContent.replace(/(\d+)/,"$1 ")+": ver a lista")}}catch(e){}
+  /* [109] posts arquivados */
+  try{if(V8.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arq8]")){const h=`<button type="button" data-arq8><span>Posts arquivados</span><i>›</i></button>`;const a=m.querySelector("[data-arquivo]");if(a)a.insertAdjacentHTML("afterend",h);else m.insertAdjacentHTML("afterbegin",h)}}}catch(e){}
+  /* [112] */
+  try{const m=$("#v-me .pf-me");if(m)vn112Pf(m,S.uid,VN112_PF.me)}catch(e){console.error(e)}
+  /* [114] Melhores amigos */
+  try{if(S.membro&&PUB.on!==false){const b=$("#v-me [data-bloqueados]");
+    if(b&&!$("#v-me [data-ra114maa]"))b.insertAdjacentHTML("beforebegin",`<button type="button" data-ra114maa><span>Melhores amigos</span><i>›</i></button>`)}}catch(e){}
+  /* [123] seguidores e seguindo */
+  try{if(V9.on&&S.uid&&S.membro){const m=$("#v-me .pf-me");if(m&&PF_ABA!=="conta")cs123PoeNum(m,S.uid);if(PF_ABA==="conta")cs123Conta9()}}catch(e){}
+  /* [124] Atividade e Notificações no menu */
+  try{if(S.uid&&S.membro){
+      const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-nt124ativ]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-nt124ativ><span>Atividade</span><em></em><i>›</i></button>`);
+      const cc=[...document.querySelectorAll("#v-me .pf-conta .card.menu")].find(x=>x.querySelector(".cm-h"))||m;
+      if(cc&&!cc.querySelector("[data-nt124abrir]")){const h=`<button type="button" data-nt124abrir><span>Notificações</span><i>›</i></button>`;const em=cc.querySelector(".cm-email");if(em)em.insertAdjacentHTML("afterend",h);else cc.insertAdjacentHTML("afterbegin",h)}}
+    nt124PintaJa()}catch(e){}
+  /* [150] */
+  try{sr150Instalar()}catch(e){}
+  /* [158] coberturas seguidas (sem conta) */
+  try{const v=$("#v-me");if(v&&!(S.uid&&S.membro)&&!v.querySelector("[data-mt158cobs]")){const l=mt158SegLinha();if(l){const g=v.querySelector(".gut")||v;g.insertAdjacentHTML("afterbegin",`<div class="mt158-pfw">${l}</div>`)}}}catch(e){}
+  /* [160] conta */
+  try{if(S.uid&&S.membro)co160Pf($("#v-me"),S.uid);
+    else if(!S.uid){const p=[...document.querySelectorAll("#v-me .card p")].find(p=>/Entre para gostar/.test(p.textContent));if(p)p.textContent="Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos. A conta é por convite de quem já usa o Prumo."}}catch(e){}
+  /* [161] "Guardadas" vira "Guardados" */
+  try{const b=document.querySelector('#v-me .card.menu [data-vgo="saved"] span');if(b&&b.textContent==="Guardadas")b.textContent="Guardados"}catch(e){}
+  /* [165] */
+  try{if(S.uid&&S.membro){const v=$("#v-me");
+      v.querySelectorAll('.pf-bts [data-criarde="post"]').forEach(b=>b.remove());
+      if(PF_ABA==="conta")pf165Conta();if(PF_ABA==="salvos")pf165Guardados();pf165Abas(v)}}catch(e){console.error(e)}
+  /* [181] só seguir */
+  try{if(sg181On()){const v=$("#v-me");sg181Pf(v,S.uid);
+      if(PF_ABA==="conta"){const c=v.querySelector(".pf-conta");if(c){c.querySelectorAll(".card.amg,.cs123-cfg").forEach(x=>x.remove());
+        c.querySelectorAll(".card.menu button, .card.menu a").forEach(b=>{if(/^\s*Melhores amigos/.test(b.textContent))b.remove()})}}
+      else{const corpo=v.querySelector(".pf-corpo");if(corpo&&!corpo.querySelector(".sg181-ped")){const h=sg181PedHTML();if(h)corpo.insertAdjacentHTML("afterbegin",h)}}}}catch(e){console.error(e)}
+}
+/* miolo da aba Perfil: o 012 e os acabamentos do 083, 084, 086 e 090 */
+function renderMeMiolo(){
+  /* [012] */
+  const v=$("#v-me"),u=S.uid,ok=!!(u&&S.db&&S.membro);
+  const likes=ok?Object.values(curtidasDe(u)).filter(Boolean).length:0,cms=todosComentarios().filter(c=>c.uid===u).length,env=S.msgsOut.filter(m=>m.pid&&!m.resp&&m.tipo!=="cutucada").length,na=amigosL().length;
+  const er=(S.erros||[]).slice(0,5).map(e=>({...e,...(S.errosResp[e.id]||{})}));
+  const stE=e=>e.status==="corrigido"?"Corrigido":e.status==="mantido"?"Conferido, sem erro":e.status==="em_analise"?"Em análise":"Aguardando conferência";
+  v.innerHTML=`<div class="gut">${ok?`<div class="me-head">${avatar(u)}<div><b>${esc(nomeDe(u))}</b><span>${na?na+" "+(na===1?"amigo":"amigos"):"Nenhum amigo ainda"}</span></div></div>
+    <div class="stats"><button type="button" data-minha="gostei"><b>${likes}</b><span>gostei</span></button><button type="button" data-minha="cmt"><b>${cms}</b><span>${cms===1?"comentário":"comentários"}</span></button><button type="button" data-minha="env"><b>${env}</b><span>${env===1?"enviada":"enviadas"}</span></button></div>`:`<div class="view-h"><h1>Perfil</h1></div>`}
+    <div style="display:flex;flex-direction:column;gap:12px;padding-bottom:24px">
+    ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para gostar, comentar, guardar e conversar com os seus amigos.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta</button></div></div>`:(!INIT_FIM&&!S.membro)?`<div class="card"><b>Conectando à sua conta…</b><p>Só um instante. Se demorar, confira a internet.</p></div>`:S.suspenso?`<div class="card"><b>Conta suspensa</b><p>Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-sair>Sair</button></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
+    <div class="card menu"><button type="button" data-vgo="saved"><span>Guardadas</span><em>${Object.values(S.salvos||{}).filter(Boolean).length||""}</em><i>›</i></button><button type="button" data-vgo="play"><span>Quiz e enquetes</span><i>›</i></button></div>
+    <div class="card menu"><button type="button" data-ajustes><span>Ajustes do app</span><i>›</i></button><button type="button" data-historico><span>Histórico de leitura</span><em>${Object.keys(HIST).length}</em><i>›</i></button><button type="button" data-rodadas><span>Atualizações do Prumo</span><em class="${estadoRadar().ok?"":"bad"}">${esc(estadoRadar().ok?(FEED?"edição das "+hhmm(FEED.atualizado_em):""):"atrasado")}</em><i>›</i></button></div>
+    ${S.membro&&S.membros[u]?.papel==="admin"?`<div class="card menu"><button type="button" data-admin><span>Administração</span><i>›</i></button></div>`:""}
+    ${relatorioHTML()}
+    ${er.length?`<div class="card"><b>Erros que eu apontei</b><ul class="secpref">${er.map(e=>`<li style="flex-direction:column;align-items:flex-start;gap:2px"><b style="font-size:14.5px">${esc(e.titulo||"")}</b><span class="hint">“${esc(e.texto)}” · ${stE(e)}${e.resposta?" · "+esc(e.resposta):""}</span></li>`).join("")}</ul></div>`:""}
+    ${u?contaCardHTML():`<div class="card menu"><button type="button" data-privacidade><span>Política de privacidade</span><i>›</i></button></div>`}
+    <details class="card dt"><summary><b>Usar como app no celular</b></summary><p>No iPhone: abra no Safari, toque em Compartilhar e em “Adicionar à Tela de Início”.</p><p>No Android: abra no Chrome, toque nos três pontos e em “Adicionar à tela inicial”.</p></details>
+    <details class="card dt"><summary><b>Como o Prumo funciona</b></summary><p>Várias vezes ao dia (a edição completa às 6h52 e atualizações de 2 em 2 horas até as 21h48), o Prumo lê as matérias de vários veículos, junta as que tratam do mesmo fato e escreve um resumo próprio. Antes de publicar, uma checagem automática procura números sem fonte, links quebrados e notícias repetidas.</p></details>
+    </div></div>`;
+  const ab=$("#ajbox");if(ab)ab.innerHTML=ajustesHTML();
+
+  /* [083] perfil em grade (cabeçalho, abas e posts); o resto vai para a aba Conta */
+  p083:{try{if(!(S.uid&&S.db&&S.membro)||PUB.on===false)break p083;const v=$("#v-me"),gut=v&&v.querySelector(".gut"),head=gut&&gut.querySelector(".me-head");if(!head)break p083;
+    const resto=document.createElement("div");resto.className="pf-conta";[...gut.children].forEach(c=>{if(c!==head)resto.appendChild(c)});
+    gut.innerHTML=`<div class="pf-me">${pfCab(S.uid)}${pfAbas(S.uid,PF_ABA)}<div class="pf-corpo"></div></div>`;const corpo=gut.querySelector(".pf-corpo");
+    if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);corpo.innerHTML=(pin.length?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}}
+  /* [084] arquivo de giros */
+  try{if(V5.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arquivo]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-arquivo><span>Arquivo de giros</span><i>›</i></button>`)}}catch(e){}
+  /* [086] sua semana */
+  try{const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-semana]")&&semDados().l.length)m.insertAdjacentHTML("afterbegin",`<button type="button" data-semana><span>Sua semana no Prumo</span><em>${semDados().l.length}</em><i>›</i></button>`)}catch(e){}
+  /* [090] como usar */
+  try{const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-tourver]"))m.insertAdjacentHTML("beforeend",`<button type="button" data-tourver><span>Como usar o Prumo</span><i>›</i></button>`)}catch(e){}
+}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 nucPronto();  /* 201-nucleo.js: go passa a fazer tudo (na carga o 031 abriu a Capa só com a parte de então) */
 cp200Pronta();  /* 200-capa.js: a Capa passa a desenhar com todos os acabamentos */

@@ -69,11 +69,6 @@ function nt124PoeBadge(n){if(!nt124BadgeSuporte())return;const quer=nt124BadgeOn
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)nt124Pinta()});
 
 /* Perfil › Conta: "Atividade" (com o número) e "Notificações" */
-{const _rm124=renderMe;renderMe=function(){const r=_rm124.apply(this,arguments);try{if(S.uid&&S.membro){
-    const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-nt124ativ]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-nt124ativ><span>Atividade</span><em></em><i>›</i></button>`);
-    const cc=[...document.querySelectorAll("#v-me .pf-conta .card.menu")].find(x=>x.querySelector(".cm-h"))||m;
-    if(cc&&!cc.querySelector("[data-nt124abrir]")){const h=`<button type="button" data-nt124abrir><span>Notificações</span><i>›</i></button>`;const em=cc.querySelector(".cm-email");if(em)em.insertAdjacentHTML("afterend",h);else cc.insertAdjacentHTML("afterbegin",h)}}
-  nt124PintaJa()}catch(e){}return r}}
 
 /* ===== 2. Atividade: faixa "Desde a sua última visita" e filtro por tipo ===== */
 function nt124Rot(c,n){const p=NT124_PLURAL[c]||NT124_PLURAL.outros;return n+" "+(n===1?p[0]:p[1])}

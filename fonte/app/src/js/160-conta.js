@@ -160,8 +160,6 @@ function co160Pf(root,u){if(!root||!u)return;
   const cs=num.querySelector(".cs123-num");if(cs){const bs=[...cs.querySelectorAll("b")].map(b=>b.textContent.trim());cs.hidden=bs.length>0&&bs.every(x=>x==="0")}
   if(S.amigos.has(u)&&!num.querySelector(".co160-am"))num.insertAdjacentHTML("afterbegin",`<button type="button" class="co160-am" data-fd104pm="${esc(u)}" aria-label="Vocês são amigos. Opções da amizade">Amigos ✓</button>`);
   if(!S.amigos.has(u))num.querySelector(".co160-am")?.remove()}
-{const _rme160=renderMe;renderMe=function(){const r=_rme160.apply(this,arguments);try{if(S.uid&&S.membro)co160Pf($("#v-me"),S.uid);
-  else if(!S.uid){const p=[...document.querySelectorAll("#v-me .card p")].find(p=>/Entre para gostar/.test(p.textContent));if(p)p.textContent="Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos. A conta é por convite de quem já usa o Prumo."}}catch(e){}return r}}
 if(typeof pfvDesenha==="function"){const _pv160=pfvDesenha;pfvDesenha=function(){const r=_pv160.apply(this,arguments);try{if(typeof PFV!=="undefined"&&PFV&&PFV.u)co160Pf($("#layer .pfv"),PFV.u)}catch(e){}return r}}
 
 /* ---------- 9. Melhores amigos, nome, Salvos ---------- */

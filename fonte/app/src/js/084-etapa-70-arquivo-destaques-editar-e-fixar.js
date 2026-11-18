@@ -43,7 +43,6 @@ async function pubFixar(id){const x=pubDe(id);if(!x)return;const on=!x.fixado;if
 {const _pc70=pfCab;pfCab=function(u){return _pc70.apply(this,arguments)+destRowHTML(u)}}
 {const _cp70=pfCarregar;pfCarregar=async function(u){const r=await _cp70.apply(this,arguments);if(await v5Testa())await destCarregar(u);return r}}
 /* Conta: Arquivo */
-{const _rm70=renderMe;renderMe=function(){const r=_rm70.apply(this,arguments);try{if(V5.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arquivo]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-arquivo><span>Arquivo de giros</span><i>›</i></button>`)}}catch(e){}return r}}
 /* folhas: destacar, novo destaque, editar destaque */
 function destEscolher(storyId){const ds=DEST[S.uid]||[];sheet("Destacar",`<div class="opt">${ds.map(d=>`<button type="button" data-destpor="${esc(d.id)}" data-st="${esc(storyId)}">${esc(d.nome)}<span>${(d.itens||[]).includes(storyId)?"já está aqui · toque para tirar":d.itens.length+" "+(d.itens.length===1?"story":"stories")}</span></button>`).join("")}<button type="button" data-destnovo data-st="${esc(storyId)}">＋ Novo destaque</button></div>`)}
 async function destNovo(pre){const l=await arqCarregar();if(!l.length){toast("Publique um giro primeiro.");return}const sel=new Set(pre?[pre]:[]);

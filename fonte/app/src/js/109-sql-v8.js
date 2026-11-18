@@ -85,7 +85,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
   if(b=t.closest("[data-fp8ok]")){pare();fp8Salvar(b);return}
   if(b=t.closest("[data-fp8tira]")){pare();if(!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Toque de novo para remover";return}fp8Tirar(b);return}},true);
 /* Conta › Posts arquivados (junto do Arquivo de stories) */
-{const _rm8=renderMe;renderMe=function(){const r=_rm8.apply(this,arguments);try{if(V8.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arq8]")){const h=`<button type="button" data-arq8><span>Posts arquivados</span><i>›</i></button>`;const a=m.querySelector("[data-arquivo]");if(a)a.insertAdjacentHTML("afterend",h);else m.insertAdjacentHTML("afterbegin",h)}}}catch(e){}return r}}
 async function arq8Carregar(){try{const r=await SB.from("publicacoes").select("*").eq("autor",S.uid).eq("arquivado",true).order("at",{ascending:false}).limit(200);if(r.error)return ARQ8||[];
     ARQ8=(r.data||[]).map(pubNorm).filter(x=>x.tipo!=="story");const ids=new Set(PUB.itens.map(x=>x.id));ARQ8.forEach(x=>{if(!ids.has(x.id))PUB.itens.push(x);else{const y=pubDe(x.id);if(y)y.arquivado=true}});await pubAssinaLista(ARQ8);return ARQ8}catch(e){return ARQ8||[]}}
 async function arq8Abrir(){if(!V8.on)return;if($("#layer").innerHTML)closeLayer();PFV={u:S.uid,aba:"arq8",modo:"grade"};ARQ8=null;

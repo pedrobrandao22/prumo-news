@@ -58,6 +58,5 @@ function semDraw(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const vazi
   const n=semDados().l.length;let vis=false;try{vis=localStorage.getItem("prumo-sem-visto")===semChave()}catch(e){}
   const h=igCirc('data-semana',"ig-sem"+(vis?" visto":""),`<span class="ig-semc"><b>${n}</b><small>lidas</small></span>`,"Sua semana","Resumo da sua semana");
   const c5=box.querySelector("[data-5min]");if(c5)c5.insertAdjacentHTML("afterend",h);else box.insertAdjacentHTML("afterbegin",h)}catch(e){}return r}}
-{const _rm72=renderMe;renderMe=function(){const r=_rm72.apply(this,arguments);try{const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-semana]")&&semDados().l.length)m.insertAdjacentHTML("afterbegin",`<button type="button" data-semana><span>Sua semana no Prumo</span><em>${semDados().l.length}</em><i>›</i></button>`)}catch(e){}return r}}
 
 

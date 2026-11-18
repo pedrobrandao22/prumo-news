@@ -24,4 +24,3 @@ function gd161Abre(f){GD161_F=f||"tudo";try{vp99VerSalvos()}catch(e){}}
 /* o item "Guardadas" do menu do Perfil abre a aba Guardados */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest('#v-me .card.menu [data-vgo="saved"]');if(!b||!S.uid||!S.membro)return;
   e.preventDefault();e.stopPropagation();gd161Abre("noticias")},true);
-{const _rm161=renderMe;renderMe=function(){const r=_rm161.apply(this,arguments);try{const b=document.querySelector('#v-me .card.menu [data-vgo="saved"] span');if(b&&b.textContent==="Guardadas")b.textContent="Guardados"}catch(e){}return r}}

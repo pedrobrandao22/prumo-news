@@ -64,7 +64,6 @@ async function vp99CarregaSalvos(){const sv=vp99Sv();const falta=Object.keys(sv)
 function vp99SemPosts(fn,ctx,args){const real=S.salvos;if(!real)return fn.apply(ctx,args);const f={};Object.entries(real).forEach(([k,v])=>{if(!vp99EhPost(k))f[k]=v});window.__vp99sv=real;S.salvos=f;
   try{return fn.apply(ctx,args)}finally{if(S.salvos===f)S.salvos=real;window.__vp99sv=null}}
 let vp99RM=0;
-{const _rm99=renderMe;renderMe=function(){const r=vp99SemPosts(_rm99,this,arguments);if(PF_ABA==="salvos"&&!vp99RM&&S.uid&&S.membro)vp99CarregaSalvos().then(n=>{if(n&&VIEW==="me"&&PF_ABA==="salvos"){vp99RM=1;try{renderMe()}finally{vp99RM=0}}});return r}}
 {const _rs99=renderSaved;renderSaved=function(){return vp99SemPosts(_rs99,this,arguments)}}
 
 /* ===== comentários: folha alta, sem botão "Fechar" à vista, emojis rápidos ===== */

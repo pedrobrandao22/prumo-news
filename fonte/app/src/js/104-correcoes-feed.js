@@ -19,7 +19,6 @@ const fd104Sig=x=>[x.texto||"",x.editado||"",x.fixado||"",JSON.stringify(x.estil
   try{(PUB.itens||[]).forEach(x=>{if(x&&x.tipo==="post"&&antes[x.id]!=null&&antes[x.id]!==fd104Sig(x))fd104Troca(x.id)})}catch(e){}return r}}
 
 /* perfil: tocar em "N amigos" abre a lista de amigos */
-{const _rm104=renderMe;renderMe=function(){const r=_rm104.apply(this,arguments);try{const s=document.querySelector("#v-me .pf-me .pf-num span:nth-child(2)");if(s&&typeof abrirTodosAmigos==="function"){s.setAttribute("role","button");s.tabIndex=0;s.dataset.fd104am="";s.setAttribute("aria-label",s.textContent.replace(/(\d+)/,"$1 ")+": ver a lista")}}catch(e){}return r}}
 /* perfil de um amigo: menu "…" com desfazer amizade, bloquear e denunciar */
 {const _pv104=pfvDesenha;pfvDesenha=function(){const r=_pv104.apply(this,arguments);try{if(PFV&&PFV.modo==="grade"&&S.amigos.has(PFV.u)){const sp=document.querySelector("#layer .pfv .pfv-h .sp");
   if(sp&&!sp.nextElementSibling)sp.insertAdjacentHTML("afterend",`<button type="button" class="icbtn fd104-pm" data-fd104pm="${esc(PFV.u)}" aria-label="Mais opções"><svg class="ico" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></button>`)}}catch(e){}return r}}
