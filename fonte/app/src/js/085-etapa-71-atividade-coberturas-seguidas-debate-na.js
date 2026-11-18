@@ -77,7 +77,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 /* botão ♥ no topo do Feed e da Capa */
 const AT_BTN=()=>`<button type="button" class="icbtn at-b" data-ativ aria-label="Atividade">${ICON.like}<i class="at-dot" hidden></i></button>`;
 (function(){const bb=$("#b-busca");if(bb&&!$(".top-in .at-b"))bb.insertAdjacentHTML("beforebegin",AT_BTN())})();
-{const _rc71=renderCapa;renderCapa=function(){const r=_rc71.apply(this,arguments);try{const h=$("#v-capa .cp-top");if(h&&!h.querySelector(".at-b")&&S.uid&&S.membro)h.insertAdjacentHTML("beforeend",AT_BTN());atDot()}catch(e){}return r}}
 {const _ub71=updateBadge;updateBadge=function(){const r=_ub71.apply(this,arguments);atDot();atRedesenha();return r}}
 {const _ra71=rerenderAll;rerenderAll=function(){const r=_ra71.apply(this,arguments);atDot();atRedesenha();return r}}
 {const _ps71=psCarregar;psCarregar=async function(){const r=await _ps71.apply(this,arguments);clearTimeout(AT._pt);AT._pt=setTimeout(atCarregar,700);return r}}

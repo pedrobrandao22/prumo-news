@@ -52,7 +52,7 @@ print(json.dumps(o))`]).toString());
   ok(!r['t-aluguel'] && !r['t-fies'] && !r['t-ufs'] && !r['t-taca'], 'assunto genérico (cédula, campus, posto de saúde, taça): ilustração', [r['t-aluguel'], r['t-fies'], r['t-ufs'], r['t-taca']]);
   ok(!r['t-fachin'], 'Fachin só na 2ª frase do título: sem retrato', r['t-fachin']);
   // meio-termo do Pedro (18/11): órgão do sujeito e estádio do mandante
-  ok(/Supremo_Tribunal_Federal/.test(r['t-kassio'] || ''), 'Kassio (ministro do STF) sujeito do título: fachada do STF', r['t-kassio']);
+  ok(/Supremo_Tribunal_Federal|Kassio/.test(r['t-kassio'] || ''), 'Kassio (ministro do STF) sujeito do título: retrato dele (quando o acervo tem) ou fachada do STF', r['t-kassio']);
   ok(/Mineir/.test(r['t-jogo'] || ''), 'jogo "Cruzeiro x Palmeiras": estádio do mandante (Mineirão)', r['t-jogo']);
   ok(!r['t-final'], 'final em campo neutro: sem estádio', r['t-final']);
   ok(r['t-sem'] !== 'sem.jpg', 'foto própria sem "mostra": não aparece', r['t-sem']);

@@ -193,18 +193,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 },true);
 
 /* ================= Etapa 3: capa, busca e menu ================= */
-var CAPA_FIXA=null,CAPA_T=0;
-async function carregarCapaFixa(forcar){if(!forcar&&Date.now()-CAPA_T<120000)return;CAPA_T=Date.now();
-  try{const c=sbCliente();if(!c||typeof c.rpc!=="function")return;const r=await c.rpc("capa_fixa");if(r&&!r.error){const v=r.data;const ant=JSON.stringify(CAPA_FIXA);CAPA_FIXA=v&&v.pid?v:null;if(JSON.stringify(CAPA_FIXA)!==ant&&VIEW==="capa")renderCapa()}}catch(e){}}
-function capaEdicao(){const d=new Date(FEED?.atualizado_em);if(isNaN(d))return "";const p=d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":"),m=(+p[0])*60+(+p[1]);
-  return (m>=390&&m<1050?"Edição da manhã":"Edição da noite")+" · "+d.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short",timeZone:"America/Sao_Paulo"}).replace(/\./g,"")}
-function capaEscolha(){const ps=(FEED?.pautas||[]).filter(p=>!(PREF.ocultas||[]).includes(secOf(p))&&!silenciado(p));const by=id=>ps.find(p=>p.id===id);
-  const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;const ord=[...ps].sort((a,b)=>pr(b)-pr(a)||String(b.hora).localeCompare(String(a.hora)));
-  const fx=CAPA_FIXA&&CAPA_FIXA.pid&&tms(CAPA_FIXA.ate)>Date.now()?by(CAPA_FIXA.pid):null;const c=FEED?.capa||{};
-  const man=fx||by(c.manchete)||ord[0];if(!man)return {ps,ord,man:null,dest:[]};
-  let dest=(Array.isArray(c.destaques)?c.destaques:[]).map(by).filter(p=>p&&p!==man);
-  if(dest.length<3){const n={};[man,...dest].forEach(p=>n[secOf(p)]=(n[secOf(p)]||0)+1);for(const p of ord){if(dest.length>=4)break;if(p===man||dest.includes(p)||(n[secOf(p)]||0)>=2)continue;dest.push(p);n[secOf(p)]=(n[secOf(p)]||0)+1}}
-  return {ps,ord,man,dest:dest.slice(0,5),fixa:!!fx,linha:!fx&&c.manchete===man.id?c.linha_fina:""}}
 function capaFrase(t,n){t=String(t||"").trim();if(t.length<=n)return t;const fr=t.replace(/([.!?])\s+/g,"$1\u0001").split("\u0001");let o="";for(const f of fr){if((o+" "+f).trim().length>n)break;o=(o+" "+f).trim()}return o||t.slice(0,n).replace(/\s+\S*$/,"")+"…"}
 function capaChapeu(p){return (/^Outros/.test(p.subtema||"")?"":p.subtema)||p.tag||secNome(secOf(p))}
 var FOTO_OK=/^https:\/\/([a-z0-9-]+\.)*(ebc\.com\.br|wikimedia\.org|staticflickr\.com|flickr\.com|unsplash\.com|pexels\.com|senado\.leg\.br|camara\.leg\.br|gov\.br|stf\.jus\.br|tse\.jus\.br)\//i;
@@ -232,45 +220,13 @@ function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls
 function indTile(x){const seta={sobe:"▲",desce:"▼",estavel:"▬"};const em=x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:"";
   const sp=grSpark(x),miolo=`<span>${esc(x.nome)}</span><b>${esc(x.valor)}</b>${em}${sp}`;
   return x.id?`<button type="button" class="ind-t" data-indg="${esc(x.id)}" aria-label="${esc(x.nome)}: ${esc(x.valor)}. Ver gráfico">${miolo}</button>`:`<div class="ind-t">${miolo}</div>`}
-function capaIndicadores(){const it=indItens().filter(x=>x&&x.nome&&x.valor);if(!it.length)return "";
-  return `<div class="cp-ind" aria-label="Indicadores">${it.slice(0,4).map(indTile).join("")}</div>`}
-var CP_AB=null;
 function lente(){return PREF.lente==="direita"||PREF.lente==="esquerda"?PREF.lente:"neutro"}
 function versao(p,L){L=L||lente();const n=p.neutro||{};const v=L!=="neutro"&&p[L]&&typeof p[L]==="object"&&p[L].titulo?p[L]:null;
   return {titulo:String((v||n).titulo||""),texto:String((v||n).texto||""),lado:v?L:"neutro",tem:!!v}}
 function frases(t){return String(t||"").replace(/([.!?])\s+(?=[A-ZÁÉÍÓÚÂÊÔÃÕÇ"“0-9])/g,"$1\u0001").split("\u0001").map(x=>x.trim()).filter(Boolean)}
 function pontosDe(p,L){L=L||lente();const n=p.neutro||{};const v=L!=="neutro"&&p[L]&&typeof p[L]==="object"&&p[L].titulo?p[L]:null;const o=v||n;
   const pt=Array.isArray(o.pontos)?o.pontos.filter(x=>typeof x==="string"&&x.trim()):[];return pt.length?pt.slice(0,4):frases(o.texto).slice(0,3)}
-var CP_MAIS=null;
 function capaSub(p,L,extra){const v=versao(p,L);if(v.tem)return capaFrase(v.texto,170);return extra||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro?.texto,170)}
-function lenteHTML(mini){const L=lente();return `<div class="lente${mini?" mini":""}" role="tablist" aria-label="Leitura das notícias">${[["neutro","Neutra"],["direita","Direita"],["esquerda","Esquerda"]].map(([k,n])=>`<button type="button" role="tab" data-lente="${k}" aria-selected="${L===k}">${n}</button>`).join("")}</div>`}
-function cpItem(p,o){const L=lente(),v=versao(p,L),ab=CP_AB===p.id,lc=lidaAtual(p)?" lida":"";
-  const k=`<span class="cp-k" style="color:${secCor(secOf(p))}">${cpNovo(p)}${esc(capaChapeu(p))}${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}${corRecente(p)?`<span class="cp-corr"> · corrigida</span>`:""}</span>`;
-  const marca=v.tem?`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`:"";
-  const sub=o.sub?`<span class="cp-sub">${esc(capaSub(p,L,o.linha))}</span>`:"";
-  const arte=o.arte?capaArte(p,o.tam==="man"?"art":"cp-th",o.tam==="man"):"";
-  return `<article class="cpi cpi-${o.tam}${lc}${ab?" aberto":""}" id="cpi-${esc(p.id)}"><button type="button" class="cpi-b" data-cpx="${esc(p.id)}" aria-expanded="${ab}">${o.tam==="man"?arte:""}<span class="tx">${o.tam==="rel"?"":k}<b class="cp-t">${marca}${esc(v.titulo)}</b>${sub}${o.meta||""}</span>${o.tam!=="man"?arte:""}</button>${ab?cpAberta(p):""}</article>`}
-function cpAberta(p){const L=lente(),id=esc(p.id);const pts=pontosDe(p,L);
-  return `<div class="cpx"><button type="button" class="cpx-30" data-cpmat="${id}" aria-label="Ler a matéria completa"><b>Em 30 segundos</b><ul>${pts.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><span class="cpx-ir">Ler a matéria completa <i aria-hidden="true">›</i></span></button></div>`}
-function dia1min(ps){const rd=FEED.resumo_dia&&Array.isArray(FEED.resumo_dia.itens)?FEED.resumo_dia.itens.filter(x=>x&&typeof x.texto==="string"&&x.texto.trim()):[];
-  const ok=x=>!x.pid||ps.some(p=>p.id===x.pid);let it=rd.filter(ok).slice(0,6);
-  if(!it.length){const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;it=[...ps].sort((a,b)=>pr(b)-pr(a)).slice(0,5).map(p=>({pid:p.id,texto:p.neutro?.titulo||""}))}
-  if(!it.length)return "";
-  const rt=resumoTitulo();return `<section class="cp-1m" aria-label="${esc(rt)}"><h3><span>${esc(rt)}</span><button type="button" class="cp-1m-sh" data-1mshare aria-label="Mandar o resumo como imagem">${ICON.send}<span>Mandar</span></button></h3><ol>${it.map(x=>`<li>${x.pid?`<button type="button" data-cp1m="${esc(x.pid)}">${esc(x.texto)}</button>`:`<span>${esc(x.texto)}</span>`}</li>`).join("")}</ol></section>`}
-function lenteBotao(){let b=document.getElementById("lp");
-  if(!b){b=document.createElement("button");b.type="button";b.id="lp";b.className="lp";b.setAttribute("aria-haspopup","menu");b.dataset.lpabre="1";document.body.appendChild(b)}
-  const L=lente(),N={neutro:"Neutra",direita:"Direita",esquerda:"Esquerda"};
-  b.className="lp "+L;b.hidden=VIEW!=="capa"||!FEED;b.setAttribute("aria-label","Leitura das notícias: "+N[L]);
-  b.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 7h14M7 7l-3 6a3 3 0 0 0 6 0zM17 7l-3 6a3 3 0 0 0 6 0z"/></svg>${L==="neutro"?"":"<i></i>"}${N[L]}`;
-  if(b.hidden)lenteMenu(false)}
-function lenteMenu(abrir){let m=document.getElementById("lpm");if(!abrir){if(m)m.remove();return}
-  if(m){m.remove();return}const L=lente();m=document.createElement("div");m.id="lpm";m.className="lpm";m.setAttribute("role","menu");
-  m.innerHTML=`<b>Como ler as notícias</b>${[["neutro","Neutra","Só os fatos"],["direita","Direita","Como a direita conta"],["esquerda","Esquerda","Como a esquerda conta"]].map(([k,n,d])=>`<button type="button" role="menuitemradio" aria-checked="${L===k}" data-lente="${k}"><i class="${k}"></i><span><b>${n}</b><span>${d}</span></span>${L===k?'<em aria-hidden="true">✓</em>':""}</button>`).join("")}`;
-  document.body.appendChild(m);uso("lente_menu")}
-document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
-  if(t.closest("[data-lpabre]")){e.stopPropagation();lenteMenu(true);return}
-  if(document.getElementById("lpm")&&!t.closest("#lpm"))lenteMenu(false)},true);
-document.addEventListener("keydown",e=>{if(e.key==="Escape")lenteMenu(false)});
 var MAT_PID=null;
 function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=lente(),v=versao(p,L),n=p.neutro||{},id=esc(p.id);
   const Ly=$("#layer");const vazio=!Ly.innerHTML;MAT_PID=pid;if(!manter){uso("materia");evento("materia",pid,secOf(p));try{marcarLida(pid)}catch(e){}}
@@ -302,35 +258,6 @@ function abrirMateria(pid,manter){const p=pautaById(pid);if(!p)return;const L=le
 (function(){const ant=closeLayer;closeLayer=function(fp){const eraMat=!!document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML);ant.apply(this,arguments);
   if(eraMat&&MAT_PID){const pid=MAT_PID;MAT_PID=null;if(VIEW==="capa"){const el0=document.getElementById("cpi-"+pid);const r0=el0?el0.getBoundingClientRect().top:null;const ab0=CP_AB;CP_AB=null;if(!cpAlternar(ab0,null))renderCapa();
     const el=document.getElementById("cpi-"+pid);if(el&&r0!=null)window.scrollTo(0,scrollY+el.getBoundingClientRect().top-r0)}}}})();
-function renderCapa(){const v=$("#v-capa");if(!v)return;carregarCapaFixa();
-  if(!FEED){if(v.querySelector(".cp-sk.ab141-sk")&&!v.querySelector(".cpi"))return;v.innerHTML=`<div class="gut cp"><div class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed ab141-sk-ed" aria-hidden="true">Edição da noite · dom, 00 de nov</span></div><div class="cp-sk ab141-sk" role="status" aria-label="Carregando a Capa"><i class="ab141-sk-art"></i><i style="height:11px;width:34%"></i><i style="height:26px;width:94%"></i><i style="height:26px;width:88%"></i><i style="height:26px;width:52%"></i><i style="height:14px;width:97%"></i><i style="height:14px;width:91%"></i><i style="height:14px;width:62%"></i></div></div>`;return}
-  const {ps,ord,man,dest,fixa,linha}=capaEscolha();const L=lente();
-  const usados=new Set([man,...dest].filter(Boolean).map(p=>p.id));
-  const vivo=ps.filter(p=>p.status==="ao_vivo");
-  let h=`<div class="gut cp"><header class="cp-top"><span class="word">prumo<small>NEWS</small></span><span class="cp-ed">${esc(capaEdicao())}${FEED.contagem?" · "+esc(FEED.contagem):""}</span></header>`;
-  h+=agoraHTML();h+=capaNovBar();h+=urgHTML();if(vivo.length)h+=`<div class="cp-vivo"><b><i></i>Ao vivo</b>${vivo.map(p=>`<button type="button" data-cobpag="${esc(p.id)}">${esc(capaChapeu(p))}: ${esc(versao(p,L).titulo)} ›</button>`).join("")}</div>`;
-  if(man){const u=ultimaAtualizacao(man)||man.hora;
-    const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>${esc(atualizadoTxt(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
-    h+=cpItem(man,{tam:"man",sub:true,arte:true,linha:L==="neutro"?linha:"",meta});
-    const tm=temaDe(man);const rel=ps.filter(p=>p!==man&&!usados.has(p.id)&&((tm&&temaDe(p)===tm)||(man.subtema&&p.subtema===man.subtema&&secOf(p)===secOf(man)))).slice(0,2);
-    if(rel.length){rel.forEach(p=>usados.add(p.id));h+=`<div class="cp-rel"><span>Relacionadas</span>${rel.map(p=>cpItem(p,{tam:"rel"})).join("")}</div>`}}
-  if(dest.length)h+=`<div class="cp-dest">${dest.map((p,i)=>cpItem(p,{tam:i<2?"d1":"d2",sub:true,arte:i>=2})).join("")}</div>`;
-  h+=dia1min(ps);h+=instHTML();
-  h+=capaIndicadores();
-  const NSEC={politica:5,economia:5};
-  SECS().forEach(s=>{const l=ord.filter(p=>secOf(p)===s.id&&!usados.has(p.id)).slice(0,NSEC[s.id]||3);if(!l.length)return;
-    h+=`<div class="cp-h"><h3><i style="background:${secCor(s.id)}"></i>${esc(s.nome)}</h3><button type="button" data-capasec="${esc(s.id)}">Ver a seção ›</button></div><div class="cp-sl">${l.map((p,i)=>cpItem(p,{tam:i?"li":"um",sub:!i,arte:!i})).join("")}</div>`});
-  const acomp=ps.filter(p=>typeof cobTemPagina==="function"&&cobTemPagina(p)).sort((a,b)=>tms(ultimaAtualizacao(b)||b.hora)-tms(ultimaAtualizacao(a)||a.hora)).slice(0,8);
-  if(acomp.length)h+=`<div class="cp-h"><h3>Para acompanhar</h3></div><ul class="cp-l">${acomp.map(p=>{const et=cobEtapaAtual(p);return `<li><button type="button" data-cobpag="${esc(p.id)}"><span class="s">${esc(quando(ultimaAtualizacao(p)||p.hora))}</span><b>${esc(temaDe(p)||versao(p,L).titulo)}${et?" · "+esc(et):p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</b></button></li>`}).join("")}</ul>`;
-  const ult=tickerItens(8);
-  if(ult.length)h+=`<div class="cp-h"><h3>Últimas</h3></div><ul class="cp-l">${ult.map(i=>{const p=pautaById(i.pid);return `<li><button type="button" data-capair="${esc(i.pid)}"><span class="s">${i.hora?esc(horaDia(i.hora))+" · ":""}${esc(p?temaDe(p)||secNome(i.sec):secNome(i.sec))}</span><b>${esc(i.txt)}</b></button></li>`}).join("")}</ul>`;
-  const hj=hojeSP(),am=somaDias(hj,1),ag=(FEED.agenda||[]).map(a=>({...a,_d:agData(a,hj)})).filter(a=>a._d===hj||a._d===am||(fimDeSemana()&&a._d>am&&a._d<=somaDias(hj,7))).sort((x,y)=>x._d.localeCompare(y._d)||agMin(x)-agMin(y)).slice(0,fimDeSemana()?8:99);
-  if(ag.length)h+=`<div class="cp-h"><h3>${fimDeSemana()?"Agenda da semana":"Agenda"}</h3></div><ul class="cp-l">${ag.map(a=>{const pid=agPid(a);return `<li><button type="button" ${pid?`data-capair="${esc(pid)}"`:"disabled"}><span class="s">${agDiaTxt(a._d,hj,am)}${agHoraTxt(a)?" · "+esc(agHoraTxt(a)):""}</span><b>${esc(a.texto)}</b></button></li>`}).join("")}</ul>`;
-  const enq=ps.filter(p=>p.enquete&&(p.enquete.opcoes||[]).length);const pend=S.uid&&S.membro?enq.filter(p=>meuVoto(p.id)==null).length:0;const qz=(FEED.quiz||[]).length&&!(S.quiz||{})[S.uid||"eu"];
-  if(qz||pend)h+=`<button type="button" class="cp-int" data-vgo="play"><span><b>${qz?"Quiz do dia":"Enquetes"}</b><span>${[qz?`${FEED.quiz.length} perguntas sobre esta edição`:"",pend?`${pend} ${pend===1?"enquete espera":"enquetes esperam"} o seu voto`:""].filter(Boolean).join(" · ")}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
-  const falta=ps.filter(p=>!lidaAtual(p)).length;
-  h+=`<div class="cp-fim">${falta?`<b>Faltam ${falta} ${falta===1?"notícia":"notícias"} para ficar em dia</b><button type="button" class="btn ghost" data-vgo="feed" style="margin-top:6px">Abrir o feed</button>`:`<b>Você está em dia</b><span>Leu tudo desta edição. A próxima atualização aparece aqui.</span>`}<span>Atualizado ${esc(diaHora(FEED.atualizado_em))}.</span></div></div>`;
-  v.innerHTML=h;lenteBotao()}
 /* aba Buscar */
 function buscaRes(q){const hit=rc116Hit(q);const res=[];
   (FEED?.pautas||[]).map(p=>[p,hit(p.neutro?.titulo)?2:hit([p.tag,p.tema,p.subtema].join(" "))?1:0]).sort((a,b)=>b[1]-a[1]).forEach(([p])=>{if(hit([p.neutro?.titulo,p.neutro?.texto,p.tag,p.tema,p.subtema,p.contexto,p.por_que].join(" ")))res.push(`<li><button type="button" data-busca="${esc(p.id)}"><b>${esc(p.neutro?.titulo)}</b><span>${esc(secNome(secOf(p)))}${p.subtema?" · "+esc(p.subtema):""} · esta edição</span></button></li>`)});
@@ -396,11 +323,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const fx=t.closest("[data-fixar]");if(fx){e.stopPropagation();const h=+($("#admhoras")?.value||12);fx.disabled=true;S.db.rpc("admin_fixar_manchete",{p_pid:fx.dataset.fixar,p_horas:h}).then(()=>{toast("Manchete fixada por "+h+" h");return carregarCapaFixa(true)}).catch(err=>toast("Não deu agora: "+(err&&err.message||"erro"))).then(()=>{adminDesenhar();if(VIEW==="capa")renderCapa()});return}
   const dfx=t.closest("[data-desfixar]");if(dfx){e.stopPropagation();S.db.rpc("admin_fixar_manchete",{p_pid:"",p_horas:0}).then(()=>{toast("A rodada volta a escolher a manchete");return carregarCapaFixa(true)}).catch(err=>toast("Não deu agora: "+(err&&err.message||"erro"))).then(()=>{adminDesenhar();if(VIEW==="capa")renderCapa()});return}
 },true);
-function capaAdminHTML(){if(!FEED)return `<p class="hint">As notícias ainda não carregaram.</p>`;const {ord,man,fixa}=capaEscolha();const fx=CAPA_FIXA&&tms(CAPA_FIXA.ate)>Date.now()?CAPA_FIXA:null;
-  return `<div class="adm-capa" style="display:flex;flex-direction:column;gap:10px">${fx?`<div class="pin"><b>Manchete fixada</b> até ${esc(cobDH(fx.ate))}${pautaById(fx.pid)?`: ${esc(pautaById(fx.pid).neutro?.titulo)}`:" (essa notícia saiu da edição; a capa usa a escolha da rodada)"}<br><button type="button" class="btn ghost amg-b" data-desfixar style="margin-top:8px">Desfixar</button></div>`:`<p class="hint" style="margin:0">Agora a rodada escolhe a manchete${man?`: <b>${esc(man.neutro?.titulo)}</b>`:""}.</p>`}
-    <label class="hint" style="display:flex;align-items:center;gap:8px">Fixar por <select id="admhoras" class="field" style="width:auto;flex:none"><option value="3">3 horas</option><option value="6">6 horas</option><option value="12" selected>12 horas</option><option value="24">24 horas</option></select></label>
-    <ul class="adml">${ord.slice(0,15).map(p=>`<li><div><b>${esc(p.neutro?.titulo)}</b><span>${esc(secNome(secOf(p)))} · prioridade ${esc(p.prioridade??"-")}${fx&&fx.pid===p.id?" · fixada":man===p&&!fixa?" · manchete agora":""}</span></div><div class="admb"><button type="button" class="btn ghost amg-b" data-fixar="${esc(p.id)}">Fixar</button></div></li>`).join("")}</ul>
-    <p class="hint" style="margin:0">A manchete fixada vale para todos e some sozinha no prazo, ou quando a notícia sai da edição.</p></div>`}
 
 /* ================= Etapa 4: páginas das seções ================= */
 var SECF={sec:"",sub:"",uf:""};
@@ -526,11 +448,6 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 },true);
 
 /* ================= Etapa 6: acabamentos ================= */
-/* breves urgentes (até 3 h) */
-function urgentes(){const ag=Date.now();return (FEED?.breves||[]).map((b,i)=>({b,i})).filter(x=>x.b&&x.b.urgente&&tms(x.b.hora)&&ag-tms(x.b.hora)<3*3600e3&&!(PREF.ocultas||[]).includes(x.b.secao||"politica"))}
-function urgHTML(extra){const u=urgentes();if(!u.length)return "";return `<div class="urg ${extra||""}"><b>Urgente</b>${u.map(x=>`<button type="button" data-urg="${esc(x.b.url||"")}">${esc(x.b.titulo)}<br><span>${esc(nomeFonte(x.b.fonte))} · ${esc(hhmm(x.b.hora))}</span></button>`).join("")}</div>`}
-function abrirUrgente(i){const b=(FEED?.breves||[])[i];if(!b)return;uso("urgente");
-  sheet("Urgente",`<h3 style="margin:0;font-family:var(--f-display);font-size:21px;line-height:1.25">${esc(b.titulo)}</h3><p class="hint" style="margin:0">${esc(nomeFonte(b.fonte))} · ${esc(secNome(b.secao||"politica"))} · ${esc(hhmm(b.hora))}</p><a class="btn" href="${escU(b.url)}" target="_blank" rel="noopener">Ler em ${esc(nomeFonte(b.fonte))} ›</a><p class="hint" style="margin:0">Notícia que acabou de sair. Se o assunto continuar, o Prumo abre uma cobertura com mais detalhes.</p>`)}
 /* feed "Meus temas" */
 function meusTemasOk(p){if(PREF.feedModo!=="seguindo")return true;if(seguido(p))return true;const mt=PREF.meuTime;if(mt&&secOf(p)==="esportes"&&((Array.isArray(p.times)&&p.times.some(t=>norm(t)===norm(mt)))||norm([p.neutro?.titulo,p.tag,p.tema].join(" ")).includes(norm(mt))))return true;return false}
 /* pastas das guardadas */

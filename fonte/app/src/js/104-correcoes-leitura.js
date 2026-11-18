@@ -12,10 +12,6 @@ function vbackAjusta(){const n={capa:"Capa",feed:"Feed",busca:"Busca",msgs:"Conv
   const r=_go104.apply(this,arguments);try{vbackAjusta()}catch(e){}return r}}
 {const _rp104=renderPlay;renderPlay=function(){const r=_rp104.apply(this,arguments);try{vbackAjusta()}catch(e){}return r}}
 {const _rs104=renderSaved;renderSaved=function(){const r=_rs104.apply(this,arguments);try{vbackAjusta()}catch(e){}return r}}
-/* Capa: o aviso de edição atrasada ou sem conexão também aparece no topo da Capa (antes só no Feed) */
-{const _rc104=renderCapa;renderCapa=function(){const r=_rc104.apply(this,arguments);
-  try{const top=document.querySelector("#v-capa .cp-top");const h=FEED&&typeof avisoAtraso==="function"?avisoAtraso():"";
-    if(top&&h&&!document.querySelector("#v-capa .late")){top.insertAdjacentHTML("afterend",h);const l=document.querySelector("#v-capa .late");if(l)l.classList.remove("gut")}}catch(e){}return r}}
 /* Perfil: depois de sair da conta, a tela volta ao topo (onde está o "Entrar") */
 {const _sa104=sair;sair=async function(){const r=await _sa104.apply(this,arguments);try{if(VIEW==="me")window.scrollTo(0,0)}catch(e){}return r}}
 /* foto que não carrega (sem internet): a bolinha do story mostra a ilustração em vez de um círculo vazio */

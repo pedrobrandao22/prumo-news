@@ -9,46 +9,11 @@
       publicar_cn_<tipo> (notícia comentada e os outros formatos, antes contados como publicar_post) e capa (abertura do
       app já na Capa, que acontecia antes de a telemetria ligar). */
 
-/* ===== 1. card dos indicadores ===== */
-var UI184_IDS=["dolar","selic","ipca12m","ibovespa"];
-var UI184_NOME={dolar:"Dólar",selic:"Selic",ipca12m:"IPCA 12 meses",ibovespa:"Ibovespa"};
-var UI184_MES=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
-function ui184Itens(){const m={};try{indItens().forEach(x=>{if(x&&x.id&&x.valor)m[x.id]=x})}catch(e){}return UI184_IDS.map(id=>m[id]).filter(Boolean)}
-/* "AAAA-MM-DDTHH:MM…" (hora de Brasília, como o robô grava) → {d:"16/11", h:"18h07"} */
-function ui184Hora(s){const m=/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?/.exec(String(s||""));if(!m)return null;return {d:m[3]+"/"+m[2],h:m[4]?(+m[4])+"h"+m[5]:""}}
-function ui184Legenda(it){let s="";try{s=(IND_AUTO&&IND_AUTO.dados_em)||""}catch(e){}
-  if(!s){const hs=it.filter(x=>/^(dolar|ibovespa)$/.test(x.id)&&x.hora).map(x=>String(x.hora)).sort();s=hs.pop()||""}
-  if(!s){try{s=(IND_AUTO&&IND_AUTO.atualizado)||""}catch(e){}}
-  if(!s){const ds=it.map(x=>String(x.data||"")).filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d)).sort();s=ds.pop()||""}
-  const q=ui184Hora(s);return q?"Atualizado em "+q.d+(q.h?" às "+q.h:""):""}
-function ui184Sub(x){
-  if(x.id==="dolar"||x.id==="ibovespa"){const v=String(x.variacao||"").trim();if(!v)return "";const d=/^(sobe|desce|estavel)$/.test(x.dir||"")?x.dir:"estavel";
-    return `<em class="${d}">${{sobe:"▲",desce:"▼",estavel:"="}[d]} ${esc(v.replace(/^\+/,""))}</em>`}
-  if(x.id==="selic")return `<small>meta do Copom</small>`;
-  const m=/^\d{4}-(\d{2})$/.exec(String(x.ref||""));return `<small>${m?"até "+UI184_MES[+m[1]-1]:"IBGE"}</small>`}
-function ui184Card(){const it=ui184Itens();if(!it.length)return "";const leg=ui184Legenda(it);
-  return `<section class="ui184" aria-label="Indicadores"><button type="button" class="ui184-b" data-ui184 aria-label="Indicadores: ${esc(it.map(x=>UI184_NOME[x.id]+" "+x.valor).join(", "))}. ${esc(leg)}. Toque para saber o que é cada um">`+
-    `<span class="ui184-h">Indicadores</span><span class="ui184-g">${it.map(x=>`<span class="ui184-c" data-ui184id="${esc(x.id)}"><span class="ui184-n">${esc(UI184_NOME[x.id])}</span><b>${esc(x.valor)}</b>${ui184Sub(x)}</span>`).join("")}</span>`+
-    (leg?`<span class="ui184-at">${esc(leg)}</span>`:"")+`</button></section>`}
-function ui184Explica(){try{uso("indicadores")}catch(e){}
-  sheet("Indicadores",`<div class="ui184-ex"><p><b>Dólar</b>: cotação comercial no fechamento do dia, com a variação sobre o fechamento anterior.</p>`+
-    `<p><b>Selic</b>: a taxa básica de juros, definida pelo Copom do Banco Central.</p><p><b>IPCA 12 meses</b>: a inflação oficial acumulada em 12 meses, medida pelo IBGE (sai uma vez por mês).</p>`+
-    `<p><b>Ibovespa</b>: o principal índice da bolsa brasileira (B3) no fechamento, com a variação do dia.</p>`+
-    `<p class="hint">Os números são atualizados uma vez por dia útil, depois do fechamento dos mercados. Fontes: Banco Central, IBGE e B3.</p></div>`)}
-capaIndicadores=ui184Card;
 /* sem página própria nem outros atalhos: Economia e Busca sem indicadores; qualquer toque antigo em indicador explica */
 indPainel=function(){return ""};
 if(typeof cm168IndBusca==="function")cm168IndBusca=function(){return ""};
 addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("[data-ui184],[data-indg]");if(!b)return;
   e.stopPropagation();e.preventDefault();ui184Explica()},true);
-/* o card apareceu na tela: conta uma vez por abertura do app (o uso de um card que só se lê é vê-lo) */
-var UI184_VISTO=false,UI184_OBS=null;
-function ui184Observa(){if(UI184_VISTO||typeof IntersectionObserver!=="function")return;const el=document.querySelector("#v-capa .ui184");if(!el)return;
-  if(!UI184_OBS)UI184_OBS=new IntersectionObserver(es=>{if(UI184_VISTO)return;if(es.some(x=>x.isIntersecting)){UI184_VISTO=true;try{tl142Conta("indicadores_visto")}catch(e){}UI184_OBS.disconnect()}},{threshold:.6});
-  UI184_OBS.disconnect();UI184_OBS.observe(el)}
-/* tela larga (Capa em 2 colunas, 033): o card vai para a coluna do lado, como os indicadores antigos */
-function ui184Lado(){const sd=document.querySelector("#v-capa .cp-side"),c=document.querySelector("#v-capa .cp-main .ui184");if(sd&&c)sd.insertBefore(c,sd.querySelector(".cp-h")||null)}
-{const _rc184=renderCapa;renderCapa=function(){const r=_rc184.apply(this,arguments);try{ui184Lado();ui184Observa()}catch(e){}return r}}
 
 /* ===== 2. contagens que faltavam ===== */
 /* notícia comentada (e os outros formatos) e repost eram todos "publicar_post": cada um ganha o seu nome */
