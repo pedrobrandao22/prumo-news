@@ -5,7 +5,10 @@
    Carregamento: este arquivo vem no fim (antes do 999), quando todas as variáveis já existem. As declarações function são
    içadas, então quem chama estas funções antes daqui já encontra a versão final; quem chama DURANTE o carregamento
    (o 031 abre a Capa com go("capa",true)) usa só a parte que existia naquele ponto, como antes: NUC_PRONTO só vira true
-   no 999 (nucPronto()). */
+   no 999 (nucPronto()).
+   Dentro: closeLayer (+clMiolo), go (+goTroca, goMostra), sheet, toast, pubPostHTML (+ppMeio, ppCartao, ppBase), atItens
+   (+atItensBase), atAcao (+atAcaoBase), atThumb (+atThumb086, atThumbBase), atDot, updateBadge, rerenderAll, renderMe
+   (+renderMeMiolo). Regra daqui para a frente: corrigir DENTRO destas funções, não embrulhá-las de novo em outro arquivo. */
 var NUC_PRONTO;  /* sem valor (falso) até o 999 */
 function nucPronto(){NUC_PRONTO=true}
 
