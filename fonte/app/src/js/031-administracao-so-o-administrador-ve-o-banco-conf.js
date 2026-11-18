@@ -222,8 +222,15 @@ function buscaTemas(){if(!FEED)return `<p class="hint">As notícias ainda não c
   const ex=Object.keys(FEED.explicadores||{});if(ex.length)h+=`<div class="bv-sec"><h3>Entenda</h3><div class="bv-chips">${ex.map(t=>`<button type="button" class="chipb" data-explica="${esc(t)}">${esc(t)}</button>`).join("")}</div></div>`;
   const dr=(Array.isArray(FEED.dormentes)?FEED.dormentes:[]).slice(0,10);if(dr.length)h+=`<div class="bv-sec"><h3>Coberturas anteriores</h3>${dr.map(d=>`<button type="button" class="bv-it" data-dorm="${esc(d.id)}"><span>${esc(d.titulo)}</span><span class="chev" aria-hidden="true">›</span></button>`).join("")}</div>`;
   return h}
+var BV_DE=null;
+/* Cancelar da busca: limpa, fecha o teclado e volta para a tela e o ponto de onde a pessoa veio */
+function bvCancelar(){const i=$("#bvq");if(i){i.value="";try{i.blur()}catch(e){}}const BV_TEM=!!BV_DE,d=BV_DE||{v:RAIZ||"capa",y:0};BV_DE=null;
+  const volta=()=>{if(VIEW!==d.v)go(d.v);requestAnimationFrame(()=>window.scrollTo(0,d.y||0))};
+  if(VIEW==="busca"&&BV_TEM){let feito=false;const ok=()=>{if(feito)return;feito=true;setTimeout(volta,30)};
+    window.addEventListener("popstate",ok,{once:true});history.back();setTimeout(ok,350)}else volta()}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bvcancel]");if(b){e.preventDefault();e.stopPropagation();bvCancelar()}},true);
 function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")?.value||"";
-  v.innerHTML=`<div class="gut"><form class="bv-f" onsubmit="return false"><input class="field" id="bvq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar notícia, nome ou assunto" aria-label="Buscar" value="${esc(q0)}"></form><div id="bvres"></div></div>`;
+  v.innerHTML=`<div class="gut"><form class="bv-f" onsubmit="return false"><input class="field" id="bvq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar notícia, nome ou assunto" aria-label="Buscar" value="${esc(q0)}"><button type="button" class="bv-x" data-bvcancel>Cancelar</button></form><div id="bvres"></div></div>`;
   const inp=$("#bvq"),run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
 /* menu, aba inicial e eventos */
 (function(){

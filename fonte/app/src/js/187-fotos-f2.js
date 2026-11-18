@@ -69,10 +69,22 @@ function ft187FotosLugar(A,nome,ra){const ck=(A.gerado||"")+"|"+nome;if(A===FOTO
   const out=[],vistos=new Set(),listas=Object.values(A.assuntos||{}).map(x=>x&&x.fotos).concat(Object.values(A.temas||{}));
   listas.forEach(l=>{(Array.isArray(l)?l:[]).forEach(f=>{if(faValida(f)&&!ft157Bloq(f)&&ra.test(ft157Arq(f))){const n=faNome(f.url);if(!vistos.has(n)){vistos.add(n);out.push(f)}}})});
   if(A===FOTOS_ARQ)FT187_CACHE[ck]=out;return out}
-faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep();const fr=ft157Frase(String((p.neutro||{}).titulo||""));
-  if(p.foto_arquivo!=="tema"){const pe=ft157Pessoa(fr,A);if(pe){const ok=pe.fotos.filter(f=>faValida(f)&&!ft157Bloq(f));if(ok.length)L.push(ok)}}
-  let fo=null;ft187Lugares(fr,A).forEach(([nome,ra,br])=>{if(br){if(fo===null)fo=!!ft157Fora(p);if(fo)return}const ok=ft187FotosLugar(A,nome,ra);if(ok.length)L.push(ok)});
+/* 18/11 noite, pedido do Pedro: "estamos sendo muito restritivos; se for errar, errar para mais". A ordem é a da
+   confiança, e a 1ª lista com foto ganha: (1) retrato de quem o título cita (no título todo, depois no subtítulo);
+   "foto_arquivo":"tema" só tira o retrato quando o título fala de morte, prisão, acidente ou ataque; (2) o lugar do
+   título ou o órgão da pessoa; (3) o estádio do mandante; (4) o assunto do título, da tag ou do subtítulo; (5) o tema
+   da editoria/subtema e a foto padrão da editoria. Lugar ou assunto brasileiro continua fora de notícia de fora do
+   Brasil, e as fotos bloqueadas (157) continuam bloqueadas. */
+var FT187_TRAGICO=/\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec)/i;
+faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep();const n=p.neutro||{},tit=String(n.titulo||""),fr=ft157Frase(tit),
+    sub=typeof p.subtitulo==="string"?p.subtitulo:"",extra=[p.tag,p.tema].filter(x=>typeof x==="string"&&x).join(" · "),sec=secOf(p),T=A.temas||{};
+  let fo=null;const fora=()=>{if(fo===null)fo=!!ft157Fora(p);return fo};
+  const pega=(l,lugar)=>{if(!Array.isArray(l))return;const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!(lugar&&fora()&&ft157Br(f)));if(ok.length&&!L.some(x=>x.ft187o===l)){ok.ft187o=l;L.push(ok)}};
+  if(p.foto_arquivo!=="tema"||!FT187_TRAGICO.test(tit)){const pe=ft157Pessoa(tit,A)||(sub?ft157Pessoa(sub,A):null);if(pe)pega(pe.fotos,false)}
+  ft187Lugares(tit,A).forEach(([nome,ra,br])=>{if(br&&fora())return;const ok=ft187FotosLugar(A,nome,ra);if(ok.length&&!L.some(x=>x.ft187n===nome)){ok.ft187n=nome;L.push(ok)}});
   const md=ft187Mandante(p,fr,A);if(md.length)L.push(md);
+  try{const as=faAssunto(tit,A,sec)||(extra?faAssunto(extra,A,sec):null)||(sub?faAssunto(sub,A,sec):null);if(as)pega(as.fotos,true)}catch(e){}
+  pega(T[sec+"/"+(p.subtema||"")],true);pega(T[(A.padrao||{})[sec]],true);
   return L};
 
 /* foto própria: "mostra" precisa partilhar um nome (pessoa, lugar, sigla, código) com o título — igual a confirma() em paginas.py */
@@ -80,6 +92,7 @@ var FT187_STOP=new Set(["a","o","as","os","e","em","no","na","nos","nas","de","d
   "apos","sem","se","ao","aos","que","mais","ja","nao","sob","ate","entre","contra","como","diz","foto","arquivo","durante"]);
 function ft187Nomes(t){const out=new Set();(String(t||"").match(/[A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:-[A-Za-zÀ-ÖØ-öø-ÿ0-9]+)*/g)||[]).forEach(tk=>{if(tk.length<2)return;
   if(/^[A-ZÀ-ÖØ-Þ]/.test(tk)||(/[0-9]/.test(tk)&&/[A-Za-zÀ-ÖØ-öø-ÿ]/.test(tk))){const n=ft157N(tk).replace(/[^\x00-\x7f]/g,"");if(!FT187_STOP.has(n))out.add(n)}});return out}
-function ft187Confirma(p,f){const m=f&&f.mostra;if(typeof m!=="string"||!m.trim())return false;const t=ft187Nomes((p&&p.neutro||{}).titulo);
+/* 18/11 noite: foto própria sem "mostra" volta a valer (errar para mais); com "mostra", ainda precisa bater com o título */
+function ft187Confirma(p,f){const m=f&&f.mostra;if(typeof m!=="string"||!m.trim())return true;const t=ft187Nomes((p&&p.neutro||{}).titulo);
   for(const n of ft187Nomes(m))if(t.has(n))return true;return false}
 {const _po187=ft157PropriaOk;ft157PropriaOk=function(p,f){return ft187Confirma(p,f)&&_po187.apply(this,arguments)}}

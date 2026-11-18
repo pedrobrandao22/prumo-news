@@ -194,6 +194,8 @@ function clMiolo(fromPop){
    goMostra (031, 031, 012). O 167 podia chamar o de dentro duas vezes (erro dentro do try dele): por isso goTroca é uma
    função. Na carga, o 031 chama go("capa",true) quando só existiam o 012 e os dois remendos do 031: goMostra. */
 function go(v,fromPop){
+  /* 18/11 (Pedro): a busca guarda de onde veio, para "Cancelar" voltar à mesma tela e ao mesmo ponto */
+  if(v==="busca"&&typeof VIEW==="string"&&VIEW!=="busca")BV_DE={v:VIEW,y:scrollY};
   if(!NUC_PRONTO){goMostra(v,fromPop);return}
   /* [182] Quiz e Enquete escondidos: "Interagir" vira Capa */
   if(v==="play"&&ft182Esc("quiz")&&ft182Esc("enquete"))v="capa";
