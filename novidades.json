@@ -1,42 +1,68 @@
 {
- "gerado": "2026-11-19T12:30-03:00",
+ "gerado": "2026-11-19T12:41-03:00",
  "desde": "2026-11-19T11:39-03:00",
  "feed_atualizado_em": "2026-11-19T11:49:00-03:00",
  "resumo": {
-  "manchetes": 142,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 114,
+  "manchetes": 178,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 145,
   "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 7,
-  "acionar_itens": 1,
+  "acionar_itens": 2,
   "ja_avaliados": 4
  },
  "acionar": true,
- "acionar_motivo": "pauta decreto-6x1-adiado: 5 veículos em 90 min depois da última atualização",
+ "acionar_motivo": "pauta decreto-6x1-adiado: 5 veículos em 90 min depois da última atualização; assunto novo: 3 veículos em 90 min (economia)",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "decreto-6x1-adiado",
-   "titulo": "Lula assina decreto que regulamenta fim da escala 6×1",
+   "titulo": "Leia a íntegra do decreto que regulamenta o fim da 6 X 1",
    "n_fontes": 6,
    "motivo": "pauta decreto-6x1-adiado: 5 veículos em 90 min depois da última atualização",
    "acao": "atualiza: decreto-6x1-adiado"
+  },
+  {
+   "tipo": "novo",
+   "titulo": "BNDES tem lucro líquido de R$ 4,27 bi no 3º trimestre",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "chave": [
+    "acoes",
+    "alta",
+    "bndes",
+    "liquido",
+    "lucro",
+    "petrobras",
+    "puxado",
+    "trimestre",
+    "venda"
+   ],
+   "acao": "nova"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "BNDES tem lucro líquido de R$ 20,3 bi até setembro, alta de 18%",
+   "assunto": "BNDES tem lucro líquido de R$ 4,27 bi no 3º trimestre",
    "secao": "economia",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "fontes": [
+    "cnn",
     "folha",
     "p360"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "BNDES tem lucro líquido de R$ 4,27 bi no 3º trimestre",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/bndes-tem-lucro-liquido-de-r-427-bi-no-3o-trimestre/",
+     "hora": "19/11 12h33"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "BNDES tem lucro líquido de R$ 20,3 bi até setembro, alta de 18%",
@@ -48,6 +74,32 @@
      "titulo": "BNDES tem lucro de R$ 20,3 bi até setembro, puxado por venda de ações da Petrobras",
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/bndes-tem-lucro-de-r-203-bi-ate-setembro-puxado-por-venda-de-acoes-da-petrobras.shtml",
      "hora": "19/11 11h41"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "CEO da Anthropic destaca promessas e riscos da IA em estreia na bolsa de NY",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "bbc",
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "CEO da Anthropic destaca promessas e riscos da IA em estreia na bolsa de NY",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ceo-da-anthropic-destaca-promessas-e-riscos-da-ia-em-estreia-na-bolsa-de-ny/",
+     "hora": "19/11 12h26"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "Avaliada em R$ 8,8 tri, Anthropic bate recorde em estreia na bolsa: empresa pode evitar o estouro da bolha da IA?",
+     "url": "https://www.bbc.com/portuguese/articles/cm782wyv0153o?at_medium=RSS&at_campaign=rss",
+     "hora": "19/11 11h39"
     }
    ],
    "n_fontes_90min": 2
@@ -80,6 +132,32 @@
      "titulo": "Escola pública do Complexo da Maré é eleita a melhor do mundo na categoria Superação de Adversidades",
      "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/19/escola-publica-do-complexo-da-mare-e-eleita-a-melhor-do-mundo-na-categoria-superacao-de-adversidades.ghtml",
      "hora": "19/11 11h45"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Lutador de MMA suspeito de matar o próprio cachorro é afastado de equipe",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Lutador de MMA suspeito de matar o próprio cachorro é afastado de equipe",
+     "url": "https://ge.globo.com/combate/noticia/2026/11/19/lutador-de-mma-suspeito-de-matar-o-proprio-cachorro-e-afastado-de-equipe.ghtml",
+     "hora": "19/11 12h32"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Lutador de MMA é preso suspeito de matar cachorro a facadas em SP",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/lutador-de-mma-e-preso-suspeito-de-matar-cachorro-a-facadas-em-sp.ghtml",
+     "hora": "19/11 11h51"
     }
    ],
    "n_fontes_90min": 2
@@ -406,20 +484,20 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Avaliada em R$ 8,8 tri, Anthropic bate recorde em estreia na bolsa: empresa pode evitar o estouro da bolha da IA?",
+   "assunto": "BC vende US$ 1 bilhão em leilão à vista",
    "secao": "economia",
    "n_fontes": 1,
    "fontes": [
-    "bbc"
+    "im"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "BBC News Brasil",
-     "titulo": "Avaliada em R$ 8,8 tri, Anthropic bate recorde em estreia na bolsa: empresa pode evitar o estouro da bolha da IA?",
-     "url": "https://www.bbc.com/portuguese/articles/cm782wyv0153o?at_medium=RSS&at_campaign=rss",
-     "hora": "19/11 11h39"
+     "veiculo": "InfoMoney",
+     "titulo": "BC vende US$ 1 bilhão em leilão à vista",
+     "url": "https://www.infomoney.com.br/mercados/bc-vende-us-1-bilhao-em-leilao-a-vista/",
+     "hora": "19/11 12h34"
     }
    ],
    "n_fontes_90min": 1
@@ -458,6 +536,25 @@
      "titulo": "Boca Predio: a fábrica de talentos do rival do Atlético-MG que movimentou mais de meio bilhão",
      "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/19/boca-predio-a-fabrica-de-talentos-do-rival-do-atletico-mg-que-movimentou-mais-de-meio-bilhao.ghtml",
      "hora": "19/11 12h25"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "CBF define data para premiação dos melhores do Campeonato Brasileiro 2026",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "CBF define data para premiação dos melhores do Campeonato Brasileiro 2026",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/cbf-define-data-para-premiacao-dos-melhores-do-campeonato-brasileiro-2026/",
+     "hora": "19/11 12h29"
     }
    ],
    "n_fontes_90min": 1
@@ -520,20 +617,20 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Cientistas conseguem cultivar batatas em solo lunar simulado",
-   "secao": "economia",
+   "assunto": "Com 16% do parque hidrelétrico em disputa, Copel mira novas concessões",
+   "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "im"
+    "cnn"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Cientistas conseguem cultivar batatas em solo lunar simulado",
-     "url": "https://www.infomoney.com.br/mundo/cientistas-conseguem-cultivar-batatas-em-solo-lunar-simulado/",
-     "hora": "19/11 12h12"
+     "veiculo": "CNN Brasil",
+     "titulo": "Com 16% do parque hidrelétrico em disputa, Copel mira novas concessões",
+     "url": "https://www.cnnbrasil.com.br/infra/com-16-do-parque-hidreletrico-em-disputa-copel-mira-novas-concessoes/",
+     "hora": "19/11 12h18"
     }
    ],
    "n_fontes_90min": 1
@@ -558,76 +655,19 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Como se preparar para o próximo grande apagão das Big Techs?",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Como se preparar para o próximo grande apagão das Big Techs?",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/tec/2026/11/como-se-preparar-para-o-proximo-grande-apagao-das-big-techs.shtml",
-     "hora": "19/11 12h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Compra de supercomputador de IA por Lula dependerá de aval da Casa Branca, dizem servidores",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Compra de supercomputador de IA por Lula dependerá de aval da Casa Branca, dizem servidores",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/compra-de-supercomputador-de-ia-por-lula-dependera-de-aval-da-casa-branca-dizem-servidores.shtml",
-     "hora": "19/11 12h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Concessionária oferece até 98% de desconto para clientes com contas de luz em atraso no interior de SP",
+   "assunto": "Como o Brasil foi parar no topo de um estudo global de liberdade sexual — ficando atrás de apenas um país",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "g1"
+    "cnn"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Concessionária oferece até 98% de desconto para clientes com contas de luz em atraso no interior de SP",
-     "url": "https://g1.globo.com/sp/presidente-prudente-e-regiao/noticia/2026/11/19/concessionaria-oferece-ate-98percent-de-desconto-para-clientes-com-contas-de-luz-em-atraso-no-interior-de-sp.ghtml",
-     "hora": "19/11 11h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Condenação da Corte de Haia sobre genocídio dos rohingya inaugura precedente internacional",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mundo",
-     "titulo": "Condenação da Corte de Haia sobre genocídio dos rohingya inaugura precedente internacional",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/condenacao-da-corte-de-haia-sobre-genocidio-dos-rohingya-inaugura-precedente-internacional.shtml",
+     "veiculo": "CNN Brasil",
+     "titulo": "Como o Brasil foi parar no topo de um estudo global de liberdade sexual — ficando atrás de apenas um país",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/como-o-brasil-foi-parar-no-topo-de-um-estudo-global-de-liberdade-sexual-ficando-atras-de-apenas-um-pais/",
      "hora": "19/11 12h19"
     }
    ],
@@ -653,36 +693,6 @@
     }
    ]
   },
-  "anthropic-ipo-nasdaq": {
-   "secao": "economia",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Nasdaq sobe mais de 1% na abertura com impulso de IA e IPO da Anthropic",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/wall-street-bolsas-de-ny-nasdaq-19-novembro-2026/",
-     "hora": "19/11 11h54"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Nasdaq sobe cerca de 2% com indicações de forte estreia das ações da Anthropic",
-     "url": "https://www.infomoney.com.br/mercados/nasdaq-sobe-estreia-das-acoes-da-anthropic-191126/",
-     "hora": "19/11 11h42"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Anthropic desbanca SpaceX e faz maior IPO da história; veja o ranking dos 10 maiores",
-     "url": "https://www.infomoney.com.br/mercados/anthropic-desbanca-spacex-e-faz-maior-ipo-da-historia-veja-o-ranking-dos-10-maiores/",
-     "hora": "19/11 11h51"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "IPO da Anthropic pode criar 2.800 milionários entre funcionários e ex-funcionários",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/19/ipo-da-anthropic-pode-criar-2800-milionarios-entre-funcionarios-e-ex-funcionarios.ghtml",
-     "hora": "19/11 12h20"
-    }
-   ]
-  },
   "eua-trump-xi-putin-apec-china": {
    "secao": "mundo",
    "n_fontes": 1,
@@ -692,6 +702,24 @@
      "titulo": "Saiba o que foi discutido na trilateral entre Trump, Xi e Putin",
      "url": "https://www.poder360.com.br/poder-internacional/saiba-o-que-foi-discutido-na-reuniao-entre-trump-xi-e-putin/",
      "hora": "19/11 11h46"
+    }
+   ]
+  },
+  "anthropic-ipo-nasdaq": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Nasdaq sobe mais de 1% na abertura com impulso de IA e IPO da Anthropic",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/wall-street-bolsas-de-ny-nasdaq-19-novembro-2026/",
+     "hora": "19/11 11h54"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "IPO da Anthropic pode criar 2.800 milionários entre funcionários e ex-funcionários",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/19/ipo-da-anthropic-pode-criar-2800-milionarios-entre-funcionarios-e-ex-funcionarios.ghtml",
+     "hora": "19/11 12h20"
     }
    ]
   },
@@ -730,6 +758,12 @@
      "hora": "19/11 12h11"
     },
     {
+     "veiculo": "Poder360",
+     "titulo": "Leia a íntegra do decreto que regulamenta o fim da 6 X 1",
+     "url": "https://www.poder360.com.br/poder-flash/leia-a-integra-do-decreto-que-regulamenta-o-fim-da-6-x-1/",
+     "hora": "19/11 12h38"
+    },
+    {
      "veiculo": "InfoMoney",
      "titulo": "Lula assina decreto que regulamenta fim da escala 6×1",
      "url": "https://www.infomoney.com.br/brasil/lula-assina-decreto-que-regulamenta-fim-da-escala-6x1/",
@@ -763,12 +797,18 @@
     "p360"
    ],
    "n_fontes_90min": 5,
-   "ultima": "19/11 12h24",
-   "ultima_iso": "2026-11-19T12:24-03:00",
+   "ultima": "19/11 12h38",
+   "ultima_iso": "2026-11-19T12:38-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Leia a íntegra do decreto que regulamenta o fim da 6 X 1",
+     "url": "https://www.poder360.com.br/poder-flash/leia-a-integra-do-decreto-que-regulamenta-o-fim-da-6-x-1/",
+     "hora": "19/11 12h38"
+    },
     {
      "veiculo": "InfoMoney",
      "titulo": "Lula assina decreto que regulamenta fim da escala 6×1",
@@ -794,14 +834,8 @@
      "hora": "19/11 11h34"
     },
     {
-     "veiculo": "Poder360",
-     "titulo": "Lula regulamenta fim da escala 6 X 1",
-     "url": "https://www.poder360.com.br/poder-governo/lula-regulamenta-fim-da-escala-6-x-1/",
-     "hora": "19/11 11h29"
-    },
-    {
      "veiculo": "g1",
-     "titulo": "Após regulamentação da escala 5x2, Lula diz que vai discutir transporte gratuito no fim de semana",
+     "titulo": "Após regulamentação da escala 5x2, Lula diz que vai articular transporte gratuito no fim de semana",
      "url": "https://g1.globo.com/politica/noticia/2026/11/19/apos-regulamentacao-da-escala-5x2-lula-diz-que-vai-articular-transporte-gratuito-no-fim-de-semana.ghtml",
      "hora": "19/11 11h24"
     }
@@ -817,11 +851,11 @@
    "ultima": "19/11 11h11",
    "ultima_iso": "2026-11-19T11:11-03:00",
    "pauta_atualizada_em": "2026-11-17T06:52-03:00",
-   "horas_sem_atualizar": 53.6,
+   "horas_sem_atualizar": 53.8,
    "principal": false,
    "manchetes": [
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Política",
      "titulo": "Alcolumbre vai se reunir com Lula nos próximos dias para debater indicação ao STF e montagem do novo governo",
      "url": "https://g1.globo.com/politica/blog/valdo-cruz/post/2026/11/19/alcolumbre-vai-se-reunir-com-lula-nos-proximos-dias-para-debater-indicacao-ao-stf-e-montagem-do-novo-governo.ghtml",
      "hora": "19/11 11h11"
@@ -841,7 +875,7 @@
    "ultima": "19/11 12h13",
    "ultima_iso": "2026-11-19T12:13-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": true,
    "manchetes": [
     {
@@ -894,7 +928,7 @@
    "ultima": "19/11 12h23",
    "ultima_iso": "2026-11-19T12:23-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": true,
    "manchetes": [
     {
@@ -905,7 +939,7 @@
     },
     {
      "veiculo": "Folha Mercado",
-     "titulo": "Dólar sobe e supera R$ 5,91 após aprovação de pacote fiscal no Senado; Bolsa e juros futuros avançam",
+     "titulo": "Dólar supera R$ 5,92, mas reduz alta após intervenção do BC; Bolsa recua",
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/dolar-abre-em-alta-e-supera-r-591-apos-aprovacao-de-pacote-fiscal-no-senado.shtml",
      "hora": "19/11 09h39"
     },
@@ -918,18 +952,17 @@
    ]
   },
   "anthropic-ipo-nasdaq": {
-   "n": 6,
-   "n_fontes": 3,
+   "n": 4,
+   "n_fontes": 2,
    "fontes": [
     "cnn",
-    "g1",
-    "im"
+    "g1"
    ],
-   "n_fontes_90min": 3,
+   "n_fontes_90min": 2,
    "ultima": "19/11 12h20",
    "ultima_iso": "2026-11-19T12:20-03:00",
    "pauta_atualizada_em": "2026-11-19T06:21-03:00",
-   "horas_sem_atualizar": 6.2,
+   "horas_sem_atualizar": 6.3,
    "principal": true,
    "manchetes": [
     {
@@ -943,18 +976,6 @@
      "titulo": "Nasdaq sobe mais de 1% na abertura com impulso de IA e IPO da Anthropic",
      "url": "https://www.cnnbrasil.com.br/economia/money/mercado/wall-street-bolsas-de-ny-nasdaq-19-novembro-2026/",
      "hora": "19/11 11h54"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Anthropic desbanca SpaceX e faz maior IPO da história; veja o ranking dos 10 maiores",
-     "url": "https://www.infomoney.com.br/mercados/anthropic-desbanca-spacex-e-faz-maior-ipo-da-historia-veja-o-ranking-dos-10-maiores/",
-     "hora": "19/11 11h51"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Nasdaq sobe cerca de 2% com indicações de forte estreia das ações da Anthropic",
-     "url": "https://www.infomoney.com.br/mercados/nasdaq-sobe-estreia-das-acoes-da-anthropic-191126/",
-     "hora": "19/11 11h42"
     },
     {
      "veiculo": "CNN Brasil",
@@ -983,7 +1004,7 @@
    "ultima": "19/11 11h46",
    "ultima_iso": "2026-11-19T11:46-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": true,
    "manchetes": [
     {
@@ -1022,7 +1043,7 @@
    "ultima": "19/11 12h00",
    "ultima_iso": "2026-11-19T12:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": false,
    "manchetes": [
     {
@@ -1358,20 +1379,20 @@
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 11 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 12 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 14 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 95 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 27 nas últimas 6 h",
+  "ge": "ok: 100 itens, 100 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 29 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 7 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 14 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 7 nas últimas 6 h"
  }
 }
