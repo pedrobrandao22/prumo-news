@@ -1,19 +1,19 @@
 {
- "gerado": "2026-11-19T05:42-03:00",
- "desde": "2026-11-18T23:32-03:00",
+ "gerado": "2026-11-19T06:24-03:00",
+ "desde": "2026-11-19T00:14-03:00",
  "feed_atualizado_em": "2026-11-18T21:50:00-03:00",
  "resumo": {
-  "manchetes": 258,
+  "manchetes": 242,
   "assuntos_novos_relevantes": 2,
-  "assuntos_novos": 167,
-  "pautas_com_novidade": 5,
-  "pautas_com_novidade_3_fontes": 1,
+  "assuntos_novos": 176,
+  "pautas_com_novidade": 6,
+  "pautas_com_novidade_3_fontes": 2,
   "pautas_com_relatos": 6,
-  "acionar_itens": 3,
+  "acionar_itens": 4,
   "ja_avaliados": 0
  },
  "acionar": true,
- "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização; pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização; assunto novo: 3 veículos em 90 min (economia)",
+ "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização; pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização; pauta principal eua-trump-xi-putin-apec-china sem atualização há 18.6 h e 2 veículos com relatos novos (+1)",
  "acionar_itens": [
   {
    "tipo": "pauta",
@@ -26,10 +26,18 @@
   {
    "tipo": "pauta",
    "pid": "ajuste-fiscal-lula-4",
-   "titulo": "Governo Lula tenta vencer resistências e concluir votação do ajuste fiscal",
-   "n_fontes": 4,
+   "titulo": "Veja mudanças feitas no projeto do ajuste fiscal no Senado",
+   "n_fontes": 3,
    "motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização",
    "acao": "atualiza: ajuste-fiscal-lula-4"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "eua-trump-xi-putin-apec-china",
+   "titulo": "Começa reunião trilateral entre Trump, Putin e Xi Jinping na China",
+   "n_fontes": 2,
+   "motivo": "pauta principal eua-trump-xi-putin-apec-china sem atualização há 18.6 h e 2 veículos com relatos novos",
+   "acao": "atualiza: eua-trump-xi-putin-apec-china"
   },
   {
    "tipo": "novo",
@@ -61,46 +69,37 @@
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Trump, Xi e Putin começam reunião inédita de cúpula",
+   "assunto": "Anthropic, pacote fiscal, cúpula entre Trump, Xi e Putin e mais destaques desta 5ª",
    "secao": "mundo",
-   "n_fontes": 5,
+   "n_fontes": 3,
    "fontes": [
-    "cnn",
     "folha",
     "g1",
-    "met",
-    "p360"
+    "im"
    ],
-   "ja_e_breve": true,
+   "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
+     "veiculo": "InfoMoney",
+     "titulo": "Anthropic, pacote fiscal, cúpula entre Trump, Xi e Putin e mais destaques desta 5ª",
+     "url": "https://www.infomoney.com.br/mercados/anthropic-pacote-fiscal-cupula-trump-xi-putin-agenda-19112026/",
+     "hora": "19/11 06h15"
+    },
+    {
      "veiculo": "Folha Mundo",
-     "titulo": "Trump, Xi e Putin começam reunião inédita de cúpula",
+     "titulo": "Estamos fazendo história, diz Trump sobre cúpula com Xi e Putin",
      "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/trump-xi-e-putin-comecam-reuniao-inedita-de-cupula.shtml",
      "hora": "19/11 05h30"
     },
     {
      "veiculo": "g1",
-     "titulo": "Trump, Putin e Xi fazem reunião trilateral histórica",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/trump-putin-e-xi-fazem-reuniao-trilateral-historica.ghtml",
-     "hora": "19/11 05h29"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Após encontro com Putin, Trump discute Irã e agricultura com Xi",
-     "url": "https://www.poder360.com.br/poder-internacional/apos-encontro-com-putin-trump-discute-ira-e-agricultura-com-xi/",
-     "hora": "19/11 04h45"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "EUA e China podem ajudar a acabar com a guerra na Ucrânia, diz Trump a Xi antes de reunião trilateral com Putin",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/eua-e-china-podem-ajudar-a-acabar-com-a-guerra-na-ucrania-diz-trump-a-xi.ghtml",
-     "hora": "19/11 04h35"
+     "titulo": "Trump diz que cúpula histórica com Xi e Putin já é uma 'vitória' antes mesmo do evento",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/trump-diz-que-cupula-historica-com-xi-e-putin-ja-e-uma-vitoria.ghtml",
+     "hora": "19/11 03h41"
     }
    ],
-   "n_fontes_90min": 3,
-   "pid_provavel": "eua-trump-xi-putin-apec-china"
+   "n_fontes_90min": 2
   },
   {
    "assunto": "De Dilma à Copa: como era o Brasil no último lançamento de GTA",
@@ -136,129 +135,6 @@
    "n_fontes_90min": 3
   },
   {
-   "assunto": "Análise: Bahia cozinha o Grêmio, mas não mostra fome para matar o jogo e volta com empate",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Análise: Bahia cozinha o Grêmio, mas não mostra fome para matar o jogo e volta com empate",
-     "url": "https://ge.globo.com/ba/futebol/times/bahia/noticia/2026/11/19/analise-bahia-cozinha-o-gremio-mas-nao-mostra-fome-para-matar-o-jogo-e-volta-com-empate.ghtml",
-     "hora": "19/11 04h00"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Grêmio 0 x 0 Bahia: veja os melhores momentos do Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/gremio-0-x-0-bahia-veja-os-melhores-momentos-do-brasileirao/",
-     "hora": "19/11 00h10"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Corinthians 4 x 0 Botafogo: veja os melhores momentos pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/corinthians-4-x-0-botafogo-veja-os-melhores-momentos-pelo-brasileirao/",
-     "hora": "18/11 23h56"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Grêmio 0 x 0 Bahia: assista aos melhores momentos",
-     "url": "https://ge.globo.com/ba/futebol/times/bahia/noticia/2026/11/18/gremio-0-x-0-bahia-assista-aos-melhores-momentos.ghtml",
-     "hora": "18/11 23h42"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Cruzeiro bate o Palmeiras, garante vaga direta na Libertadores e complica rival na briga pelo título",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Cruzeiro bate o Palmeiras, garante vaga direta na Libertadores e complica rival na briga pelo título",
-     "url": "https://ge.globo.com/mg/futebol/brasileirao-serie-a/jogo/18-11-2026/cruzeiro-palmeiras.ghtml",
-     "hora": "19/11 01h53"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Cruzeiro garante G4 e confirma vaga na fase de grupos da Libertadores",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/cruzeiro/cruzeiro-garante-g4-e-confirma-vaga-na-fase-de-grupos-da-libertadores/",
-     "hora": "19/11 00h03"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Fachin dará 15 dias para PGR analisar material da PF sobre ministros do STF",
-   "secao": "politica",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Fachin dará 15 dias para PGR analisar material da PF sobre ministros do STF",
-     "url": "https://www.cnnbrasil.com.br/politica/fachin-dara-15-dias-para-pgr-analisar-material-da-pf-sobre-ministros-do-stf/",
-     "hora": "19/11 03h50"
-    },
-    {
-     "veiculo": "g1 Política",
-     "titulo": "PGR terá que analisar relatórios da PF sobre relação de Vorcaro com ministros do STF e apontar providências cabíveis; entenda",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/19/pgr-tera-que-analisar-relatorios-da-pf-sobre-relacao-de-vorcaro-com-ministros-do-stf-e-apontar-providencias-cabiveis-entenda.ghtml",
-     "hora": "19/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Mega-Sena: quanto rendem R$ 40 milhões na poupança, Tesouro Direto ou CDB",
-   "secao": "economia",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Mega-Sena: quanto rendem R$ 40 milhões na poupança, Tesouro Direto ou CDB",
-     "url": "https://www.cnnbrasil.com.br/economia/seu-bolso/meu-dinheiro/mega-sena-quanto-rendem-r-40-milhoes-na-poupanca-tesouro-direto-ou-cdb-10/",
-     "hora": "19/11 05h05"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Mega-Sena 3088: sorteio desta quinta-feira (19) pode pagar R$ 40 milhões",
-     "url": "https://www.cnnbrasil.com.br/economia/seu-bolso/loterias/mega-sena-3088/",
-     "hora": "19/11 05h00"
-    },
-    {
-     "veiculo": "g1 Economia",
-     "titulo": "Mega-Sena pode pagar R$ 40 milhões nesta quinta-feira; g1 transmite ao vivo",
-     "url": "https://g1.globo.com/loterias/mega-sena/noticia/2026/11/19/mega-sena-pode-pagar-r-40-milhoes-nesta-quinta-feira-g1-transmite-ao-vivo.ghtml",
-     "hora": "19/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
    "assunto": "Mulher morre em tumulto durante inauguração de loja popular no Maranhão",
    "secao": "brasil",
    "n_fontes": 2,
@@ -285,42 +161,43 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Quem são os sete jovens fundadores da Anthropic que se tornaram multibilionários com estreia na bolsa",
-   "secao": "economia",
+   "assunto": "Previsão indica mais calor e pancadas de chuva nesta quinta (19) em São Paulo",
+   "secao": "brasil",
    "n_fontes": 2,
    "fontes": [
-    "bbc",
+    "folha",
     "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "BBC News Brasil",
-     "titulo": "Quem são os sete jovens fundadores da Anthropic que se tornaram multibilionários com estreia na bolsa",
-     "url": "https://www.bbc.com/portuguese/articles/cmn0dykxex82o?at_medium=RSS&at_campaign=rss",
-     "hora": "19/11 05h35"
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Previsão indica mais calor e pancadas de chuva nesta quinta (19) em São Paulo",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/previsao-indica-mais-calor-e-pancadas-de-chuva-nesta-quinta-19-em-sao-paulo.shtml",
+     "hora": "19/11 05h00"
     },
     {
-     "veiculo": "BBC News Brasil",
-     "titulo": "Recorde da Anthropic em estreia na bolsa conseguirá impedir o estouro da bolha da IA?",
-     "url": "https://www.bbc.com/portuguese/articles/cm782wyv0153o?at_medium=RSS&at_campaign=rss",
-     "hora": "19/11 05h28"
+     "veiculo": "g1",
+     "titulo": "Previsão do tempo hoje para Brasília (DF): sol com algumas nuvens; chove rápido durante o dia e à noite",
+     "url": "https://g1.globo.com/df/distrito-federal/previsao-do-tempo/noticia/2026/11/19/previsao-do-tempo-hoje-para-brasilia-df-sol-com-algumas-nuvens-chove-rapido-durante-o-dia-e-a-noite.ghtml",
+     "hora": "19/11 01h15"
     },
     {
-     "veiculo": "g1 Economia",
-     "titulo": "Anthropic, dona do Claude, estreia na bolsa avaliada em US$ 1,5 trilhão; conheça a empresa",
-     "url": "https://g1.globo.com/inovacao/noticia/2026/11/19/anthropic-dona-do-claude-estreia-na-bolsa-conheca-a-empresa.ghtml",
-     "hora": "19/11 00h00"
+     "veiculo": "g1",
+     "titulo": "Previsão do tempo hoje para Goiânia (GO): sol com algumas nuvens; chove rápido durante o dia e à noite",
+     "url": "https://g1.globo.com/go/goias/previsao-do-tempo/noticia/2026/11/19/previsao-do-tempo-hoje-para-goiania-go-sol-com-algumas-nuvens-chove-rapido-durante-o-dia-e-a-noite.ghtml",
+     "hora": "19/11 01h15"
     },
     {
-     "veiculo": "g1 Economia",
-     "titulo": "Maior IPO da história: como a Anthropic superou a SpaceX em estreia bilionária na bolsa",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/19/maior-ipo-da-historia-como-a-anthropic-superou-a-spacex.ghtml",
-     "hora": "19/11 00h00"
+     "veiculo": "g1",
+     "titulo": "Previsão do tempo hoje para Aparecida de Goiânia (GO): sol com algumas nuvens; chove rápido durante o dia e à noite",
+     "url": "https://g1.globo.com/go/goias/previsao-do-tempo/noticia/2026/11/19/previsao-do-tempo-hoje-para-aparecida-de-goiania-go-sol-com-algumas-nuvens-chove-rapido-durante-o-dia-e-a-noite.ghtml",
+     "hora": "19/11 01h15"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 1,
+   "lixo": true
   },
   {
    "assunto": "Restrições a chips de IA e juros podem pressionar data centers do Brasil?",
@@ -375,34 +252,8 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "TV russa mostra assessor de Putin com suposta maleta nuclear na China",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "TV russa mostra assessor de Putin com suposta maleta nuclear na China",
-     "url": "https://www.cnnbrasil.com.br/internacional/tv-russa-mostra-assessor-de-putin-com-suposta-maleta-nuclear-na-china/",
-     "hora": "19/11 03h34"
-    },
-    {
-     "veiculo": "g1 Mundo",
-     "titulo": "Maleta nuclear de Putin: saiba como funciona dispositivo flagrado com militar da Rússia na China",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/maleta-nuclear-de-putin-saiba-como-funciona-dispositivo-flagrado-com-militar-da-russia-na-china.ghtml",
-     "hora": "19/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Veja quais são os direitos de quem trabalha no feriado da Consciência Negra",
-   "secao": "economia",
+   "assunto": "Veja o que abre e o que fecha no AC no feriado prolongado de Tratado de Petrópolis e Consciência Negra",
+   "secao": "brasil",
    "n_fontes": 2,
    "fontes": [
     "folha",
@@ -412,19 +263,31 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Veja quais são os direitos de quem trabalha no feriado da Consciência Negra",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/veja-quais-sao-os-direitos-de-quem-trabalha-no-feriado-da-consciencia-negra.shtml",
+     "veiculo": "g1",
+     "titulo": "Veja o que abre e o que fecha no AC no feriado prolongado de Tratado de Petrópolis e Consciência Negra",
+     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/19/veja-o-que-abre-e-o-que-fecha-no-ac-no-feriado-prolongado-de-tratado-de-petropolis-e-consciencia-negra.ghtml",
+     "hora": "19/11 06h00"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Dia da Consciência Negra altera horário de serviços em São Paulo; saiba o que abre e o que fecha",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/dia-da-consciencia-negra-altera-horario-de-servicos-em-sao-paulo-saiba-o-que-abre-e-o-que-fecha.shtml",
+     "hora": "19/11 06h00"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Consciência Negra: veja o que abre e fecha durante feriado em Divinópolis",
+     "url": "https://g1.globo.com/mg/centro-oeste/noticia/2026/11/19/consciencia-negra-veja-o-que-abre-e-fecha-durante-feriado-em-divinopolis.ghtml",
      "hora": "19/11 04h00"
     },
     {
-     "veiculo": "g1 Economia",
-     "titulo": "Consciência Negra será o último feriadão antes do Natal; veja as regras para quem trabalha",
-     "url": "https://g1.globo.com/trabalho-e-carreira/noticia/2026/11/19/consciencia-negra-feriado.ghtml",
-     "hora": "19/11 00h00"
+     "veiculo": "g1",
+     "titulo": "Dia da Consciência Negra: veja o que abre e o que fecha no Grande Recife",
+     "url": "https://g1.globo.com/pe/pernambuco/noticia/2026/11/19/dia-da-consciencia-negra-veja-o-que-abre-e-o-que-fecha-no-grande-recife.ghtml",
+     "hora": "19/11 04h00"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 2
   },
   {
    "assunto": "'Ninho de chips' para disparos em massa suspeitos de golpes por celular era operado por plataforma russa, diz polícia de SP",
@@ -463,6 +326,26 @@
     }
    ],
    "n_fontes_90min": 1
+  },
+  {
+   "assunto": "AO VIVO: assista à programação da NSC TV",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "AO VIVO: assista à programação da NSC TV",
+     "url": "https://g1.globo.com/sc/santa-catarina/ao-vivo/assista-ao-vivo-aos-telejornais-da-nsc.ghtml",
+     "hora": "19/11 06h00"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
   },
   {
    "assunto": "Abertura do mercado de energia traz liberdade para escolher e segurança para decidir",
@@ -509,20 +392,26 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Alex Telles pede desculpas à torcida do Botafogo após derrota: \"A gente não vem respondendo à altura\"",
-   "secao": "esportes",
+   "assunto": "Agenda de Lula: leia os compromissos do presidente nesta 5ª",
+   "secao": "politica",
    "n_fontes": 1,
    "fontes": [
-    "ge"
+    "p360"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Alex Telles pede desculpas à torcida do Botafogo após derrota: \"A gente não vem respondendo à altura\"",
-     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/18/alex-telles-pede-desculpas-a-torcida-do-botafogo-apos-derrota-a-gente-nao-vem-respondendo-a-altura.ghtml",
-     "hora": "18/11 23h39"
+     "veiculo": "Poder360",
+     "titulo": "Agenda de Lula: leia os compromissos do presidente nesta 5ª",
+     "url": "https://www.poder360.com.br/poder-governo/agenda-de-lula-leia-os-compromissos-do-presidente-nesta-5a-2/",
+     "hora": "19/11 06h15"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Governo Lula: leia a agenda de ministros do governo nesta 5ª feira",
+     "url": "https://www.poder360.com.br/poder-governo/governo-lula-leia-a-agenda-de-ministros-do-governo-nesta-5a-feira-17/",
+     "hora": "19/11 06h15"
     }
    ],
    "n_fontes_90min": 1
@@ -585,6 +474,69 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Antes de IPO, caixa da Anthropic já supera o de big techs",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Antes de IPO, caixa da Anthropic já supera o de big techs",
+     "url": "https://www.poder360.com.br/poder-economia/antes-de-ipo-caixa-da-anthropic-ja-supera-o-de-big-techs/",
+     "hora": "19/11 06h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Anthropic estreia na Nasdaq; IPO deve ser o maior da história",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Anthropic estreia na Nasdaq; IPO deve ser o maior da história",
+     "url": "https://www.poder360.com.br/poder-economia/anthropic-estreia-na-nasdaq-ipo-deve-ser-o-maior-da-historia/",
+     "hora": "19/11 06h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Anthropic levanta recorde de US$ 81 bi em IPO com avaliação de US$ 1,5 tri",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Anthropic levanta recorde de US$ 81 bi em IPO com avaliação de US$ 1,5 tri",
+     "url": "https://www.infomoney.com.br/mercados/anthropic-levanta-recorde-de-us-81-bi-em-ipo-com-avaliacao-de-us15-tri/",
+     "hora": "19/11 06h21"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Futuros de NY avançam com euforia em torno do IPO recorde da Anthropic",
+     "url": "https://www.infomoney.com.br/mercados/futuros-de-ny-avancam-com-euforia-em-torno-do-ipo-recorde-da-anthropic/",
+     "hora": "19/11 05h43"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Análise: Athletico é valente, mas sente desfalques e sucumbe para o Flamengo",
    "secao": "esportes",
    "n_fontes": 1,
@@ -598,6 +550,25 @@
      "veiculo": "ge",
      "titulo": "Análise: Athletico é valente, mas sente desfalques e sucumbe para o Flamengo",
      "url": "https://ge.globo.com/pr/futebol/times/athletico-pr/noticia/2026/11/19/analise-athletico-e-valente-mas-sente-desfalques-e-sucumbe-para-o-flamengo.ghtml",
+     "hora": "19/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Análise: Bahia cozinha o Grêmio, mas não mostra fome para matar o jogo e volta com empate",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Bahia cozinha o Grêmio, mas não mostra fome para matar o jogo e volta com empate",
+     "url": "https://ge.globo.com/ba/futebol/times/bahia/noticia/2026/11/19/analise-bahia-cozinha-o-gremio-mas-nao-mostra-fome-para-matar-o-jogo-e-volta-com-empate.ghtml",
      "hora": "19/11 04h00"
     }
    ],
@@ -637,35 +608,9 @@
      "titulo": "Análise: Cruzeiro cumpre objetivo com autoridade e idealiza 2027 ambicioso com Artur Jorge",
      "url": "https://ge.globo.com/futebol/times/cruzeiro/noticia/2026/11/19/analise-cruzeiro-cumpre-objetivo-com-autoridade-e-idealiza-2027-ambicioso-com-artur-jorge.ghtml",
      "hora": "19/11 04h00"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Artur Jorge exalta reação do Cruzeiro, critica calendário e revela cobrança feita aos jogadores",
-     "url": "https://ge.globo.com/futebol/times/cruzeiro/noticia/2026/11/18/artur-jorge-exalta-reacao-do-cruzeiro-critica-calendario-e-revela-cobranca-feita-aos-jogadores.ghtml",
-     "hora": "18/11 23h53"
     }
    ],
    "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Análise: Cuca aposta em escalação estrelada no Santos e mantém vivo sonho de vaga na Libertadores",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Análise: Cuca aposta em escalação estrelada no Santos e mantém vivo sonho de vaga na Libertadores",
-     "url": "https://ge.globo.com/sp/santos-e-regiao/futebol/times/santos/noticia/2026/11/19/analise-cuca-aposta-em-escalacao-estrelada-no-santos-e-mantem-vivo-sonho-de-vaga-na-libertadores.ghtml",
-     "hora": "19/11 04h00"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
   },
   {
    "assunto": "Análise: Flamengo vence jogo com cara de final e vira o virtual campeão brasileiro",
@@ -786,85 +731,62 @@
     }
    ],
    "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Aposta do Novo vê candidatura do PL como \"complementar\" contra Motta",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Aposta do Novo vê candidatura do PL como \"complementar\" contra Motta",
+     "url": "https://www.metropoles.com/colunas/igor-gadelha/aposta-do-novo-ve-candidatura-do-pl-como-complementar-contra-motta",
+     "hora": "19/11 05h00"
+    }
+   ],
+   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
-  "brasileirao-31-rodada-lideres": {
-   "secao": "esportes",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Flamengo 2 x 1 Athletico-PR: veja os melhores momentos pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/flamengo-2-x-1-athletico-pr-veja-os-melhores-momentos-pelo-brasileirao/",
-     "hora": "18/11 23h33"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Brasileirão: Abel Ferreira joga a toalha e parabeniza Flamengo por “título”",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/brasileirao-abel-ferreira-joga-a-toalha-e-parabeniza-flamengo-por-titulo/",
-     "hora": "18/11 23h42"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Análise: Palmeiras sucumbe em três minutos, e Brasileirão vira sonho praticamente impossível",
-     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/19/analise-palmeiras-sucumbe-em-tres-minutos-e-brasileirao-vira-sonho-praticamente-impossivel.ghtml",
-     "hora": "19/11 04h00"
-    }
-   ]
-  },
-  "ajuste-fiscal-lula-4": {
-   "secao": "economia",
+  "eua-trump-xi-putin-apec-china": {
+   "secao": "mundo",
    "n_fontes": 3,
    "manchetes": [
     {
+     "veiculo": "Metrópoles",
+     "titulo": "Trump afirma que encontro trilateral com Xi e Putin \"está fazendo história\"",
+     "url": "https://www.metropoles.com/mundo/trump-afirma-que-encontro-trilateral-com-xi-e-putin-esta-fazendo-historia",
+     "hora": "19/11 06h06"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Trump, Putin e Xi fazem reunião trilateral histórica: 'Nossos três países estão em uma posição única', diz presidente dos EUA",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/trump-putin-e-xi-fazem-reuniao-trilateral-historica.ghtml",
+     "hora": "19/11 05h29"
+    },
+    {
      "veiculo": "CNN Brasil",
-     "titulo": "Após aval no Senado, ajuste fiscal será votado na Câmara na próxima semana",
-     "url": "https://www.cnnbrasil.com.br/politica/apos-aval-no-senado-ajuste-fiscal-sera-votado-na-camara-na-proxima-semana/",
-     "hora": "19/11 04h00"
+     "titulo": "Começa reunião trilateral entre Trump, Putin e Xi Jinping na China",
+     "url": "https://www.cnnbrasil.com.br/internacional/comeca-reuniao-trilateral-entre-trump-putin-e-xi-jinping-na-china/",
+     "hora": "19/11 05h29"
     },
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Entenda o 'plano Moretti', proposta de ajuste fiscal do governo Lula que foi aprovada pelo Senado",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/entenda-o-plano-moretti-proposta-de-ajuste-fiscal-do-governo-lula-que-foi-aprovada-pelo-senado.shtml",
-     "hora": "19/11 04h00"
-    },
-    {
-     "veiculo": "g1 Política",
-     "titulo": "Ajuste fiscal: Moretti diz que texto aprovado pelo Senado preserva políticas sociais essenciais em 2027",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/19/ajuste-fiscal-moretti-diz-que-texto-aprovado-pelo-senado-preserva-politicas-sociais-essenciais-em-2027.ghtml",
-     "hora": "19/11 00h00"
-    },
-    {
-     "veiculo": "Folha Poder",
-     "titulo": "Stedile, do MST, chama ajuste fiscal de enganação e defende ministros mais jovens e representativos",
-     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/stedile-do-mst-chama-ajuste-fiscal-de-enganacao-e-defende-ministros-mais-jovens-e-representativos.shtml",
-     "hora": "19/11 04h00"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Pós-eleição: esquerda racha por ajuste fiscal e direita, pela Câmara",
-     "url": "https://www.metropoles.com/brasil/pos-eleicao-esquerda-racha-por-ajuste-fiscal-e-direita-pela-camara",
-     "hora": "19/11 04h30"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Governo Lula tenta vencer resistências e concluir votação do ajuste fiscal",
-     "url": "https://www.metropoles.com/brasil/governo-lula-tenta-vencer-resistencias-e-concluir-votacao-do-ajuste-fiscal",
-     "hora": "19/11 04h30"
+     "veiculo": "g1",
+     "titulo": "EUA e China podem ajudar a acabar com a guerra na Ucrânia, diz Trump a Xi antes de reunião trilateral com Putin",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/eua-e-china-podem-ajudar-a-acabar-com-a-guerra-na-ucrania-diz-trump-a-xi.ghtml",
+     "hora": "19/11 04h35"
     }
    ]
   },
   "decreto-6x1-adiado": {
    "secao": "politica",
-   "n_fontes": 2,
+   "n_fontes": 1,
    "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Lula assina decreto para regulamentar escala 5x2 nesta quinta (19/11)",
-     "url": "https://www.metropoles.com/brasil/lula-assina-decreto-para-regulamentar-escala-5x2-nesta-quinta-19-11",
-     "hora": "19/11 03h30"
-    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Governo assina hoje decreto que regulamenta fim da escala de trabalho 6×1",
@@ -881,6 +803,18 @@
      "veiculo": "ge",
      "titulo": "Senhor Sul-Americana: como Cuello pode entrar pra história do torneio se levar título com Atlético-MG",
      "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/19/senhor-sul-americana-como-cuello-pode-entrar-pra-historia-do-torneio-se-levar-titulo-com-atletico-mg.ghtml",
+     "hora": "19/11 04h00"
+    }
+   ]
+  },
+  "brasileirao-31-rodada-lideres": {
+   "secao": "esportes",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Palmeiras sucumbe em três minutos, e Brasileirão vira sonho praticamente impossível",
+     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/19/analise-palmeiras-sucumbe-em-tres-minutos-e-brasileirao-vira-sonho-praticamente-impossivel.ghtml",
      "hora": "19/11 04h00"
     }
    ]
@@ -908,6 +842,48 @@
      "hora": "19/11 04h30"
     }
    ]
+  },
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Stedile, do MST, chama ajuste fiscal de enganação e defende ministros mais jovens e representativos",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/stedile-do-mst-chama-ajuste-fiscal-de-enganacao-e-defende-ministros-mais-jovens-e-representativos.shtml",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Veja mudanças feitas no projeto do ajuste fiscal no Senado",
+     "url": "https://www.metropoles.com/brasil/veja-mudancas-feitas-no-projeto-do-ajuste-fiscal-no-senado",
+     "hora": "19/11 05h48"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Pós-eleição: esquerda racha por ajuste fiscal e direita, pela Câmara",
+     "url": "https://www.metropoles.com/brasil/pos-eleicao-esquerda-racha-por-ajuste-fiscal-e-direita-pela-camara",
+     "hora": "19/11 04h30"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Após aval no Senado, ajuste fiscal será votado na Câmara na próxima semana",
+     "url": "https://www.cnnbrasil.com.br/politica/apos-aval-no-senado-ajuste-fiscal-sera-votado-na-camara-na-proxima-semana/",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Entenda o 'plano Moretti', proposta de ajuste fiscal do governo Lula que foi aprovada pelo Senado",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/entenda-o-plano-moretti-proposta-de-ajuste-fiscal-do-governo-lula-que-foi-aprovada-pelo-senado.shtml",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Governo Lula tenta vencer resistências e concluir votação do ajuste fiscal",
+     "url": "https://www.metropoles.com/brasil/governo-lula-tenta-vencer-resistencias-e-concluir-votacao-do-ajuste-fiscal",
+     "hora": "19/11 04h30"
+    }
+   ]
   }
  },
  "novos_relatos": {
@@ -923,7 +899,7 @@
    "ultima": "19/11 04h30",
    "ultima_iso": "2026-11-19T04:30-03:00",
    "pauta_atualizada_em": "2026-11-18T21:48-03:00",
-   "horas_sem_atualizar": 7.9,
+   "horas_sem_atualizar": 8.6,
    "principal": true,
    "manchetes": [
     {
@@ -956,7 +932,7 @@
    "ultima": "19/11 03h30",
    "ultima_iso": "2026-11-19T03:30-03:00",
    "pauta_atualizada_em": "2026-11-17T06:52-03:00",
-   "horas_sem_atualizar": 46.8,
+   "horas_sem_atualizar": 47.5,
    "principal": true,
    "manchetes": [
     {
@@ -969,20 +945,25 @@
   },
   "ajuste-fiscal-lula-4": {
    "n": 6,
-   "n_fontes": 4,
+   "n_fontes": 3,
    "fontes": [
     "cnn",
     "folha",
-    "g1",
     "met"
    ],
    "n_fontes_90min": 3,
-   "ultima": "19/11 04h30",
-   "ultima_iso": "2026-11-19T04:30-03:00",
+   "ultima": "19/11 05h48",
+   "ultima_iso": "2026-11-19T05:48-03:00",
    "pauta_atualizada_em": "2026-11-18T21:48-03:00",
-   "horas_sem_atualizar": 7.9,
+   "horas_sem_atualizar": 8.6,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Veja mudanças feitas no projeto do ajuste fiscal no Senado",
+     "url": "https://www.metropoles.com/brasil/veja-mudancas-feitas-no-projeto-do-ajuste-fiscal-no-senado",
+     "hora": "19/11 05h48"
+    },
     {
      "veiculo": "Metrópoles",
      "titulo": "Governo Lula tenta vencer resistências e concluir votação do ajuste fiscal",
@@ -1012,28 +993,29 @@
      "titulo": "Entenda o 'plano Moretti', proposta de ajuste fiscal do governo Lula que foi aprovada pelo Senado",
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/entenda-o-plano-moretti-proposta-de-ajuste-fiscal-do-governo-lula-que-foi-aprovada-pelo-senado.shtml",
      "hora": "19/11 04h00"
-    },
-    {
-     "veiculo": "g1 Política",
-     "titulo": "Ajuste fiscal: Moretti diz que texto aprovado pelo Senado preserva políticas sociais essenciais em 2027",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/19/ajuste-fiscal-moretti-diz-que-texto-aprovado-pelo-senado-preserva-politicas-sociais-essenciais-em-2027.ghtml",
-     "hora": "19/11 00h00"
     }
    ]
   },
   "eua-trump-xi-putin-apec-china": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
+    "cnn",
     "g1"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "19/11 04h35",
-   "ultima_iso": "2026-11-19T04:35-03:00",
+   "n_fontes_90min": 2,
+   "ultima": "19/11 05h29",
+   "ultima_iso": "2026-11-19T05:29-03:00",
    "pauta_atualizada_em": "2026-11-18T11:48-03:00",
-   "horas_sem_atualizar": 17.9,
+   "horas_sem_atualizar": 18.6,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Começa reunião trilateral entre Trump, Putin e Xi Jinping na China",
+     "url": "https://www.cnnbrasil.com.br/internacional/comeca-reuniao-trilateral-entre-trump-putin-e-xi-jinping-na-china/",
+     "hora": "19/11 05h29"
+    },
     {
      "veiculo": "g1",
      "titulo": "EUA e China podem ajudar a acabar com a guerra na Ucrânia, diz Trump a Xi antes de reunião trilateral com Putin",
@@ -1043,17 +1025,16 @@
    ]
   },
   "brasileirao-31-rodada-lideres": {
-   "n": 3,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "cnn",
     "ge"
    ],
    "n_fontes_90min": 1,
    "ultima": "19/11 04h00",
    "ultima_iso": "2026-11-19T04:00-03:00",
    "pauta_atualizada_em": "2026-11-18T06:52-03:00",
-   "horas_sem_atualizar": 22.8,
+   "horas_sem_atualizar": 23.5,
    "principal": false,
    "manchetes": [
     {
@@ -1061,18 +1042,6 @@
      "titulo": "Análise: Palmeiras sucumbe em três minutos, e Brasileirão vira sonho praticamente impossível",
      "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/19/analise-palmeiras-sucumbe-em-tres-minutos-e-brasileirao-vira-sonho-praticamente-impossivel.ghtml",
      "hora": "19/11 04h00"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Brasileirão: Abel Ferreira joga a toalha e parabeniza Flamengo por “título”",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/brasileirao-abel-ferreira-joga-a-toalha-e-parabeniza-flamengo-por-titulo/",
-     "hora": "18/11 23h42"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Flamengo 2 x 1 Athletico-PR: veja os melhores momentos pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/flamengo-2-x-1-athletico-pr-veja-os-melhores-momentos-pelo-brasileirao/",
-     "hora": "18/11 23h33"
     }
    ]
   },
@@ -1086,7 +1055,7 @@
    "ultima": "19/11 04h00",
    "ultima_iso": "2026-11-19T04:00-03:00",
    "pauta_atualizada_em": "2026-11-17T20:11-03:00",
-   "horas_sem_atualizar": 33.5,
+   "horas_sem_atualizar": 34.2,
    "principal": false,
    "manchetes": [
     {
@@ -1283,23 +1252,23 @@
  "avaliados": [],
  "ultima_rodada": "2026-11-18T21:50-03:00",
  "fontes": {
-  "Poder360": "ok: 10 itens, 3 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 39 nas últimas 6 h",
+  "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 33 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 0 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 5 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 8 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 54 nas últimas 6 h",
+  "ge": "ok: 100 itens, 46 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 2 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 8 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 0 nas últimas 6 h",
-  "InfoMoney": "ok: 10 itens, 8 nas últimas 6 h",
+  "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 2 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h"
