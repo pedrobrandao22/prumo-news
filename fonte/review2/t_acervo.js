@@ -36,7 +36,7 @@ let srv = null;
   const tema = await p.evaluate(() => { const q = { ...FEED.pautas.find(x => x.id === 'flavio-mandato-senado'), id: 'copia-flavio' }; const f = fotoArquivo(q); return f && f.url });
   ok(!fa['flavio-mandato-senado'] || !/senado\.leg\.br/.test(fa['flavio-mandato-senado'].url), '"foto_arquivo":"tema": nada de retrato na notícia', fa['flavio-mandato-senado']);
   // 18/11 (187): sem retrato, a foto de arquivo só vem de um lugar dito no título; aqui não há: fica a ilustração
-  ok(!tema, '"foto_arquivo":"tema": sem retrato e sem lugar no título, fica a ilustração', tema);
+  ok(!/senado\.leg\.br/.test(tema || ''), '"foto_arquivo":"tema" em notícia de cassação: sem retrato (18/11 noite: a foto de lugar ou do tema vale)', tema);
   const py = JSON.parse(cp.execFileSync('python3', ['-c', `import json,sys;sys.path.insert(0,'${U.REPO}/tools');import paginas as P;F=json.load(open('${S0}feed.json'));A=json.load(open('${S0}fotos-arquivo.json'));print(json.dumps({k:v['url'] for k,v in P.mapa_fotos(F['pautas'],A).items()}))`]).toString());
   const js = await p.evaluate(() => Object.fromEntries(Object.entries(faMapa()).map(([k, v]) => [k, v.url])));
   ok(JSON.stringify(Object.keys(js).sort().map(k => [k, js[k]])) === JSON.stringify(Object.keys(py).sort().map(k => [k, py[k]])), 'prévia do link (paginas.py) escolhe a mesma foto que o app');

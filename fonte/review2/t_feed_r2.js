@@ -101,7 +101,7 @@ const comentarios = p => ev(p, () => [...document.querySelectorAll('#cbox .clist
 
   // 9. rodapé: hora da conferência e a próxima atualização, sem a lista de horários
   const rod = await ev(A, async () => { for (let i = 0; i < 40 && document.getElementById('mais'); i++) { carregarMais(true); await new Promise(r => setTimeout(r, 30)) }
-    const at = Date.parse(FEED.atualizado_em); const d = new Date(at + 2 * 3600e3); const f = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Sao_Paulo' }).format(d).replace(':', 'h');
+    const at = Date.parse(FEED.atualizado_em); const d = new Date(at + 10 * 60e3); const f = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Sao_Paulo' }).format(d).replace(':', 'h');
     S.rodadas = { dia: hojeSP(), itens: { [f]: { tipo: 'rapida', status: 'sem_mudancas', publicou: false } } }; fd167Rodape(); return { t: (document.querySelector('#extra .foot p') || {}).textContent || '', f } });
   ok(/^Atualizado .+\. Conferido às \d{1,2}h\d{2}, sem novidades\. Próxima atualização/.test(rod.t) && !/9h48, 11h48/.test(rod.t), 'rodapé: "Atualizado…", "Conferido às …, sem novidades" e a próxima atualização', rod);
   ok(await ev(A, () => { S.rodadas = {}; fd167Rodape(); const t = document.querySelector('#extra .foot p').textContent; return /^Atualizado .+\. Próxima atualização/.test(t) && !/Conferido/.test(t) }), 'rodapé sem rodada conferida depois: só a hora e a próxima');

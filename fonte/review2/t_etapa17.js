@@ -25,7 +25,10 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const prox = await p.evaluate(() => document.querySelector('#layer [data-matprox]')?.dataset.matprox);
   ok(rel.length >= 1 && rel.length <= 3 && !rel.includes(prox), 'Relacionadas (até 3, sem repetir a próxima)', { rel, prox });
   await p.evaluate(() => document.querySelector('#layer .mat-rel [data-matir]').click()); await sleep(500);
-  ok(await p.evaluate(a => MAT_PID === a && HST === 1, rel[0]), 'relacionada abre no lugar, sem passo extra no Voltar');
+  // desde a 168 a relacionada empilha um passo: o Voltar do celular volta para a matéria de onde veio, e depois para a Capa
+  ok(await p.evaluate(a => MAT_PID === a && HST === 2, rel[0]), 'relacionada abre no lugar, com um passo no Voltar');
+  await p.evaluate(() => history.back()); await sleep(600);
+  ok(await p.evaluate(m => MAT_PID === m && !!document.querySelector('#layer .mat'), mid), 'Voltar retorna à matéria de onde veio');
   await p.evaluate(() => history.back()); await sleep(500);
   ok(await p.evaluate(() => !document.querySelector('#layer .mat') && VIEW === 'capa'), 'voltar à Capa');
   ok(!p._erros.filter(e => !/ERR_|404|net::/.test(e)).length, 'sem erros ' + p._erros.join('|'));

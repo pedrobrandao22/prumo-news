@@ -70,14 +70,16 @@ class TesteAcervo(unittest.TestCase):
         s.assertEqual(nome(M, "senado"), "Plenário_do_Senado_(29281060086).jpg")
         s.assertEqual(nome(M, "copom"), "Edifício_Sede_do_Banco_Central_do_Brasil.jpg")
         s.assertEqual(nome(M, "planalto"), "Fachada_do_Palácio_do_Planalto.jpg")
-        s.assertEqual(nome(M, "maraca"), "Estádio_do_Maracanã_-_panorama.jpg")
-        for i in ("selic", "governo", "aluguel", "precos", "covid", "china", "fla", "fachin2", "senado-eua"):
-            s.assertIsNone(nome(M, i), i)
+        s.assertIn("maracan", (nome(M, "maraca") or "maracan").lower())  # 18/11 noite: a foto do Maracanã pode ter ido para outra notícia (sem repetir)
+        # 18/11 noite (Pedro: "errar para mais"): assunto genérico, cartão-postal e tema ganham foto; só não pode a pessoa
+        # que está na 2ª frase nem o Senado daqui em notícia dos EUA
+        s.assertNotIn("fachin", (nome(M, "fachin2") or "").lower())
+        s.assertNotIn("senado", (nome(M, "senado-eua") or "").lower())
 
     def test_lugar_no_exterior(s):
         # Lula no exterior: nada de Planalto mesmo com "Planalto" no título
         M = PG.mapa_fotos([P("viagem", "politica", "Planalto confirma viagem de Lula à China", subtema="Planalto e governo")], ACERVO)
-        s.assertNotIn("viagem", M)
+        s.assertNotIn("planalto", (nome(M, "viagem") or "").lower())
 
     def test_tema_tira_retrato(s):
         M = PG.mapa_fotos([P("m", "politica", "Motta é internado em Brasília", foto_arquivo="tema")], ACERVO)
@@ -121,7 +123,7 @@ class TesteFotoPropria(unittest.TestCase):
 
     def test_confirma(s):
         p = P("x", "politica", "Senado aprova o ajuste fiscal por 45 a 31")
-        s.assertFalse(PG.confirma(p, s.F()))                                               # sem "mostra": não aparece (inclusive feed antigo)
+        s.assertTrue(PG.confirma(p, s.F()))                                                # 18/11 noite: sem "mostra" a foto própria vale
         s.assertTrue(PG.confirma(p, s.F(mostra="Senadores no plenário do Senado durante a votação")))
         s.assertFalse(PG.confirma(p, s.F(mostra="Fachada do Ministério da Fazenda")))     # não cita nada do título
         s.assertFalse(PG.confirma(p, s.F(mostra="A votação de hoje")))                    # só palavras comuns
@@ -133,10 +135,10 @@ class TesteFotoPropria(unittest.TestCase):
         sem = P("a", "politica", "Senado aprova o ajuste fiscal", foto=s.F(), prioridade=9)
         com = P("b", "politica", "Motta marca a votação da PEC", foto=s.F(url=AB + "motta.jpg", mostra="Hugo Motta no plenário da Câmara"), prioridade=8)
         M = PG.mapa_fotos([sem, com], A)
-        s.assertEqual(nome(M, "a"), "Plenário_do_Senado_(29281060086).jpg")   # foto própria sem "mostra" dá lugar ao acervo confirmado
+        s.assertNotIn("a", M)                                                 # 18/11 noite: foto própria sem "mostra" vale
         s.assertNotIn("b", M)                                                 # foto própria confirmada fica
         s.assertTrue(PG.propria_ok(com, com["foto"], PG.preparar(A), {}))
-        s.assertFalse(PG.propria_ok(sem, sem["foto"], PG.preparar(A), {}))
+        s.assertTrue(PG.propria_ok(sem, sem["foto"], PG.preparar(A), {}))
         pg = PG.pagina(com, M, lambda p: PG.propria_ok(p, p.get("foto"), PG.preparar(A), {}))
         s.assertIn(AB + "motta.jpg", pg)
 

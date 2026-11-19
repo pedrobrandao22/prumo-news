@@ -49,13 +49,14 @@ print(json.dumps(o))`]).toString());
   const r = await p.evaluate(() => { const o = {}; FEED.pautas.filter(q => /^t-/.test(q.id)).forEach(q => { const f = fotoDe(q); o[q.id] = f ? decodeURIComponent(f.url.split('/').pop()) : null }); return o });
   ok(/Plen[aá]rio_do_Senado/.test(r['t-senado'] || ''), 'Senado no título: plenário do Senado (lugar dito pelo título e pelo nome do arquivo)', r['t-senado']);
   ok(/Banco_Central/.test(r['t-copom'] || ''), 'Copom no título: prédio do Banco Central', r['t-copom']);
-  ok(!r['t-aluguel'] && !r['t-fies'] && !r['t-ufs'] && !r['t-taca'], 'assunto genérico (cédula, campus, posto de saúde, taça): ilustração', [r['t-aluguel'], r['t-fies'], r['t-ufs'], r['t-taca']]);
-  ok(!r['t-fachin'], 'Fachin só na 2ª frase do título: sem retrato', r['t-fachin']);
+  // 18/11 noite (Pedro: "se for errar, errar para mais"): assunto genérico também ganha foto do acervo, em vez da ilustração
+  ok(!!(r['t-aluguel'] && r['t-fies'] && r['t-ufs'] && r['t-taca']), 'assunto genérico (cédula, campus, posto de saúde, taça): foto do acervo do assunto', [r['t-aluguel'], r['t-fies'], r['t-ufs'], r['t-taca']]);
+  ok(!/Fachin/i.test(r['t-fachin'] || ''), 'Fachin só na 2ª frase do título: sem retrato dele (18/11 noite: a foto do tema vale)', r['t-fachin']);
   // meio-termo do Pedro (18/11): órgão do sujeito e estádio do mandante
   ok(/Supremo_Tribunal_Federal|Kassio/.test(r['t-kassio'] || ''), 'Kassio (ministro do STF) sujeito do título: retrato dele (quando o acervo tem) ou fachada do STF', r['t-kassio']);
   ok(/Mineir/.test(r['t-jogo'] || ''), 'jogo "Cruzeiro x Palmeiras": estádio do mandante (Mineirão)', r['t-jogo']);
-  ok(!r['t-final'], 'final em campo neutro: sem estádio', r['t-final']);
-  ok(r['t-sem'] !== 'sem.jpg', 'foto própria sem "mostra": não aparece', r['t-sem']);
+  ok(!/Est[aá]dio|Arena|Maracan|Mineir/i.test(r['t-final'] || ''), 'final em campo neutro: sem estádio (a taça ou a ilustração valem)', r['t-final']);
+  ok(r['t-sem'] === 'sem.jpg', 'foto própria sem "mostra": aparece (18/11 noite, errar para mais)', r['t-sem']);
   ok(r['t-com'] === 'com.jpg', 'foto própria com "mostra" que cita a Câmara: aparece', r['t-com']);
   ok(r['t-errada'] !== 'err.jpg', 'foto própria cujo "mostra" não cita nada do título: não aparece', r['t-errada']);
   const usadas = await p.evaluate(() => { const v = FEED.pautas.map(q => fotoDe(q)).filter(Boolean).map(f => faNome(f.url)); return { n: v.length, u: new Set(v).size } });
@@ -70,7 +71,7 @@ print(json.dumps(o))`]).toString());
   const js = await p.evaluate(() => { const o = {}; FEED.pautas.forEach(q => { const f = fotoDe(q); o[q.id] = f ? f.url : null }); return o });
   const py = pyMapa(path.join(SITE, 'feed.json'));
   const dif = Object.keys(js).filter(k => (js[k] || null) !== (py[k] || null));
-  ok(!dif.length, 'prévia do link (paginas.py) escolhe a mesma foto que o app (feed de teste)', dif.slice(0, 3).map(k => [k, js[k], py[k]]));
+  ok(!dif.length, 'prévia do link (paginas.py) escolhe a mesma foto que o app (feed de teste)', dif.slice(0, 6).map(k => [k, (js[k] || '').split('/').pop(), (py[k] || '').split('/').pop()]));
 
   // 3. feed real do repositório (o publicado agora): app e prévia iguais
   const real = JSON.parse(fs.readFileSync(path.join(U.REPO, 'feed.json'), 'utf8'));

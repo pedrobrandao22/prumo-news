@@ -13,7 +13,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   await ctx.route('https://upload.wikimedia.org/**', async r => { await new Promise(x => setTimeout(x, 300)); r.fulfill({ body: jpg, contentType: 'image/jpeg' }) });
   await ctx.addInitScript(() => localStorage.setItem('prumo-teste-capa', '1'));
   const p = U.erros(await ctx.newPage(), 'a'); await p.goto('http://localhost:8812/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi'), null, 10000); await sleep(1200);
-  ok(await p.evaluate(() => { const t = document.querySelector('#v-capa .cp > .cp-top'); return t && /prumo/.test(t.textContent) && /Edição/.test(t.textContent) && t === document.querySelector('#v-capa .cp').firstElementChild }), 'cabeçalho do jornal (nome e edição/data) de volta no topo');
+  ok(await p.evaluate(() => { const t = document.querySelector('#v-capa .cp > .cp-top'); return t && /prumo/.test(t.textContent) && /Edição|Atualizada/.test(t.textContent) && t === document.querySelector('#v-capa .cp').firstElementChild }), 'cabeçalho do jornal (nome e edição/data) de volta no topo');
   ok(await p.evaluate(() => { const b = document.querySelector('#v-capa .cp-agora'); return b && b.previousElementSibling && b.previousElementSibling.classList.contains('cp-top') && getComputedStyle(b.querySelector('.ag-run')).animationName === 'tk' && /julgamento/.test(b.textContent) }), 'Agora: letreiro com a manchete inteira, logo abaixo do cabeçalho');
   await p.screenshot({ path: D + 'capa.png' });
   // foto da matéria: sem ilustração aparecendo enquanto carrega

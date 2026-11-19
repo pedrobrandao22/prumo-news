@@ -233,6 +233,32 @@ ASSUNTOS_BR = {
     # 16/11 (2ª rodada): alta do tomate com foto de fachada de supermercado; o tomate na feira mostra o fato
     "tomate e feira": (["tomate", "Tomate", "tomates", "Tomates", "feira livre", "hortifrúti", "Hortifrúti", "Ceagesp"], "tomates feira livre", ["tomate", "tomato", "feira"], ["economia", "brasil"]),
     "urna": (["urna", "urnas", "apuração", "votos válidos", "eleição", "Eleição", "eleitores"], "urna eletrônica brasileira", ["urna"], ["politica"]),
+    # 18/11 noite (Pedro: "acervo bem maior; se for errar, errar para mais"): assuntos frequentes nas notícias
+    "Ministérios e Esplanada": (["ministérios", "Ministérios", "reforma ministerial", "ministro", "ministra"], "Esplanada dos Ministérios Brasília", ["esplanada"], ["politica", "economia"]),
+    "Ministério da Justiça": (["Ministério da Justiça", "ministro da Justiça", "Justiça e Segurança"], "Palácio da Justiça Brasília", ["palácio da justiça", "palacio da justica"], ["politica", "brasil"]),
+    "Segurança pública": (["maioridade penal", "segurança pública", "Segurança Pública", "facção", "facções", "presídio", "PM"], "viatura Polícia Militar Brasil", ["viatura", "polícia militar", "policia militar"], ["politica", "brasil"]),
+    "Trabalho e emprego": (["6x1", "6×1", "jornada", "trabalhadores", "emprego", "desemprego", "CLT", "salário mínimo"], "carteira de trabalho Brasil", ["carteira de trabalho", "trabalhadores"], None),
+    "Inflação e preços": (["IPCA", "inflação", "Focus", "preços", "IGP-M"], "supermercado Brasil gôndola", ["supermercado"], ["economia"]),
+    "Dólar e câmbio": (["dólar", "Dólar", "câmbio"], "notas de real e dólar", ["dollar", "dólar", "dolar", "real brasileiro"], ["economia"]),
+    "Dinheiro e benefícios": (["Pé-de-Meia", "Bolsa Família", "benefício", "benefícios", "abono", "auxílio", "pagamento", "paga R$"], "cédulas de real brasileiro", ["real brasileiro", "cédula", "cedula", "banknote"], None),
+    "Aluguel e imóveis": (["aluguel", "aluguéis", "imóveis", "imóvel", "Minha Casa"], "prédios residenciais São Paulo", ["edifício", "edificio", "residential", "prédios"], ["economia", "brasil"]),
+    "Indústria": (["indústria", "Indústria", "fábrica", "fábricas"], "fábrica linha de produção Brasil", ["fábrica", "fabrica", "factory"], ["economia"]),
+    "Petrobras": (["Petrobras"], "Petrobras edifício sede Rio de Janeiro", ["petrobras"], None),
+    "Energia elétrica": (["Aneel", "Enel", "energia elétrica", "apagão", "conta de luz", "distribuidora"], "linhas de transmissão energia elétrica", ["transmissão", "transmissao", "transmission", "power line"], None),
+    "Big techs e internet": (["big techs", "Big Techs", "redes sociais", "plataformas digitais", "mercados digitais", "inteligência artificial", "IA"], "smartphone redes sociais tela", ["smartphone"], None),
+    "Aeroportos e voos": (["aeroporto", "aeroportos", "voos", "voo", "controle aéreo", "companhias aéreas", "Anac"], "aeroporto terminal passageiros", ["aeroporto", "airport", "terminal"], None),
+    "Chuva e enchente": (["chuva", "chuvas", "enchente", "enchentes", "alagamento", "temporal", "Defesa Civil"], "enchente rua alagada Brasil", ["enchente", "alagamento", "flood"], ["brasil"]),
+    "Saúde e SUS": (["SUS", "hospital", "hospitais", "Ministério da Saúde", "Anvisa", "vacina"], "hospital público Brasil", ["hospital"], ["brasil", "politica"]),
+    "Enem e vestibular": (["Enem", "vestibular", "Inep", "gabarito"], "estudantes fazendo prova", ["prova", "exam", "estudantes"], ["educacao"]),
+    "Escola": (["escola", "escolas", "alunos", "estudantes", "ensino médio", "professores", "Pé-de-Meia"], "sala de aula escola pública Brasil", ["sala de aula", "escola", "classroom"], ["educacao"]),
+    "Universidade": (["universidade", "universidades", "Fies", "Prouni", "faculdade", "Capes", "CNPq"], "campus universidade federal Brasil", ["universidade", "campus"], ["educacao"]),
+    "Seleção Brasileira": (["Seleção", "seleção brasileira", "Ancelotti"], "Seleção Brasileira de futebol torcida", ["seleção brasileira", "selecao brasileira", "brazil national football"], ["esportes"]),
+    "Torneios sul-americanos": (["Libertadores", "Sul-Americana", "Conmebol"], "estádio de futebol torcida América do Sul", ["estadio", "estádio", "stadium"], ["esportes"]),
+    "Série B": (["Série B", "acesso à Série A", "playoffs"], "estádio de futebol Brasil arquibancada", ["estadio", "estádio", "stadium"], ["esportes"]),
+    "Estados Unidos": (["EUA", "Estados Unidos", "Washington", "governo Trump", "americano", "americana"], "Washington Capitol building", ["capitol", "washington"], None),
+    "Turquia": (["Turquia", "turco", "turca", "Erdogan", "Ancara", "Istambul"], "Istanbul skyline Bosphorus", ["istanbul", "bosphorus"], None),
+    "Equador": (["Equador", "equatoriano", "equatoriana", "Quito"], "Quito panorama", ["quito"], None),
+    "Clima e COP": (["COP31", "COP30", "COP", "mudança climática", "crise climática", "clima"], "United Nations climate conference plenary", ["cop2", "cop3", "climate"], None),
 }
 PADRAO = {"politica": "politica/Congresso", "economia": "economia/Mercados", "brasil": "brasil/Sociedade", "mundo": "mundo/Europa",
           "educacao": "educacao/Políticas", "esportes": "esportes/Brasileirão"}
@@ -253,7 +279,7 @@ NEGADAS = re.compile(r"(selo postal|selos postais|postage|stamp|francobollo|brie
 # 15/11 (revisão das fotos de todas as notícias): arquivos que apareceram no lugar errado e não voltam. Nome do arquivo sem
 # acento, minúsculo, "_" → " ". Astronauta e carro como "B3", cartão-postal do Rio como "prédio do STF", close de um
 # senador como "plenário", mural de vestibular antigo como "Enem", diretoria do Real Madrid como "Ancelotti" etc.
-BLOQUEADAS = ["bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bolsa de valores (17393276865)",  # pregão de viva-voz, P&B (corretor 16/11)
+BLOQUEADAS = ["buzios - panoramio", "laboratorio de paleontologia", "bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bolsa de valores (17393276865)",  # pregão de viva-voz, P&B (corretor 16/11)
               "iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
               "plenario do senado (15717805622)", "plenario do senado (15687627386)", "plenario do senado (15109327665)", "vestibular.jpg",
               "ofrenda de la liga", "roda viva com senadora", "com bandeira do brasil", "conselheira tais ferraz", "arena corinthians opening",
@@ -682,8 +708,9 @@ def main(argv):
         velhas = [v for v in (((VA.get(nome) or {}).get("fotos")) or []) if isinstance(v, dict) and any(c in norm(urllib.parse.unquote(str(v.get("url", "")).rsplit("/", 1)[-1])).replace("_", " ") for c in chn) and not COM_GENTE.search(norm(urllib.parse.unquote(str(v.get("url", "")).rsplit("/", 1)[-1])).replace("_", " "))]
         ev = EVITAR.get(nome)
         serve = lambda l: [f for f in l if not (ev and ev.search(_nome_norm(f)))]
-        fotos = junta(serve(velhas), [], 3)
-        if len(fotos) < 2: fotos = junta(fotos, serve(busca(q, ch, n=6, sem_gente=True)), 3)
+        # 18/11 noite: até 5 fotos por assunto (antes 3), para variar e não repetir a mesma foto na edição
+        fotos = junta(serve(velhas), [], 5)
+        if len(fotos) < 4: fotos = junta(fotos, serve(busca(q, ch, n=8, sem_gente=True)), 5)
         if fotos:
             out_a[nome] = {"chaves": chaves, "fotos": [dict(f, alt=f.get("alt") or f"Foto de arquivo: {q}") for f in fotos]}
             if secs: out_a[nome]["secoes"] = secs

@@ -48,7 +48,7 @@ let srv = null;
   const nome = id => (r[id] && r[id].n) || '';
   const br1 = x => /(Guarulhos|S[aã]o_Paulo|Bras[ií]lia|Brasil|Brazil|Planalto|Congresso|Maracan)/i.test(x);
   ok(!/Fachin/i.test(nome('t-master')), 'PGR no caso Master: nada de retrato do Fachin (ele só está no subtítulo)', r['t-master']);
-  ok(!/Supremo|STF/i.test(nome('t-master')), 'PGR no caso Master: sem STF no título, sem a fachada do STF (fica a ilustração "caso Master")', r['t-master']);
+  ok(!/Fachin/i.test(nome('t-master')), 'PGR no caso Master: nada de retrato do Fachin (18/11 noite: a foto do tema STF vale)', r['t-master']);
   ok(!br1(nome('t-colisao')) && !br1(nome('t-voos')), 'voos nos EUA: nenhum avião em Guarulhos nem lugar brasileiro', [r['t-colisao'], r['t-voos']]);
   ok(!/transmiss/i.test(nome('t-voos')), '"apagão" dos voos não vira foto de linha de transmissão', r['t-voos']);
   ok(!/Beijing|Tiananmen|European_Parliament/i.test(nome('t-apec')), 'Apec em Shenzhen: sem o centro de Pequim nem plenário de outro lugar', r['t-apec']);
