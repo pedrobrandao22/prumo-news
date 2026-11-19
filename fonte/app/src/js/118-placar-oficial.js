@@ -27,7 +27,7 @@ function po118Limpa(j){if(!j||typeof j!=="object"||!Array.isArray(j.eventos))ret
     out.push({id:s(e.id),pid:e.pid,conf:s(e.confianca),props:(Array.isArray(e.proposicoes)?e.proposicoes:[]).filter(x=>typeof x==="string").slice(0,6),
       casa:pl.casa,prop:s(pl.proposicao),turno:/^[12]º$/.test(pl.turno||"")?pl.turno:"",modo,res,sim,nao,abst,
       minimo:Number.isInteger(pl.minimo)&&pl.minimo>0&&pl.minimo<=c.tot?pl.minimo:0,regra:s(pl.regra),t,exata:pl.hora_exata===true,
-      fonte:s(pl.fonte)||(pl.casa==="senado"?"Senado Federal":"Câmara dos Deputados"),url:/^https:\/\/[\w.-]+\.leg\.br\//.test(pl.url||"")?String(pl.url).slice(0,300):""})}catch(_){}});
+      fonte:s(pl.fonte)||(pl.casa==="senado"?"Senado Federal":"Câmara dos Deputados"),etapa:typeof pl.etapa==="string"?pl.etapa.slice(0,40):"",dest:Number.isInteger(pl.destaques)&&pl.destaques>0&&pl.destaques<200?pl.destaques:0,url:/^https:\/\/[\w.-]+\.leg\.br\//.test(pl.url||"")?String(pl.url).slice(0,300):""})}catch(_){}});
   return {g:String(j.gerado||""),v:out}}
 async function po118Carrega(forca){if(!forca&&Date.now()-PO118_T<60000)return;PO118_T=Date.now();
   try{const r=await fetch("oficiais.json",{cache:"no-cache"});if(!r.ok)return;const d=po118Limpa(await r.json());if(!d)return;
@@ -62,7 +62,10 @@ function po118Hora(e){const d=new Date(e.t-3*3600e3),dia=`${d.getUTCDate()}/${d.
   const hj=d.toISOString().slice(0,10)===hojeSP();return e.exata?(hj?hh:`${dia}, ${hh}`):(hj?"hoje":dia)}
 function po118Credito(e){return `${e.fonte}, ${po118Hora(e)}`}
 function po118Verbo(e){return e.res==="aprovado"?"aprovou":e.res==="rejeitado"?"rejeitou":"votou"}
-function po118Rotulo(e,i){return e.turno?`${e.turno} turno`:`${i+1}ª votação`}
+/* 19/11 (proposta aprovada pelo Pedro): a troca diz o que foi votado ("Texto-base", "Substitutivo"…), que o robô lê na
+   descrição da votação; sem isso, a hora da votação; só no último caso "1ª votação" */
+function po118Rotulo(e,i){const et=e.etapa||"";if(e.turno)return `${e.turno} turno`+(et&&et!=="Texto-base"?` · ${et}`:"");if(et)return et;
+  if(e.exata){const d=new Date(e.t-3*3600e3);return `Votação das ${String(d.getUTCHours()).padStart(2,"0")}h${String(d.getUTCMinutes()).padStart(2,"0")}`}return `${i+1}ª votação`}
 function po118Grafico(e){const c=PO118_CASA[e.casa],tit=(e.prop||"Votação")+" no "+(e.casa==="senado"?"Senado":"plenário da Câmara")+(e.turno?` · ${e.turno} turno`:"");
   if(e.modo==="nominal"){const its=[{rotulo:"Sim",valor:e.sim},{rotulo:"Não",valor:e.nao}];if(e.abst)its.push({rotulo:"Abstenção",valor:e.abst});
     let h="";try{h=graficoNoticia({tipo:"grafico",forma:"placar_votacao",casa:e.casa,titulo:tit,minimo:e.minimo||undefined,resultado:e.res||undefined,fonte:po118Credito(e),itens:its})}catch(_){h=""}
@@ -70,7 +73,7 @@ function po118Grafico(e){const c=PO118_CASA[e.casa],tit=(e.prop||"Votação")+" 
   const res=e.res==="aprovado"?`<span class="acv-res ok">Aprovado</span>`:e.res==="rejeitado"?`<span class="acv-res no">Rejeitado</span>`:"";
   const tx=e.modo==="simbolica"?"Votação simbólica: os votos não são registrados um a um no painel, por isso não há placar.":`O ${c.site} registrou o resultado; o número de votos ainda não está nos dados abertos do ${c.site}.`;
   return `<div class="gn acv po118-simb"><span class="lbl">${esc(tit)}</span>${res}<p class="po118-simb-t">${esc(tx)}</p><p class="hint">Fonte: ${esc(po118Credito(e))}</p></div>`}
-function po118Pe(e){const c=PO118_CASA[e.casa];const r=e.regra?`Para aprovar: ${esc(e.regra)}.`:"";
+function po118Pe(e){const c=PO118_CASA[e.casa];const r=(e.regra?`Para aprovar: ${esc(e.regra)}.`:"")+(e.dest?` Depois, ${e.dest===1?"1 destaque votado":e.dest+" destaques votados"} no mesmo dia.`:"");
   return `<p class="po118-pe">${r}${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">Ver no site do ${c.site} ›</a>`:""}</p>`}
 function po118Corpo(l,i){const e=l[i];return po118Grafico(e)+po118Pe(e)}
 function po118MatHTML(p){const l=po118Da(p);if(!l||!l.length)return "";const i=l.length-1;if(po118DaRodada(p,l[i]))return "";

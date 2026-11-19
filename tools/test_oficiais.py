@@ -304,6 +304,29 @@ def t_senado_conta_votos_um_a_um():
     assert O.votos_um_a_um({"votos": [{"siglaVotoParlamentar": "AP"}]}) is None  # ninguém votou Sim/Não: sem placar
 
 
+def t_placar_etapa_e_destaques():
+    # 19/11 (proposta aprovada pelo Pedro): o placar diz o que foi votado e quantos destaques vieram depois
+    assert O.etapa_de("Votação em primeiro turno da PEC nº 18, de 2025, ressalvados os destaques") == "Texto-base"
+    assert O.etapa_de("Aprovado o texto-base do PL 1/2026") == "Texto-base"
+    assert O.etapa_de("Substitutivo da Câmara dos Deputados ao PL nº 2.338, de 2023") == "Substitutivo"
+    assert O.etapa_de("Votação em turno suplementar do Substitutivo") == "Turno suplementar"
+    assert O.etapa_de("Votação nominal") is None
+    with tempfile.TemporaryDirectory() as d:
+        for n in os.listdir(FX):
+            open(os.path.join(d, n), "w", encoding="utf-8").write(open(os.path.join(FX, n), encoding="utf-8").read())
+        sv = json.load(open(os.path.join(FX, "senado_votacoes.json"), encoding="utf-8"))
+        a = sv[0]; a["descricaoVotacao"] = "Votação em primeiro turno da Proposta de Emenda à Constituição nº 18, de 2025, ressalvados os destaques"
+        for k in range(3):
+            b = copy.deepcopy(a); b["codigoSessaoVotacao"] = f"99{k}"; b["descricaoVotacao"] = f"Destaque para votação em separado da Emenda nº {k + 1}"
+            sv.append(b)
+        json.dump(sv, open(os.path.join(d, "senado_votacoes.json"), "w", encoding="utf-8"))
+        out, _ = rodar(fx=d)
+    ev = {e["id"]: e for e in out["eventos"]}
+    p1 = ev["senado-vot-7001"]["placar"]
+    assert p1["etapa"] == "Texto-base", p1
+    assert p1.get("destaques") == 3, p1
+
+
 TESTES = [v for k, v in sorted(globals().items()) if k.startswith("t_")]
 if __name__ == "__main__":
     falhas = 0
