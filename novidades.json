@@ -1,11 +1,11 @@
 {
- "gerado": "2026-11-19T10:47-03:00",
+ "gerado": "2026-11-19T10:58-03:00",
  "desde": "2026-11-19T06:52-03:00",
  "feed_atualizado_em": "2026-11-19T07:02:00-03:00",
  "resumo": {
-  "manchetes": 312,
+  "manchetes": 318,
   "assuntos_novos_relevantes": 4,
-  "assuntos_novos": 246,
+  "assuntos_novos": 251,
   "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 2,
   "pautas_com_relatos": 5,
@@ -13,7 +13,7 @@
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 6 veículos em 90 min (economia); pauta decreto-6x1-adiado: 4 veículos em 90 min depois da última atualização; pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização (+1)",
+ "acionar_motivo": "assunto novo: 6 veículos em 90 min (economia); pauta decreto-6x1-adiado: 4 veículos em 90 min depois da última atualização; pauta principal eua-trump-xi-putin-apec-china sem atualização há 4.1 h e 4 veículos com relatos novos (+1)",
  "acionar_itens": [
   {
    "tipo": "novo",
@@ -65,19 +65,19 @@
   },
   {
    "tipo": "pauta",
-   "pid": "ajuste-fiscal-lula-4",
-   "titulo": "Ibovespa Hoje Ao Vivo: Bolsa sobe com ajuste fiscal no radar",
-   "n_fontes": 4,
-   "motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização",
-   "acao": "atualiza: ajuste-fiscal-lula-4"
-  },
-  {
-   "tipo": "pauta",
    "pid": "eua-trump-xi-putin-apec-china",
    "titulo": "Trump, Xi e Putin encerram reunião histórica na China",
    "n_fontes": 4,
-   "motivo": "pauta principal eua-trump-xi-putin-apec-china sem atualização há 3.9 h e 4 veículos com relatos novos",
+   "motivo": "pauta principal eua-trump-xi-putin-apec-china sem atualização há 4.1 h e 4 veículos com relatos novos",
    "acao": "atualiza: eua-trump-xi-putin-apec-china"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "ajuste-fiscal-lula-4",
+   "titulo": "Ibovespa Hoje Ao Vivo: Bolsa sobe com ajuste fiscal no radar",
+   "n_fontes": 3,
+   "motivo": "pauta principal ajuste-fiscal-lula-4 sem atualização há 4.1 h e 3 veículos com relatos novos",
+   "acao": "atualiza: ajuste-fiscal-lula-4"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
@@ -126,17 +126,24 @@
    "pid_provavel": "dolar-volta-acima-5"
   },
   {
-   "assunto": "ANPD rejeita recurso e lives do Discord seguem suspensas no Brasil",
-   "secao": "politica",
-   "n_fontes": 3,
+   "assunto": "ANPD rejeita recurso do Discord e mantém suspensão de transmissões ao vivo",
+   "secao": "brasil",
+   "n_fontes": 4,
    "fontes": [
     "cnn",
+    "folha",
     "g1",
     "met"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "ANPD rejeita recurso do Discord e mantém suspensão de transmissões ao vivo",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/anpd-rejeita-recurso-do-discord-e-mantem-suspensao-de-transmissoes-ao-vivo.shtml",
+     "hora": "19/11 10h54"
+    },
     {
      "veiculo": "Metrópoles",
      "titulo": "ANPD rejeita recurso e lives do Discord seguem suspensas no Brasil",
@@ -355,32 +362,6 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Homem viaja com garotas de programa, simula sequestro para esposa e é preso",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Homem viaja com garotas de programa, simula sequestro para esposa e é preso",
-     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/homem-viaja-com-garotas-de-programa-simula-sequestro-para-esposa-e-e-preso",
-     "hora": "19/11 10h03"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Motorista simula próprio sequestro para extorquir R$ 7 mil da esposa no RJ",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/motorista-simula-proprio-sequestro-para-extorquir-r-7-mil-da-esposa-no-rj/",
-     "hora": "19/11 08h54"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
    "assunto": "Lula assina portaria que reconhece terra indígena do cacique Raoni",
    "secao": "politica",
    "n_fontes": 2,
@@ -532,6 +513,32 @@
      "titulo": "Polícia faz operação contra “Gangue da Hilux” no Rio e em Minas Gerais",
      "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/policia-faz-operacao-contra-gangue-da-hilux-no-rio-e-em-minas-gerais/",
      "hora": "19/11 08h05"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Premiê da Austrália cobra Putin sobre Ucrânia: \"Acabe com sua guerra agora\"",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Premiê da Austrália cobra Putin sobre Ucrânia: \"Acabe com sua guerra agora\"",
+     "url": "https://www.metropoles.com/mundo/premie-da-australia-cobra-putin-sobre-ucrania-acabe-com-sua-guerra-agora",
+     "hora": "19/11 10h52"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Putin repete narrativas falsas sobre a guerra da Rússia contra a Ucrânia",
+     "url": "https://www.cnnbrasil.com.br/internacional/putin-repete-narrativas-falsas-sobre-a-guerra-da-russia-contra-a-ucrania/",
+     "hora": "19/11 10h22"
     }
    ],
    "n_fontes_90min": 2
@@ -813,20 +820,20 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Análise: Chapecoense joga literalmente como um time rebaixado nas últimas rodadas",
-   "secao": "esportes",
+   "assunto": "Anulação da redação do Enem: juíza declara incompetência e redistribui ação",
+   "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "ge"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Análise: Chapecoense joga literalmente como um time rebaixado nas últimas rodadas",
-     "url": "https://ge.globo.com/sc/futebol/times/chapecoense/noticia/2026/11/19/analise-chapecoense-joga-literalmente-como-um-time-rebaixado-nas-ultimas-rodadas.ghtml",
-     "hora": "19/11 09h21"
+     "veiculo": "Metrópoles",
+     "titulo": "Anulação da redação do Enem: juíza declara incompetência e redistribui ação",
+     "url": "https://www.metropoles.com/colunas/grande-angular/anulacao-da-redacao-do-enem-juiza-declara-incompetencia-e-redistribui-acao",
+     "hora": "19/11 10h47"
     }
    ],
    "n_fontes_90min": 1
@@ -916,6 +923,12 @@
      "hora": "19/11 09h32"
     },
     {
+     "veiculo": "Folha Mercado",
+     "titulo": "Anthropic estreia na B3 e permite compra de ações por cerca de R$ 60",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/anthropic-estreia-na-b3-e-permite-compra-de-bdrs-por-cerca-de-r-60.shtml",
+     "hora": "19/11 10h44"
+    },
+    {
      "veiculo": "InfoMoney",
      "titulo": "ANTH34: BDR da Anthropic estreia na B3 junto com ação na Nasdaq por cerca de R$ 60",
      "url": "https://www.infomoney.com.br/mercados/anth34-bdr-da-anthropic-estreia-na-b3-simultaneamente-a-estreia-na-nasdaq-por-cerca-de-r-60/",
@@ -925,7 +938,7 @@
   },
   "ajuste-fiscal-lula-4": {
    "secao": "economia",
-   "n_fontes": 2,
+   "n_fontes": 1,
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
@@ -950,12 +963,6 @@
      "titulo": "Vídeo: Ajuste fiscal: Davi destaca importância da medida e acordo com estados",
      "url": "https://www12.senado.leg.br/noticias/videos/2026/11/ajuste-fiscal-davi-destaca-importancia-da-medida-e-acordo-com-estados",
      "hora": "19/11 09h08"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Domingos Sávio critica ajuste fiscal de Lula: \"Brasil indo para o buraco\"",
-     "url": "https://www.metropoles.com/minas-gerais/domingos-savio-critica-ajuste-fiscal-de-lula-brasil-indo-para-o-buraco",
-     "hora": "19/11 10h03"
     },
     {
      "veiculo": "CNN Brasil",
@@ -1016,7 +1023,7 @@
    "ultima": "19/11 10h43",
    "ultima_iso": "2026-11-19T10:43-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 3.9,
+   "horas_sem_atualizar": 4.1,
    "principal": true,
    "manchetes": [
     {
@@ -1046,19 +1053,18 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 5,
-   "n_fontes": 4,
+   "n": 4,
+   "n_fontes": 3,
    "fontes": [
     "agsenado",
     "cnn",
-    "im",
-    "met"
+    "im"
    ],
-   "n_fontes_90min": 3,
+   "n_fontes_90min": 2,
    "ultima": "19/11 10h19",
    "ultima_iso": "2026-11-19T10:19-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 3.9,
+   "horas_sem_atualizar": 4.1,
    "principal": true,
    "manchetes": [
     {
@@ -1066,12 +1072,6 @@
      "titulo": "Ibovespa Hoje Ao Vivo: Bolsa sobe com ajuste fiscal no radar",
      "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-19112026/",
      "hora": "19/11 10h19"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Domingos Sávio critica ajuste fiscal de Lula: \"Brasil indo para o buraco\"",
-     "url": "https://www.metropoles.com/minas-gerais/domingos-savio-critica-ajuste-fiscal-de-lula-brasil-indo-para-o-buraco",
-     "hora": "19/11 10h03"
     },
     {
      "veiculo": "CNN Brasil",
@@ -1103,7 +1103,7 @@
    "ultima": "19/11 09h39",
    "ultima_iso": "2026-11-19T09:39-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 3.9,
+   "horas_sem_atualizar": 4.1,
    "principal": true,
    "manchetes": [
     {
@@ -1125,7 +1125,7 @@
    "ultima": "19/11 10h24",
    "ultima_iso": "2026-11-19T10:24-03:00",
    "pauta_atualizada_em": "2026-11-19T06:21-03:00",
-   "horas_sem_atualizar": 4.4,
+   "horas_sem_atualizar": 4.6,
    "principal": true,
    "manchetes": [
     {
@@ -1179,7 +1179,7 @@
    "ultima": "19/11 09h59",
    "ultima_iso": "2026-11-19T09:59-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 3.9,
+   "horas_sem_atualizar": 4.1,
    "principal": true,
    "manchetes": [
     {
@@ -1463,17 +1463,17 @@
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
   "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
-  "Agência Brasil": "ok: 10 itens, 5 nas últimas 6 h",
+  "Agência Brasil": "ok: 10 itens, 6 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 10 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 10 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 58 nas últimas 6 h",
+  "ge": "ok: 100 itens, 61 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 2 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 16 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 13 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 17 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 14 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 0 nas últimas 6 h",
