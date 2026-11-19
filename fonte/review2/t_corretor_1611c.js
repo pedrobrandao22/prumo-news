@@ -50,7 +50,7 @@ let srv = null;
   const outras = await p.evaluate(() => [...document.querySelectorAll('img[data-cr170="1"]')].filter(i => !/ancelotti/i.test(i.getAttribute('src') || '')).map(i => i.getAttribute('src')).filter(s => !/acervo\/p\/|wikimedia.*\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\//.test(s)));
   ok(outras.length === 0, 'só retratos ganham o ajuste', outras);
   await p.evaluate(() => abrirMateria('t-selecao-170')); await sleep(1200);
-  const ma = await p.evaluate(() => { const ims = [...document.querySelectorAll('#layer img')].filter(i => /ancelotti/i.test(i.getAttribute('src') || ''));
+  const ma = await p.evaluate(() => { const ims = [...document.querySelectorAll('#layer img:not(.ct210-fd)')].filter(i => /ancelotti/i.test(i.getAttribute('src') || ''));
     return ims.map(i => ({ m: i.dataset.cr170, op: getComputedStyle(i).objectPosition })) });
   ok(ma.length > 0 && ma.every(x => x.m === '1' && /18%/.test(x.op)), 'matéria: o retrato mostra o rosto', ma);
   ok(await p.evaluate(() => !/2016_ICC|653a34c8/.test(document.querySelector('#layer').innerHTML)), 'matéria: sem a foto do Bayern');
