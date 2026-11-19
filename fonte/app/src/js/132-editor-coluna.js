@@ -146,7 +146,8 @@ function ed132PoeFotos(){document.querySelectorAll("[data-ed132ff]").forEach(f=>
   if(Array.isArray(k.pautas)){const p=k.pautas.slice(0,3).filter(p=>p&&typeof p.id==="string"&&p.id&&p.id.length<=200).map(p=>({id:p.id,t:cs123S(p.t,140).trim()})).filter(p=>p.t);if(p.length)c.pautas=p}}catch(e){}return c}}
 const ed132Editado=x=>!!(x&&+x.editado>0&&+x.editado>(+x.at||0)+2e3);
 function ed132DataHora(ms){try{const d=new Date(+ms),z="America/Sao_Paulo";return d.toLocaleDateString("pt-BR",{timeZone:z,day:"numeric",month:"short"})+" às "+d.toLocaleTimeString("pt-BR",{timeZone:z,hour:"2-digit",minute:"2-digit"})}catch(e){return ""}}
-const ed132Kick=c=>`Coluna${c.n?" "+c.n:""}${c.serie?" · "+c.serie:c.ed?" · "+secNome(c.ed):""}`;
+/* 19/11: sem editoria gravada (colunas antigas), usa a mesma editoria calculada do filtro e dos Guardados (col207Ed) */
+const ed132Kick=(c,x)=>{let ed=c.ed;if(!ed&&x)try{ed=typeof col207Ed==="function"?col207Ed(x,c):""}catch(e){ed=""}return `Coluna${c.n?" "+c.n:""}${c.serie?" · "+c.serie:ed?" · "+secNome(ed):""}`};
 function ed132DaSerie(autor,serie){const k=norm(serie).trim();if(!k)return [];const l=[];const ja=new Set();
   (typeof pubVisiveis==="function"?pubVisiveis():[]).forEach(x=>{if(!x||x.autor!==autor||ja.has(x.id)||ed132Agendada(x))return;const c=cs123Col(x);if(c&&c.serie&&norm(c.serie).trim()===k){ja.add(x.id);l.push({id:x.id,n:c.n||0,at:+x.at||0,tit:c.tit})}});
   return l.sort((a,b)=>(a.n&&b.n?a.n-b.n:0)||a.at-b.at)}
@@ -157,7 +158,7 @@ function ed132ArtHTML(x,c,o){o=o||{};const f=c.capa!==false&&x.fotos&&x.fotos[0]
   tags=o.prev?cs123Tags(o.tags):/^#/.test(ult)&&txt.indexOf("\n\n")>0?cs123Tags(ult):[];
   const corpo=c.html?ed132CorpoHTML(c.html,x,o):cs123CorpoHTML(c.corpo),ed=ed132Editado(x)?` · editado em ${esc(ed132DataHora(x.editado))}`:"";
   const pts=(c.pautas||[]).length?`<div class="ed132-pts"><p class="ed132-nk">Assuntos do dia nesta coluna</p>${c.pautas.map(p=>!o.prev&&typeof pautaById==="function"&&pautaById(p.id)?`<button type="button" class="ed132-pt" data-ed132abre="${esc(p.id)}">${esc(p.t)}<i aria-hidden="true">›</i></button>`:`<span class="ed132-pt">${esc(p.t)}</span>`).join("")}</div>`:"";
-  return `<article class="cs123-art"><p class="cs123-k">${esc(ed132Kick(c))}</p><h1>${esc(c.tit)}</h1>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
+  return `<article class="cs123-art"><p class="cs123-k">${esc(ed132Kick(c,x))}</p><h1>${esc(c.tit)}</h1>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
       <div class="cs123-by"><button type="button" class="cs123-au" ${o.prev?"":`data-cs123perfil="${esc(x.autor)}"`}>${avatar(x.autor)}<span><b>${esc(nomeDe(x.autor))}</b><small>${esc(cs123Data(x.at))} · ${min} min de leitura${ed}</small></span></button></div>
       ${u?`<figure class="cs123-fig"><img src="${pubSrc(u)}" alt="${esc((x.estilo&&x.estilo.alt||[])[0]||"")}"></figure>`:f?`<figure class="cs123-fig"><span class="up-sem">Foto indisponível</span></figure>`:""}
       <div class="cs123-corpo">${corpo||`<p class="hint">Escreva o texto da coluna para ver como fica.</p>`}<span class="cs123-ponto" aria-hidden="true"></span></div>
@@ -171,7 +172,7 @@ function ed132ArtHTML(x,c,o){o=o||{};const f=c.capa!==false&&x.fotos&&x.fotos[0]
     <div class="cs123-sc">${ed132ArtHTML(x,c,o)}</div></div>`}catch(e){return _lh.apply(this,arguments)}}}
 /* cartão do Feed: chamada escolhida, série e capa opcional */
 function ed132CardHTML(x,c){const id=esc(x.id),f=c.capa!==false&&x.fotos[0],u=f&&ed132Url(f),tz=c.cham||cs123Teaser(c.corpo),min=ed132Min(c.corpo);
-  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">${esc(ed132Kick(c))}</p>
+  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">${esc(ed132Kick(c,x))}</p>
     <h3 class="cs123-t"><button type="button" data-cs123ler="${id}">${esc(c.tit)}</button></h3>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
     ${f?`<button type="button" class="cs123-capa" data-cs123ler="${id}" aria-label="Ler a coluna">${u?`<img src="${pubSrc(u)}" alt="${esc((x.estilo.alt||[])[0]||"")}" loading="lazy" decoding="async">`:`<span class="up-sem">Foto indisponível</span>`}</button>`:""}
     ${tz?`<p class="cs123-x">${esc(tz)}</p>`:""}<div class="cs123-r"><span class="cs123-min">${min} min de leitura</span><button type="button" class="cs123-lb" data-cs123ler="${id}">Ler a coluna <i aria-hidden="true">›</i></button></div></div>`}
@@ -208,7 +209,7 @@ cs123RascLe=function(){try{ed132Migra()}catch(e){}return ed132RascLe()};
 /* ===== 5. abrir o editor ===== */
 function ed132Novo(o){return {rid:ED132_RID(),modo:"novo",pubId:null,ag:false,tit:"",linha:"",cham:"",html:"",tags:"",serie:"",ed:"",n:0,pautas:[],pub:"amigos",capa:null,agendar:false,qd:"",qh:"",
   env:false,ver:false,pvAba:"pag",st:"",subindo:0,salvou:false,descartar:false,...o}}
-function ed132DoRasc(d){const E=ed132Novo({rid:d.rid,tit:cs123S(d.tit,90),linha:cs123S(d.linha,160),cham:cs123S(d.cham,240),html:ed132Limpa(d.html,{dono:S.uid}),tags:cs123S(d.tags,120),serie:cs123S(d.serie,60),ed:cs123S(d.ed,30),
+function ed132DoRasc(d){const E=ed132Novo({reaberto:true,rid:d.rid,tit:cs123S(d.tit,90),linha:cs123S(d.linha,160),cham:cs123S(d.cham,240),html:ed132Limpa(d.html,{dono:S.uid}),tags:cs123S(d.tags,120),serie:cs123S(d.serie,60),ed:cs123S(d.ed,30),
   n:Math.max(0,Math.floor(+d.n)||0),pautas:Array.isArray(d.pautas)?d.pautas.slice(0,3).filter(p=>p&&p.id&&p.t):[],pub:d.pub==="seguidores"?"seguidores":"amigos",capa:typeof d.capa==="string"&&ED132_FOTO.test(d.capa)&&d.capa.indexOf(S.uid+"/")===0?{p:d.capa}:null,salvou:true});
   if(d.quando&&typeof d.quando==="object"&&/^\d{4}-\d{2}-\d{2}$/.test(d.quando.d||"")&&/^\d{2}:\d{2}$/.test(d.quando.h||"")){E.agendar=true;E.qd=d.quando.d;E.qh=d.quando.h}
   if(!E.capa&&d.capaDu){E.subindo++;fetch(d.capaDu).then(r=>r.blob()).then(b=>pubSobe(b)).then(p=>{ED132.urls[p]=d.capaDu;if(ED132.E===E){E.capa={p};ed132CapaDesenha();ed132Agenda()}}).catch(()=>{}).finally(()=>{E.subindo--})}
@@ -238,7 +239,7 @@ function ed132StTx(){const E=ED132.E;if(!E)return "";if(E.modo==="editar")return
 function ed132St(){const s=$("#layer > .ed132 .ed132-st");if(s)s.textContent=ed132StTx()}
 function ed132Cab(){const E=ED132.E,h=$("#layer > .ed132 > .ed132-h");if(!E||!h)return;const ed=E.modo==="editar";
   h.innerHTML=`<button type="button" class="icbtn ed132-x${E.descartar?" conf":""}" data-ed132x aria-label="Fechar">${E.descartar?"Descartar?":ICON.close}</button>
-    <div class="ed132-ht"><b>${ed?(E.ag?"Coluna agendada":"Editar coluna"):"Nova coluna"}</b><small class="ed132-st" aria-live="polite">${esc(ed132StTx())}</small></div>
+    <div class="ed132-ht"><b>${ed?(E.ag?"Coluna agendada":"Editar coluna"):(E.reaberto?"Rascunho":"Nova coluna")}</b><small class="ed132-st" aria-live="polite">${esc(ed132StTx())}</small></div>
     <button type="button" class="icbtn" data-ed132mais aria-label="Mais opções">${ICON.dots}</button>
     ${ed?`<button type="button" class="btn ed132-pb" data-ed132salva ${E.env?"disabled":""}>${E.env?"Salvando…":"Salvar"}</button>`:`<button type="button" class="btn ed132-pb" data-ed132painel ${E.env?"disabled":""}>${E.env?"Publicando…":"Publicar"}</button>`}`}
 function ed132CapaHTML(){const E=ED132.E,u=E&&E.capa&&ed132Url(E.capa.p);

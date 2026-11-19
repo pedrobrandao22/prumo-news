@@ -51,13 +51,12 @@ const CONTRASTE = ([a, b]) => { const l = s => { const m = String(s).match(/[\d.
 
   // ===== 3. notícia escolhida: fica na caixa ao voltar =====
   await ev(A, () => document.querySelector('[data-cp152ax="nt"]').click()); await sleep(600);
-  const pid0 = await ev(A, () => { const b = document.querySelector('#layer .cn102-ntl [data-edpnt]'); return b && b.dataset.edpnt });
+  const pid0 = await ev(A, () => { const b = document.querySelector('#layer > .cp152 .cn102-ntl [data-fc164nt]'); return b && b.dataset.fc164nt });
   const cores = await ev(A, () => [...document.querySelectorAll('#layer .cn102-ntl small')].slice(0, 6).map(s => [getComputedStyle(s).color, getComputedStyle(s.closest('.ce-selp')).backgroundColor]));
   ok(cores.length && cores.every(c => CONTRASTE(c) >= 4.5), 'editorias legíveis na lista de notícias (contraste ≥ 4,5)', cores.map(c => CONTRASTE(c).toFixed(1)).join(' '));
-  await ev(A, () => document.querySelector('#layer .cn102-ntl [data-edpnt]').click()); await sleep(400);
-  ok(await ev(A, () => { const k = document.querySelector('#layer .cn102-ks'); return (!k || k.hidden) && document.querySelector('#layer .ce-ph b').textContent === 'Notícia' }), 'formulário "Notícia", sem a faixa de tipos');
-  await ev(A, () => document.querySelector('#layer [data-edvolta]').click()); await sleep(500);
-  ok(await ev(A, p => !!document.querySelector('#layer > .cp152 .cr155-nt') && CR155.pid === p && document.querySelector('#cp152-tx').value.trim() === 'Olha isso @Bia Souza', pid0), 'voltar: a caixa mostra a notícia escolhida e o texto');
+  await ev(A, () => document.querySelector('#layer .cn102-ntl [data-fc164nt]').click()); await sleep(400);
+  // 19/11: a notícia entra na própria caixa (sem o formulário antigo "Notícia")
+  ok(await ev(A, p => !document.querySelector('#layer .ce-ph') && !!document.querySelector('#layer > .cp152 .cr155-nt') && CR155.pid === p && document.querySelector('#cp152-tx').value.trim() === 'Olha isso @Bia Souza', pid0), 'a caixa mostra a notícia escolhida e o texto, sem tela nova');
 
   // ===== 4. voltar do celular: pergunta antes, e o texto e a notícia voltam ao reabrir =====
   await A.goBack(); await sleep(500);

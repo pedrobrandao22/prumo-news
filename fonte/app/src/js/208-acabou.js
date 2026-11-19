@@ -13,17 +13,19 @@ function ac208Itens(){const d=typeof NOVID_AG!=="undefined"?NOVID_AG:null;if(!d|
     const hs=ms.map(m=>agHoraMs(m.hora)).filter(Boolean);if(!hs.length)return;const h=Math.max(...hs);if(ag-h>6*3600e3)return;
     const t=[n.assunto,...ms.map(m=>m.titulo)].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t)||AG_LIXO.test(t))return;vistos.add(t);
     const vs=[...new Set(ms.map(m=>m.veiculo).filter(Boolean))];
-    out.push({t,h,sec:n.secao||"",ms:ms.sort((a,b)=>agHoraMs(b.hora)-agHoraMs(a.hora)),vs,peso:nf*2+(["politica","economia"].includes(n.secao)?2:0)})});
+    out.push({t,h,nf,sec:n.secao||"",ms:ms.sort((a,b)=>agHoraMs(b.hora)-agHoraMs(a.hora)),vs,peso:nf*2+(["politica","economia"].includes(n.secao)?2:0)})});
   return out.sort((a,b)=>b.h-a.h||b.peso-a.peso).slice(0,AC208_MAX)}
 function ac208Vs(vs){if(!vs.length)return "";const l=vs.slice(0,3);return "Noticiado por "+(l.length>1?l.slice(0,-1).join(", ")+" e "+l[l.length-1]:l[0])+(vs.length>3?` e mais ${vs.length-3}`:"")}
-function ac208HTML(onde){const l=ac208Itens();if(!l.length)return "";AC208_ULT=l;
+function ac208HTML(onde){let l=ac208Itens();
+  /* 19/11 (testador): na Capa, logo abaixo da manchete, futebol só com 3 ou mais veículos; no Feed entra tudo */
+  if(onde==="capa")l=l.filter(x=>x.sec!=="esportes"||x.nf>=3);if(!l.length)return "";AC208_L[onde]=l;
   return `<section class="ac208 ac208-${onde}" aria-label="Acabou de sair"><h3 class="ac208-h"><i aria-hidden="true"></i>Acabou de sair</h3>${l.map((x,i)=>{const s=x.sec&&typeof secNome==="function"?secNome(x.sec):"";
-    return `<button type="button" class="ac208-i" data-ac208="${i}"${x.sec?` style="--c:${secCor(x.sec)}"`:""}><span class="ac208-k">${s?esc(s)+" · ":""}${esc(quando(new Date(x.h).toISOString()))}</span><b>${esc(x.t)}</b><small>${esc(ac208Vs(x.vs))}</small></button>`}).join("")}</section>`}
-var AC208_ULT=[];
-function ac208Abre(i){const x=AC208_ULT[i];if(!x)return;uso("acabou_sair");
+    return `<button type="button" class="ac208-i" data-ac208="${onde}:${i}"${x.sec?` style="--c:${secCor(x.sec)}"`:""}><span class="ac208-k">${s?esc(s)+" · ":""}${esc(quando(new Date(x.h).toISOString()))}</span><b>${esc(x.t)}</b><small>${esc(ac208Vs(x.vs))}</small></button>`}).join("")}</section>`}
+var AC208_L={};
+function ac208Abre(k){const [o,i]=String(k).split(":");const x=(AC208_L[o]||[])[+i];if(!x)return;uso("acabou_sair");
   sheet("Acabou de sair",`<p class="ac208-st">${esc(x.t)}</p><p class="hint" style="margin:4px 0 12px">O Prumo ainda vai escrever a matéria completa. Enquanto isso, veja quem já noticiou:</p>
     <ul class="ac208-ml">${x.ms.slice(0,8).map(m=>`<li><a href="${esc(m.url||"#")}" target="_blank" rel="noopener noreferrer"><span>${esc(m.veiculo||"")}${m.hora?" · "+esc(String(m.hora).replace(/^\d{2}\/\d{2} /,"")):""}</span><b>${esc(m.titulo)}</b></a></li>`).join("")}</ul>`)}
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-ac208]");if(b){e.preventDefault();e.stopPropagation();ac208Abre(+b.dataset.ac208)}},true);
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-ac208]");if(b){e.preventDefault();e.stopPropagation();ac208Abre(b.dataset.ac208)}},true);
 /* Feed: o bloco entra no topo da lista (só em "Tudo") */
 function ac208Feed(){const box=document.getElementById("posts");if(!box)return;box.querySelector(":scope > .ac208")?.remove();if(typeof FILTRO!=="undefined"&&FILTRO!=="tudo")return;
   const h=ac208HTML("feed");if(!h)return;const t=document.createElement("template");t.innerHTML=h;const first=box.querySelector(":scope > .post, :scope > article, :scope > div");

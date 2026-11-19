@@ -286,7 +286,10 @@ document.addEventListener("change",e=>{const t=e.target;if(t&&t.matches&&t.match
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if(b=t.closest("[data-cs123seg]")){pare();cs123Seguir(b.dataset.cs123seg,b);return}
   if(b=t.closest("[data-cs123deixa]")){pare();const u=b.dataset.cs123deixa;closeLayer();cs123Deixa(u);return}
-  if(b=t.closest("[data-cs123tira]")){pare();cs123Tira(b.dataset.cs123tira,b);return}
+  if(b=t.closest("[data-cs123tira]")){pare();
+    /* 19/11: remover seguidor pede um segundo toque (não dá para desfazer: a pessoa teria de seguir de novo) */
+    if(!b.classList.contains("conf")){b.classList.add("conf");b.dataset.tx0=b.textContent;b.textContent="Remover?";setTimeout(()=>{if(b.isConnected&&!b.disabled){b.classList.remove("conf");b.textContent=b.dataset.tx0||"Remover"}},3000);toast(`Toque de novo para remover ${nomeDe(b.dataset.cs123tira)} dos seus seguidores. A pessoa não é avisada.`);return}
+    cs123Tira(b.dataset.cs123tira,b);return}
   if(b=t.closest("[data-cs123lista]")){pare();cs123Lista(b.dataset.u,b.dataset.cs123lista);return}
   if(t.closest("[data-cs123descobre]")){pare();cs123Descobre();return}},true);
 /* bloquear: some do seguir na hora (o banco já desfez) */

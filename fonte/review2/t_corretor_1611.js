@@ -47,8 +47,7 @@ const ev = (p, fn, a) => p.evaluate(fn, a);
   await A.fill('#cp152-tx', 'Comentário do corretor sobre a notícia'); await sleep(150);
   await ev(A, () => document.querySelector('[data-cp152ax="nt"]').click()); await sleep(600);
   // escolhe uma notícia do fim da lista (longe do topo do Feed)
-  const pid = await ev(A, () => { const l = [...document.querySelectorAll('#layer .cn102-ntl [data-edpnt]')]; const b = l[l.length - 1]; b && b.click(); return b && b.dataset.edpnt }); await sleep(400);
-  await ev(A, () => document.querySelector('#layer [data-edvolta]').click()); await sleep(500);
+  const pid = await ev(A, () => { const l = [...document.querySelectorAll('#layer .cn102-ntl [data-fc164nt]')]; const b = l[l.length - 1]; b && b.click(); return b && b.dataset.fc164nt }); await sleep(500);
   await ev(A, () => document.querySelector('[data-cp152pub]').click());
   ok(await esperar(A, p => PUB.itens.some(x => x.autor === S.uid && x.pid === p && x.texto === 'Comentário do corretor sobre a notícia'), pid, 8000), 'publica como notícia comentada');
   const visto = await esperar(A, () => { const x = PUB.itens.find(x => x.texto === 'Comentário do corretor sobre a notícia'); const el = x && document.getElementById('p-u:' + x.id); if (!el) return false; const r = el.getBoundingClientRect(); return VIEW === 'feed' && r.top >= 0 && r.top < innerHeight * .9 }, null, 8000);

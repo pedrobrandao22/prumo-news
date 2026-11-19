@@ -69,6 +69,8 @@ document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="ctext"||!t
 /* ---- comentários: responder sem escrever "@Fulano" no campo; a resposta não repete o nome no texto ---- */
 var FD167_RESP=null;
 function fd167RespBarra(){const f=document.getElementById("cform");if(!f)return;let b=document.getElementById("fd167-rb");
+  /* 19/11: o campo também diz que é resposta ("Responder a Fulano…") */
+  const ct=document.getElementById("ctext");if(ct){if(!ct.dataset.ph0)ct.dataset.ph0=ct.getAttribute("placeholder")||"";ct.setAttribute("placeholder",FD167_RESP?`Responder a ${String(FD167_RESP).split(" ")[0]}…`:ct.dataset.ph0)}
   if(!FD167_RESP){if(b)b.remove();return}
   if(!b){b=document.createElement("div");b.id="fd167-rb";b.className="fd167-rb";f.before(b)}
   b.innerHTML=`<span>Respondendo a <b>${esc(FD167_RESP)}</b></span><button type="button" data-fd167rx aria-label="Cancelar resposta">✕</button>`}

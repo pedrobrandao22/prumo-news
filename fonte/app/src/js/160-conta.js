@@ -36,7 +36,9 @@ function co160CvTexto(o){if(!o||o.sem||o.vazio)return null;if(o.valido)return o.
 async function co160ConfereCampo(){const i=$("#lcod");if(!i)return;const cod=co160LimpaCod(i.value),st=$("#co160cvst");if(!st)return;
   if(!cod){st.hidden=true;st.className="co160-cvst";return}const o=await co160Convite(cod);if(!$("#lcod")||co160LimpaCod($("#lcod").value)!==cod)return;
   const t=co160CvTexto(o);if(t==null||t===""){st.hidden=true;return}st.hidden=false;st.className="co160-cvst "+(o.valido?"ok":"no");st.innerHTML=t;
-  const bv=$("#layer .co160-bv b");if(bv&&o.valido&&o.de)bv.textContent=o.de+" te convidou para o Prumo"}
+  const bv=$("#layer .co160-bv b");if(bv&&o.valido&&o.de)bv.textContent=o.de+" te convidou para o Prumo";
+  /* 19/11: convite que não vale: o quadro de cima diz isso (não "Você recebeu um convite") e Criar conta só volta com um código válido */
+  try{const box=$("#layer .co160-bv");if(box){box.classList.toggle("co160-inv",!o.valido);if(!o.valido){box.querySelector("b").textContent="Este convite não vale mais";const p=box.querySelector("p");if(p)p.textContent="Peça um novo a quem te mandou o link. Enquanto isso, dá para ler tudo sem conta."}}}catch(e){}}
 {const _cc160=criarConta;criarConta=async function(){const i=$("#lcod");const cod=i?co160LimpaCod(i.value):"";
   if(cod&&$("#lnome")&&$("#lnome").value.trim()){const b=$("#lform [type=submit]");if(b)b.disabled=true;let o;try{o=await co160Convite(cod)}finally{if(b)b.disabled=false}
     if(o&&!o.sem&&!o.vazio&&!o.valido){const st=$("#co160cvst");if(st){st.hidden=false;st.className="co160-cvst no";st.innerHTML=co160CvTexto(o)}mostraErro("#lerro","A conta não foi criada: o convite não vale. "+(o.motivo==="usado"||o.motivo==="expirado"?"Peça outro a quem te convidou.":"Confira o código."));try{i.focus()}catch(e){}return}}
@@ -56,7 +58,7 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
 /* ---------- 3. esqueci a senha ---------- */
 function co160Volta(){return location.origin+location.pathname.replace(/\/(m|c)\/[^/]*$/,"/")}
 async function co160Esqueci(){const p=$("#lesq"),er=$("#lerro");if(er){er.hidden=true;er.textContent=""}if(!p)return;p.hidden=false;
-  const em=($("#lemail")?.value||"").trim();if(!em||!/^\S+@\S+\.\S+$/.test(em)){p.className="hint co160-esq";p.textContent="Escreva o seu e-mail no campo acima e toque de novo em “Esqueci a senha”: mandamos um link para criar uma senha nova.";try{$("#lemail").focus()}catch(e){}return}
+  const em=($("#lemail")?.value||"").trim();if(!em||!/^\S+@\S+\.\S+$/.test(em)){p.className="hint co160-esq";p.textContent=!em?"Escreva o seu e-mail no campo acima e toque de novo em “Esqueci a senha”: mandamos um link para criar uma senha nova.":(em.indexOf("@")<0?"Falta o @ no e-mail. Confira e toque de novo em “Esqueci a senha”.":"Confira o e-mail (algo como nome@exemplo.com) e toque de novo em “Esqueci a senha”.");try{$("#lemail").focus()}catch(e){}return}
   const sb=sbCliente();if(!sb||!sb.auth||typeof sb.auth.resetPasswordForEmail!=="function"){p.textContent="Não deu para mandar o link neste endereço.";return}
   const b=$("[data-esqueci]");if(b)b.disabled=true;p.className="hint co160-esq";p.textContent="Mandando…";
   try{const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:co160Volta()});if(r&&r.error)throw r.error;

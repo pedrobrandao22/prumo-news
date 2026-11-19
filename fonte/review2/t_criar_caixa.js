@@ -35,12 +35,11 @@ async function criar(p, { nome, email }) {
 
   // 3. Notícia: formulário com o texto e sem a faixa de tipos; voltar traz o texto
   await ev(A, () => criarMenu()); await sleep(300); await A.fill('#cp152-tx', 'Acho que isso muda tudo'); await clk(A, '[data-cp152ax="nt"]'); await sleep(600);
-  ok(await ev(A, () => ED && ED.po && ED.po.cn && ED.po.cn.k === 'nt' && ED.po.cn.corpo === 'Acho que isso muda tudo'), 'Notícia: formulário com o texto escrito');
-  ok(await ev(A, () => !!document.querySelector('#layer .cn102-ntl')), 'Notícia: abre a lista de notícias');
-  await ev(A, () => document.querySelector('#layer [data-edselx]')?.click()); await sleep(300);
-  ok(await ev(A, () => { const k = document.querySelector('#layer .cn102-ks'); return !k || k.hidden }), 'formulário sem a faixa de tipos repetida');
-  await ev(A, () => document.querySelector('#layer [data-edvolta]').click()); await sleep(500);
-  ok(await ev(A, () => document.querySelector('#cp152-tx') && document.querySelector('#cp152-tx').value === 'Acho que isso muda tudo'), 'voltar traz a caixa com o texto', await ev(A, () => document.querySelector('#layer').className + ' ' + document.querySelector('#layer').innerText.slice(0, 80)));
+  // 19/11: "Notícia" escolhe a notícia por cima da caixa; o cartão entra abaixo do texto (sem a tela preta antiga)
+  ok(await ev(A, () => !!document.querySelector('#layer > .cp152 .cn102-ntl') && !document.querySelector('#layer .ce:not([hidden])')), 'Notícia: a lista de notícias abre por cima da caixa');
+  const pidN = await ev(A, () => { const b = document.querySelector('#layer > .cp152 [data-fc164nt]'); if (!b) return null; b.click(); return b.dataset.fc164nt }); await sleep(400);
+  ok(await ev(A, p => !!document.querySelector('#layer > .cp152 .cr155-nt') && CR155.pid === p && document.querySelector('#cp152-tx').value === 'Acho que isso muda tudo', pidN), 'Notícia escolhida: cartão abaixo do texto, o texto continua', pidN);
+  await ev(A, () => { CR155.pid = null; try { cr155Guarda() } catch (e) {} cp152Desenha() }); await sleep(200);
 
   // 4. Enquete: o texto vira a pergunta; Número abre o seletor de número
   await clk(A, '[data-cp152ax="enq"]'); await sleep(500);

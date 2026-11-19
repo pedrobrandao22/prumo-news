@@ -178,7 +178,7 @@ let srv = null, srv2 = null;
   await ev(B, () => { go('feed'); criarAbrir('post') }); await sleep(400);
   ok(await ev(B, () => !!document.querySelector('#layer [data-cr137hub]')), 'quem já tem coluna: "Minhas colunas" no "O que você quer publicar?"');
   await ev(B, () => document.querySelector('#layer [data-cr137hub]').click()); await sleep(700);
-  const hub = await ev(B, () => ({ tx: $('#layer > .ed132-hubr')?.textContent || '', ed: !!$('#layer > .ed132-hubr [data-cr137ed]') }));
+  const hub = await ev(B, () => ({ tx: $('#layer > .ed132-hubr')?.textContent || '', ed: !!$('#layer > .ed132-hubr [data-cr137ed], #layer > .ed132-hubr [data-col207edita]') }));  // 19/11: a lista Publicadas é a do 207
   ok(/Começo de um texto sem título/.test(hub.tx) && hub.ed, 'Minhas colunas: rascunho sem título mostra o começo do texto; publicada com "Editar"', hub.tx.slice(0, 300));
   await shot(B, '07-minhas-colunas');
   ok(await lateral(B), '390 px: Minhas colunas sem rolagem lateral');

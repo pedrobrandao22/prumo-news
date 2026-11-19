@@ -70,3 +70,7 @@ sceneOf=function(img){
   }
   return gen161SceneOf(img);
 };
+
+/* 19/11 (testador): quando o desenho cai no jornal neutro, o texto alternativo diz isso, em vez de descrever um barco ou
+   postes que não estão no desenho */
+function illAlt(img){const a=img&&img.alt||"Ilustração";try{if(img&&(img.modelo==="generica"||!ILL[img.modelo])&&gen161Tema(Object.assign({},img.dados||{},{_alt:img.alt}))==="neutro")return "Ilustração: jornal (sem foto desta notícia)"}catch(e){}return a}

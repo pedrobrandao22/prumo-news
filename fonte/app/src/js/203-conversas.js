@@ -53,8 +53,9 @@ function dmFotoDe(m){const p=m.pid&&pautaById(m.pid);const f=p&&fotoDe(p);return
 /* cartão de notícia ou de publicação mandada na conversa */
 function dmCard(m){let h;
   if(!dmEhPub(m)){/* 065: notícia */
-    const s=m.snap||{},p=m.pid&&pautaById(m.pid),tit=(p&&versao(p,lente()).titulo)||s.titulo||"Notícia",sec=(p&&secOf(p))||s.secao||"politica",f=dmFotoDe(m);
-    h=`<button type="button" class="dm-card" data-open="${esc(m.pid)}"><span class="dm-cf paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(s.imagem||(p&&p.imagem))}</span><span class="dm-ct"><small style="color:${secCor(sec)}">${esc(secNome(sec))}</small><b>${esc(tit)}</b></span></button>`;
+    /* 19/11: o cartão mostra o título de quando foi enviado; se a matéria mudou depois, avisa em uma linha */
+    const s=m.snap||{},p=m.pid&&pautaById(m.pid),tAt=p&&versao(p,lente()).titulo,tit=s.titulo||tAt||"Notícia",mud=!!(s.titulo&&tAt&&s.titulo!==tAt),sec=(p&&secOf(p))||s.secao||"politica",f=dmFotoDe(m);
+    h=`<button type="button" class="dm-card" data-open="${esc(m.pid)}"><span class="dm-cf paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(s.imagem||(p&&p.imagem))}</span><span class="dm-ct"><small style="color:${secCor(sec)}">${esc(secNome(sec))}</small><b>${esc(tit)}</b>${mud?`<em class="dm-cmud">Atualizada depois · toque para ver a versão de agora</em>`:""}</span></button>`;
     /* 160: a mesma editoria da Capa */
     try{if(typeof h==="string"){const p=m&&m.pid&&pautaById(m.pid);if(p){
       const ch=capaChapeu(p),sec=secOf(p);if(ch)h=h.replace(new RegExp("(<span class=\"dm-ct\"><small[^>]*>)"+esc(secNome(sec)).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"</small>"),"$1"+esc(ch)+"</small>")}}}catch(e){}
@@ -277,4 +278,4 @@ function openSend(pid,pre){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||sna
       toast(erro?.code==="permission_denied"?"Só dá para mandar para amigos.":ok.length?`Enviado para ${ok.map(nomeDe).join(" e ")}; o resto não foi. Tente de novo.`:"Não deu para enviar agora. Tente de novo.")}})})();
   /* 102: publicar com comentário ou pôr no giro */
   try{if(pid&&String(pid).indexOf("u:")!==0&&pautaById(pid)&&S.membro&&PUB.on!==false){const b=document.querySelector("#layer .sheet .sh-b,#layer2 .sheet .sh-b");
-    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG(CN102_ICO.ana)}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button><button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu giro</b><small>Some em 24 horas</small></span></button></div>`)}}catch(e){}}
+    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG(CN102_ICO.ana)}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button>${typeof ft182Esc==="function"&&ft182Esc("giro")?"":`<button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu giro</b><small>Some em 24 horas</small></span></button>`}</div>`)}}catch(e){}}

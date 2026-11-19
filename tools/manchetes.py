@@ -279,7 +279,9 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
     for x in sorted(itens, key=lambda x: x["hora"]):
         alvo = None
         for g in grupos:
-            if any(parecido(x["tk"], m["tk"]) for m in g["itens"][:8]):
+            # 19/11: parecer com pelo menos metade do grupo (antes bastava 1: um jogo puxava outro em corrente)
+            am = g["itens"][:8]
+            if sum(1 for m in am if parecido(x["tk"], m["tk"])) * 2 >= len(am):
                 alvo = g; break
         if alvo is None:
             alvo = {"tk": set(), "itens": []}; grupos.append(alvo)

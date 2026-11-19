@@ -44,12 +44,18 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   if(b=t.closest("[data-col207cont]")){e.preventDefault();e.stopPropagation();col207Continuar(b.dataset.col207cont)}},true);
 
 /* ===== até onde leu ===== */
-function col207ProgLe(){try{const o=JSON.parse(localStorage.getItem(COL207_PROG)||"{}");return o&&typeof o==="object"&&!Array.isArray(o)?o:{}}catch(e){return {}}}
+function col207ProgLe(){let o={};try{const x=JSON.parse(localStorage.getItem(COL207_PROG)||"{}");if(x&&typeof x==="object"&&!Array.isArray(x))o=x}catch(e){}
+  /* 19/11: o ponto de leitura das colunas guardadas também vai na conta (junto com o guardado): vale em outro aparelho */
+  try{Object.entries(S.salvos||{}).forEach(([k,v])=>{const pr=v&&v.prog;if(!pr||!(+pr.at>0))return;const id=String(k).replace(/^u:/,"");if(!o[id]||(+o[id].at||0)<+pr.at)o[id]=pr})}catch(e){}
+  return o}
+var COL207_CONTA={};
+function col207NaConta(id,pr){try{if(!S.uid||!S.db)return;const k=String(id).startsWith("u:")?String(id):"u:"+id,v=S.salvos&&S.salvos[k];if(!v)return;const ag=Date.now();if(ag-(COL207_CONTA[id]||0)<15000)return;COL207_CONTA[id]=ag;
+  const nv={...v,prog:pr};S.salvos[k]=nv;gravarMapa(`data/users/${S.uid}/salvos`,"itens",k,nv).catch(()=>{})}catch(e){}}
 let COL207_PEND=null,COL207_TM=0;
 /* f = onde parou (0 a 1), m = até onde chegou; o começo (0) não apaga o lugar guardado */
 function col207Marca(id,fr){if(!id||!(fr>=0.01))return;COL207_PEND={id:String(id),fr:Math.min(1,fr)};clearTimeout(COL207_TM);COL207_TM=setTimeout(col207Grava,700)}
 function col207Grava(){const p=COL207_PEND;COL207_PEND=null;if(!p)return;try{const o=col207ProgLe(),v=o[p.id]||{};o[p.id]={f:+p.fr.toFixed(3),m:+Math.max(+v.m||0,p.fr).toFixed(3),at:Date.now()};
-  const ks=Object.keys(o);if(ks.length>300)ks.sort((a,b)=>(o[a].at||0)-(o[b].at||0)).slice(0,ks.length-300).forEach(k=>delete o[k]);localStorage.setItem(COL207_PROG,JSON.stringify(o))}catch(e){}}
+  const ks=Object.keys(o);if(ks.length>300)ks.sort((a,b)=>(o[a].at||0)-(o[b].at||0)).slice(0,ks.length-300).forEach(k=>delete o[k]);localStorage.setItem(COL207_PROG,JSON.stringify(o));col207NaConta(p.id,o[p.id])}catch(e){}}
 window.addEventListener("pagehide",()=>{try{col207Grava()}catch(e){}});
 function col207Continuar(id){const p=col207ProgLe()[id];cs123Abrir(id);if(!p||!(p.f>0))return;let n=0;
   const t=setInterval(()=>{const sc=document.querySelector("#layer .cs123-ler .cs123-sc");if(sc&&sc.querySelector(".cs123-corpo")&&sc.scrollHeight>sc.clientHeight+40){clearInterval(t);sc.scrollTop=Math.round(p.f*(sc.scrollHeight-sc.clientHeight))}else if(++n>60)clearInterval(t)},80)}

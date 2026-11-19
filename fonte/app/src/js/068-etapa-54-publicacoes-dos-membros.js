@@ -17,8 +17,16 @@ async function pubAssinar(){const now=Date.now(),falta=[];pubVisiveis().forEach(
   try{const r=await SB.storage.from("fotos").createSignedUrls(falta,6*3600);(r.data||[]).forEach(d=>{if(d&&d.signedUrl)PUB.urls[d.path]={u:d.signedUrl,exp:now+6*3600e3}})}catch(e){}}
 const pubUrl=p=>(PUB.urls[p]||{}).u||"";
 async function pubLimparMeus(){const now=Date.now();const velhos=PUB.itens.filter(x=>x.autor===S.uid&&x.tipo==="story"&&(x.expira||0)<now);for(const x of velhos)await pubApagar(x.id,true)}
-async function pubApagar(id,quieto){const x=pubDe(id);if(!x||x.autor!==S.uid)return false;try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)throw r.error;if(x.fotos.length)try{await SB.storage.from("fotos").remove(x.fotos)}catch(e){}
-    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(!quieto)toast("Não deu para apagar agora.");return false}}
+/* 19/11 (testador): apagar o próprio post some na hora e dá "Desfazer" por 6 s; só então apaga de verdade no banco */
+var PUB_APAG={};
+function pubApagaJa(id){const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];pubApagar(id,true,j.x)}
+window.addEventListener("pagehide",()=>{Object.keys(PUB_APAG).forEach(pubApagaJa)});
+async function pubApagar(id,quieto,xx){if(!quieto&&!xx){const x=pubDe(id);if(!x||x.autor!==S.uid)return false;
+    PUB.itens=PUB.itens.filter(y=>y.id!==id);pubRedesenha();const nome=x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado";
+    PUB_APAG[id]={x,t:setTimeout(()=>pubApagaJa(id),6000)};
+    toast(nome,"Desfazer",()=>{const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(j.x);pubRedesenha()});return true}
+  const x=xx||pubDe(id);if(!x||x.autor!==S.uid)return false;try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)throw r.error;if(x.fotos.length)try{await SB.storage.from("fotos").remove(x.fotos)}catch(e){}
+    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(xx){if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(xx);pubRedesenha();toast("Não deu para apagar agora. O post voltou.")}else if(!quieto)toast("Não deu para apagar agora.");return false}}
 let PUB_T=0,PUB_FEED_PEND=false;function pubRedesenha(){clearTimeout(PUB_T);PUB_T=setTimeout(()=>{try{renderSecs();if(VIEW==="feed"&&!$("#layer").innerHTML&&scrollY<300){PUB_FEED_PEND=false;renderPosts(true)}else PUB_FEED_PEND=true}catch(e){}},30)}
 addEventListener("scroll",()=>{if(PUB_FEED_PEND&&VIEW==="feed"&&scrollY<300&&!$("#layer").innerHTML){PUB_FEED_PEND=false;setTimeout(()=>{try{renderPosts(true)}catch(e){}},200)}},{passive:true});
 (function(){let uid=null;setInterval(()=>{if(S.uid&&S.membro&&SB&&uid!==S.uid){uid=S.uid;PUB.itens=[];pubCarregar();pubOuvir()}if(!S.uid&&uid){uid=null;PUB.itens=[];PUB.on=null}},1500);

@@ -1322,6 +1322,22 @@ def ler_novidades(caminho, ref):
     return None
 
 
+# 19/11 (testador): nota curta só de veículo de imprensa ou órgão oficial; nada de blog comercial, cursinho, site de
+# investimento nem site estrangeiro em outra língua (o leitor toca e cai fora do app, num site que não é jornal)
+FONTE_NAO_IMPRENSA = re.compile(r"quero bolsa|\bstrong\b|brasil escola|educa mais|mundo educa|estuda\.?com|guia do estudante|"
+                                r"\bblog\b|cursinho|\bbpmoney\b|mix vale|business today|\bbra 1\b|investing\.com|\bsuno\b|seu dinheiro", re.I)
+
+
+def checar_fontes_breves_1911(f, ant=None):
+    velhas = {b.get("url") for b in (ant or {}).get("breves") or [] if isinstance(b, dict)} if ant is not None else None
+    for i, b in enumerate(f.get("breves") or []):
+        if not isinstance(b, dict): continue
+        fo = str(b.get("fonte") or "")
+        if FONTE_NAO_IMPRENSA.search(fo):
+            (E if velhas is not None and b.get("url") not in velhas else A)(f"breves.{i}: a fonte '{fo}' não é veículo de imprensa nem órgão oficial; troque pela fonte primária (ex.: Inep, "
+              "Agência Brasil, o próprio clube) ou tire a nota (manual 2, BREVES)")
+
+
 def checar_breves_1811(f, ant, ref, nov=None):
     """Breve que é fato de uma cobertura ativa (pede update_add) ou de um assunto que o robô de manchetes viu em 3+
     veículos (pede notícia). Breve nova desta rodada: ERRO; no feed no ar (sem --prev): AVISO. Urgente fica de fora."""
@@ -1950,6 +1966,8 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     except Exception as e: A(f"conferência das regras de 17/11 falhou: {e!r}")
     try: checar_incerto_1811(f, ref, virada)
     except Exception as e: A(f"conferência de 'sem confirmação' (18/11) falhou: {e!r}")
+    try: checar_fontes_breves_1911(f, ant)
+    except Exception as e: A(f"checagem das fontes das breves falhou: {e}")
     try: checar_breves_1811(f, ant, ref, NOVIDADES)
     except Exception as e: A(f"conferência das breves (18/11) falhou: {e!r}")
     try: checar_mercado(f, IND, ref)

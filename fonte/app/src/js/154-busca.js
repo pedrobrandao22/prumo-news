@@ -47,13 +47,13 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
     const f={T:bu154J([n.titulo,v.titulo]),A:bu154J([p.tema,p.tag,p.subtema,bu154Hash(p)]),S:bu154J([p.subtitulo,...(Array.isArray(p.titulos)?p.titulos.map(x=>x&&x.titulo):[])]),
       C:bu154J([n.texto,p.contexto,p.por_que,p.proximo,p.o_que_muda,...(Array.isArray(p.essencial)?p.essencial:[])])};
     const r=bu154Pontos(ts,f,frase);if(!r)return;
-    R.not.push({k:"p",id:p.id,pt:r.pt+.5,h:bu154Hora(ultimaAtualizacao(p)||p.hora),t:n.titulo||v.titulo||"",tr:r.soCorpo?bu154Trecho(f.S+" "+f.C,ts)||bu154Trecho(f.C,ts):"",
+    R.not.push({k:"p",id:p.id,pt:r.pt+.5,h:bu154Hora(ultimaAtualizacao(p)||p.hora),t:n.titulo||v.titulo||"",tr:r.soCorpo?bu154Trecho(bu154J([p.subtitulo,f.C]),ts):"",/* 19/11: sem os títulos antigos colados (valores velhos) */
       m:bu154J([secNome(secOf(p)),p.subtema,"esta edição"])});
     /* cartão da cobertura: o nome da cobertura (tema) bate com tudo o que foi digitado */
     const tm=temaDe(p);if(tm&&typeof cobTemPagina==="function"&&cobTemPagina(p)&&ts.every(t=>bu154Casa(t,bu154N(tm))))R.cob.push({p,pt:r.pt})});
   /* notas rápidas (breves) */
   (FEED.breves||[]).forEach(b=>{if(!b||!b.titulo)return;const r=bu154Pontos(ts,{T:b.titulo},frase);if(!r)return;
-    R.not.push({k:"b",url:b.url,pt:r.pt-1,h:bu154Hora(b.hora),t:b.titulo,m:bu154J([secNome(b.secao||"politica"),"nota de "+nomeFonte(b.fonte)])})});
+    R.not.push({k:"b",url:b.url,pt:r.pt-1,h:bu154Hora(b.hora),t:b.titulo,m:bu154J([secNome(b.secao||"politica"),"nota de "+nomeFonte(b.fonte)+" · abre o site ↗"])})});
   /* coberturas anteriores */
   (Array.isArray(FEED.dormentes)?FEED.dormentes:[]).forEach(d=>{if(!d||!d.id||pautaById(d.id))return;
     const r=bu154Pontos(ts,{T:d.titulo,A:bu154J([d.tema,d.tag,d.subtema,bu154Hash(d)]),S:(Array.isArray(d.titulos)?d.titulos.map(x=>x&&x.titulo):[]).filter(Boolean).join(" · "),C:d.resumo},frase);if(!r)return;
@@ -79,7 +79,8 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
       if(c){const r=bu154Pontos(ts,{T:c.tit,S:c.linha,C:c.corpo&&String(c.corpo).replace(/<[^>]*>/g," ")},frase);if(r)R.cols.push({x,c,pt:r.pt,tr:r.soCorpo?bu154Trecho(String(c.corpo||"").replace(/<[^>]*>/g," "),ts):""});return}
       if(!x.texto)return;const r=bu154Pontos(ts,{C:x.texto},frase);if(r)R.posts.push({x,pt:r.pt})});
     R.cols.sort((a,b)=>b.pt-a.pt||(+b.x.at||0)-(+a.x.at||0));R.posts.sort((a,b)=>(+b.x.at||0)-(+a.x.at||0))}
-  R.not.sort((a,b)=>b.pt-a.pt||b.h-a.h);R.cob.sort((a,b)=>b.pt-a.pt);R.ent.sort((a,b)=>b.pt-a.pt);R.ag.sort((a,b)=>b.pt-a.pt);
+  const BU_K={p:0,d:1,s:1,e:2,b:3};/* 19/11: o Prumo desta edição antes do resto, e o mais novo antes */
+  R.not.sort((a,b)=>(BU_K[a.k]??2)-(BU_K[b.k]??2)||b.pt-a.pt||b.h-a.h);R.cob.sort((a,b)=>b.pt-a.pt);R.ent.sort((a,b)=>b.pt-a.pt);R.ag.sort((a,b)=>b.pt-a.pt);
   R.n=R.cob.length+R.ent.length+R.ag.length+R.not.length+R.pes.length+R.posts.length+R.cols.length;return R}
 
 /* ===== 3. desenho dos resultados ===== */
@@ -138,7 +139,7 @@ if(typeof qa125BusPoe==="function"){const _qp=qa125BusPoe;qa125BusPoe=function()
   if(b&&out.querySelector(".qa125-bus")){const q=(($("#bvq")||{}).value||"").trim();b.textContent=`Nenhuma notícia com “${q}”.`}}catch(e){}return r}}
 
 /* campo: sem conta não há pessoas para achar */
-{const _rv=renderBuscaView;renderBuscaView=function(){const r=_rv.apply(this,arguments);try{const i=$("#bvq");if(i&&!S.uid)i.placeholder="Buscar notícia ou assunto"}catch(e){}return r}}
+{const _rv=renderBuscaView;renderBuscaView=function(){const r=_rv.apply(this,arguments);try{const i=$("#bvq");if(i&&!S.uid)i.placeholder=innerWidth<400?"Buscar notícias":"Buscar notícia ou assunto"}catch(e){}return r}}
 
 /* ===== 6. "Assuntos desta edição" ===== */
 function bu154Assuntos(){const ps=visiveis();const L=lente();const sem=s=>bu154N(s).replace(/[^a-z0-9 ]+/g," ").replace(/\s+/g," ").trim();
@@ -193,3 +194,9 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="pq")bu154AmgVa
     const q=String(n||"").trim(),tem=bx.querySelectorAll("ul.amgl li").length;h.classList.add("bu154-amgh");
     if(tem)h.textContent=`As sugestões com “${q}” estão abaixo. Fora delas, ninguém no Prumo com o nome exato “${q}”: para achar outra pessoa, digite o nome completo dela.`;
     else{bx.querySelector(".empty")?.remove();h.innerHTML=`Ninguém no Prumo com o nome exato “${esc(q)}”. Confira o nome completo (nome e sobrenome), como a pessoa se cadastrou, ou convide-a. <button type="button" class="btn ghost bu154-conv" data-convidar>Convidar alguém</button>`}}catch(e){}return r}}
+/* 19/11: ao fechar uma folha por cima da busca (ex.: seguir uma cobertura), os botões Seguir dos cartões de cobertura
+   mostram o estado novo (antes continuavam dizendo "Seguir" depois de seguir); só os botões, sem redesenhar a busca */
+function bu154SegAtualiza(){try{document.querySelectorAll("#bvres [data-bu154seg]").forEach(b=>{const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!!seguido(p);b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"});
+  document.querySelectorAll("#bvres [data-bu154dseg]").forEach(b=>{const d=(FEED.dormentes||[]).find(x=>x&&x.id===b.dataset.bu154dseg);if(!d)return;const on=!!(PREF.seguindo||{})[norm(d.tema||d.tag)];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"})}catch(e){}}
+(function(){let ab=false;const vig=()=>{const L=document.getElementById("layer");if(!L)return setTimeout(vig,500);
+  new MutationObserver(()=>{const tem=!!L.innerHTML;if(ab&&!tem&&typeof VIEW!=="undefined"&&VIEW==="busca")bu154SegAtualiza();ab=tem}).observe(L,{childList:true})};vig()})();
