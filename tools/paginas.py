@@ -75,7 +75,7 @@ BLOQ = ["21449400719", "iluminacao lgbtqia", "cervejas colorado", "buraco tampad
         "200 anos do senado federal", "bosque campus universidade",
         "vista de goiania a partir da faculdade"]  # 17/11 noite (172): paisagem no Fies  # 17/11 (171): promulgação de 1988 como plenário; galhos no Fies
 HIST = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly|\b(?:PMDB|MDB|PSDB|PSOL|PDT|PSB)\b|\b(?:PT|PL|PP|PSD) (?:Nacional|na C[aâ]mara|no Senado)\b|Partido (?:dos|Liberal|Social|Progressista|Novo)|Uni[aã]o Brasil Nacional)", re.I)  # 19/11: também acervo de partido (foto distribuída por partido pesa contra a neutralidade)
-FORA = re.compile(r"(\bEUA\b|Estados Unidos|Miami|Nova York|Washington|Casa Branca|China|Shenzhen|Pequim|Apec|Asean|Filipinas|Manila|Turquia|\bCOP ?\d|Jap[aã]o|Singapura|Canad[aá]|Europa|Uni[aã]o Europeia|\bONU\b|\bG20\b|\bG7\b|Brics|[Vv]iagem|[Cc][uú]pula|exterior|Argentina|Venezuela|R[uú]ssia|Ucr[aâ]nia|Israel|Gaza|Ir[aã](?=$|[^A-Za-zÀ-ú])|Fran[cç]a|Alemanha|Reino Unido|Londres|Paris|[ÍI]ndia|Catar)")
+FORA = re.compile(r"(\bEUA\b|Estados Unidos|Miami|Nova York|Nasdaq|Wall Street|\bNYSE\b|Dow Jones|S&P 500|Washington|Casa Branca|China|Shenzhen|Pequim|Apec|Asean|Filipinas|Manila|Turquia|\bCOP ?\d|Jap[aã]o|Singapura|Canad[aá]|Europa|Uni[aã]o Europeia|\bONU\b|\bG20\b|\bG7\b|Brics|[Vv]iagem|[Cc][uú]pula|exterior|Argentina|Venezuela|R[uú]ssia|Ucr[aâ]nia|Israel|Gaza|Ir[aã](?=$|[^A-Za-zÀ-ú])|Fran[cç]a|Alemanha|Reino Unido|Londres|Paris|[ÍI]ndia|Catar)")
 
 
 def bloqueada(f):
@@ -257,6 +257,26 @@ def assunto_titulo(tit, A, sec):
     return best
 
 
+# corretor 19/11 (causa fotos-2), igual ao app (187): (a) "Governo Trump" não é a pessoa do fato; (b) com lugar na frase
+# principal do título, foto de OUTRO lugar com nome não entra por assunto/tema/padrão (Câmara e Senado aceitam o
+# Congresso); (c) Esportes: foto de jogo de outros times só se o título cita um deles.
+_GOV = re.compile(r"(^|[^A-Za-zÀ-ÿ])((?:[Gg]overno|[Gg]est[aã]o|[Aa]dministra[cç][aã]o|[Ee]ra)\s+)([A-ZÀ-Ý][A-Za-zÀ-ÿ'-]+)")
+def sem_governo(t):
+    return _GOV.sub(lambda m: m.group(1) + m.group(2) + " " * len(m.group(3)), str(t or ""))
+DENTRO = {"Câmara": ["Congresso"], "Senado": ["Congresso"]}
+def outro_lugar(f, ditos):
+    if not ditos: return False
+    a = _arq(f)
+    return any(ra.search(a) and nome not in ditos for nome, _, ra, _ in LUG_RE)
+COMPOSTO = re.compile(r"^(sul-americana|beira-rio|atletico-mg|atletico-pr|sao-paulo|fla-flu|neo-quimica|mato-grosso|rio-grandense)$")
+def jogo_alheio(f, tit):
+    a = re.sub(r"\.[a-z]+$", "", _arq(f))
+    m = re.search(r"(?:^|[^a-z])([a-z]{3,})(?:-| vs\.? | versus )([a-z]{3,})(?=[^a-z]|$)", a)
+    if not m or COMPOSTO.match(m.group(1) + "-" + m.group(2)) or not re.search(r"(copa|sudamericana|libertadores|campeonato|liga|match|jogo|partida| vs\.? | versus )", a): return False
+    t = " " + re.sub(r"[^a-z0-9]+", " ", _norm(tit)) + " "
+    return not (" " + m.group(1) + " " in t or " " + m.group(2) + " " in t)
+
+
 def fa_listas(p, A):
     """Igual ao faListas do app (187-fotos-f2.js, regra aberta de 18/11 à noite, pedido do Pedro: "se for errar, errar
     para mais"): retrato da 1ª pessoa da frase principal do título ("foto_arquivo": "tema" só tira o retrato em morte,
@@ -271,20 +291,23 @@ def fa_listas(p, A):
     def fo():
         if st["fo"] is None: st["fo"] = fora(p)
         return st["fo"]
+    ditos, esp = set(), sec == "esportes"
     def pega(l, lugar):
         if not isinstance(l, list): return
         k = "|".join(sorted(str(f.get("url")) for f in l if isinstance(f, dict)))
         if k in vistos: return
-        ok = [f for f in l if fa_valida(f) and not bloqueada(f) and not (lugar and fo() and FT_BR(f))]
+        ok = [f for f in l if fa_valida(f) and not bloqueada(f) and not (lugar and fo() and FT_BR(f))
+              and not (lugar and outro_lugar(f, ditos)) and not (esp and jogo_alheio(f, tit))]
         if ok: vistos.append(k); L.append(ok)
     if p.get("foto_arquivo") != "tema" or not TRAGICO.search(tit):
-        pe = pessoa_titulo(fr, A)
+        pe = pessoa_titulo(sem_governo(fr), A)
         if pe: pega(pe["fotos"], False)
-    for nome, ra, br in lugares_do_titulo(fr, A):
+    for nome, ra, br in lugares_do_titulo(sem_governo(fr), A):
         if br and fo(): continue
-        ok = fotos_do_lugar(A, ra)
+        ditos.add(nome); ditos.update(DENTRO.get(nome, []))
+        ok = [f for f in fotos_do_lugar(A, ra) if not (esp and jogo_alheio(f, tit))]
         if ok: L.append(ok)
-    ok = mandante(p, fr, A)
+    ok = [f for f in mandante(p, fr, A) if not jogo_alheio(f, tit)]
     if ok: L.append(ok)
     for t in (fr, extra, sub):
         if not t: continue
