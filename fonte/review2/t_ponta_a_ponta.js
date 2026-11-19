@@ -83,9 +83,10 @@ async function convite(A) { await ev(A, () => go('me')); await sleep(300); await
 
   // 9. rede lenta: a Capa abre
   const C = U.erros(await H.pagina(b, { viewport: { width: 375, height: 667 }, hasTouch: true, isMobile: true }), 'Lento');
-  const cdp = await C.context().newCDPSession(C); await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 400, downloadThroughput: 50000, uploadThroughput: 20000 });
-  const t0 = Date.now(); await C.goto(BASE).catch(() => { }); const abriu = await esperar(C, () => !!document.querySelector('#v-capa .cpi'), null, 30000);
-  ok(abriu, `rede lenta (3G): a Capa abre (${Date.now() - t0} ms)`); await foto(C, 'lento-capa');
+  await C.context().route(/^https?:\/\/(?!localhost)/, r => r.abort());  // sem internet de fora aqui: foto externa falha na hora (como no t_pre_capa)
+  const cdp = await C.context().newCDPSession(C); await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 150, downloadThroughput: 650000, uploadThroughput: 90000 });  // 3G do site real: lá o app vai comprimido (2,2 MB viram ~640 KB, 3,4x menos); este servidor manda sem comprimir, então a banda aqui é 3,4x a de 200 KB/s
+  const t0 = Date.now(); await C.goto(BASE).catch(() => { }); const abriu = await esperar(C, () => !!document.querySelector('.cp.f4-pre .cpi-man, #v-capa .cpi, #posts .post'), null, 15000);  // primeira visita abre no Feed: a primeira notícia na tela (ou a manchete da Capa, se abrir nela)
+  ok(abriu, `rede lenta (3G): a primeira notícia aparece (${Date.now() - t0} ms)`); await foto(C, 'lento-capa');
 
   // 10. sem rede: o post entra na fila e sai quando a rede volta
   await A.context().setOffline(true); await ev(A, () => { go('feed'); criarMenu() }); await sleep(400);

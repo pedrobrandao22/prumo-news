@@ -8002,9 +8002,11 @@ function proximaRodadaTxt(){const m=minAgoraSP(),cand=[];for(let h=9;h<=21;h+=2)
 /* registro das rodadas: o leitor vê o que mudou; números da checagem e bastidores (ids, buscas, "acionada por") só para o administrador */
 function rodadaDetalhe(x){const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.uid]&&S.membros[S.uid].papel==="admin");
   if(adm)return `${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}`;
-  /* 19/11 (testador): para o leitor, uma linha simples por rodada; a nota da redação (bastidor) fica só para o administrador */
+  /* 19/11 (testador): sai também a frase de bastidor ("ficam para a próxima por falta de página que confirmasse",
+     "registrado em Dólar e Bolsa"); sobra a frase do fato, ou a linha simples com a contagem */
+  const nota=String(x.nota||"").replace(/\bPautas\b/g,"Notícias").replace(/\bpautas\b/g,"notícias").replace(/\bPauta\b/g,"Notícia").replace(/\bpauta\b/g,"notícia").replace(/([.;])\s+/g,"$1\n").split("\n").filter(f=>f&&!/acionad[ao] por|\bbuscas?\b|\bpauta|\brodada|\baviso|\berros?\b|github|acionaram|para conferir|\bIA\b|conferente|não (foi )?(atualizad|alterad|conferid)|[a-z0-9]+-[a-z0-9]+-[a-z0-9-]+|ficam? para a próxima|falta de (página|fonte)|que confirmasse|registrad[oa]s? em|sem confirmação|relatos? (novos? )?ainda|bastidor/i.test(f)).join(" ").replace(/[;,]\s*$/,"");
   const n=+x.mudancas||0;
-  return esc(x.status==="sem_mudancas"?"Nada mudou desde a anterior.":n>0?(n===1?"1 notícia atualizada.":n+" notícias atualizadas."):"Notícias revisadas.")}
+  return esc(nota||(x.status==="sem_mudancas"?"Nada mudou desde a anterior.":n>0?(n===1?"1 notícia atualizada.":n+" notícias atualizadas."):"Notícias revisadas."))}
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
   sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Edição completa":x.tipo==="virada"?"Virada do dia":"Atualização"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"não saiu"}</b><span class="hint">${rodadaDetalhe(x)}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
