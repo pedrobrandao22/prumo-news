@@ -30,8 +30,11 @@ function nm186Valor(id,v,x){if(!x)return "";
   return ""}
 /* troca as marcas de um texto; marca sem valor tira a frase inteira (ou só a marca, se o texto é uma frase só; texto em que
    toda frase tinha marca sem valor fica vazio) */
+var NM186_DIR=/(?:sob[ea]m?|ca[ie]m?|caiu|subiu|recu[ao]u?|avan[çc][ao]u?|alta|queda|ganho|perda|valoriza[çc][ãa]o|desvaloriza[çc][ãa]o)(?:\s+(?:de|em|para|até))?\s*$/i;
 function nm186Texto(s,M){if(typeof s!=="string"||s.indexOf("{")<0)return s;let falta=false;
-  const r=s.replace(NM186_RE,(_,id,v)=>{id=NM186_ALIAS[id]||id;const t=nm186Valor(id,v||"",M[id]);if(!t){falta=true;return "\u0000"}return t});
+  /* 19/11: depois de verbo de direção ("sobe", "cai", "queda de", "alta de"), a variação sai sem sinal: o verbo já diz */
+  const r=s.replace(NM186_RE,(m0,id,v,off)=>{id=NM186_ALIAS[id]||id;let t=nm186Valor(id,v||"",M[id]);if(!t){falta=true;return "\u0000"}
+    if(v==="var"&&NM186_DIR.test(s.slice(Math.max(0,off-24),off)))t=t.replace(/^[+\-−]\s*/,"");return t});
   if(!falta)return r;
   const fr=r.match(/[^.!?]*(?:[.!?]+|$)\s*/g)||[r];const fica=fr.filter(x=>x&&x.indexOf("\u0000")<0);
   if(fica.length&&fica.join("").trim())return fica.join("").trim();

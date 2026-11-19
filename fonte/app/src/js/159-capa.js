@@ -90,7 +90,7 @@ function ca159NaLista(n){const s=document.querySelector("#v-feed .sech");if(VIEW
   const top=document.querySelector(".top");const tb=top?Math.max(0,top.getBoundingClientRect().bottom):0;
   const y=scrollY+s.getBoundingClientRect().top-tb-6;if(y>8)window.scrollTo(0,y)}
 document.addEventListener("click",e=>{const t=e.target;if(t&&t.closest&&t.closest("[data-capasec]"))setTimeout(()=>ca159NaLista(0),0)},true);
-function ca159VerTudo(){document.querySelectorAll(".vertudo").forEach(b=>{if(b.dataset.ca159)return;b.dataset.ca159="1";b.textContent="Todas as editorias ✕";b.setAttribute("aria-label","Tirar o filtro e ver todas as editorias")})}
+function ca159VerTudo(){document.querySelectorAll(".vertudo").forEach(b=>{if(b.dataset.ca159)return;b.dataset.ca159="1";const col=typeof FILTRO!=="undefined"&&FILTRO==="_colunas";b.textContent=col?"Ver o Feed todo ✕":"Todas as editorias ✕";b.setAttribute("aria-label",col?"Sair do filtro de colunas e ver o Feed todo":"Tirar o filtro e ver todas as editorias")})}
 
 /* ===== 9. sem bolinha do quiz na aba Capa ===== */
 {const _up159=updatePlayBadge;updatePlayBadge=function(){const r=_up159.apply(this,arguments);const b=$("#pbadge");if(b){b.hidden=true;b.removeAttribute("aria-label")}return r}}

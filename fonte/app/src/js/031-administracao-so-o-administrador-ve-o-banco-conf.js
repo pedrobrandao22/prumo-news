@@ -231,7 +231,7 @@ function bvCancelar(){const i=$("#bvq");if(i){i.value="";try{i.blur()}catch(e){}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bvcancel]");if(b){e.preventDefault();e.stopPropagation();bvCancelar()}},true);
 function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")?.value||"";
   v.innerHTML=`<div class="gut"><form class="bv-f" onsubmit="return false"><input class="field" id="bvq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar notícia, nome ou assunto" aria-label="Buscar" value="${esc(q0)}"><button type="button" class="bv-x" data-bvcancel>Cancelar</button></form><div id="bvres"></div></div>`;
-  const inp=$("#bvq"),run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
+  const inp=$("#bvq");try{if(innerWidth<400)inp.placeholder="Buscar notícias"}catch(e){}const run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
 /* menu, aba inicial e eventos */
 (function(){
   let teste=false;try{teste=localStorage.getItem("prumo-teste-capa")==="1"}catch(e){}

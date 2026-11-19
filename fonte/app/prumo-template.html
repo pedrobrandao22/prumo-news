@@ -6172,6 +6172,37 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
 .avisoconta .av-entrar{padding:4px 12px;font-size:13px}
 /* Enviar: com o giro escondido sobra uma opção só, que ocupa a linha inteira */
 .cn102-env:has(> button:only-child){grid-template-columns:1fr}
+/* nova publicação com o celular deitado (pouca altura): a barra "Juntar ao post" rola junto, sem cobrir o texto */
+@media (max-height:500px){.cp152-dock{position:static;margin-top:10px}.cp152-dock .cp152-h,.cp152-dock .cp152-dica{display:none}.cp152-tx{min-height:72px}}
+.cp206-n{margin:2px 0 6px;text-align:right;font:600 12.5px var(--f-ui);color:var(--muted)}
+.cp206-n.cheio{color:var(--hot,#d7372b)}
+[data-cs123tira].conf{background:#fde8e4!important;color:#a1301d!important}
+:root[data-aparencia="escuro"] [data-cs123tira].conf{background:#3a1d1a!important;color:#ffb4a8!important}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) [data-cs123tira].conf{background:#3a1d1a!important;color:#ffb4a8!important}}
+/* prévia da coluna em "Antes de publicar": igual ao cartão do Feed (o h3 do painel não vale para o título do cartão) */
+.ed132-ps .ed132-pvf h3.cs123-t{margin:0;font:600 calc(22px*min(var(--fz,1),1.15))/1.18 var(--f-display);letter-spacing:-.015em;color:var(--ink)}
+.ed132-pvf .cmt-area,.ed132-pvf .addc{display:none}
+/* barra do editor de coluna: um degradê no fim avisa que ela rola para o lado */
+.ed132-bar .cr137-bm{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent);padding-right:22px}
+/* Atividade e nova publicação seguem o "Tamanho da letra" (Ajustes), como Perfil, Conversas e Busca */
+.pfv-at .at-tx,.pfv-at .at-l,.pfv-at .hint{font-size:calc(14px*var(--fz,1))}
+.pfv-at .at-h{font-size:calc(15px*var(--fz,1))}
+.pfv-at .at-chip{font-size:calc(13px*var(--fz,1))}
+.at-chipb{border:1px solid var(--line);background:var(--card);cursor:pointer}
+.cp152-tx{font-size:calc(18px*min(var(--fz,1),1.3))}
+.cp152-qn>b{font-size:calc(15px*var(--fz,1))}
+.cp152-a{font-size:calc(12px*min(var(--fz,1),1.2))}
+.cp152 .cp152-pub select{font-size:calc(13px*min(var(--fz,1),1.25))}
+.co160-bv.co160-inv{border-color:#f0c4bc;background:#fdf1ee}
+.co160-bv.co160-inv b{color:#a1301d}
+:root[data-aparencia="escuro"] .co160-bv.co160-inv{background:#2a1714;border-color:#5a2a22}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .co160-bv.co160-inv{background:#2a1714;border-color:#5a2a22}}
+/* matéria com o celular deitado (pouca altura): a barra de cima rola junto e o índice "Nesta matéria" fica sozinho preso, mais baixo */
+@media (max-height:500px){
+  .mat-top{position:relative!important;height:calc(44px + env(safe-area-inset-top,0px))}
+  html.fs2 .fs2-cap{top:0!important;padding-block:2px}
+  html.fs2 .fs2-cap-k{display:none}
+}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -6379,8 +6410,8 @@ const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLo
 
 %%ILL%%
 function sceneOf(img){const f=ILL[img?.modelo]||ILL.generica;try{return f(img?.dados||{})}catch(e){return ILL.generica({})}}
-const svgOf=img=>`<svg viewBox="0 0 400 240" role="img" aria-label="${esc(img?.alt||"Ilustração")}"><rect class="ib" width="400" height="240"/>${sceneOf(img)}</svg>`;
-const coverSvg=img=>`<svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMin slice" role="img" aria-label="${esc(img?.alt||"Ilustração")}"><rect class="ib" width="400" height="320"/><g transform="translate(0,6)">${sceneOf(img)}</g></svg>`;
+const svgOf=img=>`<svg viewBox="0 0 400 240" role="img" aria-label="${esc(typeof illAlt==="function"?illAlt(img):(img?.alt||"Ilustração"))}"><rect class="ib" width="400" height="240"/>${sceneOf(img)}</svg>`;
+const coverSvg=img=>`<svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMin slice" role="img" aria-label="${esc(typeof illAlt==="function"?illAlt(img):(img?.alt||"Ilustração"))}"><rect class="ib" width="400" height="320"/><g transform="translate(0,6)">${sceneOf(img)}</g></svg>`;
 
 /* ---------- estado ---------- */
 let VISITA0=(lsGet("radar-prefs",{})||{}).visitaAtual||null;let NOVID=[];
@@ -8348,7 +8379,7 @@ function bvCancelar(){const i=$("#bvq");if(i){i.value="";try{i.blur()}catch(e){}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bvcancel]");if(b){e.preventDefault();e.stopPropagation();bvCancelar()}},true);
 function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")?.value||"";
   v.innerHTML=`<div class="gut"><form class="bv-f" onsubmit="return false"><input class="field" id="bvq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar notícia, nome ou assunto" aria-label="Buscar" value="${esc(q0)}"><button type="button" class="bv-x" data-bvcancel>Cancelar</button></form><div id="bvres"></div></div>`;
-  const inp=$("#bvq"),run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
+  const inp=$("#bvq");try{if(innerWidth<400)inp.placeholder="Buscar notícias"}catch(e){}const run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
 /* menu, aba inicial e eventos */
 (function(){
   let teste=false;try{teste=localStorage.getItem("prumo-teste-capa")==="1"}catch(e){}
@@ -10928,7 +10959,7 @@ function atDesenha(){const el=$("#layer .pfv-at");if(!el)return;const l=atItens(
     <div class="pfv-sc">${!l.length?`<div class="pf-vz"><b>Nada por aqui ainda</b><span>Curtidas e comentários nas suas publicações, menções, pedidos de amizade e novidades das coberturas que você segue aparecem aqui.</span></div>`:""}
     ${novas.length?`<h4 class="at-h">Novas</h4><ul class="at-l">${novas.map(x=>atLiHTML(x,l.indexOf(x))).join("")}</ul>`:""}
     ${velhas.length?`<h4 class="at-h">Últimos 30 dias</h4><ul class="at-l">${velhas.map(x=>atLiHTML(x,l.indexOf(x))).join("")}</ul>`:""}
-    <div class="at-seg"><h4 class="at-h">Coberturas que você segue</h4>${seg.length?`<p>${seg.map(t=>`<span class="at-chip">${esc(t)}</span>`).join("")}</p><span class="hint">Quando uma delas for atualizada, você vê aqui.</span>`:`<span class="hint">Nenhuma ainda. Na página de uma cobertura, toque em “Seguir cobertura” para ser avisado das atualizações.</span>`}</div></div>`}
+    <div class="at-seg"><h4 class="at-h">Coberturas que você segue</h4>${seg.length?`<p>${seg.map(t=>{/* 19/11: a pílula abre a cobertura (antes parecia botão e não fazia nada) */let p=null;try{p=(FEED&&FEED.pautas||[]).find(q=>q&&norm(temaDe(q)||"")===norm(t))}catch(e){}return p?`<button type="button" class="at-chip at-chipb" data-cobpag="${esc(p.id)}">${esc(t)} ›</button>`:`<span class="at-chip">${esc(t)}</span>`}).join("")}</p><span class="hint">Quando uma delas for atualizada, você vê aqui.</span>`:`<span class="hint">Nenhuma ainda. Na página de uma cobertura, toque em “Seguir cobertura” para ser avisado das atualizações.</span>`}</div></div>`}
 function atRedesenha(){if($("#layer .pfv-at"))atDesenha()}
 async function abrirAtividade(){if(precisaConta())return;if($("#layer").innerHTML)closeLayer();AT._visto0=atVisto();
   $("#layer").innerHTML=`<div class="pfv pfv-at" role="dialog" aria-modal="true" aria-label="Atividade"></div>`;if(pushH())HST++;atDesenha();atMarcaVisto();atDot();uso("atividade");
@@ -10997,11 +11028,11 @@ function semFrames(){const d=semDados();const fr=[{id:"w0",tipo:"capa",d}];if(d.
 function semAbrir(){const fr=semFrames();if(!fr.length)return;uso("sua_semana");if($("#layer").innerHTML&&!$("#layer .story"))closeLayer();ST={sec:"_sem",ids:fr.map(f=>f.id),itens:fr,i:0,ordem:[]};drawStory()}
 function semFmt(ts){return new Date(ts).toLocaleDateString("pt-BR",{day:"numeric",month:"short",timeZone:"America/Sao_Paulo"}).replace(".","")}
 function semCorpo(fr){const d=fr.d;
-  if(fr.tipo==="capa")return `<span class="sg-k">${esc(semFmt(d.de))} – ${esc(semFmt(Date.now()))}</span><h2 class="sem-h">Sua semana no Prumo</h2><div class="sem-big"><b>${d.l.length}</b><span>${d.l.length===1?"notícia lida":"notícias lidas"}${d.dias>1?` em ${d.dias} dias`:""}</span></div><p class="sgd-sub">Um resumo só seu. Toque para seguir.</p>`;
+  if(fr.tipo==="capa")return `<span class="sg-k">${esc(semFmt(d.de))} – ${esc(semFmt(Date.now()))}</span><h2 class="sem-h">Sua semana no Prumo</h2><div class="sem-big"><b>${d.l.length}</b><span>${d.l.length===1?"notícia lida":"notícias lidas"}${d.dias>1?` em ${d.dias} dias`:""}</span></div><p class="sgd-sub">Um resumo só seu. Toque para continuar.</p>`;
   if(fr.tipo==="temas"){const mx=d.temas[0][1].n||1;return `<span class="sg-k">O que você mais acompanhou</span><div class="sem-bars">${d.temas.map(([t,o],k)=>`<div style="--k:${k};--w:${Math.max(8,o.n/mx*100).toFixed(0)}%;--c:${secCor(o.sec)}"><span>${esc(t)}</span><p><i></i><b>${o.n}</b></p></div>`).join("")}</div>`}
   if(fr.tipo==="lidas")return `<span class="sg-k">Algumas que você leu</span><ul class="sem-l">${d.l.slice(0,4).map((h,k)=>`<li style="--k:${k}"><small style="color:${secCor(h.secao||"politica")}">${esc(secNome(h.secao||"politica"))}</small><b>${esc(h.titulo||"")}</b></li>`).join("")}</ul>`;
   if(fr.tipo==="amigos")return `<span class="sg-k">Com os seus amigos</span><div class="sem-num">${d.cm?`<div><b>${d.cm}</b><span>${d.cm===1?"comentário seu":"comentários seus"}</span></div>`:""}${d.enq?`<div><b>${d.enq}</b><span>${d.enq===1?"enquete votada":"enquetes votadas"}</span></div>`:""}</div>${d.amg.length?`<ul class="sem-am">${d.amg.map(([u,n])=>`<li>${avatar(u)}<span><b>${esc(nomeDe(u))}</b> leu ${n} ${n===1?"notícia":"notícias"} que você também leu</span></li>`).join("")}</ul>`:""}`;
-  return `<span class="sg-k">Na semana que vem</span><h2 class="sem-h">${d.seg.length?"Você segue estas coberturas":"Até domingo que vem"}</h2>${d.seg.length?`<p class="sem-seg">${d.seg.map(t=>`<span>${esc(t)}</span>`).join("")}</p><p class="sgd-sub">Quando elas mudarem, o ♥ no topo avisa.</p>`:`<p class="sgd-sub">Siga uma cobertura na página dela para ser avisado quando houver novidade.</p>`}`}
+  return `<span class="sg-k">Na semana que vem</span><h2 class="sem-h">${d.seg.length?"Você segue estas coberturas":"Até domingo que vem"}</h2>${d.seg.length?`<p class="sem-seg">${d.seg.map(t=>`<span>${esc(t)}</span>`).join("")}</p><p class="sgd-sub">Quando elas mudarem, o sino no topo avisa.</p>`:`<p class="sgd-sub">Siga uma cobertura na página dela para ser avisado quando houver novidade.</p>`}`}
 function semDraw(){const fr=ST.itens[ST.i];if(!fr)return closeLayer();const vazioS=!$("#layer").innerHTML;
   if(ST.i===ST.itens.length-1){try{localStorage.setItem("prumo-sem-visto",semChave())}catch(e){}}
   const txt=semCorpo(fr);ST.palavras=12+txt.replace(/<[^>]+>/g," ").split(/\s+/).length/2;
@@ -14572,7 +14603,10 @@ document.addEventListener("change",e=>{const t=e.target;if(t&&t.matches&&t.match
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if(b=t.closest("[data-cs123seg]")){pare();cs123Seguir(b.dataset.cs123seg,b);return}
   if(b=t.closest("[data-cs123deixa]")){pare();const u=b.dataset.cs123deixa;closeLayer();cs123Deixa(u);return}
-  if(b=t.closest("[data-cs123tira]")){pare();cs123Tira(b.dataset.cs123tira,b);return}
+  if(b=t.closest("[data-cs123tira]")){pare();
+    /* 19/11: remover seguidor pede um segundo toque (não dá para desfazer: a pessoa teria de seguir de novo) */
+    if(!b.classList.contains("conf")){b.classList.add("conf");b.dataset.tx0=b.textContent;b.textContent="Remover?";setTimeout(()=>{if(b.isConnected&&!b.disabled){b.classList.remove("conf");b.textContent=b.dataset.tx0||"Remover"}},3000);toast(`Toque de novo para remover ${nomeDe(b.dataset.cs123tira)} dos seus seguidores. A pessoa não é avisada.`);return}
+    cs123Tira(b.dataset.cs123tira,b);return}
   if(b=t.closest("[data-cs123lista]")){pare();cs123Lista(b.dataset.u,b.dataset.cs123lista);return}
   if(t.closest("[data-cs123descobre]")){pare();cs123Descobre();return}},true);
 /* bloquear: some do seguir na hora (o banco já desfez) */
@@ -15303,7 +15337,8 @@ function ed132PoeFotos(){document.querySelectorAll("[data-ed132ff]").forEach(f=>
   if(Array.isArray(k.pautas)){const p=k.pautas.slice(0,3).filter(p=>p&&typeof p.id==="string"&&p.id&&p.id.length<=200).map(p=>({id:p.id,t:cs123S(p.t,140).trim()})).filter(p=>p.t);if(p.length)c.pautas=p}}catch(e){}return c}}
 const ed132Editado=x=>!!(x&&+x.editado>0&&+x.editado>(+x.at||0)+2e3);
 function ed132DataHora(ms){try{const d=new Date(+ms),z="America/Sao_Paulo";return d.toLocaleDateString("pt-BR",{timeZone:z,day:"numeric",month:"short"})+" às "+d.toLocaleTimeString("pt-BR",{timeZone:z,hour:"2-digit",minute:"2-digit"})}catch(e){return ""}}
-const ed132Kick=c=>`Coluna${c.n?" "+c.n:""}${c.serie?" · "+c.serie:c.ed?" · "+secNome(c.ed):""}`;
+/* 19/11: sem editoria gravada (colunas antigas), usa a mesma editoria calculada do filtro e dos Guardados (col207Ed) */
+const ed132Kick=(c,x)=>{let ed=c.ed;if(!ed&&x)try{ed=typeof col207Ed==="function"?col207Ed(x,c):""}catch(e){ed=""}return `Coluna${c.n?" "+c.n:""}${c.serie?" · "+c.serie:ed?" · "+secNome(ed):""}`};
 function ed132DaSerie(autor,serie){const k=norm(serie).trim();if(!k)return [];const l=[];const ja=new Set();
   (typeof pubVisiveis==="function"?pubVisiveis():[]).forEach(x=>{if(!x||x.autor!==autor||ja.has(x.id)||ed132Agendada(x))return;const c=cs123Col(x);if(c&&c.serie&&norm(c.serie).trim()===k){ja.add(x.id);l.push({id:x.id,n:c.n||0,at:+x.at||0,tit:c.tit})}});
   return l.sort((a,b)=>(a.n&&b.n?a.n-b.n:0)||a.at-b.at)}
@@ -15314,7 +15349,7 @@ function ed132ArtHTML(x,c,o){o=o||{};const f=c.capa!==false&&x.fotos&&x.fotos[0]
   tags=o.prev?cs123Tags(o.tags):/^#/.test(ult)&&txt.indexOf("\n\n")>0?cs123Tags(ult):[];
   const corpo=c.html?ed132CorpoHTML(c.html,x,o):cs123CorpoHTML(c.corpo),ed=ed132Editado(x)?` · editado em ${esc(ed132DataHora(x.editado))}`:"";
   const pts=(c.pautas||[]).length?`<div class="ed132-pts"><p class="ed132-nk">Assuntos do dia nesta coluna</p>${c.pautas.map(p=>!o.prev&&typeof pautaById==="function"&&pautaById(p.id)?`<button type="button" class="ed132-pt" data-ed132abre="${esc(p.id)}">${esc(p.t)}<i aria-hidden="true">›</i></button>`:`<span class="ed132-pt">${esc(p.t)}</span>`).join("")}</div>`:"";
-  return `<article class="cs123-art"><p class="cs123-k">${esc(ed132Kick(c))}</p><h1>${esc(c.tit)}</h1>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
+  return `<article class="cs123-art"><p class="cs123-k">${esc(ed132Kick(c,x))}</p><h1>${esc(c.tit)}</h1>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
       <div class="cs123-by"><button type="button" class="cs123-au" ${o.prev?"":`data-cs123perfil="${esc(x.autor)}"`}>${avatar(x.autor)}<span><b>${esc(nomeDe(x.autor))}</b><small>${esc(cs123Data(x.at))} · ${min} min de leitura${ed}</small></span></button></div>
       ${u?`<figure class="cs123-fig"><img src="${pubSrc(u)}" alt="${esc((x.estilo&&x.estilo.alt||[])[0]||"")}"></figure>`:f?`<figure class="cs123-fig"><span class="up-sem">Foto indisponível</span></figure>`:""}
       <div class="cs123-corpo">${corpo||`<p class="hint">Escreva o texto da coluna para ver como fica.</p>`}<span class="cs123-ponto" aria-hidden="true"></span></div>
@@ -15328,7 +15363,7 @@ function ed132ArtHTML(x,c,o){o=o||{};const f=c.capa!==false&&x.fotos&&x.fotos[0]
     <div class="cs123-sc">${ed132ArtHTML(x,c,o)}</div></div>`}catch(e){return _lh.apply(this,arguments)}}}
 /* cartão do Feed: chamada escolhida, série e capa opcional */
 function ed132CardHTML(x,c){const id=esc(x.id),f=c.capa!==false&&x.fotos[0],u=f&&ed132Url(f),tz=c.cham||cs123Teaser(c.corpo),min=ed132Min(c.corpo);
-  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">${esc(ed132Kick(c))}</p>
+  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">${esc(ed132Kick(c,x))}</p>
     <h3 class="cs123-t"><button type="button" data-cs123ler="${id}">${esc(c.tit)}</button></h3>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
     ${f?`<button type="button" class="cs123-capa" data-cs123ler="${id}" aria-label="Ler a coluna">${u?`<img src="${pubSrc(u)}" alt="${esc((x.estilo.alt||[])[0]||"")}" loading="lazy" decoding="async">`:`<span class="up-sem">Foto indisponível</span>`}</button>`:""}
     ${tz?`<p class="cs123-x">${esc(tz)}</p>`:""}<div class="cs123-r"><span class="cs123-min">${min} min de leitura</span><button type="button" class="cs123-lb" data-cs123ler="${id}">Ler a coluna <i aria-hidden="true">›</i></button></div></div>`}
@@ -15365,7 +15400,7 @@ cs123RascLe=function(){try{ed132Migra()}catch(e){}return ed132RascLe()};
 /* ===== 5. abrir o editor ===== */
 function ed132Novo(o){return {rid:ED132_RID(),modo:"novo",pubId:null,ag:false,tit:"",linha:"",cham:"",html:"",tags:"",serie:"",ed:"",n:0,pautas:[],pub:"amigos",capa:null,agendar:false,qd:"",qh:"",
   env:false,ver:false,pvAba:"pag",st:"",subindo:0,salvou:false,descartar:false,...o}}
-function ed132DoRasc(d){const E=ed132Novo({rid:d.rid,tit:cs123S(d.tit,90),linha:cs123S(d.linha,160),cham:cs123S(d.cham,240),html:ed132Limpa(d.html,{dono:S.uid}),tags:cs123S(d.tags,120),serie:cs123S(d.serie,60),ed:cs123S(d.ed,30),
+function ed132DoRasc(d){const E=ed132Novo({reaberto:true,rid:d.rid,tit:cs123S(d.tit,90),linha:cs123S(d.linha,160),cham:cs123S(d.cham,240),html:ed132Limpa(d.html,{dono:S.uid}),tags:cs123S(d.tags,120),serie:cs123S(d.serie,60),ed:cs123S(d.ed,30),
   n:Math.max(0,Math.floor(+d.n)||0),pautas:Array.isArray(d.pautas)?d.pautas.slice(0,3).filter(p=>p&&p.id&&p.t):[],pub:d.pub==="seguidores"?"seguidores":"amigos",capa:typeof d.capa==="string"&&ED132_FOTO.test(d.capa)&&d.capa.indexOf(S.uid+"/")===0?{p:d.capa}:null,salvou:true});
   if(d.quando&&typeof d.quando==="object"&&/^\d{4}-\d{2}-\d{2}$/.test(d.quando.d||"")&&/^\d{2}:\d{2}$/.test(d.quando.h||"")){E.agendar=true;E.qd=d.quando.d;E.qh=d.quando.h}
   if(!E.capa&&d.capaDu){E.subindo++;fetch(d.capaDu).then(r=>r.blob()).then(b=>pubSobe(b)).then(p=>{ED132.urls[p]=d.capaDu;if(ED132.E===E){E.capa={p};ed132CapaDesenha();ed132Agenda()}}).catch(()=>{}).finally(()=>{E.subindo--})}
@@ -15395,7 +15430,7 @@ function ed132StTx(){const E=ED132.E;if(!E)return "";if(E.modo==="editar")return
 function ed132St(){const s=$("#layer > .ed132 .ed132-st");if(s)s.textContent=ed132StTx()}
 function ed132Cab(){const E=ED132.E,h=$("#layer > .ed132 > .ed132-h");if(!E||!h)return;const ed=E.modo==="editar";
   h.innerHTML=`<button type="button" class="icbtn ed132-x${E.descartar?" conf":""}" data-ed132x aria-label="Fechar">${E.descartar?"Descartar?":ICON.close}</button>
-    <div class="ed132-ht"><b>${ed?(E.ag?"Coluna agendada":"Editar coluna"):"Nova coluna"}</b><small class="ed132-st" aria-live="polite">${esc(ed132StTx())}</small></div>
+    <div class="ed132-ht"><b>${ed?(E.ag?"Coluna agendada":"Editar coluna"):(E.reaberto?"Rascunho":"Nova coluna")}</b><small class="ed132-st" aria-live="polite">${esc(ed132StTx())}</small></div>
     <button type="button" class="icbtn" data-ed132mais aria-label="Mais opções">${ICON.dots}</button>
     ${ed?`<button type="button" class="btn ed132-pb" data-ed132salva ${E.env?"disabled":""}>${E.env?"Salvando…":"Salvar"}</button>`:`<button type="button" class="btn ed132-pb" data-ed132painel ${E.env?"disabled":""}>${E.env?"Publicando…":"Publicar"}</button>`}`}
 function ed132CapaHTML(){const E=ED132.E,u=E&&E.capa&&ed132Url(E.capa.p);
@@ -16834,7 +16869,8 @@ window.addEventListener("click",e=>{const t=e.target;if(t&&t.closest&&t.closest(
     if(pl){const s=document.createElement("span");s.className="cr137-tr";s.textContent=pl.length>110?pl.slice(0,108).replace(/\s+\S*$/,"")+"…":pl;b.querySelector("small")?.before(s)}});
   const minhas=(PUB.itens||[]).filter(x=>x&&x.autor===S.uid&&!ed132Agendada(x)&&cs123Col(x)).sort((a,b)=>(+b.at||0)-(+a.at||0));
   tp.content.querySelectorAll(".lt134-hub li").forEach(li=>{const b=li.querySelector("[data-lt134num]");const hb=li.querySelector(".ed132-hb");if(b&&hb&&!hb.querySelector("[data-cr137ed]"))hb.insertAdjacentHTML("afterbegin",`<button type="button" class="btn ghost" data-cr137ed="${esc(b.dataset.lt134num)}">Editar</button>`)});
-  if(minhas.length&&!tp.content.querySelector(".lt134-hub")){const ins=tp.content.querySelector(".ed132-in");if(ins){const pos=tp.content.querySelector(".pb136-hub");
+  /* 19/11: a lista "Publicadas" agora é a do 207 (com números e agrupamento); a antiga não aparece mais junto */
+  if(minhas.length&&!tp.content.querySelector(".lt134-hub")&&typeof col207PubHTML!=="function"){const ins=tp.content.querySelector(".ed132-in");if(ins){const pos=tp.content.querySelector(".pb136-hub");
     const html=`<h3 class="ed132-hh">Publicadas <small>${minhas.length} ${minhas.length===1?"coluna":"colunas"}</small></h3><ul class="ed132-hl cr137-pubs">${minhas.slice(0,10).map(x=>{const c=cs123Col(x);return `<li><button type="button" class="ed132-hi" data-cr137ver="${esc(x.id)}"><b>${esc(c.tit)}</b><small>${esc(quando(+x.at||Date.now()))}${c.serie?" · "+esc(c.serie):""}</small></button><span class="ed132-hb"><button type="button" class="btn ghost" data-cr137ver="${esc(x.id)}">Abrir</button><button type="button" class="btn ghost" data-cr137ed="${esc(x.id)}">Editar</button></span></li>`}).join("")}</ul>`;
     if(pos)pos.insertAdjacentHTML("beforebegin",html);else ins.insertAdjacentHTML("beforeend",html)}}
   const d=document.createElement("div");d.appendChild(tp.content);h=d.innerHTML}catch(e){}return h}}
@@ -17742,13 +17778,13 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
     const f={T:bu154J([n.titulo,v.titulo]),A:bu154J([p.tema,p.tag,p.subtema,bu154Hash(p)]),S:bu154J([p.subtitulo,...(Array.isArray(p.titulos)?p.titulos.map(x=>x&&x.titulo):[])]),
       C:bu154J([n.texto,p.contexto,p.por_que,p.proximo,p.o_que_muda,...(Array.isArray(p.essencial)?p.essencial:[])])};
     const r=bu154Pontos(ts,f,frase);if(!r)return;
-    R.not.push({k:"p",id:p.id,pt:r.pt+.5,h:bu154Hora(ultimaAtualizacao(p)||p.hora),t:n.titulo||v.titulo||"",tr:r.soCorpo?bu154Trecho(f.S+" "+f.C,ts)||bu154Trecho(f.C,ts):"",
+    R.not.push({k:"p",id:p.id,pt:r.pt+.5,h:bu154Hora(ultimaAtualizacao(p)||p.hora),t:n.titulo||v.titulo||"",tr:r.soCorpo?bu154Trecho(bu154J([p.subtitulo,f.C]),ts):"",/* 19/11: sem os títulos antigos colados (valores velhos) */
       m:bu154J([secNome(secOf(p)),p.subtema,"esta edição"])});
     /* cartão da cobertura: o nome da cobertura (tema) bate com tudo o que foi digitado */
     const tm=temaDe(p);if(tm&&typeof cobTemPagina==="function"&&cobTemPagina(p)&&ts.every(t=>bu154Casa(t,bu154N(tm))))R.cob.push({p,pt:r.pt})});
   /* notas rápidas (breves) */
   (FEED.breves||[]).forEach(b=>{if(!b||!b.titulo)return;const r=bu154Pontos(ts,{T:b.titulo},frase);if(!r)return;
-    R.not.push({k:"b",url:b.url,pt:r.pt-1,h:bu154Hora(b.hora),t:b.titulo,m:bu154J([secNome(b.secao||"politica"),"nota de "+nomeFonte(b.fonte)])})});
+    R.not.push({k:"b",url:b.url,pt:r.pt-1,h:bu154Hora(b.hora),t:b.titulo,m:bu154J([secNome(b.secao||"politica"),"nota de "+nomeFonte(b.fonte)+" · abre o site ↗"])})});
   /* coberturas anteriores */
   (Array.isArray(FEED.dormentes)?FEED.dormentes:[]).forEach(d=>{if(!d||!d.id||pautaById(d.id))return;
     const r=bu154Pontos(ts,{T:d.titulo,A:bu154J([d.tema,d.tag,d.subtema,bu154Hash(d)]),S:(Array.isArray(d.titulos)?d.titulos.map(x=>x&&x.titulo):[]).filter(Boolean).join(" · "),C:d.resumo},frase);if(!r)return;
@@ -17774,7 +17810,8 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
       if(c){const r=bu154Pontos(ts,{T:c.tit,S:c.linha,C:c.corpo&&String(c.corpo).replace(/<[^>]*>/g," ")},frase);if(r)R.cols.push({x,c,pt:r.pt,tr:r.soCorpo?bu154Trecho(String(c.corpo||"").replace(/<[^>]*>/g," "),ts):""});return}
       if(!x.texto)return;const r=bu154Pontos(ts,{C:x.texto},frase);if(r)R.posts.push({x,pt:r.pt})});
     R.cols.sort((a,b)=>b.pt-a.pt||(+b.x.at||0)-(+a.x.at||0));R.posts.sort((a,b)=>(+b.x.at||0)-(+a.x.at||0))}
-  R.not.sort((a,b)=>b.pt-a.pt||b.h-a.h);R.cob.sort((a,b)=>b.pt-a.pt);R.ent.sort((a,b)=>b.pt-a.pt);R.ag.sort((a,b)=>b.pt-a.pt);
+  const BU_K={p:0,d:1,s:1,e:2,b:3};/* 19/11: o Prumo desta edição antes do resto, e o mais novo antes */
+  R.not.sort((a,b)=>(BU_K[a.k]??2)-(BU_K[b.k]??2)||b.pt-a.pt||b.h-a.h);R.cob.sort((a,b)=>b.pt-a.pt);R.ent.sort((a,b)=>b.pt-a.pt);R.ag.sort((a,b)=>b.pt-a.pt);
   R.n=R.cob.length+R.ent.length+R.ag.length+R.not.length+R.pes.length+R.posts.length+R.cols.length;return R}
 
 /* ===== 3. desenho dos resultados ===== */
@@ -17833,7 +17870,7 @@ if(typeof qa125BusPoe==="function"){const _qp=qa125BusPoe;qa125BusPoe=function()
   if(b&&out.querySelector(".qa125-bus")){const q=(($("#bvq")||{}).value||"").trim();b.textContent=`Nenhuma notícia com “${q}”.`}}catch(e){}return r}}
 
 /* campo: sem conta não há pessoas para achar */
-{const _rv=renderBuscaView;renderBuscaView=function(){const r=_rv.apply(this,arguments);try{const i=$("#bvq");if(i&&!S.uid)i.placeholder="Buscar notícia ou assunto"}catch(e){}return r}}
+{const _rv=renderBuscaView;renderBuscaView=function(){const r=_rv.apply(this,arguments);try{const i=$("#bvq");if(i&&!S.uid)i.placeholder=innerWidth<400?"Buscar notícias":"Buscar notícia ou assunto"}catch(e){}return r}}
 
 /* ===== 6. "Assuntos desta edição" ===== */
 function bu154Assuntos(){const ps=visiveis();const L=lente();const sem=s=>bu154N(s).replace(/[^a-z0-9 ]+/g," ").replace(/\s+/g," ").trim();
@@ -17888,6 +17925,10 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="pq")bu154AmgVa
     const q=String(n||"").trim(),tem=bx.querySelectorAll("ul.amgl li").length;h.classList.add("bu154-amgh");
     if(tem)h.textContent=`As sugestões com “${q}” estão abaixo. Fora delas, ninguém no Prumo com o nome exato “${q}”: para achar outra pessoa, digite o nome completo dela.`;
     else{bx.querySelector(".empty")?.remove();h.innerHTML=`Ninguém no Prumo com o nome exato “${esc(q)}”. Confira o nome completo (nome e sobrenome), como a pessoa se cadastrou, ou convide-a. <button type="button" class="btn ghost bu154-conv" data-convidar>Convidar alguém</button>`}}catch(e){}return r}}
+/* 19/11: ao fechar uma folha por cima da busca (ex.: seguir uma cobertura), os cartões da busca se redesenham com o
+   estado novo (antes o cartão continuava dizendo "Seguir" depois de seguir) */
+(function(){let ab=false;const vig=()=>{const L=document.getElementById("layer");if(!L)return setTimeout(vig,500);
+  new MutationObserver(()=>{const tem=!!L.innerHTML;if(ab&&!tem&&typeof VIEW!=="undefined"&&VIEW==="busca"){const i=$("#bvq");if(i&&i.value.trim().length>=2){const y=scrollY;i.dispatchEvent(new Event("input",{bubbles:true}));window.scrollTo(0,y)}}ab=tem}).observe(L,{childList:true})};vig()})();
 /* ---------- 155: criar, achados do testador (15/11) ----------
    1. Um caminho só: a barra do Feed ("+" e "Comente uma notícia…") abre a caixa; "O que você acha? <manchete>" e
       "Publicar com comentário" abrem o formulário da notícia já escolhida, sem a faixa de tipos, e "voltar" leva à caixa.
@@ -18554,7 +18595,7 @@ function ca159NaLista(n){const s=document.querySelector("#v-feed .sech");if(VIEW
   const top=document.querySelector(".top");const tb=top?Math.max(0,top.getBoundingClientRect().bottom):0;
   const y=scrollY+s.getBoundingClientRect().top-tb-6;if(y>8)window.scrollTo(0,y)}
 document.addEventListener("click",e=>{const t=e.target;if(t&&t.closest&&t.closest("[data-capasec]"))setTimeout(()=>ca159NaLista(0),0)},true);
-function ca159VerTudo(){document.querySelectorAll(".vertudo").forEach(b=>{if(b.dataset.ca159)return;b.dataset.ca159="1";b.textContent="Todas as editorias ✕";b.setAttribute("aria-label","Tirar o filtro e ver todas as editorias")})}
+function ca159VerTudo(){document.querySelectorAll(".vertudo").forEach(b=>{if(b.dataset.ca159)return;b.dataset.ca159="1";const col=typeof FILTRO!=="undefined"&&FILTRO==="_colunas";b.textContent=col?"Ver o Feed todo ✕":"Todas as editorias ✕";b.setAttribute("aria-label",col?"Sair do filtro de colunas e ver o Feed todo":"Tirar o filtro e ver todas as editorias")})}
 
 /* ===== 9. sem bolinha do quiz na aba Capa ===== */
 {const _up159=updatePlayBadge;updatePlayBadge=function(){const r=_up159.apply(this,arguments);const b=$("#pbadge");if(b){b.hidden=true;b.removeAttribute("aria-label")}return r}}
@@ -18597,7 +18638,10 @@ function co160CvTexto(o){if(!o||o.sem||o.vazio)return null;if(o.valido)return o.
 async function co160ConfereCampo(){const i=$("#lcod");if(!i)return;const cod=co160LimpaCod(i.value),st=$("#co160cvst");if(!st)return;
   if(!cod){st.hidden=true;st.className="co160-cvst";return}const o=await co160Convite(cod);if(!$("#lcod")||co160LimpaCod($("#lcod").value)!==cod)return;
   const t=co160CvTexto(o);if(t==null||t===""){st.hidden=true;return}st.hidden=false;st.className="co160-cvst "+(o.valido?"ok":"no");st.innerHTML=t;
-  const bv=$("#layer .co160-bv b");if(bv&&o.valido&&o.de)bv.textContent=o.de+" te convidou para o Prumo"}
+  const bv=$("#layer .co160-bv b");if(bv&&o.valido&&o.de)bv.textContent=o.de+" te convidou para o Prumo";
+  /* 19/11: convite que não vale: o quadro de cima diz isso (não "Você recebeu um convite") e Criar conta só volta com um código válido */
+  try{const box=$("#layer .co160-bv"),sb=$("#lform [type=submit]");if(box){box.classList.toggle("co160-inv",!o.valido);if(!o.valido){box.querySelector("b").textContent="Este convite não vale mais";const p=box.querySelector("p");if(p)p.textContent="Peça um novo a quem te mandou o link. Enquanto isso, dá para ler tudo sem conta."}}
+    if(sb&&o.sem!==true)sb.disabled=!o.valido}catch(e){}}
 {const _cc160=criarConta;criarConta=async function(){const i=$("#lcod");const cod=i?co160LimpaCod(i.value):"";
   if(cod&&$("#lnome")&&$("#lnome").value.trim()){const b=$("#lform [type=submit]");if(b)b.disabled=true;let o;try{o=await co160Convite(cod)}finally{if(b)b.disabled=false}
     if(o&&!o.sem&&!o.vazio&&!o.valido){const st=$("#co160cvst");if(st){st.hidden=false;st.className="co160-cvst no";st.innerHTML=co160CvTexto(o)}mostraErro("#lerro","A conta não foi criada: o convite não vale. "+(o.motivo==="usado"||o.motivo==="expirado"?"Peça outro a quem te convidou.":"Confira o código."));try{i.focus()}catch(e){}return}}
@@ -18617,7 +18661,7 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
 /* ---------- 3. esqueci a senha ---------- */
 function co160Volta(){return location.origin+location.pathname.replace(/\/(m|c)\/[^/]*$/,"/")}
 async function co160Esqueci(){const p=$("#lesq"),er=$("#lerro");if(er){er.hidden=true;er.textContent=""}if(!p)return;p.hidden=false;
-  const em=($("#lemail")?.value||"").trim();if(!em||!/^\S+@\S+\.\S+$/.test(em)){p.className="hint co160-esq";p.textContent="Escreva o seu e-mail no campo acima e toque de novo em “Esqueci a senha”: mandamos um link para criar uma senha nova.";try{$("#lemail").focus()}catch(e){}return}
+  const em=($("#lemail")?.value||"").trim();if(!em||!/^\S+@\S+\.\S+$/.test(em)){p.className="hint co160-esq";p.textContent=!em?"Escreva o seu e-mail no campo acima e toque de novo em “Esqueci a senha”: mandamos um link para criar uma senha nova.":(em.indexOf("@")<0?"Falta o @ no e-mail. Confira e toque de novo em “Esqueci a senha”.":"Confira o e-mail (algo como nome@exemplo.com) e toque de novo em “Esqueci a senha”.");try{$("#lemail").focus()}catch(e){}return}
   const sb=sbCliente();if(!sb||!sb.auth||typeof sb.auth.resetPasswordForEmail!=="function"){p.textContent="Não deu para mandar o link neste endereço.";return}
   const b=$("[data-esqueci]");if(b)b.disabled=true;p.className="hint co160-esq";p.textContent="Mandando…";
   try{const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:co160Volta()});if(r&&r.error)throw r.error;
@@ -19068,6 +19112,8 @@ document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="ctext"||!t
 /* ---- comentários: responder sem escrever "@Fulano" no campo; a resposta não repete o nome no texto ---- */
 var FD167_RESP=null;
 function fd167RespBarra(){const f=document.getElementById("cform");if(!f)return;let b=document.getElementById("fd167-rb");
+  /* 19/11: o campo também diz que é resposta ("Responder a Fulano…") */
+  const ct=document.getElementById("ctext");if(ct){if(!ct.dataset.ph0)ct.dataset.ph0=ct.getAttribute("placeholder")||"";ct.setAttribute("placeholder",FD167_RESP?`Responder a ${String(FD167_RESP).split(" ")[0]}…`:ct.dataset.ph0)}
   if(!FD167_RESP){if(b)b.remove();return}
   if(!b){b=document.createElement("div");b.id="fd167-rb";b.className="fd167-rb";f.before(b)}
   b.innerHTML=`<span>Respondendo a <b>${esc(FD167_RESP)}</b></span><button type="button" data-fd167rx aria-label="Cancelar resposta">✕</button>`}
@@ -19523,6 +19569,10 @@ sceneOf=function(img){
   }
   return gen161SceneOf(img);
 };
+
+/* 19/11 (testador): quando o desenho cai no jornal neutro, o texto alternativo diz isso, em vez de descrever um barco ou
+   postes que não estão no desenho */
+function illAlt(img){const a=img&&img.alt||"Ilustração";try{if(img&&(img.modelo==="generica"||!ILL[img.modelo])&&gen161Tema(Object.assign({},img.dados||{},{_alt:img.alt}))==="neutro")return "Ilustração: jornal (sem foto desta notícia)"}catch(e){}return a}
 /* 162 (corretor 16/11, testador): o post com notícia ("comentar notícia") se juntava ao cartão da notícia lá embaixo
    no Feed (~10 telas), como "Seu comentário"; a pessoa achava que não tinha publicado. Agora, nos 15 minutos depois de
    publicar, a notícia com o comentário da própria pessoa sobe para o topo do Feed (o 152 rola até ele e destaca);
@@ -20040,8 +20090,11 @@ function nm186Valor(id,v,x){if(!x)return "";
   return ""}
 /* troca as marcas de um texto; marca sem valor tira a frase inteira (ou só a marca, se o texto é uma frase só; texto em que
    toda frase tinha marca sem valor fica vazio) */
+var NM186_DIR=/(?:sob[ea]m?|ca[ie]m?|caiu|subiu|recu[ao]u?|avan[çc][ao]u?|alta|queda|ganho|perda|valoriza[çc][ãa]o|desvaloriza[çc][ãa]o)(?:\s+(?:de|em|para|até))?\s*$/i;
 function nm186Texto(s,M){if(typeof s!=="string"||s.indexOf("{")<0)return s;let falta=false;
-  const r=s.replace(NM186_RE,(_,id,v)=>{id=NM186_ALIAS[id]||id;const t=nm186Valor(id,v||"",M[id]);if(!t){falta=true;return "\u0000"}return t});
+  /* 19/11: depois de verbo de direção ("sobe", "cai", "queda de", "alta de"), a variação sai sem sinal: o verbo já diz */
+  const r=s.replace(NM186_RE,(m0,id,v,off)=>{id=NM186_ALIAS[id]||id;let t=nm186Valor(id,v||"",M[id]);if(!t){falta=true;return "\u0000"}
+    if(v==="var"&&NM186_DIR.test(s.slice(Math.max(0,off-24),off)))t=t.replace(/^[+\-−]\s*/,"");return t});
   if(!falta)return r;
   const fr=r.match(/[^.!?]*(?:[.!?]+|$)\s*/g)||[r];const fica=fr.filter(x=>x&&x.indexOf("\u0000")<0);
   if(fica.length&&fica.join("").trim())return fica.join("").trim();
@@ -21195,7 +21248,12 @@ function cn102Valida(P){
 
 /* ===== cp152Desenha: a caixa de criar =====
    Base no 152; remendos: 155 (cartão da notícia mais claro), 164 (miniaturas das fotos). */
-function cp206Desenha0(){const el=$("#layer > .cp152");if(!el)return;el.innerHTML=cp152HTML();if(CP152.aba==="post"){const t=$("#cp152-tx");if(t){t.addEventListener("input",()=>{CP152.txt=t.value;cp152Ok()});cp152Ok()}const s=$("#cp152-pub");if(s)s.addEventListener("change",()=>{CP152.pub=s.value});cp152RascPosts()}}
+/* contador do post: aparece perto do limite (2.200) */
+function cp206Conta(t){const n=t.value.length;let c=t.parentNode&&t.parentNode.querySelector(".cp206-n");if(n<1800){if(c)c.remove();return}
+  if(!c){c=document.createElement("p");c.className="cp206-n";t.after(c)}c.textContent=`${n.toLocaleString("pt-BR")} de 2.200 caracteres`+(n>=2200?" · para mais, use a aba Coluna":"");c.classList.toggle("cheio",n>=2200)}
+function cp206Desenha0(){const el=$("#layer > .cp152");if(!el)return;el.innerHTML=cp152HTML();if(CP152.aba==="post"){const t=$("#cp152-tx");if(t){t.addEventListener("input",()=>{CP152.txt=t.value;cp152Ok();cp206Conta(t)});cp152Ok();cp206Conta(t);
+    /* 19/11: colar texto maior que o limite avisa, em vez de cortar calado */
+    t.addEventListener("paste",e=>{try{const c=(e.clipboardData||window.clipboardData).getData("text")||"";const sel=t.selectionEnd-t.selectionStart;const tot=t.value.length-sel+c.length;if(tot>2200)toast(`Seu texto tem ${tot.toLocaleString("pt-BR")} caracteres e o post aceita até 2.200. Para um texto longo, use a aba Coluna.`)}catch(_){}})}const s=$("#cp152-pub");if(s)s.addEventListener("change",()=>{CP152.pub=s.value});cp152RascPosts()}}
 function cp152Desenha(){const r=cp206Desenha0.apply(this,arguments);
   try{cr155Clareia($("#layer > .cp152 .cr155-nt"))}catch(e){}
   try{if(fc164Tem())document.querySelectorAll("#layer > .cp152 img[data-fc164i]").forEach(im=>{im.src=fc164Url(CP152.ed.po.fotos[+im.dataset.fc164i])})}catch(e){}
@@ -21537,17 +21595,19 @@ function ac208Itens(){const d=typeof NOVID_AG!=="undefined"?NOVID_AG:null;if(!d|
     const hs=ms.map(m=>agHoraMs(m.hora)).filter(Boolean);if(!hs.length)return;const h=Math.max(...hs);if(ag-h>6*3600e3)return;
     const t=[n.assunto,...ms.map(m=>m.titulo)].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t)||AG_LIXO.test(t))return;vistos.add(t);
     const vs=[...new Set(ms.map(m=>m.veiculo).filter(Boolean))];
-    out.push({t,h,sec:n.secao||"",ms:ms.sort((a,b)=>agHoraMs(b.hora)-agHoraMs(a.hora)),vs,peso:nf*2+(["politica","economia"].includes(n.secao)?2:0)})});
+    out.push({t,h,nf,sec:n.secao||"",ms:ms.sort((a,b)=>agHoraMs(b.hora)-agHoraMs(a.hora)),vs,peso:nf*2+(["politica","economia"].includes(n.secao)?2:0)})});
   return out.sort((a,b)=>b.h-a.h||b.peso-a.peso).slice(0,AC208_MAX)}
 function ac208Vs(vs){if(!vs.length)return "";const l=vs.slice(0,3);return "Noticiado por "+(l.length>1?l.slice(0,-1).join(", ")+" e "+l[l.length-1]:l[0])+(vs.length>3?` e mais ${vs.length-3}`:"")}
-function ac208HTML(onde){const l=ac208Itens();if(!l.length)return "";AC208_ULT=l;
+function ac208HTML(onde){let l=ac208Itens();
+  /* 19/11 (testador): na Capa, logo abaixo da manchete, futebol só com 3 ou mais veículos; no Feed entra tudo */
+  if(onde==="capa")l=l.filter(x=>x.sec!=="esportes"||x.nf>=3);if(!l.length)return "";AC208_L[onde]=l;
   return `<section class="ac208 ac208-${onde}" aria-label="Acabou de sair"><h3 class="ac208-h"><i aria-hidden="true"></i>Acabou de sair</h3>${l.map((x,i)=>{const s=x.sec&&typeof secNome==="function"?secNome(x.sec):"";
-    return `<button type="button" class="ac208-i" data-ac208="${i}"${x.sec?` style="--c:${secCor(x.sec)}"`:""}><span class="ac208-k">${s?esc(s)+" · ":""}${esc(quando(new Date(x.h).toISOString()))}</span><b>${esc(x.t)}</b><small>${esc(ac208Vs(x.vs))}</small></button>`}).join("")}</section>`}
-var AC208_ULT=[];
-function ac208Abre(i){const x=AC208_ULT[i];if(!x)return;uso("acabou_sair");
+    return `<button type="button" class="ac208-i" data-ac208="${onde}:${i}"${x.sec?` style="--c:${secCor(x.sec)}"`:""}><span class="ac208-k">${s?esc(s)+" · ":""}${esc(quando(new Date(x.h).toISOString()))}</span><b>${esc(x.t)}</b><small>${esc(ac208Vs(x.vs))}</small></button>`}).join("")}</section>`}
+var AC208_L={};
+function ac208Abre(k){const [o,i]=String(k).split(":");const x=(AC208_L[o]||[])[+i];if(!x)return;uso("acabou_sair");
   sheet("Acabou de sair",`<p class="ac208-st">${esc(x.t)}</p><p class="hint" style="margin:4px 0 12px">O Prumo ainda vai escrever a matéria completa. Enquanto isso, veja quem já noticiou:</p>
     <ul class="ac208-ml">${x.ms.slice(0,8).map(m=>`<li><a href="${esc(m.url||"#")}" target="_blank" rel="noopener noreferrer"><span>${esc(m.veiculo||"")}${m.hora?" · "+esc(String(m.hora).replace(/^\d{2}\/\d{2} /,"")):""}</span><b>${esc(m.titulo)}</b></a></li>`).join("")}</ul>`)}
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-ac208]");if(b){e.preventDefault();e.stopPropagation();ac208Abre(+b.dataset.ac208)}},true);
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-ac208]");if(b){e.preventDefault();e.stopPropagation();ac208Abre(b.dataset.ac208)}},true);
 /* Feed: o bloco entra no topo da lista (só em "Tudo") */
 function ac208Feed(){const box=document.getElementById("posts");if(!box)return;box.querySelector(":scope > .ac208")?.remove();if(typeof FILTRO!=="undefined"&&FILTRO!=="tudo")return;
   const h=ac208HTML("feed");if(!h)return;const t=document.createElement("template");t.innerHTML=h;const first=box.querySelector(":scope > .post, :scope > article, :scope > div");
@@ -21597,7 +21657,7 @@ function closeLayer(fromPop){
     let feito=false;
     try{if(fromPop===true&&$("#layer > .cp152")&&!$("#layer2")?.innerHTML){
       if(String(CP152.txt||"").trim()||CR155.pid){cr155Guarda();if(Date.now()-CR155.volta>3000){CR155.volta=Date.now();if(pushH())HST++;
-        const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},3000)}
+        /* 19/11: o voltar não arma mais o "Descartar?" (o aviso diz que o texto fica guardado; descartar é só pelo Cancelar) */
         toast("Volte de novo para sair. O texto fica guardado.");feito=true}
         else{clMiolo(fromPop);toast("Seu texto ficou guardado. Toque em + para continuar.");feito=true}}}}catch(e){}
     if(!feito)clMiolo(fromPop);

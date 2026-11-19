@@ -247,7 +247,7 @@ let srv = null, srv2 = null;
   await clk(B, '#v-me [data-cs123lista="seguidores"]'); await sleep(600);
   ok(await esperar(B, () => /Dani Rocha/.test(document.querySelector('#cs123-lb')?.textContent || '')), 'lista de seguidores: Dani');
   await shot(B, '14-bia-seguidores');
-  await clk0(B, '#cs123-lb [data-cs123tira]'); await sleep(700);
+  await clk0(B, '#cs123-lb [data-cs123tira]'); await sleep(200); await clk0(B, '#cs123-lb [data-cs123tira]'); await sleep(700);  // 19/11: dois toques (o 1º pede confirmação)
   ok((await H.sql(`select count(*)::int n from seguidores where seguido=$1`, [ids.b]))[0].n === 0, 'Remover: a Dani deixa de seguir');
   await fecha(B); await feed(D);
   ok(await ev(D, id => !pubVisiveis().some(x => x.autor === id) && !CS123.sigo.has(id), ids.b), 'removida: a Dani não vê mais os posts para seguidores');

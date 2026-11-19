@@ -282,7 +282,12 @@ function cn102Valida(P){
 
 /* ===== cp152Desenha: a caixa de criar =====
    Base no 152; remendos: 155 (cartão da notícia mais claro), 164 (miniaturas das fotos). */
-function cp206Desenha0(){const el=$("#layer > .cp152");if(!el)return;el.innerHTML=cp152HTML();if(CP152.aba==="post"){const t=$("#cp152-tx");if(t){t.addEventListener("input",()=>{CP152.txt=t.value;cp152Ok()});cp152Ok()}const s=$("#cp152-pub");if(s)s.addEventListener("change",()=>{CP152.pub=s.value});cp152RascPosts()}}
+/* contador do post: aparece perto do limite (2.200) */
+function cp206Conta(t){const n=t.value.length;let c=t.parentNode&&t.parentNode.querySelector(".cp206-n");if(n<1800){if(c)c.remove();return}
+  if(!c){c=document.createElement("p");c.className="cp206-n";t.after(c)}c.textContent=`${n.toLocaleString("pt-BR")} de 2.200 caracteres`+(n>=2200?" · para mais, use a aba Coluna":"");c.classList.toggle("cheio",n>=2200)}
+function cp206Desenha0(){const el=$("#layer > .cp152");if(!el)return;el.innerHTML=cp152HTML();if(CP152.aba==="post"){const t=$("#cp152-tx");if(t){t.addEventListener("input",()=>{CP152.txt=t.value;cp152Ok();cp206Conta(t)});cp152Ok();cp206Conta(t);
+    /* 19/11: colar texto maior que o limite avisa, em vez de cortar calado */
+    t.addEventListener("paste",e=>{try{const c=(e.clipboardData||window.clipboardData).getData("text")||"";const sel=t.selectionEnd-t.selectionStart;const tot=t.value.length-sel+c.length;if(tot>2200)toast(`Seu texto tem ${tot.toLocaleString("pt-BR")} caracteres e o post aceita até 2.200. Para um texto longo, use a aba Coluna.`)}catch(_){}})}const s=$("#cp152-pub");if(s)s.addEventListener("change",()=>{CP152.pub=s.value});cp152RascPosts()}}
 function cp152Desenha(){const r=cp206Desenha0.apply(this,arguments);
   try{cr155Clareia($("#layer > .cp152 .cr155-nt"))}catch(e){}
   try{if(fc164Tem())document.querySelectorAll("#layer > .cp152 img[data-fc164i]").forEach(im=>{im.src=fc164Url(CP152.ed.po.fotos[+im.dataset.fc164i])})}catch(e){}

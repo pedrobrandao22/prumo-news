@@ -13,6 +13,6 @@ const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLo
 
 %%ILL%%
 function sceneOf(img){const f=ILL[img?.modelo]||ILL.generica;try{return f(img?.dados||{})}catch(e){return ILL.generica({})}}
-const svgOf=img=>`<svg viewBox="0 0 400 240" role="img" aria-label="${esc(img?.alt||"Ilustração")}"><rect class="ib" width="400" height="240"/>${sceneOf(img)}</svg>`;
-const coverSvg=img=>`<svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMin slice" role="img" aria-label="${esc(img?.alt||"Ilustração")}"><rect class="ib" width="400" height="320"/><g transform="translate(0,6)">${sceneOf(img)}</g></svg>`;
+const svgOf=img=>`<svg viewBox="0 0 400 240" role="img" aria-label="${esc(typeof illAlt==="function"?illAlt(img):(img?.alt||"Ilustração"))}"><rect class="ib" width="400" height="240"/>${sceneOf(img)}</svg>`;
+const coverSvg=img=>`<svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMin slice" role="img" aria-label="${esc(typeof illAlt==="function"?illAlt(img):(img?.alt||"Ilustração"))}"><rect class="ib" width="400" height="320"/><g transform="translate(0,6)">${sceneOf(img)}</g></svg>`;
 
