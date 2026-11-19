@@ -102,3 +102,21 @@ body:not(.dm-conv):not(.co160-folha):not(:has(#layer > *))::after{content:"";pos
 .ff-ct span{white-space:normal!important;color:var(--muted);font:500 12.5px var(--f-ui)}
 .ff-ci[aria-pressed="true"] .ff-ct{margin-right:24px}
 .ff030 [aria-pressed="true"]::after{background:var(--ink);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cmask id='m'%3E%3Crect width='24' height='24' fill='white'/%3E%3Cpath d='M6.5 12.5l3.8 3.8 7.2-8' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Ccircle cx='12' cy='12' r='12' mask='url(%23m)'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cmask id='m'%3E%3Crect width='24' height='24' fill='white'/%3E%3Cpath d='M6.5 12.5l3.8 3.8 7.2-8' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Ccircle cx='12' cy='12' r='12' mask='url(%23m)'/%3E%3C/svg%3E") center/contain no-repeat}
+/* 19/11 — conversa: o degradê do rodapé não cobre o campo de escrever (não há barra de baixo ali) */
+body.dm-conv::after{display:none!important}
+body.dm-conv .composer.dm-comp{z-index:21!important}
+/* 19/11 — sem internet: faixa discreta no topo */
+.sr209{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 6px);z-index:60;pointer-events:none;
+  max-width:calc(100vw - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700;line-height:1.25;text-align:center;
+  background:var(--ink);color:var(--bg);box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.sr209.volta{opacity:.92}
+body.sr209-off .fd156-mais .fd156-sk{display:none}
+.sr209-m{margin:0;font-size:14px;color:var(--muted);text-align:center}
+
+/* 19/11 varredura — prévia (segurar a notícia): os três botões cabem na largura do celular */
+.pv-a{flex-wrap:wrap}.pv-a .btn{min-width:0!important;flex:1 1 auto;padding-inline:12px}
+/* hashtags da matéria e escolha de público: área de toque de pelo menos 32 px */
+.ht-n{min-height:32px;padding:6px 0}
+#cp152-pub{min-height:32px}
+/* computador: telas cheias (Atividade, Nova publicação, Busca, Hashtag, Arquivo...) numa coluna central, como o resto do app */
+@media (min-width:1024px){#layer>.pfv,#layer>.ce,#layer>.cp152{left:max(0px,calc(50% - 360px));right:max(0px,calc(50% - 360px));box-shadow:0 0 0 1px var(--line)}}
