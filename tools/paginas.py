@@ -64,7 +64,7 @@ def _arq(f):
     return _norm(fa_nome(f.get("url") if isinstance(f, dict) else "")).replace("_", " ")
 
 
-BLOQ = ["21449400719", "buzios - panoramio", "laboratorio de paleontologia", "bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bolsa de valores (17393276865)", "iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
+BLOQ = ["21449400719", "iluminacao lgbtqia", "cervejas colorado", "buraco tampado da arquibancada", "fabrica da gwm brasil", "buzios - panoramio", "laboratorio de paleontologia", "bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bolsa de valores (17393276865)", "iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
         "plenario do senado (15717805622)", "plenario do senado (15687627386)", "plenario do senado (15109327665)", "vestibular.jpg",
         "ofrenda de la liga", "roda viva com senadora", "com bandeira do brasil", "conselheira tais ferraz", "arena corinthians opening",
         "allianz parque - reconhecimento facial", "tudo-o-que-voce-sempre-quis-saber", "vidpovid to be performing", "hibakujumoku",
