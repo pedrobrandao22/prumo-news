@@ -48,6 +48,17 @@ const ev = (p, fn, a) => p.evaluate(fn, a);
     ok(a1.foto || a1.svgVis === 'hidden', 'link na 1ª visita: a ilustração não aparece antes da foto de arquivo', a1);
     ok(await esperar(P, () => !!document.querySelector('#layer .mat-arte .foto'), null, 12000), 'link na 1ª visita: a foto de arquivo entra na matéria aberta', await P.evaluate(() => document.querySelector('#layer .mat-arte').innerHTML.slice(0, 120)));
     await C.close() } else console.log('  (sem notícia com foto de arquivo no feed de hoje)');
+  // rede lenta, 1ª visita: tocar em Buscar antes de o app ficar pronto não se perde, e o guia não abre por cima
+  { const C = await b.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true }); await C.addInitScript(() => { try { localStorage.setItem('prumo-teste-tourvis', '1') } catch (e) { } });
+    await C.route(/^https?:\/\/(?!localhost)/, r => r.abort()); const P = await C.newPage(); U.erros(P, 'Lento');
+    const cdp = await C.newCDPSession(P); await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 150, downloadThroughput: 150000, uploadThroughput: 90000 });
+    P.goto(BASE).catch(() => { }); const pre = await esperar(P, () => !!document.querySelector('.nav [data-v="busca"]') && !window.__prumoPronto, null, 20000);
+    if (pre) { await P.evaluate(() => document.querySelector('.nav [data-v="busca"]').click()); const tc = await P.evaluate(() => !!document.querySelector('.toque-cedo-b'));
+      ok(tc, 'rede lenta: o toque antes de o app ficar pronto deixa o botão marcado');
+      ok(await esperar(P, () => window.__prumoPronto && VIEW === 'busca', null, 60000), 'rede lenta: o app abre a Busca quando fica pronto');
+      await sleep(3500); ok(await P.evaluate(() => !document.querySelector('#layer').innerHTML && !document.querySelector('.toque-cedo-b')), 'rede lenta: quem já tocou não recebe o guia por cima') }
+    else console.log('  (a página carregou antes de dar para tocar)');
+    await C.close() }
   ok(!A._erros.length, 'sem erros ' + A._erros.slice(0, 3).join(' | '));
   const R = U.resumo(); console.log(`\nRESUMO t_madrugada_1911: ${R.OKS} ok, ${R.FALHAS} falhas`);
   await b.close(); srv.kill(); process.exit(R.FALHAS ? 1 : 0) })().catch(e => { console.error(e); process.exit(2) });

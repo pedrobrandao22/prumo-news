@@ -73,7 +73,7 @@ document.addEventListener("click",async e=>{const b=e.target&&e.target.closest&&
 function sr150TelasVisitante(orig){const t=(orig||tourTelas)("");return [t[0],Object.assign({},t[1],{p:"No Feed, as notícias viram posts e giros. Para curtir, comentar, votar e conversar com amigos, entre com o convite de alguém do Prumo."}),t[3]]}
 (function sr150Guia(n){try{if(!INIT_FIM||!FEED){if(n<80)setTimeout(()=>sr150Guia(n+1),250);return}
   if(S.uid||LINK_PID||VP99_LINK||CONVITE_URL)return;let visto=false,teste=false;try{visto=!!localStorage.getItem("prumo-tour-visto");teste=navigator.webdriver&&localStorage.getItem("prumo-teste-tourvis")!=="1"}catch(_){return}
-  if(visto||teste)return;setTimeout(()=>{try{if(S.uid||$("#layer").innerHTML||document.visibilityState!=="visible")return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(_){}},1500)}catch(e){}})(0);
+  if(visto||teste)return;setTimeout(()=>{try{if(S.uid||$("#layer").innerHTML||document.visibilityState!=="visible"||(typeof MEXEU_CEDO!=="undefined"&&MEXEU_CEDO))return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(_){}},1500)}catch(e){}})(0);
 
 /* 13. no guia, a tela "Deixe na tela de início" ganha o botão Instalar quando o navegador oferece (Android/Chrome) */
 {const _at150=abrirTour;abrirTour=function(){const r=_at150.apply(this,arguments);try{if(SR150_INST){const t=[...document.querySelectorAll("#layer .tr-t")].pop();

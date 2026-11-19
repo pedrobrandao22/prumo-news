@@ -22,3 +22,12 @@ var ab141Pre={};
   ab141Pre.novid=fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"}).then(function(x){return x.ok?x.json():null}).catch(function(){return null});
   var fa=null;try{fa=localStorage.getItem("prumo-fotos-arq")}catch(e){}
   if(!fa)r.classList.add("ab141-sem-arq")}catch(e){}})();
+/* 19/11 (testador, rede lenta na 1ª visita): o alto da Capa aparece em ~3 s, mas o código chega bem depois. Um toque na
+   barra de baixo ou na manchete nesse meio-tempo fica guardado (o botão esmaece, sinal de que pegou) e é feito quando o
+   app fica pronto (999); quem já tocou ou rolou não recebe o guia por cima do que está lendo (160 e 150). */
+var TOQUE_CEDO=null,MEXEU_CEDO=false;
+(function(){try{var m=function(){if(!window.__prumoPronto)MEXEU_CEDO=true};
+  addEventListener("pointerdown",m,{passive:true});addEventListener("wheel",m,{passive:true});addEventListener("touchmove",m,{passive:true});
+  document.addEventListener("click",function(e){if(window.__prumoPronto)return;MEXEU_CEDO=true;var b=e.target&&e.target.closest&&e.target.closest(".nav [data-v], .cp.f4-pre [data-cpx]");if(!b)return;
+    try{var o=document.querySelector(".toque-cedo-b");if(o)o.classList.remove("toque-cedo-b")}catch(_){}
+    TOQUE_CEDO={v:b.getAttribute("data-v"),cpx:b.getAttribute("data-cpx"),t:Date.now()};b.classList.add("toque-cedo-b")},true)}catch(e){}})();

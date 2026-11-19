@@ -51,3 +51,7 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
    ilustração e trocar 1 s depois (mt202Espera no 202 põe e tira a classe) */
 #layer .mat-arte.mt202-esp .art.paper:not(.foto){background:var(--chip)}
 #layer .mat-arte.mt202-esp .art.paper:not(.foto)>*{visibility:hidden}
+/* toque guardado antes de o app ficar pronto (000): o botão esmaece e pulsa até o app fazer o que foi pedido */
+.toque-cedo-b{opacity:.55;animation:tc000 1s ease-in-out infinite alternate}
+@keyframes tc000{to{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.toque-cedo-b{animation:none}}
