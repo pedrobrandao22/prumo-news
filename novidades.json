@@ -1,272 +1,142 @@
 {
- "gerado": "2026-11-19T01:19-03:00",
- "desde": "2026-11-18T21:40-03:00",
+ "gerado": "2026-11-19T05:42-03:00",
+ "desde": "2026-11-18T23:32-03:00",
  "feed_atualizado_em": "2026-11-18T21:50:00-03:00",
  "resumo": {
-  "manchetes": 214,
-  "assuntos_novos_relevantes": 6,
-  "assuntos_novos": 138,
-  "pautas_com_novidade": 3,
-  "pautas_com_novidade_3_fontes": 2,
-  "pautas_com_relatos": 4,
-  "acionar_itens": 2,
+  "manchetes": 258,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 167,
+  "pautas_com_novidade": 5,
+  "pautas_com_novidade_3_fontes": 1,
+  "pautas_com_relatos": 6,
+  "acionar_itens": 3,
   "ja_avaliados": 0
  },
  "acionar": true,
- "acionar_motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização; pauta principal caso-master sem atualização há 3.5 h e 2 veículos com relatos novos",
+ "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização; pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização; assunto novo: 3 veículos em 90 min (economia)",
  "acionar_itens": [
   {
    "tipo": "pauta",
-   "pid": "ajuste-fiscal-lula-4",
-   "titulo": "Ajuste fiscal: Moretti diz que texto aprovado pelo Senado preserva políticas sociais essenciais em 2027",
+   "pid": "caso-master",
+   "titulo": "Caso Master: os próximos passos de Fachin após receber o relatório da PF",
    "n_fontes": 3,
+   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: caso-master"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "ajuste-fiscal-lula-4",
+   "titulo": "Governo Lula tenta vencer resistências e concluir votação do ajuste fiscal",
+   "n_fontes": 4,
    "motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização",
    "acao": "atualiza: ajuste-fiscal-lula-4"
   },
   {
-   "tipo": "pauta",
-   "pid": "caso-master",
-   "titulo": "Diretor-geral da PF entrega ao Supremo relatórios e documentos com mensagens que citam ministros da Corte no caso Master",
-   "n_fontes": 2,
-   "motivo": "pauta principal caso-master sem atualização há 3.5 h e 2 veículos com relatos novos",
-   "acao": "atualiza: caso-master"
+   "tipo": "novo",
+   "titulo": "De Dilma à Copa: como era o Brasil no último lançamento de GTA",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "chave": [
+    "brasil",
+    "commerce",
+    "consoles",
+    "copa",
+    "cresce",
+    "dilma",
+    "dispara",
+    "era",
+    "gta",
+    "lancamento",
+    "procura",
+    "puxa",
+    "redes",
+    "ultimo",
+    "vendas",
+    "vesperas"
+   ],
+   "acao": "nova"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Flamengo pode ser campeão do Brasileirão com um empate diante do Palmeiras",
-   "secao": "esportes",
-   "n_fontes": 4,
-   "fontes": [
-    "cnn",
-    "folha",
-    "ge",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Flamengo pode ser campeão do Brasileirão com um empate diante do Palmeiras",
-     "url": "https://www.metropoles.com/esportes/flamengo-pode-ser-campeao-do-brasileirao-com-um-empate-diante-do-palmeiras",
-     "hora": "18/11 23h40"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Veja o que Flamengo precisa para ser campeão brasileiro contra o Palmeiras",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/veja-o-que-flamengo-precisa-para-ser-campeao-brasileiro-contra-o-palmeiras/",
-     "hora": "18/11 22h43"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Barboza desfalca o Palmeiras contra o Flamengo no Brasileiro",
-     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/18/barboza-desfalca-o-palmeiras-contra-o-flamengo-no-brasileiro.ghtml",
-     "hora": "18/11 22h32"
-    },
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "Flamengo vence Athletico e pode ser campeão diante do Palmeiras",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/flamengo-vence-o-athletico-e-pode-decidir-titulo-no-confronto-direto-com-o-palmeiras.shtml",
-     "hora": "18/11 22h32"
-    }
-   ],
-   "n_fontes_90min": 4,
-   "pid_provavel": "brasileirao-31-rodada-lideres"
-  },
-  {
-   "assunto": "Kaio César marca três vezes, Corinthians goleia o Botafogo e deixa zona de rebaixamento",
-   "secao": "esportes",
-   "n_fontes": 4,
-   "fontes": [
-    "cnn",
-    "folha",
-    "ge",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Kaio César marca três vezes, Corinthians goleia o Botafogo e deixa zona de rebaixamento",
-     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/18-11-2026/corinthians-botafogo.ghtml",
-     "hora": "19/11 00h02"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Kaio César faz três gols em vitória do Corinthians e leva bola para casa: \"Dia que sempre sonhei\"",
-     "url": "https://ge.globo.com/futebol/times/corinthians/noticia/2026/11/18/kaio-cesar-faz-tres-gols-em-vitoria-do-corinthians-e-leva-bola-para-casa-dia-que-sempre-sonhei.ghtml",
-     "hora": "18/11 23h44"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Kaio César faz três, Corinthians goleia Botafogo e sai do Z4 do Brasileirão",
-     "url": "https://www.metropoles.com/esportes/kaio-cesar-faz-tres-corinthians-goleia-botafogo-e-sai-do-z4-do-brasileirao",
-     "hora": "18/11 23h24"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Corinthians goleia Botafogo e dorme fora do Z4 do Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/corinthians-goleia-botafogo-e-dorme-fora-do-z4-do-brasileirao/",
-     "hora": "18/11 23h21"
-    }
-   ],
-   "n_fontes_90min": 4
-  },
-  {
-   "assunto": "Cruzeiro garante G4 e confirma vaga na fase de grupos da Libertadores",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "ge",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Cruzeiro garante G4 e confirma vaga na fase de grupos da Libertadores",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/cruzeiro/cruzeiro-garante-g4-e-confirma-vaga-na-fase-de-grupos-da-libertadores/",
-     "hora": "19/11 00h03"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Cruzeiro garante vaga direta na Libertadores com vitória sobre o Palmeiras",
-     "url": "https://ge.globo.com/futebol/times/cruzeiro/noticia/2026/11/18/cruzeiro-garante-vaga-direta-na-libertadores-com-vitoria-sobre-o-palmeiras.ghtml",
-     "hora": "18/11 23h29"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Cruzeiro bate o Palmeiras, garante vaga direta na Libertadores e complica rival na briga pelo título",
-     "url": "https://ge.globo.com/mg/futebol/brasileirao-serie-a/jogo/18-11-2026/cruzeiro-palmeiras.ghtml",
-     "hora": "18/11 23h29"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Matheus Pereira marca golaço e Cruzeiro bate o Palmeiras de virada",
-     "url": "https://www.metropoles.com/esportes/matheus-pereira-marca-golaco-e-cruzeiro-bate-o-palmeiras-de-virada",
-     "hora": "18/11 22h32"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Gabigol marca nos acréscimos, e Santos vence o Coritiba no Couto Pereira",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "folha",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Gabigol marca nos acréscimos, e Santos vence o Coritiba no Couto Pereira",
-     "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/18-11-2026/coritiba-santos.ghtml",
-     "hora": "18/11 23h21"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Neymar e Gabigol debocham após Santos vencer o Coritiba: “Vão cair”",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/santos/neymar-e-gabigol-debocham-apos-santos-vencer-o-coritiba-vao-cair/",
-     "hora": "18/11 22h11"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Gabigol comemora gol salvador pelo Santos e provoca o Coritiba: \"Acho que vão cair\"",
-     "url": "https://ge.globo.com/sp/santos-e-regiao/futebol/times/santos/noticia/2026/11/18/gabigol-comemora-gol-salvador-pelo-santos-e-provoca-o-coritiba-acho-que-vao-cair.ghtml",
-     "hora": "18/11 21h59"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atuações do Santos: Neymar se destaca, e Gabigol garante vitória contra o Coritiba; dê suas notas",
-     "url": "https://ge.globo.com/sp/santos-e-regiao/futebol/times/santos/noticia/2026/11/18/atuacoes-do-santos-neymar-se-destaca-e-gabigol-garante-vitoria-contra-o-coritiba-de-suas-notas.ghtml",
-     "hora": "18/11 21h41"
-    }
-   ],
-   "n_fontes_90min": 3
-  },
-  {
-   "assunto": "Grêmio empata com o Bahia na Arena e se complica na luta contra o rebaixamento",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "ge",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Grêmio empata com o Bahia na Arena e se complica na luta contra o rebaixamento",
-     "url": "https://ge.globo.com/rs/futebol/brasileirao-serie-a/jogo/18-11-2026/gremio-bahia.ghtml",
-     "hora": "18/11 23h39"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Grêmio empata com o Bahia e se complica no Campeonato Brasileiro",
-     "url": "https://www.metropoles.com/esportes/gremio-empata-com-o-bahia-e-se-complica-no-campeonato-brasileiro",
-     "hora": "18/11 23h31"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Grêmio empata com Bahia e se complica ainda mais na luta contra o Z4",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/gremio-empata-com-bahia-e-se-complica-ainda-mais-na-luta-contra-o-z4/",
-     "hora": "18/11 23h26"
-    }
-   ],
-   "n_fontes_90min": 3
-  },
-  {
-   "assunto": "O encontro inédito de Trump, Putin e Xi Jinping, e o que o Brasil ganha com isso - O Assunto #1849",
+   "assunto": "Trump, Xi e Putin começam reunião inédita de cúpula",
    "secao": "mundo",
+   "n_fontes": 5,
+   "fontes": [
+    "cnn",
+    "folha",
+    "g1",
+    "met",
+    "p360"
+   ],
+   "ja_e_breve": true,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Trump, Xi e Putin começam reunião inédita de cúpula",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/trump-xi-e-putin-comecam-reuniao-inedita-de-cupula.shtml",
+     "hora": "19/11 05h30"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Trump, Putin e Xi fazem reunião trilateral histórica",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/trump-putin-e-xi-fazem-reuniao-trilateral-historica.ghtml",
+     "hora": "19/11 05h29"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Após encontro com Putin, Trump discute Irã e agricultura com Xi",
+     "url": "https://www.poder360.com.br/poder-internacional/apos-encontro-com-putin-trump-discute-ira-e-agricultura-com-xi/",
+     "hora": "19/11 04h45"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "EUA e China podem ajudar a acabar com a guerra na Ucrânia, diz Trump a Xi antes de reunião trilateral com Putin",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/eua-e-china-podem-ajudar-a-acabar-com-a-guerra-na-ucrania-diz-trump-a-xi.ghtml",
+     "hora": "19/11 04h35"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "pid_provavel": "eua-trump-xi-putin-apec-china"
+  },
+  {
+   "assunto": "De Dilma à Copa: como era o Brasil no último lançamento de GTA",
+   "secao": "economia",
    "n_fontes": 3,
    "fontes": [
     "cnn",
     "folha",
-    "g1"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "O encontro inédito de Trump, Putin e Xi Jinping, e o que o Brasil ganha com isso - O Assunto #1849",
-     "url": "https://g1.globo.com/podcast/o-assunto/noticia/2026/11/19/o-encontro-inedito-de-trump-putin-e-xi-jinping-e-o-que-o-brasil-ganha-com-isso-o-assunto-1849.ghtml",
-     "hora": "19/11 00h30"
+     "veiculo": "Metrópoles",
+     "titulo": "De Dilma à Copa: como era o Brasil no último lançamento de GTA",
+     "url": "https://www.metropoles.com/brasil/brasil-lancamento-gta",
+     "hora": "19/11 04h30"
     },
     {
-     "veiculo": "g1",
-     "titulo": "Trump, Putin e Xi fazem encontro histórico nesta quinta; saiba o que cada um quer",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/trump-putin-e-xi-fazem-encontro-historico-nesta-quinta-saiba-o-que-cada-um-quer.ghtml",
-     "hora": "19/11 00h00"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Conferência de Yalta: o que foi o encontro que está sendo comparado à cúpula entre Trump, Putin e Xi",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/conferencia-de-yalta-o-que-foi-o-encontro-que-esta-sendo-comparado-a-cupula-entre-trump-putin-e-xi.ghtml",
-     "hora": "19/11 00h00"
+     "veiculo": "Folha Mercado",
+     "titulo": "Procura por consoles cresce no Brasil às vésperas do lançamento de 'GTA 6'",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/tec/2026/11/procura-por-consoles-cresce-no-brasil-as-vesperas-do-lancamento-de-gta-6.shtml",
+     "hora": "19/11 04h00"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Trump chama encontro com Xi e Putin de “vitória” antes mesmo de reunião",
-     "url": "https://www.cnnbrasil.com.br/internacional/trump-chama-encontro-com-xi-e-putin-de-vitoria-antes-mesmo-de-reuniao/",
-     "hora": "18/11 23h56"
+     "titulo": "GTA VI dispara em redes de e-commerce no Brasil e puxa vendas de consoles",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/gta-vi-dispara-em-redes-de-e-commerce-no-brasil-e-puxa-vendas-de-consoles/",
+     "hora": "19/11 03h45"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 3
   },
   {
-   "assunto": "Grêmio 0 x 0 Bahia: veja os melhores momentos do Brasileirão",
+   "assunto": "Análise: Bahia cozinha o Grêmio, mas não mostra fome para matar o jogo e volta com empate",
    "secao": "esportes",
    "n_fontes": 2,
    "fontes": [
@@ -276,6 +146,12 @@
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Bahia cozinha o Grêmio, mas não mostra fome para matar o jogo e volta com empate",
+     "url": "https://ge.globo.com/ba/futebol/times/bahia/noticia/2026/11/19/analise-bahia-cozinha-o-gremio-mas-nao-mostra-fome-para-matar-o-jogo-e-volta-com-empate.ghtml",
+     "hora": "19/11 04h00"
+    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Grêmio 0 x 0 Bahia: veja os melhores momentos do Brasileirão",
@@ -293,46 +169,39 @@
      "titulo": "Grêmio 0 x 0 Bahia: assista aos melhores momentos",
      "url": "https://ge.globo.com/ba/futebol/times/bahia/noticia/2026/11/18/gremio-0-x-0-bahia-assista-aos-melhores-momentos.ghtml",
      "hora": "18/11 23h42"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Grêmio x Bahia: Carlos Vinicius deixa jogo com dores ainda no primeiro tempo; veja vídeo",
-     "url": "https://ge.globo.com/rs/futebol/times/gremio/noticia/2026/11/18/gremio-x-bahia-carlos-vinicius-deixa-jogo-com-dores-ainda-no-primeiro-tempo-veja-video.ghtml",
-     "hora": "18/11 22h18"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Hugo diz querer que STF julgue dosimetria para “virar a página” sobre 8/1",
-   "secao": "politica",
+   "assunto": "Cruzeiro bate o Palmeiras, garante vaga direta na Libertadores e complica rival na briga pelo título",
+   "secao": "esportes",
    "n_fontes": 2,
    "fontes": [
     "cnn",
-    "folha"
+    "ge"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Hugo diz querer que STF julgue dosimetria para “virar a página” sobre 8/1",
-     "url": "https://www.cnnbrasil.com.br/politica/hugo-diz-querer-que-stf-julgue-dosimetria-para-virar-a-pagina-sobre-8-1/",
-     "hora": "18/11 23h16"
+     "veiculo": "ge",
+     "titulo": "Cruzeiro bate o Palmeiras, garante vaga direta na Libertadores e complica rival na briga pelo título",
+     "url": "https://ge.globo.com/mg/futebol/brasileirao-serie-a/jogo/18-11-2026/cruzeiro-palmeiras.ghtml",
+     "hora": "19/11 01h53"
     },
     {
-     "veiculo": "Folha Poder",
-     "titulo": "Motta diz que pediu para Moraes liberar ação sobre dosimetria para virar página do 8/1",
-     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/motta-diz-que-pediu-para-moraes-liberar-acao-sobre-dosimetria-para-virar-pagina-do-81.shtml",
-     "hora": "18/11 22h11"
+     "veiculo": "CNN Brasil",
+     "titulo": "Cruzeiro garante G4 e confirma vaga na fase de grupos da Libertadores",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/cruzeiro/cruzeiro-garante-g4-e-confirma-vaga-na-fase-de-grupos-da-libertadores/",
+     "hora": "19/11 00h03"
     }
    ],
-   "n_fontes_90min": 2,
-   "pid_provavel": "bolsonaro-revisao-criminal"
+   "n_fontes_90min": 1
   },
   {
-   "assunto": "Maleta nuclear de Putin: saiba como funciona dispositivo flagrado com militar da Rússia na China",
-   "secao": "mundo",
+   "assunto": "Fachin dará 15 dias para PGR analisar material da PF sobre ministros do STF",
+   "secao": "politica",
    "n_fontes": 2,
    "fontes": [
     "cnn",
@@ -342,81 +211,139 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Maleta nuclear de Putin: saiba como funciona dispositivo flagrado com militar da Rússia na China",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/maleta-nuclear-de-putin-saiba-como-funciona-dispositivo-flagrado-com-militar-da-russia-na-china.ghtml",
+     "veiculo": "CNN Brasil",
+     "titulo": "Fachin dará 15 dias para PGR analisar material da PF sobre ministros do STF",
+     "url": "https://www.cnnbrasil.com.br/politica/fachin-dara-15-dias-para-pgr-analisar-material-da-pf-sobre-ministros-do-stf/",
+     "hora": "19/11 03h50"
+    },
+    {
+     "veiculo": "g1 Política",
+     "titulo": "PGR terá que analisar relatórios da PF sobre relação de Vorcaro com ministros do STF e apontar providências cabíveis; entenda",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/19/pgr-tera-que-analisar-relatorios-da-pf-sobre-relacao-de-vorcaro-com-ministros-do-stf-e-apontar-providencias-cabiveis-entenda.ghtml",
      "hora": "19/11 00h00"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Trump diz que não pretende pedir ajuda à China e à Rússia em relação ao Irã",
-     "url": "https://www.cnnbrasil.com.br/internacional/trump-diz-que-nao-pretende-pedir-ajuda-a-china-e-a-russia-em-relacao-ao-ira/",
-     "hora": "18/11 22h15"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Trump evita responder se irá propor inspeção nuclear para China e Rússia",
-     "url": "https://www.cnnbrasil.com.br/internacional/trump-evita-responder-se-ira-propor-inspecao-nuclear-para-china-e-russia/",
-     "hora": "18/11 22h10"
     }
    ],
-   "n_fontes_90min": 1,
-   "pid_provavel": "eua-trump-xi-putin-apec-china"
+   "n_fontes_90min": 1
   },
   {
-   "assunto": "Neymar discute com torcedor do Coritiba após vitória: \"Vai para B, otário\"",
-   "secao": "esportes",
+   "assunto": "Mega-Sena: quanto rendem R$ 40 milhões na poupança, Tesouro Direto ou CDB",
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
-    "ge",
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Mega-Sena: quanto rendem R$ 40 milhões na poupança, Tesouro Direto ou CDB",
+     "url": "https://www.cnnbrasil.com.br/economia/seu-bolso/meu-dinheiro/mega-sena-quanto-rendem-r-40-milhoes-na-poupanca-tesouro-direto-ou-cdb-10/",
+     "hora": "19/11 05h05"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Mega-Sena 3088: sorteio desta quinta-feira (19) pode pagar R$ 40 milhões",
+     "url": "https://www.cnnbrasil.com.br/economia/seu-bolso/loterias/mega-sena-3088/",
+     "hora": "19/11 05h00"
+    },
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "Mega-Sena pode pagar R$ 40 milhões nesta quinta-feira; g1 transmite ao vivo",
+     "url": "https://g1.globo.com/loterias/mega-sena/noticia/2026/11/19/mega-sena-pode-pagar-r-40-milhoes-nesta-quinta-feira-g1-transmite-ao-vivo.ghtml",
+     "hora": "19/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Mulher morre em tumulto durante inauguração de loja popular no Maranhão",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
     "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Neymar discute com torcedor do Coritiba após vitória: \"Vai para B, otário\"",
-     "url": "https://www.metropoles.com/esportes/neymar-discute-com-torcedor-do-coritiba-apos-vitoria-vai-para-b-otario",
-     "hora": "18/11 22h24"
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Mulher morre em tumulto durante inauguração de loja popular no Maranhão",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/mulher-morre-em-tumulto-durante-inauguracao-de-loja-popular-no-maranhao.shtml",
+     "hora": "19/11 05h38"
     },
     {
-     "veiculo": "ge",
-     "titulo": "\"Tu vai pra B, seu otário\": Neymar discute com torcedores do Coritiba depois de vitória do Santos",
-     "url": "https://ge.globo.com/sp/santos-e-regiao/futebol/times/santos/noticia/2026/11/18/tu-vai-pra-b-seu-otario-neymar-discute-com-torcedores-do-coritiba-depois-de-vitoria-do-santos.ghtml",
-     "hora": "18/11 22h06"
+     "veiculo": "Metrópoles",
+     "titulo": "Mulher morre e 16 pessoas ficam feridas após tumulto em loja de R$ 10 no MA",
+     "url": "https://www.metropoles.com/brasil/mulher-morre-e-16-pessoas-ficam-feridas-apos-tumulto-em-loja-de-r-10-no-ma",
+     "hora": "19/11 04h48"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Remo 2 x 0 Chapecoense: veja os melhores momentos do Brasileirão",
-   "secao": "esportes",
+   "assunto": "Quem são os sete jovens fundadores da Anthropic que se tornaram multibilionários com estreia na bolsa",
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
-    "cnn",
-    "met"
+    "bbc",
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Remo 2 x 0 Chapecoense: veja os melhores momentos do Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/remo-2-x-0-chapecoense-veja-os-melhores-momentos-do-brasileirao/",
-     "hora": "18/11 23h11"
+     "veiculo": "BBC News Brasil",
+     "titulo": "Quem são os sete jovens fundadores da Anthropic que se tornaram multibilionários com estreia na bolsa",
+     "url": "https://www.bbc.com/portuguese/articles/cmn0dykxex82o?at_medium=RSS&at_campaign=rss",
+     "hora": "19/11 05h35"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Brasileirão: Remo vence Chapecoense e evita rebaixamento antecipado",
-     "url": "https://www.metropoles.com/esportes/brasileirao-remo-vence-chapecoense-e-evita-rebaixamento-antecipado",
-     "hora": "18/11 22h04"
+     "veiculo": "BBC News Brasil",
+     "titulo": "Recorde da Anthropic em estreia na bolsa conseguirá impedir o estouro da bolha da IA?",
+     "url": "https://www.bbc.com/portuguese/articles/cm782wyv0153o?at_medium=RSS&at_campaign=rss",
+     "hora": "19/11 05h28"
+    },
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "Anthropic, dona do Claude, estreia na bolsa avaliada em US$ 1,5 trilhão; conheça a empresa",
+     "url": "https://g1.globo.com/inovacao/noticia/2026/11/19/anthropic-dona-do-claude-estreia-na-bolsa-conheca-a-empresa.ghtml",
+     "hora": "19/11 00h00"
+    },
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "Maior IPO da história: como a Anthropic superou a SpaceX em estreia bilionária na bolsa",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/19/maior-ipo-da-historia-como-a-anthropic-superou-a-spacex.ghtml",
+     "hora": "19/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Restrições a chips de IA e juros podem pressionar data centers do Brasil?",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Restrições a chips de IA e juros podem pressionar data centers do Brasil?",
+     "url": "https://www.infomoney.com.br/mercados/restricoes-a-chips-de-ia-e-juros-podem-pressionar-data-centers-do-brasil/",
+     "hora": "19/11 05h00"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Remo vence Chapecoense e mantém vivo sonho de escapar do Z4 do Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/remo-vence-chapecoense-e-mantem-vivo-sonho-de-escapar-do-z4-do-brasileirao/",
-     "hora": "18/11 21h58"
+     "titulo": "Por que o Brasil entrou na lista de restrições de chips dos Estados Unidos",
+     "url": "https://www.cnnbrasil.com.br/economia/money/inteligencia-artificial/por-que-o-brasil-entrou-na-lista-de-restricoes-de-chips-dos-estados-unidos/",
+     "hora": "19/11 04h10"
     }
    ],
    "n_fontes_90min": 2
@@ -448,33 +375,59 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Trump diz que comentou caso de ex-CEO da Nvidia \"brevemente\" com Xi Jinping",
+   "assunto": "TV russa mostra assessor de Putin com suposta maleta nuclear na China",
    "secao": "mundo",
    "n_fontes": 2,
    "fontes": [
     "cnn",
-    "met"
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Trump diz que comentou caso de ex-CEO da Nvidia \"brevemente\" com Xi Jinping",
-     "url": "https://www.metropoles.com/mundo/trump-diz-que-comentou-caso-de-ex-ceo-da-nvidia-brevemente-com-xi-jinping",
-     "hora": "18/11 22h53"
-    },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Trump diz que falou brevemente com Xi Jinping sobre ex-CEO da Nvidia",
-     "url": "https://www.cnnbrasil.com.br/internacional/trump-diz-que-falou-brevemente-com-xi-jinping-sobre-ex-ceo-da-nvidia/",
-     "hora": "18/11 22h39"
+     "titulo": "TV russa mostra assessor de Putin com suposta maleta nuclear na China",
+     "url": "https://www.cnnbrasil.com.br/internacional/tv-russa-mostra-assessor-de-putin-com-suposta-maleta-nuclear-na-china/",
+     "hora": "19/11 03h34"
+    },
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "Maleta nuclear de Putin: saiba como funciona dispositivo flagrado com militar da Rússia na China",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/maleta-nuclear-de-putin-saiba-como-funciona-dispositivo-flagrado-com-militar-da-russia-na-china.ghtml",
+     "hora": "19/11 00h00"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 1
   },
   {
-   "assunto": "+Milionária hoje: resultado do concurso 408 e números sorteados",
+   "assunto": "Veja quais são os direitos de quem trabalha no feriado da Consciência Negra",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Veja quais são os direitos de quem trabalha no feriado da Consciência Negra",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/veja-quais-sao-os-direitos-de-quem-trabalha-no-feriado-da-consciencia-negra.shtml",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "Consciência Negra será o último feriadão antes do Natal; veja as regras para quem trabalha",
+     "url": "https://g1.globo.com/trabalho-e-carreira/noticia/2026/11/19/consciencia-negra-feriado.ghtml",
+     "hora": "19/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "'Ninho de chips' para disparos em massa suspeitos de golpes por celular era operado por plataforma russa, diz polícia de SP",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -485,113 +438,18 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "+Milionária hoje: resultado do concurso 408 e números sorteados",
-     "url": "https://g1.globo.com/loterias/milionaria/noticia/2026/11/18/milionaria-hoje-resultado-do-concurso-408-e-numeros-sorteados.ghtml",
-     "hora": "18/11 21h46"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Super Sete hoje: resultado do concurso 924 e números sorteados",
-     "url": "https://g1.globo.com/loterias/super-sete/noticia/2026/11/18/super-sete-hoje-resultado-do-concurso-924-e-numeros-sorteados.ghtml",
-     "hora": "18/11 21h46"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Dia de Sorte hoje: resultado do concurso 1351 e números sorteados",
-     "url": "https://g1.globo.com/loterias/dia-de-sorte/noticia/2026/11/18/dia-de-sorte-hoje-resultado-do-concurso-1351-e-numeros-sorteados.ghtml",
-     "hora": "18/11 21h46"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Lotomania hoje: resultado do concurso 3001 e números sorteados",
-     "url": "https://g1.globo.com/loterias/lotomania/noticia/2026/11/18/lotomania-hoje-resultado-do-concurso-3001-e-numeros-sorteados.ghtml",
-     "hora": "18/11 21h45"
+     "titulo": "'Ninho de chips' para disparos em massa suspeitos de golpes por celular era operado por plataforma russa, diz polícia de SP",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/ninho-de-chips-para-disparos-em-massa-suspeitos-de-golpes-por-celular-era-operado-por-plataforma-russa-diz-policia-de-sp.ghtml",
+     "hora": "19/11 04h00"
     }
    ],
    "n_fontes_90min": 1
   },
   {
-   "assunto": "480 milhões de cópias, 212 GB e 816 atores: a história do 'GTA' em números",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "480 milhões de cópias, 212 GB e 816 atores: a história do 'GTA' em números",
-     "url": "https://g1.globo.com/pop-arte/games/noticia/2026/11/19/480-milhoes-de-copias-212-gb-e-816-atores-a-historia-do-gta-em-numeros.ghtml",
-     "hora": "19/11 00h01"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "A Fazenda 18: vote na enquete e veja quem sai entre Alfredo, Darlin e Lucas",
+   "assunto": "13º salário: calculadora mostra quanto você vai receber, com descontos e novas regras do IR",
    "secao": "economia",
    "n_fontes": 1,
    "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "A Fazenda 18: vote na enquete e veja quem sai entre Alfredo, Darlin e Lucas",
-     "url": "https://www.metropoles.com/entretenimento/a-fazenda-18-vote-na-enquete-e-veja-quem-sai-entre-alfredo-darlin-e-lucas",
-     "hora": "18/11 23h44"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "A espera acabou! Assista à gameplay de GTA 6 ao vivo no Metrópoles",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "A espera acabou! Assista à gameplay de GTA 6 ao vivo no Metrópoles",
-     "url": "https://www.metropoles.com/colunas/metropoles-games/a-espera-acabou-assista-a-gameplay-de-gta-6-ao-vivo-no-metropoles",
-     "hora": "18/11 23h30"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Advogado de Vorcaro terá audiência no gabinete de Fachin em 24/11",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Advogado de Vorcaro terá audiência no gabinete de Fachin em 24/11",
-     "url": "https://www.metropoles.com/colunas/grande-angular/advogado-de-vorcaro-tera-audiencia-no-gabinete-de-fachin-em-24-11",
-     "hora": "18/11 22h21"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Agefis apreende 156 quilos de alimentos irregulares em supermercado de Fortaleza",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
     "g1"
    ],
    "ja_e_breve": false,
@@ -599,9 +457,53 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Agefis apreende 156 quilos de alimentos irregulares em supermercado de Fortaleza",
-     "url": "https://g1.globo.com/ce/ceara/noticia/2026/11/18/agefis-apreende-de-alimentos-irregulares-em-supermercado-fortaleza.ghtml",
-     "hora": "18/11 21h46"
+     "titulo": "13º salário: calculadora mostra quanto você vai receber, com descontos e novas regras do IR",
+     "url": "https://g1.globo.com/trabalho-e-carreira/noticia/2026/11/19/13o-salario-calculadora-mostra-quanto-voce-vai-receber-com-descontos-e-novas-regras-do-ir.ghtml",
+     "hora": "19/11 03h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Abertura do mercado de energia traz liberdade para escolher e segurança para decidir",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Abertura do mercado de energia traz liberdade para escolher e segurança para decidir",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/abertura-do-mercado-de-energia-traz-liberdade-para-escolher-e-seguranca-para-decidir.shtml",
+     "hora": "19/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Acionista da concessionária do estádio Pacaembu pede recuperação extrajudicial",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Acionista da concessionária do estádio Pacaembu pede recuperação extrajudicial",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/acionista-da-concessionaria-do-estadio-pacaembu-pede-recuperacao-extrajudicial.shtml",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Acionista da concessionária do estádio Pacaembu pede recuperação extrajudicial",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/acionista-da-concessionaria-do-estadio-pacaembu-pede-recuperacao-extrajudicial.shtml",
+     "hora": "19/11 04h00"
     }
    ],
    "n_fontes_90min": 1
@@ -626,6 +528,44 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Aluna tem Provão Paulista cancelado após publicar caderno de respostas no TikTok",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Aluna tem Provão Paulista cancelado após publicar caderno de respostas no TikTok",
+     "url": "https://g1.globo.com/sp/santos-regiao/educacao/noticia/2026/11/19/aluna-tem-provao-paulista-cancelado-apos-publicar-caderno-de-respostas-no-tiktok.ghtml",
+     "hora": "19/11 05h23"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Aluno com síndrome de Down é vítima de bullying em Uberlândia: 'Trataram como um animal', diz mãe",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Aluno com síndrome de Down é vítima de bullying em Uberlândia: 'Trataram como um animal', diz mãe",
+     "url": "https://g1.globo.com/mg/triangulo-mineiro/noticia/2026/11/19/aluno-com-sindrome-de-down-e-vitima-de-bullying-em-uberlandia-trataram-como-um-animal-diz-mae.ghtml",
+     "hora": "19/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Andreas pede mobilização do Palmeiras contra o Flamengo: “Rival no Brasil”",
    "secao": "esportes",
    "n_fontes": 1,
@@ -645,90 +585,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Anthropic, dona do Claude, estreia na bolsa avaliada em US$ 1,5 trilhão; conheça a empresa",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Anthropic, dona do Claude, estreia na bolsa avaliada em US$ 1,5 trilhão; conheça a empresa",
-     "url": "https://g1.globo.com/inovacao/noticia/2026/11/19/anthropic-dona-do-claude-estreia-na-bolsa-conheca-a-empresa.ghtml",
-     "hora": "19/11 00h00"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Maior IPO da história: como a Anthropic superou a SpaceX em estreia bilionária na bolsa",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/19/maior-ipo-da-historia-como-a-anthropic-superou-a-spacex.ghtml",
-     "hora": "19/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Aposta simples leva R$ 4,1 milhões da Lotofácil 3833. Veja resultado",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Aposta simples leva R$ 4,1 milhões da Lotofácil 3833. Veja resultado",
-     "url": "https://www.metropoles.com/brasil/aposta-simples-leva-r-41-milhoes-da-lotofacil-3833-veja-resultado",
-     "hora": "18/11 23h00"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Após demolições, conselho decide sobre tombamento de 62 imóveis na Santa Cecília, em SP",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Após demolições, conselho decide sobre tombamento de 62 imóveis na Santa Cecília, em SP",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/apos-demolicoes-conselho-decide-sobre-tombamento-de-62-imoveis-na-santa-cecilia-em-sp.shtml",
-     "hora": "18/11 23h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Após visita surpresa à Venezuela, chefe do Pentágono entrega aeronave miliar à Colômbia nesta quinta (19)",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Após visita surpresa à Venezuela, chefe do Pentágono entrega aeronave miliar à Colômbia nesta quinta (19)",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/apos-visita-surpresa-a-venezuela-chefe-do-pentagono-entrega-aeronave-miliar-a-colombia-nesta-quinta-19.ghtml",
-     "hora": "19/11 01h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Arena da Amazônia é citada em caso de cartel nas obras da Copa do Mundo de 2014",
+   "assunto": "Análise: Athletico é valente, mas sente desfalques e sucumbe para o Flamengo",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
@@ -739,15 +596,15 @@
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Arena da Amazônia é citada em caso de cartel nas obras da Copa do Mundo de 2014",
-     "url": "https://ge.globo.com/am/copa-do-mundo/noticia/2026/11/18/arena-da-amazonia-e-citada-em-caso-de-cartel-nas-obras-da-copa-do-mundo-de-2014.ghtml",
-     "hora": "18/11 23h40"
+     "titulo": "Análise: Athletico é valente, mas sente desfalques e sucumbe para o Flamengo",
+     "url": "https://ge.globo.com/pr/futebol/times/athletico-pr/noticia/2026/11/19/analise-athletico-e-valente-mas-sente-desfalques-e-sucumbe-para-o-flamengo.ghtml",
+     "hora": "19/11 04h00"
     }
    ],
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Artur Jorge exalta reação do Cruzeiro, critica calendário e revela cobrança feita aos jogadores",
+   "assunto": "Análise: Corinthians transforma urgência em coragem, vence de goleada e respira no Brasileirão",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
@@ -756,6 +613,31 @@
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Corinthians transforma urgência em coragem, vence de goleada e respira no Brasileirão",
+     "url": "https://ge.globo.com/futebol/times/corinthians/noticia/2026/11/19/analise-corinthians-transforma-urgencia-em-coragem-vence-de-goleada-e-respira-no-brasileirao.ghtml",
+     "hora": "19/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Análise: Cruzeiro cumpre objetivo com autoridade e idealiza 2027 ambicioso com Artur Jorge",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Cruzeiro cumpre objetivo com autoridade e idealiza 2027 ambicioso com Artur Jorge",
+     "url": "https://ge.globo.com/futebol/times/cruzeiro/noticia/2026/11/19/analise-cruzeiro-cumpre-objetivo-com-autoridade-e-idealiza-2027-ambicioso-com-artur-jorge.ghtml",
+     "hora": "19/11 04h00"
+    },
     {
      "veiculo": "ge",
      "titulo": "Artur Jorge exalta reação do Cruzeiro, critica calendário e revela cobrança feita aos jogadores",
@@ -766,7 +648,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Atuações do Bahia: Ronaldo faz defesas importantes e garante o empate com o Grêmio",
+   "assunto": "Análise: Cuca aposta em escalação estrelada no Santos e mantém vivo sonho de vaga na Libertadores",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
@@ -777,27 +659,41 @@
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Atuações do Bahia: Ronaldo faz defesas importantes e garante o empate com o Grêmio",
-     "url": "https://ge.globo.com/ba/futebol/times/bahia/noticia/2026/11/18/atuacoes-do-bahia-ronaldo-faz-defesas-importantes-e-garante-o-empate-com-o-gremio.ghtml",
-     "hora": "18/11 23h32"
+     "titulo": "Análise: Cuca aposta em escalação estrelada no Santos e mantém vivo sonho de vaga na Libertadores",
+     "url": "https://ge.globo.com/sp/santos-e-regiao/futebol/times/santos/noticia/2026/11/19/analise-cuca-aposta-em-escalacao-estrelada-no-santos-e-mantem-vivo-sonho-de-vaga-na-libertadores.ghtml",
+     "hora": "19/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Análise: Flamengo vence jogo com cara de final e vira o virtual campeão brasileiro",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Flamengo vence jogo com cara de final e vira o virtual campeão brasileiro",
+     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/19/analise-flamengo-vence-jogo-com-cara-de-final-e-vira-o-virtual-campeao-brasileiro.ghtml",
+     "hora": "19/11 03h00"
     },
     {
      "veiculo": "ge",
-     "titulo": "Atuações do Grêmio: Marlon e Noriega são os piores em empate; dê suas notas",
-     "url": "https://ge.globo.com/rs/futebol/times/gremio/noticia/2026/11/18/atuacoes-do-gremio-marlon-e-noriega-sao-os-piores-em-empate-de-suas-notas.ghtml",
-     "hora": "18/11 23h30"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atuações do Botafogo: Marçal, Telles e Tite são os piores em goleada sofrida; dê suas notas",
-     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/18/atuacoes-do-botafogo-marcal-telles-e-tite-sao-os-piores-em-goleada-sofrida-de-suas-notas.ghtml",
-     "hora": "18/11 23h27"
+     "titulo": "Flamengo vence o Athletico-PR e pode ser campeão na próxima rodada",
+     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/18-11-2026/flamengo-athletico-pr.ghtml",
+     "hora": "19/11 01h53"
     }
    ],
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Atuações do Corinthians: Memphis vai bem, e Kaio César faz hat-trick em goleada; dê suas notas",
+   "assunto": "Análise: Sport tem em Soso a primeira grande decisão para 2027",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
@@ -808,33 +704,15 @@
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Atuações do Corinthians: Memphis vai bem, e Kaio César faz hat-trick em goleada; dê suas notas",
-     "url": "https://ge.globo.com/futebol/times/corinthians/noticia/2026/11/18/atuacoes-do-corinthians-memphis-vai-bem-e-kaio-cesar-faz-hat-trick-em-goleada-de-suas-notas.ghtml",
-     "hora": "18/11 23h23"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atuações do Athletico: Vargas faz gol antológico e se salva em derrota; dê suas notas",
-     "url": "https://ge.globo.com/pr/futebol/times/athletico-pr/noticia/2026/11/18/atuacoes-do-athletico-vargas-faz-gol-antologico-e-se-salva-em-derrota-de-suas-notas.ghtml",
-     "hora": "18/11 22h40"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atuações do Palmeiras: Khellven faz gol contra e é destaque negativo em derrota; dê suas notas",
-     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/18/atuacoes-do-palmeiras-khellven-faz-gol-contra-e-e-destaque-negativo-em-derrota-de-suas-notas.ghtml",
-     "hora": "18/11 22h37"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atuações da Chapecoense: derrota em estreia de novo técnico; dê suas notas",
-     "url": "https://ge.globo.com/sc/futebol/times/chapecoense/noticia/2026/11/18/atuacoes-da-chapecoense-derrota-em-estreia-de-novo-tecnico-de-suas-notas.ghtml",
-     "hora": "18/11 22h04"
+     "titulo": "Análise: Sport tem em Soso a primeira grande decisão para 2027",
+     "url": "https://ge.globo.com/pe/futebol/times/sport/noticia/2026/11/19/analise-sport-tem-em-soso-a-primeira-grande-decisao-para-2027.ghtml",
+     "hora": "19/11 04h00"
     }
    ],
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Atuações do Coritiba: Josué é destaque, mas Ocampo vacila no fim; dê suas notas",
+   "assunto": "Análise: atuação apática do Botafogo liga alerta e reacende temor de Z-4",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
@@ -845,91 +723,82 @@
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Atuações do Coritiba: Josué é destaque, mas Ocampo vacila no fim; dê suas notas",
-     "url": "https://ge.globo.com/pr/futebol/times/coritiba/noticia/2026/11/18/atuacoes-do-coritiba-josue-e-destaque-mas-ocampo-vacila-no-fim-de-suas-notas.ghtml",
-     "hora": "18/11 22h29"
+     "titulo": "Análise: atuação apática do Botafogo liga alerta e reacende temor de Z-4",
+     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/19/analise-atuacao-apatica-do-botafogo-liga-alerta-e-reacende-temor-de-z-4.ghtml",
+     "hora": "19/11 05h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Análise: efeito copeiro passa, e Grêmio precisará vencer a si mesmo para se manter na Série A",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: efeito copeiro passa, e Grêmio precisará vencer a si mesmo para se manter na Série A",
+     "url": "https://ge.globo.com/rs/futebol/times/gremio/noticia/2026/11/19/analise-efeito-copeiro-passa-e-gremio-precisara-vencer-a-si-mesmo-para-se-manter-na-serie-a.ghtml",
+     "hora": "19/11 02h55"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Aos 85 anos, Ney Matogrosso descarta aposentadoria: 'Só vou parar quando eu for impedido'",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Aos 85 anos, Ney Matogrosso descarta aposentadoria: 'Só vou parar quando eu for impedido'",
+     "url": "https://g1.globo.com/fantastico/noticia/2026/11/19/aos-85-anos-ney-matogrosso-descarta-aposentadoria-so-vou-parar-quando-eu-for-impedido.ghtml",
+     "hora": "19/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Apoiadores de Lula recebem multas de R$ 3 mil em ato de vitória no interior",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Apoiadores de Lula recebem multas de R$ 3 mil em ato de vitória no interior",
+     "url": "https://www.metropoles.com/colunas/vinicius-passarelli/apoiadores-de-lula-recebem-multas-de-r-3-mil-em-ato-de-vitoria-no-interior",
+     "hora": "19/11 04h30"
     }
    ],
    "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
-  "ajuste-fiscal-lula-4": {
-   "secao": "economia",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Proposta de ajuste fiscal do governo volta a repercutir no mercado financeiro",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/proposta-de-ajuste-fiscal-do-governo-volta-a-repercutir-no-mercado-financeiro.ghtml",
-     "hora": "18/11 22h01"
-    },
-    {
-     "veiculo": "Agência Câmara",
-     "titulo": "Proposta de ajuste fiscal entra na pauta de sessão extraordinária da Câmara na próxima segunda-feira",
-     "url": "https://www.camara.leg.br/noticias/1320935-proposta-de-ajuste-fiscal-entra-na-pauta-de-sessao-extraordinaria-da-camara-na-proxima-segunda-feira",
-     "hora": "18/11 21h50"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Resumão diário do JN: Encontro histórico reúne os líderes das três principais potências mundiais; Senado aprova proposta do governo de ajuste fiscal",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/resumao-diario-do-jn-encontro-historico-reune-os-lideres-das-tres-principais-potencias-mundiais-senado-aprova-proposta-do-governo-de-ajuste-fiscal.ghtml",
-     "hora": "18/11 21h44"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Senado concluiu votação das medidas do governo para o ajuste das contas públicas; texto segue para a Câmara",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/senado-concluiu-votacao-das-medidas-do-governo-para-o-ajuste-das-contas-publicas-texto-segue-para-a-camara.ghtml",
-     "hora": "18/11 21h43"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Acordo apenas reduziu prejuízo do ajuste fiscal, diz Marinho",
-     "url": "https://www.poder360.com.br/poder-congresso/acordo-apenas-reduziu-prejuizo-do-ajuste-fiscal-diz-marinho/",
-     "hora": "18/11 23h14"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Saiba como votou cada senador nos destaques do ajuste fiscal",
-     "url": "https://www.poder360.com.br/poder-congresso/saiba-como-votou-cada-senador-nos-destaques-do-ajuste-fiscal/",
-     "hora": "18/11 23h25"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Ajuste fiscal: Moretti diz que texto aprovado pelo Senado preserva políticas sociais essenciais em 2027",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/19/ajuste-fiscal-moretti-diz-que-texto-aprovado-pelo-senado-preserva-politicas-sociais-essenciais-em-2027.ghtml",
-     "hora": "19/11 00h00"
-    }
-   ]
-  },
-  "caso-master": {
-   "secao": "politica",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Diretor-geral da PF entrega ao Supremo relatórios e documentos com mensagens que citam ministros da Corte no caso Master",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/diretor-geral-da-pf-entrega-ao-supremo-relatorios-e-documentos-com-mensagens-que-citam-ministros-da-corte-no-caso-master.ghtml",
-     "hora": "18/11 23h16"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Andrei Rodrigues propõe comparar relatórios sobre ministros do STF",
-     "url": "https://www.cnnbrasil.com.br/politica/andrei-rodrigues-propoe-comparar-relatorios-sobre-ministros-do-stf/",
-     "hora": "18/11 22h54"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Andrei entrega a Fachin relatórios sobre ministros no caso Master",
-     "url": "https://agenciabrasil.ebc.com.br/justica/noticia/2026-11/andrei-entrega-fachin-relatorios-sobre-ministros-no-caso-master",
-     "hora": "18/11 22h01"
-    }
-   ]
-  },
   "brasileirao-31-rodada-lideres": {
    "secao": "esportes",
-   "n_fontes": 3,
+   "n_fontes": 1,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Flamengo 2 x 1 Athletico-PR: veja os melhores momentos pelo Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/flamengo-2-x-1-athletico-pr-veja-os-melhores-momentos-pelo-brasileirao/",
+     "hora": "18/11 23h33"
+    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Brasileirão: Abel Ferreira joga a toalha e parabeniza Flamengo por “título”",
@@ -938,190 +807,260 @@
     },
     {
      "veiculo": "ge",
-     "titulo": "Chances Brasileirão: Flamengo encaminha título com 98%; Palmeiras tem 2%",
-     "url": "https://ge.globo.com/gato-mestre/noticia/2026/11/18/chances-brasileirao-flamengo-encaminha-titulo-com-98percent-palmeiras-tem-2percent.ghtml",
-     "hora": "18/11 23h30"
+     "titulo": "Análise: Palmeiras sucumbe em três minutos, e Brasileirão vira sonho praticamente impossível",
+     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/19/analise-palmeiras-sucumbe-em-tres-minutos-e-brasileirao-vira-sonho-praticamente-impossivel.ghtml",
+     "hora": "19/11 04h00"
+    }
+   ]
+  },
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Após aval no Senado, ajuste fiscal será votado na Câmara na próxima semana",
+     "url": "https://www.cnnbrasil.com.br/politica/apos-aval-no-senado-ajuste-fiscal-sera-votado-na-camara-na-proxima-semana/",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Entenda o 'plano Moretti', proposta de ajuste fiscal do governo Lula que foi aprovada pelo Senado",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/entenda-o-plano-moretti-proposta-de-ajuste-fiscal-do-governo-lula-que-foi-aprovada-pelo-senado.shtml",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "g1 Política",
+     "titulo": "Ajuste fiscal: Moretti diz que texto aprovado pelo Senado preserva políticas sociais essenciais em 2027",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/19/ajuste-fiscal-moretti-diz-que-texto-aprovado-pelo-senado-preserva-politicas-sociais-essenciais-em-2027.ghtml",
+     "hora": "19/11 00h00"
+    },
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Stedile, do MST, chama ajuste fiscal de enganação e defende ministros mais jovens e representativos",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/stedile-do-mst-chama-ajuste-fiscal-de-enganacao-e-defende-ministros-mais-jovens-e-representativos.shtml",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Pós-eleição: esquerda racha por ajuste fiscal e direita, pela Câmara",
+     "url": "https://www.metropoles.com/brasil/pos-eleicao-esquerda-racha-por-ajuste-fiscal-e-direita-pela-camara",
+     "hora": "19/11 04h30"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Governo Lula tenta vencer resistências e concluir votação do ajuste fiscal",
+     "url": "https://www.metropoles.com/brasil/governo-lula-tenta-vencer-resistencias-e-concluir-votacao-do-ajuste-fiscal",
+     "hora": "19/11 04h30"
+    }
+   ]
+  },
+  "decreto-6x1-adiado": {
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Lula assina decreto para regulamentar escala 5x2 nesta quinta (19/11)",
+     "url": "https://www.metropoles.com/brasil/lula-assina-decreto-para-regulamentar-escala-5x2-nesta-quinta-19-11",
+     "hora": "19/11 03h30"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Flamengo perde titulares para decisão contra o Palmeiras pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/flamengo-perde-titulares-para-decisao-contra-o-palmeiras-pelo-brasileirao/",
-     "hora": "18/11 22h55"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Flamengo bate Athletico-PR de virada e encaminha título do Brasileirão 2026",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/flamengo-vence-athletico-pr-e-encaminha-titulo-do-brasileirao-2026/",
-     "hora": "18/11 22h32"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Flamengo 2 x 1 Athletico-PR: veja os melhores momentos pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/flamengo-2-x-1-athletico-pr-veja-os-melhores-momentos-pelo-brasileirao/",
-     "hora": "18/11 23h33"
-    },
+     "titulo": "Governo assina hoje decreto que regulamenta fim da escala de trabalho 6×1",
+     "url": "https://www.cnnbrasil.com.br/politica/governo-assina-hoje-decreto-que-regulamenta-fim-da-escala-de-trabalho-6x1/",
+     "hora": "19/11 03h30"
+    }
+   ]
+  },
+  "atletico-mg-city-torque-semi-sulamericana": {
+   "secao": "esportes",
+   "n_fontes": 1,
+   "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Flamengo vence o Athletico-PR e pode ser campeão na próxima rodada",
-     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/18-11-2026/flamengo-athletico-pr.ghtml",
-     "hora": "18/11 22h58"
-    },
+     "titulo": "Senhor Sul-Americana: como Cuello pode entrar pra história do torneio se levar título com Atlético-MG",
+     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/19/senhor-sul-americana-como-cuello-pode-entrar-pra-historia-do-torneio-se-levar-titulo-com-atletico-mg.ghtml",
+     "hora": "19/11 04h00"
+    }
+   ]
+  },
+  "caso-master": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Flamengo vence Athletico-PR no Maracanã e segue na liderança do Brasileirão",
-     "url": "https://www.metropoles.com/esportes/flamengo-vence-athletico-pr-no-maracana-e-segue-na-lideranca-do-brasileirao",
-     "hora": "18/11 22h29"
+     "veiculo": "Folha Poder",
+     "titulo": "Integrantes do STF esperam que relatórios da PF esvaziem parte da discussão na corte sobre caso Master",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/integrantes-do-stf-esperam-que-relatorios-da-pf-esvaziem-parte-da-discussao-na-corte-sobre-caso-master.shtml",
+     "hora": "19/11 04h00"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Cruzeiro 2 x 1 Palmeiras: veja os melhores momentos pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/cruzeiro-2-x-1-palmeiras-veja-os-melhores-momentos-pelo-brasileirao/",
-     "hora": "18/11 23h14"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Coritiba 0 x 1 Santos: veja os melhores momentos pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/coritiba-0-x-1-santos-veja-os-melhores-momentos-pelo-brasileirao/",
-     "hora": "18/11 22h32"
+     "titulo": "Caso Master: Ministros investigados devem ser afastados, diz especialista",
+     "url": "https://www.cnnbrasil.com.br/politica/caso-master-ministros-investigados-devem-ser-afastados-diz-especialista/",
+     "hora": "19/11 04h24"
     },
     {
      "veiculo": "Metrópoles",
-     "titulo": "Abel Ferreira reconhece vice do Brasileirão: \"Este título está entregue\"",
-     "url": "https://www.metropoles.com/esportes/abel-ferreira-reconhece-vice-do-brasileirao-este-titulo-esta-entregue",
-     "hora": "19/11 00h05"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Abel Ferreira admite vice-campeonato do Palmeiras no Brasileirão: \"Título está entregue\"",
-     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/18/abel-ferreira-admite-vice-campeonato-do-palmeiras-no-brasileirao-titulo-esta-entregue.ghtml",
-     "hora": "18/11 23h12"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Jardim defende Rossi e avalia partida contra o Palmeiras pelo Brasileirão",
-     "url": "https://www.metropoles.com/esportes/jardim-defende-rossi-e-avalia-partida-contra-o-palmeiras-pelo-brasileirao",
-     "hora": "19/11 00h12"
+     "titulo": "Caso Master: os próximos passos de Fachin após receber o relatório da PF",
+     "url": "https://www.metropoles.com/brasil/caso-master-os-proximos-passos-de-fachin-apos-receber-o-relatorio-da-pf",
+     "hora": "19/11 04h30"
     }
    ]
   }
  },
  "novos_relatos": {
   "caso-master": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 3,
+   "n_fontes": 3,
    "fontes": [
-    "ab",
-    "g1"
+    "cnn",
+    "folha",
+    "met"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "18/11 23h16",
-   "ultima_iso": "2026-11-18T23:16-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "19/11 04h30",
+   "ultima_iso": "2026-11-19T04:30-03:00",
    "pauta_atualizada_em": "2026-11-18T21:48-03:00",
-   "horas_sem_atualizar": 3.5,
+   "horas_sem_atualizar": 7.9,
    "principal": true,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Diretor-geral da PF entrega ao Supremo relatórios e documentos com mensagens que citam ministros da Corte no caso Master",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/diretor-geral-da-pf-entrega-ao-supremo-relatorios-e-documentos-com-mensagens-que-citam-ministros-da-corte-no-caso-master.ghtml",
-     "hora": "18/11 23h16"
+     "veiculo": "Metrópoles",
+     "titulo": "Caso Master: os próximos passos de Fachin após receber o relatório da PF",
+     "url": "https://www.metropoles.com/brasil/caso-master-os-proximos-passos-de-fachin-apos-receber-o-relatorio-da-pf",
+     "hora": "19/11 04h30"
     },
     {
-     "veiculo": "Agência Brasil",
-     "titulo": "Andrei entrega a Fachin relatórios sobre ministros no caso Master",
-     "url": "https://agenciabrasil.ebc.com.br/justica/noticia/2026-11/andrei-entrega-fachin-relatorios-sobre-ministros-no-caso-master",
-     "hora": "18/11 22h01"
+     "veiculo": "CNN Brasil",
+     "titulo": "Caso Master: Ministros investigados devem ser afastados, diz especialista",
+     "url": "https://www.cnnbrasil.com.br/politica/caso-master-ministros-investigados-devem-ser-afastados-diz-especialista/",
+     "hora": "19/11 04h24"
+    },
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Integrantes do STF esperam que relatórios da PF esvaziem parte da discussão na corte sobre caso Master",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/integrantes-do-stf-esperam-que-relatorios-da-pf-esvaziem-parte-da-discussao-na-corte-sobre-caso-master.shtml",
+     "hora": "19/11 04h00"
     }
    ]
   },
-  "maioridade-penal-pec": {
+  "decreto-6x1-adiado": {
    "n": 1,
    "n_fontes": 1,
    "fontes": [
-    "agcamara"
+    "cnn"
    ],
    "n_fontes_90min": 1,
-   "ultima": "18/11 19h40",
-   "ultima_iso": "2026-11-18T19:40-03:00",
-   "pauta_atualizada_em": "2026-11-18T06:52-03:00",
-   "horas_sem_atualizar": 18.5,
-   "principal": false,
+   "ultima": "19/11 03h30",
+   "ultima_iso": "2026-11-19T03:30-03:00",
+   "pauta_atualizada_em": "2026-11-17T06:52-03:00",
+   "horas_sem_atualizar": 46.8,
+   "principal": true,
    "manchetes": [
     {
-     "veiculo": "Agência Câmara",
-     "titulo": "Especialistas apresentam alertas a favor e contra a redução da maioridade penal",
-     "url": "https://www.camara.leg.br/noticias/1320869-especialistas-apresentam-alertas-a-favor-e-contra-a-reducao-da-maioridade-penal",
-     "hora": "18/11 19h40"
+     "veiculo": "CNN Brasil",
+     "titulo": "Governo assina hoje decreto que regulamenta fim da escala de trabalho 6×1",
+     "url": "https://www.cnnbrasil.com.br/politica/governo-assina-hoje-decreto-que-regulamenta-fim-da-escala-de-trabalho-6x1/",
+     "hora": "19/11 03h30"
     }
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 5,
-   "n_fontes": 3,
+   "n": 6,
+   "n_fontes": 4,
    "fontes": [
-    "agcamara",
+    "cnn",
+    "folha",
     "g1",
-    "p360"
+    "met"
    ],
    "n_fontes_90min": 3,
-   "ultima": "19/11 00h00",
-   "ultima_iso": "2026-11-19T00:00-03:00",
+   "ultima": "19/11 04h30",
+   "ultima_iso": "2026-11-19T04:30-03:00",
    "pauta_atualizada_em": "2026-11-18T21:48-03:00",
-   "horas_sem_atualizar": 3.5,
+   "horas_sem_atualizar": 7.9,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Governo Lula tenta vencer resistências e concluir votação do ajuste fiscal",
+     "url": "https://www.metropoles.com/brasil/governo-lula-tenta-vencer-resistencias-e-concluir-votacao-do-ajuste-fiscal",
+     "hora": "19/11 04h30"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Pós-eleição: esquerda racha por ajuste fiscal e direita, pela Câmara",
+     "url": "https://www.metropoles.com/brasil/pos-eleicao-esquerda-racha-por-ajuste-fiscal-e-direita-pela-camara",
+     "hora": "19/11 04h30"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Após aval no Senado, ajuste fiscal será votado na Câmara na próxima semana",
+     "url": "https://www.cnnbrasil.com.br/politica/apos-aval-no-senado-ajuste-fiscal-sera-votado-na-camara-na-proxima-semana/",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Stedile, do MST, chama ajuste fiscal de enganação e defende ministros mais jovens e representativos",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/stedile-do-mst-chama-ajuste-fiscal-de-enganacao-e-defende-ministros-mais-jovens-e-representativos.shtml",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Entenda o 'plano Moretti', proposta de ajuste fiscal do governo Lula que foi aprovada pelo Senado",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/entenda-o-plano-moretti-proposta-de-ajuste-fiscal-do-governo-lula-que-foi-aprovada-pelo-senado.shtml",
+     "hora": "19/11 04h00"
+    },
+    {
+     "veiculo": "g1 Política",
+     "titulo": "Ajuste fiscal: Moretti diz que texto aprovado pelo Senado preserva políticas sociais essenciais em 2027",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/19/ajuste-fiscal-moretti-diz-que-texto-aprovado-pelo-senado-preserva-politicas-sociais-essenciais-em-2027.ghtml",
+     "hora": "19/11 00h00"
+    }
+   ]
+  },
+  "eua-trump-xi-putin-apec-china": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "19/11 04h35",
+   "ultima_iso": "2026-11-19T04:35-03:00",
+   "pauta_atualizada_em": "2026-11-18T11:48-03:00",
+   "horas_sem_atualizar": 17.9,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Ajuste fiscal: Moretti diz que texto aprovado pelo Senado preserva políticas sociais essenciais em 2027",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/19/ajuste-fiscal-moretti-diz-que-texto-aprovado-pelo-senado-preserva-politicas-sociais-essenciais-em-2027.ghtml",
-     "hora": "19/11 00h00"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Saiba como votou cada senador nos destaques do ajuste fiscal",
-     "url": "https://www.poder360.com.br/poder-congresso/saiba-como-votou-cada-senador-nos-destaques-do-ajuste-fiscal/",
-     "hora": "18/11 23h25"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Acordo apenas reduziu prejuízo do ajuste fiscal, diz Marinho",
-     "url": "https://www.poder360.com.br/poder-congresso/acordo-apenas-reduziu-prejuizo-do-ajuste-fiscal-diz-marinho/",
-     "hora": "18/11 23h14"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Proposta de ajuste fiscal do governo volta a repercutir no mercado financeiro",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/proposta-de-ajuste-fiscal-do-governo-volta-a-repercutir-no-mercado-financeiro.ghtml",
-     "hora": "18/11 22h01"
-    },
-    {
-     "veiculo": "Agência Câmara",
-     "titulo": "Proposta de ajuste fiscal entra na pauta de sessão extraordinária da Câmara na próxima segunda-feira",
-     "url": "https://www.camara.leg.br/noticias/1320935-proposta-de-ajuste-fiscal-entra-na-pauta-de-sessao-extraordinaria-da-camara-na-proxima-segunda-feira",
-     "hora": "18/11 21h50"
+     "titulo": "EUA e China podem ajudar a acabar com a guerra na Ucrânia, diz Trump a Xi antes de reunião trilateral com Putin",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/eua-e-china-podem-ajudar-a-acabar-com-a-guerra-na-ucrania-diz-trump-a-xi.ghtml",
+     "hora": "19/11 04h35"
     }
    ]
   },
   "brasileirao-31-rodada-lideres": {
-   "n": 11,
-   "n_fontes": 3,
+   "n": 3,
+   "n_fontes": 2,
    "fontes": [
     "cnn",
-    "ge",
-    "met"
+    "ge"
    ],
-   "n_fontes_90min": 3,
-   "ultima": "19/11 00h12",
-   "ultima_iso": "2026-11-19T00:12-03:00",
+   "n_fontes_90min": 1,
+   "ultima": "19/11 04h00",
+   "ultima_iso": "2026-11-19T04:00-03:00",
    "pauta_atualizada_em": "2026-11-18T06:52-03:00",
-   "horas_sem_atualizar": 18.5,
+   "horas_sem_atualizar": 22.8,
    "principal": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Jardim defende Rossi e avalia partida contra o Palmeiras pelo Brasileirão",
-     "url": "https://www.metropoles.com/esportes/jardim-defende-rossi-e-avalia-partida-contra-o-palmeiras-pelo-brasileirao",
-     "hora": "19/11 00h12"
+     "veiculo": "ge",
+     "titulo": "Análise: Palmeiras sucumbe em três minutos, e Brasileirão vira sonho praticamente impossível",
+     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/19/analise-palmeiras-sucumbe-em-tres-minutos-e-brasileirao-vira-sonho-praticamente-impossivel.ghtml",
+     "hora": "19/11 04h00"
     },
     {
      "veiculo": "CNN Brasil",
@@ -1130,28 +1069,31 @@
      "hora": "18/11 23h42"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Flamengo pode ser campeão do Brasileirão com um empate diante do Palmeiras",
-     "url": "https://www.metropoles.com/esportes/flamengo-pode-ser-campeao-do-brasileirao-com-um-empate-diante-do-palmeiras",
-     "hora": "18/11 23h40"
-    },
-    {
      "veiculo": "CNN Brasil",
      "titulo": "Flamengo 2 x 1 Athletico-PR: veja os melhores momentos pelo Brasileirão",
      "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/flamengo-2-x-1-athletico-pr-veja-os-melhores-momentos-pelo-brasileirao/",
      "hora": "18/11 23h33"
-    },
+    }
+   ]
+  },
+  "atletico-mg-city-torque-semi-sulamericana": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "19/11 04h00",
+   "ultima_iso": "2026-11-19T04:00-03:00",
+   "pauta_atualizada_em": "2026-11-17T20:11-03:00",
+   "horas_sem_atualizar": 33.5,
+   "principal": false,
+   "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Chances Brasileirão: Flamengo encaminha título com 98%; Palmeiras tem 2%",
-     "url": "https://ge.globo.com/gato-mestre/noticia/2026/11/18/chances-brasileirao-flamengo-encaminha-titulo-com-98percent-palmeiras-tem-2percent.ghtml",
-     "hora": "18/11 23h30"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Cruzeiro 2 x 1 Palmeiras: veja os melhores momentos pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/cruzeiro-2-x-1-palmeiras-veja-os-melhores-momentos-pelo-brasileirao/",
-     "hora": "18/11 23h14"
+     "titulo": "Senhor Sul-Americana: como Cuello pode entrar pra história do torneio se levar título com Atlético-MG",
+     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/19/senhor-sul-americana-como-cuello-pode-entrar-pra-historia-do-torneio-se-levar-titulo-com-atletico-mg.ghtml",
+     "hora": "19/11 04h00"
     }
    ]
   }
@@ -1338,81 +1280,28 @@
    "pid_sugerido": null
   }
  ],
- "avaliados": [
-  {
-   "tipo": "pauta",
-   "pid": "caso-master",
-   "id": null,
-   "chave": null,
-   "n_fontes": 3,
-   "em": "2026-11-18T16:31-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "ajuste-fiscal-lula-4",
-   "id": null,
-   "chave": null,
-   "n_fontes": 5,
-   "em": "2026-11-18T16:31-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "enem-2026-reta-final-app-idioma",
-   "id": null,
-   "chave": null,
-   "n_fontes": 3,
-   "em": "2026-11-18T16:31-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "camara",
-    "candidato",
-    "candidatura",
-    "deputado",
-    "deputados",
-    "eleito",
-    "formaliza",
-    "lanca",
-    "martins",
-    "paulo",
-    "presidencia"
-   ],
-   "n_fontes": 3,
-   "em": "2026-11-18T16:31-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "eua-trump-xi-putin-apec-china",
-   "id": null,
-   "chave": null,
-   "n_fontes": 2,
-   "em": "2026-11-18T16:31-03:00"
-  }
- ],
+ "avaliados": [],
  "ultima_rodada": "2026-11-18T21:50-03:00",
  "fontes": {
-  "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
-  "Agência Brasil": "ok: 10 itens, 6 nas últimas 6 h",
+  "Poder360": "ok: 10 itens, 3 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 39 nas últimas 6 h",
+  "Agência Brasil": "ok: 10 itens, 0 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 10 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 7 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 12 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 5 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 8 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 82 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 10 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 3 nas últimas 6 h",
+  "ge": "ok: 100 itens, 54 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 2 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
-  "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 6 nas últimas 6 h",
-  "InfoMoney": "ok: 10 itens, 9 nas últimas 6 h",
+  "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 0 nas últimas 6 h",
+  "InfoMoney": "ok: 10 itens, 8 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 2 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 8 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 4 nas últimas 6 h"
+  "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
+  "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h"
  }
 }
