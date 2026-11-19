@@ -28,7 +28,9 @@ function ac208Abre(k){const [o,i]=String(k).split(":");const x=(AC208_L[o]||[])[
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-ac208]");if(b){e.preventDefault();e.stopPropagation();ac208Abre(b.dataset.ac208)}},true);
 /* Feed: o bloco entra no topo da lista (só em "Tudo") */
 function ac208Feed(){const box=document.getElementById("posts");if(!box)return;box.querySelector(":scope > .ac208")?.remove();if(typeof FILTRO!=="undefined"&&FILTRO!=="tudo")return;
-  const h=ac208HTML("feed");if(!h)return;const t=document.createElement("template");t.innerHTML=h;const first=box.querySelector(":scope > .post, :scope > article, :scope > div");
+  const h=ac208HTML("feed");if(!h)return;const t=document.createElement("template");t.innerHTML=h;let first=box.querySelector(":scope > .post, :scope > article, :scope > div");
+  /* 19/11 madrugada (testador): não separar a notícia dos comentários dos amigos que vêm colados nela */
+  while(first&&first.nextElementSibling&&first.nextElementSibling.classList.contains("fc107-junto"))first=first.nextElementSibling;
   if(first&&first.nextSibling)box.insertBefore(t.content.firstChild,first.nextSibling);else box.prepend(t.content.firstChild)}
 /* chegaram manchetes novas: troca os blocos no lugar, sem redesenhar a tela */
 function ac208Atualiza(){try{const c=$("#v-capa .ac208");const h=ac208HTML("capa");if(c){if(h)c.outerHTML=h;else c.remove()}

@@ -174,7 +174,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer
   if(t.closest("[data-edpgal]")){pare();$("#ce-pfile")?.click();return}
   if(b=t.closest("[data-edtira]")){pare();P.fotos.splice(+b.dataset.edtira,1);P.cur=Math.max(0,Math.min(P.cur,P.fotos.length-1));edDesenha();return}
   if(b=t.closest("[data-edcur]")){pare();P.cur=+b.dataset.edcur;edDesenha();return}
-  if(t.closest("[data-edar]")){pare();P.ar=P.ar==="4:5"?"1:1":P.ar==="1:1"?"orig":"4:5";edDesenha();return}
+  if(t.closest("[data-edar]")){pare();P.arEsc=true;P.ar=P.ar==="4:5"?"1:1":P.ar==="1:1"?"orig":"4:5";edDesenha();return}
   if(t.closest("[data-edav]")){pare();P.passo=P.passo==="fotos"?(P.fotos.length?"filtros":"detalhes"):"detalhes";edDesenha();return}
   if(b=t.closest("[data-edvolta]")){pare();P.passo=b.dataset.edvolta;edDesenha();return}
   if(t.closest("[data-edsotexto]")){pare();P.passo="detalhes";edDesenha();setTimeout(()=>$("#ce-leg")?.focus(),60);return}

@@ -49,10 +49,10 @@ async function rodada(b, H, vp, tag, email) {
   ok(await ev(A, () => !!document.querySelector('#layer .ce.fc164-corte #ce-pv') && /Concluir/.test(document.querySelector('#layer .ce [data-edav]').textContent)), `[${tag}] Cortar: a foto com o corte e Concluir`);
   ok(!(await visivel(A, '#layer .ce .ce-modos')) && !(await visivel(A, '#layer .ce .cfp-grade')) && !(await visivel(A, '#layer .ce .cfp-gh')), `[${tag}] Cortar sem Galeria e sem POST/GIRO`);
   await sh('6-cortar');
-  await clk(A, '#layer .ce [data-edar]'); await sleep(150);
+  const ar0 = await ev(A, () => CP152.ed.po.ar); await clk(A, '#layer .ce [data-edar]'); await sleep(150);
   await clk(A, '#layer .ce [data-fc164aba="filtros"]'); await sleep(300);
   await clk(A, '#layer .ce [data-edflt="clarendon"]'); await sleep(200); await clk(A, '#layer .ce [data-edav]'); await sleep(500);
-  ok(await ev(A, () => !!document.querySelector('#layer > .cp152') && CP152.ed.po.fotos[0].f === 'clarendon' && CP152.ed.po.ar !== '4:5' && !!document.querySelector('#layer > .cp152 .cr155-nt')), `[${tag}] Concluir volta para a caixa com o corte, o filtro e a notícia`);
+  ok(await ev(A, a0 => !!document.querySelector('#layer > .cp152') && CP152.ed.po.fotos[0].f === 'clarendon' && CP152.ed.po.ar !== a0 && !!document.querySelector('#layer > .cp152 .cr155-nt'), ar0), `[${tag}] Concluir volta para a caixa com o corte, o filtro e a notícia`);
   await clk(A, '#layer > .cp152 [data-fc164ed="0"]'); await sleep(400); await clk(A, '#layer .ce [data-edvolta], #layer .ce [data-edfechar]'); await sleep(400);
   ok(await ev(A, () => !!document.querySelector('#layer > .cp152') && document.querySelectorAll('#layer > .cp152 .fc164 img').length === 1), `[${tag}] o × do editor volta para a caixa`);
 

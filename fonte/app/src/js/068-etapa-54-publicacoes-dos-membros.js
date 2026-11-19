@@ -11,7 +11,7 @@ var PUB_SEL="*";
 async function pubCarregar(){if(typeof SB==="undefined"||!SB||!S.uid||!S.membro)return;if(PUB.carregando)return;PUB.carregando=true;
   try{const sel=q=>SB.from("publicacoes").select(q).order("at",{ascending:false}).limit(300);let r=await sel(typeof PUB_SEL==="string"?PUB_SEL:"*");if(r.error&&PUB_SEL!=="*"&&/42703|column/i.test(String(r.error.code||"")+" "+String(r.error.message||""))){PUB_SEL="*";r=await sel("*")}
     if(r.error){if(/publicacoes|does not exist|42P01|schema cache|relation/i.test((r.error.message||"")+(r.error.code||"")))PUB.on=false;return}
-    PUB.on=true;PUB.uid=S.uid;const novos=(r.data||[]).map(x=>({...x,fotos:Array.isArray(x.fotos)?x.fotos:[]}));const sig=novos.map(x=>x.id+":"+x.at+":"+(x.editado||"")+":"+(x.fixado||"")+":"+JSON.stringify(x.estilo||"").length).join(",")+"|"+[...S.amigos].sort().join(",");const mudou=sig!==PUB.sig;PUB.sig=sig;novos.forEach(x=>{try{pubLimpa(x)}catch(e){}});try{if(typeof cl146Herda==="function")cl146Herda(novos,PUB.itens)}catch(e){}PUB.itens=novos;await pubAssinar();pubLimparMeus();if(mudou)pubRedesenha()}
+    PUB.on=true;PUB.uid=S.uid;const pend=new Set(pubPendLe().filter(p=>p.u===S.uid).map(p=>p.id));const novos=(r.data||[]).filter(x=>!pend.has(x.id)||PUB_APAG[x.id]).map(x=>({...x,fotos:Array.isArray(x.fotos)?x.fotos:[]}));pubPendRefaz(pend);const sig=novos.map(x=>x.id+":"+x.at+":"+(x.editado||"")+":"+(x.fixado||"")+":"+JSON.stringify(x.estilo||"").length).join(",")+"|"+[...S.amigos].sort().join(",");const mudou=sig!==PUB.sig;PUB.sig=sig;novos.forEach(x=>{try{pubLimpa(x)}catch(e){}});try{if(typeof cl146Herda==="function")cl146Herda(novos,PUB.itens)}catch(e){}PUB.itens=novos;await pubAssinar();pubLimparMeus();if(mudou)pubRedesenha()}
   catch(e){}finally{PUB.carregando=false;PUB.carregou=true}}
 async function pubAssinar(){const now=Date.now(),falta=[];pubVisiveis().forEach(x=>x.fotos.forEach(p=>{const c=PUB.urls[p];if(!c||c.exp<now+600e3)falta.push(p)}));if(!falta.length)return;
   try{const r=await SB.storage.from("fotos").createSignedUrls(falta,6*3600);(r.data||[]).forEach(d=>{if(d&&d.signedUrl)PUB.urls[d.path]={u:d.signedUrl,exp:now+6*3600e3}})}catch(e){}}
@@ -20,13 +20,25 @@ async function pubLimparMeus(){const now=Date.now();const velhos=PUB.itens.filte
 /* 19/11 (testador): apagar o próprio post some na hora e dá "Desfazer" por 6 s; só então apaga de verdade no banco */
 var PUB_APAG={};
 function pubApagaJa(id){const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];pubApagar(id,true,j.x)}
-window.addEventListener("pagehide",()=>{Object.keys(PUB_APAG).forEach(pubApagaJa)});
+/* 19/11 madrugada (testador): quem apaga e fecha o app nos 6 s do "Desfazer" ficava com o post publicado. Agora o apagar
+   pendente fica guardado no aparelho; ao fechar, sai um pedido que sobrevive ao fechamento (keepalive); e, se mesmo assim
+   não chegar, a próxima abertura apaga antes de mostrar o Feed (o post não reaparece). */
+const PUB_PEND_K="prumo-apagar-pendente";
+function pubPendLe(){try{const l=JSON.parse(localStorage.getItem(PUB_PEND_K)||"[]");return Array.isArray(l)?l.filter(p=>p&&p.id&&Date.now()-(p.em||0)<7*864e5):[]}catch(e){return []}}
+function pubPendGrava(l){try{l.length?localStorage.setItem(PUB_PEND_K,JSON.stringify(l.slice(-30))):localStorage.removeItem(PUB_PEND_K)}catch(e){}}
+function pubPendPoe(x){pubPendGrava(pubPendLe().filter(p=>p.id!==x.id).concat({id:x.id,u:x.autor,f:x.fotos||[],em:Date.now()}))}
+function pubPendTira(id){pubPendGrava(pubPendLe().filter(p=>p.id!==id))}
+async function pubPendRefaz(ids){for(const id of ids){if(PUB_APAG[id])continue;const p=pubPendLe().find(y=>y.id===id);if(!p)continue;
+  try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)continue;if(p.f&&p.f.length)try{await SB.storage.from("fotos").remove(p.f)}catch(e){}pubPendTira(id)}catch(e){}}}
+function pubPendKeepalive(id){try{const C=typeof tl142Cfg==="function"?tl142Cfg():null;if(!C||!C.ok)return;const a=JSON.parse(localStorage.getItem("prumo-auth")||"null");const tk=a&&(a.access_token||a.currentSession&&a.currentSession.access_token);if(!tk)return;
+  fetch(C.url+"/rest/v1/publicacoes?id=eq."+encodeURIComponent(id),{method:"DELETE",keepalive:true,headers:{apikey:C.key,Authorization:"Bearer "+tk}}).catch(()=>{})}catch(e){}}
+window.addEventListener("pagehide",()=>{Object.keys(PUB_APAG).forEach(id=>{pubPendKeepalive(id);pubApagaJa(id)})});
 async function pubApagar(id,quieto,xx){if(!quieto&&!xx){const x=pubDe(id);if(!x||x.autor!==S.uid)return false;
     PUB.itens=PUB.itens.filter(y=>y.id!==id);pubRedesenha();const nome=x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado";
-    PUB_APAG[id]={x,t:setTimeout(()=>pubApagaJa(id),6000)};
-    toast(nome,"Desfazer",()=>{const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(j.x);pubRedesenha()});return true}
-  const x=xx||pubDe(id);if(!x||x.autor!==S.uid)return false;try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)throw r.error;if(x.fotos.length)try{await SB.storage.from("fotos").remove(x.fotos)}catch(e){}
-    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(xx){if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(xx);pubRedesenha();toast("Não deu para apagar agora. O post voltou.")}else if(!quieto)toast("Não deu para apagar agora.");return false}}
+    PUB_APAG[id]={x,t:setTimeout(()=>pubApagaJa(id),6000)};pubPendPoe(x);
+    toast(nome,"Desfazer",()=>{const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];pubPendTira(id);if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(j.x);pubRedesenha()});return true}
+  const x=xx||pubDe(id);if(!x||x.autor!==S.uid)return false;try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)throw r.error;pubPendTira(id);if(x.fotos.length)try{await SB.storage.from("fotos").remove(x.fotos)}catch(e){}
+    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(xx&&document.visibilityState==="hidden")return false;if(xx){pubPendTira(id);if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(xx);pubRedesenha();toast("Não deu para apagar agora. O post voltou.")}else if(!quieto)toast("Não deu para apagar agora.");return false}}
 let PUB_T=0,PUB_FEED_PEND=false;function pubRedesenha(){clearTimeout(PUB_T);PUB_T=setTimeout(()=>{try{renderSecs();if(VIEW==="feed"&&!$("#layer").innerHTML&&scrollY<300){PUB_FEED_PEND=false;renderPosts(true)}else PUB_FEED_PEND=true}catch(e){}},30)}
 addEventListener("scroll",()=>{if(PUB_FEED_PEND&&VIEW==="feed"&&scrollY<300&&!$("#layer").innerHTML){PUB_FEED_PEND=false;setTimeout(()=>{try{renderPosts(true)}catch(e){}},200)}},{passive:true});
 (function(){let uid=null;setInterval(()=>{if(S.uid&&S.membro&&SB&&uid!==S.uid){uid=S.uid;PUB.itens=[];pubCarregar();pubOuvir()}if(!S.uid&&uid){uid=null;PUB.itens=[];PUB.on=null}},1500);

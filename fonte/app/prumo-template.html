@@ -8800,7 +8800,7 @@ function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d
 function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
   if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}
 /* vídeos, programas e edições de telejornal não são notícia para o "Agora" */
-const AG_LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d/i;
+const AG_LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d|\bpodcast\b|\bepis[óo]dio\b|\s#\d{2,}\s*$/i;
 function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>4*3600e3)return [];const ag=Date.now(),out=[],vistos=new Set();
   const hMax=ms=>{const hs=(Array.isArray(ms)?ms:[]).map(m=>agHoraMs(m&&m.hora)).filter(Boolean);return hs.length?Math.max(...hs):0};
   (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=[n.assunto,...(Array.isArray(n.manchetes)?n.manchetes.map(m=>m&&m.titulo):[])].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t)||AG_LIXO.test(t)||AG_LIXO.test(String(n.assunto)))return;vistos.add(t);
@@ -9860,7 +9860,7 @@ var PUB_SEL="*";
 async function pubCarregar(){if(typeof SB==="undefined"||!SB||!S.uid||!S.membro)return;if(PUB.carregando)return;PUB.carregando=true;
   try{const sel=q=>SB.from("publicacoes").select(q).order("at",{ascending:false}).limit(300);let r=await sel(typeof PUB_SEL==="string"?PUB_SEL:"*");if(r.error&&PUB_SEL!=="*"&&/42703|column/i.test(String(r.error.code||"")+" "+String(r.error.message||""))){PUB_SEL="*";r=await sel("*")}
     if(r.error){if(/publicacoes|does not exist|42P01|schema cache|relation/i.test((r.error.message||"")+(r.error.code||"")))PUB.on=false;return}
-    PUB.on=true;PUB.uid=S.uid;const novos=(r.data||[]).map(x=>({...x,fotos:Array.isArray(x.fotos)?x.fotos:[]}));const sig=novos.map(x=>x.id+":"+x.at+":"+(x.editado||"")+":"+(x.fixado||"")+":"+JSON.stringify(x.estilo||"").length).join(",")+"|"+[...S.amigos].sort().join(",");const mudou=sig!==PUB.sig;PUB.sig=sig;novos.forEach(x=>{try{pubLimpa(x)}catch(e){}});try{if(typeof cl146Herda==="function")cl146Herda(novos,PUB.itens)}catch(e){}PUB.itens=novos;await pubAssinar();pubLimparMeus();if(mudou)pubRedesenha()}
+    PUB.on=true;PUB.uid=S.uid;const pend=new Set(pubPendLe().filter(p=>p.u===S.uid).map(p=>p.id));const novos=(r.data||[]).filter(x=>!pend.has(x.id)||PUB_APAG[x.id]).map(x=>({...x,fotos:Array.isArray(x.fotos)?x.fotos:[]}));pubPendRefaz(pend);const sig=novos.map(x=>x.id+":"+x.at+":"+(x.editado||"")+":"+(x.fixado||"")+":"+JSON.stringify(x.estilo||"").length).join(",")+"|"+[...S.amigos].sort().join(",");const mudou=sig!==PUB.sig;PUB.sig=sig;novos.forEach(x=>{try{pubLimpa(x)}catch(e){}});try{if(typeof cl146Herda==="function")cl146Herda(novos,PUB.itens)}catch(e){}PUB.itens=novos;await pubAssinar();pubLimparMeus();if(mudou)pubRedesenha()}
   catch(e){}finally{PUB.carregando=false;PUB.carregou=true}}
 async function pubAssinar(){const now=Date.now(),falta=[];pubVisiveis().forEach(x=>x.fotos.forEach(p=>{const c=PUB.urls[p];if(!c||c.exp<now+600e3)falta.push(p)}));if(!falta.length)return;
   try{const r=await SB.storage.from("fotos").createSignedUrls(falta,6*3600);(r.data||[]).forEach(d=>{if(d&&d.signedUrl)PUB.urls[d.path]={u:d.signedUrl,exp:now+6*3600e3}})}catch(e){}}
@@ -9869,13 +9869,25 @@ async function pubLimparMeus(){const now=Date.now();const velhos=PUB.itens.filte
 /* 19/11 (testador): apagar o próprio post some na hora e dá "Desfazer" por 6 s; só então apaga de verdade no banco */
 var PUB_APAG={};
 function pubApagaJa(id){const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];pubApagar(id,true,j.x)}
-window.addEventListener("pagehide",()=>{Object.keys(PUB_APAG).forEach(pubApagaJa)});
+/* 19/11 madrugada (testador): quem apaga e fecha o app nos 6 s do "Desfazer" ficava com o post publicado. Agora o apagar
+   pendente fica guardado no aparelho; ao fechar, sai um pedido que sobrevive ao fechamento (keepalive); e, se mesmo assim
+   não chegar, a próxima abertura apaga antes de mostrar o Feed (o post não reaparece). */
+const PUB_PEND_K="prumo-apagar-pendente";
+function pubPendLe(){try{const l=JSON.parse(localStorage.getItem(PUB_PEND_K)||"[]");return Array.isArray(l)?l.filter(p=>p&&p.id&&Date.now()-(p.em||0)<7*864e5):[]}catch(e){return []}}
+function pubPendGrava(l){try{l.length?localStorage.setItem(PUB_PEND_K,JSON.stringify(l.slice(-30))):localStorage.removeItem(PUB_PEND_K)}catch(e){}}
+function pubPendPoe(x){pubPendGrava(pubPendLe().filter(p=>p.id!==x.id).concat({id:x.id,u:x.autor,f:x.fotos||[],em:Date.now()}))}
+function pubPendTira(id){pubPendGrava(pubPendLe().filter(p=>p.id!==id))}
+async function pubPendRefaz(ids){for(const id of ids){if(PUB_APAG[id])continue;const p=pubPendLe().find(y=>y.id===id);if(!p)continue;
+  try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)continue;if(p.f&&p.f.length)try{await SB.storage.from("fotos").remove(p.f)}catch(e){}pubPendTira(id)}catch(e){}}}
+function pubPendKeepalive(id){try{const C=typeof tl142Cfg==="function"?tl142Cfg():null;if(!C||!C.ok)return;const a=JSON.parse(localStorage.getItem("prumo-auth")||"null");const tk=a&&(a.access_token||a.currentSession&&a.currentSession.access_token);if(!tk)return;
+  fetch(C.url+"/rest/v1/publicacoes?id=eq."+encodeURIComponent(id),{method:"DELETE",keepalive:true,headers:{apikey:C.key,Authorization:"Bearer "+tk}}).catch(()=>{})}catch(e){}}
+window.addEventListener("pagehide",()=>{Object.keys(PUB_APAG).forEach(id=>{pubPendKeepalive(id);pubApagaJa(id)})});
 async function pubApagar(id,quieto,xx){if(!quieto&&!xx){const x=pubDe(id);if(!x||x.autor!==S.uid)return false;
     PUB.itens=PUB.itens.filter(y=>y.id!==id);pubRedesenha();const nome=x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado";
-    PUB_APAG[id]={x,t:setTimeout(()=>pubApagaJa(id),6000)};
-    toast(nome,"Desfazer",()=>{const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(j.x);pubRedesenha()});return true}
-  const x=xx||pubDe(id);if(!x||x.autor!==S.uid)return false;try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)throw r.error;if(x.fotos.length)try{await SB.storage.from("fotos").remove(x.fotos)}catch(e){}
-    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(xx){if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(xx);pubRedesenha();toast("Não deu para apagar agora. O post voltou.")}else if(!quieto)toast("Não deu para apagar agora.");return false}}
+    PUB_APAG[id]={x,t:setTimeout(()=>pubApagaJa(id),6000)};pubPendPoe(x);
+    toast(nome,"Desfazer",()=>{const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];pubPendTira(id);if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(j.x);pubRedesenha()});return true}
+  const x=xx||pubDe(id);if(!x||x.autor!==S.uid)return false;try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)throw r.error;pubPendTira(id);if(x.fotos.length)try{await SB.storage.from("fotos").remove(x.fotos)}catch(e){}
+    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(xx&&document.visibilityState==="hidden")return false;if(xx){pubPendTira(id);if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(xx);pubRedesenha();toast("Não deu para apagar agora. O post voltou.")}else if(!quieto)toast("Não deu para apagar agora.");return false}}
 let PUB_T=0,PUB_FEED_PEND=false;function pubRedesenha(){clearTimeout(PUB_T);PUB_T=setTimeout(()=>{try{renderSecs();if(VIEW==="feed"&&!$("#layer").innerHTML&&scrollY<300){PUB_FEED_PEND=false;renderPosts(true)}else PUB_FEED_PEND=true}catch(e){}},30)}
 addEventListener("scroll",()=>{if(PUB_FEED_PEND&&VIEW==="feed"&&scrollY<300&&!$("#layer").innerHTML){PUB_FEED_PEND=false;setTimeout(()=>{try{renderPosts(true)}catch(e){}},200)}},{passive:true});
 (function(){let uid=null;setInterval(()=>{if(S.uid&&S.membro&&SB&&uid!==S.uid){uid=S.uid;PUB.itens=[];pubCarregar();pubOuvir()}if(!S.uid&&uid){uid=null;PUB.itens=[];PUB.on=null}},1500);
@@ -10199,7 +10211,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest||!$("#layer
   if(t.closest("[data-edpgal]")){pare();$("#ce-pfile")?.click();return}
   if(b=t.closest("[data-edtira]")){pare();P.fotos.splice(+b.dataset.edtira,1);P.cur=Math.max(0,Math.min(P.cur,P.fotos.length-1));edDesenha();return}
   if(b=t.closest("[data-edcur]")){pare();P.cur=+b.dataset.edcur;edDesenha();return}
-  if(t.closest("[data-edar]")){pare();P.ar=P.ar==="4:5"?"1:1":P.ar==="1:1"?"orig":"4:5";edDesenha();return}
+  if(t.closest("[data-edar]")){pare();P.arEsc=true;P.ar=P.ar==="4:5"?"1:1":P.ar==="1:1"?"orig":"4:5";edDesenha();return}
   if(t.closest("[data-edav]")){pare();P.passo=P.passo==="fotos"?(P.fotos.length?"filtros":"detalhes"):"detalhes";edDesenha();return}
   if(b=t.closest("[data-edvolta]")){pare();P.passo=b.dataset.edvolta;edDesenha();return}
   if(t.closest("[data-edsotexto]")){pare();P.passo="detalhes";edDesenha();setTimeout(()=>$("#ce-leg")?.focus(),60);return}
@@ -15477,7 +15489,7 @@ function ed132StTx(){const E=ED132.E;if(!E)return "";if(E.modo==="editar")return
 function ed132St(){const s=$("#layer > .ed132 .ed132-st");if(s)s.textContent=ed132StTx()}
 function ed132Cab(){const E=ED132.E,h=$("#layer > .ed132 > .ed132-h");if(!E||!h)return;const ed=E.modo==="editar";
   h.innerHTML=`<button type="button" class="icbtn ed132-x${E.descartar?" conf":""}" data-ed132x aria-label="Fechar">${E.descartar?"Descartar?":ICON.close}</button>
-    <div class="ed132-ht"><b>${ed?(E.ag?"Coluna agendada":"Editar coluna"):(E.reaberto?"Rascunho":"Nova coluna")}</b><small class="ed132-st" aria-live="polite">${esc(ed132StTx())}</small></div>
+    <div class="ed132-ht"><b>${ed?(E.ag?"Coluna agendada":"Editar coluna"):(E.reaberto?"Continuar coluna":"Nova coluna")}</b><small class="ed132-st" aria-live="polite">${esc(ed132StTx())}</small></div>
     <button type="button" class="icbtn" data-ed132mais aria-label="Mais opções">${ICON.dots}</button>
     ${ed?`<button type="button" class="btn ed132-pb" data-ed132salva ${E.env?"disabled":""}>${E.env?"Salvando…":"Salvar"}</button>`:`<button type="button" class="btn ed132-pb" data-ed132painel ${E.env?"disabled":""}>${E.env?"Publicando…":"Publicar"}</button>`}`}
 function ed132CapaHTML(){const E=ED132.E,u=E&&E.capa&&ed132Url(E.capa.p);
@@ -18047,7 +18059,9 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 /* ===== Enquete: as opções são da pessoa ===== */
 
 /* ===== cores das editorias no fundo escuro ===== */
-function cr155Clareia(raiz){if(!raiz)return;raiz.querySelectorAll("small[style*='color']").forEach(s=>{if(s.dataset.cr155)return;const m=/rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(getComputedStyle(s).color);if(!m)return;
+/* 19/11 madrugada (testador): a caixa agora segue o tema do celular (86-criar-limpo), e as cores das editorias já mudam
+   com o tema; clarear de novo deixava os rótulos quase apagados no fundo branco (contraste ~2,7:1). Não clareia mais. */
+function cr155Clareia(raiz){return;if(!raiz)return;raiz.querySelectorAll("small[style*='color']").forEach(s=>{if(s.dataset.cr155)return;const m=/rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(getComputedStyle(s).color);if(!m)return;
   const k=.5,f=v=>Math.round(+v+(255-v)*k);s.style.color=`rgb(${f(m[1])},${f(m[2])},${f(m[3])})`;s.dataset.cr155=1})}
 
 /* ===== sem rede: diz por quê, mostra o começo e tenta de novo sozinho ===== */
@@ -21219,7 +21233,7 @@ function ed206Post076(el){const P=ED.po;P.rolo=P.rolo||P.fotos.slice();P.tags=P.
     if(f){$("#ce-pvi").src=edUrlF(f);edPvTam();edPvPos();edGestosPv()}el.querySelectorAll(".ce-grade img[data-ri]").forEach(im=>{im.src=edUrlF(P.rolo[+im.dataset.ri])});
     if(!P.rolo.length)rascChip();
     $("#ce-pfile").addEventListener("change",async e=>{const fs=[...e.target.files];e.target.value="";if(!fs.length)return;const novos=[];for(const x of fs.slice(0,30)){try{novos.push(edNovaFoto(await edCarrega(x,2048)))}catch(err){toast("Não deu para abrir uma das fotos.")}}if(!novos.length||!ED)return;
-      P.rolo.push(...novos);if(novos.length>1)P.multi=true;if(P.multi){const cabe=novos.slice(0,10-P.fotos.length);if(cabe.length<novos.length)toast("Um post tem no máximo 10 fotos.");P.fotos.push(...cabe);P.cur=Math.max(0,P.fotos.length-cabe.length)}else{P.fotos=[novos[0]];P.cur=0}edDesenha()})}
+      P.rolo.push(...novos);if(novos.length>1)P.multi=true;if(P.multi){const cabe=novos.slice(0,10-P.fotos.length);if(cabe.length<novos.length)toast("Um post tem no máximo 10 fotos.");P.fotos.push(...cabe);P.cur=Math.max(0,P.fotos.length-cabe.length)}else{P.fotos=[novos[0]];P.cur=0}ed206ArAuto(P);edDesenha()})}
   else if(P.passo==="filtros"){const fi=f.fi==null?100:f.fi;
     el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edvolta="fotos" aria-label="Voltar">${EDI.vol}</button><b>Editar</b><button type="button" class="ce-av" data-edav>Avançar</button></div>
       <div class="ce-pvw"><canvas id="ce-fc" class="ce-fc"></canvas>${P.fotos.length>1?`<button type="button" class="ce-nav l" data-edfn="-1" aria-label="Foto anterior">‹</button><button type="button" class="ce-nav r" data-edfn="1" aria-label="Próxima foto">›</button><span class="ce-npg">${P.cur+1}/${P.fotos.length}</span>`:""}</div>
@@ -21489,7 +21503,7 @@ function cfp206Fotos0(el){const P=ED.po,f=P.fotos[P.cur],tem=!!(P.rolo.length&&f
   if(tem){$("#ce-pvi").src=edUrlF(f);edPvTam();edPvPos();edGestosPv()}el.querySelectorAll(".ce-grade img[data-ri]").forEach(im=>{im.src=edUrlF(P.rolo[+im.dataset.ri])});
   if(!tem)rascChip();
   $("#ce-pfile").addEventListener("change",async e=>{const fs=[...e.target.files];e.target.value="";if(!fs.length)return;const novos=[];for(const x of fs.slice(0,30)){try{novos.push(edNovaFoto(await edCarrega(x,2048)))}catch(err){toast("Não deu para abrir uma das fotos.")}}if(!novos.length||!ED)return;
-    P.rolo.push(...novos);if(novos.length>1)P.multi=true;if(P.multi){const cabe=novos.slice(0,10-P.fotos.length);if(cabe.length<novos.length)toast("Um post tem no máximo 10 fotos.");P.fotos.push(...cabe);P.cur=Math.max(0,P.fotos.length-cabe.length)}else{P.fotos=[novos[0]];P.cur=0}edDesenha()})}
+    P.rolo.push(...novos);if(novos.length>1)P.multi=true;if(P.multi){const cabe=novos.slice(0,10-P.fotos.length);if(cabe.length<novos.length)toast("Um post tem no máximo 10 fotos.");P.fotos.push(...cabe);P.cur=Math.max(0,P.fotos.length-cabe.length)}else{P.fotos=[novos[0]];P.cur=0}ed206ArAuto(P);edDesenha()})}
 function cfpFotos(el){const r=cfp206Fotos0.apply(this,arguments);try{const P=ED.po;if(!(P.rolo&&P.rolo.length&&P.fotos[P.cur])){const o=el.querySelector(".cfp-opc");if(o){o.outerHTML=cn102InicioHTML();if(typeof rascChip==="function")rascChip()}
     const box=$("#cfp-box");if(box){box.style.height="";box.classList.add("cn102-box")}const v=el.querySelector(".cfp-vazio");if(v){const s=v.querySelector("span");if(s)s.textContent="Fotos da galeria, até 10"}}}catch(e){}return r}
 /* cfpPublico: base no 095; 123 (opção "Seguidores e amigos") */
@@ -21515,6 +21529,9 @@ async function rascLista(){const l=await rasc206Lista0.apply(this,arguments);CFP
 /* ===== as fotos do post (071 → 076 → 095) =====
    As versões do 071 eram trocadas inteiras pelas do 076 antes de qualquer uso. */
 /* edAR, edRenderFoto, edMiniFiltros: as do 076 */
+/* 19/11 madrugada (testador): foto deitada virava retrato 4:5 e perdia as laterais sem a pessoa escolher. Agora, enquanto a
+   pessoa não troca o formato, a 1ª foto deitada deixa o post no formato dela (até 1,91:1, como o Instagram) */
+function ed206ArAuto(P){try{if(!P||P.arEsc||!P.fotos||!P.fotos[0])return;const [w,h]=edWH(edBase(P.fotos[0]));if(w&&h)P.ar=w>h*1.05?"orig":"4:5"}catch(e){}}
 function edAR(ar,img){if(ar==="1:1")return 1;if(ar==="orig"&&img){const [w,h]=edWH(img);return Math.max(.8,Math.min(1.91,w/h))}return .8}
 function edRenderFoto(f,c,ar,filtro){const first=(ED&&ED.po.fotos[0])||f,k=edAR(ar,edBase(first)),W=c.width,H=Math.round(W/k);c.height=H;const g=c.getContext("2d");g.fillStyle="#000";g.fillRect(0,0,W,H);
   const rad=(f.str||0)*Math.PI/180;g.save();if(rad){g.translate(W/2,H/2);g.rotate(rad);const sc=Math.abs(Math.cos(rad))+Math.abs(Math.sin(rad))*Math.max(W/H,H/W);g.scale(sc,sc);g.translate(-W/2,-H/2)}
@@ -21672,7 +21689,9 @@ function ac208Abre(k){const [o,i]=String(k).split(":");const x=(AC208_L[o]||[])[
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-ac208]");if(b){e.preventDefault();e.stopPropagation();ac208Abre(b.dataset.ac208)}},true);
 /* Feed: o bloco entra no topo da lista (só em "Tudo") */
 function ac208Feed(){const box=document.getElementById("posts");if(!box)return;box.querySelector(":scope > .ac208")?.remove();if(typeof FILTRO!=="undefined"&&FILTRO!=="tudo")return;
-  const h=ac208HTML("feed");if(!h)return;const t=document.createElement("template");t.innerHTML=h;const first=box.querySelector(":scope > .post, :scope > article, :scope > div");
+  const h=ac208HTML("feed");if(!h)return;const t=document.createElement("template");t.innerHTML=h;let first=box.querySelector(":scope > .post, :scope > article, :scope > div");
+  /* 19/11 madrugada (testador): não separar a notícia dos comentários dos amigos que vêm colados nela */
+  while(first&&first.nextElementSibling&&first.nextElementSibling.classList.contains("fc107-junto"))first=first.nextElementSibling;
   if(first&&first.nextSibling)box.insertBefore(t.content.firstChild,first.nextSibling);else box.prepend(t.content.firstChild)}
 /* chegaram manchetes novas: troca os blocos no lugar, sem redesenhar a tela */
 function ac208Atualiza(){try{const c=$("#v-capa .ac208");const h=ac208HTML("capa");if(c){if(h)c.outerHTML=h;else c.remove()}

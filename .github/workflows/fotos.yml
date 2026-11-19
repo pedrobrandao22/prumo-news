@@ -36,11 +36,25 @@ jobs:
         # commits do robô não disparam o workflow das páginas: atualiza aqui mesmo
         run: python3 -I tools/paginas.py feed.json m fotos-arquivo.json
       - name: Gravar
+        # 19/11: as páginas m/ também são gravadas pelas rodadas (fora deste grupo); juntar m/ por rebase dava conflito e
+        # o robô falhava sem gravar as fotos. Agora grava as fotos primeiro e refaz as páginas por cima do que já está lá.
         run: |
           git config user.name "prumo-robo"
           git config user.email "prumo-robo@users.noreply.github.com"
-          git add fotos-arquivo.json m
+          git add fotos-arquivo.json
           if [ -d acervo ]; then git add acervo; fi
+          git checkout -q -- m 2>/dev/null || true; git clean -fdq m 2>/dev/null || true
           git diff --cached --quiet && exit 0
           git commit -q -m "Fotos de arquivo $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
-          for i in 1 2 3 4; do git pull -q --rebase && git push -q && exit 0; git rebase --abort 2>/dev/null || true; sleep $((i * 10)); done; exit 1
+          for i in 1 2 3 4; do
+            if git pull -q --rebase; then
+              B=$(git rev-parse HEAD)
+              python3 -I tools/paginas.py feed.json m fotos-arquivo.json
+              git add m; git diff --cached --quiet || git commit -q -m "Páginas com as fotos novas"
+              git push -q && exit 0
+              git reset -q --hard "$B"
+            else
+              git rebase --abort 2>/dev/null || true
+            fi
+            sleep $((i * 10))
+          done; exit 1
