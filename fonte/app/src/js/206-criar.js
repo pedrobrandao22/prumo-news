@@ -197,7 +197,7 @@ function ed206Post076(el){const P=ED.po;P.rolo=P.rolo||P.fotos.slice();P.tags=P.
     if(f){$("#ce-pvi").src=edUrlF(f);edPvTam();edPvPos();edGestosPv()}el.querySelectorAll(".ce-grade img[data-ri]").forEach(im=>{im.src=edUrlF(P.rolo[+im.dataset.ri])});
     if(!P.rolo.length)rascChip();
     $("#ce-pfile").addEventListener("change",async e=>{const fs=[...e.target.files];e.target.value="";if(!fs.length)return;const novos=[];for(const x of fs.slice(0,30)){try{novos.push(edNovaFoto(await edCarrega(x,2048)))}catch(err){toast("Não deu para abrir uma das fotos.")}}if(!novos.length||!ED)return;
-      P.rolo.push(...novos);if(novos.length>1)P.multi=true;if(P.multi){const cabe=novos.slice(0,10-P.fotos.length);if(cabe.length<novos.length)toast("Um post tem no máximo 10 fotos.");P.fotos.push(...cabe);P.cur=Math.max(0,P.fotos.length-cabe.length)}else{P.fotos=[novos[0]];P.cur=0}edDesenha()})}
+      P.rolo.push(...novos);if(novos.length>1)P.multi=true;if(P.multi){const cabe=novos.slice(0,10-P.fotos.length);if(cabe.length<novos.length)toast("Um post tem no máximo 10 fotos.");P.fotos.push(...cabe);P.cur=Math.max(0,P.fotos.length-cabe.length)}else{P.fotos=[novos[0]];P.cur=0}ed206ArAuto(P);edDesenha()})}
   else if(P.passo==="filtros"){const fi=f.fi==null?100:f.fi;
     el.innerHTML=`<div class="ce-ph"><button type="button" class="ce-b" data-edvolta="fotos" aria-label="Voltar">${EDI.vol}</button><b>Editar</b><button type="button" class="ce-av" data-edav>Avançar</button></div>
       <div class="ce-pvw"><canvas id="ce-fc" class="ce-fc"></canvas>${P.fotos.length>1?`<button type="button" class="ce-nav l" data-edfn="-1" aria-label="Foto anterior">‹</button><button type="button" class="ce-nav r" data-edfn="1" aria-label="Próxima foto">›</button><span class="ce-npg">${P.cur+1}/${P.fotos.length}</span>`:""}</div>
@@ -467,7 +467,7 @@ function cfp206Fotos0(el){const P=ED.po,f=P.fotos[P.cur],tem=!!(P.rolo.length&&f
   if(tem){$("#ce-pvi").src=edUrlF(f);edPvTam();edPvPos();edGestosPv()}el.querySelectorAll(".ce-grade img[data-ri]").forEach(im=>{im.src=edUrlF(P.rolo[+im.dataset.ri])});
   if(!tem)rascChip();
   $("#ce-pfile").addEventListener("change",async e=>{const fs=[...e.target.files];e.target.value="";if(!fs.length)return;const novos=[];for(const x of fs.slice(0,30)){try{novos.push(edNovaFoto(await edCarrega(x,2048)))}catch(err){toast("Não deu para abrir uma das fotos.")}}if(!novos.length||!ED)return;
-    P.rolo.push(...novos);if(novos.length>1)P.multi=true;if(P.multi){const cabe=novos.slice(0,10-P.fotos.length);if(cabe.length<novos.length)toast("Um post tem no máximo 10 fotos.");P.fotos.push(...cabe);P.cur=Math.max(0,P.fotos.length-cabe.length)}else{P.fotos=[novos[0]];P.cur=0}edDesenha()})}
+    P.rolo.push(...novos);if(novos.length>1)P.multi=true;if(P.multi){const cabe=novos.slice(0,10-P.fotos.length);if(cabe.length<novos.length)toast("Um post tem no máximo 10 fotos.");P.fotos.push(...cabe);P.cur=Math.max(0,P.fotos.length-cabe.length)}else{P.fotos=[novos[0]];P.cur=0}ed206ArAuto(P);edDesenha()})}
 function cfpFotos(el){const r=cfp206Fotos0.apply(this,arguments);try{const P=ED.po;if(!(P.rolo&&P.rolo.length&&P.fotos[P.cur])){const o=el.querySelector(".cfp-opc");if(o){o.outerHTML=cn102InicioHTML();if(typeof rascChip==="function")rascChip()}
     const box=$("#cfp-box");if(box){box.style.height="";box.classList.add("cn102-box")}const v=el.querySelector(".cfp-vazio");if(v){const s=v.querySelector("span");if(s)s.textContent="Fotos da galeria, até 10"}}}catch(e){}return r}
 /* cfpPublico: base no 095; 123 (opção "Seguidores e amigos") */
@@ -493,6 +493,9 @@ async function rascLista(){const l=await rasc206Lista0.apply(this,arguments);CFP
 /* ===== as fotos do post (071 → 076 → 095) =====
    As versões do 071 eram trocadas inteiras pelas do 076 antes de qualquer uso. */
 /* edAR, edRenderFoto, edMiniFiltros: as do 076 */
+/* 19/11 madrugada (testador): foto deitada virava retrato 4:5 e perdia as laterais sem a pessoa escolher. Agora, enquanto a
+   pessoa não troca o formato, a 1ª foto deitada deixa o post no formato dela (até 1,91:1, como o Instagram) */
+function ed206ArAuto(P){try{if(!P||P.arEsc||!P.fotos||!P.fotos[0])return;const [w,h]=edWH(edBase(P.fotos[0]));if(w&&h)P.ar=w>h*1.05?"orig":"4:5"}catch(e){}}
 function edAR(ar,img){if(ar==="1:1")return 1;if(ar==="orig"&&img){const [w,h]=edWH(img);return Math.max(.8,Math.min(1.91,w/h))}return .8}
 function edRenderFoto(f,c,ar,filtro){const first=(ED&&ED.po.fotos[0])||f,k=edAR(ar,edBase(first)),W=c.width,H=Math.round(W/k);c.height=H;const g=c.getContext("2d");g.fillStyle="#000";g.fillRect(0,0,W,H);
   const rad=(f.str||0)*Math.PI/180;g.save();if(rad){g.translate(W/2,H/2);g.rotate(rad);const sc=Math.abs(Math.cos(rad))+Math.abs(Math.sin(rad))*Math.max(W/H,H/W);g.scale(sc,sc);g.translate(-W/2,-H/2)}

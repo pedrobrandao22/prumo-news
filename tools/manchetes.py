@@ -146,7 +146,9 @@ LIXO = re.compile(
     r"influenciador|mega-sena|mega da virada|lotofacil|\bquina\b|loteria|\bpalpites?\b|onde assistir|escalac|"
     r"\bodds\b|\bcupo[mn]|black friday|\bpromoca|\bofertas?\b|^videos?\b|ao vivo$|^ao vivo\b|^assista|"
     r"\bbom dia (df|sp|rio|brasil|[a-z]+) de\b|renda fixa hoje|\bconfira as taxas|receita de\b|^podcast|"
-    r"newsletter|\beptv\b|\bem 1 minuto\b|previsao do tempo|\bquiz\b|\bcruzadinha")
+    r"newsletter|\beptv\b|\bem 1 minuto\b|previsao do tempo|\bquiz\b|\bcruzadinha|"
+    # 19/11 (testador): episódio de podcast virava "Acabou de sair" ("... - O Assunto #1849")
+    r"\bpodcast\b|\bepisodio\b|\bo assunto #|\s#\d{2,}\s*$")
 
 KW = {
     "politica": set("""lula bolsonaro flavio senado senador senadora senadores camara deputado deputada deputados congresso

@@ -239,7 +239,7 @@ function ed132StTx(){const E=ED132.E;if(!E)return "";if(E.modo==="editar")return
 function ed132St(){const s=$("#layer > .ed132 .ed132-st");if(s)s.textContent=ed132StTx()}
 function ed132Cab(){const E=ED132.E,h=$("#layer > .ed132 > .ed132-h");if(!E||!h)return;const ed=E.modo==="editar";
   h.innerHTML=`<button type="button" class="icbtn ed132-x${E.descartar?" conf":""}" data-ed132x aria-label="Fechar">${E.descartar?"Descartar?":ICON.close}</button>
-    <div class="ed132-ht"><b>${ed?(E.ag?"Coluna agendada":"Editar coluna"):(E.reaberto?"Rascunho":"Nova coluna")}</b><small class="ed132-st" aria-live="polite">${esc(ed132StTx())}</small></div>
+    <div class="ed132-ht"><b>${ed?(E.ag?"Coluna agendada":"Editar coluna"):(E.reaberto?"Continuar coluna":"Nova coluna")}</b><small class="ed132-st" aria-live="polite">${esc(ed132StTx())}</small></div>
     <button type="button" class="icbtn" data-ed132mais aria-label="Mais opções">${ICON.dots}</button>
     ${ed?`<button type="button" class="btn ed132-pb" data-ed132salva ${E.env?"disabled":""}>${E.env?"Salvando…":"Salvar"}</button>`:`<button type="button" class="btn ed132-pb" data-ed132painel ${E.env?"disabled":""}>${E.env?"Publicando…":"Publicar"}</button>`}`}
 function ed132CapaHTML(){const E=ED132.E,u=E&&E.capa&&ed132Url(E.capa.p);

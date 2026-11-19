@@ -67,7 +67,9 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
 /* ===== Enquete: as opções são da pessoa ===== */
 
 /* ===== cores das editorias no fundo escuro ===== */
-function cr155Clareia(raiz){if(!raiz)return;raiz.querySelectorAll("small[style*='color']").forEach(s=>{if(s.dataset.cr155)return;const m=/rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(getComputedStyle(s).color);if(!m)return;
+/* 19/11 madrugada (testador): a caixa agora segue o tema do celular (86-criar-limpo), e as cores das editorias já mudam
+   com o tema; clarear de novo deixava os rótulos quase apagados no fundo branco (contraste ~2,7:1). Não clareia mais. */
+function cr155Clareia(raiz){return;if(!raiz)return;raiz.querySelectorAll("small[style*='color']").forEach(s=>{if(s.dataset.cr155)return;const m=/rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(getComputedStyle(s).color);if(!m)return;
   const k=.5,f=v=>Math.round(+v+(255-v)*k);s.style.color=`rgb(${f(m[1])},${f(m[2])},${f(m[3])})`;s.dataset.cr155=1})}
 
 /* ===== sem rede: diz por quê, mostra o começo e tenta de novo sozinho ===== */

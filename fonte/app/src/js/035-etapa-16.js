@@ -28,7 +28,7 @@ function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d
 function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
   if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}
 /* vídeos, programas e edições de telejornal não são notícia para o "Agora" */
-const AG_LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d/i;
+const AG_LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d|\bpodcast\b|\bepis[óo]dio\b|\s#\d{2,}\s*$/i;
 function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>4*3600e3)return [];const ag=Date.now(),out=[],vistos=new Set();
   const hMax=ms=>{const hs=(Array.isArray(ms)?ms:[]).map(m=>agHoraMs(m&&m.hora)).filter(Boolean);return hs.length?Math.max(...hs):0};
   (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=[n.assunto,...(Array.isArray(n.manchetes)?n.manchetes.map(m=>m&&m.titulo):[])].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t)||AG_LIXO.test(t)||AG_LIXO.test(String(n.assunto)))return;vistos.add(t);

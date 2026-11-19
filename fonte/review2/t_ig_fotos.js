@@ -42,6 +42,9 @@ async function compara(p, sel, tipo) {
   await shot(A, 'post-vazio-atras-da-galeria');
   await fc.setFiles([PAIS, RET, QUA]); await esperar(A, () => ED.po.fotos.length === 3, null, 6000); await sleep(400);
   ok(await ev(A, () => ED.po.multi && [...document.querySelectorAll('.ce-num.on')].map(x => x.textContent).join() === '1,2,3'), 'galeria: 3 fotos numeradas 1, 2, 3');
+  // 19/11 madrugada: a 1ª foto é deitada, então o post começa no formato dela ("Original"); um toque vai para 4:5
+  ok(await ev(A, () => ED.po.ar === 'orig'), 'foto deitada primeiro: o post começa no formato da foto');
+  await clk(A, '[data-edar]'); await sleep(250);
   ok(await ev(A, () => { const b = document.querySelector('.cfp-box').getBoundingClientRect(), pv = document.querySelector('#ce-pv').getBoundingClientRect(); return b.width === 390 && Math.abs(pv.width - 390) < 2 && Math.abs(pv.height - 487.5) < 2 }), 'prévia grande em 4:5 ocupa toda a largura (sem faixas pretas)');
   await shot(A, 'post-galeria-4x5');
   await clk(A, '[data-edar]'); await sleep(250);
