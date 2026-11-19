@@ -6293,6 +6293,56 @@ body.sr209-off .fd156-mais .fd156-sk{display:none}
 #cp152-pub{min-height:32px}
 /* computador: telas cheias (Atividade, Nova publicação, Busca, Hashtag, Arquivo...) numa coluna central, como o resto do app */
 @media (min-width:1024px){#layer>.pfv,#layer>.ce,#layer>.cp152{left:max(0px,calc(50% - 360px));right:max(0px,calc(50% - 360px));box-shadow:0 0 0 1px var(--line)}}
+/* 89: correções da tarde de 19/11 (achados do testador) */
+.bu154-hs{font-weight:700;color:var(--hot);letter-spacing:.04em;margin-left:4px;font-size:inherit}
+.bu154-ant{font-style:normal;font-weight:700;color:var(--muted)}
+.bu154-ants .bu154-seg{white-space:nowrap}
+.ct210-ab{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 72px) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.ct210-abi{width:100%;max-width:680px;display:flex;flex-direction:column;gap:12px}
+.ct210-sk{display:block;height:16px;border-radius:6px;background:var(--line);opacity:.7}
+.ct210-sk1{height:200px;border-radius:10px}.ct210-sk2{width:60%}
+.ct210-abi p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.ct210-hoje{margin-top:10px;align-self:flex-start}
+.ct210-pnx form,.ct210-pnx .lab,.ct210-pnx [data-laba],.ct210-pnx .ltabs,.ct210-pnx #lform{display:none!important}
+.paper.foto.ct210-pe>img{object-position:50% 18%}
+.mat-arte .paper.foto.ct210-ret{position:relative;overflow:hidden}
+.mat-arte .paper.foto.ct210-ret>img:not(.ct210-fd){object-fit:contain!important;object-position:50% 50%;position:relative;z-index:1}
+.mat-arte .paper.foto.ct210-ret>.ct210-fd{position:absolute;inset:-20px;width:calc(100% + 40px);height:calc(100% + 40px);object-fit:cover;filter:blur(20px) brightness(.8);z-index:0;opacity:1}
+.mat-arte .ct210-ret .cred{position:absolute;z-index:2}
+.po118-ig{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.ct210-gc{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 72px);z-index:35;display:flex;align-items:center;gap:2px;max-width:calc(100vw - 32px);background:var(--ink);color:var(--bg);border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.ct210-gcb{background:none;border:0;color:inherit;font:700 13.5px/1.2 var(--f-ui);padding:10px 4px 10px 16px;min-height:40px;text-align:left}
+.ct210-gcx{background:none;border:0;color:inherit;font-size:20px;line-height:1;padding:8px 14px 8px 8px;min-height:40px;opacity:.8}
+.ct210-rasc{font-style:normal;font-weight:700;color:var(--hot)}
+/* "✓ seguindo": com o subtema na linha, fica só o ✓ (o subtema aparece inteiro) */
+.fd167-seg .fd167-segt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* miniatura da foto na caixa: no formato da foto (deitada fica deitada), sem cortar */
+.fc164-t{width:auto!important;min-width:64px;max-width:168px}
+.fc164-t img{width:auto!important;height:100%!important;max-width:168px;object-fit:contain!important}
+/* sugestão do @: a foto do perfil inteira, como na folha de marcar pessoas */
+.men-box .av{flex:0 0 30px;min-width:30px;min-height:30px;overflow:hidden;background-size:cover!important;background-position:center!important}
+.men-box .av img{width:100%!important;height:100%!important;object-fit:cover!important;display:block;border-radius:50%}
+/* topo da Nova publicação: o título fica parado no meio em Post e em Coluna (o espaço do Publicar é reservado) */
+.cp152-hd{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center}
+.cp152-hd>b{flex:none;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.cp152-hd>:first-child{justify-self:start}.cp152-hd>:last-child{justify-self:end}
+@media (max-width:340px){.cp152-hd>b{font-size:15px}.cp152-hd .cp152-c,.cp152-hd .cp152-ok{padding-inline:8px}}
+/* placar: "Aprovado"/"Rejeitado" com contraste de texto pequeno (4,5:1) nos dois temas */
+.acv-res.ok{color:color-mix(in srgb,var(--acv-sim) 62%,var(--ink))!important}
+.acv-res.no{color:color-mix(in srgb,var(--acv-nao) 70%,var(--ink))!important}
+/* giros do topo do Feed em 320 px: o rótulo da editoria com reticências, sem encostar na imagem */
+@media (max-width:340px){.vn-tl-tx small{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+.cp152-abas{grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+.c-a.ct210-conf{background:var(--hot);color:#fff!important;border-radius:999px;padding:3px 10px;font-weight:700}
+.c-a.ct210-canc{margin-left:8px}
+/* celular deitado com pouca altura: o topo do Feed encolhe para a primeira notícia aparecer */
+@media (orientation:landscape) and (max-height:430px){
+  html.vn #secs.vn-tiles .ig-r{width:64px;height:64px;border-radius:50%}
+  html.vn .secs.ig.vn-tiles .sb.ig-s{width:64px}
+  html.vn #secs.vn-tiles .vn-tl-tx{display:none}
+  html.vn #v-feed .secs.ig.vn-tiles{padding-block:6px 8px}
+  #cn102-bar{display:none!important}
+}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -6966,7 +7016,10 @@ function marcarTermos(txt){
 }
 function abrirTermo(t,k){uso(t==="p"?"quem_e":"glossario");
   if(t==="p"){abrirPessoa(k)}
-  else{const d=FEED.glossario?.[k];sheet("O que é",`<div class="card"><b style="font-size:18px">${esc(k)}</b><p>${esc(d)}</p></div>`)}
+  else{const d=FEED.glossario?.[k];/* 19/11 tarde: termo fora da edição não abre caixa vazia */
+    if(!d){const ps=(FEED.pautas||[]).filter(p=>{const n=p&&p.neutro||{};return norm(String(n.titulo||"")+" "+String(n.texto||"")).indexOf(norm(k))>=0}).slice(0,8),L=lente();
+      sheet("O que é",`<div class="card"><b style="font-size:18px">${esc(k)}</b><p class="hint">Sem verbete nesta edição.</p></div>${ps.length?`<h4 class="pes-h">Nas notícias (${ps.length})</h4><ul class="mud-l">${ps.map(p=>`<li><button type="button" data-cpnovir="${esc(p.id)}"><span class="mud-t">${esc(versao(p,L).titulo)}</span></button></li>`).join("")}</ul>`:""}`);return}
+    sheet("O que é",`<div class="card"><b style="font-size:18px">${esc(k)}</b><p>${esc(d)}</p></div>`)}
 }
 function abrirExplicador(tema){uso("entenda");
   const e=(FEED.explicadores||{})[tema];if(!e)return;
@@ -7480,8 +7533,9 @@ function cpItem(p,o){const L=lente(),v=versao(p,L),ab=CP_AB===p.id,lc=lidaAtual(
   const arte=o.arte?capaArte(p,o.tam==="man"?"art":"cp-th",o.tam==="man"):"";
   let h=`<article class="cpi cpi-${o.tam}${lc}${ab?" aberto":""}" id="cpi-${esc(p.id)}"><button type="button" class="cpi-b" data-cpx="${esc(p.id)}" aria-expanded="${ab}">${o.tam==="man"?arte:""}<span class="tx">${o.tam==="rel"?"":k}<b class="cp-t">${marca}${esc(v.titulo)}</b>${sub}${o.meta||""}</span>${o.tam!=="man"?arte:""}</button>${ab?cpAberta(p):""}</article>`;
   /* 168: notícia sem novidade há mais de 40 h diz de quando é ("de quinta (12)"), menos na manchete */
-  try{const t=o&&o.tam!=="man"&&cm168Velha(p);if(t){const i=h.indexOf('<b class="cp-t">'),j=i>=0?h.indexOf("</b>",i):-1;
-    if(j>0)h=h.slice(0,j+4)+`<span class="cm168-dia">de ${esc(cm168Dia(t))}</span>`+h.slice(j+4)}}catch(e){}
+  /* 19/11 tarde: frase separada ("Sem novidade desde terça (17)") e nada quando o título já traz um dia, para não ler "…sexta (13) de terça (17)" */
+  try{const t=o&&o.tam!=="man"&&cm168Velha(p);if(t&&!cm168Dias(v.titulo).length){const i=h.indexOf('<b class="cp-t">'),j=i>=0?h.indexOf("</b>",i):-1;
+    if(j>0)h=h.slice(0,j+4)+`<span class="cm168-dia">Sem novidade desde ${esc(cm168Dia(t))}</span>`+h.slice(j+4)}}catch(e){}
   return h}
 function cpAberta(p){const L=lente(),id=esc(p.id);const pts=pontosDe(p,L);
   let h=`<div class="cpx"><button type="button" class="cpx-30" data-cpmat="${id}" aria-label="Ler a matéria completa"><b>Em 30 segundos</b><ul>${pts.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><span class="cpx-ir">Ler a matéria completa <i aria-hidden="true">›</i></span></button></div>`;
@@ -9126,8 +9180,10 @@ function pessoaArq(k){const A=FOTOS_ARQ&&FOTOS_ARQ.pessoas;if(!A)return null;if(
 function pautasDaPessoa(k){const A=pessoaArq(k),ch=[k,...((A&&A.chaves)||[])].filter(x=>typeof x==="string"&&x.length>=3);
   const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;
   return (FEED.pautas||[]).filter(p=>{const n=p.neutro||{},t=[n.titulo,n.texto,p.subtitulo,...(n.pontos||[])].join(" ");return ch.some(c=>posPalavra(t,c)>=0)}).sort((a,b)=>tms(ultimaAtualizacao(b)||b.hora)-tms(ultimaAtualizacao(a)||a.hora)||pr(b)-pr(a))}
+/* 19/11 tarde: nome que chega em minúsculas (link antigo) sai com as iniciais maiúsculas */
+function pessoaNomeBonito(k){k=String(k||"");return k&&k===k.toLowerCase()?k.replace(/(^|[\s-])(\p{L})/gu,(m,a,b)=>a+b.toUpperCase()).replace(/\b(De|Da|Do|Dos|Das|E)\b/g,x=>x.toLowerCase()):k}
 function abrirPessoa(k){const d=FEED.pessoas?.[k],A=pessoaArq(k),f=A&&Array.isArray(A.fotos)&&A.fotos.find(faValida),L=lente(),ps=pautasDaPessoa(k);
-  sheet("Quem é",`<div class="pes">${f?`<div class="pes-f"><img src="${escU(fotoMini(f.url))}" alt="${esc(k)}" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>`:""}<div><b class="pes-n">${esc(k)}</b>${d?`<p class="pes-d">${esc(d)}</p>`:""}${f?`<small class="pes-c">${esc(creditoCurto(f.credito||""))}</small>`:""}</div></div>
+  sheet("Quem é",`<div class="pes">${f?`<div class="pes-f"><img src="${escU(fotoMini(f.url))}" alt="${esc(k)}" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>`:""}<div><b class="pes-n">${esc(pessoaNomeBonito(k))}</b>${d?`<p class="pes-d">${esc(d)}</p>`:`<p class="pes-d hint">Sem verbete nesta edição.</p>`}${f?`<small class="pes-c">${esc(creditoCurto(f.credito||""))}</small>`:""}</div></div>
   ${ps.length?`<h4 class="pes-h">Nas notícias (${ps.length})</h4><ul class="mud-l">${ps.slice(0,12).map(p=>`<li><button type="button" data-cpnovir="${esc(p.id)}"><b class="mud-k" style="color:${secCor(secOf(p))};background:none;border:1px solid currentColor">${esc(capaChapeu(p))}</b><span class="mud-t">${esc(versao(p,L).titulo)}</span><span class="mud-x">${esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button></li>`).join("")}</ul>`:""}`)}
 
 /* coberturas encerradas: como terminou, no topo da matéria */
@@ -9432,7 +9488,7 @@ function igNum(v,c){return Number(v).toLocaleString("pt-BR",{minimumFractionDigi
 function igVisHTML(v){const t=`<span class="sgv-t">${esc(v.titulo||"")}</span>`;
   if(v.tipo==="grafico"){const it=v.itens.slice(0,8),c=typeof v.casas==="number"?v.casas:(it.some(i=>i.valor%1)?1:0),u=v.unidade||"",mx=Math.max(...it.map(i=>Math.abs(i.valor)))||1;
     const fmt=x=>{if(u==="%")return igNum(x,c)+"%";const mo=/^(R\$|US\$|€|£)\s*(.*)$/.exec(u);if(mo)return mo[1]+" "+igNum(x,c)+(mo[2]?" "+mo[2]:"");return igNum(x,c)+(u?" "+u:"")};
-    if(v.forma==="colunas"||v.forma==="linha"){const mn=Math.min(...it.map(i=>i.valor)),base=mn>0&&mn>mx*.6?mn*.96:0;
+    if(v.forma==="colunas"||v.forma==="linha"){const mn=Math.min(...it.map(i=>i.valor)),base=v.forma==="linha"&&mn>0&&mn>mx*.6?mn*.96:0;/* 19/11 tarde: colunas sempre a partir do zero (44, 42 e 40 h não parecem um corte pela metade) */
       return t+`<div class="sgv-col">${it.map((i,k)=>`<div class="${i.destaque?"d":""}" style="--h:${Math.max(4,(i.valor-base)/(mx-base)*100).toFixed(1)}%;--k:${k}"><b>${esc(fmt(i.valor))}</b><i></i><span>${esc(i.rotulo)}</span></div>`).join("")}</div>`+(v.fonte?`<small class="sgv-f">Fonte: ${esc(v.fonte)}</small>`:"")}
     return t+`<div class="sgv-bar">${it.map((i,k)=>`<div class="${i.destaque?"d":""}" style="--w:${Math.max(3,Math.abs(i.valor)/mx*100).toFixed(1)}%;--k:${k}"><span>${esc(i.rotulo)}</span><p><i></i><b>${esc(fmt(i.valor))}</b></p></div>`).join("")}</div>`+(v.nota?`<small class="sgv-f">${esc(v.nota)}</small>`:"")+(v.fonte?`<small class="sgv-f">Fonte: ${esc(v.fonte)}</small>`:"")}
   if(v.tipo==="numeros")return t+`<div class="sgv-num">${v.itens.slice(0,4).map((i,k)=>`<div style="--k:${k}"><b>${esc(i.valor)}</b><span>${esc(i.rotulo)}</span></div>`).join("")}</div>`+(v.fonte?`<small class="sgv-f">Fonte: ${esc(v.fonte)}</small>`:"");
@@ -9911,7 +9967,7 @@ function openSend(pid,pre){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||sna
   const ult={};allMsgs().forEach(m=>{const o=m.de===S.uid?m.para:m.de;ult[o]=m.at});const ord=others.slice().sort((a,b)=>(ult[b]||0)-(ult[a]||0));
   const rot=()=>sel.size>1?`Enviar para ${sel.size}`:"Enviar";
   sheet("Enviar",`${others.length>6?`<input class="field" id="pkq" type="search" autocomplete="off" placeholder="Buscar amigo" aria-label="Buscar amigo" style="margin-bottom:10px">`:""}<div class="pick dm-pick" id="pick">${ord.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="${sel.has(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div>${shareCard(snap,'style="width:100%;pointer-events:none" tabindex="-1"')}<button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`,
-    `<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)" aria-label="Mensagem"><button class="send" id="sbtn" type="submit" ${sel.size?"":"disabled"}>${rot()}</button></form>`);
+    `<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Mensagem (opcional)" aria-label="Mensagem"><button class="send" id="sbtn" type="submit" ${sel.size?"":"disabled"}>${rot()}</button></form>`);
   $("#pkq")?.addEventListener("input",e=>{const n=norm(e.target.value).trim();document.querySelectorAll("#pick [data-pick]").forEach(b=>b.hidden=!!n&&!norm(b.textContent).includes(n))});
   $("#pick")?.addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;const u=b.dataset.pick;if(sel.has(u))sel.delete(u);else sel.add(u);b.setAttribute("aria-pressed",String(sel.has(u)));const bt=$("#sbtn");bt.disabled=!sel.size;bt.textContent=rot()});
   $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel.size)return;const t=$("#stext").value.trim(),bt=$("#sbtn");if(bt.dataset.env)return;bt.disabled=true;bt.dataset.env="1";bt.textContent="Enviando…";
@@ -10060,7 +10116,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let 
   if(b=t.closest("[data-open]")){const v=b.dataset.open||"";if(v.indexOf("u:")===0){e.stopPropagation();pubIrPara(v.slice(2))}}},true);
 function pubEnviar(x){if(precisaConta())return;if(x.publico==="proximos"&&x.autor!==S.uid){toast(`Este post é só para os Melhores amigos de ${String(nomeDe(x.autor)).split(" ")[0]}: não dá para enviar.`);return}
   let am=amigosL().filter(u=>u!==x.autor);if(!am.length&&S.amigos.has(x.autor))am=[x.autor];if(x.publico==="proximos"&&typeof MA!=="undefined"&&MA.set)am=am.filter(u=>MA.set.has(u));if(!am.length){toast(x.publico==="proximos"?"Só dá para mandar este post para os seus Melhores amigos.":"Adicione amigos no Perfil para mandar.");return}const snap={titulo:"Post de "+nomeDe(x.autor),upub:x.id};
-  sheet("Enviar",`<div class="pick dm-pick" id="pick">${am.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="false">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><p class="hint">${x.autor===S.uid?"Seus amigos conseguem abrir o post.":am.length===1&&am[0]===x.autor?`${esc(nomeDe(x.autor))} recebe o próprio post na conversa de vocês.`:`Só quem também é amigo de ${esc(nomeDe(x.autor))} consegue abrir o post.`}</p>`,`<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)"><button class="send" id="sbtn" type="submit" disabled>Enviar</button></form>`);
+  sheet("Enviar",`<div class="pick dm-pick" id="pick">${am.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="false">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><p class="hint">${x.autor===S.uid?"Seus amigos conseguem abrir o post.":am.length===1&&am[0]===x.autor?`${esc(nomeDe(x.autor))} recebe o próprio post na conversa de vocês.`:`Só quem também é amigo de ${esc(nomeDe(x.autor))} consegue abrir o post.`}</p>`,`<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Mensagem (opcional)"><button class="send" id="sbtn" type="submit" disabled>Enviar</button></form>`);
   const sel=new Set();$("#pick").addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;const u=b.dataset.pick;sel.has(u)?sel.delete(u):sel.add(u);b.setAttribute("aria-pressed",String(sel.has(u)));$("#sbtn").disabled=!sel.size;$("#sbtn").textContent=sel.size>1?"Enviar para "+sel.size:"Enviar"});
   $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel.size)return;const t=$("#stext").value.trim();$("#sbtn").disabled=true;const us=[...sel];const r=await Promise.all(us.map(u=>dmEnviar(u,{texto:t,pid:"u:"+x.id,snap},true)));closeLayer();const ok=us.filter((u,i)=>r[i]);toast(ok.length===us.length?`Enviado para ${ok.length>2?ok.length+" amigos":ok.map(nomeDe).join(" e ")}`:ok.length?`Enviado para ${ok.map(nomeDe).join(" e ")}; o resto não foi.`:"Não deu para enviar agora. Tente de novo.")})}
 function pubIrPara(id){const x=pubDe(id);if(!x){toast("Esta publicação não está disponível para você (ou já foi apagada).");return}
@@ -12001,7 +12057,7 @@ async function vs98Atividade(id){igPausa();const x=pubDe(id)||(ST&&ST.itens||[])
 function vs98Enviar(x){if(precisaConta()||!x)return;if(x.publico==="proximos"&&x.autor!==S.uid){toast("Este giro é só para os Melhores amigos: não dá para enviar.");return}
   let am=amigosL();if(x.publico==="proximos"&&typeof MA!=="undefined"&&MA.set)am=am.filter(u=>MA.set.has(u));if(x.autor!==S.uid)am=am.filter(u=>u!==x.autor);
   if(!am.length){toast("Adicione amigos no Perfil para mandar.");return}igPausa();const snap={titulo:"Giro de "+nomeDe(x.autor),upub:x.id};
-  sheet("Enviar giro",`<div class="pick dm-pick" id="pick">${am.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="false">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><p class="hint">${x.autor===S.uid?"O giro some em 24 horas.":`Só quem também é amigo de ${esc(vs98Nome1(x.autor))} consegue abrir. Some em 24 horas.`}</p>`,`<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Escreva uma mensagem (opcional)"><button class="send" id="sbtn" type="submit" disabled>Enviar</button></form>`);
+  sheet("Enviar giro",`<div class="pick dm-pick" id="pick">${am.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="false">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div><p class="hint">${x.autor===S.uid?"O giro some em 24 horas.":`Só quem também é amigo de ${esc(vs98Nome1(x.autor))} consegue abrir. Some em 24 horas.`}</p>`,`<form id="sform"><input class="field" id="stext" maxlength="600" autocomplete="off" placeholder="Mensagem (opcional)"><button class="send" id="sbtn" type="submit" disabled>Enviar</button></form>`);
   const sel=new Set();$("#pick").addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;const u=b.dataset.pick;sel.has(u)?sel.delete(u):sel.add(u);b.setAttribute("aria-pressed",String(sel.has(u)));$("#sbtn").disabled=!sel.size});
   $("#sform").addEventListener("submit",async e=>{e.preventDefault();if(!sel.size)return;const t=$("#stext").value.trim();$("#sbtn").disabled=true;const us=[...sel];
     const r=await Promise.all(us.map(u=>dmEnviar(u,{texto:t,pid:"u:"+x.id,snap},true)));closeLayer();toast(r.every(Boolean)?(us.length>1?"Enviado":"Enviado para "+vs98Nome1(us[0])):"Algumas não foram enviadas")})}
@@ -13751,7 +13807,7 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
     else if(b.hasAttribute("data-5min")){cls="vn-tl-5";const a=vn112Primeira("_5min");if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit="O dia em 5 minutos";visto=false}
     else if(b.hasAttribute("data-ultimas")){cls="vn-tl-ult";const a=vn112Primeira("_ult");tit=a?vn112Curto(a.t,70):"";visto=vn112Visto("_ult")}
     else if(b.dataset.dest){const p=pautaById(b.dataset.dest);if(p){art=capaArte(p,"vn-tl-art");tit=vn112Curto(versao(p,lente()).titulo,70);visto=SEEN.has(seenKey(p))}cls="vn-tl-dest"}
-    else if(b.dataset.secStory){const s=b.dataset.secStory,a=vn112Primeira(s);if(a&&a.p)art=capaArte(a.p,"vn-tl-art");tit=a?vn112Curto(a.t,70):"";visto=visto||vn112Visto(s)}
+    else if(b.dataset.secStory){const s=b.dataset.secStory,a=vn112Primeira(s);if(a&&a.p){art=capaArte(a.p,"vn-tl-art");b.dataset.ct210pid=a.p.id}tit=a?vn112Curto(a.t,70):"";visto=visto||vn112Visto(s)}
     else return;
     const av=cls==="vn-tl-u"||cls==="vn-tl-eu"?(b.querySelector(".av")||{}).outerHTML||"":"";
     r.insertAdjacentHTML("beforeend",`<span class="vn-tl ${cls}" aria-hidden="true"><span class="vn-tl-bg">${vn112Corta(art)}</span>${av?`<span class="vn-tl-av">${av}</span>`:""}<span class="vn-tl-tx"><small>${esc(kick)}</small>${tit?`<b>${esc(tit)}</b>`:""}</span></span>`);
@@ -14225,6 +14281,7 @@ function po118Verbo(e){return e.res==="aprovado"?"aprovou":e.res==="rejeitado"?"
    descrição da votação; sem isso, a hora da votação; só no último caso "1ª votação" */
 function po118Rotulo(e,i){const et=e.etapa||"";if(e.turno)return `${e.turno} turno`+(et&&et!=="Texto-base"?` · ${et}`:"");if(et)return et;
   if(e.exata){const d=new Date(e.t-3*3600e3);return `Votação das ${String(d.getUTCHours()).padStart(2,"0")}h${String(d.getUTCMinutes()).padStart(2,"0")}`}return `${i+1}ª votação`}
+function po118Rotulos(l){const b=l.map((e,k)=>po118Rotulo(e,k)),n={},c={};b.forEach(x=>n[x]=(n[x]||0)+1);return b.map(x=>{if(n[x]<2)return x;c[x]=(c[x]||0)+1;return /ª votação$/.test(x)?x:`${x} · ${c[x]}ª votação`})}
 function po118Grafico(e){const c=PO118_CASA[e.casa],tit=(e.prop||"Votação")+" no "+(e.casa==="senado"?"Senado":"plenário da Câmara")+(e.turno?` · ${e.turno} turno`:"");
   if(e.modo==="nominal"){const its=[{rotulo:"Sim",valor:e.sim},{rotulo:"Não",valor:e.nao}];if(e.abst)its.push({rotulo:"Abstenção",valor:e.abst});
     let h="";try{h=graficoNoticia({tipo:"grafico",forma:"placar_votacao",casa:e.casa,titulo:tit,minimo:e.minimo||undefined,resultado:e.res||undefined,fonte:po118Credito(e),itens:its})}catch(_){h=""}
@@ -14236,10 +14293,12 @@ function po118Pe(e){const c=PO118_CASA[e.casa];const r=(e.regra?`Para aprovar: $
   return `<p class="po118-pe">${r}${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">Ver no site do ${c.site} ›</a>`:""}</p>`}
 function po118Corpo(l,i){const e=l[i];return po118Grafico(e)+po118Pe(e)}
 function po118MatHTML(p){const l=po118Da(p);if(!l||!l.length)return "";const i=l.length-1;if(po118DaRodada(p,l[i]))return "";
-  const sw=l.length>1?`<div class="po118-sw" role="group" aria-label="Escolher a votação">${l.map((e,k)=>`<button type="button" data-po118t="${k}" aria-pressed="${k===i}">${esc(po118Rotulo(e,k))}</button>`).join("")}</div>`:"";
+  /* 19/11 tarde: rótulos repetidos ("Substitutivo" e "Substitutivo") ganham a ordem; se o registro oficial não diz o que mudou, a tela diz isso */
+  const rs=po118Rotulos(l),iguais=l.length>1&&new Set(l.map((e,k)=>po118Rotulo(e,k))).size===1;
+  const sw=l.length>1?`<div class="po118-sw" role="group" aria-label="Escolher a votação">${l.map((e,k)=>`<button type="button" data-po118t="${k}" aria-pressed="${k===i}">${esc(rs[k])}</button>`).join("")}</div>${iguais?`<p class="po118-ig">${esc(`${PO118_CASA[l[0].casa].n} fez ${l.length} votações ${l[0].prop?"do "+l[0].prop:"desta proposta"} no mesmo dia. O registro oficial não diz o que cada uma decidiu.`)}</p>`:""}`:"";
   return `<section class="mat-vis po118" data-po118="${esc(p.id)}" aria-label="Placar oficial"><div class="po118-cab"><span class="po118-k"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18a8 8 0 0 1 16 0"/><path d="M12 18l4-5"/></svg>Placar oficial</span><span class="po118-auto">atualizado sozinho</span></div>${sw}<div class="po118-g" aria-live="polite">${po118Corpo(l,i)}</div></section>`}
 function po118LinhaHTML(p){const l=po118Da(p);if(!l||!l.length)return "";const e=l[l.length-1];if(Date.now()-e.t>PO118_FEED_H*3600e3)return "";const c=PO118_CASA[e.casa];
-  const num=e.modo==="nominal"?`${e.sim} a ${e.nao}`:e.modo==="simbolica"?"votação simbólica":"";
+  const num=(l.length>1&&!e.turno?`${l.length}ª votação, `:"")+(e.modo==="nominal"?`${e.sim} a ${e.nao}`:e.modo==="simbolica"?"votação simbólica":"");/* 19/11 tarde: com mais de uma votação, diz qual é */
   const al=`Placar oficial: ${c.n} ${po118Verbo(e)}${e.turno?` em ${e.turno} turno`:""}${num?", "+num:""}. Abrir a matéria`;
   return `<button type="button" class="po118-ln" data-capmat="${esc(p.id)}" aria-label="${esc(al)}"><i class="po118-ln-${e.res==="rejeitado"?"no":e.res?"ok":"x"}" aria-hidden="true"></i><b>${esc(c.n)} ${po118Verbo(e)}</b>${num?`<span class="po118-sep" aria-hidden="true"> · </span><span class="po118-n">${esc(num)}</span>`:""}${e.turno?`<span class="po118-sep" aria-hidden="true"> · </span><span class="po118-tu">${esc(e.turno)} turno</span>`:""}<span class="po118-ir" aria-hidden="true"> ›</span></button>`}
 
@@ -17926,12 +17985,12 @@ function bu154Trecho(s,ts){s=String(s||"").replace(/\s+/g," ");const M=bu154Mapa
   return (a>0?"…":"")+bu154Marca(s.slice(a,fim),ts)+(fim<s.length?"…":"")}
 
 /* ===== 2. pontuação por campo ===== */
-const BU154_P={T:10,A:7,S:3,C:1};
+const BU154_P={T:10,A:7,S:3,C:1,H:1};/* H (19/11 tarde): manchetes antigas da cobertura, peso de corpo */
 function bu154Pontos(ts,f,frase){/* f: {T,A,S,C} textos já juntados; devolve null se algum termo não casa em nenhum campo */
   const N={};Object.keys(f).forEach(k=>N[k]=bu154N(f[k]));let pt=0,onde={};
-  for(const t of ts){let mx=0,k0="";for(const k of ["T","A","S","C"]){if(N[k]&&bu154Casa(t,N[k])){if(BU154_P[k]>mx){mx=BU154_P[k];k0=k}}}if(!mx)return null;pt+=mx;onde[k0]=1}
+  for(const t of ts){let mx=0,k0="";for(const k of ["T","A","S","C","H"]){if(N[k]&&bu154Casa(t,N[k])){if(BU154_P[k]>mx){mx=BU154_P[k];k0=k}}}if(!mx)return null;pt+=mx;onde[k0]=1}
   if(frase&&frase.length>=4&&((N.T||"").indexOf(frase)>=0||(N.A||"").indexOf(frase)>=0))pt+=4;
-  return {pt,soCorpo:!onde.T&&!onde.A,onde}}
+  return {pt,soCorpo:!onde.T&&!onde.A,soH:!!onde.H&&!onde.T&&!onde.A&&!onde.S&&!onde.C,onde}}
 const bu154J=a=>a.filter(x=>typeof x==="string"&&x).join(" · ");
 function bu154Hash(p){const h=p&&p.hashtags;return Array.isArray(h)?h.filter(x=>typeof x==="string").join(" "):""}
 function bu154Hora(iso){const t=Date.parse(iso||"");return isNaN(t)?0:t}
@@ -17940,10 +17999,15 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
   const R={ts,cob:[],ent:[],ag:[],not:[],pes:[],posts:[],cols:[]};const L=lente();
   /* notícias da edição */
   (FEED.pautas||[]).forEach(p=>{if(!p||!p.id)return;const n=p.neutro||{};const v=versao(p,L)||{};
-    const f={T:bu154J([n.titulo,v.titulo]),A:bu154J([p.tema,p.tag,p.subtema,bu154Hash(p)]),S:bu154J([p.subtitulo,...(Array.isArray(p.titulos)?p.titulos.map(x=>x&&x.titulo):[])]),
-      C:bu154J([n.texto,p.contexto,p.por_que,p.proximo,p.o_que_muda,...(Array.isArray(p.essencial)?p.essencial:[])])};
+    const tit0=n.titulo||v.titulo||"",ants=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo&&x.titulo!==tit0&&x.titulo!==n.titulo&&x.titulo!==v.titulo);
+    const f={T:bu154J([n.titulo,v.titulo]),A:bu154J([p.tema,p.tag,p.subtema,bu154Hash(p)]),S:p.subtitulo||"",
+      C:bu154J([n.texto,p.contexto,p.por_que,p.proximo,p.o_que_muda,...(Array.isArray(p.essencial)?p.essencial:[])]),H:ants.map(x=>x.titulo).join(" · ")};
     const r=bu154Pontos(ts,f,frase);if(!r)return;
-    R.not.push({k:"p",id:p.id,pt:r.pt+.5,h:bu154Hora(ultimaAtualizacao(p)||p.hora),t:n.titulo||v.titulo||"",tr:r.soCorpo?bu154Trecho(bu154J([p.subtitulo,f.C]),ts):"",/* 19/11: sem os títulos antigos colados (valores velhos) */
+    /* 19/11 tarde: só bateu numa manchete antiga: diz que é antiga e de quando (sem colar várias, com valores velhos) */
+    let tr=r.soH?"":r.soCorpo?bu154Trecho(bu154J([p.subtitulo,f.C]),ts):"";
+    if(r.soH){const a=ants.slice().reverse().find(x=>ts.every(t=>bu154Casa(t,bu154N(x.titulo))))||ants.slice().reverse().find(x=>ts.some(t=>bu154Casa(t,bu154N(x.titulo))));
+      if(a){const d=a.hora?new Date(a.hora):null;tr=`<span class="bu154-ant">Manchete anterior${d&&!isNaN(d)?" · "+esc(d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",timeZone:"America/Sao_Paulo"})):""}:</span> `+bu154Marca(a.titulo,ts)}}
+    R.not.push({k:"p",id:p.id,pt:r.pt+.5-(r.soH?2:0),h:bu154Hora(ultimaAtualizacao(p)||p.hora),t:tit0,tr,/* 19/11: sem os títulos antigos colados (valores velhos) */
       m:bu154J([secNome(secOf(p)),p.subtema,"esta edição"])});
     /* cartão da cobertura: o nome da cobertura (tema) bate com tudo o que foi digitado */
     const tm=temaDe(p);if(tm&&typeof cobTemPagina==="function"&&cobTemPagina(p)&&ts.every(t=>bu154Casa(t,bu154N(tm))))R.cob.push({p,pt:r.pt})});
@@ -17952,7 +18016,7 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
     R.not.push({k:"b",url:b.url,pt:r.pt-1,h:bu154Hora(b.hora),t:b.titulo,m:bu154J([secNome(b.secao||"politica"),"nota de "+nomeFonte(b.fonte)+" · abre o site ↗"])})});
   /* coberturas anteriores */
   (Array.isArray(FEED.dormentes)?FEED.dormentes:[]).forEach(d=>{if(!d||!d.id||pautaById(d.id))return;
-    const r=bu154Pontos(ts,{T:d.titulo,A:bu154J([d.tema,d.tag,d.subtema,bu154Hash(d)]),S:(Array.isArray(d.titulos)?d.titulos.map(x=>x&&x.titulo):[]).filter(Boolean).join(" · "),C:d.resumo},frase);if(!r)return;
+    const r=bu154Pontos(ts,{T:d.titulo,A:bu154J([d.tema,d.tag,d.subtema,bu154Hash(d)]),H:(Array.isArray(d.titulos)?d.titulos.map(x=>x&&x.titulo):[]).filter(Boolean).join(" · "),C:d.resumo},frase);if(!r)return;
     R.not.push({k:"d",id:d.id,pt:r.pt-.5,h:bu154Hora(d.ultima),t:d.titulo,tr:r.soCorpo?bu154Trecho(d.resumo,ts):"",m:bu154J([secNome(d.secao||"politica"),"cobertura anterior",cobSP(d.ultima)])});
     const tm=d.tema||d.tag;if(tm&&ts.every(t=>bu154Casa(t,bu154N(tm)))&&R.cob.length<3)R.cob.push({d,pt:r.pt-1})});
   /* guardadas que saíram da edição */
@@ -17981,7 +18045,7 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
 
 /* ===== 3. desenho dos resultados ===== */
 function bu154CobCard(o){if(o.d){const d=o.d,tm=d.tema||d.tag,seg=!!(PREF.seguindo||{})[norm(tm)];
-    return `<div class="bu154-card"><button type="button" class="bu154-cb" data-dorm="${esc(d.id)}"><small>Cobertura anterior</small><b>${esc(tm)}</b><span>${esc(bu154J([d.inicio?"de "+cobSP(d.inicio)+" a "+cobSP(d.ultima):cobSP(d.ultima),"fora da edição"]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154dseg="${esc(d.id)}" aria-pressed="${seg}">${seg?"Seguindo":"Seguir"}</button></div>`}
+    return `<div class="bu154-card"><button type="button" class="bu154-cb" data-dorm="${esc(d.id)}"><small>Cobertura anterior</small><b>${esc(tm)}</b><span>${esc(bu154J([d.inicio?"de "+cobSP(d.inicio)+" a "+cobSP(d.ultima):cobSP(d.ultima),"fora da edição"]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154dseg="${esc(d.id)}" aria-pressed="${seg}" title="Avisamos se a cobertura voltar">${seg?"Avisaremos":"Avisar se voltar"}</button></div>`}
   const p=o.p,tm=temaDe(p),seg=seguido(p),nt=(Array.isArray(p.titulos)?p.titulos.length:0),u=ultimaAtualizacao(p)||p.hora;
   return `<div class="bu154-card"><button type="button" class="bu154-cb" data-cobpag="${esc(p.id)}"><small>Cobertura${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</small><b>${esc(tm)}</b><span>${esc(bu154J([nt>1?nt+" manchetes":"",p.inicio?"desde "+cobSP(p.inicio):"",u?"atualizada "+quando(u):""]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154seg="${esc(p.id)}" aria-pressed="${seg}">${seg?"Seguindo":"Seguir"}</button></div>`}
 function bu154EntCard(o){const tx=String(o.e.texto||"");const c=tx.length>150?tx.slice(0,tx.lastIndexOf(" ",150))+"…":tx;
@@ -17992,13 +18056,18 @@ function bu154Item(r,ts){const b=`<b>${bu154Marca(r.t,ts)}</b>${r.tr?`<em class=
   if(r.k==="e")return `<li><button type="button" data-explica="${esc(r.id)}">${b}</button></li>`;
   return `<li><button type="button" data-busca="${esc(r.id)}">${b}</button></li>`}
 function bu154Html(R,q){const ts=R.ts;let h="";
-  if(R.cob.length||R.ent.length)h+=`<div class="bu154-cards">${R.cob.slice(0,2).map(bu154CobCard).join("")}${R.ent.slice(0,2).map(bu154EntCard).join("")}</div>`;
-  if(R.ag.length)h+=`<h3 class="bu154-h">Agora</h3><ul class="bu154-ag">${R.ag.map(o=>`<li><button type="button" data-bu154ag="${o.i}"><span class="bu154-selo">${o.x.pid?"Agora · na edição":"Agora · ainda em apuração"}</span><b>${bu154Marca(o.x.t,ts)}</b><span>${esc(quando(new Date(o.x.h).toISOString()))}</span></button></li>`).join("")}</ul>`;
+  /* 19/11 tarde: cobertura encerrada não fica acima das notícias de hoje: vai para o fim, em "Coberturas anteriores" */
+  const vivas=R.cob.filter(o=>o.p),ants=R.cob.filter(o=>o.d);
+  if(vivas.length||R.ent.length)h+=`<div class="bu154-cards">${vivas.slice(0,2).map(bu154CobCard).join("")}${R.ent.slice(0,2).map(bu154EntCard).join("")}</div>`;
+  /* "Agora": o rótulo uma vez só, no cabeçalho; nos itens, só o que é da edição ganha selo */
+  if(R.ag.length){const tudoApura=R.ag.every(o=>!o.x.pid);
+    h+=`<h3 class="bu154-h">Agora${tudoApura?` <small class="bu154-hs">ainda em apuração</small>`:""}</h3><ul class="bu154-ag">${R.ag.map(o=>`<li><button type="button" data-bu154ag="${o.i}">${!tudoApura?`<span class="bu154-selo">${o.x.pid?"Na edição":"Ainda em apuração"}</span>`:""}<b>${bu154Marca(o.x.t,ts)}</b><span>${esc(quando(new Date(o.x.h).toISOString()))}</span></button></li>`).join("")}</ul>`}
   const pes=R.pes.length?`<h3 class="bu154-h">Pessoas</h3><ul class="amgl bu154-pe">${R.pes.slice(0,6).map(o=>`<li><button type="button" class="amg-r" data-bu154pf="${esc(o.u)}">${avatar(o.u)}<span class="amg-n"><b>${bu154Marca(o.nm,ts)}</b><span>${esc(o.d)}</span></span><i aria-hidden="true">›</i></button></li>`).join("")}</ul>`:"";
   const temNoticiaForte=R.not.some(r=>r.pt>=BU154_P.A*ts.length);
   if(pes&&!temNoticiaForte)h+=pes;
   if(R.not.length)h+=`${h?`<h3 class="bu154-h">Notícias</h3>`:""}<ul class="sres">${R.not.slice(0,40).map(r=>bu154Item(r,ts)).join("")}</ul>`;
   if(pes&&temNoticiaForte)h+=pes;
+  if(ants.length)h+=`<h3 class="bu154-h">Coberturas anteriores</h3><div class="bu154-cards bu154-ants">${ants.slice(0,2).map(bu154CobCard).join("")}</div>`;
   if(R.cols.length)h+=`<h3 class="bu154-h">Colunas</h3><ul class="sres bu154-po">${R.cols.slice(0,5).map(o=>`<li><button type="button" data-cs123ler="${esc(o.x.id)}"><b>${bu154Marca(o.c.tit,ts)}</b>${o.tr?`<em class="trecho">${o.tr}</em>`:o.c.linha?`<em class="trecho">${esc(o.c.linha)}</em>`:""}<span>${esc(bu154J(["Coluna de "+(o.x.autor===S.uid?"você":nomeDe(o.x.autor)),quando(new Date(+o.x.at||0).toISOString())]))}</span></button></li>`).join("")}</ul>`;
   if(R.posts.length)h+=`<h3 class="bu154-h">Posts</h3><ul class="sres bu154-po">${R.posts.slice(0,5).map(o=>`<li><button type="button" data-bu154post="${esc(o.x.id)}"><em class="trecho">${bu154Trecho(o.x.texto,ts)||esc(String(o.x.texto).slice(0,140))}</em><span>${esc(bu154J(["Post de "+(o.x.autor===S.uid?"você":nomeDe(o.x.autor)),quando(new Date(+o.x.at||0).toISOString())]))}</span></button></li>`).join("")}</ul>`;
   return h}
@@ -18093,7 +18162,7 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="pq")bu154AmgVa
 /* 19/11: ao fechar uma folha por cima da busca (ex.: seguir uma cobertura), os botões Seguir dos cartões de cobertura
    mostram o estado novo (antes continuavam dizendo "Seguir" depois de seguir); só os botões, sem redesenhar a busca */
 function bu154SegAtualiza(){try{document.querySelectorAll("#bvres [data-bu154seg]").forEach(b=>{const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!!seguido(p);b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"});
-  document.querySelectorAll("#bvres [data-bu154dseg]").forEach(b=>{const d=(FEED.dormentes||[]).find(x=>x&&x.id===b.dataset.bu154dseg);if(!d)return;const on=!!(PREF.seguindo||{})[norm(d.tema||d.tag)];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"})}catch(e){}}
+  document.querySelectorAll("#bvres [data-bu154dseg]").forEach(b=>{const d=(FEED.dormentes||[]).find(x=>x&&x.id===b.dataset.bu154dseg);if(!d)return;const on=!!(PREF.seguindo||{})[norm(d.tema||d.tag)];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Avisaremos":"Avisar se voltar"})}catch(e){}}
 (function(){let ab=false;const vig=()=>{const L=document.getElementById("layer");if(!L)return setTimeout(vig,500);
   new MutationObserver(()=>{const tem=!!L.innerHTML;if(ab&&!tem&&typeof VIEW!=="undefined"&&VIEW==="busca")bu154SegAtualiza();ab=tem}).observe(L,{childList:true})};vig()})();
 /* ---------- 155: criar, achados do testador (15/11) ----------
@@ -18569,7 +18638,7 @@ function mt158Lista(p){const L=[],por={};const add=(k,cit)=>{if(!k)return;const 
   (p.enquadramentos||[]).forEach(e=>{const v=add(e.fonte);if(v&&e.descricao&&!v.enq.includes(e.descricao))v.enq.push(e.descricao)});
   mt158Citados((p.checagem||{}).texto).forEach(id=>{if(!por[id]){const k=Object.keys((FEED&&FEED.fontes)||{}).find(x=>mt158Id(x)===id)||(MT158_VEIC[id]?MT158_VEIC[id][0]:id);add(k,true)}});
   return L}
-espectroHTML=function(p){const vs=mt158Lista({fontes:p.fontes||[]}).map(v=>mt158Esp(v.k)).filter(Boolean);if(!vs.length)return "";
+espectroHTML=function(p){/* 19/11 tarde: a mesma lista de "Noticiaram" (fontes, links, enquadramentos, citados), para a conta bater */const vs=mt158Lista(p).map(v=>mt158Esp(v.k)).filter(Boolean);if(!vs.length)return "";
   const c={};vs.forEach(e=>c[e]=(c[e]||0)+1);const ord=["direita","centro","publica","esquerda"].filter(k=>c[k]);
   return `<div class="spec"><span class="lbl">Quem cobriu</span><div class="bar">${ord.map(k=>`<i style="width:${(100*c[k]/vs.length).toFixed(1)}%;background:${ESPECTRO_COR[k]}"></i>`).join("")}</div><div class="lg">${ord.map(k=>`<span><i style="background:${ESPECTRO_COR[k]}"></i>${ESPECTRO_NOME[k]}: ${c[k]}</span>`).join("")}</div><p class="hint">Classificação aproximada do Prumo, pela linha editorial predominante de cada veículo.</p></div>`};
 
@@ -18809,13 +18878,13 @@ function co160LimpaCod(c){return String(c||"").trim().toUpperCase().replace(/[^A
 async function co160Convite(cod){cod=co160LimpaCod(cod);if(!cod)return {vazio:true};if(CO160.cv[cod])return CO160.cv[cod];
   const r=await co160Rpc("convite_info",{p_codigo:cod});if(r.sem||r.erro)return {sem:true};const d=r.data||{};const o={valido:!!d.valido,de:String(d.de||"").slice(0,40),motivo:d.motivo||"",fundador:!!d.fundador};CO160.cv[cod]=o;return o}
 function co160CvTexto(o){if(!o||o.sem||o.vazio)return null;if(o.valido)return o.fundador?"":(o.de?`Convite de <b>${esc(o.de)}</b>: está valendo.`:"Convite válido.");
-  return o.motivo==="usado"?"Este convite já foi usado. Peça outro a quem te convidou.":o.motivo==="expirado"?"Este convite expirou (vale 7 dias). Peça outro a quem te convidou.":"Este convite não existe ou não vale mais. Confira o código ou peça outro a quem te convidou."}
+  return o.motivo==="usado"?"Este convite já foi usado. Peça outro a quem te convidou.":o.motivo==="expirado"?"Este convite expirou (vale 7 dias). Peça outro a quem te convidou.":"Não achamos este convite. Confira o link ou peça outro a quem te convidou. Enquanto isso, dá para ler tudo sem conta."}
 async function co160ConfereCampo(){const i=$("#lcod");if(!i)return;const cod=co160LimpaCod(i.value),st=$("#co160cvst");if(!st)return;
   if(!cod){st.hidden=true;st.className="co160-cvst";return}const o=await co160Convite(cod);if(!$("#lcod")||co160LimpaCod($("#lcod").value)!==cod)return;
   const t=co160CvTexto(o);if(t==null||t===""){st.hidden=true;return}st.hidden=false;st.className="co160-cvst "+(o.valido?"ok":"no");st.innerHTML=t;
   const bv=$("#layer .co160-bv b");if(bv&&o.valido&&o.de)bv.textContent=o.de+" te convidou para o Prumo";
   /* 19/11: convite que não vale: o quadro de cima diz isso (não "Você recebeu um convite") e Criar conta só volta com um código válido */
-  try{const box=$("#layer .co160-bv");if(box){box.classList.toggle("co160-inv",!o.valido);if(!o.valido){box.querySelector("b").textContent="Este convite não vale mais";const p=box.querySelector("p");if(p)p.textContent="Peça um novo a quem te mandou o link. Enquanto isso, dá para ler tudo sem conta."}}}catch(e){}}
+  try{const box=$("#layer .co160-bv");if(box){box.classList.toggle("co160-inv",!o.valido);if(!o.valido){/* 19/11 tarde: um aviso só (o do campo); a caixa do topo some */box.hidden=true}else box.hidden=false}}catch(e){}}
 {const _cc160=criarConta;criarConta=async function(){const i=$("#lcod");const cod=i?co160LimpaCod(i.value):"";
   if(cod&&$("#lnome")&&$("#lnome").value.trim()){const b=$("#lform [type=submit]");if(b)b.disabled=true;let o;try{o=await co160Convite(cod)}finally{if(b)b.disabled=false}
     if(o&&!o.sem&&!o.vazio&&!o.valido){const st=$("#co160cvst");if(st){st.hidden=false;st.className="co160-cvst no";st.innerHTML=co160CvTexto(o)}mostraErro("#lerro","A conta não foi criada: o convite não vale. "+(o.motivo==="usado"||o.motivo==="expirado"?"Peça outro a quem te convidou.":"Confira o código."));try{i.focus()}catch(e){}return}}
@@ -18825,7 +18894,9 @@ async function co160ConfereCampo(){const i=$("#lcod");if(!i)return;const cod=co1
 PC106_TX.post_link="Esse post é de alguém do Prumo e só aparece para quem tem conta. Entre na sua conta ou, se ainda não tem, peça um convite a quem te mandou o link.";
 async function co160PostPrevia(id){const box=$("#layer .co160-pp");if(!box||!id)return;const r=await co160Rpc("post_previa",{p_id:id});const b=$("#layer .co160-pp");if(!b)return;
   if(r.sem||r.erro||!r.data){b.remove();return}const d=r.data;
-  if(!d.existe){b.innerHTML=`<b>Este post não está mais disponível.</b><span>Pode ter sido apagado ou arquivado por quem publicou.</span>`;b.classList.add("no");const p=$("#layer .pc106");if(p)p.textContent="Dá para ler as notícias do Prumo sem conta.";return}
+  if(!d.existe){b.innerHTML=`<b>Este post não está mais disponível.</b><span>Pode ter sido apagado ou arquivado por quem publicou.</span>`;b.classList.add("no");const p=$("#layer .pc106");if(p)p.textContent="Dá para ler as notícias do Prumo sem conta.";
+    /* 19/11 tarde: post que não existe não pede para entrar: só o aviso e "Ver as notícias de hoje" */
+    try{const sh=b.closest(".sheet")||$("#layer .sheet");if(sh){sh.classList.add("ct210-pnx");b.insertAdjacentHTML("beforeend",`<button type="button" class="btn ct210-hoje" data-ct210hoje>Ver as notícias de hoje</button>`)}}catch(_){}return}
   const nt=d.pid&&typeof pautaById==="function"&&pautaById(d.pid);const tit=nt?versao(nt,lente()).titulo:"";
   b.innerHTML=`<b>Post de ${esc(String(d.autor||"alguém do Prumo"))}</b>${nt?`<span>sobre a notícia:</span><button type="button" class="co160-ppn" data-co160lern="${esc(nt.id)}">${esc(tit)}<i aria-hidden="true">›</i></button>`:`<span>Para ver o que ${esc(String(d.autor||"a pessoa"))} escreveu, entre com a sua conta.</span>`}`}
 
@@ -19251,7 +19322,7 @@ window.addEventListener("click",e=>{const t=e.target&&e.target.closest&&e.target
 /* ---- topo do cartão: "seguindo" nunca cortado ---- */
 function fd167Seguindo(el){try{const st=el.querySelector(":scope>.ph .fd156-st");if(!st||st.dataset.fd167)return;st.dataset.fd167="1";
   const w=document.createTreeWalker(st,NodeFilter.SHOW_TEXT);let n,achou=false;while(n=w.nextNode()){if(/ · seguindo\s*$/.test(n.nodeValue)){n.nodeValue=n.nodeValue.replace(/ · seguindo\s*$/,"");achou=true;break}}
-  if(!achou)return;const s=document.createElement("span");s.className="fd167-seg";s.innerHTML=`${st.textContent.trim()?" · ":""}<b aria-hidden="true">✓</b> seguindo`;st.after(s)}catch(e){}}
+  if(!achou)return;const s=document.createElement("span");s.className="fd167-seg";s.innerHTML=`${st.textContent.trim()?" · ":""}<b aria-hidden="true">✓</b><span class="fd167-segt"> seguindo</span>`;s.title="Você segue esta cobertura";st.after(s)}catch(e){}}
 {const _wt167=wireTracks;wireTracks=function(root){const r=_wt167.apply(this,arguments);try{if(root){const ls=root.matches&&root.matches(".post.vn-cn")?[root]:[...root.querySelectorAll(".post.vn-cn")];ls.forEach(fd167Seguindo)}fd167Curtir(root)}catch(e){}return r}}
 
 /* ---- "curtir" no lugar de "gostar" (sem conta e no nome do botão) ---- */
@@ -19537,7 +19608,8 @@ if(typeof aplicarFonte==="function"){const _af172=aplicarFonte;aplicarFonte=func
 
 /* ===== utilidades ===== */
 /* hora (ms) da última novidade de verdade: a própria notícia e as atualizações (a troca de título da rodada não conta) */
-function cm168Ult(p){let t=tms(p&&p.hora);(Array.isArray(p&&p.atualizacoes)?p.atualizacoes:[]).forEach(u=>{const x=tms(u&&u.hora);if(x>t)t=x});return t}
+function cm168Ult(p){let t=tms(p&&p.hora);(Array.isArray(p&&p.atualizacoes)?p.atualizacoes:[]).forEach(u=>{const x=tms(u&&u.hora);if(x>t)t=x});
+  /* 19/11 tarde: título reescrito também é novidade */(Array.isArray(p&&p.titulos)?p.titulos:[]).forEach(u=>{const x=tms(u&&u.hora);if(x>t)t=x});return t}
 var CM168_SEM=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
 /* "hoje, 6h52" / "ontem, 22h28" / "sex (13)" */
 function cm168Quando(ms){if(!ms)return "";const iso=new Date(ms).toISOString(),d=dataSP(iso),hj=hojeSP(),h=hhmm(iso).replace(/^0/,"");
@@ -21811,7 +21883,10 @@ function ac208Itens(){const d=typeof NOVID_AG!=="undefined"?NOVID_AG:null;if(!d|
     const vs=[...new Set(ms.map(m=>m.veiculo).filter(Boolean))];
     out.push({t,h,nf,sec:n.secao||"",ms:ms.sort((a,b)=>agHoraMs(b.hora)-agHoraMs(a.hora)),vs,peso:nf*2+(["politica","economia"].includes(n.secao)?2:0)})});
   return out.sort((a,b)=>b.h-a.h||b.peso-a.peso).slice(0,AC208_MAX)}
-function ac208Vs(vs){if(!vs.length)return "";const l=vs.slice(0,3);return "Noticiado por "+(l.length>1?l.slice(0,-1).join(", ")+" e "+l[l.length-1]:l[0])+(vs.length>3?` e mais ${vs.length-3}`:"")}
+function ac208Vs(vs){if(!vs.length)return "";const l=vs.slice(0,3);
+  /* 19/11 tarde: com mais de 3, um "e" só ("A, B, C e mais 1"), e o "mais 1" não fica sozinho na linha */
+  if(vs.length>3)return "Noticiado por "+l.join(", ")+"\u00a0e\u00a0mais\u00a0"+(vs.length-3);
+  return "Noticiado por "+(l.length>1?l.slice(0,-1).join(", ")+" e "+l[l.length-1]:l[0])}
 function ac208HTML(onde){let l=ac208Itens();
   /* 19/11 (testador): na Capa, logo abaixo da manchete, futebol só com 3 ou mais veículos; no Feed entra tudo */
   if(onde==="capa")l=l.filter(x=>x.sec!=="esportes"||x.nf>=3);if(!l.length)return "";AC208_L[onde]=l;
@@ -21846,6 +21921,150 @@ addEventListener("offline",()=>sr209Faixa(true));
 addEventListener("online",()=>sr209Faixa(false));
 try{if(navigator.onLine===false)setTimeout(()=>sr209Faixa(true),0)}catch(e){}
 try{new MutationObserver(()=>{if(document.body.classList.contains("sr209-off"))sr209Mais()}).observe(document.getElementById("posts")||document.body,{childList:true})}catch(e){}
+/* ---------- 210: correções da tarde de 19/11 (achados do testador: navegação, capa, matéria, textos). Prefixo ct210. ---------- */
+var CT210={at:null,alvo:null};
+
+/* ===== 1. Atividade: abrir um post ou um perfil e voltar volta para a Atividade (como a cobertura) ===== */
+{const _aa=atAcao;atAcao=function(x){try{if($("#layer .pfv-at")&&x&&!(x.acao==="cob"||x.acao==="tl142"||x.acao==="debate"))CT210.at={t:Date.now()}}catch(e){}return _aa.apply(this,arguments)}}
+(function(){const vig=()=>{const L=document.getElementById("layer");if(!L)return setTimeout(vig,400);
+  new MutationObserver(()=>{try{const el=L.firstElementChild;
+    if(CT210.at&&el&&!L.querySelector(".pfv-at")){if(Date.now()-CT210.at.t<2500){CT210.alvo=el;CT210.at=null}else CT210.at=null}
+    if(CT210.alvo&&!CT210.alvo.isConnected&&el&&!CT210.at)CT210.alvo=null}catch(e){}}).observe(L,{childList:true})};vig()})();
+{const _cl=closeLayer;closeLayer=function(fromPop){
+  /* voltar do celular com "Local e pessoas na foto" aberto: fecha só a folha (como o "Pronto") */
+  try{if(fromPop===true&&!($("#layer2")||{}).innerHTML){const d=$("#layer > .cp152 .fc164-dsh");if(d){const ok=d.querySelector("[data-fc164detok]");if(ok)ok.click();else d.remove();if(pushH())HST++;return}}}catch(e){}
+  const alvo=CT210.alvo,L=$("#layer"),era=L&&L.firstElementChild;const r=_cl.apply(this,arguments);
+  try{if(alvo&&era===alvo&&L&&!L.innerHTML&&!closeLayer._ok){CT210.alvo=null;setTimeout(()=>{try{if(!$("#layer").innerHTML&&typeof abrirAtividade==="function")abrirAtividade()}catch(e){}},0)}
+    else if(alvo&&!alvo.isConnected)CT210.alvo=null}catch(e){}return r}}
+
+/* ===== 2. link de notícia com o app já aberto (#m=… colado na barra ou tocado num link do Prumo) ===== */
+/* (no Chrome, trocar o # também dispara popstate, que fecha a camada aberta: espera ele passar antes de abrir) */
+addEventListener("hashchange",e=>{/* o endereço novo vem do evento: fechar a matéria anterior já tira o #m= da barra */const h=String((e&&e.newURL)||location.href).replace(/^[^#]*/,""),m=h.match(/^#m=([\w-]{1,80})$/);if(!m)return;const pid=m[1];setTimeout(()=>{try{
+  if(typeof MAT_PID!=="undefined"&&MAT_PID===pid&&$("#layer .mat"))return;
+  /* outra matéria aberta: abre a nova no lugar (como o "Próxima") */
+  if($("#layer .mat")&&!($("#layer2")||{}).innerHTML&&pautaById(pid)){abrirMateria(pid);return}
+  let i=0;while(($("#layer2")&&$("#layer2").innerHTML||$("#layer").innerHTML)&&i++<6){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}
+  if(pautaById(pid)){if(VIEW!=="capa"&&VIEW!=="feed")go("capa");abrirMateria(pid);return}
+  LINK_PID=pid;LINK_T0=Date.now();if(typeof linkTentar==="function")linkTentar()}catch(e){}},180)});
+
+/* ===== 3. link de notícia em rede lenta: até a matéria abrir, "Abrindo a notícia…" no lugar da Capa ===== */
+(function(){try{if(typeof LINK_PID==="undefined"||!LINK_PID||$("#layer .mat"))return;const d=document.createElement("div");d.id="ct210ab";d.className="ct210-ab";d.setAttribute("role","status");
+  d.innerHTML=`<div class="ct210-abi"><span class="ct210-sk ct210-sk1"></span><span class="ct210-sk"></span><span class="ct210-sk ct210-sk2"></span><p>Abrindo a notícia…</p></div>`;document.body.appendChild(d);
+  const t0=Date.now(),iv=setInterval(()=>{if($("#layer .mat")||(!LINK_PID&&Date.now()-t0>400)||Date.now()-t0>20000){clearInterval(iv);d.remove()}},150)}catch(e){}})();
+
+/* ===== 4. depois de comentar uma notícia, a tela para na notícia (com o comentário logo abaixo) ===== */
+cp152Mostra=function(id){let n=0;const tenta=()=>{const el=document.getElementById("p-u:"+id);if(el&&el.getClientRects().length){try{
+    const hd=((document.querySelector(".top")||{}).offsetHeight||56)+8;let alvo=el;
+    if(el.classList.contains("fc107-junto")){const x=typeof pubDe==="function"?pubDe(id):null;const nt=x&&x.pid&&document.getElementById("p-"+x.pid);if(nt&&nt.getClientRects().length)alvo=nt}
+    let top=alvo.getBoundingClientRect().top+scrollY-hd;const fim=el.getBoundingClientRect().bottom+scrollY;
+    if(alvo!==el&&fim-top>innerHeight-90)top=Math.max(top,fim-innerHeight+90);
+    scrollTo({top:Math.max(0,top),behavior:"smooth"});el.classList.add("cp152-novo");setTimeout(()=>el.classList.remove("cp152-novo"),2200)}catch(e){}return}
+  if(++n<12)setTimeout(tenta,250)};setTimeout(tenta,300)};
+
+/* ===== 5. "O que você acha?" do Feed abre a mesma caixa do + (Nova publicação), já com a notícia juntada.
+   O 107 trata o toque (window, captura, para tudo) e chama uso("barra_sugestao") logo antes do cn102Comeca: é por aí que se sabe ===== */
+{const _u=uso;uso=function(k){if(k==="barra_sugestao")CT210.sug=Date.now();return _u.apply(this,arguments)}}
+{const _cc=cn102Comeca;cn102Comeca=function(k,o){try{if(k==="nt"&&o&&o.pid&&CT210.sug&&Date.now()-CT210.sug<1500&&typeof cp152Abre==="function"){CT210.sug=0;
+    if(typeof precisaConta==="function"&&precisaConta())return;cp152Abre({aba:"post",pid:pautaById(o.pid)?o.pid:undefined});if($("#layer > .cp152"))return}}catch(e){}
+  return _cc.apply(this,arguments)}}
+
+/* ===== 6. link de post que não existe: "Ver as notícias de hoje" fecha e fica na Capa ===== */
+window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-ct210hoje]");if(!b)return;e.preventDefault();e.stopPropagation();
+  try{if(typeof VP99_LINK!=="undefined")VP99_LINK=null}catch(_){}closeLayer();setTimeout(()=>{try{go("capa");scrollTo(0,0)}catch(_){}},60)},true);
+
+/* ===== 7. Capa e rodapé do Feed: a hora é a da última coisa que mudou (inclui "Acabou de sair" e "Agora") ===== */
+function ct210UltMud(){let m=Date.parse((FEED&&FEED.atualizado_em)||"");if(!isFinite(m))return NaN;const ag=Date.now()+60e3;
+  try{(typeof ac208Itens==="function"?ac208Itens():[]).forEach(x=>{if(x&&x.h>m&&x.h<=ag)m=x.h})}catch(e){}
+  try{(typeof agoraItens==="function"?agoraItens():[]).forEach(x=>{const h=+(x&&x.h);if(h>m&&h<=ag)m=h})}catch(e){}return m}
+{const _ce=capaEdicao;capaEdicao=function(){const s=_ce.apply(this,arguments);try{const a=Date.parse(FEED.atualizado_em||""),m=ct210UltMud();
+    if(isFinite(a)&&isFinite(m)&&m-a>60e3&&dataSP(new Date(m).toISOString())===dataSP(new Date(a).toISOString())){const p=new Date(m).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":");
+      return s.replace(/^Atualizada às \d{1,2}h\d{2}/,"Atualizada às "+(+p[0])+"h"+p[1])}}catch(e){}return s}}
+function ct210Topo(){try{const e=$("#v-capa .cp-ed");if(!e||!FEED)return;const t=capaEdicao()+(FEED.contagem?" · "+FEED.contagem:"");if(e.textContent!==t)e.textContent=t}catch(e){}}
+{const _aa=ac208Atualiza;ac208Atualiza=function(){const r=_aa.apply(this,arguments);ct210Topo();try{fd167Rodape()}catch(e){}return r}}
+{const _fr=fd167Rodape;fd167Rodape=function(){const r=_fr.apply(this,arguments);try{const p=document.querySelector("#extra .foot p.fd167-at");if(!p)return r;const a=Date.parse(FEED.atualizado_em||""),m=ct210UltMud();
+    if(isFinite(a)&&isFinite(m)&&m-a>60e3){const b=p.querySelector("b");if(b)b.textContent="Atualizado "+diaHora(new Date(m).toISOString())+".";
+      p.innerHTML=p.innerHTML.replace(/, sem novidades\./,".")}}catch(e){}return r}}
+
+/* ===== 8. círculo de uma editoria no topo do Feed: o giro começa pela notícia que o círculo mostra ===== */
+{const _os=openSecStory;openSecStory=function(sec){try{const b=document.querySelector(`#secs [data-sec-story="${CSS.escape(String(sec))}"]`);CT210.pidAbre=b&&b.dataset.ct210pid||null}catch(e){CT210.pidAbre=null}
+  try{return _os.apply(this,arguments)}finally{CT210.pidAbre=null}}}
+{const _is=igSet;igSet=function(sec,pos){const n=_is.apply(this,arguments);try{if(CT210.pidAbre&&pos==="novo"){const k=stPs().findIndex(p=>p&&p.id===CT210.pidAbre&&!p.__vis);if(k>=0)ST.i=k}}catch(e){}return n}}
+
+/* ===== 9. fotos: retrato em pé não vira faixa cortada no rosto; na matéria, retrato pequeno não é esticado ===== */
+function ct210Foto(img){try{const c=img.closest(".paper.foto");if(!c||!img.naturalWidth||img.classList.contains("ct210-fd"))return;const pe=img.naturalHeight>img.naturalWidth*1.05,peq=img.naturalWidth<600;
+  c.classList.toggle("ct210-pe",pe);
+  if(c.closest(".mat-arte")&&(pe||peq)&&!c.querySelector(".ct210-fd")){c.classList.add("ct210-ret");const f=img.cloneNode(false);f.className="ct210-fd";f.removeAttribute("onload");f.removeAttribute("onerror");f.alt="";f.setAttribute("aria-hidden","true");c.insertBefore(f,c.firstChild)}}catch(e){}}
+document.addEventListener("load",e=>{const t=e.target;if(t&&t.tagName==="IMG")ct210Foto(t)},true);
+(function(){const vig=()=>{const L=document.getElementById("layer");if(!L)return setTimeout(vig,400);new MutationObserver(()=>{L.querySelectorAll(".mat-arte .paper.foto img:not(.ct210-fd)").forEach(i=>{if(i.complete)ct210Foto(i)})}).observe(L,{childList:true,subtree:true})};vig()})();
+
+/* ===== 10. sem internet na matéria: quando a rede volta, a foto que caiu no desenho volta ===== */
+addEventListener("online",()=>{setTimeout(()=>{try{const a=$("#layer .mat .mat-arte");if(!a||typeof MAT_PID==="undefined"||!MAT_PID)return;if(a.querySelector("img.ok"))return;const p=pautaById(MAT_PID);if(!p||!fotoDe(p))return;
+  a.innerHTML=capaArte(p,"art",true)}catch(e){}},800)});
+
+/* ===== 11. "Aa" da matéria: o quadro fecha ao rolar o texto ou ao tocar fora (a escolha já fica salva) ===== */
+function ct210AaFecha(){const ab=$("#layer .mat-aap");if(!ab)return;ab.remove();$("#layer [data-mataa]")?.setAttribute("aria-expanded","false")}
+document.addEventListener("scroll",e=>{try{const ab=$("#layer .mat-aap");if(!ab)return;const t=e.target;if(t&&t.nodeType===1&&ab.contains(t))return;
+  const sc=t&&t.nodeType===1?t:document.scrollingElement;const y=sc?sc.scrollTop:0;if(ab.dataset.ct210y==null){ab.dataset.ct210y=y;return}if(Math.abs(y-(+ab.dataset.ct210y))>48)ct210AaFecha()}catch(_){}},true);
+document.addEventListener("click",e=>{try{const ab=$("#layer .mat-aap");if(!ab)return;const t=e.target;if(!t||!t.closest||ab.contains(t)||t.closest("[data-mataa]"))return;ct210AaFecha()}catch(_){}},true);
+
+/* ===== 12. rede lenta, primeira visita: a manchete já estava na tela havia mais de 2 s (o 121 desenhou cedo) quando o app ficou pronto:
+   quem já está lendo não é interrompido pelo guia em tela cheia; aparece um convite pequeno para ver o guia ===== */
+{const _at=abrirTour;abrirTour=function(nome){try{if(nome===""&&!S.uid&&!CT210.tourSim&&window.__f4&&performance.now()-window.__f4.t>2000&&$("#v-capa .cpi-man")&&!$("#layer").innerHTML){ct210GuiaChip();return}}catch(e){}return _at.apply(this,arguments)}}
+function ct210GuiaChip(){if(document.getElementById("ct210gc"))return;const d=document.createElement("div");d.id="ct210gc";d.className="ct210-gc";d.setAttribute("role","status");
+  d.innerHTML=`<button type="button" class="ct210-gcb" data-ct210gv>Primeira vez aqui? Veja como funciona</button><button type="button" class="ct210-gcx" data-ct210gx aria-label="Fechar">×</button>`;document.body.appendChild(d);
+  setTimeout(()=>{try{d.remove()}catch(e){}},15000)}
+window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
+  if(t.closest("[data-ct210gv]")){e.preventDefault();e.stopPropagation();document.getElementById("ct210gc")?.remove();CT210.tourSim=1;try{const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(_){abrirTour()}finally{CT210.tourSim=0}return}
+  if(t.closest("[data-ct210gx]")){e.preventDefault();e.stopPropagation();document.getElementById("ct210gc")?.remove();try{localStorage.setItem("prumo-tour-visto","1")}catch(_){}}},true);
+
+/* ===== 13. Conversas: mensagem escrita e não enviada aparece na lista como "Rascunho: …" ===== */
+function ct210Rascs(){try{if(!S.uid||THREAD)return;const o=rs108Le();document.querySelectorAll("#v-msgs [data-thread]").forEach(b=>{const t=String(o["dm:"+b.dataset.thread]||"").trim(),pv=b.querySelector(".dm-pv");if(!pv)return;
+  if(t){if(!pv.dataset.ct210)pv.dataset.ct210=pv.textContent;pv.innerHTML=`<em class="ct210-rasc">Rascunho:</em> ${esc(t.replace(/\s+/g," ").slice(0,60))}`}else if(pv.dataset.ct210){pv.textContent=pv.dataset.ct210;delete pv.dataset.ct210}})}catch(e){}}
+{const _rm=renderMsgs;renderMsgs=function(){const r=_rm.apply(this,arguments);ct210Rascs();return r}}
+
+/* ===== 14. Entrar: o aviso do "Esqueci a senha" (ex.: "Falta o @") some assim que o e-mail muda ou ao tocar em Entrar ===== */
+function ct210EsqLimpa(){try{document.querySelectorAll("#layer #lesq").forEach(p=>{if(/^(Falta o @|Escreva o seu e-mail|Confira o e-mail)/.test(p.textContent.trim())){p.textContent="";p.hidden=true}})}catch(e){}}
+document.addEventListener("input",e=>{if(e.target&&e.target.id==="lemail")ct210EsqLimpa()});
+document.addEventListener("submit",e=>{if(e.target&&e.target.id==="lform")ct210EsqLimpa()},true);
+
+/* ===== 15. quadro do dólar: "Alta na seg. (16) +2,17%" ao lado do fechamento de terça vira a variação do mesmo dia do valor ===== */
+{const _nr=nm186Resolver;nm186Resolver=function(f){const n=_nr.apply(this,arguments);try{const x=nm186Mapa(f).dolar,dd=x&&/^\d{4}-\d{2}-(\d{2})/.exec(String(x.data||""));if(!dd||!x.variacao)return n;const dia=+dd[1];
+  (f.pautas||[]).forEach(p=>{const d=p&&p.imagem&&p.imagem.dados;if(!d||!Array.isArray(d.itens))return;const orig=String(((d._m186||{}).valor)||d.valor||"");if(!/\{dolar\}/.test(orig))return;
+    d.itens=d.itens.map(it=>{if(!Array.isArray(it))return it;const m=/^(alta|queda|varia[çc][ãa]o|subiu|caiu|sobe|cai)\b[^()]*\((\d{1,2})\)/i.exec(String(it[0]||""));
+      return m&&+m[2]!==dia?["Variação de "+nm186Valor("dolar","dia",x),String(x.variacao)]:it})})}catch(e){}return n}}
+
+/* ===== 16. Busca em celular estreito (até 360 px): placeholder curto, sem cortar no meio da palavra ===== */
+{const _rv=renderBuscaView;renderBuscaView=function(){const r=_rv.apply(this,arguments);try{const i=$("#bvq");if(i&&innerWidth<=360)i.placeholder="Buscar"}catch(e){}return r}}
+
+/* ===== 17. Perfil escondido: a cópia dos próprios posts fica com outro id fora do Perfil (o id "p-u:…" é só do Feed) ===== */
+function ct210IdsPerfil(){try{const me=document.getElementById("v-me");if(!me)return;const ver=VIEW==="me";
+  me.querySelectorAll(ver?'[id$="~m"]':'[id^="p-u:"]').forEach(el=>{if(ver)el.id=el.id.replace(/~m$/,"");else if(!/~[a-z]$/.test(el.id))el.id=el.id+"~m"})}catch(e){}}
+{const _go=go;go=function(){const r=_go.apply(this,arguments);ct210IdsPerfil();return r}}
+
+/* ===== 18. o app agora é "seguir": os textos que ainda falavam em "amigos" (sem conta, Conversas, convite, Perfil) ===== */
+var CT210_TX=[
+  [/Quer falar com alguém que ainda não é seu amigo no Prumo\?/g,"Quer falar com alguém que você ainda não segue?"],
+  [/^Adicionar amigos$/g,"Procurar pessoas"],
+  [/Perfil › Adicionar amigos/g,"Perfil › Procurar pessoas"],
+  [/vocês já entram como amigos\./g,"vocês já começam seguindo um ao outro."],
+  [/conversar com (os seus |os )?amigos/g,"conversar com quem você segue"],
+  [/(trocar notícias|notícias e mensagens) com os seus amigos/g,"$1 com quem você segue"],
+  [/[Pp]eça o link a um amigo que já usa o Prumo/g,m=>(m[0]==="P"?"P":"p")+"eça o link a alguém que já usa o Prumo"],
+  [/de alguém que não está entre os seus amigos/g,"de alguém que você não segue"],
+  [/só para quem é amigo de /g,"só para quem pode ver os posts de "]];
+function ct210Textos(root){try{if(typeof sg181On==="function"&&!sg181On()&&S.uid)return;const w=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT);let n;
+  while((n=w.nextNode())){const v=n.nodeValue;if(!v||v.indexOf("amig")<0)continue;let t=v;CT210_TX.forEach(([re,s])=>{t=re.source.charAt(0)==="^"?(t.trim().match(re)?t.replace(t.trim(),s):t):t.replace(re,s)});if(t!==v)n.nodeValue=t}
+  (root||document).querySelectorAll&&(root||document).querySelectorAll('input[placeholder*="amigos"]').forEach(i=>{if(/Como seus amigos vão te ver/.test(i.placeholder))i.placeholder="Como as pessoas vão te ver"})}catch(e){}}
+(function(){let ag=0;const roda=()=>{ag=0;["layer","layer2","v-msgs","v-me"].forEach(id=>{const e=document.getElementById(id);if(e)ct210Textos(e)});document.querySelectorAll(".toast").forEach(e=>ct210Textos(e))};
+  new MutationObserver(()=>{if(!ag)ag=requestAnimationFrame(roda)}).observe(document.body,{childList:true,subtree:true});roda()})();
+
+/* ===== 19. apagar comentário: a confirmação fica no lugar do "Apagar", com cara de botão e "Cancelar" ao lado ===== */
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
+  const c=t.closest("[data-ct210canc]");if(c){e.stopPropagation();e.preventDefault();const ap=c.previousElementSibling;if(ap&&ap.matches("[data-apagar]")){ap.classList.remove("conf","ct210-conf");ap.textContent=ap.dataset.ct210tx||"Apagar"}c.remove();return}
+  const ap=t.closest(".sheet [data-apagar]");if(!ap||!ap.isConnected||!ap.classList.contains("conf")||ap.classList.contains("ct210-conf"))return;
+  ap.classList.add("ct210-conf");ap.dataset.ct210tx=ap.dataset.ct210tx||"Apagar";ap.textContent="Apagar mesmo?";
+  ap.insertAdjacentHTML("afterend",`<button type="button" class="c-a ct210-canc" data-ct210canc>Cancelar</button>`);
+  setTimeout(()=>{try{if(ap.isConnected&&ap.classList.contains("ct210-conf")){ap.classList.remove("conf","ct210-conf");ap.textContent=ap.dataset.ct210tx;const n=ap.nextElementSibling;if(n&&n.matches("[data-ct210canc]"))n.remove()}}catch(_){}},6000)});
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários
@@ -21889,7 +22108,7 @@ function closeLayer(fromPop){
     try{if(fromPop===true&&$("#layer > .cp152")&&!$("#layer2")?.innerHTML){
       if(String(CP152.txt||"").trim()||CR155.pid){cr155Guarda();if(Date.now()-CR155.volta>3000){CR155.volta=Date.now();if(pushH())HST++;
         /* 19/11: o voltar não arma mais o "Descartar?" (o aviso diz que o texto fica guardado; descartar é só pelo Cancelar) */
-        toast("Volte de novo para sair. O texto fica guardado.");feito=true}
+        toast((typeof fc164Tem==="function"&&fc164Tem())?"Volte de novo para sair. O texto fica guardado; a foto, não.":"Volte de novo para sair. O texto fica guardado.");feito=true}
         else{clMiolo(fromPop);toast("Seu texto ficou guardado. Toque em + para continuar.");feito=true}}}}catch(e){}
     if(!feito)clMiolo(fromPop);
   }finally{if(eraStory&&b){try{delete b.scrollTo}catch(e){}if(b.scrollTo!==Element.prototype.scrollTo)b.scrollTo=st;

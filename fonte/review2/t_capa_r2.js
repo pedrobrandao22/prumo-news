@@ -101,8 +101,8 @@ const ev = (p, fn, a) => p.evaluate(fn, a);
         const ab = cpAberta(velha); abrirMateria('cm168-velha'); const mt = (document.querySelector('#layer .cm168-velha') || {}).textContent || ''; closeLayer();
         const novaSemData = !mkd(cpItem(nova, { tam: 'li' }));
         FEED.pautas = FEED.pautas.filter(p => !/^cm168-/.test(p.id)); renderCapa();
-        return { iv, inn, dia, esp: 'de ' + cm168Dia(ag - 4 * 864e5), ab: /cm168-velha/.test(ab), mt, novaSemData } });
-      ok(vel.dia === vel.esp && vel.novaSemData, 'notícia de 4 dias: cartão diz "' + vel.esp + '"; a de agora não', JSON.stringify(vel));
+        return { iv, inn, dia, esp: 'Sem novidade desde ' + cm168Dia(ag - 4 * 864e5), ab: /cm168-velha/.test(ab), mt, novaSemData } });
+      ok(vel.dia === vel.esp && vel.novaSemData, 'notícia de 4 dias: cartão diz "' + vel.esp + '" (19/11: frase separada); a de agora não', JSON.stringify(vel));
       ok(vel.iv > vel.inn, 'notícia velha desce na ordem da Capa (não abre a editoria com foto grande)', JSON.stringify(vel));
       ok(vel.ab && /sem novidade desde então/.test(vel.mt), '"Em 30 segundos" e matéria avisam de quando é a notícia', JSON.stringify(vel));
 

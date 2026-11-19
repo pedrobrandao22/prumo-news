@@ -19,7 +19,8 @@
 
 /* ===== utilidades ===== */
 /* hora (ms) da última novidade de verdade: a própria notícia e as atualizações (a troca de título da rodada não conta) */
-function cm168Ult(p){let t=tms(p&&p.hora);(Array.isArray(p&&p.atualizacoes)?p.atualizacoes:[]).forEach(u=>{const x=tms(u&&u.hora);if(x>t)t=x});return t}
+function cm168Ult(p){let t=tms(p&&p.hora);(Array.isArray(p&&p.atualizacoes)?p.atualizacoes:[]).forEach(u=>{const x=tms(u&&u.hora);if(x>t)t=x});
+  /* 19/11 tarde: título reescrito também é novidade */(Array.isArray(p&&p.titulos)?p.titulos:[]).forEach(u=>{const x=tms(u&&u.hora);if(x>t)t=x});return t}
 var CM168_SEM=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
 /* "hoje, 6h52" / "ontem, 22h28" / "sex (13)" */
 function cm168Quando(ms){if(!ms)return "";const iso=new Date(ms).toISOString(),d=dataSP(iso),hj=hojeSP(),h=hhmm(iso).replace(/^0/,"");

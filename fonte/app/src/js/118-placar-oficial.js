@@ -66,6 +66,7 @@ function po118Verbo(e){return e.res==="aprovado"?"aprovou":e.res==="rejeitado"?"
    descrição da votação; sem isso, a hora da votação; só no último caso "1ª votação" */
 function po118Rotulo(e,i){const et=e.etapa||"";if(e.turno)return `${e.turno} turno`+(et&&et!=="Texto-base"?` · ${et}`:"");if(et)return et;
   if(e.exata){const d=new Date(e.t-3*3600e3);return `Votação das ${String(d.getUTCHours()).padStart(2,"0")}h${String(d.getUTCMinutes()).padStart(2,"0")}`}return `${i+1}ª votação`}
+function po118Rotulos(l){const b=l.map((e,k)=>po118Rotulo(e,k)),n={},c={};b.forEach(x=>n[x]=(n[x]||0)+1);return b.map(x=>{if(n[x]<2)return x;c[x]=(c[x]||0)+1;return /ª votação$/.test(x)?x:`${x} · ${c[x]}ª votação`})}
 function po118Grafico(e){const c=PO118_CASA[e.casa],tit=(e.prop||"Votação")+" no "+(e.casa==="senado"?"Senado":"plenário da Câmara")+(e.turno?` · ${e.turno} turno`:"");
   if(e.modo==="nominal"){const its=[{rotulo:"Sim",valor:e.sim},{rotulo:"Não",valor:e.nao}];if(e.abst)its.push({rotulo:"Abstenção",valor:e.abst});
     let h="";try{h=graficoNoticia({tipo:"grafico",forma:"placar_votacao",casa:e.casa,titulo:tit,minimo:e.minimo||undefined,resultado:e.res||undefined,fonte:po118Credito(e),itens:its})}catch(_){h=""}
@@ -77,10 +78,12 @@ function po118Pe(e){const c=PO118_CASA[e.casa];const r=(e.regra?`Para aprovar: $
   return `<p class="po118-pe">${r}${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">Ver no site do ${c.site} ›</a>`:""}</p>`}
 function po118Corpo(l,i){const e=l[i];return po118Grafico(e)+po118Pe(e)}
 function po118MatHTML(p){const l=po118Da(p);if(!l||!l.length)return "";const i=l.length-1;if(po118DaRodada(p,l[i]))return "";
-  const sw=l.length>1?`<div class="po118-sw" role="group" aria-label="Escolher a votação">${l.map((e,k)=>`<button type="button" data-po118t="${k}" aria-pressed="${k===i}">${esc(po118Rotulo(e,k))}</button>`).join("")}</div>`:"";
+  /* 19/11 tarde: rótulos repetidos ("Substitutivo" e "Substitutivo") ganham a ordem; se o registro oficial não diz o que mudou, a tela diz isso */
+  const rs=po118Rotulos(l),iguais=l.length>1&&new Set(l.map((e,k)=>po118Rotulo(e,k))).size===1;
+  const sw=l.length>1?`<div class="po118-sw" role="group" aria-label="Escolher a votação">${l.map((e,k)=>`<button type="button" data-po118t="${k}" aria-pressed="${k===i}">${esc(rs[k])}</button>`).join("")}</div>${iguais?`<p class="po118-ig">${esc(`${PO118_CASA[l[0].casa].n} fez ${l.length} votações ${l[0].prop?"do "+l[0].prop:"desta proposta"} no mesmo dia. O registro oficial não diz o que cada uma decidiu.`)}</p>`:""}`:"";
   return `<section class="mat-vis po118" data-po118="${esc(p.id)}" aria-label="Placar oficial"><div class="po118-cab"><span class="po118-k"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18a8 8 0 0 1 16 0"/><path d="M12 18l4-5"/></svg>Placar oficial</span><span class="po118-auto">atualizado sozinho</span></div>${sw}<div class="po118-g" aria-live="polite">${po118Corpo(l,i)}</div></section>`}
 function po118LinhaHTML(p){const l=po118Da(p);if(!l||!l.length)return "";const e=l[l.length-1];if(Date.now()-e.t>PO118_FEED_H*3600e3)return "";const c=PO118_CASA[e.casa];
-  const num=e.modo==="nominal"?`${e.sim} a ${e.nao}`:e.modo==="simbolica"?"votação simbólica":"";
+  const num=(l.length>1&&!e.turno?`${l.length}ª votação, `:"")+(e.modo==="nominal"?`${e.sim} a ${e.nao}`:e.modo==="simbolica"?"votação simbólica":"");/* 19/11 tarde: com mais de uma votação, diz qual é */
   const al=`Placar oficial: ${c.n} ${po118Verbo(e)}${e.turno?` em ${e.turno} turno`:""}${num?", "+num:""}. Abrir a matéria`;
   return `<button type="button" class="po118-ln" data-capmat="${esc(p.id)}" aria-label="${esc(al)}"><i class="po118-ln-${e.res==="rejeitado"?"no":e.res?"ok":"x"}" aria-hidden="true"></i><b>${esc(c.n)} ${po118Verbo(e)}</b>${num?`<span class="po118-sep" aria-hidden="true"> · </span><span class="po118-n">${esc(num)}</span>`:""}${e.turno?`<span class="po118-sep" aria-hidden="true"> · </span><span class="po118-tu">${esc(e.turno)} turno</span>`:""}<span class="po118-ir" aria-hidden="true"> ›</span></button>`}
 

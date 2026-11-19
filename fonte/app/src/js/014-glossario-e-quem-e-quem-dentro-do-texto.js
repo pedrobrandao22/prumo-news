@@ -10,7 +10,10 @@ function marcarTermos(txt){
 }
 function abrirTermo(t,k){uso(t==="p"?"quem_e":"glossario");
   if(t==="p"){abrirPessoa(k)}
-  else{const d=FEED.glossario?.[k];sheet("O que é",`<div class="card"><b style="font-size:18px">${esc(k)}</b><p>${esc(d)}</p></div>`)}
+  else{const d=FEED.glossario?.[k];/* 19/11 tarde: termo fora da edição não abre caixa vazia */
+    if(!d){const ps=(FEED.pautas||[]).filter(p=>{const n=p&&p.neutro||{};return norm(String(n.titulo||"")+" "+String(n.texto||"")).indexOf(norm(k))>=0}).slice(0,8),L=lente();
+      sheet("O que é",`<div class="card"><b style="font-size:18px">${esc(k)}</b><p class="hint">Sem verbete nesta edição.</p></div>${ps.length?`<h4 class="pes-h">Nas notícias (${ps.length})</h4><ul class="mud-l">${ps.map(p=>`<li><button type="button" data-cpnovir="${esc(p.id)}"><span class="mud-t">${esc(versao(p,L).titulo)}</span></button></li>`).join("")}</ul>`:""}`);return}
+    sheet("O que é",`<div class="card"><b style="font-size:18px">${esc(k)}</b><p>${esc(d)}</p></div>`)}
 }
 function abrirExplicador(tema){uso("entenda");
   const e=(FEED.explicadores||{})[tema];if(!e)return;

@@ -54,8 +54,9 @@ function cpItem(p,o){const L=lente(),v=versao(p,L),ab=CP_AB===p.id,lc=lidaAtual(
   const arte=o.arte?capaArte(p,o.tam==="man"?"art":"cp-th",o.tam==="man"):"";
   let h=`<article class="cpi cpi-${o.tam}${lc}${ab?" aberto":""}" id="cpi-${esc(p.id)}"><button type="button" class="cpi-b" data-cpx="${esc(p.id)}" aria-expanded="${ab}">${o.tam==="man"?arte:""}<span class="tx">${o.tam==="rel"?"":k}<b class="cp-t">${marca}${esc(v.titulo)}</b>${sub}${o.meta||""}</span>${o.tam!=="man"?arte:""}</button>${ab?cpAberta(p):""}</article>`;
   /* 168: notícia sem novidade há mais de 40 h diz de quando é ("de quinta (12)"), menos na manchete */
-  try{const t=o&&o.tam!=="man"&&cm168Velha(p);if(t){const i=h.indexOf('<b class="cp-t">'),j=i>=0?h.indexOf("</b>",i):-1;
-    if(j>0)h=h.slice(0,j+4)+`<span class="cm168-dia">de ${esc(cm168Dia(t))}</span>`+h.slice(j+4)}}catch(e){}
+  /* 19/11 tarde: frase separada ("Sem novidade desde terça (17)") e nada quando o título já traz um dia, para não ler "…sexta (13) de terça (17)" */
+  try{const t=o&&o.tam!=="man"&&cm168Velha(p);if(t&&!cm168Dias(v.titulo).length){const i=h.indexOf('<b class="cp-t">'),j=i>=0?h.indexOf("</b>",i):-1;
+    if(j>0)h=h.slice(0,j+4)+`<span class="cm168-dia">Sem novidade desde ${esc(cm168Dia(t))}</span>`+h.slice(j+4)}}catch(e){}
   return h}
 function cpAberta(p){const L=lente(),id=esc(p.id);const pts=pontosDe(p,L);
   let h=`<div class="cpx"><button type="button" class="cpx-30" data-cpmat="${id}" aria-label="Ler a matéria completa"><b>Em 30 segundos</b><ul>${pts.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><span class="cpx-ir">Ler a matéria completa <i aria-hidden="true">›</i></span></button></div>`;

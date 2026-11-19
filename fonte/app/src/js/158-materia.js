@@ -65,7 +65,7 @@ function mt158Lista(p){const L=[],por={};const add=(k,cit)=>{if(!k)return;const 
   (p.enquadramentos||[]).forEach(e=>{const v=add(e.fonte);if(v&&e.descricao&&!v.enq.includes(e.descricao))v.enq.push(e.descricao)});
   mt158Citados((p.checagem||{}).texto).forEach(id=>{if(!por[id]){const k=Object.keys((FEED&&FEED.fontes)||{}).find(x=>mt158Id(x)===id)||(MT158_VEIC[id]?MT158_VEIC[id][0]:id);add(k,true)}});
   return L}
-espectroHTML=function(p){const vs=mt158Lista({fontes:p.fontes||[]}).map(v=>mt158Esp(v.k)).filter(Boolean);if(!vs.length)return "";
+espectroHTML=function(p){/* 19/11 tarde: a mesma lista de "Noticiaram" (fontes, links, enquadramentos, citados), para a conta bater */const vs=mt158Lista(p).map(v=>mt158Esp(v.k)).filter(Boolean);if(!vs.length)return "";
   const c={};vs.forEach(e=>c[e]=(c[e]||0)+1);const ord=["direita","centro","publica","esquerda"].filter(k=>c[k]);
   return `<div class="spec"><span class="lbl">Quem cobriu</span><div class="bar">${ord.map(k=>`<i style="width:${(100*c[k]/vs.length).toFixed(1)}%;background:${ESPECTRO_COR[k]}"></i>`).join("")}</div><div class="lg">${ord.map(k=>`<span><i style="background:${ESPECTRO_COR[k]}"></i>${ESPECTRO_NOME[k]}: ${c[k]}</span>`).join("")}</div><p class="hint">Classificação aproximada do Prumo, pela linha editorial predominante de cada veículo.</p></div>`};
 
