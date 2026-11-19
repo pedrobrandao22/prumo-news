@@ -9132,14 +9132,15 @@ function pgDots(t){const post=t.closest(".post");const d=post&&post.querySelecto
 document.addEventListener("scroll",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("track")&&t.closest(".post"))requestAnimationFrame(()=>pgDots(t))},true);
 
 /* ---------- Etapa 41: carrossel social ---------- */
-var SS_NUM=/(R\$\s?\d[\d.,]*(?:\s?(?:mil|mi|milhão|milhões|bi|bilhão|bilhões|tri))?|US\$\s?\d[\d.,]*(?:\s?(?:mil|mi|bi|milhões|bilhões))?|\d[\d.,]*\s?%|\d{1,3}(?:\.\d{3})+(?:,\d+)?(?:\s?(?:pontos|votos|mil))?|\d[\d,]*\s?(?:mil|milhões|bilhões|votos|pontos|anos|dias|vezes|cadeiras|mortos|feridos|deputados|senadores)\b)/i;
+/* 19/11: forma longa antes da curta e fim de palavra ("R$ 350 milhões" virava "R$ 350 mil" + "hões") */
+var SS_NUM=/(R\$\s?\d[\d.,]*(?:\s?(?:milhões|milhão|mil|mi|bilhões|bilhão|bi|trilhões|trilhão|tri)(?![A-Za-zÀ-ÿ]))?|US\$\s?\d[\d.,]*(?:\s?(?:milhões|milhão|mil|mi|bilhões|bilhão|bi|trilhões|trilhão|tri)(?![A-Za-zÀ-ÿ]))?|\d[\d.,]*\s?%|\d{1,3}(?:\.\d{3})+(?:,\d+)?(?:\s?(?:pontos|votos|mil))?|\d[\d,]*\s?(?:mil|milhões|bilhões|votos|pontos|anos|dias|vezes|cadeiras|mortos|feridos|deputados|senadores)\b)/i;
 function ssNumero(t){const m=SS_NUM.exec(t||"");if(!m||m.index>70)return null;const resto=String(t).slice(m.index+m[0].length);
   /* faixa ou número composto ("30% a 34%", "17 anos, 1 mês", "1.700 a 2.000"): não separa, senão o destaque engana */
   if(/^\s*(?:[,–—-]|(?:a|até|e|ou)\s+(?:R\$\s?|US\$\s?)?\d)/i.test(resto))return null;return m[1].trim().replace(/[.,;:]+$/,"")}
 function ssFrasesSociais(p,L){const so=L==="neutro"&&Array.isArray(p.social)?p.social.map(x=>typeof x==="string"?x:(x&&x.texto)||"").filter(x=>x.trim()):[];
   return (so.length>=2?so:pontosDe(p,L)).slice(0,5)}
 function ssPessoa(p,usadas){const A=FOTOS_ARQ;if(!A)return null;const n=p.neutro||{};/* só quem está no TÍTULO (14/11: Trump aparecia na notícia dos voos por estar no 1º ponto) */const t=String(versao(p,lente()).titulo||n.titulo||"");
-  const a=faPessoa(t,A);if(!a||!Array.isArray(a.fotos))return null;const nome=Object.keys(A.pessoas||{}).find(k=>A.pessoas[k]===a)||"";
+  const a=faPessoa(ft187SemGoverno(t),A);/* 19/11: "Governo Trump" não é a pessoa do fato */if(!a||!Array.isArray(a.fotos))return null;const nome=Object.keys(A.pessoas||{}).find(k=>A.pessoas[k]===a)||"";
   const f=a.fotos.filter(faValida).find(x=>!usadas.has(faNome(x.url)));if(!f||!nome)return null;usadas.add(faNome(f.url));
   return {nome,desc:(FEED.pessoas||{})[nome]||"",f}}
 function ssFotoAssunto(p,usadas){const A=FOTOS_ARQ;if(!A)return null;try{for(const l of faListas(p,A))for(const f of l)if(faValida(f)&&!usadas.has(faNome(f.url))){usadas.add(faNome(f.url));return f}}catch(e){}return null}
@@ -18285,7 +18286,7 @@ function ft157Grupo(f){const n=ft157Arq(f),crop=/crop/.test(n);
 const FT157_BR=/(brasil|brazil|brasilia|sao paulo|guarulhos|rio de janeiro|planalto|congresso nacional|senado federal|camara dos deputados|supremo tribunal|paulista|copacabana|maracana|esplanada|itamaraty|banco central|ministerio d|bovespa|petrobras|policia militar|policia federal|unidade basica|allianz|mineirao|januario|beira-rio|fonte nova|arena mrv|interlagos)/;
 function ft157Br(f){return FT157_BR.test(ft157Arq(f)+" "+ft157N(f&&f.alt))}
 /* notícia que acontece fora do Brasil */
-const FT157_FORA=/(\bEUA\b|Estados Unidos|Miami|Nova York|Washington|Casa Branca|China|Shenzhen|Pequim|Apec|Asean|Filipinas|Manila|Turquia|\bCOP ?\d|Jap[aã]o|Singapura|Canad[aá]|Europa|Uni[aã]o Europeia|\bONU\b|\bG20\b|\bG7\b|Brics|[Vv]iagem|[Cc][uú]pula|exterior|Argentina|Venezuela|R[uú]ssia|Ucr[aâ]nia|Israel|Gaza|Ir[aã](?=$|[^A-Za-zÀ-ú])|Fran[cç]a|Alemanha|Reino Unido|Londres|Paris|[ÍI]ndia|Catar)/;
+const FT157_FORA=/(\bEUA\b|Estados Unidos|Miami|Nova York|Nasdaq|Wall Street|\bNYSE\b|Dow Jones|S&P 500|Washington|Casa Branca|China|Shenzhen|Pequim|Apec|Asean|Filipinas|Manila|Turquia|\bCOP ?\d|Jap[aã]o|Singapura|Canad[aá]|Europa|Uni[aã]o Europeia|\bONU\b|\bG20\b|\bG7\b|Brics|[Vv]iagem|[Cc][uú]pula|exterior|Argentina|Venezuela|R[uú]ssia|Ucr[aâ]nia|Israel|Gaza|Ir[aã](?=$|[^A-Za-zÀ-ú])|Fran[cç]a|Alemanha|Reino Unido|Londres|Paris|[ÍI]ndia|Catar)/;
 function ft157Fora(p){if(secOf(p)==="mundo")return true;const n=p.neutro||{};return FT157_FORA.test([n.titulo,p.tema,p.tag].filter(x=>typeof x==="string").join(" · "))}
 /* assunto citado no título: condições extras (o título precisa dizer isto) */
 const FT157_PAISES=["Irã","Israel","Ucrânia","Rússia","China","Venezuela","Argentina","França","Espanha","Alemanha","Reino Unido","Japão","Índia","Catar"];
@@ -20285,13 +20286,27 @@ function ft187FotosLugar(A,nome,ra){const ck=(A.gerado||"")+"|"+nome;if(A===FOTO
    da editoria/subtema e a foto padrão da editoria. Lugar ou assunto brasileiro continua fora de notícia de fora do
    Brasil, e as fotos bloqueadas (157) continuam bloqueadas. */
 var FT187_TRAGICO=/\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad|cassa|cassação|condena|réu\b|inelegív|denunciad)/i;
+/* corretor 19/11 (causa fotos-2): três brechas da regra aberta de 18/11 à noite.
+   (a) "Governo Trump", "gestão Lula": o nome é adjetivo do governo, não a pessoa do fato; não dá retrato nem "Quem é".
+   (b) quando a frase principal do título diz um lugar (Câmara, B3…), foto de OUTRO lugar com nome (Senado, Banco Central)
+       não entra pelo assunto do subtítulo, pelo tema nem pelo padrão; Câmara e Senado aceitam o Congresso por fora.
+       Sem foto do lugar dito, fica a foto sem lugar ou a ilustração (MPs da Câmara com o plenário do Senado; Goldman e a
+       Bolsa com o prédio do Banco Central).
+   (c) Esportes: foto de um jogo de outros times ("America-Pachuca Copa Sudamericana") só quando o título cita um deles. */
+function ft187SemGoverno(t){return String(t||"").replace(/(^|[^A-Za-zÀ-ÿ])((?:[Gg]overno|[Gg]est[aã]o|[Aa]dministra[cç][aã]o|[Ee]ra)\s+)([A-ZÀ-Ý][A-Za-zÀ-ÿ'-]+)/g,(m,a,b,c)=>a+b+" ".repeat(c.length))}
+var FT187_DENTRO={"Câmara":["Congresso"],"Senado":["Congresso"]};
+function ft187OutroLugar(f,nomes){if(!nomes||!nomes.size)return false;const a=ft157Arq(f);return FT187_RE.some(x=>x[2].test(a)&&!nomes.has(x[0]))}
+var FT187_COMPOSTO=/^(sul-americana|beira-rio|atletico-mg|atletico-pr|sao-paulo|fla-flu|neo-quimica|mato-grosso|rio-grandense)$/;
+function ft187JogoAlheio(f,tit){const a=ft157Arq(f).replace(/\.[a-z]+$/,"");const m=/(?:^|[^a-z])([a-z]{3,})(?:-| vs\.? | versus )([a-z]{3,})(?=[^a-z]|$)/.exec(a);
+  if(!m||FT187_COMPOSTO.test(m[1]+"-"+m[2])||!/(copa|sudamericana|libertadores|campeonato|liga|match|jogo|partida| vs\.? | versus )/.test(a))return false;
+  const t=" "+ft157N(tit).replace(/[^a-z0-9]+/g," ")+" ";return !(t.indexOf(" "+m[1]+" ")>=0||t.indexOf(" "+m[2]+" ")>=0)}
 faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep();const n=p.neutro||{},tit=String(n.titulo||""),fr=ft157Frase(tit),
     sub=typeof p.subtitulo==="string"?p.subtitulo:"",extra=[p.tag,p.tema].filter(x=>typeof x==="string"&&x).join(" · "),sec=secOf(p),T=A.temas||{};
   let fo=null;const fora=()=>{if(fo===null)fo=!!ft157Fora(p);return fo};
-  const pega=(l,lugar)=>{if(!Array.isArray(l))return;const k=l.map(f=>f&&f.url).sort().join("|");const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!(lugar&&fora()&&ft157Br(f)));if(ok.length&&!L.some(x=>x.ft187o===k)){ok.ft187o=k;L.push(ok)}};
-  if(p.foto_arquivo!=="tema"||!FT187_TRAGICO.test(tit)){const pe=ft157Pessoa(fr,A);if(pe)pega(pe.fotos,false)}
-  ft187Lugares(fr,A).forEach(([nome,ra,br])=>{if(br&&fora())return;const ok=ft187FotosLugar(A,nome,ra);if(ok.length&&!L.some(x=>x.ft187n===nome)){ok.ft187n=nome;L.push(ok)}});
-  const md=ft187Mandante(p,fr,A);if(md.length)L.push(md);
+  const ditos=new Set(),esp=sec==="esportes";const pega=(l,lugar)=>{if(!Array.isArray(l))return;const k=l.map(f=>f&&f.url).sort().join("|");const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!(lugar&&fora()&&ft157Br(f))&&!(lugar&&ft187OutroLugar(f,ditos))&&!(esp&&ft187JogoAlheio(f,tit)));if(ok.length&&!L.some(x=>x.ft187o===k)){ok.ft187o=k;L.push(ok)}};
+  if(p.foto_arquivo!=="tema"||!FT187_TRAGICO.test(tit)){const pe=ft157Pessoa(ft187SemGoverno(fr),A);if(pe)pega(pe.fotos,false)}
+  ft187Lugares(ft187SemGoverno(fr),A).forEach(([nome,ra,br])=>{if(br&&fora())return;ditos.add(nome);(FT187_DENTRO[nome]||[]).forEach(x=>ditos.add(x));const ok=ft187FotosLugar(A,nome,ra).filter(f=>!(esp&&ft187JogoAlheio(f,tit)));if(ok.length&&!L.some(x=>x.ft187n===nome)){ok.ft187n=nome;L.push(ok)}});
+  const md=ft187Mandante(p,fr,A).filter(f=>!ft187JogoAlheio(f,tit));if(md.length)L.push(md);
   /* assunto: em Esportes, só assunto de esporte (Japão no jogo da Seleção não é Tóquio) e nunca o clube numa final (campo neutro) */
   const asOk=x=>x&&(sec!=="esportes"||(Array.isArray(x.secoes)&&x.secoes.includes("esportes")&&!FT187_FINAL.test(fr)));
   try{for(const t of [fr,extra,sub]){if(!t)continue;const as=faAssunto(t,A,sec);if(asOk(as)){pega(as.fotos,true);break}}}catch(e){}

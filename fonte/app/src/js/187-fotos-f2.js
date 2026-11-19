@@ -76,13 +76,27 @@ function ft187FotosLugar(A,nome,ra){const ck=(A.gerado||"")+"|"+nome;if(A===FOTO
    da editoria/subtema e a foto padrão da editoria. Lugar ou assunto brasileiro continua fora de notícia de fora do
    Brasil, e as fotos bloqueadas (157) continuam bloqueadas. */
 var FT187_TRAGICO=/\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad|cassa|cassação|condena|réu\b|inelegív|denunciad)/i;
+/* corretor 19/11 (causa fotos-2): três brechas da regra aberta de 18/11 à noite.
+   (a) "Governo Trump", "gestão Lula": o nome é adjetivo do governo, não a pessoa do fato; não dá retrato nem "Quem é".
+   (b) quando a frase principal do título diz um lugar (Câmara, B3…), foto de OUTRO lugar com nome (Senado, Banco Central)
+       não entra pelo assunto do subtítulo, pelo tema nem pelo padrão; Câmara e Senado aceitam o Congresso por fora.
+       Sem foto do lugar dito, fica a foto sem lugar ou a ilustração (MPs da Câmara com o plenário do Senado; Goldman e a
+       Bolsa com o prédio do Banco Central).
+   (c) Esportes: foto de um jogo de outros times ("America-Pachuca Copa Sudamericana") só quando o título cita um deles. */
+function ft187SemGoverno(t){return String(t||"").replace(/(^|[^A-Za-zÀ-ÿ])((?:[Gg]overno|[Gg]est[aã]o|[Aa]dministra[cç][aã]o|[Ee]ra)\s+)([A-ZÀ-Ý][A-Za-zÀ-ÿ'-]+)/g,(m,a,b,c)=>a+b+" ".repeat(c.length))}
+var FT187_DENTRO={"Câmara":["Congresso"],"Senado":["Congresso"]};
+function ft187OutroLugar(f,nomes){if(!nomes||!nomes.size)return false;const a=ft157Arq(f);return FT187_RE.some(x=>x[2].test(a)&&!nomes.has(x[0]))}
+var FT187_COMPOSTO=/^(sul-americana|beira-rio|atletico-mg|atletico-pr|sao-paulo|fla-flu|neo-quimica|mato-grosso|rio-grandense)$/;
+function ft187JogoAlheio(f,tit){const a=ft157Arq(f).replace(/\.[a-z]+$/,"");const m=/(?:^|[^a-z])([a-z]{3,})(?:-| vs\.? | versus )([a-z]{3,})(?=[^a-z]|$)/.exec(a);
+  if(!m||FT187_COMPOSTO.test(m[1]+"-"+m[2])||!/(copa|sudamericana|libertadores|campeonato|liga|match|jogo|partida| vs\.? | versus )/.test(a))return false;
+  const t=" "+ft157N(tit).replace(/[^a-z0-9]+/g," ")+" ";return !(t.indexOf(" "+m[1]+" ")>=0||t.indexOf(" "+m[2]+" ")>=0)}
 faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep();const n=p.neutro||{},tit=String(n.titulo||""),fr=ft157Frase(tit),
     sub=typeof p.subtitulo==="string"?p.subtitulo:"",extra=[p.tag,p.tema].filter(x=>typeof x==="string"&&x).join(" · "),sec=secOf(p),T=A.temas||{};
   let fo=null;const fora=()=>{if(fo===null)fo=!!ft157Fora(p);return fo};
-  const pega=(l,lugar)=>{if(!Array.isArray(l))return;const k=l.map(f=>f&&f.url).sort().join("|");const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!(lugar&&fora()&&ft157Br(f)));if(ok.length&&!L.some(x=>x.ft187o===k)){ok.ft187o=k;L.push(ok)}};
-  if(p.foto_arquivo!=="tema"||!FT187_TRAGICO.test(tit)){const pe=ft157Pessoa(fr,A);if(pe)pega(pe.fotos,false)}
-  ft187Lugares(fr,A).forEach(([nome,ra,br])=>{if(br&&fora())return;const ok=ft187FotosLugar(A,nome,ra);if(ok.length&&!L.some(x=>x.ft187n===nome)){ok.ft187n=nome;L.push(ok)}});
-  const md=ft187Mandante(p,fr,A);if(md.length)L.push(md);
+  const ditos=new Set(),esp=sec==="esportes";const pega=(l,lugar)=>{if(!Array.isArray(l))return;const k=l.map(f=>f&&f.url).sort().join("|");const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!(lugar&&fora()&&ft157Br(f))&&!(lugar&&ft187OutroLugar(f,ditos))&&!(esp&&ft187JogoAlheio(f,tit)));if(ok.length&&!L.some(x=>x.ft187o===k)){ok.ft187o=k;L.push(ok)}};
+  if(p.foto_arquivo!=="tema"||!FT187_TRAGICO.test(tit)){const pe=ft157Pessoa(ft187SemGoverno(fr),A);if(pe)pega(pe.fotos,false)}
+  ft187Lugares(ft187SemGoverno(fr),A).forEach(([nome,ra,br])=>{if(br&&fora())return;ditos.add(nome);(FT187_DENTRO[nome]||[]).forEach(x=>ditos.add(x));const ok=ft187FotosLugar(A,nome,ra).filter(f=>!(esp&&ft187JogoAlheio(f,tit)));if(ok.length&&!L.some(x=>x.ft187n===nome)){ok.ft187n=nome;L.push(ok)}});
+  const md=ft187Mandante(p,fr,A).filter(f=>!ft187JogoAlheio(f,tit));if(md.length)L.push(md);
   /* assunto: em Esportes, só assunto de esporte (Japão no jogo da Seleção não é Tóquio) e nunca o clube numa final (campo neutro) */
   const asOk=x=>x&&(sec!=="esportes"||(Array.isArray(x.secoes)&&x.secoes.includes("esportes")&&!FT187_FINAL.test(fr)));
   try{for(const t of [fr,extra,sub]){if(!t)continue;const as=faAssunto(t,A,sec);if(asOk(as)){pega(as.fotos,true);break}}}catch(e){}
