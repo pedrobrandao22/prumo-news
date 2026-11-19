@@ -6170,6 +6170,8 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
 /* "Você está só lendo": uma linha curta, sem ocupar meia tela */
 .avisoconta{font-size:12.5px;line-height:1.3;padding-block:0 4px;gap:8px}
 .avisoconta .av-entrar{padding:4px 12px;font-size:13px}
+/* Enviar: com o giro escondido sobra uma opção só, que ocupa a linha inteira */
+.cn102-env:has(> button:only-child){grid-template-columns:1fr}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -9756,7 +9758,7 @@ function openSend(pid,pre){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||sna
       toast(erro?.code==="permission_denied"?"Só dá para mandar para amigos.":ok.length?`Enviado para ${ok.map(nomeDe).join(" e ")}; o resto não foi. Tente de novo.`:"Não deu para enviar agora. Tente de novo.")}})})();
   /* 102: publicar com comentário ou pôr no giro */
   try{if(pid&&String(pid).indexOf("u:")!==0&&pautaById(pid)&&S.membro&&PUB.on!==false){const b=document.querySelector("#layer .sheet .sh-b,#layer2 .sheet .sh-b");
-    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG(CN102_ICO.ana)}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button><button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu giro</b><small>Some em 24 horas</small></span></button></div>`)}}catch(e){}}
+    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG(CN102_ICO.ana)}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button>${typeof ft182Esc==="function"&&ft182Esc("giro")?"":`<button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu giro</b><small>Some em 24 horas</small></span></button>`}</div>`)}}catch(e){}}
 /* ---------- @ no comentário: sugere amigos e manda a notícia por mensagem ---------- */
 var MEN_BOX=null,MEN_INP=null;
 function menFecha(){MEN_BOX?.remove();MEN_BOX=null;MEN_INP=null}
