@@ -253,7 +253,7 @@ def sugestao(palavra, ref):
             return f"{dia_rotulo(pas)} se já passou, ou {dia_rotulo(fut)} se ainda vem"
     return "o dia da semana com a data, ex.: " + dia_rotulo(ref)
 
-def pendencias(f, agora, IND=None):
+def pendencias(f, agora, IND=None, OFI=None):
     """Itens que já deveriam ter desfecho. agora: datetime com fuso. IND: indicadores.json (fechamento do mercado)."""
     out = []
     hoje = agora.date()
@@ -298,6 +298,8 @@ def pendencias(f, agora, IND=None):
                 a, b = max(0, m.start() - 50), min(len(t), m.end() + 70)
                 out.append({"pid": pid, "tipo": "frase_pendente", "texto": f"{k}: …{t[a:b]}…"})
     out += pendencias_do_dia(f, agora, IND)
+    out += desfechos_vencidos([p for p in f.get("pautas") or [] if isinstance(p, dict)], agora)
+    out += oficiais_pendentes(f, agora, OFI)
     return out
 
 
@@ -346,8 +348,11 @@ def eventos_de_hoje_parados(ps, agora):
         uf = ultimo_fato(p)
         if not tit or not uf: continue
         for cl in re.split(r";\s+|\s+[—–]\s+|:\s+", tit):
-            if not any(d == hoje for _, _, d, _ in datas_em(cl, hoje)): continue
-            if not (FUTURO_FORTE.search(cl) or FUTURO_PRESENTE.search(cl)) or PASSADO_NARRADO.search(cl): continue
+            dh = [a for a, _, d, _ in datas_em(cl, hoje) if d == hoje]
+            if not dh: continue
+            # "deixa os destaques para quarta (18)", "adiada para quarta (18)": PARA + data de hoje também anuncia (corretor 19/11)
+            para = any(PARA_DATA.search(cl[:a]) for a in dh)
+            if not para and (not (FUTURO_FORTE.search(cl) or FUTURO_PRESENTE.search(cl)) or PASSADO_NARRADO.search(cl)): continue
             hm = HORA_EVENTO.search(cl)
             if hm and int(hm[1]) <= 23:
                 ini = datetime(hoje.year, hoje.month, hoje.day, int(hm[1]), min(int(hm[2] or 0), 59), tzinfo=SP)
@@ -362,6 +367,111 @@ def eventos_de_hoje_parados(ps, agora):
                             "pelo 'sem confirmação': o título continua com o fato que se sabe "
                             "(manual 3b, EVENTO DE HOJE)"})
             break
+    return out
+
+
+# NOTÍCIA PARADA 2 (corretor 19/11, causa noticia-parada-2). A rodada só era cobrada pelo título e por 3 campos
+# (texto, proximo, última atualização); o resto do que o leitor vê (essencial do carrossel, pontos, subtítulo, linha do
+# tempo) e o placar oficial ficavam fora. Casos: "Terça (17): a votação estava prevista, sem resultado confirmado" no
+# essencial de quarta; "audiência marcada para as 14h" na atualização das 15h48 e na linha do tempo; "O plenário vota
+# os destaques na quarta (18)" no "O que vem agora" às 20h55, com oficiais.json já mostrando "APROVADO".
+PARA_DATA = re.compile(r"\b(para|pra|marcad[oa]s? para|adiad[oa]s? para|fica(?:m)? para|deixa(?:m)? [^,;.]{0,60}? para)\s*$", re.I)
+MARCADO = re.compile(r"\b(marcad[oa]s?|previst[oa]s?|agendad[oa]s?|programad[oa]s?|convocad[oa]s?|chamad[oa]s?|a confirmar|"
+                     r"ainda ser[áa] conferid[oa]s?|sem resultado|sem confirma[çc][ãa]o)\b", re.I)
+EM_ABERTO = re.compile(r"(sem resultado(?: confirmado)?|a confirmar|ainda ser[áa] conferid[oa]s?|ainda n[ãa]o se sabe|"
+                       r"resultado n[ãa]o (?:foi|havia sido) divulgado|sem confirma[çc][ãa]o)", re.I)
+
+
+def campos_leitor(p):
+    """(nome, texto, data da atualização ou None): tudo o que o leitor vê da notícia, fora o título."""
+    n = p.get("neutro") if isinstance(p.get("neutro"), dict) else {}
+    yield "neutro.texto", str(n.get("texto") or ""), None
+    for i, x in enumerate(n.get("pontos") if isinstance(n.get("pontos"), list) else []): yield f"pontos.{i}", str(x), None
+    for k in ("subtitulo", "proximo", "contexto", "o_que_muda"):
+        if isinstance(p.get(k), str): yield k, p[k], None
+    for i, x in enumerate(p.get("essencial") if isinstance(p.get("essencial"), list) else []): yield f"essencial.{i}", str(x), None
+    for i, x in enumerate(p.get("social") if isinstance(p.get("social"), list) else []):
+        if isinstance(x, str): yield f"social.{i}", x, None
+    ups = sorted([u for u in p.get("atualizacoes") or [] if isinstance(u, dict)], key=lambda u: str(u.get("hora", "")))
+    if ups: yield "última atualização", str(ups[-1].get("texto") or ""), dt(ups[-1].get("hora"))
+    for vi, v in enumerate(p.get("visuais") if isinstance(p.get("visuais"), list) else []):
+        if not isinstance(v, dict) or v.get("tipo") != "linha_do_tempo": continue
+        for ii, it in enumerate(v.get("itens") or []):
+            if isinstance(it, dict): yield f"linha do tempo ({it.get('quando', '')})", f"{it.get('quando', '')}: {it.get('texto', '')}", None
+
+
+def desfechos_vencidos(ps, agora):
+    """Pendências 'hora_passou' (evento de hoje com hora marcada, 2 h depois, sem desfecho registrado) e
+    'desfecho_em_aberto' (dia que já passou + 'sem resultado'/'a confirmar') em qualquer campo que o leitor vê."""
+    out, hoje = [], agora.date()
+    for p in ps:
+        if p.get("status") == "encerrada": continue
+        pid = p.get("id") or ""
+        ups = [(dt(u.get("hora")), str(u.get("texto") or "")) for u in p.get("atualizacoes") or [] if isinstance(u, dict)]
+        vistos = set()
+        for nome, t, quando in campos_leitor(p):
+            for fr in re.split(r"(?<=[.;!?])\s+", t):
+                ds = [d for _, _, d, _ in datas_em(fr, hoje) if d]
+                if "passou" not in vistos and any(d < hoje for d in ds) and not any(d >= hoje for d in ds) and EM_ABERTO.search(fr):
+                    vistos.add("passou")
+                    out.append({"pid": pid, "tipo": "desfecho_em_aberto", "texto": f"{nome}: '{fr[:110]}' — o dia já passou e o texto ainda não diz "
+                                "o que aconteceu: registre o desfecho (aconteceu, foi adiado, resultado) ou tire a frase "
+                                "(manual 3b, NOTÍCIA PARADA)"})
+                hm = HORA_EVENTO.search(fr)
+                if "hora" in vistos or not hm or int(hm[1]) > 23 or not MARCADO.search(fr): continue
+                de_hoje = any(d == hoje for d in ds) or (not ds and quando is not None and quando.date() == hoje)
+                if not de_hoje: continue
+                ini = datetime(hoje.year, hoje.month, hoje.day, int(hm[1]), min(int(hm[2] or 0), 59), tzinfo=SP)
+                if agora < ini + timedelta(hours=2): continue
+                # desfecho = atualização depois da hora marcada que não fala de novo em "marcada"/"a confirmar"
+                if any(h and h >= ini and not MARCADO.search(tx) and not EM_ABERTO.search(tx) for h, tx in ups): continue
+                vistos.add("hora")
+                out.append({"pid": pid, "tipo": "hora_passou", "texto": f"{nome}: '{fr[:110]}' — já passou das {hm[0].split()[-1]} e a notícia "
+                            "não diz o que aconteceu: registre o estado com hora (começou, adiado, o que foi dito, resultado) e reescreva "
+                            "título, texto e 'O que vem agora'; se não houver notícia, diga 'sem informação sobre a sessão até as XXhYY' "
+                            "(manual 3b, NOTÍCIA PARADA)"})
+    return out
+
+
+OFICIAIS = None  # oficiais.json (robô de dados oficiais), lido no main
+
+
+def ler_oficiais(caminho):
+    for c in [caminho, "oficiais.json"]:
+        if not c: continue
+        try: return json.load(open(c, encoding="utf-8"))
+        except Exception: continue
+    return None
+
+
+def oficiais_pendentes(f, agora, OFI=None):
+    """Pendência 'oficial_pendente': oficiais.json tem resultado oficial (votação, Selic…) de uma pauta do feed que o texto
+    ainda não registrou. O app já mostra o placar oficial na matéria; o título não pode continuar dizendo que vai votar."""
+    ofi = OFI if OFI is not None else OFICIAIS
+    if not isinstance(ofi, dict): return []
+    out, hoje = [], agora.date()
+    P = {p.get("id"): p for p in f.get("pautas") or [] if isinstance(p, dict)}
+    for pid, itens in (ofi.get("para_pautas") or {}).items():
+        p = P.get(pid)
+        if not p or p.get("status") == "encerrada" or not isinstance(itens, list): continue
+        ja = norm(" ".join([str(u.get("texto") or "") for u in p.get("atualizacoes") or [] if isinstance(u, dict)] +
+                           [str((p.get("neutro") or {}).get("titulo") or ""), str((p.get("neutro") or {}).get("texto") or "")]))
+        novos = []
+        for it in itens:
+            if not isinstance(it, dict): continue
+            q = dt(it.get("quando"))
+            if q and (hoje - q.date()).days > 2: continue
+            uf = ultimo_fato(p)  # a rodada já atualizou depois da votação (quando só com data: 00h00, vale o dia seguinte)
+            if q and uf and (uf.date() > q.date() if (q.hour, q.minute) == (0, 0) else uf >= q): continue
+            ns = re.findall(r"\d+(?:[.,]\d+)?", str(it.get("numero") or ""))  # "45 a 32" casa com "45 votos a 32"
+            if (ns and re.search(r"\D{1,14}".join(re.escape(n) for n in ns), ja)) or norm(it.get("texto") or "")[:60] in ja: continue
+            novos.append(it)
+        if not novos: continue
+        tit = str((p.get("neutro") or {}).get("titulo") or "")
+        ex = "; ".join(str(it.get("texto") or "")[:80] for it in novos[:3])
+        out.append({"pid": pid, "tipo": "oficial_pendente", "texto": f"oficiais.json tem {len(novos)} resultado(s) oficial(is) que a notícia "
+                    f"não registrou ({ex}) e o título ainda é '{tit[:70]}': aplique o patch (update_add com hora) e reescreva título, "
+                    "resumo e 'O que vem agora' com o resultado (manual 3b, DADOS OFICIAIS)"})
     return out
 
 
@@ -2184,6 +2294,8 @@ def main(argv):
     IND = ler_indicadores(indf or os.path.join(os.path.dirname(os.path.abspath(args[0])), "indicadores.json"))
     global SERIES_IDX, NOVIDADES
     SERIES_IDX = ler_series(os.path.dirname(os.path.abspath(args[0])))
+    global OFICIAIS
+    OFICIAIS = ler_oficiais(os.path.join(os.path.dirname(os.path.abspath(args[0])), "oficiais.json"))
     NOVIDADES = ler_novidades(novf or os.path.join(os.path.dirname(os.path.abspath(args[0])), "novidades.json"), dt(f.get("atualizado_em")))
     try: ref, ag = checar(f, ant, virada, agora, IND)
     except Exception as e:

@@ -95,7 +95,7 @@ PC106_TX.conversar="Para conversar com os amigos, entre na sua conta.";
 PC106_TX.votar="Para votar, entre na sua conta.";
 window.addEventListener("pointerdown",e=>{CO160.el=e.target;CO160.t=Date.now()},true);
 window.addEventListener("click",e=>{CO160.el=e.target;CO160.t=Date.now()},true);
-function co160Motivo(){const el=CO160.el;if(!el||!el.closest||Date.now()-CO160.t>1500)return "";
+function co160Motivo(aba){const el=CO160.el;if(!el||!el.closest||Date.now()-CO160.t>1500)return "";
   if(el.closest("[data-entrar],[data-laba],#avisoconta,.co160-semconta,[data-pfl],[data-sair]"))return "";
   const b=el.closest("button,[role=button],a,textarea,input");if(!b)return "";const a=((b.getAttribute("aria-label")||"")+" "+(b.dataset.a||"")+" "+b.textContent).toLowerCase();
   if(b.matches("[data-vnrp],[data-a=repost],[data-a=rp]")||/repost/.test(a))return PC106_TX.repostar;
@@ -105,8 +105,10 @@ function co160Motivo(){const el=CO160.el;if(!el||!el.closest||Date.now()-CO160.t
   if(b.matches("[data-voto]")||/vot/.test(a))return PC106_TX.votar;
   if(/mensag|convers/.test(a))return PC106_TX.conversar;
   if(/envia|mandar/.test(a))return PC106_TX.enviar;
+  /* corretor 19/11: na aba Criar conta o aviso genérico dizia "entre na sua conta" a quem ainda não tem */
+  if(aba==="criar"||/criar conta|entrar/.test(a))return "";
   return "Para curtir, comentar e conversar com os amigos, entre na sua conta."}
-{const _al160=abrirLogin;abrirLogin=function(aba,cod){const mot=co160Motivo(),postLink=PC106&&PC106.k==="post_link"&&Date.now()-PC106.t<400,pid=postLink?(typeof VP99_LINK!=="undefined"&&VP99_LINK):null;
+{const _al160=abrirLogin;abrirLogin=function(aba,cod){const mot=co160Motivo(aba),postLink=PC106&&PC106.k==="post_link"&&Date.now()-PC106.t<400,pid=postLink?(typeof VP99_LINK!=="undefined"&&VP99_LINK):null;
   const r=_al160.apply(this,arguments);
   try{const body=$("#layer .sheet .sh-b")||$("#layer2 .sheet .sh-b");if(body){
     if(mot&&!body.querySelector(".pc106"))body.insertAdjacentHTML("afterbegin",`<p class="pc106">${esc(mot)}</p>`);
@@ -120,7 +122,7 @@ function co160Motivo(){const el=CO160.el;if(!el||!el.closest||Date.now()-CO160.t
   return r}}
 
 /* ---------- 5. Conversas, Guardadas e Perfil sem conta ---------- */
-const CO160_COMO="O Prumo é por convite: peça o link a um amigo que já usa o Prumo (em Perfil › Convidar amigo). Enquanto isso, dá para ler tudo sem conta.";
+const CO160_COMO="O Prumo é por convite: peça o link a um amigo que já usa o Prumo (em Perfil › Convidar alguém). Enquanto isso, dá para ler tudo sem conta.";
 {const _rs160=renderSaved;renderSaved=function(){const r=_rs160.apply(this,arguments);try{const v=$("#v-saved .empty");if(!v||v.querySelector(".co160-semconta"))return r;
   if(!S.uid||!S.membro){if(/Nada guardado/.test(v.textContent))v.innerHTML=`<b>Guardar notícias precisa de conta</b>Com a conta, o botão “Guardar” de cada notícia põe ela aqui para ler depois, em qualquer aparelho.<p class="co160-como">${esc(CO160_COMO)}</p><div class="lbtns co160-semconta"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta com convite</button></div>`}
   else v.innerHTML=v.innerHTML.replace("Toque no alfinete de um post para guardar a notícia aqui.","Toque em “Guardar” numa notícia para ela aparecer aqui.")}catch(e){}return r}}
