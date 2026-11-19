@@ -41,7 +41,7 @@ function closeLayer(fromPop){
     try{if(fromPop===true&&$("#layer > .cp152")&&!$("#layer2")?.innerHTML){
       if(String(CP152.txt||"").trim()||CR155.pid){cr155Guarda();if(Date.now()-CR155.volta>3000){CR155.volta=Date.now();if(pushH())HST++;
         /* 19/11: o voltar não arma mais o "Descartar?" (o aviso diz que o texto fica guardado; descartar é só pelo Cancelar) */
-        toast("Volte de novo para sair. O texto fica guardado.");feito=true}
+        toast((typeof fc164Tem==="function"&&fc164Tem())?"Volte de novo para sair. O texto fica guardado; a foto, não.":"Volte de novo para sair. O texto fica guardado.");feito=true}
         else{clMiolo(fromPop);toast("Seu texto ficou guardado. Toque em + para continuar.");feito=true}}}}catch(e){}
     if(!feito)clMiolo(fromPop);
   }finally{if(eraStory&&b){try{delete b.scrollTo}catch(e){}if(b.scrollTo!==Element.prototype.scrollTo)b.scrollTo=st;

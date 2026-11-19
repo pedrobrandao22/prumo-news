@@ -15,7 +15,10 @@ function ac208Itens(){const d=typeof NOVID_AG!=="undefined"?NOVID_AG:null;if(!d|
     const vs=[...new Set(ms.map(m=>m.veiculo).filter(Boolean))];
     out.push({t,h,nf,sec:n.secao||"",ms:ms.sort((a,b)=>agHoraMs(b.hora)-agHoraMs(a.hora)),vs,peso:nf*2+(["politica","economia"].includes(n.secao)?2:0)})});
   return out.sort((a,b)=>b.h-a.h||b.peso-a.peso).slice(0,AC208_MAX)}
-function ac208Vs(vs){if(!vs.length)return "";const l=vs.slice(0,3);return "Noticiado por "+(l.length>1?l.slice(0,-1).join(", ")+" e "+l[l.length-1]:l[0])+(vs.length>3?` e mais ${vs.length-3}`:"")}
+function ac208Vs(vs){if(!vs.length)return "";const l=vs.slice(0,3);
+  /* 19/11 tarde: com mais de 3, um "e" só ("A, B, C e mais 1"), e o "mais 1" não fica sozinho na linha */
+  if(vs.length>3)return "Noticiado por "+l.join(", ")+"\u00a0e\u00a0mais\u00a0"+(vs.length-3);
+  return "Noticiado por "+(l.length>1?l.slice(0,-1).join(", ")+" e "+l[l.length-1]:l[0])}
 function ac208HTML(onde){let l=ac208Itens();
   /* 19/11 (testador): na Capa, logo abaixo da manchete, futebol só com 3 ou mais veículos; no Feed entra tudo */
   if(onde==="capa")l=l.filter(x=>x.sec!=="esportes"||x.nf>=3);if(!l.length)return "";AC208_L[onde]=l;

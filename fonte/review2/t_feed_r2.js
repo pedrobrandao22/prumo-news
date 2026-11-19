@@ -55,7 +55,7 @@ const comentarios = p => ev(p, () => [...document.querySelectorAll('#cbox .clist
   ok(seg.tem && /✓ seguindo$/.test(seg.tx) && !/seguindo/.test(seg.st || ''), 'cartão de assunto seguido: "✓ seguindo" separado do subtema', seg);
   await A.setViewportSize({ width: 320, height: 568 }); await sleep(400);
   const se = await ev(A, id => { const e = document.getElementById('p-' + id); const s = e.querySelector('.fd167-seg'), hr = e.querySelector('.ph-sub .vn-hr'), mb = e.querySelector('.ph .more-btn');
-    const a = s.getBoundingClientRect(); return { inteira: s.scrollWidth <= s.clientWidth + 1 && a.width > 30, dir: Math.round((hr || s).getBoundingClientRect().right), mb: Math.round(mb.getBoundingClientRect().left) } }, seg.id);
+    const a = s.getBoundingClientRect(); return { inteira: s.scrollWidth <= s.clientWidth + 1 && a.width > 8,/* 19/11: só o ✓ na tela (o subtema fica inteiro) */ dir: Math.round((hr || s).getBoundingClientRect().right), mb: Math.round(mb.getBoundingClientRect().left) } }, seg.id);
   ok(se.inteira && se.dir <= se.mb, 'iPhone SE: "✓ seguindo" e a hora inteiros, antes do "•••"', se);
   await ev(A, id => document.getElementById('p-' + id).scrollIntoView({ block: 'start' }), seg.id); await sleep(300); await U.foto(A, 'feed-r2-seguindo-se');
   await A.setViewportSize({ width: 390, height: 844 }); await sleep(300);

@@ -29,8 +29,10 @@ function pessoaArq(k){const A=FOTOS_ARQ&&FOTOS_ARQ.pessoas;if(!A)return null;if(
 function pautasDaPessoa(k){const A=pessoaArq(k),ch=[k,...((A&&A.chaves)||[])].filter(x=>typeof x==="string"&&x.length>=3);
   const pr=p=>typeof p.prioridade==="number"?p.prioridade:0;
   return (FEED.pautas||[]).filter(p=>{const n=p.neutro||{},t=[n.titulo,n.texto,p.subtitulo,...(n.pontos||[])].join(" ");return ch.some(c=>posPalavra(t,c)>=0)}).sort((a,b)=>tms(ultimaAtualizacao(b)||b.hora)-tms(ultimaAtualizacao(a)||a.hora)||pr(b)-pr(a))}
+/* 19/11 tarde: nome que chega em minúsculas (link antigo) sai com as iniciais maiúsculas */
+function pessoaNomeBonito(k){k=String(k||"");return k&&k===k.toLowerCase()?k.replace(/(^|[\s-])(\p{L})/gu,(m,a,b)=>a+b.toUpperCase()).replace(/\b(De|Da|Do|Dos|Das|E)\b/g,x=>x.toLowerCase()):k}
 function abrirPessoa(k){const d=FEED.pessoas?.[k],A=pessoaArq(k),f=A&&Array.isArray(A.fotos)&&A.fotos.find(faValida),L=lente(),ps=pautasDaPessoa(k);
-  sheet("Quem é",`<div class="pes">${f?`<div class="pes-f"><img src="${escU(fotoMini(f.url))}" alt="${esc(k)}" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>`:""}<div><b class="pes-n">${esc(k)}</b>${d?`<p class="pes-d">${esc(d)}</p>`:""}${f?`<small class="pes-c">${esc(creditoCurto(f.credito||""))}</small>`:""}</div></div>
+  sheet("Quem é",`<div class="pes">${f?`<div class="pes-f"><img src="${escU(fotoMini(f.url))}" alt="${esc(k)}" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>`:""}<div><b class="pes-n">${esc(pessoaNomeBonito(k))}</b>${d?`<p class="pes-d">${esc(d)}</p>`:`<p class="pes-d hint">Sem verbete nesta edição.</p>`}${f?`<small class="pes-c">${esc(creditoCurto(f.credito||""))}</small>`:""}</div></div>
   ${ps.length?`<h4 class="pes-h">Nas notícias (${ps.length})</h4><ul class="mud-l">${ps.slice(0,12).map(p=>`<li><button type="button" data-cpnovir="${esc(p.id)}"><b class="mud-k" style="color:${secCor(secOf(p))};background:none;border:1px solid currentColor">${esc(capaChapeu(p))}</b><span class="mud-t">${esc(versao(p,L).titulo)}</span><span class="mud-x">${esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button></li>`).join("")}</ul>`:""}`)}
 
 /* coberturas encerradas: como terminou, no topo da matéria */

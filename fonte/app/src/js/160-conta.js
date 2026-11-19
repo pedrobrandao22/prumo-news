@@ -32,13 +32,13 @@ function co160LimpaCod(c){return String(c||"").trim().toUpperCase().replace(/[^A
 async function co160Convite(cod){cod=co160LimpaCod(cod);if(!cod)return {vazio:true};if(CO160.cv[cod])return CO160.cv[cod];
   const r=await co160Rpc("convite_info",{p_codigo:cod});if(r.sem||r.erro)return {sem:true};const d=r.data||{};const o={valido:!!d.valido,de:String(d.de||"").slice(0,40),motivo:d.motivo||"",fundador:!!d.fundador};CO160.cv[cod]=o;return o}
 function co160CvTexto(o){if(!o||o.sem||o.vazio)return null;if(o.valido)return o.fundador?"":(o.de?`Convite de <b>${esc(o.de)}</b>: está valendo.`:"Convite válido.");
-  return o.motivo==="usado"?"Este convite já foi usado. Peça outro a quem te convidou.":o.motivo==="expirado"?"Este convite expirou (vale 7 dias). Peça outro a quem te convidou.":"Este convite não existe ou não vale mais. Confira o código ou peça outro a quem te convidou."}
+  return o.motivo==="usado"?"Este convite já foi usado. Peça outro a quem te convidou.":o.motivo==="expirado"?"Este convite expirou (vale 7 dias). Peça outro a quem te convidou.":"Não achamos este convite. Confira o link ou peça outro a quem te convidou. Enquanto isso, dá para ler tudo sem conta."}
 async function co160ConfereCampo(){const i=$("#lcod");if(!i)return;const cod=co160LimpaCod(i.value),st=$("#co160cvst");if(!st)return;
   if(!cod){st.hidden=true;st.className="co160-cvst";return}const o=await co160Convite(cod);if(!$("#lcod")||co160LimpaCod($("#lcod").value)!==cod)return;
   const t=co160CvTexto(o);if(t==null||t===""){st.hidden=true;return}st.hidden=false;st.className="co160-cvst "+(o.valido?"ok":"no");st.innerHTML=t;
   const bv=$("#layer .co160-bv b");if(bv&&o.valido&&o.de)bv.textContent=o.de+" te convidou para o Prumo";
   /* 19/11: convite que não vale: o quadro de cima diz isso (não "Você recebeu um convite") e Criar conta só volta com um código válido */
-  try{const box=$("#layer .co160-bv");if(box){box.classList.toggle("co160-inv",!o.valido);if(!o.valido){box.querySelector("b").textContent="Este convite não vale mais";const p=box.querySelector("p");if(p)p.textContent="Peça um novo a quem te mandou o link. Enquanto isso, dá para ler tudo sem conta."}}}catch(e){}}
+  try{const box=$("#layer .co160-bv");if(box){box.classList.toggle("co160-inv",!o.valido);if(!o.valido){/* 19/11 tarde: um aviso só (o do campo); a caixa do topo some */box.hidden=true}else box.hidden=false}}catch(e){}}
 {const _cc160=criarConta;criarConta=async function(){const i=$("#lcod");const cod=i?co160LimpaCod(i.value):"";
   if(cod&&$("#lnome")&&$("#lnome").value.trim()){const b=$("#lform [type=submit]");if(b)b.disabled=true;let o;try{o=await co160Convite(cod)}finally{if(b)b.disabled=false}
     if(o&&!o.sem&&!o.vazio&&!o.valido){const st=$("#co160cvst");if(st){st.hidden=false;st.className="co160-cvst no";st.innerHTML=co160CvTexto(o)}mostraErro("#lerro","A conta não foi criada: o convite não vale. "+(o.motivo==="usado"||o.motivo==="expirado"?"Peça outro a quem te convidou.":"Confira o código."));try{i.focus()}catch(e){}return}}
@@ -48,7 +48,10 @@ async function co160ConfereCampo(){const i=$("#lcod");if(!i)return;const cod=co1
 PC106_TX.post_link="Esse post é de alguém do Prumo e só aparece para quem tem conta. Entre na sua conta ou, se ainda não tem, peça um convite a quem te mandou o link.";
 async function co160PostPrevia(id){const box=$("#layer .co160-pp");if(!box||!id)return;const r=await co160Rpc("post_previa",{p_id:id});const b=$("#layer .co160-pp");if(!b)return;
   if(r.sem||r.erro||!r.data){b.remove();return}const d=r.data;
-  if(!d.existe){b.innerHTML=`<b>Este post não está mais disponível.</b><span>Pode ter sido apagado ou arquivado por quem publicou.</span>`;b.classList.add("no");const p=$("#layer .pc106");if(p)p.textContent="Dá para ler as notícias do Prumo sem conta.";return}
+  if(!d.existe){b.innerHTML=`<b>Este post não está mais disponível.</b><span>Pode ter sido apagado ou arquivado por quem publicou.</span>`;b.classList.add("no");const p=$("#layer .pc106");if(p)p.textContent="Dá para ler as notícias do Prumo sem conta.";
+    /* 19/11 tarde: post que não existe não pede para entrar: a folha de entrar dá lugar a uma folha só com o aviso e "Ver as notícias de hoje" */
+    try{if($("#layer .sheet #lform")){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}
+      sheet("Post indisponível",`<div class="ct210-pnx"><p><b>Este post não está mais disponível.</b></p><p>Pode ter sido apagado ou arquivado por quem publicou. Dá para ler as notícias do Prumo sem conta.</p><button type="button" class="btn ct210-hoje" data-ct210hoje>Ver as notícias de hoje</button></div>`)}catch(_){}return}
   const nt=d.pid&&typeof pautaById==="function"&&pautaById(d.pid);const tit=nt?versao(nt,lente()).titulo:"";
   b.innerHTML=`<b>Post de ${esc(String(d.autor||"alguém do Prumo"))}</b>${nt?`<span>sobre a notícia:</span><button type="button" class="co160-ppn" data-co160lern="${esc(nt.id)}">${esc(tit)}<i aria-hidden="true">›</i></button>`:`<span>Para ver o que ${esc(String(d.autor||"a pessoa"))} escreveu, entre com a sua conta.</span>`}`}
 

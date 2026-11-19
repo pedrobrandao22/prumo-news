@@ -79,8 +79,8 @@ const CONTRASTE = ([a, b]) => { const l = s => { const m = String(s).match(/[\d.
   // ===== 5. "O que você acha?" =====
   const sug = await ev(A, () => document.querySelector('#cn102-bar [data-fc107sug]').dataset.fc107sug);
   await ev(A, () => document.querySelector('#cn102-bar [data-fc107sug]').click()); await sleep(700);
-  ok(await ev(A, p => ED && ED.po.cn && ED.po.cn.k === 'nt' && ED.po.pid === p && document.querySelector('#layer .cn102-ks').hidden, sug), '"O que você acha?" abre a notícia já escolhida, sem a faixa de tipos');
-  await ev(A, () => document.querySelector('#layer [data-edvolta]').click()); await sleep(500);
+  ok(await ev(A, p => !!document.querySelector('#layer > .cp152') && CR155.pid === p && !document.querySelector('#layer .ce'), sug), '"O que você acha?" abre a caixa Nova publicação com a notícia já juntada (19/11: não a tela antiga)');
+  await ev(A, () => document.querySelector('#layer [data-edvolta]')?.click()); await sleep(500);/* 19/11: a barra já abre a caixa */
   ok(await ev(A, p => !!document.querySelector('#layer > .cp152 .cr155-nt') && CR155.pid === p, sug), 'voltar de "O que você acha?" leva à caixa, com a notícia (e não à tela antiga)');
   await ev(A, () => document.querySelector('[data-cr155ntx]').click()); await sleep(200);
   ok(await ev(A, () => !document.querySelector('.cr155-nt') && !CR155.pid && document.querySelector('[data-cp152pub]').disabled), '× tira a notícia da caixa');

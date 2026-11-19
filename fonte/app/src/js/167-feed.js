@@ -34,7 +34,7 @@ window.addEventListener("click",e=>{const t=e.target&&e.target.closest&&e.target
 /* ---- topo do cartão: "seguindo" nunca cortado ---- */
 function fd167Seguindo(el){try{const st=el.querySelector(":scope>.ph .fd156-st");if(!st||st.dataset.fd167)return;st.dataset.fd167="1";
   const w=document.createTreeWalker(st,NodeFilter.SHOW_TEXT);let n,achou=false;while(n=w.nextNode()){if(/ · seguindo\s*$/.test(n.nodeValue)){n.nodeValue=n.nodeValue.replace(/ · seguindo\s*$/,"");achou=true;break}}
-  if(!achou)return;const s=document.createElement("span");s.className="fd167-seg";s.innerHTML=`${st.textContent.trim()?" · ":""}<b aria-hidden="true">✓</b> seguindo`;st.after(s)}catch(e){}}
+  if(!achou)return;const s=document.createElement("span");s.className="fd167-seg";s.innerHTML=`${st.textContent.trim()?" · ":""}<b aria-hidden="true">✓</b><span class="fd167-segt"> seguindo</span>`;s.title="Você segue esta cobertura";st.after(s)}catch(e){}}
 {const _wt167=wireTracks;wireTracks=function(root){const r=_wt167.apply(this,arguments);try{if(root){const ls=root.matches&&root.matches(".post.vn-cn")?[root]:[...root.querySelectorAll(".post.vn-cn")];ls.forEach(fd167Seguindo)}fd167Curtir(root)}catch(e){}return r}}
 
 /* ---- "curtir" no lugar de "gostar" (sem conta e no nome do botão) ---- */

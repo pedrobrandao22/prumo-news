@@ -1,0 +1,50 @@
+/* 89: correções da tarde de 19/11 (achados do testador) */
+.bu154-hs{font-weight:700;color:var(--hot);letter-spacing:.04em;margin-left:4px;font-size:inherit}
+.bu154-ant{font-style:normal;font-weight:700;color:var(--muted)}
+.bu154-ants .bu154-seg{white-space:nowrap}
+.ct210-ab{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 72px) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.ct210-abi{width:100%;max-width:680px;display:flex;flex-direction:column;gap:12px}
+.ct210-sk{display:block;height:16px;border-radius:6px;background:var(--line);opacity:.7}
+.ct210-sk1{height:200px;border-radius:10px}.ct210-sk2{width:60%}
+.ct210-abi p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.ct210-hoje{margin-top:10px;align-self:flex-start}
+.ct210-pnx p{margin:0 0 8px;font-size:15px;line-height:1.5}
+.paper.foto.ct210-pe>img{object-position:50% 18%}
+.mat-arte .paper.foto.ct210-ret{position:relative;overflow:hidden}
+.mat-arte .paper.foto.ct210-ret>img:not(.ct210-fd){object-fit:contain!important;object-position:50% 18%;position:relative;z-index:1}
+.mat-arte .paper.foto.ct210-ret>.ct210-fd{position:absolute;inset:-20px;width:calc(100% + 40px);height:calc(100% + 40px);object-fit:cover;filter:blur(20px) brightness(.8);z-index:0;opacity:1}
+.mat-arte .ct210-ret .cred{position:absolute;z-index:2}
+.po118-ig{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.ct210-gc{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 72px);z-index:35;display:flex;align-items:center;gap:2px;max-width:calc(100vw - 32px);background:var(--ink);color:var(--bg);border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.ct210-gcb{background:none;border:0;color:inherit;font:700 13.5px/1.2 var(--f-ui);padding:10px 4px 10px 16px;min-height:40px;text-align:left}
+.ct210-gcx{background:none;border:0;color:inherit;font-size:20px;line-height:1;padding:8px 14px 8px 8px;min-height:40px;opacity:.8}
+.ct210-rasc{font-style:normal;font-weight:700;color:var(--hot)}
+/* "✓ seguindo": com o subtema na linha, fica só o ✓ (o subtema aparece inteiro) */
+.fd167-seg .fd167-segt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* miniatura da foto na caixa: no formato da foto (deitada fica deitada), sem cortar */
+.fc164-t{width:auto!important;min-width:64px;max-width:168px}
+.fc164-t img{width:auto!important;height:100%!important;max-width:168px;object-fit:contain!important}
+/* sugestão do @: a foto do perfil inteira, como na folha de marcar pessoas */
+.men-box .av{flex:0 0 30px;min-width:30px;min-height:30px;overflow:hidden;background-size:cover!important;background-position:center!important}
+.men-box .av img{width:100%!important;height:100%!important;object-fit:cover!important;display:block;border-radius:50%}
+/* topo da Nova publicação: o título fica parado no meio em Post e em Coluna (o espaço do Publicar é reservado) */
+.cp152-hd{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center}
+.cp152-hd>b{flex:none;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.cp152-hd>:first-child{justify-self:start}.cp152-hd>:last-child{justify-self:end}
+@media (max-width:340px){.cp152-hd>b{font-size:15px}.cp152-hd .cp152-c,.cp152-hd .cp152-ok{padding-inline:8px}}
+/* placar: "Aprovado"/"Rejeitado" com contraste de texto pequeno (4,5:1) nos dois temas */
+.acv-res.ok{color:color-mix(in srgb,var(--acv-sim) 62%,var(--ink))!important}
+.acv-res.no{color:color-mix(in srgb,var(--acv-nao) 70%,var(--ink))!important}
+/* giros do topo do Feed em 320 px: o rótulo da editoria com reticências, sem encostar na imagem */
+@media (max-width:340px){.vn-tl-tx small{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+.cp152-abas{grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+.c-a.ct210-conf{background:var(--hot);color:#fff!important;border-radius:999px;padding:3px 10px;font-weight:700}
+.c-a.ct210-canc{margin-left:8px}
+/* celular deitado com pouca altura: o topo do Feed encolhe para a primeira notícia aparecer */
+@media (orientation:landscape) and (max-height:430px){
+  html.vn #secs.vn-tiles .ig-r{width:64px;height:64px;border-radius:50%}
+  html.vn .secs.ig.vn-tiles .sb.ig-s{width:64px}
+  html.vn #secs.vn-tiles .vn-tl-tx{display:none}
+  html.vn #v-feed .secs.ig.vn-tiles{padding-block:6px 8px}
+  #cn102-bar{display:none!important}
+}

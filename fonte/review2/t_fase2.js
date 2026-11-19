@@ -42,7 +42,7 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
     /* a hashtag tem de levar a ESTA pauta (uma hashtag geral, como #GovernoLula, leva à primeira de várias) */
     const tagDe = p => { try { return htDaPauta(p).find(t => { const k = htChave(t); return htNoticias(k).find(q => htNotCasa(q, k) >= 2) === p }) || null } catch (e) { return null } };
     const ps = ps0.filter(tagDe).concat(ps0.filter(p => !tagDe(p))); const p1 = ps[0], p2 = ps.find(p => p !== p1) || FEED.pautas[1];
-    return { ht: p1.id, tag: tagDe(p1) || htDaPauta(p1)[0], ponto: p1.neutro.pontos[0], dir: p1.direita && p1.direita.texto || '', esq: p1.esquerda && p1.esquerda.texto || '', anexo: p2.id } });
+    return { ht: p1.id, tag: tagDe(p1) || htDaPauta(p1)[0], ponto: p1.neutro.pontos[0], pontoRel: (typeof dt185Rel === 'function' ? dt185Rel(p1.neutro.pontos[0]) : p1.neutro.pontos[0]), dir: p1.direita && p1.direita.texto || '', esq: p1.esquerda && p1.esquerda.texto || '', anexo: p2.id } });
   const now = Date.now();
   const [pHt, pAnexo, pEnq] = await ins(B, [
     { tipo: 'post', at: now - 20 * 60e3, texto: `Vale acompanhar ${pk.tag} esta semana.`, fotos: [], estilo: { v: 2 } },
@@ -108,7 +108,10 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
 
   // ===== 5. Capítulos na matéria
   const alvo = await ev(A, () => { const tem = p => ({ vis: (p.visuais || []).some(v => ['grafico', 'numeros', 'pesquisas'].includes(v.tipo)), tl: (p.visuais || []).some(v => v.tipo === 'linha_do_tempo' && (v.itens || []).length >= 2) || (() => { const ts = (p.titulos || []).filter(x => x && x.titulo && x.hora); return ts.length >= 3 && tms(ts[ts.length - 1].hora) - tms(ts[0].hora) > 36 * 3600e3 })(), vem: !!p.proximo, faq: (p.faq || []).some(q => q && q.p), po: (() => { try { return !!po118MatHTML(p) } catch (e) { return false } })() });
-    const l = FEED.pautas.map(p => ({ id: p.id, t: tem(p) })); const n = x => Object.values(x.t).filter(Boolean).length; l.sort((a, b) => n(b) - n(a)); return { cheia: l[0], pouca: l.find(x => n(x) === 1 && !x.t.po) || l.find(x => n(x) === 1) || l[l.length - 1] } });
+    const l = FEED.pautas.map(p => ({ id: p.id, t: tem(p) })); const n = x => Object.values(x.t).filter(Boolean).length; l.sort((a, b) => n(b) - n(a)); let pouca = l.find(x => n(x) === 1 && !x.t.po) || l.find(x => n(x) === 1);
+      /* 19/11: sem matéria com uma seção só na edição do dia, o teste monta uma (só "O que vem") */
+      if (!pouca) { const c = JSON.parse(JSON.stringify(FEED.pautas.find(p => p.neutro && p.neutro.texto) || FEED.pautas[0])); c.id = 'fs2-pouca'; c.visuais = []; c.titulos = []; c.faq = []; c.atualizacoes = []; c.proximo = 'Na semana que vem, o plenário vota o texto.'; FEED.pautas.push(c); pouca = { id: c.id, t: tem(c) } }
+      return { cheia: l[0], pouca } });
   await ev(A, id => abrirMateria(id), alvo.cheia.id); await sleep(600);
   const cp = await ev(A, () => { const n = document.querySelector('#layer .fs2-cap'); return n && { rot: [...n.querySelectorAll('[data-f113cap]')].map(b => b.textContent.replace(/^\d+/, '')), cur: (n.querySelector('[aria-current="true"]') || {}).textContent, k: n.getAttribute('aria-label'), alvos: [...n.querySelectorAll('[data-f113cap]')].map(b => !!document.getElementById(b.getAttribute('aria-controls'))), sticky: getComputedStyle(n).position, h: n.getBoundingClientRect().height,
     tem: { vis: !!document.querySelector('#layer .mat-vis'), tl: !!document.querySelector('#layer .mat-tl'), vem: [...document.querySelectorAll('#layer .cpx-c b')].some(b => /^O que vem agora/.test(b.textContent)), faq: !!document.querySelector('#layer .fs2-faq') } } });
@@ -168,7 +171,7 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
   await feed(A, true); await sleep(600);
   const cx = await ev(A, ([a, b2, c]) => { const box = id => { const e = document.getElementById('p-u:' + id); return e ? [...e.querySelectorAll('.fs2-ctx')].map(x => ({ t: x.querySelector('.fs2-ctx-t').textContent, k: x.querySelector('.fs2-ctx-k').textContent, b: (x.querySelector('[data-capmat]') || {}).dataset?.capmat, btx: (x.querySelector('[data-capmat]') || {}).textContent })) : null };
     return { ht: box(a), anexo: box(b2), enq: box(c) } }, [pHt, pAnexo, pEnq]);
-  ok(cx.ht && cx.ht.length === 1 && cx.ht[0].t === pk.ponto && /Contexto do Prumo/.test(cx.ht[0].k) && cx.ht[0].b === pk.ht && cx.ht[0].btx === 'Ler a matéria ›', 'post com a hashtag da pauta: "Contexto do Prumo" com o 1º ponto neutro e "Ler a matéria ›"', JSON.stringify({ cx: cx.ht, pk }));
+  ok(cx.ht && cx.ht.length === 1 && (cx.ht[0].t === pk.ponto || cx.ht[0].t === pk.pontoRel) && /Contexto do Prumo/.test(cx.ht[0].k) && cx.ht[0].b === pk.ht && cx.ht[0].btx === 'Ler a matéria ›', 'post com a hashtag da pauta: "Contexto do Prumo" com o 1º ponto neutro e "Ler a matéria ›"', JSON.stringify({ cx: cx.ht, pk }));
   ok(cx.ht[0].t !== pk.dir && cx.ht[0].t !== pk.esq && !(pk.dir && pk.dir.indexOf(cx.ht[0].t) >= 0) && !(pk.esq && pk.esq.indexOf(cx.ht[0].t) >= 0), 'só o texto neutro (nada das versões de direita ou esquerda)');
   ok(cx.anexo && cx.anexo.length === 0, 'post que já mostra o cartão da notícia: sem caixa de contexto', JSON.stringify(cx.anexo));
   ok(cx.enq && cx.enq.length === 1 && cx.enq[0].b === pk.anexo, 'Pergunta sobre uma notícia (sem o cartão inteiro): uma caixa só', JSON.stringify(cx.enq));

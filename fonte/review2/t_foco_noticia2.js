@@ -32,8 +32,10 @@ const ins = (P, rows) => ev(P, async rows => { const ids = []; for (const r of r
   // ===== 1. barra de publicar: sugere a manchete
   const bar = await ev(A, () => { const b = document.querySelector('#cn102-bar .fc107-barb'); return b && { pid: b.dataset.fc107sug, t: b.textContent, mais: !!document.querySelector('#cn102-bar .fc107-bmais[data-cn102bar]') } });
   ok(bar && bar.pid === ids.m && /^O que você acha\?/.test(bar.t) && bar.mais, 'barra de publicar sugere a manchete ("O que você acha?") e tem o + para os outros tipos', JSON.stringify(bar));
-  await clk(A, '#cn102-bar .fc107-barb'); await esperar(A, () => ED && ED.po && ED.po.cn && ED.po.cn.k === 'nt', null, 6000); await sleep(400);
-  ok(await ev(A, m => ED.po.pid === m && !!document.querySelector('#layer .cn102'), ids.m), 'tocar na sugestão abre "Comentar notícia" já com a manchete');
+  await clk(A, '#cn102-bar .fc107-barb'); await esperar(A, () => !!document.querySelector('#layer > .cp152'), null, 6000); await sleep(400);
+  ok(await ev(A, m => CR155.pid === m && !!document.querySelector('#layer > .cp152'), ids.m), 'tocar na sugestão abre a caixa Nova publicação já com a manchete (19/11)');
+  await ev(A, () => { closeLayer._ok = true; closeLayer(); closeLayer._ok = false }); await sleep(300);
+  await ev(A, m => cn102Comeca('nt', { pid: m }), ids.m); await esperar(A, () => ED && ED.po && ED.po.cn && ED.po.cn.k === 'nt', null, 6000); await sleep(300);/* o resto do teste publica pelo formulário de notícia */
   await A.fill('#ce-leg', 'Sem acordo, a PEC fica para depois da eleição.'); await ev(A, () => document.querySelector('[data-edpubpo]').click());
   await esperar(A, () => !ED && !PQ.atual && PUB.itens.some(x => x.autor === S.uid), null, 15000); await sleep(1200);
   ok(await ev(A, d => document.querySelector('#cn102-bar .fc107-barb')?.dataset.fc107sug === d, ids.d[0]), 'depois de comentar a manchete, a barra sugere o próximo destaque');

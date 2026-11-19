@@ -62,7 +62,7 @@ async function visitante(H, b, o = {}) { const p = U.erros(await H.pagina(b, o),
   await H.db.exec(fs.readFileSync(path.join(__dirname, '..', 'sql', 'proposta-2026-11-15-convite.sql'), 'utf8'));
   const n0 = (await H.sql('select count(*)::int n from auth.users'))[0].n;
   const V1 = await visitante(H, b); await V1.goto(BASE.replace('index.html', 'index.html?convite=ZZZZ9999')); await esperar(V1, () => !!document.querySelector('#lcod'), null, 8000);
-  ok(await esperar(V1, () => /não existe ou não vale/.test(document.querySelector('#co160cvst')?.textContent || '') && !document.querySelector('#co160cvst').hidden, null, 4000), 'convite que não existe: avisa logo ao abrir o link');
+  ok(await esperar(V1, () => /Não achamos este convite/.test(document.querySelector('#co160cvst')?.textContent || '') && !document.querySelector('#co160cvst').hidden, null, 4000), 'convite que não existe: avisa logo ao abrir o link');
   await V1.fill('#lnome', 'Zé'); await V1.fill('#lemail', 'z@x.com'); await V1.fill('#lsenha', '123456'); await clk(V1, '#lform [type=submit]'); await sleep(700);
   ok((await H.sql('select count(*)::int n from auth.users'))[0].n === n0 && await ev(V1, () => /não foi criada/.test(document.querySelector('#lerro').textContent) && !S.uid), 'convite inválido: a conta NÃO é criada', await ev(V1, () => document.querySelector('#lerro').textContent));
   await U.foto(V1, 'conta-convite-invalido'); await V1.close();
@@ -84,7 +84,7 @@ async function visitante(H, b, o = {}) { const p = U.erros(await H.pagina(b, o),
   ok(await esperar(V2, t => (document.querySelector('#layer')?.innerText || '').includes(t) && !document.querySelector('#layer .sheet #lform'), await ev(V2, p => versao(pautaById(p), lente()).titulo, pid0), 5000), 'tocar na notícia da prévia abre a matéria');
   await V2.close();
   const V3 = await visitante(H, b); await V3.goto(BASE + '#p=00000000-0000-0000-0000-000000000000');
-  ok(await esperar(V3, () => /não está mais disponível/.test(document.querySelector('#layer .co160-pp')?.textContent || ''), null, 9000), 'post que não existe: diz que não está mais disponível'); await V3.close();
+  ok(await esperar(V3, () => /não está mais disponível/.test(document.querySelector('#layer .co160-pp')?.textContent || '') || (/não está mais disponível/.test(document.querySelector('#layer')?.innerText || '') && !document.querySelector('#layer #lform')), null, 9000), 'post que não existe: diz que não está mais disponível (19/11: sem o formulário de entrar)'); await V3.close();
 
   // ===== volta do link de senha nova =====
   const V4 = await visitante(H, b);
