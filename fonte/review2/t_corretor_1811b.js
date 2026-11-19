@@ -31,12 +31,13 @@ async function criar(p, { nome, email }) {
   // 3. + > Notícia > escolher: também sem "Giro"
   await ev(A, () => document.querySelector('#layer .ce-ph [data-edvolta]')?.click()); await sleep(500);
   await clk(A, '[data-cp152ax="nt"]'); await sleep(600);
-  await ev(A, () => document.querySelector('#layer [data-edselx]')?.click()); await sleep(400);
-  ok(await ev(A, () => !!document.querySelector('#ce-leg') && !document.querySelector('#layer [data-cn102nst]')), '+ > Notícia: sem o botão "Giro"');
+  await ev(A, () => document.querySelector('#layer > .cp152 [data-fc164nt]')?.click()); await sleep(400);
+  // 19/11: a notícia entra na própria caixa (não há mais a tela com "Giro" no caminho)
+  ok(await ev(A, () => !!document.querySelector('#layer > .cp152 .cr155-nt') && !document.querySelector('#layer [data-cn102nst]')), '+ > Notícia: fica na caixa, sem o botão "Giro"');
   ok(await ev(A, () => document.getElementById('b-criar')?.getAttribute('aria-label') !== 'Criar post ou giro'), 'o "+" do topo não fala mais em giro para o leitor de tela');
   await U.foto(A, 'corretor-1811b-sem-giro');
   // 4. com os formatos religados (só nos testes), o botão volta
-  await ev(A, () => { FT182_ESCONDE = []; try { edDesenha() } catch (e) {} }); await sleep(300);
+  await ev(A, () => { cn102Comeca('nt', { pid: FEED.pautas[0].id }); FT182_ESCONDE = []; try { edDesenha() } catch (e) {} }); await sleep(400);
   ok(await ev(A, () => !!document.querySelector('#layer [data-cn102nst]')), 'com giro religado, o botão volta (código guardado)');
   ok(!A._erros.length, 'sem erros ' + A._erros.join('|'));
   const R = U.resumo(); console.log(`\nRESUMO t_corretor_1811b: ${R.OKS} ok, ${R.FALHAS} falhas`);

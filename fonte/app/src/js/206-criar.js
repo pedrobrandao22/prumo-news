@@ -346,7 +346,10 @@ function cr155Anexo(k){const pid=CR155.pid&&pautaById(CR155.pid)?CR155.pid:null;
   const r=cp206Anexo0.apply(this,arguments);try{const E=typeof ED!=="undefined"&&ED;if(E&&E.po&&E.po.cn&&pid&&k==="enq"){E.po.pid=pid;E.cr155pid=pid;edDesenha()}}catch(e){}return r}
 function cp206Anexo155(k){CR155.anexo=1;try{return cr155Anexo.apply(this,arguments)}finally{CR155.anexo=0}}
 function cp152Anexo(k){
-  if(k!=="foto"){if(fc164Tem()){if(k==="nt"){fc164ListaNt();return}fc164Nota(k);return}
+  /* 19/11 madrugada: "Notícia" escolhe a notícia por cima da caixa e o cartão entra abaixo do texto (antes abria a tela
+     preta antiga do editor); com ou sem foto, tudo fica na mesma tela */
+  if(k==="nt"){fc164ListaNt();return}
+  if(k!=="foto"){if(fc164Tem()){fc164Nota(k);return}
     return cp206Anexo155.apply(this,arguments)}
   /* mais fotos: junta (não troca) e volta para a caixa; desistir também volta */
   if(fc164Tem()){fc164Edita(undefined,"fotos");const E=ED;if(E){E.po.multi=true;E.fc164novo=true}

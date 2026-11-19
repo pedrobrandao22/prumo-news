@@ -258,9 +258,8 @@ const AREAS = {
       await P.evaluate(() => document.querySelector('#layer .ce [data-edav]').click()); await U_sleep(500); await foto('foto-volta') },
     'noticia': async (P, foto) => { await pfEstado(P); await P.evaluate(() => { go('feed'); criarMenu() }); await U_sleep(400); await P.fill('#cp152-tx', 'Acho que isso muda tudo');
       await P.evaluate(() => document.querySelector('[data-cp152ax="nt"]').click()); await U_sleep(600); await foto('noticia-lista');
-      await P.evaluate(() => document.querySelector('#layer [data-edpnt]').click()); await U_sleep(400); await P.evaluate(() => document.activeElement && document.activeElement.blur()); await foto('noticia-form');
-      await P.evaluate(() => { const s = document.querySelector('#layer .ce-det') || document.scrollingElement; s.scrollTop = 9999 }); await foto('noticia-form-fim');
-      await P.evaluate(() => document.querySelector('#layer [data-edvolta]').click()); await U_sleep(500); await P.evaluate(() => document.activeElement && document.activeElement.blur()); await foto('noticia-volta') },
+      /* 19/11: a notícia escolhida entra na própria caixa */
+      await P.evaluate(() => document.querySelector('#layer [data-fc164nt]').click()); await U_sleep(500); await P.evaluate(() => document.activeElement && document.activeElement.blur()); await foto('noticia-na-caixa') },
     'formatos': async (P, foto) => { await P.evaluate(() => localStorage.setItem('prumo-teste-formatos', 'todos')); await P.reload();
       await UE(P, () => typeof FEED !== 'undefined' && !!FEED && !!document.querySelector('#v-capa .cpi'), null, 15000); await U_sleep(2500);
       await pfEstado(P); await P.evaluate(() => { go('feed'); criarMenu() }); await U_sleep(400); await foto('formatos-caixa'); await P.fill('#cp152-tx', 'O dólar vai cair?');

@@ -6139,6 +6139,12 @@ html.vn #v-me .vn-abas button{flex:1 1 auto;min-width:0;padding:0 7px;font-size:
 html.vn #v-me .vn-abas .vn-aba-ct{flex:0 0 44px;min-width:44px}
 @media (max-width:380px){html.vn #v-me .vn-abas button{padding:0 5px;font-size:13px}}
 #v-me .cmt-area .addc,.pfv .cmt-area .addc{display:none}
+/* folhas por cima da caixa (escolher notícia, local e pessoas): no tema do celular, como a caixa */
+.cp152 .ce-selp{background:var(--card);color:var(--ink);box-shadow:0 -8px 30px rgb(0 0 0 / .18)}
+.cp152 .ce-selp .field{background:var(--chip);color:var(--ink);border-color:var(--line)}
+.cp152 .ce-lis button,.cp152 .ce-selp button{color:var(--ink)}
+.cp152 .ce-lis button small,.cp152 .ce-lis em,.cp152 .fc164-lb,.cp152 .fc164-st{color:var(--muted)}
+.cp152 .ce-lis li+li{border-color:var(--line)}
 /* 208 · "Acabou de sair": notícia curta das manchetes que acabaram de sair, na Capa (depois da manchete) e no Feed */
 .ac208{margin:14px 0;padding:12px 0 4px;border-top:2px solid var(--hot,#d7372b)}
 #posts>.ac208{margin:8px 0;padding:12px var(--gut,16px) 4px;background:var(--card)}
@@ -6156,6 +6162,14 @@ html.vn #v-me .vn-abas .vn-aba-ct{flex:0 0 44px;min-width:44px}
 .ac208-ml a{display:flex;flex-direction:column;gap:2px;padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none}
 .ac208-ml span{font:700 12px var(--f-ui);color:var(--muted)}
 .ac208-ml b{font:500 15px/1.35 var(--f-ui)}
+/* 88 · Revisão de layout da madrugada de 19/11 (pedido do Pedro: "localização dos campos, ícones e textos; deixar tudo
+   bastante limpo"). */
+/* barra de baixo: o texto que rola não aparece mais por baixo nem em volta da pílula; some num degradê do fundo */
+body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;bottom:0;z-index:19;pointer-events:none;
+  height:calc(92px + env(safe-area-inset-bottom,0px));background:linear-gradient(to bottom,transparent,var(--bg) 46%)}
+/* "Você está só lendo": uma linha curta, sem ocupar meia tela */
+.avisoconta{font-size:12.5px;line-height:1.3;padding-block:0 4px;gap:8px}
+.avisoconta .av-entrar{padding:4px 12px;font-size:13px}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -21243,7 +21257,10 @@ function cr155Anexo(k){const pid=CR155.pid&&pautaById(CR155.pid)?CR155.pid:null;
   const r=cp206Anexo0.apply(this,arguments);try{const E=typeof ED!=="undefined"&&ED;if(E&&E.po&&E.po.cn&&pid&&k==="enq"){E.po.pid=pid;E.cr155pid=pid;edDesenha()}}catch(e){}return r}
 function cp206Anexo155(k){CR155.anexo=1;try{return cr155Anexo.apply(this,arguments)}finally{CR155.anexo=0}}
 function cp152Anexo(k){
-  if(k!=="foto"){if(fc164Tem()){if(k==="nt"){fc164ListaNt();return}fc164Nota(k);return}
+  /* 19/11 madrugada: "Notícia" escolhe a notícia por cima da caixa e o cartão entra abaixo do texto (antes abria a tela
+     preta antiga do editor); com ou sem foto, tudo fica na mesma tela */
+  if(k==="nt"){fc164ListaNt();return}
+  if(k!=="foto"){if(fc164Tem()){fc164Nota(k);return}
     return cp206Anexo155.apply(this,arguments)}
   /* mais fotos: junta (não troca) e volta para a caixa; desistir também volta */
   if(fc164Tem()){fc164Edita(undefined,"fotos");const E=ED;if(E){E.po.multi=true;E.fc164novo=true}
