@@ -71,9 +71,9 @@ const CONTRASTE = ([a, b]) => { const l = s => { const m = String(s).match(/[\d.
   await sleep(800); await ev(A, () => criarMenu()); await sleep(400);
   ok(await ev(A, () => document.querySelector('#cp152-tx').value === '' && !CR155.pid), 'depois de publicar, a caixa começa vazia');
   // Descartar limpa o guardado
-  await A.fill('#cp152-tx', 'Vou desistir'); await sleep(400); await ev(A, () => document.querySelector('[data-cp152x]').click()); await sleep(100); await ev(A, () => document.querySelector('[data-cp152x]').click()); await sleep(300);
+  await A.fill('#cp152-tx', 'Vou desistir'); await sleep(400); await ev(A, () => document.querySelector('[data-cp152x]').click()); await sleep(150); await ev(A, () => (document.querySelector('[data-ct210sai="d"]') || document.querySelector('[data-cp152x]')).click()); await sleep(300);/* 19/11 noite: Cancelar com texto pergunta Guardar/Descartar/Continuar */
   await ev(A, () => criarMenu()); await sleep(400);
-  ok(await ev(A, () => document.querySelector('#cp152-tx').value === ''), '"Descartar?" apaga o texto guardado');
+  ok(await ev(A, () => document.querySelector('#cp152-tx').value === ''), '"Descartar" apaga o texto guardado');
   await fecha(A); await sleep(300);
 
   // ===== 5. "O que você acha?" =====

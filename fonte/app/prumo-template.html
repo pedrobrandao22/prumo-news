@@ -6343,6 +6343,14 @@ body.sr209-off .fd156-mais .fd156-sk{display:none}
   html.vn #v-feed .secs.ig.vn-tiles{padding-block:6px 8px}
   #cn102-bar{display:none!important}
 }
+.ct210-sai .ce-selp{display:flex;flex-direction:column;gap:8px}
+.ct210-sai .ct210-desc{color:var(--hot)}
+/* com foto escolhida, o "Foto" do Juntar ao post some (fica o quadrado "+" de mais fotos) */
+.cp152:has(.fc164) .cp152-a-foto{display:none}
+/* faixa "Sem conexão" perto da barra de baixo, sem cobrir título nem botões do topo */
+.sr209{top:auto!important;bottom:calc(env(safe-area-inset-bottom,0px) + 84px)}
+/* giro: foto deitada numa tela em pé fica no alto, com o rosto acima do título */
+.story.sg .sg-bg img.ct210-dt{height:62%!important;object-position:50% 30%;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -21992,7 +22000,7 @@ document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.targ
 {const _is=igSet;igSet=function(sec,pos){const n=_is.apply(this,arguments);try{if(CT210.pidAbre&&pos==="novo"){const k=stPs().findIndex(p=>p&&p.id===CT210.pidAbre&&!p.__vis);CT210.pidAbre=null;if(k>=0)ST.i=k}}catch(e){}return n}}
 
 /* ===== 9. fotos: retrato em pé não vira faixa cortada no rosto; na matéria, retrato pequeno não é esticado ===== */
-function ct210Foto(img){try{const c=img.closest(".paper.foto");if(!c||!img.naturalWidth||img.classList.contains("ct210-fd"))return;const pe=img.naturalHeight>img.naturalWidth*1.05,peq=img.naturalWidth<600;
+function ct210Foto(img){try{if(img.closest(".story.sg .sg-bg")){img.classList.toggle("ct210-dt",img.naturalWidth>img.naturalHeight*1.15&&innerHeight>innerWidth);return}const c=img.closest(".paper.foto");if(!c||!img.naturalWidth||img.classList.contains("ct210-fd"))return;const pe=img.naturalHeight>img.naturalWidth*1.05,peq=img.naturalWidth<600;
   c.classList.toggle("ct210-pe",pe);
   if(c.closest(".mat-arte")&&(pe||peq)&&!c.querySelector(".ct210-fd")){c.classList.add("ct210-ret");const f=img.cloneNode(false);f.className="ct210-fd";f.removeAttribute("onload");f.removeAttribute("onerror");f.alt="";f.setAttribute("aria-hidden","true");c.insertBefore(f,c.firstChild)}}catch(e){}}
 document.addEventListener("load",e=>{const t=e.target;if(t&&t.tagName==="IMG")ct210Foto(t)},true);
@@ -22066,6 +22074,29 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   ap.classList.add("ct210-conf");ap.dataset.ct210tx=ap.dataset.ct210tx||"Apagar";ap.textContent="Apagar mesmo?";
   ap.insertAdjacentHTML("afterend",`<button type="button" class="c-a ct210-canc" data-ct210canc>Cancelar</button>`);
   setTimeout(()=>{try{if(ap.isConnected&&ap.classList.contains("ct210-conf")){ap.classList.remove("conf","ct210-conf");ap.textContent=ap.dataset.ct210tx;const n=ap.nextElementSibling;if(n&&n.matches("[data-ct210canc]"))n.remove()}}catch(_){}},6000)});
+
+/* ===== 21 (noite). "Acabou de sair" não repete notícia que já entrou na edição (manchete igual a um link de alguma pauta) ===== */
+function ct210LinksEd(){if(ct210LinksEd.f===FEED)return ct210LinksEd.s;const u=new Set(),t=new Set();
+  (FEED&&FEED.pautas||[]).forEach(p=>(Array.isArray(p&&p.links)?p.links:[]).forEach(l=>{if(!l)return;if(l.url)u.add(String(l.url).replace(/[?#].*$/,"").replace(/\/$/,""));if(l.titulo)t.add(norm(String(l.titulo)).replace(/\s+/g," ").trim())}));
+  ct210LinksEd.f=FEED;ct210LinksEd.s={u,t};return ct210LinksEd.s}
+{const _ai=ac208Itens;ac208Itens=function(){const l=_ai.apply(this,arguments);try{const {u,t}=ct210LinksEd();if(!u.size&&!t.size)return l;
+  return l.filter(x=>!(x.ms||[]).some(m=>(m.url&&u.has(String(m.url).replace(/[?#].*$/,"").replace(/\/$/,"")))||(m.titulo&&t.has(norm(String(m.titulo)).replace(/\s+/g," ").trim()))))}catch(e){return l}}}
+
+/* ===== 22 (noite). post que só junta a notícia, sem texto nem foto: não vira um "Seu comentário" vazio no Feed ===== */
+{const _fj=fc107Junto;fc107Junto=function(h,p){try{const x=p&&p.__pub;if(x&&!String(x.texto||"").trim()&&!(x.fotos||[]).length)return ""}catch(e){}return _fj.apply(this,arguments)}}
+{const _cm=cp152Mostra;cp152Mostra=function(id){_cm.apply(this,arguments);setTimeout(()=>{try{if(document.getElementById("p-u:"+id))return;const x=pubDe(id),nt=x&&x.pid&&document.getElementById("p-"+x.pid);
+  if(nt)scrollTo({top:Math.max(0,nt.getBoundingClientRect().top+scrollY-(((document.querySelector(".top")||{}).offsetHeight||56)+8)),behavior:"smooth"})}catch(e){}},3400)}}
+
+/* ===== 23 (noite). Cancelar a Nova publicação com texto: "Guardar para depois", "Descartar" ou "Continuar escrevendo" ===== */
+window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;let b;
+  if((b=t.closest("#layer > .cp152 [data-cp152x]"))&&String(CP152.txt||"").trim()&&!$("#layer .ct210-sai")){e.stopPropagation();e.preventDefault();
+    const ov=document.createElement("div");ov.className="ce-sel ct210-sai";ov.innerHTML=`<div class="ce-selp" role="dialog" aria-label="Sair da publicação"><b>Sair sem publicar?</b>
+      <button type="button" class="btn" data-ct210sai="g">Guardar para depois</button><button type="button" class="btn ghost ct210-desc" data-ct210sai="d">Descartar</button><button type="button" class="btn ghost" data-ct210sai="c">Continuar escrevendo</button></div>`;
+    $("#layer > .cp152").appendChild(ov);return}
+  if((b=t.closest("[data-ct210sai]"))){e.stopPropagation();e.preventDefault();const k=b.dataset.ct210sai;$("#layer .ct210-sai")?.remove();if(k==="c")return;
+    if(k==="g"){try{cr155Guarda()}catch(_){}CT210.guarda=1;try{closeLayer()}finally{CT210.guarda=0}try{cr155Guarda()}catch(_){}toast("Texto guardado. Toque em + para continuar.");return}
+    try{cr155Limpa()}catch(_){}CP152.txt="";closeLayer()}},true);
+{const _cl155=cr155Limpa;cr155Limpa=function(){if(CT210.guarda){CP152.txt="";return}return _cl155.apply(this,arguments)}}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários

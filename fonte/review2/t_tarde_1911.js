@@ -31,7 +31,7 @@ async function convite(A) { await ev(A, () => go('me')); await sleep(300); await
   await ev(A, () => { closeLayer && closeLayer(); go('feed') }); await sleep(600);
   await A.context().setOffline(true); await sleep(500);
   const f = await ev(A, () => { const e = document.getElementById('sr209'); if (!e) return null; const b = e.getBoundingClientRect(); return { t: e.textContent, top: Math.round(b.top), w: Math.round(b.width), cabe: b.left >= 0 && b.right <= innerWidth } });
-  ok(f && /Sem conexão/.test(f.t) && f.cabe && f.top < 80, 'sem internet: faixa "Sem conexão" no topo', f);
+  ok(f && /Sem conexão/.test(f.t) && f.cabe && f.top > 200, 'sem internet: faixa "Sem conexão" perto da barra de baixo, sem cobrir o topo (19/11 noite)', f);
   const m = await ev(A, () => { const e = document.getElementById('mais'); return e ? { t: e.innerText, sk: !!e.querySelector('.fd156-sk') && getComputedStyle(e.querySelector('.fd156-sk')).display } : 'sem-mais' });
   ok(m === 'sem-mais' || (/Sem conexão/.test(m.t) && m.sk !== 'block'), 'sem internet: fim do Feed diz "Sem conexão" em vez de carregar para sempre', m);
   await ev(A, () => go('msgs')); await sleep(300);
