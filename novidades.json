@@ -1,50 +1,772 @@
 {
- "gerado": "2026-11-18T16:31-03:00",
- "desde": "2026-11-18T15:39-03:00",
- "feed_atualizado_em": "2026-11-18T15:49:00-03:00",
+ "gerado": "2026-11-18T22:26-03:00",
+ "desde": "2026-11-18T21:40-03:00",
+ "feed_atualizado_em": "2026-11-18T21:50:00-03:00",
  "resumo": {
-  "manchetes": 122,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 105,
-  "pautas_com_novidade": 6,
+  "manchetes": 61,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 35,
+  "pautas_com_novidade": 1,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 6,
-  "acionar_itens": 5,
+  "pautas_com_relatos": 2,
+  "acionar_itens": 0,
   "ja_avaliados": 0
  },
- "acionar": true,
- "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização; pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização; pauta principal enem-2026-reta-final-app-idioma sem atualização há 18.8 h e 3 veículos com relatos novos (+2)",
- "acionar_itens": [
+ "acionar": false,
+ "acionar_motivo": "nada novo que acione (35 assuntos fora do feed, 2 pautas com relatos)",
+ "acionar_itens": [],
+ "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
+ "novos": [
+  {
+   "assunto": "Neymar discute com torcedor do Coritiba após vitória: \"Vai para B, otário\"",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Neymar discute com torcedor do Coritiba após vitória: \"Vai para B, otário\"",
+     "url": "https://www.metropoles.com/esportes/neymar-discute-com-torcedor-do-coritiba-apos-vitoria-vai-para-b-otario",
+     "hora": "18/11 22h24"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Gabigol marca nos acréscimos, e Santos vence o Coritiba no Couto Pereira",
+     "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/18-11-2026/coritiba-santos.ghtml",
+     "hora": "18/11 22h17"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Atuações do Remo: vitória azulina passa por Patrick; dê suas notas",
+     "url": "https://ge.globo.com/pa/futebol/times/remo/noticia/2026/11/18/atuacoes-do-remo-vitoria-azulina-passa-por-patrick-de-suas-notas.ghtml",
+     "hora": "18/11 22h12"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Neymar e Gabigol debocham após Santos vencer o Coritiba: “Vão cair”",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/santos/neymar-e-gabigol-debocham-apos-santos-vencer-o-coritiba-vao-cair/",
+     "hora": "18/11 22h11"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Remo bate a Chapecoense e evita rebaixamento precoce",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Remo bate a Chapecoense e evita rebaixamento precoce",
+     "url": "https://ge.globo.com/pa/futebol/brasileirao-serie-a/jogo/18-11-2026/remo-chapecoense.ghtml",
+     "hora": "18/11 22h19"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Brasileirão: Remo vence Chapecoense e evita rebaixamento antecipado",
+     "url": "https://www.metropoles.com/esportes/brasileirao-remo-vence-chapecoense-e-evita-rebaixamento-antecipado",
+     "hora": "18/11 22h04"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Remo vence Chapecoense e mantém vivo sonho de escapar do Z4 do Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/remo-vence-chapecoense-e-mantem-vivo-sonho-de-escapar-do-z4-do-brasileirao/",
+     "hora": "18/11 21h58"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "+Milionária hoje: resultado do concurso 408 e números sorteados",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "+Milionária hoje: resultado do concurso 408 e números sorteados",
+     "url": "https://g1.globo.com/loterias/milionaria/noticia/2026/11/18/milionaria-hoje-resultado-do-concurso-408-e-numeros-sorteados.ghtml",
+     "hora": "18/11 21h46"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Super Sete hoje: resultado do concurso 924 e números sorteados",
+     "url": "https://g1.globo.com/loterias/super-sete/noticia/2026/11/18/super-sete-hoje-resultado-do-concurso-924-e-numeros-sorteados.ghtml",
+     "hora": "18/11 21h46"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Dia de Sorte hoje: resultado do concurso 1351 e números sorteados",
+     "url": "https://g1.globo.com/loterias/dia-de-sorte/noticia/2026/11/18/dia-de-sorte-hoje-resultado-do-concurso-1351-e-numeros-sorteados.ghtml",
+     "hora": "18/11 21h46"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Lotomania hoje: resultado do concurso 3001 e números sorteados",
+     "url": "https://g1.globo.com/loterias/lotomania/noticia/2026/11/18/lotomania-hoje-resultado-do-concurso-3001-e-numeros-sorteados.ghtml",
+     "hora": "18/11 21h45"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Advogado de Vorcaro terá audiência no gabinete de Fachin em 24/11",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Advogado de Vorcaro terá audiência no gabinete de Fachin em 24/11",
+     "url": "https://www.metropoles.com/colunas/grande-angular/advogado-de-vorcaro-tera-audiencia-no-gabinete-de-fachin-em-24-11",
+     "hora": "18/11 22h21"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Agefis apreende 156 quilos de alimentos irregulares em supermercado de Fortaleza",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Agefis apreende 156 quilos de alimentos irregulares em supermercado de Fortaleza",
+     "url": "https://g1.globo.com/ce/ceara/noticia/2026/11/18/agefis-apreende-de-alimentos-irregulares-em-supermercado-fortaleza.ghtml",
+     "hora": "18/11 21h46"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Atuações da Chapecoense: derrota em estreia de novo técnico; dê suas notas",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atuações da Chapecoense: derrota em estreia de novo técnico; dê suas notas",
+     "url": "https://ge.globo.com/sc/futebol/times/chapecoense/noticia/2026/11/18/atuacoes-da-chapecoense-derrota-em-estreia-de-novo-tecnico-de-suas-notas.ghtml",
+     "hora": "18/11 22h04"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Bicampeã olímpica de vôlei, Paula Pequeno posa pela primeira vez com as duas medalhas após ter a de Pequim roubada: 'Dia especial'",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Bicampeã olímpica de vôlei, Paula Pequeno posa pela primeira vez com as duas medalhas após ter a de Pequim roubada: 'Dia especial'",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/bicampea-olimpica-de-volei-paula-pequeno-posa-pela-primeira-vez-com-as-duas-medalhas-apos-ter-a-de-pequim-roubada-dia-especial.ghtml",
+     "hora": "18/11 22h14"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Campinas confirma terceira morte por febre maculosa em 2026",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Campinas confirma terceira morte por febre maculosa em 2026",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/campinas-confirma-terceira-morte-por-febre-maculosa-em-2026/",
+     "hora": "18/11 22h14"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Campinense vence o Esporte de Patos de virada pela 4ª rodada da Copa Paraíba",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Campinense vence o Esporte de Patos de virada pela 4ª rodada da Copa Paraíba",
+     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/jogo/18-11-2026/campinense-esporte-pb.ghtml",
+     "hora": "18/11 22h17"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Nacional de Patos x Atlético-PB - Copa Paraíba 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/jogo/18-11-2026/nacionaldepatos-atletico-pb.ghtml",
+     "hora": "18/11 22h09"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Com aprovação de pacote fiscal, Lula avalia Moretti para a Fazenda",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Com aprovação de pacote fiscal, Lula avalia Moretti para a Fazenda",
+     "url": "https://www.cnnbrasil.com.br/politica/com-aprovacao-de-pacote-fiscal-lula-avalia-moretti-para-a-fazenda/",
+     "hora": "18/11 22h05"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Cruzeiro x Palmeiras - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Cruzeiro x Palmeiras - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/mg/futebol/brasileirao-serie-a/jogo/18-11-2026/cruzeiro-palmeiras.ghtml",
+     "hora": "18/11 22h21"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Corinthians x Botafogo - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/18-11-2026/corinthians-botafogo.ghtml",
+     "hora": "18/11 22h20"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Flamengo x Athletico-PR - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/18-11-2026/flamengo-athletico-pr.ghtml",
+     "hora": "18/11 22h20"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Grêmio x Bahia - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/rs/futebol/brasileirao-serie-a/jogo/18-11-2026/gremio-bahia.ghtml",
+     "hora": "18/11 22h20"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Dias difíceis neste início de Lula 4",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Dias difíceis neste início de Lula 4",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/viniciustorres/2026/11/dias-dificeis-neste-inicio-de-lula-4.shtml",
+     "hora": "18/11 21h55"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Durigan descarta recessão, mas vê crescimento em “patamar menor” em 2027",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Durigan descarta recessão, mas vê crescimento em “patamar menor” em 2027",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/durigan-descarta-recessao-mas-ve-crescimento-em-patamar-menor-em-2027/",
+     "hora": "18/11 22h04"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Foragido após prisão em força-tarefa de ataques com oito mortos em Porto Alegre se entrega à polícia",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Foragido após prisão em força-tarefa de ataques com oito mortos em Porto Alegre se entrega à polícia",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/18/foragido-prisao-ataques-oito-mortos-porto-alegre-se-entrega-policia.ghtml",
+     "hora": "18/11 21h45"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Grêmio x Bahia: Carlos Vinicius deixa jogo com dores ainda no primeiro tempo; veja vídeo",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Grêmio x Bahia: Carlos Vinicius deixa jogo com dores ainda no primeiro tempo; veja vídeo",
+     "url": "https://ge.globo.com/rs/futebol/times/gremio/noticia/2026/11/18/gremio-x-bahia-carlos-vinicius-deixa-jogo-com-dores-ainda-no-primeiro-tempo-veja-video.ghtml",
+     "hora": "18/11 22h18"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Homem faz vídeo com facas e motosserra para ameaçar ex-namorada e tenta invadir trabalho",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Homem faz vídeo com facas e motosserra para ameaçar ex-namorada e tenta invadir trabalho",
+     "url": "https://g1.globo.com/sp/campinas-regiao/noticia/2026/11/18/homem-faz-video-facas-motosserra-ameacar-ex-namorada-tenta-invadir-trabalho.ghtml",
+     "hora": "18/11 22h05"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Impedimento no futebol: entenda como funciona a regra",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Impedimento no futebol: entenda como funciona a regra",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/impedimento-no-futebol-entenda-como-funciona-a-regra/",
+     "hora": "18/11 22h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Indicado para presidir Câmara, líder democrata promete investigar Trump",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Indicado para presidir Câmara, líder democrata promete investigar Trump",
+     "url": "https://www.metropoles.com/mundo/indicado-para-presidir-camara-lider-democrata-promete-investigar-trump",
+     "hora": "18/11 22h23"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Jetour vai fabricar carros no Brasil em 2027 com aporte de R$ 400 milhões",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Jetour vai fabricar carros no Brasil em 2027 com aporte de R$ 400 milhões",
+     "url": "https://www.cnnbrasil.com.br/auto/jetour-vai-fabricar-carros-no-brasil-em-2027-com-aporte-de-r-400-milhoes/",
+     "hora": "18/11 21h53"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Mixto-PB vence o Fluminense-PB em jogo com polêmica e é tetracampeão paraibano feminino",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Mixto-PB vence o Fluminense-PB em jogo com polêmica e é tetracampeão paraibano feminino",
+     "url": "https://ge.globo.com/pb/futebol/futebol-feminino/jogo/18-11-2026/mixto-pb-fluminense-pb.ghtml",
+     "hora": "18/11 22h03"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Moody’s adota visão estável para Nvidia após saída de Huang",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Moody’s adota visão estável para Nvidia após saída de Huang",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/moodys-adota-visao-estavel-para-nvidia-apos-saida-de-huang/",
+     "hora": "18/11 21h56"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "pid_provavel": "nvidia-huang-saida"
+  },
+  {
+   "assunto": "Motta diz que pediu para Moraes liberar ação sobre dosimetria para virar página do 8/1",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Motta diz que pediu para Moraes liberar ação sobre dosimetria para virar página do 8/1",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/motta-diz-que-pediu-para-moraes-liberar-acao-sobre-dosimetria-para-virar-pagina-do-81.shtml",
+     "hora": "18/11 22h11"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "pid_provavel": "bolsonaro-revisao-criminal"
+  },
+  {
+   "assunto": "Para proteger o Itaú, Piauí mente, recua e erra",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Para proteger o Itaú, Piauí mente, recua e erra",
+     "url": "https://www.metropoles.com/brasil/para-proteger-o-itau-piaui-mente-tenta-corrigir-e-erra-equivoco-ou-mentira",
+     "hora": "18/11 21h40"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Pierce Brosnan recepciona Robert Pattinson como Bond: “Carreira notável”",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Pierce Brosnan recepciona Robert Pattinson como Bond: “Carreira notável”",
+     "url": "https://www.cnnbrasil.com.br/pop/cinema/pierce-brosnan-recepciona-robert-pattinson-como-bond-carreira-notavel/",
+     "hora": "18/11 21h57"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Pulgar e Léo Pereira recebem o terceiro amarelo e desfalcam o Flamengo contra o Palmeiras",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Pulgar e Léo Pereira recebem o terceiro amarelo e desfalcam o Flamengo contra o Palmeiras",
+     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/18/pulgar-e-leo-pereira-recebem-o-terceiro-amarelo-e-desfalcam-o-flamengo-contra-o-palmeiras.ghtml",
+     "hora": "18/11 21h54"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Resultados das Loterias Caixa",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Resultados das Loterias Caixa",
+     "url": "https://g1.globo.com/loterias/sorteios-caixa/ao-vivo/resultado-loterias-caixa.ghtml",
+     "hora": "18/11 21h50"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "STF extingue investigação contra Zambelli por defender intervenção militar",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "STF extingue investigação contra Zambelli por defender intervenção militar",
+     "url": "https://www.cnnbrasil.com.br/politica/stf-extingue-investigacao-contra-zambelli-por-defender-intervencao-militar/",
+     "hora": "18/11 22h22"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Sarna humana chega a 7 cidades, fecha mais uma creche e soma pelo menos 126 casos confirmados em MS",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Sarna humana chega a 7 cidades, fecha mais uma creche e soma pelo menos 126 casos confirmados em MS",
+     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/18/sarna-humana-chega-a-7-cidades-fecha-mais-uma-creche-e-soma-pelo-menos-126-casos-confirmados-em-ms.ghtml",
+     "hora": "18/11 22h21"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Servidor da AGU, de 41 anos, está desaparecido há 8 dias no DF",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Servidor da AGU, de 41 anos, está desaparecido há 8 dias no DF",
+     "url": "https://www.metropoles.com/distrito-federal/servidor-da-agu-de-41-anos-esta-desaparecido-ha-8-dias-no-df",
+     "hora": "18/11 22h22"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "São Lourenço goleia Concórdia e é o primeiro finalista do Catarinense de Futsal",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "São Lourenço goleia Concórdia e é o primeiro finalista do Catarinense de Futsal",
+     "url": "https://ge.globo.com/sc/futsal/noticia/2026/11/18/sao-lourenco-goleia-concordia-e-e-o-primeiro-finalista-do-catarinense-de-futsal.ghtml",
+     "hora": "18/11 21h43"
+    }
+   ],
+   "n_fontes_90min": 1
+  }
+ ],
+ "em_pautas": {
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Proposta de ajuste fiscal do governo volta a repercutir no mercado financeiro",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/proposta-de-ajuste-fiscal-do-governo-volta-a-repercutir-no-mercado-financeiro.ghtml",
+     "hora": "18/11 22h01"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Resumão diário do JN: Encontro histórico reúne os líderes das três principais potências mundiais; Senado aprova proposta do governo de ajuste fiscal",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/resumao-diario-do-jn-encontro-historico-reune-os-lideres-das-tres-principais-potencias-mundiais-senado-aprova-proposta-do-governo-de-ajuste-fiscal.ghtml",
+     "hora": "18/11 21h44"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Senado concluiu votação das medidas do governo para o ajuste das contas públicas; texto segue para a Câmara",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/senado-concluiu-votacao-das-medidas-do-governo-para-o-ajuste-das-contas-publicas-texto-segue-para-a-camara.ghtml",
+     "hora": "18/11 21h43"
+    }
+   ]
+  }
+ },
+ "novos_relatos": {
+  "ajuste-fiscal-lula-4": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "18/11 22h01",
+   "ultima_iso": "2026-11-18T22:01-03:00",
+   "pauta_atualizada_em": "2026-11-18T21:48-03:00",
+   "horas_sem_atualizar": 0.6,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Proposta de ajuste fiscal do governo volta a repercutir no mercado financeiro",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/18/proposta-de-ajuste-fiscal-do-governo-volta-a-repercutir-no-mercado-financeiro.ghtml",
+     "hora": "18/11 22h01"
+    }
+   ]
+  },
+  "atletico-mg-city-torque-semi-sulamericana": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "18/11 19h06",
+   "ultima_iso": "2026-11-18T19:06-03:00",
+   "pauta_atualizada_em": "2026-11-17T20:11-03:00",
+   "horas_sem_atualizar": 26.3,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Como os sócios impulsionam finalistas da Libertadores e Sul-Americana",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/como-os-socios-impulsionam-finalistas-da-libertadores-e-sul-americana/",
+     "hora": "18/11 19h06"
+    }
+   ]
+  }
+ },
+ "fotos_livres": [],
+ "avaliados": [
   {
    "tipo": "pauta",
    "pid": "caso-master",
-   "titulo": "Andrei cita “quebra de confiança” com delegados afastados do caso Master",
+   "id": null,
+   "chave": null,
    "n_fontes": 3,
-   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
-   "acao": "atualiza: caso-master"
+   "em": "2026-11-18T16:31-03:00"
   },
   {
    "tipo": "pauta",
    "pid": "ajuste-fiscal-lula-4",
-   "titulo": "Chico Rodrigues defende aprovação de projeto do ajuste fiscal",
+   "id": null,
+   "chave": null,
    "n_fontes": 5,
-   "motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização",
-   "acao": "atualiza: ajuste-fiscal-lula-4"
+   "em": "2026-11-18T16:31-03:00"
   },
   {
    "tipo": "pauta",
    "pid": "enem-2026-reta-final-app-idioma",
-   "titulo": "Enem 2026: leia o gabarito oficial das provas",
+   "id": null,
+   "chave": null,
    "n_fontes": 3,
-   "motivo": "pauta principal enem-2026-reta-final-app-idioma sem atualização há 18.8 h e 3 veículos com relatos novos",
-   "acao": "atualiza: enem-2026-reta-final-app-idioma"
+   "em": "2026-11-18T16:31-03:00"
   },
   {
    "tipo": "novo",
-   "titulo": "Novo formaliza candidatura de Paulo Martins à presidência da Câmara",
-   "secao": "politica",
-   "n_fontes": 3,
-   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "pid": null,
+   "id": null,
    "chave": [
     "camara",
     "candidato",
@@ -58,1216 +780,8 @@
     "paulo",
     "presidencia"
    ],
-   "acao": "nova"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "eua-trump-xi-putin-apec-china",
-   "titulo": "Com Trump e Putin na China, enviados dos EUA negociam guerra na Ucrânia",
-   "n_fontes": 2,
-   "motivo": "pauta principal eua-trump-xi-putin-apec-china sem atualização há 4.7 h e 2 veículos com relatos novos",
-   "acao": "atualiza: eua-trump-xi-putin-apec-china"
-  }
- ],
- "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
- "novos": [
-  {
-   "assunto": "Novo formaliza candidatura de Paulo Martins à presidência da Câmara",
-   "secao": "politica",
    "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "g1",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Novo formaliza candidatura de Paulo Martins à presidência da Câmara",
-     "url": "https://www.cnnbrasil.com.br/politica/novo-formaliza-candidatura-de-paulo-martins-a-presidencia-da-camara/",
-     "hora": "18/11 16h24"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Novo lança deputado eleito Paulo Martins candidato à presidência da Câmara dos Deputados",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/18/novo-lanca-deputado-eleito-paulo-martins-candidato-a-presidencia-da-camara-dos-deputados.ghtml",
-     "hora": "18/11 15h56"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Novo lança candidatura de Paulo Martins à presidência da Câmara",
-     "url": "https://www.poder360.com.br/poder-congresso/novo-lanca-candidatura-de-paulo-martins-a-presidencia-da-camara/",
-     "hora": "18/11 15h43"
-    }
-   ],
-   "n_fontes_90min": 3
-  },
-  {
-   "assunto": "'Grand Theft Auto 6' é uma obra-prima, dizem os críticos: 'Não há nada igual'",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "bbc"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "'Grand Theft Auto 6' é uma obra-prima, dizem os críticos: 'Não há nada igual'",
-     "url": "https://www.bbc.com/portuguese/articles/cj20qkl5w1qpo?at_medium=RSS&at_campaign=rss",
-     "hora": "18/11 16h27"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "200 mil morsas foram forçadas a encalhar no Alasca devido ao derretimento do gelo marinho; agora, existe um plano para protegê-las",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "200 mil morsas foram forçadas a encalhar no Alasca devido ao derretimento do gelo marinho; agora, existe um plano para protegê-las",
-     "url": "https://www.cnnbrasil.com.br/ciencia/200-mil-morsas-foram-forcadas-a-encalhar-no-alasca-devido-ao-derretimento-do-gelo-marinho-agora-existe-um-plano-para-protege-las/",
-     "hora": "18/11 16h22"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Aclara produz metal de terras raras para ímãs com pureza de 99,4%",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Aclara produz metal de terras raras para ímãs com pureza de 99,4%",
-     "url": "https://www.cnnbrasil.com.br/infra/aclara-produz-metal-de-terras-raras-para-imas-com-pureza-de-994/",
-     "hora": "18/11 16h14"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Afundamento interdita trecho da Avenida Itapetinga na Zona Norte de Natal",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Afundamento interdita trecho da Avenida Itapetinga na Zona Norte de Natal",
-     "url": "https://g1.globo.com/rn/rio-grande-do-norte/noticia/2026/11/18/afundamento-interdita-trecho-da-avenida-itapetinga-na-zona-norte-de-natal.ghtml",
-     "hora": "18/11 15h39"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Ainda sem mandato, Deltan vai à audiência com chefe da PF no Senado",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Ainda sem mandato, Deltan vai à audiência com chefe da PF no Senado",
-     "url": "https://www.metropoles.com/colunas/igor-gadelha/ainda-sem-mandato-deltan-vai-a-audiencia-com-chefe-da-pf-no-senado",
-     "hora": "18/11 15h43"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Altos anuncia renovação de acordo com fornecedor de material esportivo para temporada de 2027",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Altos anuncia renovação de acordo com fornecedor de material esportivo para temporada de 2027",
-     "url": "https://ge.globo.com/pi/futebol/times/altos/noticia/2026/11/18/altos-anuncia-renovacao-de-acordo-com-fornecedor-de-material-esportivo-para-temporada-de-2027.ghtml",
-     "hora": "18/11 15h53"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Andrei diz que mandou refazer relatórios para respeitar a Constituição",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Andrei diz que mandou refazer relatórios para respeitar a Constituição",
-     "url": "https://www.poder360.com.br/poder-justica/andrei-diz-que-mandou-refazer-relatorios-para-respeitar-a-constituicao/",
-     "hora": "18/11 15h49"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Anthropic desafia a turbulência do mercado e se aproxima do maior IPO da história",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Anthropic desafia a turbulência do mercado e se aproxima do maior IPO da história",
-     "url": "https://www.infomoney.com.br/mercados/anthropic-desafia-a-turbulencia-do-mercado-e-se-aproxima-do-maior-ipo-da-historia/",
-     "hora": "18/11 16h07"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Anthropic desafia recorde da SpaceX: os números do possível maior IPO da história",
-     "url": "https://www.infomoney.com.br/mercados/anthropic-desafia-recorde-da-spacex-os-numeros-do-possivel-maior-ipo-da-historia/",
-     "hora": "18/11 15h58"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "As 100 maiores estrelas de cinema de todos os tempos, segundo a Variety",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "As 100 maiores estrelas de cinema de todos os tempos, segundo a Variety",
-     "url": "https://www.metropoles.com/entretenimento/as-100-maiores-estrelas-de-cinema-de-todos-os-tempos-segundo-a-variety",
-     "hora": "18/11 16h18"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Autor de golaço na Série B, joia do Operário-PR renova em meio a interesse de clubes",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Autor de golaço na Série B, joia do Operário-PR renova em meio a interesse de clubes",
-     "url": "https://ge.globo.com/pr/futebol/times/operario-pr/noticia/2026/11/18/autor-de-golaco-na-serie-b-joia-do-operario-pr-renova-em-meio-a-interesse-de-clubes.ghtml",
-     "hora": "18/11 16h11"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "BH ampliará vacinação contra mpox nesta quinta; veja quem pode se vacinar",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "BH ampliará vacinação contra mpox nesta quinta; veja quem pode se vacinar",
-     "url": "https://g1.globo.com/mg/minas-gerais/noticia/2026/11/18/bh-ampliara-vacinacao-contra-mpox-nesta-quinta-veja-quem-pode-se-vacinar.ghtml",
-     "hora": "18/11 15h45"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Banco do Brasil alerta clientes sobre vazamento de dados pessoais e risco de golpes; veja o que foi exposto",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1 Economia",
-     "titulo": "Banco do Brasil alerta clientes sobre vazamento de dados pessoais e risco de golpes; veja o que foi exposto",
-     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/18/banco-do-brasil-dados.ghtml",
-     "hora": "18/11 16h30"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Brasil registra saída de US$ 765 milhões em novembro até dia 13",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Brasil registra saída de US$ 765 milhões em novembro até dia 13",
-     "url": "https://www.poder360.com.br/poder-economia/brasil-registra-saida-de-us-765-milhoes-ate-13-de-novembro/",
-     "hora": "18/11 16h03"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "CVM aplica multa de R$ 170 mil a ex-diretora financeira da Reag",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "CVM aplica multa de R$ 170 mil a ex-diretora financeira da Reag",
-     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/cvm-aplica-multa-de-r-170-mil-a-ex-diretora-financeira-da-reag/",
-     "hora": "18/11 16h08"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Casal é preso com 5 kg de derivado potente de maconha em rodovia em Martinópolis",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Casal é preso com 5 kg de derivado potente de maconha em rodovia em Martinópolis",
-     "url": "https://g1.globo.com/sp/presidente-prudente-e-regiao/noticia/2026/11/18/casal-e-preso-com-5-kg-de-derivado-potente-de-maconha-em-rodovia-em-martinopolis.ghtml",
-     "hora": "18/11 16h01"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Clima de provocação entre Flamengo e Athletico Paranaense no Churras do GE",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Clima de provocação entre Flamengo e Athletico Paranaense no Churras do GE",
-     "url": "https://ge.globo.com/pr/especial-publicitario/aurora/dicas-de-churrasco/noticia/2026/11/18/clima-de-provocacao-entre-flamengo-e-athletico-paranaense-no-churras-do-ge.ghtml",
-     "hora": "18/11 16h19"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Com apenas 1.600 moradores, ilha isolada precisa construir pontes e fechar estradas para dar passagem a ‘exército’ de caranguejos",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Com apenas 1.600 moradores, ilha isolada precisa construir pontes e fechar estradas para dar passagem a ‘exército’ de caranguejos",
-     "url": "https://www.cnnbrasil.com.br/curiosidades/com-apenas-1-600-moradores-ilha-isolada-precisa-construir-pontes-e-fechar-estradas-para-dar-passagem-a-exercito-de-caranguejos/",
-     "hora": "18/11 16h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Criança está na UTI após avião atingir carro e matar outro passageiro em Goiás",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Criança está na UTI após avião atingir carro e matar outro passageiro em Goiás",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/18/crianca-esta-na-uti-apos-aviao-atingir-carro-e-matar-outro-passageiro-em-goias.ghtml",
-     "hora": "18/11 16h14"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Diretor de Inteligência dos EUA alerta para aumento de ameaças do Irã",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Diretor de Inteligência dos EUA alerta para aumento de ameaças do Irã",
-     "url": "https://www.cnnbrasil.com.br/internacional/diretor-de-inteligencia-dos-eua-alerta-para-aumento-de-ameacas-do-ira/",
-     "hora": "18/11 16h13"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Dirigentes do Fed projetam altas de juros e tem cautela com IA na inflação, diz ata",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Dirigentes do Fed projetam altas de juros e tem cautela com IA na inflação, diz ata",
-     "url": "https://www.infomoney.com.br/mercados/dirigentes-do-fed-projetam-altas-de-juros-e-tem-cautela-com-ia-na-inflacao-diz-ata/",
-     "hora": "18/11 16h28"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Durigan demonstra otimismo com avanço de pacote fiscal no Congresso",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Durigan demonstra otimismo com avanço de pacote fiscal no Congresso",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/durigan-demonstra-otimismo-com-avanco-de-pacote-fiscal-no-congresso/",
-     "hora": "18/11 15h56"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Durigan diz que governo não discute mudança na meta de inflação",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Durigan diz que governo não discute mudança na meta de inflação",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/durigan-diz-que-governo-nao-discute-mudanca-na-meta-de-inflacao/",
-     "hora": "18/11 16h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Durigan sinaliza medidas fiscais adicionais no curto prazo",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Durigan sinaliza medidas fiscais adicionais no curto prazo",
-     "url": "https://www.infomoney.com.br/economia/durigan-sinaliza-medidas-fiscais-adicionais-no-curto-prazo/",
-     "hora": "18/11 15h53"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Durigan: Reforma tributária não será adiada e aumentará produtividade",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Durigan: Reforma tributária não será adiada e aumentará produtividade",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/durigan-reforma-tributaria-nao-sera-adiada-e-aumentara-produtividade/",
-     "hora": "18/11 16h04"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Estiagem severa: seca faz lago secar e provoca morte de grande quantidade de peixes em Alenquer",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Estiagem severa: seca faz lago secar e provoca morte de grande quantidade de peixes em Alenquer",
-     "url": "https://g1.globo.com/pa/santarem-regiao/noticia/2026/11/18/estiagem-severa-seca-faz-lago-secar-e-provoca-morte-de-grande-quantidade-de-peixes-em-alenquer.ghtml",
-     "hora": "18/11 16h02"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Explosão causa incêndio em residência e deixa dois mortos na Mooca, em SP",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Explosão causa incêndio em residência e deixa dois mortos na Mooca, em SP",
-     "url": "https://www.metropoles.com/sao-paulo/explosao-causa-incendio-em-residencia-e-deixa-dois-mortos-na-mooca-em-sp",
-     "hora": "18/11 15h58"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "FMF detalha tabela do Mineiro 2027; veja confrontos, datas e horários",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "FMF detalha tabela do Mineiro 2027; veja confrontos, datas e horários",
-     "url": "https://ge.globo.com/mg/futebol/campeonato-mineiro/noticia/2026/11/18/fmf-detalha-tabela-do-mineiro-2027-veja-confrontos-datas-e-horarios.ghtml",
-     "hora": "18/11 15h57"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Foragido da Justiça de Volta Redonda é preso em hospital de Angra dos Reis",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Foragido da Justiça de Volta Redonda é preso em hospital de Angra dos Reis",
-     "url": "https://g1.globo.com/rj/sul-do-rio-costa-verde/noticia/2026/11/18/foragido-da-justica-de-volta-redonda-e-preso-em-hospital-de-angra-dos-reis.ghtml",
-     "hora": "18/11 15h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "França confirma envio de pequeno contingente militar à Ucrânia; entenda",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "França confirma envio de pequeno contingente militar à Ucrânia; entenda",
-     "url": "https://www.cnnbrasil.com.br/internacional/franca-confirma-envio-de-pequeno-contingente-militar-a-ucrania-entenda/",
-     "hora": "18/11 15h59"
-    }
-   ],
-   "n_fontes_90min": 1
-  }
- ],
- "em_pautas": {
-  "nvidia-huang-saida": {
-   "secao": "economia",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Filha de Jensen Huang mantém influência na Nvidia após saída do pai",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/filha-de-jensen-huang-mantem-influencia-na-nvidia-apos-saida-do-pai.shtml",
-     "hora": "18/11 15h42"
-    }
-   ]
-  },
-  "caso-master": {
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Andrei cita “quebra de confiança” com delegados afastados do caso Master",
-     "url": "https://www.cnnbrasil.com.br/politica/andrei-cita-quebra-de-confianca-com-delegados-afastados-do-caso-master/",
-     "hora": "18/11 16h21"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Master: Andrei diz que delegados afastados quebraram confiança e etapas",
-     "url": "https://www.metropoles.com/brasil/master-andrei-diz-que-delegados-afastados-quebraram-confianca-e-etapas",
-     "hora": "18/11 15h47"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Andrei não diz quais ministros aparecem em relatórios no caso Master",
-     "url": "https://www.poder360.com.br/poder-justica/andrei-nao-diz-quais-ministros-tiveram-relatorios-no-caso-master/",
-     "hora": "18/11 15h58"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Relatórios da PF sobre ministros extrapolavam “balizas” do STF, diz Andrei",
-     "url": "https://www.cnnbrasil.com.br/politica/relatorios-da-pf-sobre-ministros-extrapolavam-balizas-do-stf-diz-andrei/",
-     "hora": "18/11 15h56"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Fachin se reúne com Moraes e Gonet para tratar caso Master",
-     "url": "https://www.infomoney.com.br/politica/fachin-se-reune-com-moraes-e-gonet-para-tratar-caso-master/",
-     "hora": "18/11 16h00"
-    }
-   ]
-  },
-  "atletico-mg-city-torque-semi-sulamericana": {
-   "secao": "esportes",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "ESPN envia dez profissionais para final da Copa Sul-Americana com Atlético Mineiro",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://f5.folha.uol.com.br/colunistas/outro-canal/2026/11/espn-envia-dez-profissionais-para-final-da-copa-sul-americana-com-atletico-mineiro.shtml",
-     "hora": "18/11 15h49"
-    }
-   ]
-  },
-  "eua-trump-xi-putin-apec-china": {
-   "secao": "mundo",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Com Trump e Putin na China, enviados dos EUA negociam guerra na Ucrânia",
-     "url": "https://www.metropoles.com/mundo/com-trump-e-putin-na-china-enviados-dos-eua-negociam-guerra-na-ucrania",
-     "hora": "18/11 16h20"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Trump planeja reunião a sós com Putin após encontro trilateral na China",
-     "url": "https://www.metropoles.com/mundo/trump-planeja-reuniao-a-sos-com-putin-apos-encontro-trilateral-na-china",
-     "hora": "18/11 16h10"
-    }
-   ]
-  },
-  "ajuste-fiscal-lula-4": {
-   "secao": "economia",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Agro vê risco de ajuste fiscal pressionar empresas e exportações",
-     "url": "https://www.cnnbrasil.com.br/agro/agro-ve-risco-de-ajuste-fiscal-pressionar-empresas-e-exportacoes/",
-     "hora": "18/11 16h12"
-    },
-    {
-     "veiculo": "Agência Senado",
-     "titulo": "Chico Rodrigues defende aprovação de projeto do ajuste fiscal",
-     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/18/chico-rodrigues-defende-aprovacao-de-projeto-do-ajuste-fiscal",
-     "hora": "18/11 16h28"
-    }
-   ]
-  },
-  "enem-2026-reta-final-app-idioma": {
-   "secao": "educacao",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Enem 2026: leia o gabarito oficial das provas",
-     "url": "https://www.poder360.com.br/poder-educacao/enem-2026-leia-o-gabarito-oficial-das-provas/",
-     "hora": "18/11 16h14"
-    }
-   ]
-  }
- },
- "novos_relatos": {
-  "caso-master": {
-   "n": 3,
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "im",
-    "p360"
-   ],
-   "n_fontes_90min": 3,
-   "ultima": "18/11 16h21",
-   "ultima_iso": "2026-11-18T16:21-03:00",
-   "pauta_atualizada_em": "2026-11-18T15:48-03:00",
-   "horas_sem_atualizar": 0.7,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Andrei cita “quebra de confiança” com delegados afastados do caso Master",
-     "url": "https://www.cnnbrasil.com.br/politica/andrei-cita-quebra-de-confianca-com-delegados-afastados-do-caso-master/",
-     "hora": "18/11 16h21"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Fachin se reúne com Moraes e Gonet para tratar caso Master",
-     "url": "https://www.infomoney.com.br/politica/fachin-se-reune-com-moraes-e-gonet-para-tratar-caso-master/",
-     "hora": "18/11 16h00"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Andrei não diz quais ministros aparecem em relatórios no caso Master",
-     "url": "https://www.poder360.com.br/poder-justica/andrei-nao-diz-quais-ministros-tiveram-relatorios-no-caso-master/",
-     "hora": "18/11 15h58"
-    }
-   ]
-  },
-  "ajuste-fiscal-lula-4": {
-   "n": 6,
-   "n_fontes": 5,
-   "fontes": [
-    "agsenado",
-    "cnn",
-    "folha",
-    "g1",
-    "p360"
-   ],
-   "n_fontes_90min": 3,
-   "ultima": "18/11 16h28",
-   "ultima_iso": "2026-11-18T16:28-03:00",
-   "pauta_atualizada_em": "2026-11-18T06:52-03:00",
-   "horas_sem_atualizar": 9.7,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "Agência Senado",
-     "titulo": "Chico Rodrigues defende aprovação de projeto do ajuste fiscal",
-     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/18/chico-rodrigues-defende-aprovacao-de-projeto-do-ajuste-fiscal",
-     "hora": "18/11 16h28"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Agro vê risco de ajuste fiscal pressionar empresas e exportações",
-     "url": "https://www.cnnbrasil.com.br/agro/agro-ve-risco-de-ajuste-fiscal-pressionar-empresas-e-exportacoes/",
-     "hora": "18/11 16h12"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Durigan descarta recessão econômica e defende ajuste fiscal e reforma do Judiciário",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/durigan-descarta-recessao-economica-e-defende-ajuste-fiscal-e-reforma-do-judiciario.shtml",
-     "hora": "18/11 15h28"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Tarcísio diz que ajuste fiscal não ataca raízes da dívida e dos gastos",
-     "url": "https://www.poder360.com.br/poder-economia/tarcisio-diz-que-ajuste-fiscal-nao-ataca-raizes-da-divida-e-dos-gastos/",
-     "hora": "18/11 14h44"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Ajuste fiscal: Senado deve discutir nesta quarta-feira (18) propostas de mudanças ao texto do governo",
-     "url": "https://g1.globo.com/politica/ao-vivo/senado-pacote-medidas-fiscais.ghtml",
-     "hora": "18/11 14h35"
-    },
-    {
-     "veiculo": "g1 Política",
-     "titulo": "Durigan descarta recessão, mas vê crescimento em 'patamar menor' em 2027; ministro diz acreditar em aprovação de ajuste fiscal",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/18/durigan-ve-economia-deve-crescer-em-patamar-menor-em-2027-descarta-recessao-e-diz-acreditar-em-aprovacao-de-pacote-fiscal.ghtml",
-     "hora": "18/11 13h11"
-    }
-   ]
-  },
-  "nvidia-huang-saida": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "18/11 15h42",
-   "ultima_iso": "2026-11-18T15:42-03:00",
-   "pauta_atualizada_em": "2026-11-18T06:52-03:00",
-   "horas_sem_atualizar": 9.7,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Filha de Jensen Huang mantém influência na Nvidia após saída do pai",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/filha-de-jensen-huang-mantem-influencia-na-nvidia-apos-saida-do-pai.shtml",
-     "hora": "18/11 15h42"
-    }
-   ]
-  },
-  "eua-trump-xi-putin-apec-china": {
-   "n": 3,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "18/11 16h20",
-   "ultima_iso": "2026-11-18T16:20-03:00",
-   "pauta_atualizada_em": "2026-11-18T11:48-03:00",
-   "horas_sem_atualizar": 4.7,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Com Trump e Putin na China, enviados dos EUA negociam guerra na Ucrânia",
-     "url": "https://www.metropoles.com/mundo/com-trump-e-putin-na-china-enviados-dos-eua-negociam-guerra-na-ucrania",
-     "hora": "18/11 16h20"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Trump planeja reunião a sós com Putin após encontro trilateral na China",
-     "url": "https://www.metropoles.com/mundo/trump-planeja-reuniao-a-sos-com-putin-apos-encontro-trilateral-na-china",
-     "hora": "18/11 16h10"
-    },
-    {
-     "veiculo": "g1 Mundo",
-     "titulo": "Trump terá reunião a sós com Putin na China, diz agência",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/18/trump-tera-reuniao-a-sos-com-putin-na-china.ghtml",
-     "hora": "18/11 13h36"
-    }
-   ]
-  },
-  "atletico-mg-city-torque-semi-sulamericana": {
-   "n": 3,
-   "n_fontes": 2,
-   "fontes": [
-    "folha",
-    "ge"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "18/11 15h49",
-   "ultima_iso": "2026-11-18T15:49-03:00",
-   "pauta_atualizada_em": "2026-11-17T20:11-03:00",
-   "horas_sem_atualizar": 20.3,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "ESPN envia dez profissionais para final da Copa Sul-Americana com Atlético Mineiro",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://f5.folha.uol.com.br/colunistas/outro-canal/2026/11/espn-envia-dez-profissionais-para-final-da-copa-sul-americana-com-atletico-mineiro.shtml",
-     "hora": "18/11 15h49"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético-MG viaja com elenco completo para a final da Sul-Americana com apoio da torcida",
-     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/18/atletico-mg-viaja-com-elenco-completo-para-a-final-da-sul-americana-com-apoio-da-torcida.ghtml",
-     "hora": "18/11 13h42"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético-MG terá patrocinador master para final da Sul-Americana",
-     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/18/atletico-mg-tera-patrocinador-master-para-final-da-sul-americana.ghtml",
-     "hora": "18/11 11h12"
-    }
-   ]
-  },
-  "enem-2026-reta-final-app-idioma": {
-   "n": 13,
-   "n_fontes": 3,
-   "fontes": [
-    "folha",
-    "g1",
-    "p360"
-   ],
-   "n_fontes_90min": 2,
-   "ultima": "18/11 16h14",
-   "ultima_iso": "2026-11-18T16:14-03:00",
-   "pauta_atualizada_em": "2026-11-17T21:44-03:00",
-   "horas_sem_atualizar": 18.8,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Enem 2026: leia o gabarito oficial das provas",
-     "url": "https://www.poder360.com.br/poder-educacao/enem-2026-leia-o-gabarito-oficial-das-provas/",
-     "hora": "18/11 16h14"
-    },
-    {
-     "veiculo": "g1 Educação",
-     "titulo": "'Revisoras' ou 'revisores'? Cursinhos discordam de gabarito do Inep para questão sobre gênero no Enem",
-     "url": "https://g1.globo.com/educacao/enem/2026/noticia/2026/11/18/enem-2026-cursinhos-discordam-de-gabarito-do-inep-para-questao-sobre-genero-entenda.ghtml",
-     "hora": "18/11 12h09"
-    },
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Confira o gabarito oficial do Enem 2026",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/educacao/2026/11/confira-o-gabarito-oficial-de-linguagens-e-ciencias-humanas-do-enem-2026.shtml",
-     "hora": "18/11 11h01"
-    },
-    {
-     "veiculo": "Folha Educação",
-     "titulo": "Confira o gabarito oficial do Enem 2026",
-     "url": "https://redir.folha.com.br/redir/online/educacao/rss091/*https://www1.folha.uol.com.br/educacao/2026/11/confira-o-gabarito-oficial-de-linguagens-e-ciencias-humanas-do-enem-2026.shtml",
-     "hora": "18/11 11h01"
-    },
-    {
-     "veiculo": "g1 Educação",
-     "titulo": "Gabarito da prova verde do Enem 2026 - 1º dia; consulte",
-     "url": "https://g1.globo.com/educacao/enem/2026/noticia/2026/11/18/gabarito-da-prova-verde-do-enem-2026-1o-dia-consulte.ghtml",
-     "hora": "18/11 10h43"
-    },
-    {
-     "veiculo": "g1 Educação",
-     "titulo": "Gabarito da prova BRANCA do Enem 2026 - 1º dia; consulte",
-     "url": "https://g1.globo.com/educacao/enem/2026/noticia/2026/11/18/gabarito-da-prova-branca-do-enem-2026-1o-dia-consulte.ghtml",
-     "hora": "18/11 10h42"
-    }
-   ]
-  }
- },
- "fotos_livres": [
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Setor agropecuário defende aumento de recursos no Orçamento de 2027",
-   "materia": "https://www.camara.leg.br/noticias/1320734-setor-agropecuario-defende-aumento-de-recursos-no-orcamento-de-2027",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261118114727841-768x473.jpeg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 15h41",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Debatedores atribuem avanço do crime organizado nos mercados de bebidas e cigarros a impostos altos",
-   "materia": "https://www.camara.leg.br/noticias/1320671-debatedores-atribuem-avanco-do-crime-organizado-nos-mercados-de-bebidas-e-cigarros-a-impostos-altos",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261117170005118-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 15h02",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova incentivo ao emprego para mulheres com 50 anos ou mais",
-   "materia": "https://www.camara.leg.br/noticias/1320631-comissao-aprova-incentivo-ao-emprego-para-mulheres-com-50-anos-ou-mais",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261117165654543-768x474.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 14h19",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova prioridade na restituição do IR para residentes em locais de calamidade pública",
-   "materia": "https://www.camara.leg.br/noticias/1320663-comissao-aprova-prioridade-na-restituicao-do-ir-para-residentes-em-locais-de-calamidade-publica",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261117180947329-768x474.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 14h17",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova reserva de vagas em universidades para estudantes que participaram de olimpíadas científicas",
-   "materia": "https://www.camara.leg.br/noticias/1320616-comissao-aprova-reserva-de-vagas-em-universidades-para-estudantes-que-participaram-de-olimpiadas-cientificas",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260318123259187-768x473.jpeg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 14h01",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova medidas para tornar agricultura mais resiliente a adversidades climáticas",
-   "materia": "https://www.camara.leg.br/noticias/1320600-comissao-aprova-medidas-para-tornar-agricultura-mais-resiliente-a-adversidades-climaticas",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261110195227526-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 13h42",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova destinação de 10% de patrocínios públicos ao futebol feminino",
-   "materia": "https://www.camara.leg.br/noticias/1320589-comissao-aprova-destinacao-de-10-de-patrocinios-publicos-ao-futebol-feminino",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260616170331273-768x473.jpeg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 12h05",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Projeto acaba com a obrigatoriedade da separação de bens em casamento de maiores de 70 anos",
-   "materia": "https://www.camara.leg.br/noticias/1313158-projeto-acaba-com-a-obrigatoriedade-da-separacao-de-bens-em-casamento-de-maiores-de-70-anos",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261013182453068-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 11h43",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Projeto institui em lei o Sistema Nacional de Trilhas Ecológicas",
-   "materia": "https://www.camara.leg.br/noticias/1313141-projeto-institui-em-lei-o-sistema-nacional-de-trilhas-ecologicas",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260311142843914-768x473.jpeg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 11h12",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Projeto prevê atividades sobre trabalho escravo em escolas públicas",
-   "materia": "https://www.camara.leg.br/noticias/1311970-projeto-preve-atividades-sobre-trabalho-escravo-em-escolas-publicas",
-   "img": "https://www.camara.leg.br/midias/image/2025/08/captura-de-tela-2023-07-27-131426-768x499-768x499.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 10h45",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Deputados podem votar novas regras para educação integral e monitoramento de agressores",
-   "materia": "https://www.camara.leg.br/noticias/1320550-deputados-podem-votar-novas-regras-para-educacao-integral-e-monitoramento-de-agressores",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261110174730315-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 10h04",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Projeto considera ato atentatório à Justiça uso de comandos ocultos para manipular IA em processos judiciais",
-   "materia": "https://www.camara.leg.br/noticias/1320543-projeto-considera-ato-atentatorio-a-justica-uso-de-comandos-ocultos-para-manipular-ia-em-processos-judiciais",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20250827222503917-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 09h28",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão promove debate sobre redução da maioridade penal nesta quarta-feira",
-   "materia": "https://www.camara.leg.br/noticias/1319616-comissao-promove-debate-sobre-reducao-da-maioridade-penal-nesta-quarta-feira",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261111154745070-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 09h01",
-   "pid_sugerido": "maioridade-penal-pec"
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão discute desafios para ampliar proteção a mulheres idosas vítimas de violência; participe",
-   "materia": "https://www.camara.leg.br/noticias/1320062-comissao-discute-desafios-para-ampliar-protecao-a-mulheres-idosas-vitimas-de-violencia-participe",
-   "img": "https://www.camara.leg.br/midias/image/2026/08/depositphotos-284368758-l-768x512.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 08h53",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão externa apresenta relatório sobre rompimento da barragem de Fundão",
-   "materia": "https://www.camara.leg.br/noticias/1318888-comissao-externa-apresenta-relatorio-sobre-rompimento-da-barragem-de-fundao",
-   "img": "https://www.camara.leg.br/midias/image/2026/06/img20200512152426176-768x576.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 08h50",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão debate propostas para ampliar recursos destinados ao fortalecimento da agropecuária",
-   "materia": "https://www.camara.leg.br/noticias/1320163-comissao-debate-propostas-para-ampliar-recursos-destinados-ao-fortalecimento-da-agropecuaria",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20200211123327864-768x512.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 08h40",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão debate fiscalização de contratos de concessão de rodovias federais",
-   "materia": "https://www.camara.leg.br/noticias/1319624-comissao-debate-fiscalizacao-de-contratos-de-concessao-de-rodovias-federais",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260527114655892-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 08h38",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Projeto inclui educação para o trânsito no currículo escolar",
-   "materia": "https://www.camara.leg.br/noticias/1310168-projeto-inclui-educacao-para-o-transito-no-curriculo-escolar",
-   "img": "https://www.camara.leg.br/midias/image/2026/10/img20260609165425582-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 08h27",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão promove audiência pública sobre direitos das pessoas idosas",
-   "materia": "https://www.camara.leg.br/noticias/1319071-comissao-promove-audiencia-publica-sobre-direitos-das-pessoas-idosas",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260610151702449-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 08h10",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Cid Gomes promete relatório do novo Desenrola para início de dezembro",
-   "materia": "https://www.camara.leg.br/noticias/1320466-cid-gomes-promete-relatorio-do-novo-desenrola-para-inicio-de-dezembro",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/desenrola-768x512.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 07h49",
-   "pid_sugerido": null
-  }
- ],
- "avaliados": [
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2648616-28",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
-  },
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2648616-26",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
-  },
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2648606-26",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
-  },
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2648606-24",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
-  },
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2646241-32",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
-  },
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2646241-30",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
-  },
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2643435-32",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
-  },
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2643435-30",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
-  },
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2643429-30",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
-  },
-  {
-   "tipo": "oficial",
-   "pid": "camara-mps-credito-extraordinario",
-   "id": "camara-vot-2643429-28",
-   "chave": null,
-   "n_fontes": null,
-   "em": "2026-11-18T07:38-03:00"
+   "em": "2026-11-18T16:31-03:00"
   },
   {
    "tipo": "pauta",
@@ -1275,30 +789,30 @@
    "id": null,
    "chave": null,
    "n_fontes": 2,
-   "em": "2026-11-18T07:38-03:00"
+   "em": "2026-11-18T16:31-03:00"
   }
  ],
- "ultima_rodada": "2026-11-18T15:49-03:00",
+ "ultima_rodada": "2026-11-18T21:50-03:00",
  "fontes": {
-  "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
+  "Poder360": "ok: 10 itens, 0 nas últimas 6 h",
   "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 15 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 9 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 10 nas últimas 6 h",
-  "g1 Educação": "ok: 100 itens, 12 nas últimas 6 h",
-  "ge": "ok: 100 itens, 100 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 12 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 25 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 13 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 11 nas últimas 6 h",
-  "Folha Educação": "ok: 100 itens, 3 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 11 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 4 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
+  "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
+  "ge": "ok: 100 itens, 92 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 9 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 18 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 2 nas últimas 6 h",
+  "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
+  "Folha Esporte": "falhou: URLError(TimeoutError('_ssl.c:1063: The handshake operation timed out'))",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 9 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 6 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 10 nas últimas 6 h"
+  "Agência Câmara": "falhou: URLError(TimeoutError('timed out'))"
  }
 }
