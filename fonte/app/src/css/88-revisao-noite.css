@@ -1,7 +1,9 @@
 /* 88 · Revisão de layout da madrugada de 19/11 (pedido do Pedro: "localização dos campos, ícones e textos; deixar tudo
    bastante limpo"). */
 /* barra de baixo: o texto que rola não aparece mais por baixo nem em volta da pílula; some num degradê do fundo */
-body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;bottom:0;z-index:19;pointer-events:none;
+/* 19/11 (corretor): só com a barra de baixo na tela. Na conversa aberta (dm-conv) a barra some e o degradê, por cima
+   (z 19), escondia a caixa "Mensagem…" e o Enviar (z 15); idem com a folha da conta (co160-folha). */
+body:not(.dm-conv):not(.co160-folha):not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;bottom:0;z-index:19;pointer-events:none;
   height:calc(92px + env(safe-area-inset-bottom,0px));background:linear-gradient(to bottom,transparent,var(--bg) 46%)}
 /* "Você está só lendo": uma linha curta, sem ocupar meia tela */
 .avisoconta{font-size:12.5px;line-height:1.3;padding-block:0 4px;gap:8px}

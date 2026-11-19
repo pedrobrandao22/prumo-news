@@ -12,6 +12,12 @@ var DT185_SEM=["domingo","segunda","terça","quarta","quinta","sexta","sábado"]
 var DT185_RX=/(^|[^A-Za-zÀ-ÿ])(?:(n[ao]\s+(noite|tarde|manhã|madrugada)\s+d[eao]\s+)|((?:antes|depois)\s+d[eao]\s+)|((até|desde|para)\s+(?:[ao]\s+)?)|((?:n[ao]|nest[ae]|d[ao]|dest[ae]|de|[ao])\s+))?(segunda|terça|quarta|quinta|sexta|sábado|domingo)(?:-feira)?\s*\((\d{1,2})(?:\/(\d{1,2}))?\)/gi;
 /* verbo no passado (pretérito perfeito, 3ª pessoa): aprovou, votou, subiu, bateu, fez, disse, foi, teve, foram… */
 var DT185_PASSADO=/(?:^|[^A-Za-zÀ-ÿ])(?:[a-zà-ÿ]{2,}(?:ou|eu|iu|aram|eram|iram)|foi|fez|disse|teve|houve|deu|veio|pôs|quis|trouxe|soube|foram|fizeram|disseram|tiveram|deram|vieram)(?:-(?:se|o|a|os|as|lhe))?(?=[^A-Za-zÀ-ÿ]|$)/i;
+/* 19/11 (corretor, causa "hoje depois da meia-noite"): verbo no presente/futuro na oração ("jogam", "vai", "está", "fica"):
+   com ele, "de ontem"/"até ontem" fica errado ("jogam às 20h30 de ontem", "vai até ontem", "não está na pauta de ontem") */
+var DT185_PRESENTE=/(?:^|[^A-Za-zÀ-ÿ])(?:é|são|está|estão|fica|ficam|vai|vão|tem|têm|segue|seguem|deve|devem|pode|podem|será|serão|vota|joga|enfrenta|decide|retoma|começa|termina|acontece|recebe|[a-zà-ÿ]{2,}(?:am|em))(?=[^A-Za-zÀ-ÿ]|$)/i;
+function dt185Oracao(tx,o,n){return tx.slice(0,o).split(/[.!?;:,]\s|\s(?:e|mas|que|quando|onde)\s/).pop().trim().split(/\s+/).slice(-(n||4)).join(" ")}
+/* "de ontem"/"até ontem" só sem verbo no presente na oração (o passado vale) */
+function dt185PresenteSem(fr){return DT185_PRESENTE.test(fr)&&!DT185_PASSADO.test(fr)}
 var DT185_TEM=/\(\d{1,2}(?:\/\d{1,2})?\)|\d\/\d/;
 /* 18/11 (corretor): o dia só com número e mês, sem o nome da semana ("fica fora da pauta em 18/11", "Em 15/11, Kassio
    sinalizou", "até 20/11"): só com "em", "até" ou "desde" antes, e nunca seguido de outra barra ou dígito (ano, faixa) */
@@ -38,6 +44,7 @@ function dt185Rel(s,hoje){s=String(s??"");if(!DT185_TEM.test(s))return s;hoje=ho
       /* "Em 15/11, Kassio sinalizou": no começo da frase, o verbo vem depois */
       const dep=tx.slice(o+m0.length).split(/[.!?;]/)[0].trim().split(/\s+/).slice(0,4).join(" ");
       if(!DT185_PASSADO.test(fr)&&!(/^[,\s]*$/.test(fr)&&DT185_PASSADO.test(dep)))return m0}
+    if(rel==="ontem"&&p==="até"&&dt185PresenteSem(dt185Oracao(tx,o,7)))return m0;
     const ini=m0.slice(a.length);let n=p==="em"?rel:p+" "+rel;
     if(/^[A-ZÀ-Ý]/.test(ini))n=n[0].toUpperCase()+n.slice(1);return a+n});
   return s.replace(DT185_RX,function(m0,a,per,perNome,antesDepois,prepTudo,prep,art,nome,dia,mes){
@@ -45,6 +52,8 @@ function dt185Rel(s,hoje){s=String(s??"");if(!DT185_TEM.test(s))return s;hoje=ho
     /* "ontem" só quando a frase já está no passado (18/11): "O Senado vota na terça (17)" lido na quarta viraria "vota
        ontem"; sem verbo no passado antes da data na mesma frase, fica a data por extenso. "desde/até" e "de ontem" valem. */
     if(rel==="ontem"){if(prepTudo&&/^para/i.test(prepTudo))return m0; /* "prevista para ontem" não serve */
+      if((prepTudo&&/^até/i.test(prepTudo))||(art&&/^d/i.test(art))){const o=arguments[arguments.length-2],tx=arguments[arguments.length-1];
+        if(dt185PresenteSem(dt185Oracao(tx,o,7)))return m0}
       if(!(prepTudo&&/^(até|desde)/i.test(prepTudo))&&!(art&&/^d/i.test(art))){const o=arguments[arguments.length-2],tx=arguments[arguments.length-1];
         /* só a última oração antes da data conta: "A Nvidia perdeu 3% e divulga na quarta (17)" fica com a data */
         /* e o verbo no passado tem de estar colado à data (até 4 palavras antes): "Quem foi pré-selecionado valida a

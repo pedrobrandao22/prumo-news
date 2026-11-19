@@ -119,15 +119,21 @@ const ACV_DESENHO={
     h+=`<text x="244" y="22" class="acv-uf-h">Maiores</text>${lado}<defs><linearGradient id="${gid}"><stop offset="0" style="stop-color:color-mix(in srgb,var(--acv-mapa) 16%,var(--card))"/><stop offset="1" style="stop-color:var(--acv-mapa)"/></linearGradient></defs><rect x="244" y="${44+5*19}" width="70" height="8" rx="4" fill="url(#${gid})"/><text x="244" y="${66+5*19}" class="acv-uf-s">${esc2(mn)}</text><text x="314" y="${66+5*19}" text-anchor="end" class="acv-uf-s">${esc2(mx)}</text>`;
     const al=(v.titulo||"Mapa por estado")+": "+top.map(i=>`${i.r} ${gnNum(i.v,v.unidade,c)}`).join("; ")+(its.length<27?`; ${27-its.length} estados sem dado`:"");
     return acvBox(v,"mapa_uf",`<svg class="gn-svg acv-mapa" viewBox="0 0 320 ${8*P}" role="img" aria-label="${esc(al)}">${h}</svg>`,its.length<27?`<p class="hint">Estados em branco: sem dado.</p>`:"")},
-  contagem(v){const m=/^(\d{4}-\d{2}-\d{2})$/.exec(String(v.data||""));if(!m)return "";const hj=hojeSP(),alvo=m[1];
-    const dias=Math.round((Date.parse(alvo+"T12:00:00Z")-Date.parse(hj+"T12:00:00Z"))/864e5),rot=String(v.rotulo||"").slice(0,60);
-    const big=dias>0?`<b class="acv-ct-n">${dias}</b><span class="acv-ct-u">${dias===1?"dia":"dias"} ${esc(rot)}</span>`:dias===0?`<b class="acv-ct-n hoje">Hoje</b><span class="acv-ct-u">${esc(rot)}${v.hora?" · "+esc(v.hora):""}</span>`:`<b class="acv-ct-n foi">${esc(dataCurta(alvo))}</b><span class="acv-ct-u">foi em ${esc(dataCurta(alvo))}: ${esc(rot)}</span>`;
+  contagem(v){const m=/^(\d{4}-\d{2}-\d{2})$/.exec(String(v.data||""));if(!m)return "";const hj=hojeSP();let alvo=m[1],rot=String(v.rotulo||"").slice(0,60);
+    /* 19/11 (corretor): a data da contagem já passou e há marco seguinte nos itens (cúpula aberta na quarta, encontro na
+       quinta): conta para o próximo marco, não para o que já foi */
+    if(alvo<hj){const px=(Array.isArray(v.itens)?v.itens:[]).filter(i=>i&&/^\d{4}-\d{2}-\d{2}$/.test(i.data)&&i.data>=hj&&typeof i.texto==="string").sort((a,b)=>a.data<b.data?-1:1)[0];
+      if(px){alvo=px.data;const t=px.texto.slice(0,60);rot="para: "+t[0].toLowerCase()+t.slice(1)}}
+    const dias=Math.round((Date.parse(alvo+"T12:00:00Z")-Date.parse(hj+"T12:00:00Z"))/864e5);
+    /* o rótulo vem para a contagem ("para a cúpula da Apec"): no dia ou depois, sem o "para"/"até" ("É hoje: cúpula…") */
+    const nome=rot.replace(/^\s*(?:para|até|pr[ao])(?::\s*|\s+(?:[ao]s?\s+)?)/i,"");
+    const big=dias>0?`<b class="acv-ct-n">${dias}</b><span class="acv-ct-u">${dias===1?"dia":"dias"} ${esc(rot)}</span>`:dias===0?`<b class="acv-ct-n hoje">Hoje</b><span class="acv-ct-u">É hoje: ${esc(nome)}${v.hora?" · "+esc(v.hora):""}</span>`:`<b class="acv-ct-n foi">${esc(dataCurta(alvo))}</b><span class="acv-ct-u">Foi em ${esc(dataCurta(alvo))}: ${esc(nome)}</span>`;
     const d0=new Date(alvo+"T12:00:00Z"),ano=d0.getUTCFullYear(),mes=d0.getUTCMonth(),pri=new Date(Date.UTC(ano,mes,1,12)).getUTCDay(),nd=new Date(Date.UTC(ano,mes+1,0,12)).getUTCDate();
     const marc=new Set((Array.isArray(v.itens)?v.itens:[]).map(i=>i&&i.data).filter(Boolean));let cal="";
     for(let i=0;i<pri;i++)cal+=`<span></span>`;
     for(let d=1;d<=nd;d++){const iso=`${ano}-${String(mes+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;cal+=`<span class="${iso===alvo?"alvo":""}${iso===hj?" hj":""}${marc.has(iso)?" mc":""}${iso<hj?" pas":""}">${d}</span>`}
     const ms=(Array.isArray(v.itens)?v.itens:[]).filter(i=>i&&/^\d{4}-\d{2}-\d{2}$/.test(i.data)&&typeof i.texto==="string").slice(0,4);
-    return acvBox(v,"contagem",`<div class="acv-ct" role="img" aria-label="${esc(dias>0?`Faltam ${dias} dias ${rot} (${dataCurta(alvo)})`:dias===0?`Hoje: ${rot}`:`Foi em ${dataCurta(alvo)}: ${rot}`)}"><div class="acv-ct-a">${big}<small>${esc(new Date(alvo+"T12:00:00Z").toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}))}${v.hora?" · "+esc(v.hora):""}</small></div>
+    return acvBox(v,"contagem",`<div class="acv-ct" role="img" aria-label="${esc(dias>0?`Faltam ${dias} dias ${rot} (${dataCurta(alvo)})`:dias===0?`É hoje: ${nome}`:`Foi em ${dataCurta(alvo)}: ${nome}`)}"><div class="acv-ct-a">${big}<small>${esc(new Date(alvo+"T12:00:00Z").toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}))}${v.hora?" · "+esc(v.hora):""}</small></div>
       <div class="acv-cal" aria-hidden="true"><em>${ACV_MES[mes]} ${ano}</em><div>${["D","S","T","Q","Q","S","S"].map(x=>`<span class="ds">${x}</span>`).join("")}${cal}</div></div></div>
       ${ms.length?`<ol class="acv-ct-m">${ms.map(i=>`<li class="${i.data<hj?"pas":""}"><time>${esc(dataCurta(i.data))}</time><span>${esc(i.texto)}</span></li>`).join("")}</ol>`:""}`)}
 };
