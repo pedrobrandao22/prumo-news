@@ -84,7 +84,7 @@ async function visitante(H, b, o = {}) { const p = U.erros(await H.pagina(b, o),
   ok(await esperar(V2, t => (document.querySelector('#layer')?.innerText || '').includes(t) && !document.querySelector('#layer .sheet #lform'), await ev(V2, p => versao(pautaById(p), lente()).titulo, pid0), 5000), 'tocar na notícia da prévia abre a matéria');
   await V2.close();
   const V3 = await visitante(H, b); await V3.goto(BASE + '#p=00000000-0000-0000-0000-000000000000');
-  ok(await esperar(V3, () => /não está mais disponível/.test(document.querySelector('#layer .co160-pp')?.textContent || ''), null, 9000), 'post que não existe: diz que não está mais disponível'); await V3.close();
+  ok(await esperar(V3, () => /não está mais disponível/.test(document.querySelector('#layer .co160-pp')?.textContent || '') || (/não está mais disponível/.test(document.querySelector('#layer')?.innerText || '') && !document.querySelector('#layer #lform')), null, 9000), 'post que não existe: diz que não está mais disponível (19/11: sem o formulário de entrar)'); await V3.close();
 
   // ===== volta do link de senha nova =====
   const V4 = await visitante(H, b);

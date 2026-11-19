@@ -49,8 +49,9 @@ PC106_TX.post_link="Esse post é de alguém do Prumo e só aparece para quem tem
 async function co160PostPrevia(id){const box=$("#layer .co160-pp");if(!box||!id)return;const r=await co160Rpc("post_previa",{p_id:id});const b=$("#layer .co160-pp");if(!b)return;
   if(r.sem||r.erro||!r.data){b.remove();return}const d=r.data;
   if(!d.existe){b.innerHTML=`<b>Este post não está mais disponível.</b><span>Pode ter sido apagado ou arquivado por quem publicou.</span>`;b.classList.add("no");const p=$("#layer .pc106");if(p)p.textContent="Dá para ler as notícias do Prumo sem conta.";
-    /* 19/11 tarde: post que não existe não pede para entrar: só o aviso e "Ver as notícias de hoje" */
-    try{const sh=b.closest(".sheet")||$("#layer .sheet");if(sh){sh.classList.add("ct210-pnx");b.insertAdjacentHTML("beforeend",`<button type="button" class="btn ct210-hoje" data-ct210hoje>Ver as notícias de hoje</button>`)}}catch(_){}return}
+    /* 19/11 tarde: post que não existe não pede para entrar: a folha de entrar dá lugar a uma folha só com o aviso e "Ver as notícias de hoje" */
+    try{if($("#layer .sheet #lform")){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}}
+      sheet("Post indisponível",`<div class="ct210-pnx"><p><b>Este post não está mais disponível.</b></p><p>Pode ter sido apagado ou arquivado por quem publicou. Dá para ler as notícias do Prumo sem conta.</p><button type="button" class="btn ct210-hoje" data-ct210hoje>Ver as notícias de hoje</button></div>`)}catch(_){}return}
   const nt=d.pid&&typeof pautaById==="function"&&pautaById(d.pid);const tit=nt?versao(nt,lente()).titulo:"";
   b.innerHTML=`<b>Post de ${esc(String(d.autor||"alguém do Prumo"))}</b>${nt?`<span>sobre a notícia:</span><button type="button" class="co160-ppn" data-co160lern="${esc(nt.id)}">${esc(tit)}<i aria-hidden="true">›</i></button>`:`<span>Para ver o que ${esc(String(d.autor||"a pessoa"))} escreveu, entre com a sua conta.</span>`}`}
 
