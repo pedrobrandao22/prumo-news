@@ -18653,8 +18653,7 @@ async function co160ConfereCampo(){const i=$("#lcod");if(!i)return;const cod=co1
   const t=co160CvTexto(o);if(t==null||t===""){st.hidden=true;return}st.hidden=false;st.className="co160-cvst "+(o.valido?"ok":"no");st.innerHTML=t;
   const bv=$("#layer .co160-bv b");if(bv&&o.valido&&o.de)bv.textContent=o.de+" te convidou para o Prumo";
   /* 19/11: convite que não vale: o quadro de cima diz isso (não "Você recebeu um convite") e Criar conta só volta com um código válido */
-  try{const box=$("#layer .co160-bv"),sb=$("#lform [type=submit]");if(box){box.classList.toggle("co160-inv",!o.valido);if(!o.valido){box.querySelector("b").textContent="Este convite não vale mais";const p=box.querySelector("p");if(p)p.textContent="Peça um novo a quem te mandou o link. Enquanto isso, dá para ler tudo sem conta."}}
-    if(sb&&o.sem!==true)sb.disabled=!o.valido}catch(e){}}
+  try{const box=$("#layer .co160-bv");if(box){box.classList.toggle("co160-inv",!o.valido);if(!o.valido){box.querySelector("b").textContent="Este convite não vale mais";const p=box.querySelector("p");if(p)p.textContent="Peça um novo a quem te mandou o link. Enquanto isso, dá para ler tudo sem conta."}}}catch(e){}}
 {const _cc160=criarConta;criarConta=async function(){const i=$("#lcod");const cod=i?co160LimpaCod(i.value):"";
   if(cod&&$("#lnome")&&$("#lnome").value.trim()){const b=$("#lform [type=submit]");if(b)b.disabled=true;let o;try{o=await co160Convite(cod)}finally{if(b)b.disabled=false}
     if(o&&!o.sem&&!o.vazio&&!o.valido){const st=$("#co160cvst");if(st){st.hidden=false;st.className="co160-cvst no";st.innerHTML=co160CvTexto(o)}mostraErro("#lerro","A conta não foi criada: o convite não vale. "+(o.motivo==="usado"||o.motivo==="expirado"?"Peça outro a quem te convidou.":"Confira o código."));try{i.focus()}catch(e){}return}}
