@@ -69,7 +69,10 @@ async function criar(p, { nome, email }) {
 
   // 6. Mais recentes: ordem da hora mostrada; a folha fecha ao escolher
   await ev(A, () => abrirFiltro()); await sleep(400); await clk(A, '#layer [data-fmodo="recentes"]'); await sleep(900);
-  ok(await ev(A, () => !document.querySelector('#layer .sheet')), 'escolher "Mais recentes" fecha a folha');
+  // 19/11 (Pedro): a folha foi refeita; escolher a ordem marca a escolha e a folha fica aberta; "Ver o Feed" fecha
+  ok(await ev(A, () => !!document.querySelector('#layer .ff030 [data-fmodo="recentes"][aria-checked="true"]')), 'escolher "Mais recentes" fica marcado na folha');
+  await clk(A, '#layer [data-ff030ok]'); await sleep(500);
+  ok(await ev(A, () => !document.querySelector('#layer .sheet')), '"Ver o Feed" fecha a folha');
   const ord = await ev(A, () => [...document.querySelectorAll('#posts .post.vn-cn .pt-hora')].map(t => tms(t.dataset.when) || 0));
   ok(ord.length > 2 && ord.every((h, i) => !i || h <= ord[i - 1]), 'Mais recentes: hora do cartão sempre para trás', ord.slice(0, 8));
   await ev(A, () => { PREF.feedModo = 'voce'; salvarPrefs(); renderPosts(); scrollTo(0, 0) }); await sleep(500);
