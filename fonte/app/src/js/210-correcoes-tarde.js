@@ -63,9 +63,9 @@ function ct210Topo(){try{const e=$("#v-capa .cp-ed");if(!e||!FEED)return;const t
       p.innerHTML=p.innerHTML.replace(/, sem novidades\./,".")}}catch(e){}return r}}
 
 /* ===== 8. círculo de uma editoria no topo do Feed: o giro começa pela notícia que o círculo mostra ===== */
-{const _os=openSecStory;openSecStory=function(sec){try{const b=document.querySelector(`#secs [data-sec-story="${CSS.escape(String(sec))}"]`);CT210.pidAbre=b&&b.dataset.ct210pid||null}catch(e){CT210.pidAbre=null}
-  try{return _os.apply(this,arguments)}finally{CT210.pidAbre=null}}}
-{const _is=igSet;igSet=function(sec,pos){const n=_is.apply(this,arguments);try{if(CT210.pidAbre&&pos==="novo"){const k=stPs().findIndex(p=>p&&p.id===CT210.pidAbre&&!p.__vis);if(k>=0)ST.i=k}}catch(e){}return n}}
+/* só no toque de verdade no círculo (quem chama openSecStory direto continua começando pela primeira não vista) */
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#secs [data-sec-story]");CT210.pidAbre=b&&b.dataset.ct210pid||null;if(CT210.pidAbre)setTimeout(()=>{CT210.pidAbre=null},1500)},true);
+{const _is=igSet;igSet=function(sec,pos){const n=_is.apply(this,arguments);try{if(CT210.pidAbre&&pos==="novo"){const k=stPs().findIndex(p=>p&&p.id===CT210.pidAbre&&!p.__vis);CT210.pidAbre=null;if(k>=0)ST.i=k}}catch(e){}return n}}
 
 /* ===== 9. fotos: retrato em pé não vira faixa cortada no rosto; na matéria, retrato pequeno não é esticado ===== */
 function ct210Foto(img){try{const c=img.closest(".paper.foto");if(!c||!img.naturalWidth||img.classList.contains("ct210-fd"))return;const pe=img.naturalHeight>img.naturalWidth*1.05,peq=img.naturalWidth<600;
@@ -142,10 +142,3 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   ap.classList.add("ct210-conf");ap.dataset.ct210tx=ap.dataset.ct210tx||"Apagar";ap.textContent="Apagar mesmo?";
   ap.insertAdjacentHTML("afterend",`<button type="button" class="c-a ct210-canc" data-ct210canc>Cancelar</button>`);
   setTimeout(()=>{try{if(ap.isConnected&&ap.classList.contains("ct210-conf")){ap.classList.remove("conf","ct210-conf");ap.textContent=ap.dataset.ct210tx;const n=ap.nextElementSibling;if(n&&n.matches("[data-ct210canc]"))n.remove()}}catch(_){}},6000)});
-
-/* ===== 20. carrossel da notícia no Feed: no máximo 10 páginas também depois que os quadros extras entram (gráfico, placar…);
-   tira do meio, nunca a capa nem o fim ("Ler a matéria", enquete, "o que vem") ===== */
-function ct210Car(root){try{(root||document).querySelectorAll(".post .car>.track").forEach(t=>{const n=t.children.length;if(n<=10||!t.querySelector(":scope>.ss-fim"))return;
-  const fix=[...t.children].filter((e,i)=>i===0||e.matches(".ss-fim,.ss-enq,.ss-prox"));let sobra=n-10;
-  for(let i=t.children.length-1;i>0&&sobra>0;i--){const e=t.children[i];if(fix.includes(e))continue;e.remove();sobra--}})}catch(e){}}
-(function(){const vig=()=>{const P=document.getElementById("posts");if(!P)return setTimeout(vig,500);let ag=0;new MutationObserver(()=>{if(!ag)ag=requestAnimationFrame(()=>{ag=0;ct210Car(P)})}).observe(P,{childList:true,subtree:true});ct210Car(P)};vig()})();
