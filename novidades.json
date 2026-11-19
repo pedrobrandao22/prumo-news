@@ -1,31 +1,83 @@
 {
- "gerado": "2026-11-19T13:32-03:00",
+ "gerado": "2026-11-19T13:43-03:00",
  "desde": "2026-11-19T11:39-03:00",
  "feed_atualizado_em": "2026-11-19T11:49:00-03:00",
  "resumo": {
-  "manchetes": 247,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 200,
-  "pautas_com_novidade": 4,
-  "pautas_com_novidade_3_fontes": 2,
-  "pautas_com_relatos": 7,
+  "manchetes": 258,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 208,
+  "pautas_com_novidade": 5,
+  "pautas_com_novidade_3_fontes": 1,
+  "pautas_com_relatos": 8,
   "acionar_itens": 1,
-  "ja_avaliados": 3
+  "ja_avaliados": 5
  },
  "acionar": true,
- "acionar_motivo": "pauta decreto-6x1-adiado: 4 veículos em 90 min depois da última atualização",
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (economia)",
  "acionar_itens": [
   {
-   "tipo": "pauta",
-   "pid": "decreto-6x1-adiado",
-   "titulo": "Entenda o decreto que regulamenta o fim da escala 6×1",
-   "n_fontes": 6,
-   "motivo": "pauta decreto-6x1-adiado: 4 veículos em 90 min depois da última atualização",
-   "acao": "atualiza: decreto-6x1-adiado"
+   "tipo": "novo",
+   "titulo": "Fachin mantém prisão de primo de Vorcaro por risco de ingerência na investigação do caso Master",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "chave": [
+    "caso",
+    "compliance",
+    "dono",
+    "fachin",
+    "felipe",
+    "ingerencia",
+    "investigacao",
+    "mantem",
+    "master",
+    "preventiva",
+    "primo",
+    "prisao",
+    "risco",
+    "vorcaro",
+    "zero"
+   ],
+   "pid_provavel": "caso-master",
+   "acao": "atualiza: caso-master (provável; confira que é o mesmo assunto)"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Fachin mantém prisão de primo de Vorcaro por risco de ingerência na investigação do caso Master",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Fachin mantém prisão de primo de Vorcaro por risco de ingerência na investigação do caso Master",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/fachin-mantem-prisao-de-primo-de-vorcaro-por-risco-de-ingerencia-na-investigacao.shtml",
+     "hora": "19/11 13h36"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Fachin mantém prisão preventiva de primo de Vorcaro",
+     "url": "https://www.cnnbrasil.com.br/politica/fachin-mantem-prisao-preventiva-de-primo-de-vorcaro/",
+     "hora": "19/11 13h08"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Compliance Zero: Fachin mantém prisão de Felipe Vorcaro, primo do ex-dono do Master",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/19/compliance-zero-fachin-mantem-prisao-de-felipe-vorcaro-primo-do-ex-dono-do-master.ghtml",
+     "hora": "19/11 12h39"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "pid_provavel": "caso-master"
+  },
   {
    "assunto": "BNDES tem lucro líquido de R$ 4,27 bi no 3º trimestre",
    "secao": "economia",
@@ -53,34 +105,8 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Compliance Zero: Fachin mantém prisão de Felipe Vorcaro, primo do ex-dono do Master",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Compliance Zero: Fachin mantém prisão de Felipe Vorcaro, primo do ex-dono do Master",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/19/compliance-zero-fachin-mantem-prisao-de-felipe-vorcaro-primo-do-ex-dono-do-master.ghtml",
-     "hora": "19/11 12h39"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Fachin mantém prisão do primo de Vorcaro por risco de novos crimes",
-     "url": "https://www.metropoles.com/colunas/manoela-alcantara/fachin-mantem-prisao-do-primo-de-vorcaro-por-risco-de-novos-crimes",
-     "hora": "19/11 12h38"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
    "assunto": "Evasão zero, alfabetização de 97% e Ideb 7: conheça a escola da Maré eleita a melhor do mundo em Superação de Adversidades",
-   "secao": null,
+   "secao": "educacao",
    "n_fontes": 2,
    "fontes": [
     "ab",
@@ -90,7 +116,7 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Educação",
      "titulo": "Evasão zero, alfabetização de 97% e Ideb 7: conheça a escola da Maré eleita a melhor do mundo em Superação de Adversidades",
      "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/19/conheca-a-escola-da-mare-eleita-a-melhor-do-mundo-em-superacao-de-adversidades.ghtml",
      "hora": "19/11 11h50"
@@ -102,7 +128,7 @@
      "hora": "19/11 11h46"
     },
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Educação",
      "titulo": "Escola pública do Complexo da Maré é eleita a melhor do mundo na categoria Superação de Adversidades",
      "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/19/escola-publica-do-complexo-da-mare-e-eleita-a-melhor-do-mundo-na-categoria-superacao-de-adversidades.ghtml",
      "hora": "19/11 11h45"
@@ -137,59 +163,105 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Lula sobre fim da 6×1: MPT, MTE e Justiça têm estar preparados para a ‘confusão’",
-   "secao": "economia",
+   "assunto": "Feriado da Consciência Negra: saiba o que abre e fecha em Sergipe",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "im",
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Feriado da Consciência Negra: saiba o que abre e fecha em Sergipe",
+     "url": "https://g1.globo.com/se/sergipe/noticia/2026/11/19/feriado-da-consciencia-negra-saiba-o-que-abre-e-fecha-em-sergipe.ghtml",
+     "hora": "19/11 13h21"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Calor e chuva devem marcar feriado da Consciência Negra no Brasil",
+     "url": "https://www.cnnbrasil.com.br/nacional/brasil/calor-e-chuva-devem-marcar-feriado-da-consciencia-negra-no-brasil/",
+     "hora": "19/11 12h01"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Juventude anuncia renovação de contrato com Maurício Barbieri",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Juventude anuncia renovação de contrato com Maurício Barbieri",
+     "url": "https://www.metropoles.com/esportes/juventude-anuncia-renovacao-de-contrato-com-mauricio-barbieri",
+     "hora": "19/11 13h30"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Juventude renova com técnico Maurício Barbieri",
+     "url": "https://ge.globo.com/rs/futebol/times/juventude/noticia/2026/11/19/juventude-renova-com-tecnico-mauricio-barbieri.ghtml",
+     "hora": "19/11 12h36"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Lula diz que vai criar o Ministério das Pessoas Idosas",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
     "p360"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Lula sobre fim da 6×1: MPT, MTE e Justiça têm estar preparados para a ‘confusão’",
-     "url": "https://www.infomoney.com.br/politica/lula-sobre-fim-da-6x1-mpt-mte-e-justica-tem-estar-preparados-para-a-confusao/",
-     "hora": "19/11 13h25"
+     "veiculo": "Poder360",
+     "titulo": "Lula diz que vai criar o Ministério das Pessoas Idosas",
+     "url": "https://www.poder360.com.br/poder-governo/lula-diz-que-vai-criar-o-ministerio-das-pessoas-idosas/",
+     "hora": "19/11 13h41"
     },
     {
-     "veiculo": "Poder360",
-     "titulo": "Haverá confusão na regulamentação da 6 X 1, diz Lula",
-     "url": "https://www.poder360.com.br/poder-governo/havera-confusao-na-regulamentacao-da-6-x-1-diz-lula/",
-     "hora": "19/11 12h33"
+     "veiculo": "CNN Brasil",
+     "titulo": "Lula confirma que vai criar ministério voltado a pessoas idosas",
+     "url": "https://www.cnnbrasil.com.br/politica/lula-confirma-que-vai-criar-ministerio-voltado-a-pessoas-idosas/",
+     "hora": "19/11 12h46"
     }
    ],
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Suspeito de matar o namorado da ex-companheira no Maranhão é preso no Ceará",
-   "secao": "esportes",
+   "assunto": "Por que GTA 6 não é recomendado para menores de 18 anos — e o alerta de psiquiatras e psicólogos",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "g1",
-    "ge"
+    "bbc",
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Suspeito de matar o namorado da ex-companheira no Maranhão é preso no Ceará",
-     "url": "https://g1.globo.com/ce/ceara/noticia/2026/11/19/suspeito-de-matar-o-namorado-da-ex-companheira-no-maranhao-e-preso-no-ceara.ghtml",
-     "hora": "19/11 12h40"
+     "titulo": "Por que GTA 6 não é recomendado para menores de 18 anos — e o alerta de psiquiatras e psicólogos",
+     "url": "https://g1.globo.com/pop-arte/games/noticia/2026/11/19/por-que-gta-6-nao-e-recomendado-para-menores-de-18-anos-e-o-alerta-de-psiquiatras-e-psicologos.ghtml",
+     "hora": "19/11 13h24"
     },
     {
-     "veiculo": "ge",
-     "titulo": "Lutador de MMA suspeito de matar o próprio cachorro é afastado de equipe",
-     "url": "https://ge.globo.com/combate/noticia/2026/11/19/lutador-de-mma-suspeito-de-matar-o-proprio-cachorro-e-afastado-de-equipe.ghtml",
-     "hora": "19/11 12h32"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Lutador de MMA é preso suspeito de matar cachorro a facadas em SP",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/lutador-de-mma-e-preso-suspeito-de-matar-cachorro-a-facadas-em-sp.ghtml",
-     "hora": "19/11 11h51"
+     "veiculo": "BBC News Brasil",
+     "titulo": "Por que GTA 6 não é recomendado para menores de 18 anos — e o alerta de psiquiatras",
+     "url": "https://www.bbc.com/portuguese/articles/ckr5g3l3r540o?at_medium=RSS&at_campaign=rss",
+     "hora": "19/11 12h50"
     }
    ],
    "n_fontes_90min": 2
@@ -392,20 +464,20 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Alerta de tempestades e ventos fortes é emitido para Goiás, diz Inmet",
+   "assunto": "Alibaba triplica lucro no 2º tri com a melhora da rentabilidade em IA",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "g1"
+    "cnn"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Alerta de tempestades e ventos fortes é emitido para Goiás, diz Inmet",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/19/alerta-de-tempestades-e-ventos-fortes-e-emitido-para-goias-diz-inmet.ghtml",
-     "hora": "19/11 11h45"
+     "veiculo": "CNN Brasil",
+     "titulo": "Alibaba triplica lucro no 2º tri com a melhora da rentabilidade em IA",
+     "url": "https://www.cnnbrasil.com.br/economia/alibaba-triplica-lucro-no-2o-trimestre-fiscal-com-a-melhora-da-rentabilidade-em-ia/",
+     "hora": "19/11 13h06"
     }
    ],
    "n_fontes_90min": 1
@@ -449,37 +521,6 @@
      "veiculo": "ge",
      "titulo": "Roraima conquista três medalhas na abertura das Paralimpíadas Escolares",
      "url": "https://ge.globo.com/rr/noticia/2026/11/19/roraima-conquista-tres-medalhas-na-abertura-das-paralimpiadas-escolares.ghtml",
-     "hora": "19/11 12h24"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Antes de ser preso por feminicídio, homem chamou ambulância para simular 'morte natural' da esposa na BA; veja cronologia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Antes de ser preso por feminicídio, homem chamou ambulância para simular 'morte natural' da esposa na BA; veja cronologia",
-     "url": "https://g1.globo.com/ba/bahia/noticia/2026/11/19/cronologia-feminicidio-bahia.ghtml",
-     "hora": "19/11 12h42"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Polícia investiga se homem que forjou o próprio sequestro tentou extorquir dinheiro da esposa para pagar a garotas de programa",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/19/policia-investiga-homem-que-forjou-o-proprio-sequestro.ghtml",
-     "hora": "19/11 12h41"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "‘Botar fogo com ele dentro’: esposa de homem preso por falso sequestro relata ‘ameaça’ para pagar resgate",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/19/falso-sequestro-esposa-relata-ameaca.ghtml",
      "hora": "19/11 12h24"
     }
    ],
@@ -595,12 +636,6 @@
      "titulo": "Assista ao Gazeta Meio Dia - edição regional",
      "url": "https://g1.globo.com/es/espirito-santo/ao-vivo/ao-vivo-assista-ao-gazeta-meio-dia-edicao-regional.ghtml",
      "hora": "19/11 13h00"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Assista ao Gazeta Meio Dia",
-     "url": "https://g1.globo.com/es/espirito-santo/ao-vivo/ao-vivo-assista-gazeta-meio-dia.ghtml",
-     "hora": "19/11 11h40"
     }
    ],
    "n_fontes_90min": 0,
@@ -641,26 +676,6 @@
      "titulo": "Assista aos telejornais da TV Bahia",
      "url": "https://g1.globo.com/ba/bahia/ao-vivo/assista-aos-telejornais-da-tv-bahia.ghtml",
      "hora": "19/11 13h02"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Assista aos telejornais da TV Liberal",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Assista aos telejornais da TV Liberal",
-     "url": "https://g1.globo.com/pa/para/ao-vivo/assista-aos-telejornais-da-tv-liberal.ghtml",
-     "hora": "19/11 11h40"
     }
    ],
    "n_fontes_90min": 0,
@@ -737,7 +752,7 @@
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Nasdaq sobe mais de 1% na abertura com impulso de IA e IPO da Anthropic",
+     "titulo": "Nasdaq oscila após subir mais de 1% na abertura com IPO da Anthropic",
      "url": "https://www.cnnbrasil.com.br/economia/money/mercado/wall-street-bolsas-de-ny-nasdaq-19-novembro-2026/",
      "hora": "19/11 11h54"
     },
@@ -772,6 +787,12 @@
    "n_fontes": 2,
    "manchetes": [
     {
+     "veiculo": "g1 Política",
+     "titulo": "Órgão do Senado alerta que 'bondades' de Lula nas eleições apertam máquina pública e pede ajuste fiscal profundo",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/19/orgao-do-senado-alerta-que-bondades-de-lula-nas-eleicoes-apertam-maquina-publica-e-pede-ajuste-fiscal-profundo.ghtml",
+     "hora": "19/11 13h37"
+    },
+    {
      "veiculo": "CNN Brasil",
      "titulo": "Pacote fiscal aprovado pelo Senado abre caminho para ajuste no Orçamento",
      "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/pacote-fiscal-aprovado-pelo-senado-abre-caminho-para-ajuste-no-orcamento/",
@@ -805,14 +826,8 @@
   },
   "decreto-6x1-adiado": {
    "secao": "politica",
-   "n_fontes": 3,
+   "n_fontes": 2,
    "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Entenda o decreto que regulamenta o fim da escala 6×1",
-     "url": "https://www.infomoney.com.br/minhas-financas/entenda-o-decreto-que-regulamenta-o-fim-da-escala-6x1/",
-     "hora": "19/11 13h00"
-    },
     {
      "veiculo": "BBC News Brasil",
      "titulo": "Quando começa a valer o fim da escala 6x1? Qual a regra de transição? Entenda o que está mudando na lei",
@@ -832,33 +847,38 @@
      "hora": "19/11 12h38"
     }
    ]
+  },
+  "dolar-volta-acima-5": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ibovespa Hoje Ao Vivo: Bolsa cai após intervenção do BC no dólar, que sobe a R$ 5,93",
+     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-19112026/",
+     "hora": "19/11 13h35"
+    }
+   ]
   }
  },
  "novos_relatos": {
   "decreto-6x1-adiado": {
-   "n": 8,
-   "n_fontes": 6,
+   "n": 7,
+   "n_fontes": 5,
    "fontes": [
     "bbc",
     "cnn",
     "folha",
     "g1",
-    "im",
     "p360"
    ],
    "n_fontes_90min": 4,
-   "ultima": "19/11 13h00",
-   "ultima_iso": "2026-11-19T13:00-03:00",
+   "ultima": "19/11 12h38",
+   "ultima_iso": "2026-11-19T12:38-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.7,
+   "horas_sem_atualizar": 6.9,
    "principal": true,
    "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Entenda o decreto que regulamenta o fim da escala 6×1",
-     "url": "https://www.infomoney.com.br/minhas-financas/entenda-o-decreto-que-regulamenta-o-fim-da-escala-6x1/",
-     "hora": "19/11 13h00"
-    },
     {
      "veiculo": "Poder360",
      "titulo": "Leia a íntegra do decreto que regulamenta o fim da 6 X 1",
@@ -888,6 +908,33 @@
      "titulo": "Após regulamentação da escala 5x2, Lula diz que vai articular transporte gratuito no fim de semana",
      "url": "https://g1.globo.com/politica/noticia/2026/11/19/apos-regulamentacao-da-escala-5x2-lula-diz-que-vai-articular-transporte-gratuito-no-fim-de-semana.ghtml",
      "hora": "19/11 11h24"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Lula assina decreto que regulamenta jornada de trabalho 5×2",
+     "url": "https://www.cnnbrasil.com.br/politica/lula-assina-decreto-que-regulamenta-jornada-de-trabalho-5x2/",
+     "hora": "19/11 11h16"
+    }
+   ]
+  },
+  "caso-master": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "19/11 13h36",
+   "ultima_iso": "2026-11-19T13:36-03:00",
+   "pauta_atualizada_em": "2026-11-19T06:52-03:00",
+   "horas_sem_atualizar": 6.9,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Fachin mantém prisão de primo de Vorcaro por risco de ingerência na investigação do caso Master",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/fachin-mantem-prisao-de-primo-de-vorcaro-por-risco-de-ingerencia-na-investigacao.shtml",
+     "hora": "19/11 13h36"
     }
    ]
   },
@@ -901,7 +948,7 @@
    "ultima": "19/11 11h11",
    "ultima_iso": "2026-11-19T11:11-03:00",
    "pauta_atualizada_em": "2026-11-17T06:52-03:00",
-   "horas_sem_atualizar": 54.7,
+   "horas_sem_atualizar": 54.9,
    "principal": false,
    "manchetes": [
     {
@@ -913,20 +960,27 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 6,
-   "n_fontes": 3,
+   "n": 7,
+   "n_fontes": 4,
    "fontes": [
     "cnn",
     "folha",
+    "g1",
     "im"
    ],
-   "n_fontes_90min": 3,
-   "ultima": "19/11 13h12",
-   "ultima_iso": "2026-11-19T13:12-03:00",
+   "n_fontes_90min": 4,
+   "ultima": "19/11 13h37",
+   "ultima_iso": "2026-11-19T13:37-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.7,
+   "horas_sem_atualizar": 6.9,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "g1 Política",
+     "titulo": "Órgão do Senado alerta que 'bondades' de Lula nas eleições apertam máquina pública e pede ajuste fiscal profundo",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/19/orgao-do-senado-alerta-que-bondades-de-lula-nas-eleicoes-apertam-maquina-publica-e-pede-ajuste-fiscal-profundo.ghtml",
+     "hora": "19/11 13h37"
+    },
     {
      "veiculo": "InfoMoney",
      "titulo": "Câmara divulga pauta com votação do ajuste fiscal para segunda-feira (23)",
@@ -956,28 +1010,29 @@
      "titulo": "Relator do ajuste fiscal busca bancadas para evitar mudanças na Câmara",
      "url": "https://www.cnnbrasil.com.br/politica/relator-do-ajuste-fiscal-busca-bancadas-para-evitar-mudancas-na-camara/",
      "hora": "19/11 11h08"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Após avanço do plano Moretti, Lula planeja novo pacote de ajuste fiscal",
-     "url": "https://www.cnnbrasil.com.br/politica/apos-avanco-do-plano-moretti-lula-planeja-novo-pacote-de-ajuste-fiscal/",
-     "hora": "19/11 09h48"
     }
    ]
   },
   "dolar-volta-acima-5": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
-    "folha"
+    "folha",
+    "im"
    ],
    "n_fontes_90min": 1,
-   "ultima": "19/11 09h39",
-   "ultima_iso": "2026-11-19T09:39-03:00",
+   "ultima": "19/11 13h35",
+   "ultima_iso": "2026-11-19T13:35-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.7,
+   "horas_sem_atualizar": 6.9,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ibovespa Hoje Ao Vivo: Bolsa cai após intervenção do BC no dólar, que sobe a R$ 5,93",
+     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-19112026/",
+     "hora": "19/11 13h35"
+    },
     {
      "veiculo": "Folha Mercado",
      "titulo": "BC intervém no câmbio, e dólar desacelera após superar R$ 5,92; Bolsa recua",
@@ -998,7 +1053,7 @@
    "ultima": "19/11 12h51",
    "ultima_iso": "2026-11-19T12:51-03:00",
    "pauta_atualizada_em": "2026-11-19T06:21-03:00",
-   "horas_sem_atualizar": 7.2,
+   "horas_sem_atualizar": 7.4,
    "principal": true,
    "manchetes": [
     {
@@ -1021,7 +1076,7 @@
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Nasdaq sobe mais de 1% na abertura com impulso de IA e IPO da Anthropic",
+     "titulo": "Nasdaq oscila após subir mais de 1% na abertura com IPO da Anthropic",
      "url": "https://www.cnnbrasil.com.br/economia/money/mercado/wall-street-bolsas-de-ny-nasdaq-19-novembro-2026/",
      "hora": "19/11 11h54"
     },
@@ -1045,7 +1100,7 @@
    "ultima": "19/11 09h59",
    "ultima_iso": "2026-11-19T09:59-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.7,
+   "horas_sem_atualizar": 6.9,
    "principal": true,
    "manchetes": [
     {
@@ -1078,7 +1133,7 @@
    "ultima": "19/11 12h00",
    "ultima_iso": "2026-11-19T12:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.7,
+   "horas_sem_atualizar": 6.9,
    "principal": false,
    "manchetes": [
     {
@@ -1405,19 +1460,19 @@
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 14 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 15 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 17 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 8 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 28 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 29 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 6 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 9 nas últimas 6 h"
  }
