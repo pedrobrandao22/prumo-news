@@ -1338,6 +1338,29 @@ def checar_fontes_breves_1911(f, ant=None):
               "Agência Brasil, o próprio clube) ou tire a nota (manual 2, BREVES)")
 
 
+# 19/11 (corretor, causa "hoje depois da meia-noite"): "Flamengo e Palmeiras jogam às 20h30" parece um jogo entre os dois
+# (eram Cruzeiro x Palmeiras e Flamengo x Athletico-PR). Dois times ligados por "e" com verbo de jogo, sem o confronto
+# escrito com "x" na mesma frase, é ambíguo: escreva os jogos ("Flamengo pega o Athletico-PR e Palmeiras visita o Cruzeiro").
+CONFRONTO_AMBIGUO = re.compile(r"\b([A-ZÀ-Ý][\wÀ-ÿ-]+)\s+(?:\(\d+\)\s+)?e\s+([A-ZÀ-Ý][\wÀ-ÿ-]+)\s+(?:\(\d+\)\s+)?(jogam|enfrentam|entram em campo|disputam|t[êe]m jogo|tinham jogo|jogaram)\b")
+
+
+def checar_confrontos_1911(f):
+    for p in f.get("pautas") or []:
+        if p.get("secao") != "esportes": continue
+        pid = p.get("id") or ""
+        n = p.get("neutro") or {}
+        alvos = [("titulo", n.get("titulo")), ("subtitulo", p.get("subtitulo"))]
+        alvos += [(f"social.{i}", t) for i, t in enumerate(p.get("social") or []) if isinstance(t, str)]
+        for campo, t in alvos:
+            if not isinstance(t, str): continue
+            for fr in re.split(r"(?<=[.;!?])\s+", t):
+                m = CONFRONTO_AMBIGUO.search(fr)
+                if m and not re.search(r"\sx\s", fr, re.I):
+                    A(f"[{pid}] {campo}: '{m.group(0)}' parece um jogo entre {m.group(1)} e {m.group(2)}; escreva cada confronto "
+                      f"(ex.: '{m.group(1)} pega o …, e {m.group(2)} visita o …') ou use 'x' (manual 3, DATAS E JOGOS)")
+                    break
+
+
 def checar_breves_1811(f, ant, ref, nov=None):
     """Breve que é fato de uma cobertura ativa (pede update_add) ou de um assunto que o robô de manchetes viu em 3+
     veículos (pede notícia). Breve nova desta rodada: ERRO; no feed no ar (sem --prev): AVISO. Urgente fica de fora."""
@@ -1968,6 +1991,8 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     except Exception as e: A(f"conferência de 'sem confirmação' (18/11) falhou: {e!r}")
     try: checar_fontes_breves_1911(f, ant)
     except Exception as e: A(f"checagem das fontes das breves falhou: {e}")
+    try: checar_confrontos_1911(f)
+    except Exception as e: A(f"conferência dos confrontos (19/11) falhou: {e!r}")
     try: checar_breves_1811(f, ant, ref, NOVIDADES)
     except Exception as e: A(f"conferência das breves (18/11) falhou: {e!r}")
     try: checar_mercado(f, IND, ref)
