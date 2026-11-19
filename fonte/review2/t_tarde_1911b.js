@@ -114,6 +114,17 @@ const fecha = p => ev(p, () => { let i = 0; while (($('#layer2')?.innerHTML || $
     abrirPessoa('fulano de tal'); const b = (document.querySelector('#layer .sheet') || {}).innerText || ''; closeLayer(); return { a, b } });
   ok(/Sem verbete nesta edição/.test(qe.a) && /Fulano de Tal/.test(qe.b) && /Sem verbete/.test(qe.b), 'Quem é / O que é fora da edição: "Sem verbete nesta edição" e nome com maiúsculas', qe);
 
+  /* ---- noite: Acabou de sair sem repetir a edição; post só com notícia; Cancelar com texto ---- */
+  const ac = await ev(B, () => { const p = FEED.pautas.find(x => (x.links || []).length); if (!p) return 'sem'; const l = p.links[0]; const _N = NOVID_AG;
+    NOVID_AG = { gerado: new Date().toISOString(), novos: [{ assunto: 'Assunto repetido da edição para teste', relevante: true, n_fontes: 2, secao: 'politica', manchetes: [{ titulo: l.titulo || 'Título qualquer bem comprido para o teste', url: l.url, veiculo: 'A', hora: new Date(Date.now() - 6e5).toISOString() }, { titulo: 'Outro título bem comprido do mesmo assunto aqui', veiculo: 'B', hora: new Date(Date.now() - 6e5).toISOString() }] }] };
+    const n = ac208Itens().length; NOVID_AG = _N; return n });
+  ok(ac === 'sem' || ac === 0, '"Acabou de sair": assunto cuja manchete já está nos links de uma notícia da edição não aparece', ac);
+  ok(await ev(B, () => fc107Junto('<article class="post"></article>', { __pub: { texto: '', fotos: [] }, __fc107: { k: 0, n: 1 } }) === ''), 'post só com a notícia (sem texto nem foto) não vira "Seu comentário" vazio');
+  const sai = await ev(B, async () => { cp152Abre({ aba: 'post' }); await new Promise(r => setTimeout(r, 300)); const t = $('#cp152-tx'); t.value = 'Texto que quero guardar'; t.dispatchEvent(new Event('input', { bubbles: true }));
+    $('#layer [data-cp152x]').click(); await new Promise(r => setTimeout(r, 200)); const ov = !!$('#layer .ct210-sai'); $('[data-ct210sai="g"]').click(); await new Promise(r => setTimeout(r, 300));
+    const fechou = !$('#layer').innerHTML; cp152Abre({ aba: 'post' }); await new Promise(r => setTimeout(r, 300)); const volta = ($('#cp152-tx') || {}).value; closeLayer._ok = true; closeLayer(); closeLayer._ok = false; try { cr155Limpa() } catch (e) { } return { ov, fechou, volta } });
+  ok(sai.ov && sai.fechou && sai.volta === 'Texto que quero guardar', 'Cancelar com texto: "Guardar para depois" fecha e o texto volta ao abrir o +', sai);
+
   /* ---- sem conta: textos sem "amigos" e convite inválido com um aviso só ---- */
   const V = U.erros(await H.pagina(br, vp), 'V'); await V.goto(BASE.replace('index.html', '') + '?convite=ABC123'); await esperar(V, () => !!document.querySelector('#co160cvst:not([hidden])'), null, 8000); await sleep(400);
   const cv = await ev(V, () => { const t = (document.querySelector('#layer') || {}).innerText || ''; const bv = document.querySelector('#layer .co160-bv'); return { t, bvVisivel: !!(bv && !bv.hidden && bv.getClientRects().length), nome: (document.querySelector('#lnome') || {}).placeholder || '' } });
