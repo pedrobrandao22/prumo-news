@@ -1,11 +1,11 @@
 {
- "gerado": "2026-11-19T09:35-03:00",
+ "gerado": "2026-11-19T09:45-03:00",
  "desde": "2026-11-19T06:52-03:00",
  "feed_atualizado_em": "2026-11-19T07:02:00-03:00",
  "resumo": {
-  "manchetes": 253,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 203,
+  "manchetes": 261,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 212,
   "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 8,
@@ -13,12 +13,12 @@
   "ja_avaliados": 0
  },
  "acionar": true,
- "acionar_motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização; pauta principal anthropic-ipo-nasdaq sem atualização há 3.2 h e 2 veículos com relatos novos",
+ "acionar_motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização; pauta principal anthropic-ipo-nasdaq sem atualização há 3.4 h e 2 veículos com relatos novos",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "ajuste-fiscal-lula-4",
-   "titulo": "Dólar abre em R$ 5,90, maior valor em 19 meses, na esteira de ajuste fiscal",
+   "titulo": "Dólar alcança R$ 5,91, maior valor em 19 meses, na esteira de ajuste fiscal",
    "n_fontes": 3,
    "motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização",
    "acao": "atualiza: ajuste-fiscal-lula-4"
@@ -28,12 +28,46 @@
    "pid": "anthropic-ipo-nasdaq",
    "titulo": "IPO histórica da Anthropic coloca à prova promessas e riscos da IA",
    "n_fontes": 2,
-   "motivo": "pauta principal anthropic-ipo-nasdaq sem atualização há 3.2 h e 2 veículos com relatos novos",
+   "motivo": "pauta principal anthropic-ipo-nasdaq sem atualização há 3.4 h e 2 veículos com relatos novos",
    "acao": "atualiza: anthropic-ipo-nasdaq"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Anthropic estreia em bolsa dos EUA com captação de US$ 81,3 bilhões",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Anthropic estreia em bolsa dos EUA com captação de US$ 81,3 bilhões",
+     "url": "https://www.metropoles.com/mundo/dona-do-claude-estreia-em-bolsa-dos-eua-com-captacao-de-us-813-bilhoes",
+     "hora": "19/11 09h40"
+    },
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "Recorde da Anthropic em estreia na bolsa de valores conseguirá impedir o estouro da bolha da IA?",
+     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/19/recorde-da-anthropic-em-estreia-na-bolsa-de-valores-conseguira-impedir-o-estouro-da-bolha-da-ia.ghtml",
+     "hora": "19/11 07h25"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "IPO da Anthropic: Dona do Claude estreia na bolsa avaliada em US$ 1,5 tri",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-da-anthropic-dona-do-claude-estreia-na-bolsa-avaliada-em-us-15-tri/",
+     "hora": "19/11 07h20"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "pid_provavel": "anthropic-ipo-nasdaq"
+  },
   {
    "assunto": "Peça de caminhão solta, atinge para-brisa de carro e mata mulher na Dutra",
    "secao": "brasil",
@@ -120,27 +154,33 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "EUA e China possuem interesse em restabelecer fluxo de petróleo por Ormuz, diz Trump",
-   "secao": "mundo",
+   "assunto": "Dólar abre em alta e supera R$ 5,91 após aprovação de pacote fiscal no Senado",
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
-    "cnn",
+    "folha",
     "im"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "EUA e China possuem interesse em restabelecer fluxo de petróleo por Ormuz, diz Trump",
-     "url": "https://www.infomoney.com.br/economia/eua-e-china-possuem-interesse-em-restabelecer-fluxo-de-petroleo-por-ormuz-diz-trump/",
-     "hora": "19/11 08h50"
+     "veiculo": "Folha Mercado",
+     "titulo": "Dólar abre em alta e supera R$ 5,91 após aprovação de pacote fiscal no Senado",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/dolar-abre-em-alta-e-supera-r-591-apos-aprovacao-de-pacote-fiscal-no-senado.shtml",
+     "hora": "19/11 09h39"
     },
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "EUA, China e Rússia anunciam aumento na produção de petróleo após reunião",
-     "url": "https://www.cnnbrasil.com.br/internacional/china-eua-e-russia-anunciam-declaracao-conjunta-diz-midia-chinesa/",
-     "hora": "19/11 07h53"
+     "veiculo": "InfoMoney",
+     "titulo": "Dólar hoje avança e bate R$ 5,90 após aprovação de projeto fiscal no Senado",
+     "url": "https://www.infomoney.com.br/mercados/dolar-hoje-abertura-fechamento-comercial-turismo-19112026/",
+     "hora": "19/11 09h17"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ibovespa Futuro sobe com mercado de olho no fiscal após projeto passar pelo Senado",
+     "url": "https://www.infomoney.com.br/mercados/ibovespa-futuro-sobe-com-mercado-de-olho-no-fiscal-apos-projeto-passar-pelo-senado/",
+     "hora": "19/11 09h11"
     }
    ],
    "n_fontes_90min": 2
@@ -219,6 +259,32 @@
      "titulo": "Linha 9-esmeralda de trens apresenta falha pelo segundo dia consecutivo em São Paulo",
      "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/linha-9-esmeralda-de-trens-apresenta-falha-pelo-segundo-dia-consecutivo-em-sao-paulo.shtml",
      "hora": "19/11 08h03"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "PM mata suspeitos de roubos a farmácias na marginal Pinheiros; via fica interditada para perícia",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "PM mata suspeitos de roubos a farmácias na marginal Pinheiros; via fica interditada para perícia",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/pm-mata-suspeitos-de-roubos-a-farmacias-na-marginal-pinheiros-via-fica-interditada-para-pericia.shtml",
+     "hora": "19/11 09h34"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "PM mata dois suspeitos de roubar farmácias durante perseguição na Marginal Pinheiros, na Zona Sul de SP",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/pm-mata-dois-suspeitos-de-roubar-farmacias-durante-perseguicao-na-marginal-pinheiros-na-zona-sul-de-sp.ghtml",
+     "hora": "19/11 08h08"
     }
    ],
    "n_fontes_90min": 2
@@ -334,58 +400,6 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Vice-presidente do TCE-RS é alvo de busca da PF em operação sobre corrupção",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Vice-presidente do TCE-RS é alvo de busca da PF em operação sobre corrupção",
-     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/vice-presidente-do-tce-rs-e-alvo-de-busca-da-pf-em-operacao-sobre-corrupcao",
-     "hora": "19/11 08h34"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Vice-presidente do TCE-RS suspeito de corrupção tem celular apreendido em operação da PF",
-     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/19/pf-investiga-tce-rs-corrupcao-operacao-circuito-paralelo.ghtml",
-     "hora": "19/11 08h12"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Xi pede que EUA ‘façam a coisa certa’ sobre Taiwan; Trump nega independência da ilha",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "folha",
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Xi pede que EUA ‘façam a coisa certa’ sobre Taiwan; Trump nega independência da ilha",
-     "url": "https://www.infomoney.com.br/mundo/xi-pede-que-eua-facam-a-coisa-certa-sobre-taiwan-trump-nega-independencia-da-ilha/",
-     "hora": "19/11 08h51"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Xi pede cooperação dos EUA para manter IA sob controle humano; Trump recusa regulamentação mundial",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/xi-pede-cooperacao-dos-eua-para-manter-ia-sobre-controle-humano-trump-recusa-regulamentacao-mundial.shtml",
-     "hora": "19/11 08h44"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
    "assunto": "“Putin não é nosso amigo”, diz premiê polonês após fala de Trump",
    "secao": "mundo",
    "n_fontes": 2,
@@ -426,25 +440,6 @@
      "titulo": "'Jogos Vorazes: Amanhecer na Colheita' e 'Eu Sou o Rocky' estreiam nos cinemas da Paraíba",
      "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/19/jogos-vorazes-amanhecer-na-colheita-e-eu-sou-o-rocky-estreiam-nos-cinemas-da-paraiba.ghtml",
      "hora": "19/11 07h49"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "'Psicoterror': denúncias de assédio moral no trabalho sobem 65% em Presidente Prudente, diz MPT",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "'Psicoterror': denúncias de assédio moral no trabalho sobem 65% em Presidente Prudente, diz MPT",
-     "url": "https://g1.globo.com/sp/presidente-prudente-e-regiao/noticia/2026/11/19/psicoterror-denuncias-de-assedio-moral-no-trabalho-sobem-65percent-em-presidente-prudente-diz-mpt.ghtml",
-     "hora": "19/11 07h26"
     }
    ],
    "n_fontes_90min": 1
@@ -716,12 +711,31 @@
     }
    ],
    "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Após uma semana presa, vice-cacique Pataxó recebe liberdade provisória na Bahia",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Após uma semana presa, vice-cacique Pataxó recebe liberdade provisória na Bahia",
+     "url": "https://g1.globo.com/ba/bahia/noticia/2026/11/19/vice-cacique-pataxo-recebe-liberdade-provisoria-na-bahia.ghtml",
+     "hora": "19/11 08h51"
+    }
+   ],
+   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
   "ajuste-fiscal-lula-4": {
    "secao": "economia",
-   "n_fontes": 2,
+   "n_fontes": 1,
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
@@ -737,6 +751,12 @@
     },
     {
      "veiculo": "Agência Senado",
+     "titulo": "Vídeo: Com acordo sobre estados e municípios, Senado conclui ajuste fiscal",
+     "url": "https://www12.senado.leg.br/noticias/videos/2026/11/com-acordo-sobre-estados-e-municipios-senado-conclui-ajuste-fiscal",
+     "hora": "19/11 09h33"
+    },
+    {
+     "veiculo": "Agência Senado",
      "titulo": "Áudio: Senado conclui votação do ajuste fiscal",
      "url": "https://www12.senado.leg.br/noticias/audios/2026/11/senado-conclui-votacao-do-ajuste-fiscal",
      "hora": "19/11 08h39"
@@ -748,14 +768,8 @@
      "hora": "19/11 09h08"
     },
     {
-     "veiculo": "Poder360",
-     "titulo": "Dólar abre em alta e vai a R$ 5,90",
-     "url": "https://www.poder360.com.br/poder-economia/dolar-abre-em-alta-e-vai-a-r-590/",
-     "hora": "19/11 09h25"
-    },
-    {
      "veiculo": "Metrópoles",
-     "titulo": "Dólar abre em R$ 5,90, maior valor em 19 meses, na esteira de ajuste fiscal",
+     "titulo": "Dólar alcança R$ 5,91, maior valor em 19 meses, na esteira de ajuste fiscal",
      "url": "https://www.metropoles.com/brasil/dolar-nesta-quinta-5",
      "hora": "19/11 09h23"
     }
@@ -791,22 +805,34 @@
     }
    ]
   },
+  "decreto-6x1-adiado": {
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Lula assina nesta quinta decreto com regras para o fim da escala 6x1",
+     "url": "https://g1.globo.com/politica/ao-vivo/lula-decreto-regras-fim-da-escala-6x1.ghtml",
+     "hora": "19/11 09h04"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Natal Iluminado 2026 de Campina Grande começa nesta quinta-feira (19); veja programação do fim de semana",
+     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/19/natal-iluminado-2026-de-campina-grande-comeca-nesta-quinta-feira-19-veja-programacao-do-fim-de-semana.ghtml",
+     "hora": "19/11 08h35"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Governo regulamenta o fim da 6 X 1 nesta 5ª feira",
+     "url": "https://www.poder360.com.br/poder-governo/governo-regulamenta-o-fim-da-6-x-1-nesta-5a-feira/",
+     "hora": "19/11 08h03"
+    }
+   ]
+  },
   "anthropic-ipo-nasdaq": {
    "secao": "economia",
    "n_fontes": 3,
    "manchetes": [
-    {
-     "veiculo": "g1 Economia",
-     "titulo": "Recorde da Anthropic em estreia na bolsa de valores conseguirá impedir o estouro da bolha da IA?",
-     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/19/recorde-da-anthropic-em-estreia-na-bolsa-de-valores-conseguira-impedir-o-estouro-da-bolha-da-ia.ghtml",
-     "hora": "19/11 07h25"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "IPO da Anthropic: Dona do Claude estreia na bolsa avaliada em US$ 1,5 tri",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-da-anthropic-dona-do-claude-estreia-na-bolsa-avaliada-em-us-15-tri/",
-     "hora": "19/11 07h20"
-    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "IPO da Anthropic: BDRs serão negociados na B3; veja como investir",
@@ -836,30 +862,6 @@
      "titulo": "IPO histórica da Anthropic coloca à prova promessas e riscos da IA",
      "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-historica-da-anthropic-coloca-a-prova-promessas-e-riscos-da-ia/",
      "hora": "19/11 09h32"
-    }
-   ]
-  },
-  "decreto-6x1-adiado": {
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Lula assina nesta quinta decreto com regras para o fim da escala 6x1",
-     "url": "https://g1.globo.com/politica/ao-vivo/lula-decreto-regras-fim-da-escala-6x1.ghtml",
-     "hora": "19/11 09h04"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Natal Iluminado 2026 de Campina Grande começa nesta quinta-feira (19); veja programação do fim de semana",
-     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/19/natal-iluminado-2026-de-campina-grande-comeca-nesta-quinta-feira-19-veja-programacao-do-fim-de-semana.ghtml",
-     "hora": "19/11 08h35"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Governo regulamenta o fim da 6 X 1 nesta 5ª feira",
-     "url": "https://www.poder360.com.br/poder-governo/governo-regulamenta-o-fim-da-6-x-1-nesta-5a-feira/",
-     "hora": "19/11 08h03"
     }
    ]
   },
@@ -900,7 +902,7 @@
    "ultima": "19/11 09h04",
    "ultima_iso": "2026-11-19T09:04-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 2.7,
+   "horas_sem_atualizar": 2.9,
    "principal": true,
    "manchetes": [
     {
@@ -929,12 +931,12 @@
    "ultima": "19/11 09h23",
    "ultima_iso": "2026-11-19T09:23-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 2.7,
+   "horas_sem_atualizar": 2.9,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Dólar abre em R$ 5,90, maior valor em 19 meses, na esteira de ajuste fiscal",
+     "titulo": "Dólar alcança R$ 5,91, maior valor em 19 meses, na esteira de ajuste fiscal",
      "url": "https://www.metropoles.com/brasil/dolar-nesta-quinta-5",
      "hora": "19/11 09h23"
     },
@@ -968,7 +970,7 @@
    "ultima": "19/11 09h04",
    "ultima_iso": "2026-11-19T09:04-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 2.7,
+   "horas_sem_atualizar": 2.9,
    "principal": true,
    "manchetes": [
     {
@@ -990,7 +992,7 @@
    "ultima": "19/11 09h32",
    "ultima_iso": "2026-11-19T09:32-03:00",
    "pauta_atualizada_em": "2026-11-19T06:21-03:00",
-   "horas_sem_atualizar": 3.2,
+   "horas_sem_atualizar": 3.4,
    "principal": true,
    "manchetes": [
     {
@@ -1037,7 +1039,7 @@
    "ultima": "19/11 09h15",
    "ultima_iso": "2026-11-19T09:15-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 2.7,
+   "horas_sem_atualizar": 2.9,
    "principal": true,
    "manchetes": [
     {
@@ -1070,7 +1072,7 @@
    "ultima": "19/11 09h15",
    "ultima_iso": "2026-11-19T09:15-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 2.7,
+   "horas_sem_atualizar": 2.9,
    "principal": false,
    "manchetes": [
     {
@@ -1091,7 +1093,7 @@
    "ultima": "19/11 04h00",
    "ultima_iso": "2026-11-19T04:00-03:00",
    "pauta_atualizada_em": "2026-11-17T20:11-03:00",
-   "horas_sem_atualizar": 37.4,
+   "horas_sem_atualizar": 37.6,
    "principal": false,
    "manchetes": [
     {
@@ -1112,7 +1114,7 @@
    "ultima": "19/11 04h00",
    "ultima_iso": "2026-11-19T04:00-03:00",
    "pauta_atualizada_em": "2026-11-19T00:42-03:00",
-   "horas_sem_atualizar": 8.9,
+   "horas_sem_atualizar": 9.1,
    "principal": false,
    "manchetes": [
     {
@@ -1373,20 +1375,20 @@
   "Agência Brasil": "ok: 10 itens, 3 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 58 nas últimas 6 h",
+  "ge": "ok: 100 itens, 63 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 16 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 14 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 17 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 15 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 0 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 7 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 3 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 4 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 2 nas últimas 6 h"
  }
 }
