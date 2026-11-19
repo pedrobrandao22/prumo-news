@@ -1,62 +1,71 @@
 {
- "gerado": "2026-11-19T09:14-03:00",
+ "gerado": "2026-11-19T09:25-03:00",
  "desde": "2026-11-19T06:52-03:00",
  "feed_atualizado_em": "2026-11-19T07:02:00-03:00",
  "resumo": {
-  "manchetes": 233,
-  "assuntos_novos_relevantes": 2,
+  "manchetes": 236,
+  "assuntos_novos_relevantes": 3,
   "assuntos_novos": 193,
-  "pautas_com_novidade": 5,
+  "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 1,
-  "pautas_com_relatos": 7,
-  "acionar_itens": 0,
+  "pautas_com_relatos": 8,
+  "acionar_itens": 3,
   "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (193 assuntos fora do feed, 7 pautas com relatos)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização; pauta principal anthropic-ipo-nasdaq sem atualização há 3.1 h e 2 veículos com relatos novos; assunto novo: 3 veículos em 90 min (economia)",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "ajuste-fiscal-lula-4",
+   "titulo": "Dólar abre em R$ 5,90, maior valor em 19 meses, na esteira de ajuste fiscal",
+   "n_fontes": 3,
+   "motivo": "pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: ajuste-fiscal-lula-4"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "anthropic-ipo-nasdaq",
+   "titulo": "IPO histórico da Anthropic colocará à prova promessas e riscos da IA em Wall Street",
+   "n_fontes": 2,
+   "motivo": "pauta principal anthropic-ipo-nasdaq sem atualização há 3.1 h e 2 veículos com relatos novos",
+   "acao": "atualiza: anthropic-ipo-nasdaq"
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Dólar abre em R$ 5,90, maior valor em 19 meses, na esteira de ajuste fiscal",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "chave": [
+    "abre",
+    "ajuste",
+    "alta",
+    "anthropic",
+    "colocara",
+    "dolar",
+    "esteira",
+    "estreia",
+    "fiscal",
+    "foco",
+    "historico",
+    "ipo",
+    "maior",
+    "meses",
+    "pacote",
+    "promessas",
+    "prova",
+    "riscos",
+    "street",
+    "valor",
+    "wall"
+   ],
+   "pid_provavel": "anthropic-ipo-nasdaq",
+   "acao": "atualiza: anthropic-ipo-nasdaq (provável; confira que é o mesmo assunto)"
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
-  {
-   "assunto": "Peça de caminhão solta, atinge para-brisa de carro e mata mulher na Dutra",
-   "secao": "brasil",
-   "n_fontes": 4,
-   "fontes": [
-    "cnn",
-    "folha",
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Peça de caminhão solta, atinge para-brisa de carro e mata mulher na Dutra",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/peca-de-caminhao-solta-atinge-para-brisa-de-carro-e-mata-mulher-na-dutra/",
-     "hora": "19/11 08h50"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Passageira de carro morre ao ser atingida por peça de caminhão na Dutra",
-     "url": "https://www.metropoles.com/sao-paulo/passageira-de-carro-morre-ao-ser-atingida-por-peca-de-caminhao-na-dutra",
-     "hora": "19/11 08h19"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Mulher morre na Dutra após peça de caminhão se soltar, atravessar para-brisa de carro e bater na cabeça dela",
-     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/19/mulher-morre-na-dutra-apos-peca-de-caminhao-se-soltar-atravessar-para-brisa-de-carro-e-bater-na-cabeca-dela.ghtml",
-     "hora": "19/11 08h19"
-    },
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Mulher morre após ser atingida por peça de caminhão na Dutra",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/mulher-morre-apos-ser-atingida-por-peca-de-caminhao-na-dutra.shtml",
-     "hora": "19/11 07h09"
-    }
-   ],
-   "n_fontes_90min": 3
-  },
   {
    "assunto": "China, Rússia e EUA planejam ampliar oferta de petróleo refinado",
    "secao": "mundo",
@@ -86,6 +95,99 @@
      "titulo": "Putin diz que EUA e China compartilham interesses na Guerra da Ucrânia",
      "url": "https://www.cnnbrasil.com.br/internacional/putin-diz-que-eua-e-china-compartilham-interesses-na-guerra-da-ucrania/",
      "hora": "19/11 06h55"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Dólar abre em R$ 5,90, maior valor em 19 meses, na esteira de ajuste fiscal",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "g1",
+    "im",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Dólar abre em R$ 5,90, maior valor em 19 meses, na esteira de ajuste fiscal",
+     "url": "https://www.metropoles.com/brasil/dolar-nesta-quinta-5",
+     "hora": "19/11 09h23"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "IPO histórico da Anthropic colocará à prova promessas e riscos da IA em Wall Street",
+     "url": "https://www.infomoney.com.br/mercados/ipo-historico-da-anthropic-colocara-a-prova-promessas-e-riscos-da-ia-em-wall-street/",
+     "hora": "19/11 09h15"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Dólar abre em alta e vai a R$ 5,91, com foco no pacote fiscal e na estreia da Anthropic em Wall Street",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/19/dolar-ibovespa.ghtml",
+     "hora": "19/11 09h00"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "pid_provavel": "anthropic-ipo-nasdaq"
+  },
+  {
+   "assunto": "Peça de caminhão solta, atinge para-brisa de carro e mata mulher na Dutra",
+   "secao": "brasil",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Peça de caminhão solta, atinge para-brisa de carro e mata mulher na Dutra",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/peca-de-caminhao-solta-atinge-para-brisa-de-carro-e-mata-mulher-na-dutra/",
+     "hora": "19/11 08h50"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Mulher morre na Dutra após peça de caminhão se soltar, atravessar para-brisa de carro e bater na cabeça dela",
+     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/19/mulher-morre-na-dutra-apos-peca-de-caminhao-se-soltar-atravessar-para-brisa-de-carro-e-bater-na-cabeca-dela.ghtml",
+     "hora": "19/11 08h19"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Mulher morre após ser atingida por peça de caminhão na Dutra",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/mulher-morre-apos-ser-atingida-por-peca-de-caminhao-na-dutra.shtml",
+     "hora": "19/11 07h09"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Copel anuncia investimentos de R$ 21,1 bi até 2030, com foco em distribuição",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Copel anuncia investimentos de R$ 21,1 bi até 2030, com foco em distribuição",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/infraestrutura/2026/11/copel-anuncia-investimentos-de-r-211-bi-ate-2030-com-foco-em-distribuicao.shtml",
+     "hora": "19/11 09h20"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Copel anuncia R$ 21,1 bilhões entre 2027 e 2030, com foco em distribuição",
+     "url": "https://www.cnnbrasil.com.br/infra/copel-anuncia-r-21-bilhoes-em-investimentos-de-2027-a-2030/",
+     "hora": "19/11 08h09"
     }
    ],
    "n_fontes_90min": 2
@@ -167,33 +269,6 @@
     }
    ],
    "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Mega-Sena 3088 tem prêmio de R$ 40 milhões nesta 5ª; veja como apostar",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "ab",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Mega-Sena 3088 tem prêmio de R$ 40 milhões nesta 5ª; veja como apostar",
-     "url": "https://www.metropoles.com/brasil/mega-sena-3088-tem-premio-de-r-40-milhoes-nesta-5a-veja-como-apostar",
-     "hora": "19/11 08h30"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Mega-Sena sorteia prêmio de R$ 40 milhões nesta quinta-feira",
-     "url": "https://agenciabrasil.ebc.com.br/geral/noticia/2026-11/mega-sena-sorteia-premio-de-r-40-milhoes-nesta-quinta-feira",
-     "hora": "19/11 07h02"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
   },
   {
    "assunto": "Presidente do Paraguai demite diretor de Itaipu após polêmica sobre depósitos de quase R$ 1 bilhão no Ueno Bank",
@@ -669,25 +744,6 @@
     }
    ],
    "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Bebê de 11 meses morre após dar entrada em UPA de Penedo; há suspeita de violência sexual",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Bebê de 11 meses morre após dar entrada em UPA de Penedo; há suspeita de violência sexual",
-     "url": "https://g1.globo.com/al/alagoas/noticia/2026/11/19/bebe-de-11-meses-morre-apos-dar-entrada-em-upa-de-penedo-ha-suspeita-de-violencia-sexual.ghtml",
-     "hora": "19/11 08h13"
-    }
-   ],
-   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
@@ -726,7 +782,7 @@
    "n_fontes": 3,
    "manchetes": [
     {
-     "veiculo": "g1 Mundo",
+     "veiculo": "g1",
      "titulo": "Veja principais declarações de Trump, Putin e Xi em reunião trilateral histórica",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/19/veja-principais-declaracoes-de-trump-putin-e-xi-em-reuniao-trilateral-historica.ghtml",
      "hora": "19/11 09h12"
@@ -744,16 +800,16 @@
      "hora": "19/11 07h06"
     },
     {
+     "veiculo": "BBC News Brasil",
+     "titulo": "Trump, Xi e Putin em encontro histórico na China: o que cada um falou e quer na cúpula",
+     "url": "https://www.bbc.com/portuguese/articles/cjvg2922e50qo?at_medium=RSS&at_campaign=rss",
+     "hora": "19/11 09h15"
+    },
+    {
      "veiculo": "Folha Mundo",
      "titulo": "Trump fecha os olhos durante fala de Xi em cúpula na China; veja vídeo",
      "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/trump-fecha-os-olhos-durante-fala-de-xi-em-cupula-na-china-veja-video.shtml",
      "hora": "19/11 08h44"
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "Trump, Xi e Putin em encontro histórico na China: o que cada um falou e quer na cúpula",
-     "url": "https://www.bbc.com/portuguese/articles/cjvg2922e50qo?at_medium=RSS&at_campaign=rss",
-     "hora": "19/11 08h02"
     }
    ]
   },
@@ -816,6 +872,18 @@
      "hora": "19/11 09h04"
     }
    ]
+  },
+  "brasileirao-31-rodada-lideres": {
+   "secao": "esportes",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Flamengo chega a 98,6% de chance de título no Brasileirão",
+     "url": "https://www.metropoles.com/esportes/flamengo-chega-a-986-de-chance-de-titulo-no-brasileirao",
+     "hora": "19/11 09h15"
+    }
+   ]
   }
  },
  "novos_relatos": {
@@ -830,7 +898,7 @@
    "ultima": "19/11 09h04",
    "ultima_iso": "2026-11-19T09:04-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 2.4,
+   "horas_sem_atualizar": 2.6,
    "principal": true,
    "manchetes": [
     {
@@ -848,19 +916,26 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 3,
-   "n_fontes": 2,
+   "n": 4,
+   "n_fontes": 3,
    "fontes": [
     "agsenado",
-    "cnn"
+    "cnn",
+    "met"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "19/11 08h39",
-   "ultima_iso": "2026-11-19T08:39-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "19/11 09h23",
+   "ultima_iso": "2026-11-19T09:23-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 2.4,
+   "horas_sem_atualizar": 2.6,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Dólar abre em R$ 5,90, maior valor em 19 meses, na esteira de ajuste fiscal",
+     "url": "https://www.metropoles.com/brasil/dolar-nesta-quinta-5",
+     "hora": "19/11 09h23"
+    },
     {
      "veiculo": "Agência Senado",
      "titulo": "Áudio: Senado conclui votação do ajuste fiscal",
@@ -891,7 +966,7 @@
    "ultima": "19/11 09h04",
    "ultima_iso": "2026-11-19T09:04-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 2.4,
+   "horas_sem_atualizar": 2.6,
    "principal": true,
    "manchetes": [
     {
@@ -903,18 +978,25 @@
    ]
   },
   "anthropic-ipo-nasdaq": {
-   "n": 2,
-   "n_fontes": 1,
+   "n": 3,
+   "n_fontes": 2,
    "fontes": [
-    "cnn"
+    "cnn",
+    "im"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "19/11 08h06",
-   "ultima_iso": "2026-11-19T08:06-03:00",
+   "n_fontes_90min": 2,
+   "ultima": "19/11 09h15",
+   "ultima_iso": "2026-11-19T09:15-03:00",
    "pauta_atualizada_em": "2026-11-19T06:21-03:00",
-   "horas_sem_atualizar": 2.9,
+   "horas_sem_atualizar": 3.1,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "IPO histórico da Anthropic colocará à prova promessas e riscos da IA em Wall Street",
+     "url": "https://www.infomoney.com.br/mercados/ipo-historico-da-anthropic-colocara-a-prova-promessas-e-riscos-da-ia-em-wall-street/",
+     "hora": "19/11 09h15"
+    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "IPO da Anthropic: BDRs serão negociados na B3; veja como investir",
@@ -938,29 +1020,50 @@
     "g1"
    ],
    "n_fontes_90min": 2,
-   "ultima": "19/11 09h12",
-   "ultima_iso": "2026-11-19T09:12-03:00",
+   "ultima": "19/11 09h15",
+   "ultima_iso": "2026-11-19T09:15-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 2.4,
+   "horas_sem_atualizar": 2.6,
    "principal": true,
    "manchetes": [
-    {
-     "veiculo": "g1 Mundo",
-     "titulo": "Veja principais declarações de Trump, Putin e Xi em reunião trilateral histórica",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/veja-principais-declaracoes-de-trump-putin-e-xi-em-reuniao-trilateral-historica.ghtml",
-     "hora": "19/11 09h12"
-    },
     {
      "veiculo": "BBC News Brasil",
      "titulo": "Trump, Xi e Putin em encontro histórico na China: o que cada um falou e quer na cúpula",
      "url": "https://www.bbc.com/portuguese/articles/cjvg2922e50qo?at_medium=RSS&at_campaign=rss",
-     "hora": "19/11 08h02"
+     "hora": "19/11 09h15"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Veja principais declarações de Trump, Putin e Xi em reunião trilateral histórica",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/veja-principais-declaracoes-de-trump-putin-e-xi-em-reuniao-trilateral-historica.ghtml",
+     "hora": "19/11 09h12"
     },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Reunião entre Trump, Xi e Putin termina após uma hora e meia, diz TV",
      "url": "https://www.cnnbrasil.com.br/internacional/reuniao-entre-trump-xi-e-putin-termina-apos-uma-hora-e-meia-diz-agencia/",
      "hora": "19/11 07h06"
+    }
+   ]
+  },
+  "brasileirao-31-rodada-lideres": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "19/11 09h15",
+   "ultima_iso": "2026-11-19T09:15-03:00",
+   "pauta_atualizada_em": "2026-11-19T06:52-03:00",
+   "horas_sem_atualizar": 2.6,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Flamengo chega a 98,6% de chance de título no Brasileirão",
+     "url": "https://www.metropoles.com/esportes/flamengo-chega-a-986-de-chance-de-titulo-no-brasileirao",
+     "hora": "19/11 09h15"
     }
    ]
   },
@@ -974,7 +1077,7 @@
    "ultima": "19/11 04h00",
    "ultima_iso": "2026-11-19T04:00-03:00",
    "pauta_atualizada_em": "2026-11-17T20:11-03:00",
-   "horas_sem_atualizar": 37.1,
+   "horas_sem_atualizar": 37.2,
    "principal": false,
    "manchetes": [
     {
@@ -995,7 +1098,7 @@
    "ultima": "19/11 04h00",
    "ultima_iso": "2026-11-19T04:00-03:00",
    "pauta_atualizada_em": "2026-11-19T00:42-03:00",
-   "horas_sem_atualizar": 8.5,
+   "horas_sem_atualizar": 8.7,
    "principal": false,
    "manchetes": [
     {
@@ -1015,6 +1118,15 @@
    "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1709282&o=rss",
    "credito": "Foto: Agência Brasil",
    "hora": "19/11 08h00",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Projeto valida mandado de busca com erro material no endereço",
+   "materia": "https://www.camara.leg.br/noticias/1308070-projeto-valida-mandado-de-busca-com-erro-material-no-endereco",
+   "img": "https://www.camara.leg.br/midias/image/2026/10/img20261013170228652-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "19/11 09h18",
    "pid_sugerido": null
   },
   {
@@ -1187,15 +1299,6 @@
    "credito": "Foto: Agência Câmara",
    "hora": "18/11 12h05",
    "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Projeto acaba com a obrigatoriedade da separação de bens em casamento de maiores de 70 anos",
-   "materia": "https://www.camara.leg.br/noticias/1313158-projeto-acaba-com-a-obrigatoriedade-da-separacao-de-bens-em-casamento-de-maiores-de-70-anos",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261013182453068-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 11h43",
-   "pid_sugerido": null
   }
  ],
  "avaliados": [
@@ -1257,12 +1360,12 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 3 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 5 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "ge": "ok: 100 itens, 55 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 15 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 16 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 14 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
@@ -1270,6 +1373,6 @@
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 7 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 3 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 1 nas últimas 6 h"
+  "Agência Câmara": "ok: 20 itens, 2 nas últimas 6 h"
  }
 }
