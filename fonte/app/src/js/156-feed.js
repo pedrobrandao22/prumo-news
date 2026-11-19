@@ -108,10 +108,16 @@ function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)r
 /* ---- sem internet: o aviso diz que é a conexão; o Gostei é reenviado quando a internet volta ---- */
 var FD156_GOSTEI={};
 function fd156Offline(){return typeof navigator!=="undefined"&&navigator.onLine===false}
-{const _tk156=toggleLike;toggleLike=function(pid){let quer=null;try{if(S.uid)quer=!socialOf(pid).likes.includes(S.uid)}catch(e){}
-  const r=_tk156.apply(this,arguments);try{if(quer!==null&&fd156Offline())FD156_GOSTEI[pid]=quer}catch(e){}return r}}
+/* 19/11 (testador): sem internet, o losango marca na hora e o 2º toque desfaz o que está na fila */
+function fd156Marca(pid,on){try{document.querySelectorAll('[data-a="like"]').forEach(b=>{const dono=b.closest('[id^="p-"],.sheet,.story,.sg');if(dono&&dono.id&&dono.id!=="p-"+pid)return;if(!dono||!dono.id){const ss=b.closest("[data-pid]");if(!ss||ss.dataset.pid!==String(pid))return}
+  b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false")})}catch(e){}}
+{const _tk156=toggleLike;toggleLike=function(pid){let real=null;try{if(S.uid)real=socialOf(pid).likes.includes(S.uid)}catch(e){}
+  if(real!==null&&fd156Offline()){const atual=pid in FD156_GOSTEI?FD156_GOSTEI[pid]:real,quer=!atual;
+    if(quer===real){delete FD156_GOSTEI[pid];toast(quer?"Sem conexão: a curtida continua.":"Curtida desfeita.")}else{FD156_GOSTEI[pid]=quer;toast(quer?"Sem conexão: a curtida vai ser enviada quando a internet voltar.":"Sem conexão: a curtida vai ser tirada quando a internet voltar.")}
+    fd156Marca(pid,quer);return}
+  return _tk156.apply(this,arguments)}}
 addEventListener("online",()=>{const ps=Object.keys(FD156_GOSTEI);if(!ps.length)return;setTimeout(()=>{let n=0;ps.forEach(pid=>{const q=FD156_GOSTEI[pid];delete FD156_GOSTEI[pid];
-  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});if(n)try{toast(n===1?"Conexão de volta: o Gostei foi enviado.":"Conexão de volta: os Gostei foram enviados.")}catch(e){}},600)});
+  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});if(n)try{toast(n===1?"Conexão de volta: a curtida foi enviada.":"Conexão de volta: as curtidas foram enviadas.")}catch(e){}},600)});
 
 /* ---- comentário escrito sem internet: fica guardado e é enviado sozinho quando a conexão volta (decisão do Pedro, 16/11) ---- */
 var FD156_PID=null;

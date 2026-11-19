@@ -69,7 +69,7 @@ const VN112_NOMES=[[/\bNovo destaque\b/g,"Nova coleção"],[/\bnovo destaque\b/g
   [/\bSTORIES\b/g,"GIROS"],[/\bSTORY\b/g,"GIRO"],[/\bStories\b/g,"Giros"],[/\bstories\b/g,"giros"],[/\bStory\b/g,"Giro"],[/\bstory\b/g,"giro"]];
 const VN112_NOMES_T=/[Ss]tor(y|ies)|STOR(Y|IES)|[Dd]estaq|Destacar/;
 /* não mexe no conteúdo (notícias, posts, mensagens, comentários): só nos rótulos do app */
-const VN112_NOMES_FORA=".ss,.cv,.mat,.txs,.up-leg,.up-tx,.cmt,.cmts,.cn102-cd,.fc107-tl,.vn-q,.vn-rptx,.dm-msgs,.dm-b,.dm-l,.post:not(.upost),#v-capa,#v-busca,.pt-cap,.sg-c,.lead,textarea,input,[contenteditable],script,style";
+const VN112_NOMES_FORA="svg,.ill,.ss,.cv,.mat,.txs,.up-leg,.up-tx,.cmt,.cmts,.cn102-cd,.fc107-tl,.vn-q,.vn-rptx,.dm-msgs,.dm-b,.dm-l,.post:not(.upost),#v-capa,#v-busca,.pt-cap,.sg-c,.lead,textarea,input,[contenteditable],script,style";
 const VN112_NOMES_FORA_A=VN112_NOMES_FORA.replace(",textarea,input,[contenteditable]","");
 function vn112Troca(s){let o=s;VN112_NOMES.forEach(([r,v])=>{o=o.replace(r,v)});return o}
 function vn112Nomes(root){if(!root||!VISUAL_NOVO)return;try{

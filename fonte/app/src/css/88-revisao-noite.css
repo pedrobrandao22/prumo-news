@@ -40,3 +40,10 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
   html.fs2 .fs2-cap-k{display:none}
 }
 .dm-cmud{display:block;margin-top:3px;font:italic 500 12px var(--f-ui);color:var(--muted)}
+/* 19/11 (testador): barras do gráfico com trilha própria; o número fica fora dela, então 108 e 116 têm tamanhos diferentes */
+.gn-t{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.gn-t i{justify-self:start;max-width:100%}
+/* aviso "Sem conexão": "Tentar de novo" nunca quebra */
+.late.offl{display:flex;align-items:center;gap:10px}
+.late.offl>span{flex:1;min-width:0}
+.late.offl [data-retry]{flex:none;white-space:nowrap}

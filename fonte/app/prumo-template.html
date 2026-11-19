@@ -6204,6 +6204,13 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
   html.fs2 .fs2-cap-k{display:none}
 }
 .dm-cmud{display:block;margin-top:3px;font:italic 500 12px var(--f-ui);color:var(--muted)}
+/* 19/11 (testador): barras do gráfico com trilha própria; o número fica fora dela, então 108 e 116 têm tamanhos diferentes */
+.gn-t{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.gn-t i{justify-self:start;max-width:100%}
+/* aviso "Sem conexão": "Tentar de novo" nunca quebra */
+.late.offl{display:flex;align-items:center;gap:10px}
+.late.offl>span{flex:1;min-width:0}
+.late.offl [data-retry]{flex:none;white-space:nowrap}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -13575,7 +13582,7 @@ const VN112_NOMES=[[/\bNovo destaque\b/g,"Nova coleção"],[/\bnovo destaque\b/g
   [/\bSTORIES\b/g,"GIROS"],[/\bSTORY\b/g,"GIRO"],[/\bStories\b/g,"Giros"],[/\bstories\b/g,"giros"],[/\bStory\b/g,"Giro"],[/\bstory\b/g,"giro"]];
 const VN112_NOMES_T=/[Ss]tor(y|ies)|STOR(Y|IES)|[Dd]estaq|Destacar/;
 /* não mexe no conteúdo (notícias, posts, mensagens, comentários): só nos rótulos do app */
-const VN112_NOMES_FORA=".ss,.cv,.mat,.txs,.up-leg,.up-tx,.cmt,.cmts,.cn102-cd,.fc107-tl,.vn-q,.vn-rptx,.dm-msgs,.dm-b,.dm-l,.post:not(.upost),#v-capa,#v-busca,.pt-cap,.sg-c,.lead,textarea,input,[contenteditable],script,style";
+const VN112_NOMES_FORA="svg,.ill,.ss,.cv,.mat,.txs,.up-leg,.up-tx,.cmt,.cmts,.cn102-cd,.fc107-tl,.vn-q,.vn-rptx,.dm-msgs,.dm-b,.dm-l,.post:not(.upost),#v-capa,#v-busca,.pt-cap,.sg-c,.lead,textarea,input,[contenteditable],script,style";
 const VN112_NOMES_FORA_A=VN112_NOMES_FORA.replace(",textarea,input,[contenteditable]","");
 function vn112Troca(s){let o=s;VN112_NOMES.forEach(([r,v])=>{o=o.replace(r,v)});return o}
 function vn112Nomes(root){if(!root||!VISUAL_NOVO)return;try{
@@ -14424,7 +14431,7 @@ function cs123Data(at){try{return new Date(+at).toLocaleDateString("pt-BR",{day:
 
 /* ===== 3. coluna no Feed (o post é o teaser) ===== */
 function cs123CardHTML(x,c){const id=esc(x.id),f=x.fotos[0],u=f&&pubUrl(f),tz=cs123Teaser(c.corpo),min=cs123Min(c.corpo);
-  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">Coluna</p>
+  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">Coluna${(()=>{try{const e=typeof col207Ed==="function"?col207Ed(x,c):"";return e?" · "+esc(secNome(e)):""}catch(_){return ""}})()}</p>
     <h3 class="cs123-t"><button type="button" data-cs123ler="${id}">${esc(c.tit)}</button></h3>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
     ${f?`<button type="button" class="cs123-capa" data-cs123ler="${id}" aria-label="Ler a coluna">${u?`<img src="${pubSrc(u)}" alt="${esc((x.estilo.alt||[])[0]||"")}" loading="lazy" decoding="async">`:`<span class="up-sem">Foto indisponível</span>`}</button>`:""}
     ${tz?`<p class="cs123-x">${esc(tz)}</p>`:""}<div class="cs123-r"><span class="cs123-min">${min} min de leitura</span><button type="button" class="cs123-lb" data-cs123ler="${id}">Ler a coluna <i aria-hidden="true">›</i></button></div></div>`}
@@ -18163,10 +18170,16 @@ function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)r
 /* ---- sem internet: o aviso diz que é a conexão; o Gostei é reenviado quando a internet volta ---- */
 var FD156_GOSTEI={};
 function fd156Offline(){return typeof navigator!=="undefined"&&navigator.onLine===false}
-{const _tk156=toggleLike;toggleLike=function(pid){let quer=null;try{if(S.uid)quer=!socialOf(pid).likes.includes(S.uid)}catch(e){}
-  const r=_tk156.apply(this,arguments);try{if(quer!==null&&fd156Offline())FD156_GOSTEI[pid]=quer}catch(e){}return r}}
+/* 19/11 (testador): sem internet, o losango marca na hora e o 2º toque desfaz o que está na fila */
+function fd156Marca(pid,on){try{document.querySelectorAll('[data-a="like"]').forEach(b=>{const dono=b.closest('[id^="p-"],.sheet,.story,.sg');if(dono&&dono.id&&dono.id!=="p-"+pid)return;if(!dono||!dono.id){const ss=b.closest("[data-pid]");if(!ss||ss.dataset.pid!==String(pid))return}
+  b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false")})}catch(e){}}
+{const _tk156=toggleLike;toggleLike=function(pid){let real=null;try{if(S.uid)real=socialOf(pid).likes.includes(S.uid)}catch(e){}
+  if(real!==null&&fd156Offline()){const atual=pid in FD156_GOSTEI?FD156_GOSTEI[pid]:real,quer=!atual;
+    if(quer===real){delete FD156_GOSTEI[pid];toast(quer?"Sem conexão: a curtida continua.":"Curtida desfeita.")}else{FD156_GOSTEI[pid]=quer;toast(quer?"Sem conexão: a curtida vai ser enviada quando a internet voltar.":"Sem conexão: a curtida vai ser tirada quando a internet voltar.")}
+    fd156Marca(pid,quer);return}
+  return _tk156.apply(this,arguments)}}
 addEventListener("online",()=>{const ps=Object.keys(FD156_GOSTEI);if(!ps.length)return;setTimeout(()=>{let n=0;ps.forEach(pid=>{const q=FD156_GOSTEI[pid];delete FD156_GOSTEI[pid];
-  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});if(n)try{toast(n===1?"Conexão de volta: o Gostei foi enviado.":"Conexão de volta: os Gostei foram enviados.")}catch(e){}},600)});
+  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});if(n)try{toast(n===1?"Conexão de volta: a curtida foi enviada.":"Conexão de volta: as curtidas foram enviadas.")}catch(e){}},600)});
 
 /* ---- comentário escrito sem internet: fica guardado e é enviado sozinho quando a conexão volta (decisão do Pedro, 16/11) ---- */
 var FD156_PID=null;
@@ -19710,7 +19723,9 @@ function ft182Faixa(es){const pos={esquerda:0,centro:1,publica:1,direita:2};cons
   return (a===0?"da esquerda ":"do centro ")+(b===1?"ao centro":"à direita")}
 function ft182Linha(p){let l=[];try{l=mt158Lista(p)}catch(e){l=(p.fontes||[]).map(k=>({k}))}const n=l.length;if(!n)return "";
   let es=[];try{es=l.map(v=>mt158Esp(v.k)).filter(Boolean)}catch(e){}const f=ft182Faixa(es);
-  return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${f?" · "+f:""}`}
+  /* 19/11 (testador): "só do centro" só quando todos os veículos têm classificação */
+  let ff=f;if(f&&es.length<n){const sem=n-es.length;ff=/^só /.test(f)?`${es.length} ${f.replace(/^só /,"")}, ${sem} sem classificação`:`${f}, ${sem} sem classificação`}
+  return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${ff?" · "+ff:""}`}
 coberturaTxt=function(p){return ft182Linha(p)||"Quem noticiou"};
 /* ---------- 183 · Coberturas (17/11, decisão do Pedro) ----------
    1. Avisos por cobertura: quem segue uma cobertura pode desligar os avisos dela (interruptor na página da cobertura).
