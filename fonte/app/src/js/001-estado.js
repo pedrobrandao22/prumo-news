@@ -49,7 +49,7 @@ function listaFeed(){if(!FEED)return [];
   if(FILTRO==="_gostou")return ordenadas(visiveis().filter(p=>socialOf(p.id).likes.some(u=>u!==S.uid)));
   return FILTRO==="tudo"?ordenadas(visiveis().filter(meusTemasOk)):secLista()}
 function secLista(){const l=pautasDa(FILTRO).filter(secFiltroOk);if(!l.length&&SECF&&SECF.sec===FILTRO&&(SECF.sub||SECF.uf)){SECF={sec:FILTRO,sub:"",uf:""};return pautasDa(FILTRO)}return l}
-function nomeFiltro(f){if(f==="_colunas")return "Colunas";if(f==="_leu")return "Lidas por amigos";if(f==="_gostou")return "Amigos gostaram";if(f==="tudo")return "Tudo";return secNome(f)}
+function nomeFiltro(f){if(f==="_colunas")return "Colunas";if(f==="_leu")return "Lidas por amigos";if(f==="_gostou")return "Amigos curtiram";if(f==="tudo")return "Tudo";return secNome(f)}
 const pautasDa=sec=>ordenadas((FEED?.pautas||[]).filter(p=>secOf(p)===sec&&!silenciado(p)));
 const versaoP=p=>{const u=(p.atualizacoes||[]).map(x=>String(x.hora||"")).sort().pop();return u||String(p.hora||"")};
 const seenKey=p=>p.id+"|"+versaoP(p);

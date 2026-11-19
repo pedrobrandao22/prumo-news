@@ -86,8 +86,8 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   await clk(A, `#p-${P1} [data-voto="0"]`);
   await clk(A, `#p-${P1} .addc`); await A.fill('#ctext', 'Acho que passa hoje.'); await clk(A, '#cform .sendc'); await fecha(A);
   await ev(A, pid => marcarLida(pid), P1);
-  ok(await esperar(B, pid => /^[^l]*gostou · comentou/.test(document.querySelector(`#p-${pid} [data-otr]`)?.textContent || ''), P1), 'B vê o chip "gostou · comentou" de A (sem "leu")');
-  ok(await esperar(B, pid => /Pedro gostou/.test(document.querySelector(`#p-${pid} [data-likes]`)?.textContent || ''), P1), 'B vê "Pedro gostou"');
+  ok(await esperar(B, pid => /^[^l]*curtiu · comentou/.test(document.querySelector(`#p-${pid} [data-otr]`)?.textContent || ''), P1), 'B vê o chip "curtiu · comentou" de A (sem "leu")');
+  ok(await esperar(B, pid => /Pedro curtiu/.test(document.querySelector(`#p-${pid} [data-likes]`)?.textContent || ''), P1), 'B vê "Pedro curtiu"');
   ok(await esperar(B, pid => /Pedro já votou\. Vote para ver\./.test(document.querySelector(`#p-${pid} [data-poll]`)?.textContent || ''), P1), 'B vê dica da enquete "Pedro já votou"');
   ok(await esperar(B, pid => /Acho que passa hoje/.test(document.querySelector(`#p-${pid} [data-cmts]`)?.textContent || ''), P1), 'B vê o comentário de A');
   await sleep(600);
@@ -102,10 +102,10 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   // mudança de conteúdo num documento que já existe (2ª curtida, descurtir)
   await ev(A, pid => garantirPost(pid), P2); await ev(B, pid => garantirPost(pid), P2);
   await clk(A, `#p-${P2} [data-a="like"]`);
-  ok(await esperar(B, pid => /Pedro gostou/.test(document.querySelector(`#p-${pid} [data-likes]`)?.textContent || ''), P2), 'B vê a 2ª curtida de A (mesmo documento, outro item)');
+  ok(await esperar(B, pid => /Pedro curtiu/.test(document.querySelector(`#p-${pid} [data-likes]`)?.textContent || ''), P2), 'B vê a 2ª curtida de A (mesmo documento, outro item)');
   await clk(A, `#p-${P2} [data-a="like"]`);
   ok(await esperar(B, pid => !document.querySelector(`#p-${pid} [data-likes]`).textContent, P2), 'A descurte: some para B');
-  ok(await esperar(A, pid => /Você e mais 2 gostaram/.test(document.querySelector(`#p-${pid} [data-likes]`)?.textContent || ''), P1), 'A vê "Você e mais 2 gostaram"');
+  ok(await esperar(A, pid => /Você e mais 2 curtiram/.test(document.querySelector(`#p-${pid} [data-likes]`)?.textContent || ''), P1), 'A vê "Você e mais 2 curtiram"');
   ok(await esperar(A, pid => /2 amigos/.test(document.querySelector(`#p-${pid} [data-otr]`)?.textContent || '') && document.querySelectorAll(`#p-${pid} [data-otr] .avs .av`).length === 2, P1), 'A vê chip com 2 avatares e "2 amigos"');
   ok(await esperar(A, pid => /Dani ainda não votou/.test(document.querySelector(`#p-${pid} [data-poll]`)?.textContent || ''), P1), 'A vê "Dani ainda não votou" ');
   await ev(A, pid => document.getElementById('p-' + pid).scrollIntoView({ block: 'start' }), P1); await A.evaluate(() => window.scrollBy(0, -120));
@@ -116,19 +116,19 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   ok(await esperar(A, () => /Amigos nesta notícia/.test(document.querySelector('.sheet')?.textContent || '') && document.querySelectorAll('.sheet .clist li').length === 2), 'tocar no chip abre "Amigos nesta notícia"');
   await foto2(A, 'amigos-na-noticia'); await fecha(A);
   await clk(A, `#p-${P1} [data-likes]`);
-  ok(await esperar(A, () => document.querySelectorAll('.sheet .clist li').length === 3), '"Quem gostou" lista você + 2 amigos'); await fecha(A);
+  ok(await esperar(A, () => document.querySelectorAll('.sheet .clist li').length === 3), '"Quem curtiu" lista você + 2 amigos'); await fecha(A);
   ok(await ev(A, p => !document.querySelector(`#p-${p} [data-cutucar]`), P1), 'sem botão Cutucar');
   // filtros de amigos
   await clk(A, '#b-filtro');
-  ok(await esperar(A, () => !/Lidas por amigos/.test(document.querySelector('.sheet')?.textContent || '') && /Amigos gostaram/.test(document.querySelector('.sheet')?.textContent || '')), 'filtro "Amigos gostaram" (sem "Lidas por amigos")');
+  ok(await esperar(A, () => !/Lidas por amigos/.test(document.querySelector('.sheet')?.textContent || '') && /Amigos curtiram/.test(document.querySelector('.sheet')?.textContent || '')), 'filtro "Amigos gostaram" (sem "Lidas por amigos")');
   await clk(A, '.sheet [data-filtro="_gostou"]');
   ok(await esperar(A, pid => document.querySelectorAll('#posts .post').length === 1 && !!document.getElementById('p-' + pid), P1), 'filtro "Amigos gostaram" mostra só P1');
   await clk(A, '[data-filtro="tudo"]');
   await clk(C, '#b-filtro');
-  ok(await esperar(C, () => /Amigos gostaram/.test(document.querySelector('.sheet')?.textContent || '')), 'C (tem a amiga B) vê os filtros de amigos'); await fecha(C);
+  ok(await esperar(C, () => /Amigos curtiram/.test(document.querySelector('.sheet')?.textContent || '')), 'C (tem a amiga B) vê os filtros de amigos'); await fecha(C);
   await clk(C, '#b-filtro'); await clk(C, '.sheet [data-filtro="_gostou"]');
   ok(await esperar(C, pid => !!document.getElementById('p-' + pid) && document.querySelectorAll('#posts .post').length === 1, P1), 'C: "Amigos gostaram" mostra P1 (B gostou)');
-  ok(await ev(C, pid => { const t = document.querySelector(`#p-${pid} [data-otr]`).textContent; return /gostou/.test(t) && !/comentou/.test(t) && /Ana gostou/.test(document.querySelector(`#p-${pid} [data-likes]`).textContent) }, P1), 'C vê só a atividade de B em P1 (sem o comentário/leitura de A)');
+  ok(await ev(C, pid => { const t = document.querySelector(`#p-${pid} [data-otr]`).textContent; return /curtiu/.test(t) && !/comentou/.test(t) && /Ana curtiu/.test(document.querySelector(`#p-${pid} [data-likes]`).textContent) }, P1), 'C vê só a atividade de B em P1 (sem o comentário/leitura de A)');
   await clk(C, '[data-filtro="tudo"]');
 
   // ---------------- mensagens A <-> B

@@ -112,11 +112,11 @@ function wireSheetDrag(sh){if(!sh)return;
     b.addEventListener("touchend",()=>{if(y0==null)return;y0=null;solta(dy,120)})}}
 /* 10. aviso de conta */
 function avisoConta(){if(S.uid||$("#avisoconta"))return;let vis=false;try{vis=sessionStorage.getItem("prumo-aviso")==="1"}catch(e){}if(vis)return;
-  const a=document.createElement("div");a.id="avisoconta";a.className="avisoconta gut";a.innerHTML=`<span>Você está só lendo. Entre para gostar, comentar e conversar.</span><button type="button" class="av-entrar" data-entrar>Entrar</button><button type="button" class="av-x" data-fecharaviso aria-label="Fechar aviso">✕</button>`;
+  const a=document.createElement("div");a.id="avisoconta";a.className="avisoconta gut";a.innerHTML=`<span>Você está só lendo. Entre para curtir, comentar e conversar.</span><button type="button" class="av-entrar" data-entrar>Entrar</button><button type="button" class="av-x" data-fecharaviso aria-label="Fechar aviso">✕</button>`;
   $("#secs")?.after(a)}
 /* 13. quem gostou */
 function abrirQuem(pid){const it=socialOf(pid).likes.map(u=>[u,curtidasDe(u)[pid]?.at||0]).sort((a,b)=>b[1]-a[1]);
-  sheet("Quem gostou",it.length?`<ul class="clist">${it.map(([u,t])=>`<li>${avatar(u)}<div><span><b>${esc(u===S.uid?"Você":nomeDe(u))}</b></span><i>${t?esc(quando(t)):""}</i></div></li>`).join("")}</ul>`:`<div class="empty"><b>Ninguém ainda</b></div>`)}
+  sheet("Quem curtiu",it.length?`<ul class="clist">${it.map(([u,t])=>`<li>${avatar(u)}<div><span><b>${esc(u===S.uid?"Você":nomeDe(u))}</b></span><i>${t?esc(quando(t)):""}</i></div></li>`).join("")}</ul>`:`<div class="empty"><b>Ninguém ainda</b></div>`)}
 /* 14. toque duplo na capa */
 let ULT={t:0,el:null},TS0=null;
 document.addEventListener("touchstart",e=>{const t=e.touches[0];TS0=t?{x:t.clientX,y:t.clientY,t:Date.now(),n:e.touches.length}:null},{passive:true});
@@ -132,7 +132,7 @@ function duploGostei(c){const pid=c.closest("[data-pid]")?.dataset.pid;if(!pid)r
 /* 17. listas do perfil */
 function abrirMinhaLista(tipo){const u=S.uid;if(!u){precisaConta();return}let html="",tit="";
   const row=(id,snap,sub)=>`<li><button type="button" data-goto="${esc(id)}"><b>${esc(snap?.titulo||"Notícia")}</b><span>${sub}</span></button></li>`;
-  if(tipo==="gostei"){tit="Notícias que você gostou";const it=Object.entries(curtidasDe(u)).filter(([,x])=>x).sort((a,b)=>(b[1].at||0)-(a[1].at||0));html=it.map(([id,x])=>{const sn=x.snap&&x.snap.titulo?x.snap:snapById(id);return row(id,sn,esc(secNome(sn?.secao||"politica"))+" · "+esc(quando(x.at)))}).join("")}
+  if(tipo==="gostei"){tit="Notícias que você curtiu";const it=Object.entries(curtidasDe(u)).filter(([,x])=>x).sort((a,b)=>(b[1].at||0)-(a[1].at||0));html=it.map(([id,x])=>{const sn=x.snap&&x.snap.titulo?x.snap:snapById(id);return row(id,sn,esc(secNome(sn?.secao||"politica"))+" · "+esc(quando(x.at)))}).join("")}
   if(tipo==="cmt"){tit="Seus comentários";const it=todosComentarios().filter(c=>c.uid===u).map(c=>({id:c.pid,snap:c.snap||snapById(c.pid),c}));it.sort((a,b)=>b.c.at-a.c.at);html=it.map(x=>row(x.id,x.snap,"“"+esc(cp152Corta(x.c.texto,90))+"” · "+esc(quando(x.c.at)))).join("")}
   if(tipo==="env"){tit="Notícias que você enviou";const it=S.msgsOut.filter(m=>m.pid&&!m.resp&&m.tipo!=="cutucada").sort((a,b)=>b.at-a.at);html=it.map(m=>row(m.pid,m.snap,"Para "+esc(nomeDe(m.para))+" · "+esc(quando(m.at)))).join("")}
   sheet(tit,html?`<ul class="sres">${html}</ul>`:`<div class="empty"><b>Nada por aqui ainda</b></div>`)}

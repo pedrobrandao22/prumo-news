@@ -3,12 +3,15 @@ const TOUR_IC={capa:'<svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" hei
   feed:'<svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><rect x="4" y="13" width="16" height="7.5" rx="2"/></svg>',
   ativ:'<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>',
   app:'<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>'};
+/* 19/11 (Pedro): o desenho do post no guia usa os ícones de verdade do Feed (Curtir, Comentar, Repostar, Enviar, Guardar) */
+function tr090Acoes(){const ic=(k,f)=>{try{return (typeof ICON!=="undefined"&&ICON[k])||f}catch(e){return f}};let rp="";try{rp=typeof VN112_IC!=="undefined"&&VN112_IC.rp||""}catch(e){}
+  return `<em class="tr-a" title="Curtir">${ic("like","")}</em><em class="tr-a">${ic("cmt","")}<small>Comentar</small></em>${rp?`<em class="tr-a">${rp}<small>Repostar</small></em>`:""}<em class="tr-a tr-dir">${ic("send","")}</em><em class="tr-a">${ic("save","")}</em>`}
 function tourTelas(nome){return [
   {ic:"capa",k:"Capa",t:nome?`Bem-vindo, ${nome}`:"As notícias do dia",p:"A Capa traz o que importa hoje, em poucas linhas e sem viés. Toque na manchete para ler ali mesmo e escolha a versão Neutra, de Direita ou de Esquerda.",
     demo:`<div class="tr-capa"><i class="tr-k"></i><b></b><b class="c"></b><span class="tr-seg"><em class="on">Neutra</em><em>Direita</em><em>Esquerda</em></span></div>`},
   {ic:"feed",k:"Feed e giros",t:"Notícias que dá para curtir",p:"No Feed, as notícias viram posts e giros, junto com o que seus amigos publicam. Curta, comente, vote nas enquetes e mande para quem quiser.",
-    demo:`<div class="tr-feed"><span><i></i><i></i><i></i><i></i></span><div><b></b><b class="c"></b></div><p><em>♥</em><em>💬</em><em>➤</em></p></div>`},
-  {ic:"ativ",k:"Amigos e Atividade",t:"Seus amigos estão aqui",p:"Quem te convidou já é seu amigo. O ♥ no topo mostra quem curtiu, comentou ou te marcou, e quando uma cobertura que você segue ganha novidade.",
+    demo:`<div class="tr-feed"><span><i></i><i></i><i></i><i></i></span><div><b></b><b class="c"></b></div><p class="tr-acts">${tr090Acoes()}</p></div>`},
+  {ic:"ativ",k:"Amigos e Atividade",t:"Seus amigos estão aqui",p:"Quem te convidou já é seu amigo. O sino no topo mostra quem curtiu, comentou ou te marcou, e quando uma cobertura que você segue ganha novidade.",
     demo:`<div class="tr-ativ"><p><i></i><span><b></b><b class="c"></b></span></p><p><i></i><span><b></b><b class="c"></b></span></p><p><i class="q"></i><span><b></b><b class="c"></b></span></p></div>`},
   {ic:"app",k:"Use como app",t:"Deixe na tela de início",p:/iPhone|iPad|iPod/i.test(navigator.userAgent)?"No Safari, toque em Compartilhar e depois em “Adicionar à Tela de Início”. O Prumo abre como um app, mais rápido e em tela cheia.":"No Chrome, toque nos três pontinhos e depois em “Instalar app” ou “Adicionar à tela inicial”. O Prumo abre como um app, mais rápido e em tela cheia.",
     demo:`<div class="tr-app"><i></i><i></i><i class="p">P</i><i></i></div>`}]}

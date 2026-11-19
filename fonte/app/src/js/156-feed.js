@@ -76,7 +76,7 @@ function fd156Hora(p){try{return tms(ultimaAtualizacao(p)||p.hora)||0}catch(e){r
 {const _lf156=listaFeed;listaFeed=function(){const l=_lf156.apply(this,arguments);try{if(PREF.feedModo==="recentes"&&Array.isArray(l)&&(FILTRO==="tudo"||FILTRO==="_gostou"))
   return l.map((p,i)=>({p,i,h:fd156Hora(p)})).sort((a,b)=>(b.h-a.h)||(a.i-b.i)).map(x=>x.p)}catch(e){}return l}}
 /* escolher a ordem fecha a folha "Filtrar o feed", como já acontece ao tocar numa editoria */
-document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#layer [data-fmodo]");if(!b)return;setTimeout(()=>{try{if(document.querySelector("#layer .sheet"))closeLayer()}catch(_){}},180)});
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#layer [data-fmodo]");if(!b||b.closest(".ff030"))return;setTimeout(()=>{try{if(document.querySelector("#layer .sheet"))closeLayer()}catch(_){}},180)});
 
 /* ---- rolar rápido: o próximo lote vem bem antes do fim; esqueleto no lugar do "Carregando…"; Outras notícias e rodapé só no fim ---- */
 var FD156_IO=("IntersectionObserver" in window)?new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))try{carregarMais()}catch(_){}},{rootMargin:"0px 0px 2200px 0px"}):null;

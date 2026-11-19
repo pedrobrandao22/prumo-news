@@ -84,14 +84,14 @@ function us204Base(pid){
   el.querySelector('[data-n="cmt"]').textContent="";
   const sb=el.querySelector('[data-a="save"]'),sv=!!S.salvos[pid];sb.classList.toggle("saved",sv);sb.setAttribute("aria-pressed",String(sv));
   let lt="";const n1=others[0]?`<b>${esc(nomeDe(others[0]))}</b>`:"";
-  if(mine&&others.length===1)lt=`<b>Você</b> e ${n1} gostaram`;
-  else if(mine&&others.length>1)lt=`<b>Você</b> e mais ${others.length} gostaram`;
-  else if(others.length===1)lt=`${n1} gostou`;
-  else if(others.length>1)lt=`${n1} e mais ${others.length-1} gostaram`;
+  if(mine&&others.length===1)lt=`<b>Você</b> e ${n1} curtiram`;
+  else if(mine&&others.length>1)lt=`<b>Você</b> e mais ${others.length} curtiram`;
+  else if(others.length===1)lt=`${n1} curtiu`;
+  else if(others.length>1)lt=`${n1} e mais ${others.length-1} curtiram`;
   {const lk=el.querySelector("[data-likes]");lk.innerHTML=lt;if(lt){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}else{delete lk.dataset.a;lk.removeAttribute("role");lk.removeAttribute("tabindex")}}
   const pp=pautaById(pid);if(pp){const pl=el.querySelector("[data-poll]");if(pl){const eh=enqueteHTML(pp);pl.innerHTML=eh?`<span class="pb-l">Enquete</span>${eh}`:""}}
   {const ot=el.querySelector("[data-otr]");if(ot){const at=atividadeAmigos(pid);
-    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("gostou")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
+    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("curtiu")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
     else if(at.length>1)ot.innerHTML=`<span class="otr" role="button" tabindex="0" data-otrs="${esc(pid)}" aria-label="${esc(at.length+" amigos nesta notícia")}">${avatares(at.map(x=>x.u))}${at.length} amigos</span>`;
     else ot.innerHTML=""}}
   {const nc=el.querySelector("[data-nchat]");if(nc){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto);const u=ms[ms.length-1];nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}}
@@ -205,6 +205,10 @@ function carregarMais(sync){
 
 /* ===== openComments: a folha de comentários =====
    Base no 008; remendos: 067, 099, 108, 109, 126, 134, 156 (2×), 167. */
+function oc204Sobre(pid){const b=document.querySelector("#layer .sheet .sh-b");if(!b||b.querySelector(":scope > .oc204-sobre"))return;const id=String(pid||"");let t="";
+  if(/^u:/.test(id)){const x=pubDe(id.slice(2));if(x){const tx=String(x.texto||"").replace(/\s+/g," ").trim();t=`Post de ${x.autor===S.uid?"você":nomeDe(x.autor)}`+(tx?`: ${tx.length>70?tx.slice(0,68).trim()+"…":tx}`:"")}}
+  else{const p=typeof pautaById==="function"?pautaById(id):null;let tt="";try{tt=p&&typeof versao==="function"?versao(p).titulo||"":""}catch(e){}if(!tt&&p)tt=p.titulo||"";if(tt)t=tt}
+  if(!t)return;b.insertAdjacentHTML("afterbegin",`<p class="oc204-sobre">${esc(t)}</p>`)}
 function oc204Base(pid){uso("comentarios");
   const draw=()=>{const {cm}=socialOf(pid);return cm.length?`<ul class="clist">${cm.map(c=>`<li>${avatar(c.uid)}<div><span><b>${esc(nomeDe(c.uid))}</b>${typeof debVotoChip==="function"?debVotoChip(pid,c.uid):""} ${esc(c.texto)}</span><i>${esc(quando(c.at))}<button type="button" class="c-a" data-resp="${esc(nomeDe(c.uid))}">Responder</button>${c.uid===S.uid||(typeof cmDono==="function"&&cmDono(pid))?`<button type="button" class="c-a" data-apagar="${esc(c.id)}" data-au="${esc(c.uid)}">Apagar</button>`:""}${c.uid!==S.uid?`<button type="button" class="c-a" data-denc="${esc(c.id)}" data-du="${esc(c.uid)}" data-dp="${esc(pid)}">Denunciar</button>`:""}</i></div></li>`).join("")}</ul>`:`<div class="empty" style="padding:18px 0"><b>Nenhum comentário ainda</b>Escreva o primeiro.</div>`};
   const n=socialOf(pid).cm.length;
@@ -242,6 +246,8 @@ function openComments(pid){
   if(x&&cs123Col(x)){LT134.cpid=pid;const rc=S._reCmt;if(rc)S._reCmt=function(){const q=rc.apply(this,arguments);try{lt134CmDecora()}catch(e){}return q};lt134CmDecora();lt134DestCarrega(x.id)}else LT134.cpid=null}catch(e){}
   /* 156 */
   try{fd156Comentarios()}catch(e){}
+  /* 19/11 (Pedro): uma linha pequena dizendo de qual notícia (ou de qual post) são os comentários */
+  try{oc204Sobre(pid)}catch(e){}
   /* 167 */
   try{fd167Pend();fd167SemMencao();const i=document.getElementById("ctext");if(i&&FD167_TOQUE)i.setAttribute("enterkeyhint","enter")}catch(e){}
   return r}

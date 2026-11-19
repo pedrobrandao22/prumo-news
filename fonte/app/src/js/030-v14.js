@@ -1,9 +1,37 @@
 /* ---------- v14 ---------- */
-function abrirFiltro(){uso("filtro_sheet");const opc=[{id:"tudo",nome:"Tudo",n:visiveis().length},...SECS().filter(s=>pautasDa(s.id).length).map(s=>({id:s.id,nome:s.nome,n:pautasDa(s.id).length,cor:secCor(s.id)}))];
-  if(temAmigos()){const sv=FILTRO;FILTRO="_gostou";const b=listaFeed().length;FILTRO=sv;opc.push({id:"_gostou",nome:"Amigos gostaram",n:b,cor:"var(--bronze)"})}
-  try{const nc=typeof col207Todas==="function"?col207Todas().length:0;if(nc)opc.push({id:"_colunas",nome:"Colunas",n:nc,cor:"var(--bronze)",un:["coluna","colunas"]})}catch(e){}
-  const M=PREF.feedModo==="recentes"?"recentes":"voce";
-  sheet("Filtrar o feed",`<div class="segs fmodo" role="tablist" aria-label="Ordem do feed"><button type="button" role="tab" data-fmodo="voce" aria-selected="${M==="voce"}">Para você</button><button type="button" role="tab" data-fmodo="recentes" aria-selected="${M==="recentes"}">Mais recentes</button><button type="button" role="tab" data-fmodo="seguindo" aria-selected="${PREF.feedModo==="seguindo"}">Meus temas</button></div><div class="opt fopt">${opc.map(x=>`<button type="button" data-filtro="${esc(x.id)}" aria-pressed="${FILTRO===x.id}">${x.cor?`<i style="background:${x.cor}"></i>`:""}<b>${esc(x.nome)}</b><span>${x.n} ${x.n===1?(x.un?x.un[0]:"notícia"):(x.un?x.un[1]:"notícias")}${FILTRO===x.id?" · atual":""}</span></button>`).join("")}</div>`)}
+/* 19/11 (Pedro: "essa tela de filtro está horrível... não está claro que a parte de cima é para ranquear e não filtrar;
+   não dá para diferenciar cada tópico; Colunas está no mesmo formato que um tema"). Folha refeita em duas partes com
+   nome: "Ordem" (só muda a sequência, a folha fica aberta e mostra a escolha) e "Mostrar" (o que aparece: Tudo, as
+   editorias em grade com a cor de cada uma, e "Do seu círculo" com ícone próprio: o que você segue, amigos, colunas).
+   Escolher o que mostrar aplica e fecha. "Meus temas" deixa de ser uma ordem e vira "Só o que eu sigo". */
+function ff030Ic(k){const P={voce:'<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>',recentes:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  seguindo:'<path d="M6 4h12v16l-6-4-6 4z"/>',_gostou:'<path d="M7.5 5.5h9l3 4.5-7.5 9-7.5-9z"/>',_colunas:'<path d="M5 19l1-4L16 5l3 3L9 18z"/><path d="M14 7l3 3"/>',tudo:'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>'};
+  return `<svg viewBox="0 0 24 24" aria-hidden="true">${P[k]||""}</svg>`}
+function ff030Corpo(){const M=PREF.feedModo==="recentes"?"recentes":"voce",SEG=PREF.feedModo==="seguindo";const nt=n=>`${n} ${n===1?"notícia":"notícias"}`;
+  const tudoOn=FILTRO==="tudo"&&!SEG;
+  const eds=SECS().filter(s=>pautasDa(s.id).length).map(s=>({id:s.id,nome:s.nome,n:pautasDa(s.id).length,cor:secCor(s.id)}));
+  const circ=[];
+  if(S.uid){try{const sv=PREF.feedModo,sf=FILTRO;PREF.feedModo="seguindo";FILTRO="tudo";const n=listaFeed().length;PREF.feedModo=sv;FILTRO=sf;circ.push({k:"seguindo",nome:"Só o que eu sigo",sub:n?nt(n):"coberturas e times que você segue",on:SEG,attr:'data-ff030="seguindo"'})}catch(e){}}
+  if(temAmigos()){const sv=FILTRO;FILTRO="_gostou";const b=listaFeed().length;FILTRO=sv;circ.push({k:"_gostou",nome:"Amigos curtiram",sub:nt(b),on:FILTRO==="_gostou"&&!SEG,attr:'data-filtro="_gostou"'})}
+  try{const nc=typeof col207Todas==="function"?col207Todas().length:0;if(nc)circ.push({k:"_colunas",nome:"Colunas",sub:`${nc} ${nc===1?"coluna":"colunas"}`,on:FILTRO==="_colunas"&&!SEG,attr:'data-filtro="_colunas"'})}catch(e){}
+  const ord=[["voce","Para você","O mais importante da edição primeiro"],["recentes","Mais recentes","O que saiu ou mudou por último primeiro"]];
+  return `<div class="ff030">
+  <section class="ff-sec" aria-labelledby="ff-h1"><h4 id="ff-h1">Ordem</h4><p class="ff-dica">Só muda a sequência. Nenhuma notícia some.</p>
+    <div class="ff-ordem" role="radiogroup" aria-labelledby="ff-h1">${ord.map(([k,n,d])=>`<button type="button" role="radio" data-fmodo="${k}" aria-checked="${M===k}" aria-selected="${M===k}">${ff030Ic(k)}<span><b>${n}</b><small>${d}</small></span></button>`).join("")}</div></section>
+  <section class="ff-sec" aria-labelledby="ff-h2"><h4 id="ff-h2">Mostrar</h4><p class="ff-dica">Escolha o que aparece no Feed.</p>
+    <button type="button" class="ff-tudo" data-filtro="tudo" aria-pressed="${tudoOn}">${ff030Ic("tudo")}<b>Tudo</b><span>${nt(visiveis().length)}</span></button>
+    <p class="ff-sub">Editorias</p>
+    <div class="ff-eds">${eds.map(x=>`<button type="button" class="ff-ed" data-filtro="${esc(x.id)}" aria-pressed="${FILTRO===x.id&&!SEG}" style="--c:${x.cor}"><b>${esc(x.nome)}</b><span>${nt(x.n)}</span></button>`).join("")}</div>
+    ${circ.length?`<p class="ff-sub">Do seu círculo</p><div class="ff-circ">${circ.map(x=>`<button type="button" class="ff-ci" ${x.attr} aria-pressed="${x.on}">${ff030Ic(x.k)}<span class="ff-ct"><b>${esc(x.nome)}</b><span>${esc(x.sub)}</span></span></button>`).join("")}</div>`:""}
+  </section></div>`}
+function abrirFiltro(){uso("filtro_sheet");sheet("Organizar o Feed",ff030Corpo(),`<button type="button" class="btn ff-ok" data-ff030ok>Ver o Feed</button>`)}
+/* "Só o que eu sigo" e a volta para o resto: sem "Só o que eu sigo" ligado por baixo de uma editoria escolhida */
+document.addEventListener("click",e=>{const t=e.target&&e.target.closest&&e.target.closest("#layer .ff030 [data-ff030], #layer .ff030 [data-filtro], #layer [data-ff030ok]");if(!t)return;
+  if(t.matches("[data-ff030ok]")){e.preventDefault();e.stopPropagation();closeLayer();return}
+  if(t.matches("[data-ff030]")){e.preventDefault();e.stopPropagation();uso("filtro");PREF.feedModo="seguindo";FILTRO="tudo";try{ssSet("radar-filtro",FILTRO)}catch(_){}salvarPrefs();closeLayer();renderPosts();window.scrollTo(0,0);return}
+  if(PREF.feedModo==="seguindo"){PREF.feedModo="voce";salvarPrefs()}},true);
+/* a ordem fica marcada na folha, que continua aberta */
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#layer .ff030 [data-fmodo]");if(!b)return;setTimeout(()=>{try{document.querySelectorAll("#layer .ff030 [data-fmodo]").forEach(x=>x.setAttribute("aria-checked",String(x===b)))}catch(_){}},0)});
 function abrirNovidades(){const l=NOVID.map(pautaById).filter(Boolean);
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="ult">${l.map(p=>`<li><button type="button" data-goto="${esc(p.id)}"><span class="u-t"><b style="color:${secCor(secOf(p))}">${NOVAS.has(p.id)?"Nova":"Atualizada"}</b> · ${esc(secNome(secOf(p)))}</span><span class="u-x">${esc(p.neutro?.titulo||"")}</span>${lidaAtual(p)?`<span class="u-t">✓ lida</span>`:""}</button></li>`).join("")}</ul>`)}
 function atualizarChatPosts(){if(!FEED)return;const ps=new Set(allMsgs().filter(m=>m.pid).map(m=>m.pid));ps.forEach(pid=>{if(document.getElementById("p-"+pid))updateSocial(pid)})}

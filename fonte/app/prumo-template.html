@@ -6228,6 +6228,51 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
 .toque-cedo-b{opacity:.55;animation:tc000 1s ease-in-out infinite alternate}
 @keyframes tc000{to{opacity:.3}}
 @media (prefers-reduced-motion:reduce){.toque-cedo-b{animation:none}}
+
+/* 19/11 (Pedro): de qual notícia são os comentários, numa linha pequena no topo da folha */
+.oc204-sobre{margin:0 0 10px;padding:0 0 10px;border-bottom:1px solid var(--line);color:var(--muted);font:500 13.5px/1.35 var(--f-ui);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tr-feed p.tr-acts{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--muted)}
+.tr-feed p.tr-acts .tr-a{display:inline-flex;align-items:center;gap:4px;font-style:normal}
+.tr-feed p.tr-acts .tr-a svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tr-feed p.tr-acts .tr-a small{font:600 11px var(--f-ui)}
+.tr-feed p.tr-acts .tr-dir{margin-left:auto}
+
+/* 19/11 (Pedro): folha "Organizar o Feed" refeita — Ordem (escolha marcada) e Mostrar (Tudo, editorias, seu círculo) */
+.ff030{display:flex;flex-direction:column;gap:22px;padding-bottom:4px}
+.ff-sec h4{margin:0;font:800 12px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.ff-dica{margin:3px 0 10px;color:var(--muted);font:400 13px/1.35 var(--f-ui)}
+.ff-sub{margin:14px 0 8px;color:var(--muted);font:700 12px var(--f-ui)}
+.ff030 svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ff-ordem{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ff-ordem button{display:flex;align-items:flex-start;gap:9px;min-height:64px;padding:11px 11px;border:1.5px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);text-align:left}
+.ff-ordem button span{display:flex;flex-direction:column;gap:3px;min-width:0}
+.ff-ordem button b{font:700 14.5px var(--f-ui)}
+.ff-ordem button small{font:400 12px/1.3 var(--f-ui);color:var(--muted)}
+.ff-ordem button svg{color:var(--muted);margin-top:1px}
+.ff-ordem button[aria-checked="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.ff-ordem button[aria-checked="true"] svg{color:var(--ink)}
+.ff-tudo,.ff-ci{display:flex;align-items:center;gap:10px;width:100%;min-height:50px;padding:0 14px;border:1.5px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);text-align:left}
+.ff-tudo b,.ff-ci b{flex:1;min-width:0;font:700 15px var(--f-ui)}
+.ff-tudo span,.ff-ci span{color:var(--muted);font:500 12.5px var(--f-ui);white-space:nowrap}
+.ff-eds{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ff-ed{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;min-height:58px;padding:8px 12px 8px 16px;position:relative;border:1.5px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);text-align:left;overflow:hidden}
+.ff-ed::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c)}
+.ff-ed b{font:700 14.5px var(--f-ui)}
+.ff-ed span{color:var(--muted);font:500 12px var(--f-ui)}
+.ff-circ{display:flex;flex-direction:column;gap:8px}
+.ff-ci{background:var(--chip);border-color:transparent}
+.ff-ci svg{color:var(--bronze)}
+.ff030 [aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.ff030 [aria-pressed="true"]::after{content:"";position:absolute;right:10px;top:10px;width:16px;height:16px;border-radius:50%;background:var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/11px no-repeat}
+.ff-tudo,.ff-ci{position:relative}
+.ff-tudo[aria-pressed="true"] span,.ff-ci[aria-pressed="true"] span{margin-right:24px}
+.ff-ok{width:100%}
+.ff-ci{min-height:56px;padding:8px 14px}
+.ff-ct{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.ff-ct b{font:700 15px var(--f-ui)}
+.ff-ct span{white-space:normal!important;color:var(--muted);font:500 12.5px var(--f-ui)}
+.ff-ci[aria-pressed="true"] .ff-ct{margin-right:24px}
+.ff030 [aria-pressed="true"]::after{background:var(--ink);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cmask id='m'%3E%3Crect width='24' height='24' fill='white'/%3E%3Cpath d='M6.5 12.5l3.8 3.8 7.2-8' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Ccircle cx='12' cy='12' r='12' mask='url(%23m)'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cmask id='m'%3E%3Crect width='24' height='24' fill='white'/%3E%3Cpath d='M6.5 12.5l3.8 3.8 7.2-8' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Ccircle cx='12' cy='12' r='12' mask='url(%23m)'/%3E%3C/svg%3E") center/contain no-repeat}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -6489,7 +6534,7 @@ function listaFeed(){if(!FEED)return [];
   if(FILTRO==="_gostou")return ordenadas(visiveis().filter(p=>socialOf(p.id).likes.some(u=>u!==S.uid)));
   return FILTRO==="tudo"?ordenadas(visiveis().filter(meusTemasOk)):secLista()}
 function secLista(){const l=pautasDa(FILTRO).filter(secFiltroOk);if(!l.length&&SECF&&SECF.sec===FILTRO&&(SECF.sub||SECF.uf)){SECF={sec:FILTRO,sub:"",uf:""};return pautasDa(FILTRO)}return l}
-function nomeFiltro(f){if(f==="_colunas")return "Colunas";if(f==="_leu")return "Lidas por amigos";if(f==="_gostou")return "Amigos gostaram";if(f==="tudo")return "Tudo";return secNome(f)}
+function nomeFiltro(f){if(f==="_colunas")return "Colunas";if(f==="_leu")return "Lidas por amigos";if(f==="_gostou")return "Amigos curtiram";if(f==="tudo")return "Tudo";return secNome(f)}
 const pautasDa=sec=>ordenadas((FEED?.pautas||[]).filter(p=>secOf(p)===sec&&!silenciado(p)));
 const versaoP=p=>{const u=(p.atualizacoes||[]).map(x=>String(x.hora||"")).sort().pop();return u||String(p.hora||"")};
 const seenKey=p=>p.id+"|"+versaoP(p);
@@ -6592,7 +6637,7 @@ function postHTML(p){
     <div class="ph gut"><div class="ph-t"><button type="button" class="ph-sec" data-secfiltro="${esc(sec)}"><span class="ph-av${nv||at?" ph-av-novo":""}" style="--c:${secCor(sec)}"><i>${esc(secNome(sec).slice(0,1))}</i></span><span class="ph-nm"><b>${esc(secNome(sec))}</b><span class="ph-sub">${esc(/^Outros/.test(p.subtema||"")?(p.tag||""):(p.subtema||""))}${seguido(p)?" · seguindo":""}</span></span></button><em class="lida-t"${lidaAtual(p)?"":" hidden"}>✓ lida</em><span data-otr></span></div>${cobStatus(p)}${nv?`<span class="badge-new">Novo</span>`:at?`<span class="badge-new upd2">Atualizado</span>`:""}<button type="button" class="more-btn" data-a="menu" aria-label="Mais opções">${ICON.dots}</button></div>
     <div class="car"><div class="track">${ss.join("")}</div></div>
     <div class="gut">
-      <div class="acts"><button type="button" class="act" data-a="like" aria-label="Gostei">${ICON.like}<span>Gostei</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-a="send" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span>${ss.length>1?`<div class="prog pdots" aria-hidden="true">${ss.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${ss.length}</span></div>`:""}<button type="button" class="act" data-a="save" aria-label="Guardar">${ICON.save}</button></div>
+      <div class="acts"><button type="button" class="act" data-a="like" aria-label="Curtir">${ICON.like}<span>Curtir</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-a="send" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span>${ss.length>1?`<div class="prog pdots" aria-hidden="true">${ss.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${ss.length}</span></div>`:""}<button type="button" class="act" data-a="save" aria-label="Guardar">${ICON.save}</button></div>
       <div class="likes" data-likes></div>
       ${legendaPost(p)}
       ${cobBarra(p)}
@@ -6609,7 +6654,7 @@ function todosComentarios(){const out=[];Object.values(S.cmts).forEach(l=>l.forE
 function snapSocial(id){for(const m of Object.values(S.soc.curtidas||{})){const x=m&&m[id];if(x&&x.snap&&x.snap.titulo)return x.snap}return null}
 function votosDe(pid){const o={};Object.entries(S.soc.votos||{}).forEach(([u,m])=>{if(ehVisivel(u)&&m&&m[pid]!=null)o[u]=m[pid]});return o}
 function meuVoto(pid){const m=S.uid?(S.soc.votos||{})[S.uid]:null;return m?m[pid]:undefined}
-function atividadeAmigos(pid){const {likes,cm}=socialOf(pid);return amigosL().map(u=>({u,ac:[likes.includes(u)?"gostou":"",cm.some(c=>c.uid===u)?"comentou":""].filter(Boolean)})).filter(x=>x.ac.length)}
+function atividadeAmigos(pid){const {likes,cm}=socialOf(pid);return amigosL().map(u=>({u,ac:[likes.includes(u)?"curtiu":"",cm.some(c=>c.uid===u)?"comentou":""].filter(Boolean)})).filter(x=>x.ac.length)}
 const CPEND={};
 function montarCmts(docs){const by={};docs.forEach(([uid,dd])=>Object.entries((dd&&dd.itens)||{}).forEach(([cid,c])=>{const k=uid+"\u0001"+cid,p=CPEND[k];if(p){if(Date.now()-p.t>30000||(p.v?!!c:!c))delete CPEND[k]}if(c&&c.texto&&!(p&&p.v===null))(by[c.pid]=by[c.pid]||[]).push({...c,id:cid,uid})}));
   Object.entries(CPEND).forEach(([k,p])=>{if(Date.now()-p.t>90000){delete CPEND[k];return}if(!p.v)return;const [uid,cid]=k.split("\u0001");const l=(by[p.v.pid]=by[p.v.pid]||[]);if(!l.some(c=>c.id===cid))l.push({...p.v,id:cid,uid})});return by}
@@ -6655,7 +6700,7 @@ let ST={sec:null,i:0,ordem:[]};
 function stPs(){return (ST.ids||[]).map(pautaById).filter(Boolean)}
 function openSecStory(sec){uso("story");const ps=pautasDa(sec);let i=ps.findIndex(p=>!SEEN.has(seenKey(p)));ST={sec,ids:ps.map(p=>p.id),i:i<0?0:i,ordem:secsStory().map(s=>s.id)};drawStory()}
 function storyActs(pid){const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));
-  return `<button type="button" class="sact ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}<span>${likes.length||"Gostei"}</span></button><button type="button" class="sact" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>${cm.length||""}</span></button><button type="button" class="sact" data-a="send" aria-label="Enviar">${ICON.send}</button><span class="sp"></span><button type="button" class="sact go" data-goto="${esc(pid)}">Ver no feed</button>`}
+  return `<button type="button" class="sact ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Curtir">${ICON.like}<span>${likes.length||"Curtir"}</span></button><button type="button" class="sact" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>${cm.length||""}</span></button><button type="button" class="sact" data-a="send" aria-label="Enviar">${ICON.send}</button><span class="sp"></span><button type="button" class="sact go" data-goto="${esc(pid)}">Ver no feed</button>`}
 
 function wireStorySwipe(el){if(!el)return;let x0=0,y0=0,on=false;
   const sb=el.querySelector(".s-body");if(sb){let sy=0,mv=false;sb.addEventListener("pointerdown",e=>{sy=(e.target.closest("p")||{}).scrollTop||0;mv=false},{passive:true});sb.addEventListener("pointermove",()=>{mv=true},{passive:true});
@@ -6737,7 +6782,7 @@ function openSnap(pid){
   sheet(s.tag||"Notícia",`<div class="art paper" data-sec="${esc(s.secao||"politica")}">${svgOf(s.imagem)}</div><h3 style="margin:0;font-family:var(--f-display);font-weight:700;letter-spacing:-.01em;font-size:21px;line-height:1.2">${esc(s.titulo)}</h3><p class="lead" style="margin:0">${esc(s.texto)}</p>${arrL(s.links).length?`<ul class="rows">${arrL(s.links).map(l=>`<li><span>${esc(nomeFonte(l.fonte))}</span><a href="${escU(l.url)}" target="_blank" rel="noopener">${esc(l.titulo)}</a></li>`).join("")}</ul>`:""}${S.salvos[pid]?.nota?`<p class="note"><b>Sua nota.</b> ${esc(S.salvos[pid].nota)}</p>`:""}<div class="snapacts"><button type="button" class="link" data-nota="${esc(pid)}">${S.salvos[pid]?.nota?"Editar nota":"Adicionar nota"}</button>${S.salvos[pid]?`<button type="button" class="link" data-tirar="${esc(pid)}">Tirar das guardadas</button>`:""}${Object.entries(S.listas||{}).filter(([,m])=>m&&m[pid]).map(([u])=>`<button type="button" class="link" data-tirarl="${esc(pid)}" data-com="${esc(u)}">Tirar da lista com ${esc(nomeDe(u))}</button>`).join("")}</div>${pp?`<p class="hint">${silenciado(pp)?`Esta notícia está escondida porque o tema “${esc(temaDe(pp))}” está silenciado. Dá para mudar isso nos Ajustes do app.`:(PREF.ocultas||[]).includes(secOf(pp))?`Esta notícia está escondida porque a seção ${esc(secNome(secOf(pp)))} está escondida. Dá para mudar isso nos Ajustes do app.`:`Seu feed está em “Meus temas”, que mostra só o que você segue. Para ver tudo, mude a ordem no filtro do feed.`}</p>`:`<p class="hint">Notícia de uma edição anterior do Prumo.</p>`}`);
 }
 function abrirNome(){if(precisaConta())return;
-  sheet("Mudar meu nome",`<p class="hint" style="margin:0;font-size:14.5px">Esse nome aparece para os seus amigos: no "gostei", nos comentários e nas conversas.</p>`,`<form id="nform"><input class="field" id="ntext" maxlength="40" autocomplete="given-name" placeholder="Seu nome" aria-label="Seu nome" value="${esc(S.membros[S.uid]?.nome||"")}"><button class="send" type="submit">Salvar</button></form>`);
+  sheet("Mudar meu nome",`<p class="hint" style="margin:0;font-size:14.5px">Esse nome aparece para os seus amigos: nas curtidas, nos comentários e nas conversas.</p>`,`<form id="nform"><input class="field" id="ntext" maxlength="40" autocomplete="given-name" placeholder="Seu nome" aria-label="Seu nome" value="${esc(S.membros[S.uid]?.nome||"")}"><button class="send" type="submit">Salvar</button></form>`);
   $("#nform").addEventListener("submit",async e=>{e.preventDefault();const n=$("#ntext").value.trim();if(!n)return;closeLayer();const ant=S.membros[S.uid];S.membros[S.uid]={...(ant||{}),nome:n};rerenderAll();
     try{await S.db.doc("pessoas/"+S.uid).set({nome:n});toast("Nome salvo")}catch(err){if(ant)S.membros[S.uid]=ant;rerenderAll();const m=erroAuth(err);toast(/nome/i.test(m)?m:"Não deu para salvar o nome agora.")}});
 }
@@ -7993,11 +8038,11 @@ function wireSheetDrag(sh){if(!sh)return;
     b.addEventListener("touchend",()=>{if(y0==null)return;y0=null;solta(dy,120)})}}
 /* 10. aviso de conta */
 function avisoConta(){if(S.uid||$("#avisoconta"))return;let vis=false;try{vis=sessionStorage.getItem("prumo-aviso")==="1"}catch(e){}if(vis)return;
-  const a=document.createElement("div");a.id="avisoconta";a.className="avisoconta gut";a.innerHTML=`<span>Você está só lendo. Entre para gostar, comentar e conversar.</span><button type="button" class="av-entrar" data-entrar>Entrar</button><button type="button" class="av-x" data-fecharaviso aria-label="Fechar aviso">✕</button>`;
+  const a=document.createElement("div");a.id="avisoconta";a.className="avisoconta gut";a.innerHTML=`<span>Você está só lendo. Entre para curtir, comentar e conversar.</span><button type="button" class="av-entrar" data-entrar>Entrar</button><button type="button" class="av-x" data-fecharaviso aria-label="Fechar aviso">✕</button>`;
   $("#secs")?.after(a)}
 /* 13. quem gostou */
 function abrirQuem(pid){const it=socialOf(pid).likes.map(u=>[u,curtidasDe(u)[pid]?.at||0]).sort((a,b)=>b[1]-a[1]);
-  sheet("Quem gostou",it.length?`<ul class="clist">${it.map(([u,t])=>`<li>${avatar(u)}<div><span><b>${esc(u===S.uid?"Você":nomeDe(u))}</b></span><i>${t?esc(quando(t)):""}</i></div></li>`).join("")}</ul>`:`<div class="empty"><b>Ninguém ainda</b></div>`)}
+  sheet("Quem curtiu",it.length?`<ul class="clist">${it.map(([u,t])=>`<li>${avatar(u)}<div><span><b>${esc(u===S.uid?"Você":nomeDe(u))}</b></span><i>${t?esc(quando(t)):""}</i></div></li>`).join("")}</ul>`:`<div class="empty"><b>Ninguém ainda</b></div>`)}
 /* 14. toque duplo na capa */
 let ULT={t:0,el:null},TS0=null;
 document.addEventListener("touchstart",e=>{const t=e.touches[0];TS0=t?{x:t.clientX,y:t.clientY,t:Date.now(),n:e.touches.length}:null},{passive:true});
@@ -8013,7 +8058,7 @@ function duploGostei(c){const pid=c.closest("[data-pid]")?.dataset.pid;if(!pid)r
 /* 17. listas do perfil */
 function abrirMinhaLista(tipo){const u=S.uid;if(!u){precisaConta();return}let html="",tit="";
   const row=(id,snap,sub)=>`<li><button type="button" data-goto="${esc(id)}"><b>${esc(snap?.titulo||"Notícia")}</b><span>${sub}</span></button></li>`;
-  if(tipo==="gostei"){tit="Notícias que você gostou";const it=Object.entries(curtidasDe(u)).filter(([,x])=>x).sort((a,b)=>(b[1].at||0)-(a[1].at||0));html=it.map(([id,x])=>{const sn=x.snap&&x.snap.titulo?x.snap:snapById(id);return row(id,sn,esc(secNome(sn?.secao||"politica"))+" · "+esc(quando(x.at)))}).join("")}
+  if(tipo==="gostei"){tit="Notícias que você curtiu";const it=Object.entries(curtidasDe(u)).filter(([,x])=>x).sort((a,b)=>(b[1].at||0)-(a[1].at||0));html=it.map(([id,x])=>{const sn=x.snap&&x.snap.titulo?x.snap:snapById(id);return row(id,sn,esc(secNome(sn?.secao||"politica"))+" · "+esc(quando(x.at)))}).join("")}
   if(tipo==="cmt"){tit="Seus comentários";const it=todosComentarios().filter(c=>c.uid===u).map(c=>({id:c.pid,snap:c.snap||snapById(c.pid),c}));it.sort((a,b)=>b.c.at-a.c.at);html=it.map(x=>row(x.id,x.snap,"“"+esc(cp152Corta(x.c.texto,90))+"” · "+esc(quando(x.c.at)))).join("")}
   if(tipo==="env"){tit="Notícias que você enviou";const it=S.msgsOut.filter(m=>m.pid&&!m.resp&&m.tipo!=="cutucada").sort((a,b)=>b.at-a.at);html=it.map(m=>row(m.pid,m.snap,"Para "+esc(nomeDe(m.para))+" · "+esc(quando(m.at)))).join("")}
   sheet(tit,html?`<ul class="sres">${html}</ul>`:`<div class="empty"><b>Nada por aqui ainda</b></div>`)}
@@ -8046,11 +8091,39 @@ function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r
   if(!redesenho)carregarRodadas(true)}
 function storyRetoma(){if(!PREF.storyAuto||ST.timer||!$("#layer .story")||$("#layer2")?.innerHTML)return;const r=ST.resto||4000;ST.fim=Date.now()+r;ST.timer=setTimeout(()=>storyGo(1),r);const f=$("#layer .bars b");if(f)f.style.animationPlayState="running"}
 /* ---------- v14 ---------- */
-function abrirFiltro(){uso("filtro_sheet");const opc=[{id:"tudo",nome:"Tudo",n:visiveis().length},...SECS().filter(s=>pautasDa(s.id).length).map(s=>({id:s.id,nome:s.nome,n:pautasDa(s.id).length,cor:secCor(s.id)}))];
-  if(temAmigos()){const sv=FILTRO;FILTRO="_gostou";const b=listaFeed().length;FILTRO=sv;opc.push({id:"_gostou",nome:"Amigos gostaram",n:b,cor:"var(--bronze)"})}
-  try{const nc=typeof col207Todas==="function"?col207Todas().length:0;if(nc)opc.push({id:"_colunas",nome:"Colunas",n:nc,cor:"var(--bronze)",un:["coluna","colunas"]})}catch(e){}
-  const M=PREF.feedModo==="recentes"?"recentes":"voce";
-  sheet("Filtrar o feed",`<div class="segs fmodo" role="tablist" aria-label="Ordem do feed"><button type="button" role="tab" data-fmodo="voce" aria-selected="${M==="voce"}">Para você</button><button type="button" role="tab" data-fmodo="recentes" aria-selected="${M==="recentes"}">Mais recentes</button><button type="button" role="tab" data-fmodo="seguindo" aria-selected="${PREF.feedModo==="seguindo"}">Meus temas</button></div><div class="opt fopt">${opc.map(x=>`<button type="button" data-filtro="${esc(x.id)}" aria-pressed="${FILTRO===x.id}">${x.cor?`<i style="background:${x.cor}"></i>`:""}<b>${esc(x.nome)}</b><span>${x.n} ${x.n===1?(x.un?x.un[0]:"notícia"):(x.un?x.un[1]:"notícias")}${FILTRO===x.id?" · atual":""}</span></button>`).join("")}</div>`)}
+/* 19/11 (Pedro: "essa tela de filtro está horrível... não está claro que a parte de cima é para ranquear e não filtrar;
+   não dá para diferenciar cada tópico; Colunas está no mesmo formato que um tema"). Folha refeita em duas partes com
+   nome: "Ordem" (só muda a sequência, a folha fica aberta e mostra a escolha) e "Mostrar" (o que aparece: Tudo, as
+   editorias em grade com a cor de cada uma, e "Do seu círculo" com ícone próprio: o que você segue, amigos, colunas).
+   Escolher o que mostrar aplica e fecha. "Meus temas" deixa de ser uma ordem e vira "Só o que eu sigo". */
+function ff030Ic(k){const P={voce:'<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>',recentes:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  seguindo:'<path d="M6 4h12v16l-6-4-6 4z"/>',_gostou:'<path d="M7.5 5.5h9l3 4.5-7.5 9-7.5-9z"/>',_colunas:'<path d="M5 19l1-4L16 5l3 3L9 18z"/><path d="M14 7l3 3"/>',tudo:'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>'};
+  return `<svg viewBox="0 0 24 24" aria-hidden="true">${P[k]||""}</svg>`}
+function ff030Corpo(){const M=PREF.feedModo==="recentes"?"recentes":"voce",SEG=PREF.feedModo==="seguindo";const nt=n=>`${n} ${n===1?"notícia":"notícias"}`;
+  const tudoOn=FILTRO==="tudo"&&!SEG;
+  const eds=SECS().filter(s=>pautasDa(s.id).length).map(s=>({id:s.id,nome:s.nome,n:pautasDa(s.id).length,cor:secCor(s.id)}));
+  const circ=[];
+  if(S.uid){try{const sv=PREF.feedModo,sf=FILTRO;PREF.feedModo="seguindo";FILTRO="tudo";const n=listaFeed().length;PREF.feedModo=sv;FILTRO=sf;circ.push({k:"seguindo",nome:"Só o que eu sigo",sub:n?nt(n):"coberturas e times que você segue",on:SEG,attr:'data-ff030="seguindo"'})}catch(e){}}
+  if(temAmigos()){const sv=FILTRO;FILTRO="_gostou";const b=listaFeed().length;FILTRO=sv;circ.push({k:"_gostou",nome:"Amigos curtiram",sub:nt(b),on:FILTRO==="_gostou"&&!SEG,attr:'data-filtro="_gostou"'})}
+  try{const nc=typeof col207Todas==="function"?col207Todas().length:0;if(nc)circ.push({k:"_colunas",nome:"Colunas",sub:`${nc} ${nc===1?"coluna":"colunas"}`,on:FILTRO==="_colunas"&&!SEG,attr:'data-filtro="_colunas"'})}catch(e){}
+  const ord=[["voce","Para você","O mais importante da edição primeiro"],["recentes","Mais recentes","O que saiu ou mudou por último primeiro"]];
+  return `<div class="ff030">
+  <section class="ff-sec" aria-labelledby="ff-h1"><h4 id="ff-h1">Ordem</h4><p class="ff-dica">Só muda a sequência. Nenhuma notícia some.</p>
+    <div class="ff-ordem" role="radiogroup" aria-labelledby="ff-h1">${ord.map(([k,n,d])=>`<button type="button" role="radio" data-fmodo="${k}" aria-checked="${M===k}" aria-selected="${M===k}">${ff030Ic(k)}<span><b>${n}</b><small>${d}</small></span></button>`).join("")}</div></section>
+  <section class="ff-sec" aria-labelledby="ff-h2"><h4 id="ff-h2">Mostrar</h4><p class="ff-dica">Escolha o que aparece no Feed.</p>
+    <button type="button" class="ff-tudo" data-filtro="tudo" aria-pressed="${tudoOn}">${ff030Ic("tudo")}<b>Tudo</b><span>${nt(visiveis().length)}</span></button>
+    <p class="ff-sub">Editorias</p>
+    <div class="ff-eds">${eds.map(x=>`<button type="button" class="ff-ed" data-filtro="${esc(x.id)}" aria-pressed="${FILTRO===x.id&&!SEG}" style="--c:${x.cor}"><b>${esc(x.nome)}</b><span>${nt(x.n)}</span></button>`).join("")}</div>
+    ${circ.length?`<p class="ff-sub">Do seu círculo</p><div class="ff-circ">${circ.map(x=>`<button type="button" class="ff-ci" ${x.attr} aria-pressed="${x.on}">${ff030Ic(x.k)}<span class="ff-ct"><b>${esc(x.nome)}</b><span>${esc(x.sub)}</span></span></button>`).join("")}</div>`:""}
+  </section></div>`}
+function abrirFiltro(){uso("filtro_sheet");sheet("Organizar o Feed",ff030Corpo(),`<button type="button" class="btn ff-ok" data-ff030ok>Ver o Feed</button>`)}
+/* "Só o que eu sigo" e a volta para o resto: sem "Só o que eu sigo" ligado por baixo de uma editoria escolhida */
+document.addEventListener("click",e=>{const t=e.target&&e.target.closest&&e.target.closest("#layer .ff030 [data-ff030], #layer .ff030 [data-filtro], #layer [data-ff030ok]");if(!t)return;
+  if(t.matches("[data-ff030ok]")){e.preventDefault();e.stopPropagation();closeLayer();return}
+  if(t.matches("[data-ff030]")){e.preventDefault();e.stopPropagation();uso("filtro");PREF.feedModo="seguindo";FILTRO="tudo";try{ssSet("radar-filtro",FILTRO)}catch(_){}salvarPrefs();closeLayer();renderPosts();window.scrollTo(0,0);return}
+  if(PREF.feedModo==="seguindo"){PREF.feedModo="voce";salvarPrefs()}},true);
+/* a ordem fica marcada na folha, que continua aberta */
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#layer .ff030 [data-fmodo]");if(!b)return;setTimeout(()=>{try{document.querySelectorAll("#layer .ff030 [data-fmodo]").forEach(x=>x.setAttribute("aria-checked",String(x===b)))}catch(_){}},0)});
 function abrirNovidades(){const l=NOVID.map(pautaById).filter(Boolean);
   sheet("Desde a sua última visita",`${VISITA0?`<p class="hint" style="margin:0">Sua última visita foi ${esc(diaHora(VISITA0))}.</p>`:""}${l.length?"":`<p class="hint">Você já viu todas as novidades.</p>`}<ul class="ult">${l.map(p=>`<li><button type="button" data-goto="${esc(p.id)}"><span class="u-t"><b style="color:${secCor(secOf(p))}">${NOVAS.has(p.id)?"Nova":"Atualizada"}</b> · ${esc(secNome(secOf(p)))}</span><span class="u-x">${esc(p.neutro?.titulo||"")}</span>${lidaAtual(p)?`<span class="u-t">✓ lida</span>`:""}</button></li>`).join("")}</ul>`)}
 function atualizarChatPosts(){if(!FEED)return;const ps=new Set(allMsgs().filter(m=>m.pid).map(m=>m.pid));ps.forEach(pid=>{if(document.getElementById("p-"+pid))updateSocial(pid)})}
@@ -9184,7 +9257,7 @@ function igLerMateria(pid){if(ST){clearTimeout(ST.timer);ST.timer=0}uso("story_m
 function igLinhas(p,L){const fr=ssFrasesSociais(p,L).slice(0,4);const tit=norm(versao(p,L).titulo||"");
   return fr.filter(t=>norm(t)!==tit).slice(0,3)}
 storyActs=function(pid){const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));
-  return `<button type="button" class="sg-ler" data-stmat="${esc(pid)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>Ler a matéria</button><span class="sp"></span><button type="button" class="sg-a ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}${likes.length?`<span>${likes.length}</span>`:""}</button><button type="button" class="sg-a" data-a="cmt" aria-label="Comentar">${ICON.cmt}${cm.length?`<span>${cm.length}</span>`:""}</button><button type="button" class="sg-a" data-a="send" aria-label="Enviar">${ICON.send}</button>`};
+  return `<button type="button" class="sg-ler" data-stmat="${esc(pid)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>Ler a matéria</button><span class="sp"></span><button type="button" class="sg-a ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Curtir">${ICON.like}${likes.length?`<span>${likes.length}</span>`:""}</button><button type="button" class="sg-a" data-a="cmt" aria-label="Comentar">${ICON.cmt}${cm.length?`<span>${cm.length}</span>`:""}</button><button type="button" class="sg-a" data-a="send" aria-label="Enviar">${ICON.send}</button>`};
 
 function igCaber(){const b=$("#layer .sg-body");if(!b)return;const lim=()=>b.getBoundingClientRect().top<110;let k=1;b.style.setProperty("--sgk","1");for(let n=0;n<6&&lim();n++){k-=.08;b.style.setProperty("--sgk",k.toFixed(2))}
   if(lim()){const li=[...b.querySelectorAll(".sg-l li")];while(li.length>1&&lim())li.pop().remove()}}
@@ -9392,7 +9465,7 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
 
 /* ===== 1. comentar pelo story ===== */
 storyActs=function(pid){const {likes}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));
-  return `<button type="button" class="sg-a ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}${likes.length?`<span>${likes.length}</span>`:""}</button><button type="button" class="sg-a" data-a="send" aria-label="Enviar para alguém">${ICON.send}</button>`};
+  return `<button type="button" class="sg-a ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Curtir">${ICON.like}${likes.length?`<span>${likes.length}</span>`:""}</button><button type="button" class="sg-a" data-a="send" aria-label="Enviar para alguém">${ICON.send}</button>`};
 function igCmtChip(pid){const n=socialOf(pid).cm.length;return n?`<button type="button" class="sg-cc" data-a="cmt">${ICON.cmt}<span>${n} ${n===1?"comentário":"comentários"}</span></button>`:""}
 function igRodape(){const sa=$("#layer #s-acts");if(!sa||sa.closest(".sg-f2"))return;const pid=sa.dataset.pid;if(!pid)return;
   const f=document.createElement("div");f.className="s-f sg-f sg-f2";f.dataset.pid=pid;
@@ -11230,12 +11303,15 @@ const TOUR_IC={capa:'<svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" hei
   feed:'<svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><rect x="4" y="13" width="16" height="7.5" rx="2"/></svg>',
   ativ:'<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>',
   app:'<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>'};
+/* 19/11 (Pedro): o desenho do post no guia usa os ícones de verdade do Feed (Curtir, Comentar, Repostar, Enviar, Guardar) */
+function tr090Acoes(){const ic=(k,f)=>{try{return (typeof ICON!=="undefined"&&ICON[k])||f}catch(e){return f}};let rp="";try{rp=typeof VN112_IC!=="undefined"&&VN112_IC.rp||""}catch(e){}
+  return `<em class="tr-a" title="Curtir">${ic("like","")}</em><em class="tr-a">${ic("cmt","")}<small>Comentar</small></em>${rp?`<em class="tr-a">${rp}<small>Repostar</small></em>`:""}<em class="tr-a tr-dir">${ic("send","")}</em><em class="tr-a">${ic("save","")}</em>`}
 function tourTelas(nome){return [
   {ic:"capa",k:"Capa",t:nome?`Bem-vindo, ${nome}`:"As notícias do dia",p:"A Capa traz o que importa hoje, em poucas linhas e sem viés. Toque na manchete para ler ali mesmo e escolha a versão Neutra, de Direita ou de Esquerda.",
     demo:`<div class="tr-capa"><i class="tr-k"></i><b></b><b class="c"></b><span class="tr-seg"><em class="on">Neutra</em><em>Direita</em><em>Esquerda</em></span></div>`},
   {ic:"feed",k:"Feed e giros",t:"Notícias que dá para curtir",p:"No Feed, as notícias viram posts e giros, junto com o que seus amigos publicam. Curta, comente, vote nas enquetes e mande para quem quiser.",
-    demo:`<div class="tr-feed"><span><i></i><i></i><i></i><i></i></span><div><b></b><b class="c"></b></div><p><em>♥</em><em>💬</em><em>➤</em></p></div>`},
-  {ic:"ativ",k:"Amigos e Atividade",t:"Seus amigos estão aqui",p:"Quem te convidou já é seu amigo. O ♥ no topo mostra quem curtiu, comentou ou te marcou, e quando uma cobertura que você segue ganha novidade.",
+    demo:`<div class="tr-feed"><span><i></i><i></i><i></i><i></i></span><div><b></b><b class="c"></b></div><p class="tr-acts">${tr090Acoes()}</p></div>`},
+  {ic:"ativ",k:"Amigos e Atividade",t:"Seus amigos estão aqui",p:"Quem te convidou já é seu amigo. O sino no topo mostra quem curtiu, comentou ou te marcou, e quando uma cobertura que você segue ganha novidade.",
     demo:`<div class="tr-ativ"><p><i></i><span><b></b><b class="c"></b></span></p><p><i></i><span><b></b><b class="c"></b></span></p><p><i class="q"></i><span><b></b><b class="c"></b></span></p></div>`},
   {ic:"app",k:"Use como app",t:"Deixe na tela de início",p:/iPhone|iPad|iPod/i.test(navigator.userAgent)?"No Safari, toque em Compartilhar e depois em “Adicionar à Tela de Início”. O Prumo abre como um app, mais rápido e em tela cheia.":"No Chrome, toque nos três pontinhos e depois em “Instalar app” ou “Adicionar à tela inicial”. O Prumo abre como um app, mais rápido e em tela cheia.",
     demo:`<div class="tr-app"><i></i><i></i><i class="p">P</i><i></i></div>`}]}
@@ -11985,7 +12061,7 @@ document.addEventListener("scroll",e=>{const t=e.target;if(!t||!t.classList||!t.
 /* ===== curtidas, comentários e "Na conversa" ===== */
 function vp99Social(pid){const el=document.getElementById("p-"+pid);if(!el)return;const up=vp99EhPost(pid);const {likes,cm}=socialOf(pid);
   const lk=el.querySelector("[data-likes]");
-  if(lk&&!lk.textContent.trim()&&S.uid&&likes.length===1&&likes[0]===S.uid){lk.innerHTML=up?`Curtido por <b>você</b>`:`<b>Você</b> gostou`;lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}
+  if(lk&&!lk.textContent.trim()&&S.uid&&likes.length===1&&likes[0]===S.uid){lk.innerHTML=up?`Curtido por <b>você</b>`:`<b>Você</b> curtiu`;lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}
   const nc=el.querySelector("[data-nchat]");
   if(nc&&typeof allMsgs==="function"){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto&&m.tipo!=="mencao");const u=ms[ms.length-1];
     nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}
@@ -13661,7 +13737,7 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
    e sem fios; ações em texto com ícone pequeno e número ("◇ 3 · Comentar 2 · Repostar"), Enviar e Guardar em ícone à direita.
    (Os cartões "atual", B e C e o ?cartao= saíram em 13/11.) */
 const VN112_CT="a"; /* cartão A (Jornal); B e C saíram em 13/11 */
-const VN112_ROT={like:"Gostei",cmt:"Comentar",send:"Enviar",save:"Guardar"};
+const VN112_ROT={like:"Curtir",cmt:"Comentar",send:"Enviar",save:"Guardar"};
 function vn112BtRp(k,id){return `<button type="button" class="act vn-rpb" data-vnrp="${esc(k+":"+id)}" aria-label="Repostar" aria-pressed="false">${VN112_IC.rp}<span>Repostar</span><em class="cnt" data-n="vnrp"></em></button>`}
 function vn112NRp(k,id){let n=0,eu=false;const us=[];pubVisiveis().forEach(x=>{const r=vn112Rp(x);if(r&&r.k===k&&r.id===id){n++;if(x.autor===S.uid)eu=true;if(!us.includes(x.autor))us.push(x.autor)}});return {n,eu,us}}
 function vn112MeuRp(k,id){return pubVisiveis().find(x=>{const r=vn112Rp(x);return x.autor===S.uid&&r&&r.k===k&&r.id===id&&!String(x.texto||"").trim()})||null}
@@ -14480,9 +14556,9 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 
 /* ===== 4. página de leitura ===== */
 function cs123FimHTML(x){const pid="u:"+x.id,{likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid)),sv=!!(S.salvos||{})[pid],ot=likes.filter(u=>u!==S.uid);
-  let lt="";if(mine&&!ot.length)lt="<b>Você</b> gostou";else if(mine)lt=`<b>Você</b> e ${ot.length===1?`<b>${esc(nomeDe(ot[0]))}</b>`:"mais "+ot.length} gostaram`;else if(ot.length===1)lt=`<b>${esc(nomeDe(ot[0]))}</b> gostou`;else if(ot.length)lt=`<b>${esc(nomeDe(ot[0]))}</b> e mais ${ot.length-1} gostaram`;
+  let lt="";if(mine&&!ot.length)lt="<b>Você</b> curtiu";else if(mine)lt=`<b>Você</b> e ${ot.length===1?`<b>${esc(nomeDe(ot[0]))}</b>`:"mais "+ot.length} curtiram`;else if(ot.length===1)lt=`<b>${esc(nomeDe(ot[0]))}</b> curtiu`;else if(ot.length)lt=`<b>${esc(nomeDe(ot[0]))}</b> e mais ${ot.length-1} curtiram`;
   const sem=!!(x.estilo&&x.estilo.semCom),ult=cm.slice(-2);
-  return `<p class="cs123-fk">Gostou da coluna?</p><div class="acts cs123-acts"><button type="button" class="act${mine?" on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}<span>Gostei${likes.length?" · "+likes.length:""}</span></button>${sem?"":`<button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar${cm.length?" · "+cm.length:""}</span></button>`}<button type="button" class="act" data-usend="${esc(x.id)}" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><button type="button" class="act${sv?" saved":""}" data-a="save" aria-pressed="${sv}" aria-label="Guardar">${ICON.save}<span>${sv?"Guardada":"Guardar"}</span></button></div>
+  return `<p class="cs123-fk">Curtiu a coluna?</p><div class="acts cs123-acts"><button type="button" class="act${mine?" on":""}" data-a="like" aria-pressed="${mine}" aria-label="Curtir">${ICON.like}<span>Curtir${likes.length?" · "+likes.length:""}</span></button>${sem?"":`<button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar${cm.length?" · "+cm.length:""}</span></button>`}<button type="button" class="act" data-usend="${esc(x.id)}" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><button type="button" class="act${sv?" saved":""}" data-a="save" aria-pressed="${sv}" aria-label="Guardar">${ICON.save}<span>${sv?"Guardada":"Guardar"}</span></button></div>
     ${lt?`<p class="cs123-lk">${lt}</p>`:""}${ult.length?`<ul class="cs123-cms">${ult.map(c=>`<li>${avatar(c.uid)}<span><b>${esc(nomeDe(c.uid))}</b> ${esc(String(c.texto||"").slice(0,280))}</span></li>`).join("")}</ul>`:""}
     ${sem?`<p class="hint">Os comentários estão desativados nesta coluna.</p>`:`<button type="button" class="addc" data-a="cmt">${cm.length>2?`Ver os ${cm.length} comentários`:"Adicione um comentário…"}</button>`}`}
 function cs123LerHTML(x,c,o){o=o||{};const f=x.fotos&&x.fotos[0],u=o.capa||(f&&pubUrl(f)),min=cs123Min(c.corpo),ult=String(x.texto||"").split("\n\n").pop(),tags=o.prev?cs123Tags(o.tags):/^#/.test(ult)&&String(x.texto||"").indexOf("\n\n")>0?cs123Tags(ult):[];
@@ -18179,7 +18255,7 @@ function fd156Hora(p){try{return tms(ultimaAtualizacao(p)||p.hora)||0}catch(e){r
 {const _lf156=listaFeed;listaFeed=function(){const l=_lf156.apply(this,arguments);try{if(PREF.feedModo==="recentes"&&Array.isArray(l)&&(FILTRO==="tudo"||FILTRO==="_gostou"))
   return l.map((p,i)=>({p,i,h:fd156Hora(p)})).sort((a,b)=>(b.h-a.h)||(a.i-b.i)).map(x=>x.p)}catch(e){}return l}}
 /* escolher a ordem fecha a folha "Filtrar o feed", como já acontece ao tocar numa editoria */
-document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#layer [data-fmodo]");if(!b)return;setTimeout(()=>{try{if(document.querySelector("#layer .sheet"))closeLayer()}catch(_){}},180)});
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("#layer [data-fmodo]");if(!b||b.closest(".ff030"))return;setTimeout(()=>{try{if(document.querySelector("#layer .sheet"))closeLayer()}catch(_){}},180)});
 
 /* ---- rolar rápido: o próximo lote vem bem antes do fim; esqueleto no lugar do "Carregando…"; Outras notícias e rodapé só no fim ---- */
 var FD156_IO=("IntersectionObserver" in window)?new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))try{carregarMais()}catch(_){}},{rootMargin:"0px 0px 2200px 0px"}):null;
@@ -20024,7 +20100,7 @@ const SG181_TX={"Convidar amigo":"Convidar alguém","Nenhum amigo ainda":"Você 
   "Adicione amigos no Perfil para mandar.":"Siga pessoas para mandar.","Seus amigos no Prumo vão ver.":"Quem vê o seu perfil vai ver.",
   "Seus amigos no Prumo vão ver. Use @ para marcar alguém na legenda.":"Quem vê o seu perfil vai ver. Use @ para marcar alguém na legenda.",
   "Você ainda não tem amigos no Prumo.":"Você ainda não segue ninguém no Prumo.","Você ainda não tem amigos no Prumo":"Você ainda não segue ninguém no Prumo",
-  "Lidas por amigos":"Lidas por quem você segue","Amigos gostaram":"Quem você segue gostou","O que seus amigos acham":"O que dizem no Prumo",
+  "Lidas por amigos":"Lidas por quem você segue","Amigos curtiram":"Quem você segue curtiu","O que seus amigos acham":"O que dizem no Prumo",
   "Amigos nesta notícia":"Quem você segue nesta notícia","Nenhum amigo por aqui ainda":"Ninguém que você segue por aqui ainda",
   "Amigo no Prumo":"Você segue","Não são amigos agora":"Você não segue","Perfis abertos":"Pessoas","Descobrir perfis abertos":"Buscar pessoas",
   "Pessoas do Prumo que deixam qualquer membro seguir. Você vê o que elas publicam para seguidores.":"Siga pessoas do Prumo. Perfil fechado: a pessoa aprova o seu pedido.",
@@ -20411,14 +20487,14 @@ function us204Base(pid){
   el.querySelector('[data-n="cmt"]').textContent="";
   const sb=el.querySelector('[data-a="save"]'),sv=!!S.salvos[pid];sb.classList.toggle("saved",sv);sb.setAttribute("aria-pressed",String(sv));
   let lt="";const n1=others[0]?`<b>${esc(nomeDe(others[0]))}</b>`:"";
-  if(mine&&others.length===1)lt=`<b>Você</b> e ${n1} gostaram`;
-  else if(mine&&others.length>1)lt=`<b>Você</b> e mais ${others.length} gostaram`;
-  else if(others.length===1)lt=`${n1} gostou`;
-  else if(others.length>1)lt=`${n1} e mais ${others.length-1} gostaram`;
+  if(mine&&others.length===1)lt=`<b>Você</b> e ${n1} curtiram`;
+  else if(mine&&others.length>1)lt=`<b>Você</b> e mais ${others.length} curtiram`;
+  else if(others.length===1)lt=`${n1} curtiu`;
+  else if(others.length>1)lt=`${n1} e mais ${others.length-1} curtiram`;
   {const lk=el.querySelector("[data-likes]");lk.innerHTML=lt;if(lt){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}else{delete lk.dataset.a;lk.removeAttribute("role");lk.removeAttribute("tabindex")}}
   const pp=pautaById(pid);if(pp){const pl=el.querySelector("[data-poll]");if(pl){const eh=enqueteHTML(pp);pl.innerHTML=eh?`<span class="pb-l">Enquete</span>${eh}`:""}}
   {const ot=el.querySelector("[data-otr]");if(ot){const at=atividadeAmigos(pid);
-    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("gostou")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
+    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("curtiu")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
     else if(at.length>1)ot.innerHTML=`<span class="otr" role="button" tabindex="0" data-otrs="${esc(pid)}" aria-label="${esc(at.length+" amigos nesta notícia")}">${avatares(at.map(x=>x.u))}${at.length} amigos</span>`;
     else ot.innerHTML=""}}
   {const nc=el.querySelector("[data-nchat]");if(nc){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto);const u=ms[ms.length-1];nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}}
@@ -20532,6 +20608,10 @@ function carregarMais(sync){
 
 /* ===== openComments: a folha de comentários =====
    Base no 008; remendos: 067, 099, 108, 109, 126, 134, 156 (2×), 167. */
+function oc204Sobre(pid){const b=document.querySelector("#layer .sheet .sh-b");if(!b||b.querySelector(":scope > .oc204-sobre"))return;const id=String(pid||"");let t="";
+  if(/^u:/.test(id)){const x=pubDe(id.slice(2));if(x){const tx=String(x.texto||"").replace(/\s+/g," ").trim();t=`Post de ${x.autor===S.uid?"você":nomeDe(x.autor)}`+(tx?`: ${tx.length>70?tx.slice(0,68).trim()+"…":tx}`:"")}}
+  else{const p=typeof pautaById==="function"?pautaById(id):null;let tt="";try{tt=p&&typeof versao==="function"?versao(p).titulo||"":""}catch(e){}if(!tt&&p)tt=p.titulo||"";if(tt)t=tt}
+  if(!t)return;b.insertAdjacentHTML("afterbegin",`<p class="oc204-sobre">${esc(t)}</p>`)}
 function oc204Base(pid){uso("comentarios");
   const draw=()=>{const {cm}=socialOf(pid);return cm.length?`<ul class="clist">${cm.map(c=>`<li>${avatar(c.uid)}<div><span><b>${esc(nomeDe(c.uid))}</b>${typeof debVotoChip==="function"?debVotoChip(pid,c.uid):""} ${esc(c.texto)}</span><i>${esc(quando(c.at))}<button type="button" class="c-a" data-resp="${esc(nomeDe(c.uid))}">Responder</button>${c.uid===S.uid||(typeof cmDono==="function"&&cmDono(pid))?`<button type="button" class="c-a" data-apagar="${esc(c.id)}" data-au="${esc(c.uid)}">Apagar</button>`:""}${c.uid!==S.uid?`<button type="button" class="c-a" data-denc="${esc(c.id)}" data-du="${esc(c.uid)}" data-dp="${esc(pid)}">Denunciar</button>`:""}</i></div></li>`).join("")}</ul>`:`<div class="empty" style="padding:18px 0"><b>Nenhum comentário ainda</b>Escreva o primeiro.</div>`};
   const n=socialOf(pid).cm.length;
@@ -20569,6 +20649,8 @@ function openComments(pid){
   if(x&&cs123Col(x)){LT134.cpid=pid;const rc=S._reCmt;if(rc)S._reCmt=function(){const q=rc.apply(this,arguments);try{lt134CmDecora()}catch(e){}return q};lt134CmDecora();lt134DestCarrega(x.id)}else LT134.cpid=null}catch(e){}
   /* 156 */
   try{fd156Comentarios()}catch(e){}
+  /* 19/11 (Pedro): uma linha pequena dizendo de qual notícia (ou de qual post) são os comentários */
+  try{oc204Sobre(pid)}catch(e){}
   /* 167 */
   try{fd167Pend();fd167SemMencao();const i=document.getElementById("ctext");if(i&&FD167_TOQUE)i.setAttribute("enterkeyhint","enter")}catch(e){}
   return r}
@@ -22024,7 +22106,7 @@ function toast(t,acao,fn){
     if(/^O comentário não foi salvo/.test(t)){
       if(fd156Offline()&&fd156CmtGuarda()){t="Sem conexão: o comentário vai ser enviado quando a internet voltar.";acao="Cancelar";fn=fd156CmtCancela}
       else setTimeout(()=>{const i=document.getElementById("ctext");if(!i)return;try{if(typeof cm106Ajusta==="function")cm106Ajusta(i)}catch(e){}try{const n=i.value.length;i.setSelectionRange(n,n)}catch(e){}},0)}
-    else if(/^Não deu para marcar agora/.test(t)&&fd156Offline())t="Sem conexão: o Gostei vai ser enviado quando a internet voltar."}}catch(e){}
+    else if(/^Não deu para marcar agora/.test(t)&&fd156Offline())t="Sem conexão: a curtida vai ser enviada quando a internet voltar."}}catch(e){}
   /* [112] nomes novos (Giro, Destaque) */
   try{if(typeof t==="string"&&VN112_NOMES_T.test(t))t=vn112Troca(t)}catch(e){}
   aviso:{
@@ -22172,7 +22254,7 @@ function ppBase(x){const id="u:"+x.id,eu=x.autor===S.uid,fs=x.fotos.map(pubUrl),
     <div class="ph gut"><div class="ph-t"><span class="up-au">${avatar(x.autor)}<span class="ph-nm"><b>${esc(nomeDe(x.autor))}</b><span class="ph-sub">${esc(quando(x.at))}${x.pid&&x.fotos.length?" · com notícia":""}</span></span></span><span data-otr></span></div><button type="button" class="more-btn" data-umenu="${esc(x.id)}" aria-label="Mais opções">${ICON.dots}</button></div>
     <div class="car"><div class="track">${sl.join("")}</div></div>
     <div class="gut">
-      <div class="acts"><button type="button" class="act" data-a="like" aria-label="Gostei">${ICON.like}<span>Gostei</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-usend="${esc(x.id)}" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span>${sl.length>1?`<div class="prog pdots" aria-hidden="true">${sl.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${sl.length}</span></div>`:""}<button type="button" class="act" data-a="save" hidden aria-hidden="true">${ICON.save}</button></div>
+      <div class="acts"><button type="button" class="act" data-a="like" aria-label="Curtir">${ICON.like}<span>Curtir</span><em class="cnt" data-n="like"></em></button><button type="button" class="act" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>Comentar</span><em class="cnt" data-n="cmt"></em></button><button type="button" class="act" data-usend="${esc(x.id)}" aria-label="Enviar">${ICON.send}<span>Enviar</span></button><span class="sp"></span>${sl.length>1?`<div class="prog pdots" aria-hidden="true">${sl.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}<span class="pg">1/${sl.length}</span></div>`:""}<button type="button" class="act" data-a="save" hidden aria-hidden="true">${ICON.save}</button></div>
       <div class="likes" data-likes></div>
       ${x.texto&&!soTexto?`<p class="up-leg"><b>${esc(nomeDe(x.autor))}</b> ${dmMarcaPub(x.texto)}</p>`:""}
       <div class="pollbox" data-poll hidden></div><div data-together></div><div data-nchat></div>
@@ -22466,9 +22548,9 @@ function renderMeMiolo(){
   const er=(S.erros||[]).slice(0,5).map(e=>({...e,...(S.errosResp[e.id]||{})}));
   const stE=e=>e.status==="corrigido"?"Corrigido":e.status==="mantido"?"Conferido, sem erro":e.status==="em_analise"?"Em análise":"Aguardando conferência";
   v.innerHTML=`<div class="gut">${ok?`<div class="me-head">${avatar(u)}<div><b>${esc(nomeDe(u))}</b><span>${na?na+" "+(na===1?"amigo":"amigos"):"Nenhum amigo ainda"}</span></div></div>
-    <div class="stats"><button type="button" data-minha="gostei"><b>${likes}</b><span>gostei</span></button><button type="button" data-minha="cmt"><b>${cms}</b><span>${cms===1?"comentário":"comentários"}</span></button><button type="button" data-minha="env"><b>${env}</b><span>${env===1?"enviada":"enviadas"}</span></button></div>`:`<div class="view-h"><h1>Perfil</h1></div>`}
+    <div class="stats"><button type="button" data-minha="gostei"><b>${likes}</b><span>curtidas</span></button><button type="button" data-minha="cmt"><b>${cms}</b><span>${cms===1?"comentário":"comentários"}</span></button><button type="button" data-minha="env"><b>${env}</b><span>${env===1?"enviada":"enviadas"}</span></button></div>`:`<div class="view-h"><h1>Perfil</h1></div>`}
     <div style="display:flex;flex-direction:column;gap:12px;padding-bottom:24px">
-    ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para gostar, comentar, guardar e conversar com os seus amigos.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta</button></div></div>`:(!INIT_FIM&&!S.membro)?`<div class="card"><b>Conectando à sua conta…</b><p>Só um instante. Se demorar, confira a internet.</p></div>`:S.suspenso?`<div class="card"><b>Conta suspensa</b><p>Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-sair>Sair</button></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
+    ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta</button></div></div>`:(!INIT_FIM&&!S.membro)?`<div class="card"><b>Conectando à sua conta…</b><p>Só um instante. Se demorar, confira a internet.</p></div>`:S.suspenso?`<div class="card"><b>Conta suspensa</b><p>Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-sair>Sair</button></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
     <div class="card menu"><button type="button" data-vgo="saved"><span>Guardadas</span><em>${Object.values(S.salvos||{}).filter(Boolean).length||""}</em><i>›</i></button><button type="button" data-vgo="play"><span>Quiz e enquetes</span><i>›</i></button></div>
     <div class="card menu"><button type="button" data-ajustes><span>Ajustes do app</span><i>›</i></button><button type="button" data-historico><span>Histórico de leitura</span><em>${Object.keys(HIST).length}</em><i>›</i></button><button type="button" data-rodadas><span>Atualizações do Prumo</span><em class="${estadoRadar().ok?"":"bad"}">${esc(estadoRadar().ok?(FEED?"edição das "+hhmm(FEED.atualizado_em):""):"atrasado")}</em><i>›</i></button></div>
     ${S.membro&&S.membros[u]?.papel==="admin"?`<div class="card menu"><button type="button" data-admin><span>Administração</span><i>›</i></button></div>`:""}

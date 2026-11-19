@@ -65,7 +65,7 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
 
 /* ===== 1. comentar pelo story ===== */
 storyActs=function(pid){const {likes}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));
-  return `<button type="button" class="sg-a ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}${likes.length?`<span>${likes.length}</span>`:""}</button><button type="button" class="sg-a" data-a="send" aria-label="Enviar para alguém">${ICON.send}</button>`};
+  return `<button type="button" class="sg-a ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Curtir">${ICON.like}${likes.length?`<span>${likes.length}</span>`:""}</button><button type="button" class="sg-a" data-a="send" aria-label="Enviar para alguém">${ICON.send}</button>`};
 function igCmtChip(pid){const n=socialOf(pid).cm.length;return n?`<button type="button" class="sg-cc" data-a="cmt">${ICON.cmt}<span>${n} ${n===1?"comentário":"comentários"}</span></button>`:""}
 function igRodape(){const sa=$("#layer #s-acts");if(!sa||sa.closest(".sg-f2"))return;const pid=sa.dataset.pid;if(!pid)return;
   const f=document.createElement("div");f.className="s-f sg-f sg-f2";f.dataset.pid=pid;
