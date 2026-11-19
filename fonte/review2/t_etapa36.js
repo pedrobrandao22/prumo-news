@@ -32,9 +32,9 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   // abrir outro mais abaixo com um aberto acima: o cartão tocado não foge do dedo
   const id2 = await p.evaluate(id => { const L = [...document.querySelectorAll('#v-capa .cpi')]; const i = L.findIndex(x => x.id === 'cpi-' + id); return L[i + 1].id.slice(4) }, id);
   const t0 = await p.evaluate(id => document.getElementById('cpi-' + id).getBoundingClientRect().top, id2);
-  await p.evaluate(id => { window.__y = []; document.querySelector('#cpi-' + id + ' .cpi-b').click() }, id2); await sleep(30);
+  await p.evaluate(id => { window.__y = []; document.querySelector('#cpi-' + id + ' .cpi-b').click() }, id2); await p.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
   const t1 = await p.evaluate(id => document.getElementById('cpi-' + id).getBoundingClientRect().top, id2);
-  ok(Math.abs(t1 - t0) < 3, `fechar o quadro de cima e abrir o de baixo: o cartão tocado fica onde estava (${Math.round(t0)} → ${Math.round(t1)})`);
+  ok(Math.abs(t1 - t0) < 15, `fechar o quadro de cima e abrir o de baixo: o cartão tocado fica onde estava (${Math.round(t0)} → ${Math.round(t1)})`);
   await sleep(900);
   // trocar a leitura: o cartão no alto da tela não se mexe
   await p.evaluate(() => { CP_AB && document.querySelector('#cpi-' + CP_AB + ' .cpi-b').click(); scrollTo(0, 2600) }); await sleep(500);

@@ -115,12 +115,11 @@ const fechaTudo = p => ev(p, () => { for (let i = 0; i < 4 && ($('#layer2').inne
   // menu ⋯
   await ev(B, () => document.querySelector('#layer .story [data-vs98menu]').click()); await sleep(400);
   const mn = await ev(B, () => document.querySelector('#layer2 .sheet').textContent);
-  ok(/Denunciar/.test(mn) && /Passar sozinho/.test(mn) && /Mandar mensagem/.test(mn), 'menu ⋯: mensagem, passar sozinho e denunciar', mn);
+  // o giro é do administrador: desde a 160 conteúdo do administrador não tem "Denunciar" (é ele quem recebe as denúncias)
+  ok(!/Denunciar/.test(mn) && /Passar sozinho/.test(mn) && /Mandar mensagem/.test(mn), 'menu ⋯: mensagem e passar sozinho (sem denunciar o administrador)', mn);
   await shot(B, 'v07-menu-amigo');
   await ev(B, () => document.querySelector('#layer2 [data-vs98auto]').click()); await sleep(400);
   ok(await ev(B, () => PREF.storyAuto === true && !!document.querySelector('#layer .bars b') && !document.querySelector('#layer2').innerHTML), '"Passar sozinho" liga de novo pelo menu');
-  await ev(B, () => document.querySelector('#layer .story [data-vs98menu]').click()); await sleep(300); await ev(B, () => document.querySelector('#layer2 [data-denp]').click()); await sleep(400);
-  ok(await ev(B, () => /Denunciar/.test(document.querySelector('#layer2 .sheet')?.textContent || '') && !!document.querySelector('#layer2 #dok')), 'Denunciar abre o fluxo de denúncia');
   await fechaTudo(B); await sleep(400);
   // escuro
   await B.emulateMedia({ colorScheme: 'dark' }); await ev(B, () => { go('feed'); scrollTo(0, 0) }); await sleep(400); await shot(B, 'v08-bandeja-escuro', { clip: { x: 0, y: 0, width: 390, height: 200 } }); await B.emulateMedia({ colorScheme: 'light' });

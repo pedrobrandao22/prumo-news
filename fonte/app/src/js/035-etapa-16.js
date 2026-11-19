@@ -23,7 +23,7 @@ function linkTentar(){if(!LINK_PID||!FEED)return;const pid=LINK_PID;if(pautaById
 var NOVID_AG=(function(){try{const d=JSON.parse(localStorage.getItem("prumo-novid")||"null");return d&&typeof d==="object"?d:null}catch(e){return null}})(),AG_ROT=0;
 async function carregarAgora(){try{const pre=typeof ab141Pre!=="undefined"&&ab141Pre.novid;let d;if(pre){ab141Pre.novid=null;d=await pre}
   if(!d){const r=await fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"});if(!r.ok)return;d=await r.json()}
-  if(d&&typeof d==="object"){NOVID_AG=d;try{localStorage.setItem("prumo-novid",JSON.stringify(d))}catch(e){}atualizarAgora()}}catch(e){}}
+  if(d&&typeof d==="object"){NOVID_AG=d;try{localStorage.setItem("prumo-novid",JSON.stringify(d))}catch(e){}atualizarAgora();try{ac208Atualiza()}catch(e){}}}catch(e){}}
 function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!m)return 0;const agora=new Date();let ano=agora.getFullYear();let t=Date.parse(`${ano}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);if(t>Date.now()+864e5)t=Date.parse(`${ano-1}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);return t||0}
 function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
   if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}

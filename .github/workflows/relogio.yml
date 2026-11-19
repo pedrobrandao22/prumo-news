@@ -1,0 +1,56 @@
+name: Relógio do Prumo
+# 18/11/2026 (Pedro: "o app tem que parecer sempre atualizado"). O GitHub atrasa ou pula os horários agendados: no dia
+# 18/11 o "Manchetes novas" (de hora em hora) rodou só 3 vezes, e os indicadores das 18h30 não rodaram. Este robô não
+# depende da fila: fica ligado ~5h20, lê as manchetes a cada 10 min (tools/manchetes.py → novidades.json) e, nos dias
+# úteis depois das 18h35 de Brasília, grava o fechamento dos indicadores se ainda não estiver gravado. No fim, liga a si
+# mesmo de novo (workflow_dispatch com o token do próprio workflow é permitido pelo GitHub). Os horários abaixo só
+# religam a corrente se ela quebrar; com um relógio já rodando, o novo espera na fila (concurrency) e sai logo.
+on:
+  schedule:
+    - cron: "7 */3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: prumo-relogio
+  cancel-in-progress: false
+jobs:
+  relogio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ler manchetes a cada 10 minutos
+        env:
+          TZ: America/Sao_Paulo
+        run: |
+          git config user.name "prumo-robo"
+          git config user.email "prumo-robo@users.noreply.github.com"
+          grava() {  # $1 = arquivos, $2 = mensagem
+            git add $1 2>/dev/null || true
+            git diff --cached --quiet && return 0
+            git commit -q -m "$2 $(date +'%d/%m %Hh%M')"
+            for i in 1 2 3 4; do git pull -q --rebase && git push -q && return 0; git rebase --abort 2>/dev/null || true; sleep $((i * 10)); done
+            echo "push falhou"; git reset -q --hard origin/main; return 0
+          }
+          fim=$(( $(date +%s) + 320 * 60 ))
+          while [ "$(date +%s)" -lt "$fim" ]; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 -I tools/manchetes.py feed.json novidades.json || echo "manchetes falhou"
+            grava novidades.json "Manchetes"
+            # indicadores: dia útil, depois das 18h35, e o dólar ainda sem a data de hoje
+            if [ "$(date +%u)" -le 5 ] && [ "$(date +%H%M)" -ge 1835 ]; then
+              hoje=$(date +%F)
+              if ! python3 -I -c "import json,sys;d=json.load(open('indicadores.json'));sys.exit(0 if any(i.get('id')=='dolar' and i.get('data')=='$hoje' and (i.get('hora') or '')[11:16]>='17:00' for i in d.get('itens',[])) else 1)"; then
+                python3 -I tools/indicadores.py indicadores.json --series series || echo "indicadores falhou"
+                grava "indicadores.json series" "Indicadores"
+              fi
+            fi
+            sleep 600
+          done
+      - name: Ligar o próximo relógio
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run relogio.yml -R "$GITHUB_REPOSITORY" --ref main

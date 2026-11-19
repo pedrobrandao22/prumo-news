@@ -170,6 +170,8 @@ function renderPosts(manter){
   try{ca159VerTudo()}catch(e){}
   /* 167 */
   fd167Rodape();fd167BreveHora();fd167Curtir(document.getElementById("posts"));
+  /* 208: "Acabou de sair" no topo */
+  try{ac208Feed()}catch(e){}
   return r}
 
 /* ===== carregarMais: o próximo lote do Feed ao rolar =====

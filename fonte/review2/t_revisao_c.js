@@ -56,6 +56,11 @@ function rodadas(minAtras) { const it = {}; it[hhmmSP(Date.now() - minAtras * 60
   ok(c5.ano[0].split('|')[1] === c5.dc && /^ult\|/.test(c5.ano[1]) && /\|\d{4}-\d{2}-\d{2}$/.test(c5.ano[1]), 'C05: "01/10/2026" vira "1 de out" (com datetime)', c5.ano);
   ok(/^\|/.test(c5.dm[0]) && /^ult\|/.test(c5.dm[1]) && /^fut\|/.test(c5.dm[2]) && !/\d\/\d/.test(c5.dm.join()), 'C05: "dd/mm" no mesmo formato das outras linhas do tempo, futuro marcado como antes', c5.dm);
   ok(c5.livre.length === 2 && /Março/.test(c5.livre[0]) && /^ult\|Hoje/.test(c5.livre[1]), 'C05: rótulo livre (sem data) fica como estava', c5.livre);
+  // 18/11: período que já começou ("16 a 20/11" num 18/11) está acontecendo: não é futuro, e o ponto atual pode vir depois dele
+  const c5b = await p.evaluate(() => { const hj = hojeSP(), dia = +hj.slice(8, 10); if (dia < 2 || dia > 27) return null; const mm = +hj.slice(5, 7);
+      const t = document.createElement('div'); t.innerHTML = matTempo({ visuais: [{ tipo: 'linha_do_tempo', itens: [{ quando: `${dia - 1} a ${dia + 1}/${mm}`, texto: 'x' }, { quando: `${dia}/${mm}`, texto: 'y' }, { quando: `${dia + 2} e ${dia + 3}/${mm}`, texto: 'z' }] }] });
+      return [...t.querySelectorAll('li')].map(l => l.className) });
+  ok(c5b === null || (c5b[0] === '' && c5b[1] === 'ult' && c5b[2] === 'fut'), 'C05: período em andamento ("16 a 20/11") não é futuro; período que ainda vai começar é', c5b);
   // matérias reais: sem NaN/undefined, linha do tempo em ordem, nenhum ponto atual depois de um futuro
   const reais = await p.evaluate(async () => { const out = []; for (const x of FEED.pautas) { abrirMateria(x.id); await new Promise(r => setTimeout(r, 40)); const m = document.querySelector('#layer .mat'); if (!m) continue;
       const lis = [...m.querySelectorAll('.mat-tl li')].map(l => l.className); const iu = lis.findIndex(c => /ult/.test(c)), fa = lis.findIndex(c => /fut/.test(c));

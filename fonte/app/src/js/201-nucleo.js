@@ -40,7 +40,7 @@ function closeLayer(fromPop){
     let feito=false;
     try{if(fromPop===true&&$("#layer > .cp152")&&!$("#layer2")?.innerHTML){
       if(String(CP152.txt||"").trim()||CR155.pid){cr155Guarda();if(Date.now()-CR155.volta>3000){CR155.volta=Date.now();if(pushH())HST++;
-        const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.innerHTML=EDI.x}},3000)}
+        const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},3000)}
         toast("Volte de novo para sair. O texto fica guardado.");feito=true}
         else{clMiolo(fromPop);toast("Seu texto ficou guardado. Toque em + para continuar.");feito=true}}}}catch(e){}
     if(!feito)clMiolo(fromPop);
@@ -194,6 +194,8 @@ function clMiolo(fromPop){
    goMostra (031, 031, 012). O 167 podia chamar o de dentro duas vezes (erro dentro do try dele): por isso goTroca é uma
    função. Na carga, o 031 chama go("capa",true) quando só existiam o 012 e os dois remendos do 031: goMostra. */
 function go(v,fromPop){
+  /* 18/11 (Pedro): a busca guarda de onde veio, para "Cancelar" voltar à mesma tela e ao mesmo ponto */
+  if(v==="busca"&&typeof VIEW==="string"&&VIEW!=="busca")BV_DE={v:VIEW,y:scrollY};
   if(!NUC_PRONTO){goMostra(v,fromPop);return}
   /* [182] Quiz e Enquete escondidos: "Interagir" vira Capa */
   if(v==="play"&&ft182Esc("quiz")&&ft182Esc("enquete"))v="capa";
@@ -297,7 +299,7 @@ function sheet(title,body,foot="",opt={}){
       try{if(typeof body==="string"&&S.uid&&(S.membros[S.uid]||{}).papel==="admin")body=body.replace(/<span>o Pedro recebe e analisa<\/span>/g,"<span>fica na sua lista da Administração</span>")}catch(e){}
       /* [007] a folha de sempre */
       const L=$(".story")||$("#layer .mat")||$("#layer .pv.pv-sob")||$("#layer .cria")||$("#layer .ce")||$("#layer .pfv")?$("#layer2"):$("#layer");const vazio=!L.innerHTML;if(L.id==="layer2"&&ST.timer){clearTimeout(ST.timer);ST.timer=0;ST.resto=Math.max(800,(ST.fim||0)-Date.now());const fb=$("#layer .bars b");if(fb)fb.style.animationPlayState="paused"}
-      L.innerHTML=`<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="grab"></div><div class="sh-h">${esc(title)}<button type="button" data-close>Fechar</button></div><div class="sh-b gut">${body}</div>${foot?`<div class="sh-f gut">${foot}</div>`:""}</div></div>`;
+      L.innerHTML=`<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="grab"></div><div class="sh-h">${esc(title)}<button type="button" class="sh-x" data-close aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sh-b gut">${body}</div>${foot?`<div class="sh-f gut">${foot}</div>`:""}</div></div>`;
       const f=L.querySelector("input");if(f&&(opt.focus||matchMedia("(pointer:fine)").matches))f.focus();
       if(vazio&&pushH())HST++;wireSheetDrag(L.querySelector(".sheet"));
       /* [106] avisos sem botão somem quando a folha abre */
@@ -784,7 +786,7 @@ function renderMeMiolo(){
   p083:{try{if(!(S.uid&&S.db&&S.membro)||PUB.on===false)break p083;const v=$("#v-me"),gut=v&&v.querySelector(".gut"),head=gut&&gut.querySelector(".me-head");if(!head)break p083;
     const resto=document.createElement("div");resto.className="pf-conta";[...gut.children].forEach(c=>{if(c!==head)resto.appendChild(c)});
     gut.innerHTML=`<div class="pf-me">${pfCab(S.uid)}${pfAbas(S.uid,PF_ABA)}<div class="pf-corpo"></div></div>`;const corpo=gut.querySelector(".pf-corpo");
-    if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);corpo.innerHTML=(pin.length?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}}
+    if(PF_ABA==="conta")corpo.appendChild(resto);else{const pin=(S.pedidosIn||[]).filter(x=>S.membros[x]);/* 18/11 noite: o pedido de amizade aparece só na aba Posts (antes repetia em todas as abas) */corpo.innerHTML=(pin.length&&(PF_ABA==="posts"||!PF_ABA)&&!(typeof VN112_PF!=="undefined"&&VN112_PF.me&&VN112_PF.me!=="posts")?`<div class="card amg pf-ped"><span class="amg-t">${pin.length===1?"Pedido de amizade":"Pedidos de amizade"}</span><ul class="amgl">${pin.map(x=>`<li>${avatar(x)}<span class="amg-n"><b>${esc(nomeDe(x))}</b></span><button type="button" class="btn amg-b" data-aceitar="${esc(x)}">Aceitar</button><button type="button" class="btn ghost amg-b" data-recusar="${esc(x)}">Recusar</button></li>`).join("")}</ul></div>`:"")+pfTiles(pfLista(S.uid,PF_ABA),PF_ABA,S.uid)}}catch(e){}}
   /* [084] arquivo de giros */
   try{if(V5.on){const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-arquivo]"))m.insertAdjacentHTML("afterbegin",`<button type="button" data-arquivo><span>Arquivo de giros</span><i>›</i></button>`)}}catch(e){}
   /* [086] sua semana */

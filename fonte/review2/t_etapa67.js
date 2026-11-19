@@ -33,7 +33,7 @@ const convite = async P => { await ev(P, () => go('me')); await sleep(300); awai
   ok(await ev(B, u => S.amigos.has(u), uidC), 'Bia (já membro) abre o convite do Carlos e viram amigos');
   // links nas Conversas
   await ev(A, u => dmEnviar(u, { texto: 'veja https://www.gov.br/tse?a=1&b=2. ok' }), uidB); await sleep(1200);
-  await ev(B, () => go('msgs')); await sleep(600); await ev(B, () => { const t = document.querySelector('[data-thread]'); t && t.click() }); await sleep(900);
+  const uidA = await ev(A, () => S.uid); await ev(B, () => go('msgs')); await sleep(600); await ev(B, u => { const t = document.querySelector('[data-thread="' + u + '"]'); t && t.click() }, uidA); await sleep(900);
   ok(await ev(B, () => { const a = document.querySelector('.thread a.dm-link, a.dm-link'); return a && a.href === 'https://www.gov.br/tse?a=1&b=2' && a.target === '_blank' }), 'link na mensagem vira tocável (sem o ponto final)');
   // marcas seguem a foto
   await ev(A, () => { go('feed'); scrollTo(0, 0) }); await sleep(300); await ev(A, () => criarAbrir('post')); await sleep(300); await A.setInputFiles('#ce-pfile', [F1, F2, F3]); await esperar(A, () => ED.po.fotos.length === 3, null, 5000);

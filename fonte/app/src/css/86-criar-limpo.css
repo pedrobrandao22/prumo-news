@@ -1,0 +1,60 @@
+/* 86 · Nova publicação limpa (18/11 noite, pedido do Pedro: "o layout daquela tela não está legal, os botões estão em
+   locais errados, não pegando o perímetro da tela"). A caixa segue o tema do celular (antes era sempre preta);
+   "Cancelar" e "Publicar" nos cantos de cima, como em todo app; quem publica e o público numa linha; o texto no meio;
+   o que juntar ao post numa barra presa embaixo, ao alcance do polegar. */
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.cp152{background:var(--card);color:var(--ink)}
+.cp152-hd{height:54px;padding:0 max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+.cp152-hd>b{font:700 16.5px var(--f-ui);color:var(--ink)}
+.cp152-c{flex:none;min-width:76px;height:44px;padding:0 4px;text-align:left;font:500 16px var(--f-ui);color:var(--ink)}
+span.cp152-c{display:block}
+.cp152-c.conf{min-width:0;padding:0 12px;border-radius:999px;background:#fde8e4;color:#a1301d;font:700 14.5px var(--f-ui)}
+.cp152-ok{min-width:76px;height:36px;padding:0 16px;font:700 15px var(--f-ui);background:var(--bronze);color:#1b1406}
+.cp152-ok:disabled{background:var(--chip);color:var(--muted)}
+.cp152-abas{margin:10px 16px 4px;background:var(--chip)}
+.cp152-abas button{color:var(--muted)}
+.cp152-abas button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgb(0 0 0 / .12)}
+.cp152-sc{padding-bottom:0;display:flex;flex-direction:column}
+.cp152-post{flex:1;display:flex;flex-direction:column;min-height:100%}
+.cp152-quem{align-items:flex-start;margin:10px 0 2px}
+.cp152-qn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.cp152-qn>b{font:700 15px var(--f-ui);color:var(--ink)}
+.cp152 .cp152-pub{display:inline-flex;align-items:center;gap:2px;min-height:28px;margin:0;padding:0 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink-2,var(--muted))}
+.cp152 .cp152-pub select{max-width:none;padding:0;color:inherit;font:600 13px var(--f-ui);text-align:left}
+.cp152 .cp152-pub i{font-size:10px;color:inherit}
+.cp152-tx{flex:none;min-height:96px;field-sizing:content;max-height:none;color:var(--ink);font:400 18px/1.45 var(--f-ui)}
+.cp152-tx::placeholder{color:var(--muted)}
+.cp152-dock{position:sticky;bottom:0;z-index:2;margin:auto -16px 0;padding:8px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));background:var(--card);border-top:1px solid var(--line)}
+.cp152-dock .cp152-h{margin:2px 0 8px;color:var(--muted)}
+.cp152-ax{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -2px;padding:0 2px}
+.cp152-ax::-webkit-scrollbar{display:none}
+.cp152-a{flex:1 0 64px;flex-direction:column;min-height:62px;gap:4px;border-radius:12px;background:var(--chip);border:0;color:var(--ink);font:600 12px var(--f-ui)}
+.cp152-a span{color:var(--ink)}
+.cp152-a-foto{color:#2f6fd6}.cp152-a-nt{color:#3a5fc0}.cp152-a-enq{color:#7a4fd0}.cp152-a-ana{color:#1f8a66}.cp152-a-rel{color:#b8650f}
+.cp152-dica{margin:8px 0 0;color:var(--muted);font:400 12.5px var(--f-ui)}
+.cp152-r,.cp152-rp{background:var(--chip);border-color:var(--line);color:var(--ink)}
+.cp152-r small,.cp152-h{color:var(--muted)}
+body:has(#layer > .cp152) .men-box{background:var(--card);border-color:var(--line);color:var(--ink)}
+body:has(#layer > .cp152) .men-box button{color:var(--ink)}
+@media (prefers-color-scheme:dark){:root:not([data-aparencia="claro"]) .cp152-a-foto{color:#9cc3ff}:root:not([data-aparencia="claro"]) .cp152-a-nt{color:#8fb4ff}
+  :root:not([data-aparencia="claro"]) .cp152-a-enq{color:#c4a6ff}:root:not([data-aparencia="claro"]) .cp152-a-ana{color:#7fd6b5}:root:not([data-aparencia="claro"]) .cp152-a-rel{color:#f2b36b}
+  :root:not([data-aparencia="claro"]) .cp152-c.conf{background:#3a1d1a;color:#ffb4a8}}
+:root[data-aparencia="escuro"] .cp152-a-foto{color:#9cc3ff}:root[data-aparencia="escuro"] .cp152-a-nt{color:#8fb4ff}:root[data-aparencia="escuro"] .cp152-a-enq{color:#c4a6ff}
+:root[data-aparencia="escuro"] .cp152-a-ana{color:#7fd6b5}:root[data-aparencia="escuro"] .cp152-a-rel{color:#f2b36b}:root[data-aparencia="escuro"] .cp152-c.conf{background:#3a1d1a;color:#ffb4a8}
+.cp152 .cr155-nt{border-color:var(--line);background:var(--chip)}
+.cp152 .cr155-ntb{color:var(--ink)}
+.cp152 .cr155-ntx{color:var(--muted);border-left-color:var(--line)}
+.cp152 .fc164-det{border-color:var(--line);color:var(--ink);background:transparent}
+/* fechar igual em toda folha (18/11 noite, Pedro: "para fechar alguma janela que está aberta é sempre difícil"):
+   um × redondo e grande no canto de cima, à direita, sempre visível (a folha de comentários escondia o dela) */
+.sh-h .sh-x,.sh-h .vp99-fx{position:absolute!important;right:10px!important;top:50%!important;transform:translateY(-50%);width:36px!important;height:36px!important;padding:0!important;
+  clip:auto!important;clip-path:none!important;overflow:visible!important;display:flex!important;align-items:center;justify-content:center;border-radius:50%;background:var(--chip);color:var(--ink)}
+.sh-h .sh-x::after,.sh-h .vp99-fx::after{content:"";position:absolute;inset:-6px}
+.sh-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.sh-h{padding:0 56px}
+/* Perfil mais limpo (18/11 noite): as abas cabem na tela, sem "Guardados" cortado; nos posts do próprio Perfil, sem o
+   campo "Adicione um comentário…" embaixo de cada um (comentar continua pelo botão Comentar) */
+html.vn #v-me .vn-abas button{flex:1 1 auto;min-width:0;padding:0 7px;font-size:14px}
+html.vn #v-me .vn-abas .vn-aba-ct{flex:0 0 44px;min-width:44px}
+@media (max-width:380px){html.vn #v-me .vn-abas button{padding:0 5px;font-size:13px}}
+#v-me .cmt-area .addc,.pfv .cmt-area .addc{display:none}

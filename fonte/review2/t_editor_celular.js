@@ -91,7 +91,7 @@ let srv = null, srv2 = null;
   e = await est(I);
   ok(e.menu && e.mB <= e.barT + 1 && e.mT >= e.hdB && e.cB <= e.mT, 'menu "/": folha compacta logo acima da barra, sem cobrir a linha atual', e);
   ok(await ev(I, () => { const x = $('#layer > .ed132 .ed132-menu [data-mb138mx]'); const r = x && x.getBoundingClientRect(); return !!r && r.width >= 32 && r.top >= 0 }), 'menu: botão × de fechar à vista');
-  ok(await ev(I, () => $('#layer > .ed132 .ed132-menu').querySelectorAll('[data-ed132bl]').length) === 9 && await ev(I, () => { const m = $('#layer > .ed132 .ed132-menu'); return m.scrollHeight <= m.clientHeight + 2 }), 'menu: as 9 opções cabem sem rolar (grade 3×3)');
+  ok(await ev(I, () => $('#layer > .ed132 .ed132-menu').querySelectorAll('[data-ed132bl]').length) === 9 && await ev(I, () => { const m = $('#layer > .ed132 .ed132-menu'); return m.scrollHeight <= m.clientHeight + 2 }), 'menu: as 9 opções cabem sem rolar (grade 5×2)');
   await teclado(I, true); await semToast(I); await sleep(100); await I.screenshot({ path: path.join(QA, '02-menu-inserir.png') }); await teclado(I, false);
   /* tocar no texto (fora do menu) fecha — o bug 1 do Pedro */
   const outro = await ev(I, () => { const ps = [...$('#ed132-corpo').querySelectorAll('p')]; const m = $('#layer > .ed132 .ed132-menu').getBoundingClientRect(), hd = $('#layer > .ed132 .ed132-h').getBoundingClientRect(); const p = ps.reverse().find(p => { const r = p.getBoundingClientRect(); return Math.min(r.bottom, m.top) - Math.max(r.top, hd.bottom) >= 14 && !/^\//.test(p.textContent) }); const r = p.getBoundingClientRect(); return { x: r.left + 20, y: (Math.min(r.bottom, m.top) + Math.max(r.top, hd.bottom)) / 2 } });

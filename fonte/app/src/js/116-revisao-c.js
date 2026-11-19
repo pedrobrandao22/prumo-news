@@ -20,4 +20,7 @@ function rc116AvisoCapa(){try{const c=document.getElementById("v-capa");if(!c)re
 /* ===== C05: datas da linha do tempo ===== */
 function rc116Data(q,hoje){const s=String(q||"");const m=s.match(/(?:^|[^\d])(\d{1,2})º?\/(\d{1,2})(?:\/(\d{4}))?(?!\d)/);if(!m)return null;const d=+m[1],mm=+m[2];if(!d||d>31||!mm||mm>12)return null;
   let y=m[3]?+m[3]:+hoje.slice(0,4);if(!m[3]){const hm=+hoje.slice(5,7);if(hm>=11&&mm<=2)y++;else if(hm<=2&&mm>=11)y--}
-  return {iso:`${y}-${String(mm).padStart(2,"0")}-${String(d).padStart(2,"0")}`,so:/^\s*\d{1,2}º?\/\d{1,2}(?:\/\d{4})?\s*$/.test(s)}}
+  /* 18/11: período ("16 a 20/11", "15 e 16/12"): ini é o 1º dia; um período que já começou não é futuro */
+  const r=s.match(/(?:^|[^\d])(\d{1,2})º?\s*(?:a|e|-|–|até)\s*\d{1,2}º?\/\d{1,2}/i),di=r?+r[1]:0;
+  const iso=`${y}-${String(mm).padStart(2,"0")}-${String(d).padStart(2,"0")}`,ini=di&&di<d?`${y}-${String(mm).padStart(2,"0")}-${String(di).padStart(2,"0")}`:"";
+  return {iso,ini,so:/^\s*\d{1,2}º?\/\d{1,2}(?:\/\d{4})?\s*$/.test(s)}}

@@ -123,7 +123,9 @@ function matTempo(p){
   return (h=>{if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
   const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll(".mat-tl li")];if(!lis.length)return h;let mudou=false;
   lis.forEach(li=>{const t=li.querySelector("time");if(!t)return;const d=rc116Data(t.textContent,hj);if(!d)return;
-    if(d.iso>hj&&!li.classList.contains("fut")){li.classList.add("fut");mudou=true}
+    if((d.ini||d.iso)>hj&&!li.classList.contains("fut")){li.classList.add("fut");mudou=true}
+    /* período que já começou ("16 a 20/11" em 18/11): acontecendo, não futuro */
+    if(d.ini&&d.ini<=hj&&li.classList.contains("fut")){li.classList.remove("fut");mudou=true}
     if(d.so){const tx=dataCurta(d.iso)+(d.iso.slice(0,4)!==ano?" de "+d.iso.slice(0,4):"");if(tx&&tx!==t.textContent){t.textContent=tx;mudou=true}}
     if(!t.hasAttribute("datetime")){t.setAttribute("datetime",d.iso);mudou=true}});
   if(!mudou)return h;
