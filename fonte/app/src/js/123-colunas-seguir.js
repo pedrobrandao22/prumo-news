@@ -94,7 +94,7 @@ function cs123Data(at){try{return new Date(+at).toLocaleDateString("pt-BR",{day:
 
 /* ===== 3. coluna no Feed (o post é o teaser) ===== */
 function cs123CardHTML(x,c){const id=esc(x.id),f=x.fotos[0],u=f&&pubUrl(f),tz=cs123Teaser(c.corpo),min=cs123Min(c.corpo);
-  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">Coluna</p>
+  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">Coluna${(()=>{try{const e=typeof col207Ed==="function"?col207Ed(x,c):"";return e?" · "+esc(secNome(e)):""}catch(_){return ""}})()}</p>
     <h3 class="cs123-t"><button type="button" data-cs123ler="${id}">${esc(c.tit)}</button></h3>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
     ${f?`<button type="button" class="cs123-capa" data-cs123ler="${id}" aria-label="Ler a coluna">${u?`<img src="${pubSrc(u)}" alt="${esc((x.estilo.alt||[])[0]||"")}" loading="lazy" decoding="async">`:`<span class="up-sem">Foto indisponível</span>`}</button>`:""}
     ${tz?`<p class="cs123-x">${esc(tz)}</p>`:""}<div class="cs123-r"><span class="cs123-min">${min} min de leitura</span><button type="button" class="cs123-lb" data-cs123ler="${id}">Ler a coluna <i aria-hidden="true">›</i></button></div></div>`}

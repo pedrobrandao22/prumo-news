@@ -19,13 +19,13 @@ var FT157_PREP=null;
 function ft157N(s){try{return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()}catch(e){return String(s||"").toLowerCase()}}
 function ft157Arq(f){return ft157N(faNome(f&&f.url)).replace(/_/g," ")}
 /* fotos que já apareceram no lugar errado (nome do arquivo, sem acento e minúsculo) */
-const FT157_BLOQ=["buzios - panoramio","laboratorio de paleontologia","bolsa de valores (17205467578)","bolsa de valores (17391295482)","bolsa de valores (17393276865)","iss-32 american eva b3","alpina b3","casa-da-moeda","avenida central, vendo-se","atual centro cultural da justica federal",
+const FT157_BLOQ=["21449400719","buzios - panoramio","laboratorio de paleontologia","bolsa de valores (17205467578)","bolsa de valores (17391295482)","bolsa de valores (17393276865)","iss-32 american eva b3","alpina b3","casa-da-moeda","avenida central, vendo-se","atual centro cultural da justica federal",
   "plenario do senado (15717805622)","plenario do senado (15687627386)","plenario do senado (15109327665)","vestibular.jpg",
   "ofrenda de la liga","roda viva com senadora","com bandeira do brasil","conselheira tais ferraz","arena corinthians opening",
   "allianz parque - reconhecimento facial","tudo-o-que-voce-sempre-quis-saber","vidpovid to be performing","hibakujumoku",
   "northern door of the assumption cathedral","estacao agrometeorologica","travessia de pedestres no patio da estacao"];
 /* acervos históricos (foto do século passado não ilustra fato de hoje) */
-const FT157_HIST=/(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly)/i;
+const FT157_HIST=/(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly|\b(?:PMDB|MDB|PSDB|PSOL|PDT|PSB)\b|\b(?:PT|PL|PP|PSD) (?:Nacional|na C[aâ]mara|no Senado)\b|Partido (?:dos|Liberal|Social|Progressista|Novo)|Uni[aã]o Brasil Nacional)/i;  /* 19/11: e acervo de partido */
 function ft157Bloq(f){if(!f||typeof f.url!=="string")return true;const n=ft157Arq(f);return FT157_BLOQ.some(b=>n.indexOf(b)>=0)||FT157_HIST.test(String(f.credito||""))}
 /* retrato: 2 = foto de grupo/evento (não serve), 1 = recorte de foto com outra pessoa (só se não houver outra), 0 = retrato */
 function ft157Grupo(f){const n=ft157Arq(f),crop=/crop/.test(n);

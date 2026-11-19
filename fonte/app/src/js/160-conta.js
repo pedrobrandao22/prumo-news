@@ -169,7 +169,7 @@ function co160Pf(root,u){if(!root||!u)return;
   if(navigator.webdriver&&localStorage.getItem("prumo-teste-tourvis")!=="1")return;if(localStorage.getItem("prumo-tour-visto"))return;
   for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i)||"";if(/^prumo-auth|^sb-/.test(k))return}
   if(CO160.rec||CONVITE_URL||LINK_PID||(typeof VP99_LINK!=="undefined"&&VP99_LINK)||/^#(p|m)=/.test(location.hash)||/\/(m|c)\//.test(location.pathname))return}catch(e){return}
-  const abre=()=>{try{if($("#layer").innerHTML||S.uid)return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(e){}};
+  const abre=()=>{try{if($("#layer").innerHTML||S.uid||(typeof MEXEU_CEDO!=="undefined"&&MEXEU_CEDO))return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(e){}};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",abre,{once:true});else abre()})();
 /* quem chegou para criar a senha nova não vê o guia por cima */
 {const _at160=abrirTour;abrirTour=function(){if(CO160.rec)return;return _at160.apply(this,arguments)}}

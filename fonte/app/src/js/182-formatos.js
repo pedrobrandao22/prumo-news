@@ -65,5 +65,7 @@ function ft182Faixa(es){const pos={esquerda:0,centro:1,publica:1,direita:2};cons
   return (a===0?"da esquerda ":"do centro ")+(b===1?"ao centro":"à direita")}
 function ft182Linha(p){let l=[];try{l=mt158Lista(p)}catch(e){l=(p.fontes||[]).map(k=>({k}))}const n=l.length;if(!n)return "";
   let es=[];try{es=l.map(v=>mt158Esp(v.k)).filter(Boolean)}catch(e){}const f=ft182Faixa(es);
-  return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${f?" · "+f:""}`}
+  /* 19/11 (testador): "só do centro" só quando todos os veículos têm classificação */
+  let ff=f;if(f&&es.length<n){const sem=n-es.length;ff=/^só /.test(f)?`${es.length} ${f.replace(/^só /,"")}, ${sem} sem classificação`:`${f}, ${sem} sem classificação`}
+  return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${ff?" · "+ff:""}`}
 coberturaTxt=function(p){return ft182Linha(p)||"Quem noticiou"};

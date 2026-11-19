@@ -40,3 +40,18 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
   html.fs2 .fs2-cap-k{display:none}
 }
 .dm-cmud{display:block;margin-top:3px;font:italic 500 12px var(--f-ui);color:var(--muted)}
+/* 19/11 (testador): barras do gráfico com trilha própria; o número fica fora dela, então 108 e 116 têm tamanhos diferentes */
+.gn-t{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.gn-t i{justify-self:start;max-width:100%}
+/* aviso "Sem conexão": "Tentar de novo" nunca quebra */
+.late.offl{display:flex;align-items:center;gap:10px}
+.late.offl>span{flex:1;min-width:0}
+.late.offl [data-retry]{flex:none;white-space:nowrap}
+/* 19/11 (testador): na 1ª visita por link, a matéria espera a foto de arquivo num fundo neutro em vez de mostrar a
+   ilustração e trocar 1 s depois (mt202Espera no 202 põe e tira a classe) */
+#layer .mat-arte.mt202-esp .art.paper:not(.foto){background:var(--chip)}
+#layer .mat-arte.mt202-esp .art.paper:not(.foto)>*{visibility:hidden}
+/* toque guardado antes de o app ficar pronto (000): o botão esmaece e pulsa até o app fazer o que foi pedido */
+.toque-cedo-b{opacity:.55;animation:tc000 1s ease-in-out infinite alternate}
+@keyframes tc000{to{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.toque-cedo-b{animation:none}}

@@ -49,6 +49,15 @@ var ab141Pre={};
   ab141Pre.novid=fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"}).then(function(x){return x.ok?x.json():null}).catch(function(){return null});
   var fa=null;try{fa=localStorage.getItem("prumo-fotos-arq")}catch(e){}
   if(!fa)r.classList.add("ab141-sem-arq")}catch(e){}})();
+/* 19/11 (testador, rede lenta na 1ª visita): o alto da Capa aparece em ~3 s, mas o código chega bem depois. Um toque na
+   barra de baixo ou na manchete nesse meio-tempo fica guardado (o botão esmaece, sinal de que pegou) e é feito quando o
+   app fica pronto (999); quem já tocou ou rolou não recebe o guia por cima do que está lendo (160 e 150). */
+var TOQUE_CEDO=null,MEXEU_CEDO=false;
+(function(){try{var m=function(){if(!window.__prumoPronto)MEXEU_CEDO=true};
+  addEventListener("pointerdown",m,{passive:true});addEventListener("wheel",m,{passive:true});addEventListener("touchmove",m,{passive:true});
+  document.addEventListener("click",function(e){if(window.__prumoPronto)return;MEXEU_CEDO=true;var b=e.target&&e.target.closest&&e.target.closest(".nav [data-v], .cp.f4-pre [data-cpx]");if(!b)return;
+    try{var o=document.querySelector(".toque-cedo-b");if(o)o.classList.remove("toque-cedo-b")}catch(_){}
+    TOQUE_CEDO={v:b.getAttribute("data-v"),cpx:b.getAttribute("data-cpx"),t:Date.now()};b.classList.add("toque-cedo-b")},true)}catch(e){}})();
 </script>
 <style>
 /* 170: os arquivos da Newsreader vão só do peso 400 ao 800 (o app não usa menos de 400 nessa letra): 99 e 109 KB em vez de 129 e 144 KB,
@@ -6204,6 +6213,21 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
   html.fs2 .fs2-cap-k{display:none}
 }
 .dm-cmud{display:block;margin-top:3px;font:italic 500 12px var(--f-ui);color:var(--muted)}
+/* 19/11 (testador): barras do gráfico com trilha própria; o número fica fora dela, então 108 e 116 têm tamanhos diferentes */
+.gn-t{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.gn-t i{justify-self:start;max-width:100%}
+/* aviso "Sem conexão": "Tentar de novo" nunca quebra */
+.late.offl{display:flex;align-items:center;gap:10px}
+.late.offl>span{flex:1;min-width:0}
+.late.offl [data-retry]{flex:none;white-space:nowrap}
+/* 19/11 (testador): na 1ª visita por link, a matéria espera a foto de arquivo num fundo neutro em vez de mostrar a
+   ilustração e trocar 1 s depois (mt202Espera no 202 põe e tira a classe) */
+#layer .mat-arte.mt202-esp .art.paper:not(.foto){background:var(--chip)}
+#layer .mat-arte.mt202-esp .art.paper:not(.foto)>*{visibility:hidden}
+/* toque guardado antes de o app ficar pronto (000): o botão esmaece e pulsa até o app fazer o que foi pedido */
+.toque-cedo-b{opacity:.55;animation:tc000 1s ease-in-out infinite alternate}
+@keyframes tc000{to{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.toque-cedo-b{animation:none}}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -7665,7 +7689,9 @@ function mt202Monta(pid,manter){const p=pautaById(pid);if(!p)return;const L=lent
   const nx=matProx(p.id);h+=matRel(p,nx);
   h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
-  if(vazio&&pushH())HST++}
+  if(vazio&&pushH())HST++
+  /* 19/11: a arte espera a foto (ver mt202Espera, no fim) */
+  try{mt202Espera()}catch(e){}}
 
 /* ===== Próxima / deslizar ===== */
 function matIr(pid){
@@ -7845,6 +7871,14 @@ function abrirPagCob(pid){
     if(p&&n&&/^O que vem/.test((n.querySelector("b")||{}).textContent||""))cm168VemNota(n,p)}catch(e){}}
   /* 183: fim, encerrada e o interruptor de avisos */
   {try{cb183Pinta(pid)}catch(e){}}}
+/* 19/11 (testador): matéria aberta por link antes de chegarem o detalhe do feed e as fotos de arquivo: a arte espera
+   num fundo neutro (sem a ilustração que depois pulava para a foto) e a foto entra no lugar assim que der (até 20 s) */
+function mt202Espera(){const ma=document.querySelector("#layer .mat-arte");if(!ma||ma.querySelector(".foto"))return;const pid=MAT_PID;
+  const cedo=()=>{try{return document.documentElement.classList.contains("ab141-sem-arq")||!!(typeof FL119!=="undefined"&&FL119.parcial)}catch(e){return false}};
+  if(cedo())ma.classList.add("mt202-esp");const t0=Date.now();
+  (function w(){const a=document.querySelector("#layer .mat-arte");if(!a||MAT_PID!==pid)return;
+    try{const p=pautaById(pid);const h=p&&capaArte(p,"art",true);if(h&&/class="[^"]*\bfoto\b/.test(h)){a.innerHTML=h;a.classList.remove("mt202-esp");return}}catch(e){}
+    if(Date.now()-t0>20000||(!cedo()&&Date.now()-t0>1500)){a.classList.remove("mt202-esp");return}setTimeout(w,400)})()}
 /* ---------- conta: Supabase ---------- */
 %%PRUMO_DB%%
 const SB_URL="%%SB_URL%%",SB_KEY="%%SB_KEY%%";
@@ -8345,7 +8379,7 @@ function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit
 async function carregarFotosArq(){try{const r=await fetch("fotos-arquivo.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();if(!d||typeof d!=="object"||!d.temas)return;
   const mud=!FOTOS_ARQ||FOTOS_ARQ.gerado!==d.gerado;FOTOS_ARQ=d;FA_CACHE={};try{localStorage.setItem("prumo-fotos-arq",JSON.stringify(d))}catch(e){}
   if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}}catch(e){}
-  document.documentElement.classList.remove("ab141-sem-arq")}  // 141: a manchete volta ao formato dela (ver 000-pre-carga.js)
+  finally{document.documentElement.classList.remove("ab141-sem-arq")}}  // 141: a manchete volta ao formato dela (ver 000-pre-carga.js)
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
   return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f,"",0,!!cred)}${cred&&f.credito?credHTML(f.credito,"cred"):""}</span>`}
 function indTile(x){const seta={sobe:"▲",desce:"▼",estavel:"▬"};const em=x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:"";
@@ -13575,7 +13609,7 @@ const VN112_NOMES=[[/\bNovo destaque\b/g,"Nova coleção"],[/\bnovo destaque\b/g
   [/\bSTORIES\b/g,"GIROS"],[/\bSTORY\b/g,"GIRO"],[/\bStories\b/g,"Giros"],[/\bstories\b/g,"giros"],[/\bStory\b/g,"Giro"],[/\bstory\b/g,"giro"]];
 const VN112_NOMES_T=/[Ss]tor(y|ies)|STOR(Y|IES)|[Dd]estaq|Destacar/;
 /* não mexe no conteúdo (notícias, posts, mensagens, comentários): só nos rótulos do app */
-const VN112_NOMES_FORA=".ss,.cv,.mat,.txs,.up-leg,.up-tx,.cmt,.cmts,.cn102-cd,.fc107-tl,.vn-q,.vn-rptx,.dm-msgs,.dm-b,.dm-l,.post:not(.upost),#v-capa,#v-busca,.pt-cap,.sg-c,.lead,textarea,input,[contenteditable],script,style";
+const VN112_NOMES_FORA="svg,.ill,.ss,.cv,.mat,.txs,.up-leg,.up-tx,.cmt,.cmts,.cn102-cd,.fc107-tl,.vn-q,.vn-rptx,.dm-msgs,.dm-b,.dm-l,.post:not(.upost),#v-capa,#v-busca,.pt-cap,.sg-c,.lead,textarea,input,[contenteditable],script,style";
 const VN112_NOMES_FORA_A=VN112_NOMES_FORA.replace(",textarea,input,[contenteditable]","");
 function vn112Troca(s){let o=s;VN112_NOMES.forEach(([r,v])=>{o=o.replace(r,v)});return o}
 function vn112Nomes(root){if(!root||!VISUAL_NOVO)return;try{
@@ -14424,7 +14458,7 @@ function cs123Data(at){try{return new Date(+at).toLocaleDateString("pt-BR",{day:
 
 /* ===== 3. coluna no Feed (o post é o teaser) ===== */
 function cs123CardHTML(x,c){const id=esc(x.id),f=x.fotos[0],u=f&&pubUrl(f),tz=cs123Teaser(c.corpo),min=cs123Min(c.corpo);
-  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">Coluna</p>
+  return `<div class="cs123-card gut" data-cs123ler="${id}"><p class="cs123-k">Coluna${(()=>{try{const e=typeof col207Ed==="function"?col207Ed(x,c):"";return e?" · "+esc(secNome(e)):""}catch(_){return ""}})()}</p>
     <h3 class="cs123-t"><button type="button" data-cs123ler="${id}">${esc(c.tit)}</button></h3>${c.linha?`<p class="cs123-l">${esc(c.linha)}</p>`:""}
     ${f?`<button type="button" class="cs123-capa" data-cs123ler="${id}" aria-label="Ler a coluna">${u?`<img src="${pubSrc(u)}" alt="${esc((x.estilo.alt||[])[0]||"")}" loading="lazy" decoding="async">`:`<span class="up-sem">Foto indisponível</span>`}</button>`:""}
     ${tz?`<p class="cs123-x">${esc(tz)}</p>`:""}<div class="cs123-r"><span class="cs123-min">${min} min de leitura</span><button type="button" class="cs123-lb" data-cs123ler="${id}">Ler a coluna <i aria-hidden="true">›</i></button></div></div>`}
@@ -17653,7 +17687,7 @@ document.addEventListener("click",async e=>{const b=e.target&&e.target.closest&&
 function sr150TelasVisitante(orig){const t=(orig||tourTelas)("");return [t[0],Object.assign({},t[1],{p:"No Feed, as notícias viram posts e giros. Para curtir, comentar, votar e conversar com amigos, entre com o convite de alguém do Prumo."}),t[3]]}
 (function sr150Guia(n){try{if(!INIT_FIM||!FEED){if(n<80)setTimeout(()=>sr150Guia(n+1),250);return}
   if(S.uid||LINK_PID||VP99_LINK||CONVITE_URL)return;let visto=false,teste=false;try{visto=!!localStorage.getItem("prumo-tour-visto");teste=navigator.webdriver&&localStorage.getItem("prumo-teste-tourvis")!=="1"}catch(_){return}
-  if(visto||teste)return;setTimeout(()=>{try{if(S.uid||$("#layer").innerHTML||document.visibilityState!=="visible")return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(_){}},1500)}catch(e){}})(0);
+  if(visto||teste)return;setTimeout(()=>{try{if(S.uid||$("#layer").innerHTML||document.visibilityState!=="visible"||(typeof MEXEU_CEDO!=="undefined"&&MEXEU_CEDO))return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(_){}},1500)}catch(e){}})(0);
 
 /* 13. no guia, a tela "Deixe na tela de início" ganha o botão Instalar quando o navegador oferece (Android/Chrome) */
 {const _at150=abrirTour;abrirTour=function(){const r=_at150.apply(this,arguments);try{if(SR150_INST){const t=[...document.querySelectorAll("#layer .tr-t")].pop();
@@ -18163,10 +18197,16 @@ function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)r
 /* ---- sem internet: o aviso diz que é a conexão; o Gostei é reenviado quando a internet volta ---- */
 var FD156_GOSTEI={};
 function fd156Offline(){return typeof navigator!=="undefined"&&navigator.onLine===false}
-{const _tk156=toggleLike;toggleLike=function(pid){let quer=null;try{if(S.uid)quer=!socialOf(pid).likes.includes(S.uid)}catch(e){}
-  const r=_tk156.apply(this,arguments);try{if(quer!==null&&fd156Offline())FD156_GOSTEI[pid]=quer}catch(e){}return r}}
+/* 19/11 (testador): sem internet, o losango marca na hora e o 2º toque desfaz o que está na fila */
+function fd156Marca(pid,on){try{document.querySelectorAll('[data-a="like"]').forEach(b=>{const dono=b.closest('[id^="p-"],.sheet,.story,.sg');if(dono&&dono.id&&dono.id!=="p-"+pid)return;if(!dono||!dono.id){const ss=b.closest("[data-pid]");if(!ss||ss.dataset.pid!==String(pid))return}
+  b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false")})}catch(e){}}
+{const _tk156=toggleLike;toggleLike=function(pid){let real=null;try{if(S.uid)real=socialOf(pid).likes.includes(S.uid)}catch(e){}
+  if(real!==null&&fd156Offline()){const atual=pid in FD156_GOSTEI?FD156_GOSTEI[pid]:real,quer=!atual;
+    if(quer===real){delete FD156_GOSTEI[pid];toast(quer?"Sem conexão: a curtida continua.":"Curtida desfeita.")}else{FD156_GOSTEI[pid]=quer;toast(quer?"Sem conexão: a curtida vai ser enviada quando a internet voltar.":"Sem conexão: a curtida vai ser tirada quando a internet voltar.")}
+    fd156Marca(pid,quer);return}
+  return _tk156.apply(this,arguments)}}
 addEventListener("online",()=>{const ps=Object.keys(FD156_GOSTEI);if(!ps.length)return;setTimeout(()=>{let n=0;ps.forEach(pid=>{const q=FD156_GOSTEI[pid];delete FD156_GOSTEI[pid];
-  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});if(n)try{toast(n===1?"Conexão de volta: o Gostei foi enviado.":"Conexão de volta: os Gostei foram enviados.")}catch(e){}},600)});
+  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});if(n)try{toast(n===1?"Conexão de volta: a curtida foi enviada.":"Conexão de volta: as curtidas foram enviadas.")}catch(e){}},600)});
 
 /* ---- comentário escrito sem internet: fica guardado e é enviado sozinho quando a conexão volta (decisão do Pedro, 16/11) ---- */
 var FD156_PID=null;
@@ -18213,13 +18253,13 @@ var FT157_PREP=null;
 function ft157N(s){try{return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()}catch(e){return String(s||"").toLowerCase()}}
 function ft157Arq(f){return ft157N(faNome(f&&f.url)).replace(/_/g," ")}
 /* fotos que já apareceram no lugar errado (nome do arquivo, sem acento e minúsculo) */
-const FT157_BLOQ=["buzios - panoramio","laboratorio de paleontologia","bolsa de valores (17205467578)","bolsa de valores (17391295482)","bolsa de valores (17393276865)","iss-32 american eva b3","alpina b3","casa-da-moeda","avenida central, vendo-se","atual centro cultural da justica federal",
+const FT157_BLOQ=["21449400719","buzios - panoramio","laboratorio de paleontologia","bolsa de valores (17205467578)","bolsa de valores (17391295482)","bolsa de valores (17393276865)","iss-32 american eva b3","alpina b3","casa-da-moeda","avenida central, vendo-se","atual centro cultural da justica federal",
   "plenario do senado (15717805622)","plenario do senado (15687627386)","plenario do senado (15109327665)","vestibular.jpg",
   "ofrenda de la liga","roda viva com senadora","com bandeira do brasil","conselheira tais ferraz","arena corinthians opening",
   "allianz parque - reconhecimento facial","tudo-o-que-voce-sempre-quis-saber","vidpovid to be performing","hibakujumoku",
   "northern door of the assumption cathedral","estacao agrometeorologica","travessia de pedestres no patio da estacao"];
 /* acervos históricos (foto do século passado não ilustra fato de hoje) */
-const FT157_HIST=/(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly)/i;
+const FT157_HIST=/(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly|\b(?:PMDB|MDB|PSDB|PSOL|PDT|PSB)\b|\b(?:PT|PL|PP|PSD) (?:Nacional|na C[aâ]mara|no Senado)\b|Partido (?:dos|Liberal|Social|Progressista|Novo)|Uni[aã]o Brasil Nacional)/i;  /* 19/11: e acervo de partido */
 function ft157Bloq(f){if(!f||typeof f.url!=="string")return true;const n=ft157Arq(f);return FT157_BLOQ.some(b=>n.indexOf(b)>=0)||FT157_HIST.test(String(f.credito||""))}
 /* retrato: 2 = foto de grupo/evento (não serve), 1 = recorte de foto com outra pessoa (só se não houver outra), 0 = retrato */
 function ft157Grupo(f){const n=ft157Arq(f),crop=/crop/.test(n);
@@ -18786,7 +18826,7 @@ function co160Pf(root,u){if(!root||!u)return;
   if(navigator.webdriver&&localStorage.getItem("prumo-teste-tourvis")!=="1")return;if(localStorage.getItem("prumo-tour-visto"))return;
   for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i)||"";if(/^prumo-auth|^sb-/.test(k))return}
   if(CO160.rec||CONVITE_URL||LINK_PID||(typeof VP99_LINK!=="undefined"&&VP99_LINK)||/^#(p|m)=/.test(location.hash)||/\/(m|c)\//.test(location.pathname))return}catch(e){return}
-  const abre=()=>{try{if($("#layer").innerHTML||S.uid)return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(e){}};
+  const abre=()=>{try{if($("#layer").innerHTML||S.uid||(typeof MEXEU_CEDO!=="undefined"&&MEXEU_CEDO))return;const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(e){}};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",abre,{once:true});else abre()})();
 /* quem chegou para criar a senha nova não vê o guia por cima */
 {const _at160=abrirTour;abrirTour=function(){if(CO160.rec)return;return _at160.apply(this,arguments)}}
@@ -19710,7 +19750,9 @@ function ft182Faixa(es){const pos={esquerda:0,centro:1,publica:1,direita:2};cons
   return (a===0?"da esquerda ":"do centro ")+(b===1?"ao centro":"à direita")}
 function ft182Linha(p){let l=[];try{l=mt158Lista(p)}catch(e){l=(p.fontes||[]).map(k=>({k}))}const n=l.length;if(!n)return "";
   let es=[];try{es=l.map(v=>mt158Esp(v.k)).filter(Boolean)}catch(e){}const f=ft182Faixa(es);
-  return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${f?" · "+f:""}`}
+  /* 19/11 (testador): "só do centro" só quando todos os veículos têm classificação */
+  let ff=f;if(f&&es.length<n){const sem=n-es.length;ff=/^só /.test(f)?`${es.length} ${f.replace(/^só /,"")}, ${sem} sem classificação`:`${f}, ${sem} sem classificação`}
+  return `Noticiado por ${n} ${n===1?"veículo":"veículos"}${ff?" · "+ff:""}`}
 coberturaTxt=function(p){return ft182Linha(p)||"Quem noticiou"};
 /* ---------- 183 · Coberturas (17/11, decisão do Pedro) ----------
    1. Avisos por cobertura: quem segue uma cobertura pode desligar os avisos dela (interruptor na página da cobertura).
@@ -22437,6 +22479,13 @@ cp200Pronta();  /* 200-capa.js: a Capa passa a desenhar com todos os acabamentos
 cv203Pronta();  /* 203-conversas.js: allMsgs passa a valer com bloqueados, antigas carregadas e conversas apagadas */
 fd204Pronta();  /* 204-feed.js: as funções do Feed passam a fazer tudo (na carga o 029 desenhou o Feed só com a base) */
 if(FEED){try{if(VIEW==="feed")renderPosts();else if(VIEW==="capa")renderCapa()}catch(e){}}
+/* 19/11: o toque feito antes de o app ficar pronto (000) */
+window.__prumoPronto=true;
+(function tc999(n){try{const T=TOQUE_CEDO;if(!T){document.querySelectorAll(".toque-cedo-b").forEach(b=>b.classList.remove("toque-cedo-b"));return}
+  if(!FEED&&n<60){setTimeout(()=>tc999(n+1),250);return}TOQUE_CEDO=null;document.querySelectorAll(".toque-cedo-b").forEach(b=>b.classList.remove("toque-cedo-b"));
+  if(Date.now()-T.t>30000)return;
+  if(T.v){const b=document.querySelector(`.nav [data-v="${T.v}"]`);if(b)b.click()}
+  else if(T.cpx){const b=document.querySelector(`#v-capa [data-cpx="${CSS.escape(T.cpx)}"]`);if(b)b.click()}}catch(e){}})(0);
 </script>
 </body>
 </html>
