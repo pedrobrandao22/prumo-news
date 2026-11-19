@@ -240,7 +240,7 @@ def FT_BR(f):
     return bool(_BR_FOTO.search(_norm(fa_nome(f.get("url"))).replace("_", " ") + " " + _norm(f.get("alt"))))
 
 
-TRAGICO = re.compile(r"\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad)", re.I)
+TRAGICO = re.compile(r"\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad|cassa|cassação|condena|réu\b|inelegív|denunciad)", re.I)
 FINAL = re.compile(r"[Ff]ina(?:l|is)|[Dd]ecide|[Dd]ecis")
 
 

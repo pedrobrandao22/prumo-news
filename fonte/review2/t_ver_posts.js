@@ -56,7 +56,7 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   await tapSel(B, s3 + ' .acts [data-a=cmt]'); await sleep(700);
   const fl = await ev(B, () => { const sh = document.querySelector('.sheet.vp99-cm'), fx = sh && sh.querySelector('.sh-h [data-close]'); return sh && { h: sh.getBoundingClientRect().height, fx: fx && fx.getBoundingClientRect().width, emo: sh.querySelectorAll('[data-vp99emo]').length, grab: !!sh.querySelector('.grab') } });
   ok(fl && fl.h > 844 * .6 && fl.h < 844 * .8, 'folha de comentários abre em ~70% da tela', fl);
-  ok(fl && fl.fx <= 1 && fl.grab, 'sem botão "Fechar" à vista (fica para leitor de tela/teclado), com alça', fl);
+  ok(fl && fl.fx >= 30 && fl.grab, '× de fechar à vista no canto (18/11 noite: igual em toda folha), com alça', fl);
   ok(fl && fl.emo === 6, 'barra de emojis rápidos em cima do campo (6 com o foco, 105)');
   await ev(B, () => document.querySelector('#ctext').blur());
   await tapSel(B, '[data-vp99emo="👏"]'); await sleep(200);

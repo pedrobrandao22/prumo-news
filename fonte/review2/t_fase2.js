@@ -40,9 +40,9 @@ async function foto(P, nome) { await sleep(300); await P.screenshot({ path: path
   // escolhe as pautas: uma para a hashtag (com pontos neutros), outra para o anexo
   const pk = await ev(A, () => { const ps0 = FEED.pautas.filter(p => htDaPauta(p).length && (p.neutro.pontos || []).length);
     /* a hashtag tem de levar a ESTA pauta (uma hashtag geral, como #GovernoLula, leva à primeira de várias) */
-    const unica = p => { try { const k = htChave(htDaPauta(p)[0]); return htNoticias(k).find(q => htNotCasa(q, k) >= 2) === p } catch (e) { return false } };
-    const ps = ps0.filter(unica).concat(ps0.filter(p => !unica(p))); const p1 = ps[0], p2 = ps.find(p => p !== p1) || FEED.pautas[1];
-    return { ht: p1.id, tag: htDaPauta(p1)[0], ponto: p1.neutro.pontos[0], dir: p1.direita && p1.direita.texto || '', esq: p1.esquerda && p1.esquerda.texto || '', anexo: p2.id } });
+    const tagDe = p => { try { return htDaPauta(p).find(t => { const k = htChave(t); return htNoticias(k).find(q => htNotCasa(q, k) >= 2) === p }) || null } catch (e) { return null } };
+    const ps = ps0.filter(tagDe).concat(ps0.filter(p => !tagDe(p))); const p1 = ps[0], p2 = ps.find(p => p !== p1) || FEED.pautas[1];
+    return { ht: p1.id, tag: tagDe(p1) || htDaPauta(p1)[0], ponto: p1.neutro.pontos[0], dir: p1.direita && p1.direita.texto || '', esq: p1.esquerda && p1.esquerda.texto || '', anexo: p2.id } });
   const now = Date.now();
   const [pHt, pAnexo, pEnq] = await ins(B, [
     { tipo: 'post', at: now - 20 * 60e3, texto: `Vale acompanhar ${pk.tag} esta semana.`, fotos: [], estilo: { v: 2 } },
