@@ -1,36 +1,36 @@
 {
- "gerado": "2026-11-19T15:17-03:00",
+ "gerado": "2026-11-19T15:27-03:00",
  "desde": "2026-11-19T11:39-03:00",
  "feed_atualizado_em": "2026-11-19T11:49:00-03:00",
  "resumo": {
-  "manchetes": 346,
-  "assuntos_novos_relevantes": 6,
-  "assuntos_novos": 286,
-  "pautas_com_novidade": 4,
-  "pautas_com_novidade_3_fontes": 1,
+  "manchetes": 362,
+  "assuntos_novos_relevantes": 4,
+  "assuntos_novos": 294,
+  "pautas_com_novidade": 6,
+  "pautas_com_novidade_3_fontes": 2,
   "pautas_com_relatos": 8,
-  "acionar_itens": 2,
-  "ja_avaliados": 7
+  "acionar_itens": 3,
+  "ja_avaliados": 4
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica); assunto novo: 3 veículos em 90 min (politica)",
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica); assunto novo: 3 veículos em 90 min (politica); pauta principal caso-master sem atualização há 8.6 h e 2 veículos com relatos novos",
  "acionar_itens": [
   {
    "tipo": "novo",
-   "titulo": "Justiça autoriza Senado a retomar licitação de R$ 6 milhões para comprar iPhones para parlamentares",
+   "titulo": "Justiça autoriza Senado a retomar gasto de R$ 6 milhões com iPhones e celulares para parlamentares",
    "secao": "politica",
    "n_fontes": 3,
    "motivo": "assunto novo: 3 veículos em 90 min (politica)",
    "chave": [
     "autoriza",
+    "celulares",
     "compra",
-    "comprar",
     "derruba",
     "desembargadora",
+    "gasto",
     "iphones",
     "justica",
     "libera",
-    "licitacao",
     "liminar",
     "milhoes",
     "parlamentares",
@@ -49,62 +49,33 @@
    "n_fontes": 3,
    "motivo": "assunto novo: 3 veículos em 90 min (politica)",
    "chave": [
-    "cargo",
+    "atribui",
     "desenvolvimento",
+    "emendas",
     "exonera",
+    "indicacao",
     "lula",
     "ministerio",
     "ministro",
+    "pasta",
     "pedido",
+    "saida",
     "social",
     "wellington"
    ],
    "acao": "nova"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Caso Master: Fachin determina que concierge de Vorcaro mostre despesas de banqueiro",
+   "n_fontes": 2,
+   "motivo": "pauta principal caso-master sem atualização há 8.6 h e 2 veículos com relatos novos",
+   "acao": "atualiza: caso-master"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
-  {
-   "assunto": "Fachin nega pedido de liberdade e mantém primo de Vorcaro preso",
-   "secao": "economia",
-   "n_fontes": 4,
-   "fontes": [
-    "cnn",
-    "folha",
-    "g1",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Fachin nega pedido de liberdade e mantém primo de Vorcaro preso",
-     "url": "https://www.poder360.com.br/poder-justica/fachin-nega-pedido-de-liberdade-e-mantem-primo-de-vorcaro-preso/",
-     "hora": "19/11 14h33"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Fachin mantém prisão de primo de Vorcaro por risco de ingerência na investigação do caso Master",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/fachin-mantem-prisao-de-primo-de-vorcaro-por-risco-de-ingerencia-na-investigacao.shtml",
-     "hora": "19/11 13h36"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Fachin mantém prisão preventiva de primo de Vorcaro",
-     "url": "https://www.cnnbrasil.com.br/politica/fachin-mantem-prisao-preventiva-de-primo-de-vorcaro/",
-     "hora": "19/11 13h08"
-    },
-    {
-     "veiculo": "g1 Política",
-     "titulo": "Compliance Zero: Fachin mantém prisão de Felipe Vorcaro, primo do ex-dono do Master",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/19/compliance-zero-fachin-mantem-prisao-de-felipe-vorcaro-primo-do-ex-dono-do-master.ghtml",
-     "hora": "19/11 12h39"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "pid_provavel": "caso-master"
-  },
   {
    "assunto": "Anthropic: fortunas de fundadores disparam e somam R$ 817,5 bilhões com estreia na bolsa; veja ranking",
    "secao": "economia",
@@ -124,12 +95,6 @@
      "hora": "19/11 13h02"
     },
     {
-     "veiculo": "g1 Economia",
-     "titulo": "Anthropic estreia na Nasdaq com IPO recorde de US$ 81 bilhões e testa apetite de investidores por IA",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/19/anthropic-estreia-na-nasdaq-investidores.ghtml",
-     "hora": "19/11 12h51"
-    },
-    {
      "veiculo": "CNN Brasil",
      "titulo": "CEO da Anthropic destaca promessas e riscos da IA em estreia na bolsa de NY",
      "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ceo-da-anthropic-destaca-promessas-e-riscos-da-ia-em-estreia-na-bolsa-de-ny/",
@@ -137,50 +102,15 @@
     },
     {
      "veiculo": "BBC News Brasil",
-     "titulo": "Avaliada em R$ 8,8 tri, Anthropic bate recorde em estreia na bolsa: empresa pode evitar o estouro da bolha da IA?",
+     "titulo": "Anthropic dispara na estreia na bolsa e chega a valer R$ 11 trilhões: empresa pode evitar estouro da bolha da IA?",
      "url": "https://www.bbc.com/portuguese/articles/cm782wyv0153o?at_medium=RSS&at_campaign=rss",
      "hora": "19/11 11h39"
     }
    ],
-   "n_fontes_90min": 3,
-   "pid_provavel": "anthropic-ipo-nasdaq"
+   "n_fontes_90min": 3
   },
   {
-   "assunto": "Ações da Anthropic estreiam com alta de mais de 30% na Nasdaq",
-   "secao": "economia",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "folha",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Ações da Anthropic estreiam com alta de mais de 30% na Nasdaq",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/acoes-da-anthropic-estreiam-com-alta-de-mais-de-30-na-nasdaq.shtml",
-     "hora": "19/11 14h02"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Anthropic estreia na Nasdaq com alta e ação supera US$ 110",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/anthropic-acoes-wall-street-nasdaq-bolsa-de-ny/",
-     "hora": "19/11 13h55"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Anthropic abre a US$ 111,50 por ação, alta de 34,3%; valor da empresa chega a US$ 2 trilhões",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/19/acoes-anthropic-nasdaq.ghtml",
-     "hora": "19/11 13h51"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "pid_provavel": "anthropic-ipo-nasdaq"
-  },
-  {
-   "assunto": "Justiça autoriza Senado a retomar licitação de R$ 6 milhões para comprar iPhones para parlamentares",
+   "assunto": "Justiça autoriza Senado a retomar gasto de R$ 6 milhões com iPhones e celulares para parlamentares",
    "secao": "politica",
    "n_fontes": 3,
    "fontes": [
@@ -193,7 +123,7 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Justiça autoriza Senado a retomar licitação de R$ 6 milhões para comprar iPhones para parlamentares",
+     "titulo": "Justiça autoriza Senado a retomar gasto de R$ 6 milhões com iPhones e celulares para parlamentares",
      "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/19/justica-autoriza-senado-a-retomar-licitacao-de-r-6-milhoes-para-comprar-iphones-para-parlamentares.ghtml",
      "hora": "19/11 15h09"
     },
@@ -265,7 +195,7 @@
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Lula exonera Wellington Dias do cargo de ministro do Desenvolvimento Social",
+     "titulo": "Lula exonera Wellington Dias; pasta atribui saída a indicação de emendas",
      "url": "https://www.cnnbrasil.com.br/politica/lula-exonera-wellington-dias-do-cargo-de-ministro-do-desenvolvimento-social/",
      "hora": "19/11 14h43"
     },
@@ -479,6 +409,32 @@
    "n_fontes_90min": 2
   },
   {
+   "assunto": "Lutador de MMA é preso suspeito de matar cão a facadas em SP",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Lutador de MMA é preso suspeito de matar cão a facadas em SP",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/lutador-de-mma-e-preso-suspeito-de-matar-cao-a-facadas-em-sp/",
+     "hora": "19/11 15h10"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Lutador de MMA suspeito de matar o próprio cachorro é afastado de equipe",
+     "url": "https://ge.globo.com/combate/noticia/2026/11/19/lutador-de-mma-suspeito-de-matar-o-proprio-cachorro-e-afastado-de-equipe.ghtml",
+     "hora": "19/11 12h32"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Maria Clara Pacheco vence o Prêmio Brasil Olímpico e é eleita a melhor do taekwondo em 2026",
    "secao": "esportes",
    "n_fontes": 2,
@@ -609,6 +565,32 @@
    "n_fontes_90min": 2
   },
   {
+   "assunto": "iFood revela vazamento de dados de usuários, entregadores e parceiros",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "iFood revela vazamento de dados de usuários, entregadores e parceiros",
+     "url": "https://www.cnnbrasil.com.br/economia/money/tecnologia/ifood-revela-vazamento-de-dados-de-usuarios-entregadores-e-parceiros/",
+     "hora": "19/11 15h16"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "iFood sofre ataque hacker que expõe dados de clientes, entregadores e representantes de restaurantes",
+     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/19/ifood-sofre-invasao-que-expoe-dados-de-clientes-entregadores-e-representantes-de-restaurantes.ghtml",
+     "hora": "19/11 15h00"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
    "assunto": "'Crime da 113 Sul': com empate, STJ mantém anulação da pena e do júri popular de Adriana Villela",
    "secao": null,
    "n_fontes": 1,
@@ -642,25 +624,6 @@
      "titulo": "'Formato Ialta' não trará paz à Ucrânia, diz premiê alemão",
      "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/formato-ialta-nao-trara-paz-a-ucrania-diz-premie-alemao.shtml",
      "hora": "19/11 14h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "20 de novembro é feriado? Veja quem tem direito a folgar na data",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "20 de novembro é feriado? Veja quem tem direito a folgar na data",
-     "url": "https://www.infomoney.com.br/brasil/20-de-novembro-e-feriado/",
-     "hora": "19/11 14h29"
     }
    ],
    "n_fontes_90min": 1
@@ -705,6 +668,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "A dança lendária entre a princesa Diana e o ator John Travolta na Casa Branca quase não aconteceu; entenda o motivo",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "A dança lendária entre a princesa Diana e o ator John Travolta na Casa Branca quase não aconteceu; entenda o motivo",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/a-danca-lendaria-entre-a-princesa-diana-e-o-ator-john-travolta-na-casa-branca-quase-nao-aconteceu-entenda-o-motivo/",
+     "hora": "19/11 15h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Abandono em massa: dezenas de cães são largados na Granja do Torto",
    "secao": null,
    "n_fontes": 1,
@@ -738,6 +720,25 @@
      "titulo": "Abate de bovinos recua 13,4% no terceiro trimestre, aponta IBGE",
      "url": "https://www.cnnbrasil.com.br/agro/abate-de-bovinos-recua-134-no-terceiro-trimestre-aponta-ibge/",
      "hora": "19/11 14h36"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Acompanhe sua obra: como a tecnologia mostra passo a passo ao cliente MRV",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Acompanhe sua obra: como a tecnologia mostra passo a passo ao cliente MRV",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/acompanhe-sua-obra-como-a-tecnologia-mostra-passo-a-passo-ao-cliente-mrv/",
+     "hora": "19/11 15h00"
     }
    ],
    "n_fontes_90min": 1
@@ -781,7 +782,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Advogado é preso após agredir atriz e mantê-la em cárcere na zona Sul de SP",
+   "assunto": "Advogado que agrediu atriz em SP queria dinheiro para drogas e jogos online",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -792,15 +793,15 @@
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Advogado é preso após agredir atriz e mantê-la em cárcere na zona Sul de SP",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/advogado-e-preso-apos-agredir-atriz-e-mante-la-em-carcere-na-zona-sul-de-sp/",
-     "hora": "19/11 11h55"
+     "titulo": "Advogado que agrediu atriz em SP queria dinheiro para drogas e jogos online",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/advogado-que-agrediu-atriz-em-sp-queria-dinheiro-para-drogas-e-jogos-online/",
+     "hora": "19/11 15h08"
     }
    ],
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Alerta de míssil e fuga para bunker: técnico do judô de Israel, brasileiro relata dramas da guerra",
+   "assunto": "Agora com SAF de Roberto Carlos e Ronaldo, Inter de Limeira não assina pedido de ajuda ao Governo",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
@@ -811,28 +812,9 @@
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Alerta de míssil e fuga para bunker: técnico do judô de Israel, brasileiro relata dramas da guerra",
-     "url": "https://ge.globo.com/judo/noticia/2026/11/19/alerta-de-missil-e-fuga-para-bunker-tecnico-do-judo-de-israel-brasileiro-relata-dramas-da-guerra.ghtml",
-     "hora": "19/11 12h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Alibaba triplica lucro no 2º tri com a melhora da rentabilidade em IA",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alibaba triplica lucro no 2º tri com a melhora da rentabilidade em IA",
-     "url": "https://www.cnnbrasil.com.br/economia/alibaba-triplica-lucro-no-2o-trimestre-fiscal-com-a-melhora-da-rentabilidade-em-ia/",
-     "hora": "19/11 13h06"
+     "titulo": "Agora com SAF de Roberto Carlos e Ronaldo, Inter de Limeira não assina pedido de ajuda ao Governo",
+     "url": "https://ge.globo.com/sp/campinas-e-regiao/futebol/times/inter-de-limeira/noticia/2026/11/19/agora-com-saf-de-roberto-carlos-e-ronaldo-inter-de-limeira-nao-assina-pedido-de-ajuda-ao-governo.ghtml",
+     "hora": "19/11 15h14"
     }
    ],
    "n_fontes_90min": 1
@@ -857,45 +839,21 @@
     }
    ]
   },
-  "anthropic-ipo-nasdaq": {
-   "secao": "economia",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Nasdaq oscila após subir mais de 1% na abertura com IPO da Anthropic",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/wall-street-bolsas-de-ny-nasdaq-19-novembro-2026/",
-     "hora": "19/11 11h54"
-    },
-    {
-     "veiculo": "g1 Economia",
-     "titulo": "IPO da Anthropic pode criar 2.800 milionários entre funcionários e ex-funcionários",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/19/ipo-da-anthropic-pode-criar-2800-milionarios-entre-funcionarios-e-ex-funcionarios.ghtml",
-     "hora": "19/11 12h20"
-    }
-   ]
-  },
   "ajuste-fiscal-lula-4": {
    "secao": "economia",
-   "n_fontes": 3,
+   "n_fontes": 2,
    "manchetes": [
-    {
-     "veiculo": "Agência Câmara",
-     "titulo": "Câmara deve votar ajuste fiscal; proposta do governo pretende economizar R$ 70 bilhões",
-     "url": "https://www.camara.leg.br/noticias/1321186-camara-deve-votar-ajuste-fiscal-proposta-do-governo-pretende-economizar-r-70-bilhoes",
-     "hora": "19/11 14h57"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Relator do ajuste fiscal na Câmara diz que manterá o texto do Senado",
-     "url": "https://www.metropoles.com/brasil/relator-do-ajuste-fiscal-na-camara-diz-que-mantera-o-texto-do-senado",
-     "hora": "19/11 14h15"
-    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Pacote fiscal aprovado pelo Senado abre caminho para ajuste no Orçamento",
      "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/pacote-fiscal-aprovado-pelo-senado-abre-caminho-para-ajuste-no-orcamento/",
      "hora": "19/11 12h04"
+    },
+    {
+     "veiculo": "Agência Câmara",
+     "titulo": "Câmara deve votar ajuste fiscal; proposta do governo pretende economizar R$ 70 bilhões",
+     "url": "https://www.camara.leg.br/noticias/1321186-camara-deve-votar-ajuste-fiscal-proposta-do-governo-pretende-economizar-r-70-bilhoes",
+     "hora": "19/11 14h57"
     },
     {
      "veiculo": "Folha Mercado",
@@ -908,6 +866,12 @@
      "titulo": "Juros futuros sobem com dólar e exterior, após aprovação do ajuste fiscal",
      "url": "https://www.cnnbrasil.com.br/economia/money/mercado/juros-futuros-sobem-com-dolar-e-exterior-apos-aprovacao-do-ajuste-fiscal/",
      "hora": "19/11 12h59"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Bancos públicos têm papel no ajuste fiscal, afirma presidente do BNDES",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/bancos-publicos-tem-papel-no-ajuste-fiscal-afirma-presidente-do-bndes/",
+     "hora": "19/11 14h06"
     }
    ]
   },
@@ -932,26 +896,129 @@
      "titulo": "Quando começa a valer o fim da escala 6x1? Qual a regra de transição? Entenda o que está mudando na lei",
      "url": "https://www.bbc.com/portuguese/articles/cvlyjkw9zr5jo?at_medium=RSS&at_campaign=rss",
      "hora": "19/11 12h12"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Transporte gratuito no fim de semana complementa escala 5x2, diz Lula",
+     "url": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/transporte-gratuito-no-fim-de-semana-complementa-escala-5x2-diz-lula",
+     "hora": "19/11 14h43"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Prevendo judicialização, Lula cobra atenção à aplicação da escala 5x2",
+     "url": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/prevendo-judicializacao-lula-cobra-atencao-aplicacao-da-escala-5x2",
+     "hora": "19/11 13h28"
+    }
+   ]
+  },
+  "anthropic-ipo-nasdaq": {
+   "secao": "economia",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "IPO da Anthropic pode criar 2.800 milionários entre funcionários e ex-funcionários",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/19/ipo-da-anthropic-pode-criar-2800-milionarios-entre-funcionarios-e-ex-funcionarios.ghtml",
+     "hora": "19/11 12h20"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Anthropic atinge US$ 2 trilhões em valor de mercado em estreia na Nasdaq",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/anthropic-atinge-us-2-trilhoes-em-valor-de-mercado-em-estreia-na-nasdaq/",
+     "hora": "19/11 14h49"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Ações da Anthropic estreiam com alta de mais de 30% na Nasdaq",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/acoes-da-anthropic-estreiam-com-alta-de-mais-de-30-na-nasdaq.shtml",
+     "hora": "19/11 14h02"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Anthropic estreia na Nasdaq com alta e ação supera US$ 110",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/anthropic-acoes-wall-street-nasdaq-bolsa-de-ny/",
+     "hora": "19/11 13h55"
+    },
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "Anthropic estreia na Nasdaq com IPO recorde de US$ 81 bilhões e testa apetite de investidores por IA",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/19/anthropic-estreia-na-nasdaq-investidores.ghtml",
+     "hora": "19/11 12h51"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Bolsas da Europa caem em dia de IPO da Anthropic e pressão em NY",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/bolsas-da-europa-caem-em-dia-de-ipo-da-anthropic-e-pressao-em-ny/",
+     "hora": "19/11 14h59"
+    }
+   ]
+  },
+  "caso-master": {
+   "secao": "politica",
+   "n_fontes": 5,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Caso Master: Fachin determina que concierge de Vorcaro mostre despesas de banqueiro",
+     "url": "https://www.infomoney.com.br/politica/caso-master-fachin-determina-que-concierge-de-vorcaro-mostre-despesas-de-banqueiro/",
+     "hora": "19/11 15h24"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Fachin nega pedido de liberdade e mantém primo de Vorcaro preso",
+     "url": "https://www.poder360.com.br/poder-justica/fachin-nega-pedido-de-liberdade-e-mantem-primo-de-vorcaro-preso/",
+     "hora": "19/11 14h33"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Fachin mantém prisão de primo de Vorcaro por risco de ingerência na investigação do caso Master",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/fachin-mantem-prisao-de-primo-de-vorcaro-por-risco-de-ingerencia-na-investigacao.shtml",
+     "hora": "19/11 13h36"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Fachin mantém prisão preventiva de primo de Vorcaro",
+     "url": "https://www.cnnbrasil.com.br/politica/fachin-mantem-prisao-preventiva-de-primo-de-vorcaro/",
+     "hora": "19/11 13h08"
+    }
+   ]
+  },
+  "atletico-mg-city-torque-semi-sulamericana": {
+   "secao": "esportes",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Antidoping surpresa para o Boca Juniors antes da final da Sula-Americana",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/sulamericana/antidoping-surpresa-para-o-boca-juniors-antes-da-final-da-sula-americana/",
+     "hora": "19/11 14h48"
     }
    ]
   }
  },
  "novos_relatos": {
   "decreto-6x1-adiado": {
-   "n": 6,
-   "n_fontes": 3,
+   "n": 7,
+   "n_fontes": 4,
    "fontes": [
+    "ab",
     "bbc",
     "folha",
     "g1"
    ],
    "n_fontes_90min": 3,
-   "ultima": "19/11 14h36",
-   "ultima_iso": "2026-11-19T14:36-03:00",
+   "ultima": "19/11 14h43",
+   "ultima_iso": "2026-11-19T14:43-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 8.4,
+   "horas_sem_atualizar": 8.6,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Transporte gratuito no fim de semana complementa escala 5x2, diz Lula",
+     "url": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/transporte-gratuito-no-fim-de-semana-complementa-escala-5x2-diz-lula",
+     "hora": "19/11 14h43"
+    },
     {
      "veiculo": "Folha Mercado",
      "titulo": "Fim da escala 6x1 aumenta a hora extra; veja tabela com novos valores",
@@ -981,28 +1048,29 @@
      "titulo": "Após regulamentação da escala 5x2, Lula diz que vai articular transporte gratuito no fim de semana",
      "url": "https://g1.globo.com/politica/noticia/2026/11/19/apos-regulamentacao-da-escala-5x2-lula-diz-que-vai-articular-transporte-gratuito-no-fim-de-semana.ghtml",
      "hora": "19/11 11h24"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Lula assina decreto que regulamenta o fim da escala 6x1, com hora extra mais cara",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/lula-assina-decreto-que-regulamenta-o-fim-da-escala-6x1-acompanhe.shtml",
-     "hora": "19/11 10h43"
     }
    ]
   },
   "caso-master": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
-    "folha"
+    "folha",
+    "im"
    ],
    "n_fontes_90min": 1,
-   "ultima": "19/11 13h36",
-   "ultima_iso": "2026-11-19T13:36-03:00",
+   "ultima": "19/11 15h24",
+   "ultima_iso": "2026-11-19T15:24-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 8.4,
+   "horas_sem_atualizar": 8.6,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Caso Master: Fachin determina que concierge de Vorcaro mostre despesas de banqueiro",
+     "url": "https://www.infomoney.com.br/politica/caso-master-fachin-determina-que-concierge-de-vorcaro-mostre-despesas-de-banqueiro/",
+     "hora": "19/11 15h24"
+    },
     {
      "veiculo": "Folha Mercado",
      "titulo": "Fachin mantém prisão de primo de Vorcaro por risco de ingerência na investigação do caso Master",
@@ -1021,7 +1089,7 @@
    "ultima": "19/11 11h11",
    "ultima_iso": "2026-11-19T11:11-03:00",
    "pauta_atualizada_em": "2026-11-17T06:52-03:00",
-   "horas_sem_atualizar": 56.4,
+   "horas_sem_atualizar": 56.6,
    "principal": false,
    "manchetes": [
     {
@@ -1034,18 +1102,17 @@
   },
   "ajuste-fiscal-lula-4": {
    "n": 5,
-   "n_fontes": 4,
+   "n_fontes": 3,
    "fontes": [
     "agcamara",
     "cnn",
-    "folha",
-    "met"
+    "folha"
    ],
    "n_fontes_90min": 2,
    "ultima": "19/11 14h57",
    "ultima_iso": "2026-11-19T14:57-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 8.4,
+   "horas_sem_atualizar": 8.6,
    "principal": true,
    "manchetes": [
     {
@@ -1055,10 +1122,10 @@
      "hora": "19/11 14h57"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Relator do ajuste fiscal na Câmara diz que manterá o texto do Senado",
-     "url": "https://www.metropoles.com/brasil/relator-do-ajuste-fiscal-na-camara-diz-que-mantera-o-texto-do-senado",
-     "hora": "19/11 14h15"
+     "veiculo": "CNN Brasil",
+     "titulo": "Bancos públicos têm papel no ajuste fiscal, afirma presidente do BNDES",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/bancos-publicos-tem-papel-no-ajuste-fiscal-afirma-presidente-do-bndes/",
+     "hora": "19/11 14h06"
     },
     {
      "veiculo": "CNN Brasil",
@@ -1090,7 +1157,7 @@
    "ultima": "19/11 09h39",
    "ultima_iso": "2026-11-19T09:39-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 8.4,
+   "horas_sem_atualizar": 8.6,
    "principal": true,
    "manchetes": [
     {
@@ -1102,19 +1169,31 @@
    ]
   },
   "anthropic-ipo-nasdaq": {
-   "n": 4,
+   "n": 5,
    "n_fontes": 2,
    "fontes": [
     "cnn",
     "g1"
    ],
    "n_fontes_90min": 2,
-   "ultima": "19/11 13h55",
-   "ultima_iso": "2026-11-19T13:55-03:00",
+   "ultima": "19/11 14h59",
+   "ultima_iso": "2026-11-19T14:59-03:00",
    "pauta_atualizada_em": "2026-11-19T06:21-03:00",
-   "horas_sem_atualizar": 8.9,
+   "horas_sem_atualizar": 9.1,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Bolsas da Europa caem em dia de IPO da Anthropic e pressão em NY",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/bolsas-da-europa-caem-em-dia-de-ipo-da-anthropic-e-pressao-em-ny/",
+     "hora": "19/11 14h59"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Anthropic atinge US$ 2 trilhões em valor de mercado em estreia na Nasdaq",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/anthropic-atinge-us-2-trilhoes-em-valor-de-mercado-em-estreia-na-nasdaq/",
+     "hora": "19/11 14h49"
+    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Anthropic estreia na Nasdaq com alta e ação supera US$ 110",
@@ -1132,40 +1211,6 @@
      "titulo": "IPO da Anthropic pode criar 2.800 milionários entre funcionários e ex-funcionários",
      "url": "https://g1.globo.com/economia/noticia/2026/11/19/ipo-da-anthropic-pode-criar-2800-milionarios-entre-funcionarios-e-ex-funcionarios.ghtml",
      "hora": "19/11 12h20"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Nasdaq oscila após subir mais de 1% na abertura com IPO da Anthropic",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/wall-street-bolsas-de-ny-nasdaq-19-novembro-2026/",
-     "hora": "19/11 11h54"
-    }
-   ]
-  },
-  "eua-trump-xi-putin-apec-china": {
-   "n": 2,
-   "n_fontes": 2,
-   "fontes": [
-    "bbc",
-    "g1"
-   ],
-   "n_fontes_90min": 2,
-   "ultima": "19/11 09h15",
-   "ultima_iso": "2026-11-19T09:15-03:00",
-   "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 8.4,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "Trump, Xi e Putin em encontro histórico na China: o que cada um falou e quer na cúpula",
-     "url": "https://www.bbc.com/portuguese/articles/cjvg2922e50qo?at_medium=RSS&at_campaign=rss",
-     "hora": "19/11 09h15"
-    },
-    {
-     "veiculo": "g1 Mundo",
-     "titulo": "Veja principais declarações de Trump, Putin e Xi em reunião trilateral histórica",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/veja-principais-declaracoes-de-trump-putin-e-xi-em-reuniao-trilateral-historica.ghtml",
-     "hora": "19/11 09h12"
     }
    ]
   },
@@ -1179,7 +1224,7 @@
    "ultima": "19/11 12h00",
    "ultima_iso": "2026-11-19T12:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 8.4,
+   "horas_sem_atualizar": 8.6,
    "principal": false,
    "manchetes": [
     {
@@ -1187,6 +1232,27 @@
      "titulo": "Vasco mira melhor campanha no Brasileirão desde 2017; veja histórico na era dos pontos corridos",
      "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/19/vasco-mira-melhor-campanha-no-brasileirao-desde-2017-veja-historico-na-era-dos-pontos-corridos.ghtml",
      "hora": "19/11 12h00"
+    }
+   ]
+  },
+  "atletico-mg-city-torque-semi-sulamericana": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "19/11 14h48",
+   "ultima_iso": "2026-11-19T14:48-03:00",
+   "pauta_atualizada_em": "2026-11-17T20:11-03:00",
+   "horas_sem_atualizar": 43.3,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Antidoping surpresa para o Boca Juniors antes da final da Sula-Americana",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/sulamericana/antidoping-surpresa-para-o-boca-juniors-antes-da-final-da-sula-americana/",
+     "hora": "19/11 14h48"
     }
    ]
   }
@@ -1199,6 +1265,24 @@
    "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1709408&o=rss",
    "credito": "Foto: Agência Brasil",
    "hora": "19/11 13h28",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão de Saúde debate roubos e furtos de canetas emagrecedoras",
+   "materia": "https://www.camara.leg.br/noticias/1320979-comissao-de-saude-debate-roubos-e-furtos-de-canetas-emagrecedoras",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261117104920191-768x474.jpeg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "19/11 15h21",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão aprova medida para garantir acessibilidade de idosos em atividades esportivas",
+   "materia": "https://www.camara.leg.br/noticias/1321181-comissao-aprova-medida-para-garantir-acessibilidade-de-idosos-em-atividades-esportivas",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260428151908041-1-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "19/11 15h13",
    "pid_sugerido": null
   },
   {
@@ -1362,24 +1446,6 @@
    "credito": "Foto: Agência Câmara",
    "hora": "18/11 20h24",
    "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Atingidos por rompimento de barragem da Vale exigem retomada do auxílio emergencial",
-   "materia": "https://www.camara.leg.br/noticias/1320885-atingidos-por-rompimento-de-barragem-da-vale-exigem-retomada-do-auxilio-emergencial",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261118154714123-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 20h00",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Especialistas apresentam alertas a favor e contra a redução da maioridade penal",
-   "materia": "https://www.camara.leg.br/noticias/1320869-especialistas-apresentam-alertas-a-favor-e-contra-a-reducao-da-maioridade-penal",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261118160319520-768x473.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "18/11 19h40",
-   "pid_sugerido": "maioridade-penal-pec"
   }
  ],
  "avaliados": [
@@ -1541,18 +1607,18 @@
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 15 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 18 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 6 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 31 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 7 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 6 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 15 nas últimas 6 h"
+  "Agência Câmara": "ok: 20 itens, 17 nas últimas 6 h"
  }
 }
