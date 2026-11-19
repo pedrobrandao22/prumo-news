@@ -1,32 +1,40 @@
 {
- "gerado": "2026-11-19T20:29-03:00",
+ "gerado": "2026-11-19T20:39-03:00",
  "desde": "2026-11-19T17:40-03:00",
  "feed_atualizado_em": "2026-11-19T17:50:00-03:00",
  "resumo": {
-  "manchetes": 291,
+  "manchetes": 305,
   "assuntos_novos_relevantes": 2,
-  "assuntos_novos": 249,
+  "assuntos_novos": 260,
   "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 6,
-  "acionar_itens": 0,
-  "ja_avaliados": 5
+  "acionar_itens": 1,
+  "ja_avaliados": 4
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (249 assuntos fora do feed, 6 pautas com relatos, 5 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Após pedido, ministério vai ouvir delegados afastados do caso Master",
+   "n_fontes": 4,
+   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: caso-master"
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
    "assunto": "Moraes marca julgamento sobre Lei da Dosimetria para 4 de dezembro",
    "secao": "politica",
-   "n_fontes": 5,
+   "n_fontes": 4,
    "fontes": [
     "ab",
     "folha",
     "g1",
-    "im",
-    "p360"
+    "im"
    ],
    "ja_e_breve": false,
    "relevante": true,
@@ -36,12 +44,6 @@
      "titulo": "Moraes marca julgamento sobre Lei da Dosimetria para 4 de dezembro",
      "url": "https://www.infomoney.com.br/politica/moraes-marca-julgamento-sobre-lei-da-dosimetria-para-4-de-dezembro/",
      "hora": "19/11 19h09"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Moraes marca julgamento da Lei da Dosimetria para 4 de dezembro",
-     "url": "https://www.poder360.com.br/poder-justica/moraes-libera-para-julgamento-acoes-contra-lei-da-dosimetria/",
-     "hora": "19/11 18h58"
     },
     {
      "veiculo": "Agência Brasil",
@@ -54,9 +56,15 @@
      "titulo": "Moraes marca para 4 de dezembro julgamento sobre dosimetria que pode beneficiar Bolsonaro",
      "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/moraes-marca-julgamento-sobre-dosimetria-que-pode-beneficiar-bolsonaro-para-4-de-dezembro.shtml",
      "hora": "19/11 18h28"
+    },
+    {
+     "veiculo": "g1 Política",
+     "titulo": "Moraes libera ações sobre Lei da Dosimetria para julgamento no STF; caso será analisado em dezembro",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/19/moraes-libera-acoes-sobre-lei-da-dosimetria-para-julgamento-no-stf.ghtml",
+     "hora": "19/11 18h20"
     }
    ],
-   "n_fontes_90min": 5
+   "n_fontes_90min": 4
   },
   {
    "assunto": "Duas pessoas são mortas com tiros na cabeça em frente a bar no Tatuapé",
@@ -84,12 +92,38 @@
     },
     {
      "veiculo": "g1",
-     "titulo": "Duas pessoas são mortas a tiros em frente a restaurante no Tatuapé, Zona Leste de SP",
+     "titulo": "Tio e sobrinho são mortos a tiros em restaurante no Tatuapé, Zona Leste de SP",
      "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/duas-pessoas-sao-mortas-a-tiros-em-frente-a-restaurante-no-tatuape-zona-leste-de-sp.ghtml",
      "hora": "19/11 19h23"
     }
    ],
    "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Anthropic encerra estreia na bolsa com avaliação de US$ 1,76 trilhão",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Anthropic encerra estreia na bolsa com avaliação de US$ 1,76 trilhão",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/anthropic-encerra-estreia-na-bolsa-com-avaliacao-de-us-176-trilhao/",
+     "hora": "19/11 20h27"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Anthropic sobe 17% em estreia na Bolsa e chega a US$ 1,27 trilhão",
+     "url": "https://www.poder360.com.br/poder-economia/anthropic-sobe-17-em-estreia-na-bolsa-e-chega-a-us-127-trilhao/",
+     "hora": "19/11 20h08"
+    }
+   ],
+   "n_fontes_90min": 2
   },
   {
    "assunto": "Bruno Mars anuncia morte do pai: “Pude abraçar uma última vez”",
@@ -144,6 +178,32 @@
    "n_fontes_90min": 2
   },
   {
+   "assunto": "Guiana afirma que EUA apoiam decisão da Corte Internacional em disputa com a Venezuela por Essequibo",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Guiana afirma que EUA apoiam decisão da Corte Internacional em disputa com a Venezuela por Essequibo",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/guiana-eua-decisao-corte-internacional-disputa-venezuela-essequibo.ghtml",
+     "hora": "19/11 20h30"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Funcionário dos EUA sugeriu que Guiana ceda Essequibo à Venezuela, diz agência",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/funcionario-dos-eua-sugeriu-que-guiana-ceda-essequibo-a-venezuela-diz-agencia.shtml",
+     "hora": "19/11 19h16"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
    "assunto": "Pedro Sampaio fará show do intervalo na final da Libertadores",
    "secao": "esportes",
    "n_fontes": 2,
@@ -168,6 +228,32 @@
     }
    ],
    "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Polícia prende segundo suspeito de participar da morte de três mulheres em residência em Jacaraú, na PB",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Polícia prende segundo suspeito de participar da morte de três mulheres em residência em Jacaraú, na PB",
+     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/19/policia-prende-segundo-suspeito-de-participar-da-morte-de-tres-mulheres-em-residencia-em-jacarau-na-pb.ghtml",
+     "hora": "19/11 20h33"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Polícia prende suspeito de integrar quadrilha de furto de fios em SP",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/policia-prende-suspeito-de-integrar-quadrilha-de-furto-de-fios-em-sp/",
+     "hora": "19/11 17h58"
+    }
+   ],
+   "n_fontes_90min": 1
   },
   {
    "assunto": "Segundo jornal, Cristiano Ronaldo pode ter jogo de despedida por Portugal",
@@ -471,7 +557,7 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Mundo",
      "titulo": "Aliados da Ucrânia alertam contra partilha ao estilo da 2ª Guerra Mundial enquanto Trump se reúne com 'amigo' Putin",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/19/aliados-da-ucrania-alertam-contra-partilha-ao-estilo-da-2a-guerra-mundial-enquanto-trump-se-reune-com-amigo-putin.ghtml",
      "hora": "19/11 18h25"
@@ -551,25 +637,6 @@
      "titulo": "Antes de viver Doc Brown em “De Volta para o Futuro”, Christopher Lloyd cresceu em mansão de 161 hectares cercada de luxo",
      "url": "https://www.cnnbrasil.com.br/curiosidades/antes-de-viver-doc-brown-em-de-volta-para-o-futuro-christopher-lloyd-cresceu-em-mansao-de-161-hectares-cercada-de-luxo/",
      "hora": "19/11 19h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Anthropic sobe 17% em estreia na Bolsa e chega a US$ 1,27 trilhão",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Anthropic sobe 17% em estreia na Bolsa e chega a US$ 1,27 trilhão",
-     "url": "https://www.poder360.com.br/poder-economia/anthropic-sobe-17-em-estreia-na-bolsa-e-chega-a-us-127-trilhao/",
-     "hora": "19/11 20h08"
     }
    ],
    "n_fontes_90min": 1
@@ -658,46 +725,6 @@
    ],
    "n_fontes_90min": 0,
    "lixo": true
-  },
-  {
-   "assunto": "Assista aos telejornais da TV Bahia",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Assista aos telejornais da TV Bahia",
-     "url": "https://g1.globo.com/ba/bahia/ao-vivo/assista-aos-telejornais-da-tv-bahia.ghtml",
-     "hora": "19/11 19h13"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Assista aos telejornais da TV Liberal",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Assista aos telejornais da TV Liberal",
-     "url": "https://g1.globo.com/pa/para/ao-vivo/assista-aos-telejornais-da-tv-liberal.ghtml",
-     "hora": "19/11 18h40"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
   }
  ],
  "em_pautas": {
@@ -740,6 +767,12 @@
      "titulo": "Fachin envia à PGR relatórios sobre Moraes, Kassio, Toffoli e Mendonça após citações no caso Master",
      "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/fachin-envia-a-pgr-relatorios-sobre-moraes-kassio-toffoli-e-mendonca-apos-citacoes-no-caso-master.shtml",
      "hora": "19/11 19h31"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Após pedido, ministério vai ouvir delegados afastados do caso Master",
+     "url": "https://www.poder360.com.br/poder-justica/apos-pedido-ministerio-vai-ouvir-delegados-afastados-do-caso-master/",
+     "hora": "19/11 20h33"
     }
    ]
   },
@@ -804,7 +837,7 @@
    "ultima": "19/11 17h34",
    "ultima_iso": "2026-11-19T17:34-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 13.6,
+   "horas_sem_atualizar": 13.8,
    "principal": true,
    "manchetes": [
     {
@@ -822,20 +855,27 @@
    ]
   },
   "caso-master": {
-   "n": 4,
-   "n_fontes": 3,
+   "n": 5,
+   "n_fontes": 4,
    "fontes": [
     "cnn",
     "folha",
-    "met"
+    "met",
+    "p360"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "19/11 20h22",
-   "ultima_iso": "2026-11-19T20:22-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "19/11 20h33",
+   "ultima_iso": "2026-11-19T20:33-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 13.6,
+   "horas_sem_atualizar": 13.8,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Após pedido, ministério vai ouvir delegados afastados do caso Master",
+     "url": "https://www.poder360.com.br/poder-justica/apos-pedido-ministerio-vai-ouvir-delegados-afastados-do-caso-master/",
+     "hora": "19/11 20h33"
+    },
     {
      "veiculo": "Metrópoles",
      "titulo": "Caso Master",
@@ -873,7 +913,7 @@
    "ultima": "19/11 19h53",
    "ultima_iso": "2026-11-19T19:53-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 13.6,
+   "horas_sem_atualizar": 13.8,
    "principal": true,
    "manchetes": [
     {
@@ -900,7 +940,7 @@
    "ultima": "19/11 19h47",
    "ultima_iso": "2026-11-19T19:47-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 13.6,
+   "horas_sem_atualizar": 13.8,
    "principal": true,
    "manchetes": [
     {
@@ -922,7 +962,7 @@
    "ultima": "19/11 17h49",
    "ultima_iso": "2026-11-19T17:49-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 13.6,
+   "horas_sem_atualizar": 13.8,
    "principal": true,
    "manchetes": [
     {
@@ -949,7 +989,7 @@
    "ultima": "19/11 18h34",
    "ultima_iso": "2026-11-19T18:34-03:00",
    "pauta_atualizada_em": "2026-11-17T20:11-03:00",
-   "horas_sem_atualizar": 48.3,
+   "horas_sem_atualizar": 48.5,
    "principal": false,
    "manchetes": [
     {
@@ -1349,10 +1389,10 @@
   "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 12 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 17 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 11 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 16 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 13 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 12 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 11 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
