@@ -1,31 +1,32 @@
 {
- "gerado": "2026-11-19T10:27-03:00",
+ "gerado": "2026-11-19T10:37-03:00",
  "desde": "2026-11-19T06:52-03:00",
  "feed_atualizado_em": "2026-11-19T07:02:00-03:00",
  "resumo": {
-  "manchetes": 304,
+  "manchetes": 309,
   "assuntos_novos_relevantes": 4,
   "assuntos_novos": 246,
   "pautas_com_novidade": 4,
-  "pautas_com_novidade_3_fontes": 0,
+  "pautas_com_novidade_3_fontes": 2,
   "pautas_com_relatos": 4,
-  "acionar_itens": 3,
+  "acionar_itens": 4,
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 5 veículos em 90 min (economia); pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização; pauta principal eua-trump-xi-putin-apec-china sem atualização há 3.6 h e 3 veículos com relatos novos",
+ "acionar_motivo": "assunto novo: 6 veículos em 90 min (economia); pauta decreto-6x1-adiado: 3 veículos em 90 min depois da última atualização; pauta ajuste-fiscal-lula-4: 3 veículos em 90 min depois da última atualização (+1)",
  "acionar_itens": [
   {
    "tipo": "novo",
-   "titulo": "Dólar hoje sobe e opera próximo de R$ 5,90 após aprovação de projeto fiscal no Senado",
+   "titulo": "Bolsa abre em alta nesta quinta-feira com reflexo de pacote fiscal",
    "secao": "economia",
-   "n_fontes": 5,
-   "motivo": "assunto novo: 5 veículos em 90 min (economia)",
+   "n_fontes": 6,
+   "motivo": "assunto novo: 6 veículos em 90 min (economia)",
    "chave": [
     "abre",
     "alta",
     "anthropic",
     "aprovacao",
+    "bolsa",
     "dolar",
     "estreia",
     "eua",
@@ -33,20 +34,30 @@
     "foco",
     "ipo",
     "mercado",
+    "nesta",
     "opera",
     "pacote",
     "pauta",
     "projeto",
     "proximo",
     "reagindo",
+    "reflexo",
     "senado",
     "sobe",
     "street",
     "supera",
     "wall"
    ],
-   "pid_provavel": "anthropic-ipo-nasdaq",
-   "acao": "atualiza: anthropic-ipo-nasdaq (provável; confira que é o mesmo assunto)"
+   "pid_provavel": "dolar-volta-acima-5",
+   "acao": "atualiza: dolar-volta-acima-5 (provável; confira que é o mesmo assunto)"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "decreto-6x1-adiado",
+   "titulo": "Lula assina decreto que regulamenta nova jornada 5x2",
+   "n_fontes": 3,
+   "motivo": "pauta decreto-6x1-adiado: 3 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: decreto-6x1-adiado"
   },
   {
    "tipo": "pauta",
@@ -59,28 +70,35 @@
   {
    "tipo": "pauta",
    "pid": "eua-trump-xi-putin-apec-china",
-   "titulo": "Trump, Xi e Putin em encontro histórico na China: o que cada um falou e quer na cúpula",
-   "n_fontes": 3,
-   "motivo": "pauta principal eua-trump-xi-putin-apec-china sem atualização há 3.6 h e 3 veículos com relatos novos",
+   "titulo": "Trump, Xi e Putin encerram reunião histórica na China",
+   "n_fontes": 4,
+   "motivo": "pauta principal eua-trump-xi-putin-apec-china sem atualização há 3.8 h e 4 veículos com relatos novos",
    "acao": "atualiza: eua-trump-xi-putin-apec-china"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Dólar hoje sobe e opera próximo de R$ 5,90 após aprovação de projeto fiscal no Senado",
+   "assunto": "Bolsa abre em alta nesta quinta-feira com reflexo de pacote fiscal",
    "secao": "economia",
-   "n_fontes": 5,
+   "n_fontes": 6,
    "fontes": [
     "cnn",
     "folha",
     "g1",
     "im",
+    "met",
     "p360"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Bolsa abre em alta nesta quinta-feira com reflexo de pacote fiscal",
+     "url": "https://www.metropoles.com/brasil/bolsa-nesta-quinta-19-11",
+     "hora": "19/11 10h22"
+    },
     {
      "veiculo": "InfoMoney",
      "titulo": "Dólar hoje sobe e opera próximo de R$ 5,90 após aprovação de projeto fiscal no Senado",
@@ -98,20 +116,14 @@
      "titulo": "Dólar abre em alta e vai a R$ 5,90",
      "url": "https://www.poder360.com.br/poder-economia/dolar-abre-em-alta-e-vai-a-r-590/",
      "hora": "19/11 09h25"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Dólar sobe com mercado reagindo à pauta fiscal e IPO da Anthropic nos EUA",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/mercado-financeiro-ibovespa-dolar-19-novembro-2026/",
-     "hora": "19/11 09h18"
     }
    ],
-   "n_fontes_90min": 5,
-   "pid_provavel": "anthropic-ipo-nasdaq"
+   "n_fontes_90min": 6,
+   "pid_provavel": "dolar-volta-acima-5"
   },
   {
-   "assunto": "Anthropic estreia na bolsa nesta quinta; saiba quanto custa investir na criadora do Claude pelo Brasil",
-   "secao": "economia",
+   "assunto": "ANPD rejeita recurso e lives do Discord seguem suspensas no Brasil",
+   "secao": "politica",
    "n_fontes": 3,
    "fontes": [
     "cnn",
@@ -122,36 +134,29 @@
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "g1 Economia",
-     "titulo": "Anthropic estreia na bolsa nesta quinta; saiba quanto custa investir na criadora do Claude pelo Brasil",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/19/anthropic-estreia-bolsa-como-investir-brasil.ghtml",
-     "hora": "19/11 10h21"
-    },
-    {
      "veiculo": "Metrópoles",
-     "titulo": "Anthropic estreia em bolsa dos EUA com captação de US$ 81,3 bilhões",
-     "url": "https://www.metropoles.com/mundo/dona-do-claude-estreia-em-bolsa-dos-eua-com-captacao-de-us-813-bilhoes",
-     "hora": "19/11 09h40"
-    },
-    {
-     "veiculo": "g1 Economia",
-     "titulo": "Recorde da Anthropic em estreia na bolsa de valores conseguirá impedir o estouro da bolha da IA?",
-     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/19/recorde-da-anthropic-em-estreia-na-bolsa-de-valores-conseguira-impedir-o-estouro-da-bolha-da-ia.ghtml",
-     "hora": "19/11 07h25"
+     "titulo": "ANPD rejeita recurso e lives do Discord seguem suspensas no Brasil",
+     "url": "https://www.metropoles.com/brasil/anpd-rejeita-recurso-e-lives-do-discord-seguem-suspensas-no-brasil",
+     "hora": "19/11 10h18"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "IPO da Anthropic: Dona do Claude estreia na bolsa avaliada em US$ 1,5 tri",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-da-anthropic-dona-do-claude-estreia-na-bolsa-avaliada-em-us-15-tri/",
-     "hora": "19/11 07h20"
+     "titulo": "Conselho da ANPD mantém suspensas transmissões ao vivo do Discord no Brasil",
+     "url": "https://www.cnnbrasil.com.br/politica/conselho-da-anpd-mantem-suspensas-transmissoes-ao-vivo-do-discord-no-brasil/",
+     "hora": "19/11 10h10"
+    },
+    {
+     "veiculo": "g1 Política",
+     "titulo": "Conselho da ANPD rejeita recurso e mantém suspensas transmissões ao vivo do Discord no Brasil",
+     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/19/conselho-da-anpd-rejeita-recurso-e-mantem-suspensas-transmissoes-ao-vivo-do-discord-no-brasil.ghtml",
+     "hora": "19/11 08h00"
     }
    ],
-   "n_fontes_90min": 2,
-   "pid_provavel": "anthropic-ipo-nasdaq"
+   "n_fontes_90min": 2
   },
   {
-   "assunto": "Peça de caminhão solta, atinge para-brisa de carro e mata mulher na Dutra",
-   "secao": "brasil",
+   "assunto": "China, Rússia e EUA planejam ampliar oferta de petróleo refinado, diz agência",
+   "secao": "mundo",
    "n_fontes": 3,
    "fontes": [
     "cnn",
@@ -162,22 +167,22 @@
    "relevante": true,
    "manchetes": [
     {
+     "veiculo": "Folha Mercado",
+     "titulo": "China, Rússia e EUA planejam ampliar oferta de petróleo refinado, diz agência",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/economia-sustentavel/2026/11/china-russia-e-eua-planejam-ampliar-oferta-de-petroleo-refinado-diz-agencia.shtml",
+     "hora": "19/11 10h31"
+    },
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "China, Rússia e EUA dizem, em declaração de paz conjunta, que 'guerra nuclear nunca deve ser travada'",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/china-russia-e-eua-manterao-dialogo-sobre-riscos-nucleares.ghtml",
+     "hora": "19/11 08h17"
+    },
+    {
      "veiculo": "CNN Brasil",
-     "titulo": "Peça de caminhão solta, atinge para-brisa de carro e mata mulher na Dutra",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/peca-de-caminhao-solta-atinge-para-brisa-de-carro-e-mata-mulher-na-dutra/",
-     "hora": "19/11 08h50"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Mulher morre na Dutra após peça de caminhão se soltar, atravessar para-brisa de carro e bater na cabeça dela",
-     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/19/mulher-morre-na-dutra-apos-peca-de-caminhao-se-soltar-atravessar-para-brisa-de-carro-e-bater-na-cabeca-dela.ghtml",
-     "hora": "19/11 08h19"
-    },
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Mulher morre após ser atingida por peça de caminhão na Dutra",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/mulher-morre-apos-ser-atingida-por-peca-de-caminhao-na-dutra.shtml",
-     "hora": "19/11 07h09"
+     "titulo": "EUA, China e Rússia anunciam aumento na produção de petróleo após reunião",
+     "url": "https://www.cnnbrasil.com.br/internacional/china-eua-e-russia-anunciam-declaracao-conjunta-diz-midia-chinesa/",
+     "hora": "19/11 07h53"
     }
    ],
    "n_fontes_90min": 2
@@ -216,11 +221,11 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "ANPD rejeita recurso e lives do Discord seguem suspensas no Brasil",
-   "secao": "politica",
+   "assunto": "Brasil pede abertura de julgamento na OMC contra tarifaço dos EUA",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "g1",
+    "cnn",
     "met"
    ],
    "ja_e_breve": false,
@@ -228,67 +233,15 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "ANPD rejeita recurso e lives do Discord seguem suspensas no Brasil",
-     "url": "https://www.metropoles.com/brasil/anpd-rejeita-recurso-e-lives-do-discord-seguem-suspensas-no-brasil",
-     "hora": "19/11 10h18"
-    },
-    {
-     "veiculo": "g1 Política",
-     "titulo": "Conselho da ANPD rejeita recurso e mantém suspensas transmissões ao vivo do Discord no Brasil",
-     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/19/conselho-da-anpd-rejeita-recurso-e-mantem-suspensas-transmissoes-ao-vivo-do-discord-no-brasil.ghtml",
-     "hora": "19/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Banco do Brasil notifica clientes sobre vazamentos de dados; veja cuidados",
-   "secao": "economia",
-   "n_fontes": 2,
-   "fontes": [
-    "folha",
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Banco do Brasil notifica clientes sobre vazamentos de dados; veja cuidados",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/banco-do-brasil-notifica-clientes-sobre-vazamentos-de-dados-veja-cuidados.shtml",
-     "hora": "19/11 10h07"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Banco do Brasil alerta clientes sobre vazamento de dados pessoais",
-     "url": "https://www.infomoney.com.br/mercados/banco-do-brasil-alerta-clientes-sobre-vazamento-de-dados-pessoais/",
-     "hora": "19/11 09h59"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
-   "assunto": "China, Rússia e EUA dizem, em declaração de paz conjunta, que 'guerra nuclear nunca deve ser travada'",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "China, Rússia e EUA dizem, em declaração de paz conjunta, que 'guerra nuclear nunca deve ser travada'",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/china-russia-e-eua-manterao-dialogo-sobre-riscos-nucleares.ghtml",
-     "hora": "19/11 08h17"
+     "titulo": "Brasil pede abertura de julgamento na OMC contra tarifaço dos EUA",
+     "url": "https://www.metropoles.com/mundo/brasil-pede-abertura-de-julgamento-na-omc-contra-tarifaco-dos-eua",
+     "hora": "19/11 10h35"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "EUA, China e Rússia anunciam aumento na produção de petróleo após reunião",
-     "url": "https://www.cnnbrasil.com.br/internacional/china-eua-e-russia-anunciam-declaracao-conjunta-diz-midia-chinesa/",
-     "hora": "19/11 07h53"
+     "titulo": "Sem consenso, Brasil pede à OMC para julgar tarifaço imposto pelos EUA",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/sem-consenso-brasil-pede-a-omc-para-julgar-tarifaco-imposto-pelos-eua/",
+     "hora": "19/11 09h27"
     }
    ],
    "n_fontes_90min": 2
@@ -320,30 +273,30 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "EUA e Venezuela retomam cooperação militar após mais de 20 anos; entenda o acordo",
-   "secao": "mundo",
+   "assunto": "Empresário preso por matar advogada e filho dela tem BO por ameçar vizinho",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "g1",
-    "im"
+    "cnn",
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "EUA e Venezuela retomam cooperação militar após mais de 20 anos; entenda o acordo",
-     "url": "https://www.infomoney.com.br/mundo/eua-e-venezuela-retomam-cooperacao-militar-apos-mais-de-20-anos-entenda-o-acordo/",
-     "hora": "19/11 09h56"
+     "veiculo": "Metrópoles",
+     "titulo": "Empresário preso por matar advogada e filho dela tem BO por ameçar vizinho",
+     "url": "https://www.metropoles.com/sao-paulo/empresario-preso-por-matar-advogada-e-filho-dela-tem-bo-por-amecar-vizinho",
+     "hora": "19/11 10h33"
     },
     {
-     "veiculo": "g1 Mundo",
-     "titulo": "Dinamarca aprova acordo militar com EUA e Groenlândia para reforçar segurança no Ártico",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/parlamentares-da-dinamarca-aprovam-acordo-de-seguranca-com-a-groenlandia-e-os-eua.ghtml",
-     "hora": "19/11 07h28"
+     "veiculo": "CNN Brasil",
+     "titulo": "Empresário é denunciado por matar namorada e filho dela de 6 anos em Cotia",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/empresario-e-denunciado-por-matar-namorada-e-filho-dela-de-6-anos-em-cotia/",
+     "hora": "19/11 09h19"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 2
   },
   {
    "assunto": "Flamengo campeão? Veja a probabilidade de título do Palmeiras",
@@ -398,32 +351,6 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Linha 9-Esmeralda tem falha em trem, lentidão e estação sem energia na manhã desta quinta-feira em SP",
-   "secao": "brasil",
-   "n_fontes": 2,
-   "fontes": [
-    "folha",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Linha 9-Esmeralda tem falha em trem, lentidão e estação sem energia na manhã desta quinta-feira em SP",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/linha-9-esmeralda-tem-falha-em-trem-lentidao-e-estacao-sem-energia-na-manha-desta-quinta-feira-em-sp.ghtml",
-     "hora": "19/11 08h26"
-    },
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Linha 9-esmeralda de trens apresenta falha pelo segundo dia consecutivo em São Paulo",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/linha-9-esmeralda-de-trens-apresenta-falha-pelo-segundo-dia-consecutivo-em-sao-paulo.shtml",
-     "hora": "19/11 08h03"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
    "assunto": "Lula assina portaria que reconhece terra indígena do cacique Raoni",
    "secao": "politica",
    "n_fontes": 2,
@@ -441,13 +368,39 @@
      "hora": "19/11 10h26"
     },
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Política",
      "titulo": "Lula fará visita ao cacique Raoni durante viagem a Mato Grosso nesta quinta",
      "url": "https://g1.globo.com/politica/noticia/2026/11/19/lula-viaja-a-mato-grosso-nesta-quinta-feira-e-visita-cacique-raoni.ghtml",
      "hora": "19/11 08h33"
     }
    ],
    "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Moretti diz que ainda não é o momento de tratar de medidas fiscais adicionais",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Moretti diz que ainda não é o momento de tratar de medidas fiscais adicionais",
+     "url": "https://www.infomoney.com.br/mercados/moretti-diz-que-ainda-nao-e-o-momento-de-tratar-de-medidas-fiscais-adicionais/",
+     "hora": "19/11 10h27"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Moretti diz que ainda não é o momento de tratar de medidas fiscais adicionais",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/moretti-diz-que-ainda-nao-e-o-momento-de-tratar-de-medidas-fiscais-adicionais.shtml",
+     "hora": "19/11 10h14"
+    }
+   ],
+   "n_fontes_90min": 2
   },
   {
    "assunto": "Na China, Trump pede cautela com IA, mas rejeita regulamentação",
@@ -476,6 +429,58 @@
    "n_fontes_90min": 2
   },
   {
+   "assunto": "Padre faz BO contra organizadores da Festa da Padroeira de Santa Cecília",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Padre faz BO contra organizadores da Festa da Padroeira de Santa Cecília",
+     "url": "https://www.metropoles.com/sao-paulo/padre-faz-bo-contra-organizadores-da-festa-da-padroeira-de-santa-cecilia",
+     "hora": "19/11 10h22"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Padre registra BO contra festa de Santa Cecília organizada por músicos e comerciantes em SP; organizadores negam irregularidades",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/padre-registra-bo-contra-festa-de-santa-cecilia-organizada-por-musicos-e-comerciantes-em-sp-organizadores-negam-irregularidades.ghtml",
+     "hora": "19/11 08h58"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Peça de caminhão solta, atinge para-brisa de carro e mata mulher na Dutra",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Peça de caminhão solta, atinge para-brisa de carro e mata mulher na Dutra",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/peca-de-caminhao-solta-atinge-para-brisa-de-carro-e-mata-mulher-na-dutra/",
+     "hora": "19/11 08h50"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Mulher morre após ser atingida por peça de caminhão na Dutra",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/mulher-morre-apos-ser-atingida-por-peca-de-caminhao-na-dutra.shtml",
+     "hora": "19/11 07h09"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Polícia Civil faz operação contra tráfico e expansão territorial de facções em Angra dos Reis",
    "secao": null,
    "n_fontes": 2,
@@ -500,6 +505,32 @@
     }
    ],
    "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Polícia prende quatro em operação contra garimpo ilegal de ouro no RJ",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Polícia prende quatro em operação contra garimpo ilegal de ouro no RJ",
+     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/policia-prende-quatro-em-operacao-contra-garimpo-ilegal-de-ouro-no-rj",
+     "hora": "19/11 10h34"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Polícia prende três homens em operação contra 'golpe da maquininha' em Copacabana",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/19/policia-prende-homens-em-operacao-contra-golpe-da-maquininha.ghtml",
+     "hora": "19/11 08h53"
+    }
+   ],
+   "n_fontes_90min": 1
   },
   {
    "assunto": "Presidente do Paraguai demite diretor de Itaipu após polêmica sobre depósitos de quase R$ 1 bilhão no Ueno Bank",
@@ -532,32 +563,6 @@
     }
    ],
    "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Projeto cria fundo para custear defesa jurídica de agentes de segurança",
-   "secao": "politica",
-   "n_fontes": 2,
-   "fontes": [
-    "agcamara",
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Câmara",
-     "titulo": "Projeto cria fundo para custear defesa jurídica de agentes de segurança",
-     "url": "https://www.camara.leg.br/noticias/1312404-projeto-cria-fundo-para-custear-defesa-juridica-de-agentes-de-seguranca",
-     "hora": "19/11 10h18"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Concorrência que desafia a segurança jurídica",
-     "url": "https://www.cnnbrasil.com.br/infra/concorrencia-que-desafia-a-seguranca-juridica/",
-     "hora": "19/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 1
   },
   {
    "assunto": "Senado aprova regras para uso de postes após adiamento na Aneel",
@@ -608,6 +613,25 @@
      "titulo": "Trump encontra Putin: 'Ele é meu amigo'",
      "url": "https://www.bbc.com/portuguese/watch/cmz9dnwg2yjxo?at_medium=RSS&at_campaign=rss",
      "hora": "19/11 07h32"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "'Feito Pipa', representante do Brasil no Oscar, estreia no Cine Líbero Luxardo em Belém",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Feito Pipa', representante do Brasil no Oscar, estreia no Cine Líbero Luxardo em Belém",
+     "url": "https://g1.globo.com/pa/para/noticia/2026/11/19/feito-pipa-representante-do-brasil-no-oscar-estreia-no-cine-libero-luxardo-em-belem.ghtml",
+     "hora": "19/11 10h22"
     }
    ],
    "n_fontes_90min": 1
@@ -704,25 +728,6 @@
      "titulo": "Abel evita cravar força máxima contra o Flamengo: \"Fazer o que for melhor para o Palmeiras\"",
      "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/19/abel-evita-cravar-forca-maxima-contra-o-flamengo-fazer-o-que-for-melhor-para-o-palmeiras.ghtml",
      "hora": "19/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Advogado e lutador de jiu-jítsu é preso suspeito de agredir, torturar, ameaçar e manter namorada atriz em cárcere privado em SP",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Advogado e lutador de jiu-jítsu é preso suspeito de agredir, torturar, ameaçar e manter namorada atriz em cárcere privado em SP",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/advogado-e-lutador-de-jiu-jitsu-e-preso-suspeito-de-agredir-namorada-atriz-em-sp.ghtml",
-     "hora": "19/11 08h27"
     }
    ],
    "n_fontes_90min": 1
@@ -830,22 +835,100 @@
   }
  ],
  "em_pautas": {
-  "ajuste-fiscal-lula-4": {
+  "eua-trump-xi-putin-apec-china": {
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Trump, Xi e Putin encerram reunião histórica na China",
+     "url": "https://agenciabrasil.ebc.com.br/internacional/noticia/2026-11/trump-xi-e-putin-encerram-reuniao-historica-na-china",
+     "hora": "19/11 09h59"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Putin diz que reunião com Trump e Xi não definiu compromissos obrigatórios; Rússia pode participar de encontro do G20",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/putin-diz-que-reuniao-com-trump-e-xi-nao-definiu-compromissos-obrigatorios.ghtml",
+     "hora": "19/11 09h48"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Putin chama reunião com Trump e Xi de histórica e espera continuidade",
+     "url": "https://www.cnnbrasil.com.br/internacional/putin-chama-reuniao-com-trump-e-xi-de-historica-e-espera-continuidade/",
+     "hora": "19/11 09h35"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Veja principais declarações de Trump, Putin e Xi em reunião trilateral histórica",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/veja-principais-declaracoes-de-trump-putin-e-xi-em-reuniao-trilateral-historica.ghtml",
+     "hora": "19/11 09h12"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "Trump, Xi e Putin em encontro histórico na China: o que cada um falou e quer na cúpula",
+     "url": "https://www.bbc.com/portuguese/articles/cjvg2922e50qo?at_medium=RSS&at_campaign=rss",
+     "hora": "19/11 09h15"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Trump fecha os olhos durante fala de Xi em cúpula na China; veja vídeo",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/trump-fecha-os-olhos-durante-fala-de-xi-em-cupula-na-china-veja-video.shtml",
+     "hora": "19/11 08h44"
+    }
+   ]
+  },
+  "anthropic-ipo-nasdaq": {
    "secao": "economia",
    "n_fontes": 2,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Domingos Sávio critica ajuste fiscal de Lula: \"Brasil indo para o buraco\"",
-     "url": "https://www.metropoles.com/minas-gerais/domingos-savio-critica-ajuste-fiscal-de-lula-brasil-indo-para-o-buraco",
-     "hora": "19/11 10h03"
+     "veiculo": "g1",
+     "titulo": "Anthropic estreia na bolsa nesta quinta; saiba quanto custa investir na criadora do Claude pelo Brasil",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/19/anthropic-estreia-bolsa-como-investir-brasil.ghtml",
+     "hora": "19/11 10h21"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Ajuste fiscal não pode comprometer a produção de petróleo e gás no Brasil",
-     "url": "https://www.cnnbrasil.com.br/infra/ajuste-fiscal-nao-pode-comprometer-a-producao-de-petroleo-e-gas-no-brasil/",
-     "hora": "19/11 07h00"
+     "titulo": "IPO da Anthropic supera estreia da SpaceX ao levantar US$ 81,3 bilhões",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-da-anthropic-supera-estreia-da-spacex-ao-levantar-us-813-bilhoes/",
+     "hora": "19/11 10h19"
     },
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "Recorde da Anthropic em estreia na bolsa de valores conseguirá impedir o estouro da bolha da IA?",
+     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/19/recorde-da-anthropic-em-estreia-na-bolsa-de-valores-conseguira-impedir-o-estouro-da-bolha-da-ia.ghtml",
+     "hora": "19/11 07h25"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "IPO da Anthropic: Dona do Claude estreia na bolsa avaliada em US$ 1,5 tri",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-da-anthropic-dona-do-claude-estreia-na-bolsa-avaliada-em-us-15-tri/",
+     "hora": "19/11 07h20"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "IPO da Anthropic: BDRs serão negociados na B3; veja como investir",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-da-anthropic-bdrs-serao-negociados-na-b3-veja-como-investir/",
+     "hora": "19/11 08h06"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "IPO histórica da Anthropic coloca à prova promessas e riscos da IA",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-historica-da-anthropic-coloca-a-prova-promessas-e-riscos-da-ia/",
+     "hora": "19/11 09h32"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "ANTH34: BDR da Anthropic estreia na B3 junto com ação na Nasdaq por cerca de R$ 60",
+     "url": "https://www.infomoney.com.br/mercados/anth34-bdr-da-anthropic-estreia-na-b3-simultaneamente-a-estreia-na-nasdaq-por-cerca-de-r-60/",
+     "hora": "19/11 10h24"
+    }
+   ]
+  },
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 2,
+   "manchetes": [
     {
      "veiculo": "CNN Brasil",
      "titulo": "O Grande Debate: Câmara vai endurecer ou esvaziar ajuste fiscal?",
@@ -871,6 +954,12 @@
      "hora": "19/11 09h08"
     },
     {
+     "veiculo": "Metrópoles",
+     "titulo": "Domingos Sávio critica ajuste fiscal de Lula: \"Brasil indo para o buraco\"",
+     "url": "https://www.metropoles.com/minas-gerais/domingos-savio-critica-ajuste-fiscal-de-lula-brasil-indo-para-o-buraco",
+     "hora": "19/11 10h03"
+    },
+    {
      "veiculo": "CNN Brasil",
      "titulo": "Após avanço do plano Moretti, Lula planeja novo pacote de ajuste fiscal",
      "url": "https://www.cnnbrasil.com.br/politica/apos-avanco-do-plano-moretti-lula-planeja-novo-pacote-de-ajuste-fiscal/",
@@ -884,76 +973,22 @@
     }
    ]
   },
-  "eua-trump-xi-putin-apec-china": {
-   "secao": "mundo",
-   "n_fontes": 2,
+  "decreto-6x1-adiado": {
+   "secao": "politica",
+   "n_fontes": 4,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Putin diz que reunião com Trump e Xi não definiu compromissos obrigatórios; Rússia pode participar de encontro do G20",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/putin-diz-que-reuniao-com-trump-e-xi-nao-definiu-compromissos-obrigatorios.ghtml",
-     "hora": "19/11 09h48"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Putin chama reunião com Trump e Xi de histórica e espera continuidade",
-     "url": "https://www.cnnbrasil.com.br/internacional/putin-chama-reuniao-com-trump-e-xi-de-historica-e-espera-continuidade/",
-     "hora": "19/11 09h35"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Veja principais declarações de Trump, Putin e Xi em reunião trilateral histórica",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/veja-principais-declaracoes-de-trump-putin-e-xi-em-reuniao-trilateral-historica.ghtml",
-     "hora": "19/11 09h12"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Reunião entre Trump, Xi e Putin termina após uma hora e meia, diz TV",
-     "url": "https://www.cnnbrasil.com.br/internacional/reuniao-entre-trump-xi-e-putin-termina-apos-uma-hora-e-meia-diz-agencia/",
-     "hora": "19/11 07h06"
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "Trump, Xi e Putin em encontro histórico na China: o que cada um falou e quer na cúpula",
-     "url": "https://www.bbc.com/portuguese/articles/cjvg2922e50qo?at_medium=RSS&at_campaign=rss",
-     "hora": "19/11 09h15"
-    },
-    {
-     "veiculo": "Folha Mundo",
-     "titulo": "Trump fecha os olhos durante fala de Xi em cúpula na China; veja vídeo",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/trump-fecha-os-olhos-durante-fala-de-xi-em-cupula-na-china-veja-video.shtml",
-     "hora": "19/11 08h44"
-    }
-   ]
-  },
-  "anthropic-ipo-nasdaq": {
-   "secao": "economia",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "IPO da Anthropic: BDRs serão negociados na B3; veja como investir",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-da-anthropic-bdrs-serao-negociados-na-b3-veja-como-investir/",
-     "hora": "19/11 08h06"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "IPO histórica da Anthropic coloca à prova promessas e riscos da IA",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-historica-da-anthropic-coloca-a-prova-promessas-e-riscos-da-ia/",
-     "hora": "19/11 09h32"
+     "veiculo": "Metrópoles",
+     "titulo": "Lula assina decreto que regulamenta nova jornada 5x2",
+     "url": "https://www.metropoles.com/brasil/lula-decreto-5x2",
+     "hora": "19/11 10h34"
     },
     {
      "veiculo": "InfoMoney",
-     "titulo": "ANTH34: BDR da Anthropic estreia na B3 junto com ação na Nasdaq por cerca de R$ 60",
-     "url": "https://www.infomoney.com.br/mercados/anth34-bdr-da-anthropic-estreia-na-b3-simultaneamente-a-estreia-na-nasdaq-por-cerca-de-r-60/",
-     "hora": "19/11 10h24"
-    }
-   ]
-  },
-  "decreto-6x1-adiado": {
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
+     "titulo": "Lula assina hoje decreto que regulamenta fim da escala 6×1",
+     "url": "https://www.infomoney.com.br/politica/lula-assina-hoje-decreto-que-regulamenta-fim-da-escala-6x1/",
+     "hora": "19/11 10h31"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Ao vivo: Lula assina decreto que regulamenta o fim da escala 6 X 1",
@@ -971,18 +1006,32 @@
  },
  "novos_relatos": {
   "decreto-6x1-adiado": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 3,
+   "n_fontes": 3,
    "fontes": [
-    "g1"
+    "g1",
+    "im",
+    "met"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "19/11 09h04",
-   "ultima_iso": "2026-11-19T09:04-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "19/11 10h34",
+   "ultima_iso": "2026-11-19T10:34-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 3.6,
+   "horas_sem_atualizar": 3.8,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Lula assina decreto que regulamenta nova jornada 5x2",
+     "url": "https://www.metropoles.com/brasil/lula-decreto-5x2",
+     "hora": "19/11 10h34"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Lula assina hoje decreto que regulamenta fim da escala 6×1",
+     "url": "https://www.infomoney.com.br/politica/lula-assina-hoje-decreto-que-regulamenta-fim-da-escala-6x1/",
+     "hora": "19/11 10h31"
+    },
     {
      "veiculo": "g1",
      "titulo": "Lula assina nesta quinta decreto com regras para o fim da escala 6x1",
@@ -992,7 +1041,7 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 6,
+   "n": 5,
    "n_fontes": 4,
    "fontes": [
     "agsenado",
@@ -1004,7 +1053,7 @@
    "ultima": "19/11 10h19",
    "ultima_iso": "2026-11-19T10:19-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 3.6,
+   "horas_sem_atualizar": 3.8,
    "principal": true,
    "manchetes": [
     {
@@ -1036,17 +1085,11 @@
      "titulo": "O Grande Debate: Câmara vai endurecer ou esvaziar ajuste fiscal?",
      "url": "https://www.cnnbrasil.com.br/politica/o-grande-debate-camara-vai-endurecer-ou-esvaziar-ajuste-fiscal/",
      "hora": "19/11 08h14"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ajuste fiscal não pode comprometer a produção de petróleo e gás no Brasil",
-     "url": "https://www.cnnbrasil.com.br/infra/ajuste-fiscal-nao-pode-comprometer-a-producao-de-petroleo-e-gas-no-brasil/",
-     "hora": "19/11 07h00"
     }
    ]
   },
   "anthropic-ipo-nasdaq": {
-   "n": 5,
+   "n": 6,
    "n_fontes": 2,
    "fontes": [
     "cnn",
@@ -1056,7 +1099,7 @@
    "ultima": "19/11 10h24",
    "ultima_iso": "2026-11-19T10:24-03:00",
    "pauta_atualizada_em": "2026-11-19T06:21-03:00",
-   "horas_sem_atualizar": 4.1,
+   "horas_sem_atualizar": 4.3,
    "principal": true,
    "manchetes": [
     {
@@ -1064,6 +1107,12 @@
      "titulo": "ANTH34: BDR da Anthropic estreia na B3 junto com ação na Nasdaq por cerca de R$ 60",
      "url": "https://www.infomoney.com.br/mercados/anth34-bdr-da-anthropic-estreia-na-b3-simultaneamente-a-estreia-na-nasdaq-por-cerca-de-r-60/",
      "hora": "19/11 10h24"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "IPO da Anthropic supera estreia da SpaceX ao levantar US$ 81,3 bilhões",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ipo-da-anthropic-supera-estreia-da-spacex-ao-levantar-us-813-bilhoes/",
+     "hora": "19/11 10h19"
     },
     {
      "veiculo": "CNN Brasil",
@@ -1092,20 +1141,27 @@
    ]
   },
   "eua-trump-xi-putin-apec-china": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 4,
+   "n_fontes": 4,
    "fontes": [
+    "ab",
     "bbc",
     "cnn",
     "g1"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "19/11 09h15",
-   "ultima_iso": "2026-11-19T09:15-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "19/11 09h59",
+   "ultima_iso": "2026-11-19T09:59-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 3.6,
+   "horas_sem_atualizar": 3.8,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Trump, Xi e Putin encerram reunião histórica na China",
+     "url": "https://agenciabrasil.ebc.com.br/internacional/noticia/2026-11/trump-xi-e-putin-encerram-reuniao-historica-na-china",
+     "hora": "19/11 09h59"
+    },
     {
      "veiculo": "BBC News Brasil",
      "titulo": "Trump, Xi e Putin em encontro histórico na China: o que cada um falou e quer na cúpula",
@@ -1381,16 +1437,16 @@
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
   "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
-  "Agência Brasil": "ok: 10 itens, 4 nas últimas 6 h",
+  "Agência Brasil": "ok: 10 itens, 5 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 6 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 9 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 10 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 10 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 11 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 56 nas últimas 6 h",
+  "ge": "ok: 100 itens, 58 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 1 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 14 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 15 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
