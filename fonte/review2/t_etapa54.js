@@ -27,6 +27,8 @@ async function criar(p, { url, nome, email }) {
   if (fch) await fch.setFiles([FOTO, FOTO]);
   ok(await esperar(A, () => document.querySelectorAll('#layer > .cp152 .fc164 img').length === 2, null, 5000), 'as fotos escolhidas voltam para a caixa, em miniatura (164)');
   await clk(A, '#layer > .cp152 [data-fc164ed="0"]'); await sleep(300); await clk(A, '#layer .ce [data-fc164aba="cortar"]'); await esperar(A, () => !!document.querySelector('#layer #ce-pv'), null, 5000);  // 166: a miniatura abre Filtros; o corte fica na aba Cortar
+  // 19/11 madrugada: foto deitada começa no formato dela ("Original", sem o que enquadrar); um toque vai para 4:5
+  if (await ev(A, () => ED.po.ar === 'orig')) { await clk(A, '[data-edar]'); await sleep(150) }
   { const r = await ev(A, () => { const b = document.querySelector('#ce-pv').getBoundingClientRect(); return { x: b.x + b.width / 2, y: b.y + b.height / 2 } }); await A.mouse.move(r.x, r.y); await A.mouse.down(); await A.mouse.move(r.x + 40, r.y + 30, { steps: 5 }); await A.mouse.up() }
   ok(await ev(A, () => { const f = ED.po.fotos[ED.po.cur]; return f.ox !== 0 || f.oy !== 0 }), 'arrastar enquadra a foto');
   await clk(A, '[data-edar]'); await sleep(100); ok(await ev(A, () => ED.po.ar === '1:1'), 'troca o formato para 1:1');
