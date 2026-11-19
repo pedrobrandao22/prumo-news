@@ -6211,6 +6211,10 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
 .late.offl{display:flex;align-items:center;gap:10px}
 .late.offl>span{flex:1;min-width:0}
 .late.offl [data-retry]{flex:none;white-space:nowrap}
+/* 19/11 (testador): na 1ª visita por link, a matéria espera a foto de arquivo num fundo neutro em vez de mostrar a
+   ilustração e trocar 1 s depois (mt202Espera no 202 põe e tira a classe) */
+#layer .mat-arte.mt202-esp .art.paper:not(.foto){background:var(--chip)}
+#layer .mat-arte.mt202-esp .art.paper:not(.foto)>*{visibility:hidden}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -7672,7 +7676,9 @@ function mt202Monta(pid,manter){const p=pautaById(pid);if(!p)return;const L=lent
   const nx=matProx(p.id);h+=matRel(p,nx);
   h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
-  if(vazio&&pushH())HST++}
+  if(vazio&&pushH())HST++
+  /* 19/11: a arte espera a foto (ver mt202Espera, no fim) */
+  try{mt202Espera()}catch(e){}}
 
 /* ===== Próxima / deslizar ===== */
 function matIr(pid){
@@ -7852,6 +7858,14 @@ function abrirPagCob(pid){
     if(p&&n&&/^O que vem/.test((n.querySelector("b")||{}).textContent||""))cm168VemNota(n,p)}catch(e){}}
   /* 183: fim, encerrada e o interruptor de avisos */
   {try{cb183Pinta(pid)}catch(e){}}}
+/* 19/11 (testador): matéria aberta por link antes de chegarem o detalhe do feed e as fotos de arquivo: a arte espera
+   num fundo neutro (sem a ilustração que depois pulava para a foto) e a foto entra no lugar assim que der (até 20 s) */
+function mt202Espera(){const ma=document.querySelector("#layer .mat-arte");if(!ma||ma.querySelector(".foto"))return;const pid=MAT_PID;
+  const cedo=()=>{try{return document.documentElement.classList.contains("ab141-sem-arq")||!!(typeof FL119!=="undefined"&&FL119.parcial)}catch(e){return false}};
+  if(cedo())ma.classList.add("mt202-esp");const t0=Date.now();
+  (function w(){const a=document.querySelector("#layer .mat-arte");if(!a||MAT_PID!==pid)return;
+    try{const p=pautaById(pid);const h=p&&capaArte(p,"art",true);if(h&&/class="[^"]*\bfoto\b/.test(h)){a.innerHTML=h;a.classList.remove("mt202-esp");return}}catch(e){}
+    if(Date.now()-t0>20000||(!cedo()&&Date.now()-t0>1500)){a.classList.remove("mt202-esp");return}setTimeout(w,400)})()}
 /* ---------- conta: Supabase ---------- */
 %%PRUMO_DB%%
 const SB_URL="%%SB_URL%%",SB_KEY="%%SB_KEY%%";
@@ -8352,7 +8366,7 @@ function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit
 async function carregarFotosArq(){try{const r=await fetch("fotos-arquivo.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();if(!d||typeof d!=="object"||!d.temas)return;
   const mud=!FOTOS_ARQ||FOTOS_ARQ.gerado!==d.gerado;FOTOS_ARQ=d;FA_CACHE={};try{localStorage.setItem("prumo-fotos-arq",JSON.stringify(d))}catch(e){}
   if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}}catch(e){}
-  document.documentElement.classList.remove("ab141-sem-arq")}  // 141: a manchete volta ao formato dela (ver 000-pre-carga.js)
+  finally{document.documentElement.classList.remove("ab141-sem-arq")}}  // 141: a manchete volta ao formato dela (ver 000-pre-carga.js)
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
   return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f,"",0,!!cred)}${cred&&f.credito?credHTML(f.credito,"cred"):""}</span>`}
 function indTile(x){const seta={sobe:"▲",desce:"▼",estavel:"▬"};const em=x.variacao||x.dir?`<em class="${esc(x.dir||"estavel")}">${seta[x.dir]||""} ${esc(x.variacao||"")}</em>`:"";
@@ -18226,13 +18240,13 @@ var FT157_PREP=null;
 function ft157N(s){try{return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()}catch(e){return String(s||"").toLowerCase()}}
 function ft157Arq(f){return ft157N(faNome(f&&f.url)).replace(/_/g," ")}
 /* fotos que já apareceram no lugar errado (nome do arquivo, sem acento e minúsculo) */
-const FT157_BLOQ=["buzios - panoramio","laboratorio de paleontologia","bolsa de valores (17205467578)","bolsa de valores (17391295482)","bolsa de valores (17393276865)","iss-32 american eva b3","alpina b3","casa-da-moeda","avenida central, vendo-se","atual centro cultural da justica federal",
+const FT157_BLOQ=["21449400719","buzios - panoramio","laboratorio de paleontologia","bolsa de valores (17205467578)","bolsa de valores (17391295482)","bolsa de valores (17393276865)","iss-32 american eva b3","alpina b3","casa-da-moeda","avenida central, vendo-se","atual centro cultural da justica federal",
   "plenario do senado (15717805622)","plenario do senado (15687627386)","plenario do senado (15109327665)","vestibular.jpg",
   "ofrenda de la liga","roda viva com senadora","com bandeira do brasil","conselheira tais ferraz","arena corinthians opening",
   "allianz parque - reconhecimento facial","tudo-o-que-voce-sempre-quis-saber","vidpovid to be performing","hibakujumoku",
   "northern door of the assumption cathedral","estacao agrometeorologica","travessia de pedestres no patio da estacao"];
 /* acervos históricos (foto do século passado não ilustra fato de hoje) */
-const FT157_HIST=/(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly)/i;
+const FT157_HIST=/(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly|\b(?:PMDB|MDB|PSDB|PSOL|PDT|PSB)\b|\b(?:PT|PL|PP|PSD) (?:Nacional|na C[aâ]mara|no Senado)\b|Partido (?:dos|Liberal|Social|Progressista|Novo)|Uni[aã]o Brasil Nacional)/i;  /* 19/11: e acervo de partido */
 function ft157Bloq(f){if(!f||typeof f.url!=="string")return true;const n=ft157Arq(f);return FT157_BLOQ.some(b=>n.indexOf(b)>=0)||FT157_HIST.test(String(f.credito||""))}
 /* retrato: 2 = foto de grupo/evento (não serve), 1 = recorte de foto com outra pessoa (só se não houver outra), 0 = retrato */
 function ft157Grupo(f){const n=ft157Arq(f),crop=/crop/.test(n);

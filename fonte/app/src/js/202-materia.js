@@ -83,7 +83,9 @@ function mt202Monta(pid,manter){const p=pautaById(pid);if(!p)return;const L=lent
   const nx=matProx(p.id);h+=matRel(p,nx);
   h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
-  if(vazio&&pushH())HST++}
+  if(vazio&&pushH())HST++
+  /* 19/11: a arte espera a foto (ver mt202Espera, no fim) */
+  try{mt202Espera()}catch(e){}}
 
 /* ===== Próxima / deslizar ===== */
 function matIr(pid){
@@ -263,3 +265,11 @@ function abrirPagCob(pid){
     if(p&&n&&/^O que vem/.test((n.querySelector("b")||{}).textContent||""))cm168VemNota(n,p)}catch(e){}}
   /* 183: fim, encerrada e o interruptor de avisos */
   {try{cb183Pinta(pid)}catch(e){}}}
+/* 19/11 (testador): matéria aberta por link antes de chegarem o detalhe do feed e as fotos de arquivo: a arte espera
+   num fundo neutro (sem a ilustração que depois pulava para a foto) e a foto entra no lugar assim que der (até 20 s) */
+function mt202Espera(){const ma=document.querySelector("#layer .mat-arte");if(!ma||ma.querySelector(".foto"))return;const pid=MAT_PID;
+  const cedo=()=>{try{return document.documentElement.classList.contains("ab141-sem-arq")||!!(typeof FL119!=="undefined"&&FL119.parcial)}catch(e){return false}};
+  if(cedo())ma.classList.add("mt202-esp");const t0=Date.now();
+  (function w(){const a=document.querySelector("#layer .mat-arte");if(!a||MAT_PID!==pid)return;
+    try{const p=pautaById(pid);const h=p&&capaArte(p,"art",true);if(h&&/class="[^"]*\bfoto\b/.test(h)){a.innerHTML=h;a.classList.remove("mt202-esp");return}}catch(e){}
+    if(Date.now()-t0>20000||(!cedo()&&Date.now()-t0>1500)){a.classList.remove("mt202-esp");return}setTimeout(w,400)})()}

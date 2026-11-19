@@ -47,3 +47,7 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
 .late.offl{display:flex;align-items:center;gap:10px}
 .late.offl>span{flex:1;min-width:0}
 .late.offl [data-retry]{flex:none;white-space:nowrap}
+/* 19/11 (testador): na 1ª visita por link, a matéria espera a foto de arquivo num fundo neutro em vez de mostrar a
+   ilustração e trocar 1 s depois (mt202Espera no 202 põe e tira a classe) */
+#layer .mat-arte.mt202-esp .art.paper:not(.foto){background:var(--chip)}
+#layer .mat-arte.mt202-esp .art.paper:not(.foto)>*{visibility:hidden}

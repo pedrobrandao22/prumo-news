@@ -64,7 +64,7 @@ def _arq(f):
     return _norm(fa_nome(f.get("url") if isinstance(f, dict) else "")).replace("_", " ")
 
 
-BLOQ = ["buzios - panoramio", "laboratorio de paleontologia", "bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bolsa de valores (17393276865)", "iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
+BLOQ = ["21449400719", "buzios - panoramio", "laboratorio de paleontologia", "bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bolsa de valores (17393276865)", "iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
         "plenario do senado (15717805622)", "plenario do senado (15687627386)", "plenario do senado (15109327665)", "vestibular.jpg",
         "ofrenda de la liga", "roda viva com senadora", "com bandeira do brasil", "conselheira tais ferraz", "arena corinthians opening",
         "allianz parque - reconhecimento facial", "tudo-o-que-voce-sempre-quis-saber", "vidpovid to be performing", "hibakujumoku",
@@ -74,7 +74,7 @@ BLOQ = ["buzios - panoramio", "laboratorio de paleontologia", "bolsa de valores 
         "carlo ancelotti 2016 icc",  # 16/11 noite (170)
         "200 anos do senado federal", "bosque campus universidade",
         "vista de goiania a partir da faculdade"]  # 17/11 noite (172): paisagem no Fies  # 17/11 (171): promulgação de 1988 como plenário; galhos no Fies
-HIST = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly)", re.I)
+HIST = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly|\b(?:PMDB|MDB|PSDB|PSOL|PDT|PSB)\b|\b(?:PT|PL|PP|PSD) (?:Nacional|na C[aâ]mara|no Senado)\b|Partido (?:dos|Liberal|Social|Progressista|Novo)|Uni[aã]o Brasil Nacional)", re.I)  # 19/11: também acervo de partido (foto distribuída por partido pesa contra a neutralidade)
 FORA = re.compile(r"(\bEUA\b|Estados Unidos|Miami|Nova York|Washington|Casa Branca|China|Shenzhen|Pequim|Apec|Asean|Filipinas|Manila|Turquia|\bCOP ?\d|Jap[aã]o|Singapura|Canad[aá]|Europa|Uni[aã]o Europeia|\bONU\b|\bG20\b|\bG7\b|Brics|[Vv]iagem|[Cc][uú]pula|exterior|Argentina|Venezuela|R[uú]ssia|Ucr[aâ]nia|Israel|Gaza|Ir[aã](?=$|[^A-Za-zÀ-ú])|Fran[cç]a|Alemanha|Reino Unido|Londres|Paris|[ÍI]ndia|Catar)")
 
 

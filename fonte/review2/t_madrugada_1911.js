@@ -35,6 +35,19 @@ const ev = (p, fn, a) => p.evaluate(fn, a);
   // aviso sem conexão
   const tn = await ev(A, () => { const d = document.createElement('div'); d.style.width = '360px'; d.innerHTML = `<div class="late gut offl"><span>Sem conexão. Mostrando a edição das 21h50.</span><button type="button" data-retry>Tentar de novo</button></div>`; document.body.appendChild(d); const bt = d.querySelector('[data-retry]'), h = bt.getBoundingClientRect().height, lh = parseFloat(getComputedStyle(bt).lineHeight) || 20; d.remove(); return { h, lh } });
   ok(tn.h < tn.lh * 1.8, '"Tentar de novo" numa linha só', tn);
+  // matéria aberta por link na 1ª visita: sem ilustração antes da foto de arquivo (o site de teste não tem o
+  // fotos-arquivo.json: aqui ele vem do repositório, 3 s atrasado)
+  const FA = require('path').join(__dirname, '..', '..', 'fotos-arquivo.json');
+  const ctx = async atraso => { const C = await b.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    await C.route(/fotos-arquivo\.json/, async r => { if (atraso) await sleep(atraso); r.fulfill({ path: FA, contentType: 'application/json' }) }); return C };
+  const C0 = await ctx(0), P0 = await C0.newPage(); await P0.goto(BASE); await esperar(P0, () => !!FOTOS_ARQ && document.querySelectorAll('.post').length > 0, null, 15000);
+  const mid = await P0.evaluate(() => { const p = FEED.pautas.find(p => { try { return !(p.imagem && p.imagem.url) && fotoDe(p) } catch (e) { return false } }); return p && p.id }); await C0.close();
+  if (mid) { const C = await ctx(3000); const P = await C.newPage(); U.erros(P, 'Link');
+    await P.goto(BASE + '#m=' + mid); await esperar(P, () => !!document.querySelector('#layer .mat-arte'), null, 15000);
+    const a1 = await P.evaluate(() => { const a = document.querySelector('#layer .mat-arte'), s = a.querySelector('.paper:not(.foto) svg'); return { foto: !!a.querySelector('.foto'), svgVis: s ? getComputedStyle(s).visibility : null, fn: typeof mt202Espera, cls: a.className, sem: document.documentElement.classList.contains('ab141-sem-arq'), parc: !!(typeof FL119 !== 'undefined' && FL119.parcial), mp: MAT_PID } });
+    ok(a1.foto || a1.svgVis === 'hidden', 'link na 1ª visita: a ilustração não aparece antes da foto de arquivo', a1);
+    ok(await esperar(P, () => !!document.querySelector('#layer .mat-arte .foto'), null, 12000), 'link na 1ª visita: a foto de arquivo entra na matéria aberta', await P.evaluate(() => document.querySelector('#layer .mat-arte').innerHTML.slice(0, 120)));
+    await C.close() } else console.log('  (sem notícia com foto de arquivo no feed de hoje)');
   ok(!A._erros.length, 'sem erros ' + A._erros.slice(0, 3).join(' | '));
   const R = U.resumo(); console.log(`\nRESUMO t_madrugada_1911: ${R.OKS} ok, ${R.FALHAS} falhas`);
   await b.close(); srv.kill(); process.exit(R.FALHAS ? 1 : 0) })().catch(e => { console.error(e); process.exit(2) });
