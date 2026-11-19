@@ -191,6 +191,32 @@ QUORUM = {("PEC", "camara"): (308, "3/5 dos deputados (308 votos)"), ("PEC", "se
           ("PLP", "camara"): (257, "maioria absoluta (257 votos)"), ("PLP", "senado"): (41, "maioria absoluta (41 votos)")}
 
 
+def etapa_de(desc):
+    """O que foi votado, dito pela própria descrição da votação (19/11, proposta aprovada pelo Pedro): o app mostra isto no
+    lugar de "1ª votação"/"2ª votação". Sem nada que sirva, None (o app usa a hora)."""
+    n = norm(desc)
+    if re.search(r"turno suplementar", n): return "Turno suplementar"
+    if re.search(r"texto[- ]base|ressalvad[oa]s? (os )?(destaques|emendas)|salvo (os )?destaques", n): return "Texto-base"
+    if re.search(r"\bsubstitutivo\b", n): return "Substitutivo"
+    if re.search(r"\bparecer\b", n): return "Parecer"
+    if re.search(r"\bredacao final\b", n): return "Redação final"
+    return None
+
+
+def _dia(q):
+    if not q: return None
+    return (q.astimezone(timezone(timedelta(hours=-3))) if q.tzinfo else q).date().isoformat()
+
+
+def poe_destaques(evs, dest):
+    """Destaques votados no mesmo dia e da mesma proposição: o app escreve "e mais N destaques" embaixo do placar."""
+    for ev in evs:
+        pl = ev.get("placar")
+        if not pl or not pl.get("proposicao"): continue
+        n = dest.get((pl["proposicao"], (pl.get("quando") or "")[:10]), 0)
+        if n: pl["destaques"] = n
+
+
 def placar_de(casa, ok, ident, cont, turno, quando, hora_exata, url, desc=""):
     """Placar pronto para o app (gráfico placar_votacao), só com números oficiais. Sem contagem (votação simbólica, ou
     a fonte não trouxe os votos): só o resultado, com modo "simbolica" ou "sem_placar"."""
@@ -215,7 +241,8 @@ def placar_de(casa, ok, ident, cont, turno, quando, hora_exata, url, desc=""):
     return {"forma": "placar_votacao", "casa": casa, "titulo": tit, "proposicao": ident, "turno": turno, "modo": modo,
             "sim": sim, "nao": nao, "abst": abst, "total": total, "cadeiras": tot, "minimo": minimo, "regra": regra,
             "resultado": "aprovado" if ok is True else "rejeitado" if ok is False else None,
-            "quando": iso(quando), "hora_exata": bool(hora_exata), "fonte": FONTE_CASA[casa], "url": url, "itens": itens}
+            "quando": iso(quando), "hora_exata": bool(hora_exata), "fonte": FONTE_CASA[casa], "url": url, "itens": itens,
+            "etapa": etapa_de(desc)}
 
 
 def resultado_de(valor, desc=""):
@@ -273,12 +300,17 @@ def camara_votacoes(ctx):
     q = urllib.parse.urlencode({"dataInicio": d0.isoformat(), "dataFim": d1.isoformat(), "ordem": "DESC",
                                 "ordenarPor": "dataHoraRegistro", "itens": 100})
     dados = kv(ctx.get("camara_votacoes", f"{CAM}/votacoes?{q}"), "dados") or []
-    evs, outras, detalhes = [], 0, 0
+    evs, outras, detalhes, dest = [], 0, 0, {}
     for v in dados:
         if str(kv(v, "siglaOrgao") or "").upper() != "PLEN": continue
         desc = str(kv(v, "descricao") or "")
         cls = classe(desc)
-        if cls in ("destaque", "requerimento"): outras += 1; continue
+        if cls in ("destaque", "requerimento"):
+            outras += 1
+            if cls == "destaque":
+                dq = _dia(data_hora(kv(v, "dataHoraRegistro", "data")))
+                for i in idents(desc) | idents(kv(v, "proposicaoObjeto")): dest[(i, dq)] = dest.get((i, dq), 0) + 1
+            continue
         vid = str(kv(v, "id") or "")
         quando = data_hora(kv(v, "dataHoraRegistro", "data"))
         ok = resultado_de(kv(v, "aprovacao"), desc)
@@ -309,6 +341,7 @@ def camara_votacoes(ctx):
             pl = placar_de("camara", ok, principal, cont, turno_de(desc), quando, bool(re.search(r"T\d\d:\d\d", str(kv(v, "dataHoraRegistro") or ""))), url, desc)
             if pl: ev["placar"] = pl
         evs.append(ev)
+    poe_destaques(evs, dest)
     return {"eventos": evs, "nota": f"{len(evs)} votações de mérito/urgência, {outras} de destaque ou requerimento"}
 
 
@@ -373,11 +406,17 @@ def senado_votacoes(ctx):
                 respondeu = True
             except Exception: pass
         if not respondeu: raise
-    evs, outras, sem_numeros = [], 0, 0
+    evs, outras, sem_numeros, dest = [], 0, 0, {}
     for r in regs:
         desc = str(kv(r, "descricaoVotacao") or "")
         cls = classe(desc)
-        if cls in ("destaque", "requerimento"): outras += 1; continue
+        if cls in ("destaque", "requerimento"):
+            outras += 1
+            if cls == "destaque":
+                i0 = ident_de(kv(r, "sigla", "siglaMateria"), kv(r, "numero", "numeroMateria"), kv(r, "ano", "anoMateria"))
+                dq = _dia(data_hora(kv(r, "dataHoraInicioVotacao", "dataHoraVotacao", "dataSessao")))
+                for i in ({i0} if i0 else set()) | idents(kv(r, "identificacao", "descricaoIdentificacaoMateria")) | idents(desc): dest[(i, dq)] = dest.get((i, dq), 0) + 1
+            continue
         i = ident_de(kv(r, "sigla", "siglaMateria"), kv(r, "numero", "numeroMateria"), kv(r, "ano", "anoMateria"))
         ids = ({i} if i else set()) | idents(kv(r, "identificacao", "descricaoIdentificacaoMateria")) | idents(desc)
         principal = i or (sorted(ids)[0] if ids else None)
@@ -402,6 +441,7 @@ def senado_votacoes(ctx):
             pl = placar_de("senado", ok, principal, cont, turno_de(desc), quando, exata is not None, ev["url"], desc)
             if pl: ev["placar"] = pl
         evs.append(ev)
+    poe_destaques(evs, dest)
     nota = f"{len(evs)} votações nominais (via {via}), {outras} de destaque ou requerimento"
     if sem_numeros: nota += f", {sem_numeros} sem os votos na API"
     return {"eventos": evs, "nota": nota}

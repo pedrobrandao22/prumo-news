@@ -9,7 +9,7 @@ let ST={sec:null,i:0,ordem:[]};
 function stPs(){return (ST.ids||[]).map(pautaById).filter(Boolean)}
 function openSecStory(sec){uso("story");const ps=pautasDa(sec);let i=ps.findIndex(p=>!SEEN.has(seenKey(p)));ST={sec,ids:ps.map(p=>p.id),i:i<0?0:i,ordem:secsStory().map(s=>s.id)};drawStory()}
 function storyActs(pid){const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid));
-  return `<button type="button" class="sact ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Gostei">${ICON.like}<span>${likes.length||"Gostei"}</span></button><button type="button" class="sact" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>${cm.length||""}</span></button><button type="button" class="sact" data-a="send" aria-label="Enviar">${ICON.send}</button><span class="sp"></span><button type="button" class="sact go" data-goto="${esc(pid)}">Ver no feed</button>`}
+  return `<button type="button" class="sact ${mine?"on":""}" data-a="like" aria-pressed="${mine}" aria-label="Curtir">${ICON.like}<span>${likes.length||"Curtir"}</span></button><button type="button" class="sact" data-a="cmt" aria-label="Comentar">${ICON.cmt}<span>${cm.length||""}</span></button><button type="button" class="sact" data-a="send" aria-label="Enviar">${ICON.send}</button><span class="sp"></span><button type="button" class="sact go" data-goto="${esc(pid)}">Ver no feed</button>`}
 
 function wireStorySwipe(el){if(!el)return;let x0=0,y0=0,on=false;
   const sb=el.querySelector(".s-body");if(sb){let sy=0,mv=false;sb.addEventListener("pointerdown",e=>{sy=(e.target.closest("p")||{}).scrollTop||0;mv=false},{passive:true});sb.addEventListener("pointermove",()=>{mv=true},{passive:true});

@@ -145,7 +145,7 @@ const SG181_TX={"Convidar amigo":"Convidar alguém","Nenhum amigo ainda":"Você 
   "Adicione amigos no Perfil para mandar.":"Siga pessoas para mandar.","Seus amigos no Prumo vão ver.":"Quem vê o seu perfil vai ver.",
   "Seus amigos no Prumo vão ver. Use @ para marcar alguém na legenda.":"Quem vê o seu perfil vai ver. Use @ para marcar alguém na legenda.",
   "Você ainda não tem amigos no Prumo.":"Você ainda não segue ninguém no Prumo.","Você ainda não tem amigos no Prumo":"Você ainda não segue ninguém no Prumo",
-  "Lidas por amigos":"Lidas por quem você segue","Amigos gostaram":"Quem você segue gostou","O que seus amigos acham":"O que dizem no Prumo",
+  "Lidas por amigos":"Lidas por quem você segue","Amigos curtiram":"Quem você segue curtiu","O que seus amigos acham":"O que dizem no Prumo",
   "Amigos nesta notícia":"Quem você segue nesta notícia","Nenhum amigo por aqui ainda":"Ninguém que você segue por aqui ainda",
   "Amigo no Prumo":"Você segue","Não são amigos agora":"Você não segue","Perfis abertos":"Pessoas","Descobrir perfis abertos":"Buscar pessoas",
   "Pessoas do Prumo que deixam qualquer membro seguir. Você vê o que elas publicam para seguidores.":"Siga pessoas do Prumo. Perfil fechado: a pessoa aprova o seu pedido.",

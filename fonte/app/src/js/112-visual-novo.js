@@ -109,7 +109,7 @@ function vn112Tiles(){const box=$("#secs");if(!box)return;box.classList.add("vn-
    e sem fios; ações em texto com ícone pequeno e número ("◇ 3 · Comentar 2 · Repostar"), Enviar e Guardar em ícone à direita.
    (Os cartões "atual", B e C e o ?cartao= saíram em 13/11.) */
 const VN112_CT="a"; /* cartão A (Jornal); B e C saíram em 13/11 */
-const VN112_ROT={like:"Gostei",cmt:"Comentar",send:"Enviar",save:"Guardar"};
+const VN112_ROT={like:"Curtir",cmt:"Comentar",send:"Enviar",save:"Guardar"};
 function vn112BtRp(k,id){return `<button type="button" class="act vn-rpb" data-vnrp="${esc(k+":"+id)}" aria-label="Repostar" aria-pressed="false">${VN112_IC.rp}<span>Repostar</span><em class="cnt" data-n="vnrp"></em></button>`}
 function vn112NRp(k,id){let n=0,eu=false;const us=[];pubVisiveis().forEach(x=>{const r=vn112Rp(x);if(r&&r.k===k&&r.id===id){n++;if(x.autor===S.uid)eu=true;if(!us.includes(x.autor))us.push(x.autor)}});return {n,eu,us}}
 function vn112MeuRp(k,id){return pubVisiveis().find(x=>{const r=vn112Rp(x);return x.autor===S.uid&&r&&r.k===k&&r.id===id&&!String(x.texto||"").trim()})||null}

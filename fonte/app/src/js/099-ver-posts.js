@@ -20,7 +20,7 @@ document.addEventListener("scroll",e=>{const t=e.target;if(!t||!t.classList||!t.
 /* ===== curtidas, comentários e "Na conversa" ===== */
 function vp99Social(pid){const el=document.getElementById("p-"+pid);if(!el)return;const up=vp99EhPost(pid);const {likes,cm}=socialOf(pid);
   const lk=el.querySelector("[data-likes]");
-  if(lk&&!lk.textContent.trim()&&S.uid&&likes.length===1&&likes[0]===S.uid){lk.innerHTML=up?`Curtido por <b>você</b>`:`<b>Você</b> gostou`;lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}
+  if(lk&&!lk.textContent.trim()&&S.uid&&likes.length===1&&likes[0]===S.uid){lk.innerHTML=up?`Curtido por <b>você</b>`:`<b>Você</b> curtiu`;lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}
   const nc=el.querySelector("[data-nchat]");
   if(nc&&typeof allMsgs==="function"){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto&&m.tipo!=="mencao");const u=ms[ms.length-1];
     nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}
