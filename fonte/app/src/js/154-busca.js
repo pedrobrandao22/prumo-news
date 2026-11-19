@@ -194,7 +194,9 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="pq")bu154AmgVa
     const q=String(n||"").trim(),tem=bx.querySelectorAll("ul.amgl li").length;h.classList.add("bu154-amgh");
     if(tem)h.textContent=`As sugestões com “${q}” estão abaixo. Fora delas, ninguém no Prumo com o nome exato “${q}”: para achar outra pessoa, digite o nome completo dela.`;
     else{bx.querySelector(".empty")?.remove();h.innerHTML=`Ninguém no Prumo com o nome exato “${esc(q)}”. Confira o nome completo (nome e sobrenome), como a pessoa se cadastrou, ou convide-a. <button type="button" class="btn ghost bu154-conv" data-convidar>Convidar alguém</button>`}}catch(e){}return r}}
-/* 19/11: ao fechar uma folha por cima da busca (ex.: seguir uma cobertura), os cartões da busca se redesenham com o
-   estado novo (antes o cartão continuava dizendo "Seguir" depois de seguir) */
+/* 19/11: ao fechar uma folha por cima da busca (ex.: seguir uma cobertura), os botões Seguir dos cartões de cobertura
+   mostram o estado novo (antes continuavam dizendo "Seguir" depois de seguir); só os botões, sem redesenhar a busca */
+function bu154SegAtualiza(){try{document.querySelectorAll("#bvres [data-bu154seg]").forEach(b=>{const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!!seguido(p);b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"});
+  document.querySelectorAll("#bvres [data-bu154dseg]").forEach(b=>{const d=(FEED.dormentes||[]).find(x=>x&&x.id===b.dataset.bu154dseg);if(!d)return;const on=!!(PREF.seguindo||{})[norm(d.tema||d.tag)];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"})}catch(e){}}
 (function(){let ab=false;const vig=()=>{const L=document.getElementById("layer");if(!L)return setTimeout(vig,500);
-  new MutationObserver(()=>{const tem=!!L.innerHTML;if(ab&&!tem&&typeof VIEW!=="undefined"&&VIEW==="busca"){const i=$("#bvq");if(i&&i.value.trim().length>=2){const y=scrollY;i.dispatchEvent(new Event("input",{bubbles:true}));window.scrollTo(0,y)}}ab=tem}).observe(L,{childList:true})};vig()})();
+  new MutationObserver(()=>{const tem=!!L.innerHTML;if(ab&&!tem&&typeof VIEW!=="undefined"&&VIEW==="busca")bu154SegAtualiza();ab=tem}).observe(L,{childList:true})};vig()})();

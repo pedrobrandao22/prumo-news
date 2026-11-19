@@ -53,8 +53,9 @@ function dmFotoDe(m){const p=m.pid&&pautaById(m.pid);const f=p&&fotoDe(p);return
 /* cartão de notícia ou de publicação mandada na conversa */
 function dmCard(m){let h;
   if(!dmEhPub(m)){/* 065: notícia */
-    const s=m.snap||{},p=m.pid&&pautaById(m.pid),tit=(p&&versao(p,lente()).titulo)||s.titulo||"Notícia",sec=(p&&secOf(p))||s.secao||"politica",f=dmFotoDe(m);
-    h=`<button type="button" class="dm-card" data-open="${esc(m.pid)}"><span class="dm-cf paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(s.imagem||(p&&p.imagem))}</span><span class="dm-ct"><small style="color:${secCor(sec)}">${esc(secNome(sec))}</small><b>${esc(tit)}</b></span></button>`;
+    /* 19/11: o cartão mostra o título de quando foi enviado; se a matéria mudou depois, avisa em uma linha */
+    const s=m.snap||{},p=m.pid&&pautaById(m.pid),tAt=p&&versao(p,lente()).titulo,tit=s.titulo||tAt||"Notícia",mud=!!(s.titulo&&tAt&&s.titulo!==tAt),sec=(p&&secOf(p))||s.secao||"politica",f=dmFotoDe(m);
+    h=`<button type="button" class="dm-card" data-open="${esc(m.pid)}"><span class="dm-cf paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(s.imagem||(p&&p.imagem))}</span><span class="dm-ct"><small style="color:${secCor(sec)}">${esc(secNome(sec))}</small><b>${esc(tit)}</b>${mud?`<em class="dm-cmud">Atualizada depois · toque para ver a versão de agora</em>`:""}</span></button>`;
     /* 160: a mesma editoria da Capa */
     try{if(typeof h==="string"){const p=m&&m.pid&&pautaById(m.pid);if(p){
       const ch=capaChapeu(p),sec=secOf(p);if(ch)h=h.replace(new RegExp("(<span class=\"dm-ct\"><small[^>]*>)"+esc(secNome(sec)).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"</small>"),"$1"+esc(ch)+"</small>")}}}catch(e){}

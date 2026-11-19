@@ -71,7 +71,7 @@ const busca = async (p, q) => { await p.fill('#bvq', q); await sleep(350) };
   ok(await ev(V, s => $('#bvq').value === s && !document.querySelector('#bvres .bu154-nada'), sug), 'tocar numa sugestão busca por ela');
   await busca(V, 'Caso Mastr');
   ok(await ev(V, () => /Mostrando resultados para “caso master”/i.test(document.querySelector('#bvres').textContent) && !!document.querySelector('#bvres [data-busca="caso-master"]')), 'erro de digitação ("Caso Mastr"): mostra o resultado da palavra mais parecida');
-  ok(await ev(V, () => $('#bvq').placeholder === 'Buscar notícia ou assunto'), 'sem conta, o campo não promete achar nomes');
+  ok(await ev(V, () => /^Buscar notícia/.test($('#bvq').placeholder) && !/nome/.test($('#bvq').placeholder)), 'sem conta, o campo não promete achar nomes (19/11: texto curto em tela estreita)');
 
   // 7. Assuntos desta edição
   await busca(V, '');
@@ -96,7 +96,7 @@ const busca = async (p, q) => { await p.fill('#bvq', q); await sleep(350) };
   await sleep(400);
   await busca(A, 'claude');
   ok(await ev(A, () => { const p = document.querySelector('#bvres .bu154-pe [data-bu154pf]'); return !!p && p.dataset.bu154pf === S.uid && /Claude Teste/.test(p.textContent) && /Você/.test(p.textContent) }), '"claude": acha a pessoa (a própria conta) em "Pessoas"');
-  ok(await ev(A, () => $('#bvq').placeholder === 'Buscar notícia, nome ou assunto'), 'com conta, o campo promete nomes');
+  ok(await ev(A, () => /^Buscar notícia/.test($('#bvq').placeholder) && /nome/.test($('#bvq').placeholder)), 'com conta, o campo promete nomes (19/11: texto curto em tela estreita)');
   await busca(A, 'zebrapost');
   ok(await ev(A, () => !!document.querySelector('#bvres .bu154-po [data-bu154post="tpost1"]') && !/Nada encontrado/.test(document.querySelector('#bvres').textContent)), 'acha o post pelo texto');
   await clk(A, '#bvres [data-bu154post="tpost1"]'); await sleep(500);

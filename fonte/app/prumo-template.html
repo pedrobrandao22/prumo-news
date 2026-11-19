@@ -6203,6 +6203,7 @@ body:not(:has(#layer > *))::after{content:"";position:fixed;left:0;right:0;botto
   html.fs2 .fs2-cap{top:0!important;padding-block:2px}
   html.fs2 .fs2-cap-k{display:none}
 }
+.dm-cmud{display:block;margin-top:3px;font:italic 500 12px var(--f-ui);color:var(--muted)}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -8001,8 +8002,9 @@ function proximaRodadaTxt(){const m=minAgoraSP(),cand=[];for(let h=9;h<=21;h+=2)
 /* registro das rodadas: o leitor vê o que mudou; números da checagem e bastidores (ids, buscas, "acionada por") só para o administrador */
 function rodadaDetalhe(x){const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.uid]&&S.membros[S.uid].papel==="admin");
   if(adm)return `${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}`;
-  const nota=String(x.nota||"").replace(/\bPautas\b/g,"Notícias").replace(/\bpautas\b/g,"notícias").replace(/\bPauta\b/g,"Notícia").replace(/\bpauta\b/g,"notícia").replace(/([.;])\s+/g,"$1\n").split("\n").filter(f=>f&&!/acionad[ao] por|\bbuscas?\b|\bpauta|\brodada|\baviso|\berros?\b|github|acionaram|para conferir|\bIA\b|conferente|não (foi )?(atualizad|alterad|conferid)|[a-z0-9]+-[a-z0-9]+-[a-z0-9-]+/i.test(f)).join(" ").replace(/[;,]\s*$/,"");
-  return esc(nota||(x.status==="sem_mudancas"?"Nada mudou desde a anterior.":"Notícias revisadas."))}
+  /* 19/11 (testador): para o leitor, uma linha simples por rodada; a nota da redação (bastidor) fica só para o administrador */
+  const n=+x.mudancas||0;
+  return esc(x.status==="sem_mudancas"?"Nada mudou desde a anterior.":n>0?(n===1?"1 notícia atualizada.":n+" notícias atualizadas."):"Notícias revisadas.")}
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
   sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Edição completa":x.tipo==="virada"?"Virada do dia":"Atualização"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"não saiu"}</b><span class="hint">${rodadaDetalhe(x)}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
@@ -8379,7 +8381,7 @@ function bvCancelar(){const i=$("#bvq");if(i){i.value="";try{i.blur()}catch(e){}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bvcancel]");if(b){e.preventDefault();e.stopPropagation();bvCancelar()}},true);
 function renderBuscaView(){const v=$("#v-busca");if(!v)return;const q0=$("#bvq")?.value||"";
   v.innerHTML=`<div class="gut"><form class="bv-f" onsubmit="return false"><input class="field" id="bvq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Buscar notícia, nome ou assunto" aria-label="Buscar" value="${esc(q0)}"><button type="button" class="bv-x" data-bvcancel>Cancelar</button></form><div id="bvres"></div></div>`;
-  const inp=$("#bvq");try{if(innerWidth<400)inp.placeholder="Buscar notícias"}catch(e){}const run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
+  const inp=$("#bvq");try{if(innerWidth<400)inp.placeholder="Buscar notícia ou nome"}catch(e){}const run=()=>{const q=inp.value.trim();$("#bvres").innerHTML=q.length<2?buscaTemas():buscaRes(q)};inp.addEventListener("input",run);run()}
 /* menu, aba inicial e eventos */
 (function(){
   let teste=false;try{teste=localStorage.getItem("prumo-teste-capa")==="1"}catch(e){}
@@ -9565,8 +9567,9 @@ function dmFotoDe(m){const p=m.pid&&pautaById(m.pid);const f=p&&fotoDe(p);return
 /* cartão de notícia ou de publicação mandada na conversa */
 function dmCard(m){let h;
   if(!dmEhPub(m)){/* 065: notícia */
-    const s=m.snap||{},p=m.pid&&pautaById(m.pid),tit=(p&&versao(p,lente()).titulo)||s.titulo||"Notícia",sec=(p&&secOf(p))||s.secao||"politica",f=dmFotoDe(m);
-    h=`<button type="button" class="dm-card" data-open="${esc(m.pid)}"><span class="dm-cf paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(s.imagem||(p&&p.imagem))}</span><span class="dm-ct"><small style="color:${secCor(sec)}">${esc(secNome(sec))}</small><b>${esc(tit)}</b></span></button>`;
+    /* 19/11: o cartão mostra o título de quando foi enviado; se a matéria mudou depois, avisa em uma linha */
+    const s=m.snap||{},p=m.pid&&pautaById(m.pid),tAt=p&&versao(p,lente()).titulo,tit=s.titulo||tAt||"Notícia",mud=!!(s.titulo&&tAt&&s.titulo!==tAt),sec=(p&&secOf(p))||s.secao||"politica",f=dmFotoDe(m);
+    h=`<button type="button" class="dm-card" data-open="${esc(m.pid)}"><span class="dm-cf paper" data-sec="${esc(sec)}">${f?`<img src="${escU(fotoSrc(f.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:svgOf(s.imagem||(p&&p.imagem))}</span><span class="dm-ct"><small style="color:${secCor(sec)}">${esc(secNome(sec))}</small><b>${esc(tit)}</b>${mud?`<em class="dm-cmud">Atualizada depois · toque para ver a versão de agora</em>`:""}</span></button>`;
     /* 160: a mesma editoria da Capa */
     try{if(typeof h==="string"){const p=m&&m.pid&&pautaById(m.pid);if(p){
       const ch=capaChapeu(p),sec=secOf(p);if(ch)h=h.replace(new RegExp("(<span class=\"dm-ct\"><small[^>]*>)"+esc(secNome(sec)).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"</small>"),"$1"+esc(ch)+"</small>")}}}catch(e){}
@@ -9827,8 +9830,16 @@ async function pubAssinar(){const now=Date.now(),falta=[];pubVisiveis().forEach(
   try{const r=await SB.storage.from("fotos").createSignedUrls(falta,6*3600);(r.data||[]).forEach(d=>{if(d&&d.signedUrl)PUB.urls[d.path]={u:d.signedUrl,exp:now+6*3600e3}})}catch(e){}}
 const pubUrl=p=>(PUB.urls[p]||{}).u||"";
 async function pubLimparMeus(){const now=Date.now();const velhos=PUB.itens.filter(x=>x.autor===S.uid&&x.tipo==="story"&&(x.expira||0)<now);for(const x of velhos)await pubApagar(x.id,true)}
-async function pubApagar(id,quieto){const x=pubDe(id);if(!x||x.autor!==S.uid)return false;try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)throw r.error;if(x.fotos.length)try{await SB.storage.from("fotos").remove(x.fotos)}catch(e){}
-    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(!quieto)toast("Não deu para apagar agora.");return false}}
+/* 19/11 (testador): apagar o próprio post some na hora e dá "Desfazer" por 6 s; só então apaga de verdade no banco */
+var PUB_APAG={};
+function pubApagaJa(id){const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];pubApagar(id,true,j.x)}
+window.addEventListener("pagehide",()=>{Object.keys(PUB_APAG).forEach(pubApagaJa)});
+async function pubApagar(id,quieto,xx){if(!quieto&&!xx){const x=pubDe(id);if(!x||x.autor!==S.uid)return false;
+    PUB.itens=PUB.itens.filter(y=>y.id!==id);pubRedesenha();const nome=x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado";
+    PUB_APAG[id]={x,t:setTimeout(()=>pubApagaJa(id),6000)};
+    toast(nome,"Desfazer",()=>{const j=PUB_APAG[id];if(!j)return;clearTimeout(j.t);delete PUB_APAG[id];if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(j.x);pubRedesenha()});return true}
+  const x=xx||pubDe(id);if(!x||x.autor!==S.uid)return false;try{const r=await SB.from("publicacoes").delete().eq("id",id);if(r&&r.error)throw r.error;if(x.fotos.length)try{await SB.storage.from("fotos").remove(x.fotos)}catch(e){}
+    PUB.itens=PUB.itens.filter(y=>y.id!==id);if(!quieto){pubRedesenha();toast(x.tipo==="story"?"Giro apagado":x.estilo&&x.estilo.reel?"Reel apagado":"Post apagado")}return true}catch(e){if(xx){if(!PUB.itens.some(y=>y.id===id))PUB.itens.push(xx);pubRedesenha();toast("Não deu para apagar agora. O post voltou.")}else if(!quieto)toast("Não deu para apagar agora.");return false}}
 let PUB_T=0,PUB_FEED_PEND=false;function pubRedesenha(){clearTimeout(PUB_T);PUB_T=setTimeout(()=>{try{renderSecs();if(VIEW==="feed"&&!$("#layer").innerHTML&&scrollY<300){PUB_FEED_PEND=false;renderPosts(true)}else PUB_FEED_PEND=true}catch(e){}},30)}
 addEventListener("scroll",()=>{if(PUB_FEED_PEND&&VIEW==="feed"&&scrollY<300&&!$("#layer").innerHTML){PUB_FEED_PEND=false;setTimeout(()=>{try{renderPosts(true)}catch(e){}},200)}},{passive:true});
 (function(){let uid=null;setInterval(()=>{if(S.uid&&S.membro&&SB&&uid!==S.uid){uid=S.uid;PUB.itens=[];pubCarregar();pubOuvir()}if(!S.uid&&uid){uid=null;PUB.itens=[];PUB.on=null}},1500);
@@ -17925,10 +17936,12 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="pq")bu154AmgVa
     const q=String(n||"").trim(),tem=bx.querySelectorAll("ul.amgl li").length;h.classList.add("bu154-amgh");
     if(tem)h.textContent=`As sugestões com “${q}” estão abaixo. Fora delas, ninguém no Prumo com o nome exato “${q}”: para achar outra pessoa, digite o nome completo dela.`;
     else{bx.querySelector(".empty")?.remove();h.innerHTML=`Ninguém no Prumo com o nome exato “${esc(q)}”. Confira o nome completo (nome e sobrenome), como a pessoa se cadastrou, ou convide-a. <button type="button" class="btn ghost bu154-conv" data-convidar>Convidar alguém</button>`}}catch(e){}return r}}
-/* 19/11: ao fechar uma folha por cima da busca (ex.: seguir uma cobertura), os cartões da busca se redesenham com o
-   estado novo (antes o cartão continuava dizendo "Seguir" depois de seguir) */
+/* 19/11: ao fechar uma folha por cima da busca (ex.: seguir uma cobertura), os botões Seguir dos cartões de cobertura
+   mostram o estado novo (antes continuavam dizendo "Seguir" depois de seguir); só os botões, sem redesenhar a busca */
+function bu154SegAtualiza(){try{document.querySelectorAll("#bvres [data-bu154seg]").forEach(b=>{const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!!seguido(p);b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"});
+  document.querySelectorAll("#bvres [data-bu154dseg]").forEach(b=>{const d=(FEED.dormentes||[]).find(x=>x&&x.id===b.dataset.bu154dseg);if(!d)return;const on=!!(PREF.seguindo||{})[norm(d.tema||d.tag)];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"})}catch(e){}}
 (function(){let ab=false;const vig=()=>{const L=document.getElementById("layer");if(!L)return setTimeout(vig,500);
-  new MutationObserver(()=>{const tem=!!L.innerHTML;if(ab&&!tem&&typeof VIEW!=="undefined"&&VIEW==="busca"){const i=$("#bvq");if(i&&i.value.trim().length>=2){const y=scrollY;i.dispatchEvent(new Event("input",{bubbles:true}));window.scrollTo(0,y)}}ab=tem}).observe(L,{childList:true})};vig()})();
+  new MutationObserver(()=>{const tem=!!L.innerHTML;if(ab&&!tem&&typeof VIEW!=="undefined"&&VIEW==="busca")bu154SegAtualiza();ab=tem}).observe(L,{childList:true})};vig()})();
 /* ---------- 155: criar, achados do testador (15/11) ----------
    1. Um caminho só: a barra do Feed ("+" e "Comente uma notícia…") abre a caixa; "O que você acha? <manchete>" e
       "Publicar com comentário" abrem o formulário da notícia já escolhida, sem a faixa de tipos, e "voltar" leva à caixa.
@@ -21530,12 +21543,18 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   if(b=t.closest("[data-col207cont]")){e.preventDefault();e.stopPropagation();col207Continuar(b.dataset.col207cont)}},true);
 
 /* ===== até onde leu ===== */
-function col207ProgLe(){try{const o=JSON.parse(localStorage.getItem(COL207_PROG)||"{}");return o&&typeof o==="object"&&!Array.isArray(o)?o:{}}catch(e){return {}}}
+function col207ProgLe(){let o={};try{const x=JSON.parse(localStorage.getItem(COL207_PROG)||"{}");if(x&&typeof x==="object"&&!Array.isArray(x))o=x}catch(e){}
+  /* 19/11: o ponto de leitura das colunas guardadas também vai na conta (junto com o guardado): vale em outro aparelho */
+  try{Object.entries(S.salvos||{}).forEach(([k,v])=>{const pr=v&&v.prog;if(!pr||!(+pr.at>0))return;const id=String(k).replace(/^u:/,"");if(!o[id]||(+o[id].at||0)<+pr.at)o[id]=pr})}catch(e){}
+  return o}
+var COL207_CONTA={};
+function col207NaConta(id,pr){try{if(!S.uid||!S.db)return;const k=String(id).startsWith("u:")?String(id):"u:"+id,v=S.salvos&&S.salvos[k];if(!v)return;const ag=Date.now();if(ag-(COL207_CONTA[id]||0)<15000)return;COL207_CONTA[id]=ag;
+  const nv={...v,prog:pr};S.salvos[k]=nv;gravarMapa(`data/users/${S.uid}/salvos`,"itens",k,nv).catch(()=>{})}catch(e){}}
 let COL207_PEND=null,COL207_TM=0;
 /* f = onde parou (0 a 1), m = até onde chegou; o começo (0) não apaga o lugar guardado */
 function col207Marca(id,fr){if(!id||!(fr>=0.01))return;COL207_PEND={id:String(id),fr:Math.min(1,fr)};clearTimeout(COL207_TM);COL207_TM=setTimeout(col207Grava,700)}
 function col207Grava(){const p=COL207_PEND;COL207_PEND=null;if(!p)return;try{const o=col207ProgLe(),v=o[p.id]||{};o[p.id]={f:+p.fr.toFixed(3),m:+Math.max(+v.m||0,p.fr).toFixed(3),at:Date.now()};
-  const ks=Object.keys(o);if(ks.length>300)ks.sort((a,b)=>(o[a].at||0)-(o[b].at||0)).slice(0,ks.length-300).forEach(k=>delete o[k]);localStorage.setItem(COL207_PROG,JSON.stringify(o))}catch(e){}}
+  const ks=Object.keys(o);if(ks.length>300)ks.sort((a,b)=>(o[a].at||0)-(o[b].at||0)).slice(0,ks.length-300).forEach(k=>delete o[k]);localStorage.setItem(COL207_PROG,JSON.stringify(o));col207NaConta(p.id,o[p.id])}catch(e){}}
 window.addEventListener("pagehide",()=>{try{col207Grava()}catch(e){}});
 function col207Continuar(id){const p=col207ProgLe()[id];cs123Abrir(id);if(!p||!(p.f>0))return;let n=0;
   const t=setInterval(()=>{const sc=document.querySelector("#layer .cs123-ler .cs123-sc");if(sc&&sc.querySelector(".cs123-corpo")&&sc.scrollHeight>sc.clientHeight+40){clearInterval(t);sc.scrollTop=Math.round(p.f*(sc.scrollHeight-sc.clientHeight))}else if(++n>60)clearInterval(t)},80)}
