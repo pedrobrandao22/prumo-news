@@ -1,19 +1,19 @@
 {
- "gerado": "2026-11-19T13:22-03:00",
+ "gerado": "2026-11-19T13:32-03:00",
  "desde": "2026-11-19T11:39-03:00",
  "feed_atualizado_em": "2026-11-19T11:49:00-03:00",
  "resumo": {
-  "manchetes": 242,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 198,
+  "manchetes": 247,
+  "assuntos_novos_relevantes": 0,
+  "assuntos_novos": 200,
   "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 2,
   "pautas_com_relatos": 7,
-  "acionar_itens": 2,
+  "acionar_itens": 1,
   "ja_avaliados": 3
  },
  "acionar": true,
- "acionar_motivo": "pauta decreto-6x1-adiado: 4 veículos em 90 min depois da última atualização; assunto novo: 3 veículos em 90 min (economia)",
+ "acionar_motivo": "pauta decreto-6x1-adiado: 4 veículos em 90 min depois da última atualização",
  "acionar_itens": [
   {
    "tipo": "pauta",
@@ -22,25 +22,6 @@
    "n_fontes": 6,
    "motivo": "pauta decreto-6x1-adiado: 4 veículos em 90 min depois da última atualização",
    "acao": "atualiza: decreto-6x1-adiado"
-  },
-  {
-   "tipo": "novo",
-   "titulo": "BNDES tem lucro líquido de R$ 4,27 bi no 3º trimestre",
-   "secao": "economia",
-   "n_fontes": 3,
-   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
-   "chave": [
-    "acoes",
-    "alta",
-    "bndes",
-    "liquido",
-    "lucro",
-    "petrobras",
-    "puxado",
-    "trimestre",
-    "venda"
-   ],
-   "acao": "nova"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
@@ -48,14 +29,13 @@
   {
    "assunto": "BNDES tem lucro líquido de R$ 4,27 bi no 3º trimestre",
    "secao": "economia",
-   "n_fontes": 3,
+   "n_fontes": 2,
    "fontes": [
     "cnn",
-    "folha",
-    "p360"
+    "folha"
    ],
    "ja_e_breve": false,
-   "relevante": true,
+   "relevante": false,
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
@@ -64,19 +44,13 @@
      "hora": "19/11 12h33"
     },
     {
-     "veiculo": "Poder360",
-     "titulo": "BNDES tem lucro líquido de R$ 20,3 bi até setembro, alta de 18%",
-     "url": "https://www.poder360.com.br/poder-economia/bndes-tem-lucro-liquido-de-r-203-bi-ate-setembro-alta-de-18/",
-     "hora": "19/11 12h27"
-    },
-    {
      "veiculo": "Folha Mercado",
      "titulo": "BNDES tem lucro de R$ 20,3 bi até setembro, puxado por venda de ações da Petrobras",
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/bndes-tem-lucro-de-r-203-bi-ate-setembro-puxado-por-venda-de-acoes-da-petrobras.shtml",
      "hora": "19/11 11h41"
     }
    ],
-   "n_fontes_90min": 3
+   "n_fontes_90min": 2
   },
   {
    "assunto": "Compliance Zero: Fachin mantém prisão de Felipe Vorcaro, primo do ex-dono do Master",
@@ -163,6 +137,32 @@
    "n_fontes_90min": 2
   },
   {
+   "assunto": "Lula sobre fim da 6×1: MPT, MTE e Justiça têm estar preparados para a ‘confusão’",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "im",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Lula sobre fim da 6×1: MPT, MTE e Justiça têm estar preparados para a ‘confusão’",
+     "url": "https://www.infomoney.com.br/politica/lula-sobre-fim-da-6x1-mpt-mte-e-justica-tem-estar-preparados-para-a-confusao/",
+     "hora": "19/11 13h25"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Haverá confusão na regulamentação da 6 X 1, diz Lula",
+     "url": "https://www.poder360.com.br/poder-governo/havera-confusao-na-regulamentacao-da-6-x-1-diz-lula/",
+     "hora": "19/11 12h33"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
    "assunto": "Suspeito de matar o namorado da ex-companheira no Maranhão é preso no Ceará",
    "secao": "esportes",
    "n_fontes": 2,
@@ -195,23 +195,30 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "\"Reiniciação\" celular: mulher com 3 doenças autoimunes entra em remissão",
-   "secao": null,
-   "n_fontes": 1,
+   "assunto": "“Quem deseja controle fiscal sou eu, não o mercado”, diz Lula",
+   "secao": "economia",
+   "n_fontes": 2,
    "fontes": [
-    "met"
+    "ab",
+    "p360"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "\"Reiniciação\" celular: mulher com 3 doenças autoimunes entra em remissão",
-     "url": "https://www.metropoles.com/saude/reiniciacao-celular-mulher-com-3-doencas-autoimunes-entra-em-remissao",
-     "hora": "19/11 12h29"
+     "veiculo": "Poder360",
+     "titulo": "“Quem deseja controle fiscal sou eu, não o mercado”, diz Lula",
+     "url": "https://www.poder360.com.br/poder-governo/quem-deseja-controle-fiscal-sou-eu-nao-o-mercado-diz-lula/",
+     "hora": "19/11 13h23"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Lula promete manter direitos e diz que controle fiscal é prioridade",
+     "url": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/lula-promete-manter-direitos-e-diz-que-controle-fiscal-e-prioridade",
+     "hora": "19/11 12h30"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 2
   },
   {
    "assunto": "'Coelhão' é perseguido e morto a tiros em frente a padaria em Santos",
@@ -247,6 +254,25 @@
      "titulo": "'Jogos Vorazes: Amanhecer na Colheita' e mais três filmes estreiam nos cinemas de Boa Vista",
      "url": "https://g1.globo.com/rr/roraima/noticia/2026/11/19/jogos-vorazes-amanhecer-na-colheita-e-mais-tres-filmes-estreiam-nos-cinemas-de-boa-vista.ghtml",
      "hora": "19/11 12h07"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "113 Sul: STJ nega recurso e mantém anulação do júri de Adriana Villela",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "113 Sul: STJ nega recurso e mantém anulação do júri de Adriana Villela",
+     "url": "https://www.metropoles.com/colunas/grande-angular/113-sul-stj-nega-recurso-e-mantem-anulacao-do-juri-de-adriana-villela",
+     "hora": "19/11 13h22"
     }
    ],
    "n_fontes_90min": 1
@@ -404,6 +430,31 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Ana Paula conquista ouro na estreia da paraesgrima nas Paralimpíadas Escolares",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Ana Paula conquista ouro na estreia da paraesgrima nas Paralimpíadas Escolares",
+     "url": "https://ge.globo.com/ap/noticia/2026/11/19/ana-paula-conquista-ouro-na-estreia-da-paraesgrima-nas-paralimpiadas-escolares.ghtml",
+     "hora": "19/11 13h24"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Roraima conquista três medalhas na abertura das Paralimpíadas Escolares",
+     "url": "https://ge.globo.com/rr/noticia/2026/11/19/roraima-conquista-tres-medalhas-na-abertura-das-paralimpiadas-escolares.ghtml",
+     "hora": "19/11 12h24"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Antes de ser preso por feminicídio, homem chamou ambulância para simular 'morte natural' da esposa na BA; veja cronologia",
    "secao": null,
    "n_fontes": 1,
@@ -449,25 +500,6 @@
      "titulo": "Antes e depois: veja estragos após explosão de caldeira na fábrica da Klabin que deixou 11 feridos em SC",
      "url": "https://g1.globo.com/sc/santa-catarina/noticia/2026/11/19/antes-depois-explosao-caldeira-fabrica-klabin-otacilio-costa.ghtml",
      "hora": "19/11 12h41"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Após Nikolas ameaçar deixar o PL, Novo diz que \"portas estão abertas\"",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Após Nikolas ameaçar deixar o PL, Novo diz que \"portas estão abertas\"",
-     "url": "https://www.metropoles.com/minas-gerais/apos-nikolas-ameacar-deixar-o-pl-novo-diz-que-portas-estao-abertas",
-     "hora": "19/11 12h27"
     }
    ],
    "n_fontes_90min": 1
@@ -672,44 +704,6 @@
     }
    ],
    "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - globoesporte.com",
-     "url": "https://ge.globo.com/go/futebol/brasileirao-serie-b/jogo/22-11-2026/atletico-go-vila-nova.ghtml",
-     "hora": "19/11 12h58"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "BC vende US$ 1 bilhão em leilão à vista para conter alta do dólar",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "BC vende US$ 1 bilhão em leilão à vista para conter alta do dólar",
-     "url": "https://www.poder360.com.br/poder-economia/bc-vende-us-1-bilhao-em-leilao-a-vista-para-conter-alta-do-dolar/",
-     "hora": "19/11 12h43"
-    }
-   ],
-   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
@@ -719,7 +713,7 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Anthropic: fortunas de fundadores disparam e somam R$ 817,5 bilhões após estreia na bolsa; veja ranking",
+     "titulo": "Anthropic: fortunas de fundadores disparam e somam R$ 817,5 bilhões com estreia na bolsa; veja ranking",
      "url": "https://g1.globo.com/economia/noticia/2026/11/19/anthropic-fortunas-de-fundadores-disparam-apos-estreia-na-bolsa-veja-ranking.ghtml",
      "hora": "19/11 13h02"
     },
@@ -796,6 +790,12 @@
      "hora": "19/11 12h13"
     },
     {
+     "veiculo": "Poder360",
+     "titulo": "Mercado vê Selic em 15%; juros futuros sobem cerca de 30 pontos-base",
+     "url": "https://www.poder360.com.br/poder-economia/mercado-ve-selic-em-15-juros-futuros-sobem-cerca-de-30-pontos-base/",
+     "hora": "19/11 13h30"
+    },
+    {
      "veiculo": "CNN Brasil",
      "titulo": "Juros futuros sobem com dólar e exterior, após aprovação do ajuste fiscal",
      "url": "https://www.cnnbrasil.com.br/economia/money/mercado/juros-futuros-sobem-com-dolar-e-exterior-apos-aprovacao-do-ajuste-fiscal/",
@@ -850,7 +850,7 @@
    "ultima": "19/11 13h00",
    "ultima_iso": "2026-11-19T13:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.5,
+   "horas_sem_atualizar": 6.7,
    "principal": true,
    "manchetes": [
     {
@@ -901,7 +901,7 @@
    "ultima": "19/11 11h11",
    "ultima_iso": "2026-11-19T11:11-03:00",
    "pauta_atualizada_em": "2026-11-17T06:52-03:00",
-   "horas_sem_atualizar": 54.5,
+   "horas_sem_atualizar": 54.7,
    "principal": false,
    "manchetes": [
     {
@@ -913,10 +913,9 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 7,
-   "n_fontes": 4,
+   "n": 6,
+   "n_fontes": 3,
    "fontes": [
-    "agsenado",
     "cnn",
     "folha",
     "im"
@@ -925,7 +924,7 @@
    "ultima": "19/11 13h12",
    "ultima_iso": "2026-11-19T13:12-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.5,
+   "horas_sem_atualizar": 6.7,
    "principal": true,
    "manchetes": [
     {
@@ -976,7 +975,7 @@
    "ultima": "19/11 09h39",
    "ultima_iso": "2026-11-19T09:39-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.5,
+   "horas_sem_atualizar": 6.7,
    "principal": true,
    "manchetes": [
     {
@@ -999,7 +998,7 @@
    "ultima": "19/11 12h51",
    "ultima_iso": "2026-11-19T12:51-03:00",
    "pauta_atualizada_em": "2026-11-19T06:21-03:00",
-   "horas_sem_atualizar": 7.0,
+   "horas_sem_atualizar": 7.2,
    "principal": true,
    "manchetes": [
     {
@@ -1046,7 +1045,7 @@
    "ultima": "19/11 09h59",
    "ultima_iso": "2026-11-19T09:59-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.5,
+   "horas_sem_atualizar": 6.7,
    "principal": true,
    "manchetes": [
     {
@@ -1079,7 +1078,7 @@
    "ultima": "19/11 12h00",
    "ultima_iso": "2026-11-19T12:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 6.5,
+   "horas_sem_atualizar": 6.7,
    "principal": false,
    "manchetes": [
     {
@@ -1114,7 +1113,7 @@
    "veiculo": "Agência Câmara",
    "titulo": "Comissão aprova porte de arma para agentes socioeducativos e oficiais de Justiça",
    "materia": "https://www.camara.leg.br/noticias/1320975-comissao-aprova-porte-de-arma-para-agentes-socioeducativos-e-oficiais-de-justica",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260505174852771-1-768x473.jpg",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20260310203030979-768x474.jpg",
    "credito": "Foto: Agência Câmara",
    "hora": "19/11 11h24",
    "pid_sugerido": null
@@ -1411,8 +1410,8 @@
   "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 27 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 28 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
