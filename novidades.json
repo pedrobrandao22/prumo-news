@@ -1,31 +1,30 @@
 {
- "gerado": "2026-11-19T16:50-03:00",
+ "gerado": "2026-11-19T17:00-03:00",
  "desde": "2026-11-19T11:39-03:00",
  "feed_atualizado_em": "2026-11-19T11:49:00-03:00",
  "resumo": {
-  "manchetes": 414,
-  "assuntos_novos_relevantes": 5,
-  "assuntos_novos": 333,
-  "pautas_com_novidade": 6,
+  "manchetes": 419,
+  "assuntos_novos_relevantes": 7,
+  "assuntos_novos": 338,
+  "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 1,
-  "pautas_com_relatos": 8,
-  "acionar_itens": 2,
-  "ja_avaliados": 5
+  "pautas_com_relatos": 7,
+  "acionar_itens": 1,
+  "ja_avaliados": 4
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 4 veículos em 90 min (economia); assunto novo: 4 veículos em 90 min (brasil)",
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (economia)",
  "acionar_itens": [
   {
    "tipo": "novo",
-   "titulo": "iFood sofre ataque e enfrenta vazamento de dados de clientes e entregadores",
+   "titulo": "iFood informa vazamento de dados de clientes, entregadores e restaurantes",
    "secao": "economia",
-   "n_fontes": 4,
-   "motivo": "assunto novo: 4 veículos em 90 min (economia)",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
    "chave": [
     "ataque",
     "clientes",
     "dados",
-    "enfrenta",
     "entregadores",
     "expoe",
     "hacker",
@@ -40,33 +39,6 @@
     "vazamento"
    ],
    "acao": "nova"
-  },
-  {
-   "tipo": "novo",
-   "titulo": "Lula assina portaria para demarcação de terra indígena de cacique Raoni",
-   "secao": "brasil",
-   "n_fontes": 5,
-   "motivo": "assunto novo: 4 veículos em 90 min (brasil)",
-   "chave": [
-    "assina",
-    "avancar",
-    "cacique",
-    "demarcacao",
-    "demarcar",
-    "etapa",
-    "exigiu",
-    "grosso",
-    "indigena",
-    "lula",
-    "mato",
-    "nasceu",
-    "portaria",
-    "raoni",
-    "rapidez",
-    "terra",
-    "vivo"
-   ],
-   "acao": "nova"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
@@ -74,12 +46,11 @@
   {
    "assunto": "Lula assina portaria para demarcação de terra indígena de cacique Raoni",
    "secao": "brasil",
-   "n_fontes": 5,
+   "n_fontes": 4,
    "fontes": [
     "cnn",
     "folha",
     "g1",
-    "met",
     "p360"
    ],
    "ja_e_breve": false,
@@ -98,100 +69,19 @@
      "hora": "19/11 16h14"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Lula assina demarcação de terra onde cacique Raoni nasceu no Mato Grosso",
-     "url": "https://www.metropoles.com/brasil/lula-assina-demarcacao-de-terra-onde-cacique-raoni-nasceu-no-mato-grosso",
-     "hora": "19/11 16h07"
-    },
-    {
      "veiculo": "g1",
      "titulo": "Lula assina nova etapa para demarcação da terra onde nasceu o cacique Raoni em Mato Grosso",
      "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/19/lula-assina-nova-etapa-para-demarcacao-da-terra-onde-nasceu-o-cacique-raoni-em-mato-grosso.ghtml",
      "hora": "19/11 15h06"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Lula diz que vai avançar com demarcação de terra indígena de cacique Raoni",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/lula-diz-que-vai-avancar-com-demarcacao-de-terra-indigena-de-cacique-raoni.shtml",
+     "hora": "19/11 13h44"
     }
    ],
-   "n_fontes_90min": 4
-  },
-  {
-   "assunto": "Fachin nega soltura de primo de Vorcaro apontado como ‘ponte’ para propina a senador",
-   "secao": "economia",
-   "n_fontes": 4,
-   "fontes": [
-    "cnn",
-    "folha",
-    "g1",
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Fachin nega soltura de primo de Vorcaro apontado como ‘ponte’ para propina a senador",
-     "url": "https://www.infomoney.com.br/brasil/fachin-nega-soltura-de-primo-de-vorcaro-apontado-como-ponte-para-propina-a-senador/",
-     "hora": "19/11 16h22"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Fachin mantém prisão de primo de Vorcaro por risco de ingerência na investigação do caso Master",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/fachin-mantem-prisao-de-primo-de-vorcaro-por-risco-de-ingerencia-na-investigacao.shtml",
-     "hora": "19/11 13h36"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Fachin mantém prisão preventiva de primo de Vorcaro",
-     "url": "https://www.cnnbrasil.com.br/politica/fachin-mantem-prisao-preventiva-de-primo-de-vorcaro/",
-     "hora": "19/11 13h08"
-    },
-    {
-     "veiculo": "g1 Política",
-     "titulo": "Compliance Zero: Fachin mantém prisão de Felipe Vorcaro, primo do ex-dono do Master",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/19/compliance-zero-fachin-mantem-prisao-de-felipe-vorcaro-primo-do-ex-dono-do-master.ghtml",
-     "hora": "19/11 12h39"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "pid_provavel": "caso-master"
-  },
-  {
-   "assunto": "iFood sofre ataque e enfrenta vazamento de dados de clientes e entregadores",
-   "secao": "economia",
-   "n_fontes": 4,
-   "fontes": [
-    "cnn",
-    "folha",
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "iFood sofre ataque e enfrenta vazamento de dados de clientes e entregadores",
-     "url": "https://www.metropoles.com/brasil/ifood-sofre-ataque-e-enfrenta-vazamento-de-dados-de-clientes-e-entregadores",
-     "hora": "19/11 15h57"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "iFood informa vazamento de dados de clientes, entregadores e restaurantes",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/ifood-informa-vazamento-de-dados-de-clientes-entregadores-e-restaurantes.shtml",
-     "hora": "19/11 15h47"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "iFood revela vazamento de dados de usuários, entregadores e parceiros",
-     "url": "https://www.cnnbrasil.com.br/economia/money/tecnologia/ifood-revela-vazamento-de-dados-de-usuarios-entregadores-e-parceiros/",
-     "hora": "19/11 15h16"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "iFood sofre ataque hacker que expõe dados de clientes, entregadores e representantes de restaurantes",
-     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/19/ifood-sofre-invasao-que-expoe-dados-de-clientes-entregadores-e-representantes-de-restaurantes.ghtml",
-     "hora": "19/11 15h00"
-    }
-   ],
-   "n_fontes_90min": 4
+   "n_fontes_90min": 3
   },
   {
    "assunto": "Caso Clarice: suspeito de matar jovem encontrada em mata é preso pela Polícia Civil em RO",
@@ -233,6 +123,112 @@
    "n_fontes_90min": 2
   },
   {
+   "assunto": "Fachin nega soltura de primo de Vorcaro apontado como ‘ponte’ para propina a senador",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "folha",
+    "g1",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Fachin nega soltura de primo de Vorcaro apontado como ‘ponte’ para propina a senador",
+     "url": "https://www.infomoney.com.br/brasil/fachin-nega-soltura-de-primo-de-vorcaro-apontado-como-ponte-para-propina-a-senador/",
+     "hora": "19/11 16h22"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Fachin mantém prisão de primo de Vorcaro por risco de ingerência na investigação do caso Master",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/fachin-mantem-prisao-de-primo-de-vorcaro-por-risco-de-ingerencia-na-investigacao.shtml",
+     "hora": "19/11 13h36"
+    },
+    {
+     "veiculo": "g1 Política",
+     "titulo": "Compliance Zero: Fachin mantém prisão de Felipe Vorcaro, primo do ex-dono do Master",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/19/compliance-zero-fachin-mantem-prisao-de-felipe-vorcaro-primo-do-ex-dono-do-master.ghtml",
+     "hora": "19/11 12h39"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "pid_provavel": "caso-master"
+  },
+  {
+   "assunto": "Linha 3-Vermelha ficará fechada no início do feriado da Consciência Negra",
+   "secao": null,
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Linha 3-Vermelha ficará fechada no início do feriado da Consciência Negra",
+     "url": "https://www.metropoles.com/sao-paulo/linha-3-vermelha-ficara-fechada-no-inicio-do-feriado-da-consciencia-negra",
+     "hora": "19/11 16h58"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Feriado da Consciência Negra aumenta fluxo para Cabo Frio e região; ViaLagos prevê 138 mil veículos até domingo",
+     "url": "https://g1.globo.com/rj/regiao-dos-lagos/noticia/2026/11/19/feriado-da-consciencia-negra-aumenta-fluxo-para-cabo-frio-e-regiao-vialagos-preve-138-mil-veiculos-ate-domingo.ghtml",
+     "hora": "19/11 16h47"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Saiba o que abre e fecha no feriado da Consciência Negra em cidades do Vale do Paraíba e região",
+     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/19/saiba-o-que-abre-e-fecha-no-feriado-da-consciencia-negra-em-cidades-do-vale-do-paraiba-e-regiao.ghtml",
+     "hora": "19/11 16h40"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Feriado da Consciência Negra em Salvador terá calor de até 32 °C e céu nublado; confira previsão do tempo",
+     "url": "https://g1.globo.com/ba/bahia/noticia/2026/11/19/previsao-do-tempo-feriado-dia-da-consciencia-negra-salvador.ghtml",
+     "hora": "19/11 16h28"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Vasco acerta contratação de Carlos Vinicius, destaque do Grêmio",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Vasco acerta contratação de Carlos Vinicius, destaque do Grêmio",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/vasco-da-gama/vasco-acerta-a-contratacao-de-carlos-vinicius-do-gremio/",
+     "hora": "19/11 16h36"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Vasco chega a acordo com Grêmio e fecha com Carlos Vinícius para 2027",
+     "url": "https://www.metropoles.com/esportes/vasco-chega-a-acordo-com-gremio-e-fecha-com-carlos-vinicius-para-2027",
+     "hora": "19/11 16h20"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Vasco acerta a contratação de Carlos Vinicius, do Grêmio",
+     "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/19/vasco-fecha-a-contratacao-de-carlos-vinicius-do-gremio-para-2027.ghtml",
+     "hora": "19/11 14h52"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
    "assunto": "Wellington Dias deixa o Ministério do Desenvolvimento Social",
    "secao": "politica",
    "n_fontes": 3,
@@ -266,34 +262,41 @@
    "n_fontes_90min": 3
   },
   {
-   "assunto": "Bancos esperam crédito restrito e alta da inadimplência em 2026",
+   "assunto": "iFood informa vazamento de dados de clientes, entregadores e restaurantes",
    "secao": "economia",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "fontes": [
     "cnn",
-    "p360"
+    "folha",
+    "g1"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
     {
-     "veiculo": "Poder360",
-     "titulo": "Bancos esperam crédito restrito e alta da inadimplência em 2026",
-     "url": "https://www.poder360.com.br/poder-economia/bancos-esperam-credito-restrito-e-alta-da-inadimplencia-em-2026/",
-     "hora": "19/11 15h57"
+     "veiculo": "Folha Mercado",
+     "titulo": "iFood informa vazamento de dados de clientes, entregadores e restaurantes",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/ifood-informa-vazamento-de-dados-de-clientes-entregadores-e-restaurantes.shtml",
+     "hora": "19/11 15h47"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Bancos cortam previsão para crédito e elevam estimativa para inadimplência",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/bancos-cortam-previsao-para-credito-e-elevam-estimativa-para-inadimplencia/",
-     "hora": "19/11 12h56"
+     "titulo": "iFood revela vazamento de dados de usuários, entregadores e parceiros",
+     "url": "https://www.cnnbrasil.com.br/economia/money/tecnologia/ifood-revela-vazamento-de-dados-de-usuarios-entregadores-e-parceiros/",
+     "hora": "19/11 15h16"
+    },
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "iFood sofre ataque hacker que expõe dados de clientes, entregadores e representantes de restaurantes",
+     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/19/ifood-sofre-invasao-que-expoe-dados-de-clientes-entregadores-e-representantes-de-restaurantes.ghtml",
+     "hora": "19/11 15h00"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 3
   },
   {
-   "assunto": "Fachin autoriza PF a acessar dados sobre gastos de Vorcaro com autoridades",
-   "secao": "politica",
+   "assunto": "JPMorgan, Visa e Mastercard afirmam que fornecedores sofreram ataque hacker",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
     "cnn",
@@ -304,15 +307,15 @@
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Fachin autoriza PF a acessar dados sobre gastos de Vorcaro com autoridades",
-     "url": "https://www.cnnbrasil.com.br/politica/fachin-autoriza-pf-a-acessar-dados-sobre-gastos-de-vorcaro-com-autoridades/",
-     "hora": "19/11 13h51"
+     "titulo": "JPMorgan, Visa e Mastercard afirmam que fornecedores sofreram ataque hacker",
+     "url": "https://www.cnnbrasil.com.br/economia/money/tecnologia/jpmorgan-visa-e-mastercard-afirmam-que-fornecedores-sofreram-ataque-hacker/",
+     "hora": "19/11 16h44"
     },
     {
-     "veiculo": "g1 Política",
-     "titulo": "Fachin autoriza PF a acessar documentos de empresa de serviço de luxo relacionados a viagens pagas por Vorcaro",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/19/fachin-autoriza-pf-a-acessar-documentos-de-empresa-de-servicos-de-luxo-sobre-viagens-pagas-por-vorcaro.ghtml",
-     "hora": "19/11 12h48"
+     "veiculo": "g1",
+     "titulo": "Visa, Mastercard e JPMorgan dizem que fornecedores foram alvo de ataque cibernético",
+     "url": "https://g1.globo.com/tecnologia/ciberseguranca/noticia/2026/11/19/instituicoes-financeiras-ataque-cibernetico.ghtml",
+     "hora": "19/11 15h15"
     }
    ],
    "n_fontes_90min": 2
@@ -331,7 +334,7 @@
     {
      "veiculo": "CNN Brasil",
      "titulo": "Marlon Jackson, irmão de Michael, revela diagnóstico de câncer em estágio 4",
-     "url": "https://www.cnnbrasil.com.br/noticias/marlon-jackson-irmao-de-michael-revela-diagnostico-de-cancer-em-estagio-4/",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/marlon-jackson-irmao-de-michael-revela-diagnostico-de-cancer-em-estagio-4/",
      "hora": "19/11 15h47"
     },
     {
@@ -344,39 +347,27 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Saiba o que abre e fecha no feriado da Consciência Negra em cidades do Vale do Paraíba e região",
-   "secao": null,
+   "assunto": "PSD recorre de decisão de Zanin que barrou 2º turno no Rio de Janeiro",
+   "secao": "politica",
    "n_fontes": 2,
    "fontes": [
-    "cnn",
-    "g1"
+    "g1",
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Saiba o que abre e fecha no feriado da Consciência Negra em cidades do Vale do Paraíba e região",
-     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/19/saiba-o-que-abre-e-fecha-no-feriado-da-consciencia-negra-em-cidades-do-vale-do-paraiba-e-regiao.ghtml",
-     "hora": "19/11 16h40"
+     "veiculo": "Metrópoles",
+     "titulo": "PSD recorre de decisão de Zanin que barrou 2º turno no Rio de Janeiro",
+     "url": "https://www.metropoles.com/brasil/psd-recorre-de-decisao-de-zanin-que-barrou-2o-turno-no-rio-de-janeiro",
+     "hora": "19/11 16h49"
     },
     {
      "veiculo": "g1",
-     "titulo": "Feriado da Consciência Negra em Salvador terá calor de até 32 °C e céu nublado; confira previsão do tempo",
-     "url": "https://g1.globo.com/ba/bahia/noticia/2026/11/19/previsao-do-tempo-feriado-dia-da-consciencia-negra-salvador.ghtml",
-     "hora": "19/11 16h28"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Feriado da Consciência Negra: confira o que abre e o que fecha nesta sexta-feira em Itapetininga e Tatuí",
-     "url": "https://g1.globo.com/sp/itapetininga-regiao/noticia/2026/11/19/feriado-da-consciencia-negra-confira-o-que-abre-e-o-que-fecha-nesta-sexta-feira-em-itapetininga-e-tatui.ghtml",
-     "hora": "19/11 15h58"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Dia da Consciência Negra: veja o que abre e o que fecha no feriado",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/19/feriado-da-consciencia-negra-veja-o-que-abre-e-o-que-fecha-no-feriado.ghtml",
-     "hora": "19/11 15h31"
+     "titulo": "PSD recorre de novo ao STF por 2º turno no RJ e pede suspensão da diplomação até decisão do TSE",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/19/psd-recorre-ao-stf-por-2o-turno-no-rj-e-pede-suspensao-da-diplomacao-ate-decisao.ghtml",
+     "hora": "19/11 16h42"
     }
    ],
    "n_fontes_90min": 2
@@ -435,32 +426,6 @@
      "titulo": "Trump comprou até US$ 265 mil em ações da Nvidia enquanto governo avaliava regras para chips",
      "url": "https://g1.globo.com/economia/noticia/2026/11/19/trump-acoes-nvidia.ghtml",
      "hora": "19/11 15h34"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Vasco chega a acordo com Grêmio e fecha com Carlos Vinícius para 2027",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "ge",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Vasco chega a acordo com Grêmio e fecha com Carlos Vinícius para 2027",
-     "url": "https://www.metropoles.com/esportes/vasco-chega-a-acordo-com-gremio-e-fecha-com-carlos-vinicius-para-2027",
-     "hora": "19/11 16h20"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Vasco acerta a contratação de Carlos Vinicius, do Grêmio",
-     "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/19/vasco-fecha-a-contratacao-de-carlos-vinicius-do-gremio-para-2027.ghtml",
-     "hora": "19/11 14h52"
     }
    ],
    "n_fontes_90min": 2
@@ -770,25 +735,6 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Alibaba triplica lucro no 2º tri com a melhora da rentabilidade em IA",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alibaba triplica lucro no 2º tri com a melhora da rentabilidade em IA",
-     "url": "https://www.cnnbrasil.com.br/economia/alibaba-triplica-lucro-no-2o-trimestre-fiscal-com-a-melhora-da-rentabilidade-em-ia/",
-     "hora": "19/11 13h06"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
    "assunto": "Além de Barbieri, Juventude tenta renovação com sete atletas do elenco",
    "secao": "esportes",
    "n_fontes": 1,
@@ -803,6 +749,25 @@
      "titulo": "Além de Barbieri, Juventude tenta renovação com sete atletas do elenco",
      "url": "https://ge.globo.com/rs/futebol/times/juventude/noticia/2026/11/19/alem-de-barbieri-juventude-tenta-renovacao-com-sete-atletas-do-elenco.ghtml",
      "hora": "19/11 15h34"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Amado Batista não tem dever de ser garantidor da rotina familiar dos empregados, diz desembargador ao retirar indenização de R$ 450 mil por morte de criança em fazenda",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Amado Batista não tem dever de ser garantidor da rotina familiar dos empregados, diz desembargador ao retirar indenização de R$ 450 mil por morte de criança em fazenda",
+     "url": "https://g1.globo.com/go/goias/noticia/2026/11/19/amado-batista-nao-tem-dever-de-ser-garantidor-da-rotina-familiar-dos-empregados-diz-desembargador-ao-retirar-indenizacao-de-r-450-mil-por-morte-de-crianca-em-fazenda.ghtml",
+     "hora": "19/11 16h13"
     }
    ],
    "n_fontes_90min": 1
@@ -838,22 +803,16 @@
      "hora": "19/11 13h02"
     },
     {
+     "veiculo": "CNN Brasil",
+     "titulo": "IPO histórico da Anthropic transforma funcionários em milionários",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/ipo-historico-da-anthropic-transforma-funcionarios-em-milionarios/",
+     "hora": "19/11 16h21"
+    },
+    {
      "veiculo": "g1 Economia",
      "titulo": "IPO da Anthropic pode criar 2.800 milionários entre funcionários e ex-funcionários",
      "url": "https://g1.globo.com/economia/noticia/2026/11/19/ipo-da-anthropic-pode-criar-2800-milionarios-entre-funcionarios-e-ex-funcionarios.ghtml",
      "hora": "19/11 12h20"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Ações da Anthropic estreiam com alta de mais de 30% na Nasdaq",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/acoes-da-anthropic-estreiam-com-alta-de-mais-de-30-na-nasdaq.shtml",
-     "hora": "19/11 14h02"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Anthropic estreia na Nasdaq com alta e ação supera US$ 110",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/anthropic-acoes-wall-street-nasdaq-bolsa-de-ny/",
-     "hora": "19/11 13h55"
     },
     {
      "veiculo": "g1 Economia",
@@ -878,12 +837,6 @@
      "titulo": "Vasco mira melhor campanha no Brasileirão desde 2017; veja histórico na era dos pontos corridos",
      "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/19/vasco-mira-melhor-campanha-no-brasileirao-desde-2017-veja-historico-na-era-dos-pontos-corridos.ghtml",
      "hora": "19/11 12h00"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Bahia estabelece a sua melhor campanha como visitante no Brasileiro por pontos corridos",
-     "url": "https://ge.globo.com/ba/futebol/times/bahia/noticia/2026/11/19/bahia-estabelece-a-sua-melhor-campanha-como-visitante-no-brasileiro-por-pontos-corridos.ghtml",
-     "hora": "19/11 11h42"
     }
    ]
   },
@@ -941,12 +894,6 @@
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Juros futuros sobem com dólar e exterior, após aprovação do ajuste fiscal",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/juros-futuros-sobem-com-dolar-e-exterior-apos-aprovacao-do-ajuste-fiscal/",
-     "hora": "19/11 12h59"
-    },
-    {
-     "veiculo": "CNN Brasil",
      "titulo": "Bancos públicos têm papel no ajuste fiscal, afirma presidente do BNDES",
      "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/bancos-publicos-tem-papel-no-ajuste-fiscal-afirma-presidente-do-bndes/",
      "hora": "19/11 14h06"
@@ -970,23 +917,11 @@
      "hora": "19/11 14h48"
     }
    ]
-  },
-  "eua-trump-xi-putin-apec-china": {
-   "secao": "mundo",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Trump, Xi e Putin: veja principais declarações de reunião histórica na China",
-     "url": "https://www.infomoney.com.br/mundo/trump-xi-e-putin-veja-principais-declaracoes-de-reuniao-historica-na-china/",
-     "hora": "19/11 16h07"
-    }
-   ]
   }
  },
  "novos_relatos": {
   "decreto-6x1-adiado": {
-   "n": 7,
+   "n": 6,
    "n_fontes": 4,
    "fontes": [
     "ab",
@@ -994,11 +929,11 @@
     "folha",
     "g1"
    ],
-   "n_fontes_90min": 3,
+   "n_fontes_90min": 2,
    "ultima": "19/11 14h43",
    "ultima_iso": "2026-11-19T14:43-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 10.0,
+   "horas_sem_atualizar": 10.1,
    "principal": true,
    "manchetes": [
     {
@@ -1049,7 +984,7 @@
    "ultima": "19/11 13h36",
    "ultima_iso": "2026-11-19T13:36-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 10.0,
+   "horas_sem_atualizar": 10.1,
    "principal": true,
    "manchetes": [
     {
@@ -1070,7 +1005,7 @@
    "ultima": "19/11 11h11",
    "ultima_iso": "2026-11-19T11:11-03:00",
    "pauta_atualizada_em": "2026-11-17T06:52-03:00",
-   "horas_sem_atualizar": 58.0,
+   "horas_sem_atualizar": 58.1,
    "principal": false,
    "manchetes": [
     {
@@ -1082,7 +1017,7 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 4,
+   "n": 3,
    "n_fontes": 3,
    "fontes": [
     "agcamara",
@@ -1093,7 +1028,7 @@
    "ultima": "19/11 14h57",
    "ultima_iso": "2026-11-19T14:57-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 10.0,
+   "horas_sem_atualizar": 10.1,
    "principal": true,
    "manchetes": [
     {
@@ -1107,12 +1042,6 @@
      "titulo": "Bancos públicos têm papel no ajuste fiscal, afirma presidente do BNDES",
      "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/bancos-publicos-tem-papel-no-ajuste-fiscal-afirma-presidente-do-bndes/",
      "hora": "19/11 14h06"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Juros futuros sobem com dólar e exterior, após aprovação do ajuste fiscal",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/juros-futuros-sobem-com-dolar-e-exterior-apos-aprovacao-do-ajuste-fiscal/",
-     "hora": "19/11 12h59"
     },
     {
      "veiculo": "Folha Mercado",
@@ -1131,12 +1060,18 @@
     "p360"
    ],
    "n_fontes_90min": 2,
-   "ultima": "19/11 16h07",
-   "ultima_iso": "2026-11-19T16:07-03:00",
+   "ultima": "19/11 16h21",
+   "ultima_iso": "2026-11-19T16:21-03:00",
    "pauta_atualizada_em": "2026-11-19T06:21-03:00",
-   "horas_sem_atualizar": 10.5,
+   "horas_sem_atualizar": 10.7,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "IPO histórico da Anthropic transforma funcionários em milionários",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/ipo-historico-da-anthropic-transforma-funcionarios-em-milionarios/",
+     "hora": "19/11 16h21"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Anthropic estreia na Nasdaq e chega a US$ 2,1 trilhões",
@@ -1156,12 +1091,6 @@
      "hora": "19/11 14h49"
     },
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Anthropic estreia na Nasdaq com alta e ação supera US$ 110",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/anthropic-acoes-wall-street-nasdaq-bolsa-de-ny/",
-     "hora": "19/11 13h55"
-    },
-    {
      "veiculo": "g1 Economia",
      "titulo": "Anthropic estreia na Nasdaq com IPO recorde de US$ 81 bilhões e testa apetite de investidores por IA",
      "url": "https://g1.globo.com/economia/noticia/2026/11/19/anthropic-estreia-na-nasdaq-investidores.ghtml",
@@ -1175,27 +1104,6 @@
     }
    ]
   },
-  "eua-trump-xi-putin-apec-china": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "19/11 16h07",
-   "ultima_iso": "2026-11-19T16:07-03:00",
-   "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 10.0,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Trump, Xi e Putin: veja principais declarações de reunião histórica na China",
-     "url": "https://www.infomoney.com.br/mundo/trump-xi-e-putin-veja-principais-declaracoes-de-reuniao-historica-na-china/",
-     "hora": "19/11 16h07"
-    }
-   ]
-  },
   "brasileirao-31-rodada-lideres": {
    "n": 1,
    "n_fontes": 1,
@@ -1206,7 +1114,7 @@
    "ultima": "19/11 12h00",
    "ultima_iso": "2026-11-19T12:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 10.0,
+   "horas_sem_atualizar": 10.1,
    "principal": false,
    "manchetes": [
     {
@@ -1228,7 +1136,7 @@
    "ultima": "19/11 15h56",
    "ultima_iso": "2026-11-19T15:56-03:00",
    "pauta_atualizada_em": "2026-11-17T20:11-03:00",
-   "horas_sem_atualizar": 44.7,
+   "horas_sem_atualizar": 44.8,
    "principal": false,
    "manchetes": [
     {
@@ -1626,16 +1534,16 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 13 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 14 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 15 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 12 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 27 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 25 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 3 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 8 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
