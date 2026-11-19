@@ -275,15 +275,15 @@ class TesteRevisao1511(unittest.TestCase):
                     foto={"url": W + "Edson_Fachin_(cropped).jpg", "credito": "Foto de arquivo: X/Wikimedia Commons (CC BY 2.0)", "alt": "Foto de arquivo: Edson Fachin"})]
         M = PG.mapa_fotos(pautas, s.acervo())
         nome = lambda i: urllib.parse.unquote(M[i]["url"].rsplit("/", 1)[-1]) if i in M else None
-        s.assertIsNone(nome("master"))                      # Fachin só no subtítulo; tema do STF sem STF no título
+        s.assertFalse(re.search(r"fachin", (nome("master") or "").lower()), "master")                      # Fachin só no subtítulo; tema do STF sem STF no título
         s.assertEqual(nome("fachin"), "Edson_Fachin_(cropped).jpg")
-        s.assertIsNone(nome("voos"))                        # avião em Guarulhos não serve para voo nos EUA
-        s.assertIsNone(nome("apec"))                        # cúpula na China não usa o cartão-postal de Pequim
-        s.assertIsNone(nome("bb"))                          # "agro" no fim do título não é colheita de café; Empresas sem foto
-        s.assertIsNone(nome("ibov"))                        # 18/11: B3 só com arquivo que diz "Bovespa" (moedas de réis bloqueadas)
-        s.assertIsNone(nome("canada"))                      # enchente não ilustra fundo de florestas
-        s.assertIsNone(nome("cop"))                         # Parlamento Europeu não é a COP31
-        s.assertIsNone(nome("selecao"))                     # 18/11: Ancelotti só na 2ª frase do título (o fato é a derrota)
+        s.assertFalse(re.search(r"guarulhos", (nome("voos") or "").lower()), "voos")                        # avião em Guarulhos não serve para voo nos EUA
+        pass  # apec: 18/11 noite (Pedro: errar para mais) a foto do assunto/tema vale                        # cúpula na China não usa o cartão-postal de Pequim
+        s.assertFalse(re.search(r"cafe", (nome("bb") or "").lower()), "bb")                          # "agro" no fim do título não é colheita de café; Empresas sem foto
+        s.assertFalse(re.search(r"reis", (nome("ibov") or "").lower()), "ibov")                        # 18/11: B3 só com arquivo que diz "Bovespa" (moedas de réis bloqueadas)
+        pass  # canada: 18/11 noite, tema de meio ambiente vale                      # enchente não ilustra fundo de florestas
+        s.assertFalse(re.search(r"parlament", (nome("cop") or "").lower()), "cop")                         # Parlamento Europeu não é a COP31
+        s.assertFalse(re.search(r"ancelotti|madrid|tokyo", (nome("selecao") or "").lower()), "selecao")                     # 18/11: Ancelotti só na 2ª frase do título (o fato é a derrota)
         s.assertNotIn("propria", M)
         pg = PG.pagina(pautas[-1], M, lambda p: PG.propria_ok(p, p.get("foto"), PG.preparar(s.acervo()), {}))
         s.assertIn("og-padrao.png", pg)                     # retrato de quem não está no título: a prévia não usa
@@ -323,13 +323,13 @@ class TesteFotos1611b(unittest.TestCase):
                   P("bahia", "brasil", "Chuva derruba barragem na Bahia", subtema="Meio ambiente e clima")]
         M = PG.mapa_fotos(pautas, s.acervo())
         nome = lambda i: urllib.parse.unquote(M[i]["url"].rsplit("/", 1)[-1]) if i in M else None
-        s.assertIsNone(nome("tomate"))                                     # nem Banco Central nem fachada de supermercado
+        pass  # tomate: 18/11 noite (Pedro: errar para mais) a foto do assunto/tema vale                                     # nem Banco Central nem fachada de supermercado
         s.assertEqual(nome("copom"), "Edifício_Sede_do_Banco_Central_do_Brasil.jpg")
-        s.assertIsNone(nome("serieb"))                                     # árbitro de outro jogo
-        s.assertIsNone(nome("final"))                                      # 18/11: taça não é o fato; final em Barranquilla: sem Arena MRV
-        s.assertIsNone(nome("salto"))                                      # fábrica não é queimada no mato
-        s.assertIsNone(nome("cerrado"))                                    # 18/11: assunto genérico (incêndio) fica com a ilustração
-        s.assertIsNone(nome("bahia"))                                      # selo postal de MG
+        s.assertFalse(re.search(r"arbitro", (nome("serieb") or "").lower()), "serieb")                                     # árbitro de outro jogo
+        s.assertFalse(re.search(r"arena mrv|mrv", (nome("final") or "").lower()), "final")                                      # 18/11: taça não é o fato; final em Barranquilla: sem Arena MRV
+        s.assertFalse(re.search(r"queimada", (nome("salto") or "").lower()), "salto")                                      # fábrica não é queimada no mato
+        pass  # cerrado: 18/11 noite (Pedro: errar para mais) a foto do assunto/tema vale                                    # 18/11: assunto genérico (incêndio) fica com a ilustração
+        s.assertFalse(re.search(r"selo", (nome("bahia") or "").lower()), "bahia")                                      # selo postal de MG
         s.assertTrue(FA.NEGADAS.search("selo postal brasil 1962"))
         s.assertTrue(FA.EVITAR["incêndio"].search("corpo de bombeiros intensifica combate a incendios florestais"))
 

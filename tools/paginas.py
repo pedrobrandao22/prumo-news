@@ -64,7 +64,7 @@ def _arq(f):
     return _norm(fa_nome(f.get("url") if isinstance(f, dict) else "")).replace("_", " ")
 
 
-BLOQ = ["bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bolsa de valores (17393276865)", "iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
+BLOQ = ["buzios - panoramio", "laboratorio de paleontologia", "bolsa de valores (17205467578)", "bolsa de valores (17391295482)", "bolsa de valores (17393276865)", "iss-32 american eva b3", "alpina b3", "casa-da-moeda", "avenida central, vendo-se", "atual centro cultural da justica federal",
         "plenario do senado (15717805622)", "plenario do senado (15687627386)", "plenario do senado (15109327665)", "vestibular.jpg",
         "ofrenda de la liga", "roda viva com senadora", "com bandeira do brasil", "conselheira tais ferraz", "arena corinthians opening",
         "allianz parque - reconhecimento facial", "tudo-o-que-voce-sempre-quis-saber", "vidpovid to be performing", "hibakujumoku",
@@ -232,25 +232,71 @@ def fotos_do_lugar(A, ra):
     return out
 
 
+_BR_FOTO = re.compile(r"(brasil|brazil|brasilia|sao paulo|guarulhos|rio de janeiro|planalto|congresso nacional|senado federal|camara dos deputados|supremo tribunal|paulista|copacabana|maracana|esplanada|itamaraty|banco central|ministerio d|bovespa|petrobras|policia militar|policia federal|unidade basica|allianz|mineirao|januario|beira-rio|fonte nova|arena mrv|interlagos)")
+
+
+def FT_BR(f):
+    """Igual ao ft157Br do app: a foto mostra um lugar do Brasil (pelo nome do arquivo ou pela descrição)."""
+    return bool(_BR_FOTO.search(_norm(fa_nome(f.get("url"))).replace("_", " ") + " " + _norm(f.get("alt"))))
+
+
+TRAGICO = re.compile(r"\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad)", re.I)
+FINAL = re.compile(r"[Ff]ina(?:l|is)|[Dd]ecide|[Dd]ecis")
+
+
+def assunto_titulo(tit, A, sec):
+    """Igual ao faAssunto do app: o assunto do acervo cuja chave aparece primeiro no texto (respeitando as seções)."""
+    best, pos, ln = None, 10**9, 0
+    for x in (A.get("assuntos") or {}).values():
+        if not isinstance(x, dict) or not isinstance(x.get("chaves"), list): continue
+        if isinstance(x.get("secoes"), list) and sec not in x["secoes"]: continue
+        for k in x["chaves"]:
+            if not isinstance(k, str) or not k: continue
+            i = pos_palavra(tit, k)
+            if i >= 0 and (i < pos or (i == pos and len(k) > ln)): best, pos, ln = x, i, len(k)
+    return best
+
+
 def fa_listas(p, A):
-    """Igual ao faListas do app (187-fotos-f2.js): retrato da 1ª pessoa da frase principal do título (menos com
-    "foto_arquivo": "tema") > foto do lugar que o título diz ou do órgão da pessoa/assunto (confirmado pelo nome do
-    arquivo) > estádio do mandante. A = acervo preparado."""
-    L, fr = [], frase_principal((p.get("neutro") or {}).get("titulo"))
-    if p.get("foto_arquivo") != "tema":
+    """Igual ao faListas do app (187-fotos-f2.js, regra aberta de 18/11 à noite, pedido do Pedro: "se for errar, errar
+    para mais"): retrato da 1ª pessoa da frase principal do título ("foto_arquivo": "tema" só tira o retrato em morte,
+    prisão, acidente) > lugar do título ou órgão da pessoa > estádio do mandante > assunto (título, tag, subtítulo;
+    em Esportes só assunto de esporte e nunca em final) > tema da editoria > padrão da editoria. A = acervo preparado."""
+    n = p.get("neutro") or {}; tit = str(n.get("titulo") or ""); fr = frase_principal(tit)
+    sec = p.get("secao") or "politica"; T = A.get("temas") or {}
+    sub = p.get("subtitulo") if isinstance(p.get("subtitulo"), str) else ""
+    extra = " · ".join(x for x in (p.get("tag"), p.get("tema")) if isinstance(x, str) and x)
+    L, vistos = [], []
+    st = {"fo": None}
+    def fo():
+        if st["fo"] is None: st["fo"] = fora(p)
+        return st["fo"]
+    def pega(l, lugar):
+        if not isinstance(l, list): return
+        k = "|".join(sorted(str(f.get("url")) for f in l if isinstance(f, dict)))
+        if k in vistos: return
+        ok = [f for f in l if fa_valida(f) and not bloqueada(f) and not (lugar and fo() and FT_BR(f))]
+        if ok: vistos.append(k); L.append(ok)
+    if p.get("foto_arquivo") != "tema" or not TRAGICO.search(tit):
         pe = pessoa_titulo(fr, A)
-        if pe:
-            ok = [f for f in pe["fotos"] if fa_valida(f) and not bloqueada(f)]
-            if ok: L.append(ok)
-    fo = None
+        if pe: pega(pe["fotos"], False)
     for nome, ra, br in lugares_do_titulo(fr, A):
-        if br:
-            if fo is None: fo = fora(p)
-            if fo: continue
+        if br and fo(): continue
         ok = fotos_do_lugar(A, ra)
         if ok: L.append(ok)
     ok = mandante(p, fr, A)
     if ok: L.append(ok)
+    for t in (fr, extra, sub):
+        if not t: continue
+        x = assunto_titulo(t, A, sec)
+        if x and (sec != "esportes" or (isinstance(x.get("secoes"), list) and "esportes" in x["secoes"] and not FINAL.search(fr))):
+            pega(x.get("fotos"), True); break
+    # tema e padrão: foto de lugar com nome vai por último (fica para a notícia que diz o lugar), igual ao app
+    de_lugar = lambda f: any(ra.search(_arq(f)) for _, _, ra, _ in LUG_RE)
+    fin = sec == "esportes" and bool(FINAL.search(fr))  # final (campo neutro): nenhum estádio
+    tm = lambda l: [f for f in l if not de_lugar(f)] + ([] if fin else [f for f in l if de_lugar(f)]) if isinstance(l, list) else l
+    pega(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), True)
+    pega(tm(T.get((A.get("padrao") or {}).get(sec) or "")), True)
     return L
 
 
@@ -273,7 +319,8 @@ def nomes(t):
 def confirma(p, f):
     """A foto própria diz o que mostra ("mostra") e isso partilha um nome (pessoa, lugar, sigla) com o título."""
     m = f.get("mostra") if isinstance(f, dict) else None
-    if not isinstance(m, str) or not m.strip(): return False
+    # 18/11 noite: sem "mostra" a foto própria vale (errar para mais); com "mostra", precisa bater com o título
+    if not isinstance(m, str) or not m.strip(): return True
     return bool(nomes(m) & nomes((p.get("neutro") or {}).get("titulo")))
 
 

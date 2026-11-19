@@ -18122,7 +18122,7 @@ var FT157_PREP=null;
 function ft157N(s){try{return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()}catch(e){return String(s||"").toLowerCase()}}
 function ft157Arq(f){return ft157N(faNome(f&&f.url)).replace(/_/g," ")}
 /* fotos que já apareceram no lugar errado (nome do arquivo, sem acento e minúsculo) */
-const FT157_BLOQ=["bolsa de valores (17205467578)","bolsa de valores (17391295482)","bolsa de valores (17393276865)","iss-32 american eva b3","alpina b3","casa-da-moeda","avenida central, vendo-se","atual centro cultural da justica federal",
+const FT157_BLOQ=["buzios - panoramio","laboratorio de paleontologia","bolsa de valores (17205467578)","bolsa de valores (17391295482)","bolsa de valores (17393276865)","iss-32 american eva b3","alpina b3","casa-da-moeda","avenida central, vendo-se","atual centro cultural da justica federal",
   "plenario do senado (15717805622)","plenario do senado (15687627386)","plenario do senado (15109327665)","vestibular.jpg",
   "ofrenda de la liga","roda viva com senadora","com bandeira do brasil","conselheira tais ferraz","arena corinthians opening",
   "allianz parque - reconhecimento facial","tudo-o-que-voce-sempre-quis-saber","vidpovid to be performing","hibakujumoku",
@@ -20119,21 +20119,27 @@ function ft187FotosLugar(A,nome,ra){const ck=(A.gerado||"")+"|"+nome;if(A===FOTO
   listas.forEach(l=>{(Array.isArray(l)?l:[]).forEach(f=>{if(faValida(f)&&!ft157Bloq(f)&&ra.test(ft157Arq(f))){const n=faNome(f.url);if(!vistos.has(n)){vistos.add(n);out.push(f)}}})});
   if(A===FOTOS_ARQ)FT187_CACHE[ck]=out;return out}
 /* 18/11 noite, pedido do Pedro: "estamos sendo muito restritivos; se for errar, errar para mais". A ordem é a da
-   confiança, e a 1ª lista com foto ganha: (1) retrato de quem o título cita (no título todo, depois no subtítulo);
-   "foto_arquivo":"tema" só tira o retrato quando o título fala de morte, prisão, acidente ou ataque; (2) o lugar do
-   título ou o órgão da pessoa; (3) o estádio do mandante; (4) o assunto do título, da tag ou do subtítulo; (5) o tema
+   confiança, e a 1ª lista com foto ganha: (1) retrato da 1ª pessoa da frase principal do título (quem está só no subtítulo ou na 2ª frase não ganha retrato);
+   "foto_arquivo":"tema" só tira o retrato quando o título fala de morte, prisão, acidente ou ataque; (2) o lugar da frase
+   principal do título ou o órgão da pessoa; (3) o estádio do mandante; (4) o assunto do título, da tag ou do subtítulo; (5) o tema
    da editoria/subtema e a foto padrão da editoria. Lugar ou assunto brasileiro continua fora de notícia de fora do
    Brasil, e as fotos bloqueadas (157) continuam bloqueadas. */
-var FT187_TRAGICO=/\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec)/i;
+var FT187_TRAGICO=/\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad)/i;
 faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep();const n=p.neutro||{},tit=String(n.titulo||""),fr=ft157Frase(tit),
     sub=typeof p.subtitulo==="string"?p.subtitulo:"",extra=[p.tag,p.tema].filter(x=>typeof x==="string"&&x).join(" · "),sec=secOf(p),T=A.temas||{};
   let fo=null;const fora=()=>{if(fo===null)fo=!!ft157Fora(p);return fo};
-  const pega=(l,lugar)=>{if(!Array.isArray(l))return;const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!(lugar&&fora()&&ft157Br(f)));if(ok.length&&!L.some(x=>x.ft187o===l)){ok.ft187o=l;L.push(ok)}};
-  if(p.foto_arquivo!=="tema"||!FT187_TRAGICO.test(tit)){const pe=ft157Pessoa(tit,A)||(sub?ft157Pessoa(sub,A):null);if(pe)pega(pe.fotos,false)}
-  ft187Lugares(tit,A).forEach(([nome,ra,br])=>{if(br&&fora())return;const ok=ft187FotosLugar(A,nome,ra);if(ok.length&&!L.some(x=>x.ft187n===nome)){ok.ft187n=nome;L.push(ok)}});
+  const pega=(l,lugar)=>{if(!Array.isArray(l))return;const k=l.map(f=>f&&f.url).sort().join("|");const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!(lugar&&fora()&&ft157Br(f)));if(ok.length&&!L.some(x=>x.ft187o===k)){ok.ft187o=k;L.push(ok)}};
+  if(p.foto_arquivo!=="tema"||!FT187_TRAGICO.test(tit)){const pe=ft157Pessoa(fr,A);if(pe)pega(pe.fotos,false)}
+  ft187Lugares(fr,A).forEach(([nome,ra,br])=>{if(br&&fora())return;const ok=ft187FotosLugar(A,nome,ra);if(ok.length&&!L.some(x=>x.ft187n===nome)){ok.ft187n=nome;L.push(ok)}});
   const md=ft187Mandante(p,fr,A);if(md.length)L.push(md);
-  try{const as=faAssunto(tit,A,sec)||(extra?faAssunto(extra,A,sec):null)||(sub?faAssunto(sub,A,sec):null);if(as)pega(as.fotos,true)}catch(e){}
-  pega(T[sec+"/"+(p.subtema||"")],true);pega(T[(A.padrao||{})[sec]],true);
+  /* assunto: em Esportes, só assunto de esporte (Japão no jogo da Seleção não é Tóquio) e nunca o clube numa final (campo neutro) */
+  const asOk=x=>x&&(sec!=="esportes"||(Array.isArray(x.secoes)&&x.secoes.includes("esportes")&&!FT187_FINAL.test(fr)));
+  try{for(const t of [fr,extra,sub]){if(!t)continue;const as=faAssunto(t,A,sec);if(asOk(as)){pega(as.fotos,true);break}}}catch(e){}
+  /* tema e padrão da editoria: foto de lugar com nome (Banco Central, Senado) vai por último, para sobrar para a notícia
+     que diz esse lugar (o tomate fica com o supermercado e o Copom com o Banco Central) */
+  const deLugar=f=>FT187_RE.some(x=>x[2].test(ft157Arq(f)));const fin=sec==="esportes"&&FT187_FINAL.test(fr);
+  /* final (campo neutro): nenhum estádio */const tm=l=>Array.isArray(l)?l.filter(f=>!deLugar(f)).concat(fin?[]:l.filter(deLugar)):l;
+  pega(tm(T[sec+"/"+(p.subtema||"")]),true);pega(tm(T[(A.padrao||{})[sec]]),true);
   return L};
 
 /* foto própria: "mostra" precisa partilhar um nome (pessoa, lugar, sigla, código) com o título — igual a confirma() em paginas.py */
