@@ -194,6 +194,8 @@ function renderCapa(){nm186EmDia();
     h+=cpItem(man,{tam:"man",sub:true,arte:true,linha:L==="neutro"?linha:"",meta});
     const tm=temaDe(man);const rel=ps.filter(p=>p!==man&&!usados.has(p.id)&&((tm&&temaDe(p)===tm)||(man.subtema&&p.subtema===man.subtema&&secOf(p)===secOf(man)))).slice(0,2);
     if(rel.length){rel.forEach(p=>usados.add(p.id));h+=`<div class="cp-rel"><span>Relacionadas</span>${rel.map(p=>cpItem(p,{tam:"rel"})).join("")}</div>`}}
+  /* 208: "Acabou de sair" logo depois da manchete */
+  try{h+=ac208HTML("capa")}catch(e){}
   if(dest.length)h+=`<div class="cp-dest">${dest.map((p,i)=>cpItem(p,{tam:i<2?"d1":"d2",sub:true,arte:i>=2})).join("")}</div>`;
   h+=dia1min(ps);h+=instHTML();
   h+=capaIndicadores();
