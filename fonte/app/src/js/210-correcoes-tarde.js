@@ -142,3 +142,10 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   ap.classList.add("ct210-conf");ap.dataset.ct210tx=ap.dataset.ct210tx||"Apagar";ap.textContent="Apagar mesmo?";
   ap.insertAdjacentHTML("afterend",`<button type="button" class="c-a ct210-canc" data-ct210canc>Cancelar</button>`);
   setTimeout(()=>{try{if(ap.isConnected&&ap.classList.contains("ct210-conf")){ap.classList.remove("conf","ct210-conf");ap.textContent=ap.dataset.ct210tx;const n=ap.nextElementSibling;if(n&&n.matches("[data-ct210canc]"))n.remove()}}catch(_){}},6000)});
+
+/* ===== 20. carrossel da notícia no Feed: no máximo 10 páginas também depois que os quadros extras entram (gráfico, placar…);
+   tira do meio, nunca a capa nem o fim ("Ler a matéria", enquete, "o que vem") ===== */
+function ct210Car(root){try{(root||document).querySelectorAll(".post .car>.track").forEach(t=>{const n=t.children.length;if(n<=10||!t.querySelector(":scope>.ss-fim"))return;
+  const fix=[...t.children].filter((e,i)=>i===0||e.matches(".ss-fim,.ss-enq,.ss-prox"));let sobra=n-10;
+  for(let i=t.children.length-1;i>0&&sobra>0;i--){const e=t.children[i];if(fix.includes(e))continue;e.remove();sobra--}})}catch(e){}}
+(function(){const vig=()=>{const P=document.getElementById("posts");if(!P)return setTimeout(vig,500);let ag=0;new MutationObserver(()=>{if(!ag)ag=requestAnimationFrame(()=>{ag=0;ct210Car(P)})}).observe(P,{childList:true,subtree:true});ct210Car(P)};vig()})();

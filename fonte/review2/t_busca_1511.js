@@ -58,7 +58,7 @@ const busca = async (p, q) => { await p.fill('#bvq', q); await sleep(350) };
 
   // 5. Agora
   await busca(V, 'ronaldinho');
-  ok(await ev(V, () => { const a = document.querySelector('#bvres .bu154-ag [data-bu154ag]'); return !!a && /ainda em apuração/.test(a.textContent) && /Ronaldinho/.test(a.textContent) }), '"ronaldinho": acha o assunto do Agora com o selo "ainda em apuração"');
+  ok(await ev(V, () => { const a = document.querySelector('#bvres .bu154-ag [data-bu154ag]'), h = a && a.closest('ul').previousElementSibling; return !!a && (/ainda em apuração/i.test(a.textContent) || /ainda em apuração/i.test(h ? h.textContent : '')) && /Ronaldinho/.test(a.textContent) }), '"ronaldinho": acha o assunto do Agora com "ainda em apuração" (19/11: uma vez só, no cabeçalho do bloco)');
   await clk(V, '#bvres [data-bu154ag]'); await sleep(400);
   ok(await ev(V, () => /Agora/.test(document.querySelector('#layer').textContent)), 'tocar abre a folha do Agora'); await ev(V, () => closeLayer()); await sleep(300);
 
