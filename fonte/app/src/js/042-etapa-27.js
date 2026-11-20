@@ -1,3 +1,3 @@
 /* ---------- Etapa 27 ---------- */
-carregarFotosArq();
+depoisDaCapa(carregarFotosArq);/* 20/11 (peso): depois de a Capa estar na tela */
 

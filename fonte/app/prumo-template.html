@@ -6555,7 +6555,7 @@ body.sr209-off .fd156-mais .fd156-sk{display:none}
 <!-- 170: o supabase.js (~55 KB) só começa a vir depois de a página inteira chegar (DOMContentLoaded; a reserva de 2,5 s
      conta a partir daí, para aba escondida sem requestAnimationFrame). Antes, a reserva contava do início e, em 3G, ele disputava a
      banda com o próprio index.html e atrasava a manchete. initSocial também o pede ao terminar de ler o código. -->
-<script>window.SBJS_URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";window.SBJS_PRONTO=new Promise(function(ok){window.__sbjsOk=ok});function carregarSbjs(){if(window.__sbjsIni)return;window.__sbjsIni=1;var s=document.createElement("script");s.id="sbjs";s.async=true;s.src=window.SBJS_URL;s.onload=s.onerror=function(){window.__sbjsOk()};document.head.appendChild(s)}document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(function(){setTimeout(carregarSbjs,0)});setTimeout(carregarSbjs,2500)});</script>
+<script>window.SBJS_URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";window.SBJS_PRONTO=new Promise(function(ok){window.__sbjsOk=ok});function carregarSbjs(){if(window.__sbjsIni)return;window.__sbjsIni=1;var s=document.createElement("script");s.id="sbjs";s.async=true;s.src=window.SBJS_URL;s.onload=s.onerror=function(){window.__sbjsOk()};document.head.appendChild(s)}document.addEventListener("DOMContentLoaded",function(){var t0=Date.now();(function v(){var c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||Date.now()-t0>2000)requestAnimationFrame(function(){setTimeout(carregarSbjs,60)});else setTimeout(v,60)})();setTimeout(carregarSbjs,2500)});</script>
 <script>
 const $=s=>document.querySelector(s);
 var RAIZ="feed",JUMPS=[],FST=0,PUSHQ=0,HST=0,VST=0,TST=0,IGN=0,NOVO=null,BACKN=0,BACKT=0,VIRA_T=0,FEED_Y=0;
@@ -8084,7 +8084,8 @@ function iniciarSocial(uid,donoNovo){
 }
 async function initSocial(){
   try{if(sessionStorage.getItem("prumo-excluida")){sessionStorage.removeItem("prumo-excluida");toast("Sua conta foi excluída.")}}catch(e){}
-  if(!window.supabase){carregarSbjs();await Promise.race([window.SBJS_PRONTO,new Promise(r=>setTimeout(r,20000))])}
+  /* 20/11 (peso): a biblioteca do login espera a Capa estar na tela (não disputa a banda com a manchete; no máximo 3 s) */
+  if(!window.supabase){if(!window.__sbjsIni)await new Promise(r=>depoisDaCapa(r));carregarSbjs();await Promise.race([window.SBJS_PRONTO,new Promise(r=>setTimeout(r,20000))])}
   const sb=sbCliente();if(!sb){SESS_UID=null;INIT_FIM=true;avisoConta();if(CONVITE_URL)abrirLogin("criar",CONVITE_URL);return}
   try{sb.auth.onAuthStateChange((ev,sess)=>{const u=sess&&sess.user||null;setTimeout(()=>trocarSessao(u),0)})}catch(e){}
   let s=null;try{s=(await sb.auth.getSession()).data.session}catch(e){}
@@ -8809,7 +8810,9 @@ async function carregarIndAuto(){if(Date.now()-IND_T<60000)return;IND_T=Date.now
     const mudou=JSON.stringify(j)!==JSON.stringify(IND_AUTO);IND_AUTO=j;try{localStorage.setItem("prumo-ind",JSON.stringify(j))}catch(e){}
     if(mudou&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&FILTRO==="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
 (function(){const ant=checarFeed;checarFeed=function(x){carregarIndAuto();return ant.apply(this,arguments)}})();
-carregarIndAuto();
+/* 20/11 (peso): só depois de a Capa estar na tela (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
+function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
+depoisDaCapa(carregarIndAuto);
 
 /* ---------- Etapa 13: gráficos dos indicadores ---------- */
 var GR_INFO={dolar:"Quanto custa 1 dólar em reais. Mexe com o preço de importados, de viagens e dos combustíveis.",ibovespa:"O principal índice da Bolsa brasileira: a média das ações mais negociadas.",selic:"A taxa básica de juros, definida pelo Copom do Banco Central. Pesa no custo dos empréstimos e no rendimento das aplicações.",ipca12m:"A inflação oficial acumulada em 12 meses, medida pelo IBGE. A meta do Banco Central é 3% ao ano.",desemprego:"A parcela de quem procura trabalho e não encontra (PNAD Contínua, do IBGE)."};
@@ -9072,7 +9075,7 @@ document.addEventListener("contextmenu",e=>{if(e.target.closest&&e.target.closes
 document.addEventListener("pointerup",()=>{try{const s=getSelection();if(s&&!s.isCollapsed&&$("#layer .pv"))s.removeAllRanges()}catch(e){}},true);
 
 /* ---------- Etapa 27 ---------- */
-carregarFotosArq();
+depoisDaCapa(carregarFotosArq);/* 20/11 (peso): depois de a Capa estar na tela */
 
 /* ---------- Etapa 28 ---------- */
 /* fotos de arquivo sem repetir na edição: a de maior prioridade escolhe primeiro */

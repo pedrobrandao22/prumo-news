@@ -11,7 +11,7 @@ const ACERVO = "prumo-acervo", ACERVO_MAX = 200;
 const FOLGA = 100;  // ms que a abertura espera pela rede antes de abrir a cópia guardada
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(BASE)).catch(() => { }).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(BASE).then(() => c.match("./")).then(r => r && comParte2(c, r))).catch(() => { }).then(() => self.skipWaiting()));
 });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE && k !== ACERVO).map(k => caches.delete(k)))).then(() => self.clients.claim()));
@@ -26,15 +26,17 @@ async function avisar(id, v) {
   (await self.clients.matchAll({ type: "window" })).forEach(cl => cl.postMessage({ prumo: "pagina-nova", v }));
 }
 // confere na rede; se a página mudou, guarda a nova. Devolve {resp, nova}
+// peso (20/11): a página nova vem com a parte 2 (parte2.<hash>.js); guarda as duas juntas, para abrir sem internet
+async function comParte2(c, resp) { try { const t = await resp.clone().text(); const m = t.match(/parte2\.[0-9a-f]+\.js/); if (m && !(await c.match(m[0]))) await c.add(m[0]) } catch (e) { } }
 async function conferir(c, url, guardada) {
   const resp = await fetch(url, { cache: "no-cache", credentials: "same-origin" });
   if (!(resp && resp.ok && resp.type === "basic" && !resp.redirected)) return { resp, nova: false };
-  if (!guardada) { await c.put("./", resp.clone()); return { resp, nova: true } }
+  if (!guardada) { await c.put("./", resp.clone()); await comParte2(c, resp); return { resp, nova: true } }
   const e1 = guardada.headers.get("etag"), e2 = resp.headers.get("etag");
   if (e1 && e2 && e1 === e2) return { resp, nova: false };
   const [t1, t2] = await Promise.all([guardada.text(), resp.clone().text()]);
   if (t1 === t2) return { resp, nova: false };
-  await c.put("./", resp.clone());
+  await c.put("./", resp.clone()); await comParte2(c, resp);
   return { resp, nova: true, v: await resumo(t2) };
 }
 
@@ -60,7 +62,7 @@ self.addEventListener("fetch", e => {
       }
       // primeira vez: rede (até 12 s); sem rede, erro
       const rede = fetch(r.url, { cache: "no-cache", credentials: "same-origin" }).then(async resp => {
-        if (resp && resp.ok && resp.type === "basic" && !resp.redirected) await c.put("./", resp.clone());
+        if (resp && resp.ok && resp.type === "basic" && !resp.redirected) { await c.put("./", resp.clone()); e.waitUntil(comParte2(c, resp)) }
         return resp;
       });
       try {
@@ -90,7 +92,7 @@ self.addEventListener("fetch", e => {
     return;
   }
   // biblioteca do Supabase (endereço com versão fixa) e ícones: cópia primeiro
-  const fixo = r.url.startsWith(SBJS) || (u.origin === location.origin && /\/(manifest\.json|icon-[\w-]+\.png|fontes\/[\w-]+\.woff2)$/.test(u.pathname));
+  const fixo = r.url.startsWith(SBJS) || (u.origin === location.origin && /\/(manifest\.json|icon-[\w-]+\.png|fontes\/[\w-]+\.woff2|parte2\.[0-9a-f]+\.js)$/.test(u.pathname));  // parte2.<hash>.js: o nome muda quando o conteúdo muda
   if (fixo) {
     e.respondWith((async () => {
       const c = await caches.open(CACHE);

@@ -59,7 +59,8 @@ function iniciarSocial(uid,donoNovo){
 }
 async function initSocial(){
   try{if(sessionStorage.getItem("prumo-excluida")){sessionStorage.removeItem("prumo-excluida");toast("Sua conta foi excluída.")}}catch(e){}
-  if(!window.supabase){carregarSbjs();await Promise.race([window.SBJS_PRONTO,new Promise(r=>setTimeout(r,20000))])}
+  /* 20/11 (peso): a biblioteca do login espera a Capa estar na tela (não disputa a banda com a manchete; no máximo 3 s) */
+  if(!window.supabase){if(!window.__sbjsIni)await new Promise(r=>depoisDaCapa(r));carregarSbjs();await Promise.race([window.SBJS_PRONTO,new Promise(r=>setTimeout(r,20000))])}
   const sb=sbCliente();if(!sb){SESS_UID=null;INIT_FIM=true;avisoConta();if(CONVITE_URL)abrirLogin("criar",CONVITE_URL);return}
   try{sb.auth.onAuthStateChange((ev,sess)=>{const u=sess&&sess.user||null;setTimeout(()=>trocarSessao(u),0)})}catch(e){}
   let s=null;try{s=(await sb.auth.getSession()).data.session}catch(e){}

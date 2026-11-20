@@ -38,7 +38,7 @@ embrulha função existente. Arquivo novo só para parte nova, sem embrulhar. Ac
 - Nunca usar lookbehind em regex (`(?<=`, `(?<!`): quebra iPhone antigo.
 - Nomes globais novos únicos (grep em `app/src/js`).
 - Testes conhecidos que dependem do relógio: `t_etapa28` ("corrigida") e `t_ig_figurinhas` ("contagem") à noite.
-- Nunca force push. Publicar = `python3 build.py https://kkzcljusiotoklldaupg.supabase.co sb_publishable_s1mSA4gcb2qs6kVRZYQZ-g_BsvwvdIA --saida site-real` e copiar `index.html`, `versao.json`, `sw.js` para a raiz.
+- Nunca force push. Publicar = `python3 build.py https://kkzcljusiotoklldaupg.supabase.co sb_publishable_s1mSA4gcb2qs6kVRZYQZ-g_BsvwvdIA --saida site-real` e copiar `index.html`, `versao.json`, `sw.js` para a raiz. **Desde 20/11 o app tem duas partes**: o build põe também o `parte2.<hash>.js` na raiz, e ele precisa entrar no mesmo commit (`git add index.html versao.json sw.js parte2.*.js`); sem ele o site novo quebra. Funções novas ficam no núcleo; a lista do que vai para a parte 2 é `fonte/peso/frias.json` (ver `fonte/peso/`).
 
 ## Lista de pendências pequenas (pegar de cima para baixo; riscar ao fazer)
 - [x] ~~Coluna: permitir editar a coluna (hoje é apagar e publicar de novo).~~ (04/11; o texto longo depende de `sql/proposta-2026-11-04.sql`)
