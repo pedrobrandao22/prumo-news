@@ -1,29 +1,20 @@
 {
- "gerado": "2026-11-19T21:00-03:00",
+ "gerado": "2026-11-19T21:10-03:00",
  "desde": "2026-11-19T17:40-03:00",
  "feed_atualizado_em": "2026-11-19T17:50:00-03:00",
  "resumo": {
-  "manchetes": 312,
-  "assuntos_novos_relevantes": 2,
-  "assuntos_novos": 263,
+  "manchetes": 304,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 255,
   "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 2,
-  "pautas_com_relatos": 7,
-  "acionar_itens": 1,
-  "ja_avaliados": 3
+  "pautas_com_relatos": 6,
+  "acionar_itens": 0,
+  "ja_avaliados": 4
  },
- "acionar": true,
- "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
- "acionar_itens": [
-  {
-   "tipo": "pauta",
-   "pid": "caso-master",
-   "titulo": "Após pedido, ministério vai ouvir delegados afastados do caso Master",
-   "n_fontes": 4,
-   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
-   "acao": "atualiza: caso-master"
-  }
- ],
+ "acionar": false,
+ "acionar_motivo": "nada novo que acione (255 assuntos fora do feed, 6 pautas com relatos, 4 já vistos por uma rodada)",
+ "acionar_itens": [],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
@@ -67,39 +58,6 @@
    "n_fontes_90min": 4
   },
   {
-   "assunto": "Duas pessoas são mortas com tiros na cabeça em frente a bar no Tatuapé",
-   "secao": "brasil",
-   "n_fontes": 3,
-   "fontes": [
-    "folha",
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Duas pessoas são mortas com tiros na cabeça em frente a bar no Tatuapé",
-     "url": "https://www.metropoles.com/sao-paulo/duas-pessoas-sao-mortas-com-tiros-na-cabeca-em-frente-a-bar-no-tatuape",
-     "hora": "19/11 20h01"
-    },
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Dois homens são mortos a tiros em bar no Tatuapé, na zona leste de São Paulo",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/dois-homens-sao-mortos-a-tiros-em-bar-no-tatuape-na-zona-leste-de-sao-paulo.shtml",
-     "hora": "19/11 19h32"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Tio e sobrinho são mortos a tiros em restaurante no Tatuapé, Zona Leste de SP",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/duas-pessoas-sao-mortas-a-tiros-em-frente-a-restaurante-no-tatuape-zona-leste-de-sp.ghtml",
-     "hora": "19/11 19h23"
-    }
-   ],
-   "n_fontes_90min": 3
-  },
-  {
    "assunto": "Anthropic encerra estreia na bolsa com avaliação de US$ 1,76 trilhão",
    "secao": "economia",
    "n_fontes": 2,
@@ -126,53 +84,53 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Banco Central amplia acesso de cooperativas ao mercado aberto",
+   "assunto": "BDR da Anthropic movimenta R$ 460,2 milhões em estreia na B3",
    "secao": "economia",
    "n_fontes": 2,
    "fontes": [
-    "ab",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Banco Central amplia acesso de cooperativas ao mercado aberto",
-     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/banco-central-amplia-acesso-de-cooperativas-ao-mercado-aberto",
-     "hora": "19/11 20h22"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "BC amplia acesso de cooperativas de crédito a depósitos a prazo",
-     "url": "https://www.poder360.com.br/poder-economia/bc-amplia-acesso-de-cooperativas-de-credito-a-depositos-a-prazo/",
-     "hora": "19/11 19h07"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Bruno Mars anuncia morte do pai: “Pude abraçar uma última vez”",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
     "cnn",
-    "met"
+    "im"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Bruno Mars anuncia morte do pai: “Pude abraçar uma última vez”",
-     "url": "https://www.metropoles.com/colunas/fabia-oliveira/bruno-mars-anuncia-morte-do-pai-pude-abracar-uma-ultima-vez",
-     "hora": "19/11 19h54"
-    },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Bruno Mars lamenta morte do pai nas redes: “Me ensinou tudo o que sei”",
-     "url": "https://www.cnnbrasil.com.br/pop/musica/bruno-mars-lamenta-morte-do-pai-nas-redes-me-ensinou-tudo-o-que-sei/",
-     "hora": "19/11 19h41"
+     "titulo": "BDR da Anthropic movimenta R$ 460,2 milhões em estreia na B3",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/bdr-da-anthropic-movimenta-r-4602-milhoes-em-estreia-na-b3/",
+     "hora": "19/11 20h39"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Anthropic: BDR movimenta R$ 460 mi em estreia na B3, volume 3 vezes maior que SpaceX",
+     "url": "https://www.infomoney.com.br/mercados/anthropic-bdr-movimenta-r-460-mi-em-estreia-na-b3-volume-3-vezes-maior-que-spacex/",
+     "hora": "19/11 19h02"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Dois homens são mortos a tiros em bar no Tatuapé, na zona leste de São Paulo",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Dois homens são mortos a tiros em bar no Tatuapé, na zona leste de São Paulo",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/dois-homens-sao-mortos-a-tiros-em-bar-no-tatuape-na-zona-leste-de-sao-paulo.shtml",
+     "hora": "19/11 19h32"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Tio e sobrinho são mortos a tiros em restaurante no Tatuapé, Zona Leste de SP",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/19/duas-pessoas-sao-mortas-a-tiros-em-frente-a-restaurante-no-tatuape-zona-leste-de-sp.ghtml",
+     "hora": "19/11 19h23"
     }
    ],
    "n_fontes_90min": 2
@@ -256,6 +214,84 @@
    "n_fontes_90min": 2
   },
   {
+   "assunto": "Hipópotamo Fiona morre em Cincinnati, nos EUA, após engolir gorro",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Hipópotamo Fiona morre em Cincinnati, nos EUA, após engolir gorro",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/ambiente/2026/11/hipopotamo-fiona-morre-em-cincinnati-nos-eua-apos-engolir-gorro.shtml",
+     "hora": "19/11 21h05"
+    },
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "Fiona, hipopótamo famoso nas redes, morre após engolir gorro de tricô em zoológico nos EUA",
+     "url": "https://g1.globo.com/meio-ambiente/noticia/2026/11/19/fiona-hipopotamo-redes-gorro-zoologico-eua.ghtml",
+     "hora": "19/11 18h16"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Milhares protestam contra a reforma tributária na Colômbia",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Milhares protestam contra a reforma tributária na Colômbia",
+     "url": "https://www.poder360.com.br/poder-internacional/milhares-protestam-contra-a-reforma-tributaria-na-colombia/",
+     "hora": "19/11 21h05"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Milhares protestam contra reforma tributária na Colômbia e convocam 1ª greve sob governo Espriella",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/milhares-protestam-contra-reforma-tributaria-na-colombia-e-convocam-1a-greve-sob-governo-espriella.shtml",
+     "hora": "19/11 19h04"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Operação policial no Haiti mata 34 supostos integrantes de gangues",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Operação policial no Haiti mata 34 supostos integrantes de gangues",
+     "url": "https://www.cnnbrasil.com.br/internacional/operacao-policial-no-haiti-mata-supostos-integrantes-de-gangues/",
+     "hora": "19/11 20h58"
+    },
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "Operação de segurança no Haiti deixa 34 membros de gangues mortos, segundo a polícia",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/19/operacao-de-seguranca-no-haiti-deixa-34-membros-de-gangues-mortos-segundo-a-policia.ghtml",
+     "hora": "19/11 18h36"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Pedro Sampaio fará show do intervalo na final da Libertadores",
    "secao": "esportes",
    "n_fontes": 2,
@@ -308,33 +344,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Segundo jornal, Cristiano Ronaldo pode ter jogo de despedida por Portugal",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Segundo jornal, Cristiano Ronaldo pode ter jogo de despedida por Portugal",
-     "url": "https://www.metropoles.com/esportes/segundo-jornal-cristiano-ronaldo-pode-ter-jogo-de-despedida-por-portugal",
-     "hora": "19/11 20h14"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Cristiano Ronaldo pode ter jogo de despedida organizado pelo Real Madrid",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/cristiano-ronaldo-pode-ter-jogo-de-despedida-organizado-pelo-real-madrid/",
-     "hora": "19/11 18h40"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "São Paulo x Fluminense: Veja onde assistir ao Brasileirão",
+   "assunto": "São Paulo x Fluminense: escalações e onde assistir ao jogo do Brasileirão",
    "secao": "esportes",
    "n_fontes": 2,
    "fontes": [
@@ -344,6 +354,12 @@
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "São Paulo x Fluminense: escalações e onde assistir ao jogo do Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/sao-paulo-x-fluminense-escalacoes-e-onde-assistir-ao-jogo-do-brasileirao/",
+     "hora": "19/11 20h34"
+    },
     {
      "veiculo": "InfoMoney",
      "titulo": "São Paulo x Fluminense: Veja onde assistir ao Brasileirão",
@@ -364,33 +380,6 @@
     }
    ],
    "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Tremor de terra de magnitude 2,7 atinge Martinho Campos, em MG",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Tremor de terra de magnitude 2,7 atinge Martinho Campos, em MG",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/mg/tremor-de-terra-de-magnitude-27-atinge-martinho-campos-em-mg/",
-     "hora": "19/11 18h59"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "VÍDEO: Tremor de magnitude 3,3 é sentido no interior de MG",
-     "url": "https://g1.globo.com/mg/centro-oeste/noticia/2026/11/19/video-tremor-de-magnitude-33-e-sentido-no-interior-de-mg.ghtml",
-     "hora": "19/11 18h43"
-    }
-   ],
-   "n_fontes_90min": 1,
    "lixo": true
   },
   {
@@ -636,6 +625,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Ana Carolina Raimundi, do “Fantástico”, se afasta da TV após diagnóstico",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ana Carolina Raimundi, do “Fantástico”, se afasta da TV após diagnóstico",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/ana-carolina-raimundi-do-fantastico-se-afasta-da-tv-apos-diagnostico/",
+     "hora": "19/11 20h50"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "André Esteves diz que Lula inicia 4º mandato com economia sob controle",
    "secao": "politica",
    "n_fontes": 1,
@@ -650,25 +658,6 @@
      "titulo": "André Esteves diz que Lula inicia 4º mandato com economia sob controle",
      "url": "https://www.poder360.com.br/poder-economia/andre-esteves-diz-que-lula-inicia-4o-mandato-com-economia-sob-controle/",
      "hora": "19/11 19h12"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "André Hernan fala sobre tratamento e transplante após diagnóstico de leucemia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "André Hernan fala sobre tratamento e transplante após diagnóstico de leucemia",
-     "url": "https://www.metropoles.com/colunas/fabia-oliveira/andre-hernan-fala-sobre-tratamento-e-transplante-apos-diagnostico-de-leucemia",
-     "hora": "19/11 20h48"
     }
    ],
    "n_fontes_90min": 1
@@ -693,25 +682,6 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Anthropic: BDR movimenta R$ 460 mi em estreia na B3, volume 3 vezes maior que SpaceX",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Anthropic: BDR movimenta R$ 460 mi em estreia na B3, volume 3 vezes maior que SpaceX",
-     "url": "https://www.infomoney.com.br/mercados/anthropic-bdr-movimenta-r-460-mi-em-estreia-na-b3-volume-3-vezes-maior-que-spacex/",
-     "hora": "19/11 19h02"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
    "assunto": "Apesar de dizer o contrário, Trump avalia retomar ataques ao Irã sob pressão de Netanyahu, diz site",
    "secao": "mundo",
    "n_fontes": 1,
@@ -729,6 +699,26 @@
     }
    ],
    "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Assista ao Boa Noite Espírito Santo",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao Boa Noite Espírito Santo",
+     "url": "https://g1.globo.com/es/espirito-santo/ao-vivo/ao-vivo-assista-ao-boa-noite-espirito-santo.ghtml",
+     "hora": "19/11 19h13"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
   }
  ],
  "em_pautas": {
@@ -746,19 +736,13 @@
   },
   "caso-master": {
    "secao": "politica",
-   "n_fontes": 4,
+   "n_fontes": 3,
    "manchetes": [
     {
      "veiculo": "InfoMoney",
      "titulo": "Fachin manda arquivar relatórios da PF sobre menção a 6 ministros; 4 vão à PGR",
      "url": "https://www.infomoney.com.br/politica/fachin-manda-arquivar-relatorios-da-pf-sobre-mencao-a-6-ministros-4-vao-a-pgr/",
      "hora": "19/11 20h53"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Master: Fachin arquiva 6 relatórios sobre ministros e envia 4 à PGR",
-     "url": "https://www.metropoles.com/colunas/manoela-alcantara/master-fachin-arquiva-6-relatorios-sobre-ministros-e-envia-4-a-pgr",
-     "hora": "19/11 20h06"
     },
     {
      "veiculo": "CNN Brasil",
@@ -773,10 +757,10 @@
      "hora": "19/11 19h31"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Leia aqui as 3,2 mil matérias publicadas pelo Metrópoles sobre o caso Master",
-     "url": "https://www.metropoles.com/tudo-sobre/caso-master",
-     "hora": "19/11 20h22"
+     "veiculo": "CNN Brasil",
+     "titulo": "Fachin envia relatórios do caso Master a ministros do STF",
+     "url": "https://www.cnnbrasil.com.br/politica/fachin-envia-relatorios-do-caso-master-a-ministros-do-stf/",
+     "hora": "19/11 17h57"
     },
     {
      "veiculo": "Poder360",
@@ -854,41 +838,19 @@
   }
  },
  "novos_relatos": {
-  "decreto-6x1-adiado": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "19/11 17h34",
-   "ultima_iso": "2026-11-19T17:34-03:00",
-   "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 14.1,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Fim da escala 6×1: Dino quer liberar julgamento ainda neste mês",
-     "url": "https://www.cnnbrasil.com.br/politica/fim-da-escala-6x1-dino-quer-liberar-julgamento-ainda-neste-mes/",
-     "hora": "19/11 17h34"
-    }
-   ]
-  },
   "caso-master": {
-   "n": 5,
-   "n_fontes": 4,
+   "n": 3,
+   "n_fontes": 3,
    "fontes": [
     "cnn",
     "folha",
-    "met",
     "p360"
    ],
-   "n_fontes_90min": 3,
+   "n_fontes_90min": 2,
    "ultima": "19/11 20h33",
    "ultima_iso": "2026-11-19T20:33-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 14.1,
+   "horas_sem_atualizar": 14.3,
    "principal": true,
    "manchetes": [
     {
@@ -896,18 +858,6 @@
      "titulo": "Após pedido, ministério vai ouvir delegados afastados do caso Master",
      "url": "https://www.poder360.com.br/poder-justica/apos-pedido-ministerio-vai-ouvir-delegados-afastados-do-caso-master/",
      "hora": "19/11 20h33"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Leia aqui as 3,2 mil matérias publicadas pelo Metrópoles sobre o caso Master",
-     "url": "https://www.metropoles.com/tudo-sobre/caso-master",
-     "hora": "19/11 20h22"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Master: Fachin arquiva 6 relatórios sobre ministros e envia 4 à PGR",
-     "url": "https://www.metropoles.com/colunas/manoela-alcantara/master-fachin-arquiva-6-relatorios-sobre-ministros-e-envia-4-a-pgr",
-     "hora": "19/11 20h06"
     },
     {
      "veiculo": "Folha Poder",
@@ -935,7 +885,7 @@
    "ultima": "19/11 20h37",
    "ultima_iso": "2026-11-19T20:37-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 14.1,
+   "horas_sem_atualizar": 14.3,
    "principal": true,
    "manchetes": [
     {
@@ -968,7 +918,7 @@
    "ultima": "19/11 19h47",
    "ultima_iso": "2026-11-19T19:47-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 14.1,
+   "horas_sem_atualizar": 14.3,
    "principal": true,
    "manchetes": [
     {
@@ -990,7 +940,7 @@
    "ultima": "19/11 17h49",
    "ultima_iso": "2026-11-19T17:49-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 14.1,
+   "horas_sem_atualizar": 14.3,
    "principal": true,
    "manchetes": [
     {
@@ -1017,7 +967,7 @@
    "ultima": "19/11 18h34",
    "ultima_iso": "2026-11-19T18:34-03:00",
    "pauta_atualizada_em": "2026-11-17T20:11-03:00",
-   "horas_sem_atualizar": 48.8,
+   "horas_sem_atualizar": 49.0,
    "principal": false,
    "manchetes": [
     {
@@ -1050,7 +1000,7 @@
    "ultima": "19/11 20h55",
    "ultima_iso": "2026-11-19T20:55-03:00",
    "pauta_atualizada_em": "2026-11-19T17:11-03:00",
-   "horas_sem_atualizar": 3.8,
+   "horas_sem_atualizar": 4.0,
    "principal": true,
    "manchetes": [
     {
@@ -1431,22 +1381,22 @@
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
   "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
-  "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
+  "Metrópoles": "falhou: ParseError('not well-formed (invalid token): line 70, column 797')",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 5 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 10 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 15 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 14 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 9 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 14 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 15 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 20 nas últimas 6 h"
+  "Agência Câmara": "ok: 20 itens, 19 nas últimas 6 h"
  }
 }
