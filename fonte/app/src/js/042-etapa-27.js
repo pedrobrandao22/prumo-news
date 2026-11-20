@@ -1,3 +1,3 @@
 /* ---------- Etapa 27 ---------- */
-carregarFotosArq();
+requestAnimationFrame(()=>setTimeout(carregarFotosArq,0));/* 20/11 (peso): depois de a Capa ser pintada */
 

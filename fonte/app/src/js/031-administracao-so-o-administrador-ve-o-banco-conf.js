@@ -451,5 +451,6 @@ async function carregarIndAuto(){if(Date.now()-IND_T<60000)return;IND_T=Date.now
     const mudou=JSON.stringify(j)!==JSON.stringify(IND_AUTO);IND_AUTO=j;try{localStorage.setItem("prumo-ind",JSON.stringify(j))}catch(e){}
     if(mudou&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&FILTRO==="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
 (function(){const ant=checarFeed;checarFeed=function(x){carregarIndAuto();return ant.apply(this,arguments)}})();
-carregarIndAuto();
+/* 20/11 (peso): depois de a Capa ser pintada (o código agora chega antes e não deve disputar a banda com a manchete) */
+requestAnimationFrame(()=>setTimeout(carregarIndAuto,0));
 
