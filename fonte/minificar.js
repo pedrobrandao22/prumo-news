@@ -6,5 +6,5 @@ h = h.replace(/<style>([\s\S]*?)<\/style>/g, (m, c) => '<style>' + e.transformSy
 h = h.split('"(?<=').join('"(?"+"<=');  // sem lookbehind literal no arquivo (iOS antigo); o código já testa com try
 fs.writeFileSync(arq, h);
 // parte 2 (peso/dividir.js): mesma compactação
-const path = require('path'); for (const f of fs.readdirSync(path.dirname(arq)).filter(f => /^parte2\.[0-9a-f]+\.js$/.test(f))) {
+const path = require('path'); for (const f of fs.readdirSync(path.dirname(arq)).filter(f => /^parte[23]\.[0-9a-f]+\.js$/.test(f))) {
   const p = path.join(path.dirname(arq), f); fs.writeFileSync(p, e.transformSync(fs.readFileSync(p, 'utf8'), { minify: true, loader: 'js', target: 'es2019', legalComments: 'none' }).code.split('"(?<=').join('"(?"+"<=')) }
