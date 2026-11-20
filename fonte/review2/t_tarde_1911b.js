@@ -125,6 +125,15 @@ const fecha = p => ev(p, () => { let i = 0; while (($('#layer2')?.innerHTML || $
     const fechou = !$('#layer').innerHTML; cp152Abre({ aba: 'post' }); await new Promise(r => setTimeout(r, 300)); const volta = ($('#cp152-tx') || {}).value; closeLayer._ok = true; closeLayer(); closeLayer._ok = false; try { cr155Limpa() } catch (e) { } return { ov, fechou, volta } });
   ok(sai.ov && sai.fechou && sai.volta === 'Texto que quero guardar', 'Cancelar com texto: "Guardar para depois" fecha e o texto volta ao abrir o +', sai);
 
+  /* ---- noite (Pedro): matéria sem o "Em 30 segundos" repetido; "Como cada lado conta" no fim ---- */
+  const ld = await ev(B, async () => { const p = FEED.pautas.find(x => x.direita && x.esquerda && x.neutro && x.neutro.texto); if (!p) return 'sem'; abrirMateria(p.id); await new Promise(r => setTimeout(r, 900));
+    const m = $('#layer .mat'), sec = m.querySelector('.ct210-ld'); const fim = sec && [...m.querySelectorAll('.cpx-bl b, .cpx-c b')].filter(b => sec.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_PRECEDING).length;
+    const t1 = sec && sec.querySelector('.ct210-ld-v h4').textContent; sec && sec.querySelector('[data-ct210lado="esquerda"]').click(); await new Promise(r => setTimeout(r, 100));
+    const t2 = sec && sec.querySelector('.ct210-ld-v h4').textContent; const r = { trinta: !!m.querySelector('.mat-30'), sec: !!sec, t1, t2, d: p.direita.titulo, e: p.esquerda.titulo, lente: lente() }; closeLayer(); return r });
+  ok(ld === 'sem' || (!ld.trinta && ld.sec && ld.t1 === ld.d && ld.t2 === ld.e && ld.lente === 'neutro'), 'matéria: sem o "Em 30 segundos" repetido; "Como cada lado conta" troca Direita/Esquerda ali mesmo, sem mudar a lente', ld);
+  const sem = await ev(B, async () => { const p = FEED.pautas.find(x => !x.direita && !x.esquerda && x.neutro && x.neutro.texto); if (!p) return 'sem'; abrirMateria(p.id); await new Promise(r => setTimeout(r, 700)); const r = !!$('#layer .ct210-ld'); closeLayer(); return r });
+  ok(sem === 'sem' || sem === false, 'notícia sem versão de lado: nenhum bloco nem aviso');
+
   /* ---- sem conta: textos sem "amigos" e convite inválido com um aviso só ---- */
   const V = U.erros(await H.pagina(br, vp), 'V'); await V.goto(BASE.replace('index.html', '') + '?convite=ABC123'); await esperar(V, () => !!document.querySelector('#co160cvst:not([hidden])'), null, 8000); await sleep(400);
   const cv = await ev(V, () => { const t = (document.querySelector('#layer') || {}).innerText || ''; const bv = document.querySelector('#layer .co160-bv'); return { t, bvVisivel: !!(bv && !bv.hidden && bv.getClientRects().length), nome: (document.querySelector('#lnome') || {}).placeholder || '' } });

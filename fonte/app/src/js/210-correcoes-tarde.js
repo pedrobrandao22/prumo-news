@@ -165,3 +165,23 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
     if(k==="g"){try{cr155Guarda()}catch(_){}CT210.guarda=1;try{closeLayer()}finally{CT210.guarda=0}try{cr155Guarda()}catch(_){}toast("Texto guardado. Toque em + para continuar.");return}
     try{cr155Limpa()}catch(_){}CP152.txt="";closeLayer()}},true);
 {const _cl155=cr155Limpa;cr155Limpa=function(){if(CT210.guarda){CP152.txt="";return}return _cl155.apply(this,arguments)}}
+
+/* ===== 24 (noite, decisão do Pedro). "Como cada lado conta" no fim da matéria: o que muda entre os lados, e a troca
+   Direita · Esquerda mostra, ali mesmo, o título, o resumo e os pontos como cada lado conta, com os veículos de cada lado.
+   Só quando a notícia tem versão de algum lado; sem versão, nada aparece (nem aviso). Não muda a lente do app. ===== */
+function ct210LadoVeic(p,lado){const vs=[],vis=new Set();try{(Array.isArray(p.links)?p.links:[]).forEach(l=>{if(!l||!l.fonte||!l.url||vis.has(l.fonte))return;if(mt158Esp(l.fonte)!==lado)return;vis.add(l.fonte);vs.push(l)})}catch(e){}return vs.slice(0,4)}
+function ct210LadoCorpo(p,lado){const x=p[lado];if(!x||!x.titulo)return "";const vs=ct210LadoVeic(p,lado);
+  return `<h4>${esc(x.titulo)}</h4>${x.texto?`<p>${esc(x.texto)}</p>`:""}${Array.isArray(x.pontos)&&x.pontos.length?`<ul>${x.pontos.slice(0,3).map(t=>`<li>${esc(t)}</li>`).join("")}</ul>`:""}${vs.length?`<p class="ct210-ld-vs">Nos veículos: ${vs.map(l=>`<a href="${escU(l.url)}" target="_blank" rel="noopener">${esc(nomeFonte?nomeFonte(l.fonte):l.fonte)}</a>`).join(", ")}</p>`:""}`}
+function ct210LadosHTML(p,L){const ls=["direita","esquerda"].filter(k=>p[k]&&typeof p[k]==="object"&&p[k].titulo);if(!ls.length)return "";
+  const sel=ls.includes(L)?L:ls[0];
+  return `<section class="ct210-ld" data-ct210ld="${esc(p.id)}" aria-label="Como cada lado conta"><b class="ct210-ld-h">Como cada lado conta</b>${p.o_que_muda?`<p class="ct210-ld-c">${esc(p.o_que_muda)}</p>`:""}
+    ${ls.length>1?`<div class="ct210-ld-sw" role="group" aria-label="Escolher o lado">${ls.map(k=>`<button type="button" data-ct210lado="${k}" aria-pressed="${k===sel}"><i class="cp-lado ${k}" aria-hidden="true"></i>${k==="direita"?"Direita":"Esquerda"}</button>`).join("")}</div>`:`<p class="ct210-ld-um"><i class="cp-lado ${sel}" aria-hidden="true"></i>${sel==="direita"?"Como a direita conta":"Como a esquerda conta"}</p>`}
+    <div class="ct210-ld-v" aria-live="polite">${ct210LadoCorpo(p,sel)}</div></section>`}
+window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-ct210lado]");if(!b)return;e.preventDefault();e.stopPropagation();
+  const sec=b.closest(".ct210-ld"),p=sec&&pautaById(sec.dataset.ct210ld);if(!p)return;const k=b.dataset.ct210lado;
+  sec.querySelectorAll("[data-ct210lado]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));const v=sec.querySelector(".ct210-ld-v");if(v)v.innerHTML=ct210LadoCorpo(p,k);try{uso("lados_materia")}catch(_){}},true);
+
+/* ===== 25 (noite). Feed: o título do cartão já segue a lente escolhida; agora ganha a mesma marquinha discreta da Capa ===== */
+{const _ct=vn112CtNt;vn112CtNt=function(h,p){const r=_ct.apply(this,arguments);try{const v=versao(p,lente());if(!v||!v.tem)return r;
+  const a=typeof r==="string"?vn112Tp(r):r;const t=a&&a.querySelector(":scope>.vn-tit button");if(t&&!t.querySelector(".cp-lado"))t.insertAdjacentHTML("afterbegin",`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`);
+  return typeof r==="string"?a.outerHTML:a}catch(e){return r}}}

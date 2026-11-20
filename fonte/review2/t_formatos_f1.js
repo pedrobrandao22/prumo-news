@@ -53,7 +53,7 @@ const SEM = /\b(Quiz|Enquetes?|enquetes?|De perto|Em 5 min|Em 30 segundos|5 minu
     await ev(P, id => abrirMateria(id), pid); await sleep(500);
     const qn = await ev(P, () => { const b = document.querySelector('#layer .mat .ft182-qn'); return { tx: b && b.textContent, rod: !!document.querySelector('#layer .mat-rod [data-cpfontes]'), r: b && b.getBoundingClientRect().height, tx30: document.querySelector('#layer .mat-30>b')?.textContent } });
     ok(qn.tx && /^Noticiado por \d+ veículos( · (só da esquerda|só da direita|só do centro|só veículos públicos|da esquerda ao centro|da esquerda à direita|do centro à direita))?›$/.test(qn.tx) && !qn.rod && qn.r < 40, 'matéria: uma linha "Noticiado por N veículos · …" (e sai o botão do rodapé)' + tag, JSON.stringify(qn));
-    ok(qn.tx30 === 'Resumo', 'matéria: "Em 30 segundos" vira "Resumo"' + tag, qn.tx30);
+    ok(qn.tx30 === 'Resumo' || qn.tx30 === undefined, 'matéria: "Em 30 segundos" vira "Resumo" (19/11 noite: com o texto carregado, a matéria não repete o resumo da Capa)' + tag, qn.tx30);
     if (!se) { await ev(P, () => document.querySelector('#layer .ft182-qn').scrollIntoView({ block: 'center' })); await U.foto(P, 'formatos-materia-linha') }
     await ev(P, () => document.querySelector('#layer .ft182-qn').click()); await sleep(500);
     const fl = await ev(P, () => { const s = document.querySelector('.sheet'); return s && { tit: s.querySelector('.sh-h')?.textContent || '', spec: !!s.querySelector('.ft182-sp .spec'), n: s.querySelectorAll('.cvl li').length } });

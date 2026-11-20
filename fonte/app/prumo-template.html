@@ -6351,6 +6351,20 @@ body.sr209-off .fd156-mais .fd156-sk{display:none}
 .sr209{top:auto!important;bottom:calc(env(safe-area-inset-bottom,0px) + 84px)}
 /* giro: foto deitada numa tela em pé fica no alto, com o rosto acima do título */
 .story.sg .sg-bg img.ct210-dt{height:62%!important;object-position:50% 30%;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+/* "Como cada lado conta", no fim da matéria */
+.ct210-ld{margin:22px 0 8px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;gap:10px}
+.ct210-ld-h{font:700 12px/1.2 var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ct210-ld-c{margin:0;font-size:15px;line-height:1.5}
+.ct210-ld-sw{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:3px;border-radius:999px;background:var(--soft,var(--line))}
+.ct210-ld-sw button{min-height:36px;border:0;border-radius:999px;background:none;font:700 14px var(--f-ui);color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px}
+.ct210-ld-sw button[aria-pressed="true"]{background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.ct210-ld-um{margin:0;font:700 14px var(--f-ui);display:flex;align-items:center;gap:6px}
+.ct210-ld-v h4{margin:2px 0 6px;font-size:17px;line-height:1.3}
+.ct210-ld-v p{margin:0 0 8px;font-size:15px;line-height:1.5}
+.ct210-ld-v ul{margin:0 0 8px;padding-left:18px;font-size:15px;line-height:1.5}
+.ct210-ld-vs{font-size:13px!important;color:var(--muted)}
+.ct210-ld-vs a{color:inherit;text-decoration:underline}
+
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -7802,16 +7816,18 @@ function mt202Monta(pid,manter){const p=pautaById(pid);if(!p)return;const L=lent
   if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
   else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
   h+=matDesfecho(p);
-  h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  /* 19/11 noite (Pedro): o "Em 30 segundos" já aparece na Capa ao abrir a notícia; na matéria, só enquanto o texto ainda carrega */
+  if(!String(v.texto||"").trim())h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
   h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${marcarTermos(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${marcarTermos(v.texto)}</p></div>`;
   h+=matCorBloco(p);h+=matVisuais(p);
   if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
-  if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
+  /* 19/11 noite: "Como cada lado conta" desceu para o fim da matéria (ct210LadosHTML) */
   const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
   if(es.length)h+=`<div class="cpx-bl"><b>O essencial</b><ul>${es.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
   if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${marcarTermos(p.contexto)}</p>`;
   if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${marcarTermos(p.proximo)}</p>`;
   h+=matTempo(p);
+  try{h+=ct210LadosHTML(p,L)}catch(e){}
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().sort((a,b)=>tms(b.hora)-tms(a.hora));
   if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
   const nx=matProx(p.id);h+=matRel(p,nx);
@@ -22097,6 +22113,26 @@ window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;le
     if(k==="g"){try{cr155Guarda()}catch(_){}CT210.guarda=1;try{closeLayer()}finally{CT210.guarda=0}try{cr155Guarda()}catch(_){}toast("Texto guardado. Toque em + para continuar.");return}
     try{cr155Limpa()}catch(_){}CP152.txt="";closeLayer()}},true);
 {const _cl155=cr155Limpa;cr155Limpa=function(){if(CT210.guarda){CP152.txt="";return}return _cl155.apply(this,arguments)}}
+
+/* ===== 24 (noite, decisão do Pedro). "Como cada lado conta" no fim da matéria: o que muda entre os lados, e a troca
+   Direita · Esquerda mostra, ali mesmo, o título, o resumo e os pontos como cada lado conta, com os veículos de cada lado.
+   Só quando a notícia tem versão de algum lado; sem versão, nada aparece (nem aviso). Não muda a lente do app. ===== */
+function ct210LadoVeic(p,lado){const vs=[],vis=new Set();try{(Array.isArray(p.links)?p.links:[]).forEach(l=>{if(!l||!l.fonte||!l.url||vis.has(l.fonte))return;if(mt158Esp(l.fonte)!==lado)return;vis.add(l.fonte);vs.push(l)})}catch(e){}return vs.slice(0,4)}
+function ct210LadoCorpo(p,lado){const x=p[lado];if(!x||!x.titulo)return "";const vs=ct210LadoVeic(p,lado);
+  return `<h4>${esc(x.titulo)}</h4>${x.texto?`<p>${esc(x.texto)}</p>`:""}${Array.isArray(x.pontos)&&x.pontos.length?`<ul>${x.pontos.slice(0,3).map(t=>`<li>${esc(t)}</li>`).join("")}</ul>`:""}${vs.length?`<p class="ct210-ld-vs">Nos veículos: ${vs.map(l=>`<a href="${escU(l.url)}" target="_blank" rel="noopener">${esc(nomeFonte?nomeFonte(l.fonte):l.fonte)}</a>`).join(", ")}</p>`:""}`}
+function ct210LadosHTML(p,L){const ls=["direita","esquerda"].filter(k=>p[k]&&typeof p[k]==="object"&&p[k].titulo);if(!ls.length)return "";
+  const sel=ls.includes(L)?L:ls[0];
+  return `<section class="ct210-ld" data-ct210ld="${esc(p.id)}" aria-label="Como cada lado conta"><b class="ct210-ld-h">Como cada lado conta</b>${p.o_que_muda?`<p class="ct210-ld-c">${esc(p.o_que_muda)}</p>`:""}
+    ${ls.length>1?`<div class="ct210-ld-sw" role="group" aria-label="Escolher o lado">${ls.map(k=>`<button type="button" data-ct210lado="${k}" aria-pressed="${k===sel}"><i class="cp-lado ${k}" aria-hidden="true"></i>${k==="direita"?"Direita":"Esquerda"}</button>`).join("")}</div>`:`<p class="ct210-ld-um"><i class="cp-lado ${sel}" aria-hidden="true"></i>${sel==="direita"?"Como a direita conta":"Como a esquerda conta"}</p>`}
+    <div class="ct210-ld-v" aria-live="polite">${ct210LadoCorpo(p,sel)}</div></section>`}
+window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-ct210lado]");if(!b)return;e.preventDefault();e.stopPropagation();
+  const sec=b.closest(".ct210-ld"),p=sec&&pautaById(sec.dataset.ct210ld);if(!p)return;const k=b.dataset.ct210lado;
+  sec.querySelectorAll("[data-ct210lado]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));const v=sec.querySelector(".ct210-ld-v");if(v)v.innerHTML=ct210LadoCorpo(p,k);try{uso("lados_materia")}catch(_){}},true);
+
+/* ===== 25 (noite). Feed: o título do cartão já segue a lente escolhida; agora ganha a mesma marquinha discreta da Capa ===== */
+{const _ct=vn112CtNt;vn112CtNt=function(h,p){const r=_ct.apply(this,arguments);try{const v=versao(p,lente());if(!v||!v.tem)return r;
+  const a=typeof r==="string"?vn112Tp(r):r;const t=a&&a.querySelector(":scope>.vn-tit button");if(t&&!t.querySelector(".cp-lado"))t.insertAdjacentHTML("afterbegin",`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`);
+  return typeof r==="string"?a.outerHTML:a}catch(e){return r}}}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários
