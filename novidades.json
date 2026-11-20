@@ -1,48 +1,180 @@
 {
- "gerado": "2026-11-20T16:19-03:00",
+ "gerado": "2026-11-20T16:29-03:00",
  "desde": "2026-11-20T13:40-03:00",
  "feed_atualizado_em": "2026-11-20T13:50:00-03:00",
  "resumo": {
-  "manchetes": 250,
-  "assuntos_novos_relevantes": 3,
-  "assuntos_novos": 219,
-  "pautas_com_novidade": 3,
+  "manchetes": 361,
+  "assuntos_novos_relevantes": 9,
+  "assuntos_novos": 295,
+  "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 5,
-  "acionar_itens": 1,
-  "ja_avaliados": 2
+  "pautas_com_relatos": 8,
+  "acionar_itens": 4,
+  "ja_avaliados": 3
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 3 veículos em 90 min (economia)",
+ "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização; assunto novo: 6 veículos em 90 min (mundo); assunto novo: 4 veículos em 90 min (mundo) (+1)",
  "acionar_itens": [
   {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "A pedido de Mendonça, Fachin retira sigilo de relatório da PF sobre o ministro e Vorcaro",
+   "n_fontes": 6,
+   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: caso-master"
+  },
+  {
    "tipo": "novo",
-   "titulo": "Fuvest 2027: antecipa divulgação de aprovados para 2ª fase e locais de provas",
-   "secao": "economia",
-   "n_fontes": 3,
-   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "titulo": "Trump ameaça taxar empresas que construírem data centers fora dos EUA",
+   "secao": "mundo",
+   "n_fontes": 7,
+   "motivo": "assunto novo: 6 veículos em 90 min (mundo)",
    "chave": [
-    "antecipa",
-    "aprovados",
-    "convocados",
-    "divulga",
-    "divulgacao",
-    "fase",
-    "fuvest",
-    "lista",
-    "locais",
-    "prova",
-    "provas",
-    "vestibular"
+    "ameaca",
+    "americanas",
+    "centers",
+    "construam",
+    "construir",
+    "construirem",
+    "data",
+    "empresas",
+    "eua",
+    "exterior",
+    "fora",
+    "pais",
+    "permitira",
+    "proibir",
+    "taxar",
+    "trump"
    ],
    "acao": "nova"
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Trump diz que convenceu Filipinas a substituir produtos agrícolas do Brasil pelos dos EUA",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "motivo": "assunto novo: 4 veículos em 90 min (mundo)",
+   "chave": [
+    "agricolas",
+    "agro",
+    "brasil",
+    "citar",
+    "comprar",
+    "comprem",
+    "convenceu",
+    "deixarao",
+    "eua",
+    "filipinas",
+    "menciona",
+    "pressao",
+    "produtos",
+    "substituir",
+    "trocarao",
+    "trump"
+   ],
+   "acao": "nova"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "decreto-6x1-adiado",
+   "titulo": "Fim da escala 6x1: agronegócio terá de adotar jornada 5x2 sem regras específicas",
+   "n_fontes": 2,
+   "motivo": "pauta principal decreto-6x1-adiado sem atualização há 9.6 h e 2 veículos com relatos novos",
+   "acao": "atualiza: decreto-6x1-adiado"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
+   "assunto": "Trump ameaça taxar empresas que construírem data centers fora dos EUA",
+   "secao": "mundo",
+   "n_fontes": 7,
+   "fontes": [
+    "cnn",
+    "estadao",
+    "ex",
+    "g1",
+    "im",
+    "p360",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Trump ameaça taxar empresas que construírem data centers fora dos EUA",
+     "url": "https://www.poder360.com.br/poder-internacional/trump-ameaca-taxar-empresas-que-construirem-data-centers-fora-dos-eua/",
+     "hora": "20/11 16h28"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Trump ameaça proibir empresas dos EUA de construírem data centers no exterior",
+     "url": "https://exame.com/mundo/trump-ameaca-proibir-empresas-dos-eua-de-construirem-data-centers-no-exterior/",
+     "hora": "20/11 15h56"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Trump diz que não permitirá que empresas construam data centers fora dos EUA",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/trump-diz-que-nao-permitira-que-empresas-construam-data-centers-fora-dos-eua.ghtml",
+     "hora": "20/11 15h41"
+    },
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "Trump ameaça taxar empresas dos EUA que construírem data centers fora do país",
+     "url": "https://www.estadao.com.br/economia/trump-ameaca-taxar-empresas-eua-construirem-data-centers-fora/",
+     "hora": "20/11 15h40"
+    }
+   ],
+   "n_fontes_90min": 6,
+   "ultima_iso": "2026-11-20T16:28-03:00"
+  },
+  {
+   "assunto": "Zanin pede destaque e leva caso de Van Hattem para o plenário físico da 1ª Turma do STF",
+   "secao": "politica",
+   "n_fontes": 5,
+   "fontes": [
+    "antag",
+    "cc",
+    "gp",
+    "oeste",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Zanin pede destaque e leva caso de Van Hattem para o plenário físico da 1ª Turma do STF",
+     "url": "https://veja.abril.com.br/brasil/zanin-pede-destaque-e-leva-caso-de-van-hattem-para-o-plenario-fisico-da-1a-turma-do-stf/",
+     "hora": "20/11 16h12"
+    },
+    {
+     "veiculo": "CartaCapital",
+     "titulo": "Zanin suspende julgamento virtual e leva caso de Van Hattem à sessão presencial",
+     "url": "https://www.cartacapital.com.br/justica/zanin-suspende-julgamento-virtual-e-leva-caso-de-van-hattem-a-sessao-presencial/",
+     "hora": "20/11 15h56"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Entidades empresariais do RS criticam STF por caso Marcel van Hattem",
+     "url": "https://oantagonista.com.br/brasil/entidades-empresariais-do-rs-criticam-stf-por-caso-marcel-van-hattem/",
+     "hora": "20/11 15h53"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Zanin leva julgamento de Marcel van Hattem para sessão presencial no STF",
+     "url": "https://oantagonista.com.br/brasil/zanin-leva-julgamento-de-marcel-van-hattem-para-sessao-presencial-no-stf/",
+     "hora": "20/11 15h49"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-20T16:12-03:00"
+  },
+  {
    "assunto": "Arábia Saudita ataca porto controlado pelos houthis no Iêmen",
-   "secao": "economia",
+   "secao": "mundo",
    "n_fontes": 4,
    "fontes": [
     "cnn",
@@ -78,11 +210,87 @@
      "hora": "20/11 13h49"
     }
    ],
-   "n_fontes_90min": 3
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-20T15:31-03:00"
+  },
+  {
+   "assunto": "Trump diz que convenceu Filipinas a substituir produtos agrícolas do Brasil pelos dos EUA",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "fontes": [
+    "ex",
+    "g1",
+    "im",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "Trump diz que convenceu Filipinas a substituir produtos agrícolas do Brasil pelos dos EUA",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/trump-brasil-filipinas.ghtml",
+     "hora": "20/11 16h16"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Trump diz que Filipinas trocarão agro do Brasil pelo dos EUA",
+     "url": "https://exame.com/agro/trump-diz-que-filipinas-trocarao-agro-do-brasil-pelo-dos-eua/",
+     "hora": "20/11 16h11"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Trump menciona o Brasil ao citar pressão para que Filipinas comprem produtos dos EUA",
+     "url": "https://www.infomoney.com.br/mundo/trump-menciona-o-brasil-ao-citar-pressao-para-que-filipinas-comprem-produtos-dos-eua/",
+     "hora": "20/11 15h43"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Trump diz que Filipinas deixarão de comprar produtos agrícolas do Brasil",
+     "url": "https://www.poder360.com.br/poder-internacional/trump-diz-que-filipinas-deixarao-de-comprar-produtos-agricolas-do-brasil/",
+     "hora": "20/11 15h36"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-20T16:16-03:00"
+  },
+  {
+   "assunto": "Defesa Civil: Tempestades causam danos em 25 cidades e afetam 3,4 mil pessoas no RS",
+   "secao": "brasil",
+   "n_fontes": 3,
+   "fontes": [
+    "ex",
+    "g1",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Defesa Civil: Tempestades causam danos em 25 cidades e afetam 3,4 mil pessoas no RS",
+     "url": "https://www.infomoney.com.br/brasil/defesa-civil-tempestades-causam-danos-em-25-cidades-e-afetam-34-mil-pessoas-no-rs/",
+     "hora": "20/11 16h07"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Três mortes, 17 cidades afetadas e casas destruídas: supercélula causa estragos no RS; Defesa Civil apura microexplosão",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/tempestade-mortes-danos-tupancireta-rs-chuva.ghtml",
+     "hora": "20/11 14h22"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Temporal de 114 km/h destelha 5 mil casas no RS; três mortes são investigadas",
+     "url": "https://exame.com/brasil/temporal-de-114-km-h-destelha-5-mil-casas-no-rs-tres-mortes-sao-investigadas/",
+     "hora": "20/11 13h51"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:07-03:00"
   },
   {
    "assunto": "Fuvest 2027: antecipa divulgação de aprovados para 2ª fase e locais de provas",
-   "secao": "economia",
+   "secao": "educacao",
    "n_fontes": 3,
    "fontes": [
     "cnn",
@@ -111,40 +319,178 @@
      "hora": "20/11 14h51"
     }
    ],
-   "n_fontes_90min": 3
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-20T16:00-03:00"
   },
   {
-   "assunto": "Trump diz que não permitirá que empresas construam data centers fora dos EUA",
+   "assunto": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
    "secao": "mundo",
    "n_fontes": 3,
    "fontes": [
-    "cnn",
-    "g1",
-    "im"
+    "bbc",
+    "folha",
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Trump diz que não permitirá que empresas construam data centers fora dos EUA",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/trump-diz-que-nao-permitira-que-empresas-construam-data-centers-fora-dos-eua.ghtml",
-     "hora": "20/11 15h41"
+     "veiculo": "Folha Mundo",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/homem-gritou-de-dor-em-execucao-que-durou-uma-hora-no-texas-nos-estados-unidos.shtml",
+     "hora": "20/11 16h22"
     },
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Trump diz que não permitirá que empresas construam data centers fora dos EUA",
-     "url": "https://www.infomoney.com.br/mundo/trump-diz-que-nao-permitira-que-empresas-construam-data-centers-fora-dos-eua/",
-     "hora": "20/11 15h05"
+     "veiculo": "g1",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/execucao-texas-estados-unidos.ghtml",
+     "hora": "20/11 15h51"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://www.bbc.com/portuguese/articles/c84gn75r49eno?at_medium=RSS&at_campaign=rss",
+     "hora": "20/11 13h47"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:22-03:00"
+  },
+  {
+   "assunto": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "fontes": [
+    "ex",
+    "jp",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
+     "url": "https://jovempan.com.br/mundo/reino-unido-e-ue-firmam-acordo-historico-para-reaproximar-relacoes-dez-anos-apos-o-brexit/",
+     "hora": "20/11 15h20"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Reino Unido e União Europeia fecham acordos para reaproximação dez anos após Brexit",
+     "url": "https://exame.com/mundo/reino-unido-e-uniao-europeia-fecham-acordos-para-reaproximacao-dez-anos-apos-brexit/",
+     "hora": "20/11 15h16"
+    },
+    {
+     "veiculo": "Veja",
+     "titulo": "União Europeia e Reino Unido fecham acordo de reaproximação 10 anos após o Brexit",
+     "url": "https://veja.abril.com.br/economia/uniao-europeia-e-reino-unido-fecham-acordo-de-reaproximacao-10-anos-apos-o-brexit/",
+     "hora": "20/11 15h10"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-20T15:20-03:00"
+  },
+  {
+   "assunto": "Trump chama Fed de “político” e reclama de juros altos",
+   "secao": null,
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "p360",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Trump chama Fed de “político” e reclama de juros altos",
+     "url": "https://www.poder360.com.br/poder-internacional/trump-chama-fed-de-politico-e-reclama-de-juros-altos/",
+     "hora": "20/11 16h16"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Ouro cai ao menor nível desde agosto de 2025 com expectativa de novas altas de juros pelo Fed",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/20/ouro-cai-ao-menor-nivel-desde-agosto-de-2025-com-expectativa-de-novas-altas-de-juros-pelo-fed.ghtml",
+     "hora": "20/11 16h06"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Trump diz que não permitirá a empresas construir data centers fora dos EUA",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/trump-diz-que-nao-permitira-que-empresas-construam-datacenters-fora-dos-eua/",
-     "hora": "20/11 14h47"
+     "titulo": "Trump afirma que taxas de juros estão altas porque Fed é “político”",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/trump-afirma-que-taxas-de-juros-estao-altas-porque-fed-e-politico/",
+     "hora": "20/11 15h05"
     }
    ],
-   "n_fontes_90min": 3
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-20T16:16-03:00"
+  },
+  {
+   "assunto": "O que se sabe sobre a morte do influenciador Gabriel Félix aos 29 anos",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "g1",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "O que se sabe sobre a morte do influenciador Gabriel Félix aos 29 anos",
+     "url": "https://veja.abril.com.br/cultura/o-que-se-sabe-sobre-a-morte-do-influenciador-gabriel-felix-aos-29-anos/",
+     "hora": "20/11 16h21"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Influenciador Gabriel Félix morreu aos 29 anos em Campinas; corpo será levado a Uberaba",
+     "url": "https://g1.globo.com/sp/campinas-regiao/noticia/2026/11/20/influenciador-gabriel-felix-morreu-aos-29-anos-em-campinas-corpo-sera-levado-a-uberaba.ghtml",
+     "hora": "20/11 15h36"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Influenciador Gabriel Félix morreu após passar mal enquanto jogava futebol",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/influenciador-gabriel-felix-morreu-apos-passar-mal-enquanto-jogava-futebol/",
+     "hora": "20/11 14h15"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Influenciador Gabriel Félix morreu antes de jogar futebol em encontro com amigos, diz prima",
+     "url": "https://g1.globo.com/mg/triangulo-mineiro/noticia/2026/11/20/influenciador-gabriel-felix-sofreu-mal-subito-durante-partida-de-futebol-com-amigos-diz-prima.ghtml",
+     "hora": "20/11 14h11"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-20T16:21-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Carros em alta velocidade batem na Avenida Brasil após perseguição; veja vídeo",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Carros em alta velocidade batem na Avenida Brasil após perseguição; veja vídeo",
+     "url": "https://veja.abril.com.br/brasil/carros-em-alta-velocidade-batem-na-avenida-brasil-apos-perseguicao-veja-video/",
+     "hora": "20/11 16h16"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Carros em alta velocidade batem em perseguição na Avenida Brasil; crianças ficam feridas",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/20/carros-batem-avenida-brasil.ghtml",
+     "hora": "20/11 14h55"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:16-03:00"
   },
   {
    "assunto": "Consciência Negra deve movimentar R$ 2,5 bi no turismo de SP",
@@ -170,91 +516,149 @@
      "hora": "20/11 14h39"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:01-03:00"
   },
   {
-   "assunto": "Defesa Civil: Tempestades causam danos em 25 cidades e afetam 3,4 mil pessoas no RS",
-   "secao": "economia",
+   "assunto": "Crusoé: Van Hattem aponta parcialidade de Dino",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "antag",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Crusoé: Van Hattem aponta parcialidade de Dino",
+     "url": "https://oantagonista.com.br/brasil/crusoe-van-hattem-aponta-parcialidade-de-dino/",
+     "hora": "20/11 16h03"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Van Hattem diz que acionará o Congresso após voto de Dino para torná-lo réu",
+     "url": "https://www.metropoles.com/colunas/manoela-alcantara/van-hattem-diz-que-acionara-o-congresso-apos-voto-de-dino-para-torna-lo-reu",
+     "hora": "20/11 15h03"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:03-03:00"
+  },
+  {
+   "assunto": "DOAÇÕES: Veja como ajudar famílias atingidas pela tempestade em Tupanciretã, no RS",
+   "secao": "brasil",
    "n_fontes": 2,
    "fontes": [
     "g1",
-    "im"
+    "oeste"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Defesa Civil: Tempestades causam danos em 25 cidades e afetam 3,4 mil pessoas no RS",
-     "url": "https://www.infomoney.com.br/brasil/defesa-civil-tempestades-causam-danos-em-25-cidades-e-afetam-34-mil-pessoas-no-rs/",
-     "hora": "20/11 16h07"
+     "veiculo": "g1",
+     "titulo": "DOAÇÕES: Veja como ajudar famílias atingidas pela tempestade em Tupanciretã, no RS",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/doacoes-veja-como-ajudar-familias-atingidas-pela-tempestade-em-tupancireta-no-rs.ghtml",
+     "hora": "20/11 14h19"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Tempestade causa mortes em Tupanciretã (RS)",
+     "url": "https://revistaoeste.com/brasil/tempestade-causa-mortes-em-tupancireta-rs/",
+     "hora": "20/11 14h00"
     },
     {
      "veiculo": "g1",
-     "titulo": "Três mortes, 17 cidades afetadas e casas destruídas: supercélula causa estragos no RS; Defesa Civil apura microexplosão",
-     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/tempestade-mortes-danos-tupancireta-rs-chuva.ghtml",
-     "hora": "20/11 14h22"
+     "titulo": "'Sempre preocupada com todos', lamenta neta de idosa que morreu na tempestade em Tupanciretã",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/neta-idosa-morte-tempestade-tupancireta-rs.ghtml",
+     "hora": "20/11 13h44"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T14:19-03:00"
   },
   {
-   "assunto": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+   "assunto": "Dinamarca suspeita que Rússia planejou assassinato de rapper ucraniano",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "jp",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Dinamarca suspeita que Rússia planejou assassinato de rapper ucraniano",
+     "url": "https://veja.abril.com.br/mundo/dinamarca-suspeita-que-russia-planejou-assassinato-de-rapper-ucraniano/",
+     "hora": "20/11 14h54"
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Dinamarca avalia restringir vistos a russos após acusar Moscou de plano contra rapper ucraniano",
+     "url": "https://jovempan.com.br/mundo/dinamarca-avalia-restringir-vistos-a-russos-apos-acusar-moscou-de-plano-contra-rapper-ucraniano/",
+     "hora": "20/11 14h35"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T14:54-03:00"
+  },
+  {
+   "assunto": "Fisiculturista maranhense Itemberg Nunes morre aos 31 anos",
    "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "bbc",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/execucao-texas-estados-unidos.ghtml",
-     "hora": "20/11 15h51"
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
-     "url": "https://www.bbc.com/portuguese/articles/c84gn75r49eno?at_medium=RSS&at_campaign=rss",
-     "hora": "20/11 13h47"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Influenciador Gabriel Félix morreu aos 29 anos em Campinas; corpo será levado a Uberaba",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
     "cnn",
-    "g1"
+    "veja"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Influenciador Gabriel Félix morreu aos 29 anos em Campinas; corpo será levado a Uberaba",
-     "url": "https://g1.globo.com/sp/campinas-regiao/noticia/2026/11/20/influenciador-gabriel-felix-morreu-aos-29-anos-em-campinas-corpo-sera-levado-a-uberaba.ghtml",
-     "hora": "20/11 15h36"
-    },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Influenciador Gabriel Félix morreu após passar mal enquanto jogava futebol",
-     "url": "https://www.cnnbrasil.com.br/pop/celebridades/influenciador-gabriel-felix-morreu-apos-passar-mal-enquanto-jogava-futebol/",
-     "hora": "20/11 14h15"
+     "titulo": "Fisiculturista maranhense Itemberg Nunes morre aos 31 anos",
+     "url": "https://www.cnnbrasil.com.br/esportes/fisiculturismo/fisiculturista-maranhense-itemberg-nunes-morre-aos-31-anos/",
+     "hora": "20/11 15h32"
+    },
+    {
+     "veiculo": "Veja",
+     "titulo": "Morre o fisiculturista brasileiro Itemberg Nunes, aos 31 anos",
+     "url": "https://veja.abril.com.br/esporte/morre-o-fisiculturista-brasileiro-itemberg-nunes-aos-31-anos/",
+     "hora": "20/11 14h43"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T15:32-03:00"
+  },
+  {
+   "assunto": "Jornal da Oeste, Segunda Edição: assista ao noticiário de 20/11/2026",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "oeste"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Jornal da Oeste, Segunda Edição: assista ao noticiário de 20/11/2026",
+     "url": "https://revistaoeste.com/videos/jornal-da-oeste/jornal-da-oeste-segunda-edicao-assista-ao-noticiario-de-20-11-2026/",
+     "hora": "20/11 16h00"
     },
     {
      "veiculo": "g1",
-     "titulo": "Influenciador Gabriel Félix morreu antes de jogar futebol em encontro com amigos, diz prima",
-     "url": "https://g1.globo.com/mg/triangulo-mineiro/noticia/2026/11/20/influenciador-gabriel-felix-sofreu-mal-subito-durante-partida-de-futebol-com-amigos-diz-prima.ghtml",
-     "hora": "20/11 14h11"
+     "titulo": "VÍDEOS: Jornal Anhanguera 1ª Edição-TO de sexta-feira, 20 de novembro de 2026",
+     "url": "https://g1.globo.com/to/tocantins/playlist/videos-jornal-anhanguera-1-edicao-to-de-sexta-feira-20-de-novembro-de-2026.ghtml",
+     "hora": "20/11 14h05"
     }
    ],
-   "n_fontes_90min": 0,
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T16:00-03:00",
    "lixo": true
   },
   {
@@ -281,7 +685,35 @@
      "hora": "20/11 14h56"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T15:59-03:00"
+  },
+  {
+   "assunto": "O conselho espiritual que fez Deborah Secco adiar casamento",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "met",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "O conselho espiritual que fez Deborah Secco adiar casamento",
+     "url": "https://veja.abril.com.br/cultura/o-conselho-espiritual-que-fez-deborah-secco-adiar-casamento/",
+     "hora": "20/11 15h48"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Após receber conselho espiritual, Deborah Secco adia casamento para 2027",
+     "url": "https://www.metropoles.com/vida-e-estilo/apos-receber-conselho-espiritual-deborah-secco-adia-casamento-para-2027",
+     "hora": "20/11 15h17"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T15:48-03:00"
   },
   {
    "assunto": "Quem foi Lance Broadway, ator da Marvel que morreu aos 43 anos",
@@ -307,7 +739,8 @@
      "hora": "20/11 15h25"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T15:43-03:00"
   },
   {
    "assunto": "Rio: moradores relatam tiroteios e ônibus é atravessado na Linha Amarela",
@@ -333,59 +766,116 @@
      "hora": "20/11 13h56"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T16:14-03:00"
   },
   {
-   "assunto": "Trump chama Fed de “político” e reclama de juros altos",
-   "secao": null,
+   "assunto": "Tombo das ações da Anthropic após estreia vira alerta para mercado de IA",
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
     "cnn",
-    "p360"
+    "valor"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Poder360",
-     "titulo": "Trump chama Fed de “político” e reclama de juros altos",
-     "url": "https://www.poder360.com.br/poder-internacional/trump-chama-fed-de-politico-e-reclama-de-juros-altos/",
-     "hora": "20/11 16h16"
+     "veiculo": "CNN Brasil",
+     "titulo": "Tombo das ações da Anthropic após estreia vira alerta para mercado de IA",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/tombo-das-acoes-da-anthropic-apos-estreia-vira-alerta-para-mercado-de-ia/",
+     "hora": "20/11 15h34"
     },
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Trump afirma que taxas de juros estão altas porque Fed é “político”",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/trump-afirma-que-taxas-de-juros-estao-altas-porque-fed-e-politico/",
-     "hora": "20/11 15h05"
+     "veiculo": "Valor Econômico",
+     "titulo": "Bolsas da Europa têm queda forte com pressão sobre ações de IA após estreia da Anthropic",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/20/bolsas-da-europa-tem-queda-forte-com-pressao-sobre-acoes-de-ia-apos-estreia-da-anthropic.ghtml",
+     "hora": "20/11 14h26"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T15:34-03:00"
   },
   {
-   "assunto": "Trump menciona o Brasil ao citar pressão para que Filipinas comprem produtos dos EUA",
+   "assunto": "Torta de liquidificador: 3 receitas práticas e saborosas para o lanche da tarde",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "antag",
+    "cc"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CartaCapital",
+     "titulo": "Torta de liquidificador: 3 receitas práticas e saborosas para o lanche da tarde",
+     "url": "https://www.cartacapital.com.br/receitas/torta-de-liquidificador-3-receitas-praticas-e-saborosas-para-o-lanche-da-tarde/",
+     "hora": "20/11 16h03"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Torta de liquidificador: 3 receitas práticas e saborosas para o lanche da tarde",
+     "url": "https://oantagonista.com.br/ladooa/variedades/torta-de-liquidificador-3-receitas-praticas-e-saborosas-para-o-lanche-da-tarde/",
+     "hora": "20/11 15h35"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:03-03:00"
+  },
+  {
+   "assunto": "Trump diz que Putin quer encerrar guerra na Ucrânia por via diplomática",
    "secao": "mundo",
    "n_fontes": 2,
    "fontes": [
-    "im",
-    "p360"
+    "antag",
+    "cnn"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Trump menciona o Brasil ao citar pressão para que Filipinas comprem produtos dos EUA",
-     "url": "https://www.infomoney.com.br/mundo/trump-menciona-o-brasil-ao-citar-pressao-para-que-filipinas-comprem-produtos-dos-eua/",
-     "hora": "20/11 15h43"
+     "veiculo": "O Antagonista",
+     "titulo": "Trump diz que Putin quer encerrar guerra na Ucrânia por via diplomática",
+     "url": "https://oantagonista.com.br/mundo/trump-diz-que-putin-quer-encerrar-guerra-na-ucrania-por-via-diplomatica/",
+     "hora": "20/11 15h32"
     },
     {
-     "veiculo": "Poder360",
-     "titulo": "Trump diz que Filipinas deixarão de comprar produtos agrícolas do Brasil",
-     "url": "https://www.poder360.com.br/poder-internacional/trump-diz-que-filipinas-deixarao-de-comprar-produtos-agricolas-do-brasil/",
-     "hora": "20/11 15h36"
+     "veiculo": "CNN Brasil",
+     "titulo": "Putin quer encerrar a guerra na Ucrânia por meios diplomáticos, diz Trump",
+     "url": "https://www.cnnbrasil.com.br/internacional/putin-quer-encerrar-a-guerra-na-ucrania-por-meios-diplomaticos-diz-trump/",
+     "hora": "20/11 15h27"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T15:32-03:00"
+  },
+  {
+   "assunto": "Trump pede 'segunda chance' para Jensen Huang e defende volta do executivo à Nvidia",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "ex",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Trump pede 'segunda chance' para Jensen Huang e defende volta do executivo à Nvidia",
+     "url": "https://exame.com/mundo/trump-pede-segunda-chance-para-jensen-huang-e-defende-volta-do-executivo-a-nvidia/",
+     "hora": "20/11 16h17"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Ex-CEO da Nvidia, Jensen Huang ameaçava e humilhava funcionários, diz jornal",
+     "url": "https://valor.globo.com/empresas/marketing/noticia/2026/11/20/ex-ceo-da-nvidia-jensen-huang-ameacava-e-humilhava-funcionarios-diz-jornal.ghtml",
+     "hora": "20/11 15h57"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:17-03:00"
   },
   {
    "assunto": "Turista é morto após reagir a assalto no centro do Rio de Janeiro",
@@ -411,11 +901,12 @@
      "hora": "20/11 13h55"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T15:15-03:00"
   },
   {
    "assunto": "'A cidade acabou': a destruição causada por temporal que provocou mortes no RS",
-   "secao": null,
+   "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
     "bbc"
@@ -430,7 +921,8 @@
      "hora": "20/11 15h44"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T15:44-03:00"
   },
   {
    "assunto": "'Brilho intenso e luz esverdeada': astrofísico explica meteoro visto nos céus da Paraíba",
@@ -449,26 +941,8 @@
      "hora": "20/11 14h08"
     }
    ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "'Sempre preocupada com todos', lamenta neta de idosa que morreu na tempestade em Tupanciretã",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "'Sempre preocupada com todos', lamenta neta de idosa que morreu na tempestade em Tupanciretã",
-     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/neta-idosa-morte-tempestade-tupancireta-rs.ghtml",
-     "hora": "20/11 13h44"
-    }
-   ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T14:08-03:00"
   },
   {
    "assunto": "13º salário: 1ª parcela deve ser paga até 30.nov; leia regras",
@@ -487,263 +961,49 @@
      "hora": "20/11 15h56"
     }
    ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T15:56-03:00"
   },
   {
-   "assunto": "A tecnologia prometeu facilidade. Agora está deixando muitos americanos apreensivos",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "A tecnologia prometeu facilidade. Agora está deixando muitos americanos apreensivos",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/a-tecnologia-prometeu-facilidade-agora-esta-deixando-muitos-americanos-apreensivos.shtml",
-     "hora": "20/11 15h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "A viagem de 8 anos que levou sonda a 'planeta misterioso' do sistema solar",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "A viagem de 8 anos que levou sonda a 'planeta misterioso' do sistema solar",
-     "url": "https://g1.globo.com/ciencia/noticia/2026/11/20/a-viagem-de-8-anos-que-levou-sonda-a-planeta-misterioso-do-sistema-solar.ghtml",
-     "hora": "20/11 15h43"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Adolescente morre após ser atropelado por caminhão-pipa em cidade do interior da PB",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Adolescente morre após ser atropelado por caminhão-pipa em cidade do interior da PB",
-     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/20/adolescente-morre-apos-ser-atropelado-por-caminhao-pipa-em-zona-rual-de-barra-de-santa-rosa-na-paraiba.ghtml",
-     "hora": "20/11 15h38"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Advogado está entre presos em operação contra o PCC em MS; veja quem são os alvos",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Advogado está entre presos em operação contra o PCC em MS; veja quem são os alvos",
-     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/20/advogado-esta-entre-presos-em-operacao-contra-o-pcc-em-ms-veja-quem-sao-os-alvos.ghtml",
-     "hora": "20/11 16h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Agenda ge: fim de semana tem decisões no futebol, velocross, tênis de mesa e mais",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Agenda ge: fim de semana tem decisões no futebol, velocross, tênis de mesa e mais",
-     "url": "https://ge.globo.com/rr/noticia/2026/11/20/agenda-ge-fim-de-semana-tem-decisoes-no-futebol-velocross-tenis-de-mesa-e-mais.ghtml",
-     "hora": "20/11 15h37"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Agência de viagens é investigada por golpes de mais de R$ 3 milhões, diz polícia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Agência de viagens é investigada por golpes de mais de R$ 3 milhões, diz polícia",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/20/agencia-de-viagens-e-investigada-por-golpes-de-mais-de-r-3-milhoes-diz-policia.ghtml",
-     "hora": "20/11 13h45"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Al-Ahli x Al-Nassr - Campeonato Saudita 2026/27 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Al-Ahli x Al-Nassr - Campeonato Saudita 2026/27 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-saudita/jogo/20-11-2026/ah-ahli-arabia-al-nassr-sau.ghtml",
-     "hora": "20/11 16h18"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Al-Ahli x Al-Faisaly FC - Campeonato Saudita 2026/27 - globoesporte.com",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-saudita/jogo/20-11-2026/ah-ahli-arabia-al-faisaly.ghtml",
-     "hora": "20/11 14h13"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Alvo da Europa e ex-Seleção como mentor: conheça Léo Cerci, joia do Athletico na Copa do Mundo Sub-17",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Alvo da Europa e ex-Seleção como mentor: conheça Léo Cerci, joia do Athletico na Copa do Mundo Sub-17",
-     "url": "https://ge.globo.com/pr/futebol/noticia/2026/11/20/alvo-da-europa-e-ex-selecao-como-mentor-conheca-leo-cerci-joia-do-athletico-na-copa-do-mundo-sub-17.ghtml",
-     "hora": "20/11 14h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Angra dos Reis (RJ) suspende taxa de turismo e remove catracas e totens de pagamento",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Angra dos Reis (RJ) suspende taxa de turismo e remove catracas e totens de pagamento",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/angra-dos-reis-rj-suspende-taxa-de-turismo-e-remove-catracas-e-totens-de-pagamento.shtml",
-     "hora": "20/11 13h53"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Animais atingidos por enchente em distrito recebem ração e terão atendimento veterinário",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Animais atingidos por enchente em distrito recebem ração e terão atendimento veterinário",
-     "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/20/animais-atingidos-por-enchente-em-distrito-recebem-racao-e-terao-atendimento-veterinario.ghtml",
-     "hora": "20/11 14h57"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Anitta fala sobre fé e diz que busca quebrar preconceitos com a música",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Anitta fala sobre fé e diz que busca quebrar preconceitos com a música",
-     "url": "https://www.metropoles.com/colunas/fabia-oliveira/anitta-fala-sobre-fe-e-diz-que-busca-quebrar-preconceitos-com-a-musica",
-     "hora": "20/11 14h43"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Apenas chips “mais antigos” devem ser vendidos para a China, diz Trump",
+   "assunto": "41% das famílias com crianças na Argentina não conseguem pagar as despesas básicas",
    "secao": "mundo",
    "n_fontes": 1,
    "fontes": [
-    "cnn"
+    "ex"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Apenas chips “mais antigos” devem ser vendidos para a China, diz Trump",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/apenas-chips-mais-antigos-devem-ser-vendidos-para-china-diz-trump/",
-     "hora": "20/11 15h52"
+     "veiculo": "Exame",
+     "titulo": "41% das famílias com crianças na Argentina não conseguem pagar as despesas básicas",
+     "url": "https://exame.com/mundo/41-das-familias-com-criancas-na-argentina-nao-conseguem-pagar-as-despesas-basicas/",
+     "hora": "20/11 14h35"
     }
    ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Após falhas que afetaram Microsoft e suspenderam voos, Trump demite diretor de segurança cibernética",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Após falhas que afetaram Microsoft e suspenderam voos, Trump demite diretor de segurança cibernética",
-     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/20/apos-falhas-que-afetaram-microsoft-e-suspenderam-voos-trump-demite-diretor-de-seguranca-cibernetica.ghtml",
-     "hora": "20/11 14h36"
-    }
-   ],
-   "n_fontes_90min": 1
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T14:35-03:00"
   }
  ],
  "em_pautas": {
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Racismo fiscal: quem paga a conta do ajuste fiscal econômico no Brasil?",
+     "url": "https://www.brasildefato.com.br/colunista/andreia-de-jesus/2026/11/20/racismo-fiscal-quem-paga-a-conta-do-ajuste-fiscal-economico-no-brasil/",
+     "hora": "20/11 14h02"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Ajuste fiscal preserva emendas e deixa a pesquisa em segundo plano",
+     "url": "https://www.metropoles.com/colunas/matheus-leitao/ajuste-fiscal-preserva-emendas-e-deixa-a-pesquisa-em-segundo-plano",
+     "hora": "20/11 15h04"
+    }
+   ]
+  },
   "brasileirao-31-rodada-lideres": {
    "secao": "esportes",
    "n_fontes": 1,
@@ -780,6 +1040,24 @@
     }
    ]
   },
+  "flavio-passaportes-1turma": {
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Moraes cita fuga de Flávio Bolsonaro e vota para manter medidas cautelares",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/20/moraes-cita-saida-do-brasil-e-vota-para-manter-medidas-cautelares-contra-flavio-bolsonaro.ghtml",
+     "hora": "20/11 14h56"
+    },
+    {
+     "veiculo": "ICL Notícias",
+     "titulo": "Moraes vota no STF para manter passaportes de Flávio Bolsonaro cancelados",
+     "url": "https://iclnoticias.com.br/moraes-manter-passaportes-de-flavio-cancelados/",
+     "hora": "20/11 14h44"
+    }
+   ]
+  },
   "anthropic-ipo-nasdaq": {
    "secao": "economia",
    "n_fontes": 1,
@@ -792,33 +1070,108 @@
     }
    ]
   },
-  "ajuste-fiscal-lula-4": {
-   "secao": "economia",
+  "eua-trump-xi-putin-apec-china": {
+   "secao": "mundo",
    "n_fontes": 1,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Ajuste fiscal preserva emendas e deixa a pesquisa em segundo plano",
-     "url": "https://www.metropoles.com/colunas/matheus-leitao/ajuste-fiscal-preserva-emendas-e-deixa-a-pesquisa-em-segundo-plano",
-     "hora": "20/11 15h04"
+     "veiculo": "Veja",
+     "titulo": "O que diz Trump sobre acordo nuclear com Rússia e China após reunião trilateral",
+     "url": "https://veja.abril.com.br/mundo/o-que-diz-trump-sobre-acordo-nuclear-com-russia-e-china-apos-reuniao-trilateral/",
+     "hora": "20/11 15h29"
+    }
+   ]
+  },
+  "decreto-6x1-adiado": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Fim da escala 6x1: agronegócio terá de adotar jornada 5x2 sem regras específicas",
+     "url": "https://exame.com/agro/fim-da-escala-6x1-agronegocio-tera-de-adotar-jornada-5x2-sem-regras-especificas/",
+     "hora": "20/11 15h33"
     }
    ]
   }
  },
  "novos_relatos": {
-  "caso-master": {
-   "n": 1,
-   "n_fontes": 1,
+  "decreto-6x1-adiado": {
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
-    "ab"
+    "ex",
+    "valor"
    ],
    "n_fontes_90min": 1,
-   "ultima": "20/11 10h34",
-   "ultima_iso": "2026-11-20T10:34-03:00",
-   "pauta_atualizada_em": "2026-11-20T09:34-03:00",
-   "horas_sem_atualizar": 6.8,
+   "ultima": "20/11 15h33",
+   "ultima_iso": "2026-11-20T15:33-03:00",
+   "pauta_atualizada_em": "2026-11-20T06:52-03:00",
+   "horas_sem_atualizar": 9.6,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Fim da escala 6x1: agronegócio terá de adotar jornada 5x2 sem regras específicas",
+     "url": "https://exame.com/agro/fim-da-escala-6x1-agronegocio-tera-de-adotar-jornada-5x2-sem-regras-especificas/",
+     "hora": "20/11 15h33"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Decreto do fim da escala 6X1 deixa brechas e abre margem para judicialização",
+     "url": "https://valor.globo.com/legislacao/noticia/2026/11/20/decreto-do-fim-da-escala-6x1-deixa-brechas-e-abre-margem-para-judicializacao.ghtml",
+     "hora": "20/11 12h32"
+    }
+   ]
+  },
+  "caso-master": {
+   "n": 6,
+   "n_fontes": 6,
+   "fontes": [
+    "ab",
+    "cc",
+    "ex",
+    "gp",
+    "icl",
+    "valor"
+   ],
+   "n_fontes_90min": 3,
+   "ultima": "20/11 13h33",
+   "ultima_iso": "2026-11-20T13:33-03:00",
+   "pauta_atualizada_em": "2026-11-20T09:34-03:00",
+   "horas_sem_atualizar": 6.9,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Gazeta do Povo República",
+     "titulo": "A pedido de Mendonça, Fachin retira sigilo de relatório da PF sobre o ministro e Vorcaro",
+     "url": "https://www.gazetadopovo.com.br/republica/fachin-retira-sigilo-de-relatorio-da-pf-sobre-vorcaro-e-andre-mendonca/",
+     "hora": "20/11 13h33"
+    },
+    {
+     "veiculo": "ICL Notícias",
+     "titulo": "Fachin manda quebrar sigilo de relatório da PF com menções a Mendonça",
+     "url": "https://iclnoticias.com.br/fachin-manda-quebrar-sigilo-de-relatorio-da-pf-com-mencoes-a-mendonca/",
+     "hora": "20/11 13h24"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Ao pedir fim do sigilo de relatório, Mendonça tenta se antecipar a críticas sobre sua relatoria no caso Master",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/20/ao-pedir-fim-do-sigilo-de-relatorio-mendonca-tenta-se-antecipar-a-criticas-sobre-sua-relatoria-no-caso-master.ghtml",
+     "hora": "20/11 12h59"
+    },
+    {
+     "veiculo": "CartaCapital",
+     "titulo": "Fachin retira sigilo de relatório da PF sobre menções a Mendonça",
+     "url": "https://www.cartacapital.com.br/justica/fachin-retira-sigilo-de-relatorio-da-pf-sobre-mencoes-a-mendonca/",
+     "hora": "20/11 11h06"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Caso Master: PF não encontrou troca de mensagens entre André Mendonça e Daniel Vorcaro",
+     "url": "https://exame.com/brasil/caso-master-pf-nao-encontrou-troca-de-mensagens-entre-andre-mendonca-e-daniel-vorcaro/",
+     "hora": "20/11 11h01"
+    },
     {
      "veiculo": "Agência Brasil",
      "titulo": "Fachin manda quebrar sigilo de relatório da PF com menções a Mendonça",
@@ -828,16 +1181,17 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
+    "bdf",
     "met"
    ],
-   "n_fontes_90min": 1,
+   "n_fontes_90min": 2,
    "ultima": "20/11 15h04",
    "ultima_iso": "2026-11-20T15:04-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 9.5,
+   "horas_sem_atualizar": 9.6,
    "principal": true,
    "manchetes": [
     {
@@ -845,20 +1199,27 @@
      "titulo": "Ajuste fiscal preserva emendas e deixa a pesquisa em segundo plano",
      "url": "https://www.metropoles.com/colunas/matheus-leitao/ajuste-fiscal-preserva-emendas-e-deixa-a-pesquisa-em-segundo-plano",
      "hora": "20/11 15h04"
+    },
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Racismo fiscal: quem paga a conta do ajuste fiscal econômico no Brasil?",
+     "url": "https://www.brasildefato.com.br/colunista/andreia-de-jesus/2026/11/20/racismo-fiscal-quem-paga-a-conta-do-ajuste-fiscal-economico-no-brasil/",
+     "hora": "20/11 14h02"
     }
    ]
   },
   "anthropic-ipo-nasdaq": {
-   "n": 2,
-   "n_fontes": 1,
+   "n": 3,
+   "n_fontes": 2,
    "fontes": [
-    "folha"
+    "folha",
+    "valor"
    ],
    "n_fontes_90min": 1,
    "ultima": "20/11 15h03",
    "ultima_iso": "2026-11-20T15:03-03:00",
    "pauta_atualizada_em": "2026-11-19T17:48-03:00",
-   "horas_sem_atualizar": 22.5,
+   "horas_sem_atualizar": 22.7,
    "principal": false,
    "manchetes": [
     {
@@ -872,6 +1233,33 @@
      "titulo": "'Um mal necessário': como a Anthropic conseguiu realizar seu IPO",
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/um-mal-necessario-como-a-anthropic-conseguiu-realizar-seu-ipo.shtml",
      "hora": "20/11 13h15"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "IPO da Anthropic alcança US$ 93,5 bi após bancos exercerem lote suplementar",
+     "url": "https://valor.globo.com/empresas/inteligencia-artificial/noticia/2026/11/20/ipo-da-anthropic-alcana-us-935-bi-aps-bancos-exercerem-lote-suplementar.ghtml",
+     "hora": "20/11 11h42"
+    }
+   ]
+  },
+  "eua-trump-xi-putin-apec-china": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "20/11 15h29",
+   "ultima_iso": "2026-11-20T15:29-03:00",
+   "pauta_atualizada_em": "2026-11-19T06:52-03:00",
+   "horas_sem_atualizar": 33.6,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "O que diz Trump sobre acordo nuclear com Rússia e China após reunião trilateral",
+     "url": "https://veja.abril.com.br/mundo/o-que-diz-trump-sobre-acordo-nuclear-com-russia-e-china-apos-reuniao-trilateral/",
+     "hora": "20/11 15h29"
     }
    ]
   },
@@ -887,7 +1275,7 @@
    "ultima": "20/11 15h36",
    "ultima_iso": "2026-11-20T15:36-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 9.5,
+   "horas_sem_atualizar": 9.6,
    "principal": true,
    "manchetes": [
     {
@@ -938,7 +1326,7 @@
    "ultima": "20/11 13h27",
    "ultima_iso": "2026-11-20T13:27-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 9.5,
+   "horas_sem_atualizar": 9.6,
    "principal": false,
    "manchetes": [
     {
@@ -946,6 +1334,34 @@
      "titulo": "Batido em 2025, Atlético-MG tenta de novo a sorte na decisão da Sul-Americana",
      "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/batido-em-2025-atletico-mg-tenta-de-novo-a-sorte-na-decisao-da-sul-americana.shtml",
      "hora": "20/11 13h27"
+    }
+   ]
+  },
+  "flavio-passaportes-1turma": {
+   "n": 2,
+   "n_fontes": 2,
+   "fontes": [
+    "icl",
+    "valor"
+   ],
+   "n_fontes_90min": 2,
+   "ultima": "20/11 14h56",
+   "ultima_iso": "2026-11-20T14:56-03:00",
+   "pauta_atualizada_em": "2026-11-20T13:49-03:00",
+   "horas_sem_atualizar": 2.7,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Moraes cita fuga de Flávio Bolsonaro e vota para manter medidas cautelares",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/20/moraes-cita-saida-do-brasil-e-vota-para-manter-medidas-cautelares-contra-flavio-bolsonaro.ghtml",
+     "hora": "20/11 14h56"
+    },
+    {
+     "veiculo": "ICL Notícias",
+     "titulo": "Moraes vota no STF para manter passaportes de Flávio Bolsonaro cancelados",
+     "url": "https://iclnoticias.com.br/moraes-manter-passaportes-de-flavio-cancelados/",
+     "hora": "20/11 14h44"
     }
    ]
   }
@@ -1251,6 +1667,216 @@
    "em": "2026-11-20T15:47-03:00"
   }
  ],
+ "breves_no_feed": 4,
+ "breves_faltam": 8,
+ "breves_sugeridas": [
+  {
+   "assunto": "Zanin pede destaque e leva caso de Van Hattem para o plenário físico da 1ª Turma do STF",
+   "secao": "politica",
+   "n_fontes": 5,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Zanin pede destaque e leva caso de Van Hattem para o plenário físico da 1ª Turma do STF",
+     "url": "https://veja.abril.com.br/brasil/zanin-pede-destaque-e-leva-caso-de-van-hattem-para-o-plenario-fisico-da-1a-turma-do-stf/",
+     "hora": "20/11 16h12"
+    },
+    {
+     "veiculo": "CartaCapital",
+     "titulo": "Zanin suspende julgamento virtual e leva caso de Van Hattem à sessão presencial",
+     "url": "https://www.cartacapital.com.br/justica/zanin-suspende-julgamento-virtual-e-leva-caso-de-van-hattem-a-sessao-presencial/",
+     "hora": "20/11 15h56"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Entidades empresariais do RS criticam STF por caso Marcel van Hattem",
+     "url": "https://oantagonista.com.br/brasil/entidades-empresariais-do-rs-criticam-stf-por-caso-marcel-van-hattem/",
+     "hora": "20/11 15h53"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Zanin leva julgamento de Marcel van Hattem para sessão presencial no STF",
+     "url": "https://oantagonista.com.br/brasil/zanin-leva-julgamento-de-marcel-van-hattem-para-sessao-presencial-no-stf/",
+     "hora": "20/11 15h49"
+    }
+   ]
+  },
+  {
+   "assunto": "Arábia Saudita ataca porto controlado pelos houthis no Iêmen",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Arábia Saudita ataca porto controlado pelos houthis no Iêmen",
+     "url": "https://www.poder360.com.br/poder-internacional/arabia-saudita-ataca-porto-controlado-pelos-houthis-no-iemen/",
+     "hora": "20/11 15h31"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Houthis atacam prédio mais alto da Arábia Saudita; não houve feridos",
+     "url": "https://www.infomoney.com.br/mundo/houthis-atacam-predio-mais-alto-da-arabia-saudita-nao-houve-feridos/",
+     "hora": "20/11 14h51"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Prédio mais alto da Arábia Saudita é atingido em ataque dos houthis",
+     "url": "https://www.metropoles.com/mundo/predio-mais-alto-da-arabia-saudita-e-atingido-em-ataque-dos-houthis",
+     "hora": "20/11 14h44"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Houthis ameaçam atingir portos da Arábia Saudita no Mar Vermelho",
+     "url": "https://www.cnnbrasil.com.br/internacional/houthis-ameacam-atingir-portos-da-arabia-saudita-no-mar-vermelho/",
+     "hora": "20/11 13h49"
+    }
+   ]
+  },
+  {
+   "assunto": "Defesa Civil: Tempestades causam danos em 25 cidades e afetam 3,4 mil pessoas no RS",
+   "secao": "brasil",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Defesa Civil: Tempestades causam danos em 25 cidades e afetam 3,4 mil pessoas no RS",
+     "url": "https://www.infomoney.com.br/brasil/defesa-civil-tempestades-causam-danos-em-25-cidades-e-afetam-34-mil-pessoas-no-rs/",
+     "hora": "20/11 16h07"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Três mortes, 17 cidades afetadas e casas destruídas: supercélula causa estragos no RS; Defesa Civil apura microexplosão",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/tempestade-mortes-danos-tupancireta-rs-chuva.ghtml",
+     "hora": "20/11 14h22"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Temporal de 114 km/h destelha 5 mil casas no RS; três mortes são investigadas",
+     "url": "https://exame.com/brasil/temporal-de-114-km-h-destelha-5-mil-casas-no-rs-tres-mortes-sao-investigadas/",
+     "hora": "20/11 13h51"
+    }
+   ]
+  },
+  {
+   "assunto": "Fuvest 2027: antecipa divulgação de aprovados para 2ª fase e locais de provas",
+   "secao": "educacao",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Fuvest 2027: antecipa divulgação de aprovados para 2ª fase e locais de provas",
+     "url": "https://www.infomoney.com.br/brasil/fuvest-2027-antecipa-divulgacao-de-aprovados-para-2a-fase-e-locais-de-provas/",
+     "hora": "20/11 16h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Fuvest antecipa divulgação de convocados para 2ª fase do vestibular",
+     "url": "https://www.metropoles.com/sao-paulo/fuvest-antecipa-divulgacao-de-convocados-para-2a-fase-do-vestibular",
+     "hora": "20/11 15h21"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Fuvest divulga convocados para segunda fase e locais de prova; veja lista",
+     "url": "https://www.cnnbrasil.com.br/educacao/fuvest-divulga-convocados-para-segunda-fase-e-locais-de-prova-veja-lista/",
+     "hora": "20/11 14h51"
+    }
+   ]
+  },
+  {
+   "assunto": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/homem-gritou-de-dor-em-execucao-que-durou-uma-hora-no-texas-nos-estados-unidos.shtml",
+     "hora": "20/11 16h22"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/execucao-texas-estados-unidos.ghtml",
+     "hora": "20/11 15h51"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://www.bbc.com/portuguese/articles/c84gn75r49eno?at_medium=RSS&at_campaign=rss",
+     "hora": "20/11 13h47"
+    }
+   ]
+  },
+  {
+   "assunto": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
+     "url": "https://jovempan.com.br/mundo/reino-unido-e-ue-firmam-acordo-historico-para-reaproximar-relacoes-dez-anos-apos-o-brexit/",
+     "hora": "20/11 15h20"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Reino Unido e União Europeia fecham acordos para reaproximação dez anos após Brexit",
+     "url": "https://exame.com/mundo/reino-unido-e-uniao-europeia-fecham-acordos-para-reaproximacao-dez-anos-apos-brexit/",
+     "hora": "20/11 15h16"
+    },
+    {
+     "veiculo": "Veja",
+     "titulo": "União Europeia e Reino Unido fecham acordo de reaproximação 10 anos após o Brexit",
+     "url": "https://veja.abril.com.br/economia/uniao-europeia-e-reino-unido-fecham-acordo-de-reaproximacao-10-anos-apos-o-brexit/",
+     "hora": "20/11 15h10"
+    }
+   ]
+  },
+  {
+   "assunto": "Crusoé: Van Hattem aponta parcialidade de Dino",
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Crusoé: Van Hattem aponta parcialidade de Dino",
+     "url": "https://oantagonista.com.br/brasil/crusoe-van-hattem-aponta-parcialidade-de-dino/",
+     "hora": "20/11 16h03"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Van Hattem diz que acionará o Congresso após voto de Dino para torná-lo réu",
+     "url": "https://www.metropoles.com/colunas/manoela-alcantara/van-hattem-diz-que-acionara-o-congresso-apos-voto-de-dino-para-torna-lo-reu",
+     "hora": "20/11 15h03"
+    }
+   ]
+  },
+  {
+   "assunto": "DOAÇÕES: Veja como ajudar famílias atingidas pela tempestade em Tupanciretã, no RS",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "DOAÇÕES: Veja como ajudar famílias atingidas pela tempestade em Tupanciretã, no RS",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/doacoes-veja-como-ajudar-familias-atingidas-pela-tempestade-em-tupancireta-no-rs.ghtml",
+     "hora": "20/11 14h19"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Tempestade causa mortes em Tupanciretã (RS)",
+     "url": "https://revistaoeste.com/brasil/tempestade-causa-mortes-em-tupancireta-rs/",
+     "hora": "20/11 14h00"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "'Sempre preocupada com todos', lamenta neta de idosa que morreu na tempestade em Tupanciretã",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/neta-idosa-morte-tempestade-tupancireta-rs.ghtml",
+     "hora": "20/11 13h44"
+    }
+   ]
+  }
+ ],
  "ultima_rodada": "2026-11-20T15:48-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
@@ -1259,19 +1885,37 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 2 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 5 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 11 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 24 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 11 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 5 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 7 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h"
+  "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
+  "Estadão Política": "ok: 20 itens, 6 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 4 nas últimas 6 h",
+  "Estadão Brasil": "ok: 20 itens, 6 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 3 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "Valor Econômico": "ok: 100 itens, 46 nas últimas 6 h",
+  "Exame": "ok: 25 itens, 22 nas últimas 6 h",
+  "Veja": "ok: 20 itens, 20 nas últimas 6 h",
+  "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
+  "DW Brasil": "ok: 63 itens, 6 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 58 itens, 8 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
+  "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
+  "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
+  "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
+  "CartaCapital": "ok: 20 itens, 18 nas últimas 6 h",
+  "Brasil de Fato": "ok: 99 itens, 19 nas últimas 6 h",
+  "ICL Notícias": "ok: 10 itens, 6 nas últimas 6 h"
  }
 }
