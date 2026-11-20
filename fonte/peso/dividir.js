@@ -14,14 +14,16 @@ if (!FR.partes) { console.log('dividir: frias.json no formato antigo; nada divid
 const parteDe = new Map(); for (const n of Object.keys(FR.partes)) for (const k of FR.partes[n]) parteDe.set(k, +n);
 // sempre no núcleo, mesmo que a medição não as tenha visto rodar: a abertura depende delas em caminhos que variam com a
 // rede e com os dados do dia (feed leve chegando antes do completo, rodada nova, faixa Agora, ilustração da manchete)
-const NUCLEO_FIXO = /^(fl119|ta120|pc121|gen161Tema$|illAlt$|atualizarAgora$|carregarAgora$|dt185Antes$|rodadaRecenteMin$)/;
+const NUCLEO_FIXO = /^(fl119|ta120|pc121|gen161Tema$|illAlt$|atualizarAgora$|carregarAgora$|dt185Antes$|rodadaRecenteMin$|co160ConfereCampo$|co160Motivo$|dataCurta$|dicaVoto$|acvPeriodo$|mb138Vv$|ft140Aplica$|ft187Confirma$|rs204Base$|pgEncher$|secLista$|fc107AtPid$|abrirTour$|abrirFaltaConvite$|sheet$|acvLinha$|dmPrevia$|renderMe$|abrirMateria$|co160Recupera$|co160PostPrevia$|mt158Pagina$|mc1111Toques$|travarFundo$|goTroca$|abrirRodadas$|qc127HasSync$|nt124RotaTenta$|checarFeed$|av8Assina$|fd204CmtHTML$|cr166Rail$)/;
+// idem para funções sem nome (passadas numa chamada no topo), pela chave; achadas na bateria em modo de medição (20/11)
+const CHAVES_FIXAS = new Set(['ae5c9fbf1c#1', 'd65ed049f4#1', 'c07c7e4c02#1', 'ac336828c5#1']);
 const h = fs.readFileSync(ARQ, 'utf8');
 let melhor = null; const re = /<script>([\s\S]*?)<\/script>/g; let m;  // o script principal é o maior <script> sem atributos
 while ((m = re.exec(h))) if (!melhor || m[1].length > melhor.txt.length) melhor = { ini: m.index + 8, txt: m[1] };
 const src = melhor.txt, ast = acorn.parse(src, { ecmaVersion: 'latest', sourceType: 'script' });
 const trocas = [], partes = { 2: [], 3: [] }, mapa = { 2: [], 3: [] };
 for (const u of unidades(src, ast)) {
-  const n = parteDe.get(u.chave); if (!n || NUCLEO_FIXO.test(u.nome)) continue;
+  const n = parteDe.get(u.chave); if (!n || NUCLEO_FIXO.test(u.nome) || CHAVES_FIXAS.has(u.chave)) continue;
   const k = partes[n].length, fn = u.fn;
   // o texto da função como expressão (declaração vira "function(params){corpo}"; seta continua seta)
   const expr = u.tipo === 'decl' ? (fn.async ? 'async ' : '') + 'function' + src.slice(fn.id.end, fn.end) : u.txt;
@@ -49,7 +51,7 @@ function __pCarrega(n){if(!__PURL[n]||window.__PF[n]||(window.__pini=window.__pi
 function __pDepois(n,f){if(window.__PF[n]||!__PURL[n]){f();return}addEventListener("prumo:parte"+n,function(){f()},{once:true});__pCarrega(n)}
 (function(){var ini=Date.now(),vai3=function(){__pDepois(2,function(){var g=function(){__pCarrega(3)};window.requestIdleCallback?requestIdleCallback(g,{timeout:2500}):setTimeout(g,300)})};
   /* parte 2 assim que a Capa estiver desenhada (ou já, se o app não abriu na Capa: link de matéria, outra aba); parte 3 depois dela */
-  if(location.hash.length>1||/[?&]\\w+=/.test(location.search))__pCarrega(2);
+  if(location.hash.length>1||/[?&]\\w+=/.test(location.search)||(typeof abreNaCapa==="function"&&!abreNaCapa())){__pCarrega(2);__pCarrega(3)}
   var olha=function(){var c=document.querySelector("#v-capa .cpi");
     if((c&&c.getBoundingClientRect().height>0)||(typeof abreNaCapa==="function"&&!abreNaCapa())||Date.now()-ini>2500){__pCarrega(2);vai3();return}setTimeout(olha,50)};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",olha);else olha();
