@@ -172,7 +172,9 @@ function cpAlternar(antigo,novo){try{if(VIEW!=="capa")return false;
   CAPA_SIG=capaSig();return true}catch(e){return false}}
 /* assinatura do que a Capa mostra: se não mudou, trocar de aba não remonta */
 var CAPA_SIG="";
-function capaSig(){try{return [FEED&&FEED.atualizado_em,FEED&&FEED.pautas&&FEED.pautas.length,lente(),CP_AB,NOVAS.size,ATUALIZADAS.size,LIDAS.size,(PREF.ocultas||[]).join(),FOTOS_ARQ&&FOTOS_ARQ.gerado,typeof NOVID_AG!=="undefined"&&NOVID_AG&&NOVID_AG.gerado,Math.floor(Date.now()/300000),S.uid||"",S.membro?1:0,innerWidth>=900,typeof CAPA_FIXA!=="undefined"?JSON.stringify(CAPA_FIXA):"",capaPrefSig(),JSON.stringify(((S.quiz||{})[S.uid||"eu"]||{}).at||"")].join("|")}catch(e){return String(Math.random())}}
+/* 20/11: largura guardada (ler innerWidth logo depois de mexer na página obriga o navegador a recalcular tudo na hora) */
+var CP_LARGA=innerWidth>=900;addEventListener("resize",()=>{CP_LARGA=innerWidth>=900});
+function capaSig(){try{return [FEED&&FEED.atualizado_em,FEED&&FEED.pautas&&FEED.pautas.length,lente(),CP_AB,NOVAS.size,ATUALIZADAS.size,LIDAS.size,(PREF.ocultas||[]).join(),FOTOS_ARQ&&FOTOS_ARQ.gerado,typeof NOVID_AG!=="undefined"&&NOVID_AG&&NOVID_AG.gerado,Math.floor(Date.now()/300000),S.uid||"",S.membro?1:0,CP_LARGA,typeof CAPA_FIXA!=="undefined"?JSON.stringify(CAPA_FIXA):"",capaPrefSig(),JSON.stringify(((S.quiz||{})[S.uid||"eu"]||{}).at||"")].join("|")}catch(e){return String(Math.random())}}
 function capaSeMudou(){const v=$("#v-capa");if(!v||!v.querySelector(".cpi")||capaSig()!==CAPA_SIG)renderCapa();else{try{lenteBotao()}catch(e){}}}
 
 /* ===== desenho ===== */
@@ -233,7 +235,7 @@ function renderCapa(){nm186EmDia();
         try{ab141Mescla(vivo,base,novo);v.replaceChild(vivo,novo)}catch(e){ab141Base=novo.cloneNode(true);if(vivo.parentNode!==v&&novo.parentNode!==v)v.appendChild(novo)}
         try{if(typeof capaObservar==="function")capaObservar()}catch(e){}}
       else if(novo!==vivo){ab141Base=novo.cloneNode(true);ab141Marca(novo)}}}
-  try{ca159Acomp();ca159Sino();ca159Lp()}catch(e){}
+  try{ca159Acomp();ca159Sino();requestAnimationFrame(()=>{try{ca159Lp()}catch(e){}})}catch(e){}/* 20/11: ca159Lp lê scrollY (força o navegador a calcular a página no meio do desenho); no próximo quadro sai de graça */
   try{cm168Acomp();cm168Agenda()}catch(e){}
   try{ui184Lado();ui184Observa()}catch(e){}}
 

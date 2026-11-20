@@ -183,7 +183,7 @@ function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="
 const APP_VERSAO="%%VERSAO%%";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
-var PP_RE=new Map();function posPalavra(t,k){try{let re=PP_RE.get(k);if(!re){re=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u");PP_RE.set(k,re)}if(String(t).indexOf(k)<0&&String(t).toLowerCase().indexOf(String(k).toLowerCase())<0)return -1;const m=re.exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
+var PP_RE=new Map();function posPalavra(t,k){try{let re=PP_RE.get(k);if(!re){re=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u");PP_RE.set(k,re)}if(String(t).indexOf(k)<0)return -1;const m=re.exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
 function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit=String((p.neutro||{}).titulo||""),ck=p.id+"|"+tit+"|"+(A.gerado||"");if(ck in FA_CACHE)return FA_CACHE[ck];
   let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});
   let l=best&&Array.isArray(best.fotos)?best.fotos:null;const T=A.temas||{};

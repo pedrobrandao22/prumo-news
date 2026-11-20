@@ -65,7 +65,7 @@ function fl119Encaixar(full){const P=FL119.parcial;FL119.parcial=null;const v=FL
   Object.keys(FEED).forEach(k=>delete FEED[k]);Object.assign(FEED,s);if(v)FL119.v.set(FEED,v);fl119Guardar(FEED);
   if(typeof FEED_ADIADO!=="undefined"&&typeof RF_REAL==="function"){
     if(VIEW==="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}
-    else{FEED_ADIADO=true;const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}}
+    else{FEED_ADIADO=true;const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};rfQuandoCalmo(f)}}
   fl119Depois()}
 /* o que estava aberto com o leve se completa: matéria e busca */
 function fl119Depois(){try{if(typeof MAT_PID!=="undefined"&&MAT_PID&&document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML))abrirMateria(MAT_PID,true)}catch(e){}
