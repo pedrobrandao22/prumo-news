@@ -54,8 +54,10 @@ function ct210UltMud(){let m=Date.parse((FEED&&FEED.atualizado_em)||"");if(!isFi
   try{(typeof ac208Itens==="function"?ac208Itens():[]).forEach(x=>{if(x&&x.h>m&&x.h<=ag)m=x.h})}catch(e){}
   try{(typeof agoraItens==="function"?agoraItens():[]).forEach(x=>{const h=+(x&&x.h);if(h>m&&h<=ag)m=h})}catch(e){}return m}
 {const _ce=capaEdicao;capaEdicao=function(){const s=_ce.apply(this,arguments);try{const a=Date.parse(FEED.atualizado_em||""),m=ct210UltMud();
-    if(isFinite(a)&&isFinite(m)&&m-a>60e3&&dataSP(new Date(m).toISOString())===dataSP(new Date(a).toISOString())){const p=new Date(m).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":");
-      return s.replace(/^Atualizada às \d{1,2}h\d{2}/,"Atualizada às "+(+p[0])+"h"+p[1])}}catch(e){}return s}}
+    if(isFinite(a)&&isFinite(m)&&m-a>60e3){const dm=new Date(m),p=dm.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":"),hh="Atualizada às "+(+p[0])+"h"+p[1];
+      if(dataSP(dm.toISOString())===dataSP(new Date(a).toISOString()))return s.replace(/^Atualizada às \d{1,2}h\d{2}/,hh);
+      /* 20/11: novidade depois da meia-noite: hora e dia da novidade (antes ficava a hora de ontem) */
+      if(/^Atualizada às \d{1,2}h\d{2} · /.test(s))return hh+" · "+dm.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short",timeZone:"America/Sao_Paulo"}).replace(/\./g,"")}}catch(e){}return s}}
 function ct210Topo(){try{const e=$("#v-capa .cp-ed");if(!e||!FEED)return;const t=capaEdicao()+(FEED.contagem?" · "+FEED.contagem:"");if(e.textContent!==t)e.textContent=t}catch(e){}}
 {const _aa=ac208Atualiza;ac208Atualiza=function(){const r=_aa.apply(this,arguments);ct210Topo();try{fd167Rodape()}catch(e){}return r}}
 {const _fr=fd167Rodape;fd167Rodape=function(){const r=_fr.apply(this,arguments);try{const p=document.querySelector("#extra .foot p.fd167-at");if(!p)return r;const a=Date.parse(FEED.atualizado_em||""),m=ct210UltMud();
