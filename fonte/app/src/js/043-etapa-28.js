@@ -1,8 +1,9 @@
 /* ---------- Etapa 28 ---------- */
 /* fotos de arquivo sem repetir na edição: a de maior prioridade escolhe primeiro */
-var FA_MAP=null,FA_MAPK="";
-function faNome(u){try{u=String(u||"").split("?")[0];const m=u.match(/\/thumb\/[0-9a-f]\/[0-9a-f]{2}\/([^/]+)\//i);return decodeURIComponent(m?m[1]:u.split("/").pop()).toLowerCase()}catch(e){return String(u).split("?")[0].split("/").pop().toLowerCase()}}
-function faPessoa(tit,A){let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
+var FA_MAP=null,FA_MAPK="",FA_TICK=null,FA_TICKF=null;
+var FA_NOMES=new Map();function faNome(u){const c=FA_NOMES.get(u);if(c!==undefined)return c;const r=faNome0(u);if(FA_NOMES.size>4000)FA_NOMES.clear();FA_NOMES.set(u,r);return r}
+function faNome0(u){try{u=String(u||"").split("?")[0];const m=u.match(/\/thumb\/[0-9a-f]\/[0-9a-f]{2}\/([^/]+)\//i);return decodeURIComponent(m?m[1]:u.split("/").pop()).toLowerCase()}catch(e){return String(u).split("?")[0].split("/").pop().toLowerCase()}}
+function faPessoa(tit,A){const r=ft157AchaEm(A.pessoas,tit,null);return r?r[0]:null}/* 20/11: busca indexada (157); mesmo resultado */
 function faListas(p,A){const L=[],T=A.temas||{},sec=secOf(p),tit=String((p.neutro||{}).titulo||"");
   const pe=p.foto_arquivo==="tema"?null:faPessoa(tit,A);if(pe&&Array.isArray(pe.fotos)&&pe.fotos.length)L.push(pe.fotos);
   const as=faAssunto(tit,A,sec);if(as&&Array.isArray(as.fotos)&&as.fotos.length)L.push(as.fotos);
@@ -10,6 +11,7 @@ function faListas(p,A){const L=[],T=A.temas||{},sec=secOf(p),tit=String((p.neutr
   const d=T[(A.padrao||{})[sec]];if(Array.isArray(d)&&d.length&&d!==t)L.push(d);return L}
 function faValida(f){return f&&typeof f.url==="string"&&FOTO_OK.test(f.url)}
 function faMapa(){const A=FOTOS_ARQ;if(!A||!FEED||!Array.isArray(FEED.pautas))return null;
+  if(FA_MAP&&FA_TICK===A&&FA_TICKF===FEED)return FA_MAP;FA_TICK=A;FA_TICKF=FEED;queueMicrotask(()=>{FA_TICK=null});
   const k=(A.gerado||"")+"|"+(FEED.atualizado_em||"")+"|"+FEED.pautas.map(p=>p.id+":"+(p.prioridade||0)+":"+((p.neutro||{}).titulo||"")).join(",");
   if(FA_MAP&&FA_MAPK===k)return FA_MAP;
   const usados=new Set(),M={},pr=p=>typeof p.prioridade==="number"?p.prioridade:0;

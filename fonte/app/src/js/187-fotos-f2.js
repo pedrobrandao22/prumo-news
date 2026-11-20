@@ -49,9 +49,7 @@ var FT187_ORG_GRUPO={camara:"Câmara",senado:"Senado",stf:"STF"};
 var FT187_ORG_NOME={"Alexandre de Moraes":"STF","Edson Fachin":"STF","Gilmar Mendes":"STF","Flávio Dino":"STF","André Mendonça":"STF",
   "Kassio Nunes Marques":"STF","Cármen Lúcia":"STF","Dias Toffoli":"STF","Luiz Fux":"STF","Cristiano Zanin":"STF",
   "Fernando Haddad":"Fazenda","Gabriel Galípolo":"Banco Central"};
-function ft187Orgao(fr,A){let best=null,pos=1e9,len=0;Object.entries(A.pessoas||{}).forEach(([nome,x])=>{if(!x||!Array.isArray(x.chaves))return;
-  x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(fr,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=[nome,x]}})});
-  if(!best)return null;const org=FT187_ORG_GRUPO[best[1].grupo]||FT187_ORG_NOME[best[0]];return org?[pos,org]:null}
+function ft187Orgao(fr,A){const r=ft157Acha(fr,A,false);if(!r)return null;const pos=r[1],best=[r[2],r[0]];const org=FT187_ORG_GRUPO[best[1].grupo]||FT187_ORG_NOME[best[0]];return org?[pos,org]:null}
 /* lugares da frase principal do título, na ordem em que aparecem: os que o título diz e o órgão da 1ª pessoa citada */
 function ft187Lugares(fr,A){const out=[];FT187_RE.forEach(([nome,rt,ra,br],k)=>{const m=rt.exec(fr);if(m)out.push([m.index+m[0].length-m[1].length,k,nome,ra,br])});
   const og=A?ft187Orgao(fr,A):null;

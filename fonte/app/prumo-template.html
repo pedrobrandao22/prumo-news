@@ -6537,12 +6537,17 @@ body.sr209-off .fd156-mais .fd156-sk{display:none}
     /* ao vivo */
     var vivo=ps.filter(function(p){return p.status==="ao_vivo"});
     if(vivo.length)h+='<div class="cp-vivo"><b><i></i>Ao vivo</b>'+vivo.map(function(p){return '<button type="button" data-cobpag="'+esc(p.id)+'">'+et(capaChapeu(p)+": "+titulo(p)+" ›")+'</button>'}).join("")+'</div>';
+    /* o mesmo texto alternativo do illAlt (161): ilustração genérica sem tema vira "jornal" (cópia do gen161Tema; o teste compara) */
+    function altArte(im){var a=im.alt||"Ilustração";try{var gen=im.modelo==="generica"||!im.modelo||(typeof ILL!=="undefined"&&!ILL[im.modelo]);if(!gen)return a;
+      var r=(String((im.dados&&im.dados.rotulo)||"")+" "+String(im.alt||"")).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+      if(/futebol|\bbola\b|gramado|brasileirao|serie [ab]\b|selecao|sul-americana|libertadores|copa do|rodada|amistoso|playoff/.test(r)||/aviao|\bvoos?\b|decolag|aeroport|viagem|aereo/.test(r)||/floresta|clima|\bcop\s?\d|ambient|desmat|amazonia|folhas/.test(r)||/tecnolog|servidor|\bchips?\b|nvidia|microsoft|big tech|digita|internet|\bia\b|intelig.ncia artificial|software|apple|google|meta\b/.test(r)||/cupula|bandeira|china|\beua\b|estados unidos|russia|mundo|globo|internacional|guerra|otan|\bonu\b|apec|g20|europa/.test(r)||/congresso|camara|senado|planalto|esplanada|ministerio|brasilia|governo|stf|plenario|deputad|senador/.test(r))return a;
+      return "Ilustração: jornal (sem foto desta notícia)"}catch(e){return a}}
     /* a manchete (cpItem com tam "man") */
     var p=man,u=ultimaAtualizacao(p)||p.hora;
     var meta='<span class="cp-meta">'+cobStatus(p)+(u?'<span>'+esc(atualizadoTxt(u))+'</span>':"")+'</span>';
     var k='<span class="cp-k" style="color:'+secCor(secOf(p))+'">'+et(capaChapeu(p)+(p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""))+(corRecente(p)?'<span class="cp-corr"> · corrigida</span>':"")+'</span>';
     var sub=linha||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro&&p.neutro.texto,170);
-    var im=p.imagem||{},svg='<svg viewBox="0 0 400 240" role="img" aria-label="'+esc(im.alt||"Ilustração")+'"><rect class="ib" width="400" height="240"/></svg>';
+    var im=p.imagem||{},svg='<svg viewBox="0 0 400 240" role="img" aria-label="'+esc(altArte(im))+'"><rect class="ib" width="400" height="240"/></svg>';
     /* foto própria da manchete: a escolha do app é longa (faValida, 157, 169, mapa do acervo); aí fica o esqueleto */
     if(p.foto&&typeof p.foto==="object")return;
     var arte='<span class="art paper" data-sec="'+esc(secOf(p))+'">'+svg+'</span>';
@@ -7464,7 +7469,7 @@ function fl119Encaixar(full){const P=FL119.parcial;FL119.parcial=null;const v=FL
   Object.keys(FEED).forEach(k=>delete FEED[k]);Object.assign(FEED,s);if(v)FL119.v.set(FEED,v);fl119Guardar(FEED);
   if(typeof FEED_ADIADO!=="undefined"&&typeof RF_REAL==="function"){
     if(VIEW==="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}
-    else{FEED_ADIADO=true;const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}}
+    else{FEED_ADIADO=true;const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};rfQuandoCalmo(f)}}
   fl119Depois()}
 /* o que estava aberto com o leve se completa: matéria e busca */
 function fl119Depois(){try{if(typeof MAT_PID!=="undefined"&&MAT_PID&&document.querySelector("#layer .mat")&&!(($("#layer2")||{}).innerHTML))abrirMateria(MAT_PID,true)}catch(e){}
@@ -7673,7 +7678,9 @@ function cpAlternar(antigo,novo){try{if(VIEW!=="capa")return false;
   CAPA_SIG=capaSig();return true}catch(e){return false}}
 /* assinatura do que a Capa mostra: se não mudou, trocar de aba não remonta */
 var CAPA_SIG="";
-function capaSig(){try{return [FEED&&FEED.atualizado_em,FEED&&FEED.pautas&&FEED.pautas.length,lente(),CP_AB,NOVAS.size,ATUALIZADAS.size,LIDAS.size,(PREF.ocultas||[]).join(),FOTOS_ARQ&&FOTOS_ARQ.gerado,typeof NOVID_AG!=="undefined"&&NOVID_AG&&NOVID_AG.gerado,Math.floor(Date.now()/300000),S.uid||"",S.membro?1:0,innerWidth>=900,typeof CAPA_FIXA!=="undefined"?JSON.stringify(CAPA_FIXA):"",capaPrefSig(),JSON.stringify(((S.quiz||{})[S.uid||"eu"]||{}).at||"")].join("|")}catch(e){return String(Math.random())}}
+/* 20/11: largura guardada (ler innerWidth logo depois de mexer na página obriga o navegador a recalcular tudo na hora) */
+var CP_LARGA=innerWidth>=900;addEventListener("resize",()=>{CP_LARGA=innerWidth>=900});
+function capaSig(){try{return [FEED&&FEED.atualizado_em,FEED&&FEED.pautas&&FEED.pautas.length,lente(),CP_AB,NOVAS.size,ATUALIZADAS.size,LIDAS.size,(PREF.ocultas||[]).join(),FOTOS_ARQ&&FOTOS_ARQ.gerado,typeof NOVID_AG!=="undefined"&&NOVID_AG&&NOVID_AG.gerado,Math.floor(Date.now()/300000),S.uid||"",S.membro?1:0,CP_LARGA,typeof CAPA_FIXA!=="undefined"?JSON.stringify(CAPA_FIXA):"",capaPrefSig(),JSON.stringify(((S.quiz||{})[S.uid||"eu"]||{}).at||"")].join("|")}catch(e){return String(Math.random())}}
 function capaSeMudou(){const v=$("#v-capa");if(!v||!v.querySelector(".cpi")||capaSig()!==CAPA_SIG)renderCapa();else{try{lenteBotao()}catch(e){}}}
 
 /* ===== desenho ===== */
@@ -7734,7 +7741,7 @@ function renderCapa(){nm186EmDia();
         try{ab141Mescla(vivo,base,novo);v.replaceChild(vivo,novo)}catch(e){ab141Base=novo.cloneNode(true);if(vivo.parentNode!==v&&novo.parentNode!==v)v.appendChild(novo)}
         try{if(typeof capaObservar==="function")capaObservar()}catch(e){}}
       else if(novo!==vivo){ab141Base=novo.cloneNode(true);ab141Marca(novo)}}}
-  try{ca159Acomp();ca159Sino();ca159Lp()}catch(e){}
+  try{ca159Acomp();ca159Sino();requestAnimationFrame(()=>{try{ca159Lp()}catch(e){}})}catch(e){}/* 20/11: ca159Lp lê scrollY (força o navegador a calcular a página no meio do desenho); no próximo quadro sai de graça */
   try{cm168Acomp();cm168Agenda()}catch(e){}
   try{ui184Lado();ui184Observa()}catch(e){}}
 
@@ -8546,7 +8553,7 @@ function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="
 const APP_VERSAO="%%VERSAO%%";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
-var PP_RE=new Map();function posPalavra(t,k){try{let re=PP_RE.get(k);if(!re){re=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u");PP_RE.set(k,re)}if(String(t).indexOf(k)<0&&String(t).toLowerCase().indexOf(String(k).toLowerCase())<0)return -1;const m=re.exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
+var PP_RE=new Map();function posPalavra(t,k){try{let re=PP_RE.get(k);if(!re){re=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u");PP_RE.set(k,re)}if(String(t).indexOf(k)<0)return -1;const m=re.exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
 function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit=String((p.neutro||{}).titulo||""),ck=p.id+"|"+tit+"|"+(A.gerado||"");if(ck in FA_CACHE)return FA_CACHE[ck];
   let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});
   let l=best&&Array.isArray(best.fotos)?best.fotos:null;const T=A.temas||{};
@@ -8821,8 +8828,8 @@ async function carregarIndAuto(){if(Date.now()-IND_T<60000)return;IND_T=Date.now
     if(troca){try{if(document.querySelector("#secs .sb"))renderSecs()}catch(e){}}
     if((mudou||troca)&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&(troca||FILTRO==="economia")){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
 (function(){const ant=checarFeed;checarFeed=function(x){carregarIndAuto();return ant.apply(this,arguments)}})();
-/* 20/11 (peso): só depois de a Capa estar na tela (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
-function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
+/* 20/11 (peso): só depois de a Capa estar na tela (ou já, se o app não abriu na Capa) (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
+function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||(typeof abreNaCapa==="function"&&!abreNaCapa())||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
 depoisDaCapa(carregarIndAuto);
 
 /* ---------- Etapa 13: gráficos dos indicadores ---------- */
@@ -8959,8 +8966,12 @@ function saidaClone(node,cls,ms){if(!node)return;const w=document.createElement(
 /* ---------- Etapa 16 ---------- */
 /* abrir só o que aparece: o Feed é desenhado quando for usado (ou num momento ocioso) */
 var FEED_ADIADO=!!window.__feedAdiado,RF_REAL=renderFeed;
-if(FEED_ADIADO){const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}
-renderFeed=function(){if(VIEW!=="feed"&&FEED&&document.querySelector("#v-capa .cpi")){if(VIEW==="capa"){try{renderCapa()}catch(e){}}FEED_ADIADO=true;if(!renderFeed._t){const f=()=>{renderFeed._t=0;if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};renderFeed._t=window.requestIdleCallback?requestIdleCallback(f,{timeout:3000}):setTimeout(f,1200)}return}FEED_ADIADO=false;return RF_REAL.apply(this,arguments)};
+/* 20/11 (abertura): o Feed escondido só é desenhado com o celular calmo: 2,5 s depois de a página terminar de carregar e
+   num momento ocioso (antes ele disputava o processador com a Capa, as fotos e os indicadores). Tocar no Feed desenha na hora. */
+function rfQuandoCalmo(f){const vai=()=>setTimeout(()=>{window.requestIdleCallback?requestIdleCallback(f,{timeout:4000}):f()},2500);
+  if(document.readyState==="complete")vai();else addEventListener("load",vai,{once:true})}
+if(FEED_ADIADO){const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};rfQuandoCalmo(f)}
+renderFeed=function(){if(VIEW!=="feed"&&FEED&&document.querySelector("#v-capa .cpi")){if(VIEW==="capa"){try{renderCapa()}catch(e){}}FEED_ADIADO=true;if(!renderFeed._t){const f=()=>{renderFeed._t=0;if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};renderFeed._t=1;rfQuandoCalmo(f)}return}FEED_ADIADO=false;return RF_REAL.apply(this,arguments)};
 /* eventos de uso, anônimos (sem conta, sem nome): aparelho = número aleatório guardado no aparelho */
 var EV_FILA=[],EV_OFF=false,EV_SESS=(function(){try{let s=localStorage.getItem("prumo-aparelho");if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("prumo-aparelho",s)}return s}catch(e){return "sem-"+Math.random().toString(36).slice(2)}})();
 function evento(tipo,pid,secao){if(EV_OFF||navigator.webdriver&&!window.__evTeste)return;EV_FILA.push({p_sessao:EV_SESS,p_tipo:tipo,p_pid:pid||null,p_secao:secao||null,p_origem:(matchMedia("(display-mode: standalone)").matches||navigator.standalone)?"app":"site"});clearTimeout(evento._t);evento._t=setTimeout(enviarEventos,1500)}
@@ -9090,9 +9101,10 @@ depoisDaCapa(carregarFotosArq);/* 20/11 (peso): depois de a Capa estar na tela *
 
 /* ---------- Etapa 28 ---------- */
 /* fotos de arquivo sem repetir na edição: a de maior prioridade escolhe primeiro */
-var FA_MAP=null,FA_MAPK="";
-function faNome(u){try{u=String(u||"").split("?")[0];const m=u.match(/\/thumb\/[0-9a-f]\/[0-9a-f]{2}\/([^/]+)\//i);return decodeURIComponent(m?m[1]:u.split("/").pop()).toLowerCase()}catch(e){return String(u).split("?")[0].split("/").pop().toLowerCase()}}
-function faPessoa(tit,A){let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
+var FA_MAP=null,FA_MAPK="",FA_TICK=null,FA_TICKF=null;
+var FA_NOMES=new Map();function faNome(u){const c=FA_NOMES.get(u);if(c!==undefined)return c;const r=faNome0(u);if(FA_NOMES.size>4000)FA_NOMES.clear();FA_NOMES.set(u,r);return r}
+function faNome0(u){try{u=String(u||"").split("?")[0];const m=u.match(/\/thumb\/[0-9a-f]\/[0-9a-f]{2}\/([^/]+)\//i);return decodeURIComponent(m?m[1]:u.split("/").pop()).toLowerCase()}catch(e){return String(u).split("?")[0].split("/").pop().toLowerCase()}}
+function faPessoa(tit,A){const r=ft157AchaEm(A.pessoas,tit,null);return r?r[0]:null}/* 20/11: busca indexada (157); mesmo resultado */
 function faListas(p,A){const L=[],T=A.temas||{},sec=secOf(p),tit=String((p.neutro||{}).titulo||"");
   const pe=p.foto_arquivo==="tema"?null:faPessoa(tit,A);if(pe&&Array.isArray(pe.fotos)&&pe.fotos.length)L.push(pe.fotos);
   const as=faAssunto(tit,A,sec);if(as&&Array.isArray(as.fotos)&&as.fotos.length)L.push(as.fotos);
@@ -9100,6 +9112,7 @@ function faListas(p,A){const L=[],T=A.temas||{},sec=secOf(p),tit=String((p.neutr
   const d=T[(A.padrao||{})[sec]];if(Array.isArray(d)&&d.length&&d!==t)L.push(d);return L}
 function faValida(f){return f&&typeof f.url==="string"&&FOTO_OK.test(f.url)}
 function faMapa(){const A=FOTOS_ARQ;if(!A||!FEED||!Array.isArray(FEED.pautas))return null;
+  if(FA_MAP&&FA_TICK===A&&FA_TICKF===FEED)return FA_MAP;FA_TICK=A;FA_TICKF=FEED;queueMicrotask(()=>{FA_TICK=null});
   const k=(A.gerado||"")+"|"+(FEED.atualizado_em||"")+"|"+FEED.pautas.map(p=>p.id+":"+(p.prioridade||0)+":"+((p.neutro||{}).titulo||"")).join(",");
   if(FA_MAP&&FA_MAPK===k)return FA_MAP;
   const usados=new Set(),M={},pr=p=>typeof p.prioridade==="number"?p.prioridade:0;
@@ -9170,8 +9183,7 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden){SAIU_V=Dat
 setTimeout(checarVersao,1200);
 
 /* ---------- Etapa 29 ---------- */
-function faAssunto(tit,A,sec){let best=null,pos=1e9,len=0;Object.values(A.assuntos||{}).forEach(x=>{if(!x||!Array.isArray(x.chaves))return;if(Array.isArray(x.secoes)&&!x.secoes.includes(sec))return;
-  x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
+function faAssunto(tit,A,sec){const r=ft157AchaEm(A.assuntos,tit,x=>!(Array.isArray(x.secoes)&&!x.secoes.includes(sec)));return r?r[0]:null}/* 20/11: busca indexada (157); mesmo resultado */
 /* foto própria que não carregou: usa uma de arquivo da mesma notícia */
 function fotoReserva(img){const A=FOTOS_ARQ;if(!A||!FEED)return null;const src=img.getAttribute("src")||"",nm=faNome(src);
   const p=(FEED.pautas||[]).find(q=>q.foto&&typeof q.foto.url==="string"&&(faNome(q.foto.url)===nm||fotoSrc(q.foto.url)===src));if(!p)return null;
@@ -18554,8 +18566,22 @@ function ft157Prep(){const A=FOTOS_ARQ;if(!A||typeof A!=="object")return A;if(FT
 try{ft157Prep()}catch(e){}
 
 /* pessoa citada no título com retrato que serve (a 1ª citada; tie = nome mais longo) */
-function ft157Pessoa(tit,A){let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{if(!x||!Array.isArray(x.chaves)||!Array.isArray(x.fotos)||!x.fotos.some(faValida))return;
-  x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
+/* 20/11 (abertura): em vez de testar todas as chaves de todas as pessoas em cada título, testa só as chaves cuja
+   primeira palavra aparece no título (índice feito uma vez por arquivo de fotos); o resultado é o mesmo */
+var FT157_IDX=new WeakMap(),FT157_PAL=/[^\p{L}\d]+/u;
+function ft157Indice(P){P=P||{};let r=FT157_IDX.get(P);if(r)return r;r={m:new Map(),sempre:[]};let n=0;
+  Object.entries(P).forEach(([nome,x])=>{if(!x||!Array.isArray(x.chaves))return;
+    x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const e=[k,x,n++,nome],w=k.split(FT157_PAL)[0];if(!w){r.sempre.push(e);return}
+      let l=r.m.get(w);if(!l)r.m.set(w,l=[]);l.push(e)})});FT157_IDX.set(P,r);return r}
+/* o item (de A.pessoas ou outro grupo com "chaves") cuja chave aparece primeiro no texto (empate: chave mais longa; depois a ordem
+   do arquivo), testando só as chaves cuja primeira palavra está no texto: [item, posição, nome] */
+function ft157AchaEm(P,tit,ok){let best=null,pos=1e9,len=0;const I=ft157Indice(P),c=I.sempre.slice(),vis=new Set();tit=String(tit);
+  tit.split(FT157_PAL).forEach(w=>{if(!w||vis.has(w))return;vis.add(w);const l=I.m.get(w);if(l)for(const e of l)c.push(e)});
+  c.sort((a,b)=>a[2]-b[2]).forEach(e=>{const x=e[1],k=e[0];if(ok&&!ok(x))return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=e}});
+  return best?[best[1],pos,best[3]]:null}
+function ft157ComFoto(x){return Array.isArray(x.fotos)&&x.fotos.some(faValida)}
+function ft157Acha(tit,A,comFoto){return ft157AchaEm(A.pessoas,tit,comFoto?ft157ComFoto:null)}
+function ft157Pessoa(tit,A){const r=ft157Acha(tit,A,true);return r?r[0]:null}
 /* assuntos da frase principal do título, na ordem em que aparecem */
 function ft157Assuntos(t,A,sec){const out=[];Object.keys(A.assuntos||{}).forEach(nome=>{const x=A.assuntos[nome];if(!x||!Array.isArray(x.chaves))return;
   if(Array.isArray(x.secoes)&&x.secoes.indexOf(sec)<0)return;let pos=1e9,len=0;
@@ -18855,7 +18881,7 @@ function ca159Lp(){const no=VIEW==="capa"&&scrollY<40&&!!document.querySelector(
 addEventListener("scroll",ca159Lp,{passive:true});
 
 /* ===== 6. chamada de evento que já passou ===== */
-function ca159DiaSP(iso){const d=new Date(iso);if(isNaN(d))return "";try{return d.toLocaleDateString("en-CA",{timeZone:"America/Sao_Paulo"})}catch(e){return ""}}
+function ca159DiaSP(iso){const d=new Date(iso);if(isNaN(d))return "";try{return _FDSP.format(d)}catch(e){return ""}}
 /* {ini, fim} (ms) do evento citado no título, a partir do dia em que ele foi escrito; null se não cita data */
 function ca159Evento(txt,ref){const t=String(txt||""),rd=ca159DiaSP(ref);if(!rd)return null;
   let dia=0,mes=0,m=/(?:^|[^\wÀ-ú])(segunda|terça|quarta|quinta|sexta|sábado|domingo)(?:-feira)?\s*\((\d{1,2})\)/i.exec(t);
@@ -19787,6 +19813,7 @@ var CM168_SEGAVISO=0;
    avião, floresta/clima, tecnologia, mundo; o Congresso fica só para Brasília/governo/Congresso; sem pista, um
    desenho neutro de jornal, sem prédio nenhum. */
 const gen161Congresso=ILL.generica;
+/* mudou os temas? o 121-pre-capa.js tem uma cópia (altArte) para o texto alternativo da manchete */
 function gen161Tema(d){
   const t=String((d&&d.rotulo)||"")+" "+String((d&&d._alt)||"");
   const r=t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
@@ -20480,9 +20507,7 @@ var FT187_ORG_GRUPO={camara:"Câmara",senado:"Senado",stf:"STF"};
 var FT187_ORG_NOME={"Alexandre de Moraes":"STF","Edson Fachin":"STF","Gilmar Mendes":"STF","Flávio Dino":"STF","André Mendonça":"STF",
   "Kassio Nunes Marques":"STF","Cármen Lúcia":"STF","Dias Toffoli":"STF","Luiz Fux":"STF","Cristiano Zanin":"STF",
   "Fernando Haddad":"Fazenda","Gabriel Galípolo":"Banco Central"};
-function ft187Orgao(fr,A){let best=null,pos=1e9,len=0;Object.entries(A.pessoas||{}).forEach(([nome,x])=>{if(!x||!Array.isArray(x.chaves))return;
-  x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(fr,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=[nome,x]}})});
-  if(!best)return null;const org=FT187_ORG_GRUPO[best[1].grupo]||FT187_ORG_NOME[best[0]];return org?[pos,org]:null}
+function ft187Orgao(fr,A){const r=ft157Acha(fr,A,false);if(!r)return null;const pos=r[1],best=[r[2],r[0]];const org=FT187_ORG_GRUPO[best[1].grupo]||FT187_ORG_NOME[best[0]];return org?[pos,org]:null}
 /* lugares da frase principal do título, na ordem em que aparecem: os que o título diz e o órgão da 1ª pessoa citada */
 function ft187Lugares(fr,A){const out=[];FT187_RE.forEach(([nome,rt,ra,br],k)=>{const m=rt.exec(fr);if(m)out.push([m.index+m[0].length-m[1].length,k,nome,ra,br])});
   const og=A?ft187Orgao(fr,A):null;

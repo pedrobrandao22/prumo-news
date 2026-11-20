@@ -92,8 +92,22 @@ function ft157Prep(){const A=FOTOS_ARQ;if(!A||typeof A!=="object")return A;if(FT
 try{ft157Prep()}catch(e){}
 
 /* pessoa citada no título com retrato que serve (a 1ª citada; tie = nome mais longo) */
-function ft157Pessoa(tit,A){let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{if(!x||!Array.isArray(x.chaves)||!Array.isArray(x.fotos)||!x.fotos.some(faValida))return;
-  x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
+/* 20/11 (abertura): em vez de testar todas as chaves de todas as pessoas em cada título, testa só as chaves cuja
+   primeira palavra aparece no título (índice feito uma vez por arquivo de fotos); o resultado é o mesmo */
+var FT157_IDX=new WeakMap(),FT157_PAL=/[^\p{L}\d]+/u;
+function ft157Indice(P){P=P||{};let r=FT157_IDX.get(P);if(r)return r;r={m:new Map(),sempre:[]};let n=0;
+  Object.entries(P).forEach(([nome,x])=>{if(!x||!Array.isArray(x.chaves))return;
+    x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const e=[k,x,n++,nome],w=k.split(FT157_PAL)[0];if(!w){r.sempre.push(e);return}
+      let l=r.m.get(w);if(!l)r.m.set(w,l=[]);l.push(e)})});FT157_IDX.set(P,r);return r}
+/* o item (de A.pessoas ou outro grupo com "chaves") cuja chave aparece primeiro no texto (empate: chave mais longa; depois a ordem
+   do arquivo), testando só as chaves cuja primeira palavra está no texto: [item, posição, nome] */
+function ft157AchaEm(P,tit,ok){let best=null,pos=1e9,len=0;const I=ft157Indice(P),c=I.sempre.slice(),vis=new Set();tit=String(tit);
+  tit.split(FT157_PAL).forEach(w=>{if(!w||vis.has(w))return;vis.add(w);const l=I.m.get(w);if(l)for(const e of l)c.push(e)});
+  c.sort((a,b)=>a[2]-b[2]).forEach(e=>{const x=e[1],k=e[0];if(ok&&!ok(x))return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=e}});
+  return best?[best[1],pos,best[3]]:null}
+function ft157ComFoto(x){return Array.isArray(x.fotos)&&x.fotos.some(faValida)}
+function ft157Acha(tit,A,comFoto){return ft157AchaEm(A.pessoas,tit,comFoto?ft157ComFoto:null)}
+function ft157Pessoa(tit,A){const r=ft157Acha(tit,A,true);return r?r[0]:null}
 /* assuntos da frase principal do título, na ordem em que aparecem */
 function ft157Assuntos(t,A,sec){const out=[];Object.keys(A.assuntos||{}).forEach(nome=>{const x=A.assuntos[nome];if(!x||!Array.isArray(x.chaves))return;
   if(Array.isArray(x.secoes)&&x.secoes.indexOf(sec)<0)return;let pos=1e9,len=0;
