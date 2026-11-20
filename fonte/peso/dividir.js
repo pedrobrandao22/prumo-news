@@ -14,9 +14,9 @@ if (!FR.partes) { console.log('dividir: frias.json no formato antigo; nada divid
 const parteDe = new Map(); for (const n of Object.keys(FR.partes)) for (const k of FR.partes[n]) parteDe.set(k, +n);
 // sempre no núcleo, mesmo que a medição não as tenha visto rodar: a abertura depende delas em caminhos que variam com a
 // rede e com os dados do dia (feed leve chegando antes do completo, rodada nova, faixa Agora, ilustração da manchete)
-const NUCLEO_FIXO = /^(fl119|ta120|pc121|gen161Tema$|illAlt$|atualizarAgora$|carregarAgora$|dt185Antes$|rodadaRecenteMin$|co160ConfereCampo$|co160Motivo$|dataCurta$|dicaVoto$|acvPeriodo$|mb138Vv$|ft140Aplica$|ft187Confirma$|rs204Base$|pgEncher$|secLista$|fc107AtPid$|abrirTour$|abrirFaltaConvite$|sheet$|acvLinha$|dmPrevia$|renderMe$|abrirMateria$|co160Recupera$|co160PostPrevia$|mt158Pagina$|mc1111Toques$|travarFundo$|goTroca$|abrirRodadas$|qc127HasSync$|nt124RotaTenta$|checarFeed$|av8Assina$|fd204CmtHTML$|cr166Rail$)/;
+const NUCLEO_FIXO = /^(fl119|ta120|pc121|gen161Tema$|illAlt$|atualizarAgora$|carregarAgora$|dt185Antes$|rodadaRecenteMin$|co160ConfereCampo$|co160Motivo$|dataCurta$|dicaVoto$|acvPeriodo$|mb138Vv$|ft140Aplica$|ft187Confirma$|rs204Base$|pgEncher$|secLista$|fc107AtPid$|abrirTour$|abrirFaltaConvite$|sheet$|acvLinha$|dmPrevia$|renderMe$|abrirMateria$|co160Recupera$|co160PostPrevia$|mt158Pagina$|mc1111Toques$|travarFundo$|goTroca$|abrirRodadas$|qc127HasSync$|nt124RotaTenta$|checarFeed$|av8Assina$|fd204CmtHTML$|cr166Rail$|secsStory$|ft187Nomes$|acvRotData$|acvTicks$)/;
 // idem para funções sem nome (passadas numa chamada no topo), pela chave; achadas na bateria em modo de medição (20/11)
-const CHAVES_FIXAS = new Set(['ae5c9fbf1c#1', 'd65ed049f4#1', 'c07c7e4c02#1', 'ac336828c5#1']);
+const CHAVES_FIXAS = new Set(['ae5c9fbf1c#1', 'd65ed049f4#1', 'c07c7e4c02#1', 'ac336828c5#1', 'fae12d6aa1#1', '6f73b3ca7e#1']);  // 2 últimas: registro de erro de promessa e ajuste ao girar a tela
 const h = fs.readFileSync(ARQ, 'utf8');
 let melhor = null; const re = /<script>([\s\S]*?)<\/script>/g; let m;  // o script principal é o maior <script> sem atributos
 while ((m = re.exec(h))) if (!melhor || m[1].length > melhor.txt.length) melhor = { ini: m.index + 8, txt: m[1] };
