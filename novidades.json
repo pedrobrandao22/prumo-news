@@ -1,19 +1,19 @@
 {
- "gerado": "2026-11-20T15:05-03:00",
+ "gerado": "2026-11-20T15:16-03:00",
  "desde": "2026-11-20T13:40-03:00",
  "feed_atualizado_em": "2026-11-20T13:50:00-03:00",
  "resumo": {
-  "manchetes": 153,
+  "manchetes": 169,
   "assuntos_novos_relevantes": 2,
-  "assuntos_novos": 135,
+  "assuntos_novos": 149,
   "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 5,
-  "acionar_itens": 3,
+  "pautas_com_relatos": 6,
+  "acionar_itens": 2,
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 3 veículos em 90 min (economia); assunto novo: 3 veículos em 90 min (economia); pauta principal caso-master sem atualização há 5.5 h e 2 veículos com relatos novos",
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (economia); assunto novo: 3 veículos em 90 min (economia)",
  "acionar_itens": [
   {
    "tipo": "novo",
@@ -62,14 +62,6 @@
     "trechos"
    ],
    "acao": "nova"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "caso-master",
-   "titulo": "Aliados de Mendonça veem relatório como armação para tirá-lo do Caso Master",
-   "n_fontes": 2,
-   "motivo": "pauta principal caso-master sem atualização há 5.5 h e 2 veículos com relatos novos",
-   "acao": "atualiza: caso-master"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
@@ -168,6 +160,32 @@
    "lixo": true
   },
   {
+   "assunto": "Polícia prende trio suspeito de tráfico de drogas durante operação em Taquarituba",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Polícia prende trio suspeito de tráfico de drogas durante operação em Taquarituba",
+     "url": "https://g1.globo.com/sp/itapetininga-regiao/noticia/2026/11/20/policia-prende-trio-suspeito-de-trafico-de-drogas-durante-operacao-em-taquarituba.ghtml",
+     "hora": "20/11 14h59"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Porsche, dinheiro e cocaína: polícia prende \"trio do tráfico\" no CE",
+     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/porsche-dinheiro-e-cocaina-policia-prende-trio-do-trafico-no-ce",
+     "hora": "20/11 14h30"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
    "assunto": "Trump diz que não permitirá que empresas construam data centers fora dos EUA",
    "secao": "mundo",
    "n_fontes": 2,
@@ -192,25 +210,6 @@
     }
    ],
    "n_fontes_90min": 2
-  },
-  {
-   "assunto": "\"Devedor contumaz\", candidato no São Paulo é aliado de fiscal da Receita",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "\"Devedor contumaz\", candidato no São Paulo é aliado de fiscal da Receita",
-     "url": "https://www.metropoles.com/colunas/demetrio-vecchioli/devedor-contumaz-candidato-no-sao-paulo-e-aliado-de-fiscal-da-receita",
-     "hora": "20/11 14h00"
-    }
-   ],
-   "n_fontes_90min": 1
   },
   {
    "assunto": "'A cidade acabou': a destruição causada por temporal que provocou mortes no RS",
@@ -302,7 +301,7 @@
      "veiculo": "ge",
      "titulo": "Al-Ahli x Al-Nassr - Campeonato Saudita 2026/27 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-saudita/jogo/20-11-2026/ah-ahli-arabia-al-nassr-sau.ghtml",
-     "hora": "20/11 14h57"
+     "hora": "20/11 15h16"
     },
     {
      "veiculo": "ge",
@@ -347,6 +346,25 @@
      "titulo": "Angra dos Reis (RJ) suspende taxa de turismo e remove catracas e totens de pagamento",
      "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/angra-dos-reis-rj-suspende-taxa-de-turismo-e-remove-catracas-e-totens-de-pagamento.shtml",
      "hora": "20/11 13h53"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Animais atingidos por enchente em distrito recebem ração e terão atendimento veterinário",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Animais atingidos por enchente em distrito recebem ração e terão atendimento veterinário",
+     "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/20/animais-atingidos-por-enchente-em-distrito-recebem-racao-e-terao-atendimento-veterinario.ghtml",
+     "hora": "20/11 14h57"
     }
    ],
    "n_fontes_90min": 1
@@ -423,6 +441,38 @@
      "titulo": "Assista aos telejornais da TV Liberal",
      "url": "https://g1.globo.com/pa/para/ao-vivo/assista-aos-telejornais-da-tv-liberal.ghtml",
      "hora": "20/11 14h21"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
+  },
+  {
+   "assunto": "Atlético-GO tem duas dúvidas para enfrentar o Vila Nova; confira a provável escalação",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atlético-GO tem duas dúvidas para enfrentar o Vila Nova; confira a provável escalação",
+     "url": "https://ge.globo.com/go/futebol/times/atletico-go/noticia/2026/11/20/confira-a-provavel-escalacao-do-atletico-go-para-enfrentar-o-vila-nova.ghtml",
+     "hora": "20/11 14h56"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Escalação do Bahia contra o Coritiba: veja time provável, dúvidas e desfalques",
+     "url": "https://ge.globo.com/ba/futebol/times/bahia/noticia/2026/11/20/escalacao-do-bahia-contra-o-coritiba-veja-time-provavel-duvidas-e-desfalques.ghtml",
+     "hora": "20/11 14h33"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Vila Nova tem duas dúvidas na defesa para enfrentar o Atlético-GO; veja provável escalação",
+     "url": "https://ge.globo.com/go/futebol/times/vila-nova/noticia/2026/11/20/vila-nova-tem-duas-duvidas-na-defesa-para-enfrentar-o-atletico-go-veja-provavel-escalacao.ghtml",
+     "hora": "20/11 13h42"
     }
    ],
    "n_fontes_90min": 0,
@@ -564,7 +614,7 @@
   },
   {
    "assunto": "Brasil tem quarta pior proficiência em inglês na América Latina, diz levantamento",
-   "secao": "economia",
+   "secao": "educacao",
    "n_fontes": 1,
    "fontes": [
     "folha"
@@ -583,25 +633,6 @@
      "titulo": "Brasil tem quarta pior proficiência em inglês na América Latina, diz levantamento",
      "url": "https://redir.folha.com.br/redir/online/educacao/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/brasil-tem-quarta-pior-proficiencia-em-ingles-na-america-latina-diz-levantamento.shtml",
      "hora": "20/11 14h10"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Briga entre Nikolas, Marinho e Tereza Cristina favorece Lula, diz analista",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Briga entre Nikolas, Marinho e Tereza Cristina favorece Lula, diz analista",
-     "url": "https://www.infomoney.com.br/politica/briga-entre-nikolas-marinho-e-tereza-cristina-favorece-lula-diz-analista/",
-     "hora": "20/11 14h00"
     }
    ],
    "n_fontes_90min": 1
@@ -645,6 +676,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Carros em alta velocidade batem em perseguição na Avenida Brasil; crianças ficam feridas",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Carros em alta velocidade batem em perseguição na Avenida Brasil; crianças ficam feridas",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/20/carros-batem-avenida-brasil.ghtml",
+     "hora": "20/11 14h55"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Cearense é diagnosticado com mpox e grava vídeo para alertar sobre doença em meio a aumento dos casos no estado",
    "secao": null,
    "n_fontes": 1,
@@ -662,59 +712,9 @@
     }
    ],
    "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Citi subestimou ativos de risco em US$ 35 bi após registrar incorretamente operações, dizem fontes",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Citi subestimou ativos de risco em US$ 35 bi após registrar incorretamente operações, dizem fontes",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/citi-subestimou-ativos-de-risco-em-us35-bi-apos-registrar-incorretamente-operacoes-dizem-fontes.shtml",
-     "hora": "20/11 14h42"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Cleitinho diz que buscará Lula para negociar dívida de Minas Gerais",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Cleitinho diz que buscará Lula para negociar dívida de Minas Gerais",
-     "url": "https://www.poder360.com.br/poder-congresso/cleitinho-diz-que-buscara-lula-para-negociar-divida-de-minas-gerais/",
-     "hora": "20/11 15h00"
-    }
-   ],
-   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
-  "caso-master": {
-   "secao": "politica",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Aliados de Mendonça veem relatório como armação para tirá-lo do Caso Master",
-     "url": "https://www.metropoles.com/colunas/igor-gadelha/aliados-de-mendonca-veem-relatorio-como-armacao-para-tira-lo-do-caso-master",
-     "hora": "20/11 14h03"
-    }
-   ]
-  },
   "brasileirao-31-rodada-lideres": {
    "secao": "esportes",
    "n_fontes": 1,
@@ -726,16 +726,16 @@
      "hora": "20/11 14h15"
     },
     {
-     "veiculo": "ge",
-     "titulo": "Palmeiras x Flamengo - Campeonato Brasileiro 2026 - globoesporte.com",
-     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
-     "hora": "20/11 14h40"
-    },
-    {
      "veiculo": "CNN Brasil",
      "titulo": "Flamengo tem desfalque contra o Palmeiras por conta do gramado sintético",
      "url": "https://www.cnnbrasil.com.br/esportes/futebol/flamengo/flamengo-tem-desfalque-contra-o-palmeiras-por-conta-do-gramado-sintetico/",
      "hora": "20/11 15h02"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Palmeiras x Flamengo - Campeonato Brasileiro 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
+     "hora": "20/11 15h05"
     }
    ]
   },
@@ -751,7 +751,7 @@
     },
     {
      "veiculo": "g1",
-     "titulo": "EUA: Trump diz que outros 10 acordos comerciais serão fechados após viagem à Ásia e cúpula com Putin e Xi Jinping",
+     "titulo": "Trump elogia reunião com Putin e Xi Jinping e diz que tem \"ótima\" relação com os líderes",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/20/trump-diz-que-outros-10-acordos-comerciais-serao-fechados-apos-viagem-a-asia-e-cupula-com-putin-e-xi-jinping.ghtml",
      "hora": "20/11 14h39"
     }
@@ -768,34 +768,60 @@
      "hora": "20/11 15h03"
     }
    ]
+  },
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Ajuste fiscal preserva emendas e deixa a pesquisa em segundo plano",
+     "url": "https://www.metropoles.com/colunas/matheus-leitao/ajuste-fiscal-preserva-emendas-e-deixa-a-pesquisa-em-segundo-plano",
+     "hora": "20/11 15h04"
+    }
+   ]
   }
  },
  "novos_relatos": {
   "caso-master": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "ab",
-    "met"
+    "ab"
    ],
    "n_fontes_90min": 1,
-   "ultima": "20/11 14h03",
-   "ultima_iso": "2026-11-20T14:03-03:00",
+   "ultima": "20/11 10h34",
+   "ultima_iso": "2026-11-20T10:34-03:00",
    "pauta_atualizada_em": "2026-11-20T09:34-03:00",
-   "horas_sem_atualizar": 5.5,
+   "horas_sem_atualizar": 5.7,
    "principal": true,
    "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Aliados de Mendonça veem relatório como armação para tirá-lo do Caso Master",
-     "url": "https://www.metropoles.com/colunas/igor-gadelha/aliados-de-mendonca-veem-relatorio-como-armacao-para-tira-lo-do-caso-master",
-     "hora": "20/11 14h03"
-    },
     {
      "veiculo": "Agência Brasil",
      "titulo": "Fachin manda quebrar sigilo de relatório da PF com menções a Mendonça",
      "url": "https://agenciabrasil.ebc.com.br/justica/noticia/2026-11/fachin-manda-quebrar-sigilo-de-relatorio-da-pf-com-mencoes-mendonca",
      "hora": "20/11 10h34"
+    }
+   ]
+  },
+  "ajuste-fiscal-lula-4": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "20/11 15h04",
+   "ultima_iso": "2026-11-20T15:04-03:00",
+   "pauta_atualizada_em": "2026-11-20T06:52-03:00",
+   "horas_sem_atualizar": 8.4,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Ajuste fiscal preserva emendas e deixa a pesquisa em segundo plano",
+     "url": "https://www.metropoles.com/colunas/matheus-leitao/ajuste-fiscal-preserva-emendas-e-deixa-a-pesquisa-em-segundo-plano",
+     "hora": "20/11 15h04"
     }
    ]
   },
@@ -809,7 +835,7 @@
    "ultima": "20/11 15h03",
    "ultima_iso": "2026-11-20T15:03-03:00",
    "pauta_atualizada_em": "2026-11-19T17:48-03:00",
-   "horas_sem_atualizar": 21.3,
+   "horas_sem_atualizar": 21.5,
    "principal": false,
    "manchetes": [
     {
@@ -837,7 +863,7 @@
    "ultima": "20/11 14h48",
    "ultima_iso": "2026-11-20T14:48-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 32.2,
+   "horas_sem_atualizar": 32.4,
    "principal": false,
    "manchetes": [
     {
@@ -862,23 +888,23 @@
     "ge"
    ],
    "n_fontes_90min": 2,
-   "ultima": "20/11 15h02",
-   "ultima_iso": "2026-11-20T15:02-03:00",
+   "ultima": "20/11 15h05",
+   "ultima_iso": "2026-11-20T15:05-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 8.2,
+   "horas_sem_atualizar": 8.4,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Palmeiras x Flamengo - Campeonato Brasileiro 2026 - globoesporte.com",
+     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
+     "hora": "20/11 15h05"
+    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Flamengo tem desfalque contra o Palmeiras por conta do gramado sintético",
      "url": "https://www.cnnbrasil.com.br/esportes/futebol/flamengo/flamengo-tem-desfalque-contra-o-palmeiras-por-conta-do-gramado-sintetico/",
      "hora": "20/11 15h02"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Palmeiras x Flamengo - Campeonato Brasileiro 2026 - globoesporte.com",
-     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
-     "hora": "20/11 14h40"
     },
     {
      "veiculo": "ge",
@@ -904,7 +930,7 @@
    "ultima": "20/11 13h27",
    "ultima_iso": "2026-11-20T13:27-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 8.2,
+   "horas_sem_atualizar": 8.4,
    "principal": false,
    "manchetes": [
     {
@@ -1215,18 +1241,18 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 3 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 4 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 10 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 26 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 24 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 8 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 7 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h"
  }
