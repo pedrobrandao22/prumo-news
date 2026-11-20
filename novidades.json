@@ -1,11 +1,11 @@
 {
- "gerado": "2026-11-20T04:06-03:00",
- "desde": "2026-11-19T21:56-03:00",
+ "gerado": "2026-11-20T04:17-03:00",
+ "desde": "2026-11-19T22:07-03:00",
  "feed_atualizado_em": "2026-11-19T21:49:00-03:00",
  "resumo": {
-  "manchetes": 232,
+  "manchetes": 249,
   "assuntos_novos_relevantes": 2,
-  "assuntos_novos": 153,
+  "assuntos_novos": 170,
   "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 4,
@@ -13,14 +13,14 @@
   "ja_avaliados": 0
  },
  "acionar": true,
- "acionar_motivo": "pauta principal caso-master sem atualização há 21.2 h e 2 veículos com relatos novos; pauta principal ajuste-fiscal-lula-4 sem atualização há 21.2 h e 2 veículos com relatos novos",
+ "acionar_motivo": "pauta principal caso-master sem atualização há 21.4 h e 2 veículos com relatos novos; pauta principal ajuste-fiscal-lula-4 sem atualização há 21.4 h e 2 veículos com relatos novos",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "caso-master",
    "titulo": "PGR analisará só 4 dos 10 relatórios da PF sobre ministros do STF; entenda",
    "n_fontes": 2,
-   "motivo": "pauta principal caso-master sem atualização há 21.2 h e 2 veículos com relatos novos",
+   "motivo": "pauta principal caso-master sem atualização há 21.4 h e 2 veículos com relatos novos",
    "acao": "atualiza: caso-master"
   },
   {
@@ -28,12 +28,51 @@
    "pid": "ajuste-fiscal-lula-4",
    "titulo": "Ajuste fiscal chega à Câmara sob pressão após resistências no Senado",
    "n_fontes": 2,
-   "motivo": "pauta principal ajuste-fiscal-lula-4 sem atualização há 21.2 h e 2 veículos com relatos novos",
+   "motivo": "pauta principal ajuste-fiscal-lula-4 sem atualização há 21.4 h e 2 veículos com relatos novos",
    "acao": "atualiza: ajuste-fiscal-lula-4"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Análise: Fluminense alivia pressão do fim da temporada, volta bem da Data Fifa e garante vaga na Libertadores",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "folha",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Fluminense alivia pressão do fim da temporada, volta bem da Data Fifa e garante vaga na Libertadores",
+     "url": "https://ge.globo.com/futebol/times/fluminense/noticia/2026/11/20/analise-fluminense-alivia-pressao-do-fim-da-temporada-volta-bem-da-data-fifa-e-garante-vaga-na-libertadores.ghtml",
+     "hora": "20/11 04h00"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Fluminense vence o São Paulo no Morumbis e se classifica para a Libertadores",
+     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/19-11-2026/sao-paulo-fluminense.ghtml",
+     "hora": "20/11 00h29"
+    },
+    {
+     "veiculo": "Folha Esporte",
+     "titulo": "São Paulo perde em casa do Fluminense e fica mais distante da Libertadores",
+     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/sao-paulo-perde-em-casa-do-fluminense-e-fica-mais-distante-da-libertadores.shtml",
+     "hora": "19/11 23h32"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Fluminense vence São Paulo fora e fica perto de vaga direta na Libertadores",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/fluminense-vence-sao-paulo-fora-e-fica-perto-de-vaga-direta-na-libertadores/",
+     "hora": "19/11 23h28"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
   {
    "assunto": "Bukele tenta 3º mandato após El Salvador liberar reeleição indefinida",
    "secao": "mundo",
@@ -66,45 +105,6 @@
     }
    ],
    "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Fluminense vence o São Paulo no Morumbis e se classifica para a Libertadores",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "folha",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Fluminense vence o São Paulo no Morumbis e se classifica para a Libertadores",
-     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/19-11-2026/sao-paulo-fluminense.ghtml",
-     "hora": "20/11 00h29"
-    },
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "São Paulo perde em casa do Fluminense e fica mais distante da Libertadores",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/sao-paulo-perde-em-casa-do-fluminense-e-fica-mais-distante-da-libertadores.shtml",
-     "hora": "19/11 23h32"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Fluminense vence São Paulo fora e fica perto de vaga direta na Libertadores",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/fluminense-vence-sao-paulo-fora-e-fica-perto-de-vaga-direta-na-libertadores/",
-     "hora": "19/11 23h28"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Fluminense garante vaga na Libertadores de 2027",
-     "url": "https://ge.globo.com/futebol/times/fluminense/noticia/2026/11/19/fluminense-garante-vaga-na-libertadores-de-2027.ghtml",
-     "hora": "19/11 23h27"
-    }
-   ],
-   "n_fontes_90min": 3
   },
   {
    "assunto": "Apesar de vitória do Vasco, Pedro Emanuel critica gramado de São Januário",
@@ -160,7 +160,7 @@
   },
   {
    "assunto": "Enem: prazo para pedir reaplicação termina nesta sexta (20/11)",
-   "secao": null,
+   "secao": "educacao",
    "n_fontes": 2,
    "fontes": [
     "g1",
@@ -176,7 +176,7 @@
      "hora": "20/11 03h54"
     },
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Educação",
      "titulo": "Prazo para solicitar reaplicação do Enem 2026 termina hoje; saiba quem tem direito",
      "url": "https://g1.globo.com/educacao/enem/2026/noticia/2026/11/20/prazo-para-solicitar-reaplicacao-do-enem-2026-termina.ghtml",
      "hora": "20/11 00h00"
@@ -203,6 +203,12 @@
     },
     {
      "veiculo": "g1",
+     "titulo": "Dia da Consciência Negra: veja o que abre e fecha em BH nesta sexta-feira",
+     "url": "https://g1.globo.com/mg/minas-gerais/noticia/2026/11/20/dia-da-consciencia-negra-veja-o-que-abre-e-fecha-em-bh-nesta-sexta-feira.ghtml",
+     "hora": "20/11 04h00"
+    },
+    {
+     "veiculo": "g1",
      "titulo": "Veja o que abre e fecha em Piracicaba durante feriado do Dia Nacional de Zumbi e da Consciência Negra",
      "url": "https://g1.globo.com/sp/piracicaba-regiao/noticia/2026/11/20/veja-o-que-abre-e-fecha-em-piracicaba-durante-feriado-do-dia-nacional-de-zumbi-e-da-consciencia-negra.ghtml",
      "hora": "20/11 02h00"
@@ -212,50 +218,6 @@
      "titulo": "Dia da Consciência Negra: veja o que abre e o que fecha no DF neste feriado",
      "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/20/dia-da-consciencia-negra-veja-o-que-abre-e-o-que-fecha-no-df-neste-feriado.ghtml",
      "hora": "20/11 02h00"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Dia da Consciência Negra: como ativista de SP tentou criar feriado no Congresso 40 anos antes de aprovação da lei",
-     "url": "https://g1.globo.com/sp/ribeirao-preto-franca/noticia/2026/11/20/dia-da-consciencia-negra-como-ativista-de-sp-tentou-criar-feriado-no-congresso-40-anos-antes-de-aprovacao-da-lei.ghtml",
-     "hora": "20/11 02h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "GP de Las Vegas: Russell lidera o 2º treino livre",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "ge",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "GP de Las Vegas: Russell lidera o 2º treino livre",
-     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-de-las-vegas-a-21-etapa-da-temporada-2026-da-f1.ghtml",
-     "hora": "20/11 02h12"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "F1: Russell lidera 2º treino em Las Vegas; Bortoleto é 20º e Câmara 22°",
-     "url": "https://www.metropoles.com/esportes/f1-russell-lidera-2o-treino-em-las-vegas-bortoleto-e-20o-e-camara-22",
-     "hora": "20/11 02h08"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "GP de Las Vegas: Russell lidera 2º treino; Bortoleto é 20º e Câmara, 22º",
-     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/20/gp-de-las-vegas-russell-lidera-2o-treino-bortoleto-e-20o-e-camara-22o.ghtml",
-     "hora": "20/11 02h04"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "GP de Las Vegas: chuva atrapalha 1º treino e pilotos não marcam voltas rápidas",
-     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/19/gp-de-las-vegas-chuva-atrapalha-1o-treino-e-pilotos-nao-marcam-voltas-rapidas.ghtml",
-     "hora": "19/11 22h31"
     }
    ],
    "n_fontes_90min": 2
@@ -278,7 +240,7 @@
      "hora": "20/11 02h42"
     },
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Mundo",
      "titulo": "Justiça manda secretária de Trump parar de enviar e-mails religiosos pela conta oficial",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/20/justica-manda-secretaria-de-trump-parar-de-enviar-e-mails-religiosos-pela-conta-oficial.ghtml",
      "hora": "20/11 00h49"
@@ -287,36 +249,30 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "São Paulo 0 x 1 Fluminense: veja os melhores momentos pelo Brasileirão",
-   "secao": "esportes",
+   "assunto": "STF decide se Van Hattem vira réu por chamar delegado da PF de bandido",
+   "secao": "politica",
    "n_fontes": 2,
    "fontes": [
     "cnn",
-    "ge"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "São Paulo 0 x 1 Fluminense: veja os melhores momentos pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/sao-paulo-0-x-1-fluminense-veja-os-melhores-momentos-pelo-brasileirao/",
-     "hora": "20/11 00h39"
+     "veiculo": "Metrópoles",
+     "titulo": "STF decide se Van Hattem vira réu por chamar delegado da PF de bandido",
+     "url": "https://www.metropoles.com/colunas/manoela-alcantara/stf-decide-se-van-hattem-vira-reu-por-chamar-delegado-da-pf-de-bandido",
+     "hora": "20/11 04h00"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Vitória 2 x 1 Red Bull Bragantino: veja melhores momentos pelo Brasileirão",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/vitoria-2-x-1-red-bull-bragantino-veja-melhores-momentos-pelo-brasileirao/",
-     "hora": "19/11 22h36"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Vitória 2 x 1 Bragantino: assista aos gols e aos melhores momentos",
-     "url": "https://ge.globo.com/ba/futebol/times/vitoria/noticia/2026/11/19/vitoria-2-x-1-bragantino-assista-aos-gols-e-aos-melhores-momentos.ghtml",
-     "hora": "19/11 21h57"
+     "titulo": "OAB discorda de Dino e pede que STF julgue Van Hattem em sessão presencial",
+     "url": "https://www.cnnbrasil.com.br/politica/oab-discorda-de-dino-e-pede-que-stf-julgue-van-hattem-em-sessao-presencial/",
+     "hora": "19/11 22h12"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 1
   },
   {
    "assunto": "\"Deitado na grana\": policial é investigado por sexo dentro de delegacia",
@@ -357,6 +313,44 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "'Em momento algum ele dizia estar arrependido de ter ido', diz mãe de brasileiro que morreu na guerra da Ucrânia",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Em momento algum ele dizia estar arrependido de ter ido', diz mãe de brasileiro que morreu na guerra da Ucrânia",
+     "url": "https://g1.globo.com/pr/oeste-sudoeste/noticia/2026/11/20/em-momento-algum-ele-dizia-estar-arrependido-de-ter-ido-diz-mae-de-brasileiro-que-morreu-na-guerra-da-ucrania.ghtml",
+     "hora": "20/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "'Havia muita manipulação': o que dizem os podcasters que abandonaram Trump",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "'Havia muita manipulação': o que dizem os podcasters que abandonaram Trump",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/havia-muita-manipulacao-o-que-dizem-os-podcasters-que-abandonaram-trump.shtml",
+     "hora": "20/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "'Jogos Vorazes: Amanhecer na Colheita' traz de volta a emoção dos melhores filmes da franquia; g1 já viu",
    "secao": null,
    "n_fontes": 1,
@@ -376,7 +370,7 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "'Joias de Liberdade' usadas por mulheres negras alforriadas e livres na BA eram símbolo de prosperidade no período colonial",
+   "assunto": "'Negra, escritora, mulher e caipira’: 80 anos após 1º livro, filhos relembram legado de Ruth Guimarães, autora negra pioneira na literatura brasileira",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -387,34 +381,15 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "'Joias de Liberdade' usadas por mulheres negras alforriadas e livres na BA eram símbolo de prosperidade no período colonial",
-     "url": "https://g1.globo.com/ba/bahia/noticia/2026/11/20/joias-de-liberdade-usadas-por-mulheres-negras-alforriadas-eram-simbolo-de-prosperidade-no-periodo-colonial.ghtml",
-     "hora": "20/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "'Não podíamos pagar uma casa para nossa família, então decidimos comprar uma junto com desconhecidos'",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1 Economia",
-     "titulo": "'Não podíamos pagar uma casa para nossa família, então decidimos comprar uma junto com desconhecidos'",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/20/nao-podiamos-pagar-uma-casa-para-nossa-familia-entao-decidimos-comprar-uma-junto-com-desconhecidos.ghtml",
+     "titulo": "'Negra, escritora, mulher e caipira’: 80 anos após 1º livro, filhos relembram legado de Ruth Guimarães, autora negra pioneira na literatura brasileira",
+     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/20/negra-escritora-mulher-e-caipira-80-anos-apos-1o-livro-filhos-relembram-legado-de-ruth-guimaraes-autora-negra-pioneira-na-literatura-brasileira.ghtml",
      "hora": "20/11 04h00"
     }
    ],
    "n_fontes_90min": 1
   },
   {
-   "assunto": "'Ouvi que eram dores normais do pós-parto', diz engenheira que descobriu dois DIUs e perdeu útero em SC",
+   "assunto": "'Não podíamos pagar uma casa para nossa família, então decidimos comprar uma junto com desconhecidos'",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -425,9 +400,9 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "'Ouvi que eram dores normais do pós-parto', diz engenheira que descobriu dois DIUs e perdeu útero em SC",
-     "url": "https://g1.globo.com/sc/santa-catarina/noticia/2026/11/20/ouvi-eram-dores-normais-pos-parto-engenheira-descobriu-dois-dius-perdeu-utero-sc.ghtml",
-     "hora": "20/11 01h00"
+     "titulo": "'Não podíamos pagar uma casa para nossa família, então decidimos comprar uma junto com desconhecidos'",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/20/nao-podiamos-pagar-uma-casa-para-nossa-familia-entao-decidimos-comprar-uma-junto-com-desconhecidos.ghtml",
+     "hora": "20/11 04h00"
     }
    ],
    "n_fontes_90min": 1
@@ -490,25 +465,6 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Abel Ferreira, do Palmeiras, e Guardiola se encontram em evento em São Paulo",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Abel Ferreira, do Palmeiras, e Guardiola se encontram em evento em São Paulo",
-     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/19/abel-ferreira-do-palmeiras-e-guardiola-se-encontram-em-evento-em-sao-paulo.ghtml",
-     "hora": "19/11 21h59"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
    "assunto": "Aeroporto da Polônia suspende voos após suspeita de invasão do espaço aéreo",
    "secao": null,
    "n_fontes": 1,
@@ -542,6 +498,25 @@
      "titulo": "Afroteca criada por pedagoga incentiva autoestima de crianças negras no PI: 'se sentem representadas'",
      "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/20/afroteca-itinerante-criancas-negras-piaui.ghtml",
      "hora": "20/11 01h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Ainda sem o controle do Botafogo, GDA já investiu mais da metade do valor do acordo inicial",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Ainda sem o controle do Botafogo, GDA já investiu mais da metade do valor do acordo inicial",
+     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/20/ainda-sem-o-controle-do-botafogo-gda-ja-investiu-mais-da-metade-do-valor-do-acordo-inicial.ghtml",
+     "hora": "20/11 04h00"
     }
    ],
    "n_fontes_90min": 1
@@ -604,6 +579,31 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Análise: São Paulo entra na roda do Fluminense no Morumbis e irrita torcedor",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: São Paulo entra na roda do Fluminense no Morumbis e irrita torcedor",
+     "url": "https://ge.globo.com/futebol/times/sao-paulo/noticia/2026/11/20/analise-sao-paulo-entra-na-roda-do-fluminense-no-morumbis-e-irrita-torcedor.ghtml",
+     "hora": "20/11 04h00"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "São Paulo ouve vaias e \"olé\" dentro do Morumbis em derrota para o Fluminense",
+     "url": "https://ge.globo.com/futebol/times/sao-paulo/noticia/2026/11/20/sao-paulo-ouve-vaias-e-ole-dentro-do-morumbis-em-derrota-para-o-fluminense.ghtml",
+     "hora": "20/11 00h03"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Análise: Vasco dá motivos ao torcedor para acreditar que chegar à Libertadores é possível",
    "secao": "esportes",
    "n_fontes": 1,
@@ -618,6 +618,25 @@
      "titulo": "Análise: Vasco dá motivos ao torcedor para acreditar que chegar à Libertadores é possível",
      "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/20/analise-vasco-da-motivos-ao-torcedor-para-acreditar-que-chegar-a-libertadores-e-possivel.ghtml",
      "hora": "20/11 03h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Análise: Vitória se arrisca, mas volta a fazer dever de casa e mostra novo gás com Lacerda",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Vitória se arrisca, mas volta a fazer dever de casa e mostra novo gás com Lacerda",
+     "url": "https://ge.globo.com/ba/futebol/times/vitoria/noticia/2026/11/20/analise-vitoria-se-arrisca-mas-volta-a-fazer-dever-de-casa-e-mostra-novo-gas-com-lacerda.ghtml",
+     "hora": "20/11 04h00"
     }
    ],
    "n_fontes_90min": 1
@@ -674,45 +693,6 @@
      "veiculo": "g1",
      "titulo": "Após ser bloqueado no WhatsApp, homem invade condomínio para perseguir a ex em MG",
      "url": "https://g1.globo.com/mg/triangulo-mineiro/noticia/2026/11/20/apos-ser-bloqueado-no-whatsapp-homem-invade-condominio-para-perseguir-a-ex-em-mg.ghtml",
-     "hora": "20/11 02h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Ar-condicionado na Black Friday: veja como escolher modelos econômicos",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Ar-condicionado na Black Friday: veja como escolher modelos econômicos",
-     "url": "https://g1.globo.com/guia/guia-de-compras/casa/ar-condicionado-na-black-friday-veja-como-escolher-modelos-economicos.ghtml",
-     "hora": "20/11 03h00"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "lixo": true
-  },
-  {
-   "assunto": "Artilheiro da Copa do Brasil, Carlos Vinicius é um dos trunfos do Grêmio",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Artilheiro da Copa do Brasil, Carlos Vinicius é um dos trunfos do Grêmio",
-     "url": "https://www.metropoles.com/esportes/artilheiro-da-copa-do-brasil-carlos-vinicius-e-um-dos-trunfos-do-gremio",
      "hora": "20/11 02h00"
     }
    ],
@@ -779,7 +759,7 @@
    "n_fontes": 1,
    "manchetes": [
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Política",
      "titulo": "Ministérios, ajuste fiscal e articulações políticas: veja o que se sabe sobre o novo governo Lula",
      "url": "https://g1.globo.com/politica/noticia/2026/11/20/lula-4-ministros-o-que-se-sabe.ghtml",
      "hora": "20/11 00h00"
@@ -816,7 +796,7 @@
    "ultima": "19/11 23h00",
    "ultima_iso": "2026-11-19T23:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 21.2,
+   "horas_sem_atualizar": 21.4,
    "principal": true,
    "manchetes": [
     {
@@ -838,7 +818,7 @@
    "ultima": "20/11 03h55",
    "ultima_iso": "2026-11-20T03:55-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 21.2,
+   "horas_sem_atualizar": 21.4,
    "principal": true,
    "manchetes": [
     {
@@ -866,7 +846,7 @@
    "ultima": "20/11 03h45",
    "ultima_iso": "2026-11-20T03:45-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 21.2,
+   "horas_sem_atualizar": 21.4,
    "principal": true,
    "manchetes": [
     {
@@ -876,7 +856,7 @@
      "hora": "20/11 03h45"
     },
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Política",
      "titulo": "Ministérios, ajuste fiscal e articulações políticas: veja o que se sabe sobre o novo governo Lula",
      "url": "https://g1.globo.com/politica/noticia/2026/11/20/lula-4-ministros-o-que-se-sabe.ghtml",
      "hora": "20/11 00h00"
@@ -893,7 +873,7 @@
    "ultima": "20/11 01h07",
    "ultima_iso": "2026-11-20T01:07-03:00",
    "pauta_atualizada_em": "2026-11-19T00:42-03:00",
-   "horas_sem_atualizar": 27.4,
+   "horas_sem_atualizar": 27.6,
    "principal": false,
    "manchetes": [
     {
@@ -1151,19 +1131,19 @@
  "ultima_rodada": "2026-11-19T21:49-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 3 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 32 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 28 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 1 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 4 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 6 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 44 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
+  "ge": "ok: 100 itens, 59 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 4 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 11 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 3 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 0 nas últimas 6 h",
