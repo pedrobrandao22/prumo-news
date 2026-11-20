@@ -1,24 +1,41 @@
 {
- "gerado": "2026-11-19T23:46-03:00",
+ "gerado": "2026-11-19T23:56-03:00",
  "desde": "2026-11-19T21:39-03:00",
  "feed_atualizado_em": "2026-11-19T21:49:00-03:00",
  "resumo": {
-  "manchetes": 81,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 64,
-  "pautas_com_novidade": 3,
+  "manchetes": 98,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 73,
+  "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 7,
-  "acionar_itens": 0,
-  "ja_avaliados": 2
+  "acionar_itens": 2,
+  "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (64 assuntos fora do feed, 7 pautas com relatos, 2 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização; pauta principal ajuste-fiscal-lula-4 sem atualização há 17.1 h e 3 veículos com relatos novos",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Alesp: pedido de impeachment contra Tarcísio por caso Master é arquivado",
+   "n_fontes": 4,
+   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: caso-master"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "ajuste-fiscal-lula-4",
+   "titulo": "Flávio critica ajuste fiscal e diz que Congresso virou “capacho do governo”",
+   "n_fontes": 3,
+   "motivo": "pauta principal ajuste-fiscal-lula-4 sem atualização há 17.1 h e 3 veículos com relatos novos",
+   "acao": "atualiza: ajuste-fiscal-lula-4"
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "São Paulo perde em casa do Fluminense e fica mais distante da Libertadores",
+   "assunto": "Fluminense vence o São Paulo no Morumbis e se classifica para a Libertadores",
    "secao": "esportes",
    "n_fontes": 3,
    "fontes": [
@@ -29,6 +46,12 @@
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Fluminense vence o São Paulo no Morumbis e se classifica para a Libertadores",
+     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/19-11-2026/sao-paulo-fluminense.ghtml",
+     "hora": "19/11 23h55"
+    },
     {
      "veiculo": "Folha Esporte",
      "titulo": "São Paulo perde em casa do Fluminense e fica mais distante da Libertadores",
@@ -46,27 +69,67 @@
      "titulo": "Fluminense garante vaga na Libertadores de 2027",
      "url": "https://ge.globo.com/futebol/times/fluminense/noticia/2026/11/19/fluminense-garante-vaga-na-libertadores-de-2027.ghtml",
      "hora": "19/11 23h27"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Pedro Emanuel critica gramado, mira a Libertadores e valoriza vitória do Vasco contra o Inter: \"É o que vale\"",
-     "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/19/pedro-emanuel-corneta-gramado-e-destaca-vitoria-dificil-do-vasco-salvamos-os-tres-pontos.ghtml",
-     "hora": "19/11 22h33"
     }
    ],
    "n_fontes_90min": 3
   },
   {
-   "assunto": "Mega-Sena acumula e prêmio vai para R$ 45 milhões",
+   "assunto": "Vitória vence o Bragantino na estreia do técnico Rafael Lacerda e ganha respiro contra o Z-4",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Vitória vence o Bragantino na estreia do técnico Rafael Lacerda e ganha respiro contra o Z-4",
+     "url": "https://ge.globo.com/ba/futebol/brasileirao-serie-a/jogo/19-11-2026/vitoria-bragantino.ghtml",
+     "hora": "19/11 23h22"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Vitória bate o RB Bragantino, encerra jejum e ganha fôlego contra o Z4",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/vitoria-bate-o-rb-bragantino-encerra-jejum-e-ganha-folego-contra-o-z4/",
+     "hora": "19/11 21h42"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Vitória bate RB Bragantino e abre vantagem para a zona de rebaixamento",
+     "url": "https://www.metropoles.com/esportes/vitoria-bate-rb-bragantino-e-abre-vantagem-para-a-zona-de-rebaixamento",
+     "hora": "19/11 21h39"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Quina 7172 acumula, e prêmio chega a R$ 50 milhões. Confira resultado",
    "secao": null,
-   "n_fontes": 2,
+   "n_fontes": 3,
    "fontes": [
     "ab",
-    "g1"
+    "g1",
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Quina 7172 acumula, e prêmio chega a R$ 50 milhões. Confira resultado",
+     "url": "https://www.metropoles.com/brasil/quina-7172-acumula-e-premio-chega-a-r-50-milhoes-confira-resultado",
+     "hora": "19/11 22h58"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Mega-Sena 3088 acumula, e prêmio sobe para R$ 45 milhões. Veja resultado",
+     "url": "https://www.metropoles.com/brasil/mega-sena-3088-acumula-e-premio-sobe-para-r-45-milhoes-veja-resultado",
+     "hora": "19/11 22h56"
+    },
     {
      "veiculo": "Agência Brasil",
      "titulo": "Mega-Sena acumula e prêmio vai para R$ 45 milhões",
@@ -78,16 +141,68 @@
      "titulo": "Lotofácil 3834: dez apostas de MT acertam 14 números e ganham R$ 862",
      "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/19/lotofacil-3834-dez-apostas-de-mt-acertam-14-numeros-e-ganham-r-862.ghtml",
      "hora": "19/11 21h58"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Mega-Sena 3088: apostas de 28 cidades de MT acertam quatro números e ganham R$ 730; veja valor do prêmio acumulado",
-     "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/19/mega-sena-3088-apostas-de-28-cidades-de-mt-acertam-quatro-numeros-e-ganham-r-730-veja-valor-do-premio-acumulado.ghtml",
-     "hora": "19/11 21h50"
     }
    ],
    "n_fontes_90min": 0,
    "lixo": true
+  },
+  {
+   "assunto": "F1: treino em Las Vegas é marcado por chuva e tempos não são registrados",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "F1: treino em Las Vegas é marcado por chuva e tempos não são registrados",
+     "url": "https://www.metropoles.com/esportes/f1-treino-em-las-vegas-e-marcado-por-chuva-e-tempos-nao-sao-registrados",
+     "hora": "19/11 23h38"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "GP de Las Vegas: chuva atrapalha 1º treino, sem voltas registradas",
+     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-de-las-vegas-a-21-etapa-da-temporada-2026-da-f1.ghtml",
+     "hora": "19/11 22h40"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "GP de Las Vegas: chuva atrapalha 1º treino e pilotos não marcam voltas rápidas",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/19/gp-de-las-vegas-chuva-atrapalha-1o-treino-e-pilotos-nao-marcam-voltas-rapidas.ghtml",
+     "hora": "19/11 22h31"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Treze busca empate com Serra Branca e garante classificação na Copa Paraíba",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Treze busca empate com Serra Branca e garante classificação na Copa Paraíba",
+     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/jogo/19-11-2026/treze-serra-branca-ec.ghtml",
+     "hora": "19/11 23h13"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Confira os resultados da quarta rodada da Copa Paraíba 2026",
+     "url": "https://www.metropoles.com/esportes/confira-os-resultados-da-quarta-rodada-da-copa-paraiba-2026",
+     "hora": "19/11 22h08"
+    }
+   ],
+   "n_fontes_90min": 2
   },
   {
    "assunto": "Vitória 2 x 1 Red Bull Bragantino: veja melhores momentos pelo Brasileirão",
@@ -114,32 +229,6 @@
     }
    ],
    "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Vitória vence o Bragantino na estreia do técnico Rafael Lacerda e ganha respiro contra o Z-4",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Vitória vence o Bragantino na estreia do técnico Rafael Lacerda e ganha respiro contra o Z-4",
-     "url": "https://ge.globo.com/ba/futebol/brasileirao-serie-a/jogo/19-11-2026/vitoria-bragantino.ghtml",
-     "hora": "19/11 23h22"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Vitória bate o RB Bragantino, encerra jejum e ganha fôlego contra o Z4",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/vitoria-bate-o-rb-bragantino-encerra-jejum-e-ganha-folego-contra-o-z4/",
-     "hora": "19/11 21h42"
-    }
-   ],
-   "n_fontes_90min": 1
   },
   {
    "assunto": "'GTA VI' tem previsão de faturar R$ 11,5 bilhões no primeiro dia",
@@ -180,6 +269,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "3ª edição do Space Today Experience reúne ciência, games e cultura geek",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "3ª edição do Space Today Experience reúne ciência, games e cultura geek",
+     "url": "https://www.metropoles.com/colunas/metropoles-games/space-today-experience-ciencia-games-geek",
+     "hora": "19/11 22h57"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "A irresponsabilidade do capitão do Inter",
    "secao": "esportes",
    "n_fontes": 1,
@@ -213,6 +321,44 @@
      "titulo": "Abel Ferreira, do Palmeiras, e Guardiola se encontram em evento em São Paulo",
      "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/19/abel-ferreira-do-palmeiras-e-guardiola-se-encontram-em-evento-em-sao-paulo.ghtml",
      "hora": "19/11 21h59"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Adriana Lessa denuncia racismo em loja de luxo em São Paulo",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Adriana Lessa denuncia racismo em loja de luxo em São Paulo",
+     "url": "https://www.metropoles.com/colunas/fabia-oliveira/adriana-lessa-denuncia-racismo-em-loja-de-luxo-em-sao-paulo",
+     "hora": "19/11 22h03"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Atuações do Fluminense: Hércules e Guga são os melhores em vitória; dê suas notas",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atuações do Fluminense: Hércules e Guga são os melhores em vitória; dê suas notas",
+     "url": "https://ge.globo.com/futebol/times/fluminense/noticia/2026/11/19/atuacoes-do-fluminense-hercules-e-guga-sao-os-melhores-em-vitoria-de-suas-notas.ghtml",
+     "hora": "19/11 23h39"
     }
    ],
    "n_fontes_90min": 1
@@ -332,6 +478,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Brasileirão: com gol de Hércules, Fluminense bate o São Paulo no MorumBIS",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Brasileirão: com gol de Hércules, Fluminense bate o São Paulo no MorumBIS",
+     "url": "https://www.metropoles.com/esportes/brasileirao-com-gol-de-hercules-fluminense-bate-o-sao-paulo-no-morumbis",
+     "hora": "19/11 23h31"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Bukele anuncia candidatura ao 3º mandato em El Salvador",
    "secao": null,
    "n_fontes": 1,
@@ -427,6 +592,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Com vitória, Vasco anula chance de rebaixamento e sonha com Libertadores",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Com vitória, Vasco anula chance de rebaixamento e sonha com Libertadores",
+     "url": "https://www.metropoles.com/esportes/com-vitoria-vasco-anula-chance-de-rebaixamento-e-sonha-com-libertadores",
+     "hora": "19/11 22h28"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Concerto beneficente da OSBA terá Ivete Sangalo, Zeca Baleiro e outras atrações",
    "secao": null,
    "n_fontes": 1,
@@ -501,145 +685,6 @@
     }
    ],
    "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Em cerimônia no Planalto, Lula declara compromisso com o equilíbrio das contas públicas",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Em cerimônia no Planalto, Lula declara compromisso com o equilíbrio das contas públicas",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/19/em-cerimonia-no-planalto-lula-declara-compromisso-com-o-equilibrio-das-contas-publicas.ghtml",
-     "hora": "19/11 21h48"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "FOTOS: confira os destaques da primeira noite da Micareta de Feira em imagens",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "FOTOS: confira os destaques da primeira noite da Micareta de Feira em imagens",
-     "url": "https://g1.globo.com/ba/feira-de-santana-regiao/noticia/2026/11/19/fotos-confira-os-destaques-da-micareta-de-feira-em-imagens.ghtml",
-     "hora": "19/11 23h07"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Falsos funcionários da Enel fecham ruas em SP para furtar cabos, diz polícia",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Falsos funcionários da Enel fecham ruas em SP para furtar cabos, diz polícia",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/falsos-funcionarios-da-enel-fecham-ruas-em-sp-para-furtar-cabos-diz-policia.shtml",
-     "hora": "19/11 21h45"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Festival da Resistência reúne música, poesia e exposições no Dia da Consciência Negra em Campos",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Festival da Resistência reúne música, poesia e exposições no Dia da Consciência Negra em Campos",
-     "url": "https://g1.globo.com/rj/norte-fluminense/noticia/2026/11/19/festival-da-resistencia-reune-musica-poesia-e-exposicoes-no-dia-da-consciencia-negra-em-campos.ghtml",
-     "hora": "19/11 21h55"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "GP de Las Vegas: chuva atrapalha 1º treino, sem voltas registradas",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "GP de Las Vegas: chuva atrapalha 1º treino, sem voltas registradas",
-     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-de-las-vegas-a-21-etapa-da-temporada-2026-da-f1.ghtml",
-     "hora": "19/11 22h40"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "GP de Las Vegas: chuva atrapalha 1º treino e pilotos não marcam voltas rápidas",
-     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/19/gp-de-las-vegas-chuva-atrapalha-1o-treino-e-pilotos-nao-marcam-voltas-rapidas.ghtml",
-     "hora": "19/11 22h31"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Governo mobiliza operação após cianobactérias proliferarem em rios na região de Belo Monte",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Governo mobiliza operação após cianobactérias proliferarem em rios na região de Belo Monte",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/ambiente/2026/11/governo-mobiliza-operacao-apos-cianobacterias-proliferarem-em-rios-na-regiao-de-belo-monte.shtml",
-     "hora": "19/11 23h00"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Indígenas interceptam balsas em ato contra projetos de exploração na amazônia",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Indígenas interceptam balsas em ato contra projetos de exploração na amazônia",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/ambiente/2026/11/indigenas-interceptam-balsas-em-ato-contra-projetos-de-exploracao-na-amazonia.shtml",
-     "hora": "19/11 23h00"
-    }
-   ],
-   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
@@ -658,6 +703,24 @@
      "titulo": "Fachin envia à PGR 4 relatórios da PF sobre ministros do STF",
      "url": "https://www.poder360.com.br/poder-justica/fachin-envia-a-pgr-4-relatorios-da-pf-sobre-ministros-do-stf/",
      "hora": "19/11 22h15"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Alesp: pedido de impeachment contra Tarcísio por caso Master é arquivado",
+     "url": "https://www.metropoles.com/sao-paulo/alesp-pedido-de-impeachment-contra-tarcisio-por-caso-master-e-arquivado",
+     "hora": "19/11 22h57"
+    }
+   ]
+  },
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Flávio critica ajuste fiscal e diz que Congresso virou “capacho do governo”",
+     "url": "https://www.metropoles.com/brasil/flavio-critica-ajuste-fiscal-e-diz-que-congresso-virou-capacho-do-governo",
+     "hora": "19/11 22h34"
     }
    ]
   },
@@ -703,7 +766,7 @@
    "ultima": "19/11 23h00",
    "ultima_iso": "2026-11-19T23:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 16.9,
+   "horas_sem_atualizar": 17.1,
    "principal": true,
    "manchetes": [
     {
@@ -715,20 +778,27 @@
    ]
   },
   "caso-master": {
-   "n": 4,
-   "n_fontes": 3,
+   "n": 5,
+   "n_fontes": 4,
    "fontes": [
     "ab",
     "folha",
+    "met",
     "p360"
    ],
    "n_fontes_90min": 3,
-   "ultima": "19/11 22h15",
-   "ultima_iso": "2026-11-19T22:15-03:00",
+   "ultima": "19/11 22h57",
+   "ultima_iso": "2026-11-19T22:57-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 16.9,
+   "horas_sem_atualizar": 17.1,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Alesp: pedido de impeachment contra Tarcísio por caso Master é arquivado",
+     "url": "https://www.metropoles.com/sao-paulo/alesp-pedido-de-impeachment-contra-tarcisio-por-caso-master-e-arquivado",
+     "hora": "19/11 22h57"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Fachin envia à PGR 4 relatórios da PF sobre ministros do STF",
@@ -756,19 +826,26 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 3,
+   "n_fontes": 3,
    "fontes": [
     "cnn",
-    "g1"
+    "g1",
+    "met"
    ],
    "n_fontes_90min": 2,
-   "ultima": "19/11 20h37",
-   "ultima_iso": "2026-11-19T20:37-03:00",
+   "ultima": "19/11 22h34",
+   "ultima_iso": "2026-11-19T22:34-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 16.9,
+   "horas_sem_atualizar": 17.1,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Flávio critica ajuste fiscal e diz que Congresso virou “capacho do governo”",
+     "url": "https://www.metropoles.com/brasil/flavio-critica-ajuste-fiscal-e-diz-que-congresso-virou-capacho-do-governo",
+     "hora": "19/11 22h34"
+    },
     {
      "veiculo": "g1",
      "titulo": "Relator do ajuste fiscal na Câmara mantém texto do Senado; projeto deve ser votado na segunda-feira",
@@ -793,7 +870,7 @@
    "ultima": "19/11 19h47",
    "ultima_iso": "2026-11-19T19:47-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 16.9,
+   "horas_sem_atualizar": 17.1,
    "principal": true,
    "manchetes": [
     {
@@ -814,7 +891,7 @@
    "ultima": "19/11 18h34",
    "ultima_iso": "2026-11-19T18:34-03:00",
    "pauta_atualizada_em": "2026-11-17T20:11-03:00",
-   "horas_sem_atualizar": 51.6,
+   "horas_sem_atualizar": 51.8,
    "principal": false,
    "manchetes": [
     {
@@ -841,7 +918,7 @@
    "ultima": "19/11 21h16",
    "ultima_iso": "2026-11-19T21:16-03:00",
    "pauta_atualizada_em": "2026-11-19T00:42-03:00",
-   "horas_sem_atualizar": 23.1,
+   "horas_sem_atualizar": 23.2,
    "principal": false,
    "manchetes": [
     {
@@ -862,7 +939,7 @@
    "ultima": "19/11 20h55",
    "ultima_iso": "2026-11-19T20:55-03:00",
    "pauta_atualizada_em": "2026-11-19T17:11-03:00",
-   "horas_sem_atualizar": 6.6,
+   "horas_sem_atualizar": 6.8,
    "principal": true,
    "manchetes": [
     {
@@ -1067,73 +1144,6 @@
  ],
  "avaliados": [
   {
-   "tipo": "pauta",
-   "pid": "decreto-6x1-adiado",
-   "id": null,
-   "chave": null,
-   "n_fontes": 4,
-   "em": "2026-11-19T11:49-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "ajuste-fiscal-lula-4",
-   "id": null,
-   "chave": null,
-   "n_fontes": 4,
-   "em": "2026-11-19T11:49-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "eua-trump-xi-putin-apec-china",
-   "id": null,
-   "chave": null,
-   "n_fontes": 4,
-   "em": "2026-11-19T11:49-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "dolar-volta-acima-5",
-   "id": null,
-   "chave": null,
-   "n_fontes": 2,
-   "em": "2026-11-19T11:49-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "anthropic",
-    "avaliada",
-    "bate",
-    "bolha",
-    "bolsa",
-    "brasil",
-    "claude",
-    "conheca",
-    "conseguira",
-    "criadora",
-    "custa",
-    "empresa",
-    "estouro",
-    "estreia",
-    "eua",
-    "evitar",
-    "gigante",
-    "historica",
-    "impedir",
-    "investir",
-    "nesta",
-    "quanto",
-    "recorde",
-    "saiba",
-    "tri",
-    "valores"
-   ],
-   "n_fontes": 3,
-   "em": "2026-11-19T11:49-03:00"
-  },
-  {
    "tipo": "novo",
    "pid": null,
    "id": null,
@@ -1244,22 +1254,22 @@
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
   "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
-  "Metrópoles": "falhou: ParseError('not well-formed (invalid token): line 295, column 797')",
+  "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 3 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 91 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 10 nas últimas 6 h",
+  "ge": "ok: 100 itens, 90 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 9 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 16 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 2 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 10 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 1 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 8 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 5 nas últimas 6 h"
  }
 }
