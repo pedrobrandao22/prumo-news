@@ -1,22 +1,152 @@
 {
- "gerado": "2026-11-20T12:28-03:00",
+ "gerado": "2026-11-20T12:38-03:00",
  "desde": "2026-11-20T09:40-03:00",
  "feed_atualizado_em": "2026-11-20T09:50:00-03:00",
  "resumo": {
-  "manchetes": 255,
-  "assuntos_novos_relevantes": 2,
-  "assuntos_novos": 215,
+  "manchetes": 266,
+  "assuntos_novos_relevantes": 4,
+  "assuntos_novos": 219,
   "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 6,
-  "acionar_itens": 0,
+  "acionar_itens": 3,
   "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (215 assuntos fora do feed, 6 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica); assunto novo: 3 veículos em 90 min (politica); pauta principal caso-master sem atualização há 3.1 h e 2 veículos com relatos novos",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "Moraes vota para manter passaportes de Flávio cancelados",
+   "secao": "politica",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "chave": [
+    "cancelados",
+    "contatar",
+    "deixar",
+    "eua",
+    "flavio",
+    "fuga",
+    "investigacoes",
+    "manter",
+    "moraes",
+    "obstruir",
+    "passaportes",
+    "proibido",
+    "restricoes",
+    "senador",
+    "tentativa",
+    "tomaz",
+    "vota",
+    "willer"
+   ],
+   "acao": "nova"
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Dino vota para tornar deputado Juscelino Filho réu por desvio de emendas",
+   "secao": "politica",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "chave": [
+    "calunia",
+    "delegado",
+    "deputado",
+    "desvio",
+    "dino",
+    "emendas",
+    "federal",
+    "filho",
+    "hattem",
+    "injuria",
+    "juscelino",
+    "policia",
+    "reu",
+    "suspeita",
+    "tornar",
+    "van",
+    "vota"
+   ],
+   "acao": "nova"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Leia a íntegra do relatório da PF sobre Mendonça no caso Master",
+   "n_fontes": 2,
+   "motivo": "pauta principal caso-master sem atualização há 3.1 h e 2 veículos com relatos novos",
+   "acao": "atualiza: caso-master"
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Dino vota para tornar deputado Juscelino Filho réu por desvio de emendas",
+   "secao": "politica",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Dino vota para tornar deputado Juscelino Filho réu por desvio de emendas",
+     "url": "https://www.metropoles.com/brasil/dino-vota-para-tornar-deputado-juscelino-filho-reu-por-desvio-de-emendas",
+     "hora": "20/11 12h21"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Dino vota para tornar Juscelino Filho réu por suspeita de desvio de emendas",
+     "url": "https://www.cnnbrasil.com.br/politica/dino-vota-para-tornar-juscelino-filho-reu-por-suspeita-de-desvio-de-emendas/",
+     "hora": "20/11 12h12"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Dino vota para tornar Van Hattem réu por calúnia e injúria contra delegado da Polícia Federal",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/20/dino-vota-para-tornar-van-hattem-reu-por-calunia-e-injuria-contra-delegado-da-policia-federal.ghtml",
+     "hora": "20/11 11h21"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Moraes vota para manter passaportes de Flávio cancelados",
+   "secao": "politica",
+   "n_fontes": 3,
+   "fontes": [
+    "g1",
+    "im",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Moraes vota para manter passaportes de Flávio cancelados",
+     "url": "https://www.poder360.com.br/poder-justica/moraes-vota-para-manter-passaportes-de-flavio-cancelados/",
+     "hora": "20/11 12h35"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Moraes vota para deixar Flávio sem passaportes e proibido de contatar Willer Tomaz",
+     "url": "https://www.infomoney.com.br/politica/moraes-vota-para-deixar-flavio-bolsonaro-sem-passaportes-e-proibido-de-contatar-willer-tomaz/",
+     "hora": "20/11 12h29"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Moraes diz que fuga de Flávio para os EUA é tentativa de obstruir investigações e vota para manter restrições a senador",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/20/moraes-diz-que-fuga-de-flavio-para-os-eua-e-tentativa-de-obstruir-investigacao-e-vota-para-manter-restricoes-a-senador.ghtml",
+     "hora": "20/11 11h17"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
   {
    "assunto": "Quem são os awá, grupo indígena isolado que fez contato com outra aldeia no Maranhão: 'Sem nosso território, a vida será muito difícil'",
    "secao": "brasil",
@@ -234,27 +364,27 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Dino vota para tornar deputado Juscelino Filho réu por desvio de emendas",
-   "secao": "politica",
+   "assunto": "Duas mortes são investigadas após tempestade que destruiu Tupanciretã (RS)",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "g1",
-    "met"
+    "cnn",
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Dino vota para tornar deputado Juscelino Filho réu por desvio de emendas",
-     "url": "https://www.metropoles.com/brasil/dino-vota-para-tornar-deputado-juscelino-filho-reu-por-desvio-de-emendas",
-     "hora": "20/11 12h21"
+     "veiculo": "CNN Brasil",
+     "titulo": "Duas mortes são investigadas após tempestade que destruiu Tupanciretã (RS)",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/rs/duas-mortes-sao-investigadas-apos-tempestade-que-destruiu-tupancireta-rs/",
+     "hora": "20/11 12h26"
     },
     {
      "veiculo": "g1",
-     "titulo": "Dino vota para tornar Van Hattem réu por calúnia e injúria contra delegado da Polícia Federal",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/20/dino-vota-para-tornar-van-hattem-reu-por-calunia-e-injuria-contra-delegado-da-policia-federal.ghtml",
-     "hora": "20/11 11h21"
+     "titulo": "Três mortes são confirmadas pela Defesa Civil depois de tempestade que destruiu cidade no RS",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/tres-mortes-defesa-civil-tempestade-tupancireta.ghtml",
+     "hora": "20/11 12h13"
     }
    ],
    "n_fontes_90min": 2
@@ -333,6 +463,58 @@
      "titulo": "Fórmula 1 anuncia Nike como parceira oficial de roupas e uniformes",
      "url": "https://www.cnnbrasil.com.br/esportes/automobilismo/nike-se-tornara-parceira-formula-um/",
      "hora": "20/11 11h10"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Reino Unido e União Europeia iniciam reaproximação após brexit com acordos sobre alimentos e mobilidade",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Reino Unido e União Europeia iniciam reaproximação após brexit com acordos sobre alimentos e mobilidade",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/reino-unido-e-uniao-europeia-iniciam-reaproximacao-apos-brexit-com-acordos-sobre-alimentos-e-mobilidade.shtml",
+     "hora": "20/11 12h28"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Reino Unido e UE fecham acordo de reaproximação, uma década após referendo do Brexit",
+     "url": "https://www.infomoney.com.br/mundo/reino-unido-e-ue-fecham-acordo-de-reaproximacao-uma-decada-apos-referendo-do-brexit/",
+     "hora": "20/11 12h18"
+    }
+   ],
+   "n_fontes_90min": 2
+  },
+  {
+   "assunto": "Tênis: Carlos Alcaraz encerra primeira fase do ATP Finals sem derrotas",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Tênis: Carlos Alcaraz encerra primeira fase do ATP Finals sem derrotas",
+     "url": "https://www.metropoles.com/esportes/tenis-carlos-alcaraz-encerra-primeira-fase-do-atp-finals-sem-derrotas",
+     "hora": "20/11 12h30"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Carlos Alcaraz supera limitações físicas e elimina Cobolli no ATP Finals",
+     "url": "https://www.cnnbrasil.com.br/esportes/tenis/carlos-alcaraz-supera-limitacoes-fisicas-e-elimina-cobolli-no-atp-finals/",
+     "hora": "20/11 12h15"
     }
    ],
    "n_fontes_90min": 2
@@ -490,25 +672,6 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "ANP sinaliza mudanças no Gas Release para atenuar cerco à Petrobras",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "ANP sinaliza mudanças no Gas Release para atenuar cerco à Petrobras",
-     "url": "https://www.poder360.com.br/poder-energia/anp-sinaliza-mudancas-no-gas-release-para-atenuar-cerco-a-petrobras/",
-     "hora": "20/11 11h29"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
    "assunto": "AO VIVO: Assista ao GR1",
    "secao": null,
    "n_fontes": 1,
@@ -654,63 +817,6 @@
     }
    ],
    "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Antonelli e outros 4 pilotos são punidos no GP de Las Vegas da F1",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Antonelli e outros 4 pilotos são punidos no GP de Las Vegas da F1",
-     "url": "https://www.metropoles.com/esportes/antonelli-e-outros-4-pilotos-sofrem-punicoes-no-gp-de-las-vegas-da-f1",
-     "hora": "20/11 11h38"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Após aproximação de indígenas isolados no MA, entenda como atuam as equipes de saúde",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Após aproximação de indígenas isolados no MA, entenda como atuam as equipes de saúde",
-     "url": "https://g1.globo.com/ma/maranhao/noticia/2026/11/20/indigenas-isolados-equipes-saude-aproximacao-aldeia-maranhao.ghtml",
-     "hora": "20/11 11h22"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Arthur Elias revela bastidores da Seleção e admite inquietude com o futebol: \"Me chamavam de louco\"",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Arthur Elias revela bastidores da Seleção e admite inquietude com o futebol: \"Me chamavam de louco\"",
-     "url": "https://ge.globo.com/abre-aspas/noticia/2026/11/20/arthur-elias-revela-bastidores-da-selecao-e-admite-inquietude-com-o-futebol-me-chamavam-de-louco.ghtml",
-     "hora": "20/11 10h24"
-    }
-   ],
-   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
@@ -723,6 +829,12 @@
      "titulo": "Sul-Americana já teve time campeão de outro continente; relembre",
      "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/sulamericana/sul-americana-time-campeao-outro-continente/",
      "hora": "20/11 09h42"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Final da Copa Sul-Americana deve movimentar R$ 1,4 bi na Colômbia",
+     "url": "https://www.poder360.com.br/poder-sportsmkt/final-da-copa-sul-americana-deve-movimentar-r-14-bi-na-colombia/",
+     "hora": "20/11 12h30"
     }
    ]
   },
@@ -805,7 +917,7 @@
    "ultima": "20/11 12h05",
    "ultima_iso": "2026-11-20T12:05-03:00",
    "pauta_atualizada_em": "2026-11-20T09:34-03:00",
-   "horas_sem_atualizar": 2.9,
+   "horas_sem_atualizar": 3.1,
    "principal": true,
    "manchetes": [
     {
@@ -832,7 +944,7 @@
    "ultima": "20/11 11h34",
    "ultima_iso": "2026-11-20T11:34-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 29.6,
+   "horas_sem_atualizar": 29.8,
    "principal": true,
    "manchetes": [
     {
@@ -853,7 +965,7 @@
    "ultima": "20/11 11h58",
    "ultima_iso": "2026-11-20T11:58-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": false,
    "manchetes": [
     {
@@ -875,7 +987,7 @@
    "ultima": "20/11 12h00",
    "ultima_iso": "2026-11-20T12:00-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": true,
    "manchetes": [
     {
@@ -899,18 +1011,25 @@
    ]
   },
   "atletico-mg-city-torque-semi-sulamericana": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
-    "cnn"
+    "cnn",
+    "p360"
    ],
    "n_fontes_90min": 1,
-   "ultima": "20/11 09h42",
-   "ultima_iso": "2026-11-20T09:42-03:00",
+   "ultima": "20/11 12h30",
+   "ultima_iso": "2026-11-20T12:30-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Final da Copa Sul-Americana deve movimentar R$ 1,4 bi na Colômbia",
+     "url": "https://www.poder360.com.br/poder-sportsmkt/final-da-copa-sul-americana-deve-movimentar-r-14-bi-na-colombia/",
+     "hora": "20/11 12h30"
+    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Sul-Americana já teve time campeão de outro continente; relembre",
@@ -929,7 +1048,7 @@
    "ultima": "20/11 08h00",
    "ultima_iso": "2026-11-20T08:00-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": true,
    "manchetes": [
     {
@@ -1219,11 +1338,11 @@
   "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
-  "ge": "ok: 100 itens, 75 nas últimas 6 h",
+  "ge": "ok: 100 itens, 77 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 21 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
