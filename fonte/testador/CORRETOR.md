@@ -54,7 +54,7 @@ review2/t_criar_caixa. Tudo verde.
 Commit em `reestruturacao` (mensagem em português, "Corretor dd/mm: ..."), merge em main, build:
 `cd fonte && python3 build.py https://kkzcljusiotoklldaupg.supabase.co sb_publishable_s1mSA4gcb2qs6kVRZYQZ-g_BsvwvdIA --saida site-real`,
 confira `grep -c 'sb_secret\|service_role' site-real/index.html` = 0, copie index.html, versao.json e sw.js para a
-raiz (o build já põe lá o parte2.<hash>.js: faça `git add parte2.*.js` junto, senão o site novo quebra), commit, push main (pull --rebase, até 3 tentativas, nunca force), merge main de volta em reestruturacao e push.
+raiz (o build já põe lá os parte2.<hash>.js e parte3.<hash>.js: faça `git add parte*.js` junto, senão o site novo quebra), commit, push main (pull --rebase, até 3 tentativas, nunca force), merge main de volta em reestruturacao e push.
 Espere `curl -s https://prumonews.com.br/versao.json` mostrar a versão nova (até 10 min).
 
 ## 4. Registrar
