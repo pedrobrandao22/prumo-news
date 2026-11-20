@@ -5,7 +5,7 @@ function atrasoMin(){if(!FEED?.atualizado_em)return null;return Math.round((Date
 var _FH24=null;function horaSP(){_FH24=_FH24||new Intl.DateTimeFormat("en-US",{hour:"numeric",hour12:false,timeZone:"America/Sao_Paulo"});return +_FH24.format(new Date())}
 function estadoRadar(){const a=atrasoMin();if(a==null)return {ok:true,txt:""};const h=horaSP();const ativo=h>=8&&h<=23;
   if(ativo&&a>150&&rodadaRecenteMin()>300)return {ok:false,txt:`Sem atualização há ${Math.floor(a/60)} h${a%60?` ${a%60} min`:""}. Uma rodada pode ter falhado.`};
-  return {ok:true,txt:`Atualizado ${quando(FEED.atualizado_em)}.`}}
+  return {ok:true,txt:`Atualizado ${quando(horaEdicaoIso())}.`}}
 function saudeHTML(){
   const e=estadoRadar();const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));
   const ok=it.filter(([,x])=>x.status==="ok").length,fal=it.filter(([,x])=>x.status&&x.status!=="ok"&&x.status!=="sem_mudancas").length,sem=it.filter(([,x])=>x.status==="sem_mudancas").length;
@@ -17,7 +17,7 @@ var OFFLINE=false;
    se está atrasado (a cópia guardada pode ser velha e o rodadas.json ainda não veio), e o aviso piscava por um instante na abertura.
    "Sem conexão" não depende disso: só aparece quando o pedido da edição falhou de verdade. */
 var AVISO_FEED_OK=false,AVISO_ROD_OK=false;
-function avisoAtraso(){if(OFFLINE&&FEED)return `<div class="late gut offl"><span>Sem conexão. Mostrando a edição ${dataSP(FEED.atualizado_em)===hojeSP()?"das "+esc(hhmm(FEED.atualizado_em)):"de "+esc(horaDia(FEED.atualizado_em))}.</span><button type="button" data-retry>Tentar de novo</button></div>`;if(!AVISO_FEED_OK||!AVISO_ROD_OK)return "";const e=estadoRadar();return e.ok?"":`<div class="late gut">${esc(e.txt)}</div>`}
+function avisoAtraso(){if(OFFLINE&&FEED)return `<div class="late gut offl"><span>Sem conexão. Mostrando a edição ${esc(horaEdicaoTxt())}.</span><button type="button" data-retry>Tentar de novo</button></div>`;if(!AVISO_FEED_OK||!AVISO_ROD_OK)return "";const e=estadoRadar();return e.ok?"":`<div class="late gut">${esc(e.txt)}</div>`}
 /* quando os dois chegam: se o atraso é de verdade, o aviso entra uma vez (Capa e Feed já desenhados), sem redesenhar a tela */
 function avisoAtrasoDepois(){try{if(!FEED||!AVISO_FEED_OK||!AVISO_ROD_OK)return;const h=avisoAtraso();if(!h)return;
   const top=document.querySelector("#v-capa .cp-top");if(top&&!document.querySelector("#v-capa .late")){top.insertAdjacentHTML("afterend",h);const l=document.querySelector("#v-capa .late");if(l)l.classList.remove("gut")}

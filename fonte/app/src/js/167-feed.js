@@ -45,10 +45,10 @@ function fd167Curtir(root){try{(root||document).querySelectorAll('[data-a="like"
 function fd167Conferida(){try{const r=S.rodadas;if(!r||!r.itens||r.dia!==hojeSP())return null;let m=null;
   for(const k of Object.keys(r.itens)){const v=r.itens[k],x=/^(\d{2})h(\d{2})$/.exec(k);if(!v||!x)continue;const t=Date.parse(`${r.dia}T${x[1]}:${x[2]}:00-03:00`);if(isFinite(t)&&(!m||t>m.t))m={t,k:(+x[1])+"h"+x[2],pub:v.publicou===true}}
   return m}catch(e){return null}}
-function fd167Rodape(){try{const p=document.querySelector("#extra .foot p");if(!p||!FEED)return;const at=Date.parse(FEED.atualizado_em||"");if(!isFinite(at))return;
+function fd167Rodape(){try{const p=document.querySelector("#extra .foot p");if(!p||!FEED)return;const at=horaEdicaoMs();if(!isFinite(at))return;/* 20/11: a hora da última coisa que mudou (horaEdicaoMs, 200) */
   const c=fd167Conferida();const conf=c&&!c.pub&&c.t>at+5*60000?` Conferido às ${c.k}, sem novidades.`:"";
   let prox="";try{prox=" "+proximaRodadaTxt()}catch(e){}
-  p.innerHTML=`<b>Atualizado ${esc(diaHora(FEED.atualizado_em))}.</b>${esc(conf)}${esc(prox)}`;p.classList.add("fd167-at")}catch(e){}}
+  p.innerHTML=`<b>Atualizado ${esc(diaHora(new Date(at).toISOString()))}.</b>${esc(conf)}${esc(prox)}`;p.classList.add("fd167-at")}catch(e){}}
 /* lista "Outras notícias": a hora da breve, quando a rodada manda (campo "hora") */
 function fd167BreveHora(){try{document.querySelectorAll("#extra .brv-b[data-breve]").forEach(bt=>{const b=(window.BREVES||[])[+bt.dataset.breve];const sp=bt.nextElementSibling;
   if(!b||!sp||sp.querySelector(".fd167-bh")||!tms(b.hora))return;sp.insertAdjacentHTML("beforeend",`<span class="fd167-bh"> · ${esc(quando(b.hora))}</span>`)})}catch(e){}}

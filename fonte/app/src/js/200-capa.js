@@ -39,7 +39,17 @@ function ca159Passou(p,agora){try{const n=p&&p.neutro||{},tit=String(n.titulo||"
 
 /* ===== cabeçalho ===== */
 /* "Atualizada às 9h12 · ter, 17 de nov" (159; antes "Edição da manhã/noite", que fica só se a hora não puder ser escrita) */
-function capaEdicao(){const d=new Date(FEED&&FEED.atualizado_em);if(isNaN(d))return "";
+/* causa horario-da-edicao (corretor 20/11): UMA fonte para "de quando é isto" em todo o app — a última coisa que mudou:
+   o feed (atualizado_em) ou, depois dele, uma notícia de "Acabou de sair" (208) ou da faixa "Agora" (035). Antes só o topo da
+   Capa e o rodapé do Feed somavam as novidades (210, ct210UltMud); o rodapé da Capa, o Perfil, a folha "Atualizações de hoje",
+   a faixa "Sem conexão" e a Capa pré-desenhada (121) liam só o atualizado_em e ficavam com a hora da última rodada completa. */
+function horaEdicaoMs(){let m=Date.parse((FEED&&FEED.atualizado_em)||"");if(!isFinite(m))return NaN;const ag=Date.now()+60e3;
+  try{(typeof ac208Itens==="function"?ac208Itens():[]).forEach(x=>{const h=+(x&&x.h);if(h>m&&h<=ag)m=h})}catch(e){}
+  try{(typeof agoraItens==="function"?agoraItens():[]).forEach(x=>{const h=+(x&&x.h);if(h>m&&h<=ag)m=h})}catch(e){}return m}
+function horaEdicaoIso(){const m=horaEdicaoMs();return isFinite(m)?new Date(m).toISOString():((FEED&&FEED.atualizado_em)||"")}
+/* "edição das 15h43" (hoje) ou "edição de quinta às 21h49" — Perfil e faixa "Sem conexão" */
+function horaEdicaoTxt(){const i=horaEdicaoIso();if(!i)return "";return dataSP(i)===hojeSP()?"das "+hhmm(i):"de "+horaDia(i)}
+function capaEdicao(){const d=new Date(horaEdicaoMs());if(isNaN(d))return "";
   const hm=()=>d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":"),
     dia=()=>d.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short",timeZone:"America/Sao_Paulo"}).replace(/\./g,"");
   try{const p=hm();return "Atualizada às "+(+p[0])+"h"+p[1]+" · "+dia()}
@@ -215,7 +225,7 @@ function renderCapa(){nm186EmDia();
   const enq=ps.filter(p=>p.enquete&&(p.enquete.opcoes||[]).length);const pend=S.uid&&S.membro?enq.filter(p=>meuVoto(p.id)==null).length:0;const qz=(FEED.quiz||[]).length&&!(S.quiz||{})[S.uid||"eu"];
   if(qz||pend)h+=`<button type="button" class="cp-int" data-vgo="play"><span><b>${qz?"Quiz do dia":"Enquetes"}</b><span>${[qz?`${FEED.quiz.length} perguntas sobre esta edição`:"",pend?`${pend} ${pend===1?"enquete espera":"enquetes esperam"} o seu voto`:""].filter(Boolean).join(" · ")}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
   const falta=ps.filter(p=>!lidaAtual(p)).length;
-  h+=`<div class="cp-fim">${falta?`<b>Faltam ${falta} ${falta===1?"notícia":"notícias"} para ficar em dia</b><button type="button" class="btn ghost" data-vgo="feed" style="margin-top:6px">Abrir o feed</button>`:`<b>Você está em dia</b><span>Leu tudo desta edição. A próxima atualização aparece aqui.</span>`}<span>Atualizado ${esc(diaHora(FEED.atualizado_em))}.</span></div></div>`;
+  h+=`<div class="cp-fim">${falta?`<b>Faltam ${falta} ${falta===1?"notícia":"notícias"} para ficar em dia</b><button type="button" class="btn ghost" data-vgo="feed" style="margin-top:6px">Abrir o feed</button>`:`<b>Você está em dia</b><span>Leu tudo desta edição. A próxima atualização aparece aqui.</span>`}<span class="cp-fim-at">Atualizado ${esc(diaHora(horaEdicaoIso()))}.</span></div></div>`;
   v.innerHTML=h;lenteBotao()};
   if(!CP200_PRONTA){desenha();return}  /* ainda carregando (edição guardada, 029): só o desenho, como antes dos complementos */
   const monta=()=>{desenha();
