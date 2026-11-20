@@ -6365,6 +6365,16 @@ body.sr209-off .fd156-mais .fd156-sk{display:none}
 .ct210-ld-vs{font-size:13px!important;color:var(--muted)}
 .ct210-ld-vs a{color:inherit;text-decoration:underline}
 
+/* revisão 20/11 (testador): no cartão do topo do Feed, o desenho com números e legendas (placar, gráfico) ficava atrás
+   do título e as letras se misturavam; no cartão fica só o fundo do desenho */
+#secs .vn-tl-art svg text,#secs .vn-tl-art svg tspan{display:none}
+#secs .vn-tl-art :not(svg):not(svg *){color:transparent!important;text-shadow:none!important}
+.sr209{transition:opacity .4s}
+.sr209.some{opacity:0;visibility:hidden}
+/* revisão 20/11 (testador): ao rolar, as abas "Nesta matéria" paravam no meio de uma palavra junto do rótulo
+   ("ráfico", "inha do tempo"); agora a faixa sempre para no começo de uma aba */
+html.fs2 .fs2-cap-l{scroll-snap-type:x mandatory;scroll-padding-left:6px}
+html.fs2 .fs2-cap-l li{scroll-snap-align:start}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -9023,7 +9033,11 @@ async function carregarAgora(){try{const pre=typeof ab141Pre!=="undefined"&&ab14
   if(!d){const r=await fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"});if(!r.ok)return;d=await r.json()}
   if(d&&typeof d==="object"){NOVID_AG=d;try{localStorage.setItem("prumo-novid",JSON.stringify(d))}catch(e){}atualizarAgora();try{ac208Atualiza()}catch(e){}}}catch(e){}}
 function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!m)return 0;const agora=new Date();let ano=agora.getFullYear();let t=Date.parse(`${ano}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);if(t>Date.now()+864e5)t=Date.parse(`${ano-1}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);return t||0}
-function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
+function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();
+  /* "Supercélula de tempestade: entenda o que é…": antes do dois-pontos fica só o tema, não o fato; devolve vazio para
+     quem chama usar a manchete de outro veículo (testador 20/11) */
+  if(/:\s*(veja|entenda|saiba|confira|assista)\b/i.test(s))return "";
+  s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
   if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}
 /* vídeos, programas e edições de telejornal não são notícia para o "Agora" */
 const AG_LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d|\bpodcast\b|\bepis[óo]dio\b|\s#\d{2,}\s*$/i;
@@ -21665,6 +21679,7 @@ function cp152PostHTML(){let h=cp206PostHTML0.apply(this,arguments);
 /* cp152Ok: base no 152; 155 e 164 (com notícia ou foto, Publicar liga sem texto) */
 function cp206Ok0(){const b=$("#layer [data-cp152pub]");if(b)b.disabled=!CP152.txt.trim()}
 function cp152Ok(){const r=cp206Ok0.apply(this,arguments);
+  try{const b=$("#layer [data-cp152pub]");if(b&&b.classList.contains("cp206-conf")&&String(CP152.txt||"").trim()){b.textContent="Publicar";b.classList.remove("cp206-conf");CP152.semCom=0}}catch(e){}
   try{const b=$("#layer [data-cp152pub]");if(b&&CR155.pid)b.disabled=false}catch(e){}
   try{const b=$("#layer [data-cp152pub]");if(b&&fc164Tem())b.disabled=false}catch(e){}return r}
 /* cp152Anexo: base no 152; 155 (cr155Anexo: Notícia e Enquete levam a notícia já escolhida), 164 (fotos na caixa) */
@@ -21712,7 +21727,14 @@ async function cp206Publica164(){if(!fc164Tem())return cp206Publica155.apply(thi
   $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;try{edDesenha()}catch(e){}
   CP152.ed=null;CP152.txt="";CP152.direto=true;try{await edPublicaPost()}catch(e){}
   if(!$("#layer .ce")){try{cr155Limpa()}catch(e){}}}
-function cp152Publica(){CR166.pubT=Date.now();return cp206Publica164.apply(this,arguments)}
+function cp152Publica(){CR166.pubT=Date.now();
+  /* só a notícia, sem comentário nem foto: o primeiro toque pergunta (testador 20/11: quem tocava por engano publicava) */
+  try{const so=typeof CR155!=="undefined"&&CR155.pid&&!String(CP152.txt||"").trim()&&!(typeof fc164Tem==="function"&&fc164Tem());
+    if(so&&!(CP152.semCom&&Date.now()-CP152.semCom<8000)){CP152.semCom=Date.now();const b=$("#layer [data-cp152pub]");
+      if(b){b.textContent="Publicar sem comentar?";b.classList.add("cp206-conf")}
+      try{toast("Toque de novo para publicar só a notícia, ou escreva o que você acha")}catch(e){}return}
+    CP152.semCom=0}catch(e){}
+  return cp206Publica164.apply(this,arguments)}
 /* cp152HTML: base no 152; 182 (sem a aba Giro quando escondida; dica dos formatos) */
 function cp206HTML0(){const a=CP152.aba;
   return `<div class="cp152-hd"><button type="button" class="cp152-c" data-cp152x>Cancelar</button><b>Nova publicação</b>${a==="post"?`<button type="button" class="cp152-ok" data-cp152pub>Publicar</button>`:`<span class="cp152-c" aria-hidden="true"></span>`}</div>
@@ -22000,7 +22022,11 @@ function ac208Atualiza(){try{const c=$("#v-capa .ac208");const h=ac208HTML("capa
    Prefixo sr209. */
 function sr209Faixa(off){try{let f=document.getElementById("sr209");
   if(off){if(!f){f=document.createElement("div");f.id="sr209";f.setAttribute("role","status");document.body.appendChild(f)}
-    f.className="sr209";f.textContent="Sem conexão · mostrando o já baixado";f.title="Sem conexão: o que aparece é o que já tinha sido baixado"}
+    f.className="sr209";f.textContent="Sem conexão · mostrando o já baixado";f.title="Sem conexão: o que aparece é o que já tinha sido baixado";
+    /* revisão 20/11 (testador): a pílula ficava por cima de botões e campos até a rede voltar, e repetia o aviso rosa do
+       topo quando ele já estava na tela. Agora aparece por 4 s (ou nem aparece, se o aviso do topo já diz isso) */
+    const vis=[...document.querySelectorAll(".late.offl")].some(x=>x.getBoundingClientRect().height>0);
+    clearTimeout(sr209Faixa.t);if(vis)f.classList.add("some");else sr209Faixa.t=setTimeout(()=>{try{f.classList.add("some")}catch(e){}},4000)}
   else if(f){f.className="sr209 volta";f.textContent="Conexão de volta";clearTimeout(sr209Faixa.t);sr209Faixa.t=setTimeout(()=>{try{f.remove()}catch(e){}},2200)}
   document.body.classList.toggle("sr209-off",!!off);sr209Mais()}catch(e){}}
 function sr209Mais(){try{const m=document.getElementById("mais");if(!m)return;let s=m.querySelector(".sr209-m");

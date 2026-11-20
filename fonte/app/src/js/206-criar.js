@@ -333,6 +333,7 @@ function cp152PostHTML(){let h=cp206PostHTML0.apply(this,arguments);
 /* cp152Ok: base no 152; 155 e 164 (com notícia ou foto, Publicar liga sem texto) */
 function cp206Ok0(){const b=$("#layer [data-cp152pub]");if(b)b.disabled=!CP152.txt.trim()}
 function cp152Ok(){const r=cp206Ok0.apply(this,arguments);
+  try{const b=$("#layer [data-cp152pub]");if(b&&b.classList.contains("cp206-conf")&&String(CP152.txt||"").trim()){b.textContent="Publicar";b.classList.remove("cp206-conf");CP152.semCom=0}}catch(e){}
   try{const b=$("#layer [data-cp152pub]");if(b&&CR155.pid)b.disabled=false}catch(e){}
   try{const b=$("#layer [data-cp152pub]");if(b&&fc164Tem())b.disabled=false}catch(e){}return r}
 /* cp152Anexo: base no 152; 155 (cr155Anexo: Notícia e Enquete levam a notícia já escolhida), 164 (fotos na caixa) */
@@ -380,7 +381,14 @@ async function cp206Publica164(){if(!fc164Tem())return cp206Publica155.apply(thi
   $("#layer").innerHTML=`<div class="ce" role="dialog" aria-modal="true" aria-label="Criar"></div>`;if(pushH())HST++;try{edDesenha()}catch(e){}
   CP152.ed=null;CP152.txt="";CP152.direto=true;try{await edPublicaPost()}catch(e){}
   if(!$("#layer .ce")){try{cr155Limpa()}catch(e){}}}
-function cp152Publica(){CR166.pubT=Date.now();return cp206Publica164.apply(this,arguments)}
+function cp152Publica(){CR166.pubT=Date.now();
+  /* só a notícia, sem comentário nem foto: o primeiro toque pergunta (testador 20/11: quem tocava por engano publicava) */
+  try{const so=typeof CR155!=="undefined"&&CR155.pid&&!String(CP152.txt||"").trim()&&!(typeof fc164Tem==="function"&&fc164Tem());
+    if(so&&!(CP152.semCom&&Date.now()-CP152.semCom<8000)){CP152.semCom=Date.now();const b=$("#layer [data-cp152pub]");
+      if(b){b.textContent="Publicar sem comentar?";b.classList.add("cp206-conf")}
+      try{toast("Toque de novo para publicar só a notícia, ou escreva o que você acha")}catch(e){}return}
+    CP152.semCom=0}catch(e){}
+  return cp206Publica164.apply(this,arguments)}
 /* cp152HTML: base no 152; 182 (sem a aba Giro quando escondida; dica dos formatos) */
 function cp206HTML0(){const a=CP152.aba;
   return `<div class="cp152-hd"><button type="button" class="cp152-c" data-cp152x>Cancelar</button><b>Nova publicação</b>${a==="post"?`<button type="button" class="cp152-ok" data-cp152pub>Publicar</button>`:`<span class="cp152-c" aria-hidden="true"></span>`}</div>

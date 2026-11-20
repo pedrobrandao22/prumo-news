@@ -204,7 +204,8 @@ KW = {
     "educacao": set("""enem fuvest vestibular mec escola escolas universidade universidades professores professor alunos
         estudantes sisu prouni fies ensino creche""".split()),
     "brasil": set("""defesa civil temporal tempestade chuva chuvas enchente alagamento ciclone tiroteio policia policial
-        operacao incendio acidente mortes mortos desabamento""".split()),
+        operacao incendio acidente mortes mortos desabamento assassinato assassinada assassinado feminicidio crime
+        presa preso suspeito delegado homicidio""".split()),
 }
 
 

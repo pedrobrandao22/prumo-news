@@ -70,3 +70,13 @@
 .ct210-ld-vs{font-size:13px!important;color:var(--muted)}
 .ct210-ld-vs a{color:inherit;text-decoration:underline}
 
+/* revisão 20/11 (testador): no cartão do topo do Feed, o desenho com números e legendas (placar, gráfico) ficava atrás
+   do título e as letras se misturavam; no cartão fica só o fundo do desenho */
+#secs .vn-tl-art svg text,#secs .vn-tl-art svg tspan{display:none}
+#secs .vn-tl-art :not(svg):not(svg *){color:transparent!important;text-shadow:none!important}
+.sr209{transition:opacity .4s}
+.sr209.some{opacity:0;visibility:hidden}
+/* revisão 20/11 (testador): ao rolar, as abas "Nesta matéria" paravam no meio de uma palavra junto do rótulo
+   ("ráfico", "inha do tempo"); agora a faixa sempre para no começo de uma aba */
+html.fs2 .fs2-cap-l{scroll-snap-type:x mandatory;scroll-padding-left:6px}
+html.fs2 .fs2-cap-l li{scroll-snap-align:start}
