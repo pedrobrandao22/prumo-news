@@ -498,6 +498,17 @@ def mecanicos(F, agora, podar, virada, dia_anterior):
             if dp and (prazo or velha): rel.append(f"breve removida (cita {', '.join(dp)}): {b.get('titulo', '')[:60]}")
             else: fica.append(b)
         F["breves"] = fica
+    if virada or podar:
+        # 20/11: breve sem data no título ficava para sempre (no dia 20 ainda havia breves do dia 18, e elas contavam como
+        # "breves no ar", então a rápida repunha menos). Breve que entrou anteontem ou antes sai.
+        fica = []
+        for b in F.get("breves") or []:
+            try: hb = datetime.fromisoformat(str(b.get("hora")))
+            except Exception: hb = None
+            if hb and not b.get("urgente") and hb.date() < hoje - timedelta(days=1):
+                rel.append(f"breve antiga removida (entrou {hb:%d/%m}): {b.get('titulo', '')[:60]}")
+            else: fica.append(b)
+        F["breves"] = fica
     if podar:
         todo = V.texto_marcavel(F)
         for campo in ("glossario", "pessoas"):
