@@ -9,8 +9,11 @@
        Agora a tela rola até o texto aberto e um toque repetido no mesmo cartão em menos de 0,8 s é ignorado.
    Prefixo cr163. */
 
-/* ---- (1) texto de leitor sem bastidor ---- */
-var CR163_BASTIDOR=/atualiza[çc][ãa]o (duplicada|repetida)|\bduplicad[ao]s?\b[^;.]{0,40}\bremovid[ao]s?\b|\bremovid[ao]s? (da|do) (feed|edi[çc][ãa]o|lista)\b|^\s*tema passa a\b|\bnota interna\b/i;
+/* ---- (1) texto de leitor sem bastidor ----
+   20/11 (corretor, causa notas-internas): também os recados do robô ("proximo e faq trazem…", "contagem vencida trocada
+   por linha do tempo", "etapa avança para Câmara", "ficam para a próxima", "página que confirmasse"). A MESMA lista está
+   em tools/validar.py (BASTIDOR_SEMPRE), que dá ERRO antes de publicar; aqui é a rede de segurança das edições já no ar. */
+var CR163_BASTIDOR=/atualiza[çc][ãa]o (duplicada|repetida)|\bduplicad[ao]s?\b[^;.]{0,40}\bremovid[ao]s?\b|\bremovid[ao]s? (da|do) (feed|edi[çc][ãa]o|lista)\b|^\s*tema passa a\b|\bnota interna\b|\b(proximo|faq)\b|contagem vencida|trocad[ao]s? por (uma |a )?linha do tempo|\betapa avan[çc]a para\b|\bficam? para a pr[óo]xima(\s*[.;,]|\s*$| rodada| r[áa]pida| atualiza)|(p[áa]gina|fonte)s?( lida)? que (o )?confirm|nenhuma p[áa]gina lida|falta de (p[áa]gina|fonte)|\bj[áa] (est[áa]|est[ãa]o|estava|estavam) no feed\b|\bacionaram\b/i;
 function cr163Limpa(s){if(typeof s!=="string"||!s.trim())return s;
   let partes=s.split(/\s*;\s*/);const ok=partes.filter(x=>x&&!CR163_BASTIDOR.test(x));
   if(!ok.length)return "";

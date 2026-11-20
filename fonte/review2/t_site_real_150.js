@@ -8,7 +8,7 @@ let srv = null;
   const { DIR, F } = montarPasta('xsr150');
   // rodadas com bastidor, para conferir o que o leitor vê
   fs.writeFileSync(path.join(DIR, 'rodadas.json'), JSON.stringify({ dia: new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10), itens: {
-    '19h48': { tipo: 'rapida', status: 'ok', pautas: 33, mudancas: 2, checagem: '0 erros, 12 avisos', nota: 'Fechamento semanal do dólar e nova pauta sobre os voos nos EUA.' },
+    '19h48': { tipo: 'rapida', status: 'ok', pautas: 33, mudancas: 2, checagem: '0 erros, 12 avisos', leitor: 'Fechamento semanal do dólar e nova notícia sobre os voos nos EUA', nota: 'Fechamento semanal do dólar e nova pauta sobre os voos nos EUA.' },
     '13h48': { tipo: 'rapida', status: 'sem_mudancas', checagem: '0 erros, 9 avisos', nota: 'Acionada por ajuste-fiscal-lula-4; as buscas não trouxeram a matéria.' } } }));
   srv = U.servir('xsr150', 8737); await sleep(800);
   const H = await require('../harness').criar();
@@ -57,7 +57,7 @@ let srv = null;
   await v.evaluate(() => abrirRodadas()); await sleep(900);
   const rod = await v.evaluate(() => (document.querySelector('.sheet') || {}).innerText || '');
   ok(/9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48/.test(rod) && !/10h48/.test(rod), 'horários das atualizações corretos', rod.slice(0, 200));
-  ok(!/avisos|Acionada|ajuste-fiscal-lula-4|buscas/.test(rod) && /nova notícia sobre os voos/.test(rod) && /Nada mudou/.test(rod), 'registro sem bastidor para o leitor', rod.slice(0, 400));
+  ok(!/avisos|Acionada|ajuste-fiscal-lula-4|buscas|nova pauta/.test(rod) && /nova notícia sobre os voos/.test(rod) && /Nada mudou/.test(rod), 'registro sem bastidor para o leitor', rod.slice(0, 400));
   const prox = await v.evaluate(() => proximaRodadaTxt());
   ok(/(\d{1,2})h(48|52)/.test(prox) && !/(8|10|12|14|16|18|20|22|23)h48/.test(prox), 'próxima atualização numa hora real', prox);
   await v.evaluate(() => closeLayer());
