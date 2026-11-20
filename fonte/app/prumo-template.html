@@ -6511,7 +6511,25 @@ body.sr209-off .fd156-mais .fd156-sk{display:none}
     var c=F.capa||{},man=by(c.manchete)||ord[0];if(!man||!titulo(man))return;
     var linha=c.manchete===man.id?c.linha_fina:"";
     /* cabeçalho (capaEdicao) */
-    var ed=(function(){var d=new Date(F.atualizado_em);if(isNaN(d))return "";
+    /* hora da edição = horaEdicaoMs (200): o feed ou, depois dele, a notícia mais nova de "Acabou de sair" (ac208Itens) ou da
+       faixa "Agora" (agoraItens), com os mesmos filtros; antes daqui saía só a hora do feed e a Capa nascia com a hora velha */
+    var edMs=(function(){var m=Date.parse(F.atualizado_em||"");if(!isFinite(m)||!NV)return m;var ag2=Date.now(),lim=ag2+60e3,g=Date.parse(NV.gerado||"");
+      var LX=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d|\bpodcast\b|\bepis[óo]dio\b|\s#\d{2,}\s*$/i;
+      var hM=function(x){var r=typeof x==="string"&&x.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!r)return 0;var ano=new Date().getFullYear();var t=Date.parse(ano+"-"+r[2]+"-"+r[1]+"T"+r[3]+":"+r[4]+":00-03:00");if(t>Date.now()+864e5)t=Date.parse((ano-1)+"-"+r[2]+"-"+r[1]+"T"+r[3]+":"+r[4]+":00-03:00");return t||0};
+      var cu=function(t){var s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");if(s.length>170){s=s.slice(0,170).replace(/\s+\S*$/,"")+"…"}return s};
+      var tOk=function(l){for(var i=0;i<l.length;i++){var c=cu(l[i]);if(c&&c.replace("…","").length>=24)return c}return ""};
+      var po=function(h){if(h>m&&h<=lim)m=h};
+      var mx=function(ms){var hs=(Array.isArray(ms)?ms:[]).map(function(x){return hM(x&&x.hora)}).filter(Boolean);return hs.length?Math.max.apply(null,hs):0};
+      var nv=Array.isArray(NV.novos)?NV.novos:[];
+      if(!(g&&ag2-g>8*3600e3))nv.forEach(function(n){if(!n||!n.assunto||n.ja_e_breve||!n.relevante||(n.n_fontes||0)<2)return;  /* ac208Itens */
+        var ms=(Array.isArray(n.manchetes)?n.manchetes:[]).filter(function(x){return x&&x.titulo&&!LX.test(x.titulo)});if(!ms.length)return;var h=mx(ms);if(!h||ag2-h>6*3600e3)return;
+        var t=tOk([n.assunto].concat(ms.map(function(x){return x.titulo})));if(!t||LX.test(t))return;po(h)});
+      if(!(g&&ag2-g>4*3600e3)){nv.forEach(function(n){if(!n||!n.assunto||!(n.relevante||(n.n_fontes||0)>=2))return;var h=mx(n.manchetes);if(!h||ag2-h>3*3600e3)return;  /* agoraItens */
+          var t=tOk([n.assunto].concat(Array.isArray(n.manchetes)?n.manchetes.map(function(x){return x&&x.titulo}):[]));if(!t||LX.test(t)||LX.test(String(n.assunto)))return;po(h)});
+        var ep=NV.em_pautas&&typeof NV.em_pautas==="object"&&!Array.isArray(NV.em_pautas)?NV.em_pautas:{};
+        Object.keys(ep).forEach(function(pid){var x=ep[pid];if(!by(pid)||!x)return;var n=x.n_fontes||(Array.isArray(x.fontes)?x.fontes.length:0);if(n<3)return;var h=mx(x.manchetes);if(h&&ag2-h<=3*3600e3)po(h)})}
+      return m})();
+    var ed=(function(){var d=new Date(edMs);if(isNaN(d))return "";
       var hm=function(){return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":")},
         dia=function(){return d.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short",timeZone:"America/Sao_Paulo"}).replace(/\./g,"")};
       try{var p=hm();return "Atualizada às "+(+p[0])+"h"+p[1]+" · "+dia()}catch(e){var q=hm(),m=(+q[0])*60+(+q[1]);return (m>=390&&m<1050?"Edição da manhã":"Edição da noite")+" · "+dia()}})();
@@ -7183,11 +7201,11 @@ function tickerItens(lim=10){
   return out.slice(0,lim).sort((a,b)=>tms(b.hora)-tms(a.hora));
 }
 function abrirUltimas(){uso("ultimas");const it=tickerItens(15);const at=new Date(FEED.atualizado_em);
-  sheet("Últimas notícias",`<p class="hint" style="margin:0">Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}. O Prumo confere os veículos de hora em hora. ${proximaRodadaTxt()}</p><ul class="ult">${it.map(i=>`<li><button type="button" data-goto="${esc(i.pid)}"><span class="u-t"><b style="color:${secCor(i.sec)}">${esc(i.tag)}</b>${i.hora?` · ${esc(horaDia(i.hora))}`:""}</span><span class="u-x">${esc(i.txt)}</span></button></li>`).join("")}</ul>`)}
+  sheet("Últimas notícias",`<p class="hint" style="margin:0">Atualizado ${isNaN(at)?"":esc(diaHora(horaEdicaoIso()))}. O Prumo confere os veículos de hora em hora. ${proximaRodadaTxt()}</p><ul class="ult">${it.map(i=>`<li><button type="button" data-goto="${esc(i.pid)}"><span class="u-t"><b style="color:${secCor(i.sec)}">${esc(i.tag)}</b>${i.hora?` · ${esc(horaDia(i.hora))}`:""}</span><span class="u-x">${esc(i.txt)}</span></button></li>`).join("")}</ul>`)}
 function renderTicker(){
   const tk=$("#ticker"),run=$("#tkrun");if(!tk||!run)return;const it=tickerItens();
   if(!it.length){tk.hidden=true;return}tk.hidden=false;
-  const at=new Date(FEED.atualizado_em);const th=$("#tkhora");if(th)th.textContent=isNaN(at)?"":"às "+at.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",timeZone:"America/Sao_Paulo"}).replace(":","h");
+  const at=new Date(horaEdicaoIso());const th=$("#tkhora");if(th)th.textContent=isNaN(at)?"":"às "+at.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",timeZone:"America/Sao_Paulo"}).replace(":","h");
   const one=it.map(i=>`<button type="button" class="tk-i" data-tk="${esc(i.pid)}" tabindex="-1"><b>${esc(i.tag)}</b>${i.hora?`<time>${esc(horaDia(i.hora))}</time>`:""}<span>${esc(i.txt)}</span></button><i class="tk-sep" aria-hidden="true"></i>`).join("");
   run.innerHTML=one+one.replace(/tabindex="-1"/g,'tabindex="-1" aria-hidden="true"');run.querySelectorAll('.tk-i:not([aria-hidden])').forEach(b=>b.tabIndex=0);
   requestAnimationFrame(()=>{TK.w=run.scrollWidth/2;if(!TK.raf)TK.raf=requestAnimationFrame(tkLoop)});
@@ -7316,7 +7334,7 @@ function atrasoMin(){if(!FEED?.atualizado_em)return null;return Math.round((Date
 var _FH24=null;function horaSP(){_FH24=_FH24||new Intl.DateTimeFormat("en-US",{hour:"numeric",hour12:false,timeZone:"America/Sao_Paulo"});return +_FH24.format(new Date())}
 function estadoRadar(){const a=atrasoMin();if(a==null)return {ok:true,txt:""};const h=horaSP();const ativo=h>=8&&h<=23;
   if(ativo&&a>150&&rodadaRecenteMin()>300)return {ok:false,txt:`Sem atualização há ${Math.floor(a/60)} h${a%60?` ${a%60} min`:""}. Uma rodada pode ter falhado.`};
-  return {ok:true,txt:`Atualizado ${quando(FEED.atualizado_em)}.`}}
+  return {ok:true,txt:`Atualizado ${quando(horaEdicaoIso())}.`}}
 function saudeHTML(){
   const e=estadoRadar();const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));
   const ok=it.filter(([,x])=>x.status==="ok").length,fal=it.filter(([,x])=>x.status&&x.status!=="ok"&&x.status!=="sem_mudancas").length,sem=it.filter(([,x])=>x.status==="sem_mudancas").length;
@@ -7328,7 +7346,7 @@ var OFFLINE=false;
    se está atrasado (a cópia guardada pode ser velha e o rodadas.json ainda não veio), e o aviso piscava por um instante na abertura.
    "Sem conexão" não depende disso: só aparece quando o pedido da edição falhou de verdade. */
 var AVISO_FEED_OK=false,AVISO_ROD_OK=false;
-function avisoAtraso(){if(OFFLINE&&FEED)return `<div class="late gut offl"><span>Sem conexão. Mostrando a edição ${dataSP(FEED.atualizado_em)===hojeSP()?"das "+esc(hhmm(FEED.atualizado_em)):"de "+esc(horaDia(FEED.atualizado_em))}.</span><button type="button" data-retry>Tentar de novo</button></div>`;if(!AVISO_FEED_OK||!AVISO_ROD_OK)return "";const e=estadoRadar();return e.ok?"":`<div class="late gut">${esc(e.txt)}</div>`}
+function avisoAtraso(){if(OFFLINE&&FEED)return `<div class="late gut offl"><span>Sem conexão. Mostrando a edição ${esc(horaEdicaoTxt())}.</span><button type="button" data-retry>Tentar de novo</button></div>`;if(!AVISO_FEED_OK||!AVISO_ROD_OK)return "";const e=estadoRadar();return e.ok?"":`<div class="late gut">${esc(e.txt)}</div>`}
 /* quando os dois chegam: se o atraso é de verdade, o aviso entra uma vez (Capa e Feed já desenhados), sem redesenhar a tela */
 function avisoAtrasoDepois(){try{if(!FEED||!AVISO_FEED_OK||!AVISO_ROD_OK)return;const h=avisoAtraso();if(!h)return;
   const top=document.querySelector("#v-capa .cp-top");if(top&&!document.querySelector("#v-capa .late")){top.insertAdjacentHTML("afterend",h);const l=document.querySelector("#v-capa .late");if(l)l.classList.remove("gut")}
@@ -7545,7 +7563,17 @@ function ca159Passou(p,agora){try{const n=p&&p.neutro||{},tit=String(n.titulo||"
 
 /* ===== cabeçalho ===== */
 /* "Atualizada às 9h12 · ter, 17 de nov" (159; antes "Edição da manhã/noite", que fica só se a hora não puder ser escrita) */
-function capaEdicao(){const d=new Date(FEED&&FEED.atualizado_em);if(isNaN(d))return "";
+/* causa horario-da-edicao (corretor 20/11): UMA fonte para "de quando é isto" em todo o app — a última coisa que mudou:
+   o feed (atualizado_em) ou, depois dele, uma notícia de "Acabou de sair" (208) ou da faixa "Agora" (035). Antes só o topo da
+   Capa e o rodapé do Feed somavam as novidades (210, ct210UltMud); o rodapé da Capa, o Perfil, a folha "Atualizações de hoje",
+   a faixa "Sem conexão" e a Capa pré-desenhada (121) liam só o atualizado_em e ficavam com a hora da última rodada completa. */
+function horaEdicaoMs(){let m=Date.parse((FEED&&FEED.atualizado_em)||"");if(!isFinite(m))return NaN;const ag=Date.now()+60e3;
+  try{(typeof ac208Itens==="function"?ac208Itens():[]).forEach(x=>{const h=+(x&&x.h);if(h>m&&h<=ag)m=h})}catch(e){}
+  try{(typeof agoraItens==="function"?agoraItens():[]).forEach(x=>{const h=+(x&&x.h);if(h>m&&h<=ag)m=h})}catch(e){}return m}
+function horaEdicaoIso(){const m=horaEdicaoMs();return isFinite(m)?new Date(m).toISOString():((FEED&&FEED.atualizado_em)||"")}
+/* "edição das 15h43" (hoje) ou "edição de quinta às 21h49" — Perfil e faixa "Sem conexão" */
+function horaEdicaoTxt(){const i=horaEdicaoIso();if(!i)return "";return dataSP(i)===hojeSP()?"das "+hhmm(i):"de "+horaDia(i)}
+function capaEdicao(){const d=new Date(horaEdicaoMs());if(isNaN(d))return "";
   const hm=()=>d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":"),
     dia=()=>d.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short",timeZone:"America/Sao_Paulo"}).replace(/\./g,"");
   try{const p=hm();return "Atualizada às "+(+p[0])+"h"+p[1]+" · "+dia()}
@@ -7721,7 +7749,7 @@ function renderCapa(){nm186EmDia();
   const enq=ps.filter(p=>p.enquete&&(p.enquete.opcoes||[]).length);const pend=S.uid&&S.membro?enq.filter(p=>meuVoto(p.id)==null).length:0;const qz=(FEED.quiz||[]).length&&!(S.quiz||{})[S.uid||"eu"];
   if(qz||pend)h+=`<button type="button" class="cp-int" data-vgo="play"><span><b>${qz?"Quiz do dia":"Enquetes"}</b><span>${[qz?`${FEED.quiz.length} perguntas sobre esta edição`:"",pend?`${pend} ${pend===1?"enquete espera":"enquetes esperam"} o seu voto`:""].filter(Boolean).join(" · ")}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
   const falta=ps.filter(p=>!lidaAtual(p)).length;
-  h+=`<div class="cp-fim">${falta?`<b>Faltam ${falta} ${falta===1?"notícia":"notícias"} para ficar em dia</b><button type="button" class="btn ghost" data-vgo="feed" style="margin-top:6px">Abrir o feed</button>`:`<b>Você está em dia</b><span>Leu tudo desta edição. A próxima atualização aparece aqui.</span>`}<span>Atualizado ${esc(diaHora(FEED.atualizado_em))}.</span></div></div>`;
+  h+=`<div class="cp-fim">${falta?`<b>Faltam ${falta} ${falta===1?"notícia":"notícias"} para ficar em dia</b><button type="button" class="btn ghost" data-vgo="feed" style="margin-top:6px">Abrir o feed</button>`:`<b>Você está em dia</b><span>Leu tudo desta edição. A próxima atualização aparece aqui.</span>`}<span class="cp-fim-at">Atualizado ${esc(diaHora(horaEdicaoIso()))}.</span></div></div>`;
   v.innerHTML=h;lenteBotao()};
   if(!CP200_PRONTA){desenha();return}  /* ainda carregando (edição guardada, 029): só o desenho, como antes dos complementos */
   const monta=()=>{desenha();
@@ -19400,10 +19428,10 @@ function fd167Curtir(root){try{(root||document).querySelectorAll('[data-a="like"
 function fd167Conferida(){try{const r=S.rodadas;if(!r||!r.itens||r.dia!==hojeSP())return null;let m=null;
   for(const k of Object.keys(r.itens)){const v=r.itens[k],x=/^(\d{2})h(\d{2})$/.exec(k);if(!v||!x)continue;const t=Date.parse(`${r.dia}T${x[1]}:${x[2]}:00-03:00`);if(isFinite(t)&&(!m||t>m.t))m={t,k:(+x[1])+"h"+x[2],pub:v.publicou===true}}
   return m}catch(e){return null}}
-function fd167Rodape(){try{const p=document.querySelector("#extra .foot p");if(!p||!FEED)return;const at=Date.parse(FEED.atualizado_em||"");if(!isFinite(at))return;
+function fd167Rodape(){try{const p=document.querySelector("#extra .foot p");if(!p||!FEED)return;const at=horaEdicaoMs();if(!isFinite(at))return;/* 20/11: a hora da última coisa que mudou (horaEdicaoMs, 200) */
   const c=fd167Conferida();const conf=c&&!c.pub&&c.t>at+5*60000?` Conferido às ${c.k}, sem novidades.`:"";
   let prox="";try{prox=" "+proximaRodadaTxt()}catch(e){}
-  p.innerHTML=`<b>Atualizado ${esc(diaHora(FEED.atualizado_em))}.</b>${esc(conf)}${esc(prox)}`;p.classList.add("fd167-at")}catch(e){}}
+  p.innerHTML=`<b>Atualizado ${esc(diaHora(new Date(at).toISOString()))}.</b>${esc(conf)}${esc(prox)}`;p.classList.add("fd167-at")}catch(e){}}
 /* lista "Outras notícias": a hora da breve, quando a rodada manda (campo "hora") */
 function fd167BreveHora(){try{document.querySelectorAll("#extra .brv-b[data-breve]").forEach(bt=>{const b=(window.BREVES||[])[+bt.dataset.breve];const sp=bt.nextElementSibling;
   if(!b||!sp||sp.querySelector(".fd167-bh")||!tms(b.hora))return;sp.insertAdjacentHTML("beforeend",`<span class="fd167-bh"> · ${esc(quando(b.hora))}</span>`)})}catch(e){}}
@@ -20737,7 +20765,7 @@ function rp204Base(manter){
   const br=FILTRO[0]==="_"?[]:(FEED.breves||[]).filter(b=>(FILTRO==="tudo"&&!(PREF.ocultas||[]).includes(b.secao||"politica"))||(b.secao||"politica")===FILTRO);
   const at=new Date(FEED.atualizado_em);
   $("#extra").innerHTML=`<div class="done gut" id="emdia"></div>${br.length?`<div class="sec gut"><h4>Outras notícias</h4><ul class="brv">${(window.BREVES=br,br).map((b,bi)=>`<li><button type="button" class="brv-b" data-breve="${bi}">${b.urgente&&tms(b.hora)&&Date.now()-tms(b.hora)<3*3600e3?`<em class="ug">Urgente</em>`:""}${esc(b.titulo)}</button><span>${esc(secNome(b.secao||"politica"))} · ${esc(nomeFonte(b.fonte))}</span></li>`).join("")}</ul></div>`:""}
-  <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(FEED.atualizado_em))}.</b> A edição completa sai às 6h52 e é atualizada de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48; manchetes e indicadores são conferidos de hora em hora.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As fotos vêm de acervos de uso livre, sempre com crédito (Agência Brasil, Senado, Câmara e Wikimedia Commons); quando não há foto, o Prumo usa um desenho.</p></div>`;
+  <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(horaEdicaoIso()))}.</b> A edição completa sai às 6h52 e é atualizada de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48; manchetes e indicadores são conferidos de hora em hora.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As fotos vêm de acervos de uso livre, sempre com crédito (Agência Brasil, Senado, Câmara e Wikimedia Commons); quando não há foto, o Prumo usa um desenho.</p></div>`;
   atualizarEmDia();
 }
 function renderPosts(manter){
@@ -22034,19 +22062,11 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
   try{if(typeof VP99_LINK!=="undefined")VP99_LINK=null}catch(_){}closeLayer();setTimeout(()=>{try{go("capa");scrollTo(0,0)}catch(_){}},60)},true);
 
 /* ===== 7. Capa e rodapé do Feed: a hora é a da última coisa que mudou (inclui "Acabou de sair" e "Agora") ===== */
-function ct210UltMud(){let m=Date.parse((FEED&&FEED.atualizado_em)||"");if(!isFinite(m))return NaN;const ag=Date.now()+60e3;
-  try{(typeof ac208Itens==="function"?ac208Itens():[]).forEach(x=>{if(x&&x.h>m&&x.h<=ag)m=x.h})}catch(e){}
-  try{(typeof agoraItens==="function"?agoraItens():[]).forEach(x=>{const h=+(x&&x.h);if(h>m&&h<=ag)m=h})}catch(e){}return m}
-{const _ce=capaEdicao;capaEdicao=function(){const s=_ce.apply(this,arguments);try{const a=Date.parse(FEED.atualizado_em||""),m=ct210UltMud();
-    if(isFinite(a)&&isFinite(m)&&m-a>60e3){const dm=new Date(m),p=dm.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":"),hh="Atualizada às "+(+p[0])+"h"+p[1];
-      if(dataSP(dm.toISOString())===dataSP(new Date(a).toISOString()))return s.replace(/^Atualizada às \d{1,2}h\d{2}/,hh);
-      /* 20/11: novidade depois da meia-noite: hora e dia da novidade (antes ficava a hora de ontem) */
-      if(/^Atualizada às \d{1,2}h\d{2} · /.test(s))return hh+" · "+dm.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short",timeZone:"America/Sao_Paulo"}).replace(/\./g,"")}}catch(e){}return s}}
-function ct210Topo(){try{const e=$("#v-capa .cp-ed");if(!e||!FEED)return;const t=capaEdicao()+(FEED.contagem?" · "+FEED.contagem:"");if(e.textContent!==t)e.textContent=t}catch(e){}}
+/* a hora em si (horaEdicaoMs) e o "Atualizada às" (capaEdicao) ficam no 200 desde 20/11 (causa horario-da-edicao) */
+function ct210Topo(){try{const e=$("#v-capa .cp-ed");if(!e||!FEED)return;const t=capaEdicao()+(FEED.contagem?" · "+FEED.contagem:"");if(e.textContent!==t)e.textContent=t;
+  const f=$("#v-capa .cp-fim-at"),tf="Atualizado "+diaHora(horaEdicaoIso())+".";if(f&&f.textContent!==tf)f.textContent=tf;
+  const k=$("#tkhora"),at=new Date(horaEdicaoIso());if(k&&!isNaN(at)){const tk="às "+hhmm(at.toISOString());if(k.textContent!==tk)k.textContent=tk}}catch(e){}}
 {const _aa=ac208Atualiza;ac208Atualiza=function(){const r=_aa.apply(this,arguments);ct210Topo();try{fd167Rodape()}catch(e){}return r}}
-{const _fr=fd167Rodape;fd167Rodape=function(){const r=_fr.apply(this,arguments);try{const p=document.querySelector("#extra .foot p.fd167-at");if(!p)return r;const a=Date.parse(FEED.atualizado_em||""),m=ct210UltMud();
-    if(isFinite(a)&&isFinite(m)&&m-a>60e3){const b=p.querySelector("b");if(b)b.textContent="Atualizado "+diaHora(new Date(m).toISOString())+".";
-      p.innerHTML=p.innerHTML.replace(/, sem novidades\./,".")}}catch(e){}return r}}
 
 /* ===== 8. círculo de uma editoria no topo do Feed: o giro começa pela notícia que o círculo mostra ===== */
 /* só no toque de verdade no círculo (quem chama openSecStory direto continua começando pela primeira não vista) */
@@ -22945,7 +22965,7 @@ function renderMeMiolo(){
     <div style="display:flex;flex-direction:column;gap:12px;padding-bottom:24px">
     ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta</button></div></div>`:(!INIT_FIM&&!S.membro)?`<div class="card"><b>Conectando à sua conta…</b><p>Só um instante. Se demorar, confira a internet.</p></div>`:S.suspenso?`<div class="card"><b>Conta suspensa</b><p>Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-sair>Sair</button></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
     <div class="card menu"><button type="button" data-vgo="saved"><span>Guardadas</span><em>${Object.values(S.salvos||{}).filter(Boolean).length||""}</em><i>›</i></button><button type="button" data-vgo="play"><span>Quiz e enquetes</span><i>›</i></button></div>
-    <div class="card menu"><button type="button" data-ajustes><span>Ajustes do app</span><i>›</i></button><button type="button" data-historico><span>Histórico de leitura</span><em>${Object.keys(HIST).length}</em><i>›</i></button><button type="button" data-rodadas><span>Atualizações do Prumo</span><em class="${estadoRadar().ok?"":"bad"}">${esc(estadoRadar().ok?(FEED?"edição das "+hhmm(FEED.atualizado_em):""):"atrasado")}</em><i>›</i></button></div>
+    <div class="card menu"><button type="button" data-ajustes><span>Ajustes do app</span><i>›</i></button><button type="button" data-historico><span>Histórico de leitura</span><em>${Object.keys(HIST).length}</em><i>›</i></button><button type="button" data-rodadas><span>Atualizações do Prumo</span><em class="${estadoRadar().ok?"":"bad"}">${esc(estadoRadar().ok?(FEED?"edição "+horaEdicaoTxt():""):"atrasado")}</em><i>›</i></button></div>
     ${S.membro&&S.membros[u]?.papel==="admin"?`<div class="card menu"><button type="button" data-admin><span>Administração</span><i>›</i></button></div>`:""}
     ${relatorioHTML()}
     ${er.length?`<div class="card"><b>Erros que eu apontei</b><ul class="secpref">${er.map(e=>`<li style="flex-direction:column;align-items:flex-start;gap:2px"><b style="font-size:14.5px">${esc(e.titulo||"")}</b><span class="hint">“${esc(e.texto)}” · ${stE(e)}${e.resposta?" · "+esc(e.resposta):""}</span></li>`).join("")}</ul></div>`:""}

@@ -71,7 +71,25 @@
     var c=F.capa||{},man=by(c.manchete)||ord[0];if(!man||!titulo(man))return;
     var linha=c.manchete===man.id?c.linha_fina:"";
     /* cabeçalho (capaEdicao) */
-    var ed=(function(){var d=new Date(F.atualizado_em);if(isNaN(d))return "";
+    /* hora da edição = horaEdicaoMs (200): o feed ou, depois dele, a notícia mais nova de "Acabou de sair" (ac208Itens) ou da
+       faixa "Agora" (agoraItens), com os mesmos filtros; antes daqui saía só a hora do feed e a Capa nascia com a hora velha */
+    var edMs=(function(){var m=Date.parse(F.atualizado_em||"");if(!isFinite(m)||!NV)return m;var ag2=Date.now(),lim=ag2+60e3,g=Date.parse(NV.gerado||"");
+      var LX=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d|\bpodcast\b|\bepis[óo]dio\b|\s#\d{2,}\s*$/i;
+      var hM=function(x){var r=typeof x==="string"&&x.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!r)return 0;var ano=new Date().getFullYear();var t=Date.parse(ano+"-"+r[2]+"-"+r[1]+"T"+r[3]+":"+r[4]+":00-03:00");if(t>Date.now()+864e5)t=Date.parse((ano-1)+"-"+r[2]+"-"+r[1]+"T"+r[3]+":"+r[4]+":00-03:00");return t||0};
+      var cu=function(t){var s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");if(s.length>170){s=s.slice(0,170).replace(/\s+\S*$/,"")+"…"}return s};
+      var tOk=function(l){for(var i=0;i<l.length;i++){var c=cu(l[i]);if(c&&c.replace("…","").length>=24)return c}return ""};
+      var po=function(h){if(h>m&&h<=lim)m=h};
+      var mx=function(ms){var hs=(Array.isArray(ms)?ms:[]).map(function(x){return hM(x&&x.hora)}).filter(Boolean);return hs.length?Math.max.apply(null,hs):0};
+      var nv=Array.isArray(NV.novos)?NV.novos:[];
+      if(!(g&&ag2-g>8*3600e3))nv.forEach(function(n){if(!n||!n.assunto||n.ja_e_breve||!n.relevante||(n.n_fontes||0)<2)return;  /* ac208Itens */
+        var ms=(Array.isArray(n.manchetes)?n.manchetes:[]).filter(function(x){return x&&x.titulo&&!LX.test(x.titulo)});if(!ms.length)return;var h=mx(ms);if(!h||ag2-h>6*3600e3)return;
+        var t=tOk([n.assunto].concat(ms.map(function(x){return x.titulo})));if(!t||LX.test(t))return;po(h)});
+      if(!(g&&ag2-g>4*3600e3)){nv.forEach(function(n){if(!n||!n.assunto||!(n.relevante||(n.n_fontes||0)>=2))return;var h=mx(n.manchetes);if(!h||ag2-h>3*3600e3)return;  /* agoraItens */
+          var t=tOk([n.assunto].concat(Array.isArray(n.manchetes)?n.manchetes.map(function(x){return x&&x.titulo}):[]));if(!t||LX.test(t)||LX.test(String(n.assunto)))return;po(h)});
+        var ep=NV.em_pautas&&typeof NV.em_pautas==="object"&&!Array.isArray(NV.em_pautas)?NV.em_pautas:{};
+        Object.keys(ep).forEach(function(pid){var x=ep[pid];if(!by(pid)||!x)return;var n=x.n_fontes||(Array.isArray(x.fontes)?x.fontes.length:0);if(n<3)return;var h=mx(x.manchetes);if(h&&ag2-h<=3*3600e3)po(h)})}
+      return m})();
+    var ed=(function(){var d=new Date(edMs);if(isNaN(d))return "";
       var hm=function(){return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/Sao_Paulo"}).split(":")},
         dia=function(){return d.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short",timeZone:"America/Sao_Paulo"}).replace(/\./g,"")};
       try{var p=hm();return "Atualizada às "+(+p[0])+"h"+p[1]+" · "+dia()}catch(e){var q=hm(),m=(+q[0])*60+(+q[1]);return (m>=390&&m<1050?"Edição da manhã":"Edição da noite")+" · "+dia()}})();
