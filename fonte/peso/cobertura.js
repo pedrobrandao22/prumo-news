@@ -19,9 +19,13 @@ const ev = (p, f, a) => p.evaluate(f, a).catch(() => null);
     if (o.k) await esperar(p, () => typeof S !== 'undefined' && S.membro && PUB.on === true, null, 15000);
     await sleep(800); for (const f of passos) { try { await f(p) } catch (e) { console.log(nome, 'passo falhou', String(e).slice(0, 120)) } await sleep(500) }
     await sleep(9000);  // deixa rodar o que vem por tempo (conferência de versão, avisos, atualizações)
-    const cov = await p.coverage.stopJSCoverage();
-    for (const c of cov) { if (!c.source || c.source.length < 500000) continue; if (!fonte) fonte = c.source; if (c.source !== fonte) { console.log('fonte diferente em', nome); continue }
-      for (const fn of c.functions) { const r = fn.ranges[0]; if (r && r.count > 0) quentes.set(r.startOffset, true) } }
+    const junta = cov => { for (const c of cov) { if (!c.source || c.source.length < 500000) continue; if (!fonte) fonte = c.source; if (c.source !== fonte) { console.log('fonte diferente em', nome); continue }
+      for (const fn of c.functions) { const r = fn.ranges[0]; if (r && r.count > 0) quentes.set(r.startOffset, true) } } };
+    junta(await p.coverage.stopJSCoverage()); await p.coverage.startJSCoverage({ resetOnNavigation: false, reportAnonymous: true });
+    // volta ao app: mesma aba recarregada, com a edição e os ajustes já guardados (caminho da cópia guardada)
+    await p.goto(BASE).catch(() => { }); await esperar(p, () => window.__prumoPronto && typeof FEED !== 'undefined' && FEED, null, 20000); await sleep(1200);
+    for (const f of passos.slice(0, 2)) { try { await f(p) } catch (e) { } await sleep(400) } await sleep(6000);
+    junta(await p.coverage.stopJSCoverage());
     await p.context().close(); console.log('ok', nome);
   };
   const fecha = p => ev(p, () => { let i = 0; while (($('#layer2') && $('#layer2').innerHTML || $('#layer').innerHTML) && i++ < 6) { closeLayer._ok = true; closeLayer(); closeLayer._ok = false } });
@@ -47,6 +51,6 @@ const ev = (p, f, a) => p.evaluate(f, a).catch(() => null);
     const q = offs.some(o => o >= s.start && o <= s.body.start); const tam = s.end - s.start; todas.push(tam);
     if (!q && !s.generator && !novos.has(nm)) frias.push({ n: nm, i, tam, h: crypto.createHash('sha1').update(fonte.slice(s.start, s.end)).digest('hex').slice(0, 10) }) }
   const tot = fonte.length, fr = frias.reduce((a, x) => a + x.tam, 0);
-  fs.writeFileSync(path.join(__dirname, 'frias.json'), JSON.stringify({ gerado: new Date().toISOString(), funcoes: frias.map(x => [x.n, x.i, x.h]) }));
+  fs.writeFileSync(path.join(__dirname, process.env.FRIAS_SAIDA || 'frias.json'), JSON.stringify({ gerado: new Date().toISOString(), funcoes: frias.map(x => [x.n, x.i, x.h]) }));
   console.log(`funções de topo: ${todas.length}; frias: ${frias.length} (${(fr / 1e3).toFixed(0)} KB de ${(tot / 1e3).toFixed(0)} KB do script, ${(100 * fr / tot).toFixed(1)}%)`);
   await br.close(); srv.kill(); process.exit(0) })().catch(e => { console.error(e); process.exit(2) });

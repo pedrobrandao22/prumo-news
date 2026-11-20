@@ -19,7 +19,7 @@ const ast = acorn.parse(src, { ecmaVersion: 'latest', sourceType: 'script' });
 const novos = new Set();
 (function anda(n) { if (!n || typeof n.type !== 'string') return; if (n.type === 'NewExpression' && n.callee.type === 'Identifier') novos.add(n.callee.name); for (const k in n) { const v = n[k]; if (Array.isArray(v)) v.forEach(anda); else if (v && typeof v.type === 'string') anda(v) } })(ast);
 const hash = t => crypto.createHash('sha1').update(t).digest('hex').slice(0, 10);
-const vistos = {}, trocas = [], partes = []; let k = 0;
+const vistos = {}, trocas = [], partes = [], nomes = []; let k = 0;
 for (const s of ast.body) {
   if (s.type !== 'FunctionDeclaration' || !s.id) continue;
   const nm = s.id.name, i = vistos[nm] = (vistos[nm] || 0) + 1, chave = nm + '#' + i;
@@ -29,7 +29,7 @@ for (const s of ast.body) {
   if (s.generator || novos.has(nm) || txt.length < 160 || /new\.target|arguments\.callee/.test(txt)) continue;
   const resto = src.slice(s.id.end, s.end);  // "(params){corpo}"
   partes.push(`F[${k}]=${s.async ? 'async ' : ''}function${resto};`);
-  trocas.push({ ini: s.start, fim: s.end, por: `function ${nm}(){return __p2(${k},this,arguments)}` });
+  trocas.push({ ini: s.start, fim: s.end, por: `function ${nm}(){return __p2(${k},this,arguments)}` }); nomes.push(nm);
   k++;
 }
 if (!k) { console.log('dividir: nada para dividir'); process.exit(0) }
@@ -41,7 +41,9 @@ function __p2(k,t,a){if(!window.__P2F)__p2Sinc(k);var f=window.__P2F&&window.__P
 function __p2Sinc(k){try{(window.__p2sinc=window.__p2sinc||[]).push(k);var x=new XMLHttpRequest();x.open("GET",__P2_URL,false);x.send(null);if(x.status===200&&x.responseText){var s=document.createElement("script");s.text=x.responseText;document.head.appendChild(s)}}catch(e){}}
 function __p2Carrega(){if(window.__P2F||window.__p2ini)return;window.__p2ini=1;var s=document.createElement("script");s.src=__P2_URL;s.async=true;document.head.appendChild(s)}
 addEventListener("load",function(){setTimeout(__p2Carrega,200)});setTimeout(__p2Carrega,4000);
+try{navigator.serviceWorker&&navigator.serviceWorker.ready.then(function(){setTimeout(function(){fetch(__P2_URL).catch(function(){})},1500)})}catch(e){}
 `;
 const saida = h.slice(0, melhor.ini) + nucleo + novo + h.slice(melhor.ini + src.length);
 fs.writeFileSync(ARQ, saida); fs.writeFileSync(path.join(PASTA, nomeP2), p2);
+fs.writeFileSync(path.join(PASTA, 'parte2-mapa.json'), JSON.stringify(nomes));  // só para diagnóstico (não vai para o ar)
 console.log(`dividir: ${k} funções para ${nomeP2} (${(p2.length / 1e3).toFixed(0)} KB); núcleo ${(src.length / 1e3).toFixed(0)} → ${((nucleo.length + novo.length) / 1e3).toFixed(0)} KB`);
