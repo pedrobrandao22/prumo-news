@@ -147,6 +147,37 @@ def t_nada():
     assert out["acionar"] is False and out["acionar_motivo"].startswith("nada novo")
 
 
+def t_fontes_20_11():
+    # feed com prefixo sem declarar (Revista Oeste usa "media:" sem xmlns:media) passa a ser lido
+    x = (b'<?xml version="1.0"?><rss version="2.0"><channel><item><title>Fato</title><link>https://x.example/1</link>'
+         b'<pubDate>Fri, 20 Nov 2026 19:02:31 -0000</pubDate><media:content url="https://x.example/a.jpg" medium="image"/></item></channel></rss>')
+    import xml.etree.ElementTree as ET
+    raiz = ET.fromstring(M.declarar_prefixos(x))
+    assert raiz.find(".//item/title").text == "Fato"
+    # hora: "-0000" é UTC; ISO sem fuso (Exame) é hora de Brasília
+    assert M.quando("Fri, 20 Nov 2026 19:02:31 -0000").strftime("%H:%M") == "16:02"
+    assert M.quando("2026-11-20T16:11:48").strftime("%H:%M") == "16:11"
+    # cada veículo conta uma vez, mesmo com vários feeds (Estadão, Gazeta do Povo)
+    chaves = [c for c, *_ in M.FONTES]
+    assert chaves.count("estadao") == 4 and len(set(chaves)) >= 23
+    # palpite de seção: assunto de outra área não vira Economia só porque veio do InfoMoney
+    its = [mk("Fuvest antecipa divulgação de convocados para 2ª fase do vestibular", "im", "12:00", "economia"),
+           mk("Fuvest divulga convocados para segunda fase e locais de prova", "cnn", "12:10")]
+    assert M.secao_de(its) == "educacao"
+
+
+def t_breves_sugeridas():
+    its = [mk("Fuvest antecipa divulgação de convocados para 2ª fase do vestibular", "im", "12:00"),
+           mk("Fuvest divulga convocados para segunda fase e locais de prova do vestibular", "cnn", "12:10"),
+           mk("Horóscopo do dia: veja a previsão para o seu signo", "met", "12:00"),
+           mk("Horóscopo: previsão do seu signo para hoje", "cnn", "12:05"),
+           mk("Fato isolado que só um veículo deu sobre ponte no interior", "p360", "12:00")]
+    out = rodar(its)
+    ass = [b["assunto"] for b in out["breves_sugeridas"]]
+    assert len(ass) == 1 and "Fuvest" in ass[0], ass
+    assert out["breves_no_feed"] == len(FEED.get("breves") or []) and "breves_faltam" in out
+
+
 TESTES = [v for k, v in sorted(globals().items()) if k.startswith("t_")]
 if __name__ == "__main__":
     falhas = 0
