@@ -25,7 +25,8 @@ from datetime import datetime, timedelta, timezone
 API = "https://commons.wikimedia.org/w/api.php"
 CAMARA = "https://dadosabertos.camara.leg.br/api/v2/deputados?ordem=ASC&ordenarPor=nome&itens=100&pagina={}"
 SENADO = "https://legis.senado.leg.br/dadosabertos/senador/lista/atual.json"
-UA = {"User-Agent": "PrumoNews/1.0 (https://prumonews.com.br; robo de fotos de arquivo)"}
+UA = {"User-Agent": "PrumoNews/1.0 (https://prumonews.com.br; prumo-robo@users.noreply.github.com) python-urllib"}
+PAUSA = 1.2  # 20/11: o Wikimedia passou a responder 429 ("bot fazendo pedidos demais") com 0,15 s entre downloads
 SP = timezone(timedelta(hours=-3))
 LIVRE = re.compile(r"^(cc[ -]by(-sa)?( [\d.]+)?( [a-z-]+)?|cc0|public domain|pd\b|domínio público)", re.I)
 PROIBIDO = re.compile(r"\b(nc|nd)\b", re.I)
@@ -310,10 +311,23 @@ def get_json(url, tempo=25):
         return json.loads(r.read().decode("utf-8"))
 
 
+class Bloqueado(Exception):
+    """O servidor pediu para parar (429 repetido): o resto fica para a próxima execução."""
+
+
 def get_bytes(url, tempo=30, maximo=8_000_000):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=tempo) as r:
-        b = r.read(maximo + 1)
+    for tentativa in range(3):
+        req = urllib.request.Request(url, headers=UA)
+        try:
+            with urllib.request.urlopen(req, timeout=tempo) as r:
+                b = r.read(maximo + 1)
+            break
+        except urllib.error.HTTPError as e:
+            if e.code != 429: raise
+            if tentativa == 2: raise Bloqueado(url)
+            try: espera = min(60, int(e.headers.get("Retry-After") or 0))
+            except ValueError: espera = 0
+            time.sleep(max(espera, 15 * (tentativa + 1)))
     if len(b) > maximo: raise ValueError("arquivo grande demais")
     return b
 
@@ -540,6 +554,9 @@ def guardar(foto, base, pasta, retrato, E):
             if dados[:2] != b"\xff\xd8" or len(dados) > 90 * 1024: return False
             w, h = jpeg_dims(dados); conv = (dados, w, h, "jpg")
         if conv is False: return False
+    except Bloqueado:
+        print("  o Wikimedia pediu para parar (429 três vezes); o resto fica para a próxima execução")
+        E["baixar"] = False; return False
     except Exception as e:
         print("  download falhou:", url[:90], repr(e)[:80]); return False
     b, w, h, ext = conv
@@ -549,7 +566,7 @@ def guardar(foto, base, pasta, retrato, E):
     foto["local"] = rel
     if w and h: foto["w"], foto["h"] = w, h
     E["restam"] -= 1; E["total"] += len(b); E["novas"] += 1
-    time.sleep(0.15)
+    time.sleep(PAUSA)
     return True
 
 

@@ -178,6 +178,19 @@ def t_breves_sugeridas():
     assert out["breves_no_feed"] == len(FEED.get("breves") or []) and "breves_faltam" in out
 
 
+def t_acionar_leva_manchetes():
+    out = {"novos": [{"assunto": "Fato X", "manchetes": [
+               {"veiculo": "A", "titulo": "Fato X 1", "url": "https://a.example/1", "hora": "x"},
+               {"veiculo": "A", "titulo": "Fato X 1b", "url": "https://a.example/1b", "hora": "x"},
+               {"veiculo": "B", "titulo": "Fato X 2", "url": "https://b.example/2", "hora": "x"}]}],
+           "acionar_itens": [{"tipo": "novo", "titulo": "Fato X"}]}
+    ant = {"acionar_itens": [{"manchetes": [{"url": "https://b.example/2", "lide": "Resumo do B"}]}]}
+    M.anexar_manchetes(out, ant, buscar=False)
+    ms = out["acionar_itens"][0]["manchetes"]
+    assert [m["veiculo"] for m in ms] == ["A", "B"], ms        # um por veículo
+    assert ms[1]["lide"] == "Resumo do B" and "lide" not in ms[0]  # resumo reaproveitado do arquivo anterior
+
+
 TESTES = [v for k, v in sorted(globals().items()) if k.startswith("t_")]
 if __name__ == "__main__":
     falhas = 0
