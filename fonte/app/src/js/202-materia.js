@@ -68,16 +68,18 @@ function mt202Monta(pid,manter){const p=pautaById(pid);if(!p)return;const L=lent
   if(L!=="neutro"&&!v.tem)h+=`<p class="cpx-ver">Sem versão da ${L}: os veículos contam do mesmo jeito.</p>`;
   else if(v.tem)h+=`<p class="cpx-ver"><i class="${v.lado}"></i>Versão da ${v.lado} · <button type="button" data-lente="neutro">ver a neutra</button></p>`;
   h+=matDesfecho(p);
-  h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  /* 19/11 noite (Pedro): o "Em 30 segundos" já aparece na Capa ao abrir a notícia; na matéria, só enquanto o texto ainda carrega */
+  if(!String(v.texto||"").trim())h+=`<div class="cpx-30 mat-30"><b>Em 30 segundos</b><ul>${pontosDe(p,L).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
   h+=frases(v.texto).length>3?`<div class="mat-p">${v.texto.split(/\n+/).map(x=>`<p>${marcarTermos(x)}</p>`).join("")}</div>`:`<div class="mat-p"><p>${marcarTermos(v.texto)}</p></div>`;
   h+=matCorBloco(p);h+=matVisuais(p);
   if(v.tem&&n.texto)h+=`<div class="cpx-neutro"><b>O fato, sem enquadramento</b><p>${esc(n.texto)}</p></div>`;
-  if(p.o_que_muda&&(p.direita||p.esquerda))h+=`<p class="cpx-c"><b>Como cada lado conta</b>${esc(p.o_que_muda)}</p>`;
+  /* 19/11 noite: "Como cada lado conta" desceu para o fim da matéria (ct210LadosHTML) */
   const es=Array.isArray(p.essencial)?p.essencial.filter(x=>typeof x==="string"&&x):[];
   if(es.length)h+=`<div class="cpx-bl"><b>O essencial</b><ul>${es.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
   if(p.contexto)h+=`<p class="cpx-c"><b>Contexto</b>${marcarTermos(p.contexto)}</p>`;
   if(p.proximo)h+=`<p class="cpx-c"><b>O que vem agora</b>${marcarTermos(p.proximo)}</p>`;
   h+=matTempo(p);
+  try{h+=ct210LadosHTML(p,L)}catch(e){}
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().sort((a,b)=>tms(b.hora)-tms(a.hora));
   if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
   const nx=matProx(p.id);h+=matRel(p,nx);

@@ -1749,6 +1749,14 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
         da = [p for p in ps if p.get("secao") == sx and p.get("tipo") != "pontual"]
         com = sum(1 for p in da if p.get("direita") and p.get("esquerda"))
         if da and com * 2 < len(da): A(f"{sx}: só {com} de {len(da)} pautas com leitura de direita e esquerda (meta: metade ou mais, quando houver leitura política real)")
+        # 19/11 (Pedro: "endurecer de leve"): pauta sem versão, mas com veículo da direita ou da esquerda nos links — conferir se contam diferente
+        esp = f.get("espectro") if isinstance(f.get("espectro"), dict) else {}
+        nome_id = {v: k for k, v in (f.get("fontes") or {}).items() if isinstance(v, str)}
+        lado_de = lambda fo: esp.get(fo) or esp.get(nome_id.get(fo, ""))
+        for p in da:
+            if p.get("direita") or p.get("esquerda"): continue
+            lados = sorted({lado_de((l or {}).get("fonte")) for l in (p.get("links") or []) if isinstance(l, dict)} & {"direita", "esquerda"})
+            if lados: A(f"{p.get('id')}: sem versão de lado, mas tem veículo da {' e da '.join(lados)} nos links; se contam diferente do neutro, faça a versão (pode ser de um lado só)")
     for u, s in seen_links.items():
         if len(s) > 1: A(f"mesmo link em {sorted(s)}")
     # títulos repetidos
