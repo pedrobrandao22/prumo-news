@@ -1,19 +1,19 @@
 {
- "gerado": "2026-11-20T13:31-03:00",
+ "gerado": "2026-11-20T13:41-03:00",
  "desde": "2026-11-20T09:40-03:00",
  "feed_atualizado_em": "2026-11-20T09:50:00-03:00",
  "resumo": {
-  "manchetes": 303,
-  "assuntos_novos_relevantes": 3,
-  "assuntos_novos": 251,
+  "manchetes": 312,
+  "assuntos_novos_relevantes": 4,
+  "assuntos_novos": 259,
   "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 7,
-  "acionar_itens": 2,
+  "acionar_itens": 1,
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica); pauta principal caso-master sem atualização há 4 h e 2 veículos com relatos novos",
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica)",
  "acionar_itens": [
   {
    "tipo": "novo",
@@ -39,14 +39,6 @@
     "vota"
    ],
    "acao": "nova"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "caso-master",
-   "titulo": "Leia a íntegra do relatório da PF sobre Mendonça no caso Master",
-   "n_fontes": 2,
-   "motivo": "pauta principal caso-master sem atualização há 4 h e 2 veículos com relatos novos",
-   "acao": "atualiza: caso-master"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
@@ -109,10 +101,43 @@
      "hora": "20/11 12h35"
     },
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Política",
      "titulo": "Moraes diz que fuga de Flávio para os EUA é tentativa de obstruir investigações e vota para manter restrições a senador",
      "url": "https://g1.globo.com/politica/noticia/2026/11/20/moraes-diz-que-fuga-de-flavio-para-os-eua-e-tentativa-de-obstruir-investigacao-e-vota-para-manter-restricoes-a-senador.ghtml",
      "hora": "20/11 11h17"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
+  {
+   "assunto": "Número de mortos chega a três após tempestade que devastou cidade no RS",
+   "secao": null,
+   "n_fontes": 3,
+   "fontes": [
+    "ab",
+    "cnn",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Número de mortos chega a três após tempestade que devastou cidade no RS",
+     "url": "https://www.metropoles.com/brasil/numero-de-mortos-chega-a-tres-apos-tempestade-que-devastou-cidade-no-rs",
+     "hora": "20/11 12h59"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Três pessoas morrem após tempestade que destruiu Tupanciretã (RS)",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/rs/duas-mortes-sao-investigadas-apos-tempestade-que-destruiu-tupancireta-rs/",
+     "hora": "20/11 12h26"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Tempestade deixa três mortos em Tupanciretã, no Rio Grande do Sul",
+     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/tempestade-deixa-um-morto-em-tupancireta-no-rio-grande-do-sul",
+     "hora": "20/11 11h42"
     }
    ],
    "n_fontes_90min": 3
@@ -282,7 +307,7 @@
   },
   {
    "assunto": "Como mulher foi dopada e oferecida a desconhecidos pelo marido durante 13 anos",
-   "secao": null,
+   "secao": "mundo",
    "n_fontes": 2,
    "fontes": [
     "bbc",
@@ -292,7 +317,7 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Mundo",
      "titulo": "Como mulher foi dopada e oferecida a desconhecidos pelo marido durante 13 anos",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/20/como-mulher-foi-dopada-e-oferecida-a-desconhecidos-pelo-marido-durante-13-anos.ghtml",
      "hora": "20/11 11h20"
@@ -307,33 +332,33 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Dez anos após Brexit, Reino Unido faz acordos com UE e busca reaproximação",
-   "secao": "economia",
+   "assunto": "Dia da Consciência Negra: atletas contam como cabelo afro traz força e identidade na busca por pódio",
+   "secao": "esportes",
    "n_fontes": 2,
    "fontes": [
-    "folha",
-    "met"
+    "g1",
+    "ge"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Dez anos após Brexit, Reino Unido faz acordos com UE e busca reaproximação",
-     "url": "https://www.metropoles.com/mundo/dez-anos-apos-brexit-reino-unido-busca-reaproximacao-com-uniao-europeia",
-     "hora": "20/11 12h40"
+     "veiculo": "ge",
+     "titulo": "Dia da Consciência Negra: atletas contam como cabelo afro traz força e identidade na busca por pódio",
+     "url": "https://ge.globo.com/olimpiadas/noticia/2026/11/20/dia-da-consciencia-negra-atletas-contam-como-cabelo-afro-traz-forca-e-identidade-na-busca-por-podio.ghtml",
+     "hora": "20/11 13h38"
     },
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Reino Unido e União Europeia iniciam reaproximação após brexit com acordos sobre alimentos e mobilidade",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/reino-unido-e-uniao-europeia-iniciam-reaproximacao-apos-brexit-com-acordos-sobre-alimentos-e-mobilidade.shtml",
-     "hora": "20/11 12h28"
+     "veiculo": "g1",
+     "titulo": "Dia da Consciência Negra: conheça trajetórias de identidade, pluralidade e orgulho no DF",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/20/dia-da-consciencia-negra-conheca-trajetorias-de-identidade-pluralidade-e-orgulho-no-df.ghtml",
+     "hora": "20/11 13h32"
     },
     {
-     "veiculo": "Folha Mundo",
-     "titulo": "Reino Unido e União Europeia iniciam reaproximação após brexit com acordos sobre alimentos e mobilidade",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/reino-unido-e-uniao-europeia-iniciam-reaproximacao-apos-brexit-com-acordos-sobre-alimentos-e-mobilidade.shtml",
-     "hora": "20/11 12h28"
+     "veiculo": "g1",
+     "titulo": "Veja o que fazer em SP: Festival Consciência Negra, ExpoCannabis, Orgulho Nerd e Monobloco",
+     "url": "https://g1.globo.com/guia/guia-sp/noticia/2026/11/20/veja-o-que-fazer-em-sp-festival-consciencia-negra-expocannabis-orgulho-nerd-e-monobloco.ghtml",
+     "hora": "20/11 13h32"
     }
    ],
    "n_fontes_90min": 2
@@ -392,32 +417,6 @@
      "titulo": "Dino vota para tornar Van Hattem réu por calúnia e injúria contra delegado da Polícia Federal",
      "url": "https://g1.globo.com/politica/noticia/2026/11/20/dino-vota-para-tornar-van-hattem-reu-por-calunia-e-injuria-contra-delegado-da-policia-federal.ghtml",
      "hora": "20/11 11h21"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
-   "assunto": "Duas mortes são investigadas após tempestade que destruiu Tupanciretã (RS)",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Duas mortes são investigadas após tempestade que destruiu Tupanciretã (RS)",
-     "url": "https://www.cnnbrasil.com.br/nacional/sul/rs/duas-mortes-sao-investigadas-apos-tempestade-que-destruiu-tupancireta-rs/",
-     "hora": "20/11 12h26"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Três mortes são confirmadas pela Defesa Civil depois de tempestade que destruiu cidade no RS",
-     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/tres-mortes-defesa-civil-tempestade-tupancireta.ghtml",
-     "hora": "20/11 12h13"
     }
    ],
    "n_fontes_90min": 2
@@ -501,32 +500,6 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Gato desaparecido há 23 dias é encontrado morto em caixa d'água fechada de prédio na Bela Vista, em SP",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Gato desaparecido há 23 dias é encontrado morto em caixa d'água fechada de prédio na Bela Vista, em SP",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/20/gato-desaparecido-ha-23-dias-e-encontrado-morto-em-caixa-dagua-fechada-de-predio-na-bela-vista-em-sp.ghtml",
-     "hora": "20/11 13h19"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Servidor da AGU é encontrado após 10 dias desaparecido no DF",
-     "url": "https://www.metropoles.com/distrito-federal/servidor-da-agu-e-encontrado-apos-10-dias-desaparecido-no-df",
-     "hora": "20/11 12h37"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
    "assunto": "Justiça solta PMs presos por agredir advogado em delegacia no interior de SP",
    "secao": null,
    "n_fontes": 2,
@@ -553,11 +526,11 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Número de mortos chega a três após tempestade que devastou cidade no RS",
+   "assunto": "Pai de Isabelle Abreu lamenta a morte do genro, Gabriel Félix",
    "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "ab",
+    "cnn",
     "met"
    ],
    "ja_e_breve": false,
@@ -565,21 +538,21 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Número de mortos chega a três após tempestade que devastou cidade no RS",
-     "url": "https://www.metropoles.com/brasil/numero-de-mortos-chega-a-tres-apos-tempestade-que-devastou-cidade-no-rs",
-     "hora": "20/11 12h59"
+     "titulo": "Pai de Isabelle Abreu lamenta a morte do genro, Gabriel Félix",
+     "url": "https://www.metropoles.com/celebridades/pai-de-isabelle-abreu-lamenta-a-morte-do-genro-gabriel-felix",
+     "hora": "20/11 13h33"
     },
     {
-     "veiculo": "Agência Brasil",
-     "titulo": "Tempestade deixa três mortos em Tupanciretã, no Rio Grande do Sul",
-     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/tempestade-deixa-um-morto-em-tupancireta-no-rio-grande-do-sul",
-     "hora": "20/11 11h42"
+     "veiculo": "CNN Brasil",
+     "titulo": "Quem era Gabriel Félix, noivo de Isabele Abreu que morreu aos 29 anos",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/quem-era-gabriel-felix-noivo-de-isabele-abreu-que-morreu-aos-29-anos/",
+     "hora": "20/11 11h06"
     }
    ],
-   "n_fontes_90min": 2
+   "n_fontes_90min": 1
   },
   {
-   "assunto": "Suzane: projeto contra presença de criminosos no audiovisual trava na Alesp",
+   "assunto": "Saiba por onde anda o promotor acusado de assédio por Suzane von Richthofen",
    "secao": "politica",
    "n_fontes": 2,
    "fontes": [
@@ -589,6 +562,12 @@
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Saiba por onde anda o promotor acusado de assédio por Suzane von Richthofen",
+     "url": "https://www.metropoles.com/entretenimento/saiba-por-onde-anda-o-promotor-acusado-de-assedio-por-suzane-von-richthofen",
+     "hora": "20/11 13h35"
+    },
     {
      "veiculo": "Metrópoles",
      "titulo": "Suzane: projeto contra presença de criminosos no audiovisual trava na Alesp",
@@ -793,6 +772,26 @@
     }
    ],
    "n_fontes_90min": 1
+  },
+  {
+   "assunto": "AO VIVO: assista à programação da NSC TV",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "AO VIVO: assista à programação da NSC TV",
+     "url": "https://g1.globo.com/sc/santa-catarina/ao-vivo/assista-ao-vivo-aos-telejornais-da-nsc.ghtml",
+     "hora": "20/11 11h38"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "lixo": true
   }
  ],
  "em_pautas": {
@@ -853,12 +852,6 @@
      "titulo": "Fachin manda quebrar sigilo de relatório da PF com menções a Mendonça",
      "url": "https://agenciabrasil.ebc.com.br/justica/noticia/2026-11/fachin-manda-quebrar-sigilo-de-relatorio-da-pf-com-mencoes-mendonca",
      "hora": "20/11 10h34"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Leia a íntegra do relatório da PF sobre Mendonça no caso Master",
-     "url": "https://www.poder360.com.br/poder-flash/leia-a-integra-do-relatorio-da-pf-sobre-mendonca-no-caso-master/",
-     "hora": "20/11 12h05"
     }
    ]
   },
@@ -901,25 +894,18 @@
  },
  "novos_relatos": {
   "caso-master": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "ab",
-    "p360"
+    "ab"
    ],
    "n_fontes_90min": 1,
-   "ultima": "20/11 12h05",
-   "ultima_iso": "2026-11-20T12:05-03:00",
+   "ultima": "20/11 10h34",
+   "ultima_iso": "2026-11-20T10:34-03:00",
    "pauta_atualizada_em": "2026-11-20T09:34-03:00",
-   "horas_sem_atualizar": 4.0,
+   "horas_sem_atualizar": 4.1,
    "principal": true,
    "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Leia a íntegra do relatório da PF sobre Mendonça no caso Master",
-     "url": "https://www.poder360.com.br/poder-flash/leia-a-integra-do-relatorio-da-pf-sobre-mendonca-no-caso-master/",
-     "hora": "20/11 12h05"
-    },
     {
      "veiculo": "Agência Brasil",
      "titulo": "Fachin manda quebrar sigilo de relatório da PF com menções a Mendonça",
@@ -938,7 +924,7 @@
    "ultima": "20/11 13h15",
    "ultima_iso": "2026-11-20T13:15-03:00",
    "pauta_atualizada_em": "2026-11-19T17:48-03:00",
-   "horas_sem_atualizar": 19.7,
+   "horas_sem_atualizar": 19.9,
    "principal": false,
    "manchetes": [
     {
@@ -959,7 +945,7 @@
    "ultima": "20/11 11h34",
    "ultima_iso": "2026-11-20T11:34-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 30.7,
+   "horas_sem_atualizar": 30.8,
    "principal": true,
    "manchetes": [
     {
@@ -980,7 +966,7 @@
    "ultima": "20/11 11h58",
    "ultima_iso": "2026-11-20T11:58-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 6.7,
+   "horas_sem_atualizar": 6.8,
    "principal": false,
    "manchetes": [
     {
@@ -1002,7 +988,7 @@
    "ultima": "20/11 12h00",
    "ultima_iso": "2026-11-20T12:00-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 6.7,
+   "horas_sem_atualizar": 6.8,
    "principal": true,
    "manchetes": [
     {
@@ -1037,7 +1023,7 @@
    "ultima": "20/11 13h27",
    "ultima_iso": "2026-11-20T13:27-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 6.7,
+   "horas_sem_atualizar": 6.8,
    "principal": false,
    "manchetes": [
     {
@@ -1070,7 +1056,7 @@
    "ultima": "20/11 08h00",
    "ultima_iso": "2026-11-20T08:00-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 6.7,
+   "horas_sem_atualizar": 6.8,
    "principal": true,
    "manchetes": [
     {
@@ -1085,21 +1071,21 @@
  "fotos_livres": [
   {
    "veiculo": "Agência Brasil",
+   "titulo": "Trabalhadores e estudantes protestam por salários e serviços na Itália",
+   "materia": "https://agenciabrasil.ebc.com.br/internacional/noticia/2026-11/trabalhadores-e-estudantes-protestam-por-salarios-e-servicos-na-italia",
+   "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1709512&o=rss",
+   "credito": "Foto: Agência Brasil",
+   "hora": "20/11 13h06",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Brasil",
    "titulo": "Brasileirão: Rádio Nacional transmite duelo entre Palmeiras e Flamengo",
    "materia": "https://agenciabrasil.ebc.com.br/esportes/noticia/2026-11/brasileirao-radio-nacional-transmite-duelo-entre-palmeiras-e-flamengo-0",
    "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1709478&o=rss",
    "credito": "Foto: Agência Brasil",
    "hora": "20/11 08h32",
    "pid_sugerido": "brasileirao-31-rodada-lideres"
-  },
-  {
-   "veiculo": "Agência Brasil",
-   "titulo": "Mega-Sena acumula e prêmio vai para R$ 45 milhões",
-   "materia": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/mega-sena-acumula-e-premio-vai-para-r-45-milhoes",
-   "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1709492&o=rss",
-   "credito": "Foto: Agência Brasil",
-   "hora": "19/11 22h20",
-   "pid_sugerido": null
   },
   {
    "veiculo": "Agência Câmara",
@@ -1353,20 +1339,20 @@
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
   "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
-  "Agência Brasil": "ok: 10 itens, 8 nas últimas 6 h",
+  "Agência Brasil": "ok: 10 itens, 9 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
-  "ge": "ok: 100 itens, 91 nas últimas 6 h",
+  "ge": "ok: 100 itens, 94 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 26 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 3 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 9 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
