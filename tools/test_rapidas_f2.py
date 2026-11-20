@@ -130,7 +130,7 @@ class Registro(unittest.TestCase):
         s.assertTrue(V.checar_registro(dict(base, motivo="nada_novo"), s.NOV, ag))  # o acionar pediu: nada_novo não vale
         s.assertEqual(V.checar_registro(dict(base, motivo="nada_novo"), dict(s.NOV, acionar=False), ag), [])
         s.assertTrue(V.checar_registro(dict(base, motivo="preguica"), None, ag))
-        s.assertEqual(V.checar_registro({"tipo": "rapida", "status": "ok", "publicou": True, "nota": "x"}, None, ag), [])
+        s.assertEqual(V.checar_registro({"tipo": "rapida", "status": "ok", "publicou": True, "nota": "x", "leitor": "Fachin tira o sigilo do relatório."}, None, ag), [])  # 20/11: publicada precisa de leitor
         s.assertEqual(V.checar_registro({"tipo": "completa", "status": "sem_mudancas", "nota": "x"}, None, ag), [])
         s.assertTrue(V.checar_registro(dict(base, nota=""), None, ag))
 
