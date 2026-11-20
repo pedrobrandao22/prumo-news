@@ -26,8 +26,8 @@ async function avisar(id, v) {
   (await self.clients.matchAll({ type: "window" })).forEach(cl => cl.postMessage({ prumo: "pagina-nova", v }));
 }
 // confere na rede; se a página mudou, guarda a nova. Devolve {resp, nova}
-// peso (20/11): a página nova vem com a parte 2 (parte2.<hash>.js); guarda as duas juntas, para abrir sem internet
-async function comParte2(c, resp) { try { const t = await resp.clone().text(); const m = t.match(/parte2\.[0-9a-f]+\.js/); if (m && !(await c.match(m[0]))) await c.add(m[0]) } catch (e) { } }
+// peso (20/11): a página nova vem com as partes 2 e 3 (parteN.<hash>.js); guarda tudo junto, para abrir sem internet
+async function comParte2(c, resp) { try { const t = await resp.clone().text(); for (const m of new Set(t.match(/parte[23]\.[0-9a-f]+\.js/g) || [])) if (!(await c.match(m))) await c.add(m) } catch (e) { } }
 async function conferir(c, url, guardada) {
   const resp = await fetch(url, { cache: "no-cache", credentials: "same-origin" });
   if (!(resp && resp.ok && resp.type === "basic" && !resp.redirected)) return { resp, nova: false };
@@ -92,7 +92,7 @@ self.addEventListener("fetch", e => {
     return;
   }
   // biblioteca do Supabase (endereço com versão fixa) e ícones: cópia primeiro
-  const fixo = r.url.startsWith(SBJS) || (u.origin === location.origin && /\/(manifest\.json|icon-[\w-]+\.png|fontes\/[\w-]+\.woff2|parte2\.[0-9a-f]+\.js)$/.test(u.pathname));  // parte2.<hash>.js: o nome muda quando o conteúdo muda
+  const fixo = r.url.startsWith(SBJS) || (u.origin === location.origin && /\/(manifest\.json|icon-[\w-]+\.png|fontes\/[\w-]+\.woff2|parte[23]\.[0-9a-f]+\.js)$/.test(u.pathname));  // parteN.<hash>.js: o nome muda quando o conteúdo muda
   if (fixo) {
     e.respondWith((async () => {
       const c = await caches.open(CACHE);

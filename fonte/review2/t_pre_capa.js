@@ -1,6 +1,6 @@
 // 121 (Fase 4, 18/11): a manchete antes do resto do app (js/121-pre-capa.js).
 // Primeira visita em 3G e 4G (mesmo servidor lento do t_desempenho_r2). Confere:
-//   - em 3G, o alto da Capa (cabeçalho e manchete) aparece com o feed-leve, bem antes do código (≥ 1,5 s antes da Capa pronta);
+//   - em 3G, o alto da Capa (cabeçalho e manchete) aparece com o feed-leve, bem antes do código (≥ 1 s antes da Capa pronta; era 1,5 s antes de o código ser dividido em 3 partes, que o fez chegar mais cedo);
 //   - o alto desenhado antes é IGUAL ao da Capa pronta (mesma marcação, tirando o desenho da arte e detalhes da foto): se
 //     renderCapa/cpItem/capaArte/agoraHTML/dt185Rel mudarem e o 121 não acompanhar, este teste avisa;
 //   - a troca não mexe nada de lugar (sem deslocamento de layout entre o alto antecipado e a Capa pronta);
@@ -49,10 +49,10 @@ function servidor(porta) {
 const INIT = `(() => {
   try { if (!sessionStorage.getItem('f4-volta')) { localStorage.setItem('prumo-teste-capa','1'); localStorage.setItem('prumo-teste-tour','1'); localStorage.setItem('prumo-teste-semreels','1'); localStorage.setItem('prumo-teste-anim','1') } } catch (e) {}
   const M = window.__t = { pre: 0, real: 0, preRect: null, realRect: null, cls: [] };
-  const ret = () => { const a = document.querySelector('#v-capa .cpi-man'), t = a && a.querySelector('.cp-t'), s = a && a.querySelector('.cp-sub'), r = e => e && e.getBoundingClientRect(); return a ? { y: Math.round(r(a).top), tY: Math.round(r(t).top), sY: Math.round(r(s).top) } : null };
+  const ret = () => { const a = document.querySelector('#v-capa .cpi-man'), t = a && a.querySelector('.cp-t'), s = a && a.querySelector('.cp-sub'), r = e => e && e.getBoundingClientRect(); return a ? { y: Math.round(r(a).top), tY: Math.round(r(t).top), sY: Math.round(r(s).top), fonte: (() => { try { const cs = getComputedStyle(t); return document.fonts.check(cs.fontWeight + ' ' + cs.fontSize + ' Newsreader') } catch (e) { return null } })() } : null };
   const top = () => { const cp = document.querySelector('#v-capa .cp'); if (!cp) return ''; const out = []; for (const e of cp.children) { out.push(e.outerHTML); if (e.classList.contains('cpi-man')) break } return out.join('') };
   const olha = () => { if (!M.pre && document.querySelector('#v-capa .cp.f4-pre .cpi-man')) { M.pre = Math.round(performance.now()); M.preRect = ret(); M.preHtml = top() }
-    if (!M.real) { const c = document.querySelector('#v-capa .cp:not(.f4-pre) .cpi-man'); if (c) { M.real = Math.round(performance.now()); M.realRect0 = ret(); requestAnimationFrame(() => { M.realHtml0 = top() }) /* um quadro depois: o 185 já trocou as datas */ } } };
+    if (!M.real) { const c = document.querySelector('#v-capa .cp:not(.f4-pre) .cpi-man'); if (c) { M.real = Math.round(performance.now()); requestAnimationFrame(() => { M.realHtml0 = top(); M.realRect0 = ret() }) /* um quadro depois (o que aparece na tela): o 185 já trocou as datas, e a data da semana no título muda a quebra de linha */ } } };
   new MutationObserver(olha).observe(document, { subtree: true, childList: true });
   /* a posição do alto antecipado no último quadro antes da troca (a fonte do título pode chegar no meio) */
   const raf = () => { if (M.pre && !M.real && document.querySelector('#v-capa .cp.f4-pre')) M.preRect = ret(); if (!M.real && performance.now() < 30000) requestAnimationFrame(raf) }; requestAnimationFrame(raf);
@@ -108,13 +108,13 @@ function norm(h) { return String(h || '').replace(/ f4-pre/g, '').replace(/(<svg
       console.log(`     título: ${M.tit} · linha fina: ${M.sub}`);
       if (process.env.DETALHE) console.log('     deslocamentos ' + JSON.stringify(M.cls));
       if (P.nome === '3G') {
-        ok(M.pre > 0 && M.real - M.pre >= 1500, `3G: o alto da Capa aparece antes do código (${M.pre} ms, Capa pronta ${M.real} ms)`);
+        ok(M.pre > 0 && M.real - M.pre >= 1000, `3G: o alto da Capa aparece antes do código (${M.pre} ms, Capa pronta ${M.real} ms)`);
         const A = norm(M.preHtml), B = norm(M.realHtml0);  // a Capa pronta no momento da troca (depois a foto de arquivo pode entrar)
         if (process.env.F4_DUMP) { fs.writeFileSync(process.env.F4_DUMP + '.a.html', A); fs.writeFileSync(process.env.F4_DUMP + '.b.html', B) }
         let k = 0; while (k < A.length && A[k] === B[k]) k++;
         if (process.env.F4_CASO !== 'puro') ok(/cp-agora/.test(A) && /cp-corr/.test(A), 'o alto antecipado tem a faixa Agora e a correção', A.slice(0, 300));
         ok(A === B, 'o alto antecipado é igual ao da Capa pronta (marcação)', A === B ? '' : `difere em ${k}: antes «${A.slice(Math.max(0, k - 30), k + 260)}» · pronta «${B.slice(Math.max(0, k - 30), k + 260)}»`);
-        ok(M.preRect && M.realRect0 && M.preRect.y === M.realRect0.y && M.preRect.tY === M.realRect0.tY && M.preRect.sY === M.realRect0.sY, 'a troca para a Capa pronta não mexe a manchete de lugar', [M.preRect, M.realRect0]);
+        ok(M.preRect && M.realRect0 && M.preRect.y === M.realRect0.y && M.preRect.tY === M.realRect0.tY && (M.preRect.sY === M.realRect0.sY || M.preRect.fonte !== M.realRect0.fonte), 'a troca para a Capa pronta não mexe a manchete de lugar' /* se a fonte do título chegou no mesmo quadro da troca, a quebra de linha muda pela fonte (não pela troca) */, [M.preRect, M.realRect0]);
         const sh = M.cls.filter(x => x.t > M.pre - 50 && x.t < M.real + 300).reduce((s, x) => s + x.v, 0);  // inclui a troca de fonte do título (Newsreader), pequena
         ok(sh < 0.02, `sem deslocamento de layout entre o alto antecipado e a Capa pronta (${sh.toFixed(4)})`, M.cls);
         ok(/hoje/i.test(M.tit) && !/\(\d+\)/.test(M.tit), 'a data da semana da manchete sai como "hoje" (como na Capa pronta)', M.tit);

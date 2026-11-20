@@ -8968,7 +8968,8 @@ function saidaClone(node,cls,ms){if(!node)return;const w=document.createElement(
 var FEED_ADIADO=!!window.__feedAdiado,RF_REAL=renderFeed;
 /* 20/11 (abertura): o Feed escondido só é desenhado com o celular calmo: 2,5 s depois de a página terminar de carregar e
    num momento ocioso (antes ele disputava o processador com a Capa, as fotos e os indicadores). Tocar no Feed desenha na hora. */
-function rfQuandoCalmo(f){const vai=()=>setTimeout(()=>{window.requestIdleCallback?requestIdleCallback(f,{timeout:4000}):f()},2500);
+function rfQuandoCalmo(f0){const f=()=>{typeof __pDepois==="function"?__pDepois(2,f0):f0()};/* o Feed é da parte 2: espera ela chegar */
+  const vai=()=>setTimeout(()=>{window.requestIdleCallback?requestIdleCallback(f,{timeout:4000}):f()},2500);
   if(document.readyState==="complete")vai();else addEventListener("load",vai,{once:true})}
 if(FEED_ADIADO){const f=()=>{if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};rfQuandoCalmo(f)}
 renderFeed=function(){if(VIEW!=="feed"&&FEED&&document.querySelector("#v-capa .cpi")){if(VIEW==="capa"){try{renderCapa()}catch(e){}}FEED_ADIADO=true;if(!renderFeed._t){const f=()=>{renderFeed._t=0;if(FEED_ADIADO&&VIEW!=="feed"){FEED_ADIADO=false;try{RF_REAL()}catch(e){}}};renderFeed._t=1;rfQuandoCalmo(f)}return}FEED_ADIADO=false;return RF_REAL.apply(this,arguments)};
