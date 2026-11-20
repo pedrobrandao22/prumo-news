@@ -76,7 +76,10 @@ def main(argv):
     versao = None
     if t.count('%%VERSAO%%') == 1:  # código da versão: o app compara com versao.json e se atualiza sozinho
         import hashlib
-        versao = hashlib.sha1(t.encode('utf-8')).hexdigest()[:12]
+        h = hashlib.sha1(t.encode('utf-8'))
+        fr = os.path.join(AQUI, 'peso', 'frias.json')  # a divisão também muda a página publicada
+        if '--sem-dividir' not in sys.argv and os.path.exists(fr): h.update(open(fr, 'rb').read())
+        versao = h.hexdigest()[:12]
         t = t.replace('%%VERSAO%%', versao)
 
     os.makedirs(saida, exist_ok=True)
