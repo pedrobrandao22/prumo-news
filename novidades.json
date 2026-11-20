@@ -1,20 +1,37 @@
 {
- "gerado": "2026-11-20T03:56-03:00",
- "desde": "2026-11-19T21:46-03:00",
+ "gerado": "2026-11-20T04:06-03:00",
+ "desde": "2026-11-19T21:56-03:00",
  "feed_atualizado_em": "2026-11-19T21:49:00-03:00",
  "resumo": {
-  "manchetes": 212,
+  "manchetes": 232,
   "assuntos_novos_relevantes": 2,
-  "assuntos_novos": 131,
+  "assuntos_novos": 153,
   "pautas_com_novidade": 5,
-  "pautas_com_novidade_3_fontes": 0,
+  "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 4,
-  "acionar_itens": 0,
+  "acionar_itens": 2,
   "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (131 assuntos fora do feed, 4 pautas com relatos)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta principal caso-master sem atualização há 21.2 h e 2 veículos com relatos novos; pauta principal ajuste-fiscal-lula-4 sem atualização há 21.2 h e 2 veículos com relatos novos",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "PGR analisará só 4 dos 10 relatórios da PF sobre ministros do STF; entenda",
+   "n_fontes": 2,
+   "motivo": "pauta principal caso-master sem atualização há 21.2 h e 2 veículos com relatos novos",
+   "acao": "atualiza: caso-master"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "ajuste-fiscal-lula-4",
+   "titulo": "Ajuste fiscal chega à Câmara sob pressão após resistências no Senado",
+   "n_fontes": 2,
+   "motivo": "pauta principal ajuste-fiscal-lula-4 sem atualização há 21.2 h e 2 veículos com relatos novos",
+   "acao": "atualiza: ajuste-fiscal-lula-4"
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
@@ -142,32 +159,6 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "El Niño traz calor abafado e pancadas de chuva para o feriado em Minas",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "El Niño traz calor abafado e pancadas de chuva para o feriado em Minas",
-     "url": "https://www.metropoles.com/minas-gerais/el-nino-traz-calor-abafado-e-pancadas-de-chuva-para-o-feriado-em-minas",
-     "hora": "20/11 02h00"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Dias nublados e pancadas de chuva: confira previsão para o feriado no DF",
-     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/20/dias-nublados-e-pancadas-de-chuva-confira-previsao-para-o-feriado-no-df.ghtml",
-     "hora": "20/11 02h00"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
    "assunto": "Enem: prazo para pedir reaplicação termina nesta sexta (20/11)",
    "secao": null,
    "n_fontes": 2,
@@ -189,6 +180,44 @@
      "titulo": "Prazo para solicitar reaplicação do Enem 2026 termina hoje; saiba quem tem direito",
      "url": "https://g1.globo.com/educacao/enem/2026/noticia/2026/11/20/prazo-para-solicitar-reaplicacao-do-enem-2026-termina.ghtml",
      "hora": "20/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Feriado da Consciência Negra terá chuva e tempestades em todo o Brasil",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Feriado da Consciência Negra terá chuva e tempestades em todo o Brasil",
+     "url": "https://www.metropoles.com/brasil/feriado-da-consciencia-negra-tera-chuva-e-tempestades-em-todo-o-brasil",
+     "hora": "20/11 04h00"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Veja o que abre e fecha em Piracicaba durante feriado do Dia Nacional de Zumbi e da Consciência Negra",
+     "url": "https://g1.globo.com/sp/piracicaba-regiao/noticia/2026/11/20/veja-o-que-abre-e-fecha-em-piracicaba-durante-feriado-do-dia-nacional-de-zumbi-e-da-consciencia-negra.ghtml",
+     "hora": "20/11 02h00"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Dia da Consciência Negra: veja o que abre e o que fecha no DF neste feriado",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/20/dia-da-consciencia-negra-veja-o-que-abre-e-o-que-fecha-no-df-neste-feriado.ghtml",
+     "hora": "20/11 02h00"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Dia da Consciência Negra: como ativista de SP tentou criar feriado no Congresso 40 anos antes de aprovação da lei",
+     "url": "https://g1.globo.com/sp/ribeirao-preto-franca/noticia/2026/11/20/dia-da-consciencia-negra-como-ativista-de-sp-tentou-criar-feriado-no-congresso-40-anos-antes-de-aprovacao-da-lei.ghtml",
+     "hora": "20/11 02h00"
     }
    ],
    "n_fontes_90min": 1
@@ -253,32 +282,6 @@
      "titulo": "Justiça manda secretária de Trump parar de enviar e-mails religiosos pela conta oficial",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/20/justica-manda-secretaria-de-trump-parar-de-enviar-e-mails-religiosos-pela-conta-oficial.ghtml",
      "hora": "20/11 00h49"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "MPF pede indenização de R$ 2,5 milhões por demolição de terreiro de candomblé em Carapicuíba, na Grande SP",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "MPF pede indenização de R$ 2,5 milhões por demolição de terreiro de candomblé em Carapicuíba, na Grande SP",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/20/mpf-pede-indenizacao-de-r-25-milhoes-por-demolicao-de-terreiro-de-candomble-em-carapicuiba-na-grande-sp.ghtml",
-     "hora": "20/11 02h00"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "MPF processa prefeitura de Carapicuíba por demolição de terreiro",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/mpf-processa-prefeitura-de-carapicuiba-por-demolicao-de-terreiro/",
-     "hora": "19/11 21h50"
     }
    ],
    "n_fontes_90min": 1
@@ -392,6 +395,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "'Não podíamos pagar uma casa para nossa família, então decidimos comprar uma junto com desconhecidos'",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "'Não podíamos pagar uma casa para nossa família, então decidimos comprar uma junto com desconhecidos'",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/20/nao-podiamos-pagar-uma-casa-para-nossa-familia-entao-decidimos-comprar-uma-junto-com-desconhecidos.ghtml",
+     "hora": "20/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "'Ouvi que eram dores normais do pós-parto', diz engenheira que descobriu dois DIUs e perdeu útero em SC",
    "secao": null,
    "n_fontes": 1,
@@ -449,6 +471,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "A pedido da Câmara, TCU realizará auditoria no Banco do Brasil",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "A pedido da Câmara, TCU realizará auditoria no Banco do Brasil",
+     "url": "https://www.metropoles.com/colunas/andreza-matais/a-pedido-da-camara-realizara-tcu-auditoria-no-banco-do-brasil",
+     "hora": "20/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Abel Ferreira, do Palmeiras, e Guardiola se encontram em evento em São Paulo",
    "secao": "esportes",
    "n_fontes": 1,
@@ -468,6 +509,25 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Aeroporto da Polônia suspende voos após suspeita de invasão do espaço aéreo",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Aeroporto da Polônia suspende voos após suspeita de invasão do espaço aéreo",
+     "url": "https://www.cnnbrasil.com.br/internacional/aeroporto-da-polonia-suspende-voos-apos-suspeita-de-invasao-do-espaco-aereo/",
+     "hora": "20/11 03h58"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
    "assunto": "Afroteca criada por pedagoga incentiva autoestima de crianças negras no PI: 'se sentem representadas'",
    "secao": null,
    "n_fontes": 1,
@@ -482,6 +542,25 @@
      "titulo": "Afroteca criada por pedagoga incentiva autoestima de crianças negras no PI: 'se sentem representadas'",
      "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/20/afroteca-itinerante-criancas-negras-piaui.ghtml",
      "hora": "20/11 01h00"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Alguns dos maiores investidores do golfo Pérsico apostaram bilhões de dólares na Anthropic",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Alguns dos maiores investidores do golfo Pérsico apostaram bilhões de dólares na Anthropic",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/alguns-dos-maiores-investidores-do-golfo-persico-apostaram-bilhoes-de-dolares-na-anthropic.shtml",
+     "hora": "20/11 04h00"
     }
    ],
    "n_fontes_90min": 1
@@ -558,18 +637,6 @@
      "titulo": "Análise: lance de Sanabria expõe que o maior rival do Inter é ele mesmo e agrava risco de queda",
      "url": "https://ge.globo.com/rs/futebol/times/internacional/noticia/2026/11/20/analise-lance-de-sanabria-expoe-que-o-maior-rival-do-inter-e-ele-mesmo-e-agrava-risco-de-queda.ghtml",
      "hora": "20/11 01h30"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Inacreditável: gol evitado por Sanabria em jogo do Inter repercute; veja reações",
-     "url": "https://ge.globo.com/rs/futebol/times/internacional/noticia/2026/11/20/inacreditavel-gol-evitado-por-sanabria-em-jogo-do-inter-repercute-veja-reacoes.ghtml",
-     "hora": "20/11 00h33"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Centroavante ou zagueiro? Sanabria evita gol de empate do Inter contra o Vasco; veja o lance",
-     "url": "https://ge.globo.com/rs/futebol/times/internacional/noticia/2026/11/19/zagueiro-centroavante-do-inter-evita-gol-de-empate-contra-o-vasco-veja-o-lance.ghtml",
-     "hora": "19/11 21h47"
     }
    ],
    "n_fontes_90min": 1
@@ -650,70 +717,19 @@
     }
    ],
    "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Atualização médica e treinamento prático marcam Congresso de Emergências Médicas",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Atualização médica e treinamento prático marcam Congresso de Emergências Médicas",
-     "url": "https://g1.globo.com/rj/regiao-serrana/especial-publicitario/unimed-serrana-rj-unimed-serrana-rj-50-anos-presenca-que-transforma/noticia/2026/11/20/atualizacao-medica-e-treinamento-pratico-marcam-congresso-de-emergencias-medicas.ghtml",
-     "hora": "20/11 00h03"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Atuações do Fluminense: Hércules e Guga são os melhores em vitória; dê suas notas",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Atuações do Fluminense: Hércules e Guga são os melhores em vitória; dê suas notas",
-     "url": "https://ge.globo.com/futebol/times/fluminense/noticia/2026/11/19/atuacoes-do-fluminense-hercules-e-guga-sao-os-melhores-em-vitoria-de-suas-notas.ghtml",
-     "hora": "19/11 23h39"
-    }
-   ],
-   "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Atuações: Arboleda volta a falhar e é o pior em derrota do São Paulo; dê suas notas",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Atuações: Arboleda volta a falhar e é o pior em derrota do São Paulo; dê suas notas",
-     "url": "https://ge.globo.com/futebol/times/sao-paulo/noticia/2026/11/19/atuacoes-arboleda-volta-a-falhar-e-e-o-pior-em-derrota-do-sao-paulo-de-suas-notas.ghtml",
-     "hora": "19/11 23h29"
-    }
-   ],
-   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
   "caso-master": {
    "secao": "politica",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "PGR analisará só 4 dos 10 relatórios da PF sobre ministros do STF; entenda",
+     "url": "https://www.cnnbrasil.com.br/politica/pgr-analisara-so-4-dos-10-relatorios-da-pf-sobre-ministros-do-stf-entenda/",
+     "hora": "20/11 03h55"
+    },
     {
      "veiculo": "Folha Poder",
      "titulo": "PGR terá núcleo com Gonet para avaliar relatórios sobre ministros do STF e deve superar prazo de 15 dias",
@@ -767,6 +783,12 @@
      "titulo": "Ministérios, ajuste fiscal e articulações políticas: veja o que se sabe sobre o novo governo Lula",
      "url": "https://g1.globo.com/politica/noticia/2026/11/20/lula-4-ministros-o-que-se-sabe.ghtml",
      "hora": "20/11 00h00"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ajuste fiscal chega à Câmara sob pressão após resistências no Senado",
+     "url": "https://www.cnnbrasil.com.br/politica/ajuste-fiscal-chega-a-camara-sob-pressao-apos-resistencias-no-senado/",
+     "hora": "20/11 03h45"
     }
    ]
   },
@@ -794,7 +816,7 @@
    "ultima": "19/11 23h00",
    "ultima_iso": "2026-11-19T23:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 21.1,
+   "horas_sem_atualizar": 21.2,
    "principal": true,
    "manchetes": [
     {
@@ -806,18 +828,25 @@
    ]
   },
   "caso-master": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
+    "cnn",
     "p360"
    ],
    "n_fontes_90min": 1,
-   "ultima": "19/11 22h15",
-   "ultima_iso": "2026-11-19T22:15-03:00",
+   "ultima": "20/11 03h55",
+   "ultima_iso": "2026-11-20T03:55-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 21.1,
+   "horas_sem_atualizar": 21.2,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "PGR analisará só 4 dos 10 relatórios da PF sobre ministros do STF; entenda",
+     "url": "https://www.cnnbrasil.com.br/politica/pgr-analisara-so-4-dos-10-relatorios-da-pf-sobre-ministros-do-stf-entenda/",
+     "hora": "20/11 03h55"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Fachin envia à PGR 4 relatórios da PF sobre ministros do STF",
@@ -827,18 +856,25 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
+    "cnn",
     "g1"
    ],
    "n_fontes_90min": 1,
-   "ultima": "20/11 00h00",
-   "ultima_iso": "2026-11-20T00:00-03:00",
+   "ultima": "20/11 03h45",
+   "ultima_iso": "2026-11-20T03:45-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 21.1,
+   "horas_sem_atualizar": 21.2,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ajuste fiscal chega à Câmara sob pressão após resistências no Senado",
+     "url": "https://www.cnnbrasil.com.br/politica/ajuste-fiscal-chega-a-camara-sob-pressao-apos-resistencias-no-senado/",
+     "hora": "20/11 03h45"
+    },
     {
      "veiculo": "g1",
      "titulo": "Ministérios, ajuste fiscal e articulações políticas: veja o que se sabe sobre o novo governo Lula",
@@ -857,7 +893,7 @@
    "ultima": "20/11 01h07",
    "ultima_iso": "2026-11-20T01:07-03:00",
    "pauta_atualizada_em": "2026-11-19T00:42-03:00",
-   "horas_sem_atualizar": 27.2,
+   "horas_sem_atualizar": 27.4,
    "principal": false,
    "manchetes": [
     {
@@ -1115,17 +1151,17 @@
  "ultima_rodada": "2026-11-19T21:49-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 3 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 23 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 32 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 1 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 7 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 46 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 4 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 3 nas últimas 6 h",
+  "ge": "ok: 100 itens, 44 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
