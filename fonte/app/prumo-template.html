@@ -6537,12 +6537,17 @@ body.sr209-off .fd156-mais .fd156-sk{display:none}
     /* ao vivo */
     var vivo=ps.filter(function(p){return p.status==="ao_vivo"});
     if(vivo.length)h+='<div class="cp-vivo"><b><i></i>Ao vivo</b>'+vivo.map(function(p){return '<button type="button" data-cobpag="'+esc(p.id)+'">'+et(capaChapeu(p)+": "+titulo(p)+" ›")+'</button>'}).join("")+'</div>';
+    /* o mesmo texto alternativo do illAlt (161): ilustração genérica sem tema vira "jornal" (cópia do gen161Tema; o teste compara) */
+    function altArte(im){var a=im.alt||"Ilustração";try{var gen=im.modelo==="generica"||!im.modelo||(typeof ILL!=="undefined"&&!ILL[im.modelo]);if(!gen)return a;
+      var r=(String((im.dados&&im.dados.rotulo)||"")+" "+String(im.alt||"")).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+      if(/futebol|\bbola\b|gramado|brasileirao|serie [ab]\b|selecao|sul-americana|libertadores|copa do|rodada|amistoso|playoff/.test(r)||/aviao|\bvoos?\b|decolag|aeroport|viagem|aereo/.test(r)||/floresta|clima|\bcop\s?\d|ambient|desmat|amazonia|folhas/.test(r)||/tecnolog|servidor|\bchips?\b|nvidia|microsoft|big tech|digita|internet|\bia\b|intelig.ncia artificial|software|apple|google|meta\b/.test(r)||/cupula|bandeira|china|\beua\b|estados unidos|russia|mundo|globo|internacional|guerra|otan|\bonu\b|apec|g20|europa/.test(r)||/congresso|camara|senado|planalto|esplanada|ministerio|brasilia|governo|stf|plenario|deputad|senador/.test(r))return a;
+      return "Ilustração: jornal (sem foto desta notícia)"}catch(e){return a}}
     /* a manchete (cpItem com tam "man") */
     var p=man,u=ultimaAtualizacao(p)||p.hora;
     var meta='<span class="cp-meta">'+cobStatus(p)+(u?'<span>'+esc(atualizadoTxt(u))+'</span>':"")+'</span>';
     var k='<span class="cp-k" style="color:'+secCor(secOf(p))+'">'+et(capaChapeu(p)+(p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""))+(corRecente(p)?'<span class="cp-corr"> · corrigida</span>':"")+'</span>';
     var sub=linha||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro&&p.neutro.texto,170);
-    var im=p.imagem||{},svg='<svg viewBox="0 0 400 240" role="img" aria-label="'+esc(im.alt||"Ilustração")+'"><rect class="ib" width="400" height="240"/></svg>';
+    var im=p.imagem||{},svg='<svg viewBox="0 0 400 240" role="img" aria-label="'+esc(altArte(im))+'"><rect class="ib" width="400" height="240"/></svg>';
     /* foto própria da manchete: a escolha do app é longa (faValida, 157, 169, mapa do acervo); aí fica o esqueleto */
     if(p.foto&&typeof p.foto==="object")return;
     var arte='<span class="art paper" data-sec="'+esc(secOf(p))+'">'+svg+'</span>';
@@ -8812,8 +8817,8 @@ async function carregarIndAuto(){if(Date.now()-IND_T<60000)return;IND_T=Date.now
     const mudou=JSON.stringify(j)!==JSON.stringify(IND_AUTO);IND_AUTO=j;try{localStorage.setItem("prumo-ind",JSON.stringify(j))}catch(e){}
     if(mudou&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&FILTRO==="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
 (function(){const ant=checarFeed;checarFeed=function(x){carregarIndAuto();return ant.apply(this,arguments)}})();
-/* 20/11 (peso): só depois de a Capa estar na tela (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
-function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
+/* 20/11 (peso): só depois de a Capa estar na tela (ou já, se o app não abriu na Capa) (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
+function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||(typeof abreNaCapa==="function"&&!abreNaCapa())||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
 depoisDaCapa(carregarIndAuto);
 
 /* ---------- Etapa 13: gráficos dos indicadores ---------- */
@@ -19797,6 +19802,7 @@ var CM168_SEGAVISO=0;
    avião, floresta/clima, tecnologia, mundo; o Congresso fica só para Brasília/governo/Congresso; sem pista, um
    desenho neutro de jornal, sem prédio nenhum. */
 const gen161Congresso=ILL.generica;
+/* mudou os temas? o 121-pre-capa.js tem uma cópia (altArte) para o texto alternativo da manchete */
 function gen161Tema(d){
   const t=String((d&&d.rotulo)||"")+" "+String((d&&d._alt)||"");
   const r=t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
