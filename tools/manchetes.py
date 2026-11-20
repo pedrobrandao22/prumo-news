@@ -44,6 +44,26 @@ FONTES = [
     ("bbc", "BBC News Brasil", "https://feeds.bbci.co.uk/portuguese/rss.xml", None),
     ("agsenado", "Agência Senado", "https://www12.senado.leg.br/noticias/feed/todasnoticias/rss", "politica"),
     ("agcamara", "Agência Câmara", "https://www.camara.leg.br/noticias/rss/ultimas-noticias", "politica"),
+    # 20/11: mais veículos (grandes jornais e veículos de direita e de esquerda), para o "acionar" ver mais assuntos e as
+    # versões Direita/Esquerda terem em que se apoiar. Cada veículo conta uma vez só (a chave), mesmo com vários feeds.
+    ("estadao", "Estadão Política", "https://www.estadao.com.br/arc/outboundfeeds/feeds/rss/sections/politica/", "politica"),
+    ("estadao", "Estadão Economia", "https://www.estadao.com.br/arc/outboundfeeds/feeds/rss/sections/economia/", "economia"),
+    ("estadao", "Estadão Brasil", "https://www.estadao.com.br/arc/outboundfeeds/feeds/rss/sections/brasil/", "brasil"),
+    ("estadao", "Estadão Internacional", "https://www.estadao.com.br/arc/outboundfeeds/feeds/rss/sections/internacional/", "mundo"),
+    ("oglobo", "O Globo", "https://oglobo.globo.com/rss/oglobo", None),
+    ("valor", "Valor Econômico", "https://valor.globo.com/rss/valor", None),  # o feed geral do Valor traz Mundo e Brasil também
+    ("ex", "Exame", "https://exame.com/feed/", None),
+    ("veja", "Veja", "https://veja.abril.com.br/feed/", None),
+    ("nexo", "Nexo", "https://www.nexojornal.com.br/rss.xml", None),
+    ("dw", "DW Brasil", "https://rss.dw.com/rdf/rss-br-all", "mundo"),
+    ("gp", "Gazeta do Povo República", "https://www.gazetadopovo.com.br/feed/rss/republica.xml", "politica"),
+    ("gp", "Gazeta do Povo Economia", "https://www.gazetadopovo.com.br/feed/rss/economia.xml", "economia"),
+    ("oeste", "Revista Oeste", "https://revistaoeste.com/feed/", None),
+    ("jp", "Jovem Pan", "https://jovempan.com.br/feed", None),
+    ("antag", "O Antagonista", "https://oantagonista.com.br/feed/", None),
+    ("cc", "CartaCapital", "https://www.cartacapital.com.br/feed/", None),
+    ("bdf", "Brasil de Fato", "https://www.brasildefato.com.br/feed/", None),
+    ("icl", "ICL Notícias", "https://iclnoticias.com.br/feed/", None),
 ]
 # veículos cujas fotos têm licença livre (com crédito): podem ilustrar o Prumo
 LIVRES = {"ab": "Agência Brasil", "agsenado": "Agência Senado", "agcamara": "Agência Câmara"}
@@ -71,17 +91,34 @@ def quando(txt):
     txt = txt.strip()
     try:
         d = email.utils.parsedate_to_datetime(txt)
+        if d.tzinfo is None: d = d.replace(tzinfo=timezone.utc)  # "-0000" do RFC 2822 é UTC
     except Exception:
         try: d = datetime.fromisoformat(txt.replace("Z", "+00:00"))
         except Exception: return None
-    if d.tzinfo is None: d = d.replace(tzinfo=timezone.utc)
+        if d.tzinfo is None: d = d.replace(tzinfo=SP)  # ISO sem fuso (Exame): é a hora de Brasília
     return d.astimezone(SP)
+
+
+def declarar_prefixos(bruto):
+    """Feed que usa um prefixo sem declarar (Revista Oeste usa "media:" sem xmlns:media): declara na raiz e tenta de novo."""
+    txt = bruto.decode("utf-8", "replace")
+    usados = set(re.findall(r"</?([A-Za-z][\w.-]*):[A-Za-z]", txt)) | set(re.findall(r"\s([A-Za-z][\w.-]*):[A-Za-z][\w.-]*=", txt))
+    falta = [p for p in sorted(usados) if p not in ("xml", "xmlns") and f"xmlns:{p}=" not in txt]
+    if not falta: return bruto
+    m = re.search(r"<(rss|feed|rdf:RDF)\b", txt)
+    if not m: return bruto
+    decl = "".join(f' xmlns:{p}="urn:prumo:{p}"' for p in falta)
+    return (txt[:m.end()] + decl + txt[m.end():]).encode("utf-8")
 
 
 def ler(url):
     req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=20) as r:
-        raiz = ET.fromstring(r.read())
+        bruto = r.read()
+    try:
+        raiz = ET.fromstring(bruto)
+    except ET.ParseError:
+        raiz = ET.fromstring(declarar_prefixos(bruto))
     out = []
     for it in raiz.iter():
         tag = it.tag.split("}")[-1]
@@ -161,8 +198,17 @@ KW = {
         zagueiro jogador jogadora partida clube flamengo palmeiras corinthians santos vasco gremio cruzeiro
         botafogo fluminense bahia fortaleza bragantino coritiba selecao ancelotti neymar nba formula tenis ufc""".split()),
     "mundo": set("""eua trump israel ira irao iraniano iraniana ucrania russia putin china gaza hamas netanyahu europa
-        franca argentina milei venezuela maduro otan onu papa alemanha japao coreia mexico india""".split()),
+        franca argentina milei venezuela maduro otan onu papa alemanha japao coreia mexico india arabia saudita houthis
+        iemen libano siria brexit reino unido londres paris""".split()),
+    # 20/11: com mais veículos, o "palpite" de seção do feed (InfoMoney = economia) pesava em assunto de outra área
+    "educacao": set("""enem fuvest vestibular mec escola escolas universidade universidades professores professor alunos
+        estudantes sisu prouni fies ensino creche""".split()),
+    "brasil": set("""defesa civil temporal tempestade chuva chuvas enchente alagamento ciclone tiroteio policia policial
+        operacao incendio acidente mortes mortos desabamento""".split()),
 }
+
+
+BREVES_ALVO = 12  # 20/11: abaixo disso a rodada rápida repõe breves (até 4 por rodada)
 
 
 def lixo(titulo):
@@ -317,7 +363,7 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
         # entrava como breve e nunca mais voltava, mesmo com 5 veículos)
         novo = {"assunto": lista[0]["titulo"], "secao": sec, "n_fontes": len(fontes), "fontes": fontes,
                 "ja_e_breve": breve, "relevante": len(fontes) >= 3 and not eh_lixo, "manchetes": lista,
-                "n_fontes_90min": nj}
+                "n_fontes_90min": nj, "ultima_iso": max(x["hora"] for x in g["itens"]).isoformat(timespec="minutes")}
         prov = None if eh_lixo else pauta_provavel(g["tk"])
         if prov: novo["pid_provavel"] = prov
         if eh_lixo: novo["lixo"] = True
@@ -411,6 +457,18 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
         x["pid_sugerido"] = pp[0] if pp else None
         fl.append(x)
     relevantes = sum(1 for g in novos if g["relevante"])
+    # 20/11: breves. A edição da manhã deixava 4 a 6 breves e nenhuma rodada repunha. Sugere à rodada rápida até 8
+    # assuntos que não viraram notícia: 2+ veículos diferentes, das últimas 4 h, sem lixo, que não são breve, cobertura
+    # nem item do acionar (esses são notícia). A rápida escreve a breve com as palavras do Prumo, só com o que as
+    # manchetes de 2 veículos dizem igual.
+    tit_acionar = {norm(str(a.get("titulo") or "")) for a in ativos}
+    sugeridas = []
+    for g in novos:
+        if g.get("lixo") or g["ja_e_breve"] or g.get("pid_provavel") or g["n_fontes"] < 2 or not g["secao"]: continue
+        if norm(g["assunto"]) in tit_acionar: continue
+        if iso(g.get("ultima_iso")) and iso(g["ultima_iso"]) < agora - timedelta(hours=4): continue
+        sugeridas.append({"assunto": g["assunto"], "secao": g["secao"], "n_fontes": g["n_fontes"], "manchetes": g["manchetes"]})
+    n_breves = len(breves)
     pautas_2 = sum(1 for e in em_pautas.values() if e["n_fontes"] >= 3)
     return {"gerado": agora.isoformat(timespec="minutes"), "desde": desde.isoformat(timespec="minutes"),
             "feed_atualizado_em": feed.get("atualizado_em"),
@@ -420,6 +478,7 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
             "acionar": bool(ativos), "acionar_motivo": motivo, "acionar_itens": ativos[:12], "regra": REGRA,
             "novos": novos[:30], "em_pautas": em_pautas, "novos_relatos": novos_relatos,
             "fotos_livres": fl[:40], "avaliados": avaliados,
+            "breves_no_feed": n_breves, "breves_faltam": max(0, BREVES_ALVO - n_breves), "breves_sugeridas": sugeridas[:8],
             "ultima_rodada": u_rod.isoformat(timespec="minutes") if u_rod else None}
 
 
