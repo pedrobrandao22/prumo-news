@@ -10,7 +10,10 @@ const acorn = require(process.env.ACORN || 'acorn'); const { unidades } = requir
 const PORTA = 9331, BASE = `http://localhost:${PORTA}/index.html`, PASTA = 'site-cob';
 const ev = (p, f, a) => p.evaluate(f, a).catch(() => null);
 (async () => {
-  U.feedFresco(PASTA); const srv = U.servir(PASTA, PORTA); await sleep(800);
+  // os arquivos do dia (novidades, indicadores, fotos do acervo...) entram sempre: o que a Capa faz depende deles
+  const AUX = ['novidades.json', 'indicadores.json', 'fotos-arquivo.json', 'oficiais.json'];
+  const doDia = todos => { for (const f of (todos ? ['feed.json', 'feed-leve.json'] : []).concat(AUX)) try { fs.copyFileSync(path.join(U.REPO, f), path.join(__dirname, '..', PASTA, f)) } catch (e) { } };
+  U.feedFresco(PASTA); doDia(false); const srv = U.servir(PASTA, PORTA); await sleep(800);
   const br = await U.navegador(); const H = await require('../harness').criar();
   const ids = {}; for (const k of ['a', 'b']) ids[k] = await H.criarConta(k + '@x', '123456');
   await H.sql(`insert into public.membros(uid,nome,papel) values ($1,'Pedro Brandão','admin'),($2,'Bia Souza','membro')`, [ids.a, ids.b]);
@@ -54,6 +57,9 @@ const ev = (p, f, a) => p.evaluate(f, a).catch(() => null);
   await roda('visitante computador', { vp: { width: 1366, height: 860 }, desk: true }, leitura);
   await roda('membro celular', { k: 'b' }, leitura);
   await roda('admin celular', { k: 'a' }, leitura);
+  // de novo com o feed real do dia (manchete, ilustrações, coberturas e fotos de verdade)
+  doDia(true); await roda('visitante celular, feed do dia', {}, leitura); await roda('admin computador, feed do dia', { k: 'a', vp: { width: 1366, height: 860 }, desk: true }, leitura);
+  U.feedFresco(PASTA); try { fs.unlinkSync(path.join(__dirname, '..', PASTA, 'feed-leve.json')) } catch (e) { }
   const ast = acorn.parse(fonte, { ecmaVersion: 'latest', sourceType: 'script' });
   const q1 = [...quentes[1]].sort((a, b) => a - b), q2 = [...quentes[2]].sort((a, b) => a - b);
   const tem = (q, a, b) => { let lo = 0, hi = q.length; while (lo < hi) { const m = (lo + hi) >> 1; if (q[m] < a) lo = m + 1; else hi = m } return lo < q.length && q[lo] <= b };

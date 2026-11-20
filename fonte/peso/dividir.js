@@ -12,13 +12,16 @@ const PASTA = process.argv[2], ARQ = path.join(PASTA, 'index.html');
 const FR = JSON.parse(fs.readFileSync(path.join(__dirname, 'frias.json'), 'utf8'));
 if (!FR.partes) { console.log('dividir: frias.json no formato antigo; nada dividido'); process.exit(0) }
 const parteDe = new Map(); for (const n of Object.keys(FR.partes)) for (const k of FR.partes[n]) parteDe.set(k, +n);
+// sempre no núcleo, mesmo que a medição não as tenha visto rodar: a abertura depende delas em caminhos que variam com a
+// rede e com os dados do dia (feed leve chegando antes do completo, rodada nova, faixa Agora, ilustração da manchete)
+const NUCLEO_FIXO = /^(fl119|ta120|pc121|gen161Tema$|illAlt$|atualizarAgora$|carregarAgora$|dt185Antes$|rodadaRecenteMin$)/;
 const h = fs.readFileSync(ARQ, 'utf8');
 let melhor = null; const re = /<script>([\s\S]*?)<\/script>/g; let m;  // o script principal é o maior <script> sem atributos
 while ((m = re.exec(h))) if (!melhor || m[1].length > melhor.txt.length) melhor = { ini: m.index + 8, txt: m[1] };
 const src = melhor.txt, ast = acorn.parse(src, { ecmaVersion: 'latest', sourceType: 'script' });
 const trocas = [], partes = { 2: [], 3: [] }, mapa = { 2: [], 3: [] };
 for (const u of unidades(src, ast)) {
-  const n = parteDe.get(u.chave); if (!n) continue;
+  const n = parteDe.get(u.chave); if (!n || NUCLEO_FIXO.test(u.nome)) continue;
   const k = partes[n].length, fn = u.fn;
   // o texto da função como expressão (declaração vira "function(params){corpo}"; seta continua seta)
   const expr = u.tipo === 'decl' ? (fn.async ? 'async ' : '') + 'function' + src.slice(fn.id.end, fn.end) : u.txt;
