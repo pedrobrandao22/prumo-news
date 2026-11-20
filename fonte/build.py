@@ -87,7 +87,7 @@ def main(argv):
     # peso (20/11): as funções que não rodam numa visita comum vão para parte2.<hash>.js (ver peso/dividir.js)
     if '--sem-dividir' not in sys.argv and os.path.exists(os.path.join(AQUI, 'peso', 'frias.json')):
         import subprocess, glob
-        for velho in glob.glob(os.path.join(saida, 'parte2.*.js')): os.remove(velho)
+        for velho in glob.glob(os.path.join(saida, 'parte[23].*.js')): os.remove(velho)
         subprocess.run(['node', os.path.join(AQUI, 'peso', 'dividir.js'), saida], check=True, cwd=AQUI, timeout=120)
     if minificar:  # app mais leve: compacta scripts e estilos (os nomes globais continuam iguais)
         import subprocess
@@ -96,13 +96,13 @@ def main(argv):
         except Exception as e:
             print('aviso: não deu para compactar (' + str(e) + '); o site sai sem compactar')
     if versao: json.dump({"v": versao}, open(os.path.join(saida, 'versao.json'), 'w', encoding='utf-8'))
-    # peso (20/11): no site de produção, a parte 2 já vai para a raiz do repositório (o index.html novo depende dela).
+    # peso (20/11): no site de produção, as partes 2 e 3 já vão para a raiz do repositório (o index.html novo depende dela).
     # As versões antigas ficam (quem ainda tem a página antiga guardada no celular busca a parte 2 dela).
     if os.path.basename(os.path.normpath(saida)) == 'site-real':
         import glob
-        for f in glob.glob(os.path.join(saida, 'parte2.*.js')):
+        for f in glob.glob(os.path.join(saida, 'parte[23].*.js')):
             shutil.copy(f, os.path.join(AQUI, '..', os.path.basename(f)))
-            print('parte 2 copiada para a raiz do repositório:', os.path.basename(f), '(faça git add dela junto com o index.html)')
+            print('parte copiada para a raiz do repositório:', os.path.basename(f), '(faça git add index.html versao.json sw.js parte*.js)')
     if os.path.isdir(os.path.join(APP, 'fontes')):  # fontes do próprio site (sem depender do Google)
         shutil.copytree(os.path.join(APP, 'fontes'), os.path.join(saida, 'fontes'), dirs_exist_ok=True)
     for f in ['sw.js', 'manifest.json', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'feed.json']:
