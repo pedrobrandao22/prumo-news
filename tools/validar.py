@@ -335,6 +335,29 @@ def pendencias_do_dia(f, agora, IND=None):
                             "registre o fechamento do dia (update_add, conferido em indicadores.json e num veículo) (manual 3b, EDIÇÃO DA TARDE)"})
     return out
 
+# HORA IMPLÍCITA (corretor 20/11, achado anthropic-capa-diz-estreia-hoje…): evento de pregão não traz "às 11h30" no texto,
+# mas tem hora: a abertura da bolsa. Nasdaq/NYSE abrem 9h30 de Nova York (11h30 de Brasília no inverno de lá, 10h30 no
+# horário de verão dos EUA); B3 abre às 10h. Só conta com verbo de estreia/abertura na mesma frase.
+PREGAO_EUA = re.compile(r"\b(nasdaq|nyse|wall street|bolsa de nova york)\b", re.I)
+PREGAO_B3 = re.compile(r"\b(b3|ibovespa|bolsa brasileira)\b", re.I)
+PREGAO_VERBO = re.compile(r"\b(estreia|estreiam|estrear|abre|abrem|come[çc]a|come[çc]am|lan[çc]a|lan[çc]am|ipo|oferta|primeiro preg[ãa]o)\b", re.I)
+
+
+def hora_implicita(cl, dia=None):
+    """(h, min) de Brasília da abertura do pregão citado na frase, ou None."""
+    if not PREGAO_VERBO.search(cl): return None
+    if PREGAO_EUA.search(cl):
+        try:
+            from zoneinfo import ZoneInfo
+            d = dia or datetime.now(SP).date()
+            x = datetime(d.year, d.month, d.day, 9, 30, tzinfo=ZoneInfo("America/New_York")).astimezone(SP)
+            return (x.hour, x.minute)
+        except Exception:
+            return (11, 30)
+    if PREGAO_B3.search(cl): return (10, 0)
+    return None
+
+
 def eventos_de_hoje_parados(ps, agora):
     """EVENTO DE HOJE PARADO (corretor 18/11; testador 17/11: às 16h50 a manchete "Senado vota os quatro destaques do ajuste
     fiscal na terça (17)" seguia com a última linha às 06h52, e "Seleção enfrenta Singapura na terça (17)" continuava no futuro
@@ -354,9 +377,13 @@ def eventos_de_hoje_parados(ps, agora):
             para = any(PARA_DATA.search(cl[:a]) for a in dh)
             if not para and (not (FUTURO_FORTE.search(cl) or FUTURO_PRESENTE.search(cl)) or PASSADO_NARRADO.search(cl)): continue
             hm = HORA_EVENTO.search(cl)
+            hi = hora_implicita(cl, hoje) if not (hm and int(hm[1]) <= 23) else None
             if hm and int(hm[1]) <= 23:
                 ini = datetime(hoje.year, hoje.month, hoje.day, int(hm[1]), min(int(hm[2] or 0), 59), tzinfo=SP)
                 parado = agora >= ini + timedelta(hours=3) and uf < ini + timedelta(minutes=30)
+            elif hi:  # pregão sem "às Xh" no texto (corretor 20/11: "Anthropic estreia na Nasdaq na quinta (19)" às 14h)
+                ini = datetime(hoje.year, hoje.month, hoje.day, hi[0], hi[1], tzinfo=SP)
+                parado = agora >= ini + timedelta(hours=2) and uf < ini + timedelta(minutes=30)
             else:
                 parado = agora.hour >= 14 and (agora - uf).total_seconds() >= 4 * 3600
             if parado:
@@ -472,6 +499,50 @@ def oficiais_pendentes(f, agora, OFI=None):
         out.append({"pid": pid, "tipo": "oficial_pendente", "texto": f"oficiais.json tem {len(novos)} resultado(s) oficial(is) que a notícia "
                     f"não registrou ({ex}) e o título ainda é '{tit[:70]}': aplique o patch (update_add com hora) e reescreva título, "
                     "resumo e 'O que vem agora' com o resultado (manual 3b, DADOS OFICIAIS)"})
+    out += oficiais_texto_velho(f, agora, ofi)
+    return out
+
+
+# PLACAR OFICIAL × TEXTO VELHO (corretor 20/11, achado placar-oficial-mostra-o-ajuste-aprovado…, reaberto 19/11): a
+# pendência oficial_pendente some assim que o número entra numa atualização, mas o resto do que o leitor vê continuava
+# anunciando a votação ("O Senado retoma na quarta (18) a votação dos cinco destaques" na linha fina da Capa, no "O que
+# vem agora", na linha do tempo). Toda frase de qualquer campo visível (inclusive capa.linha_fina da manchete) que ainda
+# anuncia votação/decisão para o dia em que o placar oficial já saiu (ou antes) vira pendência.
+VOTO_PENDENTE = re.compile(r"\b(retoma|retomam|vota|votam|votar[áa]|votar[ãa]o|vai votar|v[ãa]o votar|deve(?:m)? votar|"
+                           r"analisa|analisam|julga|julgam|decide|decidem|conclui|concluem|fica(?:m)? para|deixa(?:m)?\b[^,;.]{0,60}?\bpara|"
+                           r"prevista?o?s? para|marcad[oa]s? para|sem acordo)\b", re.I)
+VOTO_FEITO = re.compile(r"\b(aprovou|aprovaram|aprovad[oa]s?|rejeitou|rejeitaram|rejeitad[oa]s?|concluiu|concluíram|votou|votaram|"
+                        r"derrubou|derrubaram|manteve|mantiveram|registr(?:ou|a) (?:a )?aprova[çc][ãa]o)\b", re.I)
+
+
+def oficiais_texto_velho(f, agora, ofi):
+    if not isinstance(ofi, dict): return []
+    out, hoje = [], agora.date()
+    cp = f.get("capa") if isinstance(f.get("capa"), dict) else {}
+    P = {p.get("id"): p for p in f.get("pautas") or [] if isinstance(p, dict)}
+    for pid, itens in (ofi.get("para_pautas") or {}).items():
+        p = P.get(pid)
+        if not p or p.get("status") == "encerrada" or not isinstance(itens, list): continue
+        qs = [dt(it.get("quando")) for it in itens if isinstance(it, dict)]
+        qs = [q.date() for q in qs if q and 0 <= (hoje - q.date()).days <= 2]
+        if not qs: continue
+        qd = max(qs)
+        campos = [("neutro.titulo", str((p.get("neutro") or {}).get("titulo") or ""))]
+        if cp.get("manchete") == pid and cp.get("linha_fina"): campos.append(("capa.linha_fina", str(cp["linha_fina"])))
+        campos += [(n, t) for n, t, _ in campos_leitor(p)]
+        for nome, t in campos:
+            achou = None
+            for fr in re.split(r"(?<=[.;!?])\s+", t):
+                for parte in re.split(r";\s+|\s+[—–]\s+", fr):
+                    ds = [d for _, _, d, _ in datas_em(parte, hoje) if d]
+                    if not ds or max(ds) > qd: continue
+                    if VOTO_PENDENTE.search(parte) and not VOTO_FEITO.search(parte):
+                        achou = parte; break
+                if achou: break
+            if achou:
+                out.append({"pid": pid, "tipo": "oficial_texto_velho", "texto": f"{nome}: '{achou[:110]}' — o placar oficial de "
+                            f"{qd.strftime('%d/%m')} já saiu e esta frase ainda anuncia a votação: reescreva com o resultado "
+                            "(o que foi aprovado, o que caiu, próximo passo) ou tire a frase (manual 3b, DADOS OFICIAIS)"})
     return out
 
 
