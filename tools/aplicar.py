@@ -431,8 +431,27 @@ def coberturas(F, base, agora, virada=False):
         cp["destaques"] = ds
     return rel
 
+def reserva_indicadores(F, IND):
+    """20/11 (corretor): o "indicadores" do feed é a reserva do app quando o indicadores.json ainda não chegou (ou não
+    chega, sem rede). Estava parado em 22/10 e quem ia direto ao Feed via "Dólar fecha a R$ 5,02". Agora cada rodada
+    copia para a reserva os valores de indicadores.json que forem mais novos (sem a série longa, que o app pega de lá)."""
+    if not IND or not isinstance(F.get("indicadores"), dict) or not isinstance(F["indicadores"].get("itens"), list): return 0
+    n = 0
+    for i, x in enumerate(F["indicadores"]["itens"]):
+        if not isinstance(x, dict): continue
+        y = IND.get(x.get("id"))
+        if not isinstance(y, dict) or not y.get("valor") or str(y.get("data") or "") < str(x.get("data") or ""): continue
+        novo = dict(x)
+        for k in ("valor", "variacao", "dir", "data"):
+            if k in y: novo[k] = y[k]
+        if isinstance(y.get("serie"), list) and y["serie"]: novo["serie"] = y["serie"][-8:]
+        if novo != x: F["indicadores"]["itens"][i] = novo; n += 1
+    return n
+
+
 def mecanicos(F, agora, podar, virada, dia_anterior):
     hoje = agora.date()
+    reserva_indicadores(F, IND_APL)
     F["atualizado_em"] = iso(agora)
     F["edicao"] = V.edicao_de(agora)
     F["contagem"] = V.contagem_de(hoje)

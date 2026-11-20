@@ -19,11 +19,11 @@ const PORTA = 9140, BASE = `http://localhost:${PORTA}/index.html`;
     '09h48': { tipo: 'rapida', status: 'sem_mudancas', publicou: false, motivo: 'nada_novo', nota: 'Nada que acione (17 assuntos fora do feed).' },
     '06h52': { tipo: 'completa', status: 'ok', publicou: true, pautas: 27, mudancas: 8, motivo: 'nada_novo', nota: 'Edição completa com 27 notícias.' } });
   ok(l.length === 4, '4 rodadas na lista', l);
-  ok(/sem novidade/.test(l[0]) && /ainda sem confirmação em fonte aberta; ficam para a próxima/.test(l[0]), '13h48: motivo sem_confirmacao em palavras', l[0]);
+  ok(/sem novidade/.test(l[0]) && /ainda sem confirmação; o Prumo volta a conferir na próxima atualização/.test(l[0]), '13h48: motivo sem_confirmacao em palavras', l[0]);
   ok(!/ajuste-fiscal|buscas|acionar/i.test(l[0]), '13h48: sem bastidor para o visitante', l[0]);
-  ok(/Nada novo: nada que acione\./.test(l[1]) && !/Nenhum fato|confirmação|já estavam|menores/.test(l[1]), '11h48 (registro antigo, sem motivo): fica como era', l[1]);
+  ok(/Nada mudou desde a anterior\./.test(l[1]) && !/acione|Nenhum fato|confirmação|já estavam|menores/.test(l[1]), '11h48 (registro antigo, sem motivo): linha simples, sem a nota (20/11)', l[1]);
   ok(/Nenhum fato novo relevante desde a anterior\./.test(l[2]) && !/Nada mudou/.test(l[2]), '09h48: motivo nada_novo em palavras', l[2]);
-  ok(/Edição completa com 27 notícias/.test(l[3]) && !/Nenhum fato novo/.test(l[3]), 'rodada publicada ignora o motivo', l[3]);
+  ok(/8 notícias atualizadas/.test(l[3]) && !/Nenhum fato novo|Edição completa com/.test(l[3]), 'rodada publicada ignora o motivo e a nota (20/11)', l[3]);
   await U.foto(p, 'rapidas-f2-visitante');
 
   // 2. administrador: frase + código + nota completa

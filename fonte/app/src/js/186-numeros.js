@@ -62,7 +62,4 @@ function nm186Resolver(f){if(!f||typeof f!=="object")return 0;const cont={n:0};
 function nm186EmDia(){try{if(FEED&&NM186_SIG.get(FEED)!==nm186Assina(FEED)){nm186Resolver(FEED);return true}}catch(e){}return false}
 {const _sa186=sanear;sanear=function(){const r=_sa186.apply(this,arguments);if(r)nm186Resolver(r);return r}}
 
-/* indicadores.json chegou com outro fechamento: o 031 redesenha a Capa; o Feed aberto também ganha os números novos */
-{const _ci186=carregarIndAuto;carregarIndAuto=async function(){const r=await _ci186.apply(this,arguments);
-  try{if(nm186EmDia()&&VIEW==="feed"&&typeof FILTRO!=="undefined"&&FILTRO!=="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}
-  return r}}
+/* indicadores.json chegou com outro fechamento: carregarIndAuto (031) chama nm186EmDia e redesenha a Capa ou o Feed (20/11). */

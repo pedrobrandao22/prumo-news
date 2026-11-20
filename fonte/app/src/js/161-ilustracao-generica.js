@@ -3,6 +3,7 @@
    avião, floresta/clima, tecnologia, mundo; o Congresso fica só para Brasília/governo/Congresso; sem pista, um
    desenho neutro de jornal, sem prédio nenhum. */
 const gen161Congresso=ILL.generica;
+/* mudou os temas? o 121-pre-capa.js tem uma cópia (altArte) para o texto alternativo da manchete */
 function gen161Tema(d){
   const t=String((d&&d.rotulo)||"")+" "+String((d&&d._alt)||"");
   const r=t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");

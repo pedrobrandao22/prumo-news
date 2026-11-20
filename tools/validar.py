@@ -153,7 +153,12 @@ def dur_agenda(texto):
 BASTIDOR_SEMPRE = (r"\bo Prumo (ainda )?n[ãa]o (leu|conferiu|achou|encontrou|confirmou)|\bas buscas n[ãa]o\b|\bconferente\b"
                    r"|atualiza[çc][ãa]o (duplicada|repetida)|\bduplicad[ao]s?\b[^;.]{0,40}\bremovid[ao]s?\b"
                    r"|\bremovid[ao]s? (da|do) (feed|edi[çc][ãa]o|lista)\b|^\s*tema passa a\b|;\s*tema passa a\b|\bnota interna\b"
-                   r"|\b(p[áa]ginas|sites) consultad[ao]s\b")
+                   r"|\b(p[áa]ginas|sites) consultad[ao]s\b"
+                   # 20/11 (causa notas-internas): recados do robô nas Últimas ("proximo e faq trazem a Câmara", "contagem
+                   # vencida trocada por linha do tempo", "etapa avança para Câmara"). Mesma lista no app (js/163 CR163_BASTIDOR).
+                   r"|\b(proximo|faq)\b|contagem vencida|trocad[ao]s? por (uma |a )?linha do tempo|\betapa avan[çc]a para\b"
+                   r"|\bficam? para a pr[óo]xima(\s*[.;,]|\s*$| rodada| r[áa]pida| atualiza)|(p[áa]gina|fonte)s?( lida)? que (o )?confirm"
+                   r"|nenhuma p[áa]gina lida|falta de (p[áa]gina|fonte)|\bj[áa] (est[áa]|est[ãa]o|estava|estavam) no feed\b|\bacionaram\b")
 BASTIDOR_RODADA = r"|\bnesta rodada\b|\brodada anterior\b|\b(na|da) rodada (r[áa]pida|completa)\b"
 
 
@@ -1471,7 +1476,7 @@ def checar_breves_1811(f, ant, ref, nov=None):
 MOTIVOS = {
     "nada_novo": "Nenhum fato novo relevante desde a anterior.",
     "ja_no_feed": "Os fatos novos já estavam na edição.",
-    "sem_confirmacao": "Há relatos novos ainda sem confirmação em fonte aberta; ficam para a próxima.",
+    "sem_confirmacao": "Há relatos novos ainda sem confirmação; o Prumo volta a conferir na próxima atualização.",
     "menor": "Só assuntos menores desde a anterior.",
 }
 STATUS_RODADA = ("ok", "sem_mudancas", "falhou", "pulada")
@@ -1484,6 +1489,12 @@ def checar_registro(reg, nov=None, agora=None):
     if reg.get("tipo") not in ("completa", "rapida", "virada"): out.append(f"tipo {reg.get('tipo')!r}: use completa, rapida ou virada")
     if reg.get("status") not in STATUS_RODADA: out.append(f"status {reg.get('status')!r}: use {', '.join(STATUS_RODADA)}")
     if not str(reg.get("nota") or "").strip(): out.append("falta a nota (1 frase)")
+    # 20/11 (causa notas-internas): a nota é só do administrador; o leitor vê "leitor" em "Atualizações de hoje"
+    lt = reg.get("leitor")
+    if lt is not None and not isinstance(lt, str): out.append("leitor precisa ser texto (1 frase para o leitor)")
+    elif isinstance(lt, str) and bastidor(lt): out.append(f"leitor com bastidor ('{bastidor(lt).group(0)}'): diga só o fato novo, em português de gente (manual 7)")
+    if reg.get("tipo") in ("completa", "rapida") and reg.get("status") == "ok" and reg.get("publicou") and not str(lt or "").strip():
+        out.append("rodada publicada precisa de \"leitor\": 1 frase para o leitor com o fato novo (ex.: \"Fachin tira o sigilo do relatório da PF no caso Master\"), sem bastidor (manual 7)")
     if reg.get("motivo") is not None and reg.get("motivo") not in MOTIVOS:
         out.append(f"motivo {reg.get('motivo')!r}: use um destes: {', '.join(MOTIVOS)}")
     if reg.get("tipo") == "rapida" and reg.get("status") == "sem_mudancas":

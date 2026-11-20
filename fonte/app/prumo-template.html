@@ -6537,12 +6537,17 @@ body.sr209-off .fd156-mais .fd156-sk{display:none}
     /* ao vivo */
     var vivo=ps.filter(function(p){return p.status==="ao_vivo"});
     if(vivo.length)h+='<div class="cp-vivo"><b><i></i>Ao vivo</b>'+vivo.map(function(p){return '<button type="button" data-cobpag="'+esc(p.id)+'">'+et(capaChapeu(p)+": "+titulo(p)+" ›")+'</button>'}).join("")+'</div>';
+    /* o mesmo texto alternativo do illAlt (161): ilustração genérica sem tema vira "jornal" (cópia do gen161Tema; o teste compara) */
+    function altArte(im){var a=im.alt||"Ilustração";try{var gen=im.modelo==="generica"||!im.modelo||(typeof ILL!=="undefined"&&!ILL[im.modelo]);if(!gen)return a;
+      var r=(String((im.dados&&im.dados.rotulo)||"")+" "+String(im.alt||"")).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+      if(/futebol|\bbola\b|gramado|brasileirao|serie [ab]\b|selecao|sul-americana|libertadores|copa do|rodada|amistoso|playoff/.test(r)||/aviao|\bvoos?\b|decolag|aeroport|viagem|aereo/.test(r)||/floresta|clima|\bcop\s?\d|ambient|desmat|amazonia|folhas/.test(r)||/tecnolog|servidor|\bchips?\b|nvidia|microsoft|big tech|digita|internet|\bia\b|intelig.ncia artificial|software|apple|google|meta\b/.test(r)||/cupula|bandeira|china|\beua\b|estados unidos|russia|mundo|globo|internacional|guerra|otan|\bonu\b|apec|g20|europa/.test(r)||/congresso|camara|senado|planalto|esplanada|ministerio|brasilia|governo|stf|plenario|deputad|senador/.test(r))return a;
+      return "Ilustração: jornal (sem foto desta notícia)"}catch(e){return a}}
     /* a manchete (cpItem com tam "man") */
     var p=man,u=ultimaAtualizacao(p)||p.hora;
     var meta='<span class="cp-meta">'+cobStatus(p)+(u?'<span>'+esc(atualizadoTxt(u))+'</span>':"")+'</span>';
     var k='<span class="cp-k" style="color:'+secCor(secOf(p))+'">'+et(capaChapeu(p)+(p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""))+(corRecente(p)?'<span class="cp-corr"> · corrigida</span>':"")+'</span>';
     var sub=linha||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro&&p.neutro.texto,170);
-    var im=p.imagem||{},svg='<svg viewBox="0 0 400 240" role="img" aria-label="'+esc(im.alt||"Ilustração")+'"><rect class="ib" width="400" height="240"/></svg>';
+    var im=p.imagem||{},svg='<svg viewBox="0 0 400 240" role="img" aria-label="'+esc(altArte(im))+'"><rect class="ib" width="400" height="240"/></svg>';
     /* foto própria da manchete: a escolha do app é longa (faValida, 157, 169, mapa do acervo); aí fica o esqueleto */
     if(p.foto&&typeof p.foto==="object")return;
     var arte='<span class="art paper" data-sec="'+esc(secOf(p))+'">'+svg+'</span>';
@@ -8182,12 +8187,16 @@ function abrirBreve(i){const b=(window.BREVES||[])[i];if(!b)return;const rel=agP
 function proximaRodadaTxt(){const m=minAgoraSP(),cand=[];for(let h=9;h<=21;h+=2)cand.push([h*60+48,"rápida"]);cand.push([6*60+52,"completa"]);cand.sort((a,b)=>a[0]-b[0]);const nx=cand.find(c=>c[0]>m);const f=c=>`${Math.floor(c[0]/60)}h${String(c[0]%60).padStart(2,"0")}`;return nx?`Próxima atualização ${nx[1]} por volta das ${f(nx)}.`:`Próxima atualização amanhã por volta das 6h52.`}
 /* registro das rodadas: o leitor vê o que mudou; números da checagem e bastidores (ids, buscas, "acionada por") só para o administrador */
 function rodadaDetalhe(x){const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.uid]&&S.membros[S.uid].papel==="admin");
-  if(adm)return `${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.nota?" · "+esc(x.nota):""}`;
-  /* 19/11 (testador): sai também a frase de bastidor ("ficam para a próxima por falta de página que confirmasse",
-     "registrado em Dólar e Bolsa"); sobra a frase do fato, ou a linha simples com a contagem */
-  const nota=String(x.nota||"").replace(/\bPautas\b/g,"Notícias").replace(/\bpautas\b/g,"notícias").replace(/\bPauta\b/g,"Notícia").replace(/\bpauta\b/g,"notícia").replace(/([.;])\s+/g,"$1\n").split("\n").filter(f=>f&&!/acionad[ao] por|\bbuscas?\b|\bpauta|\brodada|\baviso|\berros?\b|github|acionaram|para conferir|\bIA\b|conferente|não (foi )?(atualizad|alterad|conferid)|[a-z0-9]+-[a-z0-9]+-[a-z0-9-]+|ficam? para a próxima|falta de (página|fonte)|que confirmasse|registrad[oa]s? em|sem confirmação|relatos? (novos? )?ainda|bastidor/i.test(f)).join(" ").replace(/[;,]\s*$/,"");
+  /* 20/11 (corretor, causa notas-internas): a "nota" da rodada é bastidor e fica só para o administrador. O leitor vê o
+     campo "leitor" (1 frase escrita para ele, conferida pelo aplicar.py --rodada); sem ele, o texto do motivo da rápida sem
+     novidade (antes no 188) ou a contagem. Antes o app filtrava a nota por lista de palavras, e cada nota nova passava. */
+  const mot=x&&x.status==="sem_mudancas"&&typeof RP188_MOT!=="undefined"&&RP188_MOT[x.motivo]||"";
+  if(adm)return `${mot?esc(mot)+" ("+esc(x.motivo)+") · ":""}${x.pautas!=null?esc(x.pautas)+" notícias · ":""}${x.mudancas!=null?esc(x.mudancas)+" mudanças · ":""}${x.checagem?esc(x.checagem):""}${x.leitor?" · "+esc(x.leitor):""}${x.nota?" · "+esc(x.nota):""}`;
+  let lt=typeof x.leitor==="string"?x.leitor.trim():"";
+  if(lt&&typeof cr163Limpa==="function")lt=cr163Limpa(lt)||"";
+  if(lt&&!/[.!?]$/.test(lt))lt+=".";
   const n=+x.mudancas||0;
-  return esc(nota||(x.status==="sem_mudancas"?"Nada mudou desde a anterior.":n>0?(n===1?"1 notícia atualizada.":n+" notícias atualizadas."):"Notícias revisadas."))}
+  return esc(lt||mot||(x.status==="sem_mudancas"?"Nada mudou desde a anterior.":n>0?(n===1?"1 notícia atualizada.":n+" notícias atualizadas."):"Notícias revisadas."))}
 function abrirRodadas(redesenho){const r=S.rodadas||{};const it=Object.entries(r.itens||{}).sort((a,b)=>b[0].localeCompare(a[0]));const e=estadoRadar();
   sheet("Atualizações de hoje",`<div id="rodbox" style="display:contents"><p class="hint" style="margin:0">${esc(e.txt||"")} ${proximaRodadaTxt()} A edição completa sai às 6h52; as rápidas, de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48.</p>${it.length?`<ul class="sres">${it.map(([h,x])=>`<li><div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><b>${esc(h)} · ${x.tipo==="completa"?"Edição completa":x.tipo==="virada"?"Virada do dia":"Atualização"} · ${x.status==="ok"?"publicada":x.status==="sem_mudancas"?"sem novidade":"não saiu"}</b><span class="hint">${rodadaDetalhe(x)}</span></div></li>`).join("")}</ul>`:`<p class="hint">O registro das rodadas de hoje aparece aqui a partir da próxima atualização.</p>`}</div>`);
   if(!redesenho)carregarRodadas(true)}
@@ -8810,10 +8819,17 @@ var IND_T=0;
 async function carregarIndAuto(){if(Date.now()-IND_T<60000)return;IND_T=Date.now();
   try{const r=await fetch("indicadores.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();if(!j||!Array.isArray(j.itens))return;
     const mudou=JSON.stringify(j)!==JSON.stringify(IND_AUTO);IND_AUTO=j;try{localStorage.setItem("prumo-ind",JSON.stringify(j))}catch(e){}
-    if(mudou&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&FILTRO==="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
+    /* 20/11 (corretor): os textos com marca ({dolar}…) do feed já resolvidos com a reserva do feed.json (que pode ser de
+       semanas atrás) ganham o valor de indicadores.json AQUI, e o Feed na tela é redesenhado em qualquer filtro. Antes isso
+       ficava num embrulho no 186, que a primeira carga (depoisDaCapa, com a referência antiga) pulava: quem ia direto ao
+       Feed via "Dólar fecha a R$ 5,02" de outubro (no cartão da Economia no topo do Feed) até recarregar. */
+    let troca=false;try{troca=FEED&&typeof nm186EmDia==="function"&&nm186EmDia()}catch(e){}
+    /* os cartões do topo do Feed (#secs: título e desenho da 1ª notícia de cada editoria) são desenhados uma vez, na carga */
+    if(troca){try{if(document.querySelector("#secs .sb"))renderSecs()}catch(e){}}
+    if((mudou||troca)&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&(troca||FILTRO==="economia")){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
 (function(){const ant=checarFeed;checarFeed=function(x){carregarIndAuto();return ant.apply(this,arguments)}})();
-/* 20/11 (peso): só depois de a Capa estar na tela (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
-function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
+/* 20/11 (peso): só depois de a Capa estar na tela (ou já, se o app não abriu na Capa) (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
+function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||(typeof abreNaCapa==="function"&&!abreNaCapa())||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
 depoisDaCapa(carregarIndAuto);
 
 /* ---------- Etapa 13: gráficos dos indicadores ---------- */
@@ -19797,6 +19813,7 @@ var CM168_SEGAVISO=0;
    avião, floresta/clima, tecnologia, mundo; o Congresso fica só para Brasília/governo/Congresso; sem pista, um
    desenho neutro de jornal, sem prédio nenhum. */
 const gen161Congresso=ILL.generica;
+/* mudou os temas? o 121-pre-capa.js tem uma cópia (altArte) para o texto alternativo da manchete */
 function gen161Tema(d){
   const t=String((d&&d.rotulo)||"")+" "+String((d&&d._alt)||"");
   const r=t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
@@ -19890,8 +19907,11 @@ const PC162_JANELA=15*60e3;
        Agora a tela rola até o texto aberto e um toque repetido no mesmo cartão em menos de 0,8 s é ignorado.
    Prefixo cr163. */
 
-/* ---- (1) texto de leitor sem bastidor ---- */
-var CR163_BASTIDOR=/atualiza[çc][ãa]o (duplicada|repetida)|\bduplicad[ao]s?\b[^;.]{0,40}\bremovid[ao]s?\b|\bremovid[ao]s? (da|do) (feed|edi[çc][ãa]o|lista)\b|^\s*tema passa a\b|\bnota interna\b/i;
+/* ---- (1) texto de leitor sem bastidor ----
+   20/11 (corretor, causa notas-internas): também os recados do robô ("proximo e faq trazem…", "contagem vencida trocada
+   por linha do tempo", "etapa avança para Câmara", "ficam para a próxima", "página que confirmasse"). A MESMA lista está
+   em tools/validar.py (BASTIDOR_SEMPRE), que dá ERRO antes de publicar; aqui é a rede de segurança das edições já no ar. */
+var CR163_BASTIDOR=/atualiza[çc][ãa]o (duplicada|repetida)|\bduplicad[ao]s?\b[^;.]{0,40}\bremovid[ao]s?\b|\bremovid[ao]s? (da|do) (feed|edi[çc][ãa]o|lista)\b|^\s*tema passa a\b|\bnota interna\b|\b(proximo|faq)\b|contagem vencida|trocad[ao]s? por (uma |a )?linha do tempo|\betapa avan[çc]a para\b|\bficam? para a pr[óo]xima(\s*[.;,]|\s*$| rodada| r[áa]pida| atualiza)|(p[áa]gina|fonte)s?( lida)? que (o )?confirm|nenhuma p[áa]gina lida|falta de (p[áa]gina|fonte)|\bj[áa] (est[áa]|est[ãa]o|estava|estavam) no feed\b|\bacionaram\b/i;
 function cr163Limpa(s){if(typeof s!=="string"||!s.trim())return s;
   let partes=s.split(/\s*;\s*/);const ok=partes.filter(x=>x&&!CR163_BASTIDOR.test(x));
   if(!ok.length)return "";
@@ -20428,21 +20448,14 @@ function nm186Resolver(f){if(!f||typeof f!=="object")return 0;const cont={n:0};
 function nm186EmDia(){try{if(FEED&&NM186_SIG.get(FEED)!==nm186Assina(FEED)){nm186Resolver(FEED);return true}}catch(e){}return false}
 {const _sa186=sanear;sanear=function(){const r=_sa186.apply(this,arguments);if(r)nm186Resolver(r);return r}}
 
-/* indicadores.json chegou com outro fechamento: o 031 redesenha a Capa; o Feed aberto também ganha os números novos */
-{const _ci186=carregarIndAuto;carregarIndAuto=async function(){const r=await _ci186.apply(this,arguments);
-  try{if(nm186EmDia()&&VIEW==="feed"&&typeof FILTRO!=="undefined"&&FILTRO!=="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}
-  return r}}
+/* indicadores.json chegou com outro fechamento: carregarIndAuto (031) chama nm186EmDia e redesenha a Capa ou o Feed (20/11). */
 /* 188 · rodadas rápidas (Fase 2, 18/11): a rápida "sem novidade" diz por quê.
    Desde 18/11 o registro em rodadas.json traz "motivo" (código conferido pelo tools/aplicar.py --rodada; manual 7).
    "Atualizações de hoje" mostra o texto do motivo no lugar do genérico "Nada mudou desde a anterior."; o administrador vê
    também o código. Registro antigo, sem motivo: fica como era. */
 var RP188_MOT={nada_novo:"Nenhum fato novo relevante desde a anterior.",ja_no_feed:"Os fatos novos já estavam na edição.",
-  sem_confirmacao:"Há relatos novos ainda sem confirmação em fonte aberta; ficam para a próxima.",menor:"Só assuntos menores desde a anterior."};
-if(typeof rodadaDetalhe==="function"){const _rd188=rodadaDetalhe;rodadaDetalhe=function(x){
-  const h=_rd188.apply(this,arguments);const m=x&&x.status==="sem_mudancas"&&RP188_MOT[x.motivo];if(!m)return h;
-  const adm=!!(S.membro&&S.uid&&S.membros&&S.membros[S.uid]&&S.membros[S.uid].papel==="admin");
-  if(adm)return `${esc(m)} (${esc(x.motivo)})${h?" · "+h:""}`;
-  return h&&h!==esc("Nada mudou desde a anterior.")?`${esc(m)} ${h}`:esc(m)}}
+  sem_confirmacao:"Há relatos novos ainda sem confirmação; o Prumo volta a conferir na próxima atualização.",menor:"Só assuntos menores desde a anterior."};
+/* 20/11: o uso do motivo foi para dentro de rodadaDetalhe (029); aqui fica só a tabela. */
 /* ---------- 187: foto só com confirmação forte (fase 2 do plano "Prumo robusto", 18/11) ----------
    "Foto só entra com confirmação forte de que mostra o fato; sem isso, a ilustração. Melhor menos fotos do que foto
    errada." Troca a lista de exceções caso a caso (157, 169 e os corretores) por duas confirmações positivas:

@@ -449,9 +449,16 @@ var IND_T=0;
 async function carregarIndAuto(){if(Date.now()-IND_T<60000)return;IND_T=Date.now();
   try{const r=await fetch("indicadores.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();if(!j||!Array.isArray(j.itens))return;
     const mudou=JSON.stringify(j)!==JSON.stringify(IND_AUTO);IND_AUTO=j;try{localStorage.setItem("prumo-ind",JSON.stringify(j))}catch(e){}
-    if(mudou&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&FILTRO==="economia"){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
+    /* 20/11 (corretor): os textos com marca ({dolar}…) do feed já resolvidos com a reserva do feed.json (que pode ser de
+       semanas atrás) ganham o valor de indicadores.json AQUI, e o Feed na tela é redesenhado em qualquer filtro. Antes isso
+       ficava num embrulho no 186, que a primeira carga (depoisDaCapa, com a referência antiga) pulava: quem ia direto ao
+       Feed via "Dólar fecha a R$ 5,02" de outubro (no cartão da Economia no topo do Feed) até recarregar. */
+    let troca=false;try{troca=FEED&&typeof nm186EmDia==="function"&&nm186EmDia()}catch(e){}
+    /* os cartões do topo do Feed (#secs: título e desenho da 1ª notícia de cada editoria) são desenhados uma vez, na carga */
+    if(troca){try{if(document.querySelector("#secs .sb"))renderSecs()}catch(e){}}
+    if((mudou||troca)&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&(troca||FILTRO==="economia")){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
 (function(){const ant=checarFeed;checarFeed=function(x){carregarIndAuto();return ant.apply(this,arguments)}})();
-/* 20/11 (peso): só depois de a Capa estar na tela (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
-function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
+/* 20/11 (peso): só depois de a Capa estar na tela (ou já, se o app não abriu na Capa) (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
+function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||(typeof abreNaCapa==="function"&&!abreNaCapa())||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
 depoisDaCapa(carregarIndAuto);
 
