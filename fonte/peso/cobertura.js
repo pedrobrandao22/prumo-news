@@ -28,7 +28,7 @@ const ev = (p, f, a) => p.evaluate(f, a).catch(() => null);
     // sem internet: a página abre, mas os dados (feed, novidades, banco) não chegam: o app usa o que guardou
     await p.route(u => !/index\.html$|\/$|parte2|\.woff2$/.test(u.pathname || u.href), r => r.abort()).catch(() => { });
     await p.goto(BASE).catch(() => { }); await sleep(5000); await ev(p, () => { dispatchEvent(new Event('offline')) }); await sleep(1500);
-    for (const f of passos.slice(0, 2)) { try { await f(p) } catch (e) { } await sleep(400) } await sleep(2000); await p.unroute(() => true).catch(() => { });
+    for (const f of passos.slice(0, 2)) { try { await f(p) } catch (e) { } await sleep(400) } await sleep(2000); await (p.unrouteAll ? p.unrouteAll({ behavior: "ignoreErrors" }) : Promise.resolve()).catch(() => { });
     junta(await p.coverage.stopJSCoverage());
     await p.context().close(); console.log('ok', nome);
   };

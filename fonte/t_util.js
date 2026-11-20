@@ -10,7 +10,8 @@ const SHOTS = path.join(AQUI, 'shots');
 fs.mkdirSync(SHOTS, { recursive: true });
 
 function servir(pasta, porta) {
-  const p = spawn('python3', ['-m', 'http.server', String(porta)], { cwd: path.join(AQUI, pasta), stdio: 'ignore' });
+  // PRUMO_P2_CAPTURA=<arquivo>: guarda o log do servidor (o peso/dividir.js marca ali as funções da parte 2 chamadas antes de ela chegar)
+  const cap = process.env.PRUMO_P2_CAPTURA; const p = spawn('python3', ['-m', 'http.server', String(porta)], { cwd: path.join(AQUI, pasta), stdio: cap ? ['ignore', 'ignore', fs.openSync(cap, 'a')] : 'ignore' });
   SERVIDORES.push(p); return p;
 }
 // servidores filhos morrem junto com o teste (erro, process.exit ou o "timeout" do testar.sh): senão a porta fica presa e o teste seguinte que usa a mesma porta cai com EADDRINUSE

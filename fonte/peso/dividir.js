@@ -29,18 +29,20 @@ for (const s of ast.body) {
   if (s.generator || novos.has(nm) || txt.length < 160 || /new\.target|arguments\.callee/.test(txt)) continue;
   const resto = src.slice(s.id.end, s.end);  // "(params){corpo}"
   partes.push(`F[${k}]=${s.async ? 'async ' : ''}function${resto};`);
-  trocas.push({ ini: s.start, fim: s.end, por: `function ${nm}(){return __p2(${k},this,arguments)}` }); nomes.push(nm);
+  trocas.push({ ini: s.start, fim: s.end, por: `function ${nm}(){return __p2(${k},this,arguments)}` }); nomes.push(chave);
   k++;
 }
 if (!k) { console.log('dividir: nada para dividir'); process.exit(0) }
 let novo = '', pos = 0; for (const t of trocas) { novo += src.slice(pos, t.ini) + t.por; pos = t.fim } novo += src.slice(pos);
 const p2 = `/* Prumo News, parte 2 (funções que não rodam numa visita comum; o núcleo chama pelos apelidos) */\n(function(){if(window.__P2F)return;var F={};\n${partes.join('\n')}\nwindow.__P2F=F})();\n`;
 const nomeP2 = `parte2.${hash(p2)}.js`;
+// modo de medição (PRUMO_P2_CAPTURA): marca no log do servidor cada função da parte 2 chamada cedo (até 1,5 s depois do load)
+const CAPTURA = process.env.PRUMO_P2_CAPTURA ? 'try{if(window.__p2cap!==0){var v=window.__p2v||(window.__p2v={});if(!v[k]){v[k]=1;new Image().src="__p2uso/"+k}}}catch(e){}' : '';
 const nucleo = `var __P2_URL=${JSON.stringify(nomeP2)};window.__P2F=window.__P2F||null;
-function __p2(k,t,a){if(!window.__P2F)__p2Sinc(k);var f=window.__P2F&&window.__P2F[k];if(!f){try{console.warn("Prumo: parte 2 indisponível ("+k+")")}catch(e){}return}return f.apply(t,a)}
+function __p2(k,t,a){${CAPTURA}if(!window.__P2F)__p2Sinc(k);var f=window.__P2F&&window.__P2F[k];if(!f){try{console.warn("Prumo: parte 2 indisponível ("+k+")")}catch(e){}return}return f.apply(t,a)}
 function __p2Sinc(k){try{(window.__p2sinc=window.__p2sinc||[]).push(k);var x=new XMLHttpRequest();x.open("GET",__P2_URL,false);x.send(null);if(x.status===200&&x.responseText){var s=document.createElement("script");s.text=x.responseText;document.head.appendChild(s)}}catch(e){}}
 function __p2Carrega(){if(window.__P2F||window.__p2ini)return;window.__p2ini=1;var s=document.createElement("script");s.src=__P2_URL;s.async=true;document.head.appendChild(s)}
-addEventListener("load",function(){setTimeout(__p2Carrega,200)});setTimeout(__p2Carrega,4000);
+addEventListener("load",function(){setTimeout(__p2Carrega,200)${process.env.PRUMO_P2_CAPTURA ? ';setTimeout(function(){window.__p2cap=0},1500)' : ''}});setTimeout(__p2Carrega,4000);
 try{navigator.serviceWorker&&navigator.serviceWorker.ready.then(function(){setTimeout(function(){fetch(__P2_URL).catch(function(){})},1500)})}catch(e){}
 `;
 const saida = h.slice(0, melhor.ini) + nucleo + novo + h.slice(melhor.ini + src.length);
