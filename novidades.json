@@ -1,27 +1,28 @@
 {
- "gerado": "2026-11-20T12:38-03:00",
+ "gerado": "2026-11-20T12:49-03:00",
  "desde": "2026-11-20T09:40-03:00",
  "feed_atualizado_em": "2026-11-20T09:50:00-03:00",
  "resumo": {
-  "manchetes": 266,
-  "assuntos_novos_relevantes": 4,
-  "assuntos_novos": 219,
+  "manchetes": 272,
+  "assuntos_novos_relevantes": 5,
+  "assuntos_novos": 224,
   "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 6,
-  "acionar_itens": 3,
+  "acionar_itens": 4,
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica); assunto novo: 3 veículos em 90 min (politica); pauta principal caso-master sem atualização há 3.1 h e 2 veículos com relatos novos",
+ "acionar_motivo": "assunto novo: 4 veículos em 90 min (politica); assunto novo: 3 veículos em 90 min (politica); assunto novo: 3 veículos em 90 min (economia) (+1)",
  "acionar_itens": [
   {
    "tipo": "novo",
-   "titulo": "Moraes vota para manter passaportes de Flávio cancelados",
+   "titulo": "Moraes vota no STF para manter passaportes de Flávio Bolsonaro cancelados",
    "secao": "politica",
-   "n_fontes": 3,
-   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "n_fontes": 4,
+   "motivo": "assunto novo: 4 veículos em 90 min (politica)",
    "chave": [
+    "bolsonaro",
     "cancelados",
     "contatar",
     "deixar",
@@ -36,6 +37,7 @@
     "proibido",
     "restricoes",
     "senador",
+    "stf",
     "tentativa",
     "tomaz",
     "vota",
@@ -71,16 +73,121 @@
    "acao": "nova"
   },
   {
+   "tipo": "novo",
+   "titulo": "Dez anos após Brexit, Reino Unido busca reaproximação com União Europeia",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "chave": [
+    "acordo",
+    "acordos",
+    "alimentos",
+    "brexit",
+    "busca",
+    "decada",
+    "dez",
+    "europeia",
+    "fecham",
+    "iniciam",
+    "mobilidade",
+    "reaproximacao",
+    "referendo",
+    "reino",
+    "uniao",
+    "unido"
+   ],
+   "acao": "nova"
+  },
+  {
    "tipo": "pauta",
    "pid": "caso-master",
    "titulo": "Leia a íntegra do relatório da PF sobre Mendonça no caso Master",
    "n_fontes": 2,
-   "motivo": "pauta principal caso-master sem atualização há 3.1 h e 2 veículos com relatos novos",
+   "motivo": "pauta principal caso-master sem atualização há 3.3 h e 2 veículos com relatos novos",
    "acao": "atualiza: caso-master"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Moraes vota no STF para manter passaportes de Flávio Bolsonaro cancelados",
+   "secao": "politica",
+   "n_fontes": 4,
+   "fontes": [
+    "folha",
+    "g1",
+    "im",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Moraes vota no STF para manter passaportes de Flávio Bolsonaro cancelados",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/moraes-vota-no-stf-para-manter-passaportes-de-flavio-bolsonaro-cancelados.shtml",
+     "hora": "20/11 12h42"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Moraes vota para manter passaportes de Flávio cancelados",
+     "url": "https://www.poder360.com.br/poder-justica/moraes-vota-para-manter-passaportes-de-flavio-cancelados/",
+     "hora": "20/11 12h35"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Moraes vota para deixar Flávio sem passaportes e proibido de contatar Willer Tomaz",
+     "url": "https://www.infomoney.com.br/politica/moraes-vota-para-deixar-flavio-bolsonaro-sem-passaportes-e-proibido-de-contatar-willer-tomaz/",
+     "hora": "20/11 12h29"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Moraes diz que fuga de Flávio para os EUA é tentativa de obstruir investigações e vota para manter restrições a senador",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/20/moraes-diz-que-fuga-de-flavio-para-os-eua-e-tentativa-de-obstruir-investigacao-e-vota-para-manter-restricoes-a-senador.ghtml",
+     "hora": "20/11 11h17"
+    }
+   ],
+   "n_fontes_90min": 4
+  },
+  {
+   "assunto": "Dez anos após Brexit, Reino Unido busca reaproximação com União Europeia",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "folha",
+    "im",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Dez anos após Brexit, Reino Unido busca reaproximação com União Europeia",
+     "url": "https://www.metropoles.com/mundo/dez-anos-apos-brexit-reino-unido-busca-reaproximacao-com-uniao-europeia",
+     "hora": "20/11 12h40"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Reino Unido e União Europeia iniciam reaproximação após brexit com acordos sobre alimentos e mobilidade",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/reino-unido-e-uniao-europeia-iniciam-reaproximacao-apos-brexit-com-acordos-sobre-alimentos-e-mobilidade.shtml",
+     "hora": "20/11 12h28"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Reino Unido e União Europeia iniciam reaproximação após brexit com acordos sobre alimentos e mobilidade",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/reino-unido-e-uniao-europeia-iniciam-reaproximacao-apos-brexit-com-acordos-sobre-alimentos-e-mobilidade.shtml",
+     "hora": "20/11 12h28"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Reino Unido e UE fecham acordo de reaproximação, uma década após referendo do Brexit",
+     "url": "https://www.infomoney.com.br/mundo/reino-unido-e-ue-fecham-acordo-de-reaproximacao-uma-decada-apos-referendo-do-brexit/",
+     "hora": "20/11 12h18"
+    }
+   ],
+   "n_fontes_90min": 3
+  },
   {
    "assunto": "Dino vota para tornar deputado Juscelino Filho réu por desvio de emendas",
    "secao": "politica",
@@ -110,39 +217,6 @@
      "titulo": "Dino vota para tornar Van Hattem réu por calúnia e injúria contra delegado da Polícia Federal",
      "url": "https://g1.globo.com/politica/noticia/2026/11/20/dino-vota-para-tornar-van-hattem-reu-por-calunia-e-injuria-contra-delegado-da-policia-federal.ghtml",
      "hora": "20/11 11h21"
-    }
-   ],
-   "n_fontes_90min": 3
-  },
-  {
-   "assunto": "Moraes vota para manter passaportes de Flávio cancelados",
-   "secao": "politica",
-   "n_fontes": 3,
-   "fontes": [
-    "g1",
-    "im",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Moraes vota para manter passaportes de Flávio cancelados",
-     "url": "https://www.poder360.com.br/poder-justica/moraes-vota-para-manter-passaportes-de-flavio-cancelados/",
-     "hora": "20/11 12h35"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Moraes vota para deixar Flávio sem passaportes e proibido de contatar Willer Tomaz",
-     "url": "https://www.infomoney.com.br/politica/moraes-vota-para-deixar-flavio-bolsonaro-sem-passaportes-e-proibido-de-contatar-willer-tomaz/",
-     "hora": "20/11 12h29"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Moraes diz que fuga de Flávio para os EUA é tentativa de obstruir investigações e vota para manter restrições a senador",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/20/moraes-diz-que-fuga-de-flavio-para-os-eua-e-tentativa-de-obstruir-investigacao-e-vota-para-manter-restricoes-a-senador.ghtml",
-     "hora": "20/11 11h17"
     }
    ],
    "n_fontes_90min": 3
@@ -214,74 +288,8 @@
    "n_fontes_90min": 1
   },
   {
-   "assunto": "Influenciadora Isabelle Abreu anuncia morte do noivo Gabriel Félix: “Sem chão”",
-   "secao": "economia",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "im",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Influenciadora Isabelle Abreu anuncia morte do noivo Gabriel Félix: “Sem chão”",
-     "url": "https://www.infomoney.com.br/brasil/influenciadora-isabelle-abreu-morte-gabriel-felix/",
-     "hora": "20/11 12h18"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Fãs lamentam morte prematura de influencer Gabriel Félix, aos 29 anos",
-     "url": "https://www.metropoles.com/colunas/fabia-oliveira/fas-lamentam-morte-prematura-de-influencer-gabriel-felix-aos-29-anos",
-     "hora": "20/11 11h59"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Isabelle Abreu recebe apoio de famosos após morte de Gabriel Félix",
-     "url": "https://www.metropoles.com/celebridades/isabelle-abreu-recebe-apoio-de-famosos-apos-morte-de-gabriel-felix",
-     "hora": "20/11 11h49"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Quem era Gabriel Félix, noivo de Isabele Abreu que morreu aos 29 anos",
-     "url": "https://www.cnnbrasil.com.br/pop/celebridades/quem-era-gabriel-felix-noivo-de-isabele-abreu-que-morreu-aos-29-anos/",
-     "hora": "20/11 11h06"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "lixo": true
-  },
-  {
-   "assunto": "Balão não tripulado de 50 metros cai em área de preservação ambiental na Grande SP; Defesa Civil evita incêndio",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Balão não tripulado de 50 metros cai em área de preservação ambiental na Grande SP; Defesa Civil evita incêndio",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/20/balao-nao-tripulado-de-50-metros-cai-em-area-de-preservacao-ambiental-na-grande-sp-defesa-civil-evita-incendio.ghtml",
-     "hora": "20/11 11h59"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Balão de 50 metros cai em parque de SP devastado por incêndio em 2021",
-     "url": "https://www.metropoles.com/sao-paulo/balao-de-50-metros-cai-em-parque-de-sp-devastado-por-incendio-em-2021",
-     "hora": "20/11 11h49"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
    "assunto": "Chance shutdown no governo dos EUA cresce com impasse sobre gasto militar",
-   "secao": null,
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
     "cnn",
@@ -297,7 +305,7 @@
      "hora": "20/11 11h46"
     },
     {
-     "veiculo": "g1",
+     "veiculo": "g1 Economia",
      "titulo": "Impasse sobre guerra e gastos militares ameaça paralisar governo dos EUA",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/20/impasse-sobre-guerra-e-gastos-militares-ameaca-paralisar-governo-dos-eua.ghtml",
      "hora": "20/11 10h34"
@@ -416,6 +424,59 @@
    "n_fontes_90min": 1
   },
   {
+   "assunto": "Galípolo diz que alertou PF sobre possível fuga de Vorcaro",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Galípolo diz que alertou PF sobre possível fuga de Vorcaro",
+     "url": "https://www.poder360.com.br/poder-justica/galipolo-diz-que-alertou-pf-sobre-possivel-fuga-de-vorcaro/",
+     "hora": "20/11 12h44"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Galípolo diz que avisou PF sobre possibilidade de fuga de Vorcaro",
+     "url": "https://www.cnnbrasil.com.br/politica/galipolo-diz-que-avisou-pf-sobre-possibilidade-de-fuga-de-vorcaro/",
+     "hora": "20/11 10h21"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "Influenciadora Isabelle Abreu anuncia morte do noivo Gabriel Félix: “Sem chão”",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Influenciadora Isabelle Abreu anuncia morte do noivo Gabriel Félix: “Sem chão”",
+     "url": "https://www.infomoney.com.br/brasil/influenciadora-isabelle-abreu-morte-gabriel-felix/",
+     "hora": "20/11 12h18"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Quem era Gabriel Félix, noivo de Isabele Abreu que morreu aos 29 anos",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/quem-era-gabriel-felix-noivo-de-isabele-abreu-que-morreu-aos-29-anos/",
+     "hora": "20/11 11h06"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "lixo": true
+  },
+  {
    "assunto": "Justiça solta PMs presos por agredir advogado em delegacia no interior de SP",
    "secao": null,
    "n_fontes": 2,
@@ -468,32 +529,6 @@
    "n_fontes_90min": 2
   },
   {
-   "assunto": "Reino Unido e União Europeia iniciam reaproximação após brexit com acordos sobre alimentos e mobilidade",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "folha",
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mundo",
-     "titulo": "Reino Unido e União Europeia iniciam reaproximação após brexit com acordos sobre alimentos e mobilidade",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/reino-unido-e-uniao-europeia-iniciam-reaproximacao-apos-brexit-com-acordos-sobre-alimentos-e-mobilidade.shtml",
-     "hora": "20/11 12h28"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Reino Unido e UE fecham acordo de reaproximação, uma década após referendo do Brexit",
-     "url": "https://www.infomoney.com.br/mundo/reino-unido-e-ue-fecham-acordo-de-reaproximacao-uma-decada-apos-referendo-do-brexit/",
-     "hora": "20/11 12h18"
-    }
-   ],
-   "n_fontes_90min": 2
-  },
-  {
    "assunto": "Tênis: Carlos Alcaraz encerra primeira fase do ATP Finals sem derrotas",
    "secao": "esportes",
    "n_fontes": 2,
@@ -534,6 +569,25 @@
      "titulo": "\"Vamos socorrer os clubes da capital\": prefeitura e federação articulam adequações no CDF Heitor Costa para o Rondoniense 2027",
      "url": "https://ge.globo.com/ro/noticia/2026/11/20/vamos-socorrer-os-clubes-da-capital-prefeitura-e-federacao-articulam-adequacoes-no-cdf-heitor-costa-para-o-rondoniense-2027.ghtml",
      "hora": "20/11 11h45"
+    }
+   ],
+   "n_fontes_90min": 1
+  },
+  {
+   "assunto": "'A cidade acabou': a destruição causada por temporal que provocou morte no RS",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "bbc"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "'A cidade acabou': a destruição causada por temporal que provocou morte no RS",
+     "url": "https://www.bbc.com/portuguese/articles/cqdr1xmyg3kzo?at_medium=RSS&at_campaign=rss",
+     "hora": "20/11 12h47"
     }
    ],
    "n_fontes_90min": 1
@@ -798,25 +852,6 @@
     }
    ],
    "n_fontes_90min": 1
-  },
-  {
-   "assunto": "Amapá sofre goleada na estreia da Taça das Favelas Feminina Brasil",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Amapá sofre goleada na estreia da Taça das Favelas Feminina Brasil",
-     "url": "https://ge.globo.com/ap/noticia/2026/11/20/amapa-sofre-goleada-na-estreia-da-taca-das-favelas-feminina-brasil.ghtml",
-     "hora": "20/11 11h16"
-    }
-   ],
-   "n_fontes_90min": 1
   }
  ],
  "em_pautas": {
@@ -917,7 +952,7 @@
    "ultima": "20/11 12h05",
    "ultima_iso": "2026-11-20T12:05-03:00",
    "pauta_atualizada_em": "2026-11-20T09:34-03:00",
-   "horas_sem_atualizar": 3.1,
+   "horas_sem_atualizar": 3.3,
    "principal": true,
    "manchetes": [
     {
@@ -944,7 +979,7 @@
    "ultima": "20/11 11h34",
    "ultima_iso": "2026-11-20T11:34-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 29.8,
+   "horas_sem_atualizar": 30.0,
    "principal": true,
    "manchetes": [
     {
@@ -965,7 +1000,7 @@
    "ultima": "20/11 11h58",
    "ultima_iso": "2026-11-20T11:58-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 5.8,
+   "horas_sem_atualizar": 6.0,
    "principal": false,
    "manchetes": [
     {
@@ -987,7 +1022,7 @@
    "ultima": "20/11 12h00",
    "ultima_iso": "2026-11-20T12:00-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 5.8,
+   "horas_sem_atualizar": 6.0,
    "principal": true,
    "manchetes": [
     {
@@ -1021,7 +1056,7 @@
    "ultima": "20/11 12h30",
    "ultima_iso": "2026-11-20T12:30-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 5.8,
+   "horas_sem_atualizar": 6.0,
    "principal": false,
    "manchetes": [
     {
@@ -1048,7 +1083,7 @@
    "ultima": "20/11 08h00",
    "ultima_iso": "2026-11-20T08:00-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 5.8,
+   "horas_sem_atualizar": 6.0,
    "principal": true,
    "manchetes": [
     {
@@ -1336,15 +1371,15 @@
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
-  "ge": "ok: 100 itens, 77 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 21 nas últimas 6 h",
+  "ge": "ok: 100 itens, 76 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 22 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 9 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
