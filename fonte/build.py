@@ -46,7 +46,7 @@ def main(argv):
     saida = os.path.join(AQUI, 'site')
     args = []
     minificar = '--sem-minificar' not in argv
-    argv = [a for a in argv if a != '--sem-minificar']
+    argv = [a for a in argv if a not in ('--sem-minificar', '--sem-dividir')]
     i = 0
     while i < len(argv):
         if argv[i] == '--saida':
@@ -81,6 +81,11 @@ def main(argv):
 
     os.makedirs(saida, exist_ok=True)
     open(os.path.join(saida, 'index.html'), 'w', encoding='utf-8').write(t)
+    # peso (20/11): as funções que não rodam numa visita comum vão para parte2.<hash>.js (ver peso/dividir.js)
+    if '--sem-dividir' not in sys.argv and os.path.exists(os.path.join(AQUI, 'peso', 'frias.json')):
+        import subprocess, glob
+        for velho in glob.glob(os.path.join(saida, 'parte2.*.js')): os.remove(velho)
+        subprocess.run(['node', os.path.join(AQUI, 'peso', 'dividir.js'), saida], check=True, cwd=AQUI, timeout=120)
     if minificar:  # app mais leve: compacta scripts e estilos (os nomes globais continuam iguais)
         import subprocess
         try:

@@ -90,7 +90,7 @@ self.addEventListener("fetch", e => {
     return;
   }
   // biblioteca do Supabase (endereço com versão fixa) e ícones: cópia primeiro
-  const fixo = r.url.startsWith(SBJS) || (u.origin === location.origin && /\/(manifest\.json|icon-[\w-]+\.png|fontes\/[\w-]+\.woff2)$/.test(u.pathname));
+  const fixo = r.url.startsWith(SBJS) || (u.origin === location.origin && /\/(manifest\.json|icon-[\w-]+\.png|fontes\/[\w-]+\.woff2|parte2\.[0-9a-f]+\.js)$/.test(u.pathname));  // parte2.<hash>.js: o nome muda quando o conteúdo muda
   if (fixo) {
     e.respondWith((async () => {
       const c = await caches.open(CACHE);
