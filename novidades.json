@@ -1,26 +1,26 @@
 {
- "gerado": "2026-11-20T17:33-03:00",
+ "gerado": "2026-11-20T17:44-03:00",
  "desde": "2026-11-20T13:40-03:00",
  "feed_atualizado_em": "2026-11-20T13:50:00-03:00",
  "resumo": {
-  "manchetes": 473,
+  "manchetes": 484,
   "assuntos_novos_relevantes": 12,
-  "assuntos_novos": 363,
+  "assuntos_novos": 368,
   "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 7,
-  "acionar_itens": 10,
+  "acionar_itens": 9,
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 7 veículos em 90 min (politica); assunto novo: 9 veículos em 90 min (mundo); assunto novo: 6 veículos em 90 min (politica) (+7)",
+ "acionar_motivo": "assunto novo: 9 veículos em 90 min (politica); assunto novo: 10 veículos em 90 min (mundo); assunto novo: 6 veículos em 90 min (politica) (+6)",
  "acionar_itens": [
   {
    "tipo": "novo",
-   "titulo": "Bolsonaro vai a hospital depois de sentir dores abdominais",
+   "titulo": "Jair Bolsonaro sente dores abdominais e é levado a hospital de Brasília para exames",
    "secao": "politica",
-   "n_fontes": 7,
-   "motivo": "assunto novo: 7 veículos em 90 min (politica)",
+   "n_fontes": 9,
+   "motivo": "assunto novo: 9 veículos em 90 min (politica)",
    "chave": [
     "abdominais",
     "bolsonaro",
@@ -28,6 +28,8 @@
     "carlos",
     "dores",
     "encaminhado",
+    "entrada",
+    "exames",
     "filho",
     "fortes",
     "hospital",
@@ -41,10 +43,10 @@
   },
   {
    "tipo": "novo",
-   "titulo": "Trump afirma que Filipinas vão trocar produtos agrícolas brasileiros por americanos",
+   "titulo": "Trump diz ter exigido que Filipinas comprem produtos agrícolas dos EUA e cancelem negócios com Brasil",
    "secao": "mundo",
-   "n_fontes": 9,
-   "motivo": "assunto novo: 9 veículos em 90 min (mundo)",
+   "n_fontes": 10,
+   "motivo": "assunto novo: 10 veículos em 90 min (mundo)",
    "chave": [
     "afirma",
     "agora",
@@ -55,6 +57,7 @@
     "brasil",
     "brasileiro",
     "brasileiros",
+    "cancelem",
     "cita",
     "comentar",
     "comprar",
@@ -64,10 +67,12 @@
     "comprem",
     "convenceu",
     "eua",
+    "exigido",
     "exigiu",
     "filipinas",
     "fim",
     "importacoes",
+    "negocios",
     "pressao",
     "pressionar",
     "produtos",
@@ -171,7 +176,7 @@
    "pid": "brasileirao-31-rodada-lideres",
    "titulo": "Palmeiras x Flamengo - Campeonato Brasileiro 2026 - globoesporte.com",
    "n_fontes": 4,
-   "motivo": "pauta principal brasileirao-31-rodada-lideres sem atualização há 10.7 h e 4 veículos com relatos novos",
+   "motivo": "pauta principal brasileirao-31-rodada-lideres sem atualização há 10.9 h e 4 veículos com relatos novos",
    "acao": "atualiza: brasileirao-31-rodada-lideres"
   },
   {
@@ -179,38 +184,8 @@
    "pid": "flavio-passaportes-1turma",
    "titulo": "Moraes mantém retenção de passaportes e proibições impostas a Flávio Bolsonaro",
    "n_fontes": 3,
-   "motivo": "pauta principal flavio-passaportes-1turma sem atualização há 3.7 h e 3 veículos com relatos novos",
+   "motivo": "pauta principal flavio-passaportes-1turma sem atualização há 3.9 h e 3 veículos com relatos novos",
    "acao": "atualiza: flavio-passaportes-1turma"
-  },
-  {
-   "tipo": "novo",
-   "titulo": "Ouro recua ao menor patamar em um ano com juros mais altos",
-   "secao": "economia",
-   "n_fontes": 3,
-   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
-   "chave": [
-    "afirma",
-    "altas",
-    "altos",
-    "cai",
-    "commodities",
-    "desde",
-    "expectativa",
-    "fecha",
-    "fed",
-    "juros",
-    "menor",
-    "nivel",
-    "ouro",
-    "patamar",
-    "politico",
-    "porque",
-    "pressionadas",
-    "recua",
-    "taxas",
-    "trump"
-   ],
-   "acao": "nova"
   },
   {
    "tipo": "novo",
@@ -236,21 +211,22 @@
    "pid": "decreto-6x1-adiado",
    "titulo": "Fim da escala 6x1: agronegócio terá de adotar jornada 5x2 sem regras específicas",
    "n_fontes": 2,
-   "motivo": "pauta principal decreto-6x1-adiado sem atualização há 10.7 h e 2 veículos com relatos novos",
+   "motivo": "pauta principal decreto-6x1-adiado sem atualização há 10.9 h e 2 veículos com relatos novos",
    "acao": "atualiza: decreto-6x1-adiado"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Trump afirma que Filipinas vão trocar produtos agrícolas brasileiros por americanos",
+   "assunto": "Trump diz ter exigido que Filipinas comprem produtos agrícolas dos EUA e cancelem negócios com Brasil",
    "secao": "mundo",
-   "n_fontes": 9,
+   "n_fontes": 10,
    "fontes": [
     "antag",
     "cnn",
     "estadao",
     "ex",
+    "folha",
     "g1",
     "jp",
     "met",
@@ -260,6 +236,12 @@
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Trump diz ter exigido que Filipinas comprem produtos agrícolas dos EUA e cancelem negócios com Brasil",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/agro/2026/11/trump-diz-ter-exigido-que-filipinas-comprem-produtos-agricolas-dos-eua-e-cancelem-negocios-com-brasil.shtml",
+     "hora": "20/11 17h39"
+    },
     {
      "veiculo": "O Globo",
      "titulo": "Trump afirma que Filipinas vão trocar produtos agrícolas brasileiros por americanos",
@@ -277,16 +259,56 @@
      "titulo": "Trump diz que Filipinas trocarão produtos agrícolas do Brasil pelos dos EUA",
      "url": "https://www.cnnbrasil.com.br/agro/trump-diz-que-filipinas-trocarao-produtos-agricolas-do-brasil-pelos-dos-eua/",
      "hora": "20/11 16h51"
+    }
+   ],
+   "n_fontes_90min": 10,
+   "ultima_iso": "2026-11-20T17:39-03:00"
+  },
+  {
+   "assunto": "Jair Bolsonaro sente dores abdominais e é levado a hospital de Brasília para exames",
+   "secao": "politica",
+   "n_fontes": 9,
+   "fontes": [
+    "antag",
+    "estadao",
+    "g1",
+    "im",
+    "jp",
+    "met",
+    "oeste",
+    "p360",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Jair Bolsonaro sente dores abdominais e é levado a hospital de Brasília para exames",
+     "url": "https://www.infomoney.com.br/politica/jair-bolsonaro-hospital-dores-abdominais/",
+     "hora": "20/11 17h35"
     },
     {
-     "veiculo": "Veja",
-     "titulo": "Trump diz que Filipinas vão trocar Brasil pelos EUA em importações de produtos agrícolas",
-     "url": "https://veja.abril.com.br/mundo/trump-diz-que-filipinas-vao-trocar-brasil-pelos-eua-em-importacoes-de-produtos-agricolas/",
-     "hora": "20/11 16h48"
+     "veiculo": "Poder360",
+     "titulo": "Bolsonaro vai a hospital depois de sentir dores abdominais",
+     "url": "https://www.poder360.com.br/poder-justica/bolsonaro-vai-a-hospital-depois-de-sentir-dores-abdominais/",
+     "hora": "20/11 17h29"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Bolsonaro vai ao hospital após sentir “fortes dores abdominais”",
+     "url": "https://oantagonista.com.br/brasil/bolsonaro-vai-ao-hospital-apos-sentir-fortes-dores-abdominais/",
+     "hora": "20/11 17h25"
+    },
+    {
+     "veiculo": "Estadão Política",
+     "titulo": "Jair Bolsonaro dá entrada em hospital após dores abdominais, diz Carlos",
+     "url": "https://www.estadao.com.br/politica/jair-bolsonaro-da-entrada-em-hospital-apos-dores-abdominais-diz-carlos/",
+     "hora": "20/11 17h24"
     }
    ],
    "n_fontes_90min": 9,
-   "ultima_iso": "2026-11-20T17:04-03:00"
+   "ultima_iso": "2026-11-20T17:35-03:00"
   },
   {
    "assunto": "Trump diz que não vai permitir construção de data centers fora dos EUA",
@@ -333,50 +355,6 @@
    ],
    "n_fontes_90min": 6,
    "ultima_iso": "2026-11-20T17:20-03:00"
-  },
-  {
-   "assunto": "Bolsonaro vai a hospital depois de sentir dores abdominais",
-   "secao": "politica",
-   "n_fontes": 7,
-   "fontes": [
-    "antag",
-    "g1",
-    "jp",
-    "met",
-    "oeste",
-    "p360",
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Bolsonaro vai a hospital depois de sentir dores abdominais",
-     "url": "https://www.poder360.com.br/poder-justica/bolsonaro-vai-a-hospital-depois-de-sentir-dores-abdominais/",
-     "hora": "20/11 17h29"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Bolsonaro vai ao hospital após sentir “fortes dores abdominais”",
-     "url": "https://oantagonista.com.br/brasil/bolsonaro-vai-ao-hospital-apos-sentir-fortes-dores-abdominais/",
-     "hora": "20/11 17h25"
-    },
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Bolsonaro sente dores abdominais e é levado a hospital em Brasília",
-     "url": "https://revistaoeste.com/politica/bolsonaro-sente-dores-abdominais-e-e-levado-a-hospital-em-brasilia/",
-     "hora": "20/11 17h20"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Bolsonaro é levado a hospital após sentir dores abdominais",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/20/bolsonaro-hospital-apos-sentir-dores-abdominais.ghtml",
-     "hora": "20/11 17h15"
-    }
-   ],
-   "n_fontes_90min": 7,
-   "ultima_iso": "2026-11-20T17:29-03:00"
   },
   {
    "assunto": "Zanin leva julgamento de Van Hattem a sessão presencial do STF",
@@ -466,6 +444,47 @@
    "ultima_iso": "2026-11-20T16:49-03:00"
   },
   {
+   "assunto": "Reino Unido e União Europeia firmam acordo e tentam reconstruir laços após Brexit",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "fontes": [
+    "ex",
+    "g1",
+    "jp",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "Reino Unido e União Europeia firmam acordo e tentam reconstruir laços após Brexit",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/reino-unido-ue-acordo-brexit.ghtml",
+     "hora": "20/11 17h41"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Burnham começa a reverter Brexit com acordo histórico com a UE",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/burnham-comea-a-reverter-brexit-com-acordo-histrico-com-a-ue.ghtml",
+     "hora": "20/11 15h29"
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
+     "url": "https://jovempan.com.br/mundo/reino-unido-e-ue-firmam-acordo-historico-para-reaproximar-relacoes-dez-anos-apos-o-brexit/",
+     "hora": "20/11 15h20"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Reino Unido e União Europeia fecham acordos para reaproximação dez anos após Brexit",
+     "url": "https://exame.com/mundo/reino-unido-e-uniao-europeia-fecham-acordos-para-reaproximacao-dez-anos-apos-brexit/",
+     "hora": "20/11 15h16"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-20T17:41-03:00"
+  },
+  {
    "assunto": "‘Não está funcionando’: Condenado gritou de dor durante execução que levou mais de uma hora nos EUA",
    "secao": "mundo",
    "n_fontes": 4,
@@ -505,40 +524,6 @@
    ],
    "n_fontes_90min": 3,
    "ultima_iso": "2026-11-20T16:49-03:00"
-  },
-  {
-   "assunto": "Burnham começa a reverter Brexit com acordo histórico com a UE",
-   "secao": "mundo",
-   "n_fontes": 3,
-   "fontes": [
-    "ex",
-    "jp",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Burnham começa a reverter Brexit com acordo histórico com a UE",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/burnham-comea-a-reverter-brexit-com-acordo-histrico-com-a-ue.ghtml",
-     "hora": "20/11 15h29"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
-     "url": "https://jovempan.com.br/mundo/reino-unido-e-ue-firmam-acordo-historico-para-reaproximar-relacoes-dez-anos-apos-o-brexit/",
-     "hora": "20/11 15h20"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Reino Unido e União Europeia fecham acordos para reaproximação dez anos após Brexit",
-     "url": "https://exame.com/mundo/reino-unido-e-uniao-europeia-fecham-acordos-para-reaproximacao-dez-anos-apos-brexit/",
-     "hora": "20/11 15h16"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-20T15:29-03:00"
   },
   {
    "assunto": "Governo Lula envia reforço a Tupanciretã após tempestade",
@@ -643,44 +628,38 @@
    "ultima_iso": "2026-11-20T17:18-03:00"
   },
   {
-   "assunto": "Ouro recua ao menor patamar em um ano com juros mais altos",
-   "secao": "economia",
+   "assunto": "Temporal causado por supercélula em Tupanciretã (RS) deixa três mortos, 60 feridos e cerca de 5 mil casas destelhadas",
+   "secao": "brasil",
    "n_fontes": 3,
    "fontes": [
-    "cnn",
-    "im",
-    "valor"
+    "ex",
+    "oglobo",
+    "veja"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ouro recua ao menor patamar em um ano com juros mais altos",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ouro-recua-ao-menor-patamar-em-um-ano-com-juros-mais-altos/",
-     "hora": "20/11 17h09"
+     "veiculo": "O Globo",
+     "titulo": "Temporal causado por supercélula em Tupanciretã (RS) deixa três mortos, 60 feridos e cerca de 5 mil casas destelhadas",
+     "url": "https://oglobo.globo.com/brasil/noticia/2026/11/20/temporal-causada-por-supercelula-em-tupancireta-rs-deixa-tres-mortos-60-feridos-e-cerca-de-5-mil-casas-destelhadas.ghtml",
+     "hora": "20/11 17h24"
     },
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Ouro fecha no menor nível em ano, com commodities pressionadas por juros mais altos",
-     "url": "https://www.infomoney.com.br/mercados/ouro-fecha-no-menor-nivel-em-ano-com-commodities-pressionadas-por-juros-mais-altos/",
-     "hora": "20/11 16h41"
+     "veiculo": "Veja",
+     "titulo": "Temporal mata três, fere 60, destelha 5.000 casas e colapsa luz, telefonia e internet em cidade gaúcha",
+     "url": "https://veja.abril.com.br/brasil/temporal-mata-tres-fere-60-destelha-5-000-casas-e-colapsa-luz-telefonia-e-internet-em-cidade-gaucha/",
+     "hora": "20/11 16h51"
     },
     {
-     "veiculo": "Valor Econômico",
-     "titulo": "Ouro cai ao menor nível desde agosto de 2025 com expectativa de novas altas de juros pelo Fed",
-     "url": "https://valor.globo.com/financas/noticia/2026/11/20/ouro-cai-ao-menor-nivel-desde-agosto-de-2025-com-expectativa-de-novas-altas-de-juros-pelo-fed.ghtml",
-     "hora": "20/11 16h06"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Trump afirma que taxas de juros estão altas porque Fed é “político”",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/trump-afirma-que-taxas-de-juros-estao-altas-porque-fed-e-politico/",
-     "hora": "20/11 15h05"
+     "veiculo": "Exame",
+     "titulo": "Temporal de 114 km/h destelha 5 mil casas no RS; três mortes são investigadas",
+     "url": "https://exame.com/brasil/temporal-de-114-km-h-destelha-5-mil-casas-no-rs-tres-mortes-sao-investigadas/",
+     "hora": "20/11 13h51"
     }
    ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-20T17:09-03:00"
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T17:24-03:00"
   },
   {
    "assunto": "Trump diz que “adoraria” se ex-CEO da Nvidia tivesse uma segunda chance",
@@ -759,6 +738,39 @@
    "lixo": true
   },
   {
+   "assunto": "Ações da Nvidia desabam 13% após notícia sobre investigação da SEC sobre companhia",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "im",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ações da Nvidia desabam 13% após notícia sobre investigação da SEC sobre companhia",
+     "url": "https://www.infomoney.com.br/mercados/acoes-da-nvidia-desabam-noticia-sobre-investigacao-da-sec-sobre-companhia/",
+     "hora": "20/11 17h37"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Investigação da SEC sobre Nvidia analisa possíveis questões contábeis, dizem fontes",
+     "url": "https://www.infomoney.com.br/mercados/investigacao-da-sec-sobre-nvidia-analisa-possiveis-questoes-contabeis-dizem-fontes/",
+     "hora": "20/11 17h08"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "SEC investiga contabilidade da Nvidia em meio a crise envolvendo ex-CEO, dizem fontes",
+     "url": "https://valor.globo.com/empresas/noticia/2026/11/20/sec-investiga-contabilidade-da-nvidia-em-meio-a-crise-envolvendo-ex-ceo-dizem-fontes.ghtml",
+     "hora": "20/11 16h47"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T17:37-03:00"
+  },
+  {
    "assunto": "Busca por cidadania europeia sobe 878% em grupo brasileiro",
    "secao": null,
    "n_fontes": 2,
@@ -784,33 +796,6 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-20T14:41-03:00"
-  },
-  {
-   "assunto": "Carros em alta velocidade batem na Avenida Brasil após perseguição; veja vídeo",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Carros em alta velocidade batem na Avenida Brasil após perseguição; veja vídeo",
-     "url": "https://veja.abril.com.br/brasil/carros-em-alta-velocidade-batem-na-avenida-brasil-apos-perseguicao-veja-video/",
-     "hora": "20/11 16h16"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Carros em alta velocidade batem em perseguição na Avenida Brasil; crianças ficam feridas",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/20/carros-batem-avenida-brasil.ghtml",
-     "hora": "20/11 14h55"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T16:16-03:00"
   },
   {
    "assunto": "Cartinhas de Natal Shopee apadrinha 10 mil crianças",
@@ -961,7 +946,7 @@
     {
      "veiculo": "Metrópoles",
      "titulo": "GTA 6 atinge marca histórica de R$ 22 bilhões em vendas",
-     "url": "https://www.metropoles.com/entretenimento/gta-6-atinge-marca-historica-de-r-22-bilhoes-em-vendas",
+     "url": "https://www.metropoles.com/colunas/metropoles-games/gta-6-atinge-marca-historica-de-r-22-bilhoes-em-vendas",
      "hora": "20/11 17h08"
     },
     {
@@ -1027,33 +1012,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-20T17:05-03:00"
-  },
-  {
-   "assunto": "Investigação da SEC sobre Nvidia analisa possíveis questões contábeis, dizem fontes",
-   "secao": "economia",
-   "n_fontes": 2,
-   "fontes": [
-    "im",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Investigação da SEC sobre Nvidia analisa possíveis questões contábeis, dizem fontes",
-     "url": "https://www.infomoney.com.br/mercados/investigacao-da-sec-sobre-nvidia-analisa-possiveis-questoes-contabeis-dizem-fontes/",
-     "hora": "20/11 17h08"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "SEC investiga contabilidade da Nvidia em meio a crise envolvendo ex-CEO, dizem fontes",
-     "url": "https://valor.globo.com/empresas/noticia/2026/11/20/sec-investiga-contabilidade-da-nvidia-em-meio-a-crise-envolvendo-ex-ceo-dizem-fontes.ghtml",
-     "hora": "20/11 16h47"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T17:08-03:00"
   },
   {
    "assunto": "Justiça manda soltar lutador de MMA que foi preso por esfaquear o cachorro",
@@ -1148,7 +1106,7 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1 Mundo",
+     "veiculo": "g1",
      "titulo": "Minuta de acordo na ONU não prevê regras obrigatórias para uso de 'robôs assassinos'",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/20/onu-regras-robos-assassinos.ghtml",
      "hora": "20/11 17h28"
@@ -1191,31 +1149,64 @@
    "ultima_iso": "2026-11-20T17:15-03:00"
   },
   {
-   "assunto": "Polônia acusa Putin de ‘provocação intencional’ após dois mísseis russos atingirem país",
-   "secao": "mundo",
+   "assunto": "Operador de drones do TCP é preso no Maracanã ao chegar para jogo do Flamengo",
+   "secao": "esportes",
    "n_fontes": 2,
    "fontes": [
-    "dw",
-    "veja"
+    "g1",
+    "oglobo"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Veja",
-     "titulo": "Polônia acusa Putin de ‘provocação intencional’ após dois mísseis russos atingirem país",
-     "url": "https://veja.abril.com.br/mundo/polonia-acusa-putin-de-provocacao-intencional-apos-dois-misseis-russos-atingirem-pais/",
-     "hora": "20/11 16h33"
+     "veiculo": "g1",
+     "titulo": "Operador de drones do TCP é preso no Maracanã ao chegar para jogo do Flamengo",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/20/operador-de-drones-do-tcp-e-preso-no-maracana-ao-chegar-para-jogo.ghtml",
+     "hora": "20/11 17h32"
     },
     {
-     "veiculo": "DW Brasil",
-     "titulo": "Tusk vê provocação russa após queda de mísseis na Polônia e critica reação dos EUA",
-     "url": "https://www.dw.com/pt-br/tusk-vê-provocação-russa-após-queda-de-mísseis-na-polônia-e-critica-reação-dos-eua/a-80005937?maca=bra-rss-br-all-1030-rdf",
-     "hora": "20/11 14h56"
+     "veiculo": "O Globo",
+     "titulo": "Homem é preso no Maracanã por suspeita de integrar o TCP e usar drones para monitorar policiais",
+     "url": "https://oglobo.globo.com/rio/noticia/2026/11/20/homem-e-preso-no-maracana-por-suspeita-de-integrar-o-tcp-e-usar-drones-para-monitorar-policiais.ghtml",
+     "hora": "20/11 16h36"
     }
    ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T16:33-03:00"
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T17:32-03:00"
+  },
+  {
+   "assunto": "Ouro recua ao menor patamar em um ano com juros mais altos",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ouro recua ao menor patamar em um ano com juros mais altos",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/ouro-recua-ao-menor-patamar-em-um-ano-com-juros-mais-altos/",
+     "hora": "20/11 17h09"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Ouro cai ao menor nível desde agosto de 2025 com expectativa de novas altas de juros pelo Fed",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/20/ouro-cai-ao-menor-nivel-desde-agosto-de-2025-com-expectativa-de-novas-altas-de-juros-pelo-fed.ghtml",
+     "hora": "20/11 16h06"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Trump afirma que taxas de juros estão altas porque Fed é “político”",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/trump-afirma-que-taxas-de-juros-estao-altas-porque-fed-e-politico/",
+     "hora": "20/11 15h05"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T17:09-03:00"
   }
  ],
  "em_pautas": {
@@ -1400,7 +1391,7 @@
    "ultima": "20/11 15h33",
    "ultima_iso": "2026-11-20T15:33-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 10.7,
+   "horas_sem_atualizar": 10.9,
    "principal": true,
    "manchetes": [
     {
@@ -1431,7 +1422,7 @@
    "ultima": "20/11 17h08",
    "ultima_iso": "2026-11-20T17:08-03:00",
    "pauta_atualizada_em": "2026-11-20T09:34-03:00",
-   "horas_sem_atualizar": 8.0,
+   "horas_sem_atualizar": 8.2,
    "principal": true,
    "manchetes": [
     {
@@ -1483,7 +1474,7 @@
    "ultima": "20/11 16h44",
    "ultima_iso": "2026-11-20T16:44-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 10.7,
+   "horas_sem_atualizar": 10.9,
    "principal": true,
    "manchetes": [
     {
@@ -1511,7 +1502,7 @@
    "ultima": "20/11 16h29",
    "ultima_iso": "2026-11-20T16:29-03:00",
    "pauta_atualizada_em": "2026-11-19T17:48-03:00",
-   "horas_sem_atualizar": 23.8,
+   "horas_sem_atualizar": 23.9,
    "principal": false,
    "manchetes": [
     {
@@ -1553,7 +1544,7 @@
    "ultima": "20/11 17h04",
    "ultima_iso": "2026-11-20T17:04-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 10.7,
+   "horas_sem_atualizar": 10.9,
    "principal": true,
    "manchetes": [
     {
@@ -1604,7 +1595,7 @@
    "ultima": "20/11 13h27",
    "ultima_iso": "2026-11-20T13:27-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 10.7,
+   "horas_sem_atualizar": 10.9,
    "principal": false,
    "manchetes": [
     {
@@ -1627,7 +1618,7 @@
    "ultima": "20/11 16h31",
    "ultima_iso": "2026-11-20T16:31-03:00",
    "pauta_atualizada_em": "2026-11-20T13:49-03:00",
-   "horas_sem_atualizar": 3.7,
+   "horas_sem_atualizar": 3.9,
    "principal": true,
    "manchetes": [
     {
@@ -1987,6 +1978,37 @@
    ]
   },
   {
+   "assunto": "Reino Unido e União Europeia firmam acordo e tentam reconstruir laços após Brexit",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "manchetes": [
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "Reino Unido e União Europeia firmam acordo e tentam reconstruir laços após Brexit",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/reino-unido-ue-acordo-brexit.ghtml",
+     "hora": "20/11 17h41"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Burnham começa a reverter Brexit com acordo histórico com a UE",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/burnham-comea-a-reverter-brexit-com-acordo-histrico-com-a-ue.ghtml",
+     "hora": "20/11 15h29"
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
+     "url": "https://jovempan.com.br/mundo/reino-unido-e-ue-firmam-acordo-historico-para-reaproximar-relacoes-dez-anos-apos-o-brexit/",
+     "hora": "20/11 15h20"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Reino Unido e União Europeia fecham acordos para reaproximação dez anos após Brexit",
+     "url": "https://exame.com/mundo/reino-unido-e-uniao-europeia-fecham-acordos-para-reaproximacao-dez-anos-apos-brexit/",
+     "hora": "20/11 15h16"
+    }
+   ]
+  },
+  {
    "assunto": "‘Não está funcionando’: Condenado gritou de dor durante execução que levou mais de uma hora nos EUA",
    "secao": "mundo",
    "n_fontes": 4,
@@ -2018,31 +2040,6 @@
    ]
   },
   {
-   "assunto": "Burnham começa a reverter Brexit com acordo histórico com a UE",
-   "secao": "mundo",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Burnham começa a reverter Brexit com acordo histórico com a UE",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/burnham-comea-a-reverter-brexit-com-acordo-histrico-com-a-ue.ghtml",
-     "hora": "20/11 15h29"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
-     "url": "https://jovempan.com.br/mundo/reino-unido-e-ue-firmam-acordo-historico-para-reaproximar-relacoes-dez-anos-apos-o-brexit/",
-     "hora": "20/11 15h20"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Reino Unido e União Europeia fecham acordos para reaproximação dez anos após Brexit",
-     "url": "https://exame.com/mundo/reino-unido-e-uniao-europeia-fecham-acordos-para-reaproximacao-dez-anos-apos-brexit/",
-     "hora": "20/11 15h16"
-    }
-   ]
-  },
-  {
    "assunto": "Governo Lula envia reforço a Tupanciretã após tempestade",
    "secao": "brasil",
    "n_fontes": 3,
@@ -2064,6 +2061,31 @@
      "titulo": "Temporal no RS: governo envia equipes da Defesa Civil para Tupanciretã",
      "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/temporal-no-rs-governo-envia-equipes-da-defesa-civil-para-tupancireta",
      "hora": "20/11 16h28"
+    }
+   ]
+  },
+  {
+   "assunto": "Temporal causado por supercélula em Tupanciretã (RS) deixa três mortos, 60 feridos e cerca de 5 mil casas destelhadas",
+   "secao": "brasil",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Temporal causado por supercélula em Tupanciretã (RS) deixa três mortos, 60 feridos e cerca de 5 mil casas destelhadas",
+     "url": "https://oglobo.globo.com/brasil/noticia/2026/11/20/temporal-causada-por-supercelula-em-tupancireta-rs-deixa-tres-mortos-60-feridos-e-cerca-de-5-mil-casas-destelhadas.ghtml",
+     "hora": "20/11 17h24"
+    },
+    {
+     "veiculo": "Veja",
+     "titulo": "Temporal mata três, fere 60, destelha 5.000 casas e colapsa luz, telefonia e internet em cidade gaúcha",
+     "url": "https://veja.abril.com.br/brasil/temporal-mata-tres-fere-60-destelha-5-000-casas-e-colapsa-luz-telefonia-e-internet-em-cidade-gaucha/",
+     "hora": "20/11 16h51"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Temporal de 114 km/h destelha 5 mil casas no RS; três mortes são investigadas",
+     "url": "https://exame.com/brasil/temporal-de-114-km-h-destelha-5-mil-casas-no-rs-tres-mortes-sao-investigadas/",
+     "hora": "20/11 13h51"
     }
    ]
   },
@@ -2093,6 +2115,31 @@
    ]
   },
   {
+   "assunto": "Ações da Nvidia desabam 13% após notícia sobre investigação da SEC sobre companhia",
+   "secao": "economia",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ações da Nvidia desabam 13% após notícia sobre investigação da SEC sobre companhia",
+     "url": "https://www.infomoney.com.br/mercados/acoes-da-nvidia-desabam-noticia-sobre-investigacao-da-sec-sobre-companhia/",
+     "hora": "20/11 17h37"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Investigação da SEC sobre Nvidia analisa possíveis questões contábeis, dizem fontes",
+     "url": "https://www.infomoney.com.br/mercados/investigacao-da-sec-sobre-nvidia-analisa-possiveis-questoes-contabeis-dizem-fontes/",
+     "hora": "20/11 17h08"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "SEC investiga contabilidade da Nvidia em meio a crise envolvendo ex-CEO, dizem fontes",
+     "url": "https://valor.globo.com/empresas/noticia/2026/11/20/sec-investiga-contabilidade-da-nvidia-em-meio-a-crise-envolvendo-ex-ceo-dizem-fontes.ghtml",
+     "hora": "20/11 16h47"
+    }
+   ]
+  },
+  {
    "assunto": "Conmebol ratifica seu 'firme apoio' à reeleição de Infantino na Fifa",
    "secao": "esportes",
    "n_fontes": 2,
@@ -2110,44 +2157,6 @@
      "hora": "20/11 14h58"
     }
    ]
-  },
-  {
-   "assunto": "Dinamarca afirma ter frustrado plano russo para assassinar rapper americano-ucraniano",
-   "secao": "economia",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Dinamarca afirma ter frustrado plano russo para assassinar rapper americano-ucraniano",
-     "url": "https://www.infomoney.com.br/mundo/dinamarca-afirma-ter-frustrado-plano-russo-para-assassinar-rapper-americano-ucraniano/",
-     "hora": "20/11 16h55"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Dinamarca avalia restringir vistos a russos após acusar Moscou de plano contra rapper ucraniano",
-     "url": "https://jovempan.com.br/mundo/dinamarca-avalia-restringir-vistos-a-russos-apos-acusar-moscou-de-plano-contra-rapper-ucraniano/",
-     "hora": "20/11 14h35"
-    }
-   ]
-  },
-  {
-   "assunto": "Dino aceita denúncia contra ex-ministro de Lula por desvio de emendas",
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Gazeta do Povo República",
-     "titulo": "Dino aceita denúncia contra ex-ministro de Lula por desvio de emendas",
-     "url": "https://www.gazetadopovo.com.br/republica/dino-aceita-denuncia-ex-ministro-lula-desvio-emendas/",
-     "hora": "20/11 17h09"
-    },
-    {
-     "veiculo": "CartaCapital",
-     "titulo": "Dino vota para tornar ex-ministro Juscelino Filho réu por desvio de emendas",
-     "url": "https://www.cartacapital.com.br/justica/dino-vota-para-tornar-ex-ministro-juscelino-filho-reu-por-desvio-de-emendas/",
-     "hora": "20/11 14h55"
-    }
-   ]
   }
  ],
  "ultima_rodada": "2026-11-20T15:48-03:00",
@@ -2159,11 +2168,11 @@
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 5 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 14 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 24 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 23 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
@@ -2172,23 +2181,23 @@
   "BBC News Brasil": "ok: 31 itens, 6 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
-  "Estadão Política": "ok: 20 itens, 6 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 6 nas últimas 6 h",
-  "Estadão Brasil": "ok: 20 itens, 4 nas últimas 6 h",
+  "Estadão Política": "ok: 20 itens, 7 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 7 nas últimas 6 h",
+  "Estadão Brasil": "ok: 20 itens, 5 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 52 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 54 nas últimas 6 h",
   "Valor Econômico": "ok: 100 itens, 41 nas últimas 6 h",
-  "Exame": "ok: 25 itens, 18 nas últimas 6 h",
+  "Exame": "ok: 25 itens, 17 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 63 itens, 6 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 59 itens, 10 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 60 itens, 11 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 15 nas últimas 6 h",
   "Brasil de Fato": "ok: 99 itens, 17 nas últimas 6 h",
-  "ICL Notícias": "ok: 10 itens, 5 nas últimas 6 h"
+  "ICL Notícias": "ok: 10 itens, 4 nas últimas 6 h"
  }
 }
