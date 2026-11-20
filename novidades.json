@@ -1,33 +1,33 @@
 {
- "gerado": "2026-11-20T16:24-03:00",
+ "gerado": "2026-11-20T16:29-03:00",
  "desde": "2026-11-20T13:40-03:00",
  "feed_atualizado_em": "2026-11-20T13:50:00-03:00",
  "resumo": {
-  "manchetes": 378,
+  "manchetes": 361,
   "assuntos_novos_relevantes": 9,
-  "assuntos_novos": 301,
-  "pautas_com_novidade": 7,
+  "assuntos_novos": 295,
+  "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 8,
-  "acionar_itens": 5,
-  "ja_avaliados": 2
+  "acionar_itens": 4,
+  "ja_avaliados": 3
  },
  "acionar": true,
- "acionar_motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização; assunto novo: 6 veículos em 90 min (mundo); pauta principal brasileirao-31-rodada-lideres sem atualização há 9.5 h e 4 veículos com relatos novos (+2)",
+ "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização; assunto novo: 6 veículos em 90 min (mundo); assunto novo: 4 veículos em 90 min (mundo) (+1)",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "caso-master",
-   "titulo": "Caso Master: após liberar relatório de Mendonça a pedido, Fachin deve manter sob sigilo menções a outros ministros",
-   "n_fontes": 7,
-   "motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização",
+   "titulo": "A pedido de Mendonça, Fachin retira sigilo de relatório da PF sobre o ministro e Vorcaro",
+   "n_fontes": 6,
+   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
    "acao": "atualiza: caso-master"
   },
   {
    "tipo": "novo",
-   "titulo": "Trump ameaça proibir empresas dos EUA de construírem data centers no exterior",
+   "titulo": "Trump ameaça taxar empresas que construírem data centers fora dos EUA",
    "secao": "mundo",
-   "n_fontes": 6,
+   "n_fontes": 7,
    "motivo": "assunto novo: 6 veículos em 90 min (mundo)",
    "chave": [
     "ameaca",
@@ -48,14 +48,6 @@
     "trump"
    ],
    "acao": "nova"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "brasileirao-31-rodada-lideres",
-   "titulo": "Será? Mapa da Mitada #36 ignora possível título do Flamengo e destaca Palmeiras no Cartola",
-   "n_fontes": 4,
-   "motivo": "pauta principal brasileirao-31-rodada-lideres sem atualização há 9.5 h e 4 veículos com relatos novos",
-   "acao": "atualiza: brasileirao-31-rodada-lideres"
   },
   {
    "tipo": "novo",
@@ -88,27 +80,34 @@
    "pid": "decreto-6x1-adiado",
    "titulo": "Fim da escala 6x1: agronegócio terá de adotar jornada 5x2 sem regras específicas",
    "n_fontes": 2,
-   "motivo": "pauta principal decreto-6x1-adiado sem atualização há 9.5 h e 2 veículos com relatos novos",
+   "motivo": "pauta principal decreto-6x1-adiado sem atualização há 9.6 h e 2 veículos com relatos novos",
    "acao": "atualiza: decreto-6x1-adiado"
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Trump ameaça proibir empresas dos EUA de construírem data centers no exterior",
+   "assunto": "Trump ameaça taxar empresas que construírem data centers fora dos EUA",
    "secao": "mundo",
-   "n_fontes": 6,
+   "n_fontes": 7,
    "fontes": [
     "cnn",
     "estadao",
     "ex",
     "g1",
     "im",
+    "p360",
     "valor"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Trump ameaça taxar empresas que construírem data centers fora dos EUA",
+     "url": "https://www.poder360.com.br/poder-internacional/trump-ameaca-taxar-empresas-que-construirem-data-centers-fora-dos-eua/",
+     "hora": "20/11 16h28"
+    },
     {
      "veiculo": "Exame",
      "titulo": "Trump ameaça proibir empresas dos EUA de construírem data centers no exterior",
@@ -126,16 +125,10 @@
      "titulo": "Trump ameaça taxar empresas dos EUA que construírem data centers fora do país",
      "url": "https://www.estadao.com.br/economia/trump-ameaca-taxar-empresas-eua-construirem-data-centers-fora/",
      "hora": "20/11 15h40"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Trump diz que não permitirá que empresas americanas construam data centers fora dos EUA",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/trump-diz-que-no-permitir-que-empresas-americanas-construam-data-centers-fora-dos-eua.ghtml",
-     "hora": "20/11 15h16"
     }
    ],
    "n_fontes_90min": 6,
-   "ultima_iso": "2026-11-20T15:56-03:00"
+   "ultima_iso": "2026-11-20T16:28-03:00"
   },
   {
    "assunto": "Zanin pede destaque e leva caso de Van Hattem para o plenário físico da 1ª Turma do STF",
@@ -234,7 +227,7 @@
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "g1 Mundo",
+     "veiculo": "g1 Economia",
      "titulo": "Trump diz que convenceu Filipinas a substituir produtos agrícolas do Brasil pelos dos EUA",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/20/trump-brasil-filipinas.ghtml",
      "hora": "20/11 16h16"
@@ -330,6 +323,40 @@
    "ultima_iso": "2026-11-20T16:00-03:00"
   },
   {
+   "assunto": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "fontes": [
+    "bbc",
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/homem-gritou-de-dor-em-execucao-que-durou-uma-hora-no-texas-nos-estados-unidos.shtml",
+     "hora": "20/11 16h22"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/execucao-texas-estados-unidos.ghtml",
+     "hora": "20/11 15h51"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://www.bbc.com/portuguese/articles/c84gn75r49eno?at_medium=RSS&at_campaign=rss",
+     "hora": "20/11 13h47"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:22-03:00"
+  },
+  {
    "assunto": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
    "secao": "mundo",
    "n_fontes": 3,
@@ -362,40 +389,6 @@
    ],
    "n_fontes_90min": 3,
    "ultima_iso": "2026-11-20T15:20-03:00"
-  },
-  {
-   "assunto": "Rio: moradores relatam tiroteios e ônibus é atravessado na Linha Amarela",
-   "secao": "brasil",
-   "n_fontes": 3,
-   "fontes": [
-    "g1",
-    "met",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Rio: moradores relatam tiroteios e ônibus é atravessado na Linha Amarela",
-     "url": "https://www.metropoles.com/brasil/rio-moradores-relatam-tiroteios-e-onibus-e-atravessado-na-linha-amarela",
-     "hora": "20/11 16h14"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Motoristas relatam tiroteio na Linha Amarela, na altura da Maré; ônibus foi atravessado na pista",
-     "url": "https://oglobo.globo.com/rio/noticia/2026/11/20/motoristas-relatam-tiroteio-na-linha-amarela-na-altura-da-mare-onibus-foi-sequestrado-e-atravessado-na-pista.ghtml",
-     "hora": "20/11 14h47"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Ônibus é atravessado em protesto de moradores da Maré na Linha Amarela",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/20/protesto-linha-amarela.ghtml",
-     "hora": "20/11 13h56"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T16:14-03:00"
   },
   {
    "assunto": "Trump chama Fed de “político” e reclama de juros altos",
@@ -434,11 +427,10 @@
   {
    "assunto": "O que se sabe sobre a morte do influenciador Gabriel Félix aos 29 anos",
    "secao": "esportes",
-   "n_fontes": 4,
+   "n_fontes": 3,
    "fontes": [
     "cnn",
     "g1",
-    "oglobo",
     "veja"
    ],
    "ja_e_breve": false,
@@ -457,102 +449,21 @@
      "hora": "20/11 15h36"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Gabriel Félix passou mal ao jogar futebol, foi socorrido, mas não resistiu, diz assessoria",
-     "url": "https://oglobo.globo.com/cultura/noticia/2026/11/20/gabriel-felix-passou-mal-ao-jogar-futebol-foi-socorrido-mas-nao-resistiu-diz-assessoria.ghtml",
-     "hora": "20/11 14h39"
-    },
-    {
      "veiculo": "CNN Brasil",
      "titulo": "Influenciador Gabriel Félix morreu após passar mal enquanto jogava futebol",
      "url": "https://www.cnnbrasil.com.br/pop/celebridades/influenciador-gabriel-felix-morreu-apos-passar-mal-enquanto-jogava-futebol/",
      "hora": "20/11 14h15"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Influenciador Gabriel Félix morreu antes de jogar futebol em encontro com amigos, diz prima",
+     "url": "https://g1.globo.com/mg/triangulo-mineiro/noticia/2026/11/20/influenciador-gabriel-felix-sofreu-mal-subito-durante-partida-de-futebol-com-amigos-diz-prima.ghtml",
+     "hora": "20/11 14h11"
     }
    ],
-   "n_fontes_90min": 1,
+   "n_fontes_90min": 0,
    "ultima_iso": "2026-11-20T16:21-03:00",
    "lixo": true
-  },
-  {
-   "assunto": "BTG desistiu de comprar Master por falta de garantias, diz Esteves",
-   "secao": "economia",
-   "n_fontes": 2,
-   "fontes": [
-    "p360",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "BTG desistiu de comprar Master por falta de garantias, diz Esteves",
-     "url": "https://www.poder360.com.br/poder-economia/btg-desistiu-de-comprar-master-por-falta-de-garantias-diz-esteves/",
-     "hora": "20/11 15h23"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "BTG desistiu de 'solução de mercado' para o Master e BC foi alertado sobre dúvidas, diz Esteves",
-     "url": "https://valor.globo.com/financas/noticia/2026/11/20/btg-desistiu-de-soluo-de-mercado-para-o-master-e-bc-foi-alertado-sobre-dvidas-diz-esteves.ghtml",
-     "hora": "20/11 13h59"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T15:23-03:00"
-  },
-  {
-   "assunto": "Bitcoin fica abaixo de US$ 60 mil pela 1ª vez desde julho",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "oglobo",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Bitcoin fica abaixo de US$ 60 mil pela 1ª vez desde julho",
-     "url": "https://www.poder360.com.br/poder-economia/bitcoin-fica-abaixo-de-us-60-mil-pela-1a-vez-desde-julho/",
-     "hora": "20/11 16h10"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Bitcoin cai abaixo de US$ 60 mil pela 1ª vez desde julho e acumula sete semanas de perdas",
-     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/bitcoin-cai-abaixo-de-us-60-mil-pela-1a-vez-desde-julho-e-acumula-sete-semanas-de-perdas.ghtml",
-     "hora": "20/11 15h41"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T16:10-03:00"
-  },
-  {
-   "assunto": "Busca por cidadania europeia sobe 878% em grupo brasileiro",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "oglobo",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Busca por cidadania europeia sobe 878% em grupo brasileiro",
-     "url": "https://oglobo.globo.com/patrocinado/dino/noticia/2026/11/20/busca-por-cidadania-europeia-sobe-878-em-grupo-brasileiro-1.ghtml",
-     "hora": "20/11 14h41"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Busca por cidadania europeia sobe 878% em grupo brasileiro",
-     "url": "https://valor.globo.com/patrocinado/dino/noticia/2026/11/20/busca-por-cidadania-europeia-sobe-878-em-grupo-brasileiro-1.ghtml",
-     "hora": "20/11 14h41"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T14:41-03:00"
   },
   {
    "assunto": "Carros em alta velocidade batem na Avenida Brasil após perseguição; veja vídeo",
@@ -580,33 +491,6 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-20T16:16-03:00"
-  },
-  {
-   "assunto": "Cartinhas de Natal Shopee apadrinha 10 mil crianças",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "oglobo",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Cartinhas de Natal Shopee apadrinha 10 mil crianças",
-     "url": "https://oglobo.globo.com/patrocinado/dino/noticia/2026/11/20/cartinhas-de-natal-shopee-apadrinha-10-mil-criancas-1.ghtml",
-     "hora": "20/11 14h31"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Cartinhas de Natal Shopee apadrinha 10 mil crianças",
-     "url": "https://valor.globo.com/patrocinado/dino/noticia/2026/11/20/cartinhas-de-natal-shopee-apadrinha-10-mil-criancas-1.ghtml",
-     "hora": "20/11 14h30"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T14:31-03:00"
   },
   {
    "assunto": "Consciência Negra deve movimentar R$ 2,5 bi no turismo de SP",
@@ -723,33 +607,6 @@
    "ultima_iso": "2026-11-20T14:54-03:00"
   },
   {
-   "assunto": "Em clássico, Cristiano Ronaldo faz o gol 986 e fica a 14 do milésimo; veja",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Em clássico, Cristiano Ronaldo faz o gol 986 e fica a 14 do milésimo; veja",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/futebol-saudita/em-classico-cristiano-ronaldo-faz-o-gol-986-e-fica-a-14-do-milesimo-veja/",
-     "hora": "20/11 15h47"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Cristiano Ronaldo marca pelo Al-Nassr e fica mais perto do milésimo gol ainda em 2026",
-     "url": "https://oglobo.globo.com/esportes/futebol-internacional/noticia/2026/11/20/cristiano-ronaldo-marca-pelo-al-nassr-e-fica-mais-perto-do-milesimo-gol-ainda-em-2026.ghtml",
-     "hora": "20/11 15h26"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T15:47-03:00"
-  },
-  {
    "assunto": "Fisiculturista maranhense Itemberg Nunes morre aos 31 anos",
    "secao": null,
    "n_fontes": 2,
@@ -775,33 +632,6 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-20T15:32-03:00"
-  },
-  {
-   "assunto": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "bbc",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/execucao-texas-estados-unidos.ghtml",
-     "hora": "20/11 15h51"
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
-     "url": "https://www.bbc.com/portuguese/articles/c84gn75r49eno?at_medium=RSS&at_campaign=rss",
-     "hora": "20/11 13h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T15:51-03:00"
   },
   {
    "assunto": "Jornal da Oeste, Segunda Edição: assista ao noticiário de 20/11/2026",
@@ -859,33 +689,6 @@
    "ultima_iso": "2026-11-20T15:59-03:00"
   },
   {
-   "assunto": "Maikai aposta em plano individualizado e atendimento 24h",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "oglobo",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Maikai aposta em plano individualizado e atendimento 24h",
-     "url": "https://oglobo.globo.com/patrocinado/dino/noticia/2026/11/20/maikai-aposta-em-plano-individualizado-e-atendimento-24h-1.ghtml",
-     "hora": "20/11 15h36"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Maikai aposta em plano individualizado e atendimento 24h",
-     "url": "https://valor.globo.com/patrocinado/dino/noticia/2026/11/20/maikai-aposta-em-plano-individualizado-e-atendimento-24h-1.ghtml",
-     "hora": "20/11 15h36"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T15:36-03:00"
-  },
-  {
    "assunto": "O conselho espiritual que fez Deborah Secco adiar casamento",
    "secao": null,
    "n_fontes": 2,
@@ -940,59 +743,31 @@
    "ultima_iso": "2026-11-20T15:43-03:00"
   },
   {
-   "assunto": "Restrições dos EUA a chips ameaçam data center bilionário do TikTok no Ceará",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "oglobo",
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Restrições dos EUA a chips ameaçam data center bilionário do TikTok no Ceará",
-     "url": "https://veja.abril.com.br/economia/restricoes-dos-eua-a-chips-ameacam-data-center-bilionario-do-tiktok-no-ceara/",
-     "hora": "20/11 15h00"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Representante comercial dos EUA minimiza restrições à venda de chips a países como o Brasil: ‘fechamento de uma brecha’",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/20/representante-comercial-dos-eua-minimiza-restricoes-a-venda-de-chips-a-paises-como-o-brasil-fechamento-de-uma-brecha.ghtml",
-     "hora": "20/11 14h36"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T15:00-03:00",
-   "pid_provavel": "eua-chips-ia-brasil-licenca"
-  },
-  {
-   "assunto": "Tom Brady negocia compra de participação no Chelsea, diz imprensa britânica",
+   "assunto": "Rio: moradores relatam tiroteios e ônibus é atravessado na Linha Amarela",
    "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "ex",
-    "oglobo"
+    "g1",
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Exame",
-     "titulo": "Tom Brady negocia compra de participação no Chelsea, diz imprensa britânica",
-     "url": "https://exame.com/esporte/tom-brady-negocia-compra-de-participacao-no-chelsea-diz-imprensa-britanica/",
-     "hora": "20/11 15h48"
+     "veiculo": "Metrópoles",
+     "titulo": "Rio: moradores relatam tiroteios e ônibus é atravessado na Linha Amarela",
+     "url": "https://www.metropoles.com/brasil/rio-moradores-relatam-tiroteios-e-onibus-e-atravessado-na-linha-amarela",
+     "hora": "20/11 16h14"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Tom Brady negocia compra de parte do Chelsea, diz imprensa britânica",
-     "url": "https://oglobo.globo.com/esportes/noticia/2026/11/20/tom-brady-negocia-compra-de-parte-do-chelsea-diz-imprensa-britanica.ghtml",
-     "hora": "20/11 15h13"
+     "veiculo": "g1",
+     "titulo": "Ônibus é atravessado em protesto de moradores da Maré na Linha Amarela",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/20/protesto-linha-amarela.ghtml",
+     "hora": "20/11 13h56"
     }
    ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T15:48-03:00"
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T16:14-03:00"
   },
   {
    "assunto": "Tombo das ações da Anthropic após estreia vira alerta para mercado de IA",
@@ -1020,6 +795,194 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-20T15:34-03:00"
+  },
+  {
+   "assunto": "Torta de liquidificador: 3 receitas práticas e saborosas para o lanche da tarde",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "antag",
+    "cc"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CartaCapital",
+     "titulo": "Torta de liquidificador: 3 receitas práticas e saborosas para o lanche da tarde",
+     "url": "https://www.cartacapital.com.br/receitas/torta-de-liquidificador-3-receitas-praticas-e-saborosas-para-o-lanche-da-tarde/",
+     "hora": "20/11 16h03"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Torta de liquidificador: 3 receitas práticas e saborosas para o lanche da tarde",
+     "url": "https://oantagonista.com.br/ladooa/variedades/torta-de-liquidificador-3-receitas-praticas-e-saborosas-para-o-lanche-da-tarde/",
+     "hora": "20/11 15h35"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:03-03:00"
+  },
+  {
+   "assunto": "Trump diz que Putin quer encerrar guerra na Ucrânia por via diplomática",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "antag",
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Trump diz que Putin quer encerrar guerra na Ucrânia por via diplomática",
+     "url": "https://oantagonista.com.br/mundo/trump-diz-que-putin-quer-encerrar-guerra-na-ucrania-por-via-diplomatica/",
+     "hora": "20/11 15h32"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Putin quer encerrar a guerra na Ucrânia por meios diplomáticos, diz Trump",
+     "url": "https://www.cnnbrasil.com.br/internacional/putin-quer-encerrar-a-guerra-na-ucrania-por-meios-diplomaticos-diz-trump/",
+     "hora": "20/11 15h27"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T15:32-03:00"
+  },
+  {
+   "assunto": "Trump pede 'segunda chance' para Jensen Huang e defende volta do executivo à Nvidia",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "ex",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Trump pede 'segunda chance' para Jensen Huang e defende volta do executivo à Nvidia",
+     "url": "https://exame.com/mundo/trump-pede-segunda-chance-para-jensen-huang-e-defende-volta-do-executivo-a-nvidia/",
+     "hora": "20/11 16h17"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Ex-CEO da Nvidia, Jensen Huang ameaçava e humilhava funcionários, diz jornal",
+     "url": "https://valor.globo.com/empresas/marketing/noticia/2026/11/20/ex-ceo-da-nvidia-jensen-huang-ameacava-e-humilhava-funcionarios-diz-jornal.ghtml",
+     "hora": "20/11 15h57"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T16:17-03:00"
+  },
+  {
+   "assunto": "Turista é morto após reagir a assalto no centro do Rio de Janeiro",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Turista é morto após reagir a assalto no centro do Rio de Janeiro",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/turista-e-morto-apos-reagir-a-assalto-no-centro-do-rio-de-janeiro.shtml",
+     "hora": "20/11 15h15"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Imagens mostram turista sendo perseguido por dupla de moto e morto a tiros no Rio",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/20/imagens-turista-perseguido-dupla-moto-morto-tiros.ghtml",
+     "hora": "20/11 13h55"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T15:15-03:00"
+  },
+  {
+   "assunto": "'A cidade acabou': a destruição causada por temporal que provocou mortes no RS",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "bbc"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "'A cidade acabou': a destruição causada por temporal que provocou mortes no RS",
+     "url": "https://www.bbc.com/portuguese/articles/cqdr1xmyg3kzo?at_medium=RSS&at_campaign=rss",
+     "hora": "20/11 15h44"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T15:44-03:00"
+  },
+  {
+   "assunto": "'Brilho intenso e luz esverdeada': astrofísico explica meteoro visto nos céus da Paraíba",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Brilho intenso e luz esverdeada': astrofísico explica meteoro visto nos céus da Paraíba",
+     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/20/brilho-intenso-e-luz-esverdeada-astrofisico-explica-meteoro-visto-nos-ceus-da-paraiba.ghtml",
+     "hora": "20/11 14h08"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T14:08-03:00"
+  },
+  {
+   "assunto": "13º salário: 1ª parcela deve ser paga até 30.nov; leia regras",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "13º salário: 1ª parcela deve ser paga até 30.nov; leia regras",
+     "url": "https://www.poder360.com.br/poder-economia/13o-salario-1a-parcela-deve-ser-paga-ate-30-nov-leia-regras/",
+     "hora": "20/11 15h56"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T15:56-03:00"
+  },
+  {
+   "assunto": "41% das famílias com crianças na Argentina não conseguem pagar as despesas básicas",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "41% das famílias com crianças na Argentina não conseguem pagar as despesas básicas",
+     "url": "https://exame.com/mundo/41-das-familias-com-criancas-na-argentina-nao-conseguem-pagar-as-despesas-basicas/",
+     "hora": "20/11 14h35"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T14:35-03:00"
   }
  ],
  "em_pautas": {
@@ -1041,34 +1004,10 @@
     }
    ]
   },
-  "caso-master": {
-   "secao": "politica",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Caso Master: Galípolo relata à PF suspeitas de vazamentos no BC e ata fora do padrão feita por servidor",
-     "url": "https://oglobo.globo.com/politica/post/2026/11/caso-master-galipolo-relata-a-pf-suspeitas-de-vazamentos-no-bc-e-ata-fora-do-padrao-feita-por-servidor.ghtml",
-     "hora": "20/11 14h15"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Caso Master: após liberar relatório de Mendonça a pedido, Fachin deve manter sob sigilo menções a outros ministros",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/20/caso-master-apos-liberar-relatorio-de-mendonca-a-pedido-fachin-deve-manter-sob-sigilo-mencoes-a-outros-ministros.ghtml",
-     "hora": "20/11 15h50"
-    }
-   ]
-  },
   "brasileirao-31-rodada-lideres": {
    "secao": "esportes",
    "n_fontes": 1,
    "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Flamengo viaja para enfrentar Palmeiras com três desfalques; veja relacionados",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/20/flamengo-viaja-para-enfrentar-palmeiras-com-tres-desfalques-veja-relacionados.ghtml",
-     "hora": "20/11 14h15"
-    },
     {
      "veiculo": "ge",
      "titulo": "De mentor a rival: Jardim e Abel trocam elogios e farpas por Flamengo e Palmeiras e dividem até empresário",
@@ -1168,7 +1107,7 @@
    "ultima": "20/11 15h33",
    "ultima_iso": "2026-11-20T15:33-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 9.5,
+   "horas_sem_atualizar": 9.6,
    "principal": true,
    "manchetes": [
     {
@@ -1186,36 +1125,23 @@
    ]
   },
   "caso-master": {
-   "n": 9,
-   "n_fontes": 7,
+   "n": 6,
+   "n_fontes": 6,
    "fontes": [
     "ab",
     "cc",
     "ex",
     "gp",
     "icl",
-    "oglobo",
     "valor"
    ],
-   "n_fontes_90min": 4,
-   "ultima": "20/11 15h50",
-   "ultima_iso": "2026-11-20T15:50-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "20/11 13h33",
+   "ultima_iso": "2026-11-20T13:33-03:00",
    "pauta_atualizada_em": "2026-11-20T09:34-03:00",
-   "horas_sem_atualizar": 6.8,
+   "horas_sem_atualizar": 6.9,
    "principal": true,
    "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Caso Master: após liberar relatório de Mendonça a pedido, Fachin deve manter sob sigilo menções a outros ministros",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/20/caso-master-apos-liberar-relatorio-de-mendonca-a-pedido-fachin-deve-manter-sob-sigilo-mencoes-a-outros-ministros.ghtml",
-     "hora": "20/11 15h50"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Caso Master: Galípolo relata à PF suspeitas de vazamentos no BC e ata fora do padrão feita por servidor",
-     "url": "https://oglobo.globo.com/politica/post/2026/11/caso-master-galipolo-relata-a-pf-suspeitas-de-vazamentos-no-bc-e-ata-fora-do-padrao-feita-por-servidor.ghtml",
-     "hora": "20/11 14h15"
-    },
     {
      "veiculo": "Gazeta do Povo República",
      "titulo": "A pedido de Mendonça, Fachin retira sigilo de relatório da PF sobre o ministro e Vorcaro",
@@ -1235,10 +1161,22 @@
      "hora": "20/11 12h59"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Caso Master: Relatórios sobre ministros do STF rejeitados por Andrei não foram enviados a Fachin",
-     "url": "https://oglobo.globo.com/blogs/malu-gaspar/post/2026/11/relatorios-sobre-ministros-do-stf-rejeitados-por-andrei-nao-foram-enviados-a-fachin.ghtml",
-     "hora": "20/11 12h49"
+     "veiculo": "CartaCapital",
+     "titulo": "Fachin retira sigilo de relatório da PF sobre menções a Mendonça",
+     "url": "https://www.cartacapital.com.br/justica/fachin-retira-sigilo-de-relatorio-da-pf-sobre-mencoes-a-mendonca/",
+     "hora": "20/11 11h06"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Caso Master: PF não encontrou troca de mensagens entre André Mendonça e Daniel Vorcaro",
+     "url": "https://exame.com/brasil/caso-master-pf-nao-encontrou-troca-de-mensagens-entre-andre-mendonca-e-daniel-vorcaro/",
+     "hora": "20/11 11h01"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Fachin manda quebrar sigilo de relatório da PF com menções a Mendonça",
+     "url": "https://agenciabrasil.ebc.com.br/justica/noticia/2026-11/fachin-manda-quebrar-sigilo-de-relatorio-da-pf-com-mencoes-mendonca",
+     "hora": "20/11 10h34"
     }
    ]
   },
@@ -1253,7 +1191,7 @@
    "ultima": "20/11 15h04",
    "ultima_iso": "2026-11-20T15:04-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 9.5,
+   "horas_sem_atualizar": 9.6,
    "principal": true,
    "manchetes": [
     {
@@ -1281,7 +1219,7 @@
    "ultima": "20/11 15h03",
    "ultima_iso": "2026-11-20T15:03-03:00",
    "pauta_atualizada_em": "2026-11-19T17:48-03:00",
-   "horas_sem_atualizar": 22.6,
+   "horas_sem_atualizar": 22.7,
    "principal": false,
    "manchetes": [
     {
@@ -1314,7 +1252,7 @@
    "ultima": "20/11 15h29",
    "ultima_iso": "2026-11-20T15:29-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 33.5,
+   "horas_sem_atualizar": 33.6,
    "principal": false,
    "manchetes": [
     {
@@ -1326,19 +1264,18 @@
    ]
   },
   "brasileirao-31-rodada-lideres": {
-   "n": 7,
-   "n_fontes": 4,
+   "n": 6,
+   "n_fontes": 3,
    "fontes": [
     "cnn",
     "folha",
-    "ge",
-    "oglobo"
+    "ge"
    ],
-   "n_fontes_90min": 4,
+   "n_fontes_90min": 3,
    "ultima": "20/11 15h36",
    "ultima_iso": "2026-11-20T15:36-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 9.5,
+   "horas_sem_atualizar": 9.6,
    "principal": true,
    "manchetes": [
     {
@@ -1372,10 +1309,10 @@
      "hora": "20/11 14h15"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Flamengo viaja para enfrentar Palmeiras com três desfalques; veja relacionados",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/20/flamengo-viaja-para-enfrentar-palmeiras-com-tres-desfalques-veja-relacionados.ghtml",
-     "hora": "20/11 14h15"
+     "veiculo": "ge",
+     "titulo": "Flamengo e Palmeiras em 2026: gráficos mostram ano de rivais até confronto direto pelo Brasileirão",
+     "url": "https://ge.globo.com/gato-mestre/noticia/2026/11/20/flamengo-e-palmeiras-em-2026-graficos-mostram-ano-de-rivais-ate-confronto-direto-pelo-brasileirao.ghtml",
+     "hora": "20/11 12h00"
     }
    ]
   },
@@ -1389,7 +1326,7 @@
    "ultima": "20/11 13h27",
    "ultima_iso": "2026-11-20T13:27-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 9.5,
+   "horas_sem_atualizar": 9.6,
    "principal": false,
    "manchetes": [
     {
@@ -1411,7 +1348,7 @@
    "ultima": "20/11 14h56",
    "ultima_iso": "2026-11-20T14:56-03:00",
    "pauta_atualizada_em": "2026-11-20T13:49-03:00",
-   "horas_sem_atualizar": 2.6,
+   "horas_sem_atualizar": 2.7,
    "principal": true,
    "manchetes": [
     {
@@ -1846,6 +1783,31 @@
    ]
   },
   {
+   "assunto": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/homem-gritou-de-dor-em-execucao-que-durou-uma-hora-no-texas-nos-estados-unidos.shtml",
+     "hora": "20/11 16h22"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/execucao-texas-estados-unidos.ghtml",
+     "hora": "20/11 15h51"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "Homem gritou de dor em execução que durou uma hora no Texas, nos Estados Unidos",
+     "url": "https://www.bbc.com/portuguese/articles/c84gn75r49eno?at_medium=RSS&at_campaign=rss",
+     "hora": "20/11 13h47"
+    }
+   ]
+  },
+  {
    "assunto": "Reino Unido e UE firmam acordo histórico para reaproximar relações dez anos após o Brexit",
    "secao": "mundo",
    "n_fontes": 3,
@@ -1871,50 +1833,6 @@
    ]
   },
   {
-   "assunto": "Rio: moradores relatam tiroteios e ônibus é atravessado na Linha Amarela",
-   "secao": "brasil",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Rio: moradores relatam tiroteios e ônibus é atravessado na Linha Amarela",
-     "url": "https://www.metropoles.com/brasil/rio-moradores-relatam-tiroteios-e-onibus-e-atravessado-na-linha-amarela",
-     "hora": "20/11 16h14"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Motoristas relatam tiroteio na Linha Amarela, na altura da Maré; ônibus foi atravessado na pista",
-     "url": "https://oglobo.globo.com/rio/noticia/2026/11/20/motoristas-relatam-tiroteio-na-linha-amarela-na-altura-da-mare-onibus-foi-sequestrado-e-atravessado-na-pista.ghtml",
-     "hora": "20/11 14h47"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Ônibus é atravessado em protesto de moradores da Maré na Linha Amarela",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/20/protesto-linha-amarela.ghtml",
-     "hora": "20/11 13h56"
-    }
-   ]
-  },
-  {
-   "assunto": "BTG desistiu de comprar Master por falta de garantias, diz Esteves",
-   "secao": "economia",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "BTG desistiu de comprar Master por falta de garantias, diz Esteves",
-     "url": "https://www.poder360.com.br/poder-economia/btg-desistiu-de-comprar-master-por-falta-de-garantias-diz-esteves/",
-     "hora": "20/11 15h23"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "BTG desistiu de 'solução de mercado' para o Master e BC foi alertado sobre dúvidas, diz Esteves",
-     "url": "https://valor.globo.com/financas/noticia/2026/11/20/btg-desistiu-de-soluo-de-mercado-para-o-master-e-bc-foi-alertado-sobre-dvidas-diz-esteves.ghtml",
-     "hora": "20/11 13h59"
-    }
-   ]
-  },
-  {
    "assunto": "Crusoé: Van Hattem aponta parcialidade de Dino",
    "secao": "politica",
    "n_fontes": 2,
@@ -1932,6 +1850,31 @@
      "hora": "20/11 15h03"
     }
    ]
+  },
+  {
+   "assunto": "DOAÇÕES: Veja como ajudar famílias atingidas pela tempestade em Tupanciretã, no RS",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "DOAÇÕES: Veja como ajudar famílias atingidas pela tempestade em Tupanciretã, no RS",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/doacoes-veja-como-ajudar-familias-atingidas-pela-tempestade-em-tupancireta-no-rs.ghtml",
+     "hora": "20/11 14h19"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Tempestade causa mortes em Tupanciretã (RS)",
+     "url": "https://revistaoeste.com/brasil/tempestade-causa-mortes-em-tupancireta-rs/",
+     "hora": "20/11 14h00"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "'Sempre preocupada com todos', lamenta neta de idosa que morreu na tempestade em Tupanciretã",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/neta-idosa-morte-tempestade-tupancireta-rs.ghtml",
+     "hora": "20/11 13h44"
+    }
+   ]
   }
  ],
  "ultima_rodada": "2026-11-20T15:48-03:00",
@@ -1942,14 +1885,14 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 2 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 5 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 24 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 11 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 5 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
@@ -1960,9 +1903,9 @@
   "Estadão Economia": "ok: 20 itens, 4 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 6 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 3 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 58 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
   "Valor Econômico": "ok: 100 itens, 46 nas últimas 6 h",
-  "Exame": "ok: 25 itens, 23 nas últimas 6 h",
+  "Exame": "ok: 25 itens, 22 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 63 itens, 6 nas últimas 6 h",
