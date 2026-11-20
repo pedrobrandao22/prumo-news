@@ -183,7 +183,7 @@ function fotoDe(p){const f=p&&p.foto;if(f&&typeof f==="object"&&typeof f.url==="
 const APP_VERSAO="%%VERSAO%%";
 var FOTOS_ARQ=(function(){try{return JSON.parse(localStorage.getItem("prumo-fotos-arq")||"null")}catch(e){return null}})(),FA_CACHE={};
 function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
-var PP_RE=new Map();function posPalavra(t,k){try{let re=PP_RE.get(k);if(!re){re=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u");PP_RE.set(k,re)}if(String(t).indexOf(k)<0&&String(t).toLowerCase().indexOf(String(k).toLowerCase())<0)return -1;const m=re.exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
+var PP_RE=new Map();function posPalavra(t,k){try{let re=PP_RE.get(k);if(!re){re=new RegExp(`(^|[^\\p{L}\\d])${k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=$|[^\\p{L}\\d])`,"u");PP_RE.set(k,re)}if(String(t).indexOf(k)<0)return -1;const m=re.exec(t);return m?m.index+m[1].length:-1}catch(e){return -1}}
 function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit=String((p.neutro||{}).titulo||""),ck=p.id+"|"+tit+"|"+(A.gerado||"");if(ck in FA_CACHE)return FA_CACHE[ck];
   let best=null,pos=1e9,len=0;Object.values(A.pessoas||{}).forEach(x=>{(x&&Array.isArray(x.chaves)?x.chaves:[]).forEach(k=>{const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});
   let l=best&&Array.isArray(best.fotos)?best.fotos:null;const T=A.temas||{};
@@ -458,7 +458,7 @@ async function carregarIndAuto(){if(Date.now()-IND_T<60000)return;IND_T=Date.now
     if(troca){try{if(document.querySelector("#secs .sb"))renderSecs()}catch(e){}}
     if((mudou||troca)&&FEED){try{if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&(troca||FILTRO==="economia")){const y=scrollY;renderPosts(true);window.scrollTo(0,y)}}catch(e){}}}catch(e){}}
 (function(){const ant=checarFeed;checarFeed=function(x){carregarIndAuto();return ant.apply(this,arguments)}})();
-/* 20/11 (peso): só depois de a Capa estar na tela (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
-function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
+/* 20/11 (peso): só depois de a Capa estar na tela (ou já, se o app não abriu na Capa) (o código agora chega antes e não deve disputar a banda com a manchete); no máximo 3 s */
+function depoisDaCapa(fn){const t0=Date.now();const v=()=>{const c=document.querySelector("#v-capa .cpi");if((c&&c.textContent.trim().length>20&&c.getBoundingClientRect().height>0)||(typeof abreNaCapa==="function"&&!abreNaCapa())||Date.now()-t0>3000)requestAnimationFrame(()=>setTimeout(fn,0));else setTimeout(v,60)};v()}
 depoisDaCapa(carregarIndAuto);
 

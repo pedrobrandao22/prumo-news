@@ -67,7 +67,7 @@ function ca159Lp(){const no=VIEW==="capa"&&scrollY<40&&!!document.querySelector(
 addEventListener("scroll",ca159Lp,{passive:true});
 
 /* ===== 6. chamada de evento que já passou ===== */
-function ca159DiaSP(iso){const d=new Date(iso);if(isNaN(d))return "";try{return d.toLocaleDateString("en-CA",{timeZone:"America/Sao_Paulo"})}catch(e){return ""}}
+function ca159DiaSP(iso){const d=new Date(iso);if(isNaN(d))return "";try{return _FDSP.format(d)}catch(e){return ""}}
 /* {ini, fim} (ms) do evento citado no título, a partir do dia em que ele foi escrito; null se não cita data */
 function ca159Evento(txt,ref){const t=String(txt||""),rd=ca159DiaSP(ref);if(!rd)return null;
   let dia=0,mes=0,m=/(?:^|[^\wÀ-ú])(segunda|terça|quarta|quinta|sexta|sábado|domingo)(?:-feira)?\s*\((\d{1,2})\)/i.exec(t);

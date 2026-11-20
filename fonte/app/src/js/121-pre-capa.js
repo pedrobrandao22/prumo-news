@@ -97,12 +97,17 @@
     /* ao vivo */
     var vivo=ps.filter(function(p){return p.status==="ao_vivo"});
     if(vivo.length)h+='<div class="cp-vivo"><b><i></i>Ao vivo</b>'+vivo.map(function(p){return '<button type="button" data-cobpag="'+esc(p.id)+'">'+et(capaChapeu(p)+": "+titulo(p)+" ›")+'</button>'}).join("")+'</div>';
+    /* o mesmo texto alternativo do illAlt (161): ilustração genérica sem tema vira "jornal" (cópia do gen161Tema; o teste compara) */
+    function altArte(im){var a=im.alt||"Ilustração";try{var gen=im.modelo==="generica"||!im.modelo||(typeof ILL!=="undefined"&&!ILL[im.modelo]);if(!gen)return a;
+      var r=(String((im.dados&&im.dados.rotulo)||"")+" "+String(im.alt||"")).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+      if(/futebol|\bbola\b|gramado|brasileirao|serie [ab]\b|selecao|sul-americana|libertadores|copa do|rodada|amistoso|playoff/.test(r)||/aviao|\bvoos?\b|decolag|aeroport|viagem|aereo/.test(r)||/floresta|clima|\bcop\s?\d|ambient|desmat|amazonia|folhas/.test(r)||/tecnolog|servidor|\bchips?\b|nvidia|microsoft|big tech|digita|internet|\bia\b|intelig.ncia artificial|software|apple|google|meta\b/.test(r)||/cupula|bandeira|china|\beua\b|estados unidos|russia|mundo|globo|internacional|guerra|otan|\bonu\b|apec|g20|europa/.test(r)||/congresso|camara|senado|planalto|esplanada|ministerio|brasilia|governo|stf|plenario|deputad|senador/.test(r))return a;
+      return "Ilustração: jornal (sem foto desta notícia)"}catch(e){return a}}
     /* a manchete (cpItem com tam "man") */
     var p=man,u=ultimaAtualizacao(p)||p.hora;
     var meta='<span class="cp-meta">'+cobStatus(p)+(u?'<span>'+esc(atualizadoTxt(u))+'</span>':"")+'</span>';
     var k='<span class="cp-k" style="color:'+secCor(secOf(p))+'">'+et(capaChapeu(p)+(p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""))+(corRecente(p)?'<span class="cp-corr"> · corrigida</span>':"")+'</span>';
     var sub=linha||(typeof p.subtitulo==="string"&&p.subtitulo)||p.por_que||capaFrase(p.neutro&&p.neutro.texto,170);
-    var im=p.imagem||{},svg='<svg viewBox="0 0 400 240" role="img" aria-label="'+esc(im.alt||"Ilustração")+'"><rect class="ib" width="400" height="240"/></svg>';
+    var im=p.imagem||{},svg='<svg viewBox="0 0 400 240" role="img" aria-label="'+esc(altArte(im))+'"><rect class="ib" width="400" height="240"/></svg>';
     /* foto própria da manchete: a escolha do app é longa (faValida, 157, 169, mapa do acervo); aí fica o esqueleto */
     if(p.foto&&typeof p.foto==="object")return;
     var arte='<span class="art paper" data-sec="'+esc(secOf(p))+'">'+svg+'</span>';

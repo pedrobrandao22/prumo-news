@@ -1,6 +1,5 @@
 /* ---------- Etapa 29 ---------- */
-function faAssunto(tit,A,sec){let best=null,pos=1e9,len=0;Object.values(A.assuntos||{}).forEach(x=>{if(!x||!Array.isArray(x.chaves))return;if(Array.isArray(x.secoes)&&!x.secoes.includes(sec))return;
-  x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(tit,k);if(i>=0&&(i<pos||(i===pos&&k.length>len))){pos=i;len=k.length;best=x}})});return best}
+function faAssunto(tit,A,sec){const r=ft157AchaEm(A.assuntos,tit,x=>!(Array.isArray(x.secoes)&&!x.secoes.includes(sec)));return r?r[0]:null}/* 20/11: busca indexada (157); mesmo resultado */
 /* foto própria que não carregou: usa uma de arquivo da mesma notícia */
 function fotoReserva(img){const A=FOTOS_ARQ;if(!A||!FEED)return null;const src=img.getAttribute("src")||"",nm=faNome(src);
   const p=(FEED.pautas||[]).find(q=>q.foto&&typeof q.foto.url==="string"&&(faNome(q.foto.url)===nm||fotoSrc(q.foto.url)===src));if(!p)return null;
