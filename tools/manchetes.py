@@ -15,7 +15,7 @@ acionar de novo pelo que uma rodada já viu). Se "acionar" for false, a rodada e
 Desde 18/11 cada item do acionar traz "acao" ("atualiza: <pid>" ou "nova") e os assuntos novos trazem
 "pid_provavel" quando parecem continuação de uma cobertura do feed: a rodada não decide sozinha entre breve e notícia.
 """
-import email.utils, json, os, re, sys, unicodedata, urllib.request
+import email.utils, html, json, os, re, sys, unicodedata, urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 
@@ -514,6 +514,47 @@ def ler_json(caminho):
         return {}
 
 
+def lide_de(url, tempo=10):
+    """Resumo que o próprio veículo publica na página (og:description / description). Só metadado, sem baixar a matéria."""
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; PrumoNews/1.0; +https://prumonews.com.br)"})
+    with urllib.request.urlopen(req, timeout=tempo) as r:
+        h = r.read(400_000).decode("utf-8", "replace")
+    for pat in (r'<meta[^>]+property=["\']og:description["\'][^>]*content=["\']([^"\']{30,})',
+                r'<meta[^>]+content=["\']([^"\']{30,})["\'][^>]*property=["\']og:description',
+                r'<meta[^>]+name=["\']description["\'][^>]*content=["\']([^"\']{30,})'):
+        m = re.search(pat, h, re.I)
+        if m: return html.unescape(m.group(1)).strip()[:400]
+    return None
+
+
+def anexar_manchetes(out, anterior, buscar=True):
+    """20/11: o acionar dizia só o título, e a rápida gastava buscas para achar uma página (às 17h48 só confirmou 1 de 5).
+    Agora cada item do acionar leva até 3 manchetes de veículos diferentes, com o link e o resumo que o próprio veículo
+    publica (lide), para a rodada confirmar o fato sem procurar na web."""
+    cache = {}
+    for it in anterior.get("acionar_itens") or []:
+        for m in (it.get("manchetes") or []) if isinstance(it, dict) else []:
+            if m.get("lide"): cache[m.get("url")] = m["lide"]
+    por_titulo = {g["assunto"]: g["manchetes"] for g in out.get("novos") or []}
+    for it in (out.get("acionar_itens") or [])[:5]:
+        lista = por_titulo.get(it.get("titulo")) if it.get("tipo") == "novo" else None
+        if lista is None and it.get("pid"):
+            lista = ((out.get("novos_relatos") or {}).get(it["pid"]) or {}).get("manchetes") \
+                or ((out.get("em_pautas") or {}).get(it["pid"]) or {}).get("manchetes")
+        escolhidas, vs = [], set()
+        for m in lista or []:
+            if not isinstance(m, dict) or m.get("veiculo") in vs or not str(m.get("url", "")).startswith("http"): continue
+            vs.add(m.get("veiculo")); m = {k: m.get(k) for k in ("veiculo", "titulo", "url", "hora")}
+            lide = cache.get(m["url"])
+            if lide is None and buscar:
+                try: lide = lide_de(m["url"])
+                except Exception: lide = None
+            if lide: m["lide"] = lide
+            escolhidas.append(m)
+            if len(escolhidas) == 3: break
+        if escolhidas: it["manchetes"] = escolhidas
+
+
 def main(argv):
     horas = 6
     if "--horas" in argv:
@@ -532,6 +573,7 @@ def main(argv):
         return 0
     out = analisar(itens, feed, agora, horas, anterior, oficiais, rodadas, fotos)
     out["fontes"] = status
+    anexar_manchetes(out, anterior)
     with open(argv[1], "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
     fl = out["fotos_livres"]

@@ -4,6 +4,14 @@
 cd "$(dirname "$0")"
 RELOGIO="review2/t_etapa28 review2/t_ig_figurinhas"
 bash testar.sh 2>&1 | tee ci-1.txt
+st=${PIPESTATUS[0]}
+n=$(grep -cE '^[a-z0-9_/]+: [0-9]+ ok' ci-1.txt)
+# 20/11: se a montagem do site falhar (ex.: faltou a biblioteca acorn do peso/dividir.js), o testar.sh sai antes de
+# rodar qualquer teste; antes disso o resultado era "Testes: 0 / Tudo certo". Agora reprova.
+if [ "$n" -lt 50 ]; then
+  { echo "Testes: $n"; echo "FALHOU: a bateria não rodou (testar.sh saiu com $st antes dos testes; veja o começo do log)"; } | tee ci-resultado.txt
+  exit 1
+fi
 falhas=$(grep -E "FAIL|Error" ci-1.txt | grep -E "^[a-z0-9_/]+: " | cut -d: -f1)
 reprova=""; avisos=""
 for t in $falhas; do
