@@ -90,6 +90,14 @@ class EventoPassado(unittest.TestCase):
         e, a = roda(feed(sb, br, quando="2026-11-14T11:50:00-03:00")); s.assertFalse(tem(e + a, "EVENTO PASSADO"))
         e, a = roda(feed(sb, quando="2026-11-15T00:50:00-03:00"), virada=True); s.assertEqual(e, []); s.assertTrue(tem(a, "EVENTO PASSADO"))
 
+    def test_prazo_que_passou_no_presente(s):
+        # 21/11 (testador): "terminam sexta (20)" lido no sábado
+        p = pauta("enem", secao="educacao", subtema="Enem", titulo="Pedidos de reaplicação do Enem terminam sexta (20)")
+        e, a = roda(feed(p, quando="2026-11-21T09:50:00-03:00")); s.assertTrue(tem(e, "[enem] neutro.titulo: anuncia no futuro"))
+        q = pauta("enem2", secao="educacao", subtema="Enem", titulo="Pedido de reaplicação do Enem acabou na sexta (20)")
+        e, a = roda(feed(q, quando="2026-11-21T09:50:00-03:00")); s.assertFalse(tem(e + a, "EVENTO PASSADO"))
+        e, a = roda(feed(p, quando="2026-11-19T09:50:00-03:00")); s.assertFalse(tem(e + a, "EVENTO PASSADO"))
+
     def test_resultado_no_presente_nao_e_evento(s):
         p = pauta("dolar", secao="economia", subtema="Mercados", titulo="Ibovespa sobe 0,66%; dólar fecha a R$ 5,67 na sexta (13)")
         q = pauta("vasco", secao="esportes", subtema="Brasileirão", titulo="Vasco vence a Chapecoense no sábado (14) e se afasta do Z-4")

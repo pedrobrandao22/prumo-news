@@ -1,25 +1,97 @@
 {
- "gerado": "2026-11-20T23:07-03:00",
+ "gerado": "2026-11-21T01:19-03:00",
  "desde": "2026-11-20T21:40-03:00",
  "feed_atualizado_em": "2026-11-20T21:50:00-03:00",
  "resumo": {
-  "manchetes": 71,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 60,
-  "pautas_com_novidade": 3,
+  "manchetes": 151,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 97,
+  "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 7,
-  "acionar_itens": 0,
-  "ja_avaliados": 3
+  "pautas_com_relatos": 6,
+  "acionar_itens": 1,
+  "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (60 assuntos fora do feed, 7 pautas com relatos, 3 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Análise: Derrubada de sigilo do caso Master pode pressionar STF",
+   "n_fontes": 5,
+   "motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: caso-master",
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Análise: Derrubada de sigilo do caso Master pode pressionar STF",
+     "url": "https://www.cnnbrasil.com.br/politica/analise-derrubada-de-sigilo-do-caso-master-pode-pressionar-stf/",
+     "hora": "20/11 22h35",
+     "lide": "André Mendonça pediu a Fachin que tornasse público relatório da PF que o menciona nas investigações sobre o Banco Master; a avaliação é do analista de Política da CNN Caio Junqueira ao CNN Prime Time"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Gilmar diz que abrir sigilo não basta no caso Master",
+     "url": "https://www.poder360.com.br/poder-justica/gilmar-diz-que-abrir-sigilo-nao-basta-no-caso-master/",
+     "hora": "20/11 22h11",
+     "lide": "Ministro defende levar discussão ao plenário; Fachin divulga relatório da PF que reúne menções a Mendonça. Leia no Poder360."
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Fachin retira sigilo de relatório da PF com 11 conversas que citam André Mendonça no caso Master",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/fachin-retira-sigilo-de-relatorio-da-pf-com-11-conversas-que-citam-andre-mendonca-no-caso-master.ghtml",
+     "hora": "20/11 21h23",
+     "lide": "Documento aponta tentativas de aproximação de Daniel Vorcaro, mas diz que não foram identificados registros de diálogo direto entre o ex-dono do banco e o ministro."
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
+   "assunto": "GP de Las Vegas de F1: siga a classificação",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "cc",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "GP de Las Vegas de F1: siga a classificação",
+     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-de-las-vegas-a-21-etapa-da-temporada-2026-da-f1.ghtml",
+     "hora": "21/11 00h49"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Verstappen e Russell tocam rodas no treino e correm risco de punição em Las Vegas; veja",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/20/verstappen-e-russell-se-tocam-em-treino-holandes-e-investigado-duas-vezes-e-pode-ser-punido.ghtml",
+     "hora": "20/11 23h13"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "F1: George Russell, da Mercedes, lidera terceiro treino livre em Las Vegas",
+     "url": "https://www.metropoles.com/esportes/f1-george-russell-da-mercedes-lidera-terceiro-treino-livre-em-las-vegas",
+     "hora": "20/11 22h58"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "GP de Las Vegas: Russell lidera 3º treino livre; Bortoleto é 16º e Câmara, 18º",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/20/gp-de-las-vegas-russell-lidera-3o-treino-livre-bortoleto-e-16o-e-camara-18o.ghtml",
+     "hora": "20/11 22h34"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-21T00:49-03:00"
+  },
+  {
    "assunto": "Terremoto de magnitude 6,7 atinge o Peru",
-   "secao": null,
+   "secao": "mundo",
    "n_fontes": 3,
    "fontes": [
     "jp",
@@ -52,6 +124,60 @@
    "ultima_iso": "2026-11-20T22:33-03:00"
   },
   {
+   "assunto": "Banco de dados de informações criminais do FBI sofre invasão, relata a CNN",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Banco de dados de informações criminais do FBI sofre invasão, relata a CNN",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/21/banco-de-dados-de-informaes-criminais-do-fbi-sofre-invaso-relata-a-cnn.ghtml",
+     "hora": "21/11 00h47"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Banco de dados do FBI é alvo de ataque cibernético",
+     "url": "https://www.cnnbrasil.com.br/internacional/banco-de-dados-do-fbi-e-alvo-de-ataque-cibernetico/",
+     "hora": "20/11 23h21"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-21T00:47-03:00"
+  },
+  {
+   "assunto": "Dos EUA, Flávio e Eduardo se manifestam sobre internação de Bolsonaro",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "met",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Dos EUA, Flávio e Eduardo se manifestam sobre internação de Bolsonaro",
+     "url": "https://www.metropoles.com/mundo/dos-eua-flavio-e-eduardo-se-manifestam-sobre-internacao-de-bolsonaro",
+     "hora": "20/11 23h44"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Nos EUA, Flávio deseja “força” e Eduardo diz orar pelo pai",
+     "url": "https://www.poder360.com.br/poder-brasil/nos-eua-flavio-deseja-forca-e-eduardo-diz-orar-pelo-pai/",
+     "hora": "20/11 22h34"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T23:44-03:00"
+  },
+  {
    "assunto": "Ex-vereador está entre os mortos da tempestade em Tupanciretã (RS)",
    "secao": "brasil",
    "n_fontes": 2,
@@ -79,37 +205,59 @@
    "ultima_iso": "2026-11-20T22:48-03:00"
   },
   {
-   "assunto": "F1: George Russell, da Mercedes, lidera terceiro treino livre em Las Vegas",
-   "secao": "esportes",
+   "assunto": "O que se sabe (e o muito que não se sabe) sobre a história de Zumbi, que inspirou o Dia da Consciência Negra",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "ge",
-    "met"
+    "bbc",
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "F1: George Russell, da Mercedes, lidera terceiro treino livre em Las Vegas",
-     "url": "https://www.metropoles.com/esportes/f1-george-russell-da-mercedes-lidera-terceiro-treino-livre-em-las-vegas",
-     "hora": "20/11 22h58"
+     "veiculo": "BBC News Brasil",
+     "titulo": "O que se sabe (e o muito que não se sabe) sobre a história de Zumbi, que inspirou o Dia da Consciência Negra",
+     "url": "https://www.bbc.com/portuguese/articles/cwvg2p3zv5e4o?at_medium=RSS&at_campaign=rss",
+     "hora": "20/11 23h15"
     },
     {
-     "veiculo": "ge",
-     "titulo": "GP de Las Vegas: Russell lidera o 3º treino livre",
-     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-de-las-vegas-a-21-etapa-da-temporada-2026-da-f1.ghtml",
-     "hora": "20/11 22h44"
+     "veiculo": "g1",
+     "titulo": "Consciência Negra: espetáculo no Rio dá vida personagens que marcaram a história do Brasil",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/consciencia-negra-espetaculo-no-rio-da-vida-personagens-que-marcaram-a-historia-do-brasil.ghtml",
+     "hora": "20/11 22h35"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T23:15-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "OEA: Brasil vota contra proposta dos EUA para combater o crime organizado",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "oeste"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "OEA: Brasil vota contra proposta dos EUA para combater o crime organizado",
+     "url": "https://revistaoeste.com/mundo/oea-brasil-vota-contra-proposta-dos-eua-para-combater-o-crime-organizado/",
+     "hora": "21/11 00h20"
     },
     {
-     "veiculo": "ge",
-     "titulo": "GP de Las Vegas: Russell lidera 3º treino livre; Bortoleto é 16º e Câmara, 18º",
-     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/20/gp-de-las-vegas-russell-lidera-3o-treino-livre-bortoleto-e-16o-e-camara-18o.ghtml",
-     "hora": "20/11 22h34"
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Para combater crime organizado, temos que olhar para os locais onde há menos negros, diz Dino",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/para-combater-crime-organizado-temos-que-olhar-para-os-locais-onde-ha-menos-negros-diz-dino.shtml",
+     "hora": "20/11 23h57"
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T22:58-03:00"
+   "ultima_iso": "2026-11-21T00:20-03:00"
   },
   {
    "assunto": "Temporal no Vale do Paraíba alaga Santa Casa de Aparecida",
@@ -139,6 +287,33 @@
    "ultima_iso": "2026-11-20T22:12-03:00"
   },
   {
+   "assunto": "Tremor de terra assusta moradores de Rio Branco e outras cidades do Acre",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Tremor de terra assusta moradores de Rio Branco e outras cidades do Acre",
+     "url": "https://www.metropoles.com/brasil/tremor-de-terra-assusta-moradores-de-rio-branco-e-outras-cidades-do-acre",
+     "hora": "20/11 23h31"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Tremor de terra é sentido no Acre e assusta moradores de Rio Branco e Cruzeiro do Sul",
+     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/20/tremor-de-terra-e-sentido-e-assusta-moradores-no-acre.ghtml",
+     "hora": "20/11 21h41"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T23:31-03:00"
+  },
+  {
    "assunto": "'A cidade acabou': a destruição causada por temporal que provocou mortes no RS",
    "secao": "brasil",
    "n_fontes": 1,
@@ -159,24 +334,64 @@
    "ultima_iso": "2026-11-20T22:16-03:00"
   },
   {
-   "assunto": "200 mil morsas encalharam no Alasca devido ao derretimento do gelo marinho; agora, existe um plano para protegê-las",
-   "secao": null,
+   "assunto": "23ª Marcha da Consciência Negra pede indicação de ministra negra ao STF",
+   "secao": "politica",
    "n_fontes": 1,
    "fontes": [
-    "antag"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "O Antagonista",
-     "titulo": "200 mil morsas encalharam no Alasca devido ao derretimento do gelo marinho; agora, existe um plano para protegê-las",
-     "url": "https://oantagonista.com.br/mundo/200-mil-morsas-encalharam-no-alasca-devido-ao-derretimento-do-gelo-marinho-agora-existe-um-plano-para-protege-las/",
-     "hora": "20/11 22h23"
+     "veiculo": "Metrópoles",
+     "titulo": "23ª Marcha da Consciência Negra pede indicação de ministra negra ao STF",
+     "url": "https://www.metropoles.com/sao-paulo/23a-marcha-da-consciencia-negra-pede-indicacao-de-ministra-negra-ao-stf",
+     "hora": "20/11 23h58"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:23-03:00"
+   "ultima_iso": "2026-11-20T23:58-03:00"
+  },
+  {
+   "assunto": "2º dia de Space Today Experience exalta cultura geek em Brasília",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "2º dia de Space Today Experience exalta cultura geek em Brasília",
+     "url": "https://www.metropoles.com/colunas/metropoles-games/2o-dia-de-space-today-experience-exalta-cultura-geek-em-brasilia",
+     "hora": "20/11 23h30"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T23:30-03:00"
+  },
+  {
+   "assunto": "A um mês do recesso, Fachin tenta avançar com agenda de reformas no STF, mas enfrenta resistências",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "A um mês do recesso, Fachin tenta avançar com agenda de reformas no STF, mas enfrenta resistências",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/21/a-um-mes-do-recesso-fachin-tenta-avancar-com-agenda-de-reformas-no-stf-mas-enfrenta-resistencias.ghtml",
+     "hora": "21/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T00:00-03:00"
   },
   {
    "assunto": "Abin contrata passeio de barco ao pôr do sol e divulga data e local",
@@ -197,6 +412,46 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-20T23:00-03:00"
+  },
+  {
+   "assunto": "Adolescente de 17 anos cria startup para desenvolver tecnologia de cultivo de alimentos em missões a Marte",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Adolescente de 17 anos cria startup para desenvolver tecnologia de cultivo de alimentos em missões a Marte",
+     "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/21/adolescente-cultivo-de-alimentos-espaco.ghtml",
+     "hora": "21/11 01h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T01:00-03:00"
+  },
+  {
+   "assunto": "Agricultor recupera solo e volta a plantar hortaliças após chuvas atingirem Ibiúna",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Agricultor recupera solo e volta a plantar hortaliças após chuvas atingirem Ibiúna",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/agricultor-recupera-solo-e-volta-a-plantar-hortalicas-apos-chuvas-atingirem-ibiuna/",
+     "hora": "21/11 00h03"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T00:03-03:00"
   },
   {
    "assunto": "Alckmin segue em alta com Lula e é cotado para o comando de três ministérios",
@@ -220,7 +475,7 @@
   },
   {
    "assunto": "Alfredo Gaspar libera projeto que proíbe novos inquéritos das fake news",
-   "secao": null,
+   "secao": "politica",
    "n_fontes": 1,
    "fontes": [
     "oeste"
@@ -237,6 +492,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-20T22:19-03:00"
+  },
+  {
+   "assunto": "Alguns insetos aumentam de número enquanto outros somem e pesquisa revela contraste",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Alguns insetos aumentam de número enquanto outros somem e pesquisa revela contraste",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/alguns-insetos-aumentam-de-numero-enquanto-outros-somem-e-pesquisa-revela-contraste/",
+     "hora": "20/11 23h23"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T23:23-03:00"
   },
   {
    "assunto": "Ameaças não me farão recuar, diz Miss Preta, 1ª deputada estadual negra do Paraná",
@@ -259,7 +534,7 @@
    "ultima_iso": "2026-11-20T23:00-03:00"
   },
   {
-   "assunto": "Apenas gênios conseguem resolver 2 × [5² − (18 ÷ 3)] + √100 e ultrapassar 99% da população",
+   "assunto": "Após dois anos de espera por carro adaptado, moradora de Ivinhema passa na prova da CNH",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -270,13 +545,13 @@
    "manchetes": [
     {
      "veiculo": "O Antagonista",
-     "titulo": "Apenas gênios conseguem resolver 2 × [5² − (18 ÷ 3)] + √100 e ultrapassar 99% da população",
-     "url": "https://oantagonista.com.br/ladooa/entretenimento/apenas-genios-conseguem-resolver-2-5-18-3-100-e-ultrapassar-99-da-populacao/",
-     "hora": "20/11 22h03"
+     "titulo": "Após dois anos de espera por carro adaptado, moradora de Ivinhema passa na prova da CNH",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/apos-dois-anos-de-espera-por-carro-adaptado-moradora-de-ivinhema-passa-na-prova-da-cnh/",
+     "hora": "21/11 00h33"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:03-03:00"
+   "ultima_iso": "2026-11-21T00:33-03:00"
   },
   {
    "assunto": "Arlindo Cruz sempre estará vivo, diz viúva do sambista durante homenagem no Troféu Raça Negra",
@@ -299,7 +574,7 @@
    "ultima_iso": "2026-11-20T22:10-03:00"
   },
   {
-   "assunto": "Bancos rebatidos transformam o Geely EX5 em um SUV com até 1.877 litros de espaço, enquanto motor elétrico entrega 218 cv",
+   "assunto": "As dunas engoliram uma vila inteira no litoral brasileiro e só uma casa ficou de pé",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -310,13 +585,74 @@
    "manchetes": [
     {
      "veiculo": "O Antagonista",
-     "titulo": "Bancos rebatidos transformam o Geely EX5 em um SUV com até 1.877 litros de espaço, enquanto motor elétrico entrega 218 cv",
-     "url": "https://oantagonista.com.br/ladooa/carros/bancos-rebatidos-transformam-o-geely-ex5-em-um-suv-com-ate-1-877-litros-de-espaco-enquanto-motor-eletrico-entrega-218-cv/",
-     "hora": "20/11 23h03"
+     "titulo": "As dunas engoliram uma vila inteira no litoral brasileiro e só uma casa ficou de pé",
+     "url": "https://oantagonista.com.br/ladooa/turismo/as-dunas-engoliram-uma-vila-inteira-no-litoral-brasileiro-e-so-uma-casa-ficou-de-pe/",
+     "hora": "21/11 01h03"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T23:03-03:00"
+   "ultima_iso": "2026-11-21T01:03-03:00"
+  },
+  {
+   "assunto": "Atlântico x Sorocaba: onde assistir e horário do 2º jogo da semifinal da Liga Futsal",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atlântico x Sorocaba: onde assistir e horário do 2º jogo da semifinal da Liga Futsal",
+     "url": "https://ge.globo.com/sp/tem-esporte/futsal/noticia/2026/11/21/atlantico-x-sorocaba-onde-assistir-e-horario-do-2o-jogo-da-semifinal-da-liga-futsal.ghtml",
+     "hora": "21/11 00h01"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-21T00:01-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Bispo visita família de preso do 8 de Janeiro e pede oração: \"Dor que pesa\"",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Bispo visita família de preso do 8 de Janeiro e pede oração: \"Dor que pesa\"",
+     "url": "https://www.metropoles.com/distrito-federal/bispo-visita-familia-de-preso-do-8-de-janeiro-e-pede-oracao-dor-que-pesa",
+     "hora": "20/11 23h36"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T23:36-03:00"
+  },
+  {
+   "assunto": "Casal escreveu livro sobre superação após ser diagnosticado com tipos diferentes de câncer no mesmo dia, ao fazer exames para viagem de cruzeiro",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Casal escreveu livro sobre superação após ser diagnosticado com tipos diferentes de câncer no mesmo dia, ao fazer exames para viagem de cruzeiro",
+     "url": "https://g1.globo.com/pr/campos-gerais-sul/noticia/2026/11/21/casal-escreveu-livro-sobre-superacao-apos-ser-diagnosticado-com-tipos-diferentes-de-cancer-no-mesmo-dia-ao-fazer-exames-para-viagem-de-cruzeiro.ghtml",
+     "hora": "21/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T00:00-03:00"
   },
   {
    "assunto": "Chanceler iraniano diz que Irã quer diplomacia para encerrar a guerra",
@@ -339,6 +675,46 @@
    "ultima_iso": "2026-11-20T22:06-03:00"
   },
   {
+   "assunto": "Chuvas no RS atingem 33 municípios e deixam mortos e feridos",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Chuvas no RS atingem 33 municípios e deixam mortos e feridos",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/rs/chuvas-no-rs-atingem-33-municipios-e-deixam-mortos-e-feridos/",
+     "hora": "20/11 23h16"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T23:16-03:00"
+  },
+  {
+   "assunto": "Ciclone e frente fria podem provocar novas tempestades no Sul; Sudeste e Centro-Oeste também terão chuva forte",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Ciclone e frente fria podem provocar novas tempestades no Sul; Sudeste e Centro-Oeste também terão chuva forte",
+     "url": "https://g1.globo.com/meio-ambiente/noticia/2026/11/21/ciclone-frente-fria-sul-sudeste-centro-oeste.ghtml",
+     "hora": "21/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T00:00-03:00"
+  },
+  {
    "assunto": "Classificação do segundo turno: Santos empata com Palmeiras; Corinthians deixa lanterna",
    "secao": "esportes",
    "n_fontes": 1,
@@ -357,306 +733,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-20T22:24-03:00"
-  },
-  {
-   "assunto": "Com mudança no gabinete, Trump tira mulheres do alto escalão e acena à machosfera",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mundo",
-     "titulo": "Com mudança no gabinete, Trump tira mulheres do alto escalão e acena à machosfera",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/com-mudanca-no-gabinete-trump-tira-mulheres-do-alto-escalao-e-acena-a-machosfera.shtml",
-     "hora": "20/11 23h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T23:00-03:00"
-  },
-  {
-   "assunto": "Consciência Negra: espetáculo no Rio dá vida personagens que marcaram a história do Brasil",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Consciência Negra: espetáculo no Rio dá vida personagens que marcaram a história do Brasil",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/consciencia-negra-espetaculo-no-rio-da-vida-personagens-que-marcaram-a-historia-do-brasil.ghtml",
-     "hora": "20/11 22h35"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:35-03:00"
-  },
-  {
-   "assunto": "Contratos de 2027 são assinados antes da alíquota da CBS",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "estadao"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Estadão Economia",
-     "titulo": "Contratos de 2027 são assinados antes da alíquota da CBS",
-     "url": "https://www.estadao.com.br/economia/contratos-2027-assinados-antes-aliquota-cbs/",
-     "hora": "20/11 22h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:00-03:00"
-  },
-  {
-   "assunto": "Deputados questionam gasto de R$ 3,3 mi com carpetes no Senado",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Deputados questionam gasto de R$ 3,3 mi com carpetes no Senado",
-     "url": "https://www.poder360.com.br/poder-congresso/deputados-questionam-gasto-de-r-33-mi-com-carpetes-no-senado/",
-     "hora": "20/11 22h13"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:13-03:00"
-  },
-  {
-   "assunto": "Equipe econômica vai levar a Lula nomes para substituir presidente do Banco do Brasil",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Equipe econômica vai levar a Lula nomes para substituir presidente do Banco do Brasil",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/equipe-economica-vai-levar-a-lula-nomes-para-substituir-presidente-do-banco-do-brasil.shtml",
-     "hora": "20/11 23h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T23:00-03:00"
-  },
-  {
-   "assunto": "Exposição na Casa Roberto Marinho reúne 300 obras da arte brasileira e internacional no Rio",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Exposição na Casa Roberto Marinho reúne 300 obras da arte brasileira e internacional no Rio",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/exposicao-na-casa-roberto-marinho-reune-300-obras-da-arte-brasileira-e-internacional-no-rio.ghtml",
-     "hora": "20/11 22h43"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:43-03:00"
-  },
-  {
-   "assunto": "Federação empresarial critica processo contra Van Hattem no STF",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Federação empresarial critica processo contra Van Hattem no STF",
-     "url": "https://revistaoeste.com/politica/federacao-empresarial-critica-processo-contra-van-hattem-no-stf/",
-     "hora": "20/11 21h50"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T21:50-03:00"
-  },
-  {
-   "assunto": "Financial Times elege os melhores livros de negócios de 2026; veja a lista",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Financial Times elege os melhores livros de negócios de 2026; veja a lista",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/financial-times-elege-os-melhores-livros-de-negocios-de-2026-veja-a-lista.shtml",
-     "hora": "20/11 23h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T23:00-03:00"
-  },
-  {
-   "assunto": "Franca vira sobre União Corinthians com David Jackson cestinha e duplo-duplo de Reynan",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Franca vira sobre União Corinthians com David Jackson cestinha e duplo-duplo de Reynan",
-     "url": "https://ge.globo.com/sp/ribeirao-preto-e-regiao/basquete/nbb/noticia/2026/11/20/franca-vira-sobre-uniao-corinthians-com-david-jackson-cestinha-e-duplo-duplo-de-reynan.ghtml",
-     "hora": "20/11 21h46"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T21:46-03:00"
-  },
-  {
-   "assunto": "Homem é declarado culpado por incêndio letal em Los Angeles em 2025 e pode pegar 40 anos de prisão",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Homem é declarado culpado por incêndio letal em Los Angeles em 2025 e pode pegar 40 anos de prisão",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/suspeito-de-iniciar-incendio-letal-em-los-angeles-e-declarado-culpado.ghtml",
-     "hora": "20/11 22h34"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:34-03:00"
-  },
-  {
-   "assunto": "Hábito de “scrollar” a tela sem parar deve ser considerado uma ameaça global à saúde, apontam especialistas",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Hábito de “scrollar” a tela sem parar deve ser considerado uma ameaça global à saúde, apontam especialistas",
-     "url": "https://www.cnnbrasil.com.br/curiosidades/habito-de-scrollar-a-tela-sem-parar-deve-ser-considerado-uma-ameaca-global-a-saude-apontam-especialistas/",
-     "hora": "20/11 22h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:00-03:00"
-  },
-  {
-   "assunto": "Hábitos saudáveis podem ajudar a prevenir a demência",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Hábitos saudáveis podem ajudar a prevenir a demência",
-     "url": "https://revistaoeste.com/agronegocio/habitos-saudaveis-podem-ajudar-a-prevenir-a-demencia/",
-     "hora": "20/11 22h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:00-03:00"
-  },
-  {
-   "assunto": "Ibama embarga quase 2 mil hectares na Paraíba e aplica R$ 3,64 milhões em multas após identificar desmatamento e queimadas ilegais",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Ibama embarga quase 2 mil hectares na Paraíba e aplica R$ 3,64 milhões em multas após identificar desmatamento e queimadas ilegais",
-     "url": "https://oantagonista.com.br/ladooa/entretenimento/ibama-embarga-quase-2-mil-hectares-na-paraiba-e-aplica-r-364-milhoes-em-multas-apos-identificar-desmatamento-e-queimadas-ilegais/",
-     "hora": "20/11 22h33"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:33-03:00"
-  },
-  {
-   "assunto": "Imagens mostram antes e depois de empresas atingidas por temporal em Tupanciretã, no RS",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Imagens mostram antes e depois de empresas atingidas por temporal em Tupanciretã, no RS",
-     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/antes-e-depois-empresas-temporal-tupancireta-rs.ghtml",
-     "hora": "20/11 21h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T21:47-03:00"
-  },
-  {
-   "assunto": "Integrantes do PCC e do CV são investigados por atentado na Bolívia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Integrantes do PCC e do CV são investigados por atentado na Bolívia",
-     "url": "https://revistaoeste.com/mundo/integrantes-do-pcc-e-do-cv-sao-investigados-por-atentado-na-bolivia/",
-     "hora": "20/11 22h30"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:30-03:00"
   }
  ],
  "em_pautas": {
@@ -674,8 +750,14 @@
   },
   "caso-master": {
    "secao": "politica",
-   "n_fontes": 1,
+   "n_fontes": 2,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Análise: Derrubada de sigilo do caso Master pode pressionar STF",
+     "url": "https://www.cnnbrasil.com.br/politica/analise-derrubada-de-sigilo-do-caso-master-pode-pressionar-stf/",
+     "hora": "20/11 22h35"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Gilmar diz que abrir sigilo não basta no caso Master",
@@ -695,46 +777,44 @@
      "hora": "20/11 22h54"
     }
    ]
+  },
+  "brasileirao-31-rodada-lideres": {
+   "secao": "esportes",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Flamengo precisa de apenas um empate com Palmeiras para ser campeão brasileiro; veja cenário",
+     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/21/flamengo-precisa-de-apenas-um-empate-com-palmeiras-para-ser-campeao-brasileiro-veja-cenario.ghtml",
+     "hora": "21/11 00h01"
+    }
+   ]
   }
  },
  "novos_relatos": {
-  "decreto-6x1-adiado": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "20/11 18h41",
-   "ultima_iso": "2026-11-20T18:41-03:00",
-   "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 16.3,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Fim da escala 6×1: Marinho diz que contratação contem impacto de hora extra",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/fim-da-escala-6x1-marinho-diz-que-contratacao-contem-impacto-de-hora-extra/",
-     "hora": "20/11 18h41"
-    }
-   ]
-  },
   "caso-master": {
-   "n": 5,
-   "n_fontes": 4,
+   "n": 6,
+   "n_fontes": 5,
    "fontes": [
+    "cnn",
     "g1",
     "met",
     "p360",
     "valor"
    ],
-   "n_fontes_90min": 3,
-   "ultima": "20/11 22h11",
-   "ultima_iso": "2026-11-20T22:11-03:00",
+   "n_fontes_90min": 4,
+   "ultima": "20/11 22h35",
+   "ultima_iso": "2026-11-20T22:35-03:00",
    "pauta_atualizada_em": "2026-11-20T19:48-03:00",
-   "horas_sem_atualizar": 3.3,
+   "horas_sem_atualizar": 5.5,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Análise: Derrubada de sigilo do caso Master pode pressionar STF",
+     "url": "https://www.cnnbrasil.com.br/politica/analise-derrubada-de-sigilo-do-caso-master-pode-pressionar-stf/",
+     "hora": "20/11 22h35"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Gilmar diz que abrir sigilo não basta no caso Master",
@@ -777,7 +857,7 @@
    "ultima": "20/11 22h01",
    "ultima_iso": "2026-11-20T22:01-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 16.3,
+   "horas_sem_atualizar": 18.5,
    "principal": true,
    "manchetes": [
     {
@@ -798,7 +878,7 @@
    "ultima": "20/11 20h41",
    "ultima_iso": "2026-11-20T20:41-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 40.3,
+   "horas_sem_atualizar": 42.5,
    "principal": false,
    "manchetes": [
     {
@@ -810,36 +890,29 @@
    ]
   },
   "brasileirao-31-rodada-lideres": {
-   "n": 3,
-   "n_fontes": 2,
+   "n": 2,
+   "n_fontes": 1,
    "fontes": [
-    "cnn",
     "ge"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "20/11 19h02",
-   "ultima_iso": "2026-11-20T19:02-03:00",
+   "n_fontes_90min": 1,
+   "ultima": "21/11 00h01",
+   "ultima_iso": "2026-11-21T00:01-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 16.3,
+   "horas_sem_atualizar": 18.5,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Flamengo chega a São Paulo e é recebido por torcedores antes de decisão contra o Palmeiras",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/20/flamengo-chega-a-sao-paulo-e-e-recebido-por-torcedores-antes-de-decisao-contra-o-palmeiras.ghtml",
-     "hora": "20/11 19h02"
+     "titulo": "Flamengo precisa de apenas um empate com Palmeiras para ser campeão brasileiro; veja cenário",
+     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/21/flamengo-precisa-de-apenas-um-empate-com-palmeiras-para-ser-campeao-brasileiro-veja-cenario.ghtml",
+     "hora": "21/11 00h01"
     },
     {
      "veiculo": "ge",
      "titulo": "Palmeiras x Flamengo - Campeonato Brasileiro 2026 - globoesporte.com",
      "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
-     "hora": "20/11 18h55"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Palmeiras encerra preparação para pegar Flamengo com desfalques confirmados",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/palmeiras/palmeiras-encerra-preparacao-para-pegar-flamengo-com-desfalques-confirmados/",
-     "hora": "20/11 18h19"
+     "hora": "20/11 23h50"
     }
    ]
   },
@@ -853,7 +926,7 @@
    "ultima": "20/11 20h39",
    "ultima_iso": "2026-11-20T20:39-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 16.3,
+   "horas_sem_atualizar": 18.5,
    "principal": false,
    "manchetes": [
     {
@@ -865,17 +938,16 @@
    ]
   },
   "flavio-passaportes-1turma": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "ab",
     "p360"
    ],
    "n_fontes_90min": 1,
    "ultima": "20/11 22h54",
    "ultima_iso": "2026-11-20T22:54-03:00",
    "pauta_atualizada_em": "2026-11-20T13:49-03:00",
-   "horas_sem_atualizar": 9.3,
+   "horas_sem_atualizar": 11.5,
    "principal": true,
    "manchetes": [
     {
@@ -883,12 +955,6 @@
      "titulo": "Moraes vota para manter suspensão da privatização da Celepar",
      "url": "https://www.poder360.com.br/poder-justica/moraes-vota-para-manter-venda-da-celepar-suspensa-zanin-diverge/",
      "hora": "20/11 22h54"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Moraes vota para manter apreensão de passaportes de Flávio Bolsonaro",
-     "url": "https://agenciabrasil.ebc.com.br/justica/noticia/2026-11/moraes-vota-para-manter-apreensao-de-passaportes-de-flavio-bolsonaro",
-     "hora": "20/11 17h55"
     }
    ]
   }
@@ -1076,22 +1142,6 @@
   }
  ],
  "avaliados": [
-  {
-   "tipo": "pauta",
-   "pid": "brasileirao-31-rodada-lideres",
-   "id": null,
-   "chave": null,
-   "n_fontes": 2,
-   "em": "2026-11-20T11:46-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "enem-2026-reta-final-app-idioma",
-   "id": null,
-   "chave": null,
-   "n_fontes": 2,
-   "em": "2026-11-20T11:46-03:00"
-  },
   {
    "tipo": "novo",
    "pid": null,
@@ -1387,6 +1437,81 @@
  "breves_faltam": 2,
  "breves_sugeridas": [
   {
+   "assunto": "GP de Las Vegas de F1: siga a classificação",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "GP de Las Vegas de F1: siga a classificação",
+     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-de-las-vegas-a-21-etapa-da-temporada-2026-da-f1.ghtml",
+     "hora": "21/11 00h49"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Verstappen e Russell tocam rodas no treino e correm risco de punição em Las Vegas; veja",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/20/verstappen-e-russell-se-tocam-em-treino-holandes-e-investigado-duas-vezes-e-pode-ser-punido.ghtml",
+     "hora": "20/11 23h13"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "F1: George Russell, da Mercedes, lidera terceiro treino livre em Las Vegas",
+     "url": "https://www.metropoles.com/esportes/f1-george-russell-da-mercedes-lidera-terceiro-treino-livre-em-las-vegas",
+     "hora": "20/11 22h58"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "GP de Las Vegas: Russell lidera 3º treino livre; Bortoleto é 16º e Câmara, 18º",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/20/gp-de-las-vegas-russell-lidera-3o-treino-livre-bortoleto-e-16o-e-camara-18o.ghtml",
+     "hora": "20/11 22h34"
+    }
+   ]
+  },
+  {
+   "assunto": "Terremoto de magnitude 6,7 atinge o Peru",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Terremoto de magnitude 6,7 atinge o Peru",
+     "url": "https://jovempan.com.br/mundo/terremoto-de-magnitude-67-atinge-o-peru/",
+     "hora": "20/11 22h33"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Terremoto de magnitude 6,8 atinge o Peru sem relatos imediatos de danos",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/terremoto-de-magnitude-68-atinge-o-peru-sem-relatos-imediatos-de-danos.ghtml",
+     "hora": "20/11 22h28"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Terremoto de magnitude 6,7 atinge o Peru e é sentido na capital Lima",
+     "url": "https://www.metropoles.com/mundo/terremoto-de-magnitude-67-atinge-o-peru-e-e-sentido-na-capital-lima",
+     "hora": "20/11 22h05"
+    }
+   ]
+  },
+  {
+   "assunto": "Dos EUA, Flávio e Eduardo se manifestam sobre internação de Bolsonaro",
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Dos EUA, Flávio e Eduardo se manifestam sobre internação de Bolsonaro",
+     "url": "https://www.metropoles.com/mundo/dos-eua-flavio-e-eduardo-se-manifestam-sobre-internacao-de-bolsonaro",
+     "hora": "20/11 23h44"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Nos EUA, Flávio deseja “força” e Eduardo diz orar pelo pai",
+     "url": "https://www.poder360.com.br/poder-brasil/nos-eua-flavio-deseja-forca-e-eduardo-diz-orar-pelo-pai/",
+     "hora": "20/11 22h34"
+    }
+   ]
+  },
+  {
    "assunto": "Ex-vereador está entre os mortos da tempestade em Tupanciretã (RS)",
    "secao": "brasil",
    "n_fontes": 2,
@@ -1406,27 +1531,21 @@
    ]
   },
   {
-   "assunto": "F1: George Russell, da Mercedes, lidera terceiro treino livre em Las Vegas",
-   "secao": "esportes",
+   "assunto": "OEA: Brasil vota contra proposta dos EUA para combater o crime organizado",
+   "secao": "brasil",
    "n_fontes": 2,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "F1: George Russell, da Mercedes, lidera terceiro treino livre em Las Vegas",
-     "url": "https://www.metropoles.com/esportes/f1-george-russell-da-mercedes-lidera-terceiro-treino-livre-em-las-vegas",
-     "hora": "20/11 22h58"
+     "veiculo": "Revista Oeste",
+     "titulo": "OEA: Brasil vota contra proposta dos EUA para combater o crime organizado",
+     "url": "https://revistaoeste.com/mundo/oea-brasil-vota-contra-proposta-dos-eua-para-combater-o-crime-organizado/",
+     "hora": "21/11 00h20"
     },
     {
-     "veiculo": "ge",
-     "titulo": "GP de Las Vegas: Russell lidera o 3º treino livre",
-     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-de-las-vegas-a-21-etapa-da-temporada-2026-da-f1.ghtml",
-     "hora": "20/11 22h44"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "GP de Las Vegas: Russell lidera 3º treino livre; Bortoleto é 16º e Câmara, 18º",
-     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/20/gp-de-las-vegas-russell-lidera-3o-treino-livre-bortoleto-e-16o-e-camara-18o.ghtml",
-     "hora": "20/11 22h34"
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Para combater crime organizado, temos que olhar para os locais onde há menos negros, diz Dino",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/para-combater-crime-organizado-temos-que-olhar-para-os-locais-onde-ha-menos-negros-diz-dino.shtml",
+     "hora": "20/11 23h57"
     }
    ]
   },
@@ -1448,47 +1567,66 @@
      "hora": "20/11 21h44"
     }
    ]
+  },
+  {
+   "assunto": "Tremor de terra assusta moradores de Rio Branco e outras cidades do Acre",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Tremor de terra assusta moradores de Rio Branco e outras cidades do Acre",
+     "url": "https://www.metropoles.com/brasil/tremor-de-terra-assusta-moradores-de-rio-branco-e-outras-cidades-do-acre",
+     "hora": "20/11 23h31"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Tremor de terra é sentido no Acre e assusta moradores de Rio Branco e Cruzeiro do Sul",
+     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/20/tremor-de-terra-e-sentido-e-assusta-moradores-no-acre.ghtml",
+     "hora": "20/11 21h41"
+    }
+   ]
   }
  ],
  "ultima_rodada": "2026-11-20T21:50-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
-  "Agência Brasil": "ok: 10 itens, 9 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 35 nas últimas 6 h",
+  "Agência Brasil": "ok: 10 itens, 2 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 6 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 14 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 5 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 4 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 66 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
+  "ge": "ok: 100 itens, 45 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 0 nas últimas 6 h",
-  "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
+  "InfoMoney": "ok: 10 itens, 6 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 3 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
-  "Estadão Política": "ok: 20 itens, 3 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 7 nas últimas 6 h",
-  "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 2 nas últimas 6 h",
+  "Estadão Política": "ok: 20 itens, 0 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 3 nas últimas 6 h",
+  "Estadão Brasil": "ok: 20 itens, 1 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 1 nas últimas 6 h",
   "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
-  "Valor Econômico": "ok: 100 itens, 14 nas últimas 6 h",
-  "Exame": "ok: 25 itens, 8 nas últimas 6 h",
-  "Veja": "ok: 20 itens, 20 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 6 nas últimas 6 h",
+  "Exame": "ok: 25 itens, 3 nas últimas 6 h",
+  "Veja": "ok: 20 itens, 9 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 5 nas últimas 6 h",
-  "DW Brasil": "ok: 65 itens, 2 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 60 itens, 10 nas últimas 6 h",
+  "DW Brasil": "ok: 65 itens, 0 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 60 itens, 6 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
-  "Jovem Pan": "ok: 10 itens, 8 nas últimas 6 h",
+  "Jovem Pan": "ok: 10 itens, 3 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
-  "CartaCapital": "ok: 20 itens, 10 nas últimas 6 h",
-  "Brasil de Fato": "ok: 99 itens, 12 nas últimas 6 h",
-  "ICL Notícias": "ok: 10 itens, 3 nas últimas 6 h"
+  "CartaCapital": "ok: 20 itens, 3 nas últimas 6 h",
+  "Brasil de Fato": "ok: 99 itens, 7 nas últimas 6 h",
+  "ICL Notícias": "ok: 10 itens, 0 nas últimas 6 h"
  }
 }
