@@ -264,7 +264,8 @@ function openSend(pid,pre){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||sna
   /* 066: vários amigos de uma vez */
   (()=>{uso("enviar");if(precisaConta())return;const others=amigosL();
   if(!others.length){sheet("Enviar",`<div class="empty" style="padding:18px 0"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para mandar notícias para eles.</div><button type="button" class="btn ghost" data-vgo="me">Ir ao Perfil</button><button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`);return}
-  const sel=new Set(pre&&others.includes(pre)?[pre]:others.length===1?[others[0]]:[]);const snap=snapById(pid);
+  /* 20/11 (testador): com um só contato ele já vinha marcado e um toque em Enviar mandava sem a pessoa escolher */
+  const sel=new Set(pre&&others.includes(pre)?[pre]:[]);const snap=snapById(pid);
   const ult={};allMsgs().forEach(m=>{const o=m.de===S.uid?m.para:m.de;ult[o]=m.at});const ord=others.slice().sort((a,b)=>(ult[b]||0)-(ult[a]||0));
   const rot=()=>sel.size>1?`Enviar para ${sel.size}`:"Enviar";
   sheet("Enviar",`${others.length>6?`<input class="field" id="pkq" type="search" autocomplete="off" placeholder="Buscar amigo" aria-label="Buscar amigo" style="margin-bottom:10px">`:""}<div class="pick dm-pick" id="pick">${ord.map(u=>`<button type="button" data-pick="${esc(u)}" aria-pressed="${sel.has(u)}">${avatar(u)}<span>${esc(nomeDe(u))}</span><i class="dm-ck" aria-hidden="true"></i></button>`).join("")}</div>${shareCard(snap,'style="width:100%;pointer-events:none" tabindex="-1"')}<button type="button" class="btn ghost" data-compart="${esc(pid)}">Compartilhar fora do Prumo</button>`,

@@ -53,7 +53,12 @@ function pubMistura(lista){
   /* 122 */
   const c122=()=>{const out=c113();try{return dc122Feed(out)}catch(e){console.error(e);return out}};
   /* 129 */
-  const out=c122();try{return dz129Feed(out)}catch(e){console.error(e);return out}}
+  const c129=()=>{const out=c122();try{return dz129Feed(out)}catch(e){console.error(e);return out}};
+  /* 20/11 (testador): post de 17 dias atrás aparecia no meio das notícias de hoje; post com mais de 3 dias sem atividade
+     nova vai para o fim da lista */
+  const out=c129();try{if(!Array.isArray(out))return out;const lim=Date.now()-3*864e5;const velho=x=>{const u=x&&x.__pub;if(!u)return false;
+      const t=Math.max(+u.at||0,+u.ult||0,+(u.editado_em||0));return t&&t<lim};
+    const novos=out.filter(x=>!velho(x)),velhos=out.filter(velho);return velhos.length?novos.concat(velhos):out}catch(e){return out}}
 
 /* ===== fitTrack: altura das páginas do cartão =====
    Base no 006; remendos: 052, 053, 061, 072, 112. O 108 troca fitTrack por um instante durante carregarMais (lá embaixo). */
@@ -473,3 +478,28 @@ function storyAuto(p){
   const x=ST.itens&&ST.itens[ST.i];const vid=x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0;
   if(!vid)return c058();const pal=ST.palavras,sec=ST.sec;ST.palavras=1;ST.sec="__v";let r;try{r=c058()}finally{ST.palavras=pal;ST.sec=sec}
   const dur=Math.max(2000,Math.min(31000,(+x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);ST.timer=0;if(!PREF.storyAuto)return r;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);return r}
+
+/* revisão 20/11 (testador): ao voltar de um giro, a fileira do topo do Feed mudava (círculo novo no meio, capa de outra
+   notícia) e quem tocava onde estava "Caso Master" abria outra coisa. Durante a visita (10 min), a ordem e a capa de cada
+   círculo ficam como estavam; círculo novo entra no fim. */
+var FD204_ORD=null,FD204_FACE={},FD204_ORDT=0,FD204_FIM=new Set();
+function fd204Chave(b){return b.dataset.secStory?"s:"+b.dataset.secStory:b.dataset.dest?"d:"+b.dataset.dest:b.dataset.ustory?"u:"+b.dataset.ustory:b.hasAttribute("data-5min")?"5":b.hasAttribute("data-ultimas")?"ult":b.hasAttribute("data-meustory")?"eu":b.hasAttribute("data-igagenda")?"ag":""}
+function fd204Fixa(){try{const box=$("#secs");if(!box)return;const bs=[...box.querySelectorAll(":scope>.sb")];if(!bs.length)return;
+  /* só as coleções (círculos de assunto) mudam de lugar: as que apareceram depois da primeira vez vão para o fim */
+  if(!FD204_ORD||Date.now()-FD204_ORDT>10*6e4){FD204_ORD=bs.map(fd204Chave);FD204_ORDT=Date.now();FD204_FACE={};FD204_FIM=new Set();return}
+  bs.forEach(b=>{const k=fd204Chave(b);if(k.indexOf("d:")===0&&FD204_ORD.indexOf(k)<0)FD204_FIM.add(k)});
+  const novas=bs.filter(b=>FD204_FIM.has(fd204Chave(b)));const cauda=bs.slice(bs.length-novas.length);
+  if(novas.length&&novas.some((b,i)=>b!==cauda[i])){const x=box.scrollLeft;novas.forEach(b=>box.appendChild(b));box.scrollLeft=x}
+  bs.forEach(b=>{const k=fd204Chave(b);if(k&&FD204_ORD.indexOf(k)<0)FD204_ORD.push(k)})}catch(e){}}
+{const _rs204f=renderSecs;renderSecs=function(){const r=_rs204f.apply(this,arguments);fd204Fixa();return r}}
+{const _vp204=vn112Primeira;vn112Primeira=function(s){const r=_vp204.apply(this,arguments);try{if(!r||!r.p||String(s)[0]==="_")return r;
+  const pin=FD204_FACE[s];if(pin&&pin!==r.p.id&&FD204_ORD&&Date.now()-FD204_ORDT<10*6e4){const p=pautaById(pin);if(p&&secOf(p)===secOf(r.p))return Object.assign({},r,{p,t:versao(p,lente()).titulo})}
+  FD204_FACE[s]=r.p.id}catch(e){}return r}}
+
+/* revisão 20/11 (testador): notícia publicada sem comentário não aparecia no Feed de quem publicou (a pessoa achava que
+   não tinha funcionado e publicava de novo). O cartão da notícia ganha "Você publicou esta notícia" no alto. */
+function fd204VocePub(root){try{if(!S||!S.uid||typeof PUB==="undefined"||!Array.isArray(PUB.itens))return;
+  const meus=PUB.itens.filter(x=>x&&x.autor===S.uid&&x.pid&&!String(x.texto||"").trim()&&!(x.fotos&&x.fotos.length)&&!x.apagado);
+  meus.forEach(x=>{const c=document.getElementById("p-"+x.pid);if(!c||c.querySelector(".fd204-vp"))return;
+    c.insertAdjacentHTML("afterbegin",`<p class="fd204-vp gut">↻ Você publicou esta notícia · ${esc(quando(x.at))}</p>`)})}catch(e){}}
+{const _wt204v=wireTracks;wireTracks=function(root){const r=_wt204v.apply(this,arguments);fd204VocePub(root);return r}}

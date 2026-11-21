@@ -97,7 +97,9 @@ function sg181Pf(root,u){if(!root||!sg181On()||!u)return;
       else num.insertAdjacentHTML("afterbegin",sg181NumHTML(u))}}
   if(u!==S.uid&&SG181.fech.has(u)&&!root.querySelector(".sg181-fech")){const cab=root.querySelector(".vn-pf-desde,.vn-pf-num");
     if(cab)cab.insertAdjacentHTML("afterend",`<p class="sg181-fech">${cs123Svg('<rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>')}Perfil fechado${CS123.perf[u]&&CS123.perf[u].me_segue?" · segue você":""}</p>`)}
-  root.querySelectorAll("[data-convidar]").forEach(b=>{if(/amigo/.test(b.textContent))b.textContent="Convidar alguém"})}
+  root.querySelectorAll("[data-convidar]").forEach(b=>{if(/amigo/.test(b.textContent))b.textContent="Convidar alguém"});
+  /* 20/11 (testador): agora que é só "seguir", o perfil de quem segue você não dizia isso */
+  try{const pf=CS123.perf[u];if(u!==S.uid&&pf&&pf.me_segue&&!SG181.fech.has(u)&&!root.querySelector(".sg181-sv")){const nm=root.querySelector(".pf-nome,.vn-pf-nome,.vn-pf-n b,h2");if(nm)nm.insertAdjacentHTML("afterend",`<span class="sg181-sv">Segue você</span>`)}}catch(e){}}
 /* posts no perfil: os de quem você vê (o banco já só entrega o que pode), não só os de quem você segue */
 {const _pv=pubVisiveis;pubVisiveis=function(){if(!SG181.todos||SG181.on!==true)return _pv.apply(this,arguments);const now=Date.now();
   return PUB.itens.filter(x=>x&&(x.autor===S.uid||!x.arquivado)&&(x.tipo!=="story"||(x.expira||0)>now))}}

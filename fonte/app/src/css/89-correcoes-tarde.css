@@ -95,3 +95,33 @@ html.fzg .dm-row .dm-pv{white-space:normal!important;overflow:visible!important;
 .segs .segc{height:auto!important;min-height:0!important;align-self:flex-start}
 .pf205-fim{margin-top:18px}
 .pf205-st{display:block;margin:14px 0 4px}
+.at-chip-fora{opacity:.8}
+.at-chip-fora small{font-size:.85em;color:var(--muted)}
+.cm168-nota{margin:6px 0 0;font-size:13.5px;line-height:1.45}
+.cm168-nota .link{font:inherit;padding:0}
+.ct210-gc.ct210-gc-in{position:static!important;transform:none!important;margin:6px auto 2px;width:max-content;max-width:calc(100% - 32px);box-shadow:none}
+/* revisão 20/11 (testador): ao rolar, o cabeçalho semitransparente deixava o texto de baixo aparecer atrás do logo
+   (pior no escuro); e a barra de baixo também */
+.top.rolou{background:var(--bg)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+/* revisão 20/11 (testador): deitado, os círculos perdiam todo o texto; volta o nome da editoria embaixo de cada um */
+@media (orientation:landscape) and (max-height:430px){
+  html.vn #secs.vn-tiles .sb.ig-s{width:72px;gap:3px}
+  html.vn #secs.vn-tiles .sb.ig-s>b{position:static!important;width:auto!important;height:auto!important;overflow:hidden!important;clip:auto!important;
+    display:block;max-width:72px;font:700 10px/1.2 var(--f-ui);letter-spacing:.03em;text-transform:uppercase;text-align:center;text-overflow:ellipsis;color:var(--ink)}
+}
+/* deitado com letra grande: foto larga com altura limitada, sem virar close do rosto */
+@media (orientation:landscape) and (max-height:500px){
+  html.fzg #v-capa .art.paper.foto,html.fzg #posts .post .ph-art{max-height:45vh}
+  html.fzg #v-capa .art.paper.foto img{object-position:50% 25%}
+}
+.fd204-vp{margin:0;padding-top:8px;font:600 12.5px/1.3 var(--f-ui);color:var(--muted)}
+.sg181-sv{display:inline-block;margin:4px 0 0;padding:2px 8px;border-radius:999px;background:var(--line);color:var(--muted);font:700 11.5px/1.4 var(--f-ui)}
+/* revisão 20/11 (testador): no Perfil sem posts, o botão "Nova publicação" ficava atrás da barra de baixo */
+#v-me .pf-corpo{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+/* revisão 20/11 (testador): post com notícia ficava com duas barras de ações iguais (a da notícia e a do comentário); a do
+   comentário fica menor e só com curtir e responder */
+.post.fc107-junto .acts>:nth-child(n+3){display:none!important}
+.post.fc107-junto .acts{font-size:.9em;opacity:.9}
+/* revisão 20/11 (testador): no Feed havia dois "+" a um palmo que abriam a mesma Nova publicação; no Feed fica só o da
+   barra "O que você acha?" */
+html:has(#v-feed:not([hidden]) #cn102-bar:not([hidden])) #b-criar{display:none!important}

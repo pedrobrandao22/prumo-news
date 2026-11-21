@@ -82,7 +82,11 @@ document.addEventListener("click",e=>{try{const ab=$("#layer .mat-aap");if(!ab)r
    quem já está lendo não é interrompido pelo guia em tela cheia; aparece um convite pequeno para ver o guia ===== */
 {const _at=abrirTour;abrirTour=function(nome){try{if(nome===""&&!S.uid&&!CT210.tourSim&&window.__f4&&performance.now()-window.__f4.t>2000&&$("#v-capa .cpi-man")&&!$("#layer").innerHTML){ct210GuiaChip();return}}catch(e){}return _at.apply(this,arguments)}}
 function ct210GuiaChip(){if(document.getElementById("ct210gc"))return;const d=document.createElement("div");d.id="ct210gc";d.className="ct210-gc";d.setAttribute("role","status");
-  d.innerHTML=`<button type="button" class="ct210-gcb" data-ct210gv>Primeira vez aqui? Veja como funciona</button><button type="button" class="ct210-gcx" data-ct210gx aria-label="Fechar">×</button>`;document.body.appendChild(d);
+  d.innerHTML=`<button type="button" class="ct210-gcb" data-ct210gv>Primeira vez aqui? Veja como funciona</button><button type="button" class="ct210-gcx" data-ct210gx aria-label="Fechar">×</button>`;
+  /* 20/11 (testador): o balão ficava fixo em cima do título da manchete; agora é uma linha no alto da Capa, sem cobrir texto,
+     e some ao rolar */
+  const capa=document.getElementById("v-capa");if(capa){d.classList.add("ct210-gc-in");capa.prepend(d);
+    const some=()=>{if(scrollY>120){try{d.remove()}catch(e){}removeEventListener("scroll",some)}};addEventListener("scroll",some,{passive:true})}else document.body.appendChild(d);
   setTimeout(()=>{try{d.remove()}catch(e){}},15000)}
 window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   if(t.closest("[data-ct210gv]")){e.preventDefault();e.stopPropagation();document.getElementById("ct210gc")?.remove();CT210.tourSim=1;try{const _tt=tourTelas;tourTelas=()=>sr150TelasVisitante(_tt);try{abrirTour("")}finally{tourTelas=_tt}}catch(_){abrirTour()}finally{CT210.tourSim=0}return}
@@ -102,7 +106,9 @@ document.addEventListener("submit",e=>{if(e.target&&e.target.id==="lform")ct210E
 {const _nr=nm186Resolver;nm186Resolver=function(f){const n=_nr.apply(this,arguments);try{const x=nm186Mapa(f).dolar,dd=x&&/^\d{4}-\d{2}-(\d{2})/.exec(String(x.data||""));if(!dd||!x.variacao)return n;const dia=+dd[1];
   (f.pautas||[]).forEach(p=>{const d=p&&p.imagem&&p.imagem.dados;if(!d||!Array.isArray(d.itens))return;const orig=String(((d._m186||{}).valor)||d.valor||"");if(!/\{dolar\}/.test(orig))return;
     d.itens=d.itens.map(it=>{if(!Array.isArray(it))return it;const m=/^(alta|queda|varia[çc][ãa]o|subiu|caiu|sobe|cai)\b[^()]*\((\d{1,2})\)/i.exec(String(it[0]||""));
-      return m&&+m[2]!==dia?["Variação de "+nm186Valor("dolar","dia",x),String(x.variacao)]:it})})}catch(e){}return n}}
+      /* 20/11 (testador): "Variação de quinta (19)" não cabia e saía "Variação de quinta (19"; vai abreviado, como o original */
+      const ab=String(nm186Valor("dolar","dia",x)||"").replace(/^(seg|ter|qua|qui|sex|s[áa]b|dom)\w*(?:-feira)?/i,(_,a)=>a.toLowerCase()+".");
+      return m&&+m[2]!==dia?["Variação "+ab,String(x.variacao)]:it})})}catch(e){}return n}}
 
 /* ===== 16. Busca em celular estreito (até 360 px): placeholder curto, sem cortar no meio da palavra ===== */
 {const _rv=renderBuscaView;renderBuscaView=function(){const r=_rv.apply(this,arguments);try{const i=$("#bvq");if(i&&innerWidth<=360)i.placeholder="Buscar"}catch(e){}return r}}

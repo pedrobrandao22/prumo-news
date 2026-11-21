@@ -17,7 +17,9 @@ var NM186_MESES=["janeiro","fevereiro","março","abril","maio","junho","julho","
 var NM186_SIG=new WeakMap();
 /* {id: item} — o do feed (reserva) por baixo, o de indicadores.json por cima (como indItens) */
 function nm186Mapa(f){const m={};const add=l=>{(Array.isArray(l)?l:[]).forEach(x=>{if(x&&typeof x==="object"&&x.id&&x.valor)m[x.id]=x})};
-  try{add(f&&f.indicadores&&f.indicadores.itens)}catch(e){}
+  /* 20/11 (testador): a reserva do feed era de 22/10 (dólar R$ 5,02) e aparecia por mais de 10 s antes do indicadores.json;
+     dólar e Ibovespa da reserva com mais de 4 dias não valem (a frase sai até chegar o valor certo) */
+  try{const lim=Date.now()-4*864e5;add(((f&&f.indicadores&&f.indicadores.itens)||[]).filter(x=>!(x&&(x.id==="dolar"||x.id==="ibovespa")&&x.data&&Date.parse(String(x.data).slice(0,10)+"T12:00:00-03:00")<lim)))}catch(e){}
   try{add(IND_AUTO&&IND_AUTO.itens)}catch(e){}
   return m}
 function nm186Valor(id,v,x){if(!x)return "";

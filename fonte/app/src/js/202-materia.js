@@ -151,6 +151,7 @@ function f113Caps(){(()=>{if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO
   add(c.querySelector(".mat-tl"),"Linha do tempo");
   add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
   add(c.querySelector(".fs2-faq"),"Perguntas");
+  add(c.querySelector(".ct210-ld"),"Como cada lado conta");  /* 20/11 (testador): a seção não tinha aba */
   /* a lista de atualizações vem depois das Perguntas: sem capítulo próprio, o fim da matéria ficava marcado como "Perguntas" (14/11) */
   add([...c.querySelectorAll(".cpx-bl")].find(e=>/^Atualizações/.test((e.querySelector("b")||{}).textContent||"")),"Atualizações");
   if(caps.length<2)return;
