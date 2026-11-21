@@ -242,7 +242,7 @@ def FT_BR(f):
     return bool(_BR_FOTO.search(_norm(fa_nome(f.get("url"))).replace("_", " ") + " " + _norm(f.get("alt"))))
 
 
-TRAGICO = re.compile(r"\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad|cassa|cassação|condena|réu\b|inelegív|denunciad)", re.I)
+TRAGICO = re.compile(r"\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad|interna[çc]|UTI\b|hospita|cirurgi|cassa|cassação|condena|réu\b|inelegív|denunciad)", re.I)
 FINAL = re.compile(r"[Ff]ina(?:l|is)|[Dd]ecide|[Dd]ecis")
 
 
@@ -373,7 +373,7 @@ def fa_listas(p, A):
         # corretor 21/11 (causa fotos-2), igual ao app: no último recurso, lugar com nome só se o título disse; no padrão
         # nenhum, no tema nenhum de fora do Brasil; Esportes só com time/nome do título no arquivo (taça e bola valem)
         gen = lambda l, pad: [f for f in l if not lugar_alheio(f, ditos, pad) and not (esp and esp_alheio(f, tit)) and not sky_alheio(f, ts)] if isinstance(l, list) else l
-        pega(gen(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), False), True)
+        pega(gen(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), True), True)  # 21/11 noite: no tema também nenhum lugar não dito
         pega(gen(tm(T.get((A.get("padrao") or {}).get(sec) or "")), True), True)
     return [o for o in ([f for f in l if not ruim(f)] for l in L) if o]
 

@@ -20763,7 +20763,7 @@ function ft187FotosLugar(A,nome,ra){const ck=(A.gerado||"")+"|"+nome;if(A===FOTO
    principal do título ou o órgão da pessoa; (3) o estádio do mandante; (4) o assunto do título, da tag ou do subtítulo; (5) o tema
    da editoria/subtema e a foto padrão da editoria. Lugar ou assunto brasileiro continua fora de notícia de fora do
    Brasil, e as fotos bloqueadas (157) continuam bloqueadas. */
-var FT187_TRAGICO=/\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad|cassa|cassação|condena|réu\b|inelegív|denunciad)/i;
+var FT187_TRAGICO=/\b(mort[eoa]s?|morre|morreu|morrem|matou|mata|assassin|pres[oa]s?\b|prisão|prende|detid|acidente|ataque|atentado|tiroteio|velório|enterro|luto|desaparec|internad|interna[çc]|UTI\b|hospita|cirurgi|cassa|cassação|condena|réu\b|inelegív|denunciad)/i;
 /* corretor 19/11 (causa fotos-2): três brechas da regra aberta de 18/11 à noite.
    (a) "Governo Trump", "gestão Lula": o nome é adjetivo do governo, não a pessoa do fato; não dá retrato nem "Quem é".
    (b) quando a frase principal do título diz um lugar (Câmara, B3…), foto de OUTRO lugar com nome (Senado, Banco Central)
@@ -20820,7 +20820,10 @@ faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep(
      Brasil (Tiananmen na trilateral de Shenzhen). Em Esportes, foto de jogador, jogo ou estádio só se o arquivo cita um
      time ou nome do título (taça e bola valem). Sem foto que sobre, fica a ilustração. Igual a paginas.py. */
   const gen=(l,pad)=>Array.isArray(l)?l.filter(f=>!ft187LugarAlheio(f,ditos,pad)&&!(esp&&ft187EspAlheio(f,tit))&&!ft187SkyAlheio(f,ts)):l;
-  if(!semGen){pega(gen(tm(T[sec+"/"+(p.subtema||"")]),false),true);pega(gen(tm(T[(A.padrao||{})[sec]]),true),true)}
+  /* corretor 21/11 noite (achado foto-bolsonaro-internado…, voltou com o STF): o tema do subtema também é último recurso e o
+     subtema pode estar errado (internação de Bolsonaro marcada "STF e Judiciário" pegava a fachada do Supremo); nele também
+     nenhum lugar com nome que o título não disse. Internação, UTI, hospital e cirurgia contam como notícia trágica. */
+  if(!semGen){pega(gen(tm(T[sec+"/"+(p.subtema||"")]),true),true);pega(gen(tm(T[(A.padrao||{})[sec]]),true),true)}
   /* 20/11 (testador): Capitólio só em notícia do Congresso dos EUA (a licença de chips era do Departamento de Comércio);
      foto em tira (640×174) fica borrada no quadro. Vale para todas as listas (lugar e mandante também), igual a paginas.py */
   const cong=/Congresso|Capit[óo]lio|Senado (?:americano|dos EUA)|C[âa]mara dos (?:EUA|Representantes)/.test(tit);
