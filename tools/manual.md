@@ -25,7 +25,7 @@ Campos marcados com (auto) são calculados pelo aplicar.py: não escreva à mão
 - glossario {termo: 1 frase} e pessoas {nome: cargo e papel em 1 frase; só fatos públicos}. O termo/nome precisa aparecer exatamente assim em neutro.texto, contexto, proximo ou no texto de um explicador (o app marca os termos também nos explicadores). A rodada completa poda os sem uso (--podar).
 - explicadores {tema: {titulo, texto 3–4 frases, pontos [2–4], atualizado "dd/mm"}} para assuntos de vários dias.
 - pesquisas_2t [{data, instituto, flavio, lula}] votos válidos; acrescente sem duplicar data+instituto (pesquisa_add). O gráfico usa escala fixa 40–60%.
-- quiz: 3 perguntas desta edição [{pergunta, opcoes [3], correta 0-2, explicacao}]; troca só na completa.
+- quiz: o app ESCONDE o quiz desde 18/11 (decisão do Pedro; 182-formatos.js). Não escreva quiz novo: deixe "quiz": [] e use o tempo nas notícias.
 - semana: só no DOMINGO, rodada da manhã; o --podar tira nos outros dias.
 - estatisticas (auto). nota: 1 frase com os veículos lidos nesta rodada.
 - taxonomia (auto): os subtemas fixos de cada seção (ver 2b). dormentes (auto): coberturas que saíram do feed nos últimos 30 dias (máx. 40), com id, título, resumo e datas; servem para REUSAR o id quando o assunto volta e aparecem na busca do app. Não escreva à mão.
