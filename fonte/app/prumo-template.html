@@ -21291,7 +21291,9 @@ function fd204Fixa(){try{const box=$("#secs");if(!box)return;const bs=[...box.qu
   bs.forEach(b=>{const k=fd204Chave(b);if(k&&FD204_ORD.indexOf(k)<0)FD204_ORD.push(k)})}catch(e){}}
 {const _rs204f=renderSecs;renderSecs=function(){const r=_rs204f.apply(this,arguments);fd204Fixa();return r}}
 {const _vp204=vn112Primeira;vn112Primeira=function(s){const r=_vp204.apply(this,arguments);try{if(!r||!r.p||String(s)[0]==="_")return r;
-  const pin=FD204_FACE[s];if(pin&&pin!==r.p.id&&FD204_ORD&&Date.now()-FD204_ORDT<10*6e4){const p=pautaById(pin);if(p&&secOf(p)===secOf(r.p))return Object.assign({},r,{p,t:versao(p,lente()).titulo})}
+  const pin=FD204_FACE[s];const U=typeof SR150_USADAS!=="undefined"?SR150_USADAS:null;
+  /* 21/11: a capa fixa respeita o "sem repetir" do 150 (círculo e destaque não mostram a mesma notícia) */
+  if(pin&&pin!==r.p.id&&FD204_ORD&&Date.now()-FD204_ORDT<10*6e4&&!(U&&U.has(pin))){const p=pautaById(pin);if(p&&secOf(p)===secOf(r.p)){if(U){U.delete(r.p.id);U.add(pin)}return Object.assign({},r,{p,t:versao(p,lente()).titulo})}}
   FD204_FACE[s]=r.p.id}catch(e){}return r}}
 
 /* revisão 20/11 (testador): notícia publicada sem comentário não aparecia no Feed de quem publicou (a pessoa achava que
@@ -22461,6 +22463,15 @@ addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC
   const i=h.indexOf("<svg"),j=h.indexOf("</svg>",i);if(i<0||j<0)return h;
   /* sem a foto (rede, site da foto fora do ar) volta o desenho */
   return h.slice(0,i)+`<span class="sh211-f"><img src="${esc(f.url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="var s=this.parentNode;s.nextElementSibling&&(s.nextElementSibling.hidden=false);s.remove()"></span><span class="sh211-d" hidden>${h.slice(i,j+6)}</span>`+h.slice(j+6)}catch(e){return h}}}
+
+/* testador (folha-agora-lista-os-assuntos-fora-da-ordem-de-hora): "há 44 min, há 1 h, há 13 min" parecia bagunça; o peso
+   continua escolhendo quais entram, mas a lista (folha e faixa) sai da mais nova para a mais antiga */
+{const _ai211=agoraItens;agoraItens=function(){const l=_ai211.apply(this,arguments);try{return Array.isArray(l)?l.slice().sort((a,b)=>(+b.h||0)-(+a.h||0)):l}catch(e){return l}}}
+
+/* testador (atualizar-a-pagina-no-feed-abre-a-capa-ja-rolada-ate-o-meio): ao recarregar (ou o celular reabrir a aba),
+   o navegador devolvia a altura do Feed na Capa. O app cuida da própria rolagem: o navegador não restaura */
+try{if("scrollRestoration" in history)history.scrollRestoration="manual"}catch(e){}
+addEventListener("pageshow",e=>{try{if(!e.persisted&&!$("#layer").innerHTML&&typeof VIEW!=="undefined"&&VIEW==="capa"&&scrollY>0)scrollTo(0,0)}catch(er){}});
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários

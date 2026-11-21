@@ -26,3 +26,12 @@ addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC
   const i=h.indexOf("<svg"),j=h.indexOf("</svg>",i);if(i<0||j<0)return h;
   /* sem a foto (rede, site da foto fora do ar) volta o desenho */
   return h.slice(0,i)+`<span class="sh211-f"><img src="${esc(f.url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="var s=this.parentNode;s.nextElementSibling&&(s.nextElementSibling.hidden=false);s.remove()"></span><span class="sh211-d" hidden>${h.slice(i,j+6)}</span>`+h.slice(j+6)}catch(e){return h}}}
+
+/* testador (folha-agora-lista-os-assuntos-fora-da-ordem-de-hora): "há 44 min, há 1 h, há 13 min" parecia bagunça; o peso
+   continua escolhendo quais entram, mas a lista (folha e faixa) sai da mais nova para a mais antiga */
+{const _ai211=agoraItens;agoraItens=function(){const l=_ai211.apply(this,arguments);try{return Array.isArray(l)?l.slice().sort((a,b)=>(+b.h||0)-(+a.h||0)):l}catch(e){return l}}}
+
+/* testador (atualizar-a-pagina-no-feed-abre-a-capa-ja-rolada-ate-o-meio): ao recarregar (ou o celular reabrir a aba),
+   o navegador devolvia a altura do Feed na Capa. O app cuida da própria rolagem: o navegador não restaura */
+try{if("scrollRestoration" in history)history.scrollRestoration="manual"}catch(e){}
+addEventListener("pageshow",e=>{try{if(!e.persisted&&!$("#layer").innerHTML&&typeof VIEW!=="undefined"&&VIEW==="capa"&&scrollY>0)scrollTo(0,0)}catch(er){}});
