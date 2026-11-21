@@ -23,6 +23,8 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+      - name: "Atualizar (20/11, execução que esperou na fila começava do commit velho e o rebase dava conflito no acervo)"
+        run: git pull -q --ff-only origin main || true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -47,7 +49,8 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -q -m "Fotos de arquivo $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
           for i in 1 2 3 4; do
-            if git pull -q --rebase; then
+            # -X theirs: em conflito (mesma foto gravada por outra execução) fica a desta, gerada agora
+            if git pull -q --rebase -X theirs; then
               B=$(git rev-parse HEAD)
               python3 -I tools/paginas.py feed.json m fotos-arquivo.json
               git add m; git diff --cached --quiet || git commit -q -m "Páginas com as fotos novas"

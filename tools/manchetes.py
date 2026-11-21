@@ -185,23 +185,33 @@ LIXO = re.compile(
     r"\bbom dia (df|sp|rio|brasil|[a-z]+) de\b|renda fixa hoje|\bconfira as taxas|receita de\b|^podcast|"
     r"newsletter|\beptv\b|\bem 1 minuto\b|previsao do tempo|\bquiz\b|\bcruzadinha|"
     # 19/11 (testador): episódio de podcast virava "Acabou de sair" ("... - O Assunto #1849")
-    r"\bpodcast\b|\bepisodio\b|\bo assunto #|\s#\d{2,}\s*$")
+    r"\bpodcast\b|\bepisodio\b|\bo assunto #|\s#\d{2,}\s*$|"
+    # 20/11 (testador): resumos do dia e textos de efeméride não são notícia ("… e mais destaques desta 5ª", "O que se sabe
+    # (e o muito que não se sabe) sobre a história de Zumbi")
+    r"\bmais destaques\b|\bdestaques (desta|do dia|da semana)\b|\bresumo do dia\b|o que voce precisa saber|"
+    r"\bmorning call\b|\bfechamento do mercado\b|^o que se sabe\b|\bo que se sabe \(e\b|\bpara comecar o dia\b|"
+    # 21/11 (varredura): isca de clique ("Apenas gênios conseguem resolver…", testes de QI, "veja a lista")
+    r"\b(apenas|so) genios\b|\bteste de (qi|visao|personalidade)\b|\bdesafio (visual|de logica|matematico)\b|"
+    r"\bconsegue (resolver|encontrar|achar)\b|99% da populacao|\bveja a lista$")
 
 KW = {
     "politica": set("""lula bolsonaro flavio senado senador senadora senadores camara deputado deputada deputados congresso
         stf moraes ministro ministra governo planalto pec tse alcolumbre motta partido cpi pgr impeachment cassacao
         janja alckmin gilmar dino fux zanin mendonca eleicao eleito reeleito psol mdb uniao centrao fachin barroso toffoli
-        stj anistia""".split()),
+        stj anistia inquerito inqueritos relator relatora plenario ministerio ministerios""".split()),
     "economia": set("""dolar ibovespa bolsa selic copom juros inflacao ipca pib petrobras fazenda haddad durigan imposto
         impostos tributaria tarifa tarifas mercado fiscal arrecadacao desemprego focus cdb investimento acoes b3
         credito divida orcamento gasolina combustivel salario inss aposentadoria fgts bets""".split()),
     "esportes": set("""futebol gol gols rodada brasileirao libertadores sulamericana campeonato tecnico atacante goleiro
         zagueiro jogador jogadora partida clube flamengo palmeiras corinthians santos vasco gremio cruzeiro
-        botafogo fluminense bahia fortaleza bragantino coritiba selecao ancelotti neymar nba formula tenis ufc""".split()),
+        botafogo fluminense bahia fortaleza bragantino coritiba selecao ancelotti neymar nba formula tenis ufc
+        f1 gp treino piloto pilotos corrida largada pole mercedes ferrari mclaren verstappen hamilton bortoleto russell
+        motogp nascar volei basquete""".split()),  # 21/11: "F1 ... Câmara (o piloto)" caía em Política
     "mundo": set("""eua trump israel ira irao iraniano iraniana ucrania russia putin china gaza hamas netanyahu europa
         franca argentina milei venezuela maduro otan onu papa alemanha japao coreia mexico india arabia saudita houthis
-        iemen libano siria brexit reino unido londres paris cop cop30 cop31 clima climatica climaticas
-        fosseis erdogan turquia""".split()),
+        iemen libano siria brexit reino unido londres paris cop cop30 cop31 clima climatica climaticas combustiveis
+        fosseis antalia erdogan turquia peru chile colombia bolivia paraguai uruguai equador cuba canada alasca
+        california texas florida angeles""".split()),  # 21/11: terremoto no Peru e incêndio em Los Angeles ficavam sem seção ou em Brasil
     # 20/11: com mais veículos, o "palpite" de seção do feed (InfoMoney = economia) pesava em assunto de outra área
     "educacao": set("""enem fuvest vestibular mec escola escolas universidade universidades professores professor alunos
         estudantes sisu prouni fies ensino creche""".split()),
@@ -334,10 +344,17 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
         sc = [x for x in sc if x[0] >= 0.35]
         return max(sc)[1] if sc else None
 
+    # 20/11 (testador): a manchete que já é link de uma pauta é dessa pauta, mesmo com palavras diferentes (o iFood aparecia
+    # 3 vezes no topo do Feed: círculo, "Acabou de sair" com o título do InfoMoney já nos links da pauta, e o cartão)
+    url_pid = {}
+    for p in feed.get("pautas") or []:
+        if not isinstance(p, dict) or not p.get("id"): continue
+        for u in re.findall(r'https?://[^"\s]+', json.dumps(p, ensure_ascii=False)):
+            url_pid.setdefault(u.split("#")[0].rstrip("/"), p["id"])
     for x in todos:
         x["lixo"] = lixo(x["titulo"])
         pp = pauta_de(x["tk"])
-        x["pid"] = pp[0] if pp else None
+        x["pid"] = pp[0] if pp else url_pid.get(str(x.get("url") or "").split("#")[0].rstrip("/"))
 
     # agrupa manchetes parecidas (ligação simples, comparando com até 8 manchetes do grupo)
     grupos = []

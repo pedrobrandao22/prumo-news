@@ -377,6 +377,10 @@ def eventos_de_hoje_parados(ps, agora):
         if not tit or not uf: continue
         for cl in re.split(r";\s+|\s+[—–]\s+|:\s+", tit):
             dh = [a for a, _, d, _ in datas_em(cl, hoje) if d == hoje]
+            # "Lula assina hoje, às 9h, o decreto" (testador 20/11: ninguém cobrou o desfecho até as 12h50)
+            if not dh and uf.date() == hoje:
+                mh = re.search(r"\bhoje\b", cl, re.I)
+                if mh: dh = [mh.start()]
             if not dh: continue
             # "deixa os destaques para quarta (18)", "adiada para quarta (18)": PARA + data de hoje também anuncia (corretor 19/11)
             para = any(PARA_DATA.search(cl[:a]) for a in dh)
@@ -1437,6 +1441,84 @@ def checar_confrontos_1911(f):
                     break
 
 
+
+# REVISÃO 20/11 (achados do testador, pedido do Pedro de resolver todos)
+SINAL_DUPLO = re.compile(r"\b(sobe|subiu|sobem|subiram|cai|caiu|caem|ca[íi]ram|alta|queda|recua|recuou|avan[çc]a|avan[çc]ou|valoriza[çc][ãa]o|"
+                         r"desvaloriza[çc][ãa]o|ganha|ganhou|perde|perdeu)\s+(?:de\s+)?[+\-−]\s?\d", re.I)
+DATA_NO_COMECO = re.compile(r"^(?:Em \d{1,2}/\d{1,2}|N[ao] (?:segunda|ter[çc]a|quarta|quinta|sexta|s[áa]bado|domingo)(?:-feira)?\s*\(\d{1,2}\)|"
+                            r"(?:Na |No )?(?:segunda|ter[çc]a|quarta|quinta|sexta|s[áa]bado|domingo) \(\d{1,2}\)),", re.I)
+RELATIVO = re.compile(r"\b(hoje|amanh[ãa]|ontem|nesta (?:segunda|ter[çc]a|quarta|quinta|sexta)|neste (?:s[áa]bado|domingo))\b", re.I)
+INGLES = re.compile(r"\b(the|of|and|building|taking off|runway|airport|airliner|skyline|view|street|people|stadium|square|"
+                    r"headquarters|photo|official|portrait)\b", re.I)
+
+
+def checar_revisao_2011(f, agora, virada=False):
+    hoje = agora.date()
+    for p in f.get("pautas") or []:
+        if not isinstance(p, dict): continue
+        pid = p.get("id") or ""
+        n = p.get("neutro") if isinstance(p.get("neutro"), dict) else {}
+        soc = [t for t in (p.get("social") or []) if isinstance(t, str)]
+        # 1. o carrossel repetia "E agora?": a última frase do social e o cartão do "proximo"
+        if p.get("proximo") and any(re.match(r"\s*e agora\b", t, re.I) for t in soc):
+            E(f"[{pid}] social: frase que começa com 'E agora?' repete o 'proximo' (o app já mostra o cartão E AGORA?); "
+              "tire essa frase do social (manual 2, social)")
+        textos = [("titulo", n.get("titulo")), ("subtitulo", p.get("subtitulo")), ("neutro.texto", n.get("texto")),
+                  ("proximo", p.get("proximo"))] + [(f"social.{i}", t) for i, t in enumerate(soc)]
+        textos += [(f"neutro.pontos.{i}", t) for i, t in enumerate(n.get("pontos") or []) if isinstance(t, str)]
+        for lado in ("direita", "esquerda"):
+            v = p.get(lado) if isinstance(p.get(lado), dict) else {}
+            textos += [(f"{lado}.titulo", v.get("titulo")), (f"{lado}.texto", v.get("texto"))]
+        # 2. sinal duplicado: "Ibovespa cai -1,34%"
+        for campo, t in textos:
+            if isinstance(t, str) and SINAL_DUPLO.search(t):
+                E(f"[{pid}] {campo}: '{SINAL_DUPLO.search(t).group(0)}' tem sinal duplicado; com sobe/cai/alta/queda o número vai sem "
+                  "sinal ('cai 1,34%') (manual 2, ESTILO)")
+                break
+        # 3. título que começa com a data ("Em 17/11, Moraes…", "Na terça (17), Aneel…")
+        tit = str(n.get("titulo") or "")
+        if DATA_NO_COMECO.search(tit):
+            E(f"[{pid}] titulo começa com a data ('{tit[:40]}'): escreva o fato no título e deixe a data no texto; "
+              "notícia sem fato novo há mais de um dia sai da Capa e dos círculos (manual 2, ESTILO)")
+        # 4. hoje/amanhã/ontem em notícia cujo último fato é de outro dia (COP31 "termina amanhã" numa notícia de sexta (13))
+        uf = ultimo_fato(p)
+        if not virada and uf and uf.date() < hoje:
+            for campo, t in textos[:5] + [x for x in textos if x[0].startswith("social.")]:
+                if isinstance(t, str) and RELATIVO.search(t):
+                    E(f"[{pid}] {campo}: '{RELATIVO.search(t).group(0)}' numa notícia cujo último fato é de "
+                      f"{dia_rotulo(uf.date())}: troque pelo dia com data ('{dia_rotulo(uf.date())}') ou atualize a notícia (manual 2, DATAS)")
+                    break
+        # 5. descrição da imagem em inglês ou com dia diferente do da legenda
+        im = p.get("imagem") if isinstance(p.get("imagem"), dict) else {}
+        alt = str(im.get("alt") or "")
+        if alt and len(INGLES.findall(alt)) >= 2:
+            E(f"[{pid}] imagem.alt em inglês ('{alt[:60]}'): descreva em português o que a imagem mostra")
+        if alt and re.search(r"\(\d{1,2}\)", alt) and not re.search(r"\{\w+\.dia\}", alt):
+            leg = " ".join(str(v) for v in (im.get("dados") or {}).values()) if isinstance(im.get("dados"), dict) else ""
+            d_alt = set(re.findall(r"\((\d{1,2})\)", alt)); d_leg = set(re.findall(r"\((\d{1,2})\)", leg + " " + tit))
+            if d_leg and not (d_alt & d_leg):
+                E(f"[{pid}] imagem.alt cita o dia {', '.join(sorted(d_alt))} e a notícia é de {', '.join(sorted(d_leg))}: use o marcador "
+                  "{dolar.dia} (ou tire o dia da descrição)")
+        # 6. placar do desenho diferente do placar do título/subtítulo
+        dados = im.get("dados") if isinstance(im.get("dados"), dict) else {}
+        pl = re.search(r"\b(\d{1,3}) a (\d{1,3})\b", str(dados.get("valor") or ""))
+        if pl:
+            # 20/11 noite: também o texto e os pontos (a manchete dizia "45 a 31" no desenho e "45 a 32 e 49 a 31" logo abaixo)
+            outros = set(re.findall(r"\b\d{1,3} a \d{1,3}\b", " ".join([tit, str(p.get("subtitulo") or ""), str(n.get("texto") or "")]
+                                                                       + [t for t in (n.get("pontos") or []) if isinstance(t, str)])))
+            if outros and pl.group(0) not in outros:
+                E(f"[{pid}] imagem.dados.valor '{pl.group(0)}' e o título/subtítulo dizem {', '.join(sorted(outros))}: o desenho mostra "
+                  "o mesmo placar do texto (ou põe a data: 'texto-base, 12/11')")
+        # 7. "fim" escrito como frase solta ("Encerra quando…"): o app mostra "Acompanha até: <fim>"
+        fim = str(p.get("fim") or "")
+        if re.match(r"\s*(encerra|termina|acaba|acompanha at[ée])\b", fim, re.I):
+            A(f"[{pid}] fim começa com '{fim.split()[0]}': o app escreve 'Acompanha até:' antes; escreva só o complemento "
+              "('a divulgação das notas, em 18/01/2027') e atualize quando a etapa citada acontecer")
+    # 8. resumo de cobertura anterior cortado no meio da frase
+    for d in f.get("dormentes") or []:
+        if isinstance(d, dict) and re.search(r"[^.!?]…\s*$|\.\.\.\s*$", str(d.get("resumo") or "")):
+            E(f"[dormente {d.get('id')}] resumo cortado no meio ('…'): termine na última frase inteira")
+
 def checar_breves_1811(f, ant, ref, nov=None):
     """Breve que é fato de uma cobertura ativa (pede update_add) ou de um assunto que o robô de manchetes viu em 3+
     veículos (pede notícia). Breve nova desta rodada: ERRO; no feed no ar (sem --prev): AVISO. Urgente fica de fora."""
@@ -2083,6 +2165,8 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     except Exception as e: A(f"checagem das fontes das breves falhou: {e}")
     try: checar_confrontos_1911(f)
     except Exception as e: A(f"conferência dos confrontos (19/11) falhou: {e!r}")
+    try: checar_revisao_2011(f, agora, virada)
+    except Exception as e: A(f"conferência da revisão de 20/11 falhou: {e!r}")
     try: checar_breves_1811(f, ant, ref, NOVIDADES)
     except Exception as e: A(f"conferência das breves (18/11) falhou: {e!r}")
     try: checar_mercado(f, IND, ref)

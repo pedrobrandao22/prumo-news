@@ -19,7 +19,7 @@ números. Formato: {id, nome, unidade, casas, fonte, freq "mensal"|"diaria", atu
 A cada hora só busca o trecho recente e junta com o que já está no arquivo; só regrava quando muda.
 """
 import json, os, sys, time, urllib.error, urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 SP = timezone(timedelta(hours=-3))
 UA = {"User-Agent": "Mozilla/5.0 (prumo-news; +https://prumonews.com.br)", "Accept": "application/json"}
@@ -132,6 +132,23 @@ def dolar():
             "dir": direcao(a, p), "data": d1, "serie": [v for _, v in s], "rotulos": [d for d, _ in s], "fonte": "PTAX/Banco Central"}
 
 
+def _pascoa(ano):
+    a = ano % 19; b, c = divmod(ano, 100); d, e = divmod(b, 4); f = (b + 8) // 25; g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30; i, k = divmod(c, 4); l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451; mes, dia = divmod(h + l - 7 * m + 114, 31)
+    return date(ano, mes, dia + 1)
+
+
+def sem_pregao(d):
+    """Dia sem pregão na B3: fim de semana ou feriado (nacionais, Carnaval, Sexta-feira Santa, Corpus Christi, 24 e 31/12).
+    20/11/2026 (Consciência Negra): o robô gravou um "fechamento" do dólar com a B3 fechada, e a Capa disse "Dólar fecha a
+    R$ 5,95 hoje" ao lado de "B3 fechada hoje"."""
+    if d.weekday() >= 5: return True
+    if (d.month, d.day) in {(1, 1), (4, 21), (5, 1), (9, 7), (10, 12), (11, 2), (11, 15), (11, 20), (12, 24), (12, 25), (12, 31)}: return True
+    p = _pascoa(d.year)
+    return d in {p - timedelta(days=48), p - timedelta(days=47), p - timedelta(days=2), p + timedelta(days=60)}
+
+
 def fora_do_pregao(agora=None):
     """Fim de semana, antes das 9h ou a partir das 19h (Brasília) num dia útil: o câmbio de BRL=X segue mudando no
     exterior (em 16/11/2026, à 1h21, a Capa mostrava "R$ 5,64 ▼ −0,46% · hoje" antes de o mercado abrir). E às 21h
@@ -139,20 +156,20 @@ def fora_do_pregao(agora=None):
     variação cai para 0,00% (16/11/2026, 21h35: "R$ 5,79 ▬ 0,00%" no dia em que o dólar subiu mais de 2% e fechou a
     R$ 5,77). Nesses horários o dólar do dia fica como estava (o último valor do pregão)."""
     agora = agora or datetime.now(SP)
-    return agora.weekday() >= 5 or agora.hour < 9 or agora.hour >= 19
+    return sem_pregao(agora.date()) or agora.hour < 9 or agora.hour >= 19
 
 
 def depois_do_fechamento(agora=None):
     """Dia útil, a partir das 19h: o pregão do dia já fechou."""
     agora = agora or datetime.now(SP)
-    return agora.weekday() < 5 and agora.hour >= 19
+    return not sem_pregao(agora.date()) and agora.hour >= 19
 
 
 def janela_do_fechamento(agora=None):
     """Dia útil, das 18h20 (Brasília) em diante: a B3 já fechou (17h com horário de verão nos EUA, 18h sem ele) e o câmbio
     à vista também. É quando o robô grava o fechamento do dólar e do Ibovespa (decisão do Pedro, 17/11/2026)."""
     agora = agora or datetime.now(SP)
-    return agora.weekday() < 5 and agora.hour * 60 + agora.minute >= 18 * 60 + 20
+    return not sem_pregao(agora.date()) and agora.hour * 60 + agora.minute >= 18 * 60 + 20
 
 
 MERCADO = ("dolar", "ibovespa")
@@ -164,7 +181,7 @@ def ultimo_pregao(agora=None):
     agora = agora or datetime.now(SP)
     if janela_do_fechamento(agora): return agora.date().isoformat()
     d = agora.date() - timedelta(days=1)
-    while d.weekday() >= 5: d -= timedelta(days=1)
+    while sem_pregao(d): d -= timedelta(days=1)
     return d.isoformat()
 
 
@@ -202,7 +219,11 @@ def recuperar_fechamento(id_, velho, agora=None):
     """Item com o fechamento do último pregão, quando o arquivo ainda não tem (rodada perdida); senão None."""
     agora = agora or datetime.now(SP)
     alvo = ultimo_pregao(agora)
-    if not velho or (velho.get("fechamento") and str(velho.get("data") or "") >= alvo): return None
+    if not velho: return None
+    try: dia_sem = sem_pregao(date.fromisoformat(str(velho.get("data") or "")[:10]))
+    except ValueError: dia_sem = False
+    # "fechamento" gravado num dia sem pregão (feriado) não vale: volta ao do último pregão
+    if velho.get("fechamento") and str(velho.get("data") or "") >= alvo and not dia_sem: return None
     r = fechamento_de(SIMBOLO[id_], alvo) if id_ == "dolar" else fechamento_diario(SIMBOLO[id_], alvo)
     if not r: return None
     p, a, hora = r

@@ -273,7 +273,18 @@ class TesteFechamentoPerdido(unittest.TestCase):
         from datetime import datetime as D
         s.assertEqual(IN.ultimo_pregao(D(2026, 11, 16, 8, 0, tzinfo=IN.SP)), "2026-11-13")
         s.assertEqual(IN.ultimo_pregao(D(2026, 11, 17, 18, 30, tzinfo=IN.SP)), "2026-11-17")
-        s.assertEqual(IN.ultimo_pregao(D(2026, 11, 22, 12, 0, tzinfo=IN.SP)), "2026-11-20")
+        s.assertEqual(IN.ultimo_pregao(D(2026, 11, 29, 12, 0, tzinfo=IN.SP)), "2026-11-27")
+        # 20/11/2026 é feriado (Consciência Negra): no fim de semana seguinte, o último pregão é quinta (19)
+        s.assertEqual(IN.ultimo_pregao(D(2026, 11, 22, 12, 0, tzinfo=IN.SP)), "2026-11-19")
+
+    def test_feriado_nao_grava_fechamento(s):
+        from datetime import datetime as D, date
+        s.assertFalse(IN.janela_do_fechamento(D(2026, 11, 20, 18, 40, tzinfo=IN.SP)))   # B3 fechada no feriado
+        s.assertTrue(IN.janela_do_fechamento(D(2026, 11, 19, 18, 40, tzinfo=IN.SP)))
+        s.assertEqual(IN.ultimo_pregao(D(2026, 11, 20, 19, 0, tzinfo=IN.SP)), "2026-11-19")
+        for d in ("2026-02-16", "2026-02-17", "2026-04-03", "2026-06-04", "2026-12-24", "2027-03-26"):
+            s.assertTrue(IN.sem_pregao(date.fromisoformat(d)), d)
+        s.assertFalse(IN.sem_pregao(date(2026, 11, 23)))
 
 
 class TesteSaltos(unittest.TestCase):
