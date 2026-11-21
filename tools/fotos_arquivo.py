@@ -619,6 +619,19 @@ def _nome_norm(f):
     return norm(urllib.parse.unquote(str((f or {}).get("url", "")).rsplit("/", 1)[-1])).replace("_", " ")
 
 
+INGLES_ALT = re.compile(r"\b(the|of|and|building|taking off|runway|airport|airliner|skyline|view|street|people|stadium|square|"
+                        r"headquarters|photo|official|portrait|north|facade|team|national|football|conference|plenary|panorama)\b", re.I)
+
+
+def alt_pt(texto, nome):
+    """20/11 (testador): o texto alternativo saía com a busca em inglês ("airliner taking off runway United States
+    airport") e o leitor de tela lia isso no meio do português. Busca em inglês vira o nome do tema/assunto."""
+    t = str(texto or "")
+    if len(INGLES_ALT.findall(t)) >= 2:
+        return "Foto de arquivo: " + str(nome).split("/")[-1]
+    return t
+
+
 def alt_do_tema(f, qs):
     """Texto alternativo da foto do tema pela busca cujas palavras estão no nome do arquivo (16/11: a fachada de um
     supermercado saía como "Banco Central do Brasil", o texto da 1ª busca do tema)."""
@@ -729,7 +742,7 @@ def main(argv):
             for q, ch in qs:
                 fotos = junta(fotos, busca(q, ch, n=3, sem_gente=True), 4)
                 if len(fotos) >= 4: break
-        if fotos: out_t[k] = [dict(f, alt=alt_do_tema(f, qs)) for f in fotos[:4]]
+        if fotos: out_t[k] = [dict(f, alt=alt_pt(alt_do_tema(f, qs), k)) for f in fotos[:4]]
         print(f"{k}: {len(fotos)}")
     for nome, (chaves, q, ch, secs) in ASSUNTOS.items():
         # as antigas só ficam se ainda batem com as palavras do assunto (14/11: "incêndio" mudou de queimada para bombeiros)
@@ -741,7 +754,7 @@ def main(argv):
         fotos = junta(serve(velhas), [], 5)
         if len(fotos) < 4: fotos = junta(fotos, serve(busca(q, ch, n=8, sem_gente=True)), 5)
         if fotos:
-            out_a[nome] = {"chaves": chaves, "fotos": [dict(f, alt=f.get("alt") or f"Foto de arquivo: {q}") for f in fotos]}
+            out_a[nome] = {"chaves": chaves, "fotos": [dict(f, alt=alt_pt(f.get("alt") or f"Foto de arquivo: {q}", nome)) for f in fotos]}
             if secs: out_a[nome]["secoes"] = secs
         print(f"assunto {nome}: {len(fotos)}")
     if not out_p and not out_t: print("nada encontrado: arquivo anterior mantido"); return 1
