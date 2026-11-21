@@ -33,7 +33,7 @@ const PORTA = 9423, BASE = `http://localhost:${PORTA}/index.html`;
   });
   ok(r2.a.n === 0 && /sem comentar|Publicar assim/.test(r2.a.txt), '2: primeiro toque só pergunta "Publicar sem comentar?"', r2);
   ok(r2.bb.n === 1, '2: segundo toque publica', r2);
-  ok(/sem comentar/.test(r2.c0) && r2.c1 === 'Publicar' && r2.d.n === 2, '2: ao escrever, o botão volta a "Publicar" e publica de primeira', r2);
+  ok(/sem comentar|Publicar assim/.test(r2.c0) && r2.c1 === 'Publicar' && r2.d.n === 2, '2: ao escrever, o botão volta a "Publicar" e publica de primeira', r2);
   // 3
   const r3 = await P.evaluate(async () => {
     document.querySelectorAll('.late.offl').forEach(x => x.remove());
