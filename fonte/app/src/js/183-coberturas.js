@@ -24,9 +24,14 @@ function cb183SwHTML(p){const on=cb183Avisa(p.id);
   return `<div class="cb183-av"><span><b>Avisos de novidades</b><small>${on?"No celular e na Atividade, a cada novidade":"Desligados. A cobertura continua no seu feed"}</small></span><button type="button" class="cb183-sw${on?" on":""}" role="switch" aria-checked="${on}" aria-label="Avisos de novidades de ${esc(temaDe(p))}" data-cb183sw="${esc(p.id)}"><i></i></button></div>`}
 function cb183Pinta(pid){const box=document.querySelector(`.sheet .pc[data-pc="${CSS.escape(pid)}"]`);const p=pautaById(pid);if(!box||!p)return;
   box.querySelectorAll(".cb183-fim,.cb183-av,.cb183-enc").forEach(x=>x.remove());
-  const enc=p.status==="encerrada",fim=typeof p.fim==="string"?p.fim.trim():"";
+  const enc=p.status==="encerrada";let fim=typeof p.fim==="string"?p.fim.trim():"";
+  /* 20/11 (testador): "Acompanha até: Encerra quando o Inep publica…" — o fim escrito como frase vira só o complemento */
+  const fq=/^(?:encerra|termina|acaba)(?:-se)?\s+(?:quando|com|após|depois de|na|no|em)\s+/i.exec(fim);
+  let rot=enc?"Acompanhou até":"Acompanha até";
+  if(fq){const resto=fim.slice(fq[0].length);rot=enc?"Terminou":"Termina";fim=/^(quando|com|após|depois de)\s/i.test(fq[0].split(/\s+/)[1]+" ")?fq[0].split(/\s+/).slice(1).join(" ")+resto:resto;fim=fim.charAt(0).toLowerCase()+fim.slice(1)}
+  else if(/^acompanha at[ée]:?\s*/i.test(fim))fim=fim.replace(/^acompanha at[ée]:?\s*/i,"");
   const m=box.querySelector(".pc-m");
-  if(m&&fim)m.insertAdjacentHTML("afterend",`<p class="cb183-fim${enc?" enc":""}">${enc?(fim?`Acompanhou até: <b>${esc(fim)}</b>`:""):`Acompanha até: <b>${esc(fim)}</b>`}</p>`);
+  if(m&&fim)m.insertAdjacentHTML("afterend",`<p class="cb183-fim${enc?" enc":""}">${rot}${fq?"":":"} <b>${esc(fim)}</b></p>`);
   const a=box.querySelector(".pc-a");if(!a||!seguido(p))return;
   a.insertAdjacentHTML("afterend",enc?`<p class="cb183-enc hint">Cobertura encerrada: não há mais avisos. Se o assunto continuar, ele vira uma cobertura nova.</p>`:cb183SwHTML(p))}
 
