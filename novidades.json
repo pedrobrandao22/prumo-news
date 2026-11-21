@@ -1,25 +1,57 @@
 {
- "gerado": "2026-11-20T23:07-03:00",
+ "gerado": "2026-11-20T23:13-03:00",
  "desde": "2026-11-20T21:40-03:00",
  "feed_atualizado_em": "2026-11-20T21:50:00-03:00",
  "resumo": {
-  "manchetes": 71,
+  "manchetes": 76,
   "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 60,
+  "assuntos_novos": 64,
   "pautas_com_novidade": 3,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 7,
-  "acionar_itens": 0,
-  "ja_avaliados": 3
+  "acionar_itens": 1,
+  "ja_avaliados": 2
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (60 assuntos fora do feed, 7 pautas com relatos, 3 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Análise: Derrubada de sigilo do caso Master pode pressionar STF",
+   "n_fontes": 5,
+   "motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: caso-master",
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Análise: Derrubada de sigilo do caso Master pode pressionar STF",
+     "url": "https://www.cnnbrasil.com.br/politica/analise-derrubada-de-sigilo-do-caso-master-pode-pressionar-stf/",
+     "hora": "20/11 22h35",
+     "lide": "André Mendonça pediu a Fachin que tornasse público relatório da PF que o menciona nas investigações sobre o Banco Master; a avaliação é do analista de Política da CNN Caio Junqueira ao CNN Prime Time"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Gilmar diz que abrir sigilo não basta no caso Master",
+     "url": "https://www.poder360.com.br/poder-justica/gilmar-diz-que-abrir-sigilo-nao-basta-no-caso-master/",
+     "hora": "20/11 22h11",
+     "lide": "Ministro defende levar discussão ao plenário; Fachin divulga relatório da PF que reúne menções a Mendonça. Leia no Poder360."
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Fachin retira sigilo de relatório da PF com 11 conversas que citam André Mendonça no caso Master",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/fachin-retira-sigilo-de-relatorio-da-pf-com-11-conversas-que-citam-andre-mendonca-no-caso-master.ghtml",
+     "hora": "20/11 21h23",
+     "lide": "Documento aponta tentativas de aproximação de Daniel Vorcaro, mas diz que não foram identificados registros de diálogo direto entre o ex-dono do banco e o ministro."
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
    "assunto": "Terremoto de magnitude 6,7 atinge o Peru",
-   "secao": null,
+   "secao": "mundo",
    "n_fontes": 3,
    "fontes": [
     "jp",
@@ -160,7 +192,7 @@
   },
   {
    "assunto": "200 mil morsas encalharam no Alasca devido ao derretimento do gelo marinho; agora, existe um plano para protegê-las",
-   "secao": null,
+   "secao": "mundo",
    "n_fontes": 1,
    "fontes": [
     "antag"
@@ -220,7 +252,7 @@
   },
   {
    "assunto": "Alfredo Gaspar libera projeto que proíbe novos inquéritos das fake news",
-   "secao": null,
+   "secao": "politica",
    "n_fontes": 1,
    "fontes": [
     "oeste"
@@ -275,8 +307,9 @@
      "hora": "20/11 22h03"
     }
    ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:03-03:00"
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-20T22:03-03:00",
+   "lixo": true
   },
   {
    "assunto": "Arlindo Cruz sempre estará vivo, diz viúva do sambista durante homenagem no Troféu Raça Negra",
@@ -359,6 +392,26 @@
    "ultima_iso": "2026-11-20T22:24-03:00"
   },
   {
+   "assunto": "Cleitinho busca diálogo com Lula para negociar dívida de Minas",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oeste"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Cleitinho busca diálogo com Lula para negociar dívida de Minas",
+     "url": "https://revistaoeste.com/politica/cleitinho-busca-dialogo-com-lula-para-negociar-divida-de-minas/",
+     "hora": "20/11 23h10"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T23:10-03:00"
+  },
+  {
    "assunto": "Com mudança no gabinete, Trump tira mulheres do alto escalão e acena à machosfera",
    "secao": "mundo",
    "n_fontes": 1,
@@ -417,6 +470,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-20T22:00-03:00"
+  },
+  {
+   "assunto": "Defesa Civil monitora chuvas em SP após emitir 33 alertas preventivos",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": true,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Defesa Civil monitora chuvas em SP após emitir 33 alertas preventivos",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/defesa-civil-monitora-chuvas-em-sp-apos-emitir-33-alertas-preventivos/",
+     "hora": "20/11 22h17"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T22:17-03:00"
   },
   {
    "assunto": "Deputados questionam gasto de R$ 3,3 mi com carpetes no Senado",
@@ -515,8 +588,9 @@
      "hora": "20/11 23h00"
     }
    ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T23:00-03:00"
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-20T23:00-03:00",
+   "lixo": true
   },
   {
    "assunto": "Franca vira sobre União Corinthians com David Jackson cestinha e duplo-duplo de Reynan",
@@ -540,7 +614,7 @@
   },
   {
    "assunto": "Homem é declarado culpado por incêndio letal em Los Angeles em 2025 e pode pegar 40 anos de prisão",
-   "secao": "brasil",
+   "secao": null,
    "n_fontes": 1,
    "fontes": [
     "g1"
@@ -617,46 +691,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-20T22:33-03:00"
-  },
-  {
-   "assunto": "Imagens mostram antes e depois de empresas atingidas por temporal em Tupanciretã, no RS",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Imagens mostram antes e depois de empresas atingidas por temporal em Tupanciretã, no RS",
-     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/20/antes-e-depois-empresas-temporal-tupancireta-rs.ghtml",
-     "hora": "20/11 21h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T21:47-03:00"
-  },
-  {
-   "assunto": "Integrantes do PCC e do CV são investigados por atentado na Bolívia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Integrantes do PCC e do CV são investigados por atentado na Bolívia",
-     "url": "https://revistaoeste.com/mundo/integrantes-do-pcc-e-do-cv-sao-investigados-por-atentado-na-bolivia/",
-     "hora": "20/11 22h30"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T22:30-03:00"
   }
  ],
  "em_pautas": {
@@ -674,8 +708,14 @@
   },
   "caso-master": {
    "secao": "politica",
-   "n_fontes": 1,
+   "n_fontes": 2,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Análise: Derrubada de sigilo do caso Master pode pressionar STF",
+     "url": "https://www.cnnbrasil.com.br/politica/analise-derrubada-de-sigilo-do-caso-master-pode-pressionar-stf/",
+     "hora": "20/11 22h35"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Gilmar diz que abrir sigilo não basta no caso Master",
@@ -708,7 +748,7 @@
    "ultima": "20/11 18h41",
    "ultima_iso": "2026-11-20T18:41-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 16.3,
+   "horas_sem_atualizar": 16.4,
    "principal": true,
    "manchetes": [
     {
@@ -720,21 +760,28 @@
    ]
   },
   "caso-master": {
-   "n": 5,
-   "n_fontes": 4,
+   "n": 6,
+   "n_fontes": 5,
    "fontes": [
+    "cnn",
     "g1",
     "met",
     "p360",
     "valor"
    ],
-   "n_fontes_90min": 3,
-   "ultima": "20/11 22h11",
-   "ultima_iso": "2026-11-20T22:11-03:00",
+   "n_fontes_90min": 4,
+   "ultima": "20/11 22h35",
+   "ultima_iso": "2026-11-20T22:35-03:00",
    "pauta_atualizada_em": "2026-11-20T19:48-03:00",
-   "horas_sem_atualizar": 3.3,
+   "horas_sem_atualizar": 3.4,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Análise: Derrubada de sigilo do caso Master pode pressionar STF",
+     "url": "https://www.cnnbrasil.com.br/politica/analise-derrubada-de-sigilo-do-caso-master-pode-pressionar-stf/",
+     "hora": "20/11 22h35"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Gilmar diz que abrir sigilo não basta no caso Master",
@@ -777,7 +824,7 @@
    "ultima": "20/11 22h01",
    "ultima_iso": "2026-11-20T22:01-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 16.3,
+   "horas_sem_atualizar": 16.4,
    "principal": true,
    "manchetes": [
     {
@@ -798,7 +845,7 @@
    "ultima": "20/11 20h41",
    "ultima_iso": "2026-11-20T20:41-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 40.3,
+   "horas_sem_atualizar": 40.4,
    "principal": false,
    "manchetes": [
     {
@@ -820,7 +867,7 @@
    "ultima": "20/11 19h02",
    "ultima_iso": "2026-11-20T19:02-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 16.3,
+   "horas_sem_atualizar": 16.4,
    "principal": true,
    "manchetes": [
     {
@@ -853,7 +900,7 @@
    "ultima": "20/11 20h39",
    "ultima_iso": "2026-11-20T20:39-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 16.3,
+   "horas_sem_atualizar": 16.4,
    "principal": false,
    "manchetes": [
     {
@@ -875,7 +922,7 @@
    "ultima": "20/11 22h54",
    "ultima_iso": "2026-11-20T22:54-03:00",
    "pauta_atualizada_em": "2026-11-20T13:49-03:00",
-   "horas_sem_atualizar": 9.3,
+   "horas_sem_atualizar": 9.4,
    "principal": true,
    "manchetes": [
     {
@@ -1387,6 +1434,31 @@
  "breves_faltam": 2,
  "breves_sugeridas": [
   {
+   "assunto": "Terremoto de magnitude 6,7 atinge o Peru",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Terremoto de magnitude 6,7 atinge o Peru",
+     "url": "https://jovempan.com.br/mundo/terremoto-de-magnitude-67-atinge-o-peru/",
+     "hora": "20/11 22h33"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Terremoto de magnitude 6,8 atinge o Peru sem relatos imediatos de danos",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/terremoto-de-magnitude-68-atinge-o-peru-sem-relatos-imediatos-de-danos.ghtml",
+     "hora": "20/11 22h28"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Terremoto de magnitude 6,7 atinge o Peru e é sentido na capital Lima",
+     "url": "https://www.metropoles.com/mundo/terremoto-de-magnitude-67-atinge-o-peru-e-e-sentido-na-capital-lima",
+     "hora": "20/11 22h05"
+    }
+   ]
+  },
+  {
    "assunto": "Ex-vereador está entre os mortos da tempestade em Tupanciretã (RS)",
    "secao": "brasil",
    "n_fontes": 2,
@@ -1458,10 +1530,10 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 6 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 14 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 5 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 66 nas últimas 6 h",
+  "ge": "ok: 100 itens, 61 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
@@ -1469,23 +1541,23 @@
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 0 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 3 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 2 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 3 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 7 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 5 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 2 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 1 nas últimas 6 h",
   "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
   "Valor Econômico": "ok: 100 itens, 14 nas últimas 6 h",
-  "Exame": "ok: 25 itens, 8 nas últimas 6 h",
+  "Exame": "ok: 25 itens, 7 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 5 nas últimas 6 h",
   "DW Brasil": "ok: 65 itens, 2 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 60 itens, 10 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
-  "Jovem Pan": "ok: 10 itens, 8 nas últimas 6 h",
+  "Jovem Pan": "ok: 10 itens, 7 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 10 nas últimas 6 h",
   "Brasil de Fato": "ok: 99 itens, 12 nas últimas 6 h",
