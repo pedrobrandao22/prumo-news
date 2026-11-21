@@ -50,7 +50,10 @@ print(json.dumps(o))`]).toString());
   ok(/Plen[aá]rio_do_Senado/.test(r['t-senado'] || ''), 'Senado no título: plenário do Senado (lugar dito pelo título e pelo nome do arquivo)', r['t-senado']);
   ok(/Banco_Central/.test(r['t-copom'] || ''), 'Copom no título: prédio do Banco Central', r['t-copom']);
   // 18/11 noite (Pedro: "se for errar, errar para mais"): assunto genérico também ganha foto do acervo, em vez da ilustração
-  ok(!!(r['t-aluguel'] && r['t-fies'] && r['t-ufs'] && r['t-taca']), 'assunto genérico (cédula, campus, posto de saúde, taça): foto do acervo do assunto', [r['t-aluguel'], r['t-fies'], r['t-ufs'], r['t-taca']]);
+  ok(!!(r['t-aluguel'] && r['t-fies'] && r['t-ufs']), 'assunto genérico (cédula, campus, posto de saúde): foto do acervo do assunto', [r['t-aluguel'], r['t-fies'], r['t-ufs']]);
+  // corretor 21/11 (causa fotos-2): a taça de 2016 foi bloqueada e o tema da Sul-Americana só tem jogador e estádio de outros
+  // jogos; na final, a taça ou a ilustração (nunca jogador de outro time)
+  ok(!r['t-taca'] || /ta[cç]a|trof|troph/i.test(decodeURIComponent(r['t-taca'])), 'final da Sul-Americana: taça ou ilustração, nunca jogador/estádio de outro jogo', r['t-taca']);
   ok(!/Fachin/i.test(r['t-fachin'] || ''), 'Fachin só na 2ª frase do título: sem retrato dele (18/11 noite: a foto do tema vale)', r['t-fachin']);
   // meio-termo do Pedro (18/11): órgão do sujeito e estádio do mandante
   ok(/Supremo_Tribunal_Federal|Kassio/.test(r['t-kassio'] || ''), 'Kassio (ministro do STF) sujeito do título: retrato dele (quando o acervo tem) ou fachada do STF', r['t-kassio']);

@@ -431,6 +431,9 @@ def coberturas(F, base, agora, virada=False):
         cp["destaques"] = ds
     return rel
 
+AUTO_IND = {"dolar", "ibovespa"}  # gravados por tools/indicadores.py a cada pregão
+
+
 def reserva_indicadores(F, IND):
     """20/11 (corretor): o "indicadores" do feed é a reserva do app quando o indicadores.json ainda não chegou (ou não
     chega, sem rede). Estava parado em 22/10 e quem ia direto ao Feed via "Dólar fecha a R$ 5,02". Agora cada rodada
@@ -440,7 +443,10 @@ def reserva_indicadores(F, IND):
     for i, x in enumerate(F["indicadores"]["itens"]):
         if not isinstance(x, dict): continue
         y = IND.get(x.get("id"))
-        if not isinstance(y, dict) or not y.get("valor") or str(y.get("data") or "") < str(x.get("data") or ""): continue
+        # corretor 21/11: dólar e Ibovespa são do robô de cotações (indicadores.json manda sempre): um "fechamento" que a
+        # rodada gravou à mão num feriado (R$ 5,95 em 20/11, sem pregão) tinha data mais nova e nunca era trocado
+        auto = x.get("id") in AUTO_IND
+        if not isinstance(y, dict) or not y.get("valor") or (not auto and str(y.get("data") or "") < str(x.get("data") or "")): continue
         novo = dict(x)
         for k in ("valor", "variacao", "dir", "data"):
             if k in y: novo[k] = y[k]

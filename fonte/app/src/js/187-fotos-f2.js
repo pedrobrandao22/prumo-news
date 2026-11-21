@@ -25,7 +25,7 @@ var FT187_LUGARES=[
   ["Banco Central","Banco Central(?! Europeu| do Japão| da China| dos EUA| americano)|BC|Copom|Selic","banco central",1],
   ["Itamaraty","Itamaraty","itamaraty",1],
   ["Fazenda","Ministério da Fazenda|Fazenda","ministerio da fazenda",1],
-  ["MEC","MEC|Ministério da Educação","ministerio da educacao",1],
+  ["MEC","MEC|Ministério da Educação|Enem|Inep|Fies|Sisu|ProUni|Prouni","ministerio da educacao",1],
   ["Esplanada","Esplanada","esplanada",1],
   ["B3","B3|Bovespa|Ibovespa|Bolsa(?! Família| de estudo| Atleta| Verde)","bovespa",1],
   ["Bandeirantes","Palácio dos Bandeirantes|Bandeirantes","bandeirantes",1],
@@ -88,6 +88,19 @@ var FT187_COMPOSTO=/^(sul-americana|beira-rio|atletico-mg|atletico-pr|sao-paulo|
 function ft187JogoAlheio(f,tit){const a=ft157Arq(f).replace(/\.[a-z]+$/,"");const m=/(?:^|[^a-z])([a-z]{3,})(?:-| vs\.? | versus )([a-z]{3,})(?=[^a-z]|$)/.exec(a);
   if(!m||FT187_COMPOSTO.test(m[1]+"-"+m[2])||!/(copa|sudamericana|libertadores|campeonato|liga|match|jogo|partida| vs\.? | versus )/.test(a))return false;
   const t=" "+ft157N(tit).replace(/[^a-z0-9]+/g," ")+" ";return !(t.indexOf(" "+m[1]+" ")>=0||t.indexOf(" "+m[2]+" ")>=0)}
+/* corretor 21/11 (causa fotos-2): travas do último recurso (tema/padrão) e da vista de cidade. Iguais a paginas.py */
+function ft187LugarAlheio(f,ditos,pad){const a=ft157Arq(f);return FT187_RE.some(x=>x[2].test(a)&&!ditos.has(x[0])&&(pad||!x[3]))}
+var FT187_SKY=/skyline|cityscape|downtown|(?:^|[^a-z])cbd(?![a-z])|panoram/;
+var FT187_SKYW=/^(skyline|cityscape|downtown|panorama|panoramio|panoramic|cropped|sunset|flickr|from|northeast|northwest|southeast|southwest|night|view|city|aerial|centro)$/;
+function ft187SkyAlheio(f,txt){const a=ft157Arq(f);if(!FT187_SKY.test(a)||FT187_RE.some(x=>x[2].test(a)))return false;/* lugar com nome: regras de lugar */const t=" "+ft157N(txt).replace(/[^a-z0-9]+/g," ")+" ";
+  return !a.replace(/\.[a-z]+$/,"").split(/[^a-z]+/).some(w=>w.length>=5&&!FT187_SKYW.test(w)&&t.indexOf(" "+w+" ")>=0)}
+var FT187_ESPOK=/(^|[^a-z])(taca|trofeu|trophy|bola|ball)(?![a-z])/;
+var FT187_ESPW=/^(final|finais|copa|jogo|jogos|estadio|stadium|arena|antes|depois|sector|setor|campeonato|partida|match|club|clube|futebol|football|soccer|time|team|torcida|cropped|conmebol|panoramio|exibicao)$/;
+function ft187EspAlheio(f,tit){const a=ft157Arq(f).replace(/\.[a-z]+$/,"");if(FT187_ESPOK.test(a))return false;const t=" "+ft157N(tit).replace(/[^a-z0-9]+/g," ")+" ";
+  return !a.split(/[^a-z0-9]+/).some(w=>w.length>=4&&!FT187_ESPW.test(w)&&t.indexOf(" "+w+" ")>=0)}
+/* clubes (assuntos só de esporte, menos F1/Série/Seleção) citados na frase, na ordem: [posição, nome, assunto]. Igual a clubes() em paginas.py */
+function ft187Clubes(fr,A){const out=[];Object.entries(A.assuntos||{}).forEach(([n,x])=>{if(!x||!Array.isArray(x.secoes)||x.secoes.length!==1||x.secoes[0]!=="esportes"||!Array.isArray(x.chaves)||/^(F[óo]rmula|S[ée]rie|Sele)/.test(n))return;
+  let pos=-1;x.chaves.forEach(k=>{if(typeof k!=="string"||!k)return;const i=posPalavra(fr,k);if(i>=0&&(pos<0||i<pos))pos=i});if(pos>=0)out.push([pos,n,x])});return out.sort((a,b)=>a[0]-b[0])}
 faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep();const n=p.neutro||{},tit=String(n.titulo||""),fr=ft157Frase(tit),
     sub=typeof p.subtitulo==="string"?p.subtitulo:"",extra=[p.tag,p.tema].filter(x=>typeof x==="string"&&x).join(" · "),sec=secOf(p),T=A.temas||{};
   let fo=null;const fora=()=>{if(fo===null)fo=!!ft157Fora(p);return fo};
@@ -96,8 +109,14 @@ faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep(
   ft187Lugares(ft187SemGoverno(fr),A).forEach(([nome,ra,br])=>{if(br&&fora())return;ditos.add(nome);(FT187_DENTRO[nome]||[]).forEach(x=>ditos.add(x));const ok=ft187FotosLugar(A,nome,ra).filter(f=>!(esp&&ft187JogoAlheio(f,tit)));if(ok.length&&!L.some(x=>x.ft187n===nome)){ok.ft187n=nome;L.push(ok)}});
   const md=ft187Mandante(p,fr,A).filter(f=>!ft187JogoAlheio(f,tit));if(md.length)L.push(md);
   /* assunto: em Esportes, só assunto de esporte (Japão no jogo da Seleção não é Tóquio) e nunca o clube numa final (campo neutro) */
-  const asOk=x=>x&&(sec!=="esportes"||(Array.isArray(x.secoes)&&x.secoes.includes("esportes")&&!FT187_FINAL.test(fr)));
-  try{for(const t of [fr,extra,sub]){if(!t)continue;const as=faAssunto(t,A,sec);if(asOk(as)){pega(as.fotos,true);break}}}catch(e){}
+  /* corretor 21/11 (causa fotos-2): com dois clubes na frase principal, a foto de um clube só entra se ele é o mandante
+     ("Flamengo visita o Palmeiras": Palmeiras); senão nenhum clube (o Maracanã voltava porque a trava de 20/11 ficou no
+     157, que o 187 substitui) */
+  const cl=esp?ft187Clubes(fr,A):[],dois=cl.length>=2,clN=new Set(cl.map(c=>c[2]));
+  if(dois&&!FT187_FINAL.test(fr)&&!fora()){const vm=cl.find(c=>/visitam?\s+(?:o|a)\s+$/.test(fr.slice(0,c[0])));if(vm)pega(vm[2].fotos,true)}
+  const asOk=x=>x&&!(dois&&clN.has(x))&&(sec!=="esportes"||(Array.isArray(x.secoes)&&x.secoes.includes("esportes")&&!FT187_FINAL.test(fr)));
+  /* corretor 21/11 (causa fotos-2): vista de cidade (skyline) só da cidade que o título ou o subtítulo diz (Shenzhen com Pequim) */
+  const ts=tit+" · "+sub;try{for(const t of [fr,extra,sub]){if(!t)continue;const as=faAssunto(t,A,sec);if(asOk(as)){pega((as.fotos||[]).filter(f=>!ft187SkyAlheio(f,ts)),true);break}}}catch(e){}
   /* tema e padrão da editoria: foto de lugar com nome (Banco Central, Senado) vai por último, para sobrar para a notícia
      que diz esse lugar (o tomate fica com o supermercado e o Copom com o Banco Central) */
   const deLugar=f=>FT187_RE.some(x=>x[2].test(ft157Arq(f)));const fin=sec==="esportes"&&FT187_FINAL.test(fr);
@@ -105,7 +124,13 @@ faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep(
   /* 20/11 noite: notícia trágica com o retrato tirado (internação, morte, prisão) não cai na foto genérica da editoria
      (Bolsonaro internado com a foto do Congresso): fica a ilustração */
   const semGen=p.foto_arquivo==="tema"&&FT187_TRAGICO.test(tit)&&!L.length;
-  if(!semGen){pega(tm(T[sec+"/"+(p.subtema||"")]),true);pega(tm(T[(A.padrao||{})[sec]]),true)}
+  /* corretor 21/11 (causa fotos-2, a raiz que voltava): tema e padrão são o último recurso e não confirmam nada do fato.
+     Neles, foto de lugar com nome só entra se o título disse o lugar: no padrão da editoria nenhum (Bolsonaro no hospital
+     com o Congresso, COP31 com o Parlamento Europeu, empresa com a Bovespa); no tema do subtema, nenhum lugar de fora do
+     Brasil (Tiananmen na trilateral de Shenzhen). Em Esportes, foto de jogador, jogo ou estádio só se o arquivo cita um
+     time ou nome do título (taça e bola valem). Sem foto que sobre, fica a ilustração. Igual a paginas.py. */
+  const gen=(l,pad)=>Array.isArray(l)?l.filter(f=>!ft187LugarAlheio(f,ditos,pad)&&!(esp&&ft187EspAlheio(f,tit))&&!ft187SkyAlheio(f,ts)):l;
+  if(!semGen){pega(gen(tm(T[sec+"/"+(p.subtema||"")]),false),true);pega(gen(tm(T[(A.padrao||{})[sec]]),true),true)}
   /* 20/11 (testador): Capitólio só em notícia do Congresso dos EUA (a licença de chips era do Departamento de Comércio);
      foto em tira (640×174) fica borrada no quadro. Vale para todas as listas (lugar e mandante também), igual a paginas.py */
   const cong=/Congresso|Capit[óo]lio|Senado (?:americano|dos EUA)|C[âa]mara dos (?:EUA|Representantes)/.test(tit);

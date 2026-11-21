@@ -148,7 +148,7 @@ LUGARES = [
     ["Banco Central", r"Banco Central(?! Europeu| do Japão| da China| dos EUA| americano)|BC|Copom|Selic", r"banco central", 1],
     ["Itamaraty", r"Itamaraty", r"itamaraty", 1],
     ["Fazenda", r"Ministério da Fazenda|Fazenda", r"ministerio da fazenda", 1],
-    ["MEC", r"MEC|Ministério da Educação", r"ministerio da educacao", 1],
+    ["MEC", r"MEC|Ministério da Educação|Enem|Inep|Fies|Sisu|ProUni|Prouni", r"ministerio da educacao", 1],
     ["Esplanada", r"Esplanada", r"esplanada", 1],
     ["B3", r"B3|Bovespa|Ibovespa|Bolsa(?! Família| de estudo| Atleta| Verde)", r"bovespa", 1],
     ["Bandeirantes", r"Palácio dos Bandeirantes|Bandeirantes", r"bandeirantes", 1],
@@ -279,6 +279,40 @@ def jogo_alheio(f, tit):
     return not (" " + m.group(1) + " " in t or " " + m.group(2) + " " in t)
 
 
+# corretor 21/11 (causa fotos-2): travas do último recurso (tema/padrão) e da vista de cidade, iguais ao app (187)
+def lugar_alheio(f, ditos, pad):
+    a = _arq(f)
+    return any(ra.search(a) and nome not in ditos and (pad or not br) for nome, _, ra, br in LUG_RE)
+SKY = re.compile(r"skyline|cityscape|downtown|(?:^|[^a-z])cbd(?![a-z])|panoram")
+SKYW = re.compile(r"^(skyline|cityscape|downtown|panorama|panoramio|panoramic|cropped|sunset|flickr|from|northeast|northwest|southeast|southwest|night|view|city|aerial|centro)$")
+def sky_alheio(f, txt):
+    a = _arq(f)
+    if not SKY.search(a) or any(ra.search(a) for _, _, ra, _ in LUG_RE): return False  # lugar com nome: regras de lugar
+    t = " " + re.sub(r"[^a-z0-9]+", " ", _norm(txt)) + " "
+    return not any(len(w) >= 5 and not SKYW.match(w) and " " + w + " " in t for w in re.split(r"[^a-z]+", re.sub(r"\.[a-z]+$", "", a)))
+ESPOK = re.compile(r"(^|[^a-z])(taca|trofeu|trophy|bola|ball)(?![a-z])")
+ESPW = re.compile(r"^(final|finais|copa|jogo|jogos|estadio|stadium|arena|antes|depois|sector|setor|campeonato|partida|match|club|clube|futebol|football|soccer|time|team|torcida|cropped|conmebol|panoramio|exibicao)$")
+def esp_alheio(f, tit):
+    a = re.sub(r"\.[a-z]+$", "", _arq(f))
+    if ESPOK.search(a): return False
+    t = " " + re.sub(r"[^a-z0-9]+", " ", _norm(tit)) + " "
+    return not any(len(w) >= 4 and not ESPW.match(w) and " " + w + " " in t for w in re.split(r"[^a-z0-9]+", a))
+
+
+def clubes(fr, A):
+    """Igual ao ft187Clubes do app: clubes (assuntos só de esporte, menos F1/Série/Seleção) citados, na ordem."""
+    out = []
+    for n, x in (A.get("assuntos") or {}).items():
+        if not isinstance(x, dict) or x.get("secoes") != ["esportes"] or not isinstance(x.get("chaves"), list) or re.match(r"^(F[óo]rmula|S[ée]rie|Sele)", n): continue
+        pos = -1
+        for k in x["chaves"]:
+            if not isinstance(k, str) or not k: continue
+            i = pos_palavra(fr, k)
+            if i >= 0 and (pos < 0 or i < pos): pos = i
+        if pos >= 0: out.append((pos, n, x))
+    return sorted(out, key=lambda c: c[0])
+
+
 def fa_listas(p, A):
     """Igual ao faListas do app (187-fotos-f2.js, regra aberta de 18/11 à noite, pedido do Pedro: "se for errar, errar
     para mais"): retrato da 1ª pessoa da frase principal do título ("foto_arquivo": "tema" só tira o retrato em morte,
@@ -317,19 +351,30 @@ def fa_listas(p, A):
         if ok: L.append(ok)
     ok = [f for f in mandante(p, fr, A) if not jogo_alheio(f, tit)]
     if ok: L.append(ok)
+    ts = tit + " · " + sub  # corretor 21/11: vista de cidade só da cidade que o título ou o subtítulo diz
+    # corretor 21/11, igual ao app: dois clubes na frase principal → só o mandante ("A visita o B": B); senão nenhum clube
+    cl = clubes(fr, A) if esp else []
+    dois = len(cl) >= 2; clN = [c[2] for c in cl]
+    if dois and not FINAL.search(fr) and not fo():
+        vm = next((c for c in cl if re.search(r"visitam?\s+(?:o|a)\s+$", fr[:c[0]])), None)
+        if vm: pega(vm[2].get("fotos"), True)
     for t in (fr, extra, sub):
         if not t: continue
         x = assunto_titulo(t, A, sec)
+        if x and dois and any(x is c for c in clN): x = None
         if x and (sec != "esportes" or (isinstance(x.get("secoes"), list) and "esportes" in x["secoes"] and not FINAL.search(fr))):
-            pega(x.get("fotos"), True); break
+            pega([f for f in (x.get("fotos") or []) if not sky_alheio(f, ts)], True); break
     # tema e padrão: foto de lugar com nome vai por último (fica para a notícia que diz o lugar), igual ao app
     de_lugar = lambda f: any(ra.search(_arq(f)) for _, _, ra, _ in LUG_RE)
     fin = sec == "esportes" and bool(FINAL.search(fr))  # final (campo neutro): nenhum estádio
     tm = lambda l: [f for f in l if not de_lugar(f)] + ([] if fin else [f for f in l if de_lugar(f)]) if isinstance(l, list) else l
     # 20/11 noite, igual ao app: trágica sem retrato (internação, morte, prisão) não cai na foto genérica da editoria
     if not (p.get("foto_arquivo") == "tema" and TRAGICO.search(tit) and not L):
-        pega(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), True)
-        pega(tm(T.get((A.get("padrao") or {}).get(sec) or "")), True)
+        # corretor 21/11 (causa fotos-2), igual ao app: no último recurso, lugar com nome só se o título disse; no padrão
+        # nenhum, no tema nenhum de fora do Brasil; Esportes só com time/nome do título no arquivo (taça e bola valem)
+        gen = lambda l, pad: [f for f in l if not lugar_alheio(f, ditos, pad) and not (esp and esp_alheio(f, tit)) and not sky_alheio(f, ts)] if isinstance(l, list) else l
+        pega(gen(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), False), True)
+        pega(gen(tm(T.get((A.get("padrao") or {}).get(sec) or "")), True), True)
     return [o for o in ([f for f in l if not ruim(f)] for l in L) if o]
 
 
