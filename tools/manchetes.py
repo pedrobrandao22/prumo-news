@@ -189,13 +189,16 @@ LIXO = re.compile(
     # 20/11 (testador): resumos do dia e textos de efeméride não são notícia ("… e mais destaques desta 5ª", "O que se sabe
     # (e o muito que não se sabe) sobre a história de Zumbi")
     r"\bmais destaques\b|\bdestaques (desta|do dia|da semana)\b|\bresumo do dia\b|o que voce precisa saber|"
-    r"\bmorning call\b|\bfechamento do mercado\b|^o que se sabe\b|\bo que se sabe \(e\b|\bpara comecar o dia\b")
+    r"\bmorning call\b|\bfechamento do mercado\b|^o que se sabe\b|\bo que se sabe \(e\b|\bpara comecar o dia\b|"
+    # 21/11 (varredura): isca de clique ("Apenas gênios conseguem resolver…", testes de QI, "veja a lista")
+    r"\b(apenas|so) genios\b|\bteste de (qi|visao|personalidade)\b|\bdesafio (visual|de logica|matematico)\b|"
+    r"\bconsegue (resolver|encontrar|achar)\b|99% da populacao|\bveja a lista$")
 
 KW = {
     "politica": set("""lula bolsonaro flavio senado senador senadora senadores camara deputado deputada deputados congresso
         stf moraes ministro ministra governo planalto pec tse alcolumbre motta partido cpi pgr impeachment cassacao
         janja alckmin gilmar dino fux zanin mendonca eleicao eleito reeleito psol mdb uniao centrao fachin barroso toffoli
-        stj anistia""".split()),
+        stj anistia inquerito inqueritos relator relatora plenario ministerio ministerios""".split()),
     "economia": set("""dolar ibovespa bolsa selic copom juros inflacao ipca pib petrobras fazenda haddad durigan imposto
         impostos tributaria tarifa tarifas mercado fiscal arrecadacao desemprego focus cdb investimento acoes b3
         credito divida orcamento gasolina combustivel salario inss aposentadoria fgts bets""".split()),
@@ -207,7 +210,8 @@ KW = {
     "mundo": set("""eua trump israel ira irao iraniano iraniana ucrania russia putin china gaza hamas netanyahu europa
         franca argentina milei venezuela maduro otan onu papa alemanha japao coreia mexico india arabia saudita houthis
         iemen libano siria brexit reino unido londres paris cop cop30 cop31 clima climatica climaticas combustiveis
-        fosseis antalia erdogan turquia""".split()),
+        fosseis antalia erdogan turquia peru chile colombia bolivia paraguai uruguai equador cuba canada alasca
+        california texas florida angeles""".split()),  # 21/11: terremoto no Peru e incêndio em Los Angeles ficavam sem seção ou em Brasil
     # 20/11: com mais veículos, o "palpite" de seção do feed (InfoMoney = economia) pesava em assunto de outra área
     "educacao": set("""enem fuvest vestibular mec escola escolas universidade universidades professores professor alunos
         estudantes sisu prouni fies ensino creche""".split()),
