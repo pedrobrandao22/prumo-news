@@ -1,28 +1,35 @@
 {
- "gerado": "2026-11-21T18:43-03:00",
+ "gerado": "2026-11-21T18:54-03:00",
  "desde": "2026-11-21T17:40-03:00",
  "feed_atualizado_em": "2026-11-21T17:50:00-03:00",
  "resumo": {
-  "manchetes": 130,
+  "manchetes": 132,
   "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 100,
-  "pautas_com_novidade": 6,
+  "assuntos_novos": 105,
+  "pautas_com_novidade": 7,
   "pautas_com_novidade_3_fontes": 1,
-  "pautas_com_relatos": 12,
-  "acionar_itens": 1,
+  "pautas_com_relatos": 13,
+  "acionar_itens": 2,
   "ja_avaliados": 3
  },
  "acionar": true,
- "acionar_motivo": "pauta brasileirao-31-rodada-lideres: 7 veículos em 90 min depois da última atualização",
+ "acionar_motivo": "pauta brasileirao-31-rodada-lideres: 6 veículos em 90 min depois da última atualização; pauta principal bolsonaro-hospital-dores-abdominais sem atualização há 3.1 h e 3 veículos com relatos novos",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "brasileirao-31-rodada-lideres",
-   "titulo": "Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
-   "n_fontes": 7,
-   "motivo": "pauta brasileirao-31-rodada-lideres: 7 veículos em 90 min depois da última atualização",
+   "titulo": "Solta o grito! Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
+   "n_fontes": 6,
+   "motivo": "pauta brasileirao-31-rodada-lideres: 6 veículos em 90 min depois da última atualização",
    "acao": "atualiza: brasileirao-31-rodada-lideres",
    "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Solta o grito! Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
+     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
+     "hora": "21/11 18h47",
+     "lide": "Saiba tudo sobre o jogo Palmeiras 1 x 1 Flamengo (Campeonato Brasileiro, Rodada 36). Veja no ge os melhores momentos e o placar do jogo, gols e lances da partida."
+    },
     {
      "veiculo": "Veja",
      "titulo": "Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
@@ -31,50 +38,46 @@
      "lide": "Placar de 1 a 1 deu ao time carioca segunda vitória consecutiva no Brasileirão"
     },
     {
-     "veiculo": "ge",
-     "titulo": "Solta o grito! Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
-     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
-     "hora": "21/11 18h38",
-     "lide": "Saiba tudo sobre o jogo Palmeiras 1 x 1 Flamengo (Campeonato Brasileiro, Rodada 36). Veja no ge os melhores momentos e o placar do jogo, gols e lances da partida."
-    },
-    {
      "veiculo": "Metrópoles",
      "titulo": "Com título do Brasileirão, Flamengo se torna o 2º maior campeão do torneio",
      "url": "https://www.metropoles.com/esportes/com-titulo-do-brasileirao-flamengo-se-torna-o-2o-maior-campeao-do-torneio",
      "hora": "21/11 18h31"
     }
    ]
+  },
+  {
+   "tipo": "pauta",
+   "pid": "bolsonaro-hospital-dores-abdominais",
+   "titulo": "Tarcísio: “Em oração pela saúde de Jair Bolsonaro”",
+   "n_fontes": 3,
+   "motivo": "pauta principal bolsonaro-hospital-dores-abdominais sem atualização há 3.1 h e 3 veículos com relatos novos",
+   "acao": "atualiza: bolsonaro-hospital-dores-abdominais",
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Tarcísio: “Em oração pela saúde de Jair Bolsonaro”",
+     "url": "https://oantagonista.com.br/brasil/tarcisio-em-oracao-pela-saude-de-jair-bolsonaro/",
+     "hora": "21/11 17h41"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Com diagnóstico de abdômen agudo obstrutivo, Bolsonaro está na UTI, diz boletim",
+     "url": "https://www.infomoney.com.br/politica/com-diagnostico-de-abdomen-agudo-obstrutivo-bolsonaro-esta-na-uti-diz-boletim/",
+     "hora": "21/11 17h21",
+     "lide": "Bolsonaro foi levado ao hospital na sexta-feira com fortes dores abdominais"
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Bolsonaro é diagnosticado com abdômen agudo obstrutivo, diz boletim médico",
+     "url": "https://jovempan.com.br/politica/bolsonaro-e-diagnosticado-com-abdomen-agudo-obstrutivo-diz-boletim-medico/",
+     "hora": "21/11 16h09",
+     "lide": "O ex-presidente foi internado na sexta-feira (20) com quadro de dor e distensão abdominal"
+    }
+   ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
-  {
-   "assunto": "Campeão, Flamengo só vai levantar a taça na última rodada; entenda o motivo",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "ge",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Campeão, Flamengo só vai levantar a taça na última rodada; entenda o motivo",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/21/campeao-flamengo-so-vai-levantar-a-taca-na-ultima-rodada-entenda-o-motivo.ghtml",
-     "hora": "21/11 18h25"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Flamengo comemora conquista do Brasileiro com taça de 2025; entenda por que clube não recebeu novo troféu",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/21/entenda-por-que-flamengo-nao-recebera-taca-do-brasileirao-no-nubank-parque-apos-ser-campeao-brasileiro.ghtml",
-     "hora": "21/11 18h25"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-21T18:25-03:00"
-  },
   {
    "assunto": "Confira a lista com todos os campeões do Brasileiro",
    "secao": "esportes",
@@ -130,37 +133,31 @@
    "ultima_iso": "2026-11-21T18:02-03:00"
   },
   {
-   "assunto": "Flamengo ganha quatro Brasileiros em oito anos e repete a geração de Zico",
-   "secao": "esportes",
+   "assunto": "Em Paris, Haddad defende taxação de bilionários e alerta para oligarquias",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "ge",
-    "oglobo"
+    "met",
+    "p360"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "O Globo",
-     "titulo": "Flamengo ganha quatro Brasileiros em oito anos e repete a geração de Zico",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/21/flamengo-ganha-quatro-brasileiros-em-oito-anos-e-repete-a-geracao-de-zico.ghtml",
-     "hora": "21/11 18h25"
+     "veiculo": "Metrópoles",
+     "titulo": "Em Paris, Haddad defende taxação de bilionários e alerta para oligarquias",
+     "url": "https://www.metropoles.com/sao-paulo/em-paris-haddad-defende-taxacao-de-bilionarios-e-alerta-para-oligarquias",
+     "hora": "21/11 18h40"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Tetra, Arrascaeta e Bruno Henrique igualam Zico em Brasileiros pelo Flamengo",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/21/tetra-arrascaeta-e-bruno-henrique-igualam-zico-em-brasileiros-pelo-flamengo.ghtml",
-     "hora": "21/11 18h25"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Arrascaeta e Bruno Henrique chegam a 19 títulos no Flamengo; Pedro iguala Zico, Júnior e Gabigol",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/21/arrascaeta-e-bruno-henrique-chegam-a-19-titulos-no-flamengo-pedro-iguala-zico-junior-e-gabigol.ghtml",
-     "hora": "21/11 18h25"
+     "veiculo": "Poder360",
+     "titulo": "Haddad defende taxar super-ricos durante cúpula em Paris",
+     "url": "https://www.poder360.com.br/poder-economia/haddad-defende-taxar-super-ricos-durante-cupula-em-paris/",
+     "hora": "21/11 18h00"
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-21T18:25-03:00"
+   "ultima_iso": "2026-11-21T18:40-03:00"
   },
   {
    "assunto": "Real Madrid x Celta - Campeonato Espanhol 2026/27 - Ao vivo - globoesporte.com",
@@ -177,13 +174,19 @@
      "veiculo": "ge",
      "titulo": "Real Madrid x Celta - Campeonato Espanhol 2026/27 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/jogo/21-11-2026/realmadrid-celta-de-vigo.ghtml",
-     "hora": "21/11 18h38"
+     "hora": "21/11 18h47"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Central x Íbis - Campeonato Pernambucano 2026/2027 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/pe/caruaru-regiao/futebol/campeonato-pernambucano/jogo/21-11-2026/central-ibis.ghtml",
+     "hora": "21/11 18h47"
     },
     {
      "veiculo": "ge",
      "titulo": "Bahia x Coritiba - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/ba/futebol/brasileirao-serie-a/jogo/21-11-2026/bahia-coritiba.ghtml",
-     "hora": "21/11 18h38"
+     "hora": "21/11 18h45"
     },
     {
      "veiculo": "CNN Brasil",
@@ -193,27 +196,7 @@
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-21T18:38-03:00"
-  },
-  {
-   "assunto": "'Dificuldades neste inverno': Irã vai racionar eletricidade devido à escassez de energia",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "'Dificuldades neste inverno': Irã vai racionar eletricidade devido à escassez de energia",
-     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/21/dificuldades-neste-inverno-ira-vai-racionar-eletricidade-devido-a-escassez-de-energia.ghtml",
-     "hora": "21/11 18h35"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T18:35-03:00"
+   "ultima_iso": "2026-11-21T18:47-03:00"
   },
   {
    "assunto": "Alerta de tempestade com risco de granizo no Piauí é estendido até segunda (23) em 22 cidades",
@@ -276,7 +259,7 @@
    "ultima_iso": "2026-11-21T18:38-03:00"
   },
   {
-   "assunto": "Animais são transferidos após incêndio atingir área do Bioparque da Amazônia no Amapá",
+   "assunto": "Animais são transferidos após incêndio atingir área do Bioparque da Amazônia no AP",
    "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
@@ -287,7 +270,7 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Animais são transferidos após incêndio atingir área do Bioparque da Amazônia no Amapá",
+     "titulo": "Animais são transferidos após incêndio atingir área do Bioparque da Amazônia no AP",
      "url": "https://g1.globo.com/ap/amapa/noticia/2026/11/21/animais-sao-transferidos-apos-incendio-atingir-area-do-bioparque-da-amazonia-no-amapa.ghtml",
      "hora": "21/11 18h27"
     }
@@ -314,6 +297,46 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-21T18:00-03:00"
+  },
+  {
+   "assunto": "Após dois acidentes na Cachoeira da Campanha, moradores pedem mais segurança na RJ-134",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Após dois acidentes na Cachoeira da Campanha, moradores pedem mais segurança na RJ-134",
+     "url": "https://g1.globo.com/rj/regiao-serrana/noticia/2026/11/21/apos-dois-acidentes-na-cachoeira-da-campanha-moradores-pedem-mais-seguranca-na-rj-134.ghtml",
+     "hora": "21/11 18h36"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T18:36-03:00"
+  },
+  {
+   "assunto": "Arrascaeta e Bruno Henrique chegam a 19 títulos no Flamengo; Pedro iguala Zico, Júnior e Gabigol",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Arrascaeta e Bruno Henrique chegam a 19 títulos no Flamengo; Pedro iguala Zico, Júnior e Gabigol",
+     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/21/arrascaeta-e-bruno-henrique-chegam-a-19-titulos-no-flamengo-pedro-iguala-zico-junior-e-gabigol.ghtml",
+     "hora": "21/11 18h25"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T18:25-03:00"
   },
   {
    "assunto": "Ataque do Irã atinge instalação industrial no Bahrein",
@@ -349,11 +372,11 @@
      "veiculo": "ge",
      "titulo": "Athletico vence o Paraná Clube nos pênaltis e é campeão da Copa Paraná",
      "url": "https://ge.globo.com/pr/futebol/taca-fpf/jogo/21-11-2026/parana-atletico-pr.ghtml",
-     "hora": "21/11 18h35"
+     "hora": "21/11 18h41"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T18:35-03:00"
+   "ultima_iso": "2026-11-21T18:41-03:00"
   },
   {
    "assunto": "Brasil pode virar polo global de data centers, projeta The Economist",
@@ -422,26 +445,6 @@
    "ultima_iso": "2026-11-21T18:04-03:00"
   },
   {
-   "assunto": "Central x Íbis - Campeonato Pernambucano 2026/2027 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Central x Íbis - Campeonato Pernambucano 2026/2027 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/pe/caruaru-regiao/futebol/campeonato-pernambucano/jogo/21-11-2026/central-ibis.ghtml",
-     "hora": "21/11 18h37"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T18:37-03:00"
-  },
-  {
    "assunto": "Cidade no interior de SP registra tremores e estrondos durante madrugada",
    "secao": null,
    "n_fontes": 1,
@@ -460,26 +463,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-21T18:10-03:00"
-  },
-  {
-   "assunto": "Com Leonardo Jardim, portugueses ganham cinco dos últimos oito Brasileiros",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Com Leonardo Jardim, portugueses ganham cinco dos últimos oito Brasileiros",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/21/com-leonardo-jardim-portugueses-ganham-cinco-dos-ultimos-oito-brasileiros.ghtml",
-     "hora": "21/11 18h25"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T18:25-03:00"
   },
   {
    "assunto": "Considerada a cidade histórica mais importante da Amazônia, a vila maranhense de ruas de pedra guarda ruínas coloniais e a base de foguetes do Brasil",
@@ -520,6 +503,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-21T17:55-03:00"
+  },
+  {
+   "assunto": "Corpo de homem é encontrado com marcas de tiros e orelha decepada na Grande João Pessoa",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Corpo de homem é encontrado com marcas de tiros e orelha decepada na Grande João Pessoa",
+     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/21/corpo-de-homem-e-encontrado-com-marcas-de-tiros-e-orelha-decepada-na-grande-joao-pessoa.ghtml",
+     "hora": "21/11 18h40"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T18:40-03:00"
   },
   {
    "assunto": "Corpo é encontrado em cachoeira no interior de SP; local tem 70 metros e resgate levou 3 horas",
@@ -701,6 +704,26 @@
    "n_fontes_90min": 0,
    "ultima_iso": "2026-11-21T18:01-03:00",
    "lixo": true
+  },
+  {
+   "assunto": "Esqueleto em sarcófago romano de abadia inglesa pode ganhar identidade",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Esqueleto em sarcófago romano de abadia inglesa pode ganhar identidade",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/esqueleto-em-sarcofago-romano-de-abadia-inglesa-pode-ganhar-identidade/",
+     "hora": "21/11 17h41"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T17:41-03:00"
   }
  ],
  "em_pautas": {
@@ -733,16 +756,28 @@
    "n_fontes": 6,
    "manchetes": [
     {
+     "veiculo": "ge",
+     "titulo": "Solta o grito! Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
+     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
+     "hora": "21/11 18h47"
+    },
+    {
      "veiculo": "Veja",
      "titulo": "Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
      "url": "https://veja.abril.com.br/esporte/flamengo-empata-palmeiras-e-e-campeao-brasileiro-pela-decima-vez/",
      "hora": "21/11 18h39"
     },
     {
-     "veiculo": "ge",
-     "titulo": "Solta o grito! Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
-     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
-     "hora": "21/11 18h38"
+     "veiculo": "Exame",
+     "titulo": "Flamengo empata com Palmeiras e é campeão do Brasileirão",
+     "url": "https://exame.com/esporte/flamengo-empata-com-palmeiras-e-e-campeao-do-brasileirao/",
+     "hora": "21/11 18h28"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Flamengo empata com Palmeiras e conquista Brasileirão de forma antecipada",
+     "url": "https://www.metropoles.com/esportes/flamengo-empata-com-palmeiras-e-conquista-brasileirao-de-forma-antecipada",
+     "hora": "21/11 18h26"
     },
     {
      "veiculo": "ge",
@@ -757,6 +792,12 @@
      "hora": "21/11 18h31"
     },
     {
+     "veiculo": "Metrópoles",
+     "titulo": "Brasileirão: Flamengo se torna o maior campeão dos pontos corridos",
+     "url": "https://www.metropoles.com/esportes/brasileirao-flamengo-se-torna-o-maior-campeao-dos-pontos-corridos",
+     "hora": "21/11 18h28"
+    },
+    {
      "veiculo": "ge",
      "titulo": "Atuações do Flamengo: craque do campeonato e do jogo, Samuel Lino decide o título; dê suas notas",
      "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/21/atuacoes-do-flamengo-craque-do-campeonato-e-do-jogo-samuel-lino-decide-o-titulo-de-suas-notas.ghtml",
@@ -767,30 +808,6 @@
      "titulo": "Atuações do Palmeiras: Carlos Miguel é o melhor em empate com o Flamengo; dê suas notas",
      "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/21/atuacoes-do-palmeiras-carlos-miguel-e-o-melhor-em-empate-com-o-flamengo-de-suas-notas.ghtml",
      "hora": "21/11 18h30"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Palmeiras x Flamengo: Com gol de Samuel Lino, rubro-negro empata e é decacampeão; colunistas analisam título",
-     "url": "https://oglobo.globo.com/esportes/ao-vivo/palmeiras-x-flamengo-rubro-negro-joga-pelo-empate-para-conquistar-decimo-titulo-do-brasileirao.ghtml",
-     "hora": "21/11 18h30"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Flamengo é decacampeão brasileiro em pleno Nubank Parque após Samuel Lino arrancar empate com o Palmeiras",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/21/flamengo-e-decacampeao-brasileiro-em-pleno-nubank-parque-apos-samuel-lino-arrancar-empate-com-o-palmeiras.ghtml",
-     "hora": "21/11 18h25"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Flamengo empata com Palmeiras e conquista Brasileirão de forma antecipada",
-     "url": "https://www.metropoles.com/esportes/flamengo-empata-com-palmeiras-e-conquista-brasileirao-de-forma-antecipada",
-     "hora": "21/11 18h26"
-    },
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Flamengo empata com o Palmeiras e conquista o Brasileirão 2026",
-     "url": "https://revistaoeste.com/brasil/flamengo-empata-com-o-palmeiras-e-conquista-o-brasileirao-2026/",
-     "hora": "21/11 18h26"
     }
    ]
   },
@@ -830,6 +847,18 @@
     }
    ]
   },
+  "serie-b-38-rodada-final": {
+   "secao": "esportes",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Umberto Louzer chega aos playoffs da Série B com 55% de aproveitamento no Criciúma; torcida avalia",
+     "url": "https://ge.globo.com/sc/futebol/times/criciuma/noticia/2026/11/21/umberto-louzer-chega-aos-playoffs-da-serie-b-com-55percent-de-aproveitamento-no-criciuma-torcida-avalia.ghtml",
+     "hora": "21/11 18h44"
+    }
+   ]
+  },
   "atletico-mg-city-torque-semi-sulamericana": {
    "secao": "esportes",
    "n_fontes": 1,
@@ -838,7 +867,7 @@
      "veiculo": "ge",
      "titulo": "Atlético-MG x Boca Juniors - Copa Sul-Americana 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/mg/futebol/copa-sul-americana/jogo/21-11-2026/atletico-mg-boca-juniors.ghtml",
-     "hora": "21/11 18h35"
+     "hora": "21/11 18h48"
     }
    ]
   }
@@ -854,7 +883,7 @@
    "ultima": "21/11 16h08",
    "ultima_iso": "2026-11-21T16:08-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 11.9,
+   "horas_sem_atualizar": 12.0,
    "principal": true,
    "manchetes": [
     {
@@ -875,7 +904,7 @@
    "ultima": "21/11 15h08",
    "ultima_iso": "2026-11-21T15:08-03:00",
    "pauta_atualizada_em": "2026-11-21T13:49-03:00",
-   "horas_sem_atualizar": 4.9,
+   "horas_sem_atualizar": 5.1,
    "principal": true,
    "manchetes": [
     {
@@ -898,7 +927,7 @@
    "ultima": "21/11 17h41",
    "ultima_iso": "2026-11-21T17:41-03:00",
    "pauta_atualizada_em": "2026-11-21T15:49-03:00",
-   "horas_sem_atualizar": 2.9,
+   "horas_sem_atualizar": 3.1,
    "principal": true,
    "manchetes": [
     {
@@ -931,7 +960,7 @@
    "ultima": "21/11 13h31",
    "ultima_iso": "2026-11-21T13:31-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 59.9,
+   "horas_sem_atualizar": 60.0,
    "principal": false,
    "manchetes": [
     {
@@ -953,7 +982,7 @@
    "ultima": "21/11 17h00",
    "ultima_iso": "2026-11-21T17:00-03:00",
    "pauta_atualizada_em": "2026-11-21T13:49-03:00",
-   "horas_sem_atualizar": 4.9,
+   "horas_sem_atualizar": 5.1,
    "principal": true,
    "manchetes": [
     {
@@ -971,35 +1000,34 @@
    ]
   },
   "brasileirao-31-rodada-lideres": {
-   "n": 12,
-   "n_fontes": 7,
+   "n": 9,
+   "n_fontes": 6,
    "fontes": [
     "cnn",
     "ex",
     "ge",
     "met",
     "oeste",
-    "oglobo",
     "veja"
    ],
-   "n_fontes_90min": 7,
-   "ultima": "21/11 18h39",
-   "ultima_iso": "2026-11-21T18:39-03:00",
+   "n_fontes_90min": 6,
+   "ultima": "21/11 18h47",
+   "ultima_iso": "2026-11-21T18:47-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 11.9,
+   "horas_sem_atualizar": 12.0,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Solta o grito! Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
+     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
+     "hora": "21/11 18h47"
+    },
     {
      "veiculo": "Veja",
      "titulo": "Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
      "url": "https://veja.abril.com.br/esporte/flamengo-empata-palmeiras-e-e-campeao-brasileiro-pela-decima-vez/",
      "hora": "21/11 18h39"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Solta o grito! Flamengo empata com Palmeiras e é campeão brasileiro pela décima vez",
-     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/21-11-2026/palmeiras-flamengo.ghtml",
-     "hora": "21/11 18h38"
     },
     {
      "veiculo": "Metrópoles",
@@ -1036,17 +1064,17 @@
     "ge"
    ],
    "n_fontes_90min": 2,
-   "ultima": "21/11 18h35",
-   "ultima_iso": "2026-11-21T18:35-03:00",
+   "ultima": "21/11 18h48",
+   "ultima_iso": "2026-11-21T18:48-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 11.9,
+   "horas_sem_atualizar": 12.0,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "ge",
      "titulo": "Atlético-MG x Boca Juniors - Copa Sul-Americana 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/mg/futebol/copa-sul-americana/jogo/21-11-2026/atletico-mg-boca-juniors.ghtml",
-     "hora": "21/11 18h35"
+     "hora": "21/11 18h48"
     },
     {
      "veiculo": "CNN Brasil",
@@ -1080,6 +1108,27 @@
     }
    ]
   },
+  "serie-b-38-rodada-final": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "21/11 18h44",
+   "ultima_iso": "2026-11-21T18:44-03:00",
+   "pauta_atualizada_em": "2026-11-16T06:52-03:00",
+   "horas_sem_atualizar": 132.0,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Umberto Louzer chega aos playoffs da Série B com 55% de aproveitamento no Criciúma; torcida avalia",
+     "url": "https://ge.globo.com/sc/futebol/times/criciuma/noticia/2026/11/21/umberto-louzer-chega-aos-playoffs-da-serie-b-com-55percent-de-aproveitamento-no-criciuma-torcida-avalia.ghtml",
+     "hora": "21/11 18h44"
+    }
+   ]
+  },
   "ue-taxa-big-techs-orcamento": {
    "n": 2,
    "n_fontes": 2,
@@ -1091,7 +1140,7 @@
    "ultima": "21/11 15h24",
    "ultima_iso": "2026-11-21T15:24-03:00",
    "pauta_atualizada_em": "2026-11-21T10:57-03:00",
-   "horas_sem_atualizar": 7.8,
+   "horas_sem_atualizar": 8.0,
    "principal": false,
    "manchetes": [
     {
@@ -1118,7 +1167,7 @@
    "ultima": "21/11 18h29",
    "ultima_iso": "2026-11-21T18:29-03:00",
    "pauta_atualizada_em": "2026-11-21T13:49-03:00",
-   "horas_sem_atualizar": 4.9,
+   "horas_sem_atualizar": 5.1,
    "principal": false,
    "manchetes": [
     {
@@ -1144,7 +1193,7 @@
    "ultima": "21/11 18h35",
    "ultima_iso": "2026-11-21T18:35-03:00",
    "pauta_atualizada_em": "2026-11-21T10:58-03:00",
-   "horas_sem_atualizar": 7.8,
+   "horas_sem_atualizar": 7.9,
    "principal": false,
    "manchetes": [
     {
@@ -1198,7 +1247,7 @@
    "ultima": "21/11 18h15",
    "ultima_iso": "2026-11-21T18:15-03:00",
    "pauta_atualizada_em": "2026-11-21T13:49-03:00",
-   "horas_sem_atualizar": 4.9,
+   "horas_sem_atualizar": 5.1,
    "principal": false,
    "manchetes": [
     {
@@ -1237,7 +1286,7 @@
    "ultima": "21/11 15h26",
    "ultima_iso": "2026-11-21T15:26-03:00",
    "pauta_atualizada_em": "2026-11-21T15:26-03:00",
-   "horas_sem_atualizar": 3.3,
+   "horas_sem_atualizar": 3.5,
    "principal": false,
    "manchetes": [
     {
@@ -1767,25 +1816,6 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Campeão, Flamengo só vai levantar a taça na última rodada; entenda o motivo",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Campeão, Flamengo só vai levantar a taça na última rodada; entenda o motivo",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/21/campeao-flamengo-so-vai-levantar-a-taca-na-ultima-rodada-entenda-o-motivo.ghtml",
-     "hora": "21/11 18h25"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Flamengo comemora conquista do Brasileiro com taça de 2025; entenda por que clube não recebeu novo troféu",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/21/entenda-por-que-flamengo-nao-recebera-taca-do-brasileirao-no-nubank-parque-apos-ser-campeao-brasileiro.ghtml",
-     "hora": "21/11 18h25"
-    }
-   ]
-  },
-  {
    "assunto": "Confira a lista com todos os campeões do Brasileiro",
    "secao": "esportes",
    "n_fontes": 2,
@@ -1805,31 +1835,6 @@
    ]
   },
   {
-   "assunto": "Flamengo ganha quatro Brasileiros em oito anos e repete a geração de Zico",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Flamengo ganha quatro Brasileiros em oito anos e repete a geração de Zico",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/21/flamengo-ganha-quatro-brasileiros-em-oito-anos-e-repete-a-geracao-de-zico.ghtml",
-     "hora": "21/11 18h25"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Tetra, Arrascaeta e Bruno Henrique igualam Zico em Brasileiros pelo Flamengo",
-     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/21/tetra-arrascaeta-e-bruno-henrique-igualam-zico-em-brasileiros-pelo-flamengo.ghtml",
-     "hora": "21/11 18h25"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Arrascaeta e Bruno Henrique chegam a 19 títulos no Flamengo; Pedro iguala Zico, Júnior e Gabigol",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/21/arrascaeta-e-bruno-henrique-chegam-a-19-titulos-no-flamengo-pedro-iguala-zico-junior-e-gabigol.ghtml",
-     "hora": "21/11 18h25"
-    }
-   ]
-  },
-  {
    "assunto": "Real Madrid x Celta - Campeonato Espanhol 2026/27 - Ao vivo - globoesporte.com",
    "secao": "esportes",
    "n_fontes": 2,
@@ -1838,13 +1843,19 @@
      "veiculo": "ge",
      "titulo": "Real Madrid x Celta - Campeonato Espanhol 2026/27 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/jogo/21-11-2026/realmadrid-celta-de-vigo.ghtml",
-     "hora": "21/11 18h38"
+     "hora": "21/11 18h47"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Central x Íbis - Campeonato Pernambucano 2026/2027 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/pe/caruaru-regiao/futebol/campeonato-pernambucano/jogo/21-11-2026/central-ibis.ghtml",
+     "hora": "21/11 18h47"
     },
     {
      "veiculo": "ge",
      "titulo": "Bahia x Coritiba - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/ba/futebol/brasileirao-serie-a/jogo/21-11-2026/bahia-coritiba.ghtml",
-     "hora": "21/11 18h38"
+     "hora": "21/11 18h45"
     },
     {
      "veiculo": "CNN Brasil",
@@ -1864,9 +1875,9 @@
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 2 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 1 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 6 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 79 nas últimas 6 h",
+  "ge": "ok: 100 itens, 82 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 8 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
@@ -1880,13 +1891,13 @@
   "Estadão Política": "ok: 20 itens, 1 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 1 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 1 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 41 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 10 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 4 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "Valor Econômico": "ok: 100 itens, 9 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 3 nas últimas 6 h",
-  "DW Brasil": "ok: 67 itens, 4 nas últimas 6 h",
+  "DW Brasil": "ok: 67 itens, 3 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 51 itens, 11 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 2 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
