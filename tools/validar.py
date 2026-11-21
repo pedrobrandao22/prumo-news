@@ -1503,7 +1503,9 @@ def checar_revisao_2011(f, agora, virada=False):
         dados = im.get("dados") if isinstance(im.get("dados"), dict) else {}
         pl = re.search(r"\b(\d{1,3}) a (\d{1,3})\b", str(dados.get("valor") or ""))
         if pl:
-            outros = set(re.findall(r"\b\d{1,3} a \d{1,3}\b", tit + " " + str(p.get("subtitulo") or "")))
+            # 20/11 noite: também o texto e os pontos (a manchete dizia "45 a 31" no desenho e "45 a 32 e 49 a 31" logo abaixo)
+            outros = set(re.findall(r"\b\d{1,3} a \d{1,3}\b", " ".join([tit, str(p.get("subtitulo") or ""), str(n.get("texto") or "")]
+                                                                       + [t for t in (n.get("pontos") or []) if isinstance(t, str)])))
             if outros and pl.group(0) not in outros:
                 E(f"[{pid}] imagem.dados.valor '{pl.group(0)}' e o título/subtítulo dizem {', '.join(sorted(outros))}: o desenho mostra "
                   "o mesmo placar do texto (ou põe a data: 'texto-base, 12/11')")
