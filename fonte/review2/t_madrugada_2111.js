@@ -44,5 +44,15 @@ const PORTA = 9427, BASE = `http://localhost:${PORTA}/index.html`;
   await esperar(Q, () => window.FEED && FEED.pautas && window.__prumoPronto, null, 15000); await sleep(800);
   const r7 = await Q.evaluate(() => ({ v: VIEW, y: scrollY }));
   ok(r7.v !== 'capa' || r7.y < 60, '7: recarregar no Feed não abre a Capa no meio', r7);
+  // 8 (21/11): resposta a comentário apagado fica sob "Comentário apagado", sem o @Nome
+  const r8 = await Q.evaluate(() => { const box = document.createElement('div'); box.id = 'cbox'; box.innerHTML = '<ul class="clist"><li><div><span><b>Ana Lima</b> Concordo</span></div></li><li><div><span><b>Bia</b> @Claude Teste Teste do testador: resposta</span></div></li></ul>'; document.body.appendChild(box);
+    fd156Agrupa(); fd167SemMencao(); const lis = [...box.querySelectorAll('.clist>li')]; const r = { n: lis.length, ph: !!box.querySelector('.fd156-apag'), resp: lis[2] && lis[2].classList.contains('fd156-resp'), tx: lis[2] && lis[2].querySelector('span').textContent }; box.remove(); return r });
+  ok(r8.ph && r8.resp && !/@Claude/.test(r8.tx || '') && /Teste do testador/.test(r8.tx || ''), '8: resposta a comentário apagado fica recuada sob "Comentário apagado", sem o @Nome', r8);
+  // 9: giro Últimas com o título da notícia (a atualização vira linha)
+  const r9 = await Q.evaluate(async () => { try { const r = igLista('_ult'); if (!r.itens || !r.itens.length) return 'sem itens'; abrirUltimas(); await new Promise(z => setTimeout(z, 700)); const h = document.querySelector('#layer .story h2'); const it = ST.itens && ST.itens[ST.i]; const p = it && pautaById(it.pid); const t = h && h.textContent; try { closeLayer() } catch (e) {} return { t, tit: p && versao(p, lente()).titulo } } catch (e) { return 'erro ' + e.message } });
+  ok(r9 === 'sem itens' || (r9 && r9.t && r9.t.slice(0, 20) === String(r9.tit).slice(0, 20)), '9: giro Últimas usa o título da notícia', r9);
+  // 10 (21/11): rótulo do cartão com espaço antes de "· há"; cabeçalho rolado opaco
+  const r10 = await Q.evaluate(async () => { go('feed'); await new Promise(z => setTimeout(z, 800)); const h = document.querySelector('#posts .post .ph-sub.fd156-sub .vn-hr'); const ws = h && getComputedStyle(h).whiteSpace; scrollTo(0, 900); await new Promise(z => setTimeout(z, 600)); const t = document.querySelector('.top'); return { ws, bg: getComputedStyle(t).backgroundColor, rolou: t.classList.contains('rolou') } });
+  ok((!r10.ws || r10.ws === 'pre') && (!r10.rolou || !/rgba\(.*,\s*0?\.\d+\)/.test(r10.bg)), '10: espaço antes de "· há" e cabeçalho rolado opaco', r10);
   await c2.close(); await b.close(); srv.close && srv.close(); const s = U.resumo(); console.log(`${s.OKS} ok, ${s.FALHAS} falhas`); process.exit(s.FALHAS ? 1 : 0);
 })();

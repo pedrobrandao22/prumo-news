@@ -35,3 +35,10 @@ addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC
    o navegador devolvia a altura do Feed na Capa. Ao terminar de abrir na Capa, volta ao topo (a restauração do navegador
    fica: "manual" quebrava o Feed depois de publicar) */
 addEventListener("pageshow",e=>{try{if(e.persisted)return;const vai=()=>{if(!$("#layer").innerHTML&&typeof VIEW!=="undefined"&&VIEW==="capa"&&scrollY>0)scrollTo(0,0)};vai();setTimeout(vai,60);setTimeout(vai,400)}catch(er){}});
+
+/* testador (tamanho-da-letra-fica-aberto-por-cima-do-texto-ao-rolar-2): o 210 só marcava a altura no primeiro "scroll", então
+   a primeira rolada não fechava o "Aa". A altura passa a ser marcada ao abrir e depois de cada toque em A−/A+ (a letra
+   nova muda a altura do texto sem a pessoa rolar) */
+function mt211AaMarca(){try{const ab=$("#layer .mat-aap"),m=$("#layer .mat");if(ab&&m)ab.dataset.ct210y=m.scrollTop}catch(e){}}
+{const _ml211=matLetra;matLetra=function(){const r=_ml211.apply(this,arguments);mt211AaMarca();return r}}
+document.addEventListener("click",e=>{try{if(e.target&&e.target.closest&&e.target.closest("#layer .mat-aap [data-matfz]"))[60,250].forEach(t=>setTimeout(mt211AaMarca,t))}catch(er){}},true);

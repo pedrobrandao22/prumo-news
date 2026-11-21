@@ -360,7 +360,9 @@ function cp152Anexo(k){
   /* mais fotos: junta (não troca) e volta para a caixa; desistir também volta */
   if(fc164Tem()){fc164Edita(undefined,"fotos");const E=ED;if(E){E.po.multi=true;E.fc164novo=true}
     try{const f=$("#ce-pfile");if(f&&E&&E.po.fotos.length<10){f.addEventListener("cancel",()=>{if(ED===E&&E.fc164novo)fc164Volta()},{once:true});f.click()}}catch(e){}return}
-  const r=cp206Anexo155.apply(this,arguments);try{if(typeof ED!=="undefined"&&ED&&ED.modo==="post"){ED.fc164=true;ED.fc164novo=true}}catch(e){}return r}
+  const r=cp206Anexo155.apply(this,arguments);try{if(typeof ED!=="undefined"&&ED&&ED.modo==="post"){ED.fc164=true;ED.fc164novo=true;
+    /* 21/11 (testador): desistir da galeria deixava a pessoa na tela antiga "Novo post" (com Enquete, De perto…); volta para a caixa */
+    const E=ED;setTimeout(()=>{try{const f=$("#ce-pfile");if(f)f.addEventListener("cancel",()=>{if(ED===E&&E.fc164novo&&!(E.po.fotos||[]).length)fc164Volta()},{once:true})}catch(e){}},0)}}catch(e){}return r}
 /* cp152TextoDe: base no 152; 164 (fotos escolhidas voltam para a caixa), 155 (a notícia e o texto ficam guardados) */
 function cp206TextoDe0(E){try{const P=E&&E.po;if(!P)return CP152.txt;const cn=P.cn;if(!cn)return String(P.texto||"");return [cn.tit,cn.corpo].map(s=>String(s||"").trim()).filter(Boolean).join("\n\n")}catch(e){return CP152.txt}}
 function cp152TextoDe(E){try{if(E&&E.fc164&&E.po&&E.po.fotos&&E.po.fotos.length){E.po.passo="fotos";CP152.ed=E}}catch(e){}
@@ -385,8 +387,8 @@ function cp152Publica(){CR166.pubT=Date.now();
   /* só a notícia, sem comentário nem foto: o primeiro toque pergunta (testador 20/11: quem tocava por engano publicava) */
   try{const so=typeof CR155!=="undefined"&&CR155.pid&&!String(CP152.txt||"").trim()&&!(typeof fc164Tem==="function"&&fc164Tem());
     if(so&&!(CP152.semCom&&Date.now()-CP152.semCom<8000)){CP152.semCom=Date.now();const b=$("#layer [data-cp152pub]");
-      if(b){b.textContent="Publicar sem comentar?";b.classList.add("cp206-conf")}
-      try{toast("Toque de novo para publicar só a notícia, ou escreva o que você acha")}catch(e){}return}
+      if(b){b.textContent="Publicar assim";b.classList.add("cp206-conf");b.setAttribute("aria-label","Publicar sem comentar")}  /* 21/11 (testador): "Publicar sem comentar?" quebrava em 3 linhas */
+      try{toast("Publicar sem comentar? Toque de novo em Publicar assim, ou escreva o que você acha")}catch(e){}return}
     CP152.semCom=0}catch(e){}
   return cp206Publica164.apply(this,arguments)}
 /* cp152HTML: base no 152; 182 (sem a aba Giro quando escondida; dica dos formatos) */
