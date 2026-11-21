@@ -18,3 +18,10 @@ document.addEventListener("scroll",e=>{const m=e.target;if(!m||!m.classList||!m.
 addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC)return;const a=CM168_ANC;
   CM168_GIRO=Math.max(CM168_GIRO,Date.now()+1400);
   [800,1250].forEach(t=>setTimeout(()=>{const mm=$("#layer .mat");if(mm&&typeof cm168Restaura==="function")cm168Restaura(mm,a)},t))}catch(e){}});
+
+/* varredura 21/11: no Enviar e nas conversas a notícia aparecia com a ilustração genérica de jornal enquanto o Feed e a
+   matéria mostram a foto (6×1 com a foto de Lula). O cartão usa a mesma foto quando a notícia ainda está na edição */
+{const _sc211=shareCard;shareCard=function(s,attrs){const h=_sc211.apply(this,arguments);try{const p=s&&s.id&&typeof pautaById==="function"?pautaById(s.id):null;
+  const f=p&&typeof fotoDe==="function"?fotoDe(p):null;if(!f||!f.url)return h;
+  const i=h.indexOf("<svg"),j=h.indexOf("</svg>",i);if(i<0||j<0)return h;
+  return h.slice(0,i)+`<span class="sh211-f"><img src="${esc(f.url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></span>`+h.slice(j+6)}catch(e){return h}}}

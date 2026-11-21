@@ -6441,6 +6441,10 @@ html.fzg .card .segs button{font-size:13px;padding-inline:8px}
   html.fzg #posts .post .ph-nm{display:flex!important;flex-wrap:wrap;row-gap:0;min-width:0}
   html.fzg #posts .post .ph-nm .ph-sub{flex:1 0 100%;margin-left:0!important;max-width:100%}
 }
+
+/* cartão da notícia no Enviar e na conversa com a foto da notícia (211) */
+.share .sh211-f{display:block;width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--chip,#e9edf2)}
+.share .sh211-f img{display:block;width:100%;height:100%;object-fit:cover}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -22445,6 +22449,13 @@ document.addEventListener("scroll",e=>{const m=e.target;if(!m||!m.classList||!m.
 addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC)return;const a=CM168_ANC;
   CM168_GIRO=Math.max(CM168_GIRO,Date.now()+1400);
   [800,1250].forEach(t=>setTimeout(()=>{const mm=$("#layer .mat");if(mm&&typeof cm168Restaura==="function")cm168Restaura(mm,a)},t))}catch(e){}});
+
+/* varredura 21/11: no Enviar e nas conversas a notícia aparecia com a ilustração genérica de jornal enquanto o Feed e a
+   matéria mostram a foto (6×1 com a foto de Lula). O cartão usa a mesma foto quando a notícia ainda está na edição */
+{const _sc211=shareCard;shareCard=function(s,attrs){const h=_sc211.apply(this,arguments);try{const p=s&&s.id&&typeof pautaById==="function"?pautaById(s.id):null;
+  const f=p&&typeof fotoDe==="function"?fotoDe(p):null;if(!f||!f.url)return h;
+  const i=h.indexOf("<svg"),j=h.indexOf("</svg>",i);if(i<0||j<0)return h;
+  return h.slice(0,i)+`<span class="sh211-f"><img src="${esc(f.url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></span>`+h.slice(j+6)}catch(e){return h}}}
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários
