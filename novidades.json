@@ -1,34 +1,79 @@
 {
- "gerado": "2026-11-20T20:55-03:00",
+ "gerado": "2026-11-20T21:48-03:00",
  "desde": "2026-11-20T19:39-03:00",
  "feed_atualizado_em": "2026-11-20T19:49:00-03:00",
  "resumo": {
-  "manchetes": 112,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 87,
-  "pautas_com_novidade": 4,
-  "pautas_com_novidade_3_fontes": 0,
+  "manchetes": 185,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 145,
+  "pautas_com_novidade": 5,
+  "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 8,
-  "acionar_itens": 0,
-  "ja_avaliados": 4
+  "acionar_itens": 1,
+  "ja_avaliados": 3
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (87 assuntos fora do feed, 8 pautas com relatos, 4 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Fachin retira sigilo de relatório da PF com 11 conversas que citam André Mendonça no caso Master",
+   "n_fontes": 3,
+   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: caso-master",
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Fachin retira sigilo de relatório da PF com 11 conversas que citam André Mendonça no caso Master",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/fachin-retira-sigilo-de-relatorio-da-pf-com-11-conversas-que-citam-andre-mendonca-no-caso-master.ghtml",
+     "hora": "20/11 21h23",
+     "lide": "Documento aponta tentativas de aproximação de Daniel Vorcaro, mas diz que não foram identificados registros de diálogo direto entre o ex-dono do banco e o ministro."
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Master: Gilmar Mendes não vê problema em retirar sigilo de relatórios da PF",
+     "url": "https://www.metropoles.com/mundo/master-gilmar-mendes-nao-ve-problema-em-retirar-sigilo-de-relatorios-da-pf",
+     "hora": "20/11 21h13",
+     "lide": "Decano do STF afirmou nesta sexta (20/11) que a decisão cabe ao ministro Edson Fachin, mas ponderou que a medida não solucionaria a questão"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Não resolve a questão, diz Gilmar sobre abertura de sigilo do STF no caso Master",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/20/no-resolve-a-questo-diz-gilmar-sobre-abertura-de-sigilo-do-stf-no-caso-master.ghtml",
+     "hora": "20/11 20h00",
+     "lide": "Ministro afirmou, no entanto, que não se opõe à divulgação dos relatórios da PF"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
+   "assunto": "Moraes antecipa voto e acompanha Dino para tornar Van Hattem réu",
    "secao": "politica",
-   "n_fontes": 3,
+   "n_fontes": 4,
    "fontes": [
     "antag",
+    "cnn",
     "oeste",
     "oglobo"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Moraes antecipa voto e acompanha Dino para tornar Van Hattem réu",
+     "url": "https://oantagonista.com.br/brasil/moraes-antecipa-voto-e-acompanha-dino-para-tornar-van-hattem-reu/",
+     "hora": "20/11 21h31"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Dino vota para tornar Van Hattem réu por calunia; Zanin pede destaque",
+     "url": "https://www.cnnbrasil.com.br/politica/dino-vota-para-tornar-van-hattem-reu-por-calunia-zanin-pede-destaque/",
+     "hora": "20/11 21h16"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
@@ -40,16 +85,71 @@
      "titulo": "Marinho acusa Dino de relativizar imunidade parlamentar no caso Van Hattem",
      "url": "https://oantagonista.com.br/brasil/marinho-acusa-dino-de-relativizar-imunidade-parlamentar-no-caso-van-hattem/",
      "hora": "20/11 20h06"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Dino vota para Van Hattem se tornar réu por calúnia contra delegado e Zanin suspende julgamento",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/20/dino-vota-para-van-hattem-se-tornar-reu-por-calunia-contra-delegado-e-zanin-suspende-julgamento.ghtml",
-     "hora": "20/11 19h44"
     }
    ],
    "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-20T20:08-03:00"
+   "ultima_iso": "2026-11-20T21:31-03:00"
+  },
+  {
+   "assunto": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "fontes": [
+    "oeste",
+    "oglobo",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
+     "url": "https://revistaoeste.com/agronegocio/trump-diz-que-filipinas-vao-deixar-de-comprar-produtos-agricolas-do-brasil/",
+     "hora": "20/11 21h00"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/trump-diz-ter-exigido-que-filipinas-troque-produtos-agrcolas-do-brasil-pelos-dos-eua.ghtml",
+     "hora": "20/11 20h29"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Governo ignora afirmação de Trump de que convenceu Filipinas a deixar de importar do Brasil",
+     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/governo-ignora-afirmacao-de-trump-de-que-convenceu-filipinas-a-deixar-de-importar-do-brasil.ghtml",
+     "hora": "20/11 19h51"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-20T21:00-03:00"
+  },
+  {
+   "assunto": "Bayer pagará até US$ 7,25 bilhões em acordo judicial com pacientes que alegam ter desenvolvido câncer após uso de herbicida",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "estadao",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "Bayer pagará até US$ 7,25 bilhões em acordo judicial com pacientes que alegam ter desenvolvido câncer após uso de herbicida",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/bayer-pagara-ate-us-725-bilhoes-em-acordo-judicial-com-pacientes-que-alegam-ter-desenvolvido-cancer-apos-uso-de-herbicida.ghtml",
+     "hora": "20/11 21h38"
+    },
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "Tribunal aprova acordo de US$ 7,25 bi com Bayer por acusação de câncer ligado a herbicida",
+     "url": "https://www.estadao.com.br/economia/tribunal-aprova-acordo-de-us-725-bi-com-bayer-por-acusacao-de-cancer-ligado-a-herbicida/",
+     "hora": "20/11 21h01"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T21:38-03:00"
   },
   {
    "assunto": "Carlos relata piora rápida do quadro de Bolsonaro: \"Impressão horrível\"",
@@ -79,6 +179,115 @@
    "ultima_iso": "2026-11-20T19:57-03:00"
   },
   {
+   "assunto": "Conmebol admite ter cerca de R$ 88 milhões em banco que quebrou no Paraguai",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Conmebol admite ter cerca de R$ 88 milhões em banco que quebrou no Paraguai",
+     "url": "https://www.metropoles.com/mundo/conmebol-admite-ter-cerca-de-r-88-milhoes-em-banco-que-quebrou-no-paraguai",
+     "hora": "20/11 21h31"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Conmebol admite ter R$ 88 milhões aplicados no Ueno, banco paraguaio que quebrou após crise",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/20/conmebol-recursos-banco-ueno.ghtml",
+     "hora": "20/11 20h29"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T21:31-03:00"
+  },
+  {
+   "assunto": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "antag",
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+     "url": "https://oantagonista.com.br/brasil/defesa-civil-aponta-microexplosao-como-causa-de-destruicao-em-tupancireta/",
+     "hora": "20/11 21h15"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Defesa Civil apura microexplosão após estragos em cidade do RS",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/rs/defesa-civil-apura-microexplosao-apos-estragos-em-cidade-do-rs/",
+     "hora": "20/11 20h32"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T21:15-03:00"
+  },
+  {
+   "assunto": "Dez anos após votar pelo Brexit, Reino Unido ensaia volta à aproximação com União Europeia",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Dez anos após votar pelo Brexit, Reino Unido ensaia volta à aproximação com União Europeia",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/dez-anos-apos-votar-pelo-brexit-reino-unido-ensaia-volta-a-aproximacao-com-uniao-europeia.ghtml",
+     "hora": "20/11 21h12"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Reino Unido e União Europeia fecham acordos após cúpula em Bruxelas",
+     "url": "https://www.cnnbrasil.com.br/internacional/reino-unido-e-uniao-europeia-fecham-acordos-apos-cupula-em-bruxelas/",
+     "hora": "20/11 19h43"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T21:12-03:00"
+  },
+  {
+   "assunto": "Matemático da Anthropic afirma ter resolvido o problema mais famoso da matemática",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Matemático da Anthropic afirma ter resolvido o problema mais famoso da matemática",
+     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/matematico-da-anthropic-afirma-ter-resolvido-o-problema-mais-famoso-da-matematica.ghtml",
+     "hora": "20/11 21h37"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Matemático da Anthropic afirma ter provado a Hipótese de Riemann, um dos mais famosos enigmas da matemática",
+     "url": "https://g1.globo.com/educacao/noticia/2026/11/20/matematico-da-anthropic-afirma-ter-provado-a-hipotese-de-riemann-um-dos-mais-famosos-enigmas-da-matematica.ghtml",
+     "hora": "20/11 20h11"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T21:37-03:00",
+   "lixo": true
+  },
+  {
    "assunto": "Morre jovem que participava de luau e se afogou no Recreio",
    "secao": null,
    "n_fontes": 2,
@@ -106,31 +315,59 @@
    "ultima_iso": "2026-11-20T20:36-03:00"
   },
   {
-   "assunto": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
-   "secao": "mundo",
+   "assunto": "Peru registra terremoto de magnitude 6,7; tremor foi sentido em Lima",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "oglobo",
-    "valor"
+    "cnn",
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Valor Econômico",
-     "titulo": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/trump-diz-ter-exigido-que-filipinas-troque-produtos-agrcolas-do-brasil-pelos-dos-eua.ghtml",
-     "hora": "20/11 20h29"
+     "veiculo": "g1",
+     "titulo": "Peru registra terremoto de magnitude 6,7; tremor foi sentido em Lima",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/20/peru-registra-terremoto-de-magnitude-67-tremor-foi-sentido-em-lima.ghtml",
+     "hora": "20/11 21h32"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Governo ignora afirmação de Trump de que convenceu Filipinas a deixar de importar do Brasil",
-     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/governo-ignora-afirmacao-de-trump-de-que-convenceu-filipinas-a-deixar-de-importar-do-brasil.ghtml",
-     "hora": "20/11 19h51"
+     "veiculo": "CNN Brasil",
+     "titulo": "Terremoto de magnitude 6,9 atinge Lima, capital do Peru, diz agência",
+     "url": "https://www.cnnbrasil.com.br/internacional/terremoto-de-magnitude-69-atinge-lima-capital-do-peru/",
+     "hora": "20/11 21h21"
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T20:29-03:00"
+   "ultima_iso": "2026-11-20T21:32-03:00"
+  },
+  {
+   "assunto": "Torcida do Boca \"invade\" Caribe colombiano e faz banderazo antes da final contra Atlético-MG; assista",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Torcida do Boca \"invade\" Caribe colombiano e faz banderazo antes da final contra Atlético-MG; assista",
+     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/20/torcida-do-boca-invade-caribe-colombiano-e-faz-banderazo-antes-da-final-contra-atletico-mg-assista.ghtml",
+     "hora": "20/11 20h59"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Domínguez faz mistério, e Atlético-MG pode ter novidades contra o Boca",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/atletico-mineiro/dominguez-faz-misterio-e-atletico-mg-pode-ter-novidades-contra-o-boca/",
+     "hora": "20/11 20h47"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T20:59-03:00",
+   "pid_provavel": "atletico-mg-city-torque-semi-sulamericana"
   },
   {
    "assunto": "“Nível de destruição é dramático”, diz Leite sobre Tupanciretã",
@@ -160,8 +397,135 @@
    "ultima_iso": "2026-11-20T20:40-03:00"
   },
   {
-   "assunto": "Após cortejo, corpo de subcomandante da PM morto no Peru é sepultado no Acre",
+   "assunto": "“Somos um país de segundas chances”, diz Trump sobre CEO da Nvidia",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "antag",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "“Somos um país de segundas chances”, diz Trump sobre CEO da Nvidia",
+     "url": "https://oantagonista.com.br/mundo/somos-um-pais-de-segundas-chances-diz-trump-sobre-ceo-da-nvidia/",
+     "hora": "20/11 20h58"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Trump defende retorno de Huang à Nvidia e pede ‘grande pedido de desculpas’ do ex-CEO",
+     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/trump-defende-retorno-de-huang-a-nvidia-e-pede-grande-pedido-de-desculpas-do-ex-ceo.ghtml",
+     "hora": "20/11 20h33"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T20:58-03:00"
+  },
+  {
+   "assunto": "Acompanhe Goiás x Montes Claros pela Superliga Masculina",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Acompanhe Goiás x Montes Claros pela Superliga Masculina",
+     "url": "https://ge.globo.com/volei/ao-vivo/acompanhe-goias-x-montes-claros-pela-superliga-masculina.ghtml",
+     "hora": "20/11 20h54"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T20:54-03:00"
+  },
+  {
+   "assunto": "Adaptar para quem? A Região Metropolitana da Baixada Santista diante da crise climática",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "bdf"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Adaptar para quem? A Região Metropolitana da Baixada Santista diante da crise climática",
+     "url": "https://www.brasildefato.com.br/colunista/observatorio-das-metropoles-nucleo-sao-paulo/2026/11/20/adaptar-para-quem-a-regiao-metropolitana-da-baixada-santista-diante-da-crise-climatica/",
+     "hora": "20/11 20h48"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T20:48-03:00"
+  },
+  {
+   "assunto": "Aliados culpam Lula por dificuldades no Congresso e disputa interna no governo",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Aliados culpam Lula por dificuldades no Congresso e disputa interna no governo",
+     "url": "https://veja.abril.com.br/politica/aliados-culpam-lula-por-dificuldades-no-congresso-e-disputa-interna-no-governo/",
+     "hora": "20/11 21h22"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T21:22-03:00"
+  },
+  {
+   "assunto": "Anthropic cai 9% um dia após estreia de ações nos EUA",
    "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Anthropic cai 9% um dia após estreia de ações nos EUA",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/anthropic-cai-9-um-dia-apos-estreia-de-acoes-nos-eua/",
+     "hora": "20/11 21h03"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T21:03-03:00"
+  },
+  {
+   "assunto": "Análise: Trump culpa Partido Republicano por derrota nas Midterms",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Análise: Trump culpa Partido Republicano por derrota nas Midterms",
+     "url": "https://www.cnnbrasil.com.br/internacional/analise-trump-culpa-partido-republicano-por-derrota-nas-midterms/",
+     "hora": "20/11 20h24"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T20:24-03:00"
+  },
+  {
+   "assunto": "Após cortejo, corpo de subcomandante da PM morto no Peru é sepultado no Acre",
+   "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
     "g1"
@@ -178,6 +542,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-20T19:42-03:00"
+  },
+  {
+   "assunto": "Arco do Triunfo de Trump em Washington é barrado pela 2ª vez",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Arco do Triunfo de Trump em Washington é barrado pela 2ª vez",
+     "url": "https://www.poder360.com.br/poder-internacional/arco-do-triunfo-de-trump-em-washington-e-barrado-pela-2a-vez-na-justica/",
+     "hora": "20/11 21h19"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T21:19-03:00"
   },
   {
    "assunto": "Arpoador fica lotado à noite após dia de calor de 36°C no Rio",
@@ -383,286 +767,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-20T20:41-03:00"
-  },
-  {
-   "assunto": "Botafogo bate Basquete Cearense e volta a vencer no NBB 2026/2027",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Botafogo bate Basquete Cearense e volta a vencer no NBB 2026/2027",
-     "url": "https://ge.globo.com/ce/basquete/noticia/2026/11/20/botafogo-bate-basquete-cearense-e-volta-a-vencer-no-nbb-20262027.ghtml",
-     "hora": "20/11 20h29"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:29-03:00"
-  },
-  {
-   "assunto": "COP31 prorroga negociações com disputa sobre combustíveis fósseis",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "COP31 prorroga negociações com disputa sobre combustíveis fósseis",
-     "url": "https://www.cnnbrasil.com.br/internacional/cop31-prorroga-negociacoes-com-disputa-sobre-combustiveis-fosseis/",
-     "hora": "20/11 19h53"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T19:53-03:00"
-  },
-  {
-   "assunto": "Caioba Cartola Show: Caioba e Carol Bernardi dão ótimas dicas pra mitar na 36ª rodada",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Caioba Cartola Show: Caioba e Carol Bernardi dão ótimas dicas pra mitar na 36ª rodada",
-     "url": "https://ge.globo.com/cartola/noticia/2026/11/20/caioba-cartola-show-caioba-e-carol-bernardi-dao-otimas-dicas-pra-mitar-na-36a-rodada.ghtml",
-     "hora": "20/11 20h03"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:03-03:00"
-  },
-  {
-   "assunto": "Carlos desabafa sobre situação do pai: ‘O objetivo ainda é matar Jair Bolsonaro’",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Carlos desabafa sobre situação do pai: ‘O objetivo ainda é matar Jair Bolsonaro’",
-     "url": "https://revistaoeste.com/politica/carlos-desabafa-sobre-situacao-do-pai-o-objetivo-ainda-e-matar-jair-bolsonaro/",
-     "hora": "20/11 20h01"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:01-03:00"
-  },
-  {
-   "assunto": "Caxias surpreende Bauru Basket e vence a primeira no NBB",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Caxias surpreende Bauru Basket e vence a primeira no NBB",
-     "url": "https://ge.globo.com/sp/tem-esporte/basquete/nbb/noticia/2026/11/20/caxias-surpreende-bauru-basket-na-panela-de-pressao-e-conquista-primeira-vitoria-no-nbb.ghtml",
-     "hora": "20/11 20h13"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:13-03:00"
-  },
-  {
-   "assunto": "Chinesas já dominam quase um quarto do mercado automotivo brasileiro e pressionam rivais",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "gp"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Gazeta do Povo Economia",
-     "titulo": "Chinesas já dominam quase um quarto do mercado automotivo brasileiro e pressionam rivais",
-     "url": "https://www.gazetadopovo.com.br/automoveis/montadoras-chinesas-dominam-quase-um-quarto-mercado-automotivo-brasileiro/",
-     "hora": "20/11 20h17"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:17-03:00"
-  },
-  {
-   "assunto": "Ciclista morre dentro de área restrita no Jardim Botânico de Brasília",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Ciclista morre dentro de área restrita no Jardim Botânico de Brasília",
-     "url": "https://www.metropoles.com/distrito-federal/ciclista-morre-dentro-de-area-restrita-do-jardim-botanico-de-brasilia",
-     "hora": "20/11 20h18"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:18-03:00"
-  },
-  {
-   "assunto": "Comandante de aeronave sente cheiro forte de fumaça e declara emergência oito minutos após decolagem de avião no Paraná",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Comandante de aeronave sente cheiro forte de fumaça e declara emergência oito minutos após decolagem de avião no Paraná",
-     "url": "https://g1.globo.com/pr/oeste-sudoeste/noticia/2026/11/20/comandante-de-aeronave-sente-cheiro-forte-de-fumaca-e-declara-emergencia-oito-minutos-apos-decolagem-de-aviao-no-parana.ghtml",
-     "hora": "20/11 19h41"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T19:41-03:00"
-  },
-  {
-   "assunto": "Conmebol admite ter R$ 88 milhões aplicados no Ueno, banco paraguaio que quebrou após crise",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Conmebol admite ter R$ 88 milhões aplicados no Ueno, banco paraguaio que quebrou após crise",
-     "url": "https://g1.globo.com/economia/noticia/2026/11/20/conmebol-recursos-banco-ueno.ghtml",
-     "hora": "20/11 20h29"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:29-03:00"
-  },
-  {
-   "assunto": "Conmebol manifesta ‘firme apoio’ à reeleição de Infantino na Fifa",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "jp"
-   ],
-   "ja_e_breve": true,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Conmebol manifesta ‘firme apoio’ à reeleição de Infantino na Fifa",
-     "url": "https://jovempan.com.br/esportes/futebol/futebol-internacional/conmebol-manifesta-firme-apoio-a-reeleicao-de-infantino-na-fifa/",
-     "hora": "20/11 20h50"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:50-03:00"
-  },
-  {
-   "assunto": "Corregedoria da PM apura batida de viatura em muro de casa em Ananindeua",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Corregedoria da PM apura batida de viatura em muro de casa em Ananindeua",
-     "url": "https://g1.globo.com/pa/para/noticia/2026/11/20/corregedoria-da-pm-apura-batida-de-viatura-em-muro-de-casa-em-ananindeua.ghtml",
-     "hora": "20/11 19h48"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T19:48-03:00"
-  },
-  {
-   "assunto": "Criança morre na Virgínia, EUA, em 1º óbito associado ao sarampo no Estado em 2026",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Criança morre na Virgínia, EUA, em 1º óbito associado ao sarampo no Estado em 2026",
-     "url": "https://www.infomoney.com.br/mundo/crianca-morre-na-virginia-eua-em-1o-obito-associado-ao-sarampo-no-estado-em-2026/",
-     "hora": "20/11 19h41"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T19:41-03:00"
-  },
-  {
-   "assunto": "De Leste a Oeste, com Ana Paula Henkel: assista ao programa de 20/11/2026",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "De Leste a Oeste, com Ana Paula Henkel: assista ao programa de 20/11/2026",
-     "url": "https://revistaoeste.com/videos/de-leste-a-oeste-com-ana-paula-henkel/de-leste-a-oeste-com-ana-paula-henkel-assista-ao-programa-de-20-11-2026/",
-     "hora": "20/11 20h30"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:30-03:00"
-  },
-  {
-   "assunto": "Decoração natalina em casas e comércios de Goiânia pode render desconto no IPTU",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Decoração natalina em casas e comércios de Goiânia pode render desconto no IPTU",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/20/decoracao-natalina-em-casas-e-comercios-de-goiania-pode-render-desconto-no-iptu.ghtml",
-     "hora": "20/11 20h16"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-20T20:16-03:00"
   }
  ],
  "em_pautas": {
@@ -692,8 +796,20 @@
   },
   "caso-master": {
    "secao": "politica",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Master: Gilmar Mendes não vê problema em retirar sigilo de relatórios da PF",
+     "url": "https://www.metropoles.com/mundo/master-gilmar-mendes-nao-ve-problema-em-retirar-sigilo-de-relatorios-da-pf",
+     "hora": "20/11 21h13"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Gilmar Mendes diz não ver problema em abertura de sigilo de relatório sobre ministros, mas que medida não resolve questão",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/20/gilmar-mendes-diz-nao-ver-problema-em-abertura-de-sigilo-de-relatorio-da-pf-sobre-outros-ministros-do-supremo.ghtml",
+     "hora": "20/11 20h56"
+    },
     {
      "veiculo": "Valor Econômico",
      "titulo": "Não resolve a questão, diz Gilmar sobre abertura de sigilo do STF no caso Master",
@@ -701,10 +817,10 @@
      "hora": "20/11 20h00"
     },
     {
-     "veiculo": "O Antagonista",
-     "titulo": "STF tem “experiência” com impeachment, diz Gilmar",
-     "url": "https://oantagonista.com.br/brasil/stf-tem-experiencia-com-impeachment-diz-gilmar/",
-     "hora": "20/11 19h55"
+     "veiculo": "g1",
+     "titulo": "Fachin retira sigilo de relatório da PF com 11 conversas que citam André Mendonça no caso Master",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/fachin-retira-sigilo-de-relatorio-da-pf-com-11-conversas-que-citam-andre-mendonca-no-caso-master.ghtml",
+     "hora": "20/11 21h23"
     }
    ]
   },
@@ -725,21 +841,32 @@
      "hora": "20/11 20h33"
     }
    ]
+  },
+  "eua-trump-xi-putin-apec-china": {
+   "secao": "mundo",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Trump destaca natureza histórica de trilateral com Xi e Putin",
+     "url": "https://www.cnnbrasil.com.br/internacional/trump-destaca-natureza-historica-de-trilateral-com-xi-e-putin/",
+     "hora": "20/11 20h41"
+    }
+   ]
   }
  },
  "novos_relatos": {
   "decreto-6x1-adiado": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "cnn",
-    "ex"
+    "cnn"
    ],
    "n_fontes_90min": 1,
    "ultima": "20/11 18h41",
    "ultima_iso": "2026-11-20T18:41-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 14.1,
+   "horas_sem_atualizar": 14.9,
    "principal": true,
    "manchetes": [
     {
@@ -747,111 +874,104 @@
      "titulo": "Fim da escala 6×1: Marinho diz que contratação contem impacto de hora extra",
      "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/fim-da-escala-6x1-marinho-diz-que-contratacao-contem-impacto-de-hora-extra/",
      "hora": "20/11 18h41"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Fim da escala 6x1: agronegócio terá de adotar jornada 5x2 sem regras específicas",
-     "url": "https://exame.com/agro/fim-da-escala-6x1-agronegocio-tera-de-adotar-jornada-5x2-sem-regras-especificas/",
-     "hora": "20/11 15h33"
     }
    ]
   },
   "caso-master": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 4,
+   "n_fontes": 3,
    "fontes": [
-    "antag",
+    "g1",
+    "met",
     "valor"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "20/11 20h00",
-   "ultima_iso": "2026-11-20T20:00-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "20/11 21h23",
+   "ultima_iso": "2026-11-20T21:23-03:00",
    "pauta_atualizada_em": "2026-11-20T19:48-03:00",
-   "horas_sem_atualizar": 1.1,
+   "horas_sem_atualizar": 2.0,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Fachin retira sigilo de relatório da PF com 11 conversas que citam André Mendonça no caso Master",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/fachin-retira-sigilo-de-relatorio-da-pf-com-11-conversas-que-citam-andre-mendonca-no-caso-master.ghtml",
+     "hora": "20/11 21h23"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Master: Gilmar Mendes não vê problema em retirar sigilo de relatórios da PF",
+     "url": "https://www.metropoles.com/mundo/master-gilmar-mendes-nao-ve-problema-em-retirar-sigilo-de-relatorios-da-pf",
+     "hora": "20/11 21h13"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Gilmar Mendes diz não ver problema em abertura de sigilo de relatório sobre ministros, mas que medida não resolve questão",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/20/gilmar-mendes-diz-nao-ver-problema-em-abertura-de-sigilo-de-relatorio-da-pf-sobre-outros-ministros-do-supremo.ghtml",
+     "hora": "20/11 20h56"
+    },
     {
      "veiculo": "Valor Econômico",
      "titulo": "Não resolve a questão, diz Gilmar sobre abertura de sigilo do STF no caso Master",
      "url": "https://valor.globo.com/politica/noticia/2026/11/20/no-resolve-a-questo-diz-gilmar-sobre-abertura-de-sigilo-do-stf-no-caso-master.ghtml",
      "hora": "20/11 20h00"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "STF tem “experiência” com impeachment, diz Gilmar",
-     "url": "https://oantagonista.com.br/brasil/stf-tem-experiencia-com-impeachment-diz-gilmar/",
-     "hora": "20/11 19h55"
     }
    ]
   },
-  "ajuste-fiscal-lula-4": {
+  "anthropic-ipo-nasdaq": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "20/11 16h29",
+   "ultima_iso": "2026-11-20T16:29-03:00",
+   "pauta_atualizada_em": "2026-11-19T17:48-03:00",
+   "horas_sem_atualizar": 28.0,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Executivo faz fortuna com IPO da Anthropic, mas ganho poderia ser maior",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/executivo-faz-fortuna-com-ipo-da-anthropic-mas-ganho-poderia-ser-maior.shtml",
+     "hora": "20/11 16h29"
+    }
+   ]
+  },
+  "eua-trump-xi-putin-apec-china": {
    "n": 1,
    "n_fontes": 1,
    "fontes": [
     "cnn"
    ],
    "n_fontes_90min": 1,
-   "ultima": "20/11 16h44",
-   "ultima_iso": "2026-11-20T16:44-03:00",
-   "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 14.1,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Não se pode conter investimento, diz relator do ajuste fiscal na Câmara",
-     "url": "https://www.cnnbrasil.com.br/politica/nao-se-pode-conter-investimento-diz-relator-do-ajuste-fiscal-na-camara/",
-     "hora": "20/11 16h44"
-    }
-   ]
-  },
-  "anthropic-ipo-nasdaq": {
-   "n": 3,
-   "n_fontes": 2,
-   "fontes": [
-    "folha",
-    "p360"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "20/11 18h43",
-   "ultima_iso": "2026-11-20T18:43-03:00",
-   "pauta_atualizada_em": "2026-11-19T17:48-03:00",
-   "horas_sem_atualizar": 27.1,
+   "ultima": "20/11 20h41",
+   "ultima_iso": "2026-11-20T20:41-03:00",
+   "pauta_atualizada_em": "2026-11-19T06:52-03:00",
+   "horas_sem_atualizar": 38.9,
    "principal": false,
    "manchetes": [
     {
-     "veiculo": "Poder360",
-     "titulo": "Ações da Anthropic caem 8,5% no 2º dia depois de IPO recorde",
-     "url": "https://www.poder360.com.br/poder-economia/acoes-da-anthropic-caem-85-no-2o-dia-depois-de-ipo-recorde/",
-     "hora": "20/11 18h43"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Executivo faz fortuna com IPO da Anthropic, mas ganho poderia ser maior",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/executivo-faz-fortuna-com-ipo-da-anthropic-mas-ganho-poderia-ser-maior.shtml",
-     "hora": "20/11 16h29"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "'Não queremos morrer': manifestantes criticam criadora do Claude, Anthropic, após IPO",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/nao-queremos-morrer-manifestantes-criticam-criadora-do-claude-anthropic-apos-ipo.shtml",
-     "hora": "20/11 15h03"
+     "veiculo": "CNN Brasil",
+     "titulo": "Trump destaca natureza histórica de trilateral com Xi e Putin",
+     "url": "https://www.cnnbrasil.com.br/internacional/trump-destaca-natureza-historica-de-trilateral-com-xi-e-putin/",
+     "hora": "20/11 20h41"
     }
    ]
   },
   "brasileirao-31-rodada-lideres": {
-   "n": 6,
-   "n_fontes": 3,
+   "n": 4,
+   "n_fontes": 2,
    "fontes": [
     "cnn",
-    "folha",
     "ge"
    ],
    "n_fontes_90min": 2,
    "ultima": "20/11 19h02",
    "ultima_iso": "2026-11-20T19:02-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 14.1,
+   "horas_sem_atualizar": 14.9,
    "principal": true,
    "manchetes": [
     {
@@ -877,18 +997,6 @@
      "titulo": "Domínio de títulos de Flamengo e Palmeiras se compara à outra hegemonia do Brasileirão? Compare",
      "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/20/dominio-de-titulos-de-flamengo-e-palmeiras-se-compara-a-outra-hegemonia-do-brasileirao-compare.ghtml",
      "hora": "20/11 16h38"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Será? Mapa da Mitada #36 ignora possível título do Flamengo e destaca Palmeiras no Cartola",
-     "url": "https://ge.globo.com/cartola/dicas/noticia/2026/11/20/sera-mapa-da-mitada-36-ignora-possivel-titulo-do-flamengo-e-destaca-palmeiras-no-cartola.ghtml",
-     "hora": "20/11 15h36"
-    },
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "Com uma mão na taça, Flamengo tenta fazer a festa na casa do Palmeiras",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/com-uma-mao-na-taca-flamengo-tenta-fazer-a-festa-na-casa-do-palmeiras.shtml",
-     "hora": "20/11 15h25"
     }
    ]
   },
@@ -902,7 +1010,7 @@
    "ultima": "20/11 20h39",
    "ultima_iso": "2026-11-20T20:39-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 14.1,
+   "horas_sem_atualizar": 14.9,
    "principal": false,
    "manchetes": [
     {
@@ -914,18 +1022,17 @@
    ]
   },
   "flavio-passaportes-1turma": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
     "ab",
-    "gp",
-    "valor"
+    "gp"
    ],
    "n_fontes_90min": 2,
    "ultima": "20/11 17h55",
    "ultima_iso": "2026-11-20T17:55-03:00",
    "pauta_atualizada_em": "2026-11-20T13:49-03:00",
-   "horas_sem_atualizar": 7.1,
+   "horas_sem_atualizar": 8.0,
    "principal": true,
    "manchetes": [
     {
@@ -939,12 +1046,6 @@
      "titulo": "Moraes mantém retenção de passaportes e proibições impostas a Flávio Bolsonaro",
      "url": "https://www.gazetadopovo.com.br/republica/moraes-mantem-retencao-de-passaportes-e-proibicoes-impostas-a-flavio-bolsonaro/",
      "hora": "20/11 16h31"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Moraes cita fuga de Flávio Bolsonaro e vota para manter medidas cautelares",
-     "url": "https://valor.globo.com/politica/noticia/2026/11/20/moraes-cita-saida-do-brasil-e-vota-para-manter-medidas-cautelares-contra-flavio-bolsonaro.ghtml",
-     "hora": "20/11 14h56"
     }
    ]
   },
@@ -958,7 +1059,7 @@
    "ultima": "20/11 19h52",
    "ultima_iso": "2026-11-20T19:52-03:00",
    "pauta_atualizada_em": "2026-11-20T19:48-03:00",
-   "horas_sem_atualizar": 1.1,
+   "horas_sem_atualizar": 2.0,
    "principal": true,
    "manchetes": [
     {
@@ -1153,39 +1254,6 @@
   }
  ],
  "avaliados": [
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "abertura",
-    "andre",
-    "aproximacao",
-    "atende",
-    "caso",
-    "cita",
-    "dele",
-    "fachin",
-    "master",
-    "mencoes",
-    "mendonca",
-    "ministro",
-    "nome",
-    "pede",
-    "pedido",
-    "publico",
-    "relatorio",
-    "retira",
-    "retire",
-    "sigilo",
-    "stf",
-    "tentativas",
-    "torna",
-    "vorcaro"
-   ],
-   "n_fontes": 4,
-   "em": "2026-11-20T09:40-03:00"
-  },
   {
    "tipo": "pauta",
    "pid": "brasileirao-31-rodada-lideres",
@@ -1489,10 +1557,22 @@
  "breves_faltam": 4,
  "breves_sugeridas": [
   {
-   "assunto": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
+   "assunto": "Moraes antecipa voto e acompanha Dino para tornar Van Hattem réu",
    "secao": "politica",
-   "n_fontes": 3,
+   "n_fontes": 4,
    "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Moraes antecipa voto e acompanha Dino para tornar Van Hattem réu",
+     "url": "https://oantagonista.com.br/brasil/moraes-antecipa-voto-e-acompanha-dino-para-tornar-van-hattem-reu/",
+     "hora": "20/11 21h31"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Dino vota para tornar Van Hattem réu por calunia; Zanin pede destaque",
+     "url": "https://www.cnnbrasil.com.br/politica/dino-vota-para-tornar-van-hattem-reu-por-calunia-zanin-pede-destaque/",
+     "hora": "20/11 21h16"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
@@ -1504,12 +1584,31 @@
      "titulo": "Marinho acusa Dino de relativizar imunidade parlamentar no caso Van Hattem",
      "url": "https://oantagonista.com.br/brasil/marinho-acusa-dino-de-relativizar-imunidade-parlamentar-no-caso-van-hattem/",
      "hora": "20/11 20h06"
+    }
+   ]
+  },
+  {
+   "assunto": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
+     "url": "https://revistaoeste.com/agronegocio/trump-diz-que-filipinas-vao-deixar-de-comprar-produtos-agricolas-do-brasil/",
+     "hora": "20/11 21h00"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/trump-diz-ter-exigido-que-filipinas-troque-produtos-agrcolas-do-brasil-pelos-dos-eua.ghtml",
+     "hora": "20/11 20h29"
     },
     {
      "veiculo": "O Globo",
-     "titulo": "Dino vota para Van Hattem se tornar réu por calúnia contra delegado e Zanin suspende julgamento",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/20/dino-vota-para-van-hattem-se-tornar-reu-por-calunia-contra-delegado-e-zanin-suspende-julgamento.ghtml",
-     "hora": "20/11 19h44"
+     "titulo": "Governo ignora afirmação de Trump de que convenceu Filipinas a deixar de importar do Brasil",
+     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/governo-ignora-afirmacao-de-trump-de-que-convenceu-filipinas-a-deixar-de-importar-do-brasil.ghtml",
+     "hora": "20/11 19h51"
     }
    ]
   },
@@ -1533,21 +1632,40 @@
    ]
   },
   {
-   "assunto": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
+   "assunto": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+     "url": "https://oantagonista.com.br/brasil/defesa-civil-aponta-microexplosao-como-causa-de-destruicao-em-tupancireta/",
+     "hora": "20/11 21h15"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Defesa Civil apura microexplosão após estragos em cidade do RS",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/rs/defesa-civil-apura-microexplosao-apos-estragos-em-cidade-do-rs/",
+     "hora": "20/11 20h32"
+    }
+   ]
+  },
+  {
+   "assunto": "Dez anos após votar pelo Brexit, Reino Unido ensaia volta à aproximação com União Europeia",
    "secao": "mundo",
    "n_fontes": 2,
    "manchetes": [
     {
-     "veiculo": "Valor Econômico",
-     "titulo": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/trump-diz-ter-exigido-que-filipinas-troque-produtos-agrcolas-do-brasil-pelos-dos-eua.ghtml",
-     "hora": "20/11 20h29"
+     "veiculo": "g1",
+     "titulo": "Dez anos após votar pelo Brexit, Reino Unido ensaia volta à aproximação com União Europeia",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/20/dez-anos-apos-votar-pelo-brexit-reino-unido-ensaia-volta-a-aproximacao-com-uniao-europeia.ghtml",
+     "hora": "20/11 21h12"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Governo ignora afirmação de Trump de que convenceu Filipinas a deixar de importar do Brasil",
-     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/governo-ignora-afirmacao-de-trump-de-que-convenceu-filipinas-a-deixar-de-importar-do-brasil.ghtml",
-     "hora": "20/11 19h51"
+     "veiculo": "CNN Brasil",
+     "titulo": "Reino Unido e União Europeia fecham acordos após cúpula em Bruxelas",
+     "url": "https://www.cnnbrasil.com.br/internacional/reino-unido-e-uniao-europeia-fecham-acordos-apos-cupula-em-bruxelas/",
+     "hora": "20/11 19h43"
     }
    ]
   },
@@ -1569,6 +1687,25 @@
      "hora": "20/11 20h07"
     }
    ]
+  },
+  {
+   "assunto": "“Somos um país de segundas chances”, diz Trump sobre CEO da Nvidia",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "“Somos um país de segundas chances”, diz Trump sobre CEO da Nvidia",
+     "url": "https://oantagonista.com.br/mundo/somos-um-pais-de-segundas-chances-diz-trump-sobre-ceo-da-nvidia/",
+     "hora": "20/11 20h58"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Trump defende retorno de Huang à Nvidia e pede ‘grande pedido de desculpas’ do ex-CEO",
+     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/trump-defende-retorno-de-huang-a-nvidia-e-pede-grande-pedido-de-desculpas-do-ex-ceo.ghtml",
+     "hora": "20/11 20h33"
+    }
+   ]
   }
  ],
  "ultima_rodada": "2026-11-20T19:49-03:00",
@@ -1578,37 +1715,37 @@
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 2 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 7 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 15 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 5 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 16 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 93 nas últimas 6 h",
+  "ge": "ok: 100 itens, 84 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 17 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 3 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 4 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 6 nas últimas 6 h",
-  "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 7 nas últimas 6 h",
+  "Estadão Brasil": "ok: 20 itens, 3 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 2 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 38 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 31 nas últimas 6 h",
-  "Exame": "ok: 25 itens, 17 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 35 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 24 nas últimas 6 h",
+  "Exame": "ok: 25 itens, 14 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
-  "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
-  "DW Brasil": "ok: 65 itens, 5 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 59 itens, 8 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 24 itens, 2 nas últimas 6 h",
+  "Nexo": "ok: 20 itens, 5 nas últimas 6 h",
+  "DW Brasil": "ok: 65 itens, 3 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 60 itens, 12 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
-  "Jovem Pan": "ok: 10 itens, 8 nas últimas 6 h",
+  "Jovem Pan": "ok: 10 itens, 7 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
-  "CartaCapital": "ok: 20 itens, 17 nas últimas 6 h",
+  "CartaCapital": "ok: 20 itens, 15 nas últimas 6 h",
   "Brasil de Fato": "ok: 99 itens, 14 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 3 nas últimas 6 h"
  }
