@@ -554,7 +554,9 @@ def primeira_frase(t):
 SLUG_MAX = 70
 def slug_de(tit):
     """endereço pelo título: minúsculas, sem acento, palavras com hífen, até ~70 letras sem cortar palavra"""
-    t = unicodedata.normalize("NFD", str(tit or "")).encode("ascii", "ignore").decode().lower()
+    # 20/11 (testador): "fim da 6×1" virava "fim-da-61"; número × número vira "6x1"
+    t = re.sub(r"(\d)\s*[×✕✖xX]\s*(\d)", r"\1x\2", str(tit or ""))
+    t = unicodedata.normalize("NFD", t).encode("ascii", "ignore").decode().lower()
     pal = [w for w in re.sub(r"[^a-z0-9]+", " ", t).split() if w]
     out = ""
     for w in pal:

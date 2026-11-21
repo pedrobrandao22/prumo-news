@@ -14,6 +14,9 @@
   var v=document.getElementById("v-capa");if(!v||!v.querySelector(".cp-sk.ab141-sk")||!window.FL119_PRE)return;
   var ls=function(k){try{return localStorage.getItem(k)}catch(e){return "x"}};
   if(ls("radar-feed")||ls("radar-prefs"))return;
+  /* 20/11 (testador): quem abre um link de notícia (#m=, /m/...) via a Capa com outra manchete por ~4 s antes da matéria;
+     nesse caso não desenha a manchete (fica o esqueleto até a matéria abrir) */
+  if(/(^|[#&])m=/.test(location.hash.slice(1))||/[?&]m=/.test(location.search)||/\/m\//.test(location.pathname)||document.referrer.indexOf("/m/")>=0&&location.hash.length>1)return;
   var NV=null,nvOk=false;try{if(ab141Pre.novid)ab141Pre.novid.then(function(d){NV=d;nvOk=true})}catch(e){}
   FL119_PRE.then(function(txt){if(!txt)return;var F;try{F=JSON.parse(txt)}catch(e){return}if(!F||!Array.isArray(F.pautas))return;
     var feito=false,vai=function(){if(feito)return;feito=true;try{desenha(F,nvOk?NV:null)}catch(e){}};

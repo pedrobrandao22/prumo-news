@@ -6478,6 +6478,8 @@ html:has(#v-feed:not([hidden]) #cn102-bar:not([hidden])) #b-criar{display:none!i
     <button type="button" id="t-me" data-v="me"><span class="badge pdot" id="mbadge" hidden></span><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="10" r="3"/><path d="M7 18c1-2.5 3-3.5 5-3.5s4 1 5 3.5"/></svg>Perfil</button>
   </div>
 </nav>
+<script>/* 20/11 (testador): em rede lenta a barra ficava marcando "Feed" até o bloco de baixo chegar; marca a Capa já aqui */
+(function(){try{if(navigator.webdriver&&localStorage.getItem("prumo-teste-capa")!=="1")return;var a=document.getElementById("t-feed"),b=document.getElementById("t-capa");if(a)a.removeAttribute("aria-current");if(b)b.setAttribute("aria-current","page");var t=document.querySelector("header.top"),f=document.getElementById("v-feed");if(t)t.hidden=true;if(f)f.hidden=true}catch(e){}})()</script>
 <div id="layer"></div>
 <div id="layer2"></div>
 <script>
@@ -6509,6 +6511,9 @@ html:has(#v-feed:not([hidden]) #cn102-bar:not([hidden])) #b-criar{display:none!i
   var v=document.getElementById("v-capa");if(!v||!v.querySelector(".cp-sk.ab141-sk")||!window.FL119_PRE)return;
   var ls=function(k){try{return localStorage.getItem(k)}catch(e){return "x"}};
   if(ls("radar-feed")||ls("radar-prefs"))return;
+  /* 20/11 (testador): quem abre um link de notícia (#m=, /m/...) via a Capa com outra manchete por ~4 s antes da matéria;
+     nesse caso não desenha a manchete (fica o esqueleto até a matéria abrir) */
+  if(/(^|[#&])m=/.test(location.hash.slice(1))||/[?&]m=/.test(location.search)||/\/m\//.test(location.pathname)||document.referrer.indexOf("/m/")>=0&&location.hash.length>1)return;
   var NV=null,nvOk=false;try{if(ab141Pre.novid)ab141Pre.novid.then(function(d){NV=d;nvOk=true})}catch(e){}
   FL119_PRE.then(function(txt){if(!txt)return;var F;try{F=JSON.parse(txt)}catch(e){return}if(!F||!Array.isArray(F.pautas))return;
     var feito=false,vai=function(){if(feito)return;feito=true;try{desenha(F,nvOk?NV:null)}catch(e){}};
