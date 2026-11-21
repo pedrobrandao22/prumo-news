@@ -326,8 +326,10 @@ def fa_listas(p, A):
     de_lugar = lambda f: any(ra.search(_arq(f)) for _, _, ra, _ in LUG_RE)
     fin = sec == "esportes" and bool(FINAL.search(fr))  # final (campo neutro): nenhum estádio
     tm = lambda l: [f for f in l if not de_lugar(f)] + ([] if fin else [f for f in l if de_lugar(f)]) if isinstance(l, list) else l
-    pega(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), True)
-    pega(tm(T.get((A.get("padrao") or {}).get(sec) or "")), True)
+    # 20/11 noite, igual ao app: trágica sem retrato (internação, morte, prisão) não cai na foto genérica da editoria
+    if not (p.get("foto_arquivo") == "tema" and TRAGICO.search(tit) and not L):
+        pega(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), True)
+        pega(tm(T.get((A.get("padrao") or {}).get(sec) or "")), True)
     return [o for o in ([f for f in l if not ruim(f)] for l in L) if o]
 
 

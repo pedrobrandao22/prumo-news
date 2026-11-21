@@ -1,0 +1,21 @@
+/* ===== Revisão da madrugada 21/11 ===== */
+
+/* testador (materia-deitada-barra-do-topo-some): com o celular deitado a barra de cima (‹ Capa, Aa, enviar, guardar)
+   rolava junto e sumia. Agora ela some ao descer e volta ao subir um pouco (classe mt211-ve na .mat, ver 211) */
+@media (max-height:500px){
+  #layer .mat-top{position:sticky!important;top:0;z-index:3;transform:translateY(-105%);transition:transform .18s ease}
+  #layer .mat.mt211-ve .mat-top{transform:none}
+  html.fs2 #layer .mat.mt211-ve .fs2-cap{top:calc(44px + env(safe-area-inset-top,0px))!important;transition:top .18s ease}
+}
+
+/* testador (ajustes-aparencia-automatico-encosta-na-borda): com letra grande "Automático" encostava na borda da pílula */
+.card .segs button{padding-inline:10px;min-width:0}
+html.fzg .card .segs button{font-size:13px;padding-inline:8px}
+@media (max-width:360px){html.fzg .card .segs button{font-size:12px;padding-inline:6px;letter-spacing:-.01em}}
+
+/* testador (letra-grande-subtema-do-feed-vira-contas-p): com letra grande no celular pequeno o assunto do cartão virava
+   "Contas p..."; a linha quebra: editoria em cima, assunto e hora embaixo */
+@media (max-width:400px){
+  html.fzg #posts .post .ph-nm{display:flex!important;flex-wrap:wrap;row-gap:0;min-width:0}
+  html.fzg #posts .post .ph-nm .ph-sub{flex:1 0 100%;margin-left:0!important;max-width:100%}
+}

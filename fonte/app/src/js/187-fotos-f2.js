@@ -102,7 +102,10 @@ faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep(
      que diz esse lugar (o tomate fica com o supermercado e o Copom com o Banco Central) */
   const deLugar=f=>FT187_RE.some(x=>x[2].test(ft157Arq(f)));const fin=sec==="esportes"&&FT187_FINAL.test(fr);
   /* final (campo neutro): nenhum estádio */const tm=l=>Array.isArray(l)?l.filter(f=>!deLugar(f)).concat(fin?[]:l.filter(deLugar)):l;
-  pega(tm(T[sec+"/"+(p.subtema||"")]),true);pega(tm(T[(A.padrao||{})[sec]]),true);
+  /* 20/11 noite: notícia trágica com o retrato tirado (internação, morte, prisão) não cai na foto genérica da editoria
+     (Bolsonaro internado com a foto do Congresso): fica a ilustração */
+  const semGen=p.foto_arquivo==="tema"&&FT187_TRAGICO.test(tit)&&!L.length;
+  if(!semGen){pega(tm(T[sec+"/"+(p.subtema||"")]),true);pega(tm(T[(A.padrao||{})[sec]]),true)}
   /* 20/11 (testador): Capitólio só em notícia do Congresso dos EUA (a licença de chips era do Departamento de Comércio);
      foto em tira (640×174) fica borrada no quadro. Vale para todas as listas (lugar e mandante também), igual a paginas.py */
   const cong=/Congresso|Capit[óo]lio|Senado (?:americano|dos EUA)|C[âa]mara dos (?:EUA|Representantes)/.test(tit);

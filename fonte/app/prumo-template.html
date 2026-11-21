@@ -6420,6 +6420,27 @@ html.fzg .dm-row .dm-pv{white-space:normal!important;overflow:visible!important;
 /* revisão 20/11 (testador): no Feed havia dois "+" a um palmo que abriam a mesma Nova publicação; no Feed fica só o da
    barra "O que você acha?" */
 html:has(#v-feed:not([hidden]) #cn102-bar:not([hidden])) #b-criar{display:none!important}
+/* ===== Revisão da madrugada 21/11 ===== */
+
+/* testador (materia-deitada-barra-do-topo-some): com o celular deitado a barra de cima (‹ Capa, Aa, enviar, guardar)
+   rolava junto e sumia. Agora ela some ao descer e volta ao subir um pouco (classe mt211-ve na .mat, ver 211) */
+@media (max-height:500px){
+  #layer .mat-top{position:sticky!important;top:0;z-index:3;transform:translateY(-105%);transition:transform .18s ease}
+  #layer .mat.mt211-ve .mat-top{transform:none}
+  html.fs2 #layer .mat.mt211-ve .fs2-cap{top:calc(44px + env(safe-area-inset-top,0px))!important;transition:top .18s ease}
+}
+
+/* testador (ajustes-aparencia-automatico-encosta-na-borda): com letra grande "Automático" encostava na borda da pílula */
+.card .segs button{padding-inline:10px;min-width:0}
+html.fzg .card .segs button{font-size:13px;padding-inline:8px}
+@media (max-width:360px){html.fzg .card .segs button{font-size:12px;padding-inline:6px;letter-spacing:-.01em}}
+
+/* testador (letra-grande-subtema-do-feed-vira-contas-p): com letra grande no celular pequeno o assunto do cartão virava
+   "Contas p..."; a linha quebra: editoria em cima, assunto e hora embaixo */
+@media (max-width:400px){
+  html.fzg #posts .post .ph-nm{display:flex!important;flex-wrap:wrap;row-gap:0;min-width:0}
+  html.fzg #posts .post .ph-nm .ph-sub{flex:1 0 100%;margin-left:0!important;max-width:100%}
+}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -20734,7 +20755,10 @@ faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep(
      que diz esse lugar (o tomate fica com o supermercado e o Copom com o Banco Central) */
   const deLugar=f=>FT187_RE.some(x=>x[2].test(ft157Arq(f)));const fin=sec==="esportes"&&FT187_FINAL.test(fr);
   /* final (campo neutro): nenhum estádio */const tm=l=>Array.isArray(l)?l.filter(f=>!deLugar(f)).concat(fin?[]:l.filter(deLugar)):l;
-  pega(tm(T[sec+"/"+(p.subtema||"")]),true);pega(tm(T[(A.padrao||{})[sec]]),true);
+  /* 20/11 noite: notícia trágica com o retrato tirado (internação, morte, prisão) não cai na foto genérica da editoria
+     (Bolsonaro internado com a foto do Congresso): fica a ilustração */
+  const semGen=p.foto_arquivo==="tema"&&FT187_TRAGICO.test(tit)&&!L.length;
+  if(!semGen){pega(tm(T[sec+"/"+(p.subtema||"")]),true);pega(tm(T[(A.padrao||{})[sec]]),true)}
   /* 20/11 (testador): Capitólio só em notícia do Congresso dos EUA (a licença de chips era do Departamento de Comércio);
      foto em tira (640×174) fica borrada no quadro. Vale para todas as listas (lugar e mandante também), igual a paginas.py */
   const cong=/Congresso|Capit[óo]lio|Senado (?:americano|dos EUA)|C[âa]mara dos (?:EUA|Representantes)/.test(tit);
@@ -22401,6 +22425,26 @@ window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target
 {const _ct=vn112CtNt;vn112CtNt=function(h,p){const r=_ct.apply(this,arguments);try{const v=versao(p,lente());if(!v||!v.tem)return r;
   const a=typeof r==="string"?vn112Tp(r):r;const t=a&&a.querySelector(":scope>.vn-tit button");if(t&&!t.querySelector(".cp-lado"))t.insertAdjacentHTML("afterbegin",`<em class="cp-lado ${v.lado}" role="img" aria-label="Versão da ${v.lado}"></em>`);
   return typeof r==="string"?a.outerHTML:a}catch(e){return r}}}
+/* ===== Revisão da madrugada 21/11 ===== */
+
+/* testador (materia-deitada-barra-do-topo-some): deitado, a barra de cima da matéria some ao descer e volta ao subir
+   um pouco ou perto do começo (o CSS 90 só age com pouca altura) */
+var MT211_Y=new WeakMap();
+document.addEventListener("scroll",e=>{const m=e.target;if(!m||!m.classList||!m.classList.contains("mat"))return;
+  try{if(!matchMedia("(max-height:500px)").matches){m.classList.remove("mt211-ve");return}
+    const y=m.scrollTop,a=MT211_Y.has(m)?MT211_Y.get(m):y;
+    if(y<80)m.classList.add("mt211-ve");else if(y<a-6)m.classList.add("mt211-ve");else if(y>a+6)m.classList.remove("mt211-ve");
+    if(!MT211_Y.has(m)||Math.abs(y-a)>6||y<80)MT211_Y.set(m,y)}catch(er){}},true);
+/* matéria aberta (no topo): a barra começa visível */
+(function(){const ob=()=>{const L=document.getElementById("layer");if(!L)return false;
+  new MutationObserver(()=>{const m=L.querySelector(".mat:not(.mt211-ok)");if(m)m.classList.add("mt211-ok","mt211-ve")}).observe(L,{childList:true,subtree:true});return true};
+  if(!ob())document.addEventListener("DOMContentLoaded",ob)})();
+
+/* testador (girar-o-celular-na-materia-perde-o-ponto-de-leitura-2): gráficos e fotos mudam de altura depois do giro;
+   o 168 restaurava o ponto até 450 ms. Mais duas tentativas tardias e o bloqueio da âncora vai junto */
+addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC)return;const a=CM168_ANC;
+  CM168_GIRO=Math.max(CM168_GIRO,Date.now()+1400);
+  [800,1250].forEach(t=>setTimeout(()=>{const mm=$("#layer .mat");if(mm&&typeof cm168Restaura==="function")cm168Restaura(mm,a)},t))}catch(e){}});
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários
