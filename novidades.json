@@ -1,90 +1,54 @@
 {
- "gerado": "2026-11-20T21:08-03:00",
+ "gerado": "2026-11-20T21:16-03:00",
  "desde": "2026-11-20T19:39-03:00",
  "feed_atualizado_em": "2026-11-20T19:49:00-03:00",
  "resumo": {
   "manchetes": 133,
-  "assuntos_novos_relevantes": 2,
-  "assuntos_novos": 103,
+  "assuntos_novos_relevantes": 0,
+  "assuntos_novos": 105,
   "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 9,
-  "acionar_itens": 0,
-  "ja_avaliados": 4
+  "acionar_itens": 1,
+  "ja_avaliados": 3
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (103 assuntos fora do feed, 9 pautas com relatos, 4 já vistos por uma rodada)",
- "acionar_itens": [],
- "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
- "novos": [
+ "acionar": true,
+ "acionar_motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização",
+ "acionar_itens": [
   {
-   "assunto": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
-   "secao": "mundo",
-   "n_fontes": 3,
-   "fontes": [
-    "oeste",
-    "oglobo",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Master: Gilmar Mendes não vê problema em retirar sigilo de relatórios da PF",
+   "n_fontes": 4,
+   "motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: caso-master",
    "manchetes": [
     {
-     "veiculo": "Revista Oeste",
-     "titulo": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
-     "url": "https://revistaoeste.com/agronegocio/trump-diz-que-filipinas-vao-deixar-de-comprar-produtos-agricolas-do-brasil/",
-     "hora": "20/11 21h00"
+     "veiculo": "Metrópoles",
+     "titulo": "Master: Gilmar Mendes não vê problema em retirar sigilo de relatórios da PF",
+     "url": "https://www.metropoles.com/mundo/master-gilmar-mendes-nao-ve-problema-em-retirar-sigilo-de-relatorios-da-pf",
+     "hora": "20/11 21h13",
+     "lide": "Decano do STF afirmou nesta sexta (20/11) que a decisão cabe ao ministro Edson Fachin, mas ponderou que a medida não solucionaria a questão"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Gilmar diz não ver problema em abertura de sigilo de relatório da PF sobre outros ministros, mas que medida não resolve questão",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/20/gilmar-mendes-diz-nao-ver-problema-em-abertura-de-sigilo-de-relatorio-da-pf-sobre-outros-ministros-do-supremo.ghtml",
+     "hora": "20/11 20h56",
+     "lide": "Ministro afirmou ainda não achar que retirada do sigilo \"solucione a questão\". Nesta sexta (20), após pedido de André Mendonça, o presidente do STF levantou o sigilo do relatório sobre Mendonça."
     },
     {
      "veiculo": "Valor Econômico",
-     "titulo": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/trump-diz-ter-exigido-que-filipinas-troque-produtos-agrcolas-do-brasil-pelos-dos-eua.ghtml",
-     "hora": "20/11 20h29"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Governo ignora afirmação de Trump de que convenceu Filipinas a deixar de importar do Brasil",
-     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/governo-ignora-afirmacao-de-trump-de-que-convenceu-filipinas-a-deixar-de-importar-do-brasil.ghtml",
-     "hora": "20/11 19h51"
+     "titulo": "Não resolve a questão, diz Gilmar sobre abertura de sigilo do STF no caso Master",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/20/no-resolve-a-questo-diz-gilmar-sobre-abertura-de-sigilo-do-stf-no-caso-master.ghtml",
+     "hora": "20/11 20h00",
+     "lide": "Ministro afirmou, no entanto, que não se opõe à divulgação dos relatórios da PF"
     }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-20T21:00-03:00"
-  },
-  {
-   "assunto": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
-   "secao": "politica",
-   "n_fontes": 3,
-   "fontes": [
-    "antag",
-    "oeste",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
-     "url": "https://revistaoeste.com/politica/van-hattem-imunidade-parlamentar-nao-e-para-me-proteger-e-para-proteger-meu-eleitor/",
-     "hora": "20/11 20h08"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Marinho acusa Dino de relativizar imunidade parlamentar no caso Van Hattem",
-     "url": "https://oantagonista.com.br/brasil/marinho-acusa-dino-de-relativizar-imunidade-parlamentar-no-caso-van-hattem/",
-     "hora": "20/11 20h06"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Dino vota para Van Hattem se tornar réu por calúnia contra delegado e Zanin suspende julgamento",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/20/dino-vota-para-van-hattem-se-tornar-reu-por-calunia-contra-delegado-e-zanin-suspende-julgamento.ghtml",
-     "hora": "20/11 19h44"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-20T20:08-03:00"
-  },
+   ]
+  }
+ ],
+ "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
+ "novos": [
   {
    "assunto": "Carlos relata piora rápida do quadro de Bolsonaro: \"Impressão horrível\"",
    "secao": "politica",
@@ -113,31 +77,31 @@
    "ultima_iso": "2026-11-20T19:57-03:00"
   },
   {
-   "assunto": "Morre jovem que participava de luau e se afogou no Recreio",
-   "secao": null,
+   "assunto": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+   "secao": "brasil",
    "n_fontes": 2,
    "fontes": [
-    "g1",
-    "oglobo"
+    "antag",
+    "cnn"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Morre jovem que participava de luau e se afogou no Recreio",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/20/morre-jovem-que-participava-de-luau-e-se-afogou-no-recreio.ghtml",
-     "hora": "20/11 20h36"
+     "veiculo": "O Antagonista",
+     "titulo": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+     "url": "https://oantagonista.com.br/brasil/defesa-civil-aponta-microexplosao-como-causa-de-destruicao-em-tupancireta/",
+     "hora": "20/11 21h15"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Jovem de 18 anos morre após se afogar na Praia do Pontal durante luau com amigas",
-     "url": "https://oglobo.globo.com/rio/noticia/2026/11/20/jovem-de-18-anos-morre-apos-se-afogar-na-praia-do-pontal-durante-luau-com-amigas.ghtml",
-     "hora": "20/11 19h39"
+     "veiculo": "CNN Brasil",
+     "titulo": "Defesa Civil apura microexplosão após estragos em cidade do RS",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/rs/defesa-civil-apura-microexplosao-apos-estragos-em-cidade-do-rs/",
+     "hora": "20/11 20h32"
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T20:36-03:00"
+   "ultima_iso": "2026-11-20T21:15-03:00"
   },
   {
    "assunto": "Torcida do Boca \"invade\" Caribe colombiano e faz banderazo antes da final contra Atlético-MG; assista",
@@ -168,6 +132,60 @@
    "pid_provavel": "atletico-mg-city-torque-semi-sulamericana"
   },
   {
+   "assunto": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "oeste",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
+     "url": "https://revistaoeste.com/agronegocio/trump-diz-que-filipinas-vao-deixar-de-comprar-produtos-agricolas-do-brasil/",
+     "hora": "20/11 21h00"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/trump-diz-ter-exigido-que-filipinas-troque-produtos-agrcolas-do-brasil-pelos-dos-eua.ghtml",
+     "hora": "20/11 20h29"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T21:00-03:00"
+  },
+  {
+   "assunto": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "antag",
+    "oeste"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
+     "url": "https://revistaoeste.com/politica/van-hattem-imunidade-parlamentar-nao-e-para-me-proteger-e-para-proteger-meu-eleitor/",
+     "hora": "20/11 20h08"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Marinho acusa Dino de relativizar imunidade parlamentar no caso Van Hattem",
+     "url": "https://oantagonista.com.br/brasil/marinho-acusa-dino-de-relativizar-imunidade-parlamentar-no-caso-van-hattem/",
+     "hora": "20/11 20h06"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-20T20:08-03:00"
+  },
+  {
    "assunto": "“Nível de destruição é dramático”, diz Leite sobre Tupanciretã",
    "secao": "brasil",
    "n_fontes": 2,
@@ -193,33 +211,6 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-20T20:40-03:00"
-  },
-  {
-   "assunto": "“Somos um país de segundas chances”, diz Trump sobre CEO da Nvidia",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "antag",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "“Somos um país de segundas chances”, diz Trump sobre CEO da Nvidia",
-     "url": "https://oantagonista.com.br/mundo/somos-um-pais-de-segundas-chances-diz-trump-sobre-ceo-da-nvidia/",
-     "hora": "20/11 20h58"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Trump defende retorno de Huang à Nvidia e pede ‘grande pedido de desculpas’ do ex-CEO",
-     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/trump-defende-retorno-de-huang-a-nvidia-e-pede-grande-pedido-de-desculpas-do-ex-ceo.ghtml",
-     "hora": "20/11 20h33"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-20T20:58-03:00"
   },
   {
    "assunto": "Acompanhe Goiás x Montes Claros pela Superliga Masculina",
@@ -685,6 +676,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-20T20:29-03:00"
+  },
+  {
+   "assunto": "Conmebol manifesta ‘firme apoio’ à reeleição de Infantino na Fifa",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "jp"
+   ],
+   "ja_e_breve": true,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Conmebol manifesta ‘firme apoio’ à reeleição de Infantino na Fifa",
+     "url": "https://jovempan.com.br/esportes/futebol/futebol-internacional/conmebol-manifesta-firme-apoio-a-reeleicao-de-infantino-na-fifa/",
+     "hora": "20/11 20h50"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-20T20:50-03:00"
   }
  ],
  "em_pautas": {
@@ -714,11 +725,17 @@
   },
   "caso-master": {
    "secao": "politica",
-   "n_fontes": 3,
+   "n_fontes": 4,
    "manchetes": [
     {
+     "veiculo": "Metrópoles",
+     "titulo": "Master: Gilmar Mendes não vê problema em retirar sigilo de relatórios da PF",
+     "url": "https://www.metropoles.com/mundo/master-gilmar-mendes-nao-ve-problema-em-retirar-sigilo-de-relatorios-da-pf",
+     "hora": "20/11 21h13"
+    },
+    {
      "veiculo": "g1",
-     "titulo": "Gilmar Mendes diz não ver problema em abertura de sigilo de relatório da PF sobre outros ministros do Supremo",
+     "titulo": "Gilmar diz não ver problema em abertura de sigilo de relatório da PF sobre outros ministros, mas que medida não resolve questão",
      "url": "https://g1.globo.com/politica/noticia/2026/11/20/gilmar-mendes-diz-nao-ver-problema-em-abertura-de-sigilo-de-relatorio-da-pf-sobre-outros-ministros-do-supremo.ghtml",
      "hora": "20/11 20h56"
     },
@@ -779,7 +796,7 @@
    "ultima": "20/11 18h41",
    "ultima_iso": "2026-11-20T18:41-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 14.3,
+   "horas_sem_atualizar": 14.4,
    "principal": true,
    "manchetes": [
     {
@@ -797,19 +814,33 @@
    ]
   },
   "caso-master": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 4,
+   "n_fontes": 4,
    "fontes": [
     "antag",
+    "g1",
+    "met",
     "valor"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "20/11 20h00",
-   "ultima_iso": "2026-11-20T20:00-03:00",
+   "n_fontes_90min": 4,
+   "ultima": "20/11 21h13",
+   "ultima_iso": "2026-11-20T21:13-03:00",
    "pauta_atualizada_em": "2026-11-20T19:48-03:00",
-   "horas_sem_atualizar": 1.3,
+   "horas_sem_atualizar": 1.5,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Master: Gilmar Mendes não vê problema em retirar sigilo de relatórios da PF",
+     "url": "https://www.metropoles.com/mundo/master-gilmar-mendes-nao-ve-problema-em-retirar-sigilo-de-relatorios-da-pf",
+     "hora": "20/11 21h13"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Gilmar diz não ver problema em abertura de sigilo de relatório da PF sobre outros ministros, mas que medida não resolve questão",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/20/gilmar-mendes-diz-nao-ver-problema-em-abertura-de-sigilo-de-relatorio-da-pf-sobre-outros-ministros-do-supremo.ghtml",
+     "hora": "20/11 20h56"
+    },
     {
      "veiculo": "Valor Econômico",
      "titulo": "Não resolve a questão, diz Gilmar sobre abertura de sigilo do STF no caso Master",
@@ -834,7 +865,7 @@
    "ultima": "20/11 16h44",
    "ultima_iso": "2026-11-20T16:44-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 14.3,
+   "horas_sem_atualizar": 14.4,
    "principal": true,
    "manchetes": [
     {
@@ -846,7 +877,7 @@
    ]
   },
   "anthropic-ipo-nasdaq": {
-   "n": 3,
+   "n": 2,
    "n_fontes": 2,
    "fontes": [
     "folha",
@@ -856,7 +887,7 @@
    "ultima": "20/11 18h43",
    "ultima_iso": "2026-11-20T18:43-03:00",
    "pauta_atualizada_em": "2026-11-19T17:48-03:00",
-   "horas_sem_atualizar": 27.3,
+   "horas_sem_atualizar": 27.5,
    "principal": false,
    "manchetes": [
     {
@@ -870,12 +901,6 @@
      "titulo": "Executivo faz fortuna com IPO da Anthropic, mas ganho poderia ser maior",
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/executivo-faz-fortuna-com-ipo-da-anthropic-mas-ganho-poderia-ser-maior.shtml",
      "hora": "20/11 16h29"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "'Não queremos morrer': manifestantes criticam criadora do Claude, Anthropic, após IPO",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/nao-queremos-morrer-manifestantes-criticam-criadora-do-claude-anthropic-apos-ipo.shtml",
-     "hora": "20/11 15h03"
     }
    ]
   },
@@ -889,7 +914,7 @@
    "ultima": "20/11 20h41",
    "ultima_iso": "2026-11-20T20:41-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 38.3,
+   "horas_sem_atualizar": 38.4,
    "principal": false,
    "manchetes": [
     {
@@ -912,7 +937,7 @@
    "ultima": "20/11 19h02",
    "ultima_iso": "2026-11-20T19:02-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 14.3,
+   "horas_sem_atualizar": 14.4,
    "principal": true,
    "manchetes": [
     {
@@ -963,7 +988,7 @@
    "ultima": "20/11 20h39",
    "ultima_iso": "2026-11-20T20:39-03:00",
    "pauta_atualizada_em": "2026-11-20T06:52-03:00",
-   "horas_sem_atualizar": 14.3,
+   "horas_sem_atualizar": 14.4,
    "principal": false,
    "manchetes": [
     {
@@ -985,7 +1010,7 @@
    "ultima": "20/11 17h55",
    "ultima_iso": "2026-11-20T17:55-03:00",
    "pauta_atualizada_em": "2026-11-20T13:49-03:00",
-   "horas_sem_atualizar": 7.3,
+   "horas_sem_atualizar": 7.5,
    "principal": true,
    "manchetes": [
     {
@@ -1012,7 +1037,7 @@
    "ultima": "20/11 19h52",
    "ultima_iso": "2026-11-20T19:52-03:00",
    "pauta_atualizada_em": "2026-11-20T19:48-03:00",
-   "horas_sem_atualizar": 1.3,
+   "horas_sem_atualizar": 1.5,
    "principal": true,
    "manchetes": [
     {
@@ -1543,56 +1568,6 @@
  "breves_faltam": 4,
  "breves_sugeridas": [
   {
-   "assunto": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
-   "secao": "mundo",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
-     "url": "https://revistaoeste.com/agronegocio/trump-diz-que-filipinas-vao-deixar-de-comprar-produtos-agricolas-do-brasil/",
-     "hora": "20/11 21h00"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/trump-diz-ter-exigido-que-filipinas-troque-produtos-agrcolas-do-brasil-pelos-dos-eua.ghtml",
-     "hora": "20/11 20h29"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Governo ignora afirmação de Trump de que convenceu Filipinas a deixar de importar do Brasil",
-     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/governo-ignora-afirmacao-de-trump-de-que-convenceu-filipinas-a-deixar-de-importar-do-brasil.ghtml",
-     "hora": "20/11 19h51"
-    }
-   ]
-  },
-  {
-   "assunto": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
-   "secao": "politica",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
-     "url": "https://revistaoeste.com/politica/van-hattem-imunidade-parlamentar-nao-e-para-me-proteger-e-para-proteger-meu-eleitor/",
-     "hora": "20/11 20h08"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Marinho acusa Dino de relativizar imunidade parlamentar no caso Van Hattem",
-     "url": "https://oantagonista.com.br/brasil/marinho-acusa-dino-de-relativizar-imunidade-parlamentar-no-caso-van-hattem/",
-     "hora": "20/11 20h06"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Dino vota para Van Hattem se tornar réu por calúnia contra delegado e Zanin suspende julgamento",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/20/dino-vota-para-van-hattem-se-tornar-reu-por-calunia-contra-delegado-e-zanin-suspende-julgamento.ghtml",
-     "hora": "20/11 19h44"
-    }
-   ]
-  },
-  {
    "assunto": "Carlos relata piora rápida do quadro de Bolsonaro: \"Impressão horrível\"",
    "secao": "politica",
    "n_fontes": 2,
@@ -1608,6 +1583,63 @@
      "titulo": "Carlos relata impressão “horrível” ao ver Bolsonaro internado",
      "url": "https://www.poder360.com.br/poder-brasil/carlos-relata-impressao-horrivel-ao-ver-bolsonaro-internado/",
      "hora": "20/11 19h56"
+    }
+   ]
+  },
+  {
+   "assunto": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+     "url": "https://oantagonista.com.br/brasil/defesa-civil-aponta-microexplosao-como-causa-de-destruicao-em-tupancireta/",
+     "hora": "20/11 21h15"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Defesa Civil apura microexplosão após estragos em cidade do RS",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/rs/defesa-civil-apura-microexplosao-apos-estragos-em-cidade-do-rs/",
+     "hora": "20/11 20h32"
+    }
+   ]
+  },
+  {
+   "assunto": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Trump diz que Filipinas vão deixar de comprar produtos agrícolas do Brasil",
+     "url": "https://revistaoeste.com/agronegocio/trump-diz-que-filipinas-vao-deixar-de-comprar-produtos-agricolas-do-brasil/",
+     "hora": "20/11 21h00"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Trump diz ter exigido que Filipinas troque produtos agrícolas do Brasil pelos dos EUA",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/20/trump-diz-ter-exigido-que-filipinas-troque-produtos-agrcolas-do-brasil-pelos-dos-eua.ghtml",
+     "hora": "20/11 20h29"
+    }
+   ]
+  },
+  {
+   "assunto": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Van Hattem: imunidade parlamentar ‘não é para me proteger, é para proteger meu eleitor’",
+     "url": "https://revistaoeste.com/politica/van-hattem-imunidade-parlamentar-nao-e-para-me-proteger-e-para-proteger-meu-eleitor/",
+     "hora": "20/11 20h08"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Marinho acusa Dino de relativizar imunidade parlamentar no caso Van Hattem",
+     "url": "https://oantagonista.com.br/brasil/marinho-acusa-dino-de-relativizar-imunidade-parlamentar-no-caso-van-hattem/",
+     "hora": "20/11 20h06"
     }
    ]
   },
@@ -1629,25 +1661,6 @@
      "hora": "20/11 20h07"
     }
    ]
-  },
-  {
-   "assunto": "“Somos um país de segundas chances”, diz Trump sobre CEO da Nvidia",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "“Somos um país de segundas chances”, diz Trump sobre CEO da Nvidia",
-     "url": "https://oantagonista.com.br/mundo/somos-um-pais-de-segundas-chances-diz-trump-sobre-ceo-da-nvidia/",
-     "hora": "20/11 20h58"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Trump defende retorno de Huang à Nvidia e pede ‘grande pedido de desculpas’ do ex-CEO",
-     "url": "https://oglobo.globo.com/economia/negocios/noticia/2026/11/20/trump-defende-retorno-de-huang-a-nvidia-e-pede-grande-pedido-de-desculpas-do-ex-ceo.ghtml",
-     "hora": "20/11 20h33"
-    }
-   ]
   }
  ],
  "ultima_rodada": "2026-11-20T19:49-03:00",
@@ -1663,9 +1676,9 @@
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 90 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 16 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 13 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
@@ -1676,9 +1689,9 @@
   "Estadão Economia": "ok: 20 itens, 6 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 2 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 37 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
   "Valor Econômico": "ok: 100 itens, 30 nas últimas 6 h",
-  "Exame": "ok: 25 itens, 17 nas últimas 6 h",
+  "Exame": "ok: 25 itens, 16 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 65 itens, 4 nas últimas 6 h",
