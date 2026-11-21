@@ -24,6 +24,7 @@ jobs:
       - name: Ler manchetes a cada 10 minutos
         env:
           TZ: America/Sao_Paulo
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "prumo-robo"
           git config user.email "prumo-robo@users.noreply.github.com"
@@ -46,6 +47,15 @@ jobs:
                 python3 -I tools/indicadores.py indicadores.json --series series || echo "indicadores falhou"
                 grava "indicadores.json series" "Indicadores"
               fi
+            fi
+            # 21/11: o horário das 0h05 da "Virada da meia-noite" vinha rodando só por volta das 8h (fila do GitHub), e a
+            # Capa passava a madrugada dizendo "termina sexta (20)" no sábado. Entre 0h05 e 6h, se a virada de hoje ainda não
+            # está em rodadas.json, o relógio pede a virada (workflow_dispatch roda na hora); uma vez por dia
+            hoje=$(date +%F)
+            if [ "$(date +%H%M)" -ge 0005 ] && [ "$(date +%H%M)" -lt 0600 ] && [ ! -f "/tmp/virada-$hoje" ]; then
+              if ! python3 -I -c "import json,sys;r=json.load(open('rodadas.json'));sys.exit(0 if r.get('dia')=='$hoje' and any((v or {}).get('tipo')=='virada' for v in (r.get('itens') or {}).values()) else 1)"; then
+                gh workflow run virada.yml -R "$GITHUB_REPOSITORY" --ref main && touch "/tmp/virada-$hoje" || echo "não pediu a virada"
+              else touch "/tmp/virada-$hoje"; fi
             fi
             sleep 600
           done
