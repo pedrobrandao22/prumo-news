@@ -132,6 +132,7 @@
 <!--@inclui css/87-acabou.css-->
 <!--@inclui css/88-revisao-noite.css-->
 <!--@inclui css/89-correcoes-tarde.css-->
+<!--@inclui css/90-revisao-madrugada.css-->
 <!--@inclui css/81-so-seguir.css-->
 </style>
 </head>
@@ -174,6 +175,8 @@
     <button type="button" id="t-me" data-v="me"><span class="badge pdot" id="mbadge" hidden></span><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="10" r="3"/><path d="M7 18c1-2.5 3-3.5 5-3.5s4 1 5 3.5"/></svg>Perfil</button>
   </div>
 </nav>
+<script>/* 20/11 (testador): em rede lenta a barra ficava marcando "Feed" até o bloco de baixo chegar; marca a Capa já aqui */
+(function(){try{if(navigator.webdriver&&localStorage.getItem("prumo-teste-capa")!=="1")return;var a=document.getElementById("t-feed"),b=document.getElementById("t-capa");if(a)a.removeAttribute("aria-current");if(b)b.setAttribute("aria-current","page");var t=document.querySelector("header.top"),f=document.getElementById("v-feed");if(t)t.hidden=true;if(f)f.hidden=true}catch(e){}})()</script>
 <div id="layer"></div>
 <div id="layer2"></div>
 <script>
@@ -379,6 +382,7 @@
 <!--@inclui js/208-acabou.js-->
 <!--@inclui js/209-sem-rede.js-->
 <!--@inclui js/210-correcoes-tarde.js-->
+<!--@inclui js/211-revisao-madrugada.js-->
 <!--@inclui js/201-nucleo.js-->
 <!--@inclui js/999-fim-redesenho-depois-dos-complementos.js-->
 </script>

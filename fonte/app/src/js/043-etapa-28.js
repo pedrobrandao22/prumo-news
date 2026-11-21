@@ -44,7 +44,12 @@ window.addEventListener("click",e=>{const el=e.target&&e.target.closest&&e.targe
 /* correções visíveis */
 function corUltima(p){const c=(p&&p.correcoes||[]).filter(x=>x&&x.texto);if(!c.length)return null;return c.reduce((a,b)=>tms(b.hora)>tms(a.hora)?b:a)}
 function corRecente(p){const c=corUltima(p);return !!(c&&c.hora&&Date.now()-tms(c.hora)<48*3600e3)}
-function matCorSelo(p){const c=corUltima(p);if(!c)return "";return `<button type="button" class="mat-corr" data-matcorr>${c.hora?"Corrigida "+esc(diaHora(c.hora)):"Corrigida"}</button>`}
+function matCorSelo(p){const c=corUltima(p);if(!c)return "";
+  /* 20/11 (testador): o selo "Corrigida segunda-feira" ficava numa versão de dias depois, e a pessoa entendia que os números
+     de hoje tinham sido corrigidos; correção de antes da última atualização vira "Correção de <dia>" (vale para a anterior) */
+  try{const u=typeof ultimaAtualizacao==="function"&&ultimaAtualizacao(p),tc=Date.parse(c.hora||""),tu=Date.parse(u||"");
+    if(tc&&tu&&tu-tc>6*3600e3)return `<button type="button" class="mat-corr mat-corr-ant" data-matcorr>Correção de ${esc(diaHora(c.hora))} (versão anterior)</button>`}catch(e){}
+  return `<button type="button" class="mat-corr" data-matcorr>${c.hora?"Corrigida "+esc(diaHora(c.hora)):"Corrigida"}</button>`}
 function matCorBloco(p){const c=(p.correcoes||[]).filter(x=>x&&x.texto);if(!c.length)return "";
   return `<div class="mat-fix" id="mat-fix"><b>${c.length>1?"Correções":"Correção"}</b>${c.map(x=>`<p>${x.hora?`<span>${esc(diaHora(x.hora))}</span> `:""}${esc(x.texto)}</p>`).join("")}</div>`}
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-matcorr]");if(!b)return;e.stopPropagation();const el=document.getElementById("mat-fix");if(el)el.scrollIntoView({behavior:"smooth",block:"center"})});

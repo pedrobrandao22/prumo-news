@@ -1457,6 +1457,15 @@ INGLES = re.compile(r"\b(the|of|and|building|taking off|runway|airport|airliner|
 
 def checar_revisao_2011(f, agora, virada=False):
     hoje = agora.date()
+    # 20/11 noite (testador): tabela parcial/atrasada ao lado de notícia com pontos novos
+    for c in ((f.get("esportes") or {}).get("competicoes") or []):
+        if not isinstance(c, dict) or not c.get("tabela"): continue
+        ate = str(c.get("tabela_ate") or "")
+        m = re.search(r"(\d+)\S*\s+rodada\s+conclu", str(c.get("fase") or ""), re.I)
+        js = [t.get("j") for t in c["tabela"] if isinstance(t, dict) and isinstance(t.get("j"), int)]
+        if re.search(r"parcial|n[ãa]o obtida", ate, re.I) or (m and js and max(js) < int(m.group(1))):
+            A(f"[esportes.{c.get('id')}] a tabela está atrás da rodada (fase '{c.get('fase')}', tabela_ate '{ate[:60]}'); "
+              "atualize a classificação (o app esconde tabela parcial)")
     for p in f.get("pautas") or []:
         if not isinstance(p, dict): continue
         pid = p.get("id") or ""

@@ -80,7 +80,8 @@ function nt124Faixa(){const el=$("#layer .pfv-at");if(!el)return;const sc=el.que
   const nm=nt124App("mensagens")?nt124MsgsN():0;let h="";
   if(ordem.length||nm)h=`<div class="nt124-desde" role="group" aria-label="Desde a sua última visita"><div class="nt124-dh"><b>Desde a sua última visita</b>${v?`<span>${esc(quando(v))}</span>`:""}</div>
     <div class="nt124-chips">${nm?`<button type="button" class="nt124-chip nt124-msg" data-nt124msgs><i aria-hidden="true">✉</i>${esc(nt124Rot("mensagens",nm))} não ${nm===1?"lida":"lidas"}</button>`:""}${ordem.map(c=>`<button type="button" class="nt124-chip${NT124.filtro===c?" on":""}" data-nt124f="${c}" aria-pressed="${NT124.filtro===c}"><i aria-hidden="true">${esc(nt124Ic(c))}</i>${esc(nt124Rot(c,por[c]))}</button>`).join("")}</div></div>`;
-  else if(v&&l.length)h=`<p class="nt124-nada">Nada de novo desde a sua última visita (${esc(quando(v))}).</p>`;
+  /* 20/11 (testador): "(agora)" soava como erro; visita de menos de 10 min não ganha a frase */
+  else if(v&&l.length&&Date.now()-v>=10*6e4)h=`<p class="nt124-nada">Nada de novo desde a sua última visita (${esc(quando(v))}).</p>`;
   sc.querySelector(".nt124-desde,.nt124-nada")?.remove();if(h)sc.insertAdjacentHTML("afterbegin",h);nt124Filtra()}
 function nt124Filtra(){const el=$("#layer .pfv-at");if(!el)return;const f=NT124.filtro,l=AT._l||[];
   el.querySelectorAll(".at-l [data-ati]").forEach(b=>{const x=l[+b.dataset.ati],li=b.closest("li");if(li)li.hidden=!!(f&&x&&nt124Cat(x)!==f)});

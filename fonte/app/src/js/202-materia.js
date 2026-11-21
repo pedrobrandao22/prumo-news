@@ -44,7 +44,7 @@ function abrirMateria(pid,manter){
   /* 158: seguir a cobertura e a nota da agenda */
   {try{const m=document.querySelector("#layer .mat");if(m&&p){const b=m.querySelector(".mat-pe [data-cobpag]");if(b&&temaDe(p))b.outerHTML=mt158SegBt(p);
     const ag=MT158_AG;MT158_AG=null;if(ag&&ag.pid===pid&&Date.now()-ag.t<4000&&!m.querySelector(".mt158-ag")){const tx=m.querySelector(".mat-tx");const tema=temaDe(p)||capaChapeu(p);
-      if(tx)tx.insertAdjacentHTML("afterbegin",`<div class="mt158-ag" role="note"><b>Na agenda${ag.dia?" · "+esc(ag.dia):""}</b><span>${esc(ag.texto)}</span><small>Ainda não há notícia só sobre esse evento. Abaixo, a cobertura ligada a ele: <b>${esc(tema)}</b>.</small></div>`)}}}catch(e){}}
+      if(tx)tx.insertAdjacentHTML("afterbegin",`<div class="mt158-ag" role="note"><b>Na agenda${ag.dia?" · "+esc(ag.dia):""}</b><span>${esc(ag.texto)}</span>${(()=>{/* 20/11 (testador): a frase saía mesmo quando a notícia aberta era do próprio evento */const pal=t=>new Set(norm(t).replace(/[^a-z0-9 ]+/g," ").split(" ").filter(w=>w.length>3));const A=pal(ag.texto),B=pal((p.neutro||{}).titulo||"");let n=0;A.forEach(w=>{if(B.has(w))n++});return n>=2?"":`<small>Ainda não há notícia só sobre esse evento. Abaixo, a cobertura ligada a ele: <b>${esc(tema)}</b>.</small>`})()}</div>`)}}}catch(e){}}
   /* 168: endereço #m=, notas de notícia velha / "o que vem" e volta ao ponto de leitura */
   {try{if($("#layer .mat")&&MAT_PID===pid){cm168Url(pid);cm168MatExtra(pid);
     const ra=CM168_REAB;if(ra&&ra.pid===pid&&Date.now()-ra.t<6*3600e3){CM168_REAB=null;const vai=()=>{const m=$("#layer .mat");if(m&&MAT_PID===pid)cm168Restaura(m,ra.a)};setTimeout(vai,60);setTimeout(vai,400);setTimeout(vai,1200)}
@@ -151,6 +151,7 @@ function f113Caps(){(()=>{if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO
   add(c.querySelector(".mat-tl"),"Linha do tempo");
   add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
   add(c.querySelector(".fs2-faq"),"Perguntas");
+  add(c.querySelector(".ct210-ld"),"Como cada lado conta");  /* 20/11 (testador): a seção não tinha aba */
   /* a lista de atualizações vem depois das Perguntas: sem capítulo próprio, o fim da matéria ficava marcado como "Perguntas" (14/11) */
   add([...c.querySelectorAll(".cpx-bl")].find(e=>/^Atualizações/.test((e.querySelector("b")||{}).textContent||"")),"Atualizações");
   if(caps.length<2)return;

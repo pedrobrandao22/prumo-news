@@ -13,7 +13,10 @@
 
 /* ===== 1. normalização ===== */
 function bu154N(s){return norm(String(s==null?"":s).replace(/[×✕✖]/g,"x"))}
-function bu154Termos(q){return rc116Termos(String(q||"").replace(/[×✕✖]/g,"x").replace(/[“”"'‘’«»]/g," "))}
+function bu154Termos(q){
+  /* 20/11 (testador): "6 x 1" virava "6", "x" e "1" e achava "Flamengo abre 6 pontos"; número x número vira um termo só */
+  q=String(q||"").replace(/[×✕✖]/g,"x").replace(/\b(\d{1,2})\s*x\s*(\d{1,2})\b/gi,"$1x$2");
+  return rc116Termos(q.replace(/[“”"'‘’«»]/g," ")).filter(t=>!(t&&t.n&&t.n.length===1&&!t.re&&!/\d/.test(t.n)))}
 function bu154Casa(t,s){return t.re?t.re.test(s):s.indexOf(t.n)>=0}
 /* rc116Hit (usado na busca antiga e no "#tag") passa a tratar × como x */
 {const _h=rc116Hit;rc116Hit=function(q){const h=_h.call(this,String(q||"").replace(/[×✕✖]/g,"x"));return t=>h(String(t==null?"":t).replace(/[×✕✖]/g,"x"))}}
@@ -86,11 +89,14 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
     R.cols.sort((a,b)=>b.pt-a.pt||(+b.x.at||0)-(+a.x.at||0));R.posts.sort((a,b)=>(+b.x.at||0)-(+a.x.at||0))}
   const BU_K={p:0,d:1,s:1,e:2,b:3};/* 19/11: o Prumo desta edição antes do resto, e o mais novo antes */
   R.not.sort((a,b)=>(BU_K[a.k]??2)-(BU_K[b.k]??2)||b.pt-a.pt||b.h-a.h);R.cob.sort((a,b)=>b.pt-a.pt);R.ent.sort((a,b)=>b.pt-a.pt);R.ag.sort((a,b)=>b.pt-a.pt);
-  R.n=R.cob.length+R.ent.length+R.ag.length+R.not.length+R.pes.length+R.posts.length+R.cols.length;return R}
+  /* agenda (20/11, testador: "pnad" dizia "Nada encontrado" com a Pnad marcada na agenda) */
+  R.agd=[];try{const hj=hojeSP();(FEED.agenda||[]).forEach((a,i)=>{if(!a||!a.texto)return;const d=typeof agData==="function"?agData(a,hj):a.data;if(d&&d<hj)return;
+    const r=bu154Pontos(ts,{T:String(a.texto)},frase);if(r)R.agd.push({a,i,d,pt:r.pt})});R.agd.sort((x,y)=>String(x.d).localeCompare(String(y.d)))}catch(e){}
+  R.n=R.cob.length+R.ent.length+R.ag.length+R.not.length+R.pes.length+R.posts.length+R.cols.length+R.agd.length;return R}
 
 /* ===== 3. desenho dos resultados ===== */
 function bu154CobCard(o){if(o.d){const d=o.d,tm=d.tema||d.tag,seg=!!(PREF.seguindo||{})[norm(tm)];
-    return `<div class="bu154-card"><button type="button" class="bu154-cb" data-dorm="${esc(d.id)}"><small>Cobertura anterior</small><b>${esc(tm)}</b><span>${esc(bu154J([d.inicio?"de "+cobSP(d.inicio)+" a "+cobSP(d.ultima):cobSP(d.ultima),"fora da edição"]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154dseg="${esc(d.id)}" aria-pressed="${seg}" title="Avisamos se a cobertura voltar">${seg?"Avisaremos":"Avisar se voltar"}</button></div>`}
+    return `<div class="bu154-card"><button type="button" class="bu154-cb" data-dorm="${esc(d.id)}"><small>Cobertura anterior</small><b>${esc(tm)}</b><span>${esc(bu154J([d.inicio?"de "+cobSP(d.inicio)+" a "+cobSP(d.ultima):cobSP(d.ultima),"fora da edição"]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154dseg="${esc(d.id)}" aria-pressed="${seg}" title="Avisamos se a cobertura voltar">${seg?"Vou avisar ✓":"Avisar se voltar"}</button></div>`}
   const p=o.p,tm=temaDe(p),seg=seguido(p),nt=(Array.isArray(p.titulos)?p.titulos.length:0),u=ultimaAtualizacao(p)||p.hora;
   return `<div class="bu154-card"><button type="button" class="bu154-cb" data-cobpag="${esc(p.id)}"><small>Cobertura${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</small><b>${esc(tm)}</b><span>${esc(bu154J([nt>1?nt+" manchetes":"",p.inicio?"desde "+cobSP(p.inicio):"",u?"atualizada "+quando(u):""]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154seg="${esc(p.id)}" aria-pressed="${seg}">${seg?"Seguindo":"Seguir"}</button></div>`}
 function bu154EntCard(o){const tx=String(o.e.texto||"");const c=tx.length>150?tx.slice(0,tx.lastIndexOf(" ",150))+"…":tx;
@@ -112,6 +118,7 @@ function bu154Html(R,q){const ts=R.ts;let h="";
   if(pes&&!temNoticiaForte)h+=pes;
   if(R.not.length)h+=`${h?`<h3 class="bu154-h">Notícias</h3>`:""}<ul class="sres">${R.not.slice(0,40).map(r=>bu154Item(r,ts)).join("")}</ul>`;
   if(pes&&temNoticiaForte)h+=pes;
+  if(R.agd&&R.agd.length)h+=`<h3 class="bu154-h">Na agenda</h3><ul class="sres bu154-agd">${R.agd.slice(0,4).map(o=>`<li><button type="button" ${o.a.pid&&pautaById(o.a.pid)?`data-busca="${esc(o.a.pid)}"`:`data-igagenda`}><b>${bu154Marca(o.a.texto,ts)}</b><span>${esc(o.d?agDataLonga(o.d):"")}${o.a.hora?" · "+esc(o.a.hora):""}</span></button></li>`).join("")}</ul>`;
   if(ants.length)h+=`<h3 class="bu154-h">Coberturas anteriores</h3><div class="bu154-cards bu154-ants">${ants.slice(0,2).map(bu154CobCard).join("")}</div>`;
   if(R.cols.length)h+=`<h3 class="bu154-h">Colunas</h3><ul class="sres bu154-po">${R.cols.slice(0,5).map(o=>`<li><button type="button" data-cs123ler="${esc(o.x.id)}"><b>${bu154Marca(o.c.tit,ts)}</b>${o.tr?`<em class="trecho">${o.tr}</em>`:o.c.linha?`<em class="trecho">${esc(o.c.linha)}</em>`:""}<span>${esc(bu154J(["Coluna de "+(o.x.autor===S.uid?"você":nomeDe(o.x.autor)),quando(new Date(+o.x.at||0).toISOString())]))}</span></button></li>`).join("")}</ul>`;
   if(R.posts.length)h+=`<h3 class="bu154-h">Posts</h3><ul class="sres bu154-po">${R.posts.slice(0,5).map(o=>`<li><button type="button" data-bu154post="${esc(o.x.id)}"><em class="trecho">${bu154Trecho(o.x.texto,ts)||esc(String(o.x.texto).slice(0,140))}</em><span>${esc(bu154J(["Post de "+(o.x.autor===S.uid?"você":nomeDe(o.x.autor)),quando(new Date(+o.x.at||0).toISOString())]))}</span></button></li>`).join("")}</ul>`;
@@ -172,9 +179,11 @@ function bu154AbrePost(id){const x=pubDe(id)||(pubVisiveis()||[]).find(y=>y.id==
   $("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicação"></div>`;if(pushH())HST++;pfvDesenha()}
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if((b=t.closest("[data-bu154q]"))){pare();bu154Rodar(b.dataset.bu154q);return}
-  if((b=t.closest("#bvres [data-bu154seg]"))){pare();const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!seguido(p);cobSegue(temaDe(p),on);toast(on?"Seguindo "+temaDe(p):"Deixou de seguir");
+  if((b=t.closest("#bvres [data-bu154seg]"))){pare();const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!seguido(p);cobSegue(temaDe(p),on);const rf154=()=>{try{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}catch(_){}const i=$("#bvq");if(i)i.dispatchEvent(new Event("input",{bubbles:true}))};
+    /* 20/11 (testador): deixar de seguir com um toque, sem dizer o quê nem desfazer */
+    if(on)toast("Seguindo "+temaDe(p));else toast("Deixou de seguir "+temaDe(p),"Desfazer",()=>{cobSegue(temaDe(p),true);rf154()});
     try{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}catch(_){}const i=$("#bvq");if(i)i.dispatchEvent(new Event("input",{bubbles:true}));return}
-  if((b=t.closest("#bvres [data-bu154dseg]"))){pare();const d=(FEED.dormentes||[]).find(x=>x.id===b.dataset.bu154dseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);toast(on?"Vamos destacar se voltar":"Deixou de seguir");
+  if((b=t.closest("#bvres [data-bu154dseg]"))){pare();const d=(FEED.dormentes||[]).find(x=>x.id===b.dataset.bu154dseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);if(on)toast("Vamos avisar se voltar");else toast("Não vamos mais avisar sobre "+tm,"Desfazer",()=>{cobSegue(tm,true);const i=$("#bvq");if(i)i.dispatchEvent(new Event("input",{bubbles:true}))});
     const i=$("#bvq");if(i)i.dispatchEvent(new Event("input",{bubbles:true}));return}
   if((b=t.closest("#bvres [data-bu154ag]"))){pare();const x=(agoraItens()||[])[+b.dataset.bu154ag];if(x&&x.pid&&pautaById(x.pid))abrirMateria(x.pid);else abrirAgora();return}
   if((b=t.closest("#bvres [data-bu154pf]"))){pare();abrirPerfil(b.dataset.bu154pf);return}
@@ -207,6 +216,6 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="pq")bu154AmgVa
 /* 19/11: ao fechar uma folha por cima da busca (ex.: seguir uma cobertura), os botões Seguir dos cartões de cobertura
    mostram o estado novo (antes continuavam dizendo "Seguir" depois de seguir); só os botões, sem redesenhar a busca */
 function bu154SegAtualiza(){try{document.querySelectorAll("#bvres [data-bu154seg]").forEach(b=>{const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!!seguido(p);b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"});
-  document.querySelectorAll("#bvres [data-bu154dseg]").forEach(b=>{const d=(FEED.dormentes||[]).find(x=>x&&x.id===b.dataset.bu154dseg);if(!d)return;const on=!!(PREF.seguindo||{})[norm(d.tema||d.tag)];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Avisaremos":"Avisar se voltar"})}catch(e){}}
+  document.querySelectorAll("#bvres [data-bu154dseg]").forEach(b=>{const d=(FEED.dormentes||[]).find(x=>x&&x.id===b.dataset.bu154dseg);if(!d)return;const on=!!(PREF.seguindo||{})[norm(d.tema||d.tag)];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Vou avisar ✓":"Avisar se voltar"})}catch(e){}}
 (function(){let ab=false;const vig=()=>{const L=document.getElementById("layer");if(!L)return setTimeout(vig,500);
   new MutationObserver(()=>{const tem=!!L.innerHTML;if(ab&&!tem&&typeof VIEW!=="undefined"&&VIEW==="busca")bu154SegAtualiza();ab=tem}).observe(L,{childList:true})};vig()})();

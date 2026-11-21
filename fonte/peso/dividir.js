@@ -16,6 +16,9 @@ const parteDe = new Map(); for (const n of Object.keys(FR.partes)) for (const k 
 // rede e com os dados do dia (feed leve chegando antes do completo, rodada nova, faixa Agora, ilustração da manchete)
 const NUCLEO_FIXO = /^(fl119|ta120|pc121|gen161Tema$|illAlt$|atualizarAgora$|carregarAgora$|dt185Antes$|rodadaRecenteMin$|co160ConfereCampo$|co160Motivo$|dataCurta$|dicaVoto$|acvPeriodo$|mb138Vv$|ft140Aplica$|ft187Confirma$|rs204Base$|pgEncher$|secLista$|fc107AtPid$|abrirTour$|abrirFaltaConvite$|sheet$|acvLinha$|dmPrevia$|renderMe$|abrirMateria$|co160Recupera$|co160PostPrevia$|mt158Pagina$|mc1111Toques$|travarFundo$|goTroca$|abrirRodadas$|qc127HasSync$|nt124RotaTenta$|checarFeed$|av8Assina$|fd204CmtHTML$|cr166Rail$|secsStory$|ft187Nomes$|acvRotData$|acvTicks$)/;
 // idem para funções sem nome (passadas numa chamada no topo), pela chave; achadas na bateria em modo de medição (20/11)
+// 20/11 (testador, rede lenta): estas funções só disparam algo (não devolvem nada que o chamador use); se forem chamadas antes
+// de a parte chegar, a chamada espera a parte em vez de baixá-la com pedido síncrono (a página congelava ~5 s)
+const ADIAVEIS = /^(enviarEventos|uso|tlRegistra|tl142\w*|telemetria\w*)$/;
 const CHAVES_FIXAS = new Set(['ae5c9fbf1c#1', 'd65ed049f4#1', 'c07c7e4c02#1', 'ac336828c5#1', 'fae12d6aa1#1', '6f73b3ca7e#1']);  // 2 últimas: registro de erro de promessa e ajuste ao girar a tela
 const h = fs.readFileSync(ARQ, 'utf8');
 let melhor = null; const re = /<script>([\s\S]*?)<\/script>/g; let m;  // o script principal é o maior <script> sem atributos
@@ -28,7 +31,7 @@ for (const u of unidades(src, ast)) {
   // o texto da função como expressão (declaração vira "function(params){corpo}"; seta continua seta)
   const expr = u.tipo === 'decl' ? (fn.async ? 'async ' : '') + 'function' + src.slice(fn.id.end, fn.end) : u.txt;
   partes[n].push(`F[${k}]=${expr};`); mapa[n].push(u.chave + (u.nome ? ' ' + u.nome : ''));
-  const ap = `function(){return __p${n}(${k},this,arguments)}`;
+  const ap = ADIAVEIS.test(u.nome || "") ? `function(){return __pA(${n},${k},this,arguments)}` : `function(){return __p${n}(${k},this,arguments)}`;
   trocas.push({ ini: u.ini, fim: u.fim, por: u.tipo === 'decl' ? ap.replace('function(', `function ${u.nome}(`) : ap });
 }
 if (!trocas.length) { console.log('dividir: nada para dividir'); process.exit(0) }
@@ -49,6 +52,10 @@ function __p3(k,t,a){return __pN(3,k,t,a)}
 function __pSinc(n){if(!__PURL[n])return;try{(window.__psinc=window.__psinc||[]).push(n);var x=new XMLHttpRequest();x.open("GET",__PURL[n],false);x.send(null);if(x.status===200&&x.responseText){var s=document.createElement("script");s.text=x.responseText;document.head.appendChild(s)}}catch(e){}}
 function __pCarrega(n){if(!__PURL[n]||window.__PF[n]||(window.__pini=window.__pini||{})[n])return;window.__pini[n]=1;var s=document.createElement("script");s.src=__PURL[n];s.async=true;document.head.appendChild(s)}
 function __pDepois(n,f){if(window.__PF[n]||!__PURL[n]){f();return}addEventListener("prumo:parte"+n,function(){f()},{once:true});__pCarrega(n)}
+function __pA(n,k,t,a){var P=window.__PF;if(P[n])return __pN(n,k,t,a);__pDepois(n,function(){try{__pN(n,k,t,a)}catch(e){}})}
+/* abrir uma matéria por link antes de a parte 2 chegar: espera a parte (o resto da matéria está nela) em vez de congelar */
+document.addEventListener("DOMContentLoaded",function(){try{var f=window.abrirMateria;if(typeof f!=="function"||!__PURL[2]||!/(^|[#&])m=/.test(location.hash.slice(1)))return;
+  var uma=false;window.abrirMateria=function(){var t=this,a=arguments;if(uma||window.__PF[2]){window.abrirMateria=f;return f.apply(t,a)}uma=true;__pDepois(2,function(){window.abrirMateria=f;try{f.apply(t,a)}catch(e){}})}}catch(e){}});
 (function(){var ini=Date.now(),vai3=function(){__pDepois(2,function(){var g=function(){__pCarrega(3)};window.requestIdleCallback?requestIdleCallback(g,{timeout:2500}):setTimeout(g,300)})};
   /* parte 2 assim que a Capa estiver desenhada (ou já, se o app não abriu na Capa: link de matéria, outra aba); parte 3 depois dela */
   if(location.hash.length>1||/[?&]\\w+=/.test(location.search)||(typeof abreNaCapa==="function"&&!abreNaCapa())){__pCarrega(2);__pCarrega(3)}

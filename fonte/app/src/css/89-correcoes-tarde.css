@@ -80,3 +80,48 @@
    ("ráfico", "inha do tempo"); agora a faixa sempre para no começo de uma aba */
 html.fs2 .fs2-cap-l{scroll-snap-type:x mandatory;scroll-padding-left:6px}
 html.fs2 .fs2-cap-l li{scroll-snap-align:start}
+/* revisão 20/11: campo com erro no Entrar/Criar conta */
+#lform .field-erro{border-color:var(--hot,#b3412f)!important;box-shadow:0 0 0 1px var(--hot,#b3412f)}
+#lform .campo-erro-at{margin:-4px 0 4px}
+/* revisão 20/11 (testador): com letra grande a prévia da conversa ficava com três palavras; vai em duas linhas */
+html.fzg .dm-row .pt>span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal!important}
+html.fzg .dm-row .dm-pv{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+/* revisão 20/11 (testador): o ✓ sozinho parecia "lido"/"verificado"; volta a palavra (curta), sem o tique */
+#posts .post .fd167-seg .fd167-segt{position:static!important;width:auto!important;height:auto!important;overflow:visible!important;clip:auto!important}
+#posts .post .fd167-seg b{display:none}
+#posts .post .ph-sub.fd156-sub{min-width:0}
+#posts .post .ph-sub.fd156-sub>:not(.fd167-seg){min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* revisão 20/11 (testador): cartões de "Coberturas ativas" com a mesma informação e na altura do conteúdo */
+.segs .segc{height:auto!important;min-height:0!important;align-self:flex-start}
+.pf205-fim{margin-top:18px}
+.pf205-st{display:block;margin:14px 0 4px}
+.at-chip-fora{opacity:.8}
+.at-chip-fora small{font-size:.85em;color:var(--muted)}
+.cm168-nota{margin:6px 0 0;font-size:13.5px;line-height:1.45}
+.cm168-nota .link{font:inherit;padding:0}
+.ct210-gc.ct210-gc-in{position:static!important;transform:none!important;margin:6px auto 2px;width:max-content;max-width:calc(100% - 32px);box-shadow:none}
+/* revisão 20/11 (testador): ao rolar, o cabeçalho semitransparente deixava o texto de baixo aparecer atrás do logo
+   (pior no escuro); e a barra de baixo também */
+.top.rolou{background:var(--bg)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+/* revisão 20/11 (testador): deitado, os círculos perdiam todo o texto; volta o nome da editoria embaixo de cada um */
+@media (orientation:landscape) and (max-height:430px){
+  html.vn #secs.vn-tiles .sb.ig-s{width:72px;gap:3px}
+  html.vn #secs.vn-tiles .sb.ig-s>b{position:static!important;width:auto!important;height:auto!important;overflow:hidden!important;clip:auto!important;
+    display:block;max-width:72px;font:700 10px/1.2 var(--f-ui);letter-spacing:.03em;text-transform:uppercase;text-align:center;text-overflow:ellipsis;color:var(--ink)}
+}
+/* deitado com letra grande: foto larga com altura limitada, sem virar close do rosto */
+@media (orientation:landscape) and (max-height:500px){
+  html.fzg #v-capa .art.paper.foto,html.fzg #posts .post .ph-art{max-height:45vh}
+  html.fzg #v-capa .art.paper.foto img{object-position:50% 25%}
+}
+.fd204-vp{margin:0;padding-top:8px;font:600 12.5px/1.3 var(--f-ui);color:var(--muted)}
+.sg181-sv{display:inline-block;margin:4px 0 0;padding:2px 8px;border-radius:999px;background:var(--line);color:var(--muted);font:700 11.5px/1.4 var(--f-ui)}
+/* revisão 20/11 (testador): no Perfil sem posts, o botão "Nova publicação" ficava atrás da barra de baixo */
+#v-me .pf-corpo{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+/* revisão 20/11 (testador): post com notícia ficava com duas barras de ações iguais (a da notícia e a do comentário); a do
+   comentário fica menor e só com curtir e responder */
+.post.fc107-junto .acts>:nth-child(n+3){display:none!important}
+.post.fc107-junto .acts{font-size:.9em;opacity:.9}
+/* revisão 20/11 (testador): no Feed havia dois "+" a um palmo que abriam a mesma Nova publicação; no Feed fica só o da
+   barra "O que você acha?" */
+html:has(#v-feed:not([hidden]) #cn102-bar:not([hidden])) #b-criar{display:none!important}

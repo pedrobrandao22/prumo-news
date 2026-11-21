@@ -4,6 +4,8 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8'));
   f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
   f.pautas.forEach((p, i) => { p.foto = { url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/F' + i + '.jpg', credito: 'Foto: X/Agência Senado', alt: 't', mostra: p.neutro.titulo } });  // 18/11 (187): foto própria só com "mostra"
+  /* 20/11: relacionadas agora pedem a mesma cobertura (tema) ou a 1ª hashtag; o feed real tem poucas, então o teste monta 4 da mesma cobertura */
+  f.pautas.slice(0, 4).forEach(p => { p.tema = 'Cobertura de teste' });
   fs.writeFileSync(__dirname + '/../site/feed.json', JSON.stringify(f));
   const jpg = fs.readFileSync(__dirname + '/etapa13/foto.jpg');
   const srv = U.servir('site', 8801); await sleep(700); const br = await U.navegador();
@@ -13,7 +15,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const p = U.erros(await ctx.newPage(), 'c'); await p.goto('http://localhost:8801/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi'), null, 10000); await sleep(1200);
   ok(await p.evaluate(() => { const i = document.querySelector('#v-capa .cpi-man img'); return i && i.getAttribute('loading') === 'eager' && i.getAttribute('fetchpriority') === 'high' && i.classList.contains('ok') && getComputedStyle(i).opacity === '1' }), 'foto da manchete: carrega primeiro e aparece');
   ok(await p.evaluate(() => { const m = document.querySelector('meta[property="og:image"]'); return m && /og-padrao\.png$/.test(m.content) }), 'prévia do site (og:image)');
-  const mid = await p.evaluate(() => { const ok = FEED.pautas.find(q => q.subtema && FEED.pautas.filter(z => z.secao === q.secao && z.subtema === q.subtema).length >= 4); return (ok || FEED.pautas[0]).id });
+  const mid = await p.evaluate(() => { const ok = FEED.pautas.find(q => q.tema === 'Cobertura de teste');  /* 20/11: relacionadas por cobertura/hashtag */ return (ok || FEED.pautas[0]).id });
   await p.evaluate(id => abrirMateria(id), mid); await sleep(500);
   ok(await p.evaluate(() => /\d+ min de leitura/.test(document.querySelector('#layer .mat-meta').textContent)), 'min de leitura');
   ok(await p.evaluate(() => document.activeElement === document.querySelector('#layer .mat h1')), 'foco vai para o título');

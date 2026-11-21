@@ -36,10 +36,17 @@ function sr150Convite(n){try{if(!S.uid||CRIANDO)return;if(S.membro)return;if(n<8
 
 /* 6 */
 var SR150_USADAS=null;
-{const _vp150=vn112Primeira;vn112Primeira=function(sec){const a=_vp150.apply(this,arguments);if(!SR150_USADAS||!a||!a.p)return a;
+{const _vp150=vn112Primeira;
+  /* 21/11 (revisão 20/11, testador: círculos mudavam de notícia ao voltar do giro): durante a visita (10 min, 204) cada
+     círculo de editoria mantém a capa que mostrou, se ela ainda não estiver em outro círculo. Fica AQUI, junto do "sem
+     repetir", para os destaques (sr150-rep) saberem qual notícia o círculo mostra de fato */
+  const fixa=(sec,a)=>{try{if(!a||!a.p||!sec||sec[0]==="_"||typeof FD204_FACE==="undefined")return a;const pin=FD204_FACE[sec];
+    if(pin&&pin!==a.p.id&&FD204_ORD&&Date.now()-FD204_ORDT<10*6e4&&!(SR150_USADAS&&SR150_USADAS.has(pin))){const p=pautaById(pin);if(p&&secOf(p)===secOf(a.p))return {p,t:versao(p,lente()).titulo}}}catch(e){}return a};
+  const grava=(sec,a)=>{try{if(a&&a.p&&sec&&sec[0]!=="_"&&typeof FD204_FACE!=="undefined")FD204_FACE[sec]=a.p.id}catch(e){}return a};
+  vn112Primeira=function(sec){const a=fixa(sec,_vp150.apply(this,arguments));if(!SR150_USADAS||!a||!a.p)return grava(sec,a);
   if(sec&&sec[0]!=="_"&&SR150_USADAS.has(a.p.id)){try{const r=igLista(sec),q=(r.ps||[]).find(p=>!SR150_USADAS.has(p.id)&&!SEEN.has(seenKey(p)))||(r.ps||[]).find(p=>!SR150_USADAS.has(p.id));
-    if(q){SR150_USADAS.add(q.id);return {p:q,t:versao(q,lente()).titulo}}}catch(e){}}
-  SR150_USADAS.add(a.p.id);return a}}
+    if(q){SR150_USADAS.add(q.id);return grava(sec,{p:q,t:versao(q,lente()).titulo})}}catch(e){}}
+  SR150_USADAS.add(a.p.id);return grava(sec,a)}}
 /* os círculos de destaque (data-dest) que repetem a notícia de um círculo de editoria somem (o carrossel mostrava a mesma notícia duas vezes) */
 {const _vt150=vn112Tiles;vn112Tiles=function(){SR150_USADAS=new Set();try{const r=_vt150.apply(this,arguments);
   try{const box=$("#secs");if(box){const usadas=SR150_USADAS;box.querySelectorAll(":scope>.sb[data-dest]").forEach(b=>{b.classList.toggle("sr150-rep",usadas.has(b.dataset.dest))})}}catch(e){}return r}finally{SR150_USADAS=null}}}

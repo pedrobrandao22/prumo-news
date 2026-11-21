@@ -7,7 +7,7 @@ const TOUR_IC={capa:'<svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" hei
 function tr090Acoes(){const ic=(k,f)=>{try{return (typeof ICON!=="undefined"&&ICON[k])||f}catch(e){return f}};let rp="";try{rp=typeof VN112_IC!=="undefined"&&VN112_IC.rp||""}catch(e){}
   return `<em class="tr-a" title="Curtir">${ic("like","")}</em><em class="tr-a">${ic("cmt","")}<small>Comentar</small></em>${rp?`<em class="tr-a">${rp}<small>Repostar</small></em>`:""}<em class="tr-a tr-dir">${ic("send","")}</em><em class="tr-a">${ic("save","")}</em>`}
 function tourTelas(nome){return [
-  {ic:"capa",k:"Capa",t:nome?`Bem-vindo, ${nome}`:"As notícias do dia",p:"A Capa traz o que importa hoje, em poucas linhas e sem viés. Toque na manchete para ler ali mesmo e escolha a versão Neutra, de Direita ou de Esquerda.",
+  {ic:"capa",k:"Capa",t:nome?`Bem-vindo, ${nome}`:"As notícias do dia",p:"A Capa traz o que importa hoje, em poucas linhas e sem viés. Toque na manchete para ler ali mesmo. Para ver como a direita ou a esquerda contam, toque na balança, no alto da Capa.",
     demo:`<div class="tr-capa"><i class="tr-k"></i><b></b><b class="c"></b><span class="tr-seg"><em class="on">Neutra</em><em>Direita</em><em>Esquerda</em></span></div>`},
   {ic:"feed",k:"Feed e giros",t:"Notícias que dá para curtir",p:"No Feed, as notícias viram posts e giros, junto com o que seus amigos publicam. Curta, comente, vote nas enquetes e mande para quem quiser.",
     demo:`<div class="tr-feed"><span><i></i><i></i><i></i><i></i></span><div><b></b><b class="c"></b></div><p class="tr-acts">${tr090Acoes()}</p></div>`},

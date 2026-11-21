@@ -22,12 +22,22 @@ async function toggleLike(pid){uso("curtir");vibrar(8);
 
 function shareCard(s,attrs=""){return `<button type="button" class="share paper" data-sec="${esc(s?.secao||"politica")}" ${attrs}>${svgOf(s?.imagem)}<div><span>${esc(secNome(s?.secao||"politica"))} · ${esc(s?.tag)}</span><b>${esc(s?.titulo)}</b></div></button>`}
 function snapLeve(pid){const s=snapById(pid);if(!s)return {id:pid};return {id:s.id||pid,secao:s.secao||"",tag:s.tag||"",titulo:s.titulo||"",texto:String(s.texto||"").slice(0,320),imagem:s.imagem||null,links:arrL(s.links).slice(0,1)}}
-async function toggleSave(pid){uso("guardar");
-  if(precisaConta())return;const on=!S.salvos[pid],antS=S.salvos[pid];
+var GD008_T={},GD008_FILA={};
+async function toggleSave(pid,desfazer){uso("guardar");
+  if(precisaConta())return;
+  /* 20/11 (testador): dois toques rápidos guardavam e já tiravam ("Removida das guardadas") */
+  if(!desfazer&&Date.now()-(GD008_T[pid]||0)<700)return;GD008_T[pid]=Date.now();
+  const on=!S.salvos[pid],antS=S.salvos[pid];
   if(on)S.salvos[pid]={at:Date.now(),snap:snapLeve(pid)};else delete S.salvos[pid];
-  updateSocial(pid);toast(on?"Guardada":"Removida das guardadas",on?"Desfazer":"",on?()=>toggleSave(pid):null);if(VIEW==="saved")renderSaved();
-  try{const val=on?{at:Date.now(),snap:snapLeve(pid)}:null;await gravarMapa(`data/users/${S.uid}/salvos`,"itens",pid,val)}catch(e){if(on)delete S.salvos[pid];else S.salvos[pid]=antS;updateSocial(pid);if(VIEW==="saved")renderSaved();toast("Não deu para guardar agora.")}
+  updateSocial(pid);if(VIEW==="saved")renderSaved();
+  const val=on?{at:Date.now(),snap:snapLeve(pid)}:null;
+  /* 20/11 (testador): sem internet dizia só "Não deu para guardar agora" e não guardava; agora guarda no aparelho e envia
+     quando a internet voltar (como o comentário) */
+  if(navigator.onLine===false){GD008_FILA[pid]=val;toast(on?"Sem conexão: guardada neste aparelho; vai para a sua conta quando a internet voltar.":"Sem conexão: sai das guardadas quando a internet voltar.");return}
+  toast(on?"Guardada":"Removida das guardadas",on?"Desfazer":"",on?()=>toggleSave(pid,true):null);
+  try{await gravarMapa(`data/users/${S.uid}/salvos`,"itens",pid,val)}catch(e){if(navigator.onLine===false){GD008_FILA[pid]=val;return}if(on)delete S.salvos[pid];else S.salvos[pid]=antS;updateSocial(pid);if(VIEW==="saved")renderSaved();toast("Não deu para guardar agora. Tente de novo.")}
 }
+addEventListener("online",()=>{const f=GD008_FILA;GD008_FILA={};Object.keys(f).forEach(pid=>{try{if(S.uid)gravarMapa(`data/users/${S.uid}/salvos`,"itens",pid,f[pid]).catch(()=>{GD008_FILA[pid]=f[pid]})}catch(e){}})});
 function openLinks(pid){uso("fontes");const p=pautaById(pid)||{links:arrL(snapById(pid)?.links)};sheet("Ler nas fontes",`<ul class="rows">${arrL(p.links).map(l=>`<li><span>${esc(nomeFonte(l.fonte))}</span><a href="${escU(l.url)}" target="_blank" rel="noopener">${esc(l.titulo)}</a></li>`).join("")}</ul>`)}
 function openMenu(pid){uso("menu_post");
   const p=pautaById(pid);if(!p)return;const sec=secOf(p),tema=temaDe(p),tk=norm(tema);
