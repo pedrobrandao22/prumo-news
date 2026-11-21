@@ -418,8 +418,10 @@ function drawStory(anim){
   const vsec=ST.sec,virt=vsec==="_5min"||vsec==="_ult",it=vsec==="_ult"&&ST.itens?ST.itens[ST.i]:null;
   if(it){ULT_VISTOS.add(ultKey(it));try{localStorage.setItem("prumo-ult-vistos",JSON.stringify([...ULT_VISTOS].slice(-200)))}catch(e){}}
   const L=lente(),v=versao(p,L),psec=secOf(p),cor=secCor(psec),f=fotoDe(p);
-  const tit=it&&it.txt?it.txt:v.titulo;
-  let lin=igLinhas(p,L);if(it){lin=lin.filter(t=>norm(t)!==norm(tit));lin=lin.slice(0,3)}
+  /* 21/11 (testador): o giro Últimas usava a frase da atualização como título ("Texto final da conferência…", sem dizer
+     que era a COP31); o título é o da notícia (igual ao Feed) e a atualização vira a primeira linha, quando for outra */
+  const tit=v.titulo;
+  let lin=igLinhas(p,L);if(it){const nov=it.txt&&norm(it.txt)!==norm(tit)?String(it.txt).replace(/<[^>]+>/g,""):"";lin=lin.filter(t=>norm(t)!==norm(tit)&&(!nov||norm(t)!==norm(nov)));if(nov)lin.unshift(nov);lin=lin.slice(0,3)}
   let num=null;
   const linHTML=lin.map((t0,k)=>{let t=t0;if(k===0&&!it){const n=ssNumero(t0);if(n&&t0.indexOf(n)===0){let r=t0.slice(n.length).replace(/^\s*:?\s*/,"");if(r.length>8){num=n;t=r.charAt(0).toUpperCase()+r.slice(1)}}}return `<li>${esc(t)}</li>`}).join("");
   const hr=it?it.hora:(ultimaAtualizacao(p)||p.hora);

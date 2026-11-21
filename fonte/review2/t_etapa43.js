@@ -17,8 +17,9 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(a.st && !a.sheet && a.sec === '_5min' && a.n === 5 && a.nome === 'Em 5 min', '"Em 5 min" abre em story com 5 notícias ' + JSON.stringify(a));
   ok(a.ord[0] === '_5min' && a.ord[1] === '_ag' && a.ord[2] === '_ult', 'sequência: Em 5 min, Agenda, Últimas, seções ' + JSON.stringify(a));
   await p.evaluate(() => { for (let i = 0; i < 5; i++) storyGo(1); igSet('_ult', 0); drawStory() }); await sleep(600);
-  const b = await p.evaluate(() => ({ sec: ST.sec, nome: document.querySelector('.sg-who b')?.textContent, h2: document.querySelector('.sg-body h2').textContent, txt: ST.itens[ST.i].txt }));
-  ok(b.sec === '_ult' && b.nome === 'Últimas' && b.h2 === b.txt, 'depois do 5º, passa para Últimas, com o texto da atualização ' + JSON.stringify(b));
+  const b = await p.evaluate(() => ({ sec: ST.sec, nome: document.querySelector('.sg-who b')?.textContent, h2: document.querySelector('.sg-body h2').textContent, txt: ST.itens[ST.i].txt, tit: versao(pautaById(ST.itens[ST.i].pid), lente()).titulo, l1: (document.querySelector('.sg-body li') || {}).textContent }));
+  /* 21/11 (testador): o título é o da notícia; a atualização vem na primeira linha (quando é outra frase) */
+  ok(b.sec === '_ult' && b.nome === 'Últimas' && b.h2.slice(0, 20) === String(b.tit).slice(0, 20) && (b.txt === b.tit || (b.l1 || '').replace(/<[^>]+>/g, '') === String(b.txt).replace(/<[^>]+>/g, '')), 'depois do 5º, passa para Últimas, com o título da notícia e a atualização na 1ª linha ' + JSON.stringify(b));
   await p.evaluate(() => closeLayer()); await sleep(400);
   await p.evaluate(() => document.querySelector('#secs [data-ultimas]').click()); await sleep(700);
   ok(await p.evaluate(() => !!document.querySelector('#layer .story.sg') && ST.sec === '_ult' && ST.i === 1), '"Últimas" abre em story, na primeira ainda não vista');

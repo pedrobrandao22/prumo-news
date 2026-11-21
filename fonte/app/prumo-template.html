@@ -6449,6 +6449,20 @@ html.fzg .card .segs button{font-size:13px;padding-inline:8px}
 /* testador (ilustracao-do-feed-nao-preenche-o-quadro-2): desenho de dados (moedas, placar; 400×240) ficava no alto do
    quadro do Feed e sobrava faixa vazia embaixo. Fica no meio do quadro, como sugerido */
 .sl>.cover.paper.info>svg{margin-block:auto}
+
+/* comentário apagado que tinha resposta (156): marcador no lugar, respostas recuadas embaixo */
+#cbox .clist li.fd156-apag{color:var(--muted);font-size:14px;padding-block:6px}
+#cbox .clist li.fd156-apag i{font-style:italic}
+
+/* testador (feed-assunto-colado-no-ponto): o 89 pôs nowrap em todos os pedaços do rótulo e o espaço antes de "· há 7 h"
+   sumiu; a hora volta a guardar o espaço */
+#posts .post .ph-sub.fd156-sub>.vn-hr{white-space:pre!important;flex:none}
+/* botão "Publicar assim" (206) nunca quebra */
+.cp206-conf{white-space:nowrap}
+
+/* testador (cabecalho-do-feed-deixa-texto-aparecer-atras-2): o cabeçalho rolado tinha 94–96% de opacidade e o texto preto
+   de baixo ainda aparecia atrás do logo; fica opaco */
+html:root:not(.x211-nunca) .top.rolou{background:var(--bg)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -18604,6 +18618,13 @@ function fd156Agrupa(){try{const ul=document.querySelector("#cbox .clist");if(!u
     if(m){const cands=Object.keys(ultimo).filter(n=>(m[1]+" "+tx.slice(m[0].length)).indexOf(n)===0||n===m[1]).sort((a,c)=>c.length-a.length);if(cands.length){quem=cands[0];alvo=ultimo[quem]}}
     if(alvo&&alvo!==li){const fim=fimDe.get(alvo)||alvo;fim.after(li);fimDe.set(alvo,li);li.classList.add("fd156-resp");
       if(!li.querySelector(".fd156-rt")){const i=li.querySelector(":scope>div");if(i)i.insertAdjacentHTML("afterbegin",`<small class="fd156-rt">respondendo a ${esc(quem)}</small>`)}}
+    else if(m&&!alvo){
+      /* 21/11 (testador): resposta a um comentário apagado subia sozinha com "@Nome" colado; agora fica recuada sob
+         "Comentário apagado", com o @Nome tirado do texto (nome = até duas palavras com maiúscula) */
+      const mm=/^@([A-ZÀ-Ý][^\s@]*(?:\s[A-ZÀ-Ý][^\s@]*)?)\s/.exec(tx+" ");const q=mm?mm[1]:m[1];let ph=fimDe.get("apag:"+q);
+      if(!ph){ph=document.createElement("li");ph.className="fd156-apag";ph.innerHTML=`<div><span><i>Comentário apagado</i></span></div>`;li.before(ph);fimDe.set("apag:"+q,ph)}
+      const fim=fimDe.get(ph)||ph;if(fim!==li)fim.after(li);fimDe.set(ph,li);li.classList.add("fd156-resp");
+      if(!li.querySelector(".fd156-rt")){const i=li.querySelector(":scope>div");if(i)i.insertAdjacentHTML("afterbegin",`<small class="fd156-rt">respondendo a ${esc(q)}</small>`)}}
     else{ultimo[nm]=li}})}catch(e){}}
 function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)return;
   try{if(innerWidth<360&&/^Escreva um comentário/.test(inp.getAttribute("placeholder")||""))inp.setAttribute("placeholder","Comentar…")}catch(e){}
@@ -21224,8 +21245,10 @@ function drawStory(anim){
   const vsec=ST.sec,virt=vsec==="_5min"||vsec==="_ult",it=vsec==="_ult"&&ST.itens?ST.itens[ST.i]:null;
   if(it){ULT_VISTOS.add(ultKey(it));try{localStorage.setItem("prumo-ult-vistos",JSON.stringify([...ULT_VISTOS].slice(-200)))}catch(e){}}
   const L=lente(),v=versao(p,L),psec=secOf(p),cor=secCor(psec),f=fotoDe(p);
-  const tit=it&&it.txt?it.txt:v.titulo;
-  let lin=igLinhas(p,L);if(it){lin=lin.filter(t=>norm(t)!==norm(tit));lin=lin.slice(0,3)}
+  /* 21/11 (testador): o giro Últimas usava a frase da atualização como título ("Texto final da conferência…", sem dizer
+     que era a COP31); o título é o da notícia (igual ao Feed) e a atualização vira a primeira linha, quando for outra */
+  const tit=v.titulo;
+  let lin=igLinhas(p,L);if(it){const nov=it.txt&&norm(it.txt)!==norm(tit)?String(it.txt).replace(/<[^>]+>/g,""):"";lin=lin.filter(t=>norm(t)!==norm(tit)&&(!nov||norm(t)!==norm(nov)));if(nov)lin.unshift(nov);lin=lin.slice(0,3)}
   let num=null;
   const linHTML=lin.map((t0,k)=>{let t=t0;if(k===0&&!it){const n=ssNumero(t0);if(n&&t0.indexOf(n)===0){let r=t0.slice(n.length).replace(/^\s*:?\s*/,"");if(r.length>8){num=n;t=r.charAt(0).toUpperCase()+r.slice(1)}}}return `<li>${esc(t)}</li>`}).join("");
   const hr=it?it.hora:(ultimaAtualizacao(p)||p.hora);
@@ -21922,7 +21945,9 @@ function cp152Anexo(k){
   /* mais fotos: junta (não troca) e volta para a caixa; desistir também volta */
   if(fc164Tem()){fc164Edita(undefined,"fotos");const E=ED;if(E){E.po.multi=true;E.fc164novo=true}
     try{const f=$("#ce-pfile");if(f&&E&&E.po.fotos.length<10){f.addEventListener("cancel",()=>{if(ED===E&&E.fc164novo)fc164Volta()},{once:true});f.click()}}catch(e){}return}
-  const r=cp206Anexo155.apply(this,arguments);try{if(typeof ED!=="undefined"&&ED&&ED.modo==="post"){ED.fc164=true;ED.fc164novo=true}}catch(e){}return r}
+  const r=cp206Anexo155.apply(this,arguments);try{if(typeof ED!=="undefined"&&ED&&ED.modo==="post"){ED.fc164=true;ED.fc164novo=true;
+    /* 21/11 (testador): desistir da galeria deixava a pessoa na tela antiga "Novo post" (com Enquete, De perto…); volta para a caixa */
+    const E=ED;setTimeout(()=>{try{const f=$("#ce-pfile");if(f)f.addEventListener("cancel",()=>{if(ED===E&&E.fc164novo&&!(E.po.fotos||[]).length)fc164Volta()},{once:true})}catch(e){}},0)}}catch(e){}return r}
 /* cp152TextoDe: base no 152; 164 (fotos escolhidas voltam para a caixa), 155 (a notícia e o texto ficam guardados) */
 function cp206TextoDe0(E){try{const P=E&&E.po;if(!P)return CP152.txt;const cn=P.cn;if(!cn)return String(P.texto||"");return [cn.tit,cn.corpo].map(s=>String(s||"").trim()).filter(Boolean).join("\n\n")}catch(e){return CP152.txt}}
 function cp152TextoDe(E){try{if(E&&E.fc164&&E.po&&E.po.fotos&&E.po.fotos.length){E.po.passo="fotos";CP152.ed=E}}catch(e){}
@@ -21947,8 +21972,8 @@ function cp152Publica(){CR166.pubT=Date.now();
   /* só a notícia, sem comentário nem foto: o primeiro toque pergunta (testador 20/11: quem tocava por engano publicava) */
   try{const so=typeof CR155!=="undefined"&&CR155.pid&&!String(CP152.txt||"").trim()&&!(typeof fc164Tem==="function"&&fc164Tem());
     if(so&&!(CP152.semCom&&Date.now()-CP152.semCom<8000)){CP152.semCom=Date.now();const b=$("#layer [data-cp152pub]");
-      if(b){b.textContent="Publicar sem comentar?";b.classList.add("cp206-conf")}
-      try{toast("Toque de novo para publicar só a notícia, ou escreva o que você acha")}catch(e){}return}
+      if(b){b.textContent="Publicar assim";b.classList.add("cp206-conf");b.setAttribute("aria-label","Publicar sem comentar")}  /* 21/11 (testador): "Publicar sem comentar?" quebrava em 3 linhas */
+      try{toast("Publicar sem comentar? Toque de novo em Publicar assim, ou escreva o que você acha")}catch(e){}return}
     CP152.semCom=0}catch(e){}
   return cp206Publica164.apply(this,arguments)}
 /* cp152HTML: base no 152; 182 (sem a aba Giro quando escondida; dica dos formatos) */
@@ -22476,6 +22501,13 @@ addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC
    o navegador devolvia a altura do Feed na Capa. Ao terminar de abrir na Capa, volta ao topo (a restauração do navegador
    fica: "manual" quebrava o Feed depois de publicar) */
 addEventListener("pageshow",e=>{try{if(e.persisted)return;const vai=()=>{if(!$("#layer").innerHTML&&typeof VIEW!=="undefined"&&VIEW==="capa"&&scrollY>0)scrollTo(0,0)};vai();setTimeout(vai,60);setTimeout(vai,400)}catch(er){}});
+
+/* testador (tamanho-da-letra-fica-aberto-por-cima-do-texto-ao-rolar-2): o 210 só marcava a altura no primeiro "scroll", então
+   a primeira rolada não fechava o "Aa". A altura passa a ser marcada ao abrir e depois de cada toque em A−/A+ (a letra
+   nova muda a altura do texto sem a pessoa rolar) */
+function mt211AaMarca(){try{const ab=$("#layer .mat-aap"),m=$("#layer .mat");if(ab&&m)ab.dataset.ct210y=m.scrollTop}catch(e){}}
+{const _ml211=matLetra;matLetra=function(){const r=_ml211.apply(this,arguments);mt211AaMarca();return r}}
+document.addEventListener("click",e=>{try{if(e.target&&e.target.closest&&e.target.closest("#layer .mat-aap [data-matfz]"))[60,250].forEach(t=>setTimeout(mt211AaMarca,t))}catch(er){}},true);
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários

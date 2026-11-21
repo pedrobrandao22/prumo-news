@@ -99,6 +99,13 @@ function fd156Agrupa(){try{const ul=document.querySelector("#cbox .clist");if(!u
     if(m){const cands=Object.keys(ultimo).filter(n=>(m[1]+" "+tx.slice(m[0].length)).indexOf(n)===0||n===m[1]).sort((a,c)=>c.length-a.length);if(cands.length){quem=cands[0];alvo=ultimo[quem]}}
     if(alvo&&alvo!==li){const fim=fimDe.get(alvo)||alvo;fim.after(li);fimDe.set(alvo,li);li.classList.add("fd156-resp");
       if(!li.querySelector(".fd156-rt")){const i=li.querySelector(":scope>div");if(i)i.insertAdjacentHTML("afterbegin",`<small class="fd156-rt">respondendo a ${esc(quem)}</small>`)}}
+    else if(m&&!alvo){
+      /* 21/11 (testador): resposta a um comentário apagado subia sozinha com "@Nome" colado; agora fica recuada sob
+         "Comentário apagado", com o @Nome tirado do texto (nome = até duas palavras com maiúscula) */
+      const mm=/^@([A-ZÀ-Ý][^\s@]*(?:\s[A-ZÀ-Ý][^\s@]*)?)\s/.exec(tx+" ");const q=mm?mm[1]:m[1];let ph=fimDe.get("apag:"+q);
+      if(!ph){ph=document.createElement("li");ph.className="fd156-apag";ph.innerHTML=`<div><span><i>Comentário apagado</i></span></div>`;li.before(ph);fimDe.set("apag:"+q,ph)}
+      const fim=fimDe.get(ph)||ph;if(fim!==li)fim.after(li);fimDe.set(ph,li);li.classList.add("fd156-resp");
+      if(!li.querySelector(".fd156-rt")){const i=li.querySelector(":scope>div");if(i)i.insertAdjacentHTML("afterbegin",`<small class="fd156-rt">respondendo a ${esc(q)}</small>`)}}
     else{ultimo[nm]=li}})}catch(e){}}
 function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)return;
   try{if(innerWidth<360&&/^Escreva um comentário/.test(inp.getAttribute("placeholder")||""))inp.setAttribute("placeholder","Comentar…")}catch(e){}
