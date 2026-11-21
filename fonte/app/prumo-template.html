@@ -18038,10 +18038,17 @@ function sr150Convite(n){try{if(!S.uid||CRIANDO)return;if(S.membro)return;if(n<8
 
 /* 6 */
 var SR150_USADAS=null;
-{const _vp150=vn112Primeira;vn112Primeira=function(sec){const a=_vp150.apply(this,arguments);if(!SR150_USADAS||!a||!a.p)return a;
+{const _vp150=vn112Primeira;
+  /* 21/11 (revisão 20/11, testador: círculos mudavam de notícia ao voltar do giro): durante a visita (10 min, 204) cada
+     círculo de editoria mantém a capa que mostrou, se ela ainda não estiver em outro círculo. Fica AQUI, junto do "sem
+     repetir", para os destaques (sr150-rep) saberem qual notícia o círculo mostra de fato */
+  const fixa=(sec,a)=>{try{if(!a||!a.p||!sec||sec[0]==="_"||typeof FD204_FACE==="undefined")return a;const pin=FD204_FACE[sec];
+    if(pin&&pin!==a.p.id&&FD204_ORD&&Date.now()-FD204_ORDT<10*6e4&&!(SR150_USADAS&&SR150_USADAS.has(pin))){const p=pautaById(pin);if(p&&secOf(p)===secOf(a.p))return {p,t:versao(p,lente()).titulo}}}catch(e){}return a};
+  const grava=(sec,a)=>{try{if(a&&a.p&&sec&&sec[0]!=="_"&&typeof FD204_FACE!=="undefined")FD204_FACE[sec]=a.p.id}catch(e){}return a};
+  vn112Primeira=function(sec){const a=fixa(sec,_vp150.apply(this,arguments));if(!SR150_USADAS||!a||!a.p)return grava(sec,a);
   if(sec&&sec[0]!=="_"&&SR150_USADAS.has(a.p.id)){try{const r=igLista(sec),q=(r.ps||[]).find(p=>!SR150_USADAS.has(p.id)&&!SEEN.has(seenKey(p)))||(r.ps||[]).find(p=>!SR150_USADAS.has(p.id));
-    if(q){SR150_USADAS.add(q.id);return {p:q,t:versao(q,lente()).titulo}}}catch(e){}}
-  SR150_USADAS.add(a.p.id);return a}}
+    if(q){SR150_USADAS.add(q.id);return grava(sec,{p:q,t:versao(q,lente()).titulo})}}catch(e){}}
+  SR150_USADAS.add(a.p.id);return grava(sec,a)}}
 /* os círculos de destaque (data-dest) que repetem a notícia de um círculo de editoria somem (o carrossel mostrava a mesma notícia duas vezes) */
 {const _vt150=vn112Tiles;vn112Tiles=function(){SR150_USADAS=new Set();try{const r=_vt150.apply(this,arguments);
   try{const box=$("#secs");if(box){const usadas=SR150_USADAS;box.querySelectorAll(":scope>.sb[data-dest]").forEach(b=>{b.classList.toggle("sr150-rep",usadas.has(b.dataset.dest))})}}catch(e){}return r}finally{SR150_USADAS=null}}}
@@ -18562,7 +18569,8 @@ function fd156Id(id){return String(id||"").split("#")[0]}
 {const _vp156=vn112Primeira;vn112Primeira=function(sec){const r=_vp156.apply(this,arguments);try{
   if(!FD156_EXCL||!sec||sec[0]==="_"||!r||!r.p||!FD156_EXCL.has(fd156Id(r.p.id)))return r;
   const ps=(igLista(sec).ps||[]).filter(p=>!FD156_EXCL.has(fd156Id(p.id)));const p=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
-  if(p){FD156_EXCL.add(fd156Id(p.id));return {p,t:versao(p,lente()).titulo}}}catch(e){}return r}}
+  /* 21/11: troca também no "sem repetir" do 150, senão o destaque da notícia que ficou no círculo não sumia */
+  if(p){FD156_EXCL.add(fd156Id(p.id));try{if(typeof SR150_USADAS!=="undefined"&&SR150_USADAS){SR150_USADAS.delete(r.p.id);SR150_USADAS.add(p.id)}}catch(e){}return {p,t:versao(p,lente()).titulo}}}catch(e){}return r}}
 {const _tl156=vn112Tiles;vn112Tiles=function(){FD156_EXCL=new Set();try{const u=_vp156Ult();if(u)FD156_EXCL.add(fd156Id(u));if(VIEW==="feed"||!document.getElementById("v-feed")?.hidden){const l=(LOTE&&LOTE.lista&&LOTE.lista.length?LOTE.lista:listaFeed())||[];const f=l.find(x=>x&&x.id&&pautaById(x.id));if(f)FD156_EXCL.add(fd156Id(f.id))}}catch(e){}
   try{return _tl156.apply(this,arguments)}finally{FD156_EXCL=null}}}
 function _vp156Ult(){try{const r=igLista("_ult");const i=r.itens.find(x=>!ULT_VISTOS.has(ultKey(x)))||r.itens[0];return i&&i.pid}catch(e){return null}}
@@ -21290,9 +21298,7 @@ function fd204Fixa(){try{const box=$("#secs");if(!box)return;const bs=[...box.qu
   if(novas.length&&novas.some((b,i)=>b!==cauda[i])){const x=box.scrollLeft;novas.forEach(b=>box.appendChild(b));box.scrollLeft=x}
   bs.forEach(b=>{const k=fd204Chave(b);if(k&&FD204_ORD.indexOf(k)<0)FD204_ORD.push(k)})}catch(e){}}
 {const _rs204f=renderSecs;renderSecs=function(){const r=_rs204f.apply(this,arguments);fd204Fixa();return r}}
-{const _vp204=vn112Primeira;vn112Primeira=function(s){const r=_vp204.apply(this,arguments);try{if(!r||!r.p||String(s)[0]==="_")return r;
-  const pin=FD204_FACE[s];if(pin&&pin!==r.p.id&&FD204_ORD&&Date.now()-FD204_ORDT<10*6e4){const p=pautaById(pin);if(p&&secOf(p)===secOf(r.p))return Object.assign({},r,{p,t:versao(p,lente()).titulo})}
-  FD204_FACE[s]=r.p.id}catch(e){}return r}}
+/* a capa fixa de cada círculo durante a visita mora no 150 (junto do "sem repetir"); FD204_FACE é gravado lá */
 
 /* revisão 20/11 (testador): notícia publicada sem comentário não aparecia no Feed de quem publicou (a pessoa achava que
    não tinha funcionado e publicava de novo). O cartão da notícia ganha "Você publicou esta notícia" no alto. */
@@ -22461,6 +22467,15 @@ addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC
   const i=h.indexOf("<svg"),j=h.indexOf("</svg>",i);if(i<0||j<0)return h;
   /* sem a foto (rede, site da foto fora do ar) volta o desenho */
   return h.slice(0,i)+`<span class="sh211-f"><img src="${esc(f.url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="var s=this.parentNode;s.nextElementSibling&&(s.nextElementSibling.hidden=false);s.remove()"></span><span class="sh211-d" hidden>${h.slice(i,j+6)}</span>`+h.slice(j+6)}catch(e){return h}}}
+
+/* testador (folha-agora-lista-os-assuntos-fora-da-ordem-de-hora): "há 44 min, há 1 h, há 13 min" parecia bagunça; o peso
+   continua escolhendo quais entram, mas a lista (folha e faixa) sai da mais nova para a mais antiga */
+{const _ai211=agoraItens;agoraItens=function(){const l=_ai211.apply(this,arguments);try{return Array.isArray(l)?l.slice().sort((a,b)=>(+b.h||0)-(+a.h||0)):l}catch(e){return l}}}
+
+/* testador (atualizar-a-pagina-no-feed-abre-a-capa-ja-rolada-ate-o-meio): ao recarregar (ou o celular reabrir a aba),
+   o navegador devolvia a altura do Feed na Capa. Ao terminar de abrir na Capa, volta ao topo (a restauração do navegador
+   fica: "manual" quebrava o Feed depois de publicar) */
+addEventListener("pageshow",e=>{try{if(e.persisted)return;const vai=()=>{if(!$("#layer").innerHTML&&typeof VIEW!=="undefined"&&VIEW==="capa"&&scrollY>0)scrollTo(0,0)};vai();setTimeout(vai,60);setTimeout(vai,400)}catch(er){}});
 /* ---------- 201: núcleo (Fase 3) — as funções que todas as áreas usam, cada uma num lugar só ----------
    Antes, cada uma era definida num arquivo antigo e remendada em vários outros ({const _x=f;f=function(){… _x() …}}).
    Aqui está a versão final de cada uma, com o que a cadeia inteira fazia hoje (nada muda para quem usa). Os comentários

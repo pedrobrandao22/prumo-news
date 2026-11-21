@@ -492,9 +492,7 @@ function fd204Fixa(){try{const box=$("#secs");if(!box)return;const bs=[...box.qu
   if(novas.length&&novas.some((b,i)=>b!==cauda[i])){const x=box.scrollLeft;novas.forEach(b=>box.appendChild(b));box.scrollLeft=x}
   bs.forEach(b=>{const k=fd204Chave(b);if(k&&FD204_ORD.indexOf(k)<0)FD204_ORD.push(k)})}catch(e){}}
 {const _rs204f=renderSecs;renderSecs=function(){const r=_rs204f.apply(this,arguments);fd204Fixa();return r}}
-{const _vp204=vn112Primeira;vn112Primeira=function(s){const r=_vp204.apply(this,arguments);try{if(!r||!r.p||String(s)[0]==="_")return r;
-  const pin=FD204_FACE[s];if(pin&&pin!==r.p.id&&FD204_ORD&&Date.now()-FD204_ORDT<10*6e4){const p=pautaById(pin);if(p&&secOf(p)===secOf(r.p))return Object.assign({},r,{p,t:versao(p,lente()).titulo})}
-  FD204_FACE[s]=r.p.id}catch(e){}return r}}
+/* a capa fixa de cada círculo durante a visita mora no 150 (junto do "sem repetir"); FD204_FACE é gravado lá */
 
 /* revisão 20/11 (testador): notícia publicada sem comentário não aparecia no Feed de quem publicou (a pessoa achava que
    não tinha funcionado e publicava de novo). O cartão da notícia ganha "Você publicou esta notícia" no alto. */

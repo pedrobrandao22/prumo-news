@@ -37,5 +37,12 @@ const PORTA = 9427, BASE = `http://localhost:${PORTA}/index.html`;
   await Q.evaluate(() => { try { abrirLogin('criar') } catch (e) {} }); await sleep(400);
   const r5 = await Q.evaluate(() => { mostraErro('#lerro', 'Escreva o código do convite.'); const e = document.querySelector('#lerro'); return { txt: e.textContent, vis: !e.hidden, depois: e.previousElementSibling && !!e.previousElementSibling.querySelector('#lcod') } });
   ok(r5.txt === 'Escreva o código do convite.' && r5.vis && r5.depois, '5: aviso no #lerro, logo abaixo do campo do código', r5);
+  // 6-7 (21/11): folha Agora da mais nova para a mais antiga; o navegador não restaura a rolagem (o app cuida)
+  const r6 = await Q.evaluate(() => { const o = agoraItens; let l = []; try { NOVID_AG = NOVID_AG || null; l = agoraItens() } catch (e) {} return { ord: l.every((x, i) => !i || (+l[i - 1].h) >= (+x.h)), sr: history.scrollRestoration } });
+  ok(r6.ord, '6: Agora em ordem de hora (mais nova primeiro)', r6);
+  await Q.evaluate(() => { go('feed'); scrollTo(0, 2800) }); await sleep(500); await Q.reload();
+  await esperar(Q, () => window.FEED && FEED.pautas && window.__prumoPronto, null, 15000); await sleep(800);
+  const r7 = await Q.evaluate(() => ({ v: VIEW, y: scrollY }));
+  ok(r7.v !== 'capa' || r7.y < 60, '7: recarregar no Feed não abre a Capa no meio', r7);
   await c2.close(); await b.close(); srv.close && srv.close(); const s = U.resumo(); console.log(`${s.OKS} ok, ${s.FALHAS} falhas`); process.exit(s.FALHAS ? 1 : 0);
 })();

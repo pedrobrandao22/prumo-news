@@ -80,6 +80,7 @@ const pilulas = p => ev(p, () => [...document.querySelectorAll('.dm-rx')].map(r 
   ok((await H.sql(`select tipo, texto from denuncias`)).some(d => d.tipo === 'mensagem' && d.texto === 'Vi sim'), 'denúncia gravada com o texto da mensagem');
   // enviar para vários: escolhido tem ✓
   await ev(A, p => openSend(p), pid); await sleep(400);
+  await ev(A, () => document.querySelector('#pick [data-pick]').click()); await sleep(200);  /* 20/11: ninguém vem marcado */
   ok(await ev(A, () => getComputedStyle(document.querySelector('#pick [aria-pressed="true"] .dm-ck'), '::after').content !== 'none'), 'enviar: amigo escolhido mostra ✓');
   await ev(A, () => closeLayer()); await sleep(300);
   // mensagem antiga mostra a data com mês
