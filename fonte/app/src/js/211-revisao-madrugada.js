@@ -32,6 +32,6 @@ addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC
 {const _ai211=agoraItens;agoraItens=function(){const l=_ai211.apply(this,arguments);try{return Array.isArray(l)?l.slice().sort((a,b)=>(+b.h||0)-(+a.h||0)):l}catch(e){return l}}}
 
 /* testador (atualizar-a-pagina-no-feed-abre-a-capa-ja-rolada-ate-o-meio): ao recarregar (ou o celular reabrir a aba),
-   o navegador devolvia a altura do Feed na Capa. O app cuida da própria rolagem: o navegador não restaura */
-try{if("scrollRestoration" in history)history.scrollRestoration="manual"}catch(e){}
-addEventListener("pageshow",e=>{try{if(!e.persisted&&!$("#layer").innerHTML&&typeof VIEW!=="undefined"&&VIEW==="capa"&&scrollY>0)scrollTo(0,0)}catch(er){}});
+   o navegador devolvia a altura do Feed na Capa. Ao terminar de abrir na Capa, volta ao topo (a restauração do navegador
+   fica: "manual" quebrava o Feed depois de publicar) */
+addEventListener("pageshow",e=>{try{if(e.persisted)return;const vai=()=>{if(!$("#layer").innerHTML&&typeof VIEW!=="undefined"&&VIEW==="capa"&&scrollY>0)scrollTo(0,0)};vai();setTimeout(vai,60);setTimeout(vai,400)}catch(er){}});
