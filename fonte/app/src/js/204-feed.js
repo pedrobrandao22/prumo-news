@@ -53,7 +53,12 @@ function pubMistura(lista){
   /* 122 */
   const c122=()=>{const out=c113();try{return dc122Feed(out)}catch(e){console.error(e);return out}};
   /* 129 */
-  const out=c122();try{return dz129Feed(out)}catch(e){console.error(e);return out}}
+  const c129=()=>{const out=c122();try{return dz129Feed(out)}catch(e){console.error(e);return out}};
+  /* 20/11 (testador): post de 17 dias atrás aparecia no meio das notícias de hoje; post com mais de 3 dias sem atividade
+     nova vai para o fim da lista */
+  const out=c129();try{if(!Array.isArray(out))return out;const lim=Date.now()-3*864e5;const velho=x=>{const u=x&&x.__pub;if(!u)return false;
+      const t=Math.max(+u.at||0,+u.ult||0,+(u.editado_em||0));return t&&t<lim};
+    const novos=out.filter(x=>!velho(x)),velhos=out.filter(velho);return velhos.length?novos.concat(velhos):out}catch(e){return out}}
 
 /* ===== fitTrack: altura das páginas do cartão =====
    Base no 006; remendos: 052, 053, 061, 072, 112. O 108 troca fitTrack por um instante durante carregarMais (lá embaixo). */
@@ -145,7 +150,8 @@ function rp204Base(manter){
   $("#posts").innerHTML=lista.length?h:`${h}<div class="empty"><b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Nada do que você segue nesta edição":FILTRO==="_colunas"?"Nenhuma coluna aqui":FILTRO[0]==="_"?"Nada por aqui ainda":"Nenhuma notícia nesta seção agora"}</b>${FILTRO==="tudo"&&PREF.feedModo==="seguindo"?"Siga uma cobertura (botão Seguir) ou escolha o seu time em Esportes. Para ver tudo, mude a ordem no filtro.":FILTRO==="_colunas"?(COL207.ed||COL207.au?"Nenhuma coluna com este filtro. Toque em Todas para ver as outras.":"As colunas de quem você segue aparecem aqui."):FILTRO[0]==="_"?"Quando isso mudar, as notícias aparecem aqui.":""}<button type="button" class="btn ghost" data-filtro="tudo" style="margin-top:10px">Ver todas as notícias</button></div>`;
   lista.slice(0,LOTE.pos).forEach(p=>updateSocial(p.id));wireTracks($("#posts"));observarMais();
   renderChgBox();
-  const br=FILTRO[0]==="_"?[]:(FEED.breves||[]).filter(b=>(FILTRO==="tudo"&&!(PREF.ocultas||[]).includes(b.secao||"politica"))||(b.secao||"politica")===FILTRO);
+  /* 20/11 (testador): da mais nova para a mais velha (notas de dois dias apareciam antes das de minutos) */
+  const br=FILTRO[0]==="_"?[]:(FEED.breves||[]).filter(b=>(FILTRO==="tudo"&&!(PREF.ocultas||[]).includes(b.secao||"politica"))||(b.secao||"politica")===FILTRO).map((b,i)=>[b,i]).sort((x,y)=>(tms(y[0].hora)||0)-(tms(x[0].hora)||0)||x[1]-y[1]).map(z=>z[0]);
   const at=new Date(FEED.atualizado_em);
   $("#extra").innerHTML=`<div class="done gut" id="emdia"></div>${br.length?`<div class="sec gut"><h4>Outras notícias</h4><ul class="brv">${(window.BREVES=br,br).map((b,bi)=>`<li><button type="button" class="brv-b" data-breve="${bi}">${b.urgente&&tms(b.hora)&&Date.now()-tms(b.hora)<3*3600e3?`<em class="ug">Urgente</em>`:""}${esc(b.titulo)}</button><span>${esc(secNome(b.secao||"politica"))} · ${esc(nomeFonte(b.fonte))}</span></li>`).join("")}</ul></div>`:""}
   <div class="foot gut"><p><b>Atualizado ${isNaN(at)?"":esc(diaHora(horaEdicaoIso()))}.</b> A edição completa sai às 6h52 e é atualizada de 2 em 2 horas, às 9h48, 11h48, 13h48, 15h48, 17h48, 19h48 e 21h48; manchetes e indicadores são conferidos de hora em hora.</p><p>Os resumos são escritos pelo Prumo a partir das matérias, sem copiar texto. As versões de direita e de esquerda são escritas pelo Prumo com os mesmos fatos. As fotos vêm de acervos de uso livre, sempre com crédito (Agência Brasil, Senado, Câmara e Wikimedia Commons); quando não há foto, o Prumo usa um desenho.</p></div>`;
@@ -212,7 +218,7 @@ function oc204Sobre(pid){const b=document.querySelector("#layer .sheet .sh-b");i
 function oc204Base(pid){uso("comentarios");
   const draw=()=>{const {cm}=socialOf(pid);return cm.length?`<ul class="clist">${cm.map(c=>`<li>${avatar(c.uid)}<div><span><b>${esc(nomeDe(c.uid))}</b>${typeof debVotoChip==="function"?debVotoChip(pid,c.uid):""} ${esc(c.texto)}</span><i>${esc(quando(c.at))}<button type="button" class="c-a" data-resp="${esc(nomeDe(c.uid))}">Responder</button>${c.uid===S.uid||(typeof cmDono==="function"&&cmDono(pid))?`<button type="button" class="c-a" data-apagar="${esc(c.id)}" data-au="${esc(c.uid)}">Apagar</button>`:""}${c.uid!==S.uid?`<button type="button" class="c-a" data-denc="${esc(c.id)}" data-du="${esc(c.uid)}" data-dp="${esc(pid)}">Denunciar</button>`:""}</i></div></li>`).join("")}</ul>`:`<div class="empty" style="padding:18px 0"><b>Nenhum comentário ainda</b>Escreva o primeiro.</div>`};
   const n=socialOf(pid).cm.length;
-  sheet(n?`Comentários (${n})`:"Comentários",`${typeof debCab==="function"?debCab(pid):""}<div id="cbox">${draw()}</div>`,`<form id="cform" class="cform">${S.uid?avatar(S.uid):""}<textarea class="field" id="ctext" rows="1" maxlength="600" autocomplete="off" enterkeyhint="send" placeholder="Escreva um comentário…" aria-label="Comentário"></textarea><button class="sendc" type="submit" aria-label="Publicar" disabled><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></form>`,{focus:!n});
+  sheet(n?`Comentários (${n})`:"Comentários",`${typeof debCab==="function"?debCab(pid):""}<div id="cbox">${draw()}</div>`,`<form id="cform" class="cform">${S.uid?avatar(S.uid):""}<textarea class="field" id="ctext" rows="1" maxlength="600" autocomplete="off" enterkeyhint="enter" placeholder="Escreva um comentário…" aria-label="Comentário"></textarea><button class="sendc" type="submit" aria-label="Publicar" disabled><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></form>`,{focus:!n});
   const box=()=>$("#cbox"),toEnd=()=>{const b=$(".sheet .sh-b");if(b)b.scrollTop=b.scrollHeight};toEnd();
   const inp=$("#ctext"),btn=$("#cform .sendc");inp.addEventListener("input",()=>{btn.disabled=!inp.value.trim()});
   let assin=JSON.stringify(socialOf(pid).cm.map(c=>c.id+c.texto));S._reCmt=forca=>{const b=box();if(!b)return;const k=JSON.stringify(socialOf(pid).cm.map(c=>c.id+c.texto));if(k===assin&&!forca)return;assin=k;const sb=$(".sheet .sh-b");const perto=sb&&sb.scrollHeight-sb.scrollTop-sb.clientHeight<90;b.innerHTML=draw();if(perto)toEnd();const nn=socialOf(pid).cm.length,hh=$(".sheet .sh-h");if(hh&&hh.firstChild&&hh.firstChild.nodeType===3)hh.firstChild.textContent=nn?`Comentários (${nn})`:"Comentários"};onClose=()=>{S._reCmt=null};
@@ -472,3 +478,28 @@ function storyAuto(p){
   const x=ST.itens&&ST.itens[ST.i];const vid=x&&x.estilo&&x.estilo.video&&String(ST.sec||"").indexOf("_u:")===0;
   if(!vid)return c058();const pal=ST.palavras,sec=ST.sec;ST.palavras=1;ST.sec="__v";let r;try{r=c058()}finally{ST.palavras=pal;ST.sec=sec}
   const dur=Math.max(2000,Math.min(31000,(+x.estilo.dur||8)*1000+250));clearTimeout(ST.timer);ST.timer=0;if(!PREF.storyAuto)return r;const fill=$("#layer .bars b");if(fill)fill.style.animationDuration=dur+"ms";ST.fim=Date.now()+dur;ST.resto=dur;ST.timer=setTimeout(()=>storyGo(1),dur);return r}
+
+/* revisão 20/11 (testador): ao voltar de um giro, a fileira do topo do Feed mudava (círculo novo no meio, capa de outra
+   notícia) e quem tocava onde estava "Caso Master" abria outra coisa. Durante a visita (10 min), a ordem e a capa de cada
+   círculo ficam como estavam; círculo novo entra no fim. */
+var FD204_ORD=null,FD204_FACE={},FD204_ORDT=0,FD204_FIM=new Set();
+function fd204Chave(b){return b.dataset.secStory?"s:"+b.dataset.secStory:b.dataset.dest?"d:"+b.dataset.dest:b.dataset.ustory?"u:"+b.dataset.ustory:b.hasAttribute("data-5min")?"5":b.hasAttribute("data-ultimas")?"ult":b.hasAttribute("data-meustory")?"eu":b.hasAttribute("data-igagenda")?"ag":""}
+function fd204Fixa(){try{const box=$("#secs");if(!box)return;const bs=[...box.querySelectorAll(":scope>.sb")];if(!bs.length)return;
+  /* só as coleções (círculos de assunto) mudam de lugar: as que apareceram depois da primeira vez vão para o fim */
+  if(!FD204_ORD||Date.now()-FD204_ORDT>10*6e4){FD204_ORD=bs.map(fd204Chave);FD204_ORDT=Date.now();FD204_FACE={};FD204_FIM=new Set();return}
+  bs.forEach(b=>{const k=fd204Chave(b);if(k.indexOf("d:")===0&&FD204_ORD.indexOf(k)<0)FD204_FIM.add(k)});
+  const novas=bs.filter(b=>FD204_FIM.has(fd204Chave(b)));const cauda=bs.slice(bs.length-novas.length);
+  if(novas.length&&novas.some((b,i)=>b!==cauda[i])){const x=box.scrollLeft;novas.forEach(b=>box.appendChild(b));box.scrollLeft=x}
+  bs.forEach(b=>{const k=fd204Chave(b);if(k&&FD204_ORD.indexOf(k)<0)FD204_ORD.push(k)})}catch(e){}}
+{const _rs204f=renderSecs;renderSecs=function(){const r=_rs204f.apply(this,arguments);fd204Fixa();return r}}
+{const _vp204=vn112Primeira;vn112Primeira=function(s){const r=_vp204.apply(this,arguments);try{if(!r||!r.p||String(s)[0]==="_")return r;
+  const pin=FD204_FACE[s];if(pin&&pin!==r.p.id&&FD204_ORD&&Date.now()-FD204_ORDT<10*6e4){const p=pautaById(pin);if(p&&secOf(p)===secOf(r.p))return Object.assign({},r,{p,t:versao(p,lente()).titulo})}
+  FD204_FACE[s]=r.p.id}catch(e){}return r}}
+
+/* revisão 20/11 (testador): notícia publicada sem comentário não aparecia no Feed de quem publicou (a pessoa achava que
+   não tinha funcionado e publicava de novo). O cartão da notícia ganha "Você publicou esta notícia" no alto. */
+function fd204VocePub(root){try{if(!S||!S.uid||typeof PUB==="undefined"||!Array.isArray(PUB.itens))return;
+  const meus=PUB.itens.filter(x=>x&&x.autor===S.uid&&x.pid&&!String(x.texto||"").trim()&&!(x.fotos&&x.fotos.length)&&!x.apagado);
+  meus.forEach(x=>{const c=document.getElementById("p-"+x.pid);if(!c||c.querySelector(".fd204-vp"))return;
+    c.insertAdjacentHTML("afterbegin",`<p class="fd204-vp gut">↻ Você publicou esta notícia · ${esc(quando(x.at))}</p>`)})}catch(e){}}
+{const _wt204v=wireTracks;wireTracks=function(root){const r=_wt204v.apply(this,arguments);fd204VocePub(root);return r}}

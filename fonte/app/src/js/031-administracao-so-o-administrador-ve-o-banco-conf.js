@@ -156,7 +156,7 @@ function abrirDormente(id){const d=(FEED.dormentes||[]).find(x=>x.id===id);if(!d
     <h2>${esc(d.titulo)}</h2><div class="pc-m"><span class="cst enc">Fora da edição</span><span>${d.inicio?esc(cobSP(d.inicio))+" a ":""}${esc(cobSP(d.ultima))}</span></div>
     ${d.resumo?`<p class="lead">${esc(d.resumo)}</p>`:""}
     ${tt.length>1?`<h4>Manchetes</h4><ol class="pct">${tt.slice().reverse().map((t,i)=>`<li class="tt"><small>${esc(cobDH(t.hora))}</small><b>${esc(t.titulo)}</b></li>`).join("")}</ol>`:""}
-    ${tk?`<div class="pc-a"><button type="button" class="btn${seg?" ghost":""}" data-dormseg="${esc(id)}">${seg?"Seguindo ✓":"Seguir: avisar se voltar"}</button></div>`:""}
+    ${tk?`<div class="pc-a"><button type="button" class="btn${seg?" ghost":""}" data-dormseg="${esc(id)}">${seg?"Vou avisar se voltar ✓":"Avisar se voltar"}</button></div>`:""}
     <p class="hint" style="margin:0">Esta cobertura saiu da edição. Se o assunto voltar, ela reaparece no feed com o histórico.</p></div>`)}
 function cobSegue(tema,on){const k=norm(tema);const m=PREF.seguindo||(PREF.seguindo={});if(on)m[k]=tema;else delete m[k];if(on&&PREF.silenciados)delete PREF.silenciados[k];salvarPrefs();uso(on?"seguir_cob":"deixar_cob")}
 function cobSegStrip(){if(FILTRO!=="tudo")return "";const ps=(FEED.pautas||[]).filter(p=>seguido(p)&&!silenciado(p)&&!(PREF.ocultas||[]).includes(secOf(p)));if(!ps.length)return "";
@@ -165,7 +165,7 @@ function cobSegStrip(){if(FILTRO!=="tudo")return "";const ps=(FEED.pautas||[]).f
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const cp=t.closest("[data-cobpag]");if(cp){e.stopPropagation();abrirPagCob(cp.dataset.cobpag);return}
   const cs=t.closest("[data-cobseg]");if(cs){const p=pautaById(cs.dataset.cobseg);if(!p)return;const on=!seguido(p);cobSegue(temaDe(p),on);toast(on?"Seguindo "+temaDe(p):"Deixou de seguir");abrirPagCob(p.id);{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}return}
-  const ds=t.closest("[data-dormseg]");if(ds){const d=(FEED.dormentes||[]).find(x=>x.id===ds.dataset.dormseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);toast(on?"Vamos destacar se voltar":"Deixou de seguir");abrirDormente(d.id);return}
+  const ds=t.closest("[data-dormseg]");if(ds){const d=(FEED.dormentes||[]).find(x=>x.id===ds.dataset.dormseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);if(on)toast("Vamos avisar se voltar");else toast("Não vamos mais avisar sobre "+tm,"Desfazer",()=>{cobSegue(tm,true);abrirDormente(d.id)});abrirDormente(d.id);return}
   const cl=t.closest("[data-cobler]");if(cl){const id=cl.dataset.cobler;const mat=!!document.querySelector("#layer .mat");closeLayer();setTimeout(()=>{if(VIEW==="capa"&&pautaById(id)){if(!mat||!document.querySelector("#layer .mat"))abrirMateria(id)}else openSnap(id)},60);return}
   const cf=t.closest("[data-cobfontes]");if(cf){abrirCobertura(cf.dataset.cobfontes);return}
   const dm=t.closest("[data-dorm]");if(dm){abrirDormente(dm.dataset.dorm);return}
@@ -192,7 +192,10 @@ function fotoArquivo(p){const A=FOTOS_ARQ;if(!A||!p||!p.id)return null;const tit
   return FA_CACHE[ck]=r}
 async function carregarFotosArq(){try{const r=await fetch("fotos-arquivo.json",{cache:"no-cache"});if(!r.ok)return;const d=await r.json();if(!d||typeof d!=="object"||!d.temas)return;
   const mud=!FOTOS_ARQ||FOTOS_ARQ.gerado!==d.gerado;FOTOS_ARQ=d;FA_CACHE={};try{localStorage.setItem("prumo-fotos-arq",JSON.stringify(d))}catch(e){}
-  if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}}catch(e){}
+  if(mud&&FEED&&!$("#layer").innerHTML&&scrollY<40){try{if(VIEW==="capa")renderCapa()}catch(e){}}
+  /* 20/11 (testador): com o guia aberto (ou o feed ainda chegando) a Capa ficava com o desenho de jornal até a pessoa rolar;
+     tenta de novo por 30 s, quando a tela estiver livre */
+  else if(mud){let n=0;const t=setInterval(()=>{try{if(++n>30){clearInterval(t);return}if(FEED&&!$("#layer").innerHTML&&scrollY<40){clearInterval(t);if(VIEW==="capa")renderCapa();else if(VIEW==="feed"&&typeof renderPosts==="function")renderPosts(true)}}catch(e){clearInterval(t)}},1000)}}catch(e){}
   finally{document.documentElement.classList.remove("ab141-sem-arq")}}  // 141: a manchete volta ao formato dela (ver 000-pre-carga.js)
 function capaArte(p,cls,cred){const f=fotoDe(p);if(!f)return `<span class="${cls} paper" data-sec="${esc(secOf(p))}">${svgOf(p.imagem)}</span>`;
   return `<span class="${cls} paper foto" data-sec="${esc(secOf(p))}"><span class="ill">${svgOf(p.imagem)}</span>${fotoImg(f,"",0,!!cred)}${cred&&f.credito?credHTML(f.credito,"cred"):""}</span>`}
@@ -300,7 +303,7 @@ function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==se
     if(us.length)h+=`<div class="sh4-chips" role="group" aria-label="Estados"><button type="button" data-secuf="" aria-pressed="${!SECF.uf}">Todo o Brasil</button>${us.map(u=>`<button type="button" data-secuf="${esc(u)}" aria-pressed="${SECF.uf===u}" title="${esc(UFSM()[u])}">${esc(u)}<em>${uc[u]}</em></button>`).join("")}</div>`}
   if(SECF.sub||SECF.uf)return h+`</div>`;
   const cob=todas.filter(p=>cobTemPagina(p)).slice(0,8);
-  if(cob.length)h+=`<div><span class="segs-h" style="padding-top:0">Coberturas ativas</span><div class="segs">${cob.map(p=>{const et=cobEtapaAtual(p);return `<button type="button" class="segc" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${p.status==="ao_vivo"?"Ao vivo":p.status==="encerrada"?"Encerrada":et?esc(et):esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button>`}).join("")}</div></div>`;
+  if(cob.length)h+=`<div><span class="segs-h" style="padding-top:0">Coberturas ativas</span><div class="segs">${cob.map(p=>{const et=cobEtapaAtual(p);return `<button type="button" class="segc" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${p.status==="ao_vivo"?"Ao vivo · ":p.status==="encerrada"?"Encerrada · ":et?"Etapa: "+esc(et)+" · ":""}atualizada ${esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button>`}).join("")}</div></div>`;
   if(sec==="politica"||sec==="educacao"){const tr=todas.filter(p=>p.etapa&&Array.isArray(p.etapa.passos)&&p.etapa.passos.length>1);
     if(tr.length)h+=`<div class="sh4-b"><h5>${sec==="politica"?"Em tramitação":"Leis e normas em andamento"}</h5>${tr.map(p=>`<button type="button" class="sh4-tr" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b>${cobEtapas(p)}</button>`).join("")}</div>`}
   if(sec==="economia")h+=indPainel();
@@ -336,7 +339,7 @@ function espVDE(time){return espJogos().filter(j=>j.estado==="encerrado"&&j.ga!=
 function espProx(time){const hj=hojeSP();return espJogos().filter(j=>j.estado!=="encerrado"&&j.data>=hj&&(espEh(j.a,time)||espEh(j.b,time))).sort((x,y)=>(x.data+(x.hora||"")).localeCompare(y.data+(y.hora||"")))[0]}
 function espUlt(time){return espJogos().filter(j=>j.estado==="encerrado"&&(espEh(j.a,time)||espEh(j.b,time))).sort((x,y)=>String(y.data).localeCompare(String(x.data)))[0]}
 function espNoticias(time){const n=norm(time);return (FEED?.pautas||[]).filter(p=>secOf(p)==="esportes"&&((Array.isArray(p.times)&&p.times.some(t=>espEh(t,time)))||norm([p.neutro?.titulo,p.tag,p.tema].join(" ")).includes(n)))}
-function tabelaHTML(c,max){const tb=(c.tabela||[]).filter(x=>x&&x.time);if(!tb.length)return "";const mt=PREF.meuTime;
+function tabelaHTML(c,max){const tb=(c.tabela||[]).filter(x=>x&&x.time);if(!tb.length)return "";/* 20/11 (testador): tabela parcial (de uma rodada atrás) ao lado de notícia com os pontos novos confundia; não mostra a velha */if(/parcial|n[ãa]o obtida/i.test(c.tabela_ate||""))return `<p class="hint" style="margin:4px 0 0">A classificação desta rodada ainda está sendo atualizada.</p>`;const mt=PREF.meuTime;
   return `<table class="tab"><thead><tr><th>#</th><th>Time</th><th>Pts</th><th>J</th><th>V</th><th>SG</th></tr></thead><tbody>${tb.slice(0,max||99).map(t=>`<tr class="${mt&&espEh(t.time,mt)?"meu":""}"><td>${esc(t.pos)}</td><td><button type="button" data-time="${esc(t.time)}">${esc(t.time)}</button></td><td><b>${esc(t.pts)}</b></td><td>${esc(t.j??"")}</td><td>${esc(t.v??"")}</td><td>${esc(t.sg??"")}</td></tr>`).join("")}</tbody></table>${c.tabela_ate?`<p class="hint" style="margin:4px 0 0">Classificação ${esc(c.tabela_ate)}.</p>`:""}`}
 function chaveHTML(c){const ch=(Array.isArray(c.chave)?c.chave:[]).filter(f=>f&&f.fase);if(!ch.length)return "";
   return `<div class="chv">${ch.map(f=>`<span class="cf">${esc(f.fase)}</span>${(f.confrontos||[]).map(x=>`<div class="cj"><b>${esc(x.a)} × ${esc(x.b)}</b><span>${[x.ida?"ida "+x.ida:"",x.volta?"volta "+x.volta:"",x.agregado?"agregado "+x.agregado:"",x.classificado?"classificado: "+x.classificado:""].filter(Boolean).join(" · ")||"a jogar"}</span></div>`).join("")}`).join("")}</div>`}

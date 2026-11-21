@@ -73,7 +73,9 @@ BLOQ = ["21449400719", "iluminacao lgbtqia", "cervejas colorado", "buraco tampad
         "brasil barragem de 3 marias", "selo postal", "postage stamp", "stamp of ", "francobollo", "arbitro futebol apontando estadio",
         "carlo ancelotti 2016 icc",  # 16/11 noite (170)
         "200 anos do senado federal", "bosque campus universidade",
-        "vista de goiania a partir da faculdade"]  # 17/11 noite (172): paisagem no Fies  # 17/11 (171): promulgação de 1988 como plenário; galhos no Fies
+        "vista de goiania a partir da faculdade",
+        # 20/11 (testador), igual ao FT157_BLOQ do app: taça de 2016; prédios da Paulista; Maracanã em tira
+        "taca da copa sul-americana de 2016", "parque avenida building", "reflection of parque cultural paulista", "estadio do maracana - panorama"]  # 17/11 noite (172): paisagem no Fies  # 17/11 (171): promulgação de 1988 como plenário; galhos no Fies
 HIST = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly|\b(?:PMDB|MDB|PSDB|PSOL|PDT|PSB)\b|\b(?:PT|PL|PP|PSD) (?:Nacional|na C[aâ]mara|no Senado)\b|Partido (?:dos|Liberal|Social|Progressista|Novo)|Uni[aã]o Brasil Nacional)", re.I)  # 19/11: também acervo de partido (foto distribuída por partido pesa contra a neutralidade)
 FORA = re.compile(r"(\bEUA\b|Estados Unidos|Miami|Nova York|Nasdaq|Wall Street|\bNYSE\b|Dow Jones|S&P 500|Washington|Casa Branca|China|Shenzhen|Pequim|Apec|Asean|Filipinas|Manila|Turquia|\bCOP ?\d|Jap[aã]o|Singapura|Canad[aá]|Europa|Uni[aã]o Europeia|\bONU\b|\bG20\b|\bG7\b|Brics|[Vv]iagem|[Cc][uú]pula|exterior|Argentina|Venezuela|R[uú]ssia|Ucr[aâ]nia|Israel|Gaza|Ir[aã](?=$|[^A-Za-zÀ-ú])|Fran[cç]a|Alemanha|Reino Unido|Londres|Paris|[ÍI]ndia|Catar)")
 
@@ -292,6 +294,12 @@ def fa_listas(p, A):
         if st["fo"] is None: st["fo"] = fora(p)
         return st["fo"]
     ditos, esp = set(), sec == "esportes"
+    # 20/11 (testador), igual ao app: Capitólio só em notícia do Congresso dos EUA; foto em tira fica borrada
+    cong = bool(re.search(r"Congresso|Capit[óo]lio|Senado (?:americano|dos EUA)|C[âa]mara dos (?:EUA|Representantes)", tit))
+    def ruim(f):
+        if not cong and re.search(r"capitol", _arq(f), re.I): return True
+        w, h = f.get("w"), f.get("h")
+        return bool(w and h and (h < 280 or w / h > 2.3))
     def pega(l, lugar):
         if not isinstance(l, list): return
         k = "|".join(sorted(str(f.get("url")) for f in l if isinstance(f, dict)))
@@ -318,9 +326,11 @@ def fa_listas(p, A):
     de_lugar = lambda f: any(ra.search(_arq(f)) for _, _, ra, _ in LUG_RE)
     fin = sec == "esportes" and bool(FINAL.search(fr))  # final (campo neutro): nenhum estádio
     tm = lambda l: [f for f in l if not de_lugar(f)] + ([] if fin else [f for f in l if de_lugar(f)]) if isinstance(l, list) else l
-    pega(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), True)
-    pega(tm(T.get((A.get("padrao") or {}).get(sec) or "")), True)
-    return L
+    # 20/11 noite, igual ao app: trágica sem retrato (internação, morte, prisão) não cai na foto genérica da editoria
+    if not (p.get("foto_arquivo") == "tema" and TRAGICO.search(tit) and not L):
+        pega(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), True)
+        pega(tm(T.get((A.get("padrao") or {}).get(sec) or "")), True)
+    return [o for o in ([f for f in l if not ruim(f)] for l in L) if o]
 
 
 # foto própria da rodada (pauta.foto) só vale com "mostra": o que está na foto, citando a pessoa ou o lugar do título
@@ -554,7 +564,9 @@ def primeira_frase(t):
 SLUG_MAX = 70
 def slug_de(tit):
     """endereço pelo título: minúsculas, sem acento, palavras com hífen, até ~70 letras sem cortar palavra"""
-    t = unicodedata.normalize("NFD", str(tit or "")).encode("ascii", "ignore").decode().lower()
+    # 20/11 (testador): "fim da 6×1" virava "fim-da-61"; número × número vira "6x1"
+    t = re.sub(r"(\d)\s*[×✕✖xX]\s*(\d)", r"\1x\2", str(tit or ""))
+    t = unicodedata.normalize("NFD", t).encode("ascii", "ignore").decode().lower()
     pal = [w for w in re.sub(r"[^a-z0-9]+", " ", t).split() if w]
     out = ""
     for w in pal:

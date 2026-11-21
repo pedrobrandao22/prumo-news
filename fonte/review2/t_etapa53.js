@@ -25,7 +25,7 @@ async function criar(p, { url, nome, email }) {
   ok(await ev(A, () => !!document.querySelector('#v-msgs').dataset.thr && getComputedStyle(document.querySelector('.nav')).display === 'none' && !!document.querySelector('#mform')), 'conversa aberta: barra de abas some, campo de mensagem');
   await A.fill('#mtext', 'Oi Bia, viu a PEC?'); await clk(A, '#mform .send'); await sleep(300); await A.fill('#mtext', 'Acho que passa'); await clk(A, '#mform .send'); await sleep(800);
   // A envia notícia
-  await ev(A, () => { go('feed') }); await sleep(400); await ev(A, () => openSend(FEED.pautas[0].id)); await sleep(300); await A.fill('#stext', 'Olha essa'); await clk(A, '#sbtn'); await sleep(900);
+  await ev(A, () => { go('feed') }); await sleep(400); await ev(A, () => openSend(FEED.pautas[0].id)); await sleep(300); await clk(A, '#pick [data-pick]'); /* 20/11: ninguém vem marcado */ await A.fill('#stext', 'Olha essa'); await clk(A, '#sbtn'); await sleep(900);
   // B inbox
   await clk(B, '#t-msgs'); await sleep(800);
   ok(await esperar(B, () => /Olha essa/.test(document.querySelector('.dm-lista')?.textContent || '') && !!document.querySelector('.dm-row.un')), 'B vê a conversa na lista, em negrito (não lida)');

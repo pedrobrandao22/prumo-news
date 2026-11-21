@@ -4,7 +4,7 @@ var SS_NUM=/(R\$\s?\d[\d.,]*(?:\s?(?:milhões|milhão|mil|mi|bilhões|bilhão|bi
 function ssNumero(t){const m=SS_NUM.exec(t||"");if(!m||m.index>70)return null;const resto=String(t).slice(m.index+m[0].length);
   /* faixa ou número composto ("30% a 34%", "17 anos, 1 mês", "1.700 a 2.000"): não separa, senão o destaque engana */
   if(/^\s*(?:[,–—-]|(?:a|até|e|ou)\s+(?:R\$\s?|US\$\s?)?\d)/i.test(resto))return null;return m[1].trim().replace(/[.,;:]+$/,"")}
-function ssFrasesSociais(p,L){const so=L==="neutro"&&Array.isArray(p.social)?p.social.map(x=>typeof x==="string"?x:(x&&x.texto)||"").filter(x=>x.trim()):[];
+function ssFrasesSociais(p,L){const so=L==="neutro"&&Array.isArray(p.social)?p.social.map(x=>typeof x==="string"?x:(x&&x.texto)||"").filter(x=>x.trim()&&!(p.proximo&&/^\s*e agora\b/i.test(x))):[];  /* 20/11: "E agora?" já vem no cartão do proximo */
   return (so.length>=2?so:pontosDe(p,L)).slice(0,5)}
 function ssPessoa(p,usadas){const A=FOTOS_ARQ;if(!A)return null;const n=p.neutro||{};/* só quem está no TÍTULO (14/11: Trump aparecia na notícia dos voos por estar no 1º ponto) */const t=String(versao(p,lente()).titulo||n.titulo||"");
   const a=faPessoa(ft187SemGoverno(t),A);/* 19/11: "Governo Trump" não é a pessoa do fato */if(!a||!Array.isArray(a.fotos))return null;const nome=Object.keys(A.pessoas||{}).find(k=>A.pessoas[k]===a)||"";

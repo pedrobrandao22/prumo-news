@@ -152,4 +152,11 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="bvq")setTimeou
 /* ===== 11. Seguir sem conta ===== */
 var CM168_SEGAVISO=0;
 {const _cs168=cobSegue;cobSegue=function(tema,on){const r=_cs168.apply(this,arguments);try{if(on&&!(S.uid&&S.membro)&&Date.now()-CM168_SEGAVISO>1500){CM168_SEGAVISO=Date.now();
-    setTimeout(()=>toast("Seguindo neste aparelho. Entre para levar a qualquer celular e ver em “Coberturas que sigo”.","Entrar",()=>{try{closeLayer()}catch(e){}abrirLogin()}),30)}}catch(e){}return r}}
+    /* 20/11 (testador): o aviso escuro cobria o título da cobertura e o link "Ver a cobertura"; agora vai em linha,
+       logo abaixo do botão tocado (sem botão por perto, continua o aviso) */
+    setTimeout(()=>{const b=CM168_ULT&&document.contains(CM168_ULT)&&Date.now()-CM168_ULTT<2000?CM168_ULT:null;
+      if(b){const v=b.parentElement&&b.parentElement.querySelector(":scope>.cm168-nota");if(v)v.remove();
+        b.insertAdjacentHTML("afterend",`<p class="cm168-nota hint" role="status">Seguindo neste aparelho. <button type="button" class="link" data-entrar>Entre</button> para levar a qualquer celular e ver em “Coberturas que sigo”.</p>`)}
+      else toast("Seguindo neste aparelho. Entre para levar a qualquer celular e ver em “Coberturas que sigo”.","Entrar",()=>{try{closeLayer()}catch(e){}abrirLogin()})},30)}}catch(e){}return r}}
+var CM168_ULT=null,CM168_ULTT=0;
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("button");if(b){CM168_ULT=b;CM168_ULTT=Date.now()}},true);

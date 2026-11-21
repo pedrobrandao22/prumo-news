@@ -31,7 +31,7 @@ document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="cp152-tx")
 
 /* ===== a notícia na caixa ===== */
 function cr155NtHTML(){const p=CR155.pid&&pautaById(CR155.pid);if(!p)return "";const v=versao(p,lente()),s=secOf(p);
-  return `<div class="cr155-nt"><button type="button" class="cr155-ntb" data-cr155ntv aria-label="Trocar a notícia">${capaArte(p,"cn102-th")}<span><small style="color:${secCor(s)}">${esc(secNome(s))}${p.tag?" · "+esc(p.tag):""}</small><b>${esc(v.titulo)}</b></span></button><button type="button" class="cr155-ntx" data-cr155ntx aria-label="Tirar a notícia">${CN102_SVG(CN102_ICO.x)}</button></div>`}
+  return `<div class="cr155-nt"><button type="button" class="cr155-ntb" data-cr155ntv aria-label="Trocar a notícia">${capaArte(p,"cn102-th")}<span><small style="color:${secCor(s)}">${esc(secNome(s))}${(p.tema||p.subtema||p.tag)?" · "+esc(p.tema||p.subtema||p.tag):""}</small><b>${esc(v.titulo)}</b></span></button><button type="button" class="cr155-ntx" data-cr155ntx aria-label="Tirar a notícia">${CN102_SVG(CN102_ICO.x)}</button></div>`}
 /* publicar da caixa: com a notícia, sai como notícia comentada */
 /* juntar com a notícia já escolhida: Notícia e Enquete levam a notícia */
 /* a notícia escolhida no formulário fica marcada no editor (o 102 tira a notícia ao voltar sem texto) */
