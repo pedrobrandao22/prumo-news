@@ -30,7 +30,11 @@ async function carregarAgora(){try{const pre=typeof ab141Pre!=="undefined"&&ab14
   if(!d){const r=await fetch("novidades.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"});if(!r.ok)return;d=await r.json()}
   if(d&&typeof d==="object"){NOVID_AG=d;try{localStorage.setItem("prumo-novid",JSON.stringify(d))}catch(e){}atualizarAgora();try{ac208Atualiza()}catch(e){}}}catch(e){}}
 function agHoraMs(h){const m=typeof h==="string"&&h.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!m)return 0;const agora=new Date();let ano=agora.getFullYear();let t=Date.parse(`${ano}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);if(t>Date.now()+864e5)t=Date.parse(`${ano-1}-${m[2]}-${m[1]}T${m[3]}:${m[4]}:00-03:00`);return t||0}
-function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
+function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();
+  /* "Supercélula de tempestade: entenda o que é…": antes do dois-pontos fica só o tema, não o fato; devolve vazio para
+     quem chama usar a manchete de outro veículo (testador 20/11) */
+  if(/:\s*(veja|entenda|saiba|confira|assista)\b/i.test(s))return "";
+  s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
   if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}
 /* vídeos, programas e edições de telejornal não são notícia para o "Agora" */
 const AG_LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d|\bpodcast\b|\bepis[óo]dio\b|\s#\d{2,}\s*$/i;

@@ -3,7 +3,11 @@
    Prefixo sr209. */
 function sr209Faixa(off){try{let f=document.getElementById("sr209");
   if(off){if(!f){f=document.createElement("div");f.id="sr209";f.setAttribute("role","status");document.body.appendChild(f)}
-    f.className="sr209";f.textContent="Sem conexão · mostrando o já baixado";f.title="Sem conexão: o que aparece é o que já tinha sido baixado"}
+    f.className="sr209";f.textContent="Sem conexão · mostrando o já baixado";f.title="Sem conexão: o que aparece é o que já tinha sido baixado";
+    /* revisão 20/11 (testador): a pílula ficava por cima de botões e campos até a rede voltar, e repetia o aviso rosa do
+       topo quando ele já estava na tela. Agora aparece por 4 s (ou nem aparece, se o aviso do topo já diz isso) */
+    const vis=[...document.querySelectorAll(".late.offl")].some(x=>x.getBoundingClientRect().height>0);
+    clearTimeout(sr209Faixa.t);if(vis)f.classList.add("some");else sr209Faixa.t=setTimeout(()=>{try{f.classList.add("some")}catch(e){}},4000)}
   else if(f){f.className="sr209 volta";f.textContent="Conexão de volta";clearTimeout(sr209Faixa.t);sr209Faixa.t=setTimeout(()=>{try{f.remove()}catch(e){}},2200)}
   document.body.classList.toggle("sr209-off",!!off);sr209Mais()}catch(e){}}
 function sr209Mais(){try{const m=document.getElementById("mais");if(!m)return;let s=m.querySelector(".sr209-m");
