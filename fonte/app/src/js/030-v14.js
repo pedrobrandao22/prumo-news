@@ -73,7 +73,14 @@ function barraAudio(){let b=$("#abar");document.body.classList.toggle("aud-on",!
   b.innerHTML=`<button type="button" class="ab-t" ${x.pid?`data-goto="${esc(x.pid)}"`:""}><span>Ouvindo${x.pid?` · ${k} de ${n}`:""}</span><b>${esc(x.tit||"Prumo News")}</b></button><button type="button" data-aud="pp" aria-label="${AUD.pause?"Continuar":"Pausar"}">${AUD.pause?'<svg viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>':'<svg viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>'}</button><button type="button" data-aud="next" aria-label="Próxima notícia"><svg viewBox="0 0 24 24"><path d="M6 5.5l9 6.5-9 6.5z"/><rect x="16" y="5.5" width="2.5" height="13" rx="1"/></svg></button><button type="button" data-aud="stop" aria-label="Parar"><svg viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="1.5"/></svg></button>`}
 
 /* ================= conta, convites e amigos ================= */
-function mostraErro(sel,msg){const el=$(sel);if(el){el.textContent=msg;el.hidden=false}}
+function mostraErro(sel,msg){const el=$(sel);if(!el)return;
+  /* 20/11 (testador): no Entrar/Criar conta o aviso aparecia embaixo da senha, longe do campo que faltava; agora vai logo
+     abaixo do campo, que fica marcado e recebe o cursor */
+  try{const f=el.closest("#lform");if(f){f.querySelectorAll(".campo-erro").forEach(x=>x.remove());f.querySelectorAll("[aria-invalid]").forEach(x=>{x.removeAttribute("aria-invalid");x.classList.remove("field-erro")});
+    const m=String(msg||"").toLowerCase();const id=/c[óo]digo/.test(m)?"#lcod":/senha/.test(m)?"#lsenha":/e-mail|@/.test(m)?"#lemail":/nome/.test(m)?"#lnome":"";const inp=id&&f.querySelector(id);
+    if(inp){inp.setAttribute("aria-invalid","true");inp.classList.add("field-erro");const lb=inp.closest("label")||inp;lb.insertAdjacentHTML("afterend",`<p class="erro-t campo-erro" role="alert">${esc(msg)}</p>`);el.hidden=true;
+      try{inp.focus({preventScroll:true});inp.scrollIntoView({block:"center"})}catch(e){}return}}}catch(e){}
+  el.textContent=msg;el.hidden=false}
 function erroAuth(e){const m=String((e&&(e.message||e.code))||e||"").toLowerCase();
   if(/nome_unico|duplicate key|23505/.test(m))return "Já tem alguém com esse nome no Prumo. Use outro.";
   if(/nome_limpo/.test(m))return "Esse nome tem caracteres que não podem ser usados.";

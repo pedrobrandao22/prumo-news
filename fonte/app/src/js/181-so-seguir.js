@@ -152,7 +152,14 @@ const SG181_TX={"Convidar amigo":"Convidar alguém","Nenhum amigo ainda":"Você 
   "Nenhum perfil aberto ainda":"Ninguém por aqui ainda","Mencionar um amigo":"Mencionar alguém","Nome do amigo":"Nome da pessoa","Amigos":"Seguindo",
   "Enviar o giro para amigos":"Enviar o giro","seguidores e amigos":"só para quem me segue","amigos":"para todos","Comente esta notícia com seus amigos.":"Comente esta notícia.","Buscar amigo":"Buscar pessoa",
   "Toque num amigo acima, ou mande uma notícia pelo botão Enviar de um post.":"Toque em alguém acima, ou mande uma notícia pelo botão Enviar de um post.",
-  "Seus amigos e quem segue você conseguem abrir o post.":"Quem vê o seu perfil consegue abrir o post.","Seus amigos conseguem abrir o post.":"Quem vê o seu perfil consegue abrir o post."};
+  "Seus amigos e quem segue você conseguem abrir o post.":"Quem vê o seu perfil consegue abrir o post.","Seus amigos conseguem abrir o post.":"Quem vê o seu perfil consegue abrir o post.",
+  /* 20/11 (testador): telas da conta que ainda falavam de amizade */
+  "Desfazer amizade":"Deixar de seguir","Desfazer amizade?":"Deixar de seguir?","vocês deixam de se ver":"você deixa de ver as publicações",
+  "não pode mais te achar nem pedir amizade":"não pode mais te achar nem te mandar mensagem","Pedidos de amizade":"Novos seguidores",
+  "Pedido de amizade":"Novo seguidor","Pedidos novos e pedidos aceitos":"Quem começou a seguir você",
+  "Esse nome aparece para os seus amigos: nas curtidas, nos comentários e nas conversas.":"Esse nome aparece para quem te segue: nas curtidas, nos comentários e nas conversas.",
+  "Seus amigos veem no Feed, com o seu nome":"Quem segue você vê no Feed, com o seu nome",
+  "Seus comentários nas notícias e nas publicações aparecem aqui.":"Suas respostas a comentários de outras pessoas aparecem aqui. Notícias que você comentou ficam em Posts."};
 function sg181Textos(root){if(!root||SG181.on!==true||!root.querySelectorAll)return;
   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;const troca=[];
   while((n=w.nextNode())){const t=n.nodeValue.trim();if(t&&Object.prototype.hasOwnProperty.call(SG181_TX,t)&&!(n.parentElement&&n.parentElement.closest(".pv-txt,.pub-tx,.dm-c,.cm-t,textarea,[contenteditable]")))troca.push(n)}

@@ -78,7 +78,7 @@ function mt158Periodo(d){const a=d.inicio?cobSP(d.inicio):"",b=d.ultima?cobSP(d.
     mt158Titulo(d.tema||d.tag||"Cobertura anterior");
     const m=box.querySelector(".pc-m");if(m){const s=[...m.querySelectorAll("span")].find(x=>!x.classList.contains("cst"));if(s)s.textContent=mt158Periodo(d)}
     const st=box.querySelector(".pc-m .cst.enc");if(st)st.textContent="Cobertura anterior";
-    const h=box.querySelector(".hint:last-child");if(h)h.textContent=`Esta cobertura é ${mt158Periodo(d)||"de outra edição"} e saiu da edição. O resumo fica aqui; se o assunto voltar, ela reaparece no feed com o histórico.`;
+    const h=box.querySelector(".hint:last-child");if(h)h.textContent=`${(x=>x?"Esta cobertura foi "+(/^de /.test(x)?x:"de "+x):"Esta cobertura é de outra edição")(mt158Periodo(d))} e saiu da edição. O resumo fica aqui; se o assunto voltar, ela reaparece no feed com o histórico.`;
     /* foto e resumo da página da notícia (/m/), quando ela existe */
     mt158Pagina(id).then(pg=>{const b=document.querySelector(".sheet .pc");if(!pg||!b||b.dataset.mt158===id)return;b.dataset.mt158=id;
       if(pg.img&&!b.querySelector(".mt158-foto"))b.insertAdjacentHTML("afterbegin",`<img class="mt158-foto" src="${escU(pg.img)}" alt="" loading="lazy" onerror="this.remove()">`);

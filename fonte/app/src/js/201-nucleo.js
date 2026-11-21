@@ -747,7 +747,7 @@ function renderMe(){
   try{const v=$("#v-me");if(v&&!(S.uid&&S.membro)&&!v.querySelector("[data-mt158cobs]")){const l=mt158SegLinha();if(l){const g=v.querySelector(".gut")||v;g.insertAdjacentHTML("afterbegin",`<div class="mt158-pfw">${l}</div>`)}}}catch(e){}
   /* [160] conta */
   try{if(S.uid&&S.membro)co160Pf($("#v-me"),S.uid);
-    else if(!S.uid){const p=[...document.querySelectorAll("#v-me .card p")].find(p=>/Entre para gostar/.test(p.textContent));if(p)p.textContent="Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos. A conta é por convite de quem já usa o Prumo."}}catch(e){}
+    else if(!S.uid){const p=[...document.querySelectorAll("#v-me .card p")].find(p=>/Entre para gostar/.test(p.textContent));if(p)p.textContent="Dá para ler tudo. Entre para curtir, comentar, guardar e conversar. A conta é por convite de quem já usa o Prumo."}}catch(e){}
   /* [161] "Guardadas" vira "Guardados" */
   try{const b=document.querySelector('#v-me .card.menu [data-vgo="saved"] span');if(b&&b.textContent==="Guardadas")b.textContent="Guardados"}catch(e){}
   /* [165] */

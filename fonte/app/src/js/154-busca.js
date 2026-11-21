@@ -90,7 +90,7 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
 
 /* ===== 3. desenho dos resultados ===== */
 function bu154CobCard(o){if(o.d){const d=o.d,tm=d.tema||d.tag,seg=!!(PREF.seguindo||{})[norm(tm)];
-    return `<div class="bu154-card"><button type="button" class="bu154-cb" data-dorm="${esc(d.id)}"><small>Cobertura anterior</small><b>${esc(tm)}</b><span>${esc(bu154J([d.inicio?"de "+cobSP(d.inicio)+" a "+cobSP(d.ultima):cobSP(d.ultima),"fora da edição"]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154dseg="${esc(d.id)}" aria-pressed="${seg}" title="Avisamos se a cobertura voltar">${seg?"Avisaremos":"Avisar se voltar"}</button></div>`}
+    return `<div class="bu154-card"><button type="button" class="bu154-cb" data-dorm="${esc(d.id)}"><small>Cobertura anterior</small><b>${esc(tm)}</b><span>${esc(bu154J([d.inicio?"de "+cobSP(d.inicio)+" a "+cobSP(d.ultima):cobSP(d.ultima),"fora da edição"]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154dseg="${esc(d.id)}" aria-pressed="${seg}" title="Avisamos se a cobertura voltar">${seg?"Vou avisar ✓":"Avisar se voltar"}</button></div>`}
   const p=o.p,tm=temaDe(p),seg=seguido(p),nt=(Array.isArray(p.titulos)?p.titulos.length:0),u=ultimaAtualizacao(p)||p.hora;
   return `<div class="bu154-card"><button type="button" class="bu154-cb" data-cobpag="${esc(p.id)}"><small>Cobertura${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</small><b>${esc(tm)}</b><span>${esc(bu154J([nt>1?nt+" manchetes":"",p.inicio?"desde "+cobSP(p.inicio):"",u?"atualizada "+quando(u):""]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154seg="${esc(p.id)}" aria-pressed="${seg}">${seg?"Seguindo":"Seguir"}</button></div>`}
 function bu154EntCard(o){const tx=String(o.e.texto||"");const c=tx.length>150?tx.slice(0,tx.lastIndexOf(" ",150))+"…":tx;
@@ -172,9 +172,11 @@ function bu154AbrePost(id){const x=pubDe(id)||(pubVisiveis()||[]).find(y=>y.id==
   $("#layer").innerHTML=`<div class="pfv" role="dialog" aria-modal="true" aria-label="Publicação"></div>`;if(pushH())HST++;pfvDesenha()}
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;let b;const pare=()=>{e.stopPropagation();e.preventDefault()};
   if((b=t.closest("[data-bu154q]"))){pare();bu154Rodar(b.dataset.bu154q);return}
-  if((b=t.closest("#bvres [data-bu154seg]"))){pare();const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!seguido(p);cobSegue(temaDe(p),on);toast(on?"Seguindo "+temaDe(p):"Deixou de seguir");
+  if((b=t.closest("#bvres [data-bu154seg]"))){pare();const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!seguido(p);cobSegue(temaDe(p),on);const rf154=()=>{try{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}catch(_){}const i=$("#bvq");if(i)i.dispatchEvent(new Event("input",{bubbles:true}))};
+    /* 20/11 (testador): deixar de seguir com um toque, sem dizer o quê nem desfazer */
+    if(on)toast("Seguindo "+temaDe(p));else toast("Deixou de seguir "+temaDe(p),"Desfazer",()=>{cobSegue(temaDe(p),true);rf154()});
     try{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}catch(_){}const i=$("#bvq");if(i)i.dispatchEvent(new Event("input",{bubbles:true}));return}
-  if((b=t.closest("#bvres [data-bu154dseg]"))){pare();const d=(FEED.dormentes||[]).find(x=>x.id===b.dataset.bu154dseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);toast(on?"Vamos destacar se voltar":"Deixou de seguir");
+  if((b=t.closest("#bvres [data-bu154dseg]"))){pare();const d=(FEED.dormentes||[]).find(x=>x.id===b.dataset.bu154dseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);if(on)toast("Vamos avisar se voltar");else toast("Não vamos mais avisar sobre "+tm,"Desfazer",()=>{cobSegue(tm,true);const i=$("#bvq");if(i)i.dispatchEvent(new Event("input",{bubbles:true}))});
     const i=$("#bvq");if(i)i.dispatchEvent(new Event("input",{bubbles:true}));return}
   if((b=t.closest("#bvres [data-bu154ag]"))){pare();const x=(agoraItens()||[])[+b.dataset.bu154ag];if(x&&x.pid&&pautaById(x.pid))abrirMateria(x.pid);else abrirAgora();return}
   if((b=t.closest("#bvres [data-bu154pf]"))){pare();abrirPerfil(b.dataset.bu154pf);return}
@@ -207,6 +209,6 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="pq")bu154AmgVa
 /* 19/11: ao fechar uma folha por cima da busca (ex.: seguir uma cobertura), os botões Seguir dos cartões de cobertura
    mostram o estado novo (antes continuavam dizendo "Seguir" depois de seguir); só os botões, sem redesenhar a busca */
 function bu154SegAtualiza(){try{document.querySelectorAll("#bvres [data-bu154seg]").forEach(b=>{const p=pautaById(b.dataset.bu154seg);if(!p)return;const on=!!seguido(p);b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Seguindo":"Seguir"});
-  document.querySelectorAll("#bvres [data-bu154dseg]").forEach(b=>{const d=(FEED.dormentes||[]).find(x=>x&&x.id===b.dataset.bu154dseg);if(!d)return;const on=!!(PREF.seguindo||{})[norm(d.tema||d.tag)];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Avisaremos":"Avisar se voltar"})}catch(e){}}
+  document.querySelectorAll("#bvres [data-bu154dseg]").forEach(b=>{const d=(FEED.dormentes||[]).find(x=>x&&x.id===b.dataset.bu154dseg);if(!d)return;const on=!!(PREF.seguindo||{})[norm(d.tema||d.tag)];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);b.textContent=on?"Vou avisar ✓":"Avisar se voltar"})}catch(e){}}
 (function(){let ab=false;const vig=()=>{const L=document.getElementById("layer");if(!L)return setTimeout(vig,500);
   new MutationObserver(()=>{const tem=!!L.innerHTML;if(ab&&!tem&&typeof VIEW!=="undefined"&&VIEW==="busca")bu154SegAtualiza();ab=tem}).observe(L,{childList:true})};vig()})();

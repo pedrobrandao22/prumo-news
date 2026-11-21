@@ -156,7 +156,7 @@ function abrirDormente(id){const d=(FEED.dormentes||[]).find(x=>x.id===id);if(!d
     <h2>${esc(d.titulo)}</h2><div class="pc-m"><span class="cst enc">Fora da edição</span><span>${d.inicio?esc(cobSP(d.inicio))+" a ":""}${esc(cobSP(d.ultima))}</span></div>
     ${d.resumo?`<p class="lead">${esc(d.resumo)}</p>`:""}
     ${tt.length>1?`<h4>Manchetes</h4><ol class="pct">${tt.slice().reverse().map((t,i)=>`<li class="tt"><small>${esc(cobDH(t.hora))}</small><b>${esc(t.titulo)}</b></li>`).join("")}</ol>`:""}
-    ${tk?`<div class="pc-a"><button type="button" class="btn${seg?" ghost":""}" data-dormseg="${esc(id)}">${seg?"Seguindo ✓":"Seguir: avisar se voltar"}</button></div>`:""}
+    ${tk?`<div class="pc-a"><button type="button" class="btn${seg?" ghost":""}" data-dormseg="${esc(id)}">${seg?"Vou avisar se voltar ✓":"Avisar se voltar"}</button></div>`:""}
     <p class="hint" style="margin:0">Esta cobertura saiu da edição. Se o assunto voltar, ela reaparece no feed com o histórico.</p></div>`)}
 function cobSegue(tema,on){const k=norm(tema);const m=PREF.seguindo||(PREF.seguindo={});if(on)m[k]=tema;else delete m[k];if(on&&PREF.silenciados)delete PREF.silenciados[k];salvarPrefs();uso(on?"seguir_cob":"deixar_cob")}
 function cobSegStrip(){if(FILTRO!=="tudo")return "";const ps=(FEED.pautas||[]).filter(p=>seguido(p)&&!silenciado(p)&&!(PREF.ocultas||[]).includes(secOf(p)));if(!ps.length)return "";
@@ -165,7 +165,7 @@ function cobSegStrip(){if(FILTRO!=="tudo")return "";const ps=(FEED.pautas||[]).f
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   const cp=t.closest("[data-cobpag]");if(cp){e.stopPropagation();abrirPagCob(cp.dataset.cobpag);return}
   const cs=t.closest("[data-cobseg]");if(cs){const p=pautaById(cs.dataset.cobseg);if(!p)return;const on=!seguido(p);cobSegue(temaDe(p),on);toast(on?"Seguindo "+temaDe(p):"Deixou de seguir");abrirPagCob(p.id);{const y=scrollY;renderPosts(true);window.scrollTo(0,y)}return}
-  const ds=t.closest("[data-dormseg]");if(ds){const d=(FEED.dormentes||[]).find(x=>x.id===ds.dataset.dormseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);toast(on?"Vamos destacar se voltar":"Deixou de seguir");abrirDormente(d.id);return}
+  const ds=t.closest("[data-dormseg]");if(ds){const d=(FEED.dormentes||[]).find(x=>x.id===ds.dataset.dormseg);if(!d)return;const tm=d.tema||d.tag;const on=!(PREF.seguindo||{})[norm(tm)];cobSegue(tm,on);if(on)toast("Vamos avisar se voltar");else toast("Não vamos mais avisar sobre "+tm,"Desfazer",()=>{cobSegue(tm,true);abrirDormente(d.id)});abrirDormente(d.id);return}
   const cl=t.closest("[data-cobler]");if(cl){const id=cl.dataset.cobler;const mat=!!document.querySelector("#layer .mat");closeLayer();setTimeout(()=>{if(VIEW==="capa"&&pautaById(id)){if(!mat||!document.querySelector("#layer .mat"))abrirMateria(id)}else openSnap(id)},60);return}
   const cf=t.closest("[data-cobfontes]");if(cf){abrirCobertura(cf.dataset.cobfontes);return}
   const dm=t.closest("[data-dorm]");if(dm){abrirDormente(dm.dataset.dorm);return}
@@ -300,7 +300,7 @@ function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==se
     if(us.length)h+=`<div class="sh4-chips" role="group" aria-label="Estados"><button type="button" data-secuf="" aria-pressed="${!SECF.uf}">Todo o Brasil</button>${us.map(u=>`<button type="button" data-secuf="${esc(u)}" aria-pressed="${SECF.uf===u}" title="${esc(UFSM()[u])}">${esc(u)}<em>${uc[u]}</em></button>`).join("")}</div>`}
   if(SECF.sub||SECF.uf)return h+`</div>`;
   const cob=todas.filter(p=>cobTemPagina(p)).slice(0,8);
-  if(cob.length)h+=`<div><span class="segs-h" style="padding-top:0">Coberturas ativas</span><div class="segs">${cob.map(p=>{const et=cobEtapaAtual(p);return `<button type="button" class="segc" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${p.status==="ao_vivo"?"Ao vivo":p.status==="encerrada"?"Encerrada":et?esc(et):esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button>`}).join("")}</div></div>`;
+  if(cob.length)h+=`<div><span class="segs-h" style="padding-top:0">Coberturas ativas</span><div class="segs">${cob.map(p=>{const et=cobEtapaAtual(p);return `<button type="button" class="segc" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${p.status==="ao_vivo"?"Ao vivo · ":p.status==="encerrada"?"Encerrada · ":et?"Etapa: "+esc(et)+" · ":""}atualizada ${esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button>`}).join("")}</div></div>`;
   if(sec==="politica"||sec==="educacao"){const tr=todas.filter(p=>p.etapa&&Array.isArray(p.etapa.passos)&&p.etapa.passos.length>1);
     if(tr.length)h+=`<div class="sh4-b"><h5>${sec==="politica"?"Em tramitação":"Leis e normas em andamento"}</h5>${tr.map(p=>`<button type="button" class="sh4-tr" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b>${cobEtapas(p)}</button>`).join("")}</div>`}
   if(sec==="economia")h+=indPainel();

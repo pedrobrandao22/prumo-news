@@ -77,7 +77,8 @@ function atualizarEmDia(){
   const el=$("#emdia");if(!el)return;
   if(FILTRO[0]==="_"){el.innerHTML="";return}
   const lista=listaFeed();const faltam=lista.filter(p=>!lidaAtual(p)).length;
-  el.innerHTML=faltam?`<span>Faltam ${faltam} ${faltam===1?"notícia":"notícias"} para ficar em dia.</span><button type="button" class="btn ghost" data-cinco>Ler as principais em 5 minutos</button>`:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg><b>Você está em dia</b><span>Leu todas as notícias desta edição. Quando houver novidade, ela aparece aqui de novo.</span>${fimExtras()}`;
+  /* 20/11 (testador): depois de rolar o Feed inteiro, "Faltam 24 notícias para ficar em dia" soava como cobrança sem caminho */
+  el.innerHTML=faltam?`<span>Você chegou ao fim do Feed. ${faltam===1?"Uma notícia você ainda não abriu":faltam+" notícias você ainda não abriu"}: o resumo de cada uma está nos cartões acima.</span><button type="button" class="btn ghost" data-cinco>Ler as principais em 5 minutos</button>`:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg><b>Você está em dia</b><span>Leu todas as notícias desta edição. Quando houver novidade, ela aparece aqui de novo.</span>${fimExtras()}`;
 }
 function renderChg(){
   const m=FEED.mudancas;const box=$("#chg");

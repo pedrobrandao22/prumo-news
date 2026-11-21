@@ -204,7 +204,7 @@ function pfvPosts(el){const r=pf205Posts.apply(this,arguments);try{if(PFV&&PFV.a
    Bases no 112; remendos: 114 (quem está fora vê "Perfil só para amigos" e não vê "0 publicações"), 165 (a aba Ajustes
    do próprio perfil rola até as abas). */
 function pf205Resp(u){const l=todosComentarios().filter(c=>c.uid===u).sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,60);
-  if(!l.length)return `<div class="pf-vz"><b>Respostas</b><span>${u===S.uid?"Seus comentários nas notícias e nas publicações aparecem aqui.":"Nenhum comentário ainda."}</span></div>`;
+  if(!l.length)return `<div class="pf-vz"><b>Respostas</b><span>${u===S.uid?"Suas respostas a comentários de outras pessoas aparecem aqui. Notícias que você comentou ficam em Posts.":"Nenhum comentário ainda."}</span></div>`;
   return `<ul class="vn-resp">${l.map(c=>{const m=/^u:(.+)$/.exec(String(c.pid||"")),p=!m&&pautaById(c.pid),x=m&&(pubVisiveis().find(y=>y.id===m[1]));const ctx=p?versao(p,lente()).titulo:x?"publicação de "+nomeDe(x.autor):"";
     return `<li><button type="button" data-vnresp="${esc(c.pid)}">${avatar(u)}<span class="vn-resp-c"><span class="vn-resp-h"><b>${esc(nomeDe(u))}</b><i>· ${esc(quando(c.at))}</i></span>${ctx?`<small>Em resposta a ${p?"“"+esc(vn112Curto(ctx,90))+"”":esc(ctx)}</small>`:""}<span class="vn-resp-t">${esc(vn112Curto(c.texto,400))}</span></span></button></li>`}).join("")}</ul>`}
 function vn112Resp(u){return ra114Fora(u)?ra114SoAmigos(u):pf205Resp.apply(this,arguments)}
@@ -241,3 +241,13 @@ function pf205Linha(x,meu,tipo){const u=x.uid,eu=u===S.uid,am=S.amigos.has(u);
   return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${am?"amigo":x.aberto?"perfil aberto":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:!eu&&!am&&x.aberto?cs123SegBt(u):""}</li>`}
 function cs123Linha(x,meu,tipo){if(!sg181On())return pf205Linha.apply(this,arguments);const u=x.uid,eu=u===S.uid;
   return `<li><button type="button" class="amg-r cs123-lr" data-cs123perfil="${esc(u)}">${avatar(u)}<span class="amg-n"><b>${esc(eu?"Você":nomeDe(u))}</b><span>${eu?"":SG181.fech.has(u)?"perfil fechado":""}</span></span></button>${meu&&tipo==="seguidores"?`<button type="button" class="btn ghost amg-b" data-cs123tira="${esc(u)}">Remover</button>`:eu?"":sg181Bt(u,"amg-b")}</li>`}
+
+/* revisão 20/11 (testador): em "Conta e ajustes", Sair e Excluir minha conta ficavam no meio da lista (quem procurava
+   Ajustes do app ou Histórico passava o dedo em cima deles), e os números "0 curtidas · 0 comentários · 1 enviada"
+   ficavam soltos. Sair e Excluir vão para um cartão próprio no fim; os números ganham título. */
+function pf205ContaFim(){try{const c=document.querySelector("#v-me .pf-conta");if(!c)return;
+  const sai=c.querySelector(".card.menu [data-sair]"),ex=c.querySelector(".card.menu [data-excluir]");
+  if(sai||ex){let fim=c.querySelector(".pf205-fim");if(!fim){fim=document.createElement("div");fim.className="card menu pf205-fim";c.appendChild(fim)}
+    if(sai)fim.appendChild(sai);if(ex)fim.appendChild(ex);c.appendChild(fim)}
+  const st=c.querySelector(".stats");if(st&&!st.previousElementSibling?.classList?.contains("pf205-st"))st.insertAdjacentHTML("beforebegin",`<b class="pf205-st cm-h">Sua atividade</b>`)}catch(e){}}
+{const _rm205=renderMe;renderMe=function(){const r=_rm205.apply(this,arguments);pf205ContaFim();return r}}
