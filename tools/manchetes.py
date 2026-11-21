@@ -201,7 +201,9 @@ KW = {
         credito divida orcamento gasolina combustivel salario inss aposentadoria fgts bets""".split()),
     "esportes": set("""futebol gol gols rodada brasileirao libertadores sulamericana campeonato tecnico atacante goleiro
         zagueiro jogador jogadora partida clube flamengo palmeiras corinthians santos vasco gremio cruzeiro
-        botafogo fluminense bahia fortaleza bragantino coritiba selecao ancelotti neymar nba formula tenis ufc""".split()),
+        botafogo fluminense bahia fortaleza bragantino coritiba selecao ancelotti neymar nba formula tenis ufc
+        f1 gp treino piloto pilotos corrida largada pole mercedes ferrari mclaren verstappen hamilton bortoleto russell
+        motogp nascar volei basquete""".split()),  # 21/11: "F1 ... Câmara (o piloto)" caía em Política
     "mundo": set("""eua trump israel ira irao iraniano iraniana ucrania russia putin china gaza hamas netanyahu europa
         franca argentina milei venezuela maduro otan onu papa alemanha japao coreia mexico india arabia saudita houthis
         iemen libano siria brexit reino unido londres paris cop cop30 cop31 clima climatica climaticas combustiveis
