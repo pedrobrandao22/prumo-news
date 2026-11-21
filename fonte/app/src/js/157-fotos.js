@@ -23,7 +23,9 @@ const FT157_BLOQ=["21449400719","iluminacao lgbtqia","cervejas colorado","buraco
   "plenario do senado (15717805622)","plenario do senado (15687627386)","plenario do senado (15109327665)","vestibular.jpg",
   "ofrenda de la liga","roda viva com senadora","com bandeira do brasil","conselheira tais ferraz","arena corinthians opening",
   "allianz parque - reconhecimento facial","tudo-o-que-voce-sempre-quis-saber","vidpovid to be performing","hibakujumoku",
-  "northern door of the assumption cathedral","estacao agrometeorologica","travessia de pedestres no patio da estacao"];
+  "northern door of the assumption cathedral","estacao agrometeorologica","travessia de pedestres no patio da estacao",
+  /* 20/11 (testador): taça de 2016 da Chapecoense; prédios da Paulista em IPO nos EUA e no iFood; Maracanã em tira e visto do alto */
+  "taca da copa sul-americana de 2016","parque avenida building","reflection of parque cultural paulista","estadio do maracana - panorama"];
 /* acervos históricos (foto do século passado não ilustra fato de hoje) */
 const FT157_HIST=/(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly|\b(?:PMDB|MDB|PSDB|PSOL|PDT|PSB)\b|\b(?:PT|PL|PP|PSD) (?:Nacional|na C[aâ]mara|no Senado)\b|Partido (?:dos|Liberal|Social|Progressista|Novo)|Uni[aã]o Brasil Nacional)/i;  /* 19/11: e acervo de partido */
 function ft157Bloq(f){if(!f||typeof f.url!=="string")return true;const n=ft157Arq(f);return FT157_BLOQ.some(b=>n.indexOf(b)>=0)||FT157_HIST.test(String(f.credito||""))}
@@ -120,10 +122,19 @@ function ft157Assuntos(t,A,sec){const out=[];Object.keys(A.assuntos||{}).forEach
 function ft157Frase(tit){return String(tit||"").split(/;|\s[—–]\s/)[0]}
 
 faListas=function(p,A){if(A&&A===FOTOS_ARQ)ft157Prep();const L=[],T=(A&&A.temas)||{},sec=secOf(p),tit=String((p.neutro||{}).titulo||""),fora=ft157Fora(p);
-  const pega=(l,lugar)=>{if(!Array.isArray(l))return;const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!(lugar&&fora&&ft157Br(f)));if(ok.length&&!L.some(x=>x.ft157o===l)){ok.ft157o=l;L.push(ok)}};
+  /* 20/11 (testador): Capitólio só em notícia do Congresso dos EUA (a licença de chips era do Departamento de Comércio);
+     foto em tira (640×174) fica borrada no quadro */
+  const cong=/Congresso|Capit[óo]lio|Senado (?:americano|dos EUA)|C[âa]mara dos (?:EUA|Representantes)/.test(tit);
+  const ruim=f=>(!cong&&/capitol/i.test(ft157Arq(f)))||(f.w&&f.h&&(f.h<280||f.w/f.h>2.3));
+  const pega=(l,lugar)=>{if(!Array.isArray(l))return;const ok=l.filter(f=>faValida(f)&&!ft157Bloq(f)&&!ruim(f)&&!(lugar&&fora&&ft157Br(f)));if(ok.length&&!L.some(x=>x.ft157o===l)){ok.ft157o=l;L.push(ok)}};
   if(!A)return L;
   if(p.foto_arquivo!=="tema"){const pe=ft157Pessoa(tit,A);if(pe)pega(pe.fotos,false)}
-  const fr=ft157Frase(tit);ft157Assuntos(fr,A,sec).forEach(([nome,x])=>{if(ft157AssuntoOk(nome,p,fr))pega(x.fotos,true)});
+  const fr=ft157Frase(tit);let As=ft157Assuntos(fr,A,sec);
+  /* 20/11 (testador): "Flamengo visita o Palmeiras" levava a foto do Maracanã (estádio do visitante). Com dois clubes no
+     título não dá para saber o estádio do jogo: os clubes ficam de fora (foto do assunto ou ilustração) */
+  const clube=([n,x])=>x&&Array.isArray(x.secoes)&&x.secoes.length===1&&x.secoes[0]==="esportes"&&/^[A-ZÁÉÍÓÚ]/.test(n)&&!/^(Série|Seleção|Torneios)/.test(n);
+  if(As.filter(clube).length>=2)As=As.filter(z=>!clube(z));
+  As.forEach(([nome,x])=>{if(ft157AssuntoOk(nome,p,fr))pega(x.fotos,true)});
   const k=sec+"/"+(p.subtema||"");if(ft157TemaOk(k,p))pega(T[k],true);
   return L};
 

@@ -185,7 +185,11 @@ LIXO = re.compile(
     r"\bbom dia (df|sp|rio|brasil|[a-z]+) de\b|renda fixa hoje|\bconfira as taxas|receita de\b|^podcast|"
     r"newsletter|\beptv\b|\bem 1 minuto\b|previsao do tempo|\bquiz\b|\bcruzadinha|"
     # 19/11 (testador): episódio de podcast virava "Acabou de sair" ("... - O Assunto #1849")
-    r"\bpodcast\b|\bepisodio\b|\bo assunto #|\s#\d{2,}\s*$")
+    r"\bpodcast\b|\bepisodio\b|\bo assunto #|\s#\d{2,}\s*$|"
+    # 20/11 (testador): resumos do dia e textos de efeméride não são notícia ("… e mais destaques desta 5ª", "O que se sabe
+    # (e o muito que não se sabe) sobre a história de Zumbi")
+    r"\bmais destaques\b|\bdestaques (desta|do dia|da semana)\b|\bresumo do dia\b|o que voce precisa saber|"
+    r"\bmorning call\b|\bfechamento do mercado\b|^o que se sabe\b|\bo que se sabe \(e\b|\bpara comecar o dia\b")
 
 KW = {
     "politica": set("""lula bolsonaro flavio senado senador senadora senadores camara deputado deputada deputados congresso
@@ -199,7 +203,7 @@ KW = {
         botafogo fluminense bahia fortaleza bragantino coritiba selecao ancelotti neymar nba formula tenis ufc""".split()),
     "mundo": set("""eua trump israel ira irao iraniano iraniana ucrania russia putin china gaza hamas netanyahu europa
         franca argentina milei venezuela maduro otan onu papa alemanha japao coreia mexico india arabia saudita houthis
-        iemen libano siria brexit reino unido londres paris""".split()),
+        iemen libano siria brexit reino unido londres paris cop31 cop30 clima climatica combustiveis fosseis antalia""".split()),
     # 20/11: com mais veículos, o "palpite" de seção do feed (InfoMoney = economia) pesava em assunto de outra área
     "educacao": set("""enem fuvest vestibular mec escola escolas universidade universidades professores professor alunos
         estudantes sisu prouni fies ensino creche""".split()),
@@ -318,10 +322,17 @@ def analisar(itens_todos, feed, agora, horas=6, anterior=None, oficiais=None, ro
         sc = [x for x in sc if x[0] >= 0.35]
         return max(sc)[1] if sc else None
 
+    # 20/11 (testador): a manchete que já é link de uma pauta é dessa pauta, mesmo com palavras diferentes (o iFood aparecia
+    # 3 vezes no topo do Feed: círculo, "Acabou de sair" com o título do InfoMoney já nos links da pauta, e o cartão)
+    url_pid = {}
+    for p in feed.get("pautas") or []:
+        if not isinstance(p, dict) or not p.get("id"): continue
+        for u in re.findall(r'https?://[^"\s]+', json.dumps(p, ensure_ascii=False)):
+            url_pid.setdefault(u.split("#")[0].rstrip("/"), p["id"])
     for x in todos:
         x["lixo"] = lixo(x["titulo"])
         pp = pauta_de(x["tk"])
-        x["pid"] = pp[0] if pp else None
+        x["pid"] = pp[0] if pp else url_pid.get(str(x.get("url") or "").split("#")[0].rstrip("/"))
 
     # agrupa manchetes parecidas (ligação simples, comparando com até 8 manchetes do grupo)
     grupos = []
