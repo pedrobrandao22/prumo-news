@@ -191,6 +191,13 @@ def t_acionar_leva_manchetes():
     assert ms[1]["lide"] == "Resumo do B" and "lide" not in ms[0]  # resumo reaproveitado do arquivo anterior
 
 
+def t_acabou_editoria_pelo_assunto():
+    # causa acabou-de-sair-editoria (20/11 noite): casos em tools/test_acabou_editoria_2011.py (roda também no push)
+    import subprocess
+    r = subprocess.run([sys.executable, "-I", os.path.join(AQUI, "test_acabou_editoria_2011.py")], capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout + r.stderr
+
+
 TESTES = [v for k, v in sorted(globals().items()) if k.startswith("t_")]
 if __name__ == "__main__":
     falhas = 0
