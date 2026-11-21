@@ -24,4 +24,5 @@ addEventListener("resize",()=>{try{if(typeof CM168_ANC==="undefined"||!CM168_ANC
 {const _sc211=shareCard;shareCard=function(s,attrs){const h=_sc211.apply(this,arguments);try{const p=s&&s.id&&typeof pautaById==="function"?pautaById(s.id):null;
   const f=p&&typeof fotoDe==="function"?fotoDe(p):null;if(!f||!f.url)return h;
   const i=h.indexOf("<svg"),j=h.indexOf("</svg>",i);if(i<0||j<0)return h;
-  return h.slice(0,i)+`<span class="sh211-f"><img src="${esc(f.url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></span>`+h.slice(j+6)}catch(e){return h}}}
+  /* sem a foto (rede, site da foto fora do ar) volta o desenho */
+  return h.slice(0,i)+`<span class="sh211-f"><img src="${esc(f.url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="var s=this.parentNode;s.nextElementSibling&&(s.nextElementSibling.hidden=false);s.remove()"></span><span class="sh211-d" hidden>${h.slice(i,j+6)}</span>`+h.slice(j+6)}catch(e){return h}}}
