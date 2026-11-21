@@ -284,6 +284,8 @@ function rs204Base(){
   const fl=$("#filters");fl.hidden=true;fl.innerHTML="";const bf=$("#b-filtro");if(bf)bf.setAttribute("aria-pressed",String(FILTRO!=="tudo"));
 }
 function renderSecs(){
+  /* 21/11 (corretor): os cartões do topo também leem os números de mercado já em dia (indicadores.json), como renderPosts */
+  try{if(typeof nm186EmDia==="function")nm186EmDia()}catch(e){}
   if(!FD204_PRONTA)return rs204Base.apply(this,arguments);
   /* 054: topo no estilo Instagram */
   const c054=()=>{const box=$("#secs");if(!box||!FEED)return;let h="";
