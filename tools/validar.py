@@ -418,6 +418,12 @@ EM_ABERTO = re.compile(r"(sem resultado(?: confirmado)?|a confirmar|ainda ser[á
                        r"resultado n[ãa]o (?:foi|havia sido) divulgado|sem confirma[çc][ãa]o)", re.I)
 
 
+PASSOU_PRAZO = re.compile(r"\b(terminou|acabou|venceu|encerrou|terminaram|acabaram|venceram|encerraram)\b", re.I)
+# "Lula disse na terça (17) que vai vetar": a data é da fala, não do futuro
+FALA_DATADA = re.compile(r"\b(disse|disseram|afirmou|afirmaram|declarou|anunciou|anunciaram|informou|informaram|divulgou|confirmou|"
+                         r"prometeu|avisou|garantiu|previu|estimou|indicou|publicou)\b", re.I)
+
+
 def campos_leitor(p):
     """(nome, texto, data da atualização ou None): tudo o que o leitor vê da notícia, fora o título."""
     n = p.get("neutro") if isinstance(p.get("neutro"), dict) else {}
@@ -446,6 +452,25 @@ def desfechos_vencidos(ps, agora):
         ups = [(dt(u.get("hora")), str(u.get("texto") or "")) for u in p.get("atualizacoes") or [] if isinstance(u, dict)]
         vistos = set()
         for nome, t, quando in campos_leitor(p):
+            # FUTURO VENCIDO (corretor 21/11 noite, causa noticia-parada-2: COP31 e Enem). Quando o prazo passa, a rodada
+            # reescreve o título e deixa o texto no tempo de antes ("A COP31 vai até sexta (20)", "Os pedidos vão até as
+            # 23h59 de sexta (20)") no resumo da cobertura e no "O que vem agora". Linha do tempo e atualizações são
+            # registro do momento e ficam de fora.
+            if "futuro" not in vistos and not nome.startswith(("linha do tempo", "última atualização")):
+                for cl in re.split(r"(?<=[.;!?])\s+|;\s+|\s+[—–]\s+|,\s+(?:e|mas)\s+", t):
+                    dd = [(a, d) for a, _, d, _ in datas_em(cl, hoje) if d]
+                    if not dd or max(d for _, d in dd) >= hoje: continue
+                    if PASSADO_NARRADO.search(cl) or FALA_DATADA.search(cl) or PASSOU_PRAZO.search(cl): continue
+                    # o verbo vem antes da data e perto dela ("vai até sexta (20)"; não "maioria na terça (17) ..., prevista até 2028")
+                    vs = [m.end() for m in list(PRAZO_ABERTO.finditer(cl)) + list(FUTURO_FORTE.finditer(cl))
+                          if not re.search(r"\b(na|a|da|de|sua|nova)\s+$", cl[:m.start()], re.I)]  # "abriu na estreia": substantivo
+                    if not any(0 <= a - v <= 60 for v in vs for a, _ in dd): continue
+                    ds = [d for _, d in dd]
+                    vistos.add("futuro")
+                    out.append({"pid": pid, "tipo": "futuro_vencido", "texto": f"{nome}: '{cl.strip()[:110]}' — fala no futuro de "
+                                f"{max(ds).strftime('%d/%m')}, que já passou: reescreva no passado com o que aconteceu (o título já mudou; o "
+                                "resumo, os pontos e o 'O que vem agora' mudam junto) (manual 3b, NOTÍCIA PARADA)"})
+                    break
             for fr in re.split(r"(?<=[.;!?])\s+", t):
                 ds = [d for _, _, d, _ in datas_em(fr, hoje) if d]
                 if "passou" not in vistos and any(d < hoje for d in ds) and not any(d >= hoje for d in ds) and EM_ABERTO.search(fr):
