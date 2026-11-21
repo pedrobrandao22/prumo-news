@@ -1,492 +1,24 @@
 {
- "gerado": "2026-11-21T09:45-03:00",
- "desde": "2026-11-21T06:52-03:00",
- "feed_atualizado_em": "2026-11-21T07:02:00-03:00",
+ "gerado": "2026-11-21T09:56-03:00",
+ "desde": "2026-11-21T09:39-03:00",
+ "feed_atualizado_em": "2026-11-21T09:49:00-03:00",
  "resumo": {
-  "manchetes": 251,
-  "assuntos_novos_relevantes": 4,
-  "assuntos_novos": 218,
-  "pautas_com_novidade": 4,
+  "manchetes": 17,
+  "assuntos_novos_relevantes": 0,
+  "assuntos_novos": 17,
+  "pautas_com_novidade": 0,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 4,
-  "acionar_itens": 2,
+  "pautas_com_relatos": 3,
+  "acionar_itens": 0,
   "ja_avaliados": 0
  },
- "acionar": true,
- "acionar_motivo": "assunto novo: 5 veículos em 90 min (politica); pauta principal bolsonaro-hospital-dores-abdominais sem atualização há 14 h e 2 veículos com relatos novos",
- "acionar_itens": [
-  {
-   "tipo": "novo",
-   "titulo": "Jair Bolsonaro teve quase um litro de resíduos retirados do estômago, diz Carlos",
-   "secao": "politica",
-   "n_fontes": 7,
-   "motivo": "assunto novo: 5 veículos em 90 min (politica)",
-   "chave": [
-    "avaliada",
-    "avaliam",
-    "bolsonaro",
-    "carlos",
-    "cirurgia",
-    "estado",
-    "estomago",
-    "exames",
-    "faz",
-    "jair",
-    "limpeza",
-    "litro",
-    "medicos",
-    "nov",
-    "passa",
-    "passar",
-    "passara",
-    "piora",
-    "possibilidade",
-    "precisar",
-    "procedimento",
-    "quase",
-    "residuos",
-    "retirados",
-    "saude",
-    "sonda",
-    "teve"
-   ],
-   "pid_provavel": "bolsonaro-hospital-dores-abdominais",
-   "acao": "atualiza: bolsonaro-hospital-dores-abdominais (provável; confira que é o mesmo assunto)",
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Jair Bolsonaro teve quase um litro de resíduos retirados do estômago, diz Carlos",
-     "url": "https://veja.abril.com.br/brasil/jair-bolsonaro-teve-quase-um-litro-de-residuos-retirados-do-estomago-diz-carlos/",
-     "hora": "21/11 09h28",
-     "lide": "Ex-presidente foi levado a hospital de Brasília com fortes dores abdominais na sexta-feira, 20"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Bolsonaro pode passar por nova cirurgia após piora no estado de saúde, diz Carlos",
-     "url": "https://exame.com/brasil/bolsonaro-pode-passar-por-nova-cirurgia-apos-piora-no-estado-de-saude-diz-carlos/",
-     "hora": "21/11 09h01"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Jair Bolsonaro faz procedimento com sonda e nova cirurgia é avaliada, diz Carlos",
-     "url": "https://www.infomoney.com.br/politica/jair-bolsonaro-faz-procedimento-com-sonda-e-nova-cirurgia-e-avaliada-diz-carlos/",
-     "hora": "21/11 08h31",
-     "lide": "Boletim do Hospital DFStar diz que ex-presidente foi internado com \"quadro de dor e distensão abdominal\"; embora os médicos não confirmem a possibilidade de cirurgia, Carlos diz temer a 10ª operação em 8 anos"
-    }
-   ]
-  },
-  {
-   "tipo": "pauta",
-   "pid": "bolsonaro-hospital-dores-abdominais",
-   "titulo": "Bolsonaro pode passar por nova cirurgia após piora no estado de saúde, diz Carlos",
-   "n_fontes": 2,
-   "motivo": "pauta principal bolsonaro-hospital-dores-abdominais sem atualização há 14 h e 2 veículos com relatos novos",
-   "acao": "atualiza: bolsonaro-hospital-dores-abdominais",
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Bolsonaro pode passar por nova cirurgia após piora no estado de saúde, diz Carlos",
-     "url": "https://exame.com/brasil/bolsonaro-pode-passar-por-nova-cirurgia-apos-piora-no-estado-de-saude-diz-carlos/",
-     "hora": "21/11 09h01"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Facada, cirurgias e internações: relembre o histórico de saúde de Bolsonaro",
-     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/facada-cirurgias-e-internacoes-relembre-o-historico-de-saude-de-bolsonaro",
-     "hora": "21/11 08h16",
-     "lide": "Bolsonaro voltou a ser internado nessa sexta-feira (20/11). Segundo o senador eleito Carlos Bolsonaro, o pai poderá passar pela 10º cirurgia"
-    }
-   ]
-  }
- ],
+ "acionar": false,
+ "acionar_motivo": "nada novo que acione (17 assuntos fora do feed, 3 pautas com relatos)",
+ "acionar_itens": [],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Jair Bolsonaro teve quase um litro de resíduos retirados do estômago, diz Carlos",
-   "secao": "politica",
-   "n_fontes": 7,
-   "fontes": [
-    "cnn",
-    "estadao",
-    "ex",
-    "im",
-    "jp",
-    "oeste",
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Jair Bolsonaro teve quase um litro de resíduos retirados do estômago, diz Carlos",
-     "url": "https://veja.abril.com.br/brasil/jair-bolsonaro-teve-quase-um-litro-de-residuos-retirados-do-estomago-diz-carlos/",
-     "hora": "21/11 09h28"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Bolsonaro pode passar por nova cirurgia após piora no estado de saúde, diz Carlos",
-     "url": "https://exame.com/brasil/bolsonaro-pode-passar-por-nova-cirurgia-apos-piora-no-estado-de-saude-diz-carlos/",
-     "hora": "21/11 09h01"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Jair Bolsonaro faz procedimento com sonda e nova cirurgia é avaliada, diz Carlos",
-     "url": "https://www.infomoney.com.br/politica/jair-bolsonaro-faz-procedimento-com-sonda-e-nova-cirurgia-e-avaliada-diz-carlos/",
-     "hora": "21/11 08h31"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Bolsonaro passa por limpeza com sonda, e médicos avaliam nov cirurgia, diz Carlos",
-     "url": "https://jovempan.com.br/politica/bolsonaro-passa-por-limpeza-com-sonda-e-medicos-avaliam-nov-cirurgia-diz-carlos/",
-     "hora": "21/11 08h09"
-    }
-   ],
-   "n_fontes_90min": 5,
-   "ultima_iso": "2026-11-21T09:28-03:00",
-   "pid_provavel": "bolsonaro-hospital-dores-abdominais"
-  },
-  {
-   "assunto": "Ainda dá? As contas do Palmeiras para ser campeão do Brasileiro",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "fontes": [
-    "cc",
-    "cnn",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ainda dá? As contas do Palmeiras para ser campeão do Brasileiro",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/ainda-da-as-contas-do-palmeiras-para-ser-campeao-do-brasileiro/",
-     "hora": "21/11 07h00"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Ainda vale algo? Veja o que está em jogo para o Palmeiras no confronto direto com o Flamengo",
-     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/21/ainda-vale-algo-veja-o-que-esta-em-jogo-para-o-palmeiras-no-confronto-direto-com-o-flamengo.ghtml",
-     "hora": "21/11 07h00"
-    },
-    {
-     "veiculo": "CartaCapital",
-     "titulo": "Palmeiras recebe o Flamengo em jogo que pode definir campeão brasileiro",
-     "url": "https://www.cartacapital.com.br/esporte/palmeiras-recebe-o-flamengo-em-jogo-que-pode-definir-campeao-brasileiro/",
-     "hora": "21/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-21T07:00-03:00"
-  },
-  {
-   "assunto": "Novos temporais devem atingir Sul do País após “supercélula” arrasar cidade do RS",
-   "secao": null,
-   "n_fontes": 3,
-   "fontes": [
-    "estadao",
-    "im",
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Novos temporais devem atingir Sul do País após “supercélula” arrasar cidade do RS",
-     "url": "https://www.infomoney.com.br/brasil/novos-temporais-devem-atingir-sul-do-pais-apos-supercelula-arrasar-cidade-do-rs/",
-     "hora": "21/11 09h40"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Novos temporais devem atingir Sul do País após ‘supercélula’ arrasar cidade do RS",
-     "url": "https://jovempan.com.br/brasil/novos-temporais-devem-atingir-sul-do-pais-apos-supercelula-arrasar-cidade-do-rs/",
-     "hora": "21/11 08h26"
-    },
-    {
-     "veiculo": "Estadão Brasil",
-     "titulo": "Novos temporais devem atingir Sul do País após ‘supercélula’ arrasar cidade do RS; veja previsão",
-     "url": "https://www.estadao.com.br/brasil/novos-temporais-devem-atingir-sul-do-pais-apos-supercelula-veja-previsao-npr/",
-     "hora": "21/11 07h42"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-21T09:40-03:00"
-  },
-  {
-   "assunto": "União Europeia propõe imposto de 3% sobre big techs para financiar orçamento",
-   "secao": "economia",
-   "n_fontes": 3,
-   "fontes": [
-    "ex",
-    "g1",
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "União Europeia propõe imposto de 3% sobre big techs para financiar orçamento",
-     "url": "https://exame.com/mundo/uniao-europeia-propoe-imposto-de-3-sobre-big-techs-para-financiar-orcamento/",
-     "hora": "21/11 09h28"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "União Europeia propõe taxar receita de big techs para financiar orçamento",
-     "url": "https://jovempan.com.br/mundo/uniao-europeia-propoe-taxar-receita-de-big-techs-para-financiar-orcamento/",
-     "hora": "21/11 08h37"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "União Europeia propõe taxar big techs para financiar orçamento até 2034",
-     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/21/uniao-europeia-propoe-taxar-big-techs-para-financiar-orcamento-ate-2034.ghtml",
-     "hora": "21/11 08h26"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-21T09:28-03:00"
-  },
-  {
-   "assunto": "Como foi o último jogo entre Atlético-MG e Boca Juniors? Relembre",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "fontes": [
-    "ex",
-    "ge",
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Como foi o último jogo entre Atlético-MG e Boca Juniors? Relembre",
-     "url": "https://exame.com/esporte/como-foi-o-ultimo-jogo-entre-atletico-mg-e-boca-juniors-relembre/",
-     "hora": "21/11 09h45"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Brasil x Irlanda pelo Mundial Sub-17: onde assistir ao vivo, horário e escalações",
-     "url": "https://ge.globo.com/pr/futebol/noticia/2026/11/21/brasil-x-irlanda-pelo-mundial-sub-17-onde-assistir-ao-vivo-horario-e-escalacoes.ghtml",
-     "hora": "21/11 08h50"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Atlético-MG encara o Boca Juniors em busca de título inédito e vaga na Libertadores",
-     "url": "https://jovempan.com.br/esportes/futebol/atletico-mg-encara-o-boca-juniors-em-busca-de-titulo-inedito-e-vaga-na-libertadores/",
-     "hora": "21/11 08h14"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Atlético-MG x Boca Juniors: onde assistir ao vivo, horário e prováveis escalações",
-     "url": "https://exame.com/esporte/atletico-mg-x-boca-juniors-onde-assistir-ao-vivo-horario-e-provaveis-escalacoes/",
-     "hora": "21/11 07h38"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T09:45-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Agência marítima britânica relata dois incidentes envolvendo petroleiros perto de Omã",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "met",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Agência marítima britânica relata dois incidentes envolvendo petroleiros perto de Omã",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/21/agncia-martima-britnica-relata-dois-incidentes-envolvendo-petroleiros-perto-de-om.ghtml",
-     "hora": "21/11 09h07"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Dois navios petroleiros sofrem ataques perto do Estreito de Ormuz",
-     "url": "https://www.metropoles.com/mundo/dois-navios-petroleiros-sofrem-ataques-perto-do-estreito-de-ormuz",
-     "hora": "21/11 07h52"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-21T09:07-03:00"
-  },
-  {
-   "assunto": "Defesa pede a Moraes permissão para filhos visitarem Bolsonaro no hospital",
-   "secao": "politica",
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Defesa pede a Moraes permissão para filhos visitarem Bolsonaro no hospital",
-     "url": "https://www.metropoles.com/colunas/manoela-alcantara/defesa-pede-a-moraes-permissao-para-filhos-visitarem-bolsonaro-no-hospital",
-     "hora": "21/11 09h35"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Defesa de Bolsonaro pede a Moraes autorização para visitas diárias de filhos durante internação",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/21/defesa-de-bolsonaro-pede-a-moraes-autorizacao-para-visitas-diarias-de-filhos-durante-internacao.ghtml",
-     "hora": "21/11 09h14"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-21T09:35-03:00"
-  },
-  {
-   "assunto": "FBI investiga possível invasão hacker a banco de dados",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "FBI investiga possível invasão hacker a banco de dados",
-     "url": "https://www.poder360.com.br/poder-internacional/fbi-investiga-possivel-invasao-hacker-a-banco-de-dados/",
-     "hora": "21/11 08h31"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "FBI investiga invasão a banco de dados nacional de informações criminais, diz TV",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/21/fbi-investiga-invasao-a-banco-de-dados-nacional-de-informacoes-criminais-diz-tv.ghtml",
-     "hora": "21/11 07h44"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-21T08:31-03:00"
-  },
-  {
-   "assunto": "Homem de 27 anos perde controle de skate e morre ao bater em ônibus",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Homem de 27 anos perde controle de skate e morre ao bater em ônibus",
-     "url": "https://www.metropoles.com/sao-paulo/homem-de-27-anos-perde-controle-de-skate-e-morre-ao-bater-em-onibus",
-     "hora": "21/11 09h06"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Motociclista morre após perder o controle e bater contra tampa de bueiro em Óbidos",
-     "url": "https://g1.globo.com/pa/santarem-regiao/noticia/2026/11/21/motociclista-morre-apos-perder-o-controle-e-bater-contra-tampa-de-bueiro-em-obidos.ghtml",
-     "hora": "21/11 08h33"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-21T09:06-03:00"
-  },
-  {
-   "assunto": "Tarot do dia: previsão para os 12 signos em 21/11/2026",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "antag",
-    "cc"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Tarot do dia: previsão para os 12 signos em 21/11/2026",
-     "url": "https://oantagonista.com.br/ladooa/variedades/tarot-do-dia-previsao-para-os-12-signos-em-21-11-2026/",
-     "hora": "21/11 09h05"
-    },
-    {
-     "veiculo": "CartaCapital",
-     "titulo": "Horóscopo do dia: previsão para os 12 signos em 21/11/2026",
-     "url": "https://www.cartacapital.com.br/astrologia/horoscopo-do-dia-previsao-para-os-12-signos-em-21-11-2026/",
-     "hora": "21/11 07h02"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-21T09:05-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "'Aulão' na Unesp reúne 300 alunos da rede pública em Bauru e aproxima jovens da universidade",
-   "secao": "educacao",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "'Aulão' na Unesp reúne 300 alunos da rede pública em Bauru e aproxima jovens da universidade",
-     "url": "https://g1.globo.com/sp/bauru-marilia/noticia/2026/11/21/aulao-na-unesp-reune-300-alunos-da-rede-publica-em-bauru-e-aproxima-jovens-da-universidade.ghtml",
-     "hora": "21/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:00-03:00"
-  },
-  {
-   "assunto": "'Conhecido, mas não reconhecido': pesquisador aponta 'apagamento' do legado de João de Camargo da história de Sorocaba",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "'Conhecido, mas não reconhecido': pesquisador aponta 'apagamento' do legado de João de Camargo da história de Sorocaba",
-     "url": "https://g1.globo.com/sp/sorocaba-jundiai/noticia/2026/11/21/conhecido-mas-nao-reconhecido-pesquisador-aponta-apagamento-do-legado-de-joao-de-camargo-da-historia-de-sorocaba.ghtml",
-     "hora": "21/11 09h32"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T09:32-03:00"
-  },
-  {
-   "assunto": "'Decisões no mundo corporativo são tomadas onde mulheres pretas não estão', diz especialista",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "'Decisões no mundo corporativo são tomadas onde mulheres pretas não estão', diz especialista",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/painelsa/2026/11/decisoes-no-mundo-corporativo-sao-tomadas-onde-mulheres-pretas-nao-estao-diz-especialista.shtml",
-     "hora": "21/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:00-03:00"
-  },
-  {
-   "assunto": "'Não queria tirar a vida dele', diz policial que abraçou homem armado com facão após rendição",
+   "assunto": "Acidente com carreta deixa ferido na GO-403; carro ficou destruído",
    "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
@@ -497,294 +29,33 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "'Não queria tirar a vida dele', diz policial que abraçou homem armado com facão após rendição",
-     "url": "https://g1.globo.com/sp/sao-jose-do-rio-preto-aracatuba/noticia/2026/11/21/nao-queria-tirar-a-vida-dele-diz-policial-que-abracou-homem-armado-com-facao-apos-rendicao.ghtml",
-     "hora": "21/11 08h00"
+     "titulo": "Acidente com carreta deixa ferido na GO-403; carro ficou destruído",
+     "url": "https://g1.globo.com/go/goias/transito/noticia/2026/11/21/acidente-entre-carro-e-caminhao-deixa-ferido-na-go-403.ghtml",
+     "hora": "21/11 09h42"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:00-03:00"
+   "ultima_iso": "2026-11-21T09:42-03:00"
   },
   {
-   "assunto": "A Marísia, Manfred e Andreas, em algum lugar do silêncio",
-   "secao": "politica",
+   "assunto": "Agência do Reino Unido relata ataques contra dois petroleiros no Estreito de Ormuz",
+   "secao": "mundo",
    "n_fontes": 1,
    "fontes": [
-    "estadao"
+    "jp"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Estadão Política",
-     "titulo": "A Marísia, Manfred e Andreas, em algum lugar do silêncio",
-     "url": "https://www.estadao.com.br/politica/fernando-schuler/a-marisia-manfred-e-andreas-em-algum-lugar-do-silencio/",
-     "hora": "21/11 09h00"
+     "veiculo": "Jovem Pan",
+     "titulo": "Agência do Reino Unido relata ataques contra dois petroleiros no Estreito de Ormuz",
+     "url": "https://jovempan.com.br/mundo/agencia-do-reino-unido-relata-ataques-contra-dois-petroleiros-no-estreito-de-ormuz/",
+     "hora": "21/11 09h51"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T09:00-03:00"
-  },
-  {
-   "assunto": "A VP de RH da Haleon, dona do remédio Advil, responde: qual é a maior dor de cabeça do setor hoje?",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "A VP de RH da Haleon, dona do remédio Advil, responde: qual é a maior dor de cabeça do setor hoje?",
-     "url": "https://exame.com/carreira/a-vp-de-rh-da-haleon-dona-da-marca-advil-responde-qual-e-a-maior-dor-de-cabeca-do-setor-hoje/",
-     "hora": "21/11 08h01"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:01-03:00"
-  },
-  {
-   "assunto": "A cidade mais alta do estado do Rio fica aos pés do Dedo de Deus, o pico de 1.692 metros que virou cartão-postal da serra fluminense",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "A cidade mais alta do estado do Rio fica aos pés do Dedo de Deus, o pico de 1.692 metros que virou cartão-postal da serra fluminense",
-     "url": "https://oantagonista.com.br/ladooa/turismo/a-cidade-mais-alta-do-estado-do-rio-fica-aos-pes-do-dedo-de-deus-o-pico-de-1-692-metros-que-virou-cartao-postal-da-serra-fluminense/",
-     "hora": "21/11 08h51"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:51-03:00"
-  },
-  {
-   "assunto": "A rede de farmácias que fatura R$ 1,5 bi e quer “combater” concorrentes no Nordeste",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "A rede de farmácias que fatura R$ 1,5 bi e quer “combater” concorrentes no Nordeste",
-     "url": "https://www.infomoney.com.br/business/a-rede-de-farmacias-que-fatura-r-15-bi-e-quer-combater-concorrentes-no-nordeste/",
-     "hora": "21/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T07:00-03:00"
-  },
-  {
-   "assunto": "Abrigo com mais de 300 animais enfrenta gasto mensal de R$ 100 mil em Teresina; conheça cães e gatos disponíveis para adoção",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Abrigo com mais de 300 animais enfrenta gasto mensal de R$ 100 mil em Teresina; conheça cães e gatos disponíveis para adoção",
-     "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/21/abrigo-de-animais-apipa-teresina.ghtml",
-     "hora": "21/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:00-03:00"
-  },
-  {
-   "assunto": "Agora deixa Lula e Bolsonaro e vamos cuidar do Brasil', diz Georgen, da Acebra",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Agora deixa Lula e Bolsonaro e vamos cuidar do Brasil', diz Georgen, da Acebra",
-     "url": "https://exame.com/agro/agora-deixa-lula-e-bolsonaro-e-vamos-cuidar-do-brasil-diz-georgen-da-acebra/",
-     "hora": "21/11 08h01"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:01-03:00"
-  },
-  {
-   "assunto": "Além do currículo: quem tem coragem de apostar no seu potencial?",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Além do currículo: quem tem coragem de apostar no seu potencial?",
-     "url": "https://exame.com/exame-in/alem-do-curriculo-quem-tem-coragem-de-apostar-no-seu-potencial/",
-     "hora": "21/11 09h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T09:00-03:00"
-  },
-  {
-   "assunto": "Além dos multimercados: como a SPX combina estratégias para atravessar ciclos",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Além dos multimercados: como a SPX combina estratégias para atravessar ciclos",
-     "url": "https://www.infomoney.com.br/onde-investir/spx-diversificacao-estrategias-multimercados/",
-     "hora": "21/11 08h10"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:10-03:00"
-  },
-  {
-   "assunto": "Ameaçados de pejotização, médicos cobram respostas da gestão Nunes e decretam estado de greve",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "icl"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "Ameaçados de pejotização, médicos cobram respostas da gestão Nunes e decretam estado de greve",
-     "url": "https://iclnoticias.com.br/ameacados-pejotizacao-medicos-cobram-respostas/",
-     "hora": "21/11 09h05"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T09:05-03:00"
-  },
-  {
-   "assunto": "Antonelli vence classificação mas Verstappen largará em 1º no GP de Las Vegas de F1",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Antonelli vence classificação mas Verstappen largará em 1º no GP de Las Vegas de F1",
-     "url": "https://veja.abril.com.br/esporte/antonelli-vence-classificacao-mas-verstappen-largara-em-1o-no-gp-de-las-vegas-de-f1/",
-     "hora": "21/11 08h25"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:25-03:00"
-  },
-  {
-   "assunto": "Após 16 anos no mercado financeiro, empresária abre salão de beleza que mira R$ 3 milhões mensais",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Após 16 anos no mercado financeiro, empresária abre salão de beleza que mira R$ 3 milhões mensais",
-     "url": "https://exame.com/negocios/apos-16-anos-no-mercado-financeiro-empresaria-abre-salao-de-beleza-que-mira-r-3-milhoes-mensais/",
-     "hora": "21/11 09h01"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T09:01-03:00"
-  },
-  {
-   "assunto": "Arquidiocese de Cuiabá teve oito líderes ao longo da história; conheça trajetória",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Arquidiocese de Cuiabá teve oito líderes ao longo da história; conheça trajetória",
-     "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/21/arquidiocese-de-cuiaba-teve-oito-lideres-ao-longo-da-historia-conheca-trajetoria.ghtml",
-     "hora": "21/11 08h31"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T08:31-03:00"
-  },
-  {
-   "assunto": "Assista aos telejornais da TV Bahia",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Assista aos telejornais da TV Bahia",
-     "url": "https://g1.globo.com/ba/bahia/ao-vivo/assista-aos-telejornais-da-tv-bahia.ghtml",
-     "hora": "21/11 07h47"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-21T07:47-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Ataques cibernéticos, IA ou atualizações pendentes: o que há por trás da onda de apagões dos últimos dias",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Ataques cibernéticos, IA ou atualizações pendentes: o que há por trás da onda de apagões dos últimos dias",
-     "url": "https://g1.globo.com/tecnologia/ciberseguranca/noticia/2026/11/21/ataques-ciberneticos-ia-ou-atualizacoes-pendentes-o-que-ha-por-tras-da-onda-de-apagoes-dos-ultimos-dias.ghtml",
-     "hora": "21/11 07h27"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T07:27-03:00"
+   "ultima_iso": "2026-11-21T09:51-03:00"
   },
   {
    "assunto": "Atendimentos de saúde mental a crianças superam níveis pré-pandemia",
@@ -807,88 +78,287 @@
    "ultima_iso": "2026-11-21T09:41-03:00"
   },
   {
-   "assunto": "Atlético-MG chega à terceira final continental consecutiva; relembre",
-   "secao": null,
+   "assunto": "BH registra em 2 horas quase 30% da chuva esperada para novembro",
+   "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
-    "cnn"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Atlético-MG chega à terceira final continental consecutiva; relembre",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/sulamericana/atletico-mg-chega-a-terceira-final-continental-consecutiva-relembre/",
-     "hora": "21/11 09h00"
+     "veiculo": "Metrópoles",
+     "titulo": "BH registra em 2 horas quase 30% da chuva esperada para novembro",
+     "url": "https://www.metropoles.com/minas-gerais/bh-registra-em-2-horas-quase-30-da-chuva-esperada-para-novembro",
+     "hora": "21/11 09h45"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T09:00-03:00"
-  }
- ],
- "em_pautas": {
-  "bolsonaro-hospital-dores-abdominais": {
-   "secao": "politica",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Carlos atualiza sobre estado de saúde de Bolsonaro: \"Jamais o vi assim\"",
-     "url": "https://www.metropoles.com/brasil/carlos-atualiza-sobre-estado-de-saude-de-bolsonaro-jamais-o-vi-assim",
-     "hora": "21/11 07h30"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Facada, cirurgias e internações: relembre o histórico de saúde de Bolsonaro",
-     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/facada-cirurgias-e-internacoes-relembre-o-historico-de-saude-de-bolsonaro",
-     "hora": "21/11 08h16"
-    }
-   ]
+   "ultima_iso": "2026-11-21T09:45-03:00"
   },
-  "brasileirao-31-rodada-lideres": {
+  {
+   "assunto": "BKFC tem hematoma gigante, vitória de brasileiro e estreia com nocaute de ex-UFC",
    "secao": "esportes",
    "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Histórico contra Palmeiras fora de casa motiva Flamengo por título",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol/flamengo/historico-contra-palmeiras-fora-de-casa-motiva-flamengo-por-titulo/",
-     "hora": "21/11 08h00"
+     "veiculo": "ge",
+     "titulo": "BKFC tem hematoma gigante, vitória de brasileiro e estreia com nocaute de ex-UFC",
+     "url": "https://ge.globo.com/combate/noticia/2026/11/21/bkfc-tem-hematoma-gigante-vitoria-de-brasileiro-e-estreia-com-nocaute-de-ex-ufc.ghtml",
+     "hora": "21/11 09h46"
     }
-   ]
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:46-03:00"
   },
-  "mlambo-ngcuka-morte": {
+  {
+   "assunto": "Com motor 2.0 turbo Hurricane de 272 cv e tração 4×4, Jeep Compass Blackhawk acelera de 0 a 100 km/h em 6,3 segundos e entrega desempenho de esportivo",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Com motor 2.0 turbo Hurricane de 272 cv e tração 4×4, Jeep Compass Blackhawk acelera de 0 a 100 km/h em 6,3 segundos e entrega desempenho de esportivo",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/com-motor-2-0-turbo-hurricane-de-272-cv-e-tracao-4x4-jeep-compass-blackhawk-acelera-de-0-a-100-km-h-em-6-3-segundos-e-entrega-desempenho-de-esportivo/",
+     "hora": "21/11 09h53"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:53-03:00"
+  },
+  {
+   "assunto": "Como foi o último jogo entre Atlético-MG e Boca Juniors? Relembre",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Como foi o último jogo entre Atlético-MG e Boca Juniors? Relembre",
+     "url": "https://exame.com/esporte/como-foi-o-ultimo-jogo-entre-atletico-mg-e-boca-juniors-relembre/",
+     "hora": "21/11 09h45"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:45-03:00"
+  },
+  {
+   "assunto": "Criança de 10 anos morre após ser atropelada em avenida de Salvador",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Criança de 10 anos morre após ser atropelada em avenida de Salvador",
+     "url": "https://g1.globo.com/ba/bahia/noticia/2026/11/21/crianca-morre-apos-ser-atropelada-em-avenida-de-salvador.ghtml",
+     "hora": "21/11 09h40"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:40-03:00"
+  },
+  {
+   "assunto": "Câmara vai debater influência de facções criminosas e milícias nas eleições",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Câmara vai debater influência de facções criminosas e milícias nas eleições",
+     "url": "https://www.infomoney.com.br/politica/camara-vai-debater-influencia-de-faccoes-criminosas-e-milicias-nas-eleicoes/",
+     "hora": "21/11 09h52"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:52-03:00"
+  },
+  {
+   "assunto": "Dicas do Cartola: Especialista Digital tem estreante na #36; veja três dicas gratuitas",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Dicas do Cartola: Especialista Digital tem estreante na #36; veja três dicas gratuitas",
+     "url": "https://ge.globo.com/gato-mestre/dicas/noticia/2026/11/21/dicas-do-cartola-especialista-digital-tem-estreante-na-36-veja-tres-dicas-gratuitas.ghtml",
+     "hora": "21/11 09h45"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:45-03:00"
+  },
+  {
+   "assunto": "Homem é baleado no pescoço enquanto corria em avenida de Cuiabá",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Homem é baleado no pescoço enquanto corria em avenida de Cuiabá",
+     "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/21/homem-e-baleado-no-pescoco-enquanto-corria-em-avenida-de-cuiaba.ghtml",
+     "hora": "21/11 09h42"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:42-03:00"
+  },
+  {
+   "assunto": "Irã afirma que China e Rússia se opõem a uma mudança em sua doutrina nuclear",
    "secao": "mundo",
-   "n_fontes": 2,
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Irã afirma que China e Rússia se opõem a uma mudança em sua doutrina nuclear",
+     "url": "https://veja.abril.com.br/mundo/ira-afirma-que-china-e-russia-se-opoem-a-uma-mudanca-em-sua-doutrina-nuclear/",
+     "hora": "21/11 09h47"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:47-03:00"
+  },
+  {
+   "assunto": "Jovem de 25 anos morre em acidente com caminhão e família pede explicações",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Morre Phumzile Mlambo-Ngcuka, 1ª mulher vice-presidente da África do Sul",
-     "url": "https://www.metropoles.com/mundo/morre-phumzile-mlambo-ngcuka-1a-mulher-vice-presidente-da-africa-do-sul",
-     "hora": "21/11 09h31"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Primeira mulher vice-presidente da África do Sul morre aos 71 anos",
-     "url": "https://www.cnnbrasil.com.br/internacional/primeira-mulher-vice-presidente-da-africa-do-sul-morre-aos-71-anos/",
-     "hora": "21/11 08h29"
+     "titulo": "Jovem de 25 anos morre em acidente com caminhão e família pede explicações",
+     "url": "https://www.metropoles.com/sao-paulo/jovem-de-25-anos-morre-em-acidente-com-caminhao-e-familia-pede-explicacoes",
+     "hora": "21/11 09h45"
     }
-   ]
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:45-03:00"
   },
-  "decreto-6x1-adiado": {
-   "secao": "politica",
+  {
+   "assunto": "Manchester City x Fulham - Campeonato Inglês 2026/27 - Ao vivo - globoesporte.com",
+   "secao": "esportes",
    "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Valor Econômico",
-     "titulo": "Decreto do fim da escala 6 x 1 é omisso e contraria STF, dizem associações",
-     "url": "https://valor.globo.com/legislacao/noticia/2026/11/21/decreto-do-fim-da-escala-6-x-1-e-omisso-e-contraria-stf-dizem-associacoes.ghtml",
-     "hora": "21/11 08h30"
+     "veiculo": "ge",
+     "titulo": "Manchester City x Fulham - Campeonato Inglês 2026/27 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-ingles/jogo/21-11-2026/Manchestercity-Fulham.ghtml",
+     "hora": "21/11 09h49"
     }
-   ]
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:49-03:00"
+  },
+  {
+   "assunto": "Moto de 150 cilindradas e 14 cv vira destaque de vendas no Brasil: Bajaj Pulsar N150 registra 1.157 emplacamentos em apenas um mês",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Moto de 150 cilindradas e 14 cv vira destaque de vendas no Brasil: Bajaj Pulsar N150 registra 1.157 emplacamentos em apenas um mês",
+     "url": "https://oantagonista.com.br/ladooa/carros/moto-de-150-cilindradas-e-14-cv-vira-destaque-de-vendas-no-brasil-bajaj-pulsar-n150-registra-1-157-emplacamentos-em-apenas-um-mes/",
+     "hora": "21/11 09h43"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:43-03:00"
+  },
+  {
+   "assunto": "Novos temporais devem atingir Sul do País após “supercélula” arrasar cidade do RS",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Novos temporais devem atingir Sul do País após “supercélula” arrasar cidade do RS",
+     "url": "https://www.infomoney.com.br/brasil/novos-temporais-devem-atingir-sul-do-pais-apos-supercelula-arrasar-cidade-do-rs/",
+     "hora": "21/11 09h40"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:40-03:00"
+  },
+  {
+   "assunto": "Temporais atingem 19.663 pessoas e deixam 7.145 casas destelhadas no RS",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Temporais atingem 19.663 pessoas e deixam 7.145 casas destelhadas no RS",
+     "url": "https://www.poder360.com.br/poder-brasil/temporais-atingem-19-663-pessoas-e-7-145-casas-destelhadas-no-rs/",
+     "hora": "21/11 09h47"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T09:47-03:00"
   }
- },
+ ],
+ "em_pautas": {},
  "novos_relatos": {
   "decreto-6x1-adiado": {
    "n": 1,
@@ -900,7 +370,7 @@
    "ultima": "21/11 08h30",
    "ultima_iso": "2026-11-21T08:30-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 2.9,
+   "horas_sem_atualizar": 3.1,
    "principal": true,
    "manchetes": [
     {
@@ -908,40 +378,6 @@
      "titulo": "Decreto do fim da escala 6 x 1 é omisso e contraria STF, dizem associações",
      "url": "https://valor.globo.com/legislacao/noticia/2026/11/21/decreto-do-fim-da-escala-6-x-1-e-omisso-e-contraria-stf-dizem-associacoes.ghtml",
      "hora": "21/11 08h30"
-    }
-   ]
-  },
-  "bolsonaro-hospital-dores-abdominais": {
-   "n": 3,
-   "n_fontes": 2,
-   "fontes": [
-    "ex",
-    "met"
-   ],
-   "n_fontes_90min": 2,
-   "ultima": "21/11 09h01",
-   "ultima_iso": "2026-11-21T09:01-03:00",
-   "pauta_atualizada_em": "2026-11-20T19:48-03:00",
-   "horas_sem_atualizar": 14.0,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Bolsonaro pode passar por nova cirurgia após piora no estado de saúde, diz Carlos",
-     "url": "https://exame.com/brasil/bolsonaro-pode-passar-por-nova-cirurgia-apos-piora-no-estado-de-saude-diz-carlos/",
-     "hora": "21/11 09h01"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Facada, cirurgias e internações: relembre o histórico de saúde de Bolsonaro",
-     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/facada-cirurgias-e-internacoes-relembre-o-historico-de-saude-de-bolsonaro",
-     "hora": "21/11 08h16"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Carlos atualiza sobre estado de saúde de Bolsonaro: \"Jamais o vi assim\"",
-     "url": "https://www.metropoles.com/brasil/carlos-atualiza-sobre-estado-de-saude-de-bolsonaro-jamais-o-vi-assim",
-     "hora": "21/11 07h30"
     }
    ]
   },
@@ -956,7 +392,7 @@
    "ultima": "21/11 09h31",
    "ultima_iso": "2026-11-21T09:31-03:00",
    "pauta_atualizada_em": "2026-11-21T06:24-03:00",
-   "horas_sem_atualizar": 3.4,
+   "horas_sem_atualizar": 3.5,
    "principal": false,
    "manchetes": [
     {
@@ -983,7 +419,7 @@
    "ultima": "21/11 08h00",
    "ultima_iso": "2026-11-21T08:00-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 2.9,
+   "horas_sem_atualizar": 3.1,
    "principal": true,
    "manchetes": [
     {
@@ -1179,99 +615,65 @@
  ],
  "avaliados": [
   {
+   "tipo": "novo",
+   "pid": null,
+   "id": null,
+   "chave": [
+    "avaliada",
+    "avaliam",
+    "bolsonaro",
+    "carlos",
+    "cirurgia",
+    "estado",
+    "estomago",
+    "exames",
+    "faz",
+    "jair",
+    "limpeza",
+    "litro",
+    "medicos",
+    "nov",
+    "passa",
+    "passar",
+    "passara",
+    "piora",
+    "possibilidade",
+    "precisar",
+    "procedimento",
+    "quase",
+    "residuos",
+    "retirados",
+    "saude",
+    "sonda",
+    "teve"
+   ],
+   "n_fontes": 7,
+   "em": "2026-11-21T09:45-03:00"
+  },
+  {
    "tipo": "pauta",
-   "pid": "caso-master",
+   "pid": "bolsonaro-hospital-dores-abdominais",
    "id": null,
    "chave": null,
-   "n_fontes": 3,
-   "em": "2026-11-20T21:48-03:00"
+   "n_fontes": 2,
+   "em": "2026-11-21T09:45-03:00"
   }
  ],
  "breves_no_feed": 12,
  "breves_faltam": 0,
- "breves_sugeridas": [
-  {
-   "assunto": "Ainda dá? As contas do Palmeiras para ser campeão do Brasileiro",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ainda dá? As contas do Palmeiras para ser campeão do Brasileiro",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/ainda-da-as-contas-do-palmeiras-para-ser-campeao-do-brasileiro/",
-     "hora": "21/11 07h00"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Ainda vale algo? Veja o que está em jogo para o Palmeiras no confronto direto com o Flamengo",
-     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/21/ainda-vale-algo-veja-o-que-esta-em-jogo-para-o-palmeiras-no-confronto-direto-com-o-flamengo.ghtml",
-     "hora": "21/11 07h00"
-    },
-    {
-     "veiculo": "CartaCapital",
-     "titulo": "Palmeiras recebe o Flamengo em jogo que pode definir campeão brasileiro",
-     "url": "https://www.cartacapital.com.br/esporte/palmeiras-recebe-o-flamengo-em-jogo-que-pode-definir-campeao-brasileiro/",
-     "hora": "21/11 07h00"
-    }
-   ]
-  },
-  {
-   "assunto": "União Europeia propõe imposto de 3% sobre big techs para financiar orçamento",
-   "secao": "economia",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "União Europeia propõe imposto de 3% sobre big techs para financiar orçamento",
-     "url": "https://exame.com/mundo/uniao-europeia-propoe-imposto-de-3-sobre-big-techs-para-financiar-orcamento/",
-     "hora": "21/11 09h28"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "União Europeia propõe taxar receita de big techs para financiar orçamento",
-     "url": "https://jovempan.com.br/mundo/uniao-europeia-propoe-taxar-receita-de-big-techs-para-financiar-orcamento/",
-     "hora": "21/11 08h37"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "União Europeia propõe taxar big techs para financiar orçamento até 2034",
-     "url": "https://g1.globo.com/tecnologia/noticia/2026/11/21/uniao-europeia-propoe-taxar-big-techs-para-financiar-orcamento-ate-2034.ghtml",
-     "hora": "21/11 08h26"
-    }
-   ]
-  },
-  {
-   "assunto": "Defesa pede a Moraes permissão para filhos visitarem Bolsonaro no hospital",
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Defesa pede a Moraes permissão para filhos visitarem Bolsonaro no hospital",
-     "url": "https://www.metropoles.com/colunas/manoela-alcantara/defesa-pede-a-moraes-permissao-para-filhos-visitarem-bolsonaro-no-hospital",
-     "hora": "21/11 09h35"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Defesa de Bolsonaro pede a Moraes autorização para visitas diárias de filhos durante internação",
-     "url": "https://g1.globo.com/politica/noticia/2026/11/21/defesa-de-bolsonaro-pede-a-moraes-autorizacao-para-visitas-diarias-de-filhos-durante-internacao.ghtml",
-     "hora": "21/11 09h14"
-    }
-   ]
-  }
- ],
- "ultima_rodada": "2026-11-21T07:02-03:00",
+ "breves_sugeridas": [],
+ "ultima_rodada": "2026-11-21T09:49-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 43 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 42 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 2 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
-  "g1": "ok: 100 itens, 94 nas últimas 6 h",
+  "g1": "ok: 100 itens, 97 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 54 nas últimas 6 h",
+  "ge": "ok: 100 itens, 56 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
@@ -1285,8 +687,8 @@
   "Estadão Política": "ok: 20 itens, 4 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 1 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 3 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
-  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "Estadão Internacional": "ok: 20 itens, 4 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 65 nas últimas 6 h",
   "Valor Econômico": "ok: 100 itens, 13 nas últimas 6 h",
   "Exame": "ok: 25 itens, 24 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
