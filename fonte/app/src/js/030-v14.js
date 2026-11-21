@@ -76,9 +76,9 @@ function barraAudio(){let b=$("#abar");document.body.classList.toggle("aud-on",!
 function mostraErro(sel,msg){const el=$(sel);if(!el)return;
   /* 20/11 (testador): no Entrar/Criar conta o aviso aparecia embaixo da senha, longe do campo que faltava; agora vai logo
      abaixo do campo, que fica marcado e recebe o cursor */
-  try{const f=el.closest("#lform");if(f){f.querySelectorAll(".campo-erro").forEach(x=>x.remove());f.querySelectorAll("[aria-invalid]").forEach(x=>{x.removeAttribute("aria-invalid");x.classList.remove("field-erro")});
+  try{const f=el.closest("#lform");if(f){f.querySelectorAll("[aria-invalid]").forEach(x=>{x.removeAttribute("aria-invalid");x.classList.remove("field-erro")});
     const m=String(msg||"").toLowerCase();const id=/c[óo]digo/.test(m)?"#lcod":/senha/.test(m)?"#lsenha":/e-mail|@/.test(m)?"#lemail":/nome/.test(m)?"#lnome":"";const inp=id&&f.querySelector(id);
-    if(inp){inp.setAttribute("aria-invalid","true");inp.classList.add("field-erro");const lb=inp.closest("label")||inp;lb.insertAdjacentHTML("afterend",`<p class="erro-t campo-erro" role="alert">${esc(msg)}</p>`);el.hidden=true;
+    if(inp){inp.setAttribute("aria-invalid","true");inp.classList.add("field-erro");const lb=inp.closest("label")||inp;el.textContent=msg;el.hidden=false;el.classList.add("campo-erro-at");lb.after(el);
       try{inp.focus({preventScroll:true});inp.scrollIntoView({block:"center"})}catch(e){}return}}}catch(e){}
   el.textContent=msg;el.hidden=false}
 function erroAuth(e){const m=String((e&&(e.message||e.code))||e||"").toLowerCase();
