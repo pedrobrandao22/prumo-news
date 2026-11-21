@@ -45,7 +45,9 @@ const PORTA = 9422, BASE = `http://localhost:${PORTA}/index.html`;
     ok(r.topo.includes('Atualizada às ' + hc), `${nome}: topo da Capa`, r.topo);
     ok(r.rodape.includes(hz), `${nome}: rodapé da Capa com a mesma hora`, [r.rodape, hz]);
     ok(r.feed.includes(hz), `${nome}: rodapé do Feed com a mesma hora`, [r.feed, hz]);
-    ok(r.perfil === 'edição das ' + hz, `${nome}: Perfil > Atualizações do Prumo`, [r.perfil, hz]);
+    /* 21/11: rodando logo depois da meia-noite a edição é de ontem e o Perfil diz "edição de ontem, 23h53" (certo) */
+    const ontem = new Date(r.esperado).toLocaleDateString('en-GB', { timeZone: 'America/Sao_Paulo' }) !== new Date().toLocaleDateString('en-GB', { timeZone: 'America/Sao_Paulo' });
+    ok(r.perfil === (ontem ? 'edição de ontem, ' : 'edição das ') + hz, `${nome}: Perfil > Atualizações do Prumo`, [r.perfil, hz]);
     ok(r.offl.includes(hz), `${nome}: faixa "Sem conexão" com a mesma hora`, [r.offl, hz]);
     ok(!r.tk || r.tk.includes(hz), `${nome}: "Últimas … às" com a mesma hora`, [r.tk, hz]);
     const minutos = Math.round((Date.now() - Date.parse(r.esperado)) / 6e4);

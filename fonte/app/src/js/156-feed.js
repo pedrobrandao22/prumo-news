@@ -64,7 +64,8 @@ function fd156Id(id){return String(id||"").split("#")[0]}
 {const _vp156=vn112Primeira;vn112Primeira=function(sec){const r=_vp156.apply(this,arguments);try{
   if(!FD156_EXCL||!sec||sec[0]==="_"||!r||!r.p||!FD156_EXCL.has(fd156Id(r.p.id)))return r;
   const ps=(igLista(sec).ps||[]).filter(p=>!FD156_EXCL.has(fd156Id(p.id)));const p=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
-  if(p){FD156_EXCL.add(fd156Id(p.id));return {p,t:versao(p,lente()).titulo}}}catch(e){}return r}}
+  /* 21/11: troca também no "sem repetir" do 150, senão o destaque da notícia que ficou no círculo não sumia */
+  if(p){FD156_EXCL.add(fd156Id(p.id));try{if(typeof SR150_USADAS!=="undefined"&&SR150_USADAS){SR150_USADAS.delete(r.p.id);SR150_USADAS.add(p.id)}}catch(e){}return {p,t:versao(p,lente()).titulo}}}catch(e){}return r}}
 {const _tl156=vn112Tiles;vn112Tiles=function(){FD156_EXCL=new Set();try{const u=_vp156Ult();if(u)FD156_EXCL.add(fd156Id(u));if(VIEW==="feed"||!document.getElementById("v-feed")?.hidden){const l=(LOTE&&LOTE.lista&&LOTE.lista.length?LOTE.lista:listaFeed())||[];const f=l.find(x=>x&&x.id&&pautaById(x.id));if(f)FD156_EXCL.add(fd156Id(f.id))}}catch(e){}
   try{return _tl156.apply(this,arguments)}finally{FD156_EXCL=null}}}
 function _vp156Ult(){try{const r=igLista("_ult");const i=r.itens.find(x=>!ULT_VISTOS.has(ultKey(x)))||r.itens[0];return i&&i.pid}catch(e){return null}}
