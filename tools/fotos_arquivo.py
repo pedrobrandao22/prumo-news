@@ -94,7 +94,7 @@ TEMAS = {
     "economia/Contas públicas": [("Ministério da Fazenda Brasília", ["fazenda"]), ("Esplanada dos Ministérios", ["esplanada"])],
     "economia/Mercados": [("Bolsa de Valores de São Paulo", ["bolsa de valores", "bovespa", "bm&f"]), ("B3 Brasil Bolsa Balcão", ["bolsa"])],
     "economia/Atividade econômica": [("Porto de Santos navio contêiner", ["porto de santos", "port of santos"]), ("colheita soja Brasil", ["soja", "colheita"])],
-    "economia/Empresas": [("Avenida Paulista", ["paulista"])],
+    # 20/11 (testador): a fachada da Paulista ilustrava IPO nos EUA e vazamento do iFood; sem foto genérica, fica a ilustração
     "economia/Trabalho e renda": [("carteira de trabalho", ["carteira de trabalho"]), ("operários obra construção civil Brasil", ["operário", "operarios", "construção civil", "construcao civil"])],
     "economia/Seu dinheiro": [("cédulas de reais Banco Central", ["cédulas de real", "cedulas de real", "notas de real", "reais", "brazilian real"])],
     "brasil/Segurança": [("viatura Polícia Militar", ["polícia militar", "viatura", "policia militar"])],
@@ -102,9 +102,9 @@ TEMAS = {
     "brasil/Saúde": [("Unidade Básica de Saúde", ["unidade básica", "unidade basica", "ubs"]), ("UPA pronto atendimento", ["upa", "pronto atendimento"])],
     "brasil/Meio ambiente e clima": [("enchente Brasil", ["enchente", "inundação", "chuva"]), ("floresta amazônica", ["amazônia", "amazonia", "amazon"])],
     "brasil/Infraestrutura e transporte": [("rodovia BR-116", ["br-116", "br-101", "rodovia"]), ("metrô de São Paulo trem", ["metrô de são paulo", "metro de sao paulo", "metrô"])],
-    "brasil/Sociedade": [("Avenida Paulista pedestres", ["paulista"]), ("Copacabana calçadão", ["copacabana"])],
+    "brasil/Sociedade": [("Copacabana calçadão", ["copacabana"])],
     "mundo/América Latina": [("Casa Rosada Buenos Aires", ["casa rosada"])],
-    "mundo/EUA": [("White House north facade photo", ["the white house", "white house washington", "white house in washington"]), ("United States Capitol building", ["capitol"])],
+    "mundo/EUA": [("White House north facade photo", ["the white house", "white house washington", "white house in washington"])],  # 20/11: Capitólio só para o Congresso (assunto próprio)
     "mundo/Europa": [("European Parliament Strasbourg", ["european parliament", "parlement"])],
     "mundo/Oriente Médio": [("Jerusalem Old City panorama", ["jerusalem"]), ("Knesset building", ["knesset"])],
     "mundo/Ásia": [("Tiananmen Square", ["tiananmen"])],
@@ -114,12 +114,11 @@ TEMAS = {
     "educacao/Enem e vestibulares": [("Enem candidatos fazem prova", ["enem"]), ("candidatos chegam local de prova Enem portões", ["enem", "candidatos"])],
     "educacao/Políticas": [("Ministério da Educação Brasília", ["educação", "mec"])],
     "educacao/Avaliações": [("sala de aula escola estadual alunos", ["sala de aula", "escola estadual", "escola municipal", "alunos"])],
-    "esportes/Brasileirão": [("Estádio do Maracanã", ["maracanã", "maracana"]), ("Allianz Parque", ["allianz parque"])],
-    "esportes/Copa do Brasil": [("Estádio do Maracanã", ["maracanã", "maracana"])],
+    # 20/11 (testador): Maracanã e Allianz como foto genérica mostravam o estádio de outro jogo (Palmeiras x Flamengo no
+    # Allianz com o Maracanã; playoffs da Série B com o Maracanã); estádio só pelo assunto do clube
     "esportes/Libertadores": [("taça Copa Libertadores troféu", ["libertadores"])],
     "esportes/Sul-Americana": [("Copa Sudamericana", ["sudamericana", "sul-americana"])],
     "esportes/Seleção": [("Brazil national football team 2022", ["brazil national football team", "seleção brasileira", "selecao brasileira"])],
-    "esportes/Clubes": [("Estádio do Maracanã", ["maracanã", "maracana"])],
     "esportes/Outros esportes": [("Ginásio do Ibirapuera arena", ["ginásio do ibirapuera", "ginasio do ibirapuera"])],
 }
 # assuntos citados no título (lugar, clube, objeto): nome → (palavras no título [maiúsculas contam], busca no Commons,
@@ -164,7 +163,7 @@ ASSUNTOS = {
     "vacinação e saúde": (["vacina", "vacinas", "vacinação", "mpox", "dengue", "gripe", "surto"], "vacinação Brasil posto de saúde", ["vacina", "vaccin"], None),
     "Corinthians": (["Corinthians", "Timão"], "Neo Química Arena", ["neo química", "neo quimica", "arena corinthians"], ["esportes"]),
     "Palmeiras": (["Palmeiras", "Verdão"], "Allianz Parque", ["allianz parque"], ["esportes"]),
-    "Flamengo": (["Flamengo", "Fla-Flu"], "Maracanã Flamengo torcida", ["maracanã", "maracana"], ["esportes"]),
+    "Flamengo": (["Flamengo", "Fla-Flu"], "Estádio do Maracanã", ["maracanã", "maracana"], ["esportes"]),
     "Vasco": (["Vasco"], "Estádio São Januário", ["são januário", "sao januario"], ["esportes"]),
     "Botafogo": (["Botafogo"], "Estádio Nilton Santos", ["nilton santos", "engenhão", "engenhao"], ["esportes"]),
     "Grêmio": (["Grêmio"], "Arena do Grêmio", ["arena do grêmio", "arena do gremio"], ["esportes"]),
@@ -255,8 +254,9 @@ ASSUNTOS_BR = {
     "Universidade": (["universidade", "universidades", "Fies", "Prouni", "faculdade", "Capes", "CNPq"], "campus universidade federal Brasil", ["universidade", "campus"], ["educacao"]),
     "Seleção Brasileira": (["Seleção", "seleção brasileira", "Ancelotti"], "Seleção Brasileira de futebol torcida", ["seleção brasileira", "selecao brasileira", "brazil national football"], ["esportes"]),
     "Torneios sul-americanos": (["Libertadores", "Sul-Americana", "Conmebol"], "estádio de futebol torcida América do Sul", ["estadio", "estádio", "stadium"], ["esportes"]),
-    "Série B": (["Série B", "acesso à Série A", "playoffs"], "estádio de futebol Brasil arquibancada", ["estadio", "estádio", "stadium"], ["esportes"]),
-    "Estados Unidos": (["EUA", "Estados Unidos", "Washington", "governo Trump", "americano", "americana"], "Washington Capitol building", ["capitol", "washington"], None),
+    # 20/11: "Série B" sem foto genérica (a busca "estádio de futebol Brasil" trazia o Maracanã visto do alto)
+    "Estados Unidos": (["EUA", "Estados Unidos", "Washington", "governo Trump", "americano", "americana"], "White House north facade photo", ["white house"], None),
+    "Congresso dos EUA": (["Congresso dos EUA", "Congresso americano", "Capitólio", "Senado americano", "Câmara dos EUA", "Câmara dos Representantes"], "United States Capitol building", ["capitol"], None),
     "Turquia": (["Turquia", "turco", "turca", "Erdogan", "Ancara", "Istambul"], "Istanbul skyline Bosphorus", ["istanbul", "bosphorus"], None),
     "Equador": (["Equador", "equatoriano", "equatoriana", "Quito"], "Quito panorama", ["quito"], None),
     "Clima e COP": (["COP31", "COP30", "COP", "mudança climática", "crise climática", "clima"], "United Nations climate conference plenary", ["cop2", "cop3", "climate"], None),
@@ -290,7 +290,11 @@ BLOQUEADAS = ["america-pachuca copa sudamericana",  # jogo mexicano na final Atl
               "brasil barragem de 3 marias", "arbitro futebol apontando estadio",
               "carlo ancelotti 2016 icc",
               "200 anos do senado federal", "bosque campus universidade",
-              "vista de goiania a partir da faculdade"]  # corretor 17/11 noite: paisagem de palmeiras e estacionamento no Fies  # 17/11: P&B da promulgação de 1988 como "plenário do Senado" no ajuste fiscal; galhos contra o céu no Fies  # 16/11 noite: Ancelotti de corpo inteiro com a camisa do Bayern na notícia da Seleção (rosto cortado)  # 16/11: selo postal de MG na chuva da Bahia; árbitro de outro jogo na Série B
+              "vista de goiania a partir da faculdade",
+              # 20/11 (testador): taça de 2016 da Chapecoense na final Atlético-MG x Boca; Paulista em IPO nos EUA e no iFood;
+              # Maracanã panorâmico de 640×174 (borrado no Feed) e Maracanã visto do alto nos playoffs da Série B
+              "taca da copa sul-americana de 2016", "parque avenida building", "reflection of parque cultural paulista",
+              "estadio do maracana - panorama"]  # corretor 17/11 noite: paisagem de palmeiras e estacionamento no Fies  # 17/11: P&B da promulgação de 1988 como "plenário do Senado" no ajuste fiscal; galhos contra o céu no Fies  # 16/11 noite: Ancelotti de corpo inteiro com a camisa do Bayern na notícia da Seleção (rosto cortado)  # 16/11: selo postal de MG na chuva da Bahia; árbitro de outro jogo na Série B
 # por assunto: nome de arquivo que não mostra o fato (16/11: queimada no mato e simulação de queda de avião como "incêndio")
 EVITAR = {"incêndio": re.compile(r"(florest|queimad|wildfire|forest|bush ?fire|cerrado|vegetac|brigadist|crash|hercules|c-130|aircraft)")}
 # acervos históricos (foto do século passado não ilustra fato de hoje)
@@ -578,8 +582,15 @@ def tamanho_pasta(p):
 
 
 # ---------- escolha estável (não troca foto todo dia) ----------
+def fina_demais(f):
+    """20/11 (testador): foto em tira (640×174) fica borrada e cortada no quadro do Feed."""
+    try: w, h = int(f.get("w") or 0), int(f.get("h") or 0)
+    except (TypeError, ValueError): return False
+    return bool(w and h and (h < 280 or w / h > 2.3))
+
+
 def valida_velha(f):
-    return isinstance(f, dict) and not bloqueada(f) and isinstance(f.get("url"), str) and f["url"].startswith("https://") and not FORA.search(norm(f["url"].rsplit("/", 1)[-1]).replace("_", " ")) and not NEGADAS.search(norm(urllib.parse.unquote(f["url"].rsplit("/", 1)[-1])).replace("_", " "))
+    return isinstance(f, dict) and not fina_demais(f) and not bloqueada(f) and isinstance(f.get("url"), str) and f["url"].startswith("https://") and not FORA.search(norm(f["url"].rsplit("/", 1)[-1]).replace("_", " ")) and not NEGADAS.search(norm(urllib.parse.unquote(f["url"].rsplit("/", 1)[-1])).replace("_", " "))
 
 
 def completa(f):
