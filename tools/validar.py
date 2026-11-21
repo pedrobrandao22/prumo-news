@@ -822,6 +822,8 @@ TEMA_GENERICO = {"stf", "supremo", "judiciario", "mercado", "mercados", "governo
 # na sexta (13)"), então só conta com horário marcado na mesma frase ("às 16h30") ou com confronto "A x B"
 FUTURO_FORTE = re.compile(r"\b(reabre|reabrem|volta|voltam|ter[áa]|ser[áa]|ser[ãa]o|vai|v[ãa]o|deve|devem|estreia|estreiam|promete|prometem|prev[êe]|"
                           r"prevista?o?s?|marcad[oa]s?|agendad[oa]s?|programad[oa]s?|aguarda|aguardam)\b", re.I)
+# 21/11 (testador: "Pedidos de reaplicação do Enem terminam sexta (20)" no sábado): prazo no presente com data que passou
+PRAZO_ABERTO = re.compile(r"\b(termina|terminam|acaba|acabam|encerra|encerram|[úu]ltimo dia|fecha o prazo|prazo (?:vai|é|termina|vence))\b", re.I)  # "vence" sozinho é vitória
 FUTURO_PRESENTE = re.compile(r"\b(fecha|fecham|come[çc]a|come[çc]am|abre|abrem|decide|decidem|enfrenta|enfrentam|recebe|recebem|visita|visitam|"
                              r"pega|pegam|encara|encaram|joga|jogam|disputa|disputam|tem|t[êe]m|acontece|acontecem|ocorre|ocorrem|define|definem|"
                              r"julga|julgam|vota|votam)\b", re.I)
@@ -971,7 +973,8 @@ def checar_regras_1511(f, ant, ref, virada, IND=None, agora=None):
             for x in n.get("pontos") or []: yield f"[{p.get('id')}] neutro.pontos", p, x if isinstance(x, str) else ""
     for onde, p, t in campos_chamada():
         for cl in re.split(r";\s+|,\s+(?!às?\s+\d)(?=[A-ZÁÉÍÓÚa-zà-ú])|\s+[—–]\s+", str(t)):
-            if not (FUTURO_FORTE.search(cl) or (FUTURO_PRESENTE.search(cl) and (HORA_EVENTO.search(cl) or re.search(r"\S\s+x\s+\S", cl)))): continue
+            prazo = bool(PRAZO_ABERTO.search(cl)) and not re.search(r"\b(terminou|acabou|venceu|encerrou|terminaram|acabaram|venceram|encerraram)\b", cl, re.I)
+            if not (prazo or FUTURO_FORTE.search(cl) or (FUTURO_PRESENTE.search(cl) and (HORA_EVENTO.search(cl) or re.search(r"\S\s+x\s+\S", cl)))): continue
             for a, b, d, txt in datas_em(cl, hoje):
                 if not d: continue
                 hm = HORA_EVENTO.search(cl)
@@ -979,7 +982,7 @@ def checar_regras_1511(f, ant, ref, virada, IND=None, agora=None):
                 if not passou: continue
                 msg = (f"{onde}: anuncia no futuro um evento de {d.strftime('%d/%m')} que já passou ('{cl.strip()[:70]}'): troque pelo resultado "
                        "(placar, decisão, votação) ou tire da chamada (manual 3b, EVENTO PASSADO)")
-                (E_ if hm and onde.endswith(("titulo", "subtitulo")) else A)(msg)
+                (E_ if (hm or prazo) and onde.endswith(("titulo", "subtitulo")) else A)(msg)
                 break
 
     for p in ps:
