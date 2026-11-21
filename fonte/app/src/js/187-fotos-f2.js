@@ -103,7 +103,11 @@ faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep(
   const deLugar=f=>FT187_RE.some(x=>x[2].test(ft157Arq(f)));const fin=sec==="esportes"&&FT187_FINAL.test(fr);
   /* final (campo neutro): nenhum estádio */const tm=l=>Array.isArray(l)?l.filter(f=>!deLugar(f)).concat(fin?[]:l.filter(deLugar)):l;
   pega(tm(T[sec+"/"+(p.subtema||"")]),true);pega(tm(T[(A.padrao||{})[sec]]),true);
-  return L};
+  /* 20/11 (testador): Capitólio só em notícia do Congresso dos EUA (a licença de chips era do Departamento de Comércio);
+     foto em tira (640×174) fica borrada no quadro. Vale para todas as listas (lugar e mandante também), igual a paginas.py */
+  const cong=/Congresso|Capit[óo]lio|Senado (?:americano|dos EUA)|C[âa]mara dos (?:EUA|Representantes)/.test(tit);
+  const ruim=f=>(!cong&&/capitol/i.test(ft157Arq(f)))||!!(f&&f.w&&f.h&&(f.h<280||f.w/f.h>2.3));
+  return L.map(l=>{const o=l.filter(f=>!ruim(f));["ft187o","ft187n"].forEach(k=>{if(l[k])o[k]=l[k]});return o}).filter(l=>l.length)};
 
 /* foto própria: "mostra" precisa partilhar um nome (pessoa, lugar, sigla, código) com o título — igual a confirma() em paginas.py */
 var FT187_STOP=new Set(["a","o","as","os","e","em","no","na","nos","nas","de","do","da","dos","das","um","uma","com","por","para","pelo","pela",

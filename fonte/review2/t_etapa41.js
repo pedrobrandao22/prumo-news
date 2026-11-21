@@ -4,7 +4,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
 (async () => {
   const S0 = __dirname + '/../site/';
   const f = JSON.parse(fs.readFileSync(require('../t_util').REPO + '/feed.json', 'utf8')); f.atualizado_em = new Date(Date.now() - 3 * 3600e3 - 5 * 60e3).toISOString().slice(0, 16) + ':00-03:00';
-  const ps = f.pautas.find(p => Array.isArray(p.social)) || f.pautas[0]; ps.social = ['R$ 44.008,52: é o subsídio bruto do senador.', 'Cada falta gera desconto.', 'E agora? Alcolumbre não respondeu.'];
+  const ps = f.pautas.find(p => Array.isArray(p.social)) || f.pautas[0]; ps.social = ['R$ 44.008,52: é o subsídio bruto do senador.', 'Cada falta gera desconto.', 'Alcolumbre não respondeu.'];
   const pe = f.pautas.find(p => p.enquete && p.id !== ps.id);
   fs.writeFileSync(S0 + 'feed.json', JSON.stringify(f)); fs.copyFileSync(require('../t_util').REPO + '/fotos-arquivo.json', S0 + 'fotos-arquivo.json');
   const jpg = fs.readFileSync(__dirname + '/etapa13/foto.jpg');

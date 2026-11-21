@@ -13,7 +13,7 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   const p = U.erros(await ctx.newPage(), 'c'); await p.goto('http://localhost:8801/index.html'); await esperar(p, () => FEED && document.querySelector('#v-capa .cpi'), null, 10000); await sleep(1200);
   ok(await p.evaluate(() => { const i = document.querySelector('#v-capa .cpi-man img'); return i && i.getAttribute('loading') === 'eager' && i.getAttribute('fetchpriority') === 'high' && i.classList.contains('ok') && getComputedStyle(i).opacity === '1' }), 'foto da manchete: carrega primeiro e aparece');
   ok(await p.evaluate(() => { const m = document.querySelector('meta[property="og:image"]'); return m && /og-padrao\.png$/.test(m.content) }), 'prévia do site (og:image)');
-  const mid = await p.evaluate(() => { const ok = FEED.pautas.find(q => q.subtema && FEED.pautas.filter(z => z.secao === q.secao && z.subtema === q.subtema).length >= 4); return (ok || FEED.pautas[0]).id });
+  const mid = await p.evaluate(() => { const h0 = q => (q.hashtags || [])[0]; const ok = FEED.pautas.find(q => FEED.pautas.filter(z => z !== q && ((q.tema && z.tema === q.tema) || (h0(q) && (z.hashtags || []).includes(h0(q))))).length >= 2);  /* 20/11: relacionadas por assunto/hashtag */ return (ok || FEED.pautas[0]).id });
   await p.evaluate(id => abrirMateria(id), mid); await sleep(500);
   ok(await p.evaluate(() => /\d+ min de leitura/.test(document.querySelector('#layer .mat-meta').textContent)), 'min de leitura');
   ok(await p.evaluate(() => document.activeElement === document.querySelector('#layer .mat h1')), 'foco vai para o título');
