@@ -1,11 +1,11 @@
 {
- "gerado": "2026-11-22T19:10-03:00",
+ "gerado": "2026-11-22T19:21-03:00",
  "desde": "2026-11-22T17:40-03:00",
  "feed_atualizado_em": "2026-11-22T17:50:00-03:00",
  "resumo": {
-  "manchetes": 139,
+  "manchetes": 156,
   "assuntos_novos_relevantes": 3,
-  "assuntos_novos": 106,
+  "assuntos_novos": 116,
   "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 11,
@@ -13,14 +13,14 @@
   "ja_avaliados": 0
  },
  "acionar": true,
- "acionar_motivo": "pauta principal caso-master sem atualização há 12.3 h e 2 veículos com relatos novos; assunto novo: 4 veículos em 90 min (brasil)",
+ "acionar_motivo": "pauta principal caso-master sem atualização há 12.5 h e 2 veículos com relatos novos; assunto novo: 5 veículos em 90 min (brasil)",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "caso-master",
    "titulo": "Gilmar Mendes cita caso Master, diz que STF é “poderoso”, mas fala em falta de “autocontenção” à Corte",
    "n_fontes": 2,
-   "motivo": "pauta principal caso-master sem atualização há 12.3 h e 2 veículos com relatos novos",
+   "motivo": "pauta principal caso-master sem atualização há 12.5 h e 2 veículos com relatos novos",
    "acao": "atualiza: caso-master",
    "manchetes": [
     {
@@ -41,10 +41,10 @@
   },
   {
    "tipo": "novo",
-   "titulo": "São Paulo entra em alerta para alagamentos; Defesa Civil emite aviso de risco severo",
+   "titulo": "Defesa Civil emite alerta severo para chuvas na grande São Paulo",
    "secao": "brasil",
-   "n_fontes": 4,
-   "motivo": "assunto novo: 4 veículos em 90 min (brasil)",
+   "n_fontes": 5,
+   "motivo": "assunto novo: 5 veículos em 90 min (brasil)",
    "chave": [
     "alagamentos",
     "alerta",
@@ -58,6 +58,7 @@
     "emite",
     "entra",
     "estado",
+    "grande",
     "mortos",
     "paulo",
     "risco",
@@ -66,6 +67,13 @@
    ],
    "acao": "nova",
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Defesa Civil emite alerta severo para chuvas na grande São Paulo",
+     "url": "https://www.cnnbrasil.com.br/nacional/brasil/defesa-civil-emite-alerta-severo-para-chuvas-na-grande-sao-paulo/",
+     "hora": "22/11 18h58",
+     "lide": "Comunicado prevê raios, vento e condição para granizos na capital e também em cidades vizinhas; ao todo, 25 alertas foram emitidos neste domingo"
+    },
     {
      "veiculo": "Exame",
      "titulo": "São Paulo entra em alerta para alagamentos; Defesa Civil emite aviso de risco severo",
@@ -78,19 +86,95 @@
      "url": "https://www.metropoles.com/sao-paulo/alerta-severo-cidade-de-sp-entra-em-estado-de-atencao-para-alagamentos",
      "hora": "22/11 18h45",
      "lide": "Celulares de várias áreas da capital receberam um \"alerta severo\" da Defesa Civil neste domingo (22/11) para chuvas com raios e granizo"
-    },
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Defesa Civil alerta para novos temporais no RS após chuvas que deixaram 5 mortos",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/defesa-civil-alerta-para-novos-temporais-no-rs-apos-chuvas-que-deixaram-5-mortos.shtml",
-     "hora": "22/11 18h27",
-     "lide": "Terça-feira (24) deve ser o dia mais crítico, com possibilidade de granizo, ventos acima de 80 km/h e chuva intensa"
     }
    ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Defesa Civil emite alerta severo para chuvas na grande São Paulo",
+   "secao": "brasil",
+   "n_fontes": 5,
+   "fontes": [
+    "cnn",
+    "ex",
+    "folha",
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Defesa Civil emite alerta severo para chuvas na grande São Paulo",
+     "url": "https://www.cnnbrasil.com.br/nacional/brasil/defesa-civil-emite-alerta-severo-para-chuvas-na-grande-sao-paulo/",
+     "hora": "22/11 18h58"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "São Paulo entra em alerta para alagamentos; Defesa Civil emite aviso de risco severo",
+     "url": "https://exame.com/brasil/sao-paulo-entra-em-alerta-para-alagamentos-defesa-civil-emite-aviso-de-risco-severo/",
+     "hora": "22/11 18h47"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Alerta severo: Cidade de SP entra em estado de atenção para alagamentos",
+     "url": "https://www.metropoles.com/sao-paulo/alerta-severo-cidade-de-sp-entra-em-estado-de-atencao-para-alagamentos",
+     "hora": "22/11 18h45"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Defesa Civil alerta para novos temporais no RS após chuvas que deixaram 5 mortos",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/defesa-civil-alerta-para-novos-temporais-no-rs-apos-chuvas-que-deixaram-5-mortos.shtml",
+     "hora": "22/11 18h27"
+    }
+   ],
+   "n_fontes_90min": 5,
+   "ultima_iso": "2026-11-22T18:58-03:00"
+  },
+  {
+   "assunto": "Athletico 4x2 Remo: gols e melhores momentos do jogo do Brasileiro",
+   "secao": "esportes",
+   "n_fontes": 4,
+   "fontes": [
+    "cc",
+    "cnn",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Athletico 4x2 Remo: gols e melhores momentos do jogo do Brasileiro",
+     "url": "https://ge.globo.com/pr/futebol/times/athletico-pr/noticia/2026/11/22/athletico-4x2-remo-gols-e-melhores-momentos-do-jogo-do-brasileiro.ghtml",
+     "hora": "22/11 18h47"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Athletico vence e confirma rebaixamento do Remo à Série B do Brasileiro",
+     "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/22-11-2026/athletico-pr-remo.ghtml",
+     "hora": "22/11 18h28"
+    },
+    {
+     "veiculo": "CartaCapital",
+     "titulo": "Athletico vence e rebaixa o Remo para a Série B",
+     "url": "https://www.cartacapital.com.br/esporte/athletico-vence-e-rebaixa-o-remo-para-a-serie-b/",
+     "hora": "22/11 18h28"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Athletico-PR vence, rebaixa o Remo e encaminha vaga na Libertadores",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/athletico-pr-vence-rebaixa-o-remo-e-encaminha-vaga-na-libertadores/",
+     "hora": "22/11 18h00"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-22T18:47-03:00"
+  },
   {
    "assunto": "Criciúma vence o Fortaleza e fica a um empate da Série A",
    "secao": "esportes",
@@ -134,85 +218,31 @@
    "pid_provavel": "serie-b-38-rodada-final"
   },
   {
-   "assunto": "São Paulo entra em alerta para alagamentos; Defesa Civil emite aviso de risco severo",
-   "secao": "brasil",
-   "n_fontes": 4,
+   "assunto": "COP31 desperdiça oportunidade e abusa da paciência de negociadores, segundo especialistas",
+   "secao": "mundo",
+   "n_fontes": 2,
    "fontes": [
-    "ex",
     "folha",
-    "g1",
-    "met"
+    "nexo"
    ],
    "ja_e_breve": false,
-   "relevante": true,
+   "relevante": false,
    "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "São Paulo entra em alerta para alagamentos; Defesa Civil emite aviso de risco severo",
-     "url": "https://exame.com/brasil/sao-paulo-entra-em-alerta-para-alagamentos-defesa-civil-emite-aviso-de-risco-severo/",
-     "hora": "22/11 18h47"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Alerta severo: Cidade de SP entra em estado de atenção para alagamentos",
-     "url": "https://www.metropoles.com/sao-paulo/alerta-severo-cidade-de-sp-entra-em-estado-de-atencao-para-alagamentos",
-     "hora": "22/11 18h45"
-    },
     {
      "veiculo": "Folha Cotidiano",
-     "titulo": "Defesa Civil alerta para novos temporais no RS após chuvas que deixaram 5 mortos",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/defesa-civil-alerta-para-novos-temporais-no-rs-apos-chuvas-que-deixaram-5-mortos.shtml",
-     "hora": "22/11 18h27"
+     "titulo": "COP31 desperdiça oportunidade e abusa da paciência de negociadores, segundo especialistas",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/ambiente/2026/11/cop31-desperdica-oportunidade-e-abusa-da-paciencia-de-negociadores-segundo-especialistas.shtml",
+     "hora": "22/11 19h15"
     },
     {
-     "veiculo": "g1",
-     "titulo": "Cidade de SP entra em estado de atenção para alagamentos; Defesa Civil emite alerta severo",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/22/cidade-de-sp-entra-em-estado-de-atencao-para-alagamentos-defesa-civil-emite-alerta-severo.ghtml",
-     "hora": "22/11 18h08"
+     "veiculo": "Nexo",
+     "titulo": "A frustração com a COP31, segundo quem estava lá",
+     "url": "https://www.nexojornal.com.br/entrevista/2026/11/22/cop-31-fracasso-impasse-sem-acordo-por-que-clima",
+     "hora": "22/11 18h56"
     }
    ],
-   "n_fontes_90min": 4,
-   "ultima_iso": "2026-11-22T18:47-03:00"
-  },
-  {
-   "assunto": "Athletico 4x2 Remo: gols e melhores momentos do jogo do Brasileiro",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "ge",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Athletico 4x2 Remo: gols e melhores momentos do jogo do Brasileiro",
-     "url": "https://ge.globo.com/pr/futebol/times/athletico-pr/noticia/2026/11/22/athletico-4x2-remo-gols-e-melhores-momentos-do-jogo-do-brasileiro.ghtml",
-     "hora": "22/11 18h47"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Athletico vence e confirma rebaixamento do Remo à Série B do Brasileiro",
-     "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/22-11-2026/athletico-pr-remo.ghtml",
-     "hora": "22/11 18h28"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Athletico-PR vence, rebaixa o Remo e encaminha vaga na Libertadores",
-     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/athletico-pr-vence-rebaixa-o-remo-e-encaminha-vaga-na-libertadores/",
-     "hora": "22/11 18h00"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Athletico-PR vence e Remo é o segundo rebaixado do Campeonato Brasileiro",
-     "url": "https://www.metropoles.com/esportes/athletico-pr-vence-e-remo-e-o-segundo-rebaixado-do-campeonato-brasileiro",
-     "hora": "22/11 17h59"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-22T18:47-03:00"
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-22T19:15-03:00"
   },
   {
    "assunto": "Diretor da OMS pede paz em província do Congo afetada por ebola",
@@ -296,6 +326,66 @@
    "ultima_iso": "2026-11-22T18:12-03:00"
   },
   {
+   "assunto": "Unesp 2027: gabarito da 1ª fase do vestibular é divulgado",
+   "secao": "educacao",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Unesp 2027: gabarito da 1ª fase do vestibular é divulgado",
+     "url": "https://www.cnnbrasil.com.br/educacao/unesp-2027-gabarito-da-1a-fase-do-vestibular-e-divulgado/",
+     "hora": "22/11 19h01"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Unesp 2027: veja gabarito oficial da 1ª fase do vestibular e resolução comentada",
+     "url": "https://g1.globo.com/sp/sao-carlos-regiao/educacao/noticia/2026/11/22/unesp-2027-veja-gabarito-oficial-da-1a-fase-do-vestibular-e-resolucao-comentada.ghtml",
+     "hora": "22/11 18h19"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Unesp 2027: Candidatos falam sobre dificuldades e temas da 1ª fase; g1 terá gabarito e resolução ao vivo",
+     "url": "https://g1.globo.com/sp/sao-carlos-regiao/educacao/ao-vivo/unesp-2027-correcao-ao-vivo-1-fase.ghtml",
+     "hora": "22/11 18h00"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-22T19:01-03:00"
+  },
+  {
+   "assunto": "Zagueiro do Remo se recusa a falar sobre rebaixamento e critica Athletico e CBF",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Zagueiro do Remo se recusa a falar sobre rebaixamento e critica Athletico e CBF",
+     "url": "https://ge.globo.com/pa/futebol/times/remo/noticia/2026/11/22/zagueiro-do-remo-se-recusa-a-falar-sobre-rebaixamento-e-critica-athletico-e-cbf.ghtml",
+     "hora": "22/11 19h02"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Capitão do Remo desabafa após rebaixamento e detona CBF por “descaso”",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/capitao-do-remo-desabafa-apos-rebaixamento-e-detona-cbf-por-descaso/",
+     "hora": "22/11 18h50"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-22T19:02-03:00"
+  },
+  {
    "assunto": "Zanin interrompe julgamento virtual que pode tornar ex-ministro de Lula réu",
    "secao": "politica",
    "n_fontes": 2,
@@ -361,26 +451,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T18:40-03:00"
-  },
-  {
-   "assunto": "A frustração com a COP31, segundo quem estava lá",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "nexo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Nexo",
-     "titulo": "A frustração com a COP31, segundo quem estava lá",
-     "url": "https://www.nexojornal.com.br/entrevista/2026/11/22/cop-31-fracasso-impasse-sem-acordo-por-que-clima",
-     "hora": "22/11 18h56"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:56-03:00"
   },
   {
    "assunto": "A maior ilha marítima do Brasil tem 43 praias, cerca de 360 cachoeiras e o pico mais alto do litoral paulista, com 1.379 metros de altitude",
@@ -521,6 +591,58 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T17:55-03:00"
+  },
+  {
+   "assunto": "Athletico-PR 4 x 2 Remo: veja os melhores momentos pelo Brasileirão",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Athletico-PR 4 x 2 Remo: veja os melhores momentos pelo Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/athletico-pr-4-x-2-remo-veja-os-melhores-momentos-pelo-brasileirao/",
+     "hora": "22/11 18h56"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T18:56-03:00"
+  },
+  {
+   "assunto": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/go/futebol/brasileirao-serie-b/jogo/22-11-2026/atletico-go-vila-nova.ghtml",
+     "hora": "22/11 19h13"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Fluminense x Mirassol - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/22-11-2026/fluminense-mirassol.ghtml",
+     "hora": "22/11 19h12"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Bragantino x Vasco - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/sp/vale-do-paraiba-regiao/futebol/brasileirao-serie-a/jogo/22-11-2026/bragantino-vasco.ghtml",
+     "hora": "22/11 19h09"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T19:13-03:00"
   },
   {
    "assunto": "Atuações do Criciúma: Hermes é o melhor em campo com golaço; dê suas notas",
@@ -697,7 +819,7 @@
    "ultima_iso": "2026-11-22T18:30-03:00"
   },
   {
-   "assunto": "Com show surpresa de Ludmilla, Parada LGBTI+ em Copacabana tem começo de desfile atrasado, mas com grande público",
+   "assunto": "Com show surpresa de Ludmilla, Parada LGBTI+ em Copacabana tem desfile marcado por calor, diversidade e grande público",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -708,100 +830,26 @@
    "manchetes": [
     {
      "veiculo": "O Globo",
-     "titulo": "Com show surpresa de Ludmilla, Parada LGBTI+ em Copacabana tem começo de desfile atrasado, mas com grande público",
+     "titulo": "Com show surpresa de Ludmilla, Parada LGBTI+ em Copacabana tem desfile marcado por calor, diversidade e grande público",
      "url": "https://oglobo.globo.com/rio/noticia/2026/11/22/com-show-surpresa-de-ludmilla-parada-lgbti-em-copacabana-tem-comeco-de-desfile-atrasado-mas-com-grande-publico.ghtml",
      "hora": "22/11 18h09"
     }
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T18:09-03:00"
-  },
-  {
-   "assunto": "Com um jogador a mais, Liverpool amassa o United na estreia de Pochettino",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Com um jogador a mais, Liverpool amassa o United na estreia de Pochettino",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-ingles/jogo/22-11-2026/Liverpool-Manchesterunited.ghtml",
-     "hora": "22/11 18h03"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:03-03:00"
-  },
-  {
-   "assunto": "Como dois refrigeradores abandonados pelo exército dos EUA na Toscana deram origem ao sorvete italiano",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Como dois refrigeradores abandonados pelo exército dos EUA na Toscana deram origem ao sorvete italiano",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/22/como-dois-refrigeradores-abandonados-pelo-exercito-dos-eua-na-toscana-deram-origem-ao-sorvete-italiano.ghtml",
-     "hora": "22/11 18h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:47-03:00"
-  },
-  {
-   "assunto": "Concursos e seleções em PE têm mais de 3,7 mil vagas e salários de até R$ 13,5 mil; saiba como se inscrever",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Concursos e seleções em PE têm mais de 3,7 mil vagas e salários de até R$ 13,5 mil; saiba como se inscrever",
-     "url": "https://g1.globo.com/pe/pernambuco/noticia/2026/11/22/concursos-e-selecoes-em-pe.ghtml",
-     "hora": "22/11 17h52"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T17:52-03:00"
-  },
-  {
-   "assunto": "Condenação de Bolsonaro foi “uma lição” para o mundo, diz Gilmar",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Condenação de Bolsonaro foi “uma lição” para o mundo, diz Gilmar",
-     "url": "https://oantagonista.com.br/brasil/condenacao-de-bolsonaro-foi-uma-licao-para-o-mundo-diz-gilmar/",
-     "hora": "22/11 18h48"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:48-03:00"
   }
  ],
  "em_pautas": {
   "eua-democratas-258-cadeiras-camara": {
    "secao": "mundo",
-   "n_fontes": 3,
+   "n_fontes": 4,
    "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Democratas chegam a 258 cadeiras na Câmara dos EUA, maior bancada desde 1992",
+     "url": "https://revistaoeste.com/mundo/democratas-camara-eua-258-cadeiras/",
+     "hora": "22/11 19h11"
+    },
     {
      "veiculo": "Jovem Pan",
      "titulo": "Após 19 dias de apuração, democratas alcançam maior bancada na Câmara dos EUA desde 1992",
@@ -919,7 +967,7 @@
    "ultima": "22/11 18h49",
    "ultima_iso": "2026-11-22T18:49-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 12.3,
+   "horas_sem_atualizar": 12.5,
    "principal": true,
    "manchetes": [
     {
@@ -952,7 +1000,7 @@
    "ultima": "22/11 17h06",
    "ultima_iso": "2026-11-22T17:06-03:00",
    "pauta_atualizada_em": "2026-11-22T15:50-03:00",
-   "horas_sem_atualizar": 3.3,
+   "horas_sem_atualizar": 3.5,
    "principal": true,
    "manchetes": [
     {
@@ -973,7 +1021,7 @@
    "ultima": "22/11 18h30",
    "ultima_iso": "2026-11-22T18:30-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 36.3,
+   "horas_sem_atualizar": 36.5,
    "principal": true,
    "manchetes": [
     {
@@ -994,7 +1042,7 @@
    "ultima": "22/11 19h03",
    "ultima_iso": "2026-11-22T19:03-03:00",
    "pauta_atualizada_em": "2026-11-22T04:15-03:00",
-   "horas_sem_atualizar": 14.9,
+   "horas_sem_atualizar": 15.1,
    "principal": false,
    "manchetes": [
     {
@@ -1015,7 +1063,7 @@
    "ultima": "22/11 17h14",
    "ultima_iso": "2026-11-22T17:14-03:00",
    "pauta_atualizada_em": "2026-11-22T13:48-03:00",
-   "horas_sem_atualizar": 5.4,
+   "horas_sem_atualizar": 5.6,
    "principal": false,
    "manchetes": [
     {
@@ -1038,7 +1086,7 @@
    "ultima": "22/11 18h52",
    "ultima_iso": "2026-11-22T18:52-03:00",
    "pauta_atualizada_em": "2026-11-22T09:48-03:00",
-   "horas_sem_atualizar": 9.4,
+   "horas_sem_atualizar": 9.6,
    "principal": false,
    "manchetes": [
     {
@@ -1071,7 +1119,7 @@
    "ultima": "22/11 15h56",
    "ultima_iso": "2026-11-22T15:56-03:00",
    "pauta_atualizada_em": "2026-11-22T06:00-03:00",
-   "horas_sem_atualizar": 13.2,
+   "horas_sem_atualizar": 13.4,
    "principal": false,
    "manchetes": [
     {
@@ -1092,7 +1140,7 @@
    "ultima": "22/11 18h36",
    "ultima_iso": "2026-11-22T18:36-03:00",
    "pauta_atualizada_em": "2026-11-22T17:49-03:00",
-   "horas_sem_atualizar": 1.4,
+   "horas_sem_atualizar": 1.5,
    "principal": true,
    "manchetes": [
     {
@@ -1116,7 +1164,7 @@
    "ultima": "22/11 17h03",
    "ultima_iso": "2026-11-22T17:03-03:00",
    "pauta_atualizada_em": "2026-11-22T15:01-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.3,
    "principal": false,
    "manchetes": [
     {
@@ -1146,20 +1194,27 @@
    ]
   },
   "eua-democratas-258-cadeiras-camara": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 4,
+   "n_fontes": 4,
    "fontes": [
     "ex",
     "jp",
-    "met"
+    "met",
+    "oeste"
    ],
    "n_fontes_90min": 3,
-   "ultima": "22/11 19h04",
-   "ultima_iso": "2026-11-22T19:04-03:00",
+   "ultima": "22/11 19h11",
+   "ultima_iso": "2026-11-22T19:11-03:00",
    "pauta_atualizada_em": "2026-11-22T17:40-03:00",
-   "horas_sem_atualizar": 1.5,
+   "horas_sem_atualizar": 1.7,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Democratas chegam a 258 cadeiras na Câmara dos EUA, maior bancada desde 1992",
+     "url": "https://revistaoeste.com/mundo/democratas-camara-eua-258-cadeiras/",
+     "hora": "22/11 19h11"
+    },
     {
      "veiculo": "Jovem Pan",
      "titulo": "Após 19 dias de apuração, democratas alcançam maior bancada na Câmara dos EUA desde 1992",
@@ -1192,7 +1247,7 @@
    "ultima": "22/11 18h42",
    "ultima_iso": "2026-11-22T18:42-03:00",
    "pauta_atualizada_em": "2026-11-22T17:28-03:00",
-   "horas_sem_atualizar": 1.7,
+   "horas_sem_atualizar": 1.9,
    "principal": false,
    "manchetes": [
     {
@@ -1619,7 +1674,7 @@
   {
    "assunto": "Athletico 4x2 Remo: gols e melhores momentos do jogo do Brasileiro",
    "secao": "esportes",
-   "n_fontes": 3,
+   "n_fontes": 4,
    "manchetes": [
     {
      "veiculo": "ge",
@@ -1634,16 +1689,79 @@
      "hora": "22/11 18h28"
     },
     {
+     "veiculo": "CartaCapital",
+     "titulo": "Athletico vence e rebaixa o Remo para a Série B",
+     "url": "https://www.cartacapital.com.br/esporte/athletico-vence-e-rebaixa-o-remo-para-a-serie-b/",
+     "hora": "22/11 18h28"
+    },
+    {
      "veiculo": "CNN Brasil",
      "titulo": "Athletico-PR vence, rebaixa o Remo e encaminha vaga na Libertadores",
      "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/athletico-pr-vence-rebaixa-o-remo-e-encaminha-vaga-na-libertadores/",
      "hora": "22/11 18h00"
+    }
+   ]
+  },
+  {
+   "assunto": "COP31 desperdiça oportunidade e abusa da paciência de negociadores, segundo especialistas",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "COP31 desperdiça oportunidade e abusa da paciência de negociadores, segundo especialistas",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/ambiente/2026/11/cop31-desperdica-oportunidade-e-abusa-da-paciencia-de-negociadores-segundo-especialistas.shtml",
+     "hora": "22/11 19h15"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Athletico-PR vence e Remo é o segundo rebaixado do Campeonato Brasileiro",
-     "url": "https://www.metropoles.com/esportes/athletico-pr-vence-e-remo-e-o-segundo-rebaixado-do-campeonato-brasileiro",
-     "hora": "22/11 17h59"
+     "veiculo": "Nexo",
+     "titulo": "A frustração com a COP31, segundo quem estava lá",
+     "url": "https://www.nexojornal.com.br/entrevista/2026/11/22/cop-31-fracasso-impasse-sem-acordo-por-que-clima",
+     "hora": "22/11 18h56"
+    }
+   ]
+  },
+  {
+   "assunto": "Unesp 2027: gabarito da 1ª fase do vestibular é divulgado",
+   "secao": "educacao",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Unesp 2027: gabarito da 1ª fase do vestibular é divulgado",
+     "url": "https://www.cnnbrasil.com.br/educacao/unesp-2027-gabarito-da-1a-fase-do-vestibular-e-divulgado/",
+     "hora": "22/11 19h01"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Unesp 2027: veja gabarito oficial da 1ª fase do vestibular e resolução comentada",
+     "url": "https://g1.globo.com/sp/sao-carlos-regiao/educacao/noticia/2026/11/22/unesp-2027-veja-gabarito-oficial-da-1a-fase-do-vestibular-e-resolucao-comentada.ghtml",
+     "hora": "22/11 18h19"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Unesp 2027: Candidatos falam sobre dificuldades e temas da 1ª fase; g1 terá gabarito e resolução ao vivo",
+     "url": "https://g1.globo.com/sp/sao-carlos-regiao/educacao/ao-vivo/unesp-2027-correcao-ao-vivo-1-fase.ghtml",
+     "hora": "22/11 18h00"
+    }
+   ]
+  },
+  {
+   "assunto": "Zagueiro do Remo se recusa a falar sobre rebaixamento e critica Athletico e CBF",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Zagueiro do Remo se recusa a falar sobre rebaixamento e critica Athletico e CBF",
+     "url": "https://ge.globo.com/pa/futebol/times/remo/noticia/2026/11/22/zagueiro-do-remo-se-recusa-a-falar-sobre-rebaixamento-e-critica-athletico-e-cbf.ghtml",
+     "hora": "22/11 19h02"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Capitão do Remo desabafa após rebaixamento e detona CBF por “descaso”",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/capitao-do-remo-desabafa-apos-rebaixamento-e-detona-cbf-por-descaso/",
+     "hora": "22/11 18h50"
     }
    ]
   },
@@ -1681,10 +1799,10 @@
   "ge": "ok: 100 itens, 71 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 9 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 7 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 3 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
@@ -1698,7 +1816,7 @@
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 3 nas últimas 6 h",
-  "DW Brasil": "ok: 66 itens, 5 nas últimas 6 h",
+  "DW Brasil": "ok: 65 itens, 5 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 28 itens, 5 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 0 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
