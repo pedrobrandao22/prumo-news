@@ -123,21 +123,25 @@ TEMAS = {
 }
 # assuntos citados no título (lugar, clube, objeto): nome → (palavras no título [maiúsculas contam], busca no Commons,
 # palavras no nome do arquivo, seções onde vale [None = todas]). Vêm depois das pessoas e antes do tema da seção.
+# 22/11 (corretor): países só pelo NOME do país ou da cidade, nunca pelo gentílico ("russo", "israelense", "chinês"). O app
+# fica com a primeira palavra achada no título, e o gentílico costuma ser de quem age, não do lugar do fato: "Drone russo
+# atinge prédio perto de Kiev" abria com o Kremlin, em Moscou. Sem o gentílico, vale o lugar (Kiev → Ucrânia) ou o tema.
+GENTILICOS = re.compile(r"^(?:russ[oa]s?|ucranian[oa]s?|iranian[oa]s?|israelenses?|chin[eê]s(?:a|es|as)?|venezuelan[oa]s?|argentin[oa]s?|franc[eê]s(?:a|es|as)?|espanh[oó]is|espanhol(?:a|as)?|alem(?:ão|ã|ães|ãs)|britânic[oa]s?|japon[eê]s(?:a|es|as)?|indian[oa]s?|american[oa]s?|norte-american[oa]s?|estadunidenses?|chilen[oa]s?|colombian[oa]s?|mexican[oa]s?|turc[oa]s?|palestin[oa]s?|libanes(?:a|es|as)?|sírios?|sírias?)$")
 ASSUNTOS = {
-    "Irã": (["Irã", "iraniano", "iraniana", "Teerã"], "Tehran skyline Milad Tower", ["tehran", "teheran"], None),
-    "Israel": (["Israel", "israelense", "Tel Aviv"], "Tel Aviv skyline", ["tel aviv"], None),
+    "Irã": (["Irã", "Teerã"], "Tehran skyline Milad Tower", ["tehran", "teheran"], None),
+    "Israel": (["Israel", "Tel Aviv"], "Tel Aviv skyline", ["tel aviv"], None),
     "Gaza": (["Gaza"], "Gaza City", ["gaza"], None),
-    "Ucrânia": (["Ucrânia", "ucraniano", "ucraniana", "Kiev", "Kyiv", "Oleshky"], "Kyiv Maidan Nezalezhnosti", ["kyiv", "kiev"], None),
-    "Rússia": (["Rússia", "russo", "russa", "Moscou", "Kremlin"], "Moscow Kremlin", ["kremlin", "moscow"], None),
-    "China": (["China", "chinês", "chinesa", "Pequim"], "Beijing skyline CBD", ["beijing"], None),
-    "Venezuela": (["Venezuela", "venezuelano", "Caracas"], "Caracas panorama", ["caracas"], None),
-    "Argentina": (["Argentina", "argentino", "Buenos Aires"], "Buenos Aires Obelisco", ["obelisco", "buenos aires"], None),
-    "França": (["França", "francês", "francesa", "Paris", "Lecornu", "CGT"], "Paris Eiffel Tower view", ["paris"], None),
-    "Espanha": (["Espanha", "espanhol", "espanhola", "Madri"], "Madrid Gran Via", ["madrid"], None),
-    "Alemanha": (["Alemanha", "alemão", "alemã", "Berlim"], "Berlin Reichstag", ["reichstag", "berlin"], None),
-    "Reino Unido": (["Reino Unido", "britânico", "britânica", "Londres"], "London Westminster Palace", ["westminster", "london"], None),
-    "Japão": (["Japão", "japonês", "japonesa", "Tóquio"], "Tokyo Shibuya crossing", ["tokyo", "shibuya"], None),
-    "Índia": (["Índia", "indiano", "indiana", "Nova Délhi"], "New Delhi India Gate", ["delhi", "india gate"], None),
+    "Ucrânia": (["Ucrânia", "Kiev", "Kyiv", "Oleshky"], "Kyiv Maidan Nezalezhnosti", ["kyiv", "kiev"], None),
+    "Rússia": (["Rússia", "Moscou", "Kremlin"], "Moscow Kremlin", ["kremlin", "moscow"], None),
+    "China": (["China", "Pequim"], "Beijing skyline CBD", ["beijing"], None),
+    "Venezuela": (["Venezuela", "Caracas"], "Caracas panorama", ["caracas"], None),
+    "Argentina": (["Argentina", "Buenos Aires"], "Buenos Aires Obelisco", ["obelisco", "buenos aires"], None),
+    "França": (["França", "Paris", "Lecornu", "CGT"], "Paris Eiffel Tower view", ["paris"], None),
+    "Espanha": (["Espanha", "Madri"], "Madrid Gran Via", ["madrid"], None),
+    "Alemanha": (["Alemanha", "Berlim"], "Berlin Reichstag", ["reichstag", "berlin"], None),
+    "Reino Unido": (["Reino Unido", "Londres"], "London Westminster Palace", ["westminster", "london"], None),
+    "Japão": (["Japão", "Tóquio"], "Tokyo Shibuya crossing", ["tokyo", "shibuya"], None),
+    "Índia": (["Índia", "Nova Délhi"], "New Delhi India Gate", ["delhi", "india gate"], None),
     "Catar": (["Catar", "Doha"], "Doha skyline Qatar", ["doha"], None),
     "Ormuz e petróleo": (["Ormuz", "petróleo", "Petróleo", "petroleiro", "Opep"], "oil tanker ship", ["tanker", "oil tanker"], None),
     "Petrobras": (["Petrobras"], "Petrobras plataforma de petróleo", ["petrobras", "plataforma"], None),
@@ -641,6 +645,11 @@ def alt_do_tema(f, qs):
     return f.get("alt") or f"Foto de arquivo: {qs[0][0]}"
 
 
+def chaves_do_assunto(chaves):
+    """22/11: as palavras que o app procura no título, sem gentílicos (ver GENTILICOS)."""
+    return [c for c in chaves if not GENTILICOS.match(str(c).strip())]
+
+
 def no_titulo(titulos, chaves):
     for t in titulos:
         for k in chaves:
@@ -754,7 +763,7 @@ def main(argv):
         fotos = junta(serve(velhas), [], 5)
         if len(fotos) < 4: fotos = junta(fotos, serve(busca(q, ch, n=8, sem_gente=True)), 5)
         if fotos:
-            out_a[nome] = {"chaves": chaves, "fotos": [dict(f, alt=alt_pt(f.get("alt") or f"Foto de arquivo: {q}", nome)) for f in fotos]}
+            out_a[nome] = {"chaves": chaves_do_assunto(chaves), "fotos": [dict(f, alt=alt_pt(f.get("alt") or f"Foto de arquivo: {q}", nome)) for f in fotos]}
             if secs: out_a[nome]["secoes"] = secs
         print(f"assunto {nome}: {len(fotos)}")
     if not out_p and not out_t: print("nada encontrado: arquivo anterior mantido"); return 1

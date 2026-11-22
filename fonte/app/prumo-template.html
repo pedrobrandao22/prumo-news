@@ -7979,7 +7979,7 @@ function mt202Monta(pid,manter){const p=pautaById(pid);if(!p)return;const L=lent
   h+=matTempo(p);
   try{h+=ct210LadosHTML(p,L)}catch(e){}
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().sort((a,b)=>tms(b.hora)-tms(a.hora));
-  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
+  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li data-dt185-ref="${esc(dataSP(x.hora))}"><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
   const nx=matProx(p.id);h+=matRel(p,nx);
   h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
@@ -8013,8 +8013,8 @@ function matTempo(p){
   try{p=mc1111Tempo(p)}catch(e){}
   const h0=(()=>{const vt=(Array.isArray(p.visuais)?p.visuais:[]).find(v=>v&&v.tipo==="linha_do_tempo"&&Array.isArray(v.itens)&&v.itens.length>=2);let its=[],tit="Como a história andou";
   if(vt){tit=vt.titulo||tit;its=vt.itens.filter(i=>i&&i.texto).map(i=>({q:String(i.quando||""),t:String(i.texto)}))}
-  else{const ts=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo&&x.hora);if(ts.length>=3&&tms(ts[ts.length-1].hora)-tms(ts[0].hora)>36*3600e3)its=ts.map(x=>({q:dataCurta(String(x.hora).slice(0,10)),t:x.titulo}))}
-  if(its.length<2)return "";return `<div class="mat-tl"><b>${esc(tit)}</b><ol>${its.slice(-7).map((i,k,a)=>`<li${k===a.length-1?' class="ult"':""}><time>${esc(i.q)}</time><span>${esc(i.t)}</span></li>`).join("")}</ol></div>`})();
+  else{const ts=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo&&x.hora);if(ts.length>=3&&tms(ts[ts.length-1].hora)-tms(ts[0].hora)>36*3600e3)its=ts.map(x=>({q:dataCurta(String(x.hora).slice(0,10)),t:x.titulo,r:dataSP(x.hora)}))}
+  if(its.length<2)return "";return `<div class="mat-tl"><b>${esc(tit)}</b><ol>${its.slice(-7).map((i,k,a)=>`<li${k===a.length-1?' class="ult"':""}${i.r?` data-dt185-ref="${esc(i.r)}"`:""}><time>${esc(i.q)}</time><span>${esc(i.t)}</span></li>`).join("")}</ol></div>`})();
   /* 104: data que ainda vai acontecer aparece como próximo passo */
   const h1=(h=>{if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
   const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll("li")];let fut=0;
@@ -8681,7 +8681,7 @@ function cobLinha(p){const it=[];const tt=p.titulos||[];
   (p.atualizacoes||[]).forEach(u=>{if(!/^Correção: /.test(u.texto||""))it.push({h:u.hora,c:"",k:"Atualização",x:u.texto})});
   (p.correcoes||[]).forEach(u=>it.push({h:u.hora,c:"fx",k:"Correção",x:u.texto}));
   it.sort((a,b)=>tms(b.h)-tms(a.h));
-  return it.length?`<ol class="pct">${it.map(i=>`<li class="${i.c}"><small>${esc(i.k)} · ${esc(cobDH(i.h))}</small>${i.b?`<b>${esc(i.x)}</b>`:`<span>${esc(i.x)}</span>`}</li>`).join("")}</ol>`:""}
+  return it.length?`<ol class="pct">${it.map(i=>`<li class="${i.c}" data-dt185-ref="${esc(dataSP(i.h))}"><small>${esc(i.k)} · ${esc(cobDH(i.h))}</small>${i.b?`<b>${esc(i.x)}</b>`:`<span>${esc(i.x)}</span>`}</li>`).join("")}</ol>`:""}
 function cobEtapas(p){const e=p.etapa;if(!e||!Array.isArray(e.passos)||e.passos.length<2)return "";const a=Math.max(0,Math.min(e.passos.length-1,e.atual|0));
   return `<ol class="etp" aria-label="Etapas">${e.passos.map((x,i)=>`<li class="${i<a?"ok":i===a?"ok at":""}"${i===a?' aria-current="step"':""}>${esc(x)}</li>`).join("")}</ol>`}
 function abrirDormente(id){const d=(FEED.dormentes||[]).find(x=>x.id===id);if(!d){toast("Esta cobertura não está mais disponível.");return}uso("dormente");
@@ -11598,7 +11598,7 @@ function asDesenha(){const el=$("#layer .pfv-as");if(!el)return;const d=asDados(
     <p class="as-sub"><span class="secdot" style="background:${cor}"></span>${d.agora.length?`${d.agora.length} ${d.agora.length===1?"história no ar":"histórias no ar"}`:"Nada no ar agora"}${d.antes.length?` · ${d.antes.length} dos últimos dias`:""}${d.lidas?` · você leu ${d.lidas}`:""}</p>
     ${d.agora.length?`<h4 class="as-h">Agora</h4><ul class="as-l">${d.agora.map(p=>`<li><button type="button" data-ascob="${esc(p.id)}"><span class="as-t">${cobStatus(p)}<b>${esc(versao(p,lente()).titulo)}</b></span><small>${esc(temaDe(p)||p.tag||"")} · atualizada ${esc(quando(ultimaAtualizacao(p)||p.hora))}${seguido(p)?" · seguindo":""}</small></button></li>`).join("")}</ul>`:""}
     ${d.ev.length?`<h4 class="as-h">Linha do tempo</h4><ol class="as-tl" style="--c:${cor}">${d.ev.map(x=>{const nd=asDia(x.t);const cab=nd!==dia?`<li class="as-d">${esc(nd)}</li>`:"";dia=nd;
-      return cab+`<li><button type="button" ${x.viva?`data-ascob="${esc(x.ref)}"`:`data-asdorm="${esc(x.ref)}"`}><i>${esc(hhmm(new Date(x.t).toISOString()))}</i><span><small>${esc(x.tema)}</small>${esc(x.txt)}</span></button></li>`}).join("")}</ol>`:""}
+      return cab+`<li data-dt185-ref="${esc(dataSP(new Date(x.t).toISOString()))}"><button type="button" ${x.viva?`data-ascob="${esc(x.ref)}"`:`data-asdorm="${esc(x.ref)}"`}><i>${esc(hhmm(new Date(x.t).toISOString()))}</i><span><small>${esc(x.tema)}</small>${esc(x.txt)}</span></button></li>`}).join("")}</ol>`:""}
     ${d.antes.length?`<h4 class="as-h">Dos últimos dias</h4><ul class="as-l">${d.antes.map(x=>`<li><button type="button" data-asdorm="${esc(x.id)}"><span class="as-t">${cobStatus(x)}<b>${esc(x.titulo)}</b></span><small>${esc([x.tema||x.tag||"",x.ultima?quando(x.ultima):""].filter(Boolean).join(" · "))}</small></button></li>`).join("")}</ul>`:""}
   </div>`}
 function abrirAssunto(sub){if(!sub||!FEED)return;uso("assunto");if($("#layer").innerHTML)closeLayer();
@@ -13355,7 +13355,13 @@ function fc107NoPost(h,pid){if(fc107Agrupa()&&!/^_/.test(FILTRO))return h;const 
 /* ===== 3. barra de publicar: sugere a manchete (ou o próximo destaque que a pessoa ainda não comentou) ===== */
 function fc107Sugestao(){try{if(!FEED)return null;const {man,dest}=capaEscolha();const meus=new Set(pubVisiveis().filter(x=>x.autor===S.uid&&x.pid).map(x=>x.pid));
   return [man,...(dest||[])].filter(Boolean).find(p=>!meus.has(p.id))||null}catch(e){return null}}
-function fc107Barra(){const b=$("#cn102-bar");if(!b||b.hidden)return;const p=fc107Sugestao(),k=p?p.id+"|"+lente():"";if(b.dataset.fc107===k&&(!p||b.querySelector(".fc107-barb")))return;b.dataset.fc107=k;
+function fc107Barra(){const b=$("#cn102-bar");if(!b||b.hidden)return;
+  /* 22/11 (corretor): com rascunho guardado, a caixa oferece continuar o rascunho (o toque abre o rascunho como foi guardado) */
+  let g=null;try{g=typeof cr155Le==="function"?cr155Le():null;if(g&&!String(g.tx||"").trim())g=null}catch(e){g=null}
+  if(g){const kr="r|"+(g.at||0);if(b.dataset.fc107===kr&&b.querySelector(".fc107-rasc"))return;b.dataset.fc107=kr;
+    const av=b.querySelector(".av")?b.querySelector(".av").outerHTML:avatar(S.uid),tr=String(g.tx).trim().replace(/\s+/g," ");
+    b.innerHTML=`${av}<button type="button" class="cn102-barb fc107-barb fc107-rasc" data-cn102bar><small>Continuar rascunho</small><b>${esc(tr.length>60?tr.slice(0,60)+"…":tr)}</b></button><button type="button" class="fc107-bmais" data-cn102bar aria-label="Publicar outra coisa: notícia, relato, análise ou pergunta">${CN102_SVG(CN102_ICO.mais)}</button>`;return}
+  const p=fc107Sugestao(),k=p?p.id+"|"+lente():"";if(b.dataset.fc107===k&&(!p||b.querySelector(".fc107-barb")))return;b.dataset.fc107=k;
   const av=b.querySelector(".av")?b.querySelector(".av").outerHTML:avatar(S.uid);
   if(!p){b.innerHTML=`${av}<button type="button" class="cn102-barb" data-cn102bar>Comente uma notícia ou conte o que viu…</button>`;return}
   b.innerHTML=`${av}<button type="button" class="cn102-barb fc107-barb" data-fc107sug="${esc(p.id)}"><small>O que você acha?</small><b>${esc(versao(p,lente()).titulo)}</b></button><button type="button" class="fc107-bmais" data-cn102bar aria-label="Publicar outra coisa: notícia, relato, análise ou pergunta">${CN102_SVG(CN102_ICO.mais)}</button>`}
@@ -18440,8 +18446,9 @@ const cr155K=()=>"prumo-cr155-caixa:"+(S.uid||"");
 
 /* ===== guardar o texto da caixa ===== */
 function cr155Le(){try{const o=JSON.parse(localStorage.getItem(cr155K())||"null");if(o&&typeof o.tx==="string"&&Date.now()-(+o.at||0)<14*864e5)return o}catch(e){}return null}
-function cr155Guarda(){try{const tx=String(CP152.txt||"");if(tx.trim()||CR155.pid)localStorage.setItem(cr155K(),JSON.stringify({tx:tx.slice(0,2200),pid:CR155.pid||null,at:Date.now()}));else localStorage.removeItem(cr155K())}catch(e){}}
-function cr155Limpa(){CP152.txt="";CR155.pid=null;try{localStorage.removeItem(cr155K())}catch(e){}}
+function cr155Guarda(){try{const tx=String(CP152.txt||"");if(tx.trim()||CR155.pid)localStorage.setItem(cr155K(),JSON.stringify({tx:tx.slice(0,2200),pid:CR155.pid||null,at:Date.now()}));else localStorage.removeItem(cr155K())}catch(e){}try{fc107Barra()}catch(e){}}
+/* 22/11: a caixa do Feed acompanha o rascunho na hora ("Continuar rascunho" ↔ "O que você acha?") */
+function cr155Limpa(){CP152.txt="";CR155.pid=null;try{localStorage.removeItem(cr155K())}catch(e){}try{fc107Barra()}catch(e){}}
 var CR155_GT=0;
 document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="cp152-tx")return;CP152.txt=t.value;clearTimeout(CR155_GT);CR155_GT=setTimeout(cr155Guarda,250);
   try{if(typeof menSugere==="function")menSugere(t)}catch(_){}});
@@ -20605,8 +20612,14 @@ function dt185Rel(s,hoje){s=String(s??"");if(!DT185_TEM.test(s))return s;hoje=ho
 /* texto anterior ao nó, no mesmo bloco (para não deixar "na hoje" quando o dia vem num <b> separado do "na") */
 function dt185Antes(t){let n=t,txt="";for(let i=0;i<2&&n&&!txt;i++){let p=n.previousSibling;while(p&&!txt){txt=(p.textContent||"");p=p.previousSibling}n=n.parentNode}return txt}
 
+/* 22/11 (corretor): texto com data própria (entrada da linha do tempo, atualização, manchete antiga) só ganha
+   "hoje/ontem/amanhã" quando a própria entrada é de hoje; de outro dia, a data fica escrita ("sábado (21)"), senão
+   "final de hoje" numa entrada de 17/11 parece que a final foi dia 17. A data vem de [data-dt185-ref] (AAAA-MM-DD) ou
+   do <time datetime> da própria <li>. */
+function dt185Ref(el){try{if(!el||!el.closest)return "";const a=el.closest("[data-dt185-ref]");if(a)return String(a.getAttribute("data-dt185-ref")||"").slice(0,10);
+  const li=el.closest("li");if(li){const tm=[...li.children].find(c=>c.tagName==="TIME"&&c.getAttribute("datetime"));if(tm)return String(tm.getAttribute("datetime")).slice(0,10)}}catch(e){}return ""}
 function dt185No(t){const v=t.nodeValue||"",r=DT185.m.get(t);if(!r&&!DT185_TEM.test(v))return;
-  const o=r&&r.v===v?r.o:v;let n=dt185Rel(o,DT185.dia);
+  const o=r&&r.v===v?r.o:v;const ref=dt185Ref(t.parentElement);let n=ref&&/^\d{4}-\d{2}-\d{2}$/.test(ref)&&ref!==DT185.dia?o:dt185Rel(o,DT185.dia);
   if(n!==o){DT185_RX.lastIndex=0;const m=DT185_RX.exec(o);DT185_RX.lastIndex=0;
     if(m&&m.index===0&&!/\S/.test(m[1])&&!m[2]&&!m[4]&&!m[5]&&!m[7]&&DT185_PREP_FORA.test(dt185Antes(t)))n=o}
   if(n!==v)t.nodeValue=n;if(n!==o||r){DT185.m.set(t,{o,v:n});DT185.nos.add(t)}}
@@ -21934,7 +21947,11 @@ function cp206Abre0(o){o=o||{};if(precisaConta())return;if(PUB.on===false){toast
 function cp152Abre(o){if(!(o&&o.manter))CP152.ed=null;
   o=o||{};const r=cp206Abre0.apply(this,arguments);try{if(!$("#layer > .cp152"))return r;
     if(!o.manter){const g=cr155Le();CR155.pid=null;if(g){if(!o.aba||o.aba==="post")CP152.txt=g.tx;CR155.pid=g.pid&&pautaById(g.pid)?g.pid:null}
-      if(o.pid&&pautaById(o.pid))CR155.pid=o.pid;if(CR155.pid||CP152.txt)cp152Desenha()}
+      /* 22/11 (corretor): com texto guardado, o rascunho volta como foi guardado; a notícia pedida (caixa "O que você
+         acha?" do Feed, "Publicar com comentário") não troca em silêncio a notícia do rascunho nem entra num rascunho sem notícia */
+      const rasc=!!(g&&String(g.tx||"").trim()&&(!o.aba||o.aba==="post"));
+      if(o.pid&&pautaById(o.pid)){if(!rasc)CR155.pid=o.pid;else if(o.pid!==CR155.pid)try{toast("Seu rascunho guardado voltou como estava. Publique ou descarte antes de comentar outra notícia.")}catch(_){}}
+      if(CR155.pid||CP152.txt)cp152Desenha()}
     CR155.giro=0;CR155.volta=0}catch(e){}return r}
 /* cp152Fecha: base no 152; 164 (com fotos e sem texto pede "Descartar?"; fechou: sem fotos), 155 (fechou: limpa o guardado) */
 function cp206Fecha0(){if(CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},2600);return}}

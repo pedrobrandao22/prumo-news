@@ -147,7 +147,7 @@ function cobLinha(p){const it=[];const tt=p.titulos||[];
   (p.atualizacoes||[]).forEach(u=>{if(!/^Correção: /.test(u.texto||""))it.push({h:u.hora,c:"",k:"Atualização",x:u.texto})});
   (p.correcoes||[]).forEach(u=>it.push({h:u.hora,c:"fx",k:"Correção",x:u.texto}));
   it.sort((a,b)=>tms(b.h)-tms(a.h));
-  return it.length?`<ol class="pct">${it.map(i=>`<li class="${i.c}"><small>${esc(i.k)} · ${esc(cobDH(i.h))}</small>${i.b?`<b>${esc(i.x)}</b>`:`<span>${esc(i.x)}</span>`}</li>`).join("")}</ol>`:""}
+  return it.length?`<ol class="pct">${it.map(i=>`<li class="${i.c}" data-dt185-ref="${esc(dataSP(i.h))}"><small>${esc(i.k)} · ${esc(cobDH(i.h))}</small>${i.b?`<b>${esc(i.x)}</b>`:`<span>${esc(i.x)}</span>`}</li>`).join("")}</ol>`:""}
 function cobEtapas(p){const e=p.etapa;if(!e||!Array.isArray(e.passos)||e.passos.length<2)return "";const a=Math.max(0,Math.min(e.passos.length-1,e.atual|0));
   return `<ol class="etp" aria-label="Etapas">${e.passos.map((x,i)=>`<li class="${i<a?"ok":i===a?"ok at":""}"${i===a?' aria-current="step"':""}>${esc(x)}</li>`).join("")}</ol>`}
 function abrirDormente(id){const d=(FEED.dormentes||[]).find(x=>x.id===id);if(!d){toast("Esta cobertura não está mais disponível.");return}uso("dormente");

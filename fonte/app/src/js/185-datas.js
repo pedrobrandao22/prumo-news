@@ -70,8 +70,14 @@ function dt185Rel(s,hoje){s=String(s??"");if(!DT185_TEM.test(s))return s;hoje=ho
 /* texto anterior ao nó, no mesmo bloco (para não deixar "na hoje" quando o dia vem num <b> separado do "na") */
 function dt185Antes(t){let n=t,txt="";for(let i=0;i<2&&n&&!txt;i++){let p=n.previousSibling;while(p&&!txt){txt=(p.textContent||"");p=p.previousSibling}n=n.parentNode}return txt}
 
+/* 22/11 (corretor): texto com data própria (entrada da linha do tempo, atualização, manchete antiga) só ganha
+   "hoje/ontem/amanhã" quando a própria entrada é de hoje; de outro dia, a data fica escrita ("sábado (21)"), senão
+   "final de hoje" numa entrada de 17/11 parece que a final foi dia 17. A data vem de [data-dt185-ref] (AAAA-MM-DD) ou
+   do <time datetime> da própria <li>. */
+function dt185Ref(el){try{if(!el||!el.closest)return "";const a=el.closest("[data-dt185-ref]");if(a)return String(a.getAttribute("data-dt185-ref")||"").slice(0,10);
+  const li=el.closest("li");if(li){const tm=[...li.children].find(c=>c.tagName==="TIME"&&c.getAttribute("datetime"));if(tm)return String(tm.getAttribute("datetime")).slice(0,10)}}catch(e){}return ""}
 function dt185No(t){const v=t.nodeValue||"",r=DT185.m.get(t);if(!r&&!DT185_TEM.test(v))return;
-  const o=r&&r.v===v?r.o:v;let n=dt185Rel(o,DT185.dia);
+  const o=r&&r.v===v?r.o:v;const ref=dt185Ref(t.parentElement);let n=ref&&/^\d{4}-\d{2}-\d{2}$/.test(ref)&&ref!==DT185.dia?o:dt185Rel(o,DT185.dia);
   if(n!==o){DT185_RX.lastIndex=0;const m=DT185_RX.exec(o);DT185_RX.lastIndex=0;
     if(m&&m.index===0&&!/\S/.test(m[1])&&!m[2]&&!m[4]&&!m[5]&&!m[7]&&DT185_PREP_FORA.test(dt185Antes(t)))n=o}
   if(n!==v)t.nodeValue=n;if(n!==o||r){DT185.m.set(t,{o,v:n});DT185.nos.add(t)}}

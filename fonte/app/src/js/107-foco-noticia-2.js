@@ -46,7 +46,13 @@ function fc107NoPost(h,pid){if(fc107Agrupa()&&!/^_/.test(FILTRO))return h;const 
 /* ===== 3. barra de publicar: sugere a manchete (ou o próximo destaque que a pessoa ainda não comentou) ===== */
 function fc107Sugestao(){try{if(!FEED)return null;const {man,dest}=capaEscolha();const meus=new Set(pubVisiveis().filter(x=>x.autor===S.uid&&x.pid).map(x=>x.pid));
   return [man,...(dest||[])].filter(Boolean).find(p=>!meus.has(p.id))||null}catch(e){return null}}
-function fc107Barra(){const b=$("#cn102-bar");if(!b||b.hidden)return;const p=fc107Sugestao(),k=p?p.id+"|"+lente():"";if(b.dataset.fc107===k&&(!p||b.querySelector(".fc107-barb")))return;b.dataset.fc107=k;
+function fc107Barra(){const b=$("#cn102-bar");if(!b||b.hidden)return;
+  /* 22/11 (corretor): com rascunho guardado, a caixa oferece continuar o rascunho (o toque abre o rascunho como foi guardado) */
+  let g=null;try{g=typeof cr155Le==="function"?cr155Le():null;if(g&&!String(g.tx||"").trim())g=null}catch(e){g=null}
+  if(g){const kr="r|"+(g.at||0);if(b.dataset.fc107===kr&&b.querySelector(".fc107-rasc"))return;b.dataset.fc107=kr;
+    const av=b.querySelector(".av")?b.querySelector(".av").outerHTML:avatar(S.uid),tr=String(g.tx).trim().replace(/\s+/g," ");
+    b.innerHTML=`${av}<button type="button" class="cn102-barb fc107-barb fc107-rasc" data-cn102bar><small>Continuar rascunho</small><b>${esc(tr.length>60?tr.slice(0,60)+"…":tr)}</b></button><button type="button" class="fc107-bmais" data-cn102bar aria-label="Publicar outra coisa: notícia, relato, análise ou pergunta">${CN102_SVG(CN102_ICO.mais)}</button>`;return}
+  const p=fc107Sugestao(),k=p?p.id+"|"+lente():"";if(b.dataset.fc107===k&&(!p||b.querySelector(".fc107-barb")))return;b.dataset.fc107=k;
   const av=b.querySelector(".av")?b.querySelector(".av").outerHTML:avatar(S.uid);
   if(!p){b.innerHTML=`${av}<button type="button" class="cn102-barb" data-cn102bar>Comente uma notícia ou conte o que viu…</button>`;return}
   b.innerHTML=`${av}<button type="button" class="cn102-barb fc107-barb" data-fc107sug="${esc(p.id)}"><small>O que você acha?</small><b>${esc(versao(p,lente()).titulo)}</b></button><button type="button" class="fc107-bmais" data-cn102bar aria-label="Publicar outra coisa: notícia, relato, análise ou pergunta">${CN102_SVG(CN102_ICO.mais)}</button>`}
