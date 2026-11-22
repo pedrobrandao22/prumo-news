@@ -1,20 +1,70 @@
 {
- "gerado": "2026-11-22T17:04-03:00",
+ "gerado": "2026-11-22T17:15-03:00",
  "desde": "2026-11-22T15:40-03:00",
  "feed_atualizado_em": "2026-11-22T15:50:00-03:00",
  "resumo": {
-  "manchetes": 142,
-  "assuntos_novos_relevantes": 5,
-  "assuntos_novos": 120,
-  "pautas_com_novidade": 2,
-  "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 5,
-  "acionar_itens": 0,
+  "manchetes": 176,
+  "assuntos_novos_relevantes": 4,
+  "assuntos_novos": 143,
+  "pautas_com_novidade": 4,
+  "pautas_com_novidade_3_fontes": 1,
+  "pautas_com_relatos": 7,
+  "acionar_itens": 1,
   "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (120 assuntos fora do feed, 5 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 4 veículos em 90 min (mundo)",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "Democratas conquistam maior bancada na Câmara dos EUA desde os anos 1990",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "motivo": "assunto novo: 4 veículos em 90 min (mundo)",
+   "chave": [
+    "258",
+    "atingem",
+    "bancada",
+    "cadeiras",
+    "camara",
+    "conquistam",
+    "democratas",
+    "desde",
+    "eua",
+    "garantem",
+    "historica",
+    "maior",
+    "maioria",
+    "melhor",
+    "recorde",
+    "resultado"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Democratas conquistam maior bancada na Câmara dos EUA desde os anos 1990",
+     "url": "https://www.cnnbrasil.com.br/internacional/democratas-conquistam-maior-bancada-na-camara-dos-eua-desde-os-anos-1990/",
+     "hora": "22/11 17h06",
+     "lide": "Partido chegou a 259 cadeiras neste domingo (22), após a vitória do deputado Chuck Hubbard na Carolina do Norte"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Democratas garantem 258 cadeiras na Câmara, melhor resultado desde 1992",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/democratas-garantem-258-cadeiras-na-camara-melhor-resultado-desde-1992.shtml",
+     "hora": "22/11 16h59",
+     "lide": "Hakeem Jeffries deve assumir presidência da Casa com maioria ampla após anos de disputas apertadas entre partidos"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Democratas atingem 258 cadeiras na Câmara dos EUA, recorde desde 1992",
+     "url": "https://www.infomoney.com.br/mundo/democratas-atingem-258-cadeiras-na-camara-dos-eua-recorde-desde-1992/",
+     "hora": "22/11 16h19",
+     "lide": "Partido promete agenda contra o custo de vida e investigações sobre o enriquecimento da família Trump; Hakeem Jeffries não descarta terceiro impeachment"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
@@ -59,6 +109,47 @@
    "ultima_iso": "2026-11-22T16:54-03:00"
   },
   {
+   "assunto": "Democratas conquistam maior bancada na Câmara dos EUA desde os anos 1990",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "fontes": [
+    "cnn",
+    "estadao",
+    "folha",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Democratas conquistam maior bancada na Câmara dos EUA desde os anos 1990",
+     "url": "https://www.cnnbrasil.com.br/internacional/democratas-conquistam-maior-bancada-na-camara-dos-eua-desde-os-anos-1990/",
+     "hora": "22/11 17h06"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Democratas garantem 258 cadeiras na Câmara, melhor resultado desde 1992",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/democratas-garantem-258-cadeiras-na-camara-melhor-resultado-desde-1992.shtml",
+     "hora": "22/11 16h59"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Democratas atingem 258 cadeiras na Câmara dos EUA, recorde desde 1992",
+     "url": "https://www.infomoney.com.br/mundo/democratas-atingem-258-cadeiras-na-camara-dos-eua-recorde-desde-1992/",
+     "hora": "22/11 16h19"
+    },
+    {
+     "veiculo": "Estadão Internacional",
+     "titulo": "EUA: democratas conquistam maioria histórica de 258 cadeiras na Câmara",
+     "url": "https://www.estadao.com.br/internacional/eua-democratas-conquistam-maioria-historica-camara/",
+     "hora": "22/11 15h52"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-22T17:06-03:00"
+  },
+  {
    "assunto": "Beleza bridal: Miley Cyrus se casa com make delicada e coque preso; confira",
    "secao": null,
    "n_fontes": 3,
@@ -91,75 +182,6 @@
    ],
    "n_fontes_90min": 3,
    "ultima_iso": "2026-11-22T16:07-03:00"
-  },
-  {
-   "assunto": "Democratas garantem 258 cadeiras na Câmara, melhor resultado desde 1992",
-   "secao": "mundo",
-   "n_fontes": 3,
-   "fontes": [
-    "estadao",
-    "folha",
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mundo",
-     "titulo": "Democratas garantem 258 cadeiras na Câmara, melhor resultado desde 1992",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/democratas-garantem-258-cadeiras-na-camara-melhor-resultado-desde-1992.shtml",
-     "hora": "22/11 16h59"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Democratas atingem 258 cadeiras na Câmara dos EUA, recorde desde 1992",
-     "url": "https://www.infomoney.com.br/mundo/democratas-atingem-258-cadeiras-na-camara-dos-eua-recorde-desde-1992/",
-     "hora": "22/11 16h19"
-    },
-    {
-     "veiculo": "Estadão Internacional",
-     "titulo": "EUA: democratas conquistam maioria histórica de 258 cadeiras na Câmara",
-     "url": "https://www.estadao.com.br/internacional/eua-democratas-conquistam-maioria-historica-camara/",
-     "hora": "22/11 15h52"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-22T16:59-03:00"
-  },
-  {
-   "assunto": "Falha da Delta provoca atrasos no aeroporto mais movimentado do mundo",
-   "secao": "mundo",
-   "n_fontes": 3,
-   "fontes": [
-    "antag",
-    "folha",
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Falha da Delta provoca atrasos no aeroporto mais movimentado do mundo",
-     "url": "https://oantagonista.com.br/mundo/falha-da-delta-provoca-atrasos-no-aeroporto-mais-movimentado-do-mundo/",
-     "hora": "22/11 16h35"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Falha técnica na companhia aérea Delta atrasa milhares de voos em aeroporto dos EUA",
-     "url": "https://jovempan.com.br/mundo/falha-tecnica-na-companhia-aerea-delta-atrasa-milhares-de-voos-em-aeroporto-dos-eua/",
-     "hora": "22/11 16h18"
-    },
-    {
-     "veiculo": "Folha Mundo",
-     "titulo": "EUA dizem que todos os voos em Atlanta, aeroporto mais movimentado do mundo, sofrem atrasos",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/eua-dizem-que-todos-os-voos-em-atlanta-aeroporto-mais-movimentado-do-mundo-sofrem-atrasos.shtml",
-     "hora": "22/11 16h05"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-22T16:35-03:00",
-   "pid_provavel": "delta-falha-sistema-atrasos-eua"
   },
   {
    "assunto": "Pochettino estreia no United com derrota de 4 a 0 para o Liverpool",
@@ -249,6 +271,60 @@
    "n_fontes_90min": 0,
    "ultima_iso": "2026-11-22T16:57-03:00",
    "lixo": true
+  },
+  {
+   "assunto": "Policial militar é preso após atirar e ameaçar vigilantes em SP",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Policial militar é preso após atirar e ameaçar vigilantes em SP",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/policial-militar-e-preso-apos-atirar-e-ameacar-vigilantes-em-sp/",
+     "hora": "22/11 16h53"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "PM é preso após atirar em rua e ameaçar vigilantes na zona leste de SP",
+     "url": "https://www.metropoles.com/sao-paulo/pm-e-preso-apos-atirar-em-rua-e-ameacar-vigilantes-na-zona-leste-de-sp",
+     "hora": "22/11 16h10"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-22T16:53-03:00"
+  },
+  {
+   "assunto": "Polícia investiga morte de torcedor do Palmeiras após briga em hotel de SP",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Polícia investiga morte de torcedor do Palmeiras após briga em hotel de SP",
+     "url": "https://www.cnnbrasil.com.br/nacional/policia-investiga-morte-de-torcedor-do-palmeiras-apos-briga-em-hotel-de-sp/",
+     "hora": "22/11 17h00"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Torcedor do Palmeiras morre após confusão em hotel na Barra Funda depois de jogo contra o Flamengo",
+     "url": "https://oglobo.globo.com/brasil/sao-paulo/noticia/2026/11/22/torcedor-do-palmeiras-morre-apos-confusao-em-hotel-na-barra-funda-depois-de-jogo-contra-o-flamengo.ghtml",
+     "hora": "22/11 15h41"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-22T17:00-03:00"
   },
   {
    "assunto": "'Feito Pipa' ganha dois prêmios na Espanha e reforça corrida ao Oscar",
@@ -371,6 +447,26 @@
    "ultima_iso": "2026-11-22T16:23-03:00"
   },
   {
+   "assunto": "Além de Chitãozinho & Xororó: relembre sertanejos que se aposentaram",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Além de Chitãozinho & Xororó: relembre sertanejos que se aposentaram",
+     "url": "https://www.cnnbrasil.com.br/pop/musica/alem-de-chitaozinho-xororo-relembre-sertanejos-que-se-aposentaram/",
+     "hora": "22/11 17h11"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T17:11-03:00"
+  },
+  {
    "assunto": "Amapá reduz taxa de desemprego e se destaca entre os estados brasileiros",
    "secao": "economia",
    "n_fontes": 1,
@@ -431,6 +527,26 @@
    "ultima_iso": "2026-11-22T16:00-03:00"
   },
   {
+   "assunto": "Após enterro de Gabriel Félix, noiva comove com promessa: 'Não vou deixar esquecerem'",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Após enterro de Gabriel Félix, noiva comove com promessa: 'Não vou deixar esquecerem'",
+     "url": "https://oglobo.globo.com/cultura/noticia/2026/11/22/apos-enterro-de-gabriel-felix-noiva-comove-com-promessa-nao-vou-deixar-esquecerem.ghtml",
+     "hora": "22/11 16h08"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T16:08-03:00"
+  },
+  {
    "assunto": "Após susto em avião, Carpini revela bastidores da viagem do Remo: “Pensa em tanta coisa ruim”",
    "secao": "esportes",
    "n_fontes": 1,
@@ -471,6 +587,26 @@
    "ultima_iso": "2026-11-22T15:49-03:00"
   },
   {
+   "assunto": "Arrasador no início, Corinthians vence São José fora de casa pelo NBB",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Arrasador no início, Corinthians vence São José fora de casa pelo NBB",
+     "url": "https://ge.globo.com/sp/vale-do-paraiba-regiao/basquete/nbb/noticia/2026/11/22/arrasador-no-inicio-corinthians-vence-sao-jose-fora-de-casa-pelo-nbb.ghtml",
+     "hora": "22/11 16h57"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T16:57-03:00"
+  },
+  {
    "assunto": "Ataque a navio comercial na Líbia leva guerra dos drones ao Mediterrâneo",
    "secao": "economia",
    "n_fontes": 1,
@@ -509,6 +645,76 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T16:47-03:00"
+  },
+  {
+   "assunto": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/go/futebol/brasileirao-serie-b/jogo/22-11-2026/atletico-go-vila-nova.ghtml",
+     "hora": "22/11 17h06"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Criciúma x Fortaleza - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-b/jogo/22-11-2026/criciuma-fortaleza.ghtml",
+     "hora": "22/11 17h03"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Athletico-PR x Remo - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/22-11-2026/athletico-pr-remo.ghtml",
+     "hora": "22/11 17h01"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T17:06-03:00"
+  },
+  {
+   "assunto": "Atlético-PB x Campinense - Copa Paraíba 2026 - Ao vivo - globoesporte.com",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atlético-PB x Campinense - Copa Paraíba 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/jogo/22-11-2026/atletico-pb-campinense.ghtml",
+     "hora": "22/11 17h06"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Treze x Nacional de Patos - Copa Paraíba 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/jogo/22-11-2026/treze-nacionaldepatos.ghtml",
+     "hora": "22/11 17h06"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Esporte de Patos x Serra Branca - Copa Paraíba 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/jogo/22-11-2026/esporte-pb-serra-branca-ec.ghtml",
+     "hora": "22/11 17h06"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Marcílio Dias x Joinville - Copa Santa Catarina 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/sc/futebol/copa-santa-catarina/jogo/22-11-2026/marciliodias-joinville.ghtml",
+     "hora": "22/11 17h06"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T17:06-03:00"
   },
   {
    "assunto": "Avenida Elinaldo Barbosa passa a ter sentido único no bairro Uruará a partir desta segunda,23, em Santarém",
@@ -589,126 +795,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T16:43-03:00"
-  },
-  {
-   "assunto": "CRB anuncia saída de goleiro Matheus Albino e abre espaço para Vitor Caetano",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "CRB anuncia saída de goleiro Matheus Albino e abre espaço para Vitor Caetano",
-     "url": "https://ge.globo.com/al/futebol/times/crb/noticia/2026/11/22/crb-anuncia-saida-de-goleiro-matheus-albino-e-abre-espaco-para-vitor-caetano.ghtml",
-     "hora": "22/11 16h10"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T16:10-03:00"
-  },
-  {
-   "assunto": "Cachorro escapa pelo portão, provoca acidente com motociclista e dono descobre que pode ter de pagar os prejuízos mesmo sem intenção de causar o dano",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Cachorro escapa pelo portão, provoca acidente com motociclista e dono descobre que pode ter de pagar os prejuízos mesmo sem intenção de causar o dano",
-     "url": "https://oantagonista.com.br/ladooa/entretenimento/cachorro-escapa-pelo-portao-provoca-acidente-com-motociclista-e-dono-descobre-que-pode-ter-de-pagar-os-prejuizos-mesmo-sem-intencao-de-causar-o-dano/",
-     "hora": "22/11 16h53"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T16:53-03:00"
-  },
-  {
-   "assunto": "Cadela é resgatada com órgãos expostos após ferimento na barriga no PI; animal corre risco de vida",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Cadela é resgatada com órgãos expostos após ferimento na barriga no PI; animal corre risco de vida",
-     "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/22/cadela-resgatada-pi.ghtml",
-     "hora": "22/11 15h52"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T15:52-03:00"
-  },
-  {
-   "assunto": "China usa serviço de espionagem para obter chips de IA, diz NYT",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "China usa serviço de espionagem para obter chips de IA, diz NYT",
-     "url": "https://exame.com/mundo/china-usa-servico-de-espionagem-para-obter-chips-de-ia-diz-nyt/",
-     "hora": "22/11 15h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T15:45-03:00"
-  },
-  {
-   "assunto": "Chuva adia início do ATP Challenger 75 e WTT W75 em Florianópolis",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Chuva adia início do ATP Challenger 75 e WTT W75 em Florianópolis",
-     "url": "https://ge.globo.com/sc/tenis/noticia/2026/11/22/chuva-adia-inicio-do-atp-challenger-75-e-wtt-w75-em-florianopolis.ghtml",
-     "hora": "22/11 16h33"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T16:33-03:00"
-  },
-  {
-   "assunto": "Chuva forte alaga cidades de MS, destrói ponte e obriga moradores a retirar móveis de casa",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Chuva forte alaga cidades de MS, destrói ponte e obriga moradores a retirar móveis de casa",
-     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/22/chuva-forte-alaga-cidades-de-ms-destroi-ponte-e-obriga-moradores-a-retirar-moveis-de-casa.ghtml",
-     "hora": "22/11 15h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T15:47-03:00"
   }
  ],
  "em_pautas": {
@@ -726,13 +812,67 @@
   },
   "delta-falha-sistema-atrasos-eua": {
    "secao": "mundo",
-   "n_fontes": 1,
+   "n_fontes": 4,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Falha em sistema da Delta provoca atrasos em centenas de voos nos EUA",
+     "url": "https://www.metropoles.com/mundo/falha-em-sistema-da-delta-provoca-atrasos-em-centenas-de-voos-nos-eua",
+     "hora": "22/11 17h03"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Falha da Delta provoca atrasos no aeroporto mais movimentado do mundo",
+     "url": "https://oantagonista.com.br/mundo/falha-da-delta-provoca-atrasos-no-aeroporto-mais-movimentado-do-mundo/",
+     "hora": "22/11 16h35"
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Falha técnica na companhia aérea Delta atrasa milhares de voos em aeroporto dos EUA",
+     "url": "https://jovempan.com.br/mundo/falha-tecnica-na-companhia-aerea-delta-atrasa-milhares-de-voos-em-aeroporto-dos-eua/",
+     "hora": "22/11 16h18"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "EUA dizem que todos os voos em Atlanta, aeroporto mais movimentado do mundo, sofrem atrasos",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/eua-dizem-que-todos-os-voos-em-atlanta-aeroporto-mais-movimentado-do-mundo-sofrem-atrasos.shtml",
+     "hora": "22/11 16h05"
+    },
     {
      "veiculo": "g1",
      "titulo": "Agência de aviação dos EUA suspende voos de companhia aérea após falha em sistema",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/22/suspensao-temporaria-voos-companhia-aerea-eua-falha-em-sistema.ghtml",
      "hora": "22/11 16h37"
+    }
+   ]
+  },
+  "cop31-turquia-abertura": {
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
+     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
+     "hora": "22/11 17h14"
+    },
+    {
+     "veiculo": "ICL Notícias",
+     "titulo": "UE rejeita acordo final da COP31 por falta de menção a impactos de combustíveis fósseis",
+     "url": "https://iclnoticias.com.br/ue-rejeita-acordo-final-da-cop31/",
+     "hora": "22/11 16h40"
+    }
+   ]
+  },
+  "bolsonaro-hospital-dores-abdominais": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Apoiadores oram pela saúde de Bolsonaro em frente a hospital",
+     "url": "https://www.poder360.com.br/poder-gente/apoiadores-oram-pela-saude-de-bolsonaro-em-frente-a-hospital/",
+     "hora": "22/11 17h06"
     }
    ]
   }
@@ -749,7 +889,7 @@
    "ultima": "22/11 14h46",
    "ultima_iso": "2026-11-22T14:46-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 10.2,
+   "horas_sem_atualizar": 10.4,
    "principal": true,
    "manchetes": [
     {
@@ -766,6 +906,48 @@
     }
    ]
   },
+  "bolsonaro-hospital-dores-abdominais": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "22/11 17h06",
+   "ultima_iso": "2026-11-22T17:06-03:00",
+   "pauta_atualizada_em": "2026-11-22T15:50-03:00",
+   "horas_sem_atualizar": 1.4,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Apoiadores oram pela saúde de Bolsonaro em frente a hospital",
+     "url": "https://www.poder360.com.br/poder-gente/apoiadores-oram-pela-saude-de-bolsonaro-em-frente-a-hospital/",
+     "hora": "22/11 17h06"
+    }
+   ]
+  },
+  "cop31-turquia-abertura": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "bbc"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "22/11 17h14",
+   "ultima_iso": "2026-11-22T17:14-03:00",
+   "pauta_atualizada_em": "2026-11-22T13:48-03:00",
+   "horas_sem_atualizar": 3.5,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
+     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
+     "hora": "22/11 17h14"
+    }
+   ]
+  },
   "ucrania-drone-predio-kiev-desaparecidos": {
    "n": 2,
    "n_fontes": 2,
@@ -777,7 +959,7 @@
    "ultima": "22/11 12h28",
    "ultima_iso": "2026-11-22T12:28-03:00",
    "pauta_atualizada_em": "2026-11-22T06:36-03:00",
-   "horas_sem_atualizar": 10.5,
+   "horas_sem_atualizar": 10.7,
    "principal": false,
    "manchetes": [
     {
@@ -804,7 +986,7 @@
    "ultima": "22/11 15h56",
    "ultima_iso": "2026-11-22T15:56-03:00",
    "pauta_atualizada_em": "2026-11-22T06:00-03:00",
-   "horas_sem_atualizar": 11.1,
+   "horas_sem_atualizar": 11.3,
    "principal": false,
    "manchetes": [
     {
@@ -816,18 +998,17 @@
    ]
   },
   "chitaozinho-xororo-aposentadoria": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
     "im",
-    "met",
-    "oeste"
+    "met"
    ],
    "n_fontes_90min": 2,
    "ultima": "22/11 15h33",
    "ultima_iso": "2026-11-22T15:33-03:00",
    "pauta_atualizada_em": "2026-11-22T11:45-03:00",
-   "horas_sem_atualizar": 5.3,
+   "horas_sem_atualizar": 5.5,
    "principal": false,
    "manchetes": [
     {
@@ -841,30 +1022,31 @@
      "titulo": "Chitãozinho e Xororó anunciam aposentadoria dos palcos – mas não do agro",
      "url": "https://www.infomoney.com.br/business/chitaozinho-e-xororo-anunciam-aposentadoria-dos-palcos-mas-nao-do-agro/",
      "hora": "22/11 14h59"
-    },
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Chitãozinho e Xororó anunciam despedida dos palcos depois de 56 anos de carreira",
-     "url": "https://revistaoeste.com/brasil/chitaozinho-e-xororo-anunciam-despedida-dos-palcos-depois-de-56-anos-de-carreira/",
-     "hora": "22/11 13h43"
     }
    ]
   },
   "delta-falha-sistema-atrasos-eua": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 4,
+   "n_fontes": 4,
    "fontes": [
     "estadao",
     "g1",
-    "jp"
+    "jp",
+    "met"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "22/11 16h37",
-   "ultima_iso": "2026-11-22T16:37-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "22/11 17h03",
+   "ultima_iso": "2026-11-22T17:03-03:00",
    "pauta_atualizada_em": "2026-11-22T15:01-03:00",
-   "horas_sem_atualizar": 2.1,
+   "horas_sem_atualizar": 2.2,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Falha em sistema da Delta provoca atrasos em centenas de voos nos EUA",
+     "url": "https://www.metropoles.com/mundo/falha-em-sistema-da-delta-provoca-atrasos-em-centenas-de-voos-nos-eua",
+     "hora": "22/11 17h03"
+    },
     {
      "veiculo": "g1",
      "titulo": "Agência de aviação dos EUA suspende voos de companhia aérea após falha em sistema",
@@ -1279,31 +1461,6 @@
    ]
   },
   {
-   "assunto": "Democratas garantem 258 cadeiras na Câmara, melhor resultado desde 1992",
-   "secao": "mundo",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mundo",
-     "titulo": "Democratas garantem 258 cadeiras na Câmara, melhor resultado desde 1992",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/democratas-garantem-258-cadeiras-na-camara-melhor-resultado-desde-1992.shtml",
-     "hora": "22/11 16h59"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Democratas atingem 258 cadeiras na Câmara dos EUA, recorde desde 1992",
-     "url": "https://www.infomoney.com.br/mundo/democratas-atingem-258-cadeiras-na-camara-dos-eua-recorde-desde-1992/",
-     "hora": "22/11 16h19"
-    },
-    {
-     "veiculo": "Estadão Internacional",
-     "titulo": "EUA: democratas conquistam maioria histórica de 258 cadeiras na Câmara",
-     "url": "https://www.estadao.com.br/internacional/eua-democratas-conquistam-maioria-historica-camara/",
-     "hora": "22/11 15h52"
-    }
-   ]
-  },
-  {
    "assunto": "Pochettino estreia no United com derrota de 4 a 0 para o Liverpool",
    "secao": "esportes",
    "n_fontes": 3,
@@ -1346,6 +1503,25 @@
      "hora": "22/11 15h40"
     }
    ]
+  },
+  {
+   "assunto": "Policial militar é preso após atirar e ameaçar vigilantes em SP",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Policial militar é preso após atirar e ameaçar vigilantes em SP",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/policial-militar-e-preso-apos-atirar-e-ameacar-vigilantes-em-sp/",
+     "hora": "22/11 16h53"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "PM é preso após atirar em rua e ameaçar vigilantes na zona leste de SP",
+     "url": "https://www.metropoles.com/sao-paulo/pm-e-preso-apos-atirar-em-rua-e-ameacar-vigilantes-na-zona-leste-de-sp",
+     "hora": "22/11 16h10"
+    }
+   ]
   }
  ],
  "ultima_rodada": "2026-11-22T15:50-03:00",
@@ -1356,10 +1532,10 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 1 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 0 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 68 nas últimas 6 h",
+  "ge": "ok: 100 itens, 71 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
@@ -1374,10 +1550,10 @@
   "Estadão Economia": "ok: 20 itens, 4 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 1 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 4 nas últimas 6 h",
-  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
-  "Valor Econômico": "ok: 100 itens, 17 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 28 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 15 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
-  "Veja": "ok: 20 itens, 20 nas últimas 6 h",
+  "Veja": "ok: 20 itens, 19 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 65 itens, 5 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 34 itens, 5 nas últimas 6 h",
