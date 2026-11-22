@@ -141,6 +141,7 @@ function dmInboxHTML(){const msgs0=allMsgs(),ids=new Set(msgs0.map(m=>m.id)),msg
     ${amigosRow.length?`<div class="dm-amg" aria-label="Amigos">${amigosRow.map(u=>`<button type="button" data-thread="${esc(u)}">${avatar(u)}<span>${esc(String(nomeDe(u)).split(" ")[0])}</span></button>`).join("")}</div>`:""}
     ${convs.length?`<h3 class="dm-sh">Mensagens</h3><ul class="people dm-lista">${rows||`<li class="dm-nada">Ninguém com esse nome</li>`}</ul>`
       :DM_Q.trim()?`<div class="empty"><b>Ninguém com esse nome</b></div>`:am.length?`<div class="empty"><b>Nenhuma conversa ainda</b>Toque num amigo acima, ou mande uma notícia pelo botão Enviar de um post.</div>`
+      :!S.amigosOk?`<div class="empty dm203-sr" role="status"><b>${navigator.onLine===false?"Sem conexão":"Carregando suas conversas…"}</b>${navigator.onLine===false?"Não deu para carregar suas conversas. Elas aparecem quando a internet voltar.":""}</div>`
       :`<div class="empty"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para conversar.<button type="button" class="btn ghost" data-vgo="me" style="margin-top:10px">Ir ao Perfil</button></div>`}</div>`}
 /* troca só os balões que mudaram (antes a conversa inteira era redesenhada a cada mensagem nova) */
 function dmPorCorpo(el,html){const t=document.createElement("template");t.innerHTML=html;const nv=[...t.content.childNodes],at=[...el.childNodes];if(!at.length||!nv.length){el.innerHTML=html;return}

@@ -217,6 +217,9 @@ function criarDB(sb, uid, opts) {
     if (fora > FORA_LONGO) cheioTodos(); else if (fora > 20000) atualizar();
   };
   if (typeof document !== "undefined") document.addEventListener("visibilitychange", aoVoltar);
+  /* 22/11 (corretor): a internet voltou: relê tudo na hora (antes esperava a próxima volta da releitura, 10-20 s, e
+     Conversas/Perfil ficavam vazios e a fila de posts feitos sem rede demorava) */
+  if (typeof addEventListener === "function") addEventListener("online", () => { if (!fechado) setTimeout(cheioTodos, 300) });
   const poll = setInterval(() => { if (typeof document === "undefined" || !document.hidden) atualizar() }, POLL);
 
   /* depois de gravar: espera o eco; se não vier, relê só aquilo */
