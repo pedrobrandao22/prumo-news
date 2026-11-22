@@ -1,26 +1,26 @@
 {
- "gerado": "2026-11-22T17:15-03:00",
+ "gerado": "2026-11-22T17:25-03:00",
  "desde": "2026-11-22T15:40-03:00",
  "feed_atualizado_em": "2026-11-22T15:50:00-03:00",
  "resumo": {
-  "manchetes": 176,
+  "manchetes": 193,
   "assuntos_novos_relevantes": 4,
-  "assuntos_novos": 143,
+  "assuntos_novos": 155,
   "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 7,
-  "acionar_itens": 1,
+  "acionar_itens": 2,
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 4 veículos em 90 min (mundo)",
+ "acionar_motivo": "assunto novo: 5 veículos em 90 min (mundo); assunto novo: 5 veículos em 90 min (sem seção)",
  "acionar_itens": [
   {
    "tipo": "novo",
-   "titulo": "Democratas conquistam maior bancada na Câmara dos EUA desde os anos 1990",
+   "titulo": "Democratas conquistam melhor resultado na Câmara dos EUA em 30 anos",
    "secao": "mundo",
-   "n_fontes": 4,
-   "motivo": "assunto novo: 4 veículos em 90 min (mundo)",
+   "n_fontes": 5,
+   "motivo": "assunto novo: 5 veículos em 90 min (mundo)",
    "chave": [
     "258",
     "atingem",
@@ -42,6 +42,12 @@
    "acao": "nova",
    "manchetes": [
     {
+     "veiculo": "O Antagonista",
+     "titulo": "Democratas conquistam melhor resultado na Câmara dos EUA em 30 anos",
+     "url": "https://oantagonista.com.br/mundo/democratas-conquistam-melhor-resultado-na-camara-dos-eua-em-30-anos/",
+     "hora": "22/11 17h18"
+    },
+    {
      "veiculo": "CNN Brasil",
      "titulo": "Democratas conquistam maior bancada na Câmara dos EUA desde os anos 1990",
      "url": "https://www.cnnbrasil.com.br/internacional/democratas-conquistam-maior-bancada-na-camara-dos-eua-desde-os-anos-1990/",
@@ -54,13 +60,59 @@
      "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/democratas-garantem-258-cadeiras-na-camara-melhor-resultado-desde-1992.shtml",
      "hora": "22/11 16h59",
      "lide": "Hakeem Jeffries deve assumir presidência da Casa com maioria ampla após anos de disputas apertadas entre partidos"
-    },
+    }
+   ]
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Alcaraz é campeão do ATP Finals e iguala feito de Djokovic, Federer e Agassi",
+   "secao": null,
+   "n_fontes": 5,
+   "motivo": "assunto novo: 5 veículos em 90 min (sem seção)",
+   "chave": [
+    "agassi",
+    "alcaraz",
+    "alexander",
+    "atp",
+    "bate",
+    "campeao",
+    "carlos",
+    "conquista",
+    "decisao",
+    "djokovic",
+    "domina",
+    "federer",
+    "feito",
+    "finals",
+    "iguala",
+    "inedito",
+    "primeira",
+    "titulo",
+    "vence",
+    "vez",
+    "zverev"
+   ],
+   "acao": "nova",
+   "manchetes": [
     {
      "veiculo": "InfoMoney",
-     "titulo": "Democratas atingem 258 cadeiras na Câmara dos EUA, recorde desde 1992",
-     "url": "https://www.infomoney.com.br/mundo/democratas-atingem-258-cadeiras-na-camara-dos-eua-recorde-desde-1992/",
-     "hora": "22/11 16h19",
-     "lide": "Partido promete agenda contra o custo de vida e investigações sobre o enriquecimento da família Trump; Hakeem Jeffries não descarta terceiro impeachment"
+     "titulo": "Alcaraz é campeão do ATP Finals e iguala feito de Djokovic, Federer e Agassi",
+     "url": "https://www.infomoney.com.br/esportes/alcaraz-e-campeao-do-atp-finals-e-iguala-feito-de-djokovic-federer-e-agassi/",
+     "hora": "22/11 17h20",
+     "lide": "O espanhol é apenas o quarto da história a se sagrar campeão dos quatro Grand Slams e do Finals"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Carlos Alcaraz vence Zverev e conquista título inédito do ATP Finals",
+     "url": "https://www.metropoles.com/esportes/carlos-alcaraz-vence-zverev-e-conquista-titulo-inedito-do-atp-finals",
+     "hora": "22/11 16h54"
+    },
+    {
+     "veiculo": "Folha Esporte",
+     "titulo": "Alcaraz vence Zverev e conquista o ATP Finals pela primeira vez",
+     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/alcaraz-vence-zverev-e-conquista-o-atp-finals-pela-primeira-vez.shtml",
+     "hora": "22/11 16h54",
+     "lide": "Ele é o primeiro espanhol a vencer o torneio desde Alex Corretja, em 1998"
     }
    ]
   }
@@ -68,18 +120,25 @@
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Carlos Alcaraz vence Zverev e conquista título inédito do ATP Finals",
-   "secao": "esportes",
-   "n_fontes": 4,
+   "assunto": "Alcaraz é campeão do ATP Finals e iguala feito de Djokovic, Federer e Agassi",
+   "secao": null,
+   "n_fontes": 5,
    "fontes": [
     "cnn",
     "folha",
     "ge",
+    "im",
     "met"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Alcaraz é campeão do ATP Finals e iguala feito de Djokovic, Federer e Agassi",
+     "url": "https://www.infomoney.com.br/esportes/alcaraz-e-campeao-do-atp-finals-e-iguala-feito-de-djokovic-federer-e-agassi/",
+     "hora": "22/11 17h20"
+    },
     {
      "veiculo": "Metrópoles",
      "titulo": "Carlos Alcaraz vence Zverev e conquista título inédito do ATP Finals",
@@ -97,22 +156,17 @@
      "titulo": "Decisão do ATP Finals: Carlos Alcaraz 2 x 0 Alexander Zverev",
      "url": "https://ge.globo.com/tenis/ao-vivo/decisao-do-atp-finals-carlos-alcaraz-x-alexander-zverev.ghtml",
      "hora": "22/11 16h22"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alcaraz domina Zverev e é campeão do ATP Finals pela primeira vez",
-     "url": "https://www.cnnbrasil.com.br/esportes/tenis/alcaraz-domina-zverev-e-e-campeao-do-atp-finals-pela-primeira-vez/",
-     "hora": "22/11 16h17"
     }
    ],
-   "n_fontes_90min": 4,
-   "ultima_iso": "2026-11-22T16:54-03:00"
+   "n_fontes_90min": 5,
+   "ultima_iso": "2026-11-22T17:20-03:00"
   },
   {
-   "assunto": "Democratas conquistam maior bancada na Câmara dos EUA desde os anos 1990",
+   "assunto": "Democratas conquistam melhor resultado na Câmara dos EUA em 30 anos",
    "secao": "mundo",
-   "n_fontes": 4,
+   "n_fontes": 5,
    "fontes": [
+    "antag",
     "cnn",
     "estadao",
     "folha",
@@ -121,6 +175,12 @@
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Democratas conquistam melhor resultado na Câmara dos EUA em 30 anos",
+     "url": "https://oantagonista.com.br/mundo/democratas-conquistam-melhor-resultado-na-camara-dos-eua-em-30-anos/",
+     "hora": "22/11 17h18"
+    },
     {
      "veiculo": "CNN Brasil",
      "titulo": "Democratas conquistam maior bancada na Câmara dos EUA desde os anos 1990",
@@ -138,16 +198,10 @@
      "titulo": "Democratas atingem 258 cadeiras na Câmara dos EUA, recorde desde 1992",
      "url": "https://www.infomoney.com.br/mundo/democratas-atingem-258-cadeiras-na-camara-dos-eua-recorde-desde-1992/",
      "hora": "22/11 16h19"
-    },
-    {
-     "veiculo": "Estadão Internacional",
-     "titulo": "EUA: democratas conquistam maioria histórica de 258 cadeiras na Câmara",
-     "url": "https://www.estadao.com.br/internacional/eua-democratas-conquistam-maioria-historica-camara/",
-     "hora": "22/11 15h52"
     }
    ],
-   "n_fontes_90min": 4,
-   "ultima_iso": "2026-11-22T17:06-03:00"
+   "n_fontes_90min": 5,
+   "ultima_iso": "2026-11-22T17:18-03:00"
   },
   {
    "assunto": "Beleza bridal: Miley Cyrus se casa com make delicada e coque preso; confira",
@@ -216,6 +270,33 @@
    ],
    "n_fontes_90min": 3,
    "ultima_iso": "2026-11-22T16:41-03:00"
+  },
+  {
+   "assunto": "'Fui coagida a ter um filho': como um bilionário enganou a DJ de sucesso Liv Nervo para que ela engravidasse",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "bbc",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "'Fui coagida a ter um filho': como um bilionário enganou a DJ de sucesso Liv Nervo para que ela engravidasse",
+     "url": "https://g1.globo.com/pop-arte/noticia/2026/11/22/fui-coagida-a-ter-um-filho-como-um-bilionario-enganou-a-dj-de-sucesso-liv-nervo-para-que-ela-engravidasse.ghtml",
+     "hora": "22/11 17h15"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "'Fui coagida a ter um filho': como um bilionário enganou a DJ de sucesso Liv Nervo para que ela engravidasse",
+     "url": "https://www.bbc.com/portuguese/articles/cmze7178k7d2o?at_medium=RSS&at_campaign=rss",
+     "hora": "22/11 15h41"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T17:15-03:00"
   },
   {
    "assunto": "Belo Horizonte prepara Fan Festival para Copa do Mundo Feminina de 2027",
@@ -347,26 +428,6 @@
    "ultima_iso": "2026-11-22T16:24-03:00"
   },
   {
-   "assunto": "'Fui coagida a ter um filho': como um bilionário enganou a DJ de sucesso Liv Nervo para que ela engravidasse",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "bbc"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "'Fui coagida a ter um filho': como um bilionário enganou a DJ de sucesso Liv Nervo para que ela engravidasse",
-     "url": "https://www.bbc.com/portuguese/articles/cmze7178k7d2o?at_medium=RSS&at_campaign=rss",
-     "hora": "22/11 15h41"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T15:41-03:00"
-  },
-  {
    "assunto": "'Jogos Vorazes: Amanhecer na Colheita' arrecada US$ 225 milhões em estreia",
    "secao": null,
    "n_fontes": 1,
@@ -425,6 +486,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T15:54-03:00"
+  },
+  {
+   "assunto": "75 anos da CNseg: homenagem institucional reconhece atividade que presta relevantes serviços ao País",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "estadao"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "75 anos da CNseg: homenagem institucional reconhece atividade que presta relevantes serviços ao País",
+     "url": "https://www.estadao.com.br/economia/antonio-penteado-mendonca/75-anos-da-cnseg/",
+     "hora": "22/11 17h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T17:00-03:00"
   },
   {
    "assunto": "Agricultor usa o trator para abrir um pequeno açude na propriedade e descobre que represar água perto de uma nascente exige duas autorizações, não uma",
@@ -660,61 +741,29 @@
      "veiculo": "ge",
      "titulo": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/go/futebol/brasileirao-serie-b/jogo/22-11-2026/atletico-go-vila-nova.ghtml",
-     "hora": "22/11 17h06"
+     "hora": "22/11 17h16"
     },
     {
      "veiculo": "ge",
-     "titulo": "Criciúma x Fortaleza - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-b/jogo/22-11-2026/criciuma-fortaleza.ghtml",
-     "hora": "22/11 17h03"
+     "titulo": "Fluminense x Mirassol - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/22-11-2026/fluminense-mirassol.ghtml",
+     "hora": "22/11 17h15"
     },
     {
      "veiculo": "ge",
      "titulo": "Athletico-PR x Remo - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/22-11-2026/athletico-pr-remo.ghtml",
-     "hora": "22/11 17h01"
+     "hora": "22/11 17h15"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Criciúma x Fortaleza - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-b/jogo/22-11-2026/criciuma-fortaleza.ghtml",
+     "hora": "22/11 17h15"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T17:06-03:00"
-  },
-  {
-   "assunto": "Atlético-PB x Campinense - Copa Paraíba 2026 - Ao vivo - globoesporte.com",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético-PB x Campinense - Copa Paraíba 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/jogo/22-11-2026/atletico-pb-campinense.ghtml",
-     "hora": "22/11 17h06"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Treze x Nacional de Patos - Copa Paraíba 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/jogo/22-11-2026/treze-nacionaldepatos.ghtml",
-     "hora": "22/11 17h06"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Esporte de Patos x Serra Branca - Copa Paraíba 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/jogo/22-11-2026/esporte-pb-serra-branca-ec.ghtml",
-     "hora": "22/11 17h06"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Marcílio Dias x Joinville - Copa Santa Catarina 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/sc/futebol/copa-santa-catarina/jogo/22-11-2026/marciliodias-joinville.ghtml",
-     "hora": "22/11 17h06"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T17:06-03:00"
+   "ultima_iso": "2026-11-22T17:16-03:00"
   },
   {
    "assunto": "Avenida Elinaldo Barbosa passa a ter sentido único no bairro Uruará a partir desta segunda,23, em Santarém",
@@ -846,24 +895,6 @@
     }
    ]
   },
-  "cop31-turquia-abertura": {
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
-     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
-     "hora": "22/11 17h14"
-    },
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "UE rejeita acordo final da COP31 por falta de menção a impactos de combustíveis fósseis",
-     "url": "https://iclnoticias.com.br/ue-rejeita-acordo-final-da-cop31/",
-     "hora": "22/11 16h40"
-    }
-   ]
-  },
   "bolsonaro-hospital-dores-abdominais": {
    "secao": "politica",
    "n_fontes": 1,
@@ -873,6 +904,24 @@
      "titulo": "Apoiadores oram pela saúde de Bolsonaro em frente a hospital",
      "url": "https://www.poder360.com.br/poder-gente/apoiadores-oram-pela-saude-de-bolsonaro-em-frente-a-hospital/",
      "hora": "22/11 17h06"
+    }
+   ]
+  },
+  "cop31-turquia-abertura": {
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "ICL Notícias",
+     "titulo": "UE rejeita acordo final da COP31 por falta de menção a impactos de combustíveis fósseis",
+     "url": "https://iclnoticias.com.br/ue-rejeita-acordo-final-da-cop31/",
+     "hora": "22/11 17h25"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
+     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
+     "hora": "22/11 17h14"
     }
    ]
   }
@@ -889,7 +938,7 @@
    "ultima": "22/11 14h46",
    "ultima_iso": "2026-11-22T14:46-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 10.4,
+   "horas_sem_atualizar": 10.6,
    "principal": true,
    "manchetes": [
     {
@@ -916,7 +965,7 @@
    "ultima": "22/11 17h06",
    "ultima_iso": "2026-11-22T17:06-03:00",
    "pauta_atualizada_em": "2026-11-22T15:50-03:00",
-   "horas_sem_atualizar": 1.4,
+   "horas_sem_atualizar": 1.6,
    "principal": true,
    "manchetes": [
     {
@@ -937,7 +986,7 @@
    "ultima": "22/11 17h14",
    "ultima_iso": "2026-11-22T17:14-03:00",
    "pauta_atualizada_em": "2026-11-22T13:48-03:00",
-   "horas_sem_atualizar": 3.5,
+   "horas_sem_atualizar": 3.6,
    "principal": false,
    "manchetes": [
     {
@@ -959,7 +1008,7 @@
    "ultima": "22/11 12h28",
    "ultima_iso": "2026-11-22T12:28-03:00",
    "pauta_atualizada_em": "2026-11-22T06:36-03:00",
-   "horas_sem_atualizar": 10.7,
+   "horas_sem_atualizar": 10.8,
    "principal": false,
    "manchetes": [
     {
@@ -986,7 +1035,7 @@
    "ultima": "22/11 15h56",
    "ultima_iso": "2026-11-22T15:56-03:00",
    "pauta_atualizada_em": "2026-11-22T06:00-03:00",
-   "horas_sem_atualizar": 11.3,
+   "horas_sem_atualizar": 11.4,
    "principal": false,
    "manchetes": [
     {
@@ -998,17 +1047,16 @@
    ]
   },
   "chitaozinho-xororo-aposentadoria": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "im",
     "met"
    ],
-   "n_fontes_90min": 2,
+   "n_fontes_90min": 1,
    "ultima": "22/11 15h33",
    "ultima_iso": "2026-11-22T15:33-03:00",
    "pauta_atualizada_em": "2026-11-22T11:45-03:00",
-   "horas_sem_atualizar": 5.5,
+   "horas_sem_atualizar": 5.7,
    "principal": false,
    "manchetes": [
     {
@@ -1016,12 +1064,6 @@
      "titulo": "Filha de Chitãozinho detalha aposentadoria do pai e Xororó dos palcos",
      "url": "https://www.metropoles.com/colunas/fabia-oliveira/filha-de-chitaozinho-detalha-aposentadoria-do-pai-e-xororo-dos-palcos",
      "hora": "22/11 15h33"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Chitãozinho e Xororó anunciam aposentadoria dos palcos – mas não do agro",
-     "url": "https://www.infomoney.com.br/business/chitaozinho-e-xororo-anunciam-aposentadoria-dos-palcos-mas-nao-do-agro/",
-     "hora": "22/11 14h59"
     }
    ]
   },
@@ -1038,7 +1080,7 @@
    "ultima": "22/11 17h03",
    "ultima_iso": "2026-11-22T17:03-03:00",
    "pauta_atualizada_em": "2026-11-22T15:01-03:00",
-   "horas_sem_atualizar": 2.2,
+   "horas_sem_atualizar": 2.4,
    "principal": false,
    "manchetes": [
     {
@@ -1430,37 +1472,6 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Carlos Alcaraz vence Zverev e conquista título inédito do ATP Finals",
-   "secao": "esportes",
-   "n_fontes": 4,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Carlos Alcaraz vence Zverev e conquista título inédito do ATP Finals",
-     "url": "https://www.metropoles.com/esportes/carlos-alcaraz-vence-zverev-e-conquista-titulo-inedito-do-atp-finals",
-     "hora": "22/11 16h54"
-    },
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "Alcaraz vence Zverev e conquista o ATP Finals pela primeira vez",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/alcaraz-vence-zverev-e-conquista-o-atp-finals-pela-primeira-vez.shtml",
-     "hora": "22/11 16h54"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Decisão do ATP Finals: Carlos Alcaraz 2 x 0 Alexander Zverev",
-     "url": "https://ge.globo.com/tenis/ao-vivo/decisao-do-atp-finals-carlos-alcaraz-x-alexander-zverev.ghtml",
-     "hora": "22/11 16h22"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alcaraz domina Zverev e é campeão do ATP Finals pela primeira vez",
-     "url": "https://www.cnnbrasil.com.br/esportes/tenis/alcaraz-domina-zverev-e-e-campeao-do-atp-finals-pela-primeira-vez/",
-     "hora": "22/11 16h17"
-    }
-   ]
-  },
-  {
    "assunto": "Pochettino estreia no United com derrota de 4 a 0 para o Liverpool",
    "secao": "esportes",
    "n_fontes": 3,
@@ -1533,11 +1544,11 @@
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 0 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "ge": "ok: 100 itens, 71 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 11 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
@@ -1547,13 +1558,13 @@
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 2 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 4 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 8 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 1 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 4 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 28 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 15 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 25 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 13 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
-  "Veja": "ok: 20 itens, 19 nas últimas 6 h",
+  "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 65 itens, 5 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 34 itens, 5 nas últimas 6 h",
@@ -1561,7 +1572,7 @@
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
-  "CartaCapital": "ok: 20 itens, 9 nas últimas 6 h",
+  "CartaCapital": "ok: 20 itens, 12 nas últimas 6 h",
   "Brasil de Fato": "falhou: ParseError('junk after document element: line 4514, column 3')",
   "ICL Notícias": "ok: 10 itens, 10 nas últimas 6 h"
  }
