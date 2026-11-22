@@ -10074,6 +10074,7 @@ function dmInboxHTML(){const msgs0=allMsgs(),ids=new Set(msgs0.map(m=>m.id)),msg
     ${amigosRow.length?`<div class="dm-amg" aria-label="Amigos">${amigosRow.map(u=>`<button type="button" data-thread="${esc(u)}">${avatar(u)}<span>${esc(String(nomeDe(u)).split(" ")[0])}</span></button>`).join("")}</div>`:""}
     ${convs.length?`<h3 class="dm-sh">Mensagens</h3><ul class="people dm-lista">${rows||`<li class="dm-nada">Ninguém com esse nome</li>`}</ul>`
       :DM_Q.trim()?`<div class="empty"><b>Ninguém com esse nome</b></div>`:am.length?`<div class="empty"><b>Nenhuma conversa ainda</b>Toque num amigo acima, ou mande uma notícia pelo botão Enviar de um post.</div>`
+      :!S.amigosOk?`<div class="empty dm203-sr" role="status"><b>${navigator.onLine===false?"Sem conexão":"Carregando suas conversas…"}</b>${navigator.onLine===false?"Não deu para carregar suas conversas. Elas aparecem quando a internet voltar.":""}</div>`
       :`<div class="empty"><b>Nenhum amigo ainda</b>Adicione amigos no Perfil para conversar.<button type="button" class="btn ghost" data-vgo="me" style="margin-top:10px">Ir ao Perfil</button></div>`}</div>`}
 /* troca só os balões que mudaram (antes a conversa inteira era redesenhada a cada mensagem nova) */
 function dmPorCorpo(el,html){const t=document.createElement("template");t.innerHTML=html;const nv=[...t.content.childNodes],at=[...el.childNodes];if(!at.length||!nv.length){el.innerHTML=html;return}
@@ -13445,13 +13446,25 @@ window.addEventListener("click",e=>{if(!FOCO_LIGADO)return;const t=e.target;if(!
 const PQ108_LS="prumo-pq-pend";
 function pq108Le(){try{return JSON.parse(localStorage.getItem(PQ108_LS+":"+S.uid)||"[]")||[]}catch(e){return []}}
 function pq108Grava(l){try{if(l.length)localStorage.setItem(PQ108_LS+":"+S.uid,JSON.stringify(l.slice(-10)));else localStorage.removeItem(PQ108_LS+":"+S.uid)}catch(e){}}
+/* 22/11 (corretor, achado "sem-internet-fechar-o-app-perde-o-post-e-a-curtida-prometidos"): o app aberto SEM internet
+   lia a lista, não achava o post no servidor e apagava a lista (o aviso saía com a pessoa offline e depois mais nada).
+   Agora espera a internet voltar e cumpre o "vamos publicar quando a internet voltar": post de texto (com ou sem notícia)
+   volta para a fila e sai sozinho; post com foto ou formulário (análise, enquete…) avisa com "Publicar agora". */
+function pq108Ed(r){const st=edNovoSt();return {modo:"post",tela:"cam",env:false,st,sts:[st],si:0,pq108:1,
+  po:{passo:"detalhes",fotos:[],rolo:[],cur:0,ar:r.ar||"4:5",texto:r.texto||"",marcados:r.marcados||[],local:r.local||"",pid:r.pid||null,tags:[],semCom:!!r.semCom,semCurt:!!r.semCurt,aba:"filtros",rid:r.id}}}
+function pq108Sozinho(r){try{return !(r.fotos&&r.fotos.length)&&!(typeof cn102RLe==="function"&&cn102RLe()[r.id])&&!!(String(r.texto||"").trim()||r.pid)}catch(e){return false}}
 setTimeout(function pq108Aviso(){if(!(S.uid&&S.membro&&S.amigosOk&&PUB.carregou)){setTimeout(pq108Aviso,1500);return}
   const l=pq108Le();if(!l.length||typeof rascLista!=="function")return;
+  if(navigator.onLine===false){addEventListener("online",function pq108On(){removeEventListener("online",pq108On);setTimeout(pq108Aviso,1500)});return}
   rascLista().then(rs=>{/* se o servidor recebeu (o app fechou antes da resposta), o rascunho sai sem aviso */
     const ja=r=>PUB.itens.some(x=>x.autor===S.uid&&x.tipo==="post"&&x.texto===r.texto&&+x.at>=r.at-120e3);
     rs.filter(r=>l.includes(r.id)&&ja(r)).forEach(r=>rascApaga(r.id));
-    const ids=new Set(rs.filter(r=>!ja(r)).map(r=>r.id)),vivos=l.filter(x=>ids.has(x));pq108Grava([]);if(!vivos.length||PQ.jobs.length)return;
-    toast(vivos.length>1?"Alguns posts não terminaram de publicar. Ficaram nos rascunhos.":"Um post não terminou de publicar. Ficou nos rascunhos.","Abrir",()=>{if(ED||$("#layer .ce"))return;criarAbrir("post");setTimeout(()=>{if(ED)rascAbre(vivos[vivos.length-1])},350)})}).catch(()=>{})},2500);
+    const vivos=rs.filter(r=>l.includes(r.id)&&!ja(r));pq108Grava([]);if(!vivos.length)return;
+    const auto=vivos.filter(pq108Sozinho),mao=vivos.filter(r=>!auto.includes(r));
+    auto.forEach(r=>{if(PQ.jobs.some(j=>j.ed&&j.ed.po&&j.ed.po.rid===r.id))return;const j=pqNovo("post",pq108Ed(r),[]);j.estado="erro";j.err=new TypeError("Failed to fetch")});
+    if(auto.length){pqDesenha();clearTimeout(CR155.rt);CR155.rt=setTimeout(cr155Reenvia,300)}
+    if(!mao.length)return;const um=mao.length===1,ult=mao[0].id;
+    toast(um?"Um post seu não terminou de publicar.":"Alguns posts não terminaram de publicar. Ficaram nos rascunhos.",um?"Publicar agora":"Ver",()=>{if(ED||$("#layer .ce"))return;criarAbrir("post");setTimeout(()=>{if(ED)rascAbre(ult)},350)})}).catch(()=>{})},2500);
 
 /* 3. rascunho da mensagem e do comentário: recarregar ou o celular fechar o app não apaga o que estava sendo escrito */
 const RS108_LS="prumo-rasc-txt";
@@ -18654,7 +18667,12 @@ function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)r
   if(box&&!box._fd156&&"MutationObserver" in window){box._fd156=new MutationObserver(()=>fd156Agrupa());box._fd156.observe(box,{childList:true,subtree:true})}}
 
 /* ---- sem internet: o aviso diz que é a conexão; o Gostei é reenviado quando a internet volta ---- */
+/* 22/11 (corretor): a fila do Gostei feito sem internet fica guardada no aparelho (antes só na memória: fechar o app ou
+   recarregar antes da rede voltar perdia a curtida prometida). Ao abrir com internet, envia o que ficou pendente. */
 var FD156_GOSTEI={};
+function fd156Lsk(){return "prumo-gostei-pend:"+(S.uid||"")}
+function fd156Grava(){try{if(!S.uid)return;const k=fd156Lsk();if(Object.keys(FD156_GOSTEI).length)localStorage.setItem(k,JSON.stringify(FD156_GOSTEI));else localStorage.removeItem(k)}catch(e){}}
+function fd156Le(){try{const o=JSON.parse(localStorage.getItem(fd156Lsk())||"{}");return o&&typeof o==="object"?o:{}}catch(e){return {}}}
 function fd156Offline(){return typeof navigator!=="undefined"&&navigator.onLine===false}
 /* 19/11 (testador): sem internet, o losango marca na hora e o 2º toque desfaz o que está na fila */
 function fd156Marca(pid,on){try{document.querySelectorAll('[data-a="like"]').forEach(b=>{const dono=b.closest('[id^="p-"],.sheet,.story,.sg');if(dono&&dono.id&&dono.id!=="p-"+pid)return;if(!dono||!dono.id){const ss=b.closest("[data-pid]");if(!ss||ss.dataset.pid!==String(pid))return}
@@ -18662,10 +18680,15 @@ function fd156Marca(pid,on){try{document.querySelectorAll('[data-a="like"]').for
 {const _tk156=toggleLike;toggleLike=function(pid){let real=null;try{if(S.uid)real=socialOf(pid).likes.includes(S.uid)}catch(e){}
   if(real!==null&&fd156Offline()){const atual=pid in FD156_GOSTEI?FD156_GOSTEI[pid]:real,quer=!atual;
     if(quer===real){delete FD156_GOSTEI[pid];toast(quer?"Sem conexão: a curtida continua.":"Curtida desfeita.")}else{FD156_GOSTEI[pid]=quer;toast(quer?"Sem conexão: a curtida vai ser enviada quando a internet voltar.":"Sem conexão: a curtida vai ser tirada quando a internet voltar.")}
-    fd156Marca(pid,quer);return}
+    fd156Grava();fd156Marca(pid,quer);return}
   return _tk156.apply(this,arguments)}}
-addEventListener("online",()=>{const ps=Object.keys(FD156_GOSTEI);if(!ps.length)return;setTimeout(()=>{let n=0;ps.forEach(pid=>{const q=FD156_GOSTEI[pid];delete FD156_GOSTEI[pid];
-  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});if(n)try{toast(n===1?"Conexão de volta: a curtida foi enviada.":"Conexão de volta: as curtidas foram enviadas.")}catch(e){}},600)});
+function fd156Envia(){const ps=Object.keys(FD156_GOSTEI);if(!ps.length||fd156Offline())return;/* espera as curtidas do servidor (S.amigosOk vem junto) para comparar */if(!S.amigosOk){clearTimeout(fd156Envia.t);fd156Envia.t=setTimeout(fd156Envia,1000);return}setTimeout(()=>{if(fd156Offline())return;let n=0;ps.forEach(pid=>{if(!(pid in FD156_GOSTEI))return;const q=FD156_GOSTEI[pid];delete FD156_GOSTEI[pid];
+  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});fd156Grava();if(n)try{toast(n===1?"Conexão de volta: a curtida foi enviada.":"Conexão de volta: as curtidas foram enviadas.")}catch(e){}},600)}
+addEventListener("online",fd156Envia);
+/* ao abrir: recupera a fila guardada; sem internet, marca o losango; com internet (e as curtidas já baixadas), envia */
+setTimeout(function fd156Abre(){if(!(S.uid&&(S.amigosOk||fd156Offline()))){if(!fd156Abre.n||fd156Abre.n++<80){fd156Abre.n=fd156Abre.n||1;setTimeout(fd156Abre,1500)}return}
+  const o=fd156Le();Object.keys(o).forEach(pid=>{if(!(pid in FD156_GOSTEI))FD156_GOSTEI[pid]=!!o[pid]});if(!Object.keys(FD156_GOSTEI).length)return;
+  if(fd156Offline()){Object.keys(FD156_GOSTEI).forEach(pid=>{try{updateSocial(pid)}catch(e){}fd156Marca(pid,FD156_GOSTEI[pid])});return}fd156Envia()},2000);
 
 /* ---- comentário escrito sem internet: fica guardado e é enviado sozinho quando a conexão volta (decisão do Pedro, 16/11) ---- */
 var FD156_PID=null;
@@ -20966,7 +20989,9 @@ function fitTrack(t){
 function us204Base(pid){
   const sa=$("#s-acts");if(sa&&sa.dataset.pid===pid)sa.innerHTML=storyActs(pid);
   const el=document.getElementById("p-"+pid);if(!el)return;
-  const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid)),others=likes.filter(u=>u!==S.uid);
+  const {likes,cm}=socialOf(pid),others=likes.filter(u=>u!==S.uid);let mine=!!(S.uid&&likes.includes(S.uid));
+  /* 22/11: curtida feita sem internet e ainda na fila (FD156_GOSTEI, guardada no aparelho) continua marcada no losango */
+  try{if(typeof FD156_GOSTEI!=="undefined"&&pid in FD156_GOSTEI)mine=!!FD156_GOSTEI[pid]}catch(e){}
   const lb=el.querySelector('[data-a="like"]');lb.classList.toggle("on",mine);lb.setAttribute("aria-pressed",String(mine));
   el.querySelector('[data-n="like"]').textContent="";
   el.querySelector('[data-n="cmt"]').textContent="";
@@ -21611,7 +21636,7 @@ function pf205VnPf(root,u,ab){if(!root||!u)return;const eu=u===S.uid,cab=root.qu
   const f=(S.membros[u]||{}).foto&&avb&&avb.querySelector("img");
   const h=document.createElement("div");h.className="vn-pf";h.style.setProperty("--vn-band",vn112Cor(u));
   h.innerHTML=`<div class="vn-pf-band" aria-hidden="true">${f?`<img src="${esc(f.getAttribute("src"))}" alt="">`:""}</div><div class="vn-pf-row"></div><h2 class="vn-pf-nome">${esc(nomeDe(u))}</h2>${ds?`<p class="vn-pf-desde"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>${esc(ds)}</p>`:""}
-    <p class="vn-pf-num">${eu?`<span role="button" tabindex="0" data-fd104am aria-label="${na} ${na===1?"amigo":"amigos"}: ver a lista"><b>${na}</b> ${na===1?"amigo":"amigos"}</span>`:cm!=null?`<span><b>${cm}</b> ${cm===1?"amigo em comum":"amigos em comum"}</span>`:""}<span><b>${n}</b> ${n===1?"publicação":"publicações"}</span></p>`;
+    <p class="vn-pf-num">${eu&&!S.amigosOk?`<span class="pf205-sr" role="status">${navigator.onLine===false?"Sem conexão: seus amigos e publicações aparecem quando a internet voltar":"Carregando seu perfil…"}</span>`:eu?`<span role="button" tabindex="0" data-fd104am aria-label="${na} ${na===1?"amigo":"amigos"}: ver a lista"><b>${na}</b> ${na===1?"amigo":"amigos"}</span>`:cm!=null?`<span><b>${cm}</b> ${cm===1?"amigo em comum":"amigos em comum"}</span>`:""}${eu&&!S.amigosOk?"":`<span><b>${n}</b> ${n===1?"publicação":"publicações"}</span>`}</p>`;
   const row=h.querySelector(".vn-pf-row");if(avb)row.appendChild(avb);if(bts){if(bts.children.length>1)h.appendChild(bts);else row.appendChild(bts)}
   cab.before(h);cab.remove();root.querySelector(".pf-nome")?.remove();num?.remove();
   const meu=["posts","resp","midia"].includes(ab);

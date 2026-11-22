@@ -114,7 +114,12 @@ function fd156Comentarios(){const inp=document.getElementById("ctext");if(!inp)r
   if(box&&!box._fd156&&"MutationObserver" in window){box._fd156=new MutationObserver(()=>fd156Agrupa());box._fd156.observe(box,{childList:true,subtree:true})}}
 
 /* ---- sem internet: o aviso diz que é a conexão; o Gostei é reenviado quando a internet volta ---- */
+/* 22/11 (corretor): a fila do Gostei feito sem internet fica guardada no aparelho (antes só na memória: fechar o app ou
+   recarregar antes da rede voltar perdia a curtida prometida). Ao abrir com internet, envia o que ficou pendente. */
 var FD156_GOSTEI={};
+function fd156Lsk(){return "prumo-gostei-pend:"+(S.uid||"")}
+function fd156Grava(){try{if(!S.uid)return;const k=fd156Lsk();if(Object.keys(FD156_GOSTEI).length)localStorage.setItem(k,JSON.stringify(FD156_GOSTEI));else localStorage.removeItem(k)}catch(e){}}
+function fd156Le(){try{const o=JSON.parse(localStorage.getItem(fd156Lsk())||"{}");return o&&typeof o==="object"?o:{}}catch(e){return {}}}
 function fd156Offline(){return typeof navigator!=="undefined"&&navigator.onLine===false}
 /* 19/11 (testador): sem internet, o losango marca na hora e o 2º toque desfaz o que está na fila */
 function fd156Marca(pid,on){try{document.querySelectorAll('[data-a="like"]').forEach(b=>{const dono=b.closest('[id^="p-"],.sheet,.story,.sg');if(dono&&dono.id&&dono.id!=="p-"+pid)return;if(!dono||!dono.id){const ss=b.closest("[data-pid]");if(!ss||ss.dataset.pid!==String(pid))return}
@@ -122,10 +127,15 @@ function fd156Marca(pid,on){try{document.querySelectorAll('[data-a="like"]').for
 {const _tk156=toggleLike;toggleLike=function(pid){let real=null;try{if(S.uid)real=socialOf(pid).likes.includes(S.uid)}catch(e){}
   if(real!==null&&fd156Offline()){const atual=pid in FD156_GOSTEI?FD156_GOSTEI[pid]:real,quer=!atual;
     if(quer===real){delete FD156_GOSTEI[pid];toast(quer?"Sem conexão: a curtida continua.":"Curtida desfeita.")}else{FD156_GOSTEI[pid]=quer;toast(quer?"Sem conexão: a curtida vai ser enviada quando a internet voltar.":"Sem conexão: a curtida vai ser tirada quando a internet voltar.")}
-    fd156Marca(pid,quer);return}
+    fd156Grava();fd156Marca(pid,quer);return}
   return _tk156.apply(this,arguments)}}
-addEventListener("online",()=>{const ps=Object.keys(FD156_GOSTEI);if(!ps.length)return;setTimeout(()=>{let n=0;ps.forEach(pid=>{const q=FD156_GOSTEI[pid];delete FD156_GOSTEI[pid];
-  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});if(n)try{toast(n===1?"Conexão de volta: a curtida foi enviada.":"Conexão de volta: as curtidas foram enviadas.")}catch(e){}},600)});
+function fd156Envia(){const ps=Object.keys(FD156_GOSTEI);if(!ps.length||fd156Offline())return;/* espera as curtidas do servidor (S.amigosOk vem junto) para comparar */if(!S.amigosOk){clearTimeout(fd156Envia.t);fd156Envia.t=setTimeout(fd156Envia,1000);return}setTimeout(()=>{if(fd156Offline())return;let n=0;ps.forEach(pid=>{if(!(pid in FD156_GOSTEI))return;const q=FD156_GOSTEI[pid];delete FD156_GOSTEI[pid];
+  try{if(S.uid&&socialOf(pid).likes.includes(S.uid)!==q){toggleLike(pid);n++}}catch(e){}});fd156Grava();if(n)try{toast(n===1?"Conexão de volta: a curtida foi enviada.":"Conexão de volta: as curtidas foram enviadas.")}catch(e){}},600)}
+addEventListener("online",fd156Envia);
+/* ao abrir: recupera a fila guardada; sem internet, marca o losango; com internet (e as curtidas já baixadas), envia */
+setTimeout(function fd156Abre(){if(!(S.uid&&(S.amigosOk||fd156Offline()))){if(!fd156Abre.n||fd156Abre.n++<80){fd156Abre.n=fd156Abre.n||1;setTimeout(fd156Abre,1500)}return}
+  const o=fd156Le();Object.keys(o).forEach(pid=>{if(!(pid in FD156_GOSTEI))FD156_GOSTEI[pid]=!!o[pid]});if(!Object.keys(FD156_GOSTEI).length)return;
+  if(fd156Offline()){Object.keys(FD156_GOSTEI).forEach(pid=>{try{updateSocial(pid)}catch(e){}fd156Marca(pid,FD156_GOSTEI[pid])});return}fd156Envia()},2000);
 
 /* ---- comentário escrito sem internet: fica guardado e é enviado sozinho quando a conexão volta (decisão do Pedro, 16/11) ---- */
 var FD156_PID=null;

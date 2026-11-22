@@ -6,13 +6,25 @@
 const PQ108_LS="prumo-pq-pend";
 function pq108Le(){try{return JSON.parse(localStorage.getItem(PQ108_LS+":"+S.uid)||"[]")||[]}catch(e){return []}}
 function pq108Grava(l){try{if(l.length)localStorage.setItem(PQ108_LS+":"+S.uid,JSON.stringify(l.slice(-10)));else localStorage.removeItem(PQ108_LS+":"+S.uid)}catch(e){}}
+/* 22/11 (corretor, achado "sem-internet-fechar-o-app-perde-o-post-e-a-curtida-prometidos"): o app aberto SEM internet
+   lia a lista, não achava o post no servidor e apagava a lista (o aviso saía com a pessoa offline e depois mais nada).
+   Agora espera a internet voltar e cumpre o "vamos publicar quando a internet voltar": post de texto (com ou sem notícia)
+   volta para a fila e sai sozinho; post com foto ou formulário (análise, enquete…) avisa com "Publicar agora". */
+function pq108Ed(r){const st=edNovoSt();return {modo:"post",tela:"cam",env:false,st,sts:[st],si:0,pq108:1,
+  po:{passo:"detalhes",fotos:[],rolo:[],cur:0,ar:r.ar||"4:5",texto:r.texto||"",marcados:r.marcados||[],local:r.local||"",pid:r.pid||null,tags:[],semCom:!!r.semCom,semCurt:!!r.semCurt,aba:"filtros",rid:r.id}}}
+function pq108Sozinho(r){try{return !(r.fotos&&r.fotos.length)&&!(typeof cn102RLe==="function"&&cn102RLe()[r.id])&&!!(String(r.texto||"").trim()||r.pid)}catch(e){return false}}
 setTimeout(function pq108Aviso(){if(!(S.uid&&S.membro&&S.amigosOk&&PUB.carregou)){setTimeout(pq108Aviso,1500);return}
   const l=pq108Le();if(!l.length||typeof rascLista!=="function")return;
+  if(navigator.onLine===false){addEventListener("online",function pq108On(){removeEventListener("online",pq108On);setTimeout(pq108Aviso,1500)});return}
   rascLista().then(rs=>{/* se o servidor recebeu (o app fechou antes da resposta), o rascunho sai sem aviso */
     const ja=r=>PUB.itens.some(x=>x.autor===S.uid&&x.tipo==="post"&&x.texto===r.texto&&+x.at>=r.at-120e3);
     rs.filter(r=>l.includes(r.id)&&ja(r)).forEach(r=>rascApaga(r.id));
-    const ids=new Set(rs.filter(r=>!ja(r)).map(r=>r.id)),vivos=l.filter(x=>ids.has(x));pq108Grava([]);if(!vivos.length||PQ.jobs.length)return;
-    toast(vivos.length>1?"Alguns posts não terminaram de publicar. Ficaram nos rascunhos.":"Um post não terminou de publicar. Ficou nos rascunhos.","Abrir",()=>{if(ED||$("#layer .ce"))return;criarAbrir("post");setTimeout(()=>{if(ED)rascAbre(vivos[vivos.length-1])},350)})}).catch(()=>{})},2500);
+    const vivos=rs.filter(r=>l.includes(r.id)&&!ja(r));pq108Grava([]);if(!vivos.length)return;
+    const auto=vivos.filter(pq108Sozinho),mao=vivos.filter(r=>!auto.includes(r));
+    auto.forEach(r=>{if(PQ.jobs.some(j=>j.ed&&j.ed.po&&j.ed.po.rid===r.id))return;const j=pqNovo("post",pq108Ed(r),[]);j.estado="erro";j.err=new TypeError("Failed to fetch")});
+    if(auto.length){pqDesenha();clearTimeout(CR155.rt);CR155.rt=setTimeout(cr155Reenvia,300)}
+    if(!mao.length)return;const um=mao.length===1,ult=mao[0].id;
+    toast(um?"Um post seu não terminou de publicar.":"Alguns posts não terminaram de publicar. Ficaram nos rascunhos.",um?"Publicar agora":"Ver",()=>{if(ED||$("#layer .ce"))return;criarAbrir("post");setTimeout(()=>{if(ED)rascAbre(ult)},350)})}).catch(()=>{})},2500);
 
 /* 3. rascunho da mensagem e do comentário: recarregar ou o celular fechar o app não apaga o que estava sendo escrito */
 const RS108_LS="prumo-rasc-txt";

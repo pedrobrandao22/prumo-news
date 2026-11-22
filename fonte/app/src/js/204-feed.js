@@ -83,7 +83,9 @@ function fitTrack(t){
 function us204Base(pid){
   const sa=$("#s-acts");if(sa&&sa.dataset.pid===pid)sa.innerHTML=storyActs(pid);
   const el=document.getElementById("p-"+pid);if(!el)return;
-  const {likes,cm}=socialOf(pid),mine=!!(S.uid&&likes.includes(S.uid)),others=likes.filter(u=>u!==S.uid);
+  const {likes,cm}=socialOf(pid),others=likes.filter(u=>u!==S.uid);let mine=!!(S.uid&&likes.includes(S.uid));
+  /* 22/11: curtida feita sem internet e ainda na fila (FD156_GOSTEI, guardada no aparelho) continua marcada no losango */
+  try{if(typeof FD156_GOSTEI!=="undefined"&&pid in FD156_GOSTEI)mine=!!FD156_GOSTEI[pid]}catch(e){}
   const lb=el.querySelector('[data-a="like"]');lb.classList.toggle("on",mine);lb.setAttribute("aria-pressed",String(mine));
   el.querySelector('[data-n="like"]').textContent="";
   el.querySelector('[data-n="cmt"]').textContent="";
