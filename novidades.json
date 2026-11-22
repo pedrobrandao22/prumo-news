@@ -1,26 +1,26 @@
 {
- "gerado": "2026-11-22T14:58-03:00",
+ "gerado": "2026-11-22T15:08-03:00",
  "desde": "2026-11-22T13:39-03:00",
  "feed_atualizado_em": "2026-11-22T13:49:00-03:00",
  "resumo": {
-  "manchetes": 133,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 113,
+  "manchetes": 150,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 128,
   "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 6,
-  "acionar_itens": 1,
+  "acionar_itens": 2,
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 11 veículos em 90 min (politica)",
+ "acionar_motivo": "assunto novo: 10 veículos em 90 min (politica); assunto novo: 4 veículos em 90 min (mundo)",
  "acionar_itens": [
   {
    "tipo": "novo",
    "titulo": "Bolsonaro permanece na UTI sem previsão de alta, diz boletim",
    "secao": "politica",
-   "n_fontes": 11,
-   "motivo": "assunto novo: 11 veículos em 90 min (politica)",
+   "n_fontes": 10,
+   "motivo": "assunto novo: 10 veículos em 90 min (politica)",
    "chave": [
     "alta",
     "boletim",
@@ -64,6 +64,57 @@
      "lide": "Ex-presidente está estável na UTI e segue sem previsão de alta; permanece em jejum e recebe suporte nutricional. Leia no Poder360"
     }
    ]
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Falha em sistema de automação da Delta Air Lines causa atrasos em voos nos EUA",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "motivo": "assunto novo: 4 veículos em 90 min (mundo)",
+   "chave": [
+    "air",
+    "atlanta",
+    "atrasa",
+    "atrasos",
+    "automacao",
+    "causa",
+    "delta",
+    "eua",
+    "falha",
+    "lines",
+    "milhares",
+    "neste",
+    "paralisacao",
+    "provoca",
+    "sistema",
+    "tecnica",
+    "temporaria",
+    "todos",
+    "voos"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "Estadão Internacional",
+     "titulo": "Falha em sistema de automação da Delta Air Lines causa atrasos em voos nos EUA",
+     "url": "https://www.estadao.com.br/internacional/falha-sistema-delta-air-lines-atrasos-voos-eua/",
+     "hora": "22/11 15h01",
+     "lide": "Problema ocorre no início do período de viagens para o feriado de Ação de Graças, um dos mais movimentados do país; setor aéreo norte-americano tem enfrentado instabilidades recorrentes"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Falha técnica na Delta atrasa milhares de voos nos EUA neste domingo",
+     "url": "https://exame.com/mundo/falha-tecnica-na-delta-atrasa-milhares-de-voos-nos-eua-neste-domingo/",
+     "hora": "22/11 14h52"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Falha em sistema da Delta provoca atrasos e paralisação temporária nos EUA",
+     "url": "https://www.cnnbrasil.com.br/internacional/falha-em-sistema-da-delta-provoca-atrasos-e-paralisacao-temporaria-nos-eua/",
+     "hora": "22/11 14h43",
+     "lide": "Equipes estão trabalhando para restabelecer a automação dos cálculos de peso e balanceamento de voos de partida em Atlanta"
+    }
+   ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
@@ -71,7 +122,7 @@
   {
    "assunto": "Bolsonaro permanece na UTI sem previsão de alta, diz boletim",
    "secao": "politica",
-   "n_fontes": 11,
+   "n_fontes": 10,
    "fontes": [
     "antag",
     "cnn",
@@ -81,7 +132,6 @@
     "gp",
     "met",
     "oeste",
-    "oglobo",
     "p360",
     "veja"
    ],
@@ -113,9 +163,50 @@
      "hora": "22/11 14h18"
     }
    ],
-   "n_fontes_90min": 11,
+   "n_fontes_90min": 10,
    "ultima_iso": "2026-11-22T14:45-03:00",
    "pid_provavel": "bolsonaro-hospital-dores-abdominais"
+  },
+  {
+   "assunto": "Falha em sistema de automação da Delta Air Lines causa atrasos em voos nos EUA",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "fontes": [
+    "cnn",
+    "estadao",
+    "ex",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Estadão Internacional",
+     "titulo": "Falha em sistema de automação da Delta Air Lines causa atrasos em voos nos EUA",
+     "url": "https://www.estadao.com.br/internacional/falha-sistema-delta-air-lines-atrasos-voos-eua/",
+     "hora": "22/11 15h01"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Falha técnica na Delta atrasa milhares de voos nos EUA neste domingo",
+     "url": "https://exame.com/mundo/falha-tecnica-na-delta-atrasa-milhares-de-voos-nos-eua-neste-domingo/",
+     "hora": "22/11 14h52"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Falha em sistema da Delta provoca atrasos e paralisação temporária nos EUA",
+     "url": "https://www.cnnbrasil.com.br/internacional/falha-em-sistema-da-delta-provoca-atrasos-e-paralisacao-temporaria-nos-eua/",
+     "hora": "22/11 14h43"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Falha em sistema atrasa todos os voos da Delta em Atlanta, EUA",
+     "url": "https://www.infomoney.com.br/business/global/pane-trava-voos-da-delta-em-atlanta-e-a-3a-falha-no-setor-aereo-dos-eua/",
+     "hora": "22/11 14h42"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-22T15:01-03:00"
   },
   {
    "assunto": "EUA buscam respostas sobre vendas de chips da Nvidia a China, diz Bessent",
@@ -143,33 +234,6 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-22T14:12-03:00"
-  },
-  {
-   "assunto": "Falha técnica na Delta atrasa milhares de voos nos EUA neste domingo",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "ex",
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Falha técnica na Delta atrasa milhares de voos nos EUA neste domingo",
-     "url": "https://exame.com/mundo/falha-tecnica-na-delta-atrasa-milhares-de-voos-nos-eua-neste-domingo/",
-     "hora": "22/11 14h52"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Falha em sistema atrasa todos os voos da Delta em Atlanta, EUA",
-     "url": "https://www.infomoney.com.br/business/global/pane-trava-voos-da-delta-em-atlanta-e-a-3a-falha-no-setor-aereo-dos-eua/",
-     "hora": "22/11 14h42"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T14:52-03:00"
   },
   {
    "assunto": "'Eu gosto de estudar': médico de 67 anos presta vestibular da Unesp para tentar vaga em história",
@@ -332,6 +396,26 @@
    "ultima_iso": "2026-11-22T13:49-03:00"
   },
   {
+   "assunto": "Aos 63 anos, Quentin Tarantino dá boas-vindas ao terceiro filho, diz site",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Aos 63 anos, Quentin Tarantino dá boas-vindas ao terceiro filho, diz site",
+     "url": "https://www.cnnbrasil.com.br/pop/celebridades/aos-63-anos-quentin-tarantino-da-boas-vindas-ao-terceiro-filho-diz-site/",
+     "hora": "22/11 14h50"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:50-03:00"
+  },
+  {
    "assunto": "Após dias em Israel, Michelle retorna ao Brasil e visita Bolsonaro na UTI",
    "secao": null,
    "n_fontes": 1,
@@ -352,7 +436,7 @@
    "ultima_iso": "2026-11-22T14:01-03:00"
   },
   {
-   "assunto": "Após problema com avião, Remo x Athletico-PR é mantido para às 16h",
+   "assunto": "Após problema com avião, Remo x Athletico-PR tem horário mantido",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -363,13 +447,53 @@
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Após problema com avião, Remo x Athletico-PR é mantido para às 16h",
+     "titulo": "Após problema com avião, Remo x Athletico-PR tem horário mantido",
      "url": "https://www.cnnbrasil.com.br/esportes/futebol/remo/apos-problema-com-aviao-remo-x-athletico-pr-e-mantido-para-as-16h/",
      "hora": "22/11 13h42"
     }
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T13:42-03:00"
+  },
+  {
+   "assunto": "Assim como a SpaceX, Anthropic adota modelo incomum de IPO",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Assim como a SpaceX, Anthropic adota modelo incomum de IPO",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/assim-como-a-spacex-anthropic-adota-modelo-incomum-de-ipo/",
+     "hora": "22/11 14h43"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:43-03:00"
+  },
+  {
+   "assunto": "Associação de bebidas destiladas não se opõe à MP do 'imposto do pecado', mas quer previsibilidade sobre alíquotas",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Associação de bebidas destiladas não se opõe à MP do 'imposto do pecado', mas quer previsibilidade sobre alíquotas",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/associacao-de-bebidas-destiladas-nao-se-opoe-a-mp-do-imposto-do-pecado-mas-quer-previsibilidade-sobre-aliquotas.shtml",
+     "hora": "22/11 15h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T15:00-03:00"
   },
   {
    "assunto": "Ataque russo perto de Kiev deixa ao menos 3 mortos; Zelenski pressiona EUA a liberar mísseis",
@@ -393,6 +517,66 @@
    "pid_provavel": "ucrania-drone-predio-kiev-desaparecidos"
   },
   {
+   "assunto": "Ataques iranianos no Estreito de Ormuz atingem maior nível da guerra",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ataques iranianos no Estreito de Ormuz atingem maior nível da guerra",
+     "url": "https://www.cnnbrasil.com.br/internacional/ataques-iranianos-no-estreito-de-ormuz-atingem-maior-nivel-da-guerra/",
+     "hora": "22/11 14h48"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:48-03:00"
+  },
+  {
+   "assunto": "Ataques russos matam 4 pessoas na região de Kiev",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oeste"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Ataques russos matam 4 pessoas na região de Kiev",
+     "url": "https://revistaoeste.com/politica/ataque-russo-em-dymer/",
+     "hora": "22/11 15h03"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T15:03-03:00"
+  },
+  {
+   "assunto": "Atlético-MG custeará volta de torcedores que viajaram de Kombi à Colômbia",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Atlético-MG custeará volta de torcedores que viajaram de Kombi à Colômbia",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/atletico-mineiro/atletico-mg-custeara-volta-de-torcedores-que-viajaram-de-kombi-a-colombia/",
+     "hora": "22/11 15h03"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T15:03-03:00"
+  },
+  {
    "assunto": "Aviso",
    "secao": "economia",
    "n_fontes": 1,
@@ -411,6 +595,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T13:53-03:00"
+  },
+  {
+   "assunto": "Barcelona vira sobre o Villarreal e recupera vantagem na liderança do Espanhol",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Barcelona vira sobre o Villarreal e recupera vantagem na liderança do Espanhol",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/jogo/22-11-2026/barcelona-Villarreal.ghtml",
+     "hora": "22/11 14h58"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:58-03:00"
   },
   {
    "assunto": "Belo Horizonte segue sob alerta de risco geológico até terça-feira (24)",
@@ -539,47 +743,7 @@
    "ultima_iso": "2026-11-22T14:00-03:00"
   },
   {
-   "assunto": "Caminhão cegonha com carros pega fogo na BR-174, em Roraima",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Caminhão cegonha com carros pega fogo na BR-174, em Roraima",
-     "url": "https://g1.globo.com/rr/roraima/noticia/2026/11/22/caminhao-cegonha-com-carros-pega-fogo-na-br-174-em-roraima.ghtml",
-     "hora": "22/11 14h27"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T14:27-03:00"
-  },
-  {
-   "assunto": "Chefe da inteligência americana diz que Putin ‘não é amigo dos EUA na Ucrânia’",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Chefe da inteligência americana diz que Putin ‘não é amigo dos EUA na Ucrânia’",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/22/chefe-da-inteligncia-americana-diz-que-putin-no-amigo-dos-eua-na-ucrnia.ghtml",
-     "hora": "22/11 14h51"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T14:51-03:00"
-  },
-  {
-   "assunto": "Chitãozinho e Xororó: relembre a trajetória de mais de 50 anos da dupla",
+   "assunto": "Caixas-pretas: por que as dos aviões são laranjas?",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -590,17 +754,17 @@
    "manchetes": [
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Chitãozinho e Xororó: relembre a trajetória de mais de 50 anos da dupla",
-     "url": "https://www.cnnbrasil.com.br/pop/musica/chitaozinho-e-xororo-relembre-a-trajetoria-de-mais-de-50-anos-da-dupla/",
-     "hora": "22/11 14h14"
+     "titulo": "Caixas-pretas: por que as dos aviões são laranjas?",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/caixas-pretas-por-que-as-dos-avioes-sao-laranjas/",
+     "hora": "22/11 15h01"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T14:14-03:00"
+   "ultima_iso": "2026-11-22T15:01-03:00"
   },
   {
-   "assunto": "Chuva forte, ventos de até 60 km/h e granizo: Vale do Paraíba e região têm alertas para tempestades",
-   "secao": "brasil",
+   "assunto": "Caminhonete capota após colisão com outro veículo nas Três Ruas, em João Pessoa",
+   "secao": null,
    "n_fontes": 1,
    "fontes": [
     "g1"
@@ -610,120 +774,26 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Chuva forte, ventos de até 60 km/h e granizo: Vale do Paraíba e região têm alertas para tempestades",
-     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/22/chuva-forte-ventos-de-ate-60-kmh-e-granizo-vale-do-paraiba-e-regiao-tem-alertas-para-tempestades.ghtml",
-     "hora": "22/11 14h01"
+     "titulo": "Caminhonete capota após colisão com outro veículo nas Três Ruas, em João Pessoa",
+     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/22/caminhonete-capota-apos-colisao-com-outro-veiculo-nas-tres-ruas-em-joao-pessoa.ghtml",
+     "hora": "22/11 14h56"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T14:01-03:00"
-  },
-  {
-   "assunto": "Colégio AME vence na abertura do Acreano de Futsal Sub-17; Assermurb e Rio Branco empatam",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Colégio AME vence na abertura do Acreano de Futsal Sub-17; Assermurb e Rio Branco empatam",
-     "url": "https://ge.globo.com/ac/noticia/2026/11/22/colegio-ame-vence-na-abertura-do-acreano-de-futsal-sub-17-assermurb-e-rio-branco-empatam.ghtml",
-     "hora": "22/11 13h46"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:46-03:00"
-  },
-  {
-   "assunto": "Com parceria, Fortaleza anuncia volta do time feminino",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Com parceria, Fortaleza anuncia volta do time feminino",
-     "url": "https://ge.globo.com/ce/futebol/times/fortaleza/noticia/2026/11/22/com-parceria-fortaleza-anuncia-volta-do-time-feminino.ghtml",
-     "hora": "22/11 14h35"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T14:35-03:00"
-  },
-  {
-   "assunto": "Como o Flamengo mudou o foco para o Brasileirão nos últimos dois anos e saiu campeão",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Como o Flamengo mudou o foco para o Brasileirão nos últimos dois anos e saiu campeão",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/22/como-o-flamengo-mudou-o-foco-para-o-brasileirao-nos-ultimos-dois-anos-e-saiu-campeao.ghtml",
-     "hora": "22/11 13h52"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:52-03:00"
-  },
-  {
-   "assunto": "Compras como alívio emocional causam ciclo vicioso",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Compras como alívio emocional causam ciclo vicioso",
-     "url": "https://www.poder360.com.br/poder-saude/compras-como-alivio-emocional-causam-ciclo-vicioso/",
-     "hora": "22/11 14h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T14:00-03:00"
-  },
-  {
-   "assunto": "Comércio e serviços reagem à alta de impostos e cobram corte de gastos",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Comércio e serviços reagem à alta de impostos e cobram corte de gastos",
-     "url": "https://revistaoeste.com/politica/comercio-e-servicos-reagem-a-alta-de-impostos-e-cobram-corte-de-gastos/",
-     "hora": "22/11 14h41"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T14:41-03:00"
+   "ultima_iso": "2026-11-22T14:56-03:00"
   }
  ],
  "em_pautas": {
   "chitaozinho-xororo-aposentadoria": {
    "secao": "brasil",
-   "n_fontes": 1,
+   "n_fontes": 2,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Chitãozinho e Xororó anunciam aposentadoria dos palcos – mas não do agro",
+     "url": "https://www.infomoney.com.br/business/chitaozinho-e-xororo-anunciam-aposentadoria-dos-palcos-mas-nao-do-agro/",
+     "hora": "22/11 14h59"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "Chitãozinho e Xororó anunciam despedida dos palcos depois de 56 anos de carreira",
@@ -787,7 +857,7 @@
    "ultima": "22/11 14h46",
    "ultima_iso": "2026-11-22T14:46-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 8.1,
+   "horas_sem_atualizar": 8.3,
    "principal": true,
    "manchetes": [
     {
@@ -814,7 +884,7 @@
    "ultima": "22/11 14h08",
    "ultima_iso": "2026-11-22T14:08-03:00",
    "pauta_atualizada_em": "2026-11-22T13:48-03:00",
-   "horas_sem_atualizar": 1.2,
+   "horas_sem_atualizar": 1.3,
    "principal": true,
    "manchetes": [
     {
@@ -841,7 +911,7 @@
    "ultima": "22/11 12h51",
    "ultima_iso": "2026-11-22T12:51-03:00",
    "pauta_atualizada_em": "2026-11-22T04:15-03:00",
-   "horas_sem_atualizar": 10.7,
+   "horas_sem_atualizar": 10.9,
    "principal": false,
    "manchetes": [
     {
@@ -853,17 +923,16 @@
    ]
   },
   "mexico-captura-chapo-isidro": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "im",
-    "oglobo"
+    "im"
    ],
    "n_fontes_90min": 1,
    "ultima": "22/11 14h00",
    "ultima_iso": "2026-11-22T14:00-03:00",
    "pauta_atualizada_em": "2026-11-21T10:58-03:00",
-   "horas_sem_atualizar": 28.0,
+   "horas_sem_atualizar": 28.2,
    "principal": false,
    "manchetes": [
     {
@@ -871,12 +940,6 @@
      "titulo": "Grampo, drone e despiste: os bastidores da prisão de “El Chapo Isidro” no México",
      "url": "https://www.infomoney.com.br/business/global/grampo-drone-e-despiste-os-bastidores-da-prisao-de-el-chapo-isidro-no-mexico/",
      "hora": "22/11 14h00"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Por que 'El Chapo', ascensão no crime e acusações: saiba quem é Fausto Isidro Meza Flores, traficante preso no México",
-     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/22/por-que-el-chapo-ascensao-no-crime-e-acusacoes-saiba-quem-e-fausto-isidro-meza-flores-traficante-preso-no-mexico.ghtml",
-     "hora": "22/11 10h00"
     }
    ]
   },
@@ -891,7 +954,7 @@
    "ultima": "22/11 12h28",
    "ultima_iso": "2026-11-22T12:28-03:00",
    "pauta_atualizada_em": "2026-11-22T06:36-03:00",
-   "horas_sem_atualizar": 8.4,
+   "horas_sem_atualizar": 8.5,
    "principal": false,
    "manchetes": [
     {
@@ -909,18 +972,25 @@
    ]
   },
   "chitaozinho-xororo-aposentadoria": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
+    "im",
     "oeste"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "22/11 13h43",
-   "ultima_iso": "2026-11-22T13:43-03:00",
+   "n_fontes_90min": 2,
+   "ultima": "22/11 14h59",
+   "ultima_iso": "2026-11-22T14:59-03:00",
    "pauta_atualizada_em": "2026-11-22T11:45-03:00",
-   "horas_sem_atualizar": 3.2,
+   "horas_sem_atualizar": 3.4,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Chitãozinho e Xororó anunciam aposentadoria dos palcos – mas não do agro",
+     "url": "https://www.infomoney.com.br/business/chitaozinho-e-xororo-anunciam-aposentadoria-dos-palcos-mas-nao-do-agro/",
+     "hora": "22/11 14h59"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "Chitãozinho e Xororó anunciam despedida dos palcos depois de 56 anos de carreira",
@@ -1252,31 +1322,12 @@
      "hora": "22/11 13h40"
     }
    ]
-  },
-  {
-   "assunto": "Falha técnica na Delta atrasa milhares de voos nos EUA neste domingo",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Falha técnica na Delta atrasa milhares de voos nos EUA neste domingo",
-     "url": "https://exame.com/mundo/falha-tecnica-na-delta-atrasa-milhares-de-voos-nos-eua-neste-domingo/",
-     "hora": "22/11 14h52"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Falha em sistema atrasa todos os voos da Delta em Atlanta, EUA",
-     "url": "https://www.infomoney.com.br/business/global/pane-trava-voos-da-delta-em-atlanta-e-a-3a-falha-no-setor-aereo-dos-eua/",
-     "hora": "22/11 14h42"
-    }
-   ]
   }
  ],
  "ultima_rodada": "2026-11-22T13:49-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 56 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
@@ -1284,8 +1335,8 @@
   "g1 Economia": "ok: 100 itens, 1 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 54 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 4 nas últimas 6 h",
+  "ge": "ok: 100 itens, 55 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 14 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 0 nas últimas 6 h",
@@ -1298,9 +1349,9 @@
   "Estadão Política": "ok: 20 itens, 3 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 4 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 2 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 47 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 24 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 3 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "Valor Econômico": "ok: 100 itens, 23 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
