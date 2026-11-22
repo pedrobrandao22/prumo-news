@@ -1,27 +1,60 @@
 {
- "gerado": "2026-11-21T22:03-03:00",
+ "gerado": "2026-11-21T22:13-03:00",
  "desde": "2026-11-21T21:39-03:00",
  "feed_atualizado_em": "2026-11-21T21:49:00-03:00",
  "resumo": {
-  "manchetes": 17,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 11,
+  "manchetes": 30,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 18,
   "pautas_com_novidade": 1,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 10,
-  "acionar_itens": 0,
-  "ja_avaliados": 1
+  "acionar_itens": 1,
+  "ja_avaliados": 2
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (11 assuntos fora do feed, 10 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta rs-temporais-tres-mortes-tupanciereta: 4 veículos em 90 min depois da última atualização",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "rs-temporais-tres-mortes-tupanciereta",
+   "titulo": "Sobe para 5 número de mortos em temporais no Rio Grande do Sul",
+   "n_fontes": 6,
+   "motivo": "pauta rs-temporais-tres-mortes-tupanciereta: 4 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: rs-temporais-tres-mortes-tupanciereta",
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Sobe para 5 número de mortos em temporais no Rio Grande do Sul",
+     "url": "https://www.poder360.com.br/poder-brasil/sobe-para-5-numero-de-mortos-em-temporais-no-rio-grande-do-sul/",
+     "hora": "21/11 22h01",
+     "lide": "Defesa Civil confirmou nova morte em Tupanciretã; município registra 265 feridos e quase 20.000 pessoas desalojadas ou desabrigadas. Leia no Poder360."
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Sobe para 4 o número de mortos em Tupanciretã, no RS",
+     "url": "https://jovempan.com.br/brasil/sobe-para-4-o-numero-de-mortos-em-tupancireta-no-rs/",
+     "hora": "21/11 21h35",
+     "lide": "Tempestade na madrugada de sexta destruiu a cidade gaúcha"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Após temporal que deixou 5 mortos, moradores e voluntários começam a reconstruir Tupanciretã (RS)",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/21/temporal-deixa-5-mortos-e-mais-de-8-mil-imoveis-atingidos-em-tupancireta-rs-cidade-comeca-reconstrucao.ghtml",
+     "hora": "21/11 20h58",
+     "lide": "Governo federal reconheceu situação de calamidade pública, e estado anunciou R$ 7 milhões para recuperação do município."
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
    "assunto": "Atlético-MG sucumbe para o Boca Juniors e amarga vice da Sul-Americana",
-   "secao": "esportes",
-   "n_fontes": 3,
+   "secao": null,
+   "n_fontes": 4,
    "fontes": [
+    "cnn",
     "ge",
     "jp",
     "veja"
@@ -33,6 +66,18 @@
      "veiculo": "ge",
      "titulo": "Atlético-MG sucumbe para o Boca Juniors e amarga vice da Sul-Americana",
      "url": "https://ge.globo.com/mg/futebol/copa-sul-americana/jogo/21-11-2026/atletico-mg-boca-juniors.ghtml",
+     "hora": "21/11 22h03"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Atlético-MG 0 x 2 Boca: veja os melhores momentos da final da Sul-Americana",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/sulamericana/atletico-mg-0-x-2-boca-veja-os-melhores-momentos-da-final-da-sul-americana/",
+     "hora": "21/11 22h02"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Sul-Americana: saiba quanto o Atlético-MG deixou de ganhar após a derrota",
+     "url": "https://www.cnnbrasil.com.br/noticias/sul-americana-saiba-quanto-o-atletico-mg-deixou-de-ganhar-apos-a-derrota/",
      "hora": "21/11 21h57"
     },
     {
@@ -40,21 +85,70 @@
      "titulo": "\"Um grito de coração\": confira repercussão do título do Boca Juniors na Sul-Americana",
      "url": "https://ge.globo.com/futebol/futebol-internacional/noticia/2026/11/21/um-grito-de-coracao-confira-repercussao-do-titulo-do-boca-juniors-na-sul-americana.ghtml",
      "hora": "21/11 21h53"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-21T22:03-03:00"
+  },
+  {
+   "assunto": "Após viagem, Michelle vai a hospital em que Bolsonaro está internado",
+   "secao": "politica",
+   "n_fontes": 3,
+   "fontes": [
+    "met",
+    "oglobo",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Após viagem, Michelle vai a hospital em que Bolsonaro está internado",
+     "url": "https://www.poder360.com.br/poder-gente/apos-viagem-michelle-vai-a-hospital-em-que-bolsonaro-esta-internado/",
+     "hora": "21/11 22h13"
     },
     {
-     "veiculo": "ge",
-     "titulo": "Atlético-MG perde final da Sul-Americana e vira alvo de provocações de Kaio Jorge e rivais; veja",
-     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/21/atletico-mg-perde-final-da-sul-americana-e-vira-alvo-de-provocacoes-de-kaio-jorge-e-rivais-veja.ghtml",
-     "hora": "21/11 21h51"
+     "veiculo": "Metrópoles",
+     "titulo": "Michelle chega a Brasília após viagem e visita Jair Bolsonaro em hospital",
+     "url": "https://www.metropoles.com/brasil/michelle-chega-a-brasilia-apos-viagem-e-visita-jair-bolsonaro-em-hospital",
+     "hora": "21/11 22h08"
     },
     {
-     "veiculo": "Veja",
-     "titulo": "Boca Juniors vence Atlético-MG e conquista Copa Sul-Americana pela terceira vez",
-     "url": "https://veja.abril.com.br/esporte/boca-juniors-vence-atletico-mg-e-conquista-o-tricampeonato-da-sul-americana/",
-     "hora": "21/11 21h50"
+     "veiculo": "O Globo",
+     "titulo": "Michelle visita Bolsonaro no hospital após voltar de viagem ao exterior",
+     "url": "https://oglobo.globo.com/politica/noticia/2026/11/21/michelle-visita-bolsonaro-no-hospital-apos-voltar-de-viagem-ao-exterior.ghtml",
+     "hora": "21/11 21h45"
     }
    ],
    "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-21T22:13-03:00"
+  },
+  {
+   "assunto": "Torcedor do Flamengo comemora título brasileiro na sede do Botafogo e gera revolta de organizada; veja vídeo",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Torcedor do Flamengo comemora título brasileiro na sede do Botafogo e gera revolta de organizada; veja vídeo",
+     "url": "https://oglobo.globo.com/esportes/futebol/botafogo/noticia/2026/11/21/torcedor-do-flamengo-comemora-titulo-brasileiro-na-sede-do-botafogo-e-gera-revolta-de-organizada-veja-video.ghtml",
+     "hora": "21/11 21h57"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Flamenguistas comemoram título brasileiro na sede do Botafogo, e evento acaba em confusão",
+     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/21/flamenguistas-comemoram-titulo-do-brasileiro-em-sede-do-botafogo-e-organizada-vai-a-general-fazer-cobrancas.ghtml",
+     "hora": "21/11 21h44"
+    }
+   ],
+   "n_fontes_90min": 2,
    "ultima_iso": "2026-11-21T21:57-03:00"
   },
   {
@@ -91,7 +185,7 @@
      "veiculo": "ge",
      "titulo": "Chapecoense x Cruzeiro - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-a/jogo/21-11-2026/chapecoense-cruzeiro.ghtml",
-     "hora": "21/11 21h54"
+     "hora": "21/11 22h10"
     },
     {
      "veiculo": "ge",
@@ -101,7 +195,7 @@
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T21:54-03:00"
+   "ultima_iso": "2026-11-21T22:10-03:00"
   },
   {
    "assunto": "Coritiba provoca o Bahia com meme de Guardiola após vencer na Arena Fonte Nova",
@@ -144,6 +238,26 @@
    "ultima_iso": "2026-11-21T21:52-03:00"
   },
   {
+   "assunto": "Em Paris, Haddad propõe imposto global sobre bilionários",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "oeste"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Em Paris, Haddad propõe imposto global sobre bilionários",
+     "url": "https://revistaoeste.com/politica/em-paris-haddad-propoe-imposto-global-sobre-bilionarios/",
+     "hora": "21/11 22h08"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T22:08-03:00"
+  },
+  {
    "assunto": "Final da Liga Nacional de Futsal 2026 tem clubes, datas e horários definidos; confira",
    "secao": "esportes",
    "n_fontes": 1,
@@ -164,24 +278,24 @@
    "ultima_iso": "2026-11-21T21:59-03:00"
   },
   {
-   "assunto": "Flamenguistas comemoram título brasileiro na sede do Botafogo, e evento acaba em confusão",
+   "assunto": "Futebol Americano: Locomotiva supera Rondonópolis Hawks e está na final",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
-    "ge"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Flamenguistas comemoram título brasileiro na sede do Botafogo, e evento acaba em confusão",
-     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/21/flamenguistas-comemoram-titulo-do-brasileiro-em-sede-do-botafogo-e-organizada-vai-a-general-fazer-cobrancas.ghtml",
-     "hora": "21/11 21h44"
+     "veiculo": "Metrópoles",
+     "titulo": "Futebol Americano: Locomotiva supera Rondonópolis Hawks e está na final",
+     "url": "https://www.metropoles.com/esportes/futebol-americano-locomotiva-supera-rondonopolis-hawks-e-esta-na-final",
+     "hora": "21/11 22h05"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-21T21:44-03:00"
+   "ultima_iso": "2026-11-21T22:05-03:00"
   },
   {
    "assunto": "Homem esconde senhas de fortuna em Bitcoin em estojo de vara de pesca, perde acesso e polícia recupera 500 moedas anos depois",
@@ -202,6 +316,46 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-21T21:53-03:00"
+  },
+  {
+   "assunto": "O que acontece quando alguém faz cócegas? Psicólogo usou máscara e transformou os filhos em cobaias de um experimento curioso",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "O que acontece quando alguém faz cócegas? Psicólogo usou máscara e transformou os filhos em cobaias de um experimento curioso",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/o-que-acontece-quando-alguem-faz-cocegas-psicologo-usou-mascara-e-transformou-os-filhos-em-cobaias-de-um-experimento-curioso/",
+     "hora": "21/11 21h45"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T21:45-03:00"
+  },
+  {
+   "assunto": "Presidente do Flamengo provoca o Palmeiras após título: “Não tem fax”",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Presidente do Flamengo provoca o Palmeiras após título: “Não tem fax”",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/flamengo/presidente-do-flamengo-provoca-o-palmeiras-apos-titulo-nao-tem-fax/",
+     "hora": "21/11 21h48"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T21:48-03:00"
   },
   {
    "assunto": "Quanto é 6 + 4² ÷ 2 × 3? A potência faz muita gente errar o resultado",
@@ -242,6 +396,46 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-21T22:00-03:00"
+  },
+  {
+   "assunto": "Seria um dado irreparável, diz integrante do Cidadania sobre fim do partido",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Seria um dado irreparável, diz integrante do Cidadania sobre fim do partido",
+     "url": "https://www.cnnbrasil.com.br/politica/seria-um-dado-irreparavel-diz-integrante-do-cidadania-sobre-fim-do-partido/",
+     "hora": "21/11 21h46"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T21:46-03:00"
+  },
+  {
+   "assunto": "Soco no rosto e spray de pimenta na cara: jogo no Rio termina com cenas lamentáveis",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Soco no rosto e spray de pimenta na cara: jogo no Rio termina com cenas lamentáveis",
+     "url": "https://ge.globo.com/rj/futebol/noticia/2026/11/21/soco-no-rosto-e-spray-de-pimenta-na-cara-jogo-no-rio-termina-com-cenas-lamentaveis.ghtml",
+     "hora": "21/11 22h08"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-21T22:08-03:00"
   },
   {
    "assunto": "Tomografia revelou quatro letras escondidas em fechadura de navio naufragado há séculos",
@@ -289,7 +483,7 @@
    "ultima": "21/11 16h08",
    "ultima_iso": "2026-11-21T16:08-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 15.2,
+   "horas_sem_atualizar": 15.4,
    "principal": true,
    "manchetes": [
     {
@@ -311,7 +505,7 @@
    "ultima": "21/11 20h39",
    "ultima_iso": "2026-11-21T20:39-03:00",
    "pauta_atualizada_em": "2026-11-21T15:49-03:00",
-   "horas_sem_atualizar": 6.2,
+   "horas_sem_atualizar": 6.4,
    "principal": true,
    "manchetes": [
     {
@@ -338,7 +532,7 @@
    "ultima": "21/11 17h00",
    "ultima_iso": "2026-11-21T17:00-03:00",
    "pauta_atualizada_em": "2026-11-21T13:49-03:00",
-   "horas_sem_atualizar": 8.2,
+   "horas_sem_atualizar": 8.4,
    "principal": true,
    "manchetes": [
     {
@@ -359,7 +553,7 @@
    "ultima": "21/11 20h57",
    "ultima_iso": "2026-11-21T20:57-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 15.2,
+   "horas_sem_atualizar": 15.4,
    "principal": false,
    "manchetes": [
     {
@@ -381,7 +575,7 @@
    "ultima": "21/11 21h22",
    "ultima_iso": "2026-11-21T21:22-03:00",
    "pauta_atualizada_em": "2026-11-21T19:50-03:00",
-   "horas_sem_atualizar": 2.2,
+   "horas_sem_atualizar": 2.4,
    "principal": true,
    "manchetes": [
     {
@@ -423,17 +617,17 @@
     "ge"
    ],
    "n_fontes_90min": 1,
-   "ultima": "21/11 21h57",
-   "ultima_iso": "2026-11-21T21:57-03:00",
+   "ultima": "21/11 22h03",
+   "ultima_iso": "2026-11-21T22:03-03:00",
    "pauta_atualizada_em": "2026-11-21T21:48-03:00",
-   "horas_sem_atualizar": 0.3,
+   "horas_sem_atualizar": 0.4,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "ge",
      "titulo": "Atlético-MG sucumbe para o Boca Juniors e amarga vice da Sul-Americana",
      "url": "https://ge.globo.com/mg/futebol/copa-sul-americana/jogo/21-11-2026/atletico-mg-boca-juniors.ghtml",
-     "hora": "21/11 21h57"
+     "hora": "21/11 22h03"
     }
    ]
   },
@@ -447,7 +641,7 @@
    "ultima": "21/11 18h44",
    "ultima_iso": "2026-11-21T18:44-03:00",
    "pauta_atualizada_em": "2026-11-16T06:52-03:00",
-   "horas_sem_atualizar": 135.2,
+   "horas_sem_atualizar": 135.4,
    "principal": false,
    "manchetes": [
     {
@@ -459,20 +653,21 @@
    ]
   },
   "rs-temporais-tres-mortes-tupanciereta": {
-   "n": 5,
-   "n_fontes": 5,
+   "n": 6,
+   "n_fontes": 6,
    "fontes": [
     "cnn",
     "g1",
     "jp",
+    "oglobo",
     "p360",
     "valor"
    ],
-   "n_fontes_90min": 3,
+   "n_fontes_90min": 4,
    "ultima": "21/11 22h01",
    "ultima_iso": "2026-11-21T22:01-03:00",
    "pauta_atualizada_em": "2026-11-21T13:49-03:00",
-   "horas_sem_atualizar": 8.2,
+   "horas_sem_atualizar": 8.4,
    "principal": false,
    "manchetes": [
     {
@@ -494,6 +689,12 @@
      "hora": "21/11 20h58"
     },
     {
+     "veiculo": "O Globo",
+     "titulo": "Sobe para cinco o número de mortos por temporal na cidade gaúcha de Tupanciretã",
+     "url": "https://oglobo.globo.com/brasil/noticia/2026/11/21/sobe-para-cinco-o-numero-de-mortos-por-vendaval-em-tupancireta-no-rs.ghtml",
+     "hora": "21/11 20h50"
+    },
+    {
      "veiculo": "Valor Econômico",
      "titulo": "Sobe para 5 o número de mortos em temporal no RS; Estado tem 20 mil desalojados",
      "url": "https://valor.globo.com/brasil/noticia/2026/11/21/sobe-para-4-o-nmero-de-mortos-em-temporal-no-rs-estado-tem-20-mil-desalojados.ghtml",
@@ -508,10 +709,9 @@
    ]
   },
   "mexico-captura-chapo-isidro": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
-    "dw",
     "ex",
     "g1"
    ],
@@ -519,7 +719,7 @@
    "ultima": "21/11 18h31",
    "ultima_iso": "2026-11-21T18:31-03:00",
    "pauta_atualizada_em": "2026-11-21T10:58-03:00",
-   "horas_sem_atualizar": 11.1,
+   "horas_sem_atualizar": 11.3,
    "principal": false,
    "manchetes": [
     {
@@ -533,12 +733,6 @@
      "titulo": "Como El Chapo Isidro ascendeu de pequeno traficante a magnata do narcotráfico no México",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/21/como-el-chapo-ascendeu-de-pequeno-traficante-a-magnata-do-narcotrafico-no-mexico.ghtml",
      "hora": "21/11 17h38"
-    },
-    {
-     "veiculo": "DW Brasil",
-     "titulo": "México captura \"Chapo Isidro\", alvo da lista de mais procurados do FBI",
-     "url": "https://www.dw.com/pt-br/méxico-captura-chapo-isidro-alvo-da-lista-de-mais-procurados-do-fbi/a-80010832?maca=bra-rss-br-all-1030-rdf",
-     "hora": "21/11 16h00"
     }
    ]
   },
@@ -553,7 +747,7 @@
    "ultima": "21/11 18h15",
    "ultima_iso": "2026-11-21T18:15-03:00",
    "pauta_atualizada_em": "2026-11-21T13:49-03:00",
-   "horas_sem_atualizar": 8.2,
+   "horas_sem_atualizar": 8.4,
    "principal": false,
    "manchetes": [
     {
@@ -1077,33 +1271,46 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Atlético-MG sucumbe para o Boca Juniors e amarga vice da Sul-Americana",
-   "secao": "esportes",
+   "assunto": "Após viagem, Michelle vai a hospital em que Bolsonaro está internado",
+   "secao": "politica",
    "n_fontes": 3,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Atlético-MG sucumbe para o Boca Juniors e amarga vice da Sul-Americana",
-     "url": "https://ge.globo.com/mg/futebol/copa-sul-americana/jogo/21-11-2026/atletico-mg-boca-juniors.ghtml",
+     "veiculo": "Poder360",
+     "titulo": "Após viagem, Michelle vai a hospital em que Bolsonaro está internado",
+     "url": "https://www.poder360.com.br/poder-gente/apos-viagem-michelle-vai-a-hospital-em-que-bolsonaro-esta-internado/",
+     "hora": "21/11 22h13"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Michelle chega a Brasília após viagem e visita Jair Bolsonaro em hospital",
+     "url": "https://www.metropoles.com/brasil/michelle-chega-a-brasilia-apos-viagem-e-visita-jair-bolsonaro-em-hospital",
+     "hora": "21/11 22h08"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Michelle visita Bolsonaro no hospital após voltar de viagem ao exterior",
+     "url": "https://oglobo.globo.com/politica/noticia/2026/11/21/michelle-visita-bolsonaro-no-hospital-apos-voltar-de-viagem-ao-exterior.ghtml",
+     "hora": "21/11 21h45"
+    }
+   ]
+  },
+  {
+   "assunto": "Torcedor do Flamengo comemora título brasileiro na sede do Botafogo e gera revolta de organizada; veja vídeo",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Torcedor do Flamengo comemora título brasileiro na sede do Botafogo e gera revolta de organizada; veja vídeo",
+     "url": "https://oglobo.globo.com/esportes/futebol/botafogo/noticia/2026/11/21/torcedor-do-flamengo-comemora-titulo-brasileiro-na-sede-do-botafogo-e-gera-revolta-de-organizada-veja-video.ghtml",
      "hora": "21/11 21h57"
     },
     {
      "veiculo": "ge",
-     "titulo": "\"Um grito de coração\": confira repercussão do título do Boca Juniors na Sul-Americana",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/noticia/2026/11/21/um-grito-de-coracao-confira-repercussao-do-titulo-do-boca-juniors-na-sul-americana.ghtml",
-     "hora": "21/11 21h53"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético-MG perde final da Sul-Americana e vira alvo de provocações de Kaio Jorge e rivais; veja",
-     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/21/atletico-mg-perde-final-da-sul-americana-e-vira-alvo-de-provocacoes-de-kaio-jorge-e-rivais-veja.ghtml",
-     "hora": "21/11 21h51"
-    },
-    {
-     "veiculo": "Veja",
-     "titulo": "Boca Juniors vence Atlético-MG e conquista Copa Sul-Americana pela terceira vez",
-     "url": "https://veja.abril.com.br/esporte/boca-juniors-vence-atletico-mg-e-conquista-o-tricampeonato-da-sul-americana/",
-     "hora": "21/11 21h50"
+     "titulo": "Flamenguistas comemoram título brasileiro na sede do Botafogo, e evento acaba em confusão",
+     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/21/flamenguistas-comemoram-titulo-do-brasileiro-em-sede-do-botafogo-e-organizada-vai-a-general-fazer-cobrancas.ghtml",
+     "hora": "21/11 21h44"
     }
    ]
   }
@@ -1119,12 +1326,12 @@
   "g1 Economia": "ok: 100 itens, 0 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 88 nas últimas 6 h",
+  "ge": "ok: 100 itens, 89 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 8 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 7 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 2 nas últimas 6 h",
-  "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
+  "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 9 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 2 nas últimas 6 h",
@@ -1134,18 +1341,18 @@
   "Estadão Economia": "ok: 20 itens, 1 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 3 nas últimas 6 h",
-  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "O Globo": "ok: 100 itens, 27 nas últimas 6 h",
   "Valor Econômico": "ok: 100 itens, 4 nas últimas 6 h",
   "Exame": "ok: 25 itens, 13 nas últimas 6 h",
-  "Veja": "ok: 20 itens, 14 nas últimas 6 h",
+  "Veja": "ok: 20 itens, 12 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 4 nas últimas 6 h",
-  "DW Brasil": "ok: 68 itens, 3 nas últimas 6 h",
+  "DW Brasil": "ok: 68 itens, 2 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 47 itens, 7 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
-  "CartaCapital": "ok: 20 itens, 8 nas últimas 6 h",
+  "CartaCapital": "ok: 20 itens, 7 nas últimas 6 h",
   "Brasil de Fato": "falhou: ParseError('junk after document element: line 4417, column 3')",
   "ICL Notícias": "ok: 10 itens, 7 nas últimas 6 h"
  }
