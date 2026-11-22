@@ -1,11 +1,11 @@
 {
- "gerado": "2026-11-22T13:23-03:00",
+ "gerado": "2026-11-22T13:33-03:00",
  "desde": "2026-11-22T11:40-03:00",
  "feed_atualizado_em": "2026-11-22T11:50:00-03:00",
  "resumo": {
-  "manchetes": 198,
+  "manchetes": 200,
   "assuntos_novos_relevantes": 4,
-  "assuntos_novos": 161,
+  "assuntos_novos": 160,
   "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 7,
@@ -13,19 +13,21 @@
   "ja_avaliados": 0
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica); pauta cop31-turquia-abertura: 4 veículos em 90 min depois da última atualização",
+ "acionar_motivo": "assunto novo: 4 veículos em 90 min (politica); pauta cop31-turquia-abertura: 5 veículos em 90 min depois da última atualização",
  "acionar_itens": [
   {
    "tipo": "novo",
-   "titulo": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
+   "titulo": "Bolsonaro passou a noite sem dores e faz caminhada, diz Michelle",
    "secao": "politica",
-   "n_fontes": 3,
-   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "n_fontes": 4,
+   "motivo": "assunto novo: 4 veículos em 90 min (politica)",
    "chave": [
     "avaliar",
     "bolsonaro",
+    "caminhada",
     "cirurgia",
     "dor",
+    "dores",
     "exames",
     "faz",
     "fez",
@@ -37,6 +39,12 @@
    ],
    "acao": "nova",
    "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Bolsonaro passou a noite sem dores e faz caminhada, diz Michelle",
+     "url": "https://oantagonista.com.br/brasil/bolsonaro-passou-a-noite-sem-dores-e-faz-caminhada-diz-michelle/",
+     "hora": "22/11 13h33"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
@@ -50,23 +58,24 @@
      "url": "https://www.cnnbrasil.com.br/politica/michelle-diz-que-bolsonaro-esta-sem-dor-e-faz-novos-exames-neste-domingo/",
      "hora": "22/11 12h37",
      "lide": "Ex-presidente está internado na Unidade de Terapia Intensiva com quadro de abdômen agudo obstrutivo; ainda não há previsão de alta"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Bolsonaro faz exames neste domingo para avaliar necessidade de cirurgia",
-     "url": "https://www.metropoles.com/brasil/bolsonaro-faz-exames-neste-domingo-para-avaliar-necessidade-de-cirurgia",
-     "hora": "22/11 12h15"
     }
    ]
   },
   {
    "tipo": "pauta",
    "pid": "cop31-turquia-abertura",
-   "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
-   "n_fontes": 6,
-   "motivo": "pauta cop31-turquia-abertura: 4 veículos em 90 min depois da última atualização",
+   "titulo": "Com impasse sobre combustíveis fósseis, COP31 termina sem acordo final",
+   "n_fontes": 7,
+   "motivo": "pauta cop31-turquia-abertura: 5 veículos em 90 min depois da última atualização",
    "acao": "atualiza: cop31-turquia-abertura",
    "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Com impasse sobre combustíveis fósseis, COP31 termina sem acordo final",
+     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/com-impasse-sobre-combustiveis-fosseis-cop31-termina-sem-acordo-final",
+     "hora": "22/11 12h59",
+     "lide": "Negociações foram retomadas por mais dois dias, mas a falta de consenso foi mantida na última sessão plenária, neste domingo."
+    },
     {
      "veiculo": "BBC News Brasil",
      "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
@@ -80,19 +89,53 @@
      "url": "https://revistaoeste.com/mundo/cop31-termina-sem-acordo-entre-os-paises/",
      "hora": "22/11 12h47",
      "lide": "União Europeia, Panamá e outras delegações rejeitaram documento que omitiu referência explícita ao abandono de carvão, petróleo e gás"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "COP31 acaba sem acordo por divergências sobre combustíveis fósseis",
-     "url": "https://jovempan.com.br/mundo/cop31-acaba-sem-acordo-por-divergencias-sobre-combustiveis-fosseis/",
-     "hora": "22/11 12h05",
-     "lide": "O abandono desse tipo de material foi principal ponto de disputa na reta final da conferência, que deveria ter sido encerrada na sexta-feira"
     }
    ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Bolsonaro passou a noite sem dores e faz caminhada, diz Michelle",
+   "secao": "politica",
+   "n_fontes": 4,
+   "fontes": [
+    "antag",
+    "cnn",
+    "met",
+    "oeste"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Bolsonaro passou a noite sem dores e faz caminhada, diz Michelle",
+     "url": "https://oantagonista.com.br/brasil/bolsonaro-passou-a-noite-sem-dores-e-faz-caminhada-diz-michelle/",
+     "hora": "22/11 13h33"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
+     "url": "https://revistaoeste.com/politica/bolsonaro-fez-novos-exames-e-passou-a-noite-sem-dor-diz-michelle/",
+     "hora": "22/11 12h38"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Michelle diz que Bolsonaro está “sem dor” e faz novos exames neste domingo",
+     "url": "https://www.cnnbrasil.com.br/politica/michelle-diz-que-bolsonaro-esta-sem-dor-e-faz-novos-exames-neste-domingo/",
+     "hora": "22/11 12h37"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Bolsonaro faz exames neste domingo para avaliar necessidade de cirurgia",
+     "url": "https://www.metropoles.com/brasil/bolsonaro-faz-exames-neste-domingo-para-avaliar-necessidade-de-cirurgia",
+     "hora": "22/11 12h15"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-22T13:33-03:00"
+  },
   {
    "assunto": "Barcelona supera pênalti perdido, vira sobre Villarreal e lidera Campeonato Espanhol",
    "secao": "esportes",
@@ -126,40 +169,6 @@
    ],
    "n_fontes_90min": 3,
    "ultima_iso": "2026-11-22T12:42-03:00"
-  },
-  {
-   "assunto": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
-   "secao": "politica",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "met",
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
-     "url": "https://revistaoeste.com/politica/bolsonaro-fez-novos-exames-e-passou-a-noite-sem-dor-diz-michelle/",
-     "hora": "22/11 12h38"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Michelle diz que Bolsonaro está “sem dor” e faz novos exames neste domingo",
-     "url": "https://www.cnnbrasil.com.br/politica/michelle-diz-que-bolsonaro-esta-sem-dor-e-faz-novos-exames-neste-domingo/",
-     "hora": "22/11 12h37"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Bolsonaro faz exames neste domingo para avaliar necessidade de cirurgia",
-     "url": "https://www.metropoles.com/brasil/bolsonaro-faz-exames-neste-domingo-para-avaliar-necessidade-de-cirurgia",
-     "hora": "22/11 12h15"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-22T12:38-03:00"
   },
   {
    "assunto": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
@@ -879,8 +888,14 @@
  "em_pautas": {
   "cop31-turquia-abertura": {
    "secao": "mundo",
-   "n_fontes": 5,
+   "n_fontes": 6,
    "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Com impasse sobre combustíveis fósseis, COP31 termina sem acordo final",
+     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/com-impasse-sobre-combustiveis-fosseis-cop31-termina-sem-acordo-final",
+     "hora": "22/11 12h59"
+    },
     {
      "veiculo": "BBC News Brasil",
      "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
@@ -898,12 +913,6 @@
      "titulo": "COP31 acaba sem acordo por divergências sobre combustíveis fósseis",
      "url": "https://jovempan.com.br/mundo/cop31-acaba-sem-acordo-por-divergencias-sobre-combustiveis-fosseis/",
      "hora": "22/11 12h05"
-    },
-    {
-     "veiculo": "CartaCapital",
-     "titulo": "COP31 termina sem acordo após divergências sobre combustíveis fósseis",
-     "url": "https://www.cartacapital.com.br/mundo/cop31-termina-sem-acordo-apos-divergencias-sobre-combustiveis-fosseis/",
-     "hora": "22/11 12h02"
     }
    ]
   },
@@ -961,7 +970,7 @@
    "ultima": "22/11 11h32",
    "ultima_iso": "2026-11-22T11:32-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 6.5,
+   "horas_sem_atualizar": 6.7,
    "principal": true,
    "manchetes": [
     {
@@ -982,7 +991,7 @@
    "ultima": "22/11 11h47",
    "ultima_iso": "2026-11-22T11:47-03:00",
    "pauta_atualizada_em": "2026-11-22T11:45-03:00",
-   "horas_sem_atualizar": 1.6,
+   "horas_sem_atualizar": 1.8,
    "principal": true,
    "manchetes": [
     {
@@ -1003,7 +1012,7 @@
    "ultima": "22/11 12h51",
    "ultima_iso": "2026-11-22T12:51-03:00",
    "pauta_atualizada_em": "2026-11-22T04:15-03:00",
-   "horas_sem_atualizar": 9.1,
+   "horas_sem_atualizar": 9.3,
    "principal": false,
    "manchetes": [
     {
@@ -1024,7 +1033,7 @@
    "ultima": "22/11 08h53",
    "ultima_iso": "2026-11-22T08:53-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 6.5,
+   "horas_sem_atualizar": 6.7,
    "principal": true,
    "manchetes": [
     {
@@ -1036,9 +1045,10 @@
    ]
   },
   "cop31-turquia-abertura": {
-   "n": 6,
-   "n_fontes": 6,
+   "n": 7,
+   "n_fontes": 7,
    "fontes": [
+    "ab",
     "bbc",
     "cc",
     "folha",
@@ -1046,13 +1056,19 @@
     "oeste",
     "veja"
    ],
-   "n_fontes_90min": 4,
-   "ultima": "22/11 12h56",
-   "ultima_iso": "2026-11-22T12:56-03:00",
+   "n_fontes_90min": 5,
+   "ultima": "22/11 12h59",
+   "ultima_iso": "2026-11-22T12:59-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 30.5,
+   "horas_sem_atualizar": 30.7,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Com impasse sobre combustíveis fósseis, COP31 termina sem acordo final",
+     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/com-impasse-sobre-combustiveis-fosseis-cop31-termina-sem-acordo-final",
+     "hora": "22/11 12h59"
+    },
     {
      "veiculo": "BBC News Brasil",
      "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
@@ -1082,12 +1098,6 @@
      "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
      "url": "https://veja.abril.com.br/mundo/cop31-caminha-para-encerramento-sem-acordo-apos-impasse-sobre-combustiveis-fosseis/",
      "hora": "22/11 10h02"
-    },
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Sem acordo, COP31 fracassa após divergência sobre combustíveis fósseis",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/ambiente/2026/11/cop31-se-torna-a-mais-longa-conferencia-climatica-da-onu.shtml",
-     "hora": "22/11 09h35"
     }
    ]
   },
@@ -1101,7 +1111,7 @@
    "ultima": "22/11 10h00",
    "ultima_iso": "2026-11-22T10:00-03:00",
    "pauta_atualizada_em": "2026-11-21T10:58-03:00",
-   "horas_sem_atualizar": 26.4,
+   "horas_sem_atualizar": 26.6,
    "principal": false,
    "manchetes": [
     {
@@ -1123,7 +1133,7 @@
    "ultima": "22/11 12h28",
    "ultima_iso": "2026-11-22T12:28-03:00",
    "pauta_atualizada_em": "2026-11-22T06:36-03:00",
-   "horas_sem_atualizar": 6.8,
+   "horas_sem_atualizar": 7.0,
    "principal": false,
    "manchetes": [
     {
@@ -1149,15 +1159,6 @@
    "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1709612&o=rss",
    "credito": "Foto: Agência Brasil",
    "hora": "21/11 19h49",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Brasil",
-   "titulo": "Sobe para 4 o número de mortos em Tupanciretã, no Sul",
-   "materia": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/sobe-para-4-o-numero-de-mortos-em-tupancireta-no-sul",
-   "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1709611&o=rss",
-   "credito": "Foto: Agência Brasil",
-   "hora": "21/11 19h39",
    "pid_sugerido": null
   },
   {
@@ -1594,7 +1595,7 @@
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
   "CNN Brasil": "ok: 60 itens, 49 nas últimas 6 h",
-  "Agência Brasil": "ok: 10 itens, 8 nas últimas 6 h",
+  "Agência Brasil": "ok: 10 itens, 9 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 0 nas últimas 6 h",
@@ -1615,14 +1616,14 @@
   "Estadão Política": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 3 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 3 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 2 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 58 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 25 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 1 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 55 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 24 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 65 itens, 4 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 36 itens, 2 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 32 itens, 3 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
