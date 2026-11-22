@@ -1,22 +1,155 @@
 {
- "gerado": "2026-11-22T18:39-03:00",
+ "gerado": "2026-11-22T18:49-03:00",
  "desde": "2026-11-22T17:40-03:00",
  "feed_atualizado_em": "2026-11-22T17:50:00-03:00",
  "resumo": {
-  "manchetes": 87,
-  "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 65,
-  "pautas_com_novidade": 6,
+  "manchetes": 110,
+  "assuntos_novos_relevantes": 3,
+  "assuntos_novos": 84,
+  "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 10,
-  "acionar_itens": 0,
+  "acionar_itens": 1,
   "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (65 assuntos fora do feed, 10 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 4 veículos em 90 min (brasil)",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "São Paulo entra em alerta para alagamentos; Defesa Civil emite aviso de risco severo",
+   "secao": "brasil",
+   "n_fontes": 4,
+   "motivo": "assunto novo: 4 veículos em 90 min (brasil)",
+   "chave": [
+    "alagamentos",
+    "alerta",
+    "atencao",
+    "aviso",
+    "chuvas",
+    "cidade",
+    "civil",
+    "defesa",
+    "deixaram",
+    "emite",
+    "entra",
+    "estado",
+    "mortos",
+    "paulo",
+    "risco",
+    "severo",
+    "temporais"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "São Paulo entra em alerta para alagamentos; Defesa Civil emite aviso de risco severo",
+     "url": "https://exame.com/brasil/sao-paulo-entra-em-alerta-para-alagamentos-defesa-civil-emite-aviso-de-risco-severo/",
+     "hora": "22/11 18h47"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Alerta severo: Cidade de SP entra em estado de atenção para alagamentos",
+     "url": "https://www.metropoles.com/sao-paulo/alerta-severo-cidade-de-sp-entra-em-estado-de-atencao-para-alagamentos",
+     "hora": "22/11 18h45",
+     "lide": "Celulares de várias áreas da capital receberam um \"alerta severo\" da Defesa Civil neste domingo (22/11) para chuvas com raios e granizo"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Defesa Civil alerta para novos temporais no RS após chuvas que deixaram 5 mortos",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/defesa-civil-alerta-para-novos-temporais-no-rs-apos-chuvas-que-deixaram-5-mortos.shtml",
+     "hora": "22/11 18h27",
+     "lide": "Terça-feira (24) deve ser o dia mais crítico, com possibilidade de granizo, ventos acima de 80 km/h e chuva intensa"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Criciúma vence o Fortaleza e fica a um empate da Série A",
+   "secao": "esportes",
+   "n_fontes": 4,
+   "fontes": [
+    "cnn",
+    "folha",
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Esporte",
+     "titulo": "Criciúma vence o Fortaleza e fica a um empate da Série A",
+     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/criciuma-vence-o-fortaleza-e-fica-a-um-empate-da-serie-a.shtml",
+     "hora": "22/11 18h41"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Criciúma vence o Fortaleza em casa e sai na frente nos playoffs da Série B",
+     "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-b/jogo/22-11-2026/criciuma-fortaleza.ghtml",
+     "hora": "22/11 18h36"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Criciúma vence Fortaleza e tem vantagem no playoff de acesso da Série B",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/criciuma-vence-fortaleza-e-tem-vantagem-no-playoff-de-acesso-da-serie-b/",
+     "hora": "22/11 18h31"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Série B: Criciúma vence Fortaleza e abre vantagem em playoff de acesso",
+     "url": "https://www.metropoles.com/esportes/serie-b-criciuma-vence-fortaleza-e-abre-vantagem-em-playoff-de-acesso",
+     "hora": "22/11 18h29"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-22T18:41-03:00",
+   "pid_provavel": "serie-b-38-rodada-final"
+  },
+  {
+   "assunto": "São Paulo entra em alerta para alagamentos; Defesa Civil emite aviso de risco severo",
+   "secao": "brasil",
+   "n_fontes": 4,
+   "fontes": [
+    "ex",
+    "folha",
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "São Paulo entra em alerta para alagamentos; Defesa Civil emite aviso de risco severo",
+     "url": "https://exame.com/brasil/sao-paulo-entra-em-alerta-para-alagamentos-defesa-civil-emite-aviso-de-risco-severo/",
+     "hora": "22/11 18h47"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Alerta severo: Cidade de SP entra em estado de atenção para alagamentos",
+     "url": "https://www.metropoles.com/sao-paulo/alerta-severo-cidade-de-sp-entra-em-estado-de-atencao-para-alagamentos",
+     "hora": "22/11 18h45"
+    },
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Defesa Civil alerta para novos temporais no RS após chuvas que deixaram 5 mortos",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/defesa-civil-alerta-para-novos-temporais-no-rs-apos-chuvas-que-deixaram-5-mortos.shtml",
+     "hora": "22/11 18h27"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Cidade de SP entra em estado de atenção para alagamentos; Defesa Civil emite alerta severo",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/22/cidade-de-sp-entra-em-estado-de-atencao-para-alagamentos-defesa-civil-emite-alerta-severo.ghtml",
+     "hora": "22/11 18h08"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-22T18:47-03:00"
+  },
   {
    "assunto": "Athletico vence e confirma rebaixamento do Remo à Série B do Brasileiro",
    "secao": "esportes",
@@ -33,7 +166,7 @@
      "veiculo": "ge",
      "titulo": "Athletico vence e confirma rebaixamento do Remo à Série B do Brasileiro",
      "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/22-11-2026/athletico-pr-remo.ghtml",
-     "hora": "22/11 18h26"
+     "hora": "22/11 18h28"
     },
     {
      "veiculo": "CNN Brasil",
@@ -49,7 +182,7 @@
     }
    ],
    "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-22T18:26-03:00"
+   "ultima_iso": "2026-11-22T18:28-03:00"
   },
   {
    "assunto": "Diretor da OMS pede paz em província do Congo afetada por ebola",
@@ -153,6 +286,26 @@
    "ultima_iso": "2026-11-22T18:30-03:00"
   },
   {
+   "assunto": "ASA lança novos uniformes e apresenta elenco à torcida",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "ASA lança novos uniformes e apresenta elenco à torcida",
+     "url": "https://ge.globo.com/al/futebol/times/asa/noticia/2026/11/22/asa-lanca-novos-uniformes-e-apresenta-elenco-a-torcida.ghtml",
+     "hora": "22/11 18h32"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T18:32-03:00"
+  },
+  {
    "assunto": "Aedes com bactéria Wolbachia reduz em 68,5% infecções por dengue em BH",
    "secao": null,
    "n_fontes": 1,
@@ -233,6 +386,38 @@
    "ultima_iso": "2026-11-22T17:55-03:00"
   },
   {
+   "assunto": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/go/futebol/brasileirao-serie-b/jogo/22-11-2026/atletico-go-vila-nova.ghtml",
+     "hora": "22/11 18h42"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Bragantino x Vasco - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/sp/vale-do-paraiba-regiao/futebol/brasileirao-serie-a/jogo/22-11-2026/bragantino-vasco.ghtml",
+     "hora": "22/11 18h41"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Fluminense x Mirassol - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/22-11-2026/fluminense-mirassol.ghtml",
+     "hora": "22/11 18h40"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T18:42-03:00"
+  },
+  {
    "assunto": "Atuações do Criciúma: Hermes é o melhor em campo com golaço; dê suas notas",
    "secao": "esportes",
    "n_fontes": 1,
@@ -300,7 +485,28 @@
    "pid_provavel": "nvidia-huang-saida"
   },
   {
-   "assunto": "Casal compra uma casa que já está alugada, exige a saída imediata do morador e descobre que a lei pode garantir prazo de 90 dias para desocupação",
+   "assunto": "Bragantino x Vasco: escalações e onde assistir ao jogo do Brasileirão",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Bragantino x Vasco: escalações e onde assistir ao jogo do Brasileirão",
+     "url": "https://www.cnnbrasil.com.br/esportes/brasileirao/bragantino-x-vasco-escalacoes-e-onde-assistir-ao-jogo-do-brasileirao/",
+     "hora": "22/11 18h35"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-22T18:35-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Casal compra casa que já está alugada, pede a saída imediata do inquilino e descobre que a lei pode assegurar 90 dias para desocupação",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -311,13 +517,19 @@
    "manchetes": [
     {
      "veiculo": "O Antagonista",
+     "titulo": "Casal compra casa que já está alugada, pede a saída imediata do inquilino e descobre que a lei pode assegurar 90 dias para desocupação",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/casal-compra-casa-que-ja-esta-alugada-pede-a-saida-imediata-do-inquilino-e-descobre-que-a-lei-pode-assegurar-90-dias-para-desocupacao/",
+     "hora": "22/11 18h43"
+    },
+    {
+     "veiculo": "O Antagonista",
      "titulo": "Casal compra uma casa que já está alugada, exige a saída imediata do morador e descobre que a lei pode garantir prazo de 90 dias para desocupação",
      "url": "https://oantagonista.com.br/ladooa/entretenimento/casal-compra-uma-casa-que-ja-esta-alugada-exige-a-saida-imediata-do-morador-e-descobre-que-a-lei-pode-garantir-prazo-de-90-dias-para-desocupacao/",
      "hora": "22/11 18h13"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:13-03:00"
+   "ultima_iso": "2026-11-22T18:43-03:00"
   },
   {
    "assunto": "Cientista-chefe da OpenAI defende limites para o desenvolvimento de IA no setor",
@@ -360,6 +572,26 @@
    "ultima_iso": "2026-11-22T18:03-03:00"
   },
   {
+   "assunto": "Como dois refrigeradores abandonados pelo exército dos EUA na Toscana deram origem ao sorvete italiano",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "Como dois refrigeradores abandonados pelo exército dos EUA na Toscana deram origem ao sorvete italiano",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/22/como-dois-refrigeradores-abandonados-pelo-exercito-dos-eua-na-toscana-deram-origem-ao-sorvete-italiano.ghtml",
+     "hora": "22/11 18h47"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T18:47-03:00"
+  },
+  {
    "assunto": "Concursos e seleções em PE têm mais de 3,7 mil vagas e salários de até R$ 13,5 mil; saiba como se inscrever",
    "secao": null,
    "n_fontes": 1,
@@ -378,6 +610,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T17:52-03:00"
+  },
+  {
+   "assunto": "Condenação de Bolsonaro foi “uma lição” para o mundo, diz Gilmar",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Condenação de Bolsonaro foi “uma lição” para o mundo, diz Gilmar",
+     "url": "https://oantagonista.com.br/brasil/condenacao-de-bolsonaro-foi-uma-licao-para-o-mundo-diz-gilmar/",
+     "hora": "22/11 18h48"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T18:48-03:00"
   },
   {
    "assunto": "Conexão entre Mahomes e Kelce funciona, e os Chiefs atropelam os Cardinals",
@@ -460,6 +712,26 @@
    "ultima_iso": "2026-11-22T18:36-03:00"
   },
   {
+   "assunto": "Direita tem muitos craques e esquerda só Lula de líder, diz Flávio",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Direita tem muitos craques e esquerda só Lula de líder, diz Flávio",
+     "url": "https://www.poder360.com.br/poder-eleicoes/direita-tem-muitos-craques-e-esquerda-so-lula-de-lider-diz-flavio/",
+     "hora": "22/11 18h47"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T18:47-03:00"
+  },
+  {
    "assunto": "Dois procurados pela Justiça são presos no jogo entre Palmeiras x Flamengo",
    "secao": "esportes",
    "n_fontes": 1,
@@ -480,196 +752,24 @@
    "ultima_iso": "2026-11-22T18:24-03:00"
   },
   {
-   "assunto": "Escola de artes oferece aulas gratuitas de Teatro Musical em Sorocaba; veja como se inscrever",
-   "secao": "educacao",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Escola de artes oferece aulas gratuitas de Teatro Musical em Sorocaba; veja como se inscrever",
-     "url": "https://g1.globo.com/sp/sorocaba-jundiai/noticia/2026/11/22/escola-de-artes-oferece-aulas-gratuitas-de-teatro-musical-em-sorocaba-veja-como-se-inscrever.ghtml",
-     "hora": "22/11 18h12"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:12-03:00"
-  },
-  {
-   "assunto": "Filha de Chitãozinho comenta aposentadoria do pai: ‘É um descanso, está tudo bem’",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Filha de Chitãozinho comenta aposentadoria do pai: ‘É um descanso, está tudo bem’",
-     "url": "https://jovempan.com.br/entretenimento/musica/filha-de-chitaozinho-comenta-aposentadoria-do-pai-e-um-descanso-esta-tudo-bem/",
-     "hora": "22/11 18h10"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:10-03:00"
-  },
-  {
-   "assunto": "Fluminense x Mirassol - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Fluminense x Mirassol - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/22-11-2026/fluminense-mirassol.ghtml",
-     "hora": "22/11 18h25"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético-GO x Vila Nova - Campeonato Brasileiro Série B 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/go/futebol/brasileirao-serie-b/jogo/22-11-2026/atletico-go-vila-nova.ghtml",
-     "hora": "22/11 18h25"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Bragantino x Vasco - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/sp/vale-do-paraiba-regiao/futebol/brasileirao-serie-a/jogo/22-11-2026/bragantino-vasco.ghtml",
-     "hora": "22/11 18h24"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:25-03:00"
-  },
-  {
-   "assunto": "França anuncia pacote de projetos industriais com investimentos de 15 bilhões de euros",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "França anuncia pacote de projetos industriais com investimentos de 15 bilhões de euros",
-     "url": "https://exame.com/mundo/franca-anuncia-pacote-de-projetos-industriais-com-investimentos-de-15-bilhoes-de-euros/",
-     "hora": "22/11 17h42"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T17:42-03:00"
-  },
-  {
-   "assunto": "Fãs revivem histórias de amor por Luan Santana em show com mais de 40 mil pessoas e reencontro de gerações em Manaus",
+   "assunto": "Equipes de Netanyahu e Eisenkot se reúnem para discutir governo de unidade",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "g1"
+    "cnn"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Fãs revivem histórias de amor por Luan Santana em show com mais de 40 mil pessoas e reencontro de gerações em Manaus",
-     "url": "https://g1.globo.com/am/amazonas/role-amazonas/noticia/2026/11/22/fas-revivem-historias-de-amor-por-luan-santana-em-show-com-mais-de-40-mil-pessoas-e-reencontro-de-geracoes-em-manaus.ghtml",
-     "hora": "22/11 17h49"
+     "veiculo": "CNN Brasil",
+     "titulo": "Equipes de Netanyahu e Eisenkot se reúnem para discutir governo de unidade",
+     "url": "https://www.cnnbrasil.com.br/internacional/equipes-de-netanyahu-e-eisenkot-se-reunem-para-discutir-governo-de-unidade/",
+     "hora": "22/11 18h42"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T17:49-03:00"
-  },
-  {
-   "assunto": "Globo Esporte BA deste sábado, 21 de novembro de 2026",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Globo Esporte BA deste sábado, 21 de novembro de 2026",
-     "url": "https://ge.globo.com/ba/playlist/globo-esporte-ba-deste-sabado-21-de-novembro-de-2026.ghtml",
-     "hora": "22/11 17h55"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T17:55-03:00"
-  },
-  {
-   "assunto": "Homem armado assalta joalheria dentro de shopping na zona sul de SP",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Homem armado assalta joalheria dentro de shopping na zona sul de SP",
-     "url": "https://www.metropoles.com/sao-paulo/homem-armado-assalta-joalheria-dentro-de-shopping-na-zona-sul-de-sp",
-     "hora": "22/11 18h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:00-03:00"
-  },
-  {
-   "assunto": "Homem morre após passar mal durante partida de futebol em Salvador",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Homem morre após passar mal durante partida de futebol em Salvador",
-     "url": "https://g1.globo.com/ba/bahia/noticia/2026/11/22/homem-morre-em-salvador.ghtml",
-     "hora": "22/11 18h03"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T18:03-03:00"
-  },
-  {
-   "assunto": "Homem tem celular travado após clicar em falso anúncio de tag de pedágio e perde R$ 15 mil em Rio Preto",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Homem tem celular travado após clicar em falso anúncio de tag de pedágio e perde R$ 15 mil em Rio Preto",
-     "url": "https://g1.globo.com/sp/sao-jose-do-rio-preto-aracatuba/noticia/2026/11/22/homem-tem-celular-travado-apos-clicar-em-falso-anuncio-de-tag-de-pedagio-e-perde-r-15-mil-em-rio-preto.ghtml",
-     "hora": "22/11 17h58"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T17:58-03:00"
+   "ultima_iso": "2026-11-22T18:42-03:00"
   }
  ],
  "em_pautas": {
@@ -693,49 +793,19 @@
   },
   "alcaraz-campeao-atp-finals": {
    "secao": "esportes",
-   "n_fontes": 1,
+   "n_fontes": 2,
    "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Alcaraz é campeão do ATP Finals pela 1ª vez",
+     "url": "https://jovempan.com.br/esportes/outros-esportes/alcaraz-e-campeao-do-atp-finals-pela-1a-vez/",
+     "hora": "22/11 18h42"
+    },
     {
      "veiculo": "Exame",
      "titulo": "Alcaraz bate Zverev e é campeão do ATP Finals pela primeira vez",
      "url": "https://exame.com/esporte/alcaraz-bate-zverev-e-e-campeao-do-atp-finals-pela-primeira-vez/",
      "hora": "22/11 17h51"
-    }
-   ]
-  },
-  "rs-temporais-tres-mortes-tupanciereta": {
-   "secao": "brasil",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Defesa Civil alerta para novos temporais no RS após chuvas que deixaram 5 mortos",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/defesa-civil-alerta-para-novos-temporais-no-rs-apos-chuvas-que-deixaram-5-mortos.shtml",
-     "hora": "22/11 18h27"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Cidade de SP entra em estado de atenção para alagamentos; Defesa Civil emite alerta severo",
-     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/22/cidade-de-sp-entra-em-estado-de-atencao-para-alagamentos-defesa-civil-emite-alerta-severo.ghtml",
-     "hora": "22/11 18h08"
-    }
-   ]
-  },
-  "serie-b-38-rodada-final": {
-   "secao": "esportes",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Série B: Criciúma vence Fortaleza e abre vantagem em playoff de acesso",
-     "url": "https://www.metropoles.com/esportes/serie-b-criciuma-vence-fortaleza-e-abre-vantagem-em-playoff-de-acesso",
-     "hora": "22/11 18h29"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Criciúma vence o Fortaleza em casa e sai na frente nos playoffs da Série B",
-     "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-b/jogo/22-11-2026/criciuma-fortaleza.ghtml",
-     "hora": "22/11 18h25"
     }
    ]
   },
@@ -776,7 +846,7 @@
    "ultima": "22/11 18h25",
    "ultima_iso": "2026-11-22T18:25-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 11.8,
+   "horas_sem_atualizar": 12.0,
    "principal": true,
    "manchetes": [
     {
@@ -803,7 +873,7 @@
    "ultima": "22/11 17h06",
    "ultima_iso": "2026-11-22T17:06-03:00",
    "pauta_atualizada_em": "2026-11-22T15:50-03:00",
-   "horas_sem_atualizar": 2.8,
+   "horas_sem_atualizar": 3.0,
    "principal": true,
    "manchetes": [
     {
@@ -824,7 +894,7 @@
    "ultima": "22/11 18h30",
    "ultima_iso": "2026-11-22T18:30-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 35.8,
+   "horas_sem_atualizar": 36.0,
    "principal": true,
    "manchetes": [
     {
@@ -845,7 +915,7 @@
    "ultima": "22/11 17h14",
    "ultima_iso": "2026-11-22T17:14-03:00",
    "pauta_atualizada_em": "2026-11-22T13:48-03:00",
-   "horas_sem_atualizar": 4.9,
+   "horas_sem_atualizar": 5.0,
    "principal": false,
    "manchetes": [
     {
@@ -866,7 +936,7 @@
    "ultima": "22/11 18h27",
    "ultima_iso": "2026-11-22T18:27-03:00",
    "pauta_atualizada_em": "2026-11-22T09:48-03:00",
-   "horas_sem_atualizar": 8.9,
+   "horas_sem_atualizar": 9.0,
    "principal": false,
    "manchetes": [
     {
@@ -887,7 +957,7 @@
    "ultima": "22/11 15h56",
    "ultima_iso": "2026-11-22T15:56-03:00",
    "pauta_atualizada_em": "2026-11-22T06:00-03:00",
-   "horas_sem_atualizar": 12.7,
+   "horas_sem_atualizar": 12.8,
    "principal": false,
    "manchetes": [
     {
@@ -905,17 +975,17 @@
     "ge"
    ],
    "n_fontes_90min": 1,
-   "ultima": "22/11 18h25",
-   "ultima_iso": "2026-11-22T18:25-03:00",
+   "ultima": "22/11 18h36",
+   "ultima_iso": "2026-11-22T18:36-03:00",
    "pauta_atualizada_em": "2026-11-22T17:49-03:00",
-   "horas_sem_atualizar": 0.8,
+   "horas_sem_atualizar": 1.0,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "ge",
      "titulo": "Criciúma vence o Fortaleza em casa e sai na frente nos playoffs da Série B",
      "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-b/jogo/22-11-2026/criciuma-fortaleza.ghtml",
-     "hora": "22/11 18h25"
+     "hora": "22/11 18h36"
     }
    ]
   },
@@ -932,7 +1002,7 @@
    "ultima": "22/11 17h03",
    "ultima_iso": "2026-11-22T17:03-03:00",
    "pauta_atualizada_em": "2026-11-22T15:01-03:00",
-   "horas_sem_atualizar": 3.6,
+   "horas_sem_atualizar": 3.8,
    "principal": false,
    "manchetes": [
     {
@@ -972,7 +1042,7 @@
    "ultima": "22/11 18h19",
    "ultima_iso": "2026-11-22T18:19-03:00",
    "pauta_atualizada_em": "2026-11-22T17:40-03:00",
-   "horas_sem_atualizar": 1.0,
+   "horas_sem_atualizar": 1.2,
    "principal": false,
    "manchetes": [
     {
@@ -990,19 +1060,26 @@
    ]
   },
   "alcaraz-campeao-atp-finals": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 3,
+   "n_fontes": 3,
    "fontes": [
     "ex",
+    "jp",
     "veja"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "22/11 17h51",
-   "ultima_iso": "2026-11-22T17:51-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "22/11 18h42",
+   "ultima_iso": "2026-11-22T18:42-03:00",
    "pauta_atualizada_em": "2026-11-22T17:28-03:00",
-   "horas_sem_atualizar": 1.2,
+   "horas_sem_atualizar": 1.4,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Alcaraz é campeão do ATP Finals pela 1ª vez",
+     "url": "https://jovempan.com.br/esportes/outros-esportes/alcaraz-e-campeao-do-atp-finals-pela-1a-vez/",
+     "hora": "22/11 18h42"
+    },
     {
      "veiculo": "Exame",
      "titulo": "Alcaraz bate Zverev e é campeão do ATP Finals pela primeira vez",
@@ -1443,7 +1520,7 @@
      "veiculo": "ge",
      "titulo": "Athletico vence e confirma rebaixamento do Remo à Série B do Brasileiro",
      "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/22-11-2026/athletico-pr-remo.ghtml",
-     "hora": "22/11 18h26"
+     "hora": "22/11 18h28"
     },
     {
      "veiculo": "CNN Brasil",
@@ -1469,15 +1546,15 @@
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 0 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 6 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 69 nas últimas 6 h",
+  "ge": "ok: 100 itens, 71 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 3 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
@@ -1485,9 +1562,9 @@
   "Estadão Política": "ok: 20 itens, 3 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 7 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 0 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 4 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
   "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
-  "Valor Econômico": "ok: 100 itens, 11 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 10 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 2 nas últimas 6 h",
@@ -1498,7 +1575,7 @@
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 12 nas últimas 6 h",
-  "Brasil de Fato": "falhou: ParseError('junk after document element: line 4514, column 3')",
+  "Brasil de Fato": "ok: 99 itens, 4 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 8 nas últimas 6 h"
  }
 }
