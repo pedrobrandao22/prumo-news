@@ -1,22 +1,133 @@
 {
- "gerado": "2026-11-22T13:55-03:00",
+ "gerado": "2026-11-22T14:05-03:00",
  "desde": "2026-11-22T13:39-03:00",
  "feed_atualizado_em": "2026-11-22T13:49:00-03:00",
  "resumo": {
-  "manchetes": 20,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 18,
-  "pautas_com_novidade": 1,
+  "manchetes": 60,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 52,
+  "pautas_com_novidade": 2,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 6,
-  "acionar_itens": 0,
+  "acionar_itens": 1,
   "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (18 assuntos fora do feed, 6 pautas com relatos)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 6 veículos em 90 min (politica)",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "O que diz novo boletim médico sobre a saúde de Bolsonaro",
+   "secao": "politica",
+   "n_fontes": 6,
+   "motivo": "assunto novo: 6 veículos em 90 min (politica)",
+   "chave": [
+    "alta",
+    "boletim",
+    "bolsonaro",
+    "estavel",
+    "hospital",
+    "medico",
+    "permanece",
+    "previsao",
+    "quadro",
+    "saude",
+    "segue",
+    "uti"
+   ],
+   "pid_provavel": "bolsonaro-hospital-dores-abdominais",
+   "acao": "atualiza: bolsonaro-hospital-dores-abdominais (provável; confira que é o mesmo assunto)",
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "O que diz novo boletim médico sobre a saúde de Bolsonaro",
+     "url": "https://veja.abril.com.br/brasil/o-que-diz-novo-boletim-medico-sobre-a-saude-de-bolsonaro/",
+     "hora": "22/11 14h05",
+     "lide": "Ex-presidente foi internado na última sexta-feira no Hospital DF Star, em Brasília, após sentir dores abdominais"
+    },
+    {
+     "veiculo": "Gazeta do Povo República",
+     "titulo": "Bolsonaro permanece na UTI sem previsão de alta, diz boletim médico",
+     "url": "https://www.gazetadopovo.com.br/republica/bolsonaro-permanece-na-uti-sem-previsao-de-alta-diz-boletim-medico/",
+     "hora": "22/11 14h04",
+     "lide": "Boletim médico deste domingo (22) afirma que Bolsonaro permanece sem previsão de alta na UTI. Diagnóstico é de abdômen agudo obstrutivo."
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Bolsonaro segue estável e sem previsão de alta, diz novo boletim médico",
+     "url": "https://revistaoeste.com/politica/bolsonaro-segue-estavel-e-sem-previsao-de-alta-diz-novo-boletim-medico/",
+     "hora": "22/11 13h59",
+     "lide": "‘Paciente apresenta-se clinicamente estável, mantendo tratamento clínico, jejum e suporte nutricional’, diz comunicado"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "O que diz novo boletim médico sobre a saúde de Bolsonaro",
+   "secao": "politica",
+   "n_fontes": 6,
+   "fontes": [
+    "cnn",
+    "g1",
+    "gp",
+    "oeste",
+    "oglobo",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "O que diz novo boletim médico sobre a saúde de Bolsonaro",
+     "url": "https://veja.abril.com.br/brasil/o-que-diz-novo-boletim-medico-sobre-a-saude-de-bolsonaro/",
+     "hora": "22/11 14h05"
+    },
+    {
+     "veiculo": "Gazeta do Povo República",
+     "titulo": "Bolsonaro permanece na UTI sem previsão de alta, diz boletim médico",
+     "url": "https://www.gazetadopovo.com.br/republica/bolsonaro-permanece-na-uti-sem-previsao-de-alta-diz-boletim-medico/",
+     "hora": "22/11 14h04"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Bolsonaro segue estável e sem previsão de alta, diz novo boletim médico",
+     "url": "https://revistaoeste.com/politica/bolsonaro-segue-estavel-e-sem-previsao-de-alta-diz-novo-boletim-medico/",
+     "hora": "22/11 13h59"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Bolsonaro segue na UTI e sem previsão de alta, diz boletim médico",
+     "url": "https://oglobo.globo.com/politica/noticia/2026/11/22/bolsonaro-segue-na-uti-e-sem-previsao-de-alta-diz-boletim-medico.ghtml",
+     "hora": "22/11 13h57"
+    }
+   ],
+   "n_fontes_90min": 6,
+   "ultima_iso": "2026-11-22T14:05-03:00",
+   "pid_provavel": "bolsonaro-hospital-dores-abdominais"
+  },
+  {
+   "assunto": "'Eu gosto de estudar': médico de 67 anos presta vestibular da Unesp para tentar vaga em história",
+   "secao": "educacao",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Eu gosto de estudar': médico de 67 anos presta vestibular da Unesp para tentar vaga em história",
+     "url": "https://g1.globo.com/sp/sao-carlos-regiao/educacao/noticia/2026/11/22/eu-gosto-de-estudar-medico-de-67-anos-presta-vestibular-da-unesp-para-tentar-vaga-em-historia.ghtml",
+     "hora": "22/11 13h57"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:57-03:00"
+  },
   {
    "assunto": "Abalado, Prochazka se pronuncia após sofrer nocaute brutal na luta principal do UFC",
    "secao": "esportes",
@@ -76,6 +187,226 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T13:45-03:00"
+  },
+  {
+   "assunto": "Adolescente sofre traumatismo craniano ao bater bicicleta elétrica em monte de barro no AC; VÍDEO",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Adolescente sofre traumatismo craniano ao bater bicicleta elétrica em monte de barro no AC; VÍDEO",
+     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/22/adolescente-sofre-traumatismo-craniano-ao-bater-bicicleta-eletrica-em-monte-de-barro-no-ac-video.ghtml",
+     "hora": "22/11 13h57"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:57-03:00"
+  },
+  {
+   "assunto": "Além das telas: veja 10 atores que também são músicos e poucos sabem",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Além das telas: veja 10 atores que também são músicos e poucos sabem",
+     "url": "https://www.cnnbrasil.com.br/pop/musica/alem-das-telas-veja-10-atores-que-tambem-sao-musicos-e-poucos-sabem/",
+     "hora": "22/11 13h49"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:49-03:00"
+  },
+  {
+   "assunto": "Após problema com avião, Remo x Athletico-PR é mantido para às 16h",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Após problema com avião, Remo x Athletico-PR é mantido para às 16h",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/remo/apos-problema-com-aviao-remo-x-athletico-pr-e-mantido-para-as-16h/",
+     "hora": "22/11 13h42"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:42-03:00"
+  },
+  {
+   "assunto": "Aviso",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Aviso",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/marcos-de-vasconcellos/2026/11/aviso.shtml",
+     "hora": "22/11 13h53"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:53-03:00"
+  },
+  {
+   "assunto": "Belo Horizonte segue sob alerta de risco geológico até terça-feira (24)",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Belo Horizonte segue sob alerta de risco geológico até terça-feira (24)",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/mg/belo-horizonte-segue-sob-alerta-de-risco-geologico-ate-terca-feira-24/",
+     "hora": "22/11 13h50"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:50-03:00"
+  },
+  {
+   "assunto": "Bolas de tênis: por que elas são feitas de feltro?",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Bolas de tênis: por que elas são feitas de feltro?",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/bolas-de-tenis-por-que-elas-sao-feitas-de-feltro/",
+     "hora": "22/11 13h45"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:45-03:00"
+  },
+  {
+   "assunto": "CSA negocia com dupla de ataque experiente",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "CSA negocia com dupla de ataque experiente",
+     "url": "https://ge.globo.com/al/futebol/times/csa/noticia/2026/11/22/csa-negocia-com-dupla-de-ataque-experiente.ghtml",
+     "hora": "22/11 14h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:00-03:00"
+  },
+  {
+   "assunto": "Colégio AME vence na abertura do Acreano de Futsal Sub-17; Assermurb e Rio Branco empatam",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Colégio AME vence na abertura do Acreano de Futsal Sub-17; Assermurb e Rio Branco empatam",
+     "url": "https://ge.globo.com/ac/noticia/2026/11/22/colegio-ame-vence-na-abertura-do-acreano-de-futsal-sub-17-assermurb-e-rio-branco-empatam.ghtml",
+     "hora": "22/11 13h46"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:46-03:00"
+  },
+  {
+   "assunto": "Como o Flamengo mudou o foco para o Brasileirão nos últimos dois anos e saiu campeão",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Como o Flamengo mudou o foco para o Brasileirão nos últimos dois anos e saiu campeão",
+     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/22/como-o-flamengo-mudou-o-foco-para-o-brasileirao-nos-ultimos-dois-anos-e-saiu-campeao.ghtml",
+     "hora": "22/11 13h52"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:52-03:00"
+  },
+  {
+   "assunto": "Compras como alívio emocional causam ciclo vicioso",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Compras como alívio emocional causam ciclo vicioso",
+     "url": "https://www.poder360.com.br/poder-saude/compras-como-alivio-emocional-causam-ciclo-vicioso/",
+     "hora": "22/11 14h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:00-03:00"
+  },
+  {
+   "assunto": "Do Vasco ao Bangu: a origem do enfrentamento do racismo no futebol",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Do Vasco ao Bangu: a origem do enfrentamento do racismo no futebol",
+     "url": "https://veja.abril.com.br/esporte/do-vasco-ao-bangu-a-origem-do-enfrentamento-do-racismo-no-futebol/",
+     "hora": "22/11 14h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:00-03:00"
   },
   {
    "assunto": "EUA buscam respostas sobre venda de chips da Nvidia para China, diz secretário",
@@ -138,6 +469,26 @@
    "ultima_iso": "2026-11-22T13:44-03:00"
   },
   {
+   "assunto": "Executivo do Atlético-PI faz balanço da 1ª semana de pré-temporada e anuncia série com cinco amistosos",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Executivo do Atlético-PI faz balanço da 1ª semana de pré-temporada e anuncia série com cinco amistosos",
+     "url": "https://ge.globo.com/pi/futebol/times/atletico-pi/noticia/2026/11/22/executivo-do-atletico-pi-faz-balanco-da-1a-semana-de-pre-temporada-e-anuncia-serie-com-cinco-amistosos.ghtml",
+     "hora": "22/11 13h49"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:49-03:00"
+  },
+  {
    "assunto": "Flávio, Damares e políticos de direita pedem orações para Bolsonaro",
    "secao": "politica",
    "n_fontes": 1,
@@ -156,6 +507,86 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T13:44-03:00"
+  },
+  {
+   "assunto": "Folha chama de ‘gambiarra’ plano fiscal de Lula",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oeste"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Folha chama de ‘gambiarra’ plano fiscal de Lula",
+     "url": "https://revistaoeste.com/imprensa/folha-chama-de-gambiarra-plano-fiscal-de-lula/",
+     "hora": "22/11 14h04"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:04-03:00"
+  },
+  {
+   "assunto": "Google Maps pode avisar quando alguém chega? Veja como configurar",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Google Maps pode avisar quando alguém chega? Veja como configurar",
+     "url": "https://exame.com/tecnologia/examelab/google-maps-pode-avisar-quando-alguem-chega-veja-como-configurar/",
+     "hora": "22/11 14h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:00-03:00"
+  },
+  {
+   "assunto": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
+     "url": "https://valor.globo.com/brasil/noticia/2026/11/22/governo-federal-reconhece-calamidade-em-cidade-do-rs-aps-temporal-que-deixou-5-mortos.ghtml",
+     "hora": "22/11 13h54"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:54-03:00"
+  },
+  {
+   "assunto": "Homem morre atropelado por ônibus em Florianópolis; vítima carregava documento de alta hospitalar do mesmo dia",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Homem morre atropelado por ônibus em Florianópolis; vítima carregava documento de alta hospitalar do mesmo dia",
+     "url": "https://g1.globo.com/sc/santa-catarina/noticia/2026/11/22/homem-morre-atropelado-por-onibus-beira-mar-norte-florianopolis.ghtml",
+     "hora": "22/11 14h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:00-03:00"
   },
   {
    "assunto": "Homem é preso com mil papelotes de cocaína e 12 barras de maconha em ônibus na MGC-135",
@@ -178,6 +609,26 @@
    "ultima_iso": "2026-11-22T13:42-03:00"
   },
   {
+   "assunto": "IA e matemática: entramos na era das verdades que não entendemos",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "IA e matemática: entramos na era das verdades que não entendemos",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/ronaldolemos/2026/11/ia-e-matematica-entramos-na-era-das-verdades-que-nao-entendemos.shtml",
+     "hora": "22/11 14h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T14:00-03:00"
+  },
+  {
    "assunto": "ICMS sobre o diesel acumula alta de 735,7% desde 2002, acima da inflação acumulada",
    "secao": "economia",
    "n_fontes": 1,
@@ -198,127 +649,7 @@
    "ultima_iso": "2026-11-22T13:50-03:00"
   },
   {
-   "assunto": "Liverpool x Manchester United - Campeonato Inglês 2026/27 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Liverpool x Manchester United - Campeonato Inglês 2026/27 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-ingles/jogo/22-11-2026/Liverpool-Manchesterunited.ghtml",
-     "hora": "22/11 13h43"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:43-03:00"
-  },
-  {
-   "assunto": "Motorista perde controle de carro, bate em guard rail e cai de ponte em GO",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Motorista perde controle de carro, bate em guard rail e cai de ponte em GO",
-     "url": "https://www.metropoles.com/distrito-federal/entorno/motorista-perde-controle-de-carro-bate-em-guard-rail-e-cai-de-ponte-em-go",
-     "hora": "22/11 13h46"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:46-03:00"
-  },
-  {
-   "assunto": "Operação prende cinco motoristas por embriaguez ao volante na Grande Natal",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Operação prende cinco motoristas por embriaguez ao volante na Grande Natal",
-     "url": "https://g1.globo.com/rn/rio-grande-do-norte/noticia/2026/11/22/operacao-prende-cinco-motoristas-por-embriaguez-ao-volante-na-grande-natal.ghtml",
-     "hora": "22/11 13h50"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:50-03:00"
-  },
-  {
-   "assunto": "Pedras coloridas e ouro amarelo: a contribuição de Paolo Bulgari à Bvlgari",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Pedras coloridas e ouro amarelo: a contribuição de Paolo Bulgari à Bvlgari",
-     "url": "https://www.metropoles.com/colunas/ilca-maria-estevao/pedras-coloridas-e-ouro-amarelo-a-contribuicao-de-paolo-bulgari-a-bvlgari",
-     "hora": "22/11 13h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:47-03:00"
-  },
-  {
-   "assunto": "Síndico deixa de apresentar as contas do condomínio e moradores descobrem que a lei permite sua destituição em assembleia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Síndico deixa de apresentar as contas do condomínio e moradores descobrem que a lei permite sua destituição em assembleia",
-     "url": "https://oantagonista.com.br/ladooa/entretenimento/sindico-deixa-de-apresentar-as-contas-do-condominio-e-moradores-descobrem-que-a-lei-permite-sua-destituicao-em-assembleia/",
-     "hora": "22/11 13h53"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:53-03:00"
-  },
-  {
-   "assunto": "Tempo de tela na infância é ligado a respostas mais rápidas na adolescência",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Tempo de tela na infância é ligado a respostas mais rápidas na adolescência",
-     "url": "https://www.metropoles.com/saude/tempo-de-tela-na-infancia-e-ligado-a-respostas-mais-rapidas-na-adolescencia",
-     "hora": "22/11 13h43"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:43-03:00"
-  },
-  {
-   "assunto": "Três pessoas ficam feridas após motorista invadir pista contrária na Mogi-Bertioga",
+   "assunto": "Jovem morre após perder controle de moto ao tentar ultrapassagem no Piauí",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -329,53 +660,33 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Três pessoas ficam feridas após motorista invadir pista contrária na Mogi-Bertioga",
-     "url": "https://g1.globo.com/sp/mogi-das-cruzes-suzano/noticia/2026/11/22/tres-pessoas-ficam-feridas-apos-motorista-invadir-pista-contraria-na-mogi-bertioga.ghtml",
-     "hora": "22/11 13h47"
+     "titulo": "Jovem morre após perder controle de moto ao tentar ultrapassagem no Piauí",
+     "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/22/jovem-morre-moto.ghtml",
+     "hora": "22/11 13h52"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:47-03:00"
+   "ultima_iso": "2026-11-22T13:52-03:00"
   },
   {
-   "assunto": "Uma pequena lua de Saturno guarda oceano sob o gelo e desperta interesse científico",
+   "assunto": "Larissa Manoela mostra dança, mas piscina da atriz é que faz sucesso; veja",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "antag"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "O Antagonista",
-     "titulo": "Uma pequena lua de Saturno guarda oceano sob o gelo e desperta interesse científico",
-     "url": "https://oantagonista.com.br/ladooa/entretenimento/uma-pequena-lua-de-saturno-guarda-oceano-sob-o-gelo-e-desperta-interesse-cientifico/",
-     "hora": "22/11 13h43"
+     "veiculo": "Metrópoles",
+     "titulo": "Larissa Manoela mostra dança, mas piscina da atriz é que faz sucesso; veja",
+     "url": "https://www.metropoles.com/vida-e-estilo/larissa-manoela-mostra-danca-mas-piscina-da-atriz-e-que-faz-sucesso-veja",
+     "hora": "22/11 14h01"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:43-03:00"
-  },
-  {
-   "assunto": "Wall Street entra em alerta após onda de vendas: o que pode acontecer com as bolsas americanas?",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Wall Street entra em alerta após onda de vendas: o que pode acontecer com as bolsas americanas?",
-     "url": "https://exame.com/invest/mercados/wall-street-entra-em-alerta-apos-onda-de-vendas-o-que-pode-acontecer-com-as-bolsas-americanas/",
-     "hora": "22/11 13h43"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:43-03:00"
+   "ultima_iso": "2026-11-22T14:01-03:00"
   }
  ],
  "em_pautas": {
@@ -388,6 +699,18 @@
      "titulo": "Chitãozinho e Xororó anunciam despedida dos palcos depois de 56 anos de carreira",
      "url": "https://revistaoeste.com/brasil/chitaozinho-e-xororo-anunciam-despedida-dos-palcos-depois-de-56-anos-de-carreira/",
      "hora": "22/11 13h43"
+    }
+   ]
+  },
+  "mexico-captura-chapo-isidro": {
+   "secao": "mundo",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Grampo, drone e despiste: os bastidores da prisão de “El Chapo Isidro” no México",
+     "url": "https://www.infomoney.com.br/business/global/grampo-drone-e-despiste-os-bastidores-da-prisao-de-el-chapo-isidro-no-mexico/",
+     "hora": "22/11 14h00"
     }
    ]
   }
@@ -403,7 +726,7 @@
    "ultima": "22/11 11h32",
    "ultima_iso": "2026-11-22T11:32-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 7.1,
+   "horas_sem_atualizar": 7.2,
    "principal": true,
    "manchetes": [
     {
@@ -411,6 +734,27 @@
      "titulo": "O dilema de Kassio Nunes Marques para voltar ao julgamento do caso Master",
      "url": "https://veja.abril.com.br/politica/o-dilema-de-kassio-nunes-marques-para-voltar-ao-julgamento-do-caso-master/",
      "hora": "22/11 11h32"
+    }
+   ]
+  },
+  "bolsonaro-hospital-dores-abdominais": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "22/11 14h05",
+   "ultima_iso": "2026-11-22T14:05-03:00",
+   "pauta_atualizada_em": "2026-11-22T13:48-03:00",
+   "horas_sem_atualizar": 0.3,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "O que diz novo boletim médico sobre a saúde de Bolsonaro",
+     "url": "https://veja.abril.com.br/brasil/o-que-diz-novo-boletim-medico-sobre-a-saude-de-bolsonaro/",
+     "hora": "22/11 14h05"
     }
    ]
   },
@@ -424,7 +768,7 @@
    "ultima": "22/11 12h51",
    "ultima_iso": "2026-11-22T12:51-03:00",
    "pauta_atualizada_em": "2026-11-22T04:15-03:00",
-   "horas_sem_atualizar": 9.7,
+   "horas_sem_atualizar": 9.8,
    "principal": false,
    "manchetes": [
     {
@@ -435,40 +779,26 @@
     }
    ]
   },
-  "ajuste-fiscal-lula-4": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "22/11 08h53",
-   "ultima_iso": "2026-11-22T08:53-03:00",
-   "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 7.1,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Câmara deve votar projeto de ajuste fiscal nesta segunda; veja o que muda",
-     "url": "https://exame.com/brasil/camara-deve-votar-projeto-de-ajuste-fiscal-nesta-segunda-veja-o-que-muda/",
-     "hora": "22/11 08h53"
-    }
-   ]
-  },
   "mexico-captura-chapo-isidro": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
+    "im",
     "oglobo"
    ],
    "n_fontes_90min": 1,
-   "ultima": "22/11 10h00",
-   "ultima_iso": "2026-11-22T10:00-03:00",
+   "ultima": "22/11 14h00",
+   "ultima_iso": "2026-11-22T14:00-03:00",
    "pauta_atualizada_em": "2026-11-21T10:58-03:00",
-   "horas_sem_atualizar": 27.0,
+   "horas_sem_atualizar": 27.1,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Grampo, drone e despiste: os bastidores da prisão de “El Chapo Isidro” no México",
+     "url": "https://www.infomoney.com.br/business/global/grampo-drone-e-despiste-os-bastidores-da-prisao-de-el-chapo-isidro-no-mexico/",
+     "hora": "22/11 14h00"
+    },
     {
      "veiculo": "O Globo",
      "titulo": "Por que 'El Chapo', ascensão no crime e acusações: saiba quem é Fausto Isidro Meza Flores, traficante preso no México",
@@ -488,7 +818,7 @@
    "ultima": "22/11 12h28",
    "ultima_iso": "2026-11-22T12:28-03:00",
    "pauta_atualizada_em": "2026-11-22T06:36-03:00",
-   "horas_sem_atualizar": 7.3,
+   "horas_sem_atualizar": 7.5,
    "principal": false,
    "manchetes": [
     {
@@ -515,7 +845,7 @@
    "ultima": "22/11 13h43",
    "ultima_iso": "2026-11-22T13:43-03:00",
    "pauta_atualizada_em": "2026-11-22T11:45-03:00",
-   "horas_sem_atualizar": 2.2,
+   "horas_sem_atualizar": 2.3,
    "principal": false,
    "manchetes": [
     {
@@ -843,17 +1173,17 @@
  "ultima_rodada": "2026-11-22T13:49-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 52 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 60 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 9 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 0 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 1 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 51 nas últimas 6 h",
+  "ge": "ok: 100 itens, 57 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 9 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
@@ -866,19 +1196,19 @@
   "Estadão Economia": "ok: 20 itens, 4 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 3 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 1 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 54 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 26 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 55 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 27 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
-  "DW Brasil": "ok: 65 itens, 4 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 32 itens, 3 nas últimas 6 h",
+  "DW Brasil": "ok: 65 itens, 5 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 33 itens, 4 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 9 nas últimas 6 h",
   "Brasil de Fato": "ok: 99 itens, 5 nas últimas 6 h",
-  "ICL Notícias": "ok: 10 itens, 9 nas últimas 6 h"
+  "ICL Notícias": "ok: 10 itens, 8 nas últimas 6 h"
  }
 }
