@@ -1,847 +1,22 @@
 {
- "gerado": "2026-11-22T13:44-03:00",
- "desde": "2026-11-22T11:40-03:00",
- "feed_atualizado_em": "2026-11-22T11:50:00-03:00",
+ "gerado": "2026-11-22T13:55-03:00",
+ "desde": "2026-11-22T13:39-03:00",
+ "feed_atualizado_em": "2026-11-22T13:49:00-03:00",
  "resumo": {
-  "manchetes": 224,
-  "assuntos_novos_relevantes": 6,
-  "assuntos_novos": 173,
-  "pautas_com_novidade": 5,
-  "pautas_com_novidade_3_fontes": 1,
-  "pautas_com_relatos": 8,
-  "acionar_itens": 2,
+  "manchetes": 20,
+  "assuntos_novos_relevantes": 0,
+  "assuntos_novos": 18,
+  "pautas_com_novidade": 1,
+  "pautas_com_novidade_3_fontes": 0,
+  "pautas_com_relatos": 6,
+  "acionar_itens": 0,
   "ja_avaliados": 0
  },
- "acionar": true,
- "acionar_motivo": "assunto novo: 7 veículos em 90 min (politica); pauta cop31-turquia-abertura: 5 veículos em 90 min depois da última atualização",
- "acionar_itens": [
-  {
-   "tipo": "novo",
-   "titulo": "Bolsonaro passou a noite sem dores e faz caminhada, diz Michelle",
-   "secao": "politica",
-   "n_fontes": 7,
-   "motivo": "assunto novo: 7 veículos em 90 min (politica)",
-   "chave": [
-    "avaliar",
-    "bolsonaro",
-    "caminhada",
-    "cirurgia",
-    "dor",
-    "dores",
-    "exames",
-    "faz",
-    "fez",
-    "hospital",
-    "imagem",
-    "manha",
-    "michelle",
-    "necessidade",
-    "nessa",
-    "neste",
-    "noite",
-    "passos",
-    "passou",
-    "proximos",
-    "realizou"
-   ],
-   "acao": "nova",
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Bolsonaro passou a noite sem dores e faz caminhada, diz Michelle",
-     "url": "https://oantagonista.com.br/brasil/bolsonaro-passou-a-noite-sem-dores-e-faz-caminhada-diz-michelle/",
-     "hora": "22/11 13h33"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Michelle diz que Bolsonaro passou a noite sem dor e realizou exames de imagem nessa manhã para avaliar próximos passos",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/22/michelle-diz-que-bolsonaro-passou-a-noite-sem-dor-e-realizou-exames-de-imagem-nessa-manha-para-avaliar-proximos-passos.ghtml",
-     "hora": "22/11 13h23",
-     "lide": "Esposa do ex-presidente pede orações para que não seja necessário \"procedimento mais invasivo\""
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Michelle diz que Bolsonaro passou a noite sem dores",
-     "url": "https://valor.globo.com/politica/noticia/2026/11/22/michelle-diz-que-bolsonaro-passou-a-noite-sem-dores.ghtml",
-     "hora": "22/11 13h18",
-     "lide": "Ex-primeira dama relata que o ex-presidente fez caminhada e alguns exames; não há previsão de alta"
-    }
-   ]
-  },
-  {
-   "tipo": "pauta",
-   "pid": "cop31-turquia-abertura",
-   "titulo": "Com impasse sobre combustíveis fósseis, COP31 termina sem acordo final",
-   "n_fontes": 7,
-   "motivo": "pauta cop31-turquia-abertura: 5 veículos em 90 min depois da última atualização",
-   "acao": "atualiza: cop31-turquia-abertura",
-   "manchetes": [
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Com impasse sobre combustíveis fósseis, COP31 termina sem acordo final",
-     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/com-impasse-sobre-combustiveis-fosseis-cop31-termina-sem-acordo-final",
-     "hora": "22/11 12h59",
-     "lide": "Negociações foram retomadas por mais dois dias, mas a falta de consenso foi mantida na última sessão plenária, neste domingo."
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
-     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
-     "hora": "22/11 12h56",
-     "lide": "A quarta versão do texto não mencionava a necessidade de eliminar progressivamente o uso desses combustíveis, a principal causa das mudanças climáticas."
-    },
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "COP31 termina sem acordo entre os países",
-     "url": "https://revistaoeste.com/mundo/cop31-termina-sem-acordo-entre-os-paises/",
-     "hora": "22/11 12h47",
-     "lide": "União Europeia, Panamá e outras delegações rejeitaram documento que omitiu referência explícita ao abandono de carvão, petróleo e gás"
-    }
-   ]
-  }
- ],
+ "acionar": false,
+ "acionar_motivo": "nada novo que acione (18 assuntos fora do feed, 6 pautas com relatos)",
+ "acionar_itens": [],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
-  {
-   "assunto": "Bolsonaro passou a noite sem dores e faz caminhada, diz Michelle",
-   "secao": "politica",
-   "n_fontes": 7,
-   "fontes": [
-    "antag",
-    "cnn",
-    "estadao",
-    "met",
-    "oeste",
-    "oglobo",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Bolsonaro passou a noite sem dores e faz caminhada, diz Michelle",
-     "url": "https://oantagonista.com.br/brasil/bolsonaro-passou-a-noite-sem-dores-e-faz-caminhada-diz-michelle/",
-     "hora": "22/11 13h33"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Michelle diz que Bolsonaro passou a noite sem dor e realizou exames de imagem nessa manhã para avaliar próximos passos",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/22/michelle-diz-que-bolsonaro-passou-a-noite-sem-dor-e-realizou-exames-de-imagem-nessa-manha-para-avaliar-proximos-passos.ghtml",
-     "hora": "22/11 13h23"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Michelle diz que Bolsonaro passou a noite sem dores",
-     "url": "https://valor.globo.com/politica/noticia/2026/11/22/michelle-diz-que-bolsonaro-passou-a-noite-sem-dores.ghtml",
-     "hora": "22/11 13h18"
-    },
-    {
-     "veiculo": "Estadão Política",
-     "titulo": "Bolsonaro passou noite sem dor e fez caminhada no hospital, diz Michelle",
-     "url": "https://www.estadao.com.br/politica/bolsonaro-passou-noite-sem-dor-e-fez-caminhada-no-hospital-diz-michelle/",
-     "hora": "22/11 13h16"
-    }
-   ],
-   "n_fontes_90min": 7,
-   "ultima_iso": "2026-11-22T13:33-03:00"
-  },
-  {
-   "assunto": "Morre Paolo Bulgari, que transformou negócio da família em marca de luxo",
-   "secao": null,
-   "n_fontes": 4,
-   "fontes": [
-    "cnn",
-    "jp",
-    "p360",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Morre Paolo Bulgari, que transformou negócio da família em marca de luxo",
-     "url": "https://www.cnnbrasil.com.br/style/luxo/morre-paolo-bulgari-que-transformou-negocio-da-familia-em-marca-de-luxo/",
-     "hora": "22/11 13h22"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Morre, aos 89 anos, Paolo Bulgari, joalheiro que transformou empresa familiar em marca de luxo",
-     "url": "https://jovempan.com.br/mundo/morre-aos-89-anos-paolo-bulgari-joalheiro-que-transformou-empresa-familiar-em-marca-de-luxo/",
-     "hora": "22/11 13h19"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Paolo Bulgari, que transformou joalheria em marca global de luxo, morre aos 89 anos",
-     "url": "https://valor.globo.com/empresas/noticia/2026/11/22/paolo-bulgari-que-transformou-joalheria-em-marca-global-de-luxo-morre-aos-89-anos.ghtml",
-     "hora": "22/11 12h47"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Morre Paolo Bulgari, responsável pela expansão global da joalheria",
-     "url": "https://www.poder360.com.br/poder-gente/morre-paolo-bulgari-responsavel-pela-expansao-global-da-joalheria/",
-     "hora": "22/11 11h50"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-22T13:22-03:00"
-  },
-  {
-   "assunto": "Ator Sérgio Malheiros é questionado sobre como lida com possíveis críticas a seu casamento com atriz Sophia Abrahão",
-   "secao": null,
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "met",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Ator Sérgio Malheiros é questionado sobre como lida com possíveis críticas a seu casamento com atriz Sophia Abrahão",
-     "url": "https://oglobo.globo.com/cultura/noticia/2026/11/22/ator-sergio-magalhaes-e-questionado-sobre-como-lida-com-possiveis-criticas-a-seu-casamento-com-atriz-sophia-abrahao.ghtml",
-     "hora": "22/11 13h27"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Sophia Abrahão e Sérgio Malheiros celebram 12 anos de amor e se declaram",
-     "url": "https://www.metropoles.com/colunas/fabia-oliveira/sophia-abrahao-e-sergio-malheiros-celebram-12-anos-de-amor-e-se-declaram",
-     "hora": "22/11 13h00"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Sophia Abrahão celebra 12 anos de namoro com Sérgio Malheiros: “Me mudou”",
-     "url": "https://www.cnnbrasil.com.br/pop/celebridades/sophia-abrahao-celebra-12-anos-de-namoro-com-sergio-malheiros-me-mudou/",
-     "hora": "22/11 12h51"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-22T13:27-03:00"
-  },
-  {
-   "assunto": "Barcelona supera pênalti perdido, vira sobre Villarreal e lidera Campeonato Espanhol",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "fontes": [
-    "ge",
-    "met",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Barcelona supera pênalti perdido, vira sobre Villarreal e lidera Campeonato Espanhol",
-     "url": "https://oglobo.globo.com/esportes/noticia/2026/11/22/barcelona-supera-penalti-perdido-vira-sobre-villarreal-e-lidera-campeonato-espanhol.ghtml",
-     "hora": "22/11 12h42"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Barcelona vira jogo em dez minutos e abre vantagem na liderança do Espanhol",
-     "url": "https://www.metropoles.com/esportes/barcelona-vira-jogo-em-dez-minutos-e-abre-vantagem-na-lideranca-do-espanhol",
-     "hora": "22/11 12h25"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Barcelona vira sobre o Villarreal e recupera vantagem na liderança do Espanhol",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/jogo/22-11-2026/barcelona-Villarreal.ghtml",
-     "hora": "22/11 12h24"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-22T12:42-03:00"
-  },
-  {
-   "assunto": "Estado de SP tem alerta para chuvas com vendaval e granizo até 3ª (24/11)",
-   "secao": "brasil",
-   "n_fontes": 3,
-   "fontes": [
-    "im",
-    "jp",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Estado de SP tem alerta para chuvas com vendaval e granizo até 3ª (24/11)",
-     "url": "https://www.metropoles.com/sao-paulo/estado-de-sp-tem-alerta-para-chuvas-com-vendaval-e-granizo-ate-3a-24-11",
-     "hora": "22/11 13h39"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Defesa Civil de SP reforça alerta para fortes chuvas até terça-feira",
-     "url": "https://jovempan.com.br/brasil/defesa-civil-de-sp-reforca-alerta-para-fortes-chuvas-ate-terca-feira/",
-     "hora": "22/11 11h51"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Defesa Civil de SP reforça alerta para fortes chuvas em todo o Estado até terça-feira",
-     "url": "https://www.infomoney.com.br/brasil/defesa-civil-de-sp-reforca-alerta-para-fortes-chuvas-em-todo-o-estado-ate-terca-feira/",
-     "hora": "22/11 11h47"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T13:39-03:00"
-  },
-  {
-   "assunto": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
-   "secao": "brasil",
-   "n_fontes": 3,
-   "fontes": [
-    "ab",
-    "bdf",
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/governo-federal-reconhece-calamidade-em-cidade-do-rs-apos-temporal-que-deixou-5-mortos.shtml",
-     "hora": "22/11 12h55"
-    },
-    {
-     "veiculo": "Brasil de Fato",
-     "titulo": "Tupanciretã (RS) decreta estado de calamidade pública após vendaval e tempestade",
-     "url": "https://www.brasildefato.com.br/2026/11/22/tupancireta-rs-decreta-estado-de-calamidade-publica-apos-vendaval-e-tempestade/",
-     "hora": "22/11 11h56"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Após temporal, governo reconhece calamidade pública em Tupanciretã",
-     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/apos-temporal-governo-reconhece-calamidade-publica-em-tupancireta",
-     "hora": "22/11 11h53"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-22T12:55-03:00"
-  },
-  {
-   "assunto": "Consumo de álcool adulterado deixa ao menos 16 mortos e cerca de 600 hospitalizados na Índia",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "ex",
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Consumo de álcool adulterado deixa ao menos 16 mortos e cerca de 600 hospitalizados na Índia",
-     "url": "https://jovempan.com.br/mundo/consumo-de-alcool-adulterado-deixa-ao-menos-16-mortos-e-cerca-de-600-hospitalizados-na-india/",
-     "hora": "22/11 12h12"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Álcool adulterado na Índia deixa 16 mortos e quase 600 hospitalizados",
-     "url": "https://exame.com/mundo/alcool-adulterado-na-india-deixa-16-mortos-e-quase-600-hospitalizados/",
-     "hora": "22/11 12h10"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T12:12-03:00"
-  },
-  {
-   "assunto": "EUA buscam respostas sobre venda de chips da Nvidia para China, diz secretário do Tesouro",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "im",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "EUA buscam respostas sobre venda de chips da Nvidia para China, diz secretário do Tesouro",
-     "url": "https://valor.globo.com/empresas/noticia/2026/11/22/eua-buscam-respostas-sobre-venda-de-chips-da-nvidia-para-china-diz-secretrio-do-tesouro.ghtml",
-     "hora": "22/11 13h23"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Espiões, chips e a Nvidia: a campanha secreta da China para driblar os EUA",
-     "url": "https://www.infomoney.com.br/business/global/espioes-chips-e-a-nvidia-a-campanha-secreta-da-china-para-driblar-os-eua/",
-     "hora": "22/11 12h38"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T13:23-03:00"
-  },
-  {
-   "assunto": "Governo prepara política de proteção a mulheres na vida pública",
-   "secao": "politica",
-   "n_fontes": 2,
-   "fontes": [
-    "icl",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Governo prepara política de proteção a mulheres na vida pública",
-     "url": "https://www.poder360.com.br/poder-governo/governo-prepara-politica-de-protecao-a-mulheres-na-vida-publica/",
-     "hora": "22/11 12h11"
-    },
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "Ministério das Mulheres vai criar política de proteção contra violência política de gênero e raça",
-     "url": "https://iclnoticias.com.br/ministerio-mulheres-politica-protecao/",
-     "hora": "22/11 12h00"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T12:11-03:00"
-  },
-  {
-   "assunto": "Homem ameaça criança com faca e espanca companheira e enteado no Entorno",
-   "secao": "brasil",
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Homem ameaça criança com faca e espanca companheira e enteado no Entorno",
-     "url": "https://www.metropoles.com/distrito-federal/na-mira/homem-ameaca-crianca-com-faca-e-espanca-companheira-e-enteado-no-entorno",
-     "hora": "22/11 12h17"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Homem é morto com golpe de faca pelo filho adolescente após agredir a companheira em Patos, na PB",
-     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/22/homem-e-morto-com-golpe-de-faca-pelo-filho-adolescente-apos-agredir-a-companheira-em-patos-na-pb.ghtml",
-     "hora": "22/11 11h49"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T12:17-03:00"
-  },
-  {
-   "assunto": "Jovem morre e adolescente fica gravemente ferida após moto bater contra poste em São José dos Campos",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Jovem morre e adolescente fica gravemente ferida após moto bater contra poste em São José dos Campos",
-     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/22/jovem-morre-e-adolescente-fica-gravemente-ferida-apos-moto-bater-contra-poste-em-sao-jose-dos-campos.ghtml",
-     "hora": "22/11 12h42"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Casal morre e filho de 3 anos fica gravemente ferido em acidente na GO-523",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/22/casal-morre-e-filho-de-3-anos-fica-gravemente-ferido-em-acidente-na-go-523.ghtml",
-     "hora": "22/11 12h27"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Jogador da NFL é arremessado de carro e fica gravemente ferido",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol-americano/jogador-da-nfl-e-arremessado-de-carro-e-fica-gravemente-ferido/",
-     "hora": "22/11 12h01"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T12:42-03:00"
-  },
-  {
-   "assunto": "Loteria Federal hoje: resultado do concurso 6119 e números sorteados",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Loteria Federal hoje: resultado do concurso 6119 e números sorteados",
-     "url": "https://g1.globo.com/loterias/loteria-federal/noticia/2026/11/22/loteria-federal-hoje-resultado-do-concurso-6119-e-numeros-sorteados.ghtml",
-     "hora": "22/11 11h55"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Loteria Federal: confira o resultado do concurso 06119-0 sorteado neste domingo (22)",
-     "url": "https://www.infomoney.com.br/consumo/loteria-federal-confira-o-resultado-do-concurso-06119-0-sorteado-neste-domingo-22/",
-     "hora": "22/11 11h44"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-22T11:55-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Michelle relata visita a Bolsonaro no hospital: \"Dei banho e o hidratei\"",
-   "secao": "politica",
-   "n_fontes": 2,
-   "fontes": [
-    "met",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Michelle relata visita a Bolsonaro no hospital: \"Dei banho e o hidratei\"",
-     "url": "https://www.metropoles.com/brasil/michelle-descreve-visita-a-bolsonaro-no-hospital-dei-banho-e-o-hidratei",
-     "hora": "22/11 13h04"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Bolsonaro passa noite sem dor e caminha por hospital, diz Michelle",
-     "url": "https://www.poder360.com.br/poder-gente/bolsonaro-passa-noite-sem-dor-e-caminha-por-hospital-diz-michelle/",
-     "hora": "22/11 12h34"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T13:04-03:00"
-  },
-  {
-   "assunto": "Miley Cyrus se casa com Maxx Morando em cerimônia privada na Califórnia",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Miley Cyrus se casa com Maxx Morando em cerimônia privada na Califórnia",
-     "url": "https://exame.com/pop/miley-cyrus-se-casa-com-maxx-morando-em-cerimonia-privada-na-california/",
-     "hora": "22/11 13h19"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Miley Cyrus se casa com Maxx Morando em cerimônia nos EUA; veja detalhes",
-     "url": "https://www.cnnbrasil.com.br/pop/celebridades/miley-cyrus-se-casa-com-maxx-morando-em-cerimonia-nos-eua-veja-detalhes/",
-     "hora": "22/11 12h30"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T13:19-03:00"
-  },
-  {
-   "assunto": "Ninguém acerta dezenas da Mega-Sena e prêmio vai a R$ 65 milhões",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "im",
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Ninguém acerta dezenas da Mega-Sena e prêmio vai a R$ 65 milhões",
-     "url": "https://jovempan.com.br/economia/ninguem-acerta-dezenas-da-mega-sena-e-premio-vai-a-r-65-milhoes/",
-     "hora": "22/11 13h02"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Mega-Sena acumula e prêmio do próximo sorteio vai a R$ 65 milhões",
-     "url": "https://www.infomoney.com.br/consumo/mega-sena-acumula-e-premio-do-proximo-sorteio-vai-a-r-65-milhoes/",
-     "hora": "22/11 11h42"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-22T13:02-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Operação policial investiga uso de drones para entrega de celulares e drogas em presídios de Sergipe",
-   "secao": "brasil",
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Operação policial investiga uso de drones para entrega de celulares e drogas em presídios de Sergipe",
-     "url": "https://g1.globo.com/se/sergipe/noticia/2026/11/22/operacao-policial-investiga-uso-de-drones-para-entrega-de-celulares-e-drogas-em-presidios-de-sergipe.ghtml",
-     "hora": "22/11 13h27"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Casal é alvo de operação por usar drones para enviar drogas a presídio",
-     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/casal-e-alvo-de-operacao-por-usar-drones-para-enviar-drogas-a-presidio",
-     "hora": "22/11 13h25"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T13:27-03:00"
-  },
-  {
-   "assunto": "Pérez é punido após colisão com brasileiro Rafael Câmara em Las Vegas",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "ge"
-   ],
-   "ja_e_breve": true,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Pérez é punido após colisão com brasileiro Rafael Câmara em Las Vegas",
-     "url": "https://www.cnnbrasil.com.br/esportes/automobilismo/perez-e-punido-apos-colisao-com-brasileiro-rafael-camara-em-las-vegas/",
-     "hora": "22/11 12h25"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Rafael Câmara valoriza corrida positiva e constância em Las Vegas",
-     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/22/rafael-camara-valoriza-corrida-positiva-e-constancia-em-las-vegas.ghtml",
-     "hora": "22/11 12h00"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T12:25-03:00"
-  },
-  {
-   "assunto": "Sobe para 5 o número de mortos por tempestade que devastou cidade no Rio Grande do Sul",
-   "secao": "brasil",
-   "n_fontes": 2,
-   "fontes": [
-    "cc",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CartaCapital",
-     "titulo": "Sobe para 5 o número de mortos por tempestade que devastou cidade no Rio Grande do Sul",
-     "url": "https://www.cartacapital.com.br/sociedade/sobe-para-5-o-numero-de-mortos-por-tempestade-que-devastou-cidade-no-rio-grande-do-sul/",
-     "hora": "22/11 13h15"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Ciclone extratropical deve passar próximo ao Rio Grande do Sul neste domingo, trazendo nova frente fria",
-     "url": "https://oglobo.globo.com/brasil/noticia/2026/11/22/ciclone-extratropical-deve-passar-proximo-ao-rio-grande-do-sul-neste-domingo-trazendo-nova-frente-fria.ghtml",
-     "hora": "22/11 11h52"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T13:15-03:00"
-  },
-  {
-   "assunto": "Título de Jardim no Flamengo amplia domínio de técnicos portugueses no Brasileiro",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "folha",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "Título de Jardim no Flamengo amplia domínio de técnicos portugueses no Brasileiro",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/titulo-de-jardim-no-flamengo-amplia-dominio-de-tecnicos-portugueses-no-brasileiro.shtml",
-     "hora": "22/11 12h12"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Título brasileiro alivia finanças do Flamengo com premiação? Entenda cenário",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/22/titulo-brasileiro-alivia-financas-do-flamengo-com-premiacao-entenda-cenario.ghtml",
-     "hora": "22/11 12h00"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T12:12-03:00"
-  },
-  {
-   "assunto": "\"Sou acessível\", me diz o taxista que não deita bancos para levar cadeira de rodas",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "estadao"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Estadão Brasil",
-     "titulo": "\"Sou acessível\", me diz o taxista que não deita bancos para levar cadeira de rodas",
-     "url": "https://www.estadao.com.br/brasil/vencer-limites/sou-acessivel-me-diz-o-taxista-que-nao-deita-bancos-para-levar-cadeira-de-rodas/",
-     "hora": "22/11 12h08"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:08-03:00"
-  },
-  {
-   "assunto": "'A ninguém falte o necessário', diz Papa Leão XIV após almoço com 1.300 pessoas vulneráveis",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "'A ninguém falte o necessário', diz Papa Leão XIV após almoço com 1.300 pessoas vulneráveis",
-     "url": "https://exame.com/mundo/a-ninguem-falte-o-necessario-diz-papa-leao-xiv-apos-almoco-com-1-300-pessoas-vulneraveis/",
-     "hora": "22/11 12h38"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:38-03:00"
-  },
-  {
-   "assunto": "10 franquias baratas para empreender a partir de R$ 249",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "10 franquias baratas para empreender a partir de R$ 249",
-     "url": "https://exame.com/negocios/10-franquias-baratas-para-empreender-a-partir-de-r-249/",
-     "hora": "22/11 12h12"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:12-03:00"
-  },
-  {
-   "assunto": "A 'economia em K' veio para ficar?",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "A 'economia em K' veio para ficar?",
-     "url": "https://exame.com/bussola/a-economia-em-k-veio-para-ficar/",
-     "hora": "22/11 13h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:00-03:00"
-  },
-  {
-   "assunto": "A ceia de Natal fora de casa: como será o fim de ano no Rosewood São Paulo",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "A ceia de Natal fora de casa: como será o fim de ano no Rosewood São Paulo",
-     "url": "https://exame.com/casual/a-ceia-de-natal-fora-de-casa-como-sera-o-fim-de-ano-no-rosewood-sao-paulo/",
-     "hora": "22/11 12h04"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:04-03:00"
-  },
-  {
-   "assunto": "A economia política do Lula 4: o que está em jogo?",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "bdf"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Brasil de Fato",
-     "titulo": "A economia política do Lula 4: o que está em jogo?",
-     "url": "https://www.brasildefato.com.br/2026/11/22/a-economia-politica-do-lula-4-o-que-esta-em-jogo/",
-     "hora": "22/11 12h24"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:24-03:00"
-  },
-  {
-   "assunto": "A estratégia de Tereza Cristina para destronar Marinho como candidato de oposição à Alcolumbre",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "A estratégia de Tereza Cristina para destronar Marinho como candidato de oposição à Alcolumbre",
-     "url": "https://veja.abril.com.br/politica/a-estrategia-de-tereza-cristina-para-destronar-marinho-como-candidato-de-oposicao-a-alcolumbre/",
-     "hora": "22/11 13h01"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:01-03:00"
-  },
-  {
-   "assunto": "A última xícara da rainha do crime",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "cc"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CartaCapital",
-     "titulo": "A última xícara da rainha do crime",
-     "url": "https://www.cartacapital.com.br/blogs/pantagruel/a-ultima-xicara-da-rainha-do-crime/",
-     "hora": "22/11 12h44"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:44-03:00"
-  },
   {
    "assunto": "Abalado, Prochazka se pronuncia após sofrer nocaute brutal na luta principal do UFC",
    "secao": "esportes",
@@ -863,27 +38,7 @@
    "ultima_iso": "2026-11-22T13:40-03:00"
   },
   {
-   "assunto": "Acidente com carreta interdita RJ-124, a ViaLagos, no sentido Região dos Lagos",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Acidente com carreta interdita RJ-124, a ViaLagos, no sentido Região dos Lagos",
-     "url": "https://g1.globo.com/rj/regiao-dos-lagos/noticia/2026/11/22/acidente-com-carreta-interdita-rj-124-a-vialagos-no-sentido-regiao-dos-lagos.ghtml",
-     "hora": "22/11 12h55"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:55-03:00"
-  },
-  {
-   "assunto": "Acidente entre moto e caminhão deixa motociclista ferido na Santos Dumont, em Campinas",
+   "assunto": "Adolescente de 13 anos morre após ser atingida por moto aquática em rio de MS",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -894,94 +49,336 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Acidente entre moto e caminhão deixa motociclista ferido na Santos Dumont, em Campinas",
-     "url": "https://g1.globo.com/sp/campinas-regiao/noticia/2026/11/22/acidente-com-moto-deixa-homem-ferido-na-santos-dumont-em-campinas-aguia.ghtml",
-     "hora": "22/11 13h19"
+     "titulo": "Adolescente de 13 anos morre após ser atingida por moto aquática em rio de MS",
+     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/22/adolescente-de-13-anos-morre-apos-ser-atingida-por-moto-aquatica-em-rio-de-ms.ghtml",
+     "hora": "22/11 13h48"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T13:19-03:00"
+   "ultima_iso": "2026-11-22T13:48-03:00"
+  },
+  {
+   "assunto": "Adolescente morre atropelada ao tentar correr atrás de cachorro no Ceará",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Adolescente morre atropelada ao tentar correr atrás de cachorro no Ceará",
+     "url": "https://g1.globo.com/ce/ceara/cariri/noticia/2026/11/22/adolescente-morre-atropelada-ao-tentar-correr-atras-de-cachorro-no-ceara.ghtml",
+     "hora": "22/11 13h45"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:45-03:00"
+  },
+  {
+   "assunto": "EUA buscam respostas sobre venda de chips da Nvidia para China, diz secretário",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "EUA buscam respostas sobre venda de chips da Nvidia para China, diz secretário",
+     "url": "https://www.infomoney.com.br/mundo/eua-buscam-respostas-sobre-venda-de-chips-da-nvidia-para-china-diz-secretario/",
+     "hora": "22/11 13h40"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:40-03:00"
+  },
+  {
+   "assunto": "Estado de SP tem alerta para chuvas com vendaval e granizo até 3ª (24/11)",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Estado de SP tem alerta para chuvas com vendaval e granizo até 3ª (24/11)",
+     "url": "https://www.metropoles.com/sao-paulo/estado-de-sp-tem-alerta-para-chuvas-com-vendaval-e-granizo-ate-3a-24-11",
+     "hora": "22/11 13h39"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:39-03:00"
+  },
+  {
+   "assunto": "Estrada rural Bom Pastor sofre com buracos e entulho perto de córrego em Presidente Prudente",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Estrada rural Bom Pastor sofre com buracos e entulho perto de córrego em Presidente Prudente",
+     "url": "https://g1.globo.com/sp/presidente-prudente-e-regiao/noticia/2026/11/22/estrada-rural-bom-pastor-sofre-com-buracos-e-entulho-perto-de-corrego-em-presidente-prudente.ghtml",
+     "hora": "22/11 13h44"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:44-03:00"
+  },
+  {
+   "assunto": "Flávio, Damares e políticos de direita pedem orações para Bolsonaro",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Flávio, Damares e políticos de direita pedem orações para Bolsonaro",
+     "url": "https://www.poder360.com.br/poder-gente/flavio-damares-e-politicos-de-direita-pedem-oracoes-para-bolsonaro/",
+     "hora": "22/11 13h44"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:44-03:00"
+  },
+  {
+   "assunto": "Homem é preso com mil papelotes de cocaína e 12 barras de maconha em ônibus na MGC-135",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Homem é preso com mil papelotes de cocaína e 12 barras de maconha em ônibus na MGC-135",
+     "url": "https://g1.globo.com/mg/grande-minas/noticia/2026/11/22/homem-e-preso-com-mil-papelotes-de-cocaina-e-12-barras-de-maconha-em-onibus-na-mgc-135.ghtml",
+     "hora": "22/11 13h42"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:42-03:00"
+  },
+  {
+   "assunto": "ICMS sobre o diesel acumula alta de 735,7% desde 2002, acima da inflação acumulada",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "ICMS sobre o diesel acumula alta de 735,7% desde 2002, acima da inflação acumulada",
+     "url": "https://www.infomoney.com.br/economia/icms-sobre-o-diesel-acumula-alta-de-7357-desde-2002-acima-da-inflacao-acumulada/",
+     "hora": "22/11 13h50"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:50-03:00"
+  },
+  {
+   "assunto": "Liverpool x Manchester United - Campeonato Inglês 2026/27 - Ao vivo - globoesporte.com",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Liverpool x Manchester United - Campeonato Inglês 2026/27 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-ingles/jogo/22-11-2026/Liverpool-Manchesterunited.ghtml",
+     "hora": "22/11 13h43"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:43-03:00"
+  },
+  {
+   "assunto": "Motorista perde controle de carro, bate em guard rail e cai de ponte em GO",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Motorista perde controle de carro, bate em guard rail e cai de ponte em GO",
+     "url": "https://www.metropoles.com/distrito-federal/entorno/motorista-perde-controle-de-carro-bate-em-guard-rail-e-cai-de-ponte-em-go",
+     "hora": "22/11 13h46"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:46-03:00"
+  },
+  {
+   "assunto": "Operação prende cinco motoristas por embriaguez ao volante na Grande Natal",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Operação prende cinco motoristas por embriaguez ao volante na Grande Natal",
+     "url": "https://g1.globo.com/rn/rio-grande-do-norte/noticia/2026/11/22/operacao-prende-cinco-motoristas-por-embriaguez-ao-volante-na-grande-natal.ghtml",
+     "hora": "22/11 13h50"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:50-03:00"
+  },
+  {
+   "assunto": "Pedras coloridas e ouro amarelo: a contribuição de Paolo Bulgari à Bvlgari",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Pedras coloridas e ouro amarelo: a contribuição de Paolo Bulgari à Bvlgari",
+     "url": "https://www.metropoles.com/colunas/ilca-maria-estevao/pedras-coloridas-e-ouro-amarelo-a-contribuicao-de-paolo-bulgari-a-bvlgari",
+     "hora": "22/11 13h47"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:47-03:00"
+  },
+  {
+   "assunto": "Síndico deixa de apresentar as contas do condomínio e moradores descobrem que a lei permite sua destituição em assembleia",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Síndico deixa de apresentar as contas do condomínio e moradores descobrem que a lei permite sua destituição em assembleia",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/sindico-deixa-de-apresentar-as-contas-do-condominio-e-moradores-descobrem-que-a-lei-permite-sua-destituicao-em-assembleia/",
+     "hora": "22/11 13h53"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:53-03:00"
+  },
+  {
+   "assunto": "Tempo de tela na infância é ligado a respostas mais rápidas na adolescência",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Tempo de tela na infância é ligado a respostas mais rápidas na adolescência",
+     "url": "https://www.metropoles.com/saude/tempo-de-tela-na-infancia-e-ligado-a-respostas-mais-rapidas-na-adolescencia",
+     "hora": "22/11 13h43"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:43-03:00"
+  },
+  {
+   "assunto": "Três pessoas ficam feridas após motorista invadir pista contrária na Mogi-Bertioga",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Três pessoas ficam feridas após motorista invadir pista contrária na Mogi-Bertioga",
+     "url": "https://g1.globo.com/sp/mogi-das-cruzes-suzano/noticia/2026/11/22/tres-pessoas-ficam-feridas-apos-motorista-invadir-pista-contraria-na-mogi-bertioga.ghtml",
+     "hora": "22/11 13h47"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:47-03:00"
+  },
+  {
+   "assunto": "Uma pequena lua de Saturno guarda oceano sob o gelo e desperta interesse científico",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Uma pequena lua de Saturno guarda oceano sob o gelo e desperta interesse científico",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/uma-pequena-lua-de-saturno-guarda-oceano-sob-o-gelo-e-desperta-interesse-cientifico/",
+     "hora": "22/11 13h43"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:43-03:00"
+  },
+  {
+   "assunto": "Wall Street entra em alerta após onda de vendas: o que pode acontecer com as bolsas americanas?",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Wall Street entra em alerta após onda de vendas: o que pode acontecer com as bolsas americanas?",
+     "url": "https://exame.com/invest/mercados/wall-street-entra-em-alerta-apos-onda-de-vendas-o-que-pode-acontecer-com-as-bolsas-americanas/",
+     "hora": "22/11 13h43"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:43-03:00"
   }
  ],
  "em_pautas": {
-  "cop31-turquia-abertura": {
-   "secao": "mundo",
-   "n_fontes": 7,
-   "manchetes": [
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "COP31 avança para prorrogação sem consenso sobre combustíveis fósseis",
-     "url": "https://iclnoticias.com.br/cop31-avanca-para-prorrogacao-sem-consenso-sobre-combustiveis-fosseis/",
-     "hora": "22/11 13h40"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Com impasse sobre combustíveis fósseis, COP31 termina sem acordo final",
-     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/com-impasse-sobre-combustiveis-fosseis-cop31-termina-sem-acordo-final",
-     "hora": "22/11 12h59"
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
-     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
-     "hora": "22/11 12h56"
-    },
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "COP31 termina sem acordo entre os países",
-     "url": "https://revistaoeste.com/mundo/cop31-termina-sem-acordo-entre-os-paises/",
-     "hora": "22/11 12h47"
-    }
-   ]
-  },
-  "bolsonaro-hospital-dores-abdominais": {
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "Moraes autoriza retirada de tornozeleira de Bolsonaro durante internação em hospital",
-     "url": "https://iclnoticias.com.br/moraes-retirada-tornozeleira-internacao/",
-     "hora": "22/11 13h30"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Moraes autoriza retirada da tornozeleria eletrônica de Bolsonaro",
-     "url": "https://jovempan.com.br/politica/moraes-autoriza-retirada-de-tornozeleria-eletronica-de-bolsonaro/",
-     "hora": "22/11 11h47"
-    }
-   ]
-  },
-  "ucrania-drone-predio-kiev-desaparecidos": {
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Drone russo atinge prédio na região de Kiev e deixa vítimas",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/22/drone-russo-atinge-prdio-na-regio-de-kiev-e-deixa-vtimas.ghtml",
-     "hora": "22/11 12h28"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Ataque russo perto de Kiev, na Ucrânia, atinge prédio de apartamentos e deixa mortos e feridos",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/22/ataque-russo-kiev-ucrania.ghtml",
-     "hora": "22/11 12h10"
-    }
-   ]
-  },
-  "bolsonaro-um-ano-prisao-preventiva": {
-   "secao": "politica",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Flávio e Carlos falam sobre 1 ano da prisão de Bolsonaro",
-     "url": "https://revistaoeste.com/politica/flavio-e-carlos-falam-sobre-1-ano-da-prisao-de-bolsonaro/",
-     "hora": "22/11 12h51"
-    }
-   ]
-  },
   "chitaozinho-xororo-aposentadoria": {
    "secao": "brasil",
    "n_fontes": 1,
@@ -1006,7 +403,7 @@
    "ultima": "22/11 11h32",
    "ultima_iso": "2026-11-22T11:32-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 6.9,
+   "horas_sem_atualizar": 7.1,
    "principal": true,
    "manchetes": [
     {
@@ -1014,27 +411,6 @@
      "titulo": "O dilema de Kassio Nunes Marques para voltar ao julgamento do caso Master",
      "url": "https://veja.abril.com.br/politica/o-dilema-de-kassio-nunes-marques-para-voltar-ao-julgamento-do-caso-master/",
      "hora": "22/11 11h32"
-    }
-   ]
-  },
-  "bolsonaro-hospital-dores-abdominais": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "jp"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "22/11 11h47",
-   "ultima_iso": "2026-11-22T11:47-03:00",
-   "pauta_atualizada_em": "2026-11-22T11:45-03:00",
-   "horas_sem_atualizar": 2.0,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Moraes autoriza retirada da tornozeleria eletrônica de Bolsonaro",
-     "url": "https://jovempan.com.br/politica/moraes-autoriza-retirada-de-tornozeleria-eletronica-de-bolsonaro/",
-     "hora": "22/11 11h47"
     }
    ]
   },
@@ -1048,7 +424,7 @@
    "ultima": "22/11 12h51",
    "ultima_iso": "2026-11-22T12:51-03:00",
    "pauta_atualizada_em": "2026-11-22T04:15-03:00",
-   "horas_sem_atualizar": 9.5,
+   "horas_sem_atualizar": 9.7,
    "principal": false,
    "manchetes": [
     {
@@ -1069,7 +445,7 @@
    "ultima": "22/11 08h53",
    "ultima_iso": "2026-11-22T08:53-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 6.9,
+   "horas_sem_atualizar": 7.1,
    "principal": true,
    "manchetes": [
     {
@@ -1077,63 +453,6 @@
      "titulo": "Câmara deve votar projeto de ajuste fiscal nesta segunda; veja o que muda",
      "url": "https://exame.com/brasil/camara-deve-votar-projeto-de-ajuste-fiscal-nesta-segunda-veja-o-que-muda/",
      "hora": "22/11 08h53"
-    }
-   ]
-  },
-  "cop31-turquia-abertura": {
-   "n": 7,
-   "n_fontes": 7,
-   "fontes": [
-    "ab",
-    "bbc",
-    "cc",
-    "folha",
-    "jp",
-    "oeste",
-    "veja"
-   ],
-   "n_fontes_90min": 5,
-   "ultima": "22/11 12h59",
-   "ultima_iso": "2026-11-22T12:59-03:00",
-   "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 30.9,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Com impasse sobre combustíveis fósseis, COP31 termina sem acordo final",
-     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/com-impasse-sobre-combustiveis-fosseis-cop31-termina-sem-acordo-final",
-     "hora": "22/11 12h59"
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
-     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
-     "hora": "22/11 12h56"
-    },
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "COP31 termina sem acordo entre os países",
-     "url": "https://revistaoeste.com/mundo/cop31-termina-sem-acordo-entre-os-paises/",
-     "hora": "22/11 12h47"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "COP31 acaba sem acordo por divergências sobre combustíveis fósseis",
-     "url": "https://jovempan.com.br/mundo/cop31-acaba-sem-acordo-por-divergencias-sobre-combustiveis-fosseis/",
-     "hora": "22/11 12h05"
-    },
-    {
-     "veiculo": "CartaCapital",
-     "titulo": "COP31 termina sem acordo após divergências sobre combustíveis fósseis",
-     "url": "https://www.cartacapital.com.br/mundo/cop31-termina-sem-acordo-apos-divergencias-sobre-combustiveis-fosseis/",
-     "hora": "22/11 12h02"
-    },
-    {
-     "veiculo": "Veja",
-     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
-     "url": "https://veja.abril.com.br/mundo/cop31-caminha-para-encerramento-sem-acordo-apos-impasse-sobre-combustiveis-fosseis/",
-     "hora": "22/11 10h02"
     }
    ]
   },
@@ -1147,7 +466,7 @@
    "ultima": "22/11 10h00",
    "ultima_iso": "2026-11-22T10:00-03:00",
    "pauta_atualizada_em": "2026-11-21T10:58-03:00",
-   "horas_sem_atualizar": 26.8,
+   "horas_sem_atualizar": 27.0,
    "principal": false,
    "manchetes": [
     {
@@ -1169,7 +488,7 @@
    "ultima": "22/11 12h28",
    "ultima_iso": "2026-11-22T12:28-03:00",
    "pauta_atualizada_em": "2026-11-22T06:36-03:00",
-   "horas_sem_atualizar": 7.1,
+   "horas_sem_atualizar": 7.3,
    "principal": false,
    "manchetes": [
     {
@@ -1196,7 +515,7 @@
    "ultima": "22/11 13h43",
    "ultima_iso": "2026-11-22T13:43-03:00",
    "pauta_atualizada_em": "2026-11-22T11:45-03:00",
-   "horas_sem_atualizar": 2.0,
+   "horas_sem_atualizar": 2.2,
    "principal": false,
    "manchetes": [
     {
@@ -1478,186 +797,53 @@
    "chave": null,
    "n_fontes": 2,
    "em": "2026-11-22T11:48-03:00"
+  },
+  {
+   "tipo": "novo",
+   "pid": null,
+   "id": null,
+   "chave": [
+    "avaliar",
+    "bolsonaro",
+    "caminhada",
+    "cirurgia",
+    "dor",
+    "dores",
+    "exames",
+    "faz",
+    "fez",
+    "hospital",
+    "imagem",
+    "manha",
+    "michelle",
+    "necessidade",
+    "nessa",
+    "neste",
+    "noite",
+    "passos",
+    "passou",
+    "proximos",
+    "realizou"
+   ],
+   "n_fontes": 7,
+   "em": "2026-11-22T13:44-03:00"
+  },
+  {
+   "tipo": "pauta",
+   "pid": "cop31-turquia-abertura",
+   "id": null,
+   "chave": null,
+   "n_fontes": 7,
+   "em": "2026-11-22T13:44-03:00"
   }
  ],
  "breves_no_feed": 16,
  "breves_faltam": 0,
- "breves_sugeridas": [
-  {
-   "assunto": "Barcelona supera pênalti perdido, vira sobre Villarreal e lidera Campeonato Espanhol",
-   "secao": "esportes",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Barcelona supera pênalti perdido, vira sobre Villarreal e lidera Campeonato Espanhol",
-     "url": "https://oglobo.globo.com/esportes/noticia/2026/11/22/barcelona-supera-penalti-perdido-vira-sobre-villarreal-e-lidera-campeonato-espanhol.ghtml",
-     "hora": "22/11 12h42"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Barcelona vira jogo em dez minutos e abre vantagem na liderança do Espanhol",
-     "url": "https://www.metropoles.com/esportes/barcelona-vira-jogo-em-dez-minutos-e-abre-vantagem-na-lideranca-do-espanhol",
-     "hora": "22/11 12h25"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Barcelona vira sobre o Villarreal e recupera vantagem na liderança do Espanhol",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/jogo/22-11-2026/barcelona-Villarreal.ghtml",
-     "hora": "22/11 12h24"
-    }
-   ]
-  },
-  {
-   "assunto": "Estado de SP tem alerta para chuvas com vendaval e granizo até 3ª (24/11)",
-   "secao": "brasil",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Estado de SP tem alerta para chuvas com vendaval e granizo até 3ª (24/11)",
-     "url": "https://www.metropoles.com/sao-paulo/estado-de-sp-tem-alerta-para-chuvas-com-vendaval-e-granizo-ate-3a-24-11",
-     "hora": "22/11 13h39"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Defesa Civil de SP reforça alerta para fortes chuvas até terça-feira",
-     "url": "https://jovempan.com.br/brasil/defesa-civil-de-sp-reforca-alerta-para-fortes-chuvas-ate-terca-feira/",
-     "hora": "22/11 11h51"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Defesa Civil de SP reforça alerta para fortes chuvas em todo o Estado até terça-feira",
-     "url": "https://www.infomoney.com.br/brasil/defesa-civil-de-sp-reforca-alerta-para-fortes-chuvas-em-todo-o-estado-ate-terca-feira/",
-     "hora": "22/11 11h47"
-    }
-   ]
-  },
-  {
-   "assunto": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
-   "secao": "brasil",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "Folha Cotidiano",
-     "titulo": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
-     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/governo-federal-reconhece-calamidade-em-cidade-do-rs-apos-temporal-que-deixou-5-mortos.shtml",
-     "hora": "22/11 12h55"
-    },
-    {
-     "veiculo": "Brasil de Fato",
-     "titulo": "Tupanciretã (RS) decreta estado de calamidade pública após vendaval e tempestade",
-     "url": "https://www.brasildefato.com.br/2026/11/22/tupancireta-rs-decreta-estado-de-calamidade-publica-apos-vendaval-e-tempestade/",
-     "hora": "22/11 11h56"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Após temporal, governo reconhece calamidade pública em Tupanciretã",
-     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/apos-temporal-governo-reconhece-calamidade-publica-em-tupancireta",
-     "hora": "22/11 11h53"
-    }
-   ]
-  },
-  {
-   "assunto": "EUA buscam respostas sobre venda de chips da Nvidia para China, diz secretário do Tesouro",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "EUA buscam respostas sobre venda de chips da Nvidia para China, diz secretário do Tesouro",
-     "url": "https://valor.globo.com/empresas/noticia/2026/11/22/eua-buscam-respostas-sobre-venda-de-chips-da-nvidia-para-china-diz-secretrio-do-tesouro.ghtml",
-     "hora": "22/11 13h23"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Espiões, chips e a Nvidia: a campanha secreta da China para driblar os EUA",
-     "url": "https://www.infomoney.com.br/business/global/espioes-chips-e-a-nvidia-a-campanha-secreta-da-china-para-driblar-os-eua/",
-     "hora": "22/11 12h38"
-    }
-   ]
-  },
-  {
-   "assunto": "Governo prepara política de proteção a mulheres na vida pública",
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Governo prepara política de proteção a mulheres na vida pública",
-     "url": "https://www.poder360.com.br/poder-governo/governo-prepara-politica-de-protecao-a-mulheres-na-vida-publica/",
-     "hora": "22/11 12h11"
-    },
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "Ministério das Mulheres vai criar política de proteção contra violência política de gênero e raça",
-     "url": "https://iclnoticias.com.br/ministerio-mulheres-politica-protecao/",
-     "hora": "22/11 12h00"
-    }
-   ]
-  },
-  {
-   "assunto": "Homem ameaça criança com faca e espanca companheira e enteado no Entorno",
-   "secao": "brasil",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Homem ameaça criança com faca e espanca companheira e enteado no Entorno",
-     "url": "https://www.metropoles.com/distrito-federal/na-mira/homem-ameaca-crianca-com-faca-e-espanca-companheira-e-enteado-no-entorno",
-     "hora": "22/11 12h17"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Homem é morto com golpe de faca pelo filho adolescente após agredir a companheira em Patos, na PB",
-     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/22/homem-e-morto-com-golpe-de-faca-pelo-filho-adolescente-apos-agredir-a-companheira-em-patos-na-pb.ghtml",
-     "hora": "22/11 11h49"
-    }
-   ]
-  },
-  {
-   "assunto": "Michelle relata visita a Bolsonaro no hospital: \"Dei banho e o hidratei\"",
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Michelle relata visita a Bolsonaro no hospital: \"Dei banho e o hidratei\"",
-     "url": "https://www.metropoles.com/brasil/michelle-descreve-visita-a-bolsonaro-no-hospital-dei-banho-e-o-hidratei",
-     "hora": "22/11 13h04"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Bolsonaro passa noite sem dor e caminha por hospital, diz Michelle",
-     "url": "https://www.poder360.com.br/poder-gente/bolsonaro-passa-noite-sem-dor-e-caminha-por-hospital-diz-michelle/",
-     "hora": "22/11 12h34"
-    }
-   ]
-  },
-  {
-   "assunto": "Miley Cyrus se casa com Maxx Morando em cerimônia privada na Califórnia",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Miley Cyrus se casa com Maxx Morando em cerimônia privada na Califórnia",
-     "url": "https://exame.com/pop/miley-cyrus-se-casa-com-maxx-morando-em-cerimonia-privada-na-california/",
-     "hora": "22/11 13h19"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Miley Cyrus se casa com Maxx Morando em cerimônia nos EUA; veja detalhes",
-     "url": "https://www.cnnbrasil.com.br/pop/celebridades/miley-cyrus-se-casa-com-maxx-morando-em-cerimonia-nos-eua-veja-detalhes/",
-     "hora": "22/11 12h30"
-    }
-   ]
-  }
- ],
- "ultima_rodada": "2026-11-22T11:50-03:00",
+ "breves_sugeridas": [],
+ "ultima_rodada": "2026-11-22T13:49-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 53 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 52 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 9 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
@@ -1673,14 +859,14 @@
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 4 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 3 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 4 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 3 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 1 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 57 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 54 nas últimas 6 h",
   "Valor Econômico": "ok: 100 itens, 26 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
