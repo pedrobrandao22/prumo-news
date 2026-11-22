@@ -160,6 +160,7 @@ function f113Caps(){(()=>{if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO
   caps[0].el.insertAdjacentHTML("beforebegin",`<nav class="fs2-cap" aria-label="Nesta matéria"><span class="fs2-cap-k" aria-hidden="true">Nesta matéria</span><ol class="fs2-cap-l">${caps.map((x,i)=>`<li><button type="button" class="fs2-cap-b" data-f113cap="${i}" aria-controls="fs2c-${i}"${i===0?' aria-current="true"':""}><i aria-hidden="true">${i+1}</i>${esc(x.nome)}</button></li>`).join("")}</ol></nav>`);
   if("IntersectionObserver" in window){const off=f113Off(m);
     F113_IO=new IntersectionObserver(()=>f113CapAtual(),{root:m,rootMargin:`-${off}px 0px -55% 0px`,threshold:[0,1]});caps.forEach(x=>F113_IO.observe(x.el))}
+  try{f113CapCorta(c.querySelector(".fs2-cap-l"))}catch(e){}
   /* saltos grandes de rolagem (topo/fim) podem não cruzar a faixa observada: confere também no fim da rolagem, uma vez por quadro */
   if(!m.__f113s){m.__f113s=1;let pend=0;m.addEventListener("scroll",()=>{if(pend)return;pend=requestAnimationFrame(()=>{pend=0;f113CapAtual()})},{passive:true})}})();
   /* 118: o bloco do placar ganha o nome certo; 143: o capítulo da linha do tempo leva o nome da seção */
@@ -189,7 +190,19 @@ function f113CapMarca(nav,i){nav.querySelectorAll("[data-f113cap]").forEach(b=>{
   const b=nav.querySelector(`[data-f113cap="${i}"]`),l=nav.querySelector(".fs2-cap-l");if(!b||!l)return;
   const lr=l.getBoundingClientRect(),br=b.getBoundingClientRect(),esq=br.left-lr.left+l.scrollLeft,M=16;
   let x=null;if(br.left<lr.left+M)x=esq-M;else if(br.right>lr.right-M)x=Math.min(esq-M,esq+br.width-l.clientWidth+M);
-  if(x!=null){x=Math.max(0,x);try{l.scrollTo({left:x,behavior:f113Reduz()?"auto":"smooth"})}catch(e){l.scrollLeft=x}}}
+  /* 21/11 (corretor): a faixa tem scroll-snap no começo das abas; um x no meio de uma aba voltava para o começo mais perto e,
+     no celular de 320 px, a aba marcada ficava cortada à direita. Escolhe um começo de aba que mostre a marcada inteira
+     (o mais perto de onde a faixa está); sem nenhum, o começo da própria aba. */
+  if(x!=null){try{const pl=parseFloat(getComputedStyle(l).scrollPaddingLeft)||0,ini=[...l.children].map(li=>li.getBoundingClientRect().left-lr.left+l.scrollLeft-pl);
+    const ok=ini.filter(s=>s<=esq-pl+.5&&esq+br.width-s<=l.clientWidth-M);
+    x=ok.length?ok.reduce((a,s)=>Math.abs(s-l.scrollLeft)<Math.abs(a-l.scrollLeft)?s:a):esq-pl}catch(e){}}
+  if(x!=null){x=Math.max(0,x);try{l.scrollTo({left:x,behavior:f113Reduz()?"auto":"smooth"})}catch(e){l.scrollLeft=x}}
+  f113CapCorta(l)}
+/* 21/11 (corretor, causa celular-pequeno-2): no fim da faixa o navegador não consegue parar no começo de uma aba (a rolagem
+   máxima cai no meio da aba anterior) e sobrava pedaço de palavra colado ao "NESTA MATÉRIA" ("as" de "Perguntas").
+   Aba cortada pela borda esquerda some inteira; volta quando a faixa rola de novo. Vale em qualquer largura e letra. */
+function f113CapCorta(l){if(!l)return;if(!l.__f113c){l.__f113c=1;let pend=0;l.addEventListener("scroll",()=>{if(pend)return;pend=requestAnimationFrame(()=>{pend=0;f113CapCorta(l)})},{passive:true})}
+  const esq=l.getBoundingClientRect().left;l.querySelectorAll(".fs2-cap-b").forEach(b=>{const r=b.getBoundingClientRect();b.classList.toggle("f113-corta",r.left<esq-.5&&r.right>esq+.5)})}
 
 /* ===== convite para comentar no fim ===== */
 function fc105Mat(pid){(()=>{const m=$("#layer .mat");if(!m||m.querySelector(".fc105-mc")||!S.membro||PUB.on===false||!pautaById(pid))return;const ref=m.querySelector(".mat-pe,.mat-prox,.mat-rod");if(!ref)return;

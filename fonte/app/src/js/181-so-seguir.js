@@ -157,8 +157,9 @@ const SG181_TX={"Convidar amigo":"Convidar alguém","Nenhum amigo ainda":"Você 
   "Seus amigos e quem segue você conseguem abrir o post.":"Quem vê o seu perfil consegue abrir o post.","Seus amigos conseguem abrir o post.":"Quem vê o seu perfil consegue abrir o post.",
   /* 20/11 (testador): telas da conta que ainda falavam de amizade */
   "Desfazer amizade":"Deixar de seguir","Desfazer amizade?":"Deixar de seguir?","vocês deixam de se ver":"você deixa de ver as publicações",
-  "não pode mais te achar nem pedir amizade":"não pode mais te achar nem te mandar mensagem","Pedidos de amizade":"Novos seguidores",
-  "Pedido de amizade":"Novo seguidor","Pedidos novos e pedidos aceitos":"Quem começou a seguir você",
+  "não pode mais te achar nem pedir amizade":"não pode mais te achar nem te mandar mensagem","Pedidos de amizade":"Pedidos para seguir",
+  /* 21/11 (corretor): "Novos seguidores" já é o tipo "seguidores" do 124; a chave "amizades" vira os pedidos do perfil fechado */
+  "Pedido de amizade":"Pedido para seguir","Pedidos novos e pedidos aceitos":"Quem pede para seguir o seu perfil fechado",
   "Esse nome aparece para os seus amigos: nas curtidas, nos comentários e nas conversas.":"Esse nome aparece para quem te segue: nas curtidas, nos comentários e nas conversas.",
   "Seus amigos veem no Feed, com o seu nome":"Quem segue você vê no Feed, com o seu nome",
   "Seus comentários nas notícias e nas publicações aparecem aqui.":"Suas respostas a comentários de outras pessoas aparecem aqui. Notícias que você comentou ficam em Posts."};
