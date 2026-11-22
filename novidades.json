@@ -1,33 +1,116 @@
 {
- "gerado": "2026-11-22T12:51-03:00",
+ "gerado": "2026-11-22T13:02-03:00",
  "desde": "2026-11-22T11:40-03:00",
  "feed_atualizado_em": "2026-11-22T11:50:00-03:00",
  "resumo": {
-  "manchetes": 134,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 111,
+  "manchetes": 163,
+  "assuntos_novos_relevantes": 3,
+  "assuntos_novos": 133,
   "pautas_com_novidade": 4,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 8,
-  "acionar_itens": 0,
+  "acionar_itens": 2,
   "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (111 assuntos fora do feed, 8 pautas com relatos)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica); pauta cop31-turquia-abertura: 4 veículos em 90 min depois da última atualização",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
+   "secao": "politica",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "chave": [
+    "avaliar",
+    "bolsonaro",
+    "cirurgia",
+    "dor",
+    "exames",
+    "faz",
+    "fez",
+    "michelle",
+    "necessidade",
+    "neste",
+    "noite",
+    "passou"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
+     "url": "https://revistaoeste.com/politica/bolsonaro-fez-novos-exames-e-passou-a-noite-sem-dor-diz-michelle/",
+     "hora": "22/11 12h38",
+     "lide": "‘Continuem em oração por ele, para que o intestino volte a funcionar normalmente’, pediu a ex-primeira-dama nas redes sociais"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Michelle diz que Bolsonaro está “sem dor” e faz novos exames neste domingo",
+     "url": "https://www.cnnbrasil.com.br/politica/michelle-diz-que-bolsonaro-esta-sem-dor-e-faz-novos-exames-neste-domingo/",
+     "hora": "22/11 12h37",
+     "lide": "Ex-presidente está internado na Unidade de Terapia Intensiva com quadro de abdômen agudo obstrutivo; ainda não há previsão de alta"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Bolsonaro faz exames neste domingo para avaliar necessidade de cirurgia",
+     "url": "https://www.metropoles.com/brasil/bolsonaro-faz-exames-neste-domingo-para-avaliar-necessidade-de-cirurgia",
+     "hora": "22/11 12h15"
+    }
+   ]
+  },
+  {
+   "tipo": "pauta",
+   "pid": "cop31-turquia-abertura",
+   "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
+   "n_fontes": 6,
+   "motivo": "pauta cop31-turquia-abertura: 4 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: cop31-turquia-abertura",
+   "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
+     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
+     "hora": "22/11 12h56",
+     "lide": "A quarta versão do texto não mencionava a necessidade de eliminar progressivamente o uso desses combustíveis, a principal causa das mudanças climáticas."
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "COP31 termina sem acordo entre os países",
+     "url": "https://revistaoeste.com/mundo/cop31-termina-sem-acordo-entre-os-paises/",
+     "hora": "22/11 12h47",
+     "lide": "União Europeia, Panamá e outras delegações rejeitaram documento que omitiu referência explícita ao abandono de carvão, petróleo e gás"
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "COP31 acaba sem acordo por divergências sobre combustíveis fósseis",
+     "url": "https://jovempan.com.br/mundo/cop31-acaba-sem-acordo-por-divergencias-sobre-combustiveis-fosseis/",
+     "hora": "22/11 12h05",
+     "lide": "O abandono desse tipo de material foi principal ponto de disputa na reta final da conferência, que deveria ter sido encerrada na sexta-feira"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Barcelona vira jogo em dez minutos e abre vantagem na liderança do Espanhol",
+   "assunto": "Barcelona mantém vantagem na ponta de LaLiga após virada sobre Villarreal",
    "secao": null,
-   "n_fontes": 2,
+   "n_fontes": 3,
    "fontes": [
+    "cnn",
     "ge",
     "met"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Barcelona mantém vantagem na ponta de LaLiga após virada sobre Villarreal",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol/futebol-internacional/futebol-espanhol/barcelona-mantem-vantagem-na-ponta-de-laliga-apos-virada-sobre-villarreal/",
+     "hora": "22/11 12h50"
+    },
     {
      "veiculo": "Metrópoles",
      "titulo": "Barcelona vira jogo em dez minutos e abre vantagem na liderança do Espanhol",
@@ -41,19 +124,20 @@
      "hora": "22/11 12h24"
     }
    ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T12:25-03:00"
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-22T12:50-03:00"
   },
   {
    "assunto": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
    "secao": "politica",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "fontes": [
-    "oeste",
-    "p360"
+    "cnn",
+    "met",
+    "oeste"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
     {
      "veiculo": "Revista Oeste",
@@ -62,41 +146,54 @@
      "hora": "22/11 12h38"
     },
     {
-     "veiculo": "Poder360",
-     "titulo": "Bolsonaro passa noite sem dor e caminha por hospital, diz Michelle",
-     "url": "https://www.poder360.com.br/poder-gente/bolsonaro-passa-noite-sem-dor-e-caminha-por-hospital-diz-michelle/",
-     "hora": "22/11 12h34"
+     "veiculo": "CNN Brasil",
+     "titulo": "Michelle diz que Bolsonaro está “sem dor” e faz novos exames neste domingo",
+     "url": "https://www.cnnbrasil.com.br/politica/michelle-diz-que-bolsonaro-esta-sem-dor-e-faz-novos-exames-neste-domingo/",
+     "hora": "22/11 12h37"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Bolsonaro faz exames neste domingo para avaliar necessidade de cirurgia",
+     "url": "https://www.metropoles.com/brasil/bolsonaro-faz-exames-neste-domingo-para-avaliar-necessidade-de-cirurgia",
+     "hora": "22/11 12h15"
     }
    ],
-   "n_fontes_90min": 2,
+   "n_fontes_90min": 3,
    "ultima_iso": "2026-11-22T12:38-03:00"
   },
   {
-   "assunto": "Casal morre e filho de 3 anos fica gravemente ferido em acidente na GO-523",
-   "secao": null,
-   "n_fontes": 2,
+   "assunto": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
+   "secao": "brasil",
+   "n_fontes": 3,
    "fontes": [
-    "cnn",
-    "g1"
+    "ab",
+    "bdf",
+    "folha"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Casal morre e filho de 3 anos fica gravemente ferido em acidente na GO-523",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/22/casal-morre-e-filho-de-3-anos-fica-gravemente-ferido-em-acidente-na-go-523.ghtml",
-     "hora": "22/11 12h27"
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/governo-federal-reconhece-calamidade-em-cidade-do-rs-apos-temporal-que-deixou-5-mortos.shtml",
+     "hora": "22/11 12h55"
     },
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Jogador da NFL é arremessado de carro e fica gravemente ferido",
-     "url": "https://www.cnnbrasil.com.br/esportes/futebol-americano/jogador-da-nfl-e-arremessado-de-carro-e-fica-gravemente-ferido/",
-     "hora": "22/11 12h01"
+     "veiculo": "Brasil de Fato",
+     "titulo": "Tupanciretã (RS) decreta estado de calamidade pública após vendaval e tempestade",
+     "url": "https://www.brasildefato.com.br/2026/11/22/tupancireta-rs-decreta-estado-de-calamidade-publica-apos-vendaval-e-tempestade/",
+     "hora": "22/11 11h56"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Após temporal, governo reconhece calamidade pública em Tupanciretã",
+     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/apos-temporal-governo-reconhece-calamidade-publica-em-tupancireta",
+     "hora": "22/11 11h53"
     }
    ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T12:27-03:00"
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-22T12:55-03:00"
   },
   {
    "assunto": "Consumo de álcool adulterado deixa ao menos 16 mortos e cerca de 600 hospitalizados na Índia",
@@ -207,6 +304,39 @@
    "ultima_iso": "2026-11-22T12:17-03:00"
   },
   {
+   "assunto": "Jovem morre e adolescente fica gravemente ferida após moto bater contra poste em São José dos Campos",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Jovem morre e adolescente fica gravemente ferida após moto bater contra poste em São José dos Campos",
+     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/noticia/2026/11/22/jovem-morre-e-adolescente-fica-gravemente-ferida-apos-moto-bater-contra-poste-em-sao-jose-dos-campos.ghtml",
+     "hora": "22/11 12h42"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Casal morre e filho de 3 anos fica gravemente ferido em acidente na GO-523",
+     "url": "https://g1.globo.com/go/goias/noticia/2026/11/22/casal-morre-e-filho-de-3-anos-fica-gravemente-ferido-em-acidente-na-go-523.ghtml",
+     "hora": "22/11 12h27"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Jogador da NFL é arremessado de carro e fica gravemente ferido",
+     "url": "https://www.cnnbrasil.com.br/esportes/futebol-americano/jogador-da-nfl-e-arremessado-de-carro-e-fica-gravemente-ferido/",
+     "hora": "22/11 12h01"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-22T12:42-03:00"
+  },
+  {
    "assunto": "Loteria Federal hoje: resultado do concurso 6119 e números sorteados",
    "secao": null,
    "n_fontes": 2,
@@ -275,6 +405,61 @@
    "lixo": true
   },
   {
+   "assunto": "Ninguém acerta dezenas da Mega-Sena e prêmio vai a R$ 65 milhões",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "im",
+    "jp"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Ninguém acerta dezenas da Mega-Sena e prêmio vai a R$ 65 milhões",
+     "url": "https://jovempan.com.br/economia/ninguem-acerta-dezenas-da-mega-sena-e-premio-vai-a-r-65-milhoes/",
+     "hora": "22/11 13h02"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Mega-Sena acumula e prêmio do próximo sorteio vai a R$ 65 milhões",
+     "url": "https://www.infomoney.com.br/consumo/mega-sena-acumula-e-premio-do-proximo-sorteio-vai-a-r-65-milhoes/",
+     "hora": "22/11 11h42"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-22T13:02-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Paolo Bulgari, que transformou joalheria em marca global de luxo, morre aos 89 anos",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "p360",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Paolo Bulgari, que transformou joalheria em marca global de luxo, morre aos 89 anos",
+     "url": "https://valor.globo.com/empresas/noticia/2026/11/22/paolo-bulgari-que-transformou-joalheria-em-marca-global-de-luxo-morre-aos-89-anos.ghtml",
+     "hora": "22/11 12h47"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Morre Paolo Bulgari, responsável pela expansão global da joalheria",
+     "url": "https://www.poder360.com.br/poder-gente/morre-paolo-bulgari-responsavel-pela-expansao-global-da-joalheria/",
+     "hora": "22/11 11h50"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-22T12:47-03:00"
+  },
+  {
    "assunto": "Pérez é punido após colisão com brasileiro Rafael Câmara em Las Vegas",
    "secao": "esportes",
    "n_fontes": 2,
@@ -300,33 +485,6 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-22T12:25-03:00"
-  },
-  {
-   "assunto": "Tupanciretã (RS) decreta estado de calamidade pública após vendaval e tempestade",
-   "secao": "brasil",
-   "n_fontes": 2,
-   "fontes": [
-    "ab",
-    "bdf"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Brasil de Fato",
-     "titulo": "Tupanciretã (RS) decreta estado de calamidade pública após vendaval e tempestade",
-     "url": "https://www.brasildefato.com.br/2026/11/22/tupancireta-rs-decreta-estado-de-calamidade-publica-apos-vendaval-e-tempestade/",
-     "hora": "22/11 11h56"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Após temporal, governo reconhece calamidade pública em Tupanciretã",
-     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/apos-temporal-governo-reconhece-calamidade-publica-em-tupancireta",
-     "hora": "22/11 11h53"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-22T11:56-03:00"
   },
   {
    "assunto": "Título de Jardim no Flamengo amplia domínio de técnicos portugueses no Brasileiro",
@@ -436,6 +594,26 @@
    "ultima_iso": "2026-11-22T12:03-03:00"
   },
   {
+   "assunto": "A 'economia em K' veio para ficar?",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "A 'economia em K' veio para ficar?",
+     "url": "https://exame.com/bussola/a-economia-em-k-veio-para-ficar/",
+     "hora": "22/11 13h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:00-03:00"
+  },
+  {
    "assunto": "A ceia de Natal fora de casa: como será o fim de ano no Rosewood São Paulo",
    "secao": null,
    "n_fontes": 1,
@@ -474,6 +652,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T12:24-03:00"
+  },
+  {
+   "assunto": "A estratégia de Tereza Cristina para destronar Marinho como candidato de oposição à Alcolumbre",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "A estratégia de Tereza Cristina para destronar Marinho como candidato de oposição à Alcolumbre",
+     "url": "https://veja.abril.com.br/politica/a-estrategia-de-tereza-cristina-para-destronar-marinho-como-candidato-de-oposicao-a-alcolumbre/",
+     "hora": "22/11 13h01"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T13:01-03:00"
   },
   {
    "assunto": "Afex vence e garante última vaga às quartas de final do Acreano Sub-11; confira os confrontos",
@@ -556,6 +754,26 @@
    "ultima_iso": "2026-11-22T12:43-03:00"
   },
   {
+   "assunto": "Após vice, Atlético-MG vai custear retorno de torcedores que foram de Kombi à final",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Após vice, Atlético-MG vai custear retorno de torcedores que foram de Kombi à final",
+     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/22/apos-vice-atletico-mg-vai-custear-retorno-de-torcedores-que-foram-de-kombi-a-final.ghtml",
+     "hora": "22/11 12h50"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T12:50-03:00"
+  },
+  {
    "assunto": "Arroz de hauçá: aprenda receita baiana trazida para o Ceará que leva carne de charque e camarão",
    "secao": null,
    "n_fontes": 1,
@@ -614,113 +832,19 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T11:51-03:00"
-  },
-  {
-   "assunto": "Bancada Feminista do PSol deixa de ter mandato coletivo na Câmara de SP",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Bancada Feminista do PSol deixa de ter mandato coletivo na Câmara de SP",
-     "url": "https://www.metropoles.com/sao-paulo/bancada-feminista-do-psol-deixa-de-ter-mandato-coletivo-na-camara-de-sp",
-     "hora": "22/11 12h42"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:42-03:00"
-  },
-  {
-   "assunto": "Barretos instala gabinete de crise depois de estrondos e tremores",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Barretos instala gabinete de crise depois de estrondos e tremores",
-     "url": "https://revistaoeste.com/brasil/barretos-instala-gabinete-de-crise-depois-de-estrondos-e-tremores/",
-     "hora": "22/11 12h01"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:01-03:00"
-  },
-  {
-   "assunto": "Bolsas chinesas flexibilizam requisitos para operações com margem",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Bolsas chinesas flexibilizam requisitos para operações com margem",
-     "url": "https://www.infomoney.com.br/mercados/bolsas-chinesas-flexibilizam-requisitos-para-operacoes-com-margem/",
-     "hora": "22/11 12h15"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:15-03:00"
-  },
-  {
-   "assunto": "Bolsas da China afrouxam margem e cortam tarifas para sustentar ações",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Bolsas da China afrouxam margem e cortam tarifas para sustentar ações",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/bolsas-da-china-afrouxam-margem-e-cortam-tarifas-para-sustentar-acoes.shtml",
-     "hora": "22/11 12h09"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:09-03:00"
-  },
-  {
-   "assunto": "Bolsonaro faz exames neste domingo para avaliar necessidade de cirurgia",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Bolsonaro faz exames neste domingo para avaliar necessidade de cirurgia",
-     "url": "https://www.metropoles.com/brasil/bolsonaro-faz-exames-neste-domingo-para-avaliar-necessidade-de-cirurgia",
-     "hora": "22/11 12h15"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T12:15-03:00"
   }
  ],
  "em_pautas": {
   "cop31-turquia-abertura": {
    "secao": "mundo",
-   "n_fontes": 4,
+   "n_fontes": 5,
    "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
+     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
+     "hora": "22/11 12h56"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "COP31 termina sem acordo entre os países",
@@ -738,12 +862,6 @@
      "titulo": "COP31 termina sem acordo após divergências sobre combustíveis fósseis",
      "url": "https://www.cartacapital.com.br/mundo/cop31-termina-sem-acordo-apos-divergencias-sobre-combustiveis-fosseis/",
      "hora": "22/11 12h02"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Disputa sobre transição dos combustíveis fósseis levou ao fracasso da COP31",
-     "url": "https://www.cnnbrasil.com.br/internacional/disputa-sobre-transicao-dos-combustiveis-fosseis-levou-ao-fracasso-da-cop31/",
-     "hora": "22/11 11h44"
     }
    ]
   },
@@ -801,7 +919,7 @@
    "ultima": "22/11 11h32",
    "ultima_iso": "2026-11-22T11:32-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 6.0,
+   "horas_sem_atualizar": 6.2,
    "principal": true,
    "manchetes": [
     {
@@ -822,7 +940,7 @@
    "ultima": "22/11 11h47",
    "ultima_iso": "2026-11-22T11:47-03:00",
    "pauta_atualizada_em": "2026-11-22T11:45-03:00",
-   "horas_sem_atualizar": 1.1,
+   "horas_sem_atualizar": 1.3,
    "principal": true,
    "manchetes": [
     {
@@ -843,7 +961,7 @@
    "ultima": "22/11 07h00",
    "ultima_iso": "2026-11-22T07:00-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 78.0,
+   "horas_sem_atualizar": 78.2,
    "principal": false,
    "manchetes": [
     {
@@ -864,7 +982,7 @@
    "ultima": "22/11 12h51",
    "ultima_iso": "2026-11-22T12:51-03:00",
    "pauta_atualizada_em": "2026-11-22T04:15-03:00",
-   "horas_sem_atualizar": 8.6,
+   "horas_sem_atualizar": 8.8,
    "principal": false,
    "manchetes": [
     {
@@ -885,7 +1003,7 @@
    "ultima": "22/11 08h53",
    "ultima_iso": "2026-11-22T08:53-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 6.0,
+   "horas_sem_atualizar": 6.2,
    "principal": true,
    "manchetes": [
     {
@@ -897,22 +1015,29 @@
    ]
   },
   "cop31-turquia-abertura": {
-   "n": 5,
-   "n_fontes": 5,
+   "n": 6,
+   "n_fontes": 6,
    "fontes": [
+    "bbc",
     "cc",
     "folha",
     "jp",
     "oeste",
     "veja"
    ],
-   "n_fontes_90min": 3,
-   "ultima": "22/11 12h47",
-   "ultima_iso": "2026-11-22T12:47-03:00",
+   "n_fontes_90min": 4,
+   "ultima": "22/11 12h56",
+   "ultima_iso": "2026-11-22T12:56-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 30.0,
+   "horas_sem_atualizar": 30.2,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "COP31 termina sem acordo após impasse sobre combustíveis fósseis",
+     "url": "https://www.bbc.com/portuguese/articles/cq742zpk1ln4o?at_medium=RSS&at_campaign=rss",
+     "hora": "22/11 12h56"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "COP31 termina sem acordo entre os países",
@@ -955,7 +1080,7 @@
    "ultima": "22/11 10h00",
    "ultima_iso": "2026-11-22T10:00-03:00",
    "pauta_atualizada_em": "2026-11-21T10:58-03:00",
-   "horas_sem_atualizar": 25.9,
+   "horas_sem_atualizar": 26.1,
    "principal": false,
    "manchetes": [
     {
@@ -977,7 +1102,7 @@
    "ultima": "22/11 12h28",
    "ultima_iso": "2026-11-22T12:28-03:00",
    "pauta_atualizada_em": "2026-11-22T06:36-03:00",
-   "horas_sem_atualizar": 6.3,
+   "horas_sem_atualizar": 6.4,
    "principal": false,
    "manchetes": [
     {
@@ -1280,21 +1405,27 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
-   "secao": "politica",
-   "n_fontes": 2,
+   "assunto": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
+   "secao": "brasil",
+   "n_fontes": 3,
    "manchetes": [
     {
-     "veiculo": "Revista Oeste",
-     "titulo": "Bolsonaro fez novos exames e passou a noite sem dor, diz Michelle",
-     "url": "https://revistaoeste.com/politica/bolsonaro-fez-novos-exames-e-passou-a-noite-sem-dor-diz-michelle/",
-     "hora": "22/11 12h38"
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Governo federal reconhece calamidade em cidade do RS após temporal que deixou 5 mortos",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/governo-federal-reconhece-calamidade-em-cidade-do-rs-apos-temporal-que-deixou-5-mortos.shtml",
+     "hora": "22/11 12h55"
     },
     {
-     "veiculo": "Poder360",
-     "titulo": "Bolsonaro passa noite sem dor e caminha por hospital, diz Michelle",
-     "url": "https://www.poder360.com.br/poder-gente/bolsonaro-passa-noite-sem-dor-e-caminha-por-hospital-diz-michelle/",
-     "hora": "22/11 12h34"
+     "veiculo": "Brasil de Fato",
+     "titulo": "Tupanciretã (RS) decreta estado de calamidade pública após vendaval e tempestade",
+     "url": "https://www.brasildefato.com.br/2026/11/22/tupancireta-rs-decreta-estado-de-calamidade-publica-apos-vendaval-e-tempestade/",
+     "hora": "22/11 11h56"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Após temporal, governo reconhece calamidade pública em Tupanciretã",
+     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/apos-temporal-governo-reconhece-calamidade-publica-em-tupancireta",
+     "hora": "22/11 11h53"
     }
    ]
   },
@@ -1356,25 +1487,6 @@
    ]
   },
   {
-   "assunto": "Tupanciretã (RS) decreta estado de calamidade pública após vendaval e tempestade",
-   "secao": "brasil",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Brasil de Fato",
-     "titulo": "Tupanciretã (RS) decreta estado de calamidade pública após vendaval e tempestade",
-     "url": "https://www.brasildefato.com.br/2026/11/22/tupancireta-rs-decreta-estado-de-calamidade-publica-apos-vendaval-e-tempestade/",
-     "hora": "22/11 11h56"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Após temporal, governo reconhece calamidade pública em Tupanciretã",
-     "url": "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/apos-temporal-governo-reconhece-calamidade-publica-em-tupancireta",
-     "hora": "22/11 11h53"
-    }
-   ]
-  },
-  {
    "assunto": "Título de Jardim no Flamengo amplia domínio de técnicos portugueses no Brasileiro",
    "secao": "esportes",
    "n_fontes": 2,
@@ -1397,7 +1509,7 @@
  "ultima_rodada": "2026-11-22T11:50-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 45 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 51 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 7 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
@@ -1405,27 +1517,27 @@
   "g1 Economia": "ok: 100 itens, 1 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 6 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 45 nas últimas 6 h",
+  "ge": "ok: 100 itens, 47 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 2 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 8 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 4 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 3 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 2 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 66 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 25 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 65 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 27 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
-  "DW Brasil": "ok: 66 itens, 2 nas últimas 6 h",
+  "DW Brasil": "ok: 65 itens, 3 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 36 itens, 2 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
