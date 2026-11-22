@@ -1,20 +1,45 @@
 {
- "gerado": "2026-11-22T04:01-03:00",
+ "gerado": "2026-11-22T04:12-03:00",
  "desde": "2026-11-21T23:59-03:00",
  "feed_atualizado_em": "2026-11-22T00:09:00-03:00",
  "resumo": {
-  "manchetes": 175,
+  "manchetes": 219,
   "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 107,
-  "pautas_com_novidade": 6,
+  "assuntos_novos": 139,
+  "pautas_com_novidade": 7,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 8,
-  "acionar_itens": 0,
+  "acionar_itens": 1,
   "ja_avaliados": 2
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (107 assuntos fora do feed, 8 pautas com relatos, 2 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta principal caso-master sem atualização há 14.4 h e 2 veículos com relatos novos",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Caso Master pode definir relação de Lula com Congresso, diz professor",
+   "n_fontes": 2,
+   "motivo": "pauta principal caso-master sem atualização há 14.4 h e 2 veículos com relatos novos",
+   "acao": "atualiza: caso-master",
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Caso Master pode definir relação de Lula com Congresso, diz professor",
+     "url": "https://www.cnnbrasil.com.br/politica/caso-master-pode-definir-relacao-de-lula-com-congresso-diz-professor/",
+     "hora": "22/11 04h00",
+     "lide": "Cientista político Paulo Niccoli Ramirez, da ESPM e FESPSP, aponta que desdobramentos das investigações podem afetar alianças partidárias e dificultar a governabilidade do presidente"
+    },
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Documentos da PF acirram disputa no STF sobre relatoria do caso Master",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/documentos-da-pf-acirram-disputa-no-stf-sobre-relatoria-do-caso-master.shtml",
+     "hora": "22/11 04h00",
+     "lide": "Aliados de André Mendonça veem envio de relatório sobre ele à PGR como tentativa de afastá-lo do comando do processo em definitivo"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
@@ -50,6 +75,41 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-22T03:02-03:00"
+  },
+  {
+   "assunto": "Confira a partir das 11h deste domingo (22) o resultado do concurso 3089 da Mega-Sena",
+   "secao": null,
+   "n_fontes": 3,
+   "fontes": [
+    "folha",
+    "g1",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Confira a partir das 11h deste domingo (22) o resultado do concurso 3089 da Mega-Sena",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/confira-a-partir-das-11h-deste-domingo-22-o-resultado-do-concurso-3089-da-mega-sena.shtml",
+     "hora": "22/11 04h00"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Mega-Sena 3089 pode pagar R$ 45 milhões neste domingo; g1 transmite ao vivo",
+     "url": "https://g1.globo.com/loterias/mega-sena/noticia/2026/11/22/mega-sena-3089-pode-pagar-r-45-milhoes-neste-domingo-g1-transmite-ao-vivo.ghtml",
+     "hora": "22/11 00h00"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Mega-Sena sorteia prêmio de R$ 45 milhões neste domingo",
+     "url": "https://oglobo.globo.com/economia/noticia/2026/11/22/mega-sena-sorteia-premio-de-r-45-milhoes-neste-domingo.ghtml",
+     "hora": "22/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-22T04:00-03:00",
+   "lixo": true
   },
   {
    "assunto": "\"Fábrica do fedor\" obriga moradores a deixarem suas casas no Entorno do DF",
@@ -107,34 +167,6 @@
    "lixo": true
   },
   {
-   "assunto": "Mega-Sena 3089 pode pagar R$ 45 milhões neste domingo; g1 transmite ao vivo",
-   "secao": null,
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Mega-Sena 3089 pode pagar R$ 45 milhões neste domingo; g1 transmite ao vivo",
-     "url": "https://g1.globo.com/loterias/mega-sena/noticia/2026/11/22/mega-sena-3089-pode-pagar-r-45-milhoes-neste-domingo-g1-transmite-ao-vivo.ghtml",
-     "hora": "22/11 00h00"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Mega-Sena sorteia prêmio de R$ 45 milhões neste domingo",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/22/mega-sena-sorteia-premio-de-r-45-milhoes-neste-domingo.ghtml",
-     "hora": "22/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-22T00:00-03:00",
-   "lixo": true
-  },
-  {
    "assunto": "Vasco encara o Bragantino com elenco no limite para seguir sonhando com vaga na Libertadores",
    "secao": "esportes",
    "n_fontes": 2,
@@ -160,6 +192,26 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-22T03:00-03:00"
+  },
+  {
+   "assunto": "'A cura é uma jornada', reflete Kate Middleton em documentário sobre luta contra o câncer",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "'A cura é uma jornada', reflete Kate Middleton em documentário sobre luta contra o câncer",
+     "url": "https://oglobo.globo.com/ela/noticia/2026/11/22/a-cura-e-uma-jornada-reflete-kate-middleton-em-documentario-sobre-luta-contra-o-cancer.ghtml",
+     "hora": "22/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T04:00-03:00"
   },
   {
    "assunto": "'Me serve, vadia': Veja foto inédita de Carminha e Nina em 'Avenida Brasil 2'",
@@ -200,6 +252,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T02:30-03:00"
+  },
+  {
+   "assunto": "'Quem ama cuida': bomba sobre ex de Pilar é revelada",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "'Quem ama cuida': bomba sobre ex de Pilar é revelada",
+     "url": "https://oglobo.globo.com/play/novelas/noticia/2026/11/22/quem-ama-cuida-bomba-sobre-ex-de-pilar-e-revelada.ghtml",
+     "hora": "22/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T04:00-03:00"
   },
   {
    "assunto": "'Tinha muito medo de não conseguir', diz mãe de bebê que nasceu com 22 semanas no RS",
@@ -302,6 +374,26 @@
    "ultima_iso": "2026-11-22T03:00-03:00"
   },
   {
+   "assunto": "A moda brasileira pela perspectiva de Airon Martin",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "A moda brasileira pela perspectiva de Airon Martin",
+     "url": "https://oglobo.globo.com/ela/bruno-astuto/coluna/2026/11/a-moda-brasileira-pela-perspectiva-de-airon-martin.ghtml",
+     "hora": "22/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T04:00-03:00"
+  },
+  {
    "assunto": "A semana de 007: anúncio de novo James Bond e especulações sobre vilão e Bond Girl agitam o mundo do cinema",
    "secao": null,
    "n_fontes": 1,
@@ -320,6 +412,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T03:30-03:00"
+  },
+  {
+   "assunto": "Aflitos e CT do Náutico viram opções de treinamentos para a Copa do Mundo Feminina de 2027",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Aflitos e CT do Náutico viram opções de treinamentos para a Copa do Mundo Feminina de 2027",
+     "url": "https://ge.globo.com/pe/futebol/times/nautico/noticia/2026/11/22/aflitos-e-ct-do-nautico-viram-opcoes-de-treinamentos-para-a-copa-do-mundo-feminina-de-2027.ghtml",
+     "hora": "22/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T04:00-03:00"
   },
   {
    "assunto": "Agilidade na reposição faz diferença no ritmo da obra",
@@ -342,24 +454,24 @@
    "ultima_iso": "2026-11-22T00:05-03:00"
   },
   {
-   "assunto": "Albert Einstein citava Schopenhauer para explicar por que o ser humano pode fazer o que deseja, mas não consegue escolher aquilo que deseja",
-   "secao": null,
+   "assunto": "Agressor havia bebido em 3 de cada 10 casos de violência atendidos pelo SUS em SP",
+   "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
-    "antag"
+    "folha"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "O Antagonista",
-     "titulo": "Albert Einstein citava Schopenhauer para explicar por que o ser humano pode fazer o que deseja, mas não consegue escolher aquilo que deseja",
-     "url": "https://oantagonista.com.br/ladooa/entretenimento/albert-einstein-citava-schopenhauer-para-explicar-por-que-o-ser-humano-pode-fazer-o-que-deseja-mas-nao-consegue-escolher-aquilo-que-deseja/",
-     "hora": "22/11 02h16"
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Agressor havia bebido em 3 de cada 10 casos de violência atendidos pelo SUS em SP",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/equilibrioesaude/2026/11/agressor-havia-bebido-em-3-de-cada-10-casos-de-violencia-atendidos-pelo-sus-em-sp.shtml",
+     "hora": "22/11 04h00"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T02:16-03:00"
+   "ultima_iso": "2026-11-22T04:00-03:00"
   },
   {
    "assunto": "Além da estética, silicone em homens pode restaurar a anatomia corporal",
@@ -380,6 +492,86 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T02:00-03:00"
+  },
+  {
+   "assunto": "Análise: Bahia confirma queda de rendimento e faz feio na frente de Pep Guardiola",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Bahia confirma queda de rendimento e faz feio na frente de Pep Guardiola",
+     "url": "https://ge.globo.com/ba/futebol/times/bahia/noticia/2026/11/22/analise-bahia-confirma-queda-de-rendimento-e-faz-feio-na-frente-de-pep-guardiola.ghtml",
+     "hora": "22/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T04:00-03:00"
+  },
+  {
+   "assunto": "Análise: Cruzeiro ignora desfalques e mantém embalo sob orquestra de Matheus Pereira",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Cruzeiro ignora desfalques e mantém embalo sob orquestra de Matheus Pereira",
+     "url": "https://ge.globo.com/futebol/times/cruzeiro/noticia/2026/11/22/analise-cruzeiro-ignora-desfalques-e-mantem-embalo-sob-orquestra-de-matheus-pereira.ghtml",
+     "hora": "22/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T04:00-03:00"
+  },
+  {
+   "assunto": "Análise: Domínguez faz Atlético-MG ser engolido pelo Boca e coloca em xeque vaga na Libertadores",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Domínguez faz Atlético-MG ser engolido pelo Boca e coloca em xeque vaga na Libertadores",
+     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/22/analise-dominguez-faz-atletico-mg-ser-engolido-pelo-boca-e-coloca-em-xeque-vaga-na-libertadores.ghtml",
+     "hora": "22/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T04:00-03:00"
+  },
+  {
+   "assunto": "Análise: Palmeiras vai bem em último grande teste antes da final, mas leva uma dúvida e um alerta",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Palmeiras vai bem em último grande teste antes da final, mas leva uma dúvida e um alerta",
+     "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/22/analise-palmeiras-vai-bem-em-ultimo-grande-teste-antes-da-final-mas-leva-uma-duvida-e-um-alerta.ghtml",
+     "hora": "22/11 03h55"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-22T03:55-03:00"
   },
   {
    "assunto": "Aparecida tem escolas alagadas e carros submersos após fortes chuvas de sexta",
@@ -442,6 +634,45 @@
    "ultima_iso": "2026-11-22T00:32-03:00"
   },
   {
+   "assunto": "Atlético-GO x Vila Nova: onde assistir ao vivo, horário e escalações",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Atlético-GO x Vila Nova: onde assistir ao vivo, horário e escalações",
+     "url": "https://ge.globo.com/go/futebol/brasileirao-serie-b/noticia/2026/11/22/atletico-go-x-vila-nova-onde-assistir-ao-vivo-horario-e-escalacoes.ghtml",
+     "hora": "22/11 04h00"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Atlético-PB x Campinense: onde assistir, horário, prováveis escalações e arbitragem",
+     "url": "https://ge.globo.com/pb/futebol/copa-paraiba/noticia/2026/11/22/atletico-pb-x-campinense-onde-assistir-horario-provaveis-escalacoes-e-arbitragem.ghtml",
+     "hora": "22/11 04h00"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Fluminense x Mirassol: onde assistir ao vivo, horário e escalações",
+     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/noticia/2026/11/22/fluminense-x-mirassol-onde-assistir-ao-vivo-horario-e-escalacoes.ghtml",
+     "hora": "22/11 04h00"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Athletico x Remo: onde assistir ao vivo, horário e escalações",
+     "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/noticia/2026/11/22/athletico-x-remo-onde-assistir-ao-vivo-horario-e-escalacoes.ghtml",
+     "hora": "22/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-22T04:00-03:00",
+   "lixo": true
+  },
+  {
    "assunto": "Avanço da mpox requer cuidado com os grupos mais vulneráveis",
    "secao": null,
    "n_fontes": 1,
@@ -480,194 +711,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-22T03:39-03:00"
-  },
-  {
-   "assunto": "Barco que levava enlutados a um funeral vira e deixa 24 mortos na Nigéria",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Barco que levava enlutados a um funeral vira e deixa 24 mortos na Nigéria",
-     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/22/barco-que-levava-enlutados-a-um-funeral-vira-e-deixa-24-mortos-na-nigeria.ghtml",
-     "hora": "22/11 02h08"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T02:08-03:00"
-  },
-  {
-   "assunto": "Bastidores: entenda a operação do Flamengo para levar a taça de 2025 para o estádio do Palmeiras",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Bastidores: entenda a operação do Flamengo para levar a taça de 2025 para o estádio do Palmeiras",
-     "url": "https://ge.globo.com/futebol/times/flamengo/noticia/2026/11/22/bastidores-entenda-a-operacao-do-flamengo-para-levar-a-taca-de-2025-para-o-estadio-do-palmeiras.ghtml",
-     "hora": "22/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T00:00-03:00"
-  },
-  {
-   "assunto": "Bauru x União Corinthians pelo NBB: veja onde assistir e horário",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Bauru x União Corinthians pelo NBB: veja onde assistir e horário",
-     "url": "https://ge.globo.com/sp/tem-esporte/basquete/nbb/noticia/2026/11/22/bauru-x-uniao-corinthians-pelo-nbb-veja-onde-assistir-e-horario.ghtml",
-     "hora": "22/11 00h01"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-22T00:01-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Bragantino x Vasco: onde assistir ao vivo, horário e escalações",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Bragantino x Vasco: onde assistir ao vivo, horário e escalações",
-     "url": "https://ge.globo.com/sp/vale-do-paraiba-regiao/futebol/brasileirao-serie-a/noticia/2026/11/22/bragantino-x-vasco-onde-assistir-ao-vivo-horario-e-escalacoes.ghtml",
-     "hora": "22/11 03h00"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Liverpool x Manchester United na Premier League: onde assistir ao vivo e horário",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-ingles/noticia/2026/11/22/liverpool-x-manchester-united-na-premier-league-onde-assistir-ao-vivo-e-horario.ghtml",
-     "hora": "22/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-22T03:00-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Brasil amplia liderança no mercado de data centers da América Latina",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "gp"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Gazeta do Povo Economia",
-     "titulo": "Brasil amplia liderança no mercado de data centers da América Latina",
-     "url": "https://www.gazetadopovo.com.br/economia/brasil-amplia-lideranca-no-mercado-de-data-centers-da-america-latina/",
-     "hora": "22/11 01h53"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T01:53-03:00"
-  },
-  {
-   "assunto": "Brasiléia goleia Capixaba e é pentacampeão invicto do Acreano de Futsal Série A",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Brasiléia goleia Capixaba e é pentacampeão invicto do Acreano de Futsal Série A",
-     "url": "https://ge.globo.com/ac/noticia/2026/11/22/brasileia-goleia-capixaba-e-e-pentacampeao-invicto-do-acreano-de-futsal-serie-a.ghtml",
-     "hora": "22/11 01h49"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T01:49-03:00"
-  },
-  {
-   "assunto": "Buraco branco: teoria propõe inverso do buraco negro na relatividade",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Buraco branco: teoria propõe inverso do buraco negro na relatividade",
-     "url": "https://www.metropoles.com/ciencia/buraco-branco-teoria-propoe-inverso-do-buraco-negro-na-relatividade",
-     "hora": "22/11 02h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T02:00-03:00"
-  },
-  {
-   "assunto": "CEO do Atlético-MG revela sentimento após vice e prega foco no Brasileiro",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "CEO do Atlético-MG revela sentimento após vice e prega foco no Brasileiro",
-     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/22/ceo-do-atletico-mg-revela-sentimento-apos-vice-e-prega-foco-no-brasileiro.ghtml",
-     "hora": "22/11 00h09"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T00:09-03:00"
-  },
-  {
-   "assunto": "Cabelo loiro de Virginia Fonseca: como manter os fios hidratados, brilhantes e saudáveis",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Cabelo loiro de Virginia Fonseca: como manter os fios hidratados, brilhantes e saudáveis",
-     "url": "https://oglobo.globo.com/ela/noticia/2026/11/22/cabelo-loiro-de-virginia-fonseca-como-manter-os-fios-hidratados-brilhantes-e-saudaveis.ghtml",
-     "hora": "22/11 03h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-22T03:00-03:00"
   }
  ],
  "em_pautas": {
@@ -754,6 +797,24 @@
      "hora": "22/11 03h30"
     }
    ]
+  },
+  "caso-master": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Documentos da PF acirram disputa no STF sobre relatoria do caso Master",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/documentos-da-pf-acirram-disputa-no-stf-sobre-relatoria-do-caso-master.shtml",
+     "hora": "22/11 04h00"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Caso Master pode definir relação de Lula com Congresso, diz professor",
+     "url": "https://www.cnnbrasil.com.br/politica/caso-master-pode-definir-relacao-de-lula-com-congresso-diz-professor/",
+     "hora": "22/11 04h00"
+    }
+   ]
   }
  },
  "novos_relatos": {
@@ -767,7 +828,7 @@
    "ultima": "22/11 03h30",
    "ultima_iso": "2026-11-22T03:30-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 21.2,
+   "horas_sem_atualizar": 21.3,
    "principal": true,
    "manchetes": [
     {
@@ -775,6 +836,34 @@
      "titulo": "Divergências após ajuste fiscal antecipam embates entre Lula e parte da esquerda, de vaga no STF a fim da escala 6x1",
      "url": "https://oglobo.globo.com/politica/noticia/2026/11/22/divergencias-apos-ajuste-fiscal-antecipam-embates-entre-lula-e-parte-da-esquerda-de-vaga-no-stf-a-fim-da-escala-6x1.ghtml",
      "hora": "22/11 03h30"
+    }
+   ]
+  },
+  "caso-master": {
+   "n": 2,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "folha"
+   ],
+   "n_fontes_90min": 2,
+   "ultima": "22/11 04h00",
+   "ultima_iso": "2026-11-22T04:00-03:00",
+   "pauta_atualizada_em": "2026-11-21T13:49-03:00",
+   "horas_sem_atualizar": 14.4,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Caso Master pode definir relação de Lula com Congresso, diz professor",
+     "url": "https://www.cnnbrasil.com.br/politica/caso-master-pode-definir-relacao-de-lula-com-congresso-diz-professor/",
+     "hora": "22/11 04h00"
+    },
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Documentos da PF acirram disputa no STF sobre relatoria do caso Master",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/documentos-da-pf-acirram-disputa-no-stf-sobre-relatoria-do-caso-master.shtml",
+     "hora": "22/11 04h00"
     }
    ]
   },
@@ -788,7 +877,7 @@
    "ultima": "22/11 03h24",
    "ultima_iso": "2026-11-22T03:24-03:00",
    "pauta_atualizada_em": "2026-11-21T15:49-03:00",
-   "horas_sem_atualizar": 12.2,
+   "horas_sem_atualizar": 12.4,
    "principal": true,
    "manchetes": [
     {
@@ -810,7 +899,7 @@
    "ultima": "22/11 00h00",
    "ultima_iso": "2026-11-22T00:00-03:00",
    "pauta_atualizada_em": "2026-11-21T13:49-03:00",
-   "horas_sem_atualizar": 14.2,
+   "horas_sem_atualizar": 14.4,
    "principal": true,
    "manchetes": [
     {
@@ -838,7 +927,7 @@
    "ultima": "22/11 03h30",
    "ultima_iso": "2026-11-22T03:30-03:00",
    "pauta_atualizada_em": "2026-11-21T19:50-03:00",
-   "horas_sem_atualizar": 8.2,
+   "horas_sem_atualizar": 8.4,
    "principal": true,
    "manchetes": [
     {
@@ -871,7 +960,7 @@
    "ultima": "21/11 22h03",
    "ultima_iso": "2026-11-21T22:03-03:00",
    "pauta_atualizada_em": "2026-11-21T21:48-03:00",
-   "horas_sem_atualizar": 6.2,
+   "horas_sem_atualizar": 6.4,
    "principal": true,
    "manchetes": [
     {
@@ -893,7 +982,7 @@
    "ultima": "22/11 02h00",
    "ultima_iso": "2026-11-22T02:00-03:00",
    "pauta_atualizada_em": "2026-11-16T06:52-03:00",
-   "horas_sem_atualizar": 141.2,
+   "horas_sem_atualizar": 141.3,
    "principal": false,
    "manchetes": [
     {
@@ -910,27 +999,6 @@
     }
    ]
   },
-  "rs-temporais-tres-mortes-tupanciereta": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "21/11 22h01",
-   "ultima_iso": "2026-11-21T22:01-03:00",
-   "pauta_atualizada_em": "2026-11-21T13:49-03:00",
-   "horas_sem_atualizar": 14.2,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Sobe para 5 número de mortos em temporais no Rio Grande do Sul",
-     "url": "https://www.poder360.com.br/poder-brasil/sobe-para-5-numero-de-mortos-em-temporais-no-rio-grande-do-sul/",
-     "hora": "21/11 22h01"
-    }
-   ]
-  },
   "mexico-captura-chapo-isidro": {
    "n": 1,
    "n_fontes": 1,
@@ -941,7 +1009,7 @@
    "ultima": "22/11 00h00",
    "ultima_iso": "2026-11-22T00:00-03:00",
    "pauta_atualizada_em": "2026-11-21T10:58-03:00",
-   "horas_sem_atualizar": 17.1,
+   "horas_sem_atualizar": 17.2,
    "principal": false,
    "manchetes": [
     {
@@ -1272,19 +1340,19 @@
  ],
  "ultima_rodada": "2026-11-22T00:09-03:00",
  "fontes": {
-  "Poder360": "ok: 10 itens, 4 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 14 nas últimas 6 h",
+  "Poder360": "ok: 10 itens, 3 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 18 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 0 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
-  "g1": "ok: 100 itens, 75 nas últimas 6 h",
+  "g1": "ok: 100 itens, 74 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 3 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 2 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 40 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 9 nas últimas 6 h",
+  "ge": "ok: 100 itens, 58 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 4 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 4 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 2 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
@@ -1296,18 +1364,18 @@
   "Estadão Economia": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 0 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 46 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 57 nas últimas 6 h",
   "Valor Econômico": "ok: 100 itens, 1 nas últimas 6 h",
   "Exame": "ok: 25 itens, 0 nas últimas 6 h",
-  "Veja": "ok: 20 itens, 1 nas últimas 6 h",
+  "Veja": "ok: 20 itens, 0 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 68 itens, 0 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 41 itens, 0 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 24 itens, 2 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 4 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 1 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
-  "CartaCapital": "ok: 20 itens, 4 nas últimas 6 h",
+  "CartaCapital": "ok: 20 itens, 2 nas últimas 6 h",
   "Brasil de Fato": "falhou: ParseError('junk after document element: line 4417, column 3')",
   "ICL Notícias": "ok: 10 itens, 0 nas últimas 6 h"
  }
