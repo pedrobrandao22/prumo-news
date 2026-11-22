@@ -18,8 +18,9 @@ const cr155K=()=>"prumo-cr155-caixa:"+(S.uid||"");
 
 /* ===== guardar o texto da caixa ===== */
 function cr155Le(){try{const o=JSON.parse(localStorage.getItem(cr155K())||"null");if(o&&typeof o.tx==="string"&&Date.now()-(+o.at||0)<14*864e5)return o}catch(e){}return null}
-function cr155Guarda(){try{const tx=String(CP152.txt||"");if(tx.trim()||CR155.pid)localStorage.setItem(cr155K(),JSON.stringify({tx:tx.slice(0,2200),pid:CR155.pid||null,at:Date.now()}));else localStorage.removeItem(cr155K())}catch(e){}}
-function cr155Limpa(){CP152.txt="";CR155.pid=null;try{localStorage.removeItem(cr155K())}catch(e){}}
+function cr155Guarda(){try{const tx=String(CP152.txt||"");if(tx.trim()||CR155.pid)localStorage.setItem(cr155K(),JSON.stringify({tx:tx.slice(0,2200),pid:CR155.pid||null,at:Date.now()}));else localStorage.removeItem(cr155K())}catch(e){}try{fc107Barra()}catch(e){}}
+/* 22/11: a caixa do Feed acompanha o rascunho na hora ("Continuar rascunho" ↔ "O que você acha?") */
+function cr155Limpa(){CP152.txt="";CR155.pid=null;try{localStorage.removeItem(cr155K())}catch(e){}try{fc107Barra()}catch(e){}}
 var CR155_GT=0;
 document.addEventListener("input",e=>{const t=e.target;if(!t||t.id!=="cp152-tx")return;CP152.txt=t.value;clearTimeout(CR155_GT);CR155_GT=setTimeout(cr155Guarda,250);
   try{if(typeof menSugere==="function")menSugere(t)}catch(_){}});

@@ -306,7 +306,11 @@ function cp206Abre0(o){o=o||{};if(precisaConta())return;if(PUB.on===false){toast
 function cp152Abre(o){if(!(o&&o.manter))CP152.ed=null;
   o=o||{};const r=cp206Abre0.apply(this,arguments);try{if(!$("#layer > .cp152"))return r;
     if(!o.manter){const g=cr155Le();CR155.pid=null;if(g){if(!o.aba||o.aba==="post")CP152.txt=g.tx;CR155.pid=g.pid&&pautaById(g.pid)?g.pid:null}
-      if(o.pid&&pautaById(o.pid))CR155.pid=o.pid;if(CR155.pid||CP152.txt)cp152Desenha()}
+      /* 22/11 (corretor): com texto guardado, o rascunho volta como foi guardado; a notícia pedida (caixa "O que você
+         acha?" do Feed, "Publicar com comentário") não troca em silêncio a notícia do rascunho nem entra num rascunho sem notícia */
+      const rasc=!!(g&&String(g.tx||"").trim()&&(!o.aba||o.aba==="post"));
+      if(o.pid&&pautaById(o.pid)){if(!rasc)CR155.pid=o.pid;else if(o.pid!==CR155.pid)try{toast("Seu rascunho guardado voltou como estava. Publique ou descarte antes de comentar outra notícia.")}catch(_){}}
+      if(CR155.pid||CP152.txt)cp152Desenha()}
     CR155.giro=0;CR155.volta=0}catch(e){}return r}
 /* cp152Fecha: base no 152; 164 (com fotos e sem texto pede "Descartar?"; fechou: sem fotos), 155 (fechou: limpa o guardado) */
 function cp206Fecha0(){if(CP152.txt.trim()){const b=$("#layer [data-cp152x]");if(b&&!b.classList.contains("conf")){b.classList.add("conf");b.textContent="Descartar?";setTimeout(()=>{if(b.isConnected){b.classList.remove("conf");b.textContent="Cancelar"}},2600);return}}

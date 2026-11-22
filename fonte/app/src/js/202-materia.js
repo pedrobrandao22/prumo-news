@@ -81,7 +81,7 @@ function mt202Monta(pid,manter){const p=pautaById(pid);if(!p)return;const L=lent
   h+=matTempo(p);
   try{h+=ct210LadosHTML(p,L)}catch(e){}
   const ups=(Array.isArray(p.atualizacoes)?p.atualizacoes:[]).filter(x=>x&&x.texto).slice().sort((a,b)=>tms(b.hora)-tms(a.hora));
-  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
+  if(ups.length)h+=`<div class="cpx-bl"><b>Atualizações</b><ul class="cpx-up">${ups.map(x=>`<li data-dt185-ref="${esc(dataSP(x.hora))}"><time>${esc(horaDia(x.hora))}</time>${esc(x.texto)}</li>`).join("")}</ul></div>`;
   const nx=matProx(p.id);h+=matRel(p,nx);
   h+=`<div class="mat-pe">${nx?`<button type="button" class="mat-prox" data-matprox="${esc(nx.id)}"><span>Próxima</span><b>${esc(versao(nx,L).titulo)}</b><i aria-hidden="true">›</i></button><small class="mat-dica">ou deslize para o lado</small>`:""}${typeof cobTemPagina==="function"&&cobTemPagina(p)?`<button type="button" class="btn ghost" data-cobpag="${id}">Acompanhar esta cobertura</button>`:""}<div class="mat-rod"><button type="button" class="cpx-fontes" data-cpfontes="${id}">Fontes e quem noticiou ›</button>${f&&f.credito?`<span class="cpx-fontes">${esc(creditoCurto(f.credito))}</span>`:""}<button type="button" class="cpx-fontes" data-capair="${id}">Ver no feed</button></div></div></div></article></div>`;
   Ly.innerHTML=h;const m=Ly.querySelector(".mat");if(!manter&&m)m.scrollTop=0;
@@ -115,8 +115,8 @@ function matTempo(p){
   try{p=mc1111Tempo(p)}catch(e){}
   const h0=(()=>{const vt=(Array.isArray(p.visuais)?p.visuais:[]).find(v=>v&&v.tipo==="linha_do_tempo"&&Array.isArray(v.itens)&&v.itens.length>=2);let its=[],tit="Como a história andou";
   if(vt){tit=vt.titulo||tit;its=vt.itens.filter(i=>i&&i.texto).map(i=>({q:String(i.quando||""),t:String(i.texto)}))}
-  else{const ts=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo&&x.hora);if(ts.length>=3&&tms(ts[ts.length-1].hora)-tms(ts[0].hora)>36*3600e3)its=ts.map(x=>({q:dataCurta(String(x.hora).slice(0,10)),t:x.titulo}))}
-  if(its.length<2)return "";return `<div class="mat-tl"><b>${esc(tit)}</b><ol>${its.slice(-7).map((i,k,a)=>`<li${k===a.length-1?' class="ult"':""}><time>${esc(i.q)}</time><span>${esc(i.t)}</span></li>`).join("")}</ol></div>`})();
+  else{const ts=(Array.isArray(p.titulos)?p.titulos:[]).filter(x=>x&&x.titulo&&x.hora);if(ts.length>=3&&tms(ts[ts.length-1].hora)-tms(ts[0].hora)>36*3600e3)its=ts.map(x=>({q:dataCurta(String(x.hora).slice(0,10)),t:x.titulo,r:dataSP(x.hora)}))}
+  if(its.length<2)return "";return `<div class="mat-tl"><b>${esc(tit)}</b><ol>${its.slice(-7).map((i,k,a)=>`<li${k===a.length-1?' class="ult"':""}${i.r?` data-dt185-ref="${esc(i.r)}"`:""}><time>${esc(i.q)}</time><span>${esc(i.t)}</span></li>`).join("")}</ol></div>`})();
   /* 104: data que ainda vai acontecer aparece como próximo passo */
   const h1=(h=>{if(!h)return h;try{const tp=document.createElement("template");tp.innerHTML=h;
   const hj=hojeSP(),ano=hj.slice(0,4),lis=[...tp.content.querySelectorAll("li")];let fut=0;
