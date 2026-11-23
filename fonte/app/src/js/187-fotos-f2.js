@@ -89,6 +89,13 @@ function ft187JogoAlheio(f,tit){const a=ft157Arq(f).replace(/\.[a-z]+$/,"");cons
   if(!m||FT187_COMPOSTO.test(m[1]+"-"+m[2])||!/(copa|sudamericana|libertadores|campeonato|liga|match|jogo|partida| vs\.? | versus )/.test(a))return false;
   const t=" "+ft157N(tit).replace(/[^a-z0-9]+/g," ")+" ";return !(t.indexOf(" "+m[1]+" ")>=0||t.indexOf(" "+m[2]+" ")>=0)}
 /* corretor 21/11 (causa fotos-2): travas do último recurso (tema/padrão) e da vista de cidade. Iguais a paginas.py */
+/* corretor 22/11 noite (temporais no RS, tremores em SP e alerta de chuva em SP com enchente no Maranhão; Chitãozinho e
+   Xororó com a Avenida Paulista ao anoitecer): no tema e no padrão, foto de um FATO (enchente, alagamento) ou de um
+   cartão-postal (Paulista, Copacabana) só entra se o título ou o subtítulo diz esse fato ou lugar. Chuva, temporal, alerta,
+   tremor e música ficam com a ilustração. Igual a evento_alheio em tools/paginas.py */
+var FT187_FATO=[[/(?:^|[^a-z])(?:enchentes?|inundac|alagad|alagament|flood|cheias?(?![a-z]))/,/enchente|inunda[çc]|alaga[dm]|\bcheias?\b/i],
+  [/(?:^|[^a-z])paulista(?![a-z])/,/\bPaulista\b/],[/(?:^|[^a-z])copacabana(?![a-z])/,/Copacabana/i]];
+function ft187EventoAlheio(f,txt){const a=ft157Arq(f),t=String(txt||"");return FT187_FATO.some(([ra,rt])=>ra.test(a)&&!rt.test(t))}
 function ft187LugarAlheio(f,ditos,pad){const a=ft157Arq(f);return FT187_RE.some(x=>x[2].test(a)&&!ditos.has(x[0])&&(pad||!x[3]))}
 var FT187_SKY=/skyline|cityscape|downtown|(?:^|[^a-z])cbd(?![a-z])|panoram/;
 var FT187_SKYW=/^(skyline|cityscape|downtown|panorama|panoramio|panoramic|cropped|sunset|flickr|from|northeast|northwest|southeast|southwest|night|view|city|aerial|centro)$/;
@@ -129,7 +136,7 @@ faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep(
      com o Congresso, COP31 com o Parlamento Europeu, empresa com a Bovespa); no tema do subtema, nenhum lugar de fora do
      Brasil (Tiananmen na trilateral de Shenzhen). Em Esportes, foto de jogador, jogo ou estádio só se o arquivo cita um
      time ou nome do título (taça e bola valem). Sem foto que sobre, fica a ilustração. Igual a paginas.py. */
-  const gen=(l,pad)=>Array.isArray(l)?l.filter(f=>!ft187LugarAlheio(f,ditos,pad)&&!(esp&&ft187EspAlheio(f,tit))&&!ft187SkyAlheio(f,ts)):l;
+  const gen=(l,pad)=>Array.isArray(l)?l.filter(f=>!ft187LugarAlheio(f,ditos,pad)&&!ft187EventoAlheio(f,ts)&&!(esp&&ft187EspAlheio(f,tit))&&!ft187SkyAlheio(f,ts)):l;
   /* corretor 21/11 noite (achado foto-bolsonaro-internado…, voltou com o STF): o tema do subtema também é último recurso e o
      subtema pode estar errado (internação de Bolsonaro marcada "STF e Judiciário" pegava a fachada do Supremo); nele também
      nenhum lugar com nome que o título não disse. Internação, UTI, hospital e cirurgia contam como notícia trágica. */

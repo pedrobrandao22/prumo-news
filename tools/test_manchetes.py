@@ -198,6 +198,16 @@ def t_acabou_editoria_pelo_assunto():
     assert r.returncode == 0, r.stdout + r.stderr
 
 
+def t_lixo_pagina_de_jogo_2211():
+    # corretor 22/11 noite: a faixa AGORA abria com títulos de página de jogo, serviço e loteria
+    for t in ["Palmeiras x Flamengo - Campeonato Brasileiro 2026", "Chapecoense x Cruzeiro - Campeonato Brasileiro 2026",
+              "Bragantino x Vasco: onde assistir", "Central x Íbis: onde assistir, horário e prováveis escalações",
+              "Mega-Sena 3089 pode pagar R$ 45 milhões neste domingo; g1 transmite", "Horóscopo do dia: previsão para os 12 signos"]:
+        assert M.lixo(t), t
+    for t in ["Flamengo vence o Palmeiras e é campeão brasileiro", "Lula x Tarcísio: pesquisa mostra empate técnico em SP"]:
+        assert not M.lixo(t), t
+
+
 TESTES = [v for k, v in sorted(globals().items()) if k.startswith("t_")]
 if __name__ == "__main__":
     falhas = 0
