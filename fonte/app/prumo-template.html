@@ -6642,9 +6642,9 @@ html:root:not(.x211-nunca) .top.rolou{background:var(--bg)!important;-webkit-bac
     h+=(function(){var d=NV;if(!d)return "";var g=Date.parse(d.gerado||"");if(g&&Date.now()-g>4*3600e3)return "";var out=[],vistos={};
       var hMs=function(x){var m=typeof x==="string"&&x.match(/^(\d{2})\/(\d{2}) (\d{2})h(\d{2})$/);if(!m)return 0;var ano=new Date().getFullYear();var t=Date.parse(ano+"-"+m[2]+"-"+m[1]+"T"+m[3]+":"+m[4]+":00-03:00");if(t>Date.now()+864e5)t=Date.parse((ano-1)+"-"+m[2]+"-"+m[1]+"T"+m[3]+":"+m[4]+":00-03:00");return t||0};
       var curto=function(t){var s=String(t||"").replace(/\s+/g," ").trim();s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");if(s.length>170){s=s.slice(0,170).replace(/\s+\S*$/,"")+"…"}return s};
-      var LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d/i;
+      var LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d|\bpodcast\b|\bepis[óo]dio\b|\s#\d{2,}\s*$|\bmais destaques\b|\bdestaques (?:desta|do dia|da semana)\b|\bresumo do dia\b|o que voc[êe] precisa saber|\bmorning call\b|^o que se sabe\b|hor[óo]scopo|\bsignos?\b|onde assistir|prov[áa]veis escala[çc][õo]es|^[^:;]{2,40}\sx\s[^:;]{2,40}\s-\s(?:Campeonato|Copa|Brasileir|Libertadores|Sul-Americana|S[ée]rie)|\b(?:mega-sena|lotof[áa]cil|quina|lotomania|dupla sena|timemania|\+milion[áa]ria)\b.*\b(?:pode pagar|acumula|quanto rende|sorteio|concurso|resultado)/i;  /* igual a AG_LIXO (035) */
       var hMax=function(ms){var hs=(Array.isArray(ms)?ms:[]).map(function(m){return hMs(m&&m.hora)}).filter(Boolean);return hs.length?Math.max.apply(null,hs):0};
-      (Array.isArray(d.novos)?d.novos:[]).forEach(function(n){if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;var hh=hMax(n.manchetes);if(!hh||ag-hh>3*3600e3)return;
+      (Array.isArray(d.novos)?d.novos:[]).forEach(function(n){if(!n||!n.assunto||n.lixo)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;var hh=hMax(n.manchetes);if(!hh||ag-hh>3*3600e3)return;
         var t=[n.assunto].concat(Array.isArray(n.manchetes)?n.manchetes.map(function(m){return m&&m.titulo}):[]).map(curto).filter(function(x){return x&&x.replace("…","").length>=24})[0];
         if(!t||vistos[t]||LIXO.test(t)||LIXO.test(String(n.assunto)))return;vistos[t]=1;out.push({t:t,h:hh,peso:(n.relevante?10:0)+(n.n_fontes||0)+(["politica","economia"].indexOf(n.secao)>=0?3:0)})});
       var ep=d.em_pautas&&typeof d.em_pautas==="object"&&!Array.isArray(d.em_pautas)?d.em_pautas:{};
@@ -9168,11 +9168,13 @@ function assuntoCurto(t){let s=String(t||"").replace(/\s+/g," ").trim();
   if(/:\s*(veja|entenda|saiba|confira|assista)\b/i.test(s))return "";
   s=s.replace(/[;,.:–-]?\s*\b(veja|entenda|saiba|confira|assista|ao vivo)\b.*$/i,"").trim();s=s.replace(/[\s;,:–-]+$/,"");
   if(s.length>170){const c=s.slice(0,170);s=c.replace(/\s+\S*$/,"")+"…"}return s}
-/* vídeos, programas e edições de telejornal não são notícia para o "Agora" */
-const AG_LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d|\bpodcast\b|\bepis[óo]dio\b|\s#\d{2,}\s*$|\bmais destaques\b|\bdestaques (?:desta|do dia|da semana)\b|\bresumo do dia\b|o que voc[êe] precisa saber|\bmorning call\b|^o que se sabe\b/i;
+/* vídeos, programas e edições de telejornal não são notícia para o "Agora". Corretor 22/11 noite (faixa AGORA abria com
+   horóscopo, 'onde assistir', página de jogo 'A x B - Campeonato Brasileiro' e Mega-Sena): também serviço e loteria; e o
+   item que o robô marca "lixo" não entra (agoraItens, ac208Itens e a cópia da pré-capa, 121) */
+const AG_LIXO=/^\s*(?:v[íi]deos?|assista|ou[çc]a|podcast|ao vivo|programa)\b|jornal d[aoe]s?\s|\bedi[çc][ãa]o d[aoe]\b|\bde (?:segunda|ter[çc]a|quarta|quinta|sexta)-feira,\s*\d|\bpodcast\b|\bepis[óo]dio\b|\s#\d{2,}\s*$|\bmais destaques\b|\bdestaques (?:desta|do dia|da semana)\b|\bresumo do dia\b|o que voc[êe] precisa saber|\bmorning call\b|^o que se sabe\b|hor[óo]scopo|\bsignos?\b|onde assistir|prov[áa]veis escala[çc][õo]es|^[^:;]{2,40}\sx\s[^:;]{2,40}\s-\s(?:Campeonato|Copa|Brasileir|Libertadores|Sul-Americana|S[ée]rie)|\b(?:mega-sena|lotof[áa]cil|quina|lotomania|dupla sena|timemania|\+milion[áa]ria)\b.*\b(?:pode pagar|acumula|quanto rende|sorteio|concurso|resultado)/i;
 function agoraItens(){const d=NOVID_AG;if(!d||!FEED)return [];const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>4*3600e3)return [];const ag=Date.now(),out=[],vistos=new Set();
   const hMax=ms=>{const hs=(Array.isArray(ms)?ms:[]).map(m=>agHoraMs(m&&m.hora)).filter(Boolean);return hs.length?Math.max(...hs):0};
-  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=[n.assunto,...(Array.isArray(n.manchetes)?n.manchetes.map(m=>m&&m.titulo):[])].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t)||AG_LIXO.test(t)||AG_LIXO.test(String(n.assunto)))return;vistos.add(t);
+  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto||n.lixo)return;if(!(n.relevante||(n.n_fontes||0)>=2))return;const h=hMax(n.manchetes);if(!h||ag-h>3*3600e3)return;const t=[n.assunto,...(Array.isArray(n.manchetes)?n.manchetes.map(m=>m&&m.titulo):[])].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t)||AG_LIXO.test(t)||AG_LIXO.test(String(n.assunto)))return;vistos.add(t);
     out.push({t,h,peso:(n.relevante?10:0)+(n.n_fontes||0)+(["politica","economia"].includes(n.secao)?3:0)})});
   const ep=d.em_pautas&&typeof d.em_pautas==="object"&&!Array.isArray(d.em_pautas)?d.em_pautas:{};
   Object.entries(ep).forEach(([pid,x])=>{const p=pautaById(pid);if(!p||!x)return;const n=x.n_fontes||(Array.isArray(x.fontes)?x.fontes.length:0);if(n<3)return;const h=hMax(x.manchetes);if(!h||ag-h>3*3600e3)return;
@@ -20830,6 +20832,13 @@ function ft187JogoAlheio(f,tit){const a=ft157Arq(f).replace(/\.[a-z]+$/,"");cons
   if(!m||FT187_COMPOSTO.test(m[1]+"-"+m[2])||!/(copa|sudamericana|libertadores|campeonato|liga|match|jogo|partida| vs\.? | versus )/.test(a))return false;
   const t=" "+ft157N(tit).replace(/[^a-z0-9]+/g," ")+" ";return !(t.indexOf(" "+m[1]+" ")>=0||t.indexOf(" "+m[2]+" ")>=0)}
 /* corretor 21/11 (causa fotos-2): travas do último recurso (tema/padrão) e da vista de cidade. Iguais a paginas.py */
+/* corretor 22/11 noite (temporais no RS, tremores em SP e alerta de chuva em SP com enchente no Maranhão; Chitãozinho e
+   Xororó com a Avenida Paulista ao anoitecer): no tema e no padrão, foto de um FATO (enchente, alagamento) ou de um
+   cartão-postal (Paulista, Copacabana) só entra se o título ou o subtítulo diz esse fato ou lugar. Chuva, temporal, alerta,
+   tremor e música ficam com a ilustração. Igual a evento_alheio em tools/paginas.py */
+var FT187_FATO=[[/(?:^|[^a-z])(?:enchentes?|inundac|alagad|alagament|flood|cheias?(?![a-z]))/,/enchente|inunda[çc]|alaga[dm]|\bcheias?\b/i],
+  [/(?:^|[^a-z])paulista(?![a-z])/,/\bPaulista\b/],[/(?:^|[^a-z])copacabana(?![a-z])/,/Copacabana/i]];
+function ft187EventoAlheio(f,txt){const a=ft157Arq(f),t=String(txt||"");return FT187_FATO.some(([ra,rt])=>ra.test(a)&&!rt.test(t))}
 function ft187LugarAlheio(f,ditos,pad){const a=ft157Arq(f);return FT187_RE.some(x=>x[2].test(a)&&!ditos.has(x[0])&&(pad||!x[3]))}
 var FT187_SKY=/skyline|cityscape|downtown|(?:^|[^a-z])cbd(?![a-z])|panoram/;
 var FT187_SKYW=/^(skyline|cityscape|downtown|panorama|panoramio|panoramic|cropped|sunset|flickr|from|northeast|northwest|southeast|southwest|night|view|city|aerial|centro)$/;
@@ -20870,7 +20879,7 @@ faListas=function(p,A){const L=[];if(!A||!p)return L;if(A===FOTOS_ARQ)ft157Prep(
      com o Congresso, COP31 com o Parlamento Europeu, empresa com a Bovespa); no tema do subtema, nenhum lugar de fora do
      Brasil (Tiananmen na trilateral de Shenzhen). Em Esportes, foto de jogador, jogo ou estádio só se o arquivo cita um
      time ou nome do título (taça e bola valem). Sem foto que sobre, fica a ilustração. Igual a paginas.py. */
-  const gen=(l,pad)=>Array.isArray(l)?l.filter(f=>!ft187LugarAlheio(f,ditos,pad)&&!(esp&&ft187EspAlheio(f,tit))&&!ft187SkyAlheio(f,ts)):l;
+  const gen=(l,pad)=>Array.isArray(l)?l.filter(f=>!ft187LugarAlheio(f,ditos,pad)&&!ft187EventoAlheio(f,ts)&&!(esp&&ft187EspAlheio(f,tit))&&!ft187SkyAlheio(f,ts)):l;
   /* corretor 21/11 noite (achado foto-bolsonaro-internado…, voltou com o STF): o tema do subtema também é último recurso e o
      subtema pode estar errado (internação de Bolsonaro marcada "STF e Judiciário" pegava a fachada do Supremo); nele também
      nenhum lugar com nome que o título não disse. Internação, UTI, hospital e cirurgia contam como notícia trágica. */
@@ -22313,7 +22322,7 @@ function col207PubHTML(){if(typeof S==="undefined"||!S.uid)return "";const ids=n
 var AC208_MAX=3;
 function ac208Itens(){const d=typeof NOVID_AG!=="undefined"?NOVID_AG:null;if(!d||!FEED)return [];const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>8*3600e3)return [];
   const ag=Date.now(),out=[],vistos=new Set();
-  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto||n.ja_e_breve||!n.relevante)return;const nf=n.n_fontes||0;if(nf<2)return;
+  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto||n.ja_e_breve||n.lixo||!n.relevante)return;const nf=n.n_fontes||0;if(nf<2)return;
     const ms=(Array.isArray(n.manchetes)?n.manchetes:[]).filter(m=>m&&m.titulo&&!AG_LIXO.test(m.titulo));if(!ms.length)return;
     const hs=ms.map(m=>agHoraMs(m.hora)).filter(Boolean);if(!hs.length)return;const h=Math.max(...hs);if(ag-h>6*3600e3)return;
     const t=[n.assunto,...ms.map(m=>m.titulo)].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t)||AG_LIXO.test(t))return;vistos.add(t);

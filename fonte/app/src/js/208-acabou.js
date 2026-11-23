@@ -8,7 +8,7 @@
 var AC208_MAX=3;
 function ac208Itens(){const d=typeof NOVID_AG!=="undefined"?NOVID_AG:null;if(!d||!FEED)return [];const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>8*3600e3)return [];
   const ag=Date.now(),out=[],vistos=new Set();
-  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto||n.ja_e_breve||!n.relevante)return;const nf=n.n_fontes||0;if(nf<2)return;
+  (Array.isArray(d.novos)?d.novos:[]).forEach(n=>{if(!n||!n.assunto||n.ja_e_breve||n.lixo||!n.relevante)return;const nf=n.n_fontes||0;if(nf<2)return;
     const ms=(Array.isArray(n.manchetes)?n.manchetes:[]).filter(m=>m&&m.titulo&&!AG_LIXO.test(m.titulo));if(!ms.length)return;
     const hs=ms.map(m=>agHoraMs(m.hora)).filter(Boolean);if(!hs.length)return;const h=Math.max(...hs);if(ag-h>6*3600e3)return;
     const t=[n.assunto,...ms.map(m=>m.titulo)].map(assuntoCurto).find(x=>x&&x.replace("…","").length>=24);if(!t||vistos.has(t)||AG_LIXO.test(t))return;vistos.add(t);

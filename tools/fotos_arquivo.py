@@ -100,9 +100,12 @@ TEMAS = {
     "brasil/Segurança": [("viatura Polícia Militar", ["polícia militar", "viatura", "policia militar"])],
     "brasil/Justiça e polícia": [("Polícia Federal sede Brasília", ["polícia federal", "policia federal"])],
     "brasil/Saúde": [("Unidade Básica de Saúde", ["unidade básica", "unidade basica", "ubs"]), ("UPA pronto atendimento", ["upa", "pronto atendimento"])],
-    "brasil/Meio ambiente e clima": [("enchente Brasil", ["enchente", "inundação", "chuva"]), ("floresta amazônica", ["amazônia", "amazonia", "amazon"])],
+    # 22/11 noite (corretor): sem foto genérica de enchente no tema (rua alagada no Maranhão abria temporais no RS, tremores e
+    # alerta de chuva em SP); enchente só como assunto, quando o título diz. Floresta só pelo assunto "florestas"
+    "brasil/Meio ambiente e clima": [],
     "brasil/Infraestrutura e transporte": [("rodovia BR-116", ["br-116", "br-101", "rodovia"]), ("metrô de São Paulo trem", ["metrô de são paulo", "metro de sao paulo", "metrô"])],
-    "brasil/Sociedade": [("Copacabana calçadão", ["copacabana"])],
+    # 22/11 noite (corretor): cartão-postal (Paulista, Copacabana) não confirma fato nenhum (Chitãozinho e Xororó com a Paulista)
+    "brasil/Sociedade": [],
     "mundo/América Latina": [("Casa Rosada Buenos Aires", ["casa rosada"])],
     "mundo/EUA": [("White House north facade photo", ["the white house", "white house washington", "white house in washington"])],  # 20/11: Capitólio só para o Congresso (assunto próprio)
     "mundo/Europa": [("European Parliament Strasbourg", ["european parliament", "parlement"])],
@@ -746,6 +749,7 @@ def main(argv):
 
     # 3) assuntos de cada seção (temas) e assuntos citados no título
     for k, qs in TEMAS.items():
+        if not qs: print(f"{k}: sem foto genérica"); continue  # 22/11: tema sem busca não guarda as fotos antigas
         fotos = junta(VT.get(k) or [], [], 4)
         if len(fotos) < 3:
             for q, ch in qs:

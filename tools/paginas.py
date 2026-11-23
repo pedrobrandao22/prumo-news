@@ -280,6 +280,13 @@ def jogo_alheio(f, tit):
 
 
 # corretor 21/11 (causa fotos-2): travas do último recurso (tema/padrão) e da vista de cidade, iguais ao app (187)
+# corretor 22/11 noite, igual ao app (ft187EventoAlheio): foto de fato (enchente) ou cartão-postal (Paulista, Copacabana)
+# no tema/padrão só se o título ou o subtítulo diz esse fato ou lugar
+FATO = [(re.compile(r"(?:^|[^a-z])(?:enchentes?|inundac|alagad|alagament|flood|cheias?(?![a-z]))"), re.compile(r"enchente|inunda[çc]|alaga[dm]|\bcheias?\b", re.I)),
+        (re.compile(r"(?:^|[^a-z])paulista(?![a-z])"), re.compile(r"\bPaulista\b")), (re.compile(r"(?:^|[^a-z])copacabana(?![a-z])"), re.compile(r"Copacabana", re.I))]
+def evento_alheio(f, txt):
+    a, t = _arq(f), str(txt or "")
+    return any(ra.search(a) and not rt.search(t) for ra, rt in FATO)
 def lugar_alheio(f, ditos, pad):
     a = _arq(f)
     return any(ra.search(a) and nome not in ditos and (pad or not br) for nome, _, ra, br in LUG_RE)
@@ -372,7 +379,7 @@ def fa_listas(p, A):
     if not (p.get("foto_arquivo") == "tema" and TRAGICO.search(tit) and not L):
         # corretor 21/11 (causa fotos-2), igual ao app: no último recurso, lugar com nome só se o título disse; no padrão
         # nenhum, no tema nenhum de fora do Brasil; Esportes só com time/nome do título no arquivo (taça e bola valem)
-        gen = lambda l, pad: [f for f in l if not lugar_alheio(f, ditos, pad) and not (esp and esp_alheio(f, tit)) and not sky_alheio(f, ts)] if isinstance(l, list) else l
+        gen = lambda l, pad: [f for f in l if not lugar_alheio(f, ditos, pad) and not evento_alheio(f, ts) and not (esp and esp_alheio(f, tit)) and not sky_alheio(f, ts)] if isinstance(l, list) else l
         pega(gen(tm(T.get(sec + "/" + str(p.get("subtema") or ""))), True), True)  # 21/11 noite: no tema também nenhum lugar não dito
         pega(gen(tm(T.get((A.get("padrao") or {}).get(sec) or "")), True), True)
     return [o for o in ([f for f in l if not ruim(f)] for l in L) if o]

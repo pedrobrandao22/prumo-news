@@ -192,7 +192,9 @@ LIXO = re.compile(
     r"\bmorning call\b|\bfechamento do mercado\b|^o que se sabe\b|\bo que se sabe \(e\b|\bpara comecar o dia\b|"
     # 21/11 (varredura): isca de clique ("Apenas gênios conseguem resolver…", testes de QI, "veja a lista")
     r"\b(apenas|so) genios\b|\bteste de (qi|visao|personalidade)\b|\bdesafio (visual|de logica|matematico)\b|"
-    r"\bconsegue (resolver|encontrar|achar)\b|99% da populacao|\bveja a lista$")
+    r"\bconsegue (resolver|encontrar|achar)\b|99% da populacao|\bveja a lista$|"
+    # 22/11 noite (corretor): título de página de jogo ao vivo ("Palmeiras x Flamengo - Campeonato Brasileiro 2026")
+    r"^[^:;]{2,40} x [^:;]{2,40} - (campeonato|copa|brasileir|libertadores|sul-americana|serie)")
 
 KW = {
     "politica": set("""lula bolsonaro flavio senado senador senadora senadores camara deputado deputada deputados congresso
