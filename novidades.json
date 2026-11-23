@@ -1,13 +1,13 @@
 {
- "gerado": "2026-11-23T20:23-03:00",
+ "gerado": "2026-11-23T20:34-03:00",
  "desde": "2026-11-23T18:40-03:00",
  "feed_atualizado_em": "2026-11-23T18:50:00-03:00",
  "resumo": {
-  "manchetes": 322,
-  "assuntos_novos_relevantes": 6,
-  "assuntos_novos": 247,
+  "manchetes": 338,
+  "assuntos_novos_relevantes": 8,
+  "assuntos_novos": 258,
   "pautas_com_novidade": 9,
-  "pautas_com_novidade_3_fontes": 2,
+  "pautas_com_novidade_3_fontes": 3,
   "pautas_com_relatos": 16,
   "acionar_itens": 7,
   "ja_avaliados": 4
@@ -18,14 +18,21 @@
   {
    "tipo": "pauta",
    "pid": "ajuste-fiscal-lula-4",
-   "titulo": "Câmara aprova urgência de ajuste fiscal que pode gerar até R$ 56 bilhões em 2027",
+   "titulo": "Câmara aprova urgência para votação do projeto de ajuste fiscal",
    "n_fontes": 13,
    "motivo": "pauta ajuste-fiscal-lula-4: 13 veículos em 90 min depois da última atualização",
    "acao": "atualiza: ajuste-fiscal-lula-4",
    "manchetes": [
     {
+     "veiculo": "ICL Notícias",
+     "titulo": "Câmara aprova urgência para votação do projeto de ajuste fiscal",
+     "url": "https://iclnoticias.com.br/camara-aprova-urgencia-votar-ajuste-fiscal/",
+     "hora": "23/11 20h24",
+     "lide": "Câmara aprova urgência para votar projeto de ajuste fiscal, que prevê economia de até R$ 56,1 bilhões em 2027 e mudanças nas contas públicas."
+    },
+    {
      "veiculo": "Exame",
-     "titulo": "Câmara aprova urgência de ajuste fiscal que pode gerar até R$ 56 bilhões em 2027",
+     "titulo": "Câmara aprova urgência para votação de projeto de ajuste fiscal do governo Lula",
      "url": "https://exame.com/economia/camara-aprova-urgencia-para-projeto-de-ajuste-fiscal-e-texto-vai-direto-ao-plenario/",
      "hora": "23/11 20h20"
     },
@@ -35,13 +42,6 @@
      "url": "https://www.poder360.com.br/poder-congresso/pc-do-b-acorda-emenda-para-excluir-lei-rouanet-do-ajuste-fiscal/",
      "hora": "23/11 20h15",
      "lide": "Jandira Feghali diz que proposta deixa claro que leis de incentivo culturais não serão afetadas. Leia no Poder360."
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Deputados aprovam urgência para projeto do ajuste fiscal por 318 votos a 135",
-     "url": "https://valor.globo.com/politica/noticia/2026/11/23/deputados-aprovam-urgencia-para-projeto-do-ajuste-fiscal-por-318-votos-a-135.ghtml",
-     "hora": "23/11 20h03",
-     "lide": "Votação foi acelerada para evitar o risco de novos contingenciamentos em 2026, às vésperas da divulgação do relatório bimestral de receitas e despesas"
     }
    ]
   },
@@ -77,15 +77,17 @@
   },
   {
    "tipo": "novo",
-   "titulo": "Nvidia dispara na bolsa após restituição de Jensen Huang como CEO",
+   "titulo": "Jensen Huang é recebido com aplausos em retorno ao comando da Nvidia",
    "secao": "economia",
-   "n_fontes": 5,
+   "n_fontes": 6,
    "motivo": "assunto novo: 5 veículos em 90 min (economia)",
    "chave": [
     "953",
     "abaixo",
+    "aplausos",
     "bolsa",
     "ceo",
+    "comando",
     "dispara",
     "eua",
     "huang",
@@ -98,6 +100,7 @@
     "pico",
     "prometem",
     "quase",
+    "recebido",
     "recupera",
     "respostas",
     "restituicao",
@@ -109,6 +112,12 @@
    ],
    "acao": "nova",
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Jensen Huang é recebido com aplausos em retorno ao comando da Nvidia",
+     "url": "https://www.metropoles.com/mundo/jensen-huang-e-recebido-com-aplausos-em-retorno-ao-comando-da-nvidia",
+     "hora": "23/11 20h19"
+    },
     {
      "veiculo": "CartaCapital",
      "titulo": "Nvidia dispara na bolsa após restituição de Jensen Huang como CEO",
@@ -122,12 +131,6 @@
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/parlamentares-dos-eua-prometem-intensificar-investigacoes-sobre-huang-apos-seu-retorno-a-nvidia.shtml",
      "hora": "23/11 19h15",
      "lide": "Democratas e republicanos insistem que CEO de tecnologia deve depor publicamente"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Nvidia recupera US$ 953 bi com volta de Jensen Huang, mas segue US$ 1,17 tri abaixo do pico",
-     "url": "https://exame.com/invest/mercados/nvidia-recupera-us-953-bi-com-volta-de-jensen-huang-mas-segue-us-117-tri-abaixo-do-pico/",
-     "hora": "23/11 18h56"
     }
    ]
   },
@@ -256,19 +259,26 @@
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Nvidia dispara na bolsa após restituição de Jensen Huang como CEO",
+   "assunto": "Jensen Huang é recebido com aplausos em retorno ao comando da Nvidia",
    "secao": "economia",
-   "n_fontes": 5,
+   "n_fontes": 6,
    "fontes": [
     "cc",
     "ex",
     "folha",
+    "met",
     "nexo",
     "veja"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Jensen Huang é recebido com aplausos em retorno ao comando da Nvidia",
+     "url": "https://www.metropoles.com/mundo/jensen-huang-e-recebido-com-aplausos-em-retorno-ao-comando-da-nvidia",
+     "hora": "23/11 20h19"
+    },
     {
      "veiculo": "CartaCapital",
      "titulo": "Nvidia dispara na bolsa após restituição de Jensen Huang como CEO",
@@ -286,16 +296,10 @@
      "titulo": "Nvidia recupera US$ 953 bi com volta de Jensen Huang, mas segue US$ 1,17 tri abaixo do pico",
      "url": "https://exame.com/invest/mercados/nvidia-recupera-us-953-bi-com-volta-de-jensen-huang-mas-segue-us-117-tri-abaixo-do-pico/",
      "hora": "23/11 18h56"
-    },
-    {
-     "veiculo": "Veja",
-     "titulo": "Nvidia recupera quase US$ 1 tri em valor de mercado após retorno de Huang",
-     "url": "https://veja.abril.com.br/economia/nvidia-recupera-quase-us-1-tri-em-valor-de-mercado-apos-retorno-de-huang/",
-     "hora": "23/11 18h53"
     }
    ],
    "n_fontes_90min": 5,
-   "ultima_iso": "2026-11-23T20:13-03:00"
+   "ultima_iso": "2026-11-23T20:19-03:00"
   },
   {
    "assunto": "Petrobras aprova pagamento de R$ 15,6 bilhões em dividendos",
@@ -331,13 +335,55 @@
     },
     {
      "veiculo": "Valor Econômico",
-     "titulo": "Petrobras aprova dividendos extraordinários no total de R$$ 15,6 bi",
+     "titulo": "Petrobras aprova dividendos extraordinários no total de R$ 15,6 bi",
      "url": "https://valor.globo.com/empresas/noticia/2026/11/23/petrobras-aprova-dividendos-extraordinarios-no-total-de-r-156-bi.ghtml",
      "hora": "23/11 19h48"
     }
    ],
    "n_fontes_90min": 5,
    "ultima_iso": "2026-11-23T20:18-03:00"
+  },
+  {
+   "assunto": "BRB admite rever contabilidade após CVM suspender registro do banco",
+   "secao": "economia",
+   "n_fontes": 4,
+   "fontes": [
+    "g1",
+    "met",
+    "oeste",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "BRB admite rever contabilidade após CVM suspender registro do banco",
+     "url": "https://www.metropoles.com/colunas/dinheiro-e-negocios/brb-admite-rever-contabilidade-apos-cvm-suspender-registro-do-banco",
+     "hora": "23/11 20h29"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "BRB admite 'relevância da situação', mas diz que atividades continuam em 'pleno funcionamento' após CVM suspender negociação de ações do banco",
+     "url": "https://oglobo.globo.com/economia/noticia/2026/11/23/brb-admite-relevancia-da-situacao-mas-diz-que-atividades-continuam-em-pleno-funcionamento-apos-cvm-suspender-negociacao-de-acoes-do-banco.ghtml",
+     "hora": "23/11 20h12"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "BRB é proibido de negociar ações na Bolsa",
+     "url": "https://revistaoeste.com/economia/brb-e-proibido-de-negociar-acoes-na-bolsa/",
+     "hora": "23/11 20h10"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "BRB diz que segue com atividades bancárias, mesmo com registro suspenso na CVM e bloqueio para negociar ações",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/23/brb-afirma-que-segue-com-atividades-bancarias-apos-cvm-suspender-registro-de-companhia-aberta.ghtml",
+     "hora": "23/11 20h05"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-23T20:29-03:00",
+   "pid_provavel": "cvm-suspende-registro-brb-ambipar"
   },
   {
    "assunto": "Petrobras vai aportar R$1,8 bi em produtora de etanol de milho, diz CerradinhoBio",
@@ -381,41 +427,6 @@
    "ultima_iso": "2026-11-23T19:54-03:00"
   },
   {
-   "assunto": "BRB admite 'relevância da situação', mas diz que atividades continuam em 'pleno funcionamento' após CVM suspender negociação de ações do banco",
-   "secao": "economia",
-   "n_fontes": 3,
-   "fontes": [
-    "g1",
-    "oeste",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "BRB admite 'relevância da situação', mas diz que atividades continuam em 'pleno funcionamento' após CVM suspender negociação de ações do banco",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/23/brb-admite-relevancia-da-situacao-mas-diz-que-atividades-continuam-em-pleno-funcionamento-apos-cvm-suspender-negociacao-de-acoes-do-banco.ghtml",
-     "hora": "23/11 20h12"
-    },
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "BRB é proibido de negociar ações na Bolsa",
-     "url": "https://revistaoeste.com/economia/brb-e-proibido-de-negociar-acoes-na-bolsa/",
-     "hora": "23/11 20h10"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "BRB diz que segue com atividades bancárias, mesmo com registro suspenso na CVM e bloqueio para negociar ações",
-     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/23/brb-afirma-que-segue-com-atividades-bancarias-apos-cvm-suspender-registro-de-companhia-aberta.ghtml",
-     "hora": "23/11 20h05"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-23T20:12-03:00",
-   "pid_provavel": "cvm-suspende-registro-brb-ambipar"
-  },
-  {
    "assunto": "Conselhos da Raízen e da Raízen Energia aprovam pré-pagamento de R$ 3 bilhões de dívida",
    "secao": "economia",
    "n_fontes": 3,
@@ -450,6 +461,40 @@
    "ultima_iso": "2026-11-23T20:05-03:00"
   },
   {
+   "assunto": "EUA impõe restrições à Megaspeed, empresa ligada a escândalo da Nvidia",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "folha",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "EUA impõe restrições à Megaspeed, empresa ligada a escândalo da Nvidia",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/eua-impoe-restricoes-a-megaspeed-empresa-ligada-a-escandalo-da-nvidia.shtml",
+     "hora": "23/11 20h25"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "EUA vão sancionar Megaspeed, empresa ligada a escândalo da Nvidia",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/eua-vao-sancionar-empresa-de-chips-ligada-a-escandalo-da-nvidia-diz-fonte/",
+     "hora": "23/11 19h10"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "EUA vão barrar Megaspeed, ligada a suspeita de espionagem para a China, de comprar chips de IA",
+     "url": "https://oglobo.globo.com/economia/tecnologia/noticia/2026/11/23/eua-vao-barrar-megaspeed-ligada-a-suspeita-de-espionagem-para-a-china-de-comprar-chips-de-ia.ghtml",
+     "hora": "23/11 18h53"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-23T20:25-03:00"
+  },
+  {
    "assunto": "Irã aplica 74 chibatadas em cantora que se apresentou sem hijab",
    "secao": "mundo",
    "n_fontes": 3,
@@ -482,6 +527,46 @@
    ],
    "n_fontes_90min": 3,
    "ultima_iso": "2026-11-23T20:06-03:00"
+  },
+  {
+   "assunto": "Renê marca gol mais rápido do Brasileirão 2026 em Internacional x Vitória",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "fontes": [
+    "ge",
+    "met",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Renê marca gol mais rápido do Brasileirão 2026 em Internacional x Vitória",
+     "url": "https://www.metropoles.com/esportes/rene-marca-gol-mais-rapido-do-brasileirao-2026-em-internacional-x-vitoria",
+     "hora": "23/11 20h29"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Internacional x Vitória - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/rs/futebol/brasileirao-serie-a/jogo/23-11-2026/internacional-vitoria.ghtml",
+     "hora": "23/11 20h29"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Internacional x Vitória: Renê faz o gol mais rápido do Brasileirão 2026",
+     "url": "https://ge.globo.com/ba/futebol/brasileirao-serie-a/noticia/2026/11/23/internacional-x-vitoria-rene-faz-o-gol-mais-rapido-do-campeonato-brasileiro.ghtml",
+     "hora": "23/11 19h47"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Renê, do Vitória, faz o gol mais rápido do Brasileiro de 2026 contra o Internacional; veja lista",
+     "url": "https://oglobo.globo.com/esportes/futebol/noticia/2026/11/23/rene-do-vitoria-faz-o-gol-mais-rapido-do-brasileiro-de-2026-contra-o-internacional.ghtml",
+     "hora": "23/11 19h42"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-23T20:29-03:00"
   },
   {
    "assunto": "Aeroporto de Congonhas cancela 20 voos por causa das chuvas em SP",
@@ -573,31 +658,31 @@
    "pid_provavel": "juscelino-filho-stf-zanin"
   },
   {
-   "assunto": "EUA vão sancionar Megaspeed, empresa ligada a escândalo da Nvidia",
-   "secao": "mundo",
+   "assunto": "Erdogan pode retomar Istambul após prisões e trocas de partido",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "cnn",
+    "antag",
     "oglobo"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "EUA vão sancionar Megaspeed, empresa ligada a escândalo da Nvidia",
-     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/eua-vao-sancionar-empresa-de-chips-ligada-a-escandalo-da-nvidia-diz-fonte/",
-     "hora": "23/11 19h10"
+     "veiculo": "O Antagonista",
+     "titulo": "Erdogan pode retomar Istambul após prisões e trocas de partido",
+     "url": "https://oantagonista.com.br/mundo/erdogan-pode-retomar-istambul-apos-prisoes-e-trocas-de-partido/",
+     "hora": "23/11 20h27"
     },
     {
      "veiculo": "O Globo",
-     "titulo": "EUA vão barrar Megaspeed, ligada a suspeita de espionagem para a China, de comprar chips de IA",
-     "url": "https://oglobo.globo.com/economia/tecnologia/noticia/2026/11/23/eua-vao-barrar-megaspeed-ligada-a-suspeita-de-espionagem-para-a-china-de-comprar-chips-de-ia.ghtml",
-     "hora": "23/11 18h53"
+     "titulo": "Prisões e ameaças a opositores abrem caminho para Erdogan retomar o controle de Istambul",
+     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/23/prisoes-e-ameacas-a-opositores-abrem-caminho-para-erdogan-retomar-o-controle-de-istambul.ghtml",
+     "hora": "23/11 18h45"
     }
    ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-23T19:10-03:00"
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T20:27-03:00"
   },
   {
    "assunto": "Filipe Luís é alvo de críticas após sequência sem vitórias com o Monaco",
@@ -682,39 +767,6 @@
    "ultima_iso": "2026-11-23T19:42-03:00"
   },
   {
-   "assunto": "Internacional x Vitória - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "ge",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Internacional x Vitória - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/rs/futebol/brasileirao-serie-a/jogo/23-11-2026/internacional-vitoria.ghtml",
-     "hora": "23/11 20h17"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Internacional x Vitória: Renê faz o gol mais rápido do Brasileirão 2026",
-     "url": "https://ge.globo.com/ba/futebol/brasileirao-serie-a/noticia/2026/11/23/internacional-x-vitoria-rene-faz-o-gol-mais-rapido-do-campeonato-brasileiro.ghtml",
-     "hora": "23/11 19h47"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Renê, do Vitória, faz o gol mais rápido do Brasileiro de 2026 contra o Internacional; veja lista",
-     "url": "https://oglobo.globo.com/esportes/futebol/noticia/2026/11/23/rene-do-vitoria-faz-o-gol-mais-rapido-do-brasileiro-de-2026-contra-o-internacional.ghtml",
-     "hora": "23/11 19h42"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-23T20:17-03:00"
-  },
-  {
    "assunto": "Moraes se declara suspeito para julgar suposta interferência dos EUA nas eleições",
    "secao": "politica",
    "n_fontes": 2,
@@ -729,7 +781,7 @@
      "veiculo": "Gazeta do Povo República",
      "titulo": "Moraes se declara suspeito para julgar suposta interferência dos EUA nas eleições",
      "url": "https://www.gazetadopovo.com.br/republica/moraes-se-declara-suspeito-para-julgar-suposta-interferencia-dos-eua-nas-eleicoes/",
-     "hora": "23/11 20h21"
+     "hora": "23/11 20h31"
     },
     {
      "veiculo": "CNN Brasil",
@@ -739,7 +791,7 @@
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-23T20:21-03:00"
+   "ultima_iso": "2026-11-23T20:31-03:00"
   },
   {
    "assunto": "STF manda recolher exemplares de livro sobre Eduardo Cunha",
@@ -767,33 +819,6 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-23T19:42-03:00"
-  },
-  {
-   "assunto": "Trump elogia Nvidia por reconduzir Huang ao comando da companhia",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "oeste",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Trump elogia Nvidia por reconduzir Huang ao comando da companhia",
-     "url": "https://www.poder360.com.br/poder-internacional/trump-elogia-nvidia-por-reconduzir-huang-ao-comando-da-companhia/",
-     "hora": "23/11 19h09"
-    },
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Trump diz que articulou volta de Huang ao comando da Nvidia",
-     "url": "https://revistaoeste.com/mundo/trump-diz-que-articulou-volta-de-huang-ao-comando-da-nvidia/",
-     "hora": "23/11 19h02"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-23T19:09-03:00"
   },
   {
    "assunto": "'Blackface' em clínica: funcionária diz à polícia que não se sentiu vítima de racismo no interior de SP",
@@ -889,12 +914,32 @@
      "veiculo": "ge",
      "titulo": "AO VIVO: Assista a Minas x Sesi-Bauru pela Superliga Feminina",
      "url": "https://ge.globo.com/mg/zona-da-mata-centro-oeste/volei/ao-vivo/superliga-feminina-minas-x-sesi-bauru.ghtml",
-     "hora": "23/11 19h30"
+     "hora": "23/11 20h25"
     }
    ],
    "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-23T19:30-03:00",
+   "ultima_iso": "2026-11-23T20:25-03:00",
    "lixo": true
+  },
+  {
+   "assunto": "Acordo sigiloso de presídios e ações sem coordenação ampliam dúvidas sobre tropas de Bukele no Haiti, diz correspondente",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "bdf"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Acordo sigiloso de presídios e ações sem coordenação ampliam dúvidas sobre tropas de Bukele no Haiti, diz correspondente",
+     "url": "https://www.brasildefato.com.br/2026/11/23/acordo-sigiloso-de-presidios-e-acoes-sem-coordenacao-ampliam-duvidas-sobre-tropas-de-bukele-no-haiti-diz-correspondente/",
+     "hora": "23/11 19h37"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T19:37-03:00"
   },
   {
    "assunto": "Advogados falam em provas com sinais de violação e pedem cancelamento de concurso da Caer",
@@ -997,26 +1042,6 @@
    "ultima_iso": "2026-11-23T19:57-03:00"
   },
   {
-   "assunto": "Após temporal com seis mortes, Tupanciretã (RS) recebe equipes de saúde e alimentos",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "icl"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "Após temporal com seis mortes, Tupanciretã (RS) recebe equipes de saúde e alimentos",
-     "url": "https://iclnoticias.com.br/apos-temporal-mortes-tupancireta-saude-alimento/",
-     "hora": "23/11 19h15"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T19:15-03:00"
-  },
-  {
    "assunto": "Após visita de Puti, Tajiquistão se torna 4º país a deixar TPI após pressão dos EUA",
    "secao": "mundo",
    "n_fontes": 1,
@@ -1090,8 +1115,20 @@
   },
   "decreto-6x1-adiado": {
    "secao": "politica",
-   "n_fontes": 1,
+   "n_fontes": 3,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Entenda a portaria do governo sobre o fim da 6 X 1",
+     "url": "https://www.poder360.com.br/poder-brasil/entenda-a-portaria-do-governo-sobre-o-fim-da-6-x-1/",
+     "hora": "23/11 20h30"
+    },
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Fiscalização em 90 dias e todas as folgas no mesmo mês: veja as normas publicadas sobre o fim da escala 6×1",
+     "url": "https://www.brasildefato.com.br/2026/11/23/fiscalizacao-em-90-dias-e-todas-as-folgas-no-mesmo-mes-veja-as-normas-publicadas-sobre-o-fim-da-escala-6x1/",
+     "hora": "23/11 19h56"
+    },
     {
      "veiculo": "O Globo",
      "titulo": "Fim da escala 6x1: portaria prevê fiscalização em empresas em 90 dias a partir da entrada em vigor de nova jornada",
@@ -1114,11 +1151,17 @@
   },
   "ajuste-fiscal-lula-4": {
    "secao": "economia",
-   "n_fontes": 12,
+   "n_fontes": 13,
    "manchetes": [
     {
+     "veiculo": "ICL Notícias",
+     "titulo": "Câmara aprova urgência para votação do projeto de ajuste fiscal",
+     "url": "https://iclnoticias.com.br/camara-aprova-urgencia-votar-ajuste-fiscal/",
+     "hora": "23/11 20h24"
+    },
+    {
      "veiculo": "Exame",
-     "titulo": "Câmara aprova urgência de ajuste fiscal que pode gerar até R$ 56 bilhões em 2027",
+     "titulo": "Câmara aprova urgência para votação de projeto de ajuste fiscal do governo Lula",
      "url": "https://exame.com/economia/camara-aprova-urgencia-para-projeto-de-ajuste-fiscal-e-texto-vai-direto-ao-plenario/",
      "hora": "23/11 20h20"
     },
@@ -1136,21 +1179,9 @@
     },
     {
      "veiculo": "Revista Oeste",
-     "titulo": "Câmara aprova urgência para projeto de ajuste fiscal do governo Lula",
-     "url": "https://revistaoeste.com/politica/camara-aprova-urgencia-do-ajuste-fiscal/",
-     "hora": "23/11 19h57"
-    },
-    {
-     "veiculo": "Revista Oeste",
      "titulo": "Ajuste fiscal não ataca a raiz do problema, afirma Tarcísio",
      "url": "https://revistaoeste.com/politica/ajuste-fiscal-nao-ataca-a-raiz-do-problema-afirma-tarcisio/",
      "hora": "23/11 19h31"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Deputado do Novo diz que ajuste fiscal de Lula penaliza trabalhador",
-     "url": "https://oantagonista.com.br/brasil/deputado-do-novo-diz-que-ajuste-fiscal-de-lula-penaliza-trabalhador/",
-     "hora": "23/11 19h35"
     },
     {
      "veiculo": "Agência Câmara",
@@ -1257,11 +1288,11 @@
    "n_fontes": 13,
    "fontes": [
     "agcamara",
-    "antag",
     "cnn",
     "estadao",
     "ex",
     "g1",
+    "icl",
     "im",
     "jp",
     "met",
@@ -1271,15 +1302,21 @@
     "valor"
    ],
    "n_fontes_90min": 13,
-   "ultima": "23/11 20h20",
-   "ultima_iso": "2026-11-23T20:20-03:00",
+   "ultima": "23/11 20h24",
+   "ultima_iso": "2026-11-23T20:24-03:00",
    "pauta_atualizada_em": "2026-11-23T18:48-03:00",
-   "horas_sem_atualizar": 1.6,
+   "horas_sem_atualizar": 1.8,
    "principal": true,
    "manchetes": [
     {
+     "veiculo": "ICL Notícias",
+     "titulo": "Câmara aprova urgência para votação do projeto de ajuste fiscal",
+     "url": "https://iclnoticias.com.br/camara-aprova-urgencia-votar-ajuste-fiscal/",
+     "hora": "23/11 20h24"
+    },
+    {
      "veiculo": "Exame",
-     "titulo": "Câmara aprova urgência de ajuste fiscal que pode gerar até R$ 56 bilhões em 2027",
+     "titulo": "Câmara aprova urgência para votação de projeto de ajuste fiscal do governo Lula",
      "url": "https://exame.com/economia/camara-aprova-urgencia-para-projeto-de-ajuste-fiscal-e-texto-vai-direto-ao-plenario/",
      "hora": "23/11 20h20"
     },
@@ -1306,12 +1343,6 @@
      "titulo": "Câmara aprova urgência para projeto de ajuste fiscal do governo Lula",
      "url": "https://revistaoeste.com/politica/camara-aprova-urgencia-do-ajuste-fiscal/",
      "hora": "23/11 19h57"
-    },
-    {
-     "veiculo": "Agência Câmara",
-     "titulo": "Deputados analisam proposta de ajuste fiscal; acompanhe",
-     "url": "https://www.camara.leg.br/noticias/1322109-deputados-analisam-proposta-de-ajuste-fiscal-acompanhe",
-     "hora": "23/11 19h57"
     }
    ]
   },
@@ -1330,7 +1361,7 @@
    "ultima": "23/11 20h22",
    "ultima_iso": "2026-11-23T20:22-03:00",
    "pauta_atualizada_em": "2026-11-23T06:52-03:00",
-   "horas_sem_atualizar": 13.5,
+   "horas_sem_atualizar": 13.7,
    "principal": true,
    "manchetes": [
     {
@@ -1384,7 +1415,7 @@
    "ultima": "23/11 20h10",
    "ultima_iso": "2026-11-23T20:10-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": true,
    "manchetes": [
     {
@@ -1423,7 +1454,7 @@
    "ultima": "23/11 18h59",
    "ultima_iso": "2026-11-23T18:59-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 37.5,
+   "horas_sem_atualizar": 37.7,
    "principal": true,
    "manchetes": [
     {
@@ -1435,18 +1466,32 @@
    ]
   },
   "decreto-6x1-adiado": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 3,
+   "n_fontes": 3,
    "fontes": [
-    "oglobo"
+    "bdf",
+    "oglobo",
+    "p360"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "23/11 18h56",
-   "ultima_iso": "2026-11-23T18:56-03:00",
+   "n_fontes_90min": 2,
+   "ultima": "23/11 20h30",
+   "ultima_iso": "2026-11-23T20:30-03:00",
    "pauta_atualizada_em": "2026-11-23T18:48-03:00",
-   "horas_sem_atualizar": 1.6,
+   "horas_sem_atualizar": 1.8,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Entenda a portaria do governo sobre o fim da 6 X 1",
+     "url": "https://www.poder360.com.br/poder-brasil/entenda-a-portaria-do-governo-sobre-o-fim-da-6-x-1/",
+     "hora": "23/11 20h30"
+    },
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Fiscalização em 90 dias e todas as folgas no mesmo mês: veja as normas publicadas sobre o fim da escala 6×1",
+     "url": "https://www.brasildefato.com.br/2026/11/23/fiscalizacao-em-90-dias-e-todas-as-folgas-no-mesmo-mes-veja-as-normas-publicadas-sobre-o-fim-da-escala-6x1/",
+     "hora": "23/11 19h56"
+    },
     {
      "veiculo": "O Globo",
      "titulo": "Fim da escala 6x1: portaria prevê fiscalização em empresas em 90 dias a partir da entrada em vigor de nova jornada",
@@ -1465,7 +1510,7 @@
    "ultima": "23/11 19h15",
    "ultima_iso": "2026-11-23T19:15-03:00",
    "pauta_atualizada_em": "2026-11-23T18:48-03:00",
-   "horas_sem_atualizar": 1.6,
+   "horas_sem_atualizar": 1.8,
    "principal": false,
    "manchetes": [
     {
@@ -1486,7 +1531,7 @@
    "ultima": "23/11 16h59",
    "ultima_iso": "2026-11-23T16:59-03:00",
    "pauta_atualizada_em": "2026-11-23T06:52-03:00",
-   "horas_sem_atualizar": 13.5,
+   "horas_sem_atualizar": 13.7,
    "principal": false,
    "manchetes": [
     {
@@ -1507,7 +1552,7 @@
    "ultima": "23/11 16h18",
    "ultima_iso": "2026-11-23T16:18-03:00",
    "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 61.5,
+   "horas_sem_atualizar": 61.7,
    "principal": false,
    "manchetes": [
     {
@@ -1528,7 +1573,7 @@
    "ultima": "23/11 15h50",
    "ultima_iso": "2026-11-23T15:50-03:00",
    "pauta_atualizada_em": "2026-11-23T01:43-03:00",
-   "horas_sem_atualizar": 18.7,
+   "horas_sem_atualizar": 18.9,
    "principal": false,
    "manchetes": [
     {
@@ -1551,7 +1596,7 @@
    "ultima": "23/11 18h43",
    "ultima_iso": "2026-11-23T18:43-03:00",
    "pauta_atualizada_em": "2026-11-20T17:50-03:00",
-   "horas_sem_atualizar": 74.6,
+   "horas_sem_atualizar": 74.7,
    "principal": false,
    "manchetes": [
     {
@@ -1586,7 +1631,7 @@
    "ultima": "23/11 17h33",
    "ultima_iso": "2026-11-23T17:33-03:00",
    "pauta_atualizada_em": "2026-11-23T09:48-03:00",
-   "horas_sem_atualizar": 10.6,
+   "horas_sem_atualizar": 10.8,
    "principal": false,
    "manchetes": [
     {
@@ -1619,7 +1664,7 @@
    "ultima": "23/11 20h00",
    "ultima_iso": "2026-11-23T20:00-03:00",
    "pauta_atualizada_em": "2026-11-23T08:41-03:00",
-   "horas_sem_atualizar": 11.7,
+   "horas_sem_atualizar": 11.9,
    "principal": false,
    "manchetes": [
     {
@@ -1650,7 +1695,7 @@
    "ultima": "23/11 18h36",
    "ultima_iso": "2026-11-23T18:36-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": true,
    "manchetes": [
     {
@@ -1695,7 +1740,7 @@
    "ultima": "23/11 16h13",
    "ultima_iso": "2026-11-23T16:13-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": false,
    "manchetes": [
     {
@@ -1707,21 +1752,20 @@
    ]
   },
   "moraes-notifica-flavio-edital-calunia": {
-   "n": 6,
-   "n_fontes": 6,
+   "n": 5,
+   "n_fontes": 5,
    "fontes": [
-    "ab",
     "bdf",
     "cc",
     "gp",
     "oglobo",
     "valor"
    ],
-   "n_fontes_90min": 4,
+   "n_fontes_90min": 3,
    "ultima": "23/11 19h14",
    "ultima_iso": "2026-11-23T19:14-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": true,
    "manchetes": [
     {
@@ -1741,12 +1785,6 @@
      "titulo": "Moraes diz que Flávio Bolsonaro está em local 'não sabido' e determina notificação por edital em caso de suposta calúnia a Lula",
      "url": "https://valor.globo.com/politica/noticia/2026/11/23/moraes-diz-que-flavio-bolsonaro-esta-em-local-nao-sabido-e-determina-notificacao-por-edital-em-caso-sobre-suposta-calunia-a-lula.ghtml",
      "hora": "23/11 16h05"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Moraes determina citação de Flávio sobre calúnia contra Lula",
-     "url": "https://agenciabrasil.ebc.com.br/justica/noticia/2026-11/moraes-determina-citacao-de-flavio-sobre-calunia-contra-lula",
-     "hora": "23/11 15h18"
     },
     {
      "veiculo": "O Globo",
@@ -1773,7 +1811,7 @@
    "ultima": "23/11 20h19",
    "ultima_iso": "2026-11-23T20:19-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 5.6,
+   "horas_sem_atualizar": 5.8,
    "principal": false,
    "manchetes": [
     {
@@ -1792,6 +1830,15 @@
   }
  },
  "fotos_livres": [
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão aprova auditoria de licitações com inteligência artificial",
+   "materia": "https://www.camara.leg.br/noticias/1322046-comissao-aprova-auditoria-de-licitacoes-com-inteligencia-artificial",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20230810121126626-768x513.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "23/11 20h23",
+   "pid_sugerido": null
+  },
   {
    "veiculo": "Agência Câmara",
    "titulo": "Deputados analisam proposta de ajuste fiscal; acompanhe",
@@ -1943,15 +1990,6 @@
    "img": "https://www.camara.leg.br/midias/image/2026/11/img20240424150831791-768x512.jpg",
    "credito": "Foto: Agência Câmara",
    "hora": "23/11 13h23",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova projeto que proíbe destruir produtos não perecíveis que foram devolvidos ou não vendidos",
-   "materia": "https://www.camara.leg.br/noticias/1321739-comissao-aprova-projeto-que-proibe-destruir-produtos-nao-pereciveis-que-foram-devolvidos-ou-nao-vendidos",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261118171523910-1-768x474.jpg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "23/11 12h58",
    "pid_sugerido": null
   }
  ],
@@ -2474,6 +2512,31 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
+   "assunto": "EUA impõe restrições à Megaspeed, empresa ligada a escândalo da Nvidia",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "EUA impõe restrições à Megaspeed, empresa ligada a escândalo da Nvidia",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/negocios/2026/11/eua-impoe-restricoes-a-megaspeed-empresa-ligada-a-escandalo-da-nvidia.shtml",
+     "hora": "23/11 20h25"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "EUA vão sancionar Megaspeed, empresa ligada a escândalo da Nvidia",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/eua-vao-sancionar-empresa-de-chips-ligada-a-escandalo-da-nvidia-diz-fonte/",
+     "hora": "23/11 19h10"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "EUA vão barrar Megaspeed, ligada a suspeita de espionagem para a China, de comprar chips de IA",
+     "url": "https://oglobo.globo.com/economia/tecnologia/noticia/2026/11/23/eua-vao-barrar-megaspeed-ligada-a-suspeita-de-espionagem-para-a-china-de-comprar-chips-de-ia.ghtml",
+     "hora": "23/11 18h53"
+    }
+   ]
+  },
+  {
    "assunto": "Irã aplica 74 chibatadas em cantora que se apresentou sem hijab",
    "secao": "mundo",
    "n_fontes": 3,
@@ -2499,6 +2562,37 @@
    ]
   },
   {
+   "assunto": "Renê marca gol mais rápido do Brasileirão 2026 em Internacional x Vitória",
+   "secao": "esportes",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Renê marca gol mais rápido do Brasileirão 2026 em Internacional x Vitória",
+     "url": "https://www.metropoles.com/esportes/rene-marca-gol-mais-rapido-do-brasileirao-2026-em-internacional-x-vitoria",
+     "hora": "23/11 20h29"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Internacional x Vitória - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
+     "url": "https://ge.globo.com/rs/futebol/brasileirao-serie-a/jogo/23-11-2026/internacional-vitoria.ghtml",
+     "hora": "23/11 20h29"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Internacional x Vitória: Renê faz o gol mais rápido do Brasileirão 2026",
+     "url": "https://ge.globo.com/ba/futebol/brasileirao-serie-a/noticia/2026/11/23/internacional-x-vitoria-rene-faz-o-gol-mais-rapido-do-campeonato-brasileiro.ghtml",
+     "hora": "23/11 19h47"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Renê, do Vitória, faz o gol mais rápido do Brasileiro de 2026 contra o Internacional; veja lista",
+     "url": "https://oglobo.globo.com/esportes/futebol/noticia/2026/11/23/rene-do-vitoria-faz-o-gol-mais-rapido-do-brasileiro-de-2026-contra-o-internacional.ghtml",
+     "hora": "23/11 19h42"
+    }
+   ]
+  },
+  {
    "assunto": "Aeroporto de Congonhas cancela 20 voos por causa das chuvas em SP",
    "secao": "brasil",
    "n_fontes": 2,
@@ -2514,25 +2608,6 @@
      "titulo": "Aeroporto de Congonhas tem 20 voos cancelados por temporal em São Paulo",
      "url": "https://jovempan.com.br/brasil/aeroporto-de-congonhas-tem-20-voos-cancelados-por-temporal-em-sao-paulo/",
      "hora": "23/11 19h28"
-    }
-   ]
-  },
-  {
-   "assunto": "EUA vão sancionar Megaspeed, empresa ligada a escândalo da Nvidia",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "EUA vão sancionar Megaspeed, empresa ligada a escândalo da Nvidia",
-     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/eua-vao-sancionar-empresa-de-chips-ligada-a-escandalo-da-nvidia-diz-fonte/",
-     "hora": "23/11 19h10"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "EUA vão barrar Megaspeed, ligada a suspeita de espionagem para a China, de comprar chips de IA",
-     "url": "https://oglobo.globo.com/economia/tecnologia/noticia/2026/11/23/eua-vao-barrar-megaspeed-ligada-a-suspeita-de-espionagem-para-a-china-de-comprar-chips-de-ia.ghtml",
-     "hora": "23/11 18h53"
     }
    ]
   },
@@ -2575,31 +2650,6 @@
    ]
   },
   {
-   "assunto": "Internacional x Vitória - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Internacional x Vitória - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/rs/futebol/brasileirao-serie-a/jogo/23-11-2026/internacional-vitoria.ghtml",
-     "hora": "23/11 20h17"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Internacional x Vitória: Renê faz o gol mais rápido do Brasileirão 2026",
-     "url": "https://ge.globo.com/ba/futebol/brasileirao-serie-a/noticia/2026/11/23/internacional-x-vitoria-rene-faz-o-gol-mais-rapido-do-campeonato-brasileiro.ghtml",
-     "hora": "23/11 19h47"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Renê, do Vitória, faz o gol mais rápido do Brasileiro de 2026 contra o Internacional; veja lista",
-     "url": "https://oglobo.globo.com/esportes/futebol/noticia/2026/11/23/rene-do-vitoria-faz-o-gol-mais-rapido-do-brasileiro-de-2026-contra-o-internacional.ghtml",
-     "hora": "23/11 19h42"
-    }
-   ]
-  },
-  {
    "assunto": "Moraes se declara suspeito para julgar suposta interferência dos EUA nas eleições",
    "secao": "politica",
    "n_fontes": 2,
@@ -2608,7 +2658,7 @@
      "veiculo": "Gazeta do Povo República",
      "titulo": "Moraes se declara suspeito para julgar suposta interferência dos EUA nas eleições",
      "url": "https://www.gazetadopovo.com.br/republica/moraes-se-declara-suspeito-para-julgar-suposta-interferencia-dos-eua-nas-eleicoes/",
-     "hora": "23/11 20h21"
+     "hora": "23/11 20h31"
     },
     {
      "veiculo": "CNN Brasil",
@@ -2650,22 +2700,22 @@
   "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 29 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 30 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 2 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 5 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 4 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 18 nas últimas 6 h",
-  "Estadão Política": "ok: 20 itens, 11 nas últimas 6 h",
+  "Agência Câmara": "ok: 20 itens, 17 nas últimas 6 h",
+  "Estadão Política": "ok: 20 itens, 10 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 14 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 4 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 8 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 97 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 80 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 95 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 79 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 4 nas últimas 6 h",
@@ -2676,7 +2726,7 @@
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 20 nas últimas 6 h",
-  "Brasil de Fato": "ok: 99 itens, 27 nas últimas 6 h",
+  "Brasil de Fato": "ok: 99 itens, 30 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 10 nas últimas 6 h"
  }
 }
