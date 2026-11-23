@@ -1,22 +1,74 @@
 {
- "gerado": "2026-11-23T01:16-03:00",
+ "gerado": "2026-11-23T01:27-03:00",
  "desde": "2026-11-23T00:04-03:00",
  "feed_atualizado_em": "2026-11-23T00:14:00-03:00",
  "resumo": {
-  "manchetes": 48,
+  "manchetes": 85,
   "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 18,
-  "pautas_com_novidade": 0,
+  "assuntos_novos": 33,
+  "pautas_com_novidade": 2,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 13,
-  "acionar_itens": 0,
+  "pautas_com_relatos": 14,
+  "acionar_itens": 1,
   "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (18 assuntos fora do feed, 13 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta principal ajuste-fiscal-lula-4 sem atualização há 18.6 h e 2 veículos com relatos novos",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "ajuste-fiscal-lula-4",
+   "titulo": "Câmara vota projeto de ajuste fiscal nesta segunda; projeção de economia é de R$ 50 bilhões em 2027",
+   "n_fontes": 2,
+   "motivo": "pauta principal ajuste-fiscal-lula-4 sem atualização há 18.6 h e 2 veículos com relatos novos",
+   "acao": "atualiza: ajuste-fiscal-lula-4",
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Câmara vota projeto de ajuste fiscal nesta segunda; projeção de economia é de R$ 50 bilhões em 2027",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/23/camara-vota-projeto-de-ajuste-fiscal-nesta-segunda-projecao-de-economia-e-de-r-50-bilhoes-em-2027.ghtml",
+     "hora": "23/11 00h00",
+     "lide": "O ajuste fiscal do governo Lula prevê corte de 10% em benefícios e restrição a créditos tributários, com votação na Câmara para garantir economia de R$ 50 bilhões."
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Câmara analisa pacote fiscal do governo Lula",
+     "url": "https://oglobo.globo.com/economia/noticia/2026/11/23/camara-analisa-pacote-fiscal-do-governo-lula.ghtml",
+     "hora": "23/11 00h00",
+     "lide": "Proposta aprovada pelo Senado prevê impacto de até R$ 56 bilhões nas contas públicas em 2027"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Exército dos EUA planeja detonar 5 toneladas de explosivos apesar de ordem judicial e de alerta de ambientalistas",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Exército dos EUA planeja detonar 5 toneladas de explosivos apesar de ordem judicial e de alerta de ambientalistas",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/23/exercito-dos-eua-planeja-detonar-5-toneladas-de-explosivos-apesar-de-ordem-judicial-e-de-alerta-de-ambientalistas.ghtml",
+     "hora": "23/11 01h17"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Exército dos EUA desafia ordem judicial e planeja detonar explosivo tóxico em Iowa",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/23/exrcito-dos-eua-desafia-ordem-judicial-e-planeja-detonar-explosivo-txico-em-iowa.ghtml",
+     "hora": "23/11 00h51"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-23T01:17-03:00"
+  },
   {
    "assunto": "'Parece que foi ontem': um ano após morte de Benício, pais mantêm quarto do menino intacto e seguem em busca de justiça em Manaus",
    "secao": "brasil",
@@ -36,6 +88,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-23T01:00-03:00"
+  },
+  {
+   "assunto": "'Quem ama cuida': Pedro pode ser filho de Arthur? Segredo de família ameaça Pilar na reta final",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "'Quem ama cuida': Pedro pode ser filho de Arthur? Segredo de família ameaça Pilar na reta final",
+     "url": "https://oglobo.globo.com/cultura/televisao/noticia/2026/11/23/quem-ama-cuida-pedro-pode-ser-filho-de-arthur-segredo-de-familia-ameaca-pilar-na-reta-final.ghtml",
+     "hora": "23/11 00h30"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T00:30-03:00"
   },
   {
    "assunto": "A gente só aprende nadando. Como resumiu Guimarães Rosa: “O que a vida quer da gente é coragem”",
@@ -58,6 +130,46 @@
    "ultima_iso": "2026-11-23T00:23-03:00"
   },
   {
+   "assunto": "Amante de ex-CEO da Nvidia manteve contato com agente chinês, diz NYT",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Amante de ex-CEO da Nvidia manteve contato com agente chinês, diz NYT",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/amante-de-ex-ceo-da-nvidia-manteve-contato-com-agente-chines-diz-nyt/",
+     "hora": "23/11 00h57"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T00:57-03:00"
+  },
+  {
+   "assunto": "Amigas se unem contra os ataques da manada",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Amigas se unem contra os ataques da manada",
+     "url": "https://oglobo.globo.com/opiniao/ana-paula-araujo/coluna/2026/11/amigas-se-unem-contra-os-ataques-da-manada.ghtml",
+     "hora": "23/11 00h05"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T00:05-03:00"
+  },
+  {
    "assunto": "Após temporal com 5 mortos, RS terá semana de tempestades com chuva intensa, granizo e rajadas de vento",
    "secao": "brasil",
    "n_fontes": 1,
@@ -78,46 +190,6 @@
    "ultima_iso": "2026-11-23T01:00-03:00"
   },
   {
-   "assunto": "Atlético-MG opta por desembarque \"escondido\" após vice na Sul-Americana",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Atlético-MG opta por desembarque \"escondido\" após vice na Sul-Americana",
-     "url": "https://ge.globo.com/futebol/times/atletico-mg/noticia/2026/11/23/atletico-mg-opta-por-desembarque-escondido-apos-vice-na-sul-americana.ghtml",
-     "hora": "23/11 00h26"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T00:26-03:00"
-  },
-  {
-   "assunto": "Barezinho Sub-18: RB do Norte e Nacional-AM disputam título nesta segunda (23)",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Barezinho Sub-18: RB do Norte e Nacional-AM disputam título nesta segunda (23)",
-     "url": "https://ge.globo.com/am/futebol/noticia/2026/11/23/barezinho-sub-18-rb-do-norte-e-nacional-am-disputam-titulo-nesta-segunda-23.ghtml",
-     "hora": "23/11 00h11"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T00:11-03:00"
-  },
-  {
    "assunto": "Brasileirão: confira os melhores momentos desse domingo (22/11)",
    "secao": "esportes",
    "n_fontes": 1,
@@ -136,6 +208,147 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-23T00:21-03:00"
+  },
+  {
+   "assunto": "Chinesa GAC entrega 4 mil carros em primeira operação de importação no Rio",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Chinesa GAC entrega 4 mil carros em primeira operação de importação no Rio",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/chinesa-gac-entrega-4-mil-carros-em-primeira-operacao-de-importacao-no-rio/",
+     "hora": "23/11 01h19"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T01:19-03:00"
+  },
+  {
+   "assunto": "Cientistas desenvolveram meias que enrijecem os pés e podem tornar a caminhada menos cansativa",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Cientistas desenvolveram meias que enrijecem os pés e podem tornar a caminhada menos cansativa",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/cientistas-desenvolveram-meias-que-enrijecem-os-pes-e-podem-tornar-a-caminhada-menos-cansativa/",
+     "hora": "23/11 01h23"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T01:23-03:00"
+  },
+  {
+   "assunto": "Conhecido por papéis de mocinho, Daniel Rangel surgirá diferente em 'Elas que lutem', nova novela das 19h",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Conhecido por papéis de mocinho, Daniel Rangel surgirá diferente em 'Elas que lutem', nova novela das 19h",
+     "url": "https://oglobo.globo.com/play/novelas/noticia/2026/11/23/conhecido-por-papeis-de-mocinho-daniel-rangel-surgira-diferente-em-elas-que-lutem-nova-novela-das-19h.ghtml",
+     "hora": "23/11 00h30"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-23T00:30-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Consagrados, Arrascaeta e Bruno Henrique abrem passagem para novos protagonistas no Flamengo, como Lino e Carrascal",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Consagrados, Arrascaeta e Bruno Henrique abrem passagem para novos protagonistas no Flamengo, como Lino e Carrascal",
+     "url": "https://oglobo.globo.com/esportes/futebol/flamengo/noticia/2026/11/23/consagrados-arrascaeta-e-bruno-henrique-abrem-passagem-para-novos-protagonistas-no-flamengo-como-lino-e-carrascal.ghtml",
+     "hora": "23/11 01h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T01:00-03:00"
+  },
+  {
+   "assunto": "De águias a zebras, Antonio Carlos Secchin reinventa o alfabeto em ‘Abichedário’",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "De águias a zebras, Antonio Carlos Secchin reinventa o alfabeto em ‘Abichedário’",
+     "url": "https://oglobo.globo.com/blogs/conte-mais-uma/post/2026/11/de-aguias-a-zebras-antonio-carlos-secchin-reinventa-o-alfabeto-em-abichedario.ghtml",
+     "hora": "23/11 01h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T01:00-03:00"
+  },
+  {
+   "assunto": "Devolução de celulares mostra como enfrentar crime com inteligência",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Devolução de celulares mostra como enfrentar crime com inteligência",
+     "url": "https://oglobo.globo.com/opiniao/editorial/coluna/2026/11/devolucao-de-celulares-mostra-como-enfrentar-crime-com-inteligencia.ghtml",
+     "hora": "23/11 00h09"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T00:09-03:00"
+  },
+  {
+   "assunto": "Erradicar pobreza extrema exige rever programas sociais",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Erradicar pobreza extrema exige rever programas sociais",
+     "url": "https://oglobo.globo.com/opiniao/editorial/coluna/2026/11/erradicar-pobreza-extrema-exige-rever-programas-sociais.ghtml",
+     "hora": "23/11 00h10"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T00:10-03:00"
   },
   {
    "assunto": "Estacionar o veículo em vagas de carga e descarga fora do horário comercial pode gerar notificação e remoção do carro",
@@ -178,24 +391,24 @@
    "ultima_iso": "2026-11-23T00:24-03:00"
   },
   {
-   "assunto": "Exército dos EUA desafia ordem judicial e planeja detonar explosivo tóxico em Iowa",
-   "secao": "mundo",
+   "assunto": "Filho de Adriana Esteves e Vladimir Brichta vai estrear como ator em filme",
+   "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "valor"
+    "oglobo"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Valor Econômico",
-     "titulo": "Exército dos EUA desafia ordem judicial e planeja detonar explosivo tóxico em Iowa",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/23/exrcito-dos-eua-desafia-ordem-judicial-e-planeja-detonar-explosivo-txico-em-iowa.ghtml",
-     "hora": "23/11 00h51"
+     "veiculo": "O Globo",
+     "titulo": "Filho de Adriana Esteves e Vladimir Brichta vai estrear como ator em filme",
+     "url": "https://oglobo.globo.com/play/noticia/2026/11/23/filho-de-adriana-esteves-e-vladimir-brichta-vai-estrear-como-ator-em-filme.ghtml",
+     "hora": "23/11 01h00"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T00:51-03:00"
+   "ultima_iso": "2026-11-23T01:00-03:00"
   },
   {
    "assunto": "Grávida de gêmeos aos 54 anos, mulher se prepara para viver sonho de ser mãe: 'Havia muita esperança no meu coração'",
@@ -218,6 +431,46 @@
    "ultima_iso": "2026-11-23T01:00-03:00"
   },
   {
+   "assunto": "Incêndio em fábrica de doces deixa ao menos 24 mortos na Indonésia",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Incêndio em fábrica de doces deixa ao menos 24 mortos na Indonésia",
+     "url": "https://www.cnnbrasil.com.br/internacional/incendio-em-fabrica-de-doces-deixa-mortos-na-indonesia/",
+     "hora": "23/11 00h57"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T00:57-03:00"
+  },
+  {
+   "assunto": "Lula precisa de conselhos de uma deusa",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Lula precisa de conselhos de uma deusa",
+     "url": "https://oglobo.globo.com/opiniao/demetrio-magnoli/coluna/2026/11/lula-precisa-de-conselhos-de-uma-deusa.ghtml",
+     "hora": "23/11 00h05"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T00:05-03:00"
+  },
+  {
    "assunto": "Ministro da Educação da Coreia do Sul renuncia após falhas em exame universitário",
    "secao": null,
    "n_fontes": 1,
@@ -238,24 +491,24 @@
    "ultima_iso": "2026-11-23T00:53-03:00"
   },
   {
-   "assunto": "Nova crise de Musiala liga alerta no Bayern de Munique, e sindicato critica pressão da diretoria",
-   "secao": "esportes",
+   "assunto": "Móveis com história: por que peças artesanais voltaram a ganhar espaço na decoração",
+   "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "ge"
+    "oglobo"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Nova crise de Musiala liga alerta no Bayern de Munique, e sindicato critica pressão da diretoria",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/futebol-alemao/noticia/2026/11/23/nova-crise-de-musiala-liga-alerta-no-bayern-de-munique-e-sindicato-critica-pressao-da-diretoria.ghtml",
-     "hora": "23/11 01h00"
+     "veiculo": "O Globo",
+     "titulo": "Móveis com história: por que peças artesanais voltaram a ganhar espaço na decoração",
+     "url": "https://oglobo.globo.com/ela/noticia/2026/11/23/moveis-com-historia-por-que-pecas-artesanais-voltaram-a-ganhar-espaco-na-decoracao.ghtml",
+     "hora": "23/11 00h30"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T01:00-03:00"
+   "ultima_iso": "2026-11-23T00:30-03:00"
   },
   {
    "assunto": "Novembro Black é oportunidade para avançar nas próximas etapas da reforma",
@@ -298,8 +551,28 @@
    "ultima_iso": "2026-11-23T00:53-03:00"
   },
   {
-   "assunto": "Previsão do tempo hoje para Nova Iguaçu (RJ): sol o dia todo; muitas nuvens e pancadas de chuva de manhã e à noite",
+   "assunto": "Precisa-se de ministro da Fazenda",
    "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Precisa-se de ministro da Fazenda",
+     "url": "https://oglobo.globo.com/opiniao/carlos-alberto-sardenberg/coluna/2026/11/precisa-se-de-ministro-da-fazenda.ghtml",
+     "hora": "23/11 00h05"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T00:05-03:00"
+  },
+  {
+   "assunto": "Previsão do tempo hoje para Brasília (DF): sol com algumas nuvens; chove rápido durante o dia e à noite",
+   "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
     "g1"
@@ -309,32 +582,72 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Previsão do tempo hoje para Nova Iguaçu (RJ): sol o dia todo; muitas nuvens e pancadas de chuva de manhã e à noite",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/previsao-do-tempo/noticia/2026/11/23/previsao-do-tempo-hoje-para-nova-iguacu-rj-sol-o-dia-todo-muitas-nuvens-e-pancadas-de-chuva-de-manha-e-a-noite.ghtml",
-     "hora": "23/11 01h09"
+     "titulo": "Previsão do tempo hoje para Brasília (DF): sol com algumas nuvens; chove rápido durante o dia e à noite",
+     "url": "https://g1.globo.com/df/distrito-federal/previsao-do-tempo/noticia/2026/11/23/previsao-do-tempo-hoje-para-brasilia-df-sol-com-algumas-nuvens-chove-rapido-durante-o-dia-e-a-noite.ghtml",
+     "hora": "23/11 01h15"
     },
     {
      "veiculo": "g1",
-     "titulo": "Previsão do tempo hoje para Niterói (RJ): sol o dia todo; muitas nuvens e pancadas de chuva de manhã e à noite",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/previsao-do-tempo/noticia/2026/11/23/previsao-do-tempo-hoje-para-niteroi-rj-sol-o-dia-todo-muitas-nuvens-e-pancadas-de-chuva-de-manha-e-a-noite.ghtml",
-     "hora": "23/11 01h09"
+     "titulo": "Previsão do tempo hoje para Goiânia (GO): sol com algumas nuvens; chove rápido durante o dia e à noite",
+     "url": "https://g1.globo.com/go/goias/previsao-do-tempo/noticia/2026/11/23/previsao-do-tempo-hoje-para-goiania-go-sol-com-algumas-nuvens-chove-rapido-durante-o-dia-e-a-noite.ghtml",
+     "hora": "23/11 01h15"
     },
     {
      "veiculo": "g1",
-     "titulo": "Previsão do tempo hoje para Duque de Caxias (RJ): sol o dia todo; muitas nuvens e pancadas de chuva de manhã e à noite",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/previsao-do-tempo/noticia/2026/11/23/previsao-do-tempo-hoje-para-duque-de-caxias-rj-sol-o-dia-todo-muitas-nuvens-e-pancadas-de-chuva-de-manha-e-a-noite.ghtml",
-     "hora": "23/11 01h09"
+     "titulo": "Previsão do tempo hoje para Aparecida de Goiânia (GO): sol com algumas nuvens; chove rápido durante o dia e à noite",
+     "url": "https://g1.globo.com/go/goias/previsao-do-tempo/noticia/2026/11/23/previsao-do-tempo-hoje-para-aparecida-de-goiania-go-sol-com-algumas-nuvens-chove-rapido-durante-o-dia-e-a-noite.ghtml",
+     "hora": "23/11 01h15"
     },
     {
      "veiculo": "g1",
-     "titulo": "Previsão do tempo hoje para Vitória (ES): sol e aumento de nuvens de manhã; pancadas de chuva à tarde e à noite",
-     "url": "https://g1.globo.com/es/espirito-santo/previsao-do-tempo/noticia/2026/11/23/previsao-do-tempo-hoje-para-vitoria-es-sol-e-aumento-de-nuvens-de-manha-pancadas-de-chuva-a-tarde-e-a-noite.ghtml",
-     "hora": "23/11 01h09"
+     "titulo": "Previsão do tempo hoje para Cuiabá (MT): sol com algumas nuvens; chove rápido durante o dia e à noite",
+     "url": "https://g1.globo.com/mt/mato-grosso/previsao-do-tempo/noticia/2026/11/23/previsao-do-tempo-hoje-para-cuiaba-mt-sol-com-algumas-nuvens-chove-rapido-durante-o-dia-e-a-noite.ghtml",
+     "hora": "23/11 01h14"
     }
    ],
    "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-23T01:09-03:00",
+   "ultima_iso": "2026-11-23T01:15-03:00",
    "lixo": true
+  },
+  {
+   "assunto": "Rejuvenescer sem mudar os traços do rosto: entenda o que está por trás dessa busca",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Rejuvenescer sem mudar os traços do rosto: entenda o que está por trás dessa busca",
+     "url": "https://oglobo.globo.com/ela/noticia/2026/11/23/rejuvenescer-sem-mudar-os-tracos-do-rosto-entenda-o-que-esta-por-tras-dessa-busca.ghtml",
+     "hora": "23/11 01h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T01:00-03:00"
+  },
+  {
+   "assunto": "Rússia e Ucrânia relatam destruição de mais de 2 mil drones em 24 horas",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Rússia e Ucrânia relatam destruição de mais de 2 mil drones em 24 horas",
+     "url": "https://www.cnnbrasil.com.br/internacional/russia-e-ucrania-relatam-destruicao-de-mais-de-2-mil-drones-em-24-horas/",
+     "hora": "23/11 01h13"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T01:13-03:00"
   },
   {
    "assunto": "Sudão do Sul: a tragédia ignorada pelo mundo - O Assunto #1850",
@@ -356,63 +669,54 @@
    "n_fontes_90min": 0,
    "ultima_iso": "2026-11-23T00:30-03:00",
    "lixo": true
-  },
-  {
-   "assunto": "Tortinhas de frutas: aprenda a fazer essa sobremesa fácil e leve para as festas de fim de ano",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Tortinhas de frutas: aprenda a fazer essa sobremesa fácil e leve para as festas de fim de ano",
-     "url": "https://oantagonista.com.br/ladooa/variedades/tortinhas-de-frutas-aprenda-a-fazer-essa-sobremesa-facil-e-leve-para-as-festas-de-fim-de-ano/",
-     "hora": "23/11 00h34"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T00:34-03:00"
-  },
-  {
-   "assunto": "Ultrapassar veículos em pontes, viadutos ou túneis sem sinalização específica resulta em multa multiplicada por cinco",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Ultrapassar veículos em pontes, viadutos ou túneis sem sinalização específica resulta em multa multiplicada por cinco",
-     "url": "https://oantagonista.com.br/economia/ultrapassar-veiculos-em-pontes-viadutos-ou-tuneis-sem-sinalizacao-especifica-resulta-em-multa-multiplicada-por-cinco/",
-     "hora": "23/11 00h13"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T00:13-03:00"
   }
  ],
- "em_pautas": {},
+ "em_pautas": {
+  "peru-terremoto-6-7": {
+   "secao": "mundo",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Peru confirma primeira vítima de terremoto de magnitude 6,7 que atingiu o país",
+     "url": "https://oglobo.globo.com/blogs/clima-extremo/post/2026/11/peru-confirma-primeira-vitima-de-terremoto-de-magnitude-67-que-atingiu-o-pais.ghtml",
+     "hora": "23/11 00h53"
+    }
+   ]
+  },
+  "caso-master": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Gazeta do Povo República",
+     "titulo": "Fachin envia relatório à PGR e abre caminho para Gilmar Mendes no caso Master",
+     "url": "https://www.gazetadopovo.com.br/republica/fachin-envia-relatorio-a-pgr-e-abre-caminho-para-gilmar-mendes-no-caso-master/",
+     "hora": "23/11 01h16"
+    }
+   ]
+  }
+ },
  "novos_relatos": {
   "caso-master": {
-   "n": 1,
+   "n": 2,
    "n_fontes": 1,
    "fontes": [
     "gp"
    ],
    "n_fontes_90min": 1,
-   "ultima": "22/11 21h16",
-   "ultima_iso": "2026-11-22T21:16-03:00",
+   "ultima": "23/11 01h16",
+   "ultima_iso": "2026-11-23T01:16-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 18.4,
+   "horas_sem_atualizar": 18.6,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Gazeta do Povo República",
+     "titulo": "Fachin envia relatório à PGR e abre caminho para Gilmar Mendes no caso Master",
+     "url": "https://www.gazetadopovo.com.br/republica/fachin-envia-relatorio-a-pgr-e-abre-caminho-para-gilmar-mendes-no-caso-master/",
+     "hora": "23/11 01h16"
+    },
     {
      "veiculo": "Gazeta do Povo República",
      "titulo": "Ato de Fachin abre brecha para Gilmar assumir caso Master no lugar de Mendonça",
@@ -431,7 +735,7 @@
    "ultima": "22/11 23h21",
    "ultima_iso": "2026-11-22T23:21-03:00",
    "pauta_atualizada_em": "2026-11-22T15:50-03:00",
-   "horas_sem_atualizar": 9.4,
+   "horas_sem_atualizar": 9.6,
    "principal": true,
    "manchetes": [
     {
@@ -442,23 +746,57 @@
     }
    ]
   },
-  "ajuste-fiscal-lula-4": {
+  "decreto-6x1-adiado": {
    "n": 1,
    "n_fontes": 1,
    "fontes": [
-    "g1"
+    "oglobo"
    ],
    "n_fontes_90min": 1,
    "ultima": "23/11 00h00",
    "ultima_iso": "2026-11-23T00:00-03:00",
+   "pauta_atualizada_em": "2026-11-21T06:52-03:00",
+   "horas_sem_atualizar": 42.6,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Fim da escala 6x1: governo publica hoje primeira portaria com regras da nova jornada. Veja o que falta definir",
+     "url": "https://oglobo.globo.com/economia/noticia/2026/11/23/fim-da-escala-6x1-governo-publica-hoje-primeira-com-regras-da-nova-jornada-veja-o-que-falta-definir.ghtml",
+     "hora": "23/11 00h00"
+    }
+   ]
+  },
+  "ajuste-fiscal-lula-4": {
+   "n": 3,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "oglobo"
+   ],
+   "n_fontes_90min": 2,
+   "ultima": "23/11 00h00",
+   "ultima_iso": "2026-11-23T00:00-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 18.4,
+   "horas_sem_atualizar": 18.6,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "g1",
      "titulo": "Câmara vota projeto de ajuste fiscal nesta segunda; projeção de economia é de R$ 50 bilhões em 2027",
      "url": "https://g1.globo.com/politica/noticia/2026/11/23/camara-vota-projeto-de-ajuste-fiscal-nesta-segunda-projecao-de-economia-e-de-r-50-bilhoes-em-2027.ghtml",
+     "hora": "23/11 00h00"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Câmara analisa pacote fiscal do governo Lula",
+     "url": "https://oglobo.globo.com/economia/noticia/2026/11/23/camara-analisa-pacote-fiscal-do-governo-lula.ghtml",
+     "hora": "23/11 00h00"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Câmara analisa ajuste fiscal: entenda o que está em jogo para o governo e as contas públicas",
+     "url": "https://oglobo.globo.com/economia/noticia/2026/11/23/camara-analisa-ajuste-fiscal-entenda-o-que-esta-em-jogo-para-o-governo-e-as-contas-publicas.ghtml",
      "hora": "23/11 00h00"
     }
    ]
@@ -473,7 +811,7 @@
    "ultima": "22/11 20h10",
    "ultima_iso": "2026-11-22T20:10-03:00",
    "pauta_atualizada_em": "2026-11-19T06:52-03:00",
-   "horas_sem_atualizar": 90.4,
+   "horas_sem_atualizar": 90.6,
    "principal": false,
    "manchetes": [
     {
@@ -494,7 +832,7 @@
    "ultima": "22/11 22h16",
    "ultima_iso": "2026-11-22T22:16-03:00",
    "pauta_atualizada_em": "2026-11-22T13:48-03:00",
-   "horas_sem_atualizar": 11.5,
+   "horas_sem_atualizar": 11.7,
    "principal": false,
    "manchetes": [
     {
@@ -515,7 +853,7 @@
    "ultima": "22/11 22h55",
    "ultima_iso": "2026-11-22T22:55-03:00",
    "pauta_atualizada_em": "2026-11-22T09:48-03:00",
-   "horas_sem_atualizar": 15.5,
+   "horas_sem_atualizar": 15.7,
    "principal": false,
    "manchetes": [
     {
@@ -526,33 +864,41 @@
     }
    ]
   },
-  "serie-b-38-rodada-final": {
-   "n": 4,
-   "n_fontes": 3,
+  "peru-terremoto-6-7": {
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "cnn",
-    "ge",
-    "met"
+    "oglobo"
    ],
-   "n_fontes_90min": 3,
-   "ultima": "22/11 21h57",
-   "ultima_iso": "2026-11-22T21:57-03:00",
-   "pauta_atualizada_em": "2026-11-22T19:50-03:00",
-   "horas_sem_atualizar": 5.4,
-   "principal": true,
+   "n_fontes_90min": 1,
+   "ultima": "23/11 00h53",
+   "ultima_iso": "2026-11-23T00:53-03:00",
+   "pauta_atualizada_em": "2026-11-21T15:26-03:00",
+   "horas_sem_atualizar": 34.0,
+   "principal": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Criciúma vence o Fortaleza em casa e sai na frente nos playoffs da Série B",
-     "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-b/jogo/22-11-2026/criciuma-fortaleza.ghtml",
-     "hora": "22/11 21h57"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Athletico vence e confirma rebaixamento do Remo à Série B do Brasileiro",
-     "url": "https://ge.globo.com/pr/futebol/brasileirao-serie-a/jogo/22-11-2026/athletico-pr-remo.ghtml",
-     "hora": "22/11 21h57"
-    },
+     "veiculo": "O Globo",
+     "titulo": "Peru confirma primeira vítima de terremoto de magnitude 6,7 que atingiu o país",
+     "url": "https://oglobo.globo.com/blogs/clima-extremo/post/2026/11/peru-confirma-primeira-vitima-de-terremoto-de-magnitude-67-que-atingiu-o-pais.ghtml",
+     "hora": "23/11 00h53"
+    }
+   ]
+  },
+  "serie-b-38-rodada-final": {
+   "n": 2,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "met"
+   ],
+   "n_fontes_90min": 2,
+   "ultima": "22/11 21h27",
+   "ultima_iso": "2026-11-22T21:27-03:00",
+   "pauta_atualizada_em": "2026-11-22T19:50-03:00",
+   "horas_sem_atualizar": 5.6,
+   "principal": true,
+   "manchetes": [
     {
      "veiculo": "CNN Brasil",
      "titulo": "Atlético-GO e Vila Nova empatam em clássico na ida dos playoffs da Série B",
@@ -578,7 +924,7 @@
    "ultima": "22/11 23h20",
    "ultima_iso": "2026-11-22T23:20-03:00",
    "pauta_atualizada_em": "2026-11-22T11:45-03:00",
-   "horas_sem_atualizar": 13.5,
+   "horas_sem_atualizar": 13.7,
    "principal": false,
    "manchetes": [
     {
@@ -606,7 +952,7 @@
    "ultima": "22/11 21h48",
    "ultima_iso": "2026-11-22T21:48-03:00",
    "pauta_atualizada_em": "2026-11-22T15:01-03:00",
-   "horas_sem_atualizar": 10.3,
+   "horas_sem_atualizar": 10.4,
    "principal": false,
    "manchetes": [
     {
@@ -633,7 +979,7 @@
    "ultima": "22/11 22h08",
    "ultima_iso": "2026-11-22T22:08-03:00",
    "pauta_atualizada_em": "2026-11-22T17:40-03:00",
-   "horas_sem_atualizar": 7.6,
+   "horas_sem_atualizar": 7.8,
    "principal": false,
    "manchetes": [
     {
@@ -641,33 +987,6 @@
      "titulo": "Democratas garantem 258 cadeiras na Câmara, melhor resultado desde 1992",
      "url": "https://www.poder360.com.br/poder-internacional/democratas-garantem-258-cadeiras-na-camara-melhor-resultado-desde-1992/",
      "hora": "22/11 22h08"
-    }
-   ]
-  },
-  "alcaraz-campeao-atp-finals": {
-   "n": 2,
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "22/11 23h51",
-   "ultima_iso": "2026-11-22T23:51-03:00",
-   "pauta_atualizada_em": "2026-11-22T17:28-03:00",
-   "horas_sem_atualizar": 7.8,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Alcaraz bate Zverev na decisão e conquista título inédito do ATP Finals",
-     "url": "https://ge.globo.com/tenis/noticia/2026/11/22/alcaraz-bate-zverev-na-decisao-e-conquista-titulo-inedito-do-atp-finals-1.ghtml",
-     "hora": "22/11 23h51"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Com título do ATP Finals, Carlos Alcaraz supera Rafael Nadal e entra em seleto grupo de campeões; veja",
-     "url": "https://ge.globo.com/tenis/noticia/2026/11/22/com-titulo-do-atp-finals-carlos-alcaraz-supera-rafael-nadal-e-entra-em-seleto-grupo-de-campeoes-veja.ghtml",
-     "hora": "22/11 20h09"
     }
    ]
   },
@@ -681,7 +1000,7 @@
    "ultima": "22/11 23h09",
    "ultima_iso": "2026-11-22T23:09-03:00",
    "pauta_atualizada_em": "2026-11-22T19:50-03:00",
-   "horas_sem_atualizar": 5.4,
+   "horas_sem_atualizar": 5.6,
    "principal": false,
    "manchetes": [
     {
@@ -702,7 +1021,7 @@
    "ultima": "22/11 20h42",
    "ultima_iso": "2026-11-22T20:42-03:00",
    "pauta_atualizada_em": "2026-11-22T20:42-03:00",
-   "horas_sem_atualizar": 4.6,
+   "horas_sem_atualizar": 4.8,
    "principal": false,
    "manchetes": [
     {
@@ -1122,26 +1441,46 @@
  ],
  "breves_no_feed": 12,
  "breves_faltam": 0,
- "breves_sugeridas": [],
+ "breves_sugeridas": [
+  {
+   "assunto": "Exército dos EUA planeja detonar 5 toneladas de explosivos apesar de ordem judicial e de alerta de ambientalistas",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Exército dos EUA planeja detonar 5 toneladas de explosivos apesar de ordem judicial e de alerta de ambientalistas",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/23/exercito-dos-eua-planeja-detonar-5-toneladas-de-explosivos-apesar-de-ordem-judicial-e-de-alerta-de-ambientalistas.ghtml",
+     "hora": "23/11 01h17"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Exército dos EUA desafia ordem judicial e planeja detonar explosivo tóxico em Iowa",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/23/exrcito-dos-eua-desafia-ordem-judicial-e-planeja-detonar-explosivo-txico-em-iowa.ghtml",
+     "hora": "23/11 00h51"
+    }
+   ]
+  }
+ ],
  "ultima_rodada": "2026-11-23T00:14-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 27 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 29 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 0 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
-  "g1": "ok: 100 itens, 82 nas últimas 6 h",
+  "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 2 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 49 nas últimas 6 h",
+  "ge": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
   "Folha Poder": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 6 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
-  "InfoMoney": "ok: 10 itens, 4 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
+  "InfoMoney": "ok: 10 itens, 3 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 2 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
@@ -1149,18 +1488,18 @@
   "Estadão Economia": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 1 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 1 nas últimas 6 h",
-  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
-  "Valor Econômico": "ok: 100 itens, 7 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 36 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 6 nas últimas 6 h",
   "Exame": "ok: 25 itens, 5 nas últimas 6 h",
   "Veja": "ok: 20 itens, 6 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 66 itens, 3 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 27 itens, 4 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 28 itens, 5 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 1 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 6 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
-  "CartaCapital": "ok: 20 itens, 1 nas últimas 6 h",
+  "CartaCapital": "ok: 20 itens, 2 nas últimas 6 h",
   "Brasil de Fato": "ok: 99 itens, 0 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 0 nas últimas 6 h"
  }
