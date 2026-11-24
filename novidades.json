@@ -1,26 +1,26 @@
 {
- "gerado": "2026-11-24T11:04-03:00",
+ "gerado": "2026-11-24T11:15-03:00",
  "desde": "2026-11-24T10:40-03:00",
  "feed_atualizado_em": "2026-11-24T10:50:00-03:00",
  "resumo": {
-  "manchetes": 92,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 77,
+  "manchetes": 117,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 99,
   "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 16,
-  "acionar_itens": 1,
+  "acionar_itens": 2,
   "ja_avaliados": 1
  },
  "acionar": true,
- "acionar_motivo": "pauta principal dolar-volta-acima-5 sem atualização há 4.2 h e 2 veículos com relatos novos",
+ "acionar_motivo": "pauta principal dolar-volta-acima-5 sem atualização há 4.4 h e 2 veículos com relatos novos; assunto novo: 3 veículos em 90 min (economia)",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "dolar-volta-acima-5",
    "titulo": "Ibovespa Hoje Ao Vivo: Bolsa sobe 1% com medidas fiscais no radar; dólar recua 2%",
    "n_fontes": 2,
-   "motivo": "pauta principal dolar-volta-acima-5 sem atualização há 4.2 h e 2 veículos com relatos novos",
+   "motivo": "pauta principal dolar-volta-acima-5 sem atualização há 4.4 h e 2 veículos com relatos novos",
    "acao": "atualiza: dolar-volta-acima-5",
    "manchetes": [
     {
@@ -38,10 +38,87 @@
      "lide": "Mercado recebe aprovação do plano com alívio, mas mantém cautela com o fiscal"
     }
    ]
+  },
+  {
+   "tipo": "novo",
+   "titulo": "Arrecadação federal soma R$ 293,9 bilhões em outubro, recorde para o mês",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "chave": [
+    "293",
+    "294",
+    "arrecadacao",
+    "avanca",
+    "bate",
+    "bilhoes",
+    "federal",
+    "mes",
+    "recorde",
+    "sobe",
+    "soma"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Arrecadação federal soma R$ 293,9 bilhões em outubro, recorde para o mês",
+     "url": "https://www.metropoles.com/brasil/arrecadacao-federal-soma-r-2939-bilhoes-em-outubro",
+     "hora": "24/11 11h02"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Arrecadação federal sobe 7,3% e bate recorde em outubro",
+     "url": "https://www.poder360.com.br/poder-economia/arrecadacao-federal-sobe-73-e-bate-recorde-em-outubro/",
+     "hora": "24/11 11h00",
+     "lide": "Governo arrecadou R$ 293,9 bilhões no mês; no acumulado de janeiro a outubro, receita chegou a R$ 2,64 trilhões. Leia no Poder360."
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Arrecadação federal avança para R$ 294 bilhões em outubro, novo recorde para o mês",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/24/arrecadacao-federal-avanca-para-r-294-bilhoes-em-outubro-novo-recorde-para-o-mes.ghtml",
+     "hora": "24/11 11h00",
+     "lide": "Recorde está relacionado ao crescimento da economia brasileira, aumentos de impostos pela equipe econômica do governo e com a tributação e aumento no preço do petróleo."
+    }
+   ]
   }
  ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Arrecadação federal soma R$ 293,9 bilhões em outubro, recorde para o mês",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "g1",
+    "met",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Arrecadação federal soma R$ 293,9 bilhões em outubro, recorde para o mês",
+     "url": "https://www.metropoles.com/brasil/arrecadacao-federal-soma-r-2939-bilhoes-em-outubro",
+     "hora": "24/11 11h02"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Arrecadação federal sobe 7,3% e bate recorde em outubro",
+     "url": "https://www.poder360.com.br/poder-economia/arrecadacao-federal-sobe-73-e-bate-recorde-em-outubro/",
+     "hora": "24/11 11h00"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Arrecadação federal avança para R$ 294 bilhões em outubro, novo recorde para o mês",
+     "url": "https://g1.globo.com/economia/noticia/2026/11/24/arrecadacao-federal-avanca-para-r-294-bilhoes-em-outubro-novo-recorde-para-o-mes.ghtml",
+     "hora": "24/11 11h00"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-24T11:02-03:00"
+  },
   {
    "assunto": "Bitcoin volta aos US$ 60 mil; ETFs têm recorde de saídas",
    "secao": null,
@@ -125,6 +202,34 @@
    "ultima_iso": "2026-11-24T10:58-03:00"
   },
   {
+   "assunto": "VÍDEO: imagens mostram momento que carro-bomba explode na Colômbia",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "VÍDEO: imagens mostram momento que carro-bomba explode na Colômbia",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/24/video-imagens-mostram-momento-que-carro-bomba-explode-na-colombia.ghtml",
+     "hora": "24/11 10h59"
+    },
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Atentado com carro-bomba fere 25 e aumenta tensão na Colômbia após ofensiva militar com apoio dos EUA",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/atentado-com-carro-bomba-fere-25-e-aumenta-tensao-na-colombia-apos-ofensiva-militar-com-apoio-dos-eua.shtml",
+     "hora": "24/11 10h58"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-24T10:59-03:00",
+   "lixo": true
+  },
+  {
    "assunto": "10 tendências de IA agêntica para 2027 que a alta liderança precisa antecipar agora",
    "secao": null,
    "n_fontes": 1,
@@ -163,6 +268,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-24T11:02-03:00"
+  },
+  {
+   "assunto": "5x2: ministro recomenda que empresários \"corram\" para fechar acordos",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "5x2: ministro recomenda que empresários \"corram\" para fechar acordos",
+     "url": "https://www.metropoles.com/brasil/5x2-ministro-recomenda-que-empresarios-corram-para-fechar-acordos",
+     "hora": "24/11 11h05"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-24T11:05-03:00"
   },
   {
    "assunto": "A crítica de Vladimir Brichta à figura do pai-herói dentro de casa: ‘É nocivo’",
@@ -225,26 +350,6 @@
    "ultima_iso": "2026-11-24T11:03-03:00"
   },
   {
-   "assunto": "Anthropic perde ganhos da estreia na Nasdaq e acende alerta sobre preço de empresas de IA",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Anthropic perde ganhos da estreia na Nasdaq e acende alerta sobre preço de empresas de IA",
-     "url": "https://veja.abril.com.br/economia/anthropic-perde-ganhos-da-estreia-na-nasdaq-e-acende-alerta-sobre-preco-de-empresas-de-ia/",
-     "hora": "24/11 11h03"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T11:03-03:00"
-  },
-  {
    "assunto": "Após avanço em Belém, sistemas alimentares ficam fora da COP31 e agroecologia perde espaço na agenda climática, critica Paulo Petersen",
    "secao": "mundo",
    "n_fontes": 1,
@@ -265,28 +370,48 @@
    "ultima_iso": "2026-11-24T10:45-03:00"
   },
   {
-   "assunto": "Arrecadação federal sobe 7,3% e bate recorde em outubro",
-   "secao": "economia",
+   "assunto": "Após pacote fiscal, quais são as próximas prioridades do governo no Congresso?",
+   "secao": "politica",
    "n_fontes": 1,
    "fontes": [
-    "p360"
+    "ex"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Poder360",
-     "titulo": "Arrecadação federal sobe 7,3% e bate recorde em outubro",
-     "url": "https://www.poder360.com.br/poder-economia/arrecadacao-federal-sobe-73-e-bate-recorde-em-outubro/",
-     "hora": "24/11 11h00"
+     "veiculo": "Exame",
+     "titulo": "Após pacote fiscal, quais são as próximas prioridades do governo no Congresso?",
+     "url": "https://exame.com/brasil/apos-pacote-fiscal-quais-sao-as-proximas-prioridades-do-governo-no-congresso/",
+     "hora": "24/11 11h12"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T11:00-03:00"
+   "ultima_iso": "2026-11-24T11:12-03:00"
   },
   {
-   "assunto": "Atentado com carro-bomba fere 25 e aumenta tensão na Colômbia após ofensiva militar com apoio dos EUA",
-   "secao": "mundo",
+   "assunto": "Arrecadação federal de tributos é a maior da história para outubro",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Arrecadação federal de tributos é a maior da história para outubro",
+     "url": "https://valor.globo.com/brasil/noticia/2026/11/24/arrecadacao-federal-de-tributos-e-a-maior-da-historia-para-outubro.ghtml",
+     "hora": "24/11 11h06"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-24T11:06-03:00"
+  },
+  {
+   "assunto": "Austrália ameaça multar Google e Meta em até 5% da receita global por conteúdo nocivo",
+   "secao": "economia",
    "n_fontes": 1,
    "fontes": [
     "folha"
@@ -295,15 +420,34 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Folha Mundo",
-     "titulo": "Atentado com carro-bomba fere 25 e aumenta tensão na Colômbia após ofensiva militar com apoio dos EUA",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/atentado-com-carro-bomba-fere-25-e-aumenta-tensao-na-colombia-apos-ofensiva-militar-com-apoio-dos-eua.shtml",
-     "hora": "24/11 10h58"
+     "veiculo": "Folha Mercado",
+     "titulo": "Austrália ameaça multar Google e Meta em até 5% da receita global por conteúdo nocivo",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/tec/2026/11/australia-ameaca-multar-google-e-meta-em-ate-5-da-receita-global-por-conteudo-nocivo.shtml",
+     "hora": "24/11 11h08"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T10:58-03:00",
-   "pid_provavel": "colombia-carro-bomba-meta-villavicencio"
+   "ultima_iso": "2026-11-24T11:08-03:00"
+  },
+  {
+   "assunto": "Ações da Anthropic caem abaixo do preço do IPO e ampliam temores sobre setor de IA",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Ações da Anthropic caem abaixo do preço do IPO e ampliam temores sobre setor de IA",
+     "url": "https://veja.abril.com.br/economia/acoes-da-anthropic-caem-abaixo-do-preco-do-ipo-e-ampliam-temores-sobre-setor-de-ia/",
+     "hora": "24/11 11h03"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-24T11:03-03:00"
   },
   {
    "assunto": "BRB diz que banco segue funcionando após suspensão da CVM",
@@ -324,6 +468,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-24T10:51-03:00"
+  },
+  {
+   "assunto": "BTG Pactual eleva preço-alvo para Suzano de R$ 65 para R$ 70 e mantém recomendação de compra",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "BTG Pactual eleva preço-alvo para Suzano de R$ 65 para R$ 70 e mantém recomendação de compra",
+     "url": "https://valor.globo.com/empresas/noticia/2026/11/24/btg-pactual-eleva-preo-alvo-para-suzano-de-r-65-para-r-70-e-mantm-recomendao-de-compra.ghtml",
+     "hora": "24/11 10h58"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-24T10:58-03:00"
   },
   {
    "assunto": "Belém recebe encontro sobre saberes indígenas, quilombolas e novas tecnologias até quinta-feira, 26",
@@ -366,6 +530,26 @@
    "ultima_iso": "2026-11-24T10:41-03:00"
   },
   {
+   "assunto": "Bragantino tem retornos de Fernando e Matheus Fernandes contra o Inter, mas tem novo desfalque",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Bragantino tem retornos de Fernando e Matheus Fernandes contra o Inter, mas tem novo desfalque",
+     "url": "https://ge.globo.com/sp/vale-do-paraiba-regiao/futebol/times/bragantino/noticia/2026/11/24/bragantino-tem-retornos-de-fernando-e-matheus-fernandes-contra-o-inter-mas-tem-novo-desfalque.ghtml",
+     "hora": "24/11 11h10"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-24T11:10-03:00"
+  },
+  {
    "assunto": "Brasil prevê iniciar testes de vacina contra o câncer em 2027, diz Saúde",
    "secao": null,
    "n_fontes": 1,
@@ -384,26 +568,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-24T10:47-03:00"
-  },
-  {
-   "assunto": "Brasil tem 17 restaurantes entre os mil melhores do mundo no La Liste 2027; Rio emplaca quatro",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Brasil tem 17 restaurantes entre os mil melhores do mundo no La Liste 2027; Rio emplaca quatro",
-     "url": "https://oglobo.globo.com/rioshow/gastronomia/guia/brasil-tem-17-restaurantes-entre-os-mil-melhores-do-mundo-no-la-liste-2027-rio-emplaca-quatro.ghtml",
-     "hora": "24/11 10h41"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T10:41-03:00"
   },
   {
    "assunto": "Brasil tem 31 organizações criminosas relevantes, aponta Abin",
@@ -526,145 +690,44 @@
    "ultima_iso": "2026-11-24T10:56-03:00"
   },
   {
-   "assunto": "Chapecoense x Palmeiras - Campeonato Brasileiro 2026 - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Chapecoense x Palmeiras - Campeonato Brasileiro 2026 - globoesporte.com",
-     "url": "https://ge.globo.com/sc/futebol/brasileirao-serie-a/jogo/24-11-2026/chapecoense-palmeiras.ghtml",
-     "hora": "24/11 10h55"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-24T10:55-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "China e Índia devem atingir recorde de importações de petróleo da Rússia em 2026",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "China e Índia devem atingir recorde de importações de petróleo da Rússia em 2026",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/24/china-e-ndia-devem-atingir-recorde-de-importaes-de-petrleo-da-rssia-em-2026.ghtml",
-     "hora": "24/11 10h57"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T10:57-03:00"
-  },
-  {
-   "assunto": "Chitãozinho e Xororó fazem show da turnê de despedida com Jorge e Mateus em Rio Preto",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Chitãozinho e Xororó fazem show da turnê de despedida com Jorge e Mateus em Rio Preto",
-     "url": "https://g1.globo.com/sp/sao-jose-do-rio-preto-aracatuba/noticia/2026/11/24/chitaozinho-e-xororo-fazem-show-da-turne-de-despedida-com-jorge-e-mateus-em-rio-preto.ghtml",
-     "hora": "24/11 10h56"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T10:56-03:00"
-  },
-  {
-   "assunto": "Chuva forte provoca enxurradas e toma estradas no Rio Grande do Sul",
+   "assunto": "Casa de William e Kate Middleton é arrombada e dois homens são presos",
    "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
-    "g1"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Chuva forte provoca enxurradas e toma estradas no Rio Grande do Sul",
-     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/24/chuva-estragos-rs-defesa-civil.ghtml",
-     "hora": "24/11 10h52"
+     "veiculo": "Metrópoles",
+     "titulo": "Casa de William e Kate Middleton é arrombada e dois homens são presos",
+     "url": "https://www.metropoles.com/colunas/claudia-meireles/casa-de-william-e-kate-middleton-e-arrombada-e-dois-homens-sao-presos",
+     "hora": "24/11 11h08"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T10:52-03:00"
+   "ultima_iso": "2026-11-24T11:08-03:00"
   },
   {
-   "assunto": "Ciclone extratropical deve levar frio e chuva a áreas do Sul e Sudeste",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Ciclone extratropical deve levar frio e chuva a áreas do Sul e Sudeste",
-     "url": "https://www.cnnbrasil.com.br/nacional/brasil/ciclone-extratropical-deve-levar-frio-e-chuva-a-areas-do-sul-e-sudeste/",
-     "hora": "24/11 10h49"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T10:49-03:00"
-  },
-  {
-   "assunto": "Como recuperar uma versão anterior de arquivo no Windows 11",
+   "assunto": "Celina Leão lança obra de drenagem no Setor P Sul, em Ceilândia",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "ex"
+    "met"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Exame",
-     "titulo": "Como recuperar uma versão anterior de arquivo no Windows 11",
-     "url": "https://exame.com/tecnologia/examelab/como-recuperar-uma-versao-anterior-de-arquivo-no-windows-11/",
-     "hora": "24/11 11h01"
+     "veiculo": "Metrópoles",
+     "titulo": "Celina Leão lança obra de drenagem no Setor P Sul, em Ceilândia",
+     "url": "https://www.metropoles.com/distrito-federal/celina-leao-lanca-obra-de-drenagem-no-setor-p-sul-em-ceilandia",
+     "hora": "24/11 11h03"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T11:01-03:00"
-  },
-  {
-   "assunto": "Criança morre e casal fica ferido após carro capotar em rodovia de SP; veículo não tinha cadeirinha",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Criança morre e casal fica ferido após carro capotar em rodovia de SP; veículo não tinha cadeirinha",
-     "url": "https://g1.globo.com/sp/santos-regiao/noticia/2026/11/24/crianca-morre-e-casal-fica-ferido-apos-carro-capotar-em-rodovia-de-sp-veiculo-nao-tinha-cadeirinha.ghtml",
-     "hora": "24/11 10h40"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-24T10:40-03:00"
+   "ultima_iso": "2026-11-24T11:03-03:00"
   }
  ],
  "em_pautas": {
@@ -789,7 +852,7 @@
    "ultima": "24/11 10h59",
    "ultima_iso": "2026-11-24T10:59-03:00",
    "pauta_atualizada_em": "2026-11-24T10:50-03:00",
-   "horas_sem_atualizar": 0.2,
+   "horas_sem_atualizar": 0.4,
    "principal": true,
    "manchetes": [
     {
@@ -807,25 +870,18 @@
    ]
   },
   "lula-janja-coordena-posse": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "ex",
-    "oglobo"
+    "ex"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "24/11 10h19",
-   "ultima_iso": "2026-11-24T10:19-03:00",
+   "n_fontes_90min": 1,
+   "ultima": "24/11 10h07",
+   "ultima_iso": "2026-11-24T10:07-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Com shows internacionais e Janja na coordenação, posse de Lula terá esquema para recepção de público em Brasília e segurança ampliada",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/24/com-shows-internacionais-e-janja-na-coordenacao-posse-de-lula-tera-esquema-para-recepcao-de-publico-em-brasilia-e-seguranca-ampliada.ghtml",
-     "hora": "24/11 10h19"
-    },
     {
      "veiculo": "Exame",
      "titulo": "Bad Bunny e Roger Waters são confirmados na posse do Lula, diz site",
@@ -845,7 +901,7 @@
    "ultima": "24/11 10h39",
    "ultima_iso": "2026-11-24T10:39-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
     {
@@ -872,7 +928,7 @@
    "ultima": "24/11 10h58",
    "ultima_iso": "2026-11-24T10:58-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
     {
@@ -893,7 +949,7 @@
    "ultima": "24/11 09h35",
    "ultima_iso": "2026-11-24T09:35-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 20.3,
+   "horas_sem_atualizar": 20.5,
    "principal": true,
    "manchetes": [
     {
@@ -905,8 +961,8 @@
    ]
   },
   "ajuste-fiscal-lula-4": {
-   "n": 17,
-   "n_fontes": 10,
+   "n": 15,
+   "n_fontes": 8,
    "fontes": [
     "agcamara",
     "agsenado",
@@ -915,15 +971,13 @@
     "dw",
     "ex",
     "g1",
-    "met",
-    "oeste",
-    "oglobo"
+    "oeste"
    ],
-   "n_fontes_90min": 8,
+   "n_fontes_90min": 6,
    "ultima": "24/11 11h01",
    "ultima_iso": "2026-11-24T11:01-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": true,
    "manchetes": [
     {
@@ -951,16 +1005,16 @@
      "hora": "24/11 10h25"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Bolsa abre em alta de olho no exterior e após aprovação do ajuste fiscal",
-     "url": "https://www.metropoles.com/brasil/bolsa-nesta-terca-24-11",
-     "hora": "24/11 10h12"
-    },
-    {
      "veiculo": "Revista Oeste",
      "titulo": "Um dia depois de bater R$ 6, dólar vai a R$ 5,95 com ajuste fiscal, Petrobras e EUA",
      "url": "https://revistaoeste.com/economia/um-dia-depois-de-bater-r-6-dolar-vai-a-r-595-com-ajuste-fiscal-petrobras-e-eua/",
      "hora": "24/11 10h03"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Aprovado pelo Centrão e rejeitado pelo PL: veja como cada partido votou no ajuste fiscal",
+     "url": "https://exame.com/brasil/aprovado-pelo-centrao-e-rejeitado-pelo-pl-veja-como-cada-partido-votou-no-ajuste-fiscal/",
+     "hora": "24/11 09h45"
     }
    ]
   },
@@ -975,7 +1029,7 @@
    "ultima": "24/11 10h40",
    "ultima_iso": "2026-11-24T10:40-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": true,
    "manchetes": [
     {
@@ -1004,7 +1058,7 @@
    "ultima": "24/11 08h55",
    "ultima_iso": "2026-11-24T08:55-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
     {
@@ -1037,7 +1091,7 @@
    "ultima": "24/11 10h04",
    "ultima_iso": "2026-11-24T10:04-03:00",
    "pauta_atualizada_em": "2026-11-23T21:48-03:00",
-   "horas_sem_atualizar": 13.3,
+   "horas_sem_atualizar": 13.5,
    "principal": false,
    "manchetes": [
     {
@@ -1059,7 +1113,7 @@
    "ultima": "24/11 10h28",
    "ultima_iso": "2026-11-24T10:28-03:00",
    "pauta_atualizada_em": "2026-11-24T06:45-03:00",
-   "horas_sem_atualizar": 4.3,
+   "horas_sem_atualizar": 4.5,
    "principal": false,
    "manchetes": [
     {
@@ -1086,7 +1140,7 @@
    "ultima": "24/11 10h39",
    "ultima_iso": "2026-11-24T10:39-03:00",
    "pauta_atualizada_em": "2026-11-24T03:37-03:00",
-   "horas_sem_atualizar": 7.5,
+   "horas_sem_atualizar": 7.6,
    "principal": false,
    "manchetes": [
     {
@@ -1107,7 +1161,7 @@
    "ultima": "24/11 08h56",
    "ultima_iso": "2026-11-24T08:56-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
     {
@@ -1128,7 +1182,7 @@
    "ultima": "24/11 10h55",
    "ultima_iso": "2026-11-24T10:55-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
     {
@@ -1149,7 +1203,7 @@
    "ultima": "24/11 10h27",
    "ultima_iso": "2026-11-24T10:27-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
     {
@@ -1170,7 +1224,7 @@
    "ultima": "24/11 07h00",
    "ultima_iso": "2026-11-24T07:00-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
     {
@@ -1191,7 +1245,7 @@
    "ultima": "24/11 10h54",
    "ultima_iso": "2026-11-24T10:54-03:00",
    "pauta_atualizada_em": "2026-11-24T10:50-03:00",
-   "horas_sem_atualizar": 0.2,
+   "horas_sem_atualizar": 0.4,
    "principal": false,
    "manchetes": [
     {
@@ -1619,33 +1673,33 @@
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 7 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 11 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 54 nas últimas 6 h",
+  "ge": "ok: 100 itens, 57 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 17 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 18 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 9 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 8 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 9 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 18 nas últimas 6 h",
-  "Estadão Política": "ok: 20 itens, 7 nas últimas 6 h",
+  "Estadão Política": "ok: 20 itens, 8 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 4 nas últimas 6 h",
-  "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 100 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 100 nas últimas 6 h",
+  "Estadão Brasil": "ok: 20 itens, 3 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 6 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "Valor Econômico": "ok: 100 itens, 56 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 68 itens, 4 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 48 itens, 6 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 24 itens, 2 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 49 itens, 6 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 25 itens, 3 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
