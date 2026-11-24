@@ -1,49 +1,47 @@
 {
- "gerado": "2026-11-23T22:20-03:00",
+ "gerado": "2026-11-23T22:30-03:00",
  "desde": "2026-11-23T21:41-03:00",
  "feed_atualizado_em": "2026-11-23T21:51:00-03:00",
  "resumo": {
-  "manchetes": 58,
+  "manchetes": 68,
   "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 48,
-  "pautas_com_novidade": 0,
+  "assuntos_novos": 56,
+  "pautas_com_novidade": 1,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 13,
-  "acionar_itens": 0,
+  "pautas_com_relatos": 11,
+  "acionar_itens": 1,
   "ja_avaliados": 3
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (48 assuntos fora do feed, 13 pautas com relatos, 3 já vistos por uma rodada)",
- "acionar_itens": [],
- "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
- "novos": [
+ "acionar": true,
+ "acionar_motivo": "pauta principal bolsonaro-hospital-dores-abdominais sem atualização há 3.7 h e 2 veículos com relatos novos",
+ "acionar_itens": [
   {
-   "assunto": "Botafogo busca empate contra o São Paulo, mas segue ameaçado",
-   "secao": "esportes",
+   "tipo": "pauta",
+   "pid": "bolsonaro-hospital-dores-abdominais",
+   "titulo": "Ex-presidente Jair Bolsonaro é diagnosticado com pneumonia e segue internado na UTI",
    "n_fontes": 2,
-   "fontes": [
-    "ge",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
+   "motivo": "pauta principal bolsonaro-hospital-dores-abdominais sem atualização há 3.7 h e 2 veículos com relatos novos",
+   "acao": "atualiza: bolsonaro-hospital-dores-abdominais",
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Botafogo busca empate contra o São Paulo, mas segue ameaçado",
-     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/23-11-2026/botafogo-sao-paulo.ghtml",
-     "hora": "23/11 22h10"
+     "veiculo": "Brasil de Fato",
+     "titulo": "Ex-presidente Jair Bolsonaro é diagnosticado com pneumonia e segue internado na UTI",
+     "url": "https://www.brasildefato.com.br/2026/11/23/ex-presidente-jair-bolsonaro-e-diagnosticado-com-pneumonia-e-segue-internado-na-uti/",
+     "hora": "23/11 21h31",
+     "lide": "O ex-presidente Jair Bolsonaro (PL), condenado e preso por tentativa de golpe de Estado, segue internado na Unidade de Terapia Intensiva (UTI) do Hospital DF Star, em Brasília…"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Em jogo com duas expulsões, Botafogo empata com São Paulo e segue próximo da zona de rebaixamento do Brasileiro",
-     "url": "https://oglobo.globo.com/esportes/futebol/botafogo/noticia/2026/11/23/em-jogo-de-duas-expulsoes-botafogo-empata-com-sao-paulo-e-segue-proximo-da-zona-de-rebaixamento-do-brasileiro.ghtml",
-     "hora": "23/11 22h06"
+     "veiculo": "Revista Oeste",
+     "titulo": "Bolsonaro tem pneumonia e segue na UTI",
+     "url": "https://revistaoeste.com/politica/bolsonaro-tem-pneumonia-e-segue-na-uti/",
+     "hora": "23/11 21h06",
+     "lide": "Médicos identificam infecção nos dois pulmões por aspiração de líquidos do sistema digestivo; quadro dispensa cirurgia imediata"
     }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-23T22:10-03:00"
-  },
+   ]
+  }
+ ],
+ "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
+ "novos": [
   {
    "assunto": "Petrobras aprova pagamento de R$ 15, 6 bilhões a acionistas",
    "secao": "economia",
@@ -99,37 +97,43 @@
    "ultima_iso": "2026-11-23T22:01-03:00"
   },
   {
-   "assunto": "Torcida do Inter grita \"olé\", debocha com aplausos e vaia time em goleada para o Vitória; assista",
+   "assunto": "São Paulo cede empate ao Botafogo e alcança marca que derrubou Crespo",
    "secao": "esportes",
    "n_fontes": 2,
    "fontes": [
-    "ge",
-    "oglobo"
+    "folha",
+    "ge"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Torcida do Inter grita \"olé\", debocha com aplausos e vaia time em goleada para o Vitória; assista",
-     "url": "https://ge.globo.com/rs/futebol/times/internacional/noticia/2026/11/23/torcida-do-inter-grita-ole-debocha-com-aplausos-e-vaia-time-em-goleada-para-o-vitoria-assista.ghtml",
-     "hora": "23/11 22h10"
+     "veiculo": "Folha Esporte",
+     "titulo": "São Paulo cede empate ao Botafogo e alcança marca que derrubou Crespo",
+     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/sao-paulo-cede-empate-ao-botafogo-e-alcanca-marca-que-derrubou-crespo.shtml",
+     "hora": "23/11 22h27"
     },
     {
      "veiculo": "ge",
-     "titulo": "Atuações do Inter: ninguém se salva em goleada para o Vitória no Beira-Rio; dê suas notas",
-     "url": "https://ge.globo.com/rs/futebol/times/internacional/noticia/2026/11/23/atuacoes-do-inter-ninguem-se-salva-em-goleada-para-o-vitoria-no-beira-rio-de-suas-notas.ghtml",
-     "hora": "23/11 21h44"
+     "titulo": "Ainda ameaçado, Botafogo busca empate contra o São Paulo, que chega a 45 pontos",
+     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/23-11-2026/botafogo-sao-paulo.ghtml",
+     "hora": "23/11 22h22"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Vitória vence primeiro jogo como visitante no Brasileiro deste ano em goleada decisiva sobre o Inter",
-     "url": "https://oglobo.globo.com/esportes/futebol/noticia/2026/11/23/vitoria-vence-primeiro-jogo-como-visitante-no-brasileiro-deste-ano-em-goleada-decisiva-sobre-o-inter.ghtml",
-     "hora": "23/11 21h42"
+     "veiculo": "ge",
+     "titulo": "Atuações do Botafogo: Gabriel Batista e Tiquinho salvam time, e Marçal é o pior em empate; dê suas notas",
+     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/23/atuacoes-do-botafogo-gabriel-batista-e-tiquinho-salvam-time-e-marcal-e-o-pior-em-empate-de-suas-notas.ghtml",
+     "hora": "23/11 22h11"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Atuações do São Paulo: Bobadilla é o melhor no empate com o Botafogo; dê suas notas",
+     "url": "https://ge.globo.com/futebol/times/sao-paulo/noticia/2026/11/23/atuacoes-do-sao-paulo-bobadilla-e-o-melhor-no-empate-com-o-botafogo-de-suas-notas.ghtml",
+     "hora": "23/11 22h07"
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-23T22:10-03:00"
+   "ultima_iso": "2026-11-23T22:27-03:00"
   },
   {
    "assunto": "'UVR Filhos do Sol': galpão de coleta seletiva é entregue em Belém",
@@ -250,32 +254,6 @@
    "ultima_iso": "2026-11-23T22:12-03:00"
   },
   {
-   "assunto": "Atuações do Botafogo: Gabriel Batista e Tiquinho salvam time, e Marçal é o pior em empate; dê suas notas",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Atuações do Botafogo: Gabriel Batista e Tiquinho salvam time, e Marçal é o pior em empate; dê suas notas",
-     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/23/atuacoes-do-botafogo-gabriel-batista-e-tiquinho-salvam-time-e-marcal-e-o-pior-em-empate-de-suas-notas.ghtml",
-     "hora": "23/11 22h11"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Atuações do São Paulo: Bobadilla é o melhor no empate com o Botafogo; dê suas notas",
-     "url": "https://ge.globo.com/futebol/times/sao-paulo/noticia/2026/11/23/atuacoes-do-sao-paulo-bobadilla-e-o-melhor-no-empate-com-o-botafogo-de-suas-notas.ghtml",
-     "hora": "23/11 22h07"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T22:11-03:00"
-  },
-  {
    "assunto": "Bandidos distraem atendente, pedem copo d'água e furtam pet shop no Guará",
    "secao": null,
    "n_fontes": 1,
@@ -294,6 +272,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-23T22:03-03:00"
+  },
+  {
+   "assunto": "Big techs vivem era da ‘pós-vergonha’ após aliança com Trump, mas internet pode ser diferente, analisa Marcelo Soares",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "bdf"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Big techs vivem era da ‘pós-vergonha’ após aliança com Trump, mas internet pode ser diferente, analisa Marcelo Soares",
+     "url": "https://www.brasildefato.com.br/podcast/brasil-de-fato-entrevista/2026/11/23/big-techs-vivem-era-da-pos-vergonha-apos-alianca-com-trump-mas-internet-pode-ser-diferente-analisa-marcelo-soares/",
+     "hora": "23/11 22h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T22:00-03:00"
   },
   {
    "assunto": "Capaz de se transformar em um avião funcional em menos de 3 minutos pressionando apenas um botão, este veículo híbrido eslovaco voa a 190 km/h, com autonomia de 1.000 quilômetros, ",
@@ -334,6 +332,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-23T21:47-03:00"
+  },
+  {
+   "assunto": "Com salsa e ato no 23 de Enero, militantes chavistas celebram 64 anos de Maduro e cobram libertação",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "bdf"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Com salsa e ato no 23 de Enero, militantes chavistas celebram 64 anos de Maduro e cobram libertação",
+     "url": "https://www.brasildefato.com.br/2026/11/23/com-salsa-e-ato-no-23-de-enero-militantes-chavistas-celebram-64-anos-de-maduro-e-cobram-libertacao/",
+     "hora": "23/11 22h15"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T22:15-03:00"
   },
   {
    "assunto": "Conhecida como a devoradora de escorpiões, a pequena ave noturna do deserto caça os aracnídeos mais venenosos sem sofrer qualquer arranhão",
@@ -477,6 +495,26 @@
    "lixo": true
   },
   {
+   "assunto": "Estudantes pedem a Lula a demissão da ministra Esther Dweck",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "gp"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Gazeta do Povo República",
+     "titulo": "Estudantes pedem a Lula a demissão da ministra Esther Dweck",
+     "url": "https://www.gazetadopovo.com.br/republica/estudantes-pedem-a-lula-a-demissao-da-ministra-esther-dweck/",
+     "hora": "23/11 22h17"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T22:17-03:00"
+  },
+  {
    "assunto": "Fachin suspende decisão do STJ que impedia repasse de auxílio emergencial às famílias de Brumadinho",
    "secao": "politica",
    "n_fontes": 1,
@@ -515,6 +553,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-23T22:00-03:00"
+  },
+  {
+   "assunto": "Fux vota para proibir a destruição de provas da Vaza Jato",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "cc"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CartaCapital",
+     "titulo": "Fux vota para proibir a destruição de provas da Vaza Jato",
+     "url": "https://www.cartacapital.com.br/justica/fux-vota-para-proibir-a-destruicao-de-provas-da-vaza-jato/",
+     "hora": "23/11 21h47"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-23T21:47-03:00"
   },
   {
    "assunto": "Governo anuncia estudo clínico de vacina contra o câncer para 2027",
@@ -636,63 +694,64 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-23T22:17-03:00"
-  },
-  {
-   "assunto": "Metade dos executivos prevê retorno de investimentos em IA em até 12 meses",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "estadao"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Estadão Economia",
-     "titulo": "Metade dos executivos prevê retorno de investimentos em IA em até 12 meses",
-     "url": "https://www.estadao.com.br/economia/coluna-da-broad/metade-dos-executivos-preve-retorno-de-investimentos-em-ia-em-ate-12-meses/",
-     "hora": "23/11 21h59"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T21:59-03:00"
-  },
-  {
-   "assunto": "Otan vai reforçar defesa aérea na Polônia após foguetes russos atingirem o país",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Otan vai reforçar defesa aérea na Polônia após foguetes russos atingirem o país",
-     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/23/otan-vai-reforcar-defesa-aerea-na-polonia-apos-foguetes-russos-atingiram-o-pais.ghtml",
-     "hora": "23/11 21h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-23T21:45-03:00"
   }
  ],
- "em_pautas": {},
+ "em_pautas": {
+  "ajuste-fiscal-lula-4": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "SUS pode perder até R$ 10 bi por ano com ajuste fiscal, alertam entidades",
+     "url": "https://revistaoeste.com/politica/sus-pode-perder-ate-r-10-bi-por-ano-com-ajuste-fiscal-alertam-entidades/",
+     "hora": "23/11 22h26"
+    }
+   ]
+  }
+ },
  "novos_relatos": {
-  "bolsonaro-hospital-dores-abdominais": {
+  "ajuste-fiscal-lula-4": {
    "n": 1,
    "n_fontes": 1,
    "fontes": [
     "oeste"
    ],
    "n_fontes_90min": 1,
-   "ultima": "23/11 21h06",
-   "ultima_iso": "2026-11-23T21:06-03:00",
-   "pauta_atualizada_em": "2026-11-23T18:48-03:00",
-   "horas_sem_atualizar": 3.5,
+   "ultima": "23/11 22h26",
+   "ultima_iso": "2026-11-23T22:26-03:00",
+   "pauta_atualizada_em": "2026-11-23T21:48-03:00",
+   "horas_sem_atualizar": 0.7,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "SUS pode perder até R$ 10 bi por ano com ajuste fiscal, alertam entidades",
+     "url": "https://revistaoeste.com/politica/sus-pode-perder-ate-r-10-bi-por-ano-com-ajuste-fiscal-alertam-entidades/",
+     "hora": "23/11 22h26"
+    }
+   ]
+  },
+  "bolsonaro-hospital-dores-abdominais": {
+   "n": 2,
+   "n_fontes": 2,
+   "fontes": [
+    "bdf",
+    "oeste"
+   ],
+   "n_fontes_90min": 2,
+   "ultima": "23/11 21h31",
+   "ultima_iso": "2026-11-23T21:31-03:00",
+   "pauta_atualizada_em": "2026-11-23T18:48-03:00",
+   "horas_sem_atualizar": 3.7,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Ex-presidente Jair Bolsonaro é diagnosticado com pneumonia e segue internado na UTI",
+     "url": "https://www.brasildefato.com.br/2026/11/23/ex-presidente-jair-bolsonaro-e-diagnosticado-com-pneumonia-e-segue-internado-na-uti/",
+     "hora": "23/11 21h31"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "Bolsonaro tem pneumonia e segue na UTI",
@@ -712,7 +771,7 @@
    "ultima": "23/11 18h41",
    "ultima_iso": "2026-11-23T18:41-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 7.5,
+   "horas_sem_atualizar": 7.7,
    "principal": true,
    "manchetes": [
     {
@@ -739,7 +798,7 @@
    "ultima": "23/11 18h59",
    "ultima_iso": "2026-11-23T18:59-03:00",
    "pauta_atualizada_em": "2026-11-22T06:52-03:00",
-   "horas_sem_atualizar": 39.5,
+   "horas_sem_atualizar": 39.6,
    "principal": false,
    "manchetes": [
     {
@@ -751,18 +810,17 @@
    ]
   },
   "decreto-6x1-adiado": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
     "bdf",
-    "oglobo",
     "p360"
    ],
    "n_fontes_90min": 2,
    "ultima": "23/11 20h30",
    "ultima_iso": "2026-11-23T20:30-03:00",
    "pauta_atualizada_em": "2026-11-23T18:48-03:00",
-   "horas_sem_atualizar": 3.5,
+   "horas_sem_atualizar": 3.7,
    "principal": false,
    "manchetes": [
     {
@@ -776,33 +834,6 @@
      "titulo": "Fiscalização em 90 dias e todas as folgas no mesmo mês: veja as normas publicadas sobre o fim da escala 6×1",
      "url": "https://www.brasildefato.com.br/2026/11/23/fiscalizacao-em-90-dias-e-todas-as-folgas-no-mesmo-mes-veja-as-normas-publicadas-sobre-o-fim-da-escala-6x1/",
      "hora": "23/11 19h56"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Fim da escala 6x1: portaria prevê fiscalização em empresas em 90 dias a partir da entrada em vigor de nova jornada",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/23/fim-da-escala-6x1-portaria-preve-fiscalizacao-em-empresas-em-90-dias-a-partir-da-entrada-em-vigor-de-nova-jornada.ghtml",
-     "hora": "23/11 18h56"
-    }
-   ]
-  },
-  "dolar-volta-acima-5": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "23/11 19h15",
-   "ultima_iso": "2026-11-23T19:15-03:00",
-   "pauta_atualizada_em": "2026-11-23T18:48-03:00",
-   "horas_sem_atualizar": 3.5,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Após tocar R$ 6, dólar fecha em leve baixa; Bolsa cai",
-     "url": "https://oglobo.globo.com/economia/financas/ao-vivo/ibovespa-hoje-acompanhe-bolsa-e-dolar.ghtml",
-     "hora": "23/11 19h15"
     }
    ]
   },
@@ -816,7 +847,7 @@
    "ultima": "23/11 16h59",
    "ultima_iso": "2026-11-23T16:59-03:00",
    "pauta_atualizada_em": "2026-11-23T06:52-03:00",
-   "horas_sem_atualizar": 15.5,
+   "horas_sem_atualizar": 15.6,
    "principal": false,
    "manchetes": [
     {
@@ -824,27 +855,6 @@
      "titulo": "Serra Macaense vence Belford Roxo fora de casa e abre vantagem na final da Série B2 do Carioca",
      "url": "https://ge.globo.com/rj/serra-lagos-norte/noticia/2026/11/23/serra-macaense-vence-belford-roxo-fora-de-casa-e-abre-vantagem-na-final-da-serie-b2-do-carioca.ghtml",
      "hora": "23/11 16h59"
-    }
-   ]
-  },
-  "libertadores-final-palmeiras-estudiantes": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "23/11 16h18",
-   "ultima_iso": "2026-11-23T16:18-03:00",
-   "pauta_atualizada_em": "2026-11-21T06:52-03:00",
-   "horas_sem_atualizar": 63.5,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Esporte",
-     "titulo": "ESPN define esquema para transmissão de final da Libertadores com Palmeiras",
-     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://f5.folha.uol.com.br/colunistas/outro-canal/2026/11/espn-define-esquema-para-transmissao-de-final-da-libertadores-com-palmeiras.shtml",
-     "hora": "23/11 16h18"
     }
    ]
   },
@@ -861,7 +871,7 @@
    "ultima": "23/11 21h20",
    "ultima_iso": "2026-11-23T21:20-03:00",
    "pauta_atualizada_em": "2026-11-20T17:50-03:00",
-   "horas_sem_atualizar": 76.5,
+   "horas_sem_atualizar": 76.7,
    "principal": false,
    "manchetes": [
     {
@@ -900,7 +910,7 @@
    "ultima": "23/11 20h00",
    "ultima_iso": "2026-11-23T20:00-03:00",
    "pauta_atualizada_em": "2026-11-23T08:41-03:00",
-   "horas_sem_atualizar": 13.7,
+   "horas_sem_atualizar": 13.8,
    "principal": false,
    "manchetes": [
     {
@@ -912,26 +922,19 @@
    ]
   },
   "cvm-suspende-registro-brb-ambipar": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
     "ab",
-    "cc",
     "valor"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "23/11 18h36",
-   "ultima_iso": "2026-11-23T18:36-03:00",
+   "n_fontes_90min": 1,
+   "ultima": "23/11 18h14",
+   "ultima_iso": "2026-11-23T18:14-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 7.5,
+   "horas_sem_atualizar": 7.7,
    "principal": true,
    "manchetes": [
-    {
-     "veiculo": "CartaCapital",
-     "titulo": "CVM suspende registro do BRB por falta de divulgação dos balanços",
-     "url": "https://www.cartacapital.com.br/economia/cvm-suspende-registro-do-brb-por-falta-de-divulgacao-dos-balancos/",
-     "hora": "23/11 18h36"
-    },
     {
      "veiculo": "Agência Brasil",
      "titulo": "CVM suspende registro do BRB e de mais quatro empresas",
@@ -946,27 +949,6 @@
     }
    ]
   },
-  "braskem-acordo-credores-capitalizacao": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "23/11 16h13",
-   "ultima_iso": "2026-11-23T16:13-03:00",
-   "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 7.5,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Braskem fecha acordo de US$ 4,9 bilhões com credores para evitar recuperação judicial",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/23/braskem-fecha-acordo-de-us-49-bilhoes-com-credores-para-evitar-recuperacao-judicial.ghtml",
-     "hora": "23/11 16h13"
-    }
-   ]
-  },
   "moraes-notifica-flavio-edital-calunia": {
    "n": 1,
    "n_fontes": 1,
@@ -977,7 +959,7 @@
    "ultima": "23/11 19h14",
    "ultima_iso": "2026-11-23T19:14-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 7.5,
+   "horas_sem_atualizar": 7.7,
    "principal": true,
    "manchetes": [
     {
@@ -998,7 +980,7 @@
    "ultima": "23/11 16h56",
    "ultima_iso": "2026-11-23T16:56-03:00",
    "pauta_atualizada_em": "2026-11-23T14:48-03:00",
-   "horas_sem_atualizar": 7.5,
+   "horas_sem_atualizar": 7.7,
    "principal": false,
    "manchetes": [
     {
@@ -1733,25 +1715,6 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Botafogo busca empate contra o São Paulo, mas segue ameaçado",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Botafogo busca empate contra o São Paulo, mas segue ameaçado",
-     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/23-11-2026/botafogo-sao-paulo.ghtml",
-     "hora": "23/11 22h10"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Em jogo com duas expulsões, Botafogo empata com São Paulo e segue próximo da zona de rebaixamento do Brasileiro",
-     "url": "https://oglobo.globo.com/esportes/futebol/botafogo/noticia/2026/11/23/em-jogo-de-duas-expulsoes-botafogo-empata-com-sao-paulo-e-segue-proximo-da-zona-de-rebaixamento-do-brasileiro.ghtml",
-     "hora": "23/11 22h06"
-    }
-   ]
-  },
-  {
    "assunto": "Petrobras aprova pagamento de R$ 15, 6 bilhões a acionistas",
    "secao": "economia",
    "n_fontes": 2,
@@ -1790,27 +1753,33 @@
    ]
   },
   {
-   "assunto": "Torcida do Inter grita \"olé\", debocha com aplausos e vaia time em goleada para o Vitória; assista",
+   "assunto": "São Paulo cede empate ao Botafogo e alcança marca que derrubou Crespo",
    "secao": "esportes",
    "n_fontes": 2,
    "manchetes": [
     {
-     "veiculo": "ge",
-     "titulo": "Torcida do Inter grita \"olé\", debocha com aplausos e vaia time em goleada para o Vitória; assista",
-     "url": "https://ge.globo.com/rs/futebol/times/internacional/noticia/2026/11/23/torcida-do-inter-grita-ole-debocha-com-aplausos-e-vaia-time-em-goleada-para-o-vitoria-assista.ghtml",
-     "hora": "23/11 22h10"
+     "veiculo": "Folha Esporte",
+     "titulo": "São Paulo cede empate ao Botafogo e alcança marca que derrubou Crespo",
+     "url": "https://redir.folha.com.br/redir/online/esporte/rss091/*https://www1.folha.uol.com.br/esporte/2026/11/sao-paulo-cede-empate-ao-botafogo-e-alcanca-marca-que-derrubou-crespo.shtml",
+     "hora": "23/11 22h27"
     },
     {
      "veiculo": "ge",
-     "titulo": "Atuações do Inter: ninguém se salva em goleada para o Vitória no Beira-Rio; dê suas notas",
-     "url": "https://ge.globo.com/rs/futebol/times/internacional/noticia/2026/11/23/atuacoes-do-inter-ninguem-se-salva-em-goleada-para-o-vitoria-no-beira-rio-de-suas-notas.ghtml",
-     "hora": "23/11 21h44"
+     "titulo": "Ainda ameaçado, Botafogo busca empate contra o São Paulo, que chega a 45 pontos",
+     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/23-11-2026/botafogo-sao-paulo.ghtml",
+     "hora": "23/11 22h22"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Vitória vence primeiro jogo como visitante no Brasileiro deste ano em goleada decisiva sobre o Inter",
-     "url": "https://oglobo.globo.com/esportes/futebol/noticia/2026/11/23/vitoria-vence-primeiro-jogo-como-visitante-no-brasileiro-deste-ano-em-goleada-decisiva-sobre-o-inter.ghtml",
-     "hora": "23/11 21h42"
+     "veiculo": "ge",
+     "titulo": "Atuações do Botafogo: Gabriel Batista e Tiquinho salvam time, e Marçal é o pior em empate; dê suas notas",
+     "url": "https://ge.globo.com/futebol/times/botafogo/noticia/2026/11/23/atuacoes-do-botafogo-gabriel-batista-e-tiquinho-salvam-time-e-marcal-e-o-pior-em-empate-de-suas-notas.ghtml",
+     "hora": "23/11 22h11"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Atuações do São Paulo: Bobadilla é o melhor no empate com o Botafogo; dê suas notas",
+     "url": "https://ge.globo.com/futebol/times/sao-paulo/noticia/2026/11/23/atuacoes-do-sao-paulo-bobadilla-e-o-melhor-no-empate-com-o-botafogo-de-suas-notas.ghtml",
+     "hora": "23/11 22h07"
     }
    ]
   }
@@ -1826,34 +1795,34 @@
   "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 86 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
+  "ge": "ok: 100 itens, 84 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 22 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 11 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "Folha Esporte": "ok: 100 itens, 5 nas últimas 6 h",
+  "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 1 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 8 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 15 nas últimas 6 h",
-  "Estadão Política": "ok: 20 itens, 9 nas últimas 6 h",
+  "Estadão Política": "ok: 20 itens, 8 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 15 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 6 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 69 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 58 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "Valor Econômico": "ok: 100 itens, 56 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 4 nas últimas 6 h",
   "DW Brasil": "ok: 66 itens, 6 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 41 itens, 6 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 42 itens, 7 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 24 itens, 7 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 20 nas últimas 6 h",
-  "Brasil de Fato": "ok: 99 itens, 23 nas últimas 6 h",
+  "Brasil de Fato": "ok: 99 itens, 28 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 10 nas últimas 6 h"
  }
 }
