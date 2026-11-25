@@ -78,3 +78,19 @@ body:has(#layer > .scrim .sheet) .toast,body:has(#layer2 > .scrim .sheet) .toast
    saía cortada; com letra grande ela quebra em duas linhas */
 html.fzg .po118-ln{flex-wrap:wrap;white-space:normal;height:auto;row-gap:2px}
 html.fzg .po118-ln *{white-space:normal;overflow:visible;text-overflow:clip;min-width:0}
+
+/* abertura (25/11): até o script da barra rodar (ele fica ~490 KB adiante no HTML), o esqueleto já mostra a Capa */
+html.abre-capa header.top,html.abre-capa #v-feed{display:none!important}
+html.abre-capa .nav #t-feed{background:none!important;color:var(--muted)!important}
+html.abre-capa .nav #t-capa{color:var(--ink)!important;background:rgb(20 33 58 / .08)!important}
+
+/* retrato de perto (acervo/p) em miniatura deitada: o rosto, não o alto da cabeça (Moraes na Capa; Zanin no cartão
+   da notícia juntada no Criar). Só nas miniaturas: no Feed e na matéria fica a regra de 16/11 (preso pelo alto) */
+.cp-th img[src*="acervo/p/"],.cn102-th img[src*="acervo/p/"],.mr-th img[src*="acervo/p/"]{object-position:50% 32%!important}
+/* giro com retrato em pé: o rosto fica abaixo do título (o título ocupa o alto da tela) */
+.story .sl-foto img[src*="acervo/p/"],.story img.st-bg[src*="acervo/p/"]{object-position:50% 0!important}
+
+/* Feed de madrugada (caminho C, 25/11) */
+.md214-ontem{margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--chip,#eef1f5);color:var(--muted);font:600 11px/1.5 var(--f-ui)}
+html.madrugada #posts .ac208{padding-block:14px}
+html.madrugada #posts .ac208 li,html.madrugada #posts .ac208 button b{font-size:calc(16.5px*var(--fz,1));line-height:1.3}

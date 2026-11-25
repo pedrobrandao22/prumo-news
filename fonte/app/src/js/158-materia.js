@@ -137,16 +137,16 @@ function mt158Pagina(id){if(!/^[\w-]{1,80}$/.test(String(id||"")))return Promise
   MT158_PAG[id]=fetch("m/"+id+".html",{cache:"no-cache"}).then(r=>r.ok?r.text():null).then(tx=>{if(!tx||!/og:title/.test(tx))return null;
     const d=new DOMParser().parseFromString(tx,"text/html"),mt=n=>((d.querySelector(`meta[property="${n}"]`)||{}).content||"").trim();
     const desc=mt("og:description").replace(/\s*\((?:Foto|Imagem)[^)]*\)\s*$/i,"").replace(/\s*\((?:Foto|Imagem)[^()]*\([^)]*\)\)\s*$/i,"").trim();
-    const img=mt("og:image");return {titulo:mt("og:title"),desc,img:/^https:\/\//.test(img)&&!/og-padrao/.test(img)?img:""}}).catch(()=>null);
+    const img=mt("og:image"),tq=(d.querySelector('meta[name="prumo:tema"]')||{}).content||"";return {quando:mt("article:modified_time"),tema:tq.trim(),titulo:mt("og:title"),desc,img:/^https:\/\//.test(img)&&!/og-padrao/.test(img)?img:""}}).catch(()=>null);
   return MT158_PAG[id]}
 var MT158_LINK=null;
 function mt158Fora(pid){if(MT158_LINK===pid)return;MT158_LINK=pid;
   const dm=(FEED&&FEED.dormentes||[]).find(x=>x.id===pid);
   if(dm){if(VIEW!=="capa")go("capa");setTimeout(()=>{if(!$("#layer").innerHTML)abrirDormente(pid)},80);return}
   mt158Pagina(pid).then(pg=>{if(pautaById(pid)){if(!$("#layer").innerHTML)abrirMateria(pid);return}if($("#layer").innerHTML)return;uso("link_fora");
-    sheet(pg?"Notícia de outra edição":"Notícia não encontrada",pg?`<div class="mt158-fora">${pg.img?`<img class="mt158-foto" src="${escU(pg.img)}" alt="" onerror="this.remove()">`:""}<h3>${esc(pg.titulo)}</h3>${pg.desc?`<p class="lead">${esc(pg.desc)}</p>`:""}<p class="hint">Esta notícia é de uma edição anterior e saiu da Capa. Procure o assunto na Busca para ver o que saiu depois.</p></div>`
+    sheet(pg?"Notícia de outra edição":"Notícia não encontrada",pg?`<div class="mt158-fora">${pg.img?`<img class="mt158-foto" src="${escU(pg.img)}" alt="" onerror="this.remove()">`:""}<h3>${esc(pg.titulo)}</h3>${pg.desc?`<p class="lead">${esc(pg.desc)}</p>`:""}${pg.quando&&typeof dataSP==="function"?`<p class="hint" style="margin:0 0 4px"><b>Notícia de ${esc(dataSP(pg.quando).split("-").reverse().slice(0,2).join("/"))}</b></p>`:""}<p class="hint">Esta notícia é de uma edição anterior e saiu da Capa. Procure o assunto na Busca para ver o que saiu depois.</p></div>`
       :`<p class="hint" style="margin:0">Não encontramos a notícia deste link. Ela pode ser antiga ou o link pode estar incompleto.</p>`,
-      `<button type="button" class="btn" data-mt158hoje>Ver as notícias de hoje</button>${pg?`<button type="button" class="btn ghost" data-mt158busca="${esc(pg.titulo)}">Buscar o assunto</button>`:""}`)})}
+      `<button type="button" class="btn" data-mt158hoje>Ver as notícias de hoje</button>${pg?`<button type="button" class="btn ghost" data-mt158busca="${esc(pg.tema||pg.titulo)}">Buscar o assunto</button>`:""}`)})}
 {const _lt158=linkTentar;linkTentar=function(){const pid=LINK_PID;const r=_lt158.apply(this,arguments);
   try{if(pid&&LINK_PID===pid&&FEED&&!pautaById(pid)){
     /* a edição em mãos não tem a notícia: espera um pouco a edição nova (o feed inteiro), depois mostra o cartão */
@@ -158,7 +158,7 @@ function mt158LinkTentar(){const pid=LINK_PID;if(!pid){clearInterval(mt158LinkTe
   if(Date.now()-LINK_T0>espera&&FEED){LINK_PID=null;clearInterval(mt158LinkTentar._t);mt158LinkTentar._t=0;mt158Fora(pid)}}
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   if(t.closest("[data-mt158hoje]")){e.stopPropagation();closeLayer();if(VIEW!=="capa")go("capa");return}
-  const b=t.closest("[data-mt158busca]");if(b){e.stopPropagation();const q=b.dataset.mt158busca;closeLayer();setTimeout(()=>{try{go("busca");const i=document.querySelector("#v-busca input[type=search],#v-busca input");if(i){i.value=q.split(/[;:,]/)[0];i.dispatchEvent(new Event("input",{bubbles:true}))}}catch(er){}},120)}},true);
+  const b=t.closest("[data-mt158busca]");if(b){e.stopPropagation();const q=b.dataset.mt158busca;closeLayer();setTimeout(()=>{try{go("busca");const i=document.querySelector("#v-busca input[type=search],#v-busca input");if(i){i.value=b.dataset.mt158busca.length<40?q:q.replace(/^[^:]{0,30}:\s*/,"").split(/[;,]/)[0];i.dispatchEvent(new Event("input",{bubbles:true}))}}catch(er){}},120)}},true);
 
 /* ===== 6. "Nesta matéria": seção marcada e faixa ===== */
 /* marca a última seção cujo começo já chegou ao terço de cima da área de leitura (antes: a 40 px da faixa, e a seção

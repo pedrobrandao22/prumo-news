@@ -678,6 +678,11 @@ def pagina(p, FA=None, propria=None, slug=None, arte=None):
     e = lambda s: html.escape(str(s), quote=True)
     url = f"{BASE}/m/{slug or pid}.html"
     alvo = f"/#m={pid}"
+    # 25/11: a data e o assunto da notícia vão na página (o app mostra "de 14/11" na folha "Notícia de outra edição" e
+    # busca pelo assunto, não pelo pedaço do título antes dos dois-pontos)
+    _hs = [str(u.get("hora")) for u in (p.get("atualizacoes") or []) + (p.get("correcoes") or []) if isinstance(u, dict) and u.get("hora")]
+    quando = max(_hs) if _hs else str(p.get("hora") or "")
+    tema_m = str(p.get("tema") or p.get("tag") or "")
     tam = f'\n<meta property="og:image:width" content="{w}">\n<meta property="og:image:height" content="{h}">' if w else ""
     return f"""<!doctype html>
 <html lang="pt-BR">
@@ -694,9 +699,11 @@ def pagina(p, FA=None, propria=None, slug=None, arte=None):
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{e(url)}">
 <meta property="og:image" content="{e(img)}">{tam}
+<meta property="article:modified_time" content="{e(quando)}">
+<meta name="prumo:tema" content="{e(tema_m)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0f1522">
-<script>location.replace({json.dumps(alvo)})</script>
+<script>try{{sessionStorage.setItem("prumo-m-tit",{json.dumps(tit)})}}catch(e){{}}location.replace({json.dumps(alvo)})</script>
 <style>body{{margin:0;font:16px/1.5 system-ui,sans-serif;background:#0f1522;color:#e8ecf2;display:grid;place-items:center;min-height:100vh;padding:24px;box-sizing:border-box;text-align:center}}a{{color:#e6b673}}</style>
 </head>
 <body><p><a href="{e(alvo)}">{e(tit)}</a><br>Abrindo no Prumo News…</p></body>

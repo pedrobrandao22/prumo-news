@@ -6544,6 +6544,22 @@ body:has(#layer > .scrim .sheet) .toast,body:has(#layer2 > .scrim .sheet) .toast
    saía cortada; com letra grande ela quebra em duas linhas */
 html.fzg .po118-ln{flex-wrap:wrap;white-space:normal;height:auto;row-gap:2px}
 html.fzg .po118-ln *{white-space:normal;overflow:visible;text-overflow:clip;min-width:0}
+
+/* abertura (25/11): até o script da barra rodar (ele fica ~490 KB adiante no HTML), o esqueleto já mostra a Capa */
+html.abre-capa header.top,html.abre-capa #v-feed{display:none!important}
+html.abre-capa .nav #t-feed{background:none!important;color:var(--muted)!important}
+html.abre-capa .nav #t-capa{color:var(--ink)!important;background:rgb(20 33 58 / .08)!important}
+
+/* retrato de perto (acervo/p) em miniatura deitada: o rosto, não o alto da cabeça (Moraes na Capa; Zanin no cartão
+   da notícia juntada no Criar). Só nas miniaturas: no Feed e na matéria fica a regra de 16/11 (preso pelo alto) */
+.cp-th img[src*="acervo/p/"],.cn102-th img[src*="acervo/p/"],.mr-th img[src*="acervo/p/"]{object-position:50% 32%!important}
+/* giro com retrato em pé: o rosto fica abaixo do título (o título ocupa o alto da tela) */
+.story .sl-foto img[src*="acervo/p/"],.story img.st-bg[src*="acervo/p/"]{object-position:50% 0!important}
+
+/* Feed de madrugada (caminho C, 25/11) */
+.md214-ontem{margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--chip,#eef1f5);color:var(--muted);font:600 11px/1.5 var(--f-ui)}
+html.madrugada #posts .ac208{padding-block:14px}
+html.madrugada #posts .ac208 li,html.madrugada #posts .ac208 button b{font-size:calc(16.5px*var(--fz,1));line-height:1.3}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -6564,6 +6580,13 @@ html.fzg .po118-ln *{white-space:normal;overflow:visible;text-overflow:clip;min-
 </style>
 </head>
 <body>
+<script>/* 25/11 (testador, abertura-em-rede-lenta-barra-marca-feed): desde o 1º quadro o esqueleto já é o da Capa */try{if(!(navigator.webdriver&&localStorage.getItem("prumo-teste-capa")!=="1"))document.documentElement.classList.add("abre-capa")}catch(e){}</script>
+<script>/* 25/11 (testador, link-de-noticia-em-3g-15-s-de-esqueleto-da-capa-sem-o-titulo): quem chega por um link de notícia vê o título dela enquanto o app carrega */
+try{(function(){if(!/^#m=/.test(location.hash))return;var t=sessionStorage.getItem("prumo-m-tit");if(!t)return;sessionStorage.removeItem("prumo-m-tit");document.documentElement.classList.remove("abre-capa");
+var d=document.createElement("div");d.id="m215";d.setAttribute("role","status");d.style.cssText="position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:24px;background:var(--bg,#fff);color:var(--ink,#111);font:600 21px/1.3 Georgia,serif";
+var k=document.createElement("small");k.textContent="Abrindo a notícia…";k.style.cssText="font:600 13px system-ui,sans-serif;opacity:.6";var h=document.createElement("div");h.textContent=t;d.appendChild(k);d.appendChild(h);
+document.addEventListener("DOMContentLoaded",function(){},{once:true});(document.body||document.documentElement).appendChild(d);
+var n=0,iv=setInterval(function(){n++;if(document.querySelector("#layer .mat")||n>80){clearInterval(iv);d.remove()}},250)})()}catch(e){}</script>
 <div class="app">
   <header class="top gut">
     <div class="top-in">
@@ -6603,7 +6626,7 @@ html.fzg .po118-ln *{white-space:normal;overflow:visible;text-overflow:clip;min-
   </div>
 </nav>
 <script>/* 20/11 (testador): em rede lenta a barra ficava marcando "Feed" até o bloco de baixo chegar; marca a Capa já aqui */
-(function(){try{if(navigator.webdriver&&localStorage.getItem("prumo-teste-capa")!=="1")return;var a=document.getElementById("t-feed"),b=document.getElementById("t-capa");if(a)a.removeAttribute("aria-current");if(b)b.setAttribute("aria-current","page");var t=document.querySelector("header.top"),f=document.getElementById("v-feed");if(t)t.hidden=true;if(f)f.hidden=true}catch(e){}})()</script>
+(function(){try{if(navigator.webdriver&&localStorage.getItem("prumo-teste-capa")!=="1")return;document.documentElement.classList.remove("abre-capa");var a=document.getElementById("t-feed"),b=document.getElementById("t-capa");if(a)a.removeAttribute("aria-current");if(b)b.setAttribute("aria-current","page");var t=document.querySelector("header.top"),f=document.getElementById("v-feed");if(t)t.hidden=true;if(f)f.hidden=true}catch(e){}})()</script>
 <div id="layer"></div>
 <div id="layer2"></div>
 <script>
@@ -7927,7 +7950,7 @@ function renderCapa(){nm186EmDia();
   if(man){const u=ultimaAtualizacao(man)||man.hora;
     const meta=`<span class="cp-meta">${cobStatus(man)}${u?`<span>${esc(atualizadoTxt(u))}</span>`:""}${fixa?`<span class="cp-fixa">Fixada</span>`:""}</span>`;
     h+=cpItem(man,{tam:"man",sub:true,arte:true,linha:L==="neutro"?linha:"",meta});
-    const tm=temaDe(man);const rel=ps.filter(p=>p!==man&&!usados.has(p.id)&&((tm&&temaDe(p)===tm)||(man.subtema&&p.subtema===man.subtema&&secOf(p)===secOf(man)))).slice(0,2);
+    const tm=temaDe(man);const rel=ps.filter(p=>p!==man&&!usados.has(p.id)&&(tm&&temaDe(p)===tm)/* 25/11: só o mesmo assunto (o subtema juntava a posse com a 6×1) */).slice(0,2);
     if(rel.length){rel.forEach(p=>usados.add(p.id));h+=`<div class="cp-rel"><span>Relacionadas</span>${rel.map(p=>cpItem(p,{tam:"rel"})).join("")}</div>`}}
   /* 208: "Acabou de sair" logo depois da manchete */
   try{h+=ac208HTML("capa")}catch(e){}
@@ -8756,7 +8779,7 @@ function cobEtapaAtual(p){const e=p.etapa;if(!e||!Array.isArray(e.passos)||!e.pa
 function cobBarra(p){if(!cobTemPagina(p))return "";const pt=[];const ini=p.inicio&&dataSP(p.inicio)!==dataSP()?cobSP(p.inicio):"";if(ini)pt.push("desde "+ini);const et=cobEtapaAtual(p);if(et)pt.push("etapa: "+et);const nt=(p.titulos||[]).length;if(nt>1)pt.push(nt+" manchetes");if((p.faq||[]).length)pt.push("Entenda");
   return `<button type="button" class="cobbar" data-cobpag="${esc(p.id)}"><span class="cb-t"><b>Cobertura</b>${pt.length?" · "+esc(pt.join(" · ")):" completa"}</span><span class="chev" aria-hidden="true">›</span></button>`}
 function cobPontualSlides(p){const n=p.neutro||{},l=(p.links||[])[0];
-  return [`<div class="sl txs pt aberto"><span class="pt-k">${esc(p.tag||secNome(secOf(p)))}</span><h3>${esc(n.titulo)}</h3><p class="lead">${marcarTermos(n.texto||"")}</p>${p.por_que?`<p class="note"><b>Por que importa.</b> ${marcarTermos(p.por_que)}</p>`:""}${(p.correcoes||[]).map(c=>`<div class="upd fix"><b>Correção · ${esc(hhmm(c.hora))}</b>${esc(c.texto)}</div>`).join("")}${l?`<button type="button" class="link" data-a="links">Ler em ${esc(nomeFonte(l.fonte))}${(p.links||[]).length>1?` e mais ${p.links.length-1}`:""} ›</button>`:""}</div>`]}
+  return [`<div class="sl txs pt aberto"><span class="pt-k">${esc(p.tag||secNome(secOf(p)))}</span><h3>${esc(n.titulo)}</h3><p class="lead">${marcarTermos(n.texto||"")}</p>${p.por_que&&p.subtitulo&&p.subtitulo!==p.por_que?`<p class="note"><b>Por que importa.</b> ${marcarTermos(p.por_que)}</p>`:""}${(p.correcoes||[]).map(c=>`<div class="upd fix"><b>Correção · ${esc(hhmm(c.hora))}</b>${esc(c.texto)}</div>`).join("")}${l?`<button type="button" class="link" data-a="links">Ler em ${esc(nomeFonte(l.fonte))}${(p.links||[]).length>1?` e mais ${p.links.length-1}`:""} ›</button>`:""}</div>`]}
 function cobLinha(p){const it=[];const tt=p.titulos||[];
   tt.forEach((t,i)=>it.push({h:t.hora,c:"tt",k:i?"Manchete mudou":"Começo da cobertura",x:t.titulo,b:1}));
   if(!tt.length&&p.inicio)it.push({h:p.inicio,c:"tt",k:"Começo da cobertura",x:(p.neutro||{}).titulo,b:1});
@@ -10298,7 +10321,7 @@ function openSend(pid,pre){try{if((!S.uid||!S.membro)&&pid&&(pautaById(pid)||sna
       toast(erro?.code==="permission_denied"?"Só dá para mandar para amigos.":ok.length?`Enviado para ${ok.map(nomeDe).join(" e ")}; o resto não foi. Tente de novo.`:"Não deu para enviar agora. Tente de novo.")}})})();
   /* 102: publicar com comentário ou pôr no giro */
   try{if(pid&&String(pid).indexOf("u:")!==0&&pautaById(pid)&&S.membro&&PUB.on!==false){const b=document.querySelector("#layer .sheet .sh-b,#layer2 .sheet .sh-b");
-    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG(CN102_ICO.ana)}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button>${typeof ft182Esc==="function"&&ft182Esc("giro")?"":`<button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu giro</b><small>Some em 24 horas</small></span></button>`}</div>`)}}catch(e){}}
+    if(b&&!b.querySelector(".cn102-env"))b.insertAdjacentHTML("afterbegin",`<div class="cn102-env"><button type="button" data-cn102envp="${esc(pid)}">${CN102_SVG('<path d="M5 5.5h14v10H10l-4 3.5v-3.5H5z"/>')}<span><b>Publicar com comentário</b><small>No seu perfil e no Feed</small></span></button>${typeof ft182Esc==="function"&&ft182Esc("giro")?"":`<button type="button" data-cn102envs="${esc(pid)}">${CN102_SVG(CN102_ICO.story)}<span><b>No seu giro</b><small>Some em 24 horas</small></span></button>`}</div>`)}}catch(e){}}
 /* ---------- @ no comentário: sugere amigos e manda a notícia por mensagem ---------- */
 var MEN_BOX=null,MEN_INP=null;
 function menFecha(){MEN_BOX?.remove();MEN_BOX=null;MEN_INP=null}
@@ -19112,16 +19135,16 @@ function mt158Pagina(id){if(!/^[\w-]{1,80}$/.test(String(id||"")))return Promise
   MT158_PAG[id]=fetch("m/"+id+".html",{cache:"no-cache"}).then(r=>r.ok?r.text():null).then(tx=>{if(!tx||!/og:title/.test(tx))return null;
     const d=new DOMParser().parseFromString(tx,"text/html"),mt=n=>((d.querySelector(`meta[property="${n}"]`)||{}).content||"").trim();
     const desc=mt("og:description").replace(/\s*\((?:Foto|Imagem)[^)]*\)\s*$/i,"").replace(/\s*\((?:Foto|Imagem)[^()]*\([^)]*\)\)\s*$/i,"").trim();
-    const img=mt("og:image");return {titulo:mt("og:title"),desc,img:/^https:\/\//.test(img)&&!/og-padrao/.test(img)?img:""}}).catch(()=>null);
+    const img=mt("og:image"),tq=(d.querySelector('meta[name="prumo:tema"]')||{}).content||"";return {quando:mt("article:modified_time"),tema:tq.trim(),titulo:mt("og:title"),desc,img:/^https:\/\//.test(img)&&!/og-padrao/.test(img)?img:""}}).catch(()=>null);
   return MT158_PAG[id]}
 var MT158_LINK=null;
 function mt158Fora(pid){if(MT158_LINK===pid)return;MT158_LINK=pid;
   const dm=(FEED&&FEED.dormentes||[]).find(x=>x.id===pid);
   if(dm){if(VIEW!=="capa")go("capa");setTimeout(()=>{if(!$("#layer").innerHTML)abrirDormente(pid)},80);return}
   mt158Pagina(pid).then(pg=>{if(pautaById(pid)){if(!$("#layer").innerHTML)abrirMateria(pid);return}if($("#layer").innerHTML)return;uso("link_fora");
-    sheet(pg?"Notícia de outra edição":"Notícia não encontrada",pg?`<div class="mt158-fora">${pg.img?`<img class="mt158-foto" src="${escU(pg.img)}" alt="" onerror="this.remove()">`:""}<h3>${esc(pg.titulo)}</h3>${pg.desc?`<p class="lead">${esc(pg.desc)}</p>`:""}<p class="hint">Esta notícia é de uma edição anterior e saiu da Capa. Procure o assunto na Busca para ver o que saiu depois.</p></div>`
+    sheet(pg?"Notícia de outra edição":"Notícia não encontrada",pg?`<div class="mt158-fora">${pg.img?`<img class="mt158-foto" src="${escU(pg.img)}" alt="" onerror="this.remove()">`:""}<h3>${esc(pg.titulo)}</h3>${pg.desc?`<p class="lead">${esc(pg.desc)}</p>`:""}${pg.quando&&typeof dataSP==="function"?`<p class="hint" style="margin:0 0 4px"><b>Notícia de ${esc(dataSP(pg.quando).split("-").reverse().slice(0,2).join("/"))}</b></p>`:""}<p class="hint">Esta notícia é de uma edição anterior e saiu da Capa. Procure o assunto na Busca para ver o que saiu depois.</p></div>`
       :`<p class="hint" style="margin:0">Não encontramos a notícia deste link. Ela pode ser antiga ou o link pode estar incompleto.</p>`,
-      `<button type="button" class="btn" data-mt158hoje>Ver as notícias de hoje</button>${pg?`<button type="button" class="btn ghost" data-mt158busca="${esc(pg.titulo)}">Buscar o assunto</button>`:""}`)})}
+      `<button type="button" class="btn" data-mt158hoje>Ver as notícias de hoje</button>${pg?`<button type="button" class="btn ghost" data-mt158busca="${esc(pg.tema||pg.titulo)}">Buscar o assunto</button>`:""}`)})}
 {const _lt158=linkTentar;linkTentar=function(){const pid=LINK_PID;const r=_lt158.apply(this,arguments);
   try{if(pid&&LINK_PID===pid&&FEED&&!pautaById(pid)){
     /* a edição em mãos não tem a notícia: espera um pouco a edição nova (o feed inteiro), depois mostra o cartão */
@@ -19133,7 +19156,7 @@ function mt158LinkTentar(){const pid=LINK_PID;if(!pid){clearInterval(mt158LinkTe
   if(Date.now()-LINK_T0>espera&&FEED){LINK_PID=null;clearInterval(mt158LinkTentar._t);mt158LinkTentar._t=0;mt158Fora(pid)}}
 document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
   if(t.closest("[data-mt158hoje]")){e.stopPropagation();closeLayer();if(VIEW!=="capa")go("capa");return}
-  const b=t.closest("[data-mt158busca]");if(b){e.stopPropagation();const q=b.dataset.mt158busca;closeLayer();setTimeout(()=>{try{go("busca");const i=document.querySelector("#v-busca input[type=search],#v-busca input");if(i){i.value=q.split(/[;:,]/)[0];i.dispatchEvent(new Event("input",{bubbles:true}))}}catch(er){}},120)}},true);
+  const b=t.closest("[data-mt158busca]");if(b){e.stopPropagation();const q=b.dataset.mt158busca;closeLayer();setTimeout(()=>{try{go("busca");const i=document.querySelector("#v-busca input[type=search],#v-busca input");if(i){i.value=b.dataset.mt158busca.length<40?q:q.replace(/^[^:]{0,30}:\s*/,"").split(/[;,]/)[0];i.dispatchEvent(new Event("input",{bubbles:true}))}}catch(er){}},120)}},true);
 
 /* ===== 6. "Nesta matéria": seção marcada e faixa ===== */
 /* marca a última seção cujo começo já chegou ao terço de cima da área de leitura (antes: a 40 px da faixa, e a seção
@@ -21295,7 +21318,7 @@ function renderSecs(){
   /* 054: topo no estilo Instagram */
   const c054=()=>{const box=$("#secs");if(!box||!FEED)return;let h="";
   if($("#b-5min"))h+=igCirc('data-5min',"ig-5",`<span class="ig-5c"><b>5</b><small>min</small></span>`,"Em 5 min","O dia em 5 minutos");
-  try{const it=tickerItens(15);if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
+  try{const it=tickerItens(15).filter(i=>pautaById(i.pid));/* 25/11: o círculo anuncia o 1º quadro do giro */if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
   h+=secsStory().map(s=>{const ps=pautasDa(s.id);if(!ps.length)return "";const nn=ps.filter(p=>!SEEN.has(seenKey(p))).length;const first=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
     return `<button type="button" class="sb ig-s" data-sec-story="${esc(s.id)}" aria-label="${esc(s.nome)}: ${ps.length} notícias${nn?", "+nn+" não vistas":""}"><span class="ig-r${nn?"":" visto"}" style="--c:${secCor(s.id)}"><span class="ig-f paper" data-sec="${esc(s.id)}">${igFace(first)}</span></span><b>${esc(s.nome)}</b></button>`}).join("");
   try{const {H,P}=igAgendaItens();if(H.length||P.length){const d=new Date(hojeSP()+"T12:00:00Z");const wd=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"UTC"}).replace(".","");
@@ -23780,6 +23803,17 @@ try{new MutationObserver(()=>cv214Convite()).observe(document.documentElement,{s
 
 /* guia "Primeira vez aqui?": aparece uma vez só e não depois que a pessoa já está lendo */
 if(typeof ct210GuiaChip==="function"){const _gc214=ct210GuiaChip;ct210GuiaChip=function(){try{if(CT210.chip214||scrollY>40)return;CT210.chip214=1}catch(e){}return _gc214.apply(this,arguments)}}
+
+/* ---- Feed de madrugada (decisão do Pedro 25/11, caminho C) ----
+   Da meia-noite às 7h a manchete continua no topo, mas o "Acabou de sair" aparece em destaque (letra maior, logo
+   abaixo do 1º cartão) e os cartões cuja última novidade é de ontem ganham o selo "de ontem". */
+function md214Hora(){try{return +new Intl.DateTimeFormat("pt-BR",{timeZone:"America/Sao_Paulo",hour:"2-digit",hour12:false}).format(new Date())}catch(e){return 12}}
+function md214Passa(){try{const mad=md214Hora()<7;document.documentElement.classList.toggle("madrugada",mad);if(!mad)return;
+  const hj=hojeSP();document.querySelectorAll("#posts .post[id^='p-']").forEach(a=>{if(a.dataset.md214)return;a.dataset.md214="1";const p=pautaById(a.id.slice(2));if(!p)return;
+    const u=ultimaAtualizacao(p)||p.hora;if(!u||dataSP(u)===hj)return;const t=a.querySelector(".ph-t");if(t&&!t.querySelector(".md214-ontem"))t.insertAdjacentHTML("beforeend",'<span class="md214-ontem">de ontem</span>')});
+  const ac=document.querySelector("#posts .ac208"),p1=document.querySelector("#posts .post[id^='p-']");if(ac&&p1&&ac.previousElementSibling!==p1&&p1.parentNode===ac.parentNode)p1.after(ac)}catch(e){}}
+try{new MutationObserver(()=>{clearTimeout(md214Passa.t);md214Passa.t=setTimeout(md214Passa,120)}).observe(document.getElementById("posts")||document.body,{childList:true})}catch(e){}
+setInterval(md214Passa,300e3);
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 nucPronto();  /* 201-nucleo.js: go passa a fazer tudo (na carga o 031 abriu a Capa só com a parte de então) */
 cp200Pronta();  /* 200-capa.js: a Capa passa a desenhar com todos os acabamentos */
