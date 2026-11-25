@@ -610,6 +610,41 @@ def anexar_manchetes(out, anterior, buscar=True):
         if escolhidas: it["manchetes"] = escolhidas
 
 
+DOBRADA = re.compile(r"\b(na|no|de|da|do|em|o|a|e|que|para|com)\s+\1\b", re.I)
+
+
+def limpar_novos(out, feed):
+    """25/11 (testador): o Acabou de sair e a faixa Agora mostravam o mesmo fato duas vezes (Bolsonaro na UTI, Paredes),
+    palavra dobrada ("na na UTI") e o que já era notícia da edição (iFood três vezes). Agora o robô junta os parecidos
+    (somando veículos), tira a palavra dobrada e tira o item cujo link já está numa notícia da edição."""
+    nv = out.get("novos")
+    if not isinstance(nv, list): return
+    urls = set()
+    for p in feed.get("pautas") or []:
+        for l in p.get("links") or []:
+            u = (l.get("url") or l.get("link")) if isinstance(l, dict) else None
+            if u: urls.add(str(u).split("?")[0])
+    res = []
+    for n in nv:
+        if not isinstance(n, dict) or not n.get("assunto"): continue
+        n["assunto"] = DOBRADA.sub(r"\1", n["assunto"])
+        ms = [m for m in n.get("manchetes") or [] if isinstance(m, dict)]
+        for m in ms:
+            if m.get("titulo"): m["titulo"] = DOBRADA.sub(r"\1", m["titulo"])
+        if ms and any(str(m.get("url") or "").split("?")[0] in urls for m in ms): continue
+        tk = set(tokens(n["assunto"]))
+        junto = next((r for r in res if parecido(r["_tk"], tk)), None)
+        if junto:
+            vs = {m.get("veiculo") for m in junto.get("manchetes") or []}
+            junto["manchetes"] = (junto.get("manchetes") or []) + [m for m in ms if m.get("veiculo") not in vs]
+            junto["n_fontes"] = max(junto.get("n_fontes") or 0, n.get("n_fontes") or 0, len({m.get("veiculo") for m in junto["manchetes"]}))
+            junto["relevante"] = bool(junto.get("relevante") or n.get("relevante"))
+            continue
+        n["_tk"] = tk; res.append(n)
+    for r in res: r.pop("_tk", None)
+    out["novos"] = res
+
+
 def main(argv):
     horas = 6
     if "--horas" in argv:
@@ -629,6 +664,7 @@ def main(argv):
     out = analisar(itens, feed, agora, horas, anterior, oficiais, rodadas, fotos)
     out["fontes"] = status
     anexar_manchetes(out, anterior)
+    limpar_novos(out, feed)
     with open(argv[1], "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
     fl = out["fotos_livres"]

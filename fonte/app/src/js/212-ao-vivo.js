@@ -40,7 +40,8 @@ function av212Limpa(d){if(!d||typeof d!=="object"||!Array.isArray(d.novos)||d._a
         ig.n_fontes=Math.max(ig.n_fontes||0,n.n_fontes||0,new Set(ig.manchetes.map(m=>m.veiculo)).size);ig.relevante=ig.relevante||n.relevante;return}
       out.push(n)});
     out.forEach(n=>{try{delete n._tk}catch(e){}});d.novos=out;try{Object.defineProperty(d,"_av212",{value:1,enumerable:false})}catch(e){}}catch(e){}return d}
-{const _ai212=agoraItens;agoraItens=function(){try{if(typeof NOVID_AG!=="undefined")av212Limpa(NOVID_AG)}catch(e){}return _ai212.apply(this,arguments)}}
+/* a faixa Agora da Capa usa o novidades.json como vem: a limpeza (juntar o mesmo fato, palavra dobrada, link já na
+   edição) é feita pelo robô (tools/manchetes.py, limpar_novos), para o alto antecipado (121) e a Capa pronta ficarem iguais */
 if(typeof ac208Itens==="function"){const _ac212=ac208Itens;ac208Itens=function(){try{if(typeof NOVID_AG!=="undefined")av212Limpa(NOVID_AG)}catch(e){}return _ac212.apply(this,arguments)}}
 
 /* ---- 1. agenda: evento de hoje com a hora vencida ---- */
@@ -75,7 +76,7 @@ function av212Novid(){const d=typeof NOVID_AG!=="undefined"&&NOVID_AG,F=typeof F
     const vs=[...new Set(novas.map(m=>m.veiculo).filter(Boolean))];const t=av212Dobrada(novas.sort((a,b)=>av212HoraNv(b.hora)-av212HoraNv(a.hora))[0].titulo);
     const vtx=vs.length>3?vs.slice(0,3).join(", ")+" e mais "+(vs.length-3):vs.length>1?vs.slice(0,-1).join(", ")+" e "+vs[vs.length-1]:vs[0];
     const nota=`Agora: «${t}» (${vtx}). O texto abaixo ainda não traz isso.`;
-    if(p._av212&&p._av212.tipo==="novid"&&p._av212.nota===nota)return;
+    if(p._av212&&(p._av212.tipo==="placar"||(p._av212.tipo==="novid"&&p._av212.nota===nota)))return;
     if(p._av212s===undefined)p._av212s=p.subtitulo;p._av212={tipo:"novid",nota,t:h};p.subtitulo=`Agora: «${t}» (${vtx}).`})}
 if(typeof atualizarAgora==="function"){const _aa212=atualizarAgora;atualizarAgora=function(){try{av212Novid()}catch(e){}return _aa212.apply(this,arguments)}}
 
@@ -85,10 +86,27 @@ if(typeof atualizarAgora==="function"){const _aa212=atualizarAgora;atualizarAgor
     const p=typeof MAT_PID!=="undefined"&&MAT_PID&&pautaById(MAT_PID);if(!p||!p._av212)return;const meta=m.querySelector(".mat-meta");if(!meta)return;
     const sub=m.querySelector(".mat-sub"),orig=typeof p._av212s==="string"?p._av212s:"";
     if(sub&&(sub.textContent.indexOf(p._av212.nota.slice(0,30))===0||/^Agora: «/.test(sub.textContent))){if(orig)sub.textContent=orig;else sub.remove()}
-    const b=document.createElement("p");b.className="av212-faixa"+(p._av212.tipo==="novid"?" nv":"");b.setAttribute("role","note");b.textContent=p._av212.nota;meta.after(b)}).observe(L,{childList:true,subtree:true});return true};
+    const b=document.createElement("p");b.className="av212-faixa"+(p._av212.tipo==="novid"?" nv":p._av212.tipo==="placar"?" pl":"");b.setAttribute("role","note");b.textContent=p._av212.nota;meta.after(b)}).observe(L,{childList:true,subtree:true});return true};
   if(!ob())document.addEventListener("DOMContentLoaded",ob)})();
 /* o relógio anda com o app aberto: a cada 5 min (e ao voltar para a aba) a nota da agenda é refeita */
 setInterval(()=>{try{if(typeof FEED!=="undefined"&&FEED)av212Passa(FEED);av212Novid()}catch(e){}},300e3);
 document.addEventListener("visibilitychange",()=>{try{if(!document.hidden&&typeof FEED!=="undefined"&&FEED){av212Passa(FEED);av212Novid()}}catch(e){}});
 /* a edição em cache é saneada antes deste módulo carregar: passa uma vez agora (o 999 redesenha em seguida) */
 try{if(typeof FEED!=="undefined"&&FEED){av212Passa(FEED);av212Novid()}}catch(e){}
+
+/* ---- 4. placar dos jogos da Agenda (robô "Placares ao vivo", placares.json, a cada 10 min) ----
+   Jogo em andamento: "Ao vivo: Atlético-MG 1 x 0 Corinthians (67')."; encerrado: "Terminou: Atlético-MG 2 x 1
+   Corinthians." no alto da notícia (subtítulo e faixa da matéria), no lugar do "O jogo começou às 20h…". A rodada
+   seguinte reescreve a notícia; o placar some sozinho quando a notícia é atualizada depois do fim do jogo. */
+var PL212=null;
+function av212Placar(){const F=typeof FEED!=="undefined"&&FEED;if(!F||!PL212||!Array.isArray(PL212.jogos))return;
+  PL212.jogos.forEach(j=>{const p=j&&j.pid&&pautaById(j.pid);if(!p||!j.texto)return;
+    const g=Date.parse(PL212.gerado||"")||Date.now();if(j.estado==="encerrado"&&av212UltMs(p)>g)return;
+    if(p._av212&&p._av212.tipo==="placar"&&p._av212.nota===j.texto)return;
+    if(p._av212s===undefined)p._av212s=p.subtitulo;p._av212={tipo:"placar",nota:j.texto,t:g};
+    p.subtitulo=j.texto+(typeof p._av212s==="string"&&p._av212s?" "+p._av212s:"")})}
+function av212PlCarrega(){try{const F=typeof FEED!=="undefined"&&FEED;const hj=typeof hojeSP==="function"?hojeSP():"";
+  if(!F||!(F.agenda||[]).some(a=>a&&a.pid&&/ x /.test(a.texto||"")))return;
+  fetch("placares.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{if(d&&Array.isArray(d.jogos)){PL212=d;av212Placar()}}).catch(()=>{})}catch(e){}}
+{const _ps212=av212Passa;av212Passa=function(F){const r=_ps212.apply(this,arguments);try{av212Placar()}catch(e){}return r}}
+av212PlCarrega();setInterval(av212PlCarrega,120e3);

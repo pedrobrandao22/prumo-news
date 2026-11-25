@@ -49,6 +49,10 @@ const PORTA = 9431, BASE = `http://localhost:${PORTA}/index.html`;
   const r7 = await P.evaluate(() => [ft213Ok({ url: 'https://upload.wikimedia.org/x/Alaska_Airlines_Airbus.jpg' }, 'falha em sistema da delta atrasa voos'), ft213Ok({ url: 'https://upload.wikimedia.org/x/Alaska_Airlines_Airbus.jpg' }, 'alaska airlines cancela voos'),
     ft213Alt({ url: 'x', alt: 'Foto de arquivo: airliner taking off runway United States airport' }, { tema: 'Falha da Delta' }).alt, FT157_BLOQ.indexOf('maidan nezalezhnosti') >= 0]);
   ok(r7[0] === false && r7[1] === true && r7[2] === 'Foto de arquivo (Falha da Delta)' && r7[3], '7: foto da Alaska só com Alaska no título; descrição em inglês trocada; Maidan bloqueada', r7);
+  // 9. placar do robô entra sozinho na notícia (25/11)
+  const r9 = await P.evaluate(() => { const p = FEED.pautas[2]; p.atualizacoes = []; p.correcoes = []; p.hora = new Date(Date.now() - 5 * 3600e3).toISOString(); delete p._av212;
+    PL212 = { gerado: new Date().toISOString(), jogos: [{ pid: p.id, estado: 'encerrado', texto: 'Terminou: Atlético-MG 2 x 1 Corinthians.' }] }; av212Placar(); av212Novid(); return { sub: p.subtitulo, tipo: p._av212 && p._av212.tipo } });
+  ok(r9.tipo === 'placar' && /^Terminou: Atlético-MG 2 x 1 Corinthians\./.test(r9.sub || ''), '9: placar encerrado vira "Terminou: …" no alto da notícia', r9);
   // 8. sem internet: depois de 4 s a pílula fica pequena, não some
   await ctx.setOffline(true); await P.evaluate(() => dispatchEvent(new Event('offline'))); await sleep(4600);
   const r8 = await P.evaluate(() => { const f = document.getElementById('sr209'); return f && { vis: getComputedStyle(f).visibility, op: +getComputedStyle(f).opacity, pe: getComputedStyle(f).pointerEvents } });

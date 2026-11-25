@@ -4,6 +4,7 @@
 .av212-faixa{margin:8px 0 2px;padding:9px 12px;border-radius:10px;background:var(--chip,#eef1f5);color:var(--ink,inherit);
   font:500 calc(14px*var(--fz,1))/1.4 var(--f-ui,system-ui);border-left:3px solid var(--accent,#d9480f)}
 .av212-faixa.nv{border-left-color:#c92a2a}
+.av212-faixa.pl{border-left-color:#2f6b4f;font-weight:700}
 
 /* item 3 (causa menus-explicacao-a-direita): nas folhas de opções a explicação fica EMBAIXO do nome, na largura toda.
    Vale para Seu post, Coluna, Opções do cartão, Conversa e Seguindo (o mesmo componente .opt); linhas com foto de
@@ -72,3 +73,8 @@ body:has(#layer > .scrim .sheet) .toast,body:has(#layer2 > .scrim .sheet) .toast
 /* convite recusado: campos apagados */
 .cv214-off{opacity:.45}
 #cv214-ler{margin-top:8px;width:100%}
+
+/* vigia 25/11 (iPhone SE, letra grande): a linha do placar oficial no Feed ("Câmara aprovou · 3ª votação, 353 a 128 ›")
+   saía cortada; com letra grande ela quebra em duas linhas */
+html.fzg .po118-ln{flex-wrap:wrap;white-space:normal;height:auto;row-gap:2px}
+html.fzg .po118-ln *{white-space:normal;overflow:visible;text-overflow:clip;min-width:0}
