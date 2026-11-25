@@ -19,6 +19,10 @@ const PORTA = 9421, BASE = `http://localhost:${PORTA}/index.html`;
   ];
   f.mudancas = { titulo: f.mudancas.titulo, itens: RECADOS.map(([a, b], i) => ({ pid: ids[i], tipo: 'atualizada', texto: a + b })) };
   f.mudancas.itens.push({ pid: ids[4], tipo: 'atualizada', texto: 'O julgamento fica para a próxima semana, segundo o STF' });
+  // cartão do dólar com título fixo: o título do dia muda (24/11: "Dólar cai a {dolar}…") e o histórico de títulos traz
+  // "…fecha a R$ 5,93" escrito à mão, que não vem do indicadores.json; o teste confere só o número que vem dele
+  { const pd = f.pautas.find(p => JSON.stringify(p.neutro || {}).includes('{dolar}')) || f.pautas.find(p => JSON.stringify(p).includes('{dolar}')) || f.pautas[f.pautas.length - 1];
+    if (pd) { pd.neutro = Object.assign(pd.neutro || {}, { titulo: 'Dólar fecha a {dolar} na {dolar.dia}' }); delete pd.titulos } }
   fs.writeFileSync(path.join(__dirname, '..', 'site', 'feed.json'), JSON.stringify(f));
   for (const x of ['feed-leve.json']) try { fs.unlinkSync(path.join(__dirname, '..', 'site', x)) } catch (e) {}
   const IND = fs.readFileSync(path.join(U.REPO, 'indicadores.json'), 'utf8'); const dolar = JSON.parse(IND).itens.find(x => x.id === 'dolar').valor;
@@ -71,8 +75,8 @@ const PORTA = 9421, BASE = `http://localhost:${PORTA}/index.html`;
     const r = await P.evaluate(() => { const t = document.querySelector('#v-feed') || document.body; return { txt: t.innerText, ind: !!IND_AUTO } });
     // procura o cartão do dólar no feed renderizado (rola até aparecer)
     let txt = r.txt;
-    for (let i = 0; i < 25 && !/Dólar fecha a/.test(txt); i++) { await P.evaluate(() => window.scrollBy(0, 700)); await sleep(250); txt = await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText) }
-    const m = /Dólar fecha a (R\$ [\d,]+)/.exec(txt);
+    for (let i = 0; i < 25 && !/Dólar fecha a R\$ [\d,]+ na /.test(txt); i++) { await P.evaluate(() => window.scrollBy(0, 700)); await sleep(250); txt = await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText) }
+    const m = /Dólar fecha a (R\$ [\d,]+) na /.exec(txt);
     ok(r.ind && m && m[1] === dolar, `${nome}: cartão do Feed com o dólar de indicadores.json (${dolar}), não o de outubro`, m && m[0]);
     ok(!/R\$ 5,02/.test(txt), `${nome}: nada de R$ 5,02 no Feed`);
     ok(!P._erros.length, 'sem erros na página (2) ' + P._erros.join('|'));

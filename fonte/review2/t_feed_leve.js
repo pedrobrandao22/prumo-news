@@ -20,7 +20,9 @@ function gravarFeed(f) { fs.writeFileSync(path.join(DIR, 'feed.json'), JSON.stri
   const H = await require('../harness').criar(); const b = await U.navegador();
   // pauta com texto (para a matéria) e uma palavra que só está no texto/contexto (para a busca)
   const alvo = [...F.pautas].sort((a, c) => String(c.neutro?.texto || '').length - String(a.neutro?.texto || '').length)[0];
-  const raso = norm([...F.pautas.map(p => [p.neutro?.titulo, p.tag, p.tema, p.subtema, p.por_que, p.subtitulo].join(' ')), ...(F.breves || []).map(x => x.titulo), ...(F.dormentes || []).map(d => [d.titulo, d.resumo, d.tema, d.tag, d.subtema].join(' '))].join(' '));
+  // tudo o que o feed-leve.json traz (é o que a busca enxerga antes do detalhe): a palavra não pode estar em nenhum texto dele
+  const textos = o => typeof o === 'string' ? [o] : Array.isArray(o) ? o.flatMap(textos) : (o && typeof o === 'object') ? Object.values(o).flatMap(textos) : [];
+  const raso = norm(textos(JSON.parse(fs.readFileSync(path.join(DIR, 'feed-leve.json'), 'utf8'))).join(' '));
   let palavra = null, dona = null;
   for (const p of F.pautas) { for (const w of norm(p.neutro?.texto).split(/[^a-z]+/)) { if (w.length >= 8 && !raso.includes(w)) { palavra = w; dona = p.id; break } } if (palavra) break }
   async function abrir(o = {}) {

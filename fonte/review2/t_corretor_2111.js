@@ -11,6 +11,10 @@ const PORTA = 9431, BASE = `http://localhost:${PORTA}/index.html`, SITE = path.j
   // reserva velha (como estava até 20/11 13h50): dólar R$ 5,02 de 22/10, Ibovespa 205.260
   f.indicadores.itens.forEach(x => { if (x.id === 'dolar') Object.assign(x, { valor: 'R$ 5,02', variacao: '-0,06%', data: '2026-10-22' });
     if (x.id === 'ibovespa') Object.assign(x, { valor: '205.260', variacao: '-0,60%', data: '2026-10-22' }) });
+  // cartão do dólar com título fixo: o título do dia muda (24/11: "Dólar cai a {dolar}…") e o histórico de títulos traz
+  // "…fecha a R$ 5,93" escrito à mão, que não vem do indicadores.json; o teste confere só o número que vem dele
+  { const pd = f.pautas.find(p => JSON.stringify(p.neutro || {}).includes('{dolar}')) || f.pautas.find(p => JSON.stringify(p).includes('{dolar}')) || f.pautas[f.pautas.length - 1];
+    if (pd) { pd.neutro = Object.assign(pd.neutro || {}, { titulo: 'Dólar fecha a {dolar} na {dolar.dia}' }); delete pd.titulos } }
   fs.writeFileSync(path.join(SITE, 'feed.json'), JSON.stringify(f));
   try { fs.rmSync(path.join(SITE, 'feed-det'), { recursive: true, force: true }) } catch (e) {}
   execFileSync('python3', ['-I', path.join(U.REPO, 'tools', 'feed_leve.py'), path.join(SITE, 'feed.json'), '--saida', SITE]);
@@ -41,8 +45,8 @@ const PORTA = 9431, BASE = `http://localhost:${PORTA}/index.html`, SITE = path.j
     await sleep(Math.max(atrInd, atrDet) + 2500);
     let txt = await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText);
     const topo = await P.evaluate(() => (document.querySelector('#secs') || {}).innerText || '');
-    for (let i = 0; i < 25 && !/Dólar fecha a/.test(txt); i++) { await P.evaluate(() => window.scrollBy(0, 700)); await sleep(200); txt += await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText) }
-    const m = /Dólar fecha a (R\$ [\d,]+)/.exec(txt);
+    for (let i = 0; i < 25 && !/Dólar fecha a R\$ [\d,]+ na /.test(txt); i++) { await P.evaluate(() => window.scrollBy(0, 700)); await sleep(200); txt += await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText) }
+    const m = /Dólar fecha a (R\$ [\d,]+) na /.exec(txt);
     ok(m && m[1] === dolar, `${nome}: cartão do dólar no Feed com ${dolar}`, m && m[0]);
     ok(!/R\$ 5,02|205\.260|quinta \(22\)/.test(txt + topo), `${nome}: nada da reserva velha (R$ 5,02, 205.260, quinta (22)) no Feed`,
       (/.{0,80}(R\$ 5,02|205\.260|quinta \(22\)).{0,40}/.exec(txt + topo) || [''])[0]);
