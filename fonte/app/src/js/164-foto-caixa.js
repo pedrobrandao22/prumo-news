@@ -40,7 +40,7 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;const 
 /* miniaturas na caixa */
 function fc164HTML(){if(!fc164Tem())return "";const P=CP152.ed.po;
   return `<div class="fc164" role="group" aria-label="Fotos do post">${P.fotos.map((f,i)=>`<div class="fc164-i"><button type="button" class="fc164-t" data-fc164ed="${i}" aria-label="Foto ${i+1}: toque para cortar e ajustar"><img alt="" data-fc164i="${i}"></button><button type="button" class="fc164-x" data-fc164x="${i}" aria-label="Tirar a foto ${i+1}">${CN102_SVG(CN102_ICO.x)}</button></div>`).join("")}${P.fotos.length<10?`<button type="button" class="fc164-mais" data-cp152ax="foto" aria-label="Mais fotos">${CN102_SVG(CN102_ICO.mais)}</button>`:""}</div>
-    <p class="fc164-d">Toque numa foto para cortar, ajustar ou pôr filtro.</p>
+    <p class="fc164-d">Toque numa foto para pôr filtro, cortar ou ajustar.</p>
     <button type="button" class="fc164-det" data-fc164det>${CN102_SVG('<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>')}<span>Local e pessoas na foto${fc164Resumo(P)?`<small>${esc(fc164Resumo(P))}</small>`:""}</span><i aria-hidden="true">›</i></button>`}
 function fc164Resumo(P){const m=(P.marcados||[]).map(u=>String(nomeDe(u)).split(" ")[0]),a=P.fotos.filter(x=>String(x.alt||"").trim()).length;
   return [String(P.local||"").trim(),m.join(", "),a?`texto alternativo em ${a} de ${P.fotos.length}`:""].filter(Boolean).join(" · ")}

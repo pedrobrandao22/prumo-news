@@ -6464,6 +6464,67 @@ html.fzg .card .segs button{font-size:13px;padding-inline:8px}
 /* testador (cabecalho-do-feed-deixa-texto-aparecer-atras-2): o cabeçalho rolado tinha 94–96% de opacidade e o texto preto
    de baixo ainda aparecia atrás do logo; fica opaco */
 html:root:not(.x211-nunca) .top.rolou{background:var(--bg)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+/* ===== 25/11: zerar as pendências do testador (itens 1 a 3 do balanço semanal e o resto) ===== */
+
+/* item 1 (212): faixa da notícia ao vivo na matéria */
+.av212-faixa{margin:8px 0 2px;padding:9px 12px;border-radius:10px;background:var(--chip,#eef1f5);color:var(--ink,inherit);
+  font:500 calc(14px*var(--fz,1))/1.4 var(--f-ui,system-ui);border-left:3px solid var(--accent,#d9480f)}
+.av212-faixa.nv{border-left-color:#c92a2a}
+
+/* item 3 (causa menus-explicacao-a-direita): nas folhas de opções a explicação fica EMBAIXO do nome, na largura toda.
+   Vale para Seu post, Coluna, Opções do cartão, Conversa e Seguindo (o mesmo componente .opt); linhas com foto de
+   pessoa (.av) continuam lado a lado */
+.opt button:not(:has(.av)):has(> span){flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
+.opt button:not(:has(.av)):has(> span) > span{display:block;width:100%;text-align:left;line-height:1.35;white-space:normal}
+/* Opções da conversa: sem o vão de ~80 px antes de Deixar de seguir; o grupo forte ganha só uma linha */
+.co160-opt.co160-pesado{margin-top:6px!important;padding-top:4px;border-top:1px solid var(--line)}
+.co160-pesado [data-bloquear]{color:#c92a2a}
+
+/* sem internet (perder-a-internet-com-o-app-aberto-nao-avisa-2): depois dos 4 s a pílula não some; fica pequena num
+   canto, sem tapar botões (não recebe toque) */
+.sr209.some{opacity:.95!important;visibility:visible!important;font-size:11.5px!important;padding:3px 9px!important;
+  left:10px!important;transform:none!important}
+
+/* Perfil: selo "Segue você" alinhado ao nome (perfil-selo-segue-voce-encosta-na-borda-esquerda) */
+.sg181-sv{margin-left:16px!important}
+.pfv .gut .sg181-sv,.vn-pf .sg181-sv{margin-left:0!important}
+:where(.vn-pf,.pfv-h,.pf-h)>.sg181-sv{margin-left:16px!important}
+
+/* Perfil sem posts: o botão "Nova publicação" não fica atrás da barra de baixo (iPhone SE) */
+#v-me .gut,.pfv{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+
+/* Guardar no topo da matéria: sem fundo quando não está guardado (guardar-no-topo-da-materia-parece-ja-marcado-2) */
+#layer .mat-top [aria-pressed="false"]{background:none!important;box-shadow:none!important}
+
+/* crédito da foto no fim da matéria: texto, não link */
+#layer .mat .cred{text-decoration:none!important;pointer-events:none;color:var(--muted);cursor:default}
+
+
+/* celular deitado: Acabou de sair na largura da coluna; foto até 45% da altura; "+" de publicar no topo */
+@media (orientation:landscape) and (max-height:500px){
+  #posts .ac208{max-width:var(--col,600px);margin-inline:auto}
+  #v-capa img,#posts .post .sl img{max-height:45vh;object-fit:cover}
+  #posts .post .sl{max-height:45vh}
+}
+
+/* retratos de perto (acervo/p) em quadros deitados: o rosto no meio, não o alto da cabeça (Moraes na Capa, Zanin no Criar) */
+img[src*="acervo/p/"]{object-position:50% 30%!important}
+.story img[src*="acervo/p/"]{object-position:50% 12%!important}
+
+/* Editar texto: Salvar grande, como o Publicar */
+.sheet [data-uedok]{min-width:120px;min-height:44px;font-weight:700}
+
+/* Editoria Economia: sem o vão entre Coberturas ativas e o Calendário (bloco vazio não reserva altura) */
+.sh4-b:empty,.sh4-cf:empty{display:none}
+
+/* Placar oficial: os botões das votações cabem na largura (quebram em duas linhas em vez de cortar na borda) */
+.po118-sw{flex-wrap:wrap;border-radius:14px;overflow:visible}
+.po118-sw button{flex:1 1 auto;white-space:normal;line-height:1.2;padding:4px 10px}
+
+/* Atividade: cobertura fora da edição como as outras pílulas (curta, à esquerda; "fora da edição" menor) */
+.at-chip-fora{display:inline-flex!important;width:auto!important;justify-content:flex-start;text-align:left;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.at-chip-fora small{font-size:11.5px;opacity:.8;margin-left:3px}
+
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -7012,7 +7073,7 @@ function openSnap(pid){
   sheet(s.tag||"Notícia",`<div class="art paper" data-sec="${esc(s.secao||"politica")}">${svgOf(s.imagem)}</div><h3 style="margin:0;font-family:var(--f-display);font-weight:700;letter-spacing:-.01em;font-size:21px;line-height:1.2">${esc(s.titulo)}</h3><p class="lead" style="margin:0">${esc(s.texto)}</p>${arrL(s.links).length?`<ul class="rows">${arrL(s.links).map(l=>`<li><span>${esc(nomeFonte(l.fonte))}</span><a href="${escU(l.url)}" target="_blank" rel="noopener">${esc(l.titulo)}</a></li>`).join("")}</ul>`:""}${S.salvos[pid]?.nota?`<p class="note"><b>Sua nota.</b> ${esc(S.salvos[pid].nota)}</p>`:""}<div class="snapacts"><button type="button" class="link" data-nota="${esc(pid)}">${S.salvos[pid]?.nota?"Editar nota":"Adicionar nota"}</button>${S.salvos[pid]?`<button type="button" class="link" data-tirar="${esc(pid)}">Tirar das guardadas</button>`:""}${Object.entries(S.listas||{}).filter(([,m])=>m&&m[pid]).map(([u])=>`<button type="button" class="link" data-tirarl="${esc(pid)}" data-com="${esc(u)}">Tirar da lista com ${esc(nomeDe(u))}</button>`).join("")}</div>${pp?`<p class="hint">${silenciado(pp)?`Esta notícia está escondida porque o tema “${esc(temaDe(pp))}” está silenciado. Dá para mudar isso nos Ajustes do app.`:(PREF.ocultas||[]).includes(secOf(pp))?`Esta notícia está escondida porque a seção ${esc(secNome(secOf(pp)))} está escondida. Dá para mudar isso nos Ajustes do app.`:`Seu feed está em “Meus temas”, que mostra só o que você segue. Para ver tudo, mude a ordem no filtro do feed.`}</p>`:`<p class="hint">Notícia de uma edição anterior do Prumo.</p>`}`);
 }
 function abrirNome(){if(precisaConta())return;
-  sheet("Mudar meu nome",`<p class="hint" style="margin:0;font-size:14.5px">Esse nome aparece para os seus amigos: nas curtidas, nos comentários e nas conversas.</p>`,`<form id="nform"><input class="field" id="ntext" maxlength="40" autocomplete="given-name" placeholder="Seu nome" aria-label="Seu nome" value="${esc(S.membros[S.uid]?.nome||"")}"><button class="send" type="submit">Salvar</button></form>`);
+  sheet("Mudar meu nome",`<p class="hint" style="margin:0;font-size:14.5px">Esse nome aparece para quem segue você: nas curtidas, nos comentários e nas conversas.</p>`,`<form id="nform"><input class="field" id="ntext" maxlength="40" autocomplete="given-name" placeholder="Seu nome" aria-label="Seu nome" value="${esc(S.membros[S.uid]?.nome||"")}"><button class="send" type="submit">Salvar</button></form>`);
   $("#nform").addEventListener("submit",async e=>{e.preventDefault();const n=$("#ntext").value.trim();if(!n)return;closeLayer();const ant=S.membros[S.uid];S.membros[S.uid]={...(ant||{}),nome:n};rerenderAll();
     try{await S.db.doc("pessoas/"+S.uid).set({nome:n});toast("Nome salvo")}catch(err){if(ant)S.membros[S.uid]=ant;rerenderAll();const m=erroAuth(err);toast(/nome/i.test(m)?m:"Não deu para salvar o nome agora.")}});
 }
@@ -7059,7 +7120,7 @@ function renderSaved(){
   const comQuem=cs=>{const n=cs.map(nomeDe);return n.length<=2?n.join(" e "):n.slice(0,2).join(", ")+" e mais "+(n.length-2)};
   if(ABA_G==="nossa")corpo=nossa.length?`<ul class="svl">${porPid.map(x=>{const s=x.snap||snapById(x.pid)||{};return linhaSalva(x.pid,s,x.coms.length>1?`${esc(secNome(s.secao||"politica"))} · com ${esc(comQuem(x.coms))}`:`${esc(secNome(s.secao||"politica"))} · com ${esc(nomeDe(x.com))}${esc(x.uid===S.uid?" · você pôs ":", que pôs ")}${esc(quando(x.at))}`)}).join("")}</ul>`:`<div class="empty"><b>Nenhuma lista com amigos ainda</b>No ⋯ de um post, toque em “Pôr numa lista com…” para guardar algo para ler junto com um amigo.</div>`;
   else corpo=items.length?`<ul class="svl">${items.map(([pid,x])=>{const s=x.snap||snapById(pid)||{};return linhaSalva(pid,s,`${esc(secNome(s.secao||"politica"))} · guardada ${esc(quando(x.at))}`,x.nota?`<span class="nt">Nota: ${esc(x.nota)}</span>`:"")}).join("")}</ul>`:`<div class="empty"><b>Nada guardado ainda</b>Toque no alfinete de um post para guardar a notícia aqui.<button type="button" class="btn ghost" data-vgo="feed" style="margin-top:10px">Ver as notícias de hoje</button></div>`;
-  v.innerHTML=`<div class="gut"><div class="view-h"><button type="button" class="vback" data-vgo="me" aria-label="Voltar ao Perfil">‹ Perfil</button><h1>Guardadas</h1></div>${abas}${corpo}</div>`;
+  v.innerHTML=`<div class="gut"><div class="view-h"><button type="button" class="vback" data-vgo="me" aria-label="Voltar ao Perfil">‹ Perfil</button><h1>Guardados</h1></div>${abas}${corpo}</div>`;
 }
 const FZ=[0.9,1,1.12,1.25,1.4];
 function amigosCardHTML(){const am=amigosL(),pin=S.pedidosIn.filter(x=>S.membros[x]).sort((a,b)=>nomeDe(a).localeCompare(nomeDe(b),"pt-BR"));
@@ -7213,7 +7274,7 @@ function enqueteHTML(p){
     return `<button type="button" class="${votou&&meu===i?"mine":""}" data-voto="${i}" aria-pressed="${votou&&meu===i}"><span>${esc(o)}</span>${votou&&quem.length?`<em>${esc(quemVotou(quem))}</em>`:""}</button>`}).join("")}${votou?(faltam.length?`<span class="hint">${esc(faltam.length===1?nomeDe(faltam[0])+" ainda não votou.":faltam.length+" amigos ainda não votaram.")}</span>`:""):`<span class="hint">${esc(dicaVoto(vals))}</span>`}</div>`;
 }
 function quemVotou(us){const n=us.map(u=>u===S.uid?"você":nomeDe(u));if(n.length>3)return n.slice(0,2).join(", ")+" e mais "+(n.length-2);return n.length<2?n[0]:n.slice(0,-1).join(", ")+" e "+n[n.length-1]}
-function dicaVoto(vals){if(!S.uid||!S.membro)return "Entre para votar e ver o que seus amigos acham.";const am=amigosL(),ja=vals.map(([u])=>u).filter(u=>u!==S.uid);if(ja.length===1)return nomeDe(ja[0])+" já votou. Vote para ver.";if(ja.length>1)return ja.length+" amigos já votaram. Vote para ver.";if(am.length===1)return "Vote e veja depois o que "+nomeDe(am[0])+" acha.";if(am.length>1)return "Vote e veja depois o que seus amigos acham.";return "Toque numa opção para votar."}
+function dicaVoto(vals){if(!S.uid||!S.membro)return "Entre para votar e ver o que quem você segue acha.";const am=amigosL(),ja=vals.map(([u])=>u).filter(u=>u!==S.uid);if(ja.length===1)return nomeDe(ja[0])+" já votou. Vote para ver.";if(ja.length>1)return ja.length+" amigos já votaram. Vote para ver.";if(am.length===1)return "Vote e veja depois o que "+nomeDe(am[0])+" acha.";if(am.length>1)return "Vote e veja depois o que seus amigos acham.";return "Toque numa opção para votar."}
 async function votar(pid,i){uso("enquete");vibrar(8);
   if(precisaConta())return;const atual=meuVoto(pid);const val=atual===i?null:i;
   pend("votos",pid,val);recalcSoc("votos");setTimeout(updatePlayBadge,0);if(val===null)toast("Voto retirado.");updateSocial(pid);if(VIEW==="play")renderPlay();
@@ -7437,7 +7498,7 @@ function ajustesHTML(){
     ${aj.length?`<div class="card"><b>Mais e menos disso</b><ul class="secpref">${aj.map(a=>`<li><b>${a.d>0?"Mais":"Menos"} ${esc(a.n)}</b><button type="button" data-unaj="${a.t}" data-k="${esc(a.k)}" style="width:auto;padding:0 10px;font-size:13px">Desfazer</button></li>`).join("")}</ul></div>`:""}
     <div class="card"><b>Temas que eu sigo</b>${seg.length?`<ul class="secpref">${seg.map(t=>`<li><b>${esc(t)}</b><button type="button" data-tema="${esc(t)}" data-acao="seguindo" style="width:auto;padding:0 10px;font-size:13px">Deixar de seguir</button></li>`).join("")}</ul>`:`<p class="hint">Use os três pontinhos de um post para seguir um tema. Ele sobe no feed e marca quando houver atualização.</p>`}</div>
     ${sil.length?`<div class="card"><b>Temas silenciados</b><ul class="secpref">${sil.map(t=>`<li><b>${esc(t)}</b><button type="button" data-tema="${esc(t)}" data-acao="silenciados" style="width:auto;padding:0 10px;font-size:13px">Mostrar de novo</button></li>`).join("")}</ul></div>`:""}
-    <div class="card"><b>Áudio</b><p class="hint">Velocidade atual: ${(A.rate||1).toFixed(1).replace(".",",")}×. A voz e a velocidade se ajustam no botão de som, no topo.</p></div>`;
+    `;
 }
 function abrirAjustes(){sheet("Ajustes do app",`<div id="ajbox" style="display:flex;flex-direction:column;gap:12px">${ajustesHTML()}</div>`);uso("ajustes")}
 function refreshAjustes(){const b=$("#ajbox");if(b)b.innerHTML=ajustesHTML();if(VIEW==="me")renderMe()}
@@ -7859,7 +7920,7 @@ function renderCapa(){nm186EmDia();
   if(acomp.length)h+=`<div class="cp-h"><h3>Para acompanhar</h3></div><ul class="cp-l">${acomp.map(p=>{const et=cobEtapaAtual(p);return `<li><button type="button" data-cobpag="${esc(p.id)}"><span class="s">${esc(quando(ultimaAtualizacao(p)||p.hora))}</span><b>${esc(temaDe(p)||versao(p,L).titulo)}${et?" · "+esc(et):p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</b></button></li>`}).join("")}</ul>`;
   const ult=tickerItens(8);
   if(ult.length)h+=`<div class="cp-h"><h3>Últimas</h3></div><ul class="cp-l">${ult.map(i=>{const p=pautaById(i.pid);return `<li><button type="button" data-capair="${esc(i.pid)}"><span class="s">${i.hora?esc(horaDia(i.hora))+" · ":""}${esc(p?temaDe(p)||secNome(i.sec):secNome(i.sec))}</span><b>${esc(i.txt)}</b></button></li>`}).join("")}</ul>`;
-  const hj=hojeSP(),am=somaDias(hj,1),ag=(FEED.agenda||[]).map(a=>({...a,_d:agData(a,hj)})).filter(a=>a._d===hj||a._d===am||(fimDeSemana()&&a._d>am&&a._d<=somaDias(hj,7))).sort((x,y)=>x._d.localeCompare(y._d)||agMin(x)-agMin(y)).slice(0,fimDeSemana()?8:99);
+  const hj=hojeSP(),am=somaDias(hj,1),ag=(FEED.agenda||[]).map(a=>({...a,_d:agData(a,hj)})).filter(a=>a._d===hj||a._d===am||(fimDeSemana()&&a._d>am&&a._d<=somaDias(hj,7))).sort((x,y)=>x._d.localeCompare(y._d)||agMin(x)-agMin(y)).slice(0,fimDeSemana()?14:99);
   if(ag.length)h+=`<div class="cp-h"><h3>${fimDeSemana()?"Agenda da semana":"Agenda"}</h3></div><ul class="cp-l">${ag.map(a=>{const pid=agPid(a);return `<li><button type="button" ${pid?`data-capair="${esc(pid)}"`:"disabled"}><span class="s">${agDiaTxt(a._d,hj,am)}${agHoraTxt(a)?" · "+esc(agHoraTxt(a)):""}</span><b>${esc(a.texto)}</b></button></li>`}).join("")}</ul>`;
   const enq=ps.filter(p=>p.enquete&&(p.enquete.opcoes||[]).length);const pend=S.uid&&S.membro?enq.filter(p=>meuVoto(p.id)==null).length:0;const qz=(FEED.quiz||[]).length&&!(S.quiz||{})[S.uid||"eu"];
   if(qz||pend)h+=`<button type="button" class="cp-int" data-vgo="play"><span><b>${qz?"Quiz do dia":"Enquetes"}</b><span>${[qz?`${FEED.quiz.length} perguntas sobre esta edição`:"",pend?`${pend} ${pend===1?"enquete espera":"enquetes esperam"} o seu voto`:""].filter(Boolean).join(" · ")}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
@@ -8575,7 +8636,7 @@ async function copiarConvite(){const l=S._cvlink;if(!l)return;try{await navigato
 async function enviarConvite(){const l=S._cvlink;if(!l)return;try{if(navigator.share){await navigator.share({title:"Prumo News",text:"Entre no Prumo News com o meu convite:",url:l});return}}catch(e){if(e&&e.name==="AbortError")return}copiarConvite()}
 function abrirPrivacidade(){sheet("Política de privacidade",`<div class="priv" style="display:flex;flex-direction:column;gap:8px">
   <h4>O que o Prumo guarda</h4><p>Seu nome e e-mail; suas curtidas, votos, comentários e leituras; o quiz; as mensagens; as guardadas e as notas; o histórico de leitura; as preferências do app; e os avisos de erro que você manda.</p>
-  <h4>Quem vê</h4><p>Seus amigos veem suas curtidas, votos e comentários. Mensagens, só quem mandou e quem recebeu. Guardadas, notas, leituras, quiz, histórico e preferências, só você. Seu nome aparece para os seus amigos e para os amigos deles; outras pessoas só te acham digitando o seu nome completo.</p>
+  <h4>Quem vê</h4><p>Quem segue você vê suas curtidas, votos e comentários. Mensagens, só quem mandou e quem recebeu. Guardadas, notas, leituras, quiz, histórico e preferências, só você. Seu nome aparece para os seus amigos e para os amigos deles; outras pessoas só te acham digitando o seu nome completo.</p>
   <h4>Administração</h4><p>O Pedro administra o Prumo: ele vê a lista de pessoas (nome, e-mail, quem convidou quem), os avisos de erro e as denúncias, e pode apagar um comentário denunciado ou suspender uma conta. Ele não vê as suas mensagens, a não ser uma que você mesmo denunciar.</p>
   <h4>Bloquear e denunciar</h4><p>Quem você bloqueia deixa de te achar e não pode pedir amizade nem mandar mensagem. Quem é denunciado não fica sabendo quem denunciou.</p>
   <p>O texto dos avisos de erro (sem o nome de quem mandou) é lido pela rodada automática que confere as notícias.</p>
@@ -8841,7 +8902,7 @@ function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==se
   if(sec==="politica"||sec==="educacao"){const tr=todas.filter(p=>p.etapa&&Array.isArray(p.etapa.passos)&&p.etapa.passos.length>1);
     if(tr.length)h+=`<div class="sh4-b"><h5>${sec==="politica"?"Em tramitação":"Leis e normas em andamento"}</h5>${tr.map(p=>`<button type="button" class="sh4-tr" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b>${cobEtapas(p)}</button>`).join("")}</div>`}
   if(sec==="economia")h+=indPainel();
-  {const cal=calendarioDe(sec,8);if(cal.length)h+=`<div class="sh4-b"><h5>${sec==="economia"?"Calendário econômico":sec==="educacao"?"Provas e inscrições":sec==="politica"?"Calendário":"Datas"}</h5>${calHTML(cal.slice(0,4))}${cal.length>4?`<details class="sh4-mais"><summary>Ver mais ${cal.length-4} datas</summary>${calHTML(cal.slice(4))}</details>`:""}</div>`}
+  {const cal=calendarioDe(sec,8);if(cal.length)h+=`<div class="sh4-b"><h5>${sec==="economia"?"Calendário econômico":sec==="educacao"?"Provas e inscrições":sec==="politica"?"Calendário":"Datas"}</h5>${calHTML(cal.slice(0,4))}${cal.length>4?`<details class="sh4-mais"><summary>Ver mais ${cal.length-4} ${cal.length-4===1?"data":"datas"}</summary>${calHTML(cal.slice(4))}</details>`:""}</div>`}
   if(sec==="politica"){const hj=hojeSP(),ag=(FEED.agenda||[]).map(a=>({...a,_d:agData(a,hj)})).filter(a=>a.secao==="politica"&&a._d>=hj).sort((x,y)=>x._d.localeCompare(y._d)||agMin(x)-agMin(y)).slice(0,6);
     if(ag.length)h+=`<div class="sh4-b"><h5>Agenda da semana</h5><ul class="sh4-cal">${ag.map(a=>`<li><time>${a._d===hj?"Hoje":esc(dataCurta(a._d))}${agHoraTxt(a)?" "+esc(agHoraTxt(a)):""}</time><span>${esc(a.texto)}</span></li>`).join("")}</ul></div>`}
   if(sec==="brasil"){const sv=todas.filter(p=>Array.isArray(p.servicos)&&p.servicos.length);
@@ -9905,7 +9966,7 @@ function horaDia(iso){const d=new Date(iso);if(isNaN(d))return "";const dia=data
   if(dia===somaDias(hoje,-1))return "ontem, "+hhmm(iso);const w=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"America/Sao_Paulo"}).replace(".","");return `${w} (${+dia.slice(8,10)}), ${hhmm(iso)}`}
 function atualizadoTxt(iso){const t=horaDia(iso);if(!t)return "Atualizado";return dataSP(iso)===hojeSP()?"Atualizado às "+t:"Atualizado "+t.replace(/, /,", às ")}
 /* voltar da matéria: diz de onde veio */
-var VOLTA_NOME={capa:"Capa",feed:"Feed",busca:"Busca",saved:"Guardadas",me:"Perfil",msgs:"Conversas",play:"Interagir"};
+var VOLTA_NOME={capa:"Capa",feed:"Feed",busca:"Busca",saved:"Guardados",me:"Perfil",msgs:"Conversas",play:"Interagir"};
 /* botão das versões: some ao rolar para baixo, volta ao rolar para cima */
 (function(){let y0=scrollY,oc=false;addEventListener("scroll",()=>{const y=scrollY,dy=y-y0;if(Math.abs(dy)<6)return;const novo=dy>0&&y>120;if(novo!==oc){oc=novo;document.documentElement.classList.toggle("lp-some",oc)}y0=y},{passive:true})})();
 /* indicadores: dia do dado quando não é de hoje */
@@ -9981,7 +10042,7 @@ function dmPrevia(m){let r;
     else if(m.tipo==="curtiu_story")r=eu?"Você curtiu o giro":"Curtiu seu giro ❤️";
     else if(m.tipo==="resp_story")r=(eu?"Você respondeu ao giro: ":"Respondeu ao seu giro: ")+(m.texto||"");
     else if(m.pid&&!m.texto){/* 20/11 (testador): com letra grande só cabia "Você enviou uma …"; o assunto vem antes */
-      const pn=pautaById(m.pid),tt=pn&&versao(pn,"neutro").titulo;r=tt?(eu?"Você: ":"")+"notícia — "+tt:(eu?"Você enviou uma notícia":"Enviou uma notícia")}
+      const pn=pautaById(m.pid),tt=(m.snap&&m.snap.titulo)||(pn&&versao(pn,"neutro").titulo);r=tt?(eu?"Você: ":"")+"notícia — "+tt:(eu?"Você enviou uma notícia":"Enviou uma notícia")}
     else r=(eu?"Você: ":"")+(m.texto||"")}
   /* 121: "giro" no lugar de "story" */
   try{return typeof r==="string"?tb121Giro(r):r}catch(e){return r}}
@@ -11563,7 +11624,7 @@ atPrimeiraVez=function(chaves){let l=atLed();if(!S.amigosOk||!FEED)return l||{};
 pubEditar=async function(id,txt){const x=pubDe(id);if(!x||x.autor!==S.uid)return;const men=t=>typeof mencionados==="function"?mencionados(t||""):[];const antes=men(x.texto);
   let r;try{r=await SB.from("publicacoes").update({texto:txt}).eq("id",id).select("id")}catch(e){r={error:e}}
   if(!r||r.error||!Array.isArray(r.data)||!r.data.length){toast("Não deu para salvar agora.");return}
-  x.texto=txt;x.editado=Date.now();toast("Legenda atualizada");
+  x.texto=txt;x.editado=Date.now();toast((x.fotos||[]).length?"Legenda atualizada":"Texto atualizado");
   const el=document.getElementById("p-u:"+id);if(el){try{el.outerHTML=pubPostHTML(x);const n=document.getElementById("p-u:"+id);if(n){wireTracks(n);updateSocial("u:"+id)}}catch(e){}}
   let novos=men(txt).filter(u=>!antes.includes(u));try{const pv=typeof pubPodeVer==="function"?pubPodeVer(x):null;if(pv)novos=novos.filter(u=>pv.has(u))}catch(e){}if(novos.length){const snap={titulo:"Post de "+nomeDe(S.uid)+": "+String(txt).slice(0,90),upub:id};
     Promise.all(novos.map(u=>dmEnviar(u,{texto:String(txt).slice(0,1000),pid:"u:"+id,snap,tipo:"mencao"},true))).catch(()=>{})}};
@@ -13577,7 +13638,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;cons
   const ap=document.querySelector(`.sheet [data-uapagar="${CSS.escape(id)}"]`);if(!ap||ap.parentNode.querySelector("[data-u8arq]"))return;
   if(x.arquivado)ap.parentNode.querySelectorAll("[data-ufixar],[data-upstory],[data-ueditar]").forEach(o=>o.remove());
   ap.insertAdjacentHTML("beforebegin",x.arquivado?`<button type="button" data-u8arq="${esc(id)}" data-on="0">Mostrar no perfil<span>volta para o seu perfil e para o Feed dos amigos</span></button>`
-    :`<button type="button" data-u8arq="${esc(id)}" data-on="1">Arquivar<span>sai do perfil e do Feed dos amigos, sem apagar</span></button>`)},true);
+    :`<button type="button" data-u8arq="${esc(id)}" data-on="1">Arquivar<span>sai do seu perfil e do Feed de quem segue você, sem apagar</span></button>`)},true);
 async function pub8Arquivar(id,on){const x=pubDe(id)||(ARQ8||[]).find(y=>y.id===id);if(!x)return false;
   const r=await SB.rpc("pub_arquivar",{p_id:id,p_arquivar:on});if(r&&r.error||!(r&&r.data)){toast(on?"Não deu para arquivar agora.":"Não deu para mostrar agora.");return false}
   x.arquivado=on;if(on)x.fixado=null;const y=pubDe(id);if(y&&y!==x){y.arquivado=on;if(on)y.fixado=null}
@@ -14273,7 +14334,7 @@ function f113PratHTML(sh){const t=sh.t,id="fs2sh-"+t.k.replace(/[^\w-]/g,"_"),c=
 function f113PodeCompor(P){return !!P&&(!P.cn||P.cn.k==="ana")}
 function f113EdHTML(parts,attr,ed){const n=parts.length+1;
   return `${parts.map((t,i)=>`<div class="fs2-ed-p"><span class="fs2-ed-n" aria-hidden="true">${i+2}/${n}</span><textarea class="fs2-ed-tx${ed?" field":""}" data-${attr}parte="${i}" maxlength="2000" rows="3" placeholder="Continue o fio" aria-label="Parte ${i+2} de ${n}">${esc(t)}</textarea><button type="button" class="fs2-ed-x" data-${attr}tira="${i}" aria-label="Tirar a parte ${i+2}">${F113_SVG.x}</button></div>`).join("")}
-    ${n<F113_MAX?`<button type="button" class="fs2-ed-add" data-${attr}mais>${F113_SVG.mais}Adicionar parte</button>`:""}${parts.length?`<p class="fs2-ed-d">Fio com ${n} partes. Seus amigos veem a primeira e tocam em “Ler o fio” para ver o resto.</p>`:""}`}
+    ${n<F113_MAX?`<button type="button" class="fs2-ed-add" data-${attr}mais>${F113_SVG.mais}Adicionar parte</button>`:""}${parts.length?`<p class="fs2-ed-d">Fio com ${n} partes. Quem segue você vê a primeira e toca em “Ler o fio” para ver o resto.</p>`:""}`}
 function f113EdPoe(el){const P=ED&&ED.po;if(!P||!f113PodeCompor(P))return;const leg=el.querySelector("#ce-leg");if(!leg)return;if(!Array.isArray(P.f113fio))P.f113fio=[];
   el.querySelector(".fs2-ed")?.remove();el.querySelector(".fs2-ed-n1")?.remove();
   if(P.f113fio.length)leg.insertAdjacentHTML("beforebegin",`<span class="fs2-ed-n fs2-ed-n1" aria-hidden="true">1/${P.f113fio.length+1}</span>`);
@@ -14963,7 +15024,7 @@ function cs123EdDesenha(){const el=$("#layer .cs123-ed"),E=CS123.ed;if(!el||!E)r
     <div class="cs123-eds">${rs.length?`<div class="cs123-rs"><b>Rascunhos</b>${rs.map(r=>`<span class="cs123-rc"><button type="button" data-cs123rabre="${esc(r.rid)}"><b>${esc(r.tit||"Sem título")}</b><small>${esc(quando(r.at))}</small></button><button type="button" class="cs123-rx" data-cs123rtira="${esc(r.rid)}" aria-label="Apagar o rascunho">${ICON.close}</button></span>`).join("")}</div>`:""}
       <div class="cs123-capaed">${E.capa?`<img src="${pubSrc(E.capa.url)}" alt=""><button type="button" class="cs123-capax" data-cs123capax>Tirar a foto</button>`:`<button type="button" class="cs123-capab" data-cs123capa>${cs123Svg(CS123_IC.foto)}<span>Foto de capa<small>opcional</small></span></button>`}</div>
       <label class="cs123-f"><textarea id="cs123-tit" class="cs123-tit" data-cs123f="tit" maxlength="90" rows="2" placeholder="Título da coluna" enterkeyhint="next">${esc(E.tit)}</textarea><small data-cs123n="tit"></small></label>
-      <label class="cs123-f"><textarea id="cs123-linha" class="cs123-lin" data-cs123f="linha" maxlength="160" rows="2" placeholder="Linha fina: uma frase que resume e chama para a leitura" enterkeyhint="next">${esc(E.linha)}</textarea><small data-cs123n="linha"></small></label>
+      <label class="cs123-f"><textarea id="cs123-linha" class="cs123-lin" data-cs123f="linha" maxlength="160" rows="2" placeholder="Resumo (opcional): uma frase que resume e chama para a leitura" enterkeyhint="next">${esc(E.linha)}</textarea><small data-cs123n="linha"></small></label>
       <div class="cs123-bar" role="toolbar" aria-label="Formatação"><button type="button" data-cs123fmt="h">Intertítulo</button><button type="button" data-cs123fmt="q">Citação</button><button type="button" data-cs123fmt="b" aria-label="Negrito"><b>N</b></button><button type="button" data-cs123fmt="i" aria-label="Itálico"><i>I</i></button><button type="button" data-cs123fmt="a">Link</button></div>
       <textarea id="cs123-corpo" class="cs123-corpoed" data-cs123f="corpo" maxlength="${lim}" placeholder="Escreva a coluna. Cada parágrafo numa linha." aria-label="Texto da coluna">${esc(E.corpo)}</textarea>
       <p class="cs123-cont" data-cs123n="corpo"></p>
@@ -15931,7 +15992,7 @@ function ed132Desenha(){const el=$("#layer > .ed132"),E=ED132.E;if(!el||!E)retur
     <div class="ed132-sc"${E.ver?" hidden":""}><div class="ed132-in">
       <div class="ed132-capa">${ed132CapaHTML()}</div>
       <textarea id="ed132-tit" class="ed132-tit" data-ed132f="tit" maxlength="90" rows="1" placeholder="Título" enterkeyhint="next" aria-label="Título da coluna">${esc(E.tit)}</textarea>
-      <textarea id="ed132-lin" class="ed132-lin" data-ed132f="linha" maxlength="160" rows="1" placeholder="Linha fina: uma frase que resume e chama para a leitura" enterkeyhint="next" aria-label="Linha fina">${esc(E.linha)}</textarea>
+      <textarea id="ed132-lin" class="ed132-lin" data-ed132f="linha" maxlength="160" rows="1" placeholder="Resumo (opcional): uma frase que resume e chama para a leitura" enterkeyhint="next" aria-label="Linha fina">${esc(E.linha)}</textarea>
       <div id="ed132-corpo" class="ed132-txt" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Texto da coluna" spellcheck="true" data-ph="Escreva a coluna. Digite / para inserir título, citação, lista, foto ou gráfico."></div>
       <p class="ed132-dica">Dica: no começo de uma linha, digite <b>/</b> para escolher o bloco. No computador, Ctrl+B, Ctrl+I e Ctrl+K.</p></div></div>
     <div class="ed132-ver"${E.ver?"":" hidden"}></div>
@@ -17119,7 +17180,7 @@ document.addEventListener("change",e=>{if(e.target&&e.target.id==="pb136-cons"){
 /* ===== 6. a autora: "Minhas colunas" com a newsletter (contagem e lista dos confirmados) ===== */
 {const _h=ed132HubHTML;ed132HubHTML=function(){let h=_h.apply(this,arguments);try{if(PB136.v14!==true||!S.uid)return h;const i=PB136.info[S.uid]||{};
   const c=+i.confirmados||0,p=+i.pendentes||0,tem=!!i.aberta;
-  const s=`<section class="pb136-hub" aria-label="Newsletter por e-mail"><h3 class="ed132-hh">Newsletter por e-mail <small>${tem?"das suas colunas abertas":"liga com a primeira coluna aberta"}</small></h3>
+  const s=`<section class="pb136-hub" aria-label="Newsletter por e-mail"><h3 class="ed132-hh">Newsletter por e-mail <small>${tem?"das suas colunas abertas":"quando você publicar uma coluna para qualquer pessoa, leitores poderão assiná-la por e-mail"}</small></h3>
     <p class="pb136-n"><b>${cs123Num(c)}</b> ${c===1?"assinante confirmado":"assinantes confirmados"}${p?` · ${cs123Num(p)} ${p===1?"esperando":"esperando"} confirmação`:""}</p>
     <p class="hint">${tem?"Cada coluna aberta nova vai por e-mail para quem confirmou. Ninguém vê esta lista, só você.":"Publique uma coluna com “Todos (link público)”: a página aberta ganha o botão “Assinar por e-mail”."}</p>
     ${c?`<button type="button" class="btn ghost" data-pb136csv>Baixar a lista (CSV)</button>`:""}</section>`;
@@ -19441,7 +19502,7 @@ window.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;const 
 /* miniaturas na caixa */
 function fc164HTML(){if(!fc164Tem())return "";const P=CP152.ed.po;
   return `<div class="fc164" role="group" aria-label="Fotos do post">${P.fotos.map((f,i)=>`<div class="fc164-i"><button type="button" class="fc164-t" data-fc164ed="${i}" aria-label="Foto ${i+1}: toque para cortar e ajustar"><img alt="" data-fc164i="${i}"></button><button type="button" class="fc164-x" data-fc164x="${i}" aria-label="Tirar a foto ${i+1}">${CN102_SVG(CN102_ICO.x)}</button></div>`).join("")}${P.fotos.length<10?`<button type="button" class="fc164-mais" data-cp152ax="foto" aria-label="Mais fotos">${CN102_SVG(CN102_ICO.mais)}</button>`:""}</div>
-    <p class="fc164-d">Toque numa foto para cortar, ajustar ou pôr filtro.</p>
+    <p class="fc164-d">Toque numa foto para pôr filtro, cortar ou ajustar.</p>
     <button type="button" class="fc164-det" data-fc164det>${CN102_SVG('<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>')}<span>Local e pessoas na foto${fc164Resumo(P)?`<small>${esc(fc164Resumo(P))}</small>`:""}</span><i aria-hidden="true">›</i></button>`}
 function fc164Resumo(P){const m=(P.marcados||[]).map(u=>String(nomeDe(u)).split(" ")[0]),a=P.fotos.filter(x=>String(x.alt||"").trim()).length;
   return [String(P.local||"").trim(),m.join(", "),a?`texto alternativo em ${a} de ${P.fotos.length}`:""].filter(Boolean).join(" · ")}
@@ -19981,7 +20042,7 @@ function cm168Mesmo(f,x){if(f.ref!==x.ref)return false;const da=cm168Dias(f.txt)
       if(igual){const ra=cm168Tk(igual.txt,CM168_RS).map(v=>v.replace(/\s/g,"")),rb=cm168Tk(x.txt,CM168_RS).map(v=>v.replace(/\s/g,""));if(ra.length&&rb.length&&!rb.every(v=>ra.includes(v)))igual.cm168c=1;return}fica.push(x)});
     fica.forEach(x=>{if(x.cm168c&&String(x.tema).indexOf("número corrigido")<0)x.tema=(x.tema?x.tema+" · ":"")+"número corrigido"});d.ev=fica}catch(e){}return d}}
 function cm168AsLink(){document.querySelectorAll(".sheet .as-link[data-assunto]").forEach(b=>{if(b.dataset.cm168)return;b.dataset.cm168="1";const n=(b.querySelector("span")||{}).textContent||"";const k=/(\d+)/.exec(n);
-  b.innerHTML=`Notícias de ${esc(b.dataset.assunto)} <span>${k?k[1]+" ›":"›"}</span>`;b.setAttribute("aria-label",`Ver as notícias do assunto ${b.dataset.assunto}`)})}
+  b.innerHTML=`Mais sobre ${esc(b.dataset.assunto)} <span>${k?k[1]+" ›":"›"}</span>`;b.setAttribute("aria-label",`Ver as notícias do assunto ${b.dataset.assunto}`)})}
 {const _ado168=abrirDormente;abrirDormente=function(){const r=_ado168.apply(this,arguments);try{cm168AsLink()}catch(e){}return r}}
 
 /* ===== 7. Matéria: voltar, endereço, recarregar e girar ===== */
@@ -20524,7 +20585,7 @@ if(typeof ed132Publica==="function"){const _p=ed132Publica;ed132Publica=async fu
 if(typeof pb136Quem==="function"){const _q=pb136Quem;pb136Quem=function(id){const x=pubDe(id);if(!sg181On()||!x)return _q.apply(this,arguments);
   const v=x.publico==="publico"?"publico":x.publico==="seguidores"?"seguidores":"amigos";
   const op=(k,t,d)=>`<button type="button" role="radio" data-pb136qv="${k}" data-id="${esc(id)}" aria-checked="${v===k}">${t}<span>${d}</span></button>`;
-  sheet("Quem pode ler",`<div class="opt pb136-quem" role="radiogroup" aria-label="Quem pode ler">${op("amigos","Para todos","Qualquer membro do Prumo")}${op("seguidores","Só para quem me segue","Só os seus seguidores")}${op("publico","Todos (link público)","Página aberta, sem conta")}</div><p class="hint">${esc(PB136_TX)}</p>`)}}
+  sheet("Quem pode ler",`<div class="opt pb136-quem" role="radiogroup" aria-label="Quem pode ler">${op("amigos","Membros do Prumo","Qualquer pessoa com conta no Prumo")}${op("seguidores","Quem me segue","Só os seus seguidores")}${op("publico","Qualquer pessoa (link aberto)","Página aberta, sem conta; liga a newsletter")}</div><p class="hint">${esc(PB136_TX)}</p>`)}}
 {const _pl=pubLimpa;pubLimpa=function(x){const p=x&&x.publico;const r=_pl.apply(this,arguments);if(p==="todos"&&x)x.publico="todos";return r}}
 
 /* ===== 6. conversas: quem não pode receber mensagem ===== */
@@ -23306,7 +23367,7 @@ function atItensBase(){if(!S.uid||!S.membro)return [];const it=[],agora=Date.now
     it.push({k:"cn:"+p.id,at:ult.at,us,ic:"💬",txt:`<b>${esc(atJunta(us))}</b> ${us.length>1?"comentaram":"comentou"} ${p.enquete?"na enquete":"na notícia"} “${esc(p.enquete?p.enquete.pergunta:(versao(p,lente()).titulo||temaDe(p)))}”: “${esc(cp152Corta(ult.texto,70))}”`,pid:p.id,acao:"debate"})});
   // coberturas seguidas: atualizações dos últimos 3 dias
   if(FEED)(FEED.pautas||[]).filter(p=>seguido(p)).forEach(p=>{const ups=(p.atualizacoes||[]).filter(u=>u&&u.texto&&tms(u.hora)>agora-3*864e5).sort((a,b)=>tms(b.hora)-tms(a.hora));if(!ups.length)return;
-    it.push({k:"cob:"+p.id+":"+ups[0].hora,at:tms(ups[0].hora),us:[],ic:"📌",txt:`<b>${esc(temaDe(p))}</b>, que você segue, teve ${ups.length>1?ups.length+" atualizações":"uma atualização"}: “${esc(cp152Corta(ups[0].texto,90))}”`,pid:p.id,acao:"cob"})});
+    it.push({k:"cob:"+p.id+":"+ups[0].hora,at:tms(ups[0].hora),us:[],ic:"✓",txt:`<b>${esc(temaDe(p))}</b>, que você segue, teve ${ups.length>1?ups.length+" atualizações nos últimos 3 dias; a mais recente":"uma atualização"}: “${esc(cp152Corta(ups[0].texto,90))}”`,pid:p.id,acao:"cob"})});
   return it.filter(x=>x.fixo||x.at>agora-30*864e5).sort((a,b)=>(b.fixo||0)-(a.fixo||0)||b.at-a.at).slice(0,80)}
 function atAcaoBase(x){const fecha=()=>{if($("#layer .pfv-at"))closeLayer()};
   if(x.acao==="perfil"){abrirPerfil(x.u);return}
@@ -23374,7 +23435,7 @@ function renderMeMiolo(){
   v.innerHTML=`<div class="gut">${ok?`<div class="me-head">${avatar(u)}<div><b>${esc(nomeDe(u))}</b><span>${na?na+" "+(na===1?"amigo":"amigos"):"Nenhum amigo ainda"}</span></div></div>
     <div class="stats"><button type="button" data-minha="gostei"><b>${likes}</b><span>curtidas</span></button><button type="button" data-minha="cmt"><b>${cms}</b><span>${cms===1?"comentário":"comentários"}</span></button><button type="button" data-minha="env"><b>${env}</b><span>${env===1?"enviada":"enviadas"}</span></button></div>`:`<div class="view-h"><h1>Perfil</h1></div>`}
     <div style="display:flex;flex-direction:column;gap:12px;padding-bottom:24px">
-    ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com os seus amigos.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta</button></div></div>`:(!INIT_FIM&&!S.membro)?`<div class="card"><b>Conectando à sua conta…</b><p>Só um instante. Se demorar, confira a internet.</p></div>`:S.suspenso?`<div class="card"><b>Conta suspensa</b><p>Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-sair>Sair</button></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
+    ${!u?`<div class="card"><b>Você está só lendo</b><p>Dá para ler tudo. Entre para curtir, comentar, guardar e conversar com quem você segue. O Prumo é por convite: peça o link a alguém que já usa.</p><div class="lbtns"><button type="button" class="btn" data-entrar>Entrar</button><button type="button" class="btn ghost" data-entrar="criar">Criar conta com convite</button></div></div>`:(!INIT_FIM&&!S.membro)?`<div class="card"><b>Conectando à sua conta…</b><p>Só um instante. Se demorar, confira a internet.</p></div>`:S.suspenso?`<div class="card"><b>Conta suspensa</b><p>Dá para ler as notícias, mas não para curtir, comentar ou conversar. Fale com o Pedro.</p><button type="button" class="btn ghost" data-sair>Sair</button></div>`:!S.membro?`<div class="card"><b>Falta só o convite</b><p>Você entrou como ${esc(S.email)}, mas ainda precisa de um convite para participar.</p><button type="button" class="btn" data-entrar>Usar um convite</button></div>`:amigosCardHTML()}
     <div class="card menu"><button type="button" data-vgo="saved"><span>Guardadas</span><em>${Object.values(S.salvos||{}).filter(Boolean).length||""}</em><i>›</i></button><button type="button" data-vgo="play"><span>Quiz e enquetes</span><i>›</i></button></div>
     <div class="card menu"><button type="button" data-ajustes><span>Ajustes do app</span><i>›</i></button><button type="button" data-historico><span>Histórico de leitura</span><em>${Object.keys(HIST).length}</em><i>›</i></button><button type="button" data-rodadas><span>Atualizações do Prumo</span><em class="${estadoRadar().ok?"":"bad"}">${esc(estadoRadar().ok?(FEED?"edição "+horaEdicaoTxt():""):"atrasado")}</em><i>›</i></button></div>
     ${S.membro&&S.membros[u]?.papel==="admin"?`<div class="card menu"><button type="button" data-admin><span>Administração</span><i>›</i></button></div>`:""}
@@ -23398,6 +23459,267 @@ function renderMeMiolo(){
   /* [090] como usar */
   try{const m=$("#v-me .pf-conta .card.menu");if(m&&!m.querySelector("[data-tourver]"))m.insertAdjacentHTML("beforeend",`<button type="button" data-tourver><span>Como usar o Prumo</span><i>›</i></button>`)}catch(e){}
 }
+/* ===== 25/11: notícia ao vivo (item 1 do balanço semanal) =====
+   Entre uma rodada e outra o texto da manhã ficava no ar depois de o fato acontecer ("decidem a Sul-Americana às 20h de
+   hoje" às 22h; "Novo Focus sai hoje" com o Focus já no Acabou de sair; COP31 "passa do prazo" com o Agora dizendo que
+   acabou). Sem esperar a rodada, o app agora:
+   1. lê a Agenda da edição (data, hora e pauta de cada evento): passou a hora e a notícia não foi atualizada depois,
+      a linha de baixo do título diz que o evento começou (ou já foi) e que o resultado entra na próxima atualização;
+      a matéria ganha a mesma faixa e some a pergunta "Quando é…?";
+   2. lê o robô de manchetes (novidades.json, a cada 10 min): 3+ veículos com fato novo de uma pauta depois da última
+      atualização dela = a notícia ganha a linha "Agora: «manchete» (veículos, há X)" no lugar do subtítulo e na matéria;
+   3. limpa o "Acabou de sair" e a faixa Agora: junta o mesmo fato contado com títulos diferentes (Bolsonaro na UTI,
+      Paredes), tira nota de beleza e celebridade, palavra dobrada ("na na"), país estrangeiro em Brasil e o que já é
+      notícia da edição (iFood três vezes, Busca "ainda em apuração"). */
+
+var AV212_STOP=new Set("a o as os um uma de da do das dos em na no nas nos e que com por para pra se sem ao aos à às é foi ser são diz após apos sobre mais menos seu sua seus suas pelo pela pelos pelas ter tem até ate como já ja ainda novo nova".split(" "));
+function av212N(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
+function av212Tk(s){return new Set(av212N(s).split(/[^a-z0-9º]+/).filter(w=>w.length>=3&&!AV212_STOP.has(w)))}
+function av212Parecido(a,b){let n=0;a.forEach(w=>{if(b.has(w))n++});return n>=3||(n>=2&&n/Math.max(1,Math.min(a.size,b.size))>=.5)}
+
+/* ---- 3. Acabou de sair / Agora ---- */
+var AV212_LIXO=/\bbeleza\b|maquiag|\bmake (delicada|leve|natural|glow)|\blooks?\b|\bcoque\b|fofoca|vestido de noiva|\bbridal\b|\bmusa\b|\bboa forma\b|\bse casa com\b|\bde biquini\b/;
+var AV212_PAIS=/\b(indonesia|filipinas|tailandia|vietna|malasia|singapura|australia|nova zelandia|nigeria|egito|marrocos|quenia|etiopia|sudao|congo|mocambique|angola|finlandia|suecia|noruega|dinamarca|holanda|belgica|espanha|portugal|italia|grecia|polonia|hungria|austria|suica|irlanda|escocia|paquistao|afeganistao|bangladesh|nepal|taiwan|libia|iraque|jordania|catar|emirados|dubai|haiti|nicaragua|honduras|guatemala|panama|japao|china|india|russia|ucrania|israel|gaza|eua|estados unidos|mexico|argentina|chile|peru|colombia|venezuela|bolivia|paraguai|uruguai|equador|cuba|canada|alemanha|franca|reino unido|turquia|coreia)\b/;
+function av212Dobrada(t){return String(t||"").replace(/\b(na|no|de|da|do|em|o|a|e|que|para|com)\s+\1\b/gi,"$1")}
+function av212PautaTk(){const F=typeof FEED!=="undefined"&&FEED;if(!F||!Array.isArray(F.pautas))return [];if(F._av212tk)return F._av212tk;
+  const urls=new Set();const l=F.pautas.map(p=>{(p.links||[]).forEach(x=>{const u=x&&(x.url||x.link);if(u)urls.add(String(u).split("?")[0])});return {id:p.id,tk:av212Tk((p.neutro||{}).titulo),u:av212UltMs(p)}});
+  l.urls=urls;try{Object.defineProperty(F,"_av212tk",{value:l,enumerable:false,configurable:true})}catch(e){}return l}
+function av212Limpa(d){if(!d||typeof d!=="object"||!Array.isArray(d.novos)||d._av212)return d;
+  try{const P=av212PautaTk(),out=[];
+    d.novos.forEach(n0=>{if(!n0||!n0.assunto)return;const n=Object.assign({},n0);n.assunto=av212Dobrada(n.assunto);
+      n.manchetes=(Array.isArray(n.manchetes)?n.manchetes:[]).filter(m=>m&&m.titulo&&!AV212_LIXO.test(av212N(m.titulo))).map(m=>Object.assign({},m,{titulo:av212Dobrada(m.titulo)}));
+      if(AV212_LIXO.test(av212N(n.assunto))||!n.manchetes.length)return;
+      const txt=av212N([n.assunto].concat(n.manchetes.map(m=>m.titulo)).join(" "));
+      if(n.secao==="brasil"&&AV212_PAIS.test(txt)&&!/\bbrasil(eir[oa]s?)?\b/.test(av212N(n.assunto)))n.secao="mundo";
+      /* já é notícia da edição (o mesmo link ou o mesmo fato no título): fica de fora (a pauta mostra a novidade) */
+      if(P.urls&&n.manchetes.some(m=>m.url&&P.urls.has(String(m.url).split("?")[0])))return;
+      const tk=av212Tk(n.assunto),hn=Math.max(0,...n.manchetes.map(m=>av212HoraNv(m.hora)));
+      if(P.some(p=>p.u>=hn&&[...tk].filter(w=>p.tk.has(w)).length>=3))return;
+      n._tk=tk;const ig=out.find(o=>av212Parecido(o._tk,tk));
+      if(ig){const vs=new Set(ig.manchetes.map(m=>m.veiculo));n.manchetes.forEach(m=>{if(!vs.has(m.veiculo))ig.manchetes.push(m)});
+        ig.n_fontes=Math.max(ig.n_fontes||0,n.n_fontes||0,new Set(ig.manchetes.map(m=>m.veiculo)).size);ig.relevante=ig.relevante||n.relevante;return}
+      out.push(n)});
+    out.forEach(n=>{try{delete n._tk}catch(e){}});d.novos=out;try{Object.defineProperty(d,"_av212",{value:1,enumerable:false})}catch(e){}}catch(e){}return d}
+{const _ai212=agoraItens;agoraItens=function(){try{if(typeof NOVID_AG!=="undefined")av212Limpa(NOVID_AG)}catch(e){}return _ai212.apply(this,arguments)}}
+if(typeof ac208Itens==="function"){const _ac212=ac208Itens;ac208Itens=function(){try{if(typeof NOVID_AG!=="undefined")av212Limpa(NOVID_AG)}catch(e){}return _ac212.apply(this,arguments)}}
+
+/* ---- 1. agenda: evento de hoje com a hora vencida ---- */
+function av212HoraMs(dia,hora){const m=/^(\d{1,2})h(\d{2})?$/.exec(String(hora||"").trim());if(!m||!/^\d{4}-\d{2}-\d{2}$/.test(dia||""))return 0;
+  return Date.parse(`${dia}T${String(m[1]).padStart(2,"0")}:${m[2]||"00"}:00-03:00`)||0}
+function av212HoraTxt(h){const m=/^(\d{1,2})h(\d{2})?$/.exec(String(h||""));return m?(m[2]&&m[2]!=="00"?`${+m[1]}h${m[2]}`:`${+m[1]}h`):String(h||"")}
+function av212Eventos(F,agora){const hoje=typeof hojeSP==="function"?hojeSP():"",out={};
+  (Array.isArray(F.agenda)?F.agenda:[]).forEach(a=>{if(!a||!a.pid||a.data!==hoje)return;const t=av212HoraMs(a.data,a.hora);if(!t||agora<t)return;
+    if(!out[a.pid]||out[a.pid].t<t)out[a.pid]={t,hora:av212HoraTxt(a.hora),texto:String(a.texto||"")}});return out}
+function av212UltMs(p){try{const u=(typeof ultimaAtualizacao==="function"&&ultimaAtualizacao(p))||p.hora;return Date.parse(u)||0}catch(e){return 0}}
+function av212Nota(ev,agora){const jogo=/ x |\bjogo\b|\bfinal\b|rodada|partida|playoff/i.test(ev.texto),cedo=agora-ev.t<150*60e3;
+  if(jogo)return cedo?`O jogo começou às ${ev.hora}; o resultado entra na próxima atualização.`:`O jogo foi às ${ev.hora}; o resultado ainda não entrou nesta notícia.`;
+  return cedo?`Marcado para as ${ev.hora}; o que acontecer entra na próxima atualização.`:`Era às ${ev.hora}; o resultado ainda não entrou nesta notícia.`}
+var AV212_FAQ=/^\s*(quando (é|será|sai|vai ser|começa|acontece)|que horas|a que horas|qual (o )?hor[aá]rio|onde (vai ser|será|assistir|passa))/i;
+function av212Passa(F){if(!F||!Array.isArray(F.pautas))return F;const agora=Date.now(),evs=av212Eventos(F,agora);
+  F.pautas.forEach(p=>{if(!p||!p.id)return;if(p._av212s!==undefined){p.subtitulo=p._av212s;delete p._av212s}if(p._av212f){p.faq=p._av212f;delete p._av212f}delete p._av212;
+    const ev=evs[p.id];if(!ev||p.status==="encerrada")return;if(av212UltMs(p)>=ev.t)return;
+    const nota=av212Nota(ev,agora);p._av212={tipo:"hora",nota,t:ev.t};
+    p._av212s=p.subtitulo;p.subtitulo=nota+(typeof p.subtitulo==="string"&&p.subtitulo?" "+p.subtitulo:"");
+    if(Array.isArray(p.faq)&&p.faq.some(q=>q&&AV212_FAQ.test(q.p||""))){p._av212f=p.faq;p.faq=p.faq.filter(q=>!(q&&AV212_FAQ.test(q.p||"")))}});
+  return F}
+{const _sn212=sanear;sanear=function(){const r=_sn212.apply(this,arguments);try{av212Passa(r)}catch(e){}return r}}
+
+/* ---- 2. novidade do robô de manchetes numa pauta ---- */
+function av212HoraNv(h){try{return typeof agHoraMs==="function"?agHoraMs(h):0}catch(e){return 0}}
+function av212Novid(){const d=typeof NOVID_AG!=="undefined"&&NOVID_AG,F=typeof FEED!=="undefined"&&FEED;if(!d||!F||!Array.isArray(F.pautas))return;
+  const g=Date.parse(d.gerado||"");if(g&&Date.now()-g>3*3600e3)return;
+  (Array.isArray(d.acionar_itens)?d.acionar_itens:[]).forEach(it=>{if(!it||it.tipo!=="pauta"||!it.pid)return;const p=pautaById(it.pid);if(!p||p.status==="encerrada")return;
+    const ms=(Array.isArray(it.manchetes)?it.manchetes:[]).filter(m=>m&&m.titulo&&!AV212_LIXO.test(av212N(m.titulo)));const u=av212UltMs(p);
+    const novas=ms.filter(m=>av212HoraNv(m.hora)>u);if(new Set(novas.map(m=>m.veiculo)).size<3)return;
+    const h=Math.max(...novas.map(m=>av212HoraNv(m.hora)));if(Date.now()-h>4*3600e3)return;
+    const vs=[...new Set(novas.map(m=>m.veiculo).filter(Boolean))];const t=av212Dobrada(novas.sort((a,b)=>av212HoraNv(b.hora)-av212HoraNv(a.hora))[0].titulo);
+    const vtx=vs.length>3?vs.slice(0,3).join(", ")+" e mais "+(vs.length-3):vs.length>1?vs.slice(0,-1).join(", ")+" e "+vs[vs.length-1]:vs[0];
+    const nota=`Agora: «${t}» (${vtx}). O texto abaixo ainda não traz isso.`;
+    if(p._av212&&p._av212.tipo==="novid"&&p._av212.nota===nota)return;
+    if(p._av212s===undefined)p._av212s=p.subtitulo;p._av212={tipo:"novid",nota,t:h};p.subtitulo=`Agora: «${t}» (${vtx}).`})}
+if(typeof atualizarAgora==="function"){const _aa212=atualizarAgora;atualizarAgora=function(){try{av212Novid()}catch(e){}return _aa212.apply(this,arguments)}}
+
+/* matéria: a faixa no alto do texto */
+(function(){const ob=()=>{const L=document.getElementById("layer");if(!L)return false;
+  new MutationObserver(()=>{const m=L.querySelector(".mat:not(.av212-ok)");if(!m)return;m.classList.add("av212-ok");try{av212Novid()}catch(e){}
+    const p=typeof MAT_PID!=="undefined"&&MAT_PID&&pautaById(MAT_PID);if(!p||!p._av212)return;const meta=m.querySelector(".mat-meta");if(!meta)return;
+    const sub=m.querySelector(".mat-sub"),orig=typeof p._av212s==="string"?p._av212s:"";
+    if(sub&&(sub.textContent.indexOf(p._av212.nota.slice(0,30))===0||/^Agora: «/.test(sub.textContent))){if(orig)sub.textContent=orig;else sub.remove()}
+    const b=document.createElement("p");b.className="av212-faixa"+(p._av212.tipo==="novid"?" nv":"");b.setAttribute("role","note");b.textContent=p._av212.nota;meta.after(b)}).observe(L,{childList:true,subtree:true});return true};
+  if(!ob())document.addEventListener("DOMContentLoaded",ob)})();
+/* o relógio anda com o app aberto: a cada 5 min (e ao voltar para a aba) a nota da agenda é refeita */
+setInterval(()=>{try{if(typeof FEED!=="undefined"&&FEED)av212Passa(FEED);av212Novid()}catch(e){}},300e3);
+document.addEventListener("visibilitychange",()=>{try{if(!document.hidden&&typeof FEED!=="undefined"&&FEED){av212Passa(FEED);av212Novid()}}catch(e){}});
+/* a edição em cache é saneada antes deste módulo carregar: passa uma vez agora (o 999 redesenha em seguida) */
+try{if(typeof FEED!=="undefined"&&FEED){av212Passa(FEED);av212Novid()}}catch(e){}
+/* ===== 25/11: regra única de fotos (item 2 do balanço semanal) =====
+   App e prévia do link (m/, tools/paginas.py) escolhiam a foto com listas e regras copiadas à mão, e uma correção
+   chegava a um lado e não ao outro (Paulista na estreia da Anthropic, taça de 2016). Agora:
+   1. bloqueios e condições moram num arquivo só, tools/fotos_regras.json (cópia abaixo; o teste
+      tools/test_fotos_regras_2511.py falha se as duas divergirem). 'exige': a foto só entra se o título disser o lugar
+      ou a empresa (sede da PF só com PF; avião da Alaska só com Alaska; Casa Branca só com governo dos EUA/Trump; MEC
+      só com MEC);
+   2. o robô das páginas grava em m/fotos.json a foto que escolheu para cada notícia; quando esse arquivo é da mesma
+      edição que o app abriu, Feed, matéria, giro e prévia usam a mesma escolha;
+   3. descrição em inglês do nome do arquivo ("airliner taking off runway", "The White House June 2024") vira
+      "Foto de arquivo (assunto da notícia)" para o leitor de tela. */
+var FT213_REGRAS={"bloq":["hubbell-white house","hubbell-white_house","douglas tavolaro","luiz-inacio-lula-da-silva-8eb72b38","maidan nezalezhnosti","parque avenida building"],
+  "exige":[{"nome":"policia federal","titulo":"policia federal|\\bpf\\b"},{"nome":"alaska airlines","titulo":"alaska"},{"nome":"delta air","titulo":"\\bdelta\\b"},
+    {"nome":"united airlines","titulo":"united"},{"nome":"american airlines","titulo":"american airlines"},{"nome":"latam","titulo":"latam"},
+    {"nome":"white house","titulo":"casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"},
+    {"nome":"casa branca","titulo":"casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"},
+    {"nome":"ministerio da educacao","titulo":"\\bmec\\b|ministerio da educacao|camilo santana"}]};
+
+try{FT213_REGRAS.bloq.forEach(b=>{if(FT157_BLOQ.indexOf(b)<0)FT157_BLOQ.push(b)})}catch(e){}
+FT213_REGRAS.exige.forEach(r=>{try{r.re=new RegExp(r.titulo)}catch(e){r.re=/$^/}});
+function ft213N(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
+function ft213Nome(f){try{return ft213N(typeof ft157Arq==="function"?ft157Arq(f):decodeURIComponent(String(f.url).split("/").pop())).replace(/_/g," ")}catch(e){return ""}}
+function ft213Ok(f,txt){if(!f||typeof f.url!=="string")return true;const n=ft213Nome(f);return FT213_REGRAS.exige.every(r=>n.indexOf(r.nome)<0||r.re.test(txt))}
+{const _fl213=faListas;faListas=function(p,A){const L=_fl213.apply(this,arguments);try{if(!Array.isArray(L)||!p)return L;
+  const txt=ft213N(String((p.neutro||{}).titulo||"")+" "+(typeof p.subtitulo==="string"?p.subtitulo:""));
+  return L.map(l=>{if(!Array.isArray(l))return l;const r=l.filter(f=>ft213Ok(f,txt));if(r.length===l.length)return l;r.ft157o=l.ft157o;return r}).filter(l=>!Array.isArray(l)||l.length)}catch(e){return L}}}
+
+/* 2. a escolha do robô das páginas */
+var FT213_ESC=null;
+function ft213Carrega(){try{fetch("m/fotos.json?t="+Math.floor(Date.now()/3e5),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{
+  if(d&&typeof d==="object"&&d.mapa&&typeof d.mapa==="object"){FT213_ESC=d;try{for(const k in FA_CACHE)delete FA_CACHE[k]}catch(e){}}}).catch(()=>{})}catch(e){}}
+function ft213Vale(){const F=typeof FEED!=="undefined"&&FEED;return !!(FT213_ESC&&F&&FT213_ESC.feed&&F.atualizado_em&&FT213_ESC.feed===F.atualizado_em)}
+{const _fm213=faMapa;faMapa=function(){const M=_fm213.apply(this,arguments);try{if(!ft213Vale())return M;
+  const E=FT213_ESC.mapa,R=Object.assign({},M||{});(FEED.pautas||[]).forEach(p=>{if(!p||!p.id)return;if(p.id in E)R[p.id]=E[p.id]?Object.assign({arquivo:true},E[p.id]):undefined});return R}catch(e){return M}}}
+ft213Carrega();setInterval(ft213Carrega,6e5);
+
+/* 3. descrição em inglês */
+var FT213_EN=/\b(the|of|and|in|at|on|with|from|taking|off|view|building|airport|runway|airliner|street|square|house|tower|city|night|sunset|downtown|state|united|states|department|headquarters|kyiv|plaza|bridge|church|palace)\b/i;
+function ft213Alt(f,p){try{if(!f||typeof f.alt!=="string")return f;const m=/^\s*foto de arquivo\s*:\s*(.+?)\s*$/i.exec(f.alt);if(!m)return f;
+  const A=typeof FOTOS_ARQ!=="undefined"&&FOTOS_ARQ;if(A&&A.pessoas&&A.pessoas[m[1]])return f;
+  if(!FT213_EN.test(m[1])||/\b(de|da|do|das|dos|em|na|no)\b/i.test(m[1]))return f;
+  const ass=p&&(p.tema||p.subtema||(typeof secNome==="function"?secNome(secOf(p)):""));return Object.assign({},f,{alt:ass?`Foto de arquivo (${ass})`:"Foto de arquivo"})}catch(e){return f}}
+{const _fd213=fotoDe;fotoDe=function(p){return ft213Alt(_fd213.apply(this,arguments),p)}}
+/* ===== 25/11: zerar as pendências do testador (item 3 do balanço semanal e o resto) ===== */
+
+/* ---- item 3: toque duplo (causa toque-duplo-2) ----
+   O Guardar do topo da matéria já ignorava o 2º toque; o do cartão do Feed, Curtir, Comentar, Seguir (pessoa e
+   cobertura) não. Uma trava só para todos os botões de alternar: o 2º toque no mesmo botão em menos de 0,45 s é
+   ignorado. E a folha que acabou de abrir não fecha com o 2º toque que cai no fundo escuro (Comentar). */
+var TD214={t:{},aberta:0};
+function td214Chave(b){if(!b||!b.attributes)return "";const d=[...b.attributes].filter(a=>/^data-|^aria-pressed$/.test(a.name)&&a.name!=="data-on").map(a=>a.name+"="+a.value).join("&");
+  if(d)return d;const t=(b.textContent||"").trim();return /^(Seguir|Seguindo|Deixar de seguir|Seguir de volta)\b/.test(t)?"seg:"+((b.closest("[data-uid],[data-u],[data-pid],li,.card")||{}).outerHTML||"").length:""}
+function td214Alterna(b){if(!b)return false;if(b.matches('[data-a="like"],[data-a="save"],[data-a="cmt"],[data-cobseg],[aria-pressed],[data-sg181],[data-seguir],[data-acao="seguindo"]'))return true;
+  return /^(Seguir|Seguindo|Deixar de seguir|Guardar|Guardada|Curtir|Comentar)\b/.test((b.textContent||"").trim())&&b.closest("#posts,#layer,#layer2,#v-busca,#v-me,.bs,.sheet")!==null}
+document.addEventListener("click",e=>{try{
+  const sc=e.target&&e.target.closest&&e.target.closest("[data-scrim]");
+  if(sc&&e.target===sc&&Date.now()-TD214.aberta<450){e.stopImmediatePropagation();e.preventDefault();return}
+  const b=e.target&&e.target.closest&&e.target.closest("button,[role=button]");if(!b||!td214Alterna(b))return;
+  const k=td214Chave(b);if(!k)return;const ag=Date.now();if(ag-(TD214.t[k]||0)<450){e.stopImmediatePropagation();e.preventDefault();return}TD214.t[k]=ag}catch(er){}},true);
+{const _sh214=sheet;sheet=function(){TD214.aberta=Date.now();return _sh214.apply(this,arguments)}}
+if(typeof openComments==="function"){const _oc214=openComments;openComments=function(){TD214.aberta=Date.now();return _oc214.apply(this,arguments)}}
+
+/* ---- Apagar comentário: só um "Apagar mesmo?" armado por vez ---- */
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("button");if(!b)return;
+  setTimeout(()=>{try{document.querySelectorAll(".ct210-conf").forEach(x=>{if(x!==b&&!x.contains(b)){x.classList.remove("ct210-conf");if(x.dataset.ct210tx)x.textContent=x.dataset.ct210tx}})}catch(er){}},0)},true);
+
+/* ---- internet de volta: o aviso rosa "Sem conexão. Mostrando a edição…" sai sozinho ---- */
+addEventListener("online",()=>setTimeout(()=>{try{if(navigator.onLine===false)return;if(typeof OFFLINE!=="undefined")OFFLINE=false;
+  document.querySelectorAll(".late.offl").forEach(x=>x.remove());if(typeof checarFeed==="function"&&typeof FEED!=="undefined"&&FEED)checarFeed(false)}catch(e){}},1800));
+
+/* ---- textos que ainda falavam em amigos e outros textos fixos ---- */
+var TX214=[
+  [/\bconversar com (os seus )?amigos\b/g,"conversar com quem você segue"],
+  [/\bseus amigos tocam e abrem\b/g,"quem segue você toca e abre"],
+  [/\bdo Feed dos amigos\b/g,"do Feed de quem segue você"],
+  [/\bcom os seus amigos\b/g,"com quem você segue"],
+  [/\bAmigos dos seus amigos\b/g,"Pessoas que quem você segue segue"],
+  [/^Como seus amigos vão te ver$/,"Como as pessoas vão te ver"],
+  [/^Ver mais 1 datas$/,"Ver mais 1 data"]];
+function tx214Troca(t){let s=t.nodeValue;if(!s||s.length<6||!/amigos|datas/.test(s))return;let n=s;TX214.forEach(([r,v])=>{n=n.replace(r,v)});if(n!==s)t.nodeValue=n}
+function tx214Passa(el){try{if(!el)return;if(el.nodeType===3){tx214Troca(el);return}if(el.nodeType!==1)return;
+  const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let t;while((t=w.nextNode()))tx214Troca(t);
+  el.querySelectorAll&&el.querySelectorAll("[placeholder]").forEach(i=>{if(/amigos/.test(i.placeholder))i.placeholder=i.placeholder.replace(/seus amigos/g,"as pessoas")})}catch(e){}}
+try{new MutationObserver(ms=>{ms.forEach(m=>m.addedNodes.forEach(tx214Passa))}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+
+/* ---- Guardar para depois (post): o aviso diz que fica neste aparelho ---- */
+{const _to214=toast;toast=function(m){try{if(typeof m==="string"){if(/^Texto guardado\. Toque em \+/.test(m))arguments[0]=m.replace("Texto guardado.","Texto guardado neste aparelho.");
+  if(/^Removido dos guardados$/.test(m))arguments[0]="Removida das guardadas"}}catch(e){}return _to214.apply(this,arguments)}}
+
+/* ---- Placar oficial: abre na votação que o texto cita (45 a 32), não sempre na última ---- */
+function po214Escolhe(m){try{const sec=m.querySelector(".po118[data-po118]");if(!sec||sec.dataset.po214)return;sec.dataset.po214="1";
+  const p=pautaById(sec.dataset.po118),l=p&&typeof po118Da==="function"&&po118Da(p);if(!l||l.length<2)return;
+  const v=versao(p,lente()),tx=[v.titulo,typeof p.subtitulo==="string"?p.subtitulo:"",String(v.texto||"").slice(0,500)].join(" ");
+  const k=l.findIndex(e=>e&&e.sim!=null&&e.nao!=null&&new RegExp(`\\b${e.sim} a ${e.nao}\\b`).test(tx));if(k<0||k===l.length-1)return;
+  const b=sec.querySelector(`[data-po118t="${k}"]`);if(b&&b.getAttribute("aria-pressed")!=="true")setTimeout(()=>{TD214.t={};b.click()},50)}catch(e){}}
+(function(){const ob=()=>{const L=document.getElementById("layer");if(!L)return false;new MutationObserver(()=>{const m=L.querySelector(".mat");if(m)po214Escolhe(m)}).observe(L,{childList:true,subtree:true});return true};
+  if(!ob())document.addEventListener("DOMContentLoaded",ob)})();
+
+/* ---- Busca (causa busca-ordem voltou em achados soltos) ----
+   "13o salario", "décimo terceiro" e "cop 31" (com espaço) não achavam nada; "chuva" não achava os temporais;
+   "esportes"/"política" (nome da editoria) não mostravam as notícias dela; o Calendário econômico (Caged, PIB, Copom)
+   ficava de fora. */
+var BU214_SIN={chuva:["temporal","temporais","tempestade","enchente","alagamento"],chuvas:["temporal","temporais","tempestade","enchente"],
+  temporal:["chuva","tempestade"],enchente:["chuva","alagamento","inundacao"],cambio:["dolar"],juros:["selic","copom"],selic:["juros","copom"],
+  inflacao:["ipca","focus"],bolsa:["ibovespa"],emprego:["desemprego","caged"],eleicao:["eleicoes","urna"]};
+function bu214Indice(){const F=typeof FEED!=="undefined"&&FEED;if(!F)return "";if(F._bu214)return F._bu214;
+  const s=bu154N((F.pautas||[]).map(p=>[(p.neutro||{}).titulo,p.tema,p.tag,p.subtema,(p.neutro||{}).texto].join(" ")).join(" ")+" "+(F.calendario||[]).map(c=>c&&c.texto).join(" ")+" "+(F.agenda||[]).map(a=>a&&a.texto).join(" "));
+  try{Object.defineProperty(F,"_bu214",{value:s,enumerable:false,configurable:true})}catch(e){}return s}
+function bu214Q(q){let s=String(q||"");
+  s=s.replace(/\bd[eé]cimo[\s-]+terceiro\b/gi,"13").replace(/\b(\d{1,2})\s*[oºª°](?=\s|$)/gi,"$1");
+  const I=bu214Indice();s=s.replace(/\b([A-Za-zÀ-ú]{2,5})\s+(\d{1,3})\b/g,(m,a,b)=>I.indexOf(bu154N(a+b))>=0&&I.indexOf(bu154N(a+" "+b))<0?a+b:m);return s}
+{const _co214=bu154Coleta;bu154Coleta=function(q){const q2=bu214Q(q);let R=_co214.call(this,q2);if(!R)return R;
+  try{const n=bu154N(q2).trim(),L=lente();
+    /* sinônimos: só quando a palavra sozinha acha pouco */
+    if(BU214_SIN[n]&&R.not.length<3){const ja=new Set(R.not.map(x=>x.id||x.url));BU214_SIN[n].forEach(w=>{const r=_co214.call(this,w);if(!r)return;
+      r.not.forEach(x=>{const k=x.id||x.url;if(!ja.has(k)){ja.add(k);R.not.push(Object.assign({},x,{pt:(x.pt||0)-.5}))}});
+      r.cob.forEach(c=>{if(!R.cob.some(y=>(y.p||y.d)===(c.p||c.d))&&R.cob.length<3)R.cob.push(c)})})}
+    /* nome da editoria: as notícias dela primeiro */
+    const sec=(FEED.secoes||[]).find(s=>s&&(bu154N(s.nome)===n||s.id===n||bu154N(s.nome)+"s"===n));
+    if(sec){const ja=new Set(R.not.filter(x=>x.k==="p").map(x=>x.id));
+      R.not=R.not.map(x=>x.k==="p"&&(pautaById(x.id)||{}).secao===sec.id?Object.assign({},x,{pt:(x.pt||0)+20}):x);
+      (FEED.pautas||[]).filter(p=>p&&p.id&&secOf(p)===sec.id&&!ja.has(p.id)).forEach(p=>R.not.push({k:"p",id:p.id,pt:18,h:bu154Hora(ultimaAtualizacao(p)||p.hora),t:versao(p,L).titulo,tr:"",m:bu154J([secNome(secOf(p)),p.subtema,"esta edição"])}))}
+    /* Calendário econômico e de provas: entra em "Na agenda" com a data */
+    const hj=hojeSP(),ts=R.ts||bu154Termos(q2);(FEED.calendario||[]).forEach((c,i)=>{if(!c||!c.texto||(c.ate||c.data)<hj)return;
+      if(R.agd.some(x=>bu154N(x.a.texto)===bu154N(c.texto)))return;const r=bu154Pontos(ts,{T:bu154J([c.texto,c.tipo])},bu154N(q2));
+      if(r)R.agd.push({a:{texto:c.texto,data:c.data,hora:"",secao:c.secao},i:1000+i,d:c.data,pt:r.pt})});
+    R.agd.sort((x,y)=>String(x.d).localeCompare(String(y.d)));
+    {const K={p:0,d:1,s:1,e:2,b:3};R.not.sort((a,b)=>(K[a.k]??2)-(K[b.k]??2)||b.pt-a.pt||b.h-a.h)}
+    R.n=R.cob.length+R.ent.length+R.ag.length+R.not.length+R.pes.length+R.posts.length+R.cols.length+R.agd.length}catch(e){}return R}}
+
+/* Busca, "Na agenda": "Hoje" e "Amanhã" como na Agenda da Capa, em vez de "21 de novembro" */
+if(typeof agDataLonga==="function"){const _dl214=agDataLonga;agDataLonga=function(d){try{const hj=hojeSP();if(d===hj)return "Hoje";if(typeof somaDias==="function"&&d===somaDias(hj,1))return "Amanhã"}catch(e){}return _dl214.apply(this,arguments)}}
+
+/* ---- Coluna: com título e sem texto não abre "Antes de publicar" (coluna-so-com-titulo-vai-para-publicar-agora-com-0-palavras;
+   coluna-texto-escrito-na-linha-fina-publica-coluna-vazia: o campo virou "Resumo (opcional)") ---- */
+window.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest||!t.closest("#layer > .ed132 [data-ed132painel]"))return;try{const E=ED132.E;if(!E||E.env||!String(E.tit||"").trim())return;
+  try{ed132Le()}catch(_){}const tx=ed132Plano(E.html||"").replace(/^(?:## |> |- )/gm,"").replace(/\s+/g," ").trim();
+  if(tx.length<2){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();toast("Sua coluna ainda não tem texto: escreva o texto antes de publicar.");
+    try{const c=document.querySelector("#layer > .ed132 [contenteditable=true]");c&&c.focus()}catch(_){}}}catch(er){}},true);
+
+/* ---- Editar texto de post: não salva o post em branco (editar-texto-para-vazio-deixa-post-em-branco-no-feed, alta) ---- */
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-uedok]");if(!b)return;try{
+  const x=typeof pubDe==="function"&&pubDe(b.dataset.uedok);const sh=b.closest(".sheet")||document;const ta=sh.querySelector("textarea");if(!x||!ta)return;
+  const temMais=(x.fotos||[]).length||x.pid||x.noticia||x.coluna;if(!temMais&&!ta.value.trim()){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();
+    toast("O post ficaria vazio. Escreva algo ou apague o post no ⋯.");ta.focus()}}catch(er){}},true);
+
+/* ---- Mudar meu nome: limite visível (mudar-meu-nome-corta-o-nome-em-40-letras-sem-avisar) ---- */
+document.addEventListener("input",e=>{const i=e.target;if(!i||i.tagName!=="INPUT")return;const sh=i.closest(".sheet");if(!sh||!/Mudar meu nome/.test((sh.getAttribute("aria-label")||"")))return;
+  const mx=+i.getAttribute("maxlength")||0;if(!mx)return;let c=sh.querySelector(".nm214-c");if(!c){c=document.createElement("p");c.className="hint nm214-c";c.style.margin="4px 0 0";i.after(c)}
+  const n=i.value.length;c.textContent=n>=mx?`Chegou ao limite de ${mx} letras.`:`${n} de ${mx} letras`;c.style.color=n>=mx?"#c92a2a":""},true);
+
+/* ---- endereço escrito no post e no comentário vira link (link-escrito-no-post-nao-vira-link), como nas Conversas ---- */
+function lk214Passa(el){try{(el.matches&&el.matches(".up-leg,.up-tx,.us-tx,.up-tudo,.clist li span")?[el]:[...el.querySelectorAll(".up-leg,.up-tx,.us-tx,.up-tudo,.clist li span")]).forEach(b=>{
+  if(b.dataset.lk214||!/(https?:\/\/|www\.)\S/.test(b.textContent||""))return;b.dataset.lk214="1";
+  const w=document.createTreeWalker(b,NodeFilter.SHOW_TEXT);const ns=[];let t;while((t=w.nextNode()))if(/(https?:\/\/|www\.)\S/.test(t.nodeValue)&&!t.parentElement.closest("a"))ns.push(t);
+  ns.forEach(t=>{const s=document.createElement("span");s.innerHTML=dmLinka(esc(t.nodeValue));t.replaceWith(...s.childNodes)})})}catch(e){}}
+try{new MutationObserver(ms=>{ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)lk214Passa(n)}))}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+
+/* ---- descrição do desenho = o que o app desenha (causa descricao-do-desenho: globo descrito como "nuvem de poeira",
+   chaveamento como "bola de futebol", prédio de escola como "estudantes com mochilas") ---- */
+{const _ia214=illAlt;illAlt=function(img){const a=_ia214.apply(this,arguments);try{if(!img)return a;const d=Object.assign({},img.dados||{},{_alt:img.alt});
+  const rot=d.rotulo?`, com a etiqueta ${String(d.rotulo)}`:"";let x="";
+  if(img.modelo==="escola")x="prédio de escola com relógio e bandeira";
+  else if(img.modelo==="generica"||(typeof ILL!=="undefined"&&!ILL[img.modelo])){const g=gen161Tema(d);
+    if(g==="neutro")return a;
+    if(g==="bola"){const t=typeof ft169Esporte==="function"?ft169Esporte(d):"";x={chave:"chaveamento dos playoffs com troféu",taca:"taça",tabela:"tabela do campeonato",camisa:"camisa da seleção"}[t]||"bola de futebol em gramado"}
+    else x={mundo:"globo terrestre",aviao:"avião",congresso:"prédio do Congresso",floresta:"floresta",tec:"tecnologia"}[g]||""}
+  return x?`Ilustração: ${x}${rot} (sem foto desta notícia)`:a}catch(e){return a}}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 nucPronto();  /* 201-nucleo.js: go passa a fazer tudo (na carga o 031 abriu a Capa só com a parte de então) */
 cp200Pronta();  /* 200-capa.js: a Capa passa a desenhar com todos os acabamentos */

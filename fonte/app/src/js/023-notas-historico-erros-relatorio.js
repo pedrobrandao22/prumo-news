@@ -53,7 +53,7 @@ function ajustesHTML(){
     ${aj.length?`<div class="card"><b>Mais e menos disso</b><ul class="secpref">${aj.map(a=>`<li><b>${a.d>0?"Mais":"Menos"} ${esc(a.n)}</b><button type="button" data-unaj="${a.t}" data-k="${esc(a.k)}" style="width:auto;padding:0 10px;font-size:13px">Desfazer</button></li>`).join("")}</ul></div>`:""}
     <div class="card"><b>Temas que eu sigo</b>${seg.length?`<ul class="secpref">${seg.map(t=>`<li><b>${esc(t)}</b><button type="button" data-tema="${esc(t)}" data-acao="seguindo" style="width:auto;padding:0 10px;font-size:13px">Deixar de seguir</button></li>`).join("")}</ul>`:`<p class="hint">Use os três pontinhos de um post para seguir um tema. Ele sobe no feed e marca quando houver atualização.</p>`}</div>
     ${sil.length?`<div class="card"><b>Temas silenciados</b><ul class="secpref">${sil.map(t=>`<li><b>${esc(t)}</b><button type="button" data-tema="${esc(t)}" data-acao="silenciados" style="width:auto;padding:0 10px;font-size:13px">Mostrar de novo</button></li>`).join("")}</ul></div>`:""}
-    <div class="card"><b>Áudio</b><p class="hint">Velocidade atual: ${(A.rate||1).toFixed(1).replace(".",",")}×. A voz e a velocidade se ajustam no botão de som, no topo.</p></div>`;
+    `;
 }
 function abrirAjustes(){sheet("Ajustes do app",`<div id="ajbox" style="display:flex;flex-direction:column;gap:12px">${ajustesHTML()}</div>`);uso("ajustes")}
 function refreshAjustes(){const b=$("#ajbox");if(b)b.innerHTML=ajustesHTML();if(VIEW==="me")renderMe()}

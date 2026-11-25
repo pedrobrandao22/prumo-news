@@ -80,6 +80,22 @@ HIST = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nac
 FORA = re.compile(r"(\bEUA\b|Estados Unidos|Miami|Nova York|Nasdaq|Wall Street|\bNYSE\b|Dow Jones|S&P 500|Washington|Casa Branca|China|Shenzhen|Pequim|Apec|Asean|Filipinas|Manila|Turquia|\bCOP ?\d|Jap[aã]o|Singapura|Canad[aá]|Europa|Uni[aã]o Europeia|\bONU\b|\bG20\b|\bG7\b|Brics|[Vv]iagem|[Cc][uú]pula|exterior|Argentina|Venezuela|R[uú]ssia|Ucr[aâ]nia|Israel|Gaza|Ir[aã](?=$|[^A-Za-zÀ-ú])|Fran[cç]a|Alemanha|Reino Unido|Londres|Paris|[ÍI]ndia|Catar)")
 
 
+# 25/11: regra única de fotos (tools/fotos_regras.json, lida também pelo app em js/213-fotos-regra.js)
+try:
+    REGRAS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "fotos_regras.json"), encoding="utf-8"))
+except (OSError, ValueError):
+    REGRAS = {}
+for _b in REGRAS.get("bloq") or []:
+    if _b not in BLOQ: BLOQ.append(_b)
+EXIGE = [(str(r.get("nome") or ""), re.compile(str(r.get("titulo") or "$^"))) for r in REGRAS.get("exige") or [] if r.get("nome")]
+
+
+def regra_ok(f, txt):
+    """A foto cujo nome tem um trecho de 'exige' só entra se o título/subtítulo (sem acento, minúsculo) casar."""
+    n = _arq(f)
+    return all(nome not in n or rx.search(txt) for nome, rx in EXIGE)
+
+
 def bloqueada(f):
     if not isinstance(f, dict) or not isinstance(f.get("url"), str): return True
     n = _arq(f)
@@ -455,8 +471,17 @@ def mapa_fotos(pautas, A, pessoas_feed=None):
             if esc: break
         if esc:
             usados.add(fa_nome(esc["url"]))
-            M[p["id"]] = {"url": esc["url"], "credito": esc.get("credito") or "Foto de arquivo: Wikimedia Commons"}
+            M[p["id"]] = dict({k: v for k, v in esc.items() if not str(k).startswith("_")}, url=esc["url"], credito=esc.get("credito") or "Foto de arquivo: Wikimedia Commons")
     return M
+
+
+_fa_listas_base = fa_listas
+
+
+def fa_listas(p, A):  # noqa: F811 — 25/11: aplica as condições de tools/fotos_regras.json
+    L = _fa_listas_base(p, A)
+    txt = _norm(str((p.get("neutro") or {}).get("titulo") or "") + " " + (p.get("subtitulo") if isinstance(p.get("subtitulo"), str) else ""))
+    return [l2 for l2 in ([f for f in l if regra_ok(f, txt)] for l in L) if l2]
 
 
 # ---- prévia própria das notícias sem foto (16/11, 169) ----
@@ -753,6 +778,18 @@ def main(argv):
         except OSError: continue
         novo_txt = pagina_bloqueada(velho)
         if novo_txt: grava(cam, novo_txt)
+    # 25/11: a escolha de foto de cada notícia, para o app usar a mesma (js/213-fotos-regra.js)
+    esc = {}
+    for p in pautas:
+        pid = p.get("id")
+        if not isinstance(pid, str): continue
+        if FA.get(pid): esc[pid] = FA[pid]
+        elif fa_valida(p.get("foto")) and not bloqueada(p["foto"]) and propria(p): esc[pid] = p["foto"]
+        else: esc[pid] = None
+    txt_esc = json.dumps({"feed": F.get("atualizado_em"), "mapa": esc}, ensure_ascii=False, separators=(",", ":"))
+    cam_esc = os.path.join(pasta, "fotos.json")
+    if not os.path.exists(cam_esc) or open(cam_esc, encoding="utf-8").read() != txt_esc:
+        with open(cam_esc, "w", encoding="utf-8") as fh: fh.write(txt_esc)
     novo = json.dumps(dict(sorted(IND.items())), ensure_ascii=False, separators=(",", ":"))
     if not os.path.exists(cam_ind) or open(cam_ind, encoding="utf-8").read() != novo:
         with open(cam_ind, "w", encoding="utf-8") as fh: fh.write(novo)

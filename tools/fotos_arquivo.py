@@ -306,6 +306,12 @@ BLOQUEADAS = ["america-pachuca copa sudamericana",  # jogo mexicano na final Atl
 EVITAR = {"incêndio": re.compile(r"(florest|queimad|wildfire|forest|bush ?fire|cerrado|vegetac|brigadist|crash|hercules|c-130|aircraft)")}
 # acervos históricos (foto do século passado não ilustra fato de hoje)
 HISTORICO = re.compile(r"(n[uú]cleo de digitaliza|\bIMS\b|Moreira Salles|Arquivo Nacional|Gaensly|\b(?:PMDB|MDB|PSDB|PSOL|PDT|PSB)\b|\b(?:PT|PL|PP|PSD) (?:Nacional|na C[aâ]mara|no Senado)\b|Partido (?:dos|Liberal|Social|Progressista|Novo)|Uni[aã]o Brasil Nacional)", re.I)  # 19/11: também acervo de partido (foto distribuída por partido pesa contra a neutralidade)
+# 25/11: regra única (tools/fotos_regras.json, também lida por paginas.py e pelo app)
+try:
+    for _b in (json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "fotos_regras.json"), encoding="utf-8")).get("bloq") or []):
+        if _b not in BLOQUEADAS: BLOQUEADAS.append(_b)
+except (OSError, ValueError):
+    pass
 
 
 def norm(s):

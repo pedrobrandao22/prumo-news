@@ -46,7 +46,7 @@ function dmPrevia(m){let r;
     else if(m.tipo==="curtiu_story")r=eu?"Você curtiu o giro":"Curtiu seu giro ❤️";
     else if(m.tipo==="resp_story")r=(eu?"Você respondeu ao giro: ":"Respondeu ao seu giro: ")+(m.texto||"");
     else if(m.pid&&!m.texto){/* 20/11 (testador): com letra grande só cabia "Você enviou uma …"; o assunto vem antes */
-      const pn=pautaById(m.pid),tt=pn&&versao(pn,"neutro").titulo;r=tt?(eu?"Você: ":"")+"notícia — "+tt:(eu?"Você enviou uma notícia":"Enviou uma notícia")}
+      const pn=pautaById(m.pid),tt=(m.snap&&m.snap.titulo)||(pn&&versao(pn,"neutro").titulo);r=tt?(eu?"Você: ":"")+"notícia — "+tt:(eu?"Você enviou uma notícia":"Enviou uma notícia")}
     else r=(eu?"Você: ":"")+(m.texto||"")}
   /* 121: "giro" no lugar de "story" */
   try{return typeof r==="string"?tb121Giro(r):r}catch(e){return r}}

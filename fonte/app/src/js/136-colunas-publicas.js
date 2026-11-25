@@ -133,7 +133,7 @@ document.addEventListener("change",e=>{if(e.target&&e.target.id==="pb136-cons"){
 /* ===== 6. a autora: "Minhas colunas" com a newsletter (contagem e lista dos confirmados) ===== */
 {const _h=ed132HubHTML;ed132HubHTML=function(){let h=_h.apply(this,arguments);try{if(PB136.v14!==true||!S.uid)return h;const i=PB136.info[S.uid]||{};
   const c=+i.confirmados||0,p=+i.pendentes||0,tem=!!i.aberta;
-  const s=`<section class="pb136-hub" aria-label="Newsletter por e-mail"><h3 class="ed132-hh">Newsletter por e-mail <small>${tem?"das suas colunas abertas":"liga com a primeira coluna aberta"}</small></h3>
+  const s=`<section class="pb136-hub" aria-label="Newsletter por e-mail"><h3 class="ed132-hh">Newsletter por e-mail <small>${tem?"das suas colunas abertas":"quando você publicar uma coluna para qualquer pessoa, leitores poderão assiná-la por e-mail"}</small></h3>
     <p class="pb136-n"><b>${cs123Num(c)}</b> ${c===1?"assinante confirmado":"assinantes confirmados"}${p?` · ${cs123Num(p)} ${p===1?"esperando":"esperando"} confirmação`:""}</p>
     <p class="hint">${tem?"Cada coluna aberta nova vai por e-mail para quem confirmou. Ninguém vê esta lista, só você.":"Publique uma coluna com “Todos (link público)”: a página aberta ganha o botão “Assinar por e-mail”."}</p>
     ${c?`<button type="button" class="btn ghost" data-pb136csv>Baixar a lista (CSV)</button>`:""}</section>`;

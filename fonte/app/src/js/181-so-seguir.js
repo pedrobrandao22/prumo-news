@@ -131,7 +131,7 @@ if(typeof ed132Publica==="function"){const _p=ed132Publica;ed132Publica=async fu
 if(typeof pb136Quem==="function"){const _q=pb136Quem;pb136Quem=function(id){const x=pubDe(id);if(!sg181On()||!x)return _q.apply(this,arguments);
   const v=x.publico==="publico"?"publico":x.publico==="seguidores"?"seguidores":"amigos";
   const op=(k,t,d)=>`<button type="button" role="radio" data-pb136qv="${k}" data-id="${esc(id)}" aria-checked="${v===k}">${t}<span>${d}</span></button>`;
-  sheet("Quem pode ler",`<div class="opt pb136-quem" role="radiogroup" aria-label="Quem pode ler">${op("amigos","Para todos","Qualquer membro do Prumo")}${op("seguidores","Só para quem me segue","Só os seus seguidores")}${op("publico","Todos (link público)","Página aberta, sem conta")}</div><p class="hint">${esc(PB136_TX)}</p>`)}}
+  sheet("Quem pode ler",`<div class="opt pb136-quem" role="radiogroup" aria-label="Quem pode ler">${op("amigos","Membros do Prumo","Qualquer pessoa com conta no Prumo")}${op("seguidores","Quem me segue","Só os seus seguidores")}${op("publico","Qualquer pessoa (link aberto)","Página aberta, sem conta; liga a newsletter")}</div><p class="hint">${esc(PB136_TX)}</p>`)}}
 {const _pl=pubLimpa;pubLimpa=function(x){const p=x&&x.publico;const r=_pl.apply(this,arguments);if(p==="todos"&&x)x.publico="todos";return r}}
 
 /* ===== 6. conversas: quem não pode receber mensagem ===== */

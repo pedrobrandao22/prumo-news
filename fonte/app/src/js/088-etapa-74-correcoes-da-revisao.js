@@ -28,7 +28,7 @@ atPrimeiraVez=function(chaves){let l=atLed();if(!S.amigosOk||!FEED)return l||{};
 pubEditar=async function(id,txt){const x=pubDe(id);if(!x||x.autor!==S.uid)return;const men=t=>typeof mencionados==="function"?mencionados(t||""):[];const antes=men(x.texto);
   let r;try{r=await SB.from("publicacoes").update({texto:txt}).eq("id",id).select("id")}catch(e){r={error:e}}
   if(!r||r.error||!Array.isArray(r.data)||!r.data.length){toast("Não deu para salvar agora.");return}
-  x.texto=txt;x.editado=Date.now();toast("Legenda atualizada");
+  x.texto=txt;x.editado=Date.now();toast((x.fotos||[]).length?"Legenda atualizada":"Texto atualizado");
   const el=document.getElementById("p-u:"+id);if(el){try{el.outerHTML=pubPostHTML(x);const n=document.getElementById("p-u:"+id);if(n){wireTracks(n);updateSocial("u:"+id)}}catch(e){}}
   let novos=men(txt).filter(u=>!antes.includes(u));try{const pv=typeof pubPodeVer==="function"?pubPodeVer(x):null;if(pv)novos=novos.filter(u=>pv.has(u))}catch(e){}if(novos.length){const snap={titulo:"Post de "+nomeDe(S.uid)+": "+String(txt).slice(0,90),upub:id};
     Promise.all(novos.map(u=>dmEnviar(u,{texto:String(txt).slice(0,1000),pid:"u:"+id,snap,tipo:"mencao"},true))).catch(()=>{})}};

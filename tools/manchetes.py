@@ -194,7 +194,10 @@ LIXO = re.compile(
     r"\b(apenas|so) genios\b|\bteste de (qi|visao|personalidade)\b|\bdesafio (visual|de logica|matematico)\b|"
     r"\bconsegue (resolver|encontrar|achar)\b|99% da populacao|\bveja a lista$|"
     # 22/11 noite (corretor): título de página de jogo ao vivo ("Palmeiras x Flamengo - Campeonato Brasileiro 2026")
-    r"^[^:;]{2,40} x [^:;]{2,40} - (campeonato|copa|brasileir|libertadores|sul-americana|serie)")
+    r"^[^:;]{2,40} x [^:;]{2,40} - (campeonato|copa|brasileir|libertadores|sul-americana|serie)|"
+    # 25/11 (testador, acabou-de-sair-da-capa-mostra-nota-de-beleza): moda, beleza e vida de famosos não são notícia
+    r"\bbeleza\b|maquiag|\bmake (delicada|leve|natural|glow)|\blooks?\b|\bcoque\b|\bfofoca|vestido de noiva|\bbridal\b|"
+    r"\bmusa\b|\bboa forma\b|\bcorpao\b|\bde biquini\b|\bse casa com\b|\bnamorad[oa] de\b")
 
 KW = {
     "politica": set("""lula bolsonaro flavio senado senador senadora senadores camara deputado deputada deputados congresso
@@ -213,7 +216,12 @@ KW = {
         franca argentina milei venezuela maduro otan onu papa alemanha japao coreia mexico india arabia saudita houthis
         iemen libano siria brexit reino unido londres paris cop cop30 cop31 clima climatica climaticas combustiveis
         fosseis antalia erdogan turquia peru chile colombia bolivia paraguai uruguai equador cuba canada alasca
-        california texas florida angeles""".split()),  # 21/11: terremoto no Peru e incêndio em Los Angeles ficavam sem seção ou em Brasil
+        california texas florida angeles indonesia filipinas tailandia vietna malasia singapura australia zelandia
+        africa nigeria egito marrocos quenia etiopia sudao congo mocambique angola finlandia suecia noruega dinamarca
+        holanda belgica espanha portugal italia grecia polonia hungria austria suica irlanda escocia islandia
+        paquistao afeganistao bangladesh nepal taiwan hong kong coreano coreana chines chinesa russo russa
+        ucraniano ucraniana israelense palestino palestinos libia iraque jordania catar emirados dubai
+        haiti nicaragua honduras guatemala panama""".split()),  # 21/11: terremoto no Peru e incêndio em Los Angeles ficavam sem seção ou em Brasil
     # 20/11: com mais veículos, o "palpite" de seção do feed (InfoMoney = economia) pesava em assunto de outra área
     "educacao": set("""enem fuvest vestibular mec escola escolas universidade universidades professores professor alunos
         estudantes sisu prouni fies ensino creche""".split()),
@@ -223,6 +231,14 @@ KW = {
         estupro esfaqueado baleado baleada sequestro latrocinio""".split()),
 }
 
+
+PAISES = set("""eua israel irao ucrania russia china gaza europa franca argentina venezuela alemanha japao coreia mexico
+    india arabia libano siria londres paris turquia peru chile colombia bolivia paraguai uruguai equador cuba canada alasca
+    california texas florida indonesia filipinas tailandia vietna malasia singapura australia zelandia africa nigeria
+    egito marrocos quenia etiopia sudao congo mocambique angola finlandia suecia noruega dinamarca holanda belgica espanha
+    portugal italia grecia polonia hungria austria suica irlanda escocia islandia paquistao afeganistao bangladesh nepal
+    taiwan libia iraque jordania catar emirados dubai haiti nicaragua honduras guatemala panama iemen kiev moscou pequim
+    washington""".split())
 
 BREVES_ALVO = 12  # 20/11: abaixo disso a rodada rápida repõe breves (até 4 por rodada)
 
@@ -242,6 +258,9 @@ def secao_de(its, pauta_sec=None):
     3) uma palavra-chave só (sem empate);
     4) a seção da pauta; senão nenhuma (o app mostra o assunto sem editoria, melhor que editoria errada)."""
     tk = set().union(*[x["tk"] for x in its]) if its else set()
+    # 25/11 (testador, acabou-de-sair-poe-incendio-na-indonesia-em-brasil): país estrangeiro no título vence as
+    # palavras de crime/acidente/clima ("Incêndio em fábrica na Indonésia" é Mundo, não Brasil)
+    if tk & PAISES and not (tk & KW["esportes"]): return "mundo"
     hits = sorted(((len(tk & kw), s) for s, kw in KW.items()), reverse=True)
     if hits[0][0] >= 2 and hits[0][0] > hits[1][0]: return hits[0][1]
     por = dict((s, n) for n, s in hits)

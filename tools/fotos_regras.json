@@ -1,0 +1,49 @@
+{
+  "_leia": "Regra única de fotos de arquivo (25/11). Lida por tools/paginas.py (prévia do link m/), tools/fotos_arquivo.py e pelo app (js/213-fotos-regra.js, que carrega uma cópia; o teste tools/test_fotos_regras_2511.py confere que são iguais). 'bloq': trecho do nome do arquivo que nunca entra. 'exige': a foto cujo nome tem 'nome' só entra se o título (ou subtítulo) da notícia casar com 'titulo' (regex, sem acento, minúsculas).",
+  "bloq": [
+    "hubbell-white house",
+    "hubbell-white_house",
+    "douglas tavolaro",
+    "luiz-inacio-lula-da-silva-8eb72b38",
+    "maidan nezalezhnosti",
+    "parque avenida building"
+  ],
+  "exige": [
+    {
+      "nome": "policia federal",
+      "titulo": "policia federal|\\bpf\\b"
+    },
+    {
+      "nome": "alaska airlines",
+      "titulo": "alaska"
+    },
+    {
+      "nome": "delta air",
+      "titulo": "\\bdelta\\b"
+    },
+    {
+      "nome": "united airlines",
+      "titulo": "united"
+    },
+    {
+      "nome": "american airlines",
+      "titulo": "american airlines"
+    },
+    {
+      "nome": "latam",
+      "titulo": "latam"
+    },
+    {
+      "nome": "white house",
+      "titulo": "casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"
+    },
+    {
+      "nome": "casa branca",
+      "titulo": "casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"
+    },
+    {
+      "nome": "ministerio da educacao",
+      "titulo": "\\bmec\\b|ministerio da educacao|camilo santana"
+    }
+  ]
+}
