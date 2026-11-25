@@ -57,7 +57,12 @@ var TOQUE_CEDO=null,MEXEU_CEDO=false;
   addEventListener("pointerdown",m,{passive:true});addEventListener("wheel",m,{passive:true});addEventListener("touchmove",m,{passive:true});
   document.addEventListener("click",function(e){if(window.__prumoPronto)return;MEXEU_CEDO=true;var b=e.target&&e.target.closest&&e.target.closest(".nav [data-v], .cp.f4-pre [data-cpx]");if(!b)return;
     try{var o=document.querySelector(".toque-cedo-b");if(o)o.classList.remove("toque-cedo-b")}catch(_){}
-    TOQUE_CEDO={v:b.getAttribute("data-v"),cpx:b.getAttribute("data-cpx"),t:Date.now()};b.classList.add("toque-cedo-b")},true)}catch(e){}})();
+    TOQUE_CEDO={v:b.getAttribute("data-v"),cpx:b.getAttribute("data-cpx"),t:Date.now()};b.classList.add("toque-cedo-b");
+    /* 25/11 (testador): sinal claro de que o toque pegou: o botão da barra fica marcado e aparece "Carregando…" */
+    try{var v=b.getAttribute("data-v");if(v){document.querySelectorAll(".nav [data-v]").forEach(function(x){if(x===b)x.setAttribute("aria-current","page");else x.removeAttribute("aria-current")})}
+      var pl=document.getElementById("tc214");if(!pl){pl=document.createElement("div");pl.id="tc214";pl.setAttribute("role","status");document.body.appendChild(pl)}
+      var nm={feed:"o Feed",msgs:"as Conversas",me:"o Perfil",capa:"a Capa"}[v]||"a notícia";pl.textContent="Carregando "+nm+"…";pl.className="on";
+      var t0=Date.now(),fim=function(){if((window.__prumoPronto&&!TOQUE_CEDO)||Date.now()-t0>40000){pl.className="";setTimeout(function(){try{pl.remove()}catch(_){}},400);return}setTimeout(fim,250)};fim()}catch(_){}},true)}catch(e){}})();
 </script>
 <style>
 /* 170: os arquivos da Newsreader vão só do peso 400 ao 800 (o app não usa menos de 400 nessa letra): 99 e 109 KB em vez de 129 e 144 KB,
@@ -6490,7 +6495,7 @@ html:root:not(.x211-nunca) .top.rolou{background:var(--bg)!important;-webkit-bac
 .sg181-sv{margin-left:16px!important}
 
 /* Perfil sem posts: o botão "Nova publicação" não fica atrás da barra de baixo (iPhone SE) */
-#v-me .gut,.pfv{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+#v-me,.pfv .pfv-sc{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))!important}
 
 /* Guardar no topo da matéria: sem fundo quando não está guardado (guardar-no-topo-da-materia-parece-ja-marcado-2) */
 #layer .mat-top [aria-pressed="false"]{background:none!important;box-shadow:none!important}
@@ -6554,7 +6559,8 @@ html.abre-capa .nav #t-capa{color:var(--ink)!important;background:rgb(20 33 58 /
    da notícia juntada no Criar). Só nas miniaturas: no Feed e na matéria fica a regra de 16/11 (preso pelo alto) */
 .cp-th img[src*="acervo/p/"],.cn102-th img[src*="acervo/p/"],.mr-th img[src*="acervo/p/"]{object-position:50% 32%!important}
 /* giro com retrato em pé: o rosto fica abaixo do título (o título ocupa o alto da tela) */
-.story .sl-foto img[src*="acervo/p/"],.story img.st-bg[src*="acervo/p/"]{object-position:50% 0!important}
+.story.sg .sg-bg img[src*="acervo/p/"]{height:58%!important;object-fit:cover!important;object-position:50% 22%!important;animation:none!important;transform:none!important;
+  -webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
 
 /* Feed de madrugada (caminho C, 25/11) */
 .md214-ontem{margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--chip,#eef1f5);color:var(--muted);font:600 11px/1.5 var(--f-ui)}
@@ -6582,6 +6588,80 @@ html:root .cp-l .s,html:root .cp-edicao,html:root .cp-meta{font-size:calc(12.5px
 .ag214{display:flex;flex-direction:column;gap:6px;padding:4px 0 8px}
 .ag214-q{margin:0;font:700 calc(13px*var(--fz,1)) var(--f-ui);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 .ag214-t{margin:0;font:600 calc(18px*var(--fz,1))/1.35 var(--f-serif,Georgia,serif)}
+/* Perfil: linha da Atividade quando há novidade */
+.pf214-at{display:flex;align-items:center;gap:8px;width:100%;margin:6px 0 10px;padding:10px 12px;border:0;border-radius:12px;background:rgb(217 72 15 / .1);color:var(--ink);font:600 calc(14.5px*var(--fz,1))/1.3 var(--f-ui);text-align:left;cursor:pointer}
+.pf214-at .ico,.pf214-at svg{width:18px;height:18px;color:var(--accent,#d9480f);flex:none}
+.pf214-at span{flex:1}
+.pf214-at i{font-style:normal;color:var(--muted)}
+/* Perfil sem posts: bloco vazio mais baixo, para "Nova publicação" caber na 1ª tela mesmo com Minhas colunas e Coberturas que sigo */
+#v-me .pf-vz{padding-top:10px!important;padding-bottom:10px!important;min-height:0!important;gap:6px}
+#v-me .pf-vz > svg,#v-me .pf-vz > .ico{display:none}
+/* Conversa: cartão da notícia com desenho (sem foto) sem as faixas vazias em cima e embaixo; o quadro toma a proporção do desenho */
+.dm-cf:has(> svg){aspect-ratio:auto}
+.dm-cf > svg{position:static!important;display:block;width:100%!important;height:auto!important}
+/* Nova publicação › Foto: enquanto a galeria está aberta, a tela antiga do editor fica escondida */
+html.cp214-gal #layer > .scrim,html.cp214-gal #layer > .ed,html.cp214-gal #layer > *:not(.toast){visibility:hidden!important}
+/* publicando: o editor antigo sai sem aparecer (some na hora, sem animação) */
+html.cp214-pub #layer > *{animation:none!important;transition:none!important}
+html.cp214-pub #layer > .scrim:not(:has(.sheet)){opacity:0!important}
+/* letra grande, 2ª passada (medido na tela, 25/11): o que ainda ficava do mesmo tamanho na Capa e na matéria */
+#v-capa .cp-ed{font-size:calc(12px*var(--fz,1))!important}
+#v-capa .late{font-size:calc(14px*var(--fz,1))!important}
+#v-capa .ag-lbl{font-size:calc(11px*var(--fz,1))!important}
+#v-capa .ag-i{font-size:calc(14px*var(--fz,1))!important}
+#v-capa .ag-i time{font-size:calc(11.5px*var(--fz,1))!important}
+.ac208-h{font-size:calc(12px*var(--fz,1))!important}
+.ac208-k{font-size:calc(11.5px*var(--fz,1))!important}
+.ac208-i small{font-size:calc(12.5px*var(--fz,1))!important}
+#v-capa h3 > span,#v-capa .cp-1m-sh span{font-size:calc(12.5px*var(--fz,1))!important}
+.ui184-h{font-size:calc(11.5px*var(--fz,1))!important}
+.ui184-n{font-size:calc(12.5px*var(--fz,1))!important}
+.ui184-c b{font-size:calc(19px*var(--fz,1))!important}
+.ui184-c em,.ui184-c small,.ui184-at{font-size:calc(12px*var(--fz,1))!important}
+html.fzg .ui184-g{grid-template-columns:1fr 1fr!important}
+#v-capa .cp-h button{font-size:calc(13.5px*var(--fz,1))!important}
+#v-capa .cm168-dia{font-size:calc(12px*var(--fz,1))!important}
+#v-capa .ca159-mud{font-size:calc(13.5px*var(--fz,1))!important}
+#v-capa .cp-fim b{font-size:calc(17px*var(--fz,1))!important}
+#v-capa .cp-fim .btn,#v-capa .cp-fim-at{font-size:calc(14.5px*var(--fz,1))!important}
+#layer .mat-top .mat-v,#layer .mat-top .mat-aa{font-size:calc(15px*var(--fz,1))!important}
+#layer .mat-top .mat-k{font-size:calc(11px*var(--fz,1))!important}
+#layer .ht-mat .ht-n{font-size:calc(13px*var(--fz,1))!important}
+#layer .mat-meta span{font-size:calc(13.5px*var(--fz,1))!important}
+#layer .fs2-cap-k{font-size:calc(10.5px*min(var(--fz,1),1.2))!important}
+#layer .fs2-cap-b{font-size:calc(13.5px*min(var(--fz,1),1.15))!important}
+#layer .fs2-cap-b i{font-size:calc(11px*min(var(--fz,1),1.15))!important}
+#layer .gn .lbl,#layer .gn .gn-u{font-size:calc(16px*var(--fz,1))!important}
+#layer .gn .hint{font-size:calc(13px*var(--fz,1))!important}
+#layer .cpx-c > b,#layer .cpx-bl > b{font-size:calc(12.5px*var(--fz,1))!important}
+#layer .mat-tl > b,#layer .fs2-faq > b{font-size:calc(11.5px*var(--fz,1))!important}
+#layer .ct210-ld-sw button{font-size:calc(14px*var(--fz,1))!important}
+#layer .ct210-ld-v h4{font-size:calc(17px*var(--fz,1))!important}
+#layer .ct210-ld-v li,#layer .ct210-ld li{font-size:calc(15px*var(--fz,1))!important}
+#layer .mat-prox span{font-size:calc(11px*var(--fz,1))!important}
+#layer .mat-prox b{font-size:calc(17px*var(--fz,1))!important}
+#layer .mat-dica{font-size:calc(12px*var(--fz,1))!important}
+#layer .mt158-ver{font-size:calc(14px*var(--fz,1))!important}
+#layer .cpx-fontes{font-size:calc(12.5px*var(--fz,1))!important}
+.nc214-c{margin-right:6px;min-height:34px;padding:0 12px}
+.nc214-h{margin:0 0 10px}
+.ui214-q{float:right;font-weight:700;text-transform:none;letter-spacing:0;color:var(--accent,#d9480f)}
+/* letra grande no Feed: o assunto do topo do cartão quebra a linha em vez de virar "Contas p…" */
+html.fzg #posts .post.vn-cn > .ph .ph-nm{flex-wrap:wrap;row-gap:0}
+html.fzg #posts .post.vn-cn > .ph .ph-sub,html.fzg #posts .post.vn-cn > .ph .fd156-st{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;max-width:none!important}
+/* Nova publicação: a fileira de fotos não encolhe quando o cartão da notícia entra (miniatura e "+" cortados embaixo) */
+.fc164{flex:0 0 auto!important;min-height:113px;overflow-y:hidden}
+/* guia, 1ª tela: a balança no alto da Capa em destaque */
+.tr214-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.tr214-bal{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--soft,#eef1f5);box-shadow:0 0 0 3px #3a86ff;animation:tr214p 1.6s ease-in-out infinite}
+.tr214-bal svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+@keyframes tr214p{50%{box-shadow:0 0 0 6px rgb(58 134 255 / .35)}}
+@media (prefers-reduced-motion:reduce){.tr214-bal{animation:none}}
+html.fa214-esp #v-capa .art.paper:not(.foto) > svg,html.fa214-esp #posts .art.paper:not(.foto) > svg{visibility:hidden}
+/* rede lenta: o toque na barra antes de o app ficar pronto marca o botão (não esmaece) e mostra "Carregando…" */
+.nav .toque-cedo-b{opacity:1!important;animation:none!important;color:var(--ink)!important}
+#tc214{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 76px);transform:translate(-50%,8px);z-index:60;padding:8px 14px;border-radius:999px;background:var(--ink,#14213a);color:var(--bg,#fff);font:600 13.5px/1.2 var(--f-ui,system-ui);opacity:0;transition:opacity .2s,transform .2s;pointer-events:none}
+#tc214.on{opacity:.94;transform:translate(-50%,0)}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -7882,8 +7962,8 @@ function ui184Sub(x){
   if(x.id==="selic")return `<small>meta do Copom</small>`;
   const m=/^\d{4}-(\d{2})$/.exec(String(x.ref||""));return `<small>${m?"até "+UI184_MES[+m[1]-1]:"IBGE"}</small>`}
 function capaIndicadores(){const it=ui184Itens();if(!it.length)return "";const leg=ui184Legenda(it);
-  return `<section class="ui184" aria-label="Indicadores"><button type="button" class="ui184-b" data-ui184 aria-label="Indicadores: ${esc(it.map(x=>UI184_NOME[x.id]+" "+x.valor).join(", "))}. ${esc(leg)}. Toque para saber o que é cada um">`+
-    `<span class="ui184-h">Indicadores</span><span class="ui184-g">${it.map(x=>`<span class="ui184-c" data-ui184id="${esc(x.id)}"><span class="ui184-n">${esc(UI184_NOME[x.id])}</span><b>${esc(x.valor)}</b>${ui184Sub(x)}</span>`).join("")}</span>`+
+  return `<section class="ui184" aria-label="Indicadores"><button type="button" class="ui184-b" data-ui184 aria-label="Indicadores: ${esc(it.map(x=>UI184_NOME[x.id]+" "+x.valor).join(", "))}. ${esc(leg)}. Toque num número para ver o gráfico">`+
+    `<span class="ui184-h">Indicadores<span class="ui214-q">ⓘ O que é cada um</span></span><span class="ui184-g">${it.map(x=>`<span class="ui184-c" data-ui184id="${esc(x.id)}"><span class="ui184-n">${esc(UI184_NOME[x.id])}</span><b>${esc(x.valor)}</b>${ui184Sub(x)}</span>`).join("")}</span>`+
     (leg?`<span class="ui184-at">${esc(leg)}</span>`:"")+`</button></section>`}
 function ui184Explica(){try{uso("indicadores")}catch(e){}
   sheet("Indicadores",`<div class="ui184-ex"><p><b>Dólar</b>: cotação comercial no fechamento do dia, com a variação sobre o fechamento anterior.</p>`+
@@ -7903,7 +7983,7 @@ function ui184Lado(){const sd=document.querySelector("#v-capa .cp-side"),c=docum
 function ca159Acomp(){const v=document.getElementById("v-capa");if(!v)return;
   v.querySelectorAll(".cp-h").forEach(hh=>{const h3=hh.querySelector("h3");if(!h3||h3.textContent.trim()!=="Para acompanhar")return;const ul=hh.nextElementSibling;if(!ul||!ul.classList.contains("cp-l"))return;
     ul.querySelectorAll("button[data-cobpag]").forEach(b=>{if(b.querySelector(".ca159-mud"))return;const p=pautaById(b.dataset.cobpag);const a=p&&Array.isArray(p.atualizacoes)?p.atualizacoes.filter(x=>x&&typeof x.texto==="string"&&x.texto.trim()):[];
-      const u=a.length?a.slice().sort((x,y)=>tms(x.hora)-tms(y.hora)).pop():null;if(u)b.insertAdjacentHTML("beforeend",`<span class="ca159-mud">${esc(capaFrase(u.texto,96))}</span>`)})})}
+      const u=a.length?a.slice().sort((x,y)=>tms(x.hora)-tms(y.hora)).pop():null;if(u)b.insertAdjacentHTML("beforeend",`<span class="ca159-mud">${esc(capaFrase((typeof dt185Rel==="function"?dt185Rel(u.texto):u.texto),96))}</span>`)})})}
 /* 168: a hora é a da última novidade de cada cobertura; a lista segue essa ordem */
 function cm168Acomp(){const v=document.getElementById("v-capa");if(!v)return;
   v.querySelectorAll(".cp-h").forEach(hh=>{const h3=hh.querySelector("h3");if(!h3||h3.textContent.trim()!=="Para acompanhar")return;const ul=hh.nextElementSibling;if(!ul||!ul.classList.contains("cp-l"))return;
@@ -8174,6 +8254,7 @@ function f113Caps(){(()=>{if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO
   {const vt=(Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&F113_VIS[v.tipo]);let k=0;
     c.querySelectorAll(".mat-vis").forEach(el=>{if(el.classList.contains("po118"))add(el,"Placar oficial");else{const t=vt[k++];add(el,t?F113_VIS[t.tipo]:"Os números")}})}
   add(c.querySelector(".mat-tl"),"Linha do tempo");
+  add([...c.querySelectorAll(".cpx-c")].find(e=>/^Contexto/.test((e.querySelector("b")||{}).textContent||"")),"Contexto");  /* 25/11 (testador): o trecho mais longo ficava marcado como "Placar oficial" */
   add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
   add(c.querySelector(".fs2-faq"),"Perguntas");
   add(c.querySelector(".ct210-ld"),"Como cada lado conta");  /* 20/11 (testador): a seção não tinha aba */
@@ -9615,7 +9696,7 @@ function pgEncher(src,dst,pg,H){
         src.insertBefore(document.createTextNode(resto),src.firstChild);return false}
       continue}
     dst.appendChild(n);if(pgCabe(pg,H))continue;n.remove();
-    if(n.nodeType!==1||n.matches("button,a,svg,img,time,canvas,figure,table,.gr,.gr-box,.nums")||(n.textContent||"").trim().length<50){src.insertBefore(n,src.firstChild);return false}
+    if(n.nodeType!==1||n.matches("button,a,svg,img,time,canvas,figure,table,.gr,.gr-box,.nums,li,dt,dd")||(n.textContent||"").trim().length<50){src.insertBefore(n,src.firstChild);return false}
     const cl=n.cloneNode(false);dst.appendChild(cl);const tudo=pgEncher(n,cl,pg,H);if(!cl.firstChild||!cl.textContent.trim())cl.remove();
     if(!tudo){src.insertBefore(n,src.firstChild);return false}}
   return true}
@@ -11753,7 +11834,7 @@ function tr090Acoes(){const ic=(k,f)=>{try{return (typeof ICON!=="undefined"&&IC
   return `<em class="tr-a" title="Curtir">${ic("like","")}</em><em class="tr-a">${ic("cmt","")}<small>Comentar</small></em>${rp?`<em class="tr-a">${rp}<small>Repostar</small></em>`:""}<em class="tr-a tr-dir">${ic("send","")}</em><em class="tr-a">${ic("save","")}</em>`}
 function tourTelas(nome){return [
   {ic:"capa",k:"Capa",t:nome?`Bem-vindo, ${nome}`:"As notícias do dia",p:"A Capa traz o que importa hoje, em poucas linhas e sem viés. Toque na manchete para ler ali mesmo. Para ver como a direita ou a esquerda contam, toque na balança, no alto da Capa.",
-    demo:`<div class="tr-capa"><i class="tr-k"></i><b></b><b class="c"></b><span class="tr-seg"><em class="on">Neutra</em><em>Direita</em><em>Esquerda</em></span></div>`},
+    demo:`<div class="tr-capa tr214"><span class="tr214-top"><i class="tr-k"></i><span class="tr214-bal" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M7 20h10M5 7h14M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z"/></svg></span></span><b></b><b class="c"></b><b class="c"></b></div>`/* 25/11 (testador): o desenho mostra a balança no alto da Capa, como diz o texto (antes, os botões Neutra/Direita/Esquerda sob a manchete, que não existem) */},
   {ic:"feed",k:"Feed e giros",t:"Notícias que dá para curtir",p:"No Feed, as notícias viram posts e giros, junto com o que seus amigos publicam. Curta, comente, vote nas enquetes e mande para quem quiser.",
     demo:`<div class="tr-feed"><span><i></i><i></i><i></i><i></i></span><div><b></b><b class="c"></b></div><p class="tr-acts">${tr090Acoes()}</p></div>`},
   {ic:"ativ",k:"Amigos e Atividade",t:"Seus amigos estão aqui",p:"Quem te convidou já é seu amigo. O sino no topo mostra quem curtiu, comentou ou te marcou, e quando uma cobertura que você segue ganha novidade.",
@@ -12506,7 +12587,7 @@ document.addEventListener("scroll",e=>{const t=e.target;if(!t||!t.classList||!t.
 /* ===== curtidas, comentários e "Na conversa" ===== */
 function vp99Social(pid){const el=document.getElementById("p-"+pid);if(!el)return;const up=vp99EhPost(pid);const {likes,cm}=socialOf(pid);
   const lk=el.querySelector("[data-likes]");
-  if(lk&&!lk.textContent.trim()&&S.uid&&likes.length===1&&likes[0]===S.uid){lk.innerHTML=up?`Curtido por <b>você</b>`:`<b>Você</b> curtiu`;lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}
+  if(lk&&!lk.textContent.trim()&&S.uid&&likes.length===1&&likes[0]===S.uid){lk.innerHTML=`<b>Você</b> curtiu`;lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}
   const nc=el.querySelector("[data-nchat]");
   if(nc&&typeof allMsgs==="function"){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto&&m.tipo!=="mencao");const u=ms[ms.length-1];
     nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}
@@ -13095,8 +13176,9 @@ document.addEventListener("error",e=>{const im=e.target;if(!im||im.tagName!=="IM
 function fd104Curtidas(pid){const el=document.getElementById("p-"+pid);if(!el||String(pid).indexOf("u:")!==0)return;const lk=el.querySelector("[data-likes]");if(!lk)return;
   const {likes}=socialOf(pid),eu=!!(S.uid&&likes.includes(S.uid)),ou=likes.filter(u=>u!==S.uid),n1=ou[0]?`<b>${esc(nomeDe(ou[0]))}</b>`:"";
   const outras=k=>k===1?"outra pessoa":`outras ${k} pessoas`;let t="";
-  if(eu&&!ou.length)t=`Curtido por <b>você</b>`;else if(eu&&ou.length===1)t=`Curtido por <b>você</b> e ${n1}`;else if(eu)t=`Curtido por <b>você</b> e ${outras(ou.length)}`;
-  else if(ou.length===1)t=`Curtido por ${n1}`;else if(ou.length>1)t=`Curtido por ${n1} e ${outras(ou.length-1)}`;
+  /* 25/11 (testador): o mesmo jeito das notícias ("Bia Souza curtiu"); antes os posts diziam "Curtido por …" */
+  if(eu&&!ou.length)t=`<b>Você</b> curtiu`;else if(eu&&ou.length===1)t=`<b>Você</b> e ${n1} curtiram`;else if(eu)t=`<b>Você</b> e mais ${ou.length} curtiram`;
+  else if(ou.length===1)t=`${n1} curtiu`;else if(ou.length>1)t=`${n1} e mais ${ou.length-1} curtiram`;
   if(lk.innerHTML!==t)lk.innerHTML=t;if(t){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}}
 
 /* quem publicou o post pode apagar comentários dos outros no próprio post (o servidor já permite) */
@@ -15011,7 +15093,7 @@ function cs123Blocos(corpo){const bl=[];let cit=[];const fecha=()=>{if(cit.lengt
     fecha();bl.push({t:"p",x:s})});fecha();return bl}
 function cs123CorpoHTML(corpo){return cs123Blocos(corpo).map(b=>b.t==="h"?`<h2>${cs123Inline(b.x)}</h2>`:b.t==="q"?`<blockquote><p>${cs123Inline(b.x)}</p></blockquote>`:`<p>${cs123Inline(b.x)}</p>`).join("")}
 const cs123Plano=t=>String(t||"").replace(/\[([^\]\n]+)\]\([^)\s]+\)/g,"$1").replace(/\*\*|__/g,"").replace(/(^|[^\p{L}\p{N}])[*_]([^*_\n]+)[*_](?![\p{L}\p{N}])/gu,"$1$2");
-function cs123Teaser(corpo){const ps=cs123Blocos(corpo).filter(b=>b.t==="p").map(b=>cs123Plano(b.x).trim()).filter(Boolean);if(!ps.length)return "";
+function cs123Teaser(corpo){const ps=cs123Blocos(corpo).filter(b=>b.t==="p"&&!/^(?:[-•*]|\d+\.)\s/.test(b.x)).map(b=>cs123Plano(b.x).trim()).filter(Boolean);if(!ps.length)return "";
   const fr=(ps.slice(0,2).join(" ").match(/[^.!?…]+(?:[.!?…]+|$)/g)||[]).map(s=>s.trim()).filter(Boolean);let o=fr[0]||"";
   if(o.length<120&&fr[1]&&(o+" "+fr[1]).length<=240)o+=" "+fr[1];
   if(o.length>240)o=o.slice(0,236).replace(/\s+\S*$/,"")+"…";return o}
@@ -15914,7 +15996,7 @@ const ED132_PL=new Map();
 function ed132Plano(html){html=String(html||"");const k=ED132_PL.get(html);if(k!==undefined)return k;const tp=document.createElement("template");tp.innerHTML=html;const l=[];
   tp.content.childNodes.forEach(n=>{if(n.nodeType!==1)return;const t=n.tagName,tx=e=>String(e.textContent||"").replace(/\s+/g," ").trim();
     if(t==="FIGURE"){const c=n.querySelector("figcaption");return}if(t==="HR")return;
-    if(t==="UL"||t==="OL"){n.querySelectorAll("li").forEach(li=>{const s=tx(li);if(s)l.push(s)});return}
+    if(t==="UL"||t==="OL"){let k=0;n.querySelectorAll("li").forEach(li=>{const s=tx(li);if(s)l.push((t==="OL"?(++k)+". ":"- ")+s)});return}/* 25/11: item de lista leva o marcador (a chamada automática não cola item na frase) */
     if(t==="BLOCKQUOTE"){n.querySelectorAll("p").forEach(p=>{const s=tx(p);if(s)l.push("> "+s)});return}
     const s=tx(n);if(s)l.push(t==="H2"||t==="H3"?"## "+s:s)});
   const r=l.join("\n");if(ED132_PL.size>300)ED132_PL.clear();ED132_PL.set(html,r);return r}
@@ -19157,7 +19239,7 @@ function mt158Pagina(id){if(!/^[\w-]{1,80}$/.test(String(id||"")))return Promise
   MT158_PAG[id]=fetch("m/"+id+".html",{cache:"no-cache"}).then(r=>r.ok?r.text():null).then(tx=>{if(!tx||!/og:title/.test(tx))return null;
     const d=new DOMParser().parseFromString(tx,"text/html"),mt=n=>((d.querySelector(`meta[property="${n}"]`)||{}).content||"").trim();
     const desc=mt("og:description").replace(/\s*\((?:Foto|Imagem)[^)]*\)\s*$/i,"").replace(/\s*\((?:Foto|Imagem)[^()]*\([^)]*\)\)\s*$/i,"").trim();
-    const img=mt("og:image"),tq=(d.querySelector('meta[name="prumo:tema"]')||{}).content||"";return {quando:mt("article:modified_time"),tema:tq.trim(),titulo:mt("og:title"),desc,img:/^https:\/\//.test(img)&&!/og-padrao/.test(img)?img:""}}).catch(()=>null);
+    const img=mt("og:image"),tq=(d.querySelector('meta[name="prumo:tema"]')||{}).content||"";return {quando:mt("article:modified_time"),tema:tq.trim(),titulo:mt("og:title"),desc,img:/^https:\/\//.test(img)&&!/og-padrao|\/m\/og\//.test(img)?img:""/* 25/11: a arte de compartilhar (título + marca) repetia o título logo abaixo */}}).catch(()=>null);
   return MT158_PAG[id]}
 var MT158_LINK=null;
 function mt158Fora(pid){if(MT158_LINK===pid)return;MT158_LINK=pid;
@@ -20464,7 +20546,10 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
 indPainel=function(){return ""};
 if(typeof cm168IndBusca==="function")cm168IndBusca=function(){return ""};
 addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("[data-ui184],[data-indg]");if(!b)return;
-  e.stopPropagation();e.preventDefault();ui184Explica()},true);
+  e.stopPropagation();e.preventDefault();
+  /* 25/11 (testador): tocar num número abre o gráfico dele; a explicação fica no "ⓘ O que é cada um" e no resto do quadro */
+  const c=t.closest("[data-ui184id]");if(c&&!t.closest(".ui214-q")&&typeof abrirGrafico==="function"){try{const id=c.dataset.ui184id;const x=indItens().find(o=>o&&o.id===id);if(x&&grDados(x).length>=2){abrirGrafico(id);return}}catch(er){}}
+  ui184Explica()},true);
 
 /* ===== 2. contagens que faltavam ===== */
 /* notícia comentada (e os outros formatos) e repost eram todos "publicar_post": cada um ganha o seu nome */
@@ -21140,7 +21225,9 @@ function us204Base(pid){
   {const lk=el.querySelector("[data-likes]");lk.innerHTML=lt;if(lt){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}else{delete lk.dataset.a;lk.removeAttribute("role");lk.removeAttribute("tabindex")}}
   const pp=pautaById(pid);if(pp){const pl=el.querySelector("[data-poll]");if(pl){const eh=enqueteHTML(pp);pl.innerHTML=eh?`<span class="pb-l">Enquete</span>${eh}`:""}}
   {const ot=el.querySelector("[data-otr]");if(ot){const at=atividadeAmigos(pid);
-    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("curtiu")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
+    /* 25/11 (testador): só a curtida de um amigo já está na linha embaixo dos botões ("Pedro Brandão curtiu"); o topo não repete */
+    if(at.length===1&&at[0].ac.length===1&&at[0].ac[0]==="curtiu")ot.innerHTML="";
+    else if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("curtiu")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
     else if(at.length>1)ot.innerHTML=`<span class="otr" role="button" tabindex="0" data-otrs="${esc(pid)}" aria-label="${esc(at.length+" amigos nesta notícia")}">${avatares(at.map(x=>x.u))}${at.length} amigos</span>`;
     else ot.innerHTML=""}}
   {const nc=el.querySelector("[data-nchat]");if(nc){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto);const u=ms[ms.length-1];nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}}
@@ -21340,7 +21427,7 @@ function renderSecs(){
   /* 054: topo no estilo Instagram */
   const c054=()=>{const box=$("#secs");if(!box||!FEED)return;let h="";
   if($("#b-5min"))h+=igCirc('data-5min',"ig-5",`<span class="ig-5c"><b>5</b><small>min</small></span>`,"Em 5 min","O dia em 5 minutos");
-  try{const it=tickerItens(15).filter(i=>pautaById(i.pid));/* 25/11: o círculo anuncia o 1º quadro do giro */if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
+  try{const it=ult204Giro();/* 25/11: o círculo anuncia o 1º quadro do giro */if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
   h+=secsStory().map(s=>{const ps=pautasDa(s.id);if(!ps.length)return "";const nn=ps.filter(p=>!SEEN.has(seenKey(p))).length;const first=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
     return `<button type="button" class="sb ig-s" data-sec-story="${esc(s.id)}" aria-label="${esc(s.nome)}: ${ps.length} notícias${nn?", "+nn+" não vistas":""}"><span class="ig-r${nn?"":" visto"}" style="--c:${secCor(s.id)}"><span class="ig-f paper" data-sec="${esc(s.id)}">${igFace(first)}</span></span><b>${esc(s.nome)}</b></button>`}).join("");
   try{const {H,P}=igAgendaItens();if(H.length||P.length){const d=new Date(hojeSP()+"T12:00:00Z");const wd=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"UTC"}).replace(".","");
@@ -21397,9 +21484,11 @@ function renderSecs(){
 /* ===== stories do topo do Feed (círculos de notícia, Em 5 min, Últimas, Agenda, destaques, giros dos amigos) =====
    Só o que o topo do Feed abre; criar giro continua onde estava. */
 /* igLista: as páginas de um círculo. Base no 055; remendos: 056, 058 (2×), 068, 086. */
+/* 25/11: o giro Últimas abre pelo mais novo e deixa de fora o que tem mais de 24 h (era o fim do giro com notícia de 6 dias) */
+function ult204Giro(){const ag=Math.min(Date.now(),Date.parse((FEED&&FEED.atualizado_em)||"")||Date.now()),l=tickerItens(15).filter(i=>pautaById(i.pid)),f=l.filter(i=>!i.hora||ag-Date.parse(i.hora)<=24*3600e3);return (f.length?f:l).slice().sort((a,b)=>(Date.parse(b.hora)||0)-(Date.parse(a.hora)||0))}
 function il204Base(sec){
   if(sec==="_5min"){const ps=cincoLista();return {ps,itens:null}}
-  if(sec==="_ult"){const it=tickerItens(15).filter(i=>pautaById(i.pid));return {ps:it.map(i=>pautaById(i.pid)),itens:it}}
+  if(sec==="_ult"){const it=ult204Giro();return {ps:it.map(i=>pautaById(i.pid)),itens:it}}
   return {ps:pautasDa(sec),itens:null}}
 function igLista(sec){
   /* 086: Sua semana */
@@ -23199,7 +23288,7 @@ function ppCartao(x){
 /* [068] o cartão de sempre */
 function ppBase(x){const id="u:"+x.id,eu=x.autor===S.uid,fs=x.fotos.map(pubUrl),nt=x.pid&&pautaById(x.pid);
   let sl=fs.map(u=>`<div class="sl up-sl">${u?`<img class="up-img" src="${pubSrc(u)}" alt="" loading="lazy" decoding="async">`:`<div class="up-sem">Foto indisponível</div>`}</div>`);
-  const ntSl=x.pid?`<div class="sl up-sl up-nt"><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}</b><span>Ler a matéria ›</span></button></div>`:"";
+  const ntSl=x.pid?`<div class="sl up-sl up-nt"><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(ntTit214(nt,x))}</b><span>${ntMudou214(nt,x)?"Atualizada depois · toque para ver a versão de agora ›":"Ler a matéria ›"}</span></button></div>`:"";
   if(ntSl)sl.push(ntSl);const soTexto=!sl.length;if(soTexto)sl=[`<div class="sl up-sl up-tx" style="background:${pubFundo(String(x.id).charCodeAt(0))}"><p>${dmMarcaPub(x.texto)}</p></div>`];
   return `<article class="post upost" id="p-${esc(id)}" data-pid="${esc(id)}">
     <div class="ph gut"><div class="ph-t"><span class="up-au">${avatar(x.autor)}<span class="ph-nm"><b>${esc(nomeDe(x.autor))}</b><span class="ph-sub">${esc(quando(x.at))}${x.pid&&x.fotos.length?" · com notícia":""}</span></span></span><span data-otr></span></div><button type="button" class="more-btn" data-umenu="${esc(x.id)}" aria-label="Mais opções">${ICON.dots}</button></div>
@@ -23443,13 +23532,18 @@ function atAcaoBase(x){const fecha=()=>{if($("#layer .pfv-at"))closeLayer()};
   if(x.pub){const pb=AT.pubs[x.pub];if(!pb)return;if(pb.tipo==="story"){stLista([pb],0,"Seu giro","at");return}
     fecha();setTimeout(()=>{if(x.acao==="cmt"&&pubDe(x.pub))openComments("u:"+x.pub);else pubIrPara(x.pub)},320)}}
 function atThumbBase(x){const pb=x.pub&&AT.pubs[x.pub];if(!pb)return "";const f=pb.fotos[0]&&pubUrl(pb.fotos[0]);
-  return `<span class="at-th${pb.tipo==="story"?" st":""}">${f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<i style="background:${pubFundo(pb.estilo&&pb.estilo.fundo)}">${esc(String(pb.texto||"").slice(0,24))}</i>`}</span>`}
+  if(!f&&pb.tipo!=="story")return "";/* 25/11: post só de texto sem miniatura (o texto já está na linha; cortado parecia defeito) */
+  return `<span class="at-th${pb.tipo==="story"?" st":""}">${f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<i style="background:${pubFundo(pb.estilo&&pb.estilo.fundo)}" aria-hidden="true"></i>`}</span>`}
 
 /* ===== renderMe: a aba Perfil (a sua) =====
    Antes: definida no 012 e remendada em 083, 084, 086, 090, 099, 104-feed, 109, 112, 114, 123, 124, 150, 158, 160, 161,
    165 e 181 (17 remendos). É do Perfil, mas fica no núcleo porque todo mundo a chama (go, rerenderAll, conta…).
    Camadas: renderMe (181 … 104, e o 112 antes) → o 099 monta o miolo sem os posts guardados em S.salvos →
    renderMeMiolo (090, 086, 084, 083 e o 012). */
+/* 25/11 (testador): post antigo mostra o título da notícia de quando foi publicado (o id da pauta é reaproveitado na semana
+   seguinte); se a matéria mudou depois, avisa como nas Conversas */
+function ntMudou214(nt,x){try{const st=x&&x.snap&&x.snap.titulo;if(!nt||!st)return false;return norm(st)!==norm(versao(nt,lente()).titulo)}catch(e){return false}}
+function ntTit214(nt,x){return ntMudou214(nt,x)?x.snap.titulo:(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}
 function renderMe(){
   /* [112] aba do perfil no visual novo */
   if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;
@@ -23854,6 +23948,140 @@ var CL214_E=null;
 window.addEventListener("click",e=>{if(e.target&&e.target.closest&&e.target.closest("#layer [data-cs123ini]"))setTimeout(()=>{try{CL214_E=ED132.E}catch(_){}},300)},true);
 window.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest("[data-ed132x]")))return;let meu=false;try{meu=!!CL214_E&&ED132.E===CL214_E}catch(_){}if(!meu)return;
   setTimeout(()=>{try{if(ED132.E||document.querySelector("#layer > .ed132"))return;CL214_E=null;if(!document.getElementById("layer").innerHTML)cn102AbreInicio()}catch(er){}},350)},true);
+
+/* ---- Sem internet: guardar (ou qualquer redesenho da barra) não apaga a curtida que está na fila ---- */
+function lk214Repoe(){try{if(typeof FD156_GOSTEI==="undefined")return;Object.keys(FD156_GOSTEI).forEach(pid=>fd156Marca(pid,!!FD156_GOSTEI[pid]))}catch(e){}}
+document.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest('[data-a="save"],[data-a="like"]')))return;if(typeof FD156_GOSTEI==="undefined"||!Object.keys(FD156_GOSTEI).length)return;
+  [60,300,900].forEach(t=>setTimeout(lk214Repoe,t))});
+
+/* ---- Link de post incompleto (#p=abc123, cortado pelo WhatsApp): avisa e limpa o endereço, em vez de cair calado na Capa ---- */
+function lk214Incompleto(){try{const h=location.hash||"";if(!/^#p=/i.test(h)||/^#p=[0-9a-f-]{36}$/i.test(h))return false;
+  history.replaceState(history.state,"",location.pathname+location.search);let n=0;
+  const w=()=>{if(!window.__prumoPronto&&n++<60)return setTimeout(w,300);try{sheet("Post não encontrado",`<div class="ct210-pnx"><p><b>Não achamos este post.</b></p><p>O link pode estar incompleto (alguns aplicativos cortam o fim). Peça a quem mandou para enviar de novo. Dá para ler as notícias do Prumo sem conta.</p><button type="button" class="btn ct210-hoje" data-ct210hoje>Ver as notícias de hoje</button></div>`)}catch(e){}};
+  setTimeout(w,200);return true}catch(e){return false}}
+lk214Incompleto();addEventListener("hashchange",lk214Incompleto);
+
+/* ---- Link de post/coluna sem conta: não chama coluna de "post" nem promete que basta ter conta (a pessoa pode ter
+   escolhido "só quem me segue") ---- */
+try{PC106_TX.post_link="Esta publicação (post ou coluna) é de alguém do Prumo e só aparece para quem tem conta; algumas são só para quem segue a pessoa. Entre na sua conta ou, se ainda não tem, peça um convite a quem te mandou o link."}catch(e){}
+new MutationObserver(()=>{try{document.querySelectorAll("#layer .co160-pp > b").forEach(b=>{if(/^Post de /.test(b.textContent))b.textContent=b.textContent.replace(/^Post de /,"Publicação de ")});
+  document.querySelectorAll("#layer .co160-pp > span").forEach(s=>{if(/^Para ver o que .+ escreveu, entre com a sua conta\.$/.test(s.textContent)&&!s.dataset.l214){s.dataset.l214=1;s.textContent=s.textContent.replace(/entre com a sua conta\./,"entre com a sua conta (se for só para seguidores, siga a pessoa).")}})}catch(e){}}).observe(document.getElementById("layer"),{childList:true,subtree:true,characterData:false});
+
+/* ---- Editor de coluna: o 2º Enter para sair da citação/lista não cria mais uma linha vazia (o cursor fica na linha nova) ---- */
+window.addEventListener("keydown",e=>{if(e.key!=="Enter"||e.shiftKey||e.isComposing)return;const cp=document.getElementById("ed132-corpo");if(!cp||!cp.contains(e.target===cp?cp:e.target))return;
+  try{const s=getSelection();if(!s||!s.rangeCount||!s.isCollapsed)return;let n=s.anchorNode;while(n&&n.parentNode!==cp)n=n.parentNode;
+    if(!n||n.nodeType!==1||n.tagName!=="P"||(n.textContent||"").replace(/​/g,"").trim()||n.querySelector("img,figure"))return;
+    const ant=n.previousElementSibling;if(ant&&/^(BLOCKQUOTE|UL|OL)$/.test(ant.tagName)){e.preventDefault();e.stopImmediatePropagation()}}catch(er){}},true);
+
+/* ---- Resumo cortado ("reabre na segunda…"): troca as datas relativas ANTES de cortar, para o "(23)" não ficar de fora
+   e a troca por "hoje" acontecer (Para acompanhar da Capa e os demais resumos) ---- */
+{const _cf=capaFrase;capaFrase=function(t,n){try{if(typeof dt185Rel==="function"&&t)t=dt185Rel(String(t))}catch(e){}return _cf.call(this,t,n)}}
+
+/* ---- Post com foto logo abaixo da própria notícia ("Seu comentário"): sem o 2º quadro que repete a notícia de cima ---- */
+{const _j=fc107Junto;fc107Junto=function(h,p){let r=_j.apply(this,arguments);try{if(!((p.__pub||{}).fotos||[]).length)return r;const tp=document.createElement("template");tp.innerHTML=r.trim();const a=tp.content.firstElementChild;
+  const nt=a&&a.querySelector(".track > .up-nt");if(!nt)return r;nt.remove();const n=a.querySelectorAll(".track > .sl").length;const pd=a.querySelector(".pdots");
+  if(pd){if(n<=1)pd.remove();else{const is=pd.querySelectorAll("i");if(is.length>n)is[is.length-1].remove();const pg=pd.querySelector(".pg");if(pg)pg.textContent="1/"+n}}
+  r=a.outerHTML}catch(e){}return r}}
+
+/* ---- Seguidores/Seguindo: abrir um perfil da lista e voltar reabre a lista (na mesma rolagem), não o Perfil sem ela ---- */
+var SG214={ult:null,volta:null,obs:null};
+{const _l=cs123Lista;cs123Lista=function(u,tipo){SG214.ult={u,tipo};return _l.apply(this,arguments)}}
+{const _a=abrirPerfil;abrirPerfil=function(u){try{const lb=document.getElementById("cs123-lb");if(lb&&SG214.ult&&u!==SG214.ult.u){const sc=lb.closest(".sheet");SG214.volta={...SG214.ult,y:sc?sc.scrollTop:0}}else if(!lb)SG214.volta=null}catch(e){}
+  const r=_a.apply(this,arguments);
+  try{if(SG214.volta&&!SG214.obs){const L=document.getElementById("layer");SG214.obs=new MutationObserver(()=>{if(L.querySelector(".pfv"))return;SG214.obs.disconnect();SG214.obs=null;const v=SG214.volta;SG214.volta=null;
+      if(!v||L.innerHTML.trim())return;setTimeout(()=>{try{if(document.getElementById("layer").innerHTML.trim())return;cs123Lista(v.u,v.tipo).then(()=>{const sc=document.querySelector("#cs123-lb")?.closest(".sheet");if(sc)sc.scrollTop=v.y})}catch(e){}},120)});
+    setTimeout(()=>{try{if(SG214.obs)SG214.obs.observe(L,{childList:true})}catch(e){}},400)}}catch(e){}
+  return r}}
+
+/* ---- Perfil com novidade: a bolinha do Perfil leva a uma linha "Atividade · N novidades" no alto (antes era preciso
+   achar a Atividade no fim dos ajustes da engrenagem) ---- */
+function pf214Ativ(){try{const m=document.querySelector("#v-me .pf-me");if(!m)return;let b=m.querySelector(".pf214-at");const n=S.uid&&S.membro&&typeof atNovas==="function"?atNovas():0;
+  if(!n){if(b)b.remove();return}const tx=`${ICON.like}<span>Atividade · ${n===1?"1 novidade":(n>9?"9+":n)+" novidades"}</span><i aria-hidden="true">›</i>`;
+  if(!b){m.insertAdjacentHTML("afterbegin",`<button type="button" class="pf214-at" data-ativ>${tx}</button>`)}else if(b.dataset.n!=String(n))b.innerHTML=tx;m.querySelector(".pf214-at").dataset.n=n}catch(e){}}
+{const _r=renderMe;renderMe=function(){const r=_r.apply(this,arguments);pf214Ativ();return r}}
+{const _d=atDot;atDot=function(){const r=_d.apply(this,arguments);pf214Ativ();return r}}
+
+/* ---- Nova publicação › Foto: a tela antiga "Novo post" não aparece por trás da galeria; desistir volta para a caixa ---- */
+{const _an=cp206Anexo0;cp206Anexo0=function(k){if(k!=="foto")return _an.apply(this,arguments);const tx=CP152.txt,de=document.documentElement;de.classList.add("cp214-gal");
+  const tira=()=>de.classList.remove("cp214-gal");let feito=false;
+  const r=_an.apply(this,arguments);
+  try{const f=document.getElementById("ce-pfile");if(!f){tira();return r}
+    f.addEventListener("change",()=>{feito=true;setTimeout(tira,60)},{once:true});f.addEventListener("cancel",()=>{feito=true;setTimeout(tira,60)},{once:true});
+    const fo=()=>{removeEventListener("focus",fo);setTimeout(()=>{if(feito)return;const E=typeof ED!=="undefined"&&ED;
+      if(E&&E.po&&!(E.po.fotos||[]).length&&!(E.po.rolo&&E.po.rolo.length)){try{CP152.txt=tx;ED=null;cp152Abre({manter:true,aba:"post",semFoco:true})}catch(e){}}tira()},1500)};
+    setTimeout(()=>addEventListener("focus",fo),300);setTimeout(()=>{if(!feito)tira()},120000)}catch(e){tira()}
+  return r}}
+/* publicar pela caixa: a tela antiga do editor não pisca por cima do Feed enquanto sai */
+document.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest("#layer [data-cp152pub],#layer [data-edpub]")))return;const de=document.documentElement;de.classList.add("cp214-pub");setTimeout(()=>de.classList.remove("cp214-pub"),1400)},true);
+
+/* ---- Link de post sem conta › abrir a notícia › Voltar: reabre a folha "Publicação de …" (antes caía na Capa sem ela) ---- */
+var PP214={id:null,volta:null};
+{const _pp=co160PostPrevia;co160PostPrevia=function(id){PP214.id=id;return _pp.apply(this,arguments)}}
+window.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest("[data-co160lern]"))||!PP214.id)return;const pid=PP214.id;
+  setTimeout(()=>{const L=document.getElementById("layer");let viu=false;const ob=new MutationObserver(()=>{const tem=!!L.querySelector(".mat,.mat-top,[data-mat]");if(tem){viu=true;return}
+    if(viu&&!L.innerHTML.trim()){ob.disconnect();setTimeout(()=>{try{if(S.uid||document.getElementById("layer").innerHTML.trim())return;VP99_LINK=pid;PC106={k:"post_link",t:Date.now()};abrirLogin()}catch(er){}},150)}});
+    ob.observe(L,{childList:true,subtree:false});setTimeout(()=>ob.disconnect(),30*60e3)},40)},true);
+
+/* ---- Cartão do Feed: o assunto aparece uma vez só. Com a linha da cobertura no pé ("Ajuste fiscal · Câmara ›"), o topo
+   fica só com a editoria e a hora ---- */
+function fc214Topo(el){try{if(!el||el.dataset.fc214)return;const cb=el.querySelector(".cobbar[data-cobpag] .cb-t b");if(!cb)return;const nm=norm(cb.textContent||"");if(!nm)return;
+  const st=el.querySelector(":scope>.ph .ph-sub .fd156-st")||el.querySelector(":scope>.ph .ph-sub");if(!st)return;
+  [...st.childNodes].forEach(n=>{if(n.nodeType===3&&norm(n.textContent).trim()===nm)n.textContent=""});
+  const s0=st.firstChild;if(s0&&s0.nodeType===3)s0.textContent=s0.textContent.replace(/^\s*·\s*/,"");el.dataset.fc214="1";
+  const hr=el.querySelector(":scope>.ph .ph-sub .vn-hr");if(hr&&!(st.textContent||"").trim())hr.textContent=hr.textContent.replace(/^\s*·\s*/,"")}catch(e){}}
+{const _wt=wireTracks;wireTracks=function(root){const r=_wt.apply(this,arguments);try{if(root){const ls=root.matches&&root.matches(".post.vn-cn")?[root]:[...root.querySelectorAll(".post.vn-cn")];ls.forEach(fc214Topo)}}catch(e){}return r}}
+
+/* ---- Matéria com cotação ao vivo ({dolar} no título ou no texto): diz de quando é o número, não só a hora da rodada
+   ("Atualizado às 06h52" num título de fechamento) ---- */
+var MD214_PID=null;{const _am=abrirMateria;abrirMateria=function(pid){MD214_PID=pid;return _am.apply(this,arguments)}}
+function md214Cot(){try{const L=document.getElementById("layer"),meta=L&&L.querySelector(".mat-meta");if(!meta||meta.querySelector(".md214-cot"))return;
+  const p=MD214_PID&&pautaById(MD214_PID);if(!p)return;const tem=o=>!!(o&&typeof o==="object"&&o._m186&&Object.keys(o._m186).length);
+  let viva=tem(p);if(!viva)for(const k in p){const v=p[k];if(v&&typeof v==="object"&&(tem(v)||(Array.isArray(v)&&v.some(tem)))){viva=true;break}}
+  if(!viva)return;const lg=typeof ui184Legenda==="function"&&typeof ui184Itens==="function"?ui184Legenda(ui184Itens()):"";if(!lg)return;
+  meta.insertAdjacentHTML("beforeend",`<span class="md214-cot"> · cotação: ${esc(lg.replace(/^Atualizad[oa]\s+/i,""))}</span>`)}catch(e){}}
+new MutationObserver(md214Cot).observe(document.getElementById("layer"),{childList:true});
+
+/* ---- Voltar para a matéria anterior: volta onde a pessoa parou, mesmo quando a matéria termina de montar depois
+   (fotos, placar e quadros chegam depois dos 120 ms e a página voltava ao topo) ---- */
+{const _cv=cm168Volta;cm168Volta=function(a){const r=_cv.apply(this,arguments);try{const y=a&&a.y;if(!(y>40))return r;let ult=y;
+  const vai=()=>{const mm=document.querySelector("#layer .mat");if(!mm)return;const cur=mm.scrollTop;if(Math.abs(cur-ult)>30&&Math.abs(cur-y)>30&&cur>40)return;/* a pessoa já rolou: não puxa */
+    mm.scrollTop=y;ult=mm.scrollTop};[250,500,900,1500,2400].forEach(t=>setTimeout(vai,t))}catch(e){}return r}}
+
+/* ---- Depois de publicar (texto ou foto): o post fica no alto do Feed, acima da 1ª notícia, e a tela para no nome de quem
+   publicou (a foto carregando empurrava o post e a tela parava no meio dele) ---- */
+{const _fm=fc107Mistura;fc107Mistura=function(out,lista){const r=_fm.apply(this,arguments);try{if(!Array.isArray(r)||!S||!S.uid)return r;const ag=Date.now();
+  let j=-1,at=0;r.forEach((p,i)=>{const x=p&&p.__pub;if(x&&!p.__fc107&&x.autor===S.uid&&ag-(x.at||0)<PC162_JANELA&&(x.at||0)>at){j=i;at=x.at||0}});
+  if(j>0){const c=r===lista?r.slice():r;const [b]=c.splice(j,1);c.unshift(b);return c}return r}catch(e){return r}}}
+{const _mo=cp152Mostra;cp152Mostra=function(id){const r=_mo.apply(this,arguments);
+  const acerta=()=>{try{const el=document.getElementById("p-u:"+id);if(!el||!el.getClientRects().length)return;const top=el.getBoundingClientRect().top+scrollY-((document.querySelector(".top")||{}).offsetHeight||56)-28;
+    if(Math.abs(top-scrollY)>24)scrollTo({top:Math.max(0,top),behavior:"auto"})}catch(e){}};[1300,2200,3400].forEach(t=>setTimeout(acerta,t));return r}}
+
+/* ---- Nova conversa › Procurar pessoas: cada pessoa ganha "Conversar" (antes só "Seguir"; quem veio mandar mensagem
+   tinha de seguir, fechar e voltar ao lápis) ---- */
+var NC214=0;
+window.addEventListener("click",e=>{if(e.target&&e.target.closest&&e.target.closest(".co160-novos [data-addamigos]"))NC214=Date.now()},true);
+function nc214Pinta(){try{if(!NC214||Date.now()-NC214>10*60e3)return;const L=document.querySelector("#layer .sheet,#layer2 .sheet");if(!L)return;
+  const bs=[...L.querySelectorAll("[data-sg181seg]")];if(!bs.length)return;
+  const hd=L.querySelector(".sh-b")||L;if(!hd.querySelector(".nc214-h"))hd.insertAdjacentHTML("afterbegin",`<p class="hint nc214-h">Toque em <b>Conversar</b> para mandar mensagem. Perfil fechado: a pessoa vê a mensagem depois de aprovar o seu pedido para seguir.</p>`);
+  bs.forEach(b=>{if(b.parentElement.querySelector("[data-nc214]"))return;b.insertAdjacentHTML("beforebegin",`<button type="button" class="btn nc214-c" data-nc214="${esc(b.dataset.sg181seg)}">Conversar</button>`)})}catch(e){}}
+new MutationObserver(()=>nc214Pinta()).observe(document.body,{childList:true,subtree:true});
+window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-nc214]");if(!b)return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();const u=b.dataset.nc214;NC214=0;
+  try{while(document.querySelector("#layer").innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}if(document.querySelector("#layer").innerHTML)break}}catch(_){}
+  setTimeout(()=>{try{abrirConversa(u)}catch(er){}},120)},true);
+
+/* ---- Nova publicação: a miniatura mostra a foto com o corte e o formato que vão ser publicados (mesma função que gera
+   a imagem final), não a foto original inteira ---- */
+function fc214Mini(){try{const E=CP152&&CP152.ed;const P=E&&E.po;if(!P||!Array.isArray(P.fotos)||!P.fotos.length)return;
+  document.querySelectorAll("#layer > .cp152 img[data-fc164i]").forEach(im=>{const i=+im.dataset.fc164i,f=P.fotos[i];if(!f)return;
+    const sig=JSON.stringify([P.ar,f.z||1,f.ox||0,f.oy||0,f.r||0,f.fl||"",f.b||0,f.c||0,f.s||0,i]);if(im.dataset.fc214===sig&&/^data:/.test(im.src))return;try{const bs=edBase(f);if(bs&&bs.tagName==="IMG"&&!(bs.complete&&bs.naturalWidth)){if((fc214Mini.n=(fc214Mini.n||0)+1)<30)setTimeout(fc214Mini,400);return}}catch(_){return}
+    const c=document.createElement("canvas");c.width=168;try{edRenderFoto(f,c,P.ar,f.fl)}catch(e){return}
+    try{const u=c.toDataURL("image/jpeg",.82);if(u&&u.length>200){im.src=u;im.dataset.fc214=sig;const t=im.closest(".fc164-t");if(t)t.style.height=Math.round(84*c.height/c.width)+"px"}}catch(e){}})}catch(e){}}
+{const L=document.getElementById("layer");let tm=0;new MutationObserver(()=>{if(!L.querySelector(".cp152 img[data-fc164i]"))return;clearTimeout(tm);tm=setTimeout(fc214Mini,120)}).observe(L,{childList:true,subtree:true,attributes:true,attributeFilter:["src"]})}
+
+/* ---- Capa em rede lenta (1ª visita): enquanto a lista de fotos de arquivo não chega, o quadro da notícia fica só com o
+   fundo; não passa pelo desenho para depois trocar pela foto (a imagem trocava duas vezes) ---- */
+(function(){try{if(typeof FOTOS_ARQ!=="undefined"&&FOTOS_ARQ)return;const de=document.documentElement;de.classList.add("fa214-esp");const t0=Date.now();
+  const v=()=>{if((typeof FOTOS_ARQ!=="undefined"&&FOTOS_ARQ)||Date.now()-t0>9000){setTimeout(()=>de.classList.remove("fa214-esp"),FOTOS_ARQ?250:0);return}setTimeout(v,200)};v()}catch(e){}})();
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 nucPronto();  /* 201-nucleo.js: go passa a fazer tudo (na carga o 031 abriu a Capa só com a parte de então) */
 cp200Pronta();  /* 200-capa.js: a Capa passa a desenhar com todos os acabamentos */

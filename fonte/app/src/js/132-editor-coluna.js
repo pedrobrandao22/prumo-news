@@ -112,7 +112,7 @@ const ED132_PL=new Map();
 function ed132Plano(html){html=String(html||"");const k=ED132_PL.get(html);if(k!==undefined)return k;const tp=document.createElement("template");tp.innerHTML=html;const l=[];
   tp.content.childNodes.forEach(n=>{if(n.nodeType!==1)return;const t=n.tagName,tx=e=>String(e.textContent||"").replace(/\s+/g," ").trim();
     if(t==="FIGURE"){const c=n.querySelector("figcaption");return}if(t==="HR")return;
-    if(t==="UL"||t==="OL"){n.querySelectorAll("li").forEach(li=>{const s=tx(li);if(s)l.push(s)});return}
+    if(t==="UL"||t==="OL"){let k=0;n.querySelectorAll("li").forEach(li=>{const s=tx(li);if(s)l.push((t==="OL"?(++k)+". ":"- ")+s)});return}/* 25/11: item de lista leva o marcador (a chamada automática não cola item na frase) */
     if(t==="BLOCKQUOTE"){n.querySelectorAll("p").forEach(p=>{const s=tx(p);if(s)l.push("> "+s)});return}
     const s=tx(n);if(s)l.push(t==="H2"||t==="H3"?"## "+s:s)});
   const r=l.join("\n");if(ED132_PL.size>300)ED132_PL.clear();ED132_PL.set(html,r);return r}

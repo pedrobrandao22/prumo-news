@@ -26,7 +26,7 @@ globo(d){
   [30,62].forEach(rx=>{s+=`<ellipse class="nf sm" stroke-width="1.5" cx="200" cy="128" rx="${rx}" ry="96"/>`});
   [-48,0,48].forEach(dy=>{const w=Math.sqrt(96*96-dy*dy);s+=`<path class="nf sm" stroke-width="1.5" d="M${200-w} ${128+dy} Q200 ${128+dy+10} ${200+w} ${128+dy}"/>`});
   s+=`<path class="ia" opacity=".85" d="M150 74 q22 -14 44 -4 q10 14 -4 26 q-18 8 -12 26 q-6 18 -24 12 q-14 -12 -10 -30 q-8 -16 6 -30z"/><path class="ia" opacity=".85" d="M222 104 q26 -8 40 8 q8 18 -6 30 q-4 22 -22 34 q-16 -2 -14 -22 q-12 -12 -4 -30 q2 -12 6 -20z"/><path class="ia" opacity=".7" d="M176 170 q14 -6 22 4 q0 14 -14 18 q-12 -4 -8 -22z"/>`;
-  s+=`<path class="iy" d="M246 58 a16 16 0 0 1 32 0 c0 14 -16 30 -16 30 s-16 -16 -16 -30z"/><circle class="ii" cx="262" cy="58" r="6"/>`;
+  /* 25/11 (testador): sem o alfinete fixo (ficava sobre a Ásia em notícia do Peru ou de Iowa); o lugar vai na etiqueta */
   if(d.local)s+=chip(282,40,d.local,"ii","ic");
   if(d.rotulo)s+=chip(16,12,d.rotulo,"ii","ic");
   return s},
@@ -77,8 +77,10 @@ dinheiro(d){
   let s=`<rect class="id" x="0" y="196" width="400" height="44"/>`;
   [[44,7],[82,11],[120,5],[158,14]].forEach(([x,n])=>{for(let i=0;i<n;i++){const y=190-i*9;s+=`<ellipse class="iy" cx="${x}" cy="${y+4}" rx="16" ry="5"/><rect class="iy" x="${x-16}" y="${y-2}" width="32" height="6"/><ellipse class="${i===n-1?"ic":"iy"}" cx="${x}" cy="${y-2}" rx="16" ry="5"/><path class="nf si" stroke-width=".6" opacity=".35" d="M${x-16} ${y+4} a16 5 0 0 0 32 0"/>`}});
   const v=String(d.valor||"");s+=T(196,62,v.length>9?26:32,v,"ii","start",700);
-  if(d.legenda)s+=wrapT(196,82,9.5,d.legenda,32,13,2);
-  (d.itens||[]).slice(0,3).forEach(([k,val],i)=>{const y=114+i*28;s+=`<rect class="ic" x="196" y="${y}" width="190" height="22" rx="4"/>`+T(204,y+15,9,String(k).slice(0,22),"ii","start",500)+T(380,y+15,10,val,"ii","end",700)});
+  /* 25/11 (testador): letra legível no celular pequeno (era 9 a 10 px no desenho, ~5 px na tela do iPhone SE): no máximo 2
+     rótulos, letra de 12 a 14 */
+  if(d.legenda)s+=wrapT(196,86,12.5,d.legenda,26,15,2);
+  (d.itens||[]).slice(0,2).forEach(([k,val],i)=>{const y=124+i*34;s+=`<rect class="ic" x="196" y="${y}" width="192" height="28" rx="5"/>`+T(204,y+19,12,(t=>t.length<=16?t:t.slice(0,17).replace(/\s+\S*$/,""))(String(k)),"ii","start",600)+T(382,y+19,13.5,val,"ii","end",700)});
   return s},
 seguranca(d){
   let s=`<rect class="id" x="0" y="196" width="400" height="44"/>`;

@@ -10,11 +10,11 @@ const topo = async (p, sel) => { await ev(p, s => { const m = s.match(/p-(.*?)"/
   const uidA = await ev(A, () => S.uid), uidB = await ev(B, () => S.uid);
   // ---- curtidas: "Curtido por …" nos posts, "gostou" nas notícias ----
   await topo(B, s1); await tapSel(B, s1 + ' .acts [data-a="like"]'); await sleep(800);
-  ok(await ev(B, s => document.querySelector(s + ' [data-likes]').textContent === 'Curtido por você', s1), 'B curtiu: "Curtido por você"');
+  ok(await ev(B, s => document.querySelector(s + ' [data-likes]').textContent === 'Você curtiu', s1), 'B curtiu: "Curtido por você"');
   await esperar(A, s => { try { pubCarregar() } catch (e) { } return /Bia/.test(document.querySelector(s + ' [data-likes]')?.textContent || '') }, s1, 8000);
-  ok(await ev(A, s => document.querySelector(s + ' [data-likes]').textContent === 'Curtido por Bia Souza', s1), 'Pedro vê "Curtido por Bia Souza"', await ev(A, s => document.querySelector(s + ' [data-likes]').textContent, s1));
+  ok(await ev(A, s => document.querySelector(s + ' [data-likes]').textContent === 'Bia Souza curtiu', s1), 'Pedro vê "Curtido por Bia Souza"', await ev(A, s => document.querySelector(s + ' [data-likes]').textContent, s1));
   await topo(A, s1); await tapSel(A, s1 + ' .acts [data-a="like"]'); await sleep(800);
-  ok(await ev(A, s => document.querySelector(s + ' [data-likes]').textContent === 'Curtido por você e Bia Souza', s1), 'os dois: "Curtido por você e Bia Souza"');
+  ok(await ev(A, s => document.querySelector(s + ' [data-likes]').textContent === 'Você e Bia Souza curtiram', s1), 'os dois: "Curtido por você e Bia Souza"');
   ok(await ev(A, s => { const o = document.querySelector(s + ' [data-otr]'); return !o || getComputedStyle(o).display === 'none' }, s1), 'post de membro: sem o chip "gostou" no cabeçalho');
   await shot(A, 'curtido-por');
   ok(await ev(A, () => { const n = document.querySelector('#posts .post:not(.upost)'); n.querySelector('.acts [data-a="like"]').click(); const l = n.querySelector('[data-likes]'), c = n.querySelector('.acts [data-n="like"]'); return c.textContent.trim() === '1' && getComputedStyle(c).display !== 'none' && (getComputedStyle(l).display === 'none' || !l.textContent.trim()) }), 'notícia que você gostou: só o número "1" (156: sem repetir "Você gostou")');

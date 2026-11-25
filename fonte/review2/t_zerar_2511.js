@@ -60,10 +60,22 @@ const PORTA = 9431, BASE = `http://localhost:${PORTA}/index.html`;
   // 11. letra grande: chapéu da Capa cresce
   const r11 = await P.evaluate(() => { const e = document.createElement('span'); e.className = 'cp-k'; document.body.appendChild(e); const a = parseFloat(getComputedStyle(e).fontSize); document.documentElement.style.setProperty('--fz', '1.3'); const z = parseFloat(getComputedStyle(e).fontSize); document.documentElement.style.removeProperty('--fz'); e.remove(); return [a, z] });
   ok(r11[1] > r11[0] + 2, '11: chapéu da Capa cresce com a letra grande', r11);
+  // 12. chamada automática da coluna não cola item de lista na frase
+  const r12 = await P.evaluate(() => cs123Teaser(ed132Plano('<p>Primeiro parágrafo do teste.</p><h2>Um intertítulo</h2><blockquote><p>Uma citação</p></blockquote><ul><li>item um</li><li>item dois</li></ul><p>Fim.</p>')));
+  ok(!/item/.test(r12) && /^Primeiro parágrafo do teste\./.test(r12), '12: chamada automática ignora item de lista', r12);
+  // 13. resumo cortado troca a data relativa antes do corte
+  const r13 = await P.evaluate(() => { const d = new Date(hojeSP() + 'T12:00:00-03:00'), sem = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'][d.getUTCDay()], n = +hojeSP().slice(8, 10);
+    return capaFrase('Sem negociação na B3 ontem por causa do feriado nacional de sexta; o mercado reabre na ' + sem + ' (' + n + '), com o ajuste fiscal na pauta da Câmara e muito mais coisa para contar aqui.', 96) });
+  ok(/reabre hoje/.test(r13), '13: "reabre na segunda (23)" vira "reabre hoje" antes de cortar', r13);
   // 8. sem internet: depois de 4 s a pílula fica pequena, não some
   await ctx.setOffline(true); await P.evaluate(() => dispatchEvent(new Event('offline'))); await sleep(4600);
   const r8 = await P.evaluate(() => { const f = document.getElementById('sr209'); return f && { vis: getComputedStyle(f).visibility, op: +getComputedStyle(f).opacity, pe: getComputedStyle(f).pointerEvents } });
   ok(r8 && r8.vis === 'visible' && r8.op > .5 && r8.pe === 'none', '8: sem internet o aviso continua (pequeno, sem tapar toque)', r8);
   await ctx.setOffline(false);
+  // 14. link de post incompleto (#p=abc123) avisa e limpa o endereço
+  const P2 = U.erros(await ctx.newPage(), 'P2'); await P2.goto(BASE + '#p=abc123');
+  await esperar(P2, () => !!document.querySelector('.sheet') && /Post não encontrado/.test(document.body.innerText), null, 15000).catch(() => {});
+  const r14 = await P2.evaluate(() => ({ h: location.hash, t: /Post não encontrado/.test(document.body.innerText) }));
+  ok(r14.t && !r14.h, '14: link de post incompleto mostra "Post não encontrado" e limpa o #p', r14); await P2.close();
   await ctx.close(); await b.close(); srv.close && srv.close(); const s = U.resumo(); console.log(`${s.OKS} ok, ${s.FALHAS} falhas`); process.exit(s.FALHAS ? 1 : 0);
 })();

@@ -13,7 +13,7 @@ function pgEncher(src,dst,pg,H){
         src.insertBefore(document.createTextNode(resto),src.firstChild);return false}
       continue}
     dst.appendChild(n);if(pgCabe(pg,H))continue;n.remove();
-    if(n.nodeType!==1||n.matches("button,a,svg,img,time,canvas,figure,table,.gr,.gr-box,.nums")||(n.textContent||"").trim().length<50){src.insertBefore(n,src.firstChild);return false}
+    if(n.nodeType!==1||n.matches("button,a,svg,img,time,canvas,figure,table,.gr,.gr-box,.nums,li,dt,dd")||(n.textContent||"").trim().length<50){src.insertBefore(n,src.firstChild);return false}
     const cl=n.cloneNode(false);dst.appendChild(cl);const tudo=pgEncher(n,cl,pg,H);if(!cl.firstChild||!cl.textContent.trim())cl.remove();
     if(!tudo){src.insertBefore(n,src.firstChild);return false}}
   return true}

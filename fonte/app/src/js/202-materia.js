@@ -149,6 +149,7 @@ function f113Caps(){(()=>{if(F113_IO){try{F113_IO.disconnect()}catch(e){}F113_IO
   {const vt=(Array.isArray(p.visuais)?p.visuais:[]).filter(v=>v&&F113_VIS[v.tipo]);let k=0;
     c.querySelectorAll(".mat-vis").forEach(el=>{if(el.classList.contains("po118"))add(el,"Placar oficial");else{const t=vt[k++];add(el,t?F113_VIS[t.tipo]:"Os números")}})}
   add(c.querySelector(".mat-tl"),"Linha do tempo");
+  add([...c.querySelectorAll(".cpx-c")].find(e=>/^Contexto/.test((e.querySelector("b")||{}).textContent||"")),"Contexto");  /* 25/11 (testador): o trecho mais longo ficava marcado como "Placar oficial" */
   add([...c.querySelectorAll(".cpx-c")].find(e=>/^O que vem agora/.test((e.querySelector("b")||{}).textContent||"")),"O que vem agora");
   add(c.querySelector(".fs2-faq"),"Perguntas");
   add(c.querySelector(".ct210-ld"),"Como cada lado conta");  /* 20/11 (testador): a seção não tinha aba */

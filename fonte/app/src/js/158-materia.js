@@ -137,7 +137,7 @@ function mt158Pagina(id){if(!/^[\w-]{1,80}$/.test(String(id||"")))return Promise
   MT158_PAG[id]=fetch("m/"+id+".html",{cache:"no-cache"}).then(r=>r.ok?r.text():null).then(tx=>{if(!tx||!/og:title/.test(tx))return null;
     const d=new DOMParser().parseFromString(tx,"text/html"),mt=n=>((d.querySelector(`meta[property="${n}"]`)||{}).content||"").trim();
     const desc=mt("og:description").replace(/\s*\((?:Foto|Imagem)[^)]*\)\s*$/i,"").replace(/\s*\((?:Foto|Imagem)[^()]*\([^)]*\)\)\s*$/i,"").trim();
-    const img=mt("og:image"),tq=(d.querySelector('meta[name="prumo:tema"]')||{}).content||"";return {quando:mt("article:modified_time"),tema:tq.trim(),titulo:mt("og:title"),desc,img:/^https:\/\//.test(img)&&!/og-padrao/.test(img)?img:""}}).catch(()=>null);
+    const img=mt("og:image"),tq=(d.querySelector('meta[name="prumo:tema"]')||{}).content||"";return {quando:mt("article:modified_time"),tema:tq.trim(),titulo:mt("og:title"),desc,img:/^https:\/\//.test(img)&&!/og-padrao|\/m\/og\//.test(img)?img:""/* 25/11: a arte de compartilhar (título + marca) repetia o título logo abaixo */}}).catch(()=>null);
   return MT158_PAG[id]}
 var MT158_LINK=null;
 function mt158Fora(pid){if(MT158_LINK===pid)return;MT158_LINK=pid;
