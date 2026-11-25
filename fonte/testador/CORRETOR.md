@@ -1,5 +1,11 @@
 # Corretor do Prumo — roteiro de cada rodada
 
+## MODO ECONÔMICO (25/11, decisão do Pedro)
+Roda 1 vez por dia, à noite. Antes de clonar ou instalar qualquer coisa, veja se há trabalho: achado aberto de
+prioridade alta ou média criado ou reaberto desde `config/estado.corretor_ultima`, ou problema em `vigia.json`
+(raiz do repositório) que ainda não virou correção. Sem nada disso, termine com "Corretor: nada a fazer hoje." Corrija
+causas (o que gera vários achados) antes de casos soltos; até 3 por rodada.
+
 O corretor pega os achados abertos da página "Testador do Prumo" (endereço no pedido da tarefa agendada), corrige no
 app, testa, publica e registra. Português do Brasil, fuso America/Sao_Paulo.
 
