@@ -53,6 +53,13 @@ const PORTA = 9431, BASE = `http://localhost:${PORTA}/index.html`;
   const r9 = await P.evaluate(() => { const p = FEED.pautas[2]; p.atualizacoes = []; p.correcoes = []; p.hora = new Date(Date.now() - 5 * 3600e3).toISOString(); delete p._av212;
     PL212 = { gerado: new Date().toISOString(), jogos: [{ pid: p.id, estado: 'encerrado', texto: 'Terminou: Atlético-MG 2 x 1 Corinthians.' }] }; av212Placar(); av212Novid(); return { sub: p.subtitulo, tipo: p._av212 && p._av212.tipo } });
   ok(r9.tipo === 'placar' && /^Terminou: Atlético-MG 2 x 1 Corinthians\./.test(r9.sub || ''), '9: placar encerrado vira "Terminou: …" no alto da notícia', r9);
+  // 10. busca: tocar num item da agenda abre o item, não a agenda inteira
+  const r10 = await P.evaluate(async () => { const d = document.createElement('div'); d.className = 'bu154-agd'; d.innerHTML = '<button type="button" data-igagenda><span>Hoje, 20h</span><b>Brasileirão: A x B</b></button>'; document.body.appendChild(d);
+    d.querySelector('button').click(); await new Promise(r => setTimeout(r, 300)); const t = document.querySelector('#layer .ag214-t,#layer2 .ag214-t'); d.remove(); const r = t && t.textContent; try { closeLayer() } catch (e) {} return r });
+  ok(r10 === 'Brasileirão: A x B', '10: item da agenda na busca abre só aquele item', r10);
+  // 11. letra grande: chapéu da Capa cresce
+  const r11 = await P.evaluate(() => { const e = document.createElement('span'); e.className = 'cp-k'; document.body.appendChild(e); const a = parseFloat(getComputedStyle(e).fontSize); document.documentElement.style.setProperty('--fz', '1.3'); const z = parseFloat(getComputedStyle(e).fontSize); document.documentElement.style.removeProperty('--fz'); e.remove(); return [a, z] });
+  ok(r11[1] > r11[0] + 2, '11: chapéu da Capa cresce com a letra grande', r11);
   // 8. sem internet: depois de 4 s a pílula fica pequena, não some
   await ctx.setOffline(true); await P.evaluate(() => dispatchEvent(new Event('offline'))); await sleep(4600);
   const r8 = await P.evaluate(() => { const f = document.getElementById('sr209'); return f && { vis: getComputedStyle(f).visibility, op: +getComputedStyle(f).opacity, pe: getComputedStyle(f).pointerEvents } });
