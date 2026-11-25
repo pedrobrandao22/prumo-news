@@ -1,7 +1,7 @@
 # Ajuste das tarefas agendadas do Testador e do Corretor (25/11)
 
-O Pedro aprovou o modo econômico em 25/11. As mudanças nas tarefas agendadas precisam ser feitas por ele no app
-(Tarefas agendadas), porque a alteração automática foi bloqueada pela permissão de segurança.
+O Pedro aprovou o modo econômico em 25/11. Aplicado em 25/11 às 15h20: horários, pedido do Corretor e as duas tarefas ligadas.
+Este arquivo fica como registro do que mudou.
 
 ## Prumo: testador do app
 - Horário: todo dia às 9h41 (fuso de São Paulo). Antes era de hora em hora.
