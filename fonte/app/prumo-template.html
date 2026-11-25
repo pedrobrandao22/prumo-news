@@ -6477,7 +6477,7 @@ html:root:not(.x211-nunca) .top.rolou{background:var(--bg)!important;-webkit-bac
 .opt button:not(:has(.av)):has(> span){flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
 .opt button:not(:has(.av)):has(> span) > span{display:block;width:100%;text-align:left;line-height:1.35;white-space:normal}
 /* Opções da conversa: sem o vão de ~80 px antes de Deixar de seguir; o grupo forte ganha só uma linha */
-.co160-opt.co160-pesado{margin-top:6px!important;padding-top:4px;border-top:1px solid var(--line)}
+.co160-opt.co160-pesado{margin-top:10px!important}
 .co160-pesado [data-bloquear]{color:#c92a2a}
 
 /* sem internet (perder-a-internet-com-o-app-aberto-nao-avisa-2): depois dos 4 s a pílula não some; fica pequena num
@@ -6506,8 +6506,7 @@ html:root:not(.x211-nunca) .top.rolou{background:var(--bg)!important;-webkit-bac
 }
 
 /* retratos de perto (acervo/p) em quadros deitados: o rosto no meio, não o alto da cabeça (Moraes na Capa, Zanin no Criar) */
-img[src*="acervo/p/"]{object-position:50% 30%!important}
-.story img[src*="acervo/p/"]{object-position:50% 12%!important}
+
 
 /* Editar texto: Salvar grande, como o Publicar */
 .sheet [data-uedok]{min-width:120px;min-height:44px;font-weight:700}
@@ -23509,7 +23508,7 @@ function av212Limpa(d){if(!d||typeof d!=="object"||!Array.isArray(d.novos)||d._a
       /* já é notícia da edição (o mesmo link ou o mesmo fato no título): fica de fora (a pauta mostra a novidade) */
       if(P.urls&&n.manchetes.some(m=>m.url&&P.urls.has(String(m.url).split("?")[0])))return;
       const tk=av212Tk(n.assunto),hn=Math.max(0,...n.manchetes.map(m=>av212HoraNv(m.hora)));
-      if(P.some(p=>p.u>=hn&&[...tk].filter(w=>p.tk.has(w)).length>=3))return;
+      if(hn&&P.some(p=>p.u>=hn&&av212Parecido(tk,p.tk)&&[...tk].filter(w=>p.tk.has(w)).length>=3))return;
       n._tk=tk;const ig=out.find(o=>av212Parecido(o._tk,tk));
       if(ig){const vs=new Set(ig.manchetes.map(m=>m.veiculo));n.manchetes.forEach(m=>{if(!m.veiculo||!vs.has(m.veiculo))ig.manchetes.push(m)});
         ig.n_fontes=Math.max(ig.n_fontes||0,n.n_fontes||0,new Set(ig.manchetes.map(m=>m.veiculo)).size);ig.relevante=ig.relevante||n.relevante;return}
@@ -23572,8 +23571,7 @@ try{if(typeof FEED!=="undefined"&&FEED){av212Passa(FEED);av212Novid()}}catch(e){
    chegava a um lado e não ao outro (Paulista na estreia da Anthropic, taça de 2016). Agora:
    1. bloqueios e condições moram num arquivo só, tools/fotos_regras.json (cópia abaixo; o teste
       tools/test_fotos_regras_2511.py falha se as duas divergirem). 'exige': a foto só entra se o título disser o lugar
-      ou a empresa (sede da PF só com PF; avião da Alaska só com Alaska; Casa Branca só com governo dos EUA/Trump; MEC
-      só com MEC);
+      ou a empresa (sede da PF só com PF; avião da Alaska só com Alaska; Casa Branca só com governo dos EUA/Trump);
    2. o robô das páginas grava em m/fotos.json a foto que escolheu para cada notícia; quando esse arquivo é da mesma
       edição que o app abriu, Feed, matéria, giro e prévia usam a mesma escolha;
    3. descrição em inglês do nome do arquivo ("airliner taking off runway", "The White House June 2024") vira
@@ -23582,8 +23580,7 @@ var FT213_REGRAS={"bloq":["hubbell-white house","hubbell-white_house","douglas t
   "exige":[{"nome":"policia federal","titulo":"policia federal|\\bpf\\b"},{"nome":"alaska airlines","titulo":"alaska"},{"nome":"delta air","titulo":"\\bdelta\\b"},
     {"nome":"united airlines","titulo":"united"},{"nome":"american airlines","titulo":"american airlines"},{"nome":"latam","titulo":"latam"},
     {"nome":"white house","titulo":"casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"},
-    {"nome":"casa branca","titulo":"casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"},
-    {"nome":"ministerio da educacao","titulo":"\\bmec\\b|ministerio da educacao|camilo santana"}]};
+    {"nome":"casa branca","titulo":"casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"}]};
 
 try{FT213_REGRAS.bloq.forEach(b=>{if(FT157_BLOQ.indexOf(b)<0)FT157_BLOQ.push(b)})}catch(e){}
 FT213_REGRAS.exige.forEach(r=>{try{r.re=new RegExp(r.titulo)}catch(e){r.re=/$^/}});

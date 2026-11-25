@@ -23,7 +23,8 @@ const ev = (P, f, a) => P.evaluate(f, a);
   const lixos = ['Horóscopo do dia: previsão para os 12 signos em 21/11/2026', 'Central x Íbis: onde assistir, horário e prováveis escalações',
     'Palmeiras x Flamengo - Campeonato Brasileiro 2026', 'Chapecoense x Cruzeiro - Campeonato Brasileiro 2026', 'Bragantino x Vasco: onde assistir ao jogo de hoje',
     'Mega-Sena: quanto rendem R$ 45 milhões na poupança, Tesouro Direto ou CDB'];
-  const boas = ['Lula x Tarcísio: pesquisa mostra empate técnico na disputa por São Paulo', 'Flamengo vence o Palmeiras e é campeão brasileiro de 2026',
+  // 25/11: notícia que já está na edição (atualizada depois) sai do AGORA de propósito (212); o controle usa assuntos fora da edição
+  const boas = ['Lula x Tarcísio: pesquisa mostra empate técnico na disputa por São Paulo', 'Chuva forte alaga ruas do centro de Manaus nesta tarde',
     'Denúncia do ex-procurador do Paraguai chega à ONU nesta sexta'];
   const r = await ev(A, ([lixos, boas]) => {
     const hSP = ms => { const p = new Date(ms).toLocaleString('en-GB', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).match(/(\d{2})\/(\d{2}),? (\d{2}):(\d{2})/); return `${p[1]}/${p[2]} ${p[3]}h${p[4]}` };

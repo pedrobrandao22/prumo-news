@@ -38,12 +38,12 @@ const PORTA = 9423, BASE = `http://localhost:${PORTA}/index.html`;
   const r3 = await P.evaluate(async () => {
     document.querySelectorAll('.late.offl').forEach(x => x.remove());
     sr209Faixa(true); const f = document.getElementById('sr209'); const a = f && !f.classList.contains('some');
-    await new Promise(r => setTimeout(r, 4300)); const b = f.classList.contains('some') && getComputedStyle(f).visibility === 'hidden';
+    await new Promise(r => setTimeout(r, 4300)); const b = f.classList.contains('some') && getComputedStyle(f).pointerEvents === 'none' && parseFloat(getComputedStyle(f).fontSize) <= 12;
     sr209Faixa(false); await new Promise(r => setTimeout(r, 2400));
     const av = document.createElement('div'); av.className = 'late offl'; av.textContent = 'Sem conexão. Mostrando a edição'; document.getElementById(VIEW === 'capa' ? 'v-capa' : 'v-feed').prepend(av);
     sr209Faixa(true); const c = document.getElementById('sr209').classList.contains('some'); sr209Faixa(false); av.remove(); return { a, b, c };
   });
-  ok(r3.a && r3.b, '3: a pílula aparece e some sozinha depois de 4 s', r3);
+  ok(r3.a && r3.b, '3: a pílula aparece e, depois de 4 s, fica pequena num canto sem receber toque (25/11)', r3);
   ok(r3.c, '3: com o aviso "Sem conexão" do topo na tela, a pílula não aparece', r3);
   // 4
   const r4 = await P.evaluate(() => {

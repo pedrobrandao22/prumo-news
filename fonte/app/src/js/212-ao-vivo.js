@@ -34,7 +34,7 @@ function av212Limpa(d){if(!d||typeof d!=="object"||!Array.isArray(d.novos)||d._a
       /* já é notícia da edição (o mesmo link ou o mesmo fato no título): fica de fora (a pauta mostra a novidade) */
       if(P.urls&&n.manchetes.some(m=>m.url&&P.urls.has(String(m.url).split("?")[0])))return;
       const tk=av212Tk(n.assunto),hn=Math.max(0,...n.manchetes.map(m=>av212HoraNv(m.hora)));
-      if(P.some(p=>p.u>=hn&&[...tk].filter(w=>p.tk.has(w)).length>=3))return;
+      if(hn&&P.some(p=>p.u>=hn&&av212Parecido(tk,p.tk)&&[...tk].filter(w=>p.tk.has(w)).length>=3))return;
       n._tk=tk;const ig=out.find(o=>av212Parecido(o._tk,tk));
       if(ig){const vs=new Set(ig.manchetes.map(m=>m.veiculo));n.manchetes.forEach(m=>{if(!m.veiculo||!vs.has(m.veiculo))ig.manchetes.push(m)});
         ig.n_fontes=Math.max(ig.n_fontes||0,n.n_fontes||0,new Set(ig.manchetes.map(m=>m.veiculo)).size);ig.relevante=ig.relevante||n.relevante;return}

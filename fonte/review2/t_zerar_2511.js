@@ -37,7 +37,7 @@ const PORTA = 9431, BASE = `http://localhost:${PORTA}/index.html`;
   await sleep(500); await P.evaluate(() => { ['layer', 'layer2'].forEach(i => { const L = document.getElementById(i); if (L) L.innerHTML = '' }) });
   ok(r4.dir === 'column' && r4.larg >= r4.bt - 8, '4: explicação ocupa a largura toda embaixo do nome', r4);
   // 5. toque duplo num botão de alternar do cartão
-  await P.evaluate(() => { const box = document.createElement('div'); box.id = 'td-t'; document.querySelector('#posts').prepend(box); box.innerHTML = '<button type="button" data-a="save" data-pid="zz">Guardar</button>';
+  await P.evaluate(() => { const box = document.createElement('div'); box.id = 'td-t'; box.style.cssText = 'position:fixed;top:220px;left:20px;z-index:99999'; document.body.appendChild(box); box.innerHTML = '<button type="button" data-a="save" data-pid="zz">Guardar</button>';
     window.__n5 = 0; box.addEventListener('click', () => window.__n5++); box.scrollIntoView(); });
   await P.click('#td-t button'); await sleep(80); await P.click('#td-t button'); await sleep(600); await P.click('#td-t button');
   const r5 = await P.evaluate(() => { document.getElementById('td-t').remove(); return window.__n5 });

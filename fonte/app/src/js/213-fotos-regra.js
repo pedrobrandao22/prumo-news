@@ -3,8 +3,7 @@
    chegava a um lado e não ao outro (Paulista na estreia da Anthropic, taça de 2016). Agora:
    1. bloqueios e condições moram num arquivo só, tools/fotos_regras.json (cópia abaixo; o teste
       tools/test_fotos_regras_2511.py falha se as duas divergirem). 'exige': a foto só entra se o título disser o lugar
-      ou a empresa (sede da PF só com PF; avião da Alaska só com Alaska; Casa Branca só com governo dos EUA/Trump; MEC
-      só com MEC);
+      ou a empresa (sede da PF só com PF; avião da Alaska só com Alaska; Casa Branca só com governo dos EUA/Trump);
    2. o robô das páginas grava em m/fotos.json a foto que escolheu para cada notícia; quando esse arquivo é da mesma
       edição que o app abriu, Feed, matéria, giro e prévia usam a mesma escolha;
    3. descrição em inglês do nome do arquivo ("airliner taking off runway", "The White House June 2024") vira
@@ -13,8 +12,7 @@ var FT213_REGRAS={"bloq":["hubbell-white house","hubbell-white_house","douglas t
   "exige":[{"nome":"policia federal","titulo":"policia federal|\\bpf\\b"},{"nome":"alaska airlines","titulo":"alaska"},{"nome":"delta air","titulo":"\\bdelta\\b"},
     {"nome":"united airlines","titulo":"united"},{"nome":"american airlines","titulo":"american airlines"},{"nome":"latam","titulo":"latam"},
     {"nome":"white house","titulo":"casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"},
-    {"nome":"casa branca","titulo":"casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"},
-    {"nome":"ministerio da educacao","titulo":"\\bmec\\b|ministerio da educacao|camilo santana"}]};
+    {"nome":"casa branca","titulo":"casa branca|trump|vance|governo (dos eua|americano|trump)|tarifa|washington"}]};
 
 try{FT213_REGRAS.bloq.forEach(b=>{if(FT157_BLOQ.indexOf(b)<0)FT157_BLOQ.push(b)})}catch(e){}
 FT213_REGRAS.exige.forEach(r=>{try{r.re=new RegExp(r.titulo)}catch(e){r.re=/$^/}});
