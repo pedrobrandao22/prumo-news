@@ -156,3 +156,21 @@ function md214Passa(){try{const mad=md214Hora()<7;document.documentElement.class
   const ac=document.querySelector("#posts .ac208"),p1=document.querySelector("#posts .post[id^='p-']");if(ac&&p1&&ac.previousElementSibling!==p1&&p1.parentNode===ac.parentNode)p1.after(ac)}catch(e){}}
 try{new MutationObserver(()=>{clearTimeout(md214Passa.t);md214Passa.t=setTimeout(md214Passa,120)}).observe(document.getElementById("posts")||document.body,{childList:true})}catch(e){}
 setInterval(md214Passa,300e3);
+
+/* ---- Busca > Na agenda: tocar num item abre uma folha curta com ele (antes abria a agenda inteira, do começo) ---- */
+window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest(".bu154-agd [data-igagenda]");if(!b)return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+  try{const tx=(b.querySelector("b")||{}).textContent||"",qd=(b.querySelector("span")||{}).textContent||"";
+    sheet("Na agenda",`<div class="ag214"><p class="ag214-q">${esc(qd)}</p><p class="ag214-t">${esc(tx)}</p></div>`,`<button type="button" class="btn ghost" data-ag214todas>Ver a agenda toda</button>`)}catch(er){}},true);
+document.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest("[data-ag214todas]")))return;try{closeLayer()}catch(_){}
+  setTimeout(()=>{try{if(typeof igAgendaSheet==="function")igAgendaSheet()}catch(_){}},250)});
+
+/* ---- Conversa: a caixa de mensagem que cresce empurra a conversa junto (o "Visto" não fica cortado) ---- */
+var DM214_H=0;
+document.addEventListener("input",e=>{if(!e.target||e.target.id!=="mtext")return;requestAnimationFrame(()=>{try{const c=document.querySelector("#v-msgs .dm-comp"),v=document.getElementById("v-msgs");if(!c||!v)return;
+  const h=c.getBoundingClientRect().height;if(!DM214_H)DM214_H=h;const d=h-DM214_H;DM214_H=h;v.style.paddingBottom=Math.round(h+12)+"px";if(d>0)scrollBy(0,d)}catch(er){}})},true);
+
+/* ---- Coluna aberta pela Nova publicação: fechar no X volta para a Nova publicação (não cai no Feed) ---- */
+var CL214_E=null;
+window.addEventListener("click",e=>{if(e.target&&e.target.closest&&e.target.closest("#layer [data-cs123ini]"))setTimeout(()=>{try{CL214_E=ED132.E}catch(_){}},300)},true);
+window.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest("[data-ed132x]")))return;let meu=false;try{meu=!!CL214_E&&ED132.E===CL214_E}catch(_){}if(!meu)return;
+  setTimeout(()=>{try{if(ED132.E||document.querySelector("#layer > .ed132"))return;CL214_E=null;if(!document.getElementById("layer").innerHTML)cn102AbreInicio()}catch(er){}},350)},true);
