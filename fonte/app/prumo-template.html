@@ -6470,6 +6470,7 @@ html:root:not(.x211-nunca) .top.rolou{background:var(--bg)!important;-webkit-bac
 .av212-faixa{margin:8px 0 2px;padding:9px 12px;border-radius:10px;background:var(--chip,#eef1f5);color:var(--ink,inherit);
   font:500 calc(14px*var(--fz,1))/1.4 var(--f-ui,system-ui);border-left:3px solid var(--accent,#d9480f)}
 .av212-faixa.nv{border-left-color:#c92a2a}
+.av212-faixa.pl{border-left-color:#2f6b4f;font-weight:700}
 
 /* item 3 (causa menus-explicacao-a-direita): nas folhas de opções a explicação fica EMBAIXO do nome, na largura toda.
    Vale para Seu post, Coluna, Opções do cartão, Conversa e Seguindo (o mesmo componente .opt); linhas com foto de
@@ -6538,6 +6539,11 @@ body:has(#layer > .scrim .sheet) .toast,body:has(#layer2 > .scrim .sheet) .toast
 /* convite recusado: campos apagados */
 .cv214-off{opacity:.45}
 #cv214-ler{margin-top:8px;width:100%}
+
+/* vigia 25/11 (iPhone SE, letra grande): a linha do placar oficial no Feed ("Câmara aprovou · 3ª votação, 353 a 128 ›")
+   saía cortada; com letra grande ela quebra em duas linhas */
+html.fzg .po118-ln{flex-wrap:wrap;white-space:normal;height:auto;row-gap:2px}
+html.fzg .po118-ln *{white-space:normal;overflow:visible;text-overflow:clip;min-width:0}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -6657,7 +6663,7 @@ body:has(#layer > .scrim .sheet) .toast,body:has(#layer2 > .scrim .sheet) .toast
     var horaDia=function(iso){var d=new Date(iso);if(isNaN(d))return "";var dia=dataSP(iso),hoje=hojeSP();if(dia===hoje)return hhmm(iso);
       if(dia===somaDias(hoje,-1))return "ontem, "+hhmm(iso);var w=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"America/Sao_Paulo"}).replace(".","");return w+" ("+(+dia.slice(8,10))+"), "+hhmm(iso)};
     var atualizadoTxt=function(iso){var t=horaDia(iso);if(!t)return "Atualizado";return dataSP(iso)===hojeSP()?"Atualizado às "+t:"Atualizado "+t.replace(/, /,", às ")};
-    var ultimaAtualizacao=function(p){return [].concat(p.atualizacoes||[],p.correcoes||[],Array.isArray(p.titulos)?p.titulos.slice(1):[]).map(function(u){return u&&u.hora}).filter(Boolean).sort(function(a,b){return tms(a)-tms(b)}).pop()||""};
+    var ultimaAtualizacao=function(p){return [].concat(p.atualizacoes||[],p.correcoes||[]).map(function(u){return u&&u.hora}).filter(Boolean).sort(function(a,b){return tms(a)-tms(b)}).pop()||""};
     var capaFrase=function(t,n){t=String(t||"").trim();if(t.length<=n)return t;var fr=t.replace(/([.!?])\s+/g,"$1\u0001").split("\u0001"),o="";for(var i=0;i<fr.length;i++){if((o+" "+fr[i]).trim().length>n)break;o=(o+" "+fr[i]).trim()}return o||t.slice(0,n).replace(/\s+\S*$/,"")+"…"};
     var capaChapeu=function(p){return (/^Outros/.test(p.subtema||"")?"":p.subtema)||p.tag||secNome(secOf(p))};
     var cobStatus=function(p){var st=p&&p.status;if(st==="ao_vivo")return '<span class="cst vivo"><i></i>Ao vivo</span>';if(st==="encerrada")return '<span class="cst enc">Encerrada</span>';return ""};
@@ -6726,7 +6732,7 @@ body:has(#layer > .scrim .sheet) .toast,body:has(#layer2 > .scrim .sheet) .toast
         var ms=(Array.isArray(x.manchetes)?x.manchetes:[]).filter(function(m){return m&&m.titulo&&!LIXO.test(m.titulo)}).sort(function(a,b){return hMs(b.hora)-hMs(a.hora)});
         var tt=ms.map(function(m){return curto(m.titulo)}).filter(function(t){return t&&t.replace("…","").length>=24})[0];
         out.push({t:tt||temaDe(p)||titulo(p),h:hh,pid:pid,peso:8+n})});
-      var l=out.sort(function(a,b){return b.peso-a.peso||b.h-a.h}).slice(0,4);if(!l.length)return "";
+      var l=out.sort(function(a,b){return b.peso-a.peso||b.h-a.h}).slice(0,4).sort(function(a,b){return (+b.h||0)-(+a.h||0)});/* 211: da mais nova para a mais antiga */if(!l.length)return "";
       var um=l.map(function(x,i){return '<span class="ag-i" data-agi="'+i+'" data-agstrip="'+esc(x.pid||"")+'"><time>'+esc(quando(new Date(x.h).toISOString()).replace("há ",""))+'</time>'+esc(x.t)+'</span><i class="ag-sep" aria-hidden="true"></i>'}).join("");
       var nn=l.reduce(function(a,x){return a+x.t.length+12},0);
       return '<div class="cp-agora" role="region" aria-label="Agora: '+esc(l.map(function(x){return x.t}).join("; "))+'"><button type="button" class="ag-lbl" data-agora><i></i>Agora</button><div class="ag-vp"><div class="ag-run" style="animation-duration:'+Math.max(18,Math.round(nn*.17))+'s">'+um+um+'</div></div></div>'})();
@@ -6837,7 +6843,9 @@ const dataSP=iso=>{const t=new Date(iso||Date.now());return _FDSP.format(isNaN(t
 const leitId=()=>"d"+dataSP(FEED?.atualizado_em);
 function quizId(){const q=JSON.stringify((FEED?.quiz||[]).map(x=>x.pergunta||""));let h=0;for(let i=0;i<q.length;i++)h=(h*31+q.charCodeAt(i))|0;return "d"+dataSP(FEED?.atualizado_em)+"-"+(h>>>0).toString(36)}
 const tms=x=>{const t=Date.parse(x||"");return isNaN(t)?0:t};
-const ultimaAtualizacao=p=>[...(p.atualizacoes||[]),...(p.correcoes||[]),...(Array.isArray(p.titulos)?p.titulos.slice(1):[])].map(u=>u&&u.hora).filter(Boolean).sort((a,b)=>tms(a)-tms(b)).pop()||"";
+/* 25/11 (testador, feed-diz-ha-2-h-em-noticias-de-ontem-por-troca-de-titulo): troca de redação do título não é atualização;
+   só atualização e correção contam para o "há X" e o "Atualizado" */
+const ultimaAtualizacao=p=>[...(p.atualizacoes||[]),...(p.correcoes||[])].map(u=>u&&u.hora).filter(Boolean).sort((a,b)=>tms(a)-tms(b)).pop()||"";
 
 function quando(iso){const d=new Date(iso);if(isNaN(d))return "";const m=(Date.now()-d.getTime())/6e4;if(m<1)return "agora";if(m<60)return "há "+Math.floor(m)+" min";if(m<1440)return "há "+Math.floor(m/60)+" h";if(m<10080)return "há "+Math.floor(m/1440)+" d";return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}
 const diaHora=iso=>{const d=new Date(iso);if(isNaN(d))return "";const hj=dataSP(),dd=dataSP(iso);const dia=dd===hj?"hoje":d.toLocaleDateString("pt-BR",{weekday:"long",timeZone:"America/Sao_Paulo"});return dia+" às "+hhmm(iso)};
@@ -9612,7 +9620,7 @@ function slidesSociais(p){try{
   fr.forEach((t0,i)=>{const num=ssNumero(t0);let t=t0;
     if(num&&t0.indexOf(num)===0){let r=t0.slice(num.length).replace(/^\s+/,"");if(r[0]===":"){r=r.slice(1).trim();r=r.charAt(0).toUpperCase()+r.slice(1)}if(r.length>8)t=r}
     out.push(`<div class="sl ss ss-fato${num?" com-n":""}" style="--c:${cor}"><span class="ss-k">${i===0?"O essencial":"E mais"}</span>${num?`<b class="ss-n">${esc(num)}</b>`:""}<p class="ss-t">${marcarTermos(t)}</p><span class="ss-i">${i+1}/${fr.length}</span></div>`);
-    if(i===0&&pessoa)out.push(`<div class="sl ss ss-foto"><img src="${escU(fotoSrc(pessoa.f.url))}" alt="${esc(pessoa.nome)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.sl').classList.add('sem-foto')"><div class="ss-fl"><span class="ss-k">Quem é</span><b>${esc(pessoa.nome)}</b>${pessoa.desc?`<p>${esc(pessoa.desc)}</p>`:""}</div>${credHTML(pessoa.f.credito||"Foto de arquivo: Wikimedia Commons","fcv-c")}</div>`)});
+    if(i===0&&pessoa&&pessoa.desc)out.push(`<div class="sl ss ss-foto"><img src="${escU(fotoSrc(pessoa.f.url))}" alt="${esc(pessoa.nome)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.sl').classList.add('sem-foto')"><div class="ss-fl"><span class="ss-k">Quem é</span><b>${esc(pessoa.nome)}</b>${pessoa.desc?`<p>${esc(pessoa.desc)}</p>`:""}</div>${credHTML(pessoa.f.credito||"Foto de arquivo: Wikimedia Commons","fcv-c")}</div>`)});
   const vis=(p.visuais||[]).map(x=>({...x,secao:sec}));
   const gr=vis.find(x=>x.tipo==="grafico"&&visualHTML(x)),tl=vis.find(x=>x.tipo==="linha_do_tempo"&&visualHTML(x)),nu=vis.find(x=>x.tipo==="numeros"&&visualHTML(x));
   [gr,nu].filter(Boolean).forEach(x=>out.push(`<div class="sl txs ss-vis">${visualHTML(x)}</div>`));
@@ -23514,7 +23522,8 @@ function av212Limpa(d){if(!d||typeof d!=="object"||!Array.isArray(d.novos)||d._a
         ig.n_fontes=Math.max(ig.n_fontes||0,n.n_fontes||0,new Set(ig.manchetes.map(m=>m.veiculo)).size);ig.relevante=ig.relevante||n.relevante;return}
       out.push(n)});
     out.forEach(n=>{try{delete n._tk}catch(e){}});d.novos=out;try{Object.defineProperty(d,"_av212",{value:1,enumerable:false})}catch(e){}}catch(e){}return d}
-{const _ai212=agoraItens;agoraItens=function(){try{if(typeof NOVID_AG!=="undefined")av212Limpa(NOVID_AG)}catch(e){}return _ai212.apply(this,arguments)}}
+/* a faixa Agora da Capa usa o novidades.json como vem: a limpeza (juntar o mesmo fato, palavra dobrada, link já na
+   edição) é feita pelo robô (tools/manchetes.py, limpar_novos), para o alto antecipado (121) e a Capa pronta ficarem iguais */
 if(typeof ac208Itens==="function"){const _ac212=ac208Itens;ac208Itens=function(){try{if(typeof NOVID_AG!=="undefined")av212Limpa(NOVID_AG)}catch(e){}return _ac212.apply(this,arguments)}}
 
 /* ---- 1. agenda: evento de hoje com a hora vencida ---- */
@@ -23549,7 +23558,7 @@ function av212Novid(){const d=typeof NOVID_AG!=="undefined"&&NOVID_AG,F=typeof F
     const vs=[...new Set(novas.map(m=>m.veiculo).filter(Boolean))];const t=av212Dobrada(novas.sort((a,b)=>av212HoraNv(b.hora)-av212HoraNv(a.hora))[0].titulo);
     const vtx=vs.length>3?vs.slice(0,3).join(", ")+" e mais "+(vs.length-3):vs.length>1?vs.slice(0,-1).join(", ")+" e "+vs[vs.length-1]:vs[0];
     const nota=`Agora: «${t}» (${vtx}). O texto abaixo ainda não traz isso.`;
-    if(p._av212&&p._av212.tipo==="novid"&&p._av212.nota===nota)return;
+    if(p._av212&&(p._av212.tipo==="placar"||(p._av212.tipo==="novid"&&p._av212.nota===nota)))return;
     if(p._av212s===undefined)p._av212s=p.subtitulo;p._av212={tipo:"novid",nota,t:h};p.subtitulo=`Agora: «${t}» (${vtx}).`})}
 if(typeof atualizarAgora==="function"){const _aa212=atualizarAgora;atualizarAgora=function(){try{av212Novid()}catch(e){}return _aa212.apply(this,arguments)}}
 
@@ -23559,13 +23568,30 @@ if(typeof atualizarAgora==="function"){const _aa212=atualizarAgora;atualizarAgor
     const p=typeof MAT_PID!=="undefined"&&MAT_PID&&pautaById(MAT_PID);if(!p||!p._av212)return;const meta=m.querySelector(".mat-meta");if(!meta)return;
     const sub=m.querySelector(".mat-sub"),orig=typeof p._av212s==="string"?p._av212s:"";
     if(sub&&(sub.textContent.indexOf(p._av212.nota.slice(0,30))===0||/^Agora: «/.test(sub.textContent))){if(orig)sub.textContent=orig;else sub.remove()}
-    const b=document.createElement("p");b.className="av212-faixa"+(p._av212.tipo==="novid"?" nv":"");b.setAttribute("role","note");b.textContent=p._av212.nota;meta.after(b)}).observe(L,{childList:true,subtree:true});return true};
+    const b=document.createElement("p");b.className="av212-faixa"+(p._av212.tipo==="novid"?" nv":p._av212.tipo==="placar"?" pl":"");b.setAttribute("role","note");b.textContent=p._av212.nota;meta.after(b)}).observe(L,{childList:true,subtree:true});return true};
   if(!ob())document.addEventListener("DOMContentLoaded",ob)})();
 /* o relógio anda com o app aberto: a cada 5 min (e ao voltar para a aba) a nota da agenda é refeita */
 setInterval(()=>{try{if(typeof FEED!=="undefined"&&FEED)av212Passa(FEED);av212Novid()}catch(e){}},300e3);
 document.addEventListener("visibilitychange",()=>{try{if(!document.hidden&&typeof FEED!=="undefined"&&FEED){av212Passa(FEED);av212Novid()}}catch(e){}});
 /* a edição em cache é saneada antes deste módulo carregar: passa uma vez agora (o 999 redesenha em seguida) */
 try{if(typeof FEED!=="undefined"&&FEED){av212Passa(FEED);av212Novid()}}catch(e){}
+
+/* ---- 4. placar dos jogos da Agenda (robô "Placares ao vivo", placares.json, a cada 10 min) ----
+   Jogo em andamento: "Ao vivo: Atlético-MG 1 x 0 Corinthians (67')."; encerrado: "Terminou: Atlético-MG 2 x 1
+   Corinthians." no alto da notícia (subtítulo e faixa da matéria), no lugar do "O jogo começou às 20h…". A rodada
+   seguinte reescreve a notícia; o placar some sozinho quando a notícia é atualizada depois do fim do jogo. */
+var PL212=null;
+function av212Placar(){const F=typeof FEED!=="undefined"&&FEED;if(!F||!PL212||!Array.isArray(PL212.jogos))return;
+  PL212.jogos.forEach(j=>{const p=j&&j.pid&&pautaById(j.pid);if(!p||!j.texto)return;
+    const g=Date.parse(PL212.gerado||"")||Date.now();if(j.estado==="encerrado"&&av212UltMs(p)>g)return;
+    if(p._av212&&p._av212.tipo==="placar"&&p._av212.nota===j.texto)return;
+    if(p._av212s===undefined)p._av212s=p.subtitulo;p._av212={tipo:"placar",nota:j.texto,t:g};
+    p.subtitulo=j.texto+(typeof p._av212s==="string"&&p._av212s?" "+p._av212s:"")})}
+function av212PlCarrega(){try{const F=typeof FEED!=="undefined"&&FEED;const hj=typeof hojeSP==="function"?hojeSP():"";
+  if(!F||!(F.agenda||[]).some(a=>a&&a.pid&&/ x /.test(a.texto||"")))return;
+  fetch("placares.json?t="+Math.floor(Date.now()/6e4),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{if(d&&Array.isArray(d.jogos)){PL212=d;av212Placar()}}).catch(()=>{})}catch(e){}}
+{const _ps212=av212Passa;av212Passa=function(F){const r=_ps212.apply(this,arguments);try{av212Placar()}catch(e){}return r}}
+av212PlCarrega();setInterval(av212PlCarrega,120e3);
 /* ===== 25/11: regra única de fotos (item 2 do balanço semanal) =====
    App e prévia do link (m/, tools/paginas.py) escolhiam a foto com listas e regras copiadas à mão, e uma correção
    chegava a um lado e não ao outro (Paulista na estreia da Anthropic, taça de 2016). Agora:

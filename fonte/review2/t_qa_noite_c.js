@@ -93,9 +93,11 @@ let srv = null;
   // 5 min (com Agenda) e Quiz
   await ev(V, () => abrir5min()); await sleep(800);
   ok(await ev(V, () => !!document.querySelector('#layer .story, #layer2 .story')), 'Em 5 min abre'); await fecha(V);
-  await ev(V, () => abrirQuiz()); await sleep(700);
+  const temQuiz = await ev(V, () => !!(FEED.quiz && (FEED.quiz.perguntas || FEED.quiz).length));  // 25/11: o quiz saiu das rodadas
+  if (!temQuiz) ok(true, '(sem quiz na edição de hoje)');
+  else { await ev(V, () => abrirQuiz()); await sleep(700);
   const qz = await ev(V, () => { const b = document.querySelector('.sheet [data-qr]'); if (b) b.click(); return !!b }); await sleep(500);
-  ok(qz && await ev(V, () => !!document.querySelector('.sheet .ok, .sheet .no, .sheet [data-qr].ok, .sheet [data-qr][disabled], .sheet .qz-exp, .sheet [aria-pressed="true"]') || /Próxima|Ver resultado|Acertou|Errou|resposta/i.test(document.querySelector('.sheet').textContent)), 'Quiz abre e aceita resposta'); await fecha(V);
+  ok(qz && await ev(V, () => !!document.querySelector('.sheet .ok, .sheet .no, .sheet [data-qr].ok, .sheet [data-qr][disabled], .sheet .qz-exp, .sheet [aria-pressed="true"]') || /Próxima|Ver resultado|Acertou|Errou|resposta/i.test(document.querySelector('.sheet').textContent)), 'Quiz abre e aceita resposta'); await fecha(V); }
   // indicador (gráfico)
   await ev(V, () => go('capa')); await sleep(400);
   const gr = await ev(V, () => { const b = document.querySelector('#v-capa .ui184-b'); if (!b) return null; b.click(); return 1 }); await sleep(900);

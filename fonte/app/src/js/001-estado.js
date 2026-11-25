@@ -59,7 +59,9 @@ const dataSP=iso=>{const t=new Date(iso||Date.now());return _FDSP.format(isNaN(t
 const leitId=()=>"d"+dataSP(FEED?.atualizado_em);
 function quizId(){const q=JSON.stringify((FEED?.quiz||[]).map(x=>x.pergunta||""));let h=0;for(let i=0;i<q.length;i++)h=(h*31+q.charCodeAt(i))|0;return "d"+dataSP(FEED?.atualizado_em)+"-"+(h>>>0).toString(36)}
 const tms=x=>{const t=Date.parse(x||"");return isNaN(t)?0:t};
-const ultimaAtualizacao=p=>[...(p.atualizacoes||[]),...(p.correcoes||[]),...(Array.isArray(p.titulos)?p.titulos.slice(1):[])].map(u=>u&&u.hora).filter(Boolean).sort((a,b)=>tms(a)-tms(b)).pop()||"";
+/* 25/11 (testador, feed-diz-ha-2-h-em-noticias-de-ontem-por-troca-de-titulo): troca de redação do título não é atualização;
+   só atualização e correção contam para o "há X" e o "Atualizado" */
+const ultimaAtualizacao=p=>[...(p.atualizacoes||[]),...(p.correcoes||[])].map(u=>u&&u.hora).filter(Boolean).sort((a,b)=>tms(a)-tms(b)).pop()||"";
 
 function quando(iso){const d=new Date(iso);if(isNaN(d))return "";const m=(Date.now()-d.getTime())/6e4;if(m<1)return "agora";if(m<60)return "há "+Math.floor(m)+" min";if(m<1440)return "há "+Math.floor(m/60)+" h";if(m<10080)return "há "+Math.floor(m/1440)+" d";return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}
 const diaHora=iso=>{const d=new Date(iso);if(isNaN(d))return "";const hj=dataSP(),dd=dataSP(iso);const dia=dd===hj?"hoje":d.toLocaleDateString("pt-BR",{weekday:"long",timeZone:"America/Sao_Paulo"});return dia+" às "+hhmm(iso)};
