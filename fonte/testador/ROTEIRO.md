@@ -4,6 +4,19 @@ O testador usa o prumonews.com.br como uma pessoa usaria (celular simulado), ano
 melhorar, e grava os achados na página "Testador do Prumo" (o endereço e a conta de teste vêm no pedido da tarefa
 agendada, nunca neste repositório, que é público).
 
+## MODO ECONÔMICO (25/11, decisão do Pedro) — vale acima do resto deste roteiro
+O testador agora roda 1 vez por dia; a parte mecânica (erros, texto cortado, rolagem de lado, busca vazia, foto contra
+a regra, notícia com hora vencida) é do robô **Vigia do app** no GitHub, a cada 3 h, que grava `vigia.json` na raiz.
+1. Comece por `vigia.json` (`curl -s https://raw.githubusercontent.com/pedrobrandao22/prumo-news/main/vigia.json`):
+   cada problema vira achado com id `vigia-<id do problema>` (se já existe aberto, só atualize visto_em e vezes; se
+   estava resolvido e voltou, reabra com causa_volta "o vigia de <data> achou de novo: <detalhe>"). Não refaça à mão o
+   que o vigia já confere.
+2. Para não repetir, NÃO liste todos os achados: consulte só os abertos (`query` com where status == "aberto") e as
+   causas. Os resolvidos/arquivados só se for reabrir um caso específico (`get` pelo id).
+3. Gaste no máximo 15 minutos testando como gente: foto x notícia, clareza, textos, o que mudou na versão nova e a
+   área do dia (tabela abaixo, pelo DIA DA SEMANA em vez da hora: domingo=0 … sábado=6; 7 fica para rede lenta).
+4. No máximo 4 achados novos por rodada, os mais importantes.
+
 ## Antes de começar
 1. Ler `config/estado` da página. Se `ligado` não for `true`, parar sem fazer nada.
 2. Ler os achados que já existem (coleção `achados`), para não repetir.
@@ -23,7 +36,7 @@ Use os ids `fotos-sem-relacao-com-a-noticia`, `quem-e-trump-na-noticia-dos-voos`
 geral e crie um achado por caso concreto novo (id com o assunto, ex. `foto-enem-jovens-dancando`).
 
 ## O que testar (uma área por rodada, em rodízio pela hora; sempre mais 5 min livres em outra área)
-| hora % 8 | área |
+| dia da semana (hora % 8 antes de 25/11) | área |
 |---|---|
 | 0 | Capa e matéria: abrir, ler, abas "Nesta matéria", fontes, próxima, guardar, tamanho da letra, compartilhar |
 | 1 | Feed: círculos do topo, posts, giros, curtir, comentar, responder, rolar muito, voltar |
