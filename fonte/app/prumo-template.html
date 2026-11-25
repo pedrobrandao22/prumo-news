@@ -6487,8 +6487,6 @@ html:root:not(.x211-nunca) .top.rolou{background:var(--bg)!important;-webkit-bac
 
 /* Perfil: selo "Segue você" alinhado ao nome (perfil-selo-segue-voce-encosta-na-borda-esquerda) */
 .sg181-sv{margin-left:16px!important}
-.pfv .gut .sg181-sv,.vn-pf .sg181-sv{margin-left:0!important}
-:where(.vn-pf,.pfv-h,.pf-h)>.sg181-sv{margin-left:16px!important}
 
 /* Perfil sem posts: o botão "Nova publicação" não fica atrás da barra de baixo (iPhone SE) */
 #v-me .gut,.pfv{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
@@ -6525,6 +6523,22 @@ img[src*="acervo/p/"]{object-position:50% 30%!important}
 .at-chip-fora{display:inline-flex!important;width:auto!important;justify-content:flex-start;text-align:left;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .at-chip-fora small{font-size:11.5px;opacity:.8;margin-left:3px}
 
+
+/* Feed: selo "Encerrada" fora da linha do assunto (cortava "Sul-Americana 2…"); a linha de baixo já diz a cobertura */
+#posts .post .ph-t .cst.enc{display:none}
+/* Conversas: rascunho sem o tempo da última mensagem ("1 sem") ao lado */
+#v-msgs [data-thread]:has(.ct210-rasc) .dm-t,#v-msgs [data-thread]:has(.ct210-rasc) time{visibility:hidden}
+
+/* ===== 2ª leva 25/11 ===== */
+/* celular deitado: a barra "O que você acha? +" fica, só mais baixa (era o único jeito de publicar no Feed) */
+@media (orientation:landscape) and (max-height:500px){#cn102-bar{display:flex!important;min-height:40px;padding-block:4px!important}}
+/* Editar texto: sem "Continuar em outra parte" (o caminho para texto longo é a Coluna, como na Nova publicação) */
+.sheet .fs2-ed-add,.sheet .fs2-ed-d{display:none!important}
+/* aviso com uma folha aberta: no alto, sem cobrir o título da folha */
+body:has(#layer > .scrim .sheet) .toast,body:has(#layer2 > .scrim .sheet) .toast{bottom:auto!important;top:calc(env(safe-area-inset-top,0px) + 12px)!important}
+/* convite recusado: campos apagados */
+.cv214-off{opacity:.45}
+#cv214-ler{margin-top:8px;width:100%}
 /* 181: "só seguir" — só vale com o SQL de 17/11 (o corpo ganha a classe sg181-on) */
 .sg181-on .cp152-pub,.sg181-on [data-cfppub],.sg181-on .ce-pub.ma,.sg181-on .co160-am,.sg181-on .dm104-am,.sg181-on .fd104-ma,
 .sg181-on [data-pedir],.sg181-on [data-cancelar],.sg181-on .pf-ped,.sg181-on .cs123-ps,.sg181-on .cs123-cfg{display:none!important}
@@ -8217,7 +8231,7 @@ function abrirPagCob(pid){
     ${ex?`<button type="button" class="explain" data-explica="${esc(tema)}">Entenda: ${esc(tema)}</button>`:""}
     ${cobLinha(p)?`<h4>Linha do tempo</h4>${cobLinha(p)}`:""}
     ${fs.length?`<button type="button" class="cobx2 cobx2-d" data-cobfontes="${esc(pid)}"><span>Fontes</span><span class="chev" aria-hidden="true">›</span></button>`:""}
-    ${seg?`<p class="hint" style="margin:0">Você segue “${esc(tema)}”: ela sobe no feed e aparece em “Do que você segue”.</p>`:`<p class="hint" style="margin:0">Ao seguir, esta cobertura sobe no seu feed e aparece em “Do que você segue”, no topo.</p>`}
+    ${seg?`<p class="hint" style="margin:0">Você segue “${esc(tema)}”: ela sobe no feed e aparece em “Do que você segue”.</p>`:(p.status==="encerrada"?`<p class="hint" style="margin:0">Esta cobertura terminou. Seguindo, você é avisado se ela voltar.</p>`:`<p class="hint" style="margin:0">Ao seguir, esta cobertura sobe no seu feed e aparece em “Do que você segue”, no topo.</p>`)}
   </div>`)})();
     /* 031: O essencial (ao vivo) e Serviços */
     (()=>{const p=pautaById(pid);const box=document.querySelector(".sheet .pc[data-pc]");if(!p||!box)return;
@@ -8897,7 +8911,7 @@ function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==se
   if(sec==="brasil"){const uc={};todas.forEach(p=>ufsDe(p).forEach(u=>uc[u]=(uc[u]||0)+1));const us=Object.keys(uc).sort((a,b)=>uc[b]-uc[a]||a.localeCompare(b));
     if(us.length)h+=`<div class="sh4-chips" role="group" aria-label="Estados"><button type="button" data-secuf="" aria-pressed="${!SECF.uf}">Todo o Brasil</button>${us.map(u=>`<button type="button" data-secuf="${esc(u)}" aria-pressed="${SECF.uf===u}" title="${esc(UFSM()[u])}">${esc(u)}<em>${uc[u]}</em></button>`).join("")}</div>`}
   if(SECF.sub||SECF.uf)return h+`</div>`;
-  const cob=todas.filter(p=>cobTemPagina(p)).slice(0,8);
+  const cob=todas.filter(p=>cobTemPagina(p)&&p.status!=="encerrada").slice(0,8);/* 25/11: encerrada não é "ativa" */
   if(cob.length)h+=`<div><span class="segs-h" style="padding-top:0">Coberturas ativas</span><div class="segs">${cob.map(p=>{const et=cobEtapaAtual(p);return `<button type="button" class="segc" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${p.status==="ao_vivo"?"Ao vivo · ":p.status==="encerrada"?"Encerrada · ":et?"Etapa: "+esc(et)+" · ":""}atualizada ${esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button>`}).join("")}</div></div>`;
   if(sec==="politica"||sec==="educacao"){const tr=todas.filter(p=>p.etapa&&Array.isArray(p.etapa.passos)&&p.etapa.passos.length>1);
     if(tr.length)h+=`<div class="sh4-b"><h5>${sec==="politica"?"Em tramitação":"Leis e normas em andamento"}</h5>${tr.map(p=>`<button type="button" class="sh4-tr" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b>${cobEtapas(p)}</button>`).join("")}</div>`}
@@ -8907,7 +8921,7 @@ function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==se
     if(ag.length)h+=`<div class="sh4-b"><h5>Agenda da semana</h5><ul class="sh4-cal">${ag.map(a=>`<li><time>${a._d===hj?"Hoje":esc(dataCurta(a._d))}${agHoraTxt(a)?" "+esc(agHoraTxt(a)):""}</time><span>${esc(a.texto)}</span></li>`).join("")}</ul></div>`}
   if(sec==="brasil"){const sv=todas.filter(p=>Array.isArray(p.servicos)&&p.servicos.length);
     if(sv.length)h+=`<div class="sh4-b"><h5>Serviços e como ajudar</h5>${sv.map(p=>`<b style="font-size:14.5px">${esc(temaDe(p)||p.neutro?.titulo)}</b>${srvHTML(p)}`).join("")}</div>`}
-  if(sec==="mundo"){const cf=todas.filter(p=>cobEh(p)&&(cobTemPagina(p)||p.e_o_brasil||(FEED.explicadores||{})[temaDe(p)]));
+  if(sec==="mundo"){const cf=todas.filter(p=>cobEh(p)&&p.status!=="encerrada"&&/guerra|conflit|ataque|crise|militar|bombard|drone|mísse|missil|terremot|enchente|incênd|desastr|refugi|tens[aã]o|sanç/i.test([temaDe(p),p.subtema,p.tag,(p.neutro||{}).titulo].join(" "))&&(cobTemPagina(p)||p.e_o_brasil||(FEED.explicadores||{})[temaDe(p)]));/* 25/11: COP31 e encontro de líderes não são "conflitos e crises"; encerrada fica de fora */
     if(cf.length)h+=`<div class="sh4-b"><h5>Conflitos e crises</h5><div class="sh4-cf">${cf.map(p=>`<button type="button" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${esc(p.subtema||"")}${(FEED.explicadores||{})[temaDe(p)]?" · Entenda":""}${p.e_o_brasil?" · E o Brasil?":""}</span></button>`).join("")}</div></div>`}
   return h+`</div>`}
 function srvHTML(p){return `<ul class="sh4-srv">${(p.servicos||[]).filter(x=>x&&x.texto).slice(0,6).map(x=>`<li>${esc(x.texto)}${x.url?` · <a href="${escU(x.url)}" target="_blank" rel="noopener">abrir ›</a>`:""}</li>`).join("")}</ul>`}
@@ -18381,7 +18395,7 @@ function bu154Coleta(q){const ts=bu154Termos(q);if(!ts.length||!FEED)return null
 function bu154CobCard(o){if(o.d){const d=o.d,tm=d.tema||d.tag,seg=!!(PREF.seguindo||{})[norm(tm)];
     return `<div class="bu154-card"><button type="button" class="bu154-cb" data-dorm="${esc(d.id)}"><small>Cobertura anterior</small><b>${esc(tm)}</b><span>${esc(bu154J([d.inicio?"de "+cobSP(d.inicio)+" a "+cobSP(d.ultima):cobSP(d.ultima),"fora da edição"]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154dseg="${esc(d.id)}" aria-pressed="${seg}" title="Avisamos se a cobertura voltar">${seg?"Vou avisar ✓":"Avisar se voltar"}</button></div>`}
   const p=o.p,tm=temaDe(p),seg=seguido(p),nt=(Array.isArray(p.titulos)?p.titulos.length:0),u=ultimaAtualizacao(p)||p.hora;
-  return `<div class="bu154-card"><button type="button" class="bu154-cb" data-cobpag="${esc(p.id)}"><small>Cobertura${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</small><b>${esc(tm)}</b><span>${esc(bu154J([nt>1?nt+" manchetes":"",p.inicio?"desde "+cobSP(p.inicio):"",u?"atualizada "+quando(u):""]))}</span></button><button type="button" class="bu154-seg${seg?" on":""}" data-bu154seg="${esc(p.id)}" aria-pressed="${seg}">${seg?"Seguindo":"Seguir"}</button></div>`}
+  return `<div class="bu154-card"><button type="button" class="bu154-cb" data-cobpag="${esc(p.id)}"><small>Cobertura${p.status==="ao_vivo"?" · ao vivo":p.status==="encerrada"?" · encerrada":""}</small><b>${esc(tm)}</b><span>${esc(bu154J([p.inicio?"desde "+cobSP(p.inicio):"",u?"atualizada "+quando(u).replace(/ (h|min|d)\b/g,"\u00a0$1"):""]))}</span></button>${p.status==="encerrada"?"":`<button type="button" class="bu154-seg${seg?" on":""}" data-bu154seg="${esc(p.id)}" aria-pressed="${seg}">${seg?"Seguindo":"Seguir"}</button>`}</div>`}
 function bu154EntCard(o){const tx=String(o.e.texto||"");const c=tx.length>150?tx.slice(0,tx.lastIndexOf(" ",150))+"…":tx;
   return `<button type="button" class="bu154-card bu154-ent" data-explica="${esc(o.k)}"><span class="bu154-cb"><small>Entenda</small><b>${esc(o.e.titulo||o.k)}</b>${c?`<span class="bu154-ex">${esc(c)}</span>`:""}</span><span class="chev" aria-hidden="true">›</span></button>`}
 function bu154Item(r,ts){const b=`<b>${bu154Marca(r.t,ts)}</b>${r.tr?`<em class="trecho">${r.tr}</em>`:""}<span>${esc(r.m)}</span>`;
@@ -23487,16 +23501,17 @@ function av212PautaTk(){const F=typeof FEED!=="undefined"&&FEED;if(!F||!Array.is
 function av212Limpa(d){if(!d||typeof d!=="object"||!Array.isArray(d.novos)||d._av212)return d;
   try{const P=av212PautaTk(),out=[];
     d.novos.forEach(n0=>{if(!n0||!n0.assunto)return;const n=Object.assign({},n0);n.assunto=av212Dobrada(n.assunto);
-      n.manchetes=(Array.isArray(n.manchetes)?n.manchetes:[]).filter(m=>m&&m.titulo&&!AV212_LIXO.test(av212N(m.titulo))).map(m=>Object.assign({},m,{titulo:av212Dobrada(m.titulo)}));
-      if(AV212_LIXO.test(av212N(n.assunto))||!n.manchetes.length)return;
-      const txt=av212N([n.assunto].concat(n.manchetes.map(m=>m.titulo)).join(" "));
+      const ms0=Array.isArray(n.manchetes)?n.manchetes:[];
+      n.manchetes=ms0.filter(m=>m&&!(m.titulo&&AV212_LIXO.test(av212N(m.titulo)))).map(m=>m.titulo?Object.assign({},m,{titulo:av212Dobrada(m.titulo)}):m);
+      if(AV212_LIXO.test(av212N(n.assunto))||(ms0.length&&!n.manchetes.length))return;
+      const txt=av212N([n.assunto].concat(n.manchetes.map(m=>m.titulo||"")).join(" "));
       if(n.secao==="brasil"&&AV212_PAIS.test(txt)&&!/\bbrasil(eir[oa]s?)?\b/.test(av212N(n.assunto)))n.secao="mundo";
       /* já é notícia da edição (o mesmo link ou o mesmo fato no título): fica de fora (a pauta mostra a novidade) */
       if(P.urls&&n.manchetes.some(m=>m.url&&P.urls.has(String(m.url).split("?")[0])))return;
       const tk=av212Tk(n.assunto),hn=Math.max(0,...n.manchetes.map(m=>av212HoraNv(m.hora)));
       if(P.some(p=>p.u>=hn&&[...tk].filter(w=>p.tk.has(w)).length>=3))return;
       n._tk=tk;const ig=out.find(o=>av212Parecido(o._tk,tk));
-      if(ig){const vs=new Set(ig.manchetes.map(m=>m.veiculo));n.manchetes.forEach(m=>{if(!vs.has(m.veiculo))ig.manchetes.push(m)});
+      if(ig){const vs=new Set(ig.manchetes.map(m=>m.veiculo));n.manchetes.forEach(m=>{if(!m.veiculo||!vs.has(m.veiculo))ig.manchetes.push(m)});
         ig.n_fontes=Math.max(ig.n_fontes||0,n.n_fontes||0,new Set(ig.manchetes.map(m=>m.veiculo)).size);ig.relevante=ig.relevante||n.relevante;return}
       out.push(n)});
     out.forEach(n=>{try{delete n._tk}catch(e){}});d.novos=out;try{Object.defineProperty(d,"_av212",{value:1,enumerable:false})}catch(e){}}catch(e){}return d}
@@ -23606,7 +23621,7 @@ function td214Chave(b){if(!b||!b.attributes)return "";const d=[...b.attributes].
   if(d)return d;const t=(b.textContent||"").trim();return /^(Seguir|Seguindo|Deixar de seguir|Seguir de volta)\b/.test(t)?"seg:"+((b.closest("[data-uid],[data-u],[data-pid],li,.card")||{}).outerHTML||"").length:""}
 function td214Alterna(b){if(!b)return false;if(b.matches('[data-a="like"],[data-a="save"],[data-a="cmt"],[data-cobseg],[aria-pressed],[data-sg181],[data-seguir],[data-acao="seguindo"]'))return true;
   return /^(Seguir|Seguindo|Deixar de seguir|Guardar|Guardada|Curtir|Comentar)\b/.test((b.textContent||"").trim())&&b.closest("#posts,#layer,#layer2,#v-busca,#v-me,.bs,.sheet")!==null}
-document.addEventListener("click",e=>{try{
+document.addEventListener("click",e=>{try{if(!e.isTrusted)return;/* só toque de verdade (clique feito por código não é toque duplo) */
   const sc=e.target&&e.target.closest&&e.target.closest("[data-scrim]");
   if(sc&&e.target===sc&&Date.now()-TD214.aberta<450){e.stopImmediatePropagation();e.preventDefault();return}
   const b=e.target&&e.target.closest&&e.target.closest("button,[role=button]");if(!b||!td214Alterna(b))return;
@@ -23720,6 +23735,28 @@ try{new MutationObserver(ms=>{ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeTy
     if(g==="bola"){const t=typeof ft169Esporte==="function"?ft169Esporte(d):"";x={chave:"chaveamento dos playoffs com troféu",taca:"taça",tabela:"tabela do campeonato",camisa:"camisa da seleção"}[t]||"bola de futebol em gramado"}
     else x={mundo:"globo terrestre",aviao:"avião",congresso:"prédio do Congresso",floresta:"floresta",tec:"tecnologia"}[g]||""}
   return x?`Ilustração: ${x}${rot} (sem foto desta notícia)`:a}catch(e){return a}}}
+
+/* ---- "corrigida" no chapéu só enquanto a correção é a novidade: se a notícia foi atualizada 6 h depois da correção,
+   a Capa e o Feed não marcam mais (capa-marca-a-manchete-do-ajuste-como-corrigida-por-correcao-de-sabado), como a matéria ---- */
+{const _cr214=corRecente;corRecente=function(p){const r=_cr214.apply(this,arguments);if(!r)return r;try{const c=corUltima(p),us=(p.atualizacoes||[]).map(u=>u&&tms(u.hora)).filter(Boolean);
+  if(c&&c.hora&&us.length&&Math.max(...us)-tms(c.hora)>6*3600e3)return false}catch(e){}return r}}
+
+/* ===== 2ª leva 25/11 ===== */
+/* sino sem conta: a tela de entrar diz que é a Atividade */
+try{PC106_TX.atividade="Para ver a sua Atividade (quem curtiu, comentou ou começou a seguir você) e receber avisos, entre na sua conta.";
+  PC106_TX.conversar="Para conversar com quem você segue, entre na sua conta.";PC106_TX.enviar="Para mandar notícias a quem você segue, entre na sua conta."}catch(e){}
+document.addEventListener("click",e=>{try{if(e.target&&e.target.closest&&e.target.closest("[data-ativ]")&&(!S.uid||!S.membro))PC106={k:"atividade",t:Date.now()}}catch(er){}},true);
+
+/* convite recusado: os campos de baixo ficam apagados até trocar o código, e há "Ler sem conta" */
+function cv214Convite(){try{const er=document.getElementById("lerro"),f=document.getElementById("lform");if(!er||!f)return;
+  const ruim=!er.hidden&&/Não achamos este convite|já foi usado|expirou/.test(er.textContent||"");
+  f.querySelectorAll("input,button[type=submit]").forEach(i=>{if(i.id==="lcod")return;i.disabled=ruim;i.classList.toggle("cv214-off",ruim)});
+  let b=document.getElementById("cv214-ler");if(ruim&&!b){b=document.createElement("button");b.type="button";b.id="cv214-ler";b.className="btn ghost";b.textContent="Ler as notícias sem conta";
+    b.addEventListener("click",()=>{try{closeLayer()}catch(e){}});er.after(b)}else if(!ruim&&b)b.remove()}catch(e){}}
+try{new MutationObserver(()=>cv214Convite()).observe(document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["hidden"]})}catch(e){}
+
+/* guia "Primeira vez aqui?": aparece uma vez só e não depois que a pessoa já está lendo */
+if(typeof ct210GuiaChip==="function"){const _gc214=ct210GuiaChip;ct210GuiaChip=function(){try{if(CT210.chip214||scrollY>40)return;CT210.chip214=1}catch(e){}return _gc214.apply(this,arguments)}}
 /* o carregamento com a edição em cache acontece antes destes complementos: redesenha uma vez com tudo pronto */
 nucPronto();  /* 201-nucleo.js: go passa a fazer tudo (na carga o 031 abriu a Capa só com a parte de então) */
 cp200Pronta();  /* 200-capa.js: a Capa passa a desenhar com todos os acabamentos */

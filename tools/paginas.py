@@ -649,7 +649,11 @@ def slug_de(tit):
     for w in pal:
         if out and len(out) + 1 + len(w) > SLUG_MAX: break
         out = (out + "-" + w) if out else w[:SLUG_MAX]
-    return out
+    # 25/11 (testador, link-de-mandar-noticia-termina-cortado): o corte não deixa palavra solta no fim ("...-sem-previsao-de")
+    ps = out.split("-")
+    while len(ps) > 3 and ps[-1] in ("de", "da", "do", "das", "dos", "e", "em", "a", "o", "as", "os", "na", "no", "nas", "nos", "com", "para", "por", "ao", "que"):
+        ps.pop()
+    return "-".join(ps)
 
 
 def alvo_do_arquivo(cam):

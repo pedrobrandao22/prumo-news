@@ -26,16 +26,17 @@ function av212PautaTk(){const F=typeof FEED!=="undefined"&&FEED;if(!F||!Array.is
 function av212Limpa(d){if(!d||typeof d!=="object"||!Array.isArray(d.novos)||d._av212)return d;
   try{const P=av212PautaTk(),out=[];
     d.novos.forEach(n0=>{if(!n0||!n0.assunto)return;const n=Object.assign({},n0);n.assunto=av212Dobrada(n.assunto);
-      n.manchetes=(Array.isArray(n.manchetes)?n.manchetes:[]).filter(m=>m&&m.titulo&&!AV212_LIXO.test(av212N(m.titulo))).map(m=>Object.assign({},m,{titulo:av212Dobrada(m.titulo)}));
-      if(AV212_LIXO.test(av212N(n.assunto))||!n.manchetes.length)return;
-      const txt=av212N([n.assunto].concat(n.manchetes.map(m=>m.titulo)).join(" "));
+      const ms0=Array.isArray(n.manchetes)?n.manchetes:[];
+      n.manchetes=ms0.filter(m=>m&&!(m.titulo&&AV212_LIXO.test(av212N(m.titulo)))).map(m=>m.titulo?Object.assign({},m,{titulo:av212Dobrada(m.titulo)}):m);
+      if(AV212_LIXO.test(av212N(n.assunto))||(ms0.length&&!n.manchetes.length))return;
+      const txt=av212N([n.assunto].concat(n.manchetes.map(m=>m.titulo||"")).join(" "));
       if(n.secao==="brasil"&&AV212_PAIS.test(txt)&&!/\bbrasil(eir[oa]s?)?\b/.test(av212N(n.assunto)))n.secao="mundo";
       /* já é notícia da edição (o mesmo link ou o mesmo fato no título): fica de fora (a pauta mostra a novidade) */
       if(P.urls&&n.manchetes.some(m=>m.url&&P.urls.has(String(m.url).split("?")[0])))return;
       const tk=av212Tk(n.assunto),hn=Math.max(0,...n.manchetes.map(m=>av212HoraNv(m.hora)));
       if(P.some(p=>p.u>=hn&&[...tk].filter(w=>p.tk.has(w)).length>=3))return;
       n._tk=tk;const ig=out.find(o=>av212Parecido(o._tk,tk));
-      if(ig){const vs=new Set(ig.manchetes.map(m=>m.veiculo));n.manchetes.forEach(m=>{if(!vs.has(m.veiculo))ig.manchetes.push(m)});
+      if(ig){const vs=new Set(ig.manchetes.map(m=>m.veiculo));n.manchetes.forEach(m=>{if(!m.veiculo||!vs.has(m.veiculo))ig.manchetes.push(m)});
         ig.n_fontes=Math.max(ig.n_fontes||0,n.n_fontes||0,new Set(ig.manchetes.map(m=>m.veiculo)).size);ig.relevante=ig.relevante||n.relevante;return}
       out.push(n)});
     out.forEach(n=>{try{delete n._tk}catch(e){}});d.novos=out;try{Object.defineProperty(d,"_av212",{value:1,enumerable:false})}catch(e){}}catch(e){}return d}

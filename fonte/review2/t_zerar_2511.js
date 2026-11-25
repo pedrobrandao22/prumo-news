@@ -34,10 +34,13 @@ const PORTA = 9431, BASE = `http://localhost:${PORTA}/index.html`;
   // 4. folha de opções: explicação embaixo do nome
   const r4 = await P.evaluate(async () => { sheet('Teste', '<div class="opt"><button type="button" data-x="1">Fixar no perfil<span>até 3 aparecem primeiro na sua grade</span></button></div>'); await new Promise(z => setTimeout(z, 400));
     const bt = document.querySelector('.sheet .opt button'), sp = bt.querySelector('span'); const r = { dir: getComputedStyle(bt).flexDirection, larg: Math.round(sp.getBoundingClientRect().width), bt: Math.round(bt.getBoundingClientRect().width) }; try { closeLayer() } catch (e) {} return r });
+  await sleep(500); await P.evaluate(() => { ['layer', 'layer2'].forEach(i => { const L = document.getElementById(i); if (L) L.innerHTML = '' }) });
   ok(r4.dir === 'column' && r4.larg >= r4.bt - 8, '4: explicação ocupa a largura toda embaixo do nome', r4);
   // 5. toque duplo num botão de alternar do cartão
-  const r5 = await P.evaluate(async () => { const box = document.createElement('div'); box.id = 'td-t'; document.querySelector('#posts').prepend(box); box.innerHTML = '<button type="button" data-a="save" data-pid="zz">Guardar</button>';
-    let n = 0; box.addEventListener('click', () => n++); const bt = box.querySelector('button'); bt.click(); await new Promise(z => setTimeout(z, 80)); bt.click(); await new Promise(z => setTimeout(z, 600)); bt.click(); box.remove(); return n });
+  await P.evaluate(() => { const box = document.createElement('div'); box.id = 'td-t'; document.querySelector('#posts').prepend(box); box.innerHTML = '<button type="button" data-a="save" data-pid="zz">Guardar</button>';
+    window.__n5 = 0; box.addEventListener('click', () => window.__n5++); box.scrollIntoView(); });
+  await P.click('#td-t button'); await sleep(80); await P.click('#td-t button'); await sleep(600); await P.click('#td-t button');
+  const r5 = await P.evaluate(() => { document.getElementById('td-t').remove(); return window.__n5 });
   ok(r5 === 2, '5: o 2º toque em 80 ms é ignorado; um toque depois de 0,6 s vale', r5);
   // 6. textos sem "amigos"
   const r6 = await P.evaluate(async () => { const d = document.createElement('p'); d.textContent = 'Para curtir, comentar e conversar com amigos, entre com o convite'; document.body.appendChild(d); await new Promise(z => setTimeout(z, 100)); const t = d.textContent; d.remove(); return t });

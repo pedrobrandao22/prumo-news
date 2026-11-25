@@ -9,7 +9,7 @@ function td214Chave(b){if(!b||!b.attributes)return "";const d=[...b.attributes].
   if(d)return d;const t=(b.textContent||"").trim();return /^(Seguir|Seguindo|Deixar de seguir|Seguir de volta)\b/.test(t)?"seg:"+((b.closest("[data-uid],[data-u],[data-pid],li,.card")||{}).outerHTML||"").length:""}
 function td214Alterna(b){if(!b)return false;if(b.matches('[data-a="like"],[data-a="save"],[data-a="cmt"],[data-cobseg],[aria-pressed],[data-sg181],[data-seguir],[data-acao="seguindo"]'))return true;
   return /^(Seguir|Seguindo|Deixar de seguir|Guardar|Guardada|Curtir|Comentar)\b/.test((b.textContent||"").trim())&&b.closest("#posts,#layer,#layer2,#v-busca,#v-me,.bs,.sheet")!==null}
-document.addEventListener("click",e=>{try{
+document.addEventListener("click",e=>{try{if(!e.isTrusted)return;/* só toque de verdade (clique feito por código não é toque duplo) */
   const sc=e.target&&e.target.closest&&e.target.closest("[data-scrim]");
   if(sc&&e.target===sc&&Date.now()-TD214.aberta<450){e.stopImmediatePropagation();e.preventDefault();return}
   const b=e.target&&e.target.closest&&e.target.closest("button,[role=button]");if(!b||!td214Alterna(b))return;
@@ -123,3 +123,25 @@ try{new MutationObserver(ms=>{ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeTy
     if(g==="bola"){const t=typeof ft169Esporte==="function"?ft169Esporte(d):"";x={chave:"chaveamento dos playoffs com troféu",taca:"taça",tabela:"tabela do campeonato",camisa:"camisa da seleção"}[t]||"bola de futebol em gramado"}
     else x={mundo:"globo terrestre",aviao:"avião",congresso:"prédio do Congresso",floresta:"floresta",tec:"tecnologia"}[g]||""}
   return x?`Ilustração: ${x}${rot} (sem foto desta notícia)`:a}catch(e){return a}}}
+
+/* ---- "corrigida" no chapéu só enquanto a correção é a novidade: se a notícia foi atualizada 6 h depois da correção,
+   a Capa e o Feed não marcam mais (capa-marca-a-manchete-do-ajuste-como-corrigida-por-correcao-de-sabado), como a matéria ---- */
+{const _cr214=corRecente;corRecente=function(p){const r=_cr214.apply(this,arguments);if(!r)return r;try{const c=corUltima(p),us=(p.atualizacoes||[]).map(u=>u&&tms(u.hora)).filter(Boolean);
+  if(c&&c.hora&&us.length&&Math.max(...us)-tms(c.hora)>6*3600e3)return false}catch(e){}return r}}
+
+/* ===== 2ª leva 25/11 ===== */
+/* sino sem conta: a tela de entrar diz que é a Atividade */
+try{PC106_TX.atividade="Para ver a sua Atividade (quem curtiu, comentou ou começou a seguir você) e receber avisos, entre na sua conta.";
+  PC106_TX.conversar="Para conversar com quem você segue, entre na sua conta.";PC106_TX.enviar="Para mandar notícias a quem você segue, entre na sua conta."}catch(e){}
+document.addEventListener("click",e=>{try{if(e.target&&e.target.closest&&e.target.closest("[data-ativ]")&&(!S.uid||!S.membro))PC106={k:"atividade",t:Date.now()}}catch(er){}},true);
+
+/* convite recusado: os campos de baixo ficam apagados até trocar o código, e há "Ler sem conta" */
+function cv214Convite(){try{const er=document.getElementById("lerro"),f=document.getElementById("lform");if(!er||!f)return;
+  const ruim=!er.hidden&&/Não achamos este convite|já foi usado|expirou/.test(er.textContent||"");
+  f.querySelectorAll("input,button[type=submit]").forEach(i=>{if(i.id==="lcod")return;i.disabled=ruim;i.classList.toggle("cv214-off",ruim)});
+  let b=document.getElementById("cv214-ler");if(ruim&&!b){b=document.createElement("button");b.type="button";b.id="cv214-ler";b.className="btn ghost";b.textContent="Ler as notícias sem conta";
+    b.addEventListener("click",()=>{try{closeLayer()}catch(e){}});er.after(b)}else if(!ruim&&b)b.remove()}catch(e){}}
+try{new MutationObserver(()=>cv214Convite()).observe(document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["hidden"]})}catch(e){}
+
+/* guia "Primeira vez aqui?": aparece uma vez só e não depois que a pessoa já está lendo */
+if(typeof ct210GuiaChip==="function"){const _gc214=ct210GuiaChip;ct210GuiaChip=function(){try{if(CT210.chip214||scrollY>40)return;CT210.chip214=1}catch(e){}return _gc214.apply(this,arguments)}}

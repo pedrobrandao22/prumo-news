@@ -302,7 +302,7 @@ function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==se
   if(sec==="brasil"){const uc={};todas.forEach(p=>ufsDe(p).forEach(u=>uc[u]=(uc[u]||0)+1));const us=Object.keys(uc).sort((a,b)=>uc[b]-uc[a]||a.localeCompare(b));
     if(us.length)h+=`<div class="sh4-chips" role="group" aria-label="Estados"><button type="button" data-secuf="" aria-pressed="${!SECF.uf}">Todo o Brasil</button>${us.map(u=>`<button type="button" data-secuf="${esc(u)}" aria-pressed="${SECF.uf===u}" title="${esc(UFSM()[u])}">${esc(u)}<em>${uc[u]}</em></button>`).join("")}</div>`}
   if(SECF.sub||SECF.uf)return h+`</div>`;
-  const cob=todas.filter(p=>cobTemPagina(p)).slice(0,8);
+  const cob=todas.filter(p=>cobTemPagina(p)&&p.status!=="encerrada").slice(0,8);/* 25/11: encerrada não é "ativa" */
   if(cob.length)h+=`<div><span class="segs-h" style="padding-top:0">Coberturas ativas</span><div class="segs">${cob.map(p=>{const et=cobEtapaAtual(p);return `<button type="button" class="segc" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${p.status==="ao_vivo"?"Ao vivo · ":p.status==="encerrada"?"Encerrada · ":et?"Etapa: "+esc(et)+" · ":""}atualizada ${esc(quando(ultimaAtualizacao(p)||p.hora))}</span></button>`}).join("")}</div></div>`;
   if(sec==="politica"||sec==="educacao"){const tr=todas.filter(p=>p.etapa&&Array.isArray(p.etapa.passos)&&p.etapa.passos.length>1);
     if(tr.length)h+=`<div class="sh4-b"><h5>${sec==="politica"?"Em tramitação":"Leis e normas em andamento"}</h5>${tr.map(p=>`<button type="button" class="sh4-tr" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b>${cobEtapas(p)}</button>`).join("")}</div>`}
@@ -312,7 +312,7 @@ function secHub(sec){if(!FEED||FILTRO[0]==="_")return "";if(!SECF||SECF.sec!==se
     if(ag.length)h+=`<div class="sh4-b"><h5>Agenda da semana</h5><ul class="sh4-cal">${ag.map(a=>`<li><time>${a._d===hj?"Hoje":esc(dataCurta(a._d))}${agHoraTxt(a)?" "+esc(agHoraTxt(a)):""}</time><span>${esc(a.texto)}</span></li>`).join("")}</ul></div>`}
   if(sec==="brasil"){const sv=todas.filter(p=>Array.isArray(p.servicos)&&p.servicos.length);
     if(sv.length)h+=`<div class="sh4-b"><h5>Serviços e como ajudar</h5>${sv.map(p=>`<b style="font-size:14.5px">${esc(temaDe(p)||p.neutro?.titulo)}</b>${srvHTML(p)}`).join("")}</div>`}
-  if(sec==="mundo"){const cf=todas.filter(p=>cobEh(p)&&(cobTemPagina(p)||p.e_o_brasil||(FEED.explicadores||{})[temaDe(p)]));
+  if(sec==="mundo"){const cf=todas.filter(p=>cobEh(p)&&p.status!=="encerrada"&&/guerra|conflit|ataque|crise|militar|bombard|drone|mísse|missil|terremot|enchente|incênd|desastr|refugi|tens[aã]o|sanç/i.test([temaDe(p),p.subtema,p.tag,(p.neutro||{}).titulo].join(" "))&&(cobTemPagina(p)||p.e_o_brasil||(FEED.explicadores||{})[temaDe(p)]));/* 25/11: COP31 e encontro de líderes não são "conflitos e crises"; encerrada fica de fora */
     if(cf.length)h+=`<div class="sh4-b"><h5>Conflitos e crises</h5><div class="sh4-cf">${cf.map(p=>`<button type="button" data-cobpag="${esc(p.id)}"><b>${esc(temaDe(p)||p.neutro?.titulo)}</b><span>${esc(p.subtema||"")}${(FEED.explicadores||{})[temaDe(p)]?" · Entenda":""}${p.e_o_brasil?" · E o Brasil?":""}</span></button>`).join("")}</div></div>`}
   return h+`</div>`}
 function srvHTML(p){return `<ul class="sh4-srv">${(p.servicos||[]).filter(x=>x&&x.texto).slice(0,6).map(x=>`<li>${esc(x.texto)}${x.url?` · <a href="${escU(x.url)}" target="_blank" rel="noopener">abrir ›</a>`:""}</li>`).join("")}</ul>`}
