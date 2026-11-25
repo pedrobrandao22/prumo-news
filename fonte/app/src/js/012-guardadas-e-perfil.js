@@ -11,7 +11,7 @@ function renderSaved(){
   const comQuem=cs=>{const n=cs.map(nomeDe);return n.length<=2?n.join(" e "):n.slice(0,2).join(", ")+" e mais "+(n.length-2)};
   if(ABA_G==="nossa")corpo=nossa.length?`<ul class="svl">${porPid.map(x=>{const s=x.snap||snapById(x.pid)||{};return linhaSalva(x.pid,s,x.coms.length>1?`${esc(secNome(s.secao||"politica"))} · com ${esc(comQuem(x.coms))}`:`${esc(secNome(s.secao||"politica"))} · com ${esc(nomeDe(x.com))}${esc(x.uid===S.uid?" · você pôs ":", que pôs ")}${esc(quando(x.at))}`)}).join("")}</ul>`:`<div class="empty"><b>Nenhuma lista com amigos ainda</b>No ⋯ de um post, toque em “Pôr numa lista com…” para guardar algo para ler junto com um amigo.</div>`;
   else corpo=items.length?`<ul class="svl">${items.map(([pid,x])=>{const s=x.snap||snapById(pid)||{};return linhaSalva(pid,s,`${esc(secNome(s.secao||"politica"))} · guardada ${esc(quando(x.at))}`,x.nota?`<span class="nt">Nota: ${esc(x.nota)}</span>`:"")}).join("")}</ul>`:`<div class="empty"><b>Nada guardado ainda</b>Toque no alfinete de um post para guardar a notícia aqui.<button type="button" class="btn ghost" data-vgo="feed" style="margin-top:10px">Ver as notícias de hoje</button></div>`;
-  v.innerHTML=`<div class="gut"><div class="view-h"><button type="button" class="vback" data-vgo="me" aria-label="Voltar ao Perfil">‹ Perfil</button><h1>Guardadas</h1></div>${abas}${corpo}</div>`;
+  v.innerHTML=`<div class="gut"><div class="view-h"><button type="button" class="vback" data-vgo="me" aria-label="Voltar ao Perfil">‹ Perfil</button><h1>Guardados</h1></div>${abas}${corpo}</div>`;
 }
 const FZ=[0.9,1,1.12,1.25,1.4];
 function amigosCardHTML(){const am=amigosL(),pin=S.pedidosIn.filter(x=>S.membros[x]).sort((a,b)=>nomeDe(a).localeCompare(nomeDe(b),"pt-BR"));

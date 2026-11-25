@@ -256,7 +256,7 @@ function ed132Desenha(){const el=$("#layer > .ed132"),E=ED132.E;if(!el||!E)retur
     <div class="ed132-sc"${E.ver?" hidden":""}><div class="ed132-in">
       <div class="ed132-capa">${ed132CapaHTML()}</div>
       <textarea id="ed132-tit" class="ed132-tit" data-ed132f="tit" maxlength="90" rows="1" placeholder="Título" enterkeyhint="next" aria-label="Título da coluna">${esc(E.tit)}</textarea>
-      <textarea id="ed132-lin" class="ed132-lin" data-ed132f="linha" maxlength="160" rows="1" placeholder="Linha fina: uma frase que resume e chama para a leitura" enterkeyhint="next" aria-label="Linha fina">${esc(E.linha)}</textarea>
+      <textarea id="ed132-lin" class="ed132-lin" data-ed132f="linha" maxlength="160" rows="1" placeholder="Resumo (opcional): uma frase que resume e chama para a leitura" enterkeyhint="next" aria-label="Linha fina">${esc(E.linha)}</textarea>
       <div id="ed132-corpo" class="ed132-txt" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Texto da coluna" spellcheck="true" data-ph="Escreva a coluna. Digite / para inserir título, citação, lista, foto ou gráfico."></div>
       <p class="ed132-dica">Dica: no começo de uma linha, digite <b>/</b> para escolher o bloco. No computador, Ctrl+B, Ctrl+I e Ctrl+K.</p></div></div>
     <div class="ed132-ver"${E.ver?"":" hidden"}></div>

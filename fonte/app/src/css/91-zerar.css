@@ -1,0 +1,74 @@
+/* ===== 25/11: zerar as pendências do testador (itens 1 a 3 do balanço semanal e o resto) ===== */
+
+/* item 1 (212): faixa da notícia ao vivo na matéria */
+.av212-faixa{margin:8px 0 2px;padding:9px 12px;border-radius:10px;background:var(--chip,#eef1f5);color:var(--ink,inherit);
+  font:500 calc(14px*var(--fz,1))/1.4 var(--f-ui,system-ui);border-left:3px solid var(--accent,#d9480f)}
+.av212-faixa.nv{border-left-color:#c92a2a}
+
+/* item 3 (causa menus-explicacao-a-direita): nas folhas de opções a explicação fica EMBAIXO do nome, na largura toda.
+   Vale para Seu post, Coluna, Opções do cartão, Conversa e Seguindo (o mesmo componente .opt); linhas com foto de
+   pessoa (.av) continuam lado a lado */
+.opt button:not(:has(.av)):has(> span){flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
+.opt button:not(:has(.av)):has(> span) > span{display:block;width:100%;text-align:left;line-height:1.35;white-space:normal}
+/* Opções da conversa: sem o vão de ~80 px antes de Deixar de seguir; o grupo forte ganha só uma linha */
+.co160-opt.co160-pesado{margin-top:10px!important}
+.co160-pesado [data-bloquear]{color:#c92a2a}
+
+/* sem internet (perder-a-internet-com-o-app-aberto-nao-avisa-2): depois dos 4 s a pílula não some; fica pequena num
+   canto, sem tapar botões (não recebe toque) */
+.sr209.some{opacity:.95!important;visibility:visible!important;font-size:11.5px!important;padding:3px 9px!important;
+  left:10px!important;transform:none!important}
+
+/* Perfil: selo "Segue você" alinhado ao nome (perfil-selo-segue-voce-encosta-na-borda-esquerda) */
+.sg181-sv{margin-left:16px!important}
+
+/* Perfil sem posts: o botão "Nova publicação" não fica atrás da barra de baixo (iPhone SE) */
+#v-me .gut,.pfv{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+
+/* Guardar no topo da matéria: sem fundo quando não está guardado (guardar-no-topo-da-materia-parece-ja-marcado-2) */
+#layer .mat-top [aria-pressed="false"]{background:none!important;box-shadow:none!important}
+
+/* crédito da foto no fim da matéria: texto, não link */
+#layer .mat .cred{text-decoration:none!important;pointer-events:none;color:var(--muted);cursor:default}
+
+
+/* celular deitado: Acabou de sair na largura da coluna; foto até 45% da altura; "+" de publicar no topo */
+@media (orientation:landscape) and (max-height:500px){
+  #posts .ac208{max-width:var(--col,600px);margin-inline:auto}
+  #v-capa img,#posts .post .sl img{max-height:45vh;object-fit:cover}
+  #posts .post .sl{max-height:45vh}
+}
+
+/* retratos de perto (acervo/p) em quadros deitados: o rosto no meio, não o alto da cabeça (Moraes na Capa, Zanin no Criar) */
+
+
+/* Editar texto: Salvar grande, como o Publicar */
+.sheet [data-uedok]{min-width:120px;min-height:44px;font-weight:700}
+
+/* Editoria Economia: sem o vão entre Coberturas ativas e o Calendário (bloco vazio não reserva altura) */
+.sh4-b:empty,.sh4-cf:empty{display:none}
+
+/* Placar oficial: os botões das votações cabem na largura (quebram em duas linhas em vez de cortar na borda) */
+.po118-sw{flex-wrap:wrap;border-radius:14px;overflow:visible}
+.po118-sw button{flex:1 1 auto;white-space:normal;line-height:1.2;padding:4px 10px}
+
+/* Atividade: cobertura fora da edição como as outras pílulas (curta, à esquerda; "fora da edição" menor) */
+.at-chip-fora{display:inline-flex!important;width:auto!important;justify-content:flex-start;text-align:left;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.at-chip-fora small{font-size:11.5px;opacity:.8;margin-left:3px}
+
+
+/* Feed: selo "Encerrada" fora da linha do assunto (cortava "Sul-Americana 2…"); a linha de baixo já diz a cobertura */
+#posts .post .ph-t .cst.enc{display:none}
+/* Conversas: rascunho sem o tempo da última mensagem ("1 sem") ao lado */
+#v-msgs [data-thread]:has(.ct210-rasc) .dm-t,#v-msgs [data-thread]:has(.ct210-rasc) time{visibility:hidden}
+
+/* ===== 2ª leva 25/11 ===== */
+/* celular deitado: a barra "O que você acha? +" fica, só mais baixa (era o único jeito de publicar no Feed) */
+@media (orientation:landscape) and (max-height:500px){#cn102-bar{display:flex!important;min-height:40px;padding-block:4px!important}}
+/* Editar texto: sem "Continuar em outra parte" (o caminho para texto longo é a Coluna, como na Nova publicação) */
+.sheet .fs2-ed-add,.sheet .fs2-ed-d{display:none!important}
+/* aviso com uma folha aberta: no alto, sem cobrir o título da folha */
+body:has(#layer > .scrim .sheet) .toast,body:has(#layer2 > .scrim .sheet) .toast{bottom:auto!important;top:calc(env(safe-area-inset-top,0px) + 12px)!important}
+/* convite recusado: campos apagados */
+.cv214-off{opacity:.45}
+#cv214-ler{margin-top:8px;width:100%}

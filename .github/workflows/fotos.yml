@@ -36,7 +36,7 @@ jobs:
         run: python3 -I tools/fotos_arquivo.py feed.json fotos-arquivo.json --pasta acervo --limite 120 --max-mb 90 $( [ "$(date +%u)" = 7 ] && echo --podar )
       - name: Páginas de compartilhamento com as fotos novas
         # commits do robô não disparam o workflow das páginas: atualiza aqui mesmo
-        run: python3 -I tools/paginas.py feed.json m fotos-arquivo.json
+        run: python3 -I tools/paginas.py, tools/fotos_regras.json feed.json m fotos-arquivo.json
       - name: Gravar
         # 19/11: as páginas m/ também são gravadas pelas rodadas (fora deste grupo); juntar m/ por rebase dava conflito e
         # o robô falhava sem gravar as fotos. Agora grava as fotos primeiro e refaz as páginas por cima do que já está lá.

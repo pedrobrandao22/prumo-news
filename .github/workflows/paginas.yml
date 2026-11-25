@@ -5,7 +5,7 @@ name: Páginas de compartilhamento
 on:
   push:
     branches: [main]
-    paths: [feed.json, fotos-arquivo.json, tools/paginas.py, fontes/newsreader.woff2, tools/test_paginas_slug.py, .github/workflows/paginas.yml]
+    paths: [feed.json, fotos-arquivo.json, tools/paginas.py, tools/fotos_regras.json, tools/test_fotos_regras_2511.py, fontes/newsreader.woff2, tools/test_paginas_slug.py, .github/workflows/paginas.yml]
   schedule:
     - cron: "50 */6 * * *"
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
         run: |
           python3 -m pip install -q --only-binary=:all: "pillow==11.1.0" || true
       - name: Testar o endereço pelo título
-        run: python3 -I tools/test_paginas_slug.py
+        run: python3 -I tools/test_paginas_slug.py && python3 -I tools/test_fotos_regras_2511.py
       - name: Gerar páginas
         run: python3 -I tools/paginas.py feed.json m
       - name: Gravar

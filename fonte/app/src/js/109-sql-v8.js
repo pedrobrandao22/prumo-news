@@ -63,7 +63,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;cons
   const ap=document.querySelector(`.sheet [data-uapagar="${CSS.escape(id)}"]`);if(!ap||ap.parentNode.querySelector("[data-u8arq]"))return;
   if(x.arquivado)ap.parentNode.querySelectorAll("[data-ufixar],[data-upstory],[data-ueditar]").forEach(o=>o.remove());
   ap.insertAdjacentHTML("beforebegin",x.arquivado?`<button type="button" data-u8arq="${esc(id)}" data-on="0">Mostrar no perfil<span>volta para o seu perfil e para o Feed dos amigos</span></button>`
-    :`<button type="button" data-u8arq="${esc(id)}" data-on="1">Arquivar<span>sai do perfil e do Feed dos amigos, sem apagar</span></button>`)},true);
+    :`<button type="button" data-u8arq="${esc(id)}" data-on="1">Arquivar<span>sai do seu perfil e do Feed de quem segue você, sem apagar</span></button>`)},true);
 async function pub8Arquivar(id,on){const x=pubDe(id)||(ARQ8||[]).find(y=>y.id===id);if(!x)return false;
   const r=await SB.rpc("pub_arquivar",{p_id:id,p_arquivar:on});if(r&&r.error||!(r&&r.data)){toast(on?"Não deu para arquivar agora.":"Não deu para mostrar agora.");return false}
   x.arquivado=on;if(on)x.fixado=null;const y=pubDe(id);if(y&&y!==x){y.arquivado=on;if(on)y.fixado=null}

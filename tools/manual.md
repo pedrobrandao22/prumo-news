@@ -222,3 +222,13 @@ Roda no GitHub às 0h05 (tools/virada_auto.py, sem IA): recalcula edição, cont
 - contagem vira "" sozinha (no dia 25: "Hoje é o 2º turno").
 - pesquisas_2t congela: não acrescente (o aplicar.py recusa); o visual "pesquisas" pode ficar enquanto a pauta de resultado existir.
 - Retire (remove_enquete) as enquetes sobre votação, pesquisas ou candidatos; o explicador "Pesquisas do 2º turno" sai na completa de 26/10.
+
+## 11. Regras do balanço de 25/11 (achados do testador de 21 a 23/11)
+- NOTÍCIA AO VIVO: o app agora avisa sozinho quando a hora de um item da Agenda passa sem atualização ("O jogo começou às 20h; o resultado entra na próxima atualização") e mostra "Agora: «manchete»" quando 3+ veículos trazem fato novo depois da última atualização. Isso é rede de segurança, não substitui a rodada: a rápida seguinte registra o resultado (update_add com hora), reescreve título, subtítulo, "O que vem agora", Perguntas ("Quando é…?" vira "Como terminou…?") e Entenda.
+- ATUALIZAÇÃO nunca é "Sem novidade desde as 7h…": escreva o fato ou não publique a atualização (o círculo Últimas abria com essa frase).
+- Carrossel ("social") e "Por que importa": o 1º quadro não repete o título nem o subtítulo; "Por que importa" não repete a frase que já está no cartão.
+- "Quem é" (pessoas): descrição neutra e durável ("Ministro do STF desde 2017"), nunca o papel da pessoa em outra notícia.
+- Faixa de valores: "de até R$ 56,1 bi para R$ 45,1 bi–R$ 50,1 bi" ou "entre R$ 45,1 bi e R$ 50,1 bi"; nunca "caiu a R$ 45,1 bi a R$ 50,1 bi". Sinal só no número solto: "cai 1,34%", nunca "cai -1,34%".
+- Número no título explica o que é ("Líder com 79 pontos, Flamengo visita o Palmeiras (73)").
+- Resumo de cobertura anterior termina em fim de frase; o nome da cobertura é o do último fato dela (Copom, não IPCA).
+- Calendário econômico e Agenda contam a mesma semana: item de economia da Agenda (Focus, votação do ajuste) também vai para o "calendario".

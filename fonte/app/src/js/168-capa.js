@@ -71,7 +71,7 @@ function cm168Mesmo(f,x){if(f.ref!==x.ref)return false;const da=cm168Dias(f.txt)
       if(igual){const ra=cm168Tk(igual.txt,CM168_RS).map(v=>v.replace(/\s/g,"")),rb=cm168Tk(x.txt,CM168_RS).map(v=>v.replace(/\s/g,""));if(ra.length&&rb.length&&!rb.every(v=>ra.includes(v)))igual.cm168c=1;return}fica.push(x)});
     fica.forEach(x=>{if(x.cm168c&&String(x.tema).indexOf("número corrigido")<0)x.tema=(x.tema?x.tema+" · ":"")+"número corrigido"});d.ev=fica}catch(e){}return d}}
 function cm168AsLink(){document.querySelectorAll(".sheet .as-link[data-assunto]").forEach(b=>{if(b.dataset.cm168)return;b.dataset.cm168="1";const n=(b.querySelector("span")||{}).textContent||"";const k=/(\d+)/.exec(n);
-  b.innerHTML=`Notícias de ${esc(b.dataset.assunto)} <span>${k?k[1]+" ›":"›"}</span>`;b.setAttribute("aria-label",`Ver as notícias do assunto ${b.dataset.assunto}`)})}
+  b.innerHTML=`Mais sobre ${esc(b.dataset.assunto)} <span>${k?k[1]+" ›":"›"}</span>`;b.setAttribute("aria-label",`Ver as notícias do assunto ${b.dataset.assunto}`)})}
 {const _ado168=abrirDormente;abrirDormente=function(){const r=_ado168.apply(this,arguments);try{cm168AsLink()}catch(e){}return r}}
 
 /* ===== 7. Matéria: voltar, endereço, recarregar e girar ===== */

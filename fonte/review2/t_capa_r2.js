@@ -132,7 +132,7 @@ const ev = (p, fn, a) => p.evaluate(fn, a);
         FEED.pautas = FEED.pautas.filter(p => !/^cm168-/.test(p.id)); return { ev: r.ev.map(x => x.tema + ' | ' + x.txt), lk } });
       const sexta = tl.ev.filter(x => /sexta \(13\)|semana/.test(x)), terca = tl.ev.filter(x => /terça \(10\)/.test(x));
       ok(sexta.length === 1 && /número corrigido/.test(sexta[0]) && /R\$ 5,65/.test(sexta[0]) && terca.length === 1, 'linha do tempo: o fechamento de sexta uma vez só (o mais novo, "número corrigido"); terça continua', JSON.stringify(tl.ev));
-      ok(/^Notícias de Mercados 168/.test(tl.lk) && !/Tudo sobre/.test(tl.lk), 'cobertura: link do assunto diz "Notícias de …", não outro nome da cobertura', tl.lk);
+      ok(/^Mais sobre Mercados 168/.test(tl.lk) && !/Tudo sobre/.test(tl.lk), 'cobertura: link do assunto diz "Mais sobre …", não outro nome da cobertura', tl.lk);
 
       // 8. Quem noticiou: um resumo por veículo, resumo velho avisa, manchete do link, "Também noticiaram"
       const qn = await ev(P, () => { const ont = somaDias(hojeSP(), -2), w = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'][new Date(ont + 'T12:00:00Z').getUTCDay()], dd = +ont.slice(8, 10);

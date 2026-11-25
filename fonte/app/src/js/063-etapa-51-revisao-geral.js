@@ -3,7 +3,7 @@ function horaDia(iso){const d=new Date(iso);if(isNaN(d))return "";const dia=data
   if(dia===somaDias(hoje,-1))return "ontem, "+hhmm(iso);const w=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"America/Sao_Paulo"}).replace(".","");return `${w} (${+dia.slice(8,10)}), ${hhmm(iso)}`}
 function atualizadoTxt(iso){const t=horaDia(iso);if(!t)return "Atualizado";return dataSP(iso)===hojeSP()?"Atualizado às "+t:"Atualizado "+t.replace(/, /,", às ")}
 /* voltar da matéria: diz de onde veio */
-var VOLTA_NOME={capa:"Capa",feed:"Feed",busca:"Busca",saved:"Guardadas",me:"Perfil",msgs:"Conversas",play:"Interagir"};
+var VOLTA_NOME={capa:"Capa",feed:"Feed",busca:"Busca",saved:"Guardados",me:"Perfil",msgs:"Conversas",play:"Interagir"};
 /* botão das versões: some ao rolar para baixo, volta ao rolar para cima */
 (function(){let y0=scrollY,oc=false;addEventListener("scroll",()=>{const y=scrollY,dy=y-y0;if(Math.abs(dy)<6)return;const novo=dy>0&&y>120;if(novo!==oc){oc=novo;document.documentElement.classList.toggle("lp-some",oc)}y0=y},{passive:true})})();
 /* indicadores: dia do dado quando não é de hoje */

@@ -89,7 +89,7 @@ function f113PratHTML(sh){const t=sh.t,id="fs2sh-"+t.k.replace(/[^\w-]/g,"_"),c=
 function f113PodeCompor(P){return !!P&&(!P.cn||P.cn.k==="ana")}
 function f113EdHTML(parts,attr,ed){const n=parts.length+1;
   return `${parts.map((t,i)=>`<div class="fs2-ed-p"><span class="fs2-ed-n" aria-hidden="true">${i+2}/${n}</span><textarea class="fs2-ed-tx${ed?" field":""}" data-${attr}parte="${i}" maxlength="2000" rows="3" placeholder="Continue o fio" aria-label="Parte ${i+2} de ${n}">${esc(t)}</textarea><button type="button" class="fs2-ed-x" data-${attr}tira="${i}" aria-label="Tirar a parte ${i+2}">${F113_SVG.x}</button></div>`).join("")}
-    ${n<F113_MAX?`<button type="button" class="fs2-ed-add" data-${attr}mais>${F113_SVG.mais}Adicionar parte</button>`:""}${parts.length?`<p class="fs2-ed-d">Fio com ${n} partes. Seus amigos veem a primeira e tocam em “Ler o fio” para ver o resto.</p>`:""}`}
+    ${n<F113_MAX?`<button type="button" class="fs2-ed-add" data-${attr}mais>${F113_SVG.mais}Adicionar parte</button>`:""}${parts.length?`<p class="fs2-ed-d">Fio com ${n} partes. Quem segue você vê a primeira e toca em “Ler o fio” para ver o resto.</p>`:""}`}
 function f113EdPoe(el){const P=ED&&ED.po;if(!P||!f113PodeCompor(P))return;const leg=el.querySelector("#ce-leg");if(!leg)return;if(!Array.isArray(P.f113fio))P.f113fio=[];
   el.querySelector(".fs2-ed")?.remove();el.querySelector(".fs2-ed-n1")?.remove();
   if(P.f113fio.length)leg.insertAdjacentHTML("beforebegin",`<span class="fs2-ed-n fs2-ed-n1" aria-hidden="true">1/${P.f113fio.length+1}</span>`);
