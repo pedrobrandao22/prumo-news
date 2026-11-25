@@ -1,22 +1,184 @@
 {
- "gerado": "2026-11-25T15:29-03:00",
+ "gerado": "2026-11-25T15:39-03:00",
  "desde": "2026-11-25T14:41-03:00",
  "feed_atualizado_em": "2026-11-25T14:51:00-03:00",
  "resumo": {
-  "manchetes": 160,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 150,
-  "pautas_com_novidade": 3,
+  "manchetes": 187,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 171,
+  "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 12,
-  "acionar_itens": 0,
+  "pautas_com_relatos": 13,
+  "acionar_itens": 2,
   "ja_avaliados": 3
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (150 assuntos fora do feed, 12 pautas com relatos, 3 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (economia); pauta principal dolar-volta-acima-5 sem atualização há 20.9 h e 2 veículos com relatos novos",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "Encontro de Lula com Trabuco pode ter sido de aconselhamento, mas aliados não descartam convite para a Fazenda",
+   "secao": "economia",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (economia)",
+   "chave": [
+    "aconselhamento",
+    "aliados",
+    "compor",
+    "convite",
+    "descartam",
+    "durigan",
+    "encontro",
+    "fazenda",
+    "fortalece",
+    "haddad",
+    "lula",
+    "ministerio",
+    "negativa",
+    "permanencia",
+    "possivel",
+    "trabuco"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Encontro de Lula com Trabuco pode ter sido de aconselhamento, mas aliados não descartam convite para a Fazenda",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/25/encontro-de-lula-com-trabuco-pode-ter-sido-de-aconselhamento-mas-aliados-nao-descartam-convite-para-a-fazenda.ghtml",
+     "hora": "25/11 15h25",
+     "lide": "Amigo e conselheiro de longa data de Lula, não há confirmação se Trabuco foi convidado pelo presidente para assumir a Fazenda, ou se ocorrendo o convite, ele aceitou"
+    },
+    {
+     "veiculo": "Veja",
+     "titulo": "Negativa de Haddad para compor Lula 4 fortalece possível permanência de Durigan na Fazenda",
+     "url": "https://veja.abril.com.br/politica/negativa-de-haddad-para-compor-lula-4-fortalece-possivel-permanencia-de-durigan-na-fazenda/",
+     "hora": "25/11 14h54",
+     "lide": "Ex-ministro chegou a ser sondado por presidente para assumir nova missão, mas indicou que prefere voltar a dar aulas"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Trabuco se fortalece para ir para o Ministério da Fazenda de Lula 4",
+     "url": "https://www.poder360.com.br/poder-governo/trabuco-se-fortalece-para-ir-para-o-ministerio-da-fazenda-de-lula-4/",
+     "hora": "25/11 14h43",
+     "lide": "Newsletter exclusiva para assinantes do Poder360 havia revelado articulação em 7 de novembro e, agora, conversações avançaram. Leia no Poder360."
+    }
+   ]
+  },
+  {
+   "tipo": "pauta",
+   "pid": "dolar-volta-acima-5",
+   "titulo": "Ibovespa Hoje Ao Vivo: Bolsa sobe mais de 1% e retoma os 166 mil; dólar recua",
+   "n_fontes": 2,
+   "motivo": "pauta principal dolar-volta-acima-5 sem atualização há 20.9 h e 2 veículos com relatos novos",
+   "acao": "atualiza: dolar-volta-acima-5",
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ibovespa Hoje Ao Vivo: Bolsa sobe mais de 1% e retoma os 166 mil; dólar recua",
+     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-25112026/",
+     "hora": "25/11 15h35",
+     "lide": "Índices nos EUA operam mistos em meio a novos dados econômicos"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Dólar despenca e Bolsa avança com possível indicação de Trabuco para a Fazenda e expectativa por sinais fiscais",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/dolar-abre-em-leve-alta-em-linha-com-exterior-e-a-espera-de-novos-sinais-sobre-politica-fiscal.shtml",
+     "hora": "25/11 09h56",
+     "lide": "Indicadores americanos podem influenciar expectativas sobre os próximos passos do Fed"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Encontro de Lula com Trabuco pode ter sido de aconselhamento, mas aliados não descartam convite para a Fazenda",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "p360",
+    "valor",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Encontro de Lula com Trabuco pode ter sido de aconselhamento, mas aliados não descartam convite para a Fazenda",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/25/encontro-de-lula-com-trabuco-pode-ter-sido-de-aconselhamento-mas-aliados-nao-descartam-convite-para-a-fazenda.ghtml",
+     "hora": "25/11 15h25"
+    },
+    {
+     "veiculo": "Veja",
+     "titulo": "Negativa de Haddad para compor Lula 4 fortalece possível permanência de Durigan na Fazenda",
+     "url": "https://veja.abril.com.br/politica/negativa-de-haddad-para-compor-lula-4-fortalece-possivel-permanencia-de-durigan-na-fazenda/",
+     "hora": "25/11 14h54"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Trabuco se fortalece para ir para o Ministério da Fazenda de Lula 4",
+     "url": "https://www.poder360.com.br/poder-governo/trabuco-se-fortalece-para-ir-para-o-ministerio-da-fazenda-de-lula-4/",
+     "hora": "25/11 14h43"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-25T15:25-03:00"
+  },
+  {
+   "assunto": "Alcolumbre se reúne com bancada feminina e faz aceno para candidata rival",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Alcolumbre se reúne com bancada feminina e faz aceno para candidata rival",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/blogs/brasilia-hoje/2026/11/alcolumbre-se-reune-com-bancada-feminina-e-faz-aceno-para-candidata-rival.shtml",
+     "hora": "25/11 15h27"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Alcolumbre faz afagos a Tereza Cristina e promete atender a demandas da bancada feminina em meio à disputa pelo Senado",
+     "url": "https://oglobo.globo.com/politica/noticia/2026/11/25/alcolumbre-faz-afagos-a-tereza-cristina-e-promete-atender-a-demandas-da-bancada-feminina-em-meio-a-disputa-pelo-senado.ghtml",
+     "hora": "25/11 15h21"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-25T15:27-03:00"
+  },
+  {
+   "assunto": "Brasil decide que embaixador não deve voltar à Argentina de Milei",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "ab",
+    "jp"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Brasil decide que embaixador não deve voltar à Argentina de Milei",
+     "url": "https://jovempan.com.br/politica/brasil-decide-que-embaixador-nao-deve-voltar-a-argentina-de-milei/",
+     "hora": "25/11 15h31"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Brasil decide que embaixador não deve voltar à Argentina de Milei",
+     "url": "https://agenciabrasil.ebc.com.br/internacional/noticia/2026-11/brasil-decide-que-embaixador-nao-deve-mais-voltar-argentina-de-milei",
+     "hora": "25/11 14h41"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-25T15:31-03:00"
+  },
   {
    "assunto": "Controles dos EUA sobre semicondutores podem afetar investimentos em data centers no Brasil",
    "secao": "mundo",
@@ -51,31 +213,24 @@
    "ultima_iso": "2026-11-25T15:00-03:00"
   },
   {
-   "assunto": "Negativa de Haddad para compor Lula 4 fortalece possível permanência de Durigan na Fazenda",
-   "secao": "economia",
-   "n_fontes": 2,
+   "assunto": "A maior mostra da Pinacoteca do Ceará",
+   "secao": null,
+   "n_fontes": 1,
    "fontes": [
-    "p360",
-    "veja"
+    "oglobo"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Veja",
-     "titulo": "Negativa de Haddad para compor Lula 4 fortalece possível permanência de Durigan na Fazenda",
-     "url": "https://veja.abril.com.br/politica/negativa-de-haddad-para-compor-lula-4-fortalece-possivel-permanencia-de-durigan-na-fazenda/",
-     "hora": "25/11 14h54"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Trabuco se fortalece para ir para o Ministério da Fazenda de Lula 4",
-     "url": "https://www.poder360.com.br/poder-governo/trabuco-se-fortalece-para-ir-para-o-ministerio-da-fazenda-de-lula-4/",
-     "hora": "25/11 14h43"
+     "veiculo": "O Globo",
+     "titulo": "A maior mostra da Pinacoteca do Ceará",
+     "url": "https://oglobo.globo.com/blogs/lauro-jardim/post/2026/11/a-maior-mostra-da-pinacoteca-do-ceara.ghtml",
+     "hora": "25/11 15h23"
     }
    ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-25T14:54-03:00"
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T15:23-03:00"
   },
   {
    "assunto": "A nova ambição das empresas latino-americanas nos Estados Unidos",
@@ -138,26 +293,6 @@
    "ultima_iso": "2026-11-25T15:00-03:00"
   },
   {
-   "assunto": "Alcolumbre faz afagos a Tereza Cristina e promete atender a demandas da bancada feminina em meio à disputa pelo Senado",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Alcolumbre faz afagos a Tereza Cristina e promete atender a demandas da bancada feminina em meio à disputa pelo Senado",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/25/alcolumbre-faz-afagos-a-tereza-cristina-e-promete-atender-a-demandas-da-bancada-feminina-em-meio-a-disputa-pelo-senado.ghtml",
-     "hora": "25/11 15h21"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T15:21-03:00"
-  },
-  {
    "assunto": "Aldeia indígena a 85 km de Tangará da Serra recebe visitantes para conhecer uma cachoeira de 40 metros e fazer rapel",
    "secao": null,
    "n_fontes": 1,
@@ -211,11 +346,11 @@
      "veiculo": "ge",
      "titulo": "América-PE x Central - Campeonato Pernambucano 2026/2027 - Ao vivo - globoesporte.com",
      "url": "https://ge.globo.com/pe/caruaru-regiao/futebol/campeonato-pernambucano/jogo/25-11-2026/america-pe-central.ghtml",
-     "hora": "25/11 15h26"
+     "hora": "25/11 15h29"
     }
    ],
    "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-25T15:26-03:00",
+   "ultima_iso": "2026-11-25T15:29-03:00",
    "lixo": true
   },
   {
@@ -259,6 +394,26 @@
    "ultima_iso": "2026-11-25T14:46-03:00"
   },
   {
+   "assunto": "Anvisa determina apreensão de todos os lotes de água mineral Pura",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Anvisa determina apreensão de todos os lotes de água mineral Pura",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/anvisa-determina-apreensao-de-todos-os-lotes-de-agua-mineral-pura.shtml",
+     "hora": "25/11 15h36"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T15:36-03:00"
+  },
+  {
    "assunto": "Após chuvas no RS, Roberto Carlos adia show em Porto Alegre para junho",
    "secao": "brasil",
    "n_fontes": 1,
@@ -277,6 +432,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-25T14:57-03:00"
+  },
+  {
+   "assunto": "Após tombo na véspera, ações da Vale passam por correção e sobem mais de 3%",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Após tombo na véspera, ações da Vale passam por correção e sobem mais de 3%",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/25/aps-tombo-na-vspera-aes-da-vale-passam-por-correo-e-sobem-mais-de-3-pontos-percentuais.ghtml",
+     "hora": "25/11 15h24"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T15:24-03:00"
   },
   {
    "assunto": "Artur Jorge e Fenômeno “resenham” sobre Cruzeiro em leilão",
@@ -339,6 +514,46 @@
    "ultima_iso": "2026-11-25T15:19-03:00"
   },
   {
+   "assunto": "Azul, verde, violeta e até transparente: conheça animais que não têm sangue vermelho",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Azul, verde, violeta e até transparente: conheça animais que não têm sangue vermelho",
+     "url": "https://oantagonista.com.br/ladooa/variedades/azul-verde-violeta-e-ate-transparente-conheca-animais-que-nao-tem-sangue-vermelho/",
+     "hora": "25/11 15h30"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T15:30-03:00"
+  },
+  {
+   "assunto": "Ações da Micron e de outras fabricantes de memória estão pagando o preço da correção da IA",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Ações da Micron e de outras fabricantes de memória estão pagando o preço da correção da IA",
+     "url": "https://valor.globo.com/empresas/noticia/2026/11/25/aes-da-micron-e-de-outras-fabricantes-de-memria-esto-pagando-o-preo-da-correo-da-ia.ghtml",
+     "hora": "25/11 15h11"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T15:11-03:00"
+  },
+  {
    "assunto": "Barueri (SP) terá serviço de radioterapia para até 1,8 mil pacientes ao ano",
    "secao": null,
    "n_fontes": 1,
@@ -397,6 +612,27 @@
    ],
    "n_fontes_90min": 0,
    "ultima_iso": "2026-11-25T14:47-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Black Friday: Painel ajuda consumidores a comparar preços de 150 produtos no PI",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Black Friday: Painel ajuda consumidores a comparar preços de 150 produtos no PI",
+     "url": "https://g1.globo.com/pi/piaui/noticia/2026/11/25/black-friday-painel-procon-piaui.ghtml",
+     "hora": "25/11 15h24"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-25T15:24-03:00",
    "lixo": true
   },
   {
@@ -480,26 +716,6 @@
    "ultima_iso": "2026-11-25T14:47-03:00"
   },
   {
-   "assunto": "Brasil decide que embaixador não deve voltar à Argentina de Milei",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "ab"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Brasil decide que embaixador não deve voltar à Argentina de Milei",
-     "url": "https://agenciabrasil.ebc.com.br/internacional/noticia/2026-11/brasil-decide-que-embaixador-nao-deve-mais-voltar-argentina-de-milei",
-     "hora": "25/11 14h41"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T14:41-03:00"
-  },
-  {
    "assunto": "Buscando frear endividamento, BC deve elevar capital regulatório de emissores de cartão",
    "secao": "economia",
    "n_fontes": 1,
@@ -518,126 +734,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-25T14:55-03:00"
-  },
-  {
-   "assunto": "CCJ aprova projeto que dá mais segurança a estados e municípios em licitações",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "agsenado"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Senado",
-     "titulo": "CCJ aprova projeto que dá mais segurança a estados e municípios em licitações",
-     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/25/ccj-aprova-projeto-que-da-mais-seguranca-a-estados-e-municipios-em-licitacoes",
-     "hora": "25/11 15h12"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T15:12-03:00"
-  },
-  {
-   "assunto": "CCJ aprova ressarcimento de fiador com imóvel de inquilino inadimplente",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "agsenado"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Senado",
-     "titulo": "CCJ aprova ressarcimento de fiador com imóvel de inquilino inadimplente",
-     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/25/ccj-aprova-ressarcimento-de-fiador-com-imovel-de-inquilino-inadimplente",
-     "hora": "25/11 15h16"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T15:16-03:00"
-  },
-  {
-   "assunto": "CDH quer verificar denúncias de violação de direitos de Vorcaro e do pai",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "agsenado"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Senado",
-     "titulo": "CDH quer verificar denúncias de violação de direitos de Vorcaro e do pai",
-     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/25/cdh-quer-verificar-denuncias-de-violacao-de-direitos-de-vorcaro-e-do-pai",
-     "hora": "25/11 15h24"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T15:24-03:00"
-  },
-  {
-   "assunto": "Caixa avalia compra do BRB após Distrito Federal não conseguir empréstimo para salvar o banco",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "estadao"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Estadão Economia",
-     "titulo": "Caixa avalia compra do BRB após Distrito Federal não conseguir empréstimo para salvar o banco",
-     "url": "https://www.estadao.com.br/economia/caixa-avalia-compra-do-brb-apos-distrito-federal-nao-conseguir-emprestimo-para-salvar-o-banco/",
-     "hora": "25/11 14h41"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T14:41-03:00"
-  },
-  {
-   "assunto": "Casal é assaltado em estacionamento de agência bancária no São Francisco, em São Luís",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Casal é assaltado em estacionamento de agência bancária no São Francisco, em São Luís",
-     "url": "https://g1.globo.com/ma/maranhao/noticia/2026/11/25/casal-e-assaltado-em-estacionamento-de-agencia-bancaria-no-sao-francisco-em-sao-luis.ghtml",
-     "hora": "25/11 15h08"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T15:08-03:00"
-  },
-  {
-   "assunto": "Ceron: não devem criar expectativa por bala de prata com PEC ou PLP de ajuste fiscal",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Ceron: não devem criar expectativa por bala de prata com PEC ou PLP de ajuste fiscal",
-     "url": "https://www.infomoney.com.br/politica/ceron-nao-devem-criar-expectativa-por-bala-de-prata-com-pec-ou-plp-de-ajuste-fiscal/",
-     "hora": "25/11 14h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T14:45-03:00"
   }
  ],
  "em_pautas": {
@@ -650,6 +746,24 @@
      "titulo": "Lula ouve de ex-ministros da Justiça que nova pasta da Segurança Pública deve olhar para crime transnacional",
      "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/lula-ouve-de-ex-ministros-da-justica-que-nova-pasta-da-seguranca-publica-deve-olhar-para-crime-transnacional.shtml",
      "hora": "25/11 14h43"
+    }
+   ]
+  },
+  "pec-ajuste-fiscal-congresso": {
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Moretti nega PEC para novo pacote de ajuste fiscal",
+     "url": "https://oantagonista.com.br/economia/moretti-nega-pec-para-novo-pacote-de-ajuste-fiscal/",
+     "hora": "25/11 15h30"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ceron: não devem criar expectativa por bala de prata com PEC ou PLP de ajuste fiscal",
+     "url": "https://www.infomoney.com.br/politica/ceron-nao-devem-criar-expectativa-por-bala-de-prata-com-pec-ou-plp-de-ajuste-fiscal/",
+     "hora": "25/11 14h45"
     }
    ]
   },
@@ -676,6 +790,18 @@
      "hora": "25/11 15h15"
     }
    ]
+  },
+  "dolar-volta-acima-5": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ibovespa Hoje Ao Vivo: Bolsa sobe mais de 1% e retoma os 166 mil; dólar recua",
+     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-25112026/",
+     "hora": "25/11 15h35"
+    }
+   ]
   }
  },
  "novos_relatos": {
@@ -690,7 +816,7 @@
    "ultima": "25/11 12h52",
    "ultima_iso": "2026-11-25T12:52-03:00",
    "pauta_atualizada_em": "2026-11-24T14:49-03:00",
-   "horas_sem_atualizar": 24.7,
+   "horas_sem_atualizar": 24.8,
    "principal": true,
    "manchetes": [
     {
@@ -717,7 +843,7 @@
    "ultima": "25/11 14h34",
    "ultima_iso": "2026-11-25T14:34-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 32.6,
+   "horas_sem_atualizar": 32.8,
    "principal": false,
    "manchetes": [
     {
@@ -739,7 +865,7 @@
    "ultima": "25/11 13h12",
    "ultima_iso": "2026-11-25T13:12-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 8.6,
+   "horas_sem_atualizar": 8.8,
    "principal": true,
    "manchetes": [
     {
@@ -757,18 +883,25 @@
    ]
   },
   "dolar-volta-acima-5": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
-    "folha"
+    "folha",
+    "im"
    ],
    "n_fontes_90min": 1,
-   "ultima": "25/11 09h56",
-   "ultima_iso": "2026-11-25T09:56-03:00",
+   "ultima": "25/11 15h35",
+   "ultima_iso": "2026-11-25T15:35-03:00",
    "pauta_atualizada_em": "2026-11-24T18:48-03:00",
-   "horas_sem_atualizar": 20.7,
+   "horas_sem_atualizar": 20.9,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ibovespa Hoje Ao Vivo: Bolsa sobe mais de 1% e retoma os 166 mil; dólar recua",
+     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-25112026/",
+     "hora": "25/11 15h35"
+    },
     {
      "veiculo": "Folha Mercado",
      "titulo": "Dólar despenca e Bolsa avança com possível indicação de Trabuco para a Fazenda e expectativa por sinais fiscais",
@@ -787,7 +920,7 @@
    "ultima": "25/11 15h15",
    "ultima_iso": "2026-11-25T15:15-03:00",
    "pauta_atualizada_em": "2026-11-24T06:45-03:00",
-   "horas_sem_atualizar": 32.7,
+   "horas_sem_atualizar": 32.9,
    "principal": false,
    "manchetes": [
     {
@@ -809,7 +942,7 @@
    "ultima": "25/11 13h52",
    "ultima_iso": "2026-11-25T13:52-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 32.6,
+   "horas_sem_atualizar": 32.8,
    "principal": false,
    "manchetes": [
     {
@@ -838,7 +971,7 @@
    "ultima": "25/11 14h11",
    "ultima_iso": "2026-11-25T14:11-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 8.6,
+   "horas_sem_atualizar": 8.8,
    "principal": false,
    "manchetes": [
     {
@@ -871,7 +1004,7 @@
    "ultima": "25/11 11h00",
    "ultima_iso": "2026-11-25T11:00-03:00",
    "pauta_atualizada_em": "2026-11-24T14:49-03:00",
-   "horas_sem_atualizar": 24.7,
+   "horas_sem_atualizar": 24.8,
    "principal": false,
    "manchetes": [
     {
@@ -893,7 +1026,7 @@
    "ultima": "25/11 13h00",
    "ultima_iso": "2026-11-25T13:00-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 8.6,
+   "horas_sem_atualizar": 8.8,
    "principal": false,
    "manchetes": [
     {
@@ -910,6 +1043,27 @@
     }
    ]
   },
+  "pec-ajuste-fiscal-congresso": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "25/11 15h30",
+   "ultima_iso": "2026-11-25T15:30-03:00",
+   "pauta_atualizada_em": "2026-11-25T10:49-03:00",
+   "horas_sem_atualizar": 4.8,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Moretti nega PEC para novo pacote de ajuste fiscal",
+     "url": "https://oantagonista.com.br/economia/moretti-nega-pec-para-novo-pacote-de-ajuste-fiscal/",
+     "hora": "25/11 15h30"
+    }
+   ]
+  },
   "eua-propoem-novas-tarifas-brasil-secao-301": {
    "n": 2,
    "n_fontes": 2,
@@ -921,7 +1075,7 @@
    "ultima": "25/11 14h11",
    "ultima_iso": "2026-11-25T14:11-03:00",
    "pauta_atualizada_em": "2026-11-25T10:49-03:00",
-   "horas_sem_atualizar": 4.7,
+   "horas_sem_atualizar": 4.8,
    "principal": true,
    "manchetes": [
     {
@@ -948,7 +1102,7 @@
    "ultima": "25/11 12h25",
    "ultima_iso": "2026-11-25T12:25-03:00",
    "pauta_atualizada_em": "2026-11-25T12:25-03:00",
-   "horas_sem_atualizar": 3.1,
+   "horas_sem_atualizar": 3.2,
    "principal": false,
    "manchetes": [
     {
@@ -970,7 +1124,7 @@
    "ultima": "25/11 14h43",
    "ultima_iso": "2026-11-25T14:43-03:00",
    "pauta_atualizada_em": "2026-11-25T14:28-03:00",
-   "horas_sem_atualizar": 1.0,
+   "horas_sem_atualizar": 1.2,
    "principal": false,
    "manchetes": [
     {
@@ -989,6 +1143,15 @@
   }
  },
  "fotos_livres": [
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão de Orçamento aprova relatório que eleva em R$ 37,1 bilhões a previsão de receita para 2027",
+   "materia": "https://www.camara.leg.br/noticias/1322856-comissao-de-orcamento-aprova-relatorio-que-eleva-em-r-371-bilhoes-a-previsao-de-receita-para-2027",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261125123750970-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "25/11 15h27",
+   "pid_sugerido": null
+  },
   {
    "veiculo": "Agência Câmara",
    "titulo": "Comissão aprova projeto que esclarece crime de corrupção de criança e adolescente",
@@ -1149,15 +1312,6 @@
    "img": "https://www.camara.leg.br/midias/image/2026/11/img20261124171422005-768x473.jpg",
    "credito": "Foto: Agência Câmara",
    "hora": "24/11 20h10",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Comissão aprova projeto que autoriza parlamentares a exercer advocacia com restrições",
-   "materia": "https://www.camara.leg.br/noticias/1322507-comissao-aprova-projeto-que-autoriza-parlamentares-a-exercer-advocacia-com-restricoes",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261124145346953-768x473.jpeg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "24/11 19h27",
    "pid_sugerido": null
   }
  ],
@@ -1464,6 +1618,44 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
+   "assunto": "Alcolumbre se reúne com bancada feminina e faz aceno para candidata rival",
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Folha Poder",
+     "titulo": "Alcolumbre se reúne com bancada feminina e faz aceno para candidata rival",
+     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/blogs/brasilia-hoje/2026/11/alcolumbre-se-reune-com-bancada-feminina-e-faz-aceno-para-candidata-rival.shtml",
+     "hora": "25/11 15h27"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Alcolumbre faz afagos a Tereza Cristina e promete atender a demandas da bancada feminina em meio à disputa pelo Senado",
+     "url": "https://oglobo.globo.com/politica/noticia/2026/11/25/alcolumbre-faz-afagos-a-tereza-cristina-e-promete-atender-a-demandas-da-bancada-feminina-em-meio-a-disputa-pelo-senado.ghtml",
+     "hora": "25/11 15h21"
+    }
+   ]
+  },
+  {
+   "assunto": "Brasil decide que embaixador não deve voltar à Argentina de Milei",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Brasil decide que embaixador não deve voltar à Argentina de Milei",
+     "url": "https://jovempan.com.br/politica/brasil-decide-que-embaixador-nao-deve-voltar-a-argentina-de-milei/",
+     "hora": "25/11 15h31"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Brasil decide que embaixador não deve voltar à Argentina de Milei",
+     "url": "https://agenciabrasil.ebc.com.br/internacional/noticia/2026-11/brasil-decide-que-embaixador-nao-deve-mais-voltar-argentina-de-milei",
+     "hora": "25/11 14h41"
+    }
+   ]
+  },
+  {
    "assunto": "Controles dos EUA sobre semicondutores podem afetar investimentos em data centers no Brasil",
    "secao": "mundo",
    "n_fontes": 2,
@@ -1487,25 +1679,6 @@
      "hora": "25/11 14h56"
     }
    ]
-  },
-  {
-   "assunto": "Negativa de Haddad para compor Lula 4 fortalece possível permanência de Durigan na Fazenda",
-   "secao": "economia",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Negativa de Haddad para compor Lula 4 fortalece possível permanência de Durigan na Fazenda",
-     "url": "https://veja.abril.com.br/politica/negativa-de-haddad-para-compor-lula-4-fortalece-possivel-permanencia-de-durigan-na-fazenda/",
-     "hora": "25/11 14h54"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Trabuco se fortalece para ir para o Ministério da Fazenda de Lula 4",
-     "url": "https://www.poder360.com.br/poder-governo/trabuco-se-fortalece-para-ir-para-o-ministerio-da-fazenda-de-lula-4/",
-     "hora": "25/11 14h43"
-    }
-   ]
   }
  ],
  "ultima_rodada": "2026-11-25T14:51-03:00",
@@ -1520,20 +1693,20 @@
   "g1 Mundo": "ok: 100 itens, 11 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 30 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 31 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 7 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 3 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 12 nas últimas 6 h",
+  "Agência Câmara": "ok: 20 itens, 13 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 14 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 18 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 4 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 10 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 9 nas últimas 6 h",
   "O Globo": "ok: 100 itens, 100 nas últimas 6 h",
   "Valor Econômico": "ok: 100 itens, 100 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
@@ -1541,12 +1714,12 @@
   "Nexo": "ok: 20 itens, 1 nas últimas 6 h",
   "DW Brasil": "ok: 65 itens, 8 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 53 itens, 9 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 39 itens, 7 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 37 itens, 8 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 20 nas últimas 6 h",
-  "Brasil de Fato": "ok: 99 itens, 15 nas últimas 6 h",
+  "Brasil de Fato": "ok: 99 itens, 13 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 10 nas últimas 6 h"
  }
 }
