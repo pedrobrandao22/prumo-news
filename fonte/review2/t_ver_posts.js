@@ -49,7 +49,7 @@ const tap = (p, x, y) => p.touchscreen.tap(x, y);
   await shot(B, '04-duplo-toque-coracao');
   await sleep(500);
   ok(await ev(B, s => { const p = document.querySelector(s); return p.querySelector('[data-a="like"]').classList.contains('on') && !p.classList.contains('tags-on') }, s3), 'duplo toque curte e não liga as marcações');
-  ok(await ev(B, s => /Curtido por você/.test(document.querySelector(s + ' [data-likes]').textContent), s3), 'só você curtiu: "Curtido por você"');
+  ok(await ev(B, s => /Você curtiu/.test(document.querySelector(s + ' [data-likes]').textContent), s3), 'só você curtiu: "Curtido por você"');
   await sleep(500); await shot(B, '05-curtido-por-voce');
 
   // ---- comentários: folha alta, sem "Fechar" à vista, emojis rápidos, pílula de menção ----

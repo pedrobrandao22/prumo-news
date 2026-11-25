@@ -3,8 +3,9 @@
 function fd104Curtidas(pid){const el=document.getElementById("p-"+pid);if(!el||String(pid).indexOf("u:")!==0)return;const lk=el.querySelector("[data-likes]");if(!lk)return;
   const {likes}=socialOf(pid),eu=!!(S.uid&&likes.includes(S.uid)),ou=likes.filter(u=>u!==S.uid),n1=ou[0]?`<b>${esc(nomeDe(ou[0]))}</b>`:"";
   const outras=k=>k===1?"outra pessoa":`outras ${k} pessoas`;let t="";
-  if(eu&&!ou.length)t=`Curtido por <b>você</b>`;else if(eu&&ou.length===1)t=`Curtido por <b>você</b> e ${n1}`;else if(eu)t=`Curtido por <b>você</b> e ${outras(ou.length)}`;
-  else if(ou.length===1)t=`Curtido por ${n1}`;else if(ou.length>1)t=`Curtido por ${n1} e ${outras(ou.length-1)}`;
+  /* 25/11 (testador): o mesmo jeito das notícias ("Bia Souza curtiu"); antes os posts diziam "Curtido por …" */
+  if(eu&&!ou.length)t=`<b>Você</b> curtiu`;else if(eu&&ou.length===1)t=`<b>Você</b> e ${n1} curtiram`;else if(eu)t=`<b>Você</b> e mais ${ou.length} curtiram`;
+  else if(ou.length===1)t=`${n1} curtiu`;else if(ou.length>1)t=`${n1} e mais ${ou.length-1} curtiram`;
   if(lk.innerHTML!==t)lk.innerHTML=t;if(t){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}}
 
 /* quem publicou o post pode apagar comentários dos outros no próprio post (o servidor já permite) */

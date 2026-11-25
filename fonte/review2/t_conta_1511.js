@@ -77,7 +77,7 @@ async function visitante(H, b, o = {}) { const p = U.erros(await H.pagina(b, o),
   const pid0 = await ev(A, () => FEED.pautas[0].id);
   const pubId = (await H.sql(`insert into public.publicacoes(autor,tipo,texto,pid) values ($1,'post','meu comentário secreto',$2) returning id`, [uidA, pid0]))[0].id;
   const V2 = await visitante(H, b); await V2.goto(BASE + '#p=' + pubId);
-  ok(await esperar(V2, () => /Post de Pedro/.test(document.querySelector('#layer .co160-pp')?.textContent || '') && !!document.querySelector('#layer [data-co160lern]'), null, 9000), 'link de post sem conta: prévia com quem postou e a notícia', await txLayer(V2));
+  ok(await esperar(V2, () => /(Post|Publicação) de Pedro/.test(document.querySelector('#layer .co160-pp')?.textContent || '') && !!document.querySelector('#layer [data-co160lern]'), null, 9000), 'link de post sem conta: prévia com quem postou e a notícia', await txLayer(V2));
   ok(!/secreto/.test(await txLayer(V2)) && /peça um convite/.test(await txLayer(V2)), 'a prévia não mostra o texto do post e diz como conseguir convite');
   await U.foto(V2, 'conta-post-previa');
   await clk(V2, '[data-co160lern]');

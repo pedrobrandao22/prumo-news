@@ -13,7 +13,10 @@
 indPainel=function(){return ""};
 if(typeof cm168IndBusca==="function")cm168IndBusca=function(){return ""};
 addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;const b=t.closest("[data-ui184],[data-indg]");if(!b)return;
-  e.stopPropagation();e.preventDefault();ui184Explica()},true);
+  e.stopPropagation();e.preventDefault();
+  /* 25/11 (testador): tocar num número abre o gráfico dele; a explicação fica no "ⓘ O que é cada um" e no resto do quadro */
+  const c=t.closest("[data-ui184id]");if(c&&!t.closest(".ui214-q")&&typeof abrirGrafico==="function"){try{const id=c.dataset.ui184id;const x=indItens().find(o=>o&&o.id===id);if(x&&grDados(x).length>=2){abrirGrafico(id);return}}catch(er){}}
+  ui184Explica()},true);
 
 /* ===== 2. contagens que faltavam ===== */
 /* notícia comentada (e os outros formatos) e repost eram todos "publicar_post": cada um ganha o seu nome */

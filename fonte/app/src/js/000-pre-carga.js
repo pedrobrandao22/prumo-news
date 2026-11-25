@@ -30,4 +30,9 @@ var TOQUE_CEDO=null,MEXEU_CEDO=false;
   addEventListener("pointerdown",m,{passive:true});addEventListener("wheel",m,{passive:true});addEventListener("touchmove",m,{passive:true});
   document.addEventListener("click",function(e){if(window.__prumoPronto)return;MEXEU_CEDO=true;var b=e.target&&e.target.closest&&e.target.closest(".nav [data-v], .cp.f4-pre [data-cpx]");if(!b)return;
     try{var o=document.querySelector(".toque-cedo-b");if(o)o.classList.remove("toque-cedo-b")}catch(_){}
-    TOQUE_CEDO={v:b.getAttribute("data-v"),cpx:b.getAttribute("data-cpx"),t:Date.now()};b.classList.add("toque-cedo-b")},true)}catch(e){}})();
+    TOQUE_CEDO={v:b.getAttribute("data-v"),cpx:b.getAttribute("data-cpx"),t:Date.now()};b.classList.add("toque-cedo-b");
+    /* 25/11 (testador): sinal claro de que o toque pegou: o botão da barra fica marcado e aparece "Carregando…" */
+    try{var v=b.getAttribute("data-v");if(v){document.querySelectorAll(".nav [data-v]").forEach(function(x){if(x===b)x.setAttribute("aria-current","page");else x.removeAttribute("aria-current")})}
+      var pl=document.getElementById("tc214");if(!pl){pl=document.createElement("div");pl.id="tc214";pl.setAttribute("role","status");document.body.appendChild(pl)}
+      var nm={feed:"o Feed",msgs:"as Conversas",me:"o Perfil",capa:"a Capa"}[v]||"a notícia";pl.textContent="Carregando "+nm+"…";pl.className="on";
+      var t0=Date.now(),fim=function(){if((window.__prumoPronto&&!TOQUE_CEDO)||Date.now()-t0>40000){pl.className="";setTimeout(function(){try{pl.remove()}catch(_){}},400);return}setTimeout(fim,250)};fim()}catch(_){}},true)}catch(e){}})();

@@ -128,7 +128,7 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   ok(await esperar(C, () => /Amigos curtiram/.test(document.querySelector('.sheet')?.textContent || '')), 'C (tem a amiga B) vê os filtros de amigos'); await fecha(C);
   await clk(C, '#b-filtro'); await clk(C, '.sheet [data-filtro="_gostou"]');
   ok(await esperar(C, pid => !!document.getElementById('p-' + pid) && document.querySelectorAll('#posts .post').length === 1, P1), 'C: "Amigos gostaram" mostra P1 (B gostou)');
-  ok(await ev(C, pid => { const t = document.querySelector(`#p-${pid} [data-otr]`).textContent; return /curtiu/.test(t) && !/comentou/.test(t) && /Ana curtiu/.test(document.querySelector(`#p-${pid} [data-likes]`).textContent) }, P1), 'C vê só a atividade de B em P1 (sem o comentário/leitura de A)');
+  ok(await ev(C, pid => { const t = document.querySelector(`#p-${pid} [data-otr]`).textContent; return !/curtiu/.test(t) /* 25/11: a curtida só fica na linha de baixo */ && !/comentou/.test(t) && /Ana curtiu/.test(document.querySelector(`#p-${pid} [data-likes]`).textContent) }, P1), 'C vê só a atividade de B em P1 (sem o comentário/leitura de A)');
   await clk(C, '[data-filtro="tudo"]');
 
   // ---------------- mensagens A <-> B

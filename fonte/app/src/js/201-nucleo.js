@@ -468,7 +468,7 @@ function ppCartao(x){
 /* [068] o cartão de sempre */
 function ppBase(x){const id="u:"+x.id,eu=x.autor===S.uid,fs=x.fotos.map(pubUrl),nt=x.pid&&pautaById(x.pid);
   let sl=fs.map(u=>`<div class="sl up-sl">${u?`<img class="up-img" src="${pubSrc(u)}" alt="" loading="lazy" decoding="async">`:`<div class="up-sem">Foto indisponível</div>`}</div>`);
-  const ntSl=x.pid?`<div class="sl up-sl up-nt"><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}</b><span>Ler a matéria ›</span></button></div>`:"";
+  const ntSl=x.pid?`<div class="sl up-sl up-nt"><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(ntTit214(nt,x))}</b><span>${ntMudou214(nt,x)?"Atualizada depois · toque para ver a versão de agora ›":"Ler a matéria ›"}</span></button></div>`:"";
   if(ntSl)sl.push(ntSl);const soTexto=!sl.length;if(soTexto)sl=[`<div class="sl up-sl up-tx" style="background:${pubFundo(String(x.id).charCodeAt(0))}"><p>${dmMarcaPub(x.texto)}</p></div>`];
   return `<article class="post upost" id="p-${esc(id)}" data-pid="${esc(id)}">
     <div class="ph gut"><div class="ph-t"><span class="up-au">${avatar(x.autor)}<span class="ph-nm"><b>${esc(nomeDe(x.autor))}</b><span class="ph-sub">${esc(quando(x.at))}${x.pid&&x.fotos.length?" · com notícia":""}</span></span></span><span data-otr></span></div><button type="button" class="more-btn" data-umenu="${esc(x.id)}" aria-label="Mais opções">${ICON.dots}</button></div>
@@ -712,13 +712,18 @@ function atAcaoBase(x){const fecha=()=>{if($("#layer .pfv-at"))closeLayer()};
   if(x.pub){const pb=AT.pubs[x.pub];if(!pb)return;if(pb.tipo==="story"){stLista([pb],0,"Seu giro","at");return}
     fecha();setTimeout(()=>{if(x.acao==="cmt"&&pubDe(x.pub))openComments("u:"+x.pub);else pubIrPara(x.pub)},320)}}
 function atThumbBase(x){const pb=x.pub&&AT.pubs[x.pub];if(!pb)return "";const f=pb.fotos[0]&&pubUrl(pb.fotos[0]);
-  return `<span class="at-th${pb.tipo==="story"?" st":""}">${f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<i style="background:${pubFundo(pb.estilo&&pb.estilo.fundo)}">${esc(String(pb.texto||"").slice(0,24))}</i>`}</span>`}
+  if(!f&&pb.tipo!=="story")return "";/* 25/11: post só de texto sem miniatura (o texto já está na linha; cortado parecia defeito) */
+  return `<span class="at-th${pb.tipo==="story"?" st":""}">${f?`<img src="${pubSrc(f)}" alt="" loading="lazy">`:`<i style="background:${pubFundo(pb.estilo&&pb.estilo.fundo)}" aria-hidden="true"></i>`}</span>`}
 
 /* ===== renderMe: a aba Perfil (a sua) =====
    Antes: definida no 012 e remendada em 083, 084, 086, 090, 099, 104-feed, 109, 112, 114, 123, 124, 150, 158, 160, 161,
    165 e 181 (17 remendos). É do Perfil, mas fica no núcleo porque todo mundo a chama (go, rerenderAll, conta…).
    Camadas: renderMe (181 … 104, e o 112 antes) → o 099 monta o miolo sem os posts guardados em S.salvos →
    renderMeMiolo (090, 086, 084, 083 e o 012). */
+/* 25/11 (testador): post antigo mostra o título da notícia de quando foi publicado (o id da pauta é reaproveitado na semana
+   seguinte); se a matéria mudou depois, avisa como nas Conversas */
+function ntMudou214(nt,x){try{const st=x&&x.snap&&x.snap.titulo;if(!nt||!st)return false;return norm(st)!==norm(versao(nt,lente()).titulo)}catch(e){return false}}
+function ntTit214(nt,x){return ntMudou214(nt,x)?x.snap.titulo:(nt?versao(nt,lente()).titulo:(x.snap&&x.snap.titulo)||"Notícia")}
 function renderMe(){
   /* [112] aba do perfil no visual novo */
   if(PF_ABA==="posts"&&!["posts","resp","midia"].includes(VN112_PF.me))VN112_PF.me="posts";if(PF_ABA!=="posts")VN112_PF.me=PF_ABA;

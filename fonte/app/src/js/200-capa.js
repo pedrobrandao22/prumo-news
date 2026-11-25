@@ -116,8 +116,8 @@ function ui184Sub(x){
   if(x.id==="selic")return `<small>meta do Copom</small>`;
   const m=/^\d{4}-(\d{2})$/.exec(String(x.ref||""));return `<small>${m?"até "+UI184_MES[+m[1]-1]:"IBGE"}</small>`}
 function capaIndicadores(){const it=ui184Itens();if(!it.length)return "";const leg=ui184Legenda(it);
-  return `<section class="ui184" aria-label="Indicadores"><button type="button" class="ui184-b" data-ui184 aria-label="Indicadores: ${esc(it.map(x=>UI184_NOME[x.id]+" "+x.valor).join(", "))}. ${esc(leg)}. Toque para saber o que é cada um">`+
-    `<span class="ui184-h">Indicadores</span><span class="ui184-g">${it.map(x=>`<span class="ui184-c" data-ui184id="${esc(x.id)}"><span class="ui184-n">${esc(UI184_NOME[x.id])}</span><b>${esc(x.valor)}</b>${ui184Sub(x)}</span>`).join("")}</span>`+
+  return `<section class="ui184" aria-label="Indicadores"><button type="button" class="ui184-b" data-ui184 aria-label="Indicadores: ${esc(it.map(x=>UI184_NOME[x.id]+" "+x.valor).join(", "))}. ${esc(leg)}. Toque num número para ver o gráfico">`+
+    `<span class="ui184-h">Indicadores<span class="ui214-q">ⓘ O que é cada um</span></span><span class="ui184-g">${it.map(x=>`<span class="ui184-c" data-ui184id="${esc(x.id)}"><span class="ui184-n">${esc(UI184_NOME[x.id])}</span><b>${esc(x.valor)}</b>${ui184Sub(x)}</span>`).join("")}</span>`+
     (leg?`<span class="ui184-at">${esc(leg)}</span>`:"")+`</button></section>`}
 function ui184Explica(){try{uso("indicadores")}catch(e){}
   sheet("Indicadores",`<div class="ui184-ex"><p><b>Dólar</b>: cotação comercial no fechamento do dia, com a variação sobre o fechamento anterior.</p>`+
@@ -137,7 +137,7 @@ function ui184Lado(){const sd=document.querySelector("#v-capa .cp-side"),c=docum
 function ca159Acomp(){const v=document.getElementById("v-capa");if(!v)return;
   v.querySelectorAll(".cp-h").forEach(hh=>{const h3=hh.querySelector("h3");if(!h3||h3.textContent.trim()!=="Para acompanhar")return;const ul=hh.nextElementSibling;if(!ul||!ul.classList.contains("cp-l"))return;
     ul.querySelectorAll("button[data-cobpag]").forEach(b=>{if(b.querySelector(".ca159-mud"))return;const p=pautaById(b.dataset.cobpag);const a=p&&Array.isArray(p.atualizacoes)?p.atualizacoes.filter(x=>x&&typeof x.texto==="string"&&x.texto.trim()):[];
-      const u=a.length?a.slice().sort((x,y)=>tms(x.hora)-tms(y.hora)).pop():null;if(u)b.insertAdjacentHTML("beforeend",`<span class="ca159-mud">${esc(capaFrase(u.texto,96))}</span>`)})})}
+      const u=a.length?a.slice().sort((x,y)=>tms(x.hora)-tms(y.hora)).pop():null;if(u)b.insertAdjacentHTML("beforeend",`<span class="ca159-mud">${esc(capaFrase((typeof dt185Rel==="function"?dt185Rel(u.texto):u.texto),96))}</span>`)})})}
 /* 168: a hora é a da última novidade de cada cobertura; a lista segue essa ordem */
 function cm168Acomp(){const v=document.getElementById("v-capa");if(!v)return;
   v.querySelectorAll(".cp-h").forEach(hh=>{const h3=hh.querySelector("h3");if(!h3||h3.textContent.trim()!=="Para acompanhar")return;const ul=hh.nextElementSibling;if(!ul||!ul.classList.contains("cp-l"))return;

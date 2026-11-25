@@ -47,7 +47,7 @@ async function convite(A) { await ev(A, () => go('me')); await sleep(400); await
   ok(await ev(A, u => { const r0 = AT.rows, p0 = AT.pubs; try { AT.rows = [{ tipo: 'voto', pub: 'zz1', uid: u, at: Date.now() - 1000, chave: 'k1' }, { tipo: 'voto', pub: 'zz1', uid: u, at: Date.now(), chave: 'k2' }]; AT.pubs = { zz1: { id: 'zz1', tipo: 'story', autor: S.uid, estilo: {}, fotos: [] } };
     const it = atItens().find(x => x.pub === 'zz1'); return it && it.us.length === 1 && /<\/b> respondeu ao seu giro/.test(it.txt) } finally { AT.rows = r0; AT.pubs = p0 } }, uidB), 'Atividade: quem votou e respondeu o mesmo story conta uma vez ("respondeu", um avatar)');
 
-  ok(await ev(A, () => { const p0 = AT.pubs; try { AT.pubs = { zz2: { id: 'a1b2', tipo: 'post', autor: S.uid, estilo: { fundo: 0 }, fotos: [], texto: 'Selic parada' } }; const h = atThumb({ pub: 'zz2' }), sob = FC105_FUNDOS.map(f => f[1]); return sob.some(c => h.includes(c)) && !h.includes(PUB_FUNDOS[0][0]) } finally { AT.pubs = p0 } }), 'Atividade: miniatura de post sem foto com o fundo sóbrio (igual ao perfil)');
+  ok(await ev(A, () => { const p0 = AT.pubs; try { AT.pubs = { zz2: { id: 'a1b2', tipo: 'post', autor: S.uid, estilo: { fundo: 0 }, fotos: [], texto: 'Selic parada' } }; const h = atThumb({ pub: 'zz2' }); return !/at-th/.test(h || '') /* 25/11 (testador): post só de texto sem miniatura na Atividade */ } finally { AT.pubs = p0 } }), 'Atividade: post sem foto não tem miniatura (o texto já está na linha)');
 
   // ===== 3. figurinhas na tela
   await ev(A, () => go('feed')); await sleep(500);

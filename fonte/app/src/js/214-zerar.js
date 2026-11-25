@@ -174,3 +174,137 @@ var CL214_E=null;
 window.addEventListener("click",e=>{if(e.target&&e.target.closest&&e.target.closest("#layer [data-cs123ini]"))setTimeout(()=>{try{CL214_E=ED132.E}catch(_){}},300)},true);
 window.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest("[data-ed132x]")))return;let meu=false;try{meu=!!CL214_E&&ED132.E===CL214_E}catch(_){}if(!meu)return;
   setTimeout(()=>{try{if(ED132.E||document.querySelector("#layer > .ed132"))return;CL214_E=null;if(!document.getElementById("layer").innerHTML)cn102AbreInicio()}catch(er){}},350)},true);
+
+/* ---- Sem internet: guardar (ou qualquer redesenho da barra) não apaga a curtida que está na fila ---- */
+function lk214Repoe(){try{if(typeof FD156_GOSTEI==="undefined")return;Object.keys(FD156_GOSTEI).forEach(pid=>fd156Marca(pid,!!FD156_GOSTEI[pid]))}catch(e){}}
+document.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest('[data-a="save"],[data-a="like"]')))return;if(typeof FD156_GOSTEI==="undefined"||!Object.keys(FD156_GOSTEI).length)return;
+  [60,300,900].forEach(t=>setTimeout(lk214Repoe,t))});
+
+/* ---- Link de post incompleto (#p=abc123, cortado pelo WhatsApp): avisa e limpa o endereço, em vez de cair calado na Capa ---- */
+function lk214Incompleto(){try{const h=location.hash||"";if(!/^#p=/i.test(h)||/^#p=[0-9a-f-]{36}$/i.test(h))return false;
+  history.replaceState(history.state,"",location.pathname+location.search);let n=0;
+  const w=()=>{if(!window.__prumoPronto&&n++<60)return setTimeout(w,300);try{sheet("Post não encontrado",`<div class="ct210-pnx"><p><b>Não achamos este post.</b></p><p>O link pode estar incompleto (alguns aplicativos cortam o fim). Peça a quem mandou para enviar de novo. Dá para ler as notícias do Prumo sem conta.</p><button type="button" class="btn ct210-hoje" data-ct210hoje>Ver as notícias de hoje</button></div>`)}catch(e){}};
+  setTimeout(w,200);return true}catch(e){return false}}
+lk214Incompleto();addEventListener("hashchange",lk214Incompleto);
+
+/* ---- Link de post/coluna sem conta: não chama coluna de "post" nem promete que basta ter conta (a pessoa pode ter
+   escolhido "só quem me segue") ---- */
+try{PC106_TX.post_link="Esta publicação (post ou coluna) é de alguém do Prumo e só aparece para quem tem conta; algumas são só para quem segue a pessoa. Entre na sua conta ou, se ainda não tem, peça um convite a quem te mandou o link."}catch(e){}
+new MutationObserver(()=>{try{document.querySelectorAll("#layer .co160-pp > b").forEach(b=>{if(/^Post de /.test(b.textContent))b.textContent=b.textContent.replace(/^Post de /,"Publicação de ")});
+  document.querySelectorAll("#layer .co160-pp > span").forEach(s=>{if(/^Para ver o que .+ escreveu, entre com a sua conta\.$/.test(s.textContent)&&!s.dataset.l214){s.dataset.l214=1;s.textContent=s.textContent.replace(/entre com a sua conta\./,"entre com a sua conta (se for só para seguidores, siga a pessoa).")}})}catch(e){}}).observe(document.getElementById("layer"),{childList:true,subtree:true,characterData:false});
+
+/* ---- Editor de coluna: o 2º Enter para sair da citação/lista não cria mais uma linha vazia (o cursor fica na linha nova) ---- */
+window.addEventListener("keydown",e=>{if(e.key!=="Enter"||e.shiftKey||e.isComposing)return;const cp=document.getElementById("ed132-corpo");if(!cp||!cp.contains(e.target===cp?cp:e.target))return;
+  try{const s=getSelection();if(!s||!s.rangeCount||!s.isCollapsed)return;let n=s.anchorNode;while(n&&n.parentNode!==cp)n=n.parentNode;
+    if(!n||n.nodeType!==1||n.tagName!=="P"||(n.textContent||"").replace(/​/g,"").trim()||n.querySelector("img,figure"))return;
+    const ant=n.previousElementSibling;if(ant&&/^(BLOCKQUOTE|UL|OL)$/.test(ant.tagName)){e.preventDefault();e.stopImmediatePropagation()}}catch(er){}},true);
+
+/* ---- Resumo cortado ("reabre na segunda…"): troca as datas relativas ANTES de cortar, para o "(23)" não ficar de fora
+   e a troca por "hoje" acontecer (Para acompanhar da Capa e os demais resumos) ---- */
+{const _cf=capaFrase;capaFrase=function(t,n){try{if(typeof dt185Rel==="function"&&t)t=dt185Rel(String(t))}catch(e){}return _cf.call(this,t,n)}}
+
+/* ---- Post com foto logo abaixo da própria notícia ("Seu comentário"): sem o 2º quadro que repete a notícia de cima ---- */
+{const _j=fc107Junto;fc107Junto=function(h,p){let r=_j.apply(this,arguments);try{if(!((p.__pub||{}).fotos||[]).length)return r;const tp=document.createElement("template");tp.innerHTML=r.trim();const a=tp.content.firstElementChild;
+  const nt=a&&a.querySelector(".track > .up-nt");if(!nt)return r;nt.remove();const n=a.querySelectorAll(".track > .sl").length;const pd=a.querySelector(".pdots");
+  if(pd){if(n<=1)pd.remove();else{const is=pd.querySelectorAll("i");if(is.length>n)is[is.length-1].remove();const pg=pd.querySelector(".pg");if(pg)pg.textContent="1/"+n}}
+  r=a.outerHTML}catch(e){}return r}}
+
+/* ---- Seguidores/Seguindo: abrir um perfil da lista e voltar reabre a lista (na mesma rolagem), não o Perfil sem ela ---- */
+var SG214={ult:null,volta:null,obs:null};
+{const _l=cs123Lista;cs123Lista=function(u,tipo){SG214.ult={u,tipo};return _l.apply(this,arguments)}}
+{const _a=abrirPerfil;abrirPerfil=function(u){try{const lb=document.getElementById("cs123-lb");if(lb&&SG214.ult&&u!==SG214.ult.u){const sc=lb.closest(".sheet");SG214.volta={...SG214.ult,y:sc?sc.scrollTop:0}}else if(!lb)SG214.volta=null}catch(e){}
+  const r=_a.apply(this,arguments);
+  try{if(SG214.volta&&!SG214.obs){const L=document.getElementById("layer");SG214.obs=new MutationObserver(()=>{if(L.querySelector(".pfv"))return;SG214.obs.disconnect();SG214.obs=null;const v=SG214.volta;SG214.volta=null;
+      if(!v||L.innerHTML.trim())return;setTimeout(()=>{try{if(document.getElementById("layer").innerHTML.trim())return;cs123Lista(v.u,v.tipo).then(()=>{const sc=document.querySelector("#cs123-lb")?.closest(".sheet");if(sc)sc.scrollTop=v.y})}catch(e){}},120)});
+    setTimeout(()=>{try{if(SG214.obs)SG214.obs.observe(L,{childList:true})}catch(e){}},400)}}catch(e){}
+  return r}}
+
+/* ---- Perfil com novidade: a bolinha do Perfil leva a uma linha "Atividade · N novidades" no alto (antes era preciso
+   achar a Atividade no fim dos ajustes da engrenagem) ---- */
+function pf214Ativ(){try{const m=document.querySelector("#v-me .pf-me");if(!m)return;let b=m.querySelector(".pf214-at");const n=S.uid&&S.membro&&typeof atNovas==="function"?atNovas():0;
+  if(!n){if(b)b.remove();return}const tx=`${ICON.like}<span>Atividade · ${n===1?"1 novidade":(n>9?"9+":n)+" novidades"}</span><i aria-hidden="true">›</i>`;
+  if(!b){m.insertAdjacentHTML("afterbegin",`<button type="button" class="pf214-at" data-ativ>${tx}</button>`)}else if(b.dataset.n!=String(n))b.innerHTML=tx;m.querySelector(".pf214-at").dataset.n=n}catch(e){}}
+{const _r=renderMe;renderMe=function(){const r=_r.apply(this,arguments);pf214Ativ();return r}}
+{const _d=atDot;atDot=function(){const r=_d.apply(this,arguments);pf214Ativ();return r}}
+
+/* ---- Nova publicação › Foto: a tela antiga "Novo post" não aparece por trás da galeria; desistir volta para a caixa ---- */
+{const _an=cp206Anexo0;cp206Anexo0=function(k){if(k!=="foto")return _an.apply(this,arguments);const tx=CP152.txt,de=document.documentElement;de.classList.add("cp214-gal");
+  const tira=()=>de.classList.remove("cp214-gal");let feito=false;
+  const r=_an.apply(this,arguments);
+  try{const f=document.getElementById("ce-pfile");if(!f){tira();return r}
+    f.addEventListener("change",()=>{feito=true;setTimeout(tira,60)},{once:true});f.addEventListener("cancel",()=>{feito=true;setTimeout(tira,60)},{once:true});
+    const fo=()=>{removeEventListener("focus",fo);setTimeout(()=>{if(feito)return;const E=typeof ED!=="undefined"&&ED;
+      if(E&&E.po&&!(E.po.fotos||[]).length&&!(E.po.rolo&&E.po.rolo.length)){try{CP152.txt=tx;ED=null;cp152Abre({manter:true,aba:"post",semFoco:true})}catch(e){}}tira()},1500)};
+    setTimeout(()=>addEventListener("focus",fo),300);setTimeout(()=>{if(!feito)tira()},120000)}catch(e){tira()}
+  return r}}
+/* publicar pela caixa: a tela antiga do editor não pisca por cima do Feed enquanto sai */
+document.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest("#layer [data-cp152pub],#layer [data-edpub]")))return;const de=document.documentElement;de.classList.add("cp214-pub");setTimeout(()=>de.classList.remove("cp214-pub"),1400)},true);
+
+/* ---- Link de post sem conta › abrir a notícia › Voltar: reabre a folha "Publicação de …" (antes caía na Capa sem ela) ---- */
+var PP214={id:null,volta:null};
+{const _pp=co160PostPrevia;co160PostPrevia=function(id){PP214.id=id;return _pp.apply(this,arguments)}}
+window.addEventListener("click",e=>{if(!(e.target&&e.target.closest&&e.target.closest("[data-co160lern]"))||!PP214.id)return;const pid=PP214.id;
+  setTimeout(()=>{const L=document.getElementById("layer");let viu=false;const ob=new MutationObserver(()=>{const tem=!!L.querySelector(".mat,.mat-top,[data-mat]");if(tem){viu=true;return}
+    if(viu&&!L.innerHTML.trim()){ob.disconnect();setTimeout(()=>{try{if(S.uid||document.getElementById("layer").innerHTML.trim())return;VP99_LINK=pid;PC106={k:"post_link",t:Date.now()};abrirLogin()}catch(er){}},150)}});
+    ob.observe(L,{childList:true,subtree:false});setTimeout(()=>ob.disconnect(),30*60e3)},40)},true);
+
+/* ---- Cartão do Feed: o assunto aparece uma vez só. Com a linha da cobertura no pé ("Ajuste fiscal · Câmara ›"), o topo
+   fica só com a editoria e a hora ---- */
+function fc214Topo(el){try{if(!el||el.dataset.fc214)return;const cb=el.querySelector(".cobbar[data-cobpag] .cb-t b");if(!cb)return;const nm=norm(cb.textContent||"");if(!nm)return;
+  const st=el.querySelector(":scope>.ph .ph-sub .fd156-st")||el.querySelector(":scope>.ph .ph-sub");if(!st)return;
+  [...st.childNodes].forEach(n=>{if(n.nodeType===3&&norm(n.textContent).trim()===nm)n.textContent=""});
+  const s0=st.firstChild;if(s0&&s0.nodeType===3)s0.textContent=s0.textContent.replace(/^\s*·\s*/,"");el.dataset.fc214="1";
+  const hr=el.querySelector(":scope>.ph .ph-sub .vn-hr");if(hr&&!(st.textContent||"").trim())hr.textContent=hr.textContent.replace(/^\s*·\s*/,"")}catch(e){}}
+{const _wt=wireTracks;wireTracks=function(root){const r=_wt.apply(this,arguments);try{if(root){const ls=root.matches&&root.matches(".post.vn-cn")?[root]:[...root.querySelectorAll(".post.vn-cn")];ls.forEach(fc214Topo)}}catch(e){}return r}}
+
+/* ---- Matéria com cotação ao vivo ({dolar} no título ou no texto): diz de quando é o número, não só a hora da rodada
+   ("Atualizado às 06h52" num título de fechamento) ---- */
+var MD214_PID=null;{const _am=abrirMateria;abrirMateria=function(pid){MD214_PID=pid;return _am.apply(this,arguments)}}
+function md214Cot(){try{const L=document.getElementById("layer"),meta=L&&L.querySelector(".mat-meta");if(!meta||meta.querySelector(".md214-cot"))return;
+  const p=MD214_PID&&pautaById(MD214_PID);if(!p)return;const tem=o=>!!(o&&typeof o==="object"&&o._m186&&Object.keys(o._m186).length);
+  let viva=tem(p);if(!viva)for(const k in p){const v=p[k];if(v&&typeof v==="object"&&(tem(v)||(Array.isArray(v)&&v.some(tem)))){viva=true;break}}
+  if(!viva)return;const lg=typeof ui184Legenda==="function"&&typeof ui184Itens==="function"?ui184Legenda(ui184Itens()):"";if(!lg)return;
+  meta.insertAdjacentHTML("beforeend",`<span class="md214-cot"> · cotação: ${esc(lg.replace(/^Atualizad[oa]\s+/i,""))}</span>`)}catch(e){}}
+new MutationObserver(md214Cot).observe(document.getElementById("layer"),{childList:true});
+
+/* ---- Voltar para a matéria anterior: volta onde a pessoa parou, mesmo quando a matéria termina de montar depois
+   (fotos, placar e quadros chegam depois dos 120 ms e a página voltava ao topo) ---- */
+{const _cv=cm168Volta;cm168Volta=function(a){const r=_cv.apply(this,arguments);try{const y=a&&a.y;if(!(y>40))return r;let ult=y;
+  const vai=()=>{const mm=document.querySelector("#layer .mat");if(!mm)return;const cur=mm.scrollTop;if(Math.abs(cur-ult)>30&&Math.abs(cur-y)>30&&cur>40)return;/* a pessoa já rolou: não puxa */
+    mm.scrollTop=y;ult=mm.scrollTop};[250,500,900,1500,2400].forEach(t=>setTimeout(vai,t))}catch(e){}return r}}
+
+/* ---- Depois de publicar (texto ou foto): o post fica no alto do Feed, acima da 1ª notícia, e a tela para no nome de quem
+   publicou (a foto carregando empurrava o post e a tela parava no meio dele) ---- */
+{const _fm=fc107Mistura;fc107Mistura=function(out,lista){const r=_fm.apply(this,arguments);try{if(!Array.isArray(r)||!S||!S.uid)return r;const ag=Date.now();
+  let j=-1,at=0;r.forEach((p,i)=>{const x=p&&p.__pub;if(x&&!p.__fc107&&x.autor===S.uid&&ag-(x.at||0)<PC162_JANELA&&(x.at||0)>at){j=i;at=x.at||0}});
+  if(j>0){const c=r===lista?r.slice():r;const [b]=c.splice(j,1);c.unshift(b);return c}return r}catch(e){return r}}}
+{const _mo=cp152Mostra;cp152Mostra=function(id){const r=_mo.apply(this,arguments);
+  const acerta=()=>{try{const el=document.getElementById("p-u:"+id);if(!el||!el.getClientRects().length)return;const top=el.getBoundingClientRect().top+scrollY-((document.querySelector(".top")||{}).offsetHeight||56)-28;
+    if(Math.abs(top-scrollY)>24)scrollTo({top:Math.max(0,top),behavior:"auto"})}catch(e){}};[1300,2200,3400].forEach(t=>setTimeout(acerta,t));return r}}
+
+/* ---- Nova conversa › Procurar pessoas: cada pessoa ganha "Conversar" (antes só "Seguir"; quem veio mandar mensagem
+   tinha de seguir, fechar e voltar ao lápis) ---- */
+var NC214=0;
+window.addEventListener("click",e=>{if(e.target&&e.target.closest&&e.target.closest(".co160-novos [data-addamigos]"))NC214=Date.now()},true);
+function nc214Pinta(){try{if(!NC214||Date.now()-NC214>10*60e3)return;const L=document.querySelector("#layer .sheet,#layer2 .sheet");if(!L)return;
+  const bs=[...L.querySelectorAll("[data-sg181seg]")];if(!bs.length)return;
+  const hd=L.querySelector(".sh-b")||L;if(!hd.querySelector(".nc214-h"))hd.insertAdjacentHTML("afterbegin",`<p class="hint nc214-h">Toque em <b>Conversar</b> para mandar mensagem. Perfil fechado: a pessoa vê a mensagem depois de aprovar o seu pedido para seguir.</p>`);
+  bs.forEach(b=>{if(b.parentElement.querySelector("[data-nc214]"))return;b.insertAdjacentHTML("beforebegin",`<button type="button" class="btn nc214-c" data-nc214="${esc(b.dataset.sg181seg)}">Conversar</button>`)})}catch(e){}}
+new MutationObserver(()=>nc214Pinta()).observe(document.body,{childList:true,subtree:true});
+window.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-nc214]");if(!b)return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();const u=b.dataset.nc214;NC214=0;
+  try{while(document.querySelector("#layer").innerHTML){closeLayer._ok=true;try{closeLayer()}finally{closeLayer._ok=false}if(document.querySelector("#layer").innerHTML)break}}catch(_){}
+  setTimeout(()=>{try{abrirConversa(u)}catch(er){}},120)},true);
+
+/* ---- Nova publicação: a miniatura mostra a foto com o corte e o formato que vão ser publicados (mesma função que gera
+   a imagem final), não a foto original inteira ---- */
+function fc214Mini(){try{const E=CP152&&CP152.ed;const P=E&&E.po;if(!P||!Array.isArray(P.fotos)||!P.fotos.length)return;
+  document.querySelectorAll("#layer > .cp152 img[data-fc164i]").forEach(im=>{const i=+im.dataset.fc164i,f=P.fotos[i];if(!f)return;
+    const sig=JSON.stringify([P.ar,f.z||1,f.ox||0,f.oy||0,f.r||0,f.fl||"",f.b||0,f.c||0,f.s||0,i]);if(im.dataset.fc214===sig&&/^data:/.test(im.src))return;try{const bs=edBase(f);if(bs&&bs.tagName==="IMG"&&!(bs.complete&&bs.naturalWidth)){if((fc214Mini.n=(fc214Mini.n||0)+1)<30)setTimeout(fc214Mini,400);return}}catch(_){return}
+    const c=document.createElement("canvas");c.width=168;try{edRenderFoto(f,c,P.ar,f.fl)}catch(e){return}
+    try{const u=c.toDataURL("image/jpeg",.82);if(u&&u.length>200){im.src=u;im.dataset.fc214=sig;const t=im.closest(".fc164-t");if(t)t.style.height=Math.round(84*c.height/c.width)+"px"}}catch(e){}})}catch(e){}}
+{const L=document.getElementById("layer");let tm=0;new MutationObserver(()=>{if(!L.querySelector(".cp152 img[data-fc164i]"))return;clearTimeout(tm);tm=setTimeout(fc214Mini,120)}).observe(L,{childList:true,subtree:true,attributes:true,attributeFilter:["src"]})}
+
+/* ---- Capa em rede lenta (1ª visita): enquanto a lista de fotos de arquivo não chega, o quadro da notícia fica só com o
+   fundo; não passa pelo desenho para depois trocar pela foto (a imagem trocava duas vezes) ---- */
+(function(){try{if(typeof FOTOS_ARQ!=="undefined"&&FOTOS_ARQ)return;const de=document.documentElement;de.classList.add("fa214-esp");const t0=Date.now();
+  const v=()=>{if((typeof FOTOS_ARQ!=="undefined"&&FOTOS_ARQ)||Date.now()-t0>9000){setTimeout(()=>de.classList.remove("fa214-esp"),FOTOS_ARQ?250:0);return}setTimeout(v,200)};v()}catch(e){}})();

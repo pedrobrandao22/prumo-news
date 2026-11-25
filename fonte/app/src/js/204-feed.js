@@ -98,7 +98,9 @@ function us204Base(pid){
   {const lk=el.querySelector("[data-likes]");lk.innerHTML=lt;if(lt){lk.dataset.a="quem";lk.setAttribute("role","button");lk.tabIndex=0}else{delete lk.dataset.a;lk.removeAttribute("role");lk.removeAttribute("tabindex")}}
   const pp=pautaById(pid);if(pp){const pl=el.querySelector("[data-poll]");if(pl){const eh=enqueteHTML(pp);pl.innerHTML=eh?`<span class="pb-l">Enquete</span>${eh}`:""}}
   {const ot=el.querySelector("[data-otr]");if(ot){const at=atividadeAmigos(pid);
-    if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("curtiu")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
+    /* 25/11 (testador): só a curtida de um amigo já está na linha embaixo dos botões ("Pedro Brandão curtiu"); o topo não repete */
+    if(at.length===1&&at[0].ac.length===1&&at[0].ac[0]==="curtiu")ot.innerHTML="";
+    else if(at.length===1){const {u,ac}=at[0];ot.innerHTML=`<span class="otr" role="button" tabindex="0" ${ac.includes("curtiu")?`data-filtro="_gostou"`:`data-otrs="${esc(pid)}"`} title="${esc(nomeDe(u))}" aria-label="${esc(nomeDe(u)+" "+ac.join(", "))}">${avatar(u)}${esc(ac.join(" · "))}</span>`}
     else if(at.length>1)ot.innerHTML=`<span class="otr" role="button" tabindex="0" data-otrs="${esc(pid)}" aria-label="${esc(at.length+" amigos nesta notícia")}">${avatares(at.map(x=>x.u))}${at.length} amigos</span>`;
     else ot.innerHTML=""}}
   {const nc=el.querySelector("[data-nchat]");if(nc){const ms=allMsgs().filter(m=>m.pid===pid&&m.texto);const u=ms[ms.length-1];nc.innerHTML=u?`<button type="button" class="nachat" data-nachat="${esc(u.de===S.uid?u.para:u.de)}">${ICON.cmt}<span><b>Na conversa</b> · ${esc(u.de===S.uid?"Você":nomeDe(u.de))}: ${esc(u.texto)}</span></button>`:""}}
@@ -298,7 +300,7 @@ function renderSecs(){
   /* 054: topo no estilo Instagram */
   const c054=()=>{const box=$("#secs");if(!box||!FEED)return;let h="";
   if($("#b-5min"))h+=igCirc('data-5min',"ig-5",`<span class="ig-5c"><b>5</b><small>min</small></span>`,"Em 5 min","O dia em 5 minutos");
-  try{const it=tickerItens(15).filter(i=>pautaById(i.pid));/* 25/11: o círculo anuncia o 1º quadro do giro */if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
+  try{const it=ult204Giro();/* 25/11: o círculo anuncia o 1º quadro do giro */if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
   h+=secsStory().map(s=>{const ps=pautasDa(s.id);if(!ps.length)return "";const nn=ps.filter(p=>!SEEN.has(seenKey(p))).length;const first=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
     return `<button type="button" class="sb ig-s" data-sec-story="${esc(s.id)}" aria-label="${esc(s.nome)}: ${ps.length} notícias${nn?", "+nn+" não vistas":""}"><span class="ig-r${nn?"":" visto"}" style="--c:${secCor(s.id)}"><span class="ig-f paper" data-sec="${esc(s.id)}">${igFace(first)}</span></span><b>${esc(s.nome)}</b></button>`}).join("");
   try{const {H,P}=igAgendaItens();if(H.length||P.length){const d=new Date(hojeSP()+"T12:00:00Z");const wd=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"UTC"}).replace(".","");
@@ -355,9 +357,11 @@ function renderSecs(){
 /* ===== stories do topo do Feed (círculos de notícia, Em 5 min, Últimas, Agenda, destaques, giros dos amigos) =====
    Só o que o topo do Feed abre; criar giro continua onde estava. */
 /* igLista: as páginas de um círculo. Base no 055; remendos: 056, 058 (2×), 068, 086. */
+/* 25/11: o giro Últimas abre pelo mais novo e deixa de fora o que tem mais de 24 h (era o fim do giro com notícia de 6 dias) */
+function ult204Giro(){const ag=Math.min(Date.now(),Date.parse((FEED&&FEED.atualizado_em)||"")||Date.now()),l=tickerItens(15).filter(i=>pautaById(i.pid)),f=l.filter(i=>!i.hora||ag-Date.parse(i.hora)<=24*3600e3);return (f.length?f:l).slice().sort((a,b)=>(Date.parse(b.hora)||0)-(Date.parse(a.hora)||0))}
 function il204Base(sec){
   if(sec==="_5min"){const ps=cincoLista();return {ps,itens:null}}
-  if(sec==="_ult"){const it=tickerItens(15).filter(i=>pautaById(i.pid));return {ps:it.map(i=>pautaById(i.pid)),itens:it}}
+  if(sec==="_ult"){const it=ult204Giro();return {ps:it.map(i=>pautaById(i.pid)),itens:it}}
   return {ps:pautasDa(sec),itens:null}}
 function igLista(sec){
   /* 086: Sua semana */
