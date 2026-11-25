@@ -1,33 +1,130 @@
 {
- "gerado": "2026-11-25T11:02-03:00",
+ "gerado": "2026-11-25T11:13-03:00",
  "desde": "2026-11-25T10:41-03:00",
  "feed_atualizado_em": "2026-11-25T10:51:00-03:00",
  "resumo": {
-  "manchetes": 54,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 47,
-  "pautas_com_novidade": 3,
-  "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 9,
-  "acionar_itens": 0,
+  "manchetes": 126,
+  "assuntos_novos_relevantes": 2,
+  "assuntos_novos": 111,
+  "pautas_com_novidade": 5,
+  "pautas_com_novidade_3_fontes": 1,
+  "pautas_com_relatos": 10,
+  "acionar_itens": 2,
   "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (47 assuntos fora do feed, 9 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta eua-propoem-novas-tarifas-brasil-secao-301: 3 veículos em 90 min depois da última atualização; pauta principal dolar-volta-acima-5 sem atualização há 16.4 h e 2 veículos com relatos novos",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "eua-propoem-novas-tarifas-brasil-secao-301",
+   "titulo": "EUA propõem novas tarifas sobre aviões e açúcar do Brasil",
+   "n_fontes": 3,
+   "motivo": "pauta eua-propoem-novas-tarifas-brasil-secao-301: 3 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: eua-propoem-novas-tarifas-brasil-secao-301",
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "EUA propõem novas tarifas sobre aviões e açúcar do Brasil",
+     "url": "https://www.poder360.com.br/poder-economia/eua-propoem-novas-tarifas-sobre-avioes-e-acucar-do-brasil/",
+     "hora": "25/11 11h06",
+     "lide": "Governo Trump quer taxar aeronaves brasileiras em 10% e elevar a cobrança sobre importações. Leia no Poder360."
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Tarifas dos EUA criam desvantagens para produtos do Brasil, diz Barral",
+     "url": "https://www.cnnbrasil.com.br/economia/tarifas-dos-eua-criam-desvantagens-para-produtos-do-brasil-diz-barral/",
+     "hora": "25/11 11h05",
+     "lide": "Ao WW, o ex-secretário de Comércio Exterior do Brasil Welber Barral aponta que produtos brasileiros ficam 25% mais caros no mercado americano em relação a concorrentes"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "EUA ameaçam taxar açúcar e aeronaves do Brasil em novo pacote de tarifas",
+     "url": "https://exame.com/mundo/eua-ameacam-taxar-acucar-e-aeronaves-do-brasil-em-novo-pacote-de-tarifas/",
+     "hora": "25/11 10h51"
+    }
+   ]
+  },
+  {
+   "tipo": "pauta",
+   "pid": "dolar-volta-acima-5",
+   "titulo": "Dólar cai e Bolsa avança com inflação dos EUA no radar, expectativa por sinais fiscais e elevação de tarifas de Trump",
+   "n_fontes": 2,
+   "motivo": "pauta principal dolar-volta-acima-5 sem atualização há 16.4 h e 2 veículos com relatos novos",
+   "acao": "atualiza: dolar-volta-acima-5",
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Dólar cai e Bolsa avança com inflação dos EUA no radar, expectativa por sinais fiscais e elevação de tarifas de Trump",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/dolar-abre-em-leve-alta-em-linha-com-exterior-e-a-espera-de-novos-sinais-sobre-politica-fiscal.shtml",
+     "hora": "25/11 09h56",
+     "lide": "Indicadores americanos podem influenciar expectativas sobre os próximos passos do Fed"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ibovespa oscila com fiscal e ameaça tarifária no radar; dólar cai",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/mercado-financeiro-ibovespa-dolar-25-novembro-2026/",
+     "hora": "25/11 09h32",
+     "lide": "Mercado acompanha proposta de novas tarifas pelo governo americano, enquanto cena nacional digere mudança de estimativa de déficit para R$ 89,3 bilhões"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "PIB dos EUA sobe 4,3% no 3º trimestre na segunda leitura do período",
-   "secao": null,
-   "n_fontes": 2,
+   "assunto": "EUA propõem novas tarifas sobre aviões e açúcar do Brasil",
+   "secao": "mundo",
+   "n_fontes": 3,
    "fontes": [
-    "ex",
+    "cnn",
+    "p360",
     "valor"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "EUA propõem novas tarifas sobre aviões e açúcar do Brasil",
+     "url": "https://www.poder360.com.br/poder-economia/eua-propoem-novas-tarifas-sobre-avioes-e-acucar-do-brasil/",
+     "hora": "25/11 11h06"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "EUA propõem novas tarifas sobre China, UE e outros países para combater 'excesso de capacidade industrial'",
+     "url": "https://valor.globo.com/mundo/noticia/2026/11/25/eua-propem-novas-tarifas-sobre-china-ue-e-outros-pases-para-combater-excesso-de-capacidade-industrial.ghtml",
+     "hora": "25/11 10h44"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "EUA propõem novas tarifas sobre 14 parceiros e cita questão industrial",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/eua-propoem-novas-tarifas-sobre-14-parceiros-e-cita-questao-industrial/",
+     "hora": "25/11 10h43"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-25T11:06-03:00",
+   "pid_provavel": "eua-propoem-novas-tarifas-brasil-secao-301"
+  },
+  {
+   "assunto": "PIB dos EUA cresce 4,3% no 3º trimestre, diz 2ª estimativa",
+   "secao": null,
+   "n_fontes": 3,
+   "fontes": [
+    "ex",
+    "p360",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "PIB dos EUA cresce 4,3% no 3º trimestre, diz 2ª estimativa",
+     "url": "https://www.poder360.com.br/poder-economia/pib-dos-eua-cresce-43-no-3o-trimestre-diz-2a-estimativa/",
+     "hora": "25/11 11h03"
+    },
     {
      "veiculo": "Valor Econômico",
      "titulo": "PIB dos EUA sobe 4,3% no 3º trimestre na segunda leitura do período",
@@ -41,8 +138,62 @@
      "hora": "25/11 10h51"
     }
    ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-25T11:03-03:00"
+  },
+  {
+   "assunto": "Governo vai renovar subvenção ao diesel por mais um mês",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "met",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Governo vai renovar subvenção ao diesel por mais um mês",
+     "url": "https://valor.globo.com/brasil/noticia/2026/11/25/governo-vai-renovar-subvencao-ao-diesel-por-mais-um-mes.ghtml",
+     "hora": "25/11 11h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Governo federal vai renovar subvenção de R$ 2,12 do diesel por mais um mês",
+     "url": "https://www.metropoles.com/brasil/governo-federal-vai-renovar-subvencao-de-r-212-do-diesel-por-mais-um-mes",
+     "hora": "25/11 10h47"
+    }
+   ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-25T10:54-03:00"
+   "ultima_iso": "2026-11-25T11:00-03:00"
+  },
+  {
+   "assunto": "Sobe para seis o número de mortos após fortes chuvas no Paraná",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "antag",
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Sobe para seis o número de mortos após fortes chuvas no Paraná",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/pr/sobe-para-seis-o-numero-de-mortos-apos-fortes-chuvas-no-parana/",
+     "hora": "25/11 10h55"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Defesa Civil confirma 6 mortes no Paraná após fortes chuvas",
+     "url": "https://oantagonista.com.br/brasil/defesa-civil-confirma-6-mortes-no-parana-apos-fortes-chuvas/",
+     "hora": "25/11 10h46"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-25T10:55-03:00"
   },
   {
    "assunto": "'Predinho rosa' vai virar torre corporativa em Pinheiros, destino de quem deixa a Faria Lima",
@@ -65,6 +216,46 @@
    "ultima_iso": "2026-11-25T10:53-03:00"
   },
   {
+   "assunto": "193: telefone dos Bombeiros volta a operar no DF",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "193: telefone dos Bombeiros volta a operar no DF",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/25/193-telefone-dos-bombeiros-volta-a-operar-no-df.ghtml",
+     "hora": "25/11 10h46"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T10:46-03:00"
+  },
+  {
+   "assunto": "Affair de Léo Pereira: especialistas explicam mudanças no rosto da médica",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Affair de Léo Pereira: especialistas explicam mudanças no rosto da médica",
+     "url": "https://www.metropoles.com/colunas/fabia-oliveira/affair-de-leo-pereira-especialistas-explicam-mudancas-no-rosto-da-medica",
+     "hora": "25/11 11h02"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T11:02-03:00"
+  },
+  {
    "assunto": "Além do grid: INFINOX leva hospitalidade de alto nível ao GP de São Paulo de F1",
    "secao": null,
    "n_fontes": 1,
@@ -83,6 +274,46 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-25T10:58-03:00"
+  },
+  {
+   "assunto": "Anitta reacende debate sobre cansaço e rotina intensa; entenda os limites do corpo feminino",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Anitta reacende debate sobre cansaço e rotina intensa; entenda os limites do corpo feminino",
+     "url": "https://oglobo.globo.com/ela/noticia/2026/11/25/anitta-reacende-debate-sobre-cansaco-e-rotina-intensa-entenda-os-limites-do-corpo-feminino.ghtml",
+     "hora": "25/11 10h43"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T10:43-03:00"
+  },
+  {
+   "assunto": "Anvisa aprova medicamento para tratamento de câncer de mama inicial e grave",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Anvisa aprova medicamento para tratamento de câncer de mama inicial e grave",
+     "url": "https://www.cnnbrasil.com.br/saude/anvisa-aprova-medicamento-para-tratamento-de-cancer-de-mama-inicial-e-grave/",
+     "hora": "25/11 11h01"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T11:01-03:00"
   },
   {
    "assunto": "Anvisa manda apreender 4 lotes falsificados de remédios contra câncer",
@@ -105,6 +336,47 @@
    "ultima_iso": "2026-11-25T10:42-03:00"
   },
   {
+   "assunto": "Após denuncias de moradores, mineradora é multada em R$ 16,9 milhões no Pará por poluir rio",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Após denuncias de moradores, mineradora é multada em R$ 16,9 milhões no Pará por poluir rio",
+     "url": "https://oglobo.globo.com/brasil/noticia/2026/11/25/apos-denuncias-de-moradores-mineradora-e-multada-em-r-169-milhoes-no-para-por-poluir-rio.ghtml",
+     "hora": "25/11 10h56"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T10:56-03:00"
+  },
+  {
+   "assunto": "Assista ao EPTV1",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao EPTV1",
+     "url": "https://g1.globo.com/sp/ribeirao-preto-franca/ao-vivo/eptv1.ghtml",
+     "hora": "25/11 10h59"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-25T10:59-03:00",
+   "lixo": true
+  },
+  {
    "assunto": "Asteroides escondidos perto de Netuno finalmente começaram a aparecer",
    "secao": null,
    "n_fontes": 1,
@@ -123,6 +395,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-25T10:43-03:00"
+  },
+  {
+   "assunto": "Bactéria ‘devoradora de carne’: o risco no mar que tem matado americanos",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Bactéria ‘devoradora de carne’: o risco no mar que tem matado americanos",
+     "url": "https://www.cnnbrasil.com.br/saude/bacteria-devoradora-de-carne-o-risco-no-mar-que-tem-matado-americanos/",
+     "hora": "25/11 11h03"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T11:03-03:00"
   },
   {
    "assunto": "Barra x Avaí é o jogo da NSC TV da 1ª rodada do Catarinense 2027",
@@ -145,6 +437,26 @@
    "ultima_iso": "2026-11-25T10:44-03:00"
   },
   {
+   "assunto": "Bitcoin cai 3% e se aproxima das mínimas do ano após dado de inflação dos EUA",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Bitcoin cai 3% e se aproxima das mínimas do ano após dado de inflação dos EUA",
+     "url": "https://exame.com/future-of-money/bitcoin-hoje-25-11-2026/",
+     "hora": "25/11 11h05"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T11:05-03:00"
+  },
+  {
    "assunto": "Black Friday da Amazon tem produtos com até 80% de desconto e sorteio de R$ 1 milhão",
    "secao": null,
    "n_fontes": 1,
@@ -164,6 +476,47 @@
    "n_fontes_90min": 0,
    "ultima_iso": "2026-11-25T10:44-03:00",
    "lixo": true
+  },
+  {
+   "assunto": "Black Friday: dá para confiar nas lojas e ofertas recomendadas pela IA?",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Black Friday: dá para confiar nas lojas e ofertas recomendadas pela IA?",
+     "url": "https://www.infomoney.com.br/consumo/black-friday-ofertas-recomendadas-ia/",
+     "hora": "25/11 11h07"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-25T11:07-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Bolsa opera em alta e Ibovespa chega aos 164,5 mil pontos",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Bolsa opera em alta e Ibovespa chega aos 164,5 mil pontos",
+     "url": "https://www.metropoles.com/brasil/bolsa-opera-em-alta-e-ibovespa-chega-aos-1645-mil-pontos",
+     "hora": "25/11 10h58"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T10:58-03:00"
   },
   {
    "assunto": "Botafogo-SP oficializa compra definitiva do atacante Zé Hugo",
@@ -206,6 +559,106 @@
    "ultima_iso": "2026-11-25T10:57-03:00"
   },
   {
+   "assunto": "Bárbara Seixas acerta com Sesc Botafogo Praia e volta a atuar após pausa para maternidade",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Bárbara Seixas acerta com Sesc Botafogo Praia e volta a atuar após pausa para maternidade",
+     "url": "https://ge.globo.com/volei-de-praia/noticia/2026/11/25/barbara-seixas-acerta-com-sesc-botafogo-praia-e-volta-a-atuar-apos-pausa-para-maternidade.ghtml",
+     "hora": "25/11 11h06"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T11:06-03:00"
+  },
+  {
+   "assunto": "CCJ confirma aprovação de crime de fraude contábil no mercado de capitais",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "agsenado"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Agência Senado",
+     "titulo": "CCJ confirma aprovação de crime de fraude contábil no mercado de capitais",
+     "url": "https://www12.senado.leg.br/noticias/materias/2026/11/25/ccj-confirma-aprovacao-de-crime-de-fraude-contabil-no-mercado-de-capitais",
+     "hora": "25/11 10h58"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T10:58-03:00"
+  },
+  {
+   "assunto": "Caminho é dar segurança de que não haverá escalada da dívida",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Caminho é dar segurança de que não haverá escalada da dívida",
+     "url": "https://oglobo.globo.com/blogs/miriam-leitao/post/2026/11/caminho-e-dar-seguranca-de-que-nao-havera-escalada-da-divida.ghtml",
+     "hora": "25/11 10h48"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T10:48-03:00"
+  },
+  {
+   "assunto": "Caminhoneiros suspendem greve no Rio Grande do Norte",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Caminhoneiros suspendem greve no Rio Grande do Norte",
+     "url": "https://g1.globo.com/rn/rio-grande-do-norte/noticia/2026/11/25/caminhoneiros-suspendem-greve-no-rio-grande-do-norte.ghtml",
+     "hora": "25/11 10h47"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T10:47-03:00"
+  },
+  {
+   "assunto": "Caso Kathlen Romeu: Justiça adia para março júri popular de PMs acusados de disparos que mataram a jovem",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Caso Kathlen Romeu: Justiça adia para março júri popular de PMs acusados de disparos que mataram a jovem",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/25/caso-kathlen-romeu-justica-adia-juri.ghtml",
+     "hora": "25/11 10h55"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T10:55-03:00"
+  },
+  {
    "assunto": "Casos de intoxicação por fumaça disparam e passam de 100 em Santarém",
    "secao": null,
    "n_fontes": 1,
@@ -226,6 +679,26 @@
    "ultima_iso": "2026-11-25T10:44-03:00"
   },
   {
+   "assunto": "Celina firma acordo para ações de diagnóstico e tratamento de câncer no DF",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Celina firma acordo para ações de diagnóstico e tratamento de câncer no DF",
+     "url": "https://www.metropoles.com/distrito-federal/celina-firma-acordo-para-acoes-de-diagnostico-e-tratamento-de-cancer-no-df",
+     "hora": "25/11 11h04"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T11:04-03:00"
+  },
+  {
    "assunto": "China lança missão com primeiro astronauta estrangeiro a caminho da estação Tiangong; veja vídeo",
    "secao": "mundo",
    "n_fontes": 1,
@@ -244,398 +717,27 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-25T10:56-03:00"
-  },
-  {
-   "assunto": "Chuvas deixam mortos, feridos e desalojados em cidades de São Paulo",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Chuvas deixam mortos, feridos e desalojados em cidades de São Paulo",
-     "url": "https://jovempan.com.br/brasil/chuvas-estragos-cidades-sao-paulo/",
-     "hora": "25/11 11h01"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T11:01-03:00"
-  },
-  {
-   "assunto": "Comissão debate qualidade dos serviços de energia elétrica prestados pela Energisa em Mato Grosso do Sul",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "agcamara"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Agência Câmara",
-     "titulo": "Comissão debate qualidade dos serviços de energia elétrica prestados pela Energisa em Mato Grosso do Sul",
-     "url": "https://www.camara.leg.br/noticias/1322713-comissao-debate-qualidade-dos-servicos-de-energia-eletrica-prestados-pela-energisa-em-mato-grosso-do-sul",
-     "hora": "25/11 10h46"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:46-03:00"
-  },
-  {
-   "assunto": "Como trio argentino mudou roteiro do Vasco de briga por Z-4 para sonho de Libertadores",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Como trio argentino mudou roteiro do Vasco de briga por Z-4 para sonho de Libertadores",
-     "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/25/como-trio-argentino-mudou-roteiro-do-vasco-de-briga-por-z-4-para-sonho-de-libertadores.ghtml",
-     "hora": "25/11 11h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T11:00-03:00"
-  },
-  {
-   "assunto": "Compare a evolução do Palmeiras nos últimos cinco Brasileirões, com dois títulos",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Compare a evolução do Palmeiras nos últimos cinco Brasileirões, com dois títulos",
-     "url": "https://ge.globo.com/gato-mestre/noticia/2026/11/25/compare-a-evolucao-do-palmeiras-nos-ultimos-cinco-brasileiroes-com-dois-titulos.ghtml",
-     "hora": "25/11 10h56"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:56-03:00"
-  },
-  {
-   "assunto": "Defesa Civil confirma 6 mortes no Paraná após fortes chuvas",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Defesa Civil confirma 6 mortes no Paraná após fortes chuvas",
-     "url": "https://oantagonista.com.br/brasil/defesa-civil-confirma-6-mortes-no-parana-apos-fortes-chuvas/",
-     "hora": "25/11 10h46"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:46-03:00"
-  },
-  {
-   "assunto": "Demanda de IA supera oferta e empresas montam infraestruturas próprias, diz executivo da Dell",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Demanda de IA supera oferta e empresas montam infraestruturas próprias, diz executivo da Dell",
-     "url": "https://valor.globo.com/empresas/noticia/2026/11/25/demanda-de-ia-supera-oferta-e-empresas-montam-infraestruturas-prprias-diz-executivo-da-dell.ghtml",
-     "hora": "25/11 10h57"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-25T10:57-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Deportado por engano e símbolo do cerco a imigrantes, salvadorenho decide deixar EUA",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": true,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Deportado por engano e símbolo do cerco a imigrantes, salvadorenho decide deixar EUA",
-     "url": "https://veja.abril.com.br/mundo/deportado-por-engano-e-simbolo-do-cerco-a-imigrantes-salvadorenho-decide-deixar-eua/",
-     "hora": "25/11 10h41"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:41-03:00"
-  },
-  {
-   "assunto": "Diarista acusada de matar casal em BH cita romance com primo da vítima",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Diarista acusada de matar casal em BH cita romance com primo da vítima",
-     "url": "https://www.metropoles.com/minas-gerais/diarista-acusada-de-matar-casal-em-bh-cita-romance-com-primo-da-vitima",
-     "hora": "25/11 10h56"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:56-03:00"
-  },
-  {
-   "assunto": "Dólar cai e Ibovespa sobe de olho em dados dos EUA, tarifas de Trump e governo Lula 4",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "valor"
-   ],
-   "ja_e_breve": true,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Dólar cai e Ibovespa sobe de olho em dados dos EUA, tarifas de Trump e governo Lula 4",
-     "url": "https://valor.globo.com/financas/ao-vivo/2023/06/16/dolar-avanca-e-ibovespa-recua-em-dia-de-correcao-siga-os-mercados.ghtml",
-     "hora": "25/11 10h58"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Ações da Embraer tombam após anúncio de novas tarifas dos EUA e lideram perdas do Ibovespa",
-     "url": "https://valor.globo.com/financas/noticia/2026/11/25/aes-da-embraer-tombam-aps-anncio-de-novas-tarifas-dos-eua-e-lideram-perdas-do-ibovespa.ghtml",
-     "hora": "25/11 10h57"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:58-03:00",
-   "pid_provavel": "dolar-volta-acima-5"
-  },
-  {
-   "assunto": "EUA propõem novas tarifas sobre China, UE e outros países para combater 'excesso de capacidade industrial'",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "EUA propõem novas tarifas sobre China, UE e outros países para combater 'excesso de capacidade industrial'",
-     "url": "https://valor.globo.com/mundo/noticia/2026/11/25/eua-propem-novas-tarifas-sobre-china-ue-e-outros-pases-para-combater-excesso-de-capacidade-industrial.ghtml",
-     "hora": "25/11 10h44"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:44-03:00",
-   "pid_provavel": "eua-propoem-novas-tarifas-brasil-secao-301"
-  },
-  {
-   "assunto": "EUA suspendem operações conjuntas com o Equador após morte de suposto narcotraficante",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "EUA suspendem operações conjuntas com o Equador após morte de suposto narcotraficante",
-     "url": "https://www.infomoney.com.br/mundo/eua-suspendem-operacoes-conjuntas-com-o-equador-apos-morte-de-suposto-narcotraficante/",
-     "hora": "25/11 10h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:45-03:00"
-  },
-  {
-   "assunto": "Entenda o PARF-B, programa de apoio financeiro da CBF, e as consequências da exclusão do Ceará",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Entenda o PARF-B, programa de apoio financeiro da CBF, e as consequências da exclusão do Ceará",
-     "url": "https://ge.globo.com/ce/futebol/times/ceara/noticia/2026/11/25/entenda-o-parf-b-programa-de-apoio-financeiro-da-cbf-e-as-consequencias-da-exclusao-do-ceara.ghtml",
-     "hora": "25/11 11h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T11:00-03:00"
-  },
-  {
-   "assunto": "Esporte de Patos mira o Campeonato Paraibano 2027 com destaques da Copa Paraíba",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Esporte de Patos mira o Campeonato Paraibano 2027 com destaques da Copa Paraíba",
-     "url": "https://ge.globo.com/pb/futebol/times/esporte-de-patos/noticia/2026/11/25/esporte-de-patos-mira-o-campeonato-paraibano-2027-com-destaques-da-copa-paraiba.ghtml",
-     "hora": "25/11 11h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T11:00-03:00"
-  },
-  {
-   "assunto": "Festa do Livro da USP começa hoje com mais de 200 editoras e descontos a partir de 50%",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Festa do Livro da USP começa hoje com mais de 200 editoras e descontos a partir de 50%",
-     "url": "https://exame.com/pop/festa-do-livro-da-usp-comeca-hoje-com-mais-de-200-editoras-e-descontos-a-partir-de-50/",
-     "hora": "25/11 10h52"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:52-03:00"
-  },
-  {
-   "assunto": "Governo Trump propõe ampliar tarifaço sobre o Brasil e volta a criticar ‘práticas injustificáveis’",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Governo Trump propõe ampliar tarifaço sobre o Brasil e volta a criticar ‘práticas injustificáveis’",
-     "url": "https://veja.abril.com.br/mundo/governo-trump-propoe-ampliar-tarifaco-sobre-o-brasil-e-volta-a-criticar-praticas-injustificaveis/",
-     "hora": "25/11 10h55"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:55-03:00"
-  },
-  {
-   "assunto": "Governo federal vai renovar subvenção de R$ 2,12 do diesel por mais um mês",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Governo federal vai renovar subvenção de R$ 2,12 do diesel por mais um mês",
-     "url": "https://www.metropoles.com/brasil/governo-federal-vai-renovar-subvencao-de-r-212-do-diesel-por-mais-um-mes",
-     "hora": "25/11 10h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:47-03:00"
-  },
-  {
-   "assunto": "Governo quer agilizar investigações de dumping em meio à pressão das importações chinesas",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Governo quer agilizar investigações de dumping em meio à pressão das importações chinesas",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/governo-quer-agilizar-investigacoes-de-dumping-em-meio-a-pressao-das-importacoes-chinesas.shtml",
-     "hora": "25/11 11h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T11:00-03:00"
-  },
-  {
-   "assunto": "Greve de 24 horas por aumentos salariais leva multidão às ruas da Grécia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Greve de 24 horas por aumentos salariais leva multidão às ruas da Grécia",
-     "url": "https://veja.abril.com.br/mundo/greve-de-24-horas-por-aumentos-salariais-leva-multidao-as-ruas-da-grecia/",
-     "hora": "25/11 11h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T11:00-03:00"
-  },
-  {
-   "assunto": "Homem se veste de ‘Jesus’ e causa tumulto no Parlamento português",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Homem se veste de ‘Jesus’ e causa tumulto no Parlamento português",
-     "url": "https://veja.abril.com.br/mundo/homem-se-veste-de-jesus-e-causa-tumulto-no-parlamento-portugues/",
-     "hora": "25/11 10h46"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T10:46-03:00"
   }
  ],
  "em_pautas": {
+  "tiete-carreta-cabine-barueri": {
+   "secao": "brasil",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "VÍDEO mostra momento em que cabine de carreta despenca de ponte e cai no Rio Tietê",
+     "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/25/video-mostra-momento-em-que-cabine-de-carreta-despenca-de-ponte-e-cai-no-rio-tiete.ghtml",
+     "hora": "25/11 10h53"
+    },
+    {
+     "veiculo": "Veja",
+     "titulo": "Motorista de carreta desaparece após cabine cair no rio Tietê em acidente",
+     "url": "https://veja.abril.com.br/brasil/motorista-de-carreta-desaparece-apos-cabine-cair-no-rio-tiete-em-acidente/",
+     "hora": "25/11 10h45"
+    }
+   ]
+  },
   "ninho-urubu-condenacao-dois-reus": {
    "secao": "brasil",
    "n_fontes": 1,
@@ -650,8 +752,14 @@
   },
   "eua-propoem-novas-tarifas-brasil-secao-301": {
    "secao": "economia",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Tarifas dos EUA criam desvantagens para produtos do Brasil, diz Barral",
+     "url": "https://www.cnnbrasil.com.br/economia/tarifas-dos-eua-criam-desvantagens-para-produtos-do-brasil-diz-barral/",
+     "hora": "25/11 11h05"
+    },
     {
      "veiculo": "Exame",
      "titulo": "EUA ameaçam taxar açúcar e aeronaves do Brasil em novo pacote de tarifas",
@@ -677,9 +785,42 @@
      "hora": "25/11 11h00"
     }
    ]
+  },
+  "decreto-6x1-adiado": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Fim da escala 6x1: empresas poderão exigir trabalho aos domingos?",
+     "url": "https://exame.com/brasil/fim-da-escala-6x1-empresas-poderao-exigir-trabalho-aos-domingos/",
+     "hora": "25/11 11h05"
+    }
+   ]
   }
  },
  "novos_relatos": {
+  "decreto-6x1-adiado": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "25/11 11h05",
+   "ultima_iso": "2026-11-25T11:05-03:00",
+   "pauta_atualizada_em": "2026-11-24T14:49-03:00",
+   "horas_sem_atualizar": 20.4,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Fim da escala 6x1: empresas poderão exigir trabalho aos domingos?",
+     "url": "https://exame.com/brasil/fim-da-escala-6x1-empresas-poderao-exigir-trabalho-aos-domingos/",
+     "hora": "25/11 11h05"
+    }
+   ]
+  },
   "lula-janja-coordena-posse": {
    "n": 1,
    "n_fontes": 1,
@@ -690,7 +831,7 @@
    "ultima": "25/11 10h14",
    "ultima_iso": "2026-11-25T10:14-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
     {
@@ -702,17 +843,18 @@
    ]
   },
   "caso-master": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 3,
+   "n_fontes": 3,
    "fontes": [
     "cnn",
-    "g1"
+    "g1",
+    "oglobo"
    ],
-   "n_fontes_90min": 1,
+   "n_fontes_90min": 2,
    "ultima": "25/11 09h51",
    "ultima_iso": "2026-11-25T09:51-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": true,
    "manchetes": [
     {
@@ -722,10 +864,65 @@
      "hora": "25/11 09h51"
     },
     {
+     "veiculo": "O Globo",
+     "titulo": "Caixa avalia possível aquisição do BRB, em crise financeira provocada pelo caso Master",
+     "url": "https://oglobo.globo.com/economia/noticia/2026/11/25/caixa-avalia-possivel-aquisicao-do-brb-em-crise-financeira-provocada-pelo-caso-master.ghtml",
+     "hora": "25/11 08h29"
+    },
+    {
      "veiculo": "g1 Política",
      "titulo": "ANÁLISE: ninguém quer assumir a responsabilidade por eventual investigação de ministros do STF no caso Master",
      "url": "https://g1.globo.com/politica/blog/julia-duailibi/post/2026/11/25/caso-vorcaro-investigacao-ministros-stf-fachin-pf-pgr.ghtml",
      "hora": "25/11 08h13"
+    }
+   ]
+  },
+  "dolar-volta-acima-5": {
+   "n": 2,
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "folha"
+   ],
+   "n_fontes_90min": 2,
+   "ultima": "25/11 09h56",
+   "ultima_iso": "2026-11-25T09:56-03:00",
+   "pauta_atualizada_em": "2026-11-24T18:48-03:00",
+   "horas_sem_atualizar": 16.4,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Dólar cai e Bolsa avança com inflação dos EUA no radar, expectativa por sinais fiscais e elevação de tarifas de Trump",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/dolar-abre-em-leve-alta-em-linha-com-exterior-e-a-espera-de-novos-sinais-sobre-politica-fiscal.shtml",
+     "hora": "25/11 09h56"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Ibovespa oscila com fiscal e ameaça tarifária no radar; dólar cai",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/mercado-financeiro-ibovespa-dolar-25-novembro-2026/",
+     "hora": "25/11 09h32"
+    }
+   ]
+  },
+  "rs-temporais-tres-mortes-tupanciereta": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "oglobo"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "25/11 08h53",
+   "ultima_iso": "2026-11-25T08:53-03:00",
+   "pauta_atualizada_em": "2026-11-24T06:52-03:00",
+   "horas_sem_atualizar": 28.4,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Temporais no Paraná deixam ao menos seis mortos",
+     "url": "https://oglobo.globo.com/brasil/noticia/2026/11/25/temporais-no-parana-deixam-ao-menos-seis-mortos.ghtml",
+     "hora": "25/11 08h53"
     }
    ]
   },
@@ -739,7 +936,7 @@
    "ultima": "25/11 08h00",
    "ultima_iso": "2026-11-25T08:00-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 4.2,
+   "horas_sem_atualizar": 4.4,
    "principal": false,
    "manchetes": [
     {
@@ -747,27 +944,6 @@
      "titulo": "Palmeiras viaja para Montevidéu nesta quarta-feira para final da Libertadores; veja programação",
      "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/25/palmeiras-viaja-para-montevideu-nesta-quarta-feira-para-final-da-libertadores-veja-programacao.ghtml",
      "hora": "25/11 08h00"
-    }
-   ]
-  },
-  "comparato-morte-jurista-usp": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "valor"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "25/11 05h00",
-   "ultima_iso": "2026-11-25T05:00-03:00",
-   "pauta_atualizada_em": "2026-11-24T10:50-03:00",
-   "horas_sem_atualizar": 24.2,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Professor Fábio Konder Comparato morre aos 90 anos",
-     "url": "https://valor.globo.com/politica/noticia/2026/11/25/professor-fabio-konder-comparato-morre-aos-90-anos.ghtml",
-     "hora": "25/11 05h00"
     }
    ]
   },
@@ -781,7 +957,7 @@
    "ultima": "25/11 09h28",
    "ultima_iso": "2026-11-25T09:28-03:00",
    "pauta_atualizada_em": "2026-11-24T10:50-03:00",
-   "horas_sem_atualizar": 24.2,
+   "horas_sem_atualizar": 24.4,
    "principal": false,
    "manchetes": [
     {
@@ -802,7 +978,7 @@
    "ultima": "25/11 11h00",
    "ultima_iso": "2026-11-25T11:00-03:00",
    "pauta_atualizada_em": "2026-11-24T14:49-03:00",
-   "horas_sem_atualizar": 20.2,
+   "horas_sem_atualizar": 20.4,
    "principal": false,
    "manchetes": [
     {
@@ -823,7 +999,7 @@
    "ultima": "25/11 10h46",
    "ultima_iso": "2026-11-25T10:46-03:00",
    "pauta_atualizada_em": "2026-11-24T18:48-03:00",
-   "horas_sem_atualizar": 16.2,
+   "horas_sem_atualizar": 16.4,
    "principal": false,
    "manchetes": [
     {
@@ -834,40 +1010,33 @@
     }
    ]
   },
-  "argentina-recessao-tecnica-setembro": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "valor"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "25/11 05h00",
-   "ultima_iso": "2026-11-25T05:00-03:00",
-   "pauta_atualizada_em": "2026-11-24T18:48-03:00",
-   "horas_sem_atualizar": 16.2,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Dados indicam recessão técnica na Argentina",
-     "url": "https://valor.globo.com/impresso/noticia/2026/11/25/dados-indicam-recessao-tecnica-na-argentina.ghtml",
-     "hora": "25/11 05h00"
-    }
-   ]
-  },
   "eua-propoem-novas-tarifas-brasil-secao-301": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 3,
+   "n_fontes": 3,
    "fontes": [
-    "ex"
+    "cnn",
+    "ex",
+    "p360"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "25/11 10h51",
-   "ultima_iso": "2026-11-25T10:51-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "25/11 11h06",
+   "ultima_iso": "2026-11-25T11:06-03:00",
    "pauta_atualizada_em": "2026-11-25T10:49-03:00",
-   "horas_sem_atualizar": 0.2,
+   "horas_sem_atualizar": 0.4,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "EUA propõem novas tarifas sobre aviões e açúcar do Brasil",
+     "url": "https://www.poder360.com.br/poder-economia/eua-propoem-novas-tarifas-sobre-avioes-e-acucar-do-brasil/",
+     "hora": "25/11 11h06"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Tarifas dos EUA criam desvantagens para produtos do Brasil, diz Barral",
+     "url": "https://www.cnnbrasil.com.br/economia/tarifas-dos-eua-criam-desvantagens-para-produtos-do-brasil-diz-barral/",
+     "hora": "25/11 11h05"
+    },
     {
      "veiculo": "Exame",
      "titulo": "EUA ameaçam taxar açúcar e aeronaves do Brasil em novo pacote de tarifas",
@@ -1240,7 +1409,46 @@
  ],
  "breves_no_feed": 16,
  "breves_faltam": 0,
- "breves_sugeridas": [],
+ "breves_sugeridas": [
+  {
+   "assunto": "Governo vai renovar subvenção ao diesel por mais um mês",
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Governo vai renovar subvenção ao diesel por mais um mês",
+     "url": "https://valor.globo.com/brasil/noticia/2026/11/25/governo-vai-renovar-subvencao-ao-diesel-por-mais-um-mes.ghtml",
+     "hora": "25/11 11h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Governo federal vai renovar subvenção de R$ 2,12 do diesel por mais um mês",
+     "url": "https://www.metropoles.com/brasil/governo-federal-vai-renovar-subvencao-de-r-212-do-diesel-por-mais-um-mes",
+     "hora": "25/11 10h47"
+    }
+   ]
+  },
+  {
+   "assunto": "Sobe para seis o número de mortos após fortes chuvas no Paraná",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Sobe para seis o número de mortos após fortes chuvas no Paraná",
+     "url": "https://www.cnnbrasil.com.br/nacional/sul/pr/sobe-para-seis-o-numero-de-mortos-apos-fortes-chuvas-no-parana/",
+     "hora": "25/11 10h55"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Defesa Civil confirma 6 mortes no Paraná após fortes chuvas",
+     "url": "https://oantagonista.com.br/brasil/defesa-civil-confirma-6-mortes-no-parana-apos-fortes-chuvas/",
+     "hora": "25/11 10h46"
+    }
+   ]
+  }
+ ],
  "ultima_rodada": "2026-11-25T10:51-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
@@ -1252,23 +1460,23 @@
   "g1 Economia": "ok: 100 itens, 11 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 11 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 67 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
+  "ge": "ok: 100 itens, 69 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 18 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 7 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 3 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 14 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 9 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 4 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 8 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 5 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 7 nas últimas 6 h",
-  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
-  "Valor Econômico": "ok: 100 itens, 100 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 100 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 59 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
@@ -1279,7 +1487,7 @@
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 15 nas últimas 6 h",
-  "Brasil de Fato": "ok: 99 itens, 5 nas últimas 6 h",
+  "Brasil de Fato": "ok: 99 itens, 6 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 10 nas últimas 6 h"
  }
 }
