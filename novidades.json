@@ -1,79 +1,104 @@
 {
- "gerado": "2026-11-25T09:04-03:00",
+ "gerado": "2026-11-25T09:15-03:00",
  "desde": "2026-11-25T06:55-03:00",
  "feed_atualizado_em": "2026-11-25T07:05:00-03:00",
  "resumo": {
-  "manchetes": 346,
-  "assuntos_novos_relevantes": 9,
-  "assuntos_novos": 288,
-  "pautas_com_novidade": 7,
+  "manchetes": 358,
+  "assuntos_novos_relevantes": 6,
+  "assuntos_novos": 299,
+  "pautas_com_novidade": 8,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 9,
-  "acionar_itens": 1,
+  "pautas_com_relatos": 10,
+  "acionar_itens": 0,
   "ja_avaliados": 1
  },
- "acionar": true,
- "acionar_motivo": "pauta principal decreto-6x1-adiado sem atualização há 18.3 h e 2 veículos com relatos novos",
- "acionar_itens": [
-  {
-   "tipo": "pauta",
-   "pid": "decreto-6x1-adiado",
-   "titulo": "Fim da escala 6x1: operadora da Linha 7-Rubi prevê contratar 15% a mais",
-   "n_fontes": 2,
-   "motivo": "pauta principal decreto-6x1-adiado sem atualização há 18.3 h e 2 veículos com relatos novos",
-   "acao": "atualiza: decreto-6x1-adiado",
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Fim da escala 6x1: operadora da Linha 7-Rubi prevê contratar 15% a mais",
-     "url": "https://exame.com/brasil/infraestrutura/fim-da-escala-6x1-operadora-da-linha-7-rubi-preve-contratar-15-a-mais/",
-     "hora": "25/11 07h00"
-    },
-    {
-     "veiculo": "g1 Economia",
-     "titulo": "Horas extras ficam mais caras com fim da escala 6x1; calculadora do g1 mostra o que muda",
-     "url": "https://g1.globo.com/trabalho-e-carreira/noticia/2026/11/25/horas-extras-6x1-5x2-calculadora.ghtml",
-     "hora": "25/11 03h00",
-     "lide": "Com a redução da jornada de 44 para 40 horas semanais, o valor da hora trabalhada aumentará sem mudança no salário mensal. Simulador mostra quanto valerão as horas extras."
-    }
-   ]
-  }
- ],
+ "acionar": false,
+ "acionar_motivo": "nada novo que acione (299 assuntos fora do feed, 10 pautas com relatos, 1 já vistos por uma rodada)",
+ "acionar_itens": [],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Avião cai na costa do Mississippi, nos EUA, e mata 6 pessoas",
-   "secao": "brasil",
-   "n_fontes": 3,
+   "assunto": "Governo libera 3,43 bilhões de reais do Orçamento apesar de piora nas contas",
+   "secao": "economia",
+   "n_fontes": 4,
    "fontes": [
-    "estadao",
+    "ab",
+    "antag",
+    "gp",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Governo libera 3,43 bilhões de reais do Orçamento apesar de piora nas contas",
+     "url": "https://veja.abril.com.br/economia/governo-libera-343-bilhoes-de-reais-do-orcamento-apesar-de-piora-nas-contas/",
+     "hora": "25/11 08h42"
+    },
+    {
+     "veiculo": "Gazeta do Povo Economia",
+     "titulo": "Governo libera R$ 3,4 bilhões após lista de exceções à meta fiscal crescer",
+     "url": "https://www.gazetadopovo.com.br/economia/governo-libera-3-4-bilhoes-apos-lista-de-excecoes-a-meta-fiscal-crescer/",
+     "hora": "25/11 08h09"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Governo Lula reduz contenção de gastos no Orçamento para R$ 12,6 bilhões",
+     "url": "https://oantagonista.com.br/economia/governo-lula-reduz-contencao-de-gastos-no-orcamento-para-r-126-bilhoes/",
+     "hora": "25/11 08h08"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Governo libera R$ 3,43 bilhões do Orçamento após ajuste fiscal",
+     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/governo-libera-r-343-bilhoes-do-orcamento-apos-ajuste-fiscal",
+     "hora": "25/11 07h02"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-25T08:42-03:00",
+   "pid_provavel": "pec-ajuste-fiscal-congresso"
+  },
+  {
+   "assunto": "Papa considera ‘preocupante’ fracasso das negociações sobre o clima na COP31",
+   "secao": "mundo",
+   "n_fontes": 4,
+   "fontes": [
+    "cnn",
     "jp",
-    "met"
+    "met",
+    "oglobo"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
      "veiculo": "Jovem Pan",
-     "titulo": "Avião cai na costa do Mississippi, nos EUA, e mata 6 pessoas",
-     "url": "https://jovempan.com.br/mundo/aviao-cai-na-costa-do-mississippi-nos-eua-e-mata-6-pessoas/",
-     "hora": "25/11 08h25"
+     "titulo": "Papa considera ‘preocupante’ fracasso das negociações sobre o clima na COP31",
+     "url": "https://jovempan.com.br/mundo/papa-considera-preocupante-fracasso-das-negociacoes-sobre-o-clima-na-cop31/",
+     "hora": "25/11 09h14"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Papa Leão chama fracasso da COP31 de “preocupante”",
+     "url": "https://www.cnnbrasil.com.br/internacional/papa-leao-chama-fracasso-da-cop31-de-preocupante/",
+     "hora": "25/11 09h00"
     },
     {
      "veiculo": "Metrópoles",
-     "titulo": "EUA: queda de avião no Mississippi deixa 6 mortos, incluindo duas crianças",
-     "url": "https://www.metropoles.com/mundo/eua-queda-de-aviao-no-mississippi-deixa-6-mortos-incluindo-duas-criancas",
-     "hora": "25/11 08h15"
+     "titulo": "Papa Leão XIV critica falta de compromisso climático após fracasso da COP31",
+     "url": "https://www.metropoles.com/mundo/papa-leao-xiv-critica-falta-de-compromisso-climatico-apos-fracasso-da-cop31",
+     "hora": "25/11 08h49"
     },
     {
-     "veiculo": "Estadão Internacional",
-     "titulo": "Avião cai na costa do Mississippi, nos EUA, e mata seis pessoas; 2 crianças estão entre as vítimas",
-     "url": "https://www.estadao.com.br/internacional/aviao-cai-na-costa-do-mississippi-nos-eua-e-mata-seis-pessoas-2-criancas-estao-entre-as-vitimas-npr/",
-     "hora": "25/11 07h20"
+     "veiculo": "O Globo",
+     "titulo": "Papa Leão XIV diz que fracasso da COP31 é 'preocupante' e cobra compromissos claros para a crise climática",
+     "url": "https://oglobo.globo.com/mundo/clima-e-ciencia/noticia/2026/11/25/papa-leao-xiv-diz-que-fracasso-da-cop31-e-preocupante-e-cobra-compromissos-claros-para-a-crise-climatica.ghtml",
+     "hora": "25/11 07h40"
     }
    ],
    "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-25T08:25-03:00"
+   "ultima_iso": "2026-11-25T09:14-03:00"
   },
   {
    "assunto": "De volta à Nvidia, Jensen Huang defende que empresa siga sem plano de sucessão",
@@ -110,109 +135,6 @@
    "ultima_iso": "2026-11-25T08:50-03:00"
   },
   {
-   "assunto": "Governo chinês reage após condenação histórica da gigante de tecnologia Huawei nos EUA",
-   "secao": null,
-   "n_fontes": 3,
-   "fontes": [
-    "im",
-    "met",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Governo chinês reage após condenação histórica da gigante de tecnologia Huawei nos EUA",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/25/governo-chines-reage-apos-condenacao-historica-da-gigante-de-tecnologia-huawei-nos-eua.ghtml",
-     "hora": "25/11 08h59"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Tribunal dos EUA condena gigante chinesa Huawei por fraude e roubo de segredos",
-     "url": "https://www.infomoney.com.br/business/tribunal-dos-eua-condena-gigante-chinesa-huawei-por-fraude-e-roubo-de-segredos/",
-     "hora": "25/11 08h47"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Empresa chinesa Huawei é condenada por roubo de tecnologia e fraude nos EUA",
-     "url": "https://www.metropoles.com/mundo/empresa-chinesa-huawei-e-condenada-por-roubo-de-tecnologia-e-fraude-nos-eua",
-     "hora": "25/11 08h28"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-25T08:59-03:00"
-  },
-  {
-   "assunto": "Governo libera R$ 3,4 bilhões após lista de exceções à meta fiscal crescer",
-   "secao": "economia",
-   "n_fontes": 3,
-   "fontes": [
-    "ab",
-    "antag",
-    "gp"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Gazeta do Povo Economia",
-     "titulo": "Governo libera R$ 3,4 bilhões após lista de exceções à meta fiscal crescer",
-     "url": "https://www.gazetadopovo.com.br/economia/governo-libera-3-4-bilhoes-apos-lista-de-excecoes-a-meta-fiscal-crescer/",
-     "hora": "25/11 08h09"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Governo Lula reduz contenção de gastos no Orçamento para R$ 12,6 bilhões",
-     "url": "https://oantagonista.com.br/economia/governo-lula-reduz-contencao-de-gastos-no-orcamento-para-r-126-bilhoes/",
-     "hora": "25/11 08h08"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Governo libera R$ 3,43 bilhões do Orçamento após ajuste fiscal",
-     "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/governo-libera-r-343-bilhoes-do-orcamento-apos-ajuste-fiscal",
-     "hora": "25/11 07h02"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-25T08:09-03:00",
-   "pid_provavel": "pec-ajuste-fiscal-congresso"
-  },
-  {
-   "assunto": "Mais de 100 pessoas são presas em operação no Rio contra foragidos por crimes patrimoniais",
-   "secao": "brasil",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "estadao",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Estadão Brasil",
-     "titulo": "Mais de 100 pessoas são presas em operação no Rio contra foragidos por crimes patrimoniais",
-     "url": "https://www.estadao.com.br/brasil/presos-operacao-espoliador-foragidos-crimes-patrimoniais-rio-de-janeiro-npr/",
-     "hora": "25/11 08h46"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Polícia prende 112 foragidos em megaoperação no Rio de Janeiro",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/policia-prende-foragidos-em-megaoperacao-no-rio-de-janeiro/",
-     "hora": "25/11 07h44"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Polícia prende 112 pessoas em megaoperação contra foragidos da Justiça no Rio",
-     "url": "https://oglobo.globo.com/rio/noticia/2026/11/25/policia-prende-76-pessoas-em-megaoperacao-contra-foragidos-da-justica-no-rio.ghtml",
-     "hora": "25/11 07h14"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-25T08:46-03:00"
-  },
-  {
    "assunto": "PF faz operação contra mineração ilegal e autoriza bloqueio de R$ 2 bilhões",
    "secao": "brasil",
    "n_fontes": 3,
@@ -247,72 +169,38 @@
    "ultima_iso": "2026-11-25T08:55-03:00"
   },
   {
-   "assunto": "Papa Leão chama fracasso da COP31 de “preocupante”",
-   "secao": "mundo",
+   "assunto": "Polícia Civil prende 112 foragidos da Justiça em megaoperação no Rio de Janeiro",
+   "secao": "brasil",
    "n_fontes": 3,
    "fontes": [
     "cnn",
-    "met",
-    "oglobo"
+    "oglobo",
+    "veja"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Papa Leão chama fracasso da COP31 de “preocupante”",
-     "url": "https://www.cnnbrasil.com.br/internacional/papa-leao-chama-fracasso-da-cop31-de-preocupante/",
-     "hora": "25/11 09h00"
+     "veiculo": "Veja",
+     "titulo": "Polícia Civil prende 112 foragidos da Justiça em megaoperação no Rio de Janeiro",
+     "url": "https://veja.abril.com.br/brasil/policia-civil-prende-112-foragidos-da-justica-em-megaoperacao-no-rio-de-janeiro/",
+     "hora": "25/11 08h36"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Papa Leão XIV critica falta de compromisso climático após fracasso da COP31",
-     "url": "https://www.metropoles.com/mundo/papa-leao-xiv-critica-falta-de-compromisso-climatico-apos-fracasso-da-cop31",
-     "hora": "25/11 08h49"
+     "veiculo": "CNN Brasil",
+     "titulo": "Polícia prende 112 foragidos em megaoperação no Rio de Janeiro",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/policia-prende-foragidos-em-megaoperacao-no-rio-de-janeiro/",
+     "hora": "25/11 07h44"
     },
     {
      "veiculo": "O Globo",
-     "titulo": "Papa Leão XIV diz que fracasso da COP31 é 'preocupante' e cobra compromissos claros para a crise climática",
-     "url": "https://oglobo.globo.com/mundo/clima-e-ciencia/noticia/2026/11/25/papa-leao-xiv-diz-que-fracasso-da-cop31-e-preocupante-e-cobra-compromissos-claros-para-a-crise-climatica.ghtml",
-     "hora": "25/11 07h40"
+     "titulo": "Polícia prende 112 pessoas em megaoperação contra foragidos da Justiça no Rio",
+     "url": "https://oglobo.globo.com/rio/noticia/2026/11/25/policia-prende-76-pessoas-em-megaoperacao-contra-foragidos-da-justica-no-rio.ghtml",
+     "hora": "25/11 07h14"
     }
    ],
    "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-25T09:00-03:00"
-  },
-  {
-   "assunto": "Quem é Darren Beattie, aliado da família Bolsonaro que deixou o governo Trump",
-   "secao": "politica",
-   "n_fontes": 3,
-   "fontes": [
-    "cnn",
-    "im",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Quem é Darren Beattie, aliado da família Bolsonaro que deixou o governo Trump",
-     "url": "https://www.infomoney.com.br/mundo/quem-e-darren-beattie-aliado-da-familia-bolsonaro-que-deixou-o-governo-trump/",
-     "hora": "25/11 08h45"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Quem é Darren Beattie, aliado da família Bolsonaro que deixou o governo Trump",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/25/quem-e-darren-beattie-aliado-da-familia-bolsonaro-que-deixou-o-governo-trump.ghtml",
-     "hora": "25/11 08h11"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Quem é Darren Beattie, aliado dos Bolsonaros que deixou governo Trump",
-     "url": "https://www.cnnbrasil.com.br/internacional/quem-e-darren-beattie-aliado-dos-bolsonaros-que-deixou-governo-trump/",
-     "hora": "25/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-25T08:45-03:00"
+   "ultima_iso": "2026-11-25T08:36-03:00"
   },
   {
    "assunto": "Temporais no Paraná deixam ao menos seis mortos",
@@ -409,6 +297,61 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-25T08:34-03:00"
+  },
+  {
+   "assunto": "Alcolumbre admite votar novo pacote de ajuste fiscal de Lula ainda em 2026",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "folha",
+    "gp"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Gazeta do Povo Economia",
+     "titulo": "Alcolumbre admite votar novo pacote de ajuste fiscal de Lula ainda em 2026",
+     "url": "https://www.gazetadopovo.com.br/economia/alcolumbre-admite-votar-novo-pacote-fiscal-de-lula-ainda-em-2026/",
+     "hora": "25/11 09h10"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "A frase que faltou no pacote fiscal",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/mauricio-portugal-ribeiro/2026/11/a-frase-que-faltou-no-pacote-fiscal.shtml",
+     "hora": "25/11 07h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-25T09:10-03:00",
+   "pid_provavel": "pec-ajuste-fiscal-congresso"
+  },
+  {
+   "assunto": "Avião cai na costa do Mississippi, nos EUA, e mata 6 pessoas",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "estadao",
+    "jp"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Avião cai na costa do Mississippi, nos EUA, e mata 6 pessoas",
+     "url": "https://jovempan.com.br/mundo/aviao-cai-na-costa-do-mississippi-nos-eua-e-mata-6-pessoas/",
+     "hora": "25/11 08h25"
+    },
+    {
+     "veiculo": "Estadão Internacional",
+     "titulo": "Avião cai na costa do Mississippi, nos EUA, e mata seis pessoas; 2 crianças estão entre as vítimas",
+     "url": "https://www.estadao.com.br/internacional/aviao-cai-na-costa-do-mississippi-nos-eua-e-mata-seis-pessoas-2-criancas-estao-entre-as-vitimas-npr/",
+     "hora": "25/11 07h20"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-25T08:25-03:00"
   },
   {
    "assunto": "Brasil fica no top 10 de ranking de seleções com melhores sub-23 do mundo; veja lista",
@@ -607,33 +550,6 @@
    "ultima_iso": "2026-11-25T08:56-03:00"
   },
   {
-   "assunto": "Fachin autoriza pai de Vorcaro a sair da prisão para fazer exames",
-   "secao": "politica",
-   "n_fontes": 2,
-   "fontes": [
-    "jp",
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Fachin autoriza pai de Vorcaro a sair da prisão para fazer exames",
-     "url": "https://revistaoeste.com/politica/fachin-autoriza-pai-de-vorcaro-a-sair-da-prisao-para-fazer-exames/",
-     "hora": "25/11 08h14"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Fachin autoriza saída de Henrique Vorcaro da prisão para exames médicos",
-     "url": "https://jovempan.com.br/politica/fachin-autoriza-saida-de-henrique-vorcaro-da-prisao-para-exames-medicos/",
-     "hora": "25/11 07h19"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-25T08:14-03:00"
-  },
-  {
    "assunto": "Haddad não fará parte do governo Lula 4?",
    "secao": "politica",
    "n_fontes": 2,
@@ -659,6 +575,33 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-25T08:55-03:00"
+  },
+  {
+   "assunto": "Inscrições para concurso do IBGE com 27 mil vagas terminam nesta quarta",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Inscrições para concurso do IBGE com 27 mil vagas terminam nesta quarta",
+     "url": "https://www.metropoles.com/brasil/inscricoes-para-concurso-do-ibge-com-27-mil-vagas-terminam-nesta-quarta",
+     "hora": "25/11 09h07"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Inscrições para processo seletivo do IBGE com mais de 600 vagas na região terminam nesta quarta-feira",
+     "url": "https://g1.globo.com/mg/grande-minas/noticia/2026/11/25/inscricoes-para-processo-seletivo-do-ibge-com-mais-de-600-vagas-na-regiao-terminam-nesta-quarta-feira.ghtml",
+     "hora": "25/11 08h45"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-25T09:07-03:00"
   },
   {
    "assunto": "Inspirado em Paulo Freire, projeto de escola pública da Maré, no RJ, vence prêmio internacional",
@@ -788,6 +731,60 @@
    "ultima_iso": "2026-11-25T08:55-03:00"
   },
   {
+   "assunto": "PF rastreia fortuna de grupo que fez R$ 3 bilhões com tráfico internacional",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "PF rastreia fortuna de grupo que fez R$ 3 bilhões com tráfico internacional",
+     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/pf-rastreia-fortuna-de-grupo-que-fez-r-3-bilhoes-com-trafico-internacional",
+     "hora": "25/11 08h55"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "PF mira bens de grupo suspeito de movimentar R$ 3 bilhões com tráfico no TO e mais três estados",
+     "url": "https://g1.globo.com/to/tocantins/noticia/2026/11/25/pf-faz-operacao-para-apreender-bens-de-grupo-suspeito-de-movimentar-r-3-bilhoes-com-trafico-de-drogas.ghtml",
+     "hora": "25/11 08h06"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-25T08:55-03:00"
+  },
+  {
+   "assunto": "Quem é Darren Beattie, aliado da família Bolsonaro que deixou o governo Trump",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Quem é Darren Beattie, aliado da família Bolsonaro que deixou o governo Trump",
+     "url": "https://oglobo.globo.com/politica/noticia/2026/11/25/quem-e-darren-beattie-aliado-da-familia-bolsonaro-que-deixou-o-governo-trump.ghtml",
+     "hora": "25/11 08h11"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Quem é Darren Beattie, aliado dos Bolsonaros que deixou governo Trump",
+     "url": "https://www.cnnbrasil.com.br/internacional/quem-e-darren-beattie-aliado-dos-bolsonaros-que-deixou-governo-trump/",
+     "hora": "25/11 07h00"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-25T08:11-03:00"
+  },
+  {
    "assunto": "Quem é Valéria Barcellos, cantora que vendeu apenas 21 ingressos para show",
    "secao": null,
    "n_fontes": 2,
@@ -870,6 +867,33 @@
    "ultima_iso": "2026-11-25T08:23-03:00"
   },
   {
+   "assunto": "Índice de confiança da construção cai 4,9 pontos em novembro, revela FGV",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "im",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Índice de confiança da construção cai 4,9 pontos em novembro, revela FGV",
+     "url": "https://www.infomoney.com.br/economia/indice-de-confianca-da-construcao-cai-49-pontos-em-novembro-revela-fgv/",
+     "hora": "25/11 09h15"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Índice de confiança da construção cai em novembro, informa FGV",
+     "url": "https://valor.globo.com/brasil/noticia/2026/11/25/indice-de-confianca-da-construcao-cai-em-novembro-informa-fgv.ghtml",
+     "hora": "25/11 08h41"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-25T09:15-03:00"
+  },
+  {
    "assunto": "'A gente sai para trabalhar e não sabe se vai voltar', diz mulher atingida por linha cortante no pescoço em SP",
    "secao": null,
    "n_fontes": 1,
@@ -888,46 +912,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-25T07:29-03:00"
-  },
-  {
-   "assunto": "'Cheguei perto de desistir da música. Seria garçom até hoje', diz Baco Exu do Blues",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "'Cheguei perto de desistir da música. Seria garçom até hoje', diz Baco Exu do Blues",
-     "url": "https://oglobo.globo.com/cultura/noticia/2026/11/25/cheguei-perto-de-desistir-da-musica-seria-garcom-ate-hoje-diz-baco-exu-do-blues.ghtml",
-     "hora": "25/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T07:00-03:00"
-  },
-  {
-   "assunto": "'Cuida dela como se fosse sua': agente funerária diz que pedido de mãe que perdeu bebê foi o momento mais marcante da sua carreira",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "'Cuida dela como se fosse sua': agente funerária diz que pedido de mãe que perdeu bebê foi o momento mais marcante da sua carreira",
-     "url": "https://g1.globo.com/go/goias/noticia/2026/11/25/cuida-dela-como-se-fosse-sua-agente-funeraria-diz-que-pedido-de-mae-que-perdeu-bebe-foi-o-momento-mais-marcante-da-sua-carreira.ghtml",
-     "hora": "25/11 07h21"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-25T07:21-03:00"
   }
  ],
  "em_pautas": {
@@ -1003,18 +987,6 @@
     }
    ]
   },
-  "dolar-volta-acima-5": {
-   "secao": "economia",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Ibovespa Hoje Ao Vivo: Confira o que movimenta Bolsa, Dólar e Juros nesta quarta",
-     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-25112026/",
-     "hora": "25/11 08h36"
-    }
-   ]
-  },
   "pec-ajuste-fiscal-congresso": {
    "secao": "politica",
    "n_fontes": 1,
@@ -1026,21 +998,44 @@
      "hora": "25/11 08h39"
     }
    ]
+  },
+  "colombia-refens-supermercado-cartagena": {
+   "secao": "mundo",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Reféns são resgatados após 17 horas de sequestro em supermercado na Colômbia",
+     "url": "https://veja.abril.com.br/mundo/refens-sao-resgatados-apos-17-horas-de-sequestro-em-supermercado-na-colombia/",
+     "hora": "25/11 08h47"
+    }
+   ]
+  },
+  "dolar-volta-acima-5": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ibovespa Hoje Ao Vivo: Confira o que movimenta Bolsa, Dólar e Juros nesta quarta",
+     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-25112026/",
+     "hora": "25/11 09h05"
+    }
+   ]
   }
  },
  "novos_relatos": {
   "decreto-6x1-adiado": {
-   "n": 2,
-   "n_fontes": 2,
+   "n": 1,
+   "n_fontes": 1,
    "fontes": [
-    "ex",
-    "g1"
+    "ex"
    ],
    "n_fontes_90min": 1,
    "ultima": "25/11 07h00",
    "ultima_iso": "2026-11-25T07:00-03:00",
    "pauta_atualizada_em": "2026-11-24T14:49-03:00",
-   "horas_sem_atualizar": 18.3,
+   "horas_sem_atualizar": 18.4,
    "principal": true,
    "manchetes": [
     {
@@ -1048,12 +1043,6 @@
      "titulo": "Fim da escala 6x1: operadora da Linha 7-Rubi prevê contratar 15% a mais",
      "url": "https://exame.com/brasil/infraestrutura/fim-da-escala-6x1-operadora-da-linha-7-rubi-preve-contratar-15-a-mais/",
      "hora": "25/11 07h00"
-    },
-    {
-     "veiculo": "g1 Economia",
-     "titulo": "Horas extras ficam mais caras com fim da escala 6x1; calculadora do g1 mostra o que muda",
-     "url": "https://g1.globo.com/trabalho-e-carreira/noticia/2026/11/25/horas-extras-6x1-5x2-calculadora.ghtml",
-     "hora": "25/11 03h00"
     }
    ]
   },
@@ -1067,7 +1056,7 @@
    "ultima": "25/11 07h17",
    "ultima_iso": "2026-11-25T07:17-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 2.2,
+   "horas_sem_atualizar": 2.4,
    "principal": false,
    "manchetes": [
     {
@@ -1089,7 +1078,7 @@
    "ultima": "25/11 08h29",
    "ultima_iso": "2026-11-25T08:29-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 2.2,
+   "horas_sem_atualizar": 2.4,
    "principal": true,
    "manchetes": [
     {
@@ -1113,17 +1102,17 @@
     "im"
    ],
    "n_fontes_90min": 1,
-   "ultima": "25/11 08h36",
-   "ultima_iso": "2026-11-25T08:36-03:00",
+   "ultima": "25/11 09h05",
+   "ultima_iso": "2026-11-25T09:05-03:00",
    "pauta_atualizada_em": "2026-11-24T18:48-03:00",
-   "horas_sem_atualizar": 14.3,
+   "horas_sem_atualizar": 14.5,
    "principal": true,
    "manchetes": [
     {
      "veiculo": "InfoMoney",
      "titulo": "Ibovespa Hoje Ao Vivo: Confira o que movimenta Bolsa, Dólar e Juros nesta quarta",
      "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-25112026/",
-     "hora": "25/11 08h36"
+     "hora": "25/11 09h05"
     }
    ]
   },
@@ -1138,7 +1127,7 @@
    "ultima": "25/11 08h53",
    "ultima_iso": "2026-11-25T08:53-03:00",
    "pauta_atualizada_em": "2026-11-24T06:52-03:00",
-   "horas_sem_atualizar": 26.2,
+   "horas_sem_atualizar": 26.4,
    "principal": false,
    "manchetes": [
     {
@@ -1165,7 +1154,7 @@
    "ultima": "25/11 08h00",
    "ultima_iso": "2026-11-25T08:00-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 2.2,
+   "horas_sem_atualizar": 2.4,
    "principal": false,
    "manchetes": [
     {
@@ -1186,7 +1175,7 @@
    "ultima": "25/11 05h00",
    "ultima_iso": "2026-11-25T05:00-03:00",
    "pauta_atualizada_em": "2026-11-24T10:50-03:00",
-   "horas_sem_atualizar": 22.2,
+   "horas_sem_atualizar": 22.4,
    "principal": false,
    "manchetes": [
     {
@@ -1207,7 +1196,7 @@
    "ultima": "25/11 05h00",
    "ultima_iso": "2026-11-25T05:00-03:00",
    "pauta_atualizada_em": "2026-11-24T18:48-03:00",
-   "horas_sem_atualizar": 14.3,
+   "horas_sem_atualizar": 14.5,
    "principal": false,
    "manchetes": [
     {
@@ -1228,7 +1217,7 @@
    "ultima": "25/11 08h39",
    "ultima_iso": "2026-11-25T08:39-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 2.2,
+   "horas_sem_atualizar": 2.4,
    "principal": true,
    "manchetes": [
     {
@@ -1236,6 +1225,27 @@
      "titulo": "Lula se reúne nesta quarta com equipe econômica após sanção do ajuste fiscal",
      "url": "https://jovempan.com.br/politica/lula-se-reune-nesta-quarta-com-equipe-economica-apos-sancao-do-ajuste-fiscal/",
      "hora": "25/11 08h39"
+    }
+   ]
+  },
+  "colombia-refens-supermercado-cartagena": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "25/11 08h47",
+   "ultima_iso": "2026-11-25T08:47-03:00",
+   "pauta_atualizada_em": "2026-11-25T06:33-03:00",
+   "horas_sem_atualizar": 2.7,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Reféns são resgatados após 17 horas de sequestro em supermercado na Colômbia",
+     "url": "https://veja.abril.com.br/mundo/refens-sao-resgatados-apos-17-horas-de-sequestro-em-supermercado-na-colombia/",
+     "hora": "25/11 08h47"
     }
    ]
   }
@@ -1550,27 +1560,33 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Avião cai na costa do Mississippi, nos EUA, e mata 6 pessoas",
-   "secao": "brasil",
-   "n_fontes": 3,
+   "assunto": "Papa considera ‘preocupante’ fracasso das negociações sobre o clima na COP31",
+   "secao": "mundo",
+   "n_fontes": 4,
    "manchetes": [
     {
      "veiculo": "Jovem Pan",
-     "titulo": "Avião cai na costa do Mississippi, nos EUA, e mata 6 pessoas",
-     "url": "https://jovempan.com.br/mundo/aviao-cai-na-costa-do-mississippi-nos-eua-e-mata-6-pessoas/",
-     "hora": "25/11 08h25"
+     "titulo": "Papa considera ‘preocupante’ fracasso das negociações sobre o clima na COP31",
+     "url": "https://jovempan.com.br/mundo/papa-considera-preocupante-fracasso-das-negociacoes-sobre-o-clima-na-cop31/",
+     "hora": "25/11 09h14"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Papa Leão chama fracasso da COP31 de “preocupante”",
+     "url": "https://www.cnnbrasil.com.br/internacional/papa-leao-chama-fracasso-da-cop31-de-preocupante/",
+     "hora": "25/11 09h00"
     },
     {
      "veiculo": "Metrópoles",
-     "titulo": "EUA: queda de avião no Mississippi deixa 6 mortos, incluindo duas crianças",
-     "url": "https://www.metropoles.com/mundo/eua-queda-de-aviao-no-mississippi-deixa-6-mortos-incluindo-duas-criancas",
-     "hora": "25/11 08h15"
+     "titulo": "Papa Leão XIV critica falta de compromisso climático após fracasso da COP31",
+     "url": "https://www.metropoles.com/mundo/papa-leao-xiv-critica-falta-de-compromisso-climatico-apos-fracasso-da-cop31",
+     "hora": "25/11 08h49"
     },
     {
-     "veiculo": "Estadão Internacional",
-     "titulo": "Avião cai na costa do Mississippi, nos EUA, e mata seis pessoas; 2 crianças estão entre as vítimas",
-     "url": "https://www.estadao.com.br/internacional/aviao-cai-na-costa-do-mississippi-nos-eua-e-mata-seis-pessoas-2-criancas-estao-entre-as-vitimas-npr/",
-     "hora": "25/11 07h20"
+     "veiculo": "O Globo",
+     "titulo": "Papa Leão XIV diz que fracasso da COP31 é 'preocupante' e cobra compromissos claros para a crise climática",
+     "url": "https://oglobo.globo.com/mundo/clima-e-ciencia/noticia/2026/11/25/papa-leao-xiv-diz-que-fracasso-da-cop31-e-preocupante-e-cobra-compromissos-claros-para-a-crise-climatica.ghtml",
+     "hora": "25/11 07h40"
     }
    ]
   },
@@ -1600,31 +1616,6 @@
    ]
   },
   {
-   "assunto": "Mais de 100 pessoas são presas em operação no Rio contra foragidos por crimes patrimoniais",
-   "secao": "brasil",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "Estadão Brasil",
-     "titulo": "Mais de 100 pessoas são presas em operação no Rio contra foragidos por crimes patrimoniais",
-     "url": "https://www.estadao.com.br/brasil/presos-operacao-espoliador-foragidos-crimes-patrimoniais-rio-de-janeiro-npr/",
-     "hora": "25/11 08h46"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Polícia prende 112 foragidos em megaoperação no Rio de Janeiro",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/policia-prende-foragidos-em-megaoperacao-no-rio-de-janeiro/",
-     "hora": "25/11 07h44"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Polícia prende 112 pessoas em megaoperação contra foragidos da Justiça no Rio",
-     "url": "https://oglobo.globo.com/rio/noticia/2026/11/25/policia-prende-76-pessoas-em-megaoperacao-contra-foragidos-da-justica-no-rio.ghtml",
-     "hora": "25/11 07h14"
-    }
-   ]
-  },
-  {
    "assunto": "PF faz operação contra mineração ilegal e autoriza bloqueio de R$ 2 bilhões",
    "secao": "brasil",
    "n_fontes": 3,
@@ -1650,52 +1641,27 @@
    ]
   },
   {
-   "assunto": "Papa Leão chama fracasso da COP31 de “preocupante”",
-   "secao": "mundo",
+   "assunto": "Polícia Civil prende 112 foragidos da Justiça em megaoperação no Rio de Janeiro",
+   "secao": "brasil",
    "n_fontes": 3,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Papa Leão chama fracasso da COP31 de “preocupante”",
-     "url": "https://www.cnnbrasil.com.br/internacional/papa-leao-chama-fracasso-da-cop31-de-preocupante/",
-     "hora": "25/11 09h00"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Papa Leão XIV critica falta de compromisso climático após fracasso da COP31",
-     "url": "https://www.metropoles.com/mundo/papa-leao-xiv-critica-falta-de-compromisso-climatico-apos-fracasso-da-cop31",
-     "hora": "25/11 08h49"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Papa Leão XIV diz que fracasso da COP31 é 'preocupante' e cobra compromissos claros para a crise climática",
-     "url": "https://oglobo.globo.com/mundo/clima-e-ciencia/noticia/2026/11/25/papa-leao-xiv-diz-que-fracasso-da-cop31-e-preocupante-e-cobra-compromissos-claros-para-a-crise-climatica.ghtml",
-     "hora": "25/11 07h40"
-    }
-   ]
-  },
-  {
-   "assunto": "Quem é Darren Beattie, aliado da família Bolsonaro que deixou o governo Trump",
-   "secao": "politica",
-   "n_fontes": 3,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Quem é Darren Beattie, aliado da família Bolsonaro que deixou o governo Trump",
-     "url": "https://www.infomoney.com.br/mundo/quem-e-darren-beattie-aliado-da-familia-bolsonaro-que-deixou-o-governo-trump/",
-     "hora": "25/11 08h45"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Quem é Darren Beattie, aliado da família Bolsonaro que deixou o governo Trump",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/25/quem-e-darren-beattie-aliado-da-familia-bolsonaro-que-deixou-o-governo-trump.ghtml",
-     "hora": "25/11 08h11"
+     "veiculo": "Veja",
+     "titulo": "Polícia Civil prende 112 foragidos da Justiça em megaoperação no Rio de Janeiro",
+     "url": "https://veja.abril.com.br/brasil/policia-civil-prende-112-foragidos-da-justica-em-megaoperacao-no-rio-de-janeiro/",
+     "hora": "25/11 08h36"
     },
     {
      "veiculo": "CNN Brasil",
-     "titulo": "Quem é Darren Beattie, aliado dos Bolsonaros que deixou governo Trump",
-     "url": "https://www.cnnbrasil.com.br/internacional/quem-e-darren-beattie-aliado-dos-bolsonaros-que-deixou-governo-trump/",
-     "hora": "25/11 07h00"
+     "titulo": "Polícia prende 112 foragidos em megaoperação no Rio de Janeiro",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/policia-prende-foragidos-em-megaoperacao-no-rio-de-janeiro/",
+     "hora": "25/11 07h44"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Polícia prende 112 pessoas em megaoperação contra foragidos da Justiça no Rio",
+     "url": "https://oglobo.globo.com/rio/noticia/2026/11/25/policia-prende-76-pessoas-em-megaoperacao-contra-foragidos-da-justica-no-rio.ghtml",
+     "hora": "25/11 07h14"
     }
    ]
   },
@@ -1725,6 +1691,25 @@
    ]
   },
   {
+   "assunto": "Avião cai na costa do Mississippi, nos EUA, e mata 6 pessoas",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Avião cai na costa do Mississippi, nos EUA, e mata 6 pessoas",
+     "url": "https://jovempan.com.br/mundo/aviao-cai-na-costa-do-mississippi-nos-eua-e-mata-6-pessoas/",
+     "hora": "25/11 08h25"
+    },
+    {
+     "veiculo": "Estadão Internacional",
+     "titulo": "Avião cai na costa do Mississippi, nos EUA, e mata seis pessoas; 2 crianças estão entre as vítimas",
+     "url": "https://www.estadao.com.br/internacional/aviao-cai-na-costa-do-mississippi-nos-eua-e-mata-seis-pessoas-2-criancas-estao-entre-as-vitimas-npr/",
+     "hora": "25/11 07h20"
+    }
+   ]
+  },
+  {
    "assunto": "China critica plano de nova tarifa de Trump, mas evita ameaçar retaliação",
    "secao": "mundo",
    "n_fontes": 2,
@@ -1742,6 +1727,25 @@
      "hora": "25/11 08h32"
     }
    ]
+  },
+  {
+   "assunto": "Chuva deixa mãe e bebê mortos no interior de SP; na capital, árvore cai sobre carro e interdita 23 de Maio",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Chuva deixa mãe e bebê mortos no interior de SP; na capital, árvore cai sobre carro e interdita 23 de Maio",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/chuva-deixa-mae-e-bebe-mortos-no-interior-de-sp-na-capital-arvore-cai-sobre-carro-e-interdita-23-de-maio.shtml",
+     "hora": "25/11 08h39"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Chuva forte causa pontos de alagamento, interdita ruas e avenidas e deixa carro ilhado em Sorocaba",
+     "url": "https://g1.globo.com/sp/sorocaba-jundiai/noticia/2026/11/25/chuva-forte-causa-alagamentos-e-deixa-carro-ilhado-em-sorocaba.ghtml",
+     "hora": "25/11 07h52"
+    }
+   ]
   }
  ],
  "ultima_rodada": "2026-11-25T07:05-03:00",
@@ -1752,11 +1756,11 @@
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 1 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 5 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 4 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 50 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
+  "ge": "ok: 100 itens, 49 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
@@ -1764,7 +1768,7 @@
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 3 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 6 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 6 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 3 nas últimas 6 h",
@@ -1773,16 +1777,16 @@
   "O Globo": "ok: 100 itens, 100 nas últimas 6 h",
   "Valor Econômico": "ok: 100 itens, 100 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
-  "Veja": "falhou: <HTTPError 403: 'Forbidden'>",
+  "Veja": "ok: 20 itens, 16 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 67 itens, 2 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 64 itens, 1 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 37 itens, 2 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 38 itens, 3 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 11 nas últimas 6 h",
-  "Brasil de Fato": "ok: 99 itens, 1 nas últimas 6 h",
+  "Brasil de Fato": "ok: 99 itens, 3 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 10 nas últimas 6 h"
  }
 }
