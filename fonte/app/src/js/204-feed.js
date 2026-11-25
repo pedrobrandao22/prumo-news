@@ -298,7 +298,7 @@ function renderSecs(){
   /* 054: topo no estilo Instagram */
   const c054=()=>{const box=$("#secs");if(!box||!FEED)return;let h="";
   if($("#b-5min"))h+=igCirc('data-5min',"ig-5",`<span class="ig-5c"><b>5</b><small>min</small></span>`,"Em 5 min","O dia em 5 minutos");
-  try{const it=tickerItens(15);if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
+  try{const it=tickerItens(15).filter(i=>pautaById(i.pid));/* 25/11: o círculo anuncia o 1º quadro do giro */if(it.length){const hr=it[0].hora?hhmm(it[0].hora):"";h+=igCirc('data-ultimas',"ig-ult",`<span class="ig-uc"><i></i><small>${esc(hr||"Agora")}</small></span>`,"Últimas","Últimas notícias")}}catch(e){}
   h+=secsStory().map(s=>{const ps=pautasDa(s.id);if(!ps.length)return "";const nn=ps.filter(p=>!SEEN.has(seenKey(p))).length;const first=ps.find(p=>!SEEN.has(seenKey(p)))||ps[0];
     return `<button type="button" class="sb ig-s" data-sec-story="${esc(s.id)}" aria-label="${esc(s.nome)}: ${ps.length} notícias${nn?", "+nn+" não vistas":""}"><span class="ig-r${nn?"":" visto"}" style="--c:${secCor(s.id)}"><span class="ig-f paper" data-sec="${esc(s.id)}">${igFace(first)}</span></span><b>${esc(s.nome)}</b></button>`}).join("");
   try{const {H,P}=igAgendaItens();if(H.length||P.length){const d=new Date(hojeSP()+"T12:00:00Z");const wd=d.toLocaleDateString("pt-BR",{weekday:"short",timeZone:"UTC"}).replace(".","");

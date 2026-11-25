@@ -145,3 +145,14 @@ try{new MutationObserver(()=>cv214Convite()).observe(document.documentElement,{s
 
 /* guia "Primeira vez aqui?": aparece uma vez só e não depois que a pessoa já está lendo */
 if(typeof ct210GuiaChip==="function"){const _gc214=ct210GuiaChip;ct210GuiaChip=function(){try{if(CT210.chip214||scrollY>40)return;CT210.chip214=1}catch(e){}return _gc214.apply(this,arguments)}}
+
+/* ---- Feed de madrugada (decisão do Pedro 25/11, caminho C) ----
+   Da meia-noite às 7h a manchete continua no topo, mas o "Acabou de sair" aparece em destaque (letra maior, logo
+   abaixo do 1º cartão) e os cartões cuja última novidade é de ontem ganham o selo "de ontem". */
+function md214Hora(){try{return +new Intl.DateTimeFormat("pt-BR",{timeZone:"America/Sao_Paulo",hour:"2-digit",hour12:false}).format(new Date())}catch(e){return 12}}
+function md214Passa(){try{const mad=md214Hora()<7;document.documentElement.classList.toggle("madrugada",mad);if(!mad)return;
+  const hj=hojeSP();document.querySelectorAll("#posts .post[id^='p-']").forEach(a=>{if(a.dataset.md214)return;a.dataset.md214="1";const p=pautaById(a.id.slice(2));if(!p)return;
+    const u=ultimaAtualizacao(p)||p.hora;if(!u||dataSP(u)===hj)return;const t=a.querySelector(".ph-t");if(t&&!t.querySelector(".md214-ontem"))t.insertAdjacentHTML("beforeend",'<span class="md214-ontem">de ontem</span>')});
+  const ac=document.querySelector("#posts .ac208"),p1=document.querySelector("#posts .post[id^='p-']");if(ac&&p1&&ac.previousElementSibling!==p1&&p1.parentNode===ac.parentNode)p1.after(ac)}catch(e){}}
+try{new MutationObserver(()=>{clearTimeout(md214Passa.t);md214Passa.t=setTimeout(md214Passa,120)}).observe(document.getElementById("posts")||document.body,{childList:true})}catch(e){}
+setInterval(md214Passa,300e3);
