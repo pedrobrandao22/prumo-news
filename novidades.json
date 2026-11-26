@@ -1,50 +1,54 @@
 {
- "gerado": "2026-11-26T18:56-03:00",
+ "gerado": "2026-11-26T19:07-03:00",
  "desde": "2026-11-26T18:42-03:00",
  "feed_atualizado_em": "2026-11-26T18:52:00-03:00",
  "resumo": {
-  "manchetes": 30,
+  "manchetes": 84,
   "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 21,
-  "pautas_com_novidade": 2,
-  "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 8,
-  "acionar_itens": 0,
+  "assuntos_novos": 67,
+  "pautas_com_novidade": 3,
+  "pautas_com_novidade_3_fontes": 1,
+  "pautas_com_relatos": 9,
+  "acionar_itens": 1,
   "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (21 assuntos fora do feed, 8 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
- "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
- "novos": [
+ "acionar": true,
+ "acionar_motivo": "pauta lula-trabuco-fazenda-haddad-usp: 5 veículos em 90 min depois da última atualização",
+ "acionar_itens": [
   {
-   "assunto": "BB e Bradesco saltam mais de 10% com especulações sobre Trabuco na Fazenda",
-   "secao": "economia",
-   "n_fontes": 2,
-   "fontes": [
-    "im",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
+   "tipo": "pauta",
+   "pid": "lula-trabuco-fazenda-haddad-usp",
+   "titulo": "Luiz Carlos Trabuco aceita convite de Lula e será ministro da Fazenda",
+   "n_fontes": 5,
+   "motivo": "pauta lula-trabuco-fazenda-haddad-usp: 5 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: lula-trabuco-fazenda-haddad-usp",
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "BB e Bradesco saltam mais de 10% com especulações sobre Trabuco na Fazenda",
-     "url": "https://www.infomoney.com.br/mercados/banco-do-brasil-bbas3-e-bradesco-bbdc4-saltam-mais-de-10-com-especulacoes-sobre-trabuco-na-fazenda/",
-     "hora": "26/11 18h51"
+     "veiculo": "Poder360",
+     "titulo": "Luiz Carlos Trabuco aceita convite de Lula e será ministro da Fazenda",
+     "url": "https://www.poder360.com.br/poder-economia/luiz-carlos-trabuco-aceita-convite-de-lula-e-sera-ministro-da-fazenda/",
+     "hora": "26/11 19h06",
+     "lide": "Presidente do Conselho de Administração do Bradesco comandará a equipe econômica do 4º mandato do petista. Leia no Poder360."
     },
     {
-     "veiculo": "Valor Econômico",
-     "titulo": "Ibovespa sobe mais de 6% com notícia de que Trabuco assumirá Fazenda; ações do Bradesco avançam 11,6%",
-     "url": "https://valor.globo.com/financas/noticia/2026/11/26/ibovespa-sobe-mais-de-6percent-com-noticia-de-que-trabuco-assumira-fazenda-acoes-do-bradesco-avancam-116percent.ghtml",
-     "hora": "26/11 18h42"
+     "veiculo": "ICL Notícias",
+     "titulo": "Trabuco aceita convite de Lula para assumir Ministério da Fazenda",
+     "url": "https://iclnoticias.com.br/trabuco-aceita-convite-lula-ministerio-fazenda/",
+     "hora": "26/11 19h00",
+     "lide": "Luiz Carlos Trabuco aceita convite de Lula para assumir o Ministério da Fazenda em 2027"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Luiz Carlos Trabuco, do Bradesco, aceita convite de Lula para assumir Ministério da Fazenda, diz agência",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/luiz-carlos-trabuco-do-bradesco-aceita-convite-de-lula-para-assumir-ministerio-da-fazenda.shtml",
+     "hora": "26/11 18h58",
+     "lide": "Banqueiro é o primeiro integrante do próximo governo anunciado"
     }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-26T18:51-03:00",
-   "pid_provavel": "dolar-volta-acima-5"
-  },
+   ]
+  }
+ ],
+ "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
+ "novos": [
   {
    "assunto": "11 papéis sobem mais de 10% em dia de euforia na Bolsa",
    "secao": "economia",
@@ -66,6 +70,130 @@
    "ultima_iso": "2026-11-26T18:44-03:00"
   },
   {
+   "assunto": "AO VIVO: Assista ao GR2",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "AO VIVO: Assista ao GR2",
+     "url": "https://g1.globo.com/pe/petrolina-regiao/ao-vivo/ao-vivo-assista-ao-gr2.ghtml",
+     "hora": "26/11 18h46"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T18:46-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "AO VIVO: Assista ao JAC2 com Quésia Melo",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "AO VIVO: Assista ao JAC2 com Quésia Melo",
+     "url": "https://g1.globo.com/ac/acre/ao-vivo/ao-vivo-assista-ao-jac2-com-quesia-melo.ghtml",
+     "hora": "26/11 19h01"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T19:01-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Altos anuncia retorno do atacante Adriano Napão, ex-Belo Jardim, para temporada de 2027",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Altos anuncia retorno do atacante Adriano Napão, ex-Belo Jardim, para temporada de 2027",
+     "url": "https://ge.globo.com/pi/futebol/noticia/2026/11/26/altos-anuncia-retorno-do-atacante-adriano-napao-ex-belo-jardim-para-temporada-de-2027.ghtml",
+     "hora": "26/11 18h55"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:55-03:00"
+  },
+  {
+   "assunto": "Apagão atinge Manaus e Roraima após desligamento de linhas de transmissão",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "estadao"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Estadão Brasil",
+     "titulo": "Apagão atinge Manaus e Roraima após desligamento de linhas de transmissão",
+     "url": "https://www.estadao.com.br/brasil/apagao-desligamento-linhas-transmissao-manaus-roraima-npr/",
+     "hora": "26/11 19h02"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T19:02-03:00"
+  },
+  {
+   "assunto": "Assista ao BATV",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao BATV",
+     "url": "https://g1.globo.com/ba/bahia/ao-vivo/assista-aos-telejornais-da-tv-bahia.ghtml",
+     "hora": "26/11 18h57"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T18:57-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Assista ao Jornal Vanguarda ao vivo no g1",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao Jornal Vanguarda ao vivo no g1",
+     "url": "https://g1.globo.com/sp/vale-do-paraiba-regiao/ao-vivo/assista-ao-jornal-vanguarda-ao-vivo-no-g1.ghtml",
+     "hora": "26/11 18h55"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T18:55-03:00",
+   "lixo": true
+  },
+  {
    "assunto": "Atletismo: brasileiro vence prêmio de Fair Play por gesto durante maratona",
    "secao": null,
    "n_fontes": 1,
@@ -84,6 +212,126 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T18:47-03:00"
+  },
+  {
+   "assunto": "Bancos vermelhos contra a violência à mulher e o feminicídio podem ser instalados em Cubatão",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Bancos vermelhos contra a violência à mulher e o feminicídio podem ser instalados em Cubatão",
+     "url": "https://g1.globo.com/sp/santos-regiao/noticia/2026/11/26/bancos-vermelhos-contra-a-violencia-a-mulher-e-o-feminicidio-podem-ser-instalados-em-cubatao.ghtml",
+     "hora": "26/11 18h59"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:59-03:00"
+  },
+  {
+   "assunto": "Bebê recém-nascido engasgado é salvo por agentes do Detran durante fiscalização em Caruaru",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Bebê recém-nascido engasgado é salvo por agentes do Detran durante fiscalização em Caruaru",
+     "url": "https://g1.globo.com/pe/caruaru-regiao/noticia/2026/11/26/bebe-recem-nascido-engasgado-e-salvo-por-agentes-do-detran-durante-fiscalizacao-em-caruaru.ghtml",
+     "hora": "26/11 18h52"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:52-03:00"
+  },
+  {
+   "assunto": "Bolsonaro apresenta melhora, mas segue sem previsão de alta. Veja boletim",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Bolsonaro apresenta melhora, mas segue sem previsão de alta. Veja boletim",
+     "url": "https://www.metropoles.com/brasil/bolsonaro-apresenta-melhora-mas-segue-sem-previsao-de-alta-veja-boletim",
+     "hora": "26/11 19h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T19:00-03:00"
+  },
+  {
+   "assunto": "Brasil atinge recorde de jovens de 18 a 24 anos no ensino superior",
+   "secao": "educacao",
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Brasil atinge recorde de jovens de 18 a 24 anos no ensino superior",
+     "url": "https://www.poder360.com.br/poder-educacao/brasil-atinge-recorde-de-jovens-de-18-a-24-anos-no-ensino-superior/",
+     "hora": "26/11 19h04"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T19:04-03:00"
+  },
+  {
+   "assunto": "Casal denuncia agressão e transfobia em mercado no DF; seguranças teriam participado",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Casal denuncia agressão e transfobia em mercado no DF; seguranças teriam participado",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/26/casal-denuncia-agressao-e-transfobia-em-mercado-no-df-segurancas-teriam-participado.ghtml",
+     "hora": "26/11 18h50"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:50-03:00"
+  },
+  {
+   "assunto": "Cofundador da Pizza Hut, Dan Carney morre aos 95 anos nos EUA",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "estadao"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "Cofundador da Pizza Hut, Dan Carney morre aos 95 anos nos EUA",
+     "url": "https://www.estadao.com.br/economia/cofundador-pizza-hut-dan-carney-morre-95-anos-eua-npr/",
+     "hora": "26/11 18h56"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:56-03:00"
   },
   {
    "assunto": "Com dúvida no ataque, confira a provável escalação do Atlético-GO para decisão contra o Vila Nova",
@@ -125,6 +373,126 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T18:46-03:00"
+  },
+  {
+   "assunto": "Comissão aprova prazo de 24 horas para medidas protetivas após tentativa de feminicídio",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "agcamara"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Agência Câmara",
+     "titulo": "Comissão aprova prazo de 24 horas para medidas protetivas após tentativa de feminicídio",
+     "url": "https://www.camara.leg.br/noticias/1323417-comissao-aprova-prazo-de-24-horas-para-medidas-protetivas-apos-tentativa-de-feminicidio",
+     "hora": "26/11 19h05"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T19:05-03:00"
+  },
+  {
+   "assunto": "Como funcionava esquema de fintechs que movimentou mais de R$ 5 bilhões",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Como funcionava esquema de fintechs que movimentou mais de R$ 5 bilhões",
+     "url": "https://www.metropoles.com/sao-paulo/como-funcionava-esquema-de-fintechs-que-movimentou-mais-de-r-5-bilhoes",
+     "hora": "26/11 18h57"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:57-03:00"
+  },
+  {
+   "assunto": "Como o Sul concentrou os alertas de tempestade em 2026",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "nexo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Nexo",
+     "titulo": "Como o Sul concentrou os alertas de tempestade em 2026",
+     "url": "https://www.nexojornal.com.br/grafico/2026/11/26/alerta-tempestade-inmet-municipios-sul-2026",
+     "hora": "26/11 18h59"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:59-03:00"
+  },
+  {
+   "assunto": "Condenado por porte ilegal de arma de fogo é preso em Volta Redonda",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Condenado por porte ilegal de arma de fogo é preso em Volta Redonda",
+     "url": "https://g1.globo.com/rj/sul-do-rio-costa-verde/noticia/2026/11/26/condenado-por-porte-ilegal-de-arma-de-fogo-e-preso-em-volta-redonda.ghtml",
+     "hora": "26/11 18h48"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:48-03:00"
+  },
+  {
+   "assunto": "Deputado argentino chama chanceler de “medíocre” em meio à crise com Brasil",
+   "secao": "politica",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Deputado argentino chama chanceler de “medíocre” em meio à crise com Brasil",
+     "url": "https://www.metropoles.com/mundo/deputado-argentino-chama-chanceler-de-mediocre-em-meio-a-crise-com-brasil",
+     "hora": "26/11 19h04"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T19:04-03:00"
+  },
+  {
+   "assunto": "Deslizamento de rocha mobiliza Defesa Civil em Rio Claro",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Deslizamento de rocha mobiliza Defesa Civil em Rio Claro",
+     "url": "https://g1.globo.com/rj/sul-do-rio-costa-verde/noticia/2026/11/26/deslizamento-de-rocha-mobiliza-defesa-civil-em-rio-claro.ghtml",
+     "hora": "26/11 18h44"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:44-03:00"
   },
   {
    "assunto": "Durigan defende revisão de gastos obrigatórios, como supersalários e aposentadorias de militares",
@@ -187,6 +555,46 @@
    "ultima_iso": "2026-11-26T18:42-03:00"
   },
   {
+   "assunto": "Empresária morre e outras duas pessoas ficam feridas em acidente na MT-010",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Empresária morre e outras duas pessoas ficam feridas em acidente na MT-010",
+     "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/26/empresaria-morre-e-outras-duas-pessoas-ficam-feridas-em-acidente-na-mt-010.ghtml",
+     "hora": "26/11 18h44"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T18:44-03:00"
+  },
+  {
+   "assunto": "Família para o carro no acostamento para tirar fotografias da paisagem durante uma viagem, acredita que a parada rápida não representa risco e descobre por que pontos turísticos pr",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Família para o carro no acostamento para tirar fotografias da paisagem durante uma viagem, acredita que a parada rápida não representa risco e descobre por que pontos turísticos pr",
+     "url": "https://oantagonista.com.br/economia/familia-para-o-carro-no-acostamento-para-tirar-fotografias-da-paisagem-durante-uma-viagem-acredita-que-a-parada-rapida-nao-representa-risco-e-descobre-por-que-pontos-turisticos-precisam-ter-areas-ade/",
+     "hora": "26/11 19h06"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T19:06-03:00"
+  },
+  {
    "assunto": "Flamengo lança linha de camisas após título brasileiro com provocações; veja modelos",
    "secao": "esportes",
    "n_fontes": 1,
@@ -207,28 +615,8 @@
    "ultima_iso": "2026-11-26T18:42-03:00"
   },
   {
-   "assunto": "Imprensa publica novas mensagens antissemitas atribuídas a líder da ultradireita na França",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mundo",
-     "titulo": "Imprensa publica novas mensagens antissemitas atribuídas a líder da ultradireita na França",
-     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/imprensa-publica-novas-mensagens-antissemitas-atribuidas-a-lider-da-ultradireita-na-franca.shtml",
-     "hora": "26/11 18h42"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:42-03:00"
-  },
-  {
-   "assunto": "Líder do PT na Câmara faz ressalvas à escolha de Trabuco para a Fazenda",
-   "secao": null,
+   "assunto": "Governo Lula cria comitê para promover ‘equidade de gênero’ no agro",
+   "secao": "politica",
    "n_fontes": 1,
    "fontes": [
     "oeste"
@@ -238,178 +626,17 @@
    "manchetes": [
     {
      "veiculo": "Revista Oeste",
-     "titulo": "Líder do PT na Câmara faz ressalvas à escolha de Trabuco para a Fazenda",
-     "url": "https://revistaoeste.com/politica/lider-do-pt-na-camara-faz-ressalvas-a-escolha-de-trabuco-para-a-fazenda/",
-     "hora": "26/11 18h51"
+     "titulo": "Governo Lula cria comitê para promover ‘equidade de gênero’ no agro",
+     "url": "https://revistaoeste.com/agronegocio/governo-lula-cria-comite-para-promover-equidade-de-genero-no-agro/",
+     "hora": "26/11 19h00"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:51-03:00"
+   "ultima_iso": "2026-11-26T19:00-03:00"
   },
   {
-   "assunto": "O que as novas tarifas dos EUA miram além de açúcar e aviões",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "nexo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Nexo",
-     "titulo": "O que as novas tarifas dos EUA miram além de açúcar e aviões",
-     "url": "https://www.nexojornal.com.br/expresso/2026/11/26/tarifas-trump-brasil-aviao-acucar-taxa-de-juros-eua",
-     "hora": "26/11 18h55"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:55-03:00"
-  },
-  {
-   "assunto": "PF assume investigação de suspeita de tráfico internacional de bebês em Saquarema",
+   "assunto": "Guia gastronômico 'Égua do Guia' aposta nas cozinhas de bairro para mostrar o sabor de Belém",
    "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "PF assume investigação de suspeita de tráfico internacional de bebês em Saquarema",
-     "url": "https://veja.abril.com.br/brasil/pf-assume-investigacao-de-suspeita-de-trafico-internacional-de-bebes-em-saquarema/",
-     "hora": "26/11 18h54"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:54-03:00"
-  },
-  {
-   "assunto": "Recurso público será essencial para novas concessões, diz secretário",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Recurso público será essencial para novas concessões, diz secretário",
-     "url": "https://www.cnnbrasil.com.br/infra/recurso-publico-sera-essencial-para-novas-concessoes-diz-secretario/",
-     "hora": "26/11 18h42"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:42-03:00"
-  },
-  {
-   "assunto": "Sem Lula na mesa, há temor de que Brasil continue impedido de exportar carne de frango à UE",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Sem Lula na mesa, há temor de que Brasil continue impedido de exportar carne de frango à UE",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/painelsa/2026/11/sem-lula-na-mesa-ha-temor-de-que-brasil-continue-impedido-de-exportar-carne-de-frango-a-ue.shtml",
-     "hora": "26/11 18h42"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:42-03:00"
-  },
-  {
-   "assunto": "SpaceX recebe autorização dos EUA para criar data center no espaço com 1 milhão de satélites",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "SpaceX recebe autorização dos EUA para criar data center no espaço com 1 milhão de satélites",
-     "url": "https://veja.abril.com.br/ciencia/spacex-recebe-autorizacao-dos-eua-para-criar-data-center-no-espaco-com-1-milhao-de-satelites/",
-     "hora": "26/11 18h53"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:53-03:00"
-  },
-  {
-   "assunto": "São Paulo x Remo - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "São Paulo x Remo - Campeonato Brasileiro 2026 - Ao vivo - globoesporte.com",
-     "url": "https://ge.globo.com/sp/futebol/brasileirao-serie-a/jogo/26-11-2026/sao-paulo-remo.ghtml",
-     "hora": "26/11 18h52"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-26T18:52-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Thayse Teixeira detona Luana Piovani por polêmica com Poliana: \"Fracassada\"",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Thayse Teixeira detona Luana Piovani por polêmica com Poliana: \"Fracassada\"",
-     "url": "https://www.metropoles.com/celebridades/thayse-teixeira-detona-luana-piovani-por-polemica-com-poliana-fracassada",
-     "hora": "26/11 18h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:47-03:00"
-  },
-  {
-   "assunto": "Trabuco viajou com a esposa a Brasília para reunião com Lula",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Trabuco viajou com a esposa a Brasília para reunião com Lula",
-     "url": "https://www.metropoles.com/colunas/igor-gadelha/trabuco-viajou-com-a-esposa-a-brasilia-para-reuniao-com-lula",
-     "hora": "26/11 18h52"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:52-03:00"
-  },
-  {
-   "assunto": "Venezuela revogará lei que tornava opositores inelegíveis pelo resto da vida, diz chefe do Parlamento",
-   "secao": "mundo",
    "n_fontes": 1,
    "fontes": [
     "g1"
@@ -418,34 +645,14 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1 Mundo",
-     "titulo": "Venezuela revogará lei que tornava opositores inelegíveis pelo resto da vida, diz chefe do Parlamento",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/26/venezuela-revogara-lei-que-torna-opositores-inelegiveis-pelo-resto-da-vida-diz-chefe-do-parlamento.ghtml",
-     "hora": "26/11 18h52"
+     "veiculo": "g1",
+     "titulo": "Guia gastronômico 'Égua do Guia' aposta nas cozinhas de bairro para mostrar o sabor de Belém",
+     "url": "https://g1.globo.com/pa/para/noticia/2026/11/26/guia-gastronomico-egua-do-guia-aposta-nas-cozinhas-de-bairro-para-mostrar-o-sabor-de-belem.ghtml",
+     "hora": "26/11 18h51"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:52-03:00"
-  },
-  {
-   "assunto": "‘Óculos de pervertido’, ‘Maxxing’ e ‘Humano’: Saiba quais são as palavras do ano de acordo com dicionários internacionais",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "‘Óculos de pervertido’, ‘Maxxing’ e ‘Humano’: Saiba quais são as palavras do ano de acordo com dicionários internacionais",
-     "url": "https://veja.abril.com.br/comportamento/oculos-de-pervertido-maxxing-e-humano-saiba-quais-sao-as-palavras-do-ano-de-acordo-com-dicionarios-internacionais/",
-     "hora": "26/11 18h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T18:47-03:00"
+   "ultima_iso": "2026-11-26T18:51-03:00"
   }
  ],
  "em_pautas": {
@@ -454,7 +661,7 @@
    "n_fontes": 1,
    "manchetes": [
     {
-     "veiculo": "g1 Economia",
+     "veiculo": "g1",
      "titulo": "Ibovespa dispara 6% e dólar cai com expectativa de Trabuco no Ministério da Fazenda",
      "url": "https://g1.globo.com/economia/noticia/2026/11/26/trabuco-ibovespa-fazenda-dolar.ghtml",
      "hora": "26/11 18h48"
@@ -475,31 +682,67 @@
   },
   "lula-trabuco-fazenda-haddad-usp": {
    "secao": "politica",
-   "n_fontes": 1,
+   "n_fontes": 3,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Luiz Carlos Trabuco aceita convite de Lula e será ministro da Fazenda",
+     "url": "https://www.poder360.com.br/poder-economia/luiz-carlos-trabuco-aceita-convite-de-lula-e-sera-ministro-da-fazenda/",
+     "hora": "26/11 19h06"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Filósofo e amigo de Lula, Trabuco trabalha no Bradesco desde os 17 anos; conheça o novo ministro da Fazenda",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/filosofo-e-amigo-de-lula-trabuco-trabalha-no-bradesco-desde-os-17-anos-conheca-o-novo-ministro-da-fazenda.shtml",
+     "hora": "26/11 19h04"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Luiz Carlos Trabuco, do Bradesco, aceita convite de Lula para assumir Ministério da Fazenda, diz agência",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/luiz-carlos-trabuco-do-bradesco-aceita-convite-de-lula-para-assumir-ministerio-da-fazenda.shtml",
+     "hora": "26/11 18h58"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "BB e Bradesco saltam mais de 10% com especulações sobre Trabuco na Fazenda",
+     "url": "https://www.infomoney.com.br/mercados/banco-do-brasil-bbas3-e-bradesco-bbdc4-saltam-mais-de-10-com-especulacoes-sobre-trabuco-na-fazenda/",
+     "hora": "26/11 18h51"
+    },
+    {
+     "veiculo": "ICL Notícias",
+     "titulo": "Trabuco aceita convite de Lula para assumir Ministério da Fazenda",
+     "url": "https://iclnoticias.com.br/trabuco-aceita-convite-lula-ministerio-fazenda/",
+     "hora": "26/11 19h00"
+    },
     {
      "veiculo": "Gazeta do Povo República",
      "titulo": "Luiz Carlos Trabuco aceita convite de Lula para assumir o Ministério da Fazenda",
      "url": "https://www.gazetadopovo.com.br/economia/luiz-carlos-trabuco-aceita-convite-de-lula-para-assumir-o-ministerio-da-fazenda/",
-     "hora": "26/11 18h56"
+     "hora": "26/11 18h57"
+    },
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "Trabuco aceita convite e será ministro da Fazenda do governo Lula 4",
+     "url": "https://www.estadao.com.br/economia/trabuco-ministro-fazenda-lula-4/",
+     "hora": "26/11 18h53"
     },
     {
      "veiculo": "InfoMoney",
      "titulo": "Trabuco aceita convite de Lula para assumir Ministério da Fazenda, dizem agências",
      "url": "https://www.infomoney.com.br/politica/trabuco-aceita-convite-de-lula-para-assumir-ministerio-da-fazenda-dizem-agencias/",
      "hora": "26/11 18h44"
-    },
+    }
+   ]
+  },
+  "pgr-denuncia-gustavo-gayer": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
     {
-     "veiculo": "O Antagonista",
-     "titulo": "Lula escolhe Trabuco para o Ministério da Fazenda",
-     "url": "https://oantagonista.com.br/brasil/lula-escolhe-trabuco-para-o-ministerio-da-fazenda/",
-     "hora": "26/11 18h43"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Quem é Luiz Trabuco, o banqueiro que será ministro da Fazenda de Lula 4",
-     "url": "https://www.metropoles.com/brasil/quem-e-luiz-trabuco-ministro-fazenda-lula-4",
-     "hora": "26/11 18h43"
+     "veiculo": "ICL Notícias",
+     "titulo": "PGR denuncia deputado Gustavo Gayer por desvio de cota parlamentar",
+     "url": "https://iclnoticias.com.br/pgr-denuncia-deputado-gustavo-gayer/",
+     "hora": "26/11 19h00"
     }
    ]
   }
@@ -515,7 +758,7 @@
    "ultima": "26/11 16h25",
    "ultima_iso": "2026-11-26T16:25-03:00",
    "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 12.1,
+   "horas_sem_atualizar": 12.3,
    "principal": true,
    "manchetes": [
     {
@@ -527,23 +770,72 @@
    ]
   },
   "lula-trabuco-fazenda-haddad-usp": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 5,
+   "n_fontes": 5,
    "fontes": [
-    "gp"
+    "estadao",
+    "folha",
+    "gp",
+    "icl",
+    "p360"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "26/11 18h56",
-   "ultima_iso": "2026-11-26T18:56-03:00",
+   "n_fontes_90min": 5,
+   "ultima": "26/11 19h06",
+   "ultima_iso": "2026-11-26T19:06-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 0.1,
+   "horas_sem_atualizar": 0.3,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Luiz Carlos Trabuco aceita convite de Lula e será ministro da Fazenda",
+     "url": "https://www.poder360.com.br/poder-economia/luiz-carlos-trabuco-aceita-convite-de-lula-e-sera-ministro-da-fazenda/",
+     "hora": "26/11 19h06"
+    },
+    {
+     "veiculo": "ICL Notícias",
+     "titulo": "Trabuco aceita convite de Lula para assumir Ministério da Fazenda",
+     "url": "https://iclnoticias.com.br/trabuco-aceita-convite-lula-ministerio-fazenda/",
+     "hora": "26/11 19h00"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Luiz Carlos Trabuco, do Bradesco, aceita convite de Lula para assumir Ministério da Fazenda, diz agência",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/luiz-carlos-trabuco-do-bradesco-aceita-convite-de-lula-para-assumir-ministerio-da-fazenda.shtml",
+     "hora": "26/11 18h58"
+    },
     {
      "veiculo": "Gazeta do Povo República",
      "titulo": "Luiz Carlos Trabuco aceita convite de Lula para assumir o Ministério da Fazenda",
      "url": "https://www.gazetadopovo.com.br/economia/luiz-carlos-trabuco-aceita-convite-de-lula-para-assumir-o-ministerio-da-fazenda/",
-     "hora": "26/11 18h56"
+     "hora": "26/11 18h57"
+    },
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "Trabuco aceita convite e será ministro da Fazenda do governo Lula 4",
+     "url": "https://www.estadao.com.br/economia/trabuco-ministro-fazenda-lula-4/",
+     "hora": "26/11 18h53"
+    }
+   ]
+  },
+  "pgr-denuncia-gustavo-gayer": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "icl"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "26/11 19h00",
+   "ultima_iso": "2026-11-26T19:00-03:00",
+   "pauta_atualizada_em": "2026-11-26T05:00-03:00",
+   "horas_sem_atualizar": 14.1,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "ICL Notícias",
+     "titulo": "PGR denuncia deputado Gustavo Gayer por desvio de cota parlamentar",
+     "url": "https://iclnoticias.com.br/pgr-denuncia-deputado-gustavo-gayer/",
+     "hora": "26/11 19h00"
     }
    ]
   },
@@ -557,7 +849,7 @@
    "ultima": "26/11 18h10",
    "ultima_iso": "2026-11-26T18:10-03:00",
    "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 12.1,
+   "horas_sem_atualizar": 12.3,
    "principal": true,
    "manchetes": [
     {
@@ -578,11 +870,11 @@
    "ultima": "26/11 18h48",
    "ultima_iso": "2026-11-26T18:48-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 0.1,
+   "horas_sem_atualizar": 0.3,
    "principal": true,
    "manchetes": [
     {
-     "veiculo": "g1 Economia",
+     "veiculo": "g1",
      "titulo": "Ibovespa dispara 6% e dólar cai com expectativa de Trabuco no Ministério da Fazenda",
      "url": "https://g1.globo.com/economia/noticia/2026/11/26/trabuco-ibovespa-fazenda-dolar.ghtml",
      "hora": "26/11 18h48"
@@ -601,7 +893,7 @@
    "ultima": "26/11 18h33",
    "ultima_iso": "2026-11-26T18:33-03:00",
    "pauta_atualizada_em": "2026-11-26T14:49-03:00",
-   "horas_sem_atualizar": 4.1,
+   "horas_sem_atualizar": 4.3,
    "principal": false,
    "manchetes": [
     {
@@ -634,7 +926,7 @@
    "ultima": "26/11 16h30",
    "ultima_iso": "2026-11-26T16:30-03:00",
    "pauta_atualizada_em": "2026-11-24T21:48-03:00",
-   "horas_sem_atualizar": 45.1,
+   "horas_sem_atualizar": 45.3,
    "principal": false,
    "manchetes": [
     {
@@ -660,7 +952,7 @@
    "ultima": "26/11 18h02",
    "ultima_iso": "2026-11-26T18:02-03:00",
    "pauta_atualizada_em": "2026-11-26T14:25-03:00",
-   "horas_sem_atualizar": 4.5,
+   "horas_sem_atualizar": 4.7,
    "principal": false,
    "manchetes": [
     {
@@ -711,7 +1003,7 @@
    "ultima": "26/11 18h35",
    "ultima_iso": "2026-11-26T18:35-03:00",
    "pauta_atualizada_em": "2026-11-26T18:35-03:00",
-   "horas_sem_atualizar": 0.4,
+   "horas_sem_atualizar": 0.5,
    "principal": false,
    "manchetes": [
     {
@@ -731,6 +1023,15 @@
    "img": "https://agenciabrasil.ebc.com.br/ebc.png?id=1710212&o=rss",
    "credito": "Foto: Agência Brasil",
    "hora": "26/11 17h36",
+   "pid_sugerido": null
+  },
+  {
+   "veiculo": "Agência Câmara",
+   "titulo": "Comissão aprova prazo de 24 horas para medidas protetivas após tentativa de feminicídio",
+   "materia": "https://www.camara.leg.br/noticias/1323417-comissao-aprova-prazo-de-24-horas-para-medidas-protetivas-apos-tentativa-de-feminicidio",
+   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261123184711805-768x473.jpg",
+   "credito": "Foto: Agência Câmara",
+   "hora": "26/11 19h05",
    "pid_sugerido": null
   },
   {
@@ -902,15 +1203,6 @@
    "img": "https://www.camara.leg.br/midias/image/2026/11/img20261125101430947-768x473.jpeg",
    "credito": "Foto: Agência Câmara",
    "hora": "25/11 20h14",
-   "pid_sugerido": null
-  },
-  {
-   "veiculo": "Agência Câmara",
-   "titulo": "Criação da Comissão Nacional Indígena da Verdade recebe apoio unânime em audiência na Câmara",
-   "materia": "https://www.camara.leg.br/noticias/1323062-criacao-da-comissao-nacional-indigena-da-verdade-recebe-apoio-unanime-em-audiencia-na-camara",
-   "img": "https://www.camara.leg.br/midias/image/2026/11/img20261124170855751-768x473.jpeg",
-   "credito": "Foto: Agência Câmara",
-   "hora": "25/11 19h42",
    "pid_sugerido": null
   }
  ],
@@ -1375,33 +1667,33 @@
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 9 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 11 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 27 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 10 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 30 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 22 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 7 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 1 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 6 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 15 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 9 nas últimas 6 h",
-  "Estadão Política": "ok: 20 itens, 11 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 14 nas últimas 6 h",
+  "Agência Câmara": "ok: 20 itens, 10 nas últimas 6 h",
+  "Estadão Política": "ok: 20 itens, 10 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 15 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 5 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 8 nas últimas 6 h",
   "O Globo": "ok: 100 itens, 100 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 91 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 89 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
-  "Nexo": "ok: 20 itens, 3 nas últimas 6 h",
-  "DW Brasil": "ok: 65 itens, 11 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 51 itens, 10 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 36 itens, 12 nas últimas 6 h",
+  "Nexo": "ok: 20 itens, 4 nas últimas 6 h",
+  "DW Brasil": "ok: 65 itens, 10 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 51 itens, 9 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 36 itens, 11 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
