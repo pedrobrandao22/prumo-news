@@ -2147,6 +2147,14 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
         ant_t = {p.get("id"): norm((p.get("neutro") or {}).get("titulo")) for p in ant.get("pautas") or []}
         dor_ids = {d.get("id") for d in f.get("dormentes") or []}
         sumiram = [pid for pid in ant_t if pid not in ids and pid not in dor_ids]
+        # 26/11: com a lista de dormentes cheia (MAX_DORMENTES, as mais recentes), a pauta velha que sai da edição pode nem
+        # entrar nela: é esperado (o aplicar.py avisou "guardada em dormentes" e a poda a tirou). Só é erro a que sai e era
+        # mais nova que a dormente mais antiga guardada. Sem isso, tirar notícia velha de manhã travava a rodada.
+        dor_c = [d for d in f.get("dormentes") or [] if isinstance(d, dict)]
+        if sumiram and len(dor_c) >= MAX_DORMENTES:
+            corte_s = min(str(d.get("ultima", ""))[:16] for d in dor_c)
+            def _ult(p): return max([str(p.get("hora") or "")] + [str(u.get("hora") or "") for u in p.get("atualizacoes") or [] if isinstance(u, dict)])[:16]
+            sumiram = [pid for pid in sumiram if _ult(AP.get(pid) or {}) > corte_s]
         if sumiram: E(f"pautas que saíram sem ir para dormentes: {sumiram} (rode o aplicar.py com --prev anterior.json)")
         lim_d = (ref - timedelta(days=DIAS_DORMENTE)).isoformat()[:16] if ref else ""
         perd = [d.get("id") for d in ant.get("dormentes") or [] if isinstance(d, dict) and d.get("id") not in ids and d.get("id") not in dor_ids and str(d.get("ultima", ""))[:16] >= lim_d]
