@@ -57,6 +57,13 @@ jobs:
                 gh workflow run virada.yml -R "$GITHUB_REPOSITORY" --ref main && touch "/tmp/virada-$hoje" || echo "não pediu a virada"
               else touch "/tmp/virada-$hoje"; fi
             fi
+            # 26/11: o horário de 3 em 3 h do "Vigia do app" quase não roda (fila do GitHub: em 25/11 rodou 1 vez em 8 h) e
+            # o Testador e o Corretor liam um vigia.json de outra versão. Se o vigia.json tem mais de 3 h, o relógio pede
+            # o Vigia (workflow_dispatch roda na hora); no máximo um pedido a cada 3 h
+            if python3 -I -c "import json,sys,datetime as d;g=json.load(open('vigia.json')).get('gerado','2000-01-01T00:00:00Z');sys.exit(0 if (d.datetime.now(d.timezone.utc)-d.datetime.fromisoformat(g.replace('Z','+00:00'))).total_seconds()>3*3600 else 1)" 2>/dev/null \
+               && [ $(( $(date +%s) - $(cat /tmp/vigia-pedido 2>/dev/null || echo 0) )) -gt 10800 ]; then
+              gh workflow run vigia.yml -R "$GITHUB_REPOSITORY" --ref main && date +%s > /tmp/vigia-pedido || echo "não pediu o vigia"
+            fi
             sleep 600
           done
       - name: Ligar o próximo relógio

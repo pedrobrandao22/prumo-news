@@ -4,52 +4,60 @@ O testador usa o prumonews.com.br como uma pessoa usaria (celular simulado), ano
 melhorar, e grava os achados na página "Testador do Prumo" (o endereço e a conta de teste vêm no pedido da tarefa
 agendada, nunca neste repositório, que é público).
 
-## MODO ECONÔMICO (25/11, decisão do Pedro) — vale acima do resto deste roteiro
-O testador agora roda 1 vez por dia; a parte mecânica (erros, texto cortado, rolagem de lado, busca vazia, foto contra
-a regra, notícia com hora vencida) é do robô **Vigia do app** no GitHub, a cada 3 h, que grava `vigia.json` na raiz.
-1. Comece por `vigia.json` (`curl -s https://raw.githubusercontent.com/pedrobrandao22/prumo-news/main/vigia.json`):
-   cada problema vira achado com id `vigia-<id do problema>` (se já existe aberto, só atualize visto_em e vezes; se
-   estava resolvido e voltou, reabra com causa_volta "o vigia de <data> achou de novo: <detalhe>"). Não refaça à mão o
-   que o vigia já confere.
-2. Para não repetir, NÃO liste todos os achados: consulte só os abertos (`query` com where status == "aberto") e as
-   causas. Os resolvidos/arquivados só se for reabrir um caso específico (`get` pelo id).
-3. Gaste no máximo 15 minutos testando como gente: foto x notícia, clareza, textos, o que mudou na versão nova e a
-   área do dia (tabela abaixo, pelo DIA DA SEMANA em vez da hora: domingo=0 … sábado=6; 7 fica para rede lenta).
-4. No máximo 4 achados novos por rodada, os mais importantes.
+## CONFERÊNCIA DE LISTA FIXA (26/11, decisão do Pedro) — vale acima de qualquer outra parte deste roteiro
+O testador deixou de CAÇAR achados. Entre 14 e 25/11 ele anotou ~710 achados (420 numa semana, 44 voltaram), boa parte
+de gosto ou de caso de canto, e cada um virou remendo + teste novo: o app e a bateria cresceram e geraram mais achados,
+sem nenhum leitor de verdade. Agora o testador confere uma LISTA FIXA do que importa e só anota o que QUEBRA.
 
-## Antes de começar
-1. Ler `config/estado` da página. Se `ligado` não for `true`, parar sem fazer nada.
-2. Ler os achados que já existem (coleção `achados`), para não repetir.
-3. `curl -s https://prumonews.com.br/versao.json`: se a versão mudou desde `config/estado.ultima_versao`, a rodada
-   começa pelo que mudou (ver `git log` de `fonte/app/src` desde a versão anterior).
+### Passo 0 — Tem o que conferir? (antes de clonar ou instalar qualquer coisa; menos de 1 minuto)
+1. `config/estado` da página: se `ligado` não for `true`, termine com "Testador desligado.".
+2. `curl -s https://prumonews.com.br/versao.json` e
+   `curl -s https://raw.githubusercontent.com/pedrobrandao22/prumo-news/main/vigia.json`.
+3. HÁ o que conferir se: (a) a versão do site é diferente de `config/estado.ultima_versao`; ou (b) o `vigia.json` é
+   da versão que está no ar (`versao` igual à do site) e traz problema que NÃO seja `noticia-com-fato-novo-nao-escrito`
+   nem `noticia-com-hora-vencida` (esses são das rodadas de conteúdo); ou (c) faz 7 dias ou mais desde
+   `config/estado.ultima_rodada`. `vigia.json` de outra versão ou com `gerado` de mais de 8 h é velho: não vale.
+4. Sem nada disso: `update` só em `config/estado.ultima_checagem` (ISO) e termine com a linha
+   "Testador: nada a conferir (versão <v>, vigia limpo)." Não grave Diário, não abra o site.
 
-## Em TODA rodada, antes da área do dia (pedido do Pedro, 14/11)
-Estes três pontos ficam sempre no radar; anote cada caso novo (ou atualize o achado que já existe):
-1. **Foto x notícia**: percorra as notícias da Capa e do Feed e confira se a foto mostra o fato, o lugar ou a pessoa
-   da notícia (ex. ruim: Enem com jovens dançando, incêndio em fábrica com foto de queimada, COP com Parlamento
-   Europeu). Diga no achado qual notícia, qual foto (legenda/crédito) e que foto faria sentido.
-2. **"Quem é" fora de lugar**: no carrossel das notícias do Feed, o cartão "Quem é" só pode ser de pessoa central da
-   notícia (ex. ruim: "Quem é Trump" na notícia dos voos cancelados).
-3. **Feed limpo**: o cartão de notícia do Feed está enxuto? Aponte o que sobra (faixas, rótulos, repetições) e o que
-   poderia sair ou ficar mais simples, com foto de tela.
-Use os ids `fotos-sem-relacao-com-a-noticia`, `quem-e-trump-na-noticia-dos-voos` e `feed-noticias-mais-clean` para o
-geral e crie um achado por caso concreto novo (id com o assunto, ex. `foto-enem-jovens-dancando`).
+### Passo 1 — Problemas do Vigia (só os do item 3b)
+Cada problema vira achado `vigia-<id do problema>` (já existe aberto: só `visto_em` e `vezes`; estava resolvido e
+voltou na MESMA classe: reabra com `causa_volta`). Não refaça à mão o que o Vigia confere.
 
-## O que testar (uma área por rodada, em rodízio pela hora; sempre mais 5 min livres em outra área)
-| dia da semana (hora % 8 antes de 25/11) | área |
-|---|---|
-| 0 | Capa e matéria: abrir, ler, abas "Nesta matéria", fontes, próxima, guardar, tamanho da letra, compartilhar |
-| 1 | Feed: círculos do topo, posts, giros, curtir, comentar, responder, rolar muito, voltar |
-| 2 | Criar: todas as formas de publicar (post, notícia comentada, análise, pergunta, relato, giro, coluna), rascunhos, apagar |
-| 3 | Conversas, Atividade, notificações, perfil, amigos, convites |
-| 4 | Sem conta: primeira visita, guia, links de notícia, de post e de convite, pedir para entrar |
-| 5 | Busca, coberturas, seguir, editorias, indicadores, agenda |
-| 6 | Modo escuro, letra grande, celular pequeno (iPhone SE) e Android (Pixel 7), girar a tela |
-| 7 | Velocidade e robustez: rede lenta (3G), sem rede, tocar rápido duas vezes, voltar muitas vezes |
+### Passo 2 — A lista fixa (uma passada só, até 15 minutos, iPhone 13 claro; com a conta de teste do pedido)
+Confira que cada item FUNCIONA. Não procure defeito além da lista.
+1. Capa abre em até 5 s, com manchete, destaques e Indicadores; sem erro (`p._erros` vazio).
+2. Manchete abre a matéria; dá para ler até o fim; "Próxima" e voltar funcionam.
+3. Versões Neutra / Direita / Esquerda trocam o texto (numa notícia que tenha as três).
+4. Feed abre, rola 5 telas, abre um giro de notícia e fecha.
+5. Busca: "dolar" e o assunto da manchete trazem resultado; abrir um resultado funciona.
+6. Entrar com a conta de teste; o Perfil mostra a conta.
+7. Guardar uma notícia e achá-la em Guardadas; desfazer.
+8. Curtir e comentar uma notícia; apagar o comentário.
+9. Publicar um post de texto ("Teste do testador"), vê-lo no Feed e apagar.
+10. Abrir Conversas e Atividade sem erro.
+11. Sair da conta; link de uma notícia (m/) abre a matéria sem conta.
+12. Fotos (pedido do Pedro, 14/11): olhe UMA vez as fotos da manchete e dos destaques da Capa. Só anote foto que
+    mostra outra pessoa, outro lugar ou outro fato (natureza `conteudo`, família `fotos-2`). Ilustração no lugar da
+    foto é o comportamento certo, não é achado.
+Depois, se a versão mudou: veja o `git log` de `fonte/app/src` desde a versão anterior e confira só o que mudou.
 
-Olhar sempre: textos estranhos ou em inglês (ex.: "story" em vez de "giro"), coisas cortadas ou sobrepostas,
-botões pequenos, telas confusas, passos demais, erros no console (`p._erros`), demora acima de 3 s, notícia velha
-na Capa, foto repetida, informação contraditória.
+### O que vira achado (no máximo 3 por rodada)
+- Item da lista que NÃO funciona, erro de JS, tela que não abre, texto que a pessoa escreveu e se perdeu, informação
+  errada na tela: prioridade alta ou média.
+- NÃO vira achado: gosto (layout, ordem, tamanho de botão, "mais limpo", texto que poderia ser melhor), caso de canto
+  (celular deitado, iPhone SE com letra no máximo, rede 3G, toque duplo, voltar dez vezes), melhoria ou ideia. Se algo
+  assim parecer mesmo importante, escreva UMA linha em `para_o_pedro` no Diário e não grave achado: quem decide é ele.
+- Rodada sem achado é o resultado normal e bom. Não complete a cota.
+
+### Conferir correções (até 5 minutos)
+Só os achados `resolvido` com `status_em` depois de `config/estado.ultima_rodada` e sem `conferido_em`, no máximo 5:
+refaça o "como"; ficou bom → `conferido: "ok"` + `conferido_em`; voltou → reabra com `causa_volta`.
+
+### Para não gastar
+NÃO liste todos os achados: consulte só os abertos (`query` com where status == "aberto") e as causas abertas;
+resolvidos e arquivados só por `get` do id, se for reabrir. Não leia este roteiro além desta seção e de "Como gravar
+um achado", "Ao terminar" e "Regras".
 
 ## Como gravar um achado (coleção `achados`, um documento por achado)
 ```
@@ -96,21 +104,15 @@ some o id em `causas/<id>.achados`. Família nova: quando você vir o 3º caso a
   Causas com `status: "arquivada"` também não valem: família nova só a partir de achados abertos depois de 18/11.
 - Prioridade alta: quebra algo, perde o que a pessoa escreveu, mostra coisa errada ou confunde quase todo mundo.
   Média: atrapalha, mas tem saída. Baixa: acabamento.
-- No máximo 6 achados novos por rodada, os mais importantes. Melhor poucos e bem descritos.
-
-## Conferir as correções (toda rodada, 5 min)
-Liste os achados com `status: "resolvido"` cujo `status_em` é depois de `config/estado.ultima_rodada` (ou que ainda não
-têm `conferido_em`). Para cada um, refaça o "como" e veja se ficou bom:
-- ficou bom: `update` com `conferido_em` (ISO) e `conferido: "ok"`;
-- voltou ou ficou pela metade: reabra como acima (com `causa_volta`), mais `conferido: "falhou"`.
+- No máximo 3 achados novos por rodada (ver a lista fixa, acima).
 
 ## Ao terminar
-`update` em `config/estado`: `ultima_rodada` (ISO), `ultima_versao`, `ultimo_resumo` (uma frase: área testada e
-quantos achados novos).
+`update` em `config/estado`: `ultima_rodada` (ISO), `ultima_checagem` (ISO), `ultima_versao`, `ultimo_resumo` (uma
+frase: itens da lista que falharam, ou "lista fixa ok", e quantos achados novos).
 E grave a rodada no Diário (coleção `diario`, id `AAAA-MM-DDTHHMM-testador`, horário de Brasília):
-`{ "quem": "testador", "em": ISO, "area": "...", "versao": "...", "resumo": "uma ou duas frases",
+`{ "quem": "testador", "em": ISO, "area": "lista fixa", "versao": "...", "resumo": "uma ou duas frases",
    "novos": ["título de cada achado novo"], "conferidos": ["título — ok"],
-   "reabertos": ["título — causa_volta"] }`.
+   "reabertos": ["título — causa_volta"], "para_o_pedro": ["uma linha, só se for importante"] }`.
 
 ## Regras
 - Só a conta de teste; nunca a conta do Pedro. Tudo que publicar leva "Teste do testador" no texto e é apagado no

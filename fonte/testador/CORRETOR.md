@@ -1,10 +1,22 @@
 # Corretor do Prumo — roteiro de cada rodada
 
-## MODO ECONÔMICO (25/11, decisão do Pedro)
-Roda 1 vez por dia, à noite. Antes de clonar ou instalar qualquer coisa, veja se há trabalho: achado aberto de
-prioridade alta ou média criado ou reaberto desde `config/estado.corretor_ultima`, ou problema em `vigia.json`
-(raiz do repositório) que ainda não virou correção. Sem nada disso, termine com "Corretor: nada a fazer hoje." Corrija
-causas (o que gera vários achados) antes de casos soltos; até 3 por rodada.
+## SÓ O QUE QUEBRA (26/11, decisão do Pedro) — vale acima do resto deste roteiro
+Roda 1 vez por dia, à noite. Antes de clonar ou instalar qualquer coisa, veja se há trabalho. HÁ trabalho só se:
+(a) achado aberto de prioridade alta ou média, de natureza `app` ou `conteudo`, criado ou reaberto desde
+`config/estado.corretor_ultima`; (b) problema em `vigia.json` (raiz do repositório) da versão que está no ar e que não
+seja `noticia-com-fato-novo-nao-escrito` nem `noticia-com-hora-vencida` (são das rodadas de conteúdo); ou (c) as duas
+últimas execuções do workflow "Testes do app" no ramo main terminaram em failure. Sem nada disso, termine com
+"Corretor: nada a fazer hoje." Até 3 correções por rodada, causas antes de casos soltos.
+
+Regras para o app parar de crescer a cada correção:
+- `gosto` e prioridade baixa NÃO se corrigem aqui: marque `corretor_pulou` com a nota "fica para o Pedro decidir".
+- Correção DENTRO da função, no módulo da área. É proibido criar módulo novo de remendo (`NNN-corretor-…`,
+  `NNN-melhoria-…`, `NNN-zerar…`): entre 14 e 25/11 isso criou 28 arquivos e 170 KB.
+- Teste novo só quando a correção fecha uma CAUSA (classe de problema). Correção de caso solto usa ou ajusta um teste
+  que já existe da mesma área; não crie `t_corretor_<data>` para cada rodada.
+- Teste nunca depende da edição do dia: os dados vêm de `fonte/edicao-teste/` (ver fonte/MELHORIAS.md, "Testes").
+- Bateria vermelha (caso c): descubra a causa com `gh run view <id> --log`; se o teste for frágil, conserte o teste
+  sem enfraquecer o que ele confere; se for bug do app, corrija o app.
 
 O corretor pega os achados abertos da página "Testador do Prumo" (endereço no pedido da tarefa agendada), corrige no
 app, testa, publica e registra. Português do Brasil, fuso America/Sao_Paulo.
@@ -39,7 +51,7 @@ nas últimas 24 h. Ordem: prioridade (alta, média, baixa), depois `vezes` (mais
 - `app`: corrige no módulo da função (acima);
 - `conteudo`: corrige a regra (tools/manual.md, tools/validar.py, tools/aplicar.py, tools/fotos_arquivo.py…), com
   teste em tools/test_*.py; nunca o feed.json;
-- `gosto`: só quando a origem é o Pedro ou a prioridade é alta; senão marque `corretor_pulou` com
+- `gosto`: só quando a origem é o Pedro; senão marque `corretor_pulou` com
   `corretor_nota: "gosto — fica para o Pedro decidir"` e liste no resumo do Diário (`para_o_pedro`).
 Sem `natureza` (achado antigo): decida e grave antes de corrigir.
 Pule e marque `corretor_pulou` (ISO) + `corretor_nota` com o motivo quando:
@@ -52,7 +64,7 @@ Fotos: a escolha automática fica em tools/fotos_arquivo.py (NEGADAS, COM_GENTE,
 
 ## 2. Corrigir
 Repositório pedrobrandao22/prumo-news, ramo `reestruturacao`; leia fonte/MELHORIAS.md (regras do produto).
-Correção dentro da função, no módulo dela (ver "Depois da Fase 3"); nomes globais únicos; sem lookbehind em regex. `python3 montar.py`. Teste novo (ou ajuste de teste) em fonte/review2/, na
+Correção dentro da função, no módulo dela (ver "Depois da Fase 3"); nomes globais únicos; sem lookbehind em regex. `python3 montar.py`. Teste: ajuste um que já existe da área (teste novo só para causa; ver o começo deste roteiro), em fonte/review2/, na
 LISTA de testar.sh. Rode o teste novo + os que tocam a mesma parte (grep pelas funções) + review2/t_etapa7 +
 review2/t_criar_caixa. Tudo verde.
 
