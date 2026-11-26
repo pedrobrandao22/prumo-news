@@ -88,10 +88,16 @@ def main(argv):
             for v in (A.get(g) or {}).values():
                 for f in (v.get("fotos") if isinstance(v, dict) else v) or []: vistos.add(f.get("url"))
     except Exception: pass
+    try: FORA = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "acervo_fora.json"), encoding="utf-8"))  # revisão à mão: {verbete: [url, ...]}
+    except Exception: FORA = {}
     res = {}; t0 = time.time(); prazo = float(opts["--minutos"]) * 60
     for vid, rotulo, tipo, secoes, subtemas, palavras, consultas in VERBETES:
         ant = velho.get(vid) or {}
-        fora = set(ant.get("fora") or [])
+        fora = set(ant.get("fora") or []) | set(FORA.get(vid) or [])
+        for f in ant.get("fotos") or []:  # foto retirada na revisão: o arquivo sai junto
+            if f.get("url") in fora and (f.get("local") or "").startswith("acervo/c/"):
+                try: os.remove(os.path.join(raiz, f["local"]))
+                except OSError: pass
         fotos = [f for f in ant.get("fotos") or [] if f.get("url") not in fora and f.get("local") and os.path.exists(os.path.join(raiz, f["local"]))]
         if len(fotos) < por and E["baixar"] and E["restam"] > 0 and (not so or vid in so) and (not prazo or time.time() - t0 < prazo):
             for c in consultas:
