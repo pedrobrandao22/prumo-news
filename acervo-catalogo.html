@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Prumo News — banco de fotos por assunto</title>
+<style>
+:root{--fundo:#f6f5f1;--cartao:#fff;--tinta:#1c1b19;--fraco:#6b6862;--linha:#e2dfd7;--marca:#0b5c4a}
+@media(prefers-color-scheme:dark){:root{--fundo:#141413;--cartao:#1e1d1b;--tinta:#eceae4;--fraco:#a09c93;--linha:#33312d;--marca:#6fcdb4}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:2;background:var(--fundo);border-bottom:1px solid var(--linha);padding:14px 16px 10px}
+h1{font-size:19px;margin:0 0 2px}
+#resumo{color:var(--fraco);font-size:14px;margin:0 0 10px}
+#busca{width:100%;max-width:560px;padding:10px 12px;font-size:16px;border:1px solid var(--linha);border-radius:10px;background:var(--cartao);color:var(--tinta)}
+#grupos{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+#grupos button{font:inherit;font-size:13px;padding:5px 10px;border-radius:99px;border:1px solid var(--linha);background:var(--cartao);color:var(--tinta);cursor:pointer}
+#grupos button[aria-pressed=true]{background:var(--marca);border-color:var(--marca);color:#fff}
+main{padding:14px 16px 60px;max-width:1200px;margin:0 auto}
+section{background:var(--cartao);border:1px solid var(--linha);border-radius:12px;padding:12px;margin:0 0 14px}
+h2{font-size:16px;margin:0}
+.meta{color:var(--fraco);font-size:13px;margin:2px 0 8px;overflow-wrap:anywhere}
+.fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+figure{margin:0}
+figure img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:8px;background:var(--linha);display:block}
+figcaption{font-size:11px;color:var(--fraco);margin-top:3px;overflow-wrap:anywhere}
+figcaption a{color:inherit}
+.vazio{color:var(--fraco);font-size:14px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Banco de fotos por assunto</h1>
+  <p id="resumo">Carregando…</p>
+  <input id="busca" type="search" placeholder="Buscar por assunto ou palavra (ex.: chuva, dólar, Enem, Argentina)" aria-label="Buscar no banco de fotos">
+  <div id="grupos"></div>
+</header>
+<main id="lista"></main>
+<script>
+(function(){
+  var NOMES={ilustrativa:'Foto ilustrativa',lugar:'Lugar',instituicao:'Instituição'};
+  var SEC={politica:'Política',economia:'Economia',brasil:'Brasil',mundo:'Mundo',esportes:'Esportes',educacao:'Educação'};
+  var dados=[],grupo='';
+  function norm(s){return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+  function limpa(w){return String(w).replace(/^CS:|^UF:/,'').replace(/\\b|\\|\(\?:|[()?\[\]^$]/g,'').replace(/\s+/g,' ').trim()}
+  function mostra(){
+    var q=norm(document.getElementById('busca').value.trim()),L=document.getElementById('lista');L.textContent='';var n=0,f=0;
+    dados.forEach(function(v){
+      if(grupo&&v.grupo!==grupo)return;
+      if(q&&v.alvo.indexOf(q)<0)return;
+      n++;f+=v.fotos.length;
+      var s=el('section');s.appendChild(el('h2',null,v.rotulo));
+      var onde=v.secoes&&v.secoes.length?v.secoes.map(function(x){return SEC[x]||x}).join(', '):'todas as editorias';
+      s.appendChild(el('p','meta',(NOMES[v.tipo]||v.tipo)+' · '+v.fotos.length+' foto(s) · vale para: '+onde+' · entra quando o título fala em: '+(v.palavras.slice(0,14).join(', ')||'(reserva da editoria)')));
+      if(!v.fotos.length){s.appendChild(el('p','vazio','Ainda sem foto: o robô busca na próxima passada.'))}
+      else{var g=el('div','fotos');v.fotos.forEach(function(x){var fg=el('figure'),im=el('img');im.loading='lazy';im.alt=x.alt||v.rotulo;im.src=x.local;fg.appendChild(im);
+        var c=el('figcaption');if(x.pagina&&/^https:\/\/commons\.wikimedia\.org\//.test(x.pagina)){var a=el('a',null,x.credito||'Wikimedia Commons');a.href=x.pagina;a.target='_blank';a.rel='noopener';c.appendChild(a)}else c.textContent=x.credito||'';
+        fg.appendChild(c);g.appendChild(fg)});s.appendChild(g)}
+      L.appendChild(s)});
+    if(!n)L.appendChild(el('p','vazio','Nenhum assunto com esse nome.'));
+    document.getElementById('resumo').textContent=n+' assuntos, '+f+' fotos'+(q||grupo?' neste filtro':' no banco')+'. Todas de licença livre (Wikimedia Commons), com crédito.';
+  }
+  function grupoDe(id,v){if(/^estadio-/.test(id))return 'Estádios';if(/^cidade-/.test(id))return 'Cidades';if(/^pais-/.test(id))return 'Países';if(/^geral-/.test(id))return 'Reserva';var s=v.secoes||[];if(s.length===1)return SEC[s[0]]||'Temas';return 'Temas'}
+  fetch('acervo-catalogo.json?t='+Date.now()).then(function(r){return r.json()}).then(function(d){
+    var V=d.verbetes||{},gs={};
+    Object.keys(V).forEach(function(id){var v=V[id],p=(v.palavras||[]).map(limpa).filter(Boolean);var g=grupoDe(id,v);gs[g]=1;
+      dados.push({rotulo:v.rotulo||id,tipo:v.tipo,secoes:v.secoes||[],palavras:p,fotos:(v.fotos||[]).filter(function(x){return x&&x.local}),grupo:g,alvo:norm((v.rotulo||'')+' '+id+' '+p.join(' '))})});
+    var G=document.getElementById('grupos');['Temas','Política','Economia','Brasil','Mundo','Esportes','Educação','Estádios','Cidades','Países','Reserva'].filter(function(g){return gs[g]}).forEach(function(g){
+      var b=el('button',null,g);b.type='button';b.setAttribute('aria-pressed','false');b.onclick=function(){grupo=grupo===g?'':g;[].forEach.call(G.children,function(x){x.setAttribute('aria-pressed',x===b&&grupo?'true':'false')});mostra()};G.appendChild(b)});
+    mostra()}).catch(function(){document.getElementById('resumo').textContent='Não consegui carregar o catálogo agora. Tente recarregar a página.'});
+  document.getElementById('busca').addEventListener('input',mostra);
+})();
+</script>
+</body>
+</html>
