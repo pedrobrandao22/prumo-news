@@ -1,33 +1,101 @@
 {
- "gerado": "2026-11-26T07:03-03:00",
+ "gerado": "2026-11-26T07:13-03:00",
  "desde": "2026-11-26T06:49-03:00",
  "feed_atualizado_em": "2026-11-26T06:59:00-03:00",
  "resumo": {
-  "manchetes": 27,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 25,
-  "pautas_com_novidade": 1,
+  "manchetes": 56,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 48,
+  "pautas_com_novidade": 2,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 3,
-  "acionar_itens": 0,
+  "pautas_com_relatos": 4,
+  "acionar_itens": 1,
   "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (25 assuntos fora do feed, 3 pautas com relatos)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 5 veículos em 90 min (brasil)",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "Justiça determina bloqueio de até R$ 4,3 bilhões do Grupo Fictor",
+   "secao": "brasil",
+   "n_fontes": 5,
+   "motivo": "assunto novo: 5 veículos em 90 min (brasil)",
+   "chave": [
+    "alvo",
+    "bilhoes",
+    "bloquear",
+    "bloqueia",
+    "bloqueio",
+    "civil",
+    "comprar",
+    "determina",
+    "faz",
+    "fazem",
+    "fictor",
+    "grupo",
+    "justica",
+    "manda",
+    "master",
+    "ministerio",
+    "operacao",
+    "policia",
+    "publico",
+    "tentou"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Justiça determina bloqueio de até R$ 4,3 bilhões do Grupo Fictor",
+     "url": "https://revistaoeste.com/brasil/justica-determina-bloqueio-de-ate-r-43-bilhoes-do-grupo-fictor/",
+     "hora": "26/11 07h13",
+     "lide": "Operação investiga suspeitas de fraudes financeiras, lavagem de dinheiro e organização criminosa; medidas atingem 174 empresas e 59 pessoas físicas"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Polícia faz operação contra grupo Fictor, que tentou comprar o Master",
+     "url": "https://oantagonista.com.br/brasil/policia-faz-operacao-contra-grupo-fictor-que-tentou-comprar-o-master/",
+     "hora": "26/11 07h11"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Polícia Civil e Ministério Público fazem operação contra grupo Fictor",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/policia-civil-e-ministerio-publico-fazem-operacao-contra-grupo-fictor.shtml",
+     "hora": "26/11 07h00",
+     "lide": "Agentes cumprem ordens judiciais de prisão na capital paulista e em Santa Catarina"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Polícia Civil e Ministério Público fazem operação contra grupo Fictor",
+   "assunto": "Justiça determina bloqueio de até R$ 4,3 bilhões do Grupo Fictor",
    "secao": "brasil",
-   "n_fontes": 2,
+   "n_fontes": 5,
    "fontes": [
+    "antag",
+    "cnn",
     "folha",
-    "met"
+    "met",
+    "oeste"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Justiça determina bloqueio de até R$ 4,3 bilhões do Grupo Fictor",
+     "url": "https://revistaoeste.com/brasil/justica-determina-bloqueio-de-ate-r-43-bilhoes-do-grupo-fictor/",
+     "hora": "26/11 07h13"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Polícia faz operação contra grupo Fictor, que tentou comprar o Master",
+     "url": "https://oantagonista.com.br/brasil/policia-faz-operacao-contra-grupo-fictor-que-tentou-comprar-o-master/",
+     "hora": "26/11 07h11"
+    },
     {
      "veiculo": "Folha Mercado",
      "titulo": "Polícia Civil e Ministério Público fazem operação contra grupo Fictor",
@@ -41,8 +109,105 @@
      "hora": "26/11 06h52"
     }
    ],
+   "n_fontes_90min": 5,
+   "ultima_iso": "2026-11-26T07:13-03:00"
+  },
+  {
+   "assunto": "Compras em dólar na Black Friday: quanto custa cada forma de pagamento",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Compras em dólar na Black Friday: quanto custa cada forma de pagamento",
+     "url": "https://www.cnnbrasil.com.br/economia/money/negocios/compras-em-dolar-na-black-friday-quanto-custa-cada-forma-de-pagamento/",
+     "hora": "26/11 07h00"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Eu Te Explico #208: Black Friday e compras de fim de ano - como não começar 2027 endividado?",
+     "url": "https://g1.globo.com/ba/bahia/podcast/eu-te-explico/noticia/2026/11/26/eu-te-explico-208-black-friday-e-compras-de-fim-de-ano-como-nao-comecar-2027-endividado.ghtml",
+     "hora": "26/11 07h00"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T07:00-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Frente fria provoca temporais e queda de temperatura no centro-sul do país",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Frente fria provoca temporais e queda de temperatura no centro-sul do país",
+     "url": "https://www.metropoles.com/brasil/frente-fria-provoca-temporais-e-queda-de-temperatura-no-centro-sul-do-pais",
+     "hora": "26/11 07h03"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Frente fria avança por MG e pode provocar temporais e chuva de até 90 mm nesta quinta-feira",
+     "url": "https://g1.globo.com/mg/minas-gerais/noticia/2026/11/26/frente-fria-avanca-por-mg-e-pode-provocar-temporais-e-chuva-de-ate-90-mm-nesta-quinta-feira.ghtml",
+     "hora": "26/11 07h03"
+    }
+   ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-26T07:00-03:00"
+   "ultima_iso": "2026-11-26T07:03-03:00"
+  },
+  {
+   "assunto": "Assista ao Bom Dia Amapá desta quinta (26)",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao Bom Dia Amapá desta quinta (26)",
+     "url": "https://g1.globo.com/ap/ao-vivo/assista-ao-bom-dia-amapa-desta-quinta-26.ghtml",
+     "hora": "26/11 06h57"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T06:57-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Assista ao Bom Dia Cidade Campinas",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao Bom Dia Cidade Campinas",
+     "url": "https://g1.globo.com/sp/campinas-regiao/ao-vivo/assista-ao-bom-dia-cidade-campinas.ghtml",
+     "hora": "26/11 07h06"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T07:06-03:00",
+   "lixo": true
   },
   {
    "assunto": "Azeite Gallo investe para ampliar a frequência do consumo no Brasil",
@@ -126,6 +291,87 @@
    "ultima_iso": "2026-11-26T06:54-03:00"
   },
   {
+   "assunto": "Brasil, China, Japão e União Europeia reagem às novas tarifas de Trump",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Brasil, China, Japão e União Europeia reagem às novas tarifas de Trump",
+     "url": "https://exame.com/mundo/brasil-china-japao-e-uniao-europeia-reagem-as-novas-tarifas-de-trump/",
+     "hora": "26/11 07h05"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:05-03:00",
+   "pid_provavel": "eua-propoem-novas-tarifas-brasil-secao-301"
+  },
+  {
+   "assunto": "Cineasta prepara filme sobre Júlio Prestes, único presidente que nunca tomou posse: 'Visão transformadora'",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Cineasta prepara filme sobre Júlio Prestes, único presidente que nunca tomou posse: 'Visão transformadora'",
+     "url": "https://g1.globo.com/sp/itapetininga-regiao/noticia/2026/11/26/cineasta-prepara-filme-sobre-julio-prestes-unico-presidente-que-nunca-tomou-posse-visao-transformadora.ghtml",
+     "hora": "26/11 07h04"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:04-03:00"
+  },
+  {
+   "assunto": "Colômbia abandona iniciativa de entrar nos Brics e no banco do grupo",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Colômbia abandona iniciativa de entrar nos Brics e no banco do grupo",
+     "url": "https://www.poder360.com.br/poder-internacional/colombia-abandona-iniciativa-de-entrar-nos-brics-e-no-banco-do-grupo/",
+     "hora": "26/11 07h11"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:11-03:00"
+  },
+  {
+   "assunto": "Como os dados do Claro geodata ajudam a planejar cidades mais inteligentes",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "estadao"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "Como os dados do Claro geodata ajudam a planejar cidades mais inteligentes",
+     "url": "https://www.estadao.com.br/economia/negocios/como-os-dados-do-claro-geodata-ajudam-a-planejar-cidades-mais-inteligentes/",
+     "hora": "26/11 07h01"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:01-03:00"
+  },
+  {
    "assunto": "Como se explica derrocada da Globo no Emmy Internacional e seu atual desafio",
    "secao": null,
    "n_fontes": 1,
@@ -144,6 +390,66 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T07:00-03:00"
+  },
+  {
+   "assunto": "Crentes também riem, e não é de hoje",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "Crentes também riem, e não é de hoje",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/crentes-tambem-riem-e-nao-e-de-hoje.shtml",
+     "hora": "26/11 07h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:00-03:00"
+  },
+  {
+   "assunto": "Cão vitoriano não aguentou o tranco: a história do pastoreio que rejeitou a moderação britânica para fazer barulho nas colinas",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "cnn"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Cão vitoriano não aguentou o tranco: a história do pastoreio que rejeitou a moderação britânica para fazer barulho nas colinas",
+     "url": "https://www.cnnbrasil.com.br/curiosidades/cao-vitoriano-nao-aguentou-o-tranco-a-historia-do-pastoreio-que-rejeitou-a-moderacao-britanica-para-fazer-barulho-nas-colinas/",
+     "hora": "26/11 06h55"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T06:55-03:00"
+  },
+  {
+   "assunto": "Day Trade hoje (26): Ibovespa reage após 4 quedas e dólar pode ampliar correção",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Day Trade hoje (26): Ibovespa reage após 4 quedas e dólar pode ampliar correção",
+     "url": "https://www.infomoney.com.br/mercados/mercados-day-trade-hoje-analistas-26112026/",
+     "hora": "26/11 07h03"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:03-03:00"
   },
   {
    "assunto": "Está difícil contratar, e governo não ajuda com Bolsa Família, diz CEO de fabricante de calçados Usaflex",
@@ -206,6 +512,26 @@
    "ultima_iso": "2026-11-26T07:00-03:00"
   },
   {
+   "assunto": "Golpe do falso advogado: suspeitos são presos em SP após vítima do RS ser enganada e perder mais de R$ 100 mil",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Golpe do falso advogado: suspeitos são presos em SP após vítima do RS ser enganada e perder mais de R$ 100 mil",
+     "url": "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/11/26/operacao-golpe-falso-advogado-policia-rs.ghtml",
+     "hora": "26/11 07h05"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:05-03:00"
+  },
+  {
    "assunto": "Governo Lula tem 28 dias para aprovar 8 projetos econômicos; veja quais",
    "secao": "politica",
    "n_fontes": 1,
@@ -246,6 +572,26 @@
    "ultima_iso": "2026-11-26T07:01-03:00"
   },
   {
+   "assunto": "Ilhas de calor: bairros de Presidente Prudente registram quase 6°C acima da média da cidade",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Ilhas de calor: bairros de Presidente Prudente registram quase 6°C acima da média da cidade",
+     "url": "https://g1.globo.com/sp/presidente-prudente-e-regiao/noticia/2026/11/26/ilhas-de-calor-bairros-de-presidente-prudente-registram-quase-6c-acima-da-media-da-cidade.ghtml",
+     "hora": "26/11 07h04"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:04-03:00"
+  },
+  {
    "assunto": "Indicadores ruins sinalizam dias difíceis para Milei e o projeto de reeleição",
    "secao": "mundo",
    "n_fontes": 1,
@@ -264,6 +610,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T06:58-03:00"
+  },
+  {
+   "assunto": "Jogadores do Real Madrid ganham novos carros de luxo; veja",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Jogadores do Real Madrid ganham novos carros de luxo; veja",
+     "url": "https://ge.globo.com/futebol/futebol-internacional/noticia/2026/11/26/jogadores-do-real-madrid-ganham-novos-carros-de-luxo-veja.ghtml",
+     "hora": "26/11 07h02"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:02-03:00"
   },
   {
    "assunto": "Jornal da Oeste, Primeira Edição: assista ao noticiário de 26/11/2026",
@@ -286,6 +652,46 @@
    "ultima_iso": "2026-11-26T07:00-03:00"
   },
   {
+   "assunto": "Jovem com deficiência física questiona suspensão de benefício do INSS após perícia no Acre",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Jovem com deficiência física questiona suspensão de benefício do INSS após perícia no Acre",
+     "url": "https://g1.globo.com/ac/acre/noticia/2026/11/26/jovem-com-deficiencia-fisica-questiona-suspensao-de-beneficio-do-inss-apos-pericia-no-acre.ghtml",
+     "hora": "26/11 07h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T07:00-03:00"
+  },
+  {
+   "assunto": "Jovem morre após acidente de moto, em João Pessoa",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Jovem morre após acidente de moto, em João Pessoa",
+     "url": "https://g1.globo.com/pb/paraiba/noticia/2026/11/26/jovem-morre-apos-acidente-de-moto-em-joao-pessoa.ghtml",
+     "hora": "26/11 06h57"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T06:57-03:00"
+  },
+  {
    "assunto": "Livro sobre a trajetória de Quércia é lançado em Campinas",
    "secao": "politica",
    "n_fontes": 1,
@@ -304,227 +710,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T07:00-03:00"
-  },
-  {
-   "assunto": "Megaobra no meio do mar vai instalar turbinas gigantes a até 190 quilômetros da costa para produzir energia suficiente para 6 milhões de casas",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Megaobra no meio do mar vai instalar turbinas gigantes a até 190 quilômetros da costa para produzir energia suficiente para 6 milhões de casas",
-     "url": "https://oantagonista.com.br/ladooa/entretenimento/megaobra-no-meio-do-mar-vai-instalar-turbinas-gigantes-a-ate-190-quilometros-da-costa-para-produzir-energia-suficiente-para-6-milhoes-de-casas/",
-     "hora": "26/11 06h53"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T06:53-03:00"
-  },
-  {
-   "assunto": "Onde Investir repercute último Copom do ano e debate rumos da renda fixa em 2027",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Onde Investir repercute último Copom do ano e debate rumos da renda fixa em 2027",
-     "url": "https://www.infomoney.com.br/onde-investir/renda-fixa-2027-onde-investir-juros-altos/",
-     "hora": "26/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T07:00-03:00"
-  },
-  {
-   "assunto": "Polícia mira servidores em operação contra corrupção em prefeitura da BA",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Polícia mira servidores em operação contra corrupção em prefeitura da BA",
-     "url": "https://www.metropoles.com/colunas/mirelle-pinheiro/policia-mira-servidores-em-operacao-contra-corrupcao-em-prefeitura-da-ba",
-     "hora": "26/11 06h52"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T06:52-03:00"
-  },
-  {
-   "assunto": "Previdência privada: 3 erros que podem fazer você pagar mais Imposto de Renda",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Previdência privada: 3 erros que podem fazer você pagar mais Imposto de Renda",
-     "url": "https://www.infomoney.com.br/minhas-financas/previdencia-privada-erros-imposto-de-renda/",
-     "hora": "26/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T07:00-03:00"
-  },
-  {
-   "assunto": "Protetores de animais e abrigos se reúnem em defesa da causa animal no DF",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Protetores de animais e abrigos se reúnem em defesa da causa animal no DF",
-     "url": "https://www.metropoles.com/distrito-federal/protetores-de-animais-e-abrigos-se-reunem-em-defesa-da-causa-animal-no-df",
-     "hora": "26/11 06h51"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T06:51-03:00"
-  },
-  {
-   "assunto": "Relatório da PF sobre Nunes Marques inclui episódios conhecidos do ministro",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Relatório da PF sobre Nunes Marques inclui episódios conhecidos do ministro",
-     "url": "https://www.metropoles.com/brasil/relatorio-da-pf-sobre-nunes-marques",
-     "hora": "26/11 06h53"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T06:53-03:00"
-  },
-  {
-   "assunto": "Rio amanhece debaixo de chuva; previsão indica acumulados de até 200 milímetros",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Rio amanhece debaixo de chuva; previsão indica acumulados de até 200 milímetros",
-     "url": "https://www.infomoney.com.br/brasil/rio-amanhece-debaixo-de-chuva-previsao-indica-acumulados-de-ate-200-milimetros/",
-     "hora": "26/11 06h55"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T06:55-03:00"
-  },
-  {
-   "assunto": "Rússia prende vice-comandante da Força Aeroespacial, diz jornal",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Rússia prende vice-comandante da Força Aeroespacial, diz jornal",
-     "url": "https://g1.globo.com/mundo/noticia/2026/11/26/russia-prende-vice-comandante-forca-aeroespacial-diz-jornal.ghtml",
-     "hora": "26/11 06h53"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T06:53-03:00"
-  },
-  {
-   "assunto": "Saiba onde assistir a São Paulo x Remo pelo Brasileirão",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Saiba onde assistir a São Paulo x Remo pelo Brasileirão",
-     "url": "https://www.metropoles.com/esportes/saiba-onde-assistir-a-sao-paulo-x-remo-pelo-brasileirao",
-     "hora": "26/11 06h52"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-26T06:52-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Sim, diabetes pode causar até fratura óssea",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Sim, diabetes pode causar até fratura óssea",
-     "url": "https://veja.abril.com.br/saude/sim-diabetes-pode-causar-ate-fratura-ossea/",
-     "hora": "26/11 06h55"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T06:55-03:00"
-  },
-  {
-   "assunto": "Vance diz que CEO da Nvidia não precisará de perdão presidencial em meio a escândalo",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Vance diz que CEO da Nvidia não precisará de perdão presidencial em meio a escândalo",
-     "url": "https://www.infomoney.com.br/mundo/vance-diz-que-ceo-da-nvidia-nao-precisara-de-perdao-presidencial-em-meio-a-escandalo/",
-     "hora": "26/11 06h54"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T06:54-03:00"
   }
  ],
  "em_pautas": {
@@ -537,6 +722,18 @@
      "titulo": "Como foi a final entre Palmeiras e Estudiantes pela Libertadores em 1968? Relembre",
      "url": "https://exame.com/esporte/como-foi-a-final-entre-palmeiras-e-estudiantes-pela-libertadores-em-1968-relembre/",
      "hora": "26/11 07h00"
+    }
+   ]
+  },
+  "moraes-penduricalhos-mpu-credito": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "STF não define fonte de verba para penduricalhos, diz Moraes",
+     "url": "https://revistaoeste.com/politica/moraes-se-recusa-a-definir-fonte-de-r-300-milhoes-para-penduricalhos-do-mpustf-nao-define-fonte-de-verba-para-penduricalhos-diz-moraes/",
+     "hora": "26/11 07h06"
     }
    ]
   }
@@ -552,7 +749,7 @@
    "ultima": "26/11 05h00",
    "ultima_iso": "2026-11-26T05:00-03:00",
    "pauta_atualizada_em": "2026-11-26T05:00-03:00",
-   "horas_sem_atualizar": 2.1,
+   "horas_sem_atualizar": 2.2,
    "principal": false,
    "manchetes": [
     {
@@ -560,6 +757,27 @@
      "titulo": "PGR denuncia Gustavo Gayer por suposto desvio",
      "url": "https://valor.globo.com/politica/noticia/2026/11/26/pgr-denuncia-gustavo-gayer-por-suposto-desvio.ghtml",
      "hora": "26/11 05h00"
+    }
+   ]
+  },
+  "moraes-penduricalhos-mpu-credito": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "oeste"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "26/11 07h06",
+   "ultima_iso": "2026-11-26T07:06-03:00",
+   "pauta_atualizada_em": "2026-11-25T18:27-03:00",
+   "horas_sem_atualizar": 12.8,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "STF não define fonte de verba para penduricalhos, diz Moraes",
+     "url": "https://revistaoeste.com/politica/moraes-se-recusa-a-definir-fonte-de-r-300-milhoes-para-penduricalhos-do-mpustf-nao-define-fonte-de-verba-para-penduricalhos-diz-moraes/",
+     "hora": "26/11 07h06"
     }
    ]
   },
@@ -573,7 +791,7 @@
    "ultima": "26/11 06h14",
    "ultima_iso": "2026-11-26T06:14-03:00",
    "pauta_atualizada_em": "2026-11-24T14:49-03:00",
-   "horas_sem_atualizar": 40.2,
+   "horas_sem_atualizar": 40.4,
    "principal": false,
    "manchetes": [
     {
@@ -595,7 +813,7 @@
    "ultima": "26/11 07h00",
    "ultima_iso": "2026-11-26T07:00-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 24.2,
+   "horas_sem_atualizar": 24.4,
    "principal": false,
    "manchetes": [
     {
@@ -908,21 +1126,21 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Polícia Civil e Ministério Público fazem operação contra grupo Fictor",
+   "assunto": "Frente fria provoca temporais e queda de temperatura no centro-sul do país",
    "secao": "brasil",
    "n_fontes": 2,
    "manchetes": [
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Polícia Civil e Ministério Público fazem operação contra grupo Fictor",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/policia-civil-e-ministerio-publico-fazem-operacao-contra-grupo-fictor.shtml",
-     "hora": "26/11 07h00"
+     "veiculo": "Metrópoles",
+     "titulo": "Frente fria provoca temporais e queda de temperatura no centro-sul do país",
+     "url": "https://www.metropoles.com/brasil/frente-fria-provoca-temporais-e-queda-de-temperatura-no-centro-sul-do-pais",
+     "hora": "26/11 07h03"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Grupo Fictor é alvo da polícia de SP; Justiça manda bloquear R$ 4,3 bilhões",
-     "url": "https://www.metropoles.com/sao-paulo/grupo-fictor-e-alvo-de-operacao-da-policia-de-sp-contra-fraude-financeira",
-     "hora": "26/11 06h52"
+     "veiculo": "g1",
+     "titulo": "Frente fria avança por MG e pode provocar temporais e chuva de até 90 mm nesta quinta-feira",
+     "url": "https://g1.globo.com/mg/minas-gerais/noticia/2026/11/26/frente-fria-avanca-por-mg-e-pode-provocar-temporais-e-chuva-de-ate-90-mm-nesta-quinta-feira.ghtml",
+     "hora": "26/11 07h03"
     }
    ]
   }
@@ -930,7 +1148,7 @@
  "ultima_rodada": "2026-11-26T06:59-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 27 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 31 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 0 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
@@ -938,10 +1156,10 @@
   "g1 Economia": "ok: 100 itens, 2 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 6 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 40 nas últimas 6 h",
+  "ge": "ok: 100 itens, 39 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 2 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 10 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 0 nas últimas 6 h",
@@ -950,18 +1168,18 @@
   "Agência Senado": "ok: 15 itens, 0 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 2 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 1 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 6 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 99 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
   "Valor Econômico": "ok: 100 itens, 100 nas últimas 6 h",
-  "Exame": "ok: 25 itens, 16 nas últimas 6 h",
+  "Exame": "ok: 25 itens, 17 nas últimas 6 h",
   "Veja": "ok: 20 itens, 11 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
-  "DW Brasil": "ok: 63 itens, 0 nas últimas 6 h",
+  "DW Brasil": "ok: 62 itens, 0 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 56 itens, 2 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 33 itens, 1 nas últimas 6 h",
-  "Revista Oeste": "ok: 10 itens, 4 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 33 itens, 0 nas últimas 6 h",
+  "Revista Oeste": "ok: 10 itens, 7 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 2 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 2 nas últimas 6 h",
