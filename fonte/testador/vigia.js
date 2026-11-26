@@ -55,7 +55,7 @@ async function medir(p, tela, disp) {
 }
 
 (async () => {
-  const b = await chromium.launch();
+  const b = await chromium.launch(process.env.PRUMO_CHROMIUM ? { executablePath: process.env.PRUMO_CHROMIUM } : {});
   let versao = '';
   for (const d of DISP) {
     let A;
@@ -108,6 +108,66 @@ async function medir(p, tela, disp) {
       try { const r = await p.evaluate(async () => { const id = (FEED.capa && FEED.capa.manchete) || FEED.pautas[0].id; const ind = await (await fetch('m/indice.json?t=' + Date.now())).json(); const sl = ind[id] || id;
           const h = await (await fetch('m/' + sl + '.html')).text(); return { ok: /og:image/.test(h) && /og:title/.test(h), sl } });
         check('previa-do-link', r.ok, r.sl); if (!r.ok) prob('previa-do-link-sem-imagem', 'Prévia do link da manchete sem título ou imagem', r.sl, 'Link (m/)', d.nome) } catch (e) { prob('previa-do-link-erro', 'Prévia do link da manchete não abre', e.message, 'Link (m/)', d.nome) }
+    }
+    // 26/11: a LISTA FIXA do testador que não precisa de olho humano (só no primeiro aparelho). Cada item é o que um leitor
+    // faz todo dia; se um deles para de funcionar, vira problema para o Corretor. Antes isso gastava uma rodada do Claude.
+    if (d === DISP[0]) {
+      const tenta = async (id, titulo, tela, fn) => { try { const r = await fn(); check(id, r === true, r === true ? '' : r); if (r !== true) prob(id, titulo, r, tela, d.nome) } catch (e) { check(id, false, e.message); prob(id, titulo, e.message, tela, d.nome) } };
+      const camada = () => p.evaluate(() => (document.getElementById('layer') || { innerText: '' }).innerText);
+      await p.evaluate(() => { try { closeLayer(); closeLayer() } catch (e) {} go('capa') }); await p.waitForTimeout(600);
+      // matéria: tem texto de verdade e a "Próxima" troca de notícia
+      await tenta('materia-le-e-proxima', 'Matéria: não dá para ler ou a "Próxima" não troca de notícia', 'Matéria', async () => {
+        const id = await p.evaluate(() => (FEED.capa && FEED.capa.manchete) || FEED.pautas[0].id);
+        await p.evaluate(id => abrirMateria(id), id); await p.waitForTimeout(1800);
+        const t1 = await camada(); if (t1.length < 500) return `matéria com só ${t1.length} letras`;
+        const h1 = await p.evaluate(() => (document.querySelector('#layer h1,#layer h2') || {}).textContent || '');
+        const px = p.locator('#layer .mat-prox').first(); if (!(await px.count())) return 'sem o botão Próxima';
+        await px.scrollIntoViewIfNeeded(); await px.click(); await p.waitForTimeout(1800);
+        const h2 = await p.evaluate(() => (document.querySelector('#layer h1,#layer h2') || {}).textContent || '');
+        await p.evaluate(() => { try { closeLayer(); closeLayer() } catch (e) {} });
+        return h2 && h2 !== h1 ? true : `a Próxima não trocou a notícia (${h1.slice(0, 50)})` });
+      // versões: numa notícia com Direita e Esquerda, os dois botões trocam o texto
+      await tenta('versoes-direita-esquerda', 'Matéria: os botões Direita/Esquerda não trocam o texto', 'Matéria', async () => {
+        const id = await p.evaluate(() => { const x = FEED.pautas.find(x => x.direita && x.esquerda && x.direita.texto && x.esquerda.texto); return x ? x.id : '' });
+        if (!id) return true;  // edição sem notícia com os dois lados: nada a conferir
+        await p.evaluate(id => abrirMateria(id), id); await p.waitForTimeout(1800);
+        const frase = await p.evaluate(id => { const x = pautaById(id); return { d: (x.direita.titulo || x.direita.texto).slice(0, 40), e: (x.esquerda.titulo || x.esquerda.texto).slice(0, 40) } }, id);
+        const out = [];
+        for (const [nome, k] of [['Direita', 'd'], ['Esquerda', 'e']]) {
+          const bt = p.locator('#layer button', { hasText: new RegExp('^\\s*' + nome + '\\s*$') }).first();
+          if (!(await bt.count())) { out.push(`sem o botão ${nome}`); continue }
+          await bt.scrollIntoViewIfNeeded(); await bt.click(); await p.waitForTimeout(900);
+          if (!(await camada()).includes(frase[k])) out.push(`${nome} não mostrou o texto desse lado`) }
+        await p.evaluate(() => { try { closeLayer(); closeLayer() } catch (e) {} });
+        return out.length ? out.join('; ') : true });
+      // giro de notícia: "Últimas" abre e fecha
+      await tenta('giro-ultimas-abre', 'Feed: o giro "Últimas" não abre', 'Feed', async () => {
+        await p.evaluate(() => go('feed')); await p.waitForTimeout(1200);
+        await p.evaluate(() => abrirUltimas()); await p.waitForTimeout(1500);
+        const n = (await camada()).length; await p.evaluate(() => { try { closeLayer(); closeLayer() } catch (e) {} go('capa') });
+        return n > 60 ? true : `giro abriu com ${n} letras` });
+      // link de notícia (o que chega pelo WhatsApp): abre o app já na matéria, sem conta
+      await tenta('link-de-noticia-abre-a-materia', 'Link de notícia (m/) não abre a matéria', 'Link (m/)', async () => {
+        const r = await p.evaluate(async () => { const x = FEED.pautas[Math.min(2, FEED.pautas.length - 1)]; const ind = await (await fetch('m/indice.json?t=' + Date.now())).json(); return { sl: ind[x.id] || x.id, tit: (x.neutro || {}).titulo || '' } });
+        const p2 = await A.ctx.newPage(); let okk = false;
+        await p2.addInitScript(() => Object.defineProperty(Navigator.prototype, 'webdriver', { get: () => false }));  // senão o app trata como robô e abre o Feed
+        try { await p2.goto(URL + 'm/' + r.sl + '.html', { waitUntil: 'domcontentloaded', timeout: 45000 });
+          // a página troca de endereço algumas vezes (m/… → /#m=id): consulta a cada segundo em vez de esperar numa página só
+          const alvoT = r.tit.replace(/\s+/g, ' ').slice(0, 30);
+          for (let k = 0; k < 25 && !okk; k++) { await p2.waitForTimeout(1000); try { okk = await p2.evaluate(t => ((document.getElementById('layer') || { innerText: '' }).innerText || '').replace(/\s+/g, ' ').includes(t), alvoT) } catch (e) {} } } finally { await p2.close() }
+        return okk ? true : `o link m/${r.sl}.html não abriu a matéria em 25 s` });
+      // com a conta de teste (segredos PRUMO_TESTE_EMAIL e PRUMO_TESTE_SENHA no GitHub; sem eles, estes itens não rodam)
+      if (process.env.PRUMO_TESTE_EMAIL && process.env.PRUMO_TESTE_SENHA) {
+        await tenta('entrar-perfil-conversas', 'Com conta: entrar, Perfil ou Conversas com problema', 'Conta', async () => {
+          await p.evaluate(() => { try { closeLayer(); closeLayer() } catch (e) {} abrirLogin('entrar') }); await p.waitForTimeout(800);
+          await p.fill('#lemail', process.env.PRUMO_TESTE_EMAIL); await p.fill('#lsenha', process.env.PRUMO_TESTE_SENHA); await p.click('#lform [type=submit]');
+          try { await p.waitForFunction(() => S.uid && S.membro, null, { timeout: 25000 }) } catch (e) { return 'não entrou com a conta de teste em 25 s' }
+          await p.waitForTimeout(2000); await p.evaluate(() => { try { closeLayer(); closeLayer() } catch (e) {} });
+          p._erros.splice(0);
+          for (const v of ['me', 'msgs', 'feed', 'capa']) { await p.evaluate(v => go(v), v); await p.waitForTimeout(1500) }
+          const er = p._erros.splice(0); return er.length ? [...new Set(er)].slice(0, 3).join(' | ') : true });
+      }
+      p._erros.splice(0);
     }
     // Perfil e Conversas sem conta
     for (const v of ['me', 'msgs', 'busca']) { try { await p.evaluate(v => go(v), v); await p.waitForTimeout(900); await medir(p, { me: 'Perfil', msgs: 'Conversas', busca: 'Buscar' }[v], d.nome) } catch (e) {} }
