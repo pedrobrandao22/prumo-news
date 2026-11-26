@@ -25,7 +25,10 @@ Cada problema vira achado `vigia-<id do problema>` (já existe aberto: só `vist
 voltou na MESMA classe: reabra com `causa_volta`). Não refaça à mão o que o Vigia confere.
 
 ### Passo 2 — A lista fixa (uma passada só, até 15 minutos, iPhone 13 claro; com a conta de teste do pedido)
-Confira que cada item FUNCIONA. Não procure defeito além da lista.
+Confira que cada item FUNCIONA. Não procure defeito além da lista. Os itens 1 a 5 e o 11 o Vigia já confere sozinho a
+cada 3 h (checagens `abre-…`, `materia-le-e-proxima`, `versoes-direita-esquerda`, `giro-ultimas-abre`, `busca-…`,
+`link-de-noticia-abre-a-materia` no `vigia.json`): se estão `ok: true` num `vigia.json` da versão no ar, PULE esses itens
+e faça só os de conta (6 a 10) e as fotos (12).
 1. Capa abre em até 5 s, com manchete, destaques e Indicadores; sem erro (`p._erros` vazio).
 2. Manchete abre a matéria; dá para ler até o fim; "Próxima" e voltar funcionam.
 3. Versões Neutra / Direita / Esquerda trocam o texto (numa notícia que tenha as três).
