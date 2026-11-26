@@ -8,6 +8,29 @@ Cada área tem um módulo com a versão única de cada função: 200-capa, 201-n
 embrulha função existente. Arquivo novo só para parte nova, sem embrulhar. Achados do testador têm `natureza`
 (app, conteudo, gosto) e podem pertencer a uma `causa` (coleção `causas`): ver fonte/testador/CORRETOR.md.
 
+## Testes: edição fixa (desde 26/11)
+A bateria (`testar.sh`, workflow "Testes do app") NÃO usa mais a edição do dia. Os dados vêm de `fonte/edicao-teste/`
+(feed.json, indicadores.json, fotos-arquivo.json, novidades.json, oficiais.json, placares.json e series/ guardados em
+25/11): o testar.sh monta uma raiz de teste (`.repo-teste`, por links) e os testes leem dela (`U.REPO`). Motivo: até
+25/11 a bateria ficava vermelha quase toda noite por causa do conteúdo (título do dólar, edição sem quiz), e uma
+tarefa do Claude gastava a madrugada consertando teste.
+- Teste novo nunca lê `../feed.json` nem outro dado do dia: use `U.REPO` (ou `app/feed.json`, a edição de exemplo).
+- Teste não pode depender do relógio: o app troca "na quarta (25)" por "hoje"/"ontem" conforme o dia de quem lê;
+  aceite as três formas ou fixe a data no próprio teste.
+- Só troque a edição fixa quando o FORMATO do feed mudar, e rode a bateria inteira antes de publicar.
+- `PRUMO_EDICAO_DO_DIA=1 bash testar.sh <teste>` roda com a edição de hoje (para investigar um problema de conteúdo).
+
+## Como o app é conferido (desde 26/11): só o que quebra
+- **Vigia do app** (GitHub, sem IA; o Relógio pede a execução quando o vigia.json passa de 3 h): abre o site real e
+  confere a lista fixa que não precisa de gente (abrir, ler a matéria, Próxima, Direita/Esquerda, giro, busca, link de
+  notícia) e as checagens mecânicas (erro, texto cortado, rolagem lateral, fotos). Grava `vigia.json`.
+- **Testador** (Claude, 1x por dia, sai em menos de 1 min se não há versão nova nem problema do Vigia): confere a lista
+  fixa com a conta de teste; não caça achados, não anota gosto nem caso de canto (fonte/testador/ROTEIRO.md).
+- **Corretor** (Claude, 1x por dia, sai logo se não há trabalho): corrige achado alto/médio, problema do Vigia ou
+  bateria vermelha duas vezes seguidas (fonte/testador/CORRETOR.md).
+- Proibido: módulo novo de remendo (`NNN-corretor-…`, `NNN-melhoria-…`), teste novo por rodada, correção de gosto sem
+  pedido do Pedro. Entre 14 e 25/11 esse ciclo gerou ~710 achados, 28 módulos de remendo e ~200 testes.
+
 ## Regras do produto (decididas pelo Pedro; não mudar sem ele)
 - O Prumo é sobretudo informação (Política e Economia), neutra, curta, sempre atualizada. Amigos e posts complementam.
 - Visual novo ligado (cartão A "Jornal", Giro em quadros, Coleções, perfil estilo X, fase 2: fio, capítulos, prateleiras, Contexto do Prumo). Nome da pessoa sempre primeiro nos posts. "Relato" chama-se "De perto".
@@ -88,3 +111,4 @@ embrulha função existente. Arquivo novo só para parte nova, sem embrulhar. Ac
 - 2026-11-20 (melhoria contínua): o topo da Capa ("Atualizada às …") ficava com a hora e o dia de ontem quando a edição era da noite anterior e uma novidade ("Acabou de sair"/"Agora") chegava depois da meia-noite (ex.: "Atualizada às 22h12 · qui, 19 de nov" com novidade às 0h07); agora mostra a hora e o dia da novidade ("Atualizada às 0h07 · sex, 20 de nov"). Era a causa do t_tarde_1911b vermelho na bateria do ramo reestruturacao das 0h (o teste só falha entre 0h e 2h). Correção no ct210 (js/210); teste review2/t_melhoria_20261120 (porta 8713, horários fixos). Passaram aqui: t_melhoria_20261120, t_tarde_1911b, t_capa_1511, t_etapa7. A bateria completa do GitHub no meu commit foi cancelada pelo push seguinte (merge do reestruturacao) e o app já saiu publicado com a correção no "Publicar: app em duas partes" (e1ee3e1); a confirmação fica para a bateria das 2h20. O t_semv5 ("menu do post sem Editar/Fixar") também falhou duas vezes nessa execução do reestruturacao: não mexido. Robôs: checar_consistencia 0 erros (12 avisos: 11 placares da Câmara sem pauta ligada; 50 fotos do acervo sem uso); validar.py 0 erros, 20 avisos.
 - 2026-11-23 (melhoria contínua, só teste): a bateria do GitHub de 23/11 ficou vermelha em 4 testes (t_feed_leve, t_qa_noite_c "Quiz abre e aceita resposta", t_corretor_2011b e t_corretor_2111 "cartão do dólar no Feed com R$ 5,93"). Corrigido hoje o t_feed_leve: ele escolhia uma "palavra que só está no texto" olhando só título, tema e por quê, mas o feed-leve também leva subtítulo, pontos, lados e atualizações ("mendonca" estava neles, então a busca já achava antes do detalhe). Agora a palavra é conferida contra todo o texto do feed-leve.json gerado; o que o teste confere não mudou. App não mudou, nada publicado. Saúde: consistência dos robôs sem erro (1 aviso: 6 fotos sem uso em acervo/); validar.py com 7 erros editoriais (ex.: chitaozinho-xororo-aposentadoria ainda fala do anúncio de domingo (22) no futuro), para as rodadas.
 - 2026-11-25 (melhoria contínua, só teste): a bateria do GitHub de 24/11 ficou vermelha em 6 testes (t_etapa41 enquete no carrossel, t_etapa46 fotos pré-carregadas, t_qa_noite_c Quiz, t_pre_capa marcação do alto antecipado, t_corretor_2011b e t_corretor_2111 dólar no Feed). Corrigidos hoje os dois do dólar: eles procuravam no Feed qualquer "Dólar fecha a R$ …", e o título do dia mudou ("Dólar cai a {dolar}…"), então achavam o histórico de títulos escrito à mão ("Dólar toca R$ 6 e fecha a R$ 5,93", de segunda) em vez do número do indicadores.json (R$ 5,91). Agora o teste fixa no site de teste o título "Dólar fecha a {dolar} na {dolar.dia}" na matéria do dólar e confere só esse cartão; continua exigindo o valor do indicadores.json e nada da reserva velha. Só mudou o teste, nada do app; sem publicação. Robôs: 0 erros de consistência; feed.json 0 erros.
+- 2026-11-26 (madrugada, com o Pedro): ciclo de testes e correções refeito para gastar pouco. Testador virou conferência de lista fixa (só o que quebra; sai em menos de 1 min sem versão nova nem problema do Vigia); Corretor só com achado alto/médio, problema do Vigia ou bateria vermelha duas vezes; Vigia passou a conferir sozinho matéria, Próxima, Direita/Esquerda, giro Últimas e link de notícia, e o Relógio pede o Vigia quando o vigia.json passa de 3 h (o horário do GitHub quase não rodava). Bateria com edição fixa (`fonte/edicao-teste`), sem depender da notícia do dia; os dois testes do dólar no Feed aceitam "hoje/ontem". Nada do app mudou (mesma versão no ar).
