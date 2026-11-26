@@ -79,8 +79,9 @@ let srv = null;
   for (let i = 0; i < 12; i++) { await ev(V, () => scrollBy(0, 1400)); await sleep(160) }
   await ev(V, () => { for (let i = 0; i < 20; i++) try { carregarMais(true) } catch (e) { } }); await sleep(500);
   const fd = await ev(V, () => ({ posts: document.querySelectorAll('#posts .post').length, prat: document.querySelectorAll('#posts .fs2-sh').length, tot: (typeof LOTE !== 'undefined' && LOTE.lista ? LOTE.lista.filter(x => x && !x.__pub).length : FEED.pautas.length) }));
-  /* 19/11: a conta depende de quantas notícias a edição do dia tem: todas (até 20; uma pode ir para a prateleira) precisam aparecer */
-  ok(fd.posts >= Math.min(20, fd.tot - 1) && fd.prat >= 1, 'Feed rola até o fim com prateleiras', fd);
+  /* 19/11: a conta depende de quantas notícias a edição tem: todas (até 20) precisam aparecer. 26/11: cada prateleira
+     leva uma notícia para dentro dela (edição com 2 prateleiras e 21 notícias mostra 19 posts) */
+  ok(fd.posts >= Math.min(20, fd.tot - Math.max(1, fd.prat)) && fd.prat >= 1, 'Feed rola até o fim com prateleiras', fd);
   const vz = await ev(V, VAZA); ok(vz.sw <= vz.W && !vz.out.length, 'Feed sem nada saindo da tela (360)', vz);
   ok(V._erros.length === 0, 'sem erros no Feed', V._erros);
   // Busca e hashtag
