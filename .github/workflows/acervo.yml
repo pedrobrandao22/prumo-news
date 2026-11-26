@@ -1,0 +1,40 @@
+name: Acervo por assunto
+# 26/11 (pedido do Pedro: toda notícia com foto; banco com 1.000+ fotos bem rotuladas). Sem IA: busca no Wikimedia
+# Commons fotos de licença livre para cada verbete de tools/acervo_verbetes.py, guarda a cópia reduzida em acervo/c/
+# e grava acervo-catalogo.json. Cada execução baixa um lote; verbete completo não é buscado de novo.
+on:
+  schedule:
+    - cron: "43 7 * * *"
+  workflow_dispatch:
+    inputs:
+      limite:
+        description: "Quantas fotos novas nesta execução"
+        default: "350"
+permissions:
+  contents: write
+concurrency:
+  group: prumo-m
+  cancel-in-progress: false
+jobs:
+  acervo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - run: git pull -q --ff-only origin main || true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Pillow
+        run: |
+          python3 -m pip install -q --only-binary=:all: "pillow==11.1.0"
+      - name: Buscar fotos por assunto
+        run: python3 -I tools/acervo_catalogo.py --raiz . --limite "${{ github.event.inputs.limite || '120' }}" --minutos 24
+      - name: Gravar
+        run: |
+          git config user.name "prumo-robo"
+          git config user.email "prumo-robo@users.noreply.github.com"
+          git add acervo-catalogo.json acervo/c
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Acervo por assunto $(TZ=America/Sao_Paulo date +'%d/%m %Hh%M')"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q && break || sleep 5; done
