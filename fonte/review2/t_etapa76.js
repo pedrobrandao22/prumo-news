@@ -13,7 +13,7 @@ async function criar(p, { url, nome, email }, fecha = true) {
   const H = await require('../harness').criar(); const b = await U.navegador();
   const A = U.erros(await H.pagina(b), 'A'), B = U.erros(await H.pagina(b), 'B');
   await criar(A, { nome: 'Pedro', email: 'a@x.com' });
-  await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await clk(A, '[data-gerarconvite]'); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || ''));
+  await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await require('../t_util').gerarConvite(A); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || ''));
   const link = await ev(A, () => document.querySelector('#cvurl').value); await ev(A, () => closeLayer());
   await B.addInitScript(() => { try { localStorage.setItem('prumo-teste-tour', '1') } catch (e) { } });
   await criar(B, { url: link, nome: 'Bia Souza', email: 'b@x.com' }, false);

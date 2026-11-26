@@ -18,7 +18,7 @@ const fecha = p => ev(p, () => { ED = null; closeLayer._ok = true; closeLayer();
   const A = U.erros(await H.pagina(b), 'A'), B = U.erros(await H.pagina(b), 'B');
   for (const P of [A, B]) await P.addInitScript(f => { localStorage.setItem('prumo-teste-semreels', '1'); if (f) localStorage.setItem('prumo-teste-foco', '1') }, FOCO);
   await criar(A, { nome: 'Pedro Brandão', email: 'a@x.com' });
-  await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await clk(A, '[data-gerarconvite]'); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || ''));
+  await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await require('../t_util').gerarConvite(A); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || ''));
   const link = await ev(A, () => document.querySelector('#cvurl').value); await ev(A, () => closeLayer());
   await criar(B, { url: link, nome: 'Bia Souza', email: 'b@x.com' }); const uidB = await ev(B, () => S.uid); await esperar(A, u => S.amigos.has(u), uidB);
   await ev(A, () => go('feed')); await esperar(A, () => PUB.on === true, null, 8000); await sleep(800);

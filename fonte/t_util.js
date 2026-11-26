@@ -55,4 +55,15 @@ async function esperar(page, fn, arg, ms = 5000) {
   try { await page.waitForFunction(fn, arg, { timeout: ms, polling: 100 }); return true } catch (e) { return false }
 }
 const REPO = process.env.PRUMO_REPO || path.resolve(AQUI, '..');  // raiz do repositório do site (fonte/ fica dentro dele)
-module.exports = { REPO, servir, feedFresco, sleep, ok, erros, foto, navegador, formatosTodos, esperar, SHOTS, resumo: () => ({ OKS, FALHAS, RES }) };
+// 26/11: gerar convite sem depender do relógio. No GitHub a folha "Convidar alguém" às vezes não estava aberta quando
+// o teste clicava em "Gerar convite" (a conta ainda terminando de entrar, ou a folha fechada pela navegação do Perfil):
+// a bateria reprovava em testes diferentes a cada vez. Aqui o teste insiste (reabre a folha) antes de desistir.
+async function gerarConvite(page) {
+  for (let i = 0; i < 8; i++) {
+    if (await esperar(page, () => !!document.querySelector('[data-gerarconvite]'), null, 1500)) break;
+    await page.evaluate(() => { const b = document.querySelector('[data-convidar]'); if (b) b.click(); else if (typeof abrirConvite === 'function') abrirConvite() }).catch(() => { });
+  }
+  if (!(await page.$('[data-gerarconvite]'))) console.log('    | convite: a folha não abriu ' + JSON.stringify(await page.evaluate(() => ({ uid: typeof S !== 'undefined' && !!S.uid, membro: typeof S !== 'undefined' && !!S.membro, folha: (document.querySelector('.sheet') || {}).textContent || null })).catch(e => String(e))).slice(0, 300));
+  await page.$eval('[data-gerarconvite]', e => { e.scrollIntoView({ block: 'center' }); e.click() });
+}
+module.exports = { REPO, servir, feedFresco, sleep, ok, erros, foto, navegador, formatosTodos, esperar, gerarConvite, SHOTS, resumo: () => ({ OKS, FALHAS, RES }) };

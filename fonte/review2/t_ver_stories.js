@@ -26,7 +26,7 @@ const fechaTudo = p => ev(p, () => { for (let i = 0; i < 4 && ($('#layer2').inne
   const ctx = o => H.pagina(b, o);
   const A = U.erros(await ctx(), 'A'), B = U.erros(await ctx(), 'B'), C = U.erros(await ctx(), 'C');
   await criar(A, { nome: 'Pedro Brandão', email: 'a@x.com' });
-  const convite = async P => { await ev(P, () => go('me')); await sleep(300); await clk(P, '[data-convidar]'); await sleep(150); await clk(P, '[data-gerarconvite]'); await esperar(P, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || '')); const l = await ev(P, () => document.querySelector('#cvurl').value); await ev(P, () => closeLayer()); return l };
+  const convite = async P => { await ev(P, () => go('me')); await sleep(300); await clk(P, '[data-convidar]'); await sleep(150); await require('../t_util').gerarConvite(P); await esperar(P, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || '')); const l = await ev(P, () => document.querySelector('#cvurl').value); await ev(P, () => closeLayer()); return l };
   const link = await convite(A);
   await criar(B, { url: link, nome: 'Bia Souza', email: 'b@x.com' }); const uidB = await ev(B, () => S.uid); await esperar(A, u => S.amigos.has(u), uidB);
   const linkB = await convite(B);
