@@ -1,48 +1,192 @@
 {
- "gerado": "2026-11-26T10:55-03:00",
+ "gerado": "2026-11-26T11:06-03:00",
  "desde": "2026-11-26T10:40-03:00",
  "feed_atualizado_em": "2026-11-26T10:50:00-03:00",
  "resumo": {
-  "manchetes": 70,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 63,
-  "pautas_com_novidade": 1,
+  "manchetes": 121,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 108,
+  "pautas_com_novidade": 2,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 8,
-  "acionar_itens": 0,
+  "pautas_com_relatos": 9,
+  "acionar_itens": 1,
   "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (63 assuntos fora do feed, 8 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 5 veículos em 90 min (sem seção)",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "David Corrêa, jogador do Vasco, é preso no Rio de Janeiro em operação contra CV",
+   "secao": null,
+   "n_fontes": 5,
+   "motivo": "assunto novo: 5 veículos em 90 min (sem seção)",
+   "chave": [
+    "atacante",
+    "civil",
+    "clube",
+    "correa",
+    "david",
+    "depoimentos",
+    "drogas",
+    "dvd",
+    "interferir",
+    "investigacao",
+    "jogador",
+    "momento",
+    "operacao",
+    "policia",
+    "preso",
+    "rio",
+    "suspeita",
+    "tentar",
+    "trafico",
+    "vasco"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "David Corrêa, jogador do Vasco, é preso no Rio de Janeiro em operação contra CV",
+     "url": "https://www.infomoney.com.br/brasil/david-correa-jogador-do-vasco-e-preso-no-rio-de-janeiro-em-operacao-contra-cv/",
+     "hora": "26/11 11h05",
+     "lide": "Policiais da 14ª DP (Leblon) cumpriram o mandado de prisão expedido pela Justiça do ES"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Veja momento em que David é preso no CT do Vasco pela Polícia Civil",
+     "url": "https://www.metropoles.com/esportes/veja-momento-em-que-david-e-preso-no-ct-do-vasco-pela-policia-civil",
+     "hora": "26/11 11h02",
+     "lide": "Jogador foi detido no CT do clube, no Rio de Janeiro, por mandado expedido pela Justiça do Espírito Santo"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "David é preso pela polícia no CT do Vasco",
+     "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/26/david-e-preso-dentro-do-ct-do-vasco.ghtml",
+     "hora": "26/11 10h52",
+     "lide": "Atacante é investigado por conexões com a facção criminosa Comando Vermelho"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Quem é David Corrêa, o 'DVD', jogador do Vasco que foi preso",
-   "secao": "esportes",
-   "n_fontes": 2,
+   "assunto": "David Corrêa, jogador do Vasco, é preso no Rio de Janeiro em operação contra CV",
+   "secao": null,
+   "n_fontes": 5,
    "fontes": [
     "g1",
+    "ge",
+    "im",
+    "met",
     "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "David Corrêa, jogador do Vasco, é preso no Rio de Janeiro em operação contra CV",
+     "url": "https://www.infomoney.com.br/brasil/david-correa-jogador-do-vasco-e-preso-no-rio-de-janeiro-em-operacao-contra-cv/",
+     "hora": "26/11 11h05"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Veja momento em que David é preso no CT do Vasco pela Polícia Civil",
+     "url": "https://www.metropoles.com/esportes/veja-momento-em-que-david-e-preso-no-ct-do-vasco-pela-policia-civil",
+     "hora": "26/11 11h02"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "David é preso pela polícia no CT do Vasco",
+     "url": "https://ge.globo.com/futebol/times/vasco/noticia/2026/11/26/david-e-preso-dentro-do-ct-do-vasco.ghtml",
+     "hora": "26/11 10h52"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Atacante David, do Vasco, é preso em investigação sobre tráfico de drogas",
+     "url": "https://www.metropoles.com/esportes/atacante-david-do-vasco-e-preso-em-investigacao-sobre-trafico-de-drogas",
+     "hora": "26/11 10h51"
+    }
+   ],
+   "n_fontes_90min": 5,
+   "ultima_iso": "2026-11-26T11:05-03:00"
+  },
+  {
+   "assunto": "Alckmin afirma que tarifas dos EUA contra setor aéreo são totalmente descabidas",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "im"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Quem é David Corrêa, o 'DVD', jogador do Vasco que foi preso",
-     "url": "https://g1.globo.com/es/espirito-santo/noticia/2026/11/26/quem-e-david-correa-o-dvd-jogador-do-vasco-que-foi-preso.ghtml",
-     "hora": "26/11 10h50"
+     "veiculo": "InfoMoney",
+     "titulo": "Alckmin afirma que tarifas dos EUA contra setor aéreo são totalmente descabidas",
+     "url": "https://www.infomoney.com.br/politica/alckmin-afirma-que-tarifas-dos-eua-contra-setor-aereo-sao-totalmente-descabidas/",
+     "hora": "26/11 10h58"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "David, atacante do Vasco, é preso no CT do clube por suspeita de tentar interferir em depoimentos",
-     "url": "https://oglobo.globo.com/esportes/noticia/2026/11/26/david-do-vasco-e-preso-pela-policia-civil-no-rio.ghtml",
-     "hora": "26/11 10h44"
+     "veiculo": "CNN Brasil",
+     "titulo": "Alckmin diz que tarifa ao setor aeronáutico é “totalmente descabida”",
+     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-tarifa-ao-setor-aeronautico-e-totalmente-descabida/",
+     "hora": "26/11 10h41"
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-26T10:50-03:00"
+   "ultima_iso": "2026-11-26T10:58-03:00"
+  },
+  {
+   "assunto": "Setor pharma impacta o mercado imobiliário em Montes Claros",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "oglobo",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Setor pharma impacta o mercado imobiliário em Montes Claros",
+     "url": "https://oglobo.globo.com/patrocinado/dino/noticia/2026/11/26/setor-pharma-impacta-o-mercado-imobiliario-em-montes-claros-1.ghtml",
+     "hora": "26/11 10h49"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Setor pharma impacta o mercado imobiliário em Montes Claros",
+     "url": "https://valor.globo.com/patrocinado/dino/noticia/2026/11/26/setor-pharma-impacta-o-mercado-imobiliario-em-montes-claros-1.ghtml",
+     "hora": "26/11 10h49"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-26T10:49-03:00"
+  },
+  {
+   "assunto": "'BBB': quem chegou à final depois de passar pela Casa de Vidro?",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "'BBB': quem chegou à final depois de passar pela Casa de Vidro?",
+     "url": "https://exame.com/pop/bbb-quem-chegou-a-final-depois-de-passar-pela-casa-de-vidro/",
+     "hora": "26/11 11h02"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T11:02-03:00",
+   "lixo": true
   },
   {
    "assunto": "'The Pitt': Terceira temporada ganha data de estreia",
@@ -63,6 +207,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T10:44-03:00"
+  },
+  {
+   "assunto": "A COP acabou. O futuro ainda é comum. (por Mariana Caminha)",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "A COP acabou. O futuro ainda é comum. (por Mariana Caminha)",
+     "url": "https://www.metropoles.com/blog-do-noblat/a-cop-acabou-o-futuro-ainda-e-comum-por-mariana-caminha",
+     "hora": "26/11 11h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T11:00-03:00"
   },
   {
    "assunto": "A homenagem do Duran Duran a Andy Taylor, guitarrista que morreu aos 65 anos",
@@ -105,6 +269,26 @@
    "ultima_iso": "2026-11-26T10:45-03:00"
   },
   {
+   "assunto": "A oportunidade bilionária aberta pelas novas regras do vale-alimentação",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "A oportunidade bilionária aberta pelas novas regras do vale-alimentação",
+     "url": "https://veja.abril.com.br/economia/a-oportunidade-bilionaria-aberta-pelas-novas-regras-do-vale-alimentacao/",
+     "hora": "26/11 11h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T11:00-03:00"
+  },
+  {
    "assunto": "Ala de Valdemar admite que PL deve romper com Hugo Motta e teme ‘anos de seca’ na Câmara",
    "secao": "politica",
    "n_fontes": 1,
@@ -125,24 +309,24 @@
    "ultima_iso": "2026-11-26T10:40-03:00"
   },
   {
-   "assunto": "Alckmin diz que tarifa ao setor aeronáutico é “totalmente descabida”",
+   "assunto": "Alça Viária é interditada nos dois sentidos nesta quinta, 26, no PA",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
-    "cnn"
+    "g1"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alckmin diz que tarifa ao setor aeronáutico é “totalmente descabida”",
-     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-tarifa-ao-setor-aeronautico-e-totalmente-descabida/",
-     "hora": "26/11 10h41"
+     "veiculo": "g1",
+     "titulo": "Alça Viária é interditada nos dois sentidos nesta quinta, 26, no PA",
+     "url": "https://g1.globo.com/pa/para/noticia/2026/11/26/alca-viaria-e-interditada-nos-dois-sentidos-nesta-quinta-26-no-pa.ghtml",
+     "hora": "26/11 10h59"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:41-03:00"
+   "ultima_iso": "2026-11-26T10:59-03:00"
   },
   {
    "assunto": "Antes de o galho chegar ao fio: como a Enel previne a falta de luz em SP",
@@ -163,6 +347,47 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T10:45-03:00"
+  },
+  {
+   "assunto": "Análise: Quem é Luiz Carlos Trabuco e por que a probabilidade de ele aceitar o ‘pior emprego do mundo’ é baixa",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Análise: Quem é Luiz Carlos Trabuco e por que a probabilidade de ele aceitar o ‘pior emprego do mundo’ é baixa",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/26/analise-quem-e-luiz-carlos-trabuco-e-por-que-a-probabilidade-de-ele-aceitar-o-pior-emprego-do-mundo-e-baixa.ghtml",
+     "hora": "26/11 10h52"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T10:52-03:00"
+  },
+  {
+   "assunto": "Ao vivo: BC fala sobre medidas para combater o endividamento",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Ao vivo: BC fala sobre medidas para combater o endividamento",
+     "url": "https://www.poder360.com.br/poder-economia/ao-vivo-bc-fala-sobre-medidas-para-combater-o-endividamento/",
+     "hora": "26/11 11h00"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T11:00-03:00",
+   "lixo": true
   },
   {
    "assunto": "Aos 77 anos, mulher escolheu morar em uma tiny house de 45 m² e afirma que a mudança trouxe uma rotina mais simples sem precisar abrir mão da própria independência",
@@ -205,6 +430,26 @@
    "ultima_iso": "2026-11-26T10:40-03:00"
   },
   {
+   "assunto": "Após susto com infecções, cachorrinha idosa ganha festa de aniversário de 16 anos com bolo e chapeuzinho",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Após susto com infecções, cachorrinha idosa ganha festa de aniversário de 16 anos com bolo e chapeuzinho",
+     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/26/apos-susto-com-infeccoes-cachorrinha-idosa-ganha-festa-de-aniversario-de-16-anos-com-bolo-e-chapeuzinho.ghtml",
+     "hora": "26/11 11h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T11:00-03:00"
+  },
+  {
    "assunto": "Aracaju autoriza concessão de áreas públicas à Iguá Sergipe para obras de abastecimento de água",
    "secao": null,
    "n_fontes": 1,
@@ -225,6 +470,26 @@
    "ultima_iso": "2026-11-26T10:42-03:00"
   },
   {
+   "assunto": "Ararinha-azul que inspirou o filme Rio renasce no Brasil: nascimento de Hope reacende esperança para salvar espécie da extinção",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Ararinha-azul que inspirou o filme Rio renasce no Brasil: nascimento de Hope reacende esperança para salvar espécie da extinção",
+     "url": "https://oantagonista.com.br/?p=2215526",
+     "hora": "26/11 11h03"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T11:03-03:00"
+  },
+  {
    "assunto": "Ary Borges destaca mudança de mentalidade da Seleção: \"Olhar de igual para igual\"",
    "secao": "esportes",
    "n_fontes": 1,
@@ -243,6 +508,47 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T10:50-03:00"
+  },
+  {
+   "assunto": "Assista ao Bahia Meio Dia",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista ao Bahia Meio Dia",
+     "url": "https://g1.globo.com/ba/bahia/ao-vivo/assista-aos-telejornais-da-tv-bahia.ghtml",
+     "hora": "26/11 10h56"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-26T10:56-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Aulas na USP, consultoria e taxas a bilionários: os planos de Haddad fora do governo",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Aulas na USP, consultoria e taxas a bilionários: os planos de Haddad fora do governo",
+     "url": "https://www.infomoney.com.br/politica/aulas-na-usp-consultoria-e-taxas-a-bilionarios-os-planos-de-haddad-fora-do-governo/",
+     "hora": "26/11 11h04"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T11:04-03:00"
   },
   {
    "assunto": "BMW entrega carros de até R$ 1,2 mi a jogadores do Real Madrid",
@@ -285,7 +591,7 @@
    "ultima_iso": "2026-11-26T10:48-03:00"
   },
   {
-   "assunto": "Bolsa dispara 3% em meio a rumores sobre a Fazenda e ajuste fiscal",
+   "assunto": "Bolsa dispara 3% em meio a rumores sobre Fazenda e ajuste fiscal",
    "secao": "economia",
    "n_fontes": 1,
    "fontes": [
@@ -296,33 +602,13 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Bolsa dispara 3% em meio a rumores sobre a Fazenda e ajuste fiscal",
+     "titulo": "Bolsa dispara 3% em meio a rumores sobre Fazenda e ajuste fiscal",
      "url": "https://www.metropoles.com/brasil/ibivespa-cotacao-hoje-26-11",
      "hora": "26/11 10h47"
     }
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T10:47-03:00"
-  },
-  {
-   "assunto": "Brad Pitt e Angelina Jolie encerram disputa judicial por venda de vinícola na França",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Brad Pitt e Angelina Jolie encerram disputa judicial por venda de vinícola na França",
-     "url": "https://www.infomoney.com.br/mercados/brad-pitt-e-angelina-jolie-encerram-disputa-judicial-por-venda-de-vinicola-na-franca/",
-     "hora": "26/11 10h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:45-03:00"
   },
   {
    "assunto": "Bêbado, dono de Hilux dá tiro para o alto e acerta barriga de vizinha no DF",
@@ -406,8 +692,8 @@
    "lixo": true
   },
   {
-   "assunto": "Craque Neto se rende a Neymar após reconciliação: \"Nem merecia\"",
-   "secao": "esportes",
+   "assunto": "Como seis investidores colocaram a Fictor na mira da Polícia Civil",
+   "secao": "brasil",
    "n_fontes": 1,
    "fontes": [
     "met"
@@ -417,214 +703,13 @@
    "manchetes": [
     {
      "veiculo": "Metrópoles",
-     "titulo": "Craque Neto se rende a Neymar após reconciliação: \"Nem merecia\"",
-     "url": "https://www.metropoles.com/celebridades/craque-neto-se-rende-a-neymar-apos-reconciliacao-nem-merecia",
-     "hora": "26/11 10h41"
+     "titulo": "Como seis investidores colocaram a Fictor na mira da Polícia Civil",
+     "url": "https://www.metropoles.com/colunas/rogerio-pagnan/como-seis-investidores-colocaram-a-fictor-na-mira-da-policia-civil",
+     "hora": "26/11 10h57"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:41-03:00"
-  },
-  {
-   "assunto": "Deputados do Novo avançam para livrar multinacionais de R$ 15 bi em impostos no Brasil",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "icl"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "Deputados do Novo avançam para livrar multinacionais de R$ 15 bi em impostos no Brasil",
-     "url": "https://iclnoticias.com.br/deputados-querem-livrar-multinacionais-impostos/",
-     "hora": "26/11 10h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:45-03:00"
-  },
-  {
-   "assunto": "Empresa de Richarlison declara ser integrante de ‘povos e comunidades tradicionais’ para regularizar mansão em Angra",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "icl"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "Empresa de Richarlison declara ser integrante de ‘povos e comunidades tradicionais’ para regularizar mansão em Angra",
-     "url": "https://iclnoticias.com.br/empresa-de-richarlison-declara/",
-     "hora": "26/11 10h44"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:44-03:00"
-  },
-  {
-   "assunto": "Ex-auxiliar de Três Rios, Manoel Vitor assume comando de Levy Gasparian para 2027",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Ex-auxiliar de Três Rios, Manoel Vitor assume comando de Levy Gasparian para 2027",
-     "url": "https://ge.globo.com/rj/sul-do-rio-costa-verde/copa-rio-sul-de-futsal/noticia/2026/11/26/ex-auxiliar-de-tres-rios-manoel-vitor-assume-comando-de-levy-gasparian-para-2027.ghtml",
-     "hora": "26/11 10h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:45-03:00"
-  },
-  {
-   "assunto": "Faculdade oferece acompanhamento gratuito de fisioterapia para bebês prematuros em Salvador; confira",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Faculdade oferece acompanhamento gratuito de fisioterapia para bebês prematuros em Salvador; confira",
-     "url": "https://g1.globo.com/ba/bahia/saudenabahia/noticia/2026/11/26/faculdade-oferece-atendimento-gratuito-em-salvador-confira.ghtml",
-     "hora": "26/11 10h51"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:51-03:00"
-  },
-  {
-   "assunto": "Fora do Brasil, Flávio Bolsonaro indica R$ 79 milhões em emendas para 2027",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Fora do Brasil, Flávio Bolsonaro indica R$ 79 milhões em emendas para 2027",
-     "url": "https://www.infomoney.com.br/politica/fora-do-brasil-flavio-bolsonaro-indica-r-79-milhoes-em-emendas-para-2027/",
-     "hora": "26/11 10h49"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:49-03:00"
-  },
-  {
-   "assunto": "GP do Catar: a 22ª etapa da F1 2026",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "GP do Catar: a 22ª etapa da F1 2026",
-     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-do-catar-a-22-etapa-da-f1-2026.ghtml",
-     "hora": "26/11 10h43"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:43-03:00"
-  },
-  {
-   "assunto": "GTA 6 coloca Anitta como médica de um podcast nas rádios do jogo, e mais três músicas brasileiras tocam pela cidade, de Sepultura a Azymuth",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "GTA 6 coloca Anitta como médica de um podcast nas rádios do jogo, e mais três músicas brasileiras tocam pela cidade, de Sepultura a Azymuth",
-     "url": "https://oantagonista.com.br/ladooa/entretenimento/gta-6-coloca-anitta-como-medica-de-um-podcast-sobre-sexo-nas-radios-do-jogo-e-mais-tres-musicas-brasileiras-tocam-pela-cidade-de-sepultura-a-azymuth/",
-     "hora": "26/11 10h53"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-26T10:53-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Gayer vê retaliação política em denúncia de Paulo Gonet",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Gayer vê retaliação política em denúncia de Paulo Gonet",
-     "url": "https://oantagonista.com.br/brasil/gayer-ve-retaliacao-politica-em-denuncia-de-paulo-gonet/",
-     "hora": "26/11 10h42"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:42-03:00"
-  },
-  {
-   "assunto": "Grupo de conselheiros do Avaí convoca diretoria a se explicar sobre rebaixamento",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Grupo de conselheiros do Avaí convoca diretoria a se explicar sobre rebaixamento",
-     "url": "https://ge.globo.com/sc/futebol/times/avai/noticia/2026/11/26/grupo-de-conselheiros-do-avai-convoca-diretoria-a-se-explicar-sobre-rebaixamento.ghtml",
-     "hora": "26/11 10h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:45-03:00"
-  },
-  {
-   "assunto": "IPCA-15 desacelera a 0,22% em novembro, com alívio nas passagens aéreas e nos combustíveis",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "folha"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "IPCA-15 desacelera a 0,22% em novembro, com alívio nas passagens aéreas e nos combustíveis",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/ipca-15-desacelera-a-022-em-novembro-com-alivio-nas-passagens-aereas-e-nos-combustiveis.shtml",
-     "hora": "26/11 10h43"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T10:43-03:00"
+   "ultima_iso": "2026-11-26T10:57-03:00"
   }
  ],
  "em_pautas": {
@@ -637,6 +722,18 @@
      "titulo": "A nova decisão de Alexandre de Moraes que beneficia ‘Débora do batom’",
      "url": "https://veja.abril.com.br/politica/a-nova-decisao-de-alexandre-de-moraes-que-beneficia-debora-do-batom/",
      "hora": "26/11 10h55"
+    }
+   ]
+  },
+  "dolar-volta-acima-5": {
+   "secao": "economia",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Ibovespa sobe mais de 3% e dólar cai para R$ 5,74 com expectativas sobre a Fazenda",
+     "url": "https://jovempan.com.br/mundo/ibovespa-sobe-mais-de-3-e-dolar-cai-para-r-574-com-expectativas-sobre-a-fazenda/",
+     "hora": "26/11 10h57"
     }
    ]
   }
@@ -652,7 +749,7 @@
    "ultima": "26/11 09h07",
    "ultima_iso": "2026-11-26T09:07-03:00",
    "pauta_atualizada_em": "2026-11-25T18:48-03:00",
-   "horas_sem_atualizar": 16.1,
+   "horas_sem_atualizar": 16.3,
    "principal": false,
    "manchetes": [
     {
@@ -673,7 +770,7 @@
    "ultima": "26/11 10h14",
    "ultima_iso": "2026-11-26T10:14-03:00",
    "pauta_atualizada_em": "2026-11-24T14:49-03:00",
-   "horas_sem_atualizar": 44.1,
+   "horas_sem_atualizar": 44.3,
    "principal": false,
    "manchetes": [
     {
@@ -694,7 +791,7 @@
    "ultima": "26/11 08h16",
    "ultima_iso": "2026-11-26T08:16-03:00",
    "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 4.1,
+   "horas_sem_atualizar": 4.2,
    "principal": true,
    "manchetes": [
     {
@@ -702,6 +799,27 @@
      "titulo": "Tarifaço: China, Brasil e União Europeia criticam nova rodada de tarifas proposta pelos EUA",
      "url": "https://g1.globo.com/economia/noticia/2026/11/26/china-brasil-e-uniao-europeia-reagem-a-novas-tarifas-anunciadas-por-trump.ghtml",
      "hora": "26/11 08h16"
+    }
+   ]
+  },
+  "dolar-volta-acima-5": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "jp"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "26/11 10h57",
+   "ultima_iso": "2026-11-26T10:57-03:00",
+   "pauta_atualizada_em": "2026-11-26T10:48-03:00",
+   "horas_sem_atualizar": 0.3,
+   "principal": true,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Ibovespa sobe mais de 3% e dólar cai para R$ 5,74 com expectativas sobre a Fazenda",
+     "url": "https://jovempan.com.br/mundo/ibovespa-sobe-mais-de-3-e-dolar-cai-para-r-574-com-expectativas-sobre-a-fazenda/",
+     "hora": "26/11 10h57"
     }
    ]
   },
@@ -718,7 +836,7 @@
    "ultima": "26/11 09h56",
    "ultima_iso": "2026-11-26T09:56-03:00",
    "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 4.1,
+   "horas_sem_atualizar": 4.2,
    "principal": false,
    "manchetes": [
     {
@@ -763,7 +881,7 @@
    "ultima": "26/11 07h37",
    "ultima_iso": "2026-11-26T07:37-03:00",
    "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 4.1,
+   "horas_sem_atualizar": 4.2,
    "principal": false,
    "manchetes": [
     {
@@ -785,7 +903,7 @@
    "ultima": "26/11 07h49",
    "ultima_iso": "2026-11-26T07:49-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 28.1,
+   "horas_sem_atualizar": 28.2,
    "principal": false,
    "manchetes": [
     {
@@ -812,7 +930,7 @@
    "ultima": "26/11 10h29",
    "ultima_iso": "2026-11-26T10:29-03:00",
    "pauta_atualizada_em": "2026-11-26T10:29-03:00",
-   "horas_sem_atualizar": 0.4,
+   "horas_sem_atualizar": 0.6,
    "principal": false,
    "manchetes": [
     {
@@ -833,7 +951,7 @@
    "ultima": "26/11 10h55",
    "ultima_iso": "2026-11-26T10:55-03:00",
    "pauta_atualizada_em": "2026-11-26T10:30-03:00",
-   "horas_sem_atualizar": 0.4,
+   "horas_sem_atualizar": 0.6,
    "principal": false,
    "manchetes": [
     {
@@ -1218,21 +1336,40 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Quem é David Corrêa, o 'DVD', jogador do Vasco que foi preso",
-   "secao": "esportes",
+   "assunto": "Alckmin afirma que tarifas dos EUA contra setor aéreo são totalmente descabidas",
+   "secao": "mundo",
    "n_fontes": 2,
    "manchetes": [
     {
-     "veiculo": "g1",
-     "titulo": "Quem é David Corrêa, o 'DVD', jogador do Vasco que foi preso",
-     "url": "https://g1.globo.com/es/espirito-santo/noticia/2026/11/26/quem-e-david-correa-o-dvd-jogador-do-vasco-que-foi-preso.ghtml",
-     "hora": "26/11 10h50"
+     "veiculo": "InfoMoney",
+     "titulo": "Alckmin afirma que tarifas dos EUA contra setor aéreo são totalmente descabidas",
+     "url": "https://www.infomoney.com.br/politica/alckmin-afirma-que-tarifas-dos-eua-contra-setor-aereo-sao-totalmente-descabidas/",
+     "hora": "26/11 10h58"
     },
     {
+     "veiculo": "CNN Brasil",
+     "titulo": "Alckmin diz que tarifa ao setor aeronáutico é “totalmente descabida”",
+     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-tarifa-ao-setor-aeronautico-e-totalmente-descabida/",
+     "hora": "26/11 10h41"
+    }
+   ]
+  },
+  {
+   "assunto": "Setor pharma impacta o mercado imobiliário em Montes Claros",
+   "secao": "economia",
+   "n_fontes": 2,
+   "manchetes": [
+    {
      "veiculo": "O Globo",
-     "titulo": "David, atacante do Vasco, é preso no CT do clube por suspeita de tentar interferir em depoimentos",
-     "url": "https://oglobo.globo.com/esportes/noticia/2026/11/26/david-do-vasco-e-preso-pela-policia-civil-no-rio.ghtml",
-     "hora": "26/11 10h44"
+     "titulo": "Setor pharma impacta o mercado imobiliário em Montes Claros",
+     "url": "https://oglobo.globo.com/patrocinado/dino/noticia/2026/11/26/setor-pharma-impacta-o-mercado-imobiliario-em-montes-claros-1.ghtml",
+     "hora": "26/11 10h49"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Setor pharma impacta o mercado imobiliário em Montes Claros",
+     "url": "https://valor.globo.com/patrocinado/dino/noticia/2026/11/26/setor-pharma-impacta-o-mercado-imobiliario-em-montes-claros-1.ghtml",
+     "hora": "26/11 10h49"
     }
    ]
   }
@@ -1246,23 +1383,23 @@
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 7 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 13 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 11 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 13 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 2 nas últimas 6 h",
-  "ge": "ok: 100 itens, 79 nas últimas 6 h",
+  "ge": "ok: 100 itens, 82 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 3 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 16 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 17 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 11 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 4 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 11 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 12 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 5 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 9 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 6 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 3 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 6 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 7 nas últimas 6 h",
   "O Globo": "ok: 100 itens, 93 nas últimas 6 h",
   "Valor Econômico": "ok: 100 itens, 100 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
