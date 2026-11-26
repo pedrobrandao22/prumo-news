@@ -73,7 +73,7 @@ def foto_de(p, cat, usadas=None):
     f = next((x for x in ordem if usadas is None or x["local"] not in usadas), ordem[0])
     if usadas is not None: usadas.add(f["local"])
     ilus = v.get("tipo") == "ilustrativa"
-    cred = str(f.get("credito") or "Wikimedia Commons")
+    cred = str(f.get("credito") or "").strip().lstrip("/").strip() or "Wikimedia Commons"
     out = {"url": f.get("url"), "local": f["local"], "pagina": f.get("pagina"), "licenca": f.get("licenca"), "fonte": f.get("fonte"),
            "credito": ("Foto ilustrativa: " if ilus else "Foto de arquivo: ") + cred,
            "alt": ("Foto ilustrativa: " if ilus else "Foto de arquivo: ") + str(v.get("rotulo") or ""),
