@@ -75,8 +75,8 @@ const PORTA = 9421, BASE = `http://localhost:${PORTA}/index.html`;
     const r = await P.evaluate(() => { const t = document.querySelector('#v-feed') || document.body; return { txt: t.innerText, ind: !!IND_AUTO } });
     // procura o cartão do dólar no feed renderizado (rola até aparecer)
     let txt = r.txt;
-    for (let i = 0; i < 25 && !/Dólar fecha a R\$ [\d,]+ na /.test(txt); i++) { await P.evaluate(() => window.scrollBy(0, 700)); await sleep(250); txt = await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText) }
-    const m = /Dólar fecha a (R\$ [\d,]+) na /.exec(txt);
+    for (let i = 0; i < 25 && !/Dólar fecha a R\$ [\d,]+ (?:na |hoje|ontem)/.test(txt); i++) { await P.evaluate(() => window.scrollBy(0, 700)); await sleep(250); txt = await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText) }
+    const m = /Dólar fecha a (R\$ [\d,]+) (?:na |hoje|ontem)/.exec(txt);
     ok(r.ind && m && m[1] === dolar, `${nome}: cartão do Feed com o dólar de indicadores.json (${dolar}), não o de outubro`, m && m[0]);
     ok(!/R\$ 5,02/.test(txt), `${nome}: nada de R$ 5,02 no Feed`);
     ok(!P._erros.length, 'sem erros na página (2) ' + P._erros.join('|'));

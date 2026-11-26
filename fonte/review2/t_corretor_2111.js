@@ -45,9 +45,9 @@ const PORTA = 9431, BASE = `http://localhost:${PORTA}/index.html`, SITE = path.j
     await sleep(Math.max(atrInd, atrDet) + 2500);
     let txt = await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText);
     const topo = await P.evaluate(() => (document.querySelector('#secs') || {}).innerText || '');
-    for (let i = 0; i < 25 && !/Dólar fecha a R\$ [\d,]+ na /.test(txt); i++) { await P.evaluate(() => window.scrollBy(0, 700)); await sleep(200); txt += await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText) }
-    const m = /Dólar fecha a (R\$ [\d,]+) na /.exec(txt);
-    ok(m && m[1] === dolar, `${nome}: cartão do dólar no Feed com ${dolar}`, m && m[0]);
+    for (let i = 0; i < 25 && !/Dólar fecha a R\$ [\d,]+ (?:na |hoje|ontem)/.test(txt); i++) { await P.evaluate(() => window.scrollBy(0, 700)); await sleep(200); txt += await P.evaluate(() => (document.querySelector('#v-feed') || document.body).innerText) }
+    const m = /Dólar fecha a (R\$ [\d,]+) (?:na |hoje|ontem)/.exec(txt);
+    ok(m && m[1] === dolar, `${nome}: cartão do dólar no Feed com ${dolar}`, (m && m[0]) || (/.{0,30}D[óo]lar f.{0,60}/.exec(txt) || ["sem cartão"])[0]);
     ok(!/R\$ 5,02|205\.260|quinta \(22\)/.test(txt + topo), `${nome}: nada da reserva velha (R$ 5,02, 205.260, quinta (22)) no Feed`,
       (/.{0,80}(R\$ 5,02|205\.260|quinta \(22\)).{0,40}/.exec(txt + topo) || [''])[0]);
     ok(!P._erros.length, `${nome}: sem erros na página ` + P._erros.join('|'));
