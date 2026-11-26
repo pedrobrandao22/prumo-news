@@ -27,6 +27,8 @@ RUIM = re.compile(r"(\bmap\b|mapa|locator|diagram|logo|icon|coat of arms|brasao|
                   r"campaign|campanha|rally|comicio)")
 
 
+GENTE = re.compile(r"(portrait|retrato|selfie|ceremony|cerimonia|posse\b|visits?\b|visita\b|meeting|meets\b|reuniao|encontro|secretary|minist(?:er|ro|ra)\b|president[ea]?\b|governador|senador|deputad|prefeit[oa]\b|ambassador|embaixador|general\b|commander|speech|discurso|press conference|coletiva|delegation|comitiva|award|premiac|medal|podium|podio|mascot|black and white|preto e branco|satellite|satelite|landsat|sentinel-|modis|nasa earth|\biss0|bird\b|aves?\b|passaro)")
+
 def busca(consulta, chaves, n, vistos, fora):
     """Fotos livres do Commons para a consulta; a palavra-chave precisa estar no nome, na descrição ou nas categorias."""
     d = None
@@ -51,6 +53,7 @@ def busca(consulta, chaves, n, vistos, fora):
         cats = F.norm((md.get("Categories") or {}).get("value") or "")
         if ks and not any(k in tit or k in cats or k in desc for k in ks): continue
         if RUIM.search(tit) or RUIM.search(cats) or F.FORA.search(tit) or F.NEGADAS.search(tit): continue
+        if GENTE.search(tit) or GENTE.search(desc[:200]): continue  # 26/11: foto de assunto não mostra autoridade nem evento com gente identificável
         if ii.get("mime") not in ("image/jpeg", "image/webp"): continue
         w, h = ii.get("width") or 0, ii.get("height") or 0
         if w < 900 or h < 500 or w < h * 1.15 or w > h * 2.4: continue  # deitada, nem tira nem retrato
@@ -99,15 +102,16 @@ def main(argv):
                 try: os.remove(os.path.join(raiz, f["local"]))
                 except OSError: pass
         fotos = [f for f in ant.get("fotos") or [] if f.get("url") not in fora and f.get("local") and os.path.exists(os.path.join(raiz, f["local"]))]
-        if len(fotos) < por and E["baixar"] and E["restam"] > 0 and (not so or vid in so) and (not prazo or time.time() - t0 < prazo):
+        alvo = por if not (ant.get("fotos") or fora) else 3  # verbete já revisado só é completado quando fica com menos de 3 fotos
+        if len(fotos) < alvo and E["baixar"] and E["restam"] > 0 and (not so or vid in so) and (not prazo or time.time() - t0 < prazo):
             for c in consultas:
                 q, _, kw = c.partition("|")
                 for f in busca(q.strip(), kw.split(","), por * 2, vistos, fora):
-                    if len(fotos) >= por or E["restam"] <= 0: break
+                    if len(fotos) >= alvo or E["restam"] <= 0: break
                     if sum(1 for x in fotos if x.get("autor") == f.get("autor")) >= 2: continue  # variedade: até 2 fotos do mesmo autor
                     f["alt"] = ("Foto ilustrativa: " if tipo == "ilustrativa" else "Foto de arquivo: ") + rotulo
                     if F.guardar(f, vid, "acervo/c", False, E) and not F.fina_demais(f): fotos.append(f)
-                if len(fotos) >= por: break
+                if len(fotos) >= alvo: break
             print(f"{vid}: {len(fotos)} fotos")
         res[vid] = {"rotulo": rotulo, "tipo": tipo, "secoes": secoes, "subtemas": subtemas, "palavras": palavras, "fotos": fotos}
         if fora: res[vid]["fora"] = sorted(fora)
