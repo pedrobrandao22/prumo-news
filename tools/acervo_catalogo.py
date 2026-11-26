@@ -103,6 +103,7 @@ def main(argv):
                 except OSError: pass
         fotos = [f for f in ant.get("fotos") or [] if f.get("url") not in fora and f.get("local") and os.path.exists(os.path.join(raiz, f["local"]))]
         alvo = por if not (ant.get("fotos") or fora) else 3  # verbete já revisado só é completado quando fica com menos de 3 fotos
+        if len(FORA.get(vid) or []) >= 8 and not vid.startswith("geral-"): alvo = 0  # busca esgotada: 8+ fotos já recusadas à mão; só volta com consulta nova e a lista zerada
         if len(fotos) < alvo and E["baixar"] and E["restam"] > 0 and (not so or vid in so) and (not prazo or time.time() - t0 < prazo):
             for c in consultas:
                 q, _, kw = c.partition("|")
