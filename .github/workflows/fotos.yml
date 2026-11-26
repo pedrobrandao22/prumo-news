@@ -33,7 +33,7 @@ jobs:
           python3 -m pip install -q --only-binary=:all: "pillow==11.1.0" || true
       - name: Buscar fotos
         # domingo: tira do acervo as fotos que ninguém usa mais (pessoas fora do noticiário há mais de 120 dias)
-        run: python3 -I tools/fotos_arquivo.py feed.json fotos-arquivo.json --pasta acervo --limite 120 --max-mb 90 $( [ "$(date +%u)" = 7 ] && echo --podar )
+        run: python3 -I tools/fotos_arquivo.py feed.json fotos-arquivo.json --pasta acervo --limite 120 --max-mb 300 $( [ "$(date +%u)" = 7 ] && echo --podar )
       - name: Páginas de compartilhamento com as fotos novas
         # commits do robô não disparam o workflow das páginas: atualiza aqui mesmo
         run: python3 -I tools/paginas.py, tools/fotos_regras.json feed.json m fotos-arquivo.json

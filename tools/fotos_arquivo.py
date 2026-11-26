@@ -798,6 +798,7 @@ def main(argv):
         for dp, _, fs in os.walk(os.path.join(raiz, pasta)):
             for fn in fs:
                 rel = os.path.relpath(os.path.join(dp, fn), raiz).replace(os.sep, "/")
+                if rel.startswith(pasta + "/c/"): continue  # 26/11: acervo/c é do catálogo por assunto (tools/acervo_catalogo.py)
                 if rel not in usados: os.remove(os.path.join(dp, fn)); print("podado:", rel)
     res = {"versao": 2, "gerado": datetime.now(SP).isoformat(timespec="minutes"), "padrao": PADRAO, "pessoas": out_p, "assuntos": out_a, "temas": out_t,
            "acervo": {"pasta": pasta, "fotos": len(fila), "no_repositorio": locais, "mb": round(tamanho_pasta(os.path.join(raiz, pasta)) / 1e6, 1)},
