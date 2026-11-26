@@ -146,6 +146,12 @@ async function medir(p, tela, disp) {
         await p.evaluate(() => abrirUltimas()); await p.waitForTimeout(1500);
         const n = (await camada()).length; await p.evaluate(() => { try { closeLayer(); closeLayer() } catch (e) {} go('capa') });
         return n > 60 ? true : `giro abriu com ${n} letras` });
+      // 26/11 (pedido do Pedro): toda notícia tem foto — a escolha de m/fotos.json não pode ter notícia sem foto
+      await tenta('toda-noticia-tem-foto', 'Há notícia sem foto', 'Fotos', async () => {
+        const r = await p.evaluate(async () => { const d = await (await fetch('m/fotos.json?t=' + Date.now())).json(); if (!d || !d.mapa || d.feed !== FEED.atualizado_em) return { fora: 1 };
+          const sem = FEED.pautas.filter(x => !d.mapa[x.id]).map(x => x.id); return { sem, n: FEED.pautas.length } });
+        if (r.fora) return true;   // a página das notícias ainda não acompanhou a edição: confere na próxima passada
+        return r.sem.length ? `${r.sem.length} de ${r.n} sem foto: ${r.sem.slice(0, 5).join(', ')}` : true });
       // link de notícia (o que chega pelo WhatsApp): abre o app já na matéria, sem conta
       await tenta('link-de-noticia-abre-a-materia', 'Link de notícia (m/) não abre a matéria', 'Link (m/)', async () => {
         const r = await p.evaluate(async () => { const x = FEED.pautas[Math.min(2, FEED.pautas.length - 1)]; const ind = await (await fetch('m/indice.json?t=' + Date.now())).json(); return { sl: ind[x.id] || x.id, tit: (x.neutro || {}).titulo || '' } });

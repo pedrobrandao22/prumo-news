@@ -7,7 +7,29 @@ editoria da notícia; (2) o verbete "geral-<editoria>"; (3) "geral-jornais". Den
 na edição; a escolha é estável (sai do id da notícia), para a foto não trocar a cada rodada.
 Sem rede e sem IA: usado por tools/paginas.py, que grava a escolha em m/fotos.json para o app usar a mesma.
 """
-import hashlib, re, unicodedata
+import hashlib, json, os, re, sys, unicodedata
+
+_AQUI = os.path.dirname(os.path.abspath(__file__))
+if _AQUI not in sys.path: sys.path.insert(0, _AQUI)
+try:
+    from acervo_verbetes import VERBETES  # as palavras e a ordem valem as do código (o catálogo pode estar uma rodada atrás)
+except Exception:
+    VERBETES = []
+try:
+    FORA = {u for us in json.load(open(os.path.join(_AQUI, "acervo_fora.json"), encoding="utf-8")).values() for u in us}  # retiradas na revisão
+except Exception:
+    FORA = set()
+
+
+def fotos_de(v):
+    return [f for f in (v or {}).get("fotos") or [] if f.get("local") and f.get("url") not in FORA]
+
+
+def regras(cat):
+    """(id, editorias, palavras) na ordem de escolha: a do código; verbete que só existe no catálogo vem depois."""
+    V = (cat or {}).get("verbetes") or {}
+    r = [(x[0], x[3], x[5]) for x in VERBETES if x[0] in V]; tem = {x[0] for x in r}
+    return r + [(k, v.get("secoes"), v.get("palavras")) for k, v in V.items() if k not in tem]
 
 
 def norm(s):
@@ -30,12 +52,12 @@ def verbete_de(p, cat):
     n = p.get("neutro") or {}
     bruto = f"{n.get('titulo') or ''} {p.get('subtitulo') if isinstance(p.get('subtitulo'), str) else ''}"
     limpo = norm(bruto); sec = p.get("secao")
-    for vid, v in V.items():
-        if vid.startswith("geral-") or not v.get("fotos"): continue
-        if v.get("secoes") and sec not in v["secoes"]: continue
-        if any(casa(w, bruto, limpo) for w in v.get("palavras") or []): return vid
+    for vid, secoes, palavras in regras(cat):
+        if vid.startswith("geral-") or not fotos_de(V[vid]): continue
+        if secoes and sec not in secoes: continue
+        if any(casa(w, bruto, limpo) for w in palavras or []): return vid
     for vid in (f"geral-{sec}", "geral-jornais"):
-        if (V.get(vid) or {}).get("fotos"): return vid
+        if fotos_de(V.get(vid)): return vid
     return None
 
 
@@ -44,7 +66,7 @@ def foto_de(p, cat, usadas=None):
     de arquivos já usados na edição (a função acrescenta o escolhido)."""
     vid = verbete_de(p, cat)
     if not vid: return None
-    v = cat["verbetes"][vid]; fotos = [f for f in v["fotos"] if f.get("local")]
+    v = cat["verbetes"][vid]; fotos = fotos_de(v)
     if not fotos: return None
     k = int(hashlib.sha1(str(p.get("id")).encode("utf-8")).hexdigest()[:8], 16)
     ordem = fotos[k % len(fotos):] + fotos[:k % len(fotos)]

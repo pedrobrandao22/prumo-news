@@ -57,6 +57,15 @@ class T(unittest.TestCase):
     def test_verbete_sem_foto_e_pulado(s):
         C = cat(); C["verbetes"]["temporal"]["fotos"] = []
         s.assertNotEqual(AE.verbete_de(P("brasil", "Temporais deixam 6 mortos no PR"), C), "temporal")
+    def test_foto_retirada_na_revisao_nao_sai(s):
+        C = cat(); ruim = {f["url"] for f in C["verbetes"]["temporal"]["fotos"][:2]}; antes = AE.FORA
+        try:
+            AE.FORA = ruim
+            for i in range(20): s.assertNotIn(AE.foto_de(P("brasil", "Temporais deixam 6 mortos no PR", pid=f"x{i}"), C)["url"], ruim)
+        finally: AE.FORA = antes
+    def test_palavras_valem_as_do_codigo(s):
+        C = cat(); C["verbetes"]["temporal"]["palavras"] = ["zzzz"]   # catálogo uma rodada atrás
+        s.assertEqual(AE.verbete_de(P("brasil", "Temporais deixam 6 mortos no PR"), C), "temporal")
     def test_editoria_respeitada(s):
         s.assertNotEqual(AE.verbete_de(P("esportes", "Santos vence e sai do Z4"), cat()), "porto")
         s.assertNotEqual(AE.verbete_de(P("educacao", "Pé-de-Meia: pagamento começa hoje"), cat()), "cidade-recife")

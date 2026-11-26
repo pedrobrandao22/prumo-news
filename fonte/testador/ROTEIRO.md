@@ -41,8 +41,9 @@ e faça só os de conta (6 a 10) e as fotos (12).
 10. Abrir Conversas e Atividade sem erro.
 11. Sair da conta; link de uma notícia (m/) abre a matéria sem conta.
 12. Fotos (pedido do Pedro, 14/11): olhe UMA vez as fotos da manchete e dos destaques da Capa. Só anote foto que
-    mostra outra pessoa, outro lugar ou outro fato (natureza `conteudo`, família `fotos-2`). Ilustração no lugar da
-    foto é o comportamento certo, não é achado.
+    mostra outra pessoa, outro lugar ou outro fato (natureza `conteudo`, família `fotos-2`). Desde 26/11 toda
+    notícia tem foto: a que não tem foto do fato usa uma do catálogo por assunto, com o crédito "Foto ilustrativa"
+    (isso é o certo, não é achado). Notícia sem foto nenhuma, só com desenho, é achado (o Vigia também confere).
 Depois, se a versão mudou: veja o `git log` de `fonte/app/src` desde a versão anterior e confira só o que mudou.
 
 ### O que vira achado (no máximo 3 por rodada)
