@@ -42,7 +42,7 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   // ---------- convites: cota de 3
   await sleep(600); await clk(C, '[data-convidar]'); await sleep(500);
   ok(await esperar(C, () => /ainda pode convidar 3 pessoas/.test(document.querySelector('#cvcota')?.textContent || '')), 'Caio pode convidar 3 pessoas');
-  for (let i = 0; i < 3; i++) { await clk(C, '[data-gerarconvite]'); await esperar(C, () => !!document.querySelector('#cvurl')); await sleep(300); if (i < 2) await ev(C, () => { S._cvlink = null; document.querySelector('#cvbox').innerHTML = '<button type="button" class="btn" data-gerarconvite>Gerar convite</button>' }) }
+  for (let i = 0; i < 3; i++) { await require('./t_util').gerarConvite(C); await esperar(C, () => !!document.querySelector('#cvurl')); await sleep(300); if (i < 2) await ev(C, () => { S._cvlink = null; document.querySelector('#cvbox').innerHTML = '<button type="button" class="btn" data-gerarconvite>Gerar convite</button>' }) }
   ok(await esperar(C, () => /convites acabaram/.test(document.querySelector('#cvcota')?.textContent || '') && document.querySelectorAll('#cvmeus [data-revogar]').length === 3), 'depois de 3: "Seus convites acabaram" e 3 convites em aberto');
   await foto(C, '02-convites');
   await clk(C, '#cvmeus [data-revogar]');

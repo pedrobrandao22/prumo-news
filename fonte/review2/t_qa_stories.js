@@ -29,7 +29,7 @@ async function storyTexto(p, txt, figs) { await ev(p, () => criarAbrir('story'))
   const A = U.erros(await H.pagina(b), 'A'), B = U.erros(await H.pagina(b), 'B'), C = U.erros(await H.pagina(b), 'C');
   for (const p of [A, B, C]) await p.addInitScript(() => { try { localStorage.setItem('prumo-teste-semreels', '1') } catch (e) { } });
   await criar(A, { nome: 'Pedro Brandão', email: 'a@x.com' });
-  const convite = async P => { await ev(P, () => go('me')); await sleep(300); await esperar(P, () => !!document.querySelector('[data-convidar]')); await clk(P, '[data-convidar]'); await esperar(P, () => !!document.querySelector('[data-gerarconvite]')); await clk(P, '[data-gerarconvite]'); await esperar(P, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || '')); const l = await ev(P, () => document.querySelector('#cvurl').value); await ev(P, () => closeLayer()); return l };
+  const convite = async P => { await ev(P, () => go('me')); await sleep(300); await esperar(P, () => !!document.querySelector('[data-convidar]')); await clk(P, '[data-convidar]'); await esperar(P, () => !!document.querySelector('[data-gerarconvite]')); await require('../t_util').gerarConvite(P); await esperar(P, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || '')); const l = await ev(P, () => document.querySelector('#cvurl').value); await ev(P, () => closeLayer()); return l };
   await criar(B, { url: await convite(A), nome: 'Bia Souza', email: 'b@x.com' }); const uidB = await ev(B, () => S.uid); await esperar(A, u => S.amigos.has(u), uidB);
   await criar(C, { url: await convite(B), nome: 'Carla Mendes', email: 'c@x.com' }); const uidC = await ev(C, () => S.uid); await esperar(B, u => S.amigos.has(u), uidC);
   const uidA = await ev(A, () => S.uid);

@@ -12,7 +12,7 @@ async function criar(p, { url, nome, email }) {
   if (!(await p.$('#lcod'))) { await esperar(p, () => !!document.querySelector('#avisoconta [data-entrar]')); await clk(p, '#avisoconta [data-entrar]'); await clk(p, '[data-laba="criar"]') }
   await p.fill('#lnome', nome); await p.fill('#lemail', email); await p.fill('#lsenha', '123456'); await clk(p, '#lform [type=submit]');
   await esperar(p, () => S.membro && S.amigosOk, null, 8000); await sleep(600); if (await p.$('.sheet')) { await p.evaluate(() => closeLayer()); await sleep(250) } }
-async function convite(A) { await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await clk(A, '[data-gerarconvite]'); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || '')); const l = await ev(A, () => document.querySelector('#cvurl').value); await ev(A, () => closeLayer()); return l }
+async function convite(A) { await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await require('../t_util').gerarConvite(A); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || '')); const l = await ev(A, () => document.querySelector('#cvurl').value); await ev(A, () => closeLayer()); return l }
 const aba = async (p, k) => { await ev(p, () => { if (document.querySelector('#layer').innerHTML) closeLayer(); go('me'); scrollTo(0, 0) }); await sleep(250); await ev(p, k => document.querySelector(`#v-me [data-vnpfaba="${k}"]`).click(), k); await sleep(400) };
 const fileira = p => ev(p, () => [...document.querySelectorAll('#v-me .vn-pf .pf-bts .btn')].filter(b => b.offsetParent).map(b => b.textContent.trim()).join('|'));
 (async () => {

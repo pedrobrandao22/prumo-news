@@ -40,7 +40,7 @@ async function fecha(p) { if (await p.$('#layer .sheet, #layer2 .sheet')) { awai
   ok(A._bv, 'A vê a janela de boas-vindas');
   const uidA = await ev(A, () => S.uid);
   await irPara(A, 'me');
-  await clk(A, '[data-convidar]'); await sleep(150); await clk(A, '[data-gerarconvite]');
+  await clk(A, '[data-convidar]'); await sleep(150); await require('./t_util').gerarConvite(A);
   ok(await esperar(A, () => /\?convite=[A-Z2-9]{8}$/.test(document.querySelector('#cvurl')?.value || '')), 'A gera link de convite');
   await foto2(A, 'convite');
   const linkB = await ev(A, () => document.querySelector('#cvurl').value);

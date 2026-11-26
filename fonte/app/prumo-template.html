@@ -1923,6 +1923,22 @@ button:active:not(:disabled):not(.tap),[role=button]:active{transform:none}
 .ss-fato{background:linear-gradient(160deg,color-mix(in srgb,var(--c) 9%,var(--card)),var(--card) 60%)}
 .ss-fato::before{content:"";position:absolute;left:26px;top:28px;width:28px;height:3px;border-radius:2px;background:var(--c)}
 .ss-fato .ss-k{margin-top:14px}
+/* 26/11: carrossel sob medida — quadros com vários pontos, contexto, o que mudou e perguntas */
+.ss-pts .ss-ul,.ss-atu .ss-ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:calc(15px*var(--ssk,1))}
+.ss-pts .ss-ul li,.ss-atu .ss-ul li{position:relative;padding-left:17px;font-family:var(--f-display);font-weight:500;font-size:calc(19.5px*var(--ssk,1)*var(--fz,1));line-height:1.3;color:var(--ink);text-wrap:pretty}
+.ss-pts .ss-ul li::before,.ss-atu .ss-ul li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--c,var(--accent))}
+.ss-pts .ss-nn{color:var(--c,var(--accent));font-weight:700;font-variant-numeric:lining-nums}
+.ss-atu .ss-ul li{font-size:calc(17.5px*var(--ssk,1)*var(--fz,1))}
+.ss-atu .ss-ul li em{display:block;font:600 12px var(--f-ui);font-style:normal;letter-spacing:.02em;color:var(--muted);margin-bottom:2px}
+.ss .ss-p{margin:0;font-family:var(--f-body);font-weight:400;font-size:calc(18px*var(--ssk,1)*var(--fz,1));line-height:1.46;color:var(--ink-2);text-wrap:pretty}
+.ss .ss-quem{margin:0;padding-top:calc(12px*var(--ssk,1));border-top:1px solid var(--line);font-family:var(--f-body);font-size:calc(15.5px*var(--ssk,1)*var(--fz,1));line-height:1.4;color:var(--ink-2)}
+.ss .ss-quem b{color:var(--ink);font-weight:600}
+.ss-prox.com-foto .ss-tm{font-size:calc(19px*var(--ssk,1)*var(--fz,1));line-height:1.36}
+.ss-fim .ss-ft{margin:0;font-family:var(--f-display);font-weight:500;font-size:calc(21px*var(--ssk,1)*var(--fz,1));line-height:1.3;color:#fff;text-wrap:pretty}
+.ss-fim .ss-ft .gl{color:#fff;border-color:rgb(255 255 255 / .5)}
+.ss-faq .ss-dl{margin:0;display:flex;flex-direction:column;gap:calc(6px*var(--ssk,1))}
+.ss-faq dt{font-family:var(--f-display);font-weight:600;font-size:calc(19px*var(--ssk,1)*var(--fz,1));line-height:1.25;color:var(--ink)}
+.ss-faq dd{margin:0 0 calc(10px*var(--ssk,1));font-family:var(--f-body);font-size:calc(16.5px*var(--ssk,1)*var(--fz,1));line-height:1.42;color:var(--ink-2)}
 .ss-abre .ss-h{margin:0;font:600 calc(32px*var(--ssk,1))/1.12 var(--f-display);color:var(--ink)}
 /* foto intermediária */
 .post .track .ss-foto{padding:0;justify-content:flex-end;background:#111}
@@ -9521,10 +9537,10 @@ fotoArquivo=function(p){if(!p||!p.id)return null;const M=faMapa();
   return _fotoArquivo27(p)};
 
 /* crédito curto; um toque mostra o crédito completo (autor, acervo e licença) */
-function creditoCurto(c){c=String(c||"").trim();const arq=/^foto de arquivo/i.test(c);
-  let t=c.replace(/^foto( de arquivo)?\s*:\s*/i,"").replace(/\s*\([^()]*\)\s*$/,"").replace(/\s*(via|\/)\s*Wikimedia Commons\s*$/i,"").replace(/\s*\/\s*Commons\s*$/i,"").trim();
-  if(!t)t="Wikimedia Commons";if(t.length>34)t=t.slice(0,33).replace(/[\s/,.;-]+$/,"")+"…";
-  return (arq?"Arquivo · ":"Foto: ")+t}
+function creditoCurto(c){c=String(c||"").trim();const arq=/^foto de arquivo/i.test(c),ilu=/^foto ilustrativa/i.test(c);  /* 26/11: foto do catálogo por assunto */
+  let t=c.replace(/^foto( de arquivo| ilustrativa)?\s*:\s*/i,"").replace(/\s*\([^()]*\)\s*$/,"").replace(/\s*(via|\/)\s*Wikimedia Commons\s*$/i,"").replace(/\s*\/\s*Commons\s*$/i,"").trim();
+  if(!t)t="Wikimedia Commons";if(ilu&&t.length>22)t=t.slice(0,21).replace(/[\s/,.;-]+$/,"")+"…";if(t.length>34)t=t.slice(0,33).replace(/[\s/,.;-]+$/,"")+"…";
+  return (ilu?"Foto ilustrativa · ":arq?"Arquivo · ":"Foto: ")+t}
 function credHTML(c,cls){return `<small class="${cls}" data-credfull="${esc(c)}" data-credcurto="${esc(creditoCurto(c))}" title="${esc(c)}">${esc(creditoCurto(c))}</small>`}
 window.addEventListener("click",e=>{const el=e.target&&e.target.closest&&e.target.closest("[data-credfull]");if(!el)return;e.stopPropagation();e.preventDefault();
   const longo=el.classList.toggle("cred-longo");el.textContent=longo?el.dataset.credfull:el.dataset.credcurto},true);
@@ -9736,27 +9752,65 @@ function ssPessoa(p,usadas){const A=FOTOS_ARQ;if(!A)return null;const n=p.neutro
   const f=a.fotos.filter(faValida).find(x=>!usadas.has(faNome(x.url)));if(!f||!nome)return null;usadas.add(faNome(f.url));
   return {nome,desc:(FEED.pessoas||{})[nome]||"",f}}
 function ssFotoAssunto(p,usadas){const A=FOTOS_ARQ;if(!A)return null;try{for(const l of faListas(p,A))for(const f of l)if(faValida(f)&&!usadas.has(faNome(f.url))){usadas.add(faNome(f.url));return f}}catch(e){}return null}
+/* ===== 26/11 (Pedro): carrossel sob medida =====
+   Antes: um molde só, com um quadro por frase ("O essencial", depois vários "E mais" de uma linha), 7,7 quadros por notícia em
+   média e até 11; e um quadro "Quem é" para gente que todo mundo conhece, que perguntava e não respondia.
+   Agora o carrossel se monta pelo que a notícia TEM e pelo tamanho dela (ssPeso):
+   - curta  (notícia pontual, sem peso): foto · o essencial · fecho;
+   - média  (tem contexto, texto longo, cobertura com várias atualizações ou mais de um visual): + contexto e até 2 visuais;
+   - grande (manchete, destaque da Capa ou prioridade alta com conteúdo): + o que mudou, todos os visuais, perguntas e
+             respostas e uma segunda foto.
+   Regras fixas: nenhum quadro com uma frase solta (os 3 pontos vão juntos); nada de "E mais"; cada quadro tem um nome que
+   diz o que traz; o fecho junta "E agora?" e o botão da matéria; "Quem é" só de quem é o assunto, não é nome conhecido
+   (retratos curados) e tem descrição de verdade, e vira uma linha dentro de "O essencial", já com a resposta. */
+function ssPeso(p){try{let s=0;const n=p.neutro||{},C=(typeof FEED!=="undefined"&&FEED&&FEED.capa)||{};
+  if((p.prioridade||0)>=70||C.manchete===p.id||(Array.isArray(C.destaques)&&C.destaques.indexOf(p.id)>=0))s+=2;
+  if(p.tipo==="cobertura"&&(p.atualizacoes||[]).length>=3)s++;
+  if(String(n.texto||"").length>=600)s++;
+  if(String(p.contexto||"").length>=200)s++;
+  if((p.visuais||[]).length>=2)s++;
+  return s>=3?"grande":s>=1?"media":"curta"}catch(e){return "media"}}
+/* corta o texto no fim de uma frase, até n letras */
+function ssCorta(t,n){t=String(t||"").replace(/\s+/g," ").trim();if(t.length<=n)return t;const fr=t.match(/[^.!?]+[.!?]+(?=\s|$)/g)||[];let o="";
+  for(const f of fr){if((o+f).length>n)break;o+=f}o=o.trim();return o.length>=60?o:t.slice(0,n-1).replace(/\s+\S*$/,"")+"…"}
+/* "Quem é": só quem está no título, não é nome conhecido e tem descrição de verdade */
+function ssQuem(p){try{const A=FOTOS_ARQ;if(!A)return null;const t=String(versao(p,lente()).titulo||(p.neutro||{}).titulo||"");
+  const a=faPessoa(ft187SemGoverno(t),A);if(!a||a.grupo==="curado")return null;const nome=Object.keys(A.pessoas||{}).find(k=>A.pessoas[k]===a)||"";
+  const d=String((FEED.pessoas||{})[nome]||"").trim();if(!nome||d.length<25)return null;return {nome,desc:d}}catch(e){return null}}
+function ssPontoHTML(t){const num=ssNumero(t);let h=marcarTermos(t);
+  if(num){const e=esc(num),i=h.indexOf(e);if(i>=0)h=h.slice(0,i)+`<b class="ss-nn">${e}</b>`+h.slice(i+e.length)}return h}
 function slidesSociais(p){try{
-  const L=lente(),v=versao(p,L),sec=secOf(p),cor=secCor(sec),out=[],usadas=new Set();
+  const L=lente(),v=versao(p,L),sec=secOf(p),cor=secCor(sec),out=[],usadas=new Set(),peso=ssPeso(p);
   const base=slides(p);const capa=base[0]&&/class="cover/.test(base[0])?base[0]:null;
   const fc=fotoDe(p);if(fc)usadas.add(faNome(fc.url));
   if(capa)out.push(capa);else out.push(`<div class="sl ss ss-abre" style="--c:${cor}"><span class="ss-k">${esc(capaChapeu(p))}</span><h3 class="ss-h">${esc(v.titulo)}</h3></div>`);
-  const fr=ssFrasesSociais(p,L);
-  const pessoa=ssPessoa(p,usadas);
-  fr.forEach((t0,i)=>{const num=ssNumero(t0);let t=t0;
-    if(num&&t0.indexOf(num)===0){let r=t0.slice(num.length).replace(/^\s+/,"");if(r[0]===":"){r=r.slice(1).trim();r=r.charAt(0).toUpperCase()+r.slice(1)}if(r.length>8)t=r}
-    out.push(`<div class="sl ss ss-fato${num?" com-n":""}" style="--c:${cor}"><span class="ss-k">${i===0?"O essencial":"E mais"}</span>${num?`<b class="ss-n">${esc(num)}</b>`:""}<p class="ss-t">${marcarTermos(t)}</p><span class="ss-i">${i+1}/${fr.length}</span></div>`);
-    if(i===0&&pessoa&&pessoa.desc)out.push(`<div class="sl ss ss-foto"><img src="${escU(fotoSrc(pessoa.f.url))}" alt="${esc(pessoa.nome)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.sl').classList.add('sem-foto')"><div class="ss-fl"><span class="ss-k">Quem é</span><b>${esc(pessoa.nome)}</b>${pessoa.desc?`<p>${esc(pessoa.desc)}</p>`:""}</div>${credHTML(pessoa.f.credito||"Foto de arquivo: Wikimedia Commons","fcv-c")}</div>`)});
-  const vis=(p.visuais||[]).map(x=>({...x,secao:sec}));
-  const gr=vis.find(x=>x.tipo==="grafico"&&visualHTML(x)),tl=vis.find(x=>x.tipo==="linha_do_tempo"&&visualHTML(x)),nu=vis.find(x=>x.tipo==="numeros"&&visualHTML(x));
-  [gr,nu].filter(Boolean).forEach(x=>out.push(`<div class="sl txs ss-vis">${visualHTML(x)}</div>`));
-  if(p.direita&&p.esquerda&&p.direita.titulo&&p.esquerda.titulo)out.push(`<div class="sl ss ss-lados"><span class="ss-k">Como cada lado conta</span><div class="ss-lado r"><em>Direita</em><b>${esc(p.direita.titulo)}</b></div><div class="ss-lado l"><em>Esquerda</em><b>${esc(p.esquerda.titulo)}</b></div></div>`);
-  if(tl)out.push(`<div class="sl txs ss-vis">${visualHTML({...tl,itens:(tl.itens||[]).slice(-5)})}</div>`);
-  const prox=p.proximo||p.por_que;if(prox){const fa=ssFotoAssunto(p,usadas);
-    out.push(`<div class="sl ss ss-prox${fa?" com-foto":""}" style="--c:${cor}">${fa?`<img src="${escU(fotoSrc(fa.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.sl').classList.remove('com-foto');this.remove()">`:""}<div class="ss-pb"><span class="ss-k">${p.proximo?"E agora?":"Por que importa"}</span><p class="ss-t">${marcarTermos(prox)}</p></div></div>`)}
+  /* 1. o essencial: os pontos juntos, num quadro só */
+  let pts=pontosDe(p,L).filter(x=>String(x||"").trim()).slice(0,3);if(pts.length<2)pts=ssFrasesSociais(p,L).slice(0,3);
+  const quem=ssQuem(p);
+  if(pts.length)out.push(`<div class="sl ss ss-fato ss-pts" style="--c:${cor}"><span class="ss-k">O essencial</span><ul class="ss-ul">${pts.map(t=>`<li>${ssPontoHTML(t)}</li>`).join("")}</ul>${quem?`<p class="ss-quem"><b>Quem é ${esc(quem.nome)}:</b> ${esc(quem.desc)}</p>`:""}</div>`);
+  /* 2. contexto (média e grande); na grande, com a segunda foto quando o texto é curto o bastante para ir sobre ela */
+  const ctx=peso!=="curta"&&String(p.contexto||"").length>=120?ssCorta(p.contexto,380):"";
+  if(ctx){const fa=peso==="grande"&&ctx.length<=210?ssFotoAssunto(p,usadas):null;
+    out.push(fa?`<div class="sl ss ss-prox com-foto ss-ctx" style="--c:${cor}"><img src="${escU(fotoSrc(fa.url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.sl').classList.remove('com-foto');this.remove()"><div class="ss-pb"><span class="ss-k">Contexto</span><p class="ss-t ss-tm">${marcarTermos(ctx)}</p></div></div>`
+      :`<div class="sl ss ss-fato ss-ctx" style="--c:${cor}"><span class="ss-k">Contexto</span><p class="ss-p">${marcarTermos(ctx)}</p></div>`)}
+  /* 3. o que mudou (grande, cobertura com 2+ atualizações): as 3 mais recentes */
+  const at=(p.atualizacoes||[]).filter(u=>u&&u.texto);
+  if(peso==="grande"&&at.length>=2)out.push(`<div class="sl ss ss-fato ss-atu" style="--c:${cor}"><span class="ss-k">O que mudou</span><ul class="ss-ul">${at.slice(-3).reverse().map(u=>{let q="";try{q=quando(u.hora)}catch(e){}return `<li>${q?`<em>${esc(q)}</em>`:""}${marcarTermos(ssCorta(u.texto,150))}</li>`}).join("")}</ul></div>`);
+  /* 4. visuais: gráfico, números, como cada lado conta, linha do tempo — 1 na curta, 2 na média, todos na grande */
+  const vis=(p.visuais||[]).map(x=>({...x,secao:sec}));const vs=[];
+  const gr=vis.filter(x=>x.tipo==="grafico"&&visualHTML(x)),nu=vis.find(x=>x.tipo==="numeros"&&visualHTML(x)),tl=vis.find(x=>x.tipo==="linha_do_tempo"&&visualHTML(x));
+  gr.slice(0,peso==="grande"?2:1).forEach(x=>vs.push(`<div class="sl txs ss-vis">${visualHTML(x)}</div>`));
+  if(nu)vs.push(`<div class="sl txs ss-vis">${visualHTML(nu)}</div>`);
+  if(p.direita&&p.esquerda&&p.direita.titulo&&p.esquerda.titulo)vs.push(`<div class="sl ss ss-lados"><span class="ss-k">Como cada lado conta</span><div class="ss-lado r"><em>Direita</em><b>${esc(p.direita.titulo)}</b></div><div class="ss-lado l"><em>Esquerda</em><b>${esc(p.esquerda.titulo)}</b></div></div>`);
+  if(tl)vs.push(`<div class="sl txs ss-vis">${visualHTML({...tl,itens:(tl.itens||[]).slice(-4)})}</div>`);
+  vs.slice(0,peso==="grande"?5:peso==="media"?2:1).forEach(h=>out.push(h));
+  /* 5. perguntas e respostas (grande) */
+  const fq=(Array.isArray(p.faq)?p.faq:[]).filter(x=>x&&x.p&&x.r);
+  if(peso==="grande"&&fq.length)out.push(`<div class="sl ss ss-fato ss-faq" style="--c:${cor}"><span class="ss-k">Perguntas e respostas</span><dl class="ss-dl">${fq.slice(0,2).map(x=>`<dt>${esc(x.p)}</dt><dd>${marcarTermos(ssCorta(x.r,170))}</dd>`).join("")}</dl></div>`);
   if(p.enquete&&(p.enquete.opcoes||[]).length)out.push(`<div class="sl ss ss-enq"><div class="pollbox" data-poll></div></div>`);
-  out.push(`<div class="sl ss ss-fim" style="--c:${cor}"><span class="ss-k">Quer o quadro completo?</span><p class="ss-t">${esc(capaSub(p,L,"")||v.titulo)}</p><button type="button" class="ss-cta" data-capmat="${esc(p.id)}">Ler a matéria completa <i aria-hidden="true">›</i></button><span class="ss-f">${esc(coberturaTxt(p))}</span></div>`);
-  if(out.length>10){const nf=out[out.length-2].indexOf("ss-enq")>=0?2:1;return out.slice(0,10-nf).concat(out.slice(-nf))}  /* até 10 quadros; a enquete e o "Quer o quadro completo?" ficam no fim */
+  /* 6. fecho: o que vem agora (ou por que importa) junto do botão da matéria */
+  const prox=p.proximo||p.por_que;
+  out.push(`<div class="sl ss ss-fim" style="--c:${cor}"><span class="ss-k">${p.proximo?"E agora?":p.por_que?"Por que importa":"Quer o quadro completo?"}</span><p class="ss-ft">${prox?marcarTermos(ssCorta(prox,260)):esc(capaSub(p,L,"")||v.titulo)}</p><button type="button" class="ss-cta" data-capmat="${esc(p.id)}">Ler a matéria completa <i aria-hidden="true">›</i></button><span class="ss-f">${esc(coberturaTxt(p))}</span></div>`);
   return out}catch(e){return p.tipo==="pontual"?cobPontualSlides(p):slides(p)}}
 /* páginas desenhadas: se a letra não couber, diminui um pouco (sem quebrar a página) */
 function ssCaber(t){t.querySelectorAll(".ss").forEach(sl=>{let k=1;sl.style.setProperty("--ssk","1");for(let n=0;n<8&&sl.scrollHeight>sl.clientHeight+1;n++){k-=.07;sl.style.setProperty("--ssk",k.toFixed(2))}})}
@@ -23763,6 +23817,9 @@ function ft213Carrega(){try{fetch("m/fotos.json?t="+Math.floor(Date.now()/3e5),{
 function ft213Vale(){const F=typeof FEED!=="undefined"&&FEED;return !!(FT213_ESC&&F&&FT213_ESC.feed&&F.atualizado_em&&FT213_ESC.feed===F.atualizado_em)}
 {const _fm213=faMapa;faMapa=function(){const M=_fm213.apply(this,arguments);try{if(!ft213Vale())return M;
   const E=FT213_ESC.mapa,R=Object.assign({},M||{});(FEED.pautas||[]).forEach(p=>{if(!p||!p.id)return;if(p.id in E)R[p.id]=E[p.id]?Object.assign({arquivo:true},E[p.id]):undefined});return R}catch(e){return M}}}
+/* 26/11: a foto escolhida pelo robô que tem cópia no site (banco por assunto, acervo/c/…) abre a cópia do site, leve, em vez de ir buscar na fonte */
+{const _al213=acvLocais;acvLocais=function(){const m=_al213.apply(this,arguments);try{const E=FT213_ESC&&FT213_ESC.mapa;if(E)for(const k in E){const f=E[k];
+  if(f&&typeof f.url==="string"&&typeof f.local==="string"&&!m.has(f.url)&&/^acervo\/[\w\/.-]+\.(?:webp|jpe?g)$/i.test(f.local)&&!/\.\./.test(f.local)){try{m.set(f.url,new URL(f.local,location.href).href)}catch(e){}}}}catch(e){}return m}}
 ft213Carrega();setInterval(ft213Carrega,6e5);
 
 /* 3. descrição em inglês */

@@ -16,7 +16,7 @@ const fig = async (p, k) => { await clk(p, '.ce-top [data-edfig]'); await sleep(
   const H = await require('../harness').criar(); const b = await U.navegador({ args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] });
   const A = U.erros(await H.pagina(b), 'A'), B = U.erros(await H.pagina(b), 'B');
   await criar(A, { nome: 'Pedro', email: 'a@x.com' });
-  await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await clk(A, '[data-gerarconvite]'); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || ''));
+  await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await require('../t_util').gerarConvite(A); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || ''));
   const link = await ev(A, () => document.querySelector('#cvurl').value); await ev(A, () => closeLayer());
   await criar(B, { url: link, nome: 'Bia Souza', email: 'b@x.com' }); const uidB = await ev(B, () => S.uid); await esperar(A, u => S.amigos.has(u), uidB);
   await ev(A, () => go('feed')); await esperar(A, () => PUB.on === true, null, 8000); await sleep(500);

@@ -18,7 +18,7 @@ const cv = p => ev(p, () => { const b = document.querySelector('#ce-cv').getBoun
   const A = U.erros(await H.pagina(b), 'A'), B = U.erros(await H.pagina(b), 'B'), C = U.erros(await H.pagina(b), 'C');
   await A.context().grantPermissions(['camera'], { origin: 'http://localhost:8769' });
   await criar(A, { nome: 'Pedro', email: 'a@x.com' });
-  const conv = async () => { await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await clk(A, '[data-gerarconvite]'); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || '')); const l = await ev(A, () => document.querySelector('#cvurl').value); await ev(A, () => closeLayer()); await sleep(200); return l };
+  const conv = async () => { await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await require('../t_util').gerarConvite(A); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || '')); const l = await ev(A, () => document.querySelector('#cvurl').value); await ev(A, () => closeLayer()); await sleep(200); return l };
   await criar(B, { url: await conv(), nome: 'Bia Souza', email: 'b@x.com' }); const uidB = await ev(B, () => S.uid);
   await criar(C, { url: await conv(), nome: 'Carlos Lima', email: 'c@x.com' }); const uidC = await ev(C, () => S.uid);
   await esperar(A, (u) => S.amigos.has(u[0]) && S.amigos.has(u[1]), [uidB, uidC]);

@@ -30,6 +30,9 @@ function ft213Carrega(){try{fetch("m/fotos.json?t="+Math.floor(Date.now()/3e5),{
 function ft213Vale(){const F=typeof FEED!=="undefined"&&FEED;return !!(FT213_ESC&&F&&FT213_ESC.feed&&F.atualizado_em&&FT213_ESC.feed===F.atualizado_em)}
 {const _fm213=faMapa;faMapa=function(){const M=_fm213.apply(this,arguments);try{if(!ft213Vale())return M;
   const E=FT213_ESC.mapa,R=Object.assign({},M||{});(FEED.pautas||[]).forEach(p=>{if(!p||!p.id)return;if(p.id in E)R[p.id]=E[p.id]?Object.assign({arquivo:true},E[p.id]):undefined});return R}catch(e){return M}}}
+/* 26/11: a foto escolhida pelo robô que tem cópia no site (banco por assunto, acervo/c/…) abre a cópia do site, leve, em vez de ir buscar na fonte */
+{const _al213=acvLocais;acvLocais=function(){const m=_al213.apply(this,arguments);try{const E=FT213_ESC&&FT213_ESC.mapa;if(E)for(const k in E){const f=E[k];
+  if(f&&typeof f.url==="string"&&typeof f.local==="string"&&!m.has(f.url)&&/^acervo\/[\w\/.-]+\.(?:webp|jpe?g)$/i.test(f.local)&&!/\.\./.test(f.local)){try{m.set(f.url,new URL(f.local,location.href).href)}catch(e){}}}}catch(e){}return m}}
 ft213Carrega();setInterval(ft213Carrega,6e5);
 
 /* 3. descrição em inglês */

@@ -33,10 +33,10 @@ fotoArquivo=function(p){if(!p||!p.id)return null;const M=faMapa();
   return _fotoArquivo27(p)};
 
 /* crédito curto; um toque mostra o crédito completo (autor, acervo e licença) */
-function creditoCurto(c){c=String(c||"").trim();const arq=/^foto de arquivo/i.test(c);
-  let t=c.replace(/^foto( de arquivo)?\s*:\s*/i,"").replace(/\s*\([^()]*\)\s*$/,"").replace(/\s*(via|\/)\s*Wikimedia Commons\s*$/i,"").replace(/\s*\/\s*Commons\s*$/i,"").trim();
-  if(!t)t="Wikimedia Commons";if(t.length>34)t=t.slice(0,33).replace(/[\s/,.;-]+$/,"")+"…";
-  return (arq?"Arquivo · ":"Foto: ")+t}
+function creditoCurto(c){c=String(c||"").trim();const arq=/^foto de arquivo/i.test(c),ilu=/^foto ilustrativa/i.test(c);  /* 26/11: foto do catálogo por assunto */
+  let t=c.replace(/^foto( de arquivo| ilustrativa)?\s*:\s*/i,"").replace(/\s*\([^()]*\)\s*$/,"").replace(/\s*(via|\/)\s*Wikimedia Commons\s*$/i,"").replace(/\s*\/\s*Commons\s*$/i,"").trim();
+  if(!t)t="Wikimedia Commons";if(ilu&&t.length>22)t=t.slice(0,21).replace(/[\s/,.;-]+$/,"")+"…";if(t.length>34)t=t.slice(0,33).replace(/[\s/,.;-]+$/,"")+"…";
+  return (ilu?"Foto ilustrativa · ":arq?"Arquivo · ":"Foto: ")+t}
 function credHTML(c,cls){return `<small class="${cls}" data-credfull="${esc(c)}" data-credcurto="${esc(creditoCurto(c))}" title="${esc(c)}">${esc(creditoCurto(c))}</small>`}
 window.addEventListener("click",e=>{const el=e.target&&e.target.closest&&e.target.closest("[data-credfull]");if(!el)return;e.stopPropagation();e.preventDefault();
   const longo=el.classList.toggle("cred-longo");el.textContent=longo?el.dataset.credfull:el.dataset.credcurto},true);

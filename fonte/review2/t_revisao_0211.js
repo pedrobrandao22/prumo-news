@@ -16,7 +16,7 @@ async function criar(p, { url, nome, email }) {
   // número de destaque não corta faixas
   ok(await ev(A, () => ssNumero('30% a 34%: é a aprovação') === null && ssNumero('17 anos, 1 mês e 10 dias') === null && ssNumero('1.700 a 2.000 pessoas') === null && ssNumero('R$ 60 bi a R$ 80 bi') === null && ssNumero('61,6%: é a adesão') === '61,6%'), 'número de destaque não corta faixas ("30% a 34%")');
   ok(await ev(A, () => { const d = new Date(Date.now() - 864e5 - 3600e3).toISOString(); return /ontem|\(/.test(horaDia(d)) }), 'horário de ontem mostra o dia');
-  await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await clk(A, '[data-gerarconvite]'); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || ''));
+  await ev(A, () => go('me')); await sleep(300); await clk(A, '[data-convidar]'); await sleep(150); await require('../t_util').gerarConvite(A); await esperar(A, () => /\?convite=/.test(document.querySelector('#cvurl')?.value || ''));
   const link = await ev(A, () => document.querySelector('#cvurl').value); await ev(A, () => closeLayer());
   await criar(B, { url: link, nome: 'Bia Souza', email: 'b@x.com' }); const uidB = await ev(B, () => S.uid), uidA = await ev(A, () => S.uid); await esperar(A, u => S.amigos.has(u), uidB);
   // duas enquetes no mesmo story: votos separados

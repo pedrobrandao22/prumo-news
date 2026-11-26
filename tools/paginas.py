@@ -744,6 +744,21 @@ def main(argv):
     FA = mapa_fotos(pautas, A, PF)
     AP = preparar(A) if isinstance(A, dict) else {}
     propria = lambda p: propria_ok(p, p.get("foto"), AP, PF)
+    # 26/11 (pedido do Pedro): toda notícia tem foto. A que ficou sem foto própria e sem foto do acervo de pessoas e
+    # instituições ganha uma do catálogo por assunto (acervo-catalogo.json), marcada como ilustrativa quando é genérica.
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import acervo_escolha as AE
+        CAT = json.load(open(os.path.join(os.path.dirname(os.path.abspath(feed)), "acervo-catalogo.json"), encoding="utf-8"))
+        usadas_cat = set()
+        for p in pautas:
+            pid = p.get("id")
+            if not isinstance(pid, str) or FA.get(pid): continue
+            if fa_valida(p.get("foto")) and not bloqueada(p["foto"]) and propria(p): continue
+            f = AE.foto_de(p, CAT, usadas_cat)
+            if f: FA[pid] = f
+    except (OSError, ValueError, ImportError) as e:
+        print("catálogo por assunto indisponível:", repr(e)[:100])
     novas = mudou = 0
     cam_ind = os.path.join(pasta, "indice.json")
     try: IND = json.load(open(cam_ind, encoding="utf-8"))
