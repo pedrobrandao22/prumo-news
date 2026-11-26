@@ -2,7 +2,9 @@ name: Vigia do app
 # 25/11: a parte mecânica do testador, sem IA e sem gastar créditos do Claude. A cada 3 h abre o site real em três
 # celulares simulados (fonte/testador/vigia.js) e grava vigia.json: erro no app, página rolando de lado, texto
 # cortado, busca vazia, notícia com a hora vencida ou com fato novo não escrito, foto contra a regra única, foto
-# repetida, descrição em inglês, Acabou de sair repetido, prévia do link sem imagem. O Testador (Claude, 1x por dia)
+# repetida, descrição em inglês, Acabou de sair repetido, prévia do link sem imagem. Desde 26/11 faz também a parte da
+# lista fixa do testador que não precisa de gente: ler a matéria e ir à Próxima, trocar Direita/Esquerda, abrir o giro
+# Últimas e abrir um link de notícia (m/). O Testador (Claude, 1x por dia)
 # lê esse arquivo e o Corretor só roda quando há trabalho.
 on:
   schedule:
@@ -30,6 +32,11 @@ jobs:
           npm install --no-save --no-audit --no-fund playwright@1.56.0
           npx playwright install --with-deps chromium
       - name: Vigiar o site
+        # 26/11: com os segredos PRUMO_TESTE_EMAIL e PRUMO_TESTE_SENHA (conta de teste; Settings > Secrets > Actions), o
+        # Vigia também entra na conta e abre Perfil e Conversas. Sem eles, esses itens ficam de fora (o resto roda igual).
+        env:
+          PRUMO_TESTE_EMAIL: ${{ secrets.PRUMO_TESTE_EMAIL }}
+          PRUMO_TESTE_SENHA: ${{ secrets.PRUMO_TESTE_SENHA }}
         run: node fonte/testador/vigia.js vigia.json
       - name: Gravar
         run: |
