@@ -18,7 +18,7 @@ PASSO 2 — Decidir a edição (antes de escrever qualquer coisa, faça a lista)
 Para cada pauta do anterior, uma destas decisões:
 - FICA COMO ESTÁ: sem relato novo e ainda atual. Não reescreva só para parecer nova.
 - ATUALIZA: está em novos_relatos, em acionar_itens ("atualiza: <pid>"), em para_pautas ou tem pendência.
-- SAI: último fato há mais de 36 h e sem relato novo (remove_pauta; o aplicar.py guarda em dormentes), começando pelas de menor prioridade e respeitando o mínimo de cada seção (manual 1).
+- SAI: as que o validar.py manda tirar ("sem fato novo há N dias: tire da edição") e as de último fato há mais de 36 h sem relato novo (remove_pauta; o aplicar.py guarda em dormentes), começando pelas de menor prioridade e respeitando o mínimo de cada seção (manual 1). Fica a que tem etapa marcada nos próximos 5 dias (diga qual na nota).
 E a lista do que ENTRA: os itens "nova" do acionar e os "novos" relevantes da madrugada, até completar a faixa de cada seção (Política 8 a 10, Economia 6 a 8, Brasil 4 a 5, Mundo 3 a 5, Esportes 3 a 4, Educação 2 a 3). Assunto que volta reusa o id do dormente.
 
 PASSO 3 — Escrever (um só patch.json; manual, seções 2, 2b, 2c, 2e, 2f, 2g, 3, 3b, 4 e 6)
@@ -29,13 +29,13 @@ Nesta ordem:
 (e) cada pauta ATUALIZA: update_add (+ "mudanca"), set em neutro.texto, neutro.pontos, social e, nas 8 principais, subtitulo; direita/esquerda quando houver disputa de leitura e veículos de cada lado nas manchetes; gráfico quando a novidade traz números comparáveis (manual 2g);
 (f) cada pauta que ENTRA: add_pauta completa (manual 2: subtema, neutro com pontos, social, hashtags, fim, links só de URLs vistas; "mudanca");
 (g) cada pauta que SAI: remove_pauta;
-(h) a edição: {"op":"mudancas_reset"} e 3 a 8 mudanças (mudanca_add) com o que mudou desde a véspera; resumo_dia novo (op top; 4 a 6 linhas, começando por Política e Economia; sábado e domingo "A semana em 5 fatos"); capa (op top path "capa": manchete, por padrão de Política ou Economia, 3 a 5 destaques, linha_fina); prioridades recalibradas onde a ordem mudou (set path "prioridade"; sem empates, notícia de mais de 24 h não passa de 60); agenda dos próximos 7 dias (agenda_add/agenda_remove, usando agenda_oficial); "quiz": não escreva;
+(h) a edição: {"op":"mudancas_reset"} e 3 a 8 mudanças (mudanca_add) com o que mudou desde a véspera; resumo_dia novo (op top; 4 a 6 linhas, começando por Política e Economia; sábado e domingo "A semana em 5 fatos"); capa (op top path "capa": manchete, por padrão de Política ou Economia, 3 a 5 destaques, linha_fina); prioridades recalibradas onde a ordem mudou (set path "prioridade"; sem empates, notícia de mais de 24 h não passa de 60); agenda dos próximos 7 dias (agenda_add/agenda_remove, usando agenda_oficial); Esportes (manual 2e): resultados de ontem com jogo_set e, se a rodada do campeonato terminou, a tabela (op top path "esportes"); calendário das seções só com datas oficiais (op top path "calendario"); "quiz": não escreva. O aviso "mudancas perdeu itens do feed anterior" é esperado nesta rodada (ela recomeça a lista);
 (i) BREVES: a edição sai com 12 a 20 (2 a 4 por seção); tire as de fato velho (breve_remove) e complete com breves_sugeridas (breve_add), só com o que 2 veículos dizem igual;
 (j) {"op":"top","path":"nota","value":"Rodada da manhã das HHhMM: <veículos lidos>."}
 Datas sempre como "quinta (15)". NUNCA edite enquete existente. Indicadores: não mexa (são automáticos). Escreva no ESTILO do manual: curto, direto, número na frente, sem exagero, sem citar veículo em título, subtítulo e pontos.
 
 PASSO 4 — Aplicar, validar e conferir
-`python3 -I aplicar.py anterior.json patch.json -o novo.json --prev anterior.json` e `python3 -I validar.py novo.json --prev anterior.json --json`. Corrija o patch até 0 ERROS; revise AVISOS e PENDÊNCIAS. Número de dólar e Ibovespa errado é número a corrigir, nunca a contornar.
+`python3 -I aplicar.py anterior.json patch.json -o novo.json` e `python3 -I validar.py novo.json --prev anterior.json --json`. Corrija o patch até 0 ERROS; revise AVISOS e PENDÊNCIAS. Número de dólar e Ibovespa errado é número a corrigir, nunca a contornar.
 CONFERÊNCIA (você mesmo, sem subagente): para as 5 pautas de maior prioridade que você escreveu ou atualizou nesta rodada, releia a fonte usada (lide ou página) e confira título, subtítulo, pontos, números e datas do neutro e das versões; corrija e valide de novo.
 
 PASSO 5 — Publicar e registrar (manual, seções 7 e 8)
