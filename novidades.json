@@ -1,78 +1,107 @@
 {
- "gerado": "2026-11-26T23:13-03:00",
+ "gerado": "2026-11-26T23:24-03:00",
  "desde": "2026-11-26T21:41-03:00",
  "feed_atualizado_em": "2026-11-26T21:51:00-03:00",
  "resumo": {
-  "manchetes": 128,
+  "manchetes": 133,
   "assuntos_novos_relevantes": 3,
-  "assuntos_novos": 94,
+  "assuntos_novos": 96,
   "pautas_com_novidade": 3,
   "pautas_com_novidade_3_fontes": 1,
-  "pautas_com_relatos": 6,
-  "acionar_itens": 0,
-  "ja_avaliados": 3
+  "pautas_com_relatos": 5,
+  "acionar_itens": 1,
+  "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (94 assuntos fora do feed, 6 pautas com relatos, 3 já vistos por uma rodada)",
- "acionar_itens": [],
- "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
- "novos": [
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 5 veículos em 90 min (economia)",
+ "acionar_itens": [
   {
-   "assunto": "'Sereno', Trabuco é 'capaz de reduzir a tensão' com mercado, diz Lara Resende; veja a reação de outros economistas à escolha na Fazenda",
+   "tipo": "novo",
+   "titulo": "Escolha de Trabuco para a Fazenda irrita parte da esquerda e gera críticas da oposição",
    "secao": "economia",
    "n_fontes": 5,
-   "fontes": [
-    "bbc",
-    "cnn",
-    "jp",
-    "oglobo",
-    "p360"
+   "motivo": "assunto novo: 5 veículos em 90 min (economia)",
+   "chave": [
+    "capaz",
+    "confirmacao",
+    "criticas",
+    "economistas",
+    "elogiam",
+    "escolha",
+    "esquerda",
+    "fazenda",
+    "financeiro",
+    "gera",
+    "irrita",
+    "lara",
+    "mercado",
+    "oposicao",
+    "outros",
+    "parlamentares",
+    "parte",
+    "politicos",
+    "produtivo",
+    "reacao",
+    "reagem",
+    "reduzir",
+    "resende",
+    "sereno",
+    "setor",
+    "setores",
+    "solida",
+    "tensao",
+    "trabuco",
+    "trajetoria"
    ],
-   "ja_e_breve": false,
-   "relevante": true,
+   "pid_provavel": "lula-trabuco-fazenda-haddad-usp",
+   "acao": "atualiza: lula-trabuco-fazenda-haddad-usp (provável; confira que é o mesmo assunto)",
    "manchetes": [
+    {
+     "veiculo": "Gazeta do Povo República",
+     "titulo": "Escolha de Trabuco para a Fazenda irrita parte da esquerda e gera críticas da oposição",
+     "url": "https://www.gazetadopovo.com.br/republica/trabuco-na-fazenda-agrada-cupula-congresso-mas-irrita-esquerda-e-oposicao/",
+     "hora": "26/11 23h14",
+     "lide": "Cúpula do Congresso e ministros celebram Trabuco na Fazenda em meio a críticas de parte da esquerda e da oposição."
+    },
     {
      "veiculo": "BBC News Brasil",
      "titulo": "'Sereno', Trabuco é 'capaz de reduzir a tensão' com mercado, diz Lara Resende; veja a reação de outros economistas à escolha na Fazenda",
      "url": "https://www.bbc.com/portuguese/articles/cv8e014e88xgo?at_medium=RSS&at_campaign=rss",
-     "hora": "26/11 22h43"
+     "hora": "26/11 22h43",
+     "lide": "Escolha de presidente do Conselho de Administração do Bradesco para a pasta é vista com bons olhos pelo mercado"
     },
     {
      "veiculo": "Jovem Pan",
      "titulo": "Parlamentares reagem a escolha de Trabuco na Fazenda: ‘Trajetória sólida no setor financeiro’",
      "url": "https://jovempan.com.br/politica/parlamentares-reagem-a-escolha-de-trabuco-na-fazenda-trajetoria-solida-no-setor-financeiro/",
-     "hora": "26/11 22h42"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Como o mercado deve reagir à confirmação de Trabuco na Fazenda",
-     "url": "https://oglobo.globo.com/blogs/miriam-leitao/post/2026/11/como-o-mercado-deve-reagir-a-confirmacao-de-trabuco-na-fazenda.ghtml",
-     "hora": "26/11 22h41"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Políticos e setor financeiro reagem à escolha de Trabuco para a Fazenda",
-     "url": "https://www.poder360.com.br/poder-governo/politicos-e-setor-financeiro-reagem-a-escolha-de-trabuco-para-a-fazenda/",
-     "hora": "26/11 22h31"
+     "hora": "26/11 22h42",
+     "lide": "Davi Alcolumbre afirmou que vê com 'otimismo a escolha do banqueiro'; Lindbergh Farias disse esperar que 'momento Joaquim Levy' não se repita"
     }
-   ],
-   "n_fontes_90min": 5,
-   "ultima_iso": "2026-11-26T22:43-03:00",
-   "pid_provavel": "lula-trabuco-fazenda-haddad-usp"
-  },
+   ]
+  }
+ ],
+ "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
+ "novos": [
   {
-   "assunto": "Alckmin diz que Trabuco “tem preparo e experiência” para assumir a Fazenda",
-   "secao": "politica",
-   "n_fontes": 4,
+   "assunto": "Alckmin e Durigan elogiam escolha de Trabuco para a Fazenda",
+   "secao": null,
+   "n_fontes": 8,
    "fontes": [
     "antag",
     "cnn",
     "jp",
-    "met"
+    "met",
+    "oeste"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Alckmin e Durigan elogiam escolha de Trabuco para a Fazenda",
+     "url": "https://revistaoeste.com/politica/alckmin-e-durigan-elogiam-escolha-de-trabuco-para-a-fazenda/",
+     "hora": "26/11 23h20"
+    },
     {
      "veiculo": "Metrópoles",
      "titulo": "Alckmin diz que Trabuco “tem preparo e experiência” para assumir a Fazenda",
@@ -92,14 +121,33 @@
      "hora": "26/11 22h16"
     },
     {
-     "veiculo": "O Antagonista",
-     "titulo": "“Preparo e experiência”, diz Alckmin sobre Trabuco",
-     "url": "https://oantagonista.com.br/brasil/preparo-e-experiencia-diz-alckmin-sobre-trabuco/",
-     "hora": "26/11 21h47"
+     "veiculo": "Gazeta do Povo República",
+     "titulo": "Escolha de Trabuco para a Fazenda irrita parte da esquerda e gera críticas da oposição",
+     "url": "https://www.gazetadopovo.com.br/republica/trabuco-na-fazenda-agrada-cupula-congresso-mas-irrita-esquerda-e-oposicao/",
+     "hora": "26/11 23h14"
+    },
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "'Sereno', Trabuco é 'capaz de reduzir a tensão' com mercado, diz Lara Resende; veja a reação de outros economistas à escolha na Fazenda",
+     "url": "https://www.bbc.com/portuguese/articles/cv8e014e88xgo?at_medium=RSS&at_campaign=rss",
+     "hora": "26/11 22h43"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Políticos e setor financeiro reagem à escolha de Trabuco para a Fazenda",
+     "url": "https://www.poder360.com.br/poder-governo/politicos-e-setor-financeiro-reagem-a-escolha-de-trabuco-para-a-fazenda/",
+     "hora": "26/11 22h31"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Durigan cita Haddad e deseja “bom trabalho” a Trabuco na Fazenda",
+     "url": "https://www.infomoney.com.br/politica/durigan-cita-haddad-e-deseja-bom-trabalho-a-trabuco-na-fazenda/",
+     "hora": "26/11 23h00"
     }
    ],
    "n_fontes_90min": 4,
-   "ultima_iso": "2026-11-26T22:59-03:00"
+   "ultima_iso": "2026-11-26T23:20-03:00",
+   "pid_provavel": "lula-trabuco-fazenda-haddad-usp"
   },
   {
    "assunto": "Sob protesto da torcida, São Paulo vence Remo no Morumbi",
@@ -170,6 +218,33 @@
    "ultima_iso": "2026-11-26T23:04-03:00"
   },
   {
+   "assunto": "Dorival Júnior avisa que deixará o São Paulo no fim do Brasileirão",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Dorival Júnior avisa que deixará o São Paulo no fim do Brasileirão",
+     "url": "https://ge.globo.com/futebol/times/sao-paulo/noticia/2026/11/26/dorival-junior-avisa-que-deixara-o-sao-paulo-no-fim-do-brasileirao.ghtml",
+     "hora": "26/11 23h09"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Com gols no fim, São Paulo bate Remo e volta a vencer no Brasileirão",
+     "url": "https://www.metropoles.com/esportes/com-gols-no-fim-sao-paulo-bate-remo-e-volta-a-vencer-no-brasileirao",
+     "hora": "26/11 22h06"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-26T23:09-03:00"
+  },
+  {
    "assunto": "Mega-Sena 3091 acumula, e prêmio vai a R$ 82 milhões. Veja resultado",
    "secao": null,
    "n_fontes": 3,
@@ -208,6 +283,33 @@
    "n_fontes_90min": 0,
    "ultima_iso": "2026-11-26T22:03-03:00",
    "lixo": true
+  },
+  {
+   "assunto": "Morre Juary, ex-atacante e ídolo do Santos, aos 67 anos",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Morre Juary, ex-atacante e ídolo do Santos, aos 67 anos",
+     "url": "https://www.metropoles.com/esportes/morre-juary-ex-atacante-e-idolo-do-santos-aos-67-anos",
+     "hora": "26/11 23h19"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Adeus a Juary: ídolo do Santos trabalhava na base da Caldense e estava internado há um mês",
+     "url": "https://ge.globo.com/mg/sul-de-minas/noticia/2026/11/26/juary-ex-atacante-do-santos-e-coordenador-da-base-da-caldense-morre-aos-67-anos.ghtml",
+     "hora": "26/11 22h20"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-26T23:19-03:00"
   },
   {
    "assunto": "STF decide manter regras para concessão de porte de arma a guardas municipais",
@@ -257,26 +359,6 @@
    "ultima_iso": "2026-11-26T22:03-03:00"
   },
   {
-   "assunto": "Adeus a Juary: ídolo do Santos trabalhava na base da Caldense e estava internado há um mês",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Adeus a Juary: ídolo do Santos trabalhava na base da Caldense e estava internado há um mês",
-     "url": "https://ge.globo.com/mg/sul-de-minas/noticia/2026/11/26/juary-ex-atacante-do-santos-e-coordenador-da-base-da-caldense-morre-aos-67-anos.ghtml",
-     "hora": "26/11 22h20"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T22:20-03:00"
-  },
-  {
    "assunto": "Ala econômica exalta escolha de Trabuco, mas há resistência no PT",
    "secao": null,
    "n_fontes": 1,
@@ -295,26 +377,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T22:18-03:00"
-  },
-  {
-   "assunto": "Após prefeito vetar homenagem a Karl Marx, vereador cobra certidão de óbito do filósofo morto há 143 anos",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Após prefeito vetar homenagem a Karl Marx, vereador cobra certidão de óbito do filósofo morto há 143 anos",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/26/apos-prefeito-vetar-homenagem-a-karl-marx-vereador-cobra-certidao-de-obito-do-filosofo-morto-ha-143-anos.ghtml",
-     "hora": "26/11 21h51"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T21:51-03:00"
   },
   {
    "assunto": "Após suposto romance vir à tona, Giovana Cordeiro enaltece Bianca Andrade",
@@ -578,26 +640,6 @@
    "ultima_iso": "2026-11-26T22:44-03:00"
   },
   {
-   "assunto": "Com gols no fim, São Paulo bate Remo e volta a vencer no Brasileirão",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Com gols no fim, São Paulo bate Remo e volta a vencer no Brasileirão",
-     "url": "https://www.metropoles.com/esportes/com-gols-no-fim-sao-paulo-bate-remo-e-volta-a-vencer-no-brasileirao",
-     "hora": "26/11 22h06"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T22:06-03:00"
-  },
-  {
    "assunto": "Corinthians x Grêmio - Campeonato Brasileiro 2026 - globoesporte.com",
    "secao": "esportes",
    "n_fontes": 1,
@@ -718,7 +760,7 @@
     },
     {
      "veiculo": "Folha Mercado",
-     "titulo": "Antes de aceitar convite de Lula, Trabuco hesitava entre mais tempo com a família e o Ministério da Fazenda",
+     "titulo": "Antes de aceitar convite de Lula, Trabuco hesitou entre mais tempo com a família e o Ministério da Fazenda",
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/antes-de-aceitar-convite-de-lula-trabuco-hesitava-entre-mais-tempo-com-a-familia-e-o-ministerio-da-fazenda.shtml",
      "hora": "26/11 23h07"
     },
@@ -778,7 +820,7 @@
    "ultima": "26/11 23h00",
    "ultima_iso": "2026-11-26T23:00-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 4.4,
+   "horas_sem_atualizar": 4.6,
    "principal": true,
    "manchetes": [
     {
@@ -789,29 +831,8 @@
     }
    ]
   },
-  "lula-messias-stf-jantar": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "26/11 19h23",
-   "ultima_iso": "2026-11-26T19:23-03:00",
-   "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 16.4,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Presidente da CCJ vê ‘tempo exíguo’ para votar indicação de Lula ao STF e prevê sabatina em 2027",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/26/presidente-da-ccj-ve-tempo-exiguo-para-votar-indicacao-de-lula-ao-stf-e-preve-sabatina-em-2027.ghtml",
-     "hora": "26/11 19h23"
-    }
-   ]
-  },
   "lula-trabuco-fazenda-haddad-usp": {
-   "n": 4,
+   "n": 5,
    "n_fontes": 3,
    "fontes": [
     "im",
@@ -819,12 +840,18 @@
     "p360"
    ],
    "n_fontes_90min": 3,
-   "ultima": "26/11 22h42",
-   "ultima_iso": "2026-11-26T22:42-03:00",
+   "ultima": "26/11 23h20",
+   "ultima_iso": "2026-11-26T23:20-03:00",
    "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 1.4,
+   "horas_sem_atualizar": 1.6,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Alckmin e Durigan elogiam escolha de Trabuco para a Fazenda",
+     "url": "https://revistaoeste.com/politica/alckmin-e-durigan-elogiam-escolha-de-trabuco-para-a-fazenda/",
+     "hora": "26/11 23h20"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "Flávio ironiza Lula por escolha de Trabuco para a Fazenda",
@@ -862,7 +889,7 @@
    "ultima": "26/11 21h52",
    "ultima_iso": "2026-11-26T21:52-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 4.4,
+   "horas_sem_atualizar": 4.6,
    "principal": false,
    "manchetes": [
     {
@@ -889,7 +916,7 @@
    "ultima": "26/11 20h23",
    "ultima_iso": "2026-11-26T20:23-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 40.4,
+   "horas_sem_atualizar": 40.5,
    "principal": false,
    "manchetes": [
     {
@@ -916,7 +943,7 @@
    "ultima": "26/11 18h02",
    "ultima_iso": "2026-11-26T18:02-03:00",
    "pauta_atualizada_em": "2026-11-26T14:25-03:00",
-   "horas_sem_atualizar": 8.8,
+   "horas_sem_atualizar": 9.0,
    "principal": false,
    "manchetes": [
     {
@@ -1526,37 +1553,6 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Alckmin diz que Trabuco “tem preparo e experiência” para assumir a Fazenda",
-   "secao": "politica",
-   "n_fontes": 4,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Alckmin diz que Trabuco “tem preparo e experiência” para assumir a Fazenda",
-     "url": "https://www.metropoles.com/brasil/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-assumir-a-fazenda",
-     "hora": "26/11 22h59"
-    },
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
-     "url": "https://jovempan.com.br/politica/alckmin-diz-que-trabuco-como-ministro-da-fazenda-e-excelente-noticia-para-o-brasil/",
-     "hora": "26/11 22h21"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alckmin diz que Trabuco tem preparo e experiência para comandar Fazenda",
-     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-comandar-fazenda/",
-     "hora": "26/11 22h16"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "“Preparo e experiência”, diz Alckmin sobre Trabuco",
-     "url": "https://oantagonista.com.br/brasil/preparo-e-experiencia-diz-alckmin-sobre-trabuco/",
-     "hora": "26/11 21h47"
-    }
-   ]
-  },
-  {
    "assunto": "Sob protesto da torcida, São Paulo vence Remo no Morumbi",
    "secao": "esportes",
    "n_fontes": 4,
@@ -1607,6 +1603,44 @@
    ]
   },
   {
+   "assunto": "Dorival Júnior avisa que deixará o São Paulo no fim do Brasileirão",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Dorival Júnior avisa que deixará o São Paulo no fim do Brasileirão",
+     "url": "https://ge.globo.com/futebol/times/sao-paulo/noticia/2026/11/26/dorival-junior-avisa-que-deixara-o-sao-paulo-no-fim-do-brasileirao.ghtml",
+     "hora": "26/11 23h09"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Com gols no fim, São Paulo bate Remo e volta a vencer no Brasileirão",
+     "url": "https://www.metropoles.com/esportes/com-gols-no-fim-sao-paulo-bate-remo-e-volta-a-vencer-no-brasileirao",
+     "hora": "26/11 22h06"
+    }
+   ]
+  },
+  {
+   "assunto": "Morre Juary, ex-atacante e ídolo do Santos, aos 67 anos",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Morre Juary, ex-atacante e ídolo do Santos, aos 67 anos",
+     "url": "https://www.metropoles.com/esportes/morre-juary-ex-atacante-e-idolo-do-santos-aos-67-anos",
+     "hora": "26/11 23h19"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "Adeus a Juary: ídolo do Santos trabalhava na base da Caldense e estava internado há um mês",
+     "url": "https://ge.globo.com/mg/sul-de-minas/noticia/2026/11/26/juary-ex-atacante-do-santos-e-coordenador-da-base-da-caldense-morre-aos-67-anos.ghtml",
+     "hora": "26/11 22h20"
+    }
+   ]
+  },
+  {
    "assunto": "STF decide manter regras para concessão de porte de arma a guardas municipais",
    "secao": "politica",
    "n_fontes": 2,
@@ -1637,7 +1671,7 @@
   "g1 Economia": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 2 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 69 nas últimas 6 h",
+  "ge": "ok: 100 itens, 68 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 35 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
@@ -1645,15 +1679,15 @@
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 9 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
-  "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
+  "BBC News Brasil": "ok: 31 itens, 4 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 4 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 5 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 12 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 17 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 16 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 80 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 56 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 6 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "Valor Econômico": "ok: 100 itens, 53 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 4 nas últimas 6 h",
