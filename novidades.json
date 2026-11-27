@@ -1,20 +1,67 @@
 {
- "gerado": "2026-11-27T16:08-03:00",
+ "gerado": "2026-11-27T16:15-03:00",
  "desde": "2026-11-27T14:40-03:00",
  "feed_atualizado_em": "2026-11-27T14:50:00-03:00",
  "resumo": {
-  "manchetes": 316,
-  "assuntos_novos_relevantes": 4,
-  "assuntos_novos": 269,
+  "manchetes": 348,
+  "assuntos_novos_relevantes": 6,
+  "assuntos_novos": 295,
   "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 13,
-  "acionar_itens": 0,
+  "acionar_itens": 1,
   "ja_avaliados": 1
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (269 assuntos fora do feed, 13 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica)",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "Moraes autoriza Mauro Cid a cumprir pena no RJ",
+   "secao": "politica",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "chave": [
+    "autoriza",
+    "cid",
+    "cumprimento",
+    "cumprir",
+    "delator",
+    "golpista",
+    "mauro",
+    "moraes",
+    "niteroi",
+    "pena",
+    "restante",
+    "trama",
+    "transferencia"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Moraes autoriza Mauro Cid a cumprir pena no RJ",
+     "url": "https://www.poder360.com.br/poder-justica/moraes-autoriza-mauro-cid-a-cumprir-pena-no-rj/",
+     "hora": "27/11 16h14",
+     "lide": "Ministro considerou que não há “qualquer indício de risco à execução da pena”; Cid foi condenado a 2 anos de prisão. Leia no Poder360."
+    },
+    {
+     "veiculo": "Estadão Política",
+     "titulo": "Moraes autoriza a transferência do cumprimento de pena de Mauro Cid para Niterói, no RJ",
+     "url": "https://www.estadao.com.br/politica/moraes-autoriza-a-transferencia-do-cumprimento-de-pena-de-mauro-cid-para-niteroi-no-rj-nprp/",
+     "hora": "27/11 15h43",
+     "lide": "Ex-ajudante de ordem de Jair Bolsonaro foi condenado a dois anos em regime aberto no âmbito da trama golpista; Na cidade fluminense, ele deve ficar na casa do pai"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Moraes autoriza Mauro Cid, delator da trama golpista, a cumprir restante da pena em Niterói, no RJ",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/27/moraes-autoriza-mauro-cid-delator-da-trama-golpista-a-cumprir-restante-da-pena-em-niteroi-no-rj.ghtml",
+     "hora": "27/11 15h07",
+     "lide": "Mauro Cid cumprirá o restante da pena em regime aberto em Niterói após Moraes aceitar justificativas econômicas e familiares para a mudança do Distrito Federal."
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
@@ -86,6 +133,74 @@
    "ultima_iso": "2026-11-27T15:47-03:00"
   },
   {
+   "assunto": "Moraes autoriza Mauro Cid a cumprir pena no RJ",
+   "secao": "politica",
+   "n_fontes": 3,
+   "fontes": [
+    "estadao",
+    "g1",
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Moraes autoriza Mauro Cid a cumprir pena no RJ",
+     "url": "https://www.poder360.com.br/poder-justica/moraes-autoriza-mauro-cid-a-cumprir-pena-no-rj/",
+     "hora": "27/11 16h14"
+    },
+    {
+     "veiculo": "Estadão Política",
+     "titulo": "Moraes autoriza a transferência do cumprimento de pena de Mauro Cid para Niterói, no RJ",
+     "url": "https://www.estadao.com.br/politica/moraes-autoriza-a-transferencia-do-cumprimento-de-pena-de-mauro-cid-para-niteroi-no-rj-nprp/",
+     "hora": "27/11 15h43"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Moraes autoriza Mauro Cid, delator da trama golpista, a cumprir restante da pena em Niterói, no RJ",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/27/moraes-autoriza-mauro-cid-delator-da-trama-golpista-a-cumprir-restante-da-pena-em-niteroi-no-rj.ghtml",
+     "hora": "27/11 15h07"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-27T16:14-03:00"
+  },
+  {
+   "assunto": "Putin apresenta novo submarino nuclear",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "g1",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Putin apresenta novo submarino nuclear",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/27/putin-apresenta-novo-submarino-nuclear.ghtml",
+     "hora": "27/11 16h02"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Putin promete modernizar Marinha enquanto Rússia inaugura submarino nuclear",
+     "url": "https://www.cnnbrasil.com.br/internacional/putin-promete-modernizar-marinha-enquanto-russia-inaugura-submarino-nuclear/",
+     "hora": "27/11 15h59"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Putin apresenta novo submarino nuclear russo e exalta poderio militar do país",
+     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/27/putin-apresenta-novo-submarino-nuclear-russo.ghtml",
+     "hora": "27/11 15h54"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-27T16:02-03:00"
+  },
+  {
    "assunto": "Ucrânia propõe cessar-fogo no Mar Negro para retomar exportações",
    "secao": "mundo",
    "n_fontes": 3,
@@ -154,6 +269,33 @@
    "ultima_iso": "2026-11-27T15:39-03:00"
   },
   {
+   "assunto": "Bolsas em NY fecham em alta com recuperação de ações de IA",
+   "secao": "economia",
+   "n_fontes": 2,
+   "fontes": [
+    "cnn",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Bolsas em NY fecham em alta com recuperação de ações de IA",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/bolsas-em-ny-fecham-em-alta-com-recuperacao-de-acoes-de-ia/",
+     "hora": "27/11 15h43"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Bolsas europeias fecham em alta e têm ganhos na semana, com destaque para mineradoras",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/27/bolsas-europeias-fecham-em-alta-e-tm-ganhos-na-semana-com-destaque-para-mineradoras.ghtml",
+     "hora": "27/11 15h41"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T15:43-03:00"
+  },
+  {
    "assunto": "Carlos Arturo Mallorquin Junior aborda a integração do mercado bovino",
    "secao": "economia",
    "n_fontes": 2,
@@ -208,7 +350,7 @@
    "ultima_iso": "2026-11-27T16:00-03:00"
   },
   {
-   "assunto": "Dólar cai 3% com confirmação de Trabuco na Fazenda; juros têm forte queda, mas Ibovespa perde fôlego",
+   "assunto": "Com Trabuco na Fazenda, mercado apaga expectativa de alta de juros em 2027",
    "secao": "economia",
    "n_fontes": 2,
    "fontes": [
@@ -218,6 +360,12 @@
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Com Trabuco na Fazenda, mercado apaga expectativa de alta de juros em 2027",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/27/com-trabuco-na-fazenda-mercado-apaga-expectativa-de-alta-de-juros-em-2027.ghtml",
+     "hora": "27/11 15h55"
+    },
     {
      "veiculo": "Valor Econômico",
      "titulo": "Dólar cai 3% com confirmação de Trabuco na Fazenda; juros têm forte queda, mas Ibovespa perde fôlego",
@@ -238,7 +386,7 @@
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-27T15:31-03:00",
+   "ultima_iso": "2026-11-27T15:55-03:00",
    "pid_provavel": "lula-trabuco-fazenda-haddad-usp"
   },
   {
@@ -423,31 +571,31 @@
    "ultima_iso": "2026-11-27T15:50-03:00"
   },
   {
-   "assunto": "Lula acerta permanência de Bruno Moretti no Ministério do Planejamento, dizem aliados",
+   "assunto": "Lula avalia secretaria dedicada a assuntos estratégicos do governo",
    "secao": "politica",
    "n_fontes": 2,
    "fontes": [
-    "folha",
-    "im"
+    "cnn",
+    "ex"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Lula acerta permanência de Bruno Moretti no Ministério do Planejamento, dizem aliados",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/lula-acerta-permanencia-de-bruno-moretti-no-ministerio-do-planejamento-dizem-aliados.shtml",
-     "hora": "27/11 15h40"
+     "veiculo": "CNN Brasil",
+     "titulo": "Lula avalia secretaria dedicada a assuntos estratégicos do governo",
+     "url": "https://www.cnnbrasil.com.br/politica/lula-avalia-secretaria-dedicada-a-assuntos-estrategicos-do-governo/",
+     "hora": "27/11 15h46"
     },
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Após troca na Fazenda, Moretti deve ser mantido no Planejamento, dizem aliados",
-     "url": "https://www.infomoney.com.br/politica/apos-troca-na-fazenda-moretti-deve-ser-mantido-no-planejamento-dizem-aliados/",
-     "hora": "27/11 15h01"
+     "veiculo": "Exame",
+     "titulo": "Goiás oferece canetas emagrecedoras pelo SUS; governo Lula avalia inclusão no país todo",
+     "url": "https://exame.com/brasil/goias-oferece-canetas-emagrecedoras-pelo-sus-governo-lula-avalia-inclusao-no-pais-todo/",
+     "hora": "27/11 15h35"
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-27T15:40-03:00"
+   "ultima_iso": "2026-11-27T15:46-03:00"
   },
   {
    "assunto": "Lula promete preservar benefícios sociais e educação, mas defende ‘ajustes’ para economia crescer",
@@ -523,6 +671,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-27T15:29-03:00"
+  },
+  {
+   "assunto": "'Inseto invisível' que devastou pomares de laranja faz estado rever legislação e correr para conter ameaça",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Inseto invisível' que devastou pomares de laranja faz estado rever legislação e correr para conter ameaça",
+     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/27/inseto-invisivel-que-devastou-pomares-de-laranja-faz-estado-rever-legislacao-e-correr-para-conter-ameaca.ghtml",
+     "hora": "27/11 16h01"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-27T16:01-03:00"
   },
   {
    "assunto": "'Muita gente quer ajudar, mas não entende pelo que você está passando', diz cineasta sobre tetraplegia",
@@ -704,86 +872,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-27T15:28-03:00"
-  },
-  {
-   "assunto": "A homenagem às baianas do carnaval do Rio de Janeiro nas latinhas de cerveja da Brahma",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "A homenagem às baianas do carnaval do Rio de Janeiro nas latinhas de cerveja da Brahma",
-     "url": "https://oglobo.globo.com/blogs/ancelmo-gois/post/2026/11/a-homenagem-as-baianas-do-carnaval-do-rio-nas-latinhas-de-cerveja-da-brahma.ghtml",
-     "hora": "27/11 15h20"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T15:20-03:00"
-  },
-  {
-   "assunto": "A incongruência petista diante da escolha de Trabuco",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "A incongruência petista diante da escolha de Trabuco",
-     "url": "https://veja.abril.com.br/coluna/diogo-schelp/a-incongruencia-petista-diante-da-escolha-de-trabuco/",
-     "hora": "27/11 15h59"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T15:59-03:00"
-  },
-  {
-   "assunto": "A inovação brasileira que pode transformar o mercado de açúcar",
-   "secao": "economia",
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "A inovação brasileira que pode transformar o mercado de açúcar",
-     "url": "https://oantagonista.com.br/analise/a-inovacao-brasileira-que-pode-transformar-o-mercado-de-acucar/",
-     "hora": "27/11 15h15"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T15:15-03:00"
-  },
-  {
-   "assunto": "A pequena cidade paulista com R$ 15 mil em precatórios por habitante",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "A pequena cidade paulista com R$ 15 mil em precatórios por habitante",
-     "url": "https://oglobo.globo.com/blogs/capital/post/2026/11/a-pequena-cidade-paulista-com-r-15-mil-em-precatorios-por-habitante.ghtml",
-     "hora": "27/11 15h18"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T15:18-03:00"
   }
  ],
  "em_pautas": {
@@ -817,30 +905,6 @@
     }
    ]
   },
-  "lula-camilo-santana-casa-civil": {
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Camilo Santana recebe convite de Lula para assumir a Casa Civil",
-     "url": "https://revistaoeste.com/politica/camilo-santana-recebe-convite-de-lula-para-assumir-a-casa-civil/",
-     "hora": "27/11 16h00"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Favorito para a Casa Civil, Camilo Santana cumpre agendas com Lula no Rio",
-     "url": "https://www.metropoles.com/brasil/favorito-para-a-casa-civil-camilo-santana-cumpre-agendas-com-lula-no-rio",
-     "hora": "27/11 15h42"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Lula escolhe Camilo Santana para Casa Civil",
-     "url": "https://oantagonista.com.br/brasil/lula-escolhe-camilo-santana-para-casa-civil/",
-     "hora": "27/11 14h45"
-    }
-   ]
-  },
   "lula-trabuco-fazenda-haddad-usp": {
    "secao": "politica",
    "n_fontes": 4,
@@ -868,6 +932,12 @@
      "titulo": "Nikolas Ferreira defende Trabuco na Fazenda e critica Lula: ‘Loucura’",
      "url": "https://jovempan.com.br/politica/nikolas-ferreira-defende-trabuco-na-fazenda-e-critica-lula-loucura/",
      "hora": "27/11 15h05"
+    },
+    {
+     "veiculo": "Gazeta do Povo Economia",
+     "titulo": "Lula nomeia Luiz Carlos Trabuco para o comando do Ministério da Fazenda",
+     "url": "https://www.gazetadopovo.com.br/economia/lula-nomeia-luiz-carlos-trabuco-para-o-comando-do-ministerio-da-fazenda/",
+     "hora": "27/11 16h05"
     }
    ]
   },
@@ -930,6 +1000,24 @@
      "hora": "27/11 15h16"
     }
    ]
+  },
+  "lula-camilo-santana-casa-civil": {
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Camilo Santana recebe convite de Lula para assumir a Casa Civil",
+     "url": "https://revistaoeste.com/politica/camilo-santana-recebe-convite-de-lula-para-assumir-a-casa-civil/",
+     "hora": "27/11 16h00"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Favorito para a Casa Civil, Camilo Santana cumpre agendas com Lula no Rio",
+     "url": "https://www.metropoles.com/brasil/favorito-para-a-casa-civil-camilo-santana-cumpre-agendas-com-lula-no-rio",
+     "hora": "27/11 15h42"
+    }
+   ]
   }
  },
  "novos_relatos": {
@@ -944,7 +1032,7 @@
    "ultima": "27/11 15h36",
    "ultima_iso": "2026-11-27T15:36-03:00",
    "pauta_atualizada_em": "2026-11-27T14:48-03:00",
-   "horas_sem_atualizar": 1.3,
+   "horas_sem_atualizar": 1.5,
    "principal": true,
    "manchetes": [
     {
@@ -979,7 +1067,7 @@
    "ultima": "27/11 12h35",
    "ultima_iso": "2026-11-27T12:35-03:00",
    "pauta_atualizada_em": "2026-11-27T06:53-03:00",
-   "horas_sem_atualizar": 9.3,
+   "horas_sem_atualizar": 9.4,
    "principal": true,
    "manchetes": [
     {
@@ -1003,18 +1091,25 @@
    ]
   },
   "lula-trabuco-fazenda-haddad-usp": {
-   "n": 2,
-   "n_fontes": 1,
+   "n": 3,
+   "n_fontes": 2,
    "fontes": [
+    "gp",
     "jp"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "27/11 15h05",
-   "ultima_iso": "2026-11-27T15:05-03:00",
+   "n_fontes_90min": 2,
+   "ultima": "27/11 16h05",
+   "ultima_iso": "2026-11-27T16:05-03:00",
    "pauta_atualizada_em": "2026-11-27T14:48-03:00",
-   "horas_sem_atualizar": 1.3,
+   "horas_sem_atualizar": 1.5,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Gazeta do Povo Economia",
+     "titulo": "Lula nomeia Luiz Carlos Trabuco para o comando do Ministério da Fazenda",
+     "url": "https://www.gazetadopovo.com.br/economia/lula-nomeia-luiz-carlos-trabuco-para-o-comando-do-ministerio-da-fazenda/",
+     "hora": "27/11 16h05"
+    },
     {
      "veiculo": "Jovem Pan",
      "titulo": "Nikolas Ferreira defende Trabuco na Fazenda e critica Lula: ‘Loucura’",
@@ -1039,7 +1134,7 @@
    "ultima": "27/11 10h53",
    "ultima_iso": "2026-11-27T10:53-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 5.3,
+   "horas_sem_atualizar": 5.5,
    "principal": true,
    "manchetes": [
     {
@@ -1061,7 +1156,7 @@
    "ultima": "27/11 16h00",
    "ultima_iso": "2026-11-27T16:00-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 57.3,
+   "horas_sem_atualizar": 57.4,
    "principal": false,
    "manchetes": [
     {
@@ -1106,7 +1201,7 @@
    "ultima": "27/11 12h35",
    "ultima_iso": "2026-11-27T12:35-03:00",
    "pauta_atualizada_em": "2026-11-26T18:35-03:00",
-   "horas_sem_atualizar": 21.6,
+   "horas_sem_atualizar": 21.7,
    "principal": false,
    "manchetes": [
     {
@@ -1129,7 +1224,7 @@
    "ultima": "27/11 15h46",
    "ultima_iso": "2026-11-27T15:46-03:00",
    "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 18.3,
+   "horas_sem_atualizar": 18.5,
    "principal": false,
    "manchetes": [
     {
@@ -1162,7 +1257,7 @@
    "ultima": "27/11 12h50",
    "ultima_iso": "2026-11-27T12:50-03:00",
    "pauta_atualizada_em": "2026-11-27T06:50-03:00",
-   "horas_sem_atualizar": 9.3,
+   "horas_sem_atualizar": 9.4,
    "principal": false,
    "manchetes": [
     {
@@ -1183,7 +1278,7 @@
    "ultima": "27/11 11h00",
    "ultima_iso": "2026-11-27T11:00-03:00",
    "pauta_atualizada_em": "2026-11-27T05:00-03:00",
-   "horas_sem_atualizar": 11.1,
+   "horas_sem_atualizar": 11.3,
    "principal": false,
    "manchetes": [
     {
@@ -1204,7 +1299,7 @@
    "ultima": "27/11 12h23",
    "ultima_iso": "2026-11-27T12:23-03:00",
    "pauta_atualizada_em": "2026-11-27T06:30-03:00",
-   "horas_sem_atualizar": 9.6,
+   "horas_sem_atualizar": 9.8,
    "principal": false,
    "manchetes": [
     {
@@ -1216,18 +1311,17 @@
    ]
   },
   "pnad-desemprego-outubro-5-1": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
     "bdf",
-    "gp",
     "icl"
    ],
-   "n_fontes_90min": 2,
+   "n_fontes_90min": 1,
    "ultima": "27/11 14h03",
    "ultima_iso": "2026-11-27T14:03-03:00",
    "pauta_atualizada_em": "2026-11-27T09:30-03:00",
-   "horas_sem_atualizar": 6.6,
+   "horas_sem_atualizar": 6.8,
    "principal": false,
    "manchetes": [
     {
@@ -1241,12 +1335,6 @@
      "titulo": "Taxa de desemprego fica em 5,1% no trimestre encerrado em outubro",
      "url": "https://iclnoticias.com.br/economia/taxa-de-desemprego-fica-em-51/",
      "hora": "27/11 11h14"
-    },
-    {
-     "veiculo": "Gazeta do Povo Economia",
-     "titulo": "Desemprego fica em 5,1% em outubro apesar da desaceleração da economia",
-     "url": "https://www.gazetadopovo.com.br/economia/desemprego-fica-em-51-em-outubro-apesar-da-desaceleracao-da-economia/",
-     "hora": "27/11 10h02"
     }
    ]
   },
@@ -1260,7 +1348,7 @@
    "ultima": "27/11 15h06",
    "ultima_iso": "2026-11-27T15:06-03:00",
    "pauta_atualizada_em": "2026-11-27T09:13-03:00",
-   "horas_sem_atualizar": 6.9,
+   "horas_sem_atualizar": 7.0,
    "principal": false,
    "manchetes": [
     {
@@ -1282,7 +1370,7 @@
    "ultima": "27/11 16h00",
    "ultima_iso": "2026-11-27T16:00-03:00",
    "pauta_atualizada_em": "2026-11-27T14:48-03:00",
-   "horas_sem_atualizar": 1.3,
+   "horas_sem_atualizar": 1.5,
    "principal": false,
    "manchetes": [
     {
@@ -2022,6 +2110,31 @@
    ]
   },
   {
+   "assunto": "Putin apresenta novo submarino nuclear",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Putin apresenta novo submarino nuclear",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/27/putin-apresenta-novo-submarino-nuclear.ghtml",
+     "hora": "27/11 16h02"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Putin promete modernizar Marinha enquanto Rússia inaugura submarino nuclear",
+     "url": "https://www.cnnbrasil.com.br/internacional/putin-promete-modernizar-marinha-enquanto-russia-inaugura-submarino-nuclear/",
+     "hora": "27/11 15h59"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Putin apresenta novo submarino nuclear russo e exalta poderio militar do país",
+     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/27/putin-apresenta-novo-submarino-nuclear-russo.ghtml",
+     "hora": "27/11 15h54"
+    }
+   ]
+  },
+  {
    "assunto": "Ucrânia propõe cessar-fogo no Mar Negro para retomar exportações",
    "secao": "mundo",
    "n_fontes": 3,
@@ -2043,6 +2156,25 @@
      "titulo": "Ucrânia apresenta proposta de trégua no Mar Negro e aguarda resposta da Rússia",
      "url": "https://valor.globo.com/mundo/noticia/2026/11/27/ucrnia-apresenta-proposta-de-trgua-no-mar-negro-e-aguarda-resposta-da-rssia.ghtml",
      "hora": "27/11 14h59"
+    }
+   ]
+  },
+  {
+   "assunto": "Bolsas em NY fecham em alta com recuperação de ações de IA",
+   "secao": "economia",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Bolsas em NY fecham em alta com recuperação de ações de IA",
+     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/bolsas-em-ny-fecham-em-alta-com-recuperacao-de-acoes-de-ia/",
+     "hora": "27/11 15h43"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Bolsas europeias fecham em alta e têm ganhos na semana, com destaque para mineradoras",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/27/bolsas-europeias-fecham-em-alta-e-tm-ganhos-na-semana-com-destaque-para-mineradoras.ghtml",
+     "hora": "27/11 15h41"
     }
    ]
   },
@@ -2108,44 +2240,6 @@
      "hora": "27/11 15h16"
     }
    ]
-  },
-  {
-   "assunto": "Fictor teria inflado capital social da holding de R$ 4,2 milhões para quase R$ 1 bilhão",
-   "secao": "economia",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Fictor teria inflado capital social da holding de R$ 4,2 milhões para quase R$ 1 bilhão",
-     "url": "https://valor.globo.com/financas/noticia/2026/11/27/fictor-teria-inflado-capital-social-da-holding-de-r-42-milhes-para-quase-r-1-bilho.ghtml",
-     "hora": "27/11 15h52"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Um parque fechado por quase três anos reabre com mais de 350 animais e investimento superior a R$ 30 milhões em capital brasileira",
-     "url": "https://oantagonista.com.br/ladooa/turismo/um-parque-fechado-por-quase-tres-anos-reabre-com-mais-de-350-animais-e-investimento-superior-a-r-30-milhoes-em-capital-brasileira/",
-     "hora": "27/11 15h43"
-    }
-   ]
-  },
-  {
-   "assunto": "Fux prorroga contrato do BRB com TJBA por 15 dias e adia entrada da Caixa",
-   "secao": "politica",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Fux prorroga contrato do BRB com TJBA por 15 dias e adia entrada da Caixa",
-     "url": "https://www.metropoles.com/colunas/grande-angular/fux-prorroga-contrato-do-brb-com-tjba-por-15-dias-e-adia-entrada-da-caixa",
-     "hora": "27/11 15h50"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Fux prorroga contrato do BRB com TJ-BA por 15 dias e abre prazo para manifestação da Caixa",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://c-level.folha.uol.com.br/financas/2026/11/fux-prorroga-contrato-do-brb-com-tj-ba-por-15-dias-e-abre-prazo-para-manifestacao-da-caixa.shtml",
-     "hora": "27/11 14h41"
-    }
-   ]
   }
  ],
  "ultima_rodada": "2026-11-27T14:50-03:00",
@@ -2155,33 +2249,33 @@
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 18 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 21 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 15 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 17 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 100 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 14 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 31 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 30 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 3 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 9 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 10 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 12 nas últimas 6 h",
-  "Estadão Política": "ok: 20 itens, 15 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 7 nas últimas 6 h",
+  "Estadão Política": "ok: 20 itens, 14 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 6 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
   "O Globo": "ok: 100 itens, 100 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 100 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 97 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 1 nas últimas 6 h",
-  "DW Brasil": "ok: 63 itens, 8 nas últimas 6 h",
+  "DW Brasil": "ok: 61 itens, 8 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 55 itens, 16 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 37 itens, 10 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 38 itens, 10 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
