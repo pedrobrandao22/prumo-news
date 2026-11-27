@@ -1,35 +1,85 @@
 {
- "gerado": "2026-11-26T22:41-03:00",
+ "gerado": "2026-11-26T22:52-03:00",
  "desde": "2026-11-26T21:41-03:00",
  "feed_atualizado_em": "2026-11-26T21:51:00-03:00",
  "resumo": {
-  "manchetes": 89,
+  "manchetes": 99,
   "assuntos_novos_relevantes": 3,
-  "assuntos_novos": 68,
+  "assuntos_novos": 74,
   "pautas_com_novidade": 2,
-  "pautas_com_novidade_3_fontes": 0,
+  "pautas_com_novidade_3_fontes": 1,
   "pautas_com_relatos": 5,
-  "acionar_itens": 0,
+  "acionar_itens": 1,
   "ja_avaliados": 2
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (68 assuntos fora do feed, 5 pautas com relatos, 2 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica)",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
+   "secao": "politica",
+   "n_fontes": 3,
+   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
+   "chave": [
+    "alckmin",
+    "brasil",
+    "comandar",
+    "excelente",
+    "experiencia",
+    "fazenda",
+    "ministro",
+    "noticia",
+    "preparo",
+    "trabuco"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
+     "url": "https://jovempan.com.br/politica/alckmin-diz-que-trabuco-como-ministro-da-fazenda-e-excelente-noticia-para-o-brasil/",
+     "hora": "26/11 22h21",
+     "lide": "Executivo é o primeiro ministro anunciado oficialmente pelo governo para o quarto mandato do presidente Lula"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Alckmin diz que Trabuco tem preparo e experiência para comandar Fazenda",
+     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-comandar-fazenda/",
+     "hora": "26/11 22h16",
+     "lide": "Vice-presidente, que foi um dos cotados para assumir o cargo, desejou êxito ao futuro ministro"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "“Preparo e experiência”, diz Alckmin sobre Trabuco",
+     "url": "https://oantagonista.com.br/brasil/preparo-e-experiencia-diz-alckmin-sobre-trabuco/",
+     "hora": "26/11 21h47"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Parlamentares reagem a escolha de Trabuco na Fazenda: ‘Trajetória sólida no setor financeiro’",
+   "assunto": "'Sereno', Trabuco é 'capaz de reduzir a tensão' com mercado, diz Lara Resende; veja a reação de outros economistas à escolha na Fazenda",
    "secao": "economia",
-   "n_fontes": 4,
+   "n_fontes": 5,
    "fontes": [
     "bbc",
-    "im",
+    "cnn",
     "jp",
+    "oglobo",
     "p360"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "BBC News Brasil",
+     "titulo": "'Sereno', Trabuco é 'capaz de reduzir a tensão' com mercado, diz Lara Resende; veja a reação de outros economistas à escolha na Fazenda",
+     "url": "https://www.bbc.com/portuguese/articles/cv8e014e88xgo?at_medium=RSS&at_campaign=rss",
+     "hora": "26/11 22h43"
+    },
     {
      "veiculo": "Jovem Pan",
      "titulo": "Parlamentares reagem a escolha de Trabuco na Fazenda: ‘Trajetória sólida no setor financeiro’",
@@ -37,26 +87,21 @@
      "hora": "26/11 22h42"
     },
     {
+     "veiculo": "O Globo",
+     "titulo": "Como o mercado deve reagir à confirmação de Trabuco na Fazenda",
+     "url": "https://oglobo.globo.com/blogs/miriam-leitao/post/2026/11/como-o-mercado-deve-reagir-a-confirmacao-de-trabuco-na-fazenda.ghtml",
+     "hora": "26/11 22h41"
+    },
+    {
      "veiculo": "Poder360",
      "titulo": "Políticos e setor financeiro reagem à escolha de Trabuco para a Fazenda",
      "url": "https://www.poder360.com.br/poder-governo/politicos-e-setor-financeiro-reagem-a-escolha-de-trabuco-para-a-fazenda/",
      "hora": "26/11 22h31"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Anbima diz receber “com satisfação” escolha de Trabuco para a Fazenda",
-     "url": "https://www.infomoney.com.br/mercados/anbima-diz-receber-com-satisfacao-escolha-de-trabuco-para-a-fazenda/",
-     "hora": "26/11 22h17"
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "'Sereno', Trabuco é 'capaz de reduzir a tensão' com mercado, diz Lara Resende; veja a reação de outros economistas à escolha na Fazenda",
-     "url": "https://www.bbc.com/portuguese/articles/cv8e014e88xgo?at_medium=RSS&at_campaign=rss",
-     "hora": "26/11 21h50"
     }
    ],
-   "n_fontes_90min": 4,
-   "ultima_iso": "2026-11-26T22:42-03:00"
+   "n_fontes_90min": 5,
+   "ultima_iso": "2026-11-26T22:43-03:00",
+   "pid_provavel": "lula-trabuco-fazenda-haddad-usp"
   },
   {
    "assunto": "Sob protesto da torcida, São Paulo vence Remo no Morumbi",
@@ -172,6 +217,33 @@
    "n_fontes_90min": 0,
    "ultima_iso": "2026-11-26T22:03-03:00",
    "lixo": true
+  },
+  {
+   "assunto": "STF decide manter regras para concessão de porte de arma a guardas municipais",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "cc",
+    "estadao"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "CartaCapital",
+     "titulo": "STF decide manter regras para concessão de porte de arma a guardas municipais",
+     "url": "https://www.cartacapital.com.br/justica/stf-decide-manter-regras-para-concessao-de-porte-de-arma-a-guardas-municipais/",
+     "hora": "26/11 22h38"
+    },
+    {
+     "veiculo": "Estadão Política",
+     "titulo": "STF mantém restrições para concessão de porte de arma a guardas municipais",
+     "url": "https://www.estadao.com.br/politica/stf-mantem-restricoes-para-concessao-de-porte-de-arma-a-guarda-municipais-nprp/",
+     "hora": "26/11 22h11"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-26T22:38-03:00"
   },
   {
    "assunto": "64 ÷ 2³ + 6 × 5 parece uma conta fácil, mas um detalhe faz muita gente chegar ao resultado errado",
@@ -355,6 +427,46 @@
    "ultima_iso": "2026-11-26T22:15-03:00"
   },
   {
+   "assunto": "Bradesco, de Trabuco, tem 3º maior juro dentre os 5 bancões",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "p360"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Bradesco, de Trabuco, tem 3º maior juro dentre os 5 bancões",
+     "url": "https://www.poder360.com.br/poder-economia/bradesco-de-trabuco-tem-3o-maior-juro-dentre-os-5-bancoes/",
+     "hora": "26/11 22h45"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T22:45-03:00"
+  },
+  {
+   "assunto": "Casal descobre que o vizinho cortou os galhos principais de uma aceroleira que ultrapassava o muro e percebe que a árvore perdeu quase toda a copa",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "antag"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "Casal descobre que o vizinho cortou os galhos principais de uma aceroleira que ultrapassava o muro e percebe que a árvore perdeu quase toda a copa",
+     "url": "https://oantagonista.com.br/ladooa/entretenimento/casal-descobre-que-o-vizinho-cortou-os-galhos-principais-de-uma-aceroleira-que-ultrapassava-o-muro-e-percebe-que-a-arvore-perdeu-quase-toda-a-copa/",
+     "hora": "26/11 22h46"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T22:46-03:00"
+  },
+  {
    "assunto": "Cashback da reforma tributária começa em janeiro. Veja quem tem direito e quanto pode receber",
    "secao": "economia",
    "n_fontes": 1,
@@ -393,6 +505,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T21:53-03:00"
+  },
+  {
+   "assunto": "Com 3 mil pessoas, Seal encerra programação do Festival Estilo Brasil",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Com 3 mil pessoas, Seal encerra programação do Festival Estilo Brasil",
+     "url": "https://www.metropoles.com/colunas/claudia-meireles/com-3-mil-pessoas-seal-encerra-programacao-do-festival-estilo-brasil",
+     "hora": "26/11 22h44"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T22:44-03:00"
   },
   {
    "assunto": "Com gols no fim, São Paulo bate Remo e volta a vencer no Brasileirão",
@@ -600,93 +732,19 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T21:45-03:00"
-  },
-  {
-   "assunto": "Flamengo reúne elenco em comemoração pelo título do Campeonato Brasileiro",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Flamengo reúne elenco em comemoração pelo título do Campeonato Brasileiro",
-     "url": "https://www.metropoles.com/esportes/flamengo-reune-elenco-em-comemoracao-pelo-titulo-do-campeonato-brasileiro",
-     "hora": "26/11 22h22"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T22:22-03:00"
-  },
-  {
-   "assunto": "Glauber Braga diz que Lula traiu eleitores ao escolher Trabuco",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "oeste"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Revista Oeste",
-     "titulo": "Glauber Braga diz que Lula traiu eleitores ao escolher Trabuco",
-     "url": "https://revistaoeste.com/politica/glauber-braga-diz-que-lula-traiu-eleitores-ao-escolher-trabuco/",
-     "hora": "26/11 21h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T21:45-03:00"
-  },
-  {
-   "assunto": "Grupo Yamam amplia soluções em segurança, serviços e tecnologia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Grupo Yamam amplia soluções em segurança, serviços e tecnologia",
-     "url": "https://g1.globo.com/sp/santos-regiao/especial-publicitario/grupo-yamam-terceirizacao-de-servicos/noticia/2026/11/26/grupo-yamam-amplia-solucoes-em-seguranca-servicos-e-tecnologia.ghtml",
-     "hora": "26/11 21h44"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T21:44-03:00"
-  },
-  {
-   "assunto": "Guimarães elogia Trabuco e diz que futuro ministro é “parceiro de diálogo”",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Guimarães elogia Trabuco e diz que futuro ministro é “parceiro de diálogo”",
-     "url": "https://www.cnnbrasil.com.br/politica/guimaraes-elogia-trabuco-e-diz-que-futuro-ministro-e-parceiro-de-dialogo/",
-     "hora": "26/11 21h43"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T21:43-03:00"
   }
  ],
  "em_pautas": {
   "lula-trabuco-fazenda-haddad-usp": {
    "secao": "politica",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Flávio ironiza Lula por escolha de Trabuco para a Fazenda",
+     "url": "https://revistaoeste.com/politica/flavio-ironiza-lula-por-escolha-de-trabuco-para-a-fazenda/",
+     "hora": "26/11 22h42"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Flávio critica Lula após convite a Trabuco para a Fazenda",
@@ -706,10 +764,10 @@
      "hora": "26/11 22h09"
     },
     {
-     "veiculo": "Folha Poder",
-     "titulo": "Nome de Trabuco para Fazenda é bem recebido no BC e no governo Lula",
-     "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/nome-de-trabuco-para-fazenda-e-bem-recebido-no-bc-e-no-governo-lula.shtml",
-     "hora": "26/11 21h45"
+     "veiculo": "InfoMoney",
+     "titulo": "Anbima diz receber “com satisfação” escolha de Trabuco para a Fazenda",
+     "url": "https://www.infomoney.com.br/mercados/anbima-diz-receber-com-satisfacao-escolha-de-trabuco-para-a-fazenda/",
+     "hora": "26/11 22h17"
     }
    ]
   },
@@ -737,7 +795,7 @@
    "ultima": "26/11 19h23",
    "ultima_iso": "2026-11-26T19:23-03:00",
    "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 15.8,
+   "horas_sem_atualizar": 16.0,
    "principal": true,
    "manchetes": [
     {
@@ -749,19 +807,26 @@
    ]
   },
   "lula-trabuco-fazenda-haddad-usp": {
-   "n": 3,
-   "n_fontes": 2,
+   "n": 4,
+   "n_fontes": 3,
    "fontes": [
     "im",
+    "oeste",
     "p360"
    ],
-   "n_fontes_90min": 2,
-   "ultima": "26/11 22h38",
-   "ultima_iso": "2026-11-26T22:38-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "26/11 22h42",
+   "ultima_iso": "2026-11-26T22:42-03:00",
    "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 0.9,
+   "horas_sem_atualizar": 1.1,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Flávio ironiza Lula por escolha de Trabuco para a Fazenda",
+     "url": "https://revistaoeste.com/politica/flavio-ironiza-lula-por-escolha-de-trabuco-para-a-fazenda/",
+     "hora": "26/11 22h42"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Flávio critica Lula após convite a Trabuco para a Fazenda",
@@ -793,7 +858,7 @@
    "ultima": "26/11 21h52",
    "ultima_iso": "2026-11-26T21:52-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 3.9,
+   "horas_sem_atualizar": 4.1,
    "principal": false,
    "manchetes": [
     {
@@ -820,7 +885,7 @@
    "ultima": "26/11 20h23",
    "ultima_iso": "2026-11-26T20:23-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 39.8,
+   "horas_sem_atualizar": 40.0,
    "principal": false,
    "manchetes": [
     {
@@ -848,7 +913,7 @@
    "ultima": "26/11 18h02",
    "ultima_iso": "2026-11-26T18:02-03:00",
    "pauta_atualizada_em": "2026-11-26T14:25-03:00",
-   "horas_sem_atualizar": 8.3,
+   "horas_sem_atualizar": 8.5,
    "principal": false,
    "manchetes": [
     {
@@ -1049,183 +1114,6 @@
   }
  ],
  "avaliados": [
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "abaixo",
-    "alimentos",
-    "barateou",
-    "caro",
-    "desacelera",
-    "dolar",
-    "espera",
-    "esperado",
-    "fazenda",
-    "fecha",
-    "ficou",
-    "ibge",
-    "inflacao",
-    "ipca",
-    "meses",
-    "ministro",
-    "opera",
-    "preco",
-    "pressao",
-    "previa",
-    "puxar",
-    "sobe",
-    "voltam"
-   ],
-   "n_fontes": 8,
-   "em": "2026-11-26T10:44-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "2245",
-    "233",
-    "agro",
-    "alagamentos",
-    "alvo",
-    "bancarias",
-    "banco",
-    "bens",
-    "bilhoes",
-    "bilionaria",
-    "bloqueia",
-    "bloqueio",
-    "caixa",
-    "captar",
-    "carros",
-    "cartoes",
-    "civil",
-    "comprar",
-    "corporativos",
-    "credito",
-    "diario",
-    "empresa",
-    "entenda",
-    "esquema",
-    "faturamento",
-    "faz",
-    "fazem",
-    "ficticio",
-    "fictor",
-    "fraude",
-    "fraudes",
-    "frequencia",
-    "funcionava",
-    "fundador",
-    "grupo",
-    "inexistentes",
-    "investigada",
-    "investigados",
-    "justica",
-    "luxo"
-   ],
-   "n_fontes": 10,
-   "em": "2026-11-26T10:44-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "abaixo",
-    "ala",
-    "amigo",
-    "assumir",
-    "blindar",
-    "bradesco",
-    "cai",
-    "carreira",
-    "conversar",
-    "cotado",
-    "desafio",
-    "dolar",
-    "fantasma",
-    "fazenda",
-    "fez",
-    "fogo",
-    "lembra",
-    "levy",
-    "luiz",
-    "lula",
-    "ministro",
-    "opcao",
-    "possibilidade",
-    "proximo",
-    "sondar",
-    "trabuco",
-    "vira"
-   ],
-   "n_fontes": 5,
-   "em": "2026-11-26T10:44-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "dolar-volta-acima-5",
-   "id": null,
-   "chave": null,
-   "n_fontes": 3,
-   "em": "2026-11-26T10:44-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "apresentacao",
-    "assistir",
-    "autoriza",
-    "batom",
-    "cantata",
-    "debora",
-    "deixar",
-    "evento",
-    "filho",
-    "libera",
-    "moraes",
-    "natal",
-    "natalino",
-    "participar",
-    "prisao"
-   ],
-   "n_fontes": 3,
-   "em": "2026-11-26T10:44-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "acumula",
-    "alimentos",
-    "alta",
-    "aumenta",
-    "caro",
-    "fica",
-    "ipca",
-    "meses",
-    "puxa",
-    "teve",
-    "tomate"
-   ],
-   "n_fontes": 3,
-   "em": "2026-11-26T10:44-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "ucrania-trump-rutte-ampliar-guerra",
-   "id": null,
-   "chave": null,
-   "n_fontes": 4,
-   "em": "2026-11-26T10:44-03:00"
-  },
   {
    "tipo": "novo",
    "pid": null,
@@ -1641,37 +1529,6 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Parlamentares reagem a escolha de Trabuco na Fazenda: ‘Trajetória sólida no setor financeiro’",
-   "secao": "economia",
-   "n_fontes": 4,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Parlamentares reagem a escolha de Trabuco na Fazenda: ‘Trajetória sólida no setor financeiro’",
-     "url": "https://jovempan.com.br/politica/parlamentares-reagem-a-escolha-de-trabuco-na-fazenda-trajetoria-solida-no-setor-financeiro/",
-     "hora": "26/11 22h42"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Políticos e setor financeiro reagem à escolha de Trabuco para a Fazenda",
-     "url": "https://www.poder360.com.br/poder-governo/politicos-e-setor-financeiro-reagem-a-escolha-de-trabuco-para-a-fazenda/",
-     "hora": "26/11 22h31"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Anbima diz receber “com satisfação” escolha de Trabuco para a Fazenda",
-     "url": "https://www.infomoney.com.br/mercados/anbima-diz-receber-com-satisfacao-escolha-de-trabuco-para-a-fazenda/",
-     "hora": "26/11 22h17"
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "'Sereno', Trabuco é 'capaz de reduzir a tensão' com mercado, diz Lara Resende; veja a reação de outros economistas à escolha na Fazenda",
-     "url": "https://www.bbc.com/portuguese/articles/cv8e014e88xgo?at_medium=RSS&at_campaign=rss",
-     "hora": "26/11 21h50"
-    }
-   ]
-  },
-  {
    "assunto": "Sob protesto da torcida, São Paulo vence Remo no Morumbi",
    "secao": "esportes",
    "n_fontes": 4,
@@ -1703,27 +1560,21 @@
    ]
   },
   {
-   "assunto": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
+   "assunto": "STF decide manter regras para concessão de porte de arma a guardas municipais",
    "secao": "politica",
-   "n_fontes": 3,
+   "n_fontes": 2,
    "manchetes": [
     {
-     "veiculo": "Jovem Pan",
-     "titulo": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
-     "url": "https://jovempan.com.br/politica/alckmin-diz-que-trabuco-como-ministro-da-fazenda-e-excelente-noticia-para-o-brasil/",
-     "hora": "26/11 22h21"
+     "veiculo": "CartaCapital",
+     "titulo": "STF decide manter regras para concessão de porte de arma a guardas municipais",
+     "url": "https://www.cartacapital.com.br/justica/stf-decide-manter-regras-para-concessao-de-porte-de-arma-a-guardas-municipais/",
+     "hora": "26/11 22h38"
     },
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alckmin diz que Trabuco tem preparo e experiência para comandar Fazenda",
-     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-comandar-fazenda/",
-     "hora": "26/11 22h16"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "“Preparo e experiência”, diz Alckmin sobre Trabuco",
-     "url": "https://oantagonista.com.br/brasil/preparo-e-experiencia-diz-alckmin-sobre-trabuco/",
-     "hora": "26/11 21h47"
+     "veiculo": "Estadão Política",
+     "titulo": "STF mantém restrições para concessão de porte de arma a guardas municipais",
+     "url": "https://www.estadao.com.br/politica/stf-mantem-restricoes-para-concessao-de-porte-de-arma-a-guarda-municipais-nprp/",
+     "hora": "26/11 22h11"
     }
    ]
   }
@@ -1739,23 +1590,23 @@
   "g1 Economia": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 2 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 76 nas últimas 6 h",
+  "ge": "ok: 100 itens, 73 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 35 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 11 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 34 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 5 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 4 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 7 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 13 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 18 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 17 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 98 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 61 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 93 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 59 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 4 nas últimas 6 h",
