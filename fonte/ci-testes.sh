@@ -3,12 +3,15 @@
 # uma vez (alguns testes oscilam); só reprova se falhar duas vezes. Os que dependem do relógio não reprovam.
 cd "$(dirname "$0")"
 RELOGIO="review2/t_etapa28 review2/t_ig_figurinhas"
-bash testar.sh 2>&1 | tee ci-1.txt
+# 27/11: PRUMO_BATERIA=curta roda só o núcleo (testes-curtos.txt, uns 12 minutos); sem isso, a bateria completa.
+MINIMO=50; CURTOS=""
+if [ "$PRUMO_BATERIA" = "curta" ]; then CURTOS=$(grep -v '^#' testes-curtos.txt | tr '\n' ' '); MINIMO=10; echo "Bateria curta: $(echo $CURTOS | wc -w) testes"; fi
+bash testar.sh $CURTOS 2>&1 | tee ci-1.txt
 st=${PIPESTATUS[0]}
 n=$(grep -cE '^[a-z0-9_/]+: [0-9]+ ok' ci-1.txt)
 # 20/11: se a montagem do site falhar (ex.: faltou a biblioteca acorn do peso/dividir.js), o testar.sh sai antes de
 # rodar qualquer teste; antes disso o resultado era "Testes: 0 / Tudo certo". Agora reprova.
-if [ "$n" -lt 50 ]; then
+if [ "$n" -lt "$MINIMO" ]; then
   { echo "Testes: $n"; echo "FALHOU: a bateria não rodou (testar.sh saiu com $st antes dos testes; veja o começo do log)"; } | tee ci-resultado.txt
   exit 1
 fi
@@ -22,7 +25,7 @@ for t in $falhas; do
   if echo "$out" | grep -qE "FAIL|Error"; then reprova="$reprova $t"; fi
 done
 {
-  echo "Testes: $(grep -cE '^[a-z0-9_/]+: [0-9]+ ok' ci-1.txt)"
+  echo "Testes: $(grep -cE '^[a-z0-9_/]+: [0-9]+ ok' ci-1.txt)$([ -n "$CURTOS" ] && echo " (bateria curta)")"
   [ -n "$avisos" ] && echo "Dependem do relógio (não reprovam):$avisos"
   [ -n "$reprova" ] && { echo "FALHARAM duas vezes:$reprova"; grep -E "FAIL|Error" ci-1.txt | grep -E "^($(echo $reprova | tr ' ' '|')): " | cut -c1-400; }
   [ -z "$reprova" ] && echo "Tudo certo."

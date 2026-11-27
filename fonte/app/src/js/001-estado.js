@@ -66,7 +66,9 @@ const ultimaAtualizacao=p=>[...(p.atualizacoes||[]),...(p.correcoes||[])].map(u=
 function quando(iso){const d=new Date(iso);if(isNaN(d))return "";const m=(Date.now()-d.getTime())/6e4;if(m<1)return "agora";if(m<60)return "há "+Math.floor(m)+" min";if(m<1440)return "há "+Math.floor(m/60)+" h";if(m<10080)return "há "+Math.floor(m/1440)+" d";return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}
 const diaHora=iso=>{const d=new Date(iso);if(isNaN(d))return "";const hj=dataSP(),dd=dataSP(iso);const dia=dd===hj?"hoje":d.toLocaleDateString("pt-BR",{weekday:"long",timeZone:"America/Sao_Paulo"});return dia+" às "+hhmm(iso)};
 const hhmm=iso=>{const d=new Date(iso);return isNaN(d)?"":_FHSP.format(d).replace(":","h")};
-function precisaConta(){if(!S.db||!S.uid){abrirLogin();return true}if(!S.membro){abrirFaltaConvite();return true}return false}
+/* 27/11: enquanto o app ainda confere se a conta que entrou é de membro (até 8 s em rede lenta), não mostra "falta convite"
+   a quem já é membro: avisa que está entrando e a pessoa toca de novo. */
+function precisaConta(){if(!S.db||!S.uid){abrirLogin();return true}if(!S.membro){if(S._membroPend){if(typeof toast==="function")toast("Entrando na sua conta… toque de novo em um instante.");return true}abrirFaltaConvite();return true}return false}
 function snapOf(p){return {id:p.id,secao:secOf(p),tag:p.tag||"",titulo:p.neutro?.titulo||"",texto:p.neutro?.texto||"",imagem:p.imagem||null,fontes:p.fontes||[],links:(p.links||[]).slice(0,6),hora:p.hora||""}}
 const snapById=id=>{const p=pautaById(id);if(p)return snapOf(p);const h=(typeof HIST!=="undefined"&&HIST[id])||null;
   return snapSocial(id)||S.salvos[id]?.snap||(S.lista||{})[id]?.snap||[...S.msgsIn,...S.msgsOut].find(m=>m.pid===id&&m.snap&&m.snap.titulo)?.snap||(typeof todosComentarios==="function"?todosComentarios().find(c=>c.pid===id&&c.snap&&c.snap.titulo)?.snap:null)||(h?{id,titulo:h.titulo,secao:h.secao,tag:h.tag,imagem:h.imagem,links:h.link?[h.link]:[]}:null)||null};

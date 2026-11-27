@@ -157,6 +157,9 @@ async function visitante(H, b, o = {}) { const p = U.erros(await H.pagina(b, o),
   await G.screenshot({ path: path.join(U.SHOTS, 'conta-guia-deitado.png') });
   await ctx.close();
 
+  // 27/11: enquanto o app ainda confere se a conta é de membro, quem toca numa ação não vê "Falta só o convite"
+  const pend = await ev(A, () => { const o = {}; closeLayer(); const m = S.membro; try { S.membro = false; S._membroPend = true; o.barra = precisaConta(); o.folha = !!document.querySelector('.sheet'); S._membroPend = false; o.barra2 = precisaConta(); o.falta = /Falta só o convite/.test((document.querySelector('.sheet') || {}).textContent || '') } finally { S.membro = m; S._membroPend = false; closeLayer() } return o });
+  ok(pend.barra === true && pend.folha === false && pend.barra2 === true && pend.falta === true, 'conta ainda entrando: a ação espera e não mostra "Falta só o convite"; conta sem convite continua vendo a folha', pend);
   for (const [p, n] of [[V, 'V'], [A, 'A'], [B, 'B']]) ok(!p._erros.length, 'sem erros ' + n + ' ' + p._erros.join('|'));
   const R = U.resumo(); console.log(`\nRESUMO t_conta_1511: ${R.OKS} ok, ${R.FALHAS} falhas`);
   await b.close(); srv.kill(); process.exit(R.FALHAS ? 1 : 0) })().catch(e => { console.error(e); process.exit(2) });

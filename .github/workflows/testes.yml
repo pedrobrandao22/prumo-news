@@ -10,6 +10,11 @@ on:
   schedule:
     - cron: "20 5 * * *"   # 2h20 em Brasília
   workflow_dispatch:
+    inputs:
+      bateria:
+        description: "completa (90 min) ou curta (uns 15 min)"
+        default: completa
+# 27/11: a cada push roda a bateria CURTA (o núcleo, fonte/testes-curtos.txt); a COMPLETA roda de madrugada e à mão.
 permissions:
   contents: read
 concurrency:
@@ -32,8 +37,10 @@ jobs:
           npm ci --no-audit --no-fund
           npm install --no-save --no-audit --no-fund playwright@1.56.0
           npx playwright install --with-deps chromium webkit   # webkit = motor do Safari (iPhone): o t_editor_celular usa quando existe
-      - name: Bateria completa
+      - name: Bateria (curta no push, completa de madrugada e à mão)
         working-directory: fonte
+        env:
+          PRUMO_BATERIA: ${{ (github.event_name == 'push' || inputs.bateria == 'curta') && 'curta' || 'completa' }}
         run: bash ci-testes.sh
       - name: Resultado
         if: always()
