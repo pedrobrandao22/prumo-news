@@ -25,5 +25,14 @@ texto de volta no pedido da tarefa.
 | 24/11 | 32 | 5 | 17 | 9 | 15 | 4 |
 | 25/11 | 32 | 4 | 12 | 9 | 16 | 5 |
 | 26/11 | 34 | 5 | 16 | 6 | 18 | 5 |
+
+## Manhãs com a incremental
+| Manhã | Notícias | Novas | Atualizadas | Saíram | Breves | Com Direita e Esquerda |
+| --- | --- | --- | --- | --- | --- | --- |
+| 27/11 | 30 | 5 | 6 (3 com texto novo) | 10 | 12 | 3 |
+
+27/11: publicou às 6h58 (uns 6 minutos), 0 erros no validador (64 avisos; a edição anterior tinha 76), manchete nova
+(Trabuco na Fazenda). Não leu nenhuma página: escreveu só com títulos e lides de novidades.json. Pontos fracos frente
+às manhãs antigas: bem menos notícias atualizadas (6 contra 12 a 17) e menos breves (12 contra 15 a 18).
 "Novas" = notícia que não estava na edição da véspera; "atualizadas" = título ou texto mudou. A rodada antiga levava
 cerca de 15 minutos, com 5 subagentes.
