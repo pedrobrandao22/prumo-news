@@ -1,27 +1,28 @@
 {
- "gerado": "2026-11-27T11:27-03:00",
+ "gerado": "2026-11-27T11:37-03:00",
  "desde": "2026-11-27T10:41-03:00",
  "feed_atualizado_em": "2026-11-27T10:51:00-03:00",
  "resumo": {
-  "manchetes": 197,
+  "manchetes": 228,
   "assuntos_novos_relevantes": 3,
-  "assuntos_novos": 162,
+  "assuntos_novos": 185,
   "pautas_com_novidade": 9,
-  "pautas_com_novidade_3_fontes": 2,
-  "pautas_com_relatos": 16,
-  "acionar_itens": 2,
-  "ja_avaliados": 1
+  "pautas_com_novidade_3_fontes": 1,
+  "pautas_com_relatos": 15,
+  "acionar_itens": 3,
+  "ja_avaliados": 2
  },
  "acionar": true,
- "acionar_motivo": "assunto novo: 5 veículos em 90 min (politica); pauta pnad-desemprego-outubro-5-1: 3 veículos em 90 min depois da última atualização",
+ "acionar_motivo": "assunto novo: 5 veículos em 90 min (politica); pauta caso-master: 3 veículos em 90 min depois da última atualização; pauta pnad-desemprego-outubro-5-1: 3 veículos em 90 min depois da última atualização",
  "acionar_itens": [
   {
    "tipo": "novo",
-   "titulo": "Governo tem superávit de R$ 52,2 bilhões em outubro, segundo melhor resultado do mês na série histórica",
+   "titulo": "Governo Central tem superávit primário de R$ 52,268 bi em outubro, revela Tesouro",
    "secao": "politica",
    "n_fontes": 5,
    "motivo": "assunto novo: 5 veículos em 90 min (politica)",
    "chave": [
+    "268",
     "bilhoes",
     "central",
     "contas",
@@ -35,6 +36,7 @@
     "registra",
     "registram",
     "resultado",
+    "revela",
     "segundo",
     "serie",
     "superavit",
@@ -42,6 +44,13 @@
    ],
    "acao": "nova",
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Governo Central tem superávit primário de R$ 52,268 bi em outubro, revela Tesouro",
+     "url": "https://www.infomoney.com.br/economia/governo-central-tem-superavit-primario-de-r-52268-bi-em-outubro-revela-tesouro/",
+     "hora": "27/11 11h22",
+     "lide": "O superávit de outubro veio acima da mediana da pesquisa com o mercado financeiro do Projeções Broadcast"
+    },
     {
      "veiculo": "Folha Mercado",
      "titulo": "Governo tem superávit de R$ 52,2 bilhões em outubro, segundo melhor resultado do mês na série histórica",
@@ -55,13 +64,37 @@
      "url": "https://valor.globo.com/brasil/noticia/2026/11/27/governo-central-tem-superavit-primario-de-r-52-bilhoes-em-outubro.ghtml",
      "hora": "27/11 10h52",
      "lide": "Os dados levam em conta Tesouro Nacional, Previdência Social e Banco Central (BC) e excluem despesas com a dívida pública"
+    }
+   ]
+  },
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Fachin prorroga por 60 dias inquéritos sobre ‘Dark Horse’ e caso Master",
+   "n_fontes": 3,
+   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
+   "acao": "atualiza: caso-master",
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Fachin prorroga por 60 dias inquéritos sobre ‘Dark Horse’ e caso Master",
+     "url": "https://www.infomoney.com.br/politica/fachin-prorroga-por-60-dias-inqueritos-sobre-dark-horse-e-caso-master/",
+     "hora": "27/11 11h36",
+     "lide": "A prorrogação atende a pedidos da Polícia Federal e da PGR; ao final do prazo, os inquéritos retornarão ao STF acompanhados de relatórios das apurações"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Contas do governo registram superávit de R$ 52,3 bilhões em outubro",
-     "url": "https://www.metropoles.com/brasil/contas-do-governo-registram-superavit-de-r-523-bilhoes-em-outubro",
+     "veiculo": "Revista Oeste",
+     "titulo": "Fachin dá mais 60 dias à PF para investigar financiamento de ‘Dark Horse’",
+     "url": "https://revistaoeste.com/politica/fachin-da-mais-60-dias-a-pf-para-investigar-financiamento-de-dark-horse/",
+     "hora": "27/11 11h33",
+     "lide": "Inquérito apura a negociação privada entre Flávio Bolsonaro e Daniel Vorcaro"
+    },
+    {
+     "veiculo": "Estadão Política",
+     "titulo": "Fachin dá mais 60 dias para PF finalizar investigação sobre Jaques Wagner no caso Master",
+     "url": "https://www.estadao.com.br/politica/blog-do-fausto-macedo/fachin-da-mais-60-dias-para-pf-finalizar-investigacao-sobre-jaques-wagner-no-caso-master/",
      "hora": "27/11 10h48",
-     "lide": "Resultado é o maior para um mês de outubro desde 2016 em valores corrigidos pela inflação, quando houve superávit de R$ 66,27 bilhões"
+     "lide": "Ex-líder do governo Lula é suspeito de corrupção passiva e lavagem de dinheiro; ele teria atuado para aprovar emenda que favorecia o banco"
     }
    ]
   },
@@ -100,19 +133,25 @@
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Governo tem superávit de R$ 52,2 bilhões em outubro, segundo melhor resultado do mês na série histórica",
+   "assunto": "Governo Central tem superávit primário de R$ 52,268 bi em outubro, revela Tesouro",
    "secao": "politica",
    "n_fontes": 5,
    "fontes": [
     "cnn",
     "folha",
-    "met",
+    "im",
     "oglobo",
     "valor"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Governo Central tem superávit primário de R$ 52,268 bi em outubro, revela Tesouro",
+     "url": "https://www.infomoney.com.br/economia/governo-central-tem-superavit-primario-de-r-52268-bi-em-outubro-revela-tesouro/",
+     "hora": "27/11 11h22"
+    },
     {
      "veiculo": "Folha Mercado",
      "titulo": "Governo tem superávit de R$ 52,2 bilhões em outubro, segundo melhor resultado do mês na série histórica",
@@ -126,12 +165,6 @@
      "hora": "27/11 10h52"
     },
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Contas do governo registram superávit de R$ 52,3 bilhões em outubro",
-     "url": "https://www.metropoles.com/brasil/contas-do-governo-registram-superavit-de-r-523-bilhoes-em-outubro",
-     "hora": "27/11 10h48"
-    },
-    {
      "veiculo": "O Globo",
      "titulo": "Governo registra superávit de R$ 52,3 bilhões e tem melhor outubro em dez anos, diz Tesouro Nacional",
      "url": "https://oglobo.globo.com/economia/noticia/2026/11/27/governo-registra-superavit-de-r-523-bilhoes-e-tem-melhor-outubro-em-dez-anos-diz-tesouro-nacional.ghtml",
@@ -139,11 +172,11 @@
     }
    ],
    "n_fontes_90min": 5,
-   "ultima_iso": "2026-11-27T11:16-03:00"
+   "ultima_iso": "2026-11-27T11:22-03:00"
   },
   {
-   "assunto": "Bradesco confirma ida de Trabuco para o Ministério da Fazenda a acionistas",
-   "secao": null,
+   "assunto": "Ações do Bradesco disparam com indicação de Trabuco à Fazenda",
+   "secao": "economia",
    "n_fontes": 4,
    "fontes": [
     "cnn",
@@ -156,6 +189,18 @@
    "manchetes": [
     {
      "veiculo": "Revista Oeste",
+     "titulo": "Ações do Bradesco disparam com indicação de Trabuco à Fazenda",
+     "url": "https://revistaoeste.com/economia/acoes-do-bradesco-disparam-com-indicacao-de-trabuco-a-fazenda/",
+     "hora": "27/11 11h35"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Trabuco no Ministério da Fazenda: como reagiram parlamentares da esquerda e da direita",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/27/trabuco-no-ministerio-da-fazenda-repercussao-parlamentares.ghtml",
+     "hora": "27/11 11h25"
+    },
+    {
+     "veiculo": "Revista Oeste",
      "titulo": "Bradesco confirma ida de Trabuco para o Ministério da Fazenda a acionistas",
      "url": "https://revistaoeste.com/economia/bradesco-confirma-ida-de-trabuco-para-o-ministerio-da-fazenda/",
      "hora": "27/11 11h18"
@@ -165,35 +210,30 @@
      "titulo": "Abit vê indicação de Trabuco à Fazenda como sinal positivo",
      "url": "https://www.poder360.com.br/poder-economia/abit-ve-indicacao-de-trabuco-a-fazenda-como-sinal-positivo/",
      "hora": "27/11 11h14"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Entenda os desafios de Trabuco no Ministério da Fazenda",
-     "url": "https://www.cnnbrasil.com.br/economia/entenda-os-desafios-de-trabuco-no-ministerio-da-fazenda/",
-     "hora": "27/11 11h02"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Juros futuros desabam após confirmação de Trabuco no Ministério da Fazenda",
-     "url": "https://www.cnnbrasil.com.br/economia/money/mercado/juros-futuros-hoje-27-novembro-2026/",
-     "hora": "27/11 11h01"
     }
    ],
    "n_fontes_90min": 4,
-   "ultima_iso": "2026-11-27T11:18-03:00"
+   "ultima_iso": "2026-11-27T11:35-03:00"
   },
   {
-   "assunto": "Ibovespa dispara e dólar cai abaixo de R$ 5,55: por que Trabuco na Fazenda agrada ao mercado?",
+   "assunto": "Ibovespa Hoje Ao Vivo: Bolsa sobe, mas reduz ritmo de alta, com Trabuco na Fazenda",
    "secao": "economia",
-   "n_fontes": 3,
+   "n_fontes": 4,
    "fontes": [
     "antag",
     "bbc",
-    "ex"
+    "ex",
+    "im"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Ibovespa Hoje Ao Vivo: Bolsa sobe, mas reduz ritmo de alta, com Trabuco na Fazenda",
+     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-27112026/",
+     "hora": "27/11 11h34"
+    },
     {
      "veiculo": "Exame",
      "titulo": "Ibovespa dispara e dólar cai abaixo de R$ 5,55: por que Trabuco na Fazenda agrada ao mercado?",
@@ -213,8 +253,8 @@
      "hora": "27/11 10h53"
     }
    ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-27T11:06-03:00",
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-27T11:34-03:00",
    "pid_provavel": "dolar-volta-acima-5"
   },
   {
@@ -245,62 +285,35 @@
    "ultima_iso": "2026-11-27T11:18-03:00"
   },
   {
-   "assunto": "EUA pressionaram Venezuela e Iraque a deixar Opep, diz agência",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "fontes": [
-    "folha",
-    "im"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "EUA pressionaram Venezuela e Iraque a deixar Opep, diz agência",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/eua-pressionaram-venezuela-e-iraque-a-deixar-opep-diz-agencia.shtml",
-     "hora": "27/11 10h57"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "EUA pressionaram Venezuela e Iraque a considerarem saída da Opep, dizem fontes",
-     "url": "https://www.infomoney.com.br/mundo/eua-pressionaram-venezuela-e-iraque-a-considerarem-saida-da-opep-dizem-fontes/",
-     "hora": "27/11 10h48"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-27T10:57-03:00"
-  },
-  {
-   "assunto": "Governo Central tem superávit primário de R$ 52,268 bi em outubro, revela Tesouro",
-   "secao": "politica",
-   "n_fontes": 2,
-   "fontes": [
-    "im",
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Governo Central tem superávit primário de R$ 52,268 bi em outubro, revela Tesouro",
-     "url": "https://www.infomoney.com.br/economia/governo-central-tem-superavit-primario-de-r-52268-bi-em-outubro-revela-tesouro/",
-     "hora": "27/11 11h22"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Governo central registra superavit primário de R$ 52,3 bi em outubro",
-     "url": "https://www.poder360.com.br/poder-economia/governo-central-registra-superavit-primario-de-r-523-bilhoes-em-outubro/",
-     "hora": "27/11 10h45"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-27T11:22-03:00"
-  },
-  {
-   "assunto": "Veja o que fazer em caso de arrependimento, golpe ou compra errada na Black Friday",
+   "assunto": "IBGE: expectativa de vida no Brasil sobe e chega a 76,9 anos em 2025",
    "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "met",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "IBGE: expectativa de vida no Brasil sobe e chega a 76,9 anos em 2025",
+     "url": "https://www.metropoles.com/distrito-federal/ibge-expectativa-de-vida-no-brasil-sobe-e-chega-a-769-anos-em-2025",
+     "hora": "27/11 11h25"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Expectativa de vida no Brasil subiu para o recorde de 76,9 anos em 2025, diz IBGE",
+     "url": "https://valor.globo.com/brasil/noticia/2026/11/27/expectativa-de-vida-no-brasil-subiu-para-o-recorde-de-769-anos-em-2025-diz-ibge.ghtml",
+     "hora": "27/11 10h46"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T11:25-03:00"
+  },
+  {
+   "assunto": "Os caminhoneiros que se arriscam e ganham pouco para entregar suas compras na Black Friday: 'Querem que a gente trabalhe sem parar'",
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
     "folha",
@@ -309,6 +322,12 @@
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Os caminhoneiros que se arriscam e ganham pouco para entregar suas compras na Black Friday: 'Querem que a gente trabalhe sem parar'",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/os-caminhoneiros-que-se-arriscam-e-ganham-pouco-para-entregar-suas-compras-na-black-friday-querem-que-a-gente-trabalhe-sem-parar.shtml",
+     "hora": "27/11 11h35"
+    },
     {
      "veiculo": "Folha Mercado",
      "titulo": "Veja o que fazer em caso de arrependimento, golpe ou compra errada na Black Friday",
@@ -323,8 +342,35 @@
     }
    ],
    "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-27T11:02-03:00",
+   "ultima_iso": "2026-11-27T11:35-03:00",
    "lixo": true
+  },
+  {
+   "assunto": "Por que a esquerda resiste a Trabuco na Fazenda? Entenda as críticas ao banqueiro",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "im",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Por que a esquerda resiste a Trabuco na Fazenda? Entenda as críticas ao banqueiro",
+     "url": "https://www.infomoney.com.br/politica/por-que-a-esquerda-resiste-a-trabuco-na-fazenda-entenda-as-criticas-ao-banqueiro/",
+     "hora": "27/11 11h30"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Trabuco na Fazenda: Centrão celebra e esquerda se divide no Congresso",
+     "url": "https://www.metropoles.com/brasil/trabuco-na-fazenda-anuncio-e-celebrado-no-congresso-mas-divide-esquerda",
+     "hora": "27/11 11h11"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T11:30-03:00"
   },
   {
    "assunto": "\"Vai matar\": ex-PRFs são condenados por morte de homem com gás de pimenta",
@@ -453,8 +499,8 @@
    "ultima_iso": "2026-11-27T11:15-03:00"
   },
   {
-   "assunto": "A empresa que Joaquim Huck, filho de Angélica e Luciano, vai comandar aos 21 anos",
-   "secao": null,
+   "assunto": "A expectiva da Bancada Evangélica do Congresso para a Universal e Assembleia de Deus para 2027",
+   "secao": "politica",
    "n_fontes": 1,
    "fontes": [
     "veja"
@@ -464,13 +510,13 @@
    "manchetes": [
     {
      "veiculo": "Veja",
-     "titulo": "A empresa que Joaquim Huck, filho de Angélica e Luciano, vai comandar aos 21 anos",
-     "url": "https://veja.abril.com.br/cultura/a-empresa-que-joaquim-huck-filho-de-angelica-e-luciano-vai-comandar-aos-21-anos/",
-     "hora": "27/11 10h57"
+     "titulo": "A expectiva da Bancada Evangélica do Congresso para a Universal e Assembleia de Deus para 2027",
+     "url": "https://veja.abril.com.br/brasil/a-expectiva-da-bancada-evangelica-do-congresso-para-a-universal-e-assembleia-de-deus-para-2027/",
+     "hora": "27/11 11h30"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T10:57-03:00"
+   "ultima_iso": "2026-11-27T11:30-03:00"
   },
   {
    "assunto": "Alta do IGP-M desacelera a 1,24% em novembro, mas fica acima do esperado",
@@ -537,6 +583,32 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-27T11:13-03:00"
+  },
+  {
+   "assunto": "Angélica se emociona com surpresa de aniversário de Luciano Huck",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Veja",
+     "titulo": "Angélica se emociona com surpresa de aniversário de Luciano Huck",
+     "url": "https://veja.abril.com.br/cultura/angelica-se-emociona-com-surpresa-de-aniversario-de-luciano-huck/",
+     "hora": "27/11 11h32"
+    },
+    {
+     "veiculo": "Veja",
+     "titulo": "A empresa que Joaquim Huck, filho de Angélica e Luciano, vai comandar aos 21 anos",
+     "url": "https://veja.abril.com.br/cultura/a-empresa-que-joaquim-huck-filho-de-angelica-e-luciano-vai-comandar-aos-21-anos/",
+     "hora": "27/11 10h57"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-27T11:32-03:00"
   },
   {
    "assunto": "Anvisa manda recolher sete suplementos por ingredientes não autorizados",
@@ -661,6 +733,27 @@
    "lixo": true
   },
   {
+   "assunto": "Assista aos telejornais da TV Liberal",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Assista aos telejornais da TV Liberal",
+     "url": "https://g1.globo.com/pa/para/ao-vivo/assista-aos-telejornais-da-tv-liberal.ghtml",
+     "hora": "27/11 11h29"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-27T11:29-03:00",
+   "lixo": true
+  },
+  {
    "assunto": "Ataques de sabotagem na Europa atribuídos à Rússia aumentam 16%, diz instituto",
    "secao": "mundo",
    "n_fontes": 1,
@@ -721,68 +814,27 @@
    "ultima_iso": "2026-11-27T11:16-03:00"
   },
   {
-   "assunto": "Bitcoin sobe a US$ 61 mil, mas demanda à vista ainda limita otimismo",
-   "secao": null,
+   "assunto": "Bauru Basket contrata pivô Lucas Doria, ex-Flamengo, para a sequência do NBB",
+   "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
-    "valor"
+    "ge"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Valor Econômico",
-     "titulo": "Bitcoin sobe a US$ 61 mil, mas demanda à vista ainda limita otimismo",
-     "url": "https://valor.globo.com/financas/criptomoedas/noticia/2026/11/27/bitcoin-sobe-a-us-61-mil-mas-demanda-a-vista-ainda-limita-otimismo.ghtml",
-     "hora": "27/11 10h41"
+     "veiculo": "ge",
+     "titulo": "Bauru Basket contrata pivô Lucas Doria, ex-Flamengo, para a sequência do NBB",
+     "url": "https://ge.globo.com/sp/tem-esporte/basquete/nbb/noticia/2026/11/27/bauru-basket-contrata-pivo-lucas-doria-ex-flamengo-para-a-sequencia-do-nbb.ghtml",
+     "hora": "27/11 11h21"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T10:41-03:00"
+   "ultima_iso": "2026-11-27T11:21-03:00"
   },
   {
-   "assunto": "Black Friday das dívidas: rede de ortodontia de R$ 570 mi dá até 80% de desconto para inadimplentes",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "ex"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Black Friday das dívidas: rede de ortodontia de R$ 570 mi dá até 80% de desconto para inadimplentes",
-     "url": "https://exame.com/negocios/orthodontic-desconto-renegociar-dividas-black-friday/",
-     "hora": "27/11 11h23"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-27T11:23-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Bolsonaro pede autorização para receber vice-presidente do TCU no hospital",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Bolsonaro pede autorização para receber vice-presidente do TCU no hospital",
-     "url": "https://oantagonista.com.br/brasil/bolsonaro-pede-autorizacao-para-receber-vice-presidente-do-tcu-no-hospital/",
-     "hora": "27/11 10h47"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T10:47-03:00"
-  },
-  {
-   "assunto": "Bora Petrolina oferece serviços gratuitos no Vila Vitória neste sábado (28)",
+   "assunto": "Bazar beneficente reúne itens da Receita Federal com preços a partir de R$ 8",
    "secao": null,
    "n_fontes": 1,
    "fontes": [
@@ -793,20 +845,26 @@
    "manchetes": [
     {
      "veiculo": "g1",
-     "titulo": "Bora Petrolina oferece serviços gratuitos no Vila Vitória neste sábado (28)",
-     "url": "https://g1.globo.com/pe/petrolina-regiao/noticia/2026/11/27/bora-petrolina-oferece-servicos-gratuitos-no-vila-vitoria-neste-sabado-28.ghtml",
-     "hora": "27/11 10h42"
+     "titulo": "Bazar beneficente reúne itens da Receita Federal com preços a partir de R$ 8",
+     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/27/bazar-beneficente-reune-itens-da-receita-federal-com-precos-a-partir-de-r-8.ghtml",
+     "hora": "27/11 11h26"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T10:42-03:00"
+   "ultima_iso": "2026-11-27T11:26-03:00"
   }
  ],
  "em_pautas": {
   "caso-master": {
    "secao": "politica",
-   "n_fontes": 3,
+   "n_fontes": 4,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Fachin prorroga por 60 dias inquéritos sobre ‘Dark Horse’ e caso Master",
+     "url": "https://www.infomoney.com.br/politica/fachin-prorroga-por-60-dias-inqueritos-sobre-dark-horse-e-caso-master/",
+     "hora": "27/11 11h36"
+    },
     {
      "veiculo": "Jovem Pan",
      "titulo": "Fachin prorroga por 60 dias inquérito que investiga Jaques Wagner",
@@ -826,10 +884,10 @@
      "hora": "27/11 10h48"
     },
     {
-     "veiculo": "CNN Brasil",
-     "titulo": "Caso Master: Fachin prorroga inquérito sobre Jaques Wagner por 60 dias",
-     "url": "https://www.cnnbrasil.com.br/politica/caso-master-fachin-prorroga-inquerito-sobre-jaques-wagner-por-60-dias/",
-     "hora": "27/11 10h43"
+     "veiculo": "Revista Oeste",
+     "titulo": "Fachin dá mais 60 dias à PF para investigar financiamento de ‘Dark Horse’",
+     "url": "https://revistaoeste.com/politica/fachin-da-mais-60-dias-a-pf-para-investigar-financiamento-de-dark-horse/",
+     "hora": "27/11 11h33"
     }
    ]
   },
@@ -859,19 +917,13 @@
   },
   "macron-carne-brasil-itamaraty": {
    "secao": "mundo",
-   "n_fontes": 3,
+   "n_fontes": 2,
    "manchetes": [
     {
      "veiculo": "Veja",
      "titulo": "Relatório da União Europeia contraria fala de Macron sobre carne brasileira ‘dopada’",
      "url": "https://veja.abril.com.br/mundo/relatorio-da-uniao-europeia-contraria-fala-de-macron-sobre-carne-brasileira-dopada/",
      "hora": "27/11 11h15"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Governo e produtores repudiam crítica de Macron à carne brasileira",
-     "url": "https://www.infomoney.com.br/politica/governo-e-produtores-repudiam-critica-de-macron-a-carne-brasileira/",
-     "hora": "27/11 10h49"
     },
     {
      "veiculo": "Folha Mercado",
@@ -962,18 +1014,32 @@
  },
  "novos_relatos": {
   "caso-master": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 3,
+   "n_fontes": 3,
    "fontes": [
-    "estadao"
+    "estadao",
+    "im",
+    "oeste"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "27/11 10h48",
-   "ultima_iso": "2026-11-27T10:48-03:00",
+   "n_fontes_90min": 3,
+   "ultima": "27/11 11h36",
+   "ultima_iso": "2026-11-27T11:36-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 0.7,
+   "horas_sem_atualizar": 0.8,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Fachin prorroga por 60 dias inquéritos sobre ‘Dark Horse’ e caso Master",
+     "url": "https://www.infomoney.com.br/politica/fachin-prorroga-por-60-dias-inqueritos-sobre-dark-horse-e-caso-master/",
+     "hora": "27/11 11h36"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Fachin dá mais 60 dias à PF para investigar financiamento de ‘Dark Horse’",
+     "url": "https://revistaoeste.com/politica/fachin-da-mais-60-dias-a-pf-para-investigar-financiamento-de-dark-horse/",
+     "hora": "27/11 11h33"
+    },
     {
      "veiculo": "Estadão Política",
      "titulo": "Fachin dá mais 60 dias para PF finalizar investigação sobre Jaques Wagner no caso Master",
@@ -992,7 +1058,7 @@
    "ultima": "27/11 10h47",
    "ultima_iso": "2026-11-27T10:47-03:00",
    "pauta_atualizada_em": "2026-11-27T06:53-03:00",
-   "horas_sem_atualizar": 4.6,
+   "horas_sem_atualizar": 4.7,
    "principal": true,
    "manchetes": [
     {
@@ -1013,7 +1079,7 @@
    "ultima": "27/11 11h03",
    "ultima_iso": "2026-11-27T11:03-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 0.7,
+   "horas_sem_atualizar": 0.8,
    "principal": true,
    "manchetes": [
     {
@@ -1034,7 +1100,7 @@
    "ultima": "27/11 10h53",
    "ultima_iso": "2026-11-27T10:53-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 0.7,
+   "horas_sem_atualizar": 0.8,
    "principal": true,
    "manchetes": [
     {
@@ -1056,7 +1122,7 @@
    "ultima": "27/11 09h42",
    "ultima_iso": "2026-11-27T09:42-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 16.7,
+   "horas_sem_atualizar": 16.8,
    "principal": false,
    "manchetes": [
     {
@@ -1073,41 +1139,19 @@
     }
    ]
   },
-  "brasileirao-37-rodada-z4": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "27/11 10h40",
-   "ultima_iso": "2026-11-27T10:40-03:00",
-   "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 13.7,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Vila Nova e Atlético-GO fazem clássico pelo acesso à Série A do Brasileirão",
-     "url": "https://www.metropoles.com/esportes/vila-nova-e-atletico-go-fazem-classico-pelo-acesso-a-serie-a-do-brasileirao",
-     "hora": "27/11 10h40"
-    }
-   ]
-  },
   "libertadores-final-palmeiras-estudiantes": {
-   "n": 6,
-   "n_fontes": 4,
+   "n": 5,
+   "n_fontes": 3,
    "fontes": [
     "cc",
-    "ex",
     "ge",
     "met"
    ],
-   "n_fontes_90min": 3,
+   "n_fontes_90min": 2,
    "ultima": "27/11 11h10",
    "ultima_iso": "2026-11-27T11:10-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 52.6,
+   "horas_sem_atualizar": 52.8,
    "principal": false,
    "manchetes": [
     {
@@ -1127,12 +1171,6 @@
      "titulo": "Ex-Palmeiras é convidado do ge em pré-jogo da final da Libertadores no Via Verde Shopping",
      "url": "https://ge.globo.com/ac/futebol/noticia/2026/11/27/ex-palmeiras-e-o-convidado-do-ge-em-pre-jogo-da-final-da-libertadores-no-via-verde-shopping.ghtml",
      "hora": "27/11 09h59"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Por que Ronaldo, ídolo do Corinthians, vai torcer pelo Palmeiras na Libertadores?",
-     "url": "https://exame.com/esporte/por-que-ronaldo-idolo-do-corinthians-vai-torcer-pelo-palmeiras-na-libertadores/",
-     "hora": "27/11 08h30"
     },
     {
      "veiculo": "CartaCapital",
@@ -1158,7 +1196,7 @@
    "ultima": "27/11 10h35",
    "ultima_iso": "2026-11-27T10:35-03:00",
    "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 28.6,
+   "horas_sem_atualizar": 28.8,
    "principal": false,
    "manchetes": [
     {
@@ -1179,7 +1217,7 @@
    "ultima": "27/11 10h56",
    "ultima_iso": "2026-11-27T10:56-03:00",
    "pauta_atualizada_em": "2026-11-26T18:35-03:00",
-   "horas_sem_atualizar": 16.9,
+   "horas_sem_atualizar": 17.0,
    "principal": false,
    "manchetes": [
     {
@@ -1191,18 +1229,17 @@
    ]
   },
   "macron-carne-brasil-itamaraty": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
     "folha",
-    "im",
     "veja"
    ],
-   "n_fontes_90min": 3,
+   "n_fontes_90min": 2,
    "ultima": "27/11 11h15",
    "ultima_iso": "2026-11-27T11:15-03:00",
    "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 13.7,
+   "horas_sem_atualizar": 13.8,
    "principal": false,
    "manchetes": [
     {
@@ -1210,12 +1247,6 @@
      "titulo": "Relatório da União Europeia contraria fala de Macron sobre carne brasileira ‘dopada’",
      "url": "https://veja.abril.com.br/mundo/relatorio-da-uniao-europeia-contraria-fala-de-macron-sobre-carne-brasileira-dopada/",
      "hora": "27/11 11h15"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Governo e produtores repudiam crítica de Macron à carne brasileira",
-     "url": "https://www.infomoney.com.br/politica/governo-e-produtores-repudiam-critica-de-macron-a-carne-brasileira/",
-     "hora": "27/11 10h49"
     },
     {
      "veiculo": "Folha Mercado",
@@ -1235,7 +1266,7 @@
    "ultima": "27/11 06h50",
    "ultima_iso": "2026-11-27T06:50-03:00",
    "pauta_atualizada_em": "2026-11-27T06:50-03:00",
-   "horas_sem_atualizar": 4.6,
+   "horas_sem_atualizar": 4.8,
    "principal": false,
    "manchetes": [
     {
@@ -1257,7 +1288,7 @@
    "ultima": "27/11 11h00",
    "ultima_iso": "2026-11-27T11:00-03:00",
    "pauta_atualizada_em": "2026-11-27T05:00-03:00",
-   "horas_sem_atualizar": 6.5,
+   "horas_sem_atualizar": 6.6,
    "principal": false,
    "manchetes": [
     {
@@ -1284,7 +1315,7 @@
    "ultima": "27/11 06h30",
    "ultima_iso": "2026-11-27T06:30-03:00",
    "pauta_atualizada_em": "2026-11-27T06:30-03:00",
-   "horas_sem_atualizar": 5.0,
+   "horas_sem_atualizar": 5.1,
    "principal": false,
    "manchetes": [
     {
@@ -1305,7 +1336,7 @@
    "ultima": "27/11 06h31",
    "ultima_iso": "2026-11-27T06:31-03:00",
    "pauta_atualizada_em": "2026-11-27T06:31-03:00",
-   "horas_sem_atualizar": 4.9,
+   "horas_sem_atualizar": 5.1,
    "principal": false,
    "manchetes": [
     {
@@ -1328,7 +1359,7 @@
    "ultima": "27/11 11h14",
    "ultima_iso": "2026-11-27T11:14-03:00",
    "pauta_atualizada_em": "2026-11-27T09:30-03:00",
-   "horas_sem_atualizar": 2.0,
+   "horas_sem_atualizar": 2.1,
    "principal": false,
    "manchetes": [
     {
@@ -1362,7 +1393,7 @@
    "ultima": "27/11 11h07",
    "ultima_iso": "2026-11-27T11:07-03:00",
    "pauta_atualizada_em": "2026-11-27T09:13-03:00",
-   "horas_sem_atualizar": 2.2,
+   "horas_sem_atualizar": 2.4,
    "principal": false,
    "manchetes": [
     {
@@ -1893,40 +1924,52 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "EUA pressionaram Venezuela e Iraque a deixar Opep, diz agência",
-   "secao": "mundo",
-   "n_fontes": 2,
+   "assunto": "Ações do Bradesco disparam com indicação de Trabuco à Fazenda",
+   "secao": "economia",
+   "n_fontes": 4,
    "manchetes": [
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "EUA pressionaram Venezuela e Iraque a deixar Opep, diz agência",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/eua-pressionaram-venezuela-e-iraque-a-deixar-opep-diz-agencia.shtml",
-     "hora": "27/11 10h57"
+     "veiculo": "Revista Oeste",
+     "titulo": "Ações do Bradesco disparam com indicação de Trabuco à Fazenda",
+     "url": "https://revistaoeste.com/economia/acoes-do-bradesco-disparam-com-indicacao-de-trabuco-a-fazenda/",
+     "hora": "27/11 11h35"
     },
     {
-     "veiculo": "InfoMoney",
-     "titulo": "EUA pressionaram Venezuela e Iraque a considerarem saída da Opep, dizem fontes",
-     "url": "https://www.infomoney.com.br/mundo/eua-pressionaram-venezuela-e-iraque-a-considerarem-saida-da-opep-dizem-fontes/",
-     "hora": "27/11 10h48"
+     "veiculo": "g1",
+     "titulo": "Trabuco no Ministério da Fazenda: como reagiram parlamentares da esquerda e da direita",
+     "url": "https://g1.globo.com/politica/noticia/2026/11/27/trabuco-no-ministerio-da-fazenda-repercussao-parlamentares.ghtml",
+     "hora": "27/11 11h25"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Bradesco confirma ida de Trabuco para o Ministério da Fazenda a acionistas",
+     "url": "https://revistaoeste.com/economia/bradesco-confirma-ida-de-trabuco-para-o-ministerio-da-fazenda/",
+     "hora": "27/11 11h18"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Abit vê indicação de Trabuco à Fazenda como sinal positivo",
+     "url": "https://www.poder360.com.br/poder-economia/abit-ve-indicacao-de-trabuco-a-fazenda-como-sinal-positivo/",
+     "hora": "27/11 11h14"
     }
    ]
   },
   {
-   "assunto": "Governo Central tem superávit primário de R$ 52,268 bi em outubro, revela Tesouro",
+   "assunto": "Por que a esquerda resiste a Trabuco na Fazenda? Entenda as críticas ao banqueiro",
    "secao": "politica",
    "n_fontes": 2,
    "manchetes": [
     {
      "veiculo": "InfoMoney",
-     "titulo": "Governo Central tem superávit primário de R$ 52,268 bi em outubro, revela Tesouro",
-     "url": "https://www.infomoney.com.br/economia/governo-central-tem-superavit-primario-de-r-52268-bi-em-outubro-revela-tesouro/",
-     "hora": "27/11 11h22"
+     "titulo": "Por que a esquerda resiste a Trabuco na Fazenda? Entenda as críticas ao banqueiro",
+     "url": "https://www.infomoney.com.br/politica/por-que-a-esquerda-resiste-a-trabuco-na-fazenda-entenda-as-criticas-ao-banqueiro/",
+     "hora": "27/11 11h30"
     },
     {
-     "veiculo": "Poder360",
-     "titulo": "Governo central registra superavit primário de R$ 52,3 bi em outubro",
-     "url": "https://www.poder360.com.br/poder-economia/governo-central-registra-superavit-primario-de-r-523-bilhoes-em-outubro/",
-     "hora": "27/11 10h45"
+     "veiculo": "Metrópoles",
+     "titulo": "Trabuco na Fazenda: Centrão celebra e esquerda se divide no Congresso",
+     "url": "https://www.metropoles.com/brasil/trabuco-na-fazenda-anuncio-e-celebrado-no-congresso-mas-divide-esquerda",
+     "hora": "27/11 11h11"
     }
    ]
   }
@@ -1938,13 +1981,13 @@
   "Agência Brasil": "ok: 10 itens, 10 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
-  "g1 Política": "ok: 100 itens, 16 nas últimas 6 h",
+  "g1 Política": "ok: 100 itens, 17 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 17 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 10 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 56 nas últimas 6 h",
+  "ge": "ok: 100 itens, 61 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 23 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 25 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
@@ -1953,7 +1996,7 @@
   "BBC News Brasil": "ok: 31 itens, 7 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 12 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 4 nas últimas 6 h",
-  "Estadão Política": "ok: 20 itens, 10 nas últimas 6 h",
+  "Estadão Política": "ok: 20 itens, 11 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 6 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 6 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 4 nas últimas 6 h",
@@ -1962,7 +2005,7 @@
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
-  "DW Brasil": "ok: 66 itens, 3 nas últimas 6 h",
+  "DW Brasil": "ok: 66 itens, 4 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 51 itens, 7 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 36 itens, 4 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
