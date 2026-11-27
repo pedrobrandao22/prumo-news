@@ -245,7 +245,7 @@ _CLUBES = [
  ("Flamengo", ["flamengo", "ninho do urubu"], "Maracanã", "maracan"), ("Fluminense", ["fluminense"], "Maracanã estádio", "maracan"),
  ("Vasco", ["vasco"], "São Januário estádio", "januário,januario"), ("Botafogo", ["botafogo"], "Estádio Nilton Santos Engenhão", "nilton santos,engenh"),
  ("Corinthians", ["corinthians"], "Neo Química Arena", "arena corinthians,neo química,neo quimica"), ("Palmeiras", ["palmeiras"], "Allianz Parque", "allianz parque"),
- ("São Paulo FC", ["sao paulo fc", "tricolor paulista", "morumbi", "spfc"], "Estádio do Morumbi", "morumbi"), ("Santos", ["santos fc", "\\bsantos\\b", "vila belmiro", "neymar"], "Vila Belmiro estádio", "vila belmiro"),
+ ("São Paulo FC", ["sao paulo fc", "tricolor paulista", "morumbi", "spfc", "do sao paulo", "o sao paulo", "sao paulo x", "x sao paulo"], "Estádio do Morumbi", "morumbi"), ("Santos", ["santos fc", "\\bsantos\\b", "vila belmiro", "neymar"], "Vila Belmiro estádio", "vila belmiro"),
  ("Atlético-MG", ["atletico-mg", "galo\\b"], "Arena MRV", "arena mrv"), ("Cruzeiro", ["cruzeiro"], "Mineirão", "mineir"),
  ("Grêmio", ["gremio"], "Arena do Grêmio", "arena do grêmio,arena do gremio"), ("Internacional", ["internacional", "\\binter\\b", "colorado"], "Estádio Beira-Rio", "beira-rio,beira rio"),
  ("Bahia", ["bahia\\b"], "Arena Fonte Nova", "fonte nova"), ("Vitória", ["vitoria\\b"], "Estádio Barradão", "barrad"),
@@ -368,6 +368,22 @@ V += [
  I("geral-educacao", "Livros empilhados e maçã", ["educacao"], [], ["stack of books desk|books", "school hallway lockers|school,hallway"]),
  I("geral-jornais", "Jornais empilhados", [], [], ["newspapers stack|newspaper", "newspaper printing press|newspaper,printing", "stack of newspapers|newspaper", "banca de jornal|banca,jornal", "newspapers pile|newspaper"]),
 ]
+
+# 27/11: o estádio do clube vem antes da foto genérica de futebol (três notícias de clubes diferentes saíam com a
+# mesma bola no gramado); a genérica fica para a notícia que não cita clube nenhum do catálogo.
+_gen = [v for v in V if v[0] in ("bola-gramado", "trofeu-taca")]
+V = [v for v in V if v not in _gen]
+_i = max(i for i, v in enumerate(V) if v[0].startswith("estadio-")) + 1
+V[_i:_i] = _gen
+# consultas a mais para verbete que ficou sem foto (o robô volta a buscar quando a lista de consultas muda)
+_MAIS = {
+ "mulheres": ["Marcha das Margaridas|margaridas", "Dia Internacional da Mulher ato rua|mulher,8 de março,8m", "women protest march signs|women"],
+ "estadio-goias": ["Estádio Hailé Pinheiro|hailé,haile,serrinha", "Estádio da Serrinha Goiânia|serrinha"],
+ "cidade-maceio": ["Maceió orla Pajuçara|maceió,maceio,pajuçara", "Maceió praia Ponta Verde|maceió,maceio,ponta verde", "Maceió|maceió,maceio"],
+ "cidade-teresina": ["Ponte Estaiada Teresina|teresina,estaiada", "Teresina centro|teresina", "Teresina|teresina", "Rio Poti Teresina|teresina,poti"],
+ "mec": ["Esplanada dos Ministérios Bloco L|esplanada,bloco l", "Ministério da Educação sede|ministério da educação,mec"],
+}
+V = [v[:6] + (list(v[6]) + [q for q in _MAIS.get(v[0], []) if q not in v[6]],) if v[0] in _MAIS else v for v in V]
 
 VERBETES = V
 if __name__ == "__main__":
