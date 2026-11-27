@@ -2975,6 +2975,11 @@ i.up-mais[data-criarde]{position:relative}i.up-mais[data-criarde]::after{content
 .env-b svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .env-wa{background:#25d366;color:#fff}.env-wa svg{stroke:#fff}
 .env-h{margin:0}
+/* 27/11: foto ilustrativa no fundo do post só de texto e foto da notícia atrás do cartão do post que a compartilha */
+.upost .track .up-tx[data-ilu],.upost .track .up-nt{position:relative}
+.upost .track .up-nt[data-ntf]{align-items:flex-end;padding:16px 16px 34px}
+.up-nt[data-ntf] .up-ntc{padding:16px}.up-nt[data-ntf] .up-ntc b{font-size:18px}
+.up-ilc{position:absolute;left:10px;bottom:8px;max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 11px var(--f-ui);color:rgb(255 255 255 / .82);text-shadow:0 1px 2px rgb(0 0 0 / .6);pointer-events:none}
 </style>
 <style>
 /* ---------- Criação: publicar sem travar, movimento e tela mais limpa ---------- */
@@ -10612,7 +10617,7 @@ function dmMarcaPub(t){return typeof dmMarca==="function"?dmMarca(t||""):esc(t||
 /* menu e enviar dos posts */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;let b;
   if(b=t.closest("[data-umenu]")){e.stopPropagation();const x=pubDe(b.dataset.umenu);if(!x)return;
-    sheet(x.autor===S.uid?"Seu post":"Post de "+nomeDe(x.autor),`<div class="opt">${x.tipo==="post"&&x.publico!=="proximos"?`<button type="button" data-upstory="${esc(x.id)}">Compartilhar no seu giro<span>${x.autor===S.uid?"seus amigos tocam e abrem o post":"só quem é amigo de "+esc(String(nomeDe(x.autor)).split(" ")[0])+" consegue abrir o post"}</span></button>`:""}${x.autor===S.uid?`${V5.on&&x.tipo==="post"?`<button type="button" data-ueditar="${esc(x.id)}">Editar legenda</button><button type="button" data-ufixar="${esc(x.id)}">${x.fixado?"Desafixar do perfil":"Fixar no perfil"}<span>até 3 aparecem primeiro na sua grade</span></button>`:""}<button type="button" data-uapagar="${esc(x.id)}" class="perigo">Apagar post<span>some para todos</span></button>`:`<button type="button" data-conversa="${esc(x.autor)}">Mandar mensagem para ${esc(nomeDe(x.autor))}</button><button type="button" data-denp="${esc(x.autor)}">Denunciar<span>o Pedro recebe e analisa</span></button>`}${x.pid?`<button type="button" data-capmat="${esc(x.pid)}">Abrir a notícia anexada</button>`:""}</div>`);return}
+    sheet(x.autor===S.uid?"Seu post":"Post de "+nomeDe(x.autor),`<div class="opt">${x.tipo==="post"&&x.publico!=="proximos"?`<button type="button" data-upstory="${esc(x.id)}">Compartilhar no seu giro<span>${x.autor===S.uid?"seus amigos tocam e abrem o post":"só quem é amigo de "+esc(String(nomeDe(x.autor)).split(" ")[0])+" consegue abrir o post"}</span></button>`:""}${x.autor===S.uid?`${V5.on&&x.tipo==="post"?`<button type="button" data-ueditar="${esc(x.id)}">Editar legenda</button><button type="button" data-ufixar="${esc(x.id)}">${x.fixado?"Desafixar do perfil":"Fixar no perfil"}<span>até 3 aparecem primeiro na sua grade</span></button>`:""}${x.tipo==="post"&&!(x.fotos&&x.fotos.length)&&!x.pid&&typeof ip27De==="function"&&ip27De(x,true)?`<button type="button" data-uilu="${esc(x.id)}">${x.estilo&&x.estilo.semIlu?"Pôr a foto ilustrativa no fundo":"Tirar a foto do fundo"}<span>${x.estilo&&x.estilo.semIlu?"uma foto do assunto atrás do seu texto":"o post volta a ter só a cor"}</span></button>`:""}<button type="button" data-uapagar="${esc(x.id)}" class="perigo">Apagar post<span>some para todos</span></button>`:`<button type="button" data-conversa="${esc(x.autor)}">Mandar mensagem para ${esc(nomeDe(x.autor))}</button><button type="button" data-denp="${esc(x.autor)}">Denunciar<span>o Pedro recebe e analisa</span></button>`}${x.pid?`<button type="button" data-capmat="${esc(x.pid)}">Abrir a notícia anexada</button>`:""}</div>`);return}
   if(b=t.closest("[data-uapagar]")){e.stopPropagation();if(!b.classList.contains("conf")){b.classList.add("conf");b.firstChild.textContent="Toque de novo para apagar";return}const id=b.dataset.uapagar;closeLayer();pubApagar(id);return}
   if(b=t.closest("[data-usend]")){e.stopPropagation();const x=pubDe(b.dataset.usend);if(!x)return;pubEnviar(x);return}
   if(b=t.closest("[data-open]")){const v=b.dataset.open||"";if(v.indexOf("u:")===0){e.stopPropagation();pubIrPara(v.slice(2))}}},true);
@@ -11438,7 +11443,7 @@ function pubLimpa(x){if(!x||typeof x!=="object")return;let es=x.estilo;if(es&&es
   es.marcados=(Array.isArray(es.marcados)?es.marcados:[]).filter(v=>typeof v==="string").slice(0,20);
   es.tags=(Array.isArray(es.tags)?es.tags:[]).filter(t=>t&&typeof t.u==="string").slice(0,30).map(t=>({u:t.u,i:Math.floor(nfin(t.i,0,0,9)),x:nfin(t.x,.5,0,1),y:nfin(t.y,.5,0,1)}));
   es.alt=(Array.isArray(es.alt)?es.alt:[]).slice(0,10).map(v=>strs(v,200));es.local=strs(es.local,60);if(es.arv!=null)es.arv=nfin(es.arv,.8,.5,2);if(es.ar!=null)es.ar=["4:5","1:1","orig"].includes(es.ar)?es.ar:"4:5";
-  es.semCom=!!es.semCom;es.semCurt=!!es.semCurt;
+  es.semCom=!!es.semCom;es.semCurt=!!es.semCurt;if(es.semIlu!=null)es.semIlu=!!es.semIlu;
   try{Object.defineProperty(es,"__ok",{value:true,enumerable:false})}catch(e){}x.estilo=es;
   x.fotos=(Array.isArray(x.fotos)?x.fotos:[]).filter(p=>typeof p==="string"&&p.startsWith(au)&&!/\.\.|[?#]/.test(p)).slice(0,10);x.texto=strs(x.texto,2200);
   if(x.publico!=null&&x.publico!=="proximos")x.publico="amigos";if(x.pid!=null)x.pid=strs(x.pid,200)||null;if(x.snap!=null&&(typeof x.snap!=="object"||Array.isArray(x.snap)))x.snap=null}
@@ -23344,8 +23349,13 @@ function ppCartao(x){
 /* [068] o cartão de sempre */
 function ppBase(x){const id="u:"+x.id,eu=x.autor===S.uid,fs=x.fotos.map(pubUrl),nt=x.pid&&pautaById(x.pid);
   let sl=fs.map(u=>`<div class="sl up-sl">${u?`<img class="up-img" src="${pubSrc(u)}" alt="" loading="lazy" decoding="async">`:`<div class="up-sem">Foto indisponível</div>`}</div>`);
-  const ntSl=x.pid?`<div class="sl up-sl up-nt"><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(ntTit214(nt,x))}</b><span>${ntMudou214(nt,x)?"Atualizada depois · toque para ver a versão de agora ›":"Ler a matéria ›"}</span></button></div>`:"";
-  if(ntSl)sl.push(ntSl);const soTexto=!sl.length;if(soTexto)sl=[`<div class="sl up-sl up-tx" style="background:${pubFundo(String(x.id).charCodeAt(0))}"><p>${dmMarcaPub(x.texto)}</p></div>`];
+  /* 27/11: post que compartilha uma notícia (sem foto própria) mostra a foto da notícia atrás do cartão */
+  let ntBg="",ntCr="";try{const f=nt&&!fs.length&&typeof fotoDe==="function"?fotoDe(nt):null,u=f&&f.url?fotoSrc(f.url):"";if(u&&/^https?:\/\//.test(u)&&!/['")\\\s]/.test(u)){ntBg=` data-ntf="1" style="background:linear-gradient(rgb(8 12 20 / .12),rgb(8 12 20 / .45)),url('${esc(u)}') center 22%/cover no-repeat"`;ntCr=f.credito?`<span class="up-ilc">${esc(creditoCurto(f.credito))}</span>`:""}}catch(e){}
+  const ntSl=x.pid?`<div class="sl up-sl up-nt"${ntBg}><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(ntTit214(nt,x))}</b><span>${ntMudou214(nt,x)?"Atualizada depois · toque para ver a versão de agora ›":"Ler a matéria ›"}</span></button>${ntCr}</div>`:"";
+  if(ntSl)sl.push(ntSl);const soTexto=!sl.length;
+  /* 27/11: post só de texto com assunto claro ganha foto ilustrativa do banco no fundo (escurecida, o texto continua na frente) */
+  const il27=soTexto&&typeof ip27De==="function"?ip27De(x):null;
+  if(soTexto)sl=[`<div class="sl up-sl up-tx"${il27?' data-ilu="1"':""} style="background:${il27?`linear-gradient(rgb(8 12 20 / .6),rgb(8 12 20 / .6)),url('${esc(il27.src)}') center/cover no-repeat`:pubFundo(String(x.id).charCodeAt(0))}"><p>${dmMarcaPub(x.texto)}</p>${il27?`<span class="up-ilc">${esc(il27.cred)}</span>`:""}</div>`];
   return `<article class="post upost" id="p-${esc(id)}" data-pid="${esc(id)}">
     <div class="ph gut"><div class="ph-t"><span class="up-au">${avatar(x.autor)}<span class="ph-nm"><b>${esc(nomeDe(x.autor))}</b><span class="ph-sub">${esc(quando(x.at))}${x.pid&&x.fotos.length?" · com notícia":""}</span></span></span><span data-otr></span></div><button type="button" class="more-btn" data-umenu="${esc(x.id)}" aria-label="Mais opções">${ICON.dots}</button></div>
     <div class="car"><div class="track">${sl.join("")}</div></div>
@@ -23822,6 +23832,30 @@ function ft213Vale(){const F=typeof FEED!=="undefined"&&FEED;return !!(FT213_ESC
 /* 26/11: a foto escolhida pelo robô que tem cópia no site (banco por assunto, acervo/c/…) abre a cópia do site, leve, em vez de ir buscar na fonte */
 {const _al213=acvLocais;acvLocais=function(){const m=_al213.apply(this,arguments);try{const E=FT213_ESC&&FT213_ESC.mapa;if(E)for(const k in E){const f=E[k];
   if(f&&typeof f.url==="string"&&typeof f.local==="string"&&!m.has(f.url)&&/^acervo\/[\w\/.-]+\.(?:webp|jpe?g)$/i.test(f.local)&&!/\.\./.test(f.local)){try{m.set(f.url,new URL(f.local,location.href).href)}catch(e){}}}}catch(e){}return m}}
+/* 27/11 (Pedro, opção 3): post só de texto ganha foto ilustrativa no fundo SÓ quando o assunto casa com clareza com o
+   banco por assunto (m/acervo-posts.json, feito pelo robô das Páginas). O autor pode tirar no menu do post. */
+var IP27=null,IP27_T=0;
+function ip27Rx(w){try{w=String(w);if(!w||w.length>120)return null;
+  if(w.indexOf("CS:")===0)return {cs:1,r:new RegExp(w.slice(3))};
+  if(w.indexOf("UF:")===0){const uf=w.slice(3).replace(/[^A-Z]/g,"");return uf?{cs:1,r:new RegExp("(^|[^A-Za-zÀ-ÿ])"+uf+"($|[^A-Za-zÀ-ÿ])")}:null}
+  return {cs:0,r:new RegExp("\\b"+w)}}catch(e){return null}}
+function ip27Carrega(){if(IP27||Date.now()-IP27_T<6e4)return;IP27_T=Date.now();
+  try{fetch("m/acervo-posts.json?t="+Math.floor(Date.now()/36e5)).then(r=>r.ok?r.json():null).then(d=>{if(!d||!Array.isArray(d.verbetes))return;
+    IP27=d.verbetes.filter(v=>v&&typeof v.id==="string"&&Array.isArray(v.p)&&Array.isArray(v.f)).slice(0,400).map(v=>({id:v.id,k:Math.max(0,Math.floor(+v.k)||0),rx:v.p.slice(0,60).map(ip27Rx),
+      f:v.f.filter(f=>f&&typeof f.l==="string"&&/^acervo\/[\w\/.-]+\.(?:webp|jpe?g)$/i.test(f.l)&&!/\.\./.test(f.l)).map(f=>({l:f.l,c:typeof f.c==="string"?f.c.slice(0,90):""}))})).filter(v=>v.f.length);
+    try{if(document.querySelector(".upost .up-tx")&&typeof renderPosts==="function")renderPosts(true)}catch(e){}}).catch(()=>{})}catch(e){}}
+/* o verbete casa se o texto tem uma das k primeiras palavras (o nome) ou 2 palavras diferentes da lista */
+function ip27De(x,ignoraTirada){try{if(!x||x.tipo!=="post")return null;const es=x.estilo||{};if(es.semIlu&&!ignoraTirada)return null;
+  const bruto=String(x.texto||"");if(bruto.trim().length<25)return null;if(!IP27){ip27Carrega();return null}
+  const limpo=bruto.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+  for(const v of IP27){let n=0,nome=false;for(let i=0;i<v.rx.length;i++){const q=v.rx[i];if(!q||!q.r.test(q.cs?bruto:limpo))continue;n++;if(i<v.k){nome=true;break}if(n>=2)break}
+    if(nome||n>=2){let h=0;const id=String(x.id||"");for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;const f=v.f[h%v.f.length];
+      return {src:new URL(f.l,location.href).href,cred:creditoCurto("Foto ilustrativa: "+f.c),verbete:v.id}}}
+  return null}catch(e){return null}}
+async function ip27Troca(id){const x=pubDe(id);if(!x||x.autor!==S.uid)return;const tirar=!(x.estilo&&x.estilo.semIlu),es={...x.estilo};if(tirar)es.semIlu=true;else delete es.semIlu;
+  try{const r=await SB.from("publicacoes").update({estilo:es}).eq("id",id);if(r&&r.error)throw r.error}catch(e){toast("Não deu para salvar agora.");return}
+  x.estilo.semIlu=tirar;toast(tirar?"Foto tirada do fundo.":"Foto de volta no fundo.");try{renderPosts(true)}catch(e){}}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-uilu]");if(!b)return;e.stopPropagation();const id=b.dataset.uilu;closeLayer();ip27Troca(id)},true);
 ft213Carrega();setInterval(ft213Carrega,6e5);
 
 /* 3. descrição em inglês */

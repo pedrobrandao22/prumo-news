@@ -816,6 +816,16 @@ def main(argv):
     cam_esc = os.path.join(pasta, "fotos.json")
     if not os.path.exists(cam_esc) or open(cam_esc, encoding="utf-8").read() != txt_esc:
         with open(cam_esc, "w", encoding="utf-8") as fh: fh.write(txt_esc)
+    # 27/11: lista enxuta do banco por assunto para o app pôr foto ilustrativa em post só de texto (m/acervo-posts.json)
+    try:
+        import acervo_escolha as AE2
+        cat2 = json.load(open(os.path.join(os.path.dirname(os.path.abspath(feed)), "acervo-catalogo.json"), encoding="utf-8"))
+        txt_p = json.dumps({"v": 1, "verbetes": AE2.para_posts(cat2)}, ensure_ascii=False, separators=(",", ":"))
+        cam_p = os.path.join(pasta, "acervo-posts.json")
+        if not os.path.exists(cam_p) or open(cam_p, encoding="utf-8").read() != txt_p:
+            with open(cam_p, "w", encoding="utf-8") as fh: fh.write(txt_p)
+    except Exception as e:
+        print("acervo para posts: pulado:", repr(e)[:120])
     novo = json.dumps(dict(sorted(IND.items())), ensure_ascii=False, separators=(",", ":"))
     if not os.path.exists(cam_ind) or open(cam_ind, encoding="utf-8").read() != novo:
         with open(cam_ind, "w", encoding="utf-8") as fh: fh.write(novo)

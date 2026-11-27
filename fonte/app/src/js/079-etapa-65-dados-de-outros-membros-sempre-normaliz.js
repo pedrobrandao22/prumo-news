@@ -16,7 +16,7 @@ function pubLimpa(x){if(!x||typeof x!=="object")return;let es=x.estilo;if(es&&es
   es.marcados=(Array.isArray(es.marcados)?es.marcados:[]).filter(v=>typeof v==="string").slice(0,20);
   es.tags=(Array.isArray(es.tags)?es.tags:[]).filter(t=>t&&typeof t.u==="string").slice(0,30).map(t=>({u:t.u,i:Math.floor(nfin(t.i,0,0,9)),x:nfin(t.x,.5,0,1),y:nfin(t.y,.5,0,1)}));
   es.alt=(Array.isArray(es.alt)?es.alt:[]).slice(0,10).map(v=>strs(v,200));es.local=strs(es.local,60);if(es.arv!=null)es.arv=nfin(es.arv,.8,.5,2);if(es.ar!=null)es.ar=["4:5","1:1","orig"].includes(es.ar)?es.ar:"4:5";
-  es.semCom=!!es.semCom;es.semCurt=!!es.semCurt;
+  es.semCom=!!es.semCom;es.semCurt=!!es.semCurt;if(es.semIlu!=null)es.semIlu=!!es.semIlu;
   try{Object.defineProperty(es,"__ok",{value:true,enumerable:false})}catch(e){}x.estilo=es;
   x.fotos=(Array.isArray(x.fotos)?x.fotos:[]).filter(p=>typeof p==="string"&&p.startsWith(au)&&!/\.\.|[?#]/.test(p)).slice(0,10);x.texto=strs(x.texto,2200);
   if(x.publico!=null&&x.publico!=="proximos")x.publico="amigos";if(x.pid!=null)x.pid=strs(x.pid,200)||null;if(x.snap!=null&&(typeof x.snap!=="object"||Array.isArray(x.snap)))x.snap=null}

@@ -72,6 +72,15 @@ class T(unittest.TestCase):
         s.assertEqual(AE.verbete_de(P("esportes", "Corinthians empata com o Atlético-MG no jogo atrasado", "Resultado deixa o Fluminense a um ponto do G4"), C), "estadio-corinthians")
         s.assertEqual(AE.verbete_de(P("esportes", "Palmeiras x Estudiantes decidem a Libertadores no sábado (28), às 17h", "Árbitro argentino apita a final"), C), "estadio-palmeiras")
         s.assertEqual(AE.verbete_de(P("brasil", "Fim de semana terá mudança no tempo", "Temporais devem atingir o Sul"), C), "temporal")
+    def test_lista_para_posts(s):
+        L = AE.para_posts(cat()); ids = [v["id"] for v in L]; D = {v["id"]: v for v in L}
+        for fora in ("uti", "hospital", "igreja", "pets", "cafe", "onibus", "praia", "cidade-curitiba", "pais-argentina", "geral-politica", "saude-mental", "criancas"):
+            s.assertNotIn(fora, ids)
+        for dentro in ("dolar", "stf-ext", "banco-central", "estadio-corinthians", "temporal", "enem"): s.assertIn(dentro, ids)
+        s.assertEqual(D["stf-ext"]["k"], 1); s.assertEqual(D["dolar"]["k"], 0); s.assertEqual(D["fazenda"]["k"], 0)
+        s.assertEqual(D["estadio-corinthians"]["k"], len(D["estadio-corinthians"]["p"]))
+        s.assertTrue(all(len(v["f"]) <= 3 and all(f["l"].startswith("acervo/c/") for f in v["f"]) for v in L))
+        s.assertFalse([w for v in L for w in v["p"] if "(?<" in w or "(?P" in w], "palavra com sintaxe que o navegador não aceita")
     def test_editoria_respeitada(s):
         s.assertNotEqual(AE.verbete_de(P("esportes", "Santos vence e sai do Z4"), cat()), "porto")
         s.assertNotEqual(AE.verbete_de(P("educacao", "Pé-de-Meia: pagamento começa hoje"), cat()), "cidade-recife")
