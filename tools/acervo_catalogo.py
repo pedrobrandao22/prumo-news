@@ -103,7 +103,8 @@ def main(argv):
                 except OSError: pass
         fotos = [f for f in ant.get("fotos") or [] if f.get("url") not in fora and f.get("local") and os.path.exists(os.path.join(raiz, f["local"]))]
         alvo = por if not (ant.get("fotos") or fora) else 3  # verbete já revisado só é completado quando fica com menos de 3 fotos
-        if len(FORA.get(vid) or []) >= 5 and not vid.startswith("geral-"): alvo = 0  # busca esgotada: 5+ fotos já recusadas à mão; só volta com consulta nova e a lista zerada
+        ch = hashlib.md5("\n".join(consultas).encode("utf-8")).hexdigest()[:10]  # a lista de consultas mudou? então vale buscar de novo
+        if len(FORA.get(vid) or []) >= 5 and not vid.startswith("geral-") and (ant.get("consultas_h") == ch or (fotos and "consultas_h" not in ant)): alvo = 0  # busca esgotada: 5+ fotos já recusadas à mão; só volta com consulta nova (ou, vazio, uma vez)
         if len(fotos) < alvo and E["baixar"] and E["restam"] > 0 and (not so or vid in so) and (not prazo or time.time() - t0 < prazo):
             for c in consultas:
                 q, _, kw = c.partition("|")
@@ -114,7 +115,7 @@ def main(argv):
                     if F.guardar(f, vid, "acervo/c", False, E) and not F.fina_demais(f): fotos.append(f)
                 if len(fotos) >= alvo: break
             print(f"{vid}: {len(fotos)} fotos")
-        res[vid] = {"rotulo": rotulo, "tipo": tipo, "secoes": secoes, "subtemas": subtemas, "palavras": palavras, "fotos": fotos}
+        res[vid] = {"rotulo": rotulo, "tipo": tipo, "secoes": secoes, "subtemas": subtemas, "palavras": palavras, "fotos": fotos, "consultas_h": ch}
         if fora: res[vid]["fora"] = sorted(fora)
     total = sum(len(v["fotos"]) for v in res.values())
     with open(saida, "w", encoding="utf-8") as fh:

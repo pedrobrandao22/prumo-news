@@ -23,7 +23,8 @@ CASOS = [  # (editoria, título, verbete esperado)
     ("economia", "Arrecadação federal chegou a R$ 294 bi em outubro, recorde", "reais"),
     ("educacao", "Pé-de-Meia paga julho e agosto em 26/11; parcela vai até 30/11", "reais"),
     ("educacao", "Queda de árvore em escola fere três alunos", "queda-arvore"),
-    ("esportes", "Corinthians empata com o Atlético-MG no jogo atrasado", "bola-gramado"),
+    ("esportes", "Corinthians empata com o Atlético-MG no jogo atrasado", "estadio-corinthians"),   # 27/11: o clube antes da bola genérica
+    ("esportes", "Dorival Júnior e Rafinha anunciam saída do São Paulo ao fim do Brasileirão", "estadio-sao-paulo-fc"),
     ("esportes", "Playoffs da Série B: voltas na sexta (27) e no sábado (28)", "bola-gramado"),
     ("mundo", "EUA barraram na terça (24) o pedido do Brasil por painel na OMC", "porto"),
     ("economia", "Governo estuda limitar a 2,5% ao ano o gasto obrigatório", "fazenda"),
