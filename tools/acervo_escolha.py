@@ -50,12 +50,16 @@ def verbete_de(p, cat):
     """id do verbete para a notícia (ou None se o catálogo estiver vazio)."""
     V = (cat or {}).get("verbetes") or {}
     n = p.get("neutro") or {}
-    bruto = f"{n.get('titulo') or ''} {p.get('subtitulo') if isinstance(p.get('subtitulo'), str) else ''}"
-    limpo = norm(bruto); sec = p.get("secao")
-    for vid, secoes, palavras in regras(cat):
-        if vid.startswith("geral-") or not fotos_de(V[vid]): continue
-        if secoes and sec not in secoes: continue
-        if any(casa(w, bruto, limpo) for w in palavras or []): return vid
+    tit = str(n.get("titulo") or ""); sub = p.get("subtitulo") if isinstance(p.get("subtitulo"), str) else ""
+    sec = p.get("secao"); R = regras(cat)
+    # 27/11: primeiro só o título (o assunto da notícia); o subtítulo só entra se o título não casar com nada.
+    # Antes "Corinthians empata…" saía com o estádio de outro clube citado no subtítulo.
+    for bruto in (tit, f"{tit} {sub}"):
+        limpo = norm(bruto)
+        for vid, secoes, palavras in R:
+            if vid.startswith("geral-") or not fotos_de(V[vid]): continue
+            if secoes and sec not in secoes: continue
+            if any(casa(w, bruto, limpo) for w in palavras or []): return vid
     for vid in (f"geral-{sec}", "geral-jornais"):
         if fotos_de(V.get(vid)): return vid
     return None
