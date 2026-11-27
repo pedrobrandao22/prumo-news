@@ -468,8 +468,13 @@ function ppCartao(x){
 /* [068] o cartão de sempre */
 function ppBase(x){const id="u:"+x.id,eu=x.autor===S.uid,fs=x.fotos.map(pubUrl),nt=x.pid&&pautaById(x.pid);
   let sl=fs.map(u=>`<div class="sl up-sl">${u?`<img class="up-img" src="${pubSrc(u)}" alt="" loading="lazy" decoding="async">`:`<div class="up-sem">Foto indisponível</div>`}</div>`);
-  const ntSl=x.pid?`<div class="sl up-sl up-nt"><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(ntTit214(nt,x))}</b><span>${ntMudou214(nt,x)?"Atualizada depois · toque para ver a versão de agora ›":"Ler a matéria ›"}</span></button></div>`:"";
-  if(ntSl)sl.push(ntSl);const soTexto=!sl.length;if(soTexto)sl=[`<div class="sl up-sl up-tx" style="background:${pubFundo(String(x.id).charCodeAt(0))}"><p>${dmMarcaPub(x.texto)}</p></div>`];
+  /* 27/11: post que compartilha uma notícia (sem foto própria) mostra a foto da notícia atrás do cartão */
+  let ntBg="",ntCr="";try{const f=nt&&!fs.length&&typeof fotoDe==="function"?fotoDe(nt):null,u=f&&f.url?fotoSrc(f.url):"";if(u&&/^https?:\/\//.test(u)&&!/['")\\\s]/.test(u)){ntBg=` data-ntf="1" style="background:linear-gradient(rgb(8 12 20 / .12),rgb(8 12 20 / .45)),url('${esc(u)}') center 22%/cover no-repeat"`;ntCr=f.credito?`<span class="up-ilc">${esc(creditoCurto(f.credito))}</span>`:""}}catch(e){}
+  const ntSl=x.pid?`<div class="sl up-sl up-nt"${ntBg}><button type="button" class="up-ntc" data-capmat="${esc(x.pid)}"><small style="color:${secCor(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica")}">${esc(secNome(nt?secOf(nt):(x.snap&&x.snap.secao)||"politica"))}</small><b>${esc(ntTit214(nt,x))}</b><span>${ntMudou214(nt,x)?"Atualizada depois · toque para ver a versão de agora ›":"Ler a matéria ›"}</span></button>${ntCr}</div>`:"";
+  if(ntSl)sl.push(ntSl);const soTexto=!sl.length;
+  /* 27/11: post só de texto com assunto claro ganha foto ilustrativa do banco no fundo (escurecida, o texto continua na frente) */
+  const il27=soTexto&&typeof ip27De==="function"?ip27De(x):null;
+  if(soTexto)sl=[`<div class="sl up-sl up-tx"${il27?' data-ilu="1"':""} style="background:${il27?`linear-gradient(rgb(8 12 20 / .6),rgb(8 12 20 / .6)),url('${esc(il27.src)}') center/cover no-repeat`:pubFundo(String(x.id).charCodeAt(0))}"><p>${dmMarcaPub(x.texto)}</p>${il27?`<span class="up-ilc">${esc(il27.cred)}</span>`:""}</div>`];
   return `<article class="post upost" id="p-${esc(id)}" data-pid="${esc(id)}">
     <div class="ph gut"><div class="ph-t"><span class="up-au">${avatar(x.autor)}<span class="ph-nm"><b>${esc(nomeDe(x.autor))}</b><span class="ph-sub">${esc(quando(x.at))}${x.pid&&x.fotos.length?" · com notícia":""}</span></span></span><span data-otr></span></div><button type="button" class="more-btn" data-umenu="${esc(x.id)}" aria-label="Mais opções">${ICON.dots}</button></div>
     <div class="car"><div class="track">${sl.join("")}</div></div>

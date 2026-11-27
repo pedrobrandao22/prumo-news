@@ -84,3 +84,35 @@ def foto_de(p, cat, usadas=None):
            "w": f.get("w"), "h": f.get("h"), "verbete": vid}
     if ilus: out["ilustrativa"] = True
     return {k2: v2 for k2, v2 in out.items() if v2 is not None}
+
+
+# 27/11 (Pedro, opção 3): post só de texto de uma pessoa ganha foto ilustrativa SÓ quando o assunto casa com clareza.
+# Entram instituições, estádios e os temas de notícia abaixo. Ficam de fora os temas que aparecem em texto pessoal
+# (saúde, luto, crime, religião, família, bichos, o dia a dia: ônibus, praia, café) e cidades/países (citar não é o assunto).
+POSTS_TEMAS = set("""temporal frio calor seca queimada furacao vulcao enchente reais moedas dolar bolsa wall-street combustivel
+gas-cozinha petroleo soja industria siderurgia mineracao data-center ciberseguranca telecom saneamento amazonia pantanal
+garimpo barragem espaco urna bandeira-brasil enem nuclear tanque caca navio-guerra arbitro torcida volei basquete tenis f1
+olimpiadas natacao atletismo lutas surfe skate ginastica ciclismo futebol-feminino esports bola-gramado trofeu-taca""".split())
+
+
+# nome que também é palavra comum ("a câmera", "fui para a fazenda", "congresso de medicina"): pede 2 palavras do verbete
+POSTS_NOME_COMUM = {"camara-plen", "fazenda", "congresso-ext", "esplanada", "alvorada"}
+
+
+def para_posts(cat, por=3):
+    """Lista enxuta para o app (m/acervo-posts.json): [{id, k, p, f:[{l, c}]}], na ordem de escolha.
+    O texto casa com o verbete se tiver uma das k primeiras palavras (o nome: estádio = todas, instituição = a
+    primeira, tema = nenhuma) ou 2 palavras diferentes da lista."""
+    V = (cat or {}).get("verbetes") or {}; tipo = {x[0]: x[2] for x in VERBETES}
+    out = []
+    for vid, _secoes, palavras in regras(cat):
+        if vid.startswith(("geral-", "cidade-", "pais-")): continue
+        t = tipo.get(vid) or (V.get(vid) or {}).get("tipo")
+        firme = vid.startswith("estadio-") or t == "instituicao"
+        if not firme and vid not in POSTS_TEMAS: continue
+        fs = fotos_de(V.get(vid))[:por]
+        if not fs or not palavras: continue
+        k = len(palavras) if vid.startswith("estadio-") else (1 if firme and vid not in POSTS_NOME_COMUM else 0)
+        out.append({"id": vid, "k": k, "p": list(palavras),
+                    "f": [{"l": f["local"], "c": (str(f.get("credito") or "").strip().lstrip("/").strip() or "Wikimedia Commons")[:90]} for f in fs]})
+    return out

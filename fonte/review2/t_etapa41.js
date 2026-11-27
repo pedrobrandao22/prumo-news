@@ -38,6 +38,23 @@ const U = require('../t_util'); const { ok, sleep, esperar } = U; const fs = req
   ok(await p.evaluate(() => creditoCurto('Foto ilustrativa: Fulano de Tal/Wikimedia Commons (CC BY 4.0)') === 'Foto ilustrativa · Fulano de Tal' && creditoCurto('Foto de arquivo: Maria Souza/Wikimedia Commons (CC0)') === 'Arquivo · Maria Souza'), 'crédito da foto do catálogo por assunto diz "Foto ilustrativa"');
   ok(await p.evaluate(() => { const u = 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Teste_do_banco.jpg', u2 = 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Teste_do_banco_2.jpg', ant = FT213_ESC;
     try { FT213_ESC = { feed: FEED.atualizado_em, mapa: { a: { url: u, local: 'acervo/c/teste-1.webp' }, b: { url: u2, local: 'acervo/../segredo.webp' }, c: null } }; return /\/acervo\/c\/teste-1\.webp$/.test(fotoSrc(u)) && /upload\.wikimedia\.org/.test(fotoSrc(u2)) } finally { FT213_ESC = ant } }), 'foto do banco por assunto abre a cópia guardada no site (e caminho estranho não entra)');
+  // 27/11: post só de texto com assunto claro ganha foto ilustrativa no fundo; texto pessoal, curto, story ou com a foto tirada pelo autor, não
+  await p.route('**/m/acervo-posts.json*', r => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ v: 1, verbetes: [
+    { id: 'stf-ext', k: 1, p: ['\\bstf\\b', 'supremo', 'moraes'], f: [{ l: 'acervo/c/stf-1.webp', c: 'Fulano de Tal/Wikimedia Commons (CC BY 4.0)' }] },
+    { id: 'dolar', k: 0, p: ['dolar', 'cambio', 'moeda americana'], f: [{ l: '../segredo.webp', c: 'x' }, { l: 'acervo/c/dolar-1.webp', c: 'Maria Souza/Wikimedia Commons (CC0)' }] }] }) }));
+  const ilu = await p.evaluate(async () => { IP27 = null; IP27_T = 0; ip27Carrega(); for (let i = 0; i < 50 && !IP27; i++) await new Promise(r => setTimeout(r, 100));
+    const mk = (id, texto, extra) => Object.assign({ id, autor: 'outro', tipo: 'post', texto, at: Date.now(), fotos: [], estilo: {} }, extra || {}); const o = {};
+    o.stf = ppBase(mk('a1', 'O STF vai julgar isso de novo na semana que vem, vocês viram?'));
+    o.dolar1 = ppBase(mk('a2', 'O dólar subiu demais esse mês, que coisa impressionante'));
+    o.dolar2 = ppBase(mk('a3', 'O dólar subiu e o câmbio ficou maluco esse mês inteiro'));
+    o.pessoal = ppBase(mk('a4', 'Meu pai está internado, torçam por ele, por favor gente'));
+    o.curto = ppBase(mk('a5', 'STF de novo'));
+    o.tirada = ppBase(mk('a6', 'O STF vai julgar isso de novo na semana que vem, vocês viram?', { estilo: { semIlu: true } }));
+    o.story = ppBase(mk('a7', 'O STF vai julgar isso de novo na semana que vem, vocês viram?', { tipo: 'story' }));
+    return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, { ilu: /data-ilu="1"/.test(v), stf: /acervo\/c\/stf-1\.webp/.test(v), dol: /acervo\/c\/dolar-1\.webp/.test(v), cred: (/class="up-ilc">([^<]*)</.exec(v) || [])[1] || '', seg: /segredo/.test(v), tx: /class="sl up-sl up-tx"/.test(v) }])) });
+  ok(ilu.stf.ilu && ilu.stf.stf && /^Foto ilustrativa/.test(ilu.stf.cred) && ilu.stf.tx, 'post de texto que fala do STF ganha a foto do STF no fundo, com o crédito "Foto ilustrativa"', ilu.stf);
+  ok(!ilu.dolar1.ilu && ilu.dolar2.ilu && ilu.dolar2.dol && !ilu.dolar2.seg, 'tema genérico pede 2 palavras do assunto; caminho estranho de foto não entra', [ilu.dolar1, ilu.dolar2]);
+  ok(!ilu.pessoal.ilu && !ilu.curto.ilu && !ilu.tirada.ilu && !ilu.story.ilu, 'texto pessoal, texto curto, story e post com a foto tirada pelo autor ficam só com a cor', ilu);
   // a enquete de uma notícia da lista principal (as da prateleira da fase 2 aparecem como miniatura)
   // 25/11: enquete saiu das rodadas (manual: "sem quiz e sem enquete"); só confere quando a edição tem uma
   if (await p.evaluate(() => (FEED.pautas || []).some(x => x.enquete))) ok(await p.evaluate(() => [...document.querySelectorAll('#posts .post .track')].some(t => !!t.querySelector('.ss-enq [data-poll] .poll'))), 'enquete dentro do carrossel');

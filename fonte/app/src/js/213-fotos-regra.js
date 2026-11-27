@@ -33,6 +33,30 @@ function ft213Vale(){const F=typeof FEED!=="undefined"&&FEED;return !!(FT213_ESC
 /* 26/11: a foto escolhida pelo robô que tem cópia no site (banco por assunto, acervo/c/…) abre a cópia do site, leve, em vez de ir buscar na fonte */
 {const _al213=acvLocais;acvLocais=function(){const m=_al213.apply(this,arguments);try{const E=FT213_ESC&&FT213_ESC.mapa;if(E)for(const k in E){const f=E[k];
   if(f&&typeof f.url==="string"&&typeof f.local==="string"&&!m.has(f.url)&&/^acervo\/[\w\/.-]+\.(?:webp|jpe?g)$/i.test(f.local)&&!/\.\./.test(f.local)){try{m.set(f.url,new URL(f.local,location.href).href)}catch(e){}}}}catch(e){}return m}}
+/* 27/11 (Pedro, opção 3): post só de texto ganha foto ilustrativa no fundo SÓ quando o assunto casa com clareza com o
+   banco por assunto (m/acervo-posts.json, feito pelo robô das Páginas). O autor pode tirar no menu do post. */
+var IP27=null,IP27_T=0;
+function ip27Rx(w){try{w=String(w);if(!w||w.length>120)return null;
+  if(w.indexOf("CS:")===0)return {cs:1,r:new RegExp(w.slice(3))};
+  if(w.indexOf("UF:")===0){const uf=w.slice(3).replace(/[^A-Z]/g,"");return uf?{cs:1,r:new RegExp("(^|[^A-Za-zÀ-ÿ])"+uf+"($|[^A-Za-zÀ-ÿ])")}:null}
+  return {cs:0,r:new RegExp("\\b"+w)}}catch(e){return null}}
+function ip27Carrega(){if(IP27||Date.now()-IP27_T<6e4)return;IP27_T=Date.now();
+  try{fetch("m/acervo-posts.json?t="+Math.floor(Date.now()/36e5)).then(r=>r.ok?r.json():null).then(d=>{if(!d||!Array.isArray(d.verbetes))return;
+    IP27=d.verbetes.filter(v=>v&&typeof v.id==="string"&&Array.isArray(v.p)&&Array.isArray(v.f)).slice(0,400).map(v=>({id:v.id,k:Math.max(0,Math.floor(+v.k)||0),rx:v.p.slice(0,60).map(ip27Rx),
+      f:v.f.filter(f=>f&&typeof f.l==="string"&&/^acervo\/[\w\/.-]+\.(?:webp|jpe?g)$/i.test(f.l)&&!/\.\./.test(f.l)).map(f=>({l:f.l,c:typeof f.c==="string"?f.c.slice(0,90):""}))})).filter(v=>v.f.length);
+    try{if(document.querySelector(".upost .up-tx")&&typeof renderPosts==="function")renderPosts(true)}catch(e){}}).catch(()=>{})}catch(e){}}
+/* o verbete casa se o texto tem uma das k primeiras palavras (o nome) ou 2 palavras diferentes da lista */
+function ip27De(x,ignoraTirada){try{if(!x||x.tipo!=="post")return null;const es=x.estilo||{};if(es.semIlu&&!ignoraTirada)return null;
+  const bruto=String(x.texto||"");if(bruto.trim().length<25)return null;if(!IP27){ip27Carrega();return null}
+  const limpo=bruto.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+  for(const v of IP27){let n=0,nome=false;for(let i=0;i<v.rx.length;i++){const q=v.rx[i];if(!q||!q.r.test(q.cs?bruto:limpo))continue;n++;if(i<v.k){nome=true;break}if(n>=2)break}
+    if(nome||n>=2){let h=0;const id=String(x.id||"");for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;const f=v.f[h%v.f.length];
+      return {src:new URL(f.l,location.href).href,cred:creditoCurto("Foto ilustrativa: "+f.c),verbete:v.id}}}
+  return null}catch(e){return null}}
+async function ip27Troca(id){const x=pubDe(id);if(!x||x.autor!==S.uid)return;const tirar=!(x.estilo&&x.estilo.semIlu),es={...x.estilo};if(tirar)es.semIlu=true;else delete es.semIlu;
+  try{const r=await SB.from("publicacoes").update({estilo:es}).eq("id",id);if(r&&r.error)throw r.error}catch(e){toast("Não deu para salvar agora.");return}
+  x.estilo.semIlu=tirar;toast(tirar?"Foto tirada do fundo.":"Foto de volta no fundo.");try{renderPosts(true)}catch(e){}}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-uilu]");if(!b)return;e.stopPropagation();const id=b.dataset.uilu;closeLayer();ip27Troca(id)},true);
 ft213Carrega();setInterval(ft213Carrega,6e5);
 
 /* 3. descrição em inglês */
