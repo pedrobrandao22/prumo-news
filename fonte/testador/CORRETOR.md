@@ -15,6 +15,8 @@ Regras para o app parar de crescer a cada correção:
 - Teste novo só quando a correção fecha uma CAUSA (classe de problema). Correção de caso solto usa ou ajusta um teste
   que já existe da mesma área; não crie `t_corretor_<data>` para cada rodada.
 - Teste nunca depende da edição do dia: os dados vêm de `fonte/edicao-teste/` (ver fonte/MELHORIAS.md, "Testes").
+- Para publicar: a bateria CURTA verde no seu commit (roda sozinha a cada push em `fonte/`, uns 15 a 20 minutos) e a
+  última COMPLETA da madrugada verde (fonte/MELHORIAS.md, "Bateria curta e completa").
 - Bateria vermelha (caso c): descubra a causa com `gh run view <id> --log`; se o teste for frágil, conserte o teste
   sem enfraquecer o que ele confere; se for bug do app, corrija o app.
 
