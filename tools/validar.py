@@ -8,6 +8,7 @@ Uso:
   --nov X     novidades.json (padrão: ao lado do feed, ou /tmp/prumo-site/novidades.json): breve de assunto com 3+ veículos
   --ind X     indicadores.json (padrão: ao lado do feed, ou /tmp/prumo-site/indicadores.json): confere dólar e Ibovespa citados
   --prev X    feed anterior (o que estava no ar antes da sua rodada): enquetes, pesquisas, mudanças
+  --topo      rodada que monta a Capa inteira (manhã): toda falha do topo da Capa é ERRO, não só a da notícia mexida
   --json      imprime na ÚLTIMA linha um resumo {"erros":N,"avisos":N,"pendencias":[...]}
   --virada    modo da rodada da meia-noite: palavras de dia relativo viram ERRO
   --agora X   hora de referência para as pendências (padrão: relógio de Brasília)
@@ -1350,6 +1351,51 @@ FEITO = re.compile(r"\b(votad[oa]s?|aprovad[oa]s?|rejeitad[oa]s?|derrubad[oa]s?|
                    r"seguiu para|venceu|venceram|perdeu|perderam|empatou|empataram|decidiu|decidiram|cassou|aprovou|aprovaram|rejeitou|rejeitaram)\b", re.I)
 
 
+TOPO_ESTRITO = False
+
+
+def checar_capa_2711(f, ant, virada):
+    """27/11 (Pedro): o topo da Capa é onde o Prumo mostra o que tem de próprio. A manchete e os destaques de Política e
+    Economia saem no formato completo (cobertura), com as versões Direita e Esquerda, e a manchete leva um visual.
+    Na rodada (com o feed anterior, fora da virada) é ERRO para a notícia do topo que a rodada escreveu, mexeu ou pôs
+    na Capa; com --topo (rodada da manhã, que monta a Capa inteira) é ERRO para todas. No resto (notícia herdada sem
+    mexer, virada, conferência sem anterior) é AVISO.
+    Saída honesta: "sem_versoes" (por que não há leitura política; 30+ caracteres) dispensa as versões."""
+    capa = f.get("capa") if isinstance(f.get("capa"), dict) else {}
+    P = {p.get("id"): p for p in f.get("pautas") or [] if isinstance(p, dict)}
+    PA = {p.get("id"): p for p in ((ant or {}).get("pautas") or []) if isinstance(p, dict)}
+    capa_ant = (ant or {}).get("capa") if isinstance((ant or {}).get("capa"), dict) else {}
+    topo_ant = {capa_ant.get("manchete")} | set(capa_ant.get("destaques") or [])
+    man = capa.get("manchete")
+    ids = [man] + [d for d in (capa.get("destaques") or []) if d != man]
+    rodada = ant is not None and not virada
+    for pid in ids:
+        p = P.get(pid)
+        if not p: continue
+        e_man = pid == man
+        mexida = pid not in PA or pid not in topo_ant or json.dumps(p, sort_keys=True, ensure_ascii=False) != json.dumps(PA[pid], sort_keys=True, ensure_ascii=False)
+        X = E if rodada and (mexida or TOPO_ESTRITO) else A
+        onde = "manchete" if e_man else "destaque da Capa"
+        pol = p.get("secao") in ("politica", "economia")
+        if p.get("tipo") == "pontual" and (e_man or pol):
+            X(f"[{pid}] {onde} em formato curto (pontual): no topo da Capa a notícia é cobertura; mude o tipo, ponha fim e complete (pontos, contexto, versões) ou escolha outra (manual 2c, TOPO DA CAPA)")
+            continue
+        if pol:
+            motivo = p.get("sem_versoes")
+            tem_motivo = isinstance(motivo, str) and len(motivo.strip()) >= 30
+            if motivo is not None and not tem_motivo: X(f"[{pid}] sem_versoes precisa dizer por que não há leitura política (30+ caracteres)")
+            d, e = bool(p.get("direita")), bool(p.get("esquerda"))
+            if (d or e) and motivo is not None: A(f"[{pid}] tem versão de lado e sem_versoes ao mesmo tempo: tire o sem_versoes (set path \"sem_versoes\", value null)")
+            if not d and not e and not tem_motivo:
+                X(f"[{pid}] {onde} de {p.get('secao')} sem versão Direita nem Esquerda: leia (1 busca por lado) um veículo da régua de cada lado sobre o fato e escreva a versão de cada lado que deu foco próprio; se nenhum deu, grave sem_versoes com o motivo (manual 2c, TOPO DA CAPA)")
+            elif e_man and d != e and not tem_motivo:
+                A(f"[{pid}] manchete só com a versão da {'direita' if d else 'esquerda'}: procure como o outro lado noticiou (manual 2c, TOPO DA CAPA)")
+        if e_man and not (p.get("visuais") or []):
+            X(f"[{pid}] manchete sem visual: ponha pelo menos um (linha_do_tempo com os fatos datados da cobertura, numeros com os valores do texto ou grafico) (manual 2c, TOPO DA CAPA)")
+        elif not e_man and pol and p.get("tipo") != "pontual" and not (p.get("visuais") or []):
+            A(f"[{pid}] destaque da Capa sem visual: se a notícia tem números ou sequência de fatos, ponha numeros ou linha_do_tempo (manual 2c, TOPO DA CAPA)")
+
+
 def checar_incerto_1811(f, ref, virada):
     """1. TÍTULO NÃO É "SEM CONFIRMAÇÃO" (manual 3b): neutro.titulo e breves com "sem … confirmada", "não foi confirmado",
     "sem desfecho confirmado" viram ERRO (aviso na virada); "Últimas" (mudancas) e "Em 1 min" (resumo_dia), aviso.
@@ -2204,6 +2250,8 @@ def checar(f, ant=None, virada=False, agora=None, IND=None):
     except Exception as e: A(f"conferência das regras de 16/11 (noite) falhou: {e!r}")
     try: checar_regras_1711(f, ant, ref, agora, virada)
     except Exception as e: A(f"conferência das regras de 17/11 falhou: {e!r}")
+    try: checar_capa_2711(f, ant, virada)
+    except Exception as e: A(f"conferência do topo da Capa (27/11) falhou: {e!r}")
     try: checar_incerto_1811(f, ref, virada)
     except Exception as e: A(f"conferência de 'sem confirmação' (18/11) falhou: {e!r}")
     try: checar_fontes_breves_1911(f, ant)
@@ -2537,6 +2585,7 @@ def main(argv):
         if a == "--nov": novf = argv[i + 1]; i += 2; continue
         if a == "--json": as_json = True
         elif a == "--virada": virada = True
+        elif a == "--topo": globals()["TOPO_ESTRITO"] = True
         elif a in ("-h", "--help"): print(__doc__); return 0
         else: args.append(a)
         i += 1
