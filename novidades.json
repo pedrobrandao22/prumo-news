@@ -1,28 +1,35 @@
 {
- "gerado": "2026-11-27T12:09-03:00",
+ "gerado": "2026-11-27T12:20-03:00",
  "desde": "2026-11-27T10:41-03:00",
  "feed_atualizado_em": "2026-11-27T10:51:00-03:00",
  "resumo": {
-  "manchetes": 326,
-  "assuntos_novos_relevantes": 5,
-  "assuntos_novos": 261,
+  "manchetes": 351,
+  "assuntos_novos_relevantes": 6,
+  "assuntos_novos": 283,
   "pautas_com_novidade": 7,
   "pautas_com_novidade_3_fontes": 1,
-  "pautas_com_relatos": 13,
+  "pautas_com_relatos": 12,
   "acionar_itens": 4,
-  "ja_avaliados": 2
+  "ja_avaliados": 3
  },
  "acionar": true,
- "acionar_motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização; assunto novo: 4 veículos em 90 min (politica); assunto novo: 3 veículos em 90 min (politica) (+1)",
+ "acionar_motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização; assunto novo: 4 veículos em 90 min (politica); assunto novo: 3 veículos em 90 min (politica) (+1)",
  "acionar_itens": [
   {
    "tipo": "pauta",
    "pid": "caso-master",
-   "titulo": "Fachin mantém prisão de ex-presidente do BRB no caso Master",
-   "n_fontes": 3,
-   "motivo": "pauta caso-master: 3 veículos em 90 min depois da última atualização",
+   "titulo": "Fachin prorroga inquérito sobre Jaques Wagner e Vorcaro",
+   "n_fontes": 4,
+   "motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização",
    "acao": "atualiza: caso-master",
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Fachin prorroga inquérito sobre Jaques Wagner e Vorcaro",
+     "url": "https://www.poder360.com.br/poder-justica/fachin-prorroga-inquerito-sobre-jaques-wagner-e-vorcaro/",
+     "hora": "27/11 12h13",
+     "lide": "Presidente deu 60 dias para conclusão das investigações; PF apura se senador atuou em favor do Master em troca de vantagens. Leia no Poder360."
+    },
     {
      "veiculo": "O Antagonista",
      "titulo": "Fachin mantém prisão de ex-presidente do BRB no caso Master",
@@ -35,13 +42,6 @@
      "url": "https://revistaoeste.com/politica/fachin-da-mais-60-dias-a-pf-para-investigar-financiamento-de-dark-horse/",
      "hora": "27/11 11h33",
      "lide": "Inquérito apura a negociação privada entre Flávio Bolsonaro e Daniel Vorcaro"
-    },
-    {
-     "veiculo": "Estadão Política",
-     "titulo": "Fachin dá mais 60 dias para PF finalizar investigação sobre Jaques Wagner no caso Master",
-     "url": "https://www.estadao.com.br/politica/blog-do-fausto-macedo/fachin-da-mais-60-dias-para-pf-finalizar-investigacao-sobre-jaques-wagner-no-caso-master/",
-     "hora": "27/11 10h48",
-     "lide": "Ex-líder do governo Lula é suspeito de corrupção passiva e lavagem de dinheiro; ele teria atuado para aprovar emenda que favorecia o banco"
     }
    ]
   },
@@ -171,11 +171,10 @@
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Mercado celebra Trabuco na Fazenda e esquerda acusa Lula de estelionato eleitoral",
+   "assunto": "Dólar cai quase de 3% com confirmação de Trabuco na Fazenda; Ibovespa tem forte alta e juros futuros desabam",
    "secao": "economia",
-   "n_fontes": 6,
+   "n_fontes": 5,
    "fontes": [
-    "antag",
     "bbc",
     "estadao",
     "ex",
@@ -186,16 +185,16 @@
    "relevante": true,
    "manchetes": [
     {
+     "veiculo": "Valor Econômico",
+     "titulo": "Dólar cai quase de 3% com confirmação de Trabuco na Fazenda; Ibovespa tem forte alta e juros futuros desabam",
+     "url": "https://valor.globo.com/financas/ao-vivo/2023/06/16/dolar-avanca-e-ibovespa-recua-em-dia-de-correcao-siga-os-mercados.ghtml",
+     "hora": "27/11 12h08"
+    },
+    {
      "veiculo": "Gazeta do Povo Economia",
      "titulo": "Mercado celebra Trabuco na Fazenda e esquerda acusa Lula de estelionato eleitoral",
      "url": "https://www.gazetadopovo.com.br/economia/mercado-celebra-luiz-trabuco-ministro-fazenda-esquerda-protesta/",
      "hora": "27/11 12h05"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Dólar cai mais de 3% com confirmação de Trabuco na Fazenda; Ibovespa tem forte alta e juros futuros desabam",
-     "url": "https://valor.globo.com/financas/ao-vivo/2023/06/16/dolar-avanca-e-ibovespa-recua-em-dia-de-correcao-siga-os-mercados.ghtml",
-     "hora": "27/11 11h48"
     },
     {
      "veiculo": "Estadão Economia",
@@ -210,8 +209,8 @@
      "hora": "27/11 11h06"
     }
    ],
-   "n_fontes_90min": 6,
-   "ultima_iso": "2026-11-27T12:05-03:00",
+   "n_fontes_90min": 5,
+   "ultima_iso": "2026-11-27T12:08-03:00",
    "pid_provavel": "dolar-volta-acima-5"
   },
   {
@@ -255,47 +254,6 @@
    ],
    "n_fontes_90min": 5,
    "ultima_iso": "2026-11-27T11:49-03:00"
-  },
-  {
-   "assunto": "Expectativa de vida no Brasil sobe para 76,9 anos, diz IBGE",
-   "secao": null,
-   "n_fontes": 4,
-   "fontes": [
-    "ab",
-    "im",
-    "met",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Expectativa de vida no Brasil sobe para 76,9 anos, diz IBGE",
-     "url": "https://www.infomoney.com.br/brasil/expectativa-de-vida-no-brasil-sobe-para-769-anos-diz-ibge/",
-     "hora": "27/11 12h08"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "IBGE: expectativa de vida no Brasil sobe e chega a 76,9 anos em 2025",
-     "url": "https://www.metropoles.com/distrito-federal/ibge-expectativa-de-vida-no-brasil-sobe-e-chega-a-769-anos-em-2025",
-     "hora": "27/11 11h25"
-    },
-    {
-     "veiculo": "Agência Brasil",
-     "titulo": "Expectativa de vida das mulheres no Brasil supera os 80 anos",
-     "url": "https://agenciabrasil.ebc.com.br/geral/noticia/2026-11/expectativa-de-vida-das-mulheres-no-brasil-supera-os-80-anos",
-     "hora": "27/11 11h14"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Expectativa de vida no Brasil subiu para o recorde de 76,9 anos em 2025, diz IBGE",
-     "url": "https://valor.globo.com/brasil/noticia/2026/11/27/expectativa-de-vida-no-brasil-subiu-para-o-recorde-de-769-anos-em-2025-diz-ibge.ghtml",
-     "hora": "27/11 10h46"
-    }
-   ],
-   "n_fontes_90min": 4,
-   "ultima_iso": "2026-11-27T12:08-03:00"
   },
   {
    "assunto": "Governo tem superávit de R$ 52,3 bilhões em outubro, maior resultado para o mês em dez anos",
@@ -351,6 +309,40 @@
    "ultima_iso": "2026-11-27T11:43-03:00"
   },
   {
+   "assunto": "Expectativa de vida no Brasil sobe para 76,9 anos, diz IBGE",
+   "secao": null,
+   "n_fontes": 3,
+   "fontes": [
+    "ab",
+    "im",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Expectativa de vida no Brasil sobe para 76,9 anos, diz IBGE",
+     "url": "https://www.infomoney.com.br/brasil/expectativa-de-vida-no-brasil-sobe-para-769-anos-diz-ibge/",
+     "hora": "27/11 12h08"
+    },
+    {
+     "veiculo": "Agência Brasil",
+     "titulo": "Expectativa de vida das mulheres no Brasil supera os 80 anos",
+     "url": "https://agenciabrasil.ebc.com.br/geral/noticia/2026-11/expectativa-de-vida-das-mulheres-no-brasil-supera-os-80-anos",
+     "hora": "27/11 11h14"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Expectativa de vida no Brasil subiu para o recorde de 76,9 anos em 2025, diz IBGE",
+     "url": "https://valor.globo.com/brasil/noticia/2026/11/27/expectativa-de-vida-no-brasil-subiu-para-o-recorde-de-769-anos-em-2025-diz-ibge.ghtml",
+     "hora": "27/11 10h46"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-27T12:08-03:00"
+  },
+  {
    "assunto": "Fachin mantém prisão de ex-presidente do BRB no caso Master",
    "secao": "politica",
    "n_fontes": 3,
@@ -384,6 +376,40 @@
    "n_fontes_90min": 3,
    "ultima_iso": "2026-11-27T12:07-03:00",
    "pid_provavel": "fictor-operacao-mpsp-master"
+  },
+  {
+   "assunto": "Tarcísio diz que escolha por Trabuco foi acertada: ‘Quem pode atrapalhar é o PT’",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "estadao",
+    "gp",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "Tarcísio diz que escolha por Trabuco foi acertada: ‘Quem pode atrapalhar é o PT’",
+     "url": "https://www.estadao.com.br/economia/tarcisio-escolha-trabuco-acertada-quem-pode-atrapalhar-pt/",
+     "hora": "27/11 11h53"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Tarcísio elogia escolha de Trabuco por Lula, vê risco de PT 'atrapalhar' e diz que Brasil vive 'momento difícil'",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/27/tarcsio-elogia-escolha-de-trabuco-por-lula-e-diz-que-brasil-vive-momento-difcil.ghtml",
+     "hora": "27/11 11h52"
+    },
+    {
+     "veiculo": "Gazeta do Povo Economia",
+     "titulo": "Moody’s alerta para risco de rebaixamento do Brasil por descontrole fiscal de Lula",
+     "url": "https://www.gazetadopovo.com.br/economia/moodys-risco-rebaixamento-rating-brasil/",
+     "hora": "27/11 11h12"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-27T11:53-03:00"
   },
   {
    "assunto": "AABB recebe última etapa do Circuito Acreano de Tênis de Mesa neste fim de semana",
@@ -465,6 +491,39 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-27T11:24-03:00"
+  },
+  {
+   "assunto": "F1: Antonelli lidera 1º treino livre no Catar; Bortoleto é 11º e Câmara 15º",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "fontes": [
+    "ge",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "F1: Antonelli lidera 1º treino livre no Catar; Bortoleto é 11º e Câmara 15º",
+     "url": "https://www.metropoles.com/esportes/f1-antonelli-lidera-1o-treino-livre-no-catar-bortoleto-e-11o-e-camara-15o",
+     "hora": "27/11 12h06"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "GP do Catar: Antonelli sobra e lidera 1º treino livre",
+     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-do-catar-a-22-etapa-da-f1-2026.ghtml",
+     "hora": "27/11 11h38"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "GP do Catar: Antonelli lidera 1º treino; Bortoleto é 11º e Câmara fica em 15º",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/27/gp-do-catar-antonelli-lidera-1o-treino-bortoleto-e-11o-e-camara-fica-em-15o.ghtml",
+     "hora": "27/11 11h31"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T12:06-03:00"
   },
   {
    "assunto": "Forte tempestade provoca inundações e deixa quase 1 milhão de casas sem luz nos EUA",
@@ -575,6 +634,33 @@
    "ultima_iso": "2026-11-27T11:21-03:00"
   },
   {
+   "assunto": "Marinha abre investigação sobre denúncia de estupro contra tenente durante viagem de navio-escola pela Europa",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Marinha abre investigação sobre denúncia de estupro contra tenente durante viagem de navio-escola pela Europa",
+     "url": "https://oglobo.globo.com/rio/noticia/2026/11/27/marinha-abre-investigacao-sobre-denuncia-de-estupro-contra-tenente-durante-viagem-de-navio-escola-pela-europa.ghtml",
+     "hora": "27/11 11h58"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "‘Viagem de Ouro’: entenda como funciona etapa de formação de oficiais da Marinha em que surgiu denúncia de estupro",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/27/viagem-de-ouro-entenda-como-funciona-etapa-de-formacao-de-oficiais-da-marinha.ghtml",
+     "hora": "27/11 11h42"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T11:58-03:00"
+  },
+  {
    "assunto": "Por que Trabuco não será um novo Joaquim Levy na Fazenda, segundo o UBS",
    "secao": "economia",
    "n_fontes": 2,
@@ -607,6 +693,53 @@
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-27T12:04-03:00",
    "pid_provavel": "lula-trabuco-fazenda-haddad-usp"
+  },
+  {
+   "assunto": "Primi recebe premiação internacional de excelência gráfica",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "oglobo",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Primi recebe premiação internacional de excelência gráfica",
+     "url": "https://oglobo.globo.com/patrocinado/dino/noticia/2026/11/27/primi-recebe-premiacao-internacional-de-excelencia-grafica-1.ghtml",
+     "hora": "27/11 11h53"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Primi recebe premiação internacional de excelência gráfica",
+     "url": "https://valor.globo.com/patrocinado/dino/noticia/2026/11/27/primi-recebe-premiacao-internacional-de-excelencia-grafica-1.ghtml",
+     "hora": "27/11 11h53"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T11:53-03:00"
+  },
+  {
+   "assunto": "'Acalmar os mercados': como a imprensa internacional repercutiu Trabuco na Fazenda",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "ex"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "'Acalmar os mercados': como a imprensa internacional repercutiu Trabuco na Fazenda",
+     "url": "https://exame.com/economia/acalmar-os-mercados-como-a-imprensa-internacional-repercutiu-trabuco-na-fazenda/",
+     "hora": "27/11 12h16"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-27T12:16-03:00"
   },
   {
    "assunto": "21% dos bares e restaurantes definiram plano para fim da escala 6x1, diz pesquisa da Abrasel",
@@ -667,6 +800,26 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-27T11:57-03:00"
+  },
+  {
+   "assunto": "A Espanha franquista morreu em 1975. Este homem quer ressuscitá-la",
+   "secao": "mundo",
+   "n_fontes": 1,
+   "fontes": [
+    "estadao"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Estadão Internacional",
+     "titulo": "A Espanha franquista morreu em 1975. Este homem quer ressuscitá-la",
+     "url": "https://www.estadao.com.br/internacional/a-espanha-franquista-morreu-em-1975-este-homem-quer-ressuscita-la/",
+     "hora": "27/11 11h59"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-27T11:59-03:00"
   },
   {
    "assunto": "A armadilha financeira da Braskem na reestruturação de sua dívida no México",
@@ -750,6 +903,26 @@
    "lixo": true
   },
   {
+   "assunto": "Acidente entre carro e caminhão bloqueia Rodovia Luiz de Queiroz em Piracicaba",
+   "secao": "brasil",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Acidente entre carro e caminhão bloqueia Rodovia Luiz de Queiroz em Piracicaba",
+     "url": "https://g1.globo.com/sp/piracicaba-regiao/noticia/2026/11/27/acidente-entre-carro-e-caminhao-bloqueia-rodovia-luiz-de-queiroz-em-piracicaba.ghtml",
+     "hora": "27/11 12h09"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-27T12:09-03:00"
+  },
+  {
    "assunto": "Alckmin aceitará ministério que Lula oferecer, diz dirigente do PSB",
    "secao": "politica",
    "n_fontes": 1,
@@ -788,147 +961,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-27T11:35-03:00"
-  },
-  {
-   "assunto": "Alta do IGP-M desacelera a 1,24% em novembro, mas fica acima do esperado",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alta do IGP-M desacelera a 1,24% em novembro, mas fica acima do esperado",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/alta-do-igp-m-desacelera-a-124-em-novembro-mas-fica-acima-do-esperado/",
-     "hora": "27/11 10h49"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T10:49-03:00"
-  },
-  {
-   "assunto": "Além do frango grelhado: 5 receitas leves e ricas em proteínas para o almoço",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Além do frango grelhado: 5 receitas leves e ricas em proteínas para o almoço",
-     "url": "https://oantagonista.com.br/ladooa/variedades/alem-do-frango-grelhado-5-receitas-leves-e-ricas-em-proteinas-para-o-almoco/",
-     "hora": "27/11 12h04"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T12:04-03:00"
-  },
-  {
-   "assunto": "Ana Castela aparece com lábios inchados; alergia pode ser confundida com preenchimento?",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Ana Castela aparece com lábios inchados; alergia pode ser confundida com preenchimento?",
-     "url": "https://oglobo.globo.com/ela/noticia/2026/11/27/ana-castela-aparece-com-labios-inchados-alergia-pode-ser-confundida-com-preenchimento.ghtml",
-     "hora": "27/11 11h13"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T11:13-03:00"
-  },
-  {
-   "assunto": "Angélica se emociona com surpresa de aniversário de Luciano Huck",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Angélica se emociona com surpresa de aniversário de Luciano Huck",
-     "url": "https://veja.abril.com.br/cultura/angelica-se-emociona-com-surpresa-de-aniversario-de-luciano-huck/",
-     "hora": "27/11 11h32"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T11:32-03:00"
-  },
-  {
-   "assunto": "Antes da Copa de 1978, a seleção, comandada por Cláudio Coutinho, fez amistosos na Europa e no Oriente Médio",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Antes da Copa de 1978, a seleção, comandada por Cláudio Coutinho, fez amistosos na Europa e no Oriente Médio",
-     "url": "https://jovempan.com.br/colunistas/thiago-uberreich/antes-da-copa-de-1978-a-selecao-comandada-por-claudio-coutinho-fez-amistosos-na-europa-e-no-oriente-medio/",
-     "hora": "27/11 12h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T12:00-03:00"
-  },
-  {
-   "assunto": "Anvisa manda recolher sete suplementos por ingredientes não autorizados",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Anvisa manda recolher sete suplementos por ingredientes não autorizados",
-     "url": "https://www.cnnbrasil.com.br/saude/anvisa-manda-recolher-sete-suplementos-por-ingredientes-nao-autorizados/",
-     "hora": "27/11 10h55"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T10:55-03:00"
-  },
-  {
-   "assunto": "Ao vivo: Lula se reúne com movimentos estudantis em Niterói",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "p360"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Poder360",
-     "titulo": "Ao vivo: Lula se reúne com movimentos estudantis em Niterói",
-     "url": "https://www.poder360.com.br/poder-governo/ao-vivo-lula-se-reune-com-movimentos-estudantis-em-niteroi/",
-     "hora": "27/11 11h15"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-27T11:15-03:00",
-   "lixo": true
   }
  ],
  "em_pautas": {
@@ -936,6 +968,12 @@
    "secao": "politica",
    "n_fontes": 4,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Fachin prorroga inquérito sobre Jaques Wagner e Vorcaro",
+     "url": "https://www.poder360.com.br/poder-justica/fachin-prorroga-inquerito-sobre-jaques-wagner-e-vorcaro/",
+     "hora": "27/11 12h13"
+    },
     {
      "veiculo": "Valor Econômico",
      "titulo": "Fachin prorroga por 60 dias inquérito sobre relação de Jaques Wagner com ex-sócio de Vorcaro",
@@ -953,12 +991,6 @@
      "titulo": "Fachin prorroga inquérito sobre financiamento de filme de Bolsonaro",
      "url": "https://www.poder360.com.br/poder-justica/fachin-prorroga-inquerito-sobre-financiamento-de-filme-de-bolsonaro/",
      "hora": "27/11 11h09"
-    },
-    {
-     "veiculo": "Estadão Política",
-     "titulo": "Fachin dá mais 60 dias para PF finalizar investigação sobre Jaques Wagner no caso Master",
-     "url": "https://www.estadao.com.br/politica/blog-do-fausto-macedo/fachin-da-mais-60-dias-para-pf-finalizar-investigacao-sobre-jaques-wagner-no-caso-master/",
-     "hora": "27/11 10h48"
     },
     {
      "veiculo": "CartaCapital",
@@ -1073,20 +1105,27 @@
  },
  "novos_relatos": {
   "caso-master": {
-   "n": 3,
-   "n_fontes": 3,
+   "n": 4,
+   "n_fontes": 4,
    "fontes": [
     "antag",
     "estadao",
-    "oeste"
+    "oeste",
+    "p360"
    ],
-   "n_fontes_90min": 3,
-   "ultima": "27/11 12h07",
-   "ultima_iso": "2026-11-27T12:07-03:00",
+   "n_fontes_90min": 4,
+   "ultima": "27/11 12h13",
+   "ultima_iso": "2026-11-27T12:13-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 1.4,
+   "horas_sem_atualizar": 1.5,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Fachin prorroga inquérito sobre Jaques Wagner e Vorcaro",
+     "url": "https://www.poder360.com.br/poder-justica/fachin-prorroga-inquerito-sobre-jaques-wagner-e-vorcaro/",
+     "hora": "27/11 12h13"
+    },
     {
      "veiculo": "O Antagonista",
      "titulo": "Fachin mantém prisão de ex-presidente do BRB no caso Master",
@@ -1117,7 +1156,7 @@
    "ultima": "27/11 10h47",
    "ultima_iso": "2026-11-27T10:47-03:00",
    "pauta_atualizada_em": "2026-11-27T06:53-03:00",
-   "horas_sem_atualizar": 5.3,
+   "horas_sem_atualizar": 5.5,
    "principal": true,
    "manchetes": [
     {
@@ -1138,7 +1177,7 @@
    "ultima": "27/11 11h03",
    "ultima_iso": "2026-11-27T11:03-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 1.4,
+   "horas_sem_atualizar": 1.5,
    "principal": true,
    "manchetes": [
     {
@@ -1159,7 +1198,7 @@
    "ultima": "27/11 10h53",
    "ultima_iso": "2026-11-27T10:53-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 1.4,
+   "horas_sem_atualizar": 1.5,
    "principal": true,
    "manchetes": [
     {
@@ -1181,7 +1220,7 @@
    "ultima": "27/11 09h42",
    "ultima_iso": "2026-11-27T09:42-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 17.4,
+   "horas_sem_atualizar": 17.5,
    "principal": false,
    "manchetes": [
     {
@@ -1208,7 +1247,7 @@
    "ultima": "27/11 11h49",
    "ultima_iso": "2026-11-27T11:49-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 1.4,
+   "horas_sem_atualizar": 1.5,
    "principal": false,
    "manchetes": [
     {
@@ -1230,7 +1269,7 @@
    "ultima": "27/11 11h03",
    "ultima_iso": "2026-11-27T11:03-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 53.3,
+   "horas_sem_atualizar": 53.5,
    "principal": false,
    "manchetes": [
     {
@@ -1269,7 +1308,7 @@
    "ultima": "27/11 10h35",
    "ultima_iso": "2026-11-27T10:35-03:00",
    "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 29.3,
+   "horas_sem_atualizar": 29.5,
    "principal": false,
    "manchetes": [
     {
@@ -1291,7 +1330,7 @@
    "ultima": "27/11 11h15",
    "ultima_iso": "2026-11-27T11:15-03:00",
    "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 14.4,
+   "horas_sem_atualizar": 14.5,
    "principal": false,
    "manchetes": [
     {
@@ -1308,27 +1347,6 @@
     }
    ]
   },
-  "costa-rica-barra-relatora-onu": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "icl"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "27/11 06h50",
-   "ultima_iso": "2026-11-27T06:50-03:00",
-   "pauta_atualizada_em": "2026-11-27T06:50-03:00",
-   "horas_sem_atualizar": 5.3,
-   "principal": false,
-   "manchetes": [
-    {
-     "veiculo": "ICL Notícias",
-     "titulo": "Aliada de Trump, Costa Rica barra relatora da ONU que denunciou genocídio em Gaza",
-     "url": "https://iclnoticias.com.br/aliada-de-trump-costa-rica-barra-relatora-da-onu-que-denunciou-genocidio-em-gaza/",
-     "hora": "27/11 06h50"
-    }
-   ]
-  },
   "reforma-tributaria-adiamento-pedido": {
    "n": 2,
    "n_fontes": 2,
@@ -1340,7 +1358,7 @@
    "ultima": "27/11 11h00",
    "ultima_iso": "2026-11-27T11:00-03:00",
    "pauta_atualizada_em": "2026-11-27T05:00-03:00",
-   "horas_sem_atualizar": 7.2,
+   "horas_sem_atualizar": 7.3,
    "principal": false,
    "manchetes": [
     {
@@ -1370,7 +1388,7 @@
    "ultima": "27/11 11h44",
    "ultima_iso": "2026-11-27T11:44-03:00",
    "pauta_atualizada_em": "2026-11-27T09:30-03:00",
-   "horas_sem_atualizar": 2.7,
+   "horas_sem_atualizar": 2.8,
    "principal": false,
    "manchetes": [
     {
@@ -1409,7 +1427,7 @@
    "ultima": "27/11 09h58",
    "ultima_iso": "2026-11-27T09:58-03:00",
    "pauta_atualizada_em": "2026-11-27T09:13-03:00",
-   "horas_sem_atualizar": 2.9,
+   "horas_sem_atualizar": 3.1,
    "principal": false,
    "manchetes": [
     {
@@ -1974,6 +1992,31 @@
    ]
   },
   {
+   "assunto": "Tarcísio diz que escolha por Trabuco foi acertada: ‘Quem pode atrapalhar é o PT’",
+   "secao": "economia",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "Tarcísio diz que escolha por Trabuco foi acertada: ‘Quem pode atrapalhar é o PT’",
+     "url": "https://www.estadao.com.br/economia/tarcisio-escolha-trabuco-acertada-quem-pode-atrapalhar-pt/",
+     "hora": "27/11 11h53"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Tarcísio elogia escolha de Trabuco por Lula, vê risco de PT 'atrapalhar' e diz que Brasil vive 'momento difícil'",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/27/tarcsio-elogia-escolha-de-trabuco-por-lula-e-diz-que-brasil-vive-momento-difcil.ghtml",
+     "hora": "27/11 11h52"
+    },
+    {
+     "veiculo": "Gazeta do Povo Economia",
+     "titulo": "Moody’s alerta para risco de rebaixamento do Brasil por descontrole fiscal de Lula",
+     "url": "https://www.gazetadopovo.com.br/economia/moodys-risco-rebaixamento-rating-brasil/",
+     "hora": "27/11 11h12"
+    }
+   ]
+  },
+  {
    "assunto": "AABB recebe última etapa do Circuito Acreano de Tênis de Mesa neste fim de semana",
    "secao": "esportes",
    "n_fontes": 2,
@@ -2008,6 +2051,31 @@
      "titulo": "EUA pressionaram Venezuela e Iraque a deixar Opep, diz agência",
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/eua-pressionaram-venezuela-e-iraque-a-deixar-opep-diz-agencia.shtml",
      "hora": "27/11 10h57"
+    }
+   ]
+  },
+  {
+   "assunto": "F1: Antonelli lidera 1º treino livre no Catar; Bortoleto é 11º e Câmara 15º",
+   "secao": "esportes",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "F1: Antonelli lidera 1º treino livre no Catar; Bortoleto é 11º e Câmara 15º",
+     "url": "https://www.metropoles.com/esportes/f1-antonelli-lidera-1o-treino-livre-no-catar-bortoleto-e-11o-e-camara-15o",
+     "hora": "27/11 12h06"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "GP do Catar: Antonelli sobra e lidera 1º treino livre",
+     "url": "https://ge.globo.com/motor/formula-1/ao-vivo/gp-do-catar-a-22-etapa-da-f1-2026.ghtml",
+     "hora": "27/11 11h38"
+    },
+    {
+     "veiculo": "ge",
+     "titulo": "GP do Catar: Antonelli lidera 1º treino; Bortoleto é 11º e Câmara fica em 15º",
+     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/27/gp-do-catar-antonelli-lidera-1o-treino-bortoleto-e-11o-e-camara-fica-em-15o.ghtml",
+     "hora": "27/11 11h31"
     }
    ]
   },
@@ -2078,31 +2146,31 @@
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 17 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 19 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 10 nas últimas 6 h",
-  "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 70 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 27 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 4 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
+  "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
+  "ge": "ok: 100 itens, 68 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 28 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 7 nas últimas 6 h",
-  "Agência Senado": "ok: 15 itens, 13 nas últimas 6 h",
+  "Agência Senado": "ok: 15 itens, 14 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 5 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 9 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 6 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 7 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 6 nas últimas 6 h",
-  "Estadão Internacional": "ok: 20 itens, 3 nas últimas 6 h",
+  "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
   "O Globo": "ok: 100 itens, 100 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 80 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 81 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
-  "DW Brasil": "ok: 66 itens, 4 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 51 itens, 8 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 34 itens, 5 nas últimas 6 h",
+  "DW Brasil": "ok: 65 itens, 4 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 52 itens, 9 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 35 itens, 6 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
