@@ -1,74 +1,30 @@
 {
- "gerado": "2026-11-26T22:52-03:00",
+ "gerado": "2026-11-26T23:02-03:00",
  "desde": "2026-11-26T21:41-03:00",
  "feed_atualizado_em": "2026-11-26T21:51:00-03:00",
  "resumo": {
-  "manchetes": 99,
+  "manchetes": 105,
   "assuntos_novos_relevantes": 3,
-  "assuntos_novos": 74,
+  "assuntos_novos": 79,
   "pautas_com_novidade": 2,
   "pautas_com_novidade_3_fontes": 1,
-  "pautas_com_relatos": 5,
-  "acionar_itens": 1,
-  "ja_avaliados": 2
+  "pautas_com_relatos": 4,
+  "acionar_itens": 0,
+  "ja_avaliados": 3
  },
- "acionar": true,
- "acionar_motivo": "assunto novo: 3 veículos em 90 min (politica)",
- "acionar_itens": [
-  {
-   "tipo": "novo",
-   "titulo": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
-   "secao": "politica",
-   "n_fontes": 3,
-   "motivo": "assunto novo: 3 veículos em 90 min (politica)",
-   "chave": [
-    "alckmin",
-    "brasil",
-    "comandar",
-    "excelente",
-    "experiencia",
-    "fazenda",
-    "ministro",
-    "noticia",
-    "preparo",
-    "trabuco"
-   ],
-   "acao": "nova",
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
-     "url": "https://jovempan.com.br/politica/alckmin-diz-que-trabuco-como-ministro-da-fazenda-e-excelente-noticia-para-o-brasil/",
-     "hora": "26/11 22h21",
-     "lide": "Executivo é o primeiro ministro anunciado oficialmente pelo governo para o quarto mandato do presidente Lula"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alckmin diz que Trabuco tem preparo e experiência para comandar Fazenda",
-     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-comandar-fazenda/",
-     "hora": "26/11 22h16",
-     "lide": "Vice-presidente, que foi um dos cotados para assumir o cargo, desejou êxito ao futuro ministro"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "“Preparo e experiência”, diz Alckmin sobre Trabuco",
-     "url": "https://oantagonista.com.br/brasil/preparo-e-experiencia-diz-alckmin-sobre-trabuco/",
-     "hora": "26/11 21h47"
-    }
-   ]
-  }
- ],
+ "acionar": false,
+ "acionar_motivo": "nada novo que acione (79 assuntos fora do feed, 4 pautas com relatos, 3 já vistos por uma rodada)",
+ "acionar_itens": [],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
    "assunto": "'Sereno', Trabuco é 'capaz de reduzir a tensão' com mercado, diz Lara Resende; veja a reação de outros economistas à escolha na Fazenda",
    "secao": "economia",
-   "n_fontes": 5,
+   "n_fontes": 4,
    "fontes": [
     "bbc",
     "cnn",
     "jp",
-    "oglobo",
     "p360"
    ],
    "ja_e_breve": false,
@@ -87,21 +43,62 @@
      "hora": "26/11 22h42"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Como o mercado deve reagir à confirmação de Trabuco na Fazenda",
-     "url": "https://oglobo.globo.com/blogs/miriam-leitao/post/2026/11/como-o-mercado-deve-reagir-a-confirmacao-de-trabuco-na-fazenda.ghtml",
-     "hora": "26/11 22h41"
-    },
-    {
      "veiculo": "Poder360",
      "titulo": "Políticos e setor financeiro reagem à escolha de Trabuco para a Fazenda",
      "url": "https://www.poder360.com.br/poder-governo/politicos-e-setor-financeiro-reagem-a-escolha-de-trabuco-para-a-fazenda/",
      "hora": "26/11 22h31"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Setores produtivo e financeiro elogiam confirmação de Trabuco para Fazenda",
+     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/setores-produtivo-e-financeiro-elogiam-confirmacao-de-trabuco-para-fazenda/",
+     "hora": "26/11 22h09"
     }
    ],
-   "n_fontes_90min": 5,
+   "n_fontes_90min": 4,
    "ultima_iso": "2026-11-26T22:43-03:00",
    "pid_provavel": "lula-trabuco-fazenda-haddad-usp"
+  },
+  {
+   "assunto": "Alckmin diz que Trabuco “tem preparo e experiência” para assumir a Fazenda",
+   "secao": "politica",
+   "n_fontes": 4,
+   "fontes": [
+    "antag",
+    "cnn",
+    "jp",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Alckmin diz que Trabuco “tem preparo e experiência” para assumir a Fazenda",
+     "url": "https://www.metropoles.com/brasil/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-assumir-a-fazenda",
+     "hora": "26/11 22h59"
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
+     "url": "https://jovempan.com.br/politica/alckmin-diz-que-trabuco-como-ministro-da-fazenda-e-excelente-noticia-para-o-brasil/",
+     "hora": "26/11 22h21"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Alckmin diz que Trabuco tem preparo e experiência para comandar Fazenda",
+     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-comandar-fazenda/",
+     "hora": "26/11 22h16"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "“Preparo e experiência”, diz Alckmin sobre Trabuco",
+     "url": "https://oantagonista.com.br/brasil/preparo-e-experiencia-diz-alckmin-sobre-trabuco/",
+     "hora": "26/11 21h47"
+    }
+   ],
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-26T22:59-03:00"
   },
   {
    "assunto": "Sob protesto da torcida, São Paulo vence Remo no Morumbi",
@@ -143,40 +140,6 @@
    ],
    "n_fontes_90min": 4,
    "ultima_iso": "2026-11-26T22:26-03:00"
-  },
-  {
-   "assunto": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
-   "secao": "politica",
-   "n_fontes": 3,
-   "fontes": [
-    "antag",
-    "cnn",
-    "jp"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
-     "url": "https://jovempan.com.br/politica/alckmin-diz-que-trabuco-como-ministro-da-fazenda-e-excelente-noticia-para-o-brasil/",
-     "hora": "26/11 22h21"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Alckmin diz que Trabuco tem preparo e experiência para comandar Fazenda",
-     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-comandar-fazenda/",
-     "hora": "26/11 22h16"
-    },
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "“Preparo e experiência”, diz Alckmin sobre Trabuco",
-     "url": "https://oantagonista.com.br/brasil/preparo-e-experiencia-diz-alckmin-sobre-trabuco/",
-     "hora": "26/11 21h47"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-26T22:21-03:00"
   },
   {
    "assunto": "Mega-Sena 3091 acumula, e prêmio vai a R$ 82 milhões. Veja resultado",
@@ -266,6 +229,26 @@
    "ultima_iso": "2026-11-26T22:03-03:00"
   },
   {
+   "assunto": "Adeus a Juary: ídolo do Santos trabalhava na base da Caldense e estava internado há um mês",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Adeus a Juary: ídolo do Santos trabalhava na base da Caldense e estava internado há um mês",
+     "url": "https://ge.globo.com/mg/sul-de-minas/noticia/2026/11/26/juary-ex-atacante-do-santos-e-coordenador-da-base-da-caldense-morre-aos-67-anos.ghtml",
+     "hora": "26/11 22h20"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T22:20-03:00"
+  },
+  {
    "assunto": "Ala econômica exalta escolha de Trabuco, mas há resistência no PT",
    "secao": null,
    "n_fontes": 1,
@@ -284,26 +267,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T22:18-03:00"
-  },
-  {
-   "assunto": "Após prefeito vetar homenagem a Karl Marx, vereador cobra certidão de óbito do filósofo morto há 143 anos",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Após prefeito vetar homenagem a Karl Marx, vereador cobra certidão de óbito do filósofo morto há 143 anos",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/26/apos-prefeito-vetar-homenagem-a-karl-marx-vereador-cobra-certidao-de-obito-do-filosofo-morto-ha-143-anos.ghtml",
-     "hora": "26/11 21h51"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T21:51-03:00"
   },
   {
    "assunto": "Após suposto romance vir à tona, Giovana Cordeiro enaltece Bianca Andrade",
@@ -654,6 +617,46 @@
    "ultima_iso": "2026-11-26T22:02-03:00"
   },
   {
+   "assunto": "Durigan cita Haddad e deseja “bom trabalho” a Trabuco na Fazenda",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Durigan cita Haddad e deseja “bom trabalho” a Trabuco na Fazenda",
+     "url": "https://www.infomoney.com.br/politica/durigan-cita-haddad-e-deseja-bom-trabalho-a-trabuco-na-fazenda/",
+     "hora": "26/11 23h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T23:00-03:00"
+  },
+  {
+   "assunto": "Em evento para convidados, Centro Cultural TCU lança exposição sobre Renoir",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Em evento para convidados, Centro Cultural TCU lança exposição sobre Renoir",
+     "url": "https://www.metropoles.com/colunas/claudia-meireles/em-evento-para-convidados-centro-cultural-tcu-lanca-exposicao-sobre-renoir",
+     "hora": "26/11 22h58"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-26T22:58-03:00"
+  },
+  {
    "assunto": "Equipe de Isabelle Abreu homenageia Gabriel Félix uma semana após morte",
    "secao": "brasil",
    "n_fontes": 1,
@@ -692,53 +695,19 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-26T22:00-03:00"
-  },
-  {
-   "assunto": "Essas são as datas tradicionais para colocar a decoração de Natal",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Essas são as datas tradicionais para colocar a decoração de Natal",
-     "url": "https://oantagonista.com.br/ladooa/entretenimento/essas-sao-as-datas-tradicionais-para-colocar-a-decoracao-de-natal/",
-     "hora": "26/11 22h23"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T22:23-03:00"
-  },
-  {
-   "assunto": "Falha em sistema que registra boletins de ocorrência afeta delegacias de SP",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "cnn"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Falha em sistema que registra boletins de ocorrência afeta delegacias de SP",
-     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/falha-em-sistema-que-registra-boletins-de-ocorrencia-afeta-delegacias-de-sp/",
-     "hora": "26/11 21h45"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-26T21:45-03:00"
   }
  ],
  "em_pautas": {
   "lula-trabuco-fazenda-haddad-usp": {
    "secao": "politica",
-   "n_fontes": 3,
+   "n_fontes": 4,
    "manchetes": [
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Veja dez desafios para Luiz Carlos Trabuco na Fazenda do governo Lula 4",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/veja-dez-desafios-para-luiz-carlos-trabuco-na-fazenda-do-governo-lula-4.shtml",
+     "hora": "26/11 23h00"
+    },
     {
      "veiculo": "Revista Oeste",
      "titulo": "Flávio ironiza Lula por escolha de Trabuco para a Fazenda",
@@ -756,12 +725,6 @@
      "titulo": "Alckmin elogia escolha de Trabuco para a Fazenda no 4º mandato de Lula",
      "url": "https://www.poder360.com.br/poder-economia/alckmin-elogia-escolha-de-trabuco-para-a-fazenda-no-4o-mandato-de-lula/",
      "hora": "26/11 22h23"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "\"Lula não sabe o que fazer\", diz Flávio após anúncio de Trabuco na Fazenda",
-     "url": "https://www.metropoles.com/brasil/lula-nao-sabe-o-que-fazer-diz-flavio-apos-anuncio-de-trabuco-na-fazenda",
-     "hora": "26/11 22h09"
     },
     {
      "veiculo": "InfoMoney",
@@ -785,27 +748,6 @@
   }
  },
  "novos_relatos": {
-  "lula-messias-stf-jantar": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "26/11 19h23",
-   "ultima_iso": "2026-11-26T19:23-03:00",
-   "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 16.0,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Presidente da CCJ vê ‘tempo exíguo’ para votar indicação de Lula ao STF e prevê sabatina em 2027",
-     "url": "https://oglobo.globo.com/politica/noticia/2026/11/26/presidente-da-ccj-ve-tempo-exiguo-para-votar-indicacao-de-lula-ao-stf-e-preve-sabatina-em-2027.ghtml",
-     "hora": "26/11 19h23"
-    }
-   ]
-  },
   "lula-trabuco-fazenda-haddad-usp": {
    "n": 4,
    "n_fontes": 3,
@@ -818,7 +760,7 @@
    "ultima": "26/11 22h42",
    "ultima_iso": "2026-11-26T22:42-03:00",
    "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 1.1,
+   "horas_sem_atualizar": 1.2,
    "principal": true,
    "manchetes": [
     {
@@ -858,7 +800,7 @@
    "ultima": "26/11 21h52",
    "ultima_iso": "2026-11-26T21:52-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 4.1,
+   "horas_sem_atualizar": 4.2,
    "principal": false,
    "manchetes": [
     {
@@ -885,7 +827,7 @@
    "ultima": "26/11 20h23",
    "ultima_iso": "2026-11-26T20:23-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 40.0,
+   "horas_sem_atualizar": 40.2,
    "principal": false,
    "manchetes": [
     {
@@ -913,7 +855,7 @@
    "ultima": "26/11 18h02",
    "ultima_iso": "2026-11-26T18:02-03:00",
    "pauta_atualizada_em": "2026-11-26T14:25-03:00",
-   "horas_sem_atualizar": 8.5,
+   "horas_sem_atualizar": 8.6,
    "principal": false,
    "manchetes": [
     {
@@ -1529,6 +1471,37 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
+   "assunto": "Alckmin diz que Trabuco “tem preparo e experiência” para assumir a Fazenda",
+   "secao": "politica",
+   "n_fontes": 4,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Alckmin diz que Trabuco “tem preparo e experiência” para assumir a Fazenda",
+     "url": "https://www.metropoles.com/brasil/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-assumir-a-fazenda",
+     "hora": "26/11 22h59"
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Alckmin diz que Trabuco como ministro da Fazenda é ‘excelente notícia para o Brasil’",
+     "url": "https://jovempan.com.br/politica/alckmin-diz-que-trabuco-como-ministro-da-fazenda-e-excelente-noticia-para-o-brasil/",
+     "hora": "26/11 22h21"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Alckmin diz que Trabuco tem preparo e experiência para comandar Fazenda",
+     "url": "https://www.cnnbrasil.com.br/politica/alckmin-diz-que-trabuco-tem-preparo-e-experiencia-para-comandar-fazenda/",
+     "hora": "26/11 22h16"
+    },
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "“Preparo e experiência”, diz Alckmin sobre Trabuco",
+     "url": "https://oantagonista.com.br/brasil/preparo-e-experiencia-diz-alckmin-sobre-trabuco/",
+     "hora": "26/11 21h47"
+    }
+   ]
+  },
+  {
    "assunto": "Sob protesto da torcida, São Paulo vence Remo no Morumbi",
    "secao": "esportes",
    "n_fontes": 4,
@@ -1590,7 +1563,7 @@
   "g1 Economia": "ok: 100 itens, 8 nas últimas 6 h",
   "g1 Mundo": "ok: 100 itens, 2 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 73 nas últimas 6 h",
+  "ge": "ok: 100 itens, 72 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 7 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 34 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 10 nas últimas 6 h",
@@ -1600,24 +1573,24 @@
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 5 nas últimas 6 h",
   "Agência Senado": "ok: 15 itens, 4 nas últimas 6 h",
-  "Agência Câmara": "ok: 20 itens, 7 nas últimas 6 h",
+  "Agência Câmara": "ok: 20 itens, 6 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 13 nas últimas 6 h",
   "Estadão Economia": "ok: 20 itens, 17 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 93 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 59 nas últimas 6 h",
+  "O Globo": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "Valor Econômico": "ok: 100 itens, 58 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 4 nas últimas 6 h",
-  "DW Brasil": "ok: 65 itens, 3 nas últimas 6 h",
-  "Gazeta do Povo República": "ok: 48 itens, 8 nas últimas 6 h",
-  "Gazeta do Povo Economia": "ok: 36 itens, 9 nas últimas 6 h",
+  "DW Brasil": "ok: 65 itens, 2 nas últimas 6 h",
+  "Gazeta do Povo República": "ok: 48 itens, 7 nas últimas 6 h",
+  "Gazeta do Povo Economia": "ok: 36 itens, 8 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 20 nas últimas 6 h",
-  "Brasil de Fato": "ok: 99 itens, 27 nas últimas 6 h",
+  "Brasil de Fato": "ok: 99 itens, 26 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 10 nas últimas 6 h"
  }
 }
