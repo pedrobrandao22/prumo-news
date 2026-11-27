@@ -1,16 +1,16 @@
 {
- "gerado": "2026-11-27T12:20-03:00",
+ "gerado": "2026-11-27T12:31-03:00",
  "desde": "2026-11-27T10:41-03:00",
  "feed_atualizado_em": "2026-11-27T10:51:00-03:00",
  "resumo": {
-  "manchetes": 351,
+  "manchetes": 370,
   "assuntos_novos_relevantes": 6,
-  "assuntos_novos": 283,
-  "pautas_com_novidade": 7,
-  "pautas_com_novidade_3_fontes": 1,
+  "assuntos_novos": 294,
+  "pautas_com_novidade": 9,
+  "pautas_com_novidade_3_fontes": 2,
   "pautas_com_relatos": 12,
   "acionar_itens": 4,
-  "ja_avaliados": 3
+  "ja_avaliados": 2
  },
  "acionar": true,
  "acionar_motivo": "pauta caso-master: 4 veículos em 90 min depois da última atualização; assunto novo: 4 veículos em 90 min (politica); assunto novo: 3 veículos em 90 min (politica) (+1)",
@@ -47,9 +47,9 @@
   },
   {
    "tipo": "novo",
-   "titulo": "Governo tem superávit de R$ 52,3 bilhões em outubro, maior resultado para o mês em dez anos",
+   "titulo": "Governo registra superávit de R$ 52 bi em outubro, maior para o mês em 10 anos",
    "secao": "politica",
-   "n_fontes": 4,
+   "n_fontes": 5,
    "motivo": "assunto novo: 4 veículos em 90 min (politica)",
    "chave": [
     "bilhoes",
@@ -72,6 +72,13 @@
    "acao": "nova",
    "manchetes": [
     {
+     "veiculo": "Veja",
+     "titulo": "Governo registra superávit de R$ 52 bi em outubro, maior para o mês em 10 anos",
+     "url": "https://veja.abril.com.br/economia/governo-registra-superavit-de-r-52-bi-em-outubro-maior-para-o-mes-em-10-anos/",
+     "hora": "27/11 12h31",
+     "lide": "Avanço da arrecadação e estabilidade das despesas favorecem resultado do Tesouro"
+    },
+    {
      "veiculo": "Exame",
      "titulo": "Governo tem superávit de R$ 52,3 bilhões em outubro, maior resultado para o mês em dez anos",
      "url": "https://exame.com/brasil/governo-tem-superavit-de-r-523-bilhoes-em-outubro-maior-resultado-para-o-mes-em-dez-anos/",
@@ -83,13 +90,6 @@
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/governo-tem-superavit-de-r-522-bilhoes-em-outubro-segundo-melhor-resultado-do-mes-na-serie-historica.shtml",
      "hora": "27/11 11h16",
      "lide": "Somente em 2016 o saldo das contas públicas foi superior no mês, quando registrou R$ 66,2 bilhões"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Governo registra superávit de R$ 52,3 bilhões e tem melhor outubro em dez anos, diz Tesouro Nacional",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/27/governo-registra-superavit-de-r-523-bilhoes-e-tem-melhor-outubro-em-dez-anos-diz-tesouro-nacional.ghtml",
-     "hora": "27/11 10h47",
-     "lide": "Resultado superou as expectativas do mercado, mas contas do governo ainda acumulam déficit de R$ 37,9 bilhões no ano"
     }
    ]
   },
@@ -171,47 +171,58 @@
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Dólar cai quase de 3% com confirmação de Trabuco na Fazenda; Ibovespa tem forte alta e juros futuros desabam",
-   "secao": "economia",
-   "n_fontes": 5,
+   "assunto": "Governo registra superávit de R$ 52 bi em outubro, maior para o mês em 10 anos",
+   "secao": "politica",
+   "n_fontes": 6,
    "fontes": [
-    "bbc",
-    "estadao",
+    "cnn",
     "ex",
-    "gp",
-    "valor"
+    "folha",
+    "oglobo",
+    "veja"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "Valor Econômico",
-     "titulo": "Dólar cai quase de 3% com confirmação de Trabuco na Fazenda; Ibovespa tem forte alta e juros futuros desabam",
-     "url": "https://valor.globo.com/financas/ao-vivo/2023/06/16/dolar-avanca-e-ibovespa-recua-em-dia-de-correcao-siga-os-mercados.ghtml",
-     "hora": "27/11 12h08"
-    },
-    {
-     "veiculo": "Gazeta do Povo Economia",
-     "titulo": "Mercado celebra Trabuco na Fazenda e esquerda acusa Lula de estelionato eleitoral",
-     "url": "https://www.gazetadopovo.com.br/economia/mercado-celebra-luiz-trabuco-ministro-fazenda-esquerda-protesta/",
-     "hora": "27/11 12h05"
-    },
-    {
-     "veiculo": "Estadão Economia",
-     "titulo": "O que ex-ministros da Fazenda disseram sobre a escolha de Trabuco para comandar a economia",
-     "url": "https://www.estadao.com.br/economia/ex-ministros-fazenda-disseram-trabuco-comando-economia/",
-     "hora": "27/11 11h12"
+     "veiculo": "Veja",
+     "titulo": "Governo registra superávit de R$ 52 bi em outubro, maior para o mês em 10 anos",
+     "url": "https://veja.abril.com.br/economia/governo-registra-superavit-de-r-52-bi-em-outubro-maior-para-o-mes-em-10-anos/",
+     "hora": "27/11 12h31"
     },
     {
      "veiculo": "Exame",
-     "titulo": "Ibovespa dispara e dólar cai abaixo de R$ 5,55: por que Trabuco na Fazenda agrada ao mercado?",
-     "url": "https://exame.com/invest/mercados/ibovespa-hoje-27-11-2026/",
-     "hora": "27/11 11h06"
+     "titulo": "Governo tem superávit de R$ 52,3 bilhões em outubro, maior resultado para o mês em dez anos",
+     "url": "https://exame.com/brasil/governo-tem-superavit-de-r-523-bilhoes-em-outubro-maior-resultado-para-o-mes-em-dez-anos/",
+     "hora": "27/11 11h43"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "Governo tem superávit de R$ 52,2 bilhões em outubro, segundo melhor resultado do mês na série histórica",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/governo-tem-superavit-de-r-522-bilhoes-em-outubro-segundo-melhor-resultado-do-mes-na-serie-historica.shtml",
+     "hora": "27/11 11h16"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Governo registra superávit de R$ 52,3 bilhões e tem melhor outubro em dez anos, diz Tesouro Nacional",
+     "url": "https://oglobo.globo.com/economia/noticia/2026/11/27/governo-registra-superavit-de-r-523-bilhoes-e-tem-melhor-outubro-em-dez-anos-diz-tesouro-nacional.ghtml",
+     "hora": "27/11 10h47"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Governo central tem o maior superávit primário para outubro desde 2016",
+     "url": "https://valor.globo.com/brasil/noticia/2026/11/27/governo-central-tem-superavit-primario-de-r-52-bilhoes-em-outubro.ghtml",
+     "hora": "27/11 10h52"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Governo central registra superavit primário de R$ 52,3 bi em outubro",
+     "url": "https://www.poder360.com.br/poder-economia/governo-central-registra-superavit-primario-de-r-523-bilhoes-em-outubro/",
+     "hora": "27/11 10h45"
     }
    ],
-   "n_fontes_90min": 5,
-   "ultima_iso": "2026-11-27T12:08-03:00",
-   "pid_provavel": "dolar-volta-acima-5"
+   "n_fontes_90min": 4,
+   "ultima_iso": "2026-11-27T12:31-03:00"
   },
   {
    "assunto": "Os postos-chave da equipe que Trabuco terá que montar no Ministério da Fazenda",
@@ -256,64 +267,12 @@
    "ultima_iso": "2026-11-27T11:49-03:00"
   },
   {
-   "assunto": "Governo tem superávit de R$ 52,3 bilhões em outubro, maior resultado para o mês em dez anos",
-   "secao": "politica",
-   "n_fontes": 6,
-   "fontes": [
-    "cnn",
-    "ex",
-    "folha",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Exame",
-     "titulo": "Governo tem superávit de R$ 52,3 bilhões em outubro, maior resultado para o mês em dez anos",
-     "url": "https://exame.com/brasil/governo-tem-superavit-de-r-523-bilhoes-em-outubro-maior-resultado-para-o-mes-em-dez-anos/",
-     "hora": "27/11 11h43"
-    },
-    {
-     "veiculo": "Folha Mercado",
-     "titulo": "Governo tem superávit de R$ 52,2 bilhões em outubro, segundo melhor resultado do mês na série histórica",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/governo-tem-superavit-de-r-522-bilhoes-em-outubro-segundo-melhor-resultado-do-mes-na-serie-historica.shtml",
-     "hora": "27/11 11h16"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Governo registra superávit de R$ 52,3 bilhões e tem melhor outubro em dez anos, diz Tesouro Nacional",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/27/governo-registra-superavit-de-r-523-bilhoes-e-tem-melhor-outubro-em-dez-anos-diz-tesouro-nacional.ghtml",
-     "hora": "27/11 10h47"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Contas do governo registram superávit de R$ 52,3 bilhões em outubro",
-     "url": "https://www.cnnbrasil.com.br/economia/money/macroeconomia/contas-do-governo-registram-superavit-de-r-523-bilhoes-em-outubro/",
-     "hora": "27/11 10h43"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Governo central tem o maior superávit primário para outubro desde 2016",
-     "url": "https://valor.globo.com/brasil/noticia/2026/11/27/governo-central-tem-superavit-primario-de-r-52-bilhoes-em-outubro.ghtml",
-     "hora": "27/11 10h52"
-    },
-    {
-     "veiculo": "Poder360",
-     "titulo": "Governo central registra superavit primário de R$ 52,3 bi em outubro",
-     "url": "https://www.poder360.com.br/poder-economia/governo-central-registra-superavit-primario-de-r-523-bilhoes-em-outubro/",
-     "hora": "27/11 10h45"
-    }
-   ],
-   "n_fontes_90min": 4,
-   "ultima_iso": "2026-11-27T11:43-03:00"
-  },
-  {
    "assunto": "Expectativa de vida no Brasil sobe para 76,9 anos, diz IBGE",
    "secao": null,
-   "n_fontes": 3,
+   "n_fontes": 4,
    "fontes": [
     "ab",
+    "bdf",
     "im",
     "valor"
    ],
@@ -325,6 +284,12 @@
      "titulo": "Expectativa de vida no Brasil sobe para 76,9 anos, diz IBGE",
      "url": "https://www.infomoney.com.br/brasil/expectativa-de-vida-no-brasil-sobe-para-769-anos-diz-ibge/",
      "hora": "27/11 12h08"
+    },
+    {
+     "veiculo": "Brasil de Fato",
+     "titulo": "Expectativa de vida no Brasil chega a 76,9 anos e bate recorde da série histórica",
+     "url": "https://www.brasildefato.com.br/2026/11/27/expectativa-de-vida-no-brasil-chega-a-769-anos-e-bate-recorde-da-serie-historica/",
+     "hora": "27/11 11h26"
     },
     {
      "veiculo": "Agência Brasil",
@@ -339,8 +304,83 @@
      "hora": "27/11 10h46"
     }
    ],
-   "n_fontes_90min": 3,
+   "n_fontes_90min": 4,
    "ultima_iso": "2026-11-27T12:08-03:00"
+  },
+  {
+   "assunto": "Análise: Em ‘xeque-mate’ no mercado, Lula traz Trabuco e aumenta o risco de apostar contra o Brasil",
+   "secao": "economia",
+   "n_fontes": 3,
+   "fontes": [
+    "estadao",
+    "gp",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Análise: Em ‘xeque-mate’ no mercado, Lula traz Trabuco e aumenta o risco de apostar contra o Brasil",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/27/analise-em-xeque-mate-nos-mercados-lula-traz-trabuco-e-aumenta-o-risco-de-apostar-contra-o-brasil.ghtml",
+     "hora": "27/11 12h15"
+    },
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "Tarcísio diz que escolha por Trabuco foi acertada: ‘Quem pode atrapalhar é o PT’",
+     "url": "https://www.estadao.com.br/economia/tarcisio-escolha-trabuco-acertada-quem-pode-atrapalhar-pt/",
+     "hora": "27/11 11h53"
+    },
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Tarcísio elogia escolha de Trabuco por Lula, vê risco de PT 'atrapalhar' e diz que Brasil vive 'momento difícil'",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/27/tarcsio-elogia-escolha-de-trabuco-por-lula-e-diz-que-brasil-vive-momento-difcil.ghtml",
+     "hora": "27/11 11h52"
+    },
+    {
+     "veiculo": "Gazeta do Povo Economia",
+     "titulo": "Moody’s alerta para risco de rebaixamento do Brasil por descontrole fiscal de Lula",
+     "url": "https://www.gazetadopovo.com.br/economia/moodys-risco-rebaixamento-rating-brasil/",
+     "hora": "27/11 11h12"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-27T12:15-03:00"
+  },
+  {
+   "assunto": "Black Friday 2026: Compras com Pix aumentam 29% nas primeiras horas de descontos",
+   "secao": null,
+   "n_fontes": 3,
+   "fontes": [
+    "g1",
+    "oglobo",
+    "veja"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "O Globo",
+     "titulo": "Black Friday 2026: Compras com Pix aumentam 29% nas primeiras horas de descontos",
+     "url": "https://oglobo.globo.com/economia/financas/noticia/2026/11/27/black-friday-2026-compras-com-pix-aumentam-29percent-nas-primeiras-horas-de-descontos.ghtml",
+     "hora": "27/11 12h10"
+    },
+    {
+     "veiculo": "Veja",
+     "titulo": "Por que Trabuco não será um novo Joaquim Levy na Fazenda, segundo o UBS",
+     "url": "https://veja.abril.com.br/economia/por-que-trabuco-nao-sera-um-novo-joaquim-levy-na-fazenda-segundo-o-ubs/",
+     "hora": "27/11 12h04"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Resumão diário #2247: Luiz Trabuco será ministro da Fazenda; Black Fraude? Veja o levantamento do Guia de Compras; Casos de Covid aumentam no Brasil",
+     "url": "https://g1.globo.com/podcast/resumao-diario/noticia/2026/11/27/resumao-diario-2247-luiz-trabuco-sera-ministro-da-fazenda-black-fraude-veja-o-levantamento-do-guia-de-compras-casos-de-covid-aumentam-no-brasil.ghtml",
+     "hora": "27/11 11h12"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T12:10-03:00",
+   "pid_provavel": "lula-trabuco-fazenda-haddad-usp"
   },
   {
    "assunto": "Fachin mantém prisão de ex-presidente do BRB no caso Master",
@@ -376,67 +416,6 @@
    "n_fontes_90min": 3,
    "ultima_iso": "2026-11-27T12:07-03:00",
    "pid_provavel": "fictor-operacao-mpsp-master"
-  },
-  {
-   "assunto": "Tarcísio diz que escolha por Trabuco foi acertada: ‘Quem pode atrapalhar é o PT’",
-   "secao": "economia",
-   "n_fontes": 3,
-   "fontes": [
-    "estadao",
-    "gp",
-    "valor"
-   ],
-   "ja_e_breve": false,
-   "relevante": true,
-   "manchetes": [
-    {
-     "veiculo": "Estadão Economia",
-     "titulo": "Tarcísio diz que escolha por Trabuco foi acertada: ‘Quem pode atrapalhar é o PT’",
-     "url": "https://www.estadao.com.br/economia/tarcisio-escolha-trabuco-acertada-quem-pode-atrapalhar-pt/",
-     "hora": "27/11 11h53"
-    },
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Tarcísio elogia escolha de Trabuco por Lula, vê risco de PT 'atrapalhar' e diz que Brasil vive 'momento difícil'",
-     "url": "https://valor.globo.com/politica/noticia/2026/11/27/tarcsio-elogia-escolha-de-trabuco-por-lula-e-diz-que-brasil-vive-momento-difcil.ghtml",
-     "hora": "27/11 11h52"
-    },
-    {
-     "veiculo": "Gazeta do Povo Economia",
-     "titulo": "Moody’s alerta para risco de rebaixamento do Brasil por descontrole fiscal de Lula",
-     "url": "https://www.gazetadopovo.com.br/economia/moodys-risco-rebaixamento-rating-brasil/",
-     "hora": "27/11 11h12"
-    }
-   ],
-   "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-27T11:53-03:00"
-  },
-  {
-   "assunto": "AABB recebe última etapa do Circuito Acreano de Tênis de Mesa neste fim de semana",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "AABB recebe última etapa do Circuito Acreano de Tênis de Mesa neste fim de semana",
-     "url": "https://ge.globo.com/ac/noticia/2026/11/27/aabb-recebe-ultima-etapa-do-circuito-acreano-de-tenis-de-mesa-neste-fim-de-semana.ghtml",
-     "hora": "27/11 11h42"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "MC Livinho, festival geek e show de rock: veja o que fazer em Campo Grande neste fim de semana",
-     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/27/mc-livinho-festival-geek-e-show-de-rock-veja-o-que-fazer-em-campo-grande-neste-fim-de-semana.ghtml",
-     "hora": "27/11 10h46"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-27T11:42-03:00"
   },
   {
    "assunto": "Axia faz acordo com Alupar e passará a deter 100% do linhão Manaus-Boa Vista",
@@ -491,6 +470,33 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-27T11:24-03:00"
+  },
+  {
+   "assunto": "Embaixada dos Emirados celebra 55 anos da união em Brasília",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "oglobo",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Embaixada dos Emirados celebra 55 anos da união em Brasília",
+     "url": "https://valor.globo.com/patrocinado/dino/noticia/2026/11/27/embaixada-dos-emirados-celebra-55-anos-da-uniao-em-brasilia-1.ghtml",
+     "hora": "27/11 12h02"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Embaixada dos Emirados celebra 55 anos da união em Brasília",
+     "url": "https://oglobo.globo.com/patrocinado/dino/noticia/2026/11/27/embaixada-dos-emirados-celebra-55-anos-da-uniao-em-brasilia-1.ghtml",
+     "hora": "27/11 12h02"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T12:02-03:00"
   },
   {
    "assunto": "F1: Antonelli lidera 1º treino livre no Catar; Bortoleto é 11º e Câmara 15º",
@@ -580,6 +586,33 @@
    "ultima_iso": "2026-11-27T11:32-03:00"
   },
   {
+   "assunto": "Homem é detido após atear fogo em colmeia de abelhas no litoral de SP",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "met"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Homem é detido após atear fogo em colmeia de abelhas no litoral de SP",
+     "url": "https://www.metropoles.com/sao-paulo/homem-e-detido-apos-atear-fogo-em-colmeia-de-abelhas-no-litoral-de-sp",
+     "hora": "27/11 12h24"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Homem ateia fogo em colmeia de abelhas e é detido em Guarujá; VÍDEO",
+     "url": "https://g1.globo.com/sp/santos-regiao/noticia/2026/11/27/homem-ateia-fogo-em-colmeia-de-abelhas-e-e-detido-em-guaruja-video.ghtml",
+     "hora": "27/11 11h01"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T12:24-03:00"
+  },
+  {
    "assunto": "IBGC critica avanço de projeto que extingue quarentena política nas agências reguladoras",
    "secao": null,
    "n_fontes": 2,
@@ -661,40 +694,6 @@
    "ultima_iso": "2026-11-27T11:58-03:00"
   },
   {
-   "assunto": "Por que Trabuco não será um novo Joaquim Levy na Fazenda, segundo o UBS",
-   "secao": "economia",
-   "n_fontes": 2,
-   "fontes": [
-    "g1",
-    "veja"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Veja",
-     "titulo": "Por que Trabuco não será um novo Joaquim Levy na Fazenda, segundo o UBS",
-     "url": "https://veja.abril.com.br/economia/por-que-trabuco-nao-sera-um-novo-joaquim-levy-na-fazenda-segundo-o-ubs/",
-     "hora": "27/11 12h04"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "Resumão diário #2247: Luiz Trabuco será ministro da Fazenda; Black Fraude? Veja o levantamento do Guia de Compras; Casos de Covid aumentam no Brasil",
-     "url": "https://g1.globo.com/podcast/resumao-diario/noticia/2026/11/27/resumao-diario-2247-luiz-trabuco-sera-ministro-da-fazenda-black-fraude-veja-o-levantamento-do-guia-de-compras-casos-de-covid-aumentam-no-brasil.ghtml",
-     "hora": "27/11 11h12"
-    },
-    {
-     "veiculo": "Veja",
-     "titulo": "O recado de Haddad a Trabuco, futuro ministro da Fazenda",
-     "url": "https://veja.abril.com.br/economia/brasil-precisa-de-ministerio-da-fazenda-forte-diz-haddad-ao-parabenizar-trabuco/",
-     "hora": "27/11 11h03"
-    }
-   ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-27T12:04-03:00",
-   "pid_provavel": "lula-trabuco-fazenda-haddad-usp"
-  },
-  {
    "assunto": "Primi recebe premiação internacional de excelência gráfica",
    "secao": null,
    "n_fontes": 2,
@@ -720,6 +719,33 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-27T11:53-03:00"
+  },
+  {
+   "assunto": "Trabuco deve se envolver no desenho da agenda econômica, diz secretário do Tesouro",
+   "secao": null,
+   "n_fontes": 2,
+   "fontes": [
+    "p360",
+    "valor"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Trabuco deve se envolver no desenho da agenda econômica, diz secretário do Tesouro",
+     "url": "https://valor.globo.com/brasil/noticia/2026/11/27/trabuco-deve-se-envolver-no-desenho-da-agenda-econmica-diz-secretrio-do-tesouro.ghtml",
+     "hora": "27/11 12h20"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Trabuco é um “bom profissional”, diz secretário do Tesouro Nacional",
+     "url": "https://www.poder360.com.br/poder-economia/trabuco-e-um-bom-profissional-diz-secretario-do-tesouro-nacional/",
+     "hora": "27/11 12h03"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T12:20-03:00"
   },
   {
    "assunto": "'Acalmar os mercados': como a imprensa internacional repercutiu Trabuco na Fazenda",
@@ -822,24 +848,24 @@
    "ultima_iso": "2026-11-27T11:59-03:00"
   },
   {
-   "assunto": "A armadilha financeira da Braskem na reestruturação de sua dívida no México",
+   "assunto": "A conta do clima: seca severa atinge 95% de Roraima e isola comunidades ribeirinhas",
    "secao": "mundo",
    "n_fontes": 1,
    "fontes": [
-    "veja"
+    "ex"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Veja",
-     "titulo": "A armadilha financeira da Braskem na reestruturação de sua dívida no México",
-     "url": "https://veja.abril.com.br/economia/a-armadilha-financeira-da-braskem-na-reestruturacao-de-sua-divida-no-mexico/",
-     "hora": "27/11 11h00"
+     "veiculo": "Exame",
+     "titulo": "A conta do clima: seca severa atinge 95% de Roraima e isola comunidades ribeirinhas",
+     "url": "https://exame.com/esg/a-conta-do-clima-seca-severa-atinge-95-de-roraima-e-isola-comunidades-ribeirinhas/",
+     "hora": "27/11 12h15"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T11:00-03:00"
+   "ultima_iso": "2026-11-27T12:15-03:00"
   },
   {
    "assunto": "A corrida silenciosa dos medidores inteligentes no Polo Industrial de Manaus",
@@ -882,6 +908,26 @@
    "ultima_iso": "2026-11-27T11:30-03:00"
   },
   {
+   "assunto": "AABB recebe última etapa do Circuito Acreano de Tênis de Mesa neste fim de semana",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "AABB recebe última etapa do Circuito Acreano de Tênis de Mesa neste fim de semana",
+     "url": "https://ge.globo.com/ac/noticia/2026/11/27/aabb-recebe-ultima-etapa-do-circuito-acreano-de-tenis-de-mesa-neste-fim-de-semana.ghtml",
+     "hora": "27/11 11h42"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-27T11:42-03:00"
+  },
+  {
    "assunto": "AO VIVO: Assista ao GR1",
    "secao": null,
    "n_fontes": 1,
@@ -921,46 +967,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-27T12:09-03:00"
-  },
-  {
-   "assunto": "Alckmin aceitará ministério que Lula oferecer, diz dirigente do PSB",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Alckmin aceitará ministério que Lula oferecer, diz dirigente do PSB",
-     "url": "https://oantagonista.com.br/brasil/alckmin-aceitara-ministerio-que-lula-oferecer-diz-dirigente-do-psb/",
-     "hora": "27/11 11h46"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T11:46-03:00"
-  },
-  {
-   "assunto": "Alexandre Pires substitui Jorge e Mateus na programação do Réveillon do Recife; veja atrações da virada",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Alexandre Pires substitui Jorge e Mateus na programação do Réveillon do Recife; veja atrações da virada",
-     "url": "https://g1.globo.com/pe/pernambuco/noticia/2026/11/27/alexandre-pires-substitui-jorge-e-mateus-na-programacao-do-reveillon-do-recife-veja-atracoes-da-virada.ghtml",
-     "hora": "27/11 11h35"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T11:35-03:00"
   }
  ],
  "em_pautas": {
@@ -1054,6 +1060,36 @@
     }
    ]
   },
+  "dolar-volta-acima-5": {
+   "secao": "economia",
+   "n_fontes": 6,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Dólar cai 3% com confirmação de Trabuco na Fazenda; Ibovespa tem forte alta e juros futuros desabam",
+     "url": "https://valor.globo.com/financas/ao-vivo/2023/06/16/dolar-avanca-e-ibovespa-recua-em-dia-de-correcao-siga-os-mercados.ghtml",
+     "hora": "27/11 12h18"
+    },
+    {
+     "veiculo": "Metrópoles",
+     "titulo": "Efeito Trabuco: dólar despenca e bolsa dispara com confirmação na Fazenda",
+     "url": "https://www.metropoles.com/brasil/dolar-despenca-3-e-abre-a-r-554-com-anuncio-de-trabuco-na-fazenda",
+     "hora": "27/11 12h15"
+    },
+    {
+     "veiculo": "Gazeta do Povo Economia",
+     "titulo": "Mercado celebra Trabuco na Fazenda e esquerda acusa Lula de estelionato eleitoral",
+     "url": "https://www.gazetadopovo.com.br/economia/mercado-celebra-luiz-trabuco-ministro-fazenda-esquerda-protesta/",
+     "hora": "27/11 12h05"
+    },
+    {
+     "veiculo": "Estadão Economia",
+     "titulo": "O que ex-ministros da Fazenda disseram sobre a escolha de Trabuco para comandar a economia",
+     "url": "https://www.estadao.com.br/economia/ex-ministros-fazenda-disseram-trabuco-comando-economia/",
+     "hora": "27/11 11h12"
+    }
+   ]
+  },
   "reforma-tributaria-adiamento-pedido": {
    "secao": "economia",
    "n_fontes": 1,
@@ -1101,6 +1137,18 @@
      "hora": "27/11 11h49"
     }
    ]
+  },
+  "mare-operacao-pm-bope-27-11": {
+   "secao": "brasil",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "PM prende dois e apreende fuzil em operação na Maré (RJ), perto de onde vai instalar base",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/pm-prende-dois-e-apreende-fuzil-em-operacao-na-mare-rj-perto-de-onde-vai-instalar-base.shtml",
+     "hora": "27/11 12h23"
+    }
+   ]
   }
  },
  "novos_relatos": {
@@ -1117,7 +1165,7 @@
    "ultima": "27/11 12h13",
    "ultima_iso": "2026-11-27T12:13-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 1.5,
+   "horas_sem_atualizar": 1.7,
    "principal": true,
    "manchetes": [
     {
@@ -1156,7 +1204,7 @@
    "ultima": "27/11 10h47",
    "ultima_iso": "2026-11-27T10:47-03:00",
    "pauta_atualizada_em": "2026-11-27T06:53-03:00",
-   "horas_sem_atualizar": 5.5,
+   "horas_sem_atualizar": 5.6,
    "principal": true,
    "manchetes": [
     {
@@ -1167,40 +1215,26 @@
     }
    ]
   },
-  "lula-trabuco-fazenda-haddad-usp": {
-   "n": 1,
-   "n_fontes": 1,
+  "dolar-volta-acima-5": {
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
-    "veja"
+    "bbc",
+    "met"
    ],
-   "n_fontes_90min": 1,
-   "ultima": "27/11 11h03",
-   "ultima_iso": "2026-11-27T11:03-03:00",
+   "n_fontes_90min": 2,
+   "ultima": "27/11 12h15",
+   "ultima_iso": "2026-11-27T12:15-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 1.5,
+   "horas_sem_atualizar": 1.7,
    "principal": true,
    "manchetes": [
     {
-     "veiculo": "Veja",
-     "titulo": "O recado de Haddad a Trabuco, futuro ministro da Fazenda",
-     "url": "https://veja.abril.com.br/economia/brasil-precisa-de-ministerio-da-fazenda-forte-diz-haddad-ao-parabenizar-trabuco/",
-     "hora": "27/11 11h03"
-    }
-   ]
-  },
-  "dolar-volta-acima-5": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "bbc"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "27/11 10h53",
-   "ultima_iso": "2026-11-27T10:53-03:00",
-   "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 1.5,
-   "principal": true,
-   "manchetes": [
+     "veiculo": "Metrópoles",
+     "titulo": "Efeito Trabuco: dólar despenca e bolsa dispara com confirmação na Fazenda",
+     "url": "https://www.metropoles.com/brasil/dolar-despenca-3-e-abre-a-r-554-com-anuncio-de-trabuco-na-fazenda",
+     "hora": "27/11 12h15"
+    },
     {
      "veiculo": "BBC News Brasil",
      "titulo": "Dólar cai e bolsa sobe: a reação do mercado - e de economistas - à escolha de Trabuco para a Fazenda",
@@ -1220,7 +1254,7 @@
    "ultima": "27/11 09h42",
    "ultima_iso": "2026-11-27T09:42-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 17.5,
+   "horas_sem_atualizar": 17.7,
    "principal": false,
    "manchetes": [
     {
@@ -1247,7 +1281,7 @@
    "ultima": "27/11 11h49",
    "ultima_iso": "2026-11-27T11:49-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 1.5,
+   "horas_sem_atualizar": 1.7,
    "principal": false,
    "manchetes": [
     {
@@ -1269,7 +1303,7 @@
    "ultima": "27/11 11h03",
    "ultima_iso": "2026-11-27T11:03-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 53.5,
+   "horas_sem_atualizar": 53.7,
    "principal": false,
    "manchetes": [
     {
@@ -1308,7 +1342,7 @@
    "ultima": "27/11 10h35",
    "ultima_iso": "2026-11-27T10:35-03:00",
    "pauta_atualizada_em": "2026-11-26T06:52-03:00",
-   "horas_sem_atualizar": 29.5,
+   "horas_sem_atualizar": 29.7,
    "principal": false,
    "manchetes": [
     {
@@ -1330,7 +1364,7 @@
    "ultima": "27/11 11h15",
    "ultima_iso": "2026-11-27T11:15-03:00",
    "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 14.5,
+   "horas_sem_atualizar": 14.7,
    "principal": false,
    "manchetes": [
     {
@@ -1358,7 +1392,7 @@
    "ultima": "27/11 11h00",
    "ultima_iso": "2026-11-27T11:00-03:00",
    "pauta_atualizada_em": "2026-11-27T05:00-03:00",
-   "horas_sem_atualizar": 7.3,
+   "horas_sem_atualizar": 7.5,
    "principal": false,
    "manchetes": [
     {
@@ -1375,6 +1409,27 @@
     }
    ]
   },
+  "mare-operacao-pm-bope-27-11": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "folha"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "27/11 12h23",
+   "ultima_iso": "2026-11-27T12:23-03:00",
+   "pauta_atualizada_em": "2026-11-27T06:30-03:00",
+   "horas_sem_atualizar": 6.0,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "Folha Cotidiano",
+     "titulo": "PM prende dois e apreende fuzil em operação na Maré (RJ), perto de onde vai instalar base",
+     "url": "https://redir.folha.com.br/redir/online/cotidiano/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/11/pm-prende-dois-e-apreende-fuzil-em-operacao-na-mare-rj-perto-de-onde-vai-instalar-base.shtml",
+     "hora": "27/11 12h23"
+    }
+   ]
+  },
   "pnad-desemprego-outubro-5-1": {
    "n": 4,
    "n_fontes": 4,
@@ -1388,7 +1443,7 @@
    "ultima": "27/11 11h44",
    "ultima_iso": "2026-11-27T11:44-03:00",
    "pauta_atualizada_em": "2026-11-27T09:30-03:00",
-   "horas_sem_atualizar": 2.8,
+   "horas_sem_atualizar": 3.0,
    "principal": false,
    "manchetes": [
     {
@@ -1427,7 +1482,7 @@
    "ultima": "27/11 09h58",
    "ultima_iso": "2026-11-27T09:58-03:00",
    "pauta_atualizada_em": "2026-11-27T09:13-03:00",
-   "horas_sem_atualizar": 3.1,
+   "horas_sem_atualizar": 3.3,
    "principal": false,
    "manchetes": [
     {
@@ -1992,10 +2047,16 @@
    ]
   },
   {
-   "assunto": "Tarcísio diz que escolha por Trabuco foi acertada: ‘Quem pode atrapalhar é o PT’",
+   "assunto": "Análise: Em ‘xeque-mate’ no mercado, Lula traz Trabuco e aumenta o risco de apostar contra o Brasil",
    "secao": "economia",
    "n_fontes": 3,
    "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Análise: Em ‘xeque-mate’ no mercado, Lula traz Trabuco e aumenta o risco de apostar contra o Brasil",
+     "url": "https://valor.globo.com/financas/noticia/2026/11/27/analise-em-xeque-mate-nos-mercados-lula-traz-trabuco-e-aumenta-o-risco-de-apostar-contra-o-brasil.ghtml",
+     "hora": "27/11 12h15"
+    },
     {
      "veiculo": "Estadão Economia",
      "titulo": "Tarcísio diz que escolha por Trabuco foi acertada: ‘Quem pode atrapalhar é o PT’",
@@ -2017,25 +2078,6 @@
    ]
   },
   {
-   "assunto": "AABB recebe última etapa do Circuito Acreano de Tênis de Mesa neste fim de semana",
-   "secao": "esportes",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "AABB recebe última etapa do Circuito Acreano de Tênis de Mesa neste fim de semana",
-     "url": "https://ge.globo.com/ac/noticia/2026/11/27/aabb-recebe-ultima-etapa-do-circuito-acreano-de-tenis-de-mesa-neste-fim-de-semana.ghtml",
-     "hora": "27/11 11h42"
-    },
-    {
-     "veiculo": "g1",
-     "titulo": "MC Livinho, festival geek e show de rock: veja o que fazer em Campo Grande neste fim de semana",
-     "url": "https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2026/11/27/mc-livinho-festival-geek-e-show-de-rock-veja-o-que-fazer-em-campo-grande-neste-fim-de-semana.ghtml",
-     "hora": "27/11 10h46"
-    }
-   ]
-  },
-  {
    "assunto": "EUA pressionaram Venezuela e Iraque a avaliar saída da Opep",
    "secao": "mundo",
    "n_fontes": 2,
@@ -2051,6 +2093,25 @@
      "titulo": "EUA pressionaram Venezuela e Iraque a deixar Opep, diz agência",
      "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/eua-pressionaram-venezuela-e-iraque-a-deixar-opep-diz-agencia.shtml",
      "hora": "27/11 10h57"
+    }
+   ]
+  },
+  {
+   "assunto": "Embaixada dos Emirados celebra 55 anos da união em Brasília",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Embaixada dos Emirados celebra 55 anos da união em Brasília",
+     "url": "https://valor.globo.com/patrocinado/dino/noticia/2026/11/27/embaixada-dos-emirados-celebra-55-anos-da-uniao-em-brasilia-1.ghtml",
+     "hora": "27/11 12h02"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Embaixada dos Emirados celebra 55 anos da união em Brasília",
+     "url": "https://oglobo.globo.com/patrocinado/dino/noticia/2026/11/27/embaixada-dos-emirados-celebra-55-anos-da-uniao-em-brasilia-1.ghtml",
+     "hora": "27/11 12h02"
     }
    ]
   },
@@ -2151,7 +2212,7 @@
   "ge": "ok: 100 itens, 68 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Mercado": "ok: 100 itens, 28 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 9 nas últimas 6 h",
   "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 2 nas últimas 6 h",
@@ -2164,18 +2225,18 @@
   "Estadão Brasil": "ok: 20 itens, 6 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
   "O Globo": "ok: 100 itens, 100 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 81 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 85 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
-  "DW Brasil": "ok: 65 itens, 4 nas últimas 6 h",
+  "DW Brasil": "ok: 66 itens, 5 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 52 itens, 9 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 35 itens, 6 nas últimas 6 h",
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 10 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 20 nas últimas 6 h",
-  "Brasil de Fato": "ok: 99 itens, 7 nas últimas 6 h",
+  "Brasil de Fato": "ok: 99 itens, 14 nas últimas 6 h",
   "ICL Notícias": "ok: 10 itens, 10 nas últimas 6 h"
  }
 }
