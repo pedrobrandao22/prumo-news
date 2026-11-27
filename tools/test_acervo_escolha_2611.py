@@ -67,6 +67,11 @@ class T(unittest.TestCase):
     def test_palavras_valem_as_do_codigo(s):
         C = cat(); C["verbetes"]["temporal"]["palavras"] = ["zzzz"]   # catálogo uma rodada atrás
         s.assertEqual(AE.verbete_de(P("brasil", "Temporais deixam 6 mortos no PR"), C), "temporal")
+    def test_titulo_antes_do_subtitulo(s):
+        C = cat()
+        s.assertEqual(AE.verbete_de(P("esportes", "Corinthians empata com o Atlético-MG no jogo atrasado", "Resultado deixa o Fluminense a um ponto do G4"), C), "estadio-corinthians")
+        s.assertEqual(AE.verbete_de(P("esportes", "Palmeiras x Estudiantes decidem a Libertadores no sábado (28), às 17h", "Árbitro argentino apita a final"), C), "estadio-palmeiras")
+        s.assertEqual(AE.verbete_de(P("brasil", "Fim de semana terá mudança no tempo", "Temporais devem atingir o Sul"), C), "temporal")
     def test_editoria_respeitada(s):
         s.assertNotEqual(AE.verbete_de(P("esportes", "Santos vence e sai do Z4"), cat()), "porto")
         s.assertNotEqual(AE.verbete_de(P("educacao", "Pé-de-Meia: pagamento começa hoje"), cat()), "cidade-recife")
