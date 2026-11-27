@@ -1,35 +1,110 @@
 {
- "gerado": "2026-11-27T08:26-03:00",
+ "gerado": "2026-11-27T08:36-03:00",
  "desde": "2026-11-27T06:48-03:00",
  "feed_atualizado_em": "2026-11-27T06:58:00-03:00",
  "resumo": {
-  "manchetes": 255,
-  "assuntos_novos_relevantes": 5,
-  "assuntos_novos": 210,
-  "pautas_com_novidade": 7,
+  "manchetes": 290,
+  "assuntos_novos_relevantes": 8,
+  "assuntos_novos": 235,
+  "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 12,
-  "acionar_itens": 0,
-  "ja_avaliados": 3
+  "pautas_com_relatos": 11,
+  "acionar_itens": 1,
+  "ja_avaliados": 2
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (210 assuntos fora do feed, 12 pautas com relatos, 3 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "assunto novo: 7 veículos em 90 min (economia)",
+ "acionar_itens": [
+  {
+   "tipo": "novo",
+   "titulo": "Leia a nota do Bradesco sobre a indicação de Trabuco para a Fazenda",
+   "secao": "economia",
+   "n_fontes": 7,
+   "motivo": "assunto novo: 7 veículos em 90 min (economia)",
+   "chave": [
+    "acalmar",
+    "acionistas",
+    "avalia",
+    "bradesco",
+    "busca",
+    "cni",
+    "comunica",
+    "confianca",
+    "escolha",
+    "fazenda",
+    "ida",
+    "imprensa",
+    "indicacao",
+    "internacional",
+    "investidor",
+    "leia",
+    "mercado",
+    "ministerio",
+    "nome",
+    "nota",
+    "positivo",
+    "reacao",
+    "repercute",
+    "resgatar",
+    "sinal",
+    "trabuco"
+   ],
+   "acao": "nova",
+   "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Leia a nota do Bradesco sobre a indicação de Trabuco para a Fazenda",
+     "url": "https://www.poder360.com.br/poder-economia/leia-a-nota-do-bradesco-sobre-a-indicacao-de-trabuco-para-a-fazenda/",
+     "hora": "27/11 08h28",
+     "lide": "Executivo aceitou, na 5ª feira (26.nov.2026), convite de Lula para comandar o ministério a partir de 2027. Leia no Poder360."
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "A reação da imprensa internacional à indicação de Trabuco para o Ministério da Fazenda",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/a-reacao-da-imprensa-internacional-a-indicacao-de-trabuco-para-o-ministerio-da-fazenda.shtml",
+     "hora": "27/11 08h27",
+     "lide": "Indicação de Trabuco foi classificada como escolha estratégica para ajudar a tranquilizar o mercado"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Indicação de Trabuco repercute na imprensa internacional",
+     "url": "https://www.infomoney.com.br/politica/indicacao-de-trabuco-repercute-na-imprensa-internacional/",
+     "hora": "27/11 08h25",
+     "lide": "Nome do atual presidente do Conselho de Administração do Bradesco foi confirmado pelo Palácio do Planalto na noite de quinta-feira"
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
-   "assunto": "Indicação de Trabuco repercute na imprensa internacional",
+   "assunto": "Leia a nota do Bradesco sobre a indicação de Trabuco para a Fazenda",
    "secao": "economia",
-   "n_fontes": 4,
+   "n_fontes": 7,
    "fontes": [
     "bbc",
+    "cnn",
+    "folha",
     "im",
     "jp",
-    "oglobo"
+    "oglobo",
+    "p360"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
+    {
+     "veiculo": "Poder360",
+     "titulo": "Leia a nota do Bradesco sobre a indicação de Trabuco para a Fazenda",
+     "url": "https://www.poder360.com.br/poder-economia/leia-a-nota-do-bradesco-sobre-a-indicacao-de-trabuco-para-a-fazenda/",
+     "hora": "27/11 08h28"
+    },
+    {
+     "veiculo": "Folha Mercado",
+     "titulo": "A reação da imprensa internacional à indicação de Trabuco para o Ministério da Fazenda",
+     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/mercado/2026/11/a-reacao-da-imprensa-internacional-a-indicacao-de-trabuco-para-o-ministerio-da-fazenda.shtml",
+     "hora": "27/11 08h27"
+    },
     {
      "veiculo": "InfoMoney",
      "titulo": "Indicação de Trabuco repercute na imprensa internacional",
@@ -43,20 +118,26 @@
      "hora": "27/11 08h08"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Escolha de Trabuco busca acalmar mercado e resgatar confiança de investidor, diz imprensa internacional",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/27/indicacao-de-trabuco-repercute-na-imprensa-internacional.ghtml",
-     "hora": "27/11 07h35"
+     "veiculo": "Revista Oeste",
+     "titulo": "Quem é Luiz Carlos Trabuco, ex-presidente do Bradesco escolhido para a Fazenda",
+     "url": "https://revistaoeste.com/politica/quem-e-luiz-carlos-trabuco-ex-presidente-do-bradesco-escolhido-para-a-fazenda/",
+     "hora": "27/11 08h23"
     },
     {
-     "veiculo": "BBC News Brasil",
-     "titulo": "A reação da imprensa internacional à indicação de Trabuco para o Ministério da Fazenda",
-     "url": "https://www.bbc.com/portuguese/articles/cw20x68drd43o?at_medium=RSS&at_campaign=rss",
-     "hora": "27/11 07h21"
+     "veiculo": "Exame",
+     "titulo": "Bradesco reage a Trabuco na Fazenda e notifica mercado",
+     "url": "https://exame.com/invest/mercados/bradesco-reage-a-trabuco-na-fazenda-e-notifica-mercado/",
+     "hora": "27/11 08h03"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Trabuco na Fazenda anima mercado, mas desafio fiscal ainda pode limitar rali da bolsa",
+     "url": "https://exame.com/invest/mercados/trabuco-na-fazenda-anima-mercado-mas-desafio-fiscal-ainda-pode-limitar-rali-da-bolsa/",
+     "hora": "27/11 07h55"
     }
    ],
-   "n_fontes_90min": 4,
-   "ultima_iso": "2026-11-27T08:25-03:00"
+   "n_fontes_90min": 7,
+   "ultima_iso": "2026-11-27T08:28-03:00"
   },
   {
    "assunto": "Espanha encerra campanha eleitoral; Sánchez tenta frear direita e extrema direita",
@@ -127,76 +208,111 @@
    "ultima_iso": "2026-11-27T08:19-03:00"
   },
   {
-   "assunto": "Quem é Luiz Carlos Trabuco, ex-presidente do Bradesco escolhido para a Fazenda",
-   "secao": "economia",
+   "assunto": "Marc Márquez surpreende e anuncia aposentadoria da MotoGP após 8º título",
+   "secao": "esportes",
    "n_fontes": 3,
    "fontes": [
-    "ex",
-    "oeste",
-    "p360"
+    "cnn",
+    "met",
+    "oglobo"
    ],
    "ja_e_breve": false,
    "relevante": true,
    "manchetes": [
     {
-     "veiculo": "Revista Oeste",
-     "titulo": "Quem é Luiz Carlos Trabuco, ex-presidente do Bradesco escolhido para a Fazenda",
-     "url": "https://revistaoeste.com/politica/quem-e-luiz-carlos-trabuco-ex-presidente-do-bradesco-escolhido-para-a-fazenda/",
-     "hora": "27/11 08h23"
+     "veiculo": "Metrópoles",
+     "titulo": "Marc Márquez surpreende e anuncia aposentadoria da MotoGP após 8º título",
+     "url": "https://www.metropoles.com/esportes/marc-marquez-surpreende-e-anuncia-aposentadoria-da-motogp-apos-8o-titulo",
+     "hora": "27/11 08h29"
     },
     {
-     "veiculo": "Poder360",
-     "titulo": "Bradesco confirma ida de Trabuco para a Fazenda",
-     "url": "https://www.poder360.com.br/poder-economia/bradesco-confirma-ida-de-trabuco-para-a-fazenda/",
-     "hora": "27/11 08h10"
+     "veiculo": "CNN Brasil",
+     "titulo": "Octacampeão mundial, Marc Márquez anuncia fim da carreira na MotoGP",
+     "url": "https://www.cnnbrasil.com.br/esportes/automobilismo/octacampeao-mundial-marc-marquez-anuncia-fim-da-carreira-na-motogp/",
+     "hora": "27/11 08h04"
     },
     {
-     "veiculo": "Exame",
-     "titulo": "Bradesco reage a Trabuco na Fazenda e notifica mercado",
-     "url": "https://exame.com/invest/mercados/bradesco-reage-a-trabuco-na-fazenda-e-notifica-mercado/",
-     "hora": "27/11 08h03"
-    },
-    {
-     "veiculo": "Exame",
-     "titulo": "Trabuco na Fazenda anima mercado, mas desafio fiscal ainda pode limitar rali da bolsa",
-     "url": "https://exame.com/invest/mercados/trabuco-na-fazenda-anima-mercado-mas-desafio-fiscal-ainda-pode-limitar-rali-da-bolsa/",
-     "hora": "27/11 07h55"
+     "veiculo": "O Globo",
+     "titulo": "Piloto Marc Márquez anuncia aposentadoria da MotoGP após conquistar oitavo título mundial",
+     "url": "https://oglobo.globo.com/esportes/noticia/2026/11/27/marc-marquez-anuncia-aposentadoria-apos-conquistar-oitavo-titulo-mundial.ghtml",
+     "hora": "27/11 07h46"
     }
    ],
    "n_fontes_90min": 3,
-   "ultima_iso": "2026-11-27T08:23-03:00",
-   "pid_provavel": "lula-trabuco-fazenda-haddad-usp"
+   "ultima_iso": "2026-11-27T08:29-03:00"
   },
   {
-   "assunto": "Agenda de empresas: Brava inicia produção em poço do Papa-Terra; CSN anuncia novo diretor financeiro",
+   "assunto": "Zelenski compara fala de Trump sobre Putin a elogio a Hitler na Segunda Guerra",
    "secao": "mundo",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "fontes": [
-    "im",
-    "valor"
+    "cnn",
+    "folha",
+    "oglobo"
    ],
    "ja_e_breve": false,
-   "relevante": false,
+   "relevante": true,
    "manchetes": [
     {
-     "veiculo": "Valor Econômico",
-     "titulo": "Agenda de empresas: Brava inicia produção em poço do Papa-Terra; CSN anuncia novo diretor financeiro",
-     "url": "https://valor.globo.com/empresas/noticia/2026/11/27/agenda-de-empresas-brava-inicia-producao-em-poco-do-papa-terra-csn-anuncia-novo-diretor-financeiro.ghtml",
+     "veiculo": "Folha Mundo",
+     "titulo": "Zelenski compara fala de Trump sobre Putin a elogio a Hitler na Segunda Guerra",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/zelenski-compara-fala-de-trump-sobre-putin-a-elogio-a-hitler-na-segunda-guerra.shtml",
+     "hora": "27/11 08h27"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Zelensky critica 'amizade' entre Trump e Putin em entrevista a BBC: 'o mesmo que chamar Hitler de bom amigo'",
+     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/27/zelensky-critica-amizade-entre-trump-e-putin-em-entrevista-a-bbc-o-mesmo-que-chamar-hitler-de-bom-amigo.ghtml",
      "hora": "27/11 08h13"
     },
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Brava (BRAV3) inicia produção do poço PPT-53 no campo de Papa-Terra",
-     "url": "https://www.infomoney.com.br/mercados/brava-brav3-inicia-producao-do-poco-ppt-53-no-campo-de-papa-terra/",
-     "hora": "27/11 08h13"
+     "veiculo": "CNN Brasil",
+     "titulo": "“É como ser amigo de Hitler na 2ª Guerra”, diz Zelensky sobre Trump e Putin",
+     "url": "https://www.cnnbrasil.com.br/internacional/zelensky-compara-amizade-de-trump-com-putin-a-ser-amigo-de-hitler/",
+     "hora": "27/11 07h13"
     }
    ],
-   "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-27T08:13-03:00"
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-27T08:27-03:00",
+   "pid_provavel": "ucrania-trump-rutte-ampliar-guerra"
   },
   {
-   "assunto": "Após definir Fazenda, Lula bate o martelo e terá Camilo Santana na Casa Civil",
-   "secao": "economia",
+   "assunto": "“Capitão Léo”: PM suspeito de chefiar milícia é preso em operação no Rio",
+   "secao": "brasil",
+   "n_fontes": 3,
+   "fontes": [
+    "cnn",
+    "g1",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "“Capitão Léo”: PM suspeito de chefiar milícia é preso em operação no Rio",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/capitao-leo-pm-suspeito-de-chefiar-milicia-e-preso-em-operacao-no-rio/",
+     "hora": "27/11 08h20"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Capitão da PM é preso por chefiar milícia de Vargem Grande e fazer alianças com CV e TCP",
+     "url": "https://oglobo.globo.com/rio/noticia/2026/11/27/policia-civil-prende-chefe-de-milicia-de-vargem-grande-em-operacao-contra-envolvidos-em-homicidios-na-zona-sudoeste-do-rio.ghtml",
+     "hora": "27/11 07h37"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Polícia prende 'Capitão Léo', suspeito de homicídios em guerra por territórios entre milícia e tráfico em Vargem Grande",
+     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/27/policia-prende-pm-milicia-trafico-vargem-grande.ghtml",
+     "hora": "27/11 06h50"
+    }
+   ],
+   "n_fontes_90min": 3,
+   "ultima_iso": "2026-11-27T08:20-03:00"
+  },
+  {
+   "assunto": "Ajuste fiscal, juros e resistência no PT: os desafios de Trabuco no Lula 4",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
     "jp",
@@ -207,19 +323,20 @@
    "manchetes": [
     {
      "veiculo": "Jovem Pan",
-     "titulo": "Após definir Fazenda, Lula bate o martelo e terá Camilo Santana na Casa Civil",
-     "url": "https://jovempan.com.br/politica/apos-definir-fazenda-lula-decide-que-camilo-santana-assumira-casa-civil/",
-     "hora": "27/11 08h12"
+     "titulo": "Ajuste fiscal, juros e resistência no PT: os desafios de Trabuco no Lula 4",
+     "url": "https://jovempan.com.br/economia/ajuste-fiscal-juros-e-resistencia-no-pt-os-desafios-de-trabuco-no-lula-4/",
+     "hora": "27/11 08h37"
     },
     {
      "veiculo": "O Globo",
-     "titulo": "A conversa de Lula-Haddad e a Casa Civil",
-     "url": "https://oglobo.globo.com/blogs/lauro-jardim/post/2026/11/a-conversa-de-lula-haddad-e-a-casa-civil.ghtml",
-     "hora": "27/11 07h26"
+     "titulo": "Defensor do gradualismo, Trabuco precisará esclarecer se seguirá ritmo de ajuste previsto pelo governo ou acelerará convergência fiscal",
+     "url": "https://oglobo.globo.com/economia/fabio-graner/post/2026/11/defensor-do-gradualismo-trabuco-precisara-esclarecer-se-seguira-ritmo-de-ajuste-previsto-pelo-governo-ou-acelerara-convergencia-fiscal.ghtml",
+     "hora": "27/11 08h15"
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-27T08:12-03:00"
+   "ultima_iso": "2026-11-27T08:37-03:00",
+   "pid_provavel": "pec-ajuste-fiscal-congresso"
   },
   {
    "assunto": "Ar-condicionado na Black Friday: 5 de 10 modelos têm desconto real nesta sexta",
@@ -289,31 +406,37 @@
    "ultima_iso": "2026-11-27T08:03-03:00"
   },
   {
-   "assunto": "Capitão da PM é preso por chefiar milícia de Vargem Grande e fazer alianças com CV e TCP",
-   "secao": "brasil",
+   "assunto": "Camilo Santana chega à Casa Civil após ganhar força na disputa pela sucessão de Lula",
+   "secao": "economia",
    "n_fontes": 2,
    "fontes": [
-    "g1",
+    "jp",
     "oglobo"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "O Globo",
-     "titulo": "Capitão da PM é preso por chefiar milícia de Vargem Grande e fazer alianças com CV e TCP",
-     "url": "https://oglobo.globo.com/rio/noticia/2026/11/27/policia-civil-prende-chefe-de-milicia-de-vargem-grande-em-operacao-contra-envolvidos-em-homicidios-na-zona-sudoeste-do-rio.ghtml",
-     "hora": "27/11 07h37"
+     "veiculo": "Jovem Pan",
+     "titulo": "Camilo Santana chega à Casa Civil após ganhar força na disputa pela sucessão de Lula",
+     "url": "https://jovempan.com.br/politica/camilo-santana-chega-a-casa-civil-apos-ganhar-forca-na-disputa-pela-sucessao-de-lula/",
+     "hora": "27/11 08h34"
     },
     {
-     "veiculo": "g1",
-     "titulo": "Polícia prende 'Capitão Léo', suspeito de homicídios em guerra por territórios entre milícia e tráfico em Vargem Grande",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/27/policia-prende-pm-milicia-trafico-vargem-grande.ghtml",
-     "hora": "27/11 06h50"
+     "veiculo": "Jovem Pan",
+     "titulo": "Após definir Fazenda, Lula bate o martelo e terá Camilo Santana na Casa Civil",
+     "url": "https://jovempan.com.br/politica/apos-definir-fazenda-lula-decide-que-camilo-santana-assumira-casa-civil/",
+     "hora": "27/11 08h12"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "A conversa de Lula-Haddad e a Casa Civil",
+     "url": "https://oglobo.globo.com/blogs/lauro-jardim/post/2026/11/a-conversa-de-lula-haddad-e-a-casa-civil.ghtml",
+     "hora": "27/11 07h26"
     }
    ],
    "n_fontes_90min": 2,
-   "ultima_iso": "2026-11-27T07:37-03:00"
+   "ultima_iso": "2026-11-27T08:34-03:00"
   },
   {
    "assunto": "Como a imigração transformou a Espanha na última década e passou a ser tema fundamental das eleições do país",
@@ -396,6 +519,60 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-27T08:00-03:00"
+  },
+  {
+   "assunto": "PF não viu o contrato de Viviane no celular de Vorcaro?",
+   "secao": "politica",
+   "n_fontes": 2,
+   "fontes": [
+    "antag",
+    "oeste"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "PF não viu o contrato de Viviane no celular de Vorcaro?",
+     "url": "https://oantagonista.com.br/brasil/pf-nao-viu-o-contrato-de-viviane-no-celular-de-vorcaro/",
+     "hora": "27/11 08h28"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Busca simples no celular de Vorcaro acha contrato da mulher de Moraes omitido pela PF",
+     "url": "https://revistaoeste.com/politica/busca-simples-no-celular-de-vorcaro-acha-contrato-da-mulher-de-moraes-omitido-pela-pf/",
+     "hora": "27/11 08h24"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T08:28-03:00"
+  },
+  {
+   "assunto": "Senado da Argentina aprova suspensão das primárias, favorecendo tentativa de reeleição de Milei, que enfrenta alta de desaprovação e desaceleração da economia",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "im"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "Senado da Argentina aprova suspensão das primárias, favorecendo tentativa de reeleição de Milei, que enfrenta alta de desaprovação e desaceleração da economia",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/27/senado-da-argentina-aprova-suspensao-das-primarias-favorecendo-tentativa-de-reeleicao-de-milei.ghtml",
+     "hora": "27/11 08h23"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Senado argentino aprova reforma que suspende primárias e pode favorecer Milei",
+     "url": "https://www.infomoney.com.br/mundo/senado-argentino-aprova-reforma-que-suspende-primarias-e-pode-favorecer-milei/",
+     "hora": "27/11 08h19"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-27T08:23-03:00"
   },
   {
    "assunto": "\"Precisa sentar com esse tipo de gente\", diz irmão de Cleitinho sobre Lula",
@@ -639,8 +816,8 @@
    "ultima_iso": "2026-11-27T08:00-03:00"
   },
   {
-   "assunto": "Agenda do dia: Dados de desemprego do IBGE de outubro são destaque",
-   "secao": "economia",
+   "assunto": "Agenda de empresas: Brava inicia produção em poço do Papa-Terra; CSN anuncia novo diretor financeiro",
+   "secao": "mundo",
    "n_fontes": 1,
    "fontes": [
     "valor"
@@ -650,94 +827,13 @@
    "manchetes": [
     {
      "veiculo": "Valor Econômico",
-     "titulo": "Agenda do dia: Dados de desemprego do IBGE de outubro são destaque",
-     "url": "https://valor.globo.com/financas/noticia/2026/11/27/agenda-do-dia-dados-de-desemprego-do-ibge-de-outubro-sao-destaque.ghtml",
-     "hora": "27/11 07h54"
+     "titulo": "Agenda de empresas: Brava inicia produção em poço do Papa-Terra; CSN anuncia novo diretor financeiro",
+     "url": "https://valor.globo.com/empresas/noticia/2026/11/27/agenda-de-empresas-brava-inicia-producao-em-poco-do-papa-terra-csn-anuncia-novo-diretor-financeiro.ghtml",
+     "hora": "27/11 08h13"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T07:54-03:00"
-  },
-  {
-   "assunto": "Agente de saúde que encontrou menina de 3 anos desaparecida em mata é homenageado em MG",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Agente de saúde que encontrou menina de 3 anos desaparecida em mata é homenageado em MG",
-     "url": "https://g1.globo.com/mg/centro-oeste/noticia/2026/11/27/agente-de-saude-que-encontrou-menina-de-3-anos-desaparecida-em-mata-e-homenageado-em-mg.ghtml",
-     "hora": "27/11 07h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T07:00-03:00"
-  },
-  {
-   "assunto": "Agentes de IA começam a mudar as regras do comércio eletrônico",
-   "secao": "brasil",
-   "n_fontes": 1,
-   "fontes": [
-    "estadao"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Estadão Brasil",
-     "titulo": "Agentes de IA começam a mudar as regras do comércio eletrônico",
-     "url": "https://www.estadao.com.br/brasil/macaco-eletrico/agentes-de-ia-comecam-a-mudar-as-regras-do-comercio-eletronico/",
-     "hora": "27/11 08h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T08:00-03:00"
-  },
-  {
-   "assunto": "Alcolumbre deve se reunir com Lula para bater martelo sobre ministro do STF",
-   "secao": "politica",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Alcolumbre deve se reunir com Lula para bater martelo sobre ministro do STF",
-     "url": "https://g1.globo.com/politica/blog/valdo-cruz/post/2026/11/27/alcolumbre-deve-se-reunir-com-lula-para-bater-martelo-sobre-ministro-do-stf.ghtml",
-     "hora": "27/11 07h43"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-27T07:43-03:00"
-  },
-  {
-   "assunto": "Alvo de gordofobia em concurso de beleza no Ceará conquista faixa de Miss Simpatia",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "Alvo de gordofobia em concurso de beleza no Ceará conquista faixa de Miss Simpatia",
-     "url": "https://g1.globo.com/ce/ceara/noticia/2026/11/27/alvo-de-gordofobia-em-concurso-de-beleza-no-ceara-conquista-faixa-de-miss-simpatia.ghtml",
-     "hora": "27/11 07h27"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-27T07:27-03:00",
-   "lixo": true
+   "ultima_iso": "2026-11-27T08:13-03:00"
   }
  ],
  "em_pautas": {
@@ -765,39 +861,21 @@
     }
    ]
   },
-  "ucrania-trump-rutte-ampliar-guerra": {
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Zelensky critica 'amizade' entre Trump e Putin em entrevista a BBC: 'o mesmo que chamar Hitler de bom amigo'",
-     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/27/zelensky-critica-amizade-entre-trump-e-putin-em-entrevista-a-bbc-o-mesmo-que-chamar-hitler-de-bom-amigo.ghtml",
-     "hora": "27/11 08h13"
-    },
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "“É como ser amigo de Hitler na 2ª Guerra”, diz Zelensky sobre Trump e Putin",
-     "url": "https://www.cnnbrasil.com.br/internacional/zelensky-compara-amizade-de-trump-com-putin-a-ser-amigo-de-hitler/",
-     "hora": "27/11 07h13"
-    }
-   ]
-  },
   "libertadores-final-palmeiras-estudiantes": {
    "secao": "esportes",
    "n_fontes": 1,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Leila promete dançar funk até o chão se o Palmeiras ganhar a Libertadores",
-     "url": "https://www.metropoles.com/esportes/leila-promete-dancar-funk-ate-o-chao-se-o-palmeiras-ganhar-a-libertadores",
-     "hora": "27/11 07h35"
-    },
-    {
      "veiculo": "ge",
      "titulo": "Palmeiras troca domínio com Abel por sufoco inédito e tira lições para a final da Libertadores",
      "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/27/palmeiras-troca-dominio-com-abel-por-sufoco-inedito-e-tira-licoes-para-a-final-da-libertadores.ghtml",
      "hora": "27/11 08h00"
+    },
+    {
+     "veiculo": "Exame",
+     "titulo": "Por que Ronaldo, ídolo do Corinthians, vai torcer pelo Palmeiras na Libertadores?",
+     "url": "https://exame.com/esporte/por-que-ronaldo-idolo-do-corinthians-vai-torcer-pelo-palmeiras-na-libertadores/",
+     "hora": "27/11 08h30"
     }
    ]
   },
@@ -824,18 +902,6 @@
      "hora": "27/11 08h12"
     }
    ]
-  },
-  "dolar-volta-acima-5": {
-   "secao": "economia",
-   "n_fontes": 1,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Ibovespa Hoje Ao Vivo: Confira o que movimenta Bolsa, Dólar e Juros nesta sexta",
-     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-27112026/",
-     "hora": "27/11 08h13"
-    }
-   ]
   }
  },
  "novos_relatos": {
@@ -849,7 +915,7 @@
    "ultima": "27/11 08h12",
    "ultima_iso": "2026-11-27T08:12-03:00",
    "pauta_atualizada_em": "2026-11-26T18:48-03:00",
-   "horas_sem_atualizar": 13.6,
+   "horas_sem_atualizar": 13.8,
    "principal": true,
    "manchetes": [
     {
@@ -871,7 +937,7 @@
    "ultima": "27/11 08h22",
    "ultima_iso": "2026-11-27T08:22-03:00",
    "pauta_atualizada_em": "2026-11-27T06:53-03:00",
-   "horas_sem_atualizar": 1.6,
+   "horas_sem_atualizar": 1.7,
    "principal": true,
    "manchetes": [
     {
@@ -888,27 +954,6 @@
     }
    ]
   },
-  "dolar-volta-acima-5": {
-   "n": 1,
-   "n_fontes": 1,
-   "fontes": [
-    "im"
-   ],
-   "n_fontes_90min": 1,
-   "ultima": "27/11 08h13",
-   "ultima_iso": "2026-11-27T08:13-03:00",
-   "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 10.6,
-   "principal": true,
-   "manchetes": [
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Ibovespa Hoje Ao Vivo: Confira o que movimenta Bolsa, Dólar e Juros nesta sexta",
-     "url": "https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-27112026/",
-     "hora": "27/11 08h13"
-    }
-   ]
-  },
   "ucrania-trump-rutte-ampliar-guerra": {
    "n": 1,
    "n_fontes": 1,
@@ -919,7 +964,7 @@
    "ultima": "27/11 07h13",
    "ultima_iso": "2026-11-27T07:13-03:00",
    "pauta_atualizada_em": "2026-11-26T14:49-03:00",
-   "horas_sem_atualizar": 17.6,
+   "horas_sem_atualizar": 17.8,
    "principal": false,
    "manchetes": [
     {
@@ -935,27 +980,27 @@
    "n_fontes": 3,
    "fontes": [
     "cnn",
-    "ge",
-    "met"
+    "ex",
+    "ge"
    ],
-   "n_fontes_90min": 3,
-   "ultima": "27/11 08h00",
-   "ultima_iso": "2026-11-27T08:00-03:00",
+   "n_fontes_90min": 2,
+   "ultima": "27/11 08h30",
+   "ultima_iso": "2026-11-27T08:30-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 49.6,
+   "horas_sem_atualizar": 49.7,
    "principal": false,
    "manchetes": [
+    {
+     "veiculo": "Exame",
+     "titulo": "Por que Ronaldo, ídolo do Corinthians, vai torcer pelo Palmeiras na Libertadores?",
+     "url": "https://exame.com/esporte/por-que-ronaldo-idolo-do-corinthians-vai-torcer-pelo-palmeiras-na-libertadores/",
+     "hora": "27/11 08h30"
+    },
     {
      "veiculo": "ge",
      "titulo": "Palmeiras troca domínio com Abel por sufoco inédito e tira lições para a final da Libertadores",
      "url": "https://ge.globo.com/futebol/times/palmeiras/noticia/2026/11/27/palmeiras-troca-dominio-com-abel-por-sufoco-inedito-e-tira-licoes-para-a-final-da-libertadores.ghtml",
      "hora": "27/11 08h00"
-    },
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Leila promete dançar funk até o chão se o Palmeiras ganhar a Libertadores",
-     "url": "https://www.metropoles.com/esportes/leila-promete-dancar-funk-ate-o-chao-se-o-palmeiras-ganhar-a-libertadores",
-     "hora": "27/11 07h35"
     },
     {
      "veiculo": "CNN Brasil",
@@ -987,7 +1032,7 @@
    "ultima": "27/11 03h30",
    "ultima_iso": "2026-11-27T03:30-03:00",
    "pauta_atualizada_em": "2026-11-26T14:25-03:00",
-   "horas_sem_atualizar": 18.0,
+   "horas_sem_atualizar": 18.2,
    "principal": false,
    "manchetes": [
     {
@@ -1008,7 +1053,7 @@
    "ultima": "27/11 04h00",
    "ultima_iso": "2026-11-27T04:00-03:00",
    "pauta_atualizada_em": "2026-11-26T21:48-03:00",
-   "horas_sem_atualizar": 10.6,
+   "horas_sem_atualizar": 10.8,
    "principal": false,
    "manchetes": [
     {
@@ -1029,7 +1074,7 @@
    "ultima": "27/11 06h50",
    "ultima_iso": "2026-11-27T06:50-03:00",
    "pauta_atualizada_em": "2026-11-27T06:50-03:00",
-   "horas_sem_atualizar": 1.6,
+   "horas_sem_atualizar": 1.8,
    "principal": false,
    "manchetes": [
     {
@@ -1050,7 +1095,7 @@
    "ultima": "27/11 05h00",
    "ultima_iso": "2026-11-27T05:00-03:00",
    "pauta_atualizada_em": "2026-11-27T05:00-03:00",
-   "horas_sem_atualizar": 3.4,
+   "horas_sem_atualizar": 3.6,
    "principal": false,
    "manchetes": [
     {
@@ -1084,7 +1129,7 @@
    "ultima": "27/11 07h12",
    "ultima_iso": "2026-11-27T07:12-03:00",
    "pauta_atualizada_em": "2026-11-27T06:30-03:00",
-   "horas_sem_atualizar": 1.9,
+   "horas_sem_atualizar": 2.1,
    "principal": false,
    "manchetes": [
     {
@@ -1112,7 +1157,7 @@
    "ultima": "27/11 08h04",
    "ultima_iso": "2026-11-27T08:04-03:00",
    "pauta_atualizada_em": "2026-11-27T06:31-03:00",
-   "horas_sem_atualizar": 1.9,
+   "horas_sem_atualizar": 2.1,
    "principal": false,
    "manchetes": [
     {
@@ -1139,7 +1184,7 @@
    "ultima": "27/11 06h45",
    "ultima_iso": "2026-11-27T06:45-03:00",
    "pauta_atualizada_em": "2026-11-27T06:45-03:00",
-   "horas_sem_atualizar": 1.7,
+   "horas_sem_atualizar": 1.9,
    "principal": false,
    "manchetes": [
     {
@@ -1477,79 +1522,41 @@
  "breves_faltam": 0,
  "breves_sugeridas": [
   {
-   "assunto": "Indicação de Trabuco repercute na imprensa internacional",
-   "secao": "economia",
-   "n_fontes": 4,
+   "assunto": "Marc Márquez surpreende e anuncia aposentadoria da MotoGP após 8º título",
+   "secao": "esportes",
+   "n_fontes": 3,
    "manchetes": [
     {
-     "veiculo": "InfoMoney",
-     "titulo": "Indicação de Trabuco repercute na imprensa internacional",
-     "url": "https://www.infomoney.com.br/politica/indicacao-de-trabuco-repercute-na-imprensa-internacional/",
-     "hora": "27/11 08h25"
+     "veiculo": "Metrópoles",
+     "titulo": "Marc Márquez surpreende e anuncia aposentadoria da MotoGP após 8º título",
+     "url": "https://www.metropoles.com/esportes/marc-marquez-surpreende-e-anuncia-aposentadoria-da-motogp-apos-8o-titulo",
+     "hora": "27/11 08h29"
     },
     {
-     "veiculo": "Jovem Pan",
-     "titulo": "Bradesco comunica a acionistas sobre ida de Trabuco ao Ministério da Fazenda",
-     "url": "https://jovempan.com.br/politica/bradesco-comunica-a-acionistas-sobre-ida-de-trabuco-ao-ministerio-da-fazenda/",
-     "hora": "27/11 08h08"
+     "veiculo": "CNN Brasil",
+     "titulo": "Octacampeão mundial, Marc Márquez anuncia fim da carreira na MotoGP",
+     "url": "https://www.cnnbrasil.com.br/esportes/automobilismo/octacampeao-mundial-marc-marquez-anuncia-fim-da-carreira-na-motogp/",
+     "hora": "27/11 08h04"
     },
     {
      "veiculo": "O Globo",
-     "titulo": "Escolha de Trabuco busca acalmar mercado e resgatar confiança de investidor, diz imprensa internacional",
-     "url": "https://oglobo.globo.com/economia/noticia/2026/11/27/indicacao-de-trabuco-repercute-na-imprensa-internacional.ghtml",
-     "hora": "27/11 07h35"
-    },
-    {
-     "veiculo": "BBC News Brasil",
-     "titulo": "A reação da imprensa internacional à indicação de Trabuco para o Ministério da Fazenda",
-     "url": "https://www.bbc.com/portuguese/articles/cw20x68drd43o?at_medium=RSS&at_campaign=rss",
-     "hora": "27/11 07h21"
+     "titulo": "Piloto Marc Márquez anuncia aposentadoria da MotoGP após conquistar oitavo título mundial",
+     "url": "https://oglobo.globo.com/esportes/noticia/2026/11/27/marc-marquez-anuncia-aposentadoria-apos-conquistar-oitavo-titulo-mundial.ghtml",
+     "hora": "27/11 07h46"
     }
    ]
   },
   {
-   "assunto": "Agenda de empresas: Brava inicia produção em poço do Papa-Terra; CSN anuncia novo diretor financeiro",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Valor Econômico",
-     "titulo": "Agenda de empresas: Brava inicia produção em poço do Papa-Terra; CSN anuncia novo diretor financeiro",
-     "url": "https://valor.globo.com/empresas/noticia/2026/11/27/agenda-de-empresas-brava-inicia-producao-em-poco-do-papa-terra-csn-anuncia-novo-diretor-financeiro.ghtml",
-     "hora": "27/11 08h13"
-    },
-    {
-     "veiculo": "InfoMoney",
-     "titulo": "Brava (BRAV3) inicia produção do poço PPT-53 no campo de Papa-Terra",
-     "url": "https://www.infomoney.com.br/mercados/brava-brav3-inicia-producao-do-poco-ppt-53-no-campo-de-papa-terra/",
-     "hora": "27/11 08h13"
-    }
-   ]
-  },
-  {
-   "assunto": "Após definir Fazenda, Lula bate o martelo e terá Camilo Santana na Casa Civil",
-   "secao": "economia",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Jovem Pan",
-     "titulo": "Após definir Fazenda, Lula bate o martelo e terá Camilo Santana na Casa Civil",
-     "url": "https://jovempan.com.br/politica/apos-definir-fazenda-lula-decide-que-camilo-santana-assumira-casa-civil/",
-     "hora": "27/11 08h12"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "A conversa de Lula-Haddad e a Casa Civil",
-     "url": "https://oglobo.globo.com/blogs/lauro-jardim/post/2026/11/a-conversa-de-lula-haddad-e-a-casa-civil.ghtml",
-     "hora": "27/11 07h26"
-    }
-   ]
-  },
-  {
-   "assunto": "Capitão da PM é preso por chefiar milícia de Vargem Grande e fazer alianças com CV e TCP",
+   "assunto": "“Capitão Léo”: PM suspeito de chefiar milícia é preso em operação no Rio",
    "secao": "brasil",
-   "n_fontes": 2,
+   "n_fontes": 3,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "“Capitão Léo”: PM suspeito de chefiar milícia é preso em operação no Rio",
+     "url": "https://www.cnnbrasil.com.br/nacional/sudeste/rj/capitao-leo-pm-suspeito-de-chefiar-milicia-e-preso-em-operacao-no-rio/",
+     "hora": "27/11 08h20"
+    },
     {
      "veiculo": "O Globo",
      "titulo": "Capitão da PM é preso por chefiar milícia de Vargem Grande e fazer alianças com CV e TCP",
@@ -1561,6 +1568,31 @@
      "titulo": "Polícia prende 'Capitão Léo', suspeito de homicídios em guerra por territórios entre milícia e tráfico em Vargem Grande",
      "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/27/policia-prende-pm-milicia-trafico-vargem-grande.ghtml",
      "hora": "27/11 06h50"
+    }
+   ]
+  },
+  {
+   "assunto": "Camilo Santana chega à Casa Civil após ganhar força na disputa pela sucessão de Lula",
+   "secao": "economia",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Camilo Santana chega à Casa Civil após ganhar força na disputa pela sucessão de Lula",
+     "url": "https://jovempan.com.br/politica/camilo-santana-chega-a-casa-civil-apos-ganhar-forca-na-disputa-pela-sucessao-de-lula/",
+     "hora": "27/11 08h34"
+    },
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "Após definir Fazenda, Lula bate o martelo e terá Camilo Santana na Casa Civil",
+     "url": "https://jovempan.com.br/politica/apos-definir-fazenda-lula-decide-que-camilo-santana-assumira-casa-civil/",
+     "hora": "27/11 08h12"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "A conversa de Lula-Haddad e a Casa Civil",
+     "url": "https://oglobo.globo.com/blogs/lauro-jardim/post/2026/11/a-conversa-de-lula-haddad-e-a-casa-civil.ghtml",
+     "hora": "27/11 07h26"
     }
    ]
   },
@@ -1601,24 +1633,62 @@
      "hora": "27/11 07h33"
     }
    ]
+  },
+  {
+   "assunto": "PF não viu o contrato de Viviane no celular de Vorcaro?",
+   "secao": "politica",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "O Antagonista",
+     "titulo": "PF não viu o contrato de Viviane no celular de Vorcaro?",
+     "url": "https://oantagonista.com.br/brasil/pf-nao-viu-o-contrato-de-viviane-no-celular-de-vorcaro/",
+     "hora": "27/11 08h28"
+    },
+    {
+     "veiculo": "Revista Oeste",
+     "titulo": "Busca simples no celular de Vorcaro acha contrato da mulher de Moraes omitido pela PF",
+     "url": "https://revistaoeste.com/politica/busca-simples-no-celular-de-vorcaro-acha-contrato-da-mulher-de-moraes-omitido-pela-pf/",
+     "hora": "27/11 08h24"
+    }
+   ]
+  },
+  {
+   "assunto": "Senado da Argentina aprova suspensão das primárias, favorecendo tentativa de reeleição de Milei, que enfrenta alta de desaprovação e desaceleração da economia",
+   "secao": "mundo",
+   "n_fontes": 2,
+   "manchetes": [
+    {
+     "veiculo": "g1 Mundo",
+     "titulo": "Senado da Argentina aprova suspensão das primárias, favorecendo tentativa de reeleição de Milei, que enfrenta alta de desaprovação e desaceleração da economia",
+     "url": "https://g1.globo.com/mundo/noticia/2026/11/27/senado-da-argentina-aprova-suspensao-das-primarias-favorecendo-tentativa-de-reeleicao-de-milei.ghtml",
+     "hora": "27/11 08h23"
+    },
+    {
+     "veiculo": "InfoMoney",
+     "titulo": "Senado argentino aprova reforma que suspende primárias e pode favorecer Milei",
+     "url": "https://www.infomoney.com.br/mundo/senado-argentino-aprova-reforma-que-suspende-primarias-e-pode-favorecer-milei/",
+     "hora": "27/11 08h19"
+    }
+   ]
   }
  ],
  "ultima_rodada": "2026-11-27T06:58-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 10 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 35 nas últimas 6 h",
-  "Agência Brasil": "ok: 10 itens, 4 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 46 nas últimas 6 h",
+  "Agência Brasil": "ok: 10 itens, 5 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 4 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 2 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 8 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 9 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 0 nas últimas 6 h",
-  "ge": "ok: 100 itens, 45 nas últimas 6 h",
+  "ge": "ok: 100 itens, 46 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 4 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 8 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 8 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 2 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 3 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 0 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 10 nas últimas 6 h",
@@ -1626,11 +1696,11 @@
   "Agência Senado": "ok: 15 itens, 1 nas últimas 6 h",
   "Agência Câmara": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Política": "ok: 20 itens, 3 nas últimas 6 h",
-  "Estadão Economia": "ok: 20 itens, 2 nas últimas 6 h",
+  "Estadão Economia": "ok: 20 itens, 3 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 4 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 5 nas últimas 6 h",
   "O Globo": "ok: 100 itens, 100 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 88 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 90 nas últimas 6 h",
   "Exame": "ok: 25 itens, 25 nas últimas 6 h",
   "Veja": "ok: 20 itens, 20 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
