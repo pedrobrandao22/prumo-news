@@ -1,20 +1,45 @@
 {
- "gerado": "2026-11-28T03:58-03:00",
+ "gerado": "2026-11-28T04:09-03:00",
  "desde": "2026-11-27T23:55-03:00",
  "feed_atualizado_em": "2026-11-28T00:05:00-03:00",
  "resumo": {
-  "manchetes": 141,
+  "manchetes": 257,
   "assuntos_novos_relevantes": 1,
-  "assuntos_novos": 124,
+  "assuntos_novos": 183,
   "pautas_com_novidade": 6,
   "pautas_com_novidade_3_fontes": 0,
-  "pautas_com_relatos": 9,
-  "acionar_itens": 0,
+  "pautas_com_relatos": 10,
+  "acionar_itens": 1,
   "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (124 assuntos fora do feed, 9 pautas com relatos)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta principal caso-master sem atualização há 6.4 h e 2 veículos com relatos novos",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "caso-master",
+   "titulo": "Caso Master mantém disputa no STF sobre quem vai comandar investigações",
+   "n_fontes": 2,
+   "motivo": "pauta principal caso-master sem atualização há 6.4 h e 2 veículos com relatos novos",
+   "acao": "atualiza: caso-master",
+   "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Caso Master mantém disputa no STF sobre quem vai comandar investigações",
+     "url": "https://www.cnnbrasil.com.br/politica/caso-master-mantem-disputa-no-stf-sobre-quem-vai-comandar-investigacoes/",
+     "hora": "28/11 04h00",
+     "lide": "Fachin é contestado, Nunes Marques enfrenta resistência de colegas e Mendonça tenta retomar o inquérito; sem acordo, impasse pode chegar a 2027"
+    },
+    {
+     "veiculo": "Poder360",
+     "titulo": "Fachin libera R$ 316 milhões da liquidação do Master ao BRB",
+     "url": "https://www.poder360.com.br/poder-justica/fachin-libera-r-316-milhoes-do-master-ao-brb/",
+     "hora": "28/11 00h10",
+     "lide": "Decisão autoriza retomada de repasses de carteiras de crédito sem disputa de titularidade; ministro mantém bloqueados valores de operações contestadas. Leia no Poder360."
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
   {
@@ -52,33 +77,6 @@
    "ultima_iso": "2026-11-28T02:41-03:00"
   },
   {
-   "assunto": "Fim de semana deve ser marcado por temporais em grande parte do Brasil",
-   "secao": "brasil",
-   "n_fontes": 2,
-   "fontes": [
-    "cnn",
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Fim de semana deve ser marcado por temporais em grande parte do Brasil",
-     "url": "https://www.cnnbrasil.com.br/nacional/brasil/final-de-semana-deve-ser-marcado-por-temporais-em-grande-parte-do-brasil/",
-     "hora": "28/11 03h33"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Estreia da Zcas: Fim de semana terá temporais no Sul e chuva forte em SP e no Rio; veja previsão",
-     "url": "https://oglobo.globo.com/blogs/clima-extremo/noticia/2026/11/28/estreia-da-zcas-fim-de-semana-tera-temporais-no-sul-e-chuva-forte-em-sp-e-no-rio-veja-previsao.ghtml",
-     "hora": "28/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T03:33-03:00"
-  },
-  {
    "assunto": "Fundação FHC lamenta fala de Lula que chamou ex-presidente de 'morto-vivo'",
    "secao": "politica",
    "n_fontes": 2,
@@ -104,6 +102,46 @@
    ],
    "n_fontes_90min": 2,
    "ultima_iso": "2026-11-28T01:19-03:00"
+  },
+  {
+   "assunto": "Previsão do tempo hoje para Brasília (DF): sol com muitas nuvens; pancadas de chuva à tarde e à noite",
+   "secao": "brasil",
+   "n_fontes": 2,
+   "fontes": [
+    "g1",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Previsão do tempo hoje para Brasília (DF): sol com muitas nuvens; pancadas de chuva à tarde e à noite",
+     "url": "https://g1.globo.com/df/distrito-federal/previsao-do-tempo/noticia/2026/11/28/previsao-do-tempo-hoje-para-brasilia-df-sol-com-muitas-nuvens-pancadas-de-chuva-a-tarde-e-a-noite.ghtml",
+     "hora": "28/11 01h15"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Previsão do tempo hoje para Goiânia (GO): sol e aumento de nuvens de manhã; pancadas de chuva à tarde e à noite",
+     "url": "https://g1.globo.com/go/goias/previsao-do-tempo/noticia/2026/11/28/previsao-do-tempo-hoje-para-goiania-go-sol-e-aumento-de-nuvens-de-manha-pancadas-de-chuva-a-tarde-e-a-noite.ghtml",
+     "hora": "28/11 01h14"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Previsão do tempo hoje para Aparecida de Goiânia (GO): sol com algumas nuvens e chuva passageira; à noite, muitas nuvens mas com tempo firme",
+     "url": "https://g1.globo.com/go/goias/previsao-do-tempo/noticia/2026/11/28/previsao-do-tempo-hoje-para-aparecida-de-goiania-go-sol-com-algumas-nuvens-e-chuva-passageira-a-noite-muitas-nuvens-mas-com-tempo-firme.ghtml",
+     "hora": "28/11 01h14"
+    },
+    {
+     "veiculo": "g1",
+     "titulo": "Previsão do tempo hoje para Cuiabá (MT): sol com muitas nuvens; pancadas de chuva à tarde e à noite",
+     "url": "https://g1.globo.com/mt/mato-grosso/previsao-do-tempo/noticia/2026/11/28/previsao-do-tempo-hoje-para-cuiaba-mt-sol-com-muitas-nuvens-pancadas-de-chuva-a-tarde-e-a-noite.ghtml",
+     "hora": "28/11 01h14"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-28T01:15-03:00",
+   "lixo": true
   },
   {
    "assunto": "Subiu! Vila Nova despacha o Atlético-GO e está na Série A após 41 anos",
@@ -171,6 +209,46 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-28T03:30-03:00"
+  },
+  {
+   "assunto": "'Canta comigo?': cantor de Brasília viraliza ao convidar desconhecidos para cantar nas ruas da capital",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "'Canta comigo?': cantor de Brasília viraliza ao convidar desconhecidos para cantar nas ruas da capital",
+     "url": "https://g1.globo.com/df/distrito-federal/noticia/2026/11/28/canta-comigo-cantor-de-brasilia-viraliza-ao-convidar-desconhecidos-para-cantar-nas-ruas-da-capital.ghtml",
+     "hora": "28/11 02h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-28T02:00-03:00"
+  },
+  {
+   "assunto": "'Carne dopada': por que Macron implica tanto com o agro brasileiro?",
+   "secao": "economia",
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1 Economia",
+     "titulo": "'Carne dopada': por que Macron implica tanto com o agro brasileiro?",
+     "url": "https://g1.globo.com/economia/agronegocios/noticia/2026/11/28/carne-dopada-por-que-macron-implica-tanto-com-o-agro-brasileiro.ghtml",
+     "hora": "28/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-28T04:00-03:00"
   },
   {
    "assunto": "'Cavalo selvagem nove': Dinossauros vão para o céu?",
@@ -273,24 +351,44 @@
    "ultima_iso": "2026-11-28T03:00-03:00"
   },
   {
-   "assunto": "Adidas lança versão em tricô do casaco viral do Ano-Novo Chinês",
-   "secao": "mundo",
+   "assunto": "A tragédia na imprensa: as histórias de dor e saudade de três jornalistas que estavam no voo da Chapecoense",
+   "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
-    "met"
+    "ge"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Metrópoles",
-     "titulo": "Adidas lança versão em tricô do casaco viral do Ano-Novo Chinês",
-     "url": "https://www.metropoles.com/colunas/ilca-maria-estevao/adidas-lanca-versao-em-trico-do-casaco-viral-do-ano-novo-chines",
-     "hora": "28/11 02h00"
+     "veiculo": "ge",
+     "titulo": "A tragédia na imprensa: as histórias de dor e saudade de três jornalistas que estavam no voo da Chapecoense",
+     "url": "https://ge.globo.com/sc/futebol/times/chapecoense/noticia/2026/11/28/a-tragedia-na-imprensa-as-historias-de-dor-e-saudade-de-tres-jornalistas-que-estavam-no-voo-da-chapecoense.ghtml",
+     "hora": "28/11 04h00"
     }
    ],
    "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T02:00-03:00"
+   "ultima_iso": "2026-11-28T04:00-03:00"
+  },
+  {
+   "assunto": "Adolescente morto a tiros pelo pai tentou defender mãe durante discussão em prédio de Fortaleza",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Adolescente morto a tiros pelo pai tentou defender mãe durante discussão em prédio de Fortaleza",
+     "url": "https://g1.globo.com/ce/ceara/noticia/2026/11/28/adolescente-morto-a-tiros-pelo-pai-tentou-defender-mae-durante-discussao-em-predio-de-fortaleza.ghtml",
+     "hora": "28/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-28T00:00-03:00"
   },
   {
    "assunto": "Antiga casa de lavadeiras virou memorial em parque brasileiro de 225 hectares com lagoa escura cercada por dunas brancas",
@@ -331,6 +429,66 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-28T02:00-03:00"
+  },
+  {
+   "assunto": "Análise: Santa acerta ao reformular elenco sem se apegar ao acesso, mas perde em algumas saídas",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Santa acerta ao reformular elenco sem se apegar ao acesso, mas perde em algumas saídas",
+     "url": "https://ge.globo.com/pe/futebol/times/santa-cruz/noticia/2026/11/28/analise-santa-acerta-ao-reformular-elenco-sem-se-apegar-ao-acesso-mas-perde-em-algumas-saidas.ghtml",
+     "hora": "28/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-28T04:00-03:00"
+  },
+  {
+   "assunto": "Análise: Vila Nova persiste no caminho certo e coroa bom planejamento com acesso inédito",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: Vila Nova persiste no caminho certo e coroa bom planejamento com acesso inédito",
+     "url": "https://ge.globo.com/go/futebol/times/vila-nova/noticia/2026/11/28/analise-vila-nova-persiste-no-caminho-certo-e-coroa-bom-planejamento-com-acesso-inedito.ghtml",
+     "hora": "28/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-28T04:00-03:00"
+  },
+  {
+   "assunto": "Análise: da lanterna ao pódio, Cruzeiro coroa feito gigante sob comando de Artur Jorge",
+   "secao": "esportes",
+   "n_fontes": 1,
+   "fontes": [
+    "ge"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "ge",
+     "titulo": "Análise: da lanterna ao pódio, Cruzeiro coroa feito gigante sob comando de Artur Jorge",
+     "url": "https://ge.globo.com/futebol/times/cruzeiro/noticia/2026/11/28/analise-da-lanterna-ao-podio-cruzeiro-coroa-feito-gigante-sob-comando-de-artur-jorge.ghtml",
+     "hora": "28/11 04h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-28T04:00-03:00"
   },
   {
    "assunto": "Apesar de histórico equilibrado, Estudiantes tem lembranças positivas contra o Palmeiras",
@@ -443,7 +601,7 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1 Economia",
+     "veiculo": "g1",
      "titulo": "Banco dos EUA é fechado na maior quebra em mais de dois anos",
      "url": "https://g1.globo.com/economia/noticia/2026/11/28/banco-dos-eua-e-fechado-na-maior-quebra-em-mais-de-dois-anos.ghtml",
      "hora": "28/11 03h08"
@@ -453,7 +611,48 @@
    "ultima_iso": "2026-11-28T03:08-03:00"
   },
   {
-   "assunto": "Botafogo x Bahia: onde assistir ao vivo, horário e escalações",
+   "assunto": "Bebê com doença genética rara precisa de medicamento que custa até R$ 200 mil por mês, diz família",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Bebê com doença genética rara precisa de medicamento que custa até R$ 200 mil por mês, diz família",
+     "url": "https://g1.globo.com/go/goias/noticia/2026/11/28/bebe-com-doenca-genetica-rara-precisa-de-medicamento-que-custa-ate-r-200-mil-por-mes-diz-familia.ghtml",
+     "hora": "28/11 02h00"
+    }
+   ],
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-28T02:00-03:00"
+  },
+  {
+   "assunto": "Black Friday ou 11.11? Levantamento do g1 mostra qual data tem os melhores preços",
+   "secao": null,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "ja_e_breve": false,
+   "relevante": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Black Friday ou 11.11? Levantamento do g1 mostra qual data tem os melhores preços",
+     "url": "https://g1.globo.com/guia/guia-de-compras/black-friday-ou-1111-levantamento-do-g1-mostra-qual-data-tem-os-melhores-precos.ghtml",
+     "hora": "28/11 02h00"
+    }
+   ],
+   "n_fontes_90min": 0,
+   "ultima_iso": "2026-11-28T02:00-03:00",
+   "lixo": true
+  },
+  {
+   "assunto": "Botafogo x Bahia: Tite e Rogério Ceni se reencontram em momentos opostos da carreira",
    "secao": "esportes",
    "n_fontes": 1,
    "fontes": [
@@ -464,20 +663,13 @@
    "manchetes": [
     {
      "veiculo": "ge",
-     "titulo": "Botafogo x Bahia: onde assistir ao vivo, horário e escalações",
-     "url": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/noticia/2026/11/28/botafogo-x-bahia-onde-assistir-ao-vivo-horario-e-escalacoes.ghtml",
-     "hora": "28/11 03h00"
-    },
-    {
-     "veiculo": "ge",
-     "titulo": "Naviraiense x Dourados: onde assistir ao vivo, horário e escalações",
-     "url": "https://ge.globo.com/ms/futebol/copa-ms/noticia/2026/11/28/naviraiense-x-dourados-onde-assistir-ao-vivo-horario-e-escalacoes.ghtml",
-     "hora": "28/11 02h11"
+     "titulo": "Botafogo x Bahia: Tite e Rogério Ceni se reencontram em momentos opostos da carreira",
+     "url": "https://ge.globo.com/ba/futebol/brasileirao-serie-a/noticia/2026/11/28/botafogo-x-bahia-tite-e-rogerio-ceni-se-reencontram-em-momentos-opostos-da-carreira.ghtml",
+     "hora": "28/11 04h00"
     }
    ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-28T03:00-03:00",
-   "lixo": true
+   "n_fontes_90min": 1,
+   "ultima_iso": "2026-11-28T04:00-03:00"
   },
   {
    "assunto": "Brasileira presa na Rússia costura uniformes para soldados lutarem na Ucrânia, diz defesa",
@@ -490,7 +682,7 @@
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "g1 Mundo",
+     "veiculo": "g1",
      "titulo": "Brasileira presa na Rússia costura uniformes para soldados lutarem na Ucrânia, diz defesa",
      "url": "https://g1.globo.com/mundo/noticia/2026/11/28/brasileira-presa-na-russia-costura-uniformes-para-soldados-lutarem-na-ucrania-diz-defesa.ghtml",
      "hora": "28/11 00h00"
@@ -498,167 +690,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-28T00:00-03:00"
-  },
-  {
-   "assunto": "Bronson Reed, estrela da WWE, morre aos 38 anos após lesão em luta livre; assista",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Bronson Reed, estrela da WWE, morre aos 38 anos após lesão em luta livre; assista",
-     "url": "https://oglobo.globo.com/esportes/noticia/2026/11/28/bronson-reed-estrela-da-wwe-morre-aos-38-anos-apos-lesao-em-luta-livre-assista.ghtml",
-     "hora": "28/11 03h43"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T03:43-03:00"
-  },
-  {
-   "assunto": "Bruxa que enfeitiçou o Palmeiras, pai de Verón virou música em ano histórico: \"Passou a vassoura\"",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Bruxa que enfeitiçou o Palmeiras, pai de Verón virou música em ano histórico: \"Passou a vassoura\"",
-     "url": "https://ge.globo.com/futebol/futebol-internacional/noticia/2026/11/28/bruxa-que-enfeiticou-o-palmeiras-pai-de-veron-virou-musica-em-ano-historico-passou-a-vassoura.ghtml",
-     "hora": "28/11 02h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T02:00-03:00"
-  },
-  {
-   "assunto": "Classificação do GP do Catar da F1 2026: horários e onde assistir",
-   "secao": "mundo",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Classificação do GP do Catar da F1 2026: horários e onde assistir",
-     "url": "https://ge.globo.com/motor/formula-1/noticia/2026/11/28/classificacao-do-gp-do-catar-da-f1-2026-horarios-e-onde-assistir.ghtml",
-     "hora": "28/11 00h01"
-    }
-   ],
-   "n_fontes_90min": 0,
-   "ultima_iso": "2026-11-28T00:01-03:00",
-   "lixo": true
-  },
-  {
-   "assunto": "Como a expectativa de vida foi de 45 a 77 anos no Brasil em menos de um século",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Como a expectativa de vida foi de 45 a 77 anos no Brasil em menos de um século",
-     "url": "https://oglobo.globo.com/saude/noticia/2026/11/28/como-a-expectativa-de-vida-foi-de-45-a-77-anos-no-brasil-em-menos-de-um-seculo.ghtml",
-     "hora": "28/11 03h30"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T03:30-03:00"
-  },
-  {
-   "assunto": "Condutor se aproxima de uma passagem de nível sem cancela, percebe que não há trem à vista e decide atravessar sem parar, mas descobre o que a legislação exige antes de cruzar a li",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "antag"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Antagonista",
-     "titulo": "Condutor se aproxima de uma passagem de nível sem cancela, percebe que não há trem à vista e decide atravessar sem parar, mas descobre o que a legislação exige antes de cruzar a li",
-     "url": "https://oantagonista.com.br/economia/condutor-se-aproxima-de-uma-passagem-de-nivel-sem-cancela-percebe-que-nao-ha-trem-a-vista-e-decide-atravessar-sem-parar-mas-descobre-o-que-a-legislacao-exige-antes-de-cruzar-a-linha-ferrea/",
-     "hora": "28/11 02h53"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T02:53-03:00"
-  },
-  {
-   "assunto": "Confira lista de aparelhos celulares que ficarão sem WhatsApp a partir de dezembro",
-   "secao": null,
-   "n_fontes": 1,
-   "fontes": [
-    "oglobo"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "O Globo",
-     "titulo": "Confira lista de aparelhos celulares que ficarão sem WhatsApp a partir de dezembro",
-     "url": "https://oglobo.globo.com/economia/tecnologia/noticia/2026/11/28/confira-lista-de-aparelhos-celulares-que-ficarao-sem-whatsapp-a-partir-de-dezembro.ghtml",
-     "hora": "28/11 03h30"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T03:30-03:00"
-  },
-  {
-   "assunto": "Copa do Brasil no DF: Grêmio foi o 1° campeão da história da competição",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "met"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "Metrópoles",
-     "titulo": "Copa do Brasil no DF: Grêmio foi o 1° campeão da história da competição",
-     "url": "https://www.metropoles.com/esportes/copa-do-brasil-no-df-gremio-foi-o-1-campeao-da-historia-da-competicao",
-     "hora": "28/11 02h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T02:00-03:00"
-  },
-  {
-   "assunto": "Copa do Mundo Feminina 2027: Estados Unidos goleiam El Salvador por 8 a 0 e garantem classificação",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "ge"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "ge",
-     "titulo": "Copa do Mundo Feminina 2027: Estados Unidos goleiam El Salvador por 8 a 0 e garantem classificação",
-     "url": "https://ge.globo.com/futebol/copa-do-mundo/noticia/2026/11/28/copa-do-mundo-feminina-2027-estados-unidos-goleiam-el-salvador-por-8-a-0-e-garantem-classificacao.ghtml",
-     "hora": "28/11 00h27"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T00:27-03:00"
   }
  ],
  "em_pautas": {
@@ -667,7 +698,7 @@
    "n_fontes": 1,
    "manchetes": [
     {
-     "veiculo": "g1 Política",
+     "veiculo": "g1",
      "titulo": "Ministério da Segurança Pública não é inédito no Brasil; veja como era e o que especialistas esperam do novo órgão",
      "url": "https://g1.globo.com/politica/noticia/2026/11/28/ministerio-da-seguranca-publica-nao-e-inedito-no-brasil-veja-como-era-e-o-que-especialistas-esperam-do-novo-orgao.ghtml",
      "hora": "28/11 00h00"
@@ -695,6 +726,12 @@
      "titulo": "Fachin libera R$ 316 milhões da liquidação do Master ao BRB",
      "url": "https://www.poder360.com.br/poder-justica/fachin-libera-r-316-milhoes-do-master-ao-brb/",
      "hora": "28/11 00h10"
+    },
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Caso Master mantém disputa no STF sobre quem vai comandar investigações",
+     "url": "https://www.cnnbrasil.com.br/politica/caso-master-mantem-disputa-no-stf-sobre-quem-vai-comandar-investigacoes/",
+     "hora": "28/11 04h00"
     }
    ]
   },
@@ -737,18 +774,25 @@
  },
  "novos_relatos": {
   "caso-master": {
-   "n": 1,
-   "n_fontes": 1,
+   "n": 2,
+   "n_fontes": 2,
    "fontes": [
+    "cnn",
     "p360"
    ],
    "n_fontes_90min": 1,
-   "ultima": "28/11 00h10",
-   "ultima_iso": "2026-11-28T00:10-03:00",
+   "ultima": "28/11 04h00",
+   "ultima_iso": "2026-11-28T04:00-03:00",
    "pauta_atualizada_em": "2026-11-27T21:48-03:00",
-   "horas_sem_atualizar": 6.2,
+   "horas_sem_atualizar": 6.4,
    "principal": true,
    "manchetes": [
+    {
+     "veiculo": "CNN Brasil",
+     "titulo": "Caso Master mantém disputa no STF sobre quem vai comandar investigações",
+     "url": "https://www.cnnbrasil.com.br/politica/caso-master-mantem-disputa-no-stf-sobre-quem-vai-comandar-investigacoes/",
+     "hora": "28/11 04h00"
+    },
     {
      "veiculo": "Poder360",
      "titulo": "Fachin libera R$ 316 milhões da liquidação do Master ao BRB",
@@ -767,7 +811,7 @@
    "ultima": "28/11 02h39",
    "ultima_iso": "2026-11-28T02:39-03:00",
    "pauta_atualizada_em": "2026-11-27T06:53-03:00",
-   "horas_sem_atualizar": 21.1,
+   "horas_sem_atualizar": 21.3,
    "principal": true,
    "manchetes": [
     {
@@ -788,11 +832,11 @@
    "ultima": "28/11 00h00",
    "ultima_iso": "2026-11-28T00:00-03:00",
    "pauta_atualizada_em": "2026-11-26T10:48-03:00",
-   "horas_sem_atualizar": 41.2,
+   "horas_sem_atualizar": 41.4,
    "principal": false,
    "manchetes": [
     {
-     "veiculo": "g1 Política",
+     "veiculo": "g1",
      "titulo": "Ministério da Segurança Pública não é inédito no Brasil; veja como era e o que especialistas esperam do novo órgão",
      "url": "https://g1.globo.com/politica/noticia/2026/11/28/ministerio-da-seguranca-publica-nao-e-inedito-no-brasil-veja-como-era-e-o-que-especialistas-esperam-do-novo-orgao.ghtml",
      "hora": "28/11 00h00"
@@ -809,7 +853,7 @@
    "ultima": "27/11 23h45",
    "ultima_iso": "2026-11-27T23:45-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 17.2,
+   "horas_sem_atualizar": 17.4,
    "principal": true,
    "manchetes": [
     {
@@ -832,7 +876,7 @@
    "ultima": "28/11 00h00",
    "ultima_iso": "2026-11-28T00:00-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 17.2,
+   "horas_sem_atualizar": 17.4,
    "principal": false,
    "manchetes": [
     {
@@ -866,7 +910,7 @@
    "ultima": "28/11 03h00",
    "ultima_iso": "2026-11-28T03:00-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 69.1,
+   "horas_sem_atualizar": 69.3,
    "principal": false,
    "manchetes": [
     {
@@ -893,7 +937,7 @@
    "ultima": "27/11 23h00",
    "ultima_iso": "2026-11-27T23:00-03:00",
    "pauta_atualizada_em": "2026-11-27T18:48-03:00",
-   "horas_sem_atualizar": 9.2,
+   "horas_sem_atualizar": 9.4,
    "principal": false,
    "manchetes": [
     {
@@ -901,6 +945,27 @@
      "titulo": "Flávio Bolsonaro tenta ditar ritmo da direita 1 mês após fuga aos EUA, mas vê liderança abalada",
      "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/flavio-bolsonaro-tenta-ditar-ritmo-da-direita-1-mes-apos-fuga-aos-eua-mas-ve-lideranca-abalada.shtml",
      "hora": "27/11 23h00"
+    }
+   ]
+  },
+  "pnad-desemprego-outubro-5-1": {
+   "n": 1,
+   "n_fontes": 1,
+   "fontes": [
+    "g1"
+   ],
+   "n_fontes_90min": 1,
+   "ultima": "27/11 22h00",
+   "ultima_iso": "2026-11-27T22:00-03:00",
+   "pauta_atualizada_em": "2026-11-27T09:30-03:00",
+   "horas_sem_atualizar": 18.7,
+   "principal": false,
+   "manchetes": [
+    {
+     "veiculo": "g1",
+     "titulo": "Taxa de desemprego no Brasil atinge o menor patamar da série histórica",
+     "url": "https://g1.globo.com/jornal-nacional/noticia/2026/11/27/taxa-de-desemprego-no-brasil-atinge-o-menor-patamar-da-serie-historica.ghtml",
+     "hora": "27/11 22h00"
     }
    ]
   },
@@ -915,7 +980,7 @@
    "ultima": "28/11 03h30",
    "ultima_iso": "2026-11-28T03:30-03:00",
    "pauta_atualizada_em": "2026-11-27T14:48-03:00",
-   "horas_sem_atualizar": 13.2,
+   "horas_sem_atualizar": 13.4,
    "principal": false,
    "manchetes": [
     {
@@ -942,7 +1007,7 @@
    "ultima": "27/11 22h03",
    "ultima_iso": "2026-11-27T22:03-03:00",
    "pauta_atualizada_em": "2026-11-27T18:48-03:00",
-   "horas_sem_atualizar": 9.2,
+   "horas_sem_atualizar": 9.4,
    "principal": false,
    "manchetes": [
     {
@@ -1403,25 +1468,6 @@
    ]
   },
   {
-   "assunto": "Fim de semana deve ser marcado por temporais em grande parte do Brasil",
-   "secao": "brasil",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "CNN Brasil",
-     "titulo": "Fim de semana deve ser marcado por temporais em grande parte do Brasil",
-     "url": "https://www.cnnbrasil.com.br/nacional/brasil/final-de-semana-deve-ser-marcado-por-temporais-em-grande-parte-do-brasil/",
-     "hora": "28/11 03h33"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Estreia da Zcas: Fim de semana terá temporais no Sul e chuva forte em SP e no Rio; veja previsão",
-     "url": "https://oglobo.globo.com/blogs/clima-extremo/noticia/2026/11/28/estreia-da-zcas-fim-de-semana-tera-temporais-no-sul-e-chuva-forte-em-sp-e-no-rio-veja-previsao.ghtml",
-     "hora": "28/11 00h00"
-    }
-   ]
-  },
-  {
    "assunto": "Fundação FHC lamenta fala de Lula que chamou ex-presidente de 'morto-vivo'",
    "secao": "politica",
    "n_fontes": 2,
@@ -1444,20 +1490,20 @@
  "ultima_rodada": "2026-11-28T00:05-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 3 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 16 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 18 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 0 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
-  "g1": "falhou: ParseError('not well-formed (invalid token): line 1, column 0')",
+  "g1": "ok: 100 itens, 90 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 3 nas últimas 6 h",
-  "g1 Economia": "ok: 100 itens, 4 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Economia": "ok: 100 itens, 6 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 5 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
-  "ge": "ok: 100 itens, 42 nas últimas 6 h",
-  "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 11 nas últimas 6 h",
-  "Folha Cotidiano": "ok: 100 itens, 4 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
-  "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
+  "ge": "ok: 100 itens, 63 nas últimas 6 h",
+  "Folha Poder": "ok: 100 itens, 6 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 14 nas últimas 6 h",
+  "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 7 nas últimas 6 h",
+  "Folha Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 0 nas últimas 6 h",
   "BBC News Brasil": "ok: 31 itens, 0 nas últimas 6 h",
@@ -1467,16 +1513,16 @@
   "Estadão Economia": "ok: 20 itens, 2 nas últimas 6 h",
   "Estadão Brasil": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 3 nas últimas 6 h",
-  "O Globo": "ok: 100 itens, 59 nas últimas 6 h",
+  "O Globo": "ok: 100 itens, 58 nas últimas 6 h",
   "Valor Econômico": "ok: 100 itens, 3 nas últimas 6 h",
   "Exame": "ok: 25 itens, 0 nas últimas 6 h",
   "Veja": "ok: 20 itens, 2 nas últimas 6 h",
-  "Nexo": "ok: 20 itens, 1 nas últimas 6 h",
+  "Nexo": "ok: 20 itens, 0 nas últimas 6 h",
   "DW Brasil": "ok: 61 itens, 0 nas últimas 6 h",
   "Gazeta do Povo República": "ok: 55 itens, 3 nas últimas 6 h",
   "Gazeta do Povo Economia": "ok: 41 itens, 1 nas últimas 6 h",
-  "Revista Oeste": "ok: 10 itens, 8 nas últimas 6 h",
-  "Jovem Pan": "ok: 10 itens, 3 nas últimas 6 h",
+  "Revista Oeste": "ok: 10 itens, 7 nas últimas 6 h",
+  "Jovem Pan": "ok: 10 itens, 1 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
   "CartaCapital": "ok: 20 itens, 9 nas últimas 6 h",
   "Brasil de Fato": "ok: 99 itens, 3 nas últimas 6 h",
