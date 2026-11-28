@@ -1,22 +1,81 @@
 {
- "gerado": "2026-11-28T02:44-03:00",
+ "gerado": "2026-11-28T02:54-03:00",
  "desde": "2026-11-27T23:55-03:00",
  "feed_atualizado_em": "2026-11-28T00:05:00-03:00",
  "resumo": {
-  "manchetes": 165,
-  "assuntos_novos_relevantes": 0,
-  "assuntos_novos": 107,
-  "pautas_com_novidade": 4,
+  "manchetes": 172,
+  "assuntos_novos_relevantes": 1,
+  "assuntos_novos": 111,
+  "pautas_com_novidade": 5,
   "pautas_com_novidade_3_fontes": 0,
   "pautas_com_relatos": 10,
-  "acionar_itens": 0,
-  "ja_avaliados": 1
+  "acionar_itens": 1,
+  "ja_avaliados": 0
  },
- "acionar": false,
- "acionar_motivo": "nada novo que acione (107 assuntos fora do feed, 10 pautas com relatos, 1 já vistos por uma rodada)",
- "acionar_itens": [],
+ "acionar": true,
+ "acionar_motivo": "pauta principal dolar-volta-acima-5 sem atualização há 16.1 h e 2 veículos com relatos novos",
+ "acionar_itens": [
+  {
+   "tipo": "pauta",
+   "pid": "dolar-volta-acima-5",
+   "titulo": "De R$ 5,92 a R$ 5,51, a queda do dólar após confirmação de Trabuco na Fazenda",
+   "n_fontes": 2,
+   "motivo": "pauta principal dolar-volta-acima-5 sem atualização há 16.1 h e 2 veículos com relatos novos",
+   "acao": "atualiza: dolar-volta-acima-5",
+   "manchetes": [
+    {
+     "veiculo": "Jovem Pan",
+     "titulo": "De R$ 5,92 a R$ 5,51, a queda do dólar após confirmação de Trabuco na Fazenda",
+     "url": "https://jovempan.com.br/economia/de-r-592-a-r-551-a-queda-do-dolar-apos-confirmacao-de-trabuco-na-fazenda/",
+     "hora": "27/11 23h45",
+     "lide": "A moeda norte-americana despencou 7% e encerrou a semana com o maior recuo desde outubro de 2008"
+    },
+    {
+     "veiculo": "Gazeta do Povo República",
+     "titulo": "Dólar despenca após confirmação de Trabuco na Fazenda",
+     "url": "https://www.gazetadopovo.com.br/economia/dolar-despenca-apos-confirmacao-de-trabuco-na-fazenda-ibovespa-tem-leve-alta/",
+     "hora": "27/11 21h44",
+     "lide": "Recuo do dólar foi impulsionado pela confirmação de Luiz Carlos Trabuco no comando do Ministério da Fazenda a partir de 2027."
+    }
+   ]
+  }
+ ],
  "regra": "acionar = (a) assunto novo ou pauta com 3+ veículos em 90 min (peso por seção: Política/Economia 3, Brasil/Mundo 4, Educação 5, Esportes 6; sem lixo), (b) pauta principal parada há 3 h+ com relatos novos de 2+ veículos, ou (c) dado oficial novo (oficiais.json); itens que uma rodada já viu só voltam se ganharem 2+ veículos ou se a pauta for atualizada depois; assunto que já é breve também aciona (18/11). Cada item traz acao: 'atualiza: <pid>' (update_add) ou 'nova' (add_pauta), nunca breve",
  "novos": [
+  {
+   "assunto": "Taiwan realiza eleições locais com disputa acirrada pela prefeitura da capital Taipé",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "fontes": [
+    "estadao",
+    "folha",
+    "oglobo"
+   ],
+   "ja_e_breve": false,
+   "relevante": true,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Taiwan realiza eleições locais com disputa acirrada pela prefeitura da capital Taipé",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/taiwan-realiza-eleicoes-locais-com-disputa-acirrada-pela-prefeitura-da-capital-taipe.shtml",
+     "hora": "28/11 02h41"
+    },
+    {
+     "veiculo": "Estadão Internacional",
+     "titulo": "Taiwan vai às urnas em eleições locais com disputa acirrada pela prefeitura de Taipé",
+     "url": "https://www.estadao.com.br/internacional/taiwan-vai-as-urnas-em-eleicoes-locais-com-disputa-acirrada-pela-prefeitura-de-taipe-npr/",
+     "hora": "28/11 01h55"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Taiwan vota com disputa acirrada pela prefeitura de Taipé, onde candidato pode encerrar domínio de 30 anos da oposição",
+     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/28/taiwan-vota-com-disputa-acirrada-pela-prefeitura-de-taipe-onde-candidato-pode-encerrar-dominio-de-30-anos-da-oposicao.ghtml",
+     "hora": "28/11 00h00"
+    }
+   ],
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-28T02:41-03:00"
+  },
   {
    "assunto": "Fundação FHC lamenta fala de Lula que chamou ex-presidente de 'morto-vivo'",
    "secao": "politica",
@@ -85,31 +144,31 @@
    "lixo": true
   },
   {
-   "assunto": "Taiwan vai às urnas em eleições locais com disputa acirrada pela prefeitura de Taipé",
-   "secao": "mundo",
+   "assunto": "Subiu! Vila Nova despacha o Atlético-GO e está na Série A após 41 anos",
+   "secao": null,
    "n_fontes": 2,
    "fontes": [
-    "estadao",
-    "oglobo"
+    "cc",
+    "ge"
    ],
    "ja_e_breve": false,
    "relevante": false,
    "manchetes": [
     {
-     "veiculo": "Estadão Internacional",
-     "titulo": "Taiwan vai às urnas em eleições locais com disputa acirrada pela prefeitura de Taipé",
-     "url": "https://www.estadao.com.br/internacional/taiwan-vai-as-urnas-em-eleicoes-locais-com-disputa-acirrada-pela-prefeitura-de-taipe-npr/",
-     "hora": "28/11 01h55"
+     "veiculo": "ge",
+     "titulo": "Subiu! Vila Nova despacha o Atlético-GO e está na Série A após 41 anos",
+     "url": "https://ge.globo.com/go/futebol/brasileirao-serie-b/jogo/27-11-2026/vila-nova-atletico-go.ghtml",
+     "hora": "28/11 00h54"
     },
     {
-     "veiculo": "O Globo",
-     "titulo": "Taiwan vota com disputa acirrada pela prefeitura de Taipé, onde candidato pode encerrar domínio de 30 anos da oposição",
-     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/28/taiwan-vota-com-disputa-acirrada-pela-prefeitura-de-taipe-onde-candidato-pode-encerrar-dominio-de-30-anos-da-oposicao.ghtml",
-     "hora": "28/11 00h00"
+     "veiculo": "CartaCapital",
+     "titulo": "Vila Nova vence clássico decisivo contra o Atlético-GO e retorna à Série A após 41 anos",
+     "url": "https://www.cartacapital.com.br/esporte/vila-nova-vence-classico-decisivo-contra-o-atletico-go-e-retorna-a-serie-a-apos-41-anos/",
+     "hora": "28/11 00h19"
     }
    ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T01:55-03:00"
+   "n_fontes_90min": 2,
+   "ultima_iso": "2026-11-28T00:54-03:00"
   },
   {
    "assunto": "\"Falta amor\": paulistanos comentam decoração e \"fim do espírito natalino\"",
@@ -632,26 +691,6 @@
    ],
    "n_fontes_90min": 1,
    "ultima_iso": "2026-11-28T01:30-03:00"
-  },
-  {
-   "assunto": "De financiamento do tráfico a plano para matar ex-assessor: o que a investigação aponta sobre jogador DVD, do Vasco",
-   "secao": "esportes",
-   "n_fontes": 1,
-   "fontes": [
-    "g1"
-   ],
-   "ja_e_breve": false,
-   "relevante": false,
-   "manchetes": [
-    {
-     "veiculo": "g1",
-     "titulo": "De financiamento do tráfico a plano para matar ex-assessor: o que a investigação aponta sobre jogador DVD, do Vasco",
-     "url": "https://g1.globo.com/rj/rio-de-janeiro/noticia/2026/11/28/investigacao-aponta-sobre-jogador-dvd-do-vasco.ghtml",
-     "hora": "28/11 00h00"
-    }
-   ],
-   "n_fontes_90min": 1,
-   "ultima_iso": "2026-11-28T00:00-03:00"
   }
  ],
  "em_pautas": {
@@ -702,6 +741,18 @@
      "hora": "28/11 02h00"
     }
    ]
+  },
+  "lula-messias-stf-jantar": {
+   "secao": "politica",
+   "n_fontes": 1,
+   "manchetes": [
+    {
+     "veiculo": "Valor Econômico",
+     "titulo": "Mobilização para indicação de mulher negra ao STF é legítima, diz ministra de Lula",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/28/mobilizao-para-indicao-de-mulher-negra-ao-stf-legtima-diz-ministra-de-lula.ghtml",
+     "hora": "28/11 02h39"
+    }
+   ]
   }
  },
  "novos_relatos": {
@@ -715,7 +766,7 @@
    "ultima": "28/11 00h10",
    "ultima_iso": "2026-11-28T00:10-03:00",
    "pauta_atualizada_em": "2026-11-27T21:48-03:00",
-   "horas_sem_atualizar": 4.9,
+   "horas_sem_atualizar": 5.1,
    "principal": true,
    "manchetes": [
     {
@@ -726,24 +777,24 @@
     }
    ]
   },
-  "lula-trabuco-fazenda-haddad-usp": {
+  "lula-messias-stf-jantar": {
    "n": 1,
    "n_fontes": 1,
    "fontes": [
-    "folha"
+    "valor"
    ],
    "n_fontes_90min": 1,
-   "ultima": "27/11 20h40",
-   "ultima_iso": "2026-11-27T20:40-03:00",
-   "pauta_atualizada_em": "2026-11-27T14:48-03:00",
-   "horas_sem_atualizar": 11.9,
+   "ultima": "28/11 02h39",
+   "ultima_iso": "2026-11-28T02:39-03:00",
+   "pauta_atualizada_em": "2026-11-27T06:53-03:00",
+   "horas_sem_atualizar": 20.0,
    "principal": true,
    "manchetes": [
     {
-     "veiculo": "Folha Mercado",
-     "titulo": "Após 'efeito Trabuco', Lula inicia recalibragem do discurso do ajuste fiscal",
-     "url": "https://redir.folha.com.br/redir/online/mercado/rss091/*https://www1.folha.uol.com.br/colunas/adriana-fernandes/2026/11/apos-efeito-trabuco-lula-inicia-recalibragem-do-discurso-do-ajuste-fiscal.shtml",
-     "hora": "27/11 20h40"
+     "veiculo": "Valor Econômico",
+     "titulo": "Mobilização para indicação de mulher negra ao STF é legítima, diz ministra de Lula",
+     "url": "https://valor.globo.com/politica/noticia/2026/11/28/mobilizao-para-indicao-de-mulher-negra-ao-stf-legtima-diz-ministra-de-lula.ghtml",
+     "hora": "28/11 02h39"
     }
    ]
   },
@@ -757,7 +808,7 @@
    "ultima": "28/11 00h00",
    "ultima_iso": "2026-11-28T00:00-03:00",
    "pauta_atualizada_em": "2026-11-26T10:48-03:00",
-   "horas_sem_atualizar": 39.9,
+   "horas_sem_atualizar": 40.1,
    "principal": false,
    "manchetes": [
     {
@@ -779,7 +830,7 @@
    "ultima": "27/11 23h45",
    "ultima_iso": "2026-11-27T23:45-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 15.9,
+   "horas_sem_atualizar": 16.1,
    "principal": true,
    "manchetes": [
     {
@@ -808,7 +859,7 @@
    "ultima": "28/11 00h00",
    "ultima_iso": "2026-11-28T00:00-03:00",
    "pauta_atualizada_em": "2026-11-27T10:48-03:00",
-   "horas_sem_atualizar": 15.9,
+   "horas_sem_atualizar": 16.1,
    "principal": false,
    "manchetes": [
     {
@@ -842,7 +893,7 @@
    "ultima": "28/11 02h00",
    "ultima_iso": "2026-11-28T02:00-03:00",
    "pauta_atualizada_em": "2026-11-25T06:52-03:00",
-   "horas_sem_atualizar": 67.9,
+   "horas_sem_atualizar": 68.0,
    "principal": false,
    "manchetes": [
     {
@@ -869,7 +920,7 @@
    "ultima": "27/11 23h00",
    "ultima_iso": "2026-11-27T23:00-03:00",
    "pauta_atualizada_em": "2026-11-27T18:48-03:00",
-   "horas_sem_atualizar": 7.9,
+   "horas_sem_atualizar": 8.1,
    "principal": false,
    "manchetes": [
     {
@@ -890,7 +941,7 @@
    "ultima": "27/11 22h00",
    "ultima_iso": "2026-11-27T22:00-03:00",
    "pauta_atualizada_em": "2026-11-27T09:30-03:00",
-   "horas_sem_atualizar": 17.2,
+   "horas_sem_atualizar": 17.4,
    "principal": false,
    "manchetes": [
     {
@@ -911,7 +962,7 @@
    "ultima": "27/11 23h01",
    "ultima_iso": "2026-11-27T23:01-03:00",
    "pauta_atualizada_em": "2026-11-27T14:48-03:00",
-   "horas_sem_atualizar": 11.9,
+   "horas_sem_atualizar": 12.1,
    "principal": false,
    "manchetes": [
     {
@@ -932,7 +983,7 @@
    "ultima": "27/11 22h03",
    "ultima_iso": "2026-11-27T22:03-03:00",
    "pauta_atualizada_em": "2026-11-27T18:48-03:00",
-   "horas_sem_atualizar": 7.9,
+   "horas_sem_atualizar": 8.1,
    "principal": false,
    "manchetes": [
     {
@@ -1127,165 +1178,6 @@
   }
  ],
  "avaliados": [
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "acertada",
-    "aliados",
-    "anuncio",
-    "camilo",
-    "casa",
-    "civil",
-    "comandar",
-    "convida",
-    "cotado",
-    "define",
-    "escolha",
-    "escolhe",
-    "favorito",
-    "ficar",
-    "lula",
-    "ministro",
-    "proxima",
-    "rio",
-    "sai",
-    "santana",
-    "semana",
-    "trabuco",
-    "viaja"
-   ],
-   "n_fontes": 9,
-   "em": "2026-11-27T14:49-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "ajuste",
-    "ajustes",
-    "anunciar",
-    "assumir",
-    "beneficios",
-    "brasileiros",
-    "contas",
-    "cortar",
-    "corte",
-    "crescer",
-    "defende",
-    "defender",
-    "defesa",
-    "descarta",
-    "dinheiro",
-    "fala",
-    "fiscal",
-    "gastar",
-    "havera",
-    "ipiranga",
-    "lula",
-    "necessario",
-    "nega",
-    "nexus",
-    "pais",
-    "pesquisa",
-    "podemos",
-    "posto",
-    "prioridades",
-    "segundo",
-    "sus",
-    "tera",
-    "toa",
-    "trabuco"
-   ],
-   "n_fontes": 8,
-   "em": "2026-11-27T14:49-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "lula-messias-stf-jantar",
-   "id": null,
-   "chave": null,
-   "n_fontes": 3,
-   "em": "2026-11-27T14:49-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "bilhoes",
-    "contas",
-    "dez",
-    "governo",
-    "historica",
-    "maior",
-    "melhor",
-    "mes",
-    "nacional",
-    "registra",
-    "registram",
-    "resultado",
-    "segundo",
-    "serie",
-    "superavit",
-    "tesouro"
-   ],
-   "n_fontes": 6,
-   "em": "2026-11-27T14:49-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "brb",
-    "costa",
-    "decide",
-    "fachin",
-    "henrique",
-    "mantem",
-    "manter",
-    "paulo",
-    "presidente",
-    "preventiva",
-    "prisao"
-   ],
-   "n_fontes": 5,
-   "em": "2026-11-27T14:49-03:00"
-  },
-  {
-   "tipo": "novo",
-   "pid": null,
-   "id": null,
-   "chave": [
-    "autoriza",
-    "bolsonaro",
-    "hospital",
-    "jair",
-    "jorge",
-    "ministro",
-    "moraes",
-    "oliveira",
-    "presidente",
-    "tcu",
-    "vice",
-    "visita",
-    "visitar",
-    "visitara"
-   ],
-   "n_fontes": 4,
-   "em": "2026-11-27T14:49-03:00"
-  },
-  {
-   "tipo": "pauta",
-   "pid": "dolar-volta-acima-5",
-   "id": null,
-   "chave": null,
-   "n_fontes": 2,
-   "em": "2026-11-27T14:49-03:00"
-  },
   {
    "tipo": "pauta",
    "pid": "flavio-emendas-eua-2027",
@@ -1527,6 +1419,31 @@
  "breves_faltam": 6,
  "breves_sugeridas": [
   {
+   "assunto": "Taiwan realiza eleições locais com disputa acirrada pela prefeitura da capital Taipé",
+   "secao": "mundo",
+   "n_fontes": 3,
+   "manchetes": [
+    {
+     "veiculo": "Folha Mundo",
+     "titulo": "Taiwan realiza eleições locais com disputa acirrada pela prefeitura da capital Taipé",
+     "url": "https://redir.folha.com.br/redir/online/mundo/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/taiwan-realiza-eleicoes-locais-com-disputa-acirrada-pela-prefeitura-da-capital-taipe.shtml",
+     "hora": "28/11 02h41"
+    },
+    {
+     "veiculo": "Estadão Internacional",
+     "titulo": "Taiwan vai às urnas em eleições locais com disputa acirrada pela prefeitura de Taipé",
+     "url": "https://www.estadao.com.br/internacional/taiwan-vai-as-urnas-em-eleicoes-locais-com-disputa-acirrada-pela-prefeitura-de-taipe-npr/",
+     "hora": "28/11 01h55"
+    },
+    {
+     "veiculo": "O Globo",
+     "titulo": "Taiwan vota com disputa acirrada pela prefeitura de Taipé, onde candidato pode encerrar domínio de 30 anos da oposição",
+     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/28/taiwan-vota-com-disputa-acirrada-pela-prefeitura-de-taipe-onde-candidato-pode-encerrar-dominio-de-30-anos-da-oposicao.ghtml",
+     "hora": "28/11 00h00"
+    }
+   ]
+  },
+  {
    "assunto": "Fundação FHC lamenta fala de Lula que chamou ex-presidente de 'morto-vivo'",
    "secao": "politica",
    "n_fontes": 2,
@@ -1544,43 +1461,24 @@
      "hora": "28/11 00h22"
     }
    ]
-  },
-  {
-   "assunto": "Taiwan vai às urnas em eleições locais com disputa acirrada pela prefeitura de Taipé",
-   "secao": "mundo",
-   "n_fontes": 2,
-   "manchetes": [
-    {
-     "veiculo": "Estadão Internacional",
-     "titulo": "Taiwan vai às urnas em eleições locais com disputa acirrada pela prefeitura de Taipé",
-     "url": "https://www.estadao.com.br/internacional/taiwan-vai-as-urnas-em-eleicoes-locais-com-disputa-acirrada-pela-prefeitura-de-taipe-npr/",
-     "hora": "28/11 01h55"
-    },
-    {
-     "veiculo": "O Globo",
-     "titulo": "Taiwan vota com disputa acirrada pela prefeitura de Taipé, onde candidato pode encerrar domínio de 30 anos da oposição",
-     "url": "https://oglobo.globo.com/mundo/noticia/2026/11/28/taiwan-vota-com-disputa-acirrada-pela-prefeitura-de-taipe-onde-candidato-pode-encerrar-dominio-de-30-anos-da-oposicao.ghtml",
-     "hora": "28/11 00h00"
-    }
-   ]
   }
  ],
  "ultima_rodada": "2026-11-28T00:05-03:00",
  "fontes": {
   "Poder360": "ok: 10 itens, 5 nas últimas 6 h",
-  "CNN Brasil": "ok: 60 itens, 25 nas últimas 6 h",
+  "CNN Brasil": "ok: 60 itens, 24 nas últimas 6 h",
   "Agência Brasil": "ok: 10 itens, 0 nas últimas 6 h",
   "Metrópoles": "ok: 20 itens, 20 nas últimas 6 h",
   "g1": "ok: 100 itens, 100 nas últimas 6 h",
   "g1 Política": "ok: 100 itens, 3 nas últimas 6 h",
   "g1 Economia": "ok: 100 itens, 3 nas últimas 6 h",
-  "g1 Mundo": "ok: 100 itens, 3 nas últimas 6 h",
+  "g1 Mundo": "ok: 100 itens, 2 nas últimas 6 h",
   "g1 Educação": "ok: 100 itens, 1 nas últimas 6 h",
   "ge": "ok: 100 itens, 41 nas últimas 6 h",
   "Folha Poder": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mercado": "ok: 100 itens, 13 nas últimas 6 h",
+  "Folha Mercado": "ok: 100 itens, 12 nas últimas 6 h",
   "Folha Cotidiano": "ok: 100 itens, 5 nas últimas 6 h",
-  "Folha Mundo": "ok: 100 itens, 5 nas últimas 6 h",
+  "Folha Mundo": "ok: 100 itens, 6 nas últimas 6 h",
   "Folha Educação": "ok: 100 itens, 0 nas últimas 6 h",
   "Folha Esporte": "ok: 100 itens, 4 nas últimas 6 h",
   "InfoMoney": "ok: 10 itens, 3 nas últimas 6 h",
@@ -1592,7 +1490,7 @@
   "Estadão Brasil": "ok: 20 itens, 0 nas últimas 6 h",
   "Estadão Internacional": "ok: 20 itens, 3 nas últimas 6 h",
   "O Globo": "ok: 100 itens, 32 nas últimas 6 h",
-  "Valor Econômico": "ok: 100 itens, 2 nas últimas 6 h",
+  "Valor Econômico": "ok: 100 itens, 4 nas últimas 6 h",
   "Exame": "ok: 25 itens, 0 nas últimas 6 h",
   "Veja": "ok: 20 itens, 5 nas últimas 6 h",
   "Nexo": "ok: 20 itens, 2 nas últimas 6 h",
@@ -1602,8 +1500,8 @@
   "Revista Oeste": "ok: 10 itens, 10 nas últimas 6 h",
   "Jovem Pan": "ok: 10 itens, 4 nas últimas 6 h",
   "O Antagonista": "ok: 15 itens, 15 nas últimas 6 h",
-  "CartaCapital": "ok: 20 itens, 8 nas últimas 6 h",
+  "CartaCapital": "ok: 20 itens, 10 nas últimas 6 h",
   "Brasil de Fato": "ok: 99 itens, 5 nas últimas 6 h",
-  "ICL Notícias": "ok: 10 itens, 5 nas últimas 6 h"
+  "ICL Notícias": "ok: 10 itens, 4 nas últimas 6 h"
  }
 }
