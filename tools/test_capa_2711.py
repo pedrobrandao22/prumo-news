@@ -7,6 +7,7 @@ FEED = os.path.join(AQUI, "..", "fonte", "edicao-teste", "feed.json")
 LADO = {"titulo": "Título de um lado", "texto": "Texto de um lado.", "pontos": ["Um.", "Dois.", "Três."]}
 VIS = [{"tipo": "linha_do_tempo", "titulo": "Passo a passo", "itens": [{"quando": "segunda (23)", "texto": "A"}, {"quando": "terça (24)", "texto": "B"}, {"quando": "quarta (25)", "texto": "C"}]}]
 
+@unittest.skipUnless(__import__("re").search(r"^TOPO_ERRO = True", open(os.path.join(AQUI, "validar.py"), encoding="utf-8").read(), __import__("re").M), "regra do topo está só como aviso (28/11)")
 class T(unittest.TestCase):
     def setUp(s):
         s.base = json.load(open(FEED, encoding="utf-8")); s.d = tempfile.mkdtemp()

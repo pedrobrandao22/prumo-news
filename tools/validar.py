@@ -1352,6 +1352,7 @@ FEITO = re.compile(r"\b(votad[oa]s?|aprovad[oa]s?|rejeitad[oa]s?|derrubad[oa]s?|
 
 
 TOPO_ESTRITO = False
+TOPO_ERRO = False
 
 
 def checar_capa_2711(f, ant, virada):
@@ -1374,7 +1375,9 @@ def checar_capa_2711(f, ant, virada):
         if not p: continue
         e_man = pid == man
         mexida = pid not in PA or pid not in topo_ant or json.dumps(p, sort_keys=True, ensure_ascii=False) != json.dumps(PA[pid], sort_keys=True, ensure_ascii=False)
-        X = E if rodada and (mexida or TOPO_ESTRITO) else A
+        # 28/11: a primeira manhã com esta regra como ERRO não publicou em mais de 1 hora (antes levava 8 minutos).
+        # Até entender o motivo, a regra só AVISA; TOPO_ERRO volta a True quando a rodada provar que dá conta.
+        X = E if TOPO_ERRO and rodada and (mexida or TOPO_ESTRITO) else A
         onde = "manchete" if e_man else "destaque da Capa"
         pol = p.get("secao") in ("politica", "economia")
         if p.get("tipo") == "pontual" and (e_man or pol):
