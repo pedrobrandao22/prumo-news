@@ -30,9 +30,15 @@ texto de volta no pedido da tarefa.
 | Manhã | Notícias | Novas | Atualizadas | Saíram | Breves | Com Direita e Esquerda |
 | --- | --- | --- | --- | --- | --- | --- |
 | 27/11 | 30 | 5 | 6 (3 com texto novo) | 10 | 12 | 3 |
+| 28/11 | não publicou até 8h05 | | | | | |
 
 27/11: publicou às 6h58 (uns 6 minutos), 0 erros no validador (64 avisos; a edição anterior tinha 76), manchete nova
 (Trabuco na Fazenda). Não leu nenhuma página: escreveu só com títulos e lides de novidades.json. Pontos fracos frente
 às manhãs antigas: bem menos notícias atualizadas (6 contra 12 a 17) e menos breves (12 contra 15 a 18).
 "Novas" = notícia que não estava na edição da véspera; "atualizadas" = título ou texto mudou. A rodada antiga levava
 cerca de 15 minutos, com 5 subagentes.
+
+28/11: primeira manhã com o pedido reforçado (ler as fontes do topo da Capa, validar com --topo, regra do topo como
+ERRO). Às 8h05, mais de 1 hora depois de começar, ainda não havia edição nem registro em rodadas.json (as manhãs
+anteriores publicavam em 6 a 8 minutos). Causa não confirmada: não dá para ver a sessão daqui. Às 8h a regra do topo
+voltou a ser só AVISO no validar.py (TOPO_ERRO = False). O pedido da tarefa continua o reforçado.
